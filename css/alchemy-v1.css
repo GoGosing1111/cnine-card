@@ -52,7 +52,7 @@
 .alch-panel-title>span{min-width:42px;padding:6px 9px;border:1px solid rgba(107,201,192,.22);color:#a6c4c0;font-size:10px;text-align:center;background:rgba(23,81,75,.18)}
 .alch-live-dot{position:relative;padding-left:17px!important;color:#8aede0!important;border-color:rgba(77,225,205,.3)!important}
 .alch-live-dot:before{content:"";position:absolute;left:8px;top:50%;width:5px;height:5px;border-radius:50%;background:#56f4d5;box-shadow:0 0 10px #56f4d5;transform:translateY(-50%)}
-.alch-type-tabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(104,183,174,.15)}
+.alch-type-tabs{display:grid;grid-template-columns:repeat(2,1fr);border-bottom:1px solid rgba(104,183,174,.15)}
 .alch-type-tabs button{position:relative;height:55px;display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-right:1px solid rgba(104,183,174,.12);background:rgba(1,8,10,.44);color:#758b89;cursor:pointer}
 .alch-type-tabs button:last-child{border-right:0}
 .alch-type-tabs button svg{width:17px}

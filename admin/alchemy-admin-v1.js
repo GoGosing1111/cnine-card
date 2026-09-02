@@ -3,7 +3,7 @@
 
   const $ = selector => document.querySelector(selector);
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[char]));
-  const TYPE_LABEL = { CARD:'카드', EQUIPMENT:'장비', ITEM:'아이템' };
+  const TYPE_LABEL = { CARD:'카드', EQUIPMENT:'장비', ITEM:'아이템', VEHICLE:'이동수단' };
   let state = null;
 
   async function api(options = {}) {
@@ -42,7 +42,7 @@
       section.id = 'view-alchemy';
       section.className = 'view alchemy-admin-view';
       section.hidden = true;
-      section.innerHTML = `<div class="sectionIntro"><div><small>ALCHEMY REACTOR CONTROL</small><h2>연금술 <span class="buildBadge">v1</span></h2><p>공개 단계, 재료 허용 목록, 보상 가중치와 미완료 영수증을 한곳에서 관리합니다.</p></div><button type="button" class="ghost" id="alchemyAdminReload">새로고침</button></div><div id="alchemyAdminRoot" class="alchemy-admin-root">불러오는 중...</div>`;
+      section.innerHTML = `<div class="sectionIntro"><div><small>ALCHEMY REACTOR CONTROL</small><h2>연금술 <span class="buildBadge">v2</span></h2><p>재료 가치 곡선, 카드 고유효과·장비/이동수단 전투력 역가중치와 실제 확률을 관리합니다.</p></div><button type="button" class="ghost" id="alchemyAdminReload">새로고침</button></div><div id="alchemyAdminRoot" class="alchemy-admin-root">불러오는 중...</div>`;
       main.appendChild(section);
     }
     button.onclick = () => show(button, section);
@@ -56,28 +56,31 @@
     ].map(row => option(row[0], row[1], current)).join('');
   }
   function catalogOptions(type, current = '') {
-    return (state?.catalog?.[type] || []).map(row => option(row.id, `${row.name} · ${row.rarity || '등급 없음'} · ${row.id}`, current)).join('');
+    const rows = state?.catalog?.[type] || [];
+    if (!rows.length) return '<option value="">등록 가능한 대상 없음</option>';
+    return rows.map(row => {
+      const metric = type === 'CARD' ? `기본 ${Number(row.basePower || 0).toLocaleString()} · 고유 ${Number(row.uniqueEffectScore || 0).toLocaleString()}` : (type === 'EQUIPMENT' || type === 'VEHICLE') ? `전투력 ${Number(row.totalPower || row.total_power || 0).toLocaleString()}` : (row.category || '아이템');
+      return option(row.id, `${row.name} · ${row.rarity || '등급 없음'} · ${metric}`, current);
+    }).join('');
   }
   function tierOptions(current) {
     return (state?.settings?.tiers || []).map(row => option(row.code, `${row.name} · ${Number(row.minValue).toLocaleString()}+`, current)).join('');
   }
 
   function probabilityRows() {
-    const active = (state.rewardPool || []).filter(row => row.active && row.valid && Number(row.weight) > 0);
+    const effective = row => Number(row.effectiveWeight ?? row.weight ?? 0);
+    const active = (state.rewardPool || []).filter(row => row.active && row.valid && effective(row) > 0);
     const probability = (row, mode) => {
       if (row.mode !== 'ANY' && row.mode !== mode) return 0;
-      const total = active.filter(candidate => candidate.tierCode === row.tierCode && (candidate.mode === 'ANY' || candidate.mode === mode)).reduce((sum, candidate) => sum + Number(candidate.weight), 0);
-      return total ? Number(row.weight) / total * 100 : 0;
+      const total = active.filter(candidate => candidate.tierCode === row.tierCode && (candidate.mode === 'ANY' || candidate.mode === mode)).reduce((sum, candidate) => sum + effective(candidate), 0);
+      return total ? effective(row) / total * 100 : 0;
     };
     return (state.rewardPool || []).map(row => {
       const modes = row.mode === 'ANY' ? [['혼돈','CHAOS'],['정밀','PRECISION']] : [[row.mode === 'CHAOS' ? '혼돈' : '정밀', row.mode]];
-      const odds = row.active && row.valid ? modes.map(([label, mode]) => `${label} ${probability(row, mode).toFixed(2)}%`).join(' · ') : '0.00%';
-      return `<tr data-reward-id="${esc(row.rewardId)}"><td><b>${esc(row.rewardId)}</b><small>${esc(row.tierCode)} · ${esc(row.mode)}</small></td><td>${esc(TYPE_LABEL[row.type] || row.type)}<small>${esc(row.rarity || '-')}</small></td><td><b>${esc(row.name)}</b><small>${esc(row.id)} × ${Number(row.quantity || 1)}</small></td><td>${Number(row.weight).toLocaleString()}</td><td><b>${odds}</b><small>${row.valid ? (row.active ? 'ACTIVE' : 'OFF') : 'INVALID'}</small></td><td><button type="button" data-reward-edit>편집</button><button type="button" class="danger" data-reward-delete>삭제</button></td></tr>`;
+      const odds = row.active && row.valid ? modes.map(([label, mode]) => `${label} ${probability(row, mode).toFixed(3)}%`).join(' · ') : '0.000%';
+      const strength = row.type === 'CARD' ? `기본 ${Number(row.basePower || 0).toLocaleString()} · 고유 ${Number(row.uniqueEffectScore || 0).toLocaleString()}` : row.type === 'ITEM' ? `품질 ${Number(row.strengthScore || 0).toLocaleString()}` : `전투력 ${Number(row.totalPower || 0).toLocaleString()}`;
+      return `<tr data-reward-id="${esc(row.rewardId)}"><td><b>${esc(row.rewardId)}</b><small>${esc(row.tierCode)} · ${esc(row.mode)}</small></td><td>${esc(TYPE_LABEL[row.type] || row.type)}<small>${esc(row.rarity || '-')}</small></td><td><b>${esc(row.name)}</b><small>${esc(row.id)} × ${Number(row.quantity || 1)}</small></td><td><b>${esc(strength)}</b><small>동종 카탈로그 상위 ${Number(row.strengthPercent || 0).toFixed(1)}%</small></td><td>${Number(row.manualWeight ?? row.weight ?? 0).toLocaleString()}<small>자동 × ${Number(row.autoFactor || 0).toFixed(4)} = ${effective(row).toFixed(4)}</small></td><td><b>${odds}</b><small>${row.valid ? (row.active ? 'ACTIVE' : 'OFF') : 'INVALID'}</small></td><td><button type="button" data-reward-edit>편집</button><button type="button" class="danger" data-reward-delete>삭제</button></td></tr>`;
     }).join('');
-  }
-
-  function inputRows() {
-    return (state.inputItems || []).map(row => `<article class="alchemy-admin-input" data-input-code="${esc(row.item_code)}"><div><b>${esc(row.name || row.item_code)}</b><small>${esc(row.item_code)} · ${esc(row.rarity || '-')} · ${esc(row.category || '-')}</small></div><label><span>가치</span><input data-input-value type="number" min="1" max="1000000" value="${Number(row.alchemy_value || 1)}"></label><label><span>희귀도</span><input data-input-rank type="number" min="0" max="20" value="${Number(row.rarity_rank || 0)}"></label><label class="alchemy-admin-check"><input data-input-enabled type="checkbox" ${Number(row.is_enabled) ? 'checked' : ''}><span>허용</span></label><button type="button" data-input-save>저장</button></article>`).join('');
   }
 
   function recentRows() {
@@ -87,12 +90,12 @@
   function render() {
     const root = $('#alchemyAdminRoot');
     if (!root || !state) return;
-    const settings = state.settings || {}, rules = settings.requirements || {};
-    root.innerHTML = `<section class="alchemy-admin-gate mode-${esc(String(settings.mode || 'OFF').toLowerCase())}"><div><small>LIVE RELEASE GATE</small><h3>현재 공개 상태 <b>${esc(settings.mode || 'OFF')}</b></h3><p>OWNER TEST에서는 전체메뉴와 API가 OWNER 계정에만 열립니다.</p></div><label><span>공개 단계</span><select id="alchemyMode">${modeOptions(settings.mode || 'OFF')}</select></label><label><span>최소 슬롯</span><input id="alchemyMinSlots" type="number" min="3" max="5" value="${Number(rules.minSlots || 3)}"></label><label><span>최대 슬롯</span><input id="alchemyMaxSlots" type="number" min="3" max="5" value="${Number(rules.maxSlots || 5)}"></label><label><span>희귀 이상 최소</span><input id="alchemyMinRare" type="number" min="0" max="5" value="${Number(rules.minRare || 2)}"></label><label><span>안정도 보장</span><input id="alchemyStabilityMax" type="number" min="1" max="100" value="${Number(settings.stabilityMax || 10)}"></label><button type="button" id="alchemySettingsSave">운영 설정 저장</button></section>
-      <div class="alchemy-admin-warning"><b>고정 안전 규칙</b><span>차량·배틀슈트·SUPERSTAR·마지막 카드 1장·장착/잠금 자산은 서버에서 차단됩니다. 결과 카드는 MA 이하만 허용됩니다.</span></div>
-      <section class="alchemy-admin-columns"><article class="panel"><header class="alchemy-admin-heading"><div><small>MATERIAL ALLOWLIST</small><h3>일반 아이템 재료 허용</h3></div></header><div class="alchemy-admin-add-input"><select id="alchemyInputCatalog">${catalogOptions('ITEM')}</select><input id="alchemyInputValue" type="number" min="1" value="50" aria-label="연금 가치"><input id="alchemyInputRank" type="number" min="0" max="20" value="2" aria-label="희귀도"><button type="button" id="alchemyInputAdd">추가</button></div><div class="alchemy-admin-input-list">${inputRows()}</div></article>
-      <article class="panel"><header class="alchemy-admin-heading"><div><small>REWARD POOL</small><h3>보상·가중치 편집</h3></div></header><div class="alchemy-admin-reward-form"><label><span>보상 ID</span><input id="alchemyRewardId" placeholder="비우면 자동 생성"></label><label><span>유형</span><select id="alchemyRewardType">${Object.keys(TYPE_LABEL).map(type => option(type, TYPE_LABEL[type], 'ITEM')).join('')}</select></label><label class="wide"><span>대상</span><select id="alchemyRewardRef">${catalogOptions('ITEM')}</select></label><label><span>단계</span><select id="alchemyRewardTier">${tierOptions(settings.tiers?.[0]?.code)}</select></label><label><span>연성 방식</span><select id="alchemyRewardMode">${option('ANY','공통','ANY')}${option('CHAOS','혼돈','ANY')}${option('PRECISION','정밀','ANY')}</select></label><label><span>수량</span><input id="alchemyRewardQuantity" type="number" min="1" max="20" value="1"></label><label><span>가중치</span><input id="alchemyRewardWeight" type="number" min="0.001" step="0.001" value="10"></label><label><span>정렬</span><input id="alchemyRewardSort" type="number" value="0"></label><label class="alchemy-admin-check"><input id="alchemyRewardActive" type="checkbox" checked><span>활성</span></label><button type="button" id="alchemyRewardSave">보상 저장</button><button type="button" class="ghost" id="alchemyRewardReset">새 보상</button></div></article></section>
-      <section class="panel"><header class="alchemy-admin-heading"><div><small>NORMALIZED ODDS</small><h3>보상 풀 확률 검산</h3></div><small>동일 단계·모드 가중치 합계 기준</small></header><div class="alchemy-admin-table"><table><thead><tr><th>보상 ID</th><th>유형</th><th>결과</th><th>가중치</th><th>정규화 확률</th><th>관리</th></tr></thead><tbody>${probabilityRows()}</tbody></table></div></section>
+    const settings = state.settings || {}, rules = settings.requirements || {}, scoring = state.scoring || {}, bonuses = scoring.cardGradeBonus || {}, bounds = scoring.equipmentPowerBounds || {};
+    root.innerHTML = `<section class="alchemy-admin-gate mode-${esc(String(settings.mode || 'OFF').toLowerCase())}"><div><small>LIVE RELEASE GATE</small><h3>현재 공개 상태 <b>${esc(settings.mode || 'OFF')}</b></h3><p>OWNER TEST에서는 전체메뉴와 API가 OWNER 계정에만 열립니다.</p></div><label><span>공개 단계</span><select id="alchemyMode">${modeOptions(settings.mode || 'OFF')}</select></label><label><span>최소 슬롯</span><input id="alchemyMinSlots" type="number" min="3" max="5" value="${Number(rules.minSlots || 3)}"></label><label><span>최대 슬롯</span><input id="alchemyMaxSlots" type="number" min="3" max="5" value="${Number(rules.maxSlots || 5)}"></label><label><span>안정도 보장</span><input id="alchemyStabilityMax" type="number" min="1" max="100" value="${Number(settings.stabilityMax || 10)}"></label><button type="button" id="alchemySettingsSave">운영 설정 저장</button></section>
+      <div class="alchemy-admin-warning"><b>고정 안전 규칙</b><span>재료는 미장착 장비와 LIMITED·PRESTIGE·FUR·ZENITH 중복 카드만 허용합니다. 마지막 카드 1장·장착/잠금·배틀슈트·일반 아이템 재료는 서버에서 차단합니다. 이동수단은 보상 전용이며 중복 지급되지 않습니다.</span></div>
+      <section class="alchemy-admin-columns"><article class="panel alchemy-admin-formula"><header class="alchemy-admin-heading"><div><small>MATERIAL QUALITY CURVE</small><h3>재료 가치 공식</h3></div><b>SERVER AUTHORITATIVE</b></header><p>장비는 실제 전투력 ${Number(bounds.min || 0).toLocaleString()} ~ ${Number(bounds.max || 0).toLocaleString()} 범위를 로그 정규화해 재료당 ${Number(scoring.equipmentScoreRange?.min || 25)} ~ ${Number(scoring.equipmentScoreRange?.max || 250)}점으로 환산합니다.</p><div class="alchemy-admin-bonus-grid">${['LIMITED','PRESTIGE','FUR','ZENITH'].map(grade => `<span><small>${esc(grade)}</small><b>+${Number(bonuses[grade] || 0).toLocaleString()}</b></span>`).join('')}</div><div class="alchemy-admin-tier-grid">${(settings.tiers || []).map(tier => `<span style="--tier-color:${esc(tier.color)}"><small>${esc(tier.name)}</small><b>${Number(tier.minValue || 0).toLocaleString()}+</b></span>`).join('')}</div><p class="alchemy-admin-formula-note">낮은 전투력 장비는 하위 단계, 높은 전투력 장비와 상위 등급 카드는 상위 단계에 진입합니다. 일반 아이템은 재료로 등록할 수 없습니다.</p></article>
+      <article class="panel"><header class="alchemy-admin-heading"><div><small>REWARD POOL</small><h3>보상·가중치 편집</h3></div></header><div class="alchemy-admin-reward-form"><label><span>보상 ID</span><input id="alchemyRewardId" placeholder="비우면 자동 생성"></label><label><span>유형</span><select id="alchemyRewardType">${Object.keys(TYPE_LABEL).map(type => option(type, TYPE_LABEL[type], 'ITEM')).join('')}</select></label><label class="wide"><span>대상</span><select id="alchemyRewardRef">${catalogOptions('ITEM')}</select></label><label><span>단계</span><select id="alchemyRewardTier">${tierOptions(settings.tiers?.[0]?.code)}</select></label><label><span>연성 방식</span><select id="alchemyRewardMode">${option('ANY','공통','ANY')}${option('CHAOS','혼돈','ANY')}${option('PRECISION','정밀','ANY')}</select></label><label><span>수량</span><input id="alchemyRewardQuantity" type="number" min="1" max="20" value="1"></label><label><span>CMS 기준 가중치</span><input id="alchemyRewardWeight" type="number" min="0.001" step="0.001" value="10"></label><label><span>정렬</span><input id="alchemyRewardSort" type="number" value="0"></label><label class="alchemy-admin-check"><input id="alchemyRewardActive" type="checkbox" checked><span>활성</span></label><button type="button" id="alchemyRewardSave">보상 저장</button><button type="button" class="ghost" id="alchemyRewardReset">새 보상</button></div></article></section>
+      <section class="panel"><header class="alchemy-admin-heading"><div><small>BLACK MIRACLE INVERSE CURVE</small><h3>보상 풀 실확률 검산</h3></div><small>동종 전투력·고유효과가 높을수록 자동 역가중 · 동일 단계/모드 합계 기준</small></header><div class="alchemy-admin-table"><table><thead><tr><th>보상 ID</th><th>유형</th><th>결과</th><th>전투력/효과</th><th>CMS × 자동</th><th>최종 확률</th><th>관리</th></tr></thead><tbody>${probabilityRows()}</tbody></table></div></section>
       <section class="panel"><header class="alchemy-admin-heading"><div><small>RECEIPT CONTROL</small><h3>최근 연금 처리</h3></div><button type="button" class="warn" id="alchemyRecoverPending">10분 초과 PENDING 복구</button></header><div class="alchemy-admin-table"><table><thead><tr><th>계정</th><th>방식</th><th>가치</th><th>단계</th><th>상태</th><th>갱신</th></tr></thead><tbody>${recentRows()}</tbody></table></div></section>`;
     bind();
   }
@@ -112,7 +115,8 @@
     $('#alchemyRewardTier').value = row?.tierCode || state.settings?.tiers?.[0]?.code || '';
     $('#alchemyRewardMode').value = row?.mode || 'ANY';
     $('#alchemyRewardQuantity').value = Number(row?.quantity || 1);
-    $('#alchemyRewardWeight').value = Number(row?.weight || 10);
+    $('#alchemyRewardQuantity').disabled = type === 'VEHICLE';
+    $('#alchemyRewardWeight').value = Number(row?.manualWeight ?? row?.weight ?? 10);
     $('#alchemyRewardSort').value = Number(row?.sortOrder || 0);
     $('#alchemyRewardActive').checked = row ? Boolean(row.active) : true;
   }
@@ -121,11 +125,9 @@
     $('#alchemySettingsSave').onclick = event => {
       const mode = $('#alchemyMode').value;
       if (mode === 'PUBLIC' && !confirm('연금술을 전체 유저에게 공개하시겠습니까? 보상 가중치와 지급 대상을 최종 확인하세요.')) return;
-      void mutate('SAVE_SETTINGS', { settings:{ mode, requirements:{ minSlots:Number($('#alchemyMinSlots').value), maxSlots:Number($('#alchemyMaxSlots').value), minRare:Number($('#alchemyMinRare').value) }, stabilityMax:Number($('#alchemyStabilityMax').value) } }, event.currentTarget, '연금술 운영 설정을 저장했습니다.');
+      void mutate('SAVE_SETTINGS', { settings:{ mode, requirements:{ minSlots:Number($('#alchemyMinSlots').value), maxSlots:Number($('#alchemyMaxSlots').value), minRare:0 }, stabilityMax:Number($('#alchemyStabilityMax').value) } }, event.currentTarget, '연금술 운영 설정을 저장했습니다.');
     };
-    $('#alchemyInputAdd').onclick = event => void mutate('SAVE_INPUT', { itemCode:$('#alchemyInputCatalog').value, value:Number($('#alchemyInputValue').value), rank:Number($('#alchemyInputRank').value), enabled:true }, event.currentTarget, '재료 허용 목록에 추가했습니다.');
-    document.querySelectorAll('[data-input-save]').forEach(button => button.onclick = event => { const row = event.currentTarget.closest('[data-input-code]'); void mutate('SAVE_INPUT', { itemCode:row.dataset.inputCode, value:Number(row.querySelector('[data-input-value]').value), rank:Number(row.querySelector('[data-input-rank]').value), enabled:row.querySelector('[data-input-enabled]').checked }, event.currentTarget, '재료 설정을 저장했습니다.'); });
-    $('#alchemyRewardType').onchange = event => { $('#alchemyRewardRef').innerHTML = catalogOptions(event.target.value); };
+    $('#alchemyRewardType').onchange = event => { const vehicle = event.target.value === 'VEHICLE'; $('#alchemyRewardRef').innerHTML = catalogOptions(event.target.value); $('#alchemyRewardQuantity').value = vehicle ? 1 : $('#alchemyRewardQuantity').value; $('#alchemyRewardQuantity').disabled = vehicle; };
     $('#alchemyRewardReset').onclick = () => rewardForm();
     $('#alchemyRewardSave').onclick = event => void mutate('SAVE_REWARD', { reward:{ rewardId:$('#alchemyRewardId').value, type:$('#alchemyRewardType').value, id:$('#alchemyRewardRef').value, tierCode:$('#alchemyRewardTier').value, mode:$('#alchemyRewardMode').value, quantity:Number($('#alchemyRewardQuantity').value), weight:Number($('#alchemyRewardWeight').value), sortOrder:Number($('#alchemyRewardSort').value), active:$('#alchemyRewardActive').checked } }, event.currentTarget, '연금 보상을 저장했습니다.');
     document.querySelectorAll('[data-reward-edit]').forEach(button => button.onclick = event => { const id = event.currentTarget.closest('[data-reward-id]').dataset.rewardId; rewardForm(state.rewardPool.find(row => row.rewardId === id)); $('#alchemyRewardId').scrollIntoView({ behavior:'smooth', block:'center' }); });

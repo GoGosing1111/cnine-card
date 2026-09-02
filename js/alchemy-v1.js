@@ -5,8 +5,8 @@
 (() => {
   'use strict';
 
-  const TYPE_LABELS = { CARD: '카드', EQUIPMENT: '장비', ITEM: '아이템' };
-  const TYPE_TABS = ['CARD', 'EQUIPMENT', 'ITEM'];
+  const TYPE_LABELS = { CARD: '카드', EQUIPMENT: '장비', ITEM: '아이템', VEHICLE: '이동수단' };
+  const TYPE_TABS = ['CARD', 'EQUIPMENT'];
   const RARITY_LABELS = {
     C: '일반', U: '고급', R: '희귀', SR: '영웅', HR: '전설', UR: '신화', SSR: '초월',
     MA: '마스터', LIMITED: '리미티드', PRESTIGE: '프레스티지', FUR: 'FUR', ZENITH: '제니스', SUPERSTAR: '슈퍼스타',
@@ -36,6 +36,7 @@
       card: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h5M8 15h8"/>',
       equipment: '<path d="m5 4 14 16M19 4 5 20M4 7l2-3 4 1M20 7l-2-3-4 1"/>',
       item: '<path d="m12 3 7 4v10l-7 4-7-4V7l7-4Zm-7 4 7 4 7-4M12 11v10"/>',
+      vehicle: '<path d="M5 15h14l-1.5-5h-11L5 15Zm2-5 1.5-3h7L17 10M6 15v2M18 15v2"/><circle cx="8" cy="16" r="2"/><circle cx="16" cy="16" r="2"/>',
       filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
       close: '<path d="M6 6l12 12M18 6 6 18"/>',
       plus: '<path d="M12 5v14M5 12h14"/>',
@@ -85,12 +86,11 @@
     const selectedCount = (row) => state.selected.filter((entry) => keyOf(entry) === keyOf(row)).length;
     const availableCount = (row) => Math.max(0, Number(row.available ?? row.quantity ?? 0) - selectedCount(row));
     const totalValue = () => state.selected.reduce((sum, entry) => sum + Number(findRow(entry)?.value || 0), 0);
-    const selectedRareCount = () => state.selected.filter((entry) => Number(findRow(entry)?.rank || 0) >= 2).length;
     const pendingLocked = () => Boolean(state.pendingRequestId);
-    const requirements = () => ({ minSlots: Number(state.data?.requirements?.minSlots || 3), minRare: Number(state.data?.requirements?.minRare || 2) });
+    const requirements = () => ({ minSlots: Number(state.data?.requirements?.minSlots || 3) });
     const canStart = () => {
       const rule = requirements();
-      return !state.busy && state.selected.length >= rule.minSlots && selectedRareCount() >= rule.minRare;
+      return !state.busy && state.selected.length >= rule.minSlots;
     };
     const currentTier = () => {
       const value = totalValue();
@@ -99,9 +99,10 @@
     };
     const matchingRewards = () => {
       const tier = currentTier(), selectedKeys = new Set(state.selected.map(keyOf));
-      let pool = (state.data?.rewardPool || []).filter((row) => row.active !== false && row.valid !== false && row.tierCode === tier.code && (row.mode === 'ANY' || row.mode === state.mode) && !selectedKeys.has(keyOf(row)) && Number(row.weight) > 0);
+      let pool = (state.data?.rewardPool || []).filter((row) => row.active !== false && row.valid !== false && row.tierCode === tier.code && (row.mode === 'ANY' || row.mode === state.mode) && !selectedKeys.has(keyOf(row)) && Number(row.effectiveWeight ?? row.weight) > 0 && !(row.type === 'VEHICLE' && (state.data.ownedVehicleIds || []).map(String).includes(String(row.id))));
       if (state.mode === 'PRECISION' && state.selected.length) {
-        const matched = pool.filter((row) => row.type === state.selected[0].type);
+        const sourceType = state.selected[0].type;
+        const matched = pool.filter((row) => row.type === sourceType || (sourceType === 'EQUIPMENT' && row.type === 'VEHICLE'));
         if (matched.length) pool = matched;
       }
       return pool;
@@ -109,10 +110,10 @@
     const forecast = () => {
       if (!totalValue()) return [{ label: '재료 대기', percent: 100, color: '#516878' }];
       const pool = matchingRewards();
-      const total = pool.reduce((sum, row) => sum + Number(row.weight || 0), 0), groups = new Map();
+      const total = pool.reduce((sum, row) => sum + Number(row.effectiveWeight ?? row.weight ?? 0), 0), groups = new Map();
       for (const row of pool) {
         const rarity = cleanRarity(row.rarity), key = rarityBucket(rarity), current = groups.get(key) || { label: rarityLabel(rarity), percent: 0, color: row.color || '#62ded1' };
-        current.percent += total ? Number(row.weight || 0) / total * 100 : 0; groups.set(key, current);
+        current.percent += total ? Number(row.effectiveWeight ?? row.weight ?? 0) / total * 100 : 0; groups.set(key, current);
       }
       return [...groups.values()].sort((a, b) => b.percent - a.percent).length ? [...groups.values()].sort((a, b) => b.percent - a.percent) : [{ label: '보상 풀 없음', percent: 0, color: '#a95f5f' }];
     };
@@ -144,9 +145,10 @@
     function renderInventoryCard(row) {
       const remaining = availableCount(row);
       const disabled = remaining < 1 || state.busy || pendingLocked();
+      const metric = row.type === 'EQUIPMENT' ? `전투력 ${formatNumber(row.totalPower)} · 연금 가치 ${formatNumber(row.value)}` : `${rarityLabel(row.rarity)} 등급 보너스 +${formatNumber(row.value)}`;
       return `<button type="button" class="alch-inventory-card rarity-${cleanRarity(row.rarity).toLowerCase()}${disabled ? ' is-disabled' : ''}" data-alchemy-add="${escapeHtml(keyOf(row))}" ${disabled ? 'disabled' : ''}>
         <span class="alch-inventory-visual">${itemVisual(row, true)}</span>
-        <span class="alch-inventory-copy"><small>${escapeHtml(TYPE_LABELS[row.type])} · ${escapeHtml(rarityLabel(row.rarity))}</small><strong>${escapeHtml(row.name)}</strong><em>연금 가치 ${formatNumber(row.value)}</em></span>
+        <span class="alch-inventory-copy"><small>${escapeHtml(TYPE_LABELS[row.type])} · ${escapeHtml(rarityLabel(row.rarity))}</small><strong>${escapeHtml(row.name)}</strong><em>${escapeHtml(metric)}</em></span>
         <span class="alch-stock"><b>${formatNumber(remaining)}</b><small>사용 가능</small></span>
       </button>`;
     }
@@ -205,7 +207,6 @@
       const tier = currentTier();
       const rule = requirements();
       const slotsReady = state.selected.length >= rule.minSlots;
-      const rareReady = selectedRareCount() >= rule.minRare;
       root.innerHTML = `<section class="alchemy-v1-shell${state.busy ? ' is-busy' : ''}" style="--alchemy-tone:${escapeHtml(tier.color || '#76eaff')}">
         <header class="alch-command-header">
           <div class="alch-brand"><span>${svgIcon('alchemy')}</span><div><small>SOOPKETMON / FORBIDDEN LAB</small><strong>연금 공방</strong></div></div>
@@ -216,18 +217,18 @@
         <div class="alch-workspace">
           <aside class="alch-vault-panel">
             <div class="alch-panel-title"><div><small>MATERIAL VAULT</small><h2>연금 재료</h2></div><span>${formatNumber(rows().filter((row) => row.type === state.tab && Number(row.available || 0) > 0).length)}종</span></div>
-            <nav class="alch-type-tabs">${TYPE_TABS.map((type) => `<button type="button" class="${state.tab === type ? 'active' : ''}" data-alchemy-tab="${type}">${svgIcon(type === 'CARD' ? 'card' : type === 'EQUIPMENT' ? 'equipment' : 'item')}<b>${TYPE_LABELS[type]}</b></button>`).join('')}</nav>
+            <nav class="alch-type-tabs">${TYPE_TABS.map((type) => `<button type="button" class="${state.tab === type ? 'active' : ''}" data-alchemy-tab="${type}">${svgIcon(type === 'CARD' ? 'card' : 'equipment')}<b>${TYPE_LABELS[type]}</b></button>`).join('')}</nav>
             <div class="alch-vault-tools"><label>${svgIcon('search')}<input type="search" placeholder="재료 이름 검색" value="${escapeHtml(state.search)}" data-alchemy-search></label><select data-alchemy-rarity aria-label="등급 필터"><option value="ALL">전체 등급</option>${RARITY_ORDER.filter((rarity) => rows().some((row) => row.type === state.tab && rarityBucket(row.rarity) === rarity)).map((rarity) => `<option value="${rarity}" ${state.rarity === rarity ? 'selected' : ''}>${escapeHtml(rarityLabel(rarity))}</option>`).join('')}</select></div>
             <div class="alch-inventory-scroll">${list.length ? list.map(renderInventoryCard).join('') : '<div class="alch-empty-list"><span>NO MATERIAL</span><b>사용 가능한 재료가 없습니다.</b><small>장착·잠금·마지막 1장은 자동 제외됩니다.</small></div>'}</div>
-            <div class="alch-vault-rule">${svgIcon('shield')}<span><b>자동 보호 적용</b><small>장착·잠금·유일 카드 제외</small></span></div>
+            <div class="alch-vault-rule">${svgIcon('shield')}<span><b>장비·고등급 중복 카드 전용</b><small>일반 아이템·장착·잠금·마지막 1장 자동 제외</small></span></div>
           </aside>
 
           <main class="alch-reactor-stage">
             <div class="alch-chamber-backdrop"></div><div class="alch-grid-floor"></div>
-            <div class="alch-stage-heading"><small>ARCANE REACTOR / ${escapeHtml(state.mode)}</small><h1>${state.mode === 'CHAOS' ? '혼돈의 연금' : '정밀 연금'}</h1><p>${state.mode === 'CHAOS' ? '중복 자산을 새로운 가능성으로 재구성합니다.' : '동일 계열의 파장을 고정해 결과 범위를 좁힙니다.'}</p></div>
+            <div class="alch-stage-heading"><small>ARCANE REACTOR / ${escapeHtml(state.mode)}</small><h1>${state.mode === 'CHAOS' ? '혼돈의 연금' : '정밀 연금'}</h1><p>${state.mode === 'CHAOS' ? '실제 장비 전투력과 카드 등급 보너스로 보상 단계를 결정합니다.' : '동일 계열의 파장을 고정해 결과 범위를 좁힙니다.'}</p></div>
             <div class="alch-core-system"><div class="alch-core-rings"><i></i><i></i><i></i></div><div class="alch-core"><img src="${escapeHtml(resolveAsset('assets/ui/alchemy-v1/alchemy-truth-orb-v2.webp'))}" alt="진실의 구슬 연금 코어"><span></span><b>${formatNumber(totalValue())}</b><small>ALCHEMY VALUE</small></div>${renderMaterialSlots()}</div>
             <div class="alch-stage-console">
-              <div class="alch-condition-list"><span class="${slotsReady ? 'ready' : ''}">${slotsReady ? svgIcon('check') : svgIcon('plus')}<b>재료 ${state.selected.length} / ${rule.minSlots}+</b></span><span class="${rareReady ? 'ready' : ''}">${rareReady ? svgIcon('check') : svgIcon('plus')}<b>희귀 이상 ${selectedRareCount()} / ${rule.minRare}</b></span><button type="button" data-alchemy-clear ${state.selected.length && !state.busy && !pendingLocked() ? '' : 'disabled'}>${svgIcon('clear')} 초기화</button></div>
+              <div class="alch-condition-list"><span class="${slotsReady ? 'ready' : ''}">${slotsReady ? svgIcon('check') : svgIcon('plus')}<b>재료 ${state.selected.length} / ${rule.minSlots}+</b></span><span class="${totalValue() ? 'ready' : ''}">${totalValue() ? svgIcon('check') : svgIcon('plus')}<b>${escapeHtml(tier.name)} 단계 · ${formatNumber(totalValue())}점</b></span><button type="button" data-alchemy-clear ${state.selected.length && !state.busy && !pendingLocked() ? '' : 'disabled'}>${svgIcon('clear')} 초기화</button></div>
               <button type="button" class="alch-start-button" data-alchemy-run ${canStart() ? '' : 'disabled'}><span><small>${pendingLocked() ? 'IDEMPOTENT RECEIPT / RETRY' : `TRANSMUTE / ${escapeHtml(tier.name || '미분석')}`}</small><b>${state.busy ? '연성 진행 중' : pendingLocked() ? '이전 요청 결과 확인' : '연금 시작'}</b></span>${svgIcon('chevron')}</button>
             </div>
             ${state.busy ? renderReels() : ''}
@@ -235,7 +236,7 @@
 
           <aside class="alch-forecast-panel">
             <div class="alch-panel-title"><div><small>RESULT FORECAST</small><h2>연성 분석</h2></div><span class="alch-live-dot">LIVE</span></div>
-            <section class="alch-tier-core"><small>CURRENT RESONANCE</small><div><i></i><span><b>${escapeHtml(tier.name || '미분석')}</b><em>${formatNumber(totalValue())} VALUE</em></span></div><p>CMS 보상 가중치를 현재 조합에 정규화해 실제 확률을 표시합니다.</p></section>
+            <section class="alch-tier-core"><small>CURRENT RESONANCE</small><div><i></i><span><b>${escapeHtml(tier.name || '미분석')}</b><em>${formatNumber(totalValue())} VALUE</em></span></div><p>강한 장비·이동수단과 고유효과가 높은 카드는 서버 역가중 후 실제 확률을 표시합니다.</p></section>
             <section class="alch-odds"><header><b>예상 결과 등급</b><small>현재 조합 기준</small></header>${forecast().map((entry) => `<div><span><i style="--odds-color:${escapeHtml(entry.color)}"></i>${escapeHtml(entry.label)}</span><b>${Number(entry.percent).toFixed(0)}%</b><em><i style="width:${Number(entry.percent)}%;--odds-color:${escapeHtml(entry.color)}"></i></em></div>`).join('')}</section>
             <section class="alch-output-pool"><header><b>대표 결과물</b><small>현재 연성식 후보</small></header><div>${(matchingRewards().length ? matchingRewards() : (state.data.rewardPool || [])).slice(0, 4).map((row) => `<article>${itemVisual(row, true)}<span><small>${escapeHtml(rarityLabel(row.rarity))}</small><b>${escapeHtml(row.name)}</b></span></article>`).join('')}</div></section>
             <div class="alch-guarantee"><span>${svgIcon('history')}</span><div><small>STABILITY GUARANTEE</small><b>안정도 ${formatNumber(state.data.stability || 0)} / ${formatNumber(state.data.stabilityMax || 10)}</b><em><i style="width:${Math.min(100, Number(state.data.stability || 0) / Math.max(1, Number(state.data.stabilityMax || 10)) * 100)}%"></i></em><p>최대 도달 시 상위 등급 결과를 보장합니다.</p></div></div>
