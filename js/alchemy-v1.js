@@ -55,7 +55,6 @@
     const state = {
       data: null,
       tab: TYPE_TABS.includes(options.initialTab) ? options.initialTab : 'CARD',
-      mode: 'CHAOS',
       rarity: 'ALL',
       search: '',
       selected: [],
@@ -99,13 +98,7 @@
     };
     const matchingRewards = () => {
       const tier = currentTier(), selectedKeys = new Set(state.selected.map(keyOf));
-      let pool = (state.data?.rewardPool || []).filter((row) => row.active !== false && row.valid !== false && row.tierCode === tier.code && (row.mode === 'ANY' || row.mode === state.mode) && !selectedKeys.has(keyOf(row)) && Number(row.effectiveWeight ?? row.weight) > 0 && !(row.type === 'VEHICLE' && (state.data.ownedVehicleIds || []).map(String).includes(String(row.id))));
-      if (state.mode === 'PRECISION' && state.selected.length) {
-        const sourceType = state.selected[0].type;
-        const matched = pool.filter((row) => row.type === sourceType || (sourceType === 'EQUIPMENT' && row.type === 'VEHICLE'));
-        if (matched.length) pool = matched;
-      }
-      return pool;
+      return (state.data?.rewardPool || []).filter((row) => row.active !== false && row.valid !== false && row.tierCode === tier.code && !selectedKeys.has(keyOf(row)) && Number(row.effectiveWeight ?? row.weight) > 0 && !(row.type === 'VEHICLE' && (state.data.ownedVehicleIds || []).map(String).includes(String(row.id))));
     };
     const forecast = () => {
       if (!totalValue()) return [{ label: '재료 대기', percent: 100, color: '#516878' }];
@@ -210,7 +203,6 @@
       root.innerHTML = `<section class="alchemy-v1-shell${state.busy ? ' is-busy' : ''}" style="--alchemy-tone:${escapeHtml(tier.color || '#76eaff')}">
         <header class="alch-command-header">
           <div class="alch-brand"><span>${svgIcon('alchemy')}</span><div><small>SOOPKETMON / FORBIDDEN LAB</small><strong>연금 공방</strong></div></div>
-          <div class="alch-mode-switch" role="tablist"><button type="button" class="${state.mode === 'CHAOS' ? 'active' : ''}" data-alchemy-mode="CHAOS"><small>01</small><b>혼돈 연성</b><em>혼합 재료</em></button><button type="button" class="${state.mode === 'PRECISION' ? 'active' : ''}" data-alchemy-mode="PRECISION"><small>02</small><b>정밀 연성</b><em>동일 계열</em></button></div>
           <div class="alch-account"><span><small>${state.data.access?.ownerTest ? 'OWNER TEST' : '연금 기록'}</small><b>${formatNumber(state.data.totalRuns || 0)}회</b></span><span><small>사용자</small><b>${escapeHtml(state.data.profile?.nickname || profile.nickname || '플레이어')}</b></span></div>
         </header>
 
@@ -225,7 +217,7 @@
 
           <main class="alch-reactor-stage">
             <div class="alch-chamber-backdrop"></div><div class="alch-grid-floor"></div>
-            <div class="alch-stage-heading"><small>ARCANE REACTOR / ${escapeHtml(state.mode)}</small><h1>${state.mode === 'CHAOS' ? '혼돈의 연금' : '정밀 연금'}</h1><p>${state.mode === 'CHAOS' ? '실제 장비 전투력과 카드 등급 보너스로 보상 단계를 결정합니다.' : '동일 계열의 파장을 고정해 결과 범위를 좁힙니다.'}</p></div>
+            <div class="alch-stage-heading"><small>ARCANE REACTOR / STANDARD</small><h1>연금술</h1><p>실제 장비 전투력과 카드 등급 보너스로 보상 단계를 결정합니다.</p></div>
             <div class="alch-core-system"><div class="alch-core-rings"><i></i><i></i><i></i></div><div class="alch-core"><img src="${escapeHtml(resolveAsset('assets/ui/alchemy-v1/alchemy-truth-orb-v2.webp'))}" alt="진실의 구슬 연금 코어"><span></span><b>${formatNumber(totalValue())}</b><small>ALCHEMY VALUE</small></div>${renderMaterialSlots()}</div>
             <div class="alch-stage-console">
               <div class="alch-condition-list"><span class="${slotsReady ? 'ready' : ''}">${slotsReady ? svgIcon('check') : svgIcon('plus')}<b>재료 ${state.selected.length} / ${rule.minSlots}+</b></span><span class="${totalValue() ? 'ready' : ''}">${totalValue() ? svgIcon('check') : svgIcon('plus')}<b>${escapeHtml(tier.name)} 단계 · ${formatNumber(totalValue())}점</b></span><button type="button" data-alchemy-clear ${state.selected.length && !state.busy && !pendingLocked() ? '' : 'disabled'}>${svgIcon('clear')} 초기화</button></div>
@@ -257,7 +249,6 @@
       if (state.busy || !row) return;
       if (pendingLocked()) return showNotice('처리 결과가 불확실한 이전 요청을 먼저 확인해주세요.', true);
       if (state.selected.length >= MAX_SLOTS) return showNotice('재료 슬롯은 최대 5개입니다.', true);
-      if (state.mode === 'PRECISION' && state.selected.length && state.selected[0].type !== row.type) return showNotice('정밀 연성은 같은 종류의 재료만 등록할 수 있습니다.', true);
       if (availableCount(row) < 1) return showNotice('사용 가능한 중복 수량이 없습니다.', true);
       state.selected.push({ type: row.type, id: row.id });
       render();
@@ -270,7 +261,7 @@
       if (highGrade.length && !window.confirm(`${highGrade.map((row) => `${row.name} (${rarityLabel(row.rarity)})`).join(', ')}\n\n고등급 중복 카드가 영구 소모됩니다. 마지막 1장은 서버가 보호합니다. 계속하시겠습니까?`)) return;
       if (!state.pendingRequestId) {
         state.pendingRequestId = createRequestId();
-        try { sessionStorage.setItem(pendingStorageKey, JSON.stringify({ requestId: state.pendingRequestId, createdAt: Date.now(), mode: state.mode, inputs: snapshot })); } catch (_) {}
+        try { sessionStorage.setItem(pendingStorageKey, JSON.stringify({ requestId: state.pendingRequestId, createdAt: Date.now(), inputs: snapshot })); } catch (_) {}
       }
       state.busy = true;
       state.phase = 'CONNECTING';
@@ -280,7 +271,7 @@
       try {
         const response = await request('alchemy/transmute', {
           method: 'POST',
-          body: JSON.stringify({ requestId: state.pendingRequestId, mode: state.mode, inputs: snapshot, confirmedHighGrade: highGrade.length > 0 })
+          body: JSON.stringify({ requestId: state.pendingRequestId, inputs: snapshot, confirmedHighGrade: highGrade.length > 0 })
         });
         if (!response?.reward) throw new Error('연금 결과를 확인할 수 없습니다.');
         state.pendingReward = response.reward;
@@ -311,8 +302,6 @@
     }
 
     root.addEventListener('click', (event) => {
-      const mode = event.target.closest('[data-alchemy-mode]');
-      if (mode && !state.busy) { if (pendingLocked()) { showNotice('이전 요청 확인 전에는 연성 방식을 바꿀 수 없습니다.', true); return; } if (mode.dataset.alchemyMode === 'PRECISION' && new Set(state.selected.map((entry) => entry.type)).size > 1) { showNotice('정밀 연성 전환 전 재료 종류를 하나로 맞춰주세요.', true); return; } state.mode = mode.dataset.alchemyMode; render(); return; }
       const tab = event.target.closest('[data-alchemy-tab]');
       if (tab && !state.busy) { state.tab = tab.dataset.alchemyTab; state.rarity = 'ALL'; state.search = ''; render(); return; }
       const add = event.target.closest('[data-alchemy-add]');
@@ -347,7 +336,7 @@
         if (state.destroyed) return;
         state.data = data;
         let pendingInputs = null;
-        try { const pending = JSON.parse(sessionStorage.getItem(pendingStorageKey) || '{}'); if (pending.requestId && Date.now() - Number(pending.createdAt || 0) < 86400000) { state.pendingRequestId = pending.requestId; pendingInputs = Array.isArray(pending.inputs) ? pending.inputs : null; if (['CHAOS', 'PRECISION'].includes(pending.mode)) state.mode = pending.mode; } else sessionStorage.removeItem(pendingStorageKey); } catch (_) {}
+        try { const pending = JSON.parse(sessionStorage.getItem(pendingStorageKey) || '{}'); if (pending.requestId && Date.now() - Number(pending.createdAt || 0) < 86400000) { state.pendingRequestId = pending.requestId; pendingInputs = Array.isArray(pending.inputs) ? pending.inputs : null; } else sessionStorage.removeItem(pendingStorageKey); } catch (_) {}
         const defaults = pendingInputs || (Array.isArray(data?.defaultSelection) ? data.defaultSelection : []);
         state.selected = defaults.slice(0, MAX_SLOTS).filter((entry) => rows().some((row) => row.type === entry.type && String(row.id) === String(entry.id)));
         render();

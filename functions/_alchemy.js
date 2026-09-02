@@ -1,6 +1,6 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
 
-/* SOOPKETMON ALCHEMY V2
+/* SOOPKETMON ALCHEMY V3
  *
  * Inputs are deliberately limited to unequipped equipment and duplicate
  * LIMITED/PRESTIGE/FUR/ZENITH cards. Reward quality is selected from the real
@@ -10,13 +10,13 @@ import { ensureEquipmentFoundation } from './_equipment.js';
  */
 const FOUNDATION_KEY='safe_runtime_upgrade_v1973_alchemy_v1';
 const QUALITY_UPGRADE_KEY='safe_runtime_upgrade_v1976_alchemy_quality_curve';
+const SINGLE_MODE_UPGRADE_KEY='safe_runtime_upgrade_v1977_alchemy_single_mode';
 const SETTINGS_KEY='alchemy_settings_v1';
 const TABLES=Object.freeze({
   runs:'alchemy_runs_v1',state:'alchemy_user_state_v1',pool:'alchemy_reward_pool_v1',
   inputs:'alchemy_input_items_v1',locks:'alchemy_asset_locks_v1',guards:'alchemy_guards_v1'
 });
 const MODES=new Set(['OFF','OWNER_TEST','PUBLIC']);
-const ALCHEMY_MODES=new Set(['CHAOS','PRECISION']);
 const INPUT_ASSET_TYPES=new Set(['CARD','EQUIPMENT']);
 const REWARD_ASSET_TYPES=new Set(['CARD','EQUIPMENT','ITEM','VEHICLE']);
 const ALCHEMY_CARD_INPUT_GRADES=new Set(['LIMITED','PRESTIGE','FUR','ZENITH']);
@@ -178,6 +178,13 @@ export async function ensureAlchemyFoundation(env){
       await seedCatalogRewards(env);
       await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(QUALITY_UPGRADE_KEY,'1').run();
     }
+    const singleModeMarker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SINGLE_MODE_UPGRADE_KEY).first();
+    if(singleModeMarker?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`UPDATE ${TABLES.pool} SET alchemy_mode='ANY',updated_at=CURRENT_TIMESTAMP WHERE alchemy_mode<>'ANY'`),
+        env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(SINGLE_MODE_UPGRADE_KEY,'1')
+      ]);
+    }
     await env.DB.batch([
       env.DB.prepare(`DELETE FROM ${TABLES.guards} WHERE created_at<datetime('now','-1 day')`),
       env.DB.prepare(`DELETE FROM ${TABLES.runs} WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-30 days')`)
@@ -268,10 +275,9 @@ async function selectedEquipmentInstances(env,userId,aggregates){
   return map;
 }
 
-function candidateRewards(state,tier,mode,inputs){
-  const keys=new Set(inputs.map(entry=>assetKey(entry.type,entry.id))),ownedVehicles=new Set((state.ownedVehicleIds||[]).map(String)),base=(state.rewardPool||[]).filter(row=>row.valid!==false&&row.active!==false&&row.tierCode===tier.code&&(row.mode==='ANY'||row.mode===mode)&&!keys.has(assetKey(row.type,row.id))&&!(row.type==='VEHICLE'&&ownedVehicles.has(String(row.id)))&&rewardWeight(row)>0);
-  if(mode!=='PRECISION')return base;
-  const type=inputs[0]?.type,matched=base.filter(row=>row.type===type||(type==='EQUIPMENT'&&row.type==='VEHICLE'));return matched.length?matched:base;
+function candidateRewards(state,tier,inputs){
+  const keys=new Set(inputs.map(entry=>assetKey(entry.type,entry.id))),ownedVehicles=new Set((state.ownedVehicleIds||[]).map(String));
+  return(state.rewardPool||[]).filter(row=>row.valid!==false&&row.active!==false&&row.tierCode===tier.code&&!keys.has(assetKey(row.type,row.id))&&!(row.type==='VEHICLE'&&ownedVehicles.has(String(row.id)))&&rewardWeight(row)>0);
 }
 
 async function transmute(env,user,body){
@@ -281,14 +287,13 @@ async function transmute(env,user,body){
   if(prior?.status==='COMPLETED'){const result=parse(prior.result_json,{});return{...result,replayed:true,state:await userState(env,user,settings)}}
   if(prior?.status==='PENDING')throw Object.assign(new Error('같은 연금술 요청을 처리 중입니다. 잠시 후 같은 요청으로 다시 확인하세요.'),{status:409,code:'ALCHEMY_PENDING'});
   if(prior?.status==='FAILED')throw Object.assign(new Error(prior.error_message||'이전 연금술 요청이 취소되었습니다.'),{status:409,code:'ALCHEMY_FAILED'});
-  const mode=ALCHEMY_MODES.has(code(body.mode,30))?code(body.mode,30):'CHAOS',inputs=normalizeRequestedInputs(body.inputs),rules=settings.requirements;
+  const mode='STANDARD',inputs=normalizeRequestedInputs(body.inputs),rules=settings.requirements;
   if(inputs.length<rules.minSlots||inputs.length>rules.maxSlots)throw Object.assign(new Error(`연금 재료는 ${rules.minSlots}개 이상 ${rules.maxSlots}개 이하로 선택하세요.`),{status:400});
-  if(mode==='PRECISION'&&new Set(inputs.map(entry=>entry.type)).size!==1)throw Object.assign(new Error('정밀 연성은 같은 종류의 재료만 사용할 수 있습니다.'),{status:400});
   const snapshot=await userState(env,user,settings),aggregates=aggregateInputs(inputs),selected=[];
   for(const entry of inputs){const row=snapshot.assets.find(asset=>asset.type===entry.type&&String(asset.id)===String(entry.id));if(!row)throw Object.assign(new Error('사용할 수 없거나 보호된 재료가 포함되어 있습니다.'),{status:409});selected.push(row)}
   for(const entry of aggregates){const row=snapshot.assets.find(asset=>asset.type===entry.type&&String(asset.id)===String(entry.id));if(Number(row?.available||0)<entry.quantity)throw Object.assign(new Error(`${row?.name||entry.id}의 사용 가능 수량이 변경되었습니다.`),{status:409})}
   const highGrade=selected.filter(row=>row.type==='CARD'&&HIGH_GRADE_CONFIRM.has(code(row.rarity,30)));if(highGrade.length&&!bool(body.confirmedHighGrade))throw Object.assign(new Error('고등급 중복 카드 소모 재확인이 필요합니다.'),{status:400,code:'ALCHEMY_HIGH_GRADE_CONFIRM_REQUIRED'});
-  const totalValue=selected.reduce((sum,row)=>sum+Number(row.value||0),0),guaranteed=Number(snapshot.stability||0)+1>=settings.stabilityMax,tier=guaranteed?settings.tiers.at(-1):tierForValue(settings,totalValue),candidates=candidateRewards(snapshot,tier,mode,inputs),reward=weightedPick(candidates,secureUnit());
+  const totalValue=selected.reduce((sum,row)=>sum+Number(row.value||0),0),guaranteed=Number(snapshot.stability||0)+1>=settings.stabilityMax,tier=guaranteed?settings.tiers.at(-1):tierForValue(settings,totalValue),candidates=candidateRewards(snapshot,tier,inputs),reward=weightedPick(candidates,secureUnit());
   if(!reward)throw Object.assign(new Error('현재 조합에 지급 가능한 CMS 보상 풀이 없습니다.'),{status:409,code:'ALCHEMY_REWARD_POOL_EMPTY'});
   const inserted=await env.DB.prepare(`INSERT INTO ${TABLES.runs}(request_id,user_id,alchemy_mode,total_value,tier_code,reward_id,status,input_json) VALUES(?,?,?,?,?,?,'PENDING',?) ON CONFLICT(request_id,user_id) DO NOTHING`).bind(requestId,user.id,mode,totalValue,tier.code,reward.rewardId,JSON.stringify(inputs)).run();
   if(Number(inserted?.meta?.changes||0)!==1)throw Object.assign(new Error('같은 연금술 요청을 처리 중입니다.'),{status:409,code:'ALCHEMY_PENDING'});
@@ -352,8 +357,8 @@ async function saveInputItem(env,admin,body,deps){
 }
 
 async function saveReward(env,admin,body,deps){
-  const raw=body.reward||body,type=code(raw.type||raw.rewardType,30),ref=type==='EQUIPMENT'||type==='VEHICLE'?String(int(raw.id||raw.ref||raw.rewardRef,1,2147483647,0)):type==='CARD'?clean(raw.id||raw.ref||raw.rewardRef,120):code(raw.id||raw.ref||raw.rewardRef,100),tier=code(raw.tierCode,30),mode=code(raw.mode||'ANY',30),settings=await alchemySettings(env);
-  if(!REWARD_ASSET_TYPES.has(type)||!ref||!settings.tiers.some(row=>row.code===tier)||!['ANY','CHAOS','PRECISION'].includes(mode))throw new Error('보상 유형·대상·연성 단계·모드를 확인하세요.');
+  const raw=body.reward||body,type=code(raw.type||raw.rewardType,30),ref=type==='EQUIPMENT'||type==='VEHICLE'?String(int(raw.id||raw.ref||raw.rewardRef,1,2147483647,0)):type==='CARD'?clean(raw.id||raw.ref||raw.rewardRef,120):code(raw.id||raw.ref||raw.rewardRef,100),tier=code(raw.tierCode,30),mode='ANY',settings=await alchemySettings(env);
+  if(!REWARD_ASSET_TYPES.has(type)||!ref||!settings.tiers.some(row=>row.code===tier))throw new Error('보상 유형·대상·연성 단계를 확인하세요.');
   if(type==='ITEM'&&PROTECTED_ITEM_PATTERN.test(ref))throw new Error('티켓·통화·이벤트·차량 계열 아이템은 연금 보상으로 등록할 수 없습니다.');
   let catalog=null;if(type==='CARD')catalog=await env.DB.prepare(`SELECT id,rarity FROM cards_effective_v1210 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')`).bind(ref).first();else if(type==='EQUIPMENT')catalog=await env.DB.prepare(`SELECT id,slot FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1`).bind(Number(ref)).first();else if(type==='VEHICLE')catalog=await env.DB.prepare(`SELECT id FROM character_garage_items WHERE id=? AND is_active=1 AND is_public=1`).bind(Number(ref)).first();else catalog=await env.DB.prepare(`SELECT code,category FROM inventory_items WHERE code=? AND is_active=1`).bind(ref).first();
   if(!catalog)throw new Error('보상 카탈로그 대상을 찾을 수 없습니다.');if(type==='CARD'&&!SAFE_CARD_REWARD_RARITIES.has(code(catalog.rarity,30)))throw new Error('SUPERSTAR·비공개 카드는 연금술 보상에 포함할 수 없습니다.');if(type==='EQUIPMENT'&&code(catalog.slot,30)==='BATTLE_SUIT')throw new Error('배틀슈트는 연금술 보상에 포함할 수 없습니다.');if(type==='ITEM'&&/VEHICLE/i.test(String(catalog.category||'')))throw new Error('이동수단은 VEHICLE 보상 유형으로 등록하세요.');

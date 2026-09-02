@@ -47,6 +47,10 @@ test('alchemy backend enforces protected inputs, secure roll, idempotency and at
   assert.match(source, /NOT EXISTS\(SELECT 1 FROM user_garage_vehicles/);
   assert.doesNotMatch(source, /entry\.type==='ITEM'/);
   assert.match(source, /BLACK_MIRACLE_INVERSE/);
+  assert.match(source, /safe_runtime_upgrade_v1977_alchemy_single_mode/);
+  assert.match(source, /UPDATE \$\{TABLES\.pool\} SET alchemy_mode='ANY'/);
+  assert.match(source, /const mode='STANDARD'/);
+  assert.doesNotMatch(source, /PRECISION|CHAOS/);
 });
 
 test('alchemy is wired through authenticated API, shell summary, lazy live route and all-menu crafting group', async () => {
@@ -78,8 +82,10 @@ test('truth orb and fortified five-slot renderer are shared by preview and live'
   assert.match(css, /\.alch-empty-rune[^\n]+border-radius:50%/);
   assert.doesNotMatch(preview, /SUPERSTAR|핑크빛유두/);
   assert.match(preview, /OWNER 검수계정/);
-  assert.match(previewHtml, /quality-curve/);
+  assert.match(previewHtml, /single-mode/);
   assert.match(renderer, /const TYPE_TABS = \['CARD', 'EQUIPMENT'\]/);
+  assert.doesNotMatch(renderer, /data-alchemy-mode|PRECISION|CHAOS|정밀 연성|혼돈 연성/);
+  assert.doesNotMatch(preview, /PRECISION|CHAOS/);
   assert.match(preview, /type: 'VEHICLE'/);
   assert.doesNotMatch(preview, /assets:\s*\[[\s\S]*?type: 'ITEM'[\s\S]*?\],\s*rewardPool:/);
   const orb = new URL('../assets/ui/alchemy-v1/alchemy-truth-orb-v2.webp', import.meta.url);
@@ -98,8 +104,12 @@ test('alchemy CMS exposes material curve, vehicles, inverse reward weights and s
   assert.doesNotMatch(admin, /SAVE_INPUT/);
   assert.match(admin, /OWNER_TEST/);
   assert.match(admin, /BLACK MIRACLE INVERSE CURVE/);
+  assert.match(admin, /보상 풀 최종 등장확률/);
+  assert.match(admin, /oneInLabel/);
+  assert.match(admin, /alchemy-final-probability/);
+  assert.doesNotMatch(admin, /alchemyRewardMode|PRECISION|CHAOS|정밀/);
   assert.match(admin, /VEHICLE:'이동수단'/);
-  assert.match(loader, /alchemy-admin-v1\.js\?v=2-quality-curve/);
-  assert.match(adminHtml, /admin-v1276\.js\?v=1976-alchemy-quality-curve/);
+  assert.match(loader, /alchemy-admin-v1\.js\?v=3-single-mode/);
+  assert.match(adminHtml, /admin-v1276\.js\?v=1977-alchemy-single-mode/);
   for (const table of ['alchemy_runs_v1','alchemy_user_state_v1','alchemy_asset_locks_v1','alchemy_guards_v1']) assert.match(cleanup, new RegExp(table));
 });

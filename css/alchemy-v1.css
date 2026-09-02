@@ -20,21 +20,13 @@
   radial-gradient(circle at 51% 82%,rgba(255,167,58,.1),transparent 32%)}
 .alchemy-v1-shell:after{content:"ALCH//01";position:absolute;z-index:0;right:19px;bottom:14px;color:rgba(142,188,180,.28);font-size:9px;font-weight:900;letter-spacing:.32em;pointer-events:none}
 
-.alch-command-header{position:relative;z-index:20;height:82px;padding:0 28px;display:grid;grid-template-columns:minmax(260px,1fr) auto minmax(260px,1fr);align-items:stretch;border-bottom:1px solid rgba(109,210,201,.25);background:linear-gradient(90deg,rgba(3,10,12,.98),rgba(8,16,17,.88) 48%,rgba(3,9,10,.98));box-shadow:0 15px 35px rgba(0,0,0,.35)}
+.alch-command-header{position:relative;z-index:20;height:82px;padding:0 28px;display:grid;grid-template-columns:minmax(260px,1fr) auto;align-items:stretch;border-bottom:1px solid rgba(109,210,201,.25);background:linear-gradient(90deg,rgba(3,10,12,.98),rgba(8,16,17,.88) 48%,rgba(3,9,10,.98));box-shadow:0 15px 35px rgba(0,0,0,.35)}
 .alch-command-header:before{content:"";position:absolute;left:0;bottom:-2px;width:21%;height:3px;background:linear-gradient(90deg,var(--alch-cyan),transparent)}
 .alch-brand{display:flex;align-items:center;gap:13px;min-width:0}
 .alch-brand>span{width:48px;height:48px;display:grid;place-items:center;color:#e0c078;border:1px solid rgba(223,181,92,.48);clip-path:polygon(18% 0,82% 0,100% 18%,100% 82%,82% 100%,18% 100%,0 82%,0 18%);background:linear-gradient(145deg,rgba(78,53,24,.68),rgba(5,18,18,.92));box-shadow:inset 0 0 18px rgba(239,175,55,.12),0 0 18px rgba(37,197,181,.09)}
 .alch-brand>span svg{width:29px;height:29px}
 .alch-brand small,.alch-panel-title small,.alch-stage-heading small,.alch-tier-core>small,.alch-result-panel>small,.alch-reel-heading small{display:block;color:#65d9d2;font-size:9px;font-weight:900;letter-spacing:.25em}
 .alch-brand strong{display:block;margin-top:3px;font-size:24px;letter-spacing:-.05em}
-.alch-mode-switch{display:flex;align-self:center;height:58px;border:1px solid rgba(111,156,150,.24);clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);background:rgba(2,8,10,.8)}
-.alch-mode-switch button{position:relative;width:158px;padding:8px 17px 8px 40px;border:0;border-right:1px solid rgba(109,179,170,.18);background:transparent;text-align:left;cursor:pointer;transition:.2s}
-.alch-mode-switch button:last-child{border-right:0}
-.alch-mode-switch button small{position:absolute;left:13px;top:10px;color:#5c6f70;font:800 9px/1 monospace}
-.alch-mode-switch button b{display:block;font-size:14px}
-.alch-mode-switch button em{display:block;margin-top:3px;color:#718681;font-size:9px;font-style:normal}
-.alch-mode-switch button.active{color:#fff;background:linear-gradient(110deg,rgba(29,118,107,.5),rgba(191,130,42,.18));box-shadow:inset 0 -2px var(--alch-cyan)}
-.alch-mode-switch button.active small{color:#ecc874}
 .alch-account{justify-self:end;display:flex;align-items:center;height:100%}
 .alch-account>span{min-width:112px;padding:0 18px;border-left:1px solid rgba(113,158,153,.19)}
 .alch-account small{display:block;color:#6f8582;font-size:9px;font-weight:800;letter-spacing:.12em}
@@ -170,7 +162,7 @@
 @keyframes alchNotice{from{opacity:0;transform:translate(-50%,10px)}}
 
 @media (max-width:1240px){
-  .alch-workspace{grid-template-columns:286px minmax(500px,1fr) 276px;padding:12px;gap:9px}.alch-forecast-panel{padding:15px}.alch-command-header{padding:0 18px}.alch-account>span{min-width:93px;padding:0 10px}.alch-mode-switch button{width:135px}.alch-core-system{width:min(560px,96%)}.alch-material-slot{width:140px}.alch-slot-frame{left:14px}.alch-output-pool article{grid-template-columns:35px minmax(0,1fr)}.alch-output-pool .alch-card-shell.is-compact,.alch-output-pool .alch-object-frame.is-compact{width:35px}.alch-output-pool .alch-object-frame.is-compact{height:48px}
+  .alch-workspace{grid-template-columns:286px minmax(500px,1fr) 276px;padding:12px;gap:9px}.alch-forecast-panel{padding:15px}.alch-command-header{padding:0 18px}.alch-account>span{min-width:93px;padding:0 10px}.alch-core-system{width:min(560px,96%)}.alch-material-slot{width:140px}.alch-slot-frame{left:14px}.alch-output-pool article{grid-template-columns:35px minmax(0,1fr)}.alch-output-pool .alch-card-shell.is-compact,.alch-output-pool .alch-object-frame.is-compact{width:35px}.alch-output-pool .alch-object-frame.is-compact{height:48px}
 }
 
 @media (max-height:780px) and (min-width:901px){
@@ -179,13 +171,13 @@
 
 @media (max-width:900px){
   .alchemy-v1-shell{height:auto;min-height:100svh;overflow:visible;background:linear-gradient(180deg,rgba(1,6,8,.58),rgba(1,6,8,.96)),url("../assets/ui/alchemy-v1/alchemy-foundry-v2.webp") 50% 0/auto 620px no-repeat fixed}
-  .alch-command-header{position:sticky;top:0;z-index:60;height:auto;min-height:67px;padding:8px 12px;grid-template-columns:1fr auto}.alch-brand>span{width:40px;height:40px}.alch-brand>span svg{width:23px}.alch-brand small{font-size:7px}.alch-brand strong{font-size:20px}.alch-account{height:auto}.alch-account>span{min-width:80px}.alch-account>span:first-child{display:none}.alch-mode-switch{grid-column:1/-1;grid-row:2;height:47px;width:100%;margin-top:7px}.alch-mode-switch button{flex:1;width:auto;padding:6px 12px 6px 40px}.alch-mode-switch button small{top:9px}.alch-mode-switch button b{font-size:12px}
+  .alch-command-header{position:sticky;top:0;z-index:60;height:auto;min-height:67px;padding:8px 12px;grid-template-columns:1fr auto}.alch-brand>span{width:40px;height:40px}.alch-brand>span svg{width:23px}.alch-brand small{font-size:7px}.alch-brand strong{font-size:20px}.alch-account{height:auto}.alch-account>span{min-width:80px}.alch-account>span:first-child{display:none}
   .alch-workspace{height:auto;min-height:0;padding:10px;display:flex;flex-direction:column;gap:10px}.alch-reactor-stage{order:1;height:610px;flex:none}.alch-forecast-panel{order:2;min-height:0}.alch-vault-panel{order:3;height:590px;flex:none}
   .alch-stage-heading{top:17px;left:17px}.alch-stage-heading h1{font-size:25px}.alch-core-system{top:50%;width:min(570px,96%);height:455px}.alch-stage-console{left:12px;right:12px;bottom:11px;grid-template-columns:1fr}.alch-condition-list{order:2}.alch-start-button{position:sticky;bottom:max(8px,env(safe-area-inset-bottom));height:57px}.alch-forecast-panel{display:grid;grid-template-columns:1fr 1fr;gap:9px}.alch-forecast-panel>.alch-panel-title{grid-column:1/-1}.alch-tier-core{margin-top:0}.alch-odds{margin-top:0}.alch-output-pool{grid-column:1/-1;margin-top:0}.alch-guarantee{grid-column:1/-1;margin-top:0}.alch-output-pool>div{grid-template-columns:repeat(4,1fr)}
 }
 
 @media (max-width:600px){
-  .alchemy-v1-shell{background-size:auto 520px}.alch-command-header{padding:8px}.alch-brand>span{width:36px;height:36px}.alch-brand>span svg{width:21px}.alch-account>span{min-width:72px;padding:0 6px}.alch-account b{font-size:11px}.alch-mode-switch button em{display:none}
+  .alchemy-v1-shell{background-size:auto 520px}.alch-command-header{padding:8px}.alch-brand>span{width:36px;height:36px}.alch-brand>span svg{width:21px}.alch-account>span{min-width:72px;padding:0 6px}.alch-account b{font-size:11px}
   .alch-workspace{padding:7px}.alch-reactor-stage{height:560px}.alch-stage-heading{top:14px;left:14px}.alch-stage-heading p{max-width:280px;font-size:9px}.alch-core-system{top:48%;height:355px}.alch-core-rings{width:218px;height:218px}.alch-core{width:168px;height:168px;padding:0}.alch-core:after{left:20%;right:20%;bottom:27%;height:27px}.alch-core b,.alch-core small{top:22px}.alch-core b{font-size:15px}.alch-material-slot{width:100px;height:142px}.alch-slot-frame{left:9px;width:82px;height:106px}.alch-material-slot .alch-card-shell.is-compact{width:62px}.alch-material-slot .alch-object-frame.is-compact{width:70px;height:90px;padding:5px}.alch-slot-index{width:23px;height:19px}.alch-slot-meta b{font-size:8px}.alch-slot-0{left:0;top:18%}.alch-slot-1{right:0;top:18%}.alch-slot-2{left:1%;bottom:8%}.alch-slot-3{right:1%;bottom:8%}.alch-slot-4{top:-9%;bottom:auto}
   .alch-condition-list{padding:6px;gap:5px;overflow-x:auto}.alch-condition-list>span{padding:0 6px;font-size:8px}.alch-condition-list>button{padding-right:5px}.alch-start-button{height:53px}.alch-start-button b{font-size:15px}
   .alch-forecast-panel{display:flex;padding:13px}.alch-output-pool>div{grid-template-columns:1fr 1fr}.alch-vault-panel{height:540px}.alch-panel-title{padding:15px}.alch-inventory-card{grid-template-columns:47px minmax(0,1fr) 45px}

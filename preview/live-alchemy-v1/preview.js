@@ -50,7 +50,7 @@
       await new Promise((resolve) => setTimeout(resolve, 320));
       const payload = JSON.parse(init.body || '{}');
       const tier = [...data.tiers].filter((row) => payload.inputs.reduce((sum, entry) => sum + Number(data.assets.find((asset) => asset.type === entry.type && asset.id === entry.id)?.value || 0), 0) >= row.minValue).pop() || data.tiers[0];
-      const candidates = data.rewardPool.filter((row) => row.tierCode === tier.code && (row.mode === 'ANY' || row.mode === payload.mode));
+      const candidates = data.rewardPool.filter((row) => row.tierCode === tier.code);
       const reward = candidates[resultCursor % candidates.length];
       resultCursor += 1;
       for (const entry of payload.inputs) { const asset = data.assets.find((row) => row.type === entry.type && row.id === entry.id); if (asset) asset.available = Math.max(0, Number(asset.available || 0) - 1); }
