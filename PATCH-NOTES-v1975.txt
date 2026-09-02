@@ -33,3 +33,18 @@ v1975 — 아포칼립스 하한 피해 스케일링 (덱 전투력 반영)
 - HP/공격/방어/속도 % 는 승패에 거의 영향 없음(방어는 0). "느낌" 조절용으로만.
 
 [검증] TEST-REPORT-v1975.txt
+
+[추가] 몬스터 토벌 "권장 전투력 / POWER DELTA" 를 실제 필요 덱 전투력으로
+- 문제: 화면의 권장 전투력 = 표시 전투력(기본 × 도전배수 2.34). 엘릭은 469만으로 표시되지만
+  실제 승패는 하한 스케일링·연타·강제행동·실드로 정해져 표시값과 무관했다
+  (엘릭 현재 설정 실제 필요 ≈ 1,045만 / 전역 기본값이면 ≈ 242만).
+- _battle_v2_preview.js: `estimateApocalypseRecommendedPower(engineMonster,{bossUltimatePercent,cap})` 추가.
+  기준 덱(생명1·방어2·공격1·속도1, 카드55%/장비45%)으로 엔진을 실제로 돌려 승률 50% 를 넘는
+  최소 덱 전투력을 이분탐색(시드 6 × 8단계, 30~60ms). 만 단위 반올림.
+- api/[[path]].js GET battle: 아포칼립스 몬스터에 한해 `recommendedPower` 를 계산해
+  `battlePower`(화면 표시)·`recommendedPower` 로 내려주고 `challengePower` 에 기존 표시값 보존.
+  설정+몬스터 값 조합별 in-memory 캐시(어드민에서 값을 바꾸면 키가 바뀌어 자동 재계산).
+  `recommendedPowerSource: 'ENGINE_ESTIMATE' | 'DISPLAY_POWER'`.
+- js/pve-command-v2-live.js: requiredPower = recommendedPower ?? battlePower, 아포칼립스일 때 안내 문구 변경.
+- 나이트메어/HELL 은 건드리지 않았다. 참고: 나이트메어는 하한 피해가 덱과 무관해 어떤 덱이든 이기므로
+  그쪽 "권장 전투력" 도 사실상 의미가 없다(별도 밸런스 과제).

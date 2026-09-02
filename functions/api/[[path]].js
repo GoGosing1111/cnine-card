@@ -3,7 +3,7 @@ import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
-import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2 } from '../_battle_v2_preview.js';
+import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2,estimateApocalypseRecommendedPower } from '../_battle_v2_preview.js';
 import { handleMagic,magicSettings,magicBattleLoadout,magicBattleLoadouts,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
 import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_storage_cleanup.js';
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
@@ -1426,6 +1426,21 @@ async function consumeBattleEnergy(env,user,settings){
   return battleEnergyState(env,user,settings);
 }
 
+// V1975: 아포칼립스 권장 전투력은 엔진 이분탐색(30~60ms)이라 설정+몬스터 조합별로 캐시한다.
+//   키는 engineMonster 전체(기본 전투력·HP·공격·실드·연타·강제·스킬)라 어드민에서 값을 바꾸면 자동 무효화.
+const apocalypseRecommendedPowerCache=new Map();
+function apocalypseRecommendedPower(profile){
+  if(!profile?.isApocalypse||!profile.engineMonster)return null;
+  const skill=profile.apocalypseSkill,cast=skill?.enabled===true,percent=cast?Math.min(Number(profile.bossUltimateCapPercent||500),Math.max(0,Number(skill.damagePercent||0))):0;
+  const m=profile.engineMonster,key=JSON.stringify([m.battle_power,m.pve_hp_percent,m.pve_attack_percent,m.pve_defense_percent,m.pve_speed_percent,m.pve_shield_percent,m.pve_attack_count,m.pve_forced_action_every,percent,profile.bossUltimateCapPercent,Number(m.is_boss||0)]);
+  if(apocalypseRecommendedPowerCache.has(key))return apocalypseRecommendedPowerCache.get(key);
+  let value=null;
+  try{value=estimateApocalypseRecommendedPower({...m,pve_difficulty:'APOCALYPSE'},{bossUltimatePercent:percent,bossUltimateCapPercent:Number(profile.bossUltimateCapPercent||500)})}
+  catch(error){console.error('apocalypse recommended power estimate failed',error)}
+  if(apocalypseRecommendedPowerCache.size>200)apocalypseRecommendedPowerCache.clear();
+  apocalypseRecommendedPowerCache.set(key,value);
+  return value;
+}
 let apocalypseEnergyFoundationPromise=null;
 function apocalypseEnergySchemaStatements(env){
   const postgres=env.DB?.dialect==='postgres';
@@ -6087,7 +6102,9 @@ async function handleRequest(context){
       ]);
       const publicMonsters=(monsters.results||[]).map(monster=>{
         const profile=pveDifficultyRuntime(settings,monster);
-        return {...monster,pveTab:profile.difficulty,baseBattlePower:Number(monster.battlePower||0),battlePower:profile.effectiveBattlePower,baseRewardCoin:Number(monster.rewardCoin||0),rewardCoin:profile.effectiveRewardCoin,difficulty:profile.difficulty,nightmare:profile.isNightmare?{hpPercent:profile.hpPercent,attackPercent:profile.attackPercent,defensePercent:profile.defensePercent,speedPercent:profile.speedPercent,rewardPercent:profile.rewardPercent,bossUltimateCapPercent:profile.bossUltimateCapPercent,damageCapUnlocked:profile.bossUltimateUnlocked}:null,apocalypse:profile.isApocalypse?{hpPercent:profile.hpPercent,attackPercent:profile.attackPercent,defensePercent:profile.defensePercent,speedPercent:profile.speedPercent,rewardPercent:profile.rewardPercent,shieldPercent:profile.shieldPercent,attackCount:profile.attackCount,forcedActionEvery:profile.forcedActionEvery,skill:profile.apocalypseSkill}:null,__enabled:profile.enabled};
+        // V1975: 아포칼립스는 표시 전투력(기본×도전배수)이 아니라 엔진으로 추정한 "실제 필요 덱 전투력" 을 권장값으로 내려준다.
+        const recommendedPower=apocalypseRecommendedPower(profile);
+        return {...monster,pveTab:profile.difficulty,baseBattlePower:Number(monster.battlePower||0),battlePower:recommendedPower??profile.effectiveBattlePower,challengePower:profile.effectiveBattlePower,recommendedPower:recommendedPower??profile.effectiveBattlePower,recommendedPowerSource:recommendedPower?'ENGINE_ESTIMATE':'DISPLAY_POWER',baseRewardCoin:Number(monster.rewardCoin||0),rewardCoin:profile.effectiveRewardCoin,difficulty:profile.difficulty,nightmare:profile.isNightmare?{hpPercent:profile.hpPercent,attackPercent:profile.attackPercent,defensePercent:profile.defensePercent,speedPercent:profile.speedPercent,rewardPercent:profile.rewardPercent,bossUltimateCapPercent:profile.bossUltimateCapPercent,damageCapUnlocked:profile.bossUltimateUnlocked}:null,apocalypse:profile.isApocalypse?{hpPercent:profile.hpPercent,attackPercent:profile.attackPercent,defensePercent:profile.defensePercent,speedPercent:profile.speedPercent,rewardPercent:profile.rewardPercent,shieldPercent:profile.shieldPercent,attackCount:profile.attackCount,forcedActionEvery:profile.forcedActionEvery,skill:profile.apocalypseSkill}:null,__enabled:profile.enabled};
       }).filter(monster=>monster.__enabled).map(({__enabled,...monster})=>monster);
       return json({settings,deck,deckRules:deckRulesContract('PVE'),characterBonus,energy,apocalypseEnergy,serverNow:new Date().toISOString(),monsters:publicMonsters,burningEvent:burningPublicState(burning),battleEngine:pveBattleEngineState(settings,user,characterBonus)});
     }

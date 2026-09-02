@@ -1463,6 +1463,30 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
 }
 
 
+// V1975: 아포칼립스 권장 전투력 추정. 몬스터 목록의 "권장 전투력/POWER DELTA" 가 표시 전투력
+//   (기본 × 도전 배수 2.34)을 쓰고 있었는데, 실제 승패는 하한 스케일링·연타·강제행동·실드로 정해져
+//   표시값과 무관했다(엘릭 표시 469만 / 실제 필요 ≈ 1,045만, 전역기본값이면 ≈ 242만).
+//   그래서 공식 대신 엔진을 그대로 돌려 "승률 50% 를 넘는 최소 덱 전투력" 을 이분탐색으로 찾는다.
+//   기준 덱 = 생명1·방어2·공격1·속도1, 카드 55% / 장비 45% 배분. 호출 비용 ≈ 30~60ms → 호출 측에서 캐시.
+export function estimateApocalypseRecommendedPower(monster = {}, { bossUltimatePercent = 0, bossUltimateCapPercent = 500, seeds = 6, steps = 8 } = {}) {
+  const base = Math.max(1, Number(monster.battle_power ?? monster.battlePower ?? 1));
+  const types = ['HP', 'DEFENSE', 'DEFENSE', 'ATTACK', 'SPEED'];
+  const winRate = deck => {
+    const cardPower = Math.max(1, Math.round(deck * 0.55 / 5)), equipment = Math.max(0, Math.round(deck * 0.45));
+    const cards = types.map((type, index) => ({ id: `EST:${index}`, power_type: type, power: cardPower, rarity: 'FUR', breakthrough_level: 10 }));
+    let wins = 0;
+    for (let seed = 1; seed <= seeds; seed++) {
+      if (createPveBattleV2({ cards, characterBonus: equipment, monster, seed: seed * 7919, bossUltimatePercent, bossUltimateCapPercent }).result.winner === 'A') wins++;
+    }
+    return wins / seeds;
+  };
+  let lo = base * 0.1, hi = base * 8;
+  if (winRate(hi) < 0.5) return Math.max(10000, Math.round(hi / 10000) * 10000);
+  if (winRate(lo) >= 0.5) return Math.max(10000, Math.round(lo / 10000) * 10000);
+  for (let i = 0; i < steps; i++) { const mid = (lo + hi) / 2; if (winRate(mid) >= 0.5) hi = mid; else lo = mid; }
+  return Math.max(10000, Math.round(hi / 10000) * 10000);
+}
+
 export function resolvePvpOutcome(result, teamA, teamB) {
   if (!result) return result;
   const finalA = Array.isArray(result.final?.A) ? result.final.A : [];
