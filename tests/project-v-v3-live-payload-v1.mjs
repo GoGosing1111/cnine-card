@@ -49,8 +49,8 @@ assert.match(app,/const resourceTask=ensureFeatureResources\('battleV2'\)[\s\S]*
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=1978-apocalypse-energy-widget/);
-assert.match(serviceWorker,/soop-card-shell-v1978-apocalypse-energy-widget/);
+assert.match(index,/js\/app\.js\?v=1979-alchemy-reward-pool/);
+assert.match(serviceWorker,/soop-card-shell-v1979-alchemy-reward-pool/);
 
 const calls=[];
 const phase={textContent:''};

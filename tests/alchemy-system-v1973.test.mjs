@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { normalizedOdds, weightedPick, materialScore, cardEffectScore, rewardAutoFactor } from '../functions/_alchemy.js';
+import { normalizedOdds, weightedPick, materialScore, cardEffectScore, rewardAutoFactor, rewardGradeFactor } from '../functions/_alchemy.js';
 
 const read = path => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
@@ -26,6 +26,11 @@ test('alchemy material quality rises with real equipment power and high-card gra
   assert.deepEqual(grades, [120,180,240,320]);
   assert.ok(rewardAutoFactor(10) > rewardAutoFactor(50));
   assert.ok(rewardAutoFactor(50) > rewardAutoFactor(100));
+  const rewardGrades = ['LIMITED','PRESTIGE','FUR','ZENITH'].map(rewardGradeFactor);
+  assert.deepEqual(rewardGrades, [1,.62,.46,.18]);
+  assert.ok(rewardGrades.every((factor, index) => index === 0 || factor < rewardGrades[index - 1]));
+  assert.equal(rewardGradeFactor('MA'), 0);
+  assert.equal(rewardGradeFactor('SUPERSTAR'), 0);
   assert.ok(cardEffectScore({ attackPercent:10, defensePercent:5, effectValue:20, triggerChance:50, maxActivations:2 }) > 30);
 });
 
@@ -48,7 +53,13 @@ test('alchemy backend enforces protected inputs, secure roll, idempotency and at
   assert.doesNotMatch(source, /entry\.type==='ITEM'/);
   assert.match(source, /BLACK_MIRACLE_INVERSE/);
   assert.match(source, /safe_runtime_upgrade_v1977_alchemy_single_mode/);
+  assert.match(source, /safe_runtime_upgrade_v1979_alchemy_reward_pool/);
   assert.match(source, /UPDATE \$\{TABLES\.pool\} SET alchemy_mode='ANY'/);
+  assert.match(source, /SAFE_CARD_REWARD_RARITIES=new Set\(\['LIMITED','PRESTIGE','FUR','ZENITH'\]\)/);
+  assert.match(source, /SPECIAL_REWARD_ITEM_CODES=new Set\(\['BLACK_MIRACLE_PACK','SCRAPYARD_ENTRY_TICKET','MASTER_STAR'\]\)/);
+  assert.match(source, /syncCardRewardPool/);
+  assert.match(source, /CARD_REWARD_GRADE_FACTOR/);
+  assert.match(source, /manualWeight\*autoFactor\*gradeFactor/);
   assert.match(source, /const mode='STANDARD'/);
   assert.doesNotMatch(source, /PRECISION|CHAOS/);
 });
@@ -77,12 +88,21 @@ test('truth orb and fortified five-slot renderer are shared by preview and live'
   ]);
   assert.match(renderer, /alchemy-truth-orb-v2\.webp/);
   assert.match(renderer, /Array\.from\(\{ length: MAX_SLOTS \}/);
+  assert.match(renderer, /const REEL_WINNER_INDEX = 7/);
+  assert.match(renderer, /const REEL_SETTLE_MS = 5200/);
+  assert.match(renderer, /SPECIAL_REWARD_IDS\.has/);
   assert.match(renderer, /IDEMPOTENT RECEIPT \/ RETRY/);
   assert.match(css, /alchSlotScan/);
+  assert.match(css, /--reel-stop-offset:-571\.5px/);
+  assert.match(css, /height:var\(--reel-cell-height\)/);
+  assert.match(css, /alchReelStop 4\.35s/);
+  assert.doesNotMatch(renderer, /alch-win-line left|alch-win-line right/);
   assert.match(css, /\.alch-empty-rune[^\n]+border-radius:50%/);
   assert.doesNotMatch(preview, /SUPERSTAR|핑크빛유두/);
+  for (const code of ['BLACK_MIRACLE_PACK','SCRAPYARD_ENTRY_TICKET','MASTER_STAR']) assert.match(preview, new RegExp(code));
+  for (const rarity of ['LIMITED','PRESTIGE','FUR','ZENITH']) assert.match(preview, new RegExp(`type: 'CARD'[^\\n]+rarity: '${rarity}'`));
   assert.match(preview, /OWNER 검수계정/);
-  assert.match(previewHtml, /single-mode/);
+  assert.match(previewHtml, /v=6-reward-pool-1979/);
   assert.match(renderer, /const TYPE_TABS = \['CARD', 'EQUIPMENT'\]/);
   assert.doesNotMatch(renderer, /data-alchemy-mode|PRECISION|CHAOS|정밀 연성|혼돈 연성/);
   assert.doesNotMatch(preview, /PRECISION|CHAOS/);
@@ -100,7 +120,7 @@ test('alchemy CMS exposes material curve, vehicles, inverse reward weights and s
   const [admin, loader, adminHtml, cleanup] = await Promise.all([
     read('admin/alchemy-admin-v1.js'), read('admin/admin-v1276.js'), read('admin/index.html'), read('functions/_storage_cleanup.js')
   ]);
-  for (const action of ['SAVE_SETTINGS','SAVE_REWARD','DELETE_REWARD','RECOVER_PENDING']) assert.match(admin, new RegExp(action));
+  for (const action of ['SAVE_SETTINGS','SAVE_REWARD','DELETE_REWARD','SYNC_REWARDS','RECOVER_PENDING']) assert.match(admin, new RegExp(action));
   assert.doesNotMatch(admin, /SAVE_INPUT/);
   assert.match(admin, /OWNER_TEST/);
   assert.match(admin, /BLACK MIRACLE INVERSE CURVE/);
@@ -109,7 +129,7 @@ test('alchemy CMS exposes material curve, vehicles, inverse reward weights and s
   assert.match(admin, /alchemy-final-probability/);
   assert.doesNotMatch(admin, /alchemyRewardMode|PRECISION|CHAOS|정밀/);
   assert.match(admin, /VEHICLE:'이동수단'/);
-  assert.match(loader, /alchemy-admin-v1\.js\?v=3-single-mode/);
-  assert.match(adminHtml, /admin-v1276\.js\?v=1977-alchemy-single-mode/);
+  assert.match(loader, /alchemy-admin-v1\.js\?v=4-reward-pool/);
+  assert.match(adminHtml, /admin-v1276\.js\?v=1979-alchemy-reward-pool/);
   for (const table of ['alchemy_runs_v1','alchemy_user_state_v1','alchemy_asset_locks_v1','alchemy_guards_v1']) assert.match(cleanup, new RegExp(table));
 });

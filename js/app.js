@@ -827,8 +827,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   alchemy:{
-    styles:['css/card.css?v=1973-alchemy-live','css/alchemy-v1.css?v=5-single-mode'],
-    scripts:['js/alchemy-v1.js?v=5-single-mode','js/alchemy-v1-live.js?v=1-live-mount'],
+    styles:['css/card.css?v=1973-alchemy-live','css/alchemy-v1.css?v=6-reward-pool-1979'],
+    scripts:['js/alchemy-v1.js?v=6-reward-pool-1979','js/alchemy-v1-live.js?v=1-live-mount'],
     ready:()=>Boolean(window.AlchemyV1Live?.bind)&&typeof window.alchemyView==='function'&&typeof window.bindAlchemyView==='function'
   },
   scrapyard:{

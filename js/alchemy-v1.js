@@ -7,6 +7,7 @@
 
   const TYPE_LABELS = { CARD: '카드', EQUIPMENT: '장비', ITEM: '아이템', VEHICLE: '이동수단' };
   const TYPE_TABS = ['CARD', 'EQUIPMENT'];
+  const SPECIAL_REWARD_IDS = new Set(['BLACK_MIRACLE_PACK', 'SCRAPYARD_ENTRY_TICKET', 'MASTER_STAR']);
   const RARITY_LABELS = {
     C: '일반', U: '고급', R: '희귀', SR: '영웅', HR: '전설', UR: '신화', SSR: '초월',
     MA: '마스터', LIMITED: '리미티드', PRESTIGE: '프레스티지', FUR: 'FUR', ZENITH: '제니스', SUPERSTAR: '슈퍼스타',
@@ -20,6 +21,8 @@
     HR: 'LEGENDARY', LEGENDARY: 'LEGENDARY', PREMIUM: 'LEGENDARY', UR: 'MYTHIC', MYTHIC: 'MYTHIC'
   };
   const MAX_SLOTS = 5;
+  const REEL_WINNER_INDEX = 7;
+  const REEL_SETTLE_MS = 5200;
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
   const formatNumber = (value) => Number(value || 0).toLocaleString('ko-KR');
@@ -28,6 +31,7 @@
   const rarityLabel = (value) => RARITY_LABELS[cleanRarity(value)] || cleanRarity(value);
   const keyOf = (row) => `${row.type}:${row.id}`;
   const rarityBucket = (value) => RARITY_BUCKET[cleanRarity(value)] || cleanRarity(value);
+  const rewardName = (row) => row?.type === 'ITEM' && Number(row.quantity || 1) > 1 ? `${row.name} ×${formatNumber(row.quantity)}` : String(row?.name || '');
   const createRequestId = () => globalThis.crypto?.randomUUID?.() || `alchemy-${Date.now()}-${Math.floor(performance.now() * 1000).toString(36)}`;
 
   function svgIcon(name) {
@@ -105,7 +109,7 @@
       const pool = matchingRewards();
       const total = pool.reduce((sum, row) => sum + Number(row.effectiveWeight ?? row.weight ?? 0), 0), groups = new Map();
       for (const row of pool) {
-        const rarity = cleanRarity(row.rarity), key = rarityBucket(rarity), current = groups.get(key) || { label: rarityLabel(rarity), percent: 0, color: row.color || '#62ded1' };
+        const rarity = cleanRarity(row.rarity), specialItem = row.type === 'ITEM' && SPECIAL_REWARD_IDS.has(String(row.id || '').toUpperCase()), key = specialItem ? `ITEM:${row.id}` : rarityBucket(rarity), current = groups.get(key) || { label: specialItem ? rewardName(row) : rarityLabel(rarity), percent: 0, color: row.color || '#62ded1' };
         current.percent += total ? Number(row.effectiveWeight ?? row.weight ?? 0) / total * 100 : 0; groups.set(key, current);
       }
       return [...groups.values()].sort((a, b) => b.percent - a.percent).length ? [...groups.values()].sort((a, b) => b.percent - a.percent) : [{ label: '보상 풀 없음', percent: 0, color: '#a95f5f' }];
@@ -124,7 +128,8 @@
       if (!row) return `<span class="alch-empty-rune">${svgIcon('plus')}</span>`;
       if (row.type === 'CARD') return cardVisual(row, compact);
       const rarity = cleanRarity(row.rarity);
-      return `<div class="alch-object-frame rarity-${rarity.toLowerCase()}${compact ? ' is-compact' : ''}"><span class="alch-object-corner"></span><img src="${escapeHtml(resolveAsset(row.image))}" alt="${escapeHtml(row.name)}" loading="lazy" decoding="async"><em>${escapeHtml(row.enhancement ? `+${row.enhancement}` : rarityLabel(rarity))}</em></div>`;
+      const image = resolveAsset(row.image);
+      return `<div class="alch-object-frame rarity-${rarity.toLowerCase()}${compact ? ' is-compact' : ''}"><span class="alch-object-corner"></span>${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(row.name)}" loading="lazy" decoding="async">` : `<span class="alch-object-glyph" aria-hidden="true">✦</span>`}<em>${escapeHtml(row.enhancement ? `+${row.enhancement}` : rarityLabel(rarity))}</em></div>`;
     }
 
     function filteredRows() {
@@ -162,12 +167,12 @@
       const pool = candidates.length ? candidates : (Array.isArray(state.data?.rewardPool) ? state.data.rewardPool : []);
       const winner = state.pendingReward || pool[0] || null;
       const makeTrack = (offset) => {
-        const sequence = Array.from({ length: 9 }, (_, index) => index === 7 && winner ? winner : pool[(index + offset) % Math.max(1, pool.length)] || winner).filter(Boolean);
-        return `<div class="alch-reel-column" style="--reel-delay:${offset * 90}ms"><div class="alch-reel-track">${sequence.map((row, index) => `<div class="alch-reel-cell${index === 7 ? ' is-stop' : ''}">${itemVisual(row, true)}<small>${escapeHtml(row.name || '')}</small></div>`).join('')}</div></div>`;
+        const sequence = Array.from({ length: 9 }, (_, index) => index === REEL_WINNER_INDEX && winner ? winner : pool[(index + offset) % Math.max(1, pool.length)] || winner).filter(Boolean);
+        return `<div class="alch-reel-column" style="--reel-delay:${offset * 120}ms"><div class="alch-reel-track">${sequence.map((row, index) => `<div class="alch-reel-cell${index === REEL_WINNER_INDEX ? ' is-stop' : ''}">${itemVisual(row, true)}<small>${escapeHtml(rewardName(row))}</small></div>`).join('')}</div></div>`;
       };
       return `<div class="alch-reel-overlay ${state.phase === 'SETTLING' ? 'is-settling' : ''}" aria-live="polite">
         <div class="alch-reel-heading"><small>TRANSMUTATION SEQUENCE</small><strong>${state.phase === 'SETTLING' ? '결과 파장 고정 중' : '연성식 해석 중'}</strong></div>
-        <div class="alch-reel-machine"><i class="alch-win-line left"></i>${makeTrack(0)}${makeTrack(2)}${makeTrack(4)}<i class="alch-win-line right"></i></div>
+        <div class="alch-reel-machine">${makeTrack(0)}${makeTrack(2)}${makeTrack(4)}<i class="alch-win-line" aria-hidden="true"></i></div>
         <div class="alch-reel-status"><span></span> 중앙 당첨선에 결과를 고정합니다</div>
       </div>`;
     }
@@ -179,7 +184,7 @@
         <div class="alch-result-aura"></div><section class="alch-result-panel rarity-${cleanRarity(row.rarity).toLowerCase()}">
           <small>ALCHEMY RESULT / JACKPOT LOCK</small><h2 id="alchemyResultTitle">연금술에 성공했습니다</h2>
           <div class="alch-result-prize">${itemVisual(row, false)}</div>
-          <span>${escapeHtml(rarityLabel(row.rarity))} · ${escapeHtml(TYPE_LABELS[row.type] || '연금 보상')}</span><strong>${escapeHtml(row.name)}</strong>
+          <span>${escapeHtml(rarityLabel(row.rarity))} · ${escapeHtml(TYPE_LABELS[row.type] || '연금 보상')}</span><strong>${escapeHtml(rewardName(row))}</strong>
           <p>중앙 당첨선에 고정된 결과물이 보관함으로 지급됩니다.</p>
           <button type="button" data-alchemy-result-close>${svgIcon('check')}<b>결과 확인</b></button>
         </section>
@@ -230,7 +235,7 @@
             <div class="alch-panel-title"><div><small>RESULT FORECAST</small><h2>연성 분석</h2></div><span class="alch-live-dot">LIVE</span></div>
             <section class="alch-tier-core"><small>CURRENT RESONANCE</small><div><i></i><span><b>${escapeHtml(tier.name || '미분석')}</b><em>${formatNumber(totalValue())} VALUE</em></span></div><p>강한 장비·이동수단과 고유효과가 높은 카드는 서버 역가중 후 실제 확률을 표시합니다.</p></section>
             <section class="alch-odds"><header><b>예상 결과 등급</b><small>현재 조합 기준</small></header>${forecast().map((entry) => `<div><span><i style="--odds-color:${escapeHtml(entry.color)}"></i>${escapeHtml(entry.label)}</span><b>${Number(entry.percent).toFixed(0)}%</b><em><i style="width:${Number(entry.percent)}%;--odds-color:${escapeHtml(entry.color)}"></i></em></div>`).join('')}</section>
-            <section class="alch-output-pool"><header><b>대표 결과물</b><small>현재 연성식 후보</small></header><div>${(matchingRewards().length ? matchingRewards() : (state.data.rewardPool || [])).slice(0, 4).map((row) => `<article>${itemVisual(row, true)}<span><small>${escapeHtml(rarityLabel(row.rarity))}</small><b>${escapeHtml(row.name)}</b></span></article>`).join('')}</div></section>
+            <section class="alch-output-pool"><header><b>대표 결과물</b><small>현재 연성식 후보</small></header><div>${(matchingRewards().length ? matchingRewards() : (state.data.rewardPool || [])).slice(0, 4).map((row) => `<article>${itemVisual(row, true)}<span><small>${escapeHtml(rarityLabel(row.rarity))}</small><b>${escapeHtml(rewardName(row))}</b></span></article>`).join('')}</div></section>
             <div class="alch-guarantee"><span>${svgIcon('history')}</span><div><small>STABILITY GUARANTEE</small><b>안정도 ${formatNumber(state.data.stability || 0)} / ${formatNumber(state.data.stabilityMax || 10)}</b><em><i style="width:${Math.min(100, Number(state.data.stability || 0) / Math.max(1, Number(state.data.stabilityMax || 10)) * 100)}%"></i></em><p>최대 도달 시 상위 등급 결과를 보장합니다.</p></div></div>
           </aside>
         </div>
@@ -278,7 +283,7 @@
         state.phase = 'SETTLING';
         render();
         const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-        await delay(reducedMotion ? 450 : 2700);
+        await delay(reducedMotion ? 650 : REEL_SETTLE_MS);
         if (state.destroyed) return;
         if (response.state) state.data = response.state;
         else {
