@@ -592,6 +592,50 @@
         "safeMarginPx": 67
       },
       "sha256": "2DF123EB1D65EF688D8EE3EAB665EB6BFD70C4FF03D91F59B92674EC7514C6C9"
+    },
+    {
+      "monsterId": 71,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "name": "에드워드 엘릭",
+      "sourceArt": "assets/tower/apo1.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-071-automail-alchemist-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-071-automail-alchemist-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "EAC812169372A3561F5E6F9AC05E3C1A498FFA3F8861B58EF6AB8CC6E221275B",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "safeMarginPx": 72
+      },
+      "sha256": "C87AB6B0C4A32254CC87AD1731AF88E6565A0EA2E99B85C955DA8D0713F97F9D"
+    },
+    {
+      "monsterId": 72,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "name": "히무라 켄신",
+      "sourceArt": "assets/tower/apo2.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-072-reverse-blade-swordsman-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-072-reverse-blade-swordsman-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "2705C14AB9543D394296AD1A689D88151B33BFF16A56A30991BE98FAE28CB4D7",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "safeMarginPx": 72
+      },
+      "sha256": "22CA349FBABA785BF6402918D8E0FBFA7CB824A6C57FDA58D5C3882CDBB62596"
     }
   ]
 }

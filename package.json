@@ -13,10 +13,11 @@
     "test:workshop": "node --test tests/workshop-split-lineage-v1881.mjs tests/workshop-mystic-energy-v1931.test.mjs tests/equipment-bulk-synthesis-v1941.test.mjs",
     "test:clan": "node --test tests/clan-v3-v1820.mjs tests/clan-war-cms-v1943.test.mjs",
     "test:prison": "node --test tests/prison-system-v1950.test.mjs",
+    "test:project-v-sd": "node --test tests/project-v-zenith-sd-assets-v1.mjs tests/project-v-apocalypse-boss-sd-v1958.test.mjs",
     "test:apocalypse": "node --test tests/pve-apocalypse-v1952.test.mjs",
     "test:battle-suit": "node --test tests/project-v-battle-suit-backend-v1953.test.mjs tests/project-v-battle-suit-frontend-v1953.test.mjs tests/project-v-v3-account-battle-unit-v1953.test.mjs tests/project-v-v3-battle-suit-firearm-qc-v1957.test.mjs",
     "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:apocalypse && npm run test:battle-suit && npm run test:territory-reward && node scripts/verify-production-release.mjs",
+    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:battle-suit && npm run test:territory-reward && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {

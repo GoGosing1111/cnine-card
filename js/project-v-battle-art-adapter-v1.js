@@ -2,7 +2,7 @@
   'use strict';
 
   const globalScope = typeof window !== 'undefined' ? window : globalThis;
-  const MANIFEST_URL = '/assets/ui/project-v/characters/zenith/manifest-v1.json?v=6-hina-yoning';
+  const MANIFEST_URL = '/assets/ui/project-v/characters/zenith/manifest-v1.json?v=7-orikkung-heeya';
   const BATTLE_CONSUMERS = new Set(['BATTLE', 'BATTLE_ENGINE', 'PVE_BATTLE', 'PVP_BATTLE', 'SIEGE_BATTLE']);
   const PROHIBITED_CONSUMERS = new Set(['DEX', 'DECK', 'CARD_PACK', 'INVENTORY', 'CARD_DETAIL']);
   const EMPTY_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';

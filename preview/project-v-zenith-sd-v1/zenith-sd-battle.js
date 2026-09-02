@@ -2,7 +2,7 @@
   'use strict';
 
   const DESIGN={width:1600,height:738};
-  const TILE={width:190,height:72};
+  const TILE={width:145,height:72};
   const MANIFEST_URL='../../assets/ui/project-v/characters/zenith/manifest-v1.json';
   const BACKGROUND_URL='../../assets/ui/idle-dungeon/moon-citadel-v1.png';
   const VALID_SCOPE='BATTLE_ENGINE_ONLY';
@@ -44,10 +44,10 @@
   let raf=0;
   let stopped=false;
 
-  const slots=Array.from({length:21},(_,index)=>{
-    const row=Math.floor(index/7);
-    const column=index%7;
-    return [145+column*218,205+row*190];
+  const slots=Array.from({length:30},(_,index)=>{
+    const row=Math.floor(index/10);
+    const column=index%10;
+    return [92+column*157,206+row*202];
   });
 
   const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
@@ -397,7 +397,7 @@
   const updateSelection=()=>{
     const actor=roster[selected];
     if(!actor){
-      selectionOrder.textContent='—';selectionCardId.textContent='카드를 선택해 자산 계약과 알파 상태를 확인하세요';selectionMember.textContent='ZENITH';selectionTitle.textContent='BATTLE UNIT 01—25';selectionPath.textContent='덱·도감은 원본 카드 유지 / SD는 전투엔진에서만 사용';selectionStatus.textContent='—';selectionAlpha.textContent='—';selectionMargin.textContent='—';sourceArtLink.href='#';sourceArtLink.setAttribute('aria-disabled','true');return;
+      selectionOrder.textContent='—';selectionCardId.textContent='카드를 선택해 자산 계약과 알파 상태를 확인하세요';selectionMember.textContent='ZENITH';selectionTitle.textContent='BATTLE UNIT 01—29';selectionPath.textContent='덱·도감은 원본 카드 유지 / SD는 전투엔진에서만 사용';selectionStatus.textContent='—';selectionAlpha.textContent='—';selectionMargin.textContent='—';sourceArtLink.href='#';sourceArtLink.setAttribute('aria-disabled','true');return;
     }
     const analysis=actor.analysis;
     const margins=analysis?.margins;

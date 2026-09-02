@@ -4,8 +4,8 @@
   "scope": "BATTLE_ENGINE_ONLY",
   "rarity": "ZENITH",
   "rosterSnapshot": {
-    "asOf": "2026-09-01",
-    "expectedCount": 27,
+    "asOf": "2026-09-02",
+    "expectedCount": 29,
     "identityKey": "cardId",
     "source": "live PostgreSQL read-only roster lock"
   },
@@ -56,8 +56,8 @@
   },
   "visualApprovalRecord": {
     "status": "APPROVED",
-    "approvedCount": 27,
-    "approvedAt": "2026-09-01",
+    "approvedCount": 29,
+    "approvedAt": "2026-09-02",
     "source": "USER_FINAL_APPROVAL"
   },
   "characters": [
@@ -2112,9 +2112,161 @@
           }
         ]
       }
+    },
+    {
+      "order": 28,
+      "cardId": "CN-B5718BF375CA42C8",
+      "member": "오리꿍",
+      "title": "오리꿍",
+      "sourceArt": "assets/cards/1412312312312.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-b5718bf375ca42c8-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 290,
+          "y": 72,
+          "width": 771,
+          "height": 1206
+        },
+        "margins": {
+          "left": 290,
+          "top": 72,
+          "right": 289,
+          "bottom": 72
+        },
+        "safeMarginPx": 72,
+        "alphaPixels": {
+          "transparent": 1362934,
+          "opaque": 480,
+          "partial": 459086
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.5,
+          0.946667
+        ],
+        "safeMarginPx": 72
+      },
+      "sha256": "785512594804FA4C8DEC2C7B99DD50A70180DBDC00C82A825E3DB12445502B87",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b5718bf375ca42c8-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b5718bf375ca42c8-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b5718bf375ca42c8-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b5718bf375ca42c8-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 29,
+      "cardId": "CN-91A4FC0601D14931",
+      "member": "하이희야",
+      "title": "하이희야",
+      "sourceArt": "assets/cards/717171717171.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-91a4fc0601d14931-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 237,
+          "y": 72,
+          "width": 877,
+          "height": 1206
+        },
+        "margins": {
+          "left": 237,
+          "top": 72,
+          "right": 236,
+          "bottom": 72
+        },
+        "safeMarginPx": 72,
+        "alphaPixels": {
+          "transparent": 1251614,
+          "opaque": 197,
+          "partial": 570689
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.5,
+          0.946667
+        ],
+        "safeMarginPx": 72
+      },
+      "sha256": "C1D0D18134D05543BB4979CCA4CDE068E937959E9BAE20DD5E70C1B5975B1CF9",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-91a4fc0601d14931-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-91a4fc0601d14931-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-91a4fc0601d14931-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-91a4fc0601d14931-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
     }
   ],
-  "technicalQaCompletedAt": "2026-09-01T09:02:31+09:00",
+  "technicalQaCompletedAt": "2026-09-02T09:30:00+09:00",
   "responsiveContract": {
     "formats": [
       "AVIF",

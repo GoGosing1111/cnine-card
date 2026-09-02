@@ -840,9 +840,9 @@ const FEATURE_RESOURCE_MANIFEST={
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
       'js/battle-v2-live.js?v=1972-battle-suit-live',
-      'js/project-v-battle-art-adapter-v1.js?v=3.6.0-hina-yoning',
+      'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
-      'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
+      'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=7-live-pve-continuous-fire',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=94-battle-suit-cold-start-av',
