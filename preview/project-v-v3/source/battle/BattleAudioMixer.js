@@ -4,6 +4,12 @@ import {normalizeAdvancementAudioCode, V3_ADVANCEMENT_AUDIO_ASSETS} from './Adva
 
 const MUTE_KEY='cnine_battle_sound';
 const AudioContextClass=()=>globalThis.AudioContext||globalThis.webkitAudioContext||null;
+const APOCALYPSE_BOSS_ULTIMATE_AUDIO=Object.freeze({
+  asset:'/assets/sfx/v3-apocalypse-boss-ultimate-v1/boss-ultimate-combat-v2.mp3?v=1-apocalypse-runtime',
+  bytes:86828,
+  syncPointMs:353,
+  gain:.78
+});
 
 /**
  * Asset-only WebAudio mixer for Project V V3 role impacts.
@@ -27,6 +33,11 @@ export class BattleAudioMixer{
     this.advancementFailures=new Map();
     this.advancementLoads=new Map();
     this.advancementGeneration=0;
+    this.apocalypseBossUltimateBytes=null;
+    this.apocalypseBossUltimateBuffer=null;
+    this.apocalypseBossUltimateFailure=null;
+    this.apocalypseBossUltimateLoad=null;
+    this.apocalypseBossUltimateGeneration=0;
     this.loadPromise=null;
     this.preloadTimer=null;
     this.activeSources=new Set();
@@ -69,6 +80,7 @@ export class BattleAudioMixer{
       this.master.connect(this.compressor).connect(this.context.destination);
       if(this.bytes.size)this.decodeAll();
       if(this.advancementBytes.size)this.decodeAdvancements([...this.advancementBytes.keys()]);
+      if(this.apocalypseBossUltimateBytes)this.decodeApocalypseBossUltimate();
     }
     return this.context;
   }
@@ -192,6 +204,94 @@ export class BattleAudioMixer{
     return true;
   }
 
+  async prepareApocalypseBossUltimate(){
+    if(this.destroyed)return false;
+    this.ensure();
+    if(this.apocalypseBossUltimateBuffer)return true;
+    if(this.apocalypseBossUltimateBytes){
+      if(this.context)await this.decodeApocalypseBossUltimate();
+      return Boolean(this.apocalypseBossUltimateBytes);
+    }
+    if(this.apocalypseBossUltimateLoad)return this.apocalypseBossUltimateLoad;
+    const generation=this.apocalypseBossUltimateGeneration;
+    const spec=APOCALYPSE_BOSS_ULTIMATE_AUDIO;
+    this.apocalypseBossUltimateLoad=fetch(spec.asset,{cache:'force-cache',signal:this.abortController?.signal}).then(async response=>{
+      if(!response.ok)throw new Error(`HTTP_${response.status}`);
+      const payload=await response.arrayBuffer();
+      if(payload.byteLength!==spec.bytes)throw new Error(`PAYLOAD_${payload.byteLength}_${spec.bytes}`);
+      if(this.destroyed||generation!==this.apocalypseBossUltimateGeneration)return false;
+      this.apocalypseBossUltimateBytes=payload;
+      this.apocalypseBossUltimateFailure=null;
+      if(this.context)await this.decodeApocalypseBossUltimate(generation);
+      return true;
+    }).catch(error=>{
+      if(!this.destroyed&&generation===this.apocalypseBossUltimateGeneration){
+        this.apocalypseBossUltimateFailure=error;
+        console.error('[V3 Apocalypse audio] boss ultimate unavailable; no fallback is used',error);
+      }
+      return false;
+    }).finally(()=>{this.apocalypseBossUltimateLoad=null});
+    return this.apocalypseBossUltimateLoad;
+  }
+
+  async decodeApocalypseBossUltimate(expectedGeneration=this.apocalypseBossUltimateGeneration){
+    if(!this.context||!this.apocalypseBossUltimateBytes||this.destroyed)return false;
+    if(this.apocalypseBossUltimateBuffer)return true;
+    try{
+      const buffer=await this.context.decodeAudioData(this.apocalypseBossUltimateBytes.slice(0));
+      if(!this.destroyed&&expectedGeneration===this.apocalypseBossUltimateGeneration){
+        this.apocalypseBossUltimateBuffer=buffer;
+        this.apocalypseBossUltimateFailure=null;
+      }
+    }catch(error){
+      if(!this.destroyed&&expectedGeneration===this.apocalypseBossUltimateGeneration){
+        this.apocalypseBossUltimateFailure=error;
+        console.error('[V3 Apocalypse audio] boss ultimate decode failed; no fallback is used',error);
+      }
+    }
+    return Boolean(this.apocalypseBossUltimateBuffer);
+  }
+
+  scheduleApocalypseBossUltimate({impactAt=.56,playbackSpeed=1.3,pan=0}={}){
+    const context=this.ensure();
+    const buffer=this.apocalypseBossUltimateBuffer;
+    if(!context||context.state!=='running'||!buffer)return false;
+    const spec=APOCALYPSE_BOSS_ULTIMATE_AUDIO;
+    const realImpact=Math.max(0,Number(impactAt)||0)/Math.max(.1,Number(playbackSpeed)||1);
+    const authoredSync=spec.syncPointMs/1000;
+    const delay=Math.max(0,realImpact-authoredSync);
+    const offset=Math.max(0,authoredSync-realImpact);
+    const source=context.createBufferSource();
+    const gain=context.createGain();
+    source.buffer=buffer;
+    gain.gain.value=spec.gain;
+    let tail=gain;
+    if(typeof context.createStereoPanner==='function'){
+      const panner=context.createStereoPanner();
+      panner.pan.value=Math.max(-1,Math.min(1,Number(pan)||0));
+      gain.connect(panner);
+      tail=panner;
+    }
+    source.connect(gain);
+    tail.connect(this.master);
+    this.activeSources.add(source);
+    source.onended=()=>{
+      this.activeSources.delete(source);
+      try{source.disconnect();gain.disconnect();if(tail!==gain)tail.disconnect()}catch{}
+    };
+    source.start(context.currentTime+delay,Math.min(offset,Math.max(0,buffer.duration-.025)));
+    return true;
+  }
+
+  releaseApocalypseBossUltimate(){
+    this.apocalypseBossUltimateGeneration+=1;
+    this.apocalypseBossUltimateBytes=null;
+    this.apocalypseBossUltimateBuffer=null;
+    this.apocalypseBossUltimateFailure=null;
+    this.apocalypseBossUltimateLoad=null;
+    return true;
+  }
+
   scheduleImpact(kind,{impactAt=.25,playbackSpeed=1.3,critical=false,boss=false,pan=0}={}){
     const role=normalizeSkillEffectKind(kind);
     const spec=V3_ROLE_AUDIO_ASSETS[role]||V3_ROLE_AUDIO_ASSETS[SKILL_EFFECT_KIND.ATTACK];
@@ -299,8 +399,15 @@ export class BattleAudioMixer{
         eagerPreloadAll:false,
         proceduralFallback:false
       },
+      apocalypseBossUltimate:{
+        fetched:Boolean(this.apocalypseBossUltimateBytes),
+        ready:Boolean(this.apocalypseBossUltimateBuffer),
+        failed:Boolean(this.apocalypseBossUltimateFailure),
+        sourceType:'RECORDED_FOLEY',
+        proceduralFallback:false
+      },
       activeSources:this.activeSources.size,
-      requestCount:4+new Set([...this.advancementBytes.keys(),...this.advancementBuffers.keys(),...this.advancementLoads.keys()]).size,
+      requestCount:4+new Set([...this.advancementBytes.keys(),...this.advancementBuffers.keys(),...this.advancementLoads.keys()]).size+(this.apocalypseBossUltimateBytes||this.apocalypseBossUltimateLoad?1:0),
       contextOwner:this.ownsContext?'v3':'shared-live',
       proceduralFallback:false,
       retiredAudioSprite:false
@@ -321,6 +428,7 @@ export class BattleAudioMixer{
     this.buffers.clear();
     this.bytes.clear();
     this.releaseAdvancements();
+    this.releaseApocalypseBossUltimate();
     this.context=null;
     this.ownsContext=false;
   }

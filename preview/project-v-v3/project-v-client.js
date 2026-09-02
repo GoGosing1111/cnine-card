@@ -57,7 +57,7 @@
     const weapon=battleSuitQc.weapons[battleQcState.weaponCode];
     const pveAllowed=pveBattlefields.has(battleQcState.battlefield);
     const mode=pveAllowed?'PVE':battleQcState.battlefield;
-    const monsterCard={id:'B:0:MONSTER:QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',grade:'MONSTER',type:'ATTACK',hp:100,maxHp:100};
+    const monsterCard={id:'B:0:MONSTER:QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',grade:'MONSTER',type:'ATTACK',hp:100,maxHp:100,shield:40,maxShield:40};
     const monster={
       id:'QC-JORO',monsterId:'QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',mode:battleQcState.battlefield,isBoss:true,
       projectVMonsterArt:{kind:'APPROVED_MONSTER_SD',name:'결전의 조로',primaryUrl:'/assets/ui/project-v/monsters/nightmare-slime-sd-v1.png',scaleMultiplier:1.08,isBoss:true}
@@ -69,7 +69,7 @@
       accountNickname:'핑크빛유두',monster,equippedBattleSuit,equippedWeapon,
       characterBonus:{battleSuitPve:suit.pvePower,equippedBattleSuit,equippedWeapon},
       v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'},
-      battleV2:{mode,battlefieldMode:battleQcState.battlefield,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}})),supports:[{id:`A:SUPPORT:BATTLE_SUIT:${battleQcState.suitCode}`,actorKind:'BATTLE_SUIT',power:suit.pvePower,weaponCode:battleQcState.weaponCode,authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[monsterCard]}},result:{timeline:[],damageBreakdown:{cards:0,battleSuit:0,ultimate:0,total:0,authority:'SERVER_TIMELINE'}}}
+      battleV2:{mode,battlefieldMode:battleQcState.battlefield,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}})),supports:[{id:`A:SUPPORT:BATTLE_SUIT:${battleQcState.suitCode}`,actorKind:'BATTLE_SUIT',power:suit.pvePower,weaponCode:battleQcState.weaponCode,authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[monsterCard]}},result:{timeline:[{type:'START_EFFECT',targetId:monsterCard.id,effect:'SHIELD',amount:40,shieldAfter:40,label:'방어형 · 선봉 방벽'}],damageBreakdown:{cards:0,battleSuit:0,ultimate:0,total:0,authority:'SERVER_TIMELINE'}}}
     };
   };
   let battleRendererPromise=null,battleRendererRequested=false,battleMutation=Promise.resolve();
@@ -159,7 +159,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=94-battle-suit-cold-start-av';
+        script.src='project-v-pixi-battle.bundle.js?v=95-apocalypse-combat-hud';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);

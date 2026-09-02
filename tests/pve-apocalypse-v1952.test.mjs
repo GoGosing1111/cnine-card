@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,statSync} from 'node:fs';
 import {
   APOCALYPSE_ENERGY_CONFIG,
   apocalypseChallengeMultiplier,
@@ -50,6 +50,11 @@ const dropSource=readFileSync(new URL('../functions/_drop_pool.js',import.meta.u
 const adminSource=readFileSync(new URL('../admin/apocalypse-admin-v1952.js',import.meta.url),'utf8');
 const indexSource=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const packageSource=readFileSync(new URL('../package.json',import.meta.url),'utf8');
+const battleCharacterSource=readFileSync(new URL('../preview/project-v-v3/source/battle/BattleCharacter.js',import.meta.url),'utf8');
+const battleEngineSource=readFileSync(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8');
+const apocalypseFxSource=readFileSync(new URL('../preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js',import.meta.url),'utf8');
+const apocalypseAtlas=JSON.parse(readFileSync(new URL('../assets/ui/project-v/fx/apocalypse-boss-ultimate-v1/boss-ultimate-impact-atlas-v2.json',import.meta.url),'utf8'));
+const apocalypseAudioPath=new URL('../assets/sfx/v3-apocalypse-boss-ultimate-v1/boss-ultimate-combat-v2.mp3',import.meta.url);
 assert.match(apiSource,/CREATE TABLE IF NOT EXISTS user_apocalypse_energy/);
 assert.match(apiSource,/function apocalypseEnergySchemaStatements\(env\)/);
 assert.match(apiSource,/env\.DB\?\.dialect==='postgres'&&typeof env\.DB\.execSchema==='function'\)await env\.DB\.execSchema\(schema\)/,'PostgreSQL must execute the Apocalypse energy DDL instead of silently skipping it');
@@ -72,5 +77,20 @@ assert.match(adminSource,/data-ap-attack-count/);
 assert.match(adminSource,/data-ap-skill-name/);
 assert.match(indexSource,/pve-apocalypse-v1952/);
 assert.match(packageSource,/"release:gate"[^\n]+test:apocalypse/,'Apocalypse regression coverage must remain in the production release gate');
+assert.match(battleCharacterSource,/setShield\(value,maxValue=this\.maxShield\)/,'V3 combatants must expose an authoritative shield HUD setter');
+assert.match(battleCharacterSource,/SHIELD \$\{Math\.round\(ratio\*100\)\}%/,'the V3 shield HUD must expose a readable percent');
+assert.match(battleCharacterSource,/SHIELD BREAK/,'depleted boss shields must remain visibly identified');
+assert.match(battleEngineSource,/function openingShieldState\(payload,card\)/,'opening shields must be reconstructed from the server timeline, not final-state card rows');
+assert.match(battleEngineSource,/targetShieldAfter=hasFiniteNumber\(event\.targetShieldAfter\)/,'every authoritative damage event must drive the shield HUD');
+assert.match(battleEngineSource,/character\.setShield\?\.\(Math\.max\(0,Number\(row\?\.shield\)\|\|0\),character\.serverMaxShield\)/,'final server shield state must be forced after playback');
+assert.match(battleEngineSource,/this\.apocalypseMode&&await this\.playApocalypseBossUltimate\(event,bossActor\)/,'the authored finisher must stay scoped to Apocalypse BOSS_ULTIMATE events');
+const apocalypsePlayback=battleEngineSource.slice(battleEngineSource.indexOf('async playApocalypseBossUltimate'),battleEngineSource.indexOf('\n  /**',battleEngineSource.indexOf('async playApocalypseBossUltimate')));
+assert.match(apocalypsePlayback,/ApocalypseBossUltimateFX\.create/);
+assert.match(apocalypsePlayback,/scheduleApocalypseBossUltimate/);
+assert.doesNotMatch(apocalypsePlayback,/pvUltimateLayer|pvUltimateVideo|\.play\(\)/,'Apocalypse must use the Pixi EffectLayer, never a screen video/DOM cutscene');
+assert.match(apocalypseFxSource,/V3_APOCALYPSE_BOSS_ULTIMATE_ATLAS/);
+assert.match(apocalypseFxSource,/proceduralFallback:false/);
+assert.equal(Object.keys(apocalypseAtlas.frames||{}).filter(name=>name.startsWith('boss-ultimate_')).length,12);
+assert.equal(statSync(apocalypseAudioPath).size,86828,'the approved recorded boss-impact SFX must remain byte-identical');
 
-console.log('PVE Apocalypse v1952: independent 5/30 energy, harder runtime, shield, skill, repeat attacks, CMS and dedicated drops verified');
+console.log('PVE Apocalypse: energy, authoritative shield HUD, in-battle boss ultimate atlas/SFX, combat rules, CMS and drops verified');

@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "boss-ultimate_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    },
+    "boss-ultimate_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 59
+    }
+  },
+  "animations": {
+    "impact": [
+      "boss-ultimate_00.png",
+      "boss-ultimate_01.png",
+      "boss-ultimate_02.png",
+      "boss-ultimate_03.png",
+      "boss-ultimate_04.png",
+      "boss-ultimate_05.png",
+      "boss-ultimate_06.png",
+      "boss-ultimate_07.png",
+      "boss-ultimate_08.png",
+      "boss-ultimate_09.png",
+      "boss-ultimate_10.png",
+      "boss-ultimate_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "boss-ultimate-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "boss-ultimate",
+    "label": "BOSS CALAMITY",
+    "labelKo": "보스 궁극기",
+    "fps": 17,
+    "frameDurationMs": 59,
+    "durationMs": 708,
+    "collisionFrame": 6,
+    "collisionHookMs": 353,
+    "anchors": {
+      "x": 0.5,
+      "y": 0.9
+    },
+    "source": "boss-ultimate-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 1572864,
+        "transparentPixels": 1082735,
+        "translucentPixels": 44699,
+        "visiblePixels": 490129,
+        "transparentRatio": 0.68838437,
+        "visibleRatio": 0.31161563,
+        "visibleBounds": {
+          "x": 5,
+          "y": 8,
+          "w": 1514,
+          "h": 982
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 1850344,
+        "translucentPixels": 234213,
+        "visiblePixels": 945176,
+        "transparentRatio": 0.66189618,
+        "visibleRatio": 0.33810382,
+        "visibleBounds": {
+          "x": 7,
+          "y": 11,
+          "w": 2019,
+          "h": 1312
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "4913f1edac595b2c0ef6e0cd5d62610a212c5f3dfa4e3d7af1157ce56e5866d2",
+      "atlas": "2eb5a2c1648b7f446d3ad18dcdd584ab59760f42ee2093fde752ae0705a6bbe1",
+      "frames": {
+        "boss-ultimate_00.png": "6b8705a09aea2427733c1a12e88de52e2f32be754320f0a20f5765a9b2d8a5fc",
+        "boss-ultimate_01.png": "97b4b7c5a54413745cc73c803a09b50ffb8852a6475f0eb216c1f301f3a0131c",
+        "boss-ultimate_02.png": "fddeec69ca1e54c240a60a8a7c69bb291fab4b2d9a212b2a06c182195212f7cd",
+        "boss-ultimate_03.png": "48901b1b00a71c825100f7420cc23367ed67e6de53180d54d75b76b835f98576",
+        "boss-ultimate_04.png": "f11a8a45e87e3b20fe519c019574344c87c7002fdb45a7f473297b24fa841c9c",
+        "boss-ultimate_05.png": "68151c01b4fc9d31b4d2906b5997d288400cdcd1565c67c9ddba998a74d1d3de",
+        "boss-ultimate_06.png": "bd9d319cf605ff92f6540ddb9b60642ac46424eb762ffd8b3a7b3d213535f54a",
+        "boss-ultimate_07.png": "562b7c46e43c7ca4110d7a684c69af232bb70709b3cf68a044a692fe2302e5f6",
+        "boss-ultimate_08.png": "31321781c1874c0027422c432e959fcfb87a400ad22c370e283b348f1438fde2",
+        "boss-ultimate_09.png": "e7f45ce1a589cdcf8389bd85189e514a26d7d178e50c4459546d06a0c6d855f8",
+        "boss-ultimate_10.png": "64ff77d33c7a91f828a04d04e23a7aacb9e5e7ebd0ff008a4e0fde7a1629d0de",
+        "boss-ultimate_11.png": "87a9b2fefcf5b425c8bb848289da9f1fd159278f4e2ab1117733db42511a3721"
+      }
+    },
+    "generatedAt": "2026-08-30T01:06:01.830Z"
+  }
+}

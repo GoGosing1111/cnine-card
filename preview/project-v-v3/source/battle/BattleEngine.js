@@ -9,6 +9,7 @@ import {normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT
 import {AdvancementEffectFX, advancementEffectProfile, normalizeAdvancementEffectCode} from './AdvancementEffectFX.js';
 import {AccountBattleUnit} from './AccountBattleUnit.js';
 import {resolveAccountBattleSuitAnimation} from './AccountBattleSuitAnimationCatalog.js';
+import {ApocalypseBossUltimateFX, APOCALYPSE_BOSS_ULTIMATE_PROFILE} from './ApocalypseBossUltimateFX.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -17,6 +18,7 @@ const BUNDLE='project-v-battle-v3';
 const ISO_GRID={columns:7,rows:6};
 const PLAYBACK_SPEED=1.3;
 const ADVANCEMENT_LOAD_DEADLINE_MS=900;
+const APOCALYPSE_FX_LOAD_DEADLINE_MS=2200;
 const DEFAULT_BATTLEFIELD_MODE='HUNT';
 const BATTLEFIELD_ASSETS=Object.freeze({
   HUNT:'../../assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png',
@@ -107,6 +109,19 @@ const ASSETS={
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const hasFiniteNumber=value=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value));
 
+function openingShieldState(payload,card){
+  const timeline=Array.isArray(payload?.battleV2?.result?.timeline)?payload.battleV2.result.timeline:[];
+  const identities=new Set([card?.id,card?.cardId,card?.card_id].map(value=>String(value||'').trim()).filter(Boolean));
+  const opening=timeline.find(event=>String(event?.type||'').toUpperCase()==='START_EFFECT'
+    &&String(event?.effect||'').toUpperCase()==='SHIELD'
+    &&identities.has(String(event?.targetId||'').trim())
+    &&hasFiniteNumber(event?.shieldAfter));
+  if(!opening&&timeline.length)return {current:0,maximum:0};
+  const current=Math.max(0,Number(opening?.shieldAfter??card?.shield)||0);
+  const maximum=Math.max(current,Number(card?.maxShield||card?.max_shield)||0);
+  return {current,maximum};
+}
+
 function combatRoleFromCard(card){
   return normalizeSkillEffectKind(card?.type||card?.powerType||card?.power_type||card?.effectKind||card?.uniqueAbility?.dominantType||card?.unique_ability?.dominant_type);
 }
@@ -185,6 +200,15 @@ function payloadModeTokens(payload){
     battle?.battlefieldMode,battle?.contentType,battle?.mode,battle?.type,
     payload?.monster?.battlefieldMode,payload?.monster?.contentType,payload?.monster?.mode,payload?.monster?.type
   ].map(value=>String(value||'').trim().toUpperCase().replace(/[\s-]+/g,'_')).filter(Boolean);
+}
+
+function isApocalypsePayload(payload){
+  const battle=payload?.battleV2||{};
+  const monster=payload?.monster||{};
+  if(payloadModeTokens(payload).some(value=>value.includes('APOCALYPSE')))return true;
+  if(battle?.rules?.apocalypseFloorScaling)return true;
+  return [payload?.difficulty,payload?.pveTab,monster?.difficulty,monster?.pveTab,monster?.tab]
+    .some(value=>String(value||'').trim().toUpperCase()==='APOCALYPSE');
 }
 
 function authoritativeBattleSuitSupportFromPayload(payload){
@@ -370,6 +394,9 @@ export class BattleEngine{
     this.advancementCodes=new Set();
     this.advancementReadyPromise=Promise.resolve(true);
     this.advancementLoadTimeouts=0;
+    this.apocalypseMode=isApocalypsePayload(battleData);
+    this.apocalypseBossUltimateReadyPromise=Promise.resolve(false);
+    this.apocalypseBossUltimateLoadTimeouts=0;
     this.playbackEpoch=0;
     this.textures=null;
     this.cards=[];
@@ -582,6 +609,14 @@ export class BattleEngine{
       character.setTint?.(0xffffff);
       character.setState(CHARACTER_STATE.IDLE);
       character.setHp(100);
+      if(preserveTargets){
+        character.setShield?.(character.startingShield||0,character.startingMaxShield||0);
+      }else{
+        character.startingShield=0;
+        character.startingMaxShield=0;
+        character.serverMaxShield=0;
+        character.setShield?.(0,0);
+      }
     });
     if(this.accountBattleUnit){
       this.accountBattleUnit.cancelFire();
@@ -1269,7 +1304,7 @@ export class BattleEngine{
     return true;
   }
 
-  async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,authoritative=false}={}){
+  async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,targetShield=null,authoritative=false}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
     // Preserve the just-resolved authoritative target even when that hit set
@@ -1327,6 +1362,7 @@ export class BattleEngine{
           this.triggerAccountBattleUnitBallisticHit(victim,profile,playbackRate);
           if(authoritative){
             if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
+            if(hasFiniteNumber(targetShield))this.syncTargetShield(victim,Number(targetShield));
             this.showAccountBattleUnitDamage(victim,{damage,critical,playbackRate});
             this.accountBattleUnitDamageEventCount+=1;
             this.accountBattleUnitDamageTotal+=Math.max(0,Number(damage)||0);
@@ -1579,6 +1615,7 @@ export class BattleEngine{
       ?payload.battleV2.teams.B.cards.filter(card=>!/^MONSTER:/i.test(String(card?.cardId||''))&&!['MONSTER','BOSS'].includes(String(card?.grade||'').toUpperCase()))
       :[];
     await this.prepareAdvancementRuntime(payload);
+    this.prepareApocalypseBossUltimateRuntime(payload);
     const resolveCardArt=(card,team)=>card?.projectVBattleArt
       ||zenithAdapter?.resolveForBattle?.(card,{consumer:'BATTLE_ENGINE'})
       ||tierAdapter?.resolveForV3?.(card)
@@ -1622,6 +1659,11 @@ export class BattleEngine{
       const art=allyArt[index];
       const target=this.allies[index];
       assignCombatRole(target,card);
+      const shield=openingShieldState(payload,card);
+      target.startingShield=shield.current;
+      target.startingMaxShield=shield.maximum;
+      target.serverMaxShield=Math.max(shield.maximum,Number(card?.maxShield||card?.max_shield)||0);
+      target.setShield(shield.current,shield.maximum);
       if(!art?.primaryUrl)continue;
       const texture=await loadBattleArtTexture(art);
       target.id=card?.id||card?.cardId||target.id;
@@ -1646,6 +1688,11 @@ export class BattleEngine{
       const art=enemyArt[index];
       const target=this.enemies[index];
       assignCombatRole(target,card);
+      const shield=openingShieldState(payload,card);
+      target.startingShield=shield.current;
+      target.startingMaxShield=shield.maximum;
+      target.serverMaxShield=Math.max(shield.maximum,Number(card?.maxShield||card?.max_shield)||0);
+      target.setShield(shield.current,shield.maximum);
       if(!art?.primaryUrl)continue;
       const texture=await loadBattleArtTexture(art);
       target.id=card?.id||card?.cardId||target.id;
@@ -1683,6 +1730,11 @@ export class BattleEngine{
     target.root.visible=true;
     const monsterCard=payload?.battleV2?.teams?.B?.cards?.find?.(card=>/^MONSTER:/i.test(String(card?.cardId||''))||String(card?.grade||'').toUpperCase()==='MONSTER'||String(card?.grade||'').toUpperCase()==='BOSS')||payload?.battleV2?.teams?.B?.cards?.[0];
     assignCombatRole(target,monsterCard||monster,{boss:isBoss});
+    const shield=openingShieldState(payload,monsterCard||monster);
+    target.startingShield=shield.current;
+    target.startingMaxShield=shield.maximum;
+    target.serverMaxShield=Math.max(shield.maximum,Number(monsterCard?.maxShield||monsterCard?.max_shield||monster?.maxShield||monster?.max_shield)||0);
+    target.setShield(shield.current,shield.maximum);
     target.id=monsterCard?.id||monster?.cardId||monster?.id&&`MONSTER:${monster.id}`||monster?.monsterId&&`MONSTER:${monster.monsterId}`||target.id;
     target.cardId=monsterCard?.cardId||monster?.cardId||target.id;
     target.serverMaxHp=Math.max(1,Number(monsterCard?.maxHp||monsterCard?.hp||monster?.maxHp||monster?.hp||100));
@@ -1747,11 +1799,50 @@ export class BattleEngine{
     return ready;
   }
 
+  prepareApocalypseBossUltimateRuntime(payload){
+    this.apocalypseMode=isApocalypsePayload(payload);
+    if(!this.apocalypseMode){
+      this.apocalypseBossUltimateReadyPromise=Promise.resolve(false);
+      this.audio?.releaseApocalypseBossUltimate?.();
+      void ApocalypseBossUltimateFX.release();
+      return false;
+    }
+    this.apocalypseBossUltimateReadyPromise=Promise.all([
+      ApocalypseBossUltimateFX.preload(),
+      this.audio?.prepareApocalypseBossUltimate?.()??Promise.resolve(true)
+    ]).then(([frames,audioReady])=>Array.isArray(frames)&&frames.length===12&&audioReady!==false)
+      .catch(error=>{
+        console.error('[Project V V3] 아포칼립스 보스 궁극기 연출 준비 실패',error);
+        return false;
+      });
+    return true;
+  }
+
+  async ensureApocalypseBossUltimateReady(){
+    if(!this.apocalypseMode)return false;
+    const load=Promise.all([
+      this.apocalypseBossUltimateReadyPromise,
+      ApocalypseBossUltimateFX.preload(),
+      this.audio?.prepareApocalypseBossUltimate?.()??Promise.resolve(true)
+    ]).then(([,frames,audioReady])=>Array.isArray(frames)&&frames.length===12&&audioReady!==false)
+      .catch(()=>false);
+    let timer=0;
+    const ready=await Promise.race([
+      load,
+      new Promise(resolve=>{timer=setTimeout(()=>resolve(false),APOCALYPSE_FX_LOAD_DEADLINE_MS)})
+    ]);
+    clearTimeout(timer);
+    if(!ready)this.apocalypseBossUltimateLoadTimeouts+=1;
+    return ready;
+  }
+
   async releaseOptionalAdvancementAssets(){
     this.advancementCodes.clear();
     this.advancementReadyPromise=Promise.resolve(false);
     this.audio?.releaseAdvancements?.();
+    this.audio?.releaseApocalypseBossUltimate?.();
     await AdvancementEffectFX.retain([]);
+    await ApocalypseBossUltimateFX.release();
     return true;
   }
 
@@ -2008,6 +2099,20 @@ export class BattleEngine{
     return target;
   }
 
+  syncTargetShield(target,value,maxValue=null){
+    if(!target||!hasFiniteNumber(value))return null;
+    const current=Math.max(0,Number(value)||0);
+    const maximum=hasFiniteNumber(maxValue)
+      ?Math.max(current,Number(maxValue)||0)
+      :Math.max(current,Number(target.maxShield)||0);
+    if(typeof target.setShield==='function')target.setShield(current,maximum);
+    else{
+      target.shield=current;
+      target.maxShield=maximum;
+    }
+    return target;
+  }
+
   eventHpPercent(target,value){
     if(!hasFiniteNumber(value))return null;
     const raw=Math.max(0,Number(value));
@@ -2114,6 +2219,8 @@ export class BattleEngine{
         // the positive HP value so the HUD and animation adapter agree.
         character.setState(CHARACTER_STATE.IDLE);
         character.setHp(percent);
+        character.serverMaxShield=Math.max(0,Number(row?.maxShield||row?.max_shield)||0);
+        character.setShield?.(Math.max(0,Number(row?.shield)||0),character.serverMaxShield);
       });
       team.forEach(character=>{
         if(claimed.has(character))return;
@@ -2122,6 +2229,7 @@ export class BattleEngine{
         character.root.renderable=false;
         character.setState(CHARACTER_STATE.IDLE);
         character.setHp(0);
+        character.setShield?.(0,0);
       });
     };
     syncTeam(final?.A,this.allies);
@@ -2227,7 +2335,7 @@ export class BattleEngine{
     });
   }
 
-  async normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,healing=0,hitCount=1,advancementClass='',onImpact=()=>{}}={}){
+  async normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,targetShield=null,healing=0,hitCount=1,advancementClass='',onImpact=()=>{}}={}){
     const requestedActor=attacker||this.allies[index%this.allies.length];
     const actor=this.isAlive(requestedActor)?requestedActor:(requestedActor?.team===TEAM.ENEMY?this.enemies:this.allies).find(character=>this.isAlive(character));
     const victim=this.selectLiveTarget(actor,target);
@@ -2313,6 +2421,7 @@ export class BattleEngine{
           ?this.triggerAdvancementScreenFlash({durationMs:50,alpha:.26})
           :triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
         if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
+        if(hasFiniteNumber(targetShield))this.syncTargetShield(victim,Number(targetShield));
         onImpact(victim);
       },[],impactAt);
       if(advancementProfile)skillEffect.play(timeline,{impactAt});
@@ -2395,7 +2504,7 @@ export class BattleEngine{
     },cleanup);
   }
 
-  async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null,attacker=null,healing=0,hitCount=1}={}){
+  async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null,targetShield=null,attacker=null,healing=0,hitCount=1}={}){
     const actor=attacker||this.allies[index%this.allies.length];
     const actorIndex=Math.max(0,this.allies.indexOf(actor));
     const card=this.cards[actorIndex%this.cards.length]||this.cards[0];
@@ -2416,7 +2525,10 @@ export class BattleEngine{
       targetClass:victim.isBoss?'BOSS':'MONSTER',
       healing,
       hitCount,
-      onImpact:()=>this.syncTargetHp(victim,hasFiniteNumber(targetHp)?Number(targetHp):victim.hp-(critical?18:11))
+      onImpact:()=>{
+        this.syncTargetHp(victim,hasFiniteNumber(targetHp)?Number(targetHp):victim.hp-(critical?18:11));
+        if(hasFiniteNumber(targetShield))this.syncTargetShield(victim,Number(targetShield));
+      }
     });
     return result;
   }
@@ -2500,6 +2612,84 @@ export class BattleEngine{
     },cleanup);
   }
 
+  async playApocalypseBossUltimate(event={},attacker=null){
+    const hitRows=Array.isArray(event.hits)?event.hits:[];
+    const hits=hitRows.map(hit=>({hit,target:this.combatantById(hit.targetId)})).filter(item=>item.target);
+    if(!hits.length||!await this.ensureApocalypseBossUltimateReady())return false;
+    const targets=[...new Set(hits.map(item=>item.target))];
+    const center={
+      x:targets.reduce((sum,target)=>sum+Number(target.root?.x||0),0)/targets.length,
+      y:targets.reduce((sum,target)=>sum+Number(target.root?.y||0),0)/targets.length-(this.mobile?150:165)
+    };
+    const effect=ApocalypseBossUltimateFX.create({x:center.x,y:center.y,scale:this.mobile?.76:1.02}).attach(this.effectLayer);
+    if(!effect.display){effect.release();return false}
+    const damageLabels=hits.map(({hit,target})=>{
+      const label=this.pools.damage.acquire();
+      configureDamageText(label,{
+        kind:SKILL_EFFECT_KIND.ATTACK,
+        damage:Number(hit.damage||0)+Number(hit.absorbed||0),
+        critical:Boolean(hit.critical),
+        healing:Number(hit.healing||0),
+        hitCount:Number(hit.hitCount||1),
+        compact:this.mobile
+      });
+      label.position.set(target.root.x,target.root.y-(this.mobile?235:310));
+      label.visible=true;
+      label.alpha=0;
+      this.uiLayer.addChild(label);
+      return {label,target,hit};
+    });
+    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED;
+    const impactAt=APOCALYPSE_BOSS_ULTIMATE_PROFILE.impactAt;
+    let whiteFlashHandle=null;
+    let hitStopTimer=null;
+    const cleanup=()=>{
+      if(hitStopTimer){clearTimeout(hitStopTimer);hitStopTimer=null}
+      whiteFlashHandle?.release();
+      effect.release();
+      damageLabels.forEach(({label,target})=>{
+        this.pools.damage.release(label);
+        target.tint=0xffffff;
+        target.setState(target.hp<=0?CHARACTER_STATE.DEAD:CHARACTER_STATE.IDLE);
+      });
+    };
+    this.updateStatus(`${attacker?.name||'아포칼립스 보스'} · ${event.label||'멸절 프로토콜'}`);
+    const bannerPromise=this.showBanner(event.label||'멸절 프로토콜',0xff754f,'APOCALYPSE ULTIMATE');
+    const effectPromise=this.timeline(timeline=>{
+      timeline.call(()=>this.audio?.scheduleApocalypseBossUltimate?.({impactAt,playbackSpeed}),[],0);
+      effect.play(timeline,{impactAt});
+      timeline.call(()=>{
+        whiteFlashHandle?.release();
+        whiteFlashHandle=this.triggerAdvancementScreenFlash({durationMs:Math.round(50/playbackSpeed),alpha:.2});
+        damageLabels.forEach(({target,hit})=>{
+          target.setState(CHARACTER_STATE.HIT);
+          target.tint=0xffc2ac;
+          this.syncTargetShield(target,hit.targetShieldAfter,hit.targetMaxShieldAfter??hit.targetMaxShield);
+          const hp=this.eventHpPercent(target,hit.targetHpAfter);
+          if(hasFiniteNumber(hp))this.syncTargetHp(target,hp);
+        });
+      },[],impactAt);
+      this.camera.addShake(timeline,{intensity:APOCALYPSE_BOSS_ULTIMATE_PROFILE.shake,duration:.42,rotation:.012,at:impactAt});
+      damageLabels.forEach(({label,target},index)=>{
+        const startY=target.root.y-(this.mobile?220:292);
+        timeline.fromTo(label,{alpha:0,y:startY},{alpha:1,y:startY-42,duration:.18,ease:'back.out(2.2)'},impactAt+index*.018);
+        timeline.fromTo(label.scale,{x:.52,y:.52},{x:1.08,y:1.08,duration:.2,ease:'back.out(2.2)'},impactAt+index*.018);
+        timeline.to(label,{alpha:0,y:startY-78,duration:.3,ease:'power2.in'},impactAt+.3+index*.018);
+      });
+      if(!this.reducedMotion){
+        timeline.call(()=>{
+          timeline.pause();
+          hitStopTimer=setTimeout(()=>{
+            hitStopTimer=null;
+            timeline.resume();
+          },Math.max(1,Math.round(APOCALYPSE_BOSS_ULTIMATE_PROFILE.hitStopMs/playbackSpeed)));
+        },[],impactAt+.005);
+      }
+    },cleanup,playbackSpeed);
+    await Promise.all([bannerPromise,effectPromise]);
+    return true;
+  }
+
   /**
    * Portable renderer contract. The production API only needs to return this
    * ordered event list; combat results remain authoritative on the server.
@@ -2527,10 +2717,26 @@ export class BattleEngine{
         :targetHp!==null?targetHp
         :hasFiniteNumber(event.bossHp)?Number(event.bossHp):null;
       const resolvedTargetHp=this.eventHpPercent(target,rawTargetHp);
+      const targetShieldAfter=hasFiniteNumber(event.targetShieldAfter)?Number(event.targetShieldAfter)
+        :hasFiniteNumber(event.shieldAfter)?Number(event.shieldAfter):null;
+      const actorShieldAfter=hasFiniteNumber(event.actorShieldAfter)?Number(event.actorShieldAfter):null;
+      const syncEventShields=()=>{
+        if(target&&hasFiniteNumber(targetShieldAfter)){
+          this.syncTargetShield(target,targetShieldAfter,event.targetMaxShieldAfter??event.targetMaxShield);
+        }
+        if(explicitActor&&hasFiniteNumber(actorShieldAfter)){
+          this.syncTargetShield(explicitActor,actorShieldAfter,event.actorMaxShieldAfter??event.actorMaxShield);
+        }
+      };
       const damage=Number(event.damage||0)+Number(event.absorbed||0);
       const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
       if(type==='DEPLOY')await this.deployCards({force:forceDeploy});
+      else if(type==='START_EFFECT'||type==='GUARD_PROTECT'){
+        // START_EFFECT is the authoritative opening-shield snapshot. Targeted
+        // GUARD_PROTECT events can also add a barrier during combat.
+        syncEventShields();
+      }
       else if(type==='ESCORT_OBJECTIVE_ATTACK')await this.escortObjectiveAttack(event);
       else if(type==='ESCORT_OBJECTIVE_RECOVERY'){
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
@@ -2546,10 +2752,12 @@ export class BattleEngine{
             damage,
             critical:Boolean(event.critical),
             targetHp:resolvedTargetHp,
+            targetShield:targetShieldAfter,
             authoritative:!event.dodge,
             playbackRate:this.paceScale||1
           });
           if(event.dodge)await this.showBanner('배틀슈트 사격 회피',0x62e9ff,'MISS');
+          syncEventShields();
           continue;
         }
         if(event.dodge){
@@ -2557,29 +2765,34 @@ export class BattleEngine{
             await this.playAdvancementMoment('AFTERIMAGE',{target,label:event.label||'잔영자 · 시공매 초월가속'});
           }
           await this.showBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');
+          syncEventShields();
           continue;
         }
         const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
-        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
+        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,advancementClass});
       }else if(type==='SKILL'){
-        await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
+        await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:explicitActor,healing,hitCount});
       }else if(type==='COUNTER'){
         const advancementClass=normalizeAdvancementEffectCode(event.advancementClass)==='RIPOSTE'?'RIPOSTE':'';
-        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
+        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,advancementClass});
         else await this.bossCounter(Number(event.actorIndex||0));
       }else if(type==='ULTIMATE'||type==='PVE_ULTIMATE'){
         const liveActor=explicitActor||(this.livePayload?this.allies.find(character=>this.isAlive(character)):null);
-        if(liveActor)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:true,label:event.label||'궁극기',target,targetHp:resolvedTargetHp,attacker:liveActor,healing,hitCount});
+        if(liveActor)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:true,label:event.label||'궁극기',target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:liveActor,healing,hitCount});
         else await this.playUltimate({target,targetHp:resolvedTargetHp});
       }else if(type==='BOSS_ULTIMATE'){
-        await this.showBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
-        for(const hit of event.hits||[]){
-          const hitTarget=this.combatantById(hit.targetId);
-          await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:explicitActor||this.enemies.find(character=>this.isAlive(character)),target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter),healing:Number(hit.healing||0),hitCount:Number(hit.hitCount||1)});
+        const bossActor=explicitActor||this.enemies.find(character=>this.isAlive(character));
+        const apocalypsePlayed=this.apocalypseMode&&await this.playApocalypseBossUltimate(event,bossActor);
+        if(!apocalypsePlayed){
+          await this.showBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
+          for(const hit of event.hits||[]){
+            const hitTarget=this.combatantById(hit.targetId);
+            await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:bossActor,target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter),targetShield:hit.targetShieldAfter,healing:Number(hit.healing||0),hitCount:Number(hit.hitCount||1)});
+          }
         }
       }else if(type==='MAGIC_CARD'){
         const label=event.magicName||event.magicCode||'마법카드';
-        if(damage>0)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label,target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
+        if(damage>0)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:explicitActor,healing,hitCount});
         else{
           if(event.amount||healing){
             await this.playSupportEffect(target||this.currentAllyTarget,{
@@ -2630,6 +2843,7 @@ export class BattleEngine{
         // (INDOMITABLE 누락 같은 사고가 다시 나도 최소한 생존 상태는 서버와 맞는다)
         this.syncTargetHp(target,resolvedTargetHp);
       }
+      syncEventShields();
     }
   }
 
@@ -2690,7 +2904,9 @@ export class BattleEngine{
         visible:character.root.visible,
         renderable:character.root.renderable,
         alpha:character.root.alpha,
-        hp:character.hp
+        hp:character.hp,
+        shield:character.shield,
+        maxShield:character.maxShield
       })),
       cards:this.cards.map(card=>({
         card,
@@ -2709,7 +2925,7 @@ export class BattleEngine{
 
   restoreLivePreviewRosterState(snapshot){
     if(!snapshot)return false;
-    snapshot.characters.forEach(({character,battleActive,visible,renderable,alpha,hp})=>{
+    snapshot.characters.forEach(({character,battleActive,visible,renderable,alpha,hp,shield,maxShield})=>{
       character.battleActive=battleActive;
       character.root.visible=visible;
       character.root.renderable=renderable;
@@ -2722,6 +2938,7 @@ export class BattleEngine{
       character.setTint?.(0xffffff);
       character.setState(CHARACTER_STATE.IDLE);
       character.setHp(hp);
+      character.setShield?.(shield,maxShield);
     });
     snapshot.cards.forEach(({card,visible,renderable,alpha,hpValue})=>{
       card.visible=visible;
@@ -2984,6 +3201,9 @@ export class BattleEngine{
         blendModes:['screen'],
         roleFx:SkillEffectFX.diagnostics(),
         advancementFx:AdvancementEffectFX.diagnostics(),
+        apocalypseBossUltimateFx:ApocalypseBossUltimateFX.diagnostics(),
+        apocalypseBossUltimateActive:this.apocalypseMode,
+        apocalypseBossUltimateLoadTimeouts:this.apocalypseBossUltimateLoadTimeouts,
         advancementActivation:['SHATTER:TURN','AFTERIMAGE:DODGE_TURN','RIPOSTE:COUNTER','IMMORTAL:ADVANCEMENT'],
         bossUltimateAdvancementFx:false,
         advancementImpactAtMs:{SHATTER:420,RIPOSTE:460,AFTERIMAGE:320,IMMORTAL:500},
@@ -3006,6 +3226,8 @@ export class BattleEngine{
         gridPosition:character.gridPosition,
         perspectiveDepth:character.perspectiveDepth,
         facingX:Math.sign(character.view.scale.x),
+        shield:character.shield,
+        maxShield:character.maxShield,
         rig:character.rigDiagnostics?.()
       }))
     };
@@ -3027,10 +3249,13 @@ export class BattleEngine{
     this.accountBattleUnitEquipment={battleSuit:null,weapon:null};
     this.advancementCodes.clear();
     this.advancementReadyPromise=Promise.resolve(false);
+    this.apocalypseMode=false;
+    this.apocalypseBossUltimateReadyPromise=Promise.resolve(false);
     // Role atlases are global live assets, but advancement atlases are loaded
     // per authoritative timeline. Leaving V3 must release those optional GPU
     // textures so a completed battle does not tax the next mobile screen.
     void AdvancementEffectFX.retain([]);
+    void ApocalypseBossUltimateFX.release();
     this.app?.destroy(true,{children:true,texture:false});
     this.app=null;
     this.cards=[];

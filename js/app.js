@@ -860,8 +860,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=7-live-pve-continuous-fire',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=94-battle-suit-cold-start-av',
-      'js/battle-v3-live.js?v=3.27.0-battle-suit-continuous-fire'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=95-apocalypse-combat-hud',
+      'js/battle-v3-live.js?v=3.28.0-apocalypse-combat-hud'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }

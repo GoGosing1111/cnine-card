@@ -1,0 +1,32 @@
+{
+  "version": "v3-apocalypse-boss-ultimate-v1",
+  "binding": "PVE_APOCALYPSE_BOSS_ULTIMATE",
+  "renderer": "PixiJS v8 WebGL AnimatedSprite",
+  "timeline": "GSAP authoritative collision timeline",
+  "presentation": "IN_BATTLE_EFFECT_LAYER",
+  "screenOverlay": false,
+  "proceduralFallback": false,
+  "atlas": {
+    "json": "boss-ultimate-impact-atlas-v2.json",
+    "png": "boss-ultimate-impact-atlas-v2.png",
+    "pngSha256": "2eb5a2c1648b7f446d3ad18dcdd584ab59760f42ee2093fde752ae0705a6bbe1",
+    "jsonSha256": "61adfed1a53386243cfb0391fd118b8d07b1ba85703036cea34680cecea622d6",
+    "frameCount": 12,
+    "frameSize": "512x455",
+    "fps": 17,
+    "collisionFrame": 6,
+    "blendMode": "screen"
+  },
+  "audio": {
+    "path": "/assets/sfx/v3-apocalypse-boss-ultimate-v1/boss-ultimate-combat-v2.mp3",
+    "sha256": "2af601f8b81b9f3f5863a69a15b2bd438d62282cd0c3b0338c5824557024ede6",
+    "bytes": 86828,
+    "sampleRate": 48000,
+    "channels": 2,
+    "syncPointMs": 353,
+    "sourceType": "layered recorded foley",
+    "license": "Mixkit Free License"
+  },
+  "source": "/preview/project-v-v3-live-style-event-fx-v2/",
+  "approvedByUserOn": "2026-09-02"
+}

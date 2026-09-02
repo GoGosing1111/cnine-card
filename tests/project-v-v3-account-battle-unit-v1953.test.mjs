@@ -58,6 +58,10 @@ assert.match(engine,/const ownsTop=Object\.prototype\.hasOwnProperty\.call\(payl
 assert.match(engine,/payload\?\.characterBonus\?\.\[key\][\s\S]*payload\?\.bonuses\?\.\[key\]/);
 assert.match(engine,/payload\?\.accountNickname\|\|payload\?\.user\?\.nickname\|\|payload\?\.profile\?\.nickname\|\|payload\?\.nickname/);
 assert.match(unit,/this\.nameHud\.visible=Boolean\(name\)/);
+assert.match(unit,/NAME_HUD_SCREEN_SCALE\/rootScale/,'Battle Suit nickname must compensate for the small formation scale');
+assert.match(unit,/fontSize:18/,'Battle Suit nickname must retain a readable authored font size');
+assert.match(unit,/stroke:\{color:0x00111c,width:4/,'Battle Suit nickname must retain a high-contrast edge over bright battlefields');
+assert.match(unit,/screenScale:Number\(\(this\.root\?\.scale\?\.x\|\|1\)\*\(this\.nameHud\?\.scale\?\.x\|\|1\)\)/,'nickname diagnostics must expose its effective screen scale');
 assert.match(readme,/PVE 계정 배틀슈트 유닛 계약[\s\S]*equippedBattleSuit[\s\S]*equippedWeapon[\s\S]*5장과 분리된 타깃 불가 지원 액터/);
 assert.match(readme,/서버가 `characterBonus\.battleSuitPve`[\s\S]*독립 피해/);
 

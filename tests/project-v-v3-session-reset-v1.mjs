@@ -19,7 +19,7 @@ assert.match(live,/ProjectVPixiBattle\.resetSession\(payload, host\)/);
 assert.match(live,/const VERSION = '3\.27\.0-battle-suit-continuous-fire'/);
 assert.match(live,/ProjectVPixiBattle\.cancelActiveAnimations/);
 assert.match(live,/ProjectVPixiBattle\.syncFinalState\(finalState\)/);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=94-battle-suit-cold-start-av/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=95-apocalypse-combat-hud/);
 assert.match(app,/battle-v3-live\.js\?v=3\.27\.0-battle-suit-continuous-fire/);
 
 console.log('Project V V3 session reset contract: OK');

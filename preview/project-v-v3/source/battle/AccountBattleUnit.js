@@ -5,23 +5,26 @@ import {BallisticVFX} from './BallisticVFX.js';
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const finite=(value,fallback)=>Number.isFinite(Number(value))?Number(value):fallback;
 const AUTHORED_FRAME_NAMES=Object.freeze(['ready','fire','recoil','recover']);
-const NAME_PANEL_HEIGHT=29;
-const NAME_PANEL_MIN_WIDTH=88;
-const NAME_PANEL_MAX_WIDTH=188;
-const NAME_PANEL_HORIZONTAL_PADDING=24;
+const NAME_PANEL_HEIGHT=36;
+const NAME_PANEL_MIN_WIDTH=108;
+const NAME_PANEL_MAX_WIDTH=224;
+const NAME_PANEL_HORIZONTAL_PADDING=32;
 const NAME_LABEL_MAX_WIDTH=NAME_PANEL_MAX_WIDTH-NAME_PANEL_HORIZONTAL_PADDING;
 const STATIC_NAME_HUD_GAP=24;
+const NAME_HUD_SCREEN_SCALE=.94;
 
 function labelText(value){
   return new Text({
     text:String(value||''),
     style:{
       fontFamily:'Pretendard, SUIT, Arial, sans-serif',
-      fontSize:16,
+      fontSize:18,
       fill:0xf4fbff,
       fontWeight:'900',
       align:'center',
-      letterSpacing:.35
+      letterSpacing:.5,
+      stroke:{color:0x00111c,width:4,join:'round'},
+      dropShadow:{color:0x000000,alpha:.9,blur:3,distance:2,angle:Math.PI/2}
     }
   });
 }
@@ -88,8 +91,14 @@ export class AccountBattleUnit{
   }
 
   setFormation(x,y,scale=.5){
+    const rootScale=Math.max(.1,Number(scale)||.5);
     this.root.position.set(Number(x)||0,Number(y)||0);
-    this.root.scale.set(Math.max(.1,Number(scale)||.5));
+    this.root.scale.set(rootScale);
+    // The authored suit is intentionally scaled down to fit the sixth PVE
+    // station. Compensate only the nickname HUD so it remains readable at a
+    // stable on-screen size instead of shrinking to ~8 px with the character.
+    this.nameHudScale=clamp(NAME_HUD_SCREEN_SCALE/rootScale,1.55,2.35);
+    this.nameHud.scale.set(this.nameHudScale);
     this.root.baseX=this.root.x;
     this.root.baseY=this.root.y;
     this.root.restScale=this.root.scale.x;
@@ -120,9 +129,12 @@ export class AccountBattleUnit{
     this.nameTruncated=this.displayName!==name;
     const width=clamp(Math.ceil(this.nameLabel.width+NAME_PANEL_HORIZONTAL_PADDING),NAME_PANEL_MIN_WIDTH,NAME_PANEL_MAX_WIDTH);
     this.namePanelWidth=width;
-    this.namePanel.clear().roundRect(-width/2,0,width,NAME_PANEL_HEIGHT,6)
-      .fill({color:0x030910,alpha:.88})
-      .stroke({width:1,color:0x67dcff,alpha:.58});
+    this.namePanel.clear().roundRect(-width/2,0,width,NAME_PANEL_HEIGHT,7)
+      .fill({color:0x02070d,alpha:.96})
+      .stroke({width:2,color:0x72e2ff,alpha:.9})
+      .moveTo(-width/2+10,NAME_PANEL_HEIGHT-3)
+      .lineTo(width/2-10,NAME_PANEL_HEIGHT-3)
+      .stroke({width:2,color:0x9becff,alpha:.88});
     this.nameLabel.position.set(0,NAME_PANEL_HEIGHT/2);
     return this;
   }
@@ -504,7 +516,10 @@ export class AccountBattleUnit{
         truncated:this.nameTruncated,
         panelWidth:this.namePanelWidth,
         panelHeight:NAME_PANEL_HEIGHT,
-        maxTextWidth:NAME_LABEL_MAX_WIDTH
+        maxTextWidth:NAME_LABEL_MAX_WIDTH,
+        hudScale:Number(this.nameHud?.scale?.x||1),
+        screenScale:Number((this.root?.scale?.x||1)*(this.nameHud?.scale?.x||1)),
+        fontSize:18
       },
       affectsDeck:false,
       affectsDamage:true,

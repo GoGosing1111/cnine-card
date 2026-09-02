@@ -15,3 +15,8 @@ v1975 검증 (2026-09-02, _battle_v2_preview.js 를 .mjs 로 복사해 createPve
    엘릭 전역기본값 242만, 기본 70만 전역기본값 85만, 켄신(기본 1000) 1만(하한). 각 30~60ms.
 8. 추정 함수 추가 후 회귀 재실행: 비-아포 PVE 600판 / PVP 200판 불일치 0.
 9. node --check: functions/api/[[path]].js, js/pve-command-v2-live.js 통과.
+10. `npm run test:apocalypse`: 1/1 통과. 실드 HUD의 서버 타임라인 연결, 아포칼립스 전용
+    `BOSS_ULTIMATE` EffectLayer 경로, 12프레임 아틀라스와 86,828바이트 녹음 SFX를 검증.
+11. `npm run test:battle-suit`: 40/40 통과. 닉네임 역스케일·가독성 계약과 기존 PVE 전용
+    배틀슈트 판정·연속 사격·실총음·스프라이트 회귀를 검증.
+12. Chromium 실화면 검수: 보스 실드/HP 분리 표시와 배틀슈트 닉네임의 전장 가독성을 확인.

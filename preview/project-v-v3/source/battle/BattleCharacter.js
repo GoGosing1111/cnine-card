@@ -68,6 +68,8 @@ export class BattleCharacter{
     scale=.48,
     accent=0x55d9ff,
     hp=100,
+    shield=0,
+    maxShield=0,
     animationAdapter=null
   }){
     this.id=id;
@@ -76,6 +78,8 @@ export class BattleCharacter{
     this.accent=accent;
     this.state=CHARACTER_STATE.IDLE;
     this.hp=clamp(hp,0,100);
+    this.shield=Math.max(0,Number(shield)||0);
+    this.maxShield=Math.max(this.shield,Number(maxShield)||0);
     this.baseX=x;
     this.baseY=y;
     this.restScale=scale;
@@ -123,10 +127,28 @@ export class BattleCharacter{
     this.nameLabel=uiText(name,20,0xffffff,'900');
     this.nameLabel.anchor.set(.5);
     this.nameLabel.position.set(110,20);
+    this.shieldShell=new Graphics()
+      .roundRect(10,47,200,14,7)
+      .fill({color:0x03101a,alpha:.96})
+      .stroke({width:1,color:0x69dcff,alpha:.82});
+    this.shieldFill=new Graphics();
+    this.shieldLabel=uiText('',10,0xf1fbff,'900');
+    this.shieldLabel.anchor.set(.5);
+    this.shieldLabel.position.set(110,54);
     this.hpShell=new Graphics().roundRect(10,47,200,14,7).fill({color:0x020407,alpha:.94});
     this.hpFill=new Graphics();
-    this.hud.addChild(this.namePlate,this.nameLabel,this.hpShell,this.hpFill);
+    this.hud.addChild(
+      this.namePlate,
+      this.nameLabel,
+      this.shieldShell,
+      this.shieldFill,
+      this.shieldLabel,
+      this.hpShell,
+      this.hpFill
+    );
     this.root.addChild(this.hud);
+    this.layoutHudBars();
+    this.renderShield();
     this.renderHp();
 
     this.animationController=new BattleAnimation(this);
@@ -298,9 +320,22 @@ export class BattleCharacter{
     this.compactHud=Boolean(enabled);
     this.namePlate.visible=true;
     this.nameLabel.visible=true;
-    const hpOffsetY=this.compactHud?3:0;
-    this.hpShell.position.y=hpOffsetY;
-    this.hpFill.position.y=hpOffsetY;
+    this.layoutHudBars();
+  }
+
+  layoutHudBars(){
+    const compactOffset=this.compactHud?3:0;
+    const hasShield=this.maxShield>0;
+    const shieldOffset=compactOffset;
+    const hpOffset=(hasShield?18:0)+compactOffset;
+    this.shieldShell.position.y=shieldOffset;
+    this.shieldFill.position.y=shieldOffset;
+    this.shieldLabel.position.y=54+shieldOffset;
+    this.hpShell.position.y=hpOffset;
+    this.hpFill.position.y=hpOffset;
+    this.shieldShell.visible=hasShield;
+    this.shieldFill.visible=hasShield;
+    this.shieldLabel.visible=hasShield;
   }
 
   setState(next){
@@ -324,6 +359,31 @@ export class BattleCharacter{
     if(this.hp<=0)this.setState(CHARACTER_STATE.DEAD);
     else if(this.state===CHARACTER_STATE.DEAD)this.setState(CHARACTER_STATE.IDLE);
     return this.hp;
+  }
+
+  setShield(value,maxValue=this.maxShield){
+    const next=Math.max(0,Number(value)||0);
+    this.maxShield=Math.max(next,Number(maxValue)||0);
+    this.shield=clamp(next,0,this.maxShield||next);
+    this.layoutHudBars();
+    this.renderShield();
+    return this.shield;
+  }
+
+  renderShield(){
+    this.shieldFill.clear();
+    if(this.maxShield<=0){
+      this.shieldLabel.text='';
+      return;
+    }
+    const ratio=clamp(this.shield/this.maxShield,0,1);
+    if(ratio>0){
+      this.shieldFill
+        .roundRect(12,50,196*ratio,8,5)
+        .fill({color:ratio<.25?0x4f84a8:0x62ddff,alpha:.98});
+    }
+    this.shieldLabel.text=ratio>0?`SHIELD ${Math.round(ratio*100)}%`:'SHIELD BREAK';
+    this.shieldLabel.style.fill=ratio>0?0xf1fbff:0xffa6af;
   }
 
   renderHp(){

@@ -2,13 +2,13 @@
   "version": "project-v-v3-live-style-event-fx-v2",
   "createdAt": "2026-08-30",
   "previewOnly": true,
-  "runtimeConnected": false,
+  "runtimeConnected": true,
   "deployAllowed": false,
   "assignment": {
-    "status": "UNASSIGNED",
+    "status": "PARTIALLY_ASSIGNED",
     "decisionOwner": "USER",
     "auditionLabelsOnly": true,
-    "note": "No trait, skill, tier, card, raid, boss, or content binding is implied."
+    "note": "boss-ultimate is bound to PVE_APOCALYPSE_BOSS_ULTIMATE. The other five resources remain unassigned."
   },
   "implementation": {
     "renderer": "PixiJS v8 WebGL",
@@ -90,13 +90,13 @@
     {
       "id": "boss-ultimate",
       "auditionLabel": "BOSS ULT.",
-      "binding": null,
+      "binding": "PVE_APOCALYPSE_BOSS_ULTIMATE",
       "fps": 17,
       "collisionFrame": 6,
       "collisionSyncMs": 353,
       "raw": {"path": "assets/source-imagegen-rgb/boss-ultimate-sheet-v2-imagegen-rgb.png", "sha256": "a553844222a8c4f34938df5494cf37f42843c685534cbd48b3fc3552cf91e4e1"},
       "sourceSheet": {"path": "assets/source-sheets/boss-ultimate-sheet-v2.png", "sha256": "4913f1edac595b2c0ef6e0cd5d62610a212c5f3dfa4e3d7af1157ce56e5866d2"},
-      "atlas": {"png": "assets/atlases/boss-ultimate-impact-atlas-v2.png", "pngSha256": "2eb5a2c1648b7f446d3ad18dcdd584ab59760f42ee2093fde752ae0705a6bbe1", "json": "assets/atlases/boss-ultimate-impact-atlas-v2.json", "jsonSha256": "31ded76c0d327cb3457ca360d7d84be0ede373dbde1152321808f033238ada6e"},
+      "atlas": {"png": "assets/atlases/boss-ultimate-impact-atlas-v2.png", "pngSha256": "2eb5a2c1648b7f446d3ad18dcdd584ab59760f42ee2093fde752ae0705a6bbe1", "json": "assets/atlases/boss-ultimate-impact-atlas-v2.json", "jsonSha256": "61adfed1a53386243cfb0391fd118b8d07b1ba85703036cea34680cecea622d6"},
       "audio": {"path": "assets/audio/boss-ultimate-combat-v2.mp3", "sha256": "2af601f8b81b9f3f5863a69a15b2bd438d62282cd0c3b0338c5824557024ede6", "bytes": 86828, "durationMs": 2650, "syncPointMs": 353, "reusedUnmodified": true}
     },
     {
