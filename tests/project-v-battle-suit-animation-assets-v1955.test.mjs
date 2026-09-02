@@ -7,10 +7,10 @@ import sharp from 'sharp';
 
 const root=new URL('../',import.meta.url);
 const manifestUrl=new URL('assets/ui/project-v/account-battle-suits/manifest-v2.json',root);
-const diagnosticsUrl=new URL('assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v4.json',root);
+const diagnosticsUrl=new URL('assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v5.json',root);
 const catalogModuleUrl=new URL('preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js',root);
-const builderUrl=new URL('scripts/build-battle-suit-imagegen-atlases-v6.ps1',root);
-const diagnosticsBuilderUrl=new URL('scripts/build-battle-suit-static-v6-diagnostics.mjs',root);
+const builderUrl=new URL('scripts/build-battle-suit-imagegen-atlases-v7.ps1',root);
+const diagnosticsBuilderUrl=new URL('scripts/build-battle-suit-static-v7-diagnostics.mjs',root);
 
 const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
 const WEAPON_GROUPS=Object.freeze({
@@ -42,7 +42,7 @@ const PRESERVED_ROWS=Object.freeze([
   },
   {
     key:'BATTLE_SUIT_03:EQ_1785427638137',
-    actual:'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v6.png',
+    actual:'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png',
     expected:'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v3.png',
     row:0
   }
@@ -136,18 +136,19 @@ async function pairMap(){
   return result;
 }
 
-test('Battle Suit v6 manifest locks the PVE-only static-pose runtime contract',async()=>{
+test('Battle Suit v7 manifest restores the helmeted Suit 03 M200 and locks the PVE-only static-pose runtime contract',async()=>{
   const manifest=await readManifest();
-  assert.equal(manifest.version,'v6');
+  assert.equal(manifest.version,'v7');
   assert.equal(manifest.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1');
   assert.equal(manifest.scope,'PVE_ONLY');
-  assert.equal(manifest.generationProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v3.json');
+  assert.equal(manifest.generationProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v4.json');
   assert.equal(manifest.renderContract.formation,'AUXILIARY_FRONT_LEFT_FORWARD_TILE');
   assert.equal(manifest.renderContract.canonicalAllyCardCount,5);
   assert.equal(manifest.renderContract.movement,false);
   assert.equal(manifest.renderContract.attack,'STATIC_STANCE_RUNTIME_MUZZLE_AND_AUDIO');
   assert.equal(manifest.renderContract.addsIndependentDamage,false);
   assert.equal(manifest.renderContract.approvedWeaponBinding,'equippedWeapon.code');
+  assert.deepEqual(manifest.powerContract.tiersBySuitCode,{BATTLE_SUIT_01:100000,BATTLE_SUIT_02:200000,BATTLE_SUIT_03:300000});
   assert.equal(manifest.renderContract.sksSourcePolicy,'USER_PROVIDED_SECOND_ROW_TRANSPARENT_NO_REDRAW');
   assert.equal(manifest.animationContract.poseAnimation,false);
   assert.equal(manifest.animationContract.staticPosePolicy,'USER_REWORKED_ROWS_REPEAT_READY_FRAME_IN_ALL_PHASES');
@@ -160,13 +161,16 @@ test('Battle Suit v6 manifest locks the PVE-only static-pose runtime contract',a
   assert.deepEqual(sorted(manifest.weapons.map(item=>item.equipmentCode)),sorted(WEAPON_CODES));
 
   const provenance=JSON.parse(await readFile(assetFileUrl(manifest.generationProvenance),'utf8'));
-  assert.equal(provenance.version,'v3');
+  assert.equal(provenance.version,'v4');
   assert.equal(provenance.tool,'OpenAI built-in image generation tool');
   assert.match(provenance.mode,/deterministic local alpha extraction/i);
-  assert.equal(provenance.buildDiagnostics,'/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v4.json');
+  assert.equal(provenance.buildDiagnostics,'/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v5.json');
   assert.equal(provenance.generatedSources.length,5);
   assert.deepEqual(new Set(provenance.userDecision.reworkedStaticRows),STATIC_PAIRS);
   assert.match(provenance.userDecision.replacementBehavior,/repeat its exact RGBA pixels/i);
+  assert.equal(provenance.correction.pair,'BATTLE_SUIT_03:EQ_1785961300455');
+  assert.match(provenance.correction.action,/restore.*helmeted.*byte-for-byte/i);
+  assert.equal(provenance.correction.sourceSha256,'8CCC81F44A75DFF4D4ABC45039E8A91B0F1E5A2D0416B123E34FCB9219D35C51');
   for(const prompt of Object.values(provenance.finalPromptSet)){
     assert.match(prompt,/horizontal at 0 degrees/i);
     assert.match(prompt,/face|helmet/i);
@@ -235,10 +239,10 @@ test('five reworked rows repeat one crisp standing pose and approved rows remain
   }
 });
 
-test('v4 diagnostics are complete and bind to final image hashes and static-frame policy',async()=>{
+test('v5 diagnostics are complete and bind to final image hashes and static-frame policy',async()=>{
   const [manifest,diagnostics]=await Promise.all([readManifest(),readDiagnostics()]);
-  assert.equal(diagnostics.version,'v4');
-  assert.equal(diagnostics.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_STATIC_STANCE_ATLAS_DIAGNOSTICS_V4');
+  assert.equal(diagnostics.version,'v5');
+  assert.equal(diagnostics.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_STATIC_STANCE_ATLAS_DIAGNOSTICS_V5');
   assert.equal(diagnostics.staticFramePolicy,'IDENTICAL_RGBA_READY_FRAME_COPIED_TO_ALL_FOUR_RUNTIME_PHASES');
   assert.equal(diagnostics.entries.length,12);
   assert.equal(diagnostics.sheets.length,6);
@@ -257,7 +261,7 @@ test('v4 diagnostics are complete and bind to final image hashes and static-fram
     assert.equal(entry.frames.length,4,key);
     assert.ok(entry.frames.every(frame=>frame.edgeAlphaPixels===0),`${key} edge alpha`);
     if(STATIC_PAIRS.has(key)){
-      assert.match(entry.generatedSource,/imagegen-authored-v6\.png$/);
+      assert.match(entry.generatedSource,/imagegen-authored-v[67]\.png$/);
       assert.match(entry.generatedSourceSha256,/^[A-F0-9]{64}$/);
     }
   }
@@ -267,7 +271,7 @@ test('catalog resolves all 12 suit/weapon pairs with measured sole, HUD and muzz
   const {
     ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG,
     resolveAccountBattleSuitAnimation
-  }=await import(`${catalogModuleUrl.href}?v6-static-qc`);
+  }=await import(`${catalogModuleUrl.href}?v7-helmet-qc`);
   const pairs=await pairMap();
   assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,12);
   assert.deepEqual(sorted(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG)),sorted(pairs.keys()));

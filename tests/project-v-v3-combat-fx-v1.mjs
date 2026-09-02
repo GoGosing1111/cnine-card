@@ -33,8 +33,8 @@ assert.match(engine,/const sourceArt=originalCardArtUrl\(card,art\)/,'cut-ins mu
 assert.match(engine,/const sourceArt=originalCardArtUrl\(card,art\);[\s\S]*target\.cutInTexture=await Assets\.load\(sourceArt\)/,'runtime cut-ins must keep using the source card art contract');
 
 assert.doesNotMatch(index,/type="importmap"/,'preview must not depend on cross-origin runtime modules');
-assert.match(index,/project-v-client\.js\?v=67-battle-suit-static-face/);
-assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=88-battle-suit-static-face/);
+assert.match(index,/project-v-client\.js\?v=68-battle-suit03-helmet-power/);
+assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=89-battle-suit03-helmet-power/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>500_000,'public PixiJS bundle must exist');
 
 console.log('project-v V3 combat FX contract: OK');

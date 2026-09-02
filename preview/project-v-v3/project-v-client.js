@@ -29,9 +29,9 @@
   };
   const battleSuitQc={
     suits:{
-      BATTLE_SUIT_01:{name:'외형 01 · 메카닉 화이트 골드',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png'},
-      BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v3.png'},
-      BATTLE_SUIT_03:{name:'외형 03 · 모델 02 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-model02-v3.png'}
+      BATTLE_SUIT_01:{name:'외형 01 · 메카닉 화이트 골드',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png',pvePower:100000},
+      BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v3.png',pvePower:200000},
+      BATTLE_SUIT_03:{name:'외형 03 · 모델 02 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-model02-v3.png',pvePower:300000}
     },
     weapons:{
       EQ_1785427638137:{name:'아발론 M4A1',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png'},
@@ -62,12 +62,12 @@
       id:'QC-JORO',monsterId:'QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',mode:battleQcState.battlefield,isBoss:true,
       projectVMonsterArt:{kind:'APPROVED_MONSTER_SD',name:'결전의 조로',primaryUrl:'/assets/ui/project-v/monsters/nightmare-slime-sd-v1.png',scaleMultiplier:1.08,isBoss:true}
     };
-    const equippedBattleSuit={code:battleQcState.suitCode,name:suit.name,battleSprite:suit.sprite,pvePower:35000,scaleMultiplier:1};
+    const equippedBattleSuit={code:battleQcState.suitCode,name:suit.name,battleSprite:suit.sprite,pvePower:suit.pvePower,scaleMultiplier:1};
     const equippedWeapon={code:battleQcState.weaponCode,name:weapon.name,battleSprite:weapon.sprite,weaponClass:weapon.kind};
     return {
       mode,battlefieldMode:battleQcState.battlefield,contentType:battleQcState.battlefield,
       accountNickname:'핑크빛유두',monster,equippedBattleSuit,equippedWeapon,
-      characterBonus:{battleSuitPve:35000,equippedBattleSuit,equippedWeapon},
+      characterBonus:{battleSuitPve:suit.pvePower,equippedBattleSuit,equippedWeapon},
       v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'},
       battleV2:{mode,battlefieldMode:battleQcState.battlefield,teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}}))},B:{cards:[monsterCard]}},result:{timeline:[]}}
     };
@@ -106,7 +106,7 @@
     const output=document.getElementById('pvBattleQcOutput');
     const suit=battleSuitQc.suits[battleQcState.suitCode];
     const weapon=battleSuitQc.weapons[battleQcState.weaponCode];
-    if(output)output.textContent=message||`${suit.name} · ${weapon.name} · ${pveAllowed?'사격 대기':'경쟁 콘텐츠 유닛 차단 검증'}`;
+    if(output)output.textContent=message||`${suit.name} · PVE +${suit.pvePower.toLocaleString('ko-KR')} · ${weapon.name} · ${pveAllowed?'사격 대기':'경쟁 콘텐츠 유닛 차단 검증'}`;
     return {diagnostics,unit,pvePass};
   };
   const ensureBattleQcSession=async({reset=false}={})=>{
@@ -158,7 +158,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=88-battle-suit-static-face';
+        script.src='project-v-pixi-battle.bundle.js?v=89-battle-suit03-helmet-power';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);
@@ -243,7 +243,8 @@
   document.querySelectorAll('[data-qc-suit]').forEach(button=>button.addEventListener('click',async()=>{
     setActiveWithin('[data-qc-suit]',button);
     battleQcState.suitCode=button.dataset.qcSuit;
-    await rebuildBattleQc(`${battleSuitQc.suits[battleQcState.suitCode].name} 적용 완료`);
+    const suit=battleSuitQc.suits[battleQcState.suitCode];
+    await rebuildBattleQc(`${suit.name} · PVE +${suit.pvePower.toLocaleString('ko-KR')} 적용 완료`);
   }));
   document.querySelectorAll('[data-qc-weapon]').forEach(button=>button.addEventListener('click',async()=>{
     setActiveWithin('[data-qc-weapon]',button);

@@ -1,0 +1,135 @@
+{
+  "version": "v4",
+  "tool": "OpenAI built-in image generation tool",
+  "mode": "exact prior ImageGen source restoration followed by deterministic local alpha extraction and atlas assembly",
+  "purpose": "Restore Battle Suit 03 M200 to the original helmeted exterior without regenerating or redesigning the suit, weapon, pose or helmet.",
+  "correction": {
+    "pair": "BATTLE_SUIT_03:EQ_1785961300455",
+    "cause": "The V6 open-face whole-image edit removed the approved helmet and altered the exterior.",
+    "action": "Discard the open-face edit and restore the earlier helmeted ImageGen source byte-for-byte.",
+    "sourceSha256": "8CCC81F44A75DFF4D4ABC45039E8A91B0F1E5A2D0416B123E34FCB9219D35C51",
+    "lockedInvariants": [
+      "helmet",
+      "magenta-white-black-gold armor",
+      "body silhouette",
+      "standing aim pose",
+      "M200 geometry and horizontal placement"
+    ]
+  },
+  "userDecision": {
+    "approvedUnchanged": [
+      "BATTLE_SUIT_01:EQ_1786966923833",
+      "BATTLE_SUIT_02:EQ_1785427638137",
+      "BATTLE_SUIT_03:EQ_1785427638137"
+    ],
+    "reworkedStaticRows": [
+      "BATTLE_SUIT_01:EQ_1785427638137",
+      "BATTLE_SUIT_01:EQ_1785961232958",
+      "BATTLE_SUIT_01:EQ_1785961300455",
+      "BATTLE_SUIT_02:EQ_1785961300455",
+      "BATTLE_SUIT_03:EQ_1785961300455"
+    ],
+    "rejectedBehavior": "The third action frame distorted the face and exaggerated the body motion.",
+    "replacementBehavior": "Select the clearest first standing/aiming pose and repeat its exact RGBA pixels in ready, fire, recoil and recover. Runtime muzzle flash and firearm audio are the only firing motion cues."
+  },
+  "finalPromptSet": {
+    "battleSuit01M4A1": "Create a clean four-panel game sprite strip of the same adult female white-gold-cyan mechanical Battle Suit holding a detailed futuristic Avalon M4A1. Keep the rifle perfectly horizontal at 0 degrees, stock seated at the shoulder, rear hand on the pistol grip and front hand under the handguard. Preserve a clear attractive face, full body, long adult proportions, firm standing aim, consistent scale and exact costume identity in every panel. Transparent-ready neutral checkerboard background, no UI, text, logo, watermark, muzzle flash or extra weapon.",
+    "battleSuit01AK": "Create a clean four-panel game sprite strip of the same adult female white-gold-cyan mechanical Battle Suit holding the approved ornate black-gold-red Infinity AK design. The entire rifle must be visible and perfectly horizontal at 0 degrees without crossing through the torso; stock at shoulder, trigger hand on grip, support hand under handguard. Preserve one clear face, full body, adult proportions, steady standing aim and consistent costume in every panel. Transparent-ready neutral checkerboard background, no UI, text, logo, watermark, muzzle flash or extra weapon.",
+    "battleSuit01M200": "Create a clean four-panel game sprite strip of the same adult female white-gold-cyan mechanical Battle Suit holding the approved long black-orange-gold Infinity M200 sniper rifle. Keep the barrel perfectly horizontal at 0 degrees, full rifle silhouette visible, stock firmly at shoulder, eye behind optic, rear hand on trigger grip and forward hand naturally supporting the rifle. Preserve a sharp face, full body, adult proportions and restrained standing aim in every panel. Transparent-ready neutral checkerboard background, no UI, text, logo, watermark, muzzle flash or extra weapon.",
+    "battleSuit02M200": "Create a clean four-panel game sprite strip of the approved adult female Battle Suit 02 model: short orange bob, black tactical bodysuit, white mechanical arm and shin armor, cyan accents and split navy coat tails. She holds the approved long black-orange-gold Infinity M200 sniper rifle perfectly horizontal at 0 degrees with shoulder, trigger-hand, support-hand and optic contact all physically correct. Keep the face crisp, the full body large and consistently scaled, and use a steady standing aim. Transparent-ready neutral checkerboard background, no UI, text, logo, watermark, muzzle flash or extra weapon.",
+    "battleSuit03M200": "Restore the exact earlier Battle Suit 03 M200 strip with its closed magenta mechanical helmet intact. Keep the full-body pose, proportions, magenta-white-black-gold armor and the entire black-orange-gold M200 rifle geometry, size, scope, barrel, stock, suppressor and placement perfectly horizontal at 0 degrees. Do not remove or redesign the helmet; do not change the face, armor, silhouette, hands, weapon or stance. Keep the first panel as the authoritative restrained standing aim. No UI, text, logo, watermark, muzzle flash, extra weapon, extra limb or exaggerated motion."
+  },
+  "generatedSources": [
+    {
+      "pair": "BATTLE_SUIT_01:EQ_1785427638137",
+      "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-m4a1-imagegen-authored-v6.png",
+      "sha256": "36CF463D2C53723CFD0A4BBBFF6CD6112E5DA630883A74256E07C5A80ADCAF7E",
+      "dimensions": { "width": 1672, "height": 941 },
+      "selectedPanel": 0
+    },
+    {
+      "pair": "BATTLE_SUIT_01:EQ_1785961232958",
+      "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-ak-imagegen-authored-v6.png",
+      "sha256": "158B12240D45A6433DDF6856E7E25C62E07E9A97BA8B8F2183585AF186D36183",
+      "dimensions": { "width": 1672, "height": 941 },
+      "selectedPanel": 0
+    },
+    {
+      "pair": "BATTLE_SUIT_01:EQ_1785961300455",
+      "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-m200-imagegen-authored-v6.png",
+      "sha256": "6C8F957FBFAF5DC1F2053475B4654E6BB8EDAE1A928C96FC7E7B91B7CFFDD6D8",
+      "dimensions": { "width": 1672, "height": 941 },
+      "selectedPanel": 0
+    },
+    {
+      "pair": "BATTLE_SUIT_02:EQ_1785961300455",
+      "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-m200-imagegen-authored-v6.png",
+      "sha256": "2D831746DE4AB45D09FAF1216DA27EBD47FFB81CA00C71BDE40F266E8D4568F6",
+      "dimensions": { "width": 1973, "height": 797 },
+      "selectedPanel": 0
+    },
+    {
+      "pair": "BATTLE_SUIT_03:EQ_1785961300455",
+      "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-m200-helmeted-imagegen-authored-v7.png",
+      "sha256": "8CCC81F44A75DFF4D4ABC45039E8A91B0F1E5A2D0416B123E34FCB9219D35C51",
+      "dimensions": { "width": 1672, "height": 941 },
+      "selectedPanel": 0
+    }
+  ],
+  "processing": {
+    "builder": "/scripts/build-battle-suit-imagegen-atlases-v7.ps1",
+    "backgroundRemoval": "Edge-connected neutral checkerboard flood removal; character and weapon pixels are not color-keyed internally.",
+    "componentSelection": "Largest connected foreground component in panel 0.",
+    "frameSize": { "width": 384, "height": 512 },
+    "maxVisibleSize": { "width": 374, "height": 440 },
+    "baselineY": 479,
+    "framePolicy": "Panel 0 is rasterized once, then the same RGBA buffer is copied byte-for-byte into all four runtime columns.",
+    "runtimeEffects": ["muzzle flash", "rifle audio"],
+    "embeddedEffects": []
+  },
+  "preservedRows": [
+    {
+      "pair": "BATTLE_SUIT_01:EQ_1786966923833",
+      "source": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v5.png",
+      "sourceRow": 1,
+      "target": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v6.png",
+      "targetRow": 1,
+      "verification": "RAW_RGBA_PIXEL_IDENTICAL"
+    },
+    {
+      "pair": "BATTLE_SUIT_02:EQ_1785427638137",
+      "source": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v3.png",
+      "sourceRow": 0,
+      "target": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "targetRow": 0,
+      "verification": "RAW_RGBA_PIXEL_IDENTICAL"
+    },
+    {
+      "pair": "BATTLE_SUIT_03:EQ_1785427638137",
+      "source": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v3.png",
+      "sourceRow": 0,
+      "target": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+      "targetRow": 0,
+      "verification": "RAW_RGBA_PIXEL_IDENTICAL"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "sha256": "19451610059B6AB887F4F782B3929775CFA848588D17DAF5EDD3BDDBEB76AF94"
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v6.png",
+      "sha256": "F8B57CFE4305A90DD8EF14D2C516BCCBE5D9C7DCF89CCB7A8726D0CA5A60487B"
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "sha256": "41FE221A9BF5F85ED84BA40D9C906EB5CEA168C9E638AD490DD56017F1EC27E9"
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+      "sha256": "261D003437A3CCA743E9AFD93A6841AC5EEF483BCED65148C0A8709E26A6C21F"
+    }
+  ],
+  "buildDiagnostics": "/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v5.json"
+}

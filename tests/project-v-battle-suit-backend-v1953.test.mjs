@@ -13,6 +13,7 @@ import {
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
+const powerTierMigrationUrl=new URL('../database/migrations/0089_v1969_battle_suit_power_tiers.sql',import.meta.url);
 const assetManifestUrl=new URL('../assets/ui/project-v/account-battle-suits/manifest-v1.json',import.meta.url);
 const siegeUrl=new URL('../functions/_siege.js',import.meta.url);
 const apiUrl=new URL('../functions/api/[[path]].js',import.meta.url);
@@ -60,6 +61,7 @@ test('battle-suit CMS power is PVE-only and the catalog points at the three appr
   assert.deepEqual(__equipmentTest.equipmentPowerForSlot('BATTLE_SUIT',{totalPower:900}),{total:900,pve:900,pvp:0});
   assert.deepEqual(__equipmentTest.equipmentPowerForSlot('WEAPON',{totalPower:100}),{total:100,pve:90,pvp:10});
   assert.deepEqual(__equipmentTest.BATTLE_SUIT_CATALOG.map(item=>item.code),['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
+  assert.deepEqual(__equipmentTest.BATTLE_SUIT_CATALOG.map(item=>item.pvePower),[100000,200000,300000]);
   assert.ok(__equipmentTest.BATTLE_SUIT_CATALOG.every(item=>item.image.startsWith('/assets/ui/project-v/account-battle-suits/suits/')));
   assert.match(__equipmentTest.BATTLE_SUIT_CATALOG[0].image,/white-gold-female-v2\.png$/);
 });
@@ -115,10 +117,33 @@ test('battle-suit migration is idempotent, starts at zero power and never opts i
   assert.equal(rerun.supply_weight,0);
 });
 
+test('V1969 migration applies the exact 100k/200k/300k PVE tiers and keeps PVP disabled',async()=>{
+  const sqlite=new DatabaseSync(':memory:');
+  createEquipmentSchema(sqlite);
+  sqlite.exec(await readFile(migrationUrl,'utf8'));
+  sqlite.exec(await readFile(powerTierMigrationUrl,'utf8'));
+
+  const rows=sqlite.prepare("SELECT code,total_power,pve_power,pvp_power,supply_enabled,supply_weight FROM character_equipment_items WHERE slot='BATTLE_SUIT' ORDER BY code").all();
+  assert.deepEqual(rows.map(row=>({
+    code:row.code,
+    totalPower:row.total_power,
+    pvePower:row.pve_power,
+    pvpPower:row.pvp_power,
+    supplyEnabled:row.supply_enabled,
+    supplyWeight:row.supply_weight,
+  })),[
+    {code:'BATTLE_SUIT_01',totalPower:100000,pvePower:100000,pvpPower:0,supplyEnabled:0,supplyWeight:0},
+    {code:'BATTLE_SUIT_02',totalPower:200000,pvePower:200000,pvpPower:0,supplyEnabled:0,supplyWeight:0},
+    {code:'BATTLE_SUIT_03',totalPower:300000,pvePower:300000,pvpPower:0,supplyEnabled:0,supplyWeight:0},
+  ]);
+  assert.equal(sqlite.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1969_battle_suit_power_tiers'").get().value,'1');
+});
+
 test('runtime Battle Suit and weapon cutout manifest matches the committed assets',async()=>{
   const manifest=JSON.parse(await readFile(assetManifestUrl,'utf8'));
   assert.equal(manifest.scope,'PVE_ONLY');
   assert.equal(manifest.powerContract.pvpTotalIncludesBattleSuit,false);
+  assert.deepEqual(manifest.powerContract.tiersBySuitCode,{BATTLE_SUIT_01:100000,BATTLE_SUIT_02:200000,BATTLE_SUIT_03:300000});
   assert.equal(manifest.renderContract.canonicalAllyCardCount,5);
   assert.equal(manifest.renderContract.addsIndependentDamage,false);
   assert.deepEqual(manifest.suits.map(item=>item.code),['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
@@ -162,7 +187,8 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   await ensureEquipmentFoundation({DB});
   const suits=DB.db.prepare("SELECT * FROM character_equipment_items WHERE slot='BATTLE_SUIT' ORDER BY code").all();
   assert.equal(suits.length,3);
-  assert.ok(suits.every(row=>row.pve_power===0&&row.pvp_power===0&&row.supply_enabled===0));
+  assert.deepEqual(suits.map(row=>row.pve_power),[100000,200000,300000]);
+  assert.ok(suits.every(row=>row.pvp_power===0&&row.supply_enabled===0));
 
   DB.db.prepare("UPDATE character_equipment_items SET total_power=250,pve_power=250,pvp_power=999 WHERE code='BATTLE_SUIT_01'").run();
   DB.db.prepare("INSERT INTO character_equipment_items(code,name,slot,subtype,rarity,image_url,total_power,pve_power,pvp_power,is_active,is_public,sort_order,supply_enabled,supply_weight) VALUES('WEAPON_TEST','V3 테스트 무기','WEAPON','RIFLE','RARE','assets/test-weapon.png',130,100,30,1,1,1,0,0)").run();

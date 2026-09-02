@@ -38,7 +38,7 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
   assert.match(html,/project-v-firearm-qc-audio\.js\?v=6-sks-dmr-proxy/);
-  assert.match(html,/project-v-client\.js\?v=67-battle-suit-static-face/);
+  assert.match(html,/project-v-client\.js\?v=68-battle-suit03-helmet-power/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
@@ -52,11 +52,14 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=88-battle-suit-static-face/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=89-battle-suit03-helmet-power/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
-  assert.match(client,/battleSuitPve:35000/);
+  assert.match(client,/BATTLE_SUIT_01:\{[^}]*pvePower:100000/);
+  assert.match(client,/BATTLE_SUIT_02:\{[^}]*pvePower:200000/);
+  assert.match(client,/BATTLE_SUIT_03:\{[^}]*pvePower:300000/);
+  assert.match(client,/battleSuitPve:suit\.pvePower/);
   assert.match(client,/canonicalAllyFormationCount/);
   assert.match(client,/unit\.affectsDamage===false/);
   assert.match(css,/\.pv-battle-suit-qc\{/);

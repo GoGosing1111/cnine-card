@@ -26,7 +26,7 @@ const SHEET_URL_OVERRIDES=Object.freeze({
   'BATTLE_SUIT_01:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v6.png',
   'BATTLE_SUIT_02:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png',
   'BATTLE_SUIT_02:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png',
-  'BATTLE_SUIT_03:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v6.png',
+  'BATTLE_SUIT_03:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png',
   'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png'
 });
 
@@ -48,8 +48,9 @@ const solePivots=(ready,fire,recoil,recover)=>Object.freeze({
 
 // Measured directly from the final RGBA atlases. For every frame, X is the
 // alpha>=16 centroid of the lowest nine visible pixel rows and Y is the lowest
-// visible pixel. User-requested v6 rows repeat one crisp standing/aiming pose
-// across all runtime phases. Approved SKS and M4 rows remain pixel-locked.
+// visible pixel. User-requested static rows repeat one crisp standing/aiming
+// pose across all runtime phases. V7 restores Suit 03 M200's original helmet;
+// approved SKS and M4 rows remain pixel-locked.
 const SOLE_PIVOTS_BY_SUIT_PAIR_ROW=Object.freeze({
   'BATTLE_SUIT_01:m4a1-m200:0':solePivots([55.265,478],[55.265,478],[55.265,478],[55.265,478]),
   'BATTLE_SUIT_01:m4a1-m200:1':solePivots([22.005,478],[22.005,478],[22.005,478],[22.005,478]),
@@ -60,7 +61,7 @@ const SOLE_PIVOTS_BY_SUIT_PAIR_ROW=Object.freeze({
   'BATTLE_SUIT_02:ak-sks:0':solePivots([92.858,478],[90.858,478],[87.858,475],[90.858,477]),
   'BATTLE_SUIT_02:ak-sks:1':solePivots([39.958,477],[38.260,477],[39.000,474],[40.631,476]),
   'BATTLE_SUIT_03:m4a1-m200:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
-  'BATTLE_SUIT_03:m4a1-m200:1':solePivots([20.750,478],[20.750,478],[20.750,478],[20.750,478]),
+  'BATTLE_SUIT_03:m4a1-m200:1':solePivots([20.869,478],[20.869,478],[20.869,478],[20.869,478]),
   'BATTLE_SUIT_03:ak-sks:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
   'BATTLE_SUIT_03:ak-sks:1':solePivots([20.565,476],[18.158,476],[18.377,473],[18.911,475])
 });
@@ -78,7 +79,7 @@ const PAIR_TUNING=Object.freeze({
   'BATTLE_SUIT_02:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,122/512),
   'BATTLE_SUIT_02:EQ_1786966923833':tuning(1.4,39/512,477/512,376/384,124/512),
   'BATTLE_SUIT_03:EQ_1785427638137':tuning(1.4,36/512,478/512,379/384,119/512),
-  'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.47,78/512,478/512,377/384,159/512),
+  'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.47,79/512,478/512,377/384,160/512),
   'BATTLE_SUIT_03:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,126/512),
   'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,57/512,476/512,375/384,145/512)
 });

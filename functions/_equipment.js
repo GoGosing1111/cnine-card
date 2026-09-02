@@ -19,9 +19,9 @@ const SUPPLY_BOX_MAX_OPEN=500;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
 const BATTLE_SUIT_CATALOG=[
-  {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png',description:'백금 날개 여성형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:10},
-  {code:'BATTLE_SUIT_02',name:'배틀슈트 02',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',description:'주황색 전술형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:20},
-  {code:'BATTLE_SUIT_03',name:'배틀슈트 03',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png',description:'자수정 기계갑주형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:30}
+  {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png',description:'백금 날개 여성형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:100000,sortOrder:10},
+  {code:'BATTLE_SUIT_02',name:'배틀슈트 02',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',description:'주황색 전술형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:200000,sortOrder:20},
+  {code:'BATTLE_SUIT_03',name:'배틀슈트 03',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png',description:'자수정 기계갑주형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:300000,sortOrder:30}
 ];
 const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1,quantity:1},PVE_AUTO:{enabled:true,rate:.05,quantity:1},TOWER:{enabled:true,rate:.2,quantity:1},RAID:{enabled:true,rate:1,quantity:1},RIFT:{enabled:true,rate:.5,quantity:1},PVP:{enabled:true,rate:.2,quantity:1},CAPTAIN:{enabled:true,rate:.3,quantity:1}}};
 let foundationPromise=null,supplySettingsCache=null,supplySettingsCacheAt=0,equipmentPromotionCache=null,equipmentPromotionCacheAt=0;
@@ -481,6 +481,14 @@ export async function ensureEquipmentFoundation(env){
           WHERE code='BATTLE_SUIT_01'`).bind(refreshed.image,refreshed.description),
         env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1959_battle_suit_01_female','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP")
       ]);
+    }
+    const battleSuitPowerMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1969_battle_suit_power_tiers'").first();
+    if(battleSuitPowerMarker?.value!=='1'){
+      const statements=BATTLE_SUIT_CATALOG.map(item=>env.DB.prepare(`UPDATE character_equipment_items
+        SET total_power=?,pve_power=?,pvp_power=0,supply_enabled=0,supply_weight=0,updated_at=CURRENT_TIMESTAMP
+        WHERE code=? AND slot='BATTLE_SUIT'`).bind(item.pvePower,item.pvePower,item.code));
+      statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1969_battle_suit_power_tiers','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP"));
+      await env.DB.batch(statements);
     }
     return true;
   })().catch(error=>{foundationPromise=null;throw error});

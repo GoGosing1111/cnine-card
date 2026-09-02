@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1968-battle-suit-static-face';
+const SHELL_CACHE='soop-card-shell-v1969-battle-suit03-helmet-power';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

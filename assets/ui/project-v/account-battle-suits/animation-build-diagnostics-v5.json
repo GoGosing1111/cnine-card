@@ -1,0 +1,1079 @@
+{
+  "version": "v5",
+  "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_STATIC_STANCE_ATLAS_DIAGNOSTICS_V5",
+  "sha256Algorithm": "SHA-256",
+  "generatedBy": "/scripts/build-battle-suit-static-v7-diagnostics.mjs",
+  "frameSize": {
+    "width": 384,
+    "height": 512
+  },
+  "alphaThreshold": 16,
+  "bottomBandPx": 9,
+  "staticFramePolicy": "IDENTICAL_RGBA_READY_FRAME_COPIED_TO_ALL_FOUR_RUNTIME_PHASES",
+  "sheets": [
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "group": "m4a1M200",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "sha256": "19451610059B6AB887F4F782B3929775CFA848588D17DAF5EDD3BDDBEB76AF94",
+      "dimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "composition": "IMAGEGEN_AUTHORED_STATIC_FULL_COMPOSITE_V6"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "group": "akSks",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v6.png",
+      "sha256": "F8B57CFE4305A90DD8EF14D2C516BCCBE5D9C7DCF89CCB7A8726D0CA5A60487B",
+      "dimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "composition": "AK_IMAGEGEN_STATIC_ROW_PLUS_PIXEL_LOCKED_USER_APPROVED_SKS_ROW_V6"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "group": "m4a1M200",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "sha256": "41FE221A9BF5F85ED84BA40D9C906EB5CEA168C9E638AD490DD56017F1EC27E9",
+      "dimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "composition": "PIXEL_LOCKED_APPROVED_M4_ROW_PLUS_IMAGEGEN_STATIC_M200_ROW_V6"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "group": "akSks",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png",
+      "sha256": "BC6CA5C5366C5A92D1311EF88764E3D4D297E8F81D7E1DA817EC784D61EA0B48",
+      "dimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "composition": "AK_EXACT_DATABASE_ROW_PLUS_USER_AUTHORED_SKS_SECOND_ROW_V5"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "group": "m4a1M200",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+      "sha256": "261D003437A3CCA743E9AFD93A6841AC5EEF483BCED65148C0A8709E26A6C21F",
+      "dimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "composition": "PIXEL_LOCKED_APPROVED_M4_ROW_PLUS_EXACT_HELMETED_IMAGEGEN_STATIC_M200_ROW_V7"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "group": "akSks",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png",
+      "sha256": "A4873E671CA04E42D16F59B3891EB825F64946C9440CB8C246F55C8116DC054F",
+      "dimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "composition": "AK_EXACT_DATABASE_ROW_PLUS_USER_AUTHORED_SKS_SECOND_ROW_V5"
+    }
+  ],
+  "entries": [
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1785427638137",
+      "weaponSlug": "m4a1",
+      "group": "m4a1M200",
+      "row": 0,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "frameMode": "STATIC_STANDING_AIM",
+      "exactPixelRepeat": true,
+      "uniqueFrameHashes": 1,
+      "generatedSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-m4a1-imagegen-authored-v6.png",
+      "generatedSourceSha256": "36CF463D2C53723CFD0A4BBBFF6CD6112E5DA630883A74256E07C5A80ADCAF7E",
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 41,
+          "contentBottom": 478,
+          "visibleHeight": 438,
+          "solePivot": {
+            "x": 55.265,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 345,
+            "y": 148
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "1D4F90DA43968EA6C14969C32F3F38E1BD2F1282B447128BE43654D95870E8A1"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 41,
+          "contentBottom": 478,
+          "visibleHeight": 438,
+          "solePivot": {
+            "x": 55.265,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 345,
+            "y": 148
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "1D4F90DA43968EA6C14969C32F3F38E1BD2F1282B447128BE43654D95870E8A1"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 41,
+          "contentBottom": 478,
+          "visibleHeight": 438,
+          "solePivot": {
+            "x": 55.265,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 345,
+            "y": 148
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "1D4F90DA43968EA6C14969C32F3F38E1BD2F1282B447128BE43654D95870E8A1"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 41,
+          "contentBottom": 478,
+          "visibleHeight": 438,
+          "solePivot": {
+            "x": 55.265,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 345,
+            "y": 148
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "1D4F90DA43968EA6C14969C32F3F38E1BD2F1282B447128BE43654D95870E8A1"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1785961300455",
+      "weaponSlug": "m200",
+      "group": "m4a1M200",
+      "row": 1,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "frameMode": "STATIC_STANDING_AIM",
+      "exactPixelRepeat": true,
+      "uniqueFrameHashes": 1,
+      "generatedSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-m200-imagegen-authored-v6.png",
+      "generatedSourceSha256": "6C8F957FBFAF5DC1F2053475B4654E6BB8EDAE1A928C96FC7E7B91B7CFFDD6D8",
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 64,
+          "contentBottom": 478,
+          "visibleHeight": 415,
+          "solePivot": {
+            "x": 22.005,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 161
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "27D804D6DEC497C75BD8C554AB1D2755AC82DBAFAE7C5FB8B47DFF8BA58A1C05"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 64,
+          "contentBottom": 478,
+          "visibleHeight": 415,
+          "solePivot": {
+            "x": 22.005,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 161
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "27D804D6DEC497C75BD8C554AB1D2755AC82DBAFAE7C5FB8B47DFF8BA58A1C05"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 64,
+          "contentBottom": 478,
+          "visibleHeight": 415,
+          "solePivot": {
+            "x": 22.005,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 161
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "27D804D6DEC497C75BD8C554AB1D2755AC82DBAFAE7C5FB8B47DFF8BA58A1C05"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 64,
+          "contentBottom": 478,
+          "visibleHeight": 415,
+          "solePivot": {
+            "x": 22.005,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 161
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "27D804D6DEC497C75BD8C554AB1D2755AC82DBAFAE7C5FB8B47DFF8BA58A1C05"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1785961232958",
+      "weaponSlug": "ak",
+      "group": "akSks",
+      "row": 0,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v6.png",
+      "frameMode": "STATIC_STANDING_AIM",
+      "exactPixelRepeat": true,
+      "uniqueFrameHashes": 1,
+      "generatedSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-ak-imagegen-authored-v6.png",
+      "generatedSourceSha256": "158B12240D45A6433DDF6856E7E25C62E07E9A97BA8B8F2183585AF186D36183",
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 47,
+          "contentBottom": 478,
+          "visibleHeight": 432,
+          "solePivot": {
+            "x": 23.406,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 154
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "6DC7FCFE95B52297D0D0EDAD993F193DFD2FAFCD11B0838B8E171A0AF690F702"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 47,
+          "contentBottom": 478,
+          "visibleHeight": 432,
+          "solePivot": {
+            "x": 23.406,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 154
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "6DC7FCFE95B52297D0D0EDAD993F193DFD2FAFCD11B0838B8E171A0AF690F702"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 47,
+          "contentBottom": 478,
+          "visibleHeight": 432,
+          "solePivot": {
+            "x": 23.406,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 154
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "6DC7FCFE95B52297D0D0EDAD993F193DFD2FAFCD11B0838B8E171A0AF690F702"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 47,
+          "contentBottom": 478,
+          "visibleHeight": 432,
+          "solePivot": {
+            "x": 23.406,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 154
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "6DC7FCFE95B52297D0D0EDAD993F193DFD2FAFCD11B0838B8E171A0AF690F702"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1786966923833",
+      "weaponSlug": "sks",
+      "group": "akSks",
+      "row": 1,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v6.png",
+      "frameMode": "PRESERVED_APPROVED_ANIMATION",
+      "exactPixelRepeat": false,
+      "uniqueFrameHashes": 4,
+      "generatedSource": null,
+      "generatedSourceSha256": null,
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 41,
+          "contentBottom": 476,
+          "visibleHeight": 436,
+          "solePivot": {
+            "x": 24.987,
+            "y": 476
+          },
+          "muzzle": {
+            "x": 376,
+            "y": 132
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "AC35FB98682DFC09967D2C602048A1BDA98B1404C761CE068760E889FB64CDB8"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 41,
+          "contentBottom": 476,
+          "visibleHeight": 436,
+          "solePivot": {
+            "x": 23.503,
+            "y": 476
+          },
+          "muzzle": {
+            "x": 374,
+            "y": 133
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "8E662756CC27CD2B66B33579D885FE1CE24C972871D554D7D804EE0937F5BBC8"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 38,
+          "contentBottom": 473,
+          "visibleHeight": 436,
+          "solePivot": {
+            "x": 20.695,
+            "y": 473
+          },
+          "muzzle": {
+            "x": 372,
+            "y": 129
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "2044E01CA1C2EA5574C2FFE60B053ADD4D2FBC5C5BA4001C4F81C892E48CF2DB"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 40,
+          "contentBottom": 475,
+          "visibleHeight": 436,
+          "solePivot": {
+            "x": 24.125,
+            "y": 475
+          },
+          "muzzle": {
+            "x": 374,
+            "y": 131
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "298FDEE44137E20BB85734388672835D8E1FB7471944757DBC30E7590F92A063"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1785427638137",
+      "weaponSlug": "m4a1",
+      "group": "m4a1M200",
+      "row": 0,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "frameMode": "PRESERVED_APPROVED_ANIMATION",
+      "exactPixelRepeat": false,
+      "uniqueFrameHashes": 4,
+      "generatedSource": null,
+      "generatedSourceSha256": null,
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 40,
+          "contentBottom": 479,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 51.526,
+            "y": 479
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 137
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "B0818D1F211C27FABDA8CAE83C0F47A0F554CA9F0771FB16BFE751444BCF02F3"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 61,
+          "contentBottom": 479,
+          "visibleHeight": 419,
+          "solePivot": {
+            "x": 46.451,
+            "y": 479
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 152
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "731E954D2D800C451E1753138BFAF73C1D90F9DFE09542152B5E4861CA7A9151"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 58,
+          "contentBottom": 476,
+          "visibleHeight": 419,
+          "solePivot": {
+            "x": 47.451,
+            "y": 476
+          },
+          "muzzle": {
+            "x": 380,
+            "y": 149
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "589A1F3F3A8D402FF1A4CBBE0E7209BC7795ABBC3194457B379E2FF5980D8D6E"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 39,
+          "contentBottom": 478,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 49.526,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 375,
+            "y": 136
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "D33A5B6DA802E3DBCAB99ADEAA58751E4B4A24A7BB4DDA153F79EB20D92B1941"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1785961300455",
+      "weaponSlug": "m200",
+      "group": "m4a1M200",
+      "row": 1,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png",
+      "frameMode": "STATIC_STANDING_AIM",
+      "exactPixelRepeat": true,
+      "uniqueFrameHashes": 1,
+      "generatedSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-m200-imagegen-authored-v6.png",
+      "generatedSourceSha256": "2D831746DE4AB45D09FAF1216DA27EBD47FFB81CA00C71BDE40F266E8D4568F6",
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 100,
+          "contentBottom": 478,
+          "visibleHeight": 379,
+          "solePivot": {
+            "x": 38.196,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 175
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "9E01F154DACE156D3BD5B05BF6A052A5781CC2A342BDB878273657EBA09B24E5"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 100,
+          "contentBottom": 478,
+          "visibleHeight": 379,
+          "solePivot": {
+            "x": 38.196,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 175
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "9E01F154DACE156D3BD5B05BF6A052A5781CC2A342BDB878273657EBA09B24E5"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 100,
+          "contentBottom": 478,
+          "visibleHeight": 379,
+          "solePivot": {
+            "x": 38.196,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 175
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "9E01F154DACE156D3BD5B05BF6A052A5781CC2A342BDB878273657EBA09B24E5"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 100,
+          "contentBottom": 478,
+          "visibleHeight": 379,
+          "solePivot": {
+            "x": 38.196,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 175
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "9E01F154DACE156D3BD5B05BF6A052A5781CC2A342BDB878273657EBA09B24E5"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1785961232958",
+      "weaponSlug": "ak",
+      "group": "akSks",
+      "row": 0,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png",
+      "frameMode": "PRESERVED_APPROVED_ANIMATION",
+      "exactPixelRepeat": false,
+      "uniqueFrameHashes": 4,
+      "generatedSource": null,
+      "generatedSourceSha256": null,
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 39,
+          "contentBottom": 478,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 92.858,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 122
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "FF6D58C96A2A1F5A47B244F67B827027D573B9F7A40DD3DB32390C9E70BFDBB1"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 39,
+          "contentBottom": 478,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 90.858,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 122
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "7E345C729CDE6A58364F519DF71D644E9D07837998FB60E0EDDFC10C6DA7300F"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 36,
+          "contentBottom": 475,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 87.858,
+            "y": 475
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 119
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "B5F3879928FCB406042148E2B9D62952BCDAB528A25BE68CA79AE920F885CEF8"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 38,
+          "contentBottom": 477,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 90.858,
+            "y": 477
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 121
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "C357C61E2A94C051933692D455BFDCDABB8AD3D1C96FE749E8B1BE5EAC60767E"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1786966923833",
+      "weaponSlug": "sks",
+      "group": "akSks",
+      "row": 1,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png",
+      "frameMode": "PRESERVED_APPROVED_ANIMATION",
+      "exactPixelRepeat": false,
+      "uniqueFrameHashes": 4,
+      "generatedSource": null,
+      "generatedSourceSha256": null,
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 63,
+          "contentBottom": 477,
+          "visibleHeight": 415,
+          "solePivot": {
+            "x": 39.958,
+            "y": 477
+          },
+          "muzzle": {
+            "x": 378,
+            "y": 137
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "785066A8BE4FEEECF5EC9FFDCCD24A1489AC5514309C4EABEA058BFA7D3377C2"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 47,
+          "contentBottom": 477,
+          "visibleHeight": 431,
+          "solePivot": {
+            "x": 38.26,
+            "y": 477
+          },
+          "muzzle": {
+            "x": 376,
+            "y": 124
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "F71D891EDDE838BBE535152C655F79A2B8470E0C9E4DDBEC707ACA7DF96C240F"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 48,
+          "contentBottom": 474,
+          "visibleHeight": 427,
+          "solePivot": {
+            "x": 39,
+            "y": 474
+          },
+          "muzzle": {
+            "x": 376,
+            "y": 124
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "D6CDDB47F44FAFC958C6E1E563B29D52A6392776605D63620E3D0F91CEA9D182"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 39,
+          "contentBottom": 476,
+          "visibleHeight": 438,
+          "solePivot": {
+            "x": 40.631,
+            "y": 476
+          },
+          "muzzle": {
+            "x": 376,
+            "y": 117
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "D4F598B8CF2E1031D713ACAE49C519CF874BA4B1CBF3A0E56C6817933625B61E"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1785427638137",
+      "weaponSlug": "m4a1",
+      "group": "m4a1M200",
+      "row": 0,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+      "frameMode": "PRESERVED_APPROVED_ANIMATION",
+      "exactPixelRepeat": false,
+      "uniqueFrameHashes": 4,
+      "generatedSource": null,
+      "generatedSourceSha256": null,
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 39,
+          "contentBottom": 478,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 80.272,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 119
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "206541AA5F8CA1B9884EA1DF9B3B0374DB3AEAE39263D7885A039255E9D31F54"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 39,
+          "contentBottom": 478,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 78.272,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 119
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "B3A253CFCF03BAC2A9860916E998E9619C4E44A86E9FEE4C1D30C1C222441773"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 36,
+          "contentBottom": 475,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 75.272,
+            "y": 475
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 116
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "023796AE57B74A1091E194D9F7F25A92AC4D0100DAB7521ECEF3F26FDDBA96DA"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 38,
+          "contentBottom": 477,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 78.272,
+            "y": 477
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 118
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "F18C756BF80EAAC12BCE46CC90F6C60DE70EEFC79043F757DB5162CD249F13AD"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1785961300455",
+      "weaponSlug": "m200",
+      "group": "m4a1M200",
+      "row": 1,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+      "frameMode": "STATIC_STANDING_AIM",
+      "exactPixelRepeat": true,
+      "uniqueFrameHashes": 1,
+      "generatedSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-m200-helmeted-imagegen-authored-v7.png",
+      "generatedSourceSha256": "8CCC81F44A75DFF4D4ABC45039E8A91B0F1E5A2D0416B123E34FCB9219D35C51",
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 79,
+          "contentBottom": 478,
+          "visibleHeight": 400,
+          "solePivot": {
+            "x": 20.869,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 160
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "314BBC45CA26BF214BB50E695CEFD0BE9A1F4FF345D3D58A0892C9183E501E6E"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 79,
+          "contentBottom": 478,
+          "visibleHeight": 400,
+          "solePivot": {
+            "x": 20.869,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 160
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "314BBC45CA26BF214BB50E695CEFD0BE9A1F4FF345D3D58A0892C9183E501E6E"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 79,
+          "contentBottom": 478,
+          "visibleHeight": 400,
+          "solePivot": {
+            "x": 20.869,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 160
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "314BBC45CA26BF214BB50E695CEFD0BE9A1F4FF345D3D58A0892C9183E501E6E"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 79,
+          "contentBottom": 478,
+          "visibleHeight": 400,
+          "solePivot": {
+            "x": 20.869,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 160
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "314BBC45CA26BF214BB50E695CEFD0BE9A1F4FF345D3D58A0892C9183E501E6E"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1785961232958",
+      "weaponSlug": "ak",
+      "group": "akSks",
+      "row": 0,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png",
+      "frameMode": "PRESERVED_APPROVED_ANIMATION",
+      "exactPixelRepeat": false,
+      "uniqueFrameHashes": 4,
+      "generatedSource": null,
+      "generatedSourceSha256": null,
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 39,
+          "contentBottom": 478,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 80.272,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 126
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "61E9F35C1087BB9BF021E4F29205FCA792D57A048BD16F2D9306AEDC37843F46"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 39,
+          "contentBottom": 478,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 78.272,
+            "y": 478
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 126
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "4D3FAFB6D6FA1D89D1B106A314ED9888B26EB27A3FA86B1B415CD32F74E09552"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 36,
+          "contentBottom": 475,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 75.272,
+            "y": 475
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 123
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "33DAE20BEC05B8DFEC71DB1AB37E0AE59CC991537723BF92E59F00708B2145DA"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 38,
+          "contentBottom": 477,
+          "visibleHeight": 440,
+          "solePivot": {
+            "x": 78.272,
+            "y": 477
+          },
+          "muzzle": {
+            "x": 379,
+            "y": 125
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "DEA041EF1699A7B29551E5470CEDED9590BC8C097D6CEBAE8DA19B29F8355C8C"
+        }
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1786966923833",
+      "weaponSlug": "sks",
+      "group": "akSks",
+      "row": 1,
+      "sheet": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png",
+      "frameMode": "PRESERVED_APPROVED_ANIMATION",
+      "exactPixelRepeat": false,
+      "uniqueFrameHashes": 4,
+      "generatedSource": null,
+      "generatedSourceSha256": null,
+      "frames": [
+        {
+          "name": "ready",
+          "column": 0,
+          "contentTop": 65,
+          "contentBottom": 476,
+          "visibleHeight": 412,
+          "solePivot": {
+            "x": 20.565,
+            "y": 476
+          },
+          "muzzle": {
+            "x": 377,
+            "y": 148
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "EF185594AAF44C3B45B04FC67EE4EE3751C18545FBE61D570C43D06BC2D15C9F"
+        },
+        {
+          "name": "fire",
+          "column": 1,
+          "contentTop": 61,
+          "contentBottom": 476,
+          "visibleHeight": 416,
+          "solePivot": {
+            "x": 18.158,
+            "y": 476
+          },
+          "muzzle": {
+            "x": 375,
+            "y": 145
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "47395909291BEAC4F14C90A0F687CCD9619F09A2141D0F4FEAABC9D549212712"
+        },
+        {
+          "name": "recoil",
+          "column": 2,
+          "contentTop": 57,
+          "contentBottom": 473,
+          "visibleHeight": 417,
+          "solePivot": {
+            "x": 18.377,
+            "y": 473
+          },
+          "muzzle": {
+            "x": 375,
+            "y": 141
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "99EFA7492CF0A9595584CF303264373FAF290A966A9CDFBE740D23391C30226E"
+        },
+        {
+          "name": "recover",
+          "column": 3,
+          "contentTop": 62,
+          "contentBottom": 475,
+          "visibleHeight": 414,
+          "solePivot": {
+            "x": 18.911,
+            "y": 475
+          },
+          "muzzle": {
+            "x": 375,
+            "y": 145
+          },
+          "edgeAlphaPixels": 0,
+          "rgbaSha256": "5F8D1C477F49DD9315A4EF03B09096F8C39F50BA29E9110073E84F15DFCB51EB"
+        }
+      ]
+    }
+  ]
+}

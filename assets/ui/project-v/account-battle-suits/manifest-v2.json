@@ -1,7 +1,7 @@
 {
-  "version": "v6",
+  "version": "v7",
   "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1",
-  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v3.json",
+  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v4.json",
   "scope": "PVE_ONLY",
   "battleSuitSlot": "BATTLE_SUIT",
   "powerContract": {
@@ -9,7 +9,12 @@
     "battleSuitPveField": "battleSuitPve",
     "pveTotalIncludesBattleSuit": true,
     "pvpTotalIncludesBattleSuit": false,
-    "battleSuitPvpPower": 0
+    "battleSuitPvpPower": 0,
+    "tiersBySuitCode": {
+      "BATTLE_SUIT_01": 100000,
+      "BATTLE_SUIT_02": 200000,
+      "BATTLE_SUIT_03": 300000
+    }
   },
   "renderContract": {
     "formation": "AUXILIARY_FRONT_LEFT_FORWARD_TILE",
@@ -144,9 +149,9 @@
       "sha256": "7B0E6939600E156D9857C55B842A1DD85A7F7CDCAB432483147C859B71B2B67A",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v6.png",
-          "sha256": "A59F27DC5414B361CB910DD09686E3DFD6C3A444B5A46F738E0CC6F5F70888AC",
-          "composition": "PIXEL_LOCKED_APPROVED_M4_ROW_PLUS_IMAGEGEN_STATIC_M200_ROW_V6",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png",
+          "sha256": "261D003437A3CCA743E9AFD93A6841AC5EEF483BCED65148C0A8709E26A6C21F",
+          "composition": "PIXEL_LOCKED_APPROVED_M4_ROW_PLUS_EXACT_HELMETED_IMAGEGEN_STATIC_M200_ROW_V7",
           "weaponRows": [
             {
               "row": 0,

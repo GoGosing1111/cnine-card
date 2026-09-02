@@ -7,7 +7,12 @@
     "battleSuitPveField": "battleSuitPve",
     "pveTotalIncludesBattleSuit": true,
     "pvpTotalIncludesBattleSuit": false,
-    "battleSuitPvpPower": 0
+    "battleSuitPvpPower": 0,
+    "tiersBySuitCode": {
+      "BATTLE_SUIT_01": 100000,
+      "BATTLE_SUIT_02": 200000,
+      "BATTLE_SUIT_03": 300000
+    }
   },
   "renderContract": {
     "formation": "AUXILIARY_FRONT_LEFT_FORWARD_TILE",
