@@ -114,11 +114,17 @@
     if(!api)return false;
     setQcBusy(true);
     try{
+      let restoredWithoutReplay=false;
       if(!battleQcState.mounted){await api.mountForBattle(qcPayload(),document.getElementById('pvPixiBattle'));battleQcState.mounted=true}
-      else if(reset)await api.resetSession(qcPayload(),document.getElementById('pvPixiBattle'));
+      else if(reset){
+        await api.resetSession(qcPayload(),document.getElementById('pvPixiBattle'));
+        // Profile QC swaps must not replay DEPLOY: that animation deliberately
+        // starts every actor at alpha 0 and creates a visible empty battlefield.
+        restoredWithoutReplay=Boolean(await api.restoreDeployedFormation?.());
+      }
       if(!battleRendererRequested)return false;
       await api.setVisible(true);
-      await api.playEvents([{type:'DEPLOY'}]);
+      if(!restoredWithoutReplay)await api.playEvents([{type:'DEPLOY'}]);
       refreshBattleQc();
       return true;
     }finally{setQcBusy(false)}
@@ -152,7 +158,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=86-sks-authored-transparent';
+        script.src='project-v-pixi-battle.bundle.js?v=87-sks-gapless-swap';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);

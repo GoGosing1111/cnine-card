@@ -2021,7 +2021,7 @@ export class BattleEngine{
     });
   }
 
-  deployCards({force=false}={}){
+  deployCards({force=false,instant=false}={}){
     // Live payloads normally deploy once. The standalone QC replay deliberately
     // rewinds every actor to alpha=0, so it must be allowed to replay DEPLOY or
     // the guard would leave all five allied SD actors invisible until restore.
@@ -2030,6 +2030,30 @@ export class BattleEngine{
     const activeAllies=this.allies.filter(character=>character.battleActive!==false).length;
     const activeEnemies=this.enemies.filter(character=>character.battleActive!==false).length;
     this.updateStatus(this.livePayload?'전투 배치 완료 · 자동 전투 시작':`PROJECT V V3 · ${activeAllies} 대 ${activeEnemies} SD 진형 전개`);
+    const activeCharacters=this.characters.filter(character=>character.battleActive!==false);
+    if(instant){
+      if(this.accountBattleUnitEnabled&&this.accountBattleUnit?.active){
+        if(typeof this.accountBattleUnit.setActive==='function')this.accountBattleUnit.setActive(true,{deployed:true});
+        else{
+          this.accountBattleUnit.root.visible=true;
+          this.accountBattleUnit.root.renderable=true;
+          this.accountBattleUnit.root.alpha=1;
+        }
+        this.layoutAccountBattleUnit?.();
+      }
+      activeCharacters.forEach(character=>{
+        const root=character.root;
+        root.visible=true;
+        root.renderable=true;
+        root.alpha=1;
+        root.x=character.baseX;
+        root.y=character.baseY;
+        if(root.scale?.set)root.scale.set(character.restScale);
+        else if(root.scale){root.scale.x=character.restScale;root.scale.y=character.restScale}
+      });
+      this.sortCombatDepth?.();
+      return Promise.resolve(true);
+    }
     return this.timeline(timeline=>{
       if(this.accountBattleUnitEnabled&&this.accountBattleUnit?.active){
         const accountRoot=this.accountBattleUnit.root;
@@ -2038,7 +2062,7 @@ export class BattleEngine{
         // Fixed station: deploy is opacity-only. No entry dash is allowed.
         timeline.fromTo(accountRoot,{alpha:0},{alpha:1,duration:.24,ease:'power2.out'},0);
       }
-      this.characters.filter(character=>character.battleActive!==false).forEach((character,index)=>{
+      activeCharacters.forEach((character,index)=>{
         const root=character.root;
         // A previous final-state sync can mark an unused actor non-renderable.
         // Replay owns a fresh five-actor preview formation, so restore both Pixi

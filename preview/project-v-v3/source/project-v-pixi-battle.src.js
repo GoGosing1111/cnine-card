@@ -49,6 +49,11 @@ async function playEvents(events){
   return engine.playEvents(events);
 }
 
+async function restoreDeployedFormation(){
+  if(!engine)return false;
+  return engine.deployCards({force:true,instant:true});
+}
+
 async function setBattlePayload(payload){
   if(!engine)await mount();
   return engine.setBattlePayload(payload);
@@ -110,7 +115,7 @@ async function playAccountPreviewShot({onAnticipation,onFire}={}){
   }
 }
 
-const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};

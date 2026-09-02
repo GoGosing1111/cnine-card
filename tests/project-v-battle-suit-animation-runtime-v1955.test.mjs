@@ -374,6 +374,47 @@ test('forced live replay redeploy restores all five allied Pixi visibility gates
   assert.equal(engine.liveDeployed,true);
 });
 
+test('instant profile redeploy restores the full live formation without an empty-frame timeline',async()=>{
+  const makeCharacter=(id,active=true)=>({
+    id,battleActive:active,baseX:120,baseY:240,restScale:.55,
+    root:{visible:false,renderable:false,alpha:0,x:-1,y:-1,scale:{x:0,y:0,set(value){this.x=value;this.y=value}}}
+  });
+  const allies=Array.from({length:5},(_,index)=>makeCharacter(`ALLY-${index+1}`));
+  const enemy=makeCharacter('ENEMY-1');
+  const inactive=makeCharacter('ENEMY-INACTIVE',false);
+  const accountRoot={visible:false,renderable:false,alpha:0};
+  let timelineCalls=0,layoutCalls=0,sortCalls=0;
+  const engine=Object.create(BattleEngine.prototype);
+  Object.assign(engine,{
+    livePayload:true,liveDeployed:false,allies,enemies:[enemy,inactive],characters:[...allies,enemy,inactive],cards:[],
+    accountBattleUnitEnabled:true,
+    accountBattleUnit:{
+      active:true,root:accountRoot,
+      setActive(next,{deployed}={}){
+        this.active=Boolean(next);
+        this.root.visible=this.root.renderable=this.active;
+        this.root.alpha=this.active&&deployed?1:0;
+        return this.active;
+      }
+    },
+    updateStatus(){},
+    layoutAccountBattleUnit(){layoutCalls+=1},
+    sortCombatDepth(){sortCalls+=1},
+    timeline(){timelineCalls+=1;return Promise.resolve(true)}
+  });
+
+  assert.equal(await engine.deployCards({force:true,instant:true}),true);
+  assert.equal(timelineCalls,0,'profile swaps must not start the alpha-zero DEPLOY timeline');
+  assert.equal(allies.filter(character=>character.root.visible&&character.root.renderable&&character.root.alpha===1).length,5);
+  assert.equal(enemy.root.visible,true);
+  assert.equal(inactive.root.visible,false);
+  assert.deepEqual({x:allies[0].root.x,y:allies[0].root.y,scale:allies[0].root.scale.x},{x:120,y:240,scale:.55});
+  assert.deepEqual(accountRoot,{visible:true,renderable:true,alpha:1});
+  assert.equal(layoutCalls,1);
+  assert.equal(sortCalls,1);
+  assert.equal(engine.liveDeployed,true);
+});
+
 test('PVE sustained fire preserves weapon cadence differences and never enters the five-card damage contract',async()=>{
   const engine=Object.create(BattleEngine.prototype);
   const target={id:'ENEMY-1',hp:73,root:{x:900,y:420}};

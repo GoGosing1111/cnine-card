@@ -38,7 +38,7 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
   assert.match(html,/project-v-firearm-qc-audio\.js\?v=6-sks-dmr-proxy/);
-  assert.match(html,/project-v-client\.js\?v=65-sks-authored-transparent/);
+  assert.match(html,/project-v-client\.js\?v=66-sks-gapless-swap/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
@@ -52,7 +52,7 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=86-sks-authored-transparent/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=87-sks-gapless-swap/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
@@ -65,6 +65,8 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
 
 test('preview-only public shot hook reports the exact authored fire frame and never adds damage',()=>{
   assert.match(entry,/async function playAccountPreviewShot/);
+  assert.match(entry,/async function restoreDeployedFormation/);
+  assert.match(entry,/engine\.deployCards\(\{force:true,instant:true\}\)/);
   assert.match(entry,/name==='fire'/);
   assert.match(entry,/fireAt=performance\.now\(\)/);
   assert.match(entry,/engine\.playAccountBattleUnitCosmeticShot\(\)/);
@@ -74,12 +76,17 @@ test('preview-only public shot hook reports the exact authored fire frame and ne
   assert.match(entry,/accountPreviewFirearmHook=typeof handler==='function'\?handler:null/);
   assert.match(entry,/engine\.setAccountBattleUnitPreviewFireHook\(accountPreviewFirearmHook\)/);
   assert.match(bundle,/playAccountPreviewShot/,'rebuilt browser bundle must expose the QC hook');
+  assert.match(bundle,/restoreDeployedFormation/,'rebuilt browser bundle must expose gap-free profile restoration');
   assert.match(client,/plan\?\.markVisualFire\?\.\(at\)/);
   assert.match(client,/setAccountPreviewFirearmHook/);
   assert.match(client,/armSustainedShot/);
   assert.match(client,/event\?\.phase==='fire'/);
   assert.match(client,/plan\?\.markVisualFire\?\.\(event\.at\)/);
   assert.match(client,/isCancelled:event\.isCancelled/);
+  const sessionFlow=client.slice(client.indexOf('const ensureBattleQcSession='),client.indexOf('const bindBattleAutoAudioHook='));
+  assert.match(sessionFlow,/restoreDeployedFormation/);
+  assert.ok(sessionFlow.indexOf('restoreDeployedFormation')<sessionFlow.indexOf('setVisible(true)'),'profile formation must be restored before Pixi resumes rendering');
+  assert.match(sessionFlow,/if\(!restoredWithoutReplay\)await api\.playEvents\(\[\{type:'DEPLOY'\}\]\)/);
   assert.match(client,/const battleReplayPlaying=\(\)=>Boolean\(window\.ProjectVPixiBattle\?\.diagnostics\?\.\(\)\.playing\)/);
   const manualFireHandler=client.slice(client.indexOf("document.getElementById('pvBattleSuitFire')"),client.indexOf("document.querySelectorAll('[data-battlefield]')"));
   assert.ok(manualFireHandler.indexOf('battleReplayPlaying()')<manualFireHandler.indexOf('armShot'),'automatic replay guard must run before manual audio is armed');

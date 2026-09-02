@@ -243,7 +243,7 @@ assert.doesNotMatch(css, /rotate\(45deg\)/i);
 assert.doesNotMatch(css, /clip-path/i);
 assert.match(index, /monster-siege-v1887\.css\?v=1897-siege-battle-mobile/);
 assert.match(index, /monster-siege-v1505\.js\?v=1897-siege-battle-mobile/);
-assert.match(index, /js\/app\.js\?v=1966-battle-suit-sks-authored/);
+assert.match(index, /js\/app\.js\?v=1967-battle-suit-sks-gapless/);
 assert.match(adminIndex, /monster-siege-admin-v1890\.css\?v=1890-frontline-balance-cms/);
 assert.match(adminIndex, /monster-siege-admin-v1505\.js\?v=1893-postgres-timestamp-fix/);
 assert.equal(
