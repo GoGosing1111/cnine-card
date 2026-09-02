@@ -526,6 +526,7 @@ test('preview sustained-fire hook schedules at anticipation and measures the exa
     active:true,
     authoredProfile:{durationsMs:{ready:45}},
     hasAuthoredAnimation(){return true},
+    async prepareRangedFireEffects(){return true},
     applyAuthoredFrame(name){this.frame=name;return true},
     async playRangedFire(){
       this.applyAuthoredFrame('ready');
@@ -573,6 +574,7 @@ test('stopping sustained fire during audio anticipation prevents a late visual s
     active:true,
     authoredProfile:{durationsMs:{ready:45}},
     hasAuthoredAnimation(){return true},
+    async prepareRangedFireEffects(){return true},
     applyAuthoredFrame(){return true},
     cancelFire(){},
     async playRangedFire(){visualShots+=1;return true}

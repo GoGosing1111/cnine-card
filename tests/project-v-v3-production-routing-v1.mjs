@@ -21,7 +21,7 @@ for(const token of [
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
   'preview/project-v-v3/project-v-firearm-qc-audio.js?v=7-live-pve-continuous-fire',
-  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=93-battle-suit-continuous-fire',
+  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=94-battle-suit-cold-start-av',
   'js/battle-v3-live.js?v=3.27.0-battle-suit-continuous-fire'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 
@@ -38,7 +38,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=1973-battle-suit-continuous-fire'));
+assert.ok(index.includes('js/app.js?v=1974-battle-suit-cold-start-av'));
 assert.ok(index.includes('js/responsive-battle-sprites-v1815.js?v=1949-zenith-hina-yoning-sd'));
 assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));

@@ -38,6 +38,9 @@ assert.doesNotMatch(ballistic,/\bGraphics\b|roundRect\(|\.circle\(|\.lineTo\(/,
   'muzzle, tracer and monster impact must be authored raster sprites, not runtime vector/CSS stand-ins');
 assert.doesNotMatch(rangedFire,/this\.root\.(?:x|y|position)|damage|setHp|syncTargetHp/);
 assert.match(engine,/triggerAccountBattleUnitBallisticHit/);
+assert.match(unit,/prepareRangedFireEffects\(\)\{[\s\S]*this\.ballisticVfx\?\.prepare/);
+assert.match(engine,/async playAccountBattleUnitShot[\s\S]*await unit\.prepareRangedFireEffects\(\)[\s\S]*if\(previewHook\)/,
+  'cold ballistic assets must finish before recorded audio is scheduled');
 assert.match(engine,/victim\.setState\(CHARACTER_STATE\.HIT\)/);
 assert.match(engine,/isAccountBattleUnitDamageEvent\(event\)/);
 assert.match(engine,/actorId\.includes\(':BATTLE_SUIT:'\)/);

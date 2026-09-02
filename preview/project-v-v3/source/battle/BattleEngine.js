@@ -1280,6 +1280,11 @@ export class BattleEngine{
     const previewRun=this.accountBattleUnitFireRun;
     const previewHook=previewRun?.active?this.accountBattleUnitPreviewFireHook:null;
     const weaponCode=this.accountBattleUnitSustainedFireProfile().weaponCode;
+    // Cold production caches can spend hundreds of milliseconds decoding the
+    // Pixi muzzle/tracer atlases. Finish that work before scheduling WebAudio;
+    // otherwise the recorded impact plays while the first visual shot is still
+    // waiting on textures and can be perceived as missing or detached audio.
+    if(!await unit.prepareRangedFireEffects())return false;
     const visualLeadMs=unit.hasAuthoredAnimation()
       ?Math.max(0,Number(unit.authoredProfile?.durationsMs?.ready)||45)/Math.max(.5,Number(playbackRate)||1)
       :0;

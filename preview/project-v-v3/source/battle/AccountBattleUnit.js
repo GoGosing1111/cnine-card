@@ -400,6 +400,10 @@ export class AccountBattleUnit{
     });
   }
 
+  prepareRangedFireEffects(){
+    return this.ballisticVfx?.prepare?.()||Promise.resolve(false);
+  }
+
   playAuthoredRangedFire({targetX,targetY,weaponCode,onImpact=()=>{},playbackRate=1}){
     this.cancelFire();
     this.stopIdle();
