@@ -6,7 +6,7 @@ import sharp from 'sharp';
 
 import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
-test('avatar foundation seeds ten hidden unsold records and upgrades multi effects without overwriting settings', async () => {
+test('avatar foundation seeds eleven hidden unsold records including Dimwoos without overwriting settings', async () => {
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
@@ -25,18 +25,25 @@ test('avatar foundation seeds ten hidden unsold records and upgrades multi effec
   await ensureAvatarFoundation(env);
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
-  assert.equal(seedStatements.length,10);
+  const legacySeedStatements=seedStatements.filter(statement=>!statement.values.includes('DIMWOOS_ESPORTS_ACE'));
+  assert.equal(seedStatements.length,11);
+  assert.equal(legacySeedStatements.length,10);
   assert.equal(schema.length,17);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
   assert.match(schema[1],/user_id BIGINT NOT NULL/);
-  assert.ok(seedStatements.every(statement=>statement.sql.includes("'UNSET',NULL,'',''")));
-  assert.ok(seedStatements.every(statement=>statement.sql.includes('?,?,0,0,0,?')));
+  assert.ok(legacySeedStatements.every(statement=>statement.sql.includes("'UNSET',NULL,'',''")));
+  assert.ok(legacySeedStatements.every(statement=>statement.sql.includes('?,?,0,0,0,?')));
   assert.ok(schema.some(sql=>sql.includes('CREATE TABLE IF NOT EXISTS avatar_effect_options_v1')));
   assert.ok(schema.some(sql=>sql.includes('ALTER TABLE avatar_user_ownership_v1 ADD COLUMN IF NOT EXISTS expires_at TEXT')));
   const equipmentUpdates=prepared.filter(statement=>statement.sql.includes('UPDATE avatar_catalog_v1 SET equipment_image'));
   assert.equal(equipmentUpdates.length,30);
   assert.equal(equipmentUpdates.filter(statement=>String(statement.values[0]||'').includes('/equipment-v2/')).length,10);
   assert.equal(equipmentUpdates.filter(statement=>String(statement.values[0]||'').includes('/equipment-v3/')).length,10);
+  const dimwoosSeed=seedStatements.find(statement=>statement.values.includes('DIMWOOS_ESPORTS_ACE'));
+  assert.ok(dimwoosSeed);
+  assert.ok(dimwoosSeed.values.includes('딤우스'));
+  assert.ok(dimwoosSeed.values.includes('assets/ui/avatars-v1/equipment-v3/avatar-f08-ember-esports-ace-equipment-v1-640.webp'));
+  assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1985_dimwoos_avatar_v1')));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2')));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3')));
   assert.ok(prepared.some(statement=>statement.sql.includes('ON CONFLICT(avatar_code,option_order) DO NOTHING')));
@@ -56,10 +63,10 @@ test('equipped avatar raid effect increases the usable daily and slot entry limi
   assert.deepEqual(applyAvatarRaidEntryBonus(6,{effects:[{type:'BATTLE_POWER_PERCENT',value:10}]}),{base:6,bonus:0,limit:6});
   assert.deepEqual(applyAvatarRaidEntryBonus(99,{type:'RAID_EXTRA_ENTRY',value:999}),{base:99,bonus:20,limit:119});
 });
-test('all ten final equipment avatars ship as defringed versioned WebP files with real alpha', async () => {
+test('all eleven final equipment avatars ship as defringed versioned WebP files with real alpha', async () => {
   const directory=new URL('../assets/ui/avatars-v1/equipment-v3/',import.meta.url);
   const files=(await readdir(directory)).filter(name=>name.endsWith('.webp')).sort();
-  assert.equal(files.length,10);
+  assert.equal(files.length,11);
   for(const filename of files){
     const url=new URL(filename,directory),header=await readFile(url),metadata=await stat(url);
     assert.equal(header.subarray(0,4).toString('ascii'),'RIFF',`${filename} is not RIFF`);
@@ -96,7 +103,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
     readFile(new URL('../service-worker.js',import.meta.url),'utf8')
   ]);
   assert.match(app,/if\(tab==='avatar'&&!avatarFeatureVisible\(\)\)tab='buy'/);
-  assert.match(exact,/avatar:\s*\['아바타'/);
+  assert.match(exact,/avatar:\s*Object\.freeze\(\{ title: '아바타'/);
   assert.match(exact,/route==='avatar'&&global\.avatarFeatureVisible/);
   assert.match(runtime,/avatar:\s*\{ shell: 'avatar' \}/);
   assert.match(server,/code:'AVATAR_FEATURE_OFF'/);
@@ -107,6 +114,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(server,/safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2/);
   assert.match(server,/safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3/);
   assert.match(server,/safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1/);
+  assert.match(server,/safe_runtime_upgrade_v1985_dimwoos_avatar_v1/);
   assert.match(server,/o\.expires_at IS NULL OR o\.expires_at>CURRENT_TIMESTAMP/);
   assert.match(server,/expiresAt:row\.expires_at\|\|null/);
   assert.match(server,/expires_at=CASE WHEN avatar_user_ownership_v1\.expires_at IS NULL OR excluded\.expires_at IS NULL THEN NULL/);
@@ -127,7 +135,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=1877-pve-mobile-nav-energy/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.7-burning-header-dock/);
-  assert.match(serviceWorker,/soop-card-shell-v1877-pve-mobile-nav-energy/);
+  assert.match(index,/app\.js\?v=1981-superstar-haihiya-early-access-1985-dimwoos-avatar-visual-only/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.17\.0-alchemy/);
+  assert.match(serviceWorker,/soop-card-shell-v1981-superstar-haihiya-early-access-1985-dimwoos-avatar-visual-only/);
 });

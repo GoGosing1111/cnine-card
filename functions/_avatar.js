@@ -10,6 +10,7 @@ const EFFECT_OPTIONS_KEY='safe_runtime_upgrade_v1864_avatar_effect_options_v1';
 const EQUIPMENT_ALPHA_V2_KEY='safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2';
 const EQUIPMENT_ALPHA_V3_KEY='safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3';
 const OWNERSHIP_EXPIRY_KEY='safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1';
+const DIMWOOS_AVATAR_KEY='safe_runtime_upgrade_v1985_dimwoos_avatar_v1';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -34,6 +35,7 @@ const SEEDS=Object.freeze([
   {serial:'A-09',code:'JADE_WIND_RANGER',name:'비취 바람 추적자',callSign:'JADE RANGER',roleLabel:'수림 정찰대장',file:'avatar-m02-jade-wind-ranger-lobby-v1',accent:'#78d39d',effectType:'BATTLE_POWER_PERCENT',effectValue:10,sortOrder:90},
   {serial:'A-10',code:'IVORY_ARCANE_ENGINEER',name:'상아빛 아케인 기술관',callSign:'ARCANE ENGINEER',roleLabel:'정밀 병기 기술관',file:'avatar-m03-ivory-arcane-engineer-lobby-v1',accent:'#d6c49d',effectType:'RAID_EXTRA_ENTRY',effectValue:1,sortOrder:100}
 ]);
+const DIMWOOS_SEED=Object.freeze({serial:'A-11',code:'DIMWOOS_ESPORTS_ACE',name:'딤우스',callSign:'DIMWOOS',roleLabel:'e스포츠 에이스',file:'avatar-f08-ember-esports-ace-lobby-v1',accent:'#ff7a1a',effectType:'COIN_GAIN_PERCENT',effectValue:1,sortOrder:110});
 
 function cleanText(value,max=200){return String(value??'').replace(/[<>`]/g,'').trim().slice(0,max)}
 function cleanBool(value,fallback=false){if(value===undefined||value===null)return fallback;return value===true||value===1||String(value)==='1'||String(value).toLowerCase()==='true'}
@@ -141,6 +143,26 @@ async function ensureAvatarEquipmentAlphaV3(env){
   ]);
 }
 
+async function ensureDimwoosAvatar(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(DIMWOOS_AVATAR_KEY).first();
+  if(marker?.value==='1')return;
+  const seed=DIMWOOS_SEED,lobbyBase='assets/ui/avatars-v1/lobby-v1/',equipmentBase='assets/ui/avatars-v1/equipment-v3/';
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO avatar_catalog_v1(
+      code,serial,name,call_sign,role_label,description,lobby_image,lobby_mobile_image,equipment_image,accent,acquisition_type,coin_price,source_label,source_detail,effect_type,effect_value,is_active,is_public,sale_enabled,sort_order
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,'UNSET',NULL,?,?,?,?,0,0,0,?)
+    ON CONFLICT(code) DO UPDATE SET serial=excluded.serial,name=excluded.name,call_sign=excluded.call_sign,role_label=excluded.role_label,
+      description=excluded.description,lobby_image=excluded.lobby_image,lobby_mobile_image=excluded.lobby_mobile_image,
+      equipment_image=excluded.equipment_image,accent=excluded.accent,updated_at=CURRENT_TIMESTAMP`).bind(
+      seed.code,seed.serial,seed.name,seed.callSign,seed.roleLabel,descriptionFor(seed),`${lobbyBase}${seed.file}-1024.webp`,`${lobbyBase}${seed.file}-640.webp`,
+      `${equipmentBase}${equipmentFileFor(seed)}`,seed.accent,'딤우스','딤우스 카드 원화 기반 아바타',seed.effectType,seed.effectValue,seed.sortOrder
+    ),
+    env.DB.prepare(`INSERT INTO avatar_effect_options_v1(avatar_code,option_order,effect_type,effect_value)
+      VALUES(?,0,?,?) ON CONFLICT(avatar_code,option_order) DO NOTHING`).bind(seed.code,seed.effectType,seed.effectValue),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(DIMWOOS_AVATAR_KEY,'1')
+  ]);
+}
+
 export async function ensureAvatarFoundation(env){
   if(foundationPromise)return foundationPromise;
   foundationPromise=(async()=>{
@@ -165,6 +187,7 @@ export async function ensureAvatarFoundation(env){
     await ensureAvatarEffectOptions(env);
     await ensureAvatarEquipmentAlphaV2(env);
     await ensureAvatarEquipmentAlphaV3(env);
+    await ensureDimwoosAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
