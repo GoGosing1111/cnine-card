@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const MANIFEST_URL='assets/audio/firearm-qc-v1/manifest.json?v=5-cancel-safe-auto-fire';
+  const MANIFEST_URL='assets/audio/firearm-qc-v1/manifest.json?v=6-sks-dmr-proxy';
   const AudioContextClass=globalThis.AudioContext||globalThis.webkitAudioContext||null;
   const activeSources=new Set();
   const sustainedShotGroups=[];

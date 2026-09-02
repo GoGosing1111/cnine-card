@@ -1,7 +1,7 @@
 {
-  "version": "v2",
+  "version": "v3",
   "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1",
-  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v1.json",
+  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v2.json",
   "scope": "PVE_ONLY",
   "battleSuitSlot": "BATTLE_SUIT",
   "powerContract": {
@@ -20,6 +20,10 @@
     "authoredCompositeForApprovedWeapons": true,
     "fallbackBodyAndWeaponAreSeparate": true,
     "approvedWeaponBinding": "equippedWeapon.code",
+    "authoredLayerOrder": [
+      "EXACT_DATABASE_WEAPON",
+      "BODY_ARMS_AND_HANDS_FOREGROUND"
+    ],
     "loadPolicy": "EQUIPPED_SUIT_AND_WEAPON_PAIR_ONLY",
     "fallback": "STATIC_BODY_PLUS_WEAPON"
   },
@@ -56,13 +60,13 @@
   "suits": [
     {
       "code": "BATTLE_SUIT_01",
-      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png",
-      "sha256": "322E1958CFBF80CF7940CEFD9C05A49B353559AFE5319C05EC11A4C4E2C922F3",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png",
+      "sha256": "C78673ADFC3773C5D74CD19E7B62D2BB6E3F701876161123B6693D4468DB7079",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v2.png",
-          "sha256": "2E41BCA413DD01D887B010EDB92311E530F756EEC70CDBB1F2CDB312B7A900FC",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v3.png",
+          "sha256": "29ED1FAF13AA580823C97D72178EFAD4EE86F9E21C301D42660D457D3D381DD6",
+          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
           "weaponRows": [
             {
               "row": 0,
@@ -75,9 +79,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v2.png",
-          "sha256": "05E9F9ACD8FD67EFA35765BB3FC525F369838CA972FEDF81C7FC08EF2B222EF4",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v3.png",
+          "sha256": "4407699F9D1E56C3CC3178E82694A18804362E12397F25779AB63FFBD06AD9C2",
+          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
           "weaponRows": [
             {
               "row": 0,
@@ -93,13 +97,13 @@
     },
     {
       "code": "BATTLE_SUIT_02",
-      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png",
-      "sha256": "D5E661B53FC0098106C1F2E9FEB002CCC8D0CB898103561A84EA61CD38689CB0",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v3.png",
+      "sha256": "C6716D759955ADAC82D95E42DD9B53B7AD58C8DAD042BC231E9C85254D9CE69E",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v2.png",
-          "sha256": "1E3DFBECE65D3D43B2B9652F79140EFD293C49E317D00EC41976F293950F6B1C",
-          "composition": "USER_REFERENCE_ORIGINAL_WEAPON_CLEAN_RUNTIME_MUZZLE",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v3.png",
+          "sha256": "95914A1835587E6F8EC6966FBA283714C1C5C6D7ED65B9453DDA09F1073B9BC8",
+          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
           "weaponRows": [
             {
               "row": 0,
@@ -112,9 +116,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v2.png",
-          "sha256": "BEFFAB42248BCD2358EC74014D5DE362DDF3A55DF0021AE902E34D0F51C78066",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_USER_REFERENCE_POSE_NO_FOREGROUND_PATCH",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v3.png",
+          "sha256": "F8A43F5032669AF3881F19442F41971393C6EBE4F8E850B58A53C8D034DEA34C",
+          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
           "weaponRows": [
             {
               "row": 0,
@@ -130,13 +134,13 @@
     },
     {
       "code": "BATTLE_SUIT_03",
-      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png",
-      "sha256": "33411D6FB94A44B409470E94CF90EDF1D96CE06803FC40C6D54E6431BFD99841",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-model02-v3.png",
+      "sha256": "7B0E6939600E156D9857C55B842A1DD85A7F7CDCAB432483147C859B71B2B67A",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v2.png",
-          "sha256": "3B763B23395D5A6D7858FFBF6928EFE4A5F34BF56C5349E3D571F38D623C3399",
-          "composition": "USER_REFERENCE_ORIGINAL_WEAPON_CLEAN_RUNTIME_MUZZLE",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v3.png",
+          "sha256": "2F9683FAFAEF3207EB7C1E123BEAC9D07E4DE91FAF2E69BC4E44F10E41080F4C",
+          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
           "weaponRows": [
             {
               "row": 0,
@@ -149,9 +153,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v2.png",
-          "sha256": "0E442BF5B28916ACB925F4AB87C3ADB4138D6CE7833714CC9D58D67E7B410E66",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_USER_REFERENCE_POSE_NO_FOREGROUND_PATCH",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v3.png",
+          "sha256": "D1E5608E80DC9EF81CC5FA3A4DF1B40BB4715AE904244E4006E7B5F03D2ADE6A",
+          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
           "weaponRows": [
             {
               "row": 0,

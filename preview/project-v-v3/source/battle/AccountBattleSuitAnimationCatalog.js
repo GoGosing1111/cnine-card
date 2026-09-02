@@ -22,12 +22,12 @@ const WEAPONS=Object.freeze({
 });
 
 const SHEET_URL_OVERRIDES=Object.freeze({
-  'BATTLE_SUIT_01:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v2.png',
-  'BATTLE_SUIT_01:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v2.png',
-  'BATTLE_SUIT_02:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v2.png',
-  'BATTLE_SUIT_02:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v2.png',
-  'BATTLE_SUIT_03:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v2.png',
-  'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v2.png'
+  'BATTLE_SUIT_01:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v3.png',
+  'BATTLE_SUIT_01:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v3.png',
+  'BATTLE_SUIT_02:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v3.png',
+  'BATTLE_SUIT_02:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v3.png',
+  'BATTLE_SUIT_03:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v3.png',
+  'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v3.png'
 });
 
 function tuning(scaleMultiplier,contentTop,contentBottom,muzzleX,muzzleY){
@@ -48,40 +48,40 @@ const solePivots=(ready,fire,recoil,recover)=>Object.freeze({
 
 // Measured directly from the final RGBA atlases. For every frame, X is the
 // alpha>=16 centroid of the lowest nine visible pixel rows and Y is the lowest
-// visible pixel. A pair-specific key is required because the user-provided
-// M4/M200 source rows use different body scales, while AK/SKS deliberately
-// reuse the clean upper-row shouldered pose to avoid destructive body holes.
+// visible pixel. Suit 02 M4A1 stays pixel-locked to the approved v2 row; every
+// other row uses the same grip-pose body scale, with the exact DB weapon below
+// the retained arms and hands so the rifle cannot cut through the character.
 const SOLE_PIVOTS_BY_SUIT_PAIR_ROW=Object.freeze({
-  'BATTLE_SUIT_01:m4a1-m200:0':solePivots([133.221,433],[133.418,433],[103.894,431],[110.381,431]),
-  'BATTLE_SUIT_01:m4a1-m200:1':solePivots([137.817,410],[119.593,410],[97.014,410],[108,410]),
-  'BATTLE_SUIT_01:ak-sks:0':solePivots([133.221,433],[133.418,433],[103.894,431],[110.381,431]),
-  'BATTLE_SUIT_01:ak-sks:1':solePivots([137.817,410],[119.593,410],[97.014,410],[108,410]),
+  'BATTLE_SUIT_01:m4a1-m200:0':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
+  'BATTLE_SUIT_01:m4a1-m200:1':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
+  'BATTLE_SUIT_01:ak-sks:0':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
+  'BATTLE_SUIT_01:ak-sks:1':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
   'BATTLE_SUIT_02:m4a1-m200:0':solePivots([51.526,479],[46.451,479],[47.451,476],[49.526,478]),
-  'BATTLE_SUIT_02:m4a1-m200:1':solePivots([38.941,479],[35.667,479],[36.667,476],[36.941,478]),
-  'BATTLE_SUIT_02:ak-sks:0':solePivots([51.526,479],[46.451,479],[47.451,476],[49.526,478]),
-  'BATTLE_SUIT_02:ak-sks:1':solePivots([51.526,479],[46.451,479],[47.451,476],[49.526,478]),
-  'BATTLE_SUIT_03:m4a1-m200:0':solePivots([50.681,479],[47.373,479],[42.373,476],[34.233,478]),
-  'BATTLE_SUIT_03:m4a1-m200:1':solePivots([20.231,479],[30.848,479],[25.848,476],[19.219,478]),
-  'BATTLE_SUIT_03:ak-sks:0':solePivots([50.681,479],[47.373,479],[42.373,476],[34.233,478]),
-  'BATTLE_SUIT_03:ak-sks:1':solePivots([50.681,479],[47.373,479],[42.373,476],[34.233,478])
+  'BATTLE_SUIT_02:m4a1-m200:1':solePivots([110.759,478],[108.759,478],[105.759,475],[108.759,477]),
+  'BATTLE_SUIT_02:ak-sks:0':solePivots([92.858,478],[90.858,478],[87.858,475],[90.858,477]),
+  'BATTLE_SUIT_02:ak-sks:1':solePivots([92.858,478],[90.858,478],[87.858,475],[90.858,477]),
+  'BATTLE_SUIT_03:m4a1-m200:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
+  'BATTLE_SUIT_03:m4a1-m200:1':solePivots([79.418,478],[77.418,478],[74.418,475],[77.418,477]),
+  'BATTLE_SUIT_03:ak-sks:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
+  'BATTLE_SUIT_03:ak-sks:1':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477])
 });
 
 // Measured from the final exact-weapon atlases. Per-pair values keep the sole,
 // nickname panel and runtime muzzle flash fixed when weapon rows have different
 // authored whitespace or character scale.
 const PAIR_TUNING=Object.freeze({
-  'BATTLE_SUIT_01:EQ_1785427638137':tuning(1.5,101/512,433/512,346/384,162/512),
-  'BATTLE_SUIT_01:EQ_1785961300455':tuning(1.5,81/512,410/512,351/384,141/512),
-  'BATTLE_SUIT_01:EQ_1785961232958':tuning(1.5,101/512,433/512,347/384,167/512),
-  'BATTLE_SUIT_01:EQ_1786966923833':tuning(1.5,81/512,410/512,350/384,137/512),
+  'BATTLE_SUIT_01:EQ_1785427638137':tuning(1.4,36/512,478/512,379/384,126/512),
+  'BATTLE_SUIT_01:EQ_1785961300455':tuning(1.4,36/512,478/512,379/384,122/512),
+  'BATTLE_SUIT_01:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,135/512),
+  'BATTLE_SUIT_01:EQ_1786966923833':tuning(1.4,36/512,478/512,379/384,118/512),
   'BATTLE_SUIT_02:EQ_1785427638137':tuning(1.4,39/512,479/512,379/384,152/512),
-  'BATTLE_SUIT_02:EQ_1785961300455':tuning(1.4,125/512,479/512,379/384,234/512),
-  'BATTLE_SUIT_02:EQ_1785961232958':tuning(1.4,39/512,479/512,374/384,146/512),
-  'BATTLE_SUIT_02:EQ_1786966923833':tuning(1.4,39/512,479/512,370/384,134/512),
-  'BATTLE_SUIT_03:EQ_1785427638137':tuning(1.4,37/512,479/512,356/384,176/512),
-  'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.4,37/512,479/512,371/384,235/512),
-  'BATTLE_SUIT_03:EQ_1785961232958':tuning(1.4,37/512,479/512,374/384,146/512),
-  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,37/512,479/512,370/384,134/512)
+  'BATTLE_SUIT_02:EQ_1785961300455':tuning(1.4,36/512,478/512,379/384,132/512),
+  'BATTLE_SUIT_02:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,122/512),
+  'BATTLE_SUIT_02:EQ_1786966923833':tuning(1.4,36/512,478/512,379/384,108/512),
+  'BATTLE_SUIT_03:EQ_1785427638137':tuning(1.4,36/512,478/512,379/384,119/512),
+  'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.4,36/512,478/512,379/384,134/512),
+  'BATTLE_SUIT_03:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,126/512),
+  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,36/512,478/512,379/384,111/512)
 });
 
 function catalogEntry(suitCode,suitSlug,weaponCode,weapon){

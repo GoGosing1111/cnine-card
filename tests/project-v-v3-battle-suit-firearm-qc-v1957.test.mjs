@@ -8,7 +8,7 @@ const root=new URL('../',import.meta.url);
 const read=path=>readFile(new URL(path,root),'utf8');
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
 
-const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,bundle,audioSource,manifestText,liveIndex,liveApp,liveBattle]=await Promise.all([
+const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,bundle,audioSource,manifestText,sourcesText,liveIndex,liveApp,liveBattle]=await Promise.all([
   read('preview/project-v-v3/index.html'),
   read('preview/project-v-v3/project-v-client.js'),
   read('preview/project-v-v3/project-v-client.css'),
@@ -20,6 +20,7 @@ const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,bundle,a
   read('preview/project-v-v3/project-v-pixi-battle.bundle.js'),
   read('preview/project-v-v3/project-v-firearm-qc-audio.js'),
   read('preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json'),
+  read('preview/project-v-v3/assets/audio/firearm-qc-v1/SOURCES.md'),
   read('index.html'),read('js/app.js'),read('js/battle-v3-live.js')
 ]);
 const manifest=JSON.parse(manifestText);
@@ -27,7 +28,8 @@ const manifest=JSON.parse(manifestText);
 const expectedProfiles={
   EQ_1785427638137:{file:'m4a1-colt-socom-cc0-freesound-737569.mp3',sha:'1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2',kind:'AR',soundId:737569},
   EQ_1785961232958:{file:'ak47-shot-cc0-freesound-163457.mp3',sha:'26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73',kind:'AR',soundId:163457},
-  EQ_1785961300455:{file:'m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3',sha:'F4E5F79C3D4BB47C9A8D396564CD02FDD099C26E9FDD37BB75DB563B9A2C4C8B',kind:'SNIPER',soundId:737570}
+  EQ_1785961300455:{file:'m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3',sha:'F4E5F79C3D4BB47C9A8D396564CD02FDD099C26E9FDD37BB75DB563B9A2C4C8B',kind:'SNIPER',soundId:737570},
+  EQ_1786966923833:{file:'ak47-shot-cc0-freesound-163457.mp3',sha:'26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73',kind:'DMR',soundId:163457}
 };
 
 test('V3 preview mounts the real five-card PVE payload plus one non-damaging front-left account unit',()=>{
@@ -35,8 +37,8 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   assert.match(html,/id="pvBattleSuitFire"/);
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
-  assert.match(html,/project-v-firearm-qc-audio\.js\?v=5-cancel-safe-auto-fire/);
-  assert.match(html,/project-v-client\.js\?v=60-suit23-user-reference/);
+  assert.match(html,/project-v-firearm-qc-audio\.js\?v=6-sks-dmr-proxy/);
+  assert.match(html,/project-v-client\.js\?v=63-contact-locked-four-weapons/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
@@ -50,7 +52,7 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=81-suit23-user-reference/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=84-contact-locked-four-weapons/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
@@ -89,7 +91,7 @@ test('preview-only public shot hook reports the exact authored fire frame and ne
   assert.match(engineSource,/phase:'fire'/);
 });
 
-test('three immutable CC0 real-recording profiles satisfy provenance, hash and waveform QC',async()=>{
+test('four preview profiles backed by three immutable CC0 real recordings satisfy provenance, hash and waveform QC',async()=>{
   assert.equal(manifest.contract,'PROJECT_V_V3_FIREARM_AUDIO_QC_V1');
   assert.equal(manifest.scope,'PREVIEW_ONLY');
   assert.equal(manifest.liveRuntimeConnected,false);
@@ -104,6 +106,7 @@ test('three immutable CC0 real-recording profiles satisfy provenance, hash and w
   assert.deepEqual(Object.keys(manifest.profiles).sort(),Object.keys(expectedProfiles).sort());
   assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='AR').length,2);
   assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='SNIPER').length,1);
+  assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='DMR').length,1);
 
   for(const [code,expected] of Object.entries(expectedProfiles)){
     const profile=manifest.profiles[code];
@@ -128,12 +131,18 @@ test('three immutable CC0 real-recording profiles satisfy provenance, hash and w
   }
   assert.match(manifest.profiles.EQ_1785961300455.proxyDisclosure,/exact database M200 sprite/);
   assert.match(manifest.profiles.EQ_1785961300455.acousticLabel,/Tac-50/);
+  assert.match(manifest.profiles.EQ_1786966923833.proxyDisclosure,/exact database SKS sprite/);
+  assert.match(manifest.profiles.EQ_1786966923833.proxyDisclosure,/7\.62x39mm proxy/);
+  assert.match(manifest.profiles.EQ_1786966923833.proxyDisclosure,/not presented as an exact SKS receiver recording/);
+  assert.match(sourcesText,/Sovereign SKS visual/);
+  assert.match(sourcesText,/source bytes are not copied, regenerated, or altered/);
   assert.equal(manifest.profiles.EQ_1785961232958.final.clippedFrames,12);
   assert.ok(manifest.profiles.EQ_1785961232958.runtimeMix.masterGain<=.58,'AK saturated source must keep conservative preview gain');
+  assert.ok(manifest.profiles.EQ_1786966923833.runtimeMix.masterGain<=.46,'SKS proxy must keep a conservative DMR preview gain');
 });
 
 test('audio renderer uses only real buffer layers and remains disconnected from live runtime',()=>{
-  assert.match(audioSource,/manifest\.json\?v=5-cancel-safe-auto-fire/);
+  assert.match(audioSource,/manifest\.json\?v=6-sks-dmr-proxy/);
   for(const layer of manifest.layerContract)assert.match(audioSource,new RegExp(`kind:'${layer}'`));
   assert.equal((audioSource.match(/sourceLayer\(audioContext,buffer,\{\s*\n\s*kind:/g)||[]).length,3);
   assert.match(audioSource,/createBufferSource\(\)/);

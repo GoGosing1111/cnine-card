@@ -20,7 +20,7 @@ const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_0
 const WEAPON_CODES=Object.freeze(['EQ_1785427638137','EQ_1785961300455','EQ_1785961232958','EQ_1786966923833']);
 const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
 const NAME_PANEL_HEIGHT=29;
-const STATIC_SUIT='/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png';
+const STATIC_SUIT='/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png';
 const STATIC_WEAPON='/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png';
 const DENIED_MODES=['PVP','RANKED','SIEGE','TERRITORY','CAPTAIN','CLAN'];
 

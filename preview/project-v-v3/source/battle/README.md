@@ -57,7 +57,7 @@ Application.stage
   equippedBattleSuit: {
     code: 'BATTLE_SUIT_01',
     displayName: '배틀슈트 01',
-    battleSprite: '/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png',
+    battleSprite: '/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png',
     pvePower: 125000,
     pvpPower: 0,
     scaleMultiplier: 1

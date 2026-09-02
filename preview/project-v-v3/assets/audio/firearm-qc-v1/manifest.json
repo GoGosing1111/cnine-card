@@ -139,6 +139,43 @@
         "impact": {"leadInMs": 18, "durationMs": 320, "gain": 1, "fadeInMs": 3, "fadeOutMs": 55},
         "tail": {"sourceOffsetAfterPeakMs": 110, "delayAfterFireMs": 110, "durationMs": 1500, "gain": 0.28, "fadeInMs": 5, "fadeOutMs": 480}
       }
+    },
+    "EQ_1786966923833": {
+      "profileId": "DMR_SKS_AK47_PROXY_REAL_V1",
+      "weaponName": "소버린 SKS",
+      "weaponClass": "DMR",
+      "asset": "assets/audio/firearm-qc-v1/ak47-shot-cc0-freesound-163457.mp3",
+      "acousticLabel": "AK-47 7.62×39mm 단발 실총 (SKS 프리뷰 대역)",
+      "proxyDisclosure": "The visual weapon remains the exact database SKS sprite; the preview acoustic layer reuses a real AK-47 single-shot recording as a 7.62x39mm proxy because no compliant SKS recording was available locally. This is not presented as an exact SKS receiver recording.",
+      "source": {
+        "provider": "Freesound",
+        "soundId": 163457,
+        "title": "AK47 Shot",
+        "author": "LeMudCrab",
+        "page": "https://freesound.org/people/LeMudCrab/sounds/163457/",
+        "license": "CC0 1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "recording": "recorded AK-47 7.62x39mm single shot; real-firearm acoustic proxy for SKS preview",
+        "sourceSha256": "26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73"
+      },
+      "final": {
+        "sha256": "26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73",
+        "durationMs": 598.91,
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "onsetMs": 0.05,
+        "peakMs": 1.59,
+        "peakDbfs": 0,
+        "clippedFrames": 12,
+        "clippedFrameRatio": 0.000455,
+        "bakedProcessing": "NONE; existing CC0 real-recording bytes are reused unchanged"
+      },
+      "runtimeMix": {
+        "masterGain": 0.46,
+        "action": {"sourceOffsetMs": 118, "durationMs": 30, "gain": 0.1, "fadeInMs": 2, "fadeOutMs": 12},
+        "impact": {"leadInMs": 1.5, "durationMs": 150, "gain": 0.78, "fadeInMs": 0.5, "fadeOutMs": 30},
+        "tail": {"sourceOffsetAfterPeakMs": 68, "delayAfterFireMs": 68, "durationMs": 400, "gain": 0.14, "fadeInMs": 3, "fadeOutMs": 160}
+      }
     }
   }
 }

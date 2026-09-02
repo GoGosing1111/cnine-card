@@ -7,9 +7,11 @@ import sharp from 'sharp';
 
 const root=new URL('../',import.meta.url);
 const manifestUrl=new URL('assets/ui/project-v/account-battle-suits/manifest-v2.json',root);
+const diagnosticsUrl=new URL('assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v3.json',root);
 const catalogModuleUrl=new URL('preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js',root);
 const compositeScriptUrl=new URL('scripts/compose-exact-battle-suit-weapons.cjs',root);
 const userReferenceScriptUrl=new URL('scripts/build-user-reference-battle-suit-atlases.cjs',root);
+const canonicalSuit02M4SheetUrl=new URL('assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v2.png',root);
 
 const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
 const WEAPON_GROUPS=Object.freeze({
@@ -21,10 +23,16 @@ const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
 const DURATIONS_MS=Object.freeze({ready:45,fire:45,recoil:70,recover:125});
 
 let manifestPromise=null;
+let diagnosticsPromise=null;
 const decodedSheetCache=new Map();
 function readManifest(){
   manifestPromise??=readFile(manifestUrl,'utf8').then(JSON.parse);
   return manifestPromise;
+}
+
+function readDiagnostics(){
+  diagnosticsPromise??=readFile(diagnosticsUrl,'utf8').then(JSON.parse);
+  return diagnosticsPromise;
 }
 
 async function decodedSheet(publicPath){
@@ -109,17 +117,22 @@ async function manifestPairMap(){
   return pairs;
 }
 
-test('animated Battle Suit v2 manifest preserves the PVE-only five-card/static-fallback contract',async()=>{
+test('animated Battle Suit v3 manifest preserves the PVE-only five-card/static-fallback contract',async()=>{
   const manifest=await readManifest();
+  assert.equal(manifest.version,'v3');
   assert.equal(manifest.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1');
   assert.equal(manifest.scope,'PVE_ONLY');
-  assert.equal(manifest.generationProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v1.json');
+  assert.equal(manifest.generationProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v2.json');
   const provenance=JSON.parse(await readFile(assetFileUrl(manifest.generationProvenance),'utf8'));
+  assert.equal(provenance.version,'v2');
   assert.equal(provenance.tool,'OpenAI built-in image generation tool');
-  assert.match(provenance.finalPromptSet?.exactAllWeaponsComposite||'',/exact approved database battle-sprite raster/i);
-  assert.match(provenance.finalPromptSet?.weaponPoseProxy||'',/barrel points exactly horizontally to screen-right/i);
-  assert.match(provenance.finalPromptSet?.horizontalCorrection||'',/--force-horizontal/);
-  assert.match(provenance.finalPromptSet?.exactAllWeaponsComposite||'',/rotation to exactly 0 degrees/i);
+  assert.equal(provenance.buildDiagnostics,'/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v3.json');
+  assert.match(provenance.finalPromptSet?.cleanBodyVariants||'',/no weapon/i);
+  assert.match(provenance.finalPromptSet?.gripProxyVariants||'',/trigger hand on the pistol grip/i);
+  assert.match(provenance.finalPromptSet?.dedicatedM200GripVariants||'',/butt pad contacting the rear shoulder plate/i);
+  assert.deepEqual(provenance.semanticLayerOrder,['EXACT_DATABASE_WEAPON','BODY_ARMS_AND_HANDS_FOREGROUND']);
+  assert.match(provenance.finalPromptSet?.exactWeaponComposite||'',/exact approved database battle-sprite raster/i);
+  assert.match(provenance.finalPromptSet?.exactWeaponComposite||'',/rotation (?:at|to) (?:exactly )?0 degrees/i);
   assert.deepEqual(manifest.animationContract?.grid,{columns:4,rows:2});
   assert.deepEqual(manifest.animationContract?.frameOrder,FRAME_ORDER);
   assert.equal(manifest.animationContract?.format,'PNG_RGBA_GRID');
@@ -143,21 +156,29 @@ test('animated Battle Suit v2 manifest preserves the PVE-only five-card/static-f
   assert.deepEqual(sorted((manifest.weapons||[]).map(item=>item.equipmentCode)),sorted(WEAPON_CODES));
 
   const femaleSuit=manifest.suits.find(item=>item.code==='BATTLE_SUIT_01');
-  assert.equal(femaleSuit?.image,'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png');
-  assert.match(femaleSuit?.animationSheets?.m4a1M200?.image||'',/horizontal-fire-atlas-v2\.png$/);
-  assert.match(femaleSuit?.animationSheets?.akSks?.image||'',/horizontal-fire-atlas-v2\.png$/);
+  assert.match(femaleSuit?.image||'',/battle-suit-appearance-01-[^/]+-v3\.png$/);
+  assert.match(femaleSuit?.animationSheets?.m4a1M200?.image||'',/horizontal-fire-atlas-v3\.png$/);
+  assert.match(femaleSuit?.animationSheets?.akSks?.image||'',/horizontal-fire-atlas-v3\.png$/);
   const compositeScript=await readFile(compositeScriptUrl,'utf8');
   assert.match(compositeScript,/const forceHorizontal=optionArgs\.includes\('--force-horizontal'\)/);
   assert.match(compositeScript,/const rotationDegrees=forceHorizontal\?0:measurement\.angleDegrees/);
   const userReferenceScript=await readFile(userReferenceScriptUrl,'utf8');
   assert.match(userReferenceScript,/USER_PROVIDED_NO_GENERATIVE_REDRAW|removeConnectedBackground/);
-  assert.equal(provenance.userReferenceAtlasScript,'/scripts/build-user-reference-battle-suit-atlases.cjs');
-  for(const suitCode of ['BATTLE_SUIT_02','BATTLE_SUIT_03']){
+  assert.match(provenance.cleanBodyAtlasScript||'',/^\/scripts\/[a-z0-9-]+\.cjs$/);
+  assert.equal(provenance.generatedOriginals.length,3);
+  for(const suitCode of SUIT_CODES){
     const source=provenance.generatedOriginals.find(item=>item.suitCode===suitCode);
-    assert.equal(source?.sourcePolicy,'USER_PROVIDED_NO_GENERATIVE_REDRAW');
-    assert.match(source?.userProvidedReference||'',/user-reference-v2\.png$/);
-    assert.match(source?.userProvidedReferenceSha256||'',/^[A-F0-9]{64}$/);
-    assert.equal(sha256(await readFile(assetFileUrl(source.userProvidedReference))),source.userProvidedReferenceSha256);
+    assert.equal(source?.sourcePolicy,'GENERATED_CLEAN_BODY_NO_WEAPON');
+    assert.match(source?.cleanBodySource||'',/clean-body(?:-chroma)?-v3\.png$/);
+    assert.match(source?.cleanBodySourceSha256||'',/^[A-F0-9]{64}$/);
+    assert.equal(sha256(await readFile(assetFileUrl(source.cleanBodySource))),source.cleanBodySourceSha256);
+    assert.match(source?.gripProxySource||'',/grip-proxy-v\d+\.png$/);
+    assert.equal(sha256(await readFile(assetFileUrl(source.gripProxySource))),source.gripProxySourceSha256);
+    assert.match(source?.transparentStaticSha256||'',/^[A-F0-9]{64}$/);
+    assert.equal(sha256(await readFile(assetFileUrl(source.transparentStatic))),source.transparentStaticSha256);
+    const manifestSuit=manifest.suits.find(item=>item.code===suitCode);
+    assert.equal(source.transparentStatic,manifestSuit?.image,`${suitCode} provenance static path`);
+    assert.equal(source.transparentStaticSha256,manifestSuit?.sha256,`${suitCode} provenance static hash`);
   }
 
   // The authored atlas supplements the deployed database preview/fallback art;
@@ -177,19 +198,14 @@ test('animated Battle Suit v2 manifest preserves the PVE-only five-card/static-f
   }
 });
 
-test('all six immutable authored sheets are exact transparent 1536x1024 4x2 grids',async()=>{
+test('all six immutable v3 authored sheets are exact transparent 1536x1024 4x2 grids',async()=>{
   const manifest=await readManifest();
   const paths=[];
   for(const suit of manifest.suits){
     const seenWeapons=[];
     for(const [group,sheet] of animationSheetEntries(suit)){
-      const expectedComposition=suit.code==='BATTLE_SUIT_01'
-        ?'EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION'
-        :group==='m4a1M200'
-          ?'USER_REFERENCE_ORIGINAL_WEAPON_CLEAN_RUNTIME_MUZZLE'
-          :'EXACT_DATABASE_WEAPON_CUTOUT_WITH_USER_REFERENCE_POSE_NO_FOREGROUND_PATCH';
-      assert.equal(sheet.composition,expectedComposition,`${suit.code}/${group} immutable source/composite policy`);
-      assert.match(sheet.image,/^\/assets\/ui\/project-v\/account-battle-suits\/animations\/[a-z0-9-]+-v\d+\.png$/,`${suit.code}/${group} must use an immutable versioned PNG path`);
+      assert.equal(sheet.composition,'GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3',`${suit.code}/${group} must keep the weapon behind the retained hands and forearms`);
+      assert.match(sheet.image,/^\/assets\/ui\/project-v\/account-battle-suits\/animations\/[a-z0-9-]+-atlas-v3\.png$/,`${suit.code}/${group} must use the immutable v3 atlas path`);
       assert.equal(new URL(sheet.image,'https://soopketmon.invalid').search,'',`${sheet.image} must version the filename, not a mutable query`);
       assert.match(sheet.sha256,/^[A-F0-9]{64}$/);
       paths.push(sheet.image);
@@ -241,6 +257,99 @@ test('all six immutable authored sheets are exact transparent 1536x1024 4x2 grid
   }
   assert.equal(paths.length,6);
   assert.equal(new Set(paths).size,6,'each suit/weapon-pair must have an immutable dedicated sheet');
+});
+
+test('Suit 02 M4A1 v3 row preserves the approved canonical v2 pixels exactly',async()=>{
+  const manifest=await readManifest();
+  const suit=manifest.suits.find(item=>item.code==='BATTLE_SUIT_02');
+  const v3SheetBytes=await readFile(assetFileUrl(suit.animationSheets.m4a1M200.image));
+  const canonicalBytes=await readFile(canonicalSuit02M4SheetUrl);
+  for(let column=0;column<4;column+=1){
+    const region={left:column*384,top:0,width:384,height:512};
+    const [actual,canonical]=await Promise.all([
+      sharp(v3SheetBytes,{failOn:'error'}).extract(region).ensureAlpha().raw().toBuffer(),
+      sharp(canonicalBytes,{failOn:'error'}).extract(region).ensureAlpha().raw().toBuffer()
+    ]);
+    assert.equal(actual.equals(canonical),true,
+      `Suit 02 M4A1 ${FRAME_ORDER[column]} raw RGBA must remain byte-identical to the approved v2 frame (${sha256(canonical)})`);
+  }
+});
+
+test('v3 build diagnostics prove grip-layer scale consistency and exact-weapon-only composition',async()=>{
+  const [manifest,diagnostics,provenance]=await Promise.all([
+    readManifest(),
+    readDiagnostics(),
+    readFile(assetFileUrl((await readManifest()).generationProvenance),'utf8').then(JSON.parse)
+  ]);
+  assert.equal(diagnostics.version,'v3');
+  assert.equal(diagnostics.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_GRIP_LAYER_ATLAS_DIAGNOSTICS_V3');
+  assert.equal(provenance.buildDiagnostics,'/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v3.json');
+  assert.match(diagnostics.sha256Algorithm||'',/^SHA-256$/i);
+  assert.equal(diagnostics.entries.length,12);
+
+  assert.equal(diagnostics.sheets.length,6,'diagnostics must contain one sheet for every suit/pair');
+  const diagnosticSheetKeys=diagnostics.sheets.map(sheet=>`${sheet.suitCode}:${sheet.pair}`);
+  assert.equal(new Set(diagnosticSheetKeys).size,6,'diagnostic sheet keys must be unique');
+  for(const diagnosticSheet of diagnostics.sheets){
+    const manifestSuit=manifest.suits.find(item=>item.code===diagnosticSheet.suitCode);
+    const manifestSheet=diagnosticSheet.pair==='m4a1-m200'
+      ?manifestSuit?.animationSheets?.m4a1M200
+      :manifestSuit?.animationSheets?.akSks;
+    assert.ok(manifestSheet,`${diagnosticSheet.suitCode}/${diagnosticSheet.pair} manifest sheet`);
+    assert.equal(diagnosticSheet.image,manifestSheet.image,`${diagnosticSheet.suitCode}/${diagnosticSheet.pair} diagnostics path`);
+    assert.equal(diagnosticSheet.sha256,manifestSheet.sha256,`${diagnosticSheet.suitCode}/${diagnosticSheet.pair} diagnostics hash`);
+    assert.equal(sha256(await readFile(assetFileUrl(diagnosticSheet.image))),diagnosticSheet.sha256,`${diagnosticSheet.suitCode}/${diagnosticSheet.pair} actual sheet hash`);
+  }
+
+  const keys=diagnostics.entries.map(entry=>`${entry.suitCode}:${entry.weaponCode}`);
+  assert.equal(new Set(keys).size,12,'diagnostics must contain one unique entry for every suit/weapon pair');
+  assert.deepEqual(sorted(keys),sorted(SUIT_CODES.flatMap(suitCode=>WEAPON_CODES.map(weaponCode=>`${suitCode}:${weaponCode}`))));
+  const weaponHashes=new Map(manifest.weapons.map(weapon=>[weapon.equipmentCode,weapon.sha256]));
+
+  for(const entry of diagnostics.entries){
+    assert.match(entry.bodySourceSha256,/^[A-F0-9]{64}$/,`${entry.suitCode}/${entry.weaponCode} body source hash`);
+    assert.equal(entry.exactWeaponSourceSha256,weaponHashes.get(entry.weaponCode),`${entry.suitCode}/${entry.weaponCode} exact DB weapon source hash`);
+    assert.equal(entry.legacyWeaponPixelsRemoved,0,`${entry.suitCode}/${entry.weaponCode} clean body must require no legacy rifle erasure`);
+    assert.equal(entry.exactWeaponOnly,true,`${entry.suitCode}/${entry.weaponCode} must contain only the selected exact DB weapon raster`);
+    assert.equal(entry.gripProxyRemoved,true,`${entry.suitCode}/${entry.weaponCode} green pose proxy must be removed`);
+    assert.deepEqual(entry.semanticLayerOrder,['EXACT_DATABASE_WEAPON','BODY_ARMS_AND_HANDS_FOREGROUND'],`${entry.suitCode}/${entry.weaponCode} semantic layer order`);
+    const {headY,soleY,height}=entry.bodyBounds||{};
+    assert.ok(Number.isInteger(headY)&&Number.isInteger(soleY)&&Number.isInteger(height),`${entry.suitCode}/${entry.weaponCode} body bounds must be integral pixels`);
+    assert.ok(headY>=0&&headY<soleY&&soleY<512,`${entry.suitCode}/${entry.weaponCode} body bounds must fit one frame`);
+    assert.equal(height,soleY-headY+1,`${entry.suitCode}/${entry.weaponCode} body height must use inclusive head-to-sole bounds`);
+    assert.ok(height>=280,`${entry.suitCode}/${entry.weaponCode} character must not be underscaled`);
+  }
+
+  const dedicatedM200Keys=new Set([
+    'BATTLE_SUIT_02:EQ_1785961300455',
+    'BATTLE_SUIT_03:EQ_1785961300455'
+  ]);
+  const provenanceBySuit=new Map(provenance.generatedOriginals.map(source=>[source.suitCode,source]));
+  for(const entry of diagnostics.entries){
+    const key=`${entry.suitCode}:${entry.weaponCode}`;
+    const dedicated=dedicatedM200Keys.has(key);
+    assert.equal(entry.usesDedicatedGripPose,dedicated,`${key} dedicated M200 pose contract`);
+    assert.equal(entry.bodySourceSha256,entry.gripProxySourceSha256,`${key} body must come from its keyed grip pose`);
+    if(dedicated){
+      assert.match(entry.gripProxySource,/-m200-grip-proxy-v4\.png$/,`${key} dedicated M200 proxy path`);
+      const suitProvenance=provenanceBySuit.get(entry.suitCode);
+      const proxy=suitProvenance?.weaponSpecificGripProxies?.find(item=>item.weaponCode===entry.weaponCode);
+      assert.equal(proxy?.source,entry.gripProxySource,`${key} provenance proxy path`);
+      assert.equal(proxy?.sha256,entry.gripProxySourceSha256,`${key} provenance proxy hash`);
+      assert.equal(proxy?.policy,'DEDICATED_WEAPON_GEOMETRY_AND_CONTACT_POINTS',`${key} proxy policy`);
+      assert.notEqual(proxy?.sha256,suitProvenance?.gripProxySourceSha256,`${key} must not reuse the AR grip proxy`);
+      assert.ok(Number(entry.weaponPlacementAdjustment?.y)>0,`${key} must record its contact-point vertical correction`);
+    }
+  }
+  assert.equal(provenance.generatedOriginals.flatMap(source=>source.weaponSpecificGripProxies||[]).length,2,'only Suit 02/03 M200 need dedicated proxies');
+
+  for(const suitCode of SUIT_CODES){
+    const reference=diagnostics.entries.find(entry=>entry.suitCode===suitCode&&entry.weaponCode==='EQ_1785961232958').bodyBounds;
+    const m200=diagnostics.entries.find(entry=>entry.suitCode===suitCode&&entry.weaponCode==='EQ_1785961300455');
+    for(const [metric,label] of [['headY','head'],['soleY','sole'],['height','body scale']]){
+      assert.ok(Math.abs(m200.bodyBounds[metric]-reference[metric])<=2,`${suitCode} M200 ${label} must stay within 2px of the AR pose`);
+    }
+  }
 });
 
 test('catalog resolver covers exactly three suits x four approved DB weapons with frame-exact metadata',async()=>{

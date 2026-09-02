@@ -29,14 +29,15 @@
   };
   const battleSuitQc={
     suits:{
-      BATTLE_SUIT_01:{name:'외형 01 · 화이트 골드 여성형',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png'},
-      BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png'},
-      BATTLE_SUIT_03:{name:'외형 03 · 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png'}
+      BATTLE_SUIT_01:{name:'외형 01 · 메카닉 화이트 골드',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png'},
+      BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v3.png'},
+      BATTLE_SUIT_03:{name:'외형 03 · 모델 02 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-model02-v3.png'}
     },
     weapons:{
       EQ_1785427638137:{name:'아발론 M4A1',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png'},
       EQ_1785961232958:{name:'인피니티 AK',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png'},
-      EQ_1785961300455:{name:'인피니티 M200',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png'}
+      EQ_1785961300455:{name:'인피니티 M200',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png'},
+      EQ_1786966923833:{name:'소버린 SKS',kind:'DMR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'}
     }
   };
   const battleQcState={suitCode:'BATTLE_SUIT_01',weaponCode:'EQ_1785427638137',battlefield:'HUNT',sound:true,mounted:false,busy:false};
@@ -151,7 +152,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=81-suit23-user-reference';
+        script.src='project-v-pixi-battle.bundle.js?v=84-contact-locked-four-weapons';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);

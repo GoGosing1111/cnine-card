@@ -1,0 +1,726 @@
+{
+  "version": "v3",
+  "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_GRIP_LAYER_ATLAS_DIAGNOSTICS_V3",
+  "sha256Algorithm": "SHA-256",
+  "frameSize": {
+    "width": 384,
+    "height": 512
+  },
+  "bodyTarget": {
+    "height": 440,
+    "maxWidth": 360,
+    "baseline": 479
+  },
+  "entries": [
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1785427638137",
+      "weaponSlug": "m4a1",
+      "pair": "m4a1-m200",
+      "row": 0,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 69.808,
+          "y": 478
+        },
+        {
+          "x": 67.808,
+          "y": 478
+        },
+        {
+          "x": 64.808,
+          "y": 475
+        },
+        {
+          "x": 67.808,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 126
+      },
+      "bodySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
+      "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "exactWeaponSourceSha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1785961300455",
+      "weaponSlug": "m200",
+      "pair": "m4a1-m200",
+      "row": 1,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 69.808,
+          "y": 478
+        },
+        {
+          "x": 67.808,
+          "y": 478
+        },
+        {
+          "x": 64.808,
+          "y": 475
+        },
+        {
+          "x": 67.808,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 122
+      },
+      "bodySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
+      "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "exactWeaponSourceSha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1785961232958",
+      "weaponSlug": "ak",
+      "pair": "ak-sks",
+      "row": 0,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 69.808,
+          "y": 478
+        },
+        {
+          "x": 67.808,
+          "y": 478
+        },
+        {
+          "x": 64.808,
+          "y": 475
+        },
+        {
+          "x": 67.808,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 135
+      },
+      "bodySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
+      "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "exactWeaponSourceSha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponCode": "EQ_1786966923833",
+      "weaponSlug": "sks",
+      "pair": "ak-sks",
+      "row": 1,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 69.808,
+          "y": 478
+        },
+        {
+          "x": 67.808,
+          "y": 478
+        },
+        {
+          "x": 64.808,
+          "y": 475
+        },
+        {
+          "x": 67.808,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 118
+      },
+      "bodySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
+      "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "exactWeaponSourceSha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1785427638137",
+      "weaponSlug": "m4a1",
+      "pair": "m4a1-m200",
+      "row": 0,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 479,
+        "height": 441
+      },
+      "contentBounds": {
+        "top": 39,
+        "bottom": 479
+      },
+      "pivots": [
+        {
+          "x": 51.526,
+          "y": 479
+        },
+        {
+          "x": 46.451,
+          "y": 479
+        },
+        {
+          "x": 47.451,
+          "y": 476
+        },
+        {
+          "x": 49.526,
+          "y": 478
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 152
+      },
+      "bodySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-grip-proxy-v3.png",
+      "gripProxySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "exactWeaponSourceSha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "canonicalLocked": true,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1785961300455",
+      "weaponSlug": "m200",
+      "pair": "m4a1-m200",
+      "row": 1,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 110.759,
+          "y": 478
+        },
+        {
+          "x": 108.759,
+          "y": 478
+        },
+        {
+          "x": 105.759,
+          "y": 475
+        },
+        {
+          "x": 108.759,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 132
+      },
+      "bodySourceSha256": "C2ED3ED81537F78035833D54A5482B159BBB6A5B932D377C9A7D1A25F2517D1A",
+      "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-m200-grip-proxy-v4.png",
+      "gripProxySourceSha256": "C2ED3ED81537F78035833D54A5482B159BBB6A5B932D377C9A7D1A25F2517D1A",
+      "exactWeaponSourceSha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": true,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 34
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1785961232958",
+      "weaponSlug": "ak",
+      "pair": "ak-sks",
+      "row": 0,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 92.858,
+          "y": 478
+        },
+        {
+          "x": 90.858,
+          "y": 478
+        },
+        {
+          "x": 87.858,
+          "y": 475
+        },
+        {
+          "x": 90.858,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 122
+      },
+      "bodySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-grip-proxy-v3.png",
+      "gripProxySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "exactWeaponSourceSha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponCode": "EQ_1786966923833",
+      "weaponSlug": "sks",
+      "pair": "ak-sks",
+      "row": 1,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 92.858,
+          "y": 478
+        },
+        {
+          "x": 90.858,
+          "y": 478
+        },
+        {
+          "x": 87.858,
+          "y": 475
+        },
+        {
+          "x": 90.858,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 108
+      },
+      "bodySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-grip-proxy-v3.png",
+      "gripProxySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "exactWeaponSourceSha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1785427638137",
+      "weaponSlug": "m4a1",
+      "pair": "m4a1-m200",
+      "row": 0,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 80.272,
+          "y": 478
+        },
+        {
+          "x": 78.272,
+          "y": 478
+        },
+        {
+          "x": 75.272,
+          "y": 475
+        },
+        {
+          "x": 78.272,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 119
+      },
+      "bodySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-grip-proxy-v3.png",
+      "gripProxySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "exactWeaponSourceSha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1785961300455",
+      "weaponSlug": "m200",
+      "pair": "m4a1-m200",
+      "row": 1,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 79.418,
+          "y": 478
+        },
+        {
+          "x": 77.418,
+          "y": 478
+        },
+        {
+          "x": 74.418,
+          "y": 475
+        },
+        {
+          "x": 77.418,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 134
+      },
+      "bodySourceSha256": "D1926B6CD676E907CD712F8B292A8899FD82A3B6BEAAE478114EDBD6D58C4DE7",
+      "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-m200-grip-proxy-v4.png",
+      "gripProxySourceSha256": "D1926B6CD676E907CD712F8B292A8899FD82A3B6BEAAE478114EDBD6D58C4DE7",
+      "exactWeaponSourceSha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": true,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 31
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1785961232958",
+      "weaponSlug": "ak",
+      "pair": "ak-sks",
+      "row": 0,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 80.272,
+          "y": 478
+        },
+        {
+          "x": 78.272,
+          "y": 478
+        },
+        {
+          "x": 75.272,
+          "y": 475
+        },
+        {
+          "x": 78.272,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 126
+      },
+      "bodySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-grip-proxy-v3.png",
+      "gripProxySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "exactWeaponSourceSha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponCode": "EQ_1786966923833",
+      "weaponSlug": "sks",
+      "pair": "ak-sks",
+      "row": 1,
+      "bodyBounds": {
+        "headY": 39,
+        "soleY": 478,
+        "height": 440
+      },
+      "contentBounds": {
+        "top": 36,
+        "bottom": 478
+      },
+      "pivots": [
+        {
+          "x": 80.272,
+          "y": 478
+        },
+        {
+          "x": 78.272,
+          "y": 478
+        },
+        {
+          "x": 75.272,
+          "y": 475
+        },
+        {
+          "x": 78.272,
+          "y": 477
+        }
+      ],
+      "muzzle": {
+        "x": 379,
+        "y": 111
+      },
+      "bodySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-grip-proxy-v3.png",
+      "gripProxySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "exactWeaponSourceSha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "canonicalLocked": false,
+      "usesDedicatedGripPose": false,
+      "weaponPlacementAdjustment": {
+        "x": 0,
+        "y": 0
+      },
+      "legacyWeaponPixelsRemoved": 0,
+      "exactWeaponOnly": true,
+      "gripProxyRemoved": true,
+      "semanticLayerOrder": [
+        "EXACT_DATABASE_WEAPON",
+        "BODY_ARMS_AND_HANDS_FOREGROUND"
+      ]
+    }
+  ],
+  "sheets": [
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "pair": "m4a1-m200",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v3.png",
+      "sha256": "29ED1FAF13AA580823C97D72178EFAD4EE86F9E21C301D42660D457D3D381DD6"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "pair": "ak-sks",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v3.png",
+      "sha256": "4407699F9D1E56C3CC3178E82694A18804362E12397F25779AB63FFBD06AD9C2"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "pair": "m4a1-m200",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v3.png",
+      "sha256": "95914A1835587E6F8EC6966FBA283714C1C5C6D7ED65B9453DDA09F1073B9BC8"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "pair": "ak-sks",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v3.png",
+      "sha256": "F8A43F5032669AF3881F19442F41971393C6EBE4F8E850B58A53C8D034DEA34C"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "pair": "m4a1-m200",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v3.png",
+      "sha256": "2F9683FAFAEF3207EB7C1E123BEAC9D07E4DE91FAF2E69BC4E44F10E41080F4C"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "pair": "ak-sks",
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v3.png",
+      "sha256": "D1E5608E80DC9EF81CC5FA3A4DF1B40BB4715AE904244E4006E7B5F03D2ADE6A"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "version": "v2",
+  "tool": "OpenAI built-in image generation tool",
+  "purpose": "PROJECT V V3 PVE-only Battle Suit appearance 01 mechanical redesign, appearance 02 scale/overlap repair, appearance 03 model-02 rebuild, and complete M4A1/AK/M200/SKS coverage",
+  "approvedModelAnchor": {
+    "suitCode": "BATTLE_SUIT_02",
+    "weaponCode": "EQ_1785427638137",
+    "policy": "PIXEL_LOCKED_FROM_V2_ROW_0"
+  },
+  "finalPromptSet": {
+    "cleanBodyVariants": "Generate three full-body Battle Suit variants in the approved Suit 02 scale and horizontal two-hand ready pose, with no weapon so no legacy rifle pixels can remain.",
+    "gripProxyVariants": "Generate each approved female Battle Suit holding one flat featureless green horizontal rifle proxy on a solid blue background: stock seated in the rear shoulder, trigger hand on the pistol grip, support hand under the forward handguard, elbows bent, and no rifle intersection through chest, face, arms or hands.",
+    "dedicatedM200GripVariants": "For Suit 02 and Suit 03, generate a separate long-precision-rifle pose with the butt pad contacting the rear shoulder plate, the rear hand on the trigger grip, the forward hand under the receiver front, and the eye line behind the optic; never reuse the AR pose for M200.",
+    "exactWeaponComposite": "Key out the blue background and green rifle proxy, composite the exact approved database battle-sprite raster beneath the retained body, arms and hands with rotation at exactly 0 degrees, and never redraw a weapon; runtime owns muzzle flash.",
+    "suit01": "Use the approved Suit 02 adult female scale and horizontal rifle-ready stance; redesign Suit 01 as a white-gold-cyan hard-surface mechanical exosuit with segmented armor, visible joints, servos and restrained mechanical fins; no weapon.",
+    "suit02": "Preserve the approved orange-bob black-white cyber tactical Suit 02 modeling and horizontal two-handed rifle-ready pose; remove the weapon and return a clean isolated body.",
+    "suit03": "Rebuild Suit 03 on Suit 02 adult female proportions, stance, camera and screen occupancy; retain magenta-white-black-gold helmeted exosuit identity; no weapon.",
+    "exactWeapons": "Composite the exact approved database M4A1, AK, M200 and SKS cutout rasters at 0-degree horizontal rotation behind the hands; never redraw a weapon; runtime owns muzzle flash."
+  },
+  "generatedOriginals": [
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "sourcePolicy": "GENERATED_CLEAN_BODY_NO_WEAPON",
+      "cleanBodySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-clean-body-chroma-v3.png",
+      "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
+      "transparentStatic": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png",
+      "transparentStaticSha256": "C78673ADFC3773C5D74CD19E7B62D2BB6E3F701876161123B6693D4468DB7079",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
+      "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "gripProxyPolicy": "GENERATED_TWO_HAND_HORIZONTAL_RIFLE_POSE_WITH_REMOVABLE_GREEN_PROXY",
+      "weaponSpecificGripProxies": [],
+      "alphaPreparation": "IMAGEGEN_SOLID_CHROMA_THEN_DETERMINISTIC_ALPHA_KEY"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "sourcePolicy": "GENERATED_CLEAN_BODY_NO_WEAPON",
+      "cleanBodySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-clean-body-v3.png",
+      "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
+      "transparentStatic": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v3.png",
+      "transparentStaticSha256": "C6716D759955ADAC82D95E42DD9B53B7AD58C8DAD042BC231E9C85254D9CE69E",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-grip-proxy-v3.png",
+      "gripProxySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "gripProxyPolicy": "GENERATED_TWO_HAND_HORIZONTAL_RIFLE_POSE_WITH_REMOVABLE_GREEN_PROXY",
+      "weaponSpecificGripProxies": [
+        {
+          "weaponCode": "EQ_1785961300455",
+          "source": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-m200-grip-proxy-v4.png",
+          "sha256": "C2ED3ED81537F78035833D54A5482B159BBB6A5B932D377C9A7D1A25F2517D1A",
+          "policy": "DEDICATED_WEAPON_GEOMETRY_AND_CONTACT_POINTS"
+        }
+      ],
+      "alphaPreparation": "IMAGEGEN_NATIVE_RGBA"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "sourcePolicy": "GENERATED_CLEAN_BODY_NO_WEAPON",
+      "cleanBodySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-clean-body-chroma-v3.png",
+      "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
+      "transparentStatic": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-model02-v3.png",
+      "transparentStaticSha256": "7B0E6939600E156D9857C55B842A1DD85A7F7CDCAB432483147C859B71B2B67A",
+      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-grip-proxy-v3.png",
+      "gripProxySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "gripProxyPolicy": "GENERATED_TWO_HAND_HORIZONTAL_RIFLE_POSE_WITH_REMOVABLE_GREEN_PROXY",
+      "weaponSpecificGripProxies": [
+        {
+          "weaponCode": "EQ_1785961300455",
+          "source": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-m200-grip-proxy-v4.png",
+          "sha256": "D1926B6CD676E907CD712F8B292A8899FD82A3B6BEAAE478114EDBD6D58C4DE7",
+          "policy": "DEDICATED_WEAPON_GEOMETRY_AND_CONTACT_POINTS"
+        }
+      ],
+      "alphaPreparation": "IMAGEGEN_SOLID_CHROMA_THEN_DETERMINISTIC_ALPHA_KEY"
+    }
+  ],
+  "exactDatabaseWeaponSources": [
+    {
+      "equipmentCode": "EQ_1785427638137",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "rotationDegrees": 0,
+      "sourcePolicy": "EXACT_DATABASE_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961300455",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "rotationDegrees": 0,
+      "sourcePolicy": "EXACT_DATABASE_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961232958",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "rotationDegrees": 0,
+      "sourcePolicy": "EXACT_DATABASE_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1786966923833",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "rotationDegrees": 0,
+      "sourcePolicy": "EXACT_DATABASE_BATTLE_SPRITE_RASTER"
+    }
+  ],
+  "gripLayerAtlasScript": "/scripts/build-battle-suit-atlases-v3.cjs",
+  "semanticLayerOrder": [
+    "EXACT_DATABASE_WEAPON",
+    "BODY_ARMS_AND_HANDS_FOREGROUND"
+  ],
+  "cleanBodyAtlasScript": "/scripts/build-battle-suit-atlases-v3.cjs",
+  "deterministicCompositeScript": "/scripts/build-battle-suit-atlases-v3.cjs",
+  "buildDiagnostics": "/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v3.json",
+  "runtimeContract": {
+    "scope": "PVE_ONLY",
+    "formation": "AUXILIARY_FRONT_LEFT_FORWARD_TILE",
+    "canonicalAllyCardCount": 5,
+    "movement": false,
+    "attackPresentation": "SUSTAINED_BURST_VISUAL",
+    "addsIndependentDamage": false
+  }
+}
