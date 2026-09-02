@@ -97,7 +97,7 @@ assert.match(apocalypseFxSource,/V3_APOCALYPSE_BOSS_ULTIMATE_ATLAS/);
 assert.match(apocalypseFxSource,/apocalypse-boss-ultimate-v2/,'the live Pixi renderer must use the low-afterimage Apocalypse atlas');
 assert.match(apocalypseFxSource,/blendMode:'normal'/,'the transparent crimson atlas must not use additive screen blending');
 assert.match(apocalypseFxSource,/proceduralFallback:false/);
-assert.match(battleAudioSource,/const APOCALYPSE_BOSS_ULTIMATE_AUDIO=Object\.freeze\(\{[\s\S]*gain:\.1\n\}\)/,'Apocalypse boss SFX must play at the requested 10% gain');
+assert.match(battleAudioSource,/const APOCALYPSE_BOSS_ULTIMATE_AUDIO=Object\.freeze\(\{[\s\S]*gain:\.1\r?\n\}\)/,'Apocalypse boss SFX must play at the requested 10% gain');
 assert.equal(Object.keys(apocalypseAtlas.frames||{}).filter(name=>name.startsWith('boss-ultimate_')).length,12);
 assert.equal(apocalypseManifest.fullscreenCinematic,false,'Apocalypse must never stack a full-screen boss media cinematic');
 assert.equal(apocalypseManifest.visualPolicy.whiteEnergy,false);
