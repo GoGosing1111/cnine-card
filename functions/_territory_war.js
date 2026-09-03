@@ -1,3 +1,9 @@
+import {
+  GAMST_TERRITORY_FORMATION_MARKER_KEY,
+  GAMST_TERRITORY_FORMATION_PENDING_TAG,
+  ensureGamstDeckRepairV2005
+} from './_gamst_deck_repair_v2005.js';
+
 const NODES=Object.freeze([
   {index:0,code:'A_BASE',name:'A팀 본진',type:'HOME'},
   {index:1,code:'A_OUTPOST',name:'A 전초기지',type:'OUTPOST'},
@@ -661,6 +667,25 @@ async function refreshFormationSnapshots(env,deps,roundId,users,battle){
   users.forEach((row,index)=>{const cards=entries[index].cards,loadoutBonus=safeJson(row.loadout_bonus_json,{pvp:0}),snapshot=buildFormationSnapshot({cards,uniqueState:uniqueStates[index],synergy:synergies[index],loadoutBonus,magicLoadout:storedMagic.get(Number(row.user_id)),fallbackPower:Number(row.deck_power||0)});refreshed.push({...row,deck_power:snapshot.formationPower,formation_power:snapshot.formationPower,formation_breakdown_json:JSON.stringify(snapshot.breakdown),loadout_bonus_json:JSON.stringify(snapshot.loadoutBonus)});statements.push(env.DB.prepare('UPDATE territory_war_v3_users SET deck_power=?,formation_power=?,formation_breakdown_json=?,loadout_bonus_json=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?').bind(snapshot.formationPower,snapshot.formationPower,JSON.stringify(snapshot.breakdown),JSON.stringify(snapshot.loadoutBonus),roundId,row.user_id))});
   await batchChunks(env,statements,40);return refreshed;
 }
+async function refreshGamstRepairedTerritoryFormations(env,deps){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(GAMST_TERRITORY_FORMATION_MARKER_KEY).first();
+  if(String(marker?.value||'')==='COMPLETED')return{status:'COMPLETED',refreshed:0};
+  const pending=(await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN territory_war_v3_rounds r ON r.id=w.round_id JOIN users u ON u.id=w.user_id WHERE r.status IN ('RECRUITING','PREPARING','ACTIVE') AND w.formation_breakdown_json LIKE ? ORDER BY w.round_id,w.user_id`).bind(`%${GAMST_TERRITORY_FORMATION_PENDING_TAG}%`).all()).results||[];
+  if(!pending.length){await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, 'COMPLETED',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value='COMPLETED',updated_at=CURRENT_TIMESTAMP`).bind(GAMST_TERRITORY_FORMATION_MARKER_KEY).run();return{status:'COMPLETED',refreshed:0}}
+  const battle=await deps.battleSettings(env),byRound=new Map();
+  for(const row of pending){const roundId=Number(row.round_id);if(!byRound.has(roundId))byRound.set(roundId,[]);byRound.get(roundId).push(row)}
+  let refreshed=0;
+  for(const [roundId,users] of byRound){
+    const deckMap=await formationDecks(env,deps,users,battle),valid=users.filter(row=>(deckMap.get(Number(row.user_id))||[]).length===5);
+    if(!valid.length)continue;
+    await refreshFormationSnapshots(env,deps,roundId,valid,battle);refreshed+=valid.length;
+    for(const row of valid)for(const key of participantDeckCache.keys())if(key.startsWith(`${roundId}:${row.user_id}:`))participantDeckCache.delete(key);
+  }
+  const remaining=Number((await env.DB.prepare(`SELECT COUNT(*) count FROM territory_war_v3_users w JOIN territory_war_v3_rounds r ON r.id=w.round_id WHERE r.status IN ('RECRUITING','PREPARING','ACTIVE') AND w.formation_breakdown_json LIKE ?`).bind(`%${GAMST_TERRITORY_FORMATION_PENDING_TAG}%`).first())?.count||0);
+  if(!remaining)await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, 'COMPLETED',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value='COMPLETED',updated_at=CURRENT_TIMESTAMP`).bind(GAMST_TERRITORY_FORMATION_MARKER_KEY).run();
+  publicStateSharedCache=null;realtimePulseCache=null;
+  return{status:remaining?'PENDING':'COMPLETED',refreshed,remaining};
+}
 async function participantDeck(env,deps,row,battle){
   const ids=snapshotIds(row?.deck_snapshot),key=`${row?.round_id||0}:${row?.user_id||0}:${ids.join(',')}`,cached=participantDeckCache.get(key);
   if(cached&&Date.now()<cached.expiresAt)return cached.cards.map(card=>({...card}));
@@ -690,7 +715,7 @@ function matchPowerScale(attackerPower,defenderPower,capPercent=15){
 }
 async function selectBattleOpponent(env,roundId,mine,requestId){
   const enemy=mine.side==='A'?'B':'A',seed=seedOf(`${requestId}:MATCH`),power=Math.max(1,Number(mine.deck_power||0));
-  const result=await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND w.user_id<>? ORDER BY ABS(w.deck_power-?) ASC,(((w.user_id * 1103515245) + ?) & 2147483647),w.user_id LIMIT 12`).bind(roundId,enemy,mine.user_id,power,seed).all();
+  const result=await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND w.user_id<>? AND json_array_length(CASE WHEN json_valid(w.deck_snapshot) THEN w.deck_snapshot ELSE '[]' END)=5 AND (SELECT COUNT(DISTINCT uc.card_id) FROM json_each(CASE WHEN json_valid(w.deck_snapshot) THEN w.deck_snapshot ELSE '[]' END) j JOIN user_cards uc ON uc.user_id=w.user_id AND uc.card_id=CAST(j.value AS TEXT) AND COALESCE(uc.quantity,0)>0)=5 ORDER BY ABS(w.deck_power-?) ASC,(((w.user_id * 1103515245) + ?) & 2147483647),w.user_id LIMIT 12`).bind(roundId,enemy,mine.user_id,power,seed).all();
   return pickPowerMatchedOpponent(result?.results||[],power);
 }
 function resultHpPercent(battleV2,side){const resultEvent=[...(battleV2?.result?.timeline||[])].reverse().find(event=>event.type==='RESULT');return Number(side==='A'?resultEvent?.teamAHpPercent:resultEvent?.teamBHpPercent)||0}
@@ -1242,7 +1267,9 @@ function cleanSettings(body,current){return{
 
 export async function handleTerritoryWar({path,request,env,deps}){
   if(!String(path).startsWith('territory-war')&&!String(path).startsWith('admin/territory-war'))return null;
-  territoryRuntimeDeps=deps;await ensureFoundation(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const admin=deps.isAdminRole(user),cfg=await settings(env);
+  territoryRuntimeDeps=deps;await ensureFoundation(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
+  try{const gamstRepair=await ensureGamstDeckRepairV2005(env);if(gamstRepair?.status==='COMPLETED')await refreshGamstRepairedTerritoryFormations(env,deps)}catch(error){console.error('gamst territory deck repair failed',error)}
+  const admin=deps.isAdminRole(user),cfg=await settings(env);
   if(path==='territory-war/truce-status'&&request.method==='GET'){const round=await env.DB.prepare("SELECT id,status,truce_ends_at,truce_duration_minutes FROM territory_war_v3_rounds WHERE status IN ('PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();return deps.json({roundId:Number(round?.id||0),truce:truceState(round),serverNow:iso()})}
   if(path==='territory-war/state'&&request.method==='GET')return deps.json(await publicState(env,user.id));
   if(path==='territory-war/state-lite'&&request.method==='GET')return deps.json(await realtimeState(env,user.id));
