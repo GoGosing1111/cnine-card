@@ -79,15 +79,25 @@ test('소탕 결과는 주요 보상 전체를 합산하고 실패 시 같은 �
   assert.match(route,/outcomes\.push/);
 });
 
+test('소탕 처리·결과 화면은 잔류 V3 프레임보다 앞에서 활성 결과창 하나만 표시한다',()=>{
+  const flow=section(app,'async function completePveSweepAfterAnimatedBattle','window.completePveSweepAfterAnimatedBattle=completePveSweepAfterAnimatedBattle');
+  assert.doesNotMatch(flow,/battleSleep\(650\)/,'기존 1회 결과를 먼저 노출하는 지연이 남으면 안 됩니다.');
+  assert.match(flow,/modal\.classList\.add\('pve-sweep-modal'\)/);
+  assert.match(pveCss,/\.battle-v3-live-shell>#battleMessage:not\(\[hidden\]\)/,'활성 PVE 결과창만 전면 레이어가 되어야 합니다.');
+  assert.match(pveCss,/\.battle-v3-result\[hidden\]\{display:none!important\}/,'숨긴 탑 결과창이 CSS로 되살아나면 안 됩니다.');
+  assert.match(pveCss,/z-index:2147483500!important/);
+  assert.match(pveCss,/\.battle-v3-live-shell>\.battle-v3-canvas-host[\s\S]*visibility:hidden!important/,'소탕 결과 동안 잔류 WebGL 프레임은 숨겨야 합니다.');
+});
+
 test('소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다',()=>{
   assert.match(pveCss,/\.pvev2-sweep\{/);
   assert.match(pveCss,/\.pve-sweep-panel\.is-processing/);
   assert.match(pveCss,/\.pve-sweep-stats/);
   assert.match(pveCss,/@media\(max-width:620px\)/);
-  assert.match(index,/js\/app\.js\?v=1989-pve-sweep/);
-  assert.match(index,/css\/pve-command-v2\.css\?v=1989-pve-sweep/);
-  assert.match(index,/js\/pve-command-v2-live\.js\?v=1989-pve-sweep/);
-  assert.match(app,/js\/battle-v2-live\.js\?v=1989-pve-sweep/);
-  assert.match(serviceWorker,/soop-card-shell-v1989-pve-sweep/);
+  assert.match(index,/js\/app\.js\?v=1991-battle-suit-sweep-result-front/);
+  assert.match(index,/css\/pve-command-v2\.css\?v=1991-sweep-result-front/);
+  assert.match(index,/js\/pve-command-v2-live\.js\?v=1991-sweep-result-front/);
+  assert.match(app,/js\/battle-v2-live\.js\?v=1991-sweep-result-front/);
+  assert.match(serviceWorker,/soop-card-shell-v1991-battle-suit-sweep-result-front/);
   assert.match(packageJson.scripts['release:gate']||'',/npm run test:pve-sweep/);
 });

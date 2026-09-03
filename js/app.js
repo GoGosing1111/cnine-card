@@ -854,14 +854,14 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
-      'js/battle-v2-live.js?v=1989-pve-sweep',
+      'js/battle-v2-live.js?v=1991-sweep-result-front',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=7-live-pve-continuous-fire',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=96-apocalypse-boss-skill-fx',
-      'js/battle-v3-live.js?v=3.29.0-apocalypse-boss-skill-fx'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=97-battle-suit-per-action-fire',
+      'js/battle-v3-live.js?v=3.30.0-battle-suit-per-action-fire'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }
@@ -1875,7 +1875,9 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
       return true;
     }
   };
-  await battleSleep(650);return run();
+  // 전투 결과 DOM과 WebGL 전장은 같은 모달 안에 있다. 중간 대기 없이 이 틱에서
+  // 즉시 소탕 레이어로 교체해야 잔류 Pixi/GSAP 프레임이 결과창 앞에 그려지지 않는다.
+  return run();
 }
 window.completePveSweepAfterAnimatedBattle=completePveSweepAfterAnimatedBattle;
 const battleAutoUiObserver=new MutationObserver(ensureBattleAutoToggle);

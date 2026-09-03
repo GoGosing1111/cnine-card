@@ -44,13 +44,19 @@ assert.match(engine,/async playAccountBattleUnitShot[\s\S]*await unit\.prepareRa
 assert.match(engine,/victim\.setState\(CHARACTER_STATE\.HIT\)/);
 assert.match(engine,/isAccountBattleUnitDamageEvent\(event\)/);
 assert.match(engine,/actorId\.includes\(':BATTLE_SUIT:'\)/);
-assert.match(engine,/await this\.queueAccountBattleUnitDamageShot\(target,\{[\s\S]*authoritative:!event\.dodge/);
+// V1990: 서버 사격 이벤트는 카드 타임라인을 막지 않고 큐에만 넣는다(비차단).
+assert.match(engine,/this\.queueAccountBattleUnitDamageShot\(target,\{[\s\S]*authoritative:!event\.dodge,[\s\S]*monotonicHp:true/);
+assert.doesNotMatch(engine,/await this\.queueAccountBattleUnitDamageShot\(/,'Battle Suit shots must not block the card timeline');
+assert.match(engine,/const pending=this\.accountBattleUnitDamageQueue\?\.\[0\]\|\|null;\s*if\(!pending\)\{/,'sustained fire must idle when no server shot is queued so every visible shot shows damage');
+assert.match(engine,/firesOnlyServerShots:true/);
+assert.match(engine,/waitForAccountBattleUnitDamageQueueDrain\(/);
+assert.match(live,/stopAccountBattleUnitContinuousFire\(\{ drain: /);
 assert.match(engine,/this\.syncTargetHp\(victim,Number\(targetHp\)\)/);
 assert.match(engine,/this\.accountBattleUnitDamageTotal\+=/);
 assert.match(engine,/independentOfCardTurns:true/);
 assert.match(engine,/independentOfActionGauge:true/);
 assert.match(live,/startAccountBattleUnitContinuousFire\(\)/);
-assert.match(live,/finally \{[\s\S]*await stopAccountBattleUnitContinuousFire\(\)/);
+assert.match(live,/finally \{[\s\S]*await stopAccountBattleUnitContinuousFire\(\{ drain: /);
 
 // Public payload contract: top-level wins, characterBonus/bonuses are fallback
 // only. Nickname is optional and follows the requested priority.

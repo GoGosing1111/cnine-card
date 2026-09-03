@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.29.0-apocalypse-boss-skill-fx';
+  const VERSION = '3.30.0-battle-suit-per-action-fire';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -811,8 +811,9 @@
       bindAccountBattleUnitFirearmAudio();
       return root.ProjectVPixiBattle.startAccountBattleUnitSustainedFire?.() || null;
     };
-    const stopAccountBattleUnitContinuousFire = async () => {
-      const shots = await Promise.resolve(root.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire?.() || 0);
+    const stopAccountBattleUnitContinuousFire = async ({ drain = false } = {}) => {
+      // V1990: 전투 연출이 끝나는 경로(drain)에서는 큐에 남은 서버 사격을 먼저 다 쏜다.
+      const shots = await Promise.resolve(root.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire?.(drain ? { drain: true } : undefined) || 0);
       firearmAudio()?.stop?.();
       return shots;
     };
@@ -957,8 +958,9 @@
           await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
           // The account Battle Suit is an independent PVE support actor. Its
           // weapon loop begins once deployment is visible and runs across every
-          // card action, skill, QTE and action-gauge wait. Server Battle V2
-          // damage events are consumed by the next shot in this loop.
+          // card action, skill, QTE and action-gauge wait. V1990: the loop fires
+          // only server Battle V2 damage events (several per card action), so
+          // every visible shot carries its own authoritative damage number.
           startAccountBattleUnitContinuousFire();
           let playerUltimateShown = false;
           let bossUltimateShown = false;
@@ -1081,7 +1083,7 @@
           revealBattle();
           throw new Error(`V3 전투 연출을 완료하지 못했습니다: ${error?.message || error}`);
         } finally {
-          await stopAccountBattleUnitContinuousFire();
+          await stopAccountBattleUnitContinuousFire({ drain: !destroyed && !stage.classList?.contains?.("is-v3-error") });
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;

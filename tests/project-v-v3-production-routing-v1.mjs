@@ -21,8 +21,8 @@ for(const token of [
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
   'preview/project-v-v3/project-v-firearm-qc-audio.js?v=7-live-pve-continuous-fire',
-  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=96-apocalypse-boss-skill-fx',
-  'js/battle-v3-live.js?v=3.29.0-apocalypse-boss-skill-fx'
+  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=97-battle-suit-per-action-fire',
+  'js/battle-v3-live.js?v=3.30.0-battle-suit-per-action-fire'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 
 assert.match(app,/ready:\(\)=>Boolean\(window\.ProjectVFirearmAudio\)&&Boolean\(window\.ProjectVBattleV3Live\?\.ready\?\.\(\)\)/);
@@ -38,7 +38,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=1981-superstar-haihiya-early-access'));
+assert.ok(index.includes('js/app.js?v=1991-battle-suit-sweep-result-front'));
 assert.ok(index.includes('js/responsive-battle-sprites-v1815.js?v=1958-zenith-apocalypse-sd'));
 assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));

@@ -1304,7 +1304,7 @@ export class BattleEngine{
     return true;
   }
 
-  async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,targetShield=null,authoritative=false}={}){
+  async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,targetShield=null,authoritative=false,monotonicHp=false}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
     // Preserve the just-resolved authoritative target even when that hit set
@@ -1361,8 +1361,8 @@ export class BattleEngine{
         onImpact:({profile})=>{
           this.triggerAccountBattleUnitBallisticHit(victim,profile,playbackRate);
           if(authoritative){
-            if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
-            if(hasFiniteNumber(targetShield))this.syncTargetShield(victim,Number(targetShield));
+            if(hasFiniteNumber(targetHp)&&(!monotonicHp||Number(targetHp)<Number(victim.hp)))this.syncTargetHp(victim,Number(targetHp));
+            if(hasFiniteNumber(targetShield)&&(!monotonicHp||Number(targetShield)<Number(victim.shield)))this.syncTargetShield(victim,Number(targetShield));
             this.showAccountBattleUnitDamage(victim,{damage,critical,playbackRate});
             this.accountBattleUnitDamageEventCount+=1;
             this.accountBattleUnitDamageTotal+=Math.max(0,Number(damage)||0);
@@ -1441,23 +1441,34 @@ export class BattleEngine{
     run.promise=(async()=>{
       try{
         while(run.active&&this.visible&&this.accountBattleUnitEnabled&&unit.active){
+          // V1990: 총은 서버가 판정한 사격 이벤트가 있을 때만 쏜다. 그래야 화면의 모든
+          //   발사에 데미지 숫자가 붙는다. 큐가 비면 대기 자세로 다음 이벤트를 기다린다.
           const pending=this.accountBattleUnitDamageQueue?.[0]||null;
-          const target=pending?.target?.root?pending.target:this.accountBattleUnitSustainedTarget();
-          if(!target){
-            if(!await this.waitForAccountBattleUnitFire(120,run))break;
+          if(!pending){
+            if(!await this.waitForAccountBattleUnitFire(40,run))break;
             continue;
           }
-          if(pending)this.accountBattleUnitDamageQueue.shift();
+          const target=pending.target?.root&&this.isAlive(pending.target)?pending.target:(pending.target?.root||this.accountBattleUnitSustainedTarget());
+          if(!target){
+            this.accountBattleUnitDamageQueue.shift();
+            pending.resolve?.(false);
+            continue;
+          }
+          this.accountBattleUnitDamageQueue.shift();
+          const backlog=this.accountBattleUnitDamageQueue.length;
+          // 서버 발수가 시각 연사 속도보다 빠르면 밀린 만큼 재생 속도를 올리고 간격을 줄인다.
+          const rush=clamp(1+backlog*.18,1,3);
           let played=false;
           try{
             played=await this.playAccountBattleUnitShot(target,{
-              ...(pending?.options||{}),
-              playbackRate:profile.playbackRate,
-              authoritative:Boolean(pending?.options?.authoritative)
+              ...(pending.options||{}),
+              playbackRate:profile.playbackRate*rush,
+              authoritative:Boolean(pending.options?.authoritative),
+              monotonicHp:Boolean(pending.options?.monotonicHp)
             });
-            pending?.resolve?.(played);
+            pending.resolve?.(played);
           }catch(error){
-            pending?.reject?.(error);
+            pending.reject?.(error);
             throw error;
           }
           if(!run.active||this.accountBattleUnitFireRun!==run)break;
@@ -1465,7 +1476,8 @@ export class BattleEngine{
           run.shots+=1;
           this.accountBattleUnitSustainedShotCount+=1;
           run.roundInBurst=(run.roundInBurst+1)%profile.roundsPerBurst;
-          const delay=run.roundInBurst===0?profile.burstDelayMs:profile.intraBurstDelayMs;
+          const baseDelay=run.roundInBurst===0?profile.burstDelayMs:profile.intraBurstDelayMs;
+          const delay=backlog>2?0:backlog>0?Math.min(baseDelay,Math.round(profile.intraBurstDelayMs||60)/rush):baseDelay;
           if(!await this.waitForAccountBattleUnitFire(delay,run))break;
         }
       }finally{
@@ -1480,9 +1492,32 @@ export class BattleEngine{
     return run;
   }
 
-  stopAccountBattleUnitSustainedFire(){
+  waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
     const run=this.accountBattleUnitFireRun;
-    if(!run)return Promise.resolve(0);
+    if(!run?.active)return Promise.resolve(true);
+    const deadline=performance.now()+Math.max(0,Number(timeoutMs)||0);
+    return new Promise(resolve=>{
+      const poll=()=>{
+        const queued=this.accountBattleUnitDamageQueue?.length||0;
+        const firing=Boolean(this.accountBattleUnit?.fireTimeline);
+        if(!run.active||this.accountBattleUnitFireRun!==run||(!queued&&!firing))return resolve(true);
+        if(performance.now()>=deadline)return resolve(false);
+        setTimeout(poll,40);
+      };
+      poll();
+    });
+  }
+
+  async stopAccountBattleUnitSustainedFire({drain=false,drainTimeoutMs=null}={}){
+    // V1990: 전투 끝에 아직 큐에 남은 서버 사격을 먼저 다 쏘고(데미지 숫자 포함) 멈춘다.
+    //   대기 한도는 밀린 발수에 비례(발당 ~120ms, 최대 6초).
+    if(drain){
+      const backlog=this.accountBattleUnitDamageQueue?.length||0;
+      const timeout=hasFiniteNumber(drainTimeoutMs)?Number(drainTimeoutMs):clamp(400+backlog*120,400,6000);
+      await this.waitForAccountBattleUnitDamageQueueDrain(timeout);
+    }
+    const run=this.accountBattleUnitFireRun;
+    if(!run)return 0;
     run.active=false;
     if(run.timer){clearTimeout(run.timer);run.timer=0}
     const wake=run.wake;
@@ -1490,7 +1525,7 @@ export class BattleEngine{
     wake?.();
     this.accountBattleUnit?.cancelFire();
     this.settleAccountBattleUnitDamageQueue(false);
-    return run.promise||Promise.resolve(run.shots||0);
+    return run.promise||(run.shots||0);
   }
 
   monsterFromPayload(payload){
@@ -2748,16 +2783,19 @@ export class BattleEngine{
       }
       else if(type==='ATTACK'||type==='TURN'){
         if(this.isAccountBattleUnitDamageEvent(event)){
-          await this.queueAccountBattleUnitDamageShot(target,{
+          // V1990: 서버가 카드 행동마다 배틀슈트 사격 이벤트를 여러 발 보낸다.
+          //   카드 타임라인을 막지 않도록 큐에만 넣고 바로 다음 이벤트로 넘어간다.
+          //   연사 루프가 큐를 순서대로 소비하며 한 발마다 데미지 숫자를 띄운다.
+          //   HP 동기화는 "감소만" 허용해 뒤따른 카드 타격 값이 되돌아가지 않게 한다.
+          this.queueAccountBattleUnitDamageShot(target,{
             damage,
             critical:Boolean(event.critical),
             targetHp:resolvedTargetHp,
             targetShield:targetShieldAfter,
             authoritative:!event.dodge,
+            monotonicHp:true,
             playbackRate:this.paceScale||1
-          });
-          if(event.dodge)await this.showBanner('배틀슈트 사격 회피',0x62e9ff,'MISS');
-          syncEventShields();
+          }).catch(error=>console.warn('[Project V V3] Battle Suit shot failed',error));
           continue;
         }
         if(event.dodge){
@@ -3168,6 +3206,8 @@ export class BattleEngine{
           queuedDamageEvents:this.accountBattleUnitDamageQueue?.length||0,
           independentOfCardTurns:true,
           independentOfActionGauge:true,
+          firesOnlyServerShots:true,
+          damagePerShot:true,
           affectsDamage:false
         }
       },

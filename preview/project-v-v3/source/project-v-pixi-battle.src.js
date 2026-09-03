@@ -93,8 +93,8 @@ function startAccountBattleUnitSustainedFire(){
   return engine?.startAccountBattleUnitSustainedFire?.()||null;
 }
 
-function stopAccountBattleUnitSustainedFire(){
-  return engine?.stopAccountBattleUnitSustainedFire?.()||Promise.resolve(0);
+function stopAccountBattleUnitSustainedFire(options){
+  return engine?.stopAccountBattleUnitSustainedFire?.(options)||Promise.resolve(0);
 }
 
 async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
