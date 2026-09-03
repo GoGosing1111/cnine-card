@@ -42,6 +42,9 @@
 
   function product(){return state.data?.[state.kind]||{}}
   function poolRows(){return Array.isArray(product().pool?.entries)?product().pool.entries:[]}
+  function nativeType(){return state.kind==='equipment'?'EQUIPMENT':'VEHICLE'}
+  function catalogRows(type){const key=String(type||'').toLowerCase();return Array.isArray(state.data?.catalog?.[key])?state.data.catalog[key]:[]}
+  function catalogOptions(type){const selected=new Set(poolRows().map(row=>row.poolKey)),rows=catalogRows(type).filter(row=>!selected.has(row.poolKey));return rows.length?rows.map(row=>`<option value="${esc(row.poolKey)}">${esc(row.name)} · ${esc(row.code)}</option>`).join(''):'<option value="">추가 가능한 품목 없음</option>'}
   function weightTotal(){return poolRows().reduce((sum,row)=>sum+number(row.drawWeight),0)}
   function fmt(value,digits=0){return number(value).toLocaleString('ko-KR',{minimumFractionDigits:digits,maximumFractionDigits:digits})}
   function tierOptions(selected){return tiers.map(([value,label])=>`<option value="${value}" ${selected===value?'selected':''}>${label} · ${value}</option>`).join('')}
@@ -52,7 +55,7 @@
     if(!root)return;
     root.innerHTML=`
       <header class="primeDrawCmsHeroV1986">
-        <div><small>PRIME ACQUISITION CONTROL · V1986</small><h2>프라임 뽑기 관리</h2><p>신규 상품의 독립 확률표와 아이템별 특별 연출을 OWNER가 직접 관리합니다.</p></div>
+        <div><small>PRIME ACQUISITION CONTROL · V1987</small><h2>프라임 뽑기 관리</h2><p>신규 상품의 독립 확률표, 추가 보상 품목과 아이템별 특별 연출을 OWNER가 직접 관리합니다.</p></div>
         <div class="primeDrawCmsHeroActionsV1986"><span class="primeDrawCmsDbV1986">독립 풀 · ${esc(item.poolVersion||'-')}</span><button type="button" class="ghost" id="primeDrawReloadV1986">새로고침</button></div>
       </header>
       <nav class="primeDrawCmsTabsV1986" aria-label="프라임 상품 선택">
@@ -69,16 +72,25 @@
         <label><span>상점 판매</span><select id="primeDrawShopEnabledV1986"><option value="1" ${settings.shopEnabled!==false?'selected':''}>ON · 판매</option><option value="0" ${settings.shopEnabled===false?'selected':''}>OFF · 판매 중지</option></select></label>
         <label><span>인벤토리 개봉</span><select id="primeDrawOpenEnabledV1986"><option value="1" ${settings.openEnabled!==false?'selected':''}>ON · 개봉</option><option value="0" ${settings.openEnabled===false?'selected':''}>OFF · 개봉 중지</option></select></label>
       </section>
+      <section class="primeDrawCmsAddV1987">
+        <div><small>POOL CATALOG</small><h3>드랍풀 품목 추가</h3><p>장비·이동수단 카탈로그와 공개 아바타를 선택해 현재 상품의 독립 풀에 추가합니다.</p></div>
+        <label><span>보상 종류</span><select id="primeDrawAddTypeV1987"><option value="${nativeType()}">${state.kind==='equipment'?'장비':'이동수단'}</option><option value="AVATAR">아바타</option></select></label>
+        <label class="wide"><span>추가 품목</span><select id="primeDrawAddItemV1987">${catalogOptions(nativeType())}</select></label>
+        <label><span>초기 확률 %</span><input id="primeDrawAddWeightV1987" type="number" min="0.000001" max="100" step="0.000001" value="0.010000"></label>
+        <button type="button" id="primeDrawAddV1987">품목 추가 + 자동 재분배</button>
+      </section>
       <section class="primeDrawCmsPoolV1986">
         <div class="primeDrawCmsPoolHeadV1986"><div><small>INDEPENDENT WEIGHT TABLE</small><h3>아이템 확률·연출 설정</h3><p>원본 확률과 가격 보정 배율은 비교용이며, 실제 확률만 수정됩니다.</p></div><button type="button" class="ghost" id="primeDrawNormalizeV1986">현재 비율로 100% 맞추기</button></div>
-        <div class="primeDrawCmsTableWrapV1986"><table><thead><tr><th>아이템</th><th>전투력</th><th>원본 확률</th><th>가격 보정</th><th>실제 확률 %</th><th>특별 연출</th><th>연출 등급</th><th>연출 테마</th></tr></thead><tbody>
-          ${rows.map(row=>`<tr data-prime-row="${Number(row.id)}">
+        <div class="primeDrawCmsTableWrapV1986"><table><thead><tr><th>아이템</th><th>종류</th><th>전투력</th><th>원본 확률</th><th>가격 보정</th><th>실제 확률 %</th><th>특별 연출</th><th>연출 등급</th><th>연출 테마</th><th>관리</th></tr></thead><tbody>
+          ${rows.map(row=>`<tr data-prime-row="${esc(row.poolKey||`${row.rewardType}:${row.code}`)}">
             <td><div class="primeDrawCmsItemV1986"><span>${row.image?`<img src="${esc(asset(row.image))}" alt="">`:'NO IMAGE'}</span><div><b>${esc(row.name)}</b><small>${esc(row.code)} · ${esc(row.rarity)}</small></div></div></td>
-            <td><b>${fmt(row.power)}</b></td><td>${fmt(row.sourceProbability,6)}%</td><td>×${fmt(row.boostMultiplier,4)}</td>
+            <td><span class="primeDrawTypeV1987 ${String(row.rewardType||'').toLowerCase()}">${row.rewardType==='AVATAR'?'아바타':row.rewardType==='VEHICLE'?'이동수단':'장비'}</span></td>
+            <td><b>${row.rewardType==='AVATAR'?'—':fmt(row.power)}</b></td><td>${row.isExtra?'추가 품목':`${fmt(row.sourceProbability,6)}%`}</td><td>${row.isExtra?'독립':`×${fmt(row.boostMultiplier,4)}`}</td>
             <td><input class="primeDrawWeightV1986" data-prime-weight type="number" min="0" max="100" step="0.000001" value="${number(row.drawWeight).toFixed(6)}"></td>
             <td><label class="primeDrawCmsCheckV1986"><input data-prime-presentation type="checkbox" ${row.presentation?.enabled?'checked':''}><span>${row.presentation?.enabled?'ON':'OFF'}</span></label></td>
             <td><select data-prime-tier>${tierOptions(String(row.presentation?.tier||'STANDARD'))}</select></td>
             <td><select data-prime-effect>${effectOptions(String(row.presentation?.effectKey||'NONE'))}</select></td>
+            <td>${row.removable?`<button type="button" class="primeDrawRemoveV1987" data-prime-remove="${esc(row.poolKey)}">풀에서 제거</button>`:'<span class="primeDrawBaseV1987">기본 품목</span>'}</td>
           </tr>`).join('')}
         </tbody></table></div>
       </section>
@@ -91,9 +103,32 @@
     document.querySelectorAll('[data-prime-kind]').forEach(button=>button.addEventListener('click',()=>{state.kind=button.dataset.primeKind;render()}));
     $('#primeDrawNormalizeV1986')?.addEventListener('click',normalize);
     $('#primeDrawSaveV1986')?.addEventListener('click',save);
+    $('#primeDrawAddTypeV1987')?.addEventListener('change',syncCatalog);
+    $('#primeDrawAddV1987')?.addEventListener('click',addEntry);
+    document.querySelectorAll('[data-prime-remove]').forEach(button=>button.addEventListener('click',()=>removeEntry(button.dataset.primeRemove)));
     document.querySelectorAll('[data-prime-weight]').forEach(input=>input.addEventListener('input',sync));
     document.querySelectorAll('[data-prime-presentation]').forEach(input=>input.addEventListener('change',()=>{const label=input.closest('label')?.querySelector('span');if(label)label.textContent=input.checked?'ON':'OFF';sync()}));
   }
+
+  function syncCatalog(){const type=$('#primeDrawAddTypeV1987')?.value||nativeType(),select=$('#primeDrawAddItemV1987');if(select)select.innerHTML=catalogOptions(type)}
+
+  function capture(){
+    const originals=new Map(poolRows().map(row=>[row.poolKey,row]));
+    product().settings={...(product().settings||{}),shopEnabled:$('#primeDrawShopEnabledV1986')?.value==='1',openEnabled:$('#primeDrawOpenEnabledV1986')?.value==='1'};
+    product().pool.entries=[...document.querySelectorAll('[data-prime-row]')].map(row=>{const poolKey=row.dataset.primeRow,source=originals.get(poolKey)||{};return {...source,poolKey,drawWeight:number(row.querySelector('[data-prime-weight]')?.value),presentation:{enabled:Boolean(row.querySelector('[data-prime-presentation]')?.checked),tier:row.querySelector('[data-prime-tier]')?.value||'STANDARD',effectKey:row.querySelector('[data-prime-effect]')?.value||'NONE'}}});
+    product().pool.entryCount=product().pool.entries.length;
+  }
+
+  function normalizedRows(rows,totalTarget=100){const total=rows.reduce((sum,row)=>sum+Math.max(0,number(row.drawWeight)),0);if(!rows.length||!total)return rows;let assigned=0;return rows.map((row,index)=>{const weight=index===rows.length-1?totalTarget-assigned:Number((Math.max(0,number(row.drawWeight))/total*totalTarget).toFixed(6));assigned+=weight;return {...row,drawWeight:Math.max(0,weight)}})}
+
+  function addEntry(){
+    capture();const type=$('#primeDrawAddTypeV1987')?.value||nativeType(),poolKey=$('#primeDrawAddItemV1987')?.value,weight=number($('#primeDrawAddWeightV1987')?.value),candidate=catalogRows(type).find(row=>row.poolKey===poolKey);
+    if(!candidate)return alert('추가할 품목을 선택해 주세요.');if(!(weight>0&&weight<100))return alert('초기 확률은 0%보다 크고 100%보다 작아야 합니다.');
+    const current=normalizedRows(poolRows(),100-weight),effect=effects[state.kind][effects[state.kind].length-1][0],next={...candidate,isExtra:true,removable:true,sourceProbability:0,boostMultiplier:1,drawWeight:weight,presentation:{enabled:type==='AVATAR',tier:type==='AVATAR'?'CINEMATIC':'STANDARD',effectKey:type==='AVATAR'?effect:'NONE'}};
+    product().pool.entries=[...current,next];product().pool.entryCount=product().pool.entries.length;render();
+  }
+
+  function removeEntry(poolKey){capture();const target=poolRows().find(row=>row.poolKey===poolKey);if(!target?.removable)return;product().pool.entries=normalizedRows(poolRows().filter(row=>row.poolKey!==poolKey));product().pool.entryCount=product().pool.entries.length;render()}
 
   function sync(){
     const rows=[...document.querySelectorAll('[data-prime-row]')],total=rows.reduce((sum,row)=>sum+number(row.querySelector('[data-prime-weight]')?.value),0),special=rows.filter(row=>row.querySelector('[data-prime-presentation]')?.checked).length,totalNode=$('#primeDrawTotalV1986'),specialNode=$('#primeDrawSpecialV1986');
@@ -111,7 +146,7 @@
 
   async function save(){
     if(state.busy)return;
-    const rows=[...document.querySelectorAll('[data-prime-row]')],entries=rows.map(row=>({id:Number(row.dataset.primeRow),drawWeight:number(row.querySelector('[data-prime-weight]')?.value),presentation:{enabled:Boolean(row.querySelector('[data-prime-presentation]')?.checked),tier:row.querySelector('[data-prime-tier]')?.value||'STANDARD',effectKey:row.querySelector('[data-prime-effect]')?.value||'NONE'}})),total=entries.reduce((sum,row)=>sum+row.drawWeight,0);
+    const rows=[...document.querySelectorAll('[data-prime-row]')],entries=rows.map(row=>({poolKey:row.dataset.primeRow,drawWeight:number(row.querySelector('[data-prime-weight]')?.value),presentation:{enabled:Boolean(row.querySelector('[data-prime-presentation]')?.checked),tier:row.querySelector('[data-prime-tier]')?.value||'STANDARD',effectKey:row.querySelector('[data-prime-effect]')?.value||'NONE'}})),total=entries.reduce((sum,row)=>sum+row.drawWeight,0);
     if(Math.abs(total-100)>.0001)return alert(`활성 확률 합계를 100%로 맞춰주세요. 현재 ${total.toFixed(6)}%입니다.`);
     const settings={shopEnabled:$('#primeDrawShopEnabledV1986')?.value==='1',openEnabled:$('#primeDrawOpenEnabledV1986')?.value==='1'},button=$('#primeDrawSaveV1986');
     state.busy=true;if(button){button.disabled=true;button.textContent='저장 중'}

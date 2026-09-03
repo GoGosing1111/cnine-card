@@ -2,9 +2,13 @@
 const UPGRADE_KEY='safe_runtime_upgrade_v1985_prime_draw_live';
 const EQUIPMENT_POOL_TABLE='prime_equipment_draw_pool_v1985';
 const VEHICLE_POOL_TABLE='prime_vehicle_draw_pool_v1985';
+const EXTRA_POOL_TABLE='prime_draw_extra_pool_v1987';
 const PURCHASE_RECEIPTS='prime_draw_purchase_receipts_v1985';
 const OPEN_RECEIPTS='prime_draw_open_receipts_v1985';
 const OPEN_LIMIT=500;
+// 개봉은 보상 INSERT 크기 때문에 500개 원자 영수증을 유지한다. 구매는 재고 수량만
+// 증가하므로 PostgreSQL INTEGER와 JS 안전 정수 범위 안에서 사실상 제한 없이 허용한다.
+const PURCHASE_LIMIT=2000000000;
 const RARITIES=['NORMAL','MAGIC','RARE','EPIC','LEGENDARY','MYTHIC'];
 const EQUIPMENT_SLOT_LABELS={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구',BATTLE_SUIT:'배틀슈트'};
 
@@ -130,16 +134,20 @@ function publicVehicle(row){
   return {id:Number(row.id),code:row.code,name:row.name,rarity:String(row.rarity||'NORMAL').toUpperCase(),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0)};
 }
 
+function publicAvatar(row){
+  return {code:row.code,name:row.name,rarity:'AVATAR',image:row.image_url||row.lobby_image||'',description:row.description||'',roleLabel:row.role_label||'',accent:row.accent||'#82c7d7'};
+}
+
 function aggregateResults(kind,results){
   const grouped=new Map();
   for(const result of results){
-    const item=kind==='equipment'?result.item:result.vehicle;
-    const row=grouped.get(item.code)||{code:item.code,name:item.name,rarity:item.rarity,image:item.image,count:0,newCount:0,duplicateCount:0,shardsGained:0,presentation:result.presentation||{enabled:false,tier:'STANDARD',effectKey:'NONE'}};
+    const item=result.item||result.vehicle||result.avatar,rewardType=String(result.type||kind).toUpperCase(),key=`${rewardType}:${item.code}`;
+    const row=grouped.get(key)||{rewardType,code:item.code,name:item.name,rarity:item.rarity,image:item.image,count:0,newCount:0,duplicateCount:0,shardsGained:0,presentation:result.presentation||{enabled:false,tier:'STANDARD',effectKey:'NONE'}};
     row.count++;
-    if(kind==='equipment'||!result.duplicate)row.newCount++;
+    if(rewardType==='EQUIPMENT'||rewardType==='AVATAR'||!result.duplicate)row.newCount++;
     if(result.duplicate)row.duplicateCount++;
     row.shardsGained+=Number(result.shardsGained||0);
-    grouped.set(item.code,row);
+    grouped.set(key,row);
   }
   return [...grouped.values()].sort((a,b)=>RARITIES.indexOf(b.rarity)-RARITIES.indexOf(a.rarity)||b.count-a.count);
 }
@@ -155,11 +163,21 @@ function primeSchemaStatements(postgres=false){
   return [
     `CREATE TABLE IF NOT EXISTS ${EQUIPMENT_POOL_TABLE} (equipment_id ${idType} PRIMARY KEY,entry_code TEXT NOT NULL,source_weight REAL NOT NULL,source_probability REAL NOT NULL,boost_multiplier REAL NOT NULL,draw_weight REAL NOT NULL,power_snapshot ${amountType} NOT NULL DEFAULT 0,rarity_snapshot TEXT NOT NULL DEFAULT 'NORMAL',presentation_enabled INTEGER NOT NULL DEFAULT 0,presentation_tier TEXT NOT NULL DEFAULT 'STANDARD',effect_key TEXT NOT NULL DEFAULT 'NONE',pool_version TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
     `CREATE TABLE IF NOT EXISTS ${VEHICLE_POOL_TABLE} (garage_id ${idType} PRIMARY KEY,entry_code TEXT NOT NULL,source_weight REAL NOT NULL,source_probability REAL NOT NULL,boost_multiplier REAL NOT NULL,draw_weight REAL NOT NULL,duplicate_shards ${amountType} NOT NULL DEFAULT 0,power_snapshot ${amountType} NOT NULL DEFAULT 0,rarity_snapshot TEXT NOT NULL DEFAULT 'NORMAL',presentation_enabled INTEGER NOT NULL DEFAULT 0,presentation_tier TEXT NOT NULL DEFAULT 'STANDARD',effect_key TEXT NOT NULL DEFAULT 'NONE',pool_version TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
+    `CREATE TABLE IF NOT EXISTS ${EXTRA_POOL_TABLE} (product_kind TEXT NOT NULL,reward_type TEXT NOT NULL,reward_ref TEXT NOT NULL,draw_weight REAL NOT NULL DEFAULT 0,presentation_enabled INTEGER NOT NULL DEFAULT 0,presentation_tier TEXT NOT NULL DEFAULT 'STANDARD',effect_key TEXT NOT NULL DEFAULT 'NONE',pool_version TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault},PRIMARY KEY(product_kind,reward_type,reward_ref))`,
     `CREATE TABLE IF NOT EXISTS ${PURCHASE_RECEIPTS} (request_id TEXT PRIMARY KEY,user_id ${idType} NOT NULL,item_code TEXT NOT NULL,count INTEGER NOT NULL,unit_price ${amountType} NOT NULL,total_price ${amountType} NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
     `CREATE TABLE IF NOT EXISTS ${OPEN_RECEIPTS} (request_id TEXT PRIMARY KEY,user_id ${idType} NOT NULL,item_code TEXT NOT NULL,count INTEGER NOT NULL,pool_version TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
     `CREATE INDEX IF NOT EXISTS idx_prime_purchase_user_v1985 ON ${PURCHASE_RECEIPTS}(user_id,created_at DESC)`,
     `CREATE INDEX IF NOT EXISTS idx_prime_open_user_v1985 ON ${OPEN_RECEIPTS}(user_id,created_at DESC)`
   ];
+}
+
+function eligiblePool(rows,ownedAvatarCodes){
+  return rows.filter(row=>row.rewardType!=='AVATAR'||!ownedAvatarCodes.has(row.code));
+}
+
+function avatarGrantStatement(env,{requestId,userId,itemCode,avatarCodes}){
+  const rewards=JSON.stringify([...avatarCodes]);
+  return env.DB.prepare(`WITH receipt_guard AS (SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'),reward_rows AS (SELECT CAST(value AS TEXT) avatar_code FROM json_each(?)) INSERT OR IGNORE INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref,acquired_at,expires_at) SELECT ?,reward_rows.avatar_code,'PRIME_DRAW',?,CURRENT_TIMESTAMP,NULL FROM reward_rows CROSS JOIN receipt_guard`).bind(requestId,userId,itemCode,rewards,userId,requestId);
 }
 
 async function ensureTables(env){
@@ -202,6 +220,7 @@ export async function ensurePrimeDrawFoundation(env,deps={}){
   foundationPromise=(async()=>{
     if(typeof deps.ensureEquipmentFoundation==='function')await deps.ensureEquipmentFoundation(env);
     if(typeof deps.ensureVehicleDrawFoundation==='function')await deps.ensureVehicleDrawFoundation(env);
+    if(typeof deps.ensureAvatarFoundation==='function')await deps.ensureAvatarFoundation(env);
     await ensureTables(env);
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(UPGRADE_KEY).first();
     if(!marker?.value)await seedIndependentPools(env);
@@ -210,28 +229,52 @@ export async function ensurePrimeDrawFoundation(env,deps={}){
   return foundationPromise;
 }
 
-async function loadPool(env,product){
-  const sql=product.kind==='equipment'
-    ?`SELECT p.*,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.slot,i.total_power,i.pve_power,i.pvp_power FROM ${EQUIPMENT_POOL_TABLE} p JOIN character_equipment_items i ON i.id=p.equipment_id WHERE i.is_active=1 AND i.is_public=1 AND p.draw_weight>0 ORDER BY p.draw_weight DESC,i.id`
-    :`SELECT p.*,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.total_power,i.pve_power,i.pvp_power FROM ${VEHICLE_POOL_TABLE} p JOIN character_garage_items i ON i.id=p.garage_id WHERE i.is_active=1 AND i.is_public=1 AND p.draw_weight>0 ORDER BY p.draw_weight DESC,i.id`;
-  const rows=(await env.DB.prepare(sql).all()).results||[];
-  return rows.map(row=>({...row,presentation:{enabled:Number(row.presentation_enabled)!==0,tier:row.presentation_tier||'STANDARD',effectKey:row.effect_key||'NONE'}}));
+function poolRow(row,rewardType,isExtra=false){
+  const type=String(rewardType||'').toUpperCase(),code=String(row.code||row.reward_ref||row.entry_code||'');
+  return {...row,id:Number(row.id||0),code,rewardType:type,rewardRef:code,poolKey:`${type}:${code}`,isExtra,removable:isExtra,presentation:{enabled:Number(row.presentation_enabled)!==0,tier:row.presentation_tier||'STANDARD',effectKey:row.effect_key||'NONE'}};
 }
 
-async function configPayload(env,user,product,{includePool=true}={}){
+async function loadPool(env,product,{includeZero=false}={}){
+  const weightClause=includeZero?'':' AND p.draw_weight>0',extraWeightClause=includeZero?'':' AND x.draw_weight>0';
+  const baseSql=product.kind==='equipment'
+    ?`SELECT p.*,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.slot,i.total_power,i.pve_power,i.pvp_power FROM ${EQUIPMENT_POOL_TABLE} p JOIN character_equipment_items i ON i.id=p.equipment_id WHERE i.is_active=1 AND i.is_public=1${weightClause} ORDER BY p.draw_weight DESC,i.id`
+    :`SELECT p.*,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.total_power,i.pve_power,i.pvp_power FROM ${VEHICLE_POOL_TABLE} p JOIN character_garage_items i ON i.id=p.garage_id WHERE i.is_active=1 AND i.is_public=1${weightClause} ORDER BY p.draw_weight DESC,i.id`;
+  const nativeType=product.kind==='equipment'?'EQUIPMENT':'VEHICLE',nativeTable=product.kind==='equipment'?'character_equipment_items':'character_garage_items';
+  const nativeExtraSql=`SELECT x.*,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.total_power,i.pve_power,i.pvp_power${product.kind==='equipment'?',i.slot':''},0 source_probability,1 boost_multiplier FROM ${EXTRA_POOL_TABLE} x JOIN ${nativeTable} i ON i.code=x.reward_ref WHERE x.product_kind=? AND x.reward_type=? AND i.is_active=1 AND i.is_public=1${extraWeightClause} ORDER BY x.draw_weight DESC,i.id`;
+  const avatarSql=`SELECT x.*,a.code,a.name,'AVATAR' rarity,a.lobby_image image_url,a.description,a.role_label,a.accent,0 total_power,0 pve_power,0 pvp_power,0 source_probability,1 boost_multiplier FROM ${EXTRA_POOL_TABLE} x JOIN avatar_catalog_v1 a ON a.code=x.reward_ref WHERE x.product_kind=? AND x.reward_type='AVATAR' AND a.is_active=1 AND a.is_public=1${extraWeightClause} ORDER BY x.draw_weight DESC,a.sort_order,a.code`;
+  const [baseResult,nativeExtraResult,avatarResult]=await Promise.all([
+    env.DB.prepare(baseSql).all(),
+    env.DB.prepare(nativeExtraSql).bind(product.kind,nativeType).all(),
+    env.DB.prepare(avatarSql).bind(product.kind).all()
+  ]);
+  const combined=[...(baseResult.results||[]).map(row=>poolRow(row,nativeType,false)),...(nativeExtraResult.results||[]).map(row=>poolRow(row,nativeType,true)),...(avatarResult.results||[]).map(row=>poolRow(row,'AVATAR',true))],seen=new Set();
+  return combined.filter(row=>row.code&&!seen.has(row.poolKey)&&(seen.add(row.poolKey)||true));
+}
+
+async function loadAdminCatalog(env){
+  const [equipment,vehicle,avatar]=await Promise.all([
+    env.DB.prepare('SELECT id,code,name,rarity,image_url,description,total_power,pve_power,pvp_power,slot FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY sort_order,id').all(),
+    env.DB.prepare('SELECT id,code,name,rarity,image_url,description,total_power,pve_power,pvp_power FROM character_garage_items WHERE is_active=1 AND is_public=1 ORDER BY sort_order,id').all(),
+    env.DB.prepare("SELECT code,name,'AVATAR' rarity,lobby_image image_url,description,role_label,accent,0 total_power,0 pve_power,0 pvp_power FROM avatar_catalog_v1 WHERE is_active=1 AND is_public=1 ORDER BY sort_order,code").all()
+  ]);
+  const map=(rows,type)=>(rows.results||[]).map(row=>({poolKey:`${type}:${row.code}`,rewardType:type,rewardRef:row.code,id:Number(row.id||0),code:row.code,name:row.name,rarity:row.rarity,image:row.image_url||'',description:row.description||'',power:Number(row.total_power||0),roleLabel:row.role_label||'',accent:row.accent||''}));
+  return {equipment:map(equipment,'EQUIPMENT'),vehicle:map(vehicle,'VEHICLE'),avatar:map(avatar,'AVATAR')};
+}
+
+async function configPayload(env,user,product,{includePool=true,includeZero=false}={}){
   const [balance,account,pool,settings]=await Promise.all([
     env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),
     env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first(),
-    includePool?loadPool(env,product):Promise.resolve([]),
+    includePool?loadPool(env,product,{includeZero}):Promise.resolve([]),
     loadProductSettings(env,product)
   ]);
   const available=pool.length>0;
-  return {kind:product.kind,itemCode:product.itemCode,legacyItemCode:product.legacyItemCode,name:product.name,subtitle:product.subtitle,image:product.image,openEnabled:available&&settings.openEnabled,maxOpen:OPEN_LIMIT,poolVersion:product.poolVersion,priceRatio:product.priceRatio,balance:Number(balance?.quantity||0),ticketQuantity:Number(balance?.quantity||0),coin:Number(account?.coin||0),settings,shop:{enabled:available&&settings.shopEnabled,unitPrice:product.unitPrice,originalUnitPrice:product.unitPrice,promotionDiscountPercent:0},pool:{independent:true,legacyShared:false,entryCount:pool.length,entries:pool.map(row=>({id:Number(row.id),code:row.code,name:row.name,rarity:row.rarity,image:row.image_url||'',power:Number(row.total_power||0),sourceProbability:Number(row.source_probability||0),boostMultiplier:Number(row.boost_multiplier||0),drawWeight:Number(row.draw_weight||0),presentation:row.presentation}))}};
+  return {kind:product.kind,itemCode:product.itemCode,legacyItemCode:product.legacyItemCode,name:product.name,subtitle:product.subtitle,image:product.image,openEnabled:available&&settings.openEnabled,maxOpen:OPEN_LIMIT,maxPurchase:PURCHASE_LIMIT,batchOpenEnabled:true,poolVersion:product.poolVersion,priceRatio:product.priceRatio,balance:Number(balance?.quantity||0),ticketQuantity:Number(balance?.quantity||0),coin:Number(account?.coin||0),settings,shop:{enabled:available&&settings.shopEnabled,unitPrice:product.unitPrice,originalUnitPrice:product.unitPrice,promotionDiscountPercent:0},pool:{independent:true,legacyShared:false,entryCount:pool.length,entries:pool.map(row=>({id:Number(row.id),poolKey:row.poolKey,rewardType:row.rewardType,rewardRef:row.rewardRef,isExtra:Boolean(row.isExtra),removable:Boolean(row.removable),code:row.code,name:row.name,rarity:row.rarity,image:row.image_url||'',power:Number(row.total_power||0),sourceProbability:Number(row.source_probability||0),boostMultiplier:Number(row.boost_multiplier||0),drawWeight:Number(row.draw_weight||0),presentation:row.presentation}))}};
 }
 
 async function purchase({request,env,user,product,readBody,json}){
-  const body=await readBody(request),rawCount=Number(body.count),count=int(rawCount,1,OPEN_LIMIT),requestId=text(body.requestId||crypto.randomUUID(),120),expected=body.expectedUnitPrice===undefined?product.unitPrice:Number(body.expectedUnitPrice);
-  if(!Number.isInteger(rawCount)||rawCount<1||rawCount>OPEN_LIMIT)return json({error:`구매 수량은 1개 이상 ${OPEN_LIMIT}개 이하여야 합니다.`},400);
+  const body=await readBody(request),rawCount=Number(body.count),count=int(rawCount,1,PURCHASE_LIMIT),requestId=text(body.requestId||crypto.randomUUID(),120),expected=body.expectedUnitPrice===undefined?product.unitPrice:Number(body.expectedUnitPrice);
+  if(!Number.isSafeInteger(rawCount)||rawCount<1||rawCount>PURCHASE_LIMIT)return json({error:`구매 수량은 1개 이상 ${PURCHASE_LIMIT.toLocaleString()}개 이하여야 합니다.`},400);
   if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
   if(!Number.isInteger(expected)||expected!==product.unitPrice)return json({error:'상품 가격이 변경되었습니다. 새 가격을 확인한 뒤 다시 주문해 주세요.',code:'PRICE_CHANGED',currentUnitPrice:product.unitPrice},409);
   if(!(await loadProductSettings(env,product)).shopEnabled)return json({error:'현재 프라임 상품 판매가 중지되어 있습니다.'},423);
@@ -268,24 +311,33 @@ async function openEquipment({request,env,user,product,readBody,json}){
   if(prior&&prior.item_code!==product.itemCode)return json({error:'같은 요청 ID를 다른 프라임 상품에 재사용할 수 없습니다.'},409);
   if(prior?.status==='COMPLETED'&&prior.response_json)return json(parse(prior.response_json,{}));
   if(prior)return json({error:'같은 개봉 요청을 처리 중입니다.'},409);
-  const [poolRows,stock]=await Promise.all([loadPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first()]);
+  const [poolRows,stock,ownedAvatarRows]=await Promise.all([loadPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT avatar_code FROM avatar_user_ownership_v1 WHERE user_id=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id).all()]);
   if(!poolRows.length)return json({error:'프라임 장비 전용 드랍풀이 비어 있습니다.'},503);
   if(Number(stock?.quantity||0)<count)return json({error:`프라임 아머리 상자가 ${count}개 필요합니다.`},409);
-  const results=[];
-  for(let index=0;index<count;index++){const row=weightedPick(poolRows);results.push({type:'EQUIPMENT',item:publicEquipment(row),presentation:row.presentation})}
+  const ownedAvatarCodes=new Set((ownedAvatarRows.results||[]).map(row=>String(row.avatar_code))),newAvatarCodes=new Set(),results=[];
+  for(let index=0;index<count;index++){
+    const candidates=eligiblePool(poolRows,ownedAvatarCodes),row=weightedPick(candidates);
+    if(!row)return json({error:'획득 가능한 프라임 보상이 없습니다.'},409);
+    if(row.rewardType==='AVATAR'){ownedAvatarCodes.add(row.code);newAvatarCodes.add(row.code);results.push({type:'AVATAR',avatar:publicAvatar(row),presentation:row.presentation})}
+    else results.push({type:'EQUIPMENT',item:publicEquipment(row),presentation:row.presentation});
+  }
   const aggregated=aggregateResults('equipment',results),specialQueue=specialQueueFrom(aggregated);
   const response={ok:true,kind:'equipment',itemCode:product.itemCode,count,poolVersion:product.poolVersion,receiptId:requestId,requestId,results,aggregated,specialQueue,remainingQuantity:0};
-  const rewardRows=JSON.stringify(results.map((result,index)=>[Number(result.item.id),index]));
+  const rewardRows=JSON.stringify(results.filter(result=>result.type==='EQUIPMENT').map((result,index)=>[Number(result.item.id),index]));
   const completeSql=env.DB?.dialect==='postgres'
     ?`UPDATE ${OPEN_RECEIPTS} SET status='COMPLETED',response_json=(jsonb_set(?::jsonb,'{remainingQuantity}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),true))::text,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`
     :`UPDATE ${OPEN_RECEIPTS} SET status='COMPLETED',response_json=json_set(?,'$.remainingQuantity',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`;
-  await env.DB.batch([
+  const statements=[
     env.DB.prepare(`INSERT INTO ${OPEN_RECEIPTS}(request_id,user_id,item_code,count,pool_version,status) SELECT ?,?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)`).bind(requestId,user.id,product.itemCode,count,product.poolVersion,user.id,product.itemCode,count),
-    env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(count,count,user.id,product.itemCode,count,requestId,user.id,product.itemCode),
-    env.DB.prepare(`WITH receipt_guard AS (SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'),reward_rows AS (SELECT CAST(json_extract(value,'$[0]') AS INTEGER) equipment_id,CAST(json_extract(value,'$[1]') AS INTEGER) reward_index FROM json_each(?)) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,reward_rows.equipment_id,'PRIME_EQUIPMENT_DRAW',?,?||reward_rows.reward_index FROM reward_rows CROSS JOIN receipt_guard`).bind(requestId,user.id,product.itemCode,rewardRows,user.id,requestId,`PRIME-EQ:${requestId}:`),
+    env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(count,count,user.id,product.itemCode,count,requestId,user.id,product.itemCode)
+  ];
+  if(results.some(result=>result.type==='EQUIPMENT'))statements.push(env.DB.prepare(`WITH receipt_guard AS (SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'),reward_rows AS (SELECT CAST(json_extract(value,'$[0]') AS INTEGER) equipment_id,CAST(json_extract(value,'$[1]') AS INTEGER) reward_index FROM json_each(?)) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,reward_rows.equipment_id,'PRIME_EQUIPMENT_DRAW',?,?||reward_rows.reward_index FROM reward_rows CROSS JOIN receipt_guard`).bind(requestId,user.id,product.itemCode,rewardRows,user.id,requestId,`PRIME-EQ:${requestId}:`));
+  if(newAvatarCodes.size)statements.push(avatarGrantStatement(env,{requestId,userId:user.id,itemCode:product.itemCode,avatarCodes:newAvatarCodes}));
+  statements.push(
     env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-?,quantity,'프라임 아머리 상자 개봉','PRIME_EQUIPMENT_OPEN',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,product.itemCode,count,requestId,user.id,product.itemCode,requestId,user.id,product.itemCode),
     env.DB.prepare(completeSql).bind(JSON.stringify(response),user.id,product.itemCode,requestId,user.id)
-  ]);
+  );
+  await env.DB.batch(statements);
   const receipt=await env.DB.prepare(`SELECT status,response_json FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
   if(!receipt)return json({error:`프라임 아머리 상자가 ${count}개 필요합니다.`},409);
   if(receipt.status!=='COMPLETED'||!receipt.response_json)return json({error:'프라임 장비 개봉 처리에 실패했습니다.'},500);
@@ -301,12 +353,15 @@ async function openVehicle({request,env,user,product,readBody,json}){
   if(prior&&prior.item_code!==product.itemCode)return json({error:'같은 요청 ID를 다른 프라임 상품에 재사용할 수 없습니다.'},409);
   if(prior?.status==='COMPLETED'&&prior.response_json){const cached=parse(prior.response_json,{}),balances=await env.DB.prepare(`SELECT COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0) remainingQuantity,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0) masterStarQuantity,COALESCE((SELECT card_shards FROM users WHERE id=?),0) cardShards`).bind(user.id,product.itemCode,user.id,user.id).first();return json({...cached,...balances})}
   if(prior)return json({error:'같은 개봉 요청을 처리 중입니다.'},409);
-  const [poolRows,stock,ownedRows]=await Promise.all([loadPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT garage_id FROM user_garage_vehicles WHERE user_id=?').bind(user.id).all()]);
+  const [poolRows,stock,ownedRows,ownedAvatarRows]=await Promise.all([loadPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT garage_id FROM user_garage_vehicles WHERE user_id=?').bind(user.id).all(),env.DB.prepare('SELECT avatar_code FROM avatar_user_ownership_v1 WHERE user_id=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id).all()]);
   if(!poolRows.length)return json({error:'프라임 이동수단 전용 드랍풀이 비어 있습니다.'},503);
   if(Number(stock?.quantity||0)<count)return json({error:`프라임 하이퍼드라이브 팩이 ${count}개 필요합니다.`},409);
-  const ownedIds=new Set((ownedRows.results||[]).map(row=>Number(row.garage_id))),newIds=new Set(),results=[];let totalShards=0,totalStars=0;
+  const ownedIds=new Set((ownedRows.results||[]).map(row=>Number(row.garage_id))),newIds=new Set(),ownedAvatarCodes=new Set((ownedAvatarRows.results||[]).map(row=>String(row.avatar_code))),newAvatarCodes=new Set(),results=[];let totalShards=0,totalStars=0;
   for(let index=0;index<count;index++){
-    const row=weightedPick(poolRows),id=Number(row.id),duplicate=ownedIds.has(id),shards=duplicate?int(row.duplicate_shards,0,100000000):0,stars=randomUnit()*100<1?1:0;
+    const candidates=eligiblePool(poolRows,ownedAvatarCodes),row=weightedPick(candidates),stars=randomUnit()*100<1?1:0;
+    if(!row)return json({error:'획득 가능한 프라임 보상이 없습니다.'},409);
+    if(row.rewardType==='AVATAR'){ownedAvatarCodes.add(row.code);newAvatarCodes.add(row.code);totalStars+=stars;results.push({type:'AVATAR',avatar:publicAvatar(row),duplicate:false,shardsGained:0,masterStarsGained:stars,presentation:row.presentation});continue}
+    const id=Number(row.id),duplicate=ownedIds.has(id),shards=duplicate?int(row.duplicate_shards,0,100000000):0;
     ownedIds.add(id);if(!duplicate)newIds.add(id);totalShards+=shards;totalStars+=stars;
     results.push({type:'VEHICLE',vehicle:publicVehicle(row),duplicate,shardsGained:shards,masterStarsGained:stars,presentation:row.presentation});
   }
@@ -317,6 +372,7 @@ async function openVehicle({request,env,user,product,readBody,json}){
     env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(count,count,user.id,product.itemCode,count,requestId,user.id,product.itemCode)
   ];
   if(newIds.size)statements.push(env.DB.prepare(`WITH receipt_guard AS (SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,CAST(value AS INTEGER),'PRIME_VEHICLE_DRAW',?||CAST(value AS INTEGER) FROM json_each(?) CROSS JOIN receipt_guard`).bind(requestId,user.id,product.itemCode,user.id,`${requestId}:`,JSON.stringify([...newIds])));
+  if(newAvatarCodes.size)statements.push(avatarGrantStatement(env,{requestId,userId:user.id,itemCode:product.itemCode,avatarCodes:newAvatarCodes}));
   statements.push(
     env.DB.prepare(`UPDATE users SET card_shards=card_shards+? WHERE id=? AND ?>0 AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(totalShards,user.id,totalShards,requestId,user.id,product.itemCode),
     env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'MASTER_STAR',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ?>0 AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,totalStars,totalStars,totalStars,requestId,user.id,product.itemCode),
@@ -336,7 +392,7 @@ async function openVehicle({request,env,user,product,readBody,json}){
 }
 
 export async function handlePrimeDraw({path,request,env,deps}){
-  const {authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation}=deps;
+  const {authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation}=deps;
   const routes={
     'equipment/prime-supply-box/config':{product:PRODUCTS.equipment,action:'config'},
     'equipment/prime-supply-box/purchase':{product:PRODUCTS.equipment,action:'purchase'},
@@ -347,29 +403,40 @@ export async function handlePrimeDraw({path,request,env,deps}){
   };
   const route=routes[path];
   if(!route&&path!=='admin/prime-draw/status'&&path!=='admin/prime-draw/pool')return null;
-  await ensurePrimeDrawFoundation(env,{ensureEquipmentFoundation,ensureVehicleDrawFoundation});
+  await ensurePrimeDrawFoundation(env,{ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation});
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
   if(path==='admin/prime-draw/status'&&request.method==='GET'){
     if(!owner(user))return json({error:'OWNER 권한이 필요합니다.'},403);
-    const [equipment,vehicle,marker]=await Promise.all([configPayload(env,user,PRODUCTS.equipment),configPayload(env,user,PRODUCTS.vehicle),env.DB.prepare('SELECT value,updated_at FROM app_meta WHERE key=?').bind(UPGRADE_KEY).first()]);
-    return json({ok:true,legacyShop:{equipment:false,vehicle:false},equipment,vehicle,migration:parse(marker?.value,{}),updatedAt:marker?.updated_at||null});
+    const [equipment,vehicle,catalog,marker]=await Promise.all([configPayload(env,user,PRODUCTS.equipment,{includeZero:true}),configPayload(env,user,PRODUCTS.vehicle,{includeZero:true}),loadAdminCatalog(env),env.DB.prepare('SELECT value,updated_at FROM app_meta WHERE key=?').bind(UPGRADE_KEY).first()]);
+    return json({ok:true,legacyShop:{equipment:false,vehicle:false},equipment,vehicle,catalog,migration:parse(marker?.value,{}),updatedAt:marker?.updated_at||null});
   }
   if(path==='admin/prime-draw/pool'&&request.method==='POST'){
     if(!owner(user))return json({error:'OWNER 권한이 필요합니다.'},403);
     const body=await readBody(request),product=PRODUCTS[String(body.kind||'').toLowerCase()],entries=Array.isArray(body.entries)?body.entries:[];
     if(!product)return json({error:'수정할 풀 종류가 올바르지 않습니다.'},400);
-    const normalized=entries.map(row=>({id:int(row.id,1),weight:Number(Number(row.drawWeight).toFixed(6)),enabled:bool(row.presentation?.enabled,false),tier:['STANDARD','FEATURED','HERO','CINEMATIC'].includes(String(row.presentation?.tier||'').toUpperCase())?String(row.presentation.tier).toUpperCase():'STANDARD',effectKey:text(row.presentation?.effectKey||'NONE',80)}));
+    const currentPool=await loadPool(env,product,{includeZero:true}),currentByKey=new Map(currentPool.map(row=>[row.poolKey,row])),catalog=await loadAdminCatalog(env),allowedCatalog=[...(product.kind==='equipment'?catalog.equipment:catalog.vehicle),...catalog.avatar],catalogByKey=new Map(allowedCatalog.map(row=>[row.poolKey,row]));
+    const normalized=entries.map(row=>{
+      const poolKey=text(row.poolKey||`${row.rewardType||''}:${row.rewardRef||row.code||''}`,180),current=currentByKey.get(poolKey),candidate=catalogByKey.get(poolKey),source=current||candidate;
+      return {poolKey,source,current,isExtra:Boolean(current?.isExtra||(!current&&candidate)),id:Number(current?.id||candidate?.id||0),rewardType:String(source?.rewardType||'').toUpperCase(),rewardRef:String(source?.rewardRef||source?.code||''),weight:Number(Number(row.drawWeight).toFixed(6)),enabled:bool(row.presentation?.enabled,false),tier:['STANDARD','FEATURED','HERO','CINEMATIC'].includes(String(row.presentation?.tier||'').toUpperCase())?String(row.presentation.tier).toUpperCase():'STANDARD',effectKey:text(row.presentation?.effectKey||'NONE',80)};
+    });
     if(normalized.some(row=>!Number.isFinite(row.weight)||row.weight<0||row.weight>100))return json({error:'각 아이템 확률은 0% 이상 100% 이하여야 합니다.'},400);
-    const currentPool=await loadPool(env,product),expectedIds=new Set(currentPool.map(row=>Number(row.id))),submittedIds=new Set(normalized.map(row=>row.id));
-    if(submittedIds.size!==normalized.length||submittedIds.size!==expectedIds.size||[...submittedIds].some(id=>!expectedIds.has(id)))return json({error:'독립 드랍풀 전체 항목을 중복 없이 제출해야 합니다. 새로고침 후 다시 저장해 주세요.'},409);
+    if(normalized.some(row=>!row.source||!row.rewardRef))return json({error:'현재 활성 카탈로그에 없는 품목이 포함됐습니다. 새로고침 후 다시 저장해 주세요.'},409);
+    const submittedKeys=new Set(normalized.map(row=>row.poolKey)),requiredBaseKeys=new Set(currentPool.filter(row=>!row.isExtra).map(row=>row.poolKey));
+    if(submittedKeys.size!==normalized.length||[...requiredBaseKeys].some(key=>!submittedKeys.has(key)))return json({error:'기본 독립 드랍풀 항목은 삭제하거나 중복 제출할 수 없습니다. 확률을 0%로 설정해 주세요.'},409);
     const total=normalized.reduce((sum,row)=>sum+(Number.isFinite(row.weight)&&row.weight>0?row.weight:0),0);
     if(!normalized.length||Math.abs(total-100)>.0001)return json({error:`활성 확률 합계는 100%여야 합니다. 현재 ${total.toFixed(6)}%입니다.`},400);
     const idColumn=product.kind==='equipment'?'equipment_id':'garage_id';
     const currentSettings=await loadProductSettings(env,product),nextSettings={...currentSettings,openEnabled:bool(body.settings?.openEnabled,currentSettings.openEnabled),shopEnabled:bool(body.settings?.shopEnabled,currentSettings.shopEnabled),shopPrice:product.unitPrice,poolVersion:product.poolVersion,priceRatio:product.priceRatio};
-    const statements=[env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(product.settingsKey,JSON.stringify(nextSettings))];
-    for(const row of normalized)statements.push(env.DB.prepare(`UPDATE ${product.table} SET draw_weight=?,presentation_enabled=?,presentation_tier=?,effect_key=?,updated_at=CURRENT_TIMESTAMP WHERE ${idColumn}=?`).bind(row.weight,row.enabled?1:0,row.tier,row.effectKey,row.id));
+    const statements=[
+      env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(product.settingsKey,JSON.stringify(nextSettings)),
+      env.DB.prepare(`DELETE FROM ${EXTRA_POOL_TABLE} WHERE product_kind=?`).bind(product.kind)
+    ];
+    for(const row of normalized){
+      if(row.isExtra)statements.push(env.DB.prepare(`INSERT INTO ${EXTRA_POOL_TABLE}(product_kind,reward_type,reward_ref,draw_weight,presentation_enabled,presentation_tier,effect_key,pool_version,updated_at) VALUES(?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)`).bind(product.kind,row.rewardType,row.rewardRef,row.weight,row.enabled?1:0,row.tier,row.effectKey,product.poolVersion));
+      else statements.push(env.DB.prepare(`UPDATE ${product.table} SET draw_weight=?,presentation_enabled=?,presentation_tier=?,effect_key=?,updated_at=CURRENT_TIMESTAMP WHERE ${idColumn}=?`).bind(row.weight,row.enabled?1:0,row.tier,row.effectKey,row.id));
+    }
     await env.DB.batch(statements);
-    return json({ok:true,...await configPayload(env,user,product)});
+    return json({ok:true,...await configPayload(env,user,product,{includeZero:true})});
   }
   if(route.action==='config'&&request.method==='GET')return json(await configPayload(env,user,route.product));
   if(route.action==='purchase'&&request.method==='POST')return purchase({request,env,user,product:route.product,readBody,json});
@@ -377,4 +444,4 @@ export async function handlePrimeDraw({path,request,env,deps}){
   return null;
 }
 
-export const __primeDrawTest=Object.freeze({PRODUCTS,OPEN_LIMIT,buildBoostedPool,presentationFor,aggregateResults,primeSchemaStatements,cleanProductSettings});
+export const __primeDrawTest=Object.freeze({PRODUCTS,OPEN_LIMIT,PURCHASE_LIMIT,buildBoostedPool,presentationFor,aggregateResults,primeSchemaStatements,cleanProductSettings});

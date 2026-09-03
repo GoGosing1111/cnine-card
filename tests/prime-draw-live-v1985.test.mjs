@@ -45,13 +45,23 @@ test('신규 장비·차량은 레거시 열이 아닌 전용 풀 테이블에�
   assert.doesNotMatch(source,/loadPool[\s\S]{0,1000}WHERE[^\n]+draw_enabled=1/);
 });
 
+test('구매는 원하는 정수 수량을 허용하고 개봉 원자 영수증은 500개로 유지한다',()=>{
+  assert.equal(__primeDrawTest.OPEN_LIMIT,500);
+  assert.equal(__primeDrawTest.PURCHASE_LIMIT,2_000_000_000);
+  const backend=read('functions/_prime_draw.js');
+  assert.match(backend,/maxPurchase:PURCHASE_LIMIT/);
+  assert.match(backend,/rawCount>PURCHASE_LIMIT/);
+  assert.match(backend,/rawCount>OPEN_LIMIT/);
+});
+
 test('운영 PostgreSQL은 고정 execSchema 경로로 프라임 relation을 실제 생성한다',()=>{
   const source=read('functions/_prime_draw.js'),schema=__primeDrawTest.primeSchemaStatements(true);
-  assert.equal(schema.length,6);
+  assert.equal(schema.length,7);
   assert.ok(schema.every(statement=>!statement.includes('AUTOINCREMENT')));
   assert.match(schema[0],/equipment_id BIGINT PRIMARY KEY/);
-  assert.match(schema[2],/user_id BIGINT NOT NULL/);
-  assert.match(schema[2],/total_price BIGINT NOT NULL/);
+  assert.match(schema[2],/prime_draw_extra_pool_v1987/);
+  assert.match(schema[3],/user_id BIGINT NOT NULL/);
+  assert.match(schema[3],/total_price BIGINT NOT NULL/);
   assert.match(schema[0],/to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
   assert.match(source,/postgres&&typeof env\.DB\.execSchema==='function'\)await env\.DB\.execSchema\(schema\)/);
   assert.match(source,/else await env\.DB\.batch\(schema\.map\(statement=>env\.DB\.prepare\(statement\)\)\)/);
@@ -62,7 +72,7 @@ test('PostgreSQL foundation은 상품 DML보다 먼저 execSchema를 완료한�
   const statement=source=>({source,values:[],bind(...values){this.values=values;return this},async first(){calls.push(`first:${source}`);return {value:'already-seeded'}},async all(){return {results:[]}},async run(){return {success:true}}});
   const env={DB:{dialect:'postgres',prepare:statement,async execSchema(schema){calls.push(`schema:${schema.length}`)},async batch(rows){calls.push(`batch:${rows.length}`);return []}}};
   await ensurePrimeDrawFoundation(env);
-  assert.deepEqual(calls.slice(0,3),['schema:6','batch:4','first:SELECT value FROM app_meta WHERE key=?']);
+  assert.deepEqual(calls.slice(0,3),['schema:7','batch:4','first:SELECT value FROM app_meta WHERE key=?']);
 });
 
 test('레거시 상품은 판매만 잠기고 보유분 개봉 라우트는 남는다',()=>{
@@ -74,12 +84,18 @@ test('레거시 상품은 판매만 잠기고 보유분 개봉 라우트는 남�
   assert.match(vehicle,/보유 중인 팩은 인벤토리에서 계속 개봉/);
 });
 
-test('상점과 인벤토리는 신규 상품만 판매하고 1·10·50·최대 500 일괄 개봉을 연결한다',()=>{
+test('상점은 원하는 수량 구매와 보유분 전체 자동 분할 일괄 개봉을 연결한다',()=>{
   const app=read('js/app.js');
   assert.match(app,/primeDrawShopMarkup\('equipment'\).*primeDrawShopMarkup\('vehicle'\)/);
   assert.doesNotMatch(app,/return `\$\{supplyBoxShopMarkup\(\)\}\$\{vehicleDrawShopMarkup\(\)\}/);
-  assert.match(app,/\[1,10,50,limit\]/);
-  assert.match(app,/Math\.min\(500/);
+  assert.match(app,/data-prime-custom-buy/);
+  assert.match(app,/data-prime-count="1000"/);
+  assert.match(app,/\[1,10,50,500,limit\]/);
+  assert.match(app,/requestPrimeDrawChunks/);
+  assert.match(app,/Math\.min\(500,Number\(config\.maxOpen/);
+  assert.match(app,/for\(let attempt=0;attempt<3;attempt\+\+\)/);
+  assert.match(app,/requestId=.*payload=\{count,quantity:count,itemCode:definition\.itemCode,poolVersion:config\.poolVersion,requestId\}/);
+  assert.match(app,/mergePrimeDrawOpenChunks/);
   assert.match(app,/equipment\/prime-supply-box\/open/);
   assert.match(app,/vehicle-draw\/prime\/open/);
 });
@@ -87,8 +103,8 @@ test('상점과 인벤토리는 신규 상품만 판매하고 1·10·50·최대 
 test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출을 관리한다',()=>{
   const html=read('admin/index.html'),cms=read('admin/prime-draw-admin-v1986.js');
   assert.match(html,/data-view="primedraw"/);
-  assert.match(html,/prime-draw-admin-v1986\.css\?v=1986-postgres-cms/);
-  assert.match(html,/prime-draw-admin-v1986\.js\?v=1986-postgres-cms/);
+  assert.match(html,/prime-draw-admin-v1986\.css\?v=1987-catalog-avatar-bulk/);
+  assert.match(html,/prime-draw-admin-v1986\.js\?v=1987-catalog-avatar-bulk/);
   assert.match(cms,/admin\/prime-draw\/status/);
   assert.match(cms,/admin\/prime-draw\/pool/);
   assert.match(cms,/data-prime-weight/);
@@ -97,6 +113,19 @@ test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출�
   assert.match(cms,/data-prime-effect/);
   assert.match(cms,/shopEnabled/);
   assert.match(cms,/openEnabled/);
+  assert.match(cms,/POOL CATALOG/);
+  assert.match(cms,/data-prime-remove/);
+  assert.match(cms,/AVATAR/);
+});
+
+test('프라임 추가 풀은 아바타 카탈로그와 원자 소유권 지급을 지원한다',()=>{
+  const backend=read('functions/_prime_draw.js'),api=read('functions/api/[[path]].js');
+  assert.match(backend,/prime_draw_extra_pool_v1987/);
+  assert.match(backend,/loadAdminCatalog/);
+  assert.match(backend,/avatar_user_ownership_v1/);
+  assert.match(backend,/source_type[^\n]+PRIME_DRAW/);
+  assert.match(backend,/ownedAvatarCodes/);
+  assert.match(api,/ensureAvatarFoundation/);
 });
 
 test('개봉은 단일 원자 영수증과 WebGL·GSAP 잠금 해제 연출을 사용한다',()=>{

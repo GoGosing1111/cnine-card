@@ -144,7 +144,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(pveCss, /pvev2-roster-foot\{display:grid;grid-template-columns:repeat\(5,1fr\) auto/);
   assert.match(index, /pve-command-v2\.css\?v=1978-apocalypse-energy-widget/);
   assert.match(index, /pve-command-v2-live\.js\?v=1978-apocalypse-energy-widget/);
-  assert.match(index, /js\/app\.js\?v=1981-superstar-haihiya-early-access/);
+  assert.match(index, /js\/app\.js\?v=1987-prime-custom-purchase-bulk-open/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
   assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);
