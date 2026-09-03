@@ -49,8 +49,8 @@ assert.match(app,/const resourceTask=ensureFeatureResources\('battleV2'\)[\s\S]*
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=1991-battle-suit-sweep-result-front/);
-assert.match(serviceWorker,/soop-card-shell-v1991-battle-suit-sweep-result-front/);
+assert.match(index,/js\/app\.js\?v=1992-equipment-stack-count/);
+assert.match(serviceWorker,/soop-card-shell-v1992-equipment-stack-count/);
 
 const calls=[];
 const phase={textContent:''};

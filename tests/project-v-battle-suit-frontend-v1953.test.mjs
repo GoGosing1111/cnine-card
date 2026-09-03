@@ -11,7 +11,7 @@ function fixture({ suitEquipped = true, avatarEquipped = false } = {}) {
   return {
     loadout,
     instances: [
-      { instanceId: 101, item: { id: 1, name: '테스트 무기', slot: 'WEAPON', rarity: 'RARE', image: 'weapon.png', totalPower: 100, pvePower: 90, pvpPower: 10 } },
+      { instanceId: 101, quantity: 42, item: { id: 1, name: '테스트 무기', slot: 'WEAPON', rarity: 'RARE', image: 'weapon.png', totalPower: 100, pvePower: 90, pvpPower: 10 } },
       { instanceId: 202, item: { id: 2, name: '오로라 배틀슈트', slot: 'BATTLE_SUIT', subtype: 'BATTLE_SUIT', rarity: 'MYTHIC', image: 'battle-suit.png', totalPower: 5_000, pvePower: 5_000, pvpPower: 9_999 } }
     ],
     titles: [{ id: 3, name: '테스트 칭호', badgeText: '테스트', pvePower: 20, owned: true, equipped: true }],
@@ -78,6 +78,9 @@ test('배틀슈트는 6번째 슬롯과 PVE 전투력만 제공하며 장비창 
   assert.match(root.innerHTML, /LOADOUT 06/);
   assert.match(root.innerHTML, /배틀슈트 \(PVE 전용\)/);
   assert.match(root.innerHTML, /EQUIPPED BATTLE SUIT · PVE ONLY/);
+  assert.match(root.innerHTML, /OWNED EQUIPMENT/);
+  assert.match(root.innerHTML, /2종 · 43개/);
+  assert.match(root.innerHTML, /class="clv2-item-quantity" aria-label="보유 수량 42개">×42/);
   assert.match(root.innerHTML, /src="assets\/ui\/character-loadout-v2\/quartermaster-v1\.webp" alt="장비 관리 오퍼레이터"/);
   assert.doesNotMatch(root.innerHTML, /class="clv2-quartermaster[^"]*is-battle-suit|class="clv2-armory-stage[^"]*has-battle-suit|class="clv2-quartermaster[^"]*" src="battle-suit\.png"/);
   assert.match(root.innerHTML, /배틀슈트는 장비창 인물 외형을 바꾸지 않고 PVE 전투력만 적용합니다/);
@@ -133,7 +136,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(admin, /PVP 전투력에는 합산되지 않으며/);
   assert.match(adminCss, /\.equipment-power-preview\.equipment-pve-only/);
   assert.match(loadoutCss, /\.clv2-equip-slot\.slot-battle_suit/);
-  assert.match(app, /character-loadout-v2\.js\?v=13-avatar-visual-only/);
+  assert.match(app, /character-loadout-v2\.js\?v=14-equipment-stack-count/);
   assert.match(app, /equipment-v1274\.js\?v=1815-battle-suit-pve-only/);
   assert.match(adminIndex, /equipment-admin-v1278\.js\?v=1279-battle-suit-pve-only/);
   assert.equal((adminIndex.match(/equipment-admin-v1278\.css\?v=1279-battle-suit-pve-only/g) || []).length, 2);
@@ -144,7 +147,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(pveCss, /pvev2-roster-foot\{display:grid;grid-template-columns:repeat\(5,1fr\) auto/);
   assert.match(index, /pve-command-v2\.css\?v=1991-sweep-result-front/);
   assert.match(index, /pve-command-v2-live\.js\?v=1991-sweep-result-front/);
-  assert.match(index, /js\/app\.js\?v=1991-battle-suit-sweep-result-front/);
+  assert.match(index, /js\/app\.js\?v=1992-equipment-stack-count/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
   assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);

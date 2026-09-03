@@ -812,8 +812,8 @@ function bindFullscreenPlayLink(header){
 
 const FEATURE_RESOURCE_MANIFEST={
   character:{
-    styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=6-battle-suit-pve-only'],
-    scripts:['js/equipment-v1274.js?v=1815-battle-suit-pve-only','js/character-loadout-v2.js?v=13-avatar-visual-only','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
+    styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=7-equipment-stack-count'],
+    scripts:['js/equipment-v1274.js?v=1815-battle-suit-pve-only','js/character-loadout-v2.js?v=14-equipment-stack-count','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{

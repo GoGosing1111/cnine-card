@@ -526,6 +526,22 @@
 }
 .clv2-inventory-art { width: 100%; aspect-ratio: 1; flex: 0 0 auto; border: 1px solid rgba(133, 171, 197, .12); }
 .clv2-inventory-art .clv2-art-image { padding: 3%; }
+.clv2-item-quantity {
+  position: absolute;
+  z-index: 3;
+  right: 6px;
+  bottom: 6px;
+  min-width: 30px;
+  padding: 4px 6px;
+  border: 1px solid color-mix(in srgb, var(--item-accent) 52%, transparent);
+  color: #f4fbff;
+  background: rgba(2, 7, 13, .9);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .42);
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+}
 .clv2-item-copy { display: block; min-width: 0; padding: 7px 2px 1px; }
 .clv2-item-copy strong,
 .clv2-item-copy small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

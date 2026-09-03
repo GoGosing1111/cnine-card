@@ -304,6 +304,7 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   const weaponId=DB.db.prepare("SELECT id FROM character_equipment_items WHERE code='WEAPON_TEST'").get().id;
   const suitInstance=Number(DB.db.prepare("INSERT INTO user_equipment_instances(user_id,equipment_id) VALUES(7,?)").run(suitId).lastInsertRowid);
   const weaponInstance=Number(DB.db.prepare("INSERT INTO user_equipment_instances(user_id,equipment_id) VALUES(7,?)").run(weaponId).lastInsertRowid);
+  DB.db.prepare("INSERT INTO user_equipment_instances(user_id,equipment_id,source_type) VALUES(7,?,'PRIME_EQUIPMENT_DRAW')").run(weaponId);
   DB.db.prepare("INSERT INTO user_equipment_loadout(user_id,slot,instance_id) VALUES(7,'BATTLE_SUIT',?),(7,'WEAPON',?)").run(suitInstance,weaponInstance);
   DB.db.prepare("INSERT INTO character_garage_items(id,code,name,rarity,image_url,total_power,pve_power,pvp_power,is_active,is_public,sort_order,description) VALUES(1,'GARAGE_TEST','테스트 차량','NORMAL','',60,40,20,1,1,1,'')").run();
   DB.db.prepare("INSERT INTO user_garage_vehicles(user_id,garage_id) VALUES(7,1)").run();
@@ -344,4 +345,11 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   const publicSuit=response.payload.instances.find(instance=>instance.instanceId===suitInstance);
   assert.equal(publicSuit.item.pvpPower,0);
   assert.equal(publicSuit.item.totalPower,250);
+  assert.equal(response.payload.instances.length,2,'duplicate equipment must be returned as one stack per equipment type');
+  assert.equal(response.payload.equipmentTypeCount,2);
+  assert.equal(response.payload.equipmentTotalQuantity,3);
+  const publicWeapon=response.payload.instances.find(instance=>instance.item.id===weaponId);
+  assert.equal(publicWeapon.instanceId,weaponInstance,'an equipped instance remains the representative stack id');
+  assert.equal(publicWeapon.quantity,2);
+  assert.equal(publicWeapon.equipped,true);
 });

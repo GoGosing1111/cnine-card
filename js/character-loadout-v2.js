@@ -171,9 +171,10 @@
     function equipmentItem(row) {
       const item = row.item || {};
       const isBattleSuit = item.slot === BATTLE_SUIT_SLOT;
+      const quantity = Math.max(1, Number(row.quantity || 1));
       return `<button type="button" class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}${isBattleSuit ? ' is-battle-suit' : ''}" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''}>
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
-        <div class="clv2-item-art clv2-inventory-art">${art(item)}</div>
+        <div class="clv2-item-art clv2-inventory-art">${art(item)}<span class="clv2-item-quantity" aria-label="보유 수량 ${formatNumber(quantity)}개">×${formatNumber(quantity)}</span></div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
         <span class="clv2-item-copy"><strong>${escapeHtml(item.name || '이름 없음')}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small></span>
       </button>`;
@@ -201,8 +202,9 @@
     function inventoryPanel() {
       const rows = filteredEquipment();
       const all = state.data?.instances || [];
+      const totalQuantity = Number(state.data?.equipmentTotalQuantity || all.reduce((sum, row) => sum + Math.max(1, Number(row.quantity || 1)), 0));
       return `<aside class="clv2-inventory-panel">
-        <header class="clv2-panel-heading"><span>OWNED EQUIPMENT</span><i>${formatNumber(all.length)}</i></header>
+        <header class="clv2-panel-heading"><span>OWNED EQUIPMENT</span><i>${formatNumber(all.length)}종 · ${formatNumber(totalQuantity)}개</i></header>
         <div class="clv2-inventory-toolbar">
           <label class="clv2-search"><span>장비 검색</span><input type="search" value="${escapeHtml(state.search)}" placeholder="장비명 검색" data-equipment-search></label>
           <label><span>등급</span><select data-equipment-rarity><option value="ALL">전체 등급</option>${RARITY_ORDER.map((rarity) => `<option value="${rarity}"${state.rarity === rarity ? ' selected' : ''}>${RARITY_LABELS[rarity]}</option>`).join('')}</select></label>

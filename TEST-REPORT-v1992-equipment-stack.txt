@@ -1,0 +1,21 @@
+숲켓몬 v1992 장비 스택 회귀 테스트
+
+문법 검사
+- node --check functions/_equipment.js: PASS
+- node --check js/character-loadout-v2.js: PASS
+- node --check js/app.js: PASS
+
+기능 검증
+- 동일 equipment_id 복제품 2개가 character/loadout에서 한 스택으로 반환됨: PASS
+- quantity=2, 전체 수량=3, 장비 종류=2 집계: PASS
+- 장착된 인스턴스가 스택 대표 ID로 유지됨: PASS
+- 장비 카드 ×N 및 헤더 `N종 · N개` 렌더: PASS
+- 배틀슈트 PVE 전용/장착 API 회귀: PASS
+
+자동 테스트
+- npm run test:battle-suit: PASS (41/41)
+- npm run test:pve-sweep: PASS (7/7)
+- npm run test:superstar-pack: PASS (9/9)
+
+운영 배포 전 최종 확인
+- npm run release:gate를 통과한 커밋만 운영 배포
