@@ -421,6 +421,8 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️',inventory:true,max:100000,messageType:'ITEM_REWARD'}
 };
 function verifiedMessageRewardSpec(value){const type=String(value||'').trim().toUpperCase();return VERIFIED_MESSAGE_REWARD_TYPES[type]?{type,...VERIFIED_MESSAGE_REWARD_TYPES[type]}:null}
+const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000};
+function couponRewardSpec(value){const spec=verifiedMessageRewardSpec(value);return spec?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
   if(verifiedRewardMessageV1276ReadyPromise)return verifiedRewardMessageV1276ReadyPromise;
@@ -7629,8 +7631,7 @@ async function handleRequest(context){
       const rewardType=String(p.rewardType||'').trim().toUpperCase();
       const rewardAmount=Number(p.rewardAmount);
       const maxUses=Number(p.maxUses);
-      const rewardSpecs={COIN:{max:100000000,label:'코인'},MASTER_STAR:{max:1000000,label:'마스터의 별'},PREMIUM_CUBE:{max:100000,label:'프리미엄 큐브'},EQUIPMENT_SUPPLY_BOX:{max:100000,label:'장비 보급상자'},HIGH_GRADE_REROLL_TICKET:{max:100000,label:'고등급 재뽑기권'}};
-      const spec=rewardSpecs[rewardType];
+      const spec=couponRewardSpec(rewardType);
       if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
       if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
@@ -7659,7 +7660,7 @@ async function handleRequest(context){
       if(!admin)return json({error:'쿠폰 발급 권한이 없습니다.'},403);
       if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}
       if(request.method==='POST'){
-        const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=verifiedMessageRewardSpec(rewardType);
+        const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=couponRewardSpec(rewardType);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
         if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
