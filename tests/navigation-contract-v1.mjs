@@ -128,4 +128,52 @@ vm.runInContext(exactSource,reloadContext,{filename:'soopketmon-v21-exact-shell-
 assert.equal(reloadContext.SoopketmonV21ExactShell.currentRoute,'home','reload must boot the main lobby even when a stale screen query exists');
 assert.deepEqual(replaced,['/?keep=1'],'reload must preserve unrelated query values while removing screen');
 
+const stableRendered=[];
+let stablePageMounted=false;
+let stableRafId=0;
+const stableDocument={
+  currentScript:null,
+  readyState:'complete',
+  documentElement:{dataset:{}},
+  body:{classList:{add(){},remove(){},toggle(){}}},
+  head:{append(){}},
+  getElementById(){return null},
+  createElement(){return {id:'',rel:'',href:''}},
+  addEventListener(){},
+  querySelector(selector){return selector==='#app main.page'&&stablePageMounted?{}:null},
+  querySelectorAll(){return []}
+};
+const stableContext={
+  console,
+  document:stableDocument,
+  location:{search:'',pathname:'/',hash:''},
+  performance:{getEntriesByType:()=>[{type:'reload'}]},
+  history:{state:null,replaceState(){}},
+  URLSearchParams,
+  MutationObserver:class{observe(){} disconnect(){}},
+  renderShell(route){stableRendered.push(route);stablePageMounted=true;return route},
+  requestAnimationFrame(){return ++stableRafId},
+  cancelAnimationFrame(){},
+  queueMicrotask,
+  setTimeout,
+  clearTimeout,
+  setInterval(){return 1},
+  clearInterval(){},
+  addEventListener(){}
+};
+stableContext.window=stableContext;stableContext.globalThis=stableContext;
+vm.createContext(stableContext);
+vm.runInContext(exactSource,stableContext,{filename:'soopketmon-v21-exact-shell-adapter-sticky-home.js'});
+stableContext.renderShell('buy');
+stableContext.renderShell('buy');
+assert.deepEqual(stableRendered,['buy'],'late automatic store refresh must not replace the mounted lobby');
+assert.equal(stableContext.SoopketmonV21ExactShell.currentRoute,'home');
+await stableContext.SoopketmonV21ExactShell.navigate('buy');
+assert.deepEqual(stableRendered,['buy','buy'],'an explicit store navigation must release the lobby guard');
+assert.equal(stableContext.SoopketmonV21ExactShell.currentRoute,'buy');
+await stableContext.SoopketmonV21ExactShell.navigate('home');
+stableContext.renderShell('buy');
+assert.deepEqual(stableRendered,['buy','buy','buy'],'returning to the lobby must block later automatic store refreshes again');
+assert.equal(stableContext.SoopketmonV21ExactShell.currentRoute,'home');
+
 console.log('navigation contract v1: PASS');

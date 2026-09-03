@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.18.0';
+  const VERSION = '21.19.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -25,6 +25,12 @@
   let explicitNavigation = false;
   let bootHomePending = defaultHome && !requestedScreen;
   let bootRequestedPending = requestedScreen || '';
+  // The native app intentionally renders `buy` as its bootstrap surface and
+  // refreshes that surface again when burning/catalog/feature data arrives.
+  // While the V21 lobby is active those background refreshes must not turn an
+  // already-rendered lobby back into the store. The guard is released only by
+  // an actual route intent from the user (or a non-buy native route).
+  let homeRouteGuard = defaultHome && !requestedScreen;
   let pendingFrame = 0;
 
   function markRenewalUiReady() {
@@ -484,10 +490,12 @@
 
   function navigate(route) {
     if (route === 'home') {
+      homeRouteGuard = true;
       explicitNavigation = true; try { global.renderShell('home'); } finally { explicitNavigation = false; }
       return Promise.resolve({ ok: true, shell: 'home' });
     }
     if (!ROUTES[route]) return Promise.reject(new Error('연결되지 않은 메뉴입니다.'));
+    homeRouteGuard = false;
     showChiefConsole = false;
     closeOverlay();
     const router = global.SoopketmonV21RuntimeRouter;
@@ -534,6 +542,14 @@
   function bindDelegation() {
     if (document.documentElement.dataset.v21ExactDelegation === '1') return;
     document.documentElement.dataset.v21ExactDelegation = '1';
+    document.addEventListener('click', event => {
+      const control = event.target.closest?.('[data-v21-route],[data-v21-home],[data-mobile-tab],button[data-route],[data-primary]');
+      if (!control) return;
+      const route = control.hasAttribute('data-v21-home')
+        ? 'home'
+        : String(control.dataset.v21Route || control.dataset.mobileTab || control.dataset.route || control.dataset.primary || '');
+      if (route) homeRouteGuard = route === 'home';
+    }, true);
     // Unique data-v21-* controls are owned here. The production runtime router
     // owns legacy button[data-route]/data-mobile-tab controls, so the two
     // capture paths never compete for the same element.
@@ -560,6 +576,7 @@
     nativeRenderShell = candidate;
     function exactRenderShell(route) {
       const requested = String(route || 'buy');
+      if (requested !== 'buy' && requested !== 'home') homeRouteGuard = false;
       const bootRoute = requested === 'buy' && !explicitNavigation && bootRequestedPending && (bootRequestedPending === 'home' || ROUTES[bootRequestedPending])
         ? bootRequestedPending
         : '';
@@ -573,11 +590,19 @@
         return result;
       }
       if (requested === 'home') {
+        homeRouteGuard = true;
         bootHomePending = false;
         const result = nativeRenderShell.call(this, 'buy');
         currentRoute = 'home'; scheduleEnhance('home'); return result;
       }
-      const useBootHome = requested === 'buy' && bootHomePending;
+      const guardedHomeRefresh = requested === 'buy' && homeRouteGuard && !explicitNavigation;
+      if (guardedHomeRefresh && document.querySelector('#app main.page')) {
+        bootHomePending = false;
+        currentRoute = 'home';
+        scheduleEnhance('home');
+        return undefined;
+      }
+      const useBootHome = requested === 'buy' && (bootHomePending || guardedHomeRefresh);
       bootHomePending = false;
       const result = nativeRenderShell.apply(this, arguments);
       currentRoute = useBootHome ? 'home' : requested;

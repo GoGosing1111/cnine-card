@@ -1,0 +1,14 @@
+숲켓몬 v1995 검증 보고
+
+[PASS] node --check js/soopketmon-v21-exact-shell-adapter.js
+[PASS] node --test tests/navigation-contract-v1.mjs
+  - 새로고침 시 screen 딥링크 제거 및 로비 진입
+  - 최초 로비 렌더 후 늦게 도착한 자동 buy 갱신 차단
+  - 사용자 상점 선택 시 정상 진입
+  - 상점에서 로비 복귀 후 자동 buy 갱신 재차단
+[PASS] 영향 자산 계약 검사 30건
+  - 아바타·운영 현황·V3·소탕·슈퍼스타팩·영토전 캐시 계약
+[PASS] git diff --check
+
+커밋 후 깨끗한 작업 트리에서 npm run release:gate 전체 통과 및 운영 배포 후
+v21.19.0 자산과 실제 새로고침 상태를 확인한다.

@@ -123,7 +123,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(battleApi,/applyAvatarCoinGain\(attackerEventCoinReward,aAvatarEffect\)/);
   assert.match(battleApi,/applyAvatarRaidEntryBonus\(cfg\.dailyEntries,avatarEffect\)/);
   assert.match(battleApi,/applyAvatarRaidEntryBonus\(instanceCfg\.dailyEntries,avatarEffect\)/);
-  assert.match(battleApi,/avatarEffect,collectBattleLog/);
+  assert.match(battleApi,/avatarEffect,[^}]*collectBattleLog/);
   assert.match(chief,/viewer_avatar_code/);
   assert.match(chief,/vo\.expires_at IS NULL OR vo\.expires_at>CURRENT_TIMESTAMP/);
   assert.match(chief,/viewerAvatar:a\.viewerAvatar\|\|null/);
@@ -135,7 +135,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=1981-superstar-haihiya-early-access-1985-dimwoos-avatar-visual-only/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.18\.0-refresh-home/);
-  assert.match(serviceWorker,/soop-card-shell-v1981-superstar-haihiya-early-access-1985-dimwoos-avatar-visual-only/);
+  assert.match(index,/app\.js\?v=1995-refresh-home-sticky/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.19\.0-refresh-home-sticky/);
+  assert.match(serviceWorker,/soop-card-shell-v1995-refresh-home-sticky/);
 });
