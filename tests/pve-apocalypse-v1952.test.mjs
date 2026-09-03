@@ -87,7 +87,7 @@ assert.match(pveCommandSource,/id="battleEnergyLabel">\$\{esc\(energy\.label\)\}
 assert.match(pveCommandSource,/<small>\$\{esc\(huntEnergy\.label\)\}<\/small>/,'the hunt readout must render the explicit Apocalypse energy label');
 assert.doesNotMatch(pveCommandSource,/noEnergy = battleState\.energy/,'Apocalypse entry gating must never use standard PVE energy');
 assert.match(pveCommandCss,/\.pvev2-hunt-attempts\.apocalypse-energy/,'the dedicated Apocalypse pool must be visually distinct');
-assert.match(indexSource,/pve-command-v2-live\.js\?v=1978-apocalypse-energy-widget/,'the fixed live PVE override must be cache-busted');
+assert.match(indexSource,/pve-command-v2-live\.js\?v=1989-pve-sweep/,'the fixed live PVE override must be cache-busted');
 assert.match(appSource,/CMS에서 아포칼립스 몬스터를 추가하세요/);
 assert.match(dropSource,/PVE_APOCALYPSE_AUTO/);
 assert.match(dropSource,/SAVE_APOCALYPSE_BINDINGS/);

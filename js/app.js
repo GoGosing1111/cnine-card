@@ -854,7 +854,7 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
-      'js/battle-v2-live.js?v=1976-apocalypse-boss-skill-fx',
+      'js/battle-v2-live.js?v=1989-pve-sweep',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
@@ -1519,7 +1519,7 @@ const APOCALYPSE_ENERGY_MAX=5;
 const APOCALYPSE_ENERGY_RECHARGE_MINUTES=30;
 function getLastPveMonsterId(){try{const value=Number(localStorage.getItem(LAST_PVE_MONSTER_KEY));return Number.isFinite(value)&&value>0?value:null}catch(_){return null}}
 function saveLastPveMonsterId(monsterId){try{const value=Number(monsterId);if(Number.isFinite(value)&&value>0)localStorage.setItem(LAST_PVE_MONSTER_KEY,String(value))}catch(_){}}
-let battleState={config:null,deckRules:normalizeDeckRules({}),battleEngine:{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters:[],selectedMonster:null,deck:[],characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:null,apocalypseEnergy:null,energyTimer:null,serverOffset:0,restoreMonsterCursor:false};
+let battleState={config:null,deckRules:normalizeDeckRules({}),battleEngine:{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters:[],selectedMonster:null,deck:[],characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:null,apocalypseEnergy:null,energyTimer:null,serverOffset:0,restoreMonsterCursor:false,autoRunning:false,autoTargetBattles:0,autoRemaining:0,autoRequestId:'',autoSummary:null};
 let battleViewLoadSeq=0,battleViewRetryTimer=null,battleViewRetryStreak=0;
 
 function stopBattleEnergyTimer(){if(battleState.energyTimer){clearInterval(battleState.energyTimer);battleState.energyTimer=null}}
@@ -1539,7 +1539,7 @@ function selectedPveIsApocalypse(){const selected=selectedPveMonster();if(select
 function normalizeApocalypseEnergyClient(state){if(!state||typeof state!=='object')return null;const unlimited=state.unlimited===true,raw=Number(state.energy),energy=unlimited?APOCALYPSE_ENERGY_MAX:Math.max(0,Math.min(APOCALYPSE_ENERGY_MAX,Number.isFinite(raw)?Math.floor(raw):0));return {...state,mode:'APOCALYPSE',energy,maxEnergy:APOCALYPSE_ENERGY_MAX,costPerBattle:1,rechargeMinutes:APOCALYPSE_ENERGY_RECHARGE_MINUTES}}
 function activeBattleEnergy(){return selectedPveIsApocalypse()?(normalizeApocalypseEnergyClient(battleState.apocalypseEnergy)||{mode:'APOCALYPSE',unavailable:true,energy:0,maxEnergy:APOCALYPSE_ENERGY_MAX,costPerBattle:1,rechargeMinutes:APOCALYPSE_ENERGY_RECHARGE_MINUTES,nextRechargeAt:null}):battleState.energy}
 function applyPveEnergyResponse(data={}){if(String(data.energyKind||'').toUpperCase()==='APOCALYPSE')battleState.apocalypseEnergy=normalizeApocalypseEnergyClient(data.energy)||battleState.apocalypseEnergy;else battleState.energy=data.energy||battleState.energy;return activeBattleEnergy()}
-function renderBattleEnergy(){const apocalypse=selectedPveIsApocalypse(),e=activeBattleEnergy(),count=document.getElementById('battleEnergyCount'),fill=document.getElementById('battleEnergyFill'),timer=document.getElementById('battleEnergyTimer'),label=document.getElementById('battleEnergyLabel'),card=document.getElementById('battleEnergyCard');if(label)label.textContent=apocalypse?'아포칼립스 행동력':'⚔ 전투 횟수';if(card){card.classList.toggle('apocalypse-energy',apocalypse);card.dataset.energyKind=apocalypse?'APOCALYPSE':'STANDARD'}if(!e||!count)return;const start=document.getElementById('battleStart');if(e.unavailable){count.textContent='연결 확인 중';if(fill)fill.style.width='0%';if(timer)timer.textContent='아포칼립스 행동력 동기화 대기';if(start){start.disabled=true;start.textContent='아포칼립스 행동력 확인 중'}return}count.textContent=e.unlimited?'∞ 무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent=apocalypse?'버닝 미적용 · 무제한 계정':'무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent=apocalypse?'버닝 미적용 · 최대 5회 · 충전 완료':'충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+battleState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`${apocalypse?'버닝 미적용 · 30분 충전 · ':''}다음 충전 ${battleEnergyText(remain)}`;}else timer.textContent=apocalypse?'버닝 미적용 · 충전 대기':'충전 대기';}if(start){const noEnergy=!e.unlimited&&e.energy<e.costPerBattle,autoChecked=document.getElementById('battleAuto')?.checked,violation=deckGradeLimitViolation(battleState.deck,battleState.deckRules);start.disabled=battleState.deck.length!==5||!battleState.selectedMonster||noEnergy||Boolean(violation);start.textContent=violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:noEnergy?(apocalypse?'아포칼립스 행동력 부족':'전투 횟수 부족'):autoChecked?'남은 횟수 자동전투':'전투 시작';}}
+function renderBattleEnergy(){const apocalypse=selectedPveIsApocalypse(),e=activeBattleEnergy(),count=document.getElementById('battleEnergyCount'),fill=document.getElementById('battleEnergyFill'),timer=document.getElementById('battleEnergyTimer'),label=document.getElementById('battleEnergyLabel'),card=document.getElementById('battleEnergyCard');if(label)label.textContent=apocalypse?'아포칼립스 행동력':'⚔ 전투 횟수';if(card){card.classList.toggle('apocalypse-energy',apocalypse);card.dataset.energyKind=apocalypse?'APOCALYPSE':'STANDARD'}if(!e||!count)return;const start=document.getElementById('battleStart');if(e.unavailable){count.textContent='연결 확인 중';if(fill)fill.style.width='0%';if(timer)timer.textContent='아포칼립스 행동력 동기화 대기';if(start){start.disabled=true;start.textContent='아포칼립스 행동력 확인 중'}return}count.textContent=e.unlimited?'∞ 무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent=apocalypse?'버닝 미적용 · 무제한 계정':'무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent=apocalypse?'버닝 미적용 · 최대 5회 · 충전 완료':'충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+battleState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`${apocalypse?'버닝 미적용 · 30분 충전 · ':''}다음 충전 ${battleEnergyText(remain)}`;}else timer.textContent=apocalypse?'버닝 미적용 · 충전 대기':'충전 대기';}if(start){const noEnergy=!e.unlimited&&e.energy<e.costPerBattle,autoChecked=!apocalypse&&document.getElementById('battleAuto')?.checked,violation=deckGradeLimitViolation(battleState.deck,battleState.deckRules);start.disabled=battleState.deck.length!==5||!battleState.selectedMonster||noEnergy||Boolean(violation);start.textContent=violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:noEnergy?(apocalypse?'아포칼립스 행동력 부족':'전투 횟수 부족'):autoChecked?'1회 전투 후 전체 소탕':'전투 시작';}}
 function startBattleEnergyTimer(){stopBattleEnergyTimer();renderBattleEnergy();battleState.energyTimer=setInterval(()=>{if(!document.getElementById('battleEnergyCount'))return stopBattleEnergyTimer();const e=activeBattleEnergy();if(e&&!e.unlimited&&e.nextRechargeAt&&Date.parse(e.nextRechargeAt)<=(Date.now()+battleState.serverOffset)){loadBattleEnergyOnly();return}renderBattleEnergy()},1000)}
 async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/config',{}, {ttl:0});battleState.energy=d.energy;battleState.apocalypseEnergy=normalizeApocalypseEnergyClient(d.apocalypseEnergy)||battleState.apocalypseEnergy;battleState.deckRules=normalizeDeckRules(d.deckRules||battleState.deckRules);battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startBattleEnergyTimer()}catch(_){renderBattleEnergy()}}
 window.activeBattleEnergy=activeBattleEnergy;window.applyPveEnergyResponse=applyPveEnergyResponse;window.selectedPveIsApocalypse=selectedPveIsApocalypse;
@@ -1811,20 +1811,73 @@ if(!document.documentElement.dataset.pveStartGuardV1316){
   document.addEventListener('click',handlePveBattleStartClick,true);
 }
 function ensureBattleAutoToggle(){
-  const start=document.getElementById('battleStart');if(!start||document.getElementById('battleAuto'))return;
-  const label=document.createElement('label'),apocalypse=selectedPveIsApocalypse();label.className='battle-auto-toggle';label.innerHTML=`<input type="checkbox" id="battleAuto"><span><b>자동전투</b><small>${apocalypse?'남은 아포칼립스 행동력만큼 진행합니다.':'체크하면 남은 전투 횟수를 자동으로 진행합니다.'}</small></span>`;
-  start.before(label);const input=label.querySelector('input');input.onchange=()=>{start.textContent=input.checked?'남은 횟수 자동전투':'전투 시작'};
+  const start=document.getElementById('battleStart');if(!start||document.getElementById('battleAuto')||start.closest('.pvev2-hunt-actions')||selectedPveIsApocalypse())return;
+  const label=document.createElement('label');label.className='battle-auto-toggle battle-sweep-toggle';label.innerHTML='<input type="checkbox" id="battleAuto"><span><b>전투 소탕</b><small>첫 1회 연출 후 남은 행동력을 한 번에 계산합니다.</small></span>';
+  start.before(label);const input=label.querySelector('input');input.onchange=()=>{start.textContent=input.checked?'1회 전투 후 전체 소탕':'전투 시작'};
 }
 async function startAutoBattle(){
   if(battleState.autoRunning)return;
   const energy=activeBattleEnergy(),remaining=Math.floor(Number(energy?.energy||0)/Math.max(1,Number(energy?.costPerBattle||1)));
-  if(energy?.unlimited)return alert('무제한 상태에서는 남은 횟수 자동전투를 사용할 수 없습니다.');
-  if(!remaining)return alert(selectedPveIsApocalypse()?'남은 아포칼립스 행동력이 없습니다.':'남은 전투 횟수가 없습니다.');
-  if(!confirm(`선택한 몬스터를 남은 ${remaining}회 자동전투할까요?`))return;
-  battleState.autoRunning=true;battleState.autoTargetBattles=remaining;battleState.autoRemaining=remaining;battleState.autoSummary={battles:0,wins:0,losses:0,totalReward:0,magicCrystals:0,cardRewards:[],equipmentRewards:[]};stopBattleEnergyTimer();
+  if(selectedPveIsApocalypse())return alert('아포칼립스는 소탕할 수 없습니다. 전투를 1회씩 진행해 주세요.');
+  if(energy?.unlimited)return alert('무제한 상태에서는 잔여 행동력 소탕을 사용할 수 없습니다.');
+  if(remaining<2)return alert('소탕은 전투 횟수가 2회 이상 남았을 때 사용할 수 있습니다.');
+  if(!confirm(`첫 1회는 기존 V3 전투 연출로 진행하고, 이후 ${remaining-1}회는 승패와 보상을 한 번에 계산합니다.\n\n총 ${remaining}회를 소탕할까요?`))return;
+  battleState.autoRunning=true;battleState.autoTargetBattles=remaining;battleState.autoRemaining=remaining-1;battleState.autoRequestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;battleState.autoSummary=null;stopBattleEnergyTimer();
   const toggle=document.getElementById('battleAuto');if(toggle)toggle.checked=false;
   return startBattle();
 }
+
+function pveSweepNumber(value){return Math.max(0,Number(value)||0).toLocaleString()}
+function pveSweepQuantity(rows=[]){return (rows||[]).reduce((sum,row)=>sum+Math.max(1,Number(row?.quantity||1)),0)}
+function pveSweepFirstResult(data={}){
+  const win=String(data.result||'').toUpperCase()==='WIN';
+  return {battles:1,wins:win?1:0,losses:win?0:1,totalReward:Number(data.reward||0),magicCrystalTotal:Number(data.magicReward?.amount||0),cardRewards:data.cardReward?[data.cardReward]:[],cubeRewards:data.cubeReward?[data.cubeReward]:[],equipmentRewards:data.equipmentReward?[data.equipmentReward]:[],blackMiracleRewards:data.blackMiracleReward?[data.blackMiracleReward]:[],unifiedDrops:data.unifiedDrop?.rewards?.length?[data.unifiedDrop]:[],outcomes:[{battle:1,result:win?'WIN':'LOSE',reward:Number(data.reward||0),reason:String(data.battleV2?.result?.reason||'')}],firstResult:win?'WIN':'LOSE'};
+}
+function mergePveSweepResults(first,batch={}){
+  const extraOutcomes=(batch.outcomes||[]).map((row,index)=>({...row,battle:index+2}));
+  return {...first,battles:first.battles+Number(batch.battles||0),wins:first.wins+Number(batch.wins||0),losses:first.losses+Number(batch.losses||0),totalReward:first.totalReward+Number(batch.totalReward||0),magicCrystalTotal:first.magicCrystalTotal+Number(batch.magicCrystalTotal||0),cardRewards:[...first.cardRewards,...(batch.cardRewards||[])],cubeRewards:[...first.cubeRewards,...(batch.cubeRewards||[])],equipmentRewards:[...first.equipmentRewards,...(batch.equipmentRewards||[])],blackMiracleRewards:[...first.blackMiracleRewards,...(batch.blackMiracleRewards||[])],unifiedDrops:[...first.unifiedDrops,...(batch.unifiedDrops||[])],outcomes:[...first.outcomes,...extraOutcomes],requestedBattles:Number(batch.requestedBattles||0),cappedByEnergy:Boolean(batch.cappedByEnergy)};
+}
+function pveSweepLootRows(summary={}){
+  const rows=[],cards=summary.cardRewards||[],equipment=summary.equipmentRewards||[],cubes=summary.cubeRewards||[],miracles=summary.blackMiracleRewards||[],unified=(summary.unifiedDrops||[]).flatMap(drop=>drop?.rewards||[]);
+  if(cards.length)rows.push(`<span><i>CARD</i><b>카드 ${pveSweepNumber(cards.length)}장</b><em>${escapeHtml(cards.slice(0,2).map(row=>row?.card?.title||'카드').join(' · '))}${cards.length>2?` 외 ${cards.length-2}장`:''}</em></span>`);
+  if(equipment.length)rows.push(`<span><i>GEAR</i><b>장비 보상 ${pveSweepNumber(pveSweepQuantity(equipment))}개</b><em>인벤토리에 즉시 지급</em></span>`);
+  if(cubes.length)rows.push(`<span><i>CUBE</i><b>큐브 ${pveSweepNumber(pveSweepQuantity(cubes))}개</b><em>주간 획득 규칙 반영</em></span>`);
+  if(miracles.length)rows.push(`<span><i>BLACK</i><b>블랙 미라클 ${pveSweepNumber(pveSweepQuantity(miracles))}개</b><em>인벤토리에 즉시 지급</em></span>`);
+  if(unified.length)rows.push(`<span><i>DROP</i><b>추가 보상 ${pveSweepNumber(unified.length)}건</b><em>${escapeHtml(unified.slice(0,2).map(row=>row?.label||row?.name||row?.type||'보상').join(' · '))}${unified.length>2?` 외 ${unified.length-2}건`:''}</em></span>`);
+  return rows.length?rows.join(''):'<span class="is-empty"><i>DROP</i><b>추가 획득 없음</b><em>코인 보상은 정상 지급되었습니다.</em></span>';
+}
+function pveSweepResultMarkup(summary={}){
+  const outcomes=(summary.outcomes||[]).map(row=>`<i class="${row.result==='WIN'?'win':'loss'}" title="${Number(row.battle)}회차 ${row.result==='WIN'?'승리':'패배'}">${row.result==='WIN'?'W':'L'}</i>`).join('');
+  return `<div class="pve-sweep-panel is-complete"><div class="pve-sweep-glow" aria-hidden="true"></div><header><small>PROJECT V · SWEEP COMPLETE</small><h2>전투 소탕 완료</h2><p>첫 1회 전투 연출과 잔여 ${Math.max(0,Number(summary.battles||0)-1)}회 서버 판정을 합산했습니다.</p></header><div class="pve-sweep-stats"><span><small>TOTAL</small><b>${pveSweepNumber(summary.battles)}회</b></span><span class="win"><small>VICTORY</small><b>${pveSweepNumber(summary.wins)}회</b></span><span class="loss"><small>DEFEAT</small><b>${pveSweepNumber(summary.losses)}회</b></span><span class="coin"><small>COIN</small><b>+${pveSweepNumber(summary.totalReward)}</b></span></div><section class="pve-sweep-outcomes"><div><small>BATTLE RECORD</small><b>회차별 독립 판정</b></div><nav>${outcomes}</nav></section>${Number(summary.magicCrystalTotal||0)>0?`<div class="pve-sweep-crystal"><small>MAGIC CRYSTAL</small><b>✦ +${pveSweepNumber(summary.magicCrystalTotal)}</b></div>`:''}<section class="pve-sweep-loot"><small>ACQUIRED LOOT</small>${pveSweepLootRows(summary)}</section>${summary.cappedByEnergy?'<p class="pve-sweep-note">처리 중 사용 가능한 행동력이 변경되어 실제 소모된 횟수까지만 반영했습니다.</p>':''}<button type="button" class="btn pve-sweep-confirm" id="pveSweepConfirm">PVE 화면으로 돌아가기</button><em>화면을 눌러도 돌아갑니다</em></div>`;
+}
+function bindPveSweepExit(modal,renderer){
+  const exit=()=>{modal.onclick=null;try{renderer?.destroy?.()}catch(_){}renderShell('battle')};
+  modal.querySelector('#pveSweepConfirm')?.addEventListener('click',event=>{event.stopPropagation();exit()});
+  modal.onclick=event=>{if(event.target.closest('button'))return;exit()};
+}
+async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={}){
+  if(!battleState.autoRunning)return false;
+  const first=pveSweepFirstResult(data),remaining=Math.max(0,Math.min(999,Number(battleState.autoRemaining||0)));
+  battleState.autoSummary=first;modal.onclick=null;modal.classList.add('pve-sweep-modal');
+  if(!remaining){battleState.autoRunning=false;msg.innerHTML=pveSweepResultMarkup(first);renderer?.showResult?.();bindPveSweepExit(modal,renderer);return true}
+  const run=async()=>{
+    battleState.autoRunning=true;msg.classList.add('is-visible');msg.innerHTML=`<div class="pve-sweep-panel is-processing"><div class="pve-sweep-radar" aria-hidden="true"><i></i><i></i><i></i><b></b></div><header><small>SERVER BATTLE RESOLUTION</small><h2>잔여 전투 계산 중</h2><p>첫 전투 완료 · 남은 ${pveSweepNumber(remaining)}회의 승패와 보상을 각각 판정하고 있습니다.</p></header><div class="pve-sweep-progress"><i></i></div><strong>화면을 닫지 말고 잠시 기다려 주세요.</strong></div>`;renderer?.showResult?.();
+    try{
+      const batch=await apiRequest('battle/auto',{method:'POST',body:JSON.stringify({requestId:battleState.autoRequestId,monsterId:battleState.selectedMonster,cardIds:battleState.deck,requestedBattles:remaining})},{timeoutMs:120000});
+      if(String(batch?.difficulty||'').toUpperCase()==='APOCALYPSE'||String(batch?.energyKind||'').toUpperCase()==='APOCALYPSE')throw new Error('아포칼립스 소탕 응답은 적용할 수 없습니다.');
+      applyPveEnergyResponse(batch);battleState.serverOffset=Date.parse(batch.serverNow||new Date().toISOString())-Date.now();if(batch.user)saveUser(apiUserToLocal(batch.user));
+      const summary=mergePveSweepResults(first,batch);battleState.autoSummary=summary;battleState.autoRunning=false;battleState.autoRemaining=0;msg.innerHTML=pveSweepResultMarkup(summary);bindPveSweepExit(modal,renderer);return true;
+    }catch(error){
+      battleState.autoRunning=false;if(error?.energy)applyPveEnergyResponse({energy:error.energy,energyKind:error.energyKind||'STANDARD'});
+      msg.innerHTML=`<div class="pve-sweep-panel is-error"><header><small>SWEEP RECOVERY</small><h2>첫 전투는 정상 완료</h2><p>잔여 ${pveSweepNumber(remaining)}회 소탕 결과 확인이 지연되고 있습니다. 같은 요청 번호로 다시 확인하면 중복 지급되지 않습니다.</p></header><div class="pve-sweep-error"><b>${escapeHtml(error?.message||'소탕 서버 연결이 원활하지 않습니다.')}</b><span>첫 전투 보상과 사용한 행동력은 보존됩니다.</span></div><div class="pve-sweep-recovery-actions"><button type="button" class="btn" id="pveSweepRetry">결과 다시 확인</button><button type="button" class="btn secondary" id="pveSweepExit">PVE로 돌아가기</button></div></div>`;
+      modal.querySelector('#pveSweepRetry')?.addEventListener('click',event=>{event.stopPropagation();void run()});
+      modal.querySelector('#pveSweepExit')?.addEventListener('click',event=>{event.stopPropagation();try{renderer?.destroy?.()}catch(_){}renderShell('battle')});
+      return true;
+    }
+  };
+  await battleSleep(650);return run();
+}
+window.completePveSweepAfterAnimatedBattle=completePveSweepAfterAnimatedBattle;
 const battleAutoUiObserver=new MutationObserver(ensureBattleAutoToggle);
 battleAutoUiObserver.observe(app,{childList:true,subtree:true});
 function battleSleep(ms){return new Promise(r=>setTimeout(r,ms));}
@@ -2266,7 +2319,8 @@ async function startBattle(){
     msg.innerHTML=win?`<strong>VICTORY</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${d.reward.toLocaleString()}</b></div><em>화면을 눌러 돌아가기</em>`:`<strong>DEFEAT</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><em>화면을 눌러 돌아가기</em>`;
     applyPveEnergyResponse(d);
     saveUser(apiUserToLocal(d.user));
-    setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);
+    if(battleState.autoRunning)await completePveSweepAfterAnimatedBattle({data:d,modal,msg});
+    else setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);
 
   }catch(e){
     // V1803: 여기서 티커를 끄지 않아, 20초에 실패한 요청이 화면에서는 34초까지 도는 것처럼 보였다.

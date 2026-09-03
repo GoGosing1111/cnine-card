@@ -390,14 +390,17 @@
 
   async function finishPve({ stage, phase, msg, modal, data, renderer }) {
     const win = data.result === 'WIN';
+    const sweeping = Boolean(battleState.autoRunning);
     const reason = String(data.battleV2?.result?.reason || '');
     const actions = Math.max(0, Number(data.battleV2?.result?.actions || 0));
     stage.classList.add(win ? 'battle-win-v863' : 'battle-lose-v863');
     phase.textContent = win ? 'MISSION CLEAR' : reason === 'MONSTER_SURVIVED' ? 'MISSION FAILED · MONSTER SURVIVED' : 'MISSION FAILED';
     battleSfx(win ? 'victory' : 'defeat');
-    if (data.cubeReward && window.showCubeDropAcquisition) { try { await window.showCubeDropAcquisition(data.cubeReward); } catch (error) { console.warn(error); } }
-    if (data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
-    if (data.unifiedDrop?.rewards?.length && window.showUnifiedDropAcquisition) { try { await window.showUnifiedDropAcquisition(data.unifiedDrop); } catch (error) { console.warn(error); } }
+    // 소탕은 첫 전투의 개별 드랍 팝업도 잠시 보류했다가, 잔여 회차와 함께
+    // 하나의 합산 결과 화면으로 보여준다. 수동 1회 전투의 기존 획득 연출은 유지한다.
+    if (!sweeping && data.cubeReward && window.showCubeDropAcquisition) { try { await window.showCubeDropAcquisition(data.cubeReward); } catch (error) { console.warn(error); } }
+    if (!sweeping && data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
+    if (!sweeping && data.unifiedDrop?.rewards?.length && window.showUnifiedDropAcquisition) { try { await window.showUnifiedDropAcquisition(data.unifiedDrop); } catch (error) { console.warn(error); } }
     const playerPower = Number(data.playerPower || data.battleV2?.teams?.A?.summary?.power || 0);
     const monsterPower = Number(data.monsterPower || data.battleV2?.teams?.B?.summary?.power || 0);
     const coinReward = Math.max(0, Number(data.reward || 0));
@@ -428,12 +431,10 @@
     if(typeof window.applyPveEnergyResponse==='function')window.applyPveEnergyResponse(data);else battleState.energy=data.energy||battleState.energy;
     battleState.serverOffset = Date.parse(data.serverNow || new Date().toISOString()) - Date.now();
     saveUser(apiUserToLocal(data.user));
-    if (battleState.autoRunning) {
-      const summary = battleState.autoSummary || (battleState.autoSummary={battles:0,wins:0,losses:0,totalReward:0,magicCrystals:0,cardRewards:[],equipmentRewards:[]});
-      summary.battles++;summary.totalReward+=Number(data.reward||0);summary.magicCrystals+=Number(data.magicReward?.amount||0);if(win)summary.wins++;else summary.losses++;if(data.cardReward)summary.cardRewards.push(data.cardReward);if(data.equipmentReward)summary.equipmentRewards.push(data.equipmentReward);
-      battleState.autoRemaining=Math.max(0,Number(battleState.autoRemaining||0)-1);const energy=typeof window.activeBattleEnergy==='function'?window.activeBattleEnergy():battleState.energy,available=Math.floor(Number(energy?.energy||0)/Math.max(1,Number(energy?.costPerBattle||1))),remaining=Math.min(Number(battleState.autoRemaining||0),available);
-      if(remaining>0){msg.insertAdjacentHTML('beforeend',`<em class="auto-battle-next">자동전투 ${summary.battles}회 완료 · ${remaining}회 남음<br>잠시 후 다음 전투가 시작됩니다. 화면을 누르면 중단합니다.</em>`);modal.onclick=()=>{battleState.autoRunning=false;renderer.destroy();renderShell('battle')};setTimeout(()=>{if(battleState.autoRunning){modal.onclick=null;renderer.destroy();startBattle()}},Math.round(1600/PLAYBACK_SPEED));}
-      else{battleState.autoRunning=false;const boxes=(summary.equipmentRewards||[]).reduce((sum,reward)=>sum+Math.max(1,Number(reward?.quantity||1)),0);msg.insertAdjacentHTML('beforeend',`<div class="battle-auto-total"><b>자동전투 ${summary.battles}회 완료</b><span>승리 ${summary.wins} · 패배 ${summary.losses} · 코인 ◈ ${number(summary.totalReward)}</span>${summary.magicCrystals>0?`<small>마법 결정 ✦ ${number(summary.magicCrystals)}개</small>`:''}${summary.cardRewards.length?`<small>카드 획득 ${summary.cardRewards.length}장</small>`:''}${boxes?`<small>보급상자 획득 ${boxes}개</small>`:''}</div>`);setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);}
+    if (battleState.autoRunning && typeof window.completePveSweepAfterAnimatedBattle === 'function') {
+      // V1989: 첫 1회는 위에서 기존 V3 타임라인을 끝까지 재생했다. 이후 회차는
+      // 새 전장을 반복 생성하지 않고 서버 소탕 API로 독립 승패/보상을 일괄 판정한다.
+      await window.completePveSweepAfterAnimatedBattle({data,modal,msg,renderer});
     } else setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);
   }
 

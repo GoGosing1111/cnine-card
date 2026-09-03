@@ -1509,20 +1509,23 @@ function uniqueBattleResponsePayload(uniqueState,runtime=null){
 }
 
 // V1785: options.collectBattleLog 이 주어지면 battle_logs INSERT 를 즉시 실행하지 않고
-// 호출자에게 statement 를 넘긴다. 자동사냥은 한 요청에서 최대 수십 회 반복되므로
+// 호출자에게 statement 를 넘긴다. 소탕은 한 요청에서 최대 수십 회 반복되므로
 // 매회 왕복하던 감사 로그 쓰기를 마지막에 batch 1~2회로 묶을 수 있다.
 // 인자를 주지 않으면 종전과 동일하게 즉시 실행된다.
 async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle=null,requestId='',options={}){
   const difficulty=pveDifficultyRuntime(settings,monster);
   if(!difficulty.enabled){const error=new Error(difficulty.isApocalypse?'현재 아포칼립스 토벌은 중지되어 있습니다.':'현재 나이트메어 토벌은 중지되어 있습니다.');error.code=difficulty.isApocalypse?'APOCALYPSE_DISABLED':'NIGHTMARE_DISABLED';throw error}
-  const battleCards=uniqueBattle?.cards?.length?uniqueBattle.cards:cards;
+  // V1989: 소탕 승패도 수동 전투와 같은 PROJECT V V3 엔진으로 판정한다.
+  // 예전의 단순 전투력 대소 비교는 방어/힐/속도와 고유효과를 무시해, 같은 덱인데
+  // 첫 전투와 잔여 소탕의 승패가 서로 다른 규칙으로 정해지는 문제가 있었다.
+  const uniqueCardsById=new Map((uniqueBattle?.cards||[]).map(card=>[String(card.id),card]));
+  const battleCards=cards.map(card=>uniqueCardsById.get(String(card.id))||card);
   const basePlayerPower=Number(uniqueBattle?.power||cards.reduce((a,c)=>a+Number(c.power||0),0)),monsterPower=difficulty.effectiveBattlePower;
   const uniqueRuntime=uniqueBattle?.enabled?resolveUniqueBattleRuntime(uniqueBattle,{mode:'PVE_AUTO',opponentPower:monsterPower}):null;
-  const characterBonus=await userEquipmentBonuses(env,user.id),cardPower=Math.max(0,Number(uniqueRuntime?.effectivePower||basePlayerPower));
+  const characterBonus=options.characterBonus||await userEquipmentBonuses(env,user.id),synergyMultiplier=Math.max(0,Number(options.synergyMultiplier||1)),cardPower=Math.max(0,Math.floor(Number(uniqueRuntime?.effectivePower||basePlayerPower)*synergyMultiplier));
   const battleSuitDamage=Math.max(0,Number(characterBonus.battleSuitPve||0));
   const nonBattleSuitSupport=Math.max(0,Number(characterBonus.pve||0)-battleSuitDamage);
   const uniquePlayerPower=cardPower+nonBattleSuitSupport+battleSuitDamage;
-  const damageBreakdown={cards:cardPower,support:nonBattleSuitSupport,battleSuit:battleSuitDamage,total:uniquePlayerPower,authority:'SERVER_AUTO_BATTLE'};
   const activatedEntry=selectActivatedUltimate(settings,battleCards);
   const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
   const ultimateDamage=activatedEntry&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedEntry.rule.coefficientPercent||0)/100)):0;
@@ -1540,21 +1543,39 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const bossUltimateCap=Math.max(0,Number(difficulty.bossUltimateCapPercent??100)||0);
   const bossConfiguredDamagePercent=apocalypseSkillCast?Math.max(0,Number(apocalypseSkill.damagePercent||0)):Math.max(0,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0)||0);
   const bossPveDamagePercent=Math.min(bossUltimateCap,bossConfiguredDamagePercent),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(uniquePlayerPower*bossPveDamagePercent/100)):0;
-  const result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
+  const engineState=options.engineState||pveBattleEngineState(settings,user,characterBonus),magicLoadout=options.magicLoadout||{cards:[]};
+  let battleV2=null,result;
+  if(engineState.active){
+    const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
+    const engineCards=cards.map(card=>{const uniqueCard=uniqueCardsById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
+    const battleSuit=battleSuitDamage>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitDamage,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
+    battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+    result=battleV2.result.winner==='A'?'WIN':'LOSE';
+  }else result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
+  const damageBreakdown=battleV2?.result?.damageBreakdown||{cards:cardPower,support:nonBattleSuitSupport,battleSuit:battleSuitDamage,ultimate:ultimateDamage,total:uniquePlayerPower+ultimateDamage,authority:'SERVER_SWEEP_FALLBACK'};
   const eventReward=result==='WIN'?Math.max(0,Math.floor(difficulty.effectiveRewardCoin*Number(settings.__burningRewardMultiplier||1))):0;
   const avatarCoin=applyAvatarCoinGain(eventReward,options.avatarEffect),reward=avatarCoin.total;
-  // V1785: 코인 지급 + 코인 로그를 D1 배치 1회로 묶는다(자동사냥 반복 횟수만큼 왕복이 줄어든다).
-  if(reward){
-    await env.DB.batch([
+  // 수동 PVE와 같은 방식으로 서로 독립적인 지급을 한 파동에서 처리한다. 소탕 회차마다
+  // 코인→카드→장비→큐브를 직렬 대기하면 행동력 30회 기준 응답이 과도하게 길어진다.
+  const dropRequestId=requestId||`${Date.now()}-${monster.id}`,pveMagic=options.pveMagic||{};
+  const cardRate=result==='WIN'&&settings.cardDrop?.enabled!==false?Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0))):0;
+  const cardDropHit=cardRate>0&&Math.random()*100<cardRate;
+  const [,cardReward,equipmentReward,blackMiracleReward,cubeReward,magicReward]=await Promise.all([
+    reward?env.DB.batch([
       env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
-      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 자동사냥 승리 보상: ${monster.name}`,user.id)
-    ]);
-  }
-  let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){const dropRequestId=requestId||`${Date.now()}-${monster.id}`;if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:'PVE_AUTO',sourceId:String(monster.id),requestId:dropRequestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:'PVE_AUTO',referenceId:dropRequestId});unifiedDrop=await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${dropRequestId}`,sourceType:'PVE_AUTO',sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare,isApocalypse:difficulty.isApocalypse});}
+      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 소탕 승리 보상: ${monster.name}`,user.id)
+    ]):Promise.resolve(null),
+    cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
+    result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:'PVE_AUTO',sourceId:String(monster.id),requestId:dropRequestId}):Promise.resolve(null),
+    result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:'PVE_AUTO',referenceId:dropRequestId}):Promise.resolve(null),
+    grantBattleCube(env,user.id,'PVE',dropRequestId,result==='WIN'),
+    result==='WIN'?resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:dropRequestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):Promise.resolve(null)
+  ]);
+  const unifiedDrop=result==='WIN'?await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${dropRequestId}`,sourceType:'PVE_AUTO',sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare,isApocalypse:difficulty.isApocalypse}):null;
   const autoBattleLogStatement=env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward);
   if(typeof options.collectBattleLog==='function')options.collectBattleLog(autoBattleLogStatement);
   else await autoBattleLogStatement.run();
-  return {result,reward,avatarCoin,cardReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower:uniquePlayerPower,cardPower,battleSuitDamage,damageBreakdown,characterBonus,monsterPower,difficulty:{...difficulty,engineMonster:undefined},bossUltimate:bossShouldCast?{name:apocalypseSkillCast?apocalypseSkill.name:String(monster.ultimate_name||'보스 궁극기'),description:apocalypseSkillCast?apocalypseSkill.description:String(monster.ultimate_description||''),apocalypseExclusive:apocalypseSkillCast,damagePercent:bossPveDamagePercent,penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
+  return {result,reward,avatarCoin,cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower:uniquePlayerPower,cardPower,battleSuitDamage,damageBreakdown,characterBonus,monsterPower,battleReason:String(battleV2?.result?.reason||''),difficulty:{...difficulty,engineMonster:undefined},bossUltimate:bossShouldCast?{name:apocalypseSkillCast?apocalypseSkill.name:String(monster.ultimate_name||'보스 궁극기'),description:apocalypseSkillCast?apocalypseSkill.description:String(monster.ultimate_description||''),apocalypseExclusive:apocalypseSkillCast,damagePercent:bossPveDamagePercent,penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
 }
 
 
@@ -6131,35 +6152,42 @@ async function handleRequest(context){
     if(path==='battle/auto'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'다른 기기 또는 창에서 다시 로그인되어 현재 로그인이 종료되었습니다.',code:'SESSION_REPLACED'},401);
       const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning);if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
-      const payload=await readBody(request),requestId=String(payload.requestId||'').trim(),monsterId=Number(payload.monsterId),ids=[...new Set((payload.cardIds||[]).map(String))];
-      if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))return json({error:'자동사냥 요청 정보가 올바르지 않습니다.'},400);
+      const payload=await readBody(request),requestId=String(payload.requestId||'').trim(),monsterId=Number(payload.monsterId),requestedBattles=Math.floor(Number(payload.requestedBattles)),ids=[...new Set((payload.cardIds||[]).map(String))];
+      if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))return json({error:'소탕 요청 정보가 올바르지 않습니다.'},400);
       const previous=await env.DB.prepare('SELECT user_id,status,response_json FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
-      if(previous){if(Number(previous.user_id)!==Number(user.id))return json({error:'잘못된 자동사냥 요청입니다.'},403);if(previous.status==='COMPLETED'&&previous.response_json)return json(JSON.parse(previous.response_json));return json({error:'동일한 자동사냥 요청이 이미 처리 중입니다.',code:'AUTO_HUNT_RUNNING'},409);}
+      if(previous){if(Number(previous.user_id)!==Number(user.id))return json({error:'잘못된 소탕 요청입니다.'},403);if(previous.status==='COMPLETED'&&previous.response_json){const replay=JSON.parse(previous.response_json);if(String(replay?.difficulty||'').toUpperCase()==='APOCALYPSE')return json({error:'아포칼립스는 소탕할 수 없습니다.',code:'PVE_SWEEP_APOCALYPSE_EXCLUDED'},400);return json(replay)}return json({error:'동일한 소탕 요청이 이미 처리 중입니다.',code:'PVE_SWEEP_RUNNING'},409);}
       if(ids.length!==5)return json({error:'보유 카드 5장을 편성해야 합니다.'},400);
       try{await validateDeckGradeLimits(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
       const monster=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
       const autoDifficulty=pveDifficultyRuntime(settings,monster);if(!autoDifficulty.enabled)return json({error:autoDifficulty.isApocalypse?'현재 아포칼립스 토벌은 중지되어 있습니다.':'현재 나이트메어 토벌은 중지되어 있습니다.',code:autoDifficulty.isApocalypse?'APOCALYPSE_DISABLED':'NIGHTMARE_DISABLED'},503);
-      const energyBefore=await pveEnergyStateForDifficulty(env,user,settings,autoDifficulty);if(energyBefore.unlimited)return json({error:'무제한 계정에서는 남은 횟수 자동사냥을 사용할 수 없습니다.'},400);
-      const battleCount=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1)));if(battleCount<1){const code=autoDifficulty.isApocalypse?'NO_APOCALYPSE_ENERGY':'NO_BATTLE_ENERGY';return json({error:autoDifficulty.isApocalypse?'아포칼립스 행동력이 부족합니다.':'전투 횟수가 부족합니다.',code,energy:energyBefore,energyKind:autoDifficulty.isApocalypse?'APOCALYPSE':'STANDARD'},429)}
+      // V1989: 아포칼립스는 첫 전투 포함 어떤 경로에서도 소탕 대상이 아니다.
+      // UI를 우회해 직접 호출해도 전용 행동력과 보상은 절대 일괄 처리하지 않는다.
+      if(autoDifficulty.isApocalypse)return json({error:'아포칼립스는 소탕할 수 없습니다. 전투를 1회씩 진행해 주세요.',code:'PVE_SWEEP_APOCALYPSE_EXCLUDED'},400);
+      if(!Number.isInteger(requestedBattles)||requestedBattles<1||requestedBattles>999)return json({error:'소탕 횟수는 1~999회 사이여야 합니다.',code:'PVE_SWEEP_COUNT_INVALID'},400);
+      const energyBefore=await battleEnergyState(env,user,settings);if(energyBefore.unlimited)return json({error:'무제한 계정에서는 잔여 행동력 소탕을 사용할 수 없습니다.'},400);
+      const availableBattles=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1))),battleCount=Math.min(requestedBattles,availableBattles);if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore,energyKind:'STANDARD'},429);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
-      const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)})),[uniqueBattle,avatarEffect]=await Promise.all([cardUniqueDeckState(env,user,cards,'PVE'),equippedAvatarEffect(env,user.id)]),lockUntil=new Date(Date.now()+120000).toISOString().replace('T',' ').slice(0,19);
+      const ownedById=new Map(owned.results.map(card=>[String(card.id),card])),cards=ids.map(id=>ownedById.get(String(id))).filter(Boolean).map(c=>({...c,id:String(c.id),power:cardBattlePower(c,c.breakthrough_level,settings)}));
+      const [uniqueBattle,avatarEffect,synergy,characterBonus,magicLoadout]=await Promise.all([cardUniqueDeckState(env,user,cards,'PVE'),equippedAvatarEffect(env,user.id),evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE')]);
+      const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(Number(monster.is_boss||0)===1?Number(synergy.totals.bossDamagePercent||0)/100:0),engineState=pveBattleEngineState(settings,user,characterBonus),lockUntil=new Date(Date.now()+600000).toISOString().replace('T',' ').slice(0,19);
       await env.DB.prepare("INSERT INTO pve_auto_locks(user_id,request_id,expires_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,expires_at=excluded.expires_at,updated_at=CURRENT_TIMESTAMP WHERE pve_auto_locks.expires_at<=datetime('now')").bind(user.id,requestId,lockUntil).run();
-      const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 자동사냥이 진행 중입니다.',code:'AUTO_HUNT_LOCKED'},409);
+      const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 소탕이 진행 중입니다.',code:'PVE_SWEEP_LOCKED'},409);
       await env.DB.prepare("INSERT INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
       try{
-        let battles=0,wins=0,losses=0,totalReward=0,totalAvatarCoinBonus=0,energy=energyBefore;const cardRewards=[],cubeRewards=[],magicRewards=[],equipmentRewards=[],unifiedDrops=[];
-        // V1785: 자동사냥은 한 요청에서 최대 수십 회 반복된다. 매회 왕복하던 battle_logs INSERT 를
+        let battles=0,wins=0,losses=0,totalReward=0,totalAvatarCoinBonus=0,energy=energyBefore;const outcomes=[],cardRewards=[],cubeRewards=[],magicRewards=[],equipmentRewards=[],blackMiracleRewards=[],unifiedDrops=[];
+        // V1785: 소탕은 한 요청에서 최대 수십 회 반복된다. 매회 왕복하던 battle_logs INSERT 를
         // 모아 두었다가 루프 종료 후 batch 로 한 번에, 그것도 응답 지연 경로 밖에서 쓴다.
         const autoBattleLogs=[];
         const magicCfg=await magicSettings(env),pveMagic=magicCfg.acquisition?.pve||{};
         for(let i=0;i<battleCount;i++){
-          try{energy=await consumePveEnergyForDifficulty(env,user,settings,autoDifficulty)}catch(e){if(e.code==='NO_BATTLE_ENERGY'||e.code==='NO_APOCALYPSE_ENERGY'){energy=e.energy;break}throw e}
-          const battleRef=`${requestId}:${i+1}`,one=await resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle,battleRef,{avatarEffect,collectBattleLog:statement=>autoBattleLogs.push(statement)});battles++;totalReward+=Number(one.reward||0);totalAvatarCoinBonus+=Number(one.avatarCoin?.bonus||0);
-          const cubeReward=await grantBattleCube(env,user.id,'PVE',battleRef,one.result==='WIN');if(cubeReward)cubeRewards.push(cubeReward);
+          try{energy=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY'){energy=e.energy;break}throw e}
+          const battleRef=`${requestId}:${i+1}`,one=await resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle,battleRef,{avatarEffect,synergyMultiplier,characterBonus,magicLoadout,engineState,pveMagic,collectBattleLog:statement=>autoBattleLogs.push(statement)});battles++;totalReward+=Number(one.reward||0);totalAvatarCoinBonus+=Number(one.avatarCoin?.bonus||0);outcomes.push({battle:i+1,result:one.result,reward:Number(one.reward||0),reason:one.battleReason||''});
+          if(one.cubeReward)cubeRewards.push(one.cubeReward);
           if(one.result==='WIN'){
             wins++;
-            const magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:battleRef,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'});if(magicReward?.amount>0)magicRewards.push(magicReward);
-          }else losses++;if(one.cardReward)cardRewards.push(one.cardReward);if(one.equipmentReward)equipmentRewards.push(one.equipmentReward);if(one.unifiedDrop?.rewards?.length)unifiedDrops.push(one.unifiedDrop);
+            if(one.magicReward?.amount>0)magicRewards.push(one.magicReward);
+            deferWrite('highGradeRerollDrop:sweep',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:battleRef}));
+          }else losses++;if(one.cardReward)cardRewards.push(one.cardReward);if(one.equipmentReward)equipmentRewards.push(one.equipmentReward);if(one.blackMiracleReward)blackMiracleRewards.push(one.blackMiracleReward);if(one.unifiedDrop?.rewards?.length)unifiedDrops.push(one.unifiedDrop);
         }
         // V1785: 모아둔 감사 로그를 50개씩 끊어 배치로 기록한다. 응답은 기다리지 않는다.
         if(autoBattleLogs.length){
@@ -6167,9 +6195,9 @@ async function handleRequest(context){
           for(let index=0;index<autoBattleLogs.length;index+=50)chunks.push(autoBattleLogs.slice(index,index+50));
           deferWrite('battle_logs:auto',async()=>{for(const chunk of chunks)await env.DB.batch(chunk)});
         }
-        // V1791: 자동사냥은 회차 수만큼 반복되므로 프로필 비용이 그대로 배수로 붙는다.
+        // V1791: 소탕은 회차 수만큼 반복되므로 프로필 비용이 그대로 배수로 붙는다.
         // 이번 실행에서 지급된 카드만 모아 배치 1회로 읽는다.
-        const response={ok:true,battles,wins,losses,totalReward,totalAvatarCoinBonus,avatarCoinGainPercent:applyAvatarCoinGain(0,avatarEffect).percent,cardRewards,cubeRewards,magicRewards,equipmentRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,energyKind:autoDifficulty.isApocalypse?'APOCALYPSE':'STANDARD',serverNow:new Date().toISOString(),user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards,unifiedDrops}))};
+        const response={ok:true,mode:'PVE_SWEEP',requestedBattles,battles,processedBattles:battles,cappedByEnergy:battles<requestedBattles,wins,losses,outcomes,totalReward,totalAvatarCoinBonus,avatarCoinGainPercent:applyAvatarCoinGain(0,avatarEffect).percent,cardRewards,cubeRewards,magicRewards,equipmentRewards,blackMiracleRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,apocalypseExcluded:true,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,energyKind:'STANDARD',serverNow:new Date().toISOString(),user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards,unifiedDrops}))};
         await env.DB.prepare("UPDATE pve_auto_runs SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();
         await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();return json(response);
       }catch(error){await env.DB.prepare("UPDATE pve_auto_runs SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(String(error?.message||error).slice(0,500),requestId).run();await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();throw error}
