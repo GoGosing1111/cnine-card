@@ -18,6 +18,7 @@ const commandRoomAsset=await stat(new URL('../assets/ui/clan/clan-command-room-v
 const markCatalog=JSON.parse(markCatalogRaw);
 const markAssets=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../assets/ui/clan/marks/${clan.asset}`,import.meta.url))));
 const markSources=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../assets/ui/clan/marks/${clan.source}`,import.meta.url))));
+const fightSource=server.slice(server.indexOf('async function fight('),server.indexOf('\nexport async function handleClan'));
 
 test('클랜 정원과 스네이크 드래프트 순서가 고정된다',()=>{
   assert.equal(__clanTest.CLAN_MAX_MEMBERS,22);
@@ -98,7 +99,10 @@ test('전투력과 무관하게 가용 상대 한 명만 요청 키 기반으로
   assert.equal(first.filter(row=>row.matchEligible).length,1);
   assert.deepEqual(first.filter(row=>row.matchEligible).map(row=>row.userId),again.filter(row=>row.matchEligible).map(row=>row.userId));
   assert.ok([1,2].includes(first.find(row=>row.matchEligible).userId));
+  assert.equal(first[0].matchEligible,true);
+  assert.deepEqual(first.filter(row=>row.available).map(row=>row.userId),again.filter(row=>row.available).map(row=>row.userId));
   assert.equal(first.find(row=>row.userId===3).matchReason,'QUOTA_LOCKED');
+  assert.equal(first.at(-1).userId,3);
 });
 
 test('8개 공식 클랜 이름·키·마크 리소스가 단일 카탈로그로 고정된다',()=>{
@@ -185,7 +189,7 @@ test('조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설
   assert.match(server,/QUERY_POLICY|queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'/i);
 });
 
-test('클랜 V3 전투는 사용자 직렬화 락과 재시도 가능한 영수증을 사용한다',()=>{
+test('클랜 V3 전투는 유저·상대 단위 예약 락과 재시도 가능한 영수증을 사용한다',()=>{
   assert.match(router,/clan\/war\/fight/);
   assert.match(server,/status='FAILED'/);
   assert.match(server,/INSERT OR IGNORE INTO clan_war_battles/);
@@ -200,7 +204,17 @@ test('클랜 V3 전투는 사용자 직렬화 락과 재시도 가능한 영수�
   assert.match(server,/currentRankedDeckIds\(env,attackerUser\.id\)/);
   assert.match(server,/currentRankedDeckIds\(env,defenderUser\.id\)/);
   assert.doesNotMatch(client,/targetUserId/);
-  assert.match(server,/다른 클랜전 작전권을 배정 중입니다/);
+  assert.match(server,/safe_runtime_upgrade_v1999_clan_concurrent_war_reservations_v1/);
+  assert.match(server,/CREATE TABLE IF NOT EXISTS clan_war_reservation_locks/);
+  assert.match(server,/reservationScope:'PER_WAR_USER_AND_TARGET'/);
+  assert.match(server,/key:'CONCURRENT_ENTRY',status:'READY'/);
+  assert.match(fightSource,/acquireWarReservationLock\(env,war\.id,'ATTACKER',user\.id\)/);
+  assert.match(fightSource,/acquireWarReservationLock\(env,war\.id,'DEFENDER',candidate\.userId\)/);
+  assert.match(fightSource,/for\(const candidate of candidates\)/);
+  assert.match(fightSource,/CLAN_ATTACKER_RESERVATION_BUSY/);
+  assert.match(fightSource,/CLAN_RANDOM_TARGET_BUSY/);
+  assert.doesNotMatch(fightSource,/acquireDraftLock/);
+  assert.doesNotMatch(fightSource,/다른 클랜전 작전권을 배정 중입니다/);
   assert.match(server,/NOT EXISTS\(SELECT 1 FROM clan_war_battles WHERE war_id=\? AND status IN \('PENDING','RESOLVING'\)\)/);
   assert.match(server,/INSERT OR IGNORE INTO clan_war_battles[\s\S]+WHERE EXISTS\(SELECT 1 FROM clan_wars WHERE id=\? AND status='ACTIVE'/);
   assert.match(server,/EXISTS\(SELECT 1 FROM clan_wars WHERE id=\? AND status='ACTIVE'\)/);
