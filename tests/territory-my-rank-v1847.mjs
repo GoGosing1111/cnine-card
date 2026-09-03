@@ -18,9 +18,9 @@ assert.match(client,/contribution_rank/);
 assert.match(client,/contribution_total/);
 assert.match(css,/\.tw4-contribution-rank/);
 assert.match(css,/grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-assert.match(index,/js\/app\.js\?v=1941-superstar-pack-early-access/);
-assert.match(index,/territory-war-v1811\.js\?v=1916-territory-100-attack-reward/);
-assert.match(index,/territory-war-v1824\.css\?v=1914-territory-dispatch-persist/);
-assert.match(serviceWorker,/soop-card-shell-v1941-superstar-pack-early-access/);
+assert.match(index,/js\/app\.js\?v=1994-clan-draft-territory-command/);
+assert.match(index,/territory-war-v1811\.js\?v=1994-commander-direct-live-status/);
+assert.match(index,/territory-war-v1824\.css\?v=1994-commander-direct-live-status/);
+assert.match(serviceWorker,/soop-card-shell-v1994-clan-draft-territory-command/);
 
 console.log('territory my rank v1847: ok');

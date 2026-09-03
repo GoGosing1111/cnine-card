@@ -1,0 +1,16 @@
+숲켓몬 v1994 검증 보고
+
+[PASS] node --check functions/_clan.js
+[PASS] node --check functions/_territory_war.js
+[PASS] node --check functions/api/[[path]].js
+[PASS] node --check js/app.js
+[PASS] node --check js/territory-war-v1811.js
+[PASS] node --check js/soopketmon-v21-exact-shell-adapter.js
+[PASS] npm run test:clan (28/28)
+[PASS] npm run test:territory-reward (6/6)
+[PASS] 라이브 콘텐츠·내비게이션·영토전 연관 회귀 (13/13)
+[PASS] npm run release:gate 테스트 본체 전체
+[EXPECTED PRE-COMMIT BLOCK] 최종 배포 검증기가 dirty working tree를 차단함
+
+범위 파일 커밋 후 깨끗한 작업 트리에서 npm run release:gate를 다시 통과시키고,
+운영 배포 후 응답·자산 캐시 키와 클랜 일정 런타임 전환 결과를 확인한다.

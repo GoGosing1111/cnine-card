@@ -3,8 +3,11 @@ const CLAN_OFFICIAL_CATALOG_VERSION='safe_runtime_upgrade_v1882_clan_official_ca
 const CLAN_COMPETITION_UPGRADE_VERSION='safe_runtime_upgrade_v1883_clan_competition_safety_v1';
 const CLAN_RELEASE_RUNTIME_VERSION='safe_runtime_upgrade_v1946_clan_release_runtime_v1';
 const CLAN_CAPACITY_RUNTIME_VERSION='safe_runtime_upgrade_v1993_clan_capacity_22_late_registration_2h';
+const CLAN_LATE_DRAFT_RUNTIME_VERSION='safe_runtime_upgrade_v1994_clan_late_entry_draft_1900_war_2100';
 const CLAN_MAX_MEMBERS=22;
 const CLAN_LATE_REGISTRATION_EXTENSION_MS=2*60*60*1000;
+const CLAN_LATE_DRAFT_HOUR_KST=19;
+const CLAN_WAR_OPEN_HOUR_KST=21;
 const OFFICIAL_CLAN_CATALOG=Object.freeze([
   Object.freeze({name:'DK',markKey:'DK',primaryColor:'#2f7cff',accentColor:'#d8e8ff'}),
   Object.freeze({name:'삼성',markKey:'SAMSUNG',primaryColor:'#3c74c9',accentColor:'#e7f2ff'}),
@@ -35,7 +38,7 @@ const CLAN_ADMIN_SETTINGS_DEFAULTS=Object.freeze({
 });
 const CLAN_ADMIN_FALLBACKS=Object.freeze(['NEAREST_LOWEST_DEFENSE','NEAREST_POWER','LOWEST_DEFENSE']);
 
-let foundationReady=false,officialCatalogReady=false,competitionUpgradeReady=false,releaseRuntimeReady=false,capacityRuntimeReady=false;
+let foundationReady=false,officialCatalogReady=false,competitionUpgradeReady=false,releaseRuntimeReady=false,capacityRuntimeReady=false,lateDraftRuntimeReady=false;
 
 function iso(ms=Date.now()){return new Date(ms).toISOString()}
 function safeJson(value,fallback={}){try{return JSON.parse(value||'')}catch{return fallback}}
@@ -65,6 +68,14 @@ function scheduledWindowStarts(settings,fromMs,count){
     const start=localDay+hour*3600000+minute*60000-SEOUL_OFFSET_MS;if(start>=fromMs)starts.push(start);
   }
   return starts;
+}
+function seoulDayTimestamp(nowMs,hour,minute=0){
+  const local=new Date(Number(nowMs)+SEOUL_OFFSET_MS);
+  return Date.UTC(local.getUTCFullYear(),local.getUTCMonth(),local.getUTCDate(),Number(hour),Number(minute),0,0)-SEOUL_OFFSET_MS;
+}
+function clanLateDraftFixedSchedule(settings=CLAN_ADMIN_SETTINGS_DEFAULTS,nowMs=Date.now(),roundCount=7){
+  const registrationEnd=seoulDayTimestamp(nowMs,CLAN_LATE_DRAFT_HOUR_KST),warStart=seoulDayTimestamp(nowMs,CLAN_WAR_OPEN_HOUR_KST),scheduledSettings={...settings,scheduleEnabled:true,warOpenTime:'21:00'},starts=scheduledWindowStarts(scheduledSettings,warStart,Math.max(0,Number(roundCount)||0)),duration=Math.max(1,Number(scheduledSettings.warDurationMinutes||60))*60000;
+  return{registrationEndsAt:iso(registrationEnd),draftEndsAt:iso(warStart),startsAt:iso(starts[0]??warStart),endsAt:iso(starts.length?starts.at(-1)+duration:warStart+duration),nextPickDeadline:iso(registrationEnd+Number(scheduledSettings.draftPickSeconds||300)*1000),roundStarts:starts.map(start=>iso(start)),warDurationMs:duration,settings:scheduledSettings};
 }
 function clanEnergySnapshot(war,usedAttacks,settings,nowMs=Date.now()){
   const start=sqlMs(war?.starts_at??war?.startsAt),end=sqlMs(war?.ends_at??war?.endsAt),initial=Math.max(0,Number(settings?.initialEnergy||0)),cap=Math.max(initial,Number(settings?.energyCap||initial)),recoverySeconds=Math.max(1,Number(settings?.energyRecoverySeconds||180)),cost=Math.max(1,Number(settings?.attackEnergyCost||1)),used=Math.max(0,Number(usedAttacks||0)),useLimit=Math.max(1,Number(settings?.totalUseLimit||CLAN_ATTACKS_PER_WAR)),elapsed=Number.isFinite(start)?Math.max(0,nowMs-start):0,recovered=Math.floor(elapsed/(recoverySeconds*1000)),generated=Math.min(cap,initial+recovered),available=Math.max(0,generated-used*cost),usesRemaining=Math.max(0,useLimit-used),windowOpen=String(war?.status||'').toUpperCase()==='ACTIVE'&&Number.isFinite(start)&&Number.isFinite(end)&&nowMs>=start&&nowMs<end,nextEnergyAt=generated<cap?iso(start+(recovered+1)*recoverySeconds*1000):null;
@@ -209,6 +220,41 @@ async function ensureClanCapacityRuntimeUpgrade(env){
   }
 }
 
+async function ensureClanLateDraftRuntimeUpgrade(env){
+  if(lateDraftRuntimeReady)return;
+  const existing=await env.DB.prepare('SELECT value,updated_at FROM app_meta WHERE key=?').bind(CLAN_LATE_DRAFT_RUNTIME_VERSION).first(),existingState=safeJson(existing?.value,{});
+  if(existingState.status==='COMPLETED'){console.info('[CLAN_LATE_DRAFT_V1994_STATE]',JSON.stringify(existingState));lateDraftRuntimeReady=true;return}
+  if(existing&&Date.now()-sqlMs(existing.updated_at)<60000)return;
+  if(existing)await env.DB.prepare('DELETE FROM app_meta WHERE key=?').bind(CLAN_LATE_DRAFT_RUNTIME_VERSION).run();
+  const token=crypto.randomUUID(),pending=JSON.stringify({status:'PROCESSING',token,startedAt:iso()});
+  await env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(CLAN_LATE_DRAFT_RUNTIME_VERSION,pending).run();
+  const claim=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_LATE_DRAFT_RUNTIME_VERSION).first();
+  if(safeJson(claim?.value,{}).token!==token)return;
+  try{
+    const now=Date.now(),season=await env.DB.prepare("SELECT * FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC,id DESC LIMIT 1").first(),result={status:'COMPLETED',version:'v1994',appliedAt:iso(now),draftAtKst:'19:00',warAtKst:'21:00',seasonId:Number(season?.id||0),seasonNo:Number(season?.season_no||0),phase:String(season?.phase||'NONE'),action:'NO_ACTIVE_SEASON'};
+    if(season){
+      const phase=String(season.phase||'').toUpperCase(),settings=await clanSettings(env),roundRows=rows(await env.DB.prepare('SELECT DISTINCT round_no FROM clan_wars WHERE season_id=? ORDER BY round_no').bind(season.id).all()),schedule=clanLateDraftFixedSchedule(settings,now,roundRows.length||7),warStart=sqlMs(schedule.startsAt),warStats=await env.DB.prepare("SELECT COUNT(*) total,SUM(CASE WHEN status<>'SCHEDULED' OR COALESCE(score_a,0)<>0 OR COALESCE(score_b,0)<>0 OR COALESCE(battle_count,0)<>0 OR winner_clan_id IS NOT NULL THEN 1 ELSE 0 END) unsafe FROM clan_wars WHERE season_id=?").bind(season.id).first(),battleStats=await env.DB.prepare('SELECT COUNT(*) count FROM clan_war_battles WHERE season_id=?').bind(season.id).first(),unsafeWars=Number(warStats?.unsafe||0),battleCount=Number(battleStats?.count||0);
+      Object.assign(result,{previousPhase:phase,registrationEndsAt:schedule.registrationEndsAt,draftEndsAt:schedule.draftEndsAt,startsAt:schedule.startsAt,endsAt:schedule.endsAt,scheduledWarCount:Number(warStats?.total||0),unsafeWars,battleCount});
+      if(now>=warStart)result.action='SKIP_WAR_START_REACHED';
+      else if(phase==='ACTIVE'&&(unsafeWars>0||battleCount>0))result.action='SKIP_STARTED_WAR_SAFETY';
+      else if(['ACTIVE','DRAFT','REGISTRATION'].includes(phase)){
+        const nextSettings={...schedule.settings,warOpenTime:'21:00',scheduleEnabled:true},writes=[env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(nextSettings))];
+        if(phase==='REGISTRATION')writes.push(env.DB.prepare("UPDATE clan_seasons SET max_members=?,registration_ends_at=?,draft_ends_at=?,starts_at=?,ends_at=?,next_pick_deadline=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='REGISTRATION'").bind(CLAN_MAX_MEMBERS,schedule.registrationEndsAt,schedule.draftEndsAt,schedule.startsAt,schedule.endsAt,season.id));
+        else writes.push(env.DB.prepare("UPDATE clan_seasons SET phase='DRAFT',max_members=?,registration_ends_at=?,draft_ends_at=?,starts_at=?,ends_at=?,next_pick_deadline=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase IN ('DRAFT','ACTIVE')").bind(CLAN_MAX_MEMBERS,schedule.registrationEndsAt,schedule.draftEndsAt,schedule.startsAt,schedule.endsAt,schedule.nextPickDeadline,season.id));
+        roundRows.forEach((row,index)=>{const start=schedule.roundStarts[index];if(!start)return;writes.push(env.DB.prepare("UPDATE clan_wars SET status='SCHEDULED',starts_at=?,ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND round_no=? AND status='SCHEDULED'").bind(start,iso(sqlMs(start)+schedule.warDurationMs),season.id,row.round_no))});
+        await env.DB.batch(writes);
+        result.action=phase==='ACTIVE'?'PAUSE_SCHEDULED_SEASON_FOR_LATE_DRAFT':phase==='DRAFT'?'ALIGN_LATE_DRAFT_TO_1900':'ALIGN_REGISTRATION_TO_1900';
+      }else result.action=`SKIP_PHASE_${phase||'UNKNOWN'}`;
+    }
+    await env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(JSON.stringify(result),CLAN_LATE_DRAFT_RUNTIME_VERSION,pending).run();
+    console.info('[CLAN_LATE_DRAFT_V1994]',JSON.stringify(result));
+    lateDraftRuntimeReady=true;
+  }catch(error){
+    await env.DB.prepare('DELETE FROM app_meta WHERE key=? AND value=?').bind(CLAN_LATE_DRAFT_RUNTIME_VERSION,pending).run().catch(()=>{});
+    throw error;
+  }
+}
+
 async function ensureFoundation(env){
   if(!foundationReady){
     await env.DB.prepare('CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)').run();
@@ -224,6 +270,7 @@ async function ensureFoundation(env){
   await ensureCompetitionUpgrade(env);
   await ensureReleaseRuntimeUpgrade(env);
   await ensureClanCapacityRuntimeUpgrade(env);
+  await ensureClanLateDraftRuntimeUpgrade(env);
 }
 
 function cleanClock(value,fallback='21:00'){const match=String(value||'').trim().match(/^(\d{1,2}):(\d{2})$/);if(!match)return fallback;const hour=Number(match[1]),minute=Number(match[2]);return hour>=0&&hour<=23&&minute>=0&&minute<=59?`${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`:fallback}
@@ -336,7 +383,7 @@ async function createWars(env,season,teams,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
   let starts=immediateFirst?[now,...scheduledWindowStarts(settings,now+duration+1000,rounds.length-1)]:scheduledWindowStarts(settings,Math.max(now,sqlMs(season.draft_ends_at)||now),rounds.length);
   while(starts.length<rounds.length)starts.push((starts.at(-1)||now)+duration);const writes=[];
   rounds.forEach((pairs,index)=>{const start=starts[index],end=start+duration,status=start<=now&&now<end?'ACTIVE':'SCHEDULED';pairs.forEach(pair=>writes.push(env.DB.prepare('INSERT OR IGNORE INTO clan_wars(season_id,round_no,clan_a_id,clan_b_id,status,starts_at,ends_at) VALUES(?,?,?,?,?,?,?)').bind(season.id,pair.roundNo,pair.clanAId,pair.clanBId,status,iso(start),iso(end))))});
-  await batchChunks(env,writes);return{startsAt:starts[0],endsAt:starts.at(-1)+duration,roundCount:rounds.length};
+  await batchChunks(env,writes);const persisted=await env.DB.prepare("SELECT MIN(starts_at) starts_at,MAX(ends_at) ends_at,COUNT(DISTINCT round_no) round_count FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE')").bind(season.id).first(),persistedStart=sqlMs(persisted?.starts_at),persistedEnd=sqlMs(persisted?.ends_at);return{startsAt:Number.isFinite(persistedStart)?persistedStart:starts[0],endsAt:Number.isFinite(persistedEnd)?persistedEnd:starts.at(-1)+duration,roundCount:Number(persisted?.round_count||rounds.length)};
 }
 async function activateSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,{immediateFirst=false}={}){
   const teams=rows(await env.DB.prepare('SELECT * FROM clan_season_teams WHERE season_id=? ORDER BY draft_position').bind(season.id).all()),windows=await createWars(env,season,teams,settings,{immediateFirst});
@@ -673,4 +720,4 @@ export async function handleClan({path,request,env,deps}){
   return deps.json({error:'요청한 클랜 기능을 찾을 수 없습니다.'},404);
 }
 
-export const __clanTest={normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,clanEnergySnapshot,powerMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};
+export const __clanTest={normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,powerMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};

@@ -51,7 +51,7 @@ test('lite state carries a cached twenty-result pulse and deploy assets are cach
   assert.match(server,/SELECT id,side,winner_side,created_at FROM territory_war_v3_actions[\s\S]*?LIMIT 20/);
   assert.match(server,/recentActionPulse:pulse\.recentActionPulse,notice:pulse\.notice/);
   assert.match(server,/SELECT a\.id,a\.side,a\.winner_side/);
-  assert.match(index,/territory-war-v1824\.css\?v=1914-territory-dispatch-persist/);
-  assert.match(index,/territory-war-v1811\.js\?v=1916-territory-100-attack-reward/);
-  assert.match(worker,/soop-card-shell-v1941-superstar-pack-early-access/);
+  assert.match(index,/territory-war-v1824\.css\?v=1994-commander-direct-live-status/);
+  assert.match(index,/territory-war-v1811\.js\?v=1994-commander-direct-live-status/);
+  assert.match(worker,/soop-card-shell-v1994-clan-draft-territory-command/);
 });

@@ -47,11 +47,12 @@ assert.deepEqual(Array.from(navigation.menuGroupOrder), [
   'equipment',
   'crafting',
   'rewards',
-  'market'
+  'market',
+  'administration'
 ]);
 assert.deepEqual(
   Array.from(navigation.menuGroupOrder, id => navigation.groups[id].title),
-  ['카드·상점', '도감·강화', 'PVE 전투', 'PVP·경쟁', '장비·칭호·차고', '제작·합성', '보상', '승부·경매']
+  ['카드·상점', '도감·강화', 'PVE 전투', 'PVP·경쟁', '장비·칭호·차고', '제작·합성', '보상', '승부·경매', '행정부']
 );
 
 assert.equal(navigation.routes.deck.title, 'PVE 덱 편성실');
@@ -59,7 +60,7 @@ assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'inventory'
 assert.equal(navigation.routes.inventory.group, 'store');
 assert.ok(!Array.from(navigation.groups.market.routes).includes('inventory'));
 assert.deepEqual(Array.from(navigation.groups.equipment.routes), ['character', 'avatar'], 'combined loadout entry replaces equipment/title/garage duplicates');
-assert.deepEqual(Array.from(navigation.groups.crafting.routes), ['vehicle', 'fusion'], 'crafting group exposes only its two direct actions');
+assert.deepEqual(Array.from(navigation.groups.crafting.routes), ['vehicle', 'fusion', 'alchemy'], 'crafting group exposes its three direct actions');
 assert.ok(!Array.from(navigation.groups.crafting.routes).includes('workshop'));
 assert.equal(navigation.routes.scrapyard.group, 'pve', 'scrapyard is presented as PVE');
 assert.ok(Array.from(navigation.groups.pve.routes).includes('scrapyard'));
@@ -115,5 +116,16 @@ assert.equal(new Set(allMenuRoutes).size, allMenuRoutes.length, 'the all-menu ma
 for (const hiddenDuplicate of ['equipment', 'title', 'garage', 'workshop']) assert.ok(!allMenuRoutes.includes(hiddenDuplicate));
 assert.match(exactSource, /bootRequestedPending\s*=\s*requestedScreen\s*\|\|\s*''/);
 assert.match(exactSource, /requested\s*===\s*'buy'[\s\S]*?ROUTES\[bootRequestedPending\][\s\S]*?queueMicrotask\(\(\)\s*=>\s*navigate\(bootRoute\)/, 'authenticated startup must replay valid ?screen= deep links after the buy shell boot');
+assert.match(exactSource, /navigationType\s*===\s*'reload'\s*\?\s*''\s*:\s*requestedParams\.get\('screen'\)/, 'browser reload must ignore deep routes and return to the lobby');
+assert.match(exactSource, /requestedParams\.delete\('screen'\)/, 'reload must remove the stale screen query from the address bar');
+
+const replaced=[];
+const reloadDocument={...document,currentScript:null,documentElement:{dataset:{}}};
+const reloadContext={console,document:reloadDocument,location:{search:'?screen=clan&keep=1',pathname:'/',hash:''},performance:{getEntriesByType:()=>[{type:'reload'}]},history:{state:null,replaceState(_state,_title,url){replaced.push(url)}},URLSearchParams,setTimeout,clearTimeout,setInterval,clearInterval};
+reloadContext.window=reloadContext;reloadContext.globalThis=reloadContext;
+vm.createContext(reloadContext);
+vm.runInContext(exactSource,reloadContext,{filename:'soopketmon-v21-exact-shell-adapter-reload.js'});
+assert.equal(reloadContext.SoopketmonV21ExactShell.currentRoute,'home','reload must boot the main lobby even when a stale screen query exists');
+assert.deepEqual(replaced,['/?keep=1'],'reload must preserve unrelated query values while removing screen');
 
 console.log('navigation contract v1: PASS');

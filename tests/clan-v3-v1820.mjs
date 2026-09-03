@@ -53,6 +53,22 @@ test('클랜별 2명 확장과 2시간 추가 신청은 드래프트를 안전�
   assert.doesNotMatch(client,/ROSTER LIMIT 20|최대 160명|\/ 20(?:명)?/);
 });
 
+test('추가 신청은 오늘 19시 마감하고 기존 드래프트 뒤 21시 첫 전쟁을 연다',()=>{
+  const now=Date.parse('2026-09-03T08:30:00.000Z'),schedule=__clanTest.clanLateDraftFixedSchedule(__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS,now,2);
+  assert.equal(__clanTest.CLAN_LATE_DRAFT_HOUR_KST,19);
+  assert.equal(__clanTest.CLAN_WAR_OPEN_HOUR_KST,21);
+  assert.equal(schedule.registrationEndsAt,'2026-09-03T10:00:00.000Z');
+  assert.equal(schedule.draftEndsAt,'2026-09-03T12:00:00.000Z');
+  assert.deepEqual(schedule.roundStarts,['2026-09-03T12:00:00.000Z','2026-09-04T12:00:00.000Z']);
+  assert.match(server,/safe_runtime_upgrade_v1994_clan_late_entry_draft_1900_war_2100/);
+  assert.match(server,/PAUSE_SCHEDULED_SEASON_FOR_LATE_DRAFT/);
+  assert.match(server,/SKIP_STARTED_WAR_SAFETY/);
+  assert.match(server,/phase='DRAFT'.*registration_ends_at=.*draft_ends_at=.*starts_at=.*ends_at=/);
+  assert.match(server,/SELECT MIN\(starts_at\) starts_at,MAX\(ends_at\) ends_at,COUNT\(DISTINCT round_no\) round_count/);
+  assert.match(client,/LATE ENTRY · 19:00 CLOSE/);
+  assert.match(client,/19시 마감 뒤 기존 순서로 드래프트를 재개하고 21시에 클랜전이 시작됩니다/);
+});
+
 test('공식 8클랜은 7개 정시 라운드에서 모든 상대를 정확히 한 번 만난다',()=>{
   const rounds=__clanTest.roundRobinRounds(Array.from({length:8},(_,index)=>index+1));
   assert.equal(rounds.length,7);
@@ -155,8 +171,8 @@ test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=
   assert.match(css,/clan-command-room-v1\.webp/);
   assert.match(css,/@keyframes clanRadarSweep/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
-  assert.match(html,/clan-v1\.css\?v=1993-clan-capacity-22-late-entry/);
-  assert.match(html,/clan-v1\.js\?v=1993-clan-capacity-22-late-entry/);
+  assert.match(html,/clan-v1\.css\?v=1994-clan-draft-territory-command/);
+  assert.match(html,/clan-v1\.js\?v=1994-clan-draft-territory-command/);
   assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
 });
 

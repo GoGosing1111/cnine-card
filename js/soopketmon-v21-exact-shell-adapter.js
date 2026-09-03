@@ -1,12 +1,25 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.17.0';
+  const VERSION = '21.18.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
   const defaultHome = script?.dataset?.defaultHome !== 'false';
-  const requestedScreen = new URLSearchParams(location.search).get('screen');
+  const navigationType = (() => {
+    try {
+      const entry = global.performance?.getEntriesByType?.('navigation')?.[0];
+      if (entry?.type) return String(entry.type);
+      return Number(global.performance?.navigation?.type) === 1 ? 'reload' : 'navigate';
+    } catch { return 'navigate'; }
+  })();
+  const requestedParams = new URLSearchParams(location.search);
+  const requestedScreen = navigationType === 'reload' ? '' : requestedParams.get('screen');
+  if (navigationType === 'reload' && requestedParams.has('screen') && global.history?.replaceState) {
+    requestedParams.delete('screen');
+    const query = requestedParams.toString();
+    global.history.replaceState(global.history.state, '', `${location.pathname || ''}${query ? `?${query}` : ''}${location.hash || ''}`);
+  }
   let nativeRenderShell = null;
   let currentRoute = requestedScreen || 'home';
   let explicitNavigation = false;

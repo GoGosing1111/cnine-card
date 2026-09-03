@@ -31,6 +31,9 @@ test('five actionable live operation states share one cached aggregate endpoint'
   assert.doesNotMatch(api,/json_extract\([^)]*\)\s*,?\s*0?\)\s*=\s*[01]/);
   assert.match(api,/LOWER\(CAST\(json_extract\(m\.value,'\$\.enabled'\) AS TEXT\)\) IN \('1','true'\)/);
   assert.match(api,/path==='live-operations'&&request\.method==='GET'/);
+  assert.match(api,/r\.status IN \('RECRUITING','PREPARING','ACTIVE'\)/);
+  assert.match(api,/CASE r\.status WHEN 'RECRUITING' THEN 'FORMATION' WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE' END phase/);
+  assert.match(api,/실시간 전선 공성 진행 중/);
   assert.match(api,/public, max-age=10, stale-while-revalidate=20/);
   assert.match(api,/path==='recent-high-grade'[\s\S]{0,120}items:\[\],retired:true,replacement:'live-operations'/);
   assert.match(api,/path==='recent-equipment'[\s\S]{0,120}items:\[\],retired:true,replacement:'live-operations'/);
@@ -56,8 +59,8 @@ test('operation board ships desktop and mobile game UI with cache-busted assets'
   assert.match(css,/grid-auto-columns: minmax\(300px, 1fr\)/);
   assert.match(css,/grid-auto-columns: minmax\(252px, 78vw\)/);
   assert.match(index,/live-operations-v1868\.css\?v=1868-live-operations-r2/);
-  assert.match(index,/app\.js\?v=1886-monster-ai-war-room/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.13\.0-menu-cleanup/);
-  assert.match(worker,/soop-card-shell-v1886-monster-ai-war-room/);
-  assert.match(shell,/const VERSION = '21\.13\.0'/);
+  assert.match(index,/app\.js\?v=1994-clan-draft-territory-command/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.18\.0-refresh-home/);
+  assert.match(worker,/soop-card-shell-v1994-clan-draft-territory-command/);
+  assert.match(shell,/const VERSION = '21\.18\.0'/);
 });

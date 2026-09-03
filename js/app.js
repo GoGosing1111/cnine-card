@@ -1243,7 +1243,7 @@ async function loadShellSummary(){
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
 
 const LIVE_OPERATION_META=Object.freeze({
-  TERRITORY:{label:'영토전',state:'편성 대기',deadline:'편성 마감'},
+  TERRITORY:{label:'영토전',state:'작전 진행',deadline:'다음 단계'},
   SIEGE:{label:'몬스터 공성',state:'편성 대기',deadline:'편성 마감'},
   SEAL:{label:'봉인전',state:'진행 중',deadline:'종료까지'},
   AUCTION:{label:'경매장',state:'입찰 진행',deadline:'종료까지'},
@@ -1260,7 +1260,7 @@ function liveOperationIcon(kind){return ({
   RAID:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9l8-6 8 6v10M8 19v-6h8v6M6 21h12M9 8h6"/></svg>'
 }[kind]||'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg>')}
 function liveOperationCardHtml(item){
-  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},raidLobby=kind==='RAID'&&phase==='LOBBY',state=raidLobby?'참가 대기':base.state,deadline=raidLobby?'전투 시작':base.deadline,title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
+  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,state=raidLobby?'참가 대기':territoryPhase?.state||base.state,deadline=raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline,title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
   return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i>${escapeHtml(base.label)}<em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}">${liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
 }
 function updateLiveOperationClocks(){const nodes=document.querySelectorAll('[data-live-operation-deadline]');if(!nodes.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return}nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)})}

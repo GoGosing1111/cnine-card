@@ -3804,15 +3804,27 @@ async function liveOperationAlerts(env){
   try{
     const result=await env.DB.prepare(`WITH
     territory AS (
-      SELECT 'TERRITORY' kind,'FORMATION' phase,r.id entity_id,
+      SELECT 'TERRITORY' kind,
+        CASE r.status WHEN 'RECRUITING' THEN 'FORMATION' WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE' END phase,
+        r.id entity_id,
         COALESCE(NULLIF(TRIM(r.battle_name),''),'PROJECT V3 영토전') title,
-        '전투단 편성 접수 중' detail,r.recruitment_ends_at deadline_at,1 sort_order
+        CASE r.status
+          WHEN 'RECRUITING' THEN '전투단 편성 접수 중'
+          WHEN 'PREPARING' THEN '진영 편성 완료 · 개전 준비 중'
+          ELSE '실시간 전선 공성 진행 중'
+        END detail,
+        CASE r.status WHEN 'RECRUITING' THEN r.recruitment_ends_at WHEN 'PREPARING' THEN r.starts_at ELSE r.ends_at END deadline_at,
+        1 sort_order
       FROM territory_war_v3_rounds r
-      WHERE r.status='RECRUITING' AND r.recruitment_ends_at IS NOT NULL
-        AND datetime(r.recruitment_ends_at)>CURRENT_TIMESTAMP
+      WHERE r.status IN ('RECRUITING','PREPARING','ACTIVE')
+        AND CASE r.status
+          WHEN 'RECRUITING' THEN r.recruitment_ends_at IS NOT NULL AND datetime(r.recruitment_ends_at)>CURRENT_TIMESTAMP
+          WHEN 'PREPARING' THEN r.starts_at IS NOT NULL AND datetime(r.starts_at)>CURRENT_TIMESTAMP
+          ELSE r.ends_at IS NULL OR datetime(r.ends_at)>CURRENT_TIMESTAMP
+        END
         AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='territory_war_settings_v3'
           AND json_valid(m.value) AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
-      ORDER BY r.id DESC LIMIT 1
+      ORDER BY CASE r.status WHEN 'ACTIVE' THEN 0 WHEN 'PREPARING' THEN 1 ELSE 2 END,r.id DESC LIMIT 1
     ),
     siege AS (
       SELECT 'SIEGE' kind,'FORMATION' phase,e.id entity_id,e.name title,
