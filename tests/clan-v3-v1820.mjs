@@ -42,6 +42,7 @@ test('클랜별 2명 확장과 2시간 추가 신청은 드래프트를 안전�
   assert.equal(__clanTest.clanRegistrationOpen({phase:'DRAFT',registration_ends_at:registrationEndsAt},now+2*60*60*1000),false);
   assert.equal(__clanTest.clanRegistrationOpen({phase:'ACTIVE',registration_ends_at:registrationEndsAt},now),false);
   assert.match(server,/safe_runtime_upgrade_v1993_clan_capacity_22_late_registration_2h/);
+  assert.match(server,/\[CLAN_CAPACITY_V1993_STATE\]/);
   assert.match(server,/PAUSE_DRAFT_AND_ACCEPT_LATE_REGISTRATION/);
   assert.match(server,/clanLateRegistrationSchedule\(season\)/);
   assert.match(server,/if\(fresh\.phase==='DRAFT'&&clanRegistrationOpen\(fresh\)\)return fresh/);

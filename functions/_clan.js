@@ -179,7 +179,7 @@ async function ensureReleaseRuntimeUpgrade(env){
 async function ensureClanCapacityRuntimeUpgrade(env){
   if(capacityRuntimeReady)return;
   const existing=await env.DB.prepare('SELECT value,updated_at FROM app_meta WHERE key=?').bind(CLAN_CAPACITY_RUNTIME_VERSION).first(),existingState=safeJson(existing?.value,{});
-  if(existingState.status==='COMPLETED'){capacityRuntimeReady=true;return}
+  if(existingState.status==='COMPLETED'){console.info('[CLAN_CAPACITY_V1993_STATE]',JSON.stringify(existingState));capacityRuntimeReady=true;return}
   if(existing&&Date.now()-sqlMs(existing.updated_at)<60000)return;
   if(existing)await env.DB.prepare('DELETE FROM app_meta WHERE key=?').bind(CLAN_CAPACITY_RUNTIME_VERSION).run();
   const token=crypto.randomUUID(),pending=JSON.stringify({status:'PROCESSING',token,startedAt:iso()});
