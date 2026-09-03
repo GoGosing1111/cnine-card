@@ -16,6 +16,8 @@ const TITLE_FONT_PRESETS=['DEFAULT','SERIF','DISPLAY','ARCADE','ROUNDED','SCIFI'
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
 const SUPPLY_BOX_MAX_OPEN=500;
+// V1985: 구형 보급상자는 인벤토리 개봉만 유지하고 상점 판매에서는 내린다.
+const LEGACY_SUPPLY_BOX_SHOP_ENABLED=false;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
 const BATTLE_SUIT_CATALOG=[
@@ -502,7 +504,7 @@ export async function supplyBoxSettings(env,{fresh=false}={}){
   try{supplySettingsCache=cleanSupplyBoxSettings(parseJson(row?.value,DEFAULT_SUPPLY_BOX_SETTINGS))}catch{supplySettingsCache=cleanSupplyBoxSettings(DEFAULT_SUPPLY_BOX_SETTINGS)}
   supplySettingsCacheAt=now;return supplySettingsCache;
 }
-function publicSupplyBoxConfig(settings,promotion={mode:'NONE',discount:0}){return {enabled:settings.enabled,shopEnabled:settings.shopEnabled,...supplyShopPricing(settings,promotion),maxOpen:SUPPLY_BOX_MAX_OPEN,itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,rewardRates:settings.rewardRates}}
+function publicSupplyBoxConfig(settings,promotion={mode:'NONE',discount:0}){return {enabled:settings.enabled,shopEnabled:LEGACY_SUPPLY_BOX_SHOP_ENABLED,...supplyShopPricing(settings,promotion),maxOpen:SUPPLY_BOX_MAX_OPEN,itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,rewardRates:settings.rewardRates}}
 function publicItem(row){const pveOnly=row.slot===BATTLE_SUIT_SLOT,pvePower=Number(row.pve_power||0);return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:pveOnly?pvePower:Number(row.total_power||0),pvePower,pvpPower:pveOnly?0:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
 function publicEquippedItem(row,prefix,{pveOnly=false}={}){
   const id=Number(row?.[`${prefix}_id`]||0);if(!id)return null;
@@ -752,6 +754,7 @@ export async function handleEquipment({path,request,env,deps}){
   }
   if(path==='equipment/supply-box/purchase'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    if(!LEGACY_SUPPLY_BOX_SHOP_ENABLED)return json({error:'기존 장비 보급상자는 판매가 종료되었습니다. 보유 중인 상자는 인벤토리에서 계속 개봉할 수 있습니다.'},403);
     const body=await readBody(request),rawCount=Number(body.count),count=cleanInt(rawCount,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100);
     if(!Number.isInteger(rawCount)||rawCount<1||rawCount>SUPPLY_BOX_MAX_OPEN)return json({error:`구매 수량은 1개 이상 ${SUPPLY_BOX_MAX_OPEN}개 이하여야 합니다.`},400);
     const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();

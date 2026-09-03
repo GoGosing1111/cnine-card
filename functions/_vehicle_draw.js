@@ -5,6 +5,8 @@ const UPGRADE_KEY='safe_runtime_upgrade_v1388_vehicle_draw';
 const IMAGE_UPGRADE_KEY='safe_runtime_upgrade_v1391_vehicle_draw_ticket_image_force';
 const SHOP_UPGRADE_KEY='safe_runtime_upgrade_v1420_vehicle_draw_shop';
 const SHOP_PRICE=5000;
+// V1985: 기존 재고 개봉은 유지하되 구형 상품의 신규 판매만 영구 중단한다.
+const LEGACY_SHOP_ENABLED=false;
 const DRAW_BATCH_MAX=500;
 const DEFAULT_TICKET_IMAGE='assets/items/vehicle-draw-ticket-v1391.png';
 const DEFAULTS={enabled:true,ticketName:'이동수단 뽑기권',ticketImage:DEFAULT_TICKET_IMAGE,drawTitle:'VEHICLE ACQUISITION',drawCopy:'새로운 이동수단을 획득합니다.',masterStarChance:1,masterStarMin:1,masterStarMax:1};
@@ -40,6 +42,7 @@ async function ensure(env){
   })().catch(error=>{readyPromise=null;throw error});
   return readyPromise;
 }
+export const ensureVehicleDrawFoundation=ensure;
 async function ensureTicketImageUpgrade(env){
   if(imageUpgradePromise)return imageUpgradePromise;
   imageUpgradePromise=(async()=>{
@@ -77,9 +80,10 @@ async function settings(env){await ensure(env);await ensureTicketImageUpgrade(en
 async function payload(env){const s=await settings(env),rows=await env.DB.prepare('SELECT id,code,name,rarity,image_url,description,is_active,is_public,draw_enabled,draw_weight,duplicate_shards,sort_order FROM character_garage_items ORDER BY sort_order,id').all();return {settings:s,ticketCode:TICKET_CODE,vehicles:(rows.results||[]).map(r=>({id:Number(r.id),code:r.code,name:r.name,rarity:r.rarity,image:r.image_url||'',description:r.description||'',isActive:r.is_active!==0,isPublic:r.is_public!==0,drawEnabled:r.draw_enabled!==0,drawWeight:Number(r.draw_weight||0),duplicateShards:Number(r.duplicate_shards||0),sortOrder:Number(r.sort_order||0)}))}}
 function pick(rows){const total=rows.reduce((s,r)=>s+Number(r.draw_weight||0),0);let roll=Math.random()*total;for(const row of rows){roll-=Number(row.draw_weight||0);if(roll<0)return row}return rows[rows.length-1]}
 export async function handleVehicleDraw({path,request,env,deps}){const {authenticate,readBody,json}=deps;await ensure(env);
- if(path==='vehicle-draw/config'&&request.method==='GET'){const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const [p,balance,account]=await Promise.all([payload(env),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,TICKET_CODE).first(),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);return json({...p,ticketQuantity:Number(balance?.quantity||0),coin:Number(account?.coin||0),shop:{enabled:p.settings.enabled,unitPrice:SHOP_PRICE,originalUnitPrice:SHOP_PRICE,promotionDiscountPercent:0,discountEndsAt:null}})}
+ if(path==='vehicle-draw/config'&&request.method==='GET'){const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const [p,balance,account]=await Promise.all([payload(env),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,TICKET_CODE).first(),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);return json({...p,ticketQuantity:Number(balance?.quantity||0),coin:Number(account?.coin||0),shop:{enabled:LEGACY_SHOP_ENABLED,unitPrice:SHOP_PRICE,originalUnitPrice:SHOP_PRICE,promotionDiscountPercent:0,discountEndsAt:null}})}
  if(path==='vehicle-draw/purchase'&&request.method==='POST'){
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+  if(!LEGACY_SHOP_ENABLED)return json({error:'기존 이동수단 뽑기팩은 판매가 종료되었습니다. 보유 중인 팩은 인벤토리에서 계속 개봉할 수 있습니다.'},403);
   await ensureShop(env);
    const b=await readBody(request),rawCount=Number(b.count),count=int(rawCount,1,DRAW_BATCH_MAX),requestId=text(b.requestId,120);
    if(!Number.isInteger(rawCount)||rawCount<1||rawCount>DRAW_BATCH_MAX)return json({error:`구매 수량은 1개 이상 ${DRAW_BATCH_MAX}개 이하여야 합니다.`},400);

@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1981-superstar-haihiya-early-access-1985-dimwoos-avatar-visual-only';
+const SHELL_CACHE='soop-card-shell-v1981-superstar-haihiya-early-access-1985-dimwoos-avatar-visual-only-1985-prime-independent-pools-live';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

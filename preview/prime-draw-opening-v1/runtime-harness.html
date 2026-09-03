@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <title>프라임 라이브 WebGL 연출 검증</title>
+</head>
+<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#02050b;color:#fff;font-family:Arial,sans-serif">
+  <button id="launch" style="padding:18px 28px;border:1px solid #55e5ff;background:#0a1b2c;color:#fff;font-weight:800">프라임 라이브 연출 시작</button>
+  <div id="modal"></div>
+  <script src="../../js/prime-draw-live-v1985.bundle.js"></script>
+  <script>
+    document.getElementById('launch').onclick=async()=>{
+      await window.PrimeDrawLiveV1985.play({
+        modal:document.getElementById('modal'),
+        kind:'vehicle',
+        product:{name:'프라임 하이퍼드라이브 팩',subtitle:'PRIME HYPERDRIVE',image:'/assets/items/prime-hyperdrive-vehicle-pack-v1.png'},
+        result:{count:50,poolVersion:'PRIME_VEHICLE_V1985_1',specialQueue:[
+          {code:'BUGATTI_LA_VOITURE_NOIRE_V1',name:'부가티 라 부아튀르 누아르',rarity:'MYTHIC',image:'/assets/tire/bugatti-la-voiture-noire-showroom-v1.png',count:1,duplicateCount:0,presentation:{enabled:true,tier:'CINEMATIC',effectKey:'NOIRE_SOVEREIGN'}},
+          {code:'LAMBORGHINI_VENENO_V1',name:'람보르기니 베네노',rarity:'MYTHIC',image:'/assets/tire/lamborghini-veneno-showroom-v1.png',count:1,duplicateCount:0,presentation:{enabled:true,tier:'HERO',effectKey:'CRIMSON_APEX'}}
+        ]}
+      });
+      document.body.innerHTML='<strong>연출 완료</strong>';
+    };
+  </script>
+</body>
+</html>

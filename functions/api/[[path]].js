@@ -8,7 +8,8 @@ import { handleMagic,magicSettings,magicBattleLoadout,magicBattleLoadouts,ensure
 import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_storage_cleanup.js';
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
 import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,applyAvatarRaidEntryBonus } from '../_avatar.js';
-import { handleVehicleDraw } from '../_vehicle_draw.js';
+import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
+import { handlePrimeDraw } from '../_prime_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
@@ -4400,7 +4401,8 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   'attendance/claim','card/breakthrough','card/breakthrough/auto','card/unique-advancement','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
   'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
-  'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run'
+  'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run',
+  'equipment/prime-supply-box/open','vehicle-draw/prime/open'
 ]);
 // 강화 재화는 영수증과 카드 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 세 경로는 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
@@ -4799,6 +4801,7 @@ async function handleRequest(context){
     // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
     const vehicleDrawPath=path==='vehicle-draw/config'||path==='vehicle-draw/open'||path==='vehicle-draw/purchase'||path==='admin/vehicle-draw/settings'||path==='admin/vehicle-draw/grant';
     const equipmentDrawPath=path==='equipment/supply-box/config'||path==='equipment/supply-box/open'||path==='equipment/supply-box/purchase';
+    const primeDrawPath=path.startsWith('equipment/prime-supply-box/')||path.startsWith('vehicle-draw/prime/')||path==='admin/prime-draw/status'||path==='admin/prime-draw/pool';
     // High-traffic routes must never wait for the legacy all-schema runtime gate.
     // Route-local guards below still validate the small set of tables they mutate.
     // Full migrations belong to deployment/setup, not the player request path.
@@ -4812,7 +4815,7 @@ async function handleRequest(context){
     if(path==='raid/status')await Promise.all([ensureD1HotpathIndexes(env),ensureD1StabilityIndexes(env)]);
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
     // 전역 런타임 업그레이드와 장비 전체 foundation을 중복 실행하면 CMS 설정 조회가 타임아웃될 수 있다.
-    else if(vehicleDrawPath||equipmentDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
+    else if(vehicleDrawPath||equipmentDrawPath||primeDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
     else context.waitUntil(Promise.all([
       ensureRuntimeUpgrades(env).catch(error=>console.error('runtime upgrade background check failed',error)),
       ensureD1StabilityIndexes(env).catch(error=>console.error('D1 stability index upgrade failed',error))
@@ -4830,6 +4833,7 @@ async function handleRequest(context){
 
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
     const uniqueAdvancementResponse=await handleUniqueAdvancement({path,request,env,deps:{authenticate,readBody,json}});if(uniqueAdvancementResponse)return uniqueAdvancementResponse;
+    const primeDrawResponse=await handlePrimeDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation}});if(primeDrawResponse)return primeDrawResponse;
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;

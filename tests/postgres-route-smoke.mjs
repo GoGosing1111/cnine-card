@@ -29,6 +29,8 @@ const routes = [
   'rift/status',
   'equipment/supply-box/config',
   'vehicle-draw/config',
+  'equipment/prime-supply-box/config',
+  'vehicle-draw/prime/config',
   'secondary-verification/status',
   'ranking',
   'hall-of-fame',
