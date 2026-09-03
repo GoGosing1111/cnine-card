@@ -183,6 +183,6 @@ test('소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다',()=>{
   assert.match(index,/css\/pve-command-v2\.css\?v=1991-sweep-result-front/);
   assert.match(index,/js\/pve-command-v2-live\.js\?v=1991-sweep-result-front/);
   assert.match(app,/js\/battle-v2-live\.js\?v=1991-sweep-result-front/);
-  assert.match(serviceWorker,/soop-card-shell-v2000-prediction-cap-500m/);
+  assert.match(serviceWorker,/soop-card-shell-v2004-battle-suit-materials/);
   assert.match(packageJson.scripts['release:gate']||'',/npm run test:pve-sweep/);
 });
