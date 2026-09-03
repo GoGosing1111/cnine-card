@@ -30,6 +30,7 @@ import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
 import { handleUniqueAdvancement } from '../_unique_advancement.js';
 import { ensureGamstCardRetirement } from '../_gamst_card_retirement.js';
+import { ensureTargetedCardTransferV2003 } from '../_targeted_card_transfer_v2003.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
@@ -4722,16 +4723,22 @@ async function handleRequest(context){
     if(path==='health'){
       const databaseInitialized=await initialized(env);
       let gamstCardRetirement=null;
+      let targetedCardTransfer=null;
       if(databaseInitialized){
         await ensurePrisonFoundation(env);
         await ensureApocalypseEnergyFoundation(env);
         gamstCardRetirement=await ensureGamstCardRetirement(env,{refundByLevel:await furRetirementRefundByLevel(env)});
+        const transfer=await ensureTargetedCardTransferV2003(env);
+        targetedCardTransfer=transfer?{
+          status:transfer.status,version:transfer.version,replayed:Boolean(transfer.replayed),
+          sourceCardId:transfer.source?.cardId||null,targetCardId:transfer.target?.cardId||null
+        }:null;
         if(gamstCardRetirement?.status==='COMPLETED'){
           drawContextCache.clear();
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.6',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement});
+      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,targetedCardTransfer});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
