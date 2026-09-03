@@ -18,9 +18,9 @@ assert.match(client,/contribution_rank/);
 assert.match(client,/contribution_total/);
 assert.match(css,/\.tw4-contribution-rank/);
 assert.match(css,/grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-assert.match(index,/js\/app\.js\?v=1996-sweep-recovery/);
+assert.match(index,/js\/app\.js\?v=2000-prediction-cap-500m/);
 assert.match(index,/territory-war-v1811\.js\?v=1994-commander-direct-live-status/);
 assert.match(index,/territory-war-v1824\.css\?v=1994-commander-direct-live-status/);
-assert.match(serviceWorker,/soop-card-shell-v1996-sweep-recovery/);
+assert.match(serviceWorker,/soop-card-shell-v2000-prediction-cap-500m/);
 
 console.log('territory my rank v1847: ok');

@@ -1,7 +1,7 @@
 (() => {
   // V1861: 승인된 broadcast-ledger V2 UI. 서버 정책값과 반드시 동일해야 한다.
   const MIN_BET = 100000;
-  const USER_MAX_BET_PER_EVENT = 100000000;
+  const USER_MAX_BET_PER_EVENT = 500000000;
 
   const esc = value => String(value ?? '').replace(/[&<>"']/g, token => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -239,7 +239,7 @@
       </header>
 
       <div class="cp2-stage">
-        <header class="cp2-stage-head"><div><small class="cp2-eyebrow">PREDICTION OPERATIONS</small><h2 id="cpStageTitle">오늘의 승부를 선택하십시오</h2><p id="cpStageCopy">경기 목록과 선택 경기 정보를 분리해 많은 경기도 빠르게 탐색할 수 있습니다. 항목 선택부터 금액 확정까지 한 화면에서 완료됩니다.</p></div><div class="cp2-ruleline" id="cpRuleLine"><span>10% FEE</span><span>100,000 MIN</span><span>100,000,000 MAX</span></div></header>
+        <header class="cp2-stage-head"><div><small class="cp2-eyebrow">PREDICTION OPERATIONS</small><h2 id="cpStageTitle">오늘의 승부를 선택하십시오</h2><p id="cpStageCopy">경기 목록과 선택 경기 정보를 분리해 많은 경기도 빠르게 탐색할 수 있습니다. 항목 선택부터 금액 확정까지 한 화면에서 완료됩니다.</p></div><div class="cp2-ruleline" id="cpRuleLine"><span>10% FEE</span><span>100,000 MIN</span><span>500,000,000 MAX</span></div></header>
         <section class="cp2-workspace">
           <aside class="cp2-match-rail" aria-label="경기 목록"><header class="cp2-rail-head"><div><span id="cpRailEyebrow">LIVE QUEUE</span><b id="cpRailTitle">진행 중인 경기</b></div><button class="cp2-sync" data-cp-refresh type="button" aria-label="새로고침">↻</button></header><div class="cp2-match-list" id="cpMatchList"><div class="cp2-rail-loading">불러오는 중...</div></div><footer class="cp2-rail-foot"><b>자동 갱신 중</b><small>현재 페이지 데이터만 주기적으로 갱신합니다. 불필요한 추가 조회는 발생하지 않습니다.</small></footer></aside>
           <div id="cpBoardHost" class="cp2-board-host"><div class="cp2-loading">승부예측 현황을 불러오는 중...</div></div>
@@ -281,7 +281,7 @@
     const champion = document.getElementById('cpDailyChampion');
     if (champion) champion.innerHTML = championInline(state.settings?.todayChampion || null);
     const ruleLine = document.getElementById('cpRuleLine');
-    if (ruleLine) ruleLine.innerHTML = `<span>10% FEE</span><span>100,000 MIN</span><span>${ownerUnlimited ? 'OWNER UNLIMITED' : '100,000,000 MAX'}</span>`;
+    if (ruleLine) ruleLine.innerHTML = `<span>10% FEE</span><span>100,000 MIN</span><span>${ownerUnlimited ? 'OWNER UNLIMITED' : '500,000,000 MAX'}</span>`;
 
     document.querySelectorAll('[data-cp-view]').forEach(button => {
       const active = button.dataset.cpView === listView;
@@ -394,7 +394,7 @@
       if (!Number.isSafeInteger(amount) || amount < MIN_BET || amount + current > max) {
         return alert(unlimited
           ? `최소 10만 코인이며 보유 코인 내에서 참여할 수 있습니다.\n현재 보유: ${fmt(state.walletCoin)}코인`
-          : `최소 10만 코인이며 이벤트 누적 최대는 1억 코인입니다.\n현재 참여: ${fmt(current)}코인`);
+          : `최소 10만 코인이며 이벤트 누적 최대는 5억 코인입니다.\n현재 참여: ${fmt(current)}코인`);
       }
       if (!termsAccepted && !await showTerms(true)) return;
       if (!confirm(`${fmt(amount)}코인을 ${current ? '추가로 ' : ''}참여할까요?\n최초 선택 항목은 변경하거나 취소할 수 없습니다.`)) return;

@@ -18,6 +18,10 @@ const index = read('index.html');
 const adminIndex = read('admin/index.html');
 const serviceWorker = read('service-worker.js');
 
+assert.match(server, /const USER_MAX_BET_PER_EVENT=500000000;/);
+assert.match(server, /maxBetPerEvent:USER_MAX_BET_PER_EVENT,termsVersion:DEFAULTS\.termsVersion/);
+assert.match(server, /UPDATE coin_prediction_events SET max_bet=\?,updated_at=CURRENT_TIMESTAMP WHERE status IN \('DRAFT','OPEN'\)/);
+assert.match(server, /이벤트당 누적 최대 500,000,000코인/);
 assert.match(server, /const HISTORY_RETENTION_HOURS=24;/);
 assert.match(server, /const predictionListView=/);
 assert.match(server, /status IN \('SETTLED','VOID'\).*datetime\('now','-1 day'\)/s);
@@ -34,6 +38,9 @@ assert.match(userUi, /종료된 경기/);
 assert.match(userUi, /종료 후 24시간 동안 결과와 내 베팅·정산 내역/);
 assert.match(userUi, /coin-prediction\/state\?view=\$\{requestedView\}&page=\$\{requestedPage\}/);
 assert.match(userUi, /MY PREDICTION/);
+assert.match(userUi, /const USER_MAX_BET_PER_EVENT = 500000000;/);
+assert.match(userUi, /500,000,000 MAX/);
+assert.match(userUi, /이벤트 누적 최대는 5억 코인/);
 assert.match(userUi, /\$\{fmt\(payout\)\} COIN 환불/);
 assert.match(userUi, /payout > 0 \? `\+\$\{fmt\(payout\)\} COIN` : '미적중'/);
 assert.match(userCss, /\.cp-history-tabs/);
@@ -47,16 +54,17 @@ assert.match(adminUi, /data-cp-admin-view="history"/);
 assert.match(adminUi, /정산 대기 우선 · 완료 기록 24시간/);
 assert.match(adminUi, /admin\/coin-prediction\/state\?view=\$\{requestedView\}&page=\$\{requestedPage\}/);
 assert.match(adminUi, /data-cp-admin-action="SETTLE"/);
+assert.match(adminUi, /이벤트당 최대<\/span><b>500,000,000/);
 assert.match(adminCss, /\.cp-admin-tabs/);
 assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 
 assert.match(app, /coin-prediction-v1\.css\?v=1813-history-tabs/);
 assert.match(app, /coin-prediction-v2\.css\?v=1861-broadcast-ledger/);
-assert.match(app, /coin-prediction-v1\.js\?v=1861-broadcast-ledger/);
-assert.match(index, /js\/app\.js\?v=1941-superstar-pack-early-access/);
+assert.match(app, /coin-prediction-v1\.js\?v=2000-user-max-500m/);
+assert.match(index, /js\/app\.js\?v=2000-prediction-cap-500m/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=1883-prediction-only-admin/);
-assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=1883-prediction-only-admin/);
-assert.match(serviceWorker, /soop-card-shell-v\d+/);
+assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=2000-user-max-500m/);
+assert.match(serviceWorker, /soop-card-shell-v2000-prediction-cap-500m/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
 
