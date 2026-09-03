@@ -18,8 +18,8 @@
   let currentScene='war',activeFixture=null,toastTimer=0,framePrimed=false,framePrimePromise=null,battlePlaying=false;
 
   const officialClans=[
-    ['DK','DK','#2f7cff','#d8e8ff','핑크빛유두',20,42,14,5],['삼성','SAMSUNG','#3c74c9','#e7f2ff','세별',20,38,12,7],['T1','T1','#d32f4a','#f6d37a','왕좌',20,36,11,8],['한화','HANWHA','#f1781f','#ffe3a1','불꽃',20,33,10,9],
-    ['LG','LG','#d64192','#f4dbea','쌍월',20,30,9,10],['롯데','LOTTE','#7b2445','#f0d28e','등대',20,27,8,11],['FM','FM','#1dad72','#e9d07a','주파수',20,24,7,12],['DC','DC','#7b4ae2','#62d9ff','회로왕',20,21,6,13]
+    ['DK','DK','#2f7cff','#d8e8ff','핑크빛유두',22,42,14,5],['삼성','SAMSUNG','#3c74c9','#e7f2ff','세별',22,38,12,7],['T1','T1','#d32f4a','#f6d37a','왕좌',22,36,11,8],['한화','HANWHA','#f1781f','#ffe3a1','불꽃',22,33,10,9],
+    ['LG','LG','#d64192','#f4dbea','쌍월',22,30,9,10],['롯데','LOTTE','#7b2445','#f0d28e','등대',22,27,8,11],['FM','FM','#1dad72','#e9d07a','주파수',22,24,7,12],['DC','DC','#7b4ae2','#62d9ff','회로왕',22,21,6,13]
   ].map(([name,markKey,primaryColor,accentColor,masterNickname,memberCount,score,wins,losses],index)=>({clanId:index+1,name,markKey,primaryColor,accentColor,masterNickname,memberCount,score,wins,losses,draftPosition:index,slogan:index===0?'정확한 판정, 마지막까지 유지되는 전선.':'시즌 전선을 사수한다.'}));
   const MY_COMBAT_POWER=1265400;
   const roster=['핑크빛유두','DK_돌격대','푸른전선','밤의정찰','공성병기','유리대포','후방지원','철벽수비'].map((nickname,index)=>({userId:101+index,nickname,memberRole:index===0?'MASTER':'MEMBER',preferredRole:['BALANCED','ATTACK','SPEED','DEFENSE','HP'][index%5],draftPickNo:index,contributionScore:31-index*2,battleWins:8-index%4,battleLosses:2+index%3,combatPower:MY_COMBAT_POWER-index*43800}));
@@ -74,7 +74,7 @@
     const hasClan=phase!=='REGISTRATION',complete=phase==='COMPLETE';
     return{
       ok:true,mode:'TEST',verified:true,verificationExempt:true,verificationName:'OWNER',
-      season:{id:1,seasonNo:1,phase,maxMembers:20,registrationEndsAt:isoAfter(6),draftEndsAt:isoAfter(9),startsAt:isoAfter(-2),endsAt:isoAfter(25),nextPickDeadline:isoAfter(0,0.08),draftPickCount:27},
+      season:{id:1,seasonNo:1,phase,maxMembers:22,registrationOpen:phase==='REGISTRATION',lateRegistration:false,registrationEndsAt:isoAfter(6),draftEndsAt:isoAfter(9),startsAt:isoAfter(-2),endsAt:isoAfter(25),nextPickDeadline:isoAfter(0,0.08),draftPickCount:27},
       registration:{registered:false},membership:hasClan?{...officialClans[0],memberRole:'MASTER',isMaster:true}:null,
       teams:officialClans,officialClans:officialClans.map((clan,index)=>({...clan,order:index+1})),roster:hasClan?roster:[],
       draft:phase==='DRAFT'?{isMyTurn:true,pickNo:28,currentClan:officialClans[0]}:null,candidates:phase==='DRAFT'?candidates:[],
@@ -82,7 +82,7 @@
       opponents:phase==='ACTIVE'?opponents:[],
       settlement:complete?{status:'COMPLETED',championClanId:1,rewardStatus:'DISABLED_TEST',completedAt:new Date().toISOString()}:null,
       battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:1.3},
-      rules:{maxMembers:20,maxClans:8,maxParticipants:160,attacksPerWar:10,initialEnergy:5,energyCap:10,energyRecoverySeconds:180,warDurationMinutes:60,defensesPerTarget:10,repeatTargetLimit:1,powerMatchTolerancePct:10,powerMatchFallback:'NEAREST_LOWEST_DEFENSE',powerSnapshot:'RANKED_DECK_5',noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'},serverNow:new Date().toISOString()
+      rules:{maxMembers:22,maxClans:8,maxParticipants:176,attacksPerWar:10,initialEnergy:5,energyCap:10,energyRecoverySeconds:180,warDurationMinutes:60,defensesPerTarget:10,repeatTargetLimit:1,powerMatchTolerancePct:10,powerMatchFallback:'NEAREST_LOWEST_DEFENSE',powerSnapshot:'RANKED_DECK_5',noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'},serverNow:new Date().toISOString()
     };
   }
 

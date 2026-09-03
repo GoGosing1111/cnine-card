@@ -11,8 +11,8 @@ const [html,css,client,server,liveClient]=await Promise.all([
 ]);
 
 test('클랜 검수실은 라이브 컴포넌트와 5단계 시즌 흐름을 노출한다',()=>{
-  assert.match(html,/css\/clan-v1\.css\?v=1883-clan-war-safety-1946-release-runtime/);
-  assert.match(html,/js\/clan-v1\.js\?v=1883-clan-war-safety-1946-release-runtime/);
+  assert.match(html,/css\/clan-v1\.css\?v=1993-clan-capacity-22-late-entry/);
+  assert.match(html,/js\/clan-v1\.js\?v=1993-clan-capacity-22-late-entry/);
   for(const scene of ['registration','draft','war','battle','settlement'])assert.match(html,new RegExp(`data-review-scene="${scene}"`));
   assert.match(client,/global\.ClanV1\.bind\(ctx\)/);
   assert.match(client,/mountScene\('war'\)/);

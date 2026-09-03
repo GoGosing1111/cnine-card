@@ -1,0 +1,18 @@
+숲켓몬 v1993 클랜 정원 확장 및 추가 신청 검증 보고서
+작성일: 2026-09-03
+
+PASS  node --check functions/_clan.js
+PASS  node --check js/clan-v1.js
+PASS  node --check admin/clan-war-admin-v1943.js
+PASS  node --check preview/clan-war-review-v1/clan-war-review.js
+PASS  node --check service-worker.js
+PASS  npm run test:clan (27/27)
+PASS  node --test tests/clan-war-review-v1.mjs (7/7)
+PASS  git diff --check
+PASS  npm run test:pve-sweep (7/7)
+PASS  npm run test:battle-suit (41/41)
+PASS  npm run test:superstar-pack (9/9)
+PASS  npm run test:postgres-compat (8/8, 운영 연결 smoke 2건은 환경 의존으로 SKIP)
+
+운영 배포 직전
+- npm run release:gate

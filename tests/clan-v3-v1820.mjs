@@ -20,8 +20,8 @@ const markAssets=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../
 const markSources=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../assets/ui/clan/marks/${clan.source}`,import.meta.url))));
 
 test('클랜 정원과 스네이크 드래프트 순서가 고정된다',()=>{
-  assert.equal(__clanTest.CLAN_MAX_MEMBERS,20);
-  assert.equal(__clanTest.CLAN_MAX_PARTICIPANTS,160);
+  assert.equal(__clanTest.CLAN_MAX_MEMBERS,22);
+  assert.equal(__clanTest.CLAN_MAX_PARTICIPANTS,176);
   assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,10);
   assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,10);
   assert.equal(__clanTest.CLAN_REPEAT_TARGET_LIMIT,1);
@@ -32,6 +32,24 @@ test('동점 클랜전도 한 번만 정산할 수 있도록 결정적 승자를
   assert.equal(__clanTest.warWinnerClanId({clan_a_id:7,clan_b_id:4,score_a:5,score_b:5}),4);
   assert.equal(__clanTest.warWinnerClanId({clan_a_id:7,clan_b_id:4,score_a:6,score_b:5}),7);
   assert.equal(__clanTest.warWinnerClanId({clan_a_id:7,clan_b_id:4,score_a:3,score_b:5}),4);
+});
+
+test('클랜별 2명 확장과 2시간 추가 신청은 드래프트를 안전하게 일시 정지한다',()=>{
+  const now=Date.parse('2026-09-03T10:00:00.000Z'),registrationEndsAt=new Date(now+2*60*60*1000).toISOString(),schedule=__clanTest.clanLateRegistrationSchedule({phase:'DRAFT',registration_ends_at:'2026-09-01T10:00:00.000Z',draft_ends_at:'2026-09-04T10:00:00.000Z',starts_at:'2026-09-04T10:00:00.000Z',ends_at:'2026-10-02T10:00:00.000Z'},now);
+  assert.equal(__clanTest.CLAN_LATE_REGISTRATION_EXTENSION_MS,2*60*60*1000);
+  assert.deepEqual(schedule,{registrationEndsAt:'2026-09-03T12:00:00.000Z',draftEndsAt:'2026-09-04T12:00:00.000Z',startsAt:'2026-09-04T12:00:00.000Z',endsAt:'2026-10-02T12:00:00.000Z'});
+  assert.equal(__clanTest.clanRegistrationOpen({phase:'DRAFT',registration_ends_at:registrationEndsAt},now),true);
+  assert.equal(__clanTest.clanRegistrationOpen({phase:'DRAFT',registration_ends_at:registrationEndsAt},now+2*60*60*1000),false);
+  assert.equal(__clanTest.clanRegistrationOpen({phase:'ACTIVE',registration_ends_at:registrationEndsAt},now),false);
+  assert.match(server,/safe_runtime_upgrade_v1993_clan_capacity_22_late_registration_2h/);
+  assert.match(server,/PAUSE_DRAFT_AND_ACCEPT_LATE_REGISTRATION/);
+  assert.match(server,/clanLateRegistrationSchedule\(season\)/);
+  assert.match(server,/if\(fresh\.phase==='DRAFT'&&clanRegistrationOpen\(fresh\)\)return fresh/);
+  assert.match(server,/if\(String\(season\.phase\)\.toUpperCase\(\)==='DRAFT'\)await calculateSeasonScores\(env,season\)/);
+  assert.match(server,/LIMIT \?`\)\.bind\(war\.id,war\.id,user\.id,season\.id,enemyClan,CLAN_MAX_MEMBERS\)/);
+  assert.match(client,/LATE REGISTRATION OPEN/);
+  assert.match(client,/총 \$\{number\(participantLimit\(d\)\)\}명까지 신청 가능/);
+  assert.doesNotMatch(client,/ROSTER LIMIT 20|최대 160명|\/ 20(?:명)?/);
 });
 
 test('공식 8클랜은 7개 정시 라운드에서 모든 상대를 정확히 한 번 만난다',()=>{
@@ -136,8 +154,8 @@ test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=
   assert.match(css,/clan-command-room-v1\.webp/);
   assert.match(css,/@keyframes clanRadarSweep/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
-  assert.match(html,/clan-v1\.css\?v=1883-clan-war-safety/);
-  assert.match(html,/clan-v1\.js\?v=1883-clan-war-safety/);
+  assert.match(html,/clan-v1\.css\?v=1993-clan-capacity-22-late-entry/);
+  assert.match(html,/clan-v1\.js\?v=1993-clan-capacity-22-late-entry/);
   assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
 });
 
@@ -179,5 +197,5 @@ test('클랜 시즌 정산은 원자적 상태 전이와 중복 방지 보상 �
   assert.match(client,/테스트 시즌 즉시 정산/);
   assert.match(client,/사용 상한 소진/);
   assert.match(client,/방어 슬롯 마감/);
-  assert.match(client,/limit:160/);
+  assert.match(client,/participantLimit\(d\)/);
 });

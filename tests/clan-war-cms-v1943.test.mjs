@@ -19,8 +19,8 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/id="view-clanwar"/);
   assert.match(html,/id="clanWarAdminRoot"/);
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix-1947-reward-unlimited-1948-season-one-reset/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=1993-clan-capacity-22-late-entry/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=1993-clan-capacity-22-late-entry/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
   assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
@@ -57,8 +57,8 @@ test('CMS 저장값은 범위를 정리하고 공식 고정값을 유지하며 �
   assert.equal(clean.totalUseLimit,7);
   assert.equal(clean.powerMatchFallback,'NEAREST_LOWEST_DEFENSE');
   assert.equal(clean.maxClans,8);
-  assert.equal(clean.maxMembers,20);
-  assert.equal(clean.maxParticipants,160);
+  assert.equal(clean.maxMembers,22);
+  assert.equal(clean.maxParticipants,176);
   assert.equal(clean.powerSnapshot,'RANKED_DECK_5');
   assert.equal(clean.blindDraft,true);
   assert.equal(clean.rewardsEnabled,true);
@@ -114,14 +114,14 @@ test('공식 공개 전환은 테스트 시즌 기록과 트로피를 원자적�
   assert.match(server,/CLAN_OFFICIAL_RESET_POOL_NOT_EMPTY/);
   for(const table of ['clan_war_battles','clan_reward_receipts','clan_wars','clan_season_settlements','clan_members','clan_season_teams','clan_draft_pool','clan_draft_locks','clan_seasons'])assert.match(server,new RegExp(`DELETE FROM ${table}`));
   assert.match(server,/UPDATE clan_organizations SET trophies=0/);
-  assert.match(server,/VALUES\(1,'REGISTRATION',20/);
+  assert.match(server,/VALUES\(1,'REGISTRATION',\?, \?,\?,\?,\?\)"\)\.bind\(CLAN_MAX_MEMBERS/);
 });
 
 test('60분·10회 행동력·전투력 매칭·보상 영수증이 모두 라이브 계약으로 연결된다',()=>{
   assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,10);
   assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,10);
-  assert.match(server,/runtimeContract:\{attacksPerWar:settings\.totalUseLimit/);
-  assert.match(server,/targetContract:\{warDurationMinutes:settings\.warDurationMinutes/);
+  assert.match(server,/runtimeContract:\{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,[^}]*attacksPerWar:settings\.totalUseLimit/);
+  assert.match(server,/targetContract:\{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,warDurationMinutes:settings\.warDurationMinutes/);
   for(const key of ['WAR_WINDOW','ENERGY','POWER_MATCH','REWARDS'])assert.match(server,new RegExp(`key:'${key}',status:'READY'`));
   assert.match(server,/ROUND_ROBIN_7_WINDOWS/);
   assert.match(server,/CREATE TABLE IF NOT EXISTS clan_reward_receipts/);
@@ -143,6 +143,15 @@ test('공식 8클랜·대진·영수증·반응형 운영 UI를 제공한다',()
   assert.match(css,/@media\(max-width:1100px\)/);
   assert.match(css,/@media\(max-width:760px\)/);
   assert.match(css,/@media\(max-width:520px\)/);
+});
+
+test('CMS는 22명·176명 정원과 추가 신청 상태를 서버값으로 표시한다',()=>{
+  assert.match(cms,/8 CLANS · 176 USERS/);
+  assert.match(cms,/\{limit:176\}/);
+  assert.match(cms,/season\.registrationOpen/);
+  assert.match(cms,/season\.lateRegistration/);
+  assert.match(cms,/settings\.maxMembers\|\|season\.maxMembers\|\|22/);
+  assert.doesNotMatch(cms,/\/ 20명|8 CLANS · 160 USERS|\{limit:160\}/);
 });
 
 test('클랜 CMS 회귀 검사가 배포 게이트에 포함된다',()=>{
