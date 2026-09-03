@@ -4,8 +4,6 @@
   "scope": "BATTLE_ENGINE_ONLY",
   "rarity": "FUR",
   "characters": [
-    {"cardId":"CN-011CAD85BBB2470F","title":"조폭 감스트","member":"감스트","sourceArt":"assets/NEWCARD/21.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-011cad85bbb2470f-sd-v1.png","sha256":"66918362F8431BF09E2B43E66CE0FFB3F38F403D1243DAA4A3FE386A9FBE0C56"},
-    {"cardId":"CN-8D3E40884AC04D2C","title":"훈훈한 감스트","member":"감스트","sourceArt":"assets/NEWCARD/3.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-8d3e40884ac04d2c-sd-v1.png","sha256":"919E63B18C1F56AEE948B659B9584E5F031D2BBB176B4ADA02E1A83ED6CEFFB0"},
     {"cardId":"CN-02D9DC1E8A8A4209","title":"철와대 킴성태","member":"킴성태","sourceArt":"assets/NEWCARD/24.png","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-02d9dc1e8a8a4209-sd-v1.png","sha256":"AE3297E71D7958A0507B4AF1C2A7508F69848CC0C8D88F7725B09A2E316BF8E3"},
     {"cardId":"CN-F500880B2ED34350","title":"프로필 킴성태","member":"킴성태","sourceArt":"assets/NEWCARD/7.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-f500880b2ed34350-sd-v1.png","sha256":"00D1D452AD5E7F453D0674A30E811090AF59E0E4BD2C6DD6729A9D1EE0D71F0D"},
     {"cardId":"CN-BEE87AB06483449A","title":"프로필 김민교","member":"김민교","sourceArt":"assets/NEWCARD/12.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-bee87ab06483449a-sd-v1.png","sha256":"49467F5429C94C5553087DC7EE26B8B9B53833338EE2B669BFA2FC23F5E83E4D"},

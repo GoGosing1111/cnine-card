@@ -29,6 +29,7 @@ import { handleScrapyard } from '../_scrapyard.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
 import { handleUniqueAdvancement } from '../_unique_advancement.js';
+import { ensureGamstCardRetirement } from '../_gamst_card_retirement.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
@@ -1609,6 +1610,14 @@ async function highBreakthroughConfigs(env){
 async function furMasterStarBreakthroughConfig(env){return (await highBreakthroughConfigs(env)).FUR}
 async function zenithMasterStarBreakthroughConfig(env){return (await highBreakthroughConfigs(env)).ZENITH}
 function highBreakthroughConfigFor(env,grade){const g=String(grade||'').trim().toUpperCase();if(g==='LIMITED')return limitedMasterStarBreakthroughConfig(env);if(g==='MA')return maMasterStarBreakthroughConfig(env);if(g==='FUR')return furMasterStarBreakthroughConfig(env);if(g==='ZENITH'||g==='SUPERSTAR')return zenithMasterStarBreakthroughConfig(env);return Promise.resolve(null)}
+async function furRetirementRefundByLevel(env){
+  const [config,highConfig]=await Promise.all([breakthroughConfig(env),highBreakthroughConfigFor(env,'FUR')]);
+  const rules=(Array.isArray(config.FUR)?config.FUR:[]).map(rule=>Math.max(0,Number(rule?.cost)||0));
+  if(highConfig)for(const step of highConfig.steps||[])rules.push(Math.max(0,Number(step?.retirementShardRefund)||0));
+  const cumulative=[0];
+  for(const refund of rules)cumulative.push(cumulative.at(-1)+refund);
+  return cumulative;
+}
 // 고급 강화 단계는 자기 단계의 천장을 쓰고, 값이 0이면 기존 등급 천장 규칙으로 되돌아간다.
 function highBreakthroughStepPity(grade,level,rule,pity){const threshold=Math.max(0,Math.floor(Number(rule?.pityThreshold)||0));return threshold>0?{enabled:true,grade:String(grade||'').trim().toUpperCase(),threshold}:breakthroughPityRule(grade,level,pity)}
 // FUR/ZENITH/SUPERSTAR 는 11강부터 공용 표를 쓰지 않는다. SUPERSTAR는 ZENITH 표를 항상 공유한다.
@@ -4712,11 +4721,17 @@ async function handleRequest(context){
 
     if(path==='health'){
       const databaseInitialized=await initialized(env);
+      let gamstCardRetirement=null;
       if(databaseInitialized){
         await ensurePrisonFoundation(env);
         await ensureApocalypseEnergyFoundation(env);
+        gamstCardRetirement=await ensureGamstCardRetirement(env,{refundByLevel:await furRetirementRefundByLevel(env)});
+        if(gamstCardRetirement?.status==='COMPLETED'){
+          drawContextCache.clear();
+          invalidateCatalogCaches();
+        }
       }
-      return json({ok:true,version:'2.8.6',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true});
+      return json({ok:true,version:'2.8.6',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement});
     }
 
     if(path.startsWith('admin/storage-cleanup')){

@@ -12,8 +12,6 @@
     "weaponMayBeOriginal": true
   },
   "characters": [
-    {"cardId":"CN-011CAD85BBB2470F","title":"조폭 감스트","member":"감스트","sourceArt":"assets/NEWCARD/21.jpg","weaponConcept":"마그마 처형도끼","battleSprite":"fur-cn-011cad85bbb2470f-sd-v1.png"},
-    {"cardId":"CN-8D3E40884AC04D2C","title":"훈훈한 감스트","member":"감스트","sourceArt":"assets/NEWCARD/3.jpg","weaponConcept":"빙청 지팡이검","battleSprite":"fur-cn-8d3e40884ac04d2c-sd-v1.png"},
     {"cardId":"CN-02D9DC1E8A8A4209","title":"철와대 킴성태","member":"킴성태","sourceArt":"assets/NEWCARD/24.png","weaponConcept":"아쿠아 작살포","battleSprite":"fur-cn-02d9dc1e8a8a4209-sd-v1.png"},
     {"cardId":"CN-F500880B2ED34350","title":"프로필 킴성태","member":"킴성태","sourceArt":"assets/NEWCARD/7.jpg","weaponConcept":"쌍열 펄스 권총","battleSprite":"fur-cn-f500880b2ed34350-sd-v1.png"},
     {"cardId":"CN-BEE87AB06483449A","title":"프로필 김민교","member":"김민교","sourceArt":"assets/NEWCARD/12.jpg","weaponConcept":"보랏빛 큐브 스태프","battleSprite":"fur-cn-bee87ab06483449a-sd-v1.png"},
