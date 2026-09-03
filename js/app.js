@@ -1828,14 +1828,51 @@ async function startAutoBattle(){
 }
 
 function pveSweepNumber(value){return Math.max(0,Number(value)||0).toLocaleString()}
+const PVE_SWEEP_CHUNK_SIZE=4;
+const PVE_SWEEP_POLL_DEADLINE_MS=180000;
+function pveSweepChunkRequestId(base,index){
+  const root=String(base||'').replace(/[^a-zA-Z0-9-]/g,'').slice(0,72);
+  return `${root}-${Math.max(1,Number(index||0)+1)}`.slice(0,80);
+}
+function pveSweepRetryDelay(value){return Math.max(600,Math.min(2500,Number(value)||1200))}
+function pveSweepProcessingMarkup({confirmed=1,total=1,pending=0}={}){
+  return `<div class="pve-sweep-panel is-processing"><div class="pve-sweep-radar" aria-hidden="true"><i></i><i></i><i></i><b></b></div><header><small>SERVER BATTLE RESOLUTION</small><h2>잔여 전투 계산 중</h2><p>${pveSweepNumber(confirmed)}회 결과 확정 · 남은 ${pveSweepNumber(pending)}회의 승패와 보상을 안전하게 나누어 판정하고 있습니다.</p></header><div class="pve-sweep-progress"><i></i></div><strong>${pveSweepNumber(confirmed)} / ${pveSweepNumber(total)}회 완료 · 처리 중인 요청은 자동으로 다시 확인합니다.</strong></div>`;
+}
+async function requestPveSweepChunk(payload){
+  const startedAt=Date.now();let phase='START',notFoundCount=0,lastError=null;
+  while(Date.now()-startedAt<PVE_SWEEP_POLL_DEADLINE_MS){
+    try{
+      const checking=phase==='STATUS',path=checking?'battle/auto/status':'battle/auto',body=checking?{requestId:payload.requestId}:payload;
+      const response=await apiRequest(path,{method:'POST',body:JSON.stringify(body)},{timeoutMs:checking?15000:45000});
+      const status=String(response?.status||'').toUpperCase(),code=String(response?.code||'').toUpperCase();
+      if(status==='RUNNING'||code==='PVE_SWEEP_RUNNING'){
+        phase='STATUS';await battleSleep(pveSweepRetryDelay(response?.retryAfterMs));continue;
+      }
+      if(String(response?.mode||'').toUpperCase()==='PVE_SWEEP'||status==='COMPLETED')return response;
+      const error=new Error('소탕 서버가 올바른 결과를 반환하지 않았습니다.');error.code='PVE_SWEEP_RESPONSE_INVALID';throw error;
+    }catch(error){
+      lastError=error;const code=String(error?.code||'').toUpperCase();
+      if(code==='PVE_SWEEP_RUNNING'){
+        phase='STATUS';await battleSleep(pveSweepRetryDelay(error?.retryAfterMs));continue;
+      }
+      if(code==='PVE_SWEEP_NOT_FOUND'&&phase==='STATUS'){
+        notFoundCount++;phase=notFoundCount>=3?'START':'STATUS';await battleSleep(pveSweepRetryDelay(error?.retryAfterMs));continue;
+      }
+      const transient=error?.timeout===true||code==='REQUEST_TIMEOUT'||error?.name==='TypeError'||code==='D1_OVERLOADED';
+      if(transient){phase='STATUS';await battleSleep(pveSweepRetryDelay(error?.retryAfterMs));continue}
+      throw error;
+    }
+  }
+  const error=new Error('소탕 결과 확인이 평소보다 오래 걸리고 있습니다. 같은 요청 번호로 다시 확인할 수 있습니다.');error.code='PVE_SWEEP_POLL_TIMEOUT';error.retryable=true;error.cause=lastError;throw error;
+}
 function pveSweepQuantity(rows=[]){return (rows||[]).reduce((sum,row)=>sum+Math.max(1,Number(row?.quantity||1)),0)}
 function pveSweepFirstResult(data={}){
   const win=String(data.result||'').toUpperCase()==='WIN';
-  return {battles:1,wins:win?1:0,losses:win?0:1,totalReward:Number(data.reward||0),magicCrystalTotal:Number(data.magicReward?.amount||0),cardRewards:data.cardReward?[data.cardReward]:[],cubeRewards:data.cubeReward?[data.cubeReward]:[],equipmentRewards:data.equipmentReward?[data.equipmentReward]:[],blackMiracleRewards:data.blackMiracleReward?[data.blackMiracleReward]:[],unifiedDrops:data.unifiedDrop?.rewards?.length?[data.unifiedDrop]:[],outcomes:[{battle:1,result:win?'WIN':'LOSE',reward:Number(data.reward||0),reason:String(data.battleV2?.result?.reason||'')}],firstResult:win?'WIN':'LOSE'};
+  return {battles:1,requestedBattles:1,wins:win?1:0,losses:win?0:1,totalReward:Number(data.reward||0),magicCrystalTotal:Number(data.magicReward?.amount||0),cardRewards:data.cardReward?[data.cardReward]:[],cubeRewards:data.cubeReward?[data.cubeReward]:[],equipmentRewards:data.equipmentReward?[data.equipmentReward]:[],blackMiracleRewards:data.blackMiracleReward?[data.blackMiracleReward]:[],unifiedDrops:data.unifiedDrop?.rewards?.length?[data.unifiedDrop]:[],outcomes:[{battle:1,result:win?'WIN':'LOSE',reward:Number(data.reward||0),reason:String(data.battleV2?.result?.reason||'')}],firstResult:win?'WIN':'LOSE'};
 }
 function mergePveSweepResults(first,batch={}){
-  const extraOutcomes=(batch.outcomes||[]).map((row,index)=>({...row,battle:index+2}));
-  return {...first,battles:first.battles+Number(batch.battles||0),wins:first.wins+Number(batch.wins||0),losses:first.losses+Number(batch.losses||0),totalReward:first.totalReward+Number(batch.totalReward||0),magicCrystalTotal:first.magicCrystalTotal+Number(batch.magicCrystalTotal||0),cardRewards:[...first.cardRewards,...(batch.cardRewards||[])],cubeRewards:[...first.cubeRewards,...(batch.cubeRewards||[])],equipmentRewards:[...first.equipmentRewards,...(batch.equipmentRewards||[])],blackMiracleRewards:[...first.blackMiracleRewards,...(batch.blackMiracleRewards||[])],unifiedDrops:[...first.unifiedDrops,...(batch.unifiedDrops||[])],outcomes:[...first.outcomes,...extraOutcomes],requestedBattles:Number(batch.requestedBattles||0),cappedByEnergy:Boolean(batch.cappedByEnergy)};
+  const offset=Math.max(0,Number(first.battles||0)),extraOutcomes=(batch.outcomes||[]).map((row,index)=>({...row,battle:offset+index+1}));
+  return {...first,battles:offset+Number(batch.battles||0),requestedBattles:Number(first.requestedBattles||offset)+Number(batch.requestedBattles||batch.battles||0),wins:Number(first.wins||0)+Number(batch.wins||0),losses:Number(first.losses||0)+Number(batch.losses||0),totalReward:Number(first.totalReward||0)+Number(batch.totalReward||0),magicCrystalTotal:Number(first.magicCrystalTotal||0)+Number(batch.magicCrystalTotal||0),cardRewards:[...(first.cardRewards||[]),...(batch.cardRewards||[])],cubeRewards:[...(first.cubeRewards||[]),...(batch.cubeRewards||[])],equipmentRewards:[...(first.equipmentRewards||[]),...(batch.equipmentRewards||[])],blackMiracleRewards:[...(first.blackMiracleRewards||[]),...(batch.blackMiracleRewards||[])],unifiedDrops:[...(first.unifiedDrops||[]),...(batch.unifiedDrops||[])],outcomes:[...(first.outcomes||[]),...extraOutcomes],cappedByEnergy:Boolean(first.cappedByEnergy||batch.cappedByEnergy),serverCapped:Boolean(first.serverCapped||batch.serverCapped)};
 }
 function pveSweepLootRows(summary={}){
   const rows=[],cards=summary.cardRewards||[],equipment=summary.equipmentRewards||[],cubes=summary.cubeRewards||[],miracles=summary.blackMiracleRewards||[],unified=(summary.unifiedDrops||[]).flatMap(drop=>drop?.rewards||[]);
@@ -1860,16 +1897,25 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
   const first=pveSweepFirstResult(data),remaining=Math.max(0,Math.min(999,Number(battleState.autoRemaining||0)));
   battleState.autoSummary=first;modal.onclick=null;modal.classList.add('pve-sweep-modal');
   if(!remaining){battleState.autoRunning=false;msg.innerHTML=pveSweepResultMarkup(first);renderer?.showResult?.();bindPveSweepExit(modal,renderer);return true}
+  let summary=first,processed=0,chunkIndex=0,activeRequestId='';
   const run=async()=>{
-    battleState.autoRunning=true;msg.classList.add('is-visible');msg.innerHTML=`<div class="pve-sweep-panel is-processing"><div class="pve-sweep-radar" aria-hidden="true"><i></i><i></i><i></i><b></b></div><header><small>SERVER BATTLE RESOLUTION</small><h2>잔여 전투 계산 중</h2><p>첫 전투 완료 · 남은 ${pveSweepNumber(remaining)}회의 승패와 보상을 각각 판정하고 있습니다.</p></header><div class="pve-sweep-progress"><i></i></div><strong>화면을 닫지 말고 잠시 기다려 주세요.</strong></div>`;renderer?.showResult?.();
+    battleState.autoRunning=true;msg.classList.add('is-visible');renderer?.showResult?.();
     try{
-      const batch=await apiRequest('battle/auto',{method:'POST',body:JSON.stringify({requestId:battleState.autoRequestId,monsterId:battleState.selectedMonster,cardIds:battleState.deck,requestedBattles:remaining})},{timeoutMs:120000});
-      if(String(batch?.difficulty||'').toUpperCase()==='APOCALYPSE'||String(batch?.energyKind||'').toUpperCase()==='APOCALYPSE')throw new Error('아포칼립스 소탕 응답은 적용할 수 없습니다.');
-      applyPveEnergyResponse(batch);battleState.serverOffset=Date.parse(batch.serverNow||new Date().toISOString())-Date.now();if(batch.user)saveUser(apiUserToLocal(batch.user));
-      const summary=mergePveSweepResults(first,batch);battleState.autoSummary=summary;battleState.autoRunning=false;battleState.autoRemaining=0;msg.innerHTML=pveSweepResultMarkup(summary);bindPveSweepExit(modal,renderer);return true;
+      while(processed<remaining){
+        const requestedBattles=Math.min(PVE_SWEEP_CHUNK_SIZE,remaining-processed);activeRequestId=pveSweepChunkRequestId(battleState.autoRequestId,chunkIndex);
+        msg.innerHTML=pveSweepProcessingMarkup({confirmed:Number(summary.battles||1),total:remaining+1,pending:remaining-processed});
+        const batch=await requestPveSweepChunk({protocolVersion:2,requestId:activeRequestId,monsterId:battleState.selectedMonster,cardIds:battleState.deck,requestedBattles});
+        if(String(batch?.difficulty||'').toUpperCase()==='APOCALYPSE'||String(batch?.energyKind||'').toUpperCase()==='APOCALYPSE')throw new Error('아포칼립스 소탕 응답은 적용할 수 없습니다.');
+        const completed=Math.max(0,Number(batch?.battles||0));if(completed<1){const error=new Error('소탕 처리된 전투가 없어 결과를 합산할 수 없습니다.');error.code='PVE_SWEEP_EMPTY_RESULT';throw error}
+        applyPveEnergyResponse(batch);battleState.serverOffset=Date.parse(batch.serverNow||new Date().toISOString())-Date.now();if(batch.user)saveUser(apiUserToLocal(batch.user));
+        summary=mergePveSweepResults(summary,batch);processed+=completed;chunkIndex++;battleState.autoSummary=summary;battleState.autoRemaining=Math.max(0,remaining-processed);
+        if(batch.cappedByEnergy||completed<requestedBattles)break;
+      }
+      summary.requestedBattles=remaining+1;battleState.autoSummary=summary;battleState.autoRunning=false;battleState.autoRemaining=0;msg.innerHTML=pveSweepResultMarkup(summary);bindPveSweepExit(modal,renderer);return true;
     }catch(error){
       battleState.autoRunning=false;if(error?.energy)applyPveEnergyResponse({energy:error.energy,energyKind:error.energyKind||'STANDARD'});
-      msg.innerHTML=`<div class="pve-sweep-panel is-error"><header><small>SWEEP RECOVERY</small><h2>첫 전투는 정상 완료</h2><p>잔여 ${pveSweepNumber(remaining)}회 소탕 결과 확인이 지연되고 있습니다. 같은 요청 번호로 다시 확인하면 중복 지급되지 않습니다.</p></header><div class="pve-sweep-error"><b>${escapeHtml(error?.message||'소탕 서버 연결이 원활하지 않습니다.')}</b><span>첫 전투 보상과 사용한 행동력은 보존됩니다.</span></div><div class="pve-sweep-recovery-actions"><button type="button" class="btn" id="pveSweepRetry">결과 다시 확인</button><button type="button" class="btn secondary" id="pveSweepExit">PVE로 돌아가기</button></div></div>`;
+      const pending=Math.max(0,remaining-processed),retryable=error?.retryable!==false&&!['PVE_SWEEP_FAILED','PVE_SWEEP_STALE','PVE_SWEEP_RECEIPT_INVALID'].includes(String(error?.code||'').toUpperCase());
+      msg.innerHTML=`<div class="pve-sweep-panel is-error"><header><small>SWEEP RECOVERY</small><h2>${pveSweepNumber(summary.battles||1)}회 결과 확인 완료</h2><p>잔여 ${pveSweepNumber(pending)}회 소탕 결과 확인이 지연되고 있습니다.${retryable?' 같은 요청 번호로 다시 확인하면 중복 지급되지 않습니다.':' PVE 화면에서 현재 행동력을 확인해 주세요.'}</p></header><div class="pve-sweep-error"><b>${escapeHtml(error?.message||'소탕 서버 연결이 원활하지 않습니다.')}</b><span>확정된 전투 보상과 사용한 행동력은 보존됩니다.</span></div><div class="pve-sweep-recovery-actions">${retryable?'<button type="button" class="btn" id="pveSweepRetry">결과 다시 확인</button>':''}<button type="button" class="btn secondary" id="pveSweepExit">PVE로 돌아가기</button></div></div>`;
       modal.querySelector('#pveSweepRetry')?.addEventListener('click',event=>{event.stopPropagation();void run()});
       modal.querySelector('#pveSweepExit')?.addEventListener('click',event=>{event.stopPropagation();try{renderer?.destroy?.()}catch(_){}renderShell('battle')});
       return true;

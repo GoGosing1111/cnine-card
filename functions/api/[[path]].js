@@ -1620,6 +1620,60 @@ async function breakthroughCinematicConfig(env){const row=await metaValue(env,'b
 async function breakthroughCinematicFor(env,{success=false,grade='',level=0,cardId='',cardTitle=''}){if(!success)return null;const cfg=await breakthroughCinematicConfig(env),normalizedGrade=String(grade||'').toUpperCase(),nextLevel=Math.max(0,Number(level||0));if(!cfg.enabled||nextLevel<cfg.minLevel||!cfg.grades.includes(normalizedGrade))return null;return {...cfg,grade:normalizedGrade,level:nextLevel,cardId:String(cardId||''),cardTitle:String(cardTitle||'')};}
 const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type,x-cnine-draw-receipt,x-cnine-auto-draw,x-cnine-draw-client,x-cnine-client-id,x-cnine-d1-bookmark','access-control-allow-credentials':'false','access-control-expose-headers':'x-cnine-response-ms,x-cnine-d1-bookmark,x-cnine-db-backend','access-control-max-age':'86400'};
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS,...headers}});
+// V1996: 한 Worker 요청에서 수십 회를 직렬 처리하면 브라우저의 요청 제한보다
+// 오래 걸릴 수 있다. 클라이언트가 짧은 묶음으로 이어서 요청하고, 서버도 구버전
+// 클라이언트의 큰 요청을 이 상한으로 방어한다.
+const PVE_SWEEP_BATCH_LIMIT=4;
+const PVE_SWEEP_RETRY_AFTER_MS=1200;
+const PVE_SWEEP_STALE_MS=10*60*1000;
+function pveSweepTimestampMs(value){
+  const raw=String(value||'').trim();
+  if(!raw)return Number.NaN;
+  const normalized=raw.replace(' ','T').replace(/([+-]\d\d)$/,'$1:00');
+  return Date.parse(/[zZ]$|[+-]\d\d(?::?\d\d)?$/.test(normalized)?normalized:`${normalized}Z`);
+}
+function pveSweepReceiptState(row,now=Date.now()){
+  if(!row)return 'NOT_FOUND';
+  const status=String(row.status||'RUNNING').trim().toUpperCase();
+  if(status!=='RUNNING')return status;
+  const updatedAt=pveSweepTimestampMs(row.updated_at);
+  return Number.isFinite(updatedAt)&&now-updatedAt>=PVE_SWEEP_STALE_MS?'STALE':'RUNNING';
+}
+async function pveSweepReceiptResponse(env,user,requestId,row,options={}){
+  if(!row)return json({error:'소탕 요청을 아직 찾지 못했습니다.',code:'PVE_SWEEP_NOT_FOUND',status:'NOT_FOUND',requestId,retryable:true,retryAfterMs:PVE_SWEEP_RETRY_AFTER_MS},404,{'Retry-After':'2'});
+  if(Number(row.user_id)!==Number(user.id))return json({error:'잘못된 소탕 요청입니다.'},403);
+  const state=pveSweepReceiptState(row);
+  if(state==='COMPLETED'&&row.response_json){
+    try{
+      const replay=JSON.parse(row.response_json);
+      if(String(replay?.difficulty||'').toUpperCase()==='APOCALYPSE')return json({error:'아포칼립스는 소탕할 수 없습니다.',code:'PVE_SWEEP_APOCALYPSE_EXCLUDED'},400);
+      return json({...replay,requestId:String(replay?.requestId||requestId),replayed:true});
+    }catch(error){
+      console.error('pve sweep completed receipt parse failed',error);
+      return json({error:'완료된 소탕 결과를 불러오지 못했습니다.',code:'PVE_SWEEP_RECEIPT_INVALID',status:'COMPLETED',requestId,retryable:false},503);
+    }
+  }
+  if(state==='RUNNING'){
+    if(options.legacyRunningError)return json({error:'동일한 소탕 요청이 이미 처리 중입니다. 새 소탕 복구 버전을 받으려면 게임을 새로고침해 주세요.',code:'PVE_SWEEP_RUNNING',status:'RUNNING',requestId,retryable:true,retryAfterMs:PVE_SWEEP_RETRY_AFTER_MS},409,{'Retry-After':'2'});
+    return json({ok:true,mode:'PVE_SWEEP_STATUS',status:'RUNNING',code:'PVE_SWEEP_RUNNING',requestId,retryable:true,retryAfterMs:PVE_SWEEP_RETRY_AFTER_MS,updatedAt:row.updated_at||null},202,{'Retry-After':'2'});
+  }
+  if(state==='STALE'){
+    const stale=await env.DB.prepare("UPDATE pve_auto_runs SET status='FAILED',error_message='STALE_RUNNING_RECOVERED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RUNNING' AND updated_at=?").bind(requestId,user.id,row.updated_at).run();
+    if(Number(stale?.meta?.changes||0)===0){
+      const refreshed=await env.DB.prepare('SELECT user_id,status,response_json,error_message,created_at,updated_at FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
+      return pveSweepReceiptResponse(env,user,requestId,refreshed,options);
+    }
+    await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();
+    console.warn('PVE_SWEEP_STALE_RECEIPT',JSON.stringify({userId:user.id,requestId,updatedAt:row.updated_at||null}));
+    return json({error:'이전 소탕 처리가 중단되었습니다. 지급된 보상과 사용한 행동력은 보존되며, PVE 화면에서 남은 행동력으로 다시 소탕해 주세요.',code:'PVE_SWEEP_STALE',status:'FAILED',requestId,retryable:false},409);
+  }
+  if(state==='FAILED'){
+    await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();
+    console.warn('PVE_SWEEP_FAILED_RECEIPT',JSON.stringify({userId:user.id,requestId,error:String(row.error_message||'').slice(0,160)}));
+    return json({error:'이전 소탕 처리가 완료되지 않았습니다. 지급된 보상과 사용한 행동력은 보존됩니다.',code:'PVE_SWEEP_FAILED',status:'FAILED',requestId,retryable:false},409);
+  }
+  return json({error:'소탕 요청 상태를 확인할 수 없습니다.',code:'PVE_SWEEP_STATE_INVALID',status:state,requestId,retryable:false},409);
+}
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
 const hex=buffer=>[...new Uint8Array(buffer)].map(value=>value.toString(16).padStart(2,'0')).join('');
@@ -6161,13 +6215,20 @@ async function handleRequest(context){
       await env.DB.prepare('DELETE FROM pve_decks WHERE user_id=?').bind(user.id).run();
       return json({ok:true,deck:[]});
     }
+    if(path==='battle/auto/status'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'다른 기기 또는 창에서 다시 로그인되어 현재 로그인이 종료되었습니다.',code:'SESSION_REPLACED'},401);
+      const payload=await readBody(request),requestId=String(payload.requestId||'').trim();
+      if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))return json({error:'소탕 요청 정보가 올바르지 않습니다.'},400);
+      const receipt=await env.DB.prepare('SELECT user_id,status,response_json,error_message,created_at,updated_at FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
+      return pveSweepReceiptResponse(env,user,requestId,receipt);
+    }
     if(path==='battle/auto'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'다른 기기 또는 창에서 다시 로그인되어 현재 로그인이 종료되었습니다.',code:'SESSION_REPLACED'},401);
-      const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning);if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
-      const payload=await readBody(request),requestId=String(payload.requestId||'').trim(),monsterId=Number(payload.monsterId),requestedBattles=Math.floor(Number(payload.requestedBattles)),ids=[...new Set((payload.cardIds||[]).map(String))];
+      const payload=await readBody(request),requestId=String(payload.requestId||'').trim(),monsterId=Number(payload.monsterId),requestedBattles=Math.floor(Number(payload.requestedBattles)),sweepProtocolVersion=Math.max(1,Math.floor(Number(payload.protocolVersion||1))),ids=[...new Set((payload.cardIds||[]).map(String))];
       if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))return json({error:'소탕 요청 정보가 올바르지 않습니다.'},400);
-      const previous=await env.DB.prepare('SELECT user_id,status,response_json FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
-      if(previous){if(Number(previous.user_id)!==Number(user.id))return json({error:'잘못된 소탕 요청입니다.'},403);if(previous.status==='COMPLETED'&&previous.response_json){const replay=JSON.parse(previous.response_json);if(String(replay?.difficulty||'').toUpperCase()==='APOCALYPSE')return json({error:'아포칼립스는 소탕할 수 없습니다.',code:'PVE_SWEEP_APOCALYPSE_EXCLUDED'},400);return json(replay)}return json({error:'동일한 소탕 요청이 이미 처리 중입니다.',code:'PVE_SWEEP_RUNNING'},409);}
+      const previous=await env.DB.prepare('SELECT user_id,status,response_json,error_message,created_at,updated_at FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
+      if(previous)return pveSweepReceiptResponse(env,user,requestId,previous,{legacyRunningError:sweepProtocolVersion<2});
+      const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning);if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
       if(ids.length!==5)return json({error:'보유 카드 5장을 편성해야 합니다.'},400);
       try{await validateDeckGradeLimits(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
       const monster=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
@@ -6176,19 +6237,25 @@ async function handleRequest(context){
       // UI를 우회해 직접 호출해도 전용 행동력과 보상은 절대 일괄 처리하지 않는다.
       if(autoDifficulty.isApocalypse)return json({error:'아포칼립스는 소탕할 수 없습니다. 전투를 1회씩 진행해 주세요.',code:'PVE_SWEEP_APOCALYPSE_EXCLUDED'},400);
       if(!Number.isInteger(requestedBattles)||requestedBattles<1||requestedBattles>999)return json({error:'소탕 횟수는 1~999회 사이여야 합니다.',code:'PVE_SWEEP_COUNT_INVALID'},400);
+      if(sweepProtocolVersion<2&&requestedBattles>PVE_SWEEP_BATCH_LIMIT)return json({error:'소탕 안정화 업데이트가 적용되었습니다. 게임을 새로고침한 뒤 다시 소탕해 주세요.',code:'PVE_SWEEP_CLIENT_UPDATE_REQUIRED',retryable:false},409);
       const energyBefore=await battleEnergyState(env,user,settings);if(energyBefore.unlimited)return json({error:'무제한 계정에서는 잔여 행동력 소탕을 사용할 수 없습니다.'},400);
-      const availableBattles=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1))),battleCount=Math.min(requestedBattles,availableBattles);if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore,energyKind:'STANDARD'},429);
+      const availableBattles=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1))),battleCount=Math.min(requestedBattles,availableBattles,PVE_SWEEP_BATCH_LIMIT);if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore,energyKind:'STANDARD'},429);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
       const ownedById=new Map(owned.results.map(card=>[String(card.id),card])),cards=ids.map(id=>ownedById.get(String(id))).filter(Boolean).map(c=>({...c,id:String(c.id),power:cardBattlePower(c,c.breakthrough_level,settings)}));
       const [uniqueBattle,avatarEffect,synergy,characterBonus,magicLoadout]=await Promise.all([cardUniqueDeckState(env,user,cards,'PVE'),equippedAvatarEffect(env,user.id),evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE')]);
-      const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(Number(monster.is_boss||0)===1?Number(synergy.totals.bossDamagePercent||0)/100:0),engineState=pveBattleEngineState(settings,user,characterBonus),lockUntil=new Date(Date.now()+600000).toISOString().replace('T',' ').slice(0,19);
+      const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(Number(monster.is_boss||0)===1?Number(synergy.totals.bossDamagePercent||0)/100:0),engineState=pveBattleEngineState(settings,user,characterBonus),lockUntil=new Date(Date.now()+PVE_SWEEP_STALE_MS).toISOString().replace('T',' ').slice(0,19);
       await env.DB.prepare("INSERT INTO pve_auto_locks(user_id,request_id,expires_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,expires_at=excluded.expires_at,updated_at=CURRENT_TIMESTAMP WHERE pve_auto_locks.expires_at<=datetime('now')").bind(user.id,requestId,lockUntil).run();
       const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 소탕이 진행 중입니다.',code:'PVE_SWEEP_LOCKED'},409);
-      await env.DB.prepare("INSERT INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
+      const claimed=await env.DB.prepare("INSERT OR IGNORE INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
+      if(Number(claimed?.meta?.changes||0)!==1){
+        const duplicate=await env.DB.prepare('SELECT user_id,status,response_json,error_message,created_at,updated_at FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
+        if(Number(duplicate?.user_id)!==Number(user.id))await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();
+        return pveSweepReceiptResponse(env,user,requestId,duplicate,{legacyRunningError:sweepProtocolVersion<2});
+      }
       try{
         let battles=0,wins=0,losses=0,totalReward=0,totalAvatarCoinBonus=0,energy=energyBefore;const outcomes=[],cardRewards=[],cubeRewards=[],magicRewards=[],equipmentRewards=[],blackMiracleRewards=[],unifiedDrops=[];
-        // V1785: 소탕은 한 요청에서 최대 수십 회 반복된다. 매회 왕복하던 battle_logs INSERT 를
-        // 모아 두었다가 루프 종료 후 batch 로 한 번에, 그것도 응답 지연 경로 밖에서 쓴다.
+        // V1996: 한 묶음은 최대 4회지만 battle_logs INSERT 는 계속 모아 두었다가
+        // 루프 종료 후 batch 한 번으로 응답 지연 경로 밖에서 기록한다.
         const autoBattleLogs=[];
         const magicCfg=await magicSettings(env),pveMagic=magicCfg.acquisition?.pve||{};
         for(let i=0;i<battleCount;i++){
@@ -6200,6 +6267,11 @@ async function handleRequest(context){
             if(one.magicReward?.amount>0)magicRewards.push(one.magicReward);
             deferWrite('highGradeRerollDrop:sweep',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:battleRef}));
           }else losses++;if(one.cardReward)cardRewards.push(one.cardReward);if(one.equipmentReward)equipmentRewards.push(one.equipmentReward);if(one.blackMiracleReward)blackMiracleRewards.push(one.blackMiracleReward);if(one.unifiedDrop?.rewards?.length)unifiedDrops.push(one.unifiedDrop);
+          const heartbeatUntil=new Date(Date.now()+PVE_SWEEP_STALE_MS).toISOString().replace('T',' ').slice(0,19);
+          await env.DB.batch([
+            env.DB.prepare("UPDATE pve_auto_runs SET updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RUNNING'").bind(requestId,user.id),
+            env.DB.prepare('UPDATE pve_auto_locks SET expires_at=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND request_id=?').bind(heartbeatUntil,user.id,requestId)
+          ]);
         }
         // V1785: 모아둔 감사 로그를 50개씩 끊어 배치로 기록한다. 응답은 기다리지 않는다.
         if(autoBattleLogs.length){
@@ -6209,10 +6281,16 @@ async function handleRequest(context){
         }
         // V1791: 소탕은 회차 수만큼 반복되므로 프로필 비용이 그대로 배수로 붙는다.
         // 이번 실행에서 지급된 카드만 모아 배치 1회로 읽는다.
-        const response={ok:true,mode:'PVE_SWEEP',requestedBattles,battles,processedBattles:battles,cappedByEnergy:battles<requestedBattles,wins,losses,outcomes,totalReward,totalAvatarCoinBonus,avatarCoinGainPercent:applyAvatarCoinGain(0,avatarEffect).percent,cardRewards,cubeRewards,magicRewards,equipmentRewards,blackMiracleRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,apocalypseExcluded:true,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,energyKind:'STANDARD',serverNow:new Date().toISOString(),user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards,unifiedDrops}))};
+        const response={ok:true,mode:'PVE_SWEEP',status:'COMPLETED',requestId,requestedBattles,battles,processedBattles:battles,cappedByEnergy:battles<Math.min(requestedBattles,PVE_SWEEP_BATCH_LIMIT),serverCapped:requestedBattles>PVE_SWEEP_BATCH_LIMIT,remainingRequestedBattles:Math.max(0,requestedBattles-battles),wins,losses,outcomes,totalReward,totalAvatarCoinBonus,avatarCoinGainPercent:applyAvatarCoinGain(0,avatarEffect).percent,cardRewards,cubeRewards,magicRewards,equipmentRewards,blackMiracleRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,apocalypseExcluded:true,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,energyKind:'STANDARD',serverNow:new Date().toISOString(),user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards,unifiedDrops}))};
         await env.DB.prepare("UPDATE pve_auto_runs SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();
         await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();return json(response);
-      }catch(error){await env.DB.prepare("UPDATE pve_auto_runs SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(String(error?.message||error).slice(0,500),requestId).run();await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();throw error}
+      }catch(error){
+        try{await env.DB.batch([
+          env.DB.prepare("UPDATE pve_auto_runs SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(String(error?.message||error).slice(0,500),requestId),
+          env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId)
+        ])}catch(cleanupError){console.error('pve sweep failure receipt cleanup failed',cleanupError)}
+        throw error;
+      }
     }
     if(path==='battle/fight'&&request.method==='POST'){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
