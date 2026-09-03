@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync,statSync} from 'node:fs';
 import {test} from 'node:test';
-import {__primeDrawTest} from '../functions/_prime_draw.js';
+import {__primeDrawTest,ensurePrimeDrawFoundation} from '../functions/_prime_draw.js';
 
 const root=new URL('../',import.meta.url);
 const read=path=>readFileSync(new URL(path,root),'utf8');
@@ -45,6 +45,26 @@ test('신규 장비·차량은 레거시 열이 아닌 전용 풀 테이블에�
   assert.doesNotMatch(source,/loadPool[\s\S]{0,1000}WHERE[^\n]+draw_enabled=1/);
 });
 
+test('운영 PostgreSQL은 고정 execSchema 경로로 프라임 relation을 실제 생성한다',()=>{
+  const source=read('functions/_prime_draw.js'),schema=__primeDrawTest.primeSchemaStatements(true);
+  assert.equal(schema.length,6);
+  assert.ok(schema.every(statement=>!statement.includes('AUTOINCREMENT')));
+  assert.match(schema[0],/equipment_id BIGINT PRIMARY KEY/);
+  assert.match(schema[2],/user_id BIGINT NOT NULL/);
+  assert.match(schema[2],/total_price BIGINT NOT NULL/);
+  assert.match(schema[0],/to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
+  assert.match(source,/postgres&&typeof env\.DB\.execSchema==='function'\)await env\.DB\.execSchema\(schema\)/);
+  assert.match(source,/else await env\.DB\.batch\(schema\.map\(statement=>env\.DB\.prepare\(statement\)\)\)/);
+});
+
+test('PostgreSQL foundation은 상품 DML보다 먼저 execSchema를 완료한다',async()=>{
+  const calls=[];
+  const statement=source=>({source,values:[],bind(...values){this.values=values;return this},async first(){calls.push(`first:${source}`);return {value:'already-seeded'}},async all(){return {results:[]}},async run(){return {success:true}}});
+  const env={DB:{dialect:'postgres',prepare:statement,async execSchema(schema){calls.push(`schema:${schema.length}`)},async batch(rows){calls.push(`batch:${rows.length}`);return []}}};
+  await ensurePrimeDrawFoundation(env);
+  assert.deepEqual(calls.slice(0,3),['schema:6','batch:4','first:SELECT value FROM app_meta WHERE key=?']);
+});
+
 test('레거시 상품은 판매만 잠기고 보유분 개봉 라우트는 남는다',()=>{
   const equipment=read('functions/_equipment.js'),vehicle=read('functions/_vehicle_draw.js');
   assert.match(equipment,/LEGACY_SUPPLY_BOX_SHOP_ENABLED=false/);
@@ -62,6 +82,21 @@ test('상점과 인벤토리는 신규 상품만 판매하고 1·10·50·최대 
   assert.match(app,/Math\.min\(500/);
   assert.match(app,/equipment\/prime-supply-box\/open/);
   assert.match(app,/vehicle-draw\/prime\/open/);
+});
+
+test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출을 관리한다',()=>{
+  const html=read('admin/index.html'),cms=read('admin/prime-draw-admin-v1986.js');
+  assert.match(html,/data-view="primedraw"/);
+  assert.match(html,/prime-draw-admin-v1986\.css\?v=1986-postgres-cms/);
+  assert.match(html,/prime-draw-admin-v1986\.js\?v=1986-postgres-cms/);
+  assert.match(cms,/admin\/prime-draw\/status/);
+  assert.match(cms,/admin\/prime-draw\/pool/);
+  assert.match(cms,/data-prime-weight/);
+  assert.match(cms,/data-prime-presentation/);
+  assert.match(cms,/data-prime-tier/);
+  assert.match(cms,/data-prime-effect/);
+  assert.match(cms,/shopEnabled/);
+  assert.match(cms,/openEnabled/);
 });
 
 test('개봉은 단일 원자 영수증과 WebGL·GSAP 잠금 해제 연출을 사용한다',()=>{
