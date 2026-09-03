@@ -4,6 +4,7 @@ const CLAN_COMPETITION_UPGRADE_VERSION='safe_runtime_upgrade_v1883_clan_competit
 const CLAN_RELEASE_RUNTIME_VERSION='safe_runtime_upgrade_v1946_clan_release_runtime_v1';
 const CLAN_CAPACITY_RUNTIME_VERSION='safe_runtime_upgrade_v1993_clan_capacity_22_late_registration_2h';
 const CLAN_LATE_DRAFT_RUNTIME_VERSION='safe_runtime_upgrade_v1994_clan_late_entry_draft_1900_war_2100';
+const CLAN_RANDOM_SCORE_RUNTIME_VERSION='safe_runtime_upgrade_v1998_clan_random_score_race_live_deck_v1';
 const CLAN_MAX_MEMBERS=22;
 const CLAN_LATE_REGISTRATION_EXTENSION_MS=2*60*60*1000;
 const CLAN_LATE_DRAFT_HOUR_KST=19;
@@ -22,23 +23,21 @@ const CLAN_MARKS=Object.freeze(OFFICIAL_CLAN_CATALOG.map(clan=>clan.markKey));
 const OFFICIAL_CLAN_ORDER_SQL=`CASE mark_key ${CLAN_MARKS.map((mark,index)=>`WHEN '${mark}' THEN ${index+1}`).join(' ')} ELSE 99 END`;
 const CLAN_ROLES=Object.freeze(['ATTACK','DEFENSE','SPEED','HP','BALANCED']);
 const CLAN_MAX_PARTICIPANTS=OFFICIAL_CLAN_CATALOG.length*CLAN_MAX_MEMBERS;
-const CLAN_ATTACKS_PER_WAR=10;
-const CLAN_DEFENSES_PER_TARGET=10;
+const CLAN_ATTACKS_PER_WAR=21;
+const CLAN_DEFENSES_PER_TARGET=21;
 const CLAN_REPEAT_TARGET_LIMIT=1;
 const SEOUL_OFFSET_MS=9*60*60*1000;
 const CLAN_ADMIN_SETTINGS_KEY='clan_settings_v1';
 const CLAN_ADMIN_SETTINGS_DEFAULTS=Object.freeze({
   mode:'TEST',scheduleEnabled:true,timezone:'Asia/Seoul',warOpenTime:'21:00',warDurationMinutes:60,openDays:Object.freeze([0,1,2,3,4,5,6]),fixedOpponentPerWindow:true,
-  initialEnergy:5,energyCap:10,energyRecoverySeconds:180,attackEnergyCost:1,totalUseLimit:10,defensesPerTarget:10,repeatTargetLimit:1,
-  powerMatchEnabled:true,powerMatchTolerancePct:10,powerMatchFallback:'NEAREST_LOWEST_DEFENSE',powerSnapshot:'RANKED_DECK_5',
+  initialEnergy:10,energyCap:10,energyRecoverySeconds:300,attackEnergyCost:1,totalUseLimit:CLAN_ATTACKS_PER_WAR,defensesPerTarget:CLAN_DEFENSES_PER_TARGET,repeatTargetLimit:1,
+  matchMode:'RANDOM_AVAILABLE',powerMatchEnabled:false,powerMatchTolerancePct:100,powerMatchFallback:'LOWEST_DEFENSE',powerSnapshot:'LIVE_RANKED_DECK_5',
   maxClans:8,maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,registrationDays:7,draftDays:3,draftPickSeconds:300,seasonDays:28,
   blindDraft:true,snakeDraft:true,noFixedRoster:true,identityPersists:true,
   warWinScore:1,seasonWinScore:3,seasonLossScore:0,playbackSpeed:1.3,battleReceiptRetentionDays:30,
   rewardsEnabled:false,winnerCoin:0,runnerUpCoin:0,participationCoin:0,participationShards:0
 });
-const CLAN_ADMIN_FALLBACKS=Object.freeze(['NEAREST_LOWEST_DEFENSE','NEAREST_POWER','LOWEST_DEFENSE']);
-
-let foundationReady=false,officialCatalogReady=false,competitionUpgradeReady=false,releaseRuntimeReady=false,capacityRuntimeReady=false,lateDraftRuntimeReady=false;
+let foundationReady=false,officialCatalogReady=false,competitionUpgradeReady=false,releaseRuntimeReady=false,capacityRuntimeReady=false,lateDraftRuntimeReady=false,randomScoreRuntimeReady=false;
 
 function iso(ms=Date.now()){return new Date(ms).toISOString()}
 function safeJson(value,fallback={}){try{return JSON.parse(value||'')}catch{return fallback}}
@@ -78,19 +77,13 @@ function clanLateDraftFixedSchedule(settings=CLAN_ADMIN_SETTINGS_DEFAULTS,nowMs=
   return{registrationEndsAt:iso(registrationEnd),draftEndsAt:iso(warStart),startsAt:iso(starts[0]??warStart),endsAt:iso(starts.length?starts.at(-1)+duration:warStart+duration),nextPickDeadline:iso(registrationEnd+Number(scheduledSettings.draftPickSeconds||300)*1000),roundStarts:starts.map(start=>iso(start)),warDurationMs:duration,settings:scheduledSettings};
 }
 function clanEnergySnapshot(war,usedAttacks,settings,nowMs=Date.now()){
-  const start=sqlMs(war?.starts_at??war?.startsAt),end=sqlMs(war?.ends_at??war?.endsAt),initial=Math.max(0,Number(settings?.initialEnergy||0)),cap=Math.max(initial,Number(settings?.energyCap||initial)),recoverySeconds=Math.max(1,Number(settings?.energyRecoverySeconds||180)),cost=Math.max(1,Number(settings?.attackEnergyCost||1)),used=Math.max(0,Number(usedAttacks||0)),useLimit=Math.max(1,Number(settings?.totalUseLimit||CLAN_ATTACKS_PER_WAR)),elapsed=Number.isFinite(start)?Math.max(0,nowMs-start):0,recovered=Math.floor(elapsed/(recoverySeconds*1000)),generated=Math.min(cap,initial+recovered),available=Math.max(0,generated-used*cost),usesRemaining=Math.max(0,useLimit-used),windowOpen=String(war?.status||'').toUpperCase()==='ACTIVE'&&Number.isFinite(start)&&Number.isFinite(end)&&nowMs>=start&&nowMs<end,nextEnergyAt=generated<cap?iso(start+(recovered+1)*recoverySeconds*1000):null;
-  return{initial,cap,recoverySeconds,cost,available,generated,usedAttacks:used,usesRemaining,useLimit,nextEnergyAt,fullEnergyAt:generated<cap?iso(start+Math.max(0,cap-initial)*recoverySeconds*1000):null,windowOpen,canAttack:windowOpen&&usesRemaining>0&&available>=cost};
+  const start=sqlMs(war?.starts_at??war?.startsAt),end=sqlMs(war?.ends_at??war?.endsAt),initial=Math.max(0,Number(settings?.initialEnergy||0)),cap=Math.max(initial,Number(settings?.energyCap||initial)),recoverySeconds=Math.max(1,Number(settings?.energyRecoverySeconds||300)),cost=Math.max(1,Number(settings?.attackEnergyCost||1)),used=Math.max(0,Number(usedAttacks||0)),useLimit=Math.max(1,Number(settings?.totalUseLimit||CLAN_ATTACKS_PER_WAR)),elapsed=Number.isFinite(start)?Math.max(0,nowMs-start):0,recovered=Math.floor(elapsed/(recoverySeconds*1000)),generated=Math.min(useLimit*cost,initial+recovered),available=Math.min(cap,Math.max(0,generated-used*cost)),usesRemaining=Math.max(0,useLimit-used),windowOpen=String(war?.status||'').toUpperCase()==='ACTIVE'&&Number.isFinite(start)&&Number.isFinite(end)&&nowMs>=start&&nowMs<end,nextEnergyAt=generated<useLimit*cost&&available<cap?iso(start+(recovered+1)*recoverySeconds*1000):null;
+  return{initial,cap,recoverySeconds,cost,available,generated,usedAttacks:used,usesRemaining,useLimit,nextEnergyAt,fullEnergyAt:null,windowOpen,canAttack:windowOpen&&usesRemaining>0&&available>=cost};
 }
-function powerMatchCandidates(candidates=[],attackerPower=0,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
-  const source=Math.max(0,Number(attackerPower||0)),tolerance=Math.max(0,Number(settings?.powerMatchTolerancePct||10)),enabled=settings?.powerMatchEnabled!==false,prepared=candidates.map(candidate=>{const combatPower=Math.max(0,Number(candidate.combatPower||0)),powerDeltaPct=source>0&&combatPower>0?Math.abs(combatPower-source)/source*100:Number.POSITIVE_INFINITY;return{...candidate,combatPower,powerDeltaPct,matchEligible:false,matchReason:'OUTSIDE_POWER_RANGE'}}),available=prepared.filter(candidate=>candidate.available!==false);
-  let matched=[];
-  if(!enabled)matched=[...available];
-  else if(available.length){
-    const within=available.filter(candidate=>candidate.powerDeltaPct<=tolerance).sort((a,b)=>Number(a.defenseCount||0)-Number(b.defenseCount||0)||a.powerDeltaPct-b.powerDeltaPct||Number(a.userId||0)-Number(b.userId||0));
-    if(within.length)matched=[within[0]];
-    else{const fallback=String(settings?.powerMatchFallback||'NEAREST_LOWEST_DEFENSE'),ordered=[...available].sort((a,b)=>fallback==='LOWEST_DEFENSE'?Number(a.defenseCount||0)-Number(b.defenseCount||0)||a.powerDeltaPct-b.powerDeltaPct:a.powerDeltaPct-b.powerDeltaPct||(fallback==='NEAREST_LOWEST_DEFENSE'?Number(a.defenseCount||0)-Number(b.defenseCount||0):0)||Number(a.userId||0)-Number(b.userId||0));matched=[ordered[0]]}
-  }
-  const ids=new Set(matched.map(candidate=>Number(candidate.userId)));return prepared.map(candidate=>({...candidate,matchEligible:ids.has(Number(candidate.userId)),matchReason:ids.has(Number(candidate.userId))?(candidate.powerDeltaPct<=tolerance?'WITHIN_TOLERANCE':'FALLBACK'):(candidate.available===false?'QUOTA_LOCKED':'OUTSIDE_POWER_RANGE')})).sort((a,b)=>Number(b.matchEligible)-Number(a.matchEligible)||a.powerDeltaPct-b.powerDeltaPct||Number(a.defenseCount||0)-Number(b.defenseCount||0)||Number(a.userId||0)-Number(b.userId||0));
+function randomMatchCandidates(candidates=[],selectionKey='CLAN_RANDOM_MATCH'){
+  const prepared=candidates.map(candidate=>({...candidate,matchEligible:false,matchReason:candidate.available===false?'QUOTA_LOCKED':'RANDOM_POOL'})),available=prepared.filter(candidate=>candidate.available!==false).sort((a,b)=>Number(a.userId||0)-Number(b.userId||0));
+  const selected=available.length?available[seedOf(selectionKey)%available.length]:null,selectedId=Number(selected?.userId||0);
+  return prepared.map(candidate=>({...candidate,matchEligible:Boolean(selectedId)&&Number(candidate.userId)===selectedId,matchReason:Boolean(selectedId)&&Number(candidate.userId)===selectedId?'RANDOM_SELECTED':candidate.matchReason})).sort((a,b)=>Number(b.matchEligible)-Number(a.matchEligible)||Number(a.userId||0)-Number(b.userId||0));
 }
 async function batchChunks(env,statements,size=40){
   for(let i=0;i<statements.length;i+=size){
@@ -255,6 +248,23 @@ async function ensureClanLateDraftRuntimeUpgrade(env){
   }
 }
 
+async function ensureClanRandomScoreRuntimeUpgrade(env){
+  if(randomScoreRuntimeReady)return;
+  const existing=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_RANDOM_SCORE_RUNTIME_VERSION).first();
+  if(existing){randomScoreRuntimeReady=true;return}
+  const current=await clanSettings(env),next=cleanClanAdminSettings({...current,
+    warDurationMinutes:60,initialEnergy:10,energyCap:10,energyRecoverySeconds:300,attackEnergyCost:1,
+    totalUseLimit:CLAN_ATTACKS_PER_WAR,defensesPerTarget:CLAN_DEFENSES_PER_TARGET,repeatTargetLimit:1,
+    matchMode:'RANDOM_AVAILABLE',powerMatchEnabled:false,powerMatchTolerancePct:100,powerMatchFallback:'LOWEST_DEFENSE',powerSnapshot:'LIVE_RANKED_DECK_5',warWinScore:1
+  }),result={status:'COMPLETED',version:'v1998',appliedAt:iso(),mode:'RANDOM_AVAILABLE',warDurationMinutes:60,initialEnergy:10,energyCap:10,energyRecoverySeconds:300,totalUseLimit:CLAN_ATTACKS_PER_WAR,defensesPerTarget:CLAN_DEFENSES_PER_TARGET,deckPolicy:'LIVE_RANKED_DECK_5',scorePerWin:1};
+  await env.DB.batch([
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_RANDOM_SCORE_RUNTIME_VERSION,JSON.stringify(result))
+  ]);
+  console.info('[CLAN_RANDOM_SCORE_V1998]',JSON.stringify(result));
+  randomScoreRuntimeReady=true;
+}
+
 async function ensureFoundation(env){
   if(!foundationReady){
     await env.DB.prepare('CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)').run();
@@ -271,16 +281,17 @@ async function ensureFoundation(env){
   await ensureReleaseRuntimeUpgrade(env);
   await ensureClanCapacityRuntimeUpgrade(env);
   await ensureClanLateDraftRuntimeUpgrade(env);
+  await ensureClanRandomScoreRuntimeUpgrade(env);
 }
 
 function cleanClock(value,fallback='21:00'){const match=String(value||'').trim().match(/^(\d{1,2}):(\d{2})$/);if(!match)return fallback;const hour=Number(match[1]),minute=Number(match[2]);return hour>=0&&hour<=23&&minute>=0&&minute<=59?`${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`:fallback}
 function cleanClanAdminSettings(raw={},current=CLAN_ADMIN_SETTINGS_DEFAULTS){
-  const base={...CLAN_ADMIN_SETTINGS_DEFAULTS,...current},mode=String(raw.mode??base.mode).toUpperCase(),fallback=String(raw.powerMatchFallback??base.powerMatchFallback).toUpperCase(),days=Array.isArray(raw.openDays)?[...new Set(raw.openDays.map(Number).filter(day=>Number.isInteger(day)&&day>=0&&day<=6))].sort((a,b)=>a-b):[...base.openDays];
-  const energyCap=clampInt(raw.energyCap,1,30,base.energyCap),initialEnergy=clampInt(raw.initialEnergy,1,energyCap,Math.min(base.initialEnergy,energyCap)),totalUseLimit=clampInt(raw.totalUseLimit,initialEnergy,energyCap,Math.min(energyCap,Math.max(base.totalUseLimit,initialEnergy)));
+  const base={...CLAN_ADMIN_SETTINGS_DEFAULTS,...current},mode=String(raw.mode??base.mode).toUpperCase(),days=Array.isArray(raw.openDays)?[...new Set(raw.openDays.map(Number).filter(day=>Number.isInteger(day)&&day>=0&&day<=6))].sort((a,b)=>a-b):[...base.openDays];
+  const energyCap=clampInt(raw.energyCap,1,30,base.energyCap),initialEnergy=clampInt(raw.initialEnergy,1,energyCap,Math.min(base.initialEnergy,energyCap)),totalUseLimit=clampInt(raw.totalUseLimit,initialEnergy,99,Math.max(base.totalUseLimit,initialEnergy));
   return{
     mode:['OFF','TEST','ON'].includes(mode)?mode:base.mode,scheduleEnabled:cleanBoolean(raw.scheduleEnabled,base.scheduleEnabled),timezone:'Asia/Seoul',warOpenTime:cleanClock(raw.warOpenTime,base.warOpenTime),warDurationMinutes:clampInt(raw.warDurationMinutes,15,180,base.warDurationMinutes),openDays:days.length?days:[...base.openDays],fixedOpponentPerWindow:true,
     initialEnergy,energyCap,energyRecoverySeconds:clampInt(raw.energyRecoverySeconds,30,3600,base.energyRecoverySeconds),attackEnergyCost:clampInt(raw.attackEnergyCost,1,10,base.attackEnergyCost),totalUseLimit,defensesPerTarget:clampInt(raw.defensesPerTarget,1,50,base.defensesPerTarget),repeatTargetLimit:clampInt(raw.repeatTargetLimit,1,10,base.repeatTargetLimit),
-    powerMatchEnabled:cleanBoolean(raw.powerMatchEnabled,base.powerMatchEnabled),powerMatchTolerancePct:clampInt(raw.powerMatchTolerancePct,1,100,base.powerMatchTolerancePct),powerMatchFallback:CLAN_ADMIN_FALLBACKS.includes(fallback)?fallback:base.powerMatchFallback,powerSnapshot:'RANKED_DECK_5',
+    matchMode:'RANDOM_AVAILABLE',powerMatchEnabled:false,powerMatchTolerancePct:100,powerMatchFallback:'LOWEST_DEFENSE',powerSnapshot:'LIVE_RANKED_DECK_5',
     maxClans:OFFICIAL_CLAN_CATALOG.length,maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,registrationDays:clampInt(raw.registrationDays,1,30,base.registrationDays),draftDays:clampInt(raw.draftDays,1,14,base.draftDays),draftPickSeconds:clampInt(raw.draftPickSeconds,30,1800,base.draftPickSeconds),seasonDays:clampInt(raw.seasonDays,7,90,base.seasonDays),
     blindDraft:true,snakeDraft:true,noFixedRoster:true,identityPersists:true,
     warWinScore:clampInt(raw.warWinScore,1,20,base.warWinScore),seasonWinScore:clampInt(raw.seasonWinScore,0,100,base.seasonWinScore),seasonLossScore:clampInt(raw.seasonLossScore,0,100,base.seasonLossScore),playbackSpeed:clamp(raw.playbackSpeed,.5,3,base.playbackSpeed),battleReceiptRetentionDays:clampInt(raw.battleReceiptRetentionDays,1,180,base.battleReceiptRetentionDays),
@@ -494,33 +505,41 @@ async function clanAdminState(env,settings){
   return{
     ok:true,settings,season:publicSeason(season),settlement:settlement?{status:settlement.status,championClanId:Number(settlement.champion_clan_id||0),rewardStatus:settlement.reward_status,completedAt:settlement.completed_at}:null,clans,wars,recentBattles,
     metrics:{registered:Number(poolResult?.registered||0),available:Number(poolResult?.available||0),drafted:Number(poolResult?.drafted||0),clansActive:clans.filter(clan=>clan.active).length,warsActive:wars.filter(war=>war.status==='ACTIVE').length,battlesTotal:Object.values(battleStatus).reduce((sum,count)=>sum+Number(count||0),0),battleStatus},
-    runtimeContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,lateRegistrationOpen:Boolean(season&&clanRegistrationOpen(season)&&String(season.phase).toUpperCase()==='DRAFT'),attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,battleEngine:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed,roundGeneration:'ROUND_ROBIN_7_WINDOWS',warDurationMinutes:settings.warDurationMinutes,powerMatchTolerancePct:settings.powerMatchTolerancePct,rewards:settings.rewardsEnabled?'ENABLED':'READY_OFF'},
-    targetContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,warDurationMinutes:settings.warDurationMinutes,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,totalUseLimit:settings.totalUseLimit,defensesPerTarget:settings.defensesPerTarget,powerMatchTolerancePct:settings.powerMatchTolerancePct,powerMatchFallback:settings.powerMatchFallback,powerSnapshot:settings.powerSnapshot,playbackSpeed:settings.playbackSpeed},
+    runtimeContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,lateRegistrationOpen:Boolean(season&&clanRegistrationOpen(season)&&String(season.phase).toUpperCase()==='DRAFT'),attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,battleEngine:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed,roundGeneration:'ROUND_ROBIN_7_WINDOWS',warDurationMinutes:settings.warDurationMinutes,matchMode:settings.matchMode,deckPolicy:settings.powerSnapshot,scorePerWin:settings.warWinScore,rewards:settings.rewardsEnabled?'ENABLED':'READY_OFF'},
+    targetContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,warDurationMinutes:settings.warDurationMinutes,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,totalUseLimit:settings.totalUseLimit,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,powerSnapshot:settings.powerSnapshot,warWinScore:settings.warWinScore,playbackSpeed:settings.playbackSpeed},
     releaseGates:[
       {key:'FOUNDATION',status:'READY',label:'클랜·드래프트·전투 DB 계약'},
       {key:'ROSTER_CAPACITY',status:'READY',label:`8클랜 × ${CLAN_MAX_MEMBERS}명 · 총 ${CLAN_MAX_PARTICIPANTS}명 정원`},
       {key:'PROJECT_V_V3',status:'READY',label:'PROJECT V V3 전투 판정·연출'},
       {key:'WAR_WINDOW',status:'READY',label:`${settings.warDurationMinutes}분 정시 개방·7라운드 순환 대진`},
       {key:'ENERGY',status:'READY',label:`${settings.initialEnergy}/${settings.energyCap} 행동력·${settings.energyRecoverySeconds}초 서버 회복`},
-      {key:'POWER_MATCH',status:'READY',label:`±${settings.powerMatchTolerancePct}% 전투력 서버 자동 매칭`},
+      {key:'RANDOM_MATCH',status:'READY',label:'전투력 제한 없는 서버 랜덤 매칭 · 최신 랭크전 덱'},
       {key:'REWARDS',status:'READY',label:`중복 방지 보상 영수증 · 현재 ${settings.rewardsEnabled?'ON':'OFF'}`}
     ],serverNow:iso()
   };
 }
-async function rankedDeckPower(env,deps,userId,deckSnapshot,battleSettingsValue){
-  const ids=safeJson(deckSnapshot,[]);if(!Array.isArray(ids)||ids.length!==5)return 0;const cards=await deps.pvpDeckSnapshotByIds(env,userId,ids);if(cards.length!==5)return 0;return cards.reduce((sum,card)=>sum+Math.max(0,Number(deps.cardBattlePower(card,card.breakthrough_level,battleSettingsValue)||0)),0);
+async function currentRankedDeckIds(env,userId){
+  let row=null;
+  try{row=await env.DB.prepare('SELECT p.card_ids FROM pvp_active_presets a JOIN pvp_deck_presets p ON p.user_id=a.user_id AND p.preset_no=a.preset_no WHERE a.user_id=?').bind(userId).first()}catch{row=null}
+  if(!row)row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();
+  const ids=safeJson(row?.card_ids,[]);
+  return Array.isArray(ids)&&ids.length===5?ids.map(id=>String(id)):[];
 }
-async function opponentMatchState(env,deps,user,season,war,mine,settings){
-  const enemyClan=Number(war.clan_a_id)===Number(mine.clan_id)?Number(war.clan_b_id):Number(war.clan_a_id),[battle,attackerPool,opponentResult]=await Promise.all([
+async function rankedDeckPower(env,deps,userId,ids,battleSettingsValue){
+  if(!Array.isArray(ids)||ids.length!==5)return 0;const cards=await deps.pvpDeckSnapshotByIds(env,userId,ids);if(cards.length!==5)return 0;return cards.reduce((sum,card)=>sum+Math.max(0,Number(deps.cardBattlePower(card,card.breakthrough_level,battleSettingsValue)||0)),0);
+}
+async function opponentMatchState(env,deps,user,season,war,mine,settings,selectionKey='OVERVIEW'){
+  const enemyClan=Number(war.clan_a_id)===Number(mine.clan_id)?Number(war.clan_b_id):Number(war.clan_a_id),[battle,attackerDeckIds,opponentResult]=await Promise.all([
     deps.battleSettings(env),
-    env.DB.prepare('SELECT deck_snapshot FROM clan_draft_pool WHERE season_id=? AND user_id=?').bind(season.id,user.id).first(),
-    env.DB.prepare(`SELECT m.user_id,u.nickname,m.preferred_role,m.battle_wins,m.battle_losses,p.deck_snapshot,
+    currentRankedDeckIds(env,user.id),
+    env.DB.prepare(`SELECT m.user_id,u.nickname,m.preferred_role,m.battle_wins,m.battle_losses,
+      COALESCE((SELECT p.card_ids FROM pvp_active_presets a JOIN pvp_deck_presets p ON p.user_id=a.user_id AND p.preset_no=a.preset_no WHERE a.user_id=m.user_id LIMIT 1),d.card_ids) live_deck,
       (SELECT COUNT(*) FROM clan_war_battles b WHERE b.war_id=? AND b.defender_user_id=m.user_id AND b.status IN ('PENDING','RESOLVING','COMPLETED')) defense_count,
       (SELECT COUNT(*) FROM clan_war_battles b WHERE b.war_id=? AND b.attacker_user_id=? AND b.defender_user_id=m.user_id AND b.status IN ('PENDING','RESOLVING','COMPLETED')) faced_count
-      FROM clan_members m JOIN users u ON u.id=m.user_id JOIN clan_draft_pool p ON p.season_id=m.season_id AND p.user_id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY m.battle_wins DESC,m.draft_pick_no LIMIT ?`).bind(war.id,war.id,user.id,season.id,enemyClan,CLAN_MAX_MEMBERS).all()
-  ]),attackerPower=await rankedDeckPower(env,deps,user.id,attackerPool?.deck_snapshot,battle),raw=rows(opponentResult);
-  const candidates=await Promise.all(raw.map(async row=>{const defenseCount=Number(row.defense_count||0),alreadyFaced=Number(row.faced_count||0)>=settings.repeatTargetLimit;return{userId:Number(row.user_id),nickname:row.nickname,preferredRole:row.preferred_role,battleWins:Number(row.battle_wins),battleLosses:Number(row.battle_losses),defenseCount,alreadyFaced,available:defenseCount<settings.defensesPerTarget&&!alreadyFaced,combatPower:await rankedDeckPower(env,deps,row.user_id,row.deck_snapshot,battle)}}));
-  return{enemyClan,attackerPower,opponents:powerMatchCandidates(candidates,attackerPower,settings)};
+      FROM clan_members m JOIN users u ON u.id=m.user_id LEFT JOIN pvp_decks d ON d.user_id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY m.user_id LIMIT ?`).bind(war.id,war.id,user.id,season.id,enemyClan,CLAN_MAX_MEMBERS).all()
+  ]),attackerPower=await rankedDeckPower(env,deps,user.id,attackerDeckIds,battle),raw=rows(opponentResult);
+  const candidates=raw.map(row=>{const defenseCount=Number(row.defense_count||0),alreadyFaced=Number(row.faced_count||0)>=settings.repeatTargetLimit,liveDeck=safeJson(row.live_deck,[]),deckReady=Array.isArray(liveDeck)&&liveDeck.length===5;return{userId:Number(row.user_id),nickname:row.nickname,preferredRole:row.preferred_role,battleWins:Number(row.battle_wins),battleLosses:Number(row.battle_losses),defenseCount,alreadyFaced,deckReady,available:defenseCount<settings.defensesPerTarget&&!alreadyFaced&&deckReady}}),availableOpponentCount=candidates.filter(candidate=>candidate.available).length;
+  return{enemyClan,attackerPower,attackerDeckReady:attackerDeckIds.length===5,availableOpponentCount,opponents:randomMatchCandidates(candidates,`${season.id}:${war.id}:${user.id}:${selectionKey}`)};
 }
 async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   const ownerBypass=isOwner(user),overviewStatements=[
@@ -542,13 +561,13 @@ async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAUL
     if(season.phase==='ACTIVE'){
       war=await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status IN ('ACTIVE','SCHEDULED') AND (clan_a_id=? OR clan_b_id=?) ORDER BY CASE status WHEN 'ACTIVE' THEN 0 ELSE 1 END,starts_at,round_no,id LIMIT 1").bind(season.id,membership.clan_id,membership.clan_id).first();
       if(war){
-        const attackRow=await env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id).first(),attacksUsed=Number(attackRow?.count||0),matched=await opponentMatchState(env,deps,user,season,war,membership,settings),energy=clanEnergySnapshot(war,attacksUsed,settings);opponents=matched.opponents;
-        war={id:Number(war.id),roundNo:Number(war.round_no),status:war.status,clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),battleCount:Number(war.battle_count),attacksUsed,attackLimit:settings.totalUseLimit,attacksRemaining:energy.usesRemaining,attackerPower:matched.attackerPower,energy,startsAt:war.starts_at,endsAt:war.ends_at};
+        const attackRow=await env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id).first(),attacksUsed=Number(attackRow?.count||0),matched=await opponentMatchState(env,deps,user,season,war,membership,settings,`OVERVIEW:${attacksUsed}`),energy=clanEnergySnapshot(war,attacksUsed,settings);opponents=[];
+        war={id:Number(war.id),roundNo:Number(war.round_no),status:war.status,clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),battleCount:Number(war.battle_count),attacksUsed,attackLimit:settings.totalUseLimit,attacksRemaining:energy.usesRemaining,attackerPower:matched.attackerPower,liveDeckReady:matched.attackerDeckReady,availableOpponentCount:matched.availableOpponentCount,energy,startsAt:war.starts_at,endsAt:war.ends_at};
       }
     }
   }else registration=await env.DB.prepare('SELECT preferred_role,activity_window,status,registered_at FROM clan_draft_pool WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();
   const settlementRow=await env.DB.prepare('SELECT * FROM clan_season_settlements WHERE season_id=?').bind(season.id).first(),settlement=settlementRow?{status:settlementRow.status,championClanId:Number(settlementRow.champion_clan_id||0),rewardStatus:settlementRow.reward_status,completedAt:settlementRow.completed_at}:null;
-  return{ok:true,season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:CLAN_MAX_PARTICIPANTS,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,powerMatchTolerancePct:settings.powerMatchTolerancePct,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'},serverNow:iso()};
+  return{ok:true,season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:CLAN_MAX_PARTICIPANTS,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,scorePerWin:settings.warWinScore,deckPolicy:settings.powerSnapshot,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'},serverNow:iso()};
 }
 
 async function register(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
@@ -629,9 +648,9 @@ async function resetOfficialSeasonOne(env,deps,user,settings,body){
   }finally{await releaseDraftLock(env,lock)}
 }
 
-async function buildClanBattle(env,deps,attackerUser,defenderUser,attackerPool,defenderPool,seed){
-  const battle=await deps.battleSettings(env),[aCardsRaw,dCardsRaw]=await Promise.all([deps.pvpDeckSnapshotByIds(env,attackerUser.id,safeJson(attackerPool.deck_snapshot,[])),deps.pvpDeckSnapshotByIds(env,defenderUser.id,safeJson(defenderPool.deck_snapshot,[]))]);
-  if(aCardsRaw.length!==5)throw new Error('내 클랜전 덱 5장을 불러오지 못했습니다. 다음 시즌 신청에서 덱을 갱신하세요.');if(dCardsRaw.length!==5)throw new Error('상대 클랜원의 전투 덱이 완성되지 않았습니다.');
+async function buildClanBattle(env,deps,attackerUser,defenderUser,seed){
+  const [battle,aLiveIds,dLiveIds]=await Promise.all([deps.battleSettings(env),currentRankedDeckIds(env,attackerUser.id),currentRankedDeckIds(env,defenderUser.id)]),[aCardsRaw,dCardsRaw]=await Promise.all([deps.pvpDeckSnapshotByIds(env,attackerUser.id,aLiveIds),deps.pvpDeckSnapshotByIds(env,defenderUser.id,dLiveIds)]);
+  if(aCardsRaw.length!==5)throw new Error('현재 랭크전 덱 5장을 불러오지 못했습니다. 덱 편성 저장 후 다시 시도하세요.');if(dCardsRaw.length!==5)throw new Error('무작위 상대의 최신 랭크전 덱이 완성되지 않았습니다. 다시 매칭해 주세요.');
   const aCards=aCardsRaw.map(card=>({...card,id:String(card.id),power:deps.cardBattlePower(card,card.breakthrough_level,battle)})),dCards=dCardsRaw.map(card=>({...card,id:String(card.id),power:deps.cardBattlePower(card,card.breakthrough_level,battle)})),aIds=aCards.map(c=>String(c.id)),dIds=dCards.map(c=>String(c.id));
   const [unique,aBonus,dBonus,aSynergy,dSynergy,aMagic,dMagic]=await Promise.all([
     deps.cardUniqueDeckStates(env,[{user:attackerUser,cards:aCards},{user:defenderUser,cards:dCards}],'PVP'),deps.userEquipmentBonuses(env,attackerUser.id),deps.userEquipmentBonuses(env,defenderUser.id),deps.evaluateDeckSynergies(env,attackerUser,aIds,'PVP',{forceOwnerTest:String(attackerUser.role||'').toUpperCase()==='OWNER'}),deps.evaluateDeckSynergies(env,defenderUser,dIds,'PVP',{forceOwnerTest:String(defenderUser.role||'').toUpperCase()==='OWNER'}),deps.magicBattleLoadout(env,attackerUser,'PVP'),deps.magicBattleLoadout(env,defenderUser,'PVP')
@@ -646,21 +665,21 @@ async function fight(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFA
   if(season.phase!=='ACTIVE')return deps.json({error:'클랜전 진행 기간이 아닙니다.'},409);const requestId=validRequestId(body.requestId);if(!requestId)return deps.json({error:'전투 요청 키가 올바르지 않습니다.'},400);
   const mine=await env.DB.prepare('SELECT * FROM clan_members WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();if(!mine)return deps.json({error:'이번 시즌 클랜 소속이 아닙니다.'},403);
   const war=await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status='ACTIVE' AND starts_at<=? AND ends_at>? AND (clan_a_id=? OR clan_b_id=?) ORDER BY round_no,id LIMIT 1").bind(season.id,iso(),iso(),mine.clan_id,mine.clan_id).first();if(!war)return deps.json({error:'현재 개방 중인 60분 클랜전 대진이 없습니다.',code:'CLAN_WAR_WINDOW_CLOSED'},409);
-  const match=await opponentMatchState(env,deps,user,season,war,mine,settings),enemyClan=match.enemyClan;let receipt=await env.DB.prepare('SELECT * FROM clan_war_battles WHERE request_id=?').bind(requestId).first();if(receipt&&(Number(receipt.attacker_user_id)!==Number(user.id)||Number(receipt.season_id)!==Number(season.id)||Number(receipt.war_id)!==Number(war.id)))return deps.json({error:'다른 전투에 사용된 요청 키입니다.'},409);
-  const requestedTargetId=Number(body.targetUserId||0);if(receipt&&requestedTargetId&&Number(receipt.defender_user_id)!==requestedTargetId)return deps.json({error:'같은 요청 키로 공격 대상을 변경할 수 없습니다.'},409);const selected=receipt?null:match.opponents.find(candidate=>Number(candidate.userId)===requestedTargetId)||match.opponents.find(candidate=>candidate.matchEligible);
-  if(!receipt&&(!selected||!selected.matchEligible))return deps.json({error:`전투력 ±${settings.powerMatchTolerancePct}% 우선 매칭 대상 또는 서버 대체 대상만 공격할 수 있습니다.`,code:'CLAN_POWER_MATCH_REQUIRED',suggestedTargetUserId:Number(match.opponents.find(candidate=>candidate.matchEligible)?.userId||0)},409);
+  const match=await opponentMatchState(env,deps,user,season,war,mine,settings,requestId),enemyClan=match.enemyClan;let receipt=await env.DB.prepare('SELECT * FROM clan_war_battles WHERE request_id=?').bind(requestId).first();if(receipt&&(Number(receipt.attacker_user_id)!==Number(user.id)||Number(receipt.season_id)!==Number(season.id)||Number(receipt.war_id)!==Number(war.id)))return deps.json({error:'다른 전투에 사용된 요청 키입니다.'},409);
+  if(!receipt&&!match.attackerDeckReady)return deps.json({error:'현재 랭크전 덱 5장을 저장한 뒤 랜덤 매칭을 시작하세요.',code:'CLAN_LIVE_DECK_REQUIRED'},409);const selected=receipt?null:match.opponents.find(candidate=>candidate.matchEligible);
+  if(!receipt&&(!selected||!selected.matchEligible))return deps.json({error:'현재 공격 가능한 무작위 상대가 없습니다. 잠시 후 다시 시도하세요.',code:'CLAN_RANDOM_POOL_EMPTY'},409);
   const targetId=Number(receipt?.defender_user_id||selected.userId),defender=await env.DB.prepare(`SELECT m.*,u.nickname,u.role FROM clan_members m JOIN users u ON u.id=m.user_id WHERE m.season_id=? AND m.clan_id=? AND m.user_id=?`).bind(season.id,enemyClan,targetId).first();if(!defender)return deps.json({error:'공격할 상대 클랜원을 찾지 못했습니다.'},404);
-  const seed=receipt?Number(receipt.battle_seed):seedOf(`${season.id}:${war.id}:${requestId}:CLAN_V3`),[attackerPool,defenderPool]=await Promise.all([env.DB.prepare('SELECT deck_snapshot FROM clan_draft_pool WHERE season_id=? AND user_id=?').bind(season.id,user.id).first(),env.DB.prepare('SELECT deck_snapshot FROM clan_draft_pool WHERE season_id=? AND user_id=?').bind(season.id,defender.user_id).first()]);
+  const seed=receipt?Number(receipt.battle_seed):seedOf(`${season.id}:${war.id}:${requestId}:CLAN_V3`);
   const reserve=async(excludeId=0)=>{const freshWar=await env.DB.prepare('SELECT * FROM clan_wars WHERE id=?').bind(war.id).first(),[attacks,repeat,defenses]=await Promise.all([env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND id<>? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id,excludeId).first(),env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND defender_user_id=? AND id<>? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id,defender.user_id,excludeId).first(),env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND defender_user_id=? AND id<>? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,defender.user_id,excludeId).first()]),energy=clanEnergySnapshot(freshWar,Number(attacks?.count||0),settings);if(!energy.windowOpen)return{error:'60분 클랜전 개방 시간이 종료됐습니다.',code:'CLAN_WAR_WINDOW_CLOSED',energy};if(!energy.canAttack)return{error:energy.usesRemaining<=0?`이번 클랜전 개인 사용 상한 ${settings.totalUseLimit}회를 모두 사용했습니다.`:`행동력이 부족합니다. ${energy.nextEnergyAt?'다음 회복 시각을 확인해주세요.':''}`,code:energy.usesRemaining<=0?'CLAN_USE_LIMIT':'CLAN_ENERGY_EMPTY',energy};if(Number(repeat?.count||0)>=settings.repeatTargetLimit)return{error:'같은 상대 공격 상한에 도달했습니다.',code:'CLAN_REPEAT_TARGET_LIMIT',energy};if(Number(defenses?.count||0)>=settings.defensesPerTarget)return{error:'선택한 상대의 방어 슬롯이 마감됐습니다.',code:'CLAN_DEFENSE_LIMIT',energy};return{ok:true,energy}};
   if(!receipt){const quotaLock=await acquireDraftLock(env,season.id);if(!quotaLock.ok)return deps.json({error:'다른 클랜전 작전권을 배정 중입니다. 잠시 후 다시 시도하세요.'},409);try{receipt=await env.DB.prepare('SELECT * FROM clan_war_battles WHERE request_id=?').bind(requestId).first();if(!receipt){const check=await reserve();if(!check.ok)return deps.json(check,409);const reservedAt=iso();await env.DB.prepare("INSERT OR IGNORE INTO clan_war_battles(request_id,season_id,war_id,attacker_clan_id,defender_clan_id,attacker_user_id,defender_user_id,battle_seed,status) SELECT ?,?,?,?,?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM clan_wars WHERE id=? AND status='ACTIVE' AND starts_at<=? AND ends_at>?)").bind(requestId,season.id,war.id,mine.clan_id,enemyClan,user.id,defender.user_id,seed,war.id,reservedAt,reservedAt).run();receipt=await env.DB.prepare('SELECT * FROM clan_war_battles WHERE request_id=?').bind(requestId).first()}if(!receipt||Number(receipt.attacker_user_id)!==Number(user.id)||Number(receipt.defender_user_id)!==Number(defender.user_id))return deps.json({error:'전투 공격권을 예약하지 못했습니다. 개방 시간을 확인하고 다시 시도하세요.',code:'CLAN_WAR_RESERVATION_FAILED'},409)}finally{await releaseDraftLock(env,quotaLock)}}
   if(receipt?.status==='RESOLVING'&&Date.now()-sqlMs(receipt.updated_at)>60000){await env.DB.prepare("UPDATE clan_war_battles SET status='FAILED',error_message='STALE_RESOLUTION_RECOVERED',updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESOLVING'").bind(receipt.id).run();receipt={...receipt,status:'FAILED'}}
   if(receipt?.status==='FAILED'){const quotaLock=await acquireDraftLock(env,season.id);if(!quotaLock.ok)return deps.json({error:'다른 클랜전 작전권을 배정 중입니다. 잠시 후 다시 시도하세요.'},409);try{const check=await reserve(receipt.id);if(!check.ok)return deps.json(check,409);const retry=await env.DB.prepare("UPDATE clan_war_battles SET status='PENDING',error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='FAILED' AND EXISTS(SELECT 1 FROM clan_wars WHERE id=? AND status='ACTIVE')").bind(receipt.id,war.id).run();if(Number(retry?.meta?.changes||0)!==1)return deps.json({error:'재시도할 공격권이 남아 있지 않습니다.'},409);receipt={...receipt,status:'PENDING',error_message:null}}finally{await releaseDraftLock(env,quotaLock)}}
   let claimed=false;if(receipt.status==='PENDING'){const claim=await env.DB.prepare("UPDATE clan_war_battles SET status='RESOLVING',updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(receipt.id).run();claimed=Number(claim?.meta?.changes||0)===1;if(!claimed)return deps.json({error:'같은 전투가 이미 처리 중입니다. 잠시 후 다시 확인하세요.'},409);receipt={...receipt,status:'RESOLVING'}}if(receipt.status!=='COMPLETED'&&!claimed)return deps.json({error:'같은 전투가 이미 처리 중입니다. 잠시 후 다시 확인하세요.'},409);
   try{
-    const defenderUser={id:Number(defender.user_id),nickname:defender.nickname,role:defender.role},simulation=await buildClanBattle(env,deps,user,defenderUser,attackerPool,defenderPool,seed),simulatedWin=simulation.battleV2?.result?.winner==='A',won=receipt.status==='COMPLETED'?Number(receipt.winner_clan_id)===Number(mine.clan_id):simulatedWin,winnerClan=won?Number(mine.clan_id):enemyClan;
+    const defenderUser={id:Number(defender.user_id),nickname:defender.nickname,role:defender.role},simulation=await buildClanBattle(env,deps,user,defenderUser,seed),simulatedWin=simulation.battleV2?.result?.winner==='A',won=receipt.status==='COMPLETED'?Number(receipt.winner_clan_id)===Number(mine.clan_id):simulatedWin,winnerClan=won?Number(mine.clan_id):enemyClan;
     if(claimed){const scoreColumn=Number(war.clan_a_id)===winnerClan?'score_a':'score_b';await env.DB.batch([env.DB.prepare(`UPDATE clan_wars SET ${scoreColumn}=${scoreColumn}+?,battle_count=battle_count+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE' AND EXISTS(SELECT 1 FROM clan_war_battles WHERE id=? AND status='RESOLVING')`).bind(settings.warWinScore,war.id,receipt.id),env.DB.prepare(`UPDATE clan_members SET ${won?'battle_wins':'battle_losses'}=${won?'battle_wins':'battle_losses'}+1,contribution_score=contribution_score+1,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=? AND EXISTS(SELECT 1 FROM clan_war_battles WHERE id=? AND status='RESOLVING')`).bind(season.id,user.id,receipt.id),env.DB.prepare(`UPDATE clan_members SET ${won?'battle_losses':'battle_wins'}=${won?'battle_losses':'battle_wins'}+1,contribution_score=contribution_score+1,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=? AND EXISTS(SELECT 1 FROM clan_war_battles WHERE id=? AND status='RESOLVING')`).bind(season.id,defender.user_id,receipt.id),env.DB.prepare("UPDATE clan_war_battles SET status='COMPLETED',winner_clan_id=?,result_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESOLVING'").bind(winnerClan,JSON.stringify({winner:won?'ATTACKER':'DEFENDER',reason:simulation.battleV2?.result?.reason||'',actions:Number(simulation.battleV2?.result?.actions||0)}),receipt.id)])}
     const retention=Math.max(1,Number(settings.battleReceiptRetentionDays||30));await env.DB.prepare(`DELETE FROM clan_war_battles WHERE id IN (SELECT id FROM clan_war_battles WHERE updated_at<datetime('now','-${retention} days') ORDER BY id LIMIT 200)`).run();const attacks=await env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id).first(),attacksUsed=Number(attacks?.count||0),freshWar=await env.DB.prepare('SELECT * FROM clan_wars WHERE id=?').bind(war.id).first(),energy=clanEnergySnapshot(freshWar,attacksUsed,settings);
-    return deps.json({ok:true,result:won?'WIN':'LOSE',battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},battleV2:simulation.battleV2,attackerDeck:simulation.attackerDeck,defenderDeck:simulation.defenderDeck,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,opponent:{id:Number(defender.user_id),nickname:defender.nickname},clanWar:{id:Number(war.id),winnerClanId:winnerClan,attackLimit:settings.totalUseLimit,attacksUsed,attacksRemaining:energy.usesRemaining,energy}});
+    return deps.json({ok:true,result:won?'WIN':'LOSE',battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},battleV2:simulation.battleV2,attackerDeck:simulation.attackerDeck,defenderDeck:simulation.defenderDeck,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,opponent:{id:Number(defender.user_id),nickname:defender.nickname},clanWar:{id:Number(war.id),winnerClanId:winnerClan,pointsAwarded:settings.warWinScore,matchMode:settings.matchMode,deckPolicy:settings.powerSnapshot,attackLimit:settings.totalUseLimit,attacksUsed,attacksRemaining:energy.usesRemaining,energy}});
   }catch(error){if(claimed)await env.DB.prepare("UPDATE clan_war_battles SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESOLVING'").bind(String(error?.message||error).slice(0,240),receipt.id).run();return deps.json({error:error.message||'클랜전 V3 전투를 구성하지 못했습니다.'},409)}
 }
 
@@ -675,7 +694,7 @@ export async function handleClan({path,request,env,deps}){
       for(const [key,label] of [['winnerCoin','우승 추가 코인'],['runnerUpCoin','준우승 추가 코인']]){if(!Object.prototype.hasOwnProperty.call(candidate,key))continue;const amount=Number(candidate[key]);if(!Number.isSafeInteger(amount)||amount<0)return deps.json({error:`${label}은 0 이상의 안전한 정수로 입력하세요.`},400)}
       const requestedInitial=Number(candidate.initialEnergy??settings.initialEnergy),requestedCap=Number(candidate.energyCap??settings.energyCap),requestedUseLimit=Number(candidate.totalUseLimit??settings.totalUseLimit);
       if(requestedInitial>requestedCap)return deps.json({error:'시작 행동력은 행동력 상한보다 클 수 없습니다.'},400);
-      if(requestedUseLimit<requestedInitial||requestedUseLimit>requestedCap)return deps.json({error:'개인 총 사용 상한은 시작 행동력 이상, 행동력 상한 이하여야 합니다.'},400);
+      if(requestedUseLimit<requestedInitial||requestedUseLimit>99)return deps.json({error:'개인 총 사용 상한은 시작 행동력 이상, 99회 이하여야 합니다.'},400);
       const next=cleanClanAdminSettings(candidate,settings);
       if(!Number.isSafeInteger(Number(next.participationCoin)+Number(next.winnerCoin))||!Number.isSafeInteger(Number(next.participationCoin)+Number(next.runnerUpCoin)))return deps.json({error:'참여 기본 코인과 순위 추가 코인의 합계가 안전한 정수 범위를 넘었습니다.'},400);
       if(next.rewardsEnabled&&next.mode!=='ON')return deps.json({error:'경제 보상은 클랜 공개 모드가 ON일 때만 활성화할 수 있습니다.'},400);
@@ -720,4 +739,4 @@ export async function handleClan({path,request,env,deps}){
   return deps.json({error:'요청한 클랜 기능을 찾을 수 없습니다.'},404);
 }
 
-export const __clanTest={normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,powerMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};
+export const __clanTest={normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,randomMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};

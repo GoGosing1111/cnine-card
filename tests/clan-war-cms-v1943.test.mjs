@@ -19,25 +19,24 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/id="view-clanwar"/);
   assert.match(html,/id="clanWarAdminRoot"/);
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=1994-clan-draft-territory-command/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=1994-clan-draft-territory-command/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=1998-clan-random-score-live-deck/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
   assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
   assert.doesNotMatch(cms,/childList:true/);
 });
 
-test('60분·행동력·전투력 매칭 목표값을 한 설정 계약으로 고정한다',()=>{
+test('60분·10 행동력·5분 회복·랜덤 승점전·최신 덱을 한 설정 계약으로 고정한다',()=>{
   const defaults=__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS;
   assert.equal(defaults.warOpenTime,'21:00');
   assert.equal(defaults.warDurationMinutes,60);
-  assert.equal(defaults.initialEnergy,5);
+  assert.equal(defaults.initialEnergy,10);
   assert.equal(defaults.energyCap,10);
-  assert.equal(defaults.energyRecoverySeconds,180);
-  assert.equal(defaults.totalUseLimit,10);
-  assert.equal(defaults.powerMatchTolerancePct,10);
-  assert.equal(defaults.powerMatchFallback,'NEAREST_LOWEST_DEFENSE');
-  assert.equal(defaults.powerSnapshot,'RANKED_DECK_5');
+  assert.equal(defaults.energyRecoverySeconds,300);
+  assert.equal(defaults.totalUseLimit,21);
+  assert.equal(defaults.powerMatchEnabled,false);
+  assert.equal(defaults.matchMode,'RANDOM_AVAILABLE');
+  assert.equal(defaults.powerSnapshot,'LIVE_RANKED_DECK_5');
   assert.equal(defaults.playbackSpeed,1.3);
   assert.deepEqual(defaults.openDays,[0,1,2,3,4,5,6]);
   for(const id of ['cwWarOpenTime','cwWarDurationMinutes','cwInitialEnergy','cwEnergyCap','cwEnergyRecoverySeconds','cwTotalUseLimit','cwPowerMatchTolerancePct','cwPowerMatchFallback'])assert.match(cms,new RegExp(`'${id}'`));
@@ -55,11 +54,12 @@ test('CMS 저장값은 범위를 정리하고 공식 고정값을 유지하며 �
   assert.equal(clean.initialEnergy,7);
   assert.equal(clean.energyCap,7);
   assert.equal(clean.totalUseLimit,7);
-  assert.equal(clean.powerMatchFallback,'NEAREST_LOWEST_DEFENSE');
+  assert.equal(clean.powerMatchEnabled,false);
+  assert.equal(clean.matchMode,'RANDOM_AVAILABLE');
   assert.equal(clean.maxClans,8);
   assert.equal(clean.maxMembers,22);
   assert.equal(clean.maxParticipants,176);
-  assert.equal(clean.powerSnapshot,'RANKED_DECK_5');
+  assert.equal(clean.powerSnapshot,'LIVE_RANKED_DECK_5');
   assert.equal(clean.blindDraft,true);
   assert.equal(clean.rewardsEnabled,true);
 });
@@ -117,15 +117,16 @@ test('공식 공개 전환은 테스트 시즌 기록과 트로피를 원자적�
   assert.match(server,/VALUES\(1,'REGISTRATION',\?, \?,\?,\?,\?\)"\)\.bind\(CLAN_MAX_MEMBERS/);
 });
 
-test('60분·10회 행동력·전투력 매칭·보상 영수증이 모두 라이브 계약으로 연결된다',()=>{
-  assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,10);
-  assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,10);
+test('60분·21회 상한·랜덤 승점·최신 덱·보상 영수증이 모두 라이브 계약으로 연결된다',()=>{
+  assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,21);
+  assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,21);
   assert.match(server,/runtimeContract:\{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,[^}]*attacksPerWar:settings\.totalUseLimit/);
   assert.match(server,/targetContract:\{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,warDurationMinutes:settings\.warDurationMinutes/);
-  for(const key of ['WAR_WINDOW','ENERGY','POWER_MATCH','REWARDS'])assert.match(server,new RegExp(`key:'${key}',status:'READY'`));
+  for(const key of ['WAR_WINDOW','ENERGY','RANDOM_MATCH','REWARDS'])assert.match(server,new RegExp(`key:'${key}',status:'READY'`));
   assert.match(server,/ROUND_ROBIN_7_WINDOWS/);
   assert.match(server,/CREATE TABLE IF NOT EXISTS clan_reward_receipts/);
   assert.match(cms,/SERVER ENFORCED CONTRACT/);
+  assert.match(cms,/서버 랜덤 매칭 · 최신 랭크전 덱 자동 반영/);
   assert.match(cms,/서버 적용값/);
   assert.match(cms,/CMS 저장값/);
   assert.match(cms,/select\('cwRewardsEnabled'/);
