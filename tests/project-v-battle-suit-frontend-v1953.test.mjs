@@ -5,7 +5,7 @@ import vm from 'node:vm';
 
 const loadoutSource = await readFile(new URL('../js/character-loadout-v2.js', import.meta.url), 'utf8');
 
-function fixture({ suitEquipped = true } = {}) {
+function fixture({ suitEquipped = true, avatarEquipped = false } = {}) {
   const loadout = { WEAPON: 101 };
   if (suitEquipped) loadout.BATTLE_SUIT = 202;
   return {
@@ -19,7 +19,7 @@ function fixture({ suitEquipped = true } = {}) {
     vehicles: [{ id: 4, name: '테스트 차량', pvePower: 30, pvpPower: 15, owned: true, equipped: true }],
     equippedVehicleId: 4,
     bonuses: {},
-    equippedAvatar: null,
+    equippedAvatar: avatarEquipped ? { name: '딤우스', equipmentImage: 'dimwoos-avatar.webp' } : null,
     avatarFeature: { visible: false }
   };
 }
@@ -66,7 +66,7 @@ function clickTarget(dataset = {}, attributes = []) {
   return target;
 }
 
-test('배틀슈트는 6번째 슬롯과 외형 미리보기를 제공하고 PVE에만 합산된다', () => {
+test('배틀슈트는 6번째 슬롯과 PVE 전투력만 제공하며 장비창 인물 외형을 바꾸지 않는다', () => {
   const { root, controller } = mount(fixture());
   const state = controller.getState();
   assert.equal(state.bonuses.equipmentPve, 90);
@@ -78,7 +78,16 @@ test('배틀슈트는 6번째 슬롯과 외형 미리보기를 제공하고 PVE�
   assert.match(root.innerHTML, /LOADOUT 06/);
   assert.match(root.innerHTML, /배틀슈트 \(PVE 전용\)/);
   assert.match(root.innerHTML, /EQUIPPED BATTLE SUIT · PVE ONLY/);
-  assert.match(root.innerHTML, /src="battle-suit\.png" alt="오로라 배틀슈트 배틀슈트 외형"/);
+  assert.match(root.innerHTML, /src="assets\/ui\/character-loadout-v2\/quartermaster-v1\.webp" alt="장비 관리 오퍼레이터"/);
+  assert.doesNotMatch(root.innerHTML, /class="clv2-quartermaster[^"]*is-battle-suit|class="clv2-armory-stage[^"]*has-battle-suit|class="clv2-quartermaster[^"]*" src="battle-suit\.png"/);
+  assert.match(root.innerHTML, /배틀슈트는 장비창 인물 외형을 바꾸지 않고 PVE 전투력만 적용합니다/);
+});
+
+test('장비창 인물 외형은 장착 아바타로만 교체된다', () => {
+  const { root } = mount(fixture({ suitEquipped: true, avatarEquipped: true }));
+  assert.match(root.innerHTML, /src="dimwoos-avatar\.webp" alt="딤우스 장착 아바타"/);
+  assert.match(root.innerHTML, /is-equipped-avatar/);
+  assert.doesNotMatch(root.innerHTML, /class="clv2-quartermaster[^"]*is-battle-suit|class="clv2-armory-stage[^"]*has-battle-suit|class="clv2-quartermaster[^"]*" src="battle-suit\.png"/);
 });
 
 test('배틀슈트 장착·해제는 기존 장비 API와 BATTLE_SUIT 슬롯 계약을 사용한다', async () => {
@@ -124,7 +133,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(admin, /PVP 전투력에는 합산되지 않으며/);
   assert.match(adminCss, /\.equipment-power-preview\.equipment-pve-only/);
   assert.match(loadoutCss, /\.clv2-equip-slot\.slot-battle_suit/);
-  assert.match(app, /character-loadout-v2\.js\?v=12-battle-suit-pve-only/);
+  assert.match(app, /character-loadout-v2\.js\?v=13-avatar-visual-only/);
   assert.match(app, /equipment-v1274\.js\?v=1815-battle-suit-pve-only/);
   assert.match(adminIndex, /equipment-admin-v1278\.js\?v=1279-battle-suit-pve-only/);
   assert.equal((adminIndex.match(/equipment-admin-v1278\.css\?v=1279-battle-suit-pve-only/g) || []).length, 2);

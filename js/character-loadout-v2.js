@@ -219,18 +219,18 @@
     function equipmentView() {
       const avatar = state.data?.equippedAvatar || null;
       const battleSuit = equippedInstance(BATTLE_SUIT_SLOT)?.item || null;
-      const operatorImage = battleSuit?.image || avatar?.equipmentImage || 'assets/ui/character-loadout-v2/quartermaster-v1.webp';
-      const operatorAlt = battleSuit ? `${battleSuit.name} 배틀슈트 외형` : avatar?.name ? `${avatar.name} 장착 아바타` : '장비 관리 오퍼레이터';
+      const operatorImage = avatar?.equipmentImage || 'assets/ui/character-loadout-v2/quartermaster-v1.webp';
+      const operatorAlt = avatar?.name ? `${avatar.name} 장착 아바타` : '장비 관리 오퍼레이터';
       return `<section class="clv2-view clv2-equipment-view">
         ${profilePanel()}
-        <article class="clv2-armory-stage${avatar?.equipmentImage ? ' has-equipped-avatar' : ''}${battleSuit ? ' has-battle-suit' : ''}">
+        <article class="clv2-armory-stage${avatar?.equipmentImage ? ' has-equipped-avatar' : ''}">
           <header class="clv2-stage-status"><span><i></i> EQUIPMENT LINK ONLINE</span><b>LOADOUT 06</b></header>
           <div class="clv2-armory-backdrop" aria-hidden="true"></div>
           <div class="clv2-reactor" aria-hidden="true"><i></i><i></i><i></i></div>
-          <img class="clv2-quartermaster${avatar?.equipmentImage ? ' is-equipped-avatar' : ''}${battleSuit ? ' is-battle-suit' : ''}" src="${escapeHtml(resolveAsset(operatorImage))}" alt="${escapeHtml(operatorAlt)}" loading="eager" decoding="async">
+          <img class="clv2-quartermaster${avatar?.equipmentImage ? ' is-equipped-avatar' : ''}" src="${escapeHtml(resolveAsset(operatorImage))}" alt="${escapeHtml(operatorAlt)}" loading="eager" decoding="async">
           ${battleSuit ? `<div class="clv2-battle-suit-readout"><small>EQUIPPED BATTLE SUIT · PVE ONLY</small><strong>${escapeHtml(battleSuit.name)}</strong><span>PVE 전투력 +${formatNumber(battleSuit.pvePower)}</span></div>` : ''}
           ${SLOT_ORDER.map(slotCard).join('')}
-          <div class="clv2-stage-readout"><small>ACTIVE CONFIGURATION</small><strong>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} SLOT LINKED</strong><span>배틀슈트는 외형과 별도 PVE 전투력을 적용합니다.</span></div>
+          <div class="clv2-stage-readout"><small>ACTIVE CONFIGURATION</small><strong>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} SLOT LINKED</strong><span>배틀슈트는 장비창 인물 외형을 바꾸지 않고 PVE 전투력만 적용합니다.</span></div>
         </article>
         ${inventoryPanel()}
       </section>`;
