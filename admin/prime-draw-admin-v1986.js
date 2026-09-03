@@ -43,6 +43,7 @@
   function product(){return state.data?.[state.kind]||{}}
   function poolRows(){return Array.isArray(product().pool?.entries)?product().pool.entries:[]}
   function nativeType(){return state.kind==='equipment'?'EQUIPMENT':'VEHICLE'}
+  function rewardTypeLabel(type){return type==='AVATAR'?'아바타':type==='VEHICLE'?'이동수단':type==='INVENTORY_ITEM'?'제작 재료':'장비'}
   function catalogRows(type){const key=String(type||'').toLowerCase();return Array.isArray(state.data?.catalog?.[key])?state.data.catalog[key]:[]}
   function catalogOptions(type){const selected=new Set(poolRows().map(row=>row.poolKey)),rows=catalogRows(type).filter(row=>!selected.has(row.poolKey));return rows.length?rows.map(row=>`<option value="${esc(row.poolKey)}">${esc(row.name)} · ${esc(row.code)}</option>`).join(''):'<option value="">추가 가능한 품목 없음</option>'}
   function weightTotal(){return poolRows().reduce((sum,row)=>sum+number(row.drawWeight),0)}
@@ -73,8 +74,8 @@
         <label><span>인벤토리 개봉</span><select id="primeDrawOpenEnabledV1986"><option value="1" ${settings.openEnabled!==false?'selected':''}>ON · 개봉</option><option value="0" ${settings.openEnabled===false?'selected':''}>OFF · 개봉 중지</option></select></label>
       </section>
       <section class="primeDrawCmsAddV1987">
-        <div><small>POOL CATALOG</small><h3>드랍풀 품목 추가</h3><p>장비·이동수단 카탈로그와 공개 아바타를 선택해 현재 상품의 독립 풀에 추가합니다.</p></div>
-        <label><span>보상 종류</span><select id="primeDrawAddTypeV1987"><option value="${nativeType()}">${state.kind==='equipment'?'장비':'이동수단'}</option><option value="AVATAR">아바타</option></select></label>
+        <div><small>POOL CATALOG</small><h3>드랍풀 품목 추가</h3><p>장비·이동수단·공개 아바타와 배틀슈트 제작 재료를 현재 상품의 독립 풀에 추가합니다.</p></div>
+        <label><span>보상 종류</span><select id="primeDrawAddTypeV1987"><option value="${nativeType()}">${state.kind==='equipment'?'장비':'이동수단'}</option>${state.kind==='equipment'?'<option value="INVENTORY_ITEM">배틀슈트 재료</option>':''}<option value="AVATAR">아바타</option></select></label>
         <label class="wide"><span>추가 품목</span><select id="primeDrawAddItemV1987">${catalogOptions(nativeType())}</select></label>
         <label><span>초기 확률 %</span><input id="primeDrawAddWeightV1987" type="number" min="0.000001" max="100" step="0.000001" value="0.010000"></label>
         <button type="button" id="primeDrawAddV1987">품목 추가 + 자동 재분배</button>
@@ -84,8 +85,8 @@
         <div class="primeDrawCmsTableWrapV1986"><table><thead><tr><th>아이템</th><th>종류</th><th>전투력</th><th>원본 확률</th><th>가격 보정</th><th>실제 확률 %</th><th>특별 연출</th><th>연출 등급</th><th>연출 테마</th><th>관리</th></tr></thead><tbody>
           ${rows.map(row=>`<tr data-prime-row="${esc(row.poolKey||`${row.rewardType}:${row.code}`)}">
             <td><div class="primeDrawCmsItemV1986"><span>${row.image?`<img src="${esc(asset(row.image))}" alt="">`:'NO IMAGE'}</span><div><b>${esc(row.name)}</b><small>${esc(row.code)} · ${esc(row.rarity)}</small></div></div></td>
-            <td><span class="primeDrawTypeV1987 ${String(row.rewardType||'').toLowerCase()}">${row.rewardType==='AVATAR'?'아바타':row.rewardType==='VEHICLE'?'이동수단':'장비'}</span></td>
-            <td><b>${row.rewardType==='AVATAR'?'—':fmt(row.power)}</b></td><td>${row.isExtra?'추가 품목':`${fmt(row.sourceProbability,6)}%`}</td><td>${row.isExtra?'독립':`×${fmt(row.boostMultiplier,4)}`}</td>
+            <td><span class="primeDrawTypeV1987 ${String(row.rewardType||'').toLowerCase()}">${rewardTypeLabel(row.rewardType)}</span></td>
+            <td><b>${row.rewardType==='AVATAR'||row.rewardType==='INVENTORY_ITEM'?'—':fmt(row.power)}</b></td><td>${row.isExtra?'추가 품목':`${fmt(row.sourceProbability,6)}%`}</td><td>${row.isExtra?'독립':`×${fmt(row.boostMultiplier,4)}`}</td>
             <td><input class="primeDrawWeightV1986" data-prime-weight type="number" min="0" max="100" step="0.000001" value="${number(row.drawWeight).toFixed(6)}"></td>
             <td><label class="primeDrawCmsCheckV1986"><input data-prime-presentation type="checkbox" ${row.presentation?.enabled?'checked':''}><span>${row.presentation?.enabled?'ON':'OFF'}</span></label></td>
             <td><select data-prime-tier>${tierOptions(String(row.presentation?.tier||'STANDARD'))}</select></td>

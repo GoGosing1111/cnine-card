@@ -24,6 +24,7 @@ import { handleEscortOperation } from '../_escort_operation.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop } from '../_workshop.js';
+import { ensureBattleSuitCoreCatalog } from '../_battle_suit_materials.js';
 import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
 import { handleScrapyard } from '../_scrapyard.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
@@ -5069,6 +5070,7 @@ async function handleRequest(context){
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureBattleSuitCoreCatalog(env);
       const blackMiracleUseEnabled=(await blackMiracleSettings(env)).enabled===true;
       await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,

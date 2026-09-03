@@ -1,4 +1,5 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
+import { ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 
 const RECIPE_TABLE='workshop_recipes_v1668';
 const MATERIAL_TABLE='workshop_recipe_materials_v1668';
@@ -8,10 +9,11 @@ const LOG_TABLE='workshop_craft_logs_v1668';
 const SYNTH_RECEIPT_TABLE='equipment_synthesis_receipts_v1676';
 const SYNTH_LOG_TABLE='equipment_synthesis_logs_v1676';
 const SYNTH_RECIPE_TABLE='equipment_synthesis_recipes_v1677';
-const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS','MATERIAL_CRAFT']);
+const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS','MATERIAL_CRAFT','BATTLE_SUIT_CRAFT']);
 const OUTPUT_TYPES=new Set(['VEHICLE','EQUIPMENT','INVENTORY_ITEM']);
 const PAYMENT_MODES=new Set(['COIN_OR_MASTER_STAR','COIN_ONLY','MASTER_STAR_ONLY','BOTH','COIN_AND_CARD_SHARD']);
 const MATERIAL_CRAFT_UPGRADE_KEY='safe_runtime_upgrade_v1933_workshop_material_craft_no_schema_change';
+const BATTLE_SUIT_CRAFT_UPGRADE_KEY='safe_runtime_upgrade_v2004_battle_suit_workshop';
 const MYSTIC_ENERGY_RECIPE_CODE='WORKSHOP_MYSTIC_ENERGY';
 const MYSTIC_ENERGY_ITEM_CODE='STARLIGHT_ARMOR_CORE';
 const FIXED_RECIPE_COSTS=Object.freeze({
@@ -68,6 +70,12 @@ const DEFAULT_RECIPES=[
   {code:'WORKSHOP_SKI1000C',name:'SKI1000C 조립',description:'정밀 부품을 대량 투입해 완성하는 상급 제작 차량입니다.',outputRef:'3',coin:6000000,stars:18,featured:0,sort:30,materials:[['VEHICLE_PART_TIRE',14],['VEHICLE_PART_FRAME',8],['VEHICLE_PART_ENGINE',5]]}
 ];
 
+const BATTLE_SUIT_RECIPES=Object.freeze([
+  Object.freeze({code:'WORKSHOP_BATTLE_SUIT_01',equipmentCode:'BATTLE_SUIT_01',coreCode:'SUIT_CORE_1',name:'배틀슈트 01 제작',description:'슈트 코어 1과 고밀도 재화를 결합해 배틀슈트 01 제작을 시도합니다.',coin:200000000,stars:1000,successRate:10,featured:1,active:1,public:1,ownerTestOnly:0,sort:10}),
+  Object.freeze({code:'WORKSHOP_BATTLE_SUIT_02',equipmentCode:'BATTLE_SUIT_02',coreCode:'SUIT_CORE_2',name:'배틀슈트 02 제작',description:'슈트 코어 2 기반의 배틀슈트 02 확장 제작 템플릿입니다.',coin:400000000,stars:2000,successRate:10,featured:0,active:0,public:0,ownerTestOnly:1,sort:20}),
+  Object.freeze({code:'WORKSHOP_BATTLE_SUIT_03',equipmentCode:'BATTLE_SUIT_03',coreCode:'SUIT_CORE_3',name:'배틀슈트 03 제작',description:'슈트 코어 3 기반의 배틀슈트 03 확장 제작 템플릿입니다.',coin:600000000,stars:3000,successRate:10,featured:0,active:0,public:0,ownerTestOnly:1,sort:30})
+]);
+
 async function ensureMaterialCraftUpgrade(env){
   const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(MATERIAL_CRAFT_UPGRADE_KEY).first();
   if(marker?.value==='1')return true;
@@ -76,6 +84,24 @@ async function ensureMaterialCraftUpgrade(env){
     env.DB.prepare(`INSERT INTO ${RECIPE_TABLE}(code,category,name,description,output_type,output_ref,output_quantity,payment_mode,coin_cost,master_star_cost,success_rate,is_featured,is_active,is_public,owner_test_only,sort_order) VALUES('WORKSHOP_MYSTIC_ENERGY','MATERIAL_CRAFT','미스틱 에너지 제작','고밀도 카드 조각을 압축해 미스틱 에너지 1개를 제작합니다.','INVENTORY_ITEM','STARLIGHT_ARMOR_CORE',1,'COIN_AND_CARD_SHARD',200000000,0,10,1,1,1,0,10) ON CONFLICT(code) DO UPDATE SET category=excluded.category,name=excluded.name,description=excluded.description,output_type=excluded.output_type,output_ref=excluded.output_ref,output_quantity=excluded.output_quantity,payment_mode=excluded.payment_mode,coin_cost=excluded.coin_cost,master_star_cost=excluded.master_star_cost,success_rate=excluded.success_rate,is_featured=excluded.is_featured,is_active=excluded.is_active,is_public=excluded.is_public,owner_test_only=excluded.owner_test_only,sort_order=excluded.sort_order,updated_at=CURRENT_TIMESTAMP`),
     env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(MATERIAL_CRAFT_UPGRADE_KEY)
   ]);
+  return true;
+}
+
+async function ensureBattleSuitWorkshopUpgrade(env){
+  await ensureBattleSuitCoreCatalog(env);
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BATTLE_SUIT_CRAFT_UPGRADE_KEY).first();
+  if(marker?.value==='1')return true;
+  for(const recipe of BATTLE_SUIT_RECIPES){
+    await env.DB.prepare(`INSERT INTO ${RECIPE_TABLE}(code,category,name,description,output_type,output_ref,output_quantity,payment_mode,coin_cost,master_star_cost,success_rate,is_featured,is_active,is_public,owner_test_only,sort_order)
+      SELECT ?,'BATTLE_SUIT_CRAFT',?,?,'EQUIPMENT',CAST(id AS TEXT),1,'BOTH',?,?,?,?,?,?,?,? FROM character_equipment_items WHERE code=? AND slot='BATTLE_SUIT'
+      ON CONFLICT(code) DO UPDATE SET category=excluded.category,name=excluded.name,description=excluded.description,output_type=excluded.output_type,output_ref=excluded.output_ref,output_quantity=excluded.output_quantity,payment_mode=excluded.payment_mode,coin_cost=excluded.coin_cost,master_star_cost=excluded.master_star_cost,success_rate=excluded.success_rate,is_featured=excluded.is_featured,is_active=excluded.is_active,is_public=excluded.is_public,owner_test_only=excluded.owner_test_only,sort_order=excluded.sort_order,updated_at=CURRENT_TIMESTAMP`)
+      .bind(recipe.code,recipe.name,recipe.description,recipe.coin,recipe.stars,recipe.successRate,recipe.featured,recipe.active,recipe.public,recipe.ownerTestOnly,recipe.sort,recipe.equipmentCode).run();
+    await env.DB.batch([
+      env.DB.prepare(`DELETE FROM ${MATERIAL_TABLE} WHERE recipe_id=(SELECT id FROM ${RECIPE_TABLE} WHERE code=?)`).bind(recipe.code),
+      env.DB.prepare(`INSERT INTO ${MATERIAL_TABLE}(recipe_id,item_code,quantity,sort_order) SELECT id,?,1,10 FROM ${RECIPE_TABLE} WHERE code=? ON CONFLICT(recipe_id,item_code) DO UPDATE SET quantity=1,sort_order=10,updated_at=CURRENT_TIMESTAMP`).bind(recipe.coreCode,recipe.code)
+    ]);
+  }
+  await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(BATTLE_SUIT_CRAFT_UPGRADE_KEY).run();
   return true;
 }
 
@@ -113,6 +139,7 @@ export async function ensureWorkshopFoundation(env){
       ]);
     }
     await ensureMaterialCraftUpgrade(env);
+    await ensureBattleSuitWorkshopUpgrade(env);
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -167,7 +194,7 @@ async function userWorkshopState(env,user,{admin=false}={}){
   ]);
   const inventory=Object.fromEntries((items.results||[]).map(row=>[row.code,{...row,quantity:Number(row.quantity||0)}]));
   const owned=new Set((ownedVehicles.results||[]).map(row=>String(row.garage_id)));
-  return {serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),cardShards:Number(wallet?.card_shards||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true},{id:'MATERIAL_CRAFT',name:'재료 제작',enabled:true}]};
+  return {serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),cardShards:Number(wallet?.card_shards||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true},{id:'MATERIAL_CRAFT',name:'재료 제작',enabled:true},{id:'BATTLE_SUIT_CRAFT',name:'배틀슈트 제작',enabled:true}]};
 }
 
 function paymentFor(recipe,requested){
@@ -341,3 +368,5 @@ export async function handleWorkshop({path,request,env,deps}){
   }
   return deps.json({error:'지원하지 않는 요청입니다.'},405);
 }
+
+export const __workshopBattleSuitTest=Object.freeze({BATTLE_SUIT_CRAFT_UPGRADE_KEY,BATTLE_SUIT_RECIPES,CATEGORIES});

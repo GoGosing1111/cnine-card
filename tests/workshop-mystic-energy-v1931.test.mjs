@@ -230,18 +230,20 @@ test('CMS locks the canonical recipe and reports shard spend without schema DDL'
 
   assert.match(stats, /x\.category==='EQUIPMENT_SYNTHESIS'/);
   assert.match(stats, /x\.category==='MATERIAL_CRAFT'/);
-  assert.equal((stats.match(/<article>/g) || []).length, 5, 'equipment synthesis must remain and material craft must add a fifth metric');
+  assert.match(stats, /x\.category==='BATTLE_SUIT_CRAFT'/);
+  assert.equal((stats.match(/<article>/g) || []).length, 6, 'battle-suit craft must add a sixth metric without replacing existing facilities');
 });
 
-test('client adds the third material-craft facility with replay-safe requests', () => {
+test('client keeps material craft and adds battle-suit craft as the fourth facility', () => {
   const nav = section(client, 'function workshopNav()', 'function vehiclePartsBank()');
   const render = section(client, 'function renderWorkshop()', 'function renderScrapyard()');
 
   assert.deepEqual(
     [...nav.matchAll(/data-ws-section="([^"]+)"/g)].map(match => match[1]),
-    ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT'],
+    ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT', 'BATTLE_SUIT_CRAFT'],
   );
   assert.match(nav, /data-ws-section="MATERIAL_CRAFT"[\s\S]*?<i>03<\/i>/);
+  assert.match(nav, /data-ws-section="BATTLE_SUIT_CRAFT"[\s\S]*?<i>04<\/i>/);
   assert.match(client, /pendingMaterial(?:Craft)?Request/);
   assert.match(client, /prepareMutationRequest\('material(?:Craft)?'/i);
   assert.match(client, /function material(?:Craft)?Panel\s*\(/i);
@@ -252,13 +254,15 @@ test('client adds the third material-craft facility with replay-safe requests', 
   assert.match(render, /MATERIAL_CRAFT[\s\S]*?material(?:Craft)?Panel\(\)/i);
 });
 
-test('three-facility navigation and material layout collapse to one column on mobile', () => {
-  assert.match(css, /\.ws81-nav\s*\{[^}]*grid-template-columns\s*:\s*repeat\(3\s*,\s*minmax\(0\s*,\s*1fr\)\)/);
+test('four-facility navigation and craft layouts collapse to one column on mobile', () => {
+  assert.match(css, /\.ws81-nav\s*\{[^}]*grid-template-columns\s*:\s*repeat\(4\s*,\s*minmax\(0\s*,\s*1fr\)\)/);
   assert.match(css, /\.ws81-material[^{]*\{[^}]*display\s*:\s*grid/i);
+  assert.match(css, /\.ws81-suit-layout\s*\{[^}]*display\s*:\s*grid/i);
 
   const mobileAt = css.search(/@media\s*\(\s*max-width\s*:\s*(?:680|430)px\s*\)/);
   assert.notEqual(mobileAt, -1, 'mobile workshop breakpoint must exist');
   const mobile = css.slice(mobileAt);
   assert.match(mobile, /\.ws81-nav\s*\{[^}]*grid-template-columns\s*:\s*1fr/);
   assert.match(mobile, /\.ws81-material[^{]*\{[^}]*grid-template-columns\s*:\s*1fr/i);
+  assert.match(mobile, /\.ws81-suit-costs\s*\{[^}]*grid-template-columns\s*:\s*1fr/i);
 });

@@ -29,8 +29,9 @@ const workshopNav = between(client, 'function workshopNav()', 'function vehicleP
 assert.match(workshopNav, /data-ws-section="VEHICLE"/);
 assert.match(workshopNav, /data-ws-section="SYNTHESIS"/);
 assert.match(workshopNav, /data-ws-section="MATERIAL_CRAFT"/);
+assert.match(workshopNav, /data-ws-section="BATTLE_SUIT_CRAFT"/);
 assert.doesNotMatch(workshopNav, /SCRAPYARD|폐차장/);
-assert.deepEqual([...workshopNav.matchAll(/data-ws-section="([^"]+)"/g)].map(match => match[1]), ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT']);
+assert.deepEqual([...workshopNav.matchAll(/data-ws-section="([^"]+)"/g)].map(match => match[1]), ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT', 'BATTLE_SUIT_CRAFT']);
 
 // Tire/frame/engine balances are a vehicle-panel concern only.
 const vehiclePanel = between(client, 'function vehiclePanel()', 'const synthRequired');

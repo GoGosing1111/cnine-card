@@ -72,7 +72,7 @@ test('PostgreSQL foundation은 상품 DML보다 먼저 execSchema를 완료한�
   const statement=source=>({source,values:[],bind(...values){this.values=values;return this},async first(){calls.push(`first:${source}`);return {value:'already-seeded'}},async all(){return {results:[]}},async run(){return {success:true}}});
   const env={DB:{dialect:'postgres',prepare:statement,async execSchema(schema){calls.push(`schema:${schema.length}`)},async batch(rows){calls.push(`batch:${rows.length}`);return []}}};
   await ensurePrimeDrawFoundation(env);
-  assert.deepEqual(calls.slice(0,3),['schema:7','batch:4','first:SELECT value FROM app_meta WHERE key=?']);
+  assert.deepEqual(calls.slice(0,5),['first:SELECT value FROM app_meta WHERE key=?','batch:5','schema:7','batch:4','first:SELECT value FROM app_meta WHERE key=?']);
 });
 
 test('레거시 상품은 판매만 잠기고 보유분 개봉 라우트는 남는다',()=>{
@@ -103,8 +103,8 @@ test('상점은 원하는 수량 구매와 보유분 전체 자동 분할 일괄
 test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출을 관리한다',()=>{
   const html=read('admin/index.html'),cms=read('admin/prime-draw-admin-v1986.js');
   assert.match(html,/data-view="primedraw"/);
-  assert.match(html,/prime-draw-admin-v1986\.css\?v=1987-catalog-avatar-bulk/);
-  assert.match(html,/prime-draw-admin-v1986\.js\?v=1987-catalog-avatar-bulk/);
+  assert.match(html,/prime-draw-admin-v1986\.css\?v=2004-suit-core-catalog/);
+  assert.match(html,/prime-draw-admin-v1986\.js\?v=2004-suit-core-catalog/);
   assert.match(cms,/admin\/prime-draw\/status/);
   assert.match(cms,/admin\/prime-draw\/pool/);
   assert.match(cms,/data-prime-weight/);
@@ -116,6 +116,21 @@ test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출�
   assert.match(cms,/POOL CATALOG/);
   assert.match(cms,/data-prime-remove/);
   assert.match(cms,/AVATAR/);
+  assert.match(cms,/INVENTORY_ITEM/);
+});
+
+test('슈트 코어는 프라임 장비 CMS 후보로만 준비되고 선택 시 인벤토리에 원자 지급된다',()=>{
+  const backend=read('functions/_prime_draw.js'),cms=read('admin/prime-draw-admin-v1986.js'),catalog=read('functions/_battle_suit_materials.js');
+  assert.deepEqual(__primeDrawTest.PRIME_EQUIPMENT_ITEM_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3']);
+  assert.match(catalog,/BATTLE_SUIT_CORE_CATALOG/);
+  assert.match(backend,/x\.reward_type='INVENTORY_ITEM'/);
+  assert.match(backend,/i\.code IN \('SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3'\)/);
+  assert.match(backend,/catalog\.inventory_item/);
+  assert.match(backend,/inventoryItemCounts/);
+  assert.match(backend,/PRIME_EQUIPMENT_REWARD/);
+  assert.match(backend,/ON CONFLICT\(user_id,item_code\) DO UPDATE SET quantity=cnine_user_inventory\.quantity\+excluded\.quantity/);
+  assert.doesNotMatch(backend,/INSERT INTO prime_draw_extra_pool_v1987[^\n]+SUIT_CORE_/i,'catalog preparation must not activate suit cores automatically');
+  assert.match(cms,/<option value="INVENTORY_ITEM">배틀슈트 재료<\/option>/);
 });
 
 test('프라임 추가 풀은 아바타 카탈로그와 원자 소유권 지급을 지원한다',()=>{
