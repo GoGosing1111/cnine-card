@@ -59,6 +59,12 @@ test('preview uses Pixi WebGL and GSAP without stylesheet-driven effects',async(
   assert.match(source,/pointerdown/);
   assert.match(source,/specialQueue/);
   assert.match(source,/\[1,10,50,'MAX'\]/);
+  assert.match(source,/killDisplayTweens/);
+  assert.match(source,/retireDisplayObject/);
+  assert.match(source,/timelineDone\(timeline,timeoutMs=2200\)/);
+  assert.match(source,/recoverUnlock/);
+  assert.match(source,/showSpecialResultSafely/);
+  assert.match(html,/prime-draw-opening\.bundle\.js\?v=1988-prime-reveal-lifecycle/);
   assert.doesNotMatch(html,/<style\b/i);
   assert.doesNotMatch(html,/<link[^>]+stylesheet/i);
   assert.equal(MANIFEST.renderer.cssEffects,false);

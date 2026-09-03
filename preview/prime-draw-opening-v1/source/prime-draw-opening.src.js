@@ -40,6 +40,7 @@ const SFX=Object.freeze({
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const money=value=>Number(value||0).toLocaleString('ko-KR');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const RETIRE_DELAY_MS=96;
 
 function label(text,size=16,color=COLORS.white,weight='700',align='left'){
   return new Text({text,style:{fontFamily:FONT,fontSize:size,fill:color,fontWeight:weight,align,letterSpacing:size>=18?.5:.15}});
@@ -58,12 +59,31 @@ function fitSprite(sprite,width,height){
   return scale;
 }
 
-function disposeChildren(container){
-  for(const child of container.removeChildren())child.destroy({children:true,texture:false,textureSource:false});
+function killDisplayTweens(node){
+  if(!node)return;
+  for(const target of [node,node.position,node.scale,node.pivot,node.skew,node.transform])if(target)try{gsap.killTweensOf(target)}catch(_){}
+  for(const child of [...(node.children||[])])killDisplayTweens(child);
 }
 
-function timelineDone(timeline){
-  return new Promise(resolve=>timeline.eventCallback('onComplete',resolve));
+function retireDisplayObject(node){
+  if(!node)return;
+  killDisplayTweens(node);
+  try{node.eventMode='none';node.visible=false}catch(_){}
+  setTimeout(()=>{try{killDisplayTweens(node);if(!node.destroyed)node.destroy({children:true,texture:false,textureSource:false})}catch(_){}},RETIRE_DELAY_MS);
+}
+
+function disposeChildren(container){
+  for(const child of container.removeChildren())retireDisplayObject(child);
+}
+
+function timelineDone(timeline,timeoutMs=2200){
+  return new Promise(resolve=>{
+    let settled=false;
+    const finish=completed=>{if(settled)return;settled=true;clearTimeout(timer);timeline.eventCallback('onComplete',null);timeline.eventCallback('onInterrupt',null);resolve(completed)};
+    const timer=setTimeout(()=>{try{timeline.kill()}catch(_){}finish(false)},timeoutMs);
+    timeline.eventCallback('onComplete',()=>finish(true));
+    timeline.eventCallback('onInterrupt',()=>finish(false));
+  });
 }
 
 class SoundBank{
@@ -459,8 +479,8 @@ class PrimeDrawOpeningPreview{
     if(!this.dragging||!this.slider)return;
     this.dragging=false;
     this.slider.container.cursor='grab';
-    if(this.sliderProgress>=.86)this.unlock();
-    else gsap.to(this,{sliderProgress:0,duration:.34,ease:'power3.out',onUpdate:()=>{this.renderSlider();this.updateLockPreview(this.sliderProgress)}});
+    if(this.sliderProgress>=.86)void this.unlock().catch(error=>this.recoverUnlock(error));
+    else this.idleTweens.push(gsap.to(this,{sliderProgress:0,duration:.34,ease:'power3.out',onUpdate:()=>{this.renderSlider();this.updateLockPreview(this.sliderProgress)}}));
   }
 
   updateLockPreview(progress){
@@ -578,7 +598,7 @@ class PrimeDrawOpeningPreview{
       .call(()=>{this.sound.play('lock',.62);this.cameraImpact(10);this.whiteFlash(.32)},[],.31)
       .to(this.packGroup.scale,{x:1.08,y:1.08,duration:.16,ease:'power4.out'},.32)
       .to(this.centerDynamic,{alpha:0,duration:.25,ease:'power2.in'},.48);
-    await timelineDone(timeline);
+    await timelineDone(timeline,1600);
     this.results=this.buildResults();
     const grouped=new Map();
     for(const item of this.results){
@@ -589,7 +609,7 @@ class PrimeDrawOpeningPreview{
       .sort((a,b)=>(TIER_ORDER[b.item.presentation.tier]||0)-(TIER_ORDER[a.item.presentation.tier]||0));
     this.specialIndex=0;
     await this.openGate(pool);
-    if(this.specialQueue.length)this.showSpecialResult();else this.showSummary();
+    if(this.specialQueue.length)this.showSpecialResultSafely();else this.showSummary();
   }
 
   async openGate(pool){
@@ -609,8 +629,22 @@ class PrimeDrawOpeningPreview{
       .to(right,{x:half+40,duration:.72,ease:'power4.inOut'},.3)
       .call(()=>this.whiteFlash(.18),[],.52)
       .to(gate,{alpha:0,duration:.12},.94);
-    await timelineDone(timeline);
-    gate.destroy({children:true});
+    await timelineDone(timeline,1800);
+    this.effectLayer.removeChild(gate);
+    retireDisplayObject(gate);
+  }
+
+  recoverUnlock(error){
+    console.error('prime draw preview recovery',error);
+    this.killIdleTweens();
+    if(!this.results.length)this.results=this.buildResults();
+    this.specialQueue=[];this.specialIndex=0;this.busy=false;
+    try{this.showSummary()}catch(summaryError){console.error('prime draw preview summary recovery',summaryError);this.build()}
+  }
+
+  showSpecialResultSafely(){
+    try{return this.showSpecialResult()}
+    catch(error){this.recoverUnlock(error);return false}
   }
 
   showSpecialResult(){
@@ -669,8 +703,10 @@ class PrimeDrawOpeningPreview{
     const queue=label(`특별 연출 ${this.specialIndex+1} / ${this.specialQueue.length}`,10,COLORS.cyan,'750');queue.anchor.set(.5,0);queue.position.set(area.w/2,24);
     this.centerDynamic.addChild(queue,eyebrow,name,meta,fx);
 
+    let advanced=false;
     const button=this.makeButton(this.specialIndex+1<this.specialQueue.length?'다음 특별 보상':'전체 결과 보기',mobile?310:280,54,()=>{
-      if(this.specialIndex+1<this.specialQueue.length){this.specialIndex++;this.showSpecialResult()}else this.showSummary();
+      if(advanced)return;advanced=true;
+      if(this.specialIndex+1<this.specialQueue.length){this.specialIndex++;this.showSpecialResultSafely()}else this.showSummary();
     },{selected:true});button.position.set((area.w-(mobile?310:280))/2,mobile?774:748);this.centerDynamic.addChild(button);
 
     this.sound.play(item.presentation.tier==='CINEMATIC'?'cinematic':pool.kind==='vehicle'?'vehicle':'equipment',item.presentation.tier==='CINEMATIC'?.82:.68);
@@ -722,7 +758,7 @@ class PrimeDrawOpeningPreview{
     if(!this.flash)return;
     gsap.killTweensOf(this.flash);
     this.flash.alpha=alpha;
-    gsap.to(this.flash,{alpha:0,duration:.05,ease:'power2.out'});
+    this.idleTweens.push(gsap.to(this.flash,{alpha:0,duration:.05,ease:'power2.out'}));
   }
 
   tick(deltaTime){
@@ -735,9 +771,11 @@ class PrimeDrawOpeningPreview{
   }
 
   killIdleTweens(){
-    for(const tween of this.idleTweens)tween.kill();
+    for(const tween of this.idleTweens)try{tween?.kill?.()}catch(_){}
     this.idleTweens=[];
-    if(this.cameraLayer)gsap.killTweensOf(this.cameraLayer);
+    if(this.centerDynamic)killDisplayTweens(this.centerDynamic);
+    if(this.cameraLayer)killDisplayTweens(this.cameraLayer);
+    if(this.effectLayer)killDisplayTweens(this.effectLayer);
   }
 
   resize(){

@@ -129,7 +129,7 @@ test('프라임 추가 풀은 아바타 카탈로그와 원자 소유권 지급�
 });
 
 test('개봉은 단일 원자 영수증과 WebGL·GSAP 잠금 해제 연출을 사용한다',()=>{
-  const backend=read('functions/_prime_draw.js'),fx=read('js/prime-draw-live-v1985.src.js');
+  const backend=read('functions/_prime_draw.js'),fx=read('js/prime-draw-live-v1985.src.js'),index=read('index.html');
   assert.match(backend,/prime_draw_open_receipts_v1985/);
   assert.match(backend,/pool_version/);
   assert.match(backend,/env\.DB\.batch\(/);
@@ -140,6 +140,11 @@ test('개봉은 단일 원자 영수증과 WebGL·GSAP 잠금 해제 연출을 �
   assert.match(fx,/setPointerCapture/);
   assert.match(fx,/mountActionButton/);
   assert.match(fx,/this\.master=\.1/);
+  assert.match(fx,/killDisplayTweens/);
+  assert.match(fx,/RETIRE_DELAY_MS=96/);
+  assert.match(fx,/waitTimeline\(timeline,timeoutMs=2200\)/);
+  assert.match(fx,/showSpecialSafely/);
+  assert.match(index,/prime-draw-live-v1985\.bundle\.js\?v=1988-prime-reveal-lifecycle/);
   assert.doesNotMatch(fx,/OscillatorNode|createOscillator|AudioContext/);
   const bundle=new URL('js/prime-draw-live-v1985.bundle.js',root);
   assert.ok(existsSync(bundle));
