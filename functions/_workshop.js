@@ -32,6 +32,12 @@ const FIXED_RECIPE_COSTS=Object.freeze({
 let foundationPromise=null;
 
 const int=(value,min=0,max=Number.MAX_SAFE_INTEGER,fallback=min)=>{const n=Math.floor(Number(value));return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
+export const VEHICLE_WORKSHOP_COIN_COST_MAX=Number.MAX_SAFE_INTEGER;
+const STANDARD_WORKSHOP_COIN_COST_MAX=1000000000;
+export function normalizeWorkshopCoinCost(value,category){
+  const limit=String(category||'').toUpperCase()==='VEHICLE'?VEHICLE_WORKSHOP_COIN_COST_MAX:STANDARD_WORKSHOP_COIN_COST_MAX;
+  return int(value,0,limit,0);
+}
 const num=(value,min=0,max=100,fallback=min)=>{const n=Number(value);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
 const clean=(value,max=180)=>String(value??'').trim().slice(0,max);
 const code=(value,max=80)=>clean(value,max).toUpperCase().replace(/[^A-Z0-9_:-]/g,'_').replace(/_+/g,'_');
@@ -368,7 +374,7 @@ async function saveRecipe(env,admin,raw,deps){
   const recipeCode=editingCanonical?MYSTIC_ENERGY_RECIPE_CODE:requestedRecipeCode;
   const fixed=FIXED_RECIPE_COSTS[recipeCode];
   const category=fixed?.category??code(raw.category),outputType=fixed?.outputType??code(raw.outputType||raw.output_type),outputRef=fixed?.outputRef??clean(raw.outputRef||raw.output_ref,100),outputQuantity=int(fixed?.outputQuantity??raw.outputQuantity??raw.output_quantity,1,100,1),paymentMode=fixed?.paymentMode??code(raw.paymentMode||raw.payment_mode),materials=fixed?[]:(Array.isArray(raw.materials)?raw.materials:[]).slice(0,30).map(cleanMaterial);
-  const requestedCardShardCost=int(raw.cardShardCost??raw.card_shard_cost,0,100000000,0),coinCost=int(fixed?.coin??raw.coinCost??raw.coin_cost,0,1000000000,0),masterStarCost=int(fixed?0:raw.masterStarCost??raw.master_star_cost,0,1000000,0),cardShardCost=Number(fixed?.cardShards||0),successRate=num(fixed?.successRate??raw.successRate??raw.success_rate,0,100,100);
+  const requestedCardShardCost=int(raw.cardShardCost??raw.card_shard_cost,0,100000000,0),coinCost=normalizeWorkshopCoinCost(fixed?.coin??raw.coinCost??raw.coin_cost,category),masterStarCost=int(fixed?0:raw.masterStarCost??raw.master_star_cost,0,1000000,0),cardShardCost=Number(fixed?.cardShards||0),successRate=num(fixed?.successRate??raw.successRate??raw.success_rate,0,100,100);
   if(!recipeCode||!name||!outputRef)throw new Error('레시피 코드·이름·결과물을 입력하세요.');
   if(!CATEGORIES.has(category)||!OUTPUT_TYPES.has(outputType)||!PAYMENT_MODES.has(paymentMode))throw new Error('레시피 분류 또는 지급 방식을 확인하세요.');
   if(paymentMode==='COIN_AND_CARD_SHARD'&&!fixed)throw new Error('코인 + 카드 조각 비용은 서버 고정 재료 레시피에서만 사용할 수 있습니다.');

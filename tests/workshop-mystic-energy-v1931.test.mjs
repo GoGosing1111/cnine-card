@@ -60,7 +60,7 @@ test('canonical Mystic Energy contract overrides stored and CMS-submitted struct
   assert.match(save, /outputQuantity\s*=\s*int\(fixed\?\.outputQuantity/);
   assert.match(save, /paymentMode\s*=\s*fixed\?\.paymentMode/);
   assert.match(save, /materials\s*=\s*fixed\s*\?\s*\[\]\s*:/);
-  assert.match(save, /coinCost\s*=\s*int\(fixed\?\.coin/);
+  assert.match(save, /coinCost\s*=\s*normalizeWorkshopCoinCost\(fixed\?\.coin/);
   assert.match(save, /masterStarCost\s*=\s*int\(fixed\s*\?\s*0\s*:/);
   assert.match(save, /successRate\s*=\s*num\(fixed\?\.successRate/);
 });
