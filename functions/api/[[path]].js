@@ -36,6 +36,7 @@ import { ensureTargetedCardTransferV2003 } from '../_targeted_card_transfer_v200
 import { ensureTargetedAvatarGrantV2007 } from '../_targeted_avatar_grant_v2007.js';
 import { ensureTargetedAvatarGrantV2014 } from '../_targeted_avatar_grant_v2014.js';
 import { ensureTargetedCardGrantV2015 } from '../_targeted_card_grant_v2015.js';
+import { ensureTargetedCardGrantV2016 } from '../_targeted_card_grant_v2016.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
@@ -4774,6 +4775,7 @@ async function handleRequest(context){
       let targetedAvatarGrant=null;
       let targetedAvatarGrantV2014=null;
       let targetedCardGrantV2015=null;
+      let targetedCardGrantV2016=null;
       if(databaseInitialized){
         await ensurePrisonFoundation(env);
         await ensureApocalypseEnergyFoundation(env);
@@ -4801,12 +4803,19 @@ async function handleRequest(context){
           cardId:joeunZenithGrant.cardId||null,quantityGranted:Number(joeunZenithGrant.quantityGranted||0),
           quantityAfter:Number(joeunZenithGrant.quantityAfter||0),breakthroughLevel:Number(joeunZenithGrant.breakthroughLevel||0)
         }:null;
+        const simsimiKimseongtaeGrant=await ensureTargetedCardGrantV2016(env);
+        targetedCardGrantV2016=simsimiKimseongtaeGrant?{
+          status:simsimiKimseongtaeGrant.status,version:simsimiKimseongtaeGrant.version,replayed:Boolean(simsimiKimseongtaeGrant.replayed),
+          cardId:simsimiKimseongtaeGrant.cardId||null,quantityGranted:Number(simsimiKimseongtaeGrant.quantityGranted||0),
+          quantityAfter:Number(simsimiKimseongtaeGrant.quantityAfter||0),levelRequested:Number(simsimiKimseongtaeGrant.levelRequested||0),
+          breakthroughLevel:Number(simsimiKimseongtaeGrant.breakthroughLevel||0)
+        }:null;
         if(gamstCardRetirement?.status==='COMPLETED'){
           drawContextCache.clear();
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015});
+      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
