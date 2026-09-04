@@ -6,7 +6,7 @@ import sharp from 'sharp';
 
 import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
-test('avatar foundation seeds eleven hidden unsold records including Dimwoos without overwriting settings', async () => {
+test('avatar foundation seeds twelve hidden unsold records including Dimwoos and Terran Empress Joeun without overwriting settings', async () => {
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
@@ -25,8 +25,8 @@ test('avatar foundation seeds eleven hidden unsold records including Dimwoos wit
   await ensureAvatarFoundation(env);
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
-  const legacySeedStatements=seedStatements.filter(statement=>!statement.values.includes('DIMWOOS_ESPORTS_ACE'));
-  assert.equal(seedStatements.length,11);
+  const legacySeedStatements=seedStatements.filter(statement=>!statement.values.includes('DIMWOOS_ESPORTS_ACE')&&!statement.values.includes('TERRAN_EMPRESS_JOEUN'));
+  assert.equal(seedStatements.length,12);
   assert.equal(legacySeedStatements.length,10);
   assert.equal(schema.length,17);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
@@ -43,7 +43,14 @@ test('avatar foundation seeds eleven hidden unsold records including Dimwoos wit
   assert.ok(dimwoosSeed);
   assert.ok(dimwoosSeed.values.includes('딤우스'));
   assert.ok(dimwoosSeed.values.includes('assets/ui/avatars-v1/equipment-v3/avatar-f08-ember-esports-ace-equipment-v1-640.webp'));
+  const terranEmpressSeed=seedStatements.find(statement=>statement.values.includes('TERRAN_EMPRESS_JOEUN'));
+  assert.ok(terranEmpressSeed);
+  assert.ok(terranEmpressSeed.values.includes('테란여제 조은'));
+  assert.ok(terranEmpressSeed.values.includes('assets/ui/avatars-v1/lobby-v1/avatar-f09-terran-empress-joeun-lobby-v1-1024.webp'));
+  assert.ok(terranEmpressSeed.values.includes('assets/ui/avatars-v1/lobby-v1/avatar-f09-terran-empress-joeun-lobby-v1-640.webp'));
+  assert.ok(terranEmpressSeed.values.includes('assets/ui/avatars-v1/equipment-v3/avatar-f09-terran-empress-joeun-equipment-v1-640.webp'));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1985_dimwoos_avatar_v1')));
+  assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v2006_terran_empress_joeun_avatar_v1')));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2')));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3')));
   assert.ok(prepared.some(statement=>statement.sql.includes('ON CONFLICT(avatar_code,option_order) DO NOTHING')));
@@ -63,10 +70,10 @@ test('equipped avatar raid effect increases the usable daily and slot entry limi
   assert.deepEqual(applyAvatarRaidEntryBonus(6,{effects:[{type:'BATTLE_POWER_PERCENT',value:10}]}),{base:6,bonus:0,limit:6});
   assert.deepEqual(applyAvatarRaidEntryBonus(99,{type:'RAID_EXTRA_ENTRY',value:999}),{base:99,bonus:20,limit:119});
 });
-test('all eleven final equipment avatars ship as defringed versioned WebP files with real alpha', async () => {
+test('all twelve final equipment avatars ship as defringed versioned WebP files with real alpha', async () => {
   const directory=new URL('../assets/ui/avatars-v1/equipment-v3/',import.meta.url);
   const files=(await readdir(directory)).filter(name=>name.endsWith('.webp')).sort();
-  assert.equal(files.length,11);
+  assert.equal(files.length,12);
   for(const filename of files){
     const url=new URL(filename,directory),header=await readFile(url),metadata=await stat(url);
     assert.equal(header.subarray(0,4).toString('ascii'),'RIFF',`${filename} is not RIFF`);
@@ -87,6 +94,27 @@ test('all eleven final equipment avatars ship as defringed versioned WebP files 
     assert.ok(visible>100000,`${filename} lost its character silhouette`);
     assert.ok(whiteFringe<=10,`${filename} retains ${whiteFringe} bright matte pixels`);
   }
+});
+test('Terran Empress Joeun keeps the approved lobby illustration separate from the equipment alpha cutout', async () => {
+  const approvedLobby=new URL('../assets/ui/avatars-v1/lobby-source-approved/avatar-f09-terran-empress-joeun-lobby-v1.png',import.meta.url);
+  const lobby1024=new URL('../assets/ui/avatars-v1/lobby-v1/avatar-f09-terran-empress-joeun-lobby-v1-1024.webp',import.meta.url);
+  const lobby640=new URL('../assets/ui/avatars-v1/lobby-v1/avatar-f09-terran-empress-joeun-lobby-v1-640.webp',import.meta.url);
+  const equipmentSource=new URL('../assets/ui/avatars-v1/equipment-source-approved/avatar-f09-terran-empress-joeun-equipment-v1.png',import.meta.url);
+  const equipmentRuntime=new URL('../assets/ui/avatars-v1/equipment-v3/avatar-f09-terran-empress-joeun-equipment-v1-640.webp',import.meta.url);
+  const [approvedMeta,lobby1024Meta,lobby640Meta,equipmentSourceMeta,equipmentRuntimeMeta]=await Promise.all([
+    sharp(fileURLToPath(approvedLobby)).metadata(),
+    sharp(fileURLToPath(lobby1024)).metadata(),
+    sharp(fileURLToPath(lobby640)).metadata(),
+    sharp(fileURLToPath(equipmentSource)).metadata(),
+    sharp(fileURLToPath(equipmentRuntime)).metadata()
+  ]);
+  assert.deepEqual([approvedMeta.width,approvedMeta.height],[853,1280]);
+  assert.deepEqual([lobby1024Meta.width,lobby1024Meta.height],[1024,1536]);
+  assert.deepEqual([lobby640Meta.width,lobby640Meta.height],[640,960]);
+  assert.equal(lobby1024Meta.hasAlpha,false);
+  assert.equal(lobby640Meta.hasAlpha,false);
+  assert.deepEqual([equipmentSourceMeta.width,equipmentSourceMeta.height,equipmentSourceMeta.hasAlpha],[640,960,true]);
+  assert.deepEqual([equipmentRuntimeMeta.width,equipmentRuntimeMeta.height,equipmentRuntimeMeta.hasAlpha],[640,960,true]);
 });
 test('live avatar route is gated and wired through both V21 routers', async () => {
   const [app,exact,runtime,server,battleApi,chief,loadout,avatarCss,lobbyCss,index,serviceWorker]=await Promise.all([
@@ -115,6 +143,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(server,/safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3/);
   assert.match(server,/safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1/);
   assert.match(server,/safe_runtime_upgrade_v1985_dimwoos_avatar_v1/);
+  assert.match(server,/safe_runtime_upgrade_v2006_terran_empress_joeun_avatar_v1/);
   assert.match(server,/o\.expires_at IS NULL OR o\.expires_at>CURRENT_TIMESTAMP/);
   assert.match(server,/expiresAt:row\.expires_at\|\|null/);
   assert.match(server,/expires_at=CASE WHEN avatar_user_ownership_v1\.expires_at IS NULL OR excluded\.expires_at IS NULL THEN NULL/);
