@@ -406,11 +406,16 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 //     "기본전투력 덱(카드 1장 = 기본/5, 균형형)의 게이지 1회전" 당 maxHp × APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT
 //     × clamp(슈트전투력/기본전투력 ÷ 0.15, 0, 2) 만큼을, 독립 시계 간격에 비례해 발당으로 나눈다.
 //     → 보스 티어(기본전투력)가 달라도 "덱 ≈ 기본 × 1.0 + 슈트 15%" 문턱이 같게 유지된다.
-//     덱이 기본전투력보다 약하면 관통도 (덱/기본)² 로 줄어 "슈트만 있으면 아무 덱이나" 는 막는다.
+//     덱이 기본전투력보다 약하면 관통도 (덱/기본)² 로 줄여 약한 덱의 슈트 기여를 제한한다.
 // V1990: 배틀슈트는 PVE 전용(랭크전·점령전·클랜전 미출전)이라 PVP 밸런스와 무관하다.
 //   전용 화력 배율을 따로 둔다. 배율은 발당 피해를 몬스터 최소 피해 하한 적용 "뒤에" 곱한다.
 //   앞에 곱하면 고전투력 몬스터에서 하한에 묶여 배율이 전혀 먹지 않는다(실측 확인).
-const BATTLE_SUIT_PVE_FIREPOWER = 2;
+// V2011: V1990 최종 산출값(일반 타격 + 아포칼립스 관통)을 각각 정수 반올림한 뒤 2배한다.
+//   기존 배율을 2→4로 단순 교체하면 아포칼립스 덱 게이트 구간이 정확히 2배가 되지 않으므로,
+//   이전 계산식과 신규 최종 배율을 분리해 모든 PVE 구간에서 현재 대비 정확한 2배를 보장한다.
+const BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER = 2;
+const BATTLE_SUIT_DAMAGE_MULTIPLIER = 2;
+const BATTLE_SUIT_PVE_FIREPOWER = BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER * BATTLE_SUIT_DAMAGE_MULTIPLIER;
 const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;
 const APOCALYPSE_FLOOR_SCALE_MIN = 0.4;
@@ -428,6 +433,7 @@ export const APOCALYPSE_RULES = Object.freeze({
   suitPierceMaxRatioScale: APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE,
   suitPierceDeckGateExponent: APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT,
   suitFirepower: BATTLE_SUIT_PVE_FIREPOWER,
+  suitDamageMultiplier: BATTLE_SUIT_DAMAGE_MULTIPLIER,
   suitFirepowerGateExponent: BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT
 });
 
@@ -954,7 +960,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     return Math.min(Math.max(0,Number(amount||0)),cap);
   };
   // V1990: 아포칼립스에서 덱이 보스 기본 전투력보다 약하면 배틀슈트 기여를 (덱/기본)^2 로 줄인다.
-  //   "슈트만 끼고 약한 덱으로 최종 난이도를 깬다" 를 막는 게이트. 관통과 화력 증가분에 공통 적용.
+  //   약한 덱의 슈트 기여를 낮추는 게이트이며 관통과 화력 증가분에 공통 적용한다.
   const apocalypseDeckGate=(actor,target)=>{
     const basePower=Math.max(1,Number(target?.power||1));
     const deckPower=canonicalTeam(actor.side==='A'?a:b).reduce((sum,card)=>sum+Math.max(0,Number(card.power||0)),0);
@@ -962,9 +968,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   };
   // V1990: 배틀슈트는 PVE 전용이라 화력 배율을 따로 준다. 아포칼립스에서는 증가분(1 초과분)만
   //   덱 게이트로 줄여, 제대로 된 덱은 전부 받고 약한 덱은 기본 화력만 받는다.
-  const battleSuitFirepower=(actor,target)=>{
-    if(BATTLE_SUIT_PVE_FIREPOWER<=1||!target?.isApocalypse)return BATTLE_SUIT_PVE_FIREPOWER;
-    return 1+(BATTLE_SUIT_PVE_FIREPOWER-1)*Math.pow(apocalypseDeckGate(actor,target),BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT);
+  const battleSuitFirepowerBeforeV2011=(actor,target)=>{
+    if(BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER<=1||!target?.isApocalypse)return BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER;
+    return 1+(BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER-1)*Math.pow(apocalypseDeckGate(actor,target),BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT);
   };
   const apocalypseSuitPierce=(actor,target)=>{
     if(!isBattleSuitSupport(actor)||!target?.isApocalypse)return 0;
@@ -975,7 +981,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const referenceSpeed=Math.max(35,70+referenceCardPower*S1.speedBaseK+referenceCardPower*STAT_PROFILES.NONE.speed*0.10);
     const referenceCycle=100/referenceSpeed;
     const interval=Math.max(.0002,Number(actor.independentFireInterval||BATTLE_SUIT_REFERENCE_CYCLE/10));
-    return Math.max(0,Math.round(target.maxHp*APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT*ratioScale*deckGate*(interval/referenceCycle)));
+    const previousPierce=Math.max(0,Math.round(target.maxHp*APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT*ratioScale*deckGate*(interval/referenceCycle)));
+    return previousPierce*BATTLE_SUIT_DAMAGE_MULTIPLIER;
   };
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
@@ -1120,7 +1127,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const shotsPerCycle=Math.max(1,Number(actor.independentShotsPerCycle||1));
       // 화력 배율은 하한(MONSTER_MIN_DAMAGE_PERCENT) 적용 뒤에 곱한다. 앞에 곱하면 고전투력
       // 몬스터에서 하한에 묶여 배율이 전혀 먹지 않는다. PVE 전용이라 PVP 밸런스와 무관.
-      hit.damage=Math.max(1,Math.round(Number(hit.damage||0)/shotsPerCycle*battleSuitFirepower(actor,target)));
+      const previousDamage=Math.max(1,Math.round(Number(hit.damage||0)/shotsPerCycle*battleSuitFirepowerBeforeV2011(actor,target)));
+      hit.damage=previousDamage*BATTLE_SUIT_DAMAGE_MULTIPLIER;
     }
     if(suddenDeath){
       hit.dodge=false;
@@ -1559,7 +1567,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitDamageMultiplier:BATTLE_SUIT_DAMAGE_MULTIPLIER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }

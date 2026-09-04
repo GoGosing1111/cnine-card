@@ -10,7 +10,7 @@ import {
   handleEquipment,
   userEquipmentBonuses,
 } from '../functions/_equipment.js';
-import {battleSuitLiveRuntime,createPveBattleV2} from '../functions/_battle_v2_preview.js';
+import {APOCALYPSE_RULES,battleSuitLiveRuntime,createPveBattleV2} from '../functions/_battle_v2_preview.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
@@ -198,7 +198,8 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(battle.rules.battleSuitActionClock,'INDEPENDENT_TIME_CADENCE');
   assert.equal(battle.rules.battleSuitShotsPerCycle,15);
   assert.equal(battle.rules.battleSuitReferenceCycle,0.018);
-  assert.equal(battle.rules.battleSuitPveFirepower,2,'PVE-only Battle Suit firepower must keep its approved x2 multiplier');
+  assert.equal(battle.rules.battleSuitPveFirepower,4,'effective PVE-only Battle Suit firepower must be x4 after the current-damage x2 patch');
+  assert.equal(battle.rules.battleSuitDamageMultiplier,2,'V2011 must double the previous final per-shot damage exactly once');
   assert.equal(battle.rules.battleSuitConsumesAction,false);
   assert.equal(battle.rules.battleSuitUsesSpeedGauge,false);
   {
@@ -219,7 +220,7 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
     const cardHit=allyCardActions.map(event=>Number(event.damage||0)+Number(event.absorbed||0)).sort((x,y)=>x-y)[Math.floor(allyCardActions.length/2)];
     const landed=hits.filter(event=>!event.dodge);
     const suitHit=landed.map(event=>Number(event.damage||0)+Number(event.absorbed||0)).sort((x,y)=>x-y)[Math.floor(landed.length/2)];
-    assert.ok(suitHit*15<=cardHit*3&&suitHit>0,`per-shot Battle Suit damage must be split across the fifteen shots of a reference cycle (${suitHit} vs ${cardHit})`);
+    assert.ok(suitHit*15<=cardHit*6&&suitHit>0,`x4 effective Battle Suit damage must remain split across the fifteen shots of a reference cycle (${suitHit} vs ${cardHit})`);
   }
   const applied=hits.reduce((sum,event)=>sum+Number(event.damage||0)+Number(event.absorbed||0),0);
   assert.equal(battle.result.damageBreakdown.battleSuit,applied,'contribution must equal authoritative applied timeline damage');
@@ -233,8 +234,9 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(battle.rules.battleSuitOccupiesCardSlot,false);
 
   const battleEngineSource=await readFile(battleEngineUrl,'utf8');
-  assert.match(battleEngineSource,/hit\.damage=Math\.max\(1,Math\.round\(Number\(hit\.damage\|\|0\)\/shotsPerCycle\*battleSuitFirepower\(actor,target\)\)\)/,
-    'the firepower multiplier must be applied after the per-shot minimum-damage split');
+  assert.match(battleEngineSource,/const previousDamage=Math\.max\(1,Math\.round\(Number\(hit\.damage\|\|0\)\/shotsPerCycle\*battleSuitFirepowerBeforeV2011\(actor,target\)\)\);\s*hit\.damage=previousDamage\*BATTLE_SUIT_DAMAGE_MULTIPLIER/,
+    'V2011 must double the previous integer-rounded per-shot damage after the minimum-damage split');
+  assert.equal(APOCALYPSE_RULES.suitDamageMultiplier,2);
 
   const lowPowerCards=Array.from({length:5},(_,index)=>({
     id:`LOW-${index+1}`,title:`LOW ${index+1}`,power_type:'ATTACK',power:10000,
@@ -245,6 +247,62 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(withoutSuit.result.winner,'B','the fixture must lose when the Battle Suit is absent');
   assert.equal(withSuit.result.winner,'A','independent Battle Suit attacks must be able to change the authoritative server result');
   assert.ok(withSuit.result.damageBreakdown.battleSuit>0);
+});
+
+test('V2011 doubles the previous final Battle Suit shot in normal and apocalypse PVE without changing cadence',async()=>{
+  const currentSource=await readFile(battleEngineUrl,'utf8');
+  const previousSource=currentSource.replace(
+    'const BATTLE_SUIT_DAMAGE_MULTIPLIER = 2;',
+    'const BATTLE_SUIT_DAMAGE_MULTIPLIER = 1;',
+  );
+  assert.notEqual(previousSource,currentSource,'the previous-damage fixture must disable only the new final multiplier');
+  const previousEngine=await import(`data:text/javascript;base64,${Buffer.from(previousSource).toString('base64')}`);
+  const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((type,index)=>({
+    id:`V2011-${index+1}`,
+    title:`V2011 ${index+1}`,
+    rarity:'FUR',
+    power_type:type,
+    power:400000,
+  }));
+  const battleSuit={code:'BATTLE_SUIT_03',name:'배틀슈트 03',pvePower:300000,weapon:{code:'EQ_1785427638137'}};
+  const baseMonster={
+    id:2011,
+    name:'V2011 배율 검증 보스',
+    battle_power:2000000,
+    is_boss:1,
+    pve_hp_percent:5000,
+    pve_attack_percent:1,
+    pve_defense_percent:100,
+    pve_speed_percent:1,
+    pve_shield_percent:10000,
+  };
+  const landedShots=(battle)=>{
+    const actorId=battle.teams.A.supports[0].id;
+    return battle.result.timeline
+      .filter(event=>event.type==='TURN'&&event.actorId===actorId&&!event.dodge)
+      .slice(0,8);
+  };
+
+  for(const apocalypse of [false,true]){
+    const monster=apocalypse?{...baseMonster,pve_difficulty:'APOCALYPSE'}:baseMonster;
+    const options={cards,battleSuit,monster,bossUltimatePercent:28,seed:2011};
+    const previous=previousEngine.createPveBattleV2(options);
+    const current=createPveBattleV2(options);
+    const previousShots=landedShots(previous);
+    const currentShots=landedShots(current);
+    assert.equal(previousShots.length,8);
+    assert.equal(currentShots.length,8);
+    assert.equal(current.rules.battleSuitFireInterval,previous.rules.battleSuitFireInterval,'damage tuning must not change the independent fire interval');
+    assert.deepEqual(currentShots.map(event=>event.at),previousShots.map(event=>event.at),'damage tuning must not change shot timestamps');
+    for(let index=0;index<previousShots.length;index+=1){
+      const before=previousShots[index];
+      const after=currentShots[index];
+      const beforeApplied=Number(before.damage||0)+Number(before.absorbed||0);
+      const afterApplied=Number(after.damage||0)+Number(after.absorbed||0);
+      assert.equal(afterApplied,beforeApplied*2,`${apocalypse?'apocalypse':'normal'} shot ${index+1} must be exactly current damage x2`);
+      assert.equal(Number(after.apocalypsePierce||0),Number(before.apocalypsePierce||0)*2,`${apocalypse?'apocalypse':'normal'} pierce ${index+1} must be exactly current damage x2`);
+    }
+  }
 });
 
 test('live activation is scoped to an equipped positive-power PVE Battle Suit',()=>{

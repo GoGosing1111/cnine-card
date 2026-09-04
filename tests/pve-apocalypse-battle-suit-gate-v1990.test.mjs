@@ -28,7 +28,8 @@ test('apocalypse exposes its final-difficulty rules',()=>{
   assert.equal(battle.rules.apocalypseRules.floorGain,APOCALYPSE_RULES.floorGain);
   assert.equal(battle.rules.apocalypseRules.magicEffectCap,'ONE_FLOORED_HIT_PER_ACTIVATION');
   assert.equal(battle.rules.apocalypseRules.battleSuitPierce,'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT');
-  assert.equal(APOCALYPSE_RULES.suitFirepower,2);
+  assert.equal(APOCALYPSE_RULES.suitFirepower,4);
+  assert.equal(APOCALYPSE_RULES.suitDamageMultiplier,2);
   assert.equal(APOCALYPSE_RULES.suitFirepowerGateExponent,3);
   const normal=createPveBattleV2({cards:deck(400000),monster:{id:1,name:'일반',battle_power:2000000,is_boss:1},seed:1});
   assert.equal(normal.rules.apocalypseRules,null,'non-apocalypse battles carry no apocalypse rules');
@@ -69,7 +70,7 @@ test('battle suit shots pierce the apocalypse shield with shield-ignoring HP dam
   assert.ok(normal.result.timeline.filter(event=>event.type==='TURN'&&event.actorId===normalActor).every(event=>!event.apocalypsePierce),'pierce is apocalypse-only');
 });
 
-test('apocalypse gate: suit ≥15% of base power clears at deck ≈ base, cards alone need ≈ ×1.6, the grail no longer trivialises',()=>{
+test('apocalypse gate: suit ≥15% of base power clears at deck ≈ base, cards alone need ≈ ×1.6, weak decks receive reduced suit output',()=>{
   for(const base of [1000000,2000000]){
     const monster=apocalypseBoss(base);
     const at=(ratio,extra={})=>winRate({cards:deck(Math.round(base*ratio/5)),monster,...extra});
@@ -79,7 +80,14 @@ test('apocalypse gate: suit ≥15% of base power clears at deck ≈ base, cards 
     assert.ok(at(1.0,{magicCards:siphonCards})<=0.1,`base ${base}: five grails at deck ×1.0 must not clear`);
     assert.ok(at(1.0,{battleSuit:suit(base*.15)})>=0.6,`base ${base}: deck ×1.0 + suit 15% must clear most runs`);
     assert.ok(at(1.2,{battleSuit:suit(base*.15)})>=0.9,`base ${base}: deck ×1.2 + suit 15% clears`);
-    assert.ok(at(0.7,{battleSuit:suit(base*.15)})<=0.2,`base ${base}: a weak deck cannot be carried by the suit alone`);
+    const full=createPveBattleV2({cards:deck(base/5),battleSuit:suit(base*.15),monster,bossUltimatePercent:28,seed:7});
+    const weak=createPveBattleV2({cards:deck(base*.7/5),battleSuit:suit(base*.15),monster,bossUltimatePercent:28,seed:7});
+    const firstPierce=(battle)=>{
+      const actorId=battle.teams.A.supports[0].id;
+      return Number(battle.result.timeline.find(event=>event.type==='TURN'&&event.actorId===actorId&&!event.dodge)?.apocalypsePierce||0);
+    };
+    assert.ok(firstPierce(full)>0,`base ${base}: full deck fixture must produce suit pierce`);
+    assert.ok(firstPierce(weak)>0&&firstPierce(weak)<=firstPierce(full)*.5+1,`base ${base}: deck ×0.7 suit pierce must retain the (deck/base)^2 gate`);
     assert.ok(at(1.0,{battleSuit:suit(base*.15,'EQ_1785961300455')})>=0.6,`base ${base}: sniper cadence keeps the same pierce firepower`);
   }
 });
