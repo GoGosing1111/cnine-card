@@ -413,8 +413,9 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 // V2011: V1990 최종 산출값(일반 타격 + 아포칼립스 관통)을 각각 정수 반올림한 뒤 2배한다.
 //   기존 배율을 2→4로 단순 교체하면 아포칼립스 덱 게이트 구간이 정확히 2배가 되지 않으므로,
 //   이전 계산식과 신규 최종 배율을 분리해 모든 PVE 구간에서 현재 대비 정확한 2배를 보장한다.
+// V2012: V2011 라이브값을 다시 2배 상향한다. V1990 산출값 기준 누적 최종 배율은 4다.
 const BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER = 2;
-const BATTLE_SUIT_DAMAGE_MULTIPLIER = 2;
+const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;
 const BATTLE_SUIT_PVE_FIREPOWER = BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER * BATTLE_SUIT_DAMAGE_MULTIPLIER;
 const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;
