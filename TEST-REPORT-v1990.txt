@@ -1,41 +1,35 @@
-TEST REPORT v1990 — 배틀슈트 카드 행동 기준 사격 / 발당 데미지 표시
+TEST REPORT v1990 — 배틀슈트 독립 시계 연사 / 발당 데미지 / 아포칼립스 게이트
 
-[서버 시뮬] node, functions/_battle_v2_preview.js createPveBattleV2 (20만×5 힐1방2공1속1, 배틀슈트 15만, seed 고정)
-  weapon             monster   allyActs suitShots perShot  suitDmg/cardDmg  actions(with/without suit)
-  M4 (3/action)      900k      48       141       2,615    0.17             54 / 63
-  M4                 2.5M      53       156       7,278    0.20             60 / 73
-  M4                 400k      25       72        1,744    0.13             28 / 30
-  AK (2/action)      900k      47       92        3,879    0.17             53 / 63
-  M200 (1/action)    900k      46       46        8,857    0.19             52 / 63
-  SKS (1.5/action)   900k      47       69        4,902    0.16             53 / 63
-  v1989 동일 조건: M4 1발(40,075 = 몬스터 하한값), M200/SKS 0발.
-  배틀슈트 미장착 전투는 v1989 와 타임라인·결과 동일(시계·게이지·actionCount 무변화).
-  페이로드: 배틀슈트 장착 시 36KB → 79KB (발당 이벤트 슬림화 적용 후).
+[서버 시뮬] node, functions/_battle_v2_preview.js createPveBattleV2
+  일반 PVE (20만×5 힐1방2공1속1, 배틀슈트 15만, seed 고정)
+    weapon             monster   allyActs suitShots perShot  suitDmg/cardDmg  actions(with/without suit)
+    M4 (15/cycle)      900k      49       139       2,614    0.17             55 / 63
+    M4                 2.5M      53       166       7,287    0.21             60 / 73
+    AK (10/cycle)      900k      47       91        3,964    0.17             53 / 63
+    M200 (5/cycle)     900k      49       48        8,567    0.20             55 / 63
+    SKS (8/cycle)      900k      47       72        4,816    0.16             53 / 63
+    독립 시계 확인: 카드 5만 덱 244발/20행동(12.2발/행동), 20만 145발/48행동(3.0), 80만 64발/55행동(1.2).
+    v1989 동일 조건: M4 1발(40,075 = 몬스터 하한값), M200/SKS 0발.
+    배틀슈트 미장착 전투는 v1989 와 타임라인·결과 동일.
+  아포칼립스 (전역 기본값, bossUltimate 28%, 30 seeds) — PATCH-NOTES [결과] 표 참조.
+    핵심: 덱×1.0 슈트X 0% · 성배5장 0% · 슈트15% 80~100% / 덱×1.6 슈트X 70~77% / 덱×0.7+슈트15% ≤27%.
 
-[회귀 테스트] (최종 로컬 통합 환경)
-  test:battle-suit  backend 9/9 PASS (케이던스·발당 분할·순서 검증 추가) / frontend 4/4 PASS /
-                    account-battle-unit 본문 단언 PASS (import 되는 animation-assets 스위트는 sharp 필요) /
-                    firearm-qc 7/7 PASS
-  test:raid-entry 9/9, message-rewards 2/2, workshop 16/16, clan 25/25, prison 9/9, apocalypse 1/1,
-  pve-sweep 7/7, territory-reward 4/4, ranked-reward 4/4, prime-draw 16/16, superstar-pack 9/9, escort 6/6 PASS
-  check:worker PASS. 캐시 태그 갱신 테스트(session-reset/combat-fx/battlefields/public-preview/escort) PASS.
-  기존 v1981 캐시 문자열을 고정하던 monster-siege-ai-war-room / live-payload / production-routing /
-  role-impact-atlas 단언도 최종 v1991 캐시 기준으로 갱신했고, 게이트 외 V3·공성·호위 14/14 PASS.
+[회귀 테스트] Windows 로컬(Node v24.18.0, npm ci 고정 의존성) 전체 운영 게이트 본체 PASS
+  check:worker PASS. navigation 1 / raid-entry 9 / message-rewards 2 / workshop 21 / clan 28 / prison 9 /
+  project-v-sd 2 / apocalypse 5 / pve-sweep 11 / battle-suit 41 / territory-reward 6 / alchemy 7 /
+  ranked-reward 4 / coupon 4 / prediction PASS / prime-draw 17 / superstar-pack 9 / gamst-retirement 14 /
+  targeted-transfer 3 / idle-dungeon PASS.
+  sharp 의존 animation-assets·alchemy·apocalypse-boss-sd와 pg 의존 prediction까지 로컬에서 실제 통과 확인.
+  테란여제 조은 신규 아바타 마이그레이션과 배틀슈트 축약 DB 픽스처 교차 회귀 15/15 PASS.
 
-[브라우저 검증] Playwright + Chromium(SwiftShader) 로 수정 번들 + 실제 서버 타임라인(145발) 재생
-  - 배틀슈트 이벤트 처리 시간 0~2ms (카드 타임라인 비차단 확인), 카드 행동은 정상 재생.
-  - 연사 루프가 서버 발사 이벤트만 소비: cosmeticShots == 데미지 표시 발수 (무피해 사격 0).
+[브라우저 검증] Playwright + Chromium(SwiftShader) 로 수정 번들 + 실제 서버 타임라인 재생
+  - 배틀슈트 이벤트 처리 0~2ms(카드 타임라인 비차단), 연사 루프가 서버 발사만 소비(무피해 사격 0).
   - 보스 HP 감소 방향만 동기화: 94.6 → 92.6 → 90.7 → 88.8 → 87.0 (되감김 없음).
   - 상태줄 "배틀슈트 독립 타격 · 3,562" 등 발당 숫자 표시 확인(스크린샷).
-  - ⚠ SwiftShader 는 실제 GPU 대비 ~10배 느려(카드 행동 5.2초/발 2.5초) 백로그가 쌓임. 실브라우저 추정
-    발당 ≈ 180ms + 간격 → 카드 행동당 3발 ≈ 0.66초로 따라잡으며, 밀리면 재생 3배·간격 0 으로 보정.
-    실기기(모바일 포함)에서 M4 장착 사냥 1판 돌려 큐 잔량(diagnostics.accountBattleUnit.sustainedFire.queuedDamageEvents)
-    이 전투 종료 시 0 인지 확인 권장.
+  - 약한 덱(카드 5만) 타임라인: 첫 카드 행동 전 22발 큐 → 백로그 병합(4발→1발 합산) 동작 확인.
+  - ⚠ SwiftShader 는 실제 GPU 대비 ~10배 느려(카드 행동 5.2초/발 2.5초) 큐가 쌓임. 실브라우저 추정
+    발당 ≈ 180ms(밀리면 ≈ 110ms + 병합). 실기기에서 M4 장착 사냥/아포 1판 돌려 전투 종료 시
+    diagnostics.accountBattleUnit.sustainedFire.queuedDamageEvents == 0 인지 확인 권장.
 
-[번들] preview/project-v-v3/project-v-pixi-battle.bundle.js 는 컨테이너에 npm 이 없어 소스 변경분을 수동 반영함.
-  로컬에서 `npm run build:v3` 로 재생성해 덮어쓴 뒤 배포할 것 (동작은 동일해야 함).
-
-[코덱스 통합 검증]
-- `npm run build:v3`로 최종 BattleEngine 소스에서 번들을 재생성했다.
-- 폐기된 무피해 코스메틱 연사를 기다리던 런타임 회귀 2건을 서버 사격 큐 전용 계약으로 갱신했다.
-- `npm run test:battle-suit`: 41/41 PASS, `npm run test:pve-sweep`: 7/7 PASS.
+[번들] `npm run build:v3` 로 소스에서 정식 재생성 완료.
+  firesOnlyServerShots / waitForAccountBattleUnitDamageQueueDrain / monotonicHp 표식이 빌드 결과에 모두 존재함.

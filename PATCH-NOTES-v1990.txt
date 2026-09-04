@@ -1,50 +1,68 @@
-v1990 — 배틀슈트 독립 사격을 카드 행동 기준으로 (총 쏠 때마다 데미지 표시)
+v1990 — 배틀슈트 독립 시계 연사(발당 데미지 표시) + 아포칼립스 최종 난이도 게이트
 
-[문제]
-- "배틀슈트 데미지가 별도로 안 들어가는 것 같다 / 총 쏠 때마다 데미지가 떠야 한다" 제보.
-- 조사 결과 서버 시뮬의 시계 단위 불일치.
-  · 배틀슈트는 벽시계 간격(M4 0.34, AK 0.42, 저격 1.10, DMR 0.68, 기본 0.50)으로 독립 발사하도록
-    설계돼 있었는데, 카드 게이지 시계는 speed ≈ 5,530(20만 전투력) 기준 1회전 ≈ 0.018 이고
-    전투 전체가 0.10~0.26 안에 끝난다.
-  · 결과: 한 판에 배틀슈트가 0~1발만 발사(저격/DMR 은 0발). 그 1발도 몬스터 최소 피해 하한
-    (maxHp × 1.6%) 값 그대로여서 배틀슈트 전투력이 승패에 사실상 미반영.
-  · 클라(V3)는 코스메틱 연사(M4 초당 ~13발)를 계속 돌리되 데미지 숫자는 서버 사격 이벤트를
-    소비하는 발에만 띄우므로, 화면에서는 계속 쏘는데 숫자는 판당 최대 1번만 보였다.
-  · 백엔드 회귀 테스트는 hits.length > 0 만 검사해 1발로도 통과했다.
+[문제 1] "배틀슈트 데미지가 별도로 안 들어간다 / 총 쏠 때마다 데미지가 떠야 한다"
+- 서버 시뮬의 시계 단위 불일치. 배틀슈트는 벽시계 간격(M4 0.34, AK 0.42, 저격 1.10, DMR 0.68)으로
+  독립 발사하도록 설계돼 있었지만, 카드 게이지 시계는 speed ≈ 4,700~5,500(20만 전투력) 기준 1회전 ≈ 0.018,
+  전투 전체가 0.10~0.26 안에 끝난다 → 한 판에 배틀슈트가 0~1발(저격/DMR 0발). 그 1발도 몬스터 최소 피해
+  하한(maxHp × 1.6%) 값이라 배틀슈트 전투력은 승패에 사실상 미반영.
+- 클라(V3)는 코스메틱 연사를 계속 돌리되 데미지 숫자는 서버 사격 이벤트를 소비하는 발에만 띄우므로
+  화면에선 계속 쏘는데 숫자는 판당 최대 1번. 백엔드 테스트는 hits.length > 0 만 검사해 통과했다.
+
+[문제 2] 아포칼립스가 강탈의 성배로 전부 클리어됨
+- SHIELD_SIPHON 이 아포 보스 보호막(최대HP의 40%)의 60% 를 활성화 1회에 빼앗는다. 5장 × 2회면 보호막이
+  통째로 사라지고 카드에는 거대한 보호막이 생긴다. 시뮬: 85만 덱이 기본전투력 200만 아포 보스를 68% 승리
+  (성배 없으면 0%). 낙인 폭발(DOOM_MARK)·연쇄 메아리(CHAIN_ECHO)도 같은 maxHp 비례 우회 경로.
 
 [변경] functions/_battle_v2_preview.js
-- BATTLE_SUIT_WEAPON_CADENCE: fireIntervalSeconds → roundsPerCardAction
-    M4(EQ_1785427638137) 3 / AK(EQ_1785961232958) 2 / 저격(EQ_1785961300455) 1 /
-    DMR(EQ_1786966923833) 1.5 / 기본 2. attackMultiplier 는 그대로(0.92/1.00/1.58/1.28/1.00).
-- 아군 카드가 1회 행동(TURN/SKILL)할 때마다 발수를 예산에 더하고, 예산 ≥ 1 이면 그 행동 직후
-  같은 시계값에서 발사한다. 발사는 시계·게이지를 움직이지 않고 actionCount 에 포함되지 않아
-  전투 길이·강제 몬스터 주기·연장전 기준이 바뀌지 않는다.
-- 발당 피해 = hitResult(attackMultiplier 적용) ÷ (발수 × 5).
-  → 카드 5장이 각 1회 행동하는 1사이클 동안의 배틀슈트 총 피해 ≈ "배틀슈트 전투력만큼의 카드 1장 1회 타격".
-    최소 피해 하한도 같이 나뉘므로 연사가 하한을 N번 먹지 않는다.
-- 배틀슈트 TURN 이벤트는 렌더러가 쓰는 필드만 남겨 슬림화(판당 50~160발이라 페이로드 절감).
-- actionClock 'INDEPENDENT_TIME_CADENCE' → 'CARD_ACTION_CADENCE', rules 에 battleSuitRoundsPerCardAction 추가,
-  fighter 에 independentRoundsPerCardAction / independentShotsPerCycle / independentAttackMultiplier.
+- 배틀슈트 케이던스 = 카드 턴·행동력과 무관한 독립 시계.
+    BATTLE_SUIT_REFERENCE_CYCLE = 0.018 (20만 카드 게이지 1회전), 무기별 사이클당 발수
+    M4(EQ_1785427638137) 15 / AK(EQ_1785961232958) 10 / 저격(EQ_1785961300455) 5 / DMR(EQ_1786966923833) 8 / 기본 10.
+    간격 = 0.018 ÷ 발수. 시작 지연 = 간격 × 0.35. 시계·게이지는 정상 진행, actionCount 미포함.
+    → 카드가 빠르든 느리든 배틀슈트의 시간당 화력은 같다. 약한 덱(느린 게이지)일수록 같은 슈트로 더 많이 쏜다.
+- 발당 피해 = hitResult(attackMultiplier 적용) ÷ 사이클당 발수. 기준 사이클 총합 ≈ "배틀슈트 전투력만큼의
+  카드 1장 1회 타격 × attackMultiplier(0.92/1.00/1.58/1.28/1.00)". 최소 피해 하한도 같이 나뉜다.
+- 배틀슈트 TURN 이벤트는 렌더러가 쓰는 필드만(actorId/actorKind/damageSource/actionClock/targetId/damage/absorbed/
+  critical/apocalypsePierce/targetHpAfter/targetMaxHp/targetShieldAfter). 판당 50~250발이라 페이로드 절감.
+- rules: battleSuitActionClock 'INDEPENDENT_TIME_CADENCE', battleSuitFireInterval, battleSuitShotsPerCycle,
+  battleSuitReferenceCycle. fighter: independentFireInterval / independentOpeningDelay / independentShotsPerCycle /
+  independentAttackMultiplier. (independentFireIntervalSeconds / independentOpeningDelaySeconds 제거)
 
-[변경] preview/project-v-v3/source/battle/BattleEngine.js (→ npm run build:v3 로 번들 재생성 필요)
+- 아포칼립스 최종 난이도 규칙 (APOCALYPSE_RULES, rules.apocalypseRules 로 노출)
+  · APOCALYPSE_FLOOR_GAIN 2.5 → 1.7: 카드만의 문턱 ≈ 기본전투력 × 1.2 → × 1.6.
+  · 아포 몬스터 대상 마법 효과 1회 상한 = 일반 타격 1회 하한(maxHp × 1.6% × 하한스케일) × 1.
+    적용: 성배 강탈량, 낙인 폭발 피해, 연쇄 메아리 피해. 비-아포 몬스터·PVP 는 종전 그대로.
+  · 배틀슈트 관통: 아포 보스에게 발마다 보호막을 무시하고 HP 에 직접
+      maxHp × 6%(기본전투력 덱의 게이지 1회전당) × clamp(슈트전투력/기본전투력 ÷ 0.15, 0, 2) × (덱/기본)² × (간격/기준회전)
+    이벤트 필드 apocalypsePierce. 보스 티어가 달라도 문턱이 같고, 덱이 기본보다 약하면 (덱/기본)² 로 줄어
+    "슈트만 있으면 아무 덱이나" 는 막힌다.
+
+[변경] preview/project-v-v3/source/battle/BattleEngine.js (`npm run build:v3` 정식 번들 재생성 완료)
 - 서버 배틀슈트 이벤트는 카드 타임라인을 막지 않고 큐에만 넣는다(비차단). 회피 배너 제거.
-- 연사 루프는 큐에 서버 사격이 있을 때만 총을 쏜다. 코스메틱 무피해 사격 없음 → 화면의 모든 발사에
-  데미지 숫자가 붙는다. 큐가 밀리면 밀린 발수에 비례해 재생 속도 최대 3배·간격 0 으로 따라잡는다.
-- 탄착 시 HP/실드 동기화는 감소 방향만(monotonicHp) 적용해 뒤따른 카드 타격 값이 되돌아가지 않는다.
-- stopAccountBattleUnitSustainedFire({drain:true}) 는 남은 큐를 다 쏜 뒤(발당 ~120ms, 0.4~6초 한도) 멈춘다.
-- js/battle-v3-live.js: 전투 연출 종료 finally 에서 drain 으로 정지. VERSION 3.30.0.
+- 연사 루프는 큐에 서버 사격이 있을 때만 총을 쏜다(코스메틱 무피해 사격 없음) → 모든 발사에 데미지 숫자.
+- 밀리면 재생 속도 최대 3배·간격 0, 8발 이상 밀리면 같은 대상 연속 사격을 한 발로 합쳐(피해 합산) 따라간다.
+- 탄착 시 HP/실드 동기화는 감소 방향만(monotonicHp). stop({drain:true}) 는 남은 큐를 쏜 뒤(0.4~6초 한도) 멈춘다.
+- js/battle-v3-live.js: 전투 연출 종료 finally 에서 drain 정지. VERSION 3.30.0.
 
-[결과] 20만×5 덱(힐1방2공1속1) + 배틀슈트 15만, seed 고정
-  M4: 판당 141~165발, 발당 ≈ 2.6k~7.3k, 배틀슈트 총피해 = 카드 총피해의 17~21%
-  AK/기본: 92~108발 / 저격: 46~54발(발당 8.9k~34.8k) / DMR: 69~79발
-  배틀슈트 장착 시 총 행동 수 63 → 54 (전투 단축). 배틀슈트 없는 전투는 이벤트·결과 동일.
-  이전(v1989)은 같은 조건에서 M4 1발(40,075 = 하한값), 저격/DMR 0발.
+[결과] 시뮬 (seed 고정, 힐1방2공1속1)
+- 일반 PVE 20만×5 + 슈트 15만: M4 판당 139~166발(발당 2.6k~7.3k), 배틀슈트 총피해 = 카드의 17~21%,
+  행동 수 63→55. 50만 덱(카드 5만)은 244발/20행동, 400만 덱은 64발/55행동 (독립 시계).
+- 아포칼립스 (기본 100만/200만/400만 동일 경향, 전역 기본값 HP260/공220/방190/실드40/연타2/강제4/궁28)
+    덱×1.0 슈트X 0% / 성배5장 0% / 슈트10% 10~37% / 슈트15% 80~100% / 슈트25% 100%
+    덱×1.2 슈트X 0% / 슈트10% 63~100% / 슈트15% 100%
+    덱×1.4 슈트X 0~3% / 성배5장 23~60% / 슈트10% 100%
+    덱×1.6 슈트X 70~77% / 덱×0.7 + 슈트15% 0~27% (덱 게이트)
+  이전(v1989): 덱×1.2 슈트X 100%, 성배5장이면 덱×0.85 68%.
+- 아포 권장 전투력(estimateApocalypseRecommendedPower, 슈트 미장착 기준)은 gain 변경으로 ≈ 기본 × 1.6 으로 올라간다.
+  화면의 "권장 전투력"은 슈트 없이 깨는 덱 기준이므로, 슈트(기본의 15%+) 장착 시 ≈ 기본 × 1.0 이면 된다.
 
-[캐시] app.js 1990-battle-suit-per-action-fire / shell 동일 / pixi 번들 97-battle-suit-per-action-fire /
-      battle-v3-live 3.30.0-battle-suit-per-action-fire. 관련 회귀 테스트 기준 갱신.
+[캐시] app.js / shell = 2005-battle-suit-independent-fire (v1990 1차 커밋 6e00734a 이후 2004 까지 올라가 있던 것을 승계).
+      pixi 번들 97-battle-suit-per-action-fire / battle-v3-live 3.30.0-battle-suit-per-action-fire 는 1차 커밋 값 유지.
+      태그를 하드코딩 검사하는 회귀 테스트 13개 함께 갱신,
+      tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs 신설(test:apocalypse 에 포함).
 
-[코덱스 통합]
-- 소탕 결과가 잔류 V3 WebGL 전장 뒤에 가려지지 않도록 활성 PVE 결과창만 최상단 고정 레이어로 표시한다.
-- hidden 상태의 탑 결과창은 CSS가 다시 표시하지 않으며, 결과 표시 중 Pixi 전장·헤더·도크를 숨긴다.
-- 첫 전투 결과 뒤 650ms 대기를 제거해 같은 틱에서 소탕 처리 화면으로 전환한다.
-- 최종 운영 셸/app 캐시는 1991-battle-suit-sweep-result-front, PVE UI 캐시는 1991-sweep-result-front다.
+[이력] v1990 은 두 번에 나눠 들어갔다.
+      1차 = 커밋 6e00734a "fix(v3): 배틀슈트 서버 사격과 소탕 결과 레이어 통합"
+            (배틀슈트를 "카드 행동마다 N발" 로 쏘게 한 중간 방식 + 클라 큐/드레인 + 캐시 태그)
+      2차 = 이번 변경. 사용자 지시("턴·행동력과 무관한 독립 행동력으로 시작부터 끝까지")에 따라
+            케이던스를 카드 행동 예산에서 절대 시계 간격으로 교체하고, 아포칼립스 게이트를 추가했다.
+            1차의 independentRoundsPerCardAction / CARD_ACTION_CADENCE 는 이 변경으로 제거됐다.

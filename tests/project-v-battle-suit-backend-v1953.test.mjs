@@ -180,41 +180,44 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(battle.teams.A.supports[0].untargetable,true);
   assert.equal(battle.teams.A.supports[0].usesSpeedGauge,false);
   assert.equal(battle.teams.A.supports[0].consumesBattleAction,false);
-  assert.equal(battle.teams.A.supports[0].actionClock,'CARD_ACTION_CADENCE');
-  assert.equal(battle.teams.A.supports[0].independentRoundsPerCardAction,3,'M4 AR fires three rounds per ally card action');
+  assert.equal(battle.teams.A.supports[0].actionClock,'INDEPENDENT_TIME_CADENCE');
+  assert.equal(battle.teams.A.supports[0].independentShotsPerCycle,15,'M4 AR fires fifteen rounds per reference cycle');
+  assert.ok(Math.abs(battle.teams.A.supports[0].independentFireInterval-0.018/15)<1e-9);
   assert.equal(battle.result.final.A.length,5,'support actor must not corrupt five-card survivor results');
   const actorId=battle.teams.A.supports[0].id;
   const hits=battle.result.timeline.filter(event=>event.type==='TURN'&&event.actorId===actorId);
   const allyCardActions=battle.result.timeline.filter(event=>event.type==='TURN'&&/^A:/.test(String(event.actorId||''))&&event.actorId!==actorId);
   assert.ok(allyCardActions.length>0,'fixture must contain ally card actions');
   // V1990: 벽시계 간격(0.34~1.10)은 카드 게이지 시계(1회전 ≈ 0.018)와 안 맞아 한 판에 0~1발만 나갔다.
-  //   이제 아군 카드 행동 1회당 무기 발수(M4 = 3)만큼 그 행동 직후에 쏜다.
-  assert.ok(hits.length>=allyCardActions.length*2,`Battle Suit must fire several rounds per ally card action (${hits.length} shots / ${allyCardActions.length} card actions)`);
-  assert.ok(hits.length<=allyCardActions.length*3+3,'Battle Suit must not exceed its per-action round budget');
+  //   이제 기준 사이클(0.018)/사이클당 발수 의 절대 시계 간격으로 시작부터 끝까지 독립 연사한다.
+  assert.ok(hits.length>=allyCardActions.length,`Battle Suit must fire continuously across the battle (${hits.length} shots / ${allyCardActions.length} card actions)`);
   assert.ok(hits.filter(event=>!event.dodge).every(event=>Number(event.damage||0)+Number(event.absorbed||0)>0),'every landed Battle Suit shot must apply real monster HP damage');
   assert.ok(hits.filter(event=>!event.dodge).length>=hits.length*.8,'Battle Suit shots must mostly land');
-  assert.ok(hits.every(event=>event.actionClock==='CARD_ACTION_CADENCE'),'Battle Suit shots must not be emitted by the canonical speed gauge');
-  assert.equal(battle.rules.battleSuitActionClock,'CARD_ACTION_CADENCE');
-  assert.equal(battle.rules.battleSuitRoundsPerCardAction,3);
+  assert.ok(hits.every(event=>event.actionClock==='INDEPENDENT_TIME_CADENCE'),'Battle Suit shots must not be emitted by the canonical speed gauge');
+  assert.equal(battle.rules.battleSuitActionClock,'INDEPENDENT_TIME_CADENCE');
+  assert.equal(battle.rules.battleSuitShotsPerCycle,15);
+  assert.equal(battle.rules.battleSuitReferenceCycle,0.018);
   assert.equal(battle.rules.battleSuitConsumesAction,false);
   assert.equal(battle.rules.battleSuitUsesSpeedGauge,false);
   {
-    // 사격은 카드 행동과 같은 시계값에서, 그 행동 직후(seq 순서)에 나온다.
-    const timeline=battle.result.timeline;
-    for(const hit of hits){
-      const index=timeline.indexOf(hit);
-      const previous=timeline.slice(0,index).reverse().find(event=>event.type==='TURN'||event.type==='SKILL');
-      assert.ok(previous,'a Battle Suit shot must follow a card action');
-      assert.ok(hit.at>=previous.at,'Battle Suit shots never rewind the battle clock');
-    }
-    const perAction=new Map();
-    hits.forEach(hit=>{const index=timeline.indexOf(hit);const owner=timeline.slice(0,index).reverse().find(event=>event.type==='TURN'&&event.actorId!==actorId&&/^A:/.test(String(event.actorId||'')));perAction.set(owner?.seq,(perAction.get(owner?.seq)||0)+1)});
-    assert.ok([...perAction.values()].every(count=>count<=3),'no ally card action may be followed by more than the weapon round budget');
-    // 사이클(아군 5장 각 1회 행동) 총 피해가 카드 1장 1회 타격 규모에 머무르도록 발당 피해가 나뉜다.
+    const interval=battle.teams.A.supports[0].independentFireInterval;
+    const gaps=hits.slice(1).map((event,index)=>event.at-hits[index].at);
+    assert.ok(gaps.every(gap=>gap>=-1e-9),'Battle Suit shots never rewind the battle clock');
+    // 발사 시각은 무기 간격의 배수(반올림 3자리 오차 허용)로 독립 시계를 따른다.
+    const offGrid=gaps.filter(gap=>Math.abs(gap/interval-Math.round(gap/interval))>.35);
+    assert.ok(offGrid.length<=Math.ceil(gaps.length*.1),`independent cadence must hold (${offGrid.length}/${gaps.length} off-grid)`);
+    // 카드 행동 수와 무관: 카드 속도가 느린 덱은 같은 슈트로 더 많이 쏜다.
+    const slowCards=cards.map(card=>({...card,power:12500}));
+    const slowBattle=createPveBattleV2({cards:slowCards,battleSuit:{code:'BATTLE_SUIT_02',pvePower:200000,weapon:{code:'EQ_1785427638137'}},monster:{id:7,name:'검증 보스',battle_power:225000,is_boss:1},seed:17});
+    const slowActor=slowBattle.teams.A.supports[0].id;
+    const slowHits=slowBattle.result.timeline.filter(event=>event.type==='TURN'&&event.actorId===slowActor).length;
+    const slowActions=slowBattle.result.timeline.filter(event=>event.type==='TURN'&&/^A:/.test(String(event.actorId||''))&&event.actorId!==slowActor).length;
+    assert.ok(slowHits/Math.max(1,slowActions)>hits.length/allyCardActions.length*1.5,'a slower deck must receive proportionally more Battle Suit shots (independent clock)');
+    // 발당 피해는 기준 사이클 총합이 카드 1회 타격 규모가 되도록 나뉜다.
     const cardHit=allyCardActions.map(event=>Number(event.damage||0)+Number(event.absorbed||0)).sort((x,y)=>x-y)[Math.floor(allyCardActions.length/2)];
     const landed=hits.filter(event=>!event.dodge);
     const suitHit=landed.map(event=>Number(event.damage||0)+Number(event.absorbed||0)).sort((x,y)=>x-y)[Math.floor(landed.length/2)];
-    assert.ok(suitHit*15<=cardHit*3&&suitHit>0,`per-shot Battle Suit damage must be split across the fifteen shots of a card cycle (${suitHit} vs ${cardHit})`);
+    assert.ok(suitHit*15<=cardHit*3&&suitHit>0,`per-shot Battle Suit damage must be split across the fifteen shots of a reference cycle (${suitHit} vs ${cardHit})`);
   }
   const applied=hits.reduce((sum,event)=>sum+Number(event.damage||0)+Number(event.absorbed||0),0);
   assert.equal(battle.result.damageBreakdown.battleSuit,applied,'contribution must equal authoritative applied timeline damage');
@@ -287,6 +290,7 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     'safe_runtime_upgrade_v1338_garage_system','safe_runtime_upgrade_v1533_territory_commander_title','safe_runtime_upgrade_v1863_avatar_catalog_v1',
     'safe_runtime_upgrade_v1864_avatar_effect_options_v1','safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2','safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3',
     'safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1','safe_runtime_upgrade_v1985_dimwoos_avatar_v1',
+    'safe_runtime_upgrade_v2006_terran_empress_joeun_avatar_v1',
   ];
   const markerInsert=DB.db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)');
   for(const key of completedMarkers)markerInsert.run(key,'1');

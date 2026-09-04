@@ -167,8 +167,8 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
   const index = read('index.html');
   const serviceWorker = read('service-worker.js');
   assert.match(index, /superstar-pack-v1894\.css\?v=1895-larger-pack-clean-label/);
-  assert.match(index, /app\.js\?v=2004-battle-suit-materials/);
-  assert.match(serviceWorker, /soop-card-shell-v2004-battle-suit-materials/);
+  assert.match(index, /app\.js\?v=2005-battle-suit-independent-fire/);
+  assert.match(serviceWorker, /soop-card-shell-v2005-battle-suit-independent-fire/);
   const css = read('css/superstar-pack-v1894.css');
   assert.match(css, /\.superstar-swipe-track/);
   assert.match(css, /\.pack-splitting \.pack-half-left/);

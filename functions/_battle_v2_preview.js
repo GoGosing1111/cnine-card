@@ -397,9 +397,32 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 //   gain 2.5 기준 전역 기본값(연타2/강제4)에서 몬스터 기본 200만 ≈ 덱 250만 필요, 잔존 HP 가
 //   85만 84% → 120만 66% → 150만 50% → 200만 23% → 250만 0% 로 연속적으로 내려간다(성장 체감).
 //   나이트메어·HELL·호송·공성은 isApocalypse 가 아니므로 단 1행동도 바뀌지 않는다(회귀 확인).
-const APOCALYPSE_FLOOR_GAIN = 2.5;
+// V1990: 아포칼립스는 최종 난이도. 카드만으로는 필요 덱 ≈ 기본전투력 × 1.6+ 이고,
+//   배틀슈트(기본전투력의 15%+ 전투력)가 있어야 ≈ ×1.0 에서 깨진다.
+//   · 카드 하한 스케일 gain 2.5 → 1.7 (카드만의 문턱을 ×1.2 → ×1.6 으로).
+//   · 마법카드가 아포 몬스터에 주는 효과(성배 강탈량·낙인 폭발·연쇄 메아리 등)는 1회당
+//     "일반 타격 1회 하한" 을 넘지 못한다. 성배 5장으로 보호막 40% 를 통째로 벗기던 경로 차단.
+//   · 배틀슈트 사격은 아포 보호막을 관통해 HP 에 직접 최대HP 비례 추가 피해를 준다.
+//     "기본전투력 덱(카드 1장 = 기본/5, 균형형)의 게이지 1회전" 당 maxHp × APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT
+//     × clamp(슈트전투력/기본전투력 ÷ 0.15, 0, 2) 만큼을, 독립 시계 간격에 비례해 발당으로 나눈다.
+//     → 보스 티어(기본전투력)가 달라도 "덱 ≈ 기본 × 1.0 + 슈트 15%" 문턱이 같게 유지된다.
+//     덱이 기본전투력보다 약하면 관통도 (덱/기본)² 로 줄어 "슈트만 있으면 아무 덱이나" 는 막는다.
+const APOCALYPSE_FLOOR_GAIN = 1.7;
 const APOCALYPSE_FLOOR_SCALE_MIN = 0.4;
 const APOCALYPSE_FLOOR_SCALE_MAX = 6;
+const APOCALYPSE_MAGIC_CAP_HITS = 1;
+const APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT = 0.06;
+const APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO = 0.15;
+const APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE = 2;
+const APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT = 2;
+export const APOCALYPSE_RULES = Object.freeze({
+  floorGain: APOCALYPSE_FLOOR_GAIN,
+  magicCapHits: APOCALYPSE_MAGIC_CAP_HITS,
+  suitPierceCyclePercent: APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT,
+  suitPierceReferenceRatio: APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO,
+  suitPierceMaxRatioScale: APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE,
+  suitPierceDeckGateExponent: APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT
+});
 
 function hitResult(actor, target, random, multiplier = 1, counter = false, options = {}) {
   const actorAdvancement = actor.uniqueAdvancement?.modifiers || {};
@@ -627,7 +650,6 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const timeline = [];
   let clock = 0;
   let actionCount = 0;
-  let allyCardActions = 0;
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;
   // APOCALYPSE monsters can own a real multi-attack sequence. The repeat is
@@ -918,37 +940,51 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   }
 
+  // V1990: 아포 몬스터 대상 마법 효과 1회 상한 = 일반 타격 1회 하한 × APOCALYPSE_MAGIC_CAP_HITS.
+  const apocalypseMagicCap=(target,amount)=>{
+    if(!target?.isApocalypse||!(hitOptions.apocalypseFloorScale>0))return Math.max(0,Number(amount||0));
+    const cap=Math.max(1,Math.round(target.maxHp*MONSTER_MIN_DAMAGE_PERCENT*hitOptions.apocalypseFloorScale*APOCALYPSE_MAGIC_CAP_HITS));
+    return Math.min(Math.max(0,Number(amount||0)),cap);
+  };
+  // V1990: 배틀슈트 사격의 아포 관통 피해(보호막 무시, HP 직접).
+  const apocalypseSuitPierce=(actor,target)=>{
+    if(!isBattleSuitSupport(actor)||!target?.isApocalypse)return 0;
+    const basePower=Math.max(1,Number(target.power||1));
+    const ratioScale=clamp(Math.max(0,Number(actor.power||0))/basePower/APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO,0,APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE);
+    const deckPower=canonicalTeam(actor.side==='A'?a:b).reduce((sum,card)=>sum+Math.max(0,Number(card.power||0)),0);
+    const deckGate=Math.pow(clamp(deckPower/basePower,0,1),APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT);
+    const referenceCardPower=basePower/5;
+    const referenceSpeed=Math.max(35,70+referenceCardPower*S1.speedBaseK+referenceCardPower*STAT_PROFILES.NONE.speed*0.10);
+    const referenceCycle=100/referenceSpeed;
+    const interval=Math.max(.0002,Number(actor.independentFireInterval||BATTLE_SUIT_REFERENCE_CYCLE/10));
+    return Math.max(0,Math.round(target.maxHp*APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT*ratioScale*deckGate*(interval/referenceCycle)));
+  };
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
-  // V1990: 배틀슈트는 "카드 행동마다 N발" 로 쏜다.
-  //   이전 방식은 벽시계 간격(0.34~1.10)을 썼는데, 카드 게이지 시계는 1회전 ≈ 0.018,
-  //   전투 전체가 0.1~0.26 안에 끝나므로 한 판에 0~1발만 나갔다(저격/DMR 은 0발).
-  //   이제 아군 카드가 한 번 행동할 때마다 무기별 발수(AR 3, 기본 2, DMR 1.5, 저격 1)를
-  //   예산에 더하고, 예산 1 이상이면 그 카드 행동 직후에 발사한다. 발사는 시계·게이지를
-  //   움직이지 않고 카드 행동 수에도 포함되지 않는다(전투 길이·강제 몬스터 주기 불변).
-  const independentShotBudget=new Map(independentSupports.map(support=>[support.id,0]));
-  let independentAllyActionsSeen=0;
+  // V1990: 배틀슈트는 카드 턴·행동력과 무관한 "독립 시계" 로 시작부터 끝까지 연사한다.
+  //   이전 간격(0.34~1.10)은 시계 단위가 틀려서(카드 게이지 1회전 ≈ 0.018, 전투 전체 0.1~0.26)
+  //   한 판에 0~1발만 나갔다. 이제 간격은 20만 카드 게이지 1회전(0.018)을 기준 사이클로 놓고
+  //   무기별 사이클당 발수(M4 15·AK/기본 10·DMR 8·저격 5)로 나눈 절대 시계값이다.
+  //   카드가 빠르든 느리든 배틀슈트의 초당 화력은 같다 → 약한 덱일수록 상대적으로 더 많이 쏜다.
+  const independentNextFireAt=new Map(independentSupports.map(support=>[
+    support.id,
+    Math.max(.0002,Number(support.independentOpeningDelay||support.independentFireInterval*.35||.0005))
+  ]));
   while (targetableAlive(a).length && targetableAlive(b).length && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
     const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card));
     if(!actors.length)break;
-    if(allyCardActions>independentAllyActionsSeen){
-      const newActions=allyCardActions-independentAllyActionsSeen;
-      independentAllyActionsSeen=allyCardActions;
-      for(const support of independentSupports){
-        const rounds=Math.max(0,Number(support.independentRoundsPerCardAction||0));
-        independentShotBudget.set(support.id,(independentShotBudget.get(support.id)||0)+newActions*rounds);
-      }
-    }
-    const eligibleSupports=independentSupports
-      .filter(support=>support.alive&&support.hp>0&&(independentShotBudget.get(support.id)||0)>=1&&targetableAlive(support.side==='A'?b:a).length)
-      .sort((left,right)=>(independentShotBudget.get(right.id)||0)-(independentShotBudget.get(left.id)||0)||left.slot-right.slot);
-    const independentActor=eligibleSupports[0]||null;
-    const independentAction=Boolean(independentActor);
     const gaugeDt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
-    const nextActionAt=independentAction?clock:clock+Math.max(.001,gaugeDt);
+    const gaugeReadyAt=clock+Math.max(.001,gaugeDt);
+    const eligibleSupports=independentSupports
+      .filter(support=>support.alive&&support.hp>0&&targetableAlive(support.side==='A'?b:a).length)
+      .sort((left,right)=>(independentNextFireAt.get(left.id)??Infinity)-(independentNextFireAt.get(right.id)??Infinity)||left.slot-right.slot);
+    const independentActor=eligibleSupports[0]||null;
+    const independentReadyAt=independentActor?(independentNextFireAt.get(independentActor.id)??Infinity):Infinity;
+    const independentAction=Boolean(independentActor&&independentReadyAt<=gaugeReadyAt);
+    const nextActionAt=independentAction?Math.max(clock,independentReadyAt):gaugeReadyAt;
     if (durationLimit && nextActionAt > durationLimit) { durationStopped = true; break; }
-    const dt=independentAction?0:Math.max(.001,nextActionAt-clock);
+    const dt=Math.max(0,nextActionAt-clock);
     clock+=dt;
     if(dt>0)for (const card of actors) card.gauge = clamp(card.gauge + card.speed * dt, 0, 130);
     const ready = actors.filter(card => card.gauge >= 99.999).sort((x, y) => y.gauge - x.gauge || y.speed - x.speed || x.slot - y.slot);
@@ -960,7 +996,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     let actor = independentAction?independentActor:ready[0];
     if(!actor)continue;
     if(independentAction){
-      independentShotBudget.set(actor.id,Math.max(0,(independentShotBudget.get(actor.id)||0)-1));
+      independentNextFireAt.set(actor.id,clock+Math.max(.0002,Number(actor.independentFireInterval||.0018)));
     }
     let repeatedMonsterAction = false;
     if (!independentAction && repeatMonsterActions > 0) {
@@ -999,7 +1035,6 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
     if(!independentAction)actionCount += 1;
-    if(!independentAction&&actor.side==='A')allyCardActions += 1;
     const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
     if(suddenDeath&&actionCount===Number(suddenDeathAfter||0)+1){
       pushEvent(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
@@ -1061,7 +1096,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const target = tauntGuard||lowestRatioTarget(pool, random);
     const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):1, false, hitOptions);
     if(isBattleSuitSupport(actor)){
-      // V1990: 한 사이클(아군 5장이 각 1회 행동) 동안의 배틀슈트 총 타격이
+      // V1990: 기준 사이클(0.018) 동안의 배틀슈트 총 타격이
       //   "배틀슈트 전투력만큼의 카드 1장이 1회 공격" 과 같도록 발당 피해를 나눈다.
       //   몬스터 최소 피해 하한(1.6%)도 같이 나뉘므로 연사가 하한을 N번 먹지 않는다.
       const shotsPerCycle=Math.max(1,Number(actor.independentShotsPerCycle||1));
@@ -1080,7 +1115,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         actorId: actor.id,
         actorKind: actor.actorKind || undefined,
         damageSource: actor.damageSource || undefined,
-        actionClock: isBattleSuitSupport(actor)?'CARD_ACTION_CADENCE':'SPEED_GAUGE',
+        actionClock: isBattleSuitSupport(actor)?'INDEPENDENT_TIME_CADENCE':'SPEED_GAUGE',
         targetId: target.id,
         dodge: true,
         actorGaugeAfter: actor.gauge,
@@ -1093,6 +1128,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0 });
     actor.damageDealt += damageState.hpDamage + damageState.absorbed;
+    let suitPierceDamage=0;
+    if(isBattleSuitSupport(actor)){
+      const pierce=apocalypseSuitPierce(actor,target);
+      if(pierce>0&&target.hp>0){
+        const pierceState=applyDamage(target,pierce,{ignoreShield:true});
+        suitPierceDamage=pierceState.hpDamage;
+        damageState.hpDamage+=pierceState.hpDamage;
+        actor.damageDealt+=pierceState.hpDamage;
+      }
+    }
 
     if (actor.type === 'SPEED' && !actor.speedUniqueSuppressed) {
       target.gauge = Math.max(0, target.gauge - 18);
@@ -1105,11 +1150,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         actorId: actor.id,
         actorKind: actor.actorKind,
         damageSource: actor.damageSource,
-        actionClock: 'CARD_ACTION_CADENCE',
+        actionClock: 'INDEPENDENT_TIME_CADENCE',
         targetId: target.id,
         damage: damageState.hpDamage,
         absorbed: damageState.absorbed,
         critical: hit.critical,
+        apocalypsePierce: suitPierceDamage||undefined,
         targetHpAfter: target.hp,
         targetMaxHp: target.maxHp,
         targetShieldAfter: target.shield
@@ -1144,17 +1190,17 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       if(mark){
         target.doomMarks=Math.min(3,Number(target.doomMarks||0)+1);
         let markDamage=0,markAbsorbed=0,detonated=false;
-        if(target.doomMarks>=3){const markState=applyDamage(target,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(mark.effectValue||0))/100)));markDamage=markState.hpDamage;markAbsorbed=markState.absorbed;target.doomMarks=0;detonated=true;actor.damageDealt+=markDamage+markAbsorbed;}
+        if(target.doomMarks>=3){const markState=applyDamage(target,Math.max(1,apocalypseMagicCap(target,Math.round(target.maxHp*Math.min(100,Number(mark.effectValue||0))/100))));markDamage=markState.hpDamage;markAbsorbed=markState.absorbed;target.doomMarks=0;detonated=true;actor.damageDealt+=markDamage+markAbsorbed;}
         pushEvent(timeline,clock+0.00006,'MAGIC_CARD',magicEvent(mark,actor,target,{markStacks:target.doomMarks,detonated,damage:markDamage,absorbed:markAbsorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));
       }
 
-      if(target.hp>0&&target.shield>0){const siphon=activateMagic(actor,'SHIELD_SIPHON');if(siphon){const amount=Math.max(1,Math.min(target.shield,Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100)));target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);pushEvent(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));}}
+      if(target.hp>0&&target.shield>0){const siphon=activateMagic(actor,'SHIELD_SIPHON');if(siphon){const amount=Math.max(1,Math.min(target.shield,apocalypseMagicCap(target,Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100))));target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);pushEvent(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));}}
 
       const distort=target.hp>0?activateMagic(actor,'TIME_DISTORTION'):null;
       if(distort){const amount=Math.min(95,Math.max(0,Number(distort.effectValue||0))),before=target.gauge;target.gauge=Math.max(0,target.gauge-amount);target.timeDistortionStacks=Math.min(3,Number(target.timeDistortionStacks||0)+1);pushEvent(timeline,clock+0.00008,'MAGIC_CARD',magicEvent(distort,actor,target,{gaugeLoss:before-target.gauge,gaugeAfter:target.gauge,targetHpAfter:target.hp}));}
 
       const echo=target.hp>0?activateMagic(actor,'CHAIN_ECHO'):null;
-      if(echo){const baseDamage=damageState.hpDamage+damageState.absorbed,echoState=applyDamage(target,Math.max(1,Math.round(baseDamage*Math.min(200,Number(echo.effectValue||0))/100)));actor.damageDealt+=echoState.hpDamage+echoState.absorbed;pushEvent(timeline,clock+0.00009,'MAGIC_CARD',magicEvent(echo,actor,target,{damage:echoState.hpDamage,absorbed:echoState.absorbed,echoDamage:echoState.hpDamage+echoState.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));}
+      if(echo){const baseDamage=damageState.hpDamage+damageState.absorbed,echoState=applyDamage(target,Math.max(1,apocalypseMagicCap(target,Math.round(baseDamage*Math.min(200,Number(echo.effectValue||0))/100))));actor.damageDealt+=echoState.hpDamage+echoState.absorbed;pushEvent(timeline,clock+0.00009,'MAGIC_CARD',magicEvent(echo,actor,target,{damage:echoState.hpDamage,absorbed:echoState.absorbed,echoDamage:echoState.hpDamage+echoState.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));}
 
       if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0)){
         const purify=activateMagic(target,'PURIFY_LIGHT');
@@ -1287,15 +1333,17 @@ export function teamSummary(cards = []) {
   };
 }
 
-// V1990: 배틀슈트 케이던스는 "아군 카드 행동 1회당 발수" 다 (벽시계 간격 아님).
-//   attackMultiplier 는 사이클(카드 5장 각 1회 행동) 총 피해 배율이라 느린 무기가 손해 보지 않는다.
-const BATTLE_SUIT_CANONICAL_CARDS = 5;
+// V1990: 배틀슈트 케이던스는 카드 턴·행동력과 무관한 독립 시계다.
+//   기준 사이클 = 20만 전투력 카드의 게이지 1회전(≈0.018 시계단위). 무기별 "사이클당 발수" 로
+//   절대 간격을 만들고, 발당 피해는 1사이클 총합이 "배틀슈트 전투력만큼의 카드 1회 타격 × attackMultiplier"
+//   가 되도록 나눈다. 느린 무기는 발당 피해가 커서 사이클 화력이 같다.
+export const BATTLE_SUIT_REFERENCE_CYCLE = 0.018;
 const BATTLE_SUIT_WEAPON_CADENCE = Object.freeze({
-  EQ_1785427638137: { classCode: 'AR', roundsPerCardAction: 3, attackMultiplier: 0.92 },
-  EQ_1785961232958: { classCode: 'AR', roundsPerCardAction: 2, attackMultiplier: 1.00 },
-  EQ_1785961300455: { classCode: 'SNIPER', roundsPerCardAction: 1, attackMultiplier: 1.58 },
-  EQ_1786966923833: { classCode: 'DMR', roundsPerCardAction: 1.5, attackMultiplier: 1.28 },
-  DEFAULT: { classCode: 'RIFLE', roundsPerCardAction: 2, attackMultiplier: 1.00 }
+  EQ_1785427638137: { classCode: 'AR', shotsPerCycle: 15, attackMultiplier: 0.92 },
+  EQ_1785961232958: { classCode: 'AR', shotsPerCycle: 10, attackMultiplier: 1.00 },
+  EQ_1785961300455: { classCode: 'SNIPER', shotsPerCycle: 5, attackMultiplier: 1.58 },
+  EQ_1786966923833: { classCode: 'DMR', shotsPerCycle: 8, attackMultiplier: 1.28 },
+  DEFAULT: { classCode: 'RIFLE', shotsPerCycle: 10, attackMultiplier: 1.00 }
 });
 
 export function battleSuitLiveRuntime(characterBonus = {}) {
@@ -1348,11 +1396,12 @@ export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
   fighter.untargetable = true;
   fighter.weaponCode = weaponCode;
   fighter.weaponClass = cadence.classCode;
-  fighter.actionClock = 'CARD_ACTION_CADENCE';
+  fighter.actionClock = 'INDEPENDENT_TIME_CADENCE';
   fighter.usesSpeedGauge = false;
   fighter.consumesBattleAction = false;
-  fighter.independentRoundsPerCardAction = cadence.roundsPerCardAction;
-  fighter.independentShotsPerCycle = Math.max(1, Math.round(cadence.roundsPerCardAction * BATTLE_SUIT_CANONICAL_CARDS));
+  fighter.independentShotsPerCycle = Math.max(1, Math.round(cadence.shotsPerCycle));
+  fighter.independentFireInterval = BATTLE_SUIT_REFERENCE_CYCLE / fighter.independentShotsPerCycle;
+  fighter.independentOpeningDelay = fighter.independentFireInterval * .35;
   fighter.independentAttackMultiplier = cadence.attackMultiplier;
   fighter.speed = 0;
   fighter.maxHp = 1;
@@ -1490,7 +1539,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_CARD_ACTION_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'CARD_ACTION_CADENCE':'NONE', battleSuitRoundsPerCardAction:battleSuitFighter?battleSuitFighter.independentRoundsPerCardAction:0, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }

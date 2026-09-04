@@ -1455,20 +1455,35 @@ export class BattleEngine{
             continue;
           }
           this.accountBattleUnitDamageQueue.shift();
-          const backlog=this.accountBattleUnitDamageQueue.length;
+          let backlog=this.accountBattleUnitDamageQueue.length;
           // 서버 발수가 시각 연사 속도보다 빠르면 밀린 만큼 재생 속도를 올리고 간격을 줄인다.
+          // 그래도 8발 이상 밀리면 같은 대상의 연속 사격을 한 발로 합쳐(피해 합산) 화면이 따라가게 한다.
+          const merged=[pending];
+          while(backlog>8&&merged.length<Math.ceil((backlog+1)/8)+1){
+            const next=this.accountBattleUnitDamageQueue[0];
+            if(!next||next.target!==pending.target||!next.options?.authoritative||!pending.options?.authoritative)break;
+            merged.push(this.accountBattleUnitDamageQueue.shift());
+            backlog=this.accountBattleUnitDamageQueue.length;
+          }
+          const options={
+            ...(pending.options||{}),
+            damage:merged.reduce((sum,entry)=>sum+Math.max(0,Number(entry.options?.damage)||0),0),
+            critical:merged.some(entry=>Boolean(entry.options?.critical)),
+            targetHp:merged[merged.length-1].options?.targetHp,
+            targetShield:merged[merged.length-1].options?.targetShield
+          };
           const rush=clamp(1+backlog*.18,1,3);
           let played=false;
           try{
             played=await this.playAccountBattleUnitShot(target,{
-              ...(pending.options||{}),
+              ...options,
               playbackRate:profile.playbackRate*rush,
               authoritative:Boolean(pending.options?.authoritative),
               monotonicHp:Boolean(pending.options?.monotonicHp)
             });
-            pending.resolve?.(played);
+            merged.forEach(entry=>entry.resolve?.(played));
           }catch(error){
-            pending.reject?.(error);
+            merged.forEach(entry=>entry.reject?.(error));
             throw error;
           }
           if(!run.active||this.accountBattleUnitFireRun!==run)break;
