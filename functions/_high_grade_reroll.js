@@ -44,7 +44,7 @@ async function candidates(env,user,sourceCardId){
   const quantity=await ticketQuantity(env,user.id);if(quantity<1)throw new Error('고등급 재뽑기권을 보유하고 있지 않습니다.');
   if(Number(source.reroll_material_enabled??1)!==1)throw new Error('이 카드는 재뽑기 재료로 사용할 수 없습니다.');
   const cfg=await settings(env),enabled=grade==='PRESTIGE'?cfg.prestigeEnabled:grade==='LIMITED'?cfg.limitedEnabled:grade==='FUR'?cfg.furEnabled:cfg.zenithEnabled;if(!cfg.enabled||!enabled)throw new Error(`${grade} 재뽑기가 현재 중지되어 있습니다.`);
-  const sourceRole=dominantRole(source),pool=await cardRows(env,`WHERE UPPER(c.rarity)=? AND c.id<>? AND COALESCE(c.is_active,1)=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(rc.reroll_result_enabled,1)=1 AND NOT EXISTS (SELECT 1 FROM user_cards uc2 WHERE uc2.user_id=? AND uc2.card_id=c.id AND COALESCE(uc2.quantity,0)>0)`,[grade,String(sourceCardId),user.id]);
+  const sourceRole=dominantRole(source),pool=await cardRows(env,`WHERE UPPER(c.rarity)=? AND c.id<>? AND COALESCE(c.is_active,1)=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(rc.reroll_result_enabled,1)=1 AND NOT (UPPER(c.rarity)='FUR' AND (REPLACE(COALESCE(m.name,''),' ','')='이예준' OR REPLACE(COALESCE(c.title,''),' ','') LIKE '%이예준%')) AND NOT EXISTS (SELECT 1 FROM user_cards uc2 WHERE uc2.user_id=? AND uc2.card_id=c.id AND COALESCE(uc2.quantity,0)>0)`,[grade,String(sourceCardId),user.id]);
   const filtered=pool.map(card=>({...card,role:dominantRole(card),roleLabel:roleLabel(dominantRole(card))})).filter(card=>card.role!==sourceRole);
   return {source:{...source,id:String(source.card_id),role:sourceRole,roleLabel:roleLabel(sourceRole),breakthroughLevel:Number(source.breakthrough_level||0)},grade,candidates:filtered,ticketQuantity:quantity};
 }

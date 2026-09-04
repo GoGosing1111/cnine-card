@@ -10,7 +10,7 @@ import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedT
 import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,applyAvatarRaidEntryBonus,ensureAvatarFoundation } from '../_avatar.js';
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
 import { handlePrimeDraw } from '../_prime_draw.js';
-import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_reroll.js';
+import { handleHighGradeReroll,grantHighGradeRerollDrop,ensureHighGradeRerollFoundation } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
 import { handleAuction } from '../_auction.js';
@@ -38,6 +38,7 @@ import { ensureTargetedAvatarGrantV2007 } from '../_targeted_avatar_grant_v2007.
 import { ensureTargetedAvatarGrantV2014 } from '../_targeted_avatar_grant_v2014.js';
 import { ensureTargetedCardGrantV2015 } from '../_targeted_card_grant_v2015.js';
 import { ensureTargetedCardGrantV2016 } from '../_targeted_card_grant_v2016.js';
+import { ensureIyejunFurRerollRecoveryV2023 } from '../_iyejun_fur_reroll_recovery_v2023.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
@@ -4777,6 +4778,7 @@ async function handleRequest(context){
       let targetedAvatarGrantV2014=null;
       let targetedCardGrantV2015=null;
       let targetedCardGrantV2016=null;
+      let iyejunFurRerollRecovery=null;
       if(databaseInitialized){
         await ensurePrisonFoundation(env);
         await ensureApocalypseEnergyFoundation(env);
@@ -4811,12 +4813,24 @@ async function handleRequest(context){
           quantityAfter:Number(simsimiKimseongtaeGrant.quantityAfter||0),levelRequested:Number(simsimiKimseongtaeGrant.levelRequested||0),
           breakthroughLevel:Number(simsimiKimseongtaeGrant.breakthroughLevel||0)
         }:null;
+        await ensureHighGradeRerollFoundation(env);
+        const rerollRecovery=await ensureIyejunFurRerollRecoveryV2023(env);
+        iyejunFurRerollRecovery=rerollRecovery?{
+          status:rerollRecovery.status,version:rerollRecovery.version,replayed:Boolean(rerollRecovery.replayed),
+          targetCardCount:Number(rerollRecovery.targetCardCount||0),rerollBlocked:Boolean(rerollRecovery.rerollBlocked),
+          highGradeReceiptsFound:Number(rerollRecovery.highGradeReceiptsFound||0),furTicketReceiptsFound:Number(rerollRecovery.furTicketReceiptsFound||0),
+          highGradeRecovered:Number(rerollRecovery.highGradeRecovered||0),furTicketRecovered:Number(rerollRecovery.furTicketRecovered||0),
+          cardsRecovered:Number(rerollRecovery.cardsRecovered||0),sourceCardsRestored:Number(rerollRecovery.sourceCardsRestored||0),
+          highGradeTicketsRefunded:Number(rerollRecovery.highGradeTicketsRefunded||0),furTicketsRefunded:Number(rerollRecovery.furTicketsRefunded||0),
+          shardsReversed:Number(rerollRecovery.shardsReversed||0),missingCurrentCards:Number(rerollRecovery.missingCurrentCards||0),
+          stateChanged:Number(rerollRecovery.stateChanged||0)
+        }:null;
         if(gamstCardRetirement?.status==='COMPLETED'){
           drawContextCache.clear();
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016});
+      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,iyejunFurRerollRecovery});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
@@ -5185,12 +5199,15 @@ async function handleRequest(context){
         consumed=true;
         const fixedGradeByItem={GUARANTEED_MA_PACK:'MA',GUARANTEED_LIMITED_PACK:'LIMITED',MA_REROLL_TICKET:'MA',LIMITED_REROLL_TICKET:'LIMITED',PRESTIGE_REROLL_TICKET:'PRESTIGE',FUR_REROLL_TICKET:'FUR'};
         const fixedGrade=fixedGradeByItem[itemCode]||null,isReroll=RETIREMENT_REROLL_CODES.includes(itemCode),cubeConfig=await cubeSettings(env),configured=fixedGrade?{[fixedGrade]:100}:cubeConfig[itemCode];
+        if(isReroll)await ensureHighGradeRerollFoundation(env);
+        const rerollResultEligibility=isReroll?` AND EXISTS(SELECT 1 FROM cards rc WHERE rc.id=c.id AND COALESCE(rc.reroll_result_enabled,1)=1)
+          AND NOT (UPPER(c.rarity)='FUR' AND (REPLACE(COALESCE(c.title,''),' ','') LIKE '%이예준%' OR EXISTS(SELECT 1 FROM members rm WHERE rm.id=c.member_id AND REPLACE(COALESCE(rm.name,''),' ','')='이예준')))`:'';
         const available=[];
-        for(const [grade,rate] of Object.entries(configured||{})){if(Number(rate)<=0)continue;const row=await env.DB.prepare(`SELECT COUNT(*) AS cnt FROM cards_effective_v1210 WHERE is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND rarity=? AND (limited_total IS NULL OR issued_count<limited_total)`).bind(grade).first();if(Number(row?.cnt||0)>0)available.push({grade,rate:Number(rate)});}
+        for(const [grade,rate] of Object.entries(configured||{})){if(Number(rate)<=0)continue;const row=await env.DB.prepare(`SELECT COUNT(*) AS cnt FROM cards_effective_v1210 c WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity=? AND (c.limited_total IS NULL OR c.issued_count<c.limited_total)${rerollResultEligibility}`).bind(grade).first();if(Number(row?.cnt||0)>0)available.push({grade,rate:Number(rate)});}
         const targetGrade=weightedPick(available,x=>x.rate)?.grade;
         if(!targetGrade)throw new Error(isReroll?'이 재뽑기권으로 획득 가능한 활성 카드가 없습니다. CMS 카드 공개 상태를 확인하세요.':'이 큐브에서 획득 가능한 카드가 없습니다. CMS의 등급 확률과 카드 공개 상태를 확인하세요.');
         card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,m.name
-          FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity=? AND (c.limited_total IS NULL OR c.issued_count<c.limited_total) ORDER BY RANDOM() LIMIT 1`).bind(targetGrade).first();
+          FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity=? AND (c.limited_total IS NULL OR c.issued_count<c.limited_total)${rerollResultEligibility} ORDER BY RANDOM() LIMIT 1`).bind(targetGrade).first();
         if(!card)throw new Error(`${targetGrade} 등급의 획득 가능한 카드가 없습니다. CMS 카드 공개 상태와 잔여 수량을 확인하세요.`);
         if(card.limitedTotal!==null&&card.limitedTotal!==undefined){
           const stockBefore=Math.max(0,Number(card.issuedCount||0));
