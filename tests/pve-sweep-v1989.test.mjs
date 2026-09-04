@@ -69,6 +69,13 @@ test('잔여 회차도 동일한 V3 엔진과 회차별 시드로 독립 판정�
   assert.match(resolver,/resolveMagicCrystalReward\(/);
 });
 
+test('주간 프리미엄 큐브 당첨 뒤 소탕은 미선언 캐시 참조로 중단되지 않는다',()=>{
+  const cubeFlow=section(api,'async function grantWeeklyPremiumCube','async function readTowerSettings');
+  assert.doesNotMatch(cubeFlow,/\brecentPremiumCubeCache\b/,'지급 완료 뒤 존재하지 않는 캐시를 무효화하면 소탕 영수증이 FAILED로 남습니다.');
+  assert.match(cubeFlow,/const reward=rolled\.won\?await grantPremiumCubeInventory/);
+  assert.match(cubeFlow,/if\(weekly\.won\)return grantPremiumCubeInventory/);
+});
+
 test('소탕 결과는 주요 보상 전체를 합산하고 실패 시 현재 묶음 영수증으로 재확인한다',()=>{
   const flow=section(app,'function pveSweepFirstResult','window.completePveSweepAfterAnimatedBattle=completePveSweepAfterAnimatedBattle');
   assert.match(flow,/cardRewards/);

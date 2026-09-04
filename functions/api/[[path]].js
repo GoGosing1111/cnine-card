@@ -1798,14 +1798,13 @@ async function grantWeeklyPremiumCube(env,userId,source,referenceId){
   if(!['PVE','TOWER','PVP'].includes(source)||!referenceId)return null;
   const rolled=await rollWeeklyPremiumCube(env,userId,source,referenceId);
   const reward=rolled.won?await grantPremiumCubeInventory(env,userId,source,referenceId):null;
-  if(reward)recentPremiumCubeCache=null;
   return {reward,status:rolled.status,reused:rolled.duplicate};
 }
 async function grantBattleCube(env,userId,source,referenceId,allowStandard=true){
   source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
   if(!['PVE','PVP'].includes(source)||!referenceId)return null;
   const weekly=await rollWeeklyPremiumCube(env,userId,source,referenceId);
-  if(weekly.won){const reward=await grantPremiumCubeInventory(env,userId,source,referenceId);if(reward)recentPremiumCubeCache=null;return reward;}
+  if(weekly.won)return grantPremiumCubeInventory(env,userId,source,referenceId);
   // BATTLE_CUBE_DROP currently has one supported item. Supplying the item key
   // lets idx_inventory_logs_reward_reference resolve the receipt directly;
   // without it D1 scanned the user's entire inventory history on every battle.
