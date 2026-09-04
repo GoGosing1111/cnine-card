@@ -97,7 +97,9 @@ test('진행 중 영수증은 오류 팝업 대신 202 상태 조회와 자동 �
   const statusRoute=section(api,"if(path==='battle/auto/status'&&request.method==='POST')","if(path==='battle/auto'&&request.method==='POST')");
   const flow=section(app,'const PVE_SWEEP_CHUNK_SIZE=4;','function pveSweepQuantity');
   assert.match(helper,/state==='RUNNING'[\s\S]*status:'RUNNING'[\s\S]*PVE_SWEEP_RUNNING[\s\S]*},202/);
-  assert.match(helper,/PVE_SWEEP_STALE_MS=10\*60\*1000/);
+  assert.match(helper,/PVE_SWEEP_LOCK_LEASE_MS=10\*60\*1000/);
+  assert.match(helper,/PVE_SWEEP_HEARTBEAT_STALE_MS=2\*60\*1000/);
+  assert.match(helper,/recoverPveSweepBlockingLock/);
   assert.match(helper,/STALE_RUNNING_RECOVERED/);
   assert.match(helper,/state==='FAILED'/);
   assert.match(statusRoute,/SELECT user_id,status,response_json,error_message,created_at,updated_at FROM pve_auto_runs/);
@@ -113,10 +115,47 @@ test('진행 중 영수증은 오류 팝업 대신 202 상태 조회와 자동 �
 
 test('각 묶음은 회차별 하트비트로 활성 영수증과 사용자 락을 연장한다',()=>{
   const route=section(api,"if(path==='battle/auto'&&request.method==='POST')","if(path==='battle/fight'&&request.method==='POST')");
-  assert.match(route,/heartbeatUntil=new Date\(Date\.now\(\)\+PVE_SWEEP_STALE_MS\)/);
+  assert.match(route,/recoverPveSweepBlockingLock\(env,user\.id,requestId\)/);
+  assert.match(route,/heartbeatUntil=new Date\(Date\.now\(\)\+PVE_SWEEP_LOCK_LEASE_MS\)/);
   assert.match(route,/UPDATE pve_auto_runs SET updated_at=CURRENT_TIMESTAMP/);
   assert.match(route,/UPDATE pve_auto_locks SET expires_at=\?,updated_at=CURRENT_TIMESTAMP/);
+  assert.match(route,/await assertPveSweepLease\(env,user\.id,requestId\)/);
+  assert.match(route,/status='COMPLETED'[\s\S]*status='RUNNING'/,'잃어버린 영수증 소유권으로 완료 상태를 덮어쓰면 안 됩니다.');
+  assert.match(route,/status='FAILED'[\s\S]*status='RUNNING'/,'완료 영수증을 실패 정리로 덮어쓰면 안 됩니다.');
   assert.match(route,/pve sweep failure receipt cleanup failed/);
+});
+
+test('고아 소탕 락은 하트비트 기준으로 회수하고 실제 실행 중인 락은 보존한다',async()=>{
+  const runtimeSource=section(api,'const CORS_HEADERS=','const readBody=');
+  const context=vm.createContext({Response,console:{error(){},warn(){},log(){}},Date,Number,String,JSON});
+  vm.runInContext(`${runtimeSource}\nglobalThis.__pveSweepLock={recoverPveSweepBlockingLock};`,context);
+  const {recoverPveSweepBlockingLock}=context.__pveSweepLock;
+  const now=Date.now(),stale=new Date(now-3*60*1000).toISOString(),recent=new Date(now-30000).toISOString();
+  const fakeDb=row=>{
+    const calls=[];
+    return {calls,env:{DB:{prepare(sql){return {bind(...values){return {
+      async first(){calls.push({kind:'first',sql,values});return row},
+      async run(){calls.push({kind:'run',sql,values});return {meta:{changes:1}}}
+    }}}}}}};
+  };
+
+  const staleSetup=fakeDb({request_id:'older-sweep-request-1234',lock_updated_at:stale,run_request_id:'older-sweep-request-1234',run_status:'RUNNING',run_updated_at:stale});
+  const recovered=await recoverPveSweepBlockingLock(staleSetup.env,7,'newer-sweep-request-5678',now);
+  assert.equal(recovered.recovered,true);
+  assert.equal(recovered.state,'STALE');
+  assert.ok(staleSetup.calls.some(call=>call.kind==='run'&&call.sql.includes('STALE_RUNNING_LOCK_RECOVERED')));
+  assert.ok(staleSetup.calls.some(call=>call.kind==='run'&&call.sql.includes('DELETE FROM pve_auto_locks')));
+
+  const activeSetup=fakeDb({request_id:'active-sweep-request-1234',lock_updated_at:recent,run_request_id:'active-sweep-request-1234',run_status:'RUNNING',run_updated_at:recent});
+  const active=await recoverPveSweepBlockingLock(activeSetup.env,7,'newer-sweep-request-5678',now);
+  assert.equal(active.recovered,false);
+  assert.equal(active.state,'RUNNING');
+  assert.equal(activeSetup.calls.filter(call=>call.kind==='run').length,0,'살아 있는 요청의 락을 회수하면 안 됩니다.');
+
+  const orphanSetup=fakeDb({request_id:'orphan-sweep-request-1234',lock_updated_at:stale,run_request_id:null,run_status:null,run_updated_at:null});
+  const orphan=await recoverPveSweepBlockingLock(orphanSetup.env,7,'newer-sweep-request-5678',now);
+  assert.equal(orphan.recovered,true);
+  assert.ok(orphanSetup.calls.some(call=>call.kind==='run'&&call.sql.includes('NOT EXISTS')),'영수증 없는 락은 경쟁 상태를 막는 조건부 삭제로 회수해야 합니다.');
 });
 
 test('영수증 상태 판정은 실행 중·완료·실패·고아 실행을 구분한다',async()=>{
@@ -171,6 +210,30 @@ test('클라이언트는 RUNNING 응답을 보여주지 않고 같은 영수증�
   assert.deepEqual(calls[1].body,{requestId:payload.requestId});
 });
 
+test('클라이언트는 다른 요청의 활성 락을 자동 대기한 뒤 자기 소탕을 재개한다',async()=>{
+  const runtimeSource=section(app,'function pveSweepNumber','function pveSweepQuantity');
+  const calls=[];
+  const blocker='older-sweep-request-1234',requestId='newer-sweep-request-5678';
+  const context=vm.createContext({
+    console:{error(){},warn(){},log(){}},
+    async battleSleep(){},
+    async apiRequest(path,options){
+      const body=JSON.parse(options.body);calls.push({path,body});
+      if(calls.length===1){const error=new Error('이전 소탕 요청을 정리하고 있습니다.');Object.assign(error,{code:'PVE_SWEEP_LOCKED',blockingRequestId:blocker,retryAfterMs:1});throw error}
+      if(calls.length===2)return {ok:true,status:'RUNNING',code:'PVE_SWEEP_RUNNING',retryAfterMs:1};
+      if(calls.length===3)return {ok:true,mode:'PVE_SWEEP',status:'COMPLETED',requestId:blocker,battles:4};
+      return {ok:true,mode:'PVE_SWEEP',status:'COMPLETED',requestId,battles:4};
+    }
+  });
+  vm.runInContext(`${runtimeSource}\nglobalThis.__pveSweepClient={requestPveSweepChunk};`,context);
+  const payload={requestId,monsterId:3,cardIds:['1','2','3','4','5'],requestedBattles:4};
+  const result=await context.__pveSweepClient.requestPveSweepChunk(payload);
+  assert.equal(result.requestId,requestId,'이전 요청 결과를 현재 소탕 결과로 합산하면 안 됩니다.');
+  assert.deepEqual(calls.map(call=>call.path),['battle/auto','battle/auto/status','battle/auto/status','battle/auto']);
+  assert.deepEqual(calls.slice(1,3).map(call=>call.body.requestId),[blocker,blocker]);
+  assert.equal(calls[3].body.requestId,requestId);
+});
+
 test('소탕 처리·결과 화면은 잔류 V3 프레임보다 앞에서 활성 결과창 하나만 표시한다',()=>{
   const flow=section(app,'async function completePveSweepAfterAnimatedBattle','window.completePveSweepAfterAnimatedBattle=completePveSweepAfterAnimatedBattle');
   assert.doesNotMatch(flow,/battleSleep\(650\)/,'기존 1회 결과를 먼저 노출하는 지연이 남으면 안 됩니다.');
@@ -186,10 +249,10 @@ test('소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다',()=>{
   assert.match(pveCss,/\.pve-sweep-panel\.is-processing/);
   assert.match(pveCss,/\.pve-sweep-stats/);
   assert.match(pveCss,/@media\(max-width:620px\)/);
-  assert.match(index,/js\/app\.js\?v=2005-battle-suit-independent-fire/);
+  assert.match(index,/js\/app\.js\?v=2016-pve-sweep-lock-recovery/);
   assert.match(index,/css\/pve-command-v2\.css\?v=1991-sweep-result-front/);
   assert.match(index,/js\/pve-command-v2-live\.js\?v=1991-sweep-result-front/);
   assert.match(app,/js\/battle-v2-live\.js\?v=1991-sweep-result-front/);
-  assert.match(serviceWorker,/soop-card-shell-v2005-battle-suit-independent-fire/);
+  assert.match(serviceWorker,/soop-card-shell-v2016-pve-sweep-lock-recovery/);
   assert.match(packageJson.scripts['release:gate']||'',/npm run test:pve-sweep/);
 });

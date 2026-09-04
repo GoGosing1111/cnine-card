@@ -1839,12 +1839,18 @@ function pveSweepProcessingMarkup({confirmed=1,total=1,pending=0}={}){
   return `<div class="pve-sweep-panel is-processing"><div class="pve-sweep-radar" aria-hidden="true"><i></i><i></i><i></i><b></b></div><header><small>SERVER BATTLE RESOLUTION</small><h2>잔여 전투 계산 중</h2><p>${pveSweepNumber(confirmed)}회 결과 확정 · 남은 ${pveSweepNumber(pending)}회의 승패와 보상을 안전하게 나누어 판정하고 있습니다.</p></header><div class="pve-sweep-progress"><i></i></div><strong>${pveSweepNumber(confirmed)} / ${pveSweepNumber(total)}회 완료 · 처리 중인 요청은 자동으로 다시 확인합니다.</strong></div>`;
 }
 async function requestPveSweepChunk(payload){
-  const startedAt=Date.now();let phase='START',notFoundCount=0,lastError=null;
+  const startedAt=Date.now();let phase='START',blockingRequestId='',notFoundCount=0,lastError=null;
   while(Date.now()-startedAt<PVE_SWEEP_POLL_DEADLINE_MS){
     try{
-      const checking=phase==='STATUS',path=checking?'battle/auto/status':'battle/auto',body=checking?{requestId:payload.requestId}:payload;
+      const checking=phase!=='START',statusRequestId=phase==='BLOCKING_STATUS'?blockingRequestId:payload.requestId,path=checking?'battle/auto/status':'battle/auto',body=checking?{requestId:statusRequestId}:payload;
       const response=await apiRequest(path,{method:'POST',body:JSON.stringify(body)},{timeoutMs:checking?15000:45000});
       const status=String(response?.status||'').toUpperCase(),code=String(response?.code||'').toUpperCase();
+      if(phase==='BLOCKING_STATUS'){
+        if(status==='RUNNING'||code==='PVE_SWEEP_RUNNING'){await battleSleep(pveSweepRetryDelay(response?.retryAfterMs));continue}
+        // The older request belongs to a different sweep. Once it reaches any
+        // terminal state, ignore its result and retry this chunk's own receipt.
+        blockingRequestId='';phase='START';await battleSleep(pveSweepRetryDelay(response?.retryAfterMs));continue;
+      }
       if(status==='RUNNING'||code==='PVE_SWEEP_RUNNING'){
         phase='STATUS';await battleSleep(pveSweepRetryDelay(response?.retryAfterMs));continue;
       }
@@ -1852,6 +1858,14 @@ async function requestPveSweepChunk(payload){
       const error=new Error('소탕 서버가 올바른 결과를 반환하지 않았습니다.');error.code='PVE_SWEEP_RESPONSE_INVALID';throw error;
     }catch(error){
       lastError=error;const code=String(error?.code||'').toUpperCase();
+      if(code==='PVE_SWEEP_LOCKED'){
+        const blocker=String(error?.blockingRequestId||'').trim();
+        blockingRequestId=/^[a-zA-Z0-9-]{16,80}$/.test(blocker)&&blocker!==payload.requestId?blocker:'';
+        phase=blockingRequestId?'BLOCKING_STATUS':'START';await battleSleep(pveSweepRetryDelay(error?.retryAfterMs));continue;
+      }
+      if(phase==='BLOCKING_STATUS'&&['PVE_SWEEP_FAILED','PVE_SWEEP_STALE','PVE_SWEEP_NOT_FOUND','PVE_SWEEP_RECEIPT_INVALID'].includes(code)){
+        blockingRequestId='';phase='START';await battleSleep(pveSweepRetryDelay(error?.retryAfterMs));continue;
+      }
       if(code==='PVE_SWEEP_RUNNING'){
         phase='STATUS';await battleSleep(pveSweepRetryDelay(error?.retryAfterMs));continue;
       }
@@ -1897,8 +1911,10 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
   const first=pveSweepFirstResult(data),remaining=Math.max(0,Math.min(999,Number(battleState.autoRemaining||0)));
   battleState.autoSummary=first;modal.onclick=null;modal.classList.add('pve-sweep-modal');
   if(!remaining){battleState.autoRunning=false;msg.innerHTML=pveSweepResultMarkup(first);renderer?.showResult?.();bindPveSweepExit(modal,renderer);return true}
-  let summary=first,processed=0,chunkIndex=0,activeRequestId='';
+  let summary=first,processed=0,chunkIndex=0,activeRequestId='',runInFlight=false;
   const run=async()=>{
+    if(runInFlight)return true;
+    runInFlight=true;
     battleState.autoRunning=true;msg.classList.add('is-visible');renderer?.showResult?.();
     try{
       while(processed<remaining){
@@ -1919,7 +1935,7 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
       modal.querySelector('#pveSweepRetry')?.addEventListener('click',event=>{event.stopPropagation();void run()});
       modal.querySelector('#pveSweepExit')?.addEventListener('click',event=>{event.stopPropagation();try{renderer?.destroy?.()}catch(_){}renderShell('battle')});
       return true;
-    }
+    }finally{runInFlight=false}
   };
   // 전투 결과 DOM과 WebGL 전장은 같은 모달 안에 있다. 중간 대기 없이 이 틱에서
   // 즉시 소탕 레이어로 교체해야 잔류 Pixi/GSAP 프레임이 결과창 앞에 그려지지 않는다.
