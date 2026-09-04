@@ -94,6 +94,18 @@ test('잠금 화면은 계정명·죄수 캐릭터·창살·남은 형기와 전
   assert.ok(character.size>100_000);
 });
 
+test('수감 계정 콜드 스타트는 V21 부트 로딩을 즉시 해제한다',()=>{
+  const start=client.indexOf('function renderLockedPrison');
+  const end=client.indexOf('window.PrisonV1',start);
+  const lockedRender=client.slice(start,end);
+  assert.ok(start>0&&end>start,'감옥 잠금 렌더러를 찾을 수 있어야 한다');
+  assert.match(lockedRender,/document\.body\.classList\.add\('prison-locked','v21-ui-ready'\)/);
+  assert.match(lockedRender,/document\.documentElement\.dataset\.v21UiReady='1'/);
+  assert.match(index,/body\.v21-renewal-required #app\{visibility:hidden\}/);
+  assert.match(index,/body\.v21-ui-ready \.v21-renewal-boot\{display:none\}/);
+  assert.match(index,/js\/app\.js\?v=2022-prison-cold-start/);
+});
+
 test('CMS는 현재 수감 상태와 10분~6시간 입력, 즉시 석방을 제공한다',()=>{
   assert.match(cms,/id="prisonDuration"/);
   assert.match(cms,/id="prisonDuration" type="number" min="10" max="360" step="1" value="60"/);
