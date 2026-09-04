@@ -86,10 +86,10 @@
 .ws81-synth-actions .ws81-bulk-button{border-color:#e3b85f;background:linear-gradient(110deg,#12394d,#7d3247 58%,#72561f);box-shadow:0 10px 25px #0005,inset 0 1px #ffe8a133}
 .ws81-fusion-board .ws78-input-zone>div{grid-template-columns:repeat(auto-fit,minmax(76px,1fr))}
 .ws81-fusion-board .ws78-input-zone figure{transform:none}
-.ws81-synth-material{display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;gap:10px;margin-top:9px;padding:9px;border:1px solid #5b4a7d;border-radius:9px;background:linear-gradient(110deg,#0c1724,#21162f)}
+.ws81-synth-material{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;gap:10px;margin-top:9px;padding:9px;border:1px solid #5b4a7d;border-radius:9px;background:linear-gradient(110deg,#0c1724,#21162f)}
 .ws81-synth-material.empty{border-color:#784251;background:linear-gradient(110deg,#25131b,#111622)}
-.ws81-synth-material img{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 8px 10px #000b) drop-shadow(0 0 11px #906cff55)}
-.ws81-synth-material span{min-width:0;display:grid;gap:3px}.ws81-synth-material small{color:#9a83c6;font-size:8px;letter-spacing:.1em}.ws81-synth-material b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.ws81-synth-material em{color:#8da2b3;font-size:9px;font-style:normal}
+.ws81-synth-material img{position:static;inset:auto;width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 8px 10px #000b) drop-shadow(0 0 11px #906cff55)}
+.ws81-synth-material span{min-width:0;display:grid;gap:3px}.ws81-synth-material small{color:#9a83c6;font-size:8px;letter-spacing:.1em}.ws81-synth-material b{min-width:0;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;white-space:normal;font-size:12px;line-height:1.35}.ws81-synth-material em{color:#8da2b3;font-size:9px;font-style:normal}
 .ws81-fusion-board .ws78-fusion-core i{position:relative;width:72px;height:30px;border:1px solid #7f6dff;border-radius:3px;background:repeating-linear-gradient(90deg,#7f6dff33 0 2px,transparent 2px 9px),linear-gradient(180deg,#14243a,#0a101b);box-shadow:0 0 22px #805bff55,inset 0 0 14px #815fff22;animation:none}
 .ws81-fusion-board .ws78-fusion-core i:before,.ws81-fusion-board .ws78-fusion-core i:after{content:"";position:absolute;left:8px;right:8px;height:2px;background:#6ce4ff;box-shadow:0 0 8px #6ce4ff}
 .ws81-fusion-board .ws78-fusion-core i:before{top:8px}.ws81-fusion-board .ws78-fusion-core i:after{bottom:8px;background:#efb85f;box-shadow:0 0 8px #efb85f}

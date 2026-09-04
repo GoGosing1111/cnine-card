@@ -7,6 +7,7 @@ import { equipmentSynthesisMaterialPlan } from '../functions/_workshop.js';
 const root = new URL('../', import.meta.url);
 const server = readFileSync(new URL('functions/_workshop.js', root), 'utf8');
 const client = readFileSync(new URL('js/workshop-v1881.js', root), 'utf8');
+const css = readFileSync(new URL('css/workshop-v1881.css', root), 'utf8');
 const admin = readFileSync(new URL('admin/workshop-synthesis-v1677.js', root), 'utf8');
 const adminIndex = readFileSync(new URL('admin/index.html', root), 'utf8');
 
@@ -51,6 +52,8 @@ test('player UI gates single and batch synthesis by both stock types', () => {
   assert.match(client, /const synthMaxAttempts = recipe => Math\.min\([\s\S]{0,320}synthMaterialOwned\(recipe\)/);
   assert.match(client, /ADDITIONAL MATERIAL CONSUMED/);
   assert.match(client, /ws81-reveal-material/);
+  assert.match(css, /\.ws81-synth-material img\{position:static;inset:auto/);
+  assert.match(css, /\.ws81-synth-material b\{[^}]*overflow-wrap:anywhere;white-space:normal/);
 });
 
 test('CMS exposes the requested Prime 3 plus Mystic Energy 5 template', () => {
