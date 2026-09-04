@@ -1,3 +1,5 @@
+import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
+
 /* SOOPKETMON AVATAR CATALOG V1
  *
  * The live catalog is deployed dark. Operators explicitly configure prices,
@@ -301,7 +303,8 @@ async function purchaseAvatar(env,user,body){
   if(prior)return{error:'같은 구매 요청이 아직 정리 중입니다. 잠시 후 다시 확인해 주세요.',code:'AVATAR_PURCHASE_PENDING',status:409};
   const item=await env.DB.prepare(`SELECT code,name,coin_price FROM avatar_catalog_v1 WHERE code=? AND is_active=1 AND is_public=1 AND sale_enabled=1 AND acquisition_type='COIN'`).bind(avatarCode).first();
   const price=cleanPrice(item?.coin_price);if(!item||!Number.isSafeInteger(price)||price<=0)return{error:'현재 코인으로 판매 중인 아바타가 아닙니다.',status:404};
-  const batch=await env.DB.batch([
+  await ensureAdministrationTreasuryFoundation(env);
+  const statements=[
     env.DB.prepare(`INSERT INTO avatar_purchase_receipts_v1(request_id,user_id,avatar_code,coin_spent,status)
       SELECT ?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)
       AND NOT EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP))
@@ -312,10 +315,16 @@ async function purchaseAvatar(env,user,body){
       SELECT ?,?,'COIN_SHOP',?,NULL WHERE EXISTS(SELECT 1 FROM avatar_purchase_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')
       ON CONFLICT(user_id,avatar_code) DO UPDATE SET source_type=excluded.source_type,source_ref=excluded.source_ref,acquired_at=CURRENT_TIMESTAMP,expires_at=NULL
       WHERE avatar_user_ownership_v1.expires_at IS NOT NULL AND avatar_user_ownership_v1.expires_at<=CURRENT_TIMESTAMP`).bind(user.id,avatarCode,requestId,requestId,user.id),
+  ];
+  statements.push(...shopTaxStatements(env,{sourceType:'AVATAR_SHOP',sourceRequestId:requestId,userId:user.id,grossCoin:price,label:`아바타 ${item.name}`,
+    guardSql:"EXISTS(SELECT 1 FROM avatar_purchase_receipts_v1 WHERE request_id=? AND user_id=? AND avatar_code=? AND status='PENDING') AND EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP))",
+    guardBindings:[requestId,user.id,avatarCode,user.id,avatarCode]}));
+  statements.push(
     env.DB.prepare(`UPDATE avatar_purchase_receipts_v1 SET status='COMPLETED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'
       AND EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP))`).bind(requestId,user.id,user.id,avatarCode),
     env.DB.prepare(`SELECT r.status,r.avatar_code,r.coin_spent,u.coin FROM avatar_purchase_receipts_v1 r JOIN users u ON u.id=r.user_id WHERE r.request_id=? AND r.user_id=?`).bind(requestId,user.id)
-  ]);
+  );
+  const batch=await env.DB.batch(statements);
   const result=batch.at(-1)?.results?.[0];
   if(result?.status!=='COMPLETED'){
     const owned=await env.DB.prepare('SELECT 1 owned FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id,avatarCode).first();

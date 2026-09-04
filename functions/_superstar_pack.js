@@ -1,3 +1,5 @@
+import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
+
 const SETTINGS_KEY = "superstar_pack_settings_v1";
 export const SUPERSTAR_PACK_ID = "superstar";
 export const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES = Object.freeze(["조은", "강구열", "진짜디임", "오리꿍", "요닝", "하이희야♡"]);
@@ -280,6 +282,7 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       drawProtocol: { version: 1, status: "COMPLETED", revealMode: "SWIPE" },
     };
 
+    await ensureAdministrationTreasuryFoundation(env);
     const guarded = "EXISTS(SELECT 1 FROM superstar_pack_debits_v1 d WHERE d.request_id=? AND d.user_id=?)";
     const statements = [
       env.DB.prepare(`INSERT OR IGNORE INTO superstar_pack_debits_v1(request_id,user_id,cost)
@@ -311,6 +314,11 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
           .bind(user.id, shardGained, roll.card.id, user.id, requestId, user.id),
       );
     }
+    statements.push(...shopTaxStatements(env,{
+      sourceType:'CARD_PACK',sourceRequestId:`SUPERSTAR:${requestId}`,userId:user.id,grossCoin:settings.price,label:'SUPERSTAR 카드팩',
+      guardSql:"EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=? AND user_id=?) AND EXISTS(SELECT 1 FROM superstar_pack_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')",
+      guardBindings:[requestId,user.id,requestId,user.id]
+    }));
     statements.push(
       env.DB.prepare(`UPDATE superstar_pack_receipts_v1 SET status='COMPLETED',outcome=?,card_id=?,cost=?,response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP
         WHERE request_id=? AND user_id=? AND ${guarded}`)

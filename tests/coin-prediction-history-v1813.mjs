@@ -60,11 +60,11 @@ assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 
 assert.match(app, /coin-prediction-v1\.css\?v=1813-history-tabs/);
 assert.match(app, /coin-prediction-v2\.css\?v=1861-broadcast-ledger/);
-assert.match(app, /coin-prediction-v1\.js\?v=2000-user-max-500m/);
-assert.match(index, /js\/app\.js\?v=2022-prison-cold-start/);
+assert.match(app, /coin-prediction-v1\.js\?v=2030-treasury-subsidy/);
+assert.match(index, /js\/app\.js\?v=2030-administration-treasury/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=1883-prediction-only-admin/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=2000-user-max-500m/);
-assert.match(serviceWorker, /soop-card-shell-v2022-prison-cold-start/);
+assert.match(serviceWorker, /soop-card-shell-v2030-administration-treasury/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
 

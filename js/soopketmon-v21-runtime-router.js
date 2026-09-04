@@ -21,7 +21,8 @@
     'prediction',
     'auction',
     'mineral',
-    'inventory'
+    'inventory',
+    'treasury'
   ]);
 
   const SHELL_ROUTE_SET = new Set(SHELL_ROUTES);
@@ -57,6 +58,7 @@
     auction: { shell: 'auction' },
     mineral: { shell: 'mineral' },
     inventory: { shell: 'inventory' },
+    treasury: { shell: 'treasury' },
 
     profile: { global: 'showAccountPanel', fallbackSelector: '#playerAccountBtn' },
     territory: {

@@ -30,9 +30,10 @@
 
   function predicted(event, option) {
     const pool = Number(event.total_pool || 0);
+    const support = Number(event.treasury_subsidy || 0);
     const amount = Number(option.total_bet || 0);
     if (!pool || !amount) return '집계 중';
-    return `${(pool * 0.9 / amount).toFixed(2)}배`;
+    return `${((pool * 0.9 + support) / amount).toFixed(2)}배`;
   }
 
   function formatTime(ms) {
@@ -188,7 +189,7 @@
         </div>
         <section class="cp2-match-stats" aria-label="경기 현황">
           <div class="cp2-stat is-timer"><span>${isHistory ? 'EVENT STATUS' : 'CLOSES IN'}</span>${countdown}<small>${isHistory ? '24시간 보존' : 'KST 기준'}</small></div>
-          <div class="cp2-stat is-pool"><span>TOTAL COIN POOL</span><strong>${fmt(event.total_pool)}</strong><small>COIN · ${fmt(event.participant_count)} PLAYERS</small></div>
+          <div class="cp2-stat is-pool"><span>TOTAL COIN POOL</span><strong>${fmt(event.total_pool)}</strong><small>COIN · ${fmt(event.participant_count)} PLAYERS${Number(event.treasury_subsidy||0)>0?` · 행정부 지원 +${fmt(event.treasury_subsidy)}`:''}</small></div>
         </section>
       </header>
 

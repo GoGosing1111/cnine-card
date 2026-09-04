@@ -1,7 +1,7 @@
 (function installSoopketmonV21CommandIcons(global) {
   'use strict';
 
-  const VERSION = '1.3.0';
+  const VERSION = '1.4.0';
   const SHELL_SELECTOR = '[data-soopketmon-v21-shell="approved-v21"]';
   const script = document.currentScript;
 
@@ -52,7 +52,8 @@
     rank: '<path d="M7 4h10v5c0 4-2 7-5 8-3-1-5-4-5-8Z"/><path d="M7 6H3v2c0 3 2 5 5 5M17 6h4v2c0 3-2 5-5 5M9 21h6M12 17v4"/>',
     prediction: '<circle cx="7" cy="17" r="3"/><path d="M10 17h3l2-4 2 2 4-7M17 8h4v4"/><path d="M3 4h8v7H3zM6 7h2"/>',
     auction: '<path d="m5 9 5-5 4 4-5 5ZM11 12l5-5M13 14l5-5M3 20h12v2H3z"/><path d="m12 11 7 7"/>',
-    inventory: '<path d="M4 8h16v13H4Z"/><path d="M7 8V4h10v4M4 12h16M10 12v3h4v-3"/>'
+    inventory: '<path d="M4 8h16v13H4Z"/><path d="M7 8V4h10v4M4 12h16M10 12v3h4v-3"/>',
+    treasury: '<circle cx="12" cy="12" r="9"/><path d="M8 8.5h8M8 15.5h8M12 6v12M7 12h10"/>'
   });
 
   const COMBAT_ROUTES = new Set(['battle', 'pvp', 'deck', 'hunt', 'raid', 'siege', 'seal', 'idle', 'tower', 'territory']);

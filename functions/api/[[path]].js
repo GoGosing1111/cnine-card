@@ -16,6 +16,7 @@ import { handleClan } from '../_clan.js';
 import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
+import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,shopTaxStatements } from '../_administration_treasury.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
 import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
@@ -5077,6 +5078,7 @@ async function handleRequest(context){
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,writeAdminLog}});if(siegeResponse)return siegeResponse;
     const escortResponse=await handleEscortOperation({path,request,env,deps:{authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}});if(escortResponse)return escortResponse;
     const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent:activateChiefBurningEvent}});if(chiefResponse)return chiefResponse;
+    const treasuryResponse=await handleAdministrationTreasury({path,request,env,deps:{authenticate,readBody,json}});if(treasuryResponse)return treasuryResponse;
     const idleDungeonResponse=await handleIdleDungeon({path,request,env,deps:{authenticate,readBody,json,isAdminRole,raidDeckPower}});if(idleDungeonResponse)return idleDungeonResponse;
 
     if(path==='user/runtime-command'){
@@ -5703,6 +5705,11 @@ async function handleRequest(context){
         }
         if(shardTotal>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',NULL)").bind(user.id,shardTotal,expectedShards));
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
+        await ensureAdministrationTreasuryFoundation(env);
+        statements.push(...shopTaxStatements(env,{
+          sourceType:'CARD_PACK',sourceRequestId:requestId,userId:user.id,grossCoin:cost,label:`${pack.name||pack.id} 카드팩`,
+          guardSql:`EXISTS(SELECT 1 FROM ${drawReceiptTable} WHERE request_id=? AND user_id=? AND status='PENDING')`,guardBindings:[requestId,user.id]
+        }));
         const response=finalizeDrawPayload(draftResponse);
         // 자동 뽑기에서 이미 화면 표시가 끝난 이전 영수증 10개는 결과 JSON만 비워 장기 용량 증가를 제한한다.
         // 다음 뽑기가 성공적으로 커밋될 때만 함께 정리하므로 현재 지급 복구 가능성은 유지된다.
