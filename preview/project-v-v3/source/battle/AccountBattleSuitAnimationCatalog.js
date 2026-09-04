@@ -18,7 +18,9 @@ const WEAPONS=Object.freeze({
   EQ_1785427638137:Object.freeze({weaponSlug:'m4a1',pairSlug:'m4a1-m200',row:0}),
   EQ_1785961300455:Object.freeze({weaponSlug:'m200',pairSlug:'m4a1-m200',row:1}),
   EQ_1785961232958:Object.freeze({weaponSlug:'ak',pairSlug:'ak-sks',row:0}),
-  EQ_1786966923833:Object.freeze({weaponSlug:'sks',pairSlug:'ak-sks',row:1})
+  EQ_1786966923833:Object.freeze({weaponSlug:'sks',pairSlug:'ak-sks',row:1}),
+  EQ_1788486929132:Object.freeze({weaponSlug:'gilded-dragon-ar',pairSlug:'gilded-dragon',row:0}),
+  EQ_1788486888336:Object.freeze({weaponSlug:'gilded-dragon-antimateriel',pairSlug:'gilded-dragon',row:1})
 });
 
 const SHEET_URL_OVERRIDES=Object.freeze({
@@ -27,7 +29,10 @@ const SHEET_URL_OVERRIDES=Object.freeze({
   'BATTLE_SUIT_02:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png',
   'BATTLE_SUIT_02:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png',
   'BATTLE_SUIT_03:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v7.png',
-  'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png'
+  'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png',
+  'BATTLE_SUIT_01:gilded-dragon':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-gilded-dragon-horizontal-fire-atlas-v1.png',
+  'BATTLE_SUIT_02:gilded-dragon':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-gilded-dragon-horizontal-fire-atlas-v1.png',
+  'BATTLE_SUIT_03:gilded-dragon':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png'
 });
 
 function tuning(scaleMultiplier,contentTop,contentBottom,muzzleX,muzzleY){
@@ -63,7 +68,13 @@ const SOLE_PIVOTS_BY_SUIT_PAIR_ROW=Object.freeze({
   'BATTLE_SUIT_03:m4a1-m200:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
   'BATTLE_SUIT_03:m4a1-m200:1':solePivots([20.869,478],[20.869,478],[20.869,478],[20.869,478]),
   'BATTLE_SUIT_03:ak-sks:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
-  'BATTLE_SUIT_03:ak-sks:1':solePivots([20.565,476],[18.158,476],[18.377,473],[18.911,475])
+  'BATTLE_SUIT_03:ak-sks:1':solePivots([20.565,476],[18.158,476],[18.377,473],[18.911,475]),
+  'BATTLE_SUIT_01:gilded-dragon:0':solePivots([21.691,479],[21.691,479],[21.691,479],[21.691,479]),
+  'BATTLE_SUIT_01:gilded-dragon:1':solePivots([17.244,479],[17.244,479],[17.244,479],[17.244,479]),
+  'BATTLE_SUIT_02:gilded-dragon:0':solePivots([36.132,479],[36.132,479],[36.132,479],[36.132,479]),
+  'BATTLE_SUIT_02:gilded-dragon:1':solePivots([28.299,479],[28.299,479],[28.299,479],[28.299,479]),
+  'BATTLE_SUIT_03:gilded-dragon:0':solePivots([19.798,479],[19.798,479],[19.798,479],[19.798,479]),
+  'BATTLE_SUIT_03:gilded-dragon:1':solePivots([18.309,479],[18.309,479],[18.309,479],[18.309,479])
 });
 
 // Measured from the final exact-weapon atlases. Per-pair values keep the sole,
@@ -81,7 +92,13 @@ const PAIR_TUNING=Object.freeze({
   'BATTLE_SUIT_03:EQ_1785427638137':tuning(1.4,36/512,478/512,379/384,119/512),
   'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.47,79/512,478/512,377/384,160/512),
   'BATTLE_SUIT_03:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,126/512),
-  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,57/512,476/512,375/384,145/512)
+  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,57/512,476/512,375/384,145/512),
+  'BATTLE_SUIT_01:EQ_1788486929132':tuning(1.45,72/512,479/512,378/384,163/512),
+  'BATTLE_SUIT_01:EQ_1788486888336':tuning(1.55,161/512,479/512,378/384,229/512),
+  'BATTLE_SUIT_02:EQ_1788486929132':tuning(1.45,129/512,479/512,378/384,204/512),
+  'BATTLE_SUIT_02:EQ_1788486888336':tuning(1.55,185/512,479/512,378/384,248/512),
+  'BATTLE_SUIT_03:EQ_1788486929132':tuning(1.45,76/512,479/512,378/384,169/512),
+  'BATTLE_SUIT_03:EQ_1788486888336':tuning(1.55,158/512,479/512,378/384,220/512)
 });
 
 function catalogEntry(suitCode,suitSlug,weaponCode,weapon){

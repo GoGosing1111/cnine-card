@@ -37,7 +37,9 @@
       EQ_1785427638137:{name:'아발론 M4A1',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png'},
       EQ_1785961232958:{name:'인피니티 AK',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png'},
       EQ_1785961300455:{name:'인피니티 M200',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png'},
-      EQ_1786966923833:{name:'소버린 SKS',kind:'DMR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'}
+      EQ_1786966923833:{name:'소버린 SKS',kind:'DMR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'},
+      EQ_1788486929132:{name:'동방무기상 · 금룡 돌격소총',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png'},
+      EQ_1788486888336:{name:'동방무기상 · 금룡 대물저격총',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png'}
     }
   };
   const battleQcState={suitCode:'BATTLE_SUIT_01',weaponCode:'EQ_1785427638137',battlefield:'HUNT',sound:true,mounted:false,busy:false};
@@ -159,7 +161,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=97-battle-suit-per-action-fire';
+        script.src='project-v-pixi-battle.bundle.js?v=98-gilded-dragon-battle-suit';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);

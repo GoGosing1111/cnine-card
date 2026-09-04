@@ -17,7 +17,7 @@ const [{AccountBattleUnit},{BattleEngine},{resolveAccountBattleSuitAnimation}]=a
 const SUIT_CODE='BATTLE_SUIT_01';
 const WEAPON_CODE='EQ_1785961300455'; // M200: physical row 1 exercises lower-atlas slicing.
 const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
-const WEAPON_CODES=Object.freeze(['EQ_1785427638137','EQ_1785961300455','EQ_1785961232958','EQ_1786966923833']);
+const WEAPON_CODES=Object.freeze(['EQ_1785427638137','EQ_1785961300455','EQ_1785961232958','EQ_1786966923833','EQ_1788486929132','EQ_1788486888336']);
 const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
 const NAME_PANEL_HEIGHT=36;
 const STATIC_SUIT='/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png';
@@ -225,7 +225,7 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
   }
 });
 
-test('all twelve authored suit/weapon profiles apply frame-exact sole pivots and keep muzzle math on the fire pivot',()=>{
+test('all eighteen authored suit/weapon profiles apply frame-exact sole pivots and keep muzzle math on the fire pivot',()=>{
   const sheet=testTexture(1536,1024);
   const effectLayer=new Container({label:'AllPairPivotEffectLayer'});
   const unit=new AccountBattleUnit({effectLayer});
@@ -450,12 +450,21 @@ test('PVE server-shot playback preserves weapon cadence differences and never en
   const ak=engine.accountBattleUnitSustainedFireProfile();
   engine.accountBattleUnitEquipment.weapon={code:'EQ_1785961300455'};
   const m200=engine.accountBattleUnitSustainedFireProfile();
+  engine.accountBattleUnitEquipment.weapon={code:'EQ_1788486929132'};
+  const gildedAr=engine.accountBattleUnitSustainedFireProfile();
+  engine.accountBattleUnitEquipment.weapon={code:'EQ_1788486888336'};
+  const gildedAntimateriel=engine.accountBattleUnitSustainedFireProfile();
   assert.equal(m4.fireMode,'FULL_AUTO');
   assert.equal(ak.fireMode,'FULL_AUTO');
   assert.ok(m4.roundsPerBurst>ak.roundsPerBurst,'M4A1 must retain the denser automatic burst');
   assert.equal(m200.fireMode,'BOLT_ACTION');
   assert.equal(m200.roundsPerBurst,1);
   assert.ok(m200.burstDelayMs>m4.burstDelayMs,'M200 must retain a slower bolt-action follow-up');
+  assert.equal(gildedAr.fireMode,'FULL_AUTO');
+  assert.equal(gildedAr.weaponClass,'GILDED_DRAGON_AR');
+  assert.equal(gildedAntimateriel.fireMode,'BOLT_ACTION');
+  assert.equal(gildedAntimateriel.weaponClass,'GILDED_DRAGON_ANTIMATERIEL');
+  assert.ok(gildedAntimateriel.burstDelayMs>gildedAr.burstDelayMs,'gilded anti-materiel rifle must retain a slower follow-up than the gilded AR');
 
   engine.accountBattleUnitEquipment.weapon={code:'EQ_1785427638137'};
   const run=engine.startAccountBattleUnitSustainedFire();

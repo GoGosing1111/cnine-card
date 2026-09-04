@@ -10,7 +10,7 @@ import {
   handleEquipment,
   userEquipmentBonuses,
 } from '../functions/_equipment.js';
-import {APOCALYPSE_RULES,battleSuitLiveRuntime,createPveBattleV2} from '../functions/_battle_v2_preview.js';
+import {APOCALYPSE_RULES,battleSuitLiveRuntime,buildBattleSuitFighter,createPveBattleV2} from '../functions/_battle_v2_preview.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
@@ -152,12 +152,24 @@ test('runtime Battle Suit and weapon cutout manifest matches the committed asset
   assert.equal(manifest.renderContract.occupiesCardSlot,false);
   assert.equal(manifest.renderContract.targetable,false);
   assert.deepEqual(manifest.suits.map(item=>item.code),['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
-  assert.deepEqual(manifest.weapons.map(item=>item.equipmentCode),['EQ_1785427638137','EQ_1785961232958','EQ_1785961300455','EQ_1786966923833']);
+  assert.deepEqual(manifest.weapons.map(item=>item.equipmentCode),['EQ_1785427638137','EQ_1785961232958','EQ_1785961300455','EQ_1786966923833','EQ_1788486929132','EQ_1788486888336']);
   for(const item of [...manifest.suits,...manifest.weapons]){
     const relative=String(item.image||item.battleSprite||'').replace(/^\//,'');
     const bytes=await readFile(new URL(`../${relative}`,import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex').toUpperCase(),item.sha256,relative);
   }
+});
+
+test('both gilded-dragon rifles select physical weapon cadence without changing total Battle Suit damage',()=>{
+  const ar=buildBattleSuitFighter({code:'BATTLE_SUIT_03',pvePower:300000,weaponCode:'EQ_1788486929132'});
+  const antimateriel=buildBattleSuitFighter({code:'BATTLE_SUIT_03',pvePower:300000,weaponCode:'EQ_1788486888336'});
+  assert.equal(ar.weaponClass,'AR');
+  assert.equal(ar.independentShotsPerCycle,15);
+  assert.equal(ar.independentAttackMultiplier,1);
+  assert.equal(antimateriel.weaponClass,'SNIPER');
+  assert.equal(antimateriel.independentShotsPerCycle,5);
+  assert.equal(antimateriel.independentAttackMultiplier,1);
+  assert.equal(ar.independentFireInterval*15,antimateriel.independentFireInterval*5,'both weapons must retain the same reference-cycle duration');
 });
 
 test('Battle Suit is a sixth PVE support actor with authoritative independent damage, not a displayed aggregate',async()=>{

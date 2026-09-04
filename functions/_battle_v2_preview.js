@@ -1372,6 +1372,10 @@ const BATTLE_SUIT_WEAPON_CADENCE = Object.freeze({
   EQ_1785961232958: { classCode: 'AR', shotsPerCycle: 10, attackMultiplier: 1.00 },
   EQ_1785961300455: { classCode: 'SNIPER', shotsPerCycle: 5, attackMultiplier: 1.58 },
   EQ_1786966923833: { classCode: 'DMR', shotsPerCycle: 8, attackMultiplier: 1.28 },
+  // 동방무기상 2종은 총기별 발사 간격만 구분한다. 장비 전투력의 총 피해량은
+  // 기존 기본 프로필(1.00)과 동일하게 유지해 리소스 연결이 밸런스 패치가 되지 않게 한다.
+  EQ_1788486929132: { classCode: 'AR', shotsPerCycle: 15, attackMultiplier: 1.00 },
+  EQ_1788486888336: { classCode: 'SNIPER', shotsPerCycle: 5, attackMultiplier: 1.00 },
   DEFAULT: { classCode: 'RIFLE', shotsPerCycle: 10, attackMultiplier: 1.00 }
 });
 

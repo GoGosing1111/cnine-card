@@ -73,6 +73,20 @@
       "sourceImage": "/assets/items/41515123.jpeg",
       "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
       "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462"
+    },
+    {
+      "equipmentCode": "EQ_1788486929132",
+      "name": "東方軍火商(동방무기상) · 금룡 돌격소총",
+      "sourceImage": "/assets/items/gilded-dragon-ar-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+      "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2"
+    },
+    {
+      "equipmentCode": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상) · 금룡 대물저격총",
+      "sourceImage": "/assets/items/gilded-dragon-antimateriel-rifle-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+      "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0"
     }
   ]
 }

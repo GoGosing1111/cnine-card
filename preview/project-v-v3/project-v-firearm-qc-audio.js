@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const MANIFEST_URL='/preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json?v=7-live-pve-continuous-fire';
+  const MANIFEST_URL='/preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json?v=8-gilded-dragon-battle-suit';
   const AudioContextClass=globalThis.AudioContext||globalThis.webkitAudioContext||null;
   const activeSources=new Set();
   const sustainedShotGroups=[];

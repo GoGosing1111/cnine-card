@@ -1,5 +1,5 @@
 {
-  "version": "v2-live-pve",
+  "version": "v3-live-pve-gilded-dragon",
   "contract": "PROJECT_V_V3_FIREARM_AUDIO_LIVE_V1",
   "scope": "PVE_LIVE_AND_PREVIEW",
   "liveRuntimeConnected": true,
@@ -175,6 +175,78 @@
         "action": {"sourceOffsetMs": 118, "durationMs": 30, "gain": 0.1, "fadeInMs": 2, "fadeOutMs": 12},
         "impact": {"leadInMs": 1.5, "durationMs": 150, "gain": 0.78, "fadeInMs": 0.5, "fadeOutMs": 30},
         "tail": {"sourceOffsetAfterPeakMs": 68, "delayAfterFireMs": 68, "durationMs": 400, "gain": 0.14, "fadeInMs": 3, "fadeOutMs": 160}
+      }
+    },
+    "EQ_1788486929132": {
+      "profileId": "AR_GILDED_DRAGON_M4A1_PROXY_REAL_V1",
+      "weaponName": "동방무기상 · 금룡 돌격소총",
+      "weaponClass": "AR",
+      "asset": "/preview/project-v-v3/assets/audio/firearm-qc-v1/m4a1-colt-socom-cc0-freesound-737569.mp3",
+      "acousticLabel": "Colt M4A1 SOCOM 5.56mm 실총 (금룡 돌격소총 대역)",
+      "proxyDisclosure": "The visual weapon remains the exact authored gilded-dragon assault rifle; its acoustic layer reuses the approved real M4A1 recording as an AR-class proxy.",
+      "source": {
+        "provider": "Freesound",
+        "soundId": 737569,
+        "title": "Colt M4A1 SOCOM",
+        "author": "areniporgen",
+        "page": "https://freesound.org/people/areniporgen/sounds/737569/",
+        "license": "CC0 1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "recording": "real firearm recording; exterior close perspective",
+        "sourceSha256": "1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2"
+      },
+      "final": {
+        "sha256": "1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2",
+        "durationMs": 2147.28,
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "onsetMs": 0.07,
+        "peakMs": 161.04,
+        "peakDbfs": -2.57,
+        "clippedFrames": 0,
+        "bakedProcessing": "NONE; existing approved CC0 recording bytes are reused unchanged"
+      },
+      "runtimeMix": {
+        "masterGain": 0.72,
+        "action": {"sourceOffsetMs": 0, "durationMs": 34, "gain": 0.13, "fadeInMs": 2, "fadeOutMs": 12},
+        "impact": {"leadInMs": 18, "durationMs": 190, "gain": 1, "fadeInMs": 3, "fadeOutMs": 35},
+        "tail": {"sourceOffsetAfterPeakMs": 72, "delayAfterFireMs": 72, "durationMs": 900, "gain": 0.22, "fadeInMs": 4, "fadeOutMs": 260}
+      }
+    },
+    "EQ_1788486888336": {
+      "profileId": "ANTIMATERIEL_GILDED_DRAGON_TAC50_PROXY_REAL_V1",
+      "weaponName": "동방무기상 · 금룡 대물저격총",
+      "weaponClass": "SNIPER",
+      "asset": "/preview/project-v-v3/assets/audio/firearm-qc-v1/m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3",
+      "acousticLabel": "Tac-50A1-R2 .50 BMG 소음기 실총 (금룡 대물저격총 대역)",
+      "proxyDisclosure": "The visual weapon remains the exact authored gilded-dragon anti-materiel rifle; its acoustic layer reuses the approved real high-caliber Tac-50 recording as a class proxy.",
+      "source": {
+        "provider": "Freesound",
+        "soundId": 737570,
+        "title": "MacMillan Tac-50A1-R2 Suppressed",
+        "author": "areniporgen",
+        "page": "https://freesound.org/people/areniporgen/sounds/737570/",
+        "license": "CC0 1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "recording": "real suppressed .50 BMG firearm recording; exterior close perspective",
+        "sourceSha256": "F4E5F79C3D4BB47C9A8D396564CD02FDD099C26E9FDD37BB75DB563B9A2C4C8B"
+      },
+      "final": {
+        "sha256": "F4E5F79C3D4BB47C9A8D396564CD02FDD099C26E9FDD37BB75DB563B9A2C4C8B",
+        "durationMs": 3255.42,
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "onsetMs": 12.54,
+        "peakMs": 111.84,
+        "peakDbfs": -2.16,
+        "clippedFrames": 0,
+        "bakedProcessing": "NONE; existing approved CC0 recording bytes are reused unchanged"
+      },
+      "runtimeMix": {
+        "masterGain": 0.76,
+        "action": {"sourceOffsetMs": 0, "durationMs": 36, "gain": 0.12, "fadeInMs": 2, "fadeOutMs": 14},
+        "impact": {"leadInMs": 18, "durationMs": 320, "gain": 1, "fadeInMs": 3, "fadeOutMs": 55},
+        "tail": {"sourceOffsetAfterPeakMs": 110, "delayAfterFireMs": 110, "durationMs": 1500, "gain": 0.28, "fadeInMs": 5, "fadeOutMs": 480}
       }
     }
   }

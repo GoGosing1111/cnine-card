@@ -77,7 +77,9 @@ for(const [code,file] of Object.entries({
   EQ_1785427638137:'avalon-m4a1-v1.png',
   EQ_1785961232958:'infinity-ak-v1.png',
   EQ_1785961300455:'infinity-m200-v1.png',
-  EQ_1786966923833:'sovereign-sks-v1.png'
+  EQ_1786966923833:'sovereign-sks-v1.png',
+  EQ_1788486929132:'gilded-dragon-ar-v1.png',
+  EQ_1788486888336:'gilded-dragon-antimateriel-v1.png'
 })){
   assert.match(engine,new RegExp(`${code}:[^\\n]*${file.replaceAll('.','\\.')}`));
   assert.match(bundle,new RegExp(file.replaceAll('.','\\.')));

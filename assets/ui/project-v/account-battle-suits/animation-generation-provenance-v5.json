@@ -1,0 +1,85 @@
+{
+  "version": "v5",
+  "tool": "OpenAI built-in image generation tool",
+  "mode": "reference-conditioned weapon extraction and suit-identity-preserving authored composites, followed by deterministic local alpha extraction of the checkerboard and atlas assembly",
+  "purpose": "Connect both live CMS 東方軍火商(동방무기상) MYTHIC rifles to all three PROJECT V V3 Battle Suit appearances without changing the approved suit identities or total Battle Suit damage.",
+  "baseProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v4.json",
+  "cmsSnapshot": {
+    "checkedAt": "2026-09-04",
+    "source": "live Hyperdrive read-only query",
+    "weapons": [
+      {
+        "equipmentCode": "EQ_1788486929132",
+        "name": "東方軍火商(동방무기상)",
+        "subtype": "RIFLE",
+        "rarity": "MYTHIC",
+        "totalPower": 180000,
+        "sourceImage": "/assets/items/gilded-dragon-ar-mythic-v1.png"
+      },
+      {
+        "equipmentCode": "EQ_1788486888336",
+        "name": "東方軍火商(동방무기상)",
+        "subtype": "RIFLE",
+        "rarity": "MYTHIC",
+        "totalPower": 180000,
+        "sourceImage": "/assets/items/gilded-dragon-antimateriel-rifle-mythic-v1.png"
+      }
+    ]
+  },
+  "lockedInvariants": [
+    "Battle Suit 01 face, white-gold armor, cyan accents and silhouette",
+    "Battle Suit 02 orange bob, black tactical suit, white armor and navy coat tails",
+    "Battle Suit 03 magenta helmet, magenta-white-black-gold armor and silhouette",
+    "full-body right-facing standing aim",
+    "one suit and one exact weapon per authored source",
+    "static-pose four-column runtime policy",
+    "PVE-only server-timeline damage authority"
+  ],
+  "finalPromptSet": {
+    "weaponGildedDragonAr": "Use case: production game combat sprite asset extraction. Isolate the exact ornate gold-and-crimson dragon assault rifle shown in the reference image. Preserve its distinctive dragon-head receiver, engraved gold body, red enamel accents, magazine, stock, handguard, barrel, and proportions. Present one complete firearm only in a clean left-to-right side profile, muzzle pointing right, perfectly horizontal at 0 degrees. Remove the square item frame, dark red background, sparks, glow cloud, labels, and every decorative UI element. Output a high-resolution RGBA PNG with genuine transparent background and clean anti-aliased edges. No person, hands, extra weapon, muzzle flash, text, logo, border, pedestal, shadow, checkerboard, or cropped parts.",
+    "weaponGildedDragonAntimateriel": "Use case: production game combat sprite asset extraction. Isolate the exact ornate gold-and-crimson dragon anti-materiel rifle shown in the reference image. Preserve its very long heavy barrel, dragon-head muzzle assembly, gold engraved receiver and stock, red enamel panels, scope, bipod, magazine, and distinctive proportions. Present one complete firearm only in a clean left-to-right side profile, muzzle pointing right, perfectly horizontal at 0 degrees. Remove the square item frame, dark red background, sparks, glow cloud, labels, and every decorative UI element. Output a high-resolution RGBA PNG with genuine transparent background and clean anti-aliased edges. No person, hands, extra weapon, muzzle flash, text, logo, border, pedestal, shadow, checkerboard, or cropped parts.",
+    "battleSuit01GildedDragonAr": "Use case: PROJECT V V3 production Battle Suit combat sprite. Create ONE single full-body adult female Battle Suit combatant, derived strictly from the character/armor in reference image 1, now holding the exact ornate gold-and-crimson dragon assault rifle in reference image 2. Preserve Battle Suit 01 identity exactly: attractive visible adult female face, long proportions, white-and-gold mechanical armor, cyan energy accents, silhouette, boots, and armor material design. Replace only the old firearm. Right-facing elevated-isometric side combat view, stable standing aim, rifle perfectly horizontal at 0 degrees, stock seated at shoulder, trigger hand on grip, support hand under handguard; the entire dragon rifle and full body including both soles must be visible, with the muzzle clearly separated at the far right. One character, one weapon, no extra panels and no pose sequence. High-end semi-real fantasy game splash/sprite finish, crisp foreground materials readable when downscaled. Genuine transparent RGBA background. No checkerboard, background scene, UI, text, logo, watermark, muzzle flash, projectile, glow cloud, extra limb, duplicate face, floating gun, or cropped parts.",
+    "battleSuit01GildedDragonAntimateriel": "Use case: PROJECT V V3 production Battle Suit combat sprite. Create ONE single full-body adult female Battle Suit combatant, derived strictly from the character/armor in reference image 1, now holding the exact ornate gold-and-crimson dragon anti-materiel rifle in reference image 2. Preserve Battle Suit 01 identity exactly: attractive visible adult female face, long proportions, white-and-gold mechanical armor, cyan energy accents, silhouette, boots, and armor material design. Replace only the old firearm. Right-facing elevated-isometric side combat view, stable heavy-rifle standing aim, rifle perfectly horizontal at 0 degrees, stock firmly seated at shoulder, eye behind optic, trigger hand on grip, support hand under the fore-end; keep the entire very long dragon rifle, scope, barrel and full body including both soles visible, with the muzzle clearly separated at far right. One character, one weapon, no bipod deployed while held, no extra panels. High-end semi-real fantasy game sprite finish, crisp foreground materials readable when downscaled. Genuine transparent RGBA background. No checkerboard, scene, UI, text, logo, watermark, muzzle flash, projectile, glow cloud, extra limb, duplicate face, floating gun, or cropped parts.",
+    "battleSuit02GildedDragonAr": "Use case: PROJECT V V3 production Battle Suit combat sprite. Create ONE single full-body adult female Battle Suit combatant, derived strictly from the character/armor in reference image 1, now holding the exact ornate gold-and-crimson dragon assault rifle in reference image 2. Preserve Battle Suit 02 identity exactly: short orange bob haircut, clear attractive adult face, black tactical bodysuit, white mechanical arm and shin armor, cyan accents, split dark navy coat tails, long proportions, silhouette, and boots. Replace only the old firearm. Right-facing elevated-isometric side combat view, stable standing aim, rifle perfectly horizontal at 0 degrees, stock at shoulder, trigger hand on grip, support hand under handguard; full dragon rifle and full body including both soles visible, muzzle clearly separated at far right. One character, one weapon, one pose, no extra panels. High-end semi-real fantasy game sprite finish, crisp foreground materials readable when downscaled. Genuine transparent RGBA background. No checkerboard, scene, UI, text, logo, watermark, muzzle flash, projectile, glow cloud, extra limb, duplicate face, floating gun, or cropped parts.",
+    "battleSuit02GildedDragonAntimateriel": "Use case: PROJECT V V3 production Battle Suit combat sprite. Create ONE single full-body adult female Battle Suit combatant, derived strictly from the character/armor in reference image 1, now holding the exact ornate gold-and-crimson dragon anti-materiel rifle in reference image 2. Preserve Battle Suit 02 identity exactly: short orange bob haircut, clear attractive adult face, black tactical bodysuit, white mechanical arm and shin armor, cyan accents, split dark navy coat tails, long proportions, silhouette, and boots. Replace only the old firearm. Right-facing elevated-isometric side combat view, stable heavy-rifle standing aim, rifle perfectly horizontal at 0 degrees, stock firmly seated at shoulder, eye behind optic, trigger hand on grip, support hand under fore-end; entire long dragon rifle, scope, barrel and full body including both soles visible, muzzle clearly separated at far right. One character, one weapon, one pose, no deployed bipod and no extra panels. High-end semi-real fantasy game sprite finish, crisp foreground materials readable when downscaled. Genuine transparent RGBA background. No checkerboard, scene, UI, text, logo, watermark, muzzle flash, projectile, glow cloud, extra limb, duplicate face, floating gun, or cropped parts.",
+    "battleSuit03GildedDragonAr": "Use case: PROJECT V V3 production Battle Suit combat sprite. Create ONE single full-body female-shaped helmeted Battle Suit combatant, derived strictly from the character/armor in reference image 1, now holding the exact ornate gold-and-crimson dragon assault rifle in reference image 2. Preserve Battle Suit 03 identity exactly: CLOSED magenta mechanical helmet with no exposed face, magenta-white-black-gold exosuit armor, feminine long proportions, exact helmet silhouette, shoulder armor, hip armor, boots, and energy accents. Do not open or redesign the helmet. Replace only the old firearm. Right-facing elevated-isometric side combat view, stable standing aim, rifle perfectly horizontal at 0 degrees, stock at shoulder, trigger hand on grip, support hand under handguard; full dragon rifle and full body including both soles visible, muzzle clearly separated at far right. One character, one weapon, one pose, no extra panels. High-end semi-real fantasy game sprite finish, crisp foreground materials readable when downscaled. Genuine transparent RGBA background. No checkerboard, scene, UI, text, logo, watermark, muzzle flash, projectile, glow cloud, extra limb, exposed face, floating gun, or cropped parts.",
+    "battleSuit03GildedDragonAntimateriel": "Use case: PROJECT V V3 production Battle Suit combat sprite. Create ONE single full-body female-shaped helmeted Battle Suit combatant, derived strictly from the character/armor in reference image 1, now holding the exact ornate gold-and-crimson dragon anti-materiel rifle in reference image 2. Preserve Battle Suit 03 identity exactly: magenta mechanical combat helmet and visor matching the reference, magenta-white-black-gold exosuit armor, feminine long proportions, exact helmet silhouette, shoulder armor, hip armor, boots, and energy accents. Do not remove or redesign the helmet. Replace only the old firearm. Right-facing elevated-isometric side combat view, stable heavy-rifle standing aim, rifle perfectly horizontal at 0 degrees, stock firmly seated at shoulder, visor aligned behind optic, trigger hand on grip, support hand under fore-end; entire very long dragon rifle, scope, barrel and full body including both soles visible, muzzle clearly separated at far right. One character, one weapon, one pose, no deployed bipod and no extra panels. High-end semi-real fantasy game sprite finish, crisp foreground materials readable when downscaled. Genuine transparent RGBA background. No checkerboard, scene, UI, text, logo, watermark, muzzle flash, projectile, glow cloud, extra limb, floating gun, or cropped parts."
+  },
+  "weaponCutouts": [
+    {
+      "equipmentCode": "EQ_1788486929132",
+      "path": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+      "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+      "dimensions": {"width": 1024, "height": 330}
+    },
+    {
+      "equipmentCode": "EQ_1788486888336",
+      "path": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+      "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+      "dimensions": {"width": 1024, "height": 341}
+    }
+  ],
+  "generatedSources": [
+    {"pair": "BATTLE_SUIT_01:EQ_1788486929132", "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-gilded-dragon-ar-imagegen-authored-v1.png", "sha256": "F3E3012E91A662446630226951DA192D35311D86CD2325530A389A25888D8227", "dimensions": {"width": 1672, "height": 941}},
+    {"pair": "BATTLE_SUIT_01:EQ_1788486888336", "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-gilded-dragon-antimateriel-imagegen-authored-v1.png", "sha256": "8999B4EC3F204D7B4B97DAC6EE6EFB1729070C3D4F55E9EE7489005317C06028", "dimensions": {"width": 1672, "height": 941}},
+    {"pair": "BATTLE_SUIT_02:EQ_1788486929132", "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-gilded-dragon-ar-imagegen-authored-v1.png", "sha256": "57B514BB8CBCB97AF21C5533AA99034CF5EF633FF43311676167568E82544A9D", "dimensions": {"width": 1972, "height": 798}},
+    {"pair": "BATTLE_SUIT_02:EQ_1788486888336", "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-gilded-dragon-antimateriel-imagegen-authored-v1.png", "sha256": "1E4AE2651A60EB3D9783906E5510B11B06B38B19EF2D9B4A2E3EFE131E15E93E", "dimensions": {"width": 1974, "height": 797}},
+    {"pair": "BATTLE_SUIT_03:EQ_1788486929132", "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-gilded-dragon-ar-imagegen-authored-v1.png", "sha256": "DABEC69CD6E11483BF1037B65F42D673BDB79D047C35DC9457D5F92ED01D3AF8", "dimensions": {"width": 1672, "height": 941}},
+    {"pair": "BATTLE_SUIT_03:EQ_1788486888336", "path": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-gilded-dragon-antimateriel-imagegen-authored-v1.png", "sha256": "905C6DC6485DB5C8CB57E30C271A0F4CE252CFE4988BDFD2641F9728732FCA10", "dimensions": {"width": 1672, "height": 941}}
+  ],
+  "processing": {
+    "builder": "/scripts/build-battle-suit-gilded-dragon-atlases-v1.mjs",
+    "backgroundRemoval": "Edge-connected neutral checkerboard flood removal; internal armor highlights are preserved.",
+    "frameSize": {"width": 384, "height": 512},
+    "maxVisibleSize": {"width": 374, "height": 440},
+    "baselineY": 479,
+    "framePolicy": "The same authored ready pose RGBA buffer is copied byte-for-byte into ready, fire, recoil and recover. Runtime muzzle, tracer, impact and recorded firearm audio remain separate.",
+    "damagePolicy": "No Battle Suit power or total damage multiplier change; only weapon class cadence is selected."
+  },
+  "outputs": [
+    {"suitCode": "BATTLE_SUIT_01", "path": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-gilded-dragon-horizontal-fire-atlas-v1.png", "sha256": "FE44C9D02AE4103244505007F1789BCD16FAABA1BBE65A0FA4287FE056F4C5B7"},
+    {"suitCode": "BATTLE_SUIT_02", "path": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-gilded-dragon-horizontal-fire-atlas-v1.png", "sha256": "94387F0E510933FA2742338E271A9F3DDF2C416B53EC8BCB9CE25C4B7E81D7C5"},
+    {"suitCode": "BATTLE_SUIT_03", "path": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png", "sha256": "51D894A360B037947EAFC508B9A5AE638356E9BC1873E7B24F60F7704849CE05"}
+  ],
+  "buildDiagnostics": "/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v6.json"
+}

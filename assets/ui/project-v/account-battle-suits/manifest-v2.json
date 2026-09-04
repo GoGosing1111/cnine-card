@@ -1,7 +1,7 @@
 {
-  "version": "v7",
+  "version": "v8",
   "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1",
-  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v4.json",
+  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v5.json",
   "scope": "PVE_ONLY",
   "battleSuitSlot": "BATTLE_SUIT",
   "powerContract": {
@@ -106,6 +106,21 @@
               "weaponCode": "EQ_1786966923833"
             }
           ]
+        },
+        "gildedDragon": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "sha256": "FE44C9D02AE4103244505007F1789BCD16FAABA1BBE65A0FA4287FE056F4C5B7",
+          "composition": "IMAGEGEN_AUTHORED_GILDED_DRAGON_STATIC_FULL_COMPOSITE_V1",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1788486929132"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1788486888336"
+            }
+          ]
         }
       }
     },
@@ -141,6 +156,21 @@
             {
               "row": 1,
               "weaponCode": "EQ_1786966923833"
+            }
+          ]
+        },
+        "gildedDragon": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "sha256": "94387F0E510933FA2742338E271A9F3DDF2C416B53EC8BCB9CE25C4B7E81D7C5",
+          "composition": "IMAGEGEN_AUTHORED_GILDED_DRAGON_STATIC_FULL_COMPOSITE_V1",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1788486929132"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1788486888336"
             }
           ]
         }
@@ -180,6 +210,21 @@
               "weaponCode": "EQ_1786966923833"
             }
           ]
+        },
+        "gildedDragon": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "sha256": "51D894A360B037947EAFC508B9A5AE638356E9BC1873E7B24F60F7704849CE05",
+          "composition": "IMAGEGEN_AUTHORED_GILDED_DRAGON_STATIC_FULL_COMPOSITE_V1",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1788486929132"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1788486888336"
+            }
+          ]
         }
       }
     }
@@ -216,6 +261,22 @@
       "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
       "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
       "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1788486929132",
+      "name": "東方軍火商(동방무기상) · 금룡 돌격소총",
+      "sourceImage": "/assets/items/gilded-dragon-ar-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+      "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+      "authoredCompositeSource": "IMAGEGEN_EXACT_WEAPON_CUTOUT_V1"
+    },
+    {
+      "equipmentCode": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상) · 금룡 대물저격총",
+      "sourceImage": "/assets/items/gilded-dragon-antimateriel-rifle-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+      "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+      "authoredCompositeSource": "IMAGEGEN_EXACT_WEAPON_CUTOUT_V1"
     }
   ]
 }

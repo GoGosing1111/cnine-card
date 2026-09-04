@@ -80,7 +80,7 @@ Application.stage
 - `PVE/HUNT/TOWER/RAID/SEAL/ESCORT/DUNGEON` 계열에서만 표시하며,
   `PVP/SIEGE/TERRITORY/CAPTAIN/CLAN` payload는 렌더러와 라이브 래퍼 양쪽에서 차단한다.
 - 배틀슈트는 본체 스프라이트, 무기는 별도 attachment 스프라이트다. 승인된 무기
-  code 4종은 투명 전투 컷아웃에 매핑한다. 미승인 무기의 일반 `image/imageUrl`은
+  code 6종(기존 4종 + 동방무기상 금룡 2종)은 투명 전투 컷아웃에 매핑한다. 미승인 무기의 일반 `image/imageUrl`은
   카드형 네모 배경일 수 있어 사용하지 않고, 명시적 `battleSprite/appearanceUrl`이
   없으면 무기를 숨긴다.
 - 서버가 `characterBonus.battleSuitPve`를 카드 5장에 재분배하지 않고
@@ -88,6 +88,8 @@ Application.stage
   `TURN`과 `actionClock: 'INDEPENDENT_TIME_CADENCE'`로 판정한다. V1990부터 서버는 카드 턴·행동력과
   무관한 독립 시계(기준 사이클 0.018 ÷ 무기별 사이클당 발수 M4 15·AK/기본 10·DMR 8·저격 5)로 시작부터
   끝까지 쏘고, 발당 피해는 "기준 사이클 총합 = 배틀슈트 전투력만큼의 카드 1회 타격"이 되도록 나눈다.
+  동방무기상 2종은 AR 15발·저격 5발의 물리 간격만 선택하며 두 프로필 모두 공격 배수 1.00을 사용해
+  리소스 연결 전 기본 총기와 기준 사이클 총 피해가 같다.
   아포칼립스 보스에겐 발마다 보호막을 무시하는 최대HP 비례 관통 피해(`apocalypsePierce`)가 붙는다.
   렌더러의 연사 루프는 서버 사격 이벤트가 큐에 있을 때만 총을 쏘며(코스메틱 무피해 사격 없음) 한 발마다
   데미지 숫자와 `targetHpAfter`(감소 방향만)를 탄착에 결합하고, 큐가 8발 이상 밀리면 같은 대상 연속

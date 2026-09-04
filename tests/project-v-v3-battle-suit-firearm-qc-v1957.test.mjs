@@ -32,7 +32,9 @@ const expectedProfiles={
   EQ_1785427638137:{file:'m4a1-colt-socom-cc0-freesound-737569.mp3',sha:'1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2',kind:'AR',soundId:737569},
   EQ_1785961232958:{file:'ak47-shot-cc0-freesound-163457.mp3',sha:'26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73',kind:'AR',soundId:163457},
   EQ_1785961300455:{file:'m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3',sha:'F4E5F79C3D4BB47C9A8D396564CD02FDD099C26E9FDD37BB75DB563B9A2C4C8B',kind:'SNIPER',soundId:737570},
-  EQ_1786966923833:{file:'ak47-shot-cc0-freesound-163457.mp3',sha:'26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73',kind:'DMR',soundId:163457}
+  EQ_1786966923833:{file:'ak47-shot-cc0-freesound-163457.mp3',sha:'26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73',kind:'DMR',soundId:163457},
+  EQ_1788486929132:{file:'m4a1-colt-socom-cc0-freesound-737569.mp3',sha:'1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2',kind:'AR',soundId:737569},
+  EQ_1788486888336:{file:'m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3',sha:'F4E5F79C3D4BB47C9A8D396564CD02FDD099C26E9FDD37BB75DB563B9A2C4C8B',kind:'SNIPER',soundId:737570}
 };
 
 test('V3 preview mounts the real five-card PVE payload plus one independently damaging front-left account unit',()=>{
@@ -42,8 +44,8 @@ test('V3 preview mounts the real five-card PVE payload plus one independently da
   assert.doesNotMatch(html,/독립 피해 없음/);
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
-  assert.match(html,/project-v-firearm-qc-audio\.js\?v=7-live-pve-continuous-fire/);
-  assert.match(html,/project-v-client\.js\?v=72-battle-suit-continuous-fire/);
+  assert.match(html,/project-v-firearm-qc-audio\.js\?v=8-gilded-dragon-battle-suit/);
+  assert.match(html,/project-v-client\.js\?v=73-gilded-dragon-battle-suit/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
@@ -57,7 +59,7 @@ test('V3 preview mounts the real five-card PVE payload plus one independently da
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=97-battle-suit-per-action-fire/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=98-gilded-dragon-battle-suit/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
@@ -139,7 +141,8 @@ test('ballistic trajectory and monster hit use alpha PNG atlases through Pixi on
   assert.match(bundle,/PIXI_RASTER_ATLAS/,'rebuilt browser bundle must include the raster ballistic renderer');
 });
 
-test('four live PVE profiles backed by three immutable CC0 real recordings satisfy provenance, hash and waveform QC',async()=>{
+test('six live PVE profiles backed by three immutable CC0 real recordings satisfy provenance, hash and waveform QC',async()=>{
+  assert.equal(manifest.version,'v3-live-pve-gilded-dragon');
   assert.equal(manifest.contract,'PROJECT_V_V3_FIREARM_AUDIO_LIVE_V1');
   assert.equal(manifest.scope,'PVE_LIVE_AND_PREVIEW');
   assert.equal(manifest.liveRuntimeConnected,true);
@@ -152,8 +155,8 @@ test('four live PVE profiles backed by three immutable CC0 real recordings satis
   assert.equal(manifest.visualSync.strongestImpactToleranceMs,20);
   assert.deepEqual(manifest.layerContract,['ACTION_NOTICE','BALLISTIC_IMPACT','ACOUSTIC_TAIL']);
   assert.deepEqual(Object.keys(manifest.profiles).sort(),Object.keys(expectedProfiles).sort());
-  assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='AR').length,2);
-  assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='SNIPER').length,1);
+  assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='AR').length,3);
+  assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='SNIPER').length,2);
   assert.equal(Object.values(manifest.profiles).filter(profile=>profile.weaponClass==='DMR').length,1);
 
   for(const [code,expected] of Object.entries(expectedProfiles)){
@@ -182,6 +185,8 @@ test('four live PVE profiles backed by three immutable CC0 real recordings satis
   assert.match(manifest.profiles.EQ_1786966923833.proxyDisclosure,/exact database SKS sprite/);
   assert.match(manifest.profiles.EQ_1786966923833.proxyDisclosure,/7\.62x39mm proxy/);
   assert.match(manifest.profiles.EQ_1786966923833.proxyDisclosure,/not presented as an exact SKS receiver recording/);
+  assert.match(manifest.profiles.EQ_1788486929132.proxyDisclosure,/gilded-dragon assault rifle/);
+  assert.match(manifest.profiles.EQ_1788486888336.proxyDisclosure,/gilded-dragon anti-materiel rifle/);
   assert.match(sourcesText,/Sovereign SKS visual/);
   assert.match(sourcesText,/source bytes are not copied, regenerated, or altered/);
   assert.equal(manifest.profiles.EQ_1785961232958.final.clippedFrames,12);
@@ -190,7 +195,7 @@ test('four live PVE profiles backed by three immutable CC0 real recordings satis
 });
 
 test('audio renderer uses only real buffer layers and is connected only to the live PVE Battle Suit runtime',()=>{
-  assert.match(audioSource,/manifest\.json\?v=7-live-pve-continuous-fire/);
+  assert.match(audioSource,/manifest\.json\?v=8-gilded-dragon-battle-suit/);
   for(const layer of manifest.layerContract)assert.match(audioSource,new RegExp(`kind:'${layer}'`));
   assert.equal((audioSource.match(/sourceLayer\(audioContext,buffer,\{\s*\n\s*kind:/g)||[]).length,3);
   assert.match(audioSource,/createBufferSource\(\)/);
@@ -210,7 +215,7 @@ test('audio renderer uses only real buffer layers and is connected only to the l
   assert.doesNotMatch(audioSource,/createOscillator|OscillatorNode|createPeriodicWave|ScriptProcessor|AudioWorklet|Math\.random|white[ _-]?noise|pink[ _-]?noise/i);
   assert.doesNotMatch(audioSource,/sine|sawtooth|square wave|synth tone|ui beep/i);
   assert.doesNotMatch(liveIndex,/freesound-737569|freesound-163457|freesound-737570/i);
-  assert.match(liveApp,/project-v-firearm-qc-audio\.js\?v=7-live-pve-continuous-fire/);
+  assert.match(liveApp,/project-v-firearm-qc-audio\.js\?v=8-gilded-dragon-battle-suit/);
   assert.ok(liveApp.indexOf('project-v-firearm-qc-audio.js')<liveApp.indexOf('project-v-pixi-battle.bundle.js'),'recorded-audio bridge must load before the live Pixi runtime');
   assert.match(liveApp,/Boolean\(window\.ProjectVFirearmAudio\)/);
   assert.match(liveBattle,/ProjectVFirearmAudio/);

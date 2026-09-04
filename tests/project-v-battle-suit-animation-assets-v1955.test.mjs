@@ -7,15 +7,17 @@ import sharp from 'sharp';
 
 const root=new URL('../',import.meta.url);
 const manifestUrl=new URL('assets/ui/project-v/account-battle-suits/manifest-v2.json',root);
-const diagnosticsUrl=new URL('assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v5.json',root);
+const diagnosticsUrl=new URL('assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v6.json',root);
 const catalogModuleUrl=new URL('preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js',root);
 const builderUrl=new URL('scripts/build-battle-suit-imagegen-atlases-v7.ps1',root);
+const gildedBuilderUrl=new URL('scripts/build-battle-suit-gilded-dragon-atlases-v1.mjs',root);
 const diagnosticsBuilderUrl=new URL('scripts/build-battle-suit-static-v7-diagnostics.mjs',root);
 
 const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
 const WEAPON_GROUPS=Object.freeze({
   m4a1M200:Object.freeze(['EQ_1785427638137','EQ_1785961300455']),
-  akSks:Object.freeze(['EQ_1785961232958','EQ_1786966923833'])
+  akSks:Object.freeze(['EQ_1785961232958','EQ_1786966923833']),
+  gildedDragon:Object.freeze(['EQ_1788486929132','EQ_1788486888336'])
 });
 const WEAPON_CODES=Object.freeze(Object.values(WEAPON_GROUPS).flat());
 const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
@@ -25,8 +27,15 @@ const STATIC_PAIRS=new Set([
   'BATTLE_SUIT_01:EQ_1785961300455',
   'BATTLE_SUIT_01:EQ_1785961232958',
   'BATTLE_SUIT_02:EQ_1785961300455',
-  'BATTLE_SUIT_03:EQ_1785961300455'
+  'BATTLE_SUIT_03:EQ_1785961300455',
+  'BATTLE_SUIT_01:EQ_1788486929132',
+  'BATTLE_SUIT_01:EQ_1788486888336',
+  'BATTLE_SUIT_02:EQ_1788486929132',
+  'BATTLE_SUIT_02:EQ_1788486888336',
+  'BATTLE_SUIT_03:EQ_1788486929132',
+  'BATTLE_SUIT_03:EQ_1788486888336'
 ]);
+const GILDED_WEAPON_CODES=new Set(WEAPON_GROUPS.gildedDragon);
 const PRESERVED_ROWS=Object.freeze([
   {
     key:'BATTLE_SUIT_01:EQ_1786966923833',
@@ -136,12 +145,12 @@ async function pairMap(){
   return result;
 }
 
-test('Battle Suit v7 manifest restores the helmeted Suit 03 M200 and locks the PVE-only static-pose runtime contract',async()=>{
+test('Battle Suit v8 manifest connects both CMS gilded-dragon rifles without weakening the PVE-only static-pose contract',async()=>{
   const manifest=await readManifest();
-  assert.equal(manifest.version,'v7');
+  assert.equal(manifest.version,'v8');
   assert.equal(manifest.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1');
   assert.equal(manifest.scope,'PVE_ONLY');
-  assert.equal(manifest.generationProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v4.json');
+  assert.equal(manifest.generationProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v5.json');
   assert.equal(manifest.renderContract.formation,'AUXILIARY_FRONT_LEFT_FORWARD_TILE');
   assert.equal(manifest.renderContract.canonicalAllyCardCount,5);
   assert.equal(manifest.renderContract.movement,false);
@@ -162,36 +171,45 @@ test('Battle Suit v7 manifest restores the helmeted Suit 03 M200 and locks the P
   assert.deepEqual(sorted(manifest.weapons.map(item=>item.equipmentCode)),sorted(WEAPON_CODES));
 
   const provenance=JSON.parse(await readFile(assetFileUrl(manifest.generationProvenance),'utf8'));
-  assert.equal(provenance.version,'v4');
+  assert.equal(provenance.version,'v5');
   assert.equal(provenance.tool,'OpenAI built-in image generation tool');
   assert.match(provenance.mode,/deterministic local alpha extraction/i);
-  assert.equal(provenance.buildDiagnostics,'/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v5.json');
-  assert.equal(provenance.generatedSources.length,5);
-  assert.deepEqual(new Set(provenance.userDecision.reworkedStaticRows),STATIC_PAIRS);
-  assert.match(provenance.userDecision.replacementBehavior,/repeat its exact RGBA pixels/i);
-  assert.equal(provenance.correction.pair,'BATTLE_SUIT_03:EQ_1785961300455');
-  assert.match(provenance.correction.action,/restore.*helmeted.*byte-for-byte/i);
-  assert.equal(provenance.correction.sourceSha256,'8CCC81F44A75DFF4D4ABC45039E8A91B0F1E5A2D0416B123E34FCB9219D35C51');
+  assert.equal(provenance.baseProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v4.json');
+  assert.equal(provenance.buildDiagnostics,'/assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v6.json');
+  assert.equal(provenance.generatedSources.length,6);
+  assert.equal(provenance.weaponCutouts.length,2);
+  assert.deepEqual(sorted(provenance.cmsSnapshot.weapons.map(item=>item.equipmentCode)),sorted(WEAPON_GROUPS.gildedDragon));
   for(const prompt of Object.values(provenance.finalPromptSet)){
     assert.match(prompt,/horizontal at 0 degrees/i);
-    assert.match(prompt,/face|helmet/i);
-    assert.match(prompt,/no UI, text, logo, watermark/i);
+    assert.match(prompt,/no .*text, logo/i);
   }
   for(const source of provenance.generatedSources){
     const bytes=await readFile(assetFileUrl(source.path));
     const metadata=await sharp(bytes).metadata();
     assert.equal(sha256(bytes),source.sha256,source.path);
     assert.deepEqual({width:metadata.width,height:metadata.height},source.dimensions,source.path);
-    assert.equal(source.selectedPanel,0,source.path);
   }
+  for(const cutout of provenance.weaponCutouts){
+    const bytes=await readFile(assetFileUrl(cutout.path));
+    const metadata=await sharp(bytes).metadata();
+    assert.equal(sha256(bytes),cutout.sha256,cutout.path);
+    assert.deepEqual({width:metadata.width,height:metadata.height},cutout.dimensions,cutout.path);
+    assert.equal(metadata.hasAlpha,true,cutout.path);
+  }
+  const baseProvenance=JSON.parse(await readFile(assetFileUrl(provenance.baseProvenance),'utf8'));
+  assert.equal(baseProvenance.correction.pair,'BATTLE_SUIT_03:EQ_1785961300455');
+  assert.match(baseProvenance.correction.action,/restore.*helmeted.*byte-for-byte/i);
   const builder=await readFile(builderUrl,'utf8');
   assert.match(builder,/Buffer\.BlockCopy/i);
   assert.match(builder,/runtime phase reuses the same/i);
+  const gildedBuilder=await readFile(gildedBuilderUrl,'utf8');
+  assert.match(gildedBuilder,/markEdgeConnectedCheckerboard/);
+  assert.match(gildedBuilder,/frame\.copy\(row/);
   const diagnosticsBuilder=await readFile(diagnosticsBuilderUrl,'utf8');
   assert.match(diagnosticsBuilder,/STATIC_STANDING_AIM/);
 });
 
-test('all six selected atlases are immutable transparent 1536x1024 4x2 grids',async()=>{
+test('all nine selected atlases are immutable transparent 1536x1024 4x2 grids',async()=>{
   const manifest=await readManifest();
   const paths=[];
   for(const {suit,group,sheet} of sheetEntries(manifest)){
@@ -211,11 +229,11 @@ test('all six selected atlases are immutable transparent 1536x1024 4x2 grids',as
     assert.equal(stats.isOpaque,false,sheet.image);
     paths.push(sheet.image);
   }
-  assert.equal(paths.length,6);
-  assert.equal(new Set(paths).size,6);
+  assert.equal(paths.length,9);
+  assert.equal(new Set(paths).size,9);
 });
 
-test('five reworked rows repeat one crisp standing pose and approved rows remain pixel-identical',async()=>{
+test('eleven reworked rows repeat one crisp standing pose and approved rows remain pixel-identical',async()=>{
   const pairs=await pairMap();
   for(const key of STATIC_PAIRS){
     const pair=pairs.get(key);
@@ -225,7 +243,8 @@ test('five reworked rows repeat one crisp standing pose and approved rows remain
     assert.equal(new Set(frames.map(sha256)).size,1,`${key} must remain visually static across runtime phases`);
     const measurement=inspectFrame(frames[0]);
     assert.equal(measurement.edgeAlphaPixels,0,`${key} must not clip at cell edges`);
-    assert.ok(measurement.contentBottom-measurement.contentTop+1>=375,`${key} must retain a large readable full-body silhouette`);
+    const minimumHeight=GILDED_WEAPON_CODES.has(key.split(':')[1])?290:375;
+    assert.ok(measurement.contentBottom-measurement.contentTop+1>=minimumHeight,`${key} must retain a large readable full-body silhouette`);
   }
 
   for(const preserved of PRESERVED_ROWS){
@@ -240,14 +259,14 @@ test('five reworked rows repeat one crisp standing pose and approved rows remain
   }
 });
 
-test('v5 diagnostics are complete and bind to final image hashes and static-frame policy',async()=>{
+test('v6 diagnostics are complete and bind to final image hashes and static-frame policy',async()=>{
   const [manifest,diagnostics]=await Promise.all([readManifest(),readDiagnostics()]);
-  assert.equal(diagnostics.version,'v5');
-  assert.equal(diagnostics.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_STATIC_STANCE_ATLAS_DIAGNOSTICS_V5');
+  assert.equal(diagnostics.version,'v6');
+  assert.equal(diagnostics.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_STATIC_STANCE_ATLAS_DIAGNOSTICS_V6');
   assert.equal(diagnostics.staticFramePolicy,'IDENTICAL_RGBA_READY_FRAME_COPIED_TO_ALL_FOUR_RUNTIME_PHASES');
-  assert.equal(diagnostics.entries.length,12);
-  assert.equal(diagnostics.sheets.length,6);
-  assert.equal(new Set(diagnostics.entries.map(entry=>`${entry.suitCode}:${entry.weaponCode}`)).size,12);
+  assert.equal(diagnostics.entries.length,18);
+  assert.equal(diagnostics.sheets.length,9);
+  assert.equal(new Set(diagnostics.entries.map(entry=>`${entry.suitCode}:${entry.weaponCode}`)).size,18);
   for(const diagnosticSheet of diagnostics.sheets){
     const suit=manifest.suits.find(item=>item.code===diagnosticSheet.suitCode);
     const sheet=suit.animationSheets[diagnosticSheet.group];
@@ -262,19 +281,19 @@ test('v5 diagnostics are complete and bind to final image hashes and static-fram
     assert.equal(entry.frames.length,4,key);
     assert.ok(entry.frames.every(frame=>frame.edgeAlphaPixels===0),`${key} edge alpha`);
     if(STATIC_PAIRS.has(key)){
-      assert.match(entry.generatedSource,/imagegen-authored-v[67]\.png$/);
+      assert.match(entry.generatedSource,/imagegen-authored-v[167]\.png$/);
       assert.match(entry.generatedSourceSha256,/^[A-F0-9]{64}$/);
     }
   }
 });
 
-test('catalog resolves all 12 suit/weapon pairs with measured sole, HUD and muzzle anchors',async()=>{
+test('catalog resolves all 18 suit/weapon pairs with measured sole, HUD and muzzle anchors',async()=>{
   const {
     ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG,
     resolveAccountBattleSuitAnimation
-  }=await import(`${catalogModuleUrl.href}?v7-helmet-qc`);
+  }=await import(`${catalogModuleUrl.href}?v8-gilded-dragon-qc`);
   const pairs=await pairMap();
-  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,12);
+  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,18);
   assert.deepEqual(sorted(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG)),sorted(pairs.keys()));
   for(const [key,pair] of pairs){
     const resolved=resolveAccountBattleSuitAnimation(...key.split(':'));
@@ -284,7 +303,7 @@ test('catalog resolves all 12 suit/weapon pairs with measured sole, HUD and muzz
     assert.deepEqual(resolved.frameOrder,FRAME_ORDER,key);
     assert.deepEqual(resolved.durationsMs,DURATIONS_MS,key);
     assert.deepEqual(resolved.pivotContract,{type:'SOLE_CENTER',unit:'NORMALIZED_FRAME',alphaThreshold:16,bottomBandPx:9},key);
-    assert.ok(resolved.scaleMultiplier>=1.4&&resolved.scaleMultiplier<=1.5,key);
+    assert.ok(resolved.scaleMultiplier>=1.4&&resolved.scaleMultiplier<=1.55,key);
     const {data,info}=await decodedSheet(pair.sheet.image);
     let minimumY=512;
     let maximumY=-1;

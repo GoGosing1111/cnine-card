@@ -20,8 +20,8 @@ for(const token of [
   'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
-  'preview/project-v-v3/project-v-firearm-qc-audio.js?v=7-live-pve-continuous-fire',
-  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=97-battle-suit-per-action-fire',
+  'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
+  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=98-gilded-dragon-battle-suit',
   'js/battle-v3-live.js?v=3.30.0-battle-suit-per-action-fire'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 

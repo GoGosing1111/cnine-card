@@ -19,7 +19,7 @@ assert.match(live,/ProjectVPixiBattle\.resetSession\(payload, host\)/);
 assert.match(live,/const VERSION = '3\.30\.0-battle-suit-per-action-fire'/);
 assert.match(live,/ProjectVPixiBattle\.cancelActiveAnimations/);
 assert.match(live,/ProjectVPixiBattle\.syncFinalState\(finalState\)/);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=97-battle-suit-per-action-fire/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=98-gilded-dragon-battle-suit/);
 assert.match(app,/battle-v3-live\.js\?v=3\.30\.0-battle-suit-per-action-fire/);
 
 console.log('Project V V3 session reset contract: OK');

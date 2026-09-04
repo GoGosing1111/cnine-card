@@ -179,7 +179,9 @@ const ACCOUNT_WEAPON_CUTOUTS=Object.freeze({
   EQ_1785427638137:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png',
   EQ_1785961232958:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png',
   EQ_1785961300455:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png',
-  EQ_1786966923833:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'
+  EQ_1786966923833:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png',
+  EQ_1788486929132:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png',
+  EQ_1788486888336:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png'
 });
 // Presentation-only cadence for the auxiliary PVE unit. These profiles never
 // mutate authoritative HP or the canonical five-card action list. ARs keep a
@@ -190,7 +192,9 @@ const ACCOUNT_BATTLE_UNIT_SUSTAINED_FIRE_PROFILES=Object.freeze({
   EQ_1785427638137:Object.freeze({weaponClass:'M4A1_AR',fireMode:'FULL_AUTO',roundsPerBurst:4,intraBurstDelayMs:40,burstDelayMs:140,playbackRate:1.85}),
   EQ_1785961232958:Object.freeze({weaponClass:'AK_AR',fireMode:'FULL_AUTO',roundsPerBurst:3,intraBurstDelayMs:75,burstDelayMs:210,playbackRate:1.6}),
   EQ_1785961300455:Object.freeze({weaponClass:'M200_SNIPER',fireMode:'BOLT_ACTION',roundsPerBurst:1,intraBurstDelayMs:0,burstDelayMs:760,playbackRate:1}),
-  EQ_1786966923833:Object.freeze({weaponClass:'SKS_DMR',fireMode:'SEMI_AUTO',roundsPerBurst:2,intraBurstDelayMs:170,burstDelayMs:390,playbackRate:1.12})
+  EQ_1786966923833:Object.freeze({weaponClass:'SKS_DMR',fireMode:'SEMI_AUTO',roundsPerBurst:2,intraBurstDelayMs:170,burstDelayMs:390,playbackRate:1.12}),
+  EQ_1788486929132:Object.freeze({weaponClass:'GILDED_DRAGON_AR',fireMode:'FULL_AUTO',roundsPerBurst:4,intraBurstDelayMs:40,burstDelayMs:140,playbackRate:1.85}),
+  EQ_1788486888336:Object.freeze({weaponClass:'GILDED_DRAGON_ANTIMATERIEL',fireMode:'BOLT_ACTION',roundsPerBurst:1,intraBurstDelayMs:0,burstDelayMs:760,playbackRate:1})
 });
 
 function payloadModeTokens(payload){

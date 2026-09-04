@@ -8,7 +8,7 @@ import sharp from 'sharp';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const publicRoot=value=>path.join(root,String(value).replace(/^\//,''));
 const manifest=JSON.parse(await readFile(path.join(root,'assets/ui/project-v/account-battle-suits/manifest-v2.json'),'utf8'));
-const outputPath=path.join(root,'assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v5.json');
+const outputPath=path.join(root,'assets/ui/project-v/account-battle-suits/animation-build-diagnostics-v6.json');
 const frameWidth=384;
 const frameHeight=512;
 const atlasWidth=frameWidth*4;
@@ -17,21 +17,35 @@ const weaponSlugs=new Map([
   ['EQ_1785427638137','m4a1'],
   ['EQ_1785961300455','m200'],
   ['EQ_1785961232958','ak'],
-  ['EQ_1786966923833','sks']
+  ['EQ_1786966923833','sks'],
+  ['EQ_1788486929132','gilded-dragon-ar'],
+  ['EQ_1788486888336','gilded-dragon-antimateriel']
 ]);
 const staticPairs=new Set([
   'BATTLE_SUIT_01:EQ_1785427638137',
   'BATTLE_SUIT_01:EQ_1785961300455',
   'BATTLE_SUIT_01:EQ_1785961232958',
   'BATTLE_SUIT_02:EQ_1785961300455',
-  'BATTLE_SUIT_03:EQ_1785961300455'
+  'BATTLE_SUIT_03:EQ_1785961300455',
+  'BATTLE_SUIT_01:EQ_1788486929132',
+  'BATTLE_SUIT_01:EQ_1788486888336',
+  'BATTLE_SUIT_02:EQ_1788486929132',
+  'BATTLE_SUIT_02:EQ_1788486888336',
+  'BATTLE_SUIT_03:EQ_1788486929132',
+  'BATTLE_SUIT_03:EQ_1788486888336'
 ]);
 const generatedSources=new Map([
   ['BATTLE_SUIT_01:EQ_1785427638137','/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-m4a1-imagegen-authored-v6.png'],
   ['BATTLE_SUIT_01:EQ_1785961300455','/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-m200-imagegen-authored-v6.png'],
   ['BATTLE_SUIT_01:EQ_1785961232958','/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-ak-imagegen-authored-v6.png'],
   ['BATTLE_SUIT_02:EQ_1785961300455','/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-m200-imagegen-authored-v6.png'],
-  ['BATTLE_SUIT_03:EQ_1785961300455','/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-m200-helmeted-imagegen-authored-v7.png']
+  ['BATTLE_SUIT_03:EQ_1785961300455','/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-m200-helmeted-imagegen-authored-v7.png'],
+  ['BATTLE_SUIT_01:EQ_1788486929132','/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-gilded-dragon-ar-imagegen-authored-v1.png'],
+  ['BATTLE_SUIT_01:EQ_1788486888336','/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-gilded-dragon-antimateriel-imagegen-authored-v1.png'],
+  ['BATTLE_SUIT_02:EQ_1788486929132','/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-gilded-dragon-ar-imagegen-authored-v1.png'],
+  ['BATTLE_SUIT_02:EQ_1788486888336','/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-gilded-dragon-antimateriel-imagegen-authored-v1.png'],
+  ['BATTLE_SUIT_03:EQ_1788486929132','/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-gilded-dragon-ar-imagegen-authored-v1.png'],
+  ['BATTLE_SUIT_03:EQ_1788486888336','/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-gilded-dragon-antimateriel-imagegen-authored-v1.png']
 ]);
 
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
@@ -129,8 +143,8 @@ for(const suit of manifest.suits){
 }
 
 const diagnostics={
-  version:'v5',
-  contract:'PROJECT_V_ACCOUNT_BATTLE_SUIT_STATIC_STANCE_ATLAS_DIAGNOSTICS_V5',
+  version:'v6',
+  contract:'PROJECT_V_ACCOUNT_BATTLE_SUIT_STATIC_STANCE_ATLAS_DIAGNOSTICS_V6',
   sha256Algorithm:'SHA-256',
   generatedBy:'/scripts/build-battle-suit-static-v7-diagnostics.mjs',
   frameSize:{width:frameWidth,height:frameHeight},

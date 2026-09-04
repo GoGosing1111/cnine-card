@@ -45,6 +45,16 @@ const WEAPON_PROFILES=Object.freeze({
     weaponClass:'SKS_DMR',tracerFrames:[4],travelSpeed:3850,tracerSize:210,
     muzzleSize:182,muzzleDuration:.115,impactSize:228,impactDuration:.205,
     hitFlashMs:72,hitReactionMs:275,cameraShake:6.4,cameraShakeDuration:.17,cameraRotation:.0028
+  }),
+  EQ_1788486929132:Object.freeze({
+    weaponClass:'GILDED_DRAGON_AR',tracerFrames:[0,2],travelSpeed:3750,tracerSize:176,
+    muzzleSize:158,muzzleDuration:.105,impactSize:188,impactDuration:.175,
+    hitFlashMs:62,hitReactionMs:205,cameraShake:3.8,cameraShakeDuration:.13,cameraRotation:.0017
+  }),
+  EQ_1788486888336:Object.freeze({
+    weaponClass:'GILDED_DRAGON_ANTIMATERIEL',tracerFrames:[5],travelSpeed:4300,tracerSize:246,
+    muzzleSize:222,muzzleDuration:.13,impactSize:292,impactDuration:.25,
+    hitFlashMs:88,hitReactionMs:365,cameraShake:10.8,cameraShakeDuration:.22,cameraRotation:.0042
   })
 });
 
