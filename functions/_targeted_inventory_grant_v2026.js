@@ -30,18 +30,18 @@ export async function ensureTargetedInventoryGrantV2026(env){
 
   await ensureFoundation(env);
   const [usersResult,item,holding,owner]=await Promise.all([
-    env.DB.prepare('SELECT id,nickname,role,status FROM users WHERE nickname=? ORDER BY id LIMIT 2').bind(TARGETED_INVENTORY_GRANT_V2026_NICKNAME).all(),
+    env.DB.prepare('SELECT id,nickname,role,status FROM users WHERE LOWER(TRIM(nickname))=LOWER(TRIM(?)) ORDER BY id LIMIT 2').bind(TARGETED_INVENTORY_GRANT_V2026_NICKNAME).all(),
     env.DB.prepare('SELECT code,name,category,rarity,is_active isActive FROM inventory_items WHERE code=?').bind(TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE).first(),
     env.DB.prepare(`SELECT user_id,item_code,quantity,COALESCE(unseen_quantity,0) unseenQuantity FROM cnine_user_inventory
-      WHERE user_id=(SELECT id FROM users WHERE nickname=? ORDER BY id LIMIT 1) AND item_code=?`)
+      WHERE user_id=(SELECT id FROM users WHERE LOWER(TRIM(nickname))=LOWER(TRIM(?)) ORDER BY id LIMIT 1) AND item_code=?`)
       .bind(TARGETED_INVENTORY_GRANT_V2026_NICKNAME,TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE).first(),
     env.DB.prepare("SELECT id FROM users WHERE UPPER(role)='OWNER' AND UPPER(status)='ACTIVE' ORDER BY id LIMIT 1").first()
   ]);
 
   const users=rows(usersResult);
   if(users.length!==1)throw new Error('지정 대상 계정을 정확히 한 개 찾지 못해 고등급 재뽑기권 지급을 중단했습니다.');
-  const user=users[0],userId=integer(user.id),ownerId=integer(owner?.id);
-  if(!userId||String(user.nickname||'')!==TARGETED_INVENTORY_GRANT_V2026_NICKNAME||String(user.status||'').trim().toUpperCase()!=='ACTIVE'){
+  const user=users[0],userId=integer(user.id),ownerId=integer(owner?.id),actualNickname=String(user.nickname||'');
+  if(!userId||actualNickname.trim().toLowerCase()!==TARGETED_INVENTORY_GRANT_V2026_NICKNAME.toLowerCase()||String(user.status||'').trim().toUpperCase()!=='ACTIVE'){
     throw new Error('지정 대상 계정이 활성 계정으로 확인되지 않아 고등급 재뽑기권 지급을 중단했습니다.');
   }
   if(!ownerId)throw new Error('고등급 재뽑기권 지급 감사 로그를 기록할 활성 OWNER 계정을 찾지 못했습니다.');
@@ -72,13 +72,13 @@ export async function ensureTargetedInventoryGrantV2026(env){
     ?[userId,TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE,rawQuantity,rawUnseen]
     :[userId,TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE];
   const targetCondition=`EXISTS(SELECT 1 FROM users WHERE id=? AND nickname=? AND UPPER(status)='ACTIVE')
-    AND NOT EXISTS(SELECT 1 FROM users WHERE id<>? AND nickname=?)
+    AND NOT EXISTS(SELECT 1 FROM users WHERE id<>? AND LOWER(TRIM(nickname))=LOWER(TRIM(?)))
     AND EXISTS(SELECT 1 FROM users WHERE id=? AND UPPER(role)='OWNER' AND UPPER(status)='ACTIVE')
     AND EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND name=? AND is_active=1)`;
-  const targetValues=[userId,TARGETED_INVENTORY_GRANT_V2026_NICKNAME,userId,TARGETED_INVENTORY_GRANT_V2026_NICKNAME,ownerId,TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE,ITEM_NAME];
+  const targetValues=[userId,actualNickname,userId,TARGETED_INVENTORY_GRANT_V2026_NICKNAME,ownerId,TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE,ITEM_NAME];
   const statements=[
     env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(TARGETED_INVENTORY_GRANT_V2026_MARKER_KEY,runningValue),
-    env.DB.prepare(`SELECT id FROM users WHERE id=? AND nickname=? AND UPPER(status)='ACTIVE'${rowLock}`).bind(userId,TARGETED_INVENTORY_GRANT_V2026_NICKNAME),
+    env.DB.prepare(`SELECT id FROM users WHERE id=? AND nickname=? AND UPPER(status)='ACTIVE'${rowLock}`).bind(userId,actualNickname),
     env.DB.prepare(`SELECT id FROM users WHERE id=? AND UPPER(role)='OWNER' AND UPPER(status)='ACTIVE'${rowLock}`).bind(ownerId),
     env.DB.prepare(`SELECT code FROM inventory_items WHERE code=? AND name=? AND is_active=1${rowLock}`).bind(TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE,ITEM_NAME),
     env.DB.prepare(`SELECT user_id FROM cnine_user_inventory WHERE user_id=? AND item_code=?${rowLock}`).bind(userId,TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE),

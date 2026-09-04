@@ -34,7 +34,7 @@ class SqliteD1{
   }
 }
 
-function fixture({status='ACTIVE',quantity=null,unseen=0,duplicate=false,itemActive=1}={}){
+function fixture({status='ACTIVE',quantity=null,unseen=0,duplicate=false,itemActive=1,nickname=TARGETED_INVENTORY_GRANT_V2026_NICKNAME}={}){
   const DB=new SqliteD1();
   DB.db.exec(`
     CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
@@ -43,7 +43,7 @@ function fixture({status='ACTIVE',quantity=null,unseen=0,duplicate=false,itemAct
     CREATE TABLE cnine_user_inventory(user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,unseen_quantity INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code));
     CREATE TABLE inventory_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,item_code TEXT NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,reason TEXT,reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
     CREATE TABLE admin_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,admin_id INTEGER NOT NULL,action_type TEXT NOT NULL,target_type TEXT NOT NULL,target_id TEXT,before_data TEXT,after_data TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
-    INSERT INTO users(id,nickname,role,status) VALUES(1,'운영자','OWNER','ACTIVE'),(5206,'${TARGETED_INVENTORY_GRANT_V2026_NICKNAME}','USER','${status}');
+    INSERT INTO users(id,nickname,role,status) VALUES(1,'운영자','OWNER','ACTIVE'),(5206,'${nickname}','USER','${status}');
     INSERT INTO inventory_items(code,name,category,rarity,is_active) VALUES('${TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE}','고등급 재뽑기권','REROLL','SPECIAL',${itemActive});
   `);
   if(duplicate)DB.db.prepare('INSERT INTO users(id,nickname,role,status) VALUES(?,?,?,?)').run(5207,TARGETED_INVENTORY_GRANT_V2026_NICKNAME,'USER','ACTIVE');
@@ -81,6 +81,14 @@ test('기존 보유량과 미확인 수량에 정확히 1개만 더한다',async
   assert.equal(result.unseenAfter,3);
   assert.deepEqual({...DB.db.prepare('SELECT quantity,unseen_quantity FROM cnine_user_inventory WHERE user_id=5206 AND item_code=?').get(TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE)},{quantity:5,unseen_quantity:3});
   assert.deepEqual({...DB.db.prepare('SELECT change_amount,balance_after FROM inventory_logs').get()},{change_amount:1,balance_after:5});
+});
+
+test('영문 X의 대소문자와 바깥 공백 차이는 유일 계정일 때만 보정한다',async()=>{
+  const DB=fixture({nickname:' x수댕 '});
+  const result=await ensureTargetedInventoryGrantV2026({DB});
+  assert.equal(result.status,'COMPLETED');
+  assert.equal(result.quantityAfter,1);
+  assert.deepEqual({...DB.db.prepare('SELECT quantity,unseen_quantity FROM cnine_user_inventory WHERE user_id=5206 AND item_code=?').get(TARGETED_INVENTORY_GRANT_V2026_ITEM_CODE)},{quantity:1,unseen_quantity:1});
 });
 
 test('대상 계정 또는 아이템이 유일한 활성 상태가 아니면 지급하지 않는다',async()=>{
