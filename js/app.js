@@ -2729,16 +2729,16 @@ if(!document.documentElement.dataset.raidV3StartGuardV1877){
 }
 function switchPveMode(mode){
   if(mode==='rift')mode='deck';
-  const hunt=document.getElementById('pveHuntView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView'),escort=document.getElementById('pveEscortView');
-  if(mode!=='raid')invalidateRaidUiState({clearSelection:false,stopClaimRetry:true});
-  if(hunt)hunt.hidden=mode==='raid'||mode==='rift'||mode==='escort';if(raid)raid.hidden=mode!=='raid';if(rift)rift.hidden=mode!=='rift';if(escort)escort.hidden=mode!=='escort';
+  const hunt=document.getElementById('pveHuntView'),raidHub=document.getElementById('pveRaidHubView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView'),escort=document.getElementById('pveEscortView');
+  if(mode!=='raid'){invalidateRaidUiState({clearSelection:false,stopClaimRetry:true});globalThis.CoreProtocolRaidV1924?.deactivate?.()}
+  if(hunt)hunt.hidden=mode==='raid'||mode==='rift'||mode==='escort';if(raidHub)raidHub.hidden=mode!=='raid';else if(raid)raid.hidden=mode!=='raid';if(rift)rift.hidden=mode!=='rift';if(escort)escort.hidden=mode!=='escort';
   document.querySelectorAll('.pve-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.pveMode===mode));
-  if(mode==='raid'){stopBattleEnergyTimer();if(raid&&!String(raid.innerHTML||'').trim())raid.innerHTML='<div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>SOOPKETMON RAID SERVER</span></div>';loadRaidView();return;}
+  if(mode==='raid'){stopBattleEnergyTimer();if(raid&&!String(raid.innerHTML||'').trim())raid.innerHTML='<div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>SOOPKETMON RAID SERVER</span></div>';loadRaidView();void Promise.resolve(globalThis.CoreProtocolRaidV1924?.openActive?.()).catch(error=>console.warn('[CORE RAID] entry isolation',error));return;}
   if(mode==='escort'){stopBattleEnergyTimer();window.EscortOperationV1830?.open?.();return;}
   const subMode=mode==='hunt'?'hunt':'deck';setPveViewMode(subMode);loadBattleView().then(()=>applyPveViewMode(subMode));
 }
 async function loadRaidView(){
-  const box=document.getElementById('pveRaidView');if(!box||box.hidden||document.hidden)return;
+  const box=document.getElementById('pveRaidView'),hub=document.getElementById('pveRaidHubView');if(!box||box.hidden||hub?.hidden||document.hidden)return;
   if(raidState.statusController)raidState.statusController.abort();
   const controller=new AbortController();raidState.statusController=controller;
   const requestSeq=++raidState.loadSeq,requestedRoomId=Math.max(0,Number(raidState.selectedRoomId||0));
@@ -5196,8 +5196,8 @@ function scheduleForegroundRefresh(){
       const tasks=[];
       if(API_MODE&&API_TOKEN)tasks.push(pollRuntimeCommand());
       tasks.push(refreshBurningEventState({forceFresh:true,rerender:true}));
-      const raid=document.getElementById('pveRaidView');
-      if(raid&&!raid.hidden)tasks.push(loadRaidView());
+      const raid=document.getElementById('pveRaidView'),raidHub=document.getElementById('pveRaidHubView');
+      if(raid&&!raid.hidden&&!raidHub?.hidden)tasks.push(loadRaidView());
       await Promise.allSettled(tasks);
     }finally{
       foregroundRefreshBusy=false;
@@ -5219,6 +5219,13 @@ setBackgroundActivityState();
 window.CNineEscortBridge=Object.freeze({
   apiRequest,loadUser,saveUser,apiUserToLocal,ensureFeatureResources,
   ensureBattleSoundButton,battleSfx,cardHtml,escapeHtml
+});
+// Core Protocol only coordinates the raid sub-tab and mechanic overlay. The
+// legacy raid renderer remains owned by this file and is always the fallback.
+window.CNineCoreRaidBridge=Object.freeze({
+  apiRequest,loadUser,saveUser,apiUserToLocal,ensureFeatureResources,escapeHtml,
+  activateLegacyRaid:()=>loadRaidView(),
+  stopLegacyRaid:()=>{stopRaidTimer();if(raidState.statusController){raidState.statusController.abort();raidState.statusController=null}}
 });
 init();
 // V1785: 첫 화면이 자리를 잡은 뒤 유휴 시간에 V3 전투 번들을 미리 받아둔다.

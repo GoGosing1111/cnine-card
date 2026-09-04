@@ -155,33 +155,28 @@ async function runRaidEntry(coreKind) {
   };
 }
 
-test('production index excludes Core raid resources and loads the PVE override after app', () => {
+test('production index loads the TEST-gated Core resources after the live PVE adapter', () => {
   const scripts = Array.from(indexSource.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi), match => match[1].split('?')[0]);
   const appIndex = scripts.indexOf('js/app.js');
   const pveCommandIndex = scripts.indexOf('js/pve-command-v2-live.js');
+  const qteIndex = scripts.indexOf('js/project-v-raid-qte-v1924.js');
+  const coreIndex = scripts.indexOf('js/core-protocol-raid-v1924.js');
 
   assert.ok(appIndex >= 0, 'index must load app.js');
   assert.ok(pveCommandIndex > appIndex, 'PVE command must wrap the production switchPveMode installed by app.js');
-  for (const disconnectedResource of [
-    'css/core-protocol-raid-v1924.css',
-    'js/project-v-raid-qte-v1924.js',
-    'js/core-protocol-raid-v1924.js',
-  ]) {
-    assert.equal(indexSource.includes(disconnectedResource), false, `${disconnectedResource} must stay disconnected from production index.html`);
-  }
-  assert.doesNotMatch(
-    raidEntrySource,
-    /CoreProtocolRaidV1924|openActive|openRaidModeSafely|pveRaidHubView|pveCoreRaidView/,
-    'production switchPveMode must remain independent from the disconnected Core route',
-  );
+  assert.ok(qteIndex > pveCommandIndex, 'Core QTE must load after the live PVE adapter');
+  assert.ok(coreIndex > qteIndex, 'Core controller must load after its QTE runtime');
+  assert.ok(indexSource.includes('css/core-protocol-raid-v1924.css'), 'Core presentation stylesheet is missing');
+  assert.match(raidEntrySource, /loadRaidView\(\);void Promise\.resolve\(globalThis\.CoreProtocolRaidV1924\?\.openActive\?\.\(\)\)\.catch/,
+    'legacy raid must start first and isolate every Core entry failure');
 });
 
-test('PVE override raid click ignores every Core global state and loads legacy exactly once', async t => {
+test('PVE override raid click always loads legacy once and Core can never block it', async t => {
   for (const coreKind of ['missing', 'false', 'reject', 'true']) {
     await t.test(`Core ${coreKind}`, async () => {
       const result = await runRaidEntry(coreKind);
       assert.equal(result.raidHidden, false, 'legacy raid view must be visible before its loader runs');
-      assert.equal(result.coreCalls, 0, `production raid entry must not call Core ${coreKind}`);
+      assert.equal(result.coreCalls, coreKind === 'missing' ? 0 : 1, `Core ${coreKind} must be probed only after legacy entry`);
       assert.equal(result.legacyLoads, 1, `Core ${coreKind} must result in one legacy load`);
     });
   }

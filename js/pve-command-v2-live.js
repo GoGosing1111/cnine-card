@@ -90,7 +90,14 @@
       <main class="pvev2-viewport" id="pveV2LiveViewport">
         <div id="pveHuntView" class="pve-hunt-redesign pve-hunt-v1179"><div class="pvev2-loading"><i></i><b>라이브 PVE 데이터 연결 중</b><span>SOOPKETMON DATABASE</span></div></div>
         <div id="pveRiftView" class="pve-rift-view" hidden><div class="rift-loading"><i></i><b>차원의 균열을 확인하는 중...</b></div></div>
-        <div id="pveRaidView" class="pve-raid-view" hidden><div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>SOOPKETMON RAID SERVER</span></div></div>
+        <div id="pveRaidHubView" class="pve-raid-hub-view" hidden>
+          <nav class="raid-content-tabs" aria-label="레이드 콘텐츠">
+            <button type="button" class="active" data-raid-content="world" aria-selected="true"><small>LEGACY WORLD RAID</small><b>월드 레이드</b></button>
+            <button type="button" id="coreRaidTab" data-raid-content="core" aria-selected="false" aria-hidden="true" hidden><small>TEST · CORE PROTOCOL</small><b>붕괴 코어</b></button>
+          </nav>
+          <div id="pveRaidView" class="pve-raid-view"><div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>SOOPKETMON RAID SERVER</span></div></div>
+          <div id="pveCoreRaidView" class="pve-core-raid-view" hidden><div class="core-raid-loading"><i></i><b>붕괴 코어 접근 권한 확인 중</b></div></div>
+        </div>
         <div id="pveEscortView" class="pve-escort-view" hidden><div class="escort-operation-loading"><i></i><b>호송 경로를 불러오는 중입니다.</b></div></div>
       </main>
     </div>`;

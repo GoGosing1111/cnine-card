@@ -33,3 +33,5 @@
   function install(){ensureShell();q('#raidV1293Save')&&(q('#raidV1293Save').onclick=save);q('#saveRaidSettingsBtn')&&(q('#saveRaidSettingsBtn').onclick=save);if(state?.raidData)renderOverhaul()}
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',install):setTimeout(install,0);
 })();
+
+void import('./core-protocol-raid-admin-v2021.js?v=2021-test-gated-live').catch(error=>console.error('core protocol raid admin load failed',error));

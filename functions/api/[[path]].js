@@ -21,6 +21,7 @@ import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,super
 import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
 import { handleEscortOperation } from '../_escort_operation.js';
+import { handleRaidCoreProtocol } from '../_raid_core_protocol.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop } from '../_workshop.js';
@@ -5016,6 +5017,7 @@ async function handleRequest(context){
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
     const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,grantWeeklyPremiumCube,userEquipmentBonuses,grantEquipmentDrop,rollBlackMiracleDrop,publicEquippedTitleMap}});if(captainResponse)return captainResponse;
     const blackMiracleAdminResponse=await handleBlackMiracleAdmin({path,request,env,deps:{authenticate,readBody,json}});if(blackMiracleAdminResponse)return blackMiracleAdminResponse;
+    const coreRaidResponse=await handleRaidCoreProtocol({path,request,env,deps:{authenticate,readBody,json,raidDeckPower,createPveBattleV2,profile,writeAdminLog}});if(coreRaidResponse)return coreRaidResponse;
     const sealBattleResponse=await handleSealBattle({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,raidDeckPower,columnExists,resolveUniqueBattleRuntime,selectActivatedUltimate,uniqueBattleResponsePayload}});if(sealBattleResponse)return sealBattleResponse;
     const battleV2PreviewResponse=await handleBattleV2Preview({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckStates,userEquipmentBonuses,magicBattleLoadout}});if(battleV2PreviewResponse)return battleV2PreviewResponse;
 

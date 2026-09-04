@@ -164,7 +164,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=2016-pve-sweep-lock-recovery/);
+  assert.match(index,/app\.js\?v=2021-core-protocol-user-test/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.19\.0-refresh-home-sticky/);
-  assert.match(serviceWorker,/soop-card-shell-v2016-pve-sweep-lock-recovery/);
+  assert.match(serviceWorker,/soop-card-shell-v2021-core-protocol-user-test/);
 });

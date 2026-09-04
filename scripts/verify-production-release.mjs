@@ -13,22 +13,48 @@ const api = read('functions/api/[[path]].js');
 const pve = read('js/pve-command-v2-live.js');
 const worker = read('service-worker.js');
 const blackMiracle = read('functions/_black_miracle_pack.js');
+const core = read('functions/_raid_core_protocol.js');
+const coreUi = read('js/core-protocol-raid-v1924.js');
 
-const forbidden = [
-  ['index.html', index, /core-protocol-raid|project-v-raid-qte/i],
-  ['js/app.js', app, /data-raid-content=["']core|pveCoreRaidView|CoreProtocolRaidV1924|CNineCoreRaidBridge/],
-  ['functions/api/[[path]].js', api, /_raid_core_protocol|handleRaidCoreProtocol|raid\/core\//],
-  ['js/pve-command-v2-live.js', pve, /pveRaidHubView|pveCoreRaidView|data-raid-content=["']core/]
-];
-for (const [path, source, pattern] of forbidden) {
-  if (pattern.test(source)) fail(`${path} contains preview-only Core raid integration: ${pattern}`);
+for (const resource of [
+  'css/core-protocol-raid-v1924.css?v=2021-test-gated-live',
+  'js/project-v-raid-qte-v1924.js?v=2021-sequence-swipe',
+  'js/core-protocol-raid-v1924.js?v=2021-test-gated-live',
+]) {
+  if (!index.includes(resource)) fail(`index.html is missing the reviewed Core test resource: ${resource}`);
 }
 
-if (!/if\(mode==='raid'\)\{[^}]*stopBattleEnergyTimer\(\);[^}]*loadRaidView\(\);return;[^}]*\}/.test(app)) {
-  fail('the production raid entry no longer calls the legacy loadRaidView() directly');
+const raidBranch = app.match(/if\(mode==='raid'\)\{[\s\S]{0,900}?return;\}/)?.[0] || '';
+if (!raidBranch || !raidBranch.includes('loadRaidView();') || !raidBranch.includes('CoreProtocolRaidV1924?.openActive?.()')) {
+  fail('the production raid entry is missing the legacy-first Core TEST probe');
+} else if (raidBranch.indexOf('loadRaidView();') > raidBranch.indexOf('CoreProtocolRaidV1924?.openActive?.()')) {
+  fail('Core raid is invoked before the legacy loadRaidView() safety path');
+} else if (!/Promise\.resolve\([\s\S]*CoreProtocolRaidV1924[\s\S]*\)\.catch\(/.test(raidBranch)) {
+  fail('Core raid entry failures are not isolated from the legacy world raid');
 }
 if (!/id=["']pveRaidView["']/.test(app) || !/id=["']pveRaidView["']/.test(pve)) {
   fail('the legacy raid container is missing from app.js or the PVE live adapter');
+}
+if (!/id=["']pveRaidHubView["']/.test(pve)
+  || !/data-raid-content=["']core["'][^>]+aria-hidden=["']true["'][^>]+hidden/.test(pve)
+  || !/id=["']pveCoreRaidView["'][^>]+hidden/.test(pve)) {
+  fail('Core raid must ship as an initially hidden tab beside the untouched legacy raid view');
+}
+if (!/handleRaidCoreProtocol/.test(api) || !/_raid_core_protocol/.test(api)) {
+  fail('the Core raid API delegation is missing');
+}
+if (!/mode:'TEST'/.test(core) || !/rewardLocked:true/.test(core)
+  || !/coreRaidFeatureAccess/.test(core) || !/raid\/core\/feature/.test(core)) {
+  fail('Core raid must default to TEST access with rewards locked');
+}
+if (!/raidDeckPower\(env,user\.id,body\.cardIds,'RAID'\)/.test(core)
+  || !/createBattle:createPveBattleV2/.test(core)
+  || /pveDeckSnapshot/.test(core)) {
+  fail('Core raid is not using the authoritative live RAID deck and Battle V2 pipeline');
+}
+if (!/loadFeature\(\)/.test(coreUi) || !/feature\?\.visible===true/.test(coreUi)
+  || !/preserveServerTimeline:true/.test(coreUi)) {
+  fail('Core raid UI is missing its server feature gate or live V3 timeline contract');
 }
 
 const appTag = index.match(/js\/app\.js\?v=([^"']+)/)?.[1] || '';
@@ -80,5 +106,5 @@ try {
 }
 
 if (!process.exitCode) {
-  console.log(`[PRODUCTION RELEASE OK] ${appTag} · legacy raid isolated · Core preview disconnected`);
+  console.log(`[PRODUCTION RELEASE OK] ${appTag} · legacy raid preserved · Core TEST-gated · rewards locked`);
 }
