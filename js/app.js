@@ -822,8 +822,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2004-battle-suit-craft'],
-    scripts:['js/workshop-v1881.js?v=2004-battle-suit-craft'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2008-synthesis-material'],
+    scripts:['js/workshop-v1881.js?v=2008-synthesis-material'],
     ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   alchemy:{
@@ -832,8 +832,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AlchemyV1Live?.bind)&&typeof window.alchemyView==='function'&&typeof window.bindAlchemyView==='function'
   },
   scrapyard:{
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2004-battle-suit-craft','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=2004-battle-suit-craft','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2008-synthesis-material','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-v1881.js?v=2008-synthesis-material','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{

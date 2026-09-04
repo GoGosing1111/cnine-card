@@ -80,8 +80,8 @@ test('bulk result unlocks before the per-attempt verdict sequence starts', () =>
 });
 
 test('bulk synthesis UI is cache-busted and responsive', () => {
-  assert.match(app, /workshop-v1881\.css\?v=2004-battle-suit-craft/);
-  assert.match(app, /workshop-v1881\.js\?v=2004-battle-suit-craft/);
+  assert.match(app, /workshop-v1881\.css\?v=2008-synthesis-material/);
+  assert.match(app, /workshop-v1881\.js\?v=2008-synthesis-material/);
   assert.match(css, /\.ws81-synth-actions\{display:grid/);
   assert.match(css, /\.ws81-bulk-result-modal\{/);
   assert.match(css, /\.ws81-bulk-slider\{/);

@@ -106,7 +106,8 @@ assert.match(serverSynthesis, /equipmentSynthesisBatchPlan\(\{available:recipe\.
 assert.match(serverSynthesis, /ORDER BY x\.id LIMIT \?`\)\.bind\(user\.id,equipmentId,plan\.totalRequired\)/);
 assert.match(serverSynthesis, /if\(\(inputs\.results\|\|\[\]\)\.length!==plan\.totalRequired\)/);
 assert.match(serverSynthesis, /selectedIdRows=.*jsonb_array_elements_text[\s\S]*json_each\(\?\)/);
-assert.match(serverSynthesis, /x\.id IN \(\$\{selectedIdRows\}\)\)=\? THEN 1 ELSE 0 END`\)\.bind\(guardId,user\.id,user\.id,equipmentId,instanceIdsJson,plan\.totalRequired\)/);
+assert.match(serverSynthesis, /x\.id IN \(\$\{selectedIdRows\}\)\)=\? AND \(\?='' OR EXISTS\(SELECT 1 FROM cnine_user_inventory[\s\S]*?quantity>=\?\)\) THEN 1 ELSE 0 END/);
+assert.match(serverSynthesis, /\.bind\(guardId,user\.id,user\.id,equipmentId,instanceIdsJson,plan\.totalRequired,materialCode,user\.id,materialCode,materialPlan\.totalRequired\)/);
 assert.match(serverSynthesis, /SELECT COUNT\(\*\)[\s\S]*l\.instance_id IS NULL[\s\S]*verified=1/);
 assert.ok((server.match(/l\.instance_id IS NULL/g) || []).length >= 3, 'state, execution, and guard queries must all exclude equipped gear');
 assert.match(server, /path==='workshop'&&request\.method==='GET'/);

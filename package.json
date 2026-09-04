@@ -12,7 +12,7 @@
     "test:navigation": "node --test tests/navigation-contract-v1.mjs",
     "test:raid-entry": "node --test tests/raid-entry-fallback-v1927.test.mjs tests/raid-v3-mobile-recovery-v1930.test.mjs",
     "test:message-rewards": "node --test tests/message-reward-client-parity-v1929.test.mjs",
-    "test:workshop": "node --test tests/workshop-split-lineage-v1881.mjs tests/workshop-mystic-energy-v1931.test.mjs tests/equipment-bulk-synthesis-v1941.test.mjs tests/battle-suit-workshop-v2004.test.mjs",
+    "test:workshop": "node --test tests/workshop-split-lineage-v1881.mjs tests/workshop-mystic-energy-v1931.test.mjs tests/equipment-bulk-synthesis-v1941.test.mjs tests/battle-suit-workshop-v2004.test.mjs tests/equipment-synthesis-material-v2008.test.mjs",
     "test:clan": "node --test tests/clan-v3-v1820.mjs tests/clan-war-cms-v1943.test.mjs",
     "test:prison": "node --test tests/prison-system-v1950.test.mjs",
     "test:project-v-sd": "node --test tests/project-v-zenith-sd-assets-v1.mjs tests/project-v-apocalypse-boss-sd-v1958.test.mjs",

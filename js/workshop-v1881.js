@@ -228,8 +228,16 @@
   }
 
   const synthRequired = recipe => Math.max(1, Number(recipe?.input_quantity || 3));
-  const canSynthesize = recipe => Number(recipe?.quantity || 0) >= synthRequired(recipe);
-  const synthMaxAttempts = recipe => Math.min(MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS, Math.floor(Number(recipe?.quantity || 0) / synthRequired(recipe)));
+  const synthMaterialRequired = recipe => String(recipe?.material_code || '').trim() ? Math.max(1, Number(recipe?.material_quantity || 1)) : 0;
+  const synthMaterialOwned = recipe => Math.max(0, Number(recipe?.material_owned || 0));
+  const canSynthesize = recipe => Number(recipe?.quantity || 0) >= synthRequired(recipe) && (!synthMaterialRequired(recipe) || Number(recipe?.material_active) === 1 && synthMaterialOwned(recipe) >= synthMaterialRequired(recipe));
+  const synthMaxAttempts = recipe => Math.min(MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS, Math.floor(Number(recipe?.quantity || 0) / synthRequired(recipe)), synthMaterialRequired(recipe) ? Math.floor(synthMaterialOwned(recipe) / synthMaterialRequired(recipe)) : MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS);
+  const synthShortage = recipe => {
+    const shortages = [], equipmentMissing = Math.max(0, synthRequired(recipe) - Number(recipe?.quantity || 0)), materialRequired = synthMaterialRequired(recipe), materialMissing = Math.max(0, materialRequired - synthMaterialOwned(recipe));
+    if (equipmentMissing) shortages.push(`${String(recipe?.name || '장비')} ${fmt(equipmentMissing)}개`);
+    if (materialRequired && (Number(recipe?.material_active) !== 1 || materialMissing)) shortages.push(`${String(recipe?.material_name || recipe?.material_code || '추가 재료')} ${fmt(materialMissing || materialRequired)}개`);
+    return shortages.join(' · ') || '합성 가능';
+  };
 
   function pendingSynthesisSelection() {
     const rawTarget = String(currentMutationRequest('synthesis')?.target || '');
@@ -249,32 +257,36 @@
 
   function lineageItem(recipe) {
     const required = synthRequired(recipe);
+    const materialRequired = synthMaterialRequired(recipe);
     const available = canSynthesize(recipe);
     const maxAttempts = synthMaxAttempts(recipe);
     return `<button type="button" data-synth="${recipe.recipe_id}" class="ws81-lineage-item ${Number(recipe.recipe_id) === Number(selectedSynthesisRecipe) ? 'active' : ''} ${available ? 'ready' : 'locked'}">
-      <span class="ws81-lineage-gear"><img src="${esc(asset(recipe.image_url))}" alt=""><i>${esc(recipe.rarity)}</i><b>${esc(recipe.name)}</b><small>보유 ${fmt(recipe.quantity)} / 필요 ${fmt(required)}</small></span>
-      <span class="ws81-lineage-link" aria-hidden="true"><i></i><b>${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회` : '합성 가능' : `${Math.max(0, required - Number(recipe.quantity || 0))}개 부족`}</b></span>
+      <span class="ws81-lineage-gear"><img src="${esc(asset(recipe.image_url))}" alt=""><i>${esc(recipe.rarity)}</i><b>${esc(recipe.name)}</b><small>보유 ${fmt(recipe.quantity)} / 필요 ${fmt(required)}</small>${materialRequired ? `<em>+ ${esc(recipe.material_name || recipe.material_code)} ${fmt(recipe.material_owned)} / ${fmt(materialRequired)}</em>` : ''}</span>
+      <span class="ws81-lineage-link" aria-hidden="true"><i></i><b>${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회` : '합성 가능' : esc(synthShortage(recipe))}</b></span>
       <span class="ws81-lineage-gear output"><img src="${esc(asset(recipe.output_image))}" alt=""><i>${esc(recipe.output_rarity)}</i><b>${esc(recipe.output_name)}</b><small>PVE +${fmt(recipe.output_pve_power)}</small></span>
     </button>`;
   }
 
   function synthesisDetail(recipe) {
     const required = synthRequired(recipe);
+    const materialRequired = synthMaterialRequired(recipe);
+    const materialOwned = synthMaterialOwned(recipe);
     const available = canSynthesize(recipe);
     const maxAttempts = synthMaxAttempts(recipe);
     const pending = pendingSynthesisSelection();
     const recovering = pending.recipeId === Number(recipe.recipe_id);
     const bulkRequired = required * maxAttempts;
+    const bulkMaterialRequired = materialRequired * maxAttempts;
     return `<section class="ws78-synth-stage ws81-synth-detail">
-      <header><div><small>SELECTED LINEAGE</small><h3>${esc(recipe.name)} 합성 계보</h3></div><span class="${available ? 'ready' : 'locked'}">${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회 가능` : '즉시 합성 가능' : `재료 ${Math.max(0, required - Number(recipe.quantity || 0))}개 부족`}</span></header>
+      <header><div><small>SELECTED LINEAGE</small><h3>${esc(recipe.name)} 합성 계보</h3></div><span class="${available ? 'ready' : 'locked'}">${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회 가능` : '즉시 합성 가능' : esc(synthShortage(recipe))}</span></header>
       <div class="ws78-fusion-board ws81-fusion-board">
-        <div class="ws78-input-zone"><small>투입 장비 · 보유 ${fmt(recipe.quantity)}개</small><div style="--required:${required}">${Array.from({ length: required }, (_, index) => `<figure class="${Number(recipe.quantity || 0) > index ? 'filled' : 'empty'}"><span>${Number(recipe.quantity || 0) > index ? esc(recipe.rarity) : 'EMPTY'}</span>${Number(recipe.quantity || 0) > index ? `<img src="${esc(asset(recipe.image_url))}" alt="">` : '<b>+</b>'}<figcaption>${Number(recipe.quantity || 0) > index ? esc(recipe.name) : '장비 필요'}</figcaption></figure>`).join('')}</div></div>
+        <div class="ws78-input-zone"><small>투입 장비 · 보유 ${fmt(recipe.quantity)}개</small><div style="--required:${required}">${Array.from({ length: required }, (_, index) => `<figure class="${Number(recipe.quantity || 0) > index ? 'filled' : 'empty'}"><span>${Number(recipe.quantity || 0) > index ? esc(recipe.rarity) : 'EMPTY'}</span>${Number(recipe.quantity || 0) > index ? `<img src="${esc(asset(recipe.image_url))}" alt="">` : '<b>+</b>'}<figcaption>${Number(recipe.quantity || 0) > index ? esc(recipe.name) : '장비 필요'}</figcaption></figure>`).join('')}</div>${materialRequired ? `<aside class="ws81-synth-material ${Number(recipe.material_active) === 1 && materialOwned >= materialRequired ? 'filled' : 'empty'}"><img src="${esc(asset(recipe.material_image))}" alt=""><span><small>추가 재료 · 1회 소모</small><b>${esc(recipe.material_name || recipe.material_code)} × ${fmt(materialRequired)}</b><em>보유 ${fmt(materialOwned)}개</em></span></aside>` : ''}</div>
         <div class="ws78-fusion-core"><i></i><b>LINEAGE</b><strong>→</strong><em>${Number(recipe.success_rate ?? 100)}%</em></div>
         <div class="ws78-output-zone"><small>성공 시 결과</small><figure><span>${esc(recipe.output_rarity)}</span><img src="${esc(asset(recipe.output_image))}" alt=""><figcaption><b>${esc(recipe.output_name)}</b><em>PVE +${fmt(recipe.output_pve_power)} · PVP +${fmt(recipe.output_pvp_power)}</em></figcaption></figure></div>
       </div>
-      <div class="ws78-synth-summary"><div><small>1회 투입</small><b>${esc(recipe.name)} × ${fmt(required)}</b></div><div><small>일괄 합성 가능</small><b>${fmt(maxAttempts)}회 · 총 ${fmt(bulkRequired)}개</b></div><div><small>회차별 성공 확률</small><b>${Number(recipe.success_rate ?? 100)}%</b></div></div>
-      <div class="ws81-synth-bulk-info"><span><small>장착 장비</small><b>자동 제외</b></span><span><small>일괄 판정</small><b>회차별 독립</b></span><span><small>남는 장비</small><b>${fmt(Math.max(0, Number(recipe.quantity || 0) - bulkRequired))}개 유지</b></span></div>
-      <p class="ws78-risk">실패한 회차도 투입 장비는 소모됩니다. 일괄 합성은 완성 가능한 중복 묶음만 사용하며 ${fmt(maxAttempts)}회 결과를 각각 판정합니다.</p>
+      <div class="ws78-synth-summary"><div><small>1회 투입</small><b>${esc(recipe.name)} × ${fmt(required)}${materialRequired ? ` + ${esc(recipe.material_name || recipe.material_code)} × ${fmt(materialRequired)}` : ''}</b></div><div><small>일괄 합성 가능</small><b>${fmt(maxAttempts)}회 · 장비 ${fmt(bulkRequired)}개${materialRequired ? ` · 재료 ${fmt(bulkMaterialRequired)}개` : ''}</b></div><div><small>회차별 성공 확률</small><b>${Number(recipe.success_rate ?? 100)}%</b></div></div>
+      <div class="ws81-synth-bulk-info"><span><small>장착 장비</small><b>자동 제외</b></span><span><small>일괄 판정</small><b>회차별 독립</b></span><span><small>남는 장비</small><b>${fmt(Math.max(0, Number(recipe.quantity || 0) - bulkRequired))}개 유지</b></span>${materialRequired ? `<span><small>남는 추가 재료</small><b>${fmt(Math.max(0, materialOwned - bulkMaterialRequired))}개 유지</b></span>` : ''}</div>
+      <p class="ws78-risk">실패한 회차도 투입 장비${materialRequired ? '와 추가 재료' : ''}는 소모됩니다. 일괄 합성은 두 재료 모두 충족하는 횟수만 사용하며 ${fmt(maxAttempts)}회 결과를 각각 판정합니다.</p>
       <div class="ws81-synth-actions">
         <button type="button" id="wsSynthStart" class="ws76-primary" ${workshopBusy || (!available && !recovering) ? 'disabled' : ''}>${workshopBusy ? '계보 재검증 중' : recovering ? '이전 장비 합성 결과 확인' : available ? '1회 합성' : `동일 장비 ${fmt(required)}개 필요`}</button>
         <button type="button" id="wsSynthBulk" class="ws76-primary ws81-bulk-button" data-synth-attempts="${maxAttempts}" ${workshopBusy || recovering || maxAttempts < 2 ? 'disabled' : ''}>${workshopBusy ? '계보 재검증 중' : recovering ? '이전 결과 확인 후 이용' : maxAttempts > 1 ? `${fmt(maxAttempts)}회 중복 전부 합성` : '일괄 합성 재료 부족'}</button>
@@ -753,18 +765,21 @@
       renderWorkshop();
       if (!recipe) return alert('현재 공개된 합성 레시피가 아닙니다.');
       const required = synthRequired(recipe);
+      const materialRequired = synthMaterialRequired(recipe);
       const pending = pendingSynthesisSelection();
       const recovering = pending.recipeId === Number(recipe.recipe_id);
       const maxAttempts = synthMaxAttempts(recipe);
       const attempts = recovering ? pending.attempts : Math.max(1, Math.min(maxAttempts, requestedSynthesisAttempts));
       const totalRequired = required * attempts;
-      if (!canSynthesize(recipe) && !recovering) return alert(`${recipe.name} 장비가 ${fmt(required)}개 필요합니다.`);
+      const totalMaterialRequired = materialRequired * attempts;
+      const materialLine = materialRequired ? `\n추가 재료 ${recipe.material_name || recipe.material_code} ${fmt(totalMaterialRequired)}개도 함께 소모됩니다.` : '';
+      if (!canSynthesize(recipe) && !recovering) return alert(`합성 재료가 부족합니다: ${synthShortage(recipe)}`);
       if (!recovering && attempts > maxAttempts) return alert(`현재 일괄 합성은 최대 ${fmt(maxAttempts)}회까지 가능합니다.`);
       const confirmation = recovering
         ? `${recipe.name} ${fmt(attempts)}회 합성 결과를 동일 요청번호로 안전하게 재확인합니다.`
         : attempts > 1
-          ? `${recipe.name} 중복 장비 ${fmt(totalRequired)}개를 투입해 ${fmt(attempts)}회를 한 번에 합성합니다.\n각 회차 성공 확률 ${Number(recipe.success_rate ?? 100)}% · 실패한 회차도 투입 장비는 소모됩니다.`
-          : `${recipe.name} ${fmt(required)}개를 투입해 ${recipe.output_name} 합성을 시도합니다.\nCMS 최신 성공 확률 ${Number(recipe.success_rate ?? 100)}% · 실패해도 투입 장비는 소모됩니다.`;
+          ? `${recipe.name} 중복 장비 ${fmt(totalRequired)}개를 투입해 ${fmt(attempts)}회를 한 번에 합성합니다.${materialLine}\n각 회차 성공 확률 ${Number(recipe.success_rate ?? 100)}% · 실패한 회차도 모든 투입 재료는 소모됩니다.`
+          : `${recipe.name} ${fmt(required)}개를 투입해 ${recipe.output_name} 합성을 시도합니다.${materialLine}\nCMS 최신 성공 확률 ${Number(recipe.success_rate ?? 100)}% · 실패해도 모든 투입 재료는 소모됩니다.`;
       if (!confirm(confirmation)) return;
       const requestTarget = recovering ? pending.rawTarget : `${recipe.recipe_id}:${attempts}`;
       ticket = prepareMutationRequest('synthesis', requestTarget, 'SYNTH');
@@ -800,6 +815,7 @@
     const modal = document.getElementById('modal');
     if (!modal || !isCurrent()) return;
     const input = data.input || {};
+    const material = data.material || null;
     const output = data.output || {};
     const attempts = Math.max(1, Number(data.attempts || 1));
     const successCount = Math.max(0, Number(data.successCount || 0));
@@ -822,9 +838,10 @@
         <i aria-hidden="true">→</i>
         <figure class="output"><span>RESULT SEALED</span><img src="${esc(asset(output.image))}" alt=""><figcaption><b>${esc(output.name || '결과 장비')}</b><small id="ws81BulkOutputCount">획득 수량 잠금</small></figcaption></figure>
       </div>
+      ${material ? `<div class="ws81-bulk-material"><img src="${esc(asset(material.image))}" alt=""><span><small>ADDITIONAL MATERIAL CONSUMED</small><b>${esc(material.name || material.code)} × ${fmt(material.quantity)}</b></span></div>` : ''}
       <section class="ws81-bulk-outcomes"><header><b>회차별 판정</b><span id="ws81BulkOutcomeMeta">공개 0 / ${fmt(attempts)}</span></header><div>${outcomes.map((outcome, index) => `<span class="pending" data-bulk-roll="${index}" title="${fmt(outcome?.attempt || index + 1)}회차 판정 대기"><i>${fmt(outcome?.attempt || index + 1)}</i><b>대기</b></span>`).join('')}</div></section>
       <div class="ws81-bulk-slider"><span id="ws81BulkInstruction">밀어서 회차별 합성 판정을 시작하세요</span><div id="ws81BulkTrack" tabindex="0" role="slider" aria-label="일괄 합성 결과 잠금 해제" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ws81BulkHandle">➜</i><b>밀어서 결과 잠금 해제</b></div></div>
-      <p class="ws81-bulk-note">장착 중인 장비는 소모 대상에서 제외됩니다. 잠금 해제 후 1회차부터 성공·실패가 순서대로 공개되며, 실패한 회차의 재료는 반환되지 않습니다.</p>
+      <p class="ws81-bulk-note">장착 중인 장비는 소모 대상에서 제외됩니다. 잠금 해제 후 1회차부터 성공·실패가 순서대로 공개되며, 실패한 회차의 장비${material ? '와 추가 재료' : ''}는 반환되지 않습니다.</p>
       <button type="button" id="ws81BulkClose" disabled>회차별 판정 진행 전</button>
     </section>`;
     normalizeImages(modal);
@@ -863,7 +880,7 @@
         phase.textContent = `JUDGEMENT ${fmt(attempt)} / ${fmt(attempts)}`;
         round.textContent = `${fmt(attempt)}회차 판정`;
         verdict.textContent = '판정 중';
-        verdictDetail.textContent = `${String(input.name || '장비')} 계보 코어 확인`;
+        verdictDetail.textContent = `${String(input.name || '장비')}${material ? ` + ${String(material.name || material.code)}` : ''} 계보 코어 확인`;
         roll?.classList.remove('pending');
         roll?.classList.add('resolving');
         if (roll?.querySelector('b')) roll.querySelector('b').textContent = '판정';
@@ -882,7 +899,7 @@
         shownFailure.textContent = fmt(failureShown);
         outcomeMeta.textContent = `공개 ${fmt(index + 1)} / ${fmt(attempts)} · 성공 ${fmt(successShown)} · 실패 ${fmt(failureShown)}`;
         verdict.textContent = successful ? 'SUCCESS' : 'FAILED';
-        verdictDetail.textContent = successful ? `${String(output.name || '결과 장비')} 1개 확보` : `투입 장비 ${fmt(input.perAttempt || 1)}개 소멸`;
+        verdictDetail.textContent = successful ? `${String(output.name || '결과 장비')} 1개 확보` : `투입 장비 ${fmt(input.perAttempt || 1)}개${material ? ` + ${String(material.name || material.code)} ${fmt(material.perAttempt || 1)}개` : ''} 소멸`;
         panel.classList.add(successful ? 'strike-success' : 'strike-failure');
         navigator.vibrate?.(successful ? 32 : [44, 18, 44]);
         await wait(Math.max(20, pace - lockBeat));
@@ -951,10 +968,11 @@
     const modal = document.getElementById('modal');
     if (!modal || !isCurrent()) return;
     const input = data.input || {};
+    const material = data.material || null;
     const output = data.output || {};
     const success = data.success !== false;
     modal.className = 'modal show ws76-reveal-modal ws77-modal';
-    modal.innerHTML = `<section class="ws77-reveal ws81-reveal" style="--slide:0;--open:0"><header><div><small>LINEAGE FUSION · ${Number(data.successRate ?? 100)}% PROTOCOL</small><h2>${esc(data.recipeName || '장비 계보 합성')}</h2></div><span id="ws81Phase">투입 장비 동기화 중</span></header><div class="ws77-chamber"><div class="ws77-scanlines"></div><div class="ws77-inputs">${Array.from({ length: Math.min(required, 5) }, (_, index) => `<figure style="--i:${index}"><span>${esc(input.rarity || 'EQUIPMENT')}</span><img src="${esc(asset(input.image))}" alt=""><figcaption>${esc(input.name || '투입 장비')}</figcaption></figure>`).join('')}</div><div class="ws77-reactor"><i></i><b id="ws81Charge">0%</b><small>CORE CHARGE</small></div><div class="ws77-output"><figure><span>${esc(output.rarity || 'EQUIPMENT')}</span><img src="${esc(asset(output.image))}" alt=""><figcaption><small>LINEAGE RESULT</small><b>${esc(output.name)}</b><em>PVE +${fmt(output.pvePower)} · PVP +${fmt(output.pvpPower)}</em></figcaption></figure></div><div class="ws77-failure"><strong>FUSION FAILED</strong><span>투입 장비 ${fmt(required)}개가 소멸했습니다.</span></div><div class="ws77-shutter left"></div><div class="ws77-shutter right"></div><div class="ws77-flash"></div></div><div class="ws77-progress"><i></i><span id="ws81ProgressText">계보 데이터 결속 0%</span></div><div class="ws77-slider locked"><span id="ws81Instruction">합성로 충전이 완료될 때까지 기다려 주세요</span><div id="ws81Track" tabindex="0" role="slider" aria-label="합성 결과 공개" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ws81Handle">➜</i><b>밀어서 결과 개방</b></div></div><button id="ws81Close" disabled>합성 결과 확인 완료</button></section>`;
+    modal.innerHTML = `<section class="ws77-reveal ws81-reveal" style="--slide:0;--open:0"><header><div><small>LINEAGE FUSION · ${Number(data.successRate ?? 100)}% PROTOCOL</small><h2>${esc(data.recipeName || '장비 계보 합성')}</h2></div><span id="ws81Phase">투입 장비 동기화 중</span></header><div class="ws77-chamber"><div class="ws77-scanlines"></div><div class="ws77-inputs">${Array.from({ length: Math.min(required, 5) }, (_, index) => `<figure style="--i:${index}"><span>${esc(input.rarity || 'EQUIPMENT')}</span><img src="${esc(asset(input.image))}" alt=""><figcaption>${esc(input.name || '투입 장비')}</figcaption></figure>`).join('')}${material ? `<figure class="ws81-reveal-material" style="--i:${Math.min(required, 5)}"><span>${esc(material.rarity || 'MATERIAL')}</span><img src="${esc(asset(material.image))}" alt=""><figcaption>${esc(material.name || material.code)} × ${fmt(material.quantity)}</figcaption></figure>` : ''}</div><div class="ws77-reactor"><i></i><b id="ws81Charge">0%</b><small>CORE CHARGE</small></div><div class="ws77-output"><figure><span>${esc(output.rarity || 'EQUIPMENT')}</span><img src="${esc(asset(output.image))}" alt=""><figcaption><small>LINEAGE RESULT</small><b>${esc(output.name)}</b><em>PVE +${fmt(output.pvePower)} · PVP +${fmt(output.pvpPower)}</em></figcaption></figure></div><div class="ws77-failure"><strong>FUSION FAILED</strong><span>투입 장비 ${fmt(required)}개${material ? `와 ${esc(material.name || material.code)} ${fmt(material.quantity)}개가` : '가'} 소멸했습니다.</span></div><div class="ws77-shutter left"></div><div class="ws77-shutter right"></div><div class="ws77-flash"></div></div><div class="ws77-progress"><i></i><span id="ws81ProgressText">계보 데이터 결속 0%</span></div><div class="ws77-slider locked"><span id="ws81Instruction">합성로 충전이 완료될 때까지 기다려 주세요</span><div id="ws81Track" tabindex="0" role="slider" aria-label="합성 결과 공개" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ws81Handle">➜</i><b>밀어서 결과 개방</b></div></div><button id="ws81Close" disabled>합성 결과 확인 완료</button></section>`;
     normalizeImages(modal);
     const panel = modal.querySelector('.ws81-reveal');
     const phase = modal.querySelector('#ws81Phase');
@@ -997,7 +1015,7 @@
       panel.style.setProperty('--open', 1);
       panel.classList.add('revealed', success ? 'succeeded' : 'failed');
       phase.textContent = success ? 'SYNTHESIS COMPLETE' : 'SYNTHESIS FAILED';
-      instruction.textContent = success ? `${output.name} 획득` : `합성 실패 · 투입 장비 ${fmt(required)}개 소모`;
+      instruction.textContent = success ? `${output.name} 획득` : `합성 실패 · 투입 장비 ${fmt(required)}개${material ? ` + ${String(material.name || material.code)} ${fmt(material.quantity)}개` : ''} 소모`;
       close.disabled = false;
       navigator.vibrate?.(success ? [45, 30, 45, 30, 120] : [120, 55, 180]);
     };

@@ -9,6 +9,7 @@ const LOG_TABLE='workshop_craft_logs_v1668';
 const SYNTH_RECEIPT_TABLE='equipment_synthesis_receipts_v1676';
 const SYNTH_LOG_TABLE='equipment_synthesis_logs_v1676';
 const SYNTH_RECIPE_TABLE='equipment_synthesis_recipes_v1677';
+const SYNTH_MATERIAL_META_PREFIX='SYNTHMAT2008:';
 const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS','MATERIAL_CRAFT','BATTLE_SUIT_CRAFT']);
 const OUTPUT_TYPES=new Set(['VEHICLE','EQUIPMENT','INVENTORY_ITEM']);
 const PAYMENT_MODES=new Set(['COIN_OR_MASTER_STAR','COIN_ONLY','MASTER_STAR_ONLY','BOTH','COIN_AND_CARD_SHARD']);
@@ -38,6 +39,32 @@ const bool=value=>value===true||value===1||String(value)==='1';
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
 const isAdmin=user=>String(user?.role||'').toUpperCase()==='OWNER';
 const isOwner=user=>String(user?.role||'').toUpperCase()==='OWNER';
+const synthesisMaterialMetaKey=recipeCode=>`${SYNTH_MATERIAL_META_PREFIX}${code(recipeCode)}`;
+const normalizedSynthesisMaterial=value=>{
+  const raw=typeof value==='string'?parse(value,{}):(value||{}),itemCode=code(raw.itemCode||raw.item_code,100),quantity=int(raw.quantity,0,1000000,0);
+  return itemCode&&quantity>0?{itemCode,quantity}:null;
+};
+
+async function synthesisMaterialConfigs(env){
+  const rows=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key LIKE '${SYNTH_MATERIAL_META_PREFIX}%'`).all(),configs=new Map();
+  for(const row of rows.results||[]){
+    const key=String(row.key||'');if(!key.startsWith(SYNTH_MATERIAL_META_PREFIX))continue;
+    const material=normalizedSynthesisMaterial(row.value);if(material)configs.set(key.slice(SYNTH_MATERIAL_META_PREFIX.length),material);
+  }
+  return configs;
+}
+
+async function attachSynthesisMaterials(env,rows,userId=0){
+  const configs=await synthesisMaterialConfigs(env),codes=[...new Set((rows||[]).map(row=>configs.get(code(row.code))?.itemCode).filter(Boolean))],items=new Map();
+  if(codes.length){
+    const marks=codes.map(()=>'?').join(','),result=await env.DB.prepare(`SELECT i.code,i.name,i.category,i.rarity,replace(i.image_url,char(92),'/') image_url,i.is_active,COALESCE(ui.quantity,0) owned_quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=? WHERE i.code IN (${marks})`).bind(int(userId,0,2147483647),...codes).all();
+    for(const item of result.results||[])items.set(String(item.code||'').toUpperCase(),item);
+  }
+  return (rows||[]).map(row=>{
+    const material=configs.get(code(row.code)),item=material?items.get(material.itemCode):null;
+    return {...row,material_code:material?.itemCode||'',material_quantity:Number(material?.quantity||0),material_name:item?.name||material?.itemCode||'',material_image:item?.image_url||'',material_rarity:item?.rarity||'MATERIAL',material_owned:Number(item?.owned_quantity||0),material_active:item&&Number(item.is_active)!==0&&String(item.category||'').toUpperCase()==='MATERIAL'?1:0};
+  });
+}
 
 const FOUNDATION_SQL=[
   `CREATE TABLE IF NOT EXISTS ${RECIPE_TABLE}(id INTEGER PRIMARY KEY AUTOINCREMENT,code TEXT NOT NULL UNIQUE,category TEXT NOT NULL DEFAULT 'VEHICLE',name TEXT NOT NULL,description TEXT NOT NULL DEFAULT '',output_type TEXT NOT NULL DEFAULT 'VEHICLE',output_ref TEXT NOT NULL,output_quantity INTEGER NOT NULL DEFAULT 1,payment_mode TEXT NOT NULL DEFAULT 'COIN_OR_MASTER_STAR',coin_cost INTEGER NOT NULL DEFAULT 0,master_star_cost INTEGER NOT NULL DEFAULT 0,success_rate REAL NOT NULL DEFAULT 100,is_featured INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 1,is_public INTEGER NOT NULL DEFAULT 1,owner_test_only INTEGER NOT NULL DEFAULT 0,sort_order INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -181,7 +208,8 @@ async function synthesisRecipeRows(env,user,{admin=false}={}){
     LEFT JOIN (SELECT x.equipment_id,COUNT(*) quantity FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND l.instance_id IS NULL GROUP BY x.equipment_id) owned ON owned.equipment_id=r.input_equipment_id
     WHERE ${visibility} ORDER BY r.sort_order,r.id`);
   const rows=admin?await statement.bind(user.id).all():await statement.bind(user.id,String(user.role||'').toUpperCase()).all();
-  return (rows.results||[]).map(row=>({...row,recipe_id:Number(row.recipe_id),input_equipment_id:Number(row.input_equipment_id),output_equipment_id:Number(row.output_equipment_id),input_quantity:Number(row.input_quantity||3),success_rate:Number(row.success_rate??100),quantity:Number(row.quantity||0),pve_power:Number(row.pve_power||0),pvp_power:Number(row.pvp_power||0),output_pve_power:Number(row.output_pve_power||0),output_pvp_power:Number(row.output_pvp_power||0)}));
+  const normalized=(rows.results||[]).map(row=>({...row,recipe_id:Number(row.recipe_id),input_equipment_id:Number(row.input_equipment_id),output_equipment_id:Number(row.output_equipment_id),input_quantity:Number(row.input_quantity||3),success_rate:Number(row.success_rate??100),quantity:Number(row.quantity||0),pve_power:Number(row.pve_power||0),pvp_power:Number(row.pvp_power||0),output_pve_power:Number(row.output_pve_power||0),output_pvp_power:Number(row.output_pvp_power||0)}));
+  return attachSynthesisMaterials(env,normalized,user.id);
 }
 
 async function userWorkshopState(env,user,{admin=false}={}){
@@ -273,22 +301,37 @@ export function equipmentSynthesisBatchPlan({available=0,required=3,attempts=1}=
   return{attempts:requested,required:perAttempt,totalRequired:perAttempt*requested,maxAttempts,inventoryAttempts};
 }
 
+export function equipmentSynthesisMaterialPlan({available=0,required=0,attempts=1}={}){
+  const stock=Math.max(0,Math.floor(Number(available)||0)),perAttempt=Math.max(0,Math.floor(Number(required)||0)),requested=Number(attempts??1);
+  if(!Number.isInteger(requested)||requested<1||requested>MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS)throw new Error(`장비 합성은 한 번에 1회 이상 ${MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS}회 이하로 실행할 수 있습니다.`);
+  if(!perAttempt)return{attempts:requested,required:0,totalRequired:0,maxAttempts:MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS,inventoryAttempts:MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS};
+  const inventoryAttempts=Math.floor(stock/perAttempt),maxAttempts=Math.min(MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS,inventoryAttempts);
+  if(requested>maxAttempts)throw new Error(`추가 합성 재료가 ${perAttempt*requested}개 필요합니다. 현재 재료 기준 합성 가능 횟수는 ${maxAttempts}회입니다.`);
+  return{attempts:requested,required:perAttempt,totalRequired:perAttempt*requested,maxAttempts,inventoryAttempts};
+}
+
 async function synthesizeEquipment(env,user,body){
   const recipeId=int(body.recipeId,1,2147483647),requestId=clean(body.requestId,120);if(!requestId)throw new Error('합성 요청번호가 없습니다.');
   const prior=await env.DB.prepare(`SELECT status,result_json,error_message FROM ${SYNTH_RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
   if(prior?.status==='COMPLETED')return {...parse(prior.result_json,{ok:true}),replayed:true,state:await userWorkshopState(env,user)};
   if(prior?.status==='PENDING')throw new Error('같은 장비 합성을 처리 중입니다.');if(prior?.status==='FAILED')throw new Error(prior.error_message||'이전 합성 요청이 취소되었습니다.');
   const recipe=(await synthesisRecipeRows(env,user)).find(row=>row.recipe_id===recipeId);if(!recipe)throw new Error('현재 공개된 장비 합성 레시피가 아닙니다.');
-  const equipmentId=recipe.input_equipment_id,required=int(recipe.input_quantity,1,20,3),plan=equipmentSynthesisBatchPlan({available:recipe.quantity,required,attempts:body.attempts??1}),inputs=await env.DB.prepare(`SELECT x.id,i.id equipment_id,i.name,i.slot,i.rarity,i.image_url FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL AND i.is_active=1 AND i.is_public=1 ORDER BY x.id LIMIT ?`).bind(user.id,equipmentId,plan.totalRequired).all();
+  const equipmentId=recipe.input_equipment_id,required=int(recipe.input_quantity,1,20,3),plan=equipmentSynthesisBatchPlan({available:recipe.quantity,required,attempts:body.attempts??1}),materialCode=code(recipe.material_code,100),materialRequired=materialCode?int(recipe.material_quantity,1,1000000,1):0;
+  if(materialCode&&Number(recipe.material_active)!==1)throw new Error('추가 합성 재료가 비활성 상태입니다. 운영자에게 문의하세요.');
+  const materialPlan=equipmentSynthesisMaterialPlan({available:recipe.material_owned,required:materialRequired,attempts:plan.attempts});
+  const inputs=await env.DB.prepare(`SELECT x.id,i.id equipment_id,i.name,i.slot,i.rarity,i.image_url FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL AND i.is_active=1 AND i.is_public=1 ORDER BY x.id LIMIT ?`).bind(user.id,equipmentId,plan.totalRequired).all();
   if((inputs.results||[]).length!==plan.totalRequired)throw new Error(`장착하지 않은 동일 장비 ${plan.totalRequired}개가 필요합니다.`);
   const source=inputs.results[0],result=await env.DB.prepare(`SELECT id,name,slot,rarity,replace(image_url,char(92),'/') image_url,pve_power,pvp_power FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1`).bind(recipe.output_equipment_id).first();if(!result)throw new Error('CMS에 지정된 합성 결과 장비가 비활성 상태입니다.');
   const instanceIds=inputs.results.map(row=>Number(row.id)),reserved=await env.DB.prepare(`INSERT OR IGNORE INTO ${SYNTH_RECEIPT_TABLE}(request_id,user_id,equipment_id,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,equipmentId).run();if(!reserved.meta?.changes)throw new Error('같은 장비 합성을 처리 중입니다.');
   const successRate=num(recipe.success_rate,0,100,100),rollValues=new Uint32Array(plan.attempts);crypto.getRandomValues(rollValues);const outcomes=Array.from(rollValues,(roll,index)=>({attempt:index+1,success:roll/4294967296*100<successRate})),successIndexes=outcomes.filter(outcome=>outcome.success).map(outcome=>outcome.attempt),successCount=successIndexes.length,failureCount=plan.attempts-successCount,success=successCount>0;
-  const guardId=`SYNTH:${user.id}:${requestId}`,instanceIdsJson=JSON.stringify(instanceIds),selectedIdRows=env.DB?.dialect==='postgres'?`SELECT CAST(value AS BIGINT) id FROM jsonb_array_elements_text(?::jsonb) AS selected(value)`:`SELECT CAST(value AS INTEGER) id FROM json_each(?)`,response={ok:true,requestId,recipeId,recipeName:recipe.recipe_name,success,allSucceeded:successCount===plan.attempts,successRate,attempts:plan.attempts,successCount,failureCount,outcomes,input:{equipmentId,name:source.name,image:String(source.image_url||'').replace(/\\/g,'/'),rarity:normalizedRarity(source.rarity),quantity:plan.totalRequired,perAttempt:required},output:{equipmentId:Number(result.id),name:result.name,image:result.image_url,rarity:normalizedRarity(result.rarity),slot:result.slot,pvePower:Number(result.pve_power||0),pvpPower:Number(result.pvp_power||0),quantity:successCount}};
-  const statements=[
-    env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,0,CASE WHEN (SELECT COUNT(*) FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL AND x.id IN (${selectedIdRows}))=? THEN 1 ELSE 0 END`).bind(guardId,user.id,user.id,equipmentId,instanceIdsJson,plan.totalRequired),
+  const guardId=`SYNTH:${user.id}:${requestId}`,instanceIdsJson=JSON.stringify(instanceIds),selectedIdRows=env.DB?.dialect==='postgres'?`SELECT CAST(value AS BIGINT) id FROM jsonb_array_elements_text(?::jsonb) AS selected(value)`:`SELECT CAST(value AS INTEGER) id FROM json_each(?)`,response={ok:true,requestId,recipeId,recipeName:recipe.recipe_name,success,allSucceeded:successCount===plan.attempts,successRate,attempts:plan.attempts,successCount,failureCount,outcomes,input:{equipmentId,name:source.name,image:String(source.image_url||'').replace(/\\/g,'/'),rarity:normalizedRarity(source.rarity),quantity:plan.totalRequired,perAttempt:required},material:materialCode?{code:materialCode,name:recipe.material_name||materialCode,image:recipe.material_image||'',rarity:recipe.material_rarity||'MATERIAL',quantity:materialPlan.totalRequired,perAttempt:materialPlan.required}:null,output:{equipmentId:Number(result.id),name:result.name,image:result.image_url,rarity:normalizedRarity(result.rarity),slot:result.slot,pvePower:Number(result.pve_power||0),pvpPower:Number(result.pvp_power||0),quantity:successCount}};
+  const statements=[];
+  if(env.DB?.dialect==='postgres'&&materialCode)statements.push(env.DB.prepare(`SELECT item_code FROM cnine_user_inventory WHERE user_id=? AND item_code=? FOR UPDATE`).bind(user.id,materialCode));
+  statements.push(
+    env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,0,CASE WHEN (SELECT COUNT(*) FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL AND x.id IN (${selectedIdRows}))=? AND (?='' OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,user.id,equipmentId,instanceIdsJson,plan.totalRequired,materialCode,user.id,materialCode,materialPlan.totalRequired),
     env.DB.prepare(`DELETE FROM user_equipment_instances WHERE id IN (${selectedIdRows}) AND user_id=? AND EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(instanceIdsJson,user.id,guardId)
-  ];
+  );
+  if(materialCode)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(materialPlan.totalRequired,materialPlan.totalRequired,user.id,materialCode,guardId));
   if(successCount){
     const outputRowsJson=JSON.stringify(successIndexes.map(attempt=>[Number(result.id),attempt]));
     statements.push(env.DB.prepare(env.DB?.dialect==='postgres'?`WITH output_rows AS (SELECT CAST(value->>0 AS BIGINT) equipment_id,CAST(value->>1 AS INTEGER) attempt_no FROM jsonb_array_elements(?::jsonb) AS rows(value)) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,output_rows.equipment_id,'SYNTHESIS',?,?||':'||CAST(output_rows.attempt_no AS TEXT) FROM output_rows WHERE EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`:`WITH output_rows AS (SELECT CAST(json_extract(value,'$[0]') AS INTEGER) equipment_id,CAST(json_extract(value,'$[1]') AS INTEGER) attempt_no FROM json_each(?)) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,output_rows.equipment_id,'SYNTHESIS',?,?||':'||output_rows.attempt_no FROM output_rows WHERE EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(outputRowsJson,user.id,String(equipmentId),requestId,guardId));
@@ -297,10 +340,11 @@ async function synthesizeEquipment(env,user,body){
     env.DB.prepare(`INSERT INTO ${SYNTH_LOG_TABLE}(request_id,user_id,input_equipment_id,output_equipment_id,input_instance_ids,success) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(requestId,user.id,equipmentId,result.id,instanceIdsJson,successCount,guardId),
     env.DB.prepare(`UPDATE ${SYNTH_RECEIPT_TABLE} SET status='COMPLETED',result_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(JSON.stringify(response),requestId,user.id,guardId)
   );
+  if(materialCode)statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-?,quantity,'EQUIPMENT_SYNTHESIS_MATERIAL','SYNTHESIS',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(user.id,materialCode,materialPlan.totalRequired,requestId,user.id,materialCode,guardId));
   try{await env.DB.batch(statements);const guard=await env.DB.prepare(`SELECT verified FROM ${GUARD_TABLE} WHERE guard_id=?`).bind(guardId).first();await env.DB.prepare(`DELETE FROM ${GUARD_TABLE} WHERE guard_id=?`).bind(guardId).run();if(Number(guard?.verified)!==1)throw new Error('보유 장비가 변경되어 합성이 취소되었습니다.');return {...response,state:await userWorkshopState(env,user)}}catch(error){await env.DB.prepare(`UPDATE ${SYNTH_RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(clean(error.message,300),requestId,user.id).run().catch(()=>null);await env.DB.prepare(`DELETE FROM ${GUARD_TABLE} WHERE guard_id=?`).bind(guardId).run().catch(()=>null);throw error}
 }
 
-async function adminSnapshot(env){
+async function adminSnapshot(env,user){
   const [recipes,vehicles,equipment,items,logs,synthesisRecipes,synthesisLogs]=await Promise.all([
     recipeRows(env,{admin:true}),
     env.DB.prepare('SELECT id,code,name,rarity,image_url FROM character_garage_items WHERE is_active=1 ORDER BY sort_order,id').all(),
@@ -310,7 +354,8 @@ async function adminSnapshot(env){
     env.DB.prepare(`SELECT r.*,input.name input_name,input.rarity input_rarity,replace(input.image_url,char(92),'/') input_image,output.name output_name,output.rarity output_rarity,replace(output.image_url,char(92),'/') output_image FROM ${SYNTH_RECIPE_TABLE} r JOIN character_equipment_items input ON input.id=r.input_equipment_id JOIN character_equipment_items output ON output.id=r.output_equipment_id ORDER BY r.sort_order,r.id`).all(),
     env.DB.prepare(`SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM ${SYNTH_LOG_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN character_equipment_items input ON input.id=l.input_equipment_id LEFT JOIN character_equipment_items output ON output.id=l.output_equipment_id ORDER BY l.id DESC LIMIT 60`).all()
   ]);
-  return {recipes,vehicles:vehicles.results||[],equipment:equipment.results||[],inventoryItems:items.results||[],recentLogs:logs.results||[],synthesisRecipes:synthesisRecipes.results||[],recentSynthesisLogs:synthesisLogs.results||[],categories:[...CATEGORIES],outputTypes:[...OUTPUT_TYPES],paymentModes:[...PAYMENT_MODES]};
+  const decoratedSynthesisRecipes=await attachSynthesisMaterials(env,(synthesisRecipes.results||[]).map(row=>({...row,recipe_id:Number(row.id)})),user?.id||0);
+  return {recipes,vehicles:vehicles.results||[],equipment:equipment.results||[],inventoryItems:items.results||[],recentLogs:logs.results||[],synthesisRecipes:decoratedSynthesisRecipes,recentSynthesisLogs:synthesisLogs.results||[],categories:[...CATEGORIES],outputTypes:[...OUTPUT_TYPES],paymentModes:[...PAYMENT_MODES]};
 }
 
 function cleanMaterial(raw,index){const itemCode=code(raw.itemCode||raw.item_code,100),quantity=int(raw.quantity,1,100000000,1);if(!itemCode)throw new Error(`${index+1}번째 재료 코드를 입력하세요.`);return {itemCode,quantity,sortOrder:int(raw.sortOrder??raw.sort_order,-100000,100000,(index+1)*10)}}
@@ -344,14 +389,32 @@ async function saveRecipe(env,admin,raw,deps){
 }
 
 async function saveSynthesisRecipe(env,admin,raw,deps){
-  const id=int(raw.id,0,2147483647),recipeCode=code(raw.code),name=clean(raw.name,80),description=clean(raw.description,500),inputEquipmentId=int(raw.inputEquipmentId??raw.input_equipment_id,1,2147483647),outputEquipmentId=int(raw.outputEquipmentId??raw.output_equipment_id,1,2147483647),inputQuantity=int(raw.inputQuantity??raw.input_quantity,1,20,3);
-  if(!recipeCode||!name)throw new Error('합성 레시피 코드와 이름을 입력하세요.');if(inputEquipmentId===outputEquipmentId)throw new Error('입력 장비와 결과 장비는 달라야 합니다.');
-  const [input,output]=await env.DB.batch([env.DB.prepare('SELECT id,slot FROM character_equipment_items WHERE id=? AND is_active=1').bind(inputEquipmentId),env.DB.prepare('SELECT id,slot FROM character_equipment_items WHERE id=? AND is_active=1').bind(outputEquipmentId)]);if(!input.results?.[0]||!output.results?.[0])throw new Error('입력 또는 결과 장비를 찾을 수 없습니다.');if(input.results[0].slot!==output.results[0].slot)throw new Error('입력 장비와 결과 장비의 슬롯이 같아야 합니다.');
-  const successRate=num(raw.successRate??raw.success_rate,0,100,100),values=[recipeCode,name,description,inputEquipmentId,outputEquipmentId,inputQuantity,successRate,raw.isActive===false||Number(raw.isActive)===0||Number(raw.is_active)===0?0:1,raw.isPublic===false||Number(raw.isPublic)===0||Number(raw.is_public)===0?0:1,bool(raw.ownerTestOnly??raw.owner_test_only)?1:0,int(raw.sortOrder??raw.sort_order,-100000,100000,0)];let recipeId=id,before=null;
-  if(id){before=await env.DB.prepare(`SELECT * FROM ${SYNTH_RECIPE_TABLE} WHERE id=?`).bind(id).first();if(!before)throw new Error('수정할 합성 레시피를 찾을 수 없습니다.');await env.DB.prepare(`UPDATE ${SYNTH_RECIPE_TABLE} SET code=?,name=?,description=?,input_equipment_id=?,output_equipment_id=?,input_quantity=?,success_rate=?,is_active=?,is_public=?,owner_test_only=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...values,id).run()}else{const created=await env.DB.prepare(`INSERT INTO ${SYNTH_RECIPE_TABLE}(code,name,description,input_equipment_id,output_equipment_id,input_quantity,success_rate,is_active,is_public,owner_test_only,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?)`).bind(...values).run();recipeId=Number(created.meta?.last_row_id||0)}
-  const persisted=await env.DB.prepare(`SELECT success_rate FROM ${SYNTH_RECIPE_TABLE} WHERE id=?`).bind(recipeId).first();
-  if(!persisted||Math.abs(Number(persisted.success_rate)-successRate)>.0001)throw new Error('합성 확률 저장값 검증에 실패했습니다. 다시 저장해 주세요.');
-  if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'EQUIPMENT_SYNTHESIS_RECIPE_SAVE','SYNTHESIS_RECIPE',String(recipeId),before,{code:recipeCode,name,inputEquipmentId,outputEquipmentId,inputQuantity,successRate});return recipeId;
+  const id=int(raw.id,0,2147483647),recipeCode=code(raw.code),name=clean(raw.name,80),description=clean(raw.description,500),inputEquipmentId=int(raw.inputEquipmentId??raw.input_equipment_id,1,2147483647),outputEquipmentId=int(raw.outputEquipmentId??raw.output_equipment_id,1,2147483647),inputQuantity=int(raw.inputQuantity??raw.input_quantity,1,20,3),materialCode=code(raw.materialCode??raw.material_code,100),materialQuantity=int(raw.materialQuantity??raw.material_quantity,0,1000000,0);
+  if(!recipeCode||!name)throw new Error('합성 레시피 코드와 이름을 입력하세요.');
+  if(inputEquipmentId===outputEquipmentId)throw new Error('입력 장비와 결과 장비는 달라야 합니다.');
+  if(Boolean(materialCode)!==Boolean(materialQuantity))throw new Error('추가 재료와 1회 소모 수량을 함께 설정하세요.');
+  const checks=[env.DB.prepare('SELECT id,slot FROM character_equipment_items WHERE id=? AND is_active=1').bind(inputEquipmentId),env.DB.prepare('SELECT id,slot FROM character_equipment_items WHERE id=? AND is_active=1').bind(outputEquipmentId)];
+  if(materialCode)checks.push(env.DB.prepare("SELECT code,name FROM inventory_items WHERE code=? AND is_active=1 AND category='MATERIAL'").bind(materialCode));
+  const [input,output,material]=await env.DB.batch(checks);
+  if(!input.results?.[0]||!output.results?.[0])throw new Error('입력 또는 결과 장비를 찾을 수 없습니다.');
+  if(input.results[0].slot!==output.results[0].slot)throw new Error('입력 장비와 결과 장비의 슬롯이 같아야 합니다.');
+  if(materialCode&&!material?.results?.[0])throw new Error('활성 상태의 제작 재료를 선택하세요.');
+  const successRate=num(raw.successRate??raw.success_rate,0,100,100),values=[recipeCode,name,description,inputEquipmentId,outputEquipmentId,inputQuantity,successRate,raw.isActive===false||Number(raw.isActive)===0||Number(raw.is_active)===0?0:1,raw.isPublic===false||Number(raw.isPublic)===0||Number(raw.is_public)===0?0:1,bool(raw.ownerTestOnly??raw.owner_test_only)?1:0,int(raw.sortOrder??raw.sort_order,-100000,100000,0)];
+  let recipeId=id,before=null;
+  if(id){before=await env.DB.prepare(`SELECT * FROM ${SYNTH_RECIPE_TABLE} WHERE id=?`).bind(id).first();if(!before)throw new Error('수정할 합성 레시피를 찾을 수 없습니다.')}
+  const metaKey=synthesisMaterialMetaKey(recipeCode),statements=[];
+  if(id)statements.push(env.DB.prepare(`UPDATE ${SYNTH_RECIPE_TABLE} SET code=?,name=?,description=?,input_equipment_id=?,output_equipment_id=?,input_quantity=?,success_rate=?,is_active=?,is_public=?,owner_test_only=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...values,id));
+  else statements.push(env.DB.prepare(`INSERT INTO ${SYNTH_RECIPE_TABLE}(code,name,description,input_equipment_id,output_equipment_id,input_quantity,success_rate,is_active,is_public,owner_test_only,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?)`).bind(...values));
+  if(before&&code(before.code)!==recipeCode)statements.push(env.DB.prepare('DELETE FROM app_meta WHERE key=?').bind(synthesisMaterialMetaKey(before.code)));
+  statements.push(env.DB.prepare('DELETE FROM app_meta WHERE key=?').bind(metaKey));
+  if(materialCode)statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(metaKey,JSON.stringify({itemCode:materialCode,quantity:materialQuantity})));
+  await env.DB.batch(statements);
+  if(!recipeId)recipeId=Number((await env.DB.prepare(`SELECT id FROM ${SYNTH_RECIPE_TABLE} WHERE code=?`).bind(recipeCode).first())?.id||0);
+  const [persisted,persistedMaterial]=await Promise.all([env.DB.prepare(`SELECT success_rate FROM ${SYNTH_RECIPE_TABLE} WHERE id=?`).bind(recipeId).first(),env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(metaKey).first()]);
+  const checkedMaterial=normalizedSynthesisMaterial(persistedMaterial?.value);
+  if(!persisted||Math.abs(Number(persisted.success_rate)-successRate)>.0001||String(checkedMaterial?.itemCode||'')!==materialCode||Number(checkedMaterial?.quantity||0)!==materialQuantity)throw new Error('합성 확률 또는 추가 재료 저장값 검증에 실패했습니다. 다시 저장해 주세요.');
+  if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'EQUIPMENT_SYNTHESIS_RECIPE_SAVE','SYNTHESIS_RECIPE',String(recipeId),before,{code:recipeCode,name,inputEquipmentId,outputEquipmentId,inputQuantity,materialCode:materialCode||null,materialQuantity,successRate});
+  return recipeId;
 }
 
 export async function handleWorkshop({path,request,env,deps}){
@@ -363,8 +426,8 @@ export async function handleWorkshop({path,request,env,deps}){
   if(path==='workshop/synthesis'&&request.method==='POST'){try{return deps.json(await synthesizeEquipment(env,user,await deps.readBody(request)))}catch(error){return deps.json({error:error.message||'장비 합성에 실패했습니다.'},409)}}
   if(path==='admin/workshop'){
     if(!isAdmin(user))return deps.json({error:'제작소 관리 권한이 필요합니다.'},403);
-    if(request.method==='GET')return deps.json(await adminSnapshot(env));
-    if(request.method==='POST'){try{const body=await deps.readBody(request),action=code(body.action);if(action==='SAVE_RECIPE'){const recipeId=await saveRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env)})}if(action==='SAVE_SYNTHESIS_RECIPE'){const recipeId=await saveSynthesisRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env)})}return deps.json({error:'지원하지 않는 제작소 작업입니다.'},400)}catch(error){return deps.json({error:error.message||'레시피 저장에 실패했습니다.'},400)}}
+    if(request.method==='GET')return deps.json(await adminSnapshot(env,user));
+    if(request.method==='POST'){try{const body=await deps.readBody(request),action=code(body.action);if(action==='SAVE_RECIPE'){const recipeId=await saveRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='SAVE_SYNTHESIS_RECIPE'){const recipeId=await saveSynthesisRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}return deps.json({error:'지원하지 않는 제작소 작업입니다.'},400)}catch(error){return deps.json({error:error.message||'레시피 저장에 실패했습니다.'},400)}}
   }
   return deps.json({error:'지원하지 않는 요청입니다.'},405);
 }
