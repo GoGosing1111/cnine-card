@@ -5174,11 +5174,11 @@ async function handleRequest(context){
       const blackMiracleUseEnabled=(await blackMiracleSettings(env)).enabled===true;
       await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
-          CASE WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
+          CASE WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') THEN 0 WHEN i.code='CORE_RAID_ENTRY_TICKET' THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
         WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
-      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
+      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
@@ -7988,7 +7988,20 @@ async function handleRequest(context){
       }
       else if(action==='COIN'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경 코인을 입력하세요.'},400);if(before.coin+amount<0)return json({error:'보유 코인보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();const afterCoin=before.coin+amount;await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,String(p.reason||'관리자 조정').slice(0,100),admin.id).run();}
       else if(action==='SHARDS'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경할 카드 조각 수량을 입력하세요.'},400);const current=Number(before.card_shards||0);if(current+amount<0)return json({error:'보유 카드 조각보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(amount,userId).run();const balance=current+amount;await env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId,amount,balance,String(p.reason||'관리자 조정').slice(0,100)).run();}
-      else if(action==='INVENTORY'){const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);const item=await env.DB.prepare('SELECT code,name FROM inventory_items WHERE code=? AND is_active=1').bind(itemCode).first();if(!item)return json({error:'지급 가능한 인벤토리 아이템이 아닙니다.'},400);await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(?,?,?,?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,itemCode,amount,amount).run();const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,itemCode).first();await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id) VALUES(?,?,?,?,?,'ADMIN_GRANT',?,?)").bind(userId,itemCode,amount,Number(inventory?.quantity||0),String(p.reason||'관리자 아이템 지급').slice(0,100),String(admin.id),admin.id).run();}
+      else if(action==='INVENTORY'){
+        const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);
+        if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
+        if(itemCode==='CORE_RAID_ENTRY_TICKET'){
+          await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+            VALUES('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','CORE PROTOCOL ENTRY','붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.','ENTRY_TICKET','ZENITH','assets/ui/pve-command-v2/world-raid-breach-v1.webp',126,1)
+            ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`).run();
+        }
+        const item=await env.DB.prepare('SELECT code,name FROM inventory_items WHERE code=? AND is_active=1').bind(itemCode).first();
+        if(!item)return json({error:'지급 가능한 인벤토리 아이템이 아닙니다.'},400);
+        await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(?,?,?,?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,itemCode,amount,amount).run();
+        const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,itemCode).first();
+        await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id) VALUES(?,?,?,?,?,'ADMIN_GRANT',?,?)").bind(userId,itemCode,amount,Number(inventory?.quantity||0),String(p.reason||'관리자 아이템 지급').slice(0,100),String(admin.id),admin.id).run();
+      }
       else if(action==='CARDS_RESET')await env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId).run();
       else if(action==='ATTENDANCE_RESET')await env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId).run();
       else if(action==='ACCOUNT_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM draw_logs WHERE user_id=?').bind(userId),env.DB.prepare('UPDATE users SET coin=5000,card_shards=0 WHERE id=?').bind(userId)]);
@@ -8081,7 +8094,8 @@ async function handleRequest(context){
             CASE WHEN p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP THEN p.jailed_at ELSE NULL END AS prison_jailed_at,
             CASE WHEN p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP THEN p.jailed_until ELSE NULL END AS prison_jailed_until,
             (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars,
-            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='SCRAPYARD_ENTRY_TICKET') AS scrapyard_tickets
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='SCRAPYARD_ENTRY_TICKET') AS scrapyard_tickets,
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='CORE_RAID_ENTRY_TICKET') AS core_raid_tickets
           FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN wago_verifications w ON w.user_id=u.id
           LEFT JOIN user_prison_status p ON p.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
           ORDER BY ${selectedOrder} LIMIT 100

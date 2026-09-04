@@ -594,6 +594,26 @@ new MutationObserver(ensureHighGradeRerollGrantOption).observe(document.document
 function ensureBlackMiracleGrantOption(){const select=$('#inventoryItemCode');if(!select||select.querySelector('option[value="BLACK_MIRACLE_PACK"]'))return;const option=document.createElement('option');option.value='BLACK_MIRACLE_PACK';option.textContent='블랙 미라클 팩 · 개봉 OFF';select.append(option)}
 new MutationObserver(ensureBlackMiracleGrantOption).observe(document.documentElement,{childList:true,subtree:true});
 
+// V2024: 붕괴 코어 입장권은 공대 생성 화면에서만 소비하며 CMS에서 수동 지급할 수 있다.
+function ensureCoreRaidTicketGrantOption(){
+  const select=$('#inventoryItemCode');
+  if(select&&!select.querySelector('option[value="CORE_RAID_ENTRY_TICKET"]')){
+    const option=document.createElement('option');
+    option.value='CORE_RAID_ENTRY_TICKET';
+    option.textContent='붕괴 코어 입장권 · 공대 생성용';
+    select.append(option);
+  }
+  const detail=$('#userDetail .panel'),selectedId=Number($('#selectedUserId')?.value||0);
+  const selectedUser=state.users.find(user=>Number(user.id)===selectedId);
+  if(detail&&selectedUser&&!detail.querySelector('#coreRaidTicketInventoryAudit')){
+    const row=document.createElement('p');
+    row.id='coreRaidTicketInventoryAudit';
+    row.innerHTML='붕괴 코어 입장권 <b>'+Number(selectedUser.core_raid_tickets||0).toLocaleString()+'</b>장';
+    detail.querySelector('small')?.before(row);
+  }
+}
+new MutationObserver(ensureCoreRaidTicketGrantOption).observe(document.documentElement,{childList:true,subtree:true});
+
 // V1482: retired standard cubes must not reappear through legacy CMS markup.
 function removeRetiredCubeAdminUi(){
   document.querySelectorAll('option[value="NORMAL_CUBE"],option[value="ADVANCED_CUBE"],[data-cube="NORMAL_CUBE"],[data-cube="ADVANCED_CUBE"]').forEach(node=>node.remove());

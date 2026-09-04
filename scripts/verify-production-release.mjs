@@ -17,9 +17,9 @@ const core = read('functions/_raid_core_protocol.js');
 const coreUi = read('js/core-protocol-raid-v1924.js');
 
 for (const resource of [
-  'css/core-protocol-raid-v1924.css?v=2021-test-gated-live',
+  'css/core-protocol-raid-v1924.css?v=2024-room-expedition',
   'js/project-v-raid-qte-v1924.js?v=2021-sequence-swipe',
-  'js/core-protocol-raid-v1924.js?v=2021-test-gated-live',
+  'js/core-protocol-raid-v1924.js?v=2024-room-expedition',
 ]) {
   if (!index.includes(resource)) fail(`index.html is missing the reviewed Core test resource: ${resource}`);
 }
@@ -43,18 +43,32 @@ if (!/id=["']pveRaidHubView["']/.test(pve)
 if (!/handleRaidCoreProtocol/.test(api) || !/_raid_core_protocol/.test(api)) {
   fail('the Core raid API delegation is missing');
 }
-if (!/mode:'TEST'/.test(core) || !/rewardLocked:true/.test(core)
+if (!/mode\s*:\s*'TEST'/.test(core) || !/rewardLocked\s*:\s*true/.test(core)
   || !/coreRaidFeatureAccess/.test(core) || !/raid\/core\/feature/.test(core)) {
   fail('Core raid must default to TEST access with rewards locked');
 }
-if (!/raidDeckPower\(env,user\.id,body\.cardIds,'RAID'\)/.test(core)
-  || !/createBattle:createPveBattleV2/.test(core)
+if (!/deps\.raidDeckPower\(env,\s*user\.id,\s*body\.cardIds,\s*'RAID'\)/.test(core)
+  || !/\{\s*raidDeckPower,\s*createPveBattleV2\s*\}/.test(core)
   || /pveDeckSnapshot/.test(core)) {
   fail('Core raid is not using the authoritative live RAID deck and Battle V2 pipeline');
 }
-if (!/loadFeature\(\)/.test(coreUi) || !/feature\?\.visible===true/.test(coreUi)
-  || !/preserveServerTimeline:true/.test(coreUi)) {
+if (!/loadFeature\(\)/.test(coreUi) || !/feature\?\.visible\s*===\s*true/.test(coreUi)
+  || !/preserveServerTimeline\s*:\s*true/.test(coreUi)) {
   fail('Core raid UI is missing its server feature gate or live V3 timeline contract');
+}
+for (const contract of [
+  'raid_core_rooms_v2024',
+  'raid_core_members_v2024',
+  'raid_core_attempts_v2024',
+  'CORE_RAID_ENTRY_TICKET',
+  'raid/core/open',
+  'raid/core/start',
+  'raid/core/battle',
+]) {
+  if (!core.includes(contract)) fail(`Core room-expedition contract is missing: ${contract}`);
+}
+if (/dailyEntries|cycleIdentity/.test(core)) {
+  fail('the retired global-cycle/one-attempt Core model is still present');
 }
 
 const appTag = index.match(/js\/app\.js\?v=([^"']+)/)?.[1] || '';
