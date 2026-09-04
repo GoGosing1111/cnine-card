@@ -34,6 +34,7 @@ import { ensureGamstCardRetirement } from '../_gamst_card_retirement.js';
 import { ensureGamstDeckRepairV2005 } from '../_gamst_deck_repair_v2005.js';
 import { ensureTargetedCardTransferV2003 } from '../_targeted_card_transfer_v2003.js';
 import { ensureTargetedAvatarGrantV2007 } from '../_targeted_avatar_grant_v2007.js';
+import { ensureTargetedAvatarGrantV2014 } from '../_targeted_avatar_grant_v2014.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
@@ -4728,6 +4729,7 @@ async function handleRequest(context){
       let gamstDeckRepair=null;
       let targetedCardTransfer=null;
       let targetedAvatarGrant=null;
+      let targetedAvatarGrantV2014=null;
       if(databaseInitialized){
         await ensurePrisonFoundation(env);
         await ensureApocalypseEnergyFoundation(env);
@@ -4744,12 +4746,17 @@ async function handleRequest(context){
           status:avatarGrant.status,version:avatarGrant.version,replayed:Boolean(avatarGrant.replayed),
           avatarCode:avatarGrant.avatarCode||null,permanent:Boolean(avatarGrant.permanent)
         }:null;
+        const joeunAvatarGrant=await ensureTargetedAvatarGrantV2014(env);
+        targetedAvatarGrantV2014=joeunAvatarGrant?{
+          status:joeunAvatarGrant.status,version:joeunAvatarGrant.version,replayed:Boolean(joeunAvatarGrant.replayed),
+          avatarCode:joeunAvatarGrant.avatarCode||null,permanent:Boolean(joeunAvatarGrant.permanent)
+        }:null;
         if(gamstCardRetirement?.status==='COMPLETED'){
           drawContextCache.clear();
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant});
+      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
