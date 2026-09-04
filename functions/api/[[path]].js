@@ -38,6 +38,7 @@ import { ensureTargetedAvatarGrantV2007 } from '../_targeted_avatar_grant_v2007.
 import { ensureTargetedAvatarGrantV2014 } from '../_targeted_avatar_grant_v2014.js';
 import { ensureTargetedCardGrantV2015 } from '../_targeted_card_grant_v2015.js';
 import { ensureTargetedCardGrantV2016 } from '../_targeted_card_grant_v2016.js';
+import { ensureTargetedInventoryGrantV2025 } from '../_targeted_inventory_grant_v2025.js';
 import { ensureIyejunFurRerollRecoveryV2023 } from '../_iyejun_fur_reroll_recovery_v2023.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
@@ -4778,6 +4779,7 @@ async function handleRequest(context){
       let targetedAvatarGrantV2014=null;
       let targetedCardGrantV2015=null;
       let targetedCardGrantV2016=null;
+      let targetedInventoryGrantV2025=null;
       let iyejunFurRerollRecovery=null;
       if(databaseInitialized){
         await ensurePrisonFoundation(env);
@@ -4813,6 +4815,12 @@ async function handleRequest(context){
           quantityAfter:Number(simsimiKimseongtaeGrant.quantityAfter||0),levelRequested:Number(simsimiKimseongtaeGrant.levelRequested||0),
           breakthroughLevel:Number(simsimiKimseongtaeGrant.breakthroughLevel||0)
         }:null;
+        const jinjjaDiemMysticGrant=await ensureTargetedInventoryGrantV2025(env);
+        targetedInventoryGrantV2025=jinjjaDiemMysticGrant?{
+          status:jinjjaDiemMysticGrant.status,version:jinjjaDiemMysticGrant.version,replayed:Boolean(jinjjaDiemMysticGrant.replayed),
+          itemCode:jinjjaDiemMysticGrant.itemCode||null,quantityGranted:Number(jinjjaDiemMysticGrant.quantityGranted||0),
+          quantityAfter:Number(jinjjaDiemMysticGrant.quantityAfter||0),unseenAfter:Number(jinjjaDiemMysticGrant.unseenAfter||0)
+        }:null;
         await ensureHighGradeRerollFoundation(env);
         const rerollRecovery=await ensureIyejunFurRerollRecoveryV2023(env);
         iyejunFurRerollRecovery=rerollRecovery?{
@@ -4830,7 +4838,7 @@ async function handleRequest(context){
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,iyejunFurRerollRecovery});
+      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,iyejunFurRerollRecovery});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
