@@ -1,0 +1,22 @@
+v2032 · Challenger validation
+
+Targeted validation:
+- Ranked regression: existing reward-cap tests + 7 Challenger tests pass.
+- Actual SQLite query: 10th/11th swaps, ties, OWNER, inactive/banned exclusions pass.
+- Season rewards: final-rank qualification, no duplicate tier grant, rank reward addition pass.
+- Actual title grant SQL: repeat settlement does not duplicate, Challenger title and expiry recorded.
+- PostgreSQL compatibility suite: 8 passed, 2 live-credential integration tests skipped.
+- Worker, app and CMS syntax checked.
+- New Pixi/GSAP bundle built with npm run build:challenger (no V3 rebuild or modification).
+
+Browser validation (local Chrome):
+- Desktop 1280x920, mobile 390x844 DPR2: crest and revised title render, no horizontal overflow.
+- WebGL active; one renderer/canvas after 12 replays; stops when scrolled out of view.
+- Actual production tier guide/reward functions rendered with fixture settings: 8 tiers, final-rank label, no NaN.
+- CMS Challenger reward renderer: independent coin/shard inputs and final top-10 rule.
+- Title exact text preserved: 챌린저★★★★. Blue-metal frame, miniature crest, distinct stars; reduced-motion stylesheet.
+- Static transparent PNG retained beneath effects; rendering failure cannot block game navigation.
+
+Release:
+- Production deployment must pass the complete npm run release:gate inside npm run deploy:production.
+- Authenticated production ranking/season settlement is not triggered by QA; no user rewards or battle state mutated for testing.

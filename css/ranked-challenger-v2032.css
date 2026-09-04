@@ -1,0 +1,30 @@
+/* Crest art is raster; all moving highlights are rendered in isolated Pixi WebGL. */
+.tier-emblem.tier-challenger{--tier-color:#79c8ef;color:#99d2f1}
+.tier-challenger .challenger-stage{position:relative;display:block;width:100%;aspect-ratio:1;isolation:isolate}
+.tier-challenger .challenger-art{display:block;width:100%;height:100%;object-fit:contain;filter:none;animation:none}
+.challenger-webgl{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none}
+.tier-emblem.tier-challenger em{color:#97d2ef;border-color:#496d87;background:#081521;text-shadow:0 1px 2px #02060c}
+.tier-emblem.tier-challenger.small{width:90px;min-width:90px;height:auto;min-height:106px}
+.tier-emblem.tier-challenger.rank{height:76px}
+.tier-emblem.tier-challenger.rank .challenger-stage{width:66px;height:66px;margin:auto}
+.pvp-tier-road:has(.tier-challenger){grid-template-columns:repeat(8,minmax(0,1fr))}
+.pvp-tier-road-item:has(.tier-challenger){border-color:#5e5137;background:#081724}
+.pvp-tier-road-item:has(.tier-challenger) b{color:#a7d4ed}
+.pvp-tier-rewards .challenger-reward-row{border-left:2px solid #ae8c4d;background:#0b1a27}
+.challenger-title-preview,.public-title-badge.title-style-challenger,.title-style-challenger{position:relative;display:inline-flex;align-items:center;gap:0;isolation:isolate;overflow:hidden;vertical-align:middle;white-space:nowrap;padding:.36em .72em .36em 2em!important;color:#83c9ef!important;-webkit-text-fill-color:#83c9ef!important;background:linear-gradient(115deg,#1a405c 0,#112b43 20%,#0a1b30 53%,#173a55 100%)!important;border:1px solid #659bc0!important;border-radius:3px 10px 3px 10px;box-shadow:inset 0 1px 0 #b7ddf52e,inset 0 -2px 0 #030c18cc,0 2px 5px #0005!important;text-shadow:0 1px 1px #040c12!important;font-weight:900;letter-spacing:.035em;line-height:1.15;animation:none!important}
+.challenger-title-preview{font-size:1.15em}
+.challenger-title-preview::before,.title-style-challenger::before{content:''!important;position:absolute;left:.26em;top:50%;width:1.55em;height:1.55em;transform:translateY(-50%);background:url('/assets/ui/tiers/challenger-v2032.png') center/contain no-repeat;z-index:2;filter:none}
+.challenger-title-preview::after,.public-title-badge.title-style-challenger::after,.title-style-challenger::after{content:''!important;position:absolute;inset:0 auto 0 0;width:24%;height:auto;margin:0;background:linear-gradient(105deg,transparent,#bfebff24,transparent);transform:translateX(-140%);pointer-events:none;animation:challengerTitleSheen 7s ease-in-out infinite!important}
+.title-style-challenger *{color:#83c9ef!important;-webkit-text-fill-color:#83c9ef!important;text-shadow:0 1px 1px #040c12!important;animation:none!important}
+.challenger-title-name{font-weight:900}
+.challenger-title-stars,.title-style-challenger .challenger-title-stars{margin-left:.45em;font-size:.73em;letter-spacing:.13em;color:#a4d9ef!important;-webkit-text-fill-color:#a4d9ef!important;text-shadow:0 1px 0 #285d87!important}
+@keyframes challengerTitleSheen{0%,62%{transform:translateX(-140%)}86%,100%{transform:translateX(540%)}}
+@media(prefers-reduced-motion:reduce){.challenger-title-preview::after,.title-style-challenger::after{animation:none!important;display:none}}
+.pvpChallengerRewardRow{display:grid;grid-template-columns:100px minmax(190px,1fr) minmax(160px,1fr) minmax(160px,1fr);gap:18px;align-items:center;padding:20px;border:1px solid #52667a;background:#0d1b28;border-radius:12px;margin:18px 0 4px}
+.pvpChallengerRewardRow img{width:90px;height:90px;object-fit:contain}
+.pvpChallengerRewardRow b,.pvpChallengerRewardRow small{display:block}
+.pvpChallengerRewardRow small{margin-top:7px;color:#91acc0;line-height:1.6}
+.pvpChallengerRewardRow .field{min-width:0}
+.pvpChallengerRewardRow input{width:100%;box-sizing:border-box}
+@media(max-width:900px){.pvp-tier-road:has(.tier-challenger){grid-template-columns:repeat(4,minmax(0,1fr))}.pvpChallengerRewardRow{grid-template-columns:90px 1fr}.pvpChallengerRewardRow .field{grid-column:span 2}}
+@media(max-width:560px){.pvp-tier-road:has(.tier-challenger){grid-template-columns:repeat(2,minmax(0,1fr))}.pvp-tier-rewards .challenger-reward-row{grid-template-columns:1fr 1fr;gap:10px}.pvp-tier-rewards .challenger-reward-row strong{grid-column:span 2;text-align:left}}

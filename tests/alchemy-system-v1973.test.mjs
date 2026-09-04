@@ -157,6 +157,6 @@ test('alchemy CMS exposes material curve, vehicles, inverse reward weights and s
   assert.doesNotMatch(admin, /alchemyRewardMode|PRECISION|CHAOS|정밀/);
   assert.match(admin, /VEHICLE:'이동수단'/);
   assert.match(loader, /alchemy-admin-v1\.js\?v=5-zenith-era/);
-  assert.match(adminHtml, /admin-v1276\.js\?v=2024-core-raid-ticket/);
+  assert.match(adminHtml, /admin-v1276\.js\?v=2032-ranked-challenger/);
   for (const table of ['alchemy_runs_v1','alchemy_user_state_v1','alchemy_asset_locks_v1','alchemy_guards_v1']) assert.match(cleanup, new RegExp(table));
 });

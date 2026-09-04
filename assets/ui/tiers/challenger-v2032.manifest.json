@@ -1,0 +1,17 @@
+{
+  "asset": "/assets/ui/tiers/challenger-v2032.png",
+  "mode": "built-in imagegen / generate",
+  "date": "2026-09-05",
+  "useCase": "stylized-concept",
+  "reference": "User requested an original gold/blue Challenger-style premium winged emblem. No external reference image supplied.",
+  "prompt": "Use case: stylized-concept.\nAsset type: premium competitive ranked CHALLENGER emblem for SOOPKETMON, isolated transparent PNG game UI asset.\nPrimary request: make an exceptionally high-end 3D sculpted gold-and-azure winged rank crest evoking the prestige and visual finish of League of Legends Challenger, with an original emblem design.\nSubject: a striking compact symmetrical heraldic insignia, brilliant elongated royal-blue sapphire core with cool cyan faceted inner light, substantial polished warm gold sculpted casing, high swept layered golden wings on both sides, confident three-point upper crown, sharp downward lower crest. Clearly legible silhouette at 64px and magnificent at 500px.\nComposition: precisely centered frontal straight-on symmetrical view, complete crest fully visible with ample 12% transparent margin, roughly 1.1:1 crest width to height. One emblem only.\nStyle: AAA fantasy competitive game rank badge, premium handcrafted metal sculpture with controlled bevel highlights, ultra-crisp hard-surface edges, rich material depth, strong readable large planes rather than excessive micro-ornament, prestigious and powerful, blue enamel recesses.\nLighting: precise cinematic studio reflection lighting, luminous cyan gem without blown-out white center, warm gold high points, dark bronze recesses. Tight local glints only, clean sharp silhouette. External magical energy trails and particle motion will be added separately in WebGL.\nConstraints: genuinely transparent alpha background, no backdrop, no checkerboard drawn into the image, no pedestal, no border frame, no text, no letters, no numbers, no watermark, no logo, no character. Do not crop any wing tips. Avoid fog, milky glow, blur, overexposure, loose decorative debris or thin filigree. Render final as a square high resolution PNG with actual alpha.",
+  "alpha": true,
+  "size": [
+    1254,
+    1254
+  ],
+  "fx": "PixiJS WebGL + GSAP; one renderer; static fallback; reduced-motion respected",
+  "title": "챌린저★★★★",
+  "titleColor": "#83c9ef",
+  "titleStyle": "Blue-metal frame, miniature crest, four separated stars, restrained highlight"
+}

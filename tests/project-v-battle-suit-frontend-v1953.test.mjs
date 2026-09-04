@@ -137,7 +137,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(adminCss, /\.equipment-power-preview\.equipment-pve-only/);
   assert.match(loadoutCss, /\.clv2-equip-slot\.slot-battle_suit/);
   assert.match(app, /character-loadout-v2\.js\?v=14-equipment-stack-count/);
-  assert.match(app, /equipment-v1274\.js\?v=1815-battle-suit-pve-only/);
+  assert.match(app, /equipment-v1274\.js\?v=2032-challenger-title/);
   assert.match(adminIndex, /equipment-admin-v1278\.js\?v=1279-battle-suit-pve-only/);
   assert.equal((adminIndex.match(/equipment-admin-v1278\.css\?v=1279-battle-suit-pve-only/g) || []).length, 2);
   assert.match(legacyEquipment, /pveOnly=item\.slot==='BATTLE_SUIT'/);
@@ -147,7 +147,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(pveCss, /pvev2-roster-foot\{display:grid;grid-template-columns:repeat\(5,1fr\) auto/);
   assert.match(index, /pve-command-v2\.css\?v=1991-sweep-result-front/);
   assert.match(index, /pve-command-v2-live\.js\?v=2021-core-protocol-tabs/);
-  assert.match(index, /js\/app\.js\?v=2031-prison-community/);
+  assert.match(index, /js\/app\.js\?v=2032-ranked-challenger/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
   assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);
