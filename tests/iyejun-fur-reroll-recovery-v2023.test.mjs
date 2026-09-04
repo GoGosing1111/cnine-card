@@ -111,5 +111,5 @@ test('두 재뽑기 경로 모두 이예준 FUR와 CMS 결과 제외 플래그�
   assert.match(api,/iyejunFurRerollRecovery=rerollRecovery\?\{/);
   assert.doesNotMatch(api,/iyejunFurRerollRecovery=rerollRecovery;/);
   assert.match(recovery,/env\.DB\?\.dialect==='postgres'[\s\S]{0,120}env\.DB\.execSchema/);
-  assert.match(recovery,/ALTER TABLE cards ADD COLUMN IF NOT EXISTS reroll_result_enabled/);
+  assert.doesNotMatch(recovery,/ALTER TABLE cards ADD COLUMN/);
 });

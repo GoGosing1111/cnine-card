@@ -34,7 +34,6 @@ async function ensureRecoveryFoundation(env){
         created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY(source_type,request_id)
       )`,
-      'ALTER TABLE cards ADD COLUMN IF NOT EXISTS reroll_result_enabled INTEGER NOT NULL DEFAULT 1',
       sqliteSchema[1]
     ]);
   }else{
