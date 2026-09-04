@@ -1,26 +1,25 @@
 TEST REPORT v1990 — 배틀슈트 독립 시계 연사 / 발당 데미지 / 아포칼립스 게이트
 
-[서버 시뮬] node, functions/_battle_v2_preview.js createPveBattleV2
-  일반 PVE (20만×5 힐1방2공1속1, 배틀슈트 15만, seed 고정)
-    weapon             monster   allyActs suitShots perShot  suitDmg/cardDmg  actions(with/without suit)
-    M4 (15/cycle)      900k      49       139       2,614    0.17             55 / 63
-    M4                 2.5M      53       166       7,287    0.21             60 / 73
-    AK (10/cycle)      900k      47       91        3,964    0.17             53 / 63
-    M200 (5/cycle)     900k      49       48        8,567    0.20             55 / 63
-    SKS (8/cycle)      900k      47       72        4,816    0.16             53 / 63
-    독립 시계 확인: 카드 5만 덱 244발/20행동(12.2발/행동), 20만 145발/48행동(3.0), 80만 64발/55행동(1.2).
+[서버 시뮬] node, functions/_battle_v2_preview.js createPveBattleV2 (30시드)
+  일반 PVE (힐1방2공1속1, 화력배율 2)
+    deck/suit/monster       suitShots  suitShare    actions(with/without suit)
+    1.0M / 150k / 900k     124~129    25.6~27.1%   44~49 / 59~68
+    1.0M / 300k / 900k     112~126    29.7~34.1%   41~45 / 59~68
+    1.0M / 150k / 2.5M     139~152    29.4~31.2%   50~53 / 71~76
+    2.0M / 300k / 4.0M     82~92      16.6~19.2%   58~62 / 70~77
+    900k 몬스터 무기별 사격: M4 124~129 / AK 80~87 / M200 38~45 / SKS 66~68.
+    독립 시계 확인: M4 간격 0.018/15 고정, 느린 덱의 카드 행동당 사격 수가 빠른 덱보다 1.5배 이상 많음.
     v1989 동일 조건: M4 1발(40,075 = 몬스터 하한값), M200/SKS 0발.
     배틀슈트 미장착 전투는 v1989 와 타임라인·결과 동일.
   아포칼립스 (전역 기본값, bossUltimate 28%, 30 seeds) — PATCH-NOTES [결과] 표 참조.
-    핵심: 덱×1.0 슈트X 0% · 성배5장 0% · 슈트15% 80~100% / 덱×1.6 슈트X 70~77% / 덱×0.7+슈트15% ≤27%.
+    핵심: 덱×1.0 슈트X 0% · 성배5장 0% · 슈트15% 100% / 덱×1.6 슈트X 70~77% / 덱×0.7+슈트15% 0~3%.
 
-[회귀 테스트] Windows 로컬(Node v24.18.0, npm ci 고정 의존성) 전체 운영 게이트 본체 PASS
+[회귀 테스트] Windows 로컬(Node v24.18.0, npm ci 고정 의존성) 전체 운영 게이트 PASS
   check:worker PASS. navigation 1 / raid-entry 9 / message-rewards 2 / workshop 21 / clan 28 / prison 9 /
   project-v-sd 2 / apocalypse 5 / pve-sweep 11 / battle-suit 41 / territory-reward 6 / alchemy 7 /
   ranked-reward 4 / coupon 4 / prediction PASS / prime-draw 17 / superstar-pack 9 / gamst-retirement 14 /
-  targeted-transfer 3 / idle-dungeon PASS.
+  targeted-transfer 6 / idle-dungeon PASS.
   sharp 의존 animation-assets·alchemy·apocalypse-boss-sd와 pg 의존 prediction까지 로컬에서 실제 통과 확인.
-  테란여제 조은 신규 아바타 마이그레이션과 배틀슈트 축약 DB 픽스처 교차 회귀 15/15 PASS.
 
 [브라우저 검증] Playwright + Chromium(SwiftShader) 로 수정 번들 + 실제 서버 타임라인 재생
   - 배틀슈트 이벤트 처리 0~2ms(카드 타임라인 비차단), 연사 루프가 서버 발사만 소비(무피해 사격 0).

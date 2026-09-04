@@ -18,6 +18,7 @@ const powerTierMigrationUrl=new URL('../database/migrations/0089_v1969_battle_su
 const assetManifestUrl=new URL('../assets/ui/project-v/account-battle-suits/manifest-v1.json',import.meta.url);
 const siegeUrl=new URL('../functions/_siege.js',import.meta.url);
 const apiUrl=new URL('../functions/api/[[path]].js',import.meta.url);
+const battleEngineUrl=new URL('../functions/_battle_v2_preview.js',import.meta.url);
 
 class SqliteD1Statement{
   constructor(owner,sql,values=[]){this.owner=owner;this.sql=String(sql);this.values=values}
@@ -159,7 +160,7 @@ test('runtime Battle Suit and weapon cutout manifest matches the committed asset
   }
 });
 
-test('Battle Suit is a sixth PVE support actor with authoritative independent damage, not a displayed aggregate',()=>{
+test('Battle Suit is a sixth PVE support actor with authoritative independent damage, not a displayed aggregate',async()=>{
   const cards=Array.from({length:5},(_,index)=>({
     id:String(index+1),title:`CARD ${index+1}`,name:`CARD ${index+1}`,rarity:'FUR',power_type:'ATTACK',power:50000,
   }));
@@ -197,6 +198,7 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(battle.rules.battleSuitActionClock,'INDEPENDENT_TIME_CADENCE');
   assert.equal(battle.rules.battleSuitShotsPerCycle,15);
   assert.equal(battle.rules.battleSuitReferenceCycle,0.018);
+  assert.equal(battle.rules.battleSuitPveFirepower,2,'PVE-only Battle Suit firepower must keep its approved x2 multiplier');
   assert.equal(battle.rules.battleSuitConsumesAction,false);
   assert.equal(battle.rules.battleSuitUsesSpeedGauge,false);
   {
@@ -229,6 +231,10 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.ok(bossUltimate?.hits?.every(hit=>hit.targetId!==actorId),'boss area damage must retain the canonical five-card target set');
   assert.equal(battle.rules.battleSuitDamageAuthority,'SERVER_TIMELINE');
   assert.equal(battle.rules.battleSuitOccupiesCardSlot,false);
+
+  const battleEngineSource=await readFile(battleEngineUrl,'utf8');
+  assert.match(battleEngineSource,/hit\.damage=Math\.max\(1,Math\.round\(Number\(hit\.damage\|\|0\)\/shotsPerCycle\*battleSuitFirepower\(actor,target\)\)\)/,
+    'the firepower multiplier must be applied after the per-shot minimum-damage split');
 
   const lowPowerCards=Array.from({length:5},(_,index)=>({
     id:`LOW-${index+1}`,title:`LOW ${index+1}`,power_type:'ATTACK',power:10000,

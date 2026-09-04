@@ -1,46 +1,38 @@
-# CODEX 지시문 — v1990 2차(배틀슈트 독립 시계 + 아포칼립스 게이트) 마무리
+# CODEX 지시문 — v1990 2차 및 PVE 화력 보완 마무리
 
-> **이전 지시문의 0번 중단 조건은 잘못된 기준이었다.** 코덱스가 멈춘 판단은 옳았고, 원인은 누락이 아니라
-> 이 문서를 쓴 쪽이 "v1990 1차가 이미 커밋된 사실"을 반영하지 못한 것이다. 아래가 정정판이다.
+> **현재 기준:** v1990 독립 시계·아포칼립스 게이트는 `0b4a62c0`에 반영됐다.
+> 이번 후속분은 PVE 전용 화력 배율 2와 그에 맞춘 약한 덱 아포칼립스 게이트·문서·회귀 단언이다.
+> `0b4a62c0` 이후의 다른 커밋은 되돌리지 않는다.
 
 ## 배경 — v1990 은 두 번에 나눠 들어간다
 
 | | 내용 | 상태 |
 |---|---|---|
 | 1차 | 배틀슈트를 "카드 행동마다 N발" 로 쏘게 한 중간 방식 + 클라 큐/드레인 + 캐시 태그 | **커밋 `6e00734a` 로 이미 반영됨** (`fix(v3): 배틀슈트 서버 사격과 소탕 결과 레이어 통합`) |
-| 2차 | 사용자 지시("턴·행동력과 무관한 독립 행동력으로 시작부터 끝까지")에 따른 케이던스 교체 + 아포칼립스 게이트 | **이번 작업. 작업 트리에 미커밋 상태로 얹혀 있다** |
+| 2차 | 사용자 지시("턴·행동력과 무관한 독립 행동력으로 시작부터 끝까지")에 따른 케이던스 교체 + 아포칼립스 게이트 | **커밋 `0b4a62c0`으로 반영됨** |
+| 후속 | 배틀슈트 PVE 화력 배율 2 + 아포칼립스 약한 덱 캐리 방지 보완 | **이번 작업** |
 
-1차 이후 `2004-battle-suit-materials` 까지 다른 작업이 여러 건 커밋됐다. 2차는 그 위에 쌓는다.
-**1차를 되돌리거나 다시 적용하지 말 것.** 1차의 `independentRoundsPerCardAction` / `CARD_ACTION_CADENCE`
-는 2차에서 제거되는 게 정상이다.
+1차 이후 `2004-battle-suit-materials` 까지 다른 작업이 여러 건 커밋됐고 2차도 그 위에 반영됐다.
+**1차·2차를 되돌리거나 다시 적용하지 말 것.** 1차의 `independentRoundsPerCardAction` / `CARD_ACTION_CADENCE`
+가 2차에서 제거된 상태를 유지한다.
 
 ## 0. 상태 확인
 
 ```
-git log --oneline -1        # 2a2a40e fix(territory): 감스트 퇴역 영향 덱 자동 복구 (또는 그 이후)
+git log --oneline -1        # origin/main과 현재 HEAD를 대조
 git status --short
 ```
 
-수정 22개 + 신규 1개(`tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs`)가 나와야 한다.
-수정 목록의 대부분(13개)은 캐시 태그 `2004-battle-suit-materials` → `2005-battle-suit-independent-fire`
-갱신뿐인 테스트 파일이다. 실제 코드 변경은 아래 6개:
+고정된 과거 파일 개수나 HEAD 해시를 중단 조건으로 사용하지 않는다. `origin/main`과 현재 HEAD를 먼저 대조하고,
+이번 후속분의 실제 런타임 변경이 `functions/_battle_v2_preview.js`에 한정되는지 확인한다.
+문서와 회귀 단언 외에 다른 런타임 파일이 바뀌었다면 diff를 먼저 검토한다.
 
-```
-functions/_battle_v2_preview.js
-preview/project-v-v3/source/battle/BattleEngine.js
-preview/project-v-v3/source/battle/README.md
-preview/project-v-v3/project-v-pixi-battle.bundle.js
-package.json                                        (test:apocalypse 에 게이트 테스트 추가만)
-tests/project-v-battle-suit-backend-v1953.test.mjs  (배틀슈트 케이던스 단언 블록만)
-```
-
-`git log --oneline -1` 이 `2a2a40e` 보다 뒤라면(= 그 사이 새 작업을 했다면) 위 6개가 그 작업과
-겹치는지 `git diff` 로 먼저 확인하고, 겹치면 멈추고 보고할 것.
+후속 런타임 범위는 `_battle_v2_preview.js` 한 파일이며, 테스트·문서·공지 외 변경이 섞이면 먼저 분리한다.
 
 ## 1. [필수] V3 번들 재생성
 
-`preview/project-v-v3/project-v-pixi-battle.bundle.js` 는 npm 이 없는 환경에서 minified 파일에 손으로
-패치한 상태다. 동작은 검증했지만 정식 빌드로 덮어써야 한다.
+과거 수동 패치가 정식 소스와 일치하는지 아래 명령으로 재확인한다. 빌드 뒤 번들에 예상 밖 diff가
+생기면 범위를 넓히지 말고 원인을 먼저 확인한다.
 
 ```
 npm ci
@@ -61,16 +53,20 @@ npm run release:gate
 `project-v-battle-suit-animation-assets-v1955`, `alchemy-system-v1973`,
 `project-v-apocalypse-boss-sd-v1958`, `coin-prediction-history-v1813`, `test:gamst-retirement` 일부.
 그 외 스위트는 이 환경에서 전부 통과 확인함(navigation 1 / raid-entry 9 / workshop 21 / clan 28 /
-prison 9 / apocalypse 5 / pve-sweep 11 / battle-suit 20 / territory-reward 6 / ranked-reward 4 /
-coupon 4 / prime-draw 17 / superstar-pack 9 / targeted-transfer 3 / escort 6).
+prison 9 / apocalypse 5 / pve-sweep 11 / battle-suit 41 / territory-reward 6 / ranked-reward 4 /
+coupon 4 / prime-draw 17 / superstar-pack 9 / targeted-transfer 6 / escort 6).
 
 실패하면 밸런스 상수를 만지지 말고 실패 내용을 그대로 보고할 것.
 
 ## 3. [필수] 커밋 · 배포
 
 ```
-git add -A
-git commit -m "fix(battle-suit): 배틀슈트를 독립 시계 연사로 되돌리고 아포칼립스 최종 난이도 게이트 추가"
+git add functions/_battle_v2_preview.js \
+        tests/project-v-battle-suit-backend-v1953.test.mjs \
+        tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs \
+        CODEX-HANDOFF-v1990.md PATCH-NOTES-v1990.txt TEST-REPORT-v1990.txt \
+        USER-NOTICE-v1990-BATTLE-SUIT.md
+git commit -m "balance(battle-suit): PVE 화력과 아포칼립스 약한 덱 게이트 보완"
 npm run deploy:production
 ```
 `npx wrangler pages deploy .` 직접 호출 금지.
@@ -98,10 +94,17 @@ npm run deploy:production
   fighter: `independentFireInterval` / `independentOpeningDelay` / `independentShotsPerCycle` /
   `independentAttackMultiplier`. (1차의 `independentRoundsPerCardAction` 제거)
 
+- **`BATTLE_SUIT_PVE_FIREPOWER = 2`** — 배틀슈트는 PVE 전용(랭크전·점령전·클랜전 미출전)이라
+  PVP 밸런스와 무관하므로 PVE 체감용 전용 화력 배율을 둔다.
+  ⚠ 배율은 몬스터 최소 피해 하한 적용 **뒤에** 곱한다. 앞에 곱하면 고전투력 몬스터에서 배틀슈트 피해가
+     하한에 묶여 배율이 전혀 먹지 않는다(기본 250만·400만 몬스터에서 배율 1~3 결과가 동일했다).
+  아포칼립스에서는 증가분만 덱 게이트로 줄인다(`BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3`).
+
 **실측(seed 고정, 힐1방2공1속1 + 슈트 15만)**
-- M4 판당 139~166발(발당 2.6k~7.3k), 배틀슈트 총피해 = 카드 총피해의 17~21%, 행동 수 63→55.
-- 독립 시계 확인: 카드 5만 덱 244발/20행동, 20만 145발/48행동, 80만 64발/55행동
-  (약한 덱일수록 같은 슈트로 더 많이 쏜다 = 카드 속도와 무관).
+- 화력배율 2 적용(30시드): 조건별 배틀슈트 피해 비중 16.6~34.1%.
+  덱100만+슈트15만 vs 몬스터90만 기준 M4 124~129발, 정규 행동 59~68 → 44~49.
+- 독립 시계 확인: M4 간격은 항상 `0.018/15`이며 느린 덱의 카드 행동당 사격 수가 빠른 덱보다
+  1.5배 이상 많다. 화력 배율은 간격이 아니라 발당 피해에만 적용된다.
 - 배틀슈트 미장착 전투는 v1989 와 타임라인·결과 완전 동일.
 
 **클라(`BattleEngine.js`)** — 1차에서 이미 들어간 큐/드레인 구조는 유지. 2차에서 추가한 것:
@@ -133,15 +136,17 @@ npm run deploy:production
 |---|---|---|
 | 덱×1.0, 슈트 없음 | 0% | — |
 | 덱×1.0, 성배 5장 | 0% | 덱×0.85 에서 68% |
-| 덱×1.0 + 슈트 10% | 10~37% | — |
-| 덱×1.0 + 슈트 15% | 80~100% | — |
+| 덱×1.0 + 슈트 10% | 50~100% | — |
+| 덱×1.0 + 슈트 15% | 100% | — |
 | 덱×1.2, 슈트 없음 | 0% | 100% |
 | 덱×1.6, 슈트 없음 | 70~77% | — |
-| 덱×0.7 + 슈트 15% | 0~27% | — |
+| 덱×0.85 + 슈트 15% | 33~70% | — |
+| 덱×0.7 + 슈트 15% | 0~3% | — |
 
 **튜닝 레버(사용자 지시 없이 건드리지 말 것)**
-`APOCALYPSE_FLOOR_GAIN`(카드 문턱) / `APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT`(슈트 문턱) /
-`APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT`(약한 덱 캐리 방지 강도)
+`BATTLE_SUIT_PVE_FIREPOWER`(슈트 전체 화력) / `APOCALYPSE_FLOOR_GAIN`(카드 문턱) /
+`APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT`(슈트 관통 문턱) /
+`APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT` · `BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT`(약한 덱 캐리 방지)
 
 **주의.** `estimateApocalypseRecommendedPower` 는 슈트 미장착 기준이라 화면 "권장 전투력"이
 ≈ 기본 × 1.6 으로 올라간다. 의도된 값이다 — 슈트(기본의 15%+)를 끼면 ≈ 기본 × 1.0.

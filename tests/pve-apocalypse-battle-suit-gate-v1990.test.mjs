@@ -28,6 +28,8 @@ test('apocalypse exposes its final-difficulty rules',()=>{
   assert.equal(battle.rules.apocalypseRules.floorGain,APOCALYPSE_RULES.floorGain);
   assert.equal(battle.rules.apocalypseRules.magicEffectCap,'ONE_FLOORED_HIT_PER_ACTIVATION');
   assert.equal(battle.rules.apocalypseRules.battleSuitPierce,'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT');
+  assert.equal(APOCALYPSE_RULES.suitFirepower,2);
+  assert.equal(APOCALYPSE_RULES.suitFirepowerGateExponent,3);
   const normal=createPveBattleV2({cards:deck(400000),monster:{id:1,name:'일반',battle_power:2000000,is_boss:1},seed:1});
   assert.equal(normal.rules.apocalypseRules,null,'non-apocalypse battles carry no apocalypse rules');
 });
