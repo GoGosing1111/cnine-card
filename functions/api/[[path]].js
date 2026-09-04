@@ -17,6 +17,7 @@ import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,shopTaxStatements } from '../_administration_treasury.js';
+import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
 import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
@@ -4554,11 +4555,11 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
   'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run',
-  'equipment/prime-supply-box/open','vehicle-draw/prime/open'
+  'equipment/prime-supply-box/open','vehicle-draw/prime/open','prison/release-price','prison/fund','prison/hit'
 ]);
-// 강화 재화는 영수증과 카드 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
-// 이 세 경로는 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
-const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement']);
+// 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
+// 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
+const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund']);
 const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/','idle-dungeon/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
@@ -4681,12 +4682,14 @@ async function ensurePrisonFoundation(env){
       tableExists(env,'user_prison_status'),
       tableExists(env,'prison_chat_messages')
     ]);
-    if(statusReady&&chatReady)return true;
-    const schema=prisonSchemaStatements(env);
-    // PostgreSQL 호환 계층은 일반 prepare()/batch()의 DDL을 의도적으로 건너뛴다.
-    // 고정 DDL 전용 execSchema()를 써야 relation이 실제 생성된다.
-    if(env.DB?.dialect==='postgres'&&typeof env.DB.execSchema==='function')await env.DB.execSchema(schema);
-    else await env.DB.batch(schema.map(sql=>env.DB.prepare(sql)));
+    if(!statusReady||!chatReady){
+      const schema=prisonSchemaStatements(env);
+      // PostgreSQL 호환 계층은 일반 prepare()/batch()의 DDL을 의도적으로 건너뛴다.
+      // 고정 DDL 전용 execSchema()를 써야 relation이 실제 생성된다.
+      if(env.DB?.dialect==='postgres'&&typeof env.DB.execSchema==='function')await env.DB.execSchema(schema);
+      else await env.DB.batch(schema.map(sql=>env.DB.prepare(sql)));
+    }
+    await ensurePrisonCommunityFoundation(env);
     return true;
   })().catch(error=>{prisonFoundationPromise=null;throw error});
   return prisonFoundationPromise;
@@ -4714,9 +4717,12 @@ async function prisonStatusForUser(env,userId){
     FROM user_prison_status p LEFT JOIN users a ON a.id=p.jailed_by WHERE p.user_id=?`).bind(userId).first();
   const status=prisonPublicStatus(row);
   if(row&&Number(row.active||0)===1&&!status.incarcerated){
-    await env.DB.prepare(`UPDATE user_prison_status SET active=0,released_at=COALESCE(released_at,jailed_until,CURRENT_TIMESTAMP),
-      release_reason=CASE WHEN release_reason='' THEN '형기 만료' ELSE release_reason END,updated_at=CURRENT_TIMESTAMP
-      WHERE user_id=? AND active=1 AND jailed_until<=CURRENT_TIMESTAMP`).bind(userId).run();
+    await env.DB.batch([
+      env.DB.prepare(`UPDATE user_prison_status SET active=0,released_at=COALESCE(released_at,jailed_until,CURRENT_TIMESTAMP),
+        release_reason=CASE WHEN release_reason='' THEN '형기 만료' ELSE release_reason END,updated_at=CURRENT_TIMESTAMP
+        WHERE user_id=? AND active=1 AND jailed_until<=CURRENT_TIMESTAMP`).bind(userId),
+      closePrisonReleaseCaseStatement(env,{inmateUserId:userId,status:'SENTENCE_EXPIRED'})
+    ]);
   }
   return status;
 }
@@ -4738,9 +4744,10 @@ async function prisonRoomState(env,user){
   const inmates=(inmateRows?.results||[]).map(row=>({...row,userId:Number(row.userId)}));
   let messages=(messageRows?.results||[]).map(row=>({...row,id:Number(row.id),userId:Number(row.userId),senderWasIncarcerated:Number(row.senderWasIncarcerated)===1}));
   if(!inmates.length&&messages.length){await clearPrisonChatIfEmpty(env);messages=[]}
+  const community=await prisonCommunityRoomState(env,user,inmates);
   return {
     prison,
-    inmates,
+    ...community,
     messages,
     chatEnabled:inmates.length>0,
     serverNow:new Date().toISOString()
@@ -4966,6 +4973,8 @@ async function handleRequest(context){
       return json({error:'지원하지 않는 요청입니다.'},405);
     }
 
+    const prisonCommunityResponse=await handlePrisonCommunity({path,request,env,deps:{authenticate,readBody,json,prisonRoomState,clearPrisonChatIfEmpty}});if(prisonCommunityResponse)return prisonCommunityResponse;
+
     if(path==='me/summary'){
       const user=await authenticate(request,env);
       if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -4980,7 +4989,7 @@ async function handleRequest(context){
     // 무인증 공개 카탈로그는 그대로 유지하되, 로그인 세션이 확인되면 모든 하위 라우터보다 먼저 중단한다.
     const prisonExempt=path.startsWith('admin/')||path.startsWith('setup/')||path==='health'||path==='service/status'
       ||path==='auth/login'||path==='auth/register'||path==='auth/logout'||path==='me/summary'
-      ||path==='user/runtime-command'||path==='prison/status'||path==='prison/chat';
+      ||path==='user/runtime-command'||path==='prison/status'||path==='prison/chat'||path==='prison/release-price'||path==='prison/fund'||path==='prison/hit';
     if(!prisonExempt){
       const current=await authenticate(request,env);
       if(current){
@@ -8044,7 +8053,8 @@ async function handleRequest(context){
             jailed_at=CURRENT_TIMESTAMP,jailed_until=excluded.jailed_until,released_by=NULL,released_at=NULL,release_reason='',updated_at=CURRENT_TIMESTAMP`)
             .bind(userId,reason,admin.id,jailedUntil),
           env.DB.prepare(`INSERT INTO user_runtime_commands(user_id,command_type,payload_json,created_by,expires_at)
-            VALUES(?,'PRISON_LOCK',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify(commandPayload),admin.id)
+            VALUES(?,'PRISON_LOCK',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify(commandPayload),admin.id),
+          openPrisonReleaseCaseStatement(env,{inmateUserId:userId})
         ]);
         const prison=await prisonStatusForUser(env,userId);
         await writeAdminLog(env,admin,'PRISON','USER',userId,before,{...before,prison,durationMinutes,reason});
@@ -8060,7 +8070,8 @@ async function handleRequest(context){
           env.DB.prepare(`UPDATE user_prison_status SET active=0,released_by=?,released_at=CURRENT_TIMESTAMP,
             release_reason=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?`).bind(admin.id,reason,userId),
           env.DB.prepare(`INSERT INTO user_runtime_commands(user_id,command_type,payload_json,created_by,expires_at)
-            VALUES(?,'PRISON_RELEASE',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify(commandPayload),admin.id)
+            VALUES(?,'PRISON_RELEASE',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify(commandPayload),admin.id),
+          closePrisonReleaseCaseStatement(env,{inmateUserId:userId,status:'ADMIN_RELEASED'})
         ]);
         await clearPrisonChatIfEmpty(env);
         const prison=await prisonStatusForUser(env,userId);
@@ -8999,7 +9010,10 @@ async function handleRequestWithDatabase(context){
           const releaseLateLock=lockAttempt.then(lateLock=>lateLock&&lateLock!=='LOCK_ERROR'?releaseUserMutationLock(context.env,lateLock):null).catch(error=>console.warn('late user mutation lock release failed',error));
           if(typeof context.waitUntil==='function')context.waitUntil(releaseLateLock);
         }
-        if(STRICT_MUTATION_LOCK_ACTIONS.has(actionPath))response=json({error:'강화 요청 잠금 상태를 확인하지 못했습니다. 같은 요청 번호로 잠시 후 다시 시도해 주세요.',code:'BREAKTHROUGH_LOCK_UNAVAILABLE',retryable:true,retryAfterMs:600},503);
+        if(STRICT_MUTATION_LOCK_ACTIONS.has(actionPath)){
+          const prisonFund=actionPath==='prison/fund';
+          response=json({error:prisonFund?'영치금 요청 잠금 상태를 확인하지 못했습니다. 같은 요청 번호로 잠시 후 다시 시도해 주세요.':'강화 요청 잠금 상태를 확인하지 못했습니다. 같은 요청 번호로 잠시 후 다시 시도해 주세요.',code:prisonFund?'PRISON_FUND_LOCK_UNAVAILABLE':'BREAKTHROUGH_LOCK_UNAVAILABLE',retryable:true,retryAfterMs:600},503);
+        }
         // 나머지 기존 경로는 서비스 연속성을 위해 종전 fail-open 정책을 유지한다.
       }else{
         mutationLock=acquired;

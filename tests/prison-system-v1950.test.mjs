@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
+import {PRISON_HIT_COOLDOWN_SECONDS,PRISON_RELEASE_PRICE_MAX,prisonHitCooldownRemaining,prisonReleaseProgress} from '../functions/_prison_community.js';
 
-const [server,client,menu,cms,css,index,packageRaw]=await Promise.all([
+const [server,communityServer,client,menu,cms,css,index,packageRaw]=await Promise.all([
   readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
+  readFile(new URL('../functions/_prison_community.js',import.meta.url),'utf8'),
   readFile(new URL('../js/app.js',import.meta.url),'utf8'),
   readFile(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
   readFile(new URL('../admin/admin-v1276.js',import.meta.url),'utf8'),
@@ -67,7 +69,43 @@ test('감옥 공개 채팅은 인증·길이·속도 제한과 역할 표식을 
   assert.match(client,/수감자가 있을 때만 채팅할 수 있습니다/);
   assert.match(css,/\.prison-side\{[^}]*height:710px;max-height:710px;overflow:hidden/);
   assert.match(css,/\.prison-chat-log\{[^}]*overflow-y:auto;overscroll-behavior:contain/);
-  assert.match(css,/@media\(max-width:720px\)[\s\S]*\.prison-side,\.prison-lock-shell \.prison-side\{[^}]*grid-template-rows:auto 430px/);
+  assert.match(css,/@media\(max-width:720px\)[\s\S]*\.prison-side,\.prison-lock-shell \.prison-side\{[^}]*grid-template-rows:auto auto 430px/);
+});
+
+test('영치금 석방은 OWNER 설정·원자 납부·모금 완료 석방을 고정한다',()=>{
+  assert.equal(PRISON_RELEASE_PRICE_MAX,1_000_000_000_000);
+  assert.deepEqual(prisonReleaseProgress(25,100),{collectedCoin:25,releasePrice:100,remainingCoin:75,progressPercent:25,funded:false});
+  assert.equal(prisonReleaseProgress(100,100).funded,true);
+  assert.match(communityServer,/const CASE_TABLE='prison_release_cases_v2031'/);
+  assert.match(communityServer,/const CONTRIBUTION_TABLE='prison_release_contributions_v2031'/);
+  assert.match(communityServer,/CREATE TABLE IF NOT EXISTS \$\{CASE_TABLE\}/);
+  assert.match(communityServer,/CREATE TABLE IF NOT EXISTS \$\{CONTRIBUTION_TABLE\}/);
+  assert.match(communityServer,/석방금은 OWNER만 설정할 수 있습니다/);
+  assert.match(communityServer,/releasePrice<0\|\|releasePrice>PRISON_RELEASE_PRICE_MAX/);
+  assert.match(communityServer,/INSERT OR IGNORE INTO \$\{CONTRIBUTION_TABLE\}/);
+  assert.match(communityServer,/UPDATE users SET coin=\? WHERE id=\? AND coin=\?/);
+  assert.match(communityServer,/last_request_id=\?/);
+  assert.match(communityServer,/status='FUNDED_RELEASED'/);
+  assert.match(communityServer,/command_type,payload_json,created_by,expires_at\)\s*SELECT \?,'PRISON_RELEASE'/);
+  assert.match(server,/STRICT_MUTATION_LOCK_ACTIONS=new Set\(\[[^\]]*'prison\/fund'/);
+  assert.match(server,/openPrisonReleaseCaseStatement\(env,\{inmateUserId:userId\}\)/);
+  assert.match(server,/closePrisonReleaseCaseStatement\(env,\{inmateUserId:userId,status:'ADMIN_RELEASED'\}\)/);
+});
+
+test('수감자 때리기는 60초 서버 쿨타임·중복 영수증·자기 공격 차단을 가진다',()=>{
+  assert.equal(PRISON_HIT_COOLDOWN_SECONDS,60);
+  assert.equal(prisonHitCooldownRemaining(61_000,1_000),60);
+  assert.equal(prisonHitCooldownRemaining(1_000,61_000),0);
+  assert.match(communityServer,/const HIT_COOLDOWN_TABLE='prison_hit_cooldowns_v2031'/);
+  assert.match(communityServer,/const HIT_EVENT_TABLE='prison_hit_events_v2031'/);
+  assert.match(communityServer,/CREATE TABLE IF NOT EXISTS \$\{HIT_COOLDOWN_TABLE\}/);
+  assert.match(communityServer,/CREATE TABLE IF NOT EXISTS \$\{HIT_EVENT_TABLE\}/);
+  assert.match(communityServer,/자기 자신은 때릴 수 없습니다/);
+  assert.match(communityServer,/nextAtMs=now\+PRISON_HIT_COOLDOWN_SECONDS\*1000/);
+  assert.match(communityServer,/ON CONFLICT\(hitter_user_id,inmate_user_id\) DO UPDATE/);
+  assert.match(communityServer,/last_request_id=excluded\.last_request_id/);
+  assert.match(communityServer,/next_at_ms<=\?/);
+  assert.match(communityServer,/SELECT \* FROM \$\{HIT_EVENT_TABLE\} WHERE request_id=\?/);
 });
 
 test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
@@ -77,21 +115,34 @@ test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
   assert.match(client,/prison: prisonView/);
 });
 
-test('잠금 화면은 계정명·죄수 캐릭터·창살·남은 형기와 전용 배경을 렌더링한다',async()=>{
+test('잠금 화면은 계정명·평상·피격 죄수 캐릭터·창살·남은 형기와 전용 배경을 렌더링한다',async()=>{
   assert.match(client,/id="prisonSceneName"/);
   assert.match(client,/prisoner-cartoon-servile-v1\.png/);
+  assert.match(client,/prisoner-cartoon-hit-v2031\.png/);
+  assert.match(client,/data-prison-fund/);
+  assert.match(client,/data-prison-price/);
+  assert.match(client,/data-prison-hit/);
+  assert.match(client,/function playPrisonHitEffect/);
+  assert.match(client,/focusedState=focused\?/,'5초 상태 갱신이 입력 중인 영치금·석방금을 지우면 안 된다');
   assert.match(client,/function prisonBarsMarkup/);
   assert.match(client,/id="prisonCountdown"/);
   assert.match(client,/function renderLockedPrison/);
   assert.match(css,/prison-cell-background-v1\.png/);
   assert.match(css,/\.prison-bars i/);
-  assert.match(index,/css\/prison-v1950\.css\?v=1951-prison-chat-scroll/);
-  const [background,character]=await Promise.all([
+  assert.match(index,/css\/prison-v1950\.css\?v=2031-prison-community/);
+  const [background,character,hitCharacter,hitPng]=await Promise.all([
     stat(new URL('../assets/ui/prison/prison-cell-background-v1.png',import.meta.url)),
-    stat(new URL('../assets/ui/prison/prisoner-cartoon-servile-v1.png',import.meta.url))
+    stat(new URL('../assets/ui/prison/prisoner-cartoon-servile-v1.png',import.meta.url)),
+    stat(new URL('../assets/ui/prison/prisoner-cartoon-hit-v2031.png',import.meta.url)),
+    readFile(new URL('../assets/ui/prison/prisoner-cartoon-hit-v2031.png',import.meta.url))
   ]);
   assert.ok(background.size>100_000);
   assert.ok(character.size>100_000);
+  assert.ok(hitCharacter.size>100_000);
+  assert.equal(hitPng.subarray(1,4).toString(),'PNG');
+  assert.equal(hitPng.readUInt32BE(16),1024);
+  assert.equal(hitPng.readUInt32BE(20),1536);
+  assert.equal(hitPng[25],6,'피격 스프라이트는 RGBA 투명 PNG여야 한다');
 });
 
 test('수감 계정 콜드 스타트는 V21 부트 로딩을 즉시 해제한다',()=>{
@@ -103,7 +154,7 @@ test('수감 계정 콜드 스타트는 V21 부트 로딩을 즉시 해제한다
   assert.match(lockedRender,/document\.documentElement\.dataset\.v21UiReady='1'/);
   assert.match(index,/body\.v21-renewal-required #app\{visibility:hidden\}/);
   assert.match(index,/body\.v21-ui-ready \.v21-renewal-boot\{display:none\}/);
-  assert.match(index,/js\/app\.js\?v=2030-administration-treasury/);
+  assert.match(index,/js\/app\.js\?v=2031-prison-community/);
 });
 
 test('CMS는 현재 수감 상태와 10분~6시간 입력, 즉시 석방을 제공한다',()=>{

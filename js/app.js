@@ -441,9 +441,12 @@ function mergeClientCards(incoming=[]){for(const raw of incoming||[]){const card
 function progress(user) { return cards.length ? Math.round((ownedIds(user).size / cards.length) * 1000) / 10 : 0; }
 function escapeHtml(value = '') { return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
 
-// ===== V1950 행정부 감옥 =====
-const prisonUiState={incarcerated:false,reason:'',jailedAt:null,jailedUntil:null,jailedByNickname:null,remainingSeconds:0,inmates:[],messages:[],loaded:false,serverOffsetMs:0};
-let prisonPollTimer=null,prisonCountdownTimer=null,prisonRoomBusy=false,prisonChatBusy=false;
+// ===== V1950 / V2031 행정부 감옥 =====
+const PRISON_DEFAULT_HIT_COOLDOWN_SECONDS=60;
+const PRISON_IDLE_CHARACTER_SRC='assets/ui/prison/prisoner-cartoon-servile-v1.png?v=1';
+const PRISON_HIT_CHARACTER_SRC='assets/ui/prison/prisoner-cartoon-hit-v2031.png?v=2031';
+const prisonUiState={incarcerated:false,reason:'',jailedAt:null,jailedUntil:null,jailedByNickname:null,remainingSeconds:0,inmates:[],messages:[],recentHits:[],recentContributions:[],prisonCommunity:{hitCooldownSeconds:PRISON_DEFAULT_HIT_COOLDOWN_SECONDS,donationsRefundable:false},access:{canSetReleasePrice:false},viewer:null,selectedInmateId:0,loaded:false,serverOffsetMs:0};
+let prisonPollTimer=null,prisonCountdownTimer=null,prisonHitResetTimer=null,prisonRoomBusy=false,prisonChatBusy=false,prisonCommunityBusy=false;
 function prisonTimestampMs(value){if(!value)return 0;const raw=String(value),normalized=raw.includes('T')?raw:raw.replace(' ','T')+'Z',parsed=Date.parse(normalized);return Number.isFinite(parsed)?parsed:0}
 function applyPrisonStatus(prison={},room={}){
   if(room.serverNow){const serverTime=Date.parse(String(room.serverNow));if(Number.isFinite(serverTime))prisonUiState.serverOffsetMs=serverTime-Date.now()}
@@ -455,6 +458,13 @@ function applyPrisonStatus(prison={},room={}){
   prisonUiState.remainingSeconds=Math.max(0,Number(prison?.remainingSeconds||0));
   if(Array.isArray(room.inmates))prisonUiState.inmates=room.inmates;
   if(Array.isArray(room.messages))prisonUiState.messages=room.messages;
+  if(Array.isArray(room.recentHits))prisonUiState.recentHits=room.recentHits;
+  if(Array.isArray(room.recentContributions))prisonUiState.recentContributions=room.recentContributions;
+  if(room.prisonCommunity)prisonUiState.prisonCommunity={...prisonUiState.prisonCommunity,...room.prisonCommunity};
+  if(room.access)prisonUiState.access={...prisonUiState.access,...room.access};
+  if(room.viewer){prisonUiState.viewer=room.viewer;const local=loadUser();if(local)saveUser(mergeApiUserSummary(room.viewer,local))}
+  const ownId=Number(loadUser()?.serverUserId||0),selectedStillExists=prisonUiState.inmates.some(inmate=>Number(inmate.userId)===Number(prisonUiState.selectedInmateId));
+  if(!selectedStillExists)prisonUiState.selectedInmateId=Number((prisonUiState.inmates.find(inmate=>Number(inmate.userId)===ownId)||prisonUiState.inmates[0])?.userId||0);
   if(room.inmates||room.messages)prisonUiState.loaded=true;
   document.body.classList.toggle('prison-locked',prisonUiState.incarcerated);
   return prisonUiState;
@@ -467,13 +477,16 @@ function prisonDurationLabel(seconds=prisonRemainingSeconds()){
   return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
 }
 function prisonTimeLabel(value){const ms=prisonTimestampMs(value);if(!ms)return '-';return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ms))}
+function prisonCoin(value){return Math.max(0,Number(value)||0).toLocaleString('ko-KR')}
+function selectedPrisonInmate(){return prisonUiState.inmates.find(inmate=>Number(inmate.userId)===Number(prisonUiState.selectedInmateId))||prisonUiState.inmates[0]||null}
 function prisonSceneInmate(user){
+  const selected=selectedPrisonInmate();if(selected)return selected;
   if(isPrisonLocked())return {id:Number(user?.serverUserId||user?.id||0),nickname:String(user?.nickname||'수감자'),reason:prisonUiState.reason,jailedUntil:prisonUiState.jailedUntil};
-  return prisonUiState.inmates[0]||null;
+  return null;
 }
 function prisonInmateRows(){
   if(!prisonUiState.inmates.length)return '<li class="prison-empty"><b>현재 수감자 없음</b><span>행정부 감방이 비어 있습니다.</span></li>';
-  return prisonUiState.inmates.map(inmate=>`<li><span class="prison-inmate-index">#${String(Number(inmate.userId||0)).padStart(4,'0')}</span><div><b>${escapeHtml(inmate.nickname||'수감자')}</b><small>${escapeHtml(inmate.reason||'운영 정책 위반')}</small></div><time>${escapeHtml(prisonTimeLabel(inmate.jailedUntil))} 석방</time></li>`).join('');
+  return prisonUiState.inmates.map(inmate=>`<li class="${Number(inmate.userId)===Number(prisonUiState.selectedInmateId)?'is-selected':''}"><button type="button" data-prison-inmate="${Number(inmate.userId||0)}"><span class="prison-inmate-index">#${String(Number(inmate.userId||0)).padStart(4,'0')}</span><span class="prison-inmate-copy"><b>${escapeHtml(inmate.nickname||'수감자')}</b><small>${escapeHtml(inmate.reason||'운영 정책 위반')}</small></span><time>${escapeHtml(prisonTimeLabel(inmate.jailedUntil))} 석방</time></button></li>`).join('');
 }
 function prisonChatRows(){
   const myId=Number(loadUser()?.serverUserId||0);
@@ -481,6 +494,21 @@ function prisonChatRows(){
   return prisonUiState.messages.map(message=>`<article class="prison-chat-message ${Number(message.userId)===myId?'is-mine':''}"><header><b>${escapeHtml(message.nickname||'알 수 없음')}</b><em class="${message.senderWasIncarcerated?'is-inmate':'is-visitor'}">${message.senderWasIncarcerated?'수감자':'방문객'}</em><time>${escapeHtml(prisonTimeLabel(message.createdAt))}</time></header><p>${escapeHtml(message.body||'')}</p></article>`).join('');
 }
 function prisonBarsMarkup(){return `<div class="prison-bars" aria-hidden="true">${Array.from({length:11},()=>'<i></i>').join('')}<span></span><span></span></div>`}
+function prisonCommunityPanelHtml(){
+  const inmate=selectedPrisonInmate(),viewer=prisonUiState.viewer||loadUser()||{},canSet=prisonUiState.access?.canSetReleasePrice===true;
+  if(!inmate)return `<section class="prison-community" id="prisonCommunityPanel"><div class="prison-community-empty"><small>RELEASE FUND</small><b>모금 대기 중</b><span>수감자가 들어오면 영치금 모금과 때리기가 열립니다.</span></div></section>`;
+  const price=Math.max(0,Number(inmate.releasePrice||0)),collected=Math.max(0,Number(inmate.collectedCoin||0)),remaining=Math.max(0,Number(inmate.remainingCoin||0)),progress=Math.max(0,Math.min(100,Number(inmate.progressPercent||0)));
+  const viewerCoin=Math.max(0,Number(viewer.coin||0)),myId=Number(viewer.id||viewer.serverUserId||loadUser()?.serverUserId||0),self=myId===Number(inmate.userId),cooldown=Math.max(0,Number(inmate.hitCooldownRemainingSeconds||0));
+  const latestContribution=prisonUiState.recentContributions.find(row=>Number(row.inmateUserId)===Number(inmate.userId)),latestHit=prisonUiState.recentHits.find(row=>Number(row.inmateUserId)===Number(inmate.userId));
+  return `<section class="prison-community" id="prisonCommunityPanel">
+    <header><div><small>RELEASE FUND / CELL ACTION</small><h2>${escapeHtml(inmate.nickname||'수감자')} 영치금</h2></div><span>${price?`${progress.toFixed(progress%1?2:0)}%`:'설정 대기'}</span></header>
+    <div class="prison-release-progress ${price?'is-open':'is-waiting'}"><div><span>모금액 <b>${prisonCoin(collected)}</b></span><span>석방금 <b>${price?prisonCoin(price):'OWNER 설정 대기'}</b></span></div><i><em style="width:${progress}%"></em></i><p>${price?`남은 금액 ${prisonCoin(remaining)}코인 · ${Number(inmate.contributionCount||0).toLocaleString()}회 참여`:'석방금이 설정되면 누구나 코인을 보탤 수 있습니다.'}</p></div>
+    ${price?`<div class="prison-fund-form"><label><span>영치금 납부</span><input id="prisonFundAmount" type="number" min="1" max="${remaining}" step="1" inputmode="numeric" placeholder="보유 ${prisonCoin(viewerCoin)}"></label><div class="prison-fund-presets"><button type="button" data-prison-fund-preset="10000">1만</button><button type="button" data-prison-fund-preset="1000000">100만</button><button type="button" data-prison-fund-preset="MAX">가능 전액</button></div><button type="button" class="prison-fund-submit" data-prison-fund ${remaining<1||viewerCoin<1||prisonCommunityBusy?'disabled':''}>모금 참여</button><small>납부 즉시 차감되며 반환되지 않습니다.</small></div>`:''}
+    ${canSet?`<div class="prison-owner-price"><label><span>OWNER 석방금 설정</span><input id="prisonReleasePriceInput" type="number" min="0" max="1000000000000" step="1" inputmode="numeric" value="${price}" aria-label="석방금"></label><button type="button" data-prison-price ${prisonCommunityBusy?'disabled':''}>${price?'변경':'설정'}</button><small>0코인은 모금 비활성화입니다.</small></div>`:''}
+    <div class="prison-hit-action"><button type="button" data-prison-hit ${self||cooldown>0||prisonCommunityBusy?'disabled':''}><b>${self?'본인은 때릴 수 없음':cooldown>0?`${cooldown}초 후 가능`:'한 대 때리기'}</b><span>${Number(inmate.hitCount||0).toLocaleString()}대 · 수감자별 ${Number(prisonUiState.prisonCommunity?.hitCooldownSeconds||PRISON_DEFAULT_HIT_COOLDOWN_SECONDS)}초 쿨타임</span></button><div id="prisonHitToast">${latestHit?`${escapeHtml(latestHit.hitterNickname)} → ${escapeHtml(inmate.nickname)}`:'아직 맞은 기록이 없습니다.'}</div></div>
+    ${latestContribution?`<p class="prison-latest-fund"><b>${escapeHtml(latestContribution.contributorNickname)}</b>님이 ${prisonCoin(latestContribution.amount)}코인을 보탰습니다.</p>`:''}
+  </section>`;
+}
 function prisonView(user,locked=isPrisonLocked()){
   const scene=prisonSceneInmate(user),sceneName=scene?.nickname||'빈 감방',sceneUntil=scene?.jailedUntil||null,chatEnabled=prisonChatEnabled();
   return `<section class="prison-v1 ${locked?'is-locked':'is-visitor'}" id="prisonView" aria-label="행정부 감옥">
@@ -489,7 +517,8 @@ function prisonView(user,locked=isPrisonLocked()){
     <div class="prison-layout">
       <section class="prison-cell-stage">
         <div class="prison-nameplate"><small>${scene?'INMATE ACCOUNT':'CELL STATUS'}</small><strong id="prisonSceneName">${escapeHtml(sceneName)}</strong><span id="prisonSceneUntil">${sceneUntil?`${escapeHtml(prisonTimeLabel(sceneUntil))} 석방`:'현재 수감자 없음'}</span></div>
-        <img id="prisonCharacter" class="prison-character" src="assets/ui/prison/prisoner-cartoon-servile-v1.png?v=1" alt="죄수복을 입고 눈치를 보는 수감자 캐릭터" ${scene?'':'hidden'}>
+        <img id="prisonCharacter" class="prison-character" src="${PRISON_IDLE_CHARACTER_SRC}" alt="죄수복을 입고 눈치를 보는 수감자 캐릭터" ${scene?'':'hidden'}>
+        <div class="prison-impact-flash" id="prisonImpactFlash" aria-hidden="true"></div>
         ${prisonBarsMarkup()}
         <div class="prison-cell-floor" aria-hidden="true"></div>
         <div class="prison-sentence ${locked?'':'visitor'}">
@@ -500,22 +529,48 @@ function prisonView(user,locked=isPrisonLocked()){
       </section>
       <aside class="prison-side">
         <section class="prison-roster"><header><div><small>INMATE ROSTER</small><h2>수감자 명단</h2></div><b id="prisonInmateCount">${prisonUiState.inmates.length}</b></header><ul id="prisonInmateList">${prisonInmateRows()}</ul></section>
+        ${prisonCommunityPanelHtml()}
         <section class="prison-chat"><header><div><small>PUBLIC CELL CHAT</small><h2>감옥 공개 채팅</h2></div><span>수감자·방문객 공용</span></header><div class="prison-chat-log" id="prisonChatLog" aria-live="polite">${prisonChatRows()}</div><form id="prisonChatForm"><input id="prisonChatInput" maxlength="200" autocomplete="off" placeholder="${chatEnabled?'메시지를 입력하세요 (최대 200자)':'수감자가 있을 때만 채팅할 수 있습니다.'}" ${chatEnabled?'':'disabled'}><button type="submit" ${chatEnabled?'':'disabled'}>전송</button></form></section>
       </aside>
     </div>
   </section>`;
 }
-function stopPrisonWatch(){if(prisonPollTimer){clearTimeout(prisonPollTimer);prisonPollTimer=null}if(prisonCountdownTimer){clearInterval(prisonCountdownTimer);prisonCountdownTimer=null}}
+function stopPrisonWatch(){if(prisonPollTimer){clearTimeout(prisonPollTimer);prisonPollTimer=null}if(prisonCountdownTimer){clearInterval(prisonCountdownTimer);prisonCountdownTimer=null}if(prisonHitResetTimer){clearTimeout(prisonHitResetTimer);prisonHitResetTimer=null}}
 function syncPrisonDom({forceChatBottom=false}={}){
+  const focused=document.activeElement?.matches?.('#prisonFundAmount,#prisonReleasePriceInput')?document.activeElement:null,focusedState=focused?{id:focused.id,value:focused.value,start:focused.selectionStart,end:focused.selectionEnd}:null;
   const user=loadUser(),scene=prisonSceneInmate(user),locked=isPrisonLocked();
   const sceneName=document.getElementById('prisonSceneName'),sceneUntil=document.getElementById('prisonSceneUntil'),character=document.getElementById('prisonCharacter');
   if(sceneName)sceneName.textContent=scene?.nickname||'빈 감방';
   if(sceneUntil)sceneUntil.textContent=scene?.jailedUntil?`${prisonTimeLabel(scene.jailedUntil)} 석방`:'현재 수감자 없음';
   if(character)character.hidden=!scene;
   const count=document.getElementById('prisonInmateCount'),list=document.getElementById('prisonInmateList');if(count)count.textContent=String(prisonUiState.inmates.length);if(list)list.innerHTML=prisonInmateRows();
+  const community=document.getElementById('prisonCommunityPanel');if(community)community.outerHTML=prisonCommunityPanelHtml();if(focusedState){const restored=document.getElementById(focusedState.id);if(restored){restored.value=focusedState.value;restored.focus({preventScroll:true});try{restored.setSelectionRange(focusedState.start,focusedState.end)}catch(_){}}}
   const log=document.getElementById('prisonChatLog');if(log){const nearBottom=log.scrollHeight-log.scrollTop-log.clientHeight<80;log.innerHTML=prisonChatRows();if(forceChatBottom||nearBottom)log.scrollTop=log.scrollHeight}
   const chatEnabled=prisonChatEnabled(),chatInput=document.getElementById('prisonChatInput'),chatButton=document.querySelector('#prisonChatForm button');if(chatInput){chatInput.disabled=!chatEnabled;chatInput.placeholder=chatEnabled?'메시지를 입력하세요 (최대 200자)':'수감자가 있을 때만 채팅할 수 있습니다.'}if(chatButton)chatButton.disabled=!chatEnabled||prisonChatBusy;
   const countdown=document.getElementById('prisonCountdown'),reason=document.getElementById('prisonReason');if(countdown)countdown.textContent=locked?prisonDurationLabel():`${prisonUiState.inmates.length}명 수감 중`;if(reason)reason.textContent=locked?(prisonUiState.reason||'운영 정책 위반'):'감옥은 누구나 방문할 수 있습니다.';
+}
+function prisonRequestId(prefix){return `${prefix}:${globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`}`}
+function playPrisonHitEffect(inmateUserId){
+  if(Number(selectedPrisonInmate()?.userId)!==Number(inmateUserId))return;
+  const character=document.getElementById('prisonCharacter'),stage=document.querySelector('.prison-cell-stage'),flash=document.getElementById('prisonImpactFlash');if(!character||character.hidden)return;
+  if(prisonHitResetTimer)clearTimeout(prisonHitResetTimer);character.src=PRISON_HIT_CHARACTER_SRC;character.classList.remove('is-hit');void character.offsetWidth;character.classList.add('is-hit');stage?.classList.add('is-hit');flash?.classList.add('is-active');
+  prisonHitResetTimer=setTimeout(()=>{character.src=PRISON_IDLE_CHARACTER_SRC;character.classList.remove('is-hit');stage?.classList.remove('is-hit');flash?.classList.remove('is-active');prisonHitResetTimer=null},620);
+}
+async function setPrisonReleasePrice(){
+  if(prisonCommunityBusy)return;const inmate=selectedPrisonInmate(),input=document.getElementById('prisonReleasePriceInput'),releasePrice=Number(input?.value);
+  if(!inmate)return alert('수감자를 다시 선택해 주세요.');if(!Number.isSafeInteger(releasePrice)||releasePrice<0||releasePrice>1_000_000_000_000)return alert('석방금은 0~1조 코인 사이의 정수로 입력하세요.');
+  if(!confirm(`${inmate.nickname}의 석방금을 ${releasePrice?`${prisonCoin(releasePrice)}코인`:'모금 비활성화'}으로 설정할까요?`))return;
+  prisonCommunityBusy=true;syncPrisonDom();try{const data=await apiRequest('prison/release-price',{method:'POST',body:JSON.stringify({inmateUserId:Number(inmate.userId),releasePrice})});applyPrisonStatus(data.state?.prison||{},data.state||{});if(data.released)alert('설정 금액이 기존 모금액 이하라 즉시 석방되었습니다.');syncPrisonDom()}catch(error){alert(error.message||'석방금 설정에 실패했습니다.')}finally{prisonCommunityBusy=false;syncPrisonDom()}
+}
+async function contributePrisonFund(){
+  if(prisonCommunityBusy)return;const inmate=selectedPrisonInmate(),input=document.getElementById('prisonFundAmount'),amount=Number(input?.value);
+  if(!inmate)return alert('수감자를 다시 선택해 주세요.');if(!Number.isSafeInteger(amount)||amount<1)return alert('납부할 코인을 정수로 입력하세요.');if(amount>Number(inmate.remainingCoin||0))return alert(`남은 석방금은 ${prisonCoin(inmate.remainingCoin)}코인입니다.`);
+  if(!confirm(`${inmate.nickname} 석방 모금에 ${prisonCoin(amount)}코인을 납부할까요?\n납부한 코인은 반환되지 않습니다.`))return;
+  const wasLocked=isPrisonLocked();prisonCommunityBusy=true;syncPrisonDom();try{const data=await apiRequest('prison/fund',{method:'POST',body:JSON.stringify({inmateUserId:Number(inmate.userId),amount,requestId:prisonRequestId('PRISON_FUND')})});if(data.user){const local=loadUser();if(local)saveUser(mergeApiUserSummary(data.user,local))}applyPrisonStatus(data.state?.prison||{},data.state||{});if(data.released)alert(`${inmate.nickname}의 영치금 모금이 완료되어 석방되었습니다.`);if(wasLocked&&!isPrisonLocked()){stopPrisonWatch();renderShell('buy');return}syncPrisonDom()}catch(error){alert(error.message||'영치금 납부에 실패했습니다.')}finally{prisonCommunityBusy=false;if(document.getElementById('prisonView'))syncPrisonDom()}
+}
+async function hitPrisonInmate(){
+  if(prisonCommunityBusy)return;const inmate=selectedPrisonInmate();if(!inmate)return alert('때릴 수감자를 다시 선택해 주세요.');
+  prisonCommunityBusy=true;syncPrisonDom();try{const data=await apiRequest('prison/hit',{method:'POST',body:JSON.stringify({inmateUserId:Number(inmate.userId),requestId:prisonRequestId('PRISON_HIT')})});applyPrisonStatus(data.state?.prison||{},data.state||{});playPrisonHitEffect(inmate.userId);syncPrisonDom()}catch(error){alert(error.message||'때리기에 실패했습니다.')}finally{prisonCommunityBusy=false;syncPrisonDom()}
 }
 async function loadPrisonRoom(){
   if(prisonRoomBusy||!API_MODE||!API_TOKEN)return;
@@ -531,7 +586,7 @@ async function loadPrisonRoom(){
 }
 function startPrisonWatch(){
   stopPrisonWatch();
-  prisonCountdownTimer=setInterval(()=>{const countdown=document.getElementById('prisonCountdown');if(countdown&&isPrisonLocked())countdown.textContent=prisonDurationLabel();if(prisonUiState.incarcerated&&prisonRemainingSeconds()<=0)void loadPrisonRoom()},1000);
+  prisonCountdownTimer=setInterval(()=>{const countdown=document.getElementById('prisonCountdown');if(countdown&&isPrisonLocked())countdown.textContent=prisonDurationLabel();for(const inmate of prisonUiState.inmates)inmate.hitCooldownRemainingSeconds=Math.max(0,Math.ceil((Number(inmate.nextHitAtMs||0)-Date.now())/1000));const hitButton=document.querySelector('[data-prison-hit]'),selected=selectedPrisonInmate(),self=Number(prisonUiState.viewer?.id||loadUser()?.serverUserId||0)===Number(selected?.userId||0),cooldown=Math.max(0,Number(selected?.hitCooldownRemainingSeconds||0));if(hitButton){hitButton.disabled=self||cooldown>0||prisonCommunityBusy;const label=hitButton.querySelector('b');if(label)label.textContent=self?'본인은 때릴 수 없음':cooldown>0?`${cooldown}초 후 가능`:'한 대 때리기'}if(prisonUiState.incarcerated&&prisonRemainingSeconds()<=0)void loadPrisonRoom()},1000);
   void loadPrisonRoom();
 }
 async function prisonLogout(){
@@ -543,7 +598,9 @@ function bindPrisonView(){
   document.getElementById('prisonExitBtn')?.addEventListener('click',()=>renderShell('buy'));
   document.getElementById('prisonLogoutBtn')?.addEventListener('click',prisonLogout);
   const form=document.getElementById('prisonChatForm');if(form)form.onsubmit=async event=>{event.preventDefault();if(prisonChatBusy||!prisonChatEnabled())return;const input=document.getElementById('prisonChatInput'),body=String(input?.value||'').trim();if(!body)return;if(Array.from(body).length>200)return alert('채팅은 200자 이하로 입력하세요.');prisonChatBusy=true;const button=form.querySelector('button');if(button)button.disabled=true;try{const data=await apiRequest('prison/chat',{method:'POST',body:JSON.stringify({body})});if(input)input.value='';if(data.message)prisonUiState.messages.push(data.message);syncPrisonDom({forceChatBottom:true})}catch(error){alert(error.message||'채팅 전송에 실패했습니다.')}finally{prisonChatBusy=false;if(button)button.disabled=!prisonChatEnabled()}};
+  const root=document.getElementById('prisonView');if(root)root.addEventListener('click',event=>{const inmateButton=event.target.closest?.('[data-prison-inmate]');if(inmateButton){prisonUiState.selectedInmateId=Number(inmateButton.dataset.prisonInmate||0);syncPrisonDom();return}const preset=event.target.closest?.('[data-prison-fund-preset]');if(preset){const inmate=selectedPrisonInmate(),viewerCoin=Number(prisonUiState.viewer?.coin||loadUser()?.coin||0),remaining=Number(inmate?.remainingCoin||0),raw=String(preset.dataset.prisonFundPreset||''),amount=raw==='MAX'?Math.min(viewerCoin,remaining):Math.min(Number(raw)||0,viewerCoin,remaining),input=document.getElementById('prisonFundAmount');if(input)input.value=String(Math.max(0,amount));return}if(event.target.closest?.('[data-prison-price]'))void setPrisonReleasePrice();else if(event.target.closest?.('[data-prison-fund]'))void contributePrisonFund();else if(event.target.closest?.('[data-prison-hit]'))void hitPrisonInmate()});
   const log=document.getElementById('prisonChatLog');if(log)log.scrollTop=log.scrollHeight;
+  const preload=new Image();preload.src=PRISON_HIT_CHARACTER_SRC;
   startPrisonWatch();
 }
 function renderLockedPrison(prison=null){
