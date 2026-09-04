@@ -572,12 +572,16 @@ ${rankRewardSummary(result.reward)}`);
   function activate(button) {
     active = true;
     const hunt = document.getElementById('pveHuntView');
+    const raidHub = document.getElementById('pveRaidHubView');
     const raid = document.getElementById('pveRaidView');
     const rift = document.getElementById('pveRiftView');
+    const escort = document.getElementById('pveEscortView');
     const view = document.getElementById('pveSealBattleView');
     if (hunt) hunt.hidden = true;
-    if (raid) raid.hidden = true;
+    if (raidHub) raidHub.hidden = true;
+    else if (raid) raid.hidden = true;
     if (rift) rift.hidden = true;
+    if (escort) escort.hidden = true;
     if (view) view.hidden = false;
     document.querySelectorAll('.pve-mode-btn').forEach(item => item.classList.toggle('active', item === button));
     load();
@@ -587,13 +591,16 @@ ${rankRewardSummary(result.reward)}`);
     const tabs = document.querySelector('.pve-mode-tabs');
     const raidView = document.getElementById('pveRaidView');
     if (!tabs || !raidView) return;
+    const placementAnchor = document.getElementById('pveRaidHubView') || raidView;
     let view = document.getElementById('pveSealBattleView');
     if (!view) {
       view = document.createElement('div');
       view.id = 'pveSealBattleView';
       view.className = 'pve-seal-battle-view';
       view.hidden = true;
-      raidView.insertAdjacentElement('afterend', view);
+      placementAnchor.insertAdjacentElement('afterend', view);
+    } else if (view.parentElement !== placementAnchor.parentElement) {
+      placementAnchor.insertAdjacentElement('afterend', view);
     }
     if (!tabs.querySelector('[data-seal-battle-mode]')) {
       const button = document.createElement('button');

@@ -20,6 +20,7 @@ for (const file of [
 
 const v3 = text('js/battle-v3-live.js');
 const seal = text('js/seal-battle.js');
+const index = text('index.html');
 assert.match(v3, /function sealPayload/);
 assert.match(v3, /root\.playSealBattleV3Live = playSeal/);
 assert.match(v3, /playUltimateCinematics: false/);
@@ -28,6 +29,11 @@ assert.match(v3, /SEAL_CRYSTAL_ORB_SD/);
 assert.match(seal, /ensureFeatureResources\('battleV2'\)/);
 assert.match(seal, /playSealBattleV3Live/);
 assert.match(seal, /SEAL_ORB_IMAGE/);
+assert.match(seal, /const raidHub = document\.getElementById\('pveRaidHubView'\)/);
+assert.match(seal, /if \(raidHub\) raidHub\.hidden = true;\s*else if \(raid\) raid\.hidden = true;/);
+assert.match(seal, /const placementAnchor = document\.getElementById\('pveRaidHubView'\) \|\| raidView;/);
+assert.match(seal, /placementAnchor\.insertAdjacentElement\('afterend', view\)/);
+assert.match(index, /js\/seal-battle\.js\?v=2022-seal-navigation-host/);
 assert.doesNotMatch(seal, /const bossImage = source\(event\.bossImage/);
 
 console.log('seal V3 crystal orb contract: OK');
