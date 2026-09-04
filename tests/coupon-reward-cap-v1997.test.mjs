@@ -32,7 +32,7 @@ test('CMS도 보상 종류별 최대값을 즉시 표시하고 10억 초과 입�
   assert.match(admin,/COUPON_REWARD_META=\{COIN:\{label:'코인',max:1000000000\}/);
   assert.match(admin,/amount\.max=String\(meta\.max\)/);
   assert.match(admin,/rewardAmount>meta\.max/);
-  assert.match(adminHtml,/admin-v1276\.js\?v=1997-coupon-1b-cap/);
+  assert.match(adminHtml,/admin-v1276\.js\?v=2024-core-raid-ticket/);
 });
 
 test('쿠폰 한도 회귀 검사가 운영 출시 게이트에 포함된다',()=>{
