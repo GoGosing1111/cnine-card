@@ -20,7 +20,7 @@ assert.match(client,/function rewardEquipmentHtml/);
 assert.match(client,/이번 회차 승리 추가 장비/);
 assert.match(client,/data\.bonusEquipment/);
 assert.match(admin,/승리 추가 장비 준비 완료/);
-assert.match(index,/territory-war-v1811\.js\?v=1994-commander-direct-live-status/);
+assert.match(index,/territory-war-v1811\.js\?v=1995-territory-coin-sync/);
 assert.match(index,/territory-war-v1811\.css\?v=1914-territory-dispatch-persist/);
 assert.match(serviceWorker,/soop-card-shell-v2021-core-protocol-user-test/);
 

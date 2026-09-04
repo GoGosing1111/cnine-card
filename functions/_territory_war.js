@@ -1121,7 +1121,7 @@ async function completeAppliedAction(env,action,cfg){
 
 async function completedBattleResponse(env,deps,user,action,cfg,replayed=true){
   let row=action;if(row?.status==='APPLIED'){await completeAppliedAction(env,row,cfg);row=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(row.request_id).first()}
-  const compact=safeJson(row?.result_json,{}),result=await hydrateBattleReplay(env,deps,user,row,compact);return deps.json({ok:true,replayed,result,state:await realtimeState(env,user.id)});
+  const compact=safeJson(row?.result_json,{}),result=await hydrateBattleReplay(env,deps,user,row,compact),[state,balance]=await Promise.all([realtimeState(env,user.id),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,replayed,result,state,coinAfter:Number(balance?.coin||0)});
 }
 
 async function handleActionStatus(env,deps,user,cfg,request){
@@ -1197,8 +1197,8 @@ async function handleAttack(env,deps,user,cfg,body){
     ]);
     let action=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(action?.status!=='APPLIED')throw new Error('교전지가 이미 변경되었습니다. 행동력은 소모되지 않았습니다.');
     const actual=Number(action.damage||0),stored={...safeJson(action.result_json,compact),damage:actual,targetHpAfter:Math.max(0,Number(safeJson(action.result_json,compact).targetHpBefore||targetHp)-actual)};await env.DB.prepare("UPDATE territory_war_v3_actions SET result_json=? WHERE request_id=? AND status='APPLIED'").bind(JSON.stringify(stored),requestId).run();action={...action,result_json:JSON.stringify(stored)};
-    const completed=await completeAppliedAction(env,action,cfg),result={...completed,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,battleEngine:{active:true,version:'V3',renderer:'PIXIJS',mode:'SIEGE'}};
-    return deps.json({ok:true,result,state:await realtimeState(env,user.id)});
+    const completed=await completeAppliedAction(env,action,cfg),result={...completed,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,battleEngine:{active:true,version:'V3',renderer:'PIXIJS',mode:'SIEGE'}},[state,balance]=await Promise.all([realtimeState(env,user.id),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
+    return deps.json({ok:true,result,state,coinAfter:Number(balance?.coin||0)});
   }catch(error){const row=await env.DB.prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(String(error.message||error).slice(0,300),requestId).run();return deps.json({error:error.message||'영토전 교전 처리에 실패했습니다.',retryable:/변경|처리/.test(String(error.message||''))},409)}finally{await releaseLock(env,attackLock)}
 }
 
@@ -1238,7 +1238,7 @@ async function claimV3(env,deps,user){
     }
     statements.push(env.DB.prepare(`UPDATE ${table} SET claimed_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(reward.round_id,user.id));
     const results=await env.DB.batch(statements),claimed=results?.[results.length-1];
-    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);return deps.json({ok:true,coin,shards,premiumCubes,scrapyardTickets,mysticEnergy,bonusEquipment,state:await publicState(env,user.id)});
+    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);const [state,balance]=await Promise.all([publicState(env,user.id),env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,coin,shards,premiumCubes,scrapyardTickets,mysticEnergy,bonusEquipment,state,coinAfter:Number(balance?.coin||0),cardShardsAfter:Number(balance?.card_shards||0)});
   }finally{await releaseLock(env,lock)}
 }
 

@@ -20,7 +20,7 @@
     "test:apocalypse": "node --test tests/pve-apocalypse-v1952.test.mjs tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs",
     "test:pve-sweep": "node --test tests/pve-sweep-v1989.test.mjs",
     "test:battle-suit": "node --test tests/project-v-battle-suit-backend-v1953.test.mjs tests/project-v-battle-suit-frontend-v1953.test.mjs tests/project-v-v3-account-battle-unit-v1953.test.mjs tests/project-v-v3-battle-suit-firearm-qc-v1957.test.mjs",
-    "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs tests/territory-commander-live-status-v1994.test.mjs",
+    "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs tests/territory-commander-live-status-v1994.test.mjs tests/territory-coin-sync-v1995.mjs",
     "test:alchemy": "node --test tests/alchemy-system-v1973.test.mjs",
     "test:ranked-reward": "node --test tests/ranked-reward-cap-v1980.test.mjs",
     "test:coupon": "node --test tests/coupon-reward-cap-v1997.test.mjs",
