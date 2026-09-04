@@ -13,6 +13,7 @@ function rows(result){return result?.results||[]}
 function integer(value,fallback=0){const number=Number(value);return Number.isFinite(number)?Math.floor(number):fallback}
 function safeJson(value,fallback={}){try{const parsed=typeof value==='string'?JSON.parse(value):value;return parsed??fallback}catch{return fallback}}
 function compactName(value){return String(value||'').normalize('NFKC').replace(/\s+/g,'')}
+function recoveryTimestampSql(env){return env.DB?.dialect==='postgres'?'CAST(CURRENT_TIMESTAMP AS TIMESTAMPTZ)':'CURRENT_TIMESTAMP'}
 function completedSummary(row,{replayed=true}={}){const parsed=safeJson(row?.value,null);return parsed?.status==='COMPLETED'?{...parsed,replayed}:null}
 function receiptCardId(receipt){const response=safeJson(receipt?.response_json,{});return String(response?.card?.id||response?.resultCardId||'')}
 
@@ -74,14 +75,14 @@ async function recoverHighGradeReceipt(env,receipt){
   if(targetQuantity<1)return{status:'SKIPPED_MISSING_CARD',sourceType:HIGH_GRADE_SOURCE,requestId,replayed:false};
   const targetLevel=Math.max(0,integer(target?.breakthrough_level)),targetFailCount=Math.max(0,integer(target?.breakthrough_fail_count));
   const sourceQuantity=Math.max(0,integer(source?.quantity)),sourceLevel=Math.max(0,integer(original?.breakthroughLevel));
-  const nonce=crypto.randomUUID(),revertedAt=new Date().toISOString();
+  const nonce=crypto.randomUUID(),revertedAt=new Date().toISOString(),recoveryTimestamp=recoveryTimestampSql(env);
   const recovery={status:'COMPLETED',version:IYEJUN_FUR_REROLL_RECOVERY_VERSION,sourceType:HIGH_GRADE_SOURCE,requestId,userId,targetCardId,sourceCardId,cardsRecovered:1,sourceCardsRestored:1,highGradeTicketsRefunded:1,furTicketsRefunded:0,shardsReversed:0,breakthroughLevelRestored:sourceLevel,completedAt:revertedAt};
   const revertedResponse={...original,ok:false,reverted:true,recoveryCode:RECOVERY_REASON,revertedAt,ticketCode:HIGH_GRADE_TICKET,remaining:ticketBefore+1,sourceCardId,resultCardId:targetCardId};
   const claimGuard=`EXISTS(SELECT 1 FROM ${RECOVERY_TABLE} rr WHERE rr.source_type=? AND rr.request_id=? AND rr.nonce=? AND rr.status='CLAIMED')`;
   const guarded=(sql,...values)=>env.DB.prepare(sql.replaceAll('{GUARD}',claimGuard)).bind(...values,HIGH_GRADE_SOURCE,requestId,nonce);
   const statements=[
     env.DB.prepare(`INSERT OR IGNORE INTO ${RECOVERY_TABLE}(source_type,request_id,user_id,target_card_id,nonce,status) VALUES(?,?,?,?,?,'PENDING')`).bind(HIGH_GRADE_SOURCE,requestId,userId,targetCardId,nonce),
-    env.DB.prepare(`UPDATE ${RECOVERY_TABLE} SET status='CLAIMED',updated_at=CURRENT_TIMESTAMP WHERE source_type=? AND request_id=? AND nonce=? AND status='PENDING'
+    env.DB.prepare(`UPDATE ${RECOVERY_TABLE} SET status='CLAIMED',updated_at=${recoveryTimestamp} WHERE source_type=? AND request_id=? AND nonce=? AND status='PENDING'
       AND EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=? AND COALESCE(breakthrough_level,0)=? AND COALESCE(breakthrough_fail_count,0)=?)
       AND EXISTS(SELECT 1 FROM high_grade_reroll_ticket_receipts WHERE request_id=? AND user_id=? AND source_card_id=? AND result_card_id=? AND response_json=?)`)
       .bind(HIGH_GRADE_SOURCE,requestId,nonce,userId,targetCardId,targetQuantity,targetLevel,targetFailCount,requestId,userId,sourceCardId,targetCardId,String(receipt.response_json||'')),
@@ -104,7 +105,7 @@ async function recoverHighGradeReceipt(env,receipt){
       userId,HIGH_GRADE_TICKET,RECOVERY_REASON,requestId,userId,HIGH_GRADE_TICKET),
     guarded(`UPDATE high_grade_reroll_ticket_receipts SET response_json=? WHERE request_id=? AND user_id=? AND response_json=? AND {GUARD}`,
       JSON.stringify(revertedResponse),requestId,userId,String(receipt.response_json||'')),
-    guarded(`UPDATE ${RECOVERY_TABLE} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP
+    guarded(`UPDATE ${RECOVERY_TABLE} SET status='COMPLETED',response_json=?,updated_at=${recoveryTimestamp}
       WHERE source_type=? AND request_id=? AND nonce=? AND status='CLAIMED' AND {GUARD}`,
       JSON.stringify(recovery),HIGH_GRADE_SOURCE,requestId,nonce)
   ];
@@ -128,14 +129,14 @@ async function recoverFurTicketReceipt(env,receipt,targetCardId){
   if(targetQuantity<1)return{status:'SKIPPED_MISSING_CARD',sourceType:FUR_TICKET_SOURCE,requestId,replayed:false};
   const targetLevel=Math.max(0,integer(target?.breakthrough_level)),targetFailCount=Math.max(0,integer(target?.breakthrough_fail_count));
   const shardGained=Math.max(0,integer(original?.shardGained)),shardsBefore=integer(user?.card_shards),shardsAfter=shardsBefore-shardGained;
-  const nonce=crypto.randomUUID(),revertedAt=new Date().toISOString();
+  const nonce=crypto.randomUUID(),revertedAt=new Date().toISOString(),recoveryTimestamp=recoveryTimestampSql(env);
   const recovery={status:'COMPLETED',version:IYEJUN_FUR_REROLL_RECOVERY_VERSION,sourceType:FUR_TICKET_SOURCE,requestId,userId,targetCardId,cardsRecovered:1,sourceCardsRestored:0,highGradeTicketsRefunded:0,furTicketsRefunded:1,shardsReversed:shardGained,completedAt:revertedAt};
   const revertedResponse={...original,ok:false,reverted:true,recoveryCode:RECOVERY_REASON,revertedAt,itemCode:FUR_REROLL_TICKET,remaining:ticketBefore+1};
   const claimGuard=`EXISTS(SELECT 1 FROM ${RECOVERY_TABLE} rr WHERE rr.source_type=? AND rr.request_id=? AND rr.nonce=? AND rr.status='CLAIMED')`;
   const guarded=(sql,...values)=>env.DB.prepare(sql.replaceAll('{GUARD}',claimGuard)).bind(...values,FUR_TICKET_SOURCE,requestId,nonce);
   const statements=[
     env.DB.prepare(`INSERT OR IGNORE INTO ${RECOVERY_TABLE}(source_type,request_id,user_id,target_card_id,nonce,status) VALUES(?,?,?,?,?,'PENDING')`).bind(FUR_TICKET_SOURCE,requestId,userId,targetCardId,nonce),
-    env.DB.prepare(`UPDATE ${RECOVERY_TABLE} SET status='CLAIMED',updated_at=CURRENT_TIMESTAMP WHERE source_type=? AND request_id=? AND nonce=? AND status='PENDING'
+    env.DB.prepare(`UPDATE ${RECOVERY_TABLE} SET status='CLAIMED',updated_at=${recoveryTimestamp} WHERE source_type=? AND request_id=? AND nonce=? AND status='PENDING'
       AND EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=? AND COALESCE(breakthrough_level,0)=? AND COALESCE(breakthrough_fail_count,0)=?)
       AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND item_code=? AND status='COMPLETED' AND response_json=?)`)
       .bind(FUR_TICKET_SOURCE,requestId,nonce,userId,targetCardId,targetQuantity,targetLevel,targetFailCount,requestId,userId,FUR_REROLL_TICKET,String(receipt.response_json||'')),
@@ -159,7 +160,7 @@ async function recoverFurTicketReceipt(env,receipt,targetCardId){
     guarded(`UPDATE inventory_use_receipts SET status='REVERTED',response_json=?,error_message=?,updated_at=CURRENT_TIMESTAMP
       WHERE request_id=? AND user_id=? AND item_code=? AND status='COMPLETED' AND response_json=? AND {GUARD}`,
       JSON.stringify(revertedResponse),'이예준 FUR 재뽑기 결과 운영 원복',requestId,userId,FUR_REROLL_TICKET,String(receipt.response_json||'')),
-    guarded(`UPDATE ${RECOVERY_TABLE} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP
+    guarded(`UPDATE ${RECOVERY_TABLE} SET status='COMPLETED',response_json=?,updated_at=${recoveryTimestamp}
       WHERE source_type=? AND request_id=? AND nonce=? AND status='CLAIMED' AND {GUARD}`,
       JSON.stringify(recovery),FUR_TICKET_SOURCE,requestId,nonce)
   ];
