@@ -1,7 +1,7 @@
 (function soopketmonV21RewardsPresentation(global) {
   'use strict';
 
-  const VERSION = '21.2.0';
+  const VERSION = '21.4.0';
   const ROOT_SELECTOR = '.v21-production-shell[data-soopketmon-v21-shell="approved-v21"]';
   const script = document.currentScript;
   let frame = 0;
@@ -102,11 +102,13 @@
     if (!center) return;
     center.dataset.v21RewardUi = 'messages';
     const verifyButton = center.querySelector('#openWagoVerify');
+    const claimAllButton = center.querySelector('#claimAllMessages');
     const verifyPanel = center.querySelector('#wagoVerifyPanel');
     if (verifyButton && verifyPanel) {
       verifyButton.setAttribute('aria-controls', 'wagoVerifyPanel');
       verifyButton.setAttribute('aria-expanded', String(!verifyPanel.hidden));
     }
+    if (claimAllButton) claimAllButton.dataset.v21Operation = 'claim-all';
     center.querySelectorAll('.user-message').forEach(card => {
       const unread = card.classList.contains('unread');
       card.dataset.v21MessageState = unread ? 'unread' : 'read';

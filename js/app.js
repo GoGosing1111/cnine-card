@@ -3922,13 +3922,39 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
   if(Number(autoOpenCount)>0)queueMicrotask(()=>document.getElementById('primeDrawConfirm')?.click());
 }
 
-function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">SOOP MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><button class="btn secondary" id="openWagoVerify">2차 인증</button></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
+function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">SOOP MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
 const MESSAGE_REWARD_META={COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'}};
+function claimableMessageRewards(messages){return (Array.isArray(messages)?messages:[]).filter(message=>Boolean(MESSAGE_REWARD_META[String(message.reward_type||'').toUpperCase()])&&Number(message.reward_amount)>0&&(!message.claimed_at||message.needs_recovery))}
+function messageClaimUser(result){const nextUser=apiUserToLocal({...result.user,coin:result.coinAfter??result.user?.coin,cardShards:result.cardShardsAfter??result.user?.cardShards??result.user?.card_shards});saveUser(nextUser);return nextUser}
+async function claimAllMessageRewards(messages,button){
+  const queue=claimableMessageRewards(messages);if(!queue.length)return;
+  const totals=new Map(),failures=[];let claimedCount=0,alreadyCount=0,lastResult=null;
+  button.disabled=true;document.querySelectorAll('[data-claim-message]').forEach(control=>{control.disabled=true});
+  for(const [index,message] of queue.entries()){
+    button.textContent=`수령 중 ${index+1} / ${queue.length}`;
+    try{
+      const result=await apiRequest('messages/claim',{method:'POST',body:JSON.stringify({messageId:Number(message.id)})});
+      lastResult=result;claimedCount++;
+      const type=String(result.rewardType||message.reward_type||'').toUpperCase(),amount=Math.max(0,Number(result.rewardAmount??message.reward_amount)||0);
+      totals.set(type,Number(totals.get(type)||0)+amount);
+    }catch(error){
+      if(Number(error?.status)===409&&String(error?.message||'').includes('이미 정상 수령'))alreadyCount++;
+      else failures.push(error?.message||'보상 수령 실패');
+    }
+  }
+  if(lastResult)messageClaimUser(lastResult);
+  clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');
+  const rewardSummary=[...totals.entries()].map(([type,amount])=>{const meta=MESSAGE_REWARD_META[type]||{label:type||'보상',icon:'🎁'};return `${meta.icon} ${meta.label} ${Number(amount).toLocaleString()}개`}).join('\n');
+  const status=[`보상 ${claimedCount.toLocaleString()}건을 일괄 수령했습니다.`,rewardSummary,alreadyCount?`이미 처리된 보상 ${alreadyCount.toLocaleString()}건은 중복 지급하지 않았습니다.`:'',failures.length?`처리하지 못한 보상 ${failures.length.toLocaleString()}건은 메시지함에 남겨두었습니다.\n${failures[0]}`:''].filter(Boolean).join('\n\n');
+  alert(status);renderShell('messages');
+}
 async function loadMessages(){
   const box=document.getElementById('messageList');if(!box)return;
   try{
     const d=await apiRequest('messages');
     updateMessageNewBadges(d.unread||0);
+    const claimable=claimableMessageRewards(d.messages),claimAllButton=document.getElementById('claimAllMessages');
+    if(claimAllButton){claimAllButton.disabled=!claimable.length;claimAllButton.textContent=claimable.length?`보상 일괄 수령 · ${claimable.length.toLocaleString()}건`:'수령할 보상 없음';claimAllButton.onclick=()=>claimAllMessageRewards(claimable,claimAllButton)}
     box.innerHTML=d.messages.length?d.messages.map(m=>{
       const rewardType=String(m.reward_type||'').toUpperCase(),rewardMeta=MESSAGE_REWARD_META[rewardType],messageReward=Boolean(rewardMeta)&&Number(m.reward_amount)>0;
       return `<article class="user-message ${m.is_read?'read':'unread'} ${m.needs_recovery?'reward-recovery':''}" data-id="${m.id}">${m.needs_recovery?'<span class="message-recovery-label">지급 누락 감지</span>':`<button type="button" class="message-delete" data-hide-message="${m.id}" aria-label="메시지 삭제">삭제</button>`}<div><span>${messageReward?'보상 메시지':escapeHtml(m.message_type)}</span><h3>${escapeHtml(m.title)}</h3><p>${escapeHtml(m.body)}</p>${messageReward?`<div class="message-reward"><strong>${rewardMeta.icon} ${Number(m.reward_amount).toLocaleString()} ${rewardMeta.label}</strong><button type="button" data-claim-message="${m.id}" ${m.claimed_at&&!m.needs_recovery?'disabled':''}>${m.needs_recovery?'지급 재확인':(m.claimed_at?'수령 완료':'보상 받기')}</button></div>`:''}${m.coupon_code?`<div class="message-coupon"><code>${escapeHtml(m.coupon_code)}</code><button type="button" data-use-coupon="${escapeHtml(m.coupon_code)}">쿠폰 사용</button></div>`:''}<small>${escapeHtml(String(m.created_at||'').replace('T',' ').slice(0,16))}</small></div></article>`;
@@ -3938,7 +3964,7 @@ async function loadMessages(){
       e.stopPropagation();b.disabled=true;
       try{
         const d=await apiRequest('messages/claim',{method:'POST',body:JSON.stringify({messageId:Number(b.dataset.claimMessage)})});
-        const nextUser=apiUserToLocal({...d.user,coin:d.coinAfter??d.user?.coin,cardShards:d.cardShardsAfter??d.user?.cardShards??d.user?.card_shards});saveUser(nextUser);
+        const nextUser=messageClaimUser(d);
         clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');
         const meta=MESSAGE_REWARD_META[d.rewardType]||{label:d.rewardLabel||d.rewardType,icon:'🎁'};
         let detail='';

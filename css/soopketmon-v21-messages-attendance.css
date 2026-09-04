@@ -475,6 +475,13 @@
   line-height: 1.55;
 }
 
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(148px, 1fr));
+  gap: 9px;
+  min-width: 353px;
+}
+
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head #openWagoVerify {
   min-width: 172px;
   min-height: 48px;
@@ -486,6 +493,27 @@
   box-shadow: inset 3px 0 var(--v21-reward-cyan);
   font-size: 13px;
   font-weight: 800;
+}
+
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head .message-claim-all {
+  min-width: 172px;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 1px solid rgba(156, 236, 247, .72);
+  border-radius: 2px;
+  color: #071116;
+  background: linear-gradient(135deg, #9cecf7, #67c9de);
+  box-shadow: inset 3px 0 rgba(255, 255, 255, .55), 0 8px 24px rgba(66, 190, 217, .12);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head .message-claim-all:disabled {
+  border-color: rgba(205, 226, 232, .14);
+  color: #71858a;
+  background: #101820;
+  box-shadow: none;
+  opacity: 1;
 }
 
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-list {
@@ -976,8 +1004,16 @@
     font-size: 33px;
   }
 
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head #openWagoVerify {
+  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
+    min-width: 0;
+  }
+
+  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head #openWagoVerify,
+  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head .message-claim-all {
+    width: 100%;
+    min-width: 0;
     min-height: 48px;
   }
 
