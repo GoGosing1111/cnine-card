@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 const fail = message => {
@@ -15,11 +15,14 @@ const worker = read('service-worker.js');
 const blackMiracle = read('functions/_black_miracle_pack.js');
 const core = read('functions/_raid_core_protocol.js');
 const coreUi = read('js/core-protocol-raid-v1924.js');
+const coreTicketAsset = new URL('../assets/items/core-raid-entry-ticket-v1.png', import.meta.url);
+
+if (!existsSync(coreTicketAsset)) fail('the dedicated Core raid entry-ticket image is missing');
 
 for (const resource of [
-  'css/core-protocol-raid-v1924.css?v=2024-room-expedition',
+  'css/core-protocol-raid-v1924.css?v=2026-core-balance',
   'js/project-v-raid-qte-v1924.js?v=2021-sequence-swipe',
-  'js/core-protocol-raid-v1924.js?v=2024-room-expedition',
+  'js/core-protocol-raid-v1924.js?v=2026-core-balance',
 ]) {
   if (!index.includes(resource)) fail(`index.html is missing the reviewed Core test resource: ${resource}`);
 }
@@ -61,11 +64,17 @@ for (const contract of [
   'raid_core_members_v2024',
   'raid_core_attempts_v2024',
   'CORE_RAID_ENTRY_TICKET',
+  'CORE_RAID_ENTRY_TICKET_IMAGE',
+  'coreRaidBalanceState',
+  'CORE_OVERLOAD',
   'raid/core/open',
   'raid/core/start',
   'raid/core/battle',
 ]) {
   if (!core.includes(contract)) fail(`Core room-expedition contract is missing: ${contract}`);
+}
+if (!/core-raid-entry-ticket-v1\.png/.test(coreUi) || !/OVERLOAD RISK/.test(coreUi)) {
+  fail('Core UI is missing the reviewed entry-ticket art or triple-core overload warning');
 }
 if (/dailyEntries|cycleIdentity/.test(core)) {
   fail('the retired global-cycle/one-attempt Core model is still present');

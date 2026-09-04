@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.0.0-room-expedition-v2024';
+  const VERSION = '3.1.0-triple-core-balance-v2026';
   const TAB_KEY = 'cnine:raid-content-v1924';
   const OP_NAMES = { BREAK: '파쇄', BLOCK: '차단', STABILIZE: '안정화', FINAL: '최종 보스' };
   const esc = value => String(value ?? '').replace(
@@ -68,26 +68,58 @@
     return String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
   }
 
-  function orbGauge(kind, label, value, max, selectable) {
+  function orbGauge(kind, label, value, max, selectable, balance = {}) {
+    const operation = kind.toUpperCase();
     const current = number(value);
     const target = Math.max(1, number(max));
     const ratio = percent(current, target);
     const ready = current >= target;
-    const selected = selectedOperation === kind.toUpperCase();
+    const selected = selectedOperation === operation;
+    const recommended = (balance.recommendedOperations || []).includes(operation);
+    const risk = (balance.riskOperations || []).includes(operation);
     const attributes = selectable && !ready
-      ? ' role="button" tabindex="0" data-core-operation="' + esc(kind.toUpperCase()) + '"'
+      ? ' role="button" tabindex="0" data-core-operation="' + esc(operation) + '"'
       : '';
     return '<article class="core-orb-card is-' + esc(kind) +
       (ready ? ' is-ready' : '') +
       (selected && selectable && !ready ? ' is-selected' : '') +
+      (recommended && !ready ? ' is-recommended' : '') +
+      (risk && !ready ? ' is-risk' : '') +
       '"' + attributes +
       ' aria-label="' + esc(label) + '" aria-valuemin="0" aria-valuemax="' + target +
       '" aria-valuenow="' + current + '">' +
       '<div class="core-orb-ring" style="--core-angle:' + (ratio * 3.6).toFixed(2) + 'deg">' +
       '<div class="core-orb-center"><strong>' + Math.round(ratio) + '<small>%</small></strong></div></div>' +
-      '<footer><em>' + (ready ? 'CORE DOWN' : selected && selectable ? 'TARGET LOCK' : 'IN PROGRESS') +
+      '<footer><em>' + (ready ? 'CORE DOWN' : risk ? 'OVERLOAD RISK' : selected && selectable ? 'TARGET LOCK' : recommended ? 'BALANCE TARGET' : 'IN PROGRESS') +
       '</em><b>' + esc(label) + '</b><span>' + current.toLocaleString() + ' / ' + target.toLocaleString() +
       '</span></footer></article>';
+  }
+
+  function coreBalanceMarkup(current, settings = {}) {
+    const scores = current.coreScores || {};
+    const target = Math.max(1, number(current.coreTarget || settings.coreRequired));
+    const values = ['BREAK', 'BLOCK', 'STABILIZE'].map(key => number(scores[key]));
+    const fallbackSpread = Math.max(...values) - Math.min(...values);
+    const fallbackTolerance = Math.max(1, Math.ceil(target * number(settings.coreBalanceTolerancePercent || 34) / 100));
+    const balance = current.coreBalance || {
+      spread: fallbackSpread,
+      tolerance: fallbackTolerance,
+      stabilityPercent: Math.max(0, Math.round((1 - fallbackSpread / fallbackTolerance) * 100)),
+      status: fallbackSpread === 0 ? 'SYNCHRONIZED' : fallbackSpread <= fallbackTolerance ? 'STABLE' : 'UNSTABLE',
+      recommendedOperations: ['BREAK', 'BLOCK', 'STABILIZE'].filter(key => number(scores[key]) === Math.min(...values))
+    };
+    const stability = Math.max(0, Math.min(100, number(balance.stabilityPercent)));
+    const recommendations = (balance.recommendedOperations || []).map(key => OP_NAMES[key]).filter(Boolean);
+    const label = balance.status === 'SYNCHRONIZED'
+      ? '완전 동기화'
+      : balance.status === 'UNSTABLE' ? '균형 복구 필요' : '공명 안정';
+    return '<section class="core-balance-console is-' + esc(String(balance.status || 'STABLE').toLowerCase()) +
+      '" style="--balance-angle:' + (stability * 3.6).toFixed(2) + 'deg">' +
+      '<div class="core-balance-dial"><i><span><small>BALANCE</small><strong>' + Math.round(stability) +
+      '<em>%</em></strong></span></i></div><div class="core-balance-readout"><small>TRIPLE CORE RESONANCE</small><b>' +
+      label + '</b><span>현재 편차 ' + number(balance.spread).toLocaleString() + ' · 허용 편차 ' +
+      number(balance.tolerance).toLocaleString() + '</span><em>다음 권장 코어 · ' +
+      esc(recommendations.join(' / ') || '동기화 완료') + '</em></div></section>';
   }
 
   function partyHpMarkup(current) {
@@ -107,7 +139,8 @@
       '<article class="core-room-create">' +
       '<small>EXPEDITION HOST ACCESS</small><h3>붕괴 코어 공대 생성</h3>' +
       '<p>공대장만 입장권 1장을 사용합니다. 참가자는 입장권 없이 합류합니다.</p>' +
-      '<div><span>' + esc(ticket.ticketName || '붕괴 코어 입장권') + '</span>' +
+      '<div class="core-room-ticket"><img src="' + esc(ticket.ticketImage || '/assets/items/core-raid-entry-ticket-v1.png') +
+      '" alt=""><span>' + esc(ticket.ticketName || '붕괴 코어 입장권') + '</span>' +
       '<strong>보유 ' + number(ticket.quantity).toLocaleString() + '장</strong></div>' +
       '<button type="button" data-core-action="open" ' +
       (number(ticket.quantity) < number(ticket.required || 1) ? 'data-core-locked="1" disabled' : '') +
@@ -159,15 +192,20 @@
     const current = state.current;
     const pending = state.pendingAttempt;
     const target = OP_NAMES[selectedOperation] || '파쇄';
+    const balance = current.coreBalance || {};
+    const risk = (balance.riskOperations || []).includes(selectedOperation);
     if (pending) {
       return '<section class="core-action"><div><small>PENDING ATTEMPT</small><b>' +
         esc(OP_NAMES[pending.operation] || '공략') + ' 전투 재개</b>' +
         '<span>서버에 보존된 미완료 전투를 이어서 진행합니다.</span></div>' +
         '<button type="button" data-core-action="battle">전투 재개</button></section>';
     }
-    return '<section class="core-action"><div><small>REPEATED CORE ASSAULT</small><b>' +
+    return '<section class="core-action' + (risk ? ' is-risk' : '') + '"><div><small>' +
+      (risk ? 'RESONANCE OVERLOAD WARNING' : 'REPEATED CORE ASSAULT') + '</small><b>' +
       esc(target) + ' 코어 공략</b><span>제한 시간 ' + remainingText(current.endsAt) +
-      ' 동안 세 코어가 모두 제압될 때까지 반복 출전할 수 있습니다.</span></div>' +
+      (risk
+        ? ' · 앞선 코어를 더 밀면 진척도가 무효화되고 공대 HP가 ' + number(state.settings?.coreImbalanceDamage) + ' 감소합니다.'
+        : ' · 낮은 코어부터 맞춰 세 코어의 공명 편차를 유지하십시오.') + '</span></div>' +
       '<button type="button" data-core-action="battle">선택 코어 출전</button></section>';
   }
 
@@ -216,16 +254,24 @@
       return terminalMarkup(state) + memberMarkup(state);
     }
     const coreStage = current.status === 'CORE';
+    if (coreStage && number(current.coreScores?.[selectedOperation]) >= number(current.coreTarget)) {
+      selectedOperation = (current.coreBalance?.recommendedOperations || []).find(
+        operation => number(current.coreScores?.[operation]) < number(current.coreTarget)
+      ) || ['BREAK', 'BLOCK', 'STABILIZE'].find(
+        operation => number(current.coreScores?.[operation]) < number(current.coreTarget)
+      ) || selectedOperation;
+    }
     const bossHp = number(current.bossHp);
     const bossMax = Math.max(1, number(current.bossMaxHp));
     return partyHpMarkup(current) +
       (coreStage
         ? '<section class="core-expedition-cores"><header><div><small>TRIPLE CORE NETWORK</small>' +
-          '<b>세 코어를 모두 제압하십시오</b></div><span>남은 시간 ' + remainingText(current.endsAt) + '</span></header>' +
+          '<b>세 코어의 공명 균형을 유지하십시오</b></div><span>남은 시간 ' + remainingText(current.endsAt) + '</span></header>' +
+          coreBalanceMarkup(current, state.settings) +
           '<div class="core-triple-orbs">' +
-          orbGauge('break', '파쇄 코어', current.coreScores?.BREAK, current.coreTarget, true) +
-          orbGauge('block', '차단 코어', current.coreScores?.BLOCK, current.coreTarget, true) +
-          orbGauge('stabilize', '안정화 코어', current.coreScores?.STABILIZE, current.coreTarget, true) +
+          orbGauge('break', '파쇄 코어', current.coreScores?.BREAK, current.coreTarget, true, current.coreBalance) +
+          orbGauge('block', '차단 코어', current.coreScores?.BLOCK, current.coreTarget, true, current.coreBalance) +
+          orbGauge('stabilize', '안정화 코어', current.coreScores?.STABILIZE, current.coreTarget, true, current.coreBalance) +
           '</div>' + coreActionMarkup(state) + '</section>'
         : '<section class="core-final-boss" style="--boss-hp:' + percent(bossHp, bossMax).toFixed(2) + '%">' +
           '<header><div><small>FINAL TARGET / APOCALYPSE</small><b>' + esc(current.bossName) + '</b></div>' +
@@ -237,6 +283,8 @@
       '<li>공대장은 입장권 1장으로 방을 생성합니다.</li>' +
       '<li>모든 공대원은 제한 시간 동안 횟수 제한 없이 코어와 보스를 반복 공략합니다.</li>' +
       '<li>전투 승리·방향 입력·연타 입력을 모두 성공해야 진척도가 반영됩니다.</li>' +
+      '<li>세 코어의 편차가 허용 범위를 넘지 않게 낮은 코어부터 교대로 공략해야 합니다.</li>' +
+      '<li>앞선 코어를 과충전하면 해당 진척도는 무효이며 공대 HP가 ' + number(state.settings?.coreImbalanceDamage) + ' 감소합니다.</li>' +
       '<li>실패할 때마다 공대 HP가 ' + number(state.settings?.mechanicFailureDamage) + ' 감소합니다.</li>' +
       '</ol></article>' + memberMarkup(state) + '</section>';
   }
@@ -362,13 +410,14 @@
   function mountMechanicResult(stage, resolved) {
     stage.querySelector('.core-v3-mechanic-result')?.remove();
     const success = resolved.personalResult === 'SUCCESS';
+    const overload = resolved.outcome?.failureReason === 'CORE_OVERLOAD';
     const verified = resolved.verified || {};
     const node = document.createElement('section');
     node.className = 'core-v3-mechanic-result ' + (success ? 'is-success' : 'is-failure');
     node.setAttribute('role', 'dialog');
     node.setAttribute('aria-modal', 'true');
     node.innerHTML = '<small>CORE PROTOCOL / VERIFIED RESULT</small><strong>' +
-      (success ? '공략 진척도 전송 완료' : '멸절 프로토콜 피격') + '</strong><span>전투 ' +
+      (success ? '공략 진척도 전송 완료' : overload ? '코어 공명 과부하' : '멸절 프로토콜 피격') + '</strong><span>전투 ' +
       (resolved.outcome?.engineSuccess ? '승리' : '패배') + ' · 방향 해독 ' +
       (verified.sequence?.success ? '성공' : '실패') + ' · 구속 파쇄 ' +
       (verified.mash?.success ? '성공' : '실패') +
@@ -376,7 +425,9 @@
         ? resolved.outcome?.stage === 'BOSS'
           ? ' · 보스 피해 ' + number(resolved.outcome?.bossDamage).toLocaleString()
           : ' · 코어 진척 +' + number(resolved.outcome?.coreProgress).toLocaleString()
-        : ' · 공대 HP -' + number(resolved.outcome?.partyHpDamage).toLocaleString()) +
+        : overload
+          ? ' · 앞선 코어 진척 무효 · 공대 HP -' + number(resolved.outcome?.partyHpDamage).toLocaleString()
+          : ' · 공대 HP -' + number(resolved.outcome?.partyHpDamage).toLocaleString()) +
       '</span><button type="button" class="btn core-v3-return">공대 전황으로 돌아가기</button>';
     stage.appendChild(node);
     return node;

@@ -8001,7 +8001,7 @@ async function handleRequest(context){
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
         if(itemCode==='CORE_RAID_ENTRY_TICKET'){
           await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
-            VALUES('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','CORE PROTOCOL ENTRY','붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.','ENTRY_TICKET','ZENITH','assets/ui/pve-command-v2/world-raid-breach-v1.webp',126,1)
+            VALUES('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','CORE PROTOCOL ENTRY','붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.','ENTRY_TICKET','ZENITH','assets/items/core-raid-entry-ticket-v1.png',126,1)
             ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`).run();
         }
         const item=await env.DB.prepare('SELECT code,name FROM inventory_items WHERE code=? AND is_active=1').bind(itemCode).first();

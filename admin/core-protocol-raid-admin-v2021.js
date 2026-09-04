@@ -5,7 +5,7 @@
     const style = document.createElement('link');
     style.id = 'coreRaidAdminStyleV2021';
     style.rel = 'stylesheet';
-    style.href = 'core-protocol-raid-admin-v2021.css?v=2024-room-expedition';
+    style.href = 'core-protocol-raid-admin-v2021.css?v=2026-core-balance';
     document.head.appendChild(style);
   }
   const token = () => localStorage.getItem('cnine_admin_token') || sessionStorage.getItem('cnine_admin_token') || '';
@@ -40,7 +40,7 @@
       '<section class="panel coreRaidAdmin" id="coreRaidAdminV2021">',
       '<header class="coreRaidAdminHead"><div><small>CORE PROTOCOL / ROOM EXPEDITION</small>',
       '<h2>신규 레이드 · 붕괴 코어</h2>',
-      '<p>공대장이 입장권 1장으로 방을 만들고, 제한 시간 동안 세 코어와 최종 보스를 반복 공략합니다. 기존 월드 레이드는 그대로 유지됩니다.</p>',
+      '<p>공대장이 입장권 1장으로 방을 만들고, 세 코어의 공명 편차를 관리하며 최종 보스를 반복 공략합니다. 기존 월드 레이드는 그대로 유지됩니다.</p>',
       '</div><span id="coreRaidAdminState">설정 확인 전</span></header>',
       '<div class="coreRaidAdminSafety"><b>출시 안전 상태</b><span>TEST · 보상 잠금 · 지정 계정만 공개</span>',
       '<em>ON은 전체 유저에게 즉시 노출됩니다. 공대 생성은 붕괴 코어 입장권 1장을 소모합니다.</em></div>',
@@ -61,6 +61,8 @@
       input('coreRaidPartyMaxHp', '공대 최대 HP', 100, 100000, ''),
       input('coreRaidFailureDamage', '기믹 실패 HP 피해', 1, 100000, ''),
       input('coreRaidCoreRequired', '코어별 제압 목표', 50, 100000, ''),
+      input('coreRaidBalanceTolerance', '코어 허용 편차', 10, 75, '%'),
+      input('coreRaidImbalanceDamage', '코어 과충전 HP 피해', 1, 100000, ''),
       input('coreRaidBossMaxHp', '최종 보스 공유 HP', 1000000, 2000000000, ''),
       input('coreRaidCoreCombatPower', '코어 전투력 비율', 20, 300, '%'),
       input('coreRaidBossCombatPower', '보스 전투력 비율', 20, 300, '%'),
@@ -125,6 +127,8 @@
     set('#coreRaidPartyMaxHp', settings.partyMaxHp ?? 1000);
     set('#coreRaidFailureDamage', settings.mechanicFailureDamage ?? 125);
     set('#coreRaidCoreRequired', settings.coreRequired ?? 360);
+    set('#coreRaidBalanceTolerance', settings.coreBalanceTolerancePercent ?? 34);
+    set('#coreRaidImbalanceDamage', settings.coreImbalanceDamage ?? 100);
     set('#coreRaidBossMaxHp', settings.bossMaxHp ?? 900000000);
     set('#coreRaidCoreCombatPower', settings.coreCombatPowerPercent ?? 55);
     set('#coreRaidBossCombatPower', settings.bossCombatPowerPercent ?? 80);
@@ -163,6 +167,8 @@
       partyMaxHp: value('#coreRaidPartyMaxHp'),
       mechanicFailureDamage: value('#coreRaidFailureDamage'),
       coreRequired: value('#coreRaidCoreRequired'),
+      coreBalanceTolerancePercent: value('#coreRaidBalanceTolerance'),
+      coreImbalanceDamage: value('#coreRaidImbalanceDamage'),
       bossMaxHp: value('#coreRaidBossMaxHp'),
       coreCombatPowerPercent: value('#coreRaidCoreCombatPower'),
       bossCombatPowerPercent: value('#coreRaidBossCombatPower'),
@@ -213,6 +219,9 @@
     }
     if (settings.mechanicFailureDamage >= settings.partyMaxHp) {
       if (!confirm('기믹 1회 실패로 공대가 즉시 전멸할 수 있습니다. 그대로 저장할까요?')) return;
+    }
+    if (settings.coreImbalanceDamage >= settings.partyMaxHp) {
+      if (!confirm('코어 과충전 1회로 공대가 즉시 전멸할 수 있습니다. 그대로 저장할까요?')) return;
     }
     if (settings.mode === 'ON' && !confirm('붕괴 코어 탭을 전체 유저에게 공개합니다. 계속할까요?')) return;
     if (

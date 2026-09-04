@@ -16,6 +16,8 @@
     partyMaxHp: 1000,
     mechanicFailureDamage: 125,
     coreRequired: 180,
+    coreBalanceTolerancePercent: 34,
+    coreImbalanceDamage: 100,
     bossMaxHp: 180000000,
     rewardLocked: true
   };
@@ -43,6 +45,35 @@
   let attemptCounter = 0;
   let pendingBattle = null;
   let pendingPayload = null;
+
+  function coreBalanceState(coreScores = {}, coreTarget = settings.coreRequired) {
+    const keys = ['BREAK', 'BLOCK', 'STABILIZE'];
+    const target = Math.max(1, Number(coreTarget || settings.coreRequired));
+    const scores = Object.fromEntries(keys.map(key => [key, Math.max(0, Math.min(target, Number(coreScores[key] || 0)))]));
+    const values = Object.values(scores);
+    const minScore = Math.min(...values);
+    const maxScore = Math.max(...values);
+    const spread = Math.max(0, maxScore - minScore);
+    const tolerance = Math.max(1, Math.ceil(target * settings.coreBalanceTolerancePercent / 100));
+    const forecastPulse = Math.max(1, Math.ceil(target / 3));
+    const balanced = spread <= tolerance;
+    return {
+      scores,
+      target,
+      minScore,
+      maxScore,
+      spread,
+      tolerance,
+      tolerancePercent: settings.coreBalanceTolerancePercent,
+      stabilityPercent: Math.max(0, Math.min(100, Math.round((1 - spread / tolerance) * 100))),
+      balanced,
+      synchronized: spread === 0,
+      status: spread === 0 ? 'SYNCHRONIZED' : balanced ? 'STABLE' : 'UNSTABLE',
+      recommendedOperations: keys.filter(key => scores[key] === minScore && scores[key] < target),
+      leadingOperations: keys.filter(key => scores[key] === maxScore && scores[key] > minScore),
+      riskOperations: keys.filter(key => scores[key] > minScore && scores[key] < target && scores[key] - minScore + forecastPulse > tolerance)
+    };
+  }
 
   function member(nickname, id, isMe) {
     return {
@@ -87,6 +118,7 @@
       entry: {
         ticketCode: 'CORE_RAID_ENTRY_TICKET',
         ticketName: '붕괴 코어 입장권',
+        ticketImage: '/assets/items/core-raid-entry-ticket-v1.png',
         quantity: 2,
         required: 1
       },
@@ -100,7 +132,7 @@
     const members = host
       ? [me]
       : [member('선발대 알파', 7, false), member('방벽대 브라보', 8, false), me];
-    return {
+    const room = {
       id: host ? 'CORE-PREVIEW-HOST' : 'CORE-PREVIEW-GUEST',
       code: host ? 'HOST01' : 'GUEST1',
       hostUserId: host ? 1 : 7,
@@ -129,9 +161,12 @@
       reward: { coin: 0, shards: 0 },
       members
     };
+    room.coreBalance = coreBalanceState(room.coreScores, room.coreTarget);
+    return room;
   }
 
   function syncRoom(room) {
+    room.coreBalance = coreBalanceState(room.coreScores, room.coreTarget);
     state.current = room;
     state.participants = room.members;
     state.me = room.members.find(row => row.isMe) || null;
@@ -355,38 +390,78 @@
     }
     if (path === 'raid/core/resolve') {
       if (!pendingBattle) throw new Error('프리뷰 공략 기록이 없습니다.');
-      const sequenceOk = (body.results?.sequence?.inputs || []).length >= pendingBattle.challenge.sequence.length;
-      const mashOk = (body.results?.mash?.presses || []).length >= pendingBattle.challenge.mashTarget;
-      const success = sequenceOk && mashOk;
-      const outcome = {
-        success,
+      const currentAttempt = pendingBattle;
+      const sequenceOk = (body.results?.sequence?.inputs || []).length >= currentAttempt.challenge.sequence.length;
+      const mashOk = (body.results?.mash?.presses || []).length >= currentAttempt.challenge.mashTarget;
+      const qteSuccess = sequenceOk && mashOk;
+      let outcome = {
+        success: qteSuccess,
         engineSuccess: true,
-        mechanicSuccess: success,
-        stage: pendingBattle.stage,
-        partyHpDamage: success ? 0 : settings.mechanicFailureDamage,
-        coreProgress: success && pendingBattle.stage === 'CORE' ? 110 : 0,
-        bossDamage: success && pendingBattle.stage === 'BOSS' ? 70000000 : 0
+        mechanicSuccess: qteSuccess,
+        stage: currentAttempt.stage,
+        partyHpDamage: qteSuccess ? 0 : settings.mechanicFailureDamage,
+        coreProgress: qteSuccess && currentAttempt.stage === 'CORE' ? 110 : 0,
+        bossDamage: qteSuccess && currentAttempt.stage === 'BOSS' ? 70000000 : 0,
+        balanceSuccess: null,
+        balance: coreBalanceState(state.current.coreScores, state.current.coreTarget)
       };
+      if (qteSuccess && currentAttempt.stage === 'CORE') {
+        const currentBalance = coreBalanceState(state.current.coreScores, state.current.coreTarget);
+        const attemptedCoreProgress = outcome.coreProgress;
+        const projectedScores = {
+          ...currentBalance.scores,
+          [currentAttempt.operation]: Math.min(
+            state.current.coreTarget,
+            currentBalance.scores[currentAttempt.operation] + attemptedCoreProgress
+          )
+        };
+        const projectedBalance = coreBalanceState(projectedScores, state.current.coreTarget);
+        const selectedLowestCore = currentBalance.scores[currentAttempt.operation] === currentBalance.minScore;
+        if (!projectedBalance.balanced && !selectedLowestCore) {
+          outcome = {
+            ...outcome,
+            success: false,
+            balanceSuccess: false,
+            failureReason: 'CORE_OVERLOAD',
+            partyHpDamage: settings.coreImbalanceDamage,
+            attemptedCoreProgress,
+            coreProgress: 0,
+            balance: currentBalance,
+            projectedBalance
+          };
+        } else {
+          outcome = {
+            ...outcome,
+            balanceSuccess: true,
+            failureReason: '',
+            attemptedCoreProgress,
+            balance: projectedBalance
+          };
+        }
+      }
+      const success = outcome.success;
       const me = state.me;
       me.attemptCount++;
       me.successCount += success ? 1 : 0;
       me.failureCount += success ? 0 : 1;
-      me.mechanicScore += success ? 240 : 50;
-      me.lastOperation = pendingBattle.operation;
-      if (success && pendingBattle.stage === 'CORE') {
-        state.current.coreScores[pendingBattle.operation] = Math.min(
+      me.mechanicScore += qteSuccess ? 240 : 50;
+      me.lastOperation = currentAttempt.operation;
+      if (success && currentAttempt.stage === 'CORE') {
+        state.current.coreScores[currentAttempt.operation] = Math.min(
           state.current.coreTarget,
-          state.current.coreScores[pendingBattle.operation] + outcome.coreProgress
+          state.current.coreScores[currentAttempt.operation] + outcome.coreProgress
         );
         me.totalCoreProgress += outcome.coreProgress;
       }
-      if (success && pendingBattle.stage === 'BOSS') {
+      if (success && currentAttempt.stage === 'BOSS') {
         state.current.bossHp = Math.max(0, state.current.bossHp - outcome.bossDamage);
         me.totalBossDamage += outcome.bossDamage;
         me.totalDamage += outcome.bossDamage;
       }
       if (!success) state.current.partyHp = Math.max(0, state.current.partyHp - outcome.partyHpDamage);
-      const allCores = Object.values(state.current.coreScores).every(value => value >= state.current.coreTarget);
+      state.current.coreBalance = coreBalanceState(state.current.coreScores, state.current.coreTarget);
+      const allCores = Object.values(state.current.coreScores).every(value => value >= state.current.coreTarget) &&
+        state.current.coreBalance.balanced;
       if (state.current.status === 'CORE' && allCores) {
         state.current.status = 'BOSS';
         state.current.phase = 2;
@@ -409,7 +484,7 @@
       const verified = {
         sequence: { success: sequenceOk },
         mash: { success: mashOk },
-        allSuccess: success,
+        allSuccess: qteSuccess,
         perfectCount: 0,
         suppressionScore: (sequenceOk ? 50 : 0) + (mashOk ? 50 : 0)
       };
@@ -425,7 +500,7 @@
         verified,
         outcome,
         contribution: {
-          mechanicScore: success ? 240 : 50,
+          mechanicScore: qteSuccess ? 240 : 50,
           coreProgress: outcome.coreProgress,
           totalDamage: outcome.bossDamage
         },

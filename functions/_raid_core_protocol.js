@@ -2,7 +2,7 @@
 // PROJECT V V3는 전투 표현만 담당하며 방 상태, 기믹 판정과 보상은 서버가 확정한다.
 const SETTINGS_KEY = 'raid_core_protocol_settings_v2024';
 const LEGACY_SETTINGS_KEY = 'raid_core_protocol_settings_v2021';
-const FOUNDATION_KEY = 'raid_core_protocol_foundation_v2024';
+const FOUNDATION_KEY = 'raid_core_protocol_foundation_v2026';
 const ROOM_TABLE = 'raid_core_rooms_v2024';
 const MEMBER_TABLE = 'raid_core_members_v2024';
 const ACTIVE_MEMBER_TABLE = 'raid_core_active_members_v2024';
@@ -10,6 +10,7 @@ const ATTEMPT_TABLE = 'raid_core_attempts_v2024';
 const RECEIPT_TABLE = 'raid_core_receipts_v2024';
 const REWARD_RECEIPT_TABLE = 'raid_core_reward_receipts_v2024';
 export const CORE_RAID_ENTRY_TICKET = 'CORE_RAID_ENTRY_TICKET';
+export const CORE_RAID_ENTRY_TICKET_IMAGE = 'assets/items/core-raid-entry-ticket-v1.png';
 
 const OPERATIONS = Object.freeze({
   BREAK: {
@@ -92,6 +93,8 @@ export function defaultCoreRaidSettings() {
     partyMaxHp: 1000,
     mechanicFailureDamage: 125,
     coreRequired: 360,
+    coreBalanceTolerancePercent: 34,
+    coreImbalanceDamage: 100,
     bossMaxHp: 900000000,
     damageScale: 130,
     coreCombatPowerPercent: 55,
@@ -134,6 +137,13 @@ export function cleanCoreRaidSettings(raw = {}) {
     partyMaxHp: integer(raw.partyMaxHp, base.partyMaxHp, 100, 100000),
     mechanicFailureDamage: integer(raw.mechanicFailureDamage, base.mechanicFailureDamage, 1, 100000),
     coreRequired: integer(raw.coreRequired, base.coreRequired, 50, 100000),
+    coreBalanceTolerancePercent: integer(
+      raw.coreBalanceTolerancePercent,
+      base.coreBalanceTolerancePercent,
+      10,
+      75
+    ),
+    coreImbalanceDamage: integer(raw.coreImbalanceDamage, base.coreImbalanceDamage, 1, 100000),
     bossMaxHp: integer(raw.bossMaxHp, base.bossMaxHp, 1000000, 2000000000),
     damageScale: integer(raw.damageScale, base.damageScale, 1, 5000),
     coreCombatPowerPercent: integer(raw.coreCombatPowerPercent, base.coreCombatPowerPercent, 20, 300),
@@ -416,6 +426,87 @@ export function coreRaidAttemptOutcome({
   };
 }
 
+export function coreRaidBalanceState(coreScores = {}, coreTarget = 1, settings = {}) {
+  const cfg = cleanCoreRaidSettings(settings);
+  const target = Math.max(1, Number(coreTarget || cfg.coreRequired));
+  const scores = Object.fromEntries(
+    Object.keys(OPERATIONS).map(key => [key, clamp(coreScores?.[key] || 0, 0, target)])
+  );
+  const values = Object.values(scores);
+  const minScore = Math.min(...values);
+  const maxScore = Math.max(...values);
+  const spread = Math.max(0, maxScore - minScore);
+  const tolerance = Math.max(1, Math.ceil(target * cfg.coreBalanceTolerancePercent / 100));
+  const forecastPulse = Math.max(1, Math.ceil(target / 3));
+  const recommendedOperations = Object.keys(scores).filter(
+    key => scores[key] === minScore && scores[key] < target
+  );
+  const leadingOperations = Object.keys(scores).filter(key => scores[key] === maxScore && scores[key] > minScore);
+  const riskOperations = Object.keys(scores).filter(
+    key => scores[key] > minScore && scores[key] < target && scores[key] - minScore + forecastPulse > tolerance
+  );
+  const stabilityPercent = clamp(Math.round((1 - spread / tolerance) * 100), 0, 100);
+  return {
+    scores,
+    target,
+    minScore,
+    maxScore,
+    spread,
+    tolerance,
+    tolerancePercent: cfg.coreBalanceTolerancePercent,
+    stabilityPercent,
+    balanced: spread <= tolerance,
+    synchronized: spread === 0,
+    status: spread === 0 ? 'SYNCHRONIZED' : spread <= tolerance ? 'STABLE' : 'UNSTABLE',
+    recommendedOperations,
+    leadingOperations,
+    riskOperations
+  };
+}
+
+export function applyCoreRaidBalanceGate({ room = {}, operation = '', outcome = {}, settings = {} } = {}) {
+  const cfg = cleanCoreRaidSettings(settings);
+  const op = normalizeOperation(operation);
+  const coreTarget = Math.max(1, Number(room.coreTarget ?? room.core_target ?? cfg.coreRequired));
+  const currentScores = room.coreScores || {
+    BREAK: room.break_score || 0,
+    BLOCK: room.block_score || 0,
+    STABILIZE: room.stabilize_score || 0
+  };
+  const currentBalance = coreRaidBalanceState(currentScores, coreTarget, cfg);
+  if (String(outcome.stage || '').toUpperCase() !== 'CORE' || outcome.success !== true || !op) {
+    return { ...outcome, balanceSuccess: null, balance: currentBalance };
+  }
+  const attemptedCoreProgress = Math.max(0, Number(outcome.coreProgress || 0));
+  const projectedScores = {
+    ...currentBalance.scores,
+    [op]: Math.min(coreTarget, Number(currentBalance.scores[op] || 0) + attemptedCoreProgress)
+  };
+  const projectedBalance = coreRaidBalanceState(projectedScores, coreTarget, cfg);
+  const selectedLowestCore = Number(currentBalance.scores[op] || 0) === currentBalance.minScore;
+  const overload = !projectedBalance.balanced && !selectedLowestCore;
+  if (!overload) {
+    return {
+      ...outcome,
+      balanceSuccess: true,
+      failureReason: '',
+      attemptedCoreProgress,
+      balance: projectedBalance
+    };
+  }
+  return {
+    ...outcome,
+    success: false,
+    balanceSuccess: false,
+    failureReason: 'CORE_OVERLOAD',
+    partyHpDamage: cfg.coreImbalanceDamage,
+    attemptedCoreProgress,
+    coreProgress: 0,
+    balance: currentBalance,
+    projectedBalance
+  };
+}
+
 export function resolveCoreRaidRoomState(room = {}, settings = {}, at = Date.now()) {
   const cfg = cleanCoreRaidSettings(settings);
   const priorStatus = String(room.status || 'LOBBY').toUpperCase();
@@ -431,7 +522,8 @@ export function resolveCoreRaidRoomState(room = {}, settings = {}, at = Date.now
   const coreTarget = Math.max(1, Number(room.core_target ?? room.coreTarget ?? cfg.coreRequired));
   const lobbyDeadline = Date.parse(room.lobby_ends_at || room.lobbyEndsAt || 0);
   const battleDeadline = Date.parse(room.ends_at || room.endsAt || 0);
-  const coresReady = Object.values(coreScores).every(score => score >= coreTarget);
+  const coreBalance = coreRaidBalanceState(coreScores, coreTarget, cfg);
+  const coresReady = Object.values(coreScores).every(score => score >= coreTarget) && coreBalance.balanced;
   let status = priorStatus;
   let failureReason = cleanText(room.failure_reason || room.failureReason || '', 80);
   if (!TERMINAL_ROOM_STATUSES.has(status)) {
@@ -467,6 +559,7 @@ export function resolveCoreRaidRoomState(room = {}, settings = {}, at = Date.now
     phaseLabel,
     coreScores,
     coreTarget,
+    coreBalance,
     coresReady,
     partyHp,
     partyMaxHp,
@@ -897,7 +990,7 @@ async function ensure(env) {
       '붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.',
       'ENTRY_TICKET',
       'ZENITH',
-      'assets/ui/pve-command-v2/world-raid-breach-v1.webp',
+      CORE_RAID_ENTRY_TICKET_IMAGE,
       126
     ),
     env.DB.prepare(
@@ -1056,6 +1149,7 @@ function publicRoom(room, cfg) {
     partyMaxHp: state.partyMaxHp,
     coreScores: state.coreScores,
     coreTarget: state.coreTarget,
+    coreBalance: state.coreBalance,
     coresReady: state.coresReady,
     bossName: cfg.bossName,
     bossImage: cfg.bossImage,
@@ -1132,6 +1226,7 @@ async function statusPayload(env, user, cfg, requestedId = '', browseOnly = fals
     entry: {
       ticketCode: CORE_RAID_ENTRY_TICKET,
       ticketName: '붕괴 코어 입장권',
+      ticketImage: '/' + CORE_RAID_ENTRY_TICKET_IMAGE,
       quantity,
       required: 1
     },
@@ -1518,11 +1613,17 @@ async function resolveAttempt(env, user, cfg, body) {
       qte,
       settings: cfg
     });
-    const outcome = coreRaidAttemptOutcome({
+    const baseOutcome = coreRaidAttemptOutcome({
       serverWinner: attempt.server_winner,
       qte,
       contribution,
       stage: attempt.stage,
+      settings: cfg
+    });
+    const outcome = applyCoreRaidBalanceGate({
+      room: room.aggregate || room,
+      operation: attempt.operation,
+      outcome: baseOutcome,
       settings: cfg
     });
     const breakProgress = attempt.operation === 'BREAK' ? outcome.coreProgress : 0;

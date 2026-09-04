@@ -4,12 +4,15 @@ import fs from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import {
   CORE_RAID_ENTRY_TICKET,
+  CORE_RAID_ENTRY_TICKET_IMAGE,
   defaultCoreRaidSettings,
   cleanCoreRaidSettings,
   createCoreRaidChallenge,
   evaluateCoreRaidQte,
   coreRaidContribution,
   coreRaidAttemptOutcome,
+  coreRaidBalanceState,
+  applyCoreRaidBalanceGate,
   resolveCoreRaidRoomState,
   buildCoreRaidBattlePayload,
   coreRaidFeatureAccess,
@@ -33,9 +36,12 @@ test('room expedition defaults stay TEST-only and reward-locked', () => {
   assert.equal(defaults.battleMinutes, 30);
   assert.equal(defaults.partyMaxHp, 1000);
   assert.equal(defaults.mechanicFailureDamage, 125);
+  assert.equal(defaults.coreBalanceTolerancePercent, 34);
+  assert.equal(defaults.coreImbalanceDamage, 100);
   assert.equal(defaults.sequenceLength, 6);
   assert.equal(defaults.mashTarget, 24);
   assert.equal(CORE_RAID_ENTRY_TICKET, 'CORE_RAID_ENTRY_TICKET');
+  assert.equal(CORE_RAID_ENTRY_TICKET_IMAGE, 'assets/items/core-raid-entry-ticket-v1.png');
   assert.equal('dailyEntries' in defaults, false, 'the old one-entry cycle must not survive');
 
   const cleaned = cleanCoreRaidSettings({ minParticipants: 20, maxParticipants: 3, rewardLocked: false });
@@ -47,6 +53,47 @@ test('room expedition defaults stay TEST-only and reward-locked', () => {
   assert.equal(coreRaidFeatureAccess({ id: 2, nickname: '테스터', role: 'USER' }, { ...defaults, testUsers: ['테스터'] }).accessible, true);
   assert.equal(coreRaidFeatureAccess({ id: 3, nickname: '일반유저', role: 'USER' }, defaults).accessible, false);
   assert.equal(coreRaidFeatureAccess({ id: 3, nickname: '일반유저', role: 'USER' }, { ...defaults, mode: 'ON' }).accessible, true);
+});
+
+test('triple-core resonance accepts the lowest core but rejects overdriving an advanced core', () => {
+  const settings = { ...defaultCoreRaidSettings(), coreRequired: 360 };
+  const current = coreRaidBalanceState({ BREAK: 80, BLOCK: 0, STABILIZE: 0 }, 360, settings);
+  assert.equal(current.status, 'STABLE');
+  assert.deepEqual(current.recommendedOperations, ['BLOCK', 'STABILIZE']);
+  assert.deepEqual(current.leadingOperations, ['BREAK']);
+
+  const baseOutcome = {
+    success: true,
+    engineSuccess: true,
+    mechanicSuccess: true,
+    stage: 'CORE',
+    partyHpDamage: 0,
+    coreProgress: 77,
+    bossDamage: 0
+  };
+  const overload = applyCoreRaidBalanceGate({
+    room: { coreScores: current.scores, coreTarget: 360 },
+    operation: 'BREAK',
+    outcome: baseOutcome,
+    settings
+  });
+  assert.equal(overload.success, false);
+  assert.equal(overload.balanceSuccess, false);
+  assert.equal(overload.failureReason, 'CORE_OVERLOAD');
+  assert.equal(overload.attemptedCoreProgress, 77);
+  assert.equal(overload.coreProgress, 0);
+  assert.equal(overload.partyHpDamage, settings.coreImbalanceDamage);
+
+  const recovery = applyCoreRaidBalanceGate({
+    room: { coreScores: current.scores, coreTarget: 360 },
+    operation: 'BLOCK',
+    outcome: baseOutcome,
+    settings
+  });
+  assert.equal(recovery.success, true);
+  assert.equal(recovery.balanceSuccess, true);
+  assert.equal(recovery.coreProgress, 77);
+  assert.equal(recovery.balance.scores.BLOCK, 77);
 });
 
 test('every repeated attempt gets a deterministic but attempt-specific QTE', () => {
@@ -128,10 +175,14 @@ test('room state requires all three cores before boss and respects time/party wi
     boss_max_hp: 1000000,
     ends_at: future
   };
-  assert.equal(resolveCoreRaidRoomState(base, settings, now).status, 'CORE');
+  const almostReady = resolveCoreRaidRoomState(base, settings, now);
+  assert.equal(almostReady.status, 'CORE');
+  assert.equal(almostReady.coreBalance.balanced, true);
+  assert.deepEqual(almostReady.coreBalance.recommendedOperations, ['STABILIZE']);
   const boss = resolveCoreRaidRoomState({ ...base, stabilize_score: 100 }, settings, now);
   assert.equal(boss.status, 'BOSS');
   assert.equal(boss.coresReady, true);
+  assert.equal(boss.coreBalance.status, 'SYNCHRONIZED');
   assert.equal(resolveCoreRaidRoomState({ ...base, status: 'BOSS', boss_hp: 0 }, settings, now).status, 'CLEAR');
   const wiped = resolveCoreRaidRoomState({ ...base, party_hp: 0 }, settings, now);
   assert.equal(wiped.status, 'FAILED');
@@ -302,14 +353,21 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
   };
 
   try {
-    const configured = await call('admin/raid/core/settings', 'POST', { ...defaultCoreRaidSettings(), coreRequired: 50, bossMaxHp: 1000000, testUsers: ['공대원'] });
+    const configured = await call('admin/raid/core/settings', 'POST', { ...defaultCoreRaidSettings(), coreRequired: 100, bossMaxHp: 1000000, testUsers: ['공대원'] });
     assert.equal(configured.status, 200);
+    assert.equal(configured.body.settings.coreBalanceTolerancePercent, 34);
+    assert.equal(configured.body.settings.coreImbalanceDamage, 100);
     const opened = await call('raid/core/open', 'POST', { requestId: 'OPEN-1' });
     assert.equal(opened.status, 200);
     assert.equal(opened.body.current.status, 'LOBBY');
     assert.equal(opened.body.entry.quantity, 0);
+    assert.equal(opened.body.entry.ticketImage, '/' + CORE_RAID_ENTRY_TICKET_IMAGE);
     const roomId = opened.body.current.id;
     assert.equal(sqlite.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='CORE_RAID_ENTRY_TICKET'").get().quantity, 0);
+    assert.equal(
+      sqlite.prepare("SELECT image_url FROM inventory_items WHERE code='CORE_RAID_ENTRY_TICKET'").get().image_url,
+      CORE_RAID_ENTRY_TICKET_IMAGE
+    );
 
     activeUser = { id: 2, nickname: '공대원', role: 'USER' };
     const joined = await call('raid/core/join', 'POST', { roomId });
@@ -330,9 +388,28 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
     const afterDuplicate = (await call('raid/core/status?roomId=' + encodeURIComponent(roomId))).body;
     assert.equal(afterDuplicate.current.partyHp, failed.current.partyHp, 'a second receipt must not apply party damage twice');
 
-    for (const operation of ['BREAK', 'BLOCK', 'STABILIZE']) {
-      const resolved = await fight(roomId, operation, operation);
-      assert.equal(resolved.outcome.success, true);
+    const firstCore = await fight(roomId, 'BREAK', 'BREAK-1');
+    assert.equal(firstCore.outcome.success, true);
+    const firstBreakScore = firstCore.current.coreScores.BREAK;
+    const overload = await fight(roomId, 'BREAK', 'BREAK-OVERLOAD');
+    assert.equal(overload.outcome.success, false);
+    assert.equal(overload.outcome.mechanicSuccess, true, 'QTE success remains visible even when resonance fails');
+    assert.equal(overload.outcome.balanceSuccess, false);
+    assert.equal(overload.outcome.failureReason, 'CORE_OVERLOAD');
+    assert.equal(overload.outcome.coreProgress, 0);
+    assert.equal(overload.current.coreScores.BREAK, firstBreakScore, 'overloaded progress must be discarded');
+    assert.equal(
+      overload.current.partyHp,
+      failed.current.partyHp - configured.body.settings.coreImbalanceDamage
+    );
+
+    for (const [index, operation] of ['BLOCK', 'STABILIZE', 'BLOCK', 'STABILIZE', 'BREAK'].entries()) {
+      const resolved = await fight(roomId, operation, operation + '-BALANCE-' + index);
+      assert.equal(
+        resolved.outcome.success,
+        true,
+        `${operation} cycle ${index}: ${JSON.stringify({ outcome: resolved.outcome, scores: resolved.current.coreScores })}`
+      );
     }
     const bossState = (await call('raid/core/status?roomId=' + encodeURIComponent(roomId))).body;
     assert.equal(bossState.current.status, 'BOSS');
@@ -361,6 +438,10 @@ test('Core UI is a room expedition overlay and delegates the actual fight to liv
   assert.match(raidUi, /data-core-action="start"/);
   assert.match(raidUi, /공대 HP/);
   assert.match(raidUi, /세 코어/);
+  assert.match(raidUi, /core-balance-console/);
+  assert.match(raidUi, /OVERLOAD RISK/);
+  assert.match(raidUi, /CORE_OVERLOAD/);
+  assert.match(raidUi, /core-raid-entry-ticket-v1\.png/);
   assert.match(raidUi, /최종 보스/);
   assert.match(raidUi, /playRaidBattleV3Live\s*\(\s*\{[\s\S]*?preserveServerTimeline\s*:\s*true/);
   assert.doesNotMatch(raidUi, /ProjectVBattleV3Live(?:\?\.|\.)createRenderer/);
@@ -368,6 +449,8 @@ test('Core UI is a room expedition overlay and delegates the actual fight to liv
   assert.match(raidCss, /\.core-party-integrity/);
   assert.match(raidCss, /\.core-room-browser/);
   assert.match(raidCss, /\.core-expedition-cores/);
+  assert.match(raidCss, /\.core-balance-console/);
+  assert.match(raidCss, /\.core-orb-card\.is-risk/);
   assert.match(raidCss, /conic-gradient/);
 
   const coreOwnedSource = `${raidUi}\n${raidCss}`;
@@ -390,7 +473,9 @@ test('preview exercises room browse, repeated battle resume and the live art ada
   assert.match(preview, /cnineCardCatalog\s*=\s*\(\)\s*=>\s*deck/);
   assert.match(preview, /pendingBattle && pendingPayload/);
   assert.match(preview, /path\.includes\('browse=1'\)/);
-  assert.match(preview, /state\.current\.coreScores\[pendingBattle\.operation\]/);
+  assert.match(preview, /state\.current\.coreScores\[currentAttempt\.operation\]/);
+  assert.match(preview, /core-raid-entry-ticket-v1\.png/);
+  assert.match(preview, /CORE_OVERLOAD/);
   assert.match(preview, /state\.current\.status = 'BOSS'/);
   assert.match(preview, /state\.current\.bossHp/);
   const deckBlock = preview.match(/const deck = \[(.*?)\];/s)?.[1] || '';
@@ -414,6 +499,7 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   const index = read('index.html');
   const adminIndex = read('admin/index.html');
   const admin = read('admin/admin-v1276.js');
+  const coreAdmin = read('admin/core-protocol-raid-admin-v2021.js');
   assert.match(pve, /id="pveRaidView"/);
   assert.match(pve, /data-raid-content="core"[^>]+aria-hidden="true"[^>]+hidden/);
   assert.match(pve, /id="pveCoreRaidView"/);
@@ -428,11 +514,13 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   assert.match(qte, /addEventListener\('pointerdown'/);
   assert.match(qte, /swipeStart/);
   assert.doesNotMatch(qte, /data-qte-dir/);
-  assert.match(index, /core-protocol-raid-v1924\.css\?v=2024-room-expedition/);
+  assert.match(index, /core-protocol-raid-v1924\.css\?v=2026-core-balance/);
   assert.match(index, /project-v-raid-qte-v1924\.js\?v=2021-sequence-swipe/);
-  assert.match(index, /core-protocol-raid-v1924\.js\?v=2024-room-expedition/);
+  assert.match(index, /core-protocol-raid-v1924\.js\?v=2026-core-balance/);
   assert.match(adminIndex, /admin-v1276\.js\?v=2024-core-raid-ticket/);
-  assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=2024-room-expedition/);
+  assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=2026-core-balance/);
+  assert.match(coreAdmin, /coreRaidBalanceTolerance/);
+  assert.match(coreAdmin, /coreRaidImbalanceDamage/);
   assert.match(admin, /option\.value='CORE_RAID_ENTRY_TICKET'/);
   assert.match(admin, /selectedUser\.core_raid_tickets/);
   assert.match(api, /AS core_raid_tickets/);
