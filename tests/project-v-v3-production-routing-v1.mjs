@@ -41,7 +41,7 @@ assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
 assert.ok(index.includes('js/app.js?v=2022-prison-cold-start'));
 assert.ok(index.includes('js/responsive-battle-sprites-v1815.js?v=1958-zenith-apocalypse-sd'));
 assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd'));
-assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
+assert.ok(index.includes('js/tower-v1038.js?v=2023-pve-navigation-host'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';
 assert.ok(exists(bundle),'V3 PixiJS bundle missing');

@@ -16,6 +16,6 @@ assert.match(client,/오늘 합산 · 최대 \$\{n\(accountCap\)\}/);
 assert.match(client,/dailyCap:Number\(state\?\.settings\?\.dailyAccountCoinCap\|\|p\.dailyCap\|\|200000000\)/);
 assert.doesNotMatch(client,/dailyCap:p\.dailyCap\|\|d\.dailyCap/);
 assert.doesNotMatch(client,/최대 (?:150만|3,000만)/);
-assert.match(index,/idle-dungeon-v1600\.js\?v=2002-daily-cap-200m/);
+assert.match(index,/idle-dungeon-v1600\.js\?v=2023-pve-navigation-host/);
 
 console.log('idle dungeon daily cap 200m checks passed');

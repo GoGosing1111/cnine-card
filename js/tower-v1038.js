@@ -34,7 +34,9 @@
       if(!button){button=document.createElement('button');button.type='button';button.className='pve-mode-btn';button.dataset.pveMode='tower';button.textContent='무한의탑';tabs.appendChild(button)}
       towerButtons(tabs).slice(1).forEach(x=>x.remove());
       let box=normalized.view||document.getElementById('pveTowerView');
-      if(!box){const raid=document.getElementById('pveRaidView');if(!raid)return;box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;raid.insertAdjacentElement('afterend',box)}
+      const raid=document.getElementById('pveRaidView'),placementAnchor=document.getElementById('pveRaidHubView')||raid;if(!placementAnchor)return;
+      if(!box){box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;placementAnchor.insertAdjacentElement('afterend',box)}
+      else if(box.parentElement!==placementAnchor.parentElement)placementAnchor.insertAdjacentElement('afterend',box)
       if(tabs.dataset.towerBound!=='1'){
         tabs.dataset.towerBound='1';
         tabs.addEventListener('click',e=>{
@@ -49,7 +51,8 @@
   async function openTower(){
     stopAuto();
     document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));
-    ['pveHuntView','pveRaidView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true});
+    const raidHost=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(raidHost)raidHost.hidden=true;
+    ['pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true});
     const box=document.getElementById('pveTowerView');if(!box)return;box.hidden=false;box.innerHTML='<section class="tower-loading"><div class="tower-spinner"></div><h2>무한의탑을 불러오는 중...</h2></section>';
     try{S.data=await apiRequest('tower/status',{}, {ttl:0});render()}catch(e){box.innerHTML=`<section class="tower-empty"><h2>무한의탑</h2><p>${esc(e.message)}</p></section>`}
   }

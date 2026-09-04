@@ -10,7 +10,7 @@
     "test:postgres-routes": "node tests/postgres-route-smoke.mjs",
     "check:worker": "node --check functions/api/[[path]].js",
     "test:navigation": "node --test tests/navigation-contract-v1.mjs",
-    "test:raid-entry": "node --test tests/raid-entry-fallback-v1927.test.mjs tests/raid-v3-mobile-recovery-v1930.test.mjs",
+    "test:raid-entry": "node --test tests/raid-entry-fallback-v1927.test.mjs tests/raid-v3-mobile-recovery-v1930.test.mjs tests/pve-auxiliary-navigation-v2023.test.mjs",
     "test:core-raid": "node --test tests/core-protocol-raid-v1924.test.mjs",
     "test:seal": "node tests/seal-v3-crystal-orb-v1778.mjs",
     "test:message-rewards": "node --test tests/message-reward-client-parity-v1929.test.mjs",
