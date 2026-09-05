@@ -1,0 +1,30 @@
+v2037 · 스트리머 라운지 / 커밋 전 검증
+환경: Windows, Node v24.18.0, 실제 Chrome headless, 2026-09-05.
+
+[PASS] node --check js/streamer-lounge-v2036.js
+[PASS] npm run test:streamer-lounge — 15/15
+- 기존 공개 조회/CMS 권한·저장·충돌 방지/URL 검증 14개 계약 유지
+- PC·모바일 왼쪽 부착, 모바일 크기, TV 배지 제거, 라운지 색상 범위, 2+3 그리드
+- 전용 WebP 배경 포함 및 모바일용 파일 용량 검증
+[PASS] npm run test:navigation — 1/1
+[PASS] git diff --check
+
+[PASS] tests/streamer-lounge-v2036.browser.mjs
+- 1836x1160 / 1440x900 / 1024x768
+- 터치 1024x1258 / 390x844 / 360x740 / 360x640
+- 실제 로비 어댑터·운영 CSS·BGM 버튼 CSS·버닝 HUD 마크업 사용
+- 계정 정보와 공개 목록/CMS API는 fixture 사용, 실제 계정 수정 없음
+- 흔들리는 기존 애니메이션은 QA 페이지에서만 정지시켜 위치를 측정
+- 진입부 x 좌표와 로비 왼쪽 좌표 일치, 화면 내부 표시
+- 로고·메뉴·족장·기존 유틸리티·BGM·버닝 HUD·주요 콘텐츠 알림과 비겹침
+- 방송국 5개 주소 일치, noopener/noreferrer 새 탭 링크
+- 프로필·검색·결과 없음·목록 복귀·ESC 닫기 및 진입부 포커스 복원
+- 숨김 변경 후 재진입 시 목록·진입 인원 갱신
+- 라운지 가로 넘침 및 브라우저 JavaScript 오류 없음
+- CMS 무변경 조회·순서/숨김/소개 저장·재조회·추가 시 자동 저장 없음
+- Windows Temp의 streamer-lobby-v2037-*.png / streamer-lounge-v2037-*.png로 시각 확인
+
+운영 검증 절차
+- 작업 범위 파일만 커밋·푸시한다.
+- npm run deploy:production 내부의 전체 release:gate 및 clean-tree/origin HEAD 검증을 통과한 경우에만 배포한다.
+- 배포 가드는 우회하지 않는다. 배포 뒤 공개 정적 파일과 프로필 API를 읽기 전용으로 확인한다.

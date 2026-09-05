@@ -88,9 +88,27 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
-  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=2036"/);
+  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=2037-charcoal-lounge"/);
   assert.match(read('admin/index.html'),/streamer-lounge-admin-v2036\.js\?v=2036/);
   assert.match(api,/handleStreamerLounge\(\{path,request,env,deps:\{json,requirePermission,writeAdminLog\}\}\)/);
   assert.ok(api.indexOf('if(path.startsWith(\'admin/\'))') < api.indexOf('const streamerResponse='));
   assert.doesNotMatch(client,/new Audio|isLive|LIVE 방송|방송 중|broadcastStatus/);
+});
+
+test('v2037 keeps the approved mobile geometry, removes the TV badge and isolates the neutral lounge palette', () => {
+  const css=readFileSync(new URL('../css/streamer-lounge-v2036.css',import.meta.url),'utf8');
+  const client=readFileSync(new URL('../js/streamer-lounge-v2036.js',import.meta.url),'utf8');
+  assert.match(css,/\.mobile-command-lobby > \[data-streamer-lounge-host\] \{ left:0; top:115px; width:calc\(53% - 11px\); max-width:213px;/);
+  assert.match(css,/\.pc-lobby-scene > \[data-streamer-lounge-host\] \{ left:0;/);
+  assert.match(client,/sl36-dock-spine/);
+  assert.match(css,/grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
+  assert.match(css,/lounge-architecture-v2037\.webp/);
+  const hero=readFileSync(new URL('../assets/ui/streamer-lounge/lounge-architecture-v2037.webp',import.meta.url));
+  assert.equal(hero.subarray(0,4).toString(),'RIFF');
+  assert.equal(hero.subarray(8,12).toString(),'WEBP');
+  assert.ok(hero.length>10000 && hero.length<150000,'panoramic art must be present and optimized for mobile');
+  assert.match(css,/--sl-text:#f4f0e8; --sl-muted:#b8b3aa; --sl-accent:#d1b98c/);
+  assert.match(css,/\.sl36-entrance \{ height:104px/);
+  assert.doesNotMatch(client,/sl36-hero-mark|const icon =/);
+  assert.doesNotMatch(css,/#10222e|#284653|#3b6670|battle-v3|roster-card|\.pc-main-character/);
 });
