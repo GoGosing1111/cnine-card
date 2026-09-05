@@ -248,7 +248,7 @@ async function hitInmate(env,user,body,deps){
     throw Object.assign(new Error(`${activeRemaining}초 뒤에 다시 때릴 수 있습니다.`),{status:429,remainingSeconds:activeRemaining});
   }
   if(Number(event?.id||0)>0&&Number(event.id)%100===0)await env.DB.prepare(`DELETE FROM ${HIT_EVENT_TABLE} WHERE id NOT IN (SELECT id FROM ${HIT_EVENT_TABLE} ORDER BY id DESC LIMIT 2000)`).run().catch(()=>{});
-  return {replayed:false,event:{...event,id:Number(event?.id||0),hitterUserId:Number(user.id),inmateUserId},nextHitAtMs,state:await deps.prisonRoomState(env,user)};
+  return {replayed:false,event:{...event,id:Number(event?.id||0),hitterUserId:Number(user.id),inmateUserId},nextHitAtMs:nextAtMs,state:await deps.prisonRoomState(env,user)};
 }
 
 export async function handlePrisonCommunity({path,request,env,deps}){
