@@ -159,9 +159,11 @@ test('개봉은 단일 원자 영수증과 WebGL·GSAP 잠금 해제 연출을 �
   assert.match(fx,/RETIRE_DELAY_MS=96/);
   assert.match(fx,/waitTimeline\(timeline,timeoutMs=2200\)/);
   assert.match(fx,/showSpecialSafely/);
-  assert.match(index,/prime-draw-live-v1985\.bundle\.js\?v=1988-prime-reveal-lifecycle/);
+  assert.doesNotMatch(index,/prime-draw-live-v1985\.bundle\.js/);
+  assert.match(read('js/app.js'),/primeDraw:[\s\S]*prime-draw-live-v1985\.bundle\.js\?v=2045-lazy-prime/);
   assert.doesNotMatch(fx,/OscillatorNode|createOscillator|AudioContext/);
   const bundle=new URL('js/prime-draw-live-v1985.bundle.js',root);
   assert.ok(existsSync(bundle));
-  assert.ok(statSync(bundle).size>100_000);
+  assert.ok(statSync(bundle).size>10_000&&statSync(bundle).size<100_000);
+  assert.ok(existsSync(new URL('js/ui-fx-vendor-v2045.bundle.js',root)));
 });

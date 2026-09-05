@@ -1,3 +1,4 @@
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 /* V2004 BATTLE SUIT CORE INVENTORY CATALOG */
 export const BATTLE_SUIT_CORE_UPGRADE_KEY='safe_runtime_upgrade_v2004_battle_suit_core_catalog';
 
@@ -11,12 +12,28 @@ export const BATTLE_SUIT_CORE_CODES=Object.freeze(BATTLE_SUIT_CORE_CATALOG.map(i
 export const VEHICLE_WORKSHOP_PART_CODES=Object.freeze(['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE']);
 
 export async function ensureBattleSuitCoreCatalog(env){
+  if(readRuntimeData(env,BATTLE_SUIT_CORE_UPGRADE_KEY))return true;
   const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BATTLE_SUIT_CORE_UPGRADE_KEY).first();
-  if(marker?.value==='1')return true;
+  if(marker?.value==='1')return cacheRuntimeData(env,BATTLE_SUIT_CORE_UPGRADE_KEY,true,1800000);
   await env.DB.batch([
     ...BATTLE_SUIT_CORE_CATALOG.map(item=>env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,'MATERIAL',?,?,?,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category='MATERIAL',rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`).bind(item.code,item.name,item.subtitle,item.description,item.rarity,item.image,item.sortOrder)),
     env.DB.prepare("UPDATE inventory_items SET category='MATERIAL',updated_at=CURRENT_TIMESTAMP WHERE code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') AND category<>'MATERIAL'"),
     env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(BATTLE_SUIT_CORE_UPGRADE_KEY)
   ]);
-  return true;
+  return cacheRuntimeData(env,BATTLE_SUIT_CORE_UPGRADE_KEY,true,1800000);
+}
+
+export async function ensureMysticEnergyCatalog(env){
+  const key='safe_runtime_upgrade_v2045_mystic_energy_catalog';
+  if(readRuntimeData(env,key))return;
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
+  if(!marker){
+    await env.DB.batch([
+      env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'"),
+      env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value) SELECT ?,'1' WHERE EXISTS(SELECT 1 FROM inventory_items WHERE code='STARLIGHT_ARMOR_CORE')").bind(key)
+    ]);
+    // A missing inventory foundation must not be remembered as complete.
+    if(!await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first())return;
+  }
+  cacheRuntimeData(env,key,true,1800000);
 }

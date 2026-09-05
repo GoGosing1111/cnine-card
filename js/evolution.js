@@ -12,7 +12,9 @@
   const normalizeMediaPath=path=>{const value=String(path||'').trim().replace(/\\/g,'/');if(!value)return '';return /^(https?:)?\/\//i.test(value)||value.startsWith('/')?value:`/${value.replace(/^\.\//,'')}`};
   const effectSoundEnabled=()=>{try{return typeof battleSoundEnabled==='function'?battleSoundEnabled():localStorage.getItem('cnineSoundEnabled')!=='0'}catch{return true}};
   const costText=(cost,multiplier=1)=>[cost.coinCost?`${num(cost.coinCost*multiplier)} 코인`:'',cost.shardCost?`조각 ${num(cost.shardCost*multiplier)}`:'',cost.masterStarCost?`마스터의 별 ${num(cost.masterStarCost*multiplier)}`:''].filter(Boolean).join(' · ')||'추가 재료 없음';
-  const illustration=card=>`<img src="${esc(normalizeMediaPath(card.image))}" alt="${esc(card.title||card.name)}" loading="lazy" decoding="async" style="object-position:${Math.min(100,Math.max(0,Number(card.focusX??50)))}% ${Math.min(100,Math.max(0,Number(card.focusY??50)))}%">`;
+  const illustration=card=>typeof responsiveCardImageMarkup==='function'
+    ?responsiveCardImageMarkup({...card,image:normalizeMediaPath(card.image),title:card.title||card.name},{enabled:true})
+    :`<img src="${esc(normalizeMediaPath(card.image))}" alt="${esc(card.title||card.name)}" loading="lazy" decoding="async" style="object-position:${Math.min(100,Math.max(0,Number(card.focusX??50)))}% ${Math.min(100,Math.max(0,Number(card.focusY??50)))}%">`;
 
   function evolutionView(user){
     const account=String(user?.serverUserId||user?.id||user?.nickname||'guest');
@@ -54,8 +56,8 @@
     box.querySelectorAll('[data-mode]').forEach(button=>button.onclick=()=>{if(state.pending)return;state.type=button.dataset.mode;state.selected.clear();state.search='';state.showBlocked=false;render()});
     box.querySelector('#evxSearch').oninput=event=>{state.search=event.target.value;renderGrid()};
     box.querySelector('#evxBlocked').onchange=event=>{state.showBlocked=event.target.checked;renderGrid()};
-    box.querySelector('#evxSelectAll').onclick=()=>{if(state.pending||state.recovery)return;for(const card of filtered().filter(card=>card.eligible)){if(state.selected.size>=20)break;state.selected.add(card.id)}renderGrid();updateCheckout()};
-    box.querySelector('#evxClear').onclick=()=>{if(state.pending)return;state.selected.clear();renderGrid();updateCheckout()};
+    box.querySelector('#evxSelectAll').onclick=()=>{if(state.pending||state.recovery)return;for(const card of filtered().filter(card=>card.eligible)){if(state.selected.size>=20)break;state.selected.add(card.id)}syncSelectionTiles();updateCheckout()};
+    box.querySelector('#evxClear').onclick=()=>{if(state.pending)return;state.selected.clear();syncSelectionTiles();updateCheckout()};
     box.querySelectorAll('[data-attempts]').forEach(button=>button.onclick=()=>setAttempts(Number(button.dataset.attempts)));
     box.querySelector('#evxAttempts').onchange=event=>setAttempts(Number(event.target.value));
     box.querySelector('#evxMobileAttempts').onchange=event=>setAttempts(Number(event.target.value));
@@ -65,13 +67,21 @@
   }
   function setAttempts(value){if(state.pending||state.recovery)return;state.attempts=Math.max(1,Math.min(10,Math.floor(value)||1));document.getElementById('evxAttempts').value=state.attempts;document.getElementById('evxMobileAttempts').value=state.attempts;document.querySelectorAll('[data-attempts]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.attempts)===state.attempts)));updateCheckout()}
   const filtered=()=>cards().filter(card=>(state.showBlocked||card.eligible)&&`${card.title} ${card.name}`.toLowerCase().includes(state.search.trim().toLowerCase()));
+  function syncSelectionTiles(){
+    document.querySelectorAll('#evxCardGrid [data-card]').forEach(button=>{
+      const chosen=state.selected.has(button.dataset.card);
+      button.classList.toggle('is-selected',chosen);
+      button.setAttribute('aria-pressed',String(chosen));
+      button.querySelector('.evx-check').textContent=chosen?'✓':'+';
+    });
+  }
   function renderGrid(){
     const grid=document.getElementById('evxCardGrid');if(!grid)return;
     const visible=filtered();document.getElementById('evxVisibleCount').textContent=`${num(visible.length)}종 표시`;
     grid.innerHTML=visible.length?visible.map(card=>{const chosen=state.selected.has(card.id),failed=card.progress?.success?0:Number(card.progress?.failedAttempts||0);return `<button type="button" class="evx-card ${chosen?'is-selected':''} ${card.eligible?'':'is-blocked'}" data-card="${esc(card.id)}" aria-pressed="${chosen}" ${!card.eligible||state.pending||state.recovery?'disabled':''}><span class="evx-card-art">${illustration(card)}<span class="evx-grade">${esc(card.grade)} +${card.breakthroughLevel}</span><span class="evx-check" aria-hidden="true">${chosen?'✓':'+'}</span><span class="evx-stock">보유 ${num(card.quantity)}</span></span><span class="evx-card-info"><strong>${esc(card.title||card.name)}</strong><small>${card.eligible?`실패 ${failed}회 · ${Math.max(1,current().pityAttempts-failed)}회 내 확정`:esc(card.blockedReason)}</small></span></button>`}).join(''):`<div class="evx-empty"><span aria-hidden="true">＋</span><h3>${state.search?'검색 결과가 없습니다':'진화 가능한 카드가 없습니다'}</h3><p>${state.search?'다른 카드 이름으로 검색해 주세요.':`${esc(current().sourceGrade)} +${current().minBreakthrough} 카드를 준비해 주세요.`}</p>${!state.search&&!state.showBlocked&&cards().length?'<button type="button" class="evx-secondary" id="evxShowBlocked">보유 카드와 조건 확인</button>':''}</div>`;
-    grid.querySelectorAll('[data-card]').forEach(button=>button.onclick=()=>{const id=button.dataset.card;if(state.selected.has(id))state.selected.delete(id);else if(state.selected.size<20)state.selected.add(id);else{document.getElementById('evxSelectionStatus').textContent='한 번에 최대 20종까지 선택할 수 있습니다.';return}renderGrid();updateCheckout()});
+    grid.querySelectorAll('[data-card]').forEach(button=>button.onclick=()=>{if(state.pending||state.recovery)return;const id=button.dataset.card;if(state.selected.has(id))state.selected.delete(id);else if(state.selected.size<20)state.selected.add(id);else{document.getElementById('evxSelectionStatus').textContent='한 번에 최대 20종까지 선택할 수 있습니다.';return}syncSelectionTiles();updateCheckout()});
     grid.querySelector('#evxShowBlocked')?.addEventListener('click',()=>{state.showBlocked=true;document.getElementById('evxBlocked').checked=true;renderGrid()});
-    grid.querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;img.parentElement.classList.add('image-missing')});
+    grid.querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;(img.closest('.evx-card-art')||img.parentElement).classList.add('image-missing')});
   }
   function updateCheckout(){
     if(!document.getElementById('evxSelectedCount')||!state.data)return;

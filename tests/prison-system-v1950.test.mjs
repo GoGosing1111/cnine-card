@@ -132,7 +132,7 @@ test('잠금 화면은 계정명·평상·피격 죄수 캐릭터·창살·남�
   assert.match(client,/function renderLockedPrison/);
   assert.match(css,/prison-cell-background-v1\.png/);
   assert.match(css,/\.prison-bars i/);
-  assert.match(index,/css\/prison-v1950\.css\?v=2031-prison-community/);
+  assert.match(index,/css\/prison-v1950\.css\?v=2045-mobile-perf/);
   const [background,character,hitCharacter,hitPng]=await Promise.all([
     stat(new URL('../assets/ui/prison/prison-cell-background-v1.png',import.meta.url)),
     stat(new URL('../assets/ui/prison/prisoner-cartoon-servile-v1.png',import.meta.url)),
@@ -157,7 +157,7 @@ test('수감 계정 콜드 스타트는 V21 부트 로딩을 즉시 해제한다
   assert.match(lockedRender,/document\.documentElement\.dataset\.v21UiReady='1'/);
   assert.match(index,/body\.v21-renewal-required #app\{visibility:hidden\}/);
   assert.match(index,/body\.v21-ui-ready \.v21-renewal-boot\{display:none\}/);
-  assert.match(index,/js\/app\.js\?v=2044-gift-message-rewards/);
+  assert.match(index,/js\/app\.js\?v=2045-performance/);
 });
 
 test('CMS는 현재 수감 상태와 10분~6시간 입력, 즉시 석방을 제공한다',()=>{

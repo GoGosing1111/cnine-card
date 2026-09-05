@@ -35,5 +35,5 @@ test('진행 중 주요 콘텐츠는 영토전 모집·준비·실전을 모두 
   assert.match(app,/FORMATION:\{state:'편성 접수',deadline:'편성 마감'\}/);
   assert.match(app,/BATTLE:\{state:'공성 진행',deadline:'종료까지'\}/);
   assert.match(index,/territory-war-v1811\.js\?v=1995-territory-coin-sync/);
-  assert.match(index,/app\.js\?v=2044-gift-message-rewards/);
+  assert.match(index,/app\.js\?v=2045-performance/);
 });

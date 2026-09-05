@@ -1,3 +1,4 @@
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 // Clan participation: round-frozen rules and exactly-once attacker-only settlement.
 export const CLAN_PARTICIPATION_DEFAULTS = Object.freeze({
   participationEnabled: false,
@@ -8,7 +9,6 @@ export const CLAN_PARTICIPATION_DEFAULTS = Object.freeze({
   participationMilestoneCoin: 0
 });
 const SCHEMA_KEY = 'safe_runtime_upgrade_v2040_clan_participation';
-const schemaReady = new WeakSet();
 const parse = (value, fallback = {}) => { try { return JSON.parse(value || ''); } catch { return fallback; } };
 const time = value => Date.parse(String(value || '').includes('T') ? value : `${String(value || '').replace(' ', 'T')}Z`);
 const num = value => Number(value || 0);
@@ -62,7 +62,7 @@ export function clanParticipationSchema(postgres = false) {
 }
 
 export async function ensureClanParticipationSchema(env) {
-  if (schemaReady.has(env.DB)) return;
+  if (readRuntimeData(env, SCHEMA_KEY)) return;
   const found = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SCHEMA_KEY).first();
   if (!found) {
     const sql = clanParticipationSchema(env.DB.dialect === 'postgres');
@@ -70,7 +70,7 @@ export async function ensureClanParticipationSchema(env) {
     else await env.DB.batch(sql.map(statement => env.DB.prepare(statement)));
     await env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value) VALUES(?,?)').bind(SCHEMA_KEY, '2040').run();
   }
-  schemaReady.add(env.DB);
+  cacheRuntimeData(env, SCHEMA_KEY, true, 1800000);
 }
 
 export function participationRuleCandidate(war, settings) {

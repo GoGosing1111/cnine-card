@@ -912,13 +912,21 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   prediction:{
     styles:['css/coin-prediction-v2033.css?v=2033-matchday-star'],
-    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday-star','js/coin-prediction-v2033.js?v=2033-matchday-star'],
+    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday-star','js/coin-prediction-v2033.js?v=2045-poll-perf'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=2039'],
-    scripts:['js/soopketland-v2039.bundle.js?v=2041-rewards'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2045-shared-fx'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
+  },
+  primeDraw:{
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/prime-draw-live-v1985.bundle.js?v=2045-lazy-prime'],
+    ready:()=>typeof window.PrimeDrawLiveV1985?.play==='function'
+  },
+  challengerFx:{
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/ranked-challenger-fx-v2032.bundle.js?v=2045-shared-fx'],
+    ready:()=>Boolean(window.RankedChallengerFX)
   },
   treasury:{
     styles:['css/administration-treasury-v2030.css?v=2030-tax-one-percent'],
@@ -2558,8 +2566,7 @@ function loadRankedChallengerFx(){
   if(window.RankedChallengerFX){window.RankedChallengerFX.refresh();return;}
   if(rankedChallengerFxLoading||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   rankedChallengerFxLoading=true;
-  const script=document.createElement('script');script.src='/js/ranked-challenger-fx-v2032.bundle.js?v=2032';
-  script.onerror=()=>{rankedChallengerFxLoading=false;script.remove();};document.head.append(script);
+  void ensureFeatureResources('challengerFx').then(()=>window.RankedChallengerFX?.refresh()).catch(error=>console.warn('챌린저 연출 로드 지연:',error)).finally(()=>{rankedChallengerFxLoading=false});
 }
 function tierEmblem(tier,size='normal'){
   const id=escapeHtml(tier?.id||'bronze'),name=escapeHtml(tier?.name||'브론즈'),color=escapeHtml(tier?.color||'#b87333');
@@ -4037,11 +4044,13 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
     const button=document.getElementById('primeDrawConfirm'),panel=modal.querySelector('.prime-draw-open-panel');
     opening=true;button.disabled=true;button.textContent='서버에서 보상 확정 중';panel.classList.add('opening');
     try{
+      button.textContent='개봉 연출 준비 중';
+      await ensureFeatureResources('primeDraw');
       const result=await requestPrimeDrawChunks(definition,config,selected,(completed,total,next)=>{button.textContent=`보상 확정 중 ${completed.toLocaleString()} / ${total.toLocaleString()} · 다음 ${next.toLocaleString()}개`});
       if(kind==='vehicle'){const user=loadUser();user.cardShards=Number(result.cardShards??user.cardShards);saveUser(user)}
       clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('avatar/catalog');clearApiCache(definition.configPath);
-      if(typeof window.PrimeDrawLiveV1985?.play==='function')await window.PrimeDrawLiveV1985.play({modal,kind,product:{...definition,...config},result});
-      else await new Promise(resolve=>setTimeout(resolve,650));
+      // A presentation failure must never hide an already committed reward.
+      try{await window.PrimeDrawLiveV1985.play({modal,kind,product:{...definition,...config},result})}catch(error){console.warn('프라임 연출 생략:',error);try{window.PrimeDrawLiveV1985?.destroy?.()}catch(_){}}
       modal.className='modal show supply-open-modal prime-draw-open-modal';
       const rows=Array.isArray(result.aggregated)?result.aggregated:[],special=Array.isArray(result.specialQueue)?result.specialQueue:[],remaining=Math.max(0,Number(result.remainingQuantity||0));
       const cards=rows.map(row=>`<article class="equipment prime-result-card tier-${escapeHtml(String(row.presentation?.tier||'STANDARD').toLowerCase())}"><div><img src="${escapeHtml(row.image||'')}" alt="${escapeHtml(row.name||'보상')}"></div><small>${row.presentation?.enabled?'SPECIAL PRESENTATION':row.rewardType==='AVATAR'?'아바타 획득':row.rewardType==='INVENTORY_ITEM'?'제작 재료 획득':row.rewardType==='EQUIPMENT'?'장비 획득':row.duplicateCount?'이동수단 · 중복 포함':'이동수단 획득'}</small><b>${escapeHtml(row.name||'보상')} ×${Number(row.count||0).toLocaleString()}</b><span>${escapeHtml(row.rarity||'')} · 전용 연출 ${row.presentation?.enabled?'ON':'OFF'}${Number(row.duplicateCount||0)>0?` · 중복 ${Number(row.duplicateCount).toLocaleString()}`:''}${Number(row.shardsGained||0)>0?` · 조각 +${Number(row.shardsGained).toLocaleString()}`:''}</span></article>`).join('');
@@ -4057,26 +4066,43 @@ function messagesView(){return `${summaryBar(loadUser())}<section class="message
 const MESSAGE_REWARD_META={COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'}};
 function claimableMessageRewards(messages){return (Array.isArray(messages)?messages:[]).filter(message=>Boolean(MESSAGE_REWARD_META[String(message.reward_type||'').toUpperCase()])&&Number(message.reward_amount)>0&&(!message.claimed_at||message.needs_recovery))}
 function messageClaimUser(result){const nextUser=apiUserToLocal({...result.user,coin:result.coinAfter??result.user?.coin,cardShards:result.cardShardsAfter??result.user?.cardShards??result.user?.card_shards});saveUser(nextUser);return nextUser}
+async function requestMessageRewardBatch(messageIds){
+  for(let attempt=0;attempt<3;attempt++){
+    try{return await apiRequest('messages/claim-batch',{method:'POST',body:JSON.stringify({messageIds})},{timeoutMs:60000})}
+    catch(error){
+      if(error?.code!=='USER_ACTION_IN_PROGRESS'||attempt===2)throw error;
+      // The previous chunk releases its user lock in waitUntil after responding.
+      await new Promise(resolve=>setTimeout(resolve,400*(attempt+1)));
+    }
+  }
+}
 async function claimAllMessageRewards(messages,button){
   const queue=claimableMessageRewards(messages);if(!queue.length)return;
   const totals=new Map(),failures=[];let claimedCount=0,alreadyCount=0,lastResult=null;
   button.disabled=true;document.querySelectorAll('[data-claim-message]').forEach(control=>{control.disabled=true});
-  for(const [index,message] of queue.entries()){
-    button.textContent=`수령 중 ${index+1} / ${queue.length}`;
+  for(let index=0;index<queue.length;index+=20){
+    const chunk=queue.slice(index,index+20);
+    button.textContent=`수령 중 ${Math.min(index+20,queue.length)} / ${queue.length}`;
     try{
-      const result=await apiRequest('messages/claim',{method:'POST',body:JSON.stringify({messageId:Number(message.id)})});
-      lastResult=result;claimedCount++;
-      const type=String(result.rewardType||message.reward_type||'').toUpperCase(),amount=Math.max(0,Number(result.rewardAmount??message.reward_amount)||0);
-      totals.set(type,Number(totals.get(type)||0)+amount);
+      const result=await requestMessageRewardBatch(chunk.map(message=>Number(message.id)));
+      lastResult=result;
+      for(const row of result.results||[]){
+        if(row.alreadyClaimed){alreadyCount++;continue;}
+        if(!row.ok){failures.push(row.error||'지급 결과 재확인이 필요합니다.');continue;}
+        claimedCount++;
+        const type=String(row.rewardType||'').toUpperCase(),amount=Math.max(0,Number(row.rewardAmount)||0);
+        totals.set(type,Number(totals.get(type)||0)+amount);
+      }
     }catch(error){
-      if(Number(error?.status)===409&&String(error?.message||'').includes('이미 정상 수령'))alreadyCount++;
-      else failures.push(error?.message||'보상 수령 실패');
+      failures.push(error?.message||'지급 결과 재확인이 필요합니다.');
+      // Do not start another batch when the previous response is uncertain.
+      break;
     }
   }
   if(lastResult)messageClaimUser(lastResult);
-  clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');
+  clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');clearApiCache('messages');
   const rewardSummary=[...totals.entries()].map(([type,amount])=>{const meta=MESSAGE_REWARD_META[type]||{label:type||'보상',icon:'🎁'};return `${meta.icon} ${meta.label} ${Number(amount).toLocaleString()}개`}).join('\n');
-  const status=[`보상 ${claimedCount.toLocaleString()}건을 일괄 수령했습니다.`,rewardSummary,alreadyCount?`이미 처리된 보상 ${alreadyCount.toLocaleString()}건은 중복 지급하지 않았습니다.`:'',failures.length?`처리하지 못한 보상 ${failures.length.toLocaleString()}건은 메시지함에 남겨두었습니다.\n${failures[0]}`:''].filter(Boolean).join('\n\n');
+  const status=[`보상 ${claimedCount.toLocaleString()}건을 일괄 수령했습니다.`,rewardSummary,alreadyCount?`이미 처리된 보상 ${alreadyCount.toLocaleString()}건은 중복 지급하지 않았습니다.`:'',failures.length?`일부 지급 결과는 재확인이 필요합니다. 메시지함을 새로 확인합니다. 중복 지급되지 않으니 남은 보상은 다시 수령하세요.\n${failures[0]}`:''].filter(Boolean).join('\n\n');
   alert(status);renderShell('messages');
 }
 async function loadMessages(){
@@ -4427,7 +4453,9 @@ async function init(){
     return;
   }
   if(runId!==startupRunId)return;
-  if(authenticated){await syncUniqueAdvancementFeatureState();if(runId!==startupRunId)return}
+  // The optional advancement gate stays fail-closed until its response arrives.
+  // It must not hold the lobby behind another authenticated network round trip.
+  if(authenticated)void syncUniqueAdvancementFeatureState().catch(error=>console.warn('전직 상태 확인 지연:',error));
   completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
   if(authenticated){if(isPrisonLocked())renderLockedPrison();else{renderShell('buy');void completePendingPlaydkVerification()}}else renderLogin();
   if(authenticated)void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());

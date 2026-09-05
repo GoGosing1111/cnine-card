@@ -1,5 +1,6 @@
 import { GAMST_RETIREMENT_MARKER_KEY, GAMST_RETIREMENT_PLAN_TABLE } from './_gamst_card_retirement.js';
 import { resolveDominantUniqueStat } from './_unique_advancement.js';
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 
 export const GAMST_DECK_REPAIR_VERSION=2005;
 export const GAMST_DECK_REPAIR_MARKER_KEY='gamst_deck_repair_v2005_completed';
@@ -63,8 +64,10 @@ export function buildGamstDeckRepair({cardIds=[],planRows=[],ownedCards=[],deckS
 function groupByUser(items,normalizer){const map=new Map();for(const raw of items||[]){const item=normalizer(raw),userId=integer(item.userId);if(!userId)continue;if(!map.has(userId))map.set(userId,[]);map.get(userId).push(item)}return map}
 
 export async function ensureGamstDeckRepairV2005(env){
+  const cached=readRuntimeData(env,GAMST_DECK_REPAIR_MARKER_KEY);
+  if(cached)return cached;
   const existing=completedSummary(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(GAMST_DECK_REPAIR_MARKER_KEY).first());
-  if(existing)return existing;
+  if(existing)return cacheRuntimeData(env,GAMST_DECK_REPAIR_MARKER_KEY,existing,1800000);
   const retirement=completedSummary(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(GAMST_RETIREMENT_MARKER_KEY).first());
   if(!retirement)return{status:'WAITING',version:GAMST_DECK_REPAIR_VERSION,reason:'GAMST_RETIREMENT_NOT_COMPLETED',replayed:false};
 

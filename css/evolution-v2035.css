@@ -47,7 +47,7 @@
 .evx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:13px;max-height:720px;overflow-y:auto;padding:3px 4px 10px 3px;scrollbar-width:thin;scrollbar-color:#3f4a5d #0d131b}
 .evx-page .evx-card{display:block;min-width:0;padding:0;overflow:hidden;text-align:left;border:1px solid #2c3744;border-radius:10px;background:#111a24;color:#e9f0f7;contain:layout style}
 .evx-card-art{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;background:linear-gradient(145deg,#253040,#141921)}
-.evx-card-art>img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .18s}
+.evx-card-art img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .18s}
 .evx-card-art::after{content:'';position:absolute;inset:55% 0 0;background:linear-gradient(transparent,#080c16b0);pointer-events:none}
 .evx-card-art.image-missing::before{content:'이미지 준비 중';position:absolute;inset:0;display:grid;place-items:center;color:#a5b4c5;font-size:11px}
 .evx-grade{position:absolute;z-index:1;top:8px;left:8px;padding:4px 6px;border:1px solid #ffffff30;border-radius:4px;background:#080f18d9;color:#eaf0fa;font-size:9px;font-weight:800;line-height:1.3;white-space:nowrap}
@@ -57,7 +57,7 @@
 .evx-card-info strong{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#eaf0f7;font-size:12px;line-height:1.5;font-weight:750;letter-spacing:-.025em}
 .evx-card-info small{color:#9aabbd;font-size:9px;line-height:1.5;font-weight:500}
 .evx-page .evx-card:hover:not(:disabled){border-color:#778698;background:#1a2431}
-.evx-card:hover:not(:disabled) .evx-card-art>img{transform:scale(1.025)}
+.evx-card:hover:not(:disabled) .evx-card-art img{transform:scale(1.025)}
 .evx-page .evx-card.is-selected{border-color:var(--evx-accent);box-shadow:0 0 0 1px var(--evx-accent);background:var(--evx-soft)}
 .evx-card.is-selected .evx-check{background:var(--evx-accent);border-color:var(--evx-accent);color:#0c1420}
 .evx-card.is-selected .evx-card-info strong{color:var(--evx-accent)}
@@ -196,3 +196,5 @@
 }
 @media(max-width:540px){.evx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evx-tools{flex-direction:row;align-items:center}.evx-toggle{align-self:center}.evx-top p{font-size:18px}}
 @media(prefers-reduced-motion:reduce){.evx-page *,.evx-dialog-overlay *{animation:none!important;transition:none!important}}
+@media(max-width:759px),(prefers-reduced-motion:reduce){.evx-dialog-overlay{backdrop-filter:none;background:#02060df5}}
+.evx-card-art>.responsive-card-picture,.evx-selected-strip .responsive-card-picture,.evx-result-art>.responsive-card-picture{display:block;width:100%;height:100%}

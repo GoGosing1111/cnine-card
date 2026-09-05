@@ -46,7 +46,7 @@ async function foundation(env){
   ])}ready=true;
 }
 async function settings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='coin_prediction_settings_v1'").first();return{...DEFAULTS,...safeJson(row?.value,{}),feePercent:10,minBet:MIN_BET,maxBetPerEvent:USER_MAX_BET_PER_EVENT}}
-async function lock(env,key,ttl=30000){const name=`coin_prediction_lock_${key}`,token=crypto.randomUUID(),until=Date.now()+ttl,value=`${token}|${until}`;await env.DB.prepare("DELETE FROM app_meta WHERE key=? AND CAST(substr(value,instr(value,'|')+1) AS INTEGER)<?").bind(name,Date.now()).run();const r=await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(name,value).run();return Number(r?.meta?.changes||0)?{name,token}:null}
+async function lock(env,key,ttl=30000){const name=`coin_prediction_lock_${key}`,token=crypto.randomUUID(),now=Date.now(),until=now+ttl,value=`${token}|${until}`;const r=await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP WHERE CAST(substr(app_meta.value,instr(app_meta.value,'|')+1) AS BIGINT)<?").bind(name,value,now).run();return Number(r?.meta?.changes||0)?{name,token}:null}
 async function unlock(env,l){if(l)await env.DB.prepare("DELETE FROM app_meta WHERE key=? AND value LIKE ?").bind(l.name,`${l.token}|%`).run()}
 async function autoClose(env){await env.DB.prepare("UPDATE coin_prediction_events SET status='CLOSED',updated_at=CURRENT_TIMESTAMP WHERE status='OPEN' AND closes_at IS NOT NULL AND datetime(closes_at)<=datetime('now')").run()}
 async function todayHitKing(env){
@@ -66,20 +66,20 @@ async function eventData(env,userId,admin=false,ownerUnlimited=false,requestedVi
   const eventOrder=view==='history'
     ?`CASE WHEN e.status='CLOSED' OR (e.status='OPEN' AND e.closes_at IS NOT NULL AND datetime(e.closes_at)<=datetime('now')) THEN 0 ELSE 1 END ASC,datetime(COALESCE(e.settled_at,e.updated_at,e.closes_at)) DESC,e.id DESC`
     :`CASE WHEN e.closes_at IS NULL THEN 1 ELSE 0 END ASC,datetime(e.closes_at) ASC,e.id DESC`;
-  const [s,wallet,countRow,categoryRows,todayChampion]=await Promise.all([
+  const [s,wallet,categoryRows,todayChampion]=await Promise.all([
     settings(env),
     env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(userId).first(),
-    env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ${activeWhere} THEN 1 ELSE 0 END),0) active_count,COALESCE(SUM(CASE WHEN ${historyWhere} THEN 1 ELSE 0 END),0) history_count FROM coin_prediction_events e ${PREDICTION_CATEGORY_JOIN} WHERE 1=1${filter.sql}`).bind(...filter.binds).first(),
-    env.DB.prepare(`SELECT ${PREDICTION_CATEGORY_SQL} category,COUNT(*) event_count FROM coin_prediction_events e ${PREDICTION_CATEGORY_JOIN} WHERE (${eventWhere})${categoryFilter.sql} GROUP BY ${PREDICTION_CATEGORY_SQL}`).bind(...categoryFilter.binds).all(),
+    env.DB.prepare(`SELECT ${PREDICTION_CATEGORY_SQL} category,COALESCE(SUM(CASE WHEN ${activeWhere} THEN 1 ELSE 0 END),0) active_count,COALESCE(SUM(CASE WHEN ${historyWhere} THEN 1 ELSE 0 END),0) history_count FROM coin_prediction_events e ${PREDICTION_CATEGORY_JOIN} WHERE 1=1${categoryFilter.sql} GROUP BY ${PREDICTION_CATEGORY_SQL}`).bind(...categoryFilter.binds).all(),
     todayHitKing(env)
   ]);
-  const activeCount=Number(countRow?.active_count||0),historyCount=Number(countRow?.history_count||0),total=view==='history'?historyCount:activeCount,totalPages=Math.max(1,Math.ceil(total/pageSize));
+  const countRow=(categoryRows.results||[]).filter(row=>filter.category==='ALL'||predictionCategory(row.category)===filter.category).reduce((sum,row)=>({active_count:sum.active_count+Number(row.active_count||0),history_count:sum.history_count+Number(row.history_count||0)}),{active_count:0,history_count:0});
+  const activeCount=Number(countRow.active_count),historyCount=Number(countRow.history_count),total=view==='history'?historyCount:activeCount,totalPages=Math.max(1,Math.ceil(total/pageSize));
   const page=Math.min(predictionListPage(requestedPage),totalPages),offset=(page-1)*pageSize;
   const eventRows=await env.DB.prepare(`SELECT e.*,${PREDICTION_CATEGORY_SQL} category,(SELECT COUNT(*) FROM coin_prediction_bets b WHERE b.event_id=e.id) participant_count,
     COALESCE((SELECT SUM(ts.amount) FROM ${TREASURY_PREDICTION_SUBSIDY_TABLE} ts WHERE ts.event_id=e.id AND ts.status IN ('ACTIVE','CONSUMED')),0) treasury_subsidy
     FROM coin_prediction_events e ${PREDICTION_CATEGORY_JOIN} WHERE (${eventWhere})${filter.sql} ORDER BY ${eventOrder} LIMIT ${pageSize} OFFSET ${offset}`).bind(...filter.binds).all();
   const categoryCounts=Object.fromEntries(PREDICTION_CATEGORIES.map(code=>[code,0]));
-  for(const row of categoryRows.results||[])categoryCounts[predictionCategory(row.category)]=Number(row.event_count||0);
+  for(const row of categoryRows.results||[])categoryCounts[predictionCategory(row.category)]=Number(row[view==='history'?'history_count':'active_count']||0);
   categoryCounts.ALL=Object.values(categoryCounts).reduce((sum,n)=>sum+n,0);
   const now=Date.now(),normalized=(eventRows.results||[]).map(e=>e.status==='OPEN'&&e.closes_at&&sqlMs(e.closes_at)<=now?{...e,status:'CLOSED'}:e),events=view==='active'?orderPredictionEvents(normalized,now):normalized,ids=events.map(x=>x.id);s.todayChampion=todayChampion;s.todayChampionPeriod='KST 00:00';s.ownerUnlimited=ownerUnlimited===true;let options=[],bets=[],bettors=[];
   if(ids.length){const marks=ids.map(()=>'?').join(','),[optionRows,betRows,bettorRows]=await Promise.all([env.DB.prepare(`SELECT * FROM coin_prediction_options WHERE event_id IN (${marks}) ORDER BY event_id,sort_order,id`).bind(...ids).all(),env.DB.prepare(`SELECT * FROM coin_prediction_bets WHERE user_id=? AND event_id IN (${marks})`).bind(userId,...ids).all(),env.DB.prepare(`SELECT b.event_id,b.option_id,b.amount,COALESCE(NULLIF(TRIM(u.nickname),''),'익명') nickname FROM coin_prediction_bets b JOIN users u ON u.id=b.user_id WHERE b.event_id IN (${marks}) ORDER BY b.event_id,b.option_id,b.amount DESC,b.updated_at ASC`).bind(...ids).all()]);options=optionRows.results||[];bets=betRows.results||[];bettors=bettorRows.results||[]}

@@ -142,7 +142,7 @@ test('all stopped, finite-edition and globally excluded random cards preserve un
 });
 test('client integration is shared, recovers pending requests, and never renders a self-redeem action for event codes',()=>{
   const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8'),app=read('js/app.js'),live=read('js/soopketland-v2039.src.js'),index=read('index.html'),api=read('functions/api/[[path]].js');
-  assert.match(app,/data-copy-event-coupon/);assert.match(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=2044-gift-message-rewards/);
+  assert.match(app,/data-copy-event-coupon/);assert.match(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=2045-performance/);
   assert.match(live,/PachinkoStage/);assert.match(live,/setTimeout\(finish,12000\)/);assert.match(live,/savePending\(requestId\)/);assert.match(live,/document.hidden/);
   assert.ok(api.indexOf('const landResponse=')<api.indexOf('const couponSchemaPath='),'land endpoints must not wait for legacy global upgrade');
   assert.match(read('preview/soopketland-v2039/index.html'),/soopketland-v2039\.bundle\.js/);
@@ -227,5 +227,5 @@ test('old issued one-card coupons retain their amount and amounts above new caps
 test('client formats named cards as 장, uses server coin cap, and loads the new versioned bundle',()=>{
   const live=fs.readFileSync(new URL('../js/soopketland-v2039.src.js',import.meta.url),'utf8'),app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
   assert.match(live,/endsWith\('_CARD'\)/);assert.match(live,/s\.data\.prizes\.find\(p=>p\.key==='COIN'\)\?\.max/);assert.doesNotMatch(live,/couponUses\*500000000|7종 동일 가중치/);
-  assert.match(app,/soopketland-v2039\.bundle\.js\?v=2041-rewards/);
+  assert.match(app,/soopketland-v2039\.bundle\.js\?v=2045-shared-fx/);
 });

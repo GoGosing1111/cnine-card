@@ -1,4 +1,5 @@
 import { STREAMER_SETTINGS_KEY, DEFAULT_STREAMER_SETTINGS, validateStreamerSettings, publicStreamerSettings } from '../js/streamer-lounge-model-v2036.js';
+import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 
 async function readSettings(env) {
   const row = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(STREAMER_SETTINGS_KEY).first();
@@ -12,9 +13,11 @@ export async function handleStreamerLounge({ path, request, env, deps }) {
   const { json, requirePermission, writeAdminLog } = deps;
   if (path === 'streamer-profiles') {
     if (request.method !== 'GET') return json({ error: '지원하지 않는 요청입니다.' }, 405);
+    const cached = readRuntimeData(env, 'streamer:public');
+    if (cached) return json(cached);
     const { settings } = await readSettings(env);
     // No third-party fetch, game mutation or account data on the public read path.
-    return json(publicStreamerSettings(settings));
+    return json(cacheRuntimeData(env, 'streamer:public', publicStreamerSettings(settings), 30000));
   }
   const admin = await requirePermission(request, env, 'SETTINGS');
   if (!admin) return json({ error: '설정 관리 권한이 없습니다.' }, 403);
@@ -47,6 +50,7 @@ export async function handleStreamerLounge({ path, request, env, deps }) {
     ? await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(STREAMER_SETTINGS_KEY, raw).run()
     : await env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw, STREAMER_SETTINGS_KEY, before.raw).run();
   if (Number(saved?.meta?.changes) !== 1) return json({ error: '다른 창에서 설정이 변경됐습니다. 다시 불러온 뒤 저장하세요.', code: 'STREAMER_SETTINGS_CONFLICT' }, 409);
+  invalidateRuntimeData(env, 'streamer:public');
   try { await writeAdminLog(env, admin, 'STREAMER_LOUNGE_UPDATE', 'SETTINGS', STREAMER_SETTINGS_KEY, before.settings, settings); }
   catch { console.error(JSON.stringify({ event: 'streamer_lounge_admin_log_failed', revision })); }
   return json({ ok: true, settings, revision });

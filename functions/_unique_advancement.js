@@ -5,6 +5,7 @@
  * cardId + requestId + expectedPassUse (confirmation only, never authority).
  */
 
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 export const UNIQUE_ADVANCEMENT_SETTINGS_KEY='card_unique_advancement_settings_v1937_release';
 export const UNIQUE_ADVANCEMENT_COST=3000;
 export const UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT=10;
@@ -22,11 +23,13 @@ const GUARD_TABLE='card_unique_advancement_tx_guards_v1937';
 
 // Catalog only: no player grant, shop listing or reward-pool change.
 export async function ensureUniqueAdvancementPassCatalog(env){
+  if(readRuntimeData(env,'catalog:UNIQUE_ADVANCEMENT_PASS'))return;
   await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
     VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING`)
     .bind(UNIQUE_ADVANCEMENT_PASS_CODE,UNIQUE_ADVANCEMENT_PASS_NAME,'ADVANCEMENT PASS',
       '보유 시 카드 상세 > 고유효과 전직에서 1개가 자동 소모되어 100% 성공합니다. FUR·ZENITH·SUPERSTAR 13강 이상 및 활성 고유효과가 필요하며, 마스터의 별 3,000개는 별도로 소모됩니다.',
       'ADVANCEMENT','SPECIAL','assets/items/unique-advancement-pass-v2043.svg',127).run();
+  cacheRuntimeData(env,'catalog:UNIQUE_ADVANCEMENT_PASS',true,1800000);
 }
 
 function passPayload(quantity,{used=false}={}){

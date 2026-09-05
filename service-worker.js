@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v2044-gift-message-rewards';
+const SHELL_CACHE='soop-card-shell-v2045-performance';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -63,10 +63,18 @@ async function trimCache(cacheName,maxEntries){
 
 async function cacheFirst(request,cacheName){
   const cache=await caches.open(cacheName),cached=await cache.match(request);
-  if(cached)return cached;
+  if(cached&&validShellResponse(request,cached))return cached;
+  if(cached)await cache.delete(request);
   const response=await fetch(request);
-  if(response.ok)await cache.put(request,response.clone());
+  if(validShellResponse(request,response))try{await cache.put(request,response.clone())}catch(_){}
   return response;
+}
+function validShellResponse(request,response){
+  if(!response?.ok)return false;
+  const type=String(response.headers.get('content-type')||'').toLowerCase();
+  if(request.destination==='style')return type.includes('text/css');
+  if(['script','worker'].includes(request.destination))return /javascript|ecmascript/.test(type);
+  return !type.includes('text/html');
 }
 
 function staleWhileRevalidate(event,request,cacheName){
@@ -128,9 +136,9 @@ self.addEventListener('fetch',event=>{
   }
 
   if(['script','style','worker'].includes(request.destination)){
-    // 파일명이 해시되지 않은 런타임 자산은 ?v= 누락 한 번으로 영구 고정되면 안 된다.
-    // 매 진입 시 ETag 재검증하고, 오프라인일 때만 마지막 정상본으로 폴백한다.
-    event.respondWith(networkFirst(request,SHELL_CACHE));
+    // Only an explicit release query opts in. A legacy -vNN file name is not
+    // immutable. A new shell cache per release also refreshes unchanged URLs.
+    event.respondWith(url.searchParams.get('v')?cacheFirst(request,SHELL_CACHE):networkFirst(request,SHELL_CACHE));
     return;
   }
 

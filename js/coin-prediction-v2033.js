@@ -157,9 +157,10 @@
     try {
       const result=await api(`coin-prediction/state?view=${requestedView}&page=${requestedPage}&category=${requestedCategory}&mine=${requestedMine?1:0}`,{}, {replaceInflight:true});
       if(requestSequence!==sequence||!root?.isConnected)return;
+      const unchanged=silent&&state&&JSON.stringify({...state,serverNow:null})===JSON.stringify({...result,serverNow:null});
       state=result;listView=result.navigation?.view||requestedView;listPage=Number(result.navigation?.page||requestedPage);
       const timestamp=dateMs(result.serverNow);serverOffset=Number.isFinite(timestamp)?timestamp-Date.now():0;
-      notice();render();armPoll();
+      notice();if(unchanged)updateClocks();else render();armPoll();
     } catch(error) {
       if(requestSequence!==sequence||!root?.isConnected)return;
       notice(`경기를 불러오지 못했습니다. ${error.message||'잠시 후 다시 확인해 주세요.'}`,true);

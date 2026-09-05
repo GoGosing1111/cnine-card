@@ -1,3 +1,4 @@
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 // 붕괴 코어 레이드는 라이브 월드 레이드와 분리된 방 기반 협동 콘텐츠다.
 // PROJECT V V3는 전투 표현만 담당하며 방 상태, 기믹 판정과 보상은 서버가 확정한다.
 const SETTINGS_KEY = 'raid_core_protocol_settings_v2024';
@@ -949,8 +950,9 @@ function schemaStatements(env) {
 }
 
 async function ensure(env) {
+  if (readRuntimeData(env, FOUNDATION_KEY)) return true;
   const marker = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FOUNDATION_KEY).first();
-  if (marker?.value === '1') return true;
+  if (marker?.value === '1') return cacheRuntimeData(env, FOUNDATION_KEY, true, 1800000);
   const statements = schemaStatements(env);
   if (env.DB?.dialect === 'postgres' && typeof env.DB.execSchema === 'function') {
     await env.DB.execSchema(statements);
@@ -1013,7 +1015,7 @@ function publicSettings(cfg) {
   return value;
 }
 
-async function releaseTerminalMemberships(env, roomId = '') {
+async function releaseTerminalMemberships(env, roomId = '', userId = 0) {
   if (roomId) {
     await env.DB.prepare(
       'DELETE FROM ' + ACTIVE_MEMBER_TABLE + ' WHERE room_id=? AND EXISTS(' +
@@ -1022,9 +1024,9 @@ async function releaseTerminalMemberships(env, roomId = '') {
     return;
   }
   await env.DB.prepare(
-    'DELETE FROM ' + ACTIVE_MEMBER_TABLE + ' WHERE EXISTS(' +
+    'DELETE FROM ' + ACTIVE_MEMBER_TABLE + ' WHERE user_id=? AND EXISTS(' +
     'SELECT 1 FROM ' + ROOM_TABLE + " r WHERE r.room_id=" + ACTIVE_MEMBER_TABLE + ".room_id AND r.status IN ('CLEAR','FAILED'))"
-  ).run();
+  ).bind(userId).run();
 }
 
 async function refreshRoom(env, row, cfg) {
@@ -1176,7 +1178,7 @@ async function ticketBalance(env, userId) {
 }
 
 async function statusPayload(env, user, cfg, requestedId = '', browseOnly = false) {
-  await releaseTerminalMemberships(env);
+  await releaseTerminalMemberships(env, '', user.id);
   let room = null;
   if (requestedId) {
     const member = await env.DB.prepare(

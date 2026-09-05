@@ -29,7 +29,9 @@ import { handleRaidCoreProtocol } from '../_raid_core_protocol.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop } from '../_workshop.js';
-import { ensureBattleSuitCoreCatalog } from '../_battle_suit_materials.js';
+import { ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
+import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
+import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_reward_batch.js';
 import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
 import { handleScrapyard } from '../_scrapyard.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
@@ -753,10 +755,13 @@ function resolvePvpTier(score,settings,rank=0){
   if(settings.challengerTier&&Number.isInteger(place)&&place>=1&&place<=10)return settings.challengerTier;
   return resolveTier(score,settings.tiers||[]);
 }
-async function pvpChallengerRank(env,userId){
+async function pvpChallengerRank(env,userId,{fresh=false}={}){
+  const cached=fresh?undefined:readRuntimeData(env,'pvp:challenger-display');
+  if(cached)return cached.findIndex(row=>Number(row.id)===Number(userId))+1;
   const rows=await env.DB.prepare(`SELECT u.id FROM pvp_profiles p JOIN users u ON u.id=p.user_id
     WHERE u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
     ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id LIMIT 10`).all();
+  cacheRuntimeData(env,'pvp:challenger-display',rows.results||[],10000);
   return (rows.results||[]).findIndex(row=>Number(row.id)===Number(userId))+1;
 }
 async function readPvpSettings(env){const row=await metaValue(env,'pvp_settings_v1');if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
@@ -4583,13 +4588,13 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   // batches. A second lock only adds writes and rejects safe idempotent retries.
   'attendance/claim','card/breakthrough','card/breakthrough/auto','card/unique-advancement','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
   'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
-  'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
+  'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','messages/claim-batch','coupon/redeem',
   'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run',
   'equipment/prime-supply-box/open','vehicle-draw/prime/open','prison/release-price','prison/fund','prison/hit'
 ]);
 // 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
-const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund']);
+const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund','messages/claim-batch']);
 const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/','idle-dungeon/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
@@ -5233,7 +5238,7 @@ async function handleRequest(context){
       await ensureBattleSuitCoreCatalog(env);
       await ensureUniqueAdvancementPassCatalog(env);
       const blackMiracleUseEnabled=(await blackMiracleSettings(env)).enabled===true;
-      await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
+      await ensureMysticEnergyCatalog(env);
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
           CASE WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code='CORE_RAID_ENTRY_TICKET' THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
@@ -6924,7 +6929,7 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);const lifecycle=await advancePvpSeasonLifecycle(env),settings=lifecycle.settings;if(lifecycle.settling)return json({error:'현재 랭크전 시즌 정산 중입니다. 새 시즌이 자동으로 시작되면 랭킹이 열립니다.',code:'PVP_SEASON_SETTLING',retryable:true,retryAfterMs:1500},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses,t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset,t.unlock_config_json AS titleUnlockConfig FROM pvp_profiles p JOIN users u ON u.id=p.user_id LEFT JOIN user_title_loadout tl ON tl.user_id=u.id LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP) LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1 WHERE u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id LIMIT 100`).all();const ranking=rows.results.map((x,i)=>{const {titleUnlockConfig,...publicRow}=x;return {...publicRow,title:x.titleId?{id:Number(x.titleId),name:x.titleName,badgeText:x.titleBadgeText||x.titleName,stylePreset:String(x.titleStylePreset||'DEFAULT').toUpperCase(),fontPreset:(()=>{try{const value=String(JSON.parse(titleUnlockConfig||'{}')?.fontPreset||'DEFAULT').toUpperCase();return ['DEFAULT','SERIF','DISPLAY','ARCADE','ROUNDED','SCIFI','BRUSH','HANDWRITING','MONO','CLASSIC'].includes(value)?value:'DEFAULT'}catch{return 'DEFAULT'}})()}:null,rank:i+1,tier:resolvePvpTier(Number(x.season_score),settings,i+1)}});return json({settings,ranking,me:ranking.find(x=>Number(x.id)===Number(user.id))||null});
     }
     if(path==='pvp/reward/claim'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);if(!settings.tierRewardsEnabled)return json({error:'티어 달성 보상이 중지되어 있습니다.'},503);if(settings.rewardClaimMode==='SEASON_END'&&settings.endsAt&&utcMs(settings.endsAt)>Date.now()&&!isAdminRole(user))return json({error:'시즌 종료 후 보상을 받을 수 있습니다.'},409);const p=await ensurePvpProfile(env,user,settings),challengerRank=await pvpChallengerRank(env,user.id);if(challengerRank&&(!settings.endsAt||utcMs(settings.endsAt)>Date.now()))return json({error:'챌린저 보상은 시즌 최종 1~10위 확정 후에 받을 수 있습니다.'},409);const tier=resolvePvpTier(Number(p.highest_score),settings,challengerRank),rewardCoin=Number(tier.rewardCoin||0),rewardShards=Number(tier.rewardShards||0),exists=await env.DB.prepare('SELECT 1 FROM pvp_reward_claims WHERE user_id=? AND season_name=? AND tier_id=?').bind(user.id,settings.seasonName,tier.id).first();if(exists)return json({error:'이미 수령한 시즌 티어 보상입니다.'},409);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_reward_claims(user_id,season_name,tier_id,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,tier.id,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?").bind(rewardCoin,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,? FROM users WHERE id=?").bind(rewardShards,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,tier,reward:rewardCoin,rewardCoin,rewardShards,user:await profile(env,updated)});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);if(!settings.tierRewardsEnabled)return json({error:'티어 달성 보상이 중지되어 있습니다.'},503);if(settings.rewardClaimMode==='SEASON_END'&&settings.endsAt&&utcMs(settings.endsAt)>Date.now()&&!isAdminRole(user))return json({error:'시즌 종료 후 보상을 받을 수 있습니다.'},409);const p=await ensurePvpProfile(env,user,settings),challengerRank=await pvpChallengerRank(env,user.id,{fresh:true});if(challengerRank&&(!settings.endsAt||utcMs(settings.endsAt)>Date.now()))return json({error:'챌린저 보상은 시즌 최종 1~10위 확정 후에 받을 수 있습니다.'},409);const tier=resolvePvpTier(Number(p.highest_score),settings,challengerRank),rewardCoin=Number(tier.rewardCoin||0),rewardShards=Number(tier.rewardShards||0),exists=await env.DB.prepare('SELECT 1 FROM pvp_reward_claims WHERE user_id=? AND season_name=? AND tier_id=?').bind(user.id,settings.seasonName,tier.id).first();if(exists)return json({error:'이미 수령한 시즌 티어 보상입니다.'},409);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_reward_claims(user_id,season_name,tier_id,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,tier.id,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?").bind(rewardCoin,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,? FROM users WHERE id=?").bind(rewardShards,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,tier,reward:rewardCoin,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
     if(path==='pvp/rank-reward/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);if(isAdminRole(user))return json({error:'OWNER 계정은 시즌 랭킹 및 랭킹 보상 대상에서 제외됩니다.'},403);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.rankRewardsEnabled)return json({error:'시즌 랭킹 보상이 중지되어 있습니다.'},503);const seasonEndMs=settings.endsAt?utcMs(settings.endsAt):0;if(!seasonEndMs||seasonEndMs>Date.now())return json({error:'최종 랭킹 보상은 시즌 종료 후에만 받을 수 있습니다.'},409);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.wins FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id`).all(),rank=rows.results.findIndex(x=>Number(x.id)===Number(user.id))+1;if(!rank)return json({error:'시즌 랭킹 기록이 없습니다.'},404);const reward=(settings.rankRewards||[]).find(x=>rank>=Number(x.from)&&rank<=Number(x.to));if(!reward)return json({error:'현재 순위에 해당하는 랭킹 보상이 없습니다.'},404);const exists=await env.DB.prepare('SELECT 1 FROM pvp_rank_reward_claims WHERE user_id=? AND season_name=?').bind(user.id,settings.seasonName).first();if(exists)return json({error:'이미 수령한 시즌 랭킹 보상입니다.'},409);const rewardCoin=Number(reward.rewardCoin||0),rewardShards=Number(reward.rewardShards||0);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_rank_reward_claims(user_id,season_name,final_rank,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,rank,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rank,rewardCoin,rewardShards,user:await profile(env,updated)});
@@ -7128,6 +7133,16 @@ async function handleRequest(context){
         }
         await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(id,user.id).run();return json({ok:true});
       }
+    }
+    if(path==='messages/claim-batch'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const body=await readBody(request),ids=messageRewardBatchIds(body.messageIds);
+      if(!ids)return json({error:'한 번에 1~20개의 메시지를 선택하세요.'},400);
+      await ensureMessageRewardClaimV1222(env);
+      await ensureVerifiedRewardMessageV1276(env);
+      const results=await claimMessageRewardBatch(env,user,ids,{specFor:verifiedMessageRewardSpec,canRecover:canSafelyRecoverFailedMessageRewardV1222,claim:claimMessageRewardDirectV1222});
+      const updated=await env.DB.prepare("SELECT u.id,u.coin,u.card_shards,COALESCE(i.quantity,0) master_stars FROM users u LEFT JOIN cnine_user_inventory i ON i.user_id=u.id AND i.item_code='MASTER_STAR' WHERE u.id=?").bind(user.id).first();
+      return json({ok:true,results,coinAfter:Number(updated.coin||0),cardShardsAfter:Number(updated.card_shards||0),user:{id:user.id,profileScope:'MESSAGE_PARTIAL',coin:Number(updated.coin||0),cardShards:Number(updated.card_shards||0),masterStars:Number(updated.master_stars||0)}});
     }
     if(path==='messages/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -9026,7 +9041,7 @@ async function handleRequestWithDatabase(context){
   // V1792: 세션 위에 계측 래퍼를 한 겹 더 씌운다. getBookmark 는 원본 세션에서 읽는다.
   const d1Stats=newD1Stats();
   const instrumentedDb=instrumentD1(sessionDb||context.env?.DB,d1Stats);
-  const env=instrumentedDb?{...context.env,DB:instrumentedDb}:context.env;
+  const env=instrumentedDb?{...context.env,RUNTIME_DB_CACHE_SCOPE:context.env.RUNTIME_DB_CACHE_SCOPE||context.env.DB,DB:instrumentedDb}:context.env;
   context={...context,env,waitUntil:typeof context.waitUntil==='function'?context.waitUntil.bind(context):undefined};
   if(serializedGameAction(actionPath,request.method)){
     // V1784: 세션 조회를 점검 게이트 조회와 같은 배치로 먼저 태워, 이후 authenticate()와
@@ -9128,6 +9143,9 @@ export async function onRequest(context){
   if(!connectionString)throw new Error('DB_BACKEND=postgres이지만 HYPERDRIVE 바인딩이 없습니다.');
 
   const runtime=await createPostgresD1Compat(connectionString);
+  const databaseUrl=new URL(connectionString);
+  // Stable across per-request DB clients; no password or connection is cached.
+  const runtimeCacheScope=JSON.stringify(['postgres',databaseUrl.host,databaseUrl.pathname,databaseUrl.username]);
   const pending=[];
   const originalWaitUntil=typeof context.waitUntil==='function'?context.waitUntil.bind(context):null;
   const trackedWaitUntil=promise=>{
@@ -9138,7 +9156,7 @@ export async function onRequest(context){
   };
   const postgresContext={
     ...context,
-    env:{...context.env,DB:runtime.db,DB_DIALECT:'postgres'},
+    env:{...context.env,DB:runtime.db,DB_DIALECT:'postgres',RUNTIME_DB_CACHE_SCOPE:runtimeCacheScope},
     waitUntil:trackedWaitUntil
   };
   try{

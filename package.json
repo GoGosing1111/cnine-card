@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:soopketland": "esbuild js/soopketland-v2039.src.js --bundle --minify --format=iife --outfile=js/soopketland-v2039.bundle.js",
+    "build:soopketland": "node scripts/build-ui-fx.mjs soopketland",
+    "build:ui-fx": "node scripts/build-ui-fx.mjs",
     "test:soopketland": "node --test tests/soopketland-v2039.test.mjs",
     "build:v3": "esbuild preview/project-v-v3/source/project-v-pixi-battle.src.js --bundle --minify --format=iife --outfile=preview/project-v-v3/project-v-pixi-battle.bundle.js",
-    "build:prime-draw": "esbuild js/prime-draw-live-v1985.src.js --bundle --minify --format=iife --outfile=js/prime-draw-live-v1985.bundle.js",
+    "build:prime-draw": "node scripts/build-ui-fx.mjs prime",
     "test:escort": "node --test tests/escort-operation-v1830.test.mjs",
     "test:postgres-compat": "node --test tests/postgres-d1-compat.test.mjs",
     "test:unique-advancement": "node --test tests/unique-advancement-server-v1937.test.mjs tests/unique-advancement-pass-v2043.test.mjs tests/card-unique-advancement-ui-v1937.test.mjs tests/unique-advancement-engine-v1937.test.mjs tests/unique-advancement-runtime-v1937.test.mjs",
@@ -28,7 +29,7 @@
     "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs tests/territory-commander-live-status-v1994.test.mjs tests/territory-coin-sync-v1995.mjs",
     "test:alchemy": "node --test tests/alchemy-system-v1973.test.mjs",
     "test:ranked-reward": "node --test tests/ranked-reward-cap-v1980.test.mjs tests/ranked-challenger-v2032.test.mjs",
-    "build:challenger": "esbuild js/ranked-challenger-fx-v2032.src.js --bundle --minify --format=iife --outfile=js/ranked-challenger-fx-v2032.bundle.js",
+    "build:challenger": "node scripts/build-ui-fx.mjs challenger",
     "test:coupon": "node --test tests/coupon-reward-cap-v1997.test.mjs",
     "test:prediction": "node tests/coin-prediction-history-v1813.mjs && node --test tests/coin-prediction-matchday-v2033.test.mjs tests/coin-prediction-refund-bigint-v2042.test.mjs",
     "test:prime-draw": "node --test tests/prime-draw-live-v1985.test.mjs tests/prime-draw-opening-preview-v1984.test.mjs",
@@ -39,7 +40,8 @@
     "test:idle-dungeon": "node tests/idle-dungeon-daily-cap-v1732.mjs",
     "test:treasury": "node --test tests/administration-treasury-v2030.test.mjs",
     "test:streamer-lounge": "node --test tests/streamer-lounge-v2036.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:unique-advancement && npm run test:soopketland && npm run test:streamer-lounge && npm run test:evolution && npm run test:navigation && npm run test:raid-entry && npm run test:core-raid && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && node scripts/verify-production-release.mjs",
+    "test:performance": "node --test tests/performance-v2045.test.mjs",
+    "release:gate": "npm run check:worker && npm run test:performance && npm run test:unique-advancement && npm run test:soopketland && npm run test:streamer-lounge && npm run test:evolution && npm run test:navigation && npm run test:raid-entry && npm run test:core-raid && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {

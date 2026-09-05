@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
+import {claimMessageRewardBatch,messageRewardBatchIds} from '../functions/_message_reward_batch.js';
 
 const read=file=>readFileSync(new URL(`../${file}`,import.meta.url),'utf8');
 const api=read('functions/api/[[path]].js'),app=read('js/app.js');
@@ -16,7 +17,7 @@ function fixture(t){
   sqlite.exec(`
     CREATE TABLE users(id INTEGER PRIMARY KEY,coin INTEGER,card_shards INTEGER);
     INSERT INTO users VALUES(1,10000000000,150),(2,500,200);
-    CREATE TABLE user_messages(id INTEGER PRIMARY KEY,user_id INTEGER,is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT);
+    CREATE TABLE user_messages(id INTEGER PRIMARY KEY,user_id INTEGER,title TEXT DEFAULT '기프트',is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT);
     CREATE TABLE user_message_rewards(id INTEGER PRIMARY KEY,message_id INTEGER UNIQUE,user_id INTEGER,reward_type TEXT,reward_amount INTEGER,claimed_at TEXT);
     CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,unseen_quantity INTEGER,created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code));
     CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT);
@@ -72,8 +73,8 @@ test('separate gift messages both enter serialized bulk claim with correct label
   const messages=gifts.map(([reward_type,reward_amount],i)=>({id:i+1,reward_type,reward_amount}));
   const sent=[],alerts=[],cache=[];let active=0;
   const context=vm.createContext({document:{querySelectorAll:()=>[]},apiRequest:async(path,{body})=>{
-    assert.equal(active,0);active++;sent.push(JSON.parse(body).messageId);await Promise.resolve();active--;
-    const m=messages.find(x=>x.id===sent.at(-1));return {rewardType:m.reward_type,rewardAmount:m.reward_amount,user:{}};
+    assert.equal(path,'messages/claim-batch');assert.equal(active,0);active++;const ids=JSON.parse(body).messageIds;sent.push(...ids);await Promise.resolve();active--;
+    return {results:ids.map(id=>{const m=messages.find(x=>x.id===id);return {ok:true,rewardType:m.reward_type,rewardAmount:m.reward_amount}}),user:{}};
   },apiUserToLocal:value=>value,saveUser:()=>{},clearApiCache:key=>cache.push(key),alert:message=>alerts.push(message),renderShell:()=>{}});
   vm.runInContext(app.slice(app.indexOf('const MESSAGE_REWARD_META='),app.indexOf('async function loadMessages()'))+'\nthis.claimAll=claimAllMessageRewards;this.claimable=claimableMessageRewards;',context);
   assert.equal(context.claimable([...messages,{id:3,reward_type:'NOT_SUPPORTED',reward_amount:1},{...messages[0],claimed_at:'done'}]).length,2);
@@ -82,9 +83,28 @@ test('separate gift messages both enter serialized bulk claim with correct label
   assert.ok(cache.includes('inventory'));
 });
 
+test('batch retains atomic receipts, isolates another account and resumes failed items',async t=>{
+  const f=fixture(t);gifts.forEach(([code,amount],i)=>f.reward(code,amount,i+1));
+  const deps={specFor:f.context.spec,canRecover:async()=>false,claim:f.context.claim};
+  f.DB.fail=sql=>sql.includes('INSERT INTO inventory_logs');
+  const failed=await claimMessageRewardBatch({DB:f.DB},{id:1},[1,2],deps);
+  assert.equal(failed.filter(row=>row.needsVerification).length,2);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_message_reward_claim_receipts_v1222').get().n,0);
+  f.DB.fail=null;
+  const stranger=await claimMessageRewardBatch({DB:f.DB},{id:2},[1,2],deps);
+  assert.equal(stranger.filter(row=>row.error).length,2);
+  const first=await claimMessageRewardBatch({DB:f.DB},{id:1},[1,2],deps);
+  assert.equal(first.filter(row=>row.ok).length,2);
+  const replay=await claimMessageRewardBatch({DB:f.DB},{id:1},[1,2],deps);
+  assert.equal(replay.filter(row=>row.alreadyClaimed).length,2);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM inventory_logs').get().n,2);
+  assert.deepEqual(messageRewardBatchIds([1,1,2]),[1,2]);
+  for(const value of [[],[0],['1'],[1.5],Array(21).fill(1)])assert.equal(messageRewardBatchIds(value),null);
+});
+
 test('gift rewards are allowed by verified sending route and use a fresh paired client cache',()=>{
   const route=api.slice(api.indexOf("if((path==='admin/verified-reward-message-send'"),api.indexOf("if(path==='admin/verified-coupon-send'"));
   for(const [code] of gifts)assert.ok(route.includes(`'${code}'`));
-  assert.match(read('index.html'),/js\/app\.js\?v=2044-gift-message-rewards/);
-  assert.match(read('service-worker.js'),/soop-card-shell-v2044-gift-message-rewards/);
+  assert.match(read('index.html'),/js\/app\.js\?v=2045-performance/);
+  assert.match(read('service-worker.js'),/soop-card-shell-v2045-performance/);
 });

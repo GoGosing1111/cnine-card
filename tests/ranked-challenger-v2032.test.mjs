@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {DatabaseSync} from 'node:sqlite';
 import sharp from 'sharp';
+import {readRuntimeData,cacheRuntimeData} from '../functions/_runtime_data_cache.js';
 
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 const server=await read('functions/api/[[path]].js');
@@ -10,7 +11,7 @@ const resolveTier=server.split('\n').find(line=>line.startsWith('function resolv
 const settingsCode=server.slice(server.indexOf('function defaultPvpSettings()'),server.indexOf('async function readPvpSettings'));
 const rewardCode=server.split('\n').find(line=>line.startsWith('function pvpSettlementRewardFor('));
 const roleCode=server.split('\n').find(line=>line.startsWith('const PVP_RANKED_ROLE_SQL='));
-const {clean,resolve,rank,reward}=Function(`${resolveTier}\n${roleCode}\n${settingsCode}\n${rewardCode}\nreturn {clean:cleanPvpSettings,resolve:resolvePvpTier,rank:pvpChallengerRank,reward:pvpSettlementRewardFor};`)();
+const {clean,resolve,rank,reward}=Function('readRuntimeData','cacheRuntimeData',`${resolveTier}\n${roleCode}\n${settingsCode}\n${rewardCode}\nreturn {clean:cleanPvpSettings,resolve:resolvePvpTier,rank:pvpChallengerRank,reward:pvpSettlementRewardFor};`)(readRuntimeData,cacheRuntimeData);
 
 test('챌린저는 점수 절대값이 아닌 정확히 1~10위만 해당한다',()=>{
   const settings=clean();
@@ -42,7 +43,8 @@ test('실제 SQL: 동점이어도 10명만, OWNER·정지·밴 유저 제외 및
     assert.equal(await rank(env,1),0);assert.equal(await rank(env,2),0);assert.equal(await rank(env,3),0);
     assert.equal(await rank(env,4),1);assert.equal(await rank(env,13),10);assert.equal(await rank(env,14),0);
     db.prepare('UPDATE pvp_profiles SET season_score=2000 WHERE user_id=14').run();
-    assert.equal(await rank(env,14),1);assert.equal(await rank(env,13),0);
+    assert.equal(await rank(env,14),0,'display cache is bounded and stable within 10 seconds');
+    assert.equal(await rank(env,14,{fresh:true}),1);assert.equal(await rank(env,13,{fresh:true}),0);
   }finally{db.close();}
 });
 test('정산은 최종 순위로 챌린저 티어 1개만 지급하고 순위 보상을 합산한다',()=>{

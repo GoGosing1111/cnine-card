@@ -1,3 +1,4 @@
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 // Streamer event rewards are committed before the client starts its pachinko show.
 // No daily allowance, client-side prize selection, or nickname-based ongoing access.
 export const LAND_TICKET='SOOPKETLAND_TICKET';
@@ -51,8 +52,9 @@ export function pickLandPrize(weights,random=secureLandInt){
   throw new Error('Invalid prize weights');
 }
 
-export async function ensureLand(db){
-  if((await one(db,'SELECT value FROM app_meta WHERE key=?',SCHEMA))?.value==='1')return;
+export async function ensureLand(db,env={DB:db}){
+  if(readRuntimeData(env,SCHEMA))return;
+  if((await one(db,'SELECT value FROM app_meta WHERE key=?',SCHEMA))?.value==='1'){cacheRuntimeData(env,SCHEMA,true,1800000);return;}
   const uid=db.dialect==='postgres'?'BIGINT':'INTEGER';
   const ddl=[
     `CREATE TABLE IF NOT EXISTS soopketland_accounts(slot TEXT PRIMARY KEY,user_id ${uid} NOT NULL UNIQUE,bound_at TEXT NOT NULL)`,
@@ -82,10 +84,13 @@ async function bindAccounts(db){
   if(Number((await one(db,'SELECT COUNT(*) n FROM soopketland_accounts'))?.n)===LAND_STREAMERS.length)return;
   for(const slot of LAND_STREAMERS)await stmt(db,`INSERT INTO soopketland_accounts(slot,user_id,bound_at) SELECT ?,id,? FROM users WHERE nickname=? AND status='ACTIVE' AND (SELECT COUNT(*) FROM users WHERE nickname=?)=1 AND NOT EXISTS(SELECT 1 FROM soopketland_accounts a WHERE a.user_id=users.id) ON CONFLICT(slot) DO NOTHING`,slot,now(),slot,slot).run();
 }
-export async function landAccess(db,user){
+export async function landAccess(db,user,env={DB:db}){
   if(!active(user))return {allowed:false,isOwner:false};
   if(owner(user))return {allowed:true,isOwner:true};
-  if((await one(db,'SELECT value FROM app_meta WHERE key=?',SCHEMA))?.value!=='1')return {allowed:false,isOwner:false};
+  if(!readRuntimeData(env,SCHEMA)){
+    if((await one(db,'SELECT value FROM app_meta WHERE key=?',SCHEMA))?.value!=='1')return {allowed:false,isOwner:false};
+    cacheRuntimeData(env,SCHEMA,true,1800000);
+  }
   return {allowed:!!(await one(db,'SELECT user_id FROM soopketland_accounts WHERE user_id=?',user.id)),isOwner:false};
 }
 function guard(db,list,condition,args=[]){
@@ -133,10 +138,10 @@ export async function handleSoopketLand({path,request,env,deps}){
   if(!path.startsWith('soopketland/'))return null;
   const db=env.DB,user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
   try{
-    const access=await landAccess(db,user);
+    const access=await landAccess(db,user,env);
     if(path==='soopketland/access'&&request.method==='GET')return deps.json(access);
     if(!access.allowed)throw fail('등록된 스트리머 계정과 OWNER만 이용할 수 있습니다.',403,'LAND_FORBIDDEN');
-    await ensureLand(db);
+    await ensureLand(db,env);
     if(path==='soopketland/state'&&request.method==='GET'){
       if(access.isOwner)await bindAccounts(db);
       const result=await state(db,user,access);if(result.owner)result.owner.missing=LAND_STREAMERS.filter(name=>!result.owner.accounts.some(a=>a.slot===name));return deps.json(result);

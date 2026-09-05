@@ -1,3 +1,4 @@
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 const ACCOUNT_TABLE='administration_treasury_v2030';
 const TAX_RECEIPT_TABLE='administration_tax_receipts_v2030';
 const LEDGER_TABLE='administration_treasury_ledger_v2030';
@@ -118,11 +119,16 @@ async function openPredictionEvents(env){
   try{return (await env.DB.prepare("SELECT id,title,status,closes_at,total_pool FROM coin_prediction_events WHERE status IN ('OPEN','CLOSED') ORDER BY CASE status WHEN 'OPEN' THEN 0 ELSE 1 END,datetime(COALESCE(closes_at,created_at)) DESC LIMIT 40").all()).results||[]}catch{return []}
 }
 
+async function sourceStatistics(env){
+  const cached=readRuntimeData(env,'treasury:source-statistics');if(cached)return cached;
+  const rows=await env.DB.prepare(`SELECT source_type,COUNT(*) sale_count,COALESCE(SUM(gross_coin),0) gross_coin,COALESCE(SUM(tax_coin),0) tax_coin FROM ${TAX_RECEIPT_TABLE} WHERE status='COMPLETED' GROUP BY source_type ORDER BY tax_coin DESC`).all();
+  return cacheRuntimeData(env,'treasury:source-statistics',rows,10000);
+}
 async function state(env,user){
   const [account,chief,champion,events,proposalRows,sourceRows,recentLedger]=await Promise.all([
     env.DB.prepare(`SELECT * FROM ${ACCOUNT_TABLE} WHERE id=1`).first(),activeChief(env),latestChampion(env),openPredictionEvents(env),
     env.DB.prepare(`SELECT p.*,u.nickname target_nickname FROM ${PROPOSAL_TABLE} p LEFT JOIN users u ON u.id=p.target_user_id ORDER BY CASE p.status WHEN 'PENDING' THEN 0 WHEN 'APPROVING' THEN 1 ELSE 2 END,datetime(p.created_at) DESC LIMIT 80`).all(),
-    env.DB.prepare(`SELECT source_type,COUNT(*) sale_count,COALESCE(SUM(gross_coin),0) gross_coin,COALESCE(SUM(tax_coin),0) tax_coin FROM ${TAX_RECEIPT_TABLE} WHERE status='COMPLETED' GROUP BY source_type ORDER BY tax_coin DESC`).all(),
+    sourceStatistics(env),
     env.DB.prepare(`SELECT * FROM ${LEDGER_TABLE} ORDER BY datetime(created_at) DESC LIMIT 40`).all()
   ]),funds=treasurySpendable(account?.balance,account?.reserve_bps),isOwner=String(user?.role||'').toUpperCase()==='OWNER',isChief=chief.active&&Number(chief.userId)===Number(user?.id),isFinalApprover=isTreasuryFinalApprover(user);
   const limits=Object.fromEntries(Object.keys(PROPOSAL_CAP_BPS).map(type=>[type,{label:PROPOSAL_LABELS[type],...proposalLimit(account?.balance,type,account?.reserve_bps)}]));

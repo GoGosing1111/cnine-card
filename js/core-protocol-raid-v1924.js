@@ -643,8 +643,14 @@
     globalThis.ProjectVRaidQteV1924?.cancel?.();
   }
 
-  const observer = new MutationObserver(() => wire());
-  observer.observe(document.documentElement, { subtree: true, childList: true });
+  // Ignore text/clock/QTE mutations inside an existing raid. Rewire only when
+  // navigation replaces the app or the raid mount is actually inserted.
+  const observer = new MutationObserver(records => {
+    if (records.some(record => record.target.id === 'app' || [...record.addedNodes].some(node =>
+      node.nodeType === 1 && (node.matches?.('[data-raid-content]') || node.querySelector?.('[data-raid-content]'))))) wire();
+  });
+  const appRoot = document.getElementById('app');
+  if (appRoot) observer.observe(appRoot, { subtree: true, childList: true });
   addEventListener('load', wire);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopPoll();

@@ -40,8 +40,9 @@ test('message center offers a serialized one-click bulk reward claim', async () 
   const bulk = app.slice(start, end);
   assert.match(app, /id="claimAllMessages"[^>]*disabled/);
   assert.match(app, /보상 일괄 수령 · \$\{claimable\.length\.toLocaleString\(\)\}건/);
-  assert.match(bulk, /for\(const \[index,message\] of queue\.entries\(\)\)/);
-  assert.match(bulk, /apiRequest\('messages\/claim'/);
+  assert.match(bulk, /for\(let index=0;index<queue\.length;index\+=20\)/);
+  assert.match(app, /apiRequest\('messages\/claim-batch'/);
+  assert.match(bulk, /await requestMessageRewardBatch\(/);
   assert.doesNotMatch(bulk, /Promise\.all/, 'message claims must remain serialized so the user mutation lock cannot reject sibling requests');
   assert.match(bulk, /이미 처리된 보상[^]*중복 지급하지 않았습니다/);
 });

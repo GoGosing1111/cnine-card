@@ -37,6 +37,13 @@
     document.documentElement.dataset.v21UiReady = '1';
     document.body?.classList.add('v21-ui-ready');
   }
+  function revealStandaloneScreen() {
+    if (document.querySelector('#app > .maintenance-screen, #app > .login-wrap, #app > .prison-lock-shell')) {
+      markRenewalUiReady();
+      return true;
+    }
+    return false;
+  }
   let wrapTimer = 0;
   let appObserver = null;
   let chiefState = null;
@@ -627,11 +634,13 @@
     const app = document.getElementById('app');
     if (app) {
       appObserver = new MutationObserver(() => {
+        if (revealStandaloneScreen()) return;
         if (!document.querySelector('#app main.page')) return;
         scheduleEnhance(currentRoute);
       });
       appObserver.observe(app, { childList: true, subtree: false });
     }
+    revealStandaloneScreen();
     if (document.querySelector('#app main.page')) {
       currentRoute = requestedScreen && ROUTES[requestedScreen] ? requestedScreen : 'home';
       scheduleEnhance(currentRoute);

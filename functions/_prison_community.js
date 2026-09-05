@@ -1,3 +1,4 @@
+import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 const CASE_TABLE='prison_release_cases_v2031';
 const CONTRIBUTION_TABLE='prison_release_contributions_v2031';
 const HIT_COOLDOWN_TABLE='prison_hit_cooldowns_v2031';
@@ -74,11 +75,13 @@ export function closePrisonReleaseCaseStatement(env,{inmateUserId,status='ADMIN_
     WHERE inmate_user_id=? AND status='ACTIVE'`).bind(cleanText(status,40).toUpperCase(),integer(inmateUserId));
 }
 
-async function ensureActiveCases(env){
+async function ensureActiveCases(env,{fresh=true}={}){
+  if(!fresh&&readRuntimeData(env,'prison:case-reconciliation'))return;
   const rows=await env.DB.prepare(`SELECT p.user_id FROM user_prison_status p LEFT JOIN ${CASE_TABLE} c ON c.inmate_user_id=p.user_id AND c.status='ACTIVE'
     WHERE p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP AND c.inmate_user_id IS NULL LIMIT 50`).all();
   const missing=rows?.results||[];
   if(missing.length)await env.DB.batch(missing.map(row=>openPrisonReleaseCaseStatement(env,{inmateUserId:Number(row.user_id),onlyIfInactive:true})));
+  if(missing.length<50)cacheRuntimeData(env,'prison:case-reconciliation',true,5000);
 }
 
 async function activeCase(env,inmateUserId){
@@ -90,7 +93,7 @@ async function activeCase(env,inmateUserId){
 
 export async function prisonCommunityRoomState(env,user,inmates=[]){
   await ensurePrisonCommunityFoundation(env);
-  await ensureActiveCases(env);
+  await ensureActiveCases(env,{fresh:false});
   const [caseRows,cooldownRows,hitRows,contributionRows,viewerRow]=await env.DB.batch([
     env.DB.prepare(`SELECT c.*,a.nickname AS configured_by_nickname,
       (SELECT COUNT(*) FROM ${HIT_EVENT_TABLE} h WHERE h.case_id=c.case_id) AS hit_count
