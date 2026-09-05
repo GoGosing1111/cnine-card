@@ -16,8 +16,20 @@
     if(battleGrid?.children.length&&!battleGrid.querySelector('[data-grade="SUPERSTAR"]')){
       const label=document.createElement('label');
       label.className='field';
-      label.innerHTML='<span>SUPERSTAR 기본 전투력</span><input class="battleGradeInput" data-grade="SUPERSTAR" type="number" min="0" value="7000">';
+      label.innerHTML='<span>SUPERSTAR 기본 전투력</span><input class="battleGradeInput" data-grade="SUPERSTAR" type="number" min="0" value="15500" readonly aria-readonly="true">';
       battleGrid.append(label);
+    }
+    const input=battleGrid?.querySelector('[data-grade="SUPERSTAR"]');
+    if(input){
+      const reference=grade=>Math.max(0,Number(battleGrid.querySelector(`[data-grade="${grade}"]`)?.value??(grade==='FUR'?3200:5500)));
+      input.value=String(Math.max(reference('FUR'),reference('ZENITH'))+10000);
+      input.readOnly=true;
+      if(!input.parentElement.querySelector('.superstar-power-policy')){
+        const note=document.createElement('small');
+        note.className='superstar-power-policy';
+        note.textContent='+0~+13 동일 강화 FUR·ZENITH 중 높은 전투력 +10,000 · 덱 최대 1장';
+        input.after(note);
+      }
     }
   }
 
@@ -46,7 +58,7 @@
       if(!field){field=document.createElement('label');card.querySelector('.weight')?.closest('.row')?.before(field)}
       if(field){
         field.className='field cardPowerTypeField superstarPowerField';
-        field.innerHTML='<span>전투력 유형</span><select class="powerType" disabled><option value="FIXED" selected>챔피언형 · 7,000</option></select><small class="powerPreview">기본 전투력 7,000 · 일반 카드팩 획득 불가</small>';
+        field.innerHTML='<span>전투력 유형</span><select class="powerType" disabled><option value="FIXED" selected>챔피언형 · 등급 연동</option></select><small class="powerPreview">동일 강화 FUR·ZENITH 중 높은 전투력 +10,000 · 덱 최대 1장 · 일반 카드팩 획득 불가</small>';
       }
     }else if(field?.classList.contains('superstarPowerField'))field.remove();
   }
@@ -87,6 +99,9 @@
   document.addEventListener('change',event=>{
     if(event.target.matches('.adminCard .rarity'))enhanceCardEditor(event.target.closest('.adminCard'));
     if(event.target.matches('.pendingCard .pRarity'))enhancePendingCard(event.target.closest('.pendingCard'));
+  });
+  document.addEventListener('input',event=>{
+    if(event.target.matches('#battleGradePower [data-grade="FUR"],#battleGradePower [data-grade="ZENITH"]'))ensureSuperstarOptions();
   });
   const observer=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{
     if(node.nodeType===Node.ELEMENT_NODE)enhance(node);

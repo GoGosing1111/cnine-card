@@ -14,9 +14,10 @@ const readLimit=name=>{
 const limits={
   PRESTIGE:readLimit('PRESTIGE'),
   FUR:readLimit('FUR'),
-  ZENITH:readLimit('ZENITH')
+  ZENITH:readLimit('ZENITH'),
+  SUPERSTAR:readLimit('SUPERSTAR')
 };
-assert.deepEqual(limits,{PRESTIGE:2,FUR:2,ZENITH:2},'all public high-grade limits must be two cards');
+assert.deepEqual(limits,{PRESTIGE:2,FUR:2,ZENITH:2,SUPERSTAR:1},'SUPERSTAR is limited to one; other high-grade limits remain two');
 
 const contractStart=api.indexOf("function deckRulesContract(scope='PVE')");
 const contractEnd=api.indexOf('\nasync function deckGradeCounts',contractStart);
@@ -26,12 +27,12 @@ assert.doesNotMatch(contractSource,/await|env\.DB|prepare\(/,'deck rule contract
 assert.doesNotMatch(contractSource,/synerg/i,'retired deck synergy must not leak into the public rule contract');
 
 const buildContract=Function(
-  `const PRESTIGE_DECK_LIMIT=${limits.PRESTIGE};const FUR_DECK_LIMIT=${limits.FUR};const ZENITH_DECK_LIMIT=${limits.ZENITH};${contractSource};return deckRulesContract;`
+  `const PRESTIGE_DECK_LIMIT=${limits.PRESTIGE};const FUR_DECK_LIMIT=${limits.FUR};const ZENITH_DECK_LIMIT=${limits.ZENITH};const SUPERSTAR_DECK_LIMIT=${limits.SUPERSTAR};${contractSource};return deckRulesContract;`
 )();
 const expectedBase={
   schemaVersion:1,
   deckSize:5,
-  gradeLimits:{PRESTIGE:2,FUR:2,ZENITH:2},
+  gradeLimits:{PRESTIGE:2,FUR:2,ZENITH:2,SUPERSTAR:1},
   healerDuplicatePenalty:{2:60,3:75,4:85,5:90},
   healerPenaltyScope:'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED',
   formation:{code:'FRONT_2_BACK_3',frontSlots:2,backSlots:3,slots:['FRONT','FRONT','BACK','BACK','BACK']}

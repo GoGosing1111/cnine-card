@@ -145,9 +145,9 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(pveCommand, /battleSuit: Number\(bonus\.battleSuitPve \|\| 0\)/);
   assert.match(pveCommand, /배틀슈트 \$\{number\(battleSuit\)\} \(PVE 전용\)/);
   assert.match(pveCss, /pvev2-roster-foot\{display:grid;grid-template-columns:repeat\(5,1fr\) auto/);
-  assert.match(index, /pve-command-v2\.css\?v=1991-sweep-result-front/);
-  assert.match(index, /pve-command-v2-live\.js\?v=2021-core-protocol-tabs/);
-  assert.match(index, /js\/app\.js\?v=2033-prediction-star/);
+  assert.match(index, /pve-command-v2\.css\?v=2034-superstar-power-deck/);
+  assert.match(index, /pve-command-v2-live\.js\?v=2034-superstar-power-deck/);
+  assert.match(index, /js\/app\.js\?v=2034-superstar-power-deck/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
   assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);

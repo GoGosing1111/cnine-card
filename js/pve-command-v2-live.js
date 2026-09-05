@@ -109,7 +109,7 @@
 
   function pveDeckRules() {
     const fallback = {
-      gradeLimits: { PRESTIGE: 2, FUR: 2, ZENITH: 2 },
+      gradeLimits: { PRESTIGE: 2, FUR: 2, ZENITH: 2, SUPERSTAR: 1 },
       healerPenalties: { 2: 60, 3: 75, 4: 85, 5: 90 },
       formation: { frontSlots: 2, backSlots: 3 },
       healerSurviveDisabledAt: 2
@@ -119,7 +119,7 @@
     return {
       ...fallback,
       ...source,
-      gradeLimits: { ...fallback.gradeLimits, ...(source.gradeLimits || {}) },
+      gradeLimits: { ...fallback.gradeLimits, ...(source.gradeLimits || {}), SUPERSTAR: 1 },
       healerPenalties: { ...fallback.healerPenalties, ...(source.healerPenalties || source.healerDuplicatePenalty || {}) },
       formation: { ...fallback.formation, ...(source.formation || {}) }
     };
@@ -157,7 +157,7 @@
 
   function pveDeckRuleChips() {
     const rules = pveDeckRules();
-    const grades = ['PRESTIGE', 'FUR', 'ZENITH'];
+    const grades = ['PRESTIGE', 'FUR', 'ZENITH', 'SUPERSTAR'];
     return `<div class="pvev2-deck-rule-chips" aria-label="PVE 덱 등급 편성 제한">${grades.map(grade => {
       const limit = Number(rules.gradeLimits?.[grade] || 0);
       const count = battleState.deck.filter(id => pveCardGrade(cards.find(card => String(card.id) === String(id))) === grade).length;
@@ -178,7 +178,7 @@
 
   function pveDeckRulesDialog() {
     const rules = pveDeckRules(), formation = rules.formation || {}, penalties = rules.healerPenalties || {};
-    return `<div class="pvev2-rule-dialog" id="pveDeckRulesDialog" role="dialog" aria-modal="true" aria-labelledby="pveDeckRulesTitle"><section><header><div><small>PVE DECK RULES</small><h2 id="pveDeckRulesTitle">출전 편성 규칙</h2></div><button class="pvev2-btn" type="button" data-pve-rule-close>닫기</button></header><div class="pvev2-rule-dialog-grid"><article><small>등급별 최대 편성</small><p>${['PRESTIGE', 'FUR', 'ZENITH'].map(grade => `<b>${esc(grade)} <em>최대 ${Number(rules.gradeLimits?.[grade] || 0)}장</em></b>`).join('')}</p></article><article><small>전투 배치</small><p><b>전열 ${Number(formation.front ?? formation.frontSlots ?? 2)}명</b><b>후열 ${Number(formation.back ?? formation.backSlots ?? 3)}명</b></p></article><article><small>힐러 중복 페널티</small><p><b>2장 -${Number(penalties[2] || 0)}%</b><b>3장 -${Number(penalties[3] || 0)}%</b><b>4장 -${Number(penalties[4] || 0)}%</b><b>5장 -${Number(penalties[5] || 0)}%</b></p><span>2장 이상: HP형 불굴의 생존 효과 비활성</span></article></div><footer>표시된 규칙은 서버 설정을 기준으로 적용됩니다. 저장과 전투 시작 시 서버가 최종 검증합니다.</footer></section></div>`;
+    return `<div class="pvev2-rule-dialog" id="pveDeckRulesDialog" role="dialog" aria-modal="true" aria-labelledby="pveDeckRulesTitle"><section><header><div><small>PVE DECK RULES</small><h2 id="pveDeckRulesTitle">출전 편성 규칙</h2></div><button class="pvev2-btn" type="button" data-pve-rule-close>닫기</button></header><div class="pvev2-rule-dialog-grid"><article><small>등급별 최대 편성</small><p>${['PRESTIGE', 'FUR', 'ZENITH', 'SUPERSTAR'].map(grade => `<b>${esc(grade)} <em>최대 ${Number(rules.gradeLimits?.[grade] || 0)}장</em></b>`).join('')}</p></article><article><small>전투 배치</small><p><b>전열 ${Number(formation.front ?? formation.frontSlots ?? 2)}명</b><b>후열 ${Number(formation.back ?? formation.backSlots ?? 3)}명</b></p></article><article><small>힐러 중복 페널티</small><p><b>2장 -${Number(penalties[2] || 0)}%</b><b>3장 -${Number(penalties[3] || 0)}%</b><b>4장 -${Number(penalties[4] || 0)}%</b><b>5장 -${Number(penalties[5] || 0)}%</b></p><span>2장 이상: HP형 불굴의 생존 효과 비활성</span></article></div><footer>표시된 규칙은 서버 설정을 기준으로 적용됩니다. 저장과 전투 시작 시 서버가 최종 검증합니다.</footer></section></div>`;
   }
 
   function bindPveDeckRulesDialog(root) {

@@ -40,7 +40,7 @@ test('SUPERSTAR는 전 강화 구간에서 마스터의 별을 사용하고 최�
   assert.match(app,/usesMasterStars=isZenith\|\|isSuperstar\|\|isMaHigh/);
 });
 
-test('SUPERSTAR +11~+13은 ZENITH 비용·확률·천장·전투력·고유효과 표를 공유한다',()=>{
+test('SUPERSTAR +11~+13 비용·확률·천장·고유효과는 유지하고 전투력 비교 표는 호환된다',()=>{
   assert.match(api,/return \{FUR,ZENITH,SUPERSTAR:ZENITH\}/);
   assert.match(api,/if\(g==='ZENITH'\|\|g==='SUPERSTAR'\)return zenithMasterStarBreakthroughConfig\(env\)/);
   assert.match(api,/highBreakthroughBonus\.SUPERSTAR=\[\.\.\.highBreakthroughBonus\.ZENITH\]/);
@@ -85,16 +85,18 @@ test('SUPERSTAR +13은 서버와 클라이언트에서 고유효과 전직 대�
   assert.equal(eligibility.recommendedClass.classCode,'SHATTER');
 });
 
-test('SUPERSTAR +11~+13은 챔피언십 프레임을 유지하며 v1940 자산으로 로드된다',()=>{
+test('SUPERSTAR +11~+13은 챔피언십 프레임과 강화 자산을 유지하며 변경된 앱만 캐시 갱신한다',()=>{
   assert.deepEqual(uppercaseArray(app,'TIER_FRAME_GRADES'),['FUR','ZENITH','SUPERSTAR']);
   assert.match(app,/SUPERSTAR:\{11:'',12:'',13:''\}/);
   assert.match(app,/normalizedGrade==='SUPERSTAR'\?'<img class="superstar-card-frame"/);
 
-  for(const asset of ['js/bulk-enhancement-v1899.js','js/card-unique-advancement-v1.js','js/app.js']){
+  for(const asset of ['js/bulk-enhancement-v1899.js','js/card-unique-advancement-v1.js']){
     assert.match(index,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
-  for(const asset of ['admin-v1276.js','admin-v1065-card-management-reorg.js','admin-v1170-user-card-grant.js']){
+  for(const asset of ['admin-v1065-card-management-reorg.js','admin-v1170-user-card-grant.js']){
     assert.match(adminIndex,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
-  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch'/);
+  assert.match(index,/js\/app\.js\?v=2034-superstar-power-deck/);
+  assert.match(adminIndex,/admin-v1276\.js\?v=2034-superstar-power-deck/);
+  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v2034-superstar-power-deck'/);
 });

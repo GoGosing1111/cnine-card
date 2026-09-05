@@ -15,7 +15,7 @@ test('SUPERSTAR uses the same championship frame in live cards and CMS previews'
 
   assert.match(app,/normalizedGrade==='SUPERSTAR'\?'<img class="superstar-card-frame"/);
   assert.match(adminHtml,/superstar-admin-v1\.css\?v=2-pack-preview/);
-  assert.match(adminHtml,/superstar-admin-v1\.js\?v=2-pack-preview/);
+  assert.match(adminHtml,/superstar-admin-v1\.js\?v=2034-superstar-power-deck/);
   assert.match(adminModule,/superstarAdminFrame/);
   assert.match(adminModule,/superstarPendingFrame/);
   assert.match(adminModule,/cmsSuperstarFrame/);

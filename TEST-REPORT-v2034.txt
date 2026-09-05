@@ -1,0 +1,27 @@
+V2034 — 슈퍼스타 검증 기록
+
+검증 기준: fd9f75a4 이후 이번 슈퍼스타 변경만 반영. 원격 main과 기준 HEAD 일치 확인.
+
+PASS
+- node --check: functions/api/[[path]].js, js/app.js, js/pve-command-v2-live.js,
+  admin/admin-v1276.js, admin/superstar-admin-v1.js.
+- npm run test:superstar-pack: 28/28 통과.
+- 신규 실행형 검사: +0~+13 서버/클라이언트 정합성, CMS 기준표 변동, 구형 저장 기본값 무시,
+  가산 10,000의 중복 배율 차단, 타 등급/Faker/LIMITED 기존 계산 보존.
+- 메모리 SQLite 실제 SELECT: 0/1장 허용, 2장 오류, 덱/보유량 무변경,
+  기존 PVE/PVP/클랜/영토전 스냅샷 거부, 랭크전 부적합 상대 후보 제외, 레이드 출전 거부.
+- PVE/PVP UI 선택/저장/전투 및 소탕 경로의 서버 검증 호출 확인.
+- Chrome headless: 320/390/768/1440px 편성 규칙 4개 표시, 가로/텍스트 넘침 없음.
+- Chrome CMS fixture: SUPERSTAR 읽기 전용, ZENITH/FUR 입력에 따라 파생값 즉시 갱신,
+  안내문 중복 없음, pageerror 없음.
+- git diff --check 통과.
+
+전체 회귀
+- npm run release:gate의 전체 테스트 단계 통과.
+- 커밋 전 실행은 최종 운영 배포 사전 검사에서 dirty tree 규칙에 의해 정상 차단됨.
+- dirty 배포 예외를 사용하지 않음. 커밋 후 deploy:production에서 전체 gate를 다시 실행한다.
+
+범위/한계
+- 브라우저 검증은 운영 코드를 사용하는 격리 fixture. 운영 계정의 전투/보상 소모는 실행하지 않았다.
+- 수치는 기본 설정 검산이며 실제 운영 CMS 설정 변경 시 파생 계산식이 그대로 적용된다.
+- 실제 배포 완료 여부/URL/커밋은 배포 도구의 결과로 확인한다.
