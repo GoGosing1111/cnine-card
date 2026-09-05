@@ -39,7 +39,7 @@ assert.doesNotMatch(evolution,/ZENITH(?:는| 덱 편성은)[^\n]{0,80}(?:1장만
 assert.match(evolution,/ZENITH 덱 편성은 최대 2장입니다/,'진화 확인창은 2장 제한을 안내해야 합니다.');
 assert.match(evolutionCms,/ZENITH 덱 편성은 서버에서 최대 2장으로 제한됩니다/,'진화 CMS도 2장 제한을 안내해야 합니다.');
 assert.match(index,/js\/app\.js\?v=2034-superstar-power-deck/,'라이브 앱 캐시 버전을 갱신해야 합니다.');
-assert.match(index,/js\/evolution\.js\?v=1850-zenith-deck-limit-2/,'진화 화면 캐시 버전을 갱신해야 합니다.');
+assert.match(index,/js\/evolution\.js\?v=2035-evolution-batch/,'진화 화면 캐시 버전을 갱신해야 합니다.');
 assert.match(adminIndex,/evolution-admin\.js\?v=1850-zenith-deck-limit-2/,'진화 CMS 캐시 버전을 갱신해야 합니다.');
 
 console.log('ZENITH deck limit V1850: 2 allowed, 3 rejected, all user/CMS wording aligned');

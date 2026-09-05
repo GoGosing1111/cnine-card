@@ -1,141 +1,150 @@
 (()=>{
   const TYPE_SSR='SSR_TO_MA',TYPE_PRESTIGE='MA_TO_PRESTIGE',TYPE_ZENITH='LIMITED_TO_ZENITH';
-  const state={data:null,type:TYPE_SSR,selectedId:'',loading:false,pending:false};
-  const esc=value=>typeof escapeHtml==='function'?escapeHtml(value):String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  const num=value=>Number(value||0).toLocaleString();
-  const current=()=>state.data?.types?.[state.type]||null;
-  const selected=()=>current()?.candidates?.find(card=>String(card.id)===String(state.selectedId))||null;
-  const starIcon=className=>`<span class="${className||'evolution-master-star'}" aria-hidden="true"><i>★</i><b></b></span>`;
-  const isPrestige=()=>state.type===TYPE_PRESTIGE;
-  const isZenith=()=>state.type===TYPE_ZENITH;
+  const modes={SSR_TO_MA:{name:'MA 진화',short:'MA',tone:'cyan'},MA_TO_PRESTIGE:{name:'프레스티지 진화',short:'PRESTIGE',tone:'gold'},LIMITED_TO_ZENITH:{name:'제니스 진화',short:'ZENITH',tone:'violet'}};
+  const state={data:null,type:TYPE_SSR,selected:new Set(),attempts:1,search:'',showBlocked:false,pending:false,recovery:null,account:'',loadId:0};
+  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const num=value=>Number(value||0).toLocaleString('ko-KR');
+  const current=()=>state.data?.types?.[state.type];
+  const cards=()=>current()?.candidates||[];
+  const selectedCards=()=>cards().filter(card=>state.selected.has(card.id));
+  const storageKey=()=>`cnine:evolution-batch:v2035:${state.account}`;
+  const exists=()=>Boolean(document.getElementById('evolutionWorkspace'));
   const normalizeMediaPath=path=>{const value=String(path||'').trim().replace(/\\/g,'/');if(!value)return '';return /^(https?:)?\/\//i.test(value)||value.startsWith('/')?value:`/${value.replace(/^\.\//,'')}`};
   const effectSoundEnabled=()=>{try{return typeof battleSoundEnabled==='function'?battleSoundEnabled():localStorage.getItem('cnineSoundEnabled')!=='0'}catch{return true}};
+  const costText=(cost,multiplier=1)=>[cost.coinCost?`${num(cost.coinCost*multiplier)} 코인`:'',cost.shardCost?`조각 ${num(cost.shardCost*multiplier)}`:'',cost.masterStarCost?`마스터의 별 ${num(cost.masterStarCost*multiplier)}`:''].filter(Boolean).join(' · ')||'추가 재료 없음';
+  const illustration=card=>`<img src="${esc(normalizeMediaPath(card.image))}" alt="${esc(card.title||card.name)}" loading="lazy" decoding="async" style="object-position:${Math.min(100,Math.max(0,Number(card.focusX??50)))}% ${Math.min(100,Math.max(0,Number(card.focusY??50)))}%">`;
 
   function evolutionView(user){
-    return `${summaryBar(user)}<section class="evolution-page">
-      <header class="evolution-hero">
-        <div><p class="eyebrow">CARD EVOLUTION</p><h2>카드 진화</h2><p>SSR·PRESTIGE 진화와 LIMITED +13 카드의 ZENITH 진화를 진행합니다.</p></div>
-        <div class="evolution-star-wallet" id="evolutionStarWallet">${starIcon('evolution-wallet-star')}<span><small>보유 마스터의 별</small><b>불러오는 중</b></span></div>
-      </header>
-      <div id="evolutionWorkspace" class="evolution-workspace"><div class="evolution-loading"><i></i><b>진화 정보를 불러오는 중입니다.</b></div></div>
-    </section>`;
+    const account=String(user?.serverUserId||user?.id||user?.nickname||'guest');
+    if(state.account!==account){dismissDialog();state.account=account;state.selected.clear();state.recovery=null;state.data=null;state.pending=false;state.type=TYPE_SSR}
+    return `${summaryBar(user)}<section class="evolution-page evx-page"><div id="evolutionWorkspace" class="evx-workspace"><div class="evx-empty" role="status">진화할 수 있는 카드를 불러오는 중입니다.</div></div></section>`;
   }
-
-  function candidateCard(card){
-    const blocked=!card.eligible,progress=card.progress||{};
-    return `<button type="button" class="evolution-candidate ${String(card.id)===String(state.selectedId)?'selected':''} ${blocked?'blocked':''}" data-evolution-card="${esc(card.id)}" ${blocked?'disabled':''}>
-      <span class="evolution-candidate-art"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><i>${esc(card.grade)} +${Number(card.breakthroughLevel||0)}</i></span>
-      <span class="evolution-candidate-copy"><b>${esc(card.title)}</b><small>${esc(card.name||'')} · 보유 ${num(card.quantity)}장</small>${blocked?`<em>${esc(card.blockedReason)}</em>`:`<em class="ready">실패 누적 ${num(progress.failedAttempts||0)}회</em>`}</span>
-    </button>`;
+  function restore(){try{state.recovery=JSON.parse(localStorage.getItem(storageKey())||'null')}catch{state.recovery=null}}
+  function persist(value){localStorage.setItem(storageKey(),JSON.stringify(value));state.recovery=value}
+  function clearRecovery(){try{localStorage.removeItem(storageKey())}catch{}state.recovery=null}
+  function canRun(){
+    const rule=current(),count=state.selected.size*state.attempts,r=state.data?.userResources||{};
+    return Boolean(rule&&count&&state.data.settings.enabled&&!state.pending&&!state.recovery&&rule.resultPool.length&&(!rule.coinCost||Number(r.coin||0)>=rule.coinCost*count)&&(!rule.shardCost||Number(r.cardShards||0)>=rule.shardCost*count)&&(!rule.masterStarCost||Number(state.data.masterStars||0)>=rule.masterStarCost*count));
   }
-
-  function selectedPanel(type,card){
-    if(!card)return `<div class="evolution-slot empty"><span>01</span><div class="evolution-empty-card"><i>+</i><b>진화할 카드를 선택하세요.</b><small>${type?.sourceGrade||''} +${Number(type?.minBreakthrough||0)} 카드가 필요합니다.</small></div></div>`;
-    const consumeText='진화 성공 시에만 선택한 카드 1장이 소모됩니다.';
-    return `<div class="evolution-slot source">
-      <span>01 · SOURCE CARD</span>
-      <div class="evolution-selected-card">
-        <div class="evolution-selected-art"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><i>${esc(card.grade)}</i><strong>+${Number(card.breakthroughLevel||0)}</strong></div>
-        <div><small>${esc(card.name||'')}</small><h3>${esc(card.title)}</h3><p>전투력 ${num(card.basePower)}</p><em>${consumeText}</em></div>
-      </div>
-    </div>`;
+  function resourceRows(multiplier){
+    const rule=current(),r=state.data.userResources;
+    return [["코인",rule.coinCost,r.coin],["카드조각",rule.shardCost,r.cardShards],["마스터의 별",rule.masterStarCost,state.data.masterStars]].filter(([,cost])=>cost>0).map(([label,cost,owned])=>`<div class="evx-cost ${owned<cost*multiplier?'is-short':''}"><span>${label}<small>보유 ${num(owned)}</small></span><b>${num(cost*multiplier)}<small>${owned<cost*multiplier?'재료 부족':'최대 소모'}</small></b></div>`).join('');
   }
-
-  function legacyCore(type,card){
-    const progress=card?.progress||{},pityAttempts=Number(type?.pityAttempts||1),pityNext=Number(progress.failedAttempts||0)+1>=pityAttempts;
-    return `<div class="evolution-slot core legacy">
-      <span>02 · EVOLUTION CORE</span>
-      <div class="evolution-core-visual"><i class="core-ring one"></i><i class="core-ring two"></i><b>STANDARD EVOLUTION</b><small>${esc(type?.label||'')}</small></div>
-      <div class="evolution-legacy-cost"><span>◈ ${num(type?.coinCost)} 코인</span><span>◆ 카드조각 ${num(type?.shardCost)}개</span></div>
-      <div class="evolution-legacy-rate"><span>${pityNext?'다음 도전 천장 확정':`성공 확률 ${Number(type?.successRate||0)}%`}</span><small>실패 ${num(progress.failedAttempts||0)}회 / 천장 ${num(pityAttempts)}회</small></div>
-    </div>`;
-  }
-
-  function prestigeCore(type,masterStars,card){
-    const cost=Number(type?.masterStarCost||0),enough=masterStars>=cost,progress=card?.progress||{},pityAttempts=Math.max(1,Number(type?.pityAttempts||1)),pityNext=Number(progress.failedAttempts||0)+1>=pityAttempts;
-    return `<div class="evolution-slot core prestige">
-      <span>02 · EVOLUTION CORE</span>
-      <div class="evolution-core-visual"><i class="core-ring one"></i><i class="core-ring two"></i>${starIcon('evolution-core-star')}<b>PRESTIGE ASCENSION</b><small>${esc(type?.label||'')}</small></div>
-      <div class="evolution-material-row"><div>${starIcon('evolution-material-icon')}<span><small>필요 재료</small><b>마스터의 별 ${num(cost)}개</b></span></div><em class="${enough?'enough':'shortage'}">보유 ${num(masterStars)}개</em></div>
-      <div class="evolution-legacy-rate"><span>${pityNext?'다음 도전 천장 확정':`성공 확률 ${Number(type?.successRate||0)}%`}</span><small>실패 ${num(progress.failedAttempts||0)}회 / 천장 ${num(pityAttempts)}회</small></div>
-    </div>`;
-  }
-
-  function zenithCore(type,masterStars,card){
-    const starCost=Number(type?.masterStarCost||0),coinCost=Number(type?.coinCost||0),resources=state.data?.userResources||{},enoughStars=masterStars>=starCost,enoughCoin=Number(resources.coin||0)>=coinCost,progress=card?.progress||{},pityAttempts=Math.max(1,Number(type?.pityAttempts||7)),failedAttempts=Number(progress.failedAttempts||0),pityNext=failedAttempts+1>=pityAttempts;
-    return `<div class="evolution-slot core prestige zenith">
-      <span>02 · ZENITH CORE</span>
-      <div class="evolution-core-visual"><i class="core-ring one"></i><i class="core-ring two"></i>${starIcon('evolution-core-star')}<b>ZENITH ASCENSION</b><small>${esc(type?.label||'')}</small></div>
-      <div class="evolution-material-row"><div>${starIcon('evolution-material-icon')}<span><small>필요 재료</small><b>마스터의 별 ${num(starCost)}개</b></span></div><em class="${enoughStars?'enough':'shortage'}">보유 ${num(masterStars)}개</em></div>
-      <div class="evolution-material-row zenith-coin"><div><span class="evolution-coin-icon">◈</span><span><small>필요 코인</small><b>${num(coinCost)} 코인</b></span></div><em class="${enoughCoin?'enough':'shortage'}">보유 ${num(resources.coin)}코인</em></div>
-      <div class="evolution-legacy-rate"><span>${pityNext?'다음 도전 천장 확정':`성공 확률 ${Number(type?.successRate||0)}%`}</span><small>실패 ${num(failedAttempts)}회 / 7번째 도전 확정</small></div>
-    </div>`;
-  }
-
-  function resultPanel(type){
-    const pool=type?.resultPool||[],hasPool=pool.length>0,prestige=isPrestige(),zenith=isZenith(),total=Number(type?.totalResultCount||pool.length),owned=Number(type?.ownedResultCount||0);
-    const emptyText=prestige&&type?.resultPoolExhausted?'공개 PRESTIGE 카드를 모두 보유 중입니다.':'결과 카드가 등록되지 않았습니다.';
-    return `<div class="evolution-slot result ${prestige?'prestige':''} ${zenith?'zenith':''}">
-      <span>03 · RANDOM RESULT</span>
-      <div class="evolution-result-mystery"><i>?</i><b>${prestige?'미보유 PRESTIGE 카드 1장':zenith?'랜덤 ZENITH 카드 1장':`랜덤 ${esc(type?.targetGrade||'')} 카드 1장`}</b><small>${hasPool?`${prestige?'획득 가능한 신규 카드':zenith?'공개 ZENITH 결과':'현재 결과 카드'} ${num(pool.length)}종${prestige&&owned>0?` · 보유 제외 ${num(owned)}종`:''}`:emptyText}</small></div>
-      <button type="button" class="evolution-pool-button" id="evolutionPoolButton" ${hasPool?'':'disabled'}>결과 카드 목록 보기</button>
-      <p>${prestige?`전체 공개 ${num(total)}종 중 이미 보유한 카드는 결과에서 자동 제외됩니다.`:zenith?'활성화된 모든 공개 ZENITH 카드 중 동일 확률로 결정됩니다.':'활성화된 공개 카드 중 동일 확률로 결정됩니다.'}</p>
-    </div>`;
-  }
-
   function render(){
-    const root=document.getElementById('evolutionWorkspace');if(!root||!state.data)return;
-    const type=current(),card=selected(),masterStars=Number(state.data.masterStars||0),resources=state.data.userResources||{},hasPool=Boolean(type?.resultPool?.length),enabled=state.data.settings?.enabled!==false;
-    const enoughMaterial=isZenith()?masterStars>=Number(type?.masterStarCost||0)&&Number(resources.coin||0)>=Number(type?.coinCost||0):isPrestige()?masterStars>=Number(type?.masterStarCost||0):Number(resources.coin||0)>=Number(type?.coinCost||0)&&Number(resources.cardShards||0)>=Number(type?.shardCost||0);
-    const canAttempt=enabled&&card?.eligible&&enoughMaterial&&hasPool&&!state.pending,candidates=type?.candidates||[];
-    const warning=isZenith()?'<div><i>!</i><span><b>ZENITH 진화 주의사항</b><small>도전마다 마스터의 별 30개와 5,000,000코인이 소모됩니다. 성공 확률은 25%이며 7번째 도전은 확정 성공입니다.</small></span></div><p>실패 시 LIMITED +13 카드와 강화 수치는 유지됩니다. 성공 시 원본 1장이 소모되고 공개 ZENITH 카드 1장이 지급됩니다. ZENITH는 덱당 최대 2장까지 편성할 수 있습니다.</p>':isPrestige()
-      ?'<div><i>!</i><span><b>PRESTIGE 진화 주의사항</b><small>매 도전마다 마스터의 별이 소모됩니다. 실패 시 MA +13 카드와 강화 수치는 유지되며, 성공 시에만 원본 카드가 소모됩니다.</small></span></div><p>성공 결과는 미보유 PRESTIGE 카드에서만 결정됩니다. 전부 보유 중이면 도전이 차단되고 재료도 소모되지 않습니다.</p>'
-      :'<div><i>!</i><span><b>SSR 진화 주의사항</b><small>기존 방식과 동일합니다. 실패 시 코인과 카드조각만 소모되고 SSR 카드와 +10 강화는 유지됩니다.</small></span></div><p>성공한 경우에만 SSR 카드가 소모되고 랜덤 MA 카드가 지급됩니다.</p>';
-    root.innerHTML=`
-      <nav class="evolution-type-tabs three" aria-label="진화 종류">
-        <button type="button" data-evolution-type="${TYPE_SSR}" class="${state.type===TYPE_SSR?'active':''}"><small>STANDARD EVOLUTION</small><b>SSR → MA</b><span>기존 확률·천장 방식</span></button>
-        <button type="button" data-evolution-type="${TYPE_PRESTIGE}" class="${state.type===TYPE_PRESTIGE?'active':''}"><small>PRESTIGE ASCENSION</small><b>MA +13 → PRESTIGE</b><span>확률·천장 · 마스터의 별</span></button>
-        <button type="button" data-evolution-type="${TYPE_ZENITH}" class="${state.type===TYPE_ZENITH?'active':''}"><small>ZENITH ASCENSION</small><b>LIMITED +13 → ZENITH</b><span>25% · 별 30개 · 500만 코인</span></button>
-      </nav>
-      ${enabled?'':'<div class="evolution-closed-notice">현재 CMS에서 카드 진화가 중지되어 있습니다.</div>'}
-      <section class="evolution-layout">
-        <aside class="evolution-picker"><header><div><p class="eyebrow">SELECT MATERIAL</p><h3>진화 대상 카드</h3></div><span>${num(type?.eligibleCount||0)}장 가능</span></header><div class="evolution-candidate-list">${candidates.length?candidates.map(candidateCard).join(''):`<div class="evolution-candidate-empty"><b>보유한 ${esc(type?.sourceGrade||'')} 카드가 없습니다.</b><small>진화 조건을 충족한 카드가 이곳에 표시됩니다.</small></div>`}</div></aside>
-        <div class="evolution-main">
-          <div class="evolution-process-grid">${selectedPanel(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${isZenith()?zenithCore(type,masterStars,card):isPrestige()?prestigeCore(type,masterStars,card):legacyCore(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${resultPanel(type)}</div>
-          <div class="evolution-warning-panel">${warning}</div>
-          <button type="button" class="evolution-submit ${isPrestige()?'prestige':''} ${isZenith()?'zenith':''}" id="evolutionSubmit" ${canAttempt?'':'disabled'}>${state.pending?'진화 처리 중...':card?`${esc(card.title)} 진화 도전`:'진화할 카드 선택'}</button>
-          ${card&&!enoughMaterial?`<small class="evolution-submit-help">${isZenith()?`필요 재료: 마스터의 별 ${num(type.masterStarCost)}개 + ${num(type.coinCost)}코인`:isPrestige()?`마스터의 별이 ${num(Number(type.masterStarCost||0)-masterStars)}개 부족합니다.`:`진화 재료가 부족합니다. (${num(type.coinCost)}코인 / 카드조각 ${num(type.shardCost)}개)`}</small>`:''}
-          ${!hasPool?`<small class="evolution-submit-help">${isPrestige()&&type?.resultPoolExhausted?'현재 공개 PRESTIGE 카드를 모두 보유 중이라 진화할 수 없습니다.':'CMS에서 공개 '+esc(type?.targetGrade||'')+' 카드를 먼저 등록해야 합니다.'}</small>`:''}
-        </div>
-      </section>`;
-    document.querySelectorAll('[data-evolution-type]').forEach(button=>button.onclick=()=>switchType(button.dataset.evolutionType));
-    document.querySelectorAll('[data-evolution-card]').forEach(button=>button.onclick=()=>{state.selectedId=button.dataset.evolutionCard;render()});
-    document.getElementById('evolutionPoolButton')?.addEventListener('click',showPool);
-    document.getElementById('evolutionSubmit')?.addEventListener('click',openConfirm);
-    updateWallet();
+    const box=document.getElementById('evolutionWorkspace');if(!box||!state.data)return;
+    const rule=current(),mode=modes[state.type],eligible=cards().filter(card=>card.eligible).length;
+    box.dataset.tone=mode.tone;
+    box.innerHTML=`<header class="evx-top"><div><span class="evx-kicker">EVOLUTION</span><p>다음 등급으로, 한 번에.</p></div><button type="button" class="evx-text-btn" id="evxHelp">진화 안내 <span aria-hidden="true">↗</span></button></header>
+      <nav class="evx-tabs" aria-label="진화 종류">${Object.entries(modes).map(([type,m])=>`<button type="button" data-mode="${type}" aria-pressed="${state.type===type}" ${state.pending?'disabled':''}><span>${m.name}</span><small>${state.data.types[type].sourceGrade} +${state.data.types[type].minBreakthrough} → ${m.short}</small></button>`).join('')}</nav>
+      <div class="evx-rulebar"><span>성공 확률 <b>${num(rule.successRate)}%</b></span><span>확정 진화 <b>${num(rule.pityAttempts)}번째</b></span><span>진화 가능 <b>${num(eligible)}종</b></span><button type="button" class="evx-text-btn" id="evxPool">결과 카드 ${num(rule.resultPool.length)}종 <span aria-hidden="true">↗</span></button></div>
+      ${state.data.settings.enabled?'':'<div class="evx-notice" role="status">현재 카드 진화가 일시 중지되어 있습니다.</div>'}
+      <div id="evxRecovery"></div>
+      <div class="evx-mobile-setup"><div><label for="evxMobileAttempts">카드별 최대 시도</label><small>성공하면 해당 카드 자동 중단</small></div><div class="evx-attempt-controls"><div class="evx-presets">${[1,5,10].map(n=>`<button type="button" data-attempts="${n}" aria-pressed="${state.attempts===n}">${n}회</button>`).join('')}</div><input id="evxMobileAttempts" type="number" inputmode="numeric" min="1" max="10" value="${state.attempts}" aria-label="모바일 카드별 최대 시도 횟수"></div></div>
+      <div class="evx-layout"><div class="evx-collection"><div class="evx-collection-head"><h3>진화할 카드 선택</h3><span>한 번에 최대 20종</span></div>
+        <div class="evx-tools"><label class="evx-search"><span aria-hidden="true">⌕</span><input id="evxSearch" type="search" placeholder="카드 이름 검색" aria-label="카드 이름 검색" value="${esc(state.search)}"></label><label class="evx-toggle"><input id="evxBlocked" type="checkbox" ${state.showBlocked?'checked':''}>진화 불가 포함</label></div>
+        <div class="evx-selectbar"><span id="evxVisibleCount"></span><div><button type="button" id="evxSelectAll">전체 선택</button><button type="button" id="evxClear">선택 해제</button></div></div>
+        <div class="evx-grid" id="evxCardGrid"></div><div class="evx-inline-status" id="evxSelectionStatus" aria-live="polite"></div></div>
+      <aside class="evx-checkout"><div class="evx-checkout-head"><span class="evx-kicker">YOUR SELECTION</span><h3>선택 카드 <b id="evxSelectedCount">0</b><small>종</small></h3></div>
+        <div class="evx-selected-strip" id="evxSelectedStrip"></div>
+        <label class="evx-attempt-label" for="evxAttempts">카드별 최대 시도 횟수</label><div class="evx-attempt-controls"><div class="evx-presets">${[1,5,10].map(n=>`<button type="button" data-attempts="${n}" aria-pressed="${state.attempts===n}">${n}회</button>`).join('')}</div><input id="evxAttempts" type="number" inputmode="numeric" min="1" max="10" step="1" value="${state.attempts}" aria-label="카드별 최대 시도 횟수"></div>
+        <p class="evx-hint">성공한 카드는 자동으로 멈춥니다.<br>실제 시도한 횟수만큼만 재료를 소모합니다.</p><div id="evxCosts" class="evx-costs"></div>
+        <div class="evx-checkout-action"><div id="evxAttemptSummary" aria-live="polite"></div><button type="button" class="evx-primary" id="evxStart" disabled>카드를 선택하세요</button></div>
+        <p class="evx-consumption-note">성공 시 원본 카드의 강화와 중복 보유분 전체가 소모됩니다. 실패 시 카드는 유지됩니다.</p>
+      </aside></div>`;
+    box.querySelectorAll('[data-mode]').forEach(button=>button.onclick=()=>{if(state.pending)return;state.type=button.dataset.mode;state.selected.clear();state.search='';state.showBlocked=false;render()});
+    box.querySelector('#evxSearch').oninput=event=>{state.search=event.target.value;renderGrid()};
+    box.querySelector('#evxBlocked').onchange=event=>{state.showBlocked=event.target.checked;renderGrid()};
+    box.querySelector('#evxSelectAll').onclick=()=>{if(state.pending||state.recovery)return;for(const card of filtered().filter(card=>card.eligible)){if(state.selected.size>=20)break;state.selected.add(card.id)}renderGrid();updateCheckout()};
+    box.querySelector('#evxClear').onclick=()=>{if(state.pending)return;state.selected.clear();renderGrid();updateCheckout()};
+    box.querySelectorAll('[data-attempts]').forEach(button=>button.onclick=()=>setAttempts(Number(button.dataset.attempts)));
+    box.querySelector('#evxAttempts').onchange=event=>setAttempts(Number(event.target.value));
+    box.querySelector('#evxMobileAttempts').onchange=event=>setAttempts(Number(event.target.value));
+    box.querySelector('#evxStart').onclick=openConfirm;
+    box.querySelector('#evxHelp').onclick=showHelp;box.querySelector('#evxPool').onclick=showPool;
+    renderGrid();updateCheckout();renderRecovery();
   }
-
-  function updateWallet(){const wallet=document.getElementById('evolutionStarWallet');if(wallet&&state.data)wallet.querySelector('.evolution-star-wallet>span:last-child b').textContent=`${num(state.data.masterStars)}개`}
-  function switchType(type){if(!state.data?.types?.[type]||state.pending)return;state.type=type;state.selectedId=state.data.types[type].candidates.find(card=>card.eligible)?.id||'';render()}
-  function showPool(){const type=current(),pool=type?.resultPool||[],modal=document.getElementById('modal');if(!modal||!pool.length)return;const prestige=isPrestige(),zenith=isZenith();modal.className='modal show evolution-pool-modal';modal.innerHTML=`<div class="modal-panel evolution-pool-panel"><button type="button" class="icon-close" id="evolutionPoolClose">×</button><div class="evolution-pool-head"><p class="eyebrow">RANDOM RESULT POOL</p><h2>${esc(type.targetGrade)} 진화 결과</h2><p>${prestige?`현재 보유하지 않은 PRESTIGE 카드 ${num(pool.length)}종 중 동일 확률로 1장이 결정됩니다. 보유 카드는 자동 제외됩니다.`:zenith?`활성화된 공개 ZENITH 카드 ${num(pool.length)}종 중 동일 확률로 1장이 결정됩니다.`:`활성화된 카드 ${num(pool.length)}종 중 동일 확률로 1장이 결정됩니다.`}</p></div><div class="evolution-pool-grid">${pool.map(card=>`<article><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><span>${esc(card.grade)}</span><b>${esc(card.title)}</b><small>${esc(card.name||'')}</small></article>`).join('')}</div><button type="button" class="btn secondary" id="evolutionPoolConfirm">확인</button></div>`;const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('evolutionPoolClose').onclick=close;document.getElementById('evolutionPoolConfirm').onclick=close}
-
+  function setAttempts(value){if(state.pending||state.recovery)return;state.attempts=Math.max(1,Math.min(10,Math.floor(value)||1));document.getElementById('evxAttempts').value=state.attempts;document.getElementById('evxMobileAttempts').value=state.attempts;document.querySelectorAll('[data-attempts]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.attempts)===state.attempts)));updateCheckout()}
+  const filtered=()=>cards().filter(card=>(state.showBlocked||card.eligible)&&`${card.title} ${card.name}`.toLowerCase().includes(state.search.trim().toLowerCase()));
+  function renderGrid(){
+    const grid=document.getElementById('evxCardGrid');if(!grid)return;
+    const visible=filtered();document.getElementById('evxVisibleCount').textContent=`${num(visible.length)}종 표시`;
+    grid.innerHTML=visible.length?visible.map(card=>{const chosen=state.selected.has(card.id),failed=card.progress?.success?0:Number(card.progress?.failedAttempts||0);return `<button type="button" class="evx-card ${chosen?'is-selected':''} ${card.eligible?'':'is-blocked'}" data-card="${esc(card.id)}" aria-pressed="${chosen}" ${!card.eligible||state.pending||state.recovery?'disabled':''}><span class="evx-card-art">${illustration(card)}<span class="evx-grade">${esc(card.grade)} +${card.breakthroughLevel}</span><span class="evx-check" aria-hidden="true">${chosen?'✓':'+'}</span><span class="evx-stock">보유 ${num(card.quantity)}</span></span><span class="evx-card-info"><strong>${esc(card.title||card.name)}</strong><small>${card.eligible?`실패 ${failed}회 · ${Math.max(1,current().pityAttempts-failed)}회 내 확정`:esc(card.blockedReason)}</small></span></button>`}).join(''):`<div class="evx-empty"><span aria-hidden="true">＋</span><h3>${state.search?'검색 결과가 없습니다':'진화 가능한 카드가 없습니다'}</h3><p>${state.search?'다른 카드 이름으로 검색해 주세요.':`${esc(current().sourceGrade)} +${current().minBreakthrough} 카드를 준비해 주세요.`}</p>${!state.search&&!state.showBlocked&&cards().length?'<button type="button" class="evx-secondary" id="evxShowBlocked">보유 카드와 조건 확인</button>':''}</div>`;
+    grid.querySelectorAll('[data-card]').forEach(button=>button.onclick=()=>{const id=button.dataset.card;if(state.selected.has(id))state.selected.delete(id);else if(state.selected.size<20)state.selected.add(id);else{document.getElementById('evxSelectionStatus').textContent='한 번에 최대 20종까지 선택할 수 있습니다.';return}renderGrid();updateCheckout()});
+    grid.querySelector('#evxShowBlocked')?.addEventListener('click',()=>{state.showBlocked=true;document.getElementById('evxBlocked').checked=true;renderGrid()});
+    grid.querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;img.parentElement.classList.add('image-missing')});
+  }
+  function updateCheckout(){
+    if(!document.getElementById('evxSelectedCount')||!state.data)return;
+    const chosen=selectedCards(),count=chosen.length*state.attempts;
+    document.getElementById('evolutionWorkspace').dataset.hasSelection=String(chosen.length>0);
+    document.getElementById('evxSelectedCount').textContent=chosen.length;
+    document.getElementById('evxSelectedStrip').innerHTML=chosen.length?chosen.slice(0,5).map(card=>`<span title="${esc(card.title)}">${illustration(card)}</span>`).join('')+(chosen.length>5?`<b>+${chosen.length-5}</b>`:''):'<span class="evx-strip-empty">카드를 눌러 담아 주세요</span>';
+    document.getElementById('evxCosts').innerHTML=resourceRows(count);
+    document.getElementById('evxAttemptSummary').innerHTML=`<span>최대 <b>${num(count)}회</b> 시도</span><small>${chosen.length}종 × 최대 ${state.attempts}회</small><small class="evx-mobile-cost">${costText(current(),count)}</small>`;
+    const button=document.getElementById('evxStart');button.disabled=!canRun();button.textContent=state.pending?'진화 처리 중…':state.recovery?'이전 결과 확인 필요':!chosen.length?'카드를 선택하세요':!current().resultPool.length?'결과 카드 없음':canRun()?`${chosen.length}종 일괄 진화`:'재료가 부족합니다';
+    document.querySelectorAll('#evxAttempts,#evxMobileAttempts,[data-attempts],#evxSelectAll,#evxClear').forEach(control=>control.disabled=state.pending||Boolean(state.recovery));
+  }
+  let dialogFocus=null,dialogOverflow='',dialogClose=null;
+  function dismissDialog(){const dialog=document.getElementById('evxDialog');if(!dialog)return;dialog.remove();document.body.style.overflow=dialogOverflow;document.removeEventListener('keydown',dialogKeys);const callback=dialogClose;dialogClose=null;callback?.();dialogFocus?.focus?.()}
+  function dialogKeys(event){const dialog=document.getElementById('evxDialog');if(!dialog)return;if(event.key==='Escape'&&dialog.dataset.dismiss==='true'){event.preventDefault();dismissDialog()}if(event.key==='Tab'){const nodes=[...dialog.querySelectorAll('button:not(:disabled),input:not(:disabled),a[href]')];if(!nodes.length){event.preventDefault();return}const first=nodes[0],last=nodes.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}}}
+  function openDialog(title,body,{dismiss=true,onClose=null,wide=false}={}){
+    dismissDialog();dialogFocus=document.activeElement;dialogOverflow=document.body.style.overflow;dialogClose=onClose;
+    const overlay=document.createElement('div');overlay.id='evxDialog';overlay.className='evx-dialog-overlay';overlay.dataset.dismiss=String(dismiss);
+    overlay.innerHTML=`<section class="evx-dialog ${wide?'is-wide':''}" role="dialog" aria-modal="true" aria-labelledby="evxDialogTitle" tabindex="-1"><header><div><span class="evx-kicker">CARD EVOLUTION</span><h2 id="evxDialogTitle">${esc(title)}</h2></div>${dismiss?'<button type="button" class="evx-dialog-close" aria-label="닫기">×</button>':''}</header>${body}</section>`;
+    document.body.append(overlay);document.body.style.overflow='hidden';overlay.querySelector('.evx-dialog-close')?.addEventListener('click',dismissDialog);overlay.onclick=event=>{if(event.target===overlay&&dismiss)dismissDialog()};document.addEventListener('keydown',dialogKeys);overlay.querySelector('button,input,.evx-dialog')?.focus();
+  }
+  function showHelp(){
+    openDialog('진화는 이렇게 진행돼요',`<ol class="evx-help"><li><b>진화 종류와 카드를 선택</b><p>MA 진화는 SSR +10, 프레스티지 진화는 MA +13, 제니스 진화는 LIMITED +13부터 가능합니다.</p></li><li><b>카드별 최대 시도 횟수 설정</b><p>1~20종의 카드마다 최대 1~10회 시도합니다. 성공하면 해당 카드는 바로 멈추며, 남은 횟수의 비용은 소모하지 않습니다.</p></li><li><b>성공과 실패 결과를 한눈에 확인</b><p>성공 시 원본의 강화와 중복 보유분 전체가 소모되고, 결과 카드 1장을 획득합니다. 실패 시 카드는 유지되고 실패 횟수는 다음 진화에 이어집니다.</p></li></ol><div class="evx-notice">확률·재료·천장은 기존과 동일합니다. 제니스는 7번째 도전 확정이며, ZENITH 덱 편성은 최대 2장입니다. 프레스티지·제니스 진화 재료는 PVE/PVP 및 프리셋에서 해제해야 합니다.</div><p class="evx-hint">프레스티지는 미보유 카드만 획득합니다. MA 중복 획득의 카드조각·마스터의 별 보너스도 유지됩니다.</p>`);
+  }
+  function showPool(){openDialog(`${modes[state.type].name} 결과 카드`,`${state.type===TYPE_PRESTIGE?'<p class="evx-hint">현재 미보유 카드만 표시합니다. 획득할 때마다 결과 풀에서 제외됩니다.</p>':'<p class="evx-hint">공개된 결과 카드 중 동일 확률로 결정됩니다.</p>'}<div class="evx-pool-grid">${current().resultPool.map(card=>`<article>${illustration(card)}<b>${esc(card.title||card.name)}</b><small>${esc(card.grade)}</small></article>`).join('')||'<p>현재 획득 가능한 카드가 없습니다.</p>'}</div>`,{wide:true})}
   function openConfirm(){
-    const type=current(),card=selected(),modal=document.getElementById('modal');if(!modal||!card||state.pending)return;
-    const material=isZenith()?`마스터의 별 ${num(type.masterStarCost)}개 · ${num(type.coinCost)}코인`:isPrestige()?`마스터의 별 ${num(type.masterStarCost)}개`:`${num(type.coinCost)}코인 · 카드조각 ${num(type.shardCost)}개`;
-    const warning=isZenith()?'실패하면 재료만 소모되고 LIMITED +13 카드는 유지됩니다. 성공 시 원본 1장이 소모되고 공개 ZENITH 카드 1장이 지급됩니다.':isPrestige()?'실패하면 마스터의 별만 소모되고 MA +13 카드는 유지됩니다. 성공 시에는 중복되지 않는 PRESTIGE 카드가 지급되고 원본 카드가 소모됩니다.':'실패하면 코인과 카드조각만 소모되며 SSR 카드와 +10 강화는 유지됩니다.';
-    modal.className='modal show evolution-confirm-modal';
-    modal.innerHTML=`<div class="modal-panel evolution-confirm-panel"><button type="button" class="icon-close" id="evolutionConfirmClose">×</button><p class="eyebrow">FINAL CONFIRMATION</p><h2>진화에 도전하시겠습니까?</h2><div class="evolution-confirm-card"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><span><small>${esc(card.grade)} +${Number(card.breakthroughLevel||0)}</small><b>${esc(card.title)}</b><em>${material}</em></span></div><div class="evolution-confirm-warning"><b>${warning}</b><span>${isZenith()?'성공 확률 25% · 7번째 도전 확정 · ZENITH 덱 편성은 최대 2장입니다.':isPrestige()?'결과는 현재 미보유 PRESTIGE 카드 중에서 결정됩니다.':`결과는 랜덤 ${esc(type.targetGrade)} 카드로 결정됩니다.`}</span></div><div class="evolution-confirm-actions"><button type="button" class="btn secondary" id="evolutionConfirmCancel">취소</button><button type="button" class="btn evolution-confirm-submit" id="evolutionConfirmSubmit" disabled>진화 확정 (1)</button></div></div>`;
-    const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('evolutionConfirmClose').onclick=close;document.getElementById('evolutionConfirmCancel').onclick=close;const submit=document.getElementById('evolutionConfirmSubmit');setTimeout(()=>{if(submit?.isConnected){submit.disabled=false;submit.textContent='진화 도전'}},1000);submit.onclick=()=>attempt(card,type);
+    if(!canRun())return;
+    const chosen=selectedCards(),count=chosen.length*state.attempts;
+    openDialog(`${chosen.length}종을 일괄 진화할까요?`,`<div class="evx-confirm-summary"><b>카드별 최대 ${state.attempts}회</b><span>총 최대 ${num(count)}회 · 성공 시 자동 중단</span></div><div class="evx-confirm-list">${chosen.map(card=>`<div><span>${esc(card.title)}</span><b>${num(card.quantity)}장 보유</b></div>`).join('')}</div><div class="evx-costs">${resourceRows(count)}</div><p class="evx-hint">위 비용은 최대 예상치입니다. 실제 진행한 횟수만 차감됩니다.</p><label class="evx-ack"><input id="evxConfirmAck" type="checkbox"><span>성공한 원본 카드의 <strong>중복 보유분 전체와 강화가 소모</strong>되는 것을 확인했습니다.</span></label><button type="button" class="evx-primary" id="evxConfirmGo" disabled>확인하고 진화 시작</button>`);
+    const ack=document.getElementById('evxConfirmAck'),go=document.getElementById('evxConfirmGo');ack.onchange=()=>go.disabled=!ack.checked;
+    go.onclick=()=>{if(!ack.checked||state.pending)return;const expectedPolicy=Object.fromEntries(['coinCost','shardCost','masterStarCost','successRate','pityAttempts'].map(key=>[key,Number(current()[key]||0)]));const plan={requestId:crypto.randomUUID(),evolutionType:state.type,cardIds:[...state.selected],attemptsPerCard:state.attempts,expectedPolicy};try{persist({plan})}catch{openDialog('진화를 시작하지 않았습니다','<p>요청 번호를 기기에 보관할 수 없습니다. 브라우저 저장 공간을 확인해 주세요. 재료는 소모되지 않았습니다.</p>');return}execute(plan)};
   }
-
-  async function attempt(card,type){
-    if(state.pending)return;state.pending=true;
-    const modal=document.getElementById('modal'),requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    modal.className=`modal show evolution-casting-modal ${isPrestige()?'prestige':''} ${isZenith()?'zenith':''}`;
-    modal.innerHTML=`<div class="modal-panel evolution-casting-panel"><div class="evolution-casting-core"><i class="cast-ring a"></i><i class="cast-ring b"></i>${(isPrestige()||isZenith())?starIcon('evolution-cast-star'):''}<img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"></div><p class="eyebrow">EVOLUTION PROCESS</p><h2>진화 성공 여부를 확인하고 있습니다.</h2><span>창을 닫거나 새로고침하지 마세요.</span></div>`;
-    try{const result=await apiRequest('evolution/attempt',{method:'POST',body:JSON.stringify({cardId:card.id,evolutionType:state.type,requestId})});if(result.user&&typeof saveUser==='function'&&typeof apiUserToLocal==='function')saveUser(apiUserToLocal(result.user));await new Promise(resolve=>setTimeout(resolve,650));await showResult(result)}catch(error){state.pending=false;modal.className='modal show evolution-error-modal';modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>!</i><p class="eyebrow">EVOLUTION ERROR</p><h2>진화 처리에 실패했습니다.</h2><span>${esc(error.message||'잠시 후 다시 시도해주세요.')}</span><small>${isPrestige()||isZenith()?'처리되지 않은 요청의 카드·코인·마스터의 별은 소모되지 않았습니다.':'처리되지 않은 요청의 재료는 소모되지 않았습니다.'}</small><button type="button" class="btn" id="evolutionErrorClose">확인</button></div>`;document.getElementById('evolutionErrorClose').onclick=()=>{modal.className='modal';modal.innerHTML='';load()}}
+  function renderRecovery(){const box=document.getElementById('evxRecovery');if(!box)return;box.innerHTML=state.recovery?`<div class="evx-recovery" role="status"><div><b>${state.recovery.response?'완료된 진화 결과가 있습니다':'이전 진화 결과를 확인해 주세요'}</b><p>같은 요청 번호로 확인하므로 중복으로 소모하지 않습니다.</p></div><button type="button" class="evx-secondary" id="evxRecover" ${state.pending?'disabled':''}>${state.recovery.response?'결과 보기':'결과 다시 확인'}</button></div>`:'';box.querySelector('#evxRecover')?.addEventListener('click',()=>state.recovery.response?showResults(state.recovery.response):execute(state.recovery.plan))}
+  async function execute(plan){
+    if(state.pending)return;const account=state.account,recoveryKey=storageKey();state.pending=true;updateCheckout();renderGrid();renderRecovery();
+    openDialog('선택한 카드를 진화하고 있습니다',`<div class="evx-processing" role="status"><span class="evx-progress-line"></span><h3>${plan.cardIds.length}종 · 카드별 최대 ${plan.attemptsPerCard}회</h3><p>카드별 성공과 재료 차감을 안전하게 처리합니다.<br>응답이 늦어도 요청 번호는 보관됩니다.</p></div>`,{dismiss:false});
+    try{
+      const result=await apiRequest('evolution/batch',{method:'POST',body:JSON.stringify(plan)},{timeoutMs:60000});
+      if(state.account!==account){try{localStorage.setItem(recoveryKey,JSON.stringify({plan,response:result}))}catch{}return}
+      try{persist({plan,response:result})}catch{state.recovery={plan,response:result}}
+      state.selected.clear();state.pending=false;
+      // A receipt is the success boundary. Profile refresh failure must not turn
+      // a committed evolution into an apparent failed request.
+      try{const profile=await apiRequest('me',{}, {ttl:0,timeoutMs:12000});if(profile.user&&typeof saveUser==='function')saveUser(apiUserToLocal(profile.user))}catch{}
+      if(exists()){
+        await load(false);
+        const firstSuccess=result.results.find(row=>row.success);
+        if(!result.replayed&&firstSuccess&&result.evolutionType===TYPE_PRESTIGE&&(result.successEffect?.mediaUrl||result.successEffect?.soundUrl)){
+          dismissDialog();await playPrestigeSuccessEffect({...result,success:true,reward:firstSuccess.reward});
+        }
+        if(exists())showResults(result);
+      }else dismissDialog();
+    }catch(error){
+      if(state.account!==account)return;
+      state.pending=false;
+      const safe=['EVOLUTION_STATE_CHANGED','EVOLUTION_POOL_EMPTY','EVOLUTION_MATERIAL_SHORTAGE','EVOLUTION_REQUEST_MISMATCH','EVOLUTION_POLICY_CHANGED'].includes(error.code)||error.status===400;
+      if(safe)clearRecovery();
+      if(exists()){await load(false);openDialog(safe?'진화를 진행하지 않았습니다':'진화 결과 확인이 필요합니다',`<div class="evx-notice">${esc(error.message)}</div><p class="evx-hint">${safe?'카드와 재료 상태를 다시 확인해 주세요.':'서버 응답이 늦거나 연결이 끊겼습니다. 같은 요청 번호로 다시 확인하세요.'}</p>${safe?'':'<button type="button" class="evx-primary" id="evxRetryRequest">결과 다시 확인</button>'}`);document.getElementById('evxRetryRequest')?.addEventListener('click',()=>execute(plan))}else dismissDialog();
+    }
   }
-
+  function showResults(result){
+    const success=result.results.filter(row=>row.success),failed=result.results.filter(row=>row.attempts.length&&!row.success);
+    openDialog('진화 결과',`<div class="evx-result-summary"><div><small>진화 성공</small><b>${success.length}<em>종</em></b></div><div><small>실제 시도</small><b>${num(result.attemptCount)}<em>회</em></b></div><div><small>미성공 카드</small><b>${failed.length}<em>종</em></b></div></div>
+      <p class="evx-result-cost">소모 ${costText({coinCost:result.spent.coin,shardCost:result.spent.shards,masterStarCost:result.spent.stars})}${result.bonus?.stars||result.bonus?.shards?`<br>중복 보너스 · 마스터의 별 ${num(result.bonus.stars)} · 카드조각 ${num(result.bonus.shards)}`:''}</p>
+      <div class="evx-result-list">${result.results.map(row=>`<article class="${row.success?'is-success':''}"><span class="evx-result-art">${illustration(row.reward||row.source)}</span><div><small>${esc(row.source.title)} · ${row.attempts.length}회 시도</small><h3>${row.success?esc(row.reward.title):row.attempts.length?'진화 미성공':'미진행'}</h3><p>${row.success?`${esc(row.reward.grade)} 획득${row.attempts.at(-1)?.isPity?' · 확정 진화':''}`:row.stoppedReason?esc(row.stoppedReason):`원본 유지 · 누적 실패 ${row.progress.failedAttempts}회 / ${Math.max(1,result.pityAttempts-row.progress.failedAttempts)}회 내 확정`}</p></div><b class="evx-outcome">${row.success?'성공':row.attempts.length?'유지':'중단'}</b></article>`).join('')}</div>
+      <button type="button" class="evx-primary" id="evxResultsDone">확인</button>`,{wide:true,onClose:()=>{clearRecovery();if(exists()){if(typeof renderShell==='function')renderShell('evolution');else{renderGrid();updateCheckout();renderRecovery()}}}});
+    document.getElementById('evxResultsDone').onclick=dismissDialog;
+  }
+  async function load(readRecovery=true){
+    const id=++state.loadId;
+    if(readRecovery)restore();
+    try{const data=await apiRequest('evolution/overview',{}, {ttl:0,replaceInflight:true});if(id!==state.loadId||!exists())return;state.data=data;state.selected=new Set([...state.selected].filter(cardId=>cards().some(card=>card.id===cardId&&card.eligible)));render()}catch(error){const box=document.getElementById('evolutionWorkspace');if(!box||id!==state.loadId)return;box.innerHTML=`<div class="evx-empty"><h3>카드를 불러오지 못했습니다</h3><p>${esc(error.message)}</p><button type="button" class="evx-secondary" id="evxReload">다시 확인</button></div>`;box.querySelector('#evxReload').onclick=()=>load();}
+  }
   async function playPrestigeSuccessEffect(result){
     if(result?.evolutionType!==TYPE_PRESTIGE||!result?.success||!result?.successEffect)return;
     const modal=document.getElementById('modal');
@@ -188,21 +197,6 @@
     modal.className='modal';
     modal.innerHTML='';
   }
-
-  async function showResult(result){
-    const modal=document.getElementById('modal');
-    if(!result.success){
-      const prestige=result.evolutionType===TYPE_PRESTIGE,zenith=result.evolutionType===TYPE_ZENITH,nextPity=Number(result.progress?.failedAttempts||0)+1>=Number(result.pityAttempts||1);
-      modal.className='modal show evolution-error-modal';
-      modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>×</i><p class="eyebrow">EVOLUTION FAILED</p><h2>${num(result.attemptNo)}번째 진화 도전 실패</h2><span>${zenith?'마스터의 별 30개와 5,000,000코인이 소모되었습니다.':prestige?'마스터의 별이 소모되었습니다.':'코인과 카드조각이 소모되었습니다.'}</span><small>${zenith?'LIMITED +13 카드와 강화 수치는 그대로 유지됩니다.':prestige?'MA +13 카드와 강화 수치는 그대로 유지됩니다.':'SSR 카드와 +10 강화는 그대로 유지됩니다.'}${nextPity?' 다음 도전은 천장 확정입니다.':''}</small><button type="button" class="btn" id="evolutionFailureClose">확인</button></div>`;
-      document.getElementById('evolutionFailureClose').onclick=()=>{state.pending=false;modal.className='modal';modal.innerHTML='';renderShell('evolution')};return;
-    }
-    await playPrestigeSuccessEffect(result);
-    const reward=result.reward||{};modal.className=`modal show evolution-result-modal ${result.evolutionType===TYPE_PRESTIGE?'prestige':''} ${result.evolutionType===TYPE_ZENITH?'zenith':''}`;
-    modal.innerHTML=`<div class="modal-panel evolution-result-panel"><div class="evolution-result-rays"></div><p class="eyebrow">EVOLUTION COMPLETE</p><h2>${esc(reward.grade)} 진화 성공</h2><div class="evolution-result-card"><img src="${esc(reward.image)}" alt="${esc(reward.title)}" style="object-position:${Number(reward.focusX||50)}% ${Number(reward.focusY||50)}%"><span>${esc(reward.grade)}</span></div><strong>${esc(reward.title)}</strong><small>${esc(reward.name||'')}</small>${result.duplicate?`<div class="evolution-duplicate-reward"><b>중복 카드 획득</b>${result.evolutionType===TYPE_ZENITH?'<span>ZENITH 보유 수량 +1</span>':''}${Number(result.masterStarGained||0)>0?`<span>마스터의 별 +${num(result.masterStarGained)}</span>`:''}${Number(result.rewardShards||0)>0?`<span>카드 조각 +${num(result.rewardShards)}</span>`:''}</div>`:`<div class="evolution-new-reward">${result.evolutionType===TYPE_ZENITH?'최상위 ZENITH 카드가 도감에 등록되었습니다. 덱에는 최대 2장까지 편성할 수 있습니다.':result.evolutionType===TYPE_PRESTIGE?'중복 없이 새로운 PRESTIGE 카드가 도감에 등록되었습니다.':'새로운 카드가 도감에 등록되었습니다.'}</div>`}<button type="button" class="btn evolution-result-confirm" id="evolutionResultConfirm">확인</button></div>`;
-    document.getElementById('evolutionResultConfirm').onclick=()=>{state.pending=false;modal.className='modal';modal.innerHTML='';renderShell('evolution')};
-  }
-
-  async function load(){const root=document.getElementById('evolutionWorkspace');if(!root||state.loading)return;state.loading=true;try{state.data=await apiRequest('evolution/overview',{}, {ttl:0});if(!state.data?.types?.[state.type])state.type=TYPE_SSR;const type=current();if(!type?.candidates?.some(card=>String(card.id)===String(state.selectedId)&&card.eligible))state.selectedId=type?.candidates?.find(card=>card.eligible)?.id||'';render()}catch(error){root.innerHTML=`<div class="evolution-load-error"><b>진화 정보를 불러오지 못했습니다.</b><span>${esc(error.message)}</span><button type="button" class="btn" id="evolutionRetry">다시 확인</button></div>`;document.getElementById('evolutionRetry').onclick=load}finally{state.loading=false}}
-  window.evolutionView=evolutionView;window.bindEvolutionView=load;
+  window.evolutionView=evolutionView;
+  window.bindEvolutionView=()=>load();
 })();

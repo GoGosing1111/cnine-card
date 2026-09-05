@@ -1,3 +1,4 @@
+import {handleEvolutionBatch,EVOLUTION_BATCH_LIMITS} from './_evolution_batch.js';
 const LEGACY_DEFAULTS={enabled:true,coinCost:50000,shardCost:1500,successRate:10,pityAttempts:10};
 const PRESTIGE_DEFAULTS={maToPrestigeMasterStarCost:1,maToPrestigeSuccessRate:100,maToPrestigePityAttempts:10,prestigeSuccessMediaUrl:'',prestigeSuccessSoundUrl:'',prestigeSuccessDurationMs:3200,prestigeSuccessVolumePercent:70};
 export const ZENITH_EVOLUTION_PITY_ATTEMPTS=7;
@@ -114,7 +115,7 @@ async function overview(env,userId,settings){
   const zenithPool=resultRows(results[4]).map(row=>({...row,memberId:Number(row.member_id||0),focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)}));
   const zenithCandidates=owned.filter(row=>String(row.grade).toUpperCase()==='LIMITED').map(row=>candidatePayload(row,zenithRule,pveDeck,pvpDeck,progressMap));
   return {
-    settings,masterStars,userResources:{coin:Number(resources.coin||0),cardShards:Number(resources.card_shards||0)},
+    settings,masterStars,batchLimits:EVOLUTION_BATCH_LIMITS,userResources:{coin:Number(resources.coin||0),cardShards:Number(resources.card_shards||0)},
     types:{
       SSR_TO_MA:{...ssrRule,type:'SSR_TO_MA',candidates:ssrCandidates,resultPool:evolutionResultPool(resultRows(results[2])).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:ssrCandidates.filter(card=>card.eligible).length,coinCost:settings.coinCost,shardCost:settings.shardCost,successRate:settings.successRate,pityAttempts:settings.pityAttempts},
       MA_TO_PRESTIGE:{...prestigeRule,type:'MA_TO_PRESTIGE',candidates:prestigeCandidates,resultPool:prestigeAvailablePool,totalResultCount:prestigeFullPool.length,ownedResultCount:prestigeFullPool.length-prestigeAvailablePool.length,duplicateProtection:true,resultPoolExhausted:prestigeFullPool.length>0&&prestigeAvailablePool.length===0,eligibleCount:prestigeCandidates.filter(card=>card.eligible).length,masterStarCost:settings.maToPrestigeMasterStarCost,successRate:settings.maToPrestigeSuccessRate,pityAttempts:settings.maToPrestigePityAttempts,successEffect:buildPrestigeSuccessEffect(settings)},
@@ -280,6 +281,7 @@ export async function handleEvolution({path,request,env,deps}){
     return deps.json({settings:await config(env),logs:logs.results||[]});
   }
   const settings=await config(env);
+  if(path==='evolution/batch'&&request.method==='POST')return handleEvolutionBatch({request,env,deps,user,settings,overview,pickRandom,randomPercent});
   if(path==='evolution/overview'&&request.method==='GET')return deps.json(await overview(env,user.id,settings));
   if(path==='evolution/status'&&request.method==='GET'){
     const cardId=String(new URL(request.url).searchParams.get('cardId')||'').trim();if(!cardId)return deps.json({error:'카드를 선택하세요.'},400);

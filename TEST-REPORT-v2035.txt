@@ -1,0 +1,23 @@
+v2035 검증
+
+1. npm run test:evolution: 23/23 통과.
+   - MA/프레스티지/제니스, 중복 보상, 원본 스택 전체 소모, 천장/재획득 리셋.
+   - 최대 20종 x 10회(200회)와 SQL 바인딩 수 제한.
+   - 프레스티지 결과 풀 소진 시 추가 시도/차감 중단.
+   - 요청 재사용/동시 중복 요청, 다른 계정/다른 파라미터 재사용 차단.
+   - 카드/재화/천장/덱/보상 상태 변경 시 일괄 중단.
+   - 로그 저장 실패 시 비용, 보상, 원본, 진행도, 영수증 모두 롤백.
+   - CMS 정책 변경 재확인, OFF 시 신규 차단/기존 영수증 재확인 허용.
+   - 기존 v1703 원본 소모 및 v1718 천장/보상 회귀 포함.
+2. PostgreSQL SQL 변환 검증 통과. test:postgres-compat: 8 통과, 운영 DB 접속 테스트 2개는 환경 변수 미설정으로 미실행.
+3. Chrome 자동 검증: 1440px, 390px, 360px 통과.
+   - 실제 js/evolution.js 및 운영 CSS, API는 테스트 데이터로 격리(운영 재화 사용 없음).
+   - 탭/검색/불가 카드/선택/비용/확인 체크/결과, 가로 넘침 없음.
+   - 모바일 고정 실행 버튼이 하단 내비게이션 위에 표시됨.
+   - 응답 유실 후 새로고침 -> 같은 요청 번호 재확인 -> 영수증 1개 확인.
+   - ESC 닫기/대화상자 포커스, 런타임 JS 오류 없음.
+4. 배포는 package.json의 test:evolution 포함 release:gate를 통과해야 하며 npm run deploy:production만 사용.
+
+브라우저 검증: PLAYWRIGHT_MODULE을 설치된 Playwright 진입점으로 지정한 뒤
+node tests/evolution-ui-v2035.browser.mjs
+기본 로컬 URL http://127.0.0.1:4186 (EVOLUTION_QA_ORIGIN으로 변경 가능).
