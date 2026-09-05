@@ -1,0 +1,27 @@
+v2036 · 스트리머 라운지
+
+- 로비에 전용 진입 카드를 배치하고, 클릭 시 독립된 라운지 공간을 연다.
+- 기존 로비 진형·족장 정보·게임 메뉴·실시간 콘텐츠 알림을 재배치하지 않는다.
+- 디임 / 조은 / 하이희야 / 강구열 / 오리꿍, 사용자가 지정한 순서로 등록한다.
+- 방송국의 실제 프로필 사진, 이름 검색, 프로필 소개, 방송국 새 탭 이동을 제공한다.
+- 실제 방송 상태를 연동하지 않으므로 LIVE 표시와 시청자 수는 만들지 않는다.
+- CMS > 설정 > 스트리머 라운지에서 추가·삭제·사진·주소·소개·순서·노출 및 전체 OFF를 관리한다.
+- 설정은 app_meta.streamer_lounge_v2036에 저장한다. 최초 GET은 기본 목록을 반환할 뿐 DB를 쓰지 않는다.
+- CMS의 SETTINGS 권한과 기존 ADMIN 제한을 유지하고, 동시 편집 충돌을 감지한다.
+- 공개 조회는 숨긴 프로필을 반환하지 않는다. 기능 OFF·빈 목록은 자동 재등록하지 않는다.
+- 프로필 사진 실패 시 이름 첫 글자로 표시하며, 목록 통신 오류가 게임 진입을 막지 않는다.
+- 전투·밸런스·보상·V3 렌더러·카드 프레임 변경 없음.
+
+방송국 / 프로필 사진 출처 (2026-09-05 공개 방송국에서 확인)
+디임: https://www.sooplive.com/station/qpqpro
+조은: https://www.sooplive.com/station/zalalz
+하이희야: https://www.sooplive.com/station/jkmjkm1236
+강구열: https://www.sooplive.com/station/kuyol
+오리꿍: https://www.sooplive.com/station/imducko3o
+각 방송국의 stimg.sooplive.com/LOGO/.../m/...webp 프로필을 외부 이미지로 참조한다.
+사진을 생성·변형·게임 카드에 덮어쓰지 않는다. 외부 사진 변경은 해당 CDN 정책에 따라 반영된다.
+
+캐시
+- 신규 파일 v2036, exact-shell-adapter 21.21.0-streamer-lounge.
+- 기존 app.js / service-worker 2034-superstar-power-deck는 변경 없음.
+- 운영 배포는 npm run deploy:production (내부 release:gate 필수).

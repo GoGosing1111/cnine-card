@@ -1,6 +1,7 @@
 import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
+import { handleStreamerLounge } from '../_streamer_lounge.js';
 import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
 import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2,estimateApocalypseRecommendedPower } from '../_battle_v2_preview.js';
@@ -5036,6 +5037,8 @@ async function handleRequest(context){
         breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
       },serverNow:new Date().toISOString()});
     }
+    const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
+
     if(path==='live-operations'&&request.method==='GET'){
       const items=await liveOperationAlerts(env),payload=JSON.stringify({items,serverNow:new Date().toISOString(),pollSeconds:30});
       return new Response(payload,{headers:{

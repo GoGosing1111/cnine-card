@@ -1,0 +1,40 @@
+v2036 · 스트리머 라운지 / 커밋 전 검증
+환경: Windows, Node v24.18.0, Chrome, 2026-09-05.
+
+[PASS] node --check
+- js/streamer-lounge-model-v2036.js
+- js/streamer-lounge-v2036.js
+- admin/streamer-lounge-admin-v2036.js
+- functions/_streamer_lounge.js
+- js/soopketmon-v21-exact-shell-adapter.js
+- npm run check:worker
+
+[PASS] npm run test:streamer-lounge — 14/14
+- 5명 이름·주소·공개 프로필 원본 매핑, 방송 상태 비추정
+- 안전한 HTTPS SOOP 방송국 URL 및 이미지 URL 검증
+- 중복 / 길이 / 플래그 / 40명 상한 검증
+- 최초 공개 GET 무변경, 숨김 필터, 전체 OFF·빈 목록 유지
+- CMS SETTINGS 권한, 순서·소개·사진 저장
+- 동시 최초 저장 및 오래된 revision 충돌 방지
+- 64KiB 요청 제한, 잘못된 JSON, 비정상 저장값 fail-closed
+- 라이브·CMS 연결, noopener/noreferrer 새 탭 링크
+
+[PASS] npm run test:navigation
+[PASS] npm run test:postgres-compat — 8 pass / 2 live-DB suites skipped (환경변수 미설정)
+[PASS] 신규 SELECT/INSERT/UPDATE 3개 SQL의 PostgreSQL 어댑터 변환 및 바인드 수 확인
+
+[PASS] tests/streamer-lounge-v2036.browser.mjs
+- 실제 로비 어댑터 + 운영 CSS 사용, 공개 목록/CMS API는 fixture로 분리
+- 1440x900 / 1024x768 / 390x844 / 360x740 / 360x640
+- 진입 카드 화면 내부 표시 및 기존 로고·메뉴·족장·콘텐츠 알림과 비겹침
+- 방송국 링크 5개 원문 일치 및 새 탭 옵션
+- 프로필 상세·검색·검색 결과 없음·목록 복귀
+- 검색 입력 중 ESC 닫기 및 진입 카드 포커스 복구
+- 숨김 변경 후 재진입 시 4명 표시 및 숨긴 프로필 제거
+- 가로 넘침 없음, 브라우저 런타임 오류 없음
+- CMS 조회 시 무변경, 순서·숨김·소개 저장, 새로고침 후 유지, 추가 시 자동 저장 없음
+- 스크린샷은 Windows Temp의 streamer-{lobby,lounge,detail,cms}-v2036-*에 보관
+
+운영 계정의 전투/보상/카드/개인정보를 테스트에 사용하지 않았다.
+전체 release:gate는 커밋 전 스위트를 실행하고, clean-tree / origin HEAD 확인까지는
+커밋·푸시 후 npm run deploy:production에서 다시 수행한다. 배포 가드 우회 금지.
