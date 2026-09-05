@@ -105,6 +105,40 @@ test('기존 마감·정산식·무효 환불 경로는 새 UI와 그대로 호�
   const refunded=db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=1 AND user_id=2').get();assert.equal(refunded.payout,refunded.amount);assert.equal(refunded.status,'REFUNDED');
   const history=await request('coin-prediction/state?view=history&category=SOCCER&mine=1',null,'USER');assert.ok(history.body.events.some(e=>e.id===1));assert.equal(history.body.navigation.historyRetentionHours,24);
 });
+test('100억 포함 부분 환불 실패는 경기 마감 유지·미환불만 재개·전액 한 번 지급',async()=>{
+  const created=await request('admin/coin-prediction/event',{title:'100억 환불 복구',closesAt:close,options:['A','B']}),id=created.body.id;
+  const option=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(id).id;
+  await request('coin-prediction/bet',{eventId:id,optionId:option,amount:10000000000,requestId:'refund-owner-bigint-2042'});
+  await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'refund-user-bigint-2042'},'USER');
+  const before=db.prepare('SELECT id,coin FROM users ORDER BY id').all(),beforeLogs=db.prepare("SELECT COUNT(*) n FROM coin_logs WHERE reason='코인 승부예측 무효 환불'").get().n;
+  const batch=env.DB.batch;let calls=0;
+  env.DB.batch=statements=>{if(++calls===2)throw new Error('INJECTED_SECOND_REFUND_FAILURE');return batch(statements)};
+  try{await assert.rejects(()=>request('admin/coin-prediction/action',{eventId:id,action:'VOID'}),/INJECTED_SECOND_REFUND_FAILURE/)}finally{env.DB.batch=batch}
+  assert.equal(db.prepare('SELECT status FROM coin_prediction_events WHERE id=?').get(id).status,'CLOSED');
+  assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_prediction_bets WHERE event_id=? AND status='REFUNDED'").get(id).n,1);
+  assert.equal((await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'closed-retry-2042'},'USER')).status,409);
+  const resumed=await request('admin/coin-prediction/action',{eventId:id,action:'VOID'});assert.equal(resumed.status,200);
+  assert.equal(db.prepare('SELECT status FROM coin_prediction_events WHERE id=?').get(id).status,'VOID');
+  assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_prediction_bets WHERE event_id=? AND status='ACTIVE'").get(id).n,0);
+  const after=db.prepare('SELECT id,coin FROM users ORDER BY id').all();assert.equal(after[0].coin-before[0].coin,10000000000);assert.equal(after[1].coin-before[1].coin,100000);
+  assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_logs WHERE reason='코인 승부예측 무효 환불'").get().n-beforeLogs,2);
+  await assert.rejects(()=>request('admin/coin-prediction/action',{eventId:id,action:'VOID'}),/이미 정산/);
+  assert.deepEqual(db.prepare('SELECT id,coin FROM users ORDER BY id').all(),after);
+  db.prepare("UPDATE coin_prediction_events SET status='OPEN' WHERE id=?").run(id);
+  assert.equal((await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'legacy-refunded-rebet-2042'},'USER')).status,409);
+  assert.deepEqual(db.prepare('SELECT id,coin FROM users ORDER BY id').all(),after);
+  db.prepare("UPDATE coin_prediction_events SET status='VOID' WHERE id=?").run(id);
+});
+test('진행 중인 정산의 이벤트 잠금은 신규 참여를 차감 없이 막는다',async()=>{
+  const created=await request('admin/coin-prediction/event',{title:'환불 잠금',closesAt:close,options:['A','B']}),id=created.body.id;
+  const option=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(id).id;
+  const key=`coin_prediction_lock_event_${id}`,before=db.prepare('SELECT coin FROM users WHERE id=2').get().coin;
+  db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').run(key,`test-token|${Date.now()+300000}`);
+  assert.equal((await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'locked-bet-2042'},'USER')).status,409);
+  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,before);
+  assert.equal(db.prepare("SELECT COUNT(*) n FROM app_meta WHERE key='coin_prediction_lock_bet_2'").get().n,0);
+  db.prepare('DELETE FROM app_meta WHERE key=?').run(key);
+});
 test('개편 UI 리소스 격리·확정/예상 구분·접근성·폴링 수명 계약',()=>{
   const ui=read('js/coin-prediction-v2033.js'),css=read('css/coin-prediction-v2033.css'),app=read('js/app.js'),admin=read('admin/coin-prediction-admin-v1.js');
   for(const word of ['내 배팅만','적중 시 예상 수령액','원금 포함','실제 수령액','최초 선택','showModal','requestSequence!==sequence','settings?.pollSeconds'])assert.ok(ui.includes(word),word);
