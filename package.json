@@ -30,7 +30,7 @@
     "test:prime-draw": "node --test tests/prime-draw-live-v1985.test.mjs tests/prime-draw-opening-preview-v1984.test.mjs",
     "test:superstar-pack": "node --test tests/superstar-pack-v1894.test.mjs",
     "test:gamst-retirement": "node --test tests/gamst-card-retirement-v2001.test.mjs tests/gamst-territory-deck-repair-v2005.test.mjs tests/card-catalog-account-visibility-v1908.test.mjs",
-    "test:reroll-recovery": "node --test tests/iyejun-fur-reroll-recovery-v2023.test.mjs",
+    "test:reroll-recovery": "node --test tests/iyejun-fur-reroll-recovery-v2023.test.mjs tests/iyejun-fur-card-pack-eligibility.test.mjs",
     "test:targeted-transfer": "node --test tests/targeted-card-transfer-v2003.test.mjs tests/targeted-avatar-grant-v2007.test.mjs tests/targeted-avatar-grant-v2014.test.mjs tests/targeted-card-grant-v2015.test.mjs tests/targeted-card-grant-v2016.test.mjs tests/targeted-inventory-grant-v2025.test.mjs tests/targeted-inventory-grant-v2026.test.mjs tests/targeted-inventory-grant-v2027.test.mjs",
     "test:idle-dungeon": "node tests/idle-dungeon-daily-cap-v1732.mjs",
     "test:treasury": "node --test tests/administration-treasury-v2030.test.mjs",

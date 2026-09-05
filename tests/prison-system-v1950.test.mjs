@@ -93,6 +93,7 @@ test('영치금 석방은 OWNER 설정·원자 납부·모금 완료 석방을 �
 });
 
 test('수감자 때리기는 60초 서버 쿨타임·중복 영수증·자기 공격 차단을 가진다',()=>{
+  const hitHandler=communityServer.slice(communityServer.indexOf('async function hitInmate'),communityServer.indexOf('export async function handlePrisonCommunity'));
   assert.equal(PRISON_HIT_COOLDOWN_SECONDS,60);
   assert.equal(prisonHitCooldownRemaining(61_000,1_000),60);
   assert.equal(prisonHitCooldownRemaining(1_000,61_000),0);
@@ -106,6 +107,8 @@ test('수감자 때리기는 60초 서버 쿨타임·중복 영수증·자기 �
   assert.match(communityServer,/last_request_id=excluded\.last_request_id/);
   assert.match(communityServer,/next_at_ms<=\?/);
   assert.match(communityServer,/SELECT \* FROM \$\{HIT_EVENT_TABLE\} WHERE request_id=\?/);
+  assert.match(hitHandler,/nextHitAtMs:nextAtMs/,'타격 성공 응답은 계산된 쿨타임 변수를 명시적으로 매핑해야 한다');
+  assert.doesNotMatch(hitHandler,/[,\{]nextHitAtMs[,\}]/,'선언되지 않은 nextHitAtMs 단축 속성을 다시 사용하면 안 된다');
 });
 
 test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
