@@ -917,7 +917,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=2039'],
-    scripts:['js/soopketland-v2039.bundle.js?v=2039'],
+    scripts:['js/soopketland-v2039.bundle.js?v=2041-rewards'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   treasury:{

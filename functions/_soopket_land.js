@@ -2,19 +2,22 @@
 // No daily allowance, client-side prize selection, or nickname-based ongoing access.
 export const LAND_TICKET='SOOPKETLAND_TICKET';
 export const HYPER_TICKET='SOOPKETLAND_HYPER_BURNING_TICKET';
+export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
+export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
-  {key:'COIN',label:'코인',range:'1억 ~ 5억',min:1,max:5,unit:100000000,symbol:'C',color:0xffd477},
+  {key:'COIN',label:'코인',range:'1억 ~ 20억',min:1,max:20,unit:100000000,symbol:'C',color:0xffd477},
   {key:'HIGH_GRADE_REROLL_TICKET',label:'고등급 재뽑기권',range:'1개',min:1,max:1,unit:1,symbol:'R',color:0xdbb8ff},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 5,000개',min:1,max:5,unit:1000,symbol:'S',color:0xffe7a6},
-  {key:'BLACK_MIRACLE_PACK',label:'블랙미라클 카드',range:'1 ~ 3개',min:1,max:3,unit:1,symbol:'B',color:0xbc91ff},
+  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 15,000개',min:1,max:15,unit:1000,symbol:'S',color:0xffe7a6},
+  {key:'BLACK_MIRACLE_PACK',label:'블랙미라클 카드',range:'1 ~ 10개',min:1,max:10,unit:1,symbol:'B',color:0xbc91ff},
   {key:HYPER_TICKET,label:'하이퍼버닝 발동권',range:'서버 전체 ×15 · 60분',min:1,max:1,unit:1,symbol:'15',color:0xff8059},
-  {key:'ZENITH_RANDOM_CARD',label:'제니스 랜덤카드',range:'1장',min:1,max:1,unit:1,symbol:'Z',color:0x90ebff},
-  {key:'FUR_RANDOM_CARD',label:'FUR 랜덤카드',range:'1장',min:1,max:1,unit:1,symbol:'F',color:0xffb5d9}
+  {key:'ZENITH_RANDOM_CARD',label:'제니스 랜덤카드',range:'1 ~ 3장',min:1,max:3,unit:1,symbol:'Z',color:0x90ebff},
+  {key:'FUR_RANDOM_CARD',label:'FUR 랜덤카드',range:'1 ~ 5장',min:1,max:5,unit:1,symbol:'F',color:0xffb5d9},
+  {key:LAND_IYEJUN_PRIZE,label:'이예준 카드',range:'1장',min:1,max:1,unit:1,symbol:'Y',color:0xff916f}
 ]);
 const SCHEMA='soopketland_schema_v2039',SETTINGS='soopketland_settings_v2039';
 const BURNING=['burning_event_settings_v1','hyper_burning_event_settings_v1310'];
-const defaults=()=>({weights:Object.fromEntries(LAND_PRIZES.map(p=>[p.key,10]))});
+const defaults=()=>({weights:Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===LAND_IYEJUN_PRIZE?210:970]))});
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
 const fail=(message,status=400,code='LAND_INVALID')=>Object.assign(new Error(message),{status,code});
 const validId=value=>typeof value==='string'&&/^[A-Za-z0-9._:-]{8,100}$/.test(value);
@@ -37,9 +40,14 @@ export function validateLandWeights(raw){
   if(!Object.values(raw).some(n=>n>0))throw fail('최소 한 종류의 보상을 활성화하세요.');
   return Object.fromEntries(LAND_PRIZES.map(p=>[p.key,raw[p.key]]));
 }
+// A rolling deployment must keep the existing seven-prize setting usable until
+// the separately audited 3% activation is committed. OWNER saves require all eight.
+export function storedLandWeights(raw){
+  return validateLandWeights(raw&&!Object.hasOwn(raw,LAND_IYEJUN_PRIZE)?{...raw,[LAND_IYEJUN_PRIZE]:0}:raw);
+}
 export function pickLandPrize(weights,random=secureLandInt){
   const total=Object.values(weights).reduce((a,b)=>a+b,0);let roll=random(total);
-  for(const p of LAND_PRIZES){roll-=weights[p.key];if(roll<0){const amount=(p.min+random(p.max-p.min+1))*p.unit;return {...p,amount,jackpot:p.key===HYPER_TICKET||p.key.endsWith('_RANDOM_CARD')||amount===p.max*p.unit&&p.min!==p.max}}}
+  for(const p of LAND_PRIZES){roll-=weights[p.key];if(roll<0){const amount=(p.min+random(p.max-p.min+1))*p.unit;return {...p,amount,jackpot:p.key===HYPER_TICKET||p.key.endsWith('_CARD')||amount===p.max*p.unit&&p.min!==p.max}}}
   throw new Error('Invalid prize weights');
 }
 
@@ -112,6 +120,7 @@ async function commit(db,list,replay){
 }
 async function state(db,user,access){
   const settingsRow=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),settings=parse(settingsRow?.value,defaults());
+  settings.weights=storedLandWeights(settings.weights);
   const tickets=await one(db,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,LAND_TICKET);
   const lots=await rows(db,'SELECT coupon_uses,remaining FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 ORDER BY created_at,id',user.id);
   const history=await rows(db,'SELECT response_json,created_at FROM soopketland_rolls WHERE user_id=? ORDER BY created_at DESC LIMIT 30',user.id);
@@ -176,7 +185,7 @@ async function spin(db,user,body){
   const prior=await read();if(prior)return prior;
   const lot=await one(db,'SELECT * FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 ORDER BY created_at,id LIMIT 1',user.id);
   if(!lot)throw fail('OWNER가 지급한 이용권이 필요합니다.',409,'LAND_NO_TICKET');
-  const cfg=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),prize=pickLandPrize(validateLandWeights(parse(cfg?.value)?.weights));
+  const cfg=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),prize=pickLandPrize(storedLandWeights(parse(cfg?.value)?.weights));
   // The original request explicitly reserves Hyper Burning activation to the streamer.
   const direct=prize.key===HYPER_TICKET;
   const code=direct?null:`SLD-${crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase()}`;
@@ -189,7 +198,7 @@ async function spin(db,user,body){
   if(direct)inventoryGrant(db,list,user.id,HYPER_TICKET,1,body.requestId);
   else list.push(stmt(db,'INSERT INTO soopketland_coupons(code,issuer_id,request_id,reward_json,max_uses,created_at) VALUES(?,?,?,?,?,?)',code,user.id,body.requestId,JSON.stringify(prize),lot.coupon_uses,now()));
   list.push(stmt(db,'INSERT INTO soopketland_rolls(request_id,user_id,lot_id,response_json,created_at) VALUES(?,?,?,?,?)',body.requestId,user.id,lot.id,JSON.stringify(response),now()));
-  message(db,list,user.id,`숲켓랜드 · ${prize.label} 당첨`,direct?'하이퍼버닝 발동권 1개가 인벤토리에 지급되었습니다. 사용 시 서버 전체 ×15 · 60분.':`${prize.label} ${prize.amount.toLocaleString('ko-KR')}${prize.key.endsWith('_RANDOM_CARD')?'장':'개'} · 시청자 공유용 쿠폰입니다. 선착순 ${lot.coupon_uses}명, 계정당 1회. 메시지의 코드를 복사해 방송에서 공유하세요.`,code,body.requestId);
+  message(db,list,user.id,`숲켓랜드 · ${prize.label} 당첨`,direct?'하이퍼버닝 발동권 1개가 인벤토리에 지급되었습니다. 사용 시 서버 전체 ×15 · 60분.':`${prize.label} ${prize.amount.toLocaleString('ko-KR')}${prize.key==='COIN'?'코인':prize.key.endsWith('_CARD')?'장':'개'} · 시청자 공유용 쿠폰입니다. 선착순 ${lot.coupon_uses}명, 계정당 1회. 메시지의 코드를 복사해 방송에서 공유하세요.`,code,body.requestId);
   return await commit(db,list,read)||response;
 }
 
@@ -211,19 +220,29 @@ export async function redeemLandCoupon({env,user,body,deps}){
     if(db.dialect==='postgres')list.push(stmt(db,'SELECT code FROM soopketland_coupons WHERE code=? FOR UPDATE',code));
     guard(db,list,"EXISTS(SELECT 1 FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=CURRENT_TIMESTAMP))",[user.id]);
     guard(db,list,'EXISTS(SELECT 1 FROM soopketland_coupons WHERE code=? AND is_active=1 AND used_count<max_uses)',[code]);
-    let card=null;
+    let card=null,cards=[];
     if(prize.key==='COIN'){
       list.push(stmt(db,'UPDATE users SET coin=coin+? WHERE id=?',prize.amount,user.id),stmt(db,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'SOOPKETLAND_COUPON' FROM users WHERE id=?",user.id,prize.amount,user.id));
-    }else if(prize.key.endsWith('_RANDOM_CARD')){
+    }else if(prize.key.endsWith('_CARD')){
+      const fixed=prize.key===LAND_IYEJUN_PRIZE;
       const grade=prize.key==='ZENITH_RANDOM_CARD'?'ZENITH':'FUR';
-      const candidates=await rows(db,"SELECT c.id,c.title,c.rarity,c.image_url,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity=? AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(c.limited_total,0)<=0 ORDER BY c.id",grade);
-      const pool=candidates.filter(card=>!deps.isRandomDrawExcluded(card));
+      const candidates=await rows(db,"SELECT c.id,c.title,c.rarity,c.image_url,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity=? AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(c.limited_total,0)<=0"+(fixed?' AND c.id=?':'')+' ORDER BY c.id',grade,...(fixed?[LAND_IYEJUN_CARD_ID]:[]));
+      // The named 3% prize is separate from this event's random FUR pool only.
+      // No global card-pack weights or exclusions are changed.
+      const pool=fixed?candidates:candidates.filter(card=>String(card.id)!==LAND_IYEJUN_CARD_ID&&!deps.isRandomDrawExcluded(card));
       if(!pool.length)throw fail('현재 지급 가능한 카드가 없습니다. 쿠폰은 소모되지 않았습니다.',409,'LAND_POOL_EMPTY');
-      card=pool[secureLandInt(pool.length)];
-      guard(db,list,"EXISTS(SELECT 1 FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=? AND c.rarity=? AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(c.limited_total,0)<=0)",[String(card.id),grade]);
-      list.push(stmt(db,'INSERT INTO user_cards(user_id,card_id,quantity,first_obtained_at,last_obtained_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP',user.id,String(card.id)));
+      const selected=new Map();
+      for(let i=0;i<prize.amount;i++){
+        const chosen=pool[secureLandInt(pool.length)],id=String(chosen.id),entry=selected.get(id)||{...chosen,id,quantity:0};
+        entry.quantity++;selected.set(id,entry);
+      }
+      cards=[...selected.values()];card=prize.amount===1?cards[0]:null;
+      for(const chosen of [...cards].sort((a,b)=>a.id.localeCompare(b.id))){
+        guard(db,list,"EXISTS(SELECT 1 FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=? AND c.rarity=? AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(c.limited_total,0)<=0)",[chosen.id,grade]);
+        list.push(stmt(db,'INSERT INTO user_cards(user_id,card_id,quantity,first_obtained_at,last_obtained_at) VALUES(?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP',user.id,chosen.id,chosen.quantity));
+      }
     }else inventoryGrant(db,list,user.id,prize.key,prize.amount,code);
-    const response={ok:true,rewardType:prize.key,rewardAmount:prize.amount,rewardCoin:prize.key==='COIN'?prize.amount:0,rewardLabel:prize.label,card,message:card?`${card.title} ${card.rarity} 카드 1장을 받았습니다.`:`${prize.label} ${prize.amount.toLocaleString('ko-KR')}${prize.key==='COIN'?'코인':'개'}를 받았습니다.`};
+    const response={ok:true,rewardType:prize.key,rewardAmount:prize.amount,rewardCoin:prize.key==='COIN'?prize.amount:0,rewardLabel:prize.label,card,cards,message:cards.length?`${prize.label} ${prize.amount}장을 받았습니다. (${cards.map(c=>`${c.title} ${c.rarity} ×${c.quantity}`).join(', ')})`:`${prize.label} ${prize.amount.toLocaleString('ko-KR')}${prize.key==='COIN'?'코인':'개'}를 받았습니다.`};
     list.push(stmt(db,'UPDATE soopketland_coupons SET used_count=used_count+1 WHERE code=?',code),stmt(db,'INSERT INTO soopketland_redemptions(code,user_id,operation_key,response_json,created_at) VALUES(?,?,?,?,?)',code,user.id,operationKey,JSON.stringify(response),now()));
     return finish(await commit(db,list,read)||response);
   }catch(error){if(error.status)return deps.json({error:error.message,code:error.code},error.status);throw error}

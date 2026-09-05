@@ -164,7 +164,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=2039-soopketland/);
+  assert.match(index,/app\.js\?v=2041-soopketland-rewards/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.20\.0-treasury/);
-  assert.match(serviceWorker,/soop-card-shell-v2039-soopketland/);
+  assert.match(serviceWorker,/soop-card-shell-v2041-soopketland-rewards/);
 });
