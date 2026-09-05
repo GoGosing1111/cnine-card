@@ -1,7 +1,7 @@
 (function clanV1(global){
   'use strict';
 
-  const state={data:null,loading:false,error:'',tab:'command',ctx:null};
+  const state={data:null,loading:false,error:'',tab:'command',ctx:null,fighting:false,pending:new Map()};
   const ROLE_LABEL={ATTACK:'공격형',DEFENSE:'방어형',SPEED:'속도형',HP:'HP형',BALANCED:'균형형'};
   const WINDOW_LABEL={MORNING:'오전',DAY:'낮',EVENING:'저녁',NIGHT:'심야',FLEX:'유동'};
   const PHASE_LABEL={REGISTRATION:'시즌 참가 신청',DRAFT:'블라인드 드래프트',ACTIVE:'클랜전 진행',SETTLEMENT:'시즌 정산',COMPLETE:'시즌 종료'};
@@ -62,19 +62,19 @@
 
   function commandView(d){const catalog=catalogPanel(d);if(!d.membership)return `${testControl(d)}${registrationPanel(d)}${catalog}`;return `${testControl(d)}${identityPanel(d)}${draftPanel(d)}${catalog}<section class="clan-command-grid"><article data-code="01"><small>SEASON POLICY</small><h3>고정 인원 없음</h3><p>시즌 종료와 함께 마스터를 포함한 전원이 풀로 복귀합니다.</p></article><article data-code="02"><small>AUTO MASTER</small><h3>활동·랭크·기여도 선발</h3><p>접속일·랭크전·영토전 집계 스냅샷으로 자동 선정됩니다.</p></article><article data-code="03"><small>DATABASE POLICY</small><h3>조회 로그 0건</h3><p>화면을 볼 때 로그를 적재하지 않고 시즌 집계값만 갱신합니다.</p></article><article data-code="04"><small>BATTLE CONTRACT</small><h3>PROJECT V V3</h3><p>고유효과·마법카드·장비 보정을 포함한 PixiJS 전투를 사용합니다.</p></article></section>`}
 
-  function rosterView(d){const mine=d.membership;return `<section class="clan-roster-layout"><aside class="clan-panel clan-team-card">${mark(mine,'large')}<small>SEASON ${number(d.season?.seasonNo)} CLAN</small><h3>${esc(mine?.name||'클랜')}</h3><p>${esc(mine?.slogan||'')}</p><dl><div><dt>시즌 점수</dt><dd>${number(mine?.score)}</dd></div><div><dt>전적</dt><dd>${number(mine?.wins)}W ${number(mine?.losses)}L</dd></div><div><dt>정원</dt><dd>${number(mine?.memberCount)} / ${number(rosterLimit(d))}</dd></div></dl></aside><section class="clan-panel clan-roster"><header><small>SEASON ROSTER</small><h3>이번 시즌 편성</h3></header><div>${(d.roster||[]).map((m,index)=>`<article class="${m.memberRole==='MASTER'?'master':''}"><span>${String(index+1).padStart(2,'0')}</span><div><b>${esc(m.nickname)}</b><small>${m.memberRole==='MASTER'?'CLAN MASTER':esc(ROLE_LABEL[m.preferredRole]||'균형형')}</small></div><dl><dt>기여</dt><dd>${number(m.contributionScore)}</dd><dt>전적</dt><dd>${number(m.battleWins)}W ${number(m.battleLosses)}L</dd></dl></article>`).join('')||'<p class="clan-empty">드래프트 로스터를 구성 중입니다.</p>'}</div></section></section>`}
+  function rosterView(d){const mine=d.membership;return `<section class="clan-roster-layout"><aside class="clan-panel clan-team-card">${mark(mine,'large')}<small>SEASON ${number(d.season?.seasonNo)} CLAN</small><h3>${esc(mine?.name||'클랜')}</h3><p>${esc(mine?.slogan||'')}</p><dl><div><dt>시즌 점수</dt><dd>${number(mine?.score)}</dd></div><div><dt>전적</dt><dd>${number(mine?.wins)}W ${number(mine?.losses)}L</dd></div><div><dt>정원</dt><dd>${number(mine?.memberCount)} / ${number(rosterLimit(d))}</dd></div></dl></aside><section class="clan-panel clan-roster"><header><small>SEASON ROSTER</small><h3>이번 시즌 편성</h3><p>참여·획득 점수는 참여형 규칙 적용 이후 기록입니다. 기존 전적은 상세에 보존됩니다.</p></header><div>${(d.roster||[]).map((m,index)=>`<article class="${m.memberRole==='MASTER'?'master':''}"><span>${String(index+1).padStart(2,'0')}</span><div><b>${esc(m.nickname)}</b><small>${m.memberRole==='MASTER'?'CLAN MASTER':esc(ROLE_LABEL[m.preferredRole]||'균형형')}</small></div><dl><dt>참여</dt><dd>${number(m.participationAttacks)}회</dd><dt>획득 점수</dt><dd>+${number(m.participationPoints)}</dd></dl><details class="clan-record-detail"><summary>전적 상세</summary><span>${number(m.battleWins)}승 ${number(m.battleLosses)}패 · 기존 기여 ${number(m.contributionScore)}</span></details></article>`).join('')||'<p class="clan-empty">드래프트 로스터를 구성 중입니다.</p>'}</div></section></section>`}
 
   function warView(d){
     if(d.season?.phase!=='ACTIVE')return `<section class="clan-panel clan-gate"><small>CLAN WAR STANDBY</small><h3>클랜전 개막 준비 중</h3><p>블라인드 드래프트가 끝나면 V3 클랜전 전장이 열립니다.</p></section>`;
     if(!d.war)return `<section class="clan-panel clan-gate"><small>ROUND BYE</small><h3>이번 라운드 상대 배정 대기</h3><p>대진 수가 홀수인 경우 다음 라운드로 자동 진출합니다.</p></section>`;
     const mine=d.membership,isA=Number(d.war.clanAId)===Number(mine.clanId),myScore=isA?d.war.scoreA:d.war.scoreB,enemyScore=isA?d.war.scoreB:d.war.scoreA,enemy=d.teams.find(t=>t.clanId===(isA?d.war.clanBId:d.war.clanAId)),energy=d.war.energy||{},remaining=Number((energy.usesRemaining??d.war.attacksRemaining)||0),limit=Number(energy.useLimit||d.war.attackLimit||21),availableCount=Number(d.war.availableOpponentCount||0),open=d.war.status==='ACTIVE'&&energy.windowOpen!==false;
-    if(!open)return `<section class="clan-war-score is-scheduled"><article style="--clan-primary:${esc(mine.primaryColor)}">${mark(mine)}<small>MY CLAN · POINT</small><h3>${esc(mine.name)}</h3><b>${number(myScore)}</b></article><div><small>ROUND ${number(d.war.roundNo)} · SCHEDULED</small><strong>VS</strong><em class="clan-war-ops">60분 승점 대진</em><span>${time(d.war.startsAt)} 후 개방</span></div><article class="enemy" style="--clan-primary:${esc(enemy?.primaryColor||'#ff556f')}">${mark(enemy)}<small>OPPONENT · POINT</small><h3>${esc(enemy?.name||'상대 클랜')}</h3><b>${number(enemyScore)}</b></article></section><section class="clan-panel clan-gate"><small>WAR WINDOW LOCKED</small><h3>정시 개방 대기</h3><p>개방 후 60분 동안 승리 1회당 1승점을 쌓습니다. 행동력은 10으로 시작해 5분마다 1씩 회복됩니다.</p></section>`;
+    if(!open)return `<section class="clan-war-score is-scheduled"><article style="--clan-primary:${esc(mine.primaryColor)}">${mark(mine)}<small>MY CLAN · POINT</small><h3>${esc(mine.name)}</h3><b>${number(myScore)}</b></article><div><small>ROUND ${number(d.war.roundNo)} · SCHEDULED</small><strong>VS</strong><em class="clan-war-ops">60분 승점 대진</em><span>${time(d.war.startsAt)} 후 개방</span></div><article class="enemy" style="--clan-primary:${esc(enemy?.primaryColor||'#ff556f')}">${mark(enemy)}<small>OPPONENT · POINT</small><h3>${esc(enemy?.name||'상대 클랜')}</h3><b>${number(enemyScore)}</b></article></section><section class="clan-panel clan-gate"><small>WAR WINDOW LOCKED</small><h3>정시 개방 대기</h3><p>${esc(scoreRuleText(d.war))} 개인 행동력과 동일 상대 공격 상한은 유지됩니다.</p></section>`;
     const canFight=energy.canAttack!==false&&remaining>0&&d.war.liveDeckReady!==false&&availableCount>0,label=remaining<=0?'개인 사용 상한 소진':Number(energy.available||0)<Number(energy.cost||1)?'행동력 회복 대기':d.war.liveDeckReady===false?'랭크전 덱 저장 필요':availableCount<=0?'매칭 풀 회복 대기':'랜덤 매칭 시작';
-    return `<section class="clan-war-score"><article style="--clan-primary:${esc(mine.primaryColor)}">${mark(mine)}<small>MY CLAN · POINT</small><h3>${esc(mine.name)}</h3><b>${number(myScore)}</b></article><div><small>ROUND ${number(d.war.roundNo)} · 60 MIN</small><strong>VS</strong><em class="clan-war-ops clan-war-energy">행동력 ${number(energy.available)} / ${number(energy.cap)} · 사용 ${number(d.war.attacksUsed)} / ${number(limit)}</em><span>${time(d.war.endsAt)} 남음${energy.nextEnergyAt?` · 다음 +1 ${time(energy.nextEnergyAt)}`:''}</span></div><article class="enemy" style="--clan-primary:${esc(enemy?.primaryColor||'#ff556f')}">${mark(enemy)}<small>OPPONENT · POINT</small><h3>${esc(enemy?.name||'상대 클랜')}</h3><b>${number(enemyScore)}</b></article></section><section class="clan-panel clan-targets clan-random-match"><header><div><small>PROJECT V V3 · RANDOM QUEUE</small><h3>전투력 제한 없는 랜덤 매칭</h3><p>버튼을 누르는 순간 서버가 가능한 상대 1명을 무작위 배정합니다. 실제 전투는 양쪽의 최신 랭크전 덱 5장으로 계산됩니다.</p></div><em>${number(d.war.battleCount)} BATTLES · WIN +${number(d.rules?.scorePerWin||1)}</em></header><div class="clan-random-console"><i aria-hidden="true"></i><div><small>RANDOM OPPONENT POOL</small><b>${availableCount>0?`매칭 가능 ${number(availableCount)}명`:'매칭 풀 대기'}</b><span>동일 상대 1회 · 승리 클랜 +${number(d.rules?.scorePerWin||1)}승점 · 60분 총점으로 승부</span></div><button type="button" data-clan-fight ${canFight?'':'disabled'}>${label}</button></div></section>`;
+    return `<section class="clan-war-score"><article style="--clan-primary:${esc(mine.primaryColor)}">${mark(mine)}<small>MY CLAN · POINT</small><h3>${esc(mine.name)}</h3><b>${number(myScore)}</b></article><div><small>ROUND ${number(d.war.roundNo)} · 60 MIN</small><strong>VS</strong><em class="clan-war-ops clan-war-energy">행동력 ${number(energy.available)} / ${number(energy.cap)} · 사용 ${number(d.war.attacksUsed)} / ${number(limit)}</em><span>${time(d.war.endsAt)} 남음${energy.nextEnergyAt?` · 다음 +1 ${time(energy.nextEnergyAt)}`:''}</span></div><article class="enemy" style="--clan-primary:${esc(enemy?.primaryColor||'#ff556f')}">${mark(enemy)}<small>OPPONENT · POINT</small><h3>${esc(enemy?.name||'상대 클랜')}</h3><b>${number(enemyScore)}</b></article></section><section class="clan-panel clan-targets clan-random-match"><header><div><small>PROJECT V V3 · RANDOM QUEUE</small><h3>전투력 제한 없는 랜덤 매칭</h3><p>버튼을 누르는 순간 서버가 가능한 상대 1명을 무작위 배정합니다. 실제 전투는 양쪽의 최신 랭크전 덱 5장으로 계산됩니다.</p></div><em>${number(d.war.battleCount)} BATTLES · WIN +${number(d.war.scorePerWin||1)}</em></header><div class="clan-random-console"><i aria-hidden="true"></i><div><small>RANDOM OPPONENT POOL</small><b>${availableCount>0?`매칭 가능 ${number(availableCount)}명`:'매칭 풀 대기'}</b><span>동일 상대 ${number(d.rules?.repeatTargetLimit||1)}회 · ${esc(scoreRuleText(d.war))}</span></div><button type="button" data-clan-fight ${canFight?'':'disabled'}>${label}</button></div></section>${participationPanel(d.war)}`;
   }
 
   function settlementPanel(d){if(!d.settlement)return'';const champion=(d.teams||[]).find(team=>Number(team.clanId)===Number(d.settlement.championClanId)),paid=d.settlement.rewardStatus==='PAID';return `<section class="clan-panel clan-settlement"><small>SEASON SETTLEMENT</small><h3>${esc(champion?.name||'시즌 우승 클랜')} 정산 완료</h3><p>${paid?'중복 방지 영수증으로 시즌 보상 지급이 완료됐습니다.':'TEST 또는 보상 OFF 상태로 경제 보상 없이 트로피·전적만 반영됐습니다.'}</p><em>${esc(d.settlement.rewardStatus||'DISABLED_TEST')}</em></section>`}
-  function rankView(d){return `${settlementPanel(d)}<section class="clan-panel clan-ranking"><header><small>SEASON CLAN RANKING</small><h3>클랜 순위</h3><p>점수 · 승리 · 드래프트 순서 기준</p></header><div>${(d.teams||[]).map((team,index)=>`<article class="${d.membership?.clanId===team.clanId?'mine':''}"><strong>${String(index+1).padStart(2,'0')}</strong>${mark(team)}<div><b>${esc(team.name)}</b><small>${esc(team.masterNickname)} · ${number(team.memberCount)}/20</small></div><dl><dt>SCORE</dt><dd>${number(team.score)}</dd><dt>RECORD</dt><dd>${number(team.wins)}W ${number(team.losses)}L</dd></dl></article>`).join('')||'<p class="clan-empty">드래프트가 시작되면 클랜 순위가 공개됩니다.</p>'}</div></section>`}
+  function rankView(d){return `${settlementPanel(d)}<section class="clan-panel clan-ranking"><header><small>SEASON CLAN RANKING</small><h3>클랜 순위</h3><p>점수 · 승리 · 드래프트 순서 기준</p></header><div>${(d.teams||[]).map((team,index)=>`<article class="${d.membership?.clanId===team.clanId?'mine':''}"><strong>${String(index+1).padStart(2,'0')}</strong>${mark(team)}<div><b>${esc(team.name)}</b><small>${esc(team.masterNickname)} · ${number(team.memberCount)}/${number(rosterLimit(d))}</small></div><dl><dt>SCORE</dt><dd>${number(team.score)}</dd><dt>RECORD</dt><dd>${number(team.wins)}W ${number(team.losses)}L</dd></dl></article>`).join('')||'<p class="clan-empty">드래프트가 시작되면 클랜 순위가 공개됩니다.</p>'}</div></section>`}
 
   function content(d){if(state.tab==='roster')return rosterView(d);if(state.tab==='war')return warView(d);if(state.tab==='rank')return rankView(d);return commandView(d)}
   function render(){const root=document.getElementById('clanRoot');if(!root)return;if(state.loading&&!state.data){root.outerHTML=loadingView();return}if(state.error&&!state.data){root.innerHTML=`<section class="clan-error"><small>CLAN NETWORK ERROR</small><h2>클랜 정보를 불러오지 못했습니다</h2><p>${esc(state.error)}</p><button type="button" data-clan-refresh>다시 연결</button></section>`;bindDom();return}const d=state.data;root.innerHTML=`${phaseHero(d)}${ruleStrip(d)}${nav(d)}<div class="clan-view">${content(d)}</div>`;bindDom()}
@@ -82,16 +82,66 @@
   async function load(force=false){if(state.loading)return;state.loading=true;state.error='';render();try{state.data=await state.ctx.apiRequest(`clan/overview${force?'?fresh=1':''}`,{},force?{timeoutMs:15000}:{ttl:2500,timeoutMs:15000})}catch(error){state.error=error.message||'클랜 서버 연결 실패'}finally{state.loading=false;render()}}
   async function mutate(path,body,button){if(button){button.disabled=true;button.dataset.label=button.textContent;button.textContent='처리 중'}try{const result=await state.ctx.apiRequest(path,{method:'POST',body:JSON.stringify(body)},{timeoutMs:20000});state.data=result.state||state.data;state.ctx.clearApiCache?.('clan/overview');render();return result}catch(error){alert(error.message||'요청을 처리하지 못했습니다.')}finally{if(button&&document.body.contains(button)){button.disabled=false;button.textContent=button.dataset.label||'다시 시도'}}}
 
+  function scoreRuleText(war){
+    return war?.scorePolicy==='ATTACKER_PARTICIPATION_V1'?'공격 승리 +3점 · 패배도 우리 클랜 +1점 · 상대 점수 차감·추가 없음':`승리 클랜 +${number(war?.scorePerWin||1)}점 · 기존 라운드 규칙`;
+  }
+  function participationPanel(war){
+    if(war?.scorePolicy!=='ATTACKER_PARTICIPATION_V1')return'';
+    const p=war.participation||{},count=Number(p.completedAttacks||0),goal=Number(p.milestoneGoal||5);
+    return `<section class="clan-panel clan-participation"><header><div><small>EVERY ATTACK COUNTS</small><h3>참여할수록 우리 클랜에 플러스</h3><p>패배해도 상대에게 점수를 주지 않습니다. 팀원과 공유하던 방어 슬롯 제한도 없습니다.</p></div><b>참여 ${number(count)}회 · +${number(p.earnedPoints)}점</b></header><div class="clan-participation-progress"><span>핵심 참여 ${number(Math.min(count,goal))} / ${number(goal)}</span><progress max="${goal}" value="${Math.min(count,goal)}"></progress><b>${count>=goal?'5회 참여 달성':'승패 무관 누적'}</b></div><p>${p.rewardsEnabled?`매회 ${number(p.battleCoin)} 코인 · 승리 추가 ${number(p.winBonusPercent)}% · 5회 달성 +${number(p.milestoneCoin)} 코인 (라운드 1회)`:'개인 코인 보상은 운영 설정 대기 중입니다. 참여 점수는 정상 반영됩니다.'}</p>${p.rewardsEnabled?`<strong>이번 라운드 획득 ${number(p.earnedCoin)} 코인</strong><small>5회 이후에도 개인 상한까지 매 전투 기본 보상이 지급됩니다.</small>`:''}</section>`;
+  }
+  function requestScope(){
+    const account=state.data?.membership?.userId||global.loadUser?.()?.serverUserId;
+    if(!account||!state.data?.war?.id)throw new Error('계정·대진 정보를 새로고침한 뒤 시도하세요.');
+    return `clan-participation-request:${account}:${state.data.war.id}`;
+  }
+  function pendingRequest(scope){
+    let id=state.pending.get(scope);
+    try{id=id||global.sessionStorage.getItem(scope)}catch{}
+    if(!id){id=global.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;state.pending.set(scope,id);try{global.sessionStorage.setItem(scope,id)}catch{}}
+    return id;
+  }
+  function finishRequest(scope){state.pending.delete(scope);try{global.sessionStorage.removeItem(scope)}catch{}}
+  function syncBattleWallet(wallet){
+    const user=global.loadUser?.();if(!wallet||!user)return;
+    if(Number.isSafeInteger(Number(wallet.coin)))user.coin=Number(wallet.coin);
+    if(Number.isSafeInteger(Number(wallet.cardShards)))user.cardShards=Number(wallet.cardShards);
+    global.saveUser?.(user);state.ctx.clearApiCache?.('shell/summary');
+  }
+  function battleResultText(data){
+    const own=data.clanWar?.scorePolicy==='ATTACKER_PARTICIPATION_V1'||data.result==='WIN';
+    return `${own?'우리':'상대'} 클랜 +${number(data.clanWar?.pointsAwarded||1)}점${data.clanWar?.scorePolicy==='ATTACKER_PARTICIPATION_V1'?' · 상대 추가 점수 0':''}`;
+  }
   async function fight(button){
-    if(button){button.disabled=true;button.textContent='랜덤 상대 배정 중'}const ctx=state.ctx,modal=document.getElementById('modal'),mine=state.data?.membership;
+    if(state.fighting)return;state.fighting=true;
+    if(button){button.disabled=true;button.textContent='랜덤 상대 배정 중'}
+    const ctx=state.ctx,modal=document.getElementById('modal'),mine=state.data?.membership;
+    let confirmed=false,scope;
+    const close=()=>{modal?.__battleV2Renderer?.destroy?.();if(modal){modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML=''}};
     try{
+      scope=requestScope();
       await ctx.ensureFeatureResources('battleV2');if(!global.ProjectVBattleV3Live?.ready?.())throw new Error('V3 전투 리소스를 불러오지 못했습니다.');
-      const early=ctx.prepareImmediateBattleV3Entry?.({modal,mode:'PVP',playerName:mine?.name||'MY CLAN',opponentName:'RANDOM MATCH'});let stage=early?.stage,phase=early?.phase,msg=early?.msg;if(phase)phase.textContent='랜덤 상대 배정';
-      const data=await ctx.apiRequest('clan/war/fight',{method:'POST',body:JSON.stringify({requestId:global.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})},{timeoutMs:25000});if(!data?.battleV2)throw new Error('클랜전 V3 전투 데이터를 받지 못했습니다.');
-      const live=global.prepareBattleV2LiveLoading({modal,mode:'PVP',playerName:mine?.name||'MY CLAN',opponentName:data.opponent?.nickname||'OPPONENT'});stage=live.stage;phase=live.phase;msg=live.msg;ctx.ensureBattleSoundButton?.(stage);await global.playPvpBattleV2Live({stage,phase,msg,modal,data});
-      const won=data.result==='WIN',point=number(data.clanWar?.pointsAwarded||1);stage.classList.add(won?'battle-win-v863':'battle-lose-v863');phase.textContent=won?'CLAN VICTORY':'CLAN DEFEAT';ctx.battleSfx?.(won?'victory':'defeat');msg.innerHTML=`<div class="clan-v3-result ${won?'win':'lose'}"><small>SOOPKETMON · CLAN WAR · RANDOM MATCH</small><strong>${won?'VICTORY':'DEFEAT'}</strong><div><b>${number(data.attackerPower)}</b><i>VS</i><b>${number(data.defenderPower)}</b></div><span>${won?`우리 클랜 +${point}승점`:`상대 클랜 +${point}승점`} · 최신 랭크전 덱 반영</span><button type="button" data-clan-battle-close>클랜전으로 돌아가기</button></div>`;msg.classList.add('is-visible');
-      const close=()=>{modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';state.tab='war';ctx.renderShell('clan')};setTimeout(()=>{modal.onclick=close;modal.querySelector('[data-clan-battle-close]')?.addEventListener('click',event=>{event.stopPropagation();close()})},250);
-    }catch(error){if(modal){modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.className='modal';modal.innerHTML=''}alert(error.message||'클랜전 V3 전투를 시작하지 못했습니다.');if(button&&document.body.contains(button)){button.disabled=false;button.textContent='랜덤 매칭 시작'}}
+      const early=ctx.prepareImmediateBattleV3Entry?.({modal,mode:'PVP',playerName:mine?.name||'MY CLAN',opponentName:'RANDOM MATCH'});
+      if(early?.phase)early.phase.textContent='랜덤 상대 배정';
+      // Retain the key on timeout/error and refresh; confirmation is the only time it is discarded.
+      const data=await ctx.apiRequest('clan/war/fight',{method:'POST',body:JSON.stringify({requestId:pendingRequest(scope)})},{timeoutMs:25000});
+      if(!data?.ok||!data?.clanWar)throw new Error('클랜전 정산 응답을 확인하지 못했습니다. 같은 요청으로 재확인하세요.');
+      confirmed=true;finishRequest(scope);syncBattleWallet(data.wallet);ctx.clearApiCache?.('clan/overview');
+      const reward=data.clanWar.participationReward,rewardText=reward?.coin>0?` · +${number(reward.coin)} 코인${reward.milestoneCoin>0?' (5회 보너스 포함)':''}`:'';
+      if(data.replayed){close();alert(`이미 완료된 전투 결과를 복구했습니다. 중복 차감·지급 없음\n${battleResultText(data)}${rewardText}`);await load(true);return}
+      if(!data.battleV2)throw new Error('전투는 정산됐지만 재생 데이터를 받지 못했습니다.');
+      const live=global.prepareBattleV2LiveLoading({modal,mode:'PVP',playerName:mine?.name||'MY CLAN',opponentName:data.opponent?.nickname||'OPPONENT'}),{stage,phase,msg}=live;
+      ctx.ensureBattleSoundButton?.(stage);await global.playPvpBattleV2Live({stage,phase,msg,modal,data});
+      const won=data.result==='WIN';stage.classList.add(won?'battle-win-v863':'battle-lose-v863');phase.textContent=won?'CLAN VICTORY':'CLAN PARTICIPATION';ctx.battleSfx?.(won?'victory':'defeat');
+      msg.innerHTML=`<div class="clan-v3-result ${won?'win':'lose'}"><small>SOOPKETMON · CLAN WAR · RANDOM MATCH</small><strong>${won?'VICTORY':'BATTLE COMPLETE'}</strong><div><b>${number(data.attackerPower)}</b><i>VS</i><b>${number(data.defenderPower)}</b></div><span>${esc(battleResultText(data))}${esc(rewardText)}</span><button type="button" data-clan-battle-close>클랜전으로 돌아가기</button></div>`;msg.classList.add('is-visible');
+      const returnToWar=()=>{close();state.tab='war';ctx.renderShell('clan')};
+      setTimeout(()=>{modal.onclick=returnToWar;modal.querySelector('[data-clan-battle-close]')?.addEventListener('click',event=>{event.stopPropagation();returnToWar()})},250);
+    }catch(error){
+      if(error.requestFinalized===true&&scope)finishRequest(scope);
+      close();alert(error.message||'클랜전 V3 전투를 시작하지 못했습니다.');
+      if(confirmed)await load(true);
+      if(button&&document.body.contains(button)){button.disabled=false;button.textContent=confirmed?'랜덤 매칭 시작':'같은 전투 재확인'}
+    }finally{state.fighting=false}
   }
 
   function bindDom(){
