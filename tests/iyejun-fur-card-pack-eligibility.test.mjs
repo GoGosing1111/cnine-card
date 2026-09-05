@@ -33,7 +33,7 @@ function fixture(t){
     CREATE TABLE card_pack_rates(pack_id TEXT,rarity TEXT,rate REAL);
     INSERT INTO members VALUES(111,'이예준',1),(112,'다른멤버',1);
     INSERT INTO cards_effective_v1210(id,member_id,title,rarity,draw_weight) VALUES
-      ('${targetId}',111,'철구','FUR',0.01),
+      ('${targetId}',111,'철구','FUR',0.1),
       ('other-cheolgu',111,'철구 과거 카드','FUR',100);
   `);
   for(const id of ['premium','pickup','ultimate'])db.prepare('INSERT INTO card_pack_rates VALUES(?,?,?)').run(id,'FUR',100);
@@ -42,14 +42,14 @@ function fixture(t){
 }
 const pack=id=>({id,allowed_rarities:'["FUR"]',pickup_member_id:null,pickup_multiplier:1});
 
-test('이예준 FUR 0.01 가중치 카드를 세 운영 카드팩의 실제 추첨 후보로 선택한다',async t=>{
+test('이예준 FUR 0.1 가중치 카드를 세 운영 카드팩의 실제 추첨 후보로 선택한다',async t=>{
   const {env}=fixture(t);
   for(const id of ['premium','pickup','ultimate']){
     const context=await runtime.queryDrawContext(env,pack(id));
     assert.deepEqual(Array.from(context.poolsByGrade.get('FUR')||[],c=>c.id),[targetId]);
     const drawn=runtime.drawOneFromContext(context,pack(id));
     assert.equal(drawn.id,targetId);
-    assert.equal(drawn.draw_weight,0.01);
+    assert.equal(drawn.draw_weight,0.1);
   }
 });
 
@@ -68,7 +68,7 @@ test('예외 카드는 CMS 활성·공개·가중치·한정수량·멤버 활�
     db.prepare(`UPDATE cards_effective_v1210 SET ${update} WHERE id=?`).run(targetId);
     const context=await runtime.queryDrawContext(env,pack('premium'));
     assert.equal((context.poolsByGrade.get('FUR')||[]).length,0,update);
-    db.prepare("UPDATE cards_effective_v1210 SET is_active=1,card_status='PUBLIC',draw_weight=0.01,limited_total=NULL WHERE id=?").run(targetId);
+    db.prepare("UPDATE cards_effective_v1210 SET is_active=1,card_status='PUBLIC',draw_weight=0.1,limited_total=NULL WHERE id=?").run(targetId);
   }
   db.prepare('UPDATE members SET is_active=0 WHERE id=111').run();
   const context=await runtime.queryDrawContext(env,pack('premium'));
