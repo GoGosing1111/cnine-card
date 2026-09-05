@@ -112,7 +112,7 @@ test('수감자 때리기는 60초 서버 쿨타임·중복 영수증·자기 �
 });
 
 test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
-  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['treasury', 'prison'\]\) \}\)/);
+  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['treasury', 'soopketland', 'prison'\]\) \}\)/);
   assert.match(menu,/MENU_GROUP_ORDER = Object\.freeze\(\[[^\]]*'market', 'administration'\]\)/);
   assert.match(menu,/prison: Object\.freeze\(\{ title: '감옥', group: 'administration', icon: 'prison' \}\)/);
   assert.match(client,/prison: prisonView/);
@@ -157,7 +157,7 @@ test('수감 계정 콜드 스타트는 V21 부트 로딩을 즉시 해제한다
   assert.match(lockedRender,/document\.documentElement\.dataset\.v21UiReady='1'/);
   assert.match(index,/body\.v21-renewal-required #app\{visibility:hidden\}/);
   assert.match(index,/body\.v21-ui-ready \.v21-renewal-boot\{display:none\}/);
-  assert.match(index,/js\/app\.js\?v=2034-superstar-power-deck/);
+  assert.match(index,/js\/app\.js\?v=2039-soopketland/);
 });
 
 test('CMS는 현재 수감 상태와 10분~6시간 입력, 즉시 석방을 제공한다',()=>{

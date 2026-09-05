@@ -2,6 +2,7 @@ import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleStreamerLounge } from '../_streamer_lounge.js';
+import { handleSoopketLand, redeemLandCoupon } from '../_soopket_land.js';
 import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
 import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2,estimateApocalypseRecommendedPower } from '../_battle_v2_preview.js';
@@ -5038,6 +5039,7 @@ async function handleRequest(context){
       },serverNow:new Date().toISOString()});
     }
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
+    const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
 
     if(path==='live-operations'&&request.method==='GET'){
       const items=await liveOperationAlerts(env),payload=JSON.stringify({items,serverNow:new Date().toISOString(),pollSeconds:30});
@@ -5232,6 +5234,7 @@ async function handleRequest(context){
           CASE WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') THEN 0 WHEN i.code='CORE_RAID_ENTRY_TICKET' THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
         WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
+          AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
@@ -7402,6 +7405,7 @@ async function handleRequest(context){
       const payload=await readBody(request);
       const code=String(payload.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40);
       if(!code) return json({error:'쿠폰 코드를 입력하세요.'},400);
+      const landCoupon=await redeemLandCoupon({env,user,body:payload,deps:{json,profile,isRandomDrawExcluded}});if(landCoupon)return landCoupon;
       const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
       const requestedKey=String(payload.operationKey||'').trim(),operationKey=/^[A-Za-z0-9:_-]{8,120}$/.test(requestedKey)?requestedKey:`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;

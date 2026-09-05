@@ -79,7 +79,7 @@
     crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
-    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['treasury', 'prison']) })
+    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['treasury', 'soopketland', 'prison']) })
   });
   const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market', 'administration']);
   const HUB_GROUPS = Object.freeze({
@@ -123,6 +123,7 @@
     prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
     inventory: Object.freeze({ title: '인벤토리', group: 'store', icon: 'inventory' }),
+    soopketland: Object.freeze({ title: '숲켓랜드', group: 'administration', icon: 'gift' }),
     treasury: Object.freeze({ title: '세금징수', group: 'administration', icon: 'treasury' }),
     prison: Object.freeze({ title: '감옥', group: 'administration', icon: 'prison' })
   });

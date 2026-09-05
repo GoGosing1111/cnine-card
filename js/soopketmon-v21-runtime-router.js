@@ -22,6 +22,7 @@
     'auction',
     'mineral',
     'inventory',
+    'soopketland',
     'treasury'
   ]);
 
@@ -58,6 +59,7 @@
     auction: { shell: 'auction' },
     mineral: { shell: 'mineral' },
     inventory: { shell: 'inventory' },
+    soopketland: { shell: 'soopketland' },
     treasury: { shell: 'treasury' },
 
     profile: { global: 'showAccountPanel', fallbackSelector: '#playerAccountBtn' },

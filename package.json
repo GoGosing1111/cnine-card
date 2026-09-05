@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:soopketland": "esbuild js/soopketland-v2039.src.js --bundle --minify --format=iife --outfile=js/soopketland-v2039.bundle.js",
+    "test:soopketland": "node --test tests/soopketland-v2039.test.mjs",
     "build:v3": "esbuild preview/project-v-v3/source/project-v-pixi-battle.src.js --bundle --minify --format=iife --outfile=preview/project-v-v3/project-v-pixi-battle.bundle.js",
     "build:prime-draw": "esbuild js/prime-draw-live-v1985.src.js --bundle --minify --format=iife --outfile=js/prime-draw-live-v1985.bundle.js",
     "test:escort": "node --test tests/escort-operation-v1830.test.mjs",
@@ -36,7 +38,7 @@
     "test:idle-dungeon": "node tests/idle-dungeon-daily-cap-v1732.mjs",
     "test:treasury": "node --test tests/administration-treasury-v2030.test.mjs",
     "test:streamer-lounge": "node --test tests/streamer-lounge-v2036.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:streamer-lounge && npm run test:evolution && npm run test:navigation && npm run test:raid-entry && npm run test:core-raid && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && node scripts/verify-production-release.mjs",
+    "release:gate": "npm run check:worker && npm run test:soopketland && npm run test:streamer-lounge && npm run test:evolution && npm run test:navigation && npm run test:raid-entry && npm run test:core-raid && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {
