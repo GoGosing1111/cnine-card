@@ -21,6 +21,7 @@
     basketball:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.5 5.5c8 1 8 12 0 13m13-13c-8 1-8 12 0 13"/>',
     lol:'<path d="m5 3 7 3 7-3v10c0 4-7 8-7 8s-7-4-7-8V3Z"/><path d="M10 8v8h5m-3-8h3"/>',
     setka:'<path d="M5 4h14v14H5zM3 21h18M8 8h8m-8 4h8M9 18v3m6-3v3"/><circle cx="17" cy="4" r="2"/>',
+    starcraft:'<path d="m12 3 8 17-8-4-8 4L12 3Zm0 0v13M7 18v3m10-3v3"/>',
     other:'<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>',
     arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',
     refresh:'<path d="M20 7v5h-5M4 17v-5h5M5.3 7a8 8 0 0 1 13.9-1M4.8 18A8 8 0 0 0 18.7 17"/>',
@@ -46,10 +47,6 @@
   function odds(event, option) {
     const value=model.estimate({...event,myBet:null},option.id)?.odds;
     return value===null||value===undefined?'—':`${value.toFixed(2)}배`;
-  }
-  function imageUrl(value) {
-    if(!value)return '';
-    try { const url=new URL(value,location.origin+'/'); return ['http:','https:'].includes(url.protocol)?url.href:''; } catch { return ''; }
   }
   function categoriesMarkup() {
     return [{code:'ALL',label:'전체 경기',icon:'all'},...model.categories].map(c=>`<button type="button" class="cp3-category ${selectedCategory===c.code?'is-active':''}" data-cp-category="${c.code}" aria-pressed="${selectedCategory===c.code}">${icon(c.icon)}<span>${c.label}</span><b data-cp-category-count="${c.code}">0</b></button>`).join('');
@@ -118,9 +115,9 @@
     return `<dl class="cp3-ticket-line"><dt>${extra?'추가 후 총 배팅':'총 배팅 금액'}</dt><dd>${fmt(total)} <small>코인</small></dd></dl><div class="cp3-estimate-main"><span>${title}<small>원금 포함</small></span><strong data-cp-estimated-payout>${payout===null||payout===undefined?'—':fmt(payout)}</strong><em>COIN${!result?.final&&projected?.odds!==null&&projected?.odds!==undefined?` · ${projected.odds.toFixed(2)}배`:''}</em></div><dl class="cp3-profit ${Number(projected?.profit)<0?'is-negative':''}"><dt>${result?.final?'실제 순손익':'적중 시 예상 순이익'}</dt><dd>${projected?.profit===null||projected?.profit===undefined?'—':`${signed(projected.profit)} 코인`}</dd></dl>${!result?.final?'<p>수수료 10% 차감·지원금 반영 후 예상입니다.</p>':''}`;
   }
   function board(event) {
-    const selectedId=Number(event.myBet?.option_id||selectedOptions.get(Number(event.id))||0),cat=model.category(event.category),image=imageUrl(event.image_url);
+    const selectedId=Number(event.myBet?.option_id||selectedOptions.get(Number(event.id))||0),cat=model.category(event.category);
     const closing=event.closes_at?new Date(dateMs(event.closes_at)).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'수동 마감';
-    return `<article class="cp3-board" data-cp-event="${event.id}" data-cp-selected="${selectedId}"><header class="cp3-event-head"><div><div class="cp3-event-kicker"><span>${icon(cat.icon)}${cat.label}</span><span>MATCH ${event.id}</span><em class="cp3-status status-${esc(event.status.toLowerCase())}">${status(event)}</em></div><h2>${esc(event.title)}</h2><p>${esc(event.description||'경기 결과를 예측하고 게임 코인으로 참여하세요.')}</p></div>${image?`<img class="cp3-event-image" src="${esc(image)}" alt="" loading="lazy">`:''}<div class="cp3-event-numbers"><div><span>${icon('clock')}마감까지</span><b data-cp-countdown="${event.id}">${clock(event)}</b><small>${closing} · 한국시간</small></div><div><span>총 참여 코인</span><b>${fmt(event.total_pool)}</b><small>${fmt(event.participant_count)}명 참여</small></div></div></header>
+    return `<article class="cp3-board" data-cp-event="${event.id}" data-cp-selected="${selectedId}"><header class="cp3-event-head"><div><div class="cp3-event-kicker"><span>${icon(cat.icon)}${cat.label}</span><span>MATCH ${event.id}</span><em class="cp3-status status-${esc(event.status.toLowerCase())}">${status(event)}</em></div><h2>${esc(event.title)}</h2><p>${esc(event.description||'경기 결과를 예측하고 게임 코인으로 참여하세요.')}</p></div><div class="cp3-event-numbers"><div><span>${icon('clock')}마감까지</span><b data-cp-countdown="${event.id}">${clock(event)}</b><small>${closing} · 한국시간</small></div><div><span>총 참여 코인</span><b>${fmt(event.total_pool)}</b><small>${fmt(event.participant_count)}명 참여</small></div></div></header>
       ${Number(event.treasury_subsidy)>0?`<div class="cp3-subsidy">${icon('crown')}<span>행정부 지원금 <b>+${fmt(event.treasury_subsidy)} 코인</b></span><small>적중자 분배 풀에 추가 반영</small></div>`:''}
       <div class="cp3-detail-grid"><div class="cp3-market"><header class="cp3-section-head"><div><p class="cp3-overline">PREDICTION BOARD</p><h3>${['SETTLED','VOID'].includes(event.status)?'최종 결과':'어떤 결과를 예상하나요?'}</h3></div><span>${event.options?.length||0}개 선택지</span></header><div class="cp3-options">${(event.options||[]).map((o,i)=>optionMarkup(event,o,i,selectedId)).join('')}</div><p class="cp3-market-note">${listView==='history'?'종료 후 24시간 동안 결과와 내 베팅·정산 내역을 확인할 수 있습니다.':'배당은 변동됩니다. 현재 배당이 최종 수령액을 보장하지 않습니다.'}</p>${ledger(event,selectedId)}</div>${ticket(event,selectedId)}</div></article>`;
   }
@@ -149,7 +146,6 @@
     root.querySelector('#cpPagination').innerHTML=pagination();
     root.querySelector('#cpUpdated').textContent=`${new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})} 갱신`;
     if(ledgerOpen&&Number(priorBoard?.dataset.cpEvent)===selectedEventId)root.querySelector('[data-cp-ledger]')?.setAttribute('open','');
-    root.querySelectorAll('.cp3-event-image').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;},{once:true}));
     if(state.settings?.enabled===false)notice('현재 신규 참여가 일시 중지되었습니다. 기존 배팅과 정산 내역은 계속 확인할 수 있습니다.');
     if(retryPayload)notice(`경기 ${retryPayload.eventId}의 이전 요청 결과를 확인 중입니다. 같은 요청 번호로 다시 확인해 주세요.`,true);
     root.querySelector('#cpRecovery').hidden=!retryPayload;

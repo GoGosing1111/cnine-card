@@ -57,13 +57,13 @@ assert.match(adminUi, /이벤트당 최대<\/span><b>500,000,000/);
 assert.match(adminCss, /\.cp-admin-tabs/);
 assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 
-assert.match(app, /coin-prediction-v2033\.css\?v=2033-matchday/);
-assert.match(app, /coin-prediction-model-v2033\.js\?v=2033-matchday/);
-assert.match(app, /coin-prediction-v2033\.js\?v=2033-matchday/);
-assert.match(index, /js\/app\.js\?v=2033-prediction-matchday/);
+assert.match(app, /coin-prediction-v2033\.css\?v=2033-matchday-star/);
+assert.match(app, /coin-prediction-model-v2033\.js\?v=2033-matchday-star/);
+assert.match(app, /coin-prediction-v2033\.js\?v=2033-matchday-star/);
+assert.match(index, /js\/app\.js\?v=2033-prediction-star/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=2033-matchday/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=2033-matchday/);
-assert.match(serviceWorker, /soop-card-shell-v2033-prediction-matchday/);
+assert.match(serviceWorker, /soop-card-shell-v2033-prediction-star/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
 

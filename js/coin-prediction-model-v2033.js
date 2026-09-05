@@ -6,9 +6,10 @@
     { code: 'BASKETBALL', label: '농구', icon: 'basketball' },
     { code: 'LOL', label: 'LOL', icon: 'lol' },
     { code: 'SETKA', label: '세트카', icon: 'setka' },
+    { code: 'STARCRAFT', label: '스타', icon: 'starcraft' },
     { code: 'OTHER', label: '기타', icon: 'other' }
   ]);
-  const category = code => categories.find(item => item.code === code) || categories[5];
+  const category = code => categories.find(item => item.code === code) || categories.find(item => item.code === 'OTHER');
   const amount = value => Math.max(0, Number(value) || 0);
 
   // Display-only: mirrors settle()'s two Math.floor operations, including subsidy.

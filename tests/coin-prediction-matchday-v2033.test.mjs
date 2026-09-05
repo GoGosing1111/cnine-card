@@ -26,12 +26,13 @@ const close=new Date(Date.now()+86400000).toISOString();
 for(let i=1;i<=29;i++){
   db.prepare("INSERT INTO coin_prediction_events(id,title,status,closes_at,total_pool) VALUES(?,?,'OPEN',?,30000000)").run(i,'테스트 경기 '+i,close);
   db.prepare('INSERT INTO coin_prediction_options(id,event_id,label,total_bet,bet_count) VALUES(?,?,?,10000000,1),(?,?,?,20000000,1)').run(i*10+1,i,'선택 A',i*10+2,i,'선택 B');
-  if(i<29)db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').run(PREDICTION_CATEGORY_PREFIX+i,i<=20?'SOCCER':PREDICTION_CATEGORIES[(i-21)%6]);
+  if(i<29)db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').run(PREDICTION_CATEGORY_PREFIX+i,i<=20?'SOCCER':PREDICTION_CATEGORIES[(i-21)%PREDICTION_CATEGORIES.length]);
   if(i%2===0)db.prepare('INSERT INTO coin_prediction_bets(event_id,user_id,option_id,amount) VALUES(?,1,?,1000000)').run(i,i*10+1);
 }
 
-test('카테고리 6종은 유저/CMS/서버가 동일하고 SQL은 바인딩한다',()=>{
+test('카테고리 7종은 유저/CMS/서버가 동일하고 스타는 기타 바로 앞이며 SQL은 바인딩한다',()=>{
   assert.deepEqual(Array.from(model.categories,c=>c.code),Array.from(PREDICTION_CATEGORIES));
+  assert.deepEqual(Array.from(model.categories.slice(-2),c=>[c.code,c.label]),[['STARCRAFT','스타'],['OTHER','기타']]);
   assert.equal(model.category('unknown').code,'OTHER');
   const filters=predictionFilterSql({category:"SOCCER' OR 1=1 --",mine:true},2);
   assert.deepEqual(filters.binds,['OTHER',2]);assert.ok(!filters.sql.includes('OR 1=1'));
@@ -63,7 +64,7 @@ test('서버 카테고리 필터는 LIMIT 이전에 적용·12개 이상 페이�
   const second=await request('coin-prediction/state?category=SOCCER&page=99');assert.equal(second.body.navigation.page,2);assert.equal(second.body.events.length,10);
 });
 test('내 배팅 필터는 모든 페이지·종목에 적용, 미분류 기타 호환',async()=>{
-  const mine=await request('coin-prediction/state?category=SOCCER&mine=1');assert.equal(mine.status,200);assert.equal(mine.body.navigation.total,10);assert.ok(mine.body.events.every(e=>e.myBet));
+  const mine=await request('coin-prediction/state?category=SOCCER&mine=1');assert.equal(mine.status,200);assert.equal(mine.body.navigation.total,11);assert.ok(mine.body.events.every(e=>e.myBet));
   const other=await request('coin-prediction/state?category=OTHER');assert.ok(other.body.events.some(e=>e.id===29));
   const nobody=await request('coin-prediction/state?mine=1',null,'USER');assert.equal(nobody.body.navigation.total,0);
 });
@@ -111,5 +112,24 @@ test('개편 UI 리소스 격리·확정/예상 구분·접근성·폴링 수명
   assert.match(app,/styles:\['css\/coin-prediction-v2033\.css/);assert.match(app,/coin-prediction-model-v2033\.js.*coin-prediction-v2033\.js/);
   assert.match(admin,/admin\/coin-prediction\/category/);assert.match(admin,/cpAdminCategory/);
   assert.match(ui,/id="coinPredictionRoot"/,'V21 화면 경로 식별자를 유지한다');
+  assert.doesNotMatch(ui,/cp3-event-image|event\.image_url|function imageUrl/,'레거시 경기 이미지가 있어도 렌더링하지 않는다');
+  assert.doesNotMatch(css,/\.cp3-event-image/);
+  assert.match(css,/\.cp3-event-head\{[^}]*grid-template-columns:minmax\(0,1fr\);/,'제목은 이미지 자리까지 사용한다');
   assert.doesNotMatch(ui,/battle-v3|Pixi|setBattlefield/);
+});
+
+test('스타 경기 CMS 등록·기존 분류 변경·유저/CMS 조회가 실제 SQL에 반영된다',async()=>{
+  const created=await request('admin/coin-prediction/event',{title:'스타 신규 경기',category:'STARCRAFT',closesAt:close,options:['테란','저그']});
+  assert.equal(created.status,200);const id=created.body.id;
+  assert.equal(db.prepare('SELECT value FROM app_meta WHERE key=?').get(PREDICTION_CATEGORY_PREFIX+id).value,'STARCRAFT');
+  const before=JSON.stringify([db.prepare('SELECT * FROM coin_prediction_events WHERE id=3').get(),db.prepare('SELECT * FROM coin_prediction_options WHERE event_id=3').all(),db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=3').all(),db.prepare('SELECT * FROM users').all()]);
+  assert.equal((await request('admin/coin-prediction/category',{eventId:3,category:'STARCRAFT'},'USER')).status,403);
+  assert.equal((await request('admin/coin-prediction/category',{eventId:3,category:'STARCRAFT'})).status,200);
+  assert.equal(JSON.stringify([db.prepare('SELECT * FROM coin_prediction_events WHERE id=3').get(),db.prepare('SELECT * FROM coin_prediction_options WHERE event_id=3').all(),db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=3').all(),db.prepare('SELECT * FROM users').all()]),before);
+  for(const path of ['coin-prediction/state','admin/coin-prediction/state']){
+    const listed=await request(path+'?category=STARCRAFT');assert.equal(listed.status,200);assert.equal(listed.body.navigation.category,'STARCRAFT');
+    assert.ok(listed.body.events.some(e=>e.id===id));assert.ok(listed.body.events.some(e=>e.id===3));assert.ok(listed.body.events.every(e=>e.category==='STARCRAFT'));
+    assert.equal(listed.body.navigation.categoryCounts.STARCRAFT,listed.body.navigation.total);
+    const other=await request(path+'?category=OTHER');assert.ok(other.body.events.every(e=>e.category==='OTHER'&&e.id!==id&&e.id!==3));
+  }
 });
