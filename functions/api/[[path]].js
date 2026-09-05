@@ -438,7 +438,9 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'},
-  HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️',inventory:true,max:100000,messageType:'ITEM_REWARD'}
+  HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
+  UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
+  STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮',inventory:true,max:100000,messageType:'ITEM_REWARD'}
 };
 function verifiedMessageRewardSpec(value){const type=String(value||'').trim().toUpperCase();return VERIFIED_MESSAGE_REWARD_TYPES[type]?{type,...VERIFIED_MESSAGE_REWARD_TYPES[type]}:null}
 const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000};
@@ -7355,7 +7357,7 @@ async function handleRequest(context){
       const body=await readBody(request);
       const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
       const spec=verifiedMessageRewardSpec(requestedType);
-      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
+      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
       if(!Number.isFinite(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위로 입력하세요.`},400);
       const rewardAmount=Math.floor(rawAmount);

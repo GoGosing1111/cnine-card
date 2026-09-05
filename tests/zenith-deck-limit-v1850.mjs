@@ -38,7 +38,7 @@ for(const [label,source] of [['live client',client],['legacy client',legacyClien
 assert.doesNotMatch(evolution,/ZENITH(?:는| 덱 편성은)[^\n]{0,80}(?:1장만|1장 제한)/,'진화 화면에 구형 1장 제한 안내가 남으면 안 됩니다.');
 assert.match(evolution,/ZENITH 덱 편성은 최대 2장입니다/,'진화 확인창은 2장 제한을 안내해야 합니다.');
 assert.match(evolutionCms,/ZENITH 덱 편성은 서버에서 최대 2장으로 제한됩니다/,'진화 CMS도 2장 제한을 안내해야 합니다.');
-assert.match(index,/js\/app\.js\?v=2043-advancement-pass/,'라이브 앱 캐시 버전을 갱신해야 합니다.');
+assert.match(index,/js\/app\.js\?v=2044-gift-message-rewards/,'라이브 앱 캐시 버전을 갱신해야 합니다.');
 assert.match(index,/js\/evolution\.js\?v=2035-evolution-batch/,'진화 화면 캐시 버전을 갱신해야 합니다.');
 assert.match(adminIndex,/evolution-admin\.js\?v=1850-zenith-deck-limit-2/,'진화 CMS 캐시 버전을 갱신해야 합니다.');
 
