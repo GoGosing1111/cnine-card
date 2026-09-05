@@ -117,8 +117,10 @@ const DRAW_RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','ZENITH','LIMIT
 // V1272: 특정 멤버/카드는 일반 카드팩 뽑기 결과에서 완전히 제외한다.
 // DB의 공개/활성/확률 설정은 유지하되 실제 후보 풀에서 이중 차단하여 CMS 설정 실수에도 지급되지 않는다.
 const RANDOM_DRAW_EXCLUDED_KEYWORDS=['철구'];
+// 2026-09-05 운영 승인: 이예준 FUR 한 장만 예외. CMS 활성·공개·가중치 및 팩 구성 검증은 그대로 적용한다.
+const RANDOM_DRAW_ALLOWED_CARD_IDS=new Set(['CN-346F8DB0DEB84D41']);
 function normalizedRandomCardText(card={}){return `${card?.name||''} ${card?.title||''}`.normalize('NFKC').replace(/\s+/g,'')}
-function isRandomDrawExcluded(card={}){const text=normalizedRandomCardText(card);return RANDOM_DRAW_EXCLUDED_KEYWORDS.some(keyword=>text.includes(String(keyword).normalize('NFKC').replace(/\s+/g,'')))}
+function isRandomDrawExcluded(card={}){if(RANDOM_DRAW_ALLOWED_CARD_IDS.has(String(card?.id||'')))return false;const text=normalizedRandomCardText(card);return RANDOM_DRAW_EXCLUDED_KEYWORDS.some(keyword=>text.includes(String(keyword).normalize('NFKC').replace(/\s+/g,'')))}
 function randomDrawPool(rows=[]){return (Array.isArray(rows)?rows:[]).filter(card=>!isRandomDrawExcluded(card))}
 const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,LIMITED:180,PRESTIGE:220,FUR:250,ZENITH:400,SUPERSTAR:600};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
