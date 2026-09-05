@@ -88,7 +88,7 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
-  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=2037-charcoal-lounge"/);
+  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=2038-station-only"/);
   assert.match(read('admin/index.html'),/streamer-lounge-admin-v2036\.js\?v=2036/);
   assert.match(api,/handleStreamerLounge\(\{path,request,env,deps:\{json,requirePermission,writeAdminLog\}\}\)/);
   assert.ok(api.indexOf('if(path.startsWith(\'admin/\'))') < api.indexOf('const streamerResponse='));
@@ -111,4 +111,17 @@ test('v2037 keeps the approved mobile geometry, removes the TV badge and isolate
   assert.match(css,/\.sl36-entrance \{ height:104px/);
   assert.doesNotMatch(client,/sl36-hero-mark|const icon =/);
   assert.doesNotMatch(css,/#10222e|#284653|#3b6670|battle-v3|roster-card|\.pc-main-character/);
+});
+
+test('v2038 leaves one station link per card and removes the profile action and detail state', () => {
+  const read=path=>readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
+  const client=read('js/streamer-lounge-v2036.js'),css=read('css/streamer-lounge-v2036.css');
+  const card=client.slice(client.indexOf('function card('),client.indexOf('function paintGrid('));
+  assert.match(card,/<div class="sl36-card-identity">/);
+  assert.match(card,/<h3>\$\{esc\(row\.name\)\}<\/h3>/);
+  assert.equal((card.match(/stationLink\(row\)/g)||[]).length,1);
+  assert.doesNotMatch(card,/<button|tabindex|role="button"|onclick/);
+  assert.doesNotMatch(client,/프로필 보기|프로필과 방송국 보기|data-streamer-details|data-sl36-list|selectedId|sl36-detail/);
+  assert.doesNotMatch(css,/sl36-card-profile|sl36-detail|sl36-new-tab-note/);
+  assert.match(read('index.html'),/css\/streamer-lounge-v2036\.css\?v=2038-station-only/);
 });

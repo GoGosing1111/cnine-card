@@ -22,6 +22,8 @@ try {
   for (const [width, height, touch = width < 760] of [[1836,1160],[1440,900],[1024,768],[1024,1258,true],[390,844],[360,740],[360,640]]) {
     let settings = structuredClone(DEFAULT_STREAMER_SETTINGS);
     const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, isMobile: touch, hasTouch: touch });
+    // Exercise the real new-tab link without loading or interacting with an external station.
+    await context.route('https://www.sooplive.com/station/**',route=>route.fulfill({contentType:'text/html; charset=utf-8',body:'<!doctype html><title>방송국 QA</title><p>방송국 이동 확인</p>'}));
     const page = await context.newPage(), errors = [], calls = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.route(`${origin}/qa-streamer-lounge`, route => route.fulfill({ contentType:'text/html; charset=utf-8',body:html }));
@@ -51,7 +53,7 @@ try {
     assert.deepEqual(collisions,[],`entry must not cover existing lobby functions (${width}x${height})`);
     assert.ok(bounds.height<=111,'compact entry does not grow into a large badge');
     if(touch) assert.equal(Math.round(bounds.height),width<760&&height<=680?86:104,'approved mobile height; short phones reserve chief space');
-    await page.screenshot({path:path.join(os.tmpdir(),`streamer-lobby-v2037-${width}-${height}.png`),animations:'disabled'});
+    await page.screenshot({path:path.join(os.tmpdir(),`streamer-lobby-v2038-${width}-${height}.png`),animations:'disabled'});
     await entry.click(); await page.locator('.sl36-dialog[open]').waitFor();
     assert.equal(await page.locator('.sl36-card').count(),5);
     const links=await page.locator('.sl36-card a').evaluateAll(xs=>xs.map(x=>({url:x.href,target:x.target,rel:x.rel})));
@@ -60,25 +62,37 @@ try {
     await page.waitForFunction(()=>[...document.querySelectorAll('.sl36-dialog img')].filter(img=>{const r=img.getBoundingClientRect();return r.width>0&&r.top<innerHeight;}).every(img=>img.complete));
     assert.equal(await page.locator('.sl36-hero-mark').count(),0,'retired monitor badge is gone');
     assert.equal(await page.locator('.sl36-dialog').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(16, 17, 18)');
-    await page.screenshot({path:path.join(os.tmpdir(),`streamer-lounge-v2037-${width}-${height}.png`),animations:'disabled'});
+    await page.screenshot({path:path.join(os.tmpdir(),`streamer-lounge-v2038-${width}-${height}.png`),animations:'disabled'});
     assert.equal(await page.locator('.sl36-dialog').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true,'no lounge horizontal overflow');
-    for(const name of ['디임','조은','하이희야','강구열','오리꿍']) assert.ok(await page.getByRole('button',{name:`${name} 프로필 보기`,exact:true}).count());
+    assert.equal(await page.locator('.sl36-card button,.sl36-card [role="button"],.sl36-card [tabindex]').count(),0,'photos and names are not profile controls');
+    assert.equal(await page.getByText('프로필 보기',{exact:false}).count(),0);
+    for(const name of ['디임','조은','하이희야','강구열','오리꿍']) {
+      assert.equal(await page.getByRole('heading',{name,exact:true}).count(),1);
+      assert.equal(await page.getByRole('link',{name:`${name} 방송국 바로가기 (새 탭)`,exact:true}).count(),1);
+    }
+    await page.locator('.sl36-card-identity').first().click();
+    assert.equal(await page.locator('.sl36-card').count(),5,'identity click must not open another screen');
+    assert.equal(await page.locator('.sl36-detail,[data-sl36-list]').count(),0);
     await page.getByRole('searchbox').fill('조은'); assert.equal(await page.locator('.sl36-card').count(),1);
-    await page.getByRole('button',{name:'조은 프로필 보기',exact:true}).click();assert.equal(await page.locator('.sl36-detail h2').textContent(),'조은');
-    assert.equal(await page.locator('.sl36-detail a').getAttribute('href'),'https://www.sooplive.com/station/zalalz');
-    await page.screenshot({path:path.join(os.tmpdir(),`streamer-detail-v2036-${width}-${height}.png`),animations:'disabled'});
-    await page.locator('[data-sl36-list]').click();assert.equal(await page.locator('.sl36-card').count(),1);
+    const popupPromise=page.waitForEvent('popup');
+    await page.getByRole('link',{name:'조은 방송국 바로가기 (새 탭)',exact:true}).click();
+    const popup=await popupPromise;await popup.waitForLoadState('domcontentloaded');
+    assert.equal(popup.url(),'https://www.sooplive.com/station/zalalz');
+    assert.equal(await popup.evaluate(()=>window.opener),null,'station cannot access the game opener');
+    await popup.close();
+    assert.equal(page.url(),`${origin}/qa-streamer-lounge`);
+    assert.equal(await page.locator('.sl36-dialog[open]').count(),1,'game lounge remains open in its original tab');
     await page.getByRole('searchbox').fill('없음');assert.match(await page.locator('[data-sl36-grid]').textContent(),/검색된 스트리머가 없습니다/);
     await page.keyboard.press('Escape');assert.equal(await page.locator('.sl36-dialog').evaluate(el=>el.open),false);
     assert.equal(await entry.evaluate(el=>el===document.activeElement),true);
     // A CMS hide is reflected next time the lounge is opened; never reseed it.
     settings.profiles[0].visible=false;await entry.click();await page.waitForFunction(()=>document.querySelectorAll('.sl36-card').length===4);
-    assert.equal(await page.getByRole('button',{name:'디임 프로필 보기',exact:true}).count(),0);
+    assert.equal(await page.getByRole('link',{name:'디임 방송국 바로가기 (새 탭)',exact:true}).count(),0);
     await page.locator('[data-sl36-close]').click();
     assert.match(await entry.getAttribute('aria-label'),/4명/);
     assert.equal(await page.locator('.game-frame').getAttribute('data-route'),'home');
     assert.deepEqual(errors,[]);assert.ok(calls.every(url=>url.endsWith('/api/streamer-profiles')));await context.close();
-    console.log(`PASS lobby + lounge ${width}x${height}: five links, no overlaps, profile/search, keyboard close and hide refresh`);
+    console.log(`PASS lobby + lounge ${width}x${height}: station-only cards, new-tab click, no overlaps, search, keyboard close and hide refresh`);
   }
   const page=await browser.newPage({viewport:{width:1280,height:960}}), errors=[];let settings=structuredClone(DEFAULT_STREAMER_SETTINGS),revision='initial-v2036',saves=0;
   page.on('pageerror',error=>errors.push(error.message));

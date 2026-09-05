@@ -1,0 +1,23 @@
+v2038 · 스트리머 라운지 단일 동작 / 커밋 전 검증
+환경: Windows, Node v24.18.0, 실제 Chrome headless, 2026-09-05.
+
+[PASS] node --check js/streamer-lounge-v2036.js
+[PASS] node --check tests/streamer-lounge-v2036.browser.mjs
+[PASS] npm run test:streamer-lounge — 16/16
+- 프로필 상세 상태·이벤트·CSS·문구 제거
+- 사진·이름은 비대화형 요소, 카드마다 방송국 바로가기 하나
+- 기존 CMS 권한·저장·동시 수정 방지·순서·숨김·주소 검증 유지
+
+[PASS] tests/streamer-lounge-v2036.browser.mjs
+- 1836x1160 / 1440x900 / 1024x768 / 터치 1024x1258 / 390x844 / 360x740 / 360x640
+- 진입부 왼쪽 부착·기존 로비 요소 비겹침·라운지 가로 넘침 없음
+- 5명 이름·방송국 링크 유지, 프로필 보기 문구·버튼 없음
+- 사진·이름 클릭 시 화면이 전환되지 않음
+- 실제 링크 클릭으로 새 탭 열림, 지정 URL 일치, opener 차단, 게임 탭 유지
+- 외부 방송국 페이지 및 공개 목록/CMS API는 fixture 사용; 실제 계정 수정 없음
+- 검색·검색 결과 없음·ESC 닫기·진입부 포커스 복원·숨김 후 재진입 정상
+- CMS 순서·숨김·소개 저장·재조회 기존 계약 유지
+- 브라우저 JavaScript 오류 없음, PC·모바일 스크린샷 시각 확인
+
+[PASS] git diff --check
+운영 배포는 커밋·푸시 뒤 npm run deploy:production을 통해 전체 release:gate 및 clean-tree/origin HEAD 검증을 통과한 경우에만 진행한다.
