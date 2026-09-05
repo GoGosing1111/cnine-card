@@ -8,10 +8,10 @@ import { onRequest } from '../functions/api/[[path]].js';
 const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
 const server = read('functions/_coin_prediction.js');
-const userUi = read('js/coin-prediction-v1.js');
+const userUi = read('js/coin-prediction-v2033.js');
+const model = read('js/coin-prediction-model-v2033.js');
 const adminUi = read('admin/coin-prediction-admin-v1.js');
-const userCss = read('css/coin-prediction-v1.css');
-const userV2Css = read('css/coin-prediction-v2.css');
+const userCss = read('css/coin-prediction-v2033.css');
 const adminCss = read('admin/coin-prediction-admin-v1.css');
 const app = read('js/app.js');
 const index = read('index.html');
@@ -28,8 +28,8 @@ assert.match(server, /status IN \('SETTLED','VOID'\).*datetime\('now','-1 day'\)
 assert.match(server, /e\.status='CLOSED'.*historyWhere/s);
 assert.match(server, /pageSize=admin\?30:12/);
 assert.match(server, /navigation:\{view,page,pageSize,total,totalPages,counts:/);
-assert.match(server, /admin\/coin-prediction\/state.*eventData\(env,user\.id,true,ownerUnlimited,listView,listPage\)/s);
-assert.match(server, /coin-prediction\/state.*eventData\(env,user\.id,false,ownerUnlimited,listView,listPage\)/s);
+assert.match(server, /admin\/coin-prediction\/state.*eventData\(env,user\.id,true,ownerUnlimited,listView,listPage,filters\)/s);
+assert.match(server, /coin-prediction\/state.*eventData\(env,user\.id,false,ownerUnlimited,listView,listPage,filters\)/s);
 assert.doesNotMatch(server, /settledRetention=admin\?'-1 day':'-1 hour'/);
 
 assert.match(userUi, /data-cp-view="active"/);
@@ -37,17 +37,16 @@ assert.match(userUi, /data-cp-view="history"/);
 assert.match(userUi, /종료된 경기/);
 assert.match(userUi, /종료 후 24시간 동안 결과와 내 베팅·정산 내역/);
 assert.match(userUi, /coin-prediction\/state\?view=\$\{requestedView\}&page=\$\{requestedPage\}/);
-assert.match(userUi, /MY PREDICTION/);
+assert.match(userUi, /MY TICKET/);
 assert.match(userUi, /const USER_MAX_BET_PER_EVENT = 500000000;/);
-assert.match(userUi, /500,000,000 MAX/);
+assert.match(userUi, /경기당 최대 5억/);
 assert.match(userUi, /이벤트 누적 최대는 5억 코인/);
-assert.match(userUi, /\$\{fmt\(payout\)\} COIN 환불/);
-assert.match(userUi, /payout > 0 \? `\+\$\{fmt\(payout\)\} COIN` : '미적중'/);
-assert.match(userCss, /\.cp-history-tabs/);
-assert.match(userCss, /@media\(max-width:720px\).*\.cp-history-tabs/s);
-assert.match(userV2Css, /\.cp2-option-grid/);
-assert.match(userV2Css, /--cp2-cyan:\s*#caff5c/);
-assert.match(userV2Css, /@media \(max-width: 720px\)/);
+assert.match(userUi, /실제 환불액/);
+assert.match(model, /mine\.status === 'SETTLED' \|\| mine\.status === 'REFUNDED'/);
+assert.match(userCss, /\.cp3-views/);
+assert.match(userCss, /@media\(max-width:560px\).*\.cp3-views/s);
+assert.match(userCss, /\.cp3-options/);
+assert.match(userCss, /--cp3-blue:#174fde/);
 
 assert.match(adminUi, /data-cp-admin-view="active"/);
 assert.match(adminUi, /data-cp-admin-view="history"/);
@@ -58,13 +57,13 @@ assert.match(adminUi, /이벤트당 최대<\/span><b>500,000,000/);
 assert.match(adminCss, /\.cp-admin-tabs/);
 assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 
-assert.match(app, /coin-prediction-v1\.css\?v=1813-history-tabs/);
-assert.match(app, /coin-prediction-v2\.css\?v=1861-broadcast-ledger/);
-assert.match(app, /coin-prediction-v1\.js\?v=2030-treasury-subsidy/);
-assert.match(index, /js\/app\.js\?v=2032-ranked-challenger/);
-assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=1883-prediction-only-admin/);
-assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=2000-user-max-500m/);
-assert.match(serviceWorker, /soop-card-shell-v2032-ranked-challenger/);
+assert.match(app, /coin-prediction-v2033\.css\?v=2033-matchday/);
+assert.match(app, /coin-prediction-model-v2033\.js\?v=2033-matchday/);
+assert.match(app, /coin-prediction-v2033\.js\?v=2033-matchday/);
+assert.match(index, /js\/app\.js\?v=2033-prediction-matchday/);
+assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=2033-matchday/);
+assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=2033-matchday/);
+assert.match(serviceWorker, /soop-card-shell-v2033-prediction-matchday/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
 

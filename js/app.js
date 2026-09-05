@@ -908,8 +908,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },
   prediction:{
-    styles:['css/coin-prediction-v1.css?v=1813-history-tabs','css/coin-prediction-v1632.css?v=1860-large-number-layout','css/coin-prediction-v2.css?v=1861-broadcast-ledger'],
-    scripts:['js/coin-prediction-v1.js?v=2030-treasury-subsidy'],
+    styles:['css/coin-prediction-v2033.css?v=2033-matchday'],
+    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday','js/coin-prediction-v2033.js?v=2033-matchday'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   treasury:{

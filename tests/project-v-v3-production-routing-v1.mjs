@@ -38,7 +38,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=2032-ranked-challenger'));
+assert.ok(index.includes('js/app.js?v=2033-prediction-matchday'));
 assert.ok(index.includes('js/responsive-battle-sprites-v1815.js?v=1958-zenith-apocalypse-sd'));
 assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=2023-pve-navigation-host'));

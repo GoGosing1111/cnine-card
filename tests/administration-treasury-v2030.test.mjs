@@ -13,8 +13,8 @@ import {
 
 const root=new URL('../',import.meta.url);
 const read=path=>readFile(new URL(path,root),'utf8');
-const [backend,api,prime,avatar,superstar,prediction,predictionUi,app,menu,router,index,worker]=await Promise.all([
-  read('functions/_administration_treasury.js'),read('functions/api/[[path]].js'),read('functions/_prime_draw.js'),read('functions/_avatar.js'),read('functions/_superstar_pack.js'),read('functions/_coin_prediction.js'),read('js/coin-prediction-v1.js'),read('js/app.js'),read('js/soopketmon-v21-exact-shell-adapter.js'),read('js/soopketmon-v21-runtime-router.js'),read('index.html'),read('service-worker.js')
+const [backend,api,prime,avatar,superstar,prediction,predictionUi,predictionModel,app,menu,router,index,worker]=await Promise.all([
+  read('functions/_administration_treasury.js'),read('functions/api/[[path]].js'),read('functions/_prime_draw.js'),read('functions/_avatar.js'),read('functions/_superstar_pack.js'),read('functions/_coin_prediction.js'),read('js/coin-prediction-v2033.js'),read('js/coin-prediction-model-v2033.js'),read('js/app.js'),read('js/soopketmon-v21-exact-shell-adapter.js'),read('js/soopketmon-v21-runtime-router.js'),read('index.html'),read('service-worker.js')
 ]);
 
 test('실제 코인 판매액 세율은 정확히 1%이며 원 단위 미만은 버린다',()=>{
@@ -78,7 +78,7 @@ test('승부예측 지원금은 예상 배당과 정산에 포함되고 무효 �
   assert.match(prediction,/baseDistributable\+treasurySubsidy/);
   assert.match(prediction,/predictionSubsidyFinalizationStatements/);
   assert.match(backend,/status='REFUNDED'/);
-  assert.match(predictionUi,/pool \* 0\.9 \+ support/);
+  assert.match(predictionModel,/Math\.floor\(pool \* \(100 - fee\) \/ 100\) \+ support/);
   assert.match(predictionUi,/행정부 지원/);
 });
 
@@ -88,6 +88,6 @@ test('전체 메뉴 행정부와 반응형 게임 내 승인 UI가 연결된다'
   assert.match(router,/treasury: \{ shell: 'treasury' \}/);
   assert.match(app,/administration-treasury-v2030\.js\?v=2030-tax-one-percent/);
   assert.match(app,/window\.bindAdministrationTreasuryView/);
-  assert.match(index,/js\/app\.js\?v=2032-ranked-challenger/);
-  assert.match(worker,/soop-card-shell-v2032-ranked-challenger/);
+  assert.match(index,/js\/app\.js\?v=2033-prediction-matchday/);
+  assert.match(worker,/soop-card-shell-v2033-prediction-matchday/);
 });

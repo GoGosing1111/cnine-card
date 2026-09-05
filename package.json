@@ -26,7 +26,7 @@
     "test:ranked-reward": "node --test tests/ranked-reward-cap-v1980.test.mjs tests/ranked-challenger-v2032.test.mjs",
     "build:challenger": "esbuild js/ranked-challenger-fx-v2032.src.js --bundle --minify --format=iife --outfile=js/ranked-challenger-fx-v2032.bundle.js",
     "test:coupon": "node --test tests/coupon-reward-cap-v1997.test.mjs",
-    "test:prediction": "node tests/coin-prediction-history-v1813.mjs",
+    "test:prediction": "node tests/coin-prediction-history-v1813.mjs && node --test tests/coin-prediction-matchday-v2033.test.mjs",
     "test:prime-draw": "node --test tests/prime-draw-live-v1985.test.mjs tests/prime-draw-opening-preview-v1984.test.mjs",
     "test:superstar-pack": "node --test tests/superstar-pack-v1894.test.mjs",
     "test:gamst-retirement": "node --test tests/gamst-card-retirement-v2001.test.mjs tests/gamst-territory-deck-repair-v2005.test.mjs tests/card-catalog-account-visibility-v1908.test.mjs",
