@@ -37,7 +37,7 @@ const baseOverview=overrides=>({
 
 test('UI 계약은 FUR/ZENITH/SUPERSTAR +13, 마스터의 별 3,000개, 성공률 10%로 고정된다',()=>{
   const ui=loadUi();
-  assert.equal(ui.VERSION,'1940');
+  assert.equal(ui.VERSION,'2043');
   assert.equal(ui.ENDPOINT,'card/unique-advancement');
   assert.equal(ui.FEATURE_ENDPOINT,'card/unique-advancement/feature');
   assert.deepEqual(Array.from(ui.ELIGIBLE_GRADES),['FUR','ZENITH','SUPERSTAR']);
@@ -285,7 +285,7 @@ test('app 최소 훅과 index 리소스 순서가 카드 렌더러를 변경하�
   const advancementCssPosition=index.indexOf('css/card-unique-advancement-v1.css');
   assert.ok(modulePosition>=0&&modulePosition<appPosition,'전직 모듈은 app.js보다 먼저 로드되어야 합니다.');
   assert.ok(profileCssPosition>=0&&profileCssPosition<advancementCssPosition,'전직 CSS는 카드 상세 CSS 뒤에서 확장해야 합니다.');
-  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=1941-superstar-pack-early-access/);
+  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=2043-advancement-pass/);
   assert.match(index,/css\/card-unique-advancement-v1\.css\?v=1939-advancement-awakening/);
   assert.match(app,/CNineCardUniqueAdvancementV1937/);
   assert.match(app,/data-profile-tab="advancement"/);
@@ -303,7 +303,7 @@ test('GET/POST는 단일 서버 API 계약과 요청 멱등 키를 사용한다'
   assert.match(moduleSource,/FEATURE_ENDPOINT=`\$\{ENDPOINT\}\/feature`/);
   assert.match(moduleSource,/apiRequest\(FEATURE_ENDPOINT,\{\}, \{ttl:0/);
   assert.match(moduleSource,/api\(`\$\{ENDPOINT\}\?cardId=\$\{encodeURIComponent\(cardId\)\}`/);
-  assert.match(moduleSource,/method:'POST',body:JSON\.stringify\(\{cardId,requestId:state\.operationRequestId\}\)/);
+  assert.match(moduleSource,/method:'POST',body:JSON\.stringify\(\{cardId,requestId:state\.operationRequestId,expectedPassUse:state\.operationPassUse\}\)/);
   assert.doesNotMatch(moduleSource,/JSON\.stringify\(\{cardId,requestId:state\.operationRequestId,expectedClassCode/);
   assert.match(moduleSource,/serverReclassified=returnedCurrent\.code!==expectedClassCode\|\|normalizedType\(returnedCurrent\.type\)!==expectedType/);
   assert.match(moduleSource,/서버 최신 고유효과 판정으로 전직이 완료되었습니다/);
@@ -326,4 +326,48 @@ test('라이브 엔트리는 서버 feature 동기화 전 OFF로 닫고 클라�
   assert.match(moduleSource,/CLOSED_FEATURE_STATUS=Object\.freeze\(\{mode:'OFF',enabledForUser:false,testAccess:false,ready:false\}\)/);
   assert.match(app,/shouldExpose\?\.\(\{card,owned,level,grade:normalizedGrade\}\)/);
   assert.doesNotMatch(moduleSource,/shouldExpose[\s\S]{0,500}uniqueAbility/);
+});
+
+test('패스권 보유 시 확인 화면에 100%와 패스권 1개·마별 3,000개 소모를 명시한다',()=>{
+  const ui=loadUi();
+  const raw=baseOverview({advancementPass:{itemCode:'UNIQUE_ADVANCEMENT_PASS',quantity:2,spent:0},effectiveSuccessChancePercent:100});
+  const overview=ui.normalizeOverview(raw);
+  assert.equal(overview.canAdvance,true);assert.equal(overview.successChancePercent,100);
+  assert.equal(overview.advancementPass.willConsume,true);
+  const html=ui.renderOverview(overview,{confirming:true});
+  assert.match(html,/전직 패스권 보유 2개/);
+  assert.match(html,/FINAL SERVER CONFIRMATION \/ 100%/);
+  assert.match(html,/전직 패스권 1개와 마스터의 별 3,000개가 소모되며 100% 성공/);
+  assert.doesNotMatch(html,/실패해도|성공 확률은 10%/);
+  assert.equal(ui.normalizeOverview({...raw,advancementPass:{quantity:0}}).canAdvance,false,'패스권 없이 서버의 100% 안내만 신뢰하지 않는다');
+  assert.equal(ui.normalizeOverview({...raw,effectiveSuccessChancePercent:10}).canAdvance,false,'서버와 보유 상태가 다르면 차단한다');
+  assert.equal(ui.normalizeOverview({...raw,wallet:{masterStars:2999}}).canAdvance,false);
+});
+
+test('100% 확인 후 패스권이 사라지면 10% 재시도 대신 최신 상태 확인을 요구한다',async()=>{
+  const ui=loadUi(),bodies=[],cleared=[];
+  let available=true,attempts=0;
+  const rootElement={dataset:{cardId:'UI-CARD-1'},innerHTML:'',isConnected:true,addEventListener(type,listener){this.listener=listener}};
+  const modal={querySelector(selector){return selector==='[data-unique-advancement-root]'?rootElement:null}};
+  const controller=ui.bind(modal,{card:{id:'UI-CARD-1',grade:'ZENITH'},level:13,clearApiCache:key=>cleared.push(key),apiRequest:async(endpoint,request={})=>{
+    if(request.method!=='POST')return baseOverview({advancementPass:{quantity:available?1:0},effectiveSuccessChancePercent:available?100:10});
+    bodies.push(JSON.parse(request.body));attempts++;
+    if(attempts===1)throw Object.assign(new Error('전직 패스권 보유 상태를 다시 확인해 주세요.'),{code:'ADVANCEMENT_PASS_STATE_CHANGED'});
+    if(attempts===2)throw new Error('response lost');
+    return {ok:true,success:true,uniqueAdvancement:{active:true,classCode:'SERVER_CLASS_DEFENSE',dominantType:'DEFENSE'},advancementPass:{quantity:0,spent:1},material:{balanceAfter:0},effectiveSuccessChancePercent:100};
+  }});
+  const click=attribute=>rootElement.listener({target:{closest(){return {hasAttribute:name=>name===attribute}}},preventDefault(){},stopPropagation(){}});
+  const flush=()=>new Promise(resolve=>setImmediate(resolve));
+  await controller.load();click('data-ua-advance');click('data-ua-submit');await flush();
+  assert.equal(bodies[0].expectedPassUse,true);
+  assert.match(rootElement.innerHTML,/최신 전직 상태 다시 확인/);
+  assert.doesNotMatch(rootElement.innerHTML,/data-ua-submit/);
+  available=false;click('data-ua-retry');await flush();
+  assert.equal(controller.overview.successChancePercent,10);assert.equal(controller.overview.advancementPass.willConsume,false);
+  available=true;await controller.load(true);click('data-ua-advance');click('data-ua-submit');await flush();
+  assert.match(rootElement.innerHTML,/response lost/);
+  click('data-ua-submit');await flush();
+  assert.equal(bodies[1].expectedPassUse,true);assert.deepEqual(bodies[1],bodies[2],'응답 유실에도 동일 패스권 확인·요청 ID 유지');
+  assert.match(rootElement.innerHTML,/전직 패스권 1개를 사용했습니다/);
+  assert.equal(controller.overview.advancementPass.quantity,0);assert.ok(cleared.includes('inventory'));
 });

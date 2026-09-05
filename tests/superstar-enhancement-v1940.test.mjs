@@ -90,13 +90,14 @@ test('SUPERSTAR +11~+13은 챔피언십 프레임과 강화 자산을 유지하�
   assert.match(app,/SUPERSTAR:\{11:'',12:'',13:''\}/);
   assert.match(app,/normalizedGrade==='SUPERSTAR'\?'<img class="superstar-card-frame"/);
 
-  for(const asset of ['js/bulk-enhancement-v1899.js','js/card-unique-advancement-v1.js']){
+  for(const asset of ['js/bulk-enhancement-v1899.js']){
     assert.match(index,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
+  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=2043-advancement-pass/);
   for(const asset of ['admin-v1065-card-management-reorg.js','admin-v1170-user-card-grant.js']){
     assert.match(adminIndex,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
-  assert.match(index,/js\/app\.js\?v=2041-soopketland-rewards/);
+  assert.match(index,/js\/app\.js\?v=2043-advancement-pass/);
   assert.match(adminIndex,/admin-v1276\.js\?v=2034-superstar-power-deck/);
-  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v2041-soopketland-rewards'/);
+  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v2043-advancement-pass'/);
 });

@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const VERSION='1940';
+  const VERSION='2043';
   const ENDPOINT='card/unique-advancement';
   const FEATURE_ENDPOINT=`${ENDPOINT}/feature`;
   const ELIGIBLE_GRADES=Object.freeze(['FUR','ZENITH','SUPERSTAR']);
@@ -123,12 +123,16 @@
     })||null;
     const currentType=normalizedType(normalizedCurrent?.type||currentDefinition?.dominantType||currentCandidate?.dominantType);
     const current=normalizedCurrent?{...normalizedCurrent,type:currentType}:null;
+    const passQuantity=finiteNumber(raw.advancementPass?.quantity)??0;
+    const passWillUse=!current&&passQuantity>0;
+    const successChancePercent=finiteNumber(raw.effectiveSuccessChancePercent)??(passWillUse?100:SUCCESS_CHANCE_PERCENT);
+    const passMismatch=!Number.isSafeInteger(passQuantity)||passQuantity<0||(!current&&successChancePercent!==(passWillUse?100:SUCCESS_CHANCE_PERCENT));
     const recommendedType=normalizedType(raw.dominantType||raw.recommendedType||directClassInfo.dominantType||recommendedClass.dominantType||raw.eligibility?.dominant?.dominantType);
     const dominantType=current?currentType:recommendedType;
     const classSource=current?(currentDefinition||currentCandidate||current):{...recommendedClass,...directClassInfo};
     const classCode=String(current?.code||classSource.code||classSource.classCode||'').trim();
     const localRequirementsMet=ELIGIBLE_GRADES.includes(grade)&&breakthroughLevel>=MIN_BREAKTHROUGH;
-    const contractMismatch=requirementMismatch(requirements);
+    const contractMismatch=requirementMismatch(requirements)||passMismatch;
     const serverEligible=raw.eligibility?.eligible===true;
     const walletEnough=walletValue!==null&&walletValue>=MASTER_STAR_COST;
     const canAdvance=raw.canAdvance===true&&serverEligible&&localRequirementsMet&&walletEnough&&!contractMismatch&&!current&&Boolean(dominantType&&classCode);
@@ -148,6 +152,8 @@
       },
       current,
       wallet:{masterStars:walletValue},
+      advancementPass:{quantity:passQuantity,willConsume:passWillUse},
+      successChancePercent,
       requirements:{eligibleGrades:[...ELIGIBLE_GRADES],minBreakthrough:MIN_BREAKTHROUGH,costMasterStars:MASTER_STAR_COST,successChancePercent:SUCCESS_CHANCE_PERCENT},
       eligibility:{eligible:serverEligible,reasons:uniqueStrings(raw.eligibility?.reasons||raw.eligibility?.reason||[])},
       localRequirementsMet,
@@ -214,7 +220,9 @@
     else if(overview.wallet.masterStars<MASTER_STAR_COST)messages.push(`마스터의 별 ${formatNumber(MASTER_STAR_COST-overview.wallet.masterStars)}개가 더 필요합니다.`);
     if(!overview.dominantType)messages.push('서버 최고 고유효과 판정이 준비되지 않았습니다.');
     if(!overview.classInfo.code)messages.push('서버 전직 코드가 준비되지 않았습니다.');
-    if(overview.canAdvance)messages.push(`성공 확률은 ${SUCCESS_CHANCE_PERCENT}%이며, 실패해도 마스터의 별 ${formatNumber(MASTER_STAR_COST)}개가 소모됩니다.`);
+    if(overview.canAdvance)messages.push(overview.advancementPass.willConsume
+      ?`전직 패스권 1개 자동 사용 · 100% 성공. 마스터의 별 ${formatNumber(MASTER_STAR_COST)}개도 소모됩니다.`
+      :`성공 확률은 ${SUCCESS_CHANCE_PERCENT}%이며, 실패해도 마스터의 별 ${formatNumber(MASTER_STAR_COST)}개가 소모됩니다.`);
     return uniqueStrings(messages);
   }
 
@@ -222,15 +230,19 @@
     if(refreshRequired)return `<button type="button" class="ua-secondary ua-retry" data-ua-retry${pending?' disabled':''}>최신 전직 상태 다시 확인</button>`;
     if(confirming){
       const route=routeModels(overview).find(item=>item.recommended);
-      return `<div class="ua-confirm" role="group" aria-labelledby="uaConfirmTitle"><small>FINAL SERVER CONFIRMATION / ${SUCCESS_CHANCE_PERCENT}%</small><h3 id="uaConfirmTitle">${escapeHtml(route?.name||'고유효과 전직')} 전직을 진행할까요?</h3><p>성공 확률은 ${SUCCESS_CHANCE_PERCENT}%입니다. 성공 여부와 관계없이 마스터의 별 ${formatNumber(MASTER_STAR_COST)}개가 소모되며, 전직 계열은 서버가 다시 계산합니다.</p><div><button type="button" class="ua-secondary" data-ua-cancel${pending?' disabled':''}>취소</button><button type="button" class="ua-primary" data-ua-submit${pending?' disabled':''}>${pending?'서버 처리 중…':`${escapeHtml(route?.name||'전직')} 확정`}</button></div></div>`;
+      const costCopy=overview.advancementPass.willConsume
+        ?`전직 패스권 1개와 마스터의 별 ${formatNumber(MASTER_STAR_COST)}개가 소모되며 100% 성공합니다. 전직 계열은 서버가 다시 계산합니다.`
+        :`성공 확률은 ${SUCCESS_CHANCE_PERCENT}%입니다. 성공 여부와 관계없이 마스터의 별 ${formatNumber(MASTER_STAR_COST)}개가 소모되며, 전직 계열은 서버가 다시 계산합니다.`;
+      return `<div class="ua-confirm" role="group" aria-labelledby="uaConfirmTitle"><small>FINAL SERVER CONFIRMATION / ${overview.successChancePercent}%</small><h3 id="uaConfirmTitle">${escapeHtml(route?.name||'고유효과 전직')} 전직을 진행할까요?</h3><p>${costCopy}</p><div><button type="button" class="ua-secondary" data-ua-cancel${pending?' disabled':''}>취소</button><button type="button" class="ua-primary" data-ua-submit${pending?' disabled':''}>${pending?'서버 처리 중…':`${escapeHtml(route?.name||'전직')} 확정`}</button></div></div>`;
     }
     const disabled=!overview.canAdvance,buttonLabel=overview.current?'전직 완료':overview.canAdvance?'고유효과 전직 진행':'전직 조건 미충족';
-    return `<button type="button" class="ua-primary ua-advance" data-ua-advance${disabled?' disabled':''}><span><small>MASTER STAR ${formatNumber(MASTER_STAR_COST)} · SUCCESS ${SUCCESS_CHANCE_PERCENT}%</small><b>${escapeHtml(buttonLabel)}</b></span><strong>${overview.canAdvance?'READY':overview.current?'COMPLETE':'LOCKED'}</strong></button>`;
+    return `<button type="button" class="ua-primary ua-advance" data-ua-advance${disabled?' disabled':''}><span><small>MASTER STAR ${formatNumber(MASTER_STAR_COST)} · SUCCESS ${overview.successChancePercent}%${overview.advancementPass.willConsume?' · PASS ×1':''}</small><b>${escapeHtml(buttonLabel)}</b></span><strong>${overview.canAdvance?'READY':overview.current?'COMPLETE':'LOCKED'}</strong></button>`;
   }
 
   function renderOverview(overview,view={}){
     const messages=statusMessages(overview),notice=view.error||view.failure||view.success||'',noticeTone=view.error||view.failure?'error':view.success?'success':'info';
-    return `<header class="ua-heading"><div><small>UNIQUE EFFECT / AUTOMATIC ADVANCEMENT</small><h2>고유효과 전직</h2><p>최고 고유효과 1종을 기준으로 계열이 자동 결정되며 전직 성공 확률은 ${SUCCESS_CHANCE_PERCENT}%입니다.</p></div><span><small>CARD STATUS</small><b>${escapeHtml(overview.grade||'?')} · +${overview.breakthroughLevel}</b></span></header>${requirementCards(overview)}${routeGrid(overview)}${classProfile(overview)}<div class="ua-status ${overview.canAdvance?'is-ready':''}" aria-live="polite"><b>${overview.canAdvance?'전직 준비 완료':overview.current?'전직 완료':'전직 상태 확인'}</b><ul>${messages.map(message=>`<li>${escapeHtml(message)}</li>`).join('')}</ul></div>${notice?`<div class="ua-notice is-${noticeTone}" role="status">${escapeHtml(notice)}</div>`:''}${actionMarkup(overview,view)}`;
+    const passNotice=overview.current?'':`<div class="ua-notice${overview.advancementPass.willConsume?' is-success':''}" data-ua-pass>전직 패스권 보유 ${formatNumber(overview.advancementPass.quantity)}개 · ${overview.advancementPass.willConsume?'전직 시 1개 자동 사용 · 100% 성공':'미보유 시 기본 성공률 10%'}</div>`;
+    return `<header class="ua-heading"><div><small>UNIQUE EFFECT / AUTOMATIC ADVANCEMENT</small><h2>고유효과 전직</h2><p>최고 고유효과 1종을 기준으로 계열이 자동 결정되며 전직 성공 확률은 ${overview.successChancePercent}%입니다.</p></div><span><small>CARD STATUS</small><b>${escapeHtml(overview.grade||'?')} · +${overview.breakthroughLevel}</b></span></header>${requirementCards(overview)}${passNotice}${routeGrid(overview)}${classProfile(overview)}<div class="ua-status ${overview.canAdvance?'is-ready':''}" aria-live="polite"><b>${overview.canAdvance?'전직 준비 완료':overview.current?'전직 완료':'전직 상태 확인'}</b><ul>${messages.map(message=>`<li>${escapeHtml(message)}</li>`).join('')}</ul></div>${notice?`<div class="ua-notice is-${noticeTone}" role="status">${escapeHtml(notice)}</div>`:''}${actionMarkup(overview,view)}`;
   }
 
   function initialRootMarkup(context={}){
@@ -305,7 +317,8 @@
     state.pending=true;state.error='';renderState(state);
     const expectedClassCode=state.overview.classInfo.code,expectedType=state.overview.dominantType,cardId=state.overview.cardId||String(state.context.card?.id||'');
     try{
-      const result=await api(ENDPOINT,{method:'POST',body:JSON.stringify({cardId,requestId:state.operationRequestId})},{timeoutMs:30000});
+      const result=await api(ENDPOINT,{method:'POST',body:JSON.stringify({cardId,requestId:state.operationRequestId,expectedPassUse:state.operationPassUse})},{timeoutMs:30000});
+      state.dependencies.clearApiCache?.('inventory');
       const returned=result?.overview||result?.status||result;
       const outcome=String(result?.outcome||returned?.outcome||'').trim().toUpperCase();
       const explicitFailure=result?.success===false||returned?.success===false||outcome==='FAILED';
@@ -325,7 +338,11 @@
       const fallbackWallet=finiteNumber(result?.masterStarsAfter??result?.material?.balanceAfter??result?.masterStars)??state.overview.wallet.masterStars;
       state.overview=normalizeOverview({...state.overview.raw,...returned,wallet:returned?.wallet||{masterStars:fallbackWallet},current:returnedCurrent,canAdvance:false},{card:state.context.card,cardId,level:state.context.level});
       state.success=serverReclassified?'서버 최신 고유효과 판정으로 전직이 완료되었습니다.':'고유효과 전직이 완료되었습니다.';state.failure='';state.refreshRequired=false;state.confirming=false;state.loaded=true;renderState(state);
+      if(result?.advancementPass?.spent===1){state.success+=' 전직 패스권 1개를 사용했습니다.';renderState(state)}
     }catch(error){
+      if(error?.payload?.code==='ADVANCEMENT_PASS_STATE_CHANGED'||error?.code==='ADVANCEMENT_PASS_STATE_CHANGED'){
+        state.error=errorMessage(error);state.confirming=false;state.loaded=false;state.refreshRequired=true;state.operationRequestId='';renderState(state);return;
+      }
       state.error=errorMessage(error,'전직 요청을 완료하지 못했습니다.');state.confirming=true;renderState(state);
     }finally{
       state.pending=false;
@@ -338,7 +355,7 @@
     if(!root)return null;
     if(rootStates.has(root))return rootStates.get(root).controller;
     const context={card:options.card||{},user:options.user||{},level:Math.max(0,Math.floor(Number(options.level)||0))};
-    const state={root,context,dependencies:options,overview:null,loaded:false,loadingPromise:null,confirming:false,pending:false,error:'',failure:'',success:'',refreshRequired:false,operationRequestId:''};
+    const state={root,context,dependencies:options,overview:null,loaded:false,loadingPromise:null,confirming:false,pending:false,error:'',failure:'',success:'',refreshRequired:false,operationRequestId:'',operationPassUse:false};
     const controller={load:force=>loadOverview(state,{force:Boolean(force)}),get overview(){return state.overview}};
     rootStates.set(root,{state,controller});
     root.addEventListener('click',event=>{
@@ -346,7 +363,7 @@
       if(!target)return;
       event.preventDefault();event.stopPropagation();
       if(target.hasAttribute('data-ua-retry')){void loadOverview(state,{force:true});return}
-      if(target.hasAttribute('data-ua-advance')&&state.overview?.canAdvance){state.confirming=true;state.error='';state.success='';state.operationRequestId=requestId();renderState(state);return}
+      if(target.hasAttribute('data-ua-advance')&&state.overview?.canAdvance){state.confirming=true;state.error='';state.success='';state.operationRequestId=requestId();state.operationPassUse=state.overview.advancementPass.willConsume;renderState(state);return}
       if(target.hasAttribute('data-ua-cancel')&&!state.pending){state.confirming=false;state.error='';state.operationRequestId='';renderState(state);return}
       if(target.hasAttribute('data-ua-submit'))void submitAdvancement(state);
     });

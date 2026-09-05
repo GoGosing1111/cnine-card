@@ -2,12 +2,14 @@
  *
  * The database remains the authority for ownership, grade, breakthrough level,
  * active unique stats, success roll and MASTER_STAR balance; clients only submit
- * cardId + requestId.
+ * cardId + requestId + expectedPassUse (confirmation only, never authority).
  */
 
 export const UNIQUE_ADVANCEMENT_SETTINGS_KEY='card_unique_advancement_settings_v1937_release';
 export const UNIQUE_ADVANCEMENT_COST=3000;
 export const UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT=10;
+export const UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';
+export const UNIQUE_ADVANCEMENT_PASS_NAME='전직 패스권';
 export const UNIQUE_ADVANCEMENT_MIN_BREAKTHROUGH=13;
 export const UNIQUE_ADVANCEMENT_ALLOWED_GRADES=Object.freeze(['FUR','ZENITH','SUPERSTAR']);
 export const UNIQUE_ADVANCEMENT_STAT_ORDER=Object.freeze(['ATTACK','DEFENSE','SPEED','HP']);
@@ -17,6 +19,19 @@ const FOUNDATION_KEY='safe_runtime_upgrade_v1937_card_unique_advancement_tx_guar
 const ADVANCEMENT_TABLE='card_unique_advancements_v1937';
 const RECEIPT_TABLE='card_unique_advancement_receipts_v1937';
 const GUARD_TABLE='card_unique_advancement_tx_guards_v1937';
+
+// Catalog only: no player grant, shop listing or reward-pool change.
+export async function ensureUniqueAdvancementPassCatalog(env){
+  await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+    VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING`)
+    .bind(UNIQUE_ADVANCEMENT_PASS_CODE,UNIQUE_ADVANCEMENT_PASS_NAME,'ADVANCEMENT PASS',
+      '보유 시 카드 상세 > 고유효과 전직에서 1개가 자동 소모되어 100% 성공합니다. FUR·ZENITH·SUPERSTAR 13강 이상 및 활성 고유효과가 필요하며, 마스터의 별 3,000개는 별도로 소모됩니다.',
+      'ADVANCEMENT','SPECIAL','assets/items/unique-advancement-pass-v2043.svg',127).run();
+}
+
+function passPayload(quantity,{used=false}={}){
+  return {itemCode:UNIQUE_ADVANCEMENT_PASS_CODE,name:UNIQUE_ADVANCEMENT_PASS_NAME,quantity:Math.max(0,Math.floor(finite(quantity,0))),spent:used?1:0};
+}
 
 const ZERO_MODIFIERS=Object.freeze({
   criticalChancePoints:0,
@@ -278,12 +293,13 @@ async function stateRows(env,userId,cardId){
       LEFT JOIN card_unique_effects cue ON cue.card_id=uc.card_id AND cue.is_active=1
       WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 LIMIT 1`).bind(userId,cardId),
     env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId),
-    env.DB.prepare(`SELECT card_id,class_code,dominant_type,config_version,modifiers_json,request_id,activated_at FROM ${ADVANCEMENT_TABLE} WHERE user_id=? AND card_id=?`).bind(userId,cardId)
+    env.DB.prepare(`SELECT card_id,class_code,dominant_type,config_version,modifiers_json,request_id,activated_at FROM ${ADVANCEMENT_TABLE} WHERE user_id=? AND card_id=?`).bind(userId,cardId),
+    env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,UNIQUE_ADVANCEMENT_PASS_CODE)
   ]);
-  return {card:first(results[0]),masterStars:Math.max(0,Math.floor(finite(first(results[1])?.quantity,0))),row:first(results[2])};
+  return {card:first(results[0]),masterStars:Math.max(0,Math.floor(finite(first(results[1])?.quantity,0))),row:first(results[2]),passQuantity:Math.max(0,Math.floor(finite(first(results[3])?.quantity,0)))};
 }
 
-function responsePayload({requestId='',card,masterStars,advancement,attemptedClass=null,settings,replayed=false}){
+function responsePayload({requestId='',card,masterStars,passQuantity=0,passUsed=false,advancement,attemptedClass=null,settings,replayed=false}){
   const definition=UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[advancement?.classCode]||attemptedClass;
   return {
     ok:true,
@@ -296,6 +312,8 @@ function responsePayload({requestId='',card,masterStars,advancement,attemptedCla
     grade:normalizedGrade(card?.rarity),
     breakthroughLevel:Math.max(0,Math.floor(finite(card?.breakthrough_level,0))),
     material:{itemCode:'MASTER_STAR',spent:UNIQUE_ADVANCEMENT_COST,balanceAfter:Math.max(0,Math.floor(finite(masterStars,0)))},
+    advancementPass:passPayload(passQuantity,{used:passUsed}),
+    effectiveSuccessChancePercent:passUsed?100:UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT,
     recommendedType:advancement?.dominantType||definition?.dominantType||null,
     recommendedClass:publicClassDefinition(definition),
     uniqueAdvancement:advancement,
@@ -303,7 +321,7 @@ function responsePayload({requestId='',card,masterStars,advancement,attemptedCla
   };
 }
 
-function statusPayload({card,masterStars,row,settings,user}){
+function statusPayload({card,masterStars,passQuantity=0,row,settings,user}){
   const access=featureAccess(settings.mode,user),advancement=advancementFromRow(row);
   const eligibility=evaluateUniqueAdvancementEligibility({card,masterStars,existing:advancement,featureEnabled:access.enabled});
   const currentDefinition=advancement?UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[advancement.classCode]:null;
@@ -318,6 +336,8 @@ function statusPayload({card,masterStars,row,settings,user}){
     recommendedType:displayType,
     recommendedClass:displayClass,
     masterStars,
+    advancementPass:passPayload(passQuantity),
+    effectiveSuccessChancePercent:passQuantity>0?100:UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT,
     uniqueAdvancement:advancement,
     eligibility,
     canAdvance:eligibility.eligible
@@ -329,7 +349,7 @@ async function markReceiptFailed(env,requestId,userId,message){
     .bind(String(message||'FAILED').slice(0,500),requestId,userId).run();
 }
 
-async function executeAdvancement({env,user,cardId,requestId,settings,randomUint32}){
+async function executeAdvancement({env,user,cardId,requestId,settings,randomUint32,expectedPassUse}){
   await env.DB.prepare(`INSERT INTO ${RECEIPT_TABLE}(request_id,user_id,card_id,status) VALUES(?,?,?,'PENDING') ON CONFLICT(request_id,user_id) DO NOTHING`)
     .bind(requestId,user.id,cardId).run();
   let receipt=await env.DB.prepare(`SELECT card_id,status,response_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
@@ -349,7 +369,9 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
   const state=await stateRows(env,user.id,cardId),existing=advancementFromRow(state.row);
   if(existing){
     if(String(state.row?.request_id||'')===requestId){
-      const recovered=responsePayload({requestId,card:state.card||{card_id:cardId},masterStars:state.masterStars,advancement:existing,settings,replayed:true});
+      const passLog=await env.DB.prepare("SELECT balance_after FROM inventory_logs WHERE user_id=? AND item_code=? AND reference_type='UNIQUE_ADVANCEMENT_PASS' AND reference_id=? AND change_amount=-1")
+        .bind(user.id,UNIQUE_ADVANCEMENT_PASS_CODE,`${cardId}:${requestId}`).first();
+      const recovered=responsePayload({requestId,card:state.card||{card_id:cardId},masterStars:state.masterStars,passQuantity:passLog?Number(passLog.balance_after):state.passQuantity,passUsed:Boolean(passLog),advancement:existing,settings,replayed:true});
       await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`)
         .bind(JSON.stringify(recovered),requestId,user.id).run();
       return {response:recovered};
@@ -367,11 +389,19 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
     return {error:eligibility.reason,code:eligibility.code,status:eligibility.code==='MASTER_STAR_SHORTAGE'?400:409,eligibility};
   }
 
+  const passUsed=state.passQuantity>0;
+  // Old clients must refresh before spending a newly introduced pass. A missing
+  // pass must never silently turn the confirmed 100% attempt into a 10% roll.
+  if((passUsed&&expectedPassUse===undefined)||(expectedPassUse!==undefined&&expectedPassUse!==passUsed)){
+    await markReceiptFailed(env,requestId,user.id,'ADVANCEMENT_PASS_STATE_CHANGED');
+    return {error:'전직 패스권 보유 상태를 다시 확인해 주세요. 재료는 소모되지 않았습니다.',code:'ADVANCEMENT_PASS_STATE_CHANGED',status:409};
+  }
   const definition=UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[eligibility.dominant.classCode];
-  const roll=rollUniqueAdvancement(randomUint32),successful=roll.success;
+  const successful=passUsed||rollUniqueAdvancement(randomUint32).success;
   const advancement=successful?{active:true,classCode:definition.classCode,dominantType:definition.dominantType,configVersion:settings.version,modifiers:normalizeUniqueAdvancementModifiers(definition.modifiers),activatedAt:new Date().toISOString()}:null;
   const starBefore=state.masterStars,starAfter=starBefore-UNIQUE_ADVANCEMENT_COST;
-  const response=responsePayload({requestId,card:state.card,masterStars:starAfter,advancement,attemptedClass:definition,settings});
+  const passBefore=state.passQuantity,passAfter=passBefore-(passUsed?1:0);
+  const response=responsePayload({requestId,card:state.card,masterStars:starAfter,passQuantity:passAfter,passUsed,advancement,attemptedClass:definition,settings});
   const stats=eligibility.dominant.stats;
   const referenceId=`${cardId}:${requestId}`;
   const guardPrefix=`${user.id}:${requestId}`;
@@ -386,7 +416,7 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
   // starBefore를 자기 차감으로 오인하지 못하게 한다. D1 batch는 단일 writer
   // 트랜잭션이므로 별도 FOR UPDATE가 필요하지 않다.
   if(env.DB?.dialect==='postgres')statements.push(
-    env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' FOR UPDATE").bind(user.id)
+    env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code IN ('MASTER_STAR',?) ORDER BY item_code FOR UPDATE").bind(user.id,UNIQUE_ADVANCEMENT_PASS_CODE)
   );
   statements.push(
     // D1 batch와 PostgreSQL adapter batch는 statement 오류 시 전체 rollback한다.
@@ -395,6 +425,7 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
     env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,ok)
       SELECT ?,CASE WHEN
         EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=? AND quantity>=?)
+        AND COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)=?
         AND EXISTS(SELECT 1 FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND card_id=? AND status='PENDING')
         AND NOT EXISTS(SELECT 1 FROM ${ADVANCEMENT_TABLE} WHERE user_id=? AND card_id=?)
         AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND reference_type='UNIQUE_ADVANCEMENT' AND reference_id=?)
@@ -406,7 +437,7 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
           AND COALESCE(cue.attack_percent,0)=? AND COALESCE(cue.defense_percent,0)=?
           AND COALESCE(cue.speed_percent,0)=? AND COALESCE(cue.hp_percent,0)=?)
         THEN 1 ELSE 0 END`)
-      .bind(guardPre,user.id,starBefore,UNIQUE_ADVANCEMENT_COST,requestId,user.id,cardId,user.id,cardId,user.id,referenceId,
+      .bind(guardPre,user.id,starBefore,UNIQUE_ADVANCEMENT_COST,user.id,UNIQUE_ADVANCEMENT_PASS_CODE,passBefore,requestId,user.id,cardId,user.id,cardId,user.id,referenceId,
         user.id,cardId,UNIQUE_ADVANCEMENT_MIN_BREAKTHROUGH,eligibility.grade,stats.ATTACK,stats.DEFENSE,stats.SPEED,stats.HP),
     env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=?,updated_at=CURRENT_TIMESTAMP
       WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=? AND quantity>=?
@@ -417,6 +448,11 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
       WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?`)
       .bind(starAfter,user.id,starAfter)
   );
+  if(passUsed){
+    statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=?,unseen_quantity=MIN(unseen_quantity,?),updated_at=CURRENT_TIMESTAMP
+      WHERE user_id=? AND item_code=? AND quantity=? AND quantity>=1`)
+      .bind(passAfter,passAfter,user.id,UNIQUE_ADVANCEMENT_PASS_CODE,passBefore));
+  }
   if(successful){
     statements.push(env.DB.prepare(`INSERT INTO ${ADVANCEMENT_TABLE}(user_id,card_id,class_code,dominant_type,config_version,cost_master_stars,modifiers_json,request_id,activated_at,updated_at)
       SELECT ?,?,?,?,?,?,?,?,?,? FROM user_cards uc
@@ -436,8 +472,9 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
       SELECT ?,CASE WHEN
         ${advancementStateCondition}
         AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)
+        AND COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)=?
         THEN 1 ELSE 0 END`)
-      .bind(guardState,...advancementStateBindings,user.id,starAfter),
+      .bind(guardState,...advancementStateBindings,user.id,starAfter,user.id,UNIQUE_ADVANCEMENT_PASS_CODE,passAfter),
     env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP
       WHERE request_id=? AND user_id=? AND card_id=? AND status='PENDING'
       AND ${advancementStateCondition}
@@ -450,15 +487,27 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
       AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)
       AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND reference_type='UNIQUE_ADVANCEMENT' AND reference_id=?)`)
       .bind(user.id,-UNIQUE_ADVANCEMENT_COST,starAfter,`${definition.classCode}_${successful?'ADVANCED':'FAILED'}`,referenceId,
-        requestId,user.id,cardId,...advancementStateBindings,user.id,starAfter,user.id,referenceId),
+        requestId,user.id,cardId,...advancementStateBindings,user.id,starAfter,user.id,referenceId)
+  );
+  if(passUsed){
+    statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      SELECT ?,?,-1,?,?,'UNIQUE_ADVANCEMENT_PASS',?
+      WHERE EXISTS(SELECT 1 FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND card_id=? AND status='COMPLETED')
+      AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND reference_type='UNIQUE_ADVANCEMENT_PASS' AND reference_id=?)`)
+      .bind(user.id,UNIQUE_ADVANCEMENT_PASS_CODE,passAfter,`${definition.classCode}_GUARANTEED`,referenceId,requestId,user.id,cardId,user.id,referenceId));
+  }
+  statements.push(
     env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,ok)
       SELECT ?,CASE WHEN
         ${advancementStateCondition}
         AND EXISTS(SELECT 1 FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND card_id=? AND status='COMPLETED')
         AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)
         AND EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND reference_type='UNIQUE_ADVANCEMENT' AND reference_id=? AND change_amount=? AND balance_after=?)
+        AND COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)=?
+        ${passUsed?"AND EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code=? AND reference_type='UNIQUE_ADVANCEMENT_PASS' AND reference_id=? AND change_amount=-1 AND balance_after=?)":''}
         THEN 1 ELSE 0 END`)
-      .bind(guardFinal,...advancementStateBindings,requestId,user.id,cardId,user.id,starAfter,user.id,referenceId,-UNIQUE_ADVANCEMENT_COST,starAfter),
+      .bind(guardFinal,...advancementStateBindings,requestId,user.id,cardId,user.id,starAfter,user.id,referenceId,-UNIQUE_ADVANCEMENT_COST,starAfter,
+        user.id,UNIQUE_ADVANCEMENT_PASS_CODE,passAfter,...(passUsed?[user.id,UNIQUE_ADVANCEMENT_PASS_CODE,referenceId,passAfter]:[])),
     env.DB.prepare(`DELETE FROM ${GUARD_TABLE} WHERE guard_id IN (?,?,?)`).bind(guardPre,guardState,guardFinal)
   );
   try{
@@ -492,6 +541,7 @@ export async function handleUniqueAdvancement({path,request,env,deps}){
     const payload=await readBody(request),cardId=String(payload.cardId||'').trim(),requestId=String(payload.requestId||'').trim();
     if(!cardId)return json({error:'카드 정보가 필요합니다.',code:'CARD_ID_REQUIRED'},400);
     if(!validRequestId(requestId))return json({error:'요청 번호가 올바르지 않습니다.',code:'INVALID_REQUEST_ID'},400);
+    if(payload.expectedPassUse!==undefined&&typeof payload.expectedPassUse!=='boolean')return json({error:'패스권 사용 확인 값이 올바르지 않습니다.',code:'INVALID_PASS_CONFIRMATION'},400);
     if(!access.enabled){
       // A feature switch must not hide a transaction that already completed
       // before the caller received its response. Completed receipts stay replayable.
@@ -502,7 +552,7 @@ export async function handleUniqueAdvancement({path,request,env,deps}){
       }
       return json({error:'고유특성 전직은 현재 준비 중입니다.',code:'FEATURE_DISABLED',feature:{mode:settings.mode,enabledForUser:false}},409);
     }
-    const result=await executeAdvancement({env,user,cardId,requestId,settings,randomUint32:deps.uniqueAdvancementRandomUint32});
+    const result=await executeAdvancement({env,user,cardId,requestId,settings,randomUint32:deps.uniqueAdvancementRandomUint32,expectedPassUse:payload.expectedPassUse});
     if(result.response)return json(result.response);
     return json({error:result.error,code:result.code,retryable:Boolean(result.retryable),eligibility:result.eligibility},result.status||400);
   }
