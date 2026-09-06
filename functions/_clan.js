@@ -1,4 +1,5 @@
 import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarParticipationSettings,clanParticipationProgress,clanParticipationReplay,settleClanParticipationBattle,validateClanParticipationSettings,prepareClanParticipationSettings} from './_clan_participation.js';
+import {handleClanInactivityCleanup} from './_clan_inactivity_cleanup.js';
 
 const CLAN_FOUNDATION_VERSION='safe_runtime_upgrade_v1820_clan_v1';
 const CLAN_OFFICIAL_CATALOG_VERSION='safe_runtime_upgrade_v1882_clan_official_catalog_v1';
@@ -816,6 +817,11 @@ async function clanWallet(env,userId){const row=await env.DB.prepare('SELECT coi
 export {clanWarReservationCheck};
 
 export async function handleClan({path,request,env,deps}){
+  if(path==='admin/clan-war/inactivity-cleanup'){
+    const user=await deps.authenticate(request,env);
+    if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
+    return handleClanInactivityCleanup({request,env,user,deps});
+  }
   if(!String(path).startsWith('clan')&&!String(path).startsWith('admin/clan-war'))return null;await ensureFoundation(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const settings=await clanSettings(env),owner=String(user.role||'').toUpperCase()==='OWNER',admin=typeof deps.isAdminRole==='function'?deps.isAdminRole(user):owner;
   if(path==='admin/clan-war/settings'){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
