@@ -19,7 +19,7 @@
     "test:raid-entry": "node --test tests/raid-entry-fallback-v1927.test.mjs tests/raid-v3-mobile-recovery-v1930.test.mjs tests/pve-auxiliary-navigation-v2023.test.mjs",
     "test:core-raid": "node --test tests/core-protocol-raid-v1924.test.mjs",
     "test:seal": "node tests/seal-v3-crystal-orb-v1778.mjs",
-    "test:message-rewards": "node --test tests/message-reward-client-parity-v1929.test.mjs tests/message-gift-rewards-v2044.test.mjs",
+    "test:message-rewards": "node --test tests/message-reward-client-parity-v1929.test.mjs tests/message-gift-rewards-v2044.test.mjs tests/verified-message-coin-v2050.test.mjs",
     "test:workshop": "node --test tests/workshop-split-lineage-v1881.mjs tests/workshop-mystic-energy-v1931.test.mjs tests/equipment-bulk-synthesis-v1941.test.mjs tests/battle-suit-workshop-v2004.test.mjs tests/equipment-synthesis-material-v2008.test.mjs tests/workshop-vehicle-coin-cost-v2028.test.mjs",
     "test:clan": "node --test tests/clan-v3-v1820.mjs tests/clan-war-cms-v1943.test.mjs tests/clan-participation-positive-v2040.test.mjs tests/clan-inactivity-cleanup-v2049.test.mjs tests/clan-member-assignment-v2049.test.mjs",
     "test:prison": "node --test tests/prison-system-v1950.test.mjs",

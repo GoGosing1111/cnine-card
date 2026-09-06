@@ -12,9 +12,9 @@ const end=server.indexOf('let verifiedRewardMessageV1276ReadyPromise',start);
 assert.ok(start>=0&&end>start,'쿠폰 보상 한도 정의 구간을 찾을 수 있어야 합니다.');
 const {verifiedMessageRewardSpec,couponRewardSpec}=Function(`${server.slice(start,end)};return {verifiedMessageRewardSpec,couponRewardSpec};`)();
 
-test('코인 쿠폰은 최대 10억까지 허용하고 인증 메시지 보상 한도는 분리 유지한다',()=>{
+test('코인 쿠폰 10억과 인증 메시지 50억 한도는 분리 유지한다',()=>{
   assert.equal(couponRewardSpec('COIN').max,1_000_000_000);
-  assert.equal(verifiedMessageRewardSpec('COIN').max,100_000_000);
+  assert.equal(verifiedMessageRewardSpec('COIN').max,5_000_000_000);
   assert.equal(couponRewardSpec('MASTER_STAR').max,1_000_000);
   assert.equal(couponRewardSpec('PREMIUM_CUBE').max,100_000);
 });
@@ -32,7 +32,7 @@ test('CMS도 보상 종류별 최대값을 즉시 표시하고 10억 초과 입�
   assert.match(admin,/COUPON_REWARD_META=\{COIN:\{label:'코인',max:1000000000\}/);
   assert.match(admin,/amount\.max=String\(meta\.max\)/);
   assert.match(admin,/rewardAmount>meta\.max/);
-  assert.match(adminHtml,/admin-v1276\.js\?v=2034-superstar-power-deck/);
+  assert.match(adminHtml,/admin-v1276\.js\?v=2050-verified-coin-50eok/);
 });
 
 test('쿠폰 한도 회귀 검사가 운영 출시 게이트에 포함된다',()=>{

@@ -255,13 +255,13 @@ async function saveDailyQuestAdmin(){
   const settings={enabled:$('#dqEnabled').value==='1',postEnabled:$('#dqPostEnabled').value==='1',requiredPosts:Number($('#dqRequiredPosts').value),postRewardCoin:Number($('#dqPostRewardCoin').value),rewardCoin:Number($('#dqPostRewardCoin').value),checkCooldownSeconds:Number($('#dqCooldown').value),adminTestAllowed:$('#dqAdminTestAllowed').value==='1'};
   await api('admin/daily-quests',{method:'PATCH',body:JSON.stringify({settings})});alert('일일퀘스트 설정이 저장되었습니다.');await loadDailyQuestAdmin();
 }
-const VERIFIED_REWARD_META={COIN:{label:'코인',defaultAmount:1000,max:100000000},MASTER_STAR:{label:'마스터의 별',defaultAmount:1,max:100000},PREMIUM_CUBE:{label:'프리미엄 큐브',defaultAmount:1,max:100000},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',defaultAmount:1,max:100000}};
+const VERIFIED_REWARD_META={COIN:{label:'코인',defaultAmount:1000,max:5000000000},MASTER_STAR:{label:'마스터의 별',defaultAmount:1,max:100000},PREMIUM_CUBE:{label:'프리미엄 큐브',defaultAmount:1,max:100000},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',defaultAmount:1,max:100000}};
 function syncVerifiedRewardMessageForm({resetText=true}={}){const type=String($('#verifiedRewardType')?.value||'COIN').toUpperCase(),meta=VERIFIED_REWARD_META[type]||VERIFIED_REWARD_META.COIN,amount=$('#verifiedRewardAmount');if(amount){amount.max=String(meta.max);if(!Number(amount.value)||Number(amount.value)>meta.max)amount.value=String(meta.defaultAmount)}const label=$('#verifiedRewardAmountLabel');if(label)label.textContent=`1인당 지급 ${meta.label} 수량`;if(resetText){const title=$('#verifiedRewardTitle'),body=$('#verifiedRewardBody');if(title)title.value=`PLAY DK 2단계 인증 ${meta.label} 보상`;if(body)body.value=`PLAY DK 2단계 인증 완료 보상으로 ${meta.label} 보상이 도착했습니다. 메시지에서 수령해 주세요.`}}
 async function sendVerifiedRewardMessages(){
   const btn=$('#sendVerifiedRewardBtn'),type=String($('#verifiedRewardType')?.value||'COIN').toUpperCase(),meta=VERIFIED_REWARD_META[type];
   if(!meta)return alert('보상 종류를 선택하세요.');
-  const amount=Math.floor(Number($('#verifiedRewardAmount')?.value||0)),includeOwner=Boolean($('#verifiedRewardIncludeOwner')?.checked),includeAdmin=Boolean($('#verifiedRewardIncludeAdmin')?.checked);
-  if(!amount||amount<1||amount>meta.max)return alert(`${meta.label} 지급 수량을 1~${meta.max.toLocaleString()} 범위로 입력하세요.`);
+  const amount=Number($('#verifiedRewardAmount')?.value||0),includeOwner=Boolean($('#verifiedRewardIncludeOwner')?.checked),includeAdmin=Boolean($('#verifiedRewardIncludeAdmin')?.checked);
+  if(!Number.isSafeInteger(amount)||amount<1||amount>meta.max)return alert(`${meta.label} 지급 수량을 1~${meta.max.toLocaleString()} 범위의 정수로 입력하세요.`);
   const extra=[includeOwner?'OWNER':'',includeAdmin?'ADMIN':''].filter(Boolean);
   const targetNote=extra.length?`\n포함: ${extra.join(', ')}`:'\nOWNER·ADMIN 제외';
   if(!confirm(`2단계 인증 완료 유저에게 ${meta.label} ${amount.toLocaleString()}개 메시지를 발송할까요?${targetNote}\n\n발송 후 유저가 메시지에서 수령해야 실제 지급됩니다.`))return;

@@ -436,7 +436,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
-  COIN:{label:'코인',icon:'🪙',inventory:false,max:100000000,messageType:'COIN_REWARD'},
+  COIN:{label:'코인',icon:'🪙',inventory:false,max:5000000000,messageType:'COIN_REWARD'},
   SHARDS:{label:'카드 조각',icon:'🧩',inventory:false,max:100000000,messageType:'SHARD_REWARD'},
   MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎',inventory:true,max:100000,messageType:'ITEM_REWARD'},
@@ -7376,8 +7376,8 @@ async function handleRequest(context){
       const spec=verifiedMessageRewardSpec(requestedType);
       if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
-      if(!Number.isFinite(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위로 입력하세요.`},400);
-      const rewardAmount=Math.floor(rawAmount);
+      if(!Number.isSafeInteger(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위의 정수로 입력하세요.`},400);
+      const rewardAmount=rawAmount;
       const title=String(body.title||`2차 인증 ${spec.label} 보상`).trim().slice(0,100);
       const messageBody=String(body.body||`2차 인증 완료 보상으로 ${spec.label} ${rewardAmount.toLocaleString()}개 보상이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
       // ADMIN은 일반 플레이 계정으로 메시지 보상 기본 수신 대상이다.
@@ -7386,12 +7386,22 @@ async function handleRequest(context){
       const campaignKey=String(body.requestId||globalThis.crypto?.randomUUID?.()||`verified-reward-${Date.now()}-${Math.random().toString(36).slice(2)}`).trim().slice(0,120);
       if(!campaignKey)return json({error:'발송 요청 식별자를 생성하지 못했습니다.'},500);
       const recipientWhere=`UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='ADMIN'))`;
-      await env.DB.batch([
+      // Read-only preflight uses the same authoritative verification/role filter as sending.
+      if(body.preview===true){
+        const rows=await env.DB.prepare(`SELECT u.id AS user_id,u.nickname,UPPER(TRIM(COALESCE(u.role,'USER'))) AS role
+          FROM user_second_verifications s JOIN users u ON u.id=s.user_id WHERE ${recipientWhere} ORDER BY u.id`)
+          .bind(includeOwner?1:0,includeAdmin?1:0).all();
+        const recipients=rows.results||[];
+        return json({ok:true,preview:true,eligible:recipients.length,recipients,rewardType:requestedType,rewardAmount,
+          totalAmount:rewardAmount*recipients.length,title,body:messageBody,includeOwner,includeAdmin,campaignKey,delivery:'MESSAGE'});
+      }
+      const existingCampaign=await env.DB.prepare('SELECT id FROM user_messages WHERE campaign_key=? LIMIT 1').bind(campaignKey).first();
+      if(!existingCampaign)await env.DB.batch([
         env.DB.prepare(`INSERT OR IGNORE INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
           SELECT s.user_id,'ADMIN',?,?,?,? FROM user_second_verifications s JOIN users u ON u.id=s.user_id WHERE ${recipientWhere}`)
           .bind(title,messageBody,spec.messageType,campaignKey,includeOwner?1:0,includeAdmin?1:0),
         env.DB.prepare(`INSERT OR IGNORE INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
-          SELECT m.id,m.user_id,?,? FROM user_messages m WHERE m.campaign_key=?`)
+          SELECT m.id,m.user_id,?,CAST(? AS BIGINT) FROM user_messages m WHERE m.campaign_key=?`)
           .bind(requestedType,rewardAmount,campaignKey)
       ]);
       const roleRows=await env.DB.prepare(`SELECT UPPER(TRIM(COALESCE(u.role,'USER'))) AS role,COUNT(*) AS count
@@ -7401,8 +7411,15 @@ async function handleRequest(context){
       for(const row of roleRows.results||[]){const count=Number(row.count||0);if(row.role==='OWNER')sentOwners+=count;else if(row.role==='ADMIN')sentAdmins+=count;else sentUsers+=count}
       const sent=sentUsers+sentOwners+sentAdmins;
       if(!sent)return json({error:'발송 대상인 2단계 인증 완료 유저가 없습니다.'},404);
-      await writeAdminLog(env,admin,'VERIFIED_REWARD_MESSAGE_SEND','USER_MESSAGE',campaignKey,null,{sent,sentUsers,sentOwners,sentAdmins,rewardType:requestedType,rewardAmount,rewardLabel:spec.label,title,includeOwner,includeAdmin,campaignKey});
-      return json({ok:true,sent,sentUsers,sentOwners,sentAdmins,rewardType:requestedType,rewardAmount,rewardLabel:spec.label,rewardCoin:requestedType==='COIN'?rewardAmount:0,campaignKey,delivery:'MESSAGE'});
+      const stored=await env.DB.prepare(`SELECT COUNT(*) AS count,MIN(r.reward_amount) AS min_amount,MAX(r.reward_amount) AS max_amount
+        FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id AND m.user_id=r.user_id
+        WHERE m.campaign_key=? AND r.reward_type=? AND m.title=? AND m.body=? AND m.message_type=?`)
+        .bind(campaignKey,requestedType,title,messageBody,spec.messageType).first();
+      if(Number(stored?.count)!==sent||Number(stored?.min_amount)!==rewardAmount||Number(stored?.max_amount)!==rewardAmount)
+        return json({error:'보상 메시지 저장 인원 또는 금액을 확인해야 합니다. 새 요청으로 재발송하지 마세요.',code:'VERIFIED_REWARD_MESSAGE_MISMATCH',campaignKey},409);
+      const rewardCount=Number(stored.count),totalAmount=rewardAmount*rewardCount;
+      if(!existingCampaign)await writeAdminLog(env,admin,'VERIFIED_REWARD_MESSAGE_SEND','USER_MESSAGE',campaignKey,null,{sent,sentUsers,sentOwners,sentAdmins,rewardType:requestedType,rewardAmount,rewardLabel:spec.label,title,body:messageBody,includeOwner,includeAdmin,campaignKey,rewardCount,totalAmount});
+      return json({ok:true,sent,sentUsers,sentOwners,sentAdmins,rewardType:requestedType,rewardAmount,rewardLabel:spec.label,rewardCoin:requestedType==='COIN'?rewardAmount:0,campaignKey,delivery:'MESSAGE',rewardCount,totalAmount,replayed:Boolean(existingCampaign)});
     }
 
     if(path==='admin/verified-coupon-send'&&request.method==='POST'){
