@@ -75,7 +75,7 @@ test('HUD rereads updated balances after rewards/spending without changing store
 
 test('header script and injected icon stylesheet are cache-busted together', () => {
   const version = loadHud(null).version;
-  assert.equal(version, '21.24.0-master-star');
+  assert.equal(version, '21.24.1-master-star');
   assert.ok(read('index.html').includes(`js/soopketmon-v21-exact-shell-adapter.js?v=${version}`));
   assert.ok(shell.includes('link.href = `${cssHref(filename)}?v=${VERSION}`;'));
   const css = read('css/soopketmon-v21-exact-base.css');
@@ -83,4 +83,10 @@ test('header script and injected icon stylesheet are cache-busted together', () 
   assert.match(css, /\.resource-chip\.master-star small, \.resource-chip\.master-star b\s*\{\s*white-space:nowrap/);
   assert.match(css, /\.resource-chip \.resource-full\s*\{ display: none; \}/);
   assert.match(css, /\.resource-chip \.resource-full\s*\{ display: inline; \}/);
+});
+
+test('narrow mobile HUD fits long Star amounts without squeezing the icon or mail control', () => {
+  const css = read('css/soopketmon-v21-exact-luxury.css');
+  assert.match(css, /\.resource-chip\.master-star\s*\{\s*width:max-content; min-width:60px;/);
+  assert.match(css, /\.top-hud:has\(\.resource-chip\.master-star\)\s*\{\s*grid-template-columns:minmax\(0,1fr\) auto 44px;/);
 });
