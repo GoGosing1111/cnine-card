@@ -65,6 +65,9 @@ export async function ensureSuperstarPackPublicRelease(env) {
 export async function superstarPackSettings(env, fresh = false) {
   const cached=!fresh&&readRuntimeData(env,SETTINGS_KEY);
   if(cached)return cached;
+  // Prepare legacy money storage before advertising an enabled 10-pack. The
+  // owner can warm/verify this through /packs without charging a real account.
+  await ensureSuperstarPackFoundation(env);
   await ensureSuperstarPackPublicRelease(env);
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();
   const raw=JSON.parse(row?.value||'{}');
@@ -145,6 +148,17 @@ function superstarPackSchemaStatements(env) {
       request_id TEXT PRIMARY KEY,user_id ${userIdType} NOT NULL,cost ${amountType} NOT NULL,
       created_at TEXT NOT NULL DEFAULT ${nowDefault}
     )`,
+    // CREATE IF NOT EXISTS cannot widen legacy PostgreSQL int4 columns. A
+    // ten-pack costs 3,000,000,000; migrate both existing receipt/debit fields
+    // before a request is claimed. Fixed allowlist only; no user-supplied DDL.
+    ...(postgres ? ['superstar_pack_receipts_v1','superstar_pack_debits_v1'].map(table =>
+      `DO $cnine_superstar_bigint$ BEGIN
+        IF EXISTS(SELECT 1 FROM information_schema.columns WHERE table_schema=current_schema()
+          AND table_name='${table}' AND column_name='cost' AND data_type IN ('smallint','integer')) THEN
+          ALTER TABLE ${table} ALTER COLUMN cost TYPE BIGINT;
+        END IF;
+      END $cnine_superstar_bigint$`
+    ) : []),
     "CREATE INDEX IF NOT EXISTS idx_superstar_pack_receipts_user ON superstar_pack_receipts_v1(user_id,created_at DESC)",
     "CREATE UNIQUE INDEX IF NOT EXISTS idx_superstar_pack_one_pending_per_user ON superstar_pack_receipts_v1(user_id) WHERE status='PENDING'",
     "CREATE INDEX IF NOT EXISTS idx_superstar_pack_debits_user ON superstar_pack_debits_v1(user_id,created_at DESC)",
@@ -153,7 +167,7 @@ function superstarPackSchemaStatements(env) {
 }
 
 async function ensureSuperstarPackFoundation(env) {
-  if (readRuntimeData(env,'superstar:foundation:v2047')) return;
+  if (readRuntimeData(env,'superstar:foundation:v2048-bigint')) return;
   const schema = superstarPackSchemaStatements(env);
   // PostgreSQL 호환 계층은 일반 prepare()/batch()의 DDL을 의도적으로 건너뛴다.
   // 사용자 입력이 없는 고정 DDL만 execSchema()로 전달해 신규 배포에서도 relation을 만든다.
@@ -161,7 +175,7 @@ async function ensureSuperstarPackFoundation(env) {
     ? env.DB.execSchema(schema)
     : env.DB.batch(schema.map((sql) => env.DB.prepare(sql)));
   await operation;
-  cacheRuntimeData(env,'superstar:foundation:v2047',true,60000);
+  cacheRuntimeData(env,'superstar:foundation:v2048-bigint',true,60000);
 }
 
 const cardRow = (row) => ({
@@ -330,8 +344,8 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     }
     statements.push(
       env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
-        SELECT ?,-?,coin,'SUPERSTAR_PACK_DRAW' FROM users WHERE id=? AND ${guarded}`)
-        .bind(user.id, cost, user.id, requestId, user.id),
+        SELECT ?,?,coin,'SUPERSTAR_PACK_DRAW' FROM users WHERE id=? AND ${guarded}`)
+        .bind(user.id, -cost, user.id, requestId, user.id),
     );
     if (shardGained > 0) {
       statements.push(

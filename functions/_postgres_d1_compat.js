@@ -727,6 +727,7 @@ export async function createPostgresD1Compat(connectionString) {
 }
 
 export const __postgresCompatTest = {
+  PostgresD1Database,
   INSERT_SQL,
   bindQuestionMarks,
   typeJsonBuilderParams,
