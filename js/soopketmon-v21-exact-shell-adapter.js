@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.21.0';
+  const VERSION = '21.24.0-master-star';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -202,7 +202,7 @@
   function userModel() {
     let user = null;
     try { user = typeof global.loadUser === 'function' ? global.loadUser() : null; } catch (_) {}
-    return user || { nickname: '플레이어', coin: 0, cardShards: 0, magicCrystals: 0 };
+    return user || { nickname: '플레이어', coin: 0, cardShards: 0, masterStars: 0 };
   }
   function clanFeatureVisible(){
     try{return typeof global.clanFeatureVisible==='function'?global.clanFeatureVisible():true}catch(_){return true}
@@ -216,12 +216,12 @@
     const role = esc(user.role || (user.isOwner || user.owner ? 'OWNER' : 'PLAYER'));
     const coin = Math.max(0, Number(user.coin || 0));
     const shards = Math.max(0, Number(user.cardShards || 0));
-    const crystals = Math.max(0, Number(user.magicCrystals || 0));
+    const masterStars = Math.max(0, Number(user.masterStars) || 0);
     return `<button class="profile-chip ui-press" type="button" data-v21-profile aria-label="내 정보 열기"><span class="profile-copy"><b>${nickname}</b><small>내 계정${level ? ` · Lv. ${level}` : ''} · ${role}</small></span></button>
       <div class="resource-rail" aria-label="보유 재화">
         <button class="resource-chip coin ui-press" type="button" aria-label="코인 ${coin.toLocaleString()}"><i></i><span><small>코인</small><b><span class="resource-full">${coin.toLocaleString()}</span><span class="resource-short">${compact(coin)}</span></b></span></button>
         <button class="resource-chip shard ui-press" type="button" aria-label="카드 조각 ${shards.toLocaleString()}"><i></i><span><small>조각</small><b>${compact(shards)}</b></span></button>
-        <button class="resource-chip crystal ui-press" type="button" aria-label="마법 결정 ${crystals.toLocaleString()}"><i></i><span><small>결정</small><b>${crystals.toLocaleString()}</b></span></button>
+        <button class="resource-chip master-star ui-press" type="button" aria-label="마스터의 별 ${masterStars.toLocaleString()}" title="마스터의 별 ${masterStars.toLocaleString()}"><i aria-hidden="true">★</i><span><small><span class="resource-full">마스터의 별</span><span class="resource-short">마별</span></small><b><span class="resource-full">${masterStars.toLocaleString()}</span><span class="resource-short">${compact(masterStars)}</span></b></span></button>
       </div>
       <button class="hud-mail ui-press" type="button" data-v21-route="messages" aria-label="메시지함"><span>${svg('mail')}</span><b class="notification-dot" data-message-new-badge data-v21-message-badge hidden></b></button>`;
   }
