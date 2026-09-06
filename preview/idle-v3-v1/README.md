@@ -27,6 +27,8 @@
 
 연출은 **운영 중인 V3 번들 한 개**와 `js/battle-v3-live.js`의 `prepareLoading` / `createRenderer`를 호출한다. PixiJS·GSAP를 중복 번들링하지 않는다. iframe은 라이브 V3의 실제 viewport와 모바일 카드 프레임을 보존하기 위한 경계다.
 
+iframe에는 `/preview/idle-v3-v1/` 기준 URL을 명시한다. Cloudflare Pages의 `.html` 생략 리다이렉트에서도 Pixi의 상대 배경 경로가 `/assets/`를 가리키게 하며, 운영 V3 경로 계산은 수정하지 않는다.
+
 일반 전투 진형, SD 캐릭터, 하단 `rosterCardHtml`, `css/card.css`, `css/battle-v3-live.css`, ZENITH / SUPERSTAR / Faker 프레임 계층은 재구현하거나 덮어쓰지 않는다. 지역별 배경도 V3에 이미 존재하는 배경 선택 API만 이용한다. 몬스터 SD 식별 모드는 HUNT를 유지한다.
 
 검수 덱은 실제 승인 로스터의 **FUR 3장 + SUPERSTAR 1장 + ZENITH 1장**이다. 각 카드 200,000 + 배틀슈트 300,000 = 총 1,300,000에서 시작한다. 계열 배정과 훈련 보정은 프리뷰용 수치이며 특정 계정의 스펙이 아니다. 용병·실계정 덱은 연결하지 않았다. 배틀슈트 추가에 맞춰 저장 스키마를 2로 올렸으며 이전 검수 상태는 새 스펙으로 초기화된다.

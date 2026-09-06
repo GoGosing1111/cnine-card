@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {TextStyle} from 'pixi.js';
+import {TextStyle, path as pixiPath} from 'pixi.js';
 import {ACTION_LIMIT, BATTLE_SUIT, CARD_IDS, IdleSession, MAX_TRAINING, STAGES, STORAGE_KEY, VERSION, ZONES,
   buildPreviewDeck, farmableStages, freshState, powerMultiplier, restoreState, simulateStage, trainingCost}
   from '../preview/idle-v3-v1/source/idle-model.mjs';
@@ -200,6 +200,25 @@ test('bridge loads one production V3 bundle and the original adapter/frame chain
   assert.doesNotMatch(css, /battle-v3-|\.game-card|\.zenith-|\.pv-pixi/);
   assert.match(read('preview/idle-v3-v1/battle-bridge.js'), /ProjectVBattleV3Live\.createRenderer/);
 });
+test('Pages extensionless battle redirects keep Pixi backgrounds and scripts at their canonical roots', () => {
+  const html = read('preview/idle-v3-v1/battle.html');
+  const baseHref = html.match(/<base href="([^"]+)"/)[1];
+  assert.equal(baseHref, '/preview/idle-v3-v1/');
+  assert.ok(html.indexOf('<base ') < html.indexOf('<script '));
+  const engine = read('preview/project-v-v3/source/battle/BattleEngine.js');
+  const backgrounds = engine.match(/const BATTLEFIELD_ASSETS=[\s\S]*?const LEGACY_BATTLEFIELD=[^;]+;/)[0];
+  const assets = [...backgrounds.matchAll(/'(\.\.\/\.\.\/assets\/[^']+)'/g)].map(m => m[1]);
+  assert.equal(assets.length, 7);
+  for (const page of ['http://127.0.0.1:8791/preview/idle-v3-v1/battle.html?v=5',
+    'https://cnine-card.pages.dev/preview/idle-v3-v1/battle?v=5']) {
+    const base = new URL(baseHref, page).href;
+    for (const asset of assets) {
+      assert.equal(pixiPath.toAbsolute(asset, base), new URL(asset.replace('../..', ''), page).href);
+    }
+    assert.equal(new URL('./battle-bridge.js', base).pathname, '/preview/idle-v3-v1/battle-bridge.js');
+  }
+});
+
 test('preview has no production UI entry, API mutations or independent Pixi/GSAP copy', () => {
   for (const file of ['index.html', 'js/app.js', 'functions/api/[[path]].js', 'js/pve-command-v2-live.js']) {
     assert.doesNotMatch(read(file), /idle-v3-v1/);
