@@ -13,7 +13,7 @@
   const SLOT_CODES = { WEAPON: 'WP', ACCESSORY: 'AC', TOP: 'TP', BOTTOM: 'BT', SHOES: 'SH', BATTLE_SUIT: 'BS' };
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
-  const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단' };
+  const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단', skillChips: '스킬칩' };
   const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍' };
   const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어' };
 
@@ -33,6 +33,7 @@
       title: '<path d="M7 4h10v4c0 3-2.2 5.5-5 6-2.8-.5-5-3-5-6V4Zm-3 1h3v3c0 2-1.2 3-3 3V5Zm16 0h-3v3c0 2 1.2 3 3 3V5ZM12 14v5m-4 1h8"/>',
       garage: '<path d="M4 15h16l-1-5-2-2H7l-2 2-1 5Zm2 0v3m12-3v3M8 12h8M7 8l1-3h8l1 3"/>',
       avatar: '<path d="M8.5 8.5c.7-2.8 2-4.3 3.5-4.3s2.8 1.5 3.5 4.3l-1.2 3.2-2.3 1.6-2.3-1.6-1.2-3.2Z"/><path d="M5 21c.6-4.8 2.9-7.5 7-7.5s6.4 2.7 7 7.5M8 15.2l4 3.4 4-3.4"/>',
+      skillChips: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/><rect x="10" y="10" width="4" height="4"/>',
       filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
       power: '<path d="M13 2 5 13h6l-1 9 8-12h-6l1-8Z"/>',
       shield: '<path d="m12 3 7 3v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3Z"/>',
@@ -53,6 +54,7 @@
       sort: 'POWER',
       search: '',
       busy: false,
+      chipSlot: 1,
       notice: null,
       noticeTimer: 0
     };
@@ -297,18 +299,57 @@
       </section>`;
     }
 
+    function skillChipView() {
+      const system = state.data?.skillChips || {}, chips = system.catalog || [], loadout = system.loadout || [null, null, null];
+      const chipAt = (slot) => chips.find((chip) => chip.code === loadout[slot - 1]);
+      const slotCount = Math.min(3, Math.max(1, Number(system.maxSlots || 3)));
+      return `<section class="clv2-view clv2-skill-chip-view">
+        <header class="clv2-chip-heading"><div><small>BATTLE SUIT / SKILL CHIP</small><h2>전술 스킬 인터페이스</h2><p>배틀슈트 전용 스킬 · 최대 3개 장착 · 동일 칩 중복 불가</p></div><span>${system.battleEnabled ? 'PVE LINK ACTIVE' : '전투 연결 대기'}</span></header>
+        <div class="clv2-chip-slots" aria-label="스킬칩 장착 슬롯">${Array.from({ length: slotCount }, (_, index) => {
+          const slot = index + 1, chip = chipAt(slot);
+          return `<article class="clv2-chip-slot${chip ? ' is-filled' : ''}${state.chipSlot === slot ? ' is-selected' : ''}">
+            <button type="button" data-chip-slot="${slot}" aria-pressed="${state.chipSlot === slot}" aria-label="스킬칩 ${slot}번 슬롯 선택"><small>SLOT 0${slot}</small><div class="clv2-chip-slot-art">${chip ? art(chip, true) : icon('skillChips')}</div><strong>${escapeHtml(chip?.name || '빈 슬롯')}</strong><span>${chip ? `별도 피해 ×${chip.damageMultiplier}` : '장착할 슬롯을 선택하세요'}</span></button>
+            ${chip ? `<button type="button" class="clv2-chip-remove" data-chip-unequip="${escapeHtml(chip.code)}" data-chip-remove-slot="${slot}" aria-label="${escapeHtml(chip.name)} 장착 해제">${icon('close')}</button>` : ''}
+          </article>`;
+        }).join('')}</div>
+        <div class="clv2-chip-selection-note"><span>장착 대상 <b>0${state.chipSlot}번 슬롯</b></span><span>${loadout.filter(Boolean).length} / ${slotCount} LINKED</span></div>
+        <section class="clv2-chip-library"><header class="clv2-panel-heading"><span>SKILL CHIP COLLECTION</span><i>${chips.filter((chip) => chip.owned).length}종 보유</i></header>
+          <div class="clv2-chip-catalog">${chips.map((chip) => `<article class="clv2-chip-card${chip.equipped ? ' is-equipped' : ''}${chip.owned ? '' : ' is-locked'}"><div class="clv2-chip-card-art">${art(chip)}</div><div class="clv2-chip-card-copy"><small>${chip.equipped ? `${chip.slot}번 슬롯 장착 중` : chip.owned ? `보유 ${formatNumber(chip.quantity)}개` : '미보유'}</small><h3>${escapeHtml(chip.name)}</h3><p>${escapeHtml(chip.description)}</p><dl><div><dt>별도 피해 배율</dt><dd>×${chip.damageMultiplier}</dd></div><div><dt>발동 주기</dt><dd>${system.balanceStatus ? '확인 중' : `${Number(chip.intervalMs || 0) / 1000}초`}</dd></div></dl><button type="button" data-chip-equip="${escapeHtml(chip.code)}"${!chip.owned || !chip.active || chip.equipped ? ' disabled' : ''}>${chip.equipped ? '장착 중' : !chip.owned ? '미보유' : !chip.active ? '사용 중지' : `${state.chipSlot}번 슬롯에 장착`}</button></div></article>`).join('') || '<div class="clv2-empty-state"><b>등록된 스킬칩이 없습니다.</b></div>'}</div>
+        </section>
+        <footer class="clv2-chip-policy"><strong>독립 스킬 시스템</strong><span>일반 덱 5장과 장비 전투력은 유지됩니다. 스킬칩은 소모되지 않으며 새 스킬은 이 목록에 추가됩니다.</span>${system.battleEnabled ? '' : '<span>피해 기준과 발동 주기 확정 후 전투에 연결됩니다.</span>'}</footer>
+      </section>`;
+    }
+
+    async function updateSkillChip(code, removeSlot = null) {
+      if (state.busy) return;
+      const chip = state.data?.skillChips?.catalog?.find((entry) => entry.code === code);
+      if (!chip || (removeSlot === null && (!chip.owned || !chip.active || chip.equipped))) return;
+      const slot = removeSlot === null ? state.chipSlot : removeSlot;
+      state.busy = true; root.classList.add('is-busy');
+      try {
+        const response = await request(`character/skill-chips/${removeSlot === null ? 'equip' : 'unequip'}`, { method: 'POST', body: JSON.stringify({ code, slot }) });
+        if (!Array.isArray(response?.skillChips?.loadout)) throw new Error('스킬칩 장착 응답을 확인할 수 없습니다. 새로고침해 주세요.');
+        state.data.skillChips = response.skillChips;
+        render(); showNotice(`${chip.name} ${removeSlot === null ? '장착 완료' : '장착 해제'}`);
+        options.onChange?.(state.data, response);
+      } catch (error) { showNotice(error?.message || '스킬칩 장착을 처리하지 못했습니다.', true); }
+      finally { state.busy = false; root.classList.remove('is-busy'); }
+    }
+
     function shell() {
       const activeTitle = equippedTitle();
       const avatarEntry = state.data?.avatarFeature?.visible === true && typeof options.onOpenAvatarShop === 'function'
         ? `<button type="button" class="clv2-avatar-entry" data-open-avatar-shop aria-label="아바타 컬렉션과 상점 열기">${icon('avatar')}<span>아바타</span><em>SHOP</em></button>`
         : '';
+      const chipEntry = state.data?.skillChips?.visible === true
+        ? `<button type="button" class="${state.tab === 'skillChips' ? 'is-active' : ''}" data-tab="skillChips" aria-selected="${state.tab === 'skillChips'}">${icon('skillChips')}<span>스킬칩</span></button>` : '';
       return `<div class="clv2-shell" data-active-tab="${state.tab}">
         <header class="clv2-command-header">
           <div class="clv2-brand-block"><span class="clv2-brand-mark">S</span><div><small>SOOPKETMON / GROWTH SYSTEM</small><strong>장비 시스템</strong></div></div>
-          <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}</nav>
+          <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
           <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small class="${titleStyleClass(activeTitle?.stylePreset)}">[${escapeHtml(activeTitle?.badgeText || activeTitle?.name || '칭호 없음')}]</small></div>
         </header>
-        <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : garageView()}</main>
+        <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : state.tab === 'skillChips' ? skillChipView() : garageView()}</main>
         <div class="clv2-notice" data-loadout-notice role="status" aria-live="polite"></div>
       </div>`;
     }
@@ -424,6 +465,12 @@
       } else if (target.dataset.slotFilter) {
         state.slot = target.dataset.slotFilter;
         render();
+      } else if (target.dataset.chipSlot) {
+        state.chipSlot = Number(target.dataset.chipSlot); render();
+      } else if (target.dataset.chipEquip) {
+        updateSkillChip(target.dataset.chipEquip);
+      } else if (target.dataset.chipUnequip) {
+        updateSkillChip(target.dataset.chipUnequip, Number(target.dataset.chipRemoveSlot));
       } else if (target.dataset.equip) equip(Number(target.dataset.equip));
       else if (target.dataset.unequip) unequip(target.dataset.unequip);
       else if (target.dataset.titleEquip) setTitle(Number(target.dataset.titleEquip));
@@ -456,6 +503,7 @@
         state.data.titles ||= [];
         state.data.vehicles ||= [];
         state.data.bonuses ||= {};
+        if (state.tab === 'skillChips' && state.data.skillChips?.visible !== true) state.tab = 'equipment';
         recalculate();
         render();
       } catch (error) {
@@ -471,7 +519,7 @@
 
     return {
       reload: load,
-      setTab(tab) { if (TAB_LABELS[tab]) { state.tab = tab; render(); } },
+      setTab(tab) { if (TAB_LABELS[tab] && (tab !== 'skillChips' || state.data?.skillChips?.visible === true)) { state.tab = tab; render(); } },
       getState() { return structuredClone(state.data); },
       destroy() {
         window.clearTimeout(state.noticeTimer);

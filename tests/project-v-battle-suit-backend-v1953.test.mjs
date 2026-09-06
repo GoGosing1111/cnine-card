@@ -358,6 +358,8 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     CREATE TABLE avatar_effect_options_v1(avatar_code TEXT,option_order INTEGER,effect_type TEXT,effect_value INTEGER,PRIMARY KEY(avatar_code,option_order));
     CREATE TABLE avatar_user_ownership_v1(user_id INTEGER,avatar_code TEXT,expires_at TEXT,PRIMARY KEY(user_id,avatar_code));
     CREATE TABLE avatar_user_loadout_v1(user_id INTEGER PRIMARY KEY,avatar_code TEXT);
+    CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT NOT NULL,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order INTEGER,is_active INTEGER NOT NULL DEFAULT 1);
+    CREATE TABLE cnine_user_inventory(user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(user_id,item_code));
   `);
   const completedMarkers=[
     'safe_runtime_upgrade_v1231_character_equipment_titles','safe_runtime_upgrade_v1232_character_title_styles','safe_runtime_upgrade_v1247_equipment_supply_box',
@@ -418,6 +420,9 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     },
   });
   assert.equal(response.status,200);
+  assert.deepEqual(response.payload.skillChips.loadout,[null,null,null]);
+  assert.equal(response.payload.skillChips.battleEnabled,false);
+  assert.ok(response.payload.skillChips.catalog.every(chip=>!chip.owned));
   assert.ok(response.payload.slots.some(slot=>slot.id==='BATTLE_SUIT'&&slot.label==='배틀슈트'));
   assert.equal(response.payload.loadout.BATTLE_SUIT,suitInstance);
   assert.deepEqual(response.payload.equippedBattleSuit,bonuses.equippedBattleSuit);

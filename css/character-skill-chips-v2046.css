@@ -1,0 +1,58 @@
+.clv2-skill-chip-view { display: block; max-width: 1280px; margin: auto; padding: 30px; }
+.clv2-chip-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.clv2-chip-heading small { color: var(--clv2-gold); font-size: 10px; font-weight: 800; letter-spacing: .18em; }
+.clv2-chip-heading h2 { margin: 9px 0; font-size: clamp(23px, 3vw, 32px); letter-spacing: -.04em; }
+.clv2-chip-heading p { margin: 0; font-size: 12px; line-height: 1.7; color: var(--clv2-muted); }
+.clv2-chip-heading > span { padding: 9px 13px; border: 1px solid var(--clv2-line); border-radius: 5px; white-space: nowrap; color: var(--clv2-gold); font-size: 11px; }
+.clv2-chip-slots { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.clv2-chip-slot { position: relative; min-width: 0; border: 1px solid var(--clv2-line); border-radius: 8px; background: linear-gradient(150deg, #14202a, #070c12 65%); }
+.clv2-chip-slot.is-selected { border-color: var(--clv2-gold); box-shadow: inset 0 0 24px #efc9780d; }
+.clv2-chip-slot > button:first-child { display: grid; justify-items: center; width: 100%; padding: 18px 12px 20px; border: 0; border-radius: inherit; background: transparent; color: var(--clv2-text); cursor: pointer; }
+.clv2-chip-slot small { justify-self: start; color: var(--clv2-muted); font-size: 10px; font-weight: 850; letter-spacing: .14em; }
+.clv2-chip-slot-art { display: grid; place-items: center; width: 105px; height: 105px; margin: 12px 0 8px; }
+.clv2-chip-slot-art img { width: 100%; height: 100%; object-fit: contain; }
+.clv2-chip-slot-art > svg { width: 44px; fill: none; stroke: #426075; stroke-width: 1; }
+.clv2-chip-slot strong { font-size: 16px; }
+.clv2-chip-slot button > span { margin-top: 6px; color: var(--clv2-muted); font-size: 11px; }
+.clv2-chip-remove { position: absolute; right: 10px; top: 10px; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--clv2-line); border-radius: 4px; background: #101820; color: var(--clv2-muted); cursor: pointer; }
+.clv2-chip-remove svg { width: 14px; stroke: currentColor; stroke-width: 2; }
+.clv2-chip-selection-note { display: flex; justify-content: space-between; gap: 10px; padding: 13px 2px 23px; color: var(--clv2-muted); font-size: 11px; }
+.clv2-chip-selection-note b { color: var(--clv2-gold); }
+.clv2-chip-library { border: 1px solid var(--clv2-line); border-radius: 8px; background: var(--clv2-panel); overflow: hidden; }
+.clv2-chip-library > header { padding: 18px 22px; }
+.clv2-chip-catalog { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; padding: 20px; }
+.clv2-chip-card { display: grid; grid-template-columns: 128px minmax(0,1fr); gap: 18px; align-items: center; padding: 20px; border: 1px solid var(--clv2-line); border-radius: 6px; background: #0b121c; }
+.clv2-chip-card.is-equipped { border-color: #61ddf157; }
+.clv2-chip-card.is-locked .clv2-chip-card-art { opacity: .45; filter: saturate(.3); }
+.clv2-chip-card-art img { display: block; width: 100%; height: auto; object-fit: contain; }
+.clv2-chip-card-copy { min-width: 0; }
+.clv2-chip-card-copy > small { color: var(--clv2-gold); font-size: 10px; font-weight: 750; }
+.clv2-chip-card-copy h3 { margin: 7px 0; font-size: 21px; }
+.clv2-chip-card-copy p { min-height: 36px; margin: 0; font-size: 11px; line-height: 1.7; color: var(--clv2-muted); }
+.clv2-chip-card-copy dl { display: flex; gap: 24px; margin: 15px 0; }
+.clv2-chip-card-copy dt { color: var(--clv2-muted); font-size: 10px; }
+.clv2-chip-card-copy dd { margin: 5px 0 0; color: var(--clv2-cyan); font-size: 17px; font-weight: 850; }
+.clv2-chip-card-copy button { width: 100%; padding: 10px; border: 1px solid #efc9785c; border-radius: 4px; background: #efc97817; color: var(--clv2-gold); font-size: 12px; font-weight: 850; cursor: pointer; }
+.clv2-chip-card-copy button:disabled { opacity: .45; cursor: default; border-color: var(--clv2-line); background: #18212a; color: #9ab0bd; }
+.clv2-chip-policy { display: grid; gap: 6px; margin: 24px 0 0; padding-left: 14px; border-left: 2px solid #426075; font-size: 11px; line-height: 1.7; color: var(--clv2-muted); }
+.clv2-chip-policy strong { color: #c0d2dc; font-size: 12px; }
+.clv2-skill-chip-view button:focus-visible { outline: 2px solid var(--clv2-cyan); outline-offset: 3px; }
+@media(max-width:1100px) { .clv2-chip-card { grid-template-columns: 94px minmax(0,1fr); gap: 12px; padding: 14px; } }
+@media(max-width:760px) {
+  .clv2-skill-chip-view { padding: 18px 12px; }
+  .clv2-chip-heading { align-items: start; gap: 8px; }
+  .clv2-chip-heading > span { padding: 6px; font-size: 9px; }
+  .clv2-chip-heading p { font-size: 11px; }
+  .clv2-chip-slots { gap: 7px; }
+  .clv2-chip-slot > button:first-child { padding: 12px 4px; }
+  .clv2-chip-slot-art { width: 70px; height: 70px; }
+  .clv2-chip-slot strong { font-size: 12px; }
+  .clv2-chip-slot button > span { font-size: 9px; line-height: 1.6; }
+  .clv2-chip-slot small { padding-left: 4px; font-size: 8px; }
+  .clv2-chip-remove { top: 6px; right: 5px; width: 21px; height: 21px; }
+  .clv2-chip-catalog { grid-template-columns: 1fr; padding: 10px; gap: 10px; }
+  .clv2-chip-card { grid-template-columns: 105px minmax(0,1fr); }
+  .clv2-tabs.has-skill-chip-entry button { gap: 4px; padding-inline: 4px; }
+  .clv2-tabs.has-skill-chip-entry svg { width: 15px; }
+  .clv2-tabs.has-skill-chip-entry span { font-size: 11px; }
+}

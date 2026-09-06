@@ -876,8 +876,8 @@ function bindFullscreenPlayLink(header){
 
 const FEATURE_RESOURCE_MANIFEST={
   character:{
-    styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=7-equipment-stack-count'],
-    scripts:['js/equipment-v1274.js?v=2032-challenger-title','js/character-loadout-v2.js?v=14-equipment-stack-count','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
+    styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=8-skill-chip-slots','css/character-skill-chips-v2046.css?v=1'],
+    scripts:['js/equipment-v1274.js?v=2032-challenger-title','js/character-loadout-v2.js?v=15-skill-chip-slots','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{

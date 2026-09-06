@@ -1,0 +1,35 @@
+{
+  "generator": "BUILT_IN_IMAGEGEN",
+  "processing": "RESIZE_AND_LOSSLESS_ENCODE_ONLY",
+  "status": "RESOURCE_READY_RUNTIME_CONFIGURATION_PENDING",
+  "assets": [
+    {
+      "name": "rocket-launcher",
+      "source": "source/rocket-launcher-source-v1.png",
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceSha256": "df91b606969918a05e782168fe77023b58a1783f29d149fc15563a80e698bb3b",
+      "image": "rocket-launcher-v1.webp",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "pngSha256": "cd5b380ade4399fc242e36f36eb79a9d80c40bce4c075af6920217df6e37a9c1",
+      "webpSha256": "58e9e8244dd37a0669fa52a33cfa342e2c45f79ffd6f8da21faae64f336b21fd",
+      "bytes": 328578
+    },
+    {
+      "name": "helicopter-airstrike",
+      "source": "source/helicopter-airstrike-source-v1.png",
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceSha256": "3d3837bbad3d6af56a0d8875edd8cf1e644576c97b8bd87ab781b8a7602a11a4",
+      "image": "helicopter-airstrike-v1.webp",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "pngSha256": "43ff3b5057e7b18eef04017c518cce4076a9e6eaec0d7938eef740b55fc117d6",
+      "webpSha256": "0c14031e42074babc22339bae070c02370bbf6835e043dd8c0308dda331876ed",
+      "bytes": 317156
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
 import { burningEventIsLive } from './_burning_event_access.js';
+import { handleSkillChips,skillChipPayload } from './_skill_chips.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const BATTLE_SUIT_SLOT='BATTLE_SUIT';
@@ -666,7 +667,7 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
   // Opening the equipment screen must stay fast. Collection-title synchronization
   // scans card ownership and is intentionally not run on every loadout request.
   if(syncTitles)await syncCollectionTitles(env,userId);
-  const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses,avatarFeature,equippedAvatar]=await Promise.all([
+  const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses,avatarFeature,equippedAvatar,skillChips]=await Promise.all([
     // V1992: 프라임 일괄 개봉으로 동일 장비 인스턴스가 수천 개까지 쌓여도
     // 장비창에는 장비 종류당 한 행만 보낸다. 실제 인스턴스는 삭제/병합하지 않으며,
     // 장착 중인 인스턴스가 있으면 그것을 대표 ID로 유지해 기존 장착 API 계약도 보존한다.
@@ -696,12 +697,13 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
     env.DB.prepare('SELECT garage_id FROM user_garage_loadout WHERE user_id=?').bind(userId).first(),
     userEquipmentBonuses(env,userId),
     avatarFeatureAccess(env,{id:userId,role}),
-    equippedAvatarEffect(env,userId)
+    equippedAvatarEffect(env,userId),
+    skillChipPayload(env,userId)
   ]);
   const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
   const equipmentStacks=instances.results.map(row=>({instanceId:Number(row.instance_id),quantity:Math.max(1,Number(row.quantity||1)),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)}));
   const equipmentTotalQuantity=equipmentStacks.reduce((sum,row)=>sum+row.quantity,0);
-  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:equipmentStacks,equipmentTypeCount:equipmentStacks.length,equipmentTotalQuantity,loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar};
+  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:equipmentStacks,equipmentTypeCount:equipmentStacks.length,equipmentTotalQuantity,loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar,skillChips};
 }
 
 async function adminSystemPayload(env){
@@ -720,6 +722,7 @@ export async function handleEquipment({path,request,env,deps}){
   if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')||path.startsWith('admin/garage')))return null;
   await ensureEquipmentFoundation(env);
   const {authenticate,readBody,json,writeAdminLog}=deps;
+  if(path.startsWith('character/skill-chips'))return handleSkillChips({path,request,env,deps});
   if(path==='character/loadout'&&request.method==='GET'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await characterPayload(env,user.id,{role:user.role}));
   }

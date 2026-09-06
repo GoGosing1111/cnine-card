@@ -110,6 +110,8 @@
   border-inline: 1px solid rgba(140, 174, 199, .14);
 }
 .clv2-tabs.has-avatar-entry { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.clv2-tabs.has-skill-chip-entry { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.clv2-tabs.has-avatar-entry.has-skill-chip-entry { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .clv2-tabs button {
   position: relative;
   display: flex;
