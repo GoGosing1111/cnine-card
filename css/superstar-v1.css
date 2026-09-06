@@ -103,6 +103,32 @@
   box-shadow: 0 0 12px rgba(255, 210, 94, .22);
 }
 
+/* Current inventory, not lifetime wins: the protected main copy is not a duplicate. */
+.dex-card-display.grade-SUPERSTAR .dex-superstar-quantity {
+  position: absolute;
+  z-index: 31;
+  left: 11.8%;
+  top: 17.5%;
+  display: grid;
+  gap: 1px;
+  max-width: 58%;
+  padding: 4px 7px;
+  border: 1px solid rgba(255, 224, 147, .62);
+  border-radius: 3px;
+  background: rgba(12, 10, 5, .92);
+  color: #fff6d7;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+}
+.dex-card-display.grade-SUPERSTAR .dex-superstar-quantity small { font-size: 10px; color: #f2d17b; }
+.dex-card-display.grade-SUPERSTAR .dex-superstar-quantity b { font-size: 11px; color: #fff; }
+@media (max-width: 767px) {
+  .dex-card-display.grade-SUPERSTAR .dex-superstar-quantity { padding: 3px 5px; }
+  .dex-card-display.grade-SUPERSTAR .dex-superstar-quantity small { font-size: 9px; }
+  .dex-card-display.grade-SUPERSTAR .dex-superstar-quantity b { font-size: 10px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card-frame.grade-SUPERSTAR:hover > .superstar-card-frame { filter: none; }
 }

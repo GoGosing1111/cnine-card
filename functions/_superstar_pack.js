@@ -200,6 +200,20 @@ async function completedReceipt(env, requestId, userId) {
   return { row };
 }
 
+// Receipt quantities describe the original animation. A resumed receipt must
+// not replace today's inventory with an old balance after another win/upgrade.
+async function currentSuperstarInventory(env, userId, response) {
+  const results = Array.isArray(response.results) ? response.results : [response];
+  const ids = [...new Set(results.filter(row => row.hit && row.card?.id).map(row => String(row.card.id)))];
+  const [wallet, owned] = await Promise.all([
+    env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(userId).first(),
+    ids.length ? env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${ids.map(() => '?').join(',')})`).bind(userId, ...ids).all() : Promise.resolve({results: []}),
+  ]);
+  const currentQuantities = Object.fromEntries(ids.map(id => [id, 0]));
+  for (const row of owned.results || []) currentQuantities[String(row.card_id)] = Math.max(0, Number(row.quantity || 0));
+  return { ...response, coin: Number(wallet?.coin ?? response.coin), cardShards: Number(wallet?.card_shards ?? response.cardShards), currentQuantities };
+}
+
 export async function handleSuperstarPackDraw({ request, env, deps }) {
   const { authenticate, json, readBody } = deps;
   const user = await authenticate(request, env);
@@ -228,9 +242,11 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     .bind(user.id, staleBefore)
     .run();
   const prior = await completedReceipt(env, requestId, user.id);
-  const replay=response=>Number(response.count||1)!==count
-    ?json({error:'이 요청번호는 다른 개봉 수량에 사용됐습니다.',code:'SUPERSTAR_DRAW_COUNT_MISMATCH'},409)
-    :json(response);
+  const replay=async response=>{
+    if(Number(response.count||1)!==count)return json({error:'이 요청번호는 다른 개봉 수량에 사용됐습니다.',code:'SUPERSTAR_DRAW_COUNT_MISMATCH'},409);
+    try{return json(await currentSuperstarInventory(env,user.id,response));}
+    catch{return json({error:'현재 보유 수량 확인이 지연되고 있습니다. 같은 요청으로 다시 확인해주세요.',code:'SUPERSTAR_DRAW_PENDING',requestId},503);}
+  };
   // Already-paid results remain recoverable even after the operator turns OFF.
   if (prior.response) return replay(prior.response);
   if (prior.row) {
@@ -392,11 +408,11 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
         .run()
         .catch(() => {});
     }
-    return json(response);
+    return json({...response,currentQuantities:Object.fromEntries(afterQuantities)});
   } catch (error) {
     if (!committed) {
       const completed = await completedReceipt(env, requestId, user.id).catch(() => null);
-      if (completed?.response) return json(completed.response);
+      if (completed?.response) return replay(completed.response);
       if(!completed)return json({error:'개봉 결과 확인이 지연되고 있습니다. 같은 요청으로 다시 확인해주세요.',code:'SUPERSTAR_DRAW_PENDING',requestId},503);
       const debit=await env.DB.prepare('SELECT request_id FROM superstar_pack_debits_v1 WHERE request_id=?').bind(requestId).first().catch(()=>({uncertain:true}));
       if(debit)return json({error:'개봉 결과 확인이 지연되고 있습니다. 같은 요청으로 다시 확인해주세요.',code:'SUPERSTAR_DRAW_PENDING',requestId},503);

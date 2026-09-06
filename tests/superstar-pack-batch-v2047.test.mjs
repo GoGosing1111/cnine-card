@@ -96,6 +96,18 @@ test('mixed outcomes retain 10 exact ordered slots; existing owners receive dupl
   assert.equal(f.sqlite.prepare('SELECT quantity FROM user_cards').get().quantity,5);
 });
 
+test('old receipt replay returns current quantities without restoring consumed cards or granting again',async()=>{
+  const f=fixture({owned:2,winSlots:[0,4,8]}),id=crypto.randomUUID(),first=(await f.call(10,id)).body;
+  assert.equal(first.currentQuantities.S1,5);
+  for(const quantity of [8,1,0]){
+    f.sqlite.prepare('UPDATE user_cards SET quantity=? WHERE card_id=?').run(quantity,'S1');
+    f.sqlite.exec('UPDATE users SET coin=12345,card_shards=7 WHERE id=1');
+    const replay=await f.call(10,id);assert.equal(replay.status,200);assert.equal(replay.body.currentQuantities.S1,quantity);
+    assert.deepEqual(replay.body.results,first.results);assert.equal(replay.body.coin,12345);assert.equal(replay.body.cardShards,7);
+    assert.equal(f.sqlite.prepare('SELECT quantity FROM user_cards').get().quantity,quantity);assert.equal(f.n('draw_logs'),3);assert.equal(f.n('superstar_pack_debits_v1'),1);
+  }
+});
+
 test('one-pack clients keep the original top-level result and 300m cost',async()=>{
   const f=fixture({winSlots:[0]}),r=await f.call(1);
   assert.equal(r.status,200);assert.equal(r.body.count,1);assert.equal(r.body.cost,300000000);

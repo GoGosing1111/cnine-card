@@ -23,6 +23,7 @@ import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,sho
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
+import { handleSuperstarDuplicateAudit } from '../_superstar_duplicate_audit.js';
 import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
 import { handleEscortOperation } from '../_escort_operation.js';
@@ -8744,6 +8745,8 @@ async function handleRequest(context){
       },{cardTypes:0,totalLimit:0,totalIssued:0,totalRemaining:0,totalHeld:0,soldOutTypes:0,availableTypes:0});
       return json({cards,summary,generatedAt:new Date().toISOString()});
     }
+
+    if(path==='admin/superstar-duplicates')return handleSuperstarDuplicateAudit({request,env,deps:{requirePermission,json}});
 
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');

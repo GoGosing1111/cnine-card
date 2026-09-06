@@ -27,6 +27,23 @@ test('applying a recovered batch preserves every winning slot and does not dupli
   assert.equal(new Set(user.history.map(row=>row.superstarReceiptKey)).size,3);assert.ok(cache.includes('me'));
 });
 
+test('recovered animation cannot overwrite current copies after more wins, material spending or a reset',()=>{
+  for(const quantity of [0,1,7]){
+    let user={coin:1,owned:['old','S1'],quantities:{old:2,S1:3},history:[]};
+    const ctx=context({loadUser:()=>user,saveUser:value=>{user=value},mergeClientCards:()=>{},clearApiCache:()=>{}});
+    vm.runInContext(snippet('function applySuperstarPackResultToUser(','async function revealSuperstarPackResult('),ctx);
+    const receipt={...response(),currentQuantities:{S1:quantity}};ctx.applySuperstarPackResultToUser(receipt);ctx.applySuperstarPackResultToUser(receipt);
+    assert.equal(user.quantities.S1,quantity);assert.equal(user.owned.includes('S1'),quantity>0);assert.equal(user.quantities.old,2);assert.equal(user.history.length,3);
+  }
+});
+
+test('receipt validation rejects incomplete or invalid current inventory snapshots',()=>{
+  const ctx=context();vm.runInContext(snippet('function validateSuperstarPackResponse(','async function revealSuperstarPackBatch('),ctx);
+  const expected={requestId:'request-1234',count:10,cost:3000000000};
+  for(const currentQuantities of [null,[],{}, {S1:-1},{S1:1.5},{S1:'3'}])assert.throws(()=>ctx.validateSuperstarPackResponse({...response(),currentQuantities},expected));
+  assert.ok(ctx.validateSuperstarPackResponse({...response(),currentQuantities:{S1:0}},expected));
+});
+
 function opening({pending=null,coin=5000000000,enabled=true}={}){
   let mounted=null,writes=[],calls=[];
   const ctx=context({getPack:()=>({price:300000000,drawEnabled:enabled}),loadUser:()=>({id:1,coin}),readPendingSuperstarDraw:()=>pending,writePendingSuperstarDraw:value=>writes.push(value),superstarPackAccess:()=>({owner:false,early:false}),showSupplyNotice:()=>{},alert:()=>{},superstarPackOpeningBusy:false,crypto:{randomUUID:()=> 'new-request-1234'},mountSuperstarPackOpening:(pack,cost,factory,options)=>{mounted={cost,factory,options}},requestSuperstarPackDraw:async(...args)=>{calls.push(args);return response()},validateSuperstarPackResponse:r=>r});
