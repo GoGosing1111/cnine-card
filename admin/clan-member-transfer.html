@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>클랜 교체·이적 · OWNER CMS</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#0b1119;color:#edf5ff}*{box-sizing:border-box}body{margin:0;padding:32px 16px}main{max-width:760px;margin:auto;border:1px solid #334252;background:#121d29;border-radius:16px;padding:28px}a{color:#89d8ee}h1{font-size:26px}p{line-height:1.65;color:#aebfd2}label{display:block;margin:20px 0 8px;font-weight:700}input,select,button{font:inherit;border:1px solid #526779;border-radius:8px;padding:14px;width:100%;background:#09121d;color:inherit}button{cursor:pointer;margin-top:18px;font-weight:700;background:#24465e}button:disabled{opacity:.45;cursor:default}#apply{background:#803b37}input[type=checkbox]{width:auto;margin-right:10px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.7;border:1px solid #425365;padding:18px;border-radius:8px}#status{min-height:28px}#status[data-error=true]{color:#ffb2b2}fieldset{border:0;padding:0;margin:0}[hidden]{display:none!important}:focus-visible{outline:3px solid #95e7ff;outline-offset:3px}
+</style><script type="module" src="./clan-member-transfer.js"></script></head>
+<body><main><a href="./">← CMS로 돌아가기</a><h1>클랜 교체·이적</h1>
+<p>OWNER 전용 · 지정한 일반 멤버 1명을 추방하고 이적 계정을 같은 자리에 넣습니다. 두 변경은 함께 성공하거나 모두 취소됩니다. 정원 증설·보상 지급·계정 삭제·이용정지는 없습니다.</p>
+<p id="owner">관리자 인증 확인 중…</p>
+<form id="form"><fieldset id="fields" disabled>
+<label for="incoming">이적할 계정의 정확한 닉네임</label><input id="incoming" required maxlength="80" autocomplete="off">
+<label for="clan">받을 클랜</label><select id="clan" required><option value="">클랜 선택</option></select>
+<label for="outgoing">해당 클랜에서 추방할 계정 1명</label><input id="outgoing" required maxlength="80" autocomplete="off">
+<button type="submit">두 계정·소속·정원 확인</button></fieldset></form>
+<p id="status" role="status" aria-live="polite">조회만으로 소속을 변경하지 않습니다.</p><pre id="details" hidden></pre>
+<label id="approval" hidden><input id="confirm" type="checkbox">표시된 1명 추방과 계정 이적을 함께 적용합니다.</label>
+<button id="apply" type="button" hidden disabled>확인한 1명 추방·이적 적용</button><button id="verify" type="button" hidden>처리 후 현재 소속 재조회</button>
+</main></body></html>
