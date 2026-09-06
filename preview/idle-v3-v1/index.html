@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="color-scheme" content="dark">
+  <title>심연 원정 · V3 방치형 프리뷰</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./idle.css?v=3-suit-muted">
+  <script defer src="./app.bundle.js?v=3-suit-muted"></script>
+</head>
+<body>
+  <main class="expedition">
+    <header class="masthead">
+      <div class="wordmark"><span class="brand-mark" aria-hidden="true">V</span><span>PROJECT V <small>EXPEDITION / 01</small></span></div>
+      <span class="scope"><i></i>무음 프리뷰 <span>운영 미연결</span></span>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">자동으로 싸우고, 성장으로 돌파하다</p><h1 id="title">심연 원정<span>V3 IDLE</span></h1><p class="intro-copy">막히면 사냥하고, 강해지면 다시 도전하세요.</p></div>
+      <div class="intro-note"><span>고정 난이도</span><b>3개 지역 <i>/</i> 12개 구간</b><small>패배 시 재화 차감 없음</small></div>
+    </section>
+    <section class="metrics" aria-label="원정 현황">
+      <div><span>원정 전투력 <small>슈트 포함</small></span><strong id="power">1,300,000</strong></div>
+      <div><span>최고 돌파</span><strong id="cleared">미진입</strong></div>
+      <div><span>연구 데이터 <small>프리뷰 전용</small></span><strong class="mint" id="balance">0</strong></div>
+      <div><span>사냥 승리</span><strong id="wins">0<small>회</small></strong></div>
+    </section>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <div class="workspace">
+      <section class="battle-column" aria-label="원정 전장">
+        <div class="battle-panel">
+          <header class="field-heading"><b id="stage-code">1-1</b><div><small id="zone-name">안개 숲길</small><h2 id="encounter-name">원정 준비 중</h2></div><span id="run-state" class="run-state">준비 중</span><button id="quick-start" class="quick-start" disabled aria-label="자동 원정 시작">시작 →</button></header>
+          <div class="battle-viewport"><iframe id="battle-frame" src="./battle.html?v=4-suit-cache-muted" title="원본 V3 전투 전장 · 배틀슈트 포함 · 무음"></iframe><div id="boot" class="boot" role="status"><span class="spinner"></span><strong>원정대를 준비하고 있습니다</strong><small>V3 전장 · 승인 SD · 전투 데이터 연결 중</small></div></div>
+          <div class="battle-controls"><div class="battle-caption"><i id="activity-dot"></i><div><strong id="action-label">진행할수록 강한 적이 등장합니다</strong><span id="action-detail">적의 능력치는 내 전투력과 무관하게 고정됩니다.</span></div></div><button id="start" class="primary" disabled>자동 원정 시작 <span aria-hidden="true">→</span></button></div>
+        </div>
+        <section class="support-summary" aria-label="배틀슈트 지원"><img id="suit-art" alt="아메시스트 배틀슈트" width="52" height="64"><div><small>BATTLE SUIT 03 / SUPPORT</small><h2>아메시스트 <span>황금용 AR</span></h2><p id="suit-last-damage">일반 카드 5장 + 별도 지원 유닛</p></div><div class="support-power"><small>지원 전투력</small><strong id="suit-power">300,000</strong></div></section>
+        <section class="training-panel" aria-labelledby="training-heading">
+          <div class="training-level"><small>TRAINING</small><strong>Lv.<span id="training-level">00</span></strong></div>
+          <div class="training-copy"><h2 id="training-heading">원정대 훈련</h2><p>사냥으로 모은 데이터로, 막힌 구간을 넘어서세요.</p><span id="training-bonus">기본 전투력 +0% → +20%</span><small>진행 중인 전투는 그대로 · 다음 전투부터 적용</small></div>
+          <button id="train" class="secondary" disabled>훈련하기 <span id="training-cost">120 데이터</span></button>
+        </section>
+        <section class="journal" aria-labelledby="journal-heading"><header><h2 id="journal-heading">원정 기록</h2><span>최근 8건</span></header><ol id="journal"><li class="empty">첫 원정의 기록이 이곳에 쌓입니다.</li></ol></section>
+      </section>
+      <aside class="command-column" aria-label="원정 작전">
+        <section class="route-panel"><header class="panel-heading"><div><small>EXPEDITION ROUTE</small><h2>원정 경로</h2></div><span id="route-progress">0 / 12</span></header><div id="route" class="route"></div><p class="route-legend"><span>● 돌파 완료</span><span>○ 미돌파</span><span class="gold">▣ 관문 보스</span></p></section>
+        <section class="target-panel" aria-labelledby="target-heading"><div class="target-top"><span id="target-code" class="eyebrow">첫 관문 · 1-4</span><span id="target-type" class="target-type">BOSS</span></div><div class="target-profile"><div><h2 id="target-heading">해군대장 아오키지</h2><p id="target-region">안개 숲길의 관문</p></div><img id="target-art" alt="관문 보스 전투 SD" width="110" height="120"></div><dl class="enemy-stats"><div><dt>고정 HP</dt><dd id="target-hp">—</dd></div><div><dt>고정 공격력</dt><dd id="target-attack">—</dd></div></dl><div class="forecast"><div><span>검수 덱 예상 돌파</span><b id="forecast-label">계산 중</b></div><div class="forecast-track"><i id="forecast-fill"></i></div><p id="forecast-note">동일 덱으로 5회 모의 전투 · 결과는 전투마다 달라질 수 있습니다.</p></div><p id="wall-hint" class="wall-hint">36행동 안에 적을 쓰러뜨려야 돌파합니다.</p></section>
+        <section class="strategy-panel"><h2>자동 사냥 설정</h2><label for="farm">반복 사냥 구간</label><select id="farm" disabled><option>첫 구간 돌파 후 열립니다</option></select><div class="strategy-buttons"><button id="farm-mode" class="secondary" disabled>이곳에서 사냥</button><button id="retry" class="secondary" disabled>다음 구간 도전</button></div><p>돌파 실패 → 열린 일반 구간으로 자동 복귀<br>첫 돌파 보너스는 구간마다 한 번만 지급</p></section>
+      </aside>
+    </div>
+    <footer class="page-footer"><div><strong>독립 검수 버전</strong><span>실제 계정·코인·기존 방치형에 영향 없음. 이 브라우저에만 저장합니다.</span><small>화면을 떠나면 전투 정지 · 오프라인 보상은 아직 미연결</small></div><button id="reset" class="text-button" disabled>프리뷰 초기화</button></footer>
+  </main>
+</body>
+</html>
