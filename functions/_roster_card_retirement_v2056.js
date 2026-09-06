@@ -129,8 +129,8 @@ async function transaction(db,operation){
     await query('BEGIN');
     try{
       await query("SET LOCAL TIME ZONE 'UTC'");
-      await query("SET LOCAL lock_timeout='3s'");
-      await query("SET LOCAL statement_timeout='18s'");
+      await query("SET LOCAL lock_timeout='15s'");
+      await query("SET LOCAL statement_timeout='45s'");
       const result=await operation(query);
       await query('COMMIT');
       return result;
@@ -176,7 +176,7 @@ export async function ensureRosterCardRetirementV2056(env,{refundByGrade={}}={})
     };
     const locked=['cards','user_cards','card_unique_advancements_v1937','pve_decks','pvp_decks','pvp_deck_presets'];
     if(optional.rifts)locked.push('pve_rift_runs');if(optional.territory)locked.push('territory_war_v3_users');
-    await query(`LOCK TABLE ${locked.join(',')} IN SHARE ROW EXCLUSIVE MODE NOWAIT`);
+    await query(`LOCK TABLE ${locked.join(',')} IN SHARE ROW EXCLUSIVE MODE`);
 
     const catalog=(await query(`SELECT c.id,c.title,UPPER(c.rarity) grade,c.is_active,COALESCE(c.card_status,'PUBLIC') card_status,
         m.name member_name,m.is_active member_active,to_jsonb(raw_card)::text card_json

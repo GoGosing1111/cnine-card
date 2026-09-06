@@ -136,9 +136,13 @@ test('카탈로그 변경이나 5장 덱 복구 불능이면 사용자 보상과
 
 test('슈퍼스타 재뽑기권은 실제 SUPERSTAR 고정 뽑기로 연결되고 health에는 비식별 요약만 노출된다',()=>{
   const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+  const retirement=readFileSync(new URL('../functions/_roster_card_retirement_v2056.js',import.meta.url),'utf8');
   assert.match(api,/SUPERSTAR:\{code:'SUPERSTAR_REROLL_TICKET'/);
   assert.match(api,/SUPERSTAR_REROLL_TICKET:'SUPERSTAR'/);
   assert.match(api,/ensureRosterCardRetirementV2056\(env,\{refundByGrade:/);
   assert.match(api,/rosterCardRetirementV2056=rosterRetirement\?\{/);
   assert.doesNotMatch(api,/rosterCardRetirementV2056=rosterRetirement;/);
+  assert.match(retirement,/SET LOCAL lock_timeout='15s'/);
+  assert.match(retirement,/LOCK TABLE \$\{locked\.join\(','\)\} IN SHARE ROW EXCLUSIVE MODE/);
+  assert.doesNotMatch(retirement,/SHARE ROW EXCLUSIVE MODE NOWAIT/);
 });
