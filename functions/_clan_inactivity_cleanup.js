@@ -3,7 +3,7 @@
 // share one transaction. Neither request SQL nor table/column names are accepted.
 const DAY = 86400000;
 const PREFIX = 'clan_inactivity_cleanup_v2049:';
-const CONFIRM = 'REMOVE_INACTIVE_CLAN_MEMBERS_5_DAYS';
+const confirmationForDays = days => `REMOVE_INACTIVE_CLAN_MEMBERS_${days}_DAYS`;
 const SOURCES = [
   ['sessions', 'user_id', ['created_at'], true],
   ['attendance_logs', 'user_id', ['claimed_at', 'created_at'], true],
@@ -26,6 +26,10 @@ const SOURCES = [
 // assignment are intentionally NOT access evidence.
 const pack = value => JSON.stringify(value, (_, v) => typeof v === 'bigint' ? Number(v) : v);
 const check = (ok, message, status = 409) => { if (!ok) throw Object.assign(new Error(message), {status}); };
+function cleanupDays(value = 5) {
+  check(value === 3 || value === 5, '미접속 기준은 3일 또는 5일만 사용할 수 있습니다.', 400);
+  return value;
+}
 export function clanAccessMs(value) {
   if (!value) return NaN;
   if (value instanceof Date) return value.getTime();
@@ -52,7 +56,7 @@ async function transaction(db, operation) {
   });
 }
 
-async function snapshot(q, cutoffMs, expectedSeasonId = null) {
+async function snapshot(q, cutoffMs, expectedSeasonId = null, days = 5) {
   const [season] = await q("SELECT * FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC,id DESC LIMIT 1");
   check(season && ['ACTIVE', 'DRAFT', 'REGISTRATION'].includes(season.phase), '정리 가능한 진행 중 클랜 시즌이 없습니다.');
   check(expectedSeasonId === null || Number(season.id) === expectedSeasonId, '클랜 시즌이 변경되었습니다. 명단을 다시 확인하세요.');
@@ -108,7 +112,7 @@ async function snapshot(q, cutoffMs, expectedSeasonId = null) {
       evidence: Number.isFinite(last.at) ? last.source : null, state};
   });
   return {seasonId: Number(season.id), seasonNo: Number(season.season_no), cutoff: new Date(cutoffMs).toISOString(),
-    days: 5, clans: clans.map(c => ({clanId: Number(c.id), name: c.name, memberCount: Number(c.member_count)})),
+    days, clans: clans.map(c => ({clanId: Number(c.id), name: c.name, memberCount: Number(c.member_count)})),
     totalMembers: roster.length, candidates: roster.filter(r => r.state === 'REMOVE'),
     exceptions: roster.filter(r => ['UNKNOWN', 'MASTER_REVIEW', 'BATTLE_BUSY'].includes(r.state)), roster, sources, absentSources};
 }
@@ -121,8 +125,9 @@ export async function handleClanInactivityCleanup({request, env, user, deps, now
     const action = request.method === 'GET' ? 'report' : body.action;
     check(['report', 'preview', 'apply'].includes(action), '명단 확인 또는 적용 작업을 지정하세요.', 400);
     if (action !== 'apply') {
+      const days = cleanupDays(body.days);
       const result = await transaction(env.DB, async q => {
-        const report = await snapshot(q, now - 5 * DAY);
+        const report = await snapshot(q, now - days * DAY, null, days);
         if (action === 'report') return {ok: true, ...report, serverNow: new Date(now).toISOString()};
         const previewId = crypto.randomUUID(), record = {status: 'PREVIEW', ownerId: Number(user.id), createdAt: now, report};
         await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)', [PREFIX + previewId, pack(record), new Date(now).toISOString()]);
@@ -130,13 +135,17 @@ export async function handleClanInactivityCleanup({request, env, user, deps, now
       });
       return deps.json(result);
     }
-    check(body.confirmation === CONFIRM && /^[0-9a-f-]{36}$/.test(String(body.previewId || '')), '탈퇴 확인값과 명단 확인 ID가 필요합니다.', 400);
+    check(typeof body.confirmation === 'string' && /^[0-9a-f-]{36}$/.test(String(body.previewId || '')), '탈퇴 확인값과 명단 확인 ID가 필요합니다.', 400);
     const result = await transaction(env.DB, async q => {
       const key = PREFIX + body.previewId;
       const [saved] = await q('SELECT value FROM app_meta WHERE key=$1 FOR UPDATE', [key]);
       check(saved, '확인된 정리 명단을 찾을 수 없습니다.');
       const record = JSON.parse(saved.value);
       check(record.ownerId === Number(user.id), '다른 관리자가 확인한 명단입니다.', 403);
+      // The saved preview owns the cutoff. An apply request cannot shorten it
+      // or confirm a different threshold, including an idempotent replay.
+      const days = cleanupDays(record.report.days);
+      check(body.confirmation === confirmationForDays(days) && (body.days === undefined || body.days === days), '확인한 명단과 미접속 기준이 다릅니다.', 400);
       if (record.status === 'COMPLETED') return {...record.result, replayed: true};
       check(record.status === 'PREVIEW' && now >= record.createdAt && now - record.createdAt <= 15 * 60000, '정리 명단이 만료되었습니다. 다시 확인하세요.');
       // Short, fail-fast clan-only lock also excludes new battle reservations and
@@ -144,7 +153,7 @@ export async function handleClanInactivityCleanup({request, env, user, deps, now
       await q('LOCK TABLE clan_wars,clan_war_battles,clan_war_reservation_locks,clan_members,clan_season_teams,clan_seasons,clan_draft_pool IN SHARE ROW EXCLUSIVE MODE NOWAIT');
       const ids = record.report.candidates.map(m => m.userId);
       if (ids.length) await q('SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE', [ids]);
-      const fresh = await snapshot(q, clanAccessMs(record.report.cutoff), record.report.seasonId);
+      const fresh = await snapshot(q, clanAccessMs(record.report.cutoff), record.report.seasonId, days);
       const freshById = new Map(fresh.roster.map(m => [m.userId, m]));
       const removed = [], skipped = [];
       for (const old of record.report.candidates) {
@@ -163,7 +172,7 @@ export async function handleClanInactivityCleanup({request, env, user, deps, now
       const after = await q(`SELECT o.id,o.name,COUNT(m.user_id)::integer AS member_count FROM clan_organizations o
         LEFT JOIN clan_members m ON m.clan_id=o.id AND m.season_id=$1
         WHERE o.is_active=1 OR o.id=ANY($2::bigint[]) GROUP BY o.id,o.name ORDER BY o.id`, [seasonId, fresh.clans.map(c => c.clanId)]);
-      const result = {ok: true, previewId: body.previewId, seasonId, cutoff: fresh.cutoff, days: 5, removed, removedCount: removed.length, skipped,
+      const result = {ok: true, previewId: body.previewId, seasonId, cutoff: fresh.cutoff, days, removed, removedCount: removed.length, skipped,
         exceptions: fresh.exceptions, beforeCount: fresh.totalMembers,
         clans: after.map(c => ({clanId: Number(c.id), name: c.name, beforeCount: fresh.clans.find(b => b.clanId === Number(c.id))?.memberCount || 0,
           removedCount: removed.filter(m => m.clanId === Number(c.id)).length, memberCount: Number(c.member_count)})),

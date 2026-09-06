@@ -121,3 +121,28 @@ test('non-owner, missing confirmation, expired preview, changed season and missi
     assert.equal(Number((await f.pg.query('SELECT COUNT(*) n FROM clan_members WHERE season_id=4')).rows[0].n),10);
   }finally{await f.close();}
 });
+
+test('three-day preview uses inclusive 72 hours and binds execution to that saved threshold',async()=>{
+  const f=await fixture();
+  try {
+    await f.pg.exec("UPDATE users SET last_login_at='2026-09-03T09:00:00Z' WHERE id=2; UPDATE users SET last_login_at='2026-09-03T09:00:00.001Z' WHERE id=3; INSERT INTO attendance_logs VALUES(8,'2026-09-03T09:00:01Z');");
+    const five=await f.preview();
+    assert.equal(five.days,5);assert(!five.candidates.some(m=>m.userId===2));
+    const preview=await f.call({action:'preview',days:3});
+    assert.equal(preview.status,200,JSON.stringify(preview));
+    assert.equal(preview.body.days,3);assert.equal(preview.body.cutoff,'2026-09-03T09:00:00.000Z');
+    assert.deepEqual(preview.body.candidates.map(m=>m.userId),[2,6,9]);
+    assert.equal((await f.apply(preview.body.previewId)).status,400);
+    const request={action:'apply',previewId:preview.body.previewId,confirmation:'REMOVE_INACTIVE_CLAN_MEMBERS_3_DAYS',days:3};
+    assert.equal((await f.call({...request,days:5})).status,400);
+    const applied=await f.call(request);
+    assert.equal(applied.status,200,JSON.stringify(applied));
+    assert.equal(applied.body.days,3);assert.equal(applied.body.cutoff,preview.body.cutoff);
+    assert.deepEqual(applied.body.removed.map(m=>m.userId),[2,6,9]);
+    assert.equal(applied.body.totalMembers,7);
+    assert.equal((await f.call(request)).body.replayed,true);
+    assert.equal((await f.apply(preview.body.previewId)).status,400);
+    assert.equal((await f.call({action:'report',days:3})).body.days,3);
+    for(const days of [0,1,2,3.5,4,6,null,'3'])assert.equal((await f.call({action:'preview',days})).status,400);
+  }finally{await f.close();}
+});
