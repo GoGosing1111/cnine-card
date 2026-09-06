@@ -26,7 +26,7 @@
     "test:apocalypse": "node --test tests/pve-apocalypse-v1952.test.mjs tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs",
     "test:pve-sweep": "node --test tests/pve-sweep-v1989.test.mjs",
     "test:battle-suit": "node --test tests/project-v-battle-suit-backend-v1953.test.mjs tests/project-v-battle-suit-frontend-v1953.test.mjs tests/project-v-v3-account-battle-unit-v1953.test.mjs tests/project-v-v3-battle-suit-firearm-qc-v1957.test.mjs",
-    "test:skill-chips": "node --test tests/battle-suit-skill-chip-v2046.test.mjs tests/battle-suit-skill-chip-preview-v1.test.mjs",
+    "test:skill-chips": "node --test tests/battle-suit-skill-chip-v2046.test.mjs tests/battle-suit-skill-chip-preview-v1.test.mjs tests/battle-suit-skill-chip-runtime-v2046.test.mjs",
     "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs tests/territory-commander-live-status-v1994.test.mjs tests/territory-coin-sync-v1995.mjs",
     "test:alchemy": "node --test tests/alchemy-system-v1973.test.mjs",
     "test:ranked-reward": "node --test tests/ranked-reward-cap-v1980.test.mjs tests/ranked-challenger-v2032.test.mjs",
@@ -42,7 +42,7 @@
     "test:treasury": "node --test tests/administration-treasury-v2030.test.mjs",
     "test:streamer-lounge": "node --test tests/streamer-lounge-v2036.test.mjs",
     "test:performance": "node --test tests/performance-v2045.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:performance && npm run test:unique-advancement && npm run test:soopketland && npm run test:streamer-lounge && npm run test:evolution && npm run test:navigation && npm run test:raid-entry && npm run test:core-raid && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && node scripts/verify-production-release.mjs",
+    "release:gate": "npm run check:worker && npm run test:performance && npm run test:unique-advancement && npm run test:soopketland && npm run test:streamer-lounge && npm run test:evolution && npm run test:navigation && npm run test:raid-entry && npm run test:core-raid && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:skill-chips && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {

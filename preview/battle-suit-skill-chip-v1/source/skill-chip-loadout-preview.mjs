@@ -1,7 +1,7 @@
 import {SKILL_CHIP_CATALOG,SKILL_CHIP_BALANCE_STATUS} from '../../../shared/battle-suit-skill-chips.mjs';
 const fixture={
   avatarFeature:{visible:true},instances:[],loadout:{},titles:[],vehicles:[],bonuses:{},
-  skillChips:{visible:true,maxSlots:3,battleEnabled:false,balanceStatus:SKILL_CHIP_BALANCE_STATUS,damageBase:null,
+  skillChips:{visible:true,maxSlots:3,battleEnabled:true,balanceStatus:SKILL_CHIP_BALANCE_STATUS,damageBase:'BATTLE_SUIT_SINGLE_SHOT',
     loadout:[null,null,null],catalog:SKILL_CHIP_CATALOG.map(chip=>({...chip,quantity:1,owned:true,active:true,equipped:false,slot:null}))}
 };
 const request=async(path,init={})=>{

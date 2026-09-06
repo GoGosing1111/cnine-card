@@ -17,13 +17,15 @@
     "preview/project-v-v3/source/battle/AccountBattleUnit.js",
     "preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js",
     "preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js",
-    "preview/project-v-v3/source/battle/BattleEngine.js",
-    "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+    "shared/battle-suit-skill-chips.mjs",
     "preview/battle-suit-skill-chip-v1/source/sequence.js",
     "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
     "preview/battle-suit-skill-chip-v1/source/SkillChipFX.js",
     "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
+    "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+    "preview/project-v-v3/source/battle/BattleEngine.js",
+    "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 900784
+  "outputBytes": 908987
 }

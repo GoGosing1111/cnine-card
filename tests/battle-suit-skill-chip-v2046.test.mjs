@@ -51,13 +51,14 @@ async function call(env,path,body,{userId=7,method='POST'}={}){
   return {status:response.status,...await response.json()};
 }
 
-test('catalog fixes the requested two multipliers without deciding the pending battle balance',()=>{
+test('catalog fixes the approved multipliers and independent 3s / 15s intervals',()=>{
   assert.equal(SKILL_CHIP_MAX_SLOTS,3);
   assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5]]);
   assert.ok(Object.isFrozen(SKILL_CHIP_CATALOG)&&SKILL_CHIP_CATALOG.every(Object.isFrozen));
   assert.equal(skillChipByCode('unknown'),null);
-  assert.equal(SKILL_CHIP_RUNTIME_ENABLED,false);
-  assert.match(SKILL_CHIP_BALANCE_STATUS,/CONFIRMATION_PENDING$/);
+  assert.equal(SKILL_CHIP_RUNTIME_ENABLED,true);
+  assert.equal(SKILL_CHIP_BALANCE_STATUS,null);
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>chip.intervalMs),[3000,15000]);
 });
 test('independent formula rounds once and rejects unsafe or invalid amounts',()=>{
   assert.equal(skillChipDamage(100,ROCKET),250);
@@ -74,7 +75,7 @@ test('foundation creates only catalog entries and never grants or consumes a chi
   const payload=await skillChipPayload(env,7);
   assert.deepEqual(payload.loadout,[null,null,null]);
   assert.ok(payload.catalog.every(chip=>!chip.owned&&!chip.equipped&&chip.quantity===0));
-  assert.equal(payload.battleEnabled,false);assert.equal(payload.damageBase,null);
+  assert.equal(payload.battleEnabled,true);assert.equal(payload.damageBase,'BATTLE_SUIT_SINGLE_SHOT');
 });
 test('foundation is idempotent and does not overwrite CMS state or existing inventory',async t=>{
   const env=await setup(t);own(env,7,ROCKET,10);
@@ -161,9 +162,15 @@ test('live asset loader includes styles and puts skill chips immediately to the 
   const [ui,app,preview]=await Promise.all(['../js/character-loadout-v2.js','../js/app.js','../preview/battle-suit-skill-chip-v1/source/skill-chip-loadout-preview.mjs'].map(path=>readFile(new URL(path,import.meta.url),'utf8')));
   assert.match(ui,/\$\{avatarEntry\}\$\{chipEntry\}/);
   assert.match(app,/css\/character-skill-chips-v2046\.css\?v=1/);
-  assert.match(app,/character-loadout-v2\.js\?v=15-skill-chip-slots/);
+  assert.match(app,/character-loadout-v2\.js\?v=16-skill-chip-runtime/);
   assert.doesNotMatch(preview,/\bfetch\s*\(/);
-  assert.match(preview,/battleEnabled:false/);
+  assert.match(preview,/battleEnabled:true/);
+});
+test('inventory seeds the chip catalog but chips are equipped, never consumed through item-use',async()=>{
+  const api=await readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+  assert.match(api,/if\(path==='inventory'\)\{[\s\S]{0,220}await ensureSkillChipFoundation\(env\)/);
+  assert.match(api,/WHEN i\.category='SKILL_CHIP' THEN 0/);
+  assert.match(api,/장비 → 스킬칩 탭에서 장착/);
 });
 test('each registry icon has 512px transparent PNG and lossless WebP with recorded provenance',async()=>{
   const manifest=JSON.parse(await readFile(new URL('../assets/ui/project-v/skill-chips/manifest-v1.json',import.meta.url),'utf8'));

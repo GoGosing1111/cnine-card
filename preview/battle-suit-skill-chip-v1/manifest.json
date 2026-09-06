@@ -1,10 +1,10 @@
 {
   "id": "battle-suit-skill-chip-v1",
-  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
-  "scope": "INDEPENDENT_PREVIEW_ONLY",
-  "liveEnabled": false,
-  "serverDamageConnected": false,
-  "liveEquipmentTabConnected": false,
+  "status": "USER_APPROVED_LIVE_INTEGRATED_V2046",
+  "scope": "PREVIEW_AND_SHARED_LIVE_V3_EFFECTS",
+  "liveEnabled": true,
+  "serverDamageConnected": true,
+  "liveEquipmentTabConnected": true,
   "renderer": {"engine": "preview/project-v-v3/source/project-v-pixi-battle.src.js", "wrapper": "js/battle-v3-live.js", "pixi": "8.20.0", "gsap": "3.13.0", "formationChanged": false, "cardDockChanged": false},
   "referenceMotion": [
     {"file": "img (1).gif", "frames": 63, "durationSeconds": 3.21, "role": "HELICOPTER_SHADOW_AND_STAGGERED_GROUND_EXPLOSIONS", "pixelsReused": false},

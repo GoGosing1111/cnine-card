@@ -268,7 +268,8 @@ test('V2012 doubles the V2011 live Battle Suit shot in normal and apocalypse PVE
     'const BATTLE_SUIT_DAMAGE_MULTIPLIER = 2;',
   );
   assert.notEqual(previousSource,currentSource,'the V2011 fixture must remove only the second x2 final multiplier');
-  const previousEngine=await import(`data:text/javascript;base64,${Buffer.from(previousSource).toString('base64')}`);
+  const resolvableSource=previousSource.replace("'../shared/battle-suit-skill-chips.mjs'",JSON.stringify(new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href));
+  const previousEngine=await import(`data:text/javascript;base64,${Buffer.from(resolvableSource).toString('base64')}`);
   const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((type,index)=>({
     id:`V2012-${index+1}`,
     title:`V2012 ${index+1}`,
@@ -421,7 +422,7 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   });
   assert.equal(response.status,200);
   assert.deepEqual(response.payload.skillChips.loadout,[null,null,null]);
-  assert.equal(response.payload.skillChips.battleEnabled,false);
+  assert.equal(response.payload.skillChips.battleEnabled,true);
   assert.ok(response.payload.skillChips.catalog.every(chip=>!chip.owned));
   assert.ok(response.payload.slots.some(slot=>slot.id==='BATTLE_SUIT'&&slot.label==='배틀슈트'));
   assert.equal(response.payload.loadout.BATTLE_SUIT,suitInstance);

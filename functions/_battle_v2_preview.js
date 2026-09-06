@@ -1,3 +1,5 @@
+import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,createSkillChipSchedule,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
+
 // =====================================================================
 // V1936: 계열 개편 (S1)
 //
@@ -988,6 +990,49 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
+  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length):null;
+  const chipSchedule=createSkillChipSchedule(chipActor?.skillChips);
+  const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
+  const pendingChipHits=[];
+  const chipClockOptions={apocalypseBoss:b.some(actor=>actor.isMonster&&actor.isApocalypse)};
+  let combatMs=0,nextCombatMs=0,lastCardCombatMs=0,lastCardGaugeClock=0,combatGroup=0;
+  const stampCombatGroup=(from,atMs,blocking)=>{
+    if(!chipActor)return;
+    const events=timeline.slice(from),durationMs=blocking?events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0):0;
+    for(const event of events)Object.assign(event,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:atMs,combatGroup,combatGroupDurationMs:durationMs});
+    combatGroup++;
+    if(blocking){lastCardCombatMs=atMs;nextCombatMs=atMs+durationMs;lastCardGaugeClock=clock;}
+  };
+  // Opening effects are one atomic server action, rendered before normal turns.
+  stampCombatGroup(0,0,true);
+  const nextChipMs=()=>Math.min(chipSchedule.peek()?.atMs??Infinity,pendingChipHits[0]?.atMs??Infinity);
+  const resolveChipStep=()=>{
+    const nextCast=chipSchedule.peek(),pending=pendingChipHits[0];
+    const from=timeline.length;
+    if(pending&&pending.atMs<=(nextCast?.atMs??Infinity)){
+      pendingChipHits.shift();combatMs=pending.atMs;
+      const target=pending.target;
+      if(target.alive&&target.hp>0){
+        const state=applyDamage(target,pending.damage),pierce=applyDamage(target,pending.pierce,{ignoreShield:true});
+        const damage=state.hpDamage+pierce.hpDamage;
+        chipActor.damageDealt+=damage+state.absorbed;
+        pushEvent(timeline,clock,'SKILL_CHIP_HIT',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_SKILL_CHIP',targetId:target.id,chipCode:pending.chipCode,castId:pending.castId,hitIndex:pending.hitIndex,hitCount:pending.hitCount,damage,absorbed:state.absorbed,apocalypsePierce:pierce.hpDamage||undefined,critical:pending.critical,baseDamage:pending.baseDamage,damageMultiplier:pending.multiplier,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
+        resolveKnockout(target,timeline,clock,reviveFromMagic);
+      }
+    }else if(nextCast){
+      const cast=chipSchedule.take(),chip=cast.chip;combatMs=cast.atMs;
+      const pool=targetPool(chipActor.side==='A'?b:a);if(!pool.length)return;
+      const target=lowestRatioTarget(pool,chipRandom),hit=hitResult(chipActor,target,chipRandom,Math.max(.1,Number(chipActor.independentAttackMultiplier||1)),false,hitOptions);
+      const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_DAMAGE_MULTIPLIER;
+      const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target);
+      const count=chip.impactOffsetsMs.length,total=skillChipDamage(basePrimary+basePierce,chip.code),pierceTotal=skillChipDamage(basePierce,chip.code);
+      const parts=splitSkillChipDamage(total-pierceTotal,count),pierceParts=splitSkillChipDamage(pierceTotal,count),castId=`${chip.code}:${cast.activation}`;
+      pushEvent(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_SKILL_CHIP',targetId:target.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:basePrimary+basePierce,damageMultiplier:chip.damageMultiplier,calculatedDamage:total,dodge:hit.dodge,critical:hit.critical,label:chip.name});
+      for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier});
+      pendingChipHits.sort((a,b)=>a.atMs-b.atMs||a.castId.localeCompare(b.castId)||a.hitIndex-b.hitIndex);
+    }
+    stampCombatGroup(from,combatMs,false);
+  };
   // V1990: 배틀슈트는 카드 턴·행동력과 무관한 "독립 시계" 로 시작부터 끝까지 연사한다.
   //   이전 간격(0.34~1.10)은 시계 단위가 틀려서(카드 게이지 1회전 ≈ 0.018, 전투 전체 0.1~0.26)
   //   한 판에 0~1발만 나갔다. 이제 간격은 20만 카드 게이지 1회전(0.018)을 기준 사이클로 놓고
@@ -1010,6 +1055,15 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const independentAction=Boolean(independentActor&&independentReadyAt<=gaugeReadyAt);
     const nextActionAt=independentAction?Math.max(clock,independentReadyAt):gaugeReadyAt;
     if (durationLimit && nextActionAt > durationLimit) { durationStopped = true; break; }
+    let nextStepMs=nextCombatMs;
+    if(chipActor&&independentAction){
+      const fraction=clamp((nextActionAt-lastCardGaugeClock)/Math.max(.000001,gaugeReadyAt-lastCardGaugeClock),0,1);
+      nextStepMs=Math.max(combatMs,lastCardCombatMs+(nextCombatMs-lastCardCombatMs)*fraction);
+    }
+    if(chipActor&&nextChipMs()<=nextStepMs){resolveChipStep();continue;}
+    const groupFrom=timeline.length;
+    if(chipActor)combatMs=nextStepMs;
+    try {
     const dt=Math.max(0,nextActionAt-clock);
     clock+=dt;
     if(dt>0)for (const card of actors) card.gauge = clamp(card.gauge + card.speed * dt, 0, 130);
@@ -1318,6 +1372,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
+    } finally {stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);
@@ -1335,6 +1390,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     teamAHpPercent: Math.round(aRatio * 1000) / 10,
     teamBHpPercent: Math.round(bRatio * 1000) / 10
   });
+  if(chipActor){
+    const last=timeline.at(-1);
+    Object.assign(last,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:Math.max(combatMs,nextCombatMs),combatGroup:combatGroup++,combatGroupDurationMs:0,combatEndedAtMs:combatMs});
+  }
 
   return {
     winner,
@@ -1436,6 +1495,7 @@ export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
   fighter.independentFireInterval = BATTLE_SUIT_REFERENCE_CYCLE / fighter.independentShotsPerCycle;
   fighter.independentOpeningDelay = fighter.independentFireInterval * .35;
   fighter.independentAttackMultiplier = cadence.attackMultiplier;
+  fighter.skillChips = SKILL_CHIP_RUNTIME_ENABLED?normalizeSkillChipCodes(battleSuit.skillChips):[];
   fighter.speed = 0;
   fighter.maxHp = 1;
   fighter.hp = 1;
@@ -1537,6 +1597,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     ? simulated.timeline.filter(event => String(event?.actorId || '') === battleSuitActorId && event.type === 'TURN')
     : [];
   const battleSuitDamage = battleSuitEvents.reduce((sum, event) => sum + appliedDamage(event), 0);
+  const chipEvents=simulated.timeline.filter(event=>event.type==='SKILL_CHIP_HIT'&&event.actorId===battleSuitActorId);
+  const skillChipAppliedDamage=chipEvents.reduce((sum,event)=>sum+appliedDamage(event),0);
   const cardDamage = simulated.timeline.reduce((sum, event) => {
     const actorId = String(event?.actorId || '');
     return actorId.startsWith('A:') && actorId !== battleSuitActorId ? sum + appliedDamage(event) : sum;
@@ -1551,7 +1613,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     supports: {
       A: battleSuitFighter ? [{
         ...publicFighter(battleSuitFighter),
-        damageDealt: battleSuitDamage,
+        damageDealt: battleSuitDamage+skillChipAppliedDamage,
+        skillChipDamage:skillChipAppliedDamage,
         actions: battleSuitEvents.length,
         authoritative: true,
         damageAuthority: 'SERVER_TIMELINE'
@@ -1561,8 +1624,9 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     damageBreakdown: {
       cards: cardDamage,
       battleSuit: battleSuitDamage,
+      skillChips:skillChipAppliedDamage,
       ultimate: ultimateAppliedDamage,
-      total: cardDamage + battleSuitDamage + ultimateAppliedDamage,
+      total: cardDamage + battleSuitDamage + skillChipAppliedDamage + ultimateAppliedDamage,
       authority: 'SERVER_TIMELINE'
     }
   };

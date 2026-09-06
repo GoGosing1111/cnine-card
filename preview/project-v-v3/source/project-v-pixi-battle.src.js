@@ -44,9 +44,9 @@ function destroy(){
   engine=null;
 }
 
-async function playEvents(events){
+async function playEvents(events,options){
   if(!engine)await mount();
-  return engine.playEvents(events);
+  return engine.playEvents(events,options);
 }
 
 async function restoreDeployedFormation(){

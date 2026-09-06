@@ -136,7 +136,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(admin, /PVP 전투력에는 합산되지 않으며/);
   assert.match(adminCss, /\.equipment-power-preview\.equipment-pve-only/);
   assert.match(loadoutCss, /\.clv2-equip-slot\.slot-battle_suit/);
-  assert.match(app, /character-loadout-v2\.js\?v=15-skill-chip-slots/);
+  assert.match(app, /character-loadout-v2\.js\?v=16-skill-chip-runtime/);
   assert.match(app, /equipment-v1274\.js\?v=2032-challenger-title/);
   assert.match(adminIndex, /equipment-admin-v1278\.js\?v=2032-challenger-title/);
   assert.equal((adminIndex.match(/equipment-admin-v1278\.css\?v=1279-battle-suit-pve-only/g) || []).length, 2);
@@ -147,7 +147,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(pveCss, /pvev2-roster-foot\{display:grid;grid-template-columns:repeat\(5,1fr\) auto/);
   assert.match(index, /pve-command-v2\.css\?v=2034-superstar-power-deck/);
   assert.match(index, /pve-command-v2-live\.js\?v=2034-superstar-power-deck/);
-  assert.match(index, /js\/app\.js\?v=2045-performance/);
+  assert.match(index, /js\/app\.js\?v=2046-skill-chips/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
   assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);

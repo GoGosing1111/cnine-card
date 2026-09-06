@@ -7,23 +7,27 @@ export const AUDIO_FILES=Object.freeze({
 });
 
 export class SkillChipAudio{
-  constructor(){this.context=null;this.master=null;this.buffers={};this.sources=new Set();this.enabled=true;this.ready=false;this.epoch=0;this.syncRecords=[];this.loadPromise=null;}
+  constructor({sharedContext=null}={}){this.context=null;this.sharedContext=sharedContext;this.destroyed=false;this.master=null;this.buffers={};this.sources=new Set();this.enabled=true;this.ready=false;this.epoch=0;this.syncRecords=[];this.loadPromise=null;}
   async prepare(){
     if(this.loadPromise)return this.loadPromise;
     this.loadPromise=(async()=>{
       const Audio=window.AudioContext||window.webkitAudioContext;
       if(!Audio)throw new Error('Web Audio를 사용할 수 없는 브라우저입니다.');
-      const context=this.context=new Audio({latencyHint:'interactive'});
+      if(this.destroyed)return false;
+      const context=this.context=this.sharedContext||new Audio({latencyHint:'interactive'});
       this.master=context.createGain();this.master.gain.value=.58;this.master.connect(context.destination);
       await Promise.all(Object.entries(AUDIO_FILES).map(async([key,url])=>{
         const response=await fetch(url);if(!response.ok)throw new Error(`효과음 로드 실패: ${key}`);
-        this.buffers[key]=await context.decodeAudioData(await response.arrayBuffer());
+        const buffer=await context.decodeAudioData(await response.arrayBuffer());
+        if(!this.destroyed)this.buffers[key]=buffer;
       }));
+      if(this.destroyed)return false;
       this.ready=true;return true;
     })();return this.loadPromise;
   }
   async unlock(){
     if(!this.ready)await this.prepare();
+    if(this.destroyed||!this.context)return false;
     const context=this.context;
     if(context.state==='suspended')await context.resume();
     // Fresh contexts initially report zero output timestamps/latency. Wait a
@@ -48,8 +52,8 @@ export class SkillChipAudio{
       events.push({asset:'explosion',at:impact+.16,offset:.7626875,duration:Math.min(1.62,seq.duration-impact-.16),gain:.12,fadeIn:.04,fadeOut:1.0,pan:.15});
     });return events;
   }
-  schedule(key,from=0,speed=1){
-    this.stop();this.syncRecords=[];
+  schedule(key,from=0,speed=1,{append=false}={}){
+    if(!append){this.stop();this.syncRecords=[];}
     if(!this.ready||!this.enabled||this.context.state!=='running')return;
     const context=this.context,now=context.currentTime,rate=clamp(speed,.25,2);
     const performanceNow=performance.now(),stamp=context.getOutputTimestamp?.();
@@ -77,5 +81,5 @@ export class SkillChipAudio{
     }
   }
   diagnostics(){return {ready:this.ready,enabled:this.enabled,state:this.context?.state||'unavailable',activeSources:this.sources.size,sync:this.syncRecords,outputCompensationMs:this.outputCompensationMs||0,baseLatencyMs:(this.context?.baseLatency||0)*1000,outputLatencyMs:(this.context?.outputLatency||0)*1000}}
-  async destroy(){this.stop();await this.context?.close();this.context=null;this.ready=false}
+  async destroy(){this.destroyed=true;this.stop();this.master?.disconnect();if(this.context&&!this.sharedContext)await this.context.close().catch(()=>{});this.context=null;this.ready=false;this.buffers={}}
 }

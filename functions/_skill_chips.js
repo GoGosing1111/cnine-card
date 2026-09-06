@@ -36,7 +36,12 @@ export async function skillChipPayload(env,userId){
     if(equipped)loadout[slot-1]=chip.code;
     return {...chip,quantity,owned:quantity>0,active,equipped,slot:equipped?slot:null};
   });
-  return {visible:true,maxSlots:SKILL_CHIP_MAX_SLOTS,duplicateAllowed:false,scope:'PVE_BATTLE_SUIT_ONLY',battleEnabled:SKILL_CHIP_RUNTIME_ENABLED,balanceStatus:SKILL_CHIP_BALANCE_STATUS,damageBase:null,loadout,catalog};
+  return {visible:true,maxSlots:SKILL_CHIP_MAX_SLOTS,duplicateAllowed:false,scope:'PVE_BATTLE_SUIT_ONLY',battleEnabled:SKILL_CHIP_RUNTIME_ENABLED,balanceStatus:SKILL_CHIP_BALANCE_STATUS,damageBase:'BATTLE_SUIT_SINGLE_SHOT',loadout,catalog};
+}
+
+export async function equippedSkillChipCodes(env,userId){
+  if(!SKILL_CHIP_RUNTIME_ENABLED)return [];
+  return (await skillChipPayload(env,userId)).loadout.filter(Boolean);
 }
 
 export async function handleSkillChips({path,request,env,deps}){

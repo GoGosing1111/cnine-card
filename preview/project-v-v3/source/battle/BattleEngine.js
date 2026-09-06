@@ -10,6 +10,7 @@ import {AdvancementEffectFX, advancementEffectProfile, normalizeAdvancementEffec
 import {AccountBattleUnit} from './AccountBattleUnit.js';
 import {resolveAccountBattleSuitAnimation} from './AccountBattleSuitAnimationCatalog.js';
 import {ApocalypseBossUltimateFX, APOCALYPSE_BOSS_ULTIMATE_PROFILE} from './ApocalypseBossUltimateFX.js';
+import {BattleSuitSkillChipPlayback,isSkillChipTimeline} from './BattleSuitSkillChipPlayback.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -2136,6 +2137,9 @@ export class BattleEngine{
 
   syncTargetHp(target,value){
     if(!target)return null;
+    // Card impact callbacks and queued normal shots can finish after a chip
+    // hit. Never restore an older HP snapshot over newer authoritative state.
+    value=this.skillChipPlayback?.currentHp(target,value)??value;
     const hp=target.setHp(clamp(Number(value)||0,0,100));
     if(target.team===TEAM.ENEMY){
       if(target===this.currentEnemyTarget||target===this.boss){
@@ -2155,6 +2159,7 @@ export class BattleEngine{
 
   syncTargetShield(target,value,maxValue=null){
     if(!target||!hasFiniteNumber(value))return null;
+    value=this.skillChipPlayback?.currentShield(target,value)??value;
     const current=Math.max(0,Number(value)||0);
     const maximum=hasFiniteNumber(maxValue)
       ?Math.max(current,Number(maxValue)||0)
@@ -2231,6 +2236,7 @@ export class BattleEngine{
     // SFX decode. The late network result may warm a cache, but it must never
     // start a stale combat timeline after recovery, reset, or modal close.
     this.playbackEpoch+=1;
+    this.skillChipPlayback?.cancel();
     this.skillTimeline?.cancelAll();
     this.clearAccountBattleUnitHitReactions();
     [...this.simpleTimelines].forEach(entry=>{entry.instance.kill();entry.settle(false)});
@@ -2757,7 +2763,12 @@ export class BattleEngine{
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }
 
-  async playEvents(events=[],{forceDeploy=false}={}){
+  async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null}={}){
+    if(!timedInternal&&isSkillChipTimeline(events)){
+      this.skillChipPlayback?.cancel();
+      this.skillChipPlayback=new BattleSuitSkillChipPlayback(this,events,{beforeEvent});
+      return this.skillChipPlayback.play();
+    }
     for(const event of events){
       if(!this.visible)break;
       const type=String(event?.type||'').toUpperCase();
@@ -3202,6 +3213,7 @@ export class BattleEngine{
       },
       formation:{allies:this.allies.length,enemies:this.enemies.length},
       accountBattleUnit:{
+        skillChips:this.skillChipPlayback?.diagnostics()||null,
         ...(this.accountBattleUnit?.diagnostics?.()||{active:false,id:'ACCOUNT_BATTLE_UNIT'}),
         enabled:this.accountBattleUnitEnabled,
         pveOnly:true,

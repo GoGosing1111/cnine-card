@@ -47,7 +47,7 @@ export class SkillChipFX{
   seek(time){this.timeline.pause().time(clamp(time,0,this.sequence.duration),true);this.render(this.clock.time);this.onUpdate(this.clock.time)}
   setSpeed(speed){this.speed=clamp(speed,.25,2);this.timeline.timeScale(this.speed)}
   getPoints(){
-    const unit=this.engine.accountBattleUnit;const target=this.engine.enemies.find(x=>x.battleActive!==false&&x.root.visible);
+    const unit=this.engine.accountBattleUnit;const target=this.target||this.engine.enemies.find(x=>x.battleActive!==false&&x.root.visible);
     const root=target?.root;if(!unit||!root)return null;
     // Both layers share the original V3 stage; no screen-space guesses or new formation.
     const source=unit.muzzlePoint();const impactOffsetY=this.key==='missile'?ROCKET_PROJECTILE_OFFSET_Y:0;

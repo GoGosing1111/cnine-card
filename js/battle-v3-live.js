@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.30.0-battle-suit-per-action-fire';
+  const VERSION = '3.31.0-skill-chip-runtime';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -964,8 +964,9 @@
           startAccountBattleUnitContinuousFire();
           let playerUltimateShown = false;
           let bossUltimateShown = false;
-          for (const sourceEvent of timeline) {
-            if (destroyed) return false;
+          const timedSkillChips = timeline.some(event => event.combatClock === 'V3_COMBAT_MS_V1');
+          const prepareEvent = async sourceEvent => {
+            if (destroyed) return null;
             const type = String(sourceEvent?.type || '').toUpperCase();
             let event = { ...sourceEvent };
             if (type === 'RAID_QTE_SEQUENCE' || type === 'RAID_QTE_MASH') {
@@ -981,16 +982,16 @@
                 if (status) status.textContent = '입력 기믹을 완료하지 못해 실패 처리되었습니다.';
               }
               interactiveResults.set(qteId, { ...result, qteId, success: result?.success === true });
-              continue;
+              return null;
             }
-            if (!qteBranchAllowed(event.qteCondition)) continue;
+            if (!qteBranchAllowed(event.qteCondition)) return null;
             if (type.startsWith('RAID_') && typeof options.onRaidEvent === 'function') {
               try {
                 await options.onRaidEvent(event, { stage, host, payload, phase, status });
               } catch (error) {
                 console.warn('[PROJECT V V3] RAID event overlay failed', error);
               }
-              continue;
+              return null;
             }
             if (type === 'PVE_ULTIMATE') {
               const sourceCard = payload?.ultimateSourceCard || null;
@@ -1037,7 +1038,25 @@
                 );
               }
             }
-            await safePlayEvents([event], `${event.label || type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
+            return event;
+          };
+          if (timedSkillChips && !destroyed) {
+            // Keep QTE/raid overlays in their original event positions. Their
+            // awaited prelude pauses the shared clock without resetting it.
+            const timedEvents = timeline;
+            const durationMs = Math.max(0, ...timedEvents.map(event => Number(event.combatAtMs || 0)));
+            await withTimeout(
+              Promise.resolve(root.ProjectVPixiBattle.playEvents(timedEvents, { beforeEvent: prepareEvent })),
+              Math.max(30000, durationMs * 2 + 15000),
+              '스킬칩 전투 연출을 서버 최종 상태로 복구합니다.',
+              { fallback: false, onFailure: () => recoverPlayback('스킬칩 전투 연출을 복구했습니다.') }
+            );
+          } else {
+            for (const sourceEvent of timeline) {
+              if (destroyed) return false;
+              const event = await prepareEvent(sourceEvent);
+              if (event) await safePlayEvents([event], `${event.label || event.type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
+            }
           }
           const finalState = payload?.battleV2?.result?.final || {};
           // V1787: 무한의탑 자동전투 2판째부터 몬스터·SD 캐릭터가 전부 사라지던 버그 수정.

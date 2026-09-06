@@ -877,7 +877,7 @@ function bindFullscreenPlayLink(header){
 const FEATURE_RESOURCE_MANIFEST={
   character:{
     styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=8-skill-chip-slots','css/character-skill-chips-v2046.css?v=1'],
-    scripts:['js/equipment-v1274.js?v=2032-challenger-title','js/character-loadout-v2.js?v=15-skill-chip-slots','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
+    scripts:['js/equipment-v1274.js?v=2032-challenger-title','js/character-loadout-v2.js?v=16-skill-chip-runtime','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{
@@ -942,8 +942,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=98-gilded-dragon-battle-suit',
-      'js/battle-v3-live.js?v=3.30.0-battle-suit-per-action-fire'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=99-skill-chip-runtime',
+      'js/battle-v3-live.js?v=3.31.0-skill-chip-runtime'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }

@@ -29,7 +29,7 @@ assert.match(source,/setBattlefield/);
 assert.match(client,/battleQcState\.battlefield=button\.dataset\.battlefield/);
 assert.match(client,/ensureBattleQcSession\(\{reset:true\}\)/);
 assert.match(client,/battlefieldMode:battleQcState\.battlefield/);
-assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=98-gilded-dragon-battle-suit/);
+assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=99-skill-chip-runtime/);
 assert.match(html,/project-v-client\.js\?v=72-battle-suit-continuous-fire/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000,'rebuilt public Pixi bundle missing');
 
