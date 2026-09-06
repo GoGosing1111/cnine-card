@@ -42,7 +42,7 @@ async function fixture({insufficient=false,catalogDrift=false}={}){
     CREATE TABLE card_pack_cards(pack_id text NOT NULL,card_id text NOT NULL,PRIMARY KEY(pack_id,card_id));
     CREATE TABLE card_acquisition_effects(card_id text PRIMARY KEY,enabled integer,updated_at text DEFAULT CURRENT_TIMESTAMP);
     CREATE TABLE card_unique_effects(card_id text PRIMARY KEY,is_active integer NOT NULL DEFAULT 1,updated_at text DEFAULT CURRENT_TIMESTAMP);
-    INSERT INTO users VALUES(1,'OWNER','OWNER',0),(2,'대상1','USER',100),(3,'대상2','USER',500);
+    INSERT INTO users VALUES(1,'OWNER','OWNER',0),(2,'대상1','USER',100),(3,'대상2','USER',500),(4,'과거0장','USER',0);
   `);
   const memberNames=[...new Set([...ROSTER_CARD_RETIREMENT_SOURCES.map(card=>card.member),'Son Heung min','이예준','안전멤버'])];
   const memberIds=new Map();let memberId=1;
@@ -63,6 +63,7 @@ async function fixture({insufficient=false,catalogDrift=false}={}){
   const user2Sources=insufficient?[FAKER,CHOVY,ZEUS,PARK_LIMITED,BAMBI_PRESTIGE]:[FAKER,CHOVY,ZEUS,PARK_LIMITED,BAMBI_PRESTIGE];
   const sourceSettings=new Map([[FAKER,[2,13,4]],[CHOVY,[1,12,3]],[ZEUS,[1,11,2]],[PARK_LIMITED,[1,3,1]],[BAMBI_PRESTIGE,[1,2,0]]]);
   for(const id of user2Sources){const [quantity,level,fail]=sourceSettings.get(id);await pg.query('INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level,breakthrough_fail_count) VALUES(2,$1,$2,$3,$4)',[id,quantity,level,fail]);}
+  await pg.query("INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level,breakthrough_fail_count) VALUES(4,'CN-212DB3265D9945CA',0,7,2)");
   if(!insufficient)for(const [id] of safe)await pg.query('INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(2,$1,1,5)',[id]);
   await pg.query('INSERT INTO card_unique_advancements_v1937(user_id,card_id,class_code,dominant_type,config_version,cost_master_stars,modifiers_json,request_id) VALUES(2,$1,\'SHATTER\',\'ATTACK\',7,3333,\'{"attack":77}\',\'faker-adv-u2\')',[FAKER]);
   await pg.query('INSERT INTO card_unique_advancements_v1937(user_id,card_id,class_code,dominant_type,config_version,cost_master_stars,modifiers_json,request_id) VALUES(2,$1,\'TEMPO\',\'SPEED\',3,3000,\'{"speed":20}\',\'chovy-adv-u2\')',[CHOVY]);

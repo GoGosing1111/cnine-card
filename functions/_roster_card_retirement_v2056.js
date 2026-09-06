@@ -355,8 +355,9 @@ export async function ensureRosterCardRetirementV2056(env,{refundByGrade={}}={})
     if(optional.unifiedDrops)await query("UPDATE unified_drop_entries_v1667 SET is_enabled=0,updated_at=CURRENT_TIMESTAMP WHERE UPPER(reward_type)='CARD' AND reward_ref=ANY($1::text[])",[SOURCE_IDS]);
     if(optional.evolution)await query('DELETE FROM card_evolution_progress WHERE source_card_id=ANY($1::text[])',[SOURCE_IDS]);
     await query('DELETE FROM card_unique_advancements_v1937 WHERE card_id=ANY($1::text[])',[SOURCE_IDS]);
-    const removed=(await query('DELETE FROM user_cards WHERE card_id=ANY($1::text[]) RETURNING user_id,card_id',[SOURCE_IDS])).rows;
+    const removed=(await query('DELETE FROM user_cards WHERE card_id=ANY($1::text[]) AND COALESCE(quantity,0)>0 RETURNING user_id,card_id',[SOURCE_IDS])).rows;
     check(removed.length===plans.length,'삭제된 사용자 카드 건수가 스냅샷 건수와 달라 전체 정산을 중단했습니다.');
+    await query('DELETE FROM user_cards WHERE card_id=ANY($1::text[])',[SOURCE_IDS]);
     const cardColumns=(await query(`SELECT column_name FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='cards'`)).rows.map(row=>row.column_name);
     const rerollColumns=cardColumns.includes('reroll_result_enabled')?',reroll_result_enabled=0':'';
     const materialColumns=cardColumns.includes('reroll_material_enabled')?',reroll_material_enabled=0':'';
@@ -364,7 +365,7 @@ export async function ensureRosterCardRetirementV2056(env,{refundByGrade={}}={})
       WHERE id=ANY($1::text[]) RETURNING id`,[SOURCE_IDS])).rows;
     check(retired.length===SOURCE_IDS.length,'카탈로그에서 퇴사 처리된 카드 수가 대상 수와 다릅니다.');
 
-    const finalOwnership=integer((await query('SELECT COUNT(*) n FROM user_cards WHERE card_id=ANY($1::text[]) AND quantity>0',[SOURCE_IDS])).rows[0]?.n);
+    const finalOwnership=integer((await query('SELECT COUNT(*) n FROM user_cards WHERE card_id=ANY($1::text[])',[SOURCE_IDS])).rows[0]?.n);
     const finalAdvancement=integer((await query('SELECT COUNT(*) n FROM card_unique_advancements_v1937 WHERE card_id=ANY($1::text[])',[SOURCE_IDS])).rows[0]?.n);
     const finalPublic=integer((await query("SELECT COUNT(*) n FROM cards WHERE id=ANY($1::text[]) AND (is_active<>0 OR COALESCE(card_status,'')<>'RETIRED')",[SOURCE_IDS])).rows[0]?.n);
     check(finalOwnership===0&&finalAdvancement===0&&finalPublic===0,'퇴사 카드의 최종 제거 검증에 실패해 전체 정산을 취소했습니다.');
