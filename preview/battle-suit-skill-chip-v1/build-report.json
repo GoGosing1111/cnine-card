@@ -1,0 +1,29 @@
+{
+  "engineSource": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+  "pixiCopies": 1,
+  "inputs": [
+    "preview/project-v-v3/source/battle/CameraController.js",
+    "preview/project-v-v3/source/battle/BattleAnimation.js",
+    "preview/project-v-v3/source/battle/HumanoidRig.js",
+    "preview/project-v-v3/source/battle/BattleCharacter.js",
+    "preview/project-v-v3/source/battle/ObjectPool.js",
+    "preview/project-v-v3/source/battle/SkillEffectFX.js",
+    "preview/project-v-v3/source/battle/SkillTimeline.js",
+    "preview/project-v-v3/source/battle/RoleAudioSpriteManifest.js",
+    "preview/project-v-v3/source/battle/AdvancementAudioManifest.js",
+    "preview/project-v-v3/source/battle/BattleAudioMixer.js",
+    "preview/project-v-v3/source/battle/AdvancementEffectFX.js",
+    "preview/project-v-v3/source/battle/BallisticVFX.js",
+    "preview/project-v-v3/source/battle/AccountBattleUnit.js",
+    "preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js",
+    "preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js",
+    "preview/project-v-v3/source/battle/BattleEngine.js",
+    "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+    "preview/battle-suit-skill-chip-v1/source/sequence.js",
+    "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
+    "preview/battle-suit-skill-chip-v1/source/SkillChipFX.js",
+    "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
+    "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
+  ],
+  "outputBytes": 900732
+}

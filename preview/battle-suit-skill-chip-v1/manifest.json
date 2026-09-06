@@ -1,0 +1,25 @@
+{
+  "id": "battle-suit-skill-chip-v1",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "scope": "INDEPENDENT_PREVIEW_ONLY",
+  "liveEnabled": false,
+  "serverDamageConnected": false,
+  "liveEquipmentTabConnected": false,
+  "renderer": {"engine": "preview/project-v-v3/source/project-v-pixi-battle.src.js", "wrapper": "js/battle-v3-live.js", "pixi": "8.20.0", "gsap": "3.13.0", "formationChanged": false, "cardDockChanged": false},
+  "referenceMotion": [
+    {"file": "img (1).gif", "frames": 63, "durationSeconds": 3.21, "role": "HELICOPTER_SHADOW_AND_STAGGERED_GROUND_EXPLOSIONS", "pixelsReused": false},
+    {"file": "img.gif", "frames": 23, "durationSeconds": 1.44, "role": "MISSILE_FLIGHT_AND_IMPACT", "pixelsReused": false}
+  ],
+  "visualAssets": [
+    {"path": "assets/generated/explosion-atlas.png", "generationMode": "BUILT_IN_IMAGEGEN", "sha256": "1DD00ED9604DD37B05E8664F47BD0ED4859BA91C7F29D586A025171559EE9850", "grid": [6,4], "frames": 24, "frameSize": [256,256], "runtime": "assets/textures/explosion-atlas.webp", "runtimeEncoding": "LOSSLESS_WEBP", "alphaEdgeMaximum": 2},
+    {"path": "assets/generated/ordnance-atlas.png", "generationMode": "BUILT_IN_IMAGEGEN", "sha256": "700B08DF8102F28FEF56EA8C374A266420E3752D0936CE0D737285D3713B787C", "grid": [4,2], "runtime": "assets/textures/*.webp", "processing": "EXACT_CELL_EXTRACT_ALPHA_TRIM_LOSSLESS_WEBP"}
+  ],
+  "audioPolicy": "REAL_RECORDED_CC0_SOURCES_ONLY",
+  "audioSources": [
+    {"id": "freesound:187681", "name": "Helicopter Rotor Loop.flac", "author": "qubodup", "url": "https://freesound.org/people/qubodup/sounds/187681/", "downloadUrl": "https://cdn.freesound.org/previews/187/187681_71257-hq.mp3", "license": "CC0-1.0", "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/", "path": "assets/audio/helicopter-187681-cc0.mp3", "sha256": "CEEF20913CB66BD0C8DDE703976D3F3ED7B36A95CAEC550496A20211D02A360B", "recording": "Helicopter recording extracted from US government video; CC0 publication by qubodup", "processing": "Original public HQ MP3 bytes unchanged; runtime 0-1.9s slice, stereo pan, gain .24, .24s fade-in and .48s fade-out, master .58"},
+    {"id": "freesound:182797", "name": "Windy Explosion.flac", "author": "qubodup", "url": "https://freesound.org/people/qubodup/sounds/182797/", "downloadUrl": "https://cdn.freesound.org/previews/182/182797_71257-hq.mp3", "license": "CC0-1.0", "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/", "path": "assets/audio/explosion-182797-cc0.mp3", "sha256": "7C5C8204D55D9127C19B389CDEE2AE415CD78523EB132883497D2D5D0C5CD890", "recording": "Real explosion recording extracted from US government video; CC0 publication by qubodup", "measuredFirstMainPeakSeconds": 0.5826875, "processing": "Original public HQ MP3 bytes unchanged; impact offset .5626875s duration .46s gain .38 airstrike/.60 missile; tail offset .7626875s max 1.62s gain .12; runtime envelope and stereo pan; master .58"},
+    {"id": "freesound:737569", "name": "Colt M4A1 SOCOM, exterior close", "author": "areniporgen", "url": "https://freesound.org/people/areniporgen/sounds/737569/", "license": "CC0-1.0", "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/", "path": "/preview/project-v-v3/assets/audio/firearm-qc-v1/m4a1-colt-socom-cc0-freesound-737569.mp3", "sha256": "1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2", "processing": "Existing immutable approved recording; heavy launch acoustic proxy (not a helicopter rocket recording); offset .04323s duration .24s gain .28, .10s tail fade, master .58"}
+  ],
+  "audioSync": {"visualTime": "INDEPENDENT_GSAP_TIMELINE", "impactPeakLeadSeconds": 0.02, "outputLatencyCompensation": "AudioContext.getOutputTimestamp", "softwareToleranceMs": 20, "physicalDeviceLoopbackVerified": false},
+  "releaseGate": "USER_VISUAL_AND_AUDIO_REVIEW_THEN_EXPLICIT_LIVE_CONNECTION_REQUEST"
+}

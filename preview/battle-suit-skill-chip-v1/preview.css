@@ -1,0 +1,26 @@
+/* Only the preview's outer layout and controls. Never restyle V3 formation/card dock. */
+html:has(.chip-lab){background:#0a0d12}
+body.chip-lab{margin:0;background:#0a0d12;color:#e6e9ef;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow:auto;min-width:320px}
+.lab-heading,.lab-controls,.lab-settings,.lab-skills button{box-sizing:border-box}
+.lab-wrap{max-width:1800px;margin:auto;padding:0 24px 14px}
+.lab-heading{height:80px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.lab-heading p{margin:0 0 4px;font-size:9px;font-weight:750;letter-spacing:.2em;color:#929cae}
+.lab-heading h1{margin:0;font-size:23px;font-weight:800;letter-spacing:-.06em}.lab-heading h1 span{color:#f2b968}
+.lab-scope{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:750;color:#e9cfac}.lab-scope i{width:6px;height:6px;background:#f2b968;border-radius:50%}.lab-scope small{margin-left:6px;color:#8e97a7;font-size:10px}
+.stage-viewport{height:calc(100svh - 292px);min-height:540px;max-height:1000px;position:relative;contain:layout paint;isolation:isolate;border:1px solid #2b313b;border-radius:8px;overflow:hidden;background:#04080e}
+#battle-frame{display:block;position:absolute;inset:0;width:100%;height:100%;border:0;background:#04080e}
+#lab-boot{position:absolute;inset:0;z-index:50;display:grid;place-content:center;padding:30px;text-align:center;font-size:13px;color:#dbc09d;background:#080e17}
+#lab-boot[hidden]{display:none}
+.lab-controls{display:grid;grid-template-columns:minmax(310px,.95fr) minmax(340px,1.1fr);gap:18px 28px;padding:18px 0 10px}
+.lab-skills{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip-lab button,.chip-lab select{font-family:inherit}
+.lab-skills button{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #303640;border-radius:6px;padding:14px 12px;background:#11161e;color:#c5ccd8;cursor:pointer;min-height:76px;position:relative;transition:border-color .15s,background .15s}
+.lab-skills button[aria-pressed=true]{background:#241d14;border-color:#a17744;color:#fff0d7}
+.skill-index{font-size:12px;font-weight:650;color:#aa875a;align-self:flex-start}.lab-skills strong{font-size:15px;display:block;font-weight:800;letter-spacing:-.04em}.lab-skills small{font-size:10px;display:block;color:#96a0b2;margin-top:4px;white-space:nowrap}.lab-skills em{position:absolute;top:9px;right:10px;font-size:9px;font-style:normal;color:#707d90}
+.lab-play-row{display:flex;gap:7px;align-items:center}.lab-play-row button{border:1px solid #384150;border-radius:5px;background:#19212c;color:#dce4ef;font-size:11px;font-weight:700;padding:10px 14px;cursor:pointer;white-space:nowrap}.lab-play-row .primary{background:#e6b577;color:#20150b;border-color:#e6b577;min-width:86px}.lab-speed{display:flex;align-items:center;gap:7px;margin-left:auto;font-size:10px;color:#9ba7ba}
+.lab-transport select,.lab-settings select{border:1px solid #313c4c;border-radius:4px;background:#121a25;color:#d1d9e4;font-size:11px;padding:7px;max-width:100%}
+.lab-timeline{display:flex;align-items:center;gap:13px;margin:12px 0 4px}.lab-timeline input{flex:1;width:0;accent-color:#e6b577;cursor:pointer;margin:0}.lab-timeline output{font-size:10px;font-variant-numeric:tabular-nums;color:#b5bfcf;min-width:73px;text-align:right}
+.lab-caption{margin:0;color:#a8b4c6;font-size:10px;min-height:15px}.lab-settings{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;border-top:1px solid #242c38;padding-top:12px}.lab-settings>label{display:flex;align-items:center;gap:8px;font-size:10px;color:#9faabd}.lab-check input{accent-color:#deb078;margin:0;width:14px;height:14px}.lab-footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;color:#65748a;font-size:9px;line-height:1.7}.lab-footer a{color:#9faabd;text-decoration:none}.lab-footer #health{color:#9babbe}.chip-lab button:disabled,.chip-lab select:disabled{opacity:.45;cursor:wait}.chip-lab button:focus-visible,.chip-lab input:focus-visible,.chip-lab select:focus-visible,.chip-lab a:focus-visible{outline:2px solid #9ad7ff;outline-offset:3px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:900px){.lab-wrap{padding:0 12px 16px}.lab-heading{height:66px}.lab-heading h1{font-size:20px}.stage-viewport{height:64svh;min-height:560px}.lab-controls{grid-template-columns:1fr;gap:14px;padding-top:12px}.lab-skills button{min-height:67px}.lab-settings{gap:10px 16px}.lab-scope small{display:none}.lab-footer>span:nth-child(2){flex-basis:100%}}
+@media(max-width:430px){.lab-wrap{padding:0 6px 12px}.lab-heading{padding:0 5px}.lab-heading p{font-size:7px}.lab-scope{font-size:9px}.lab-skills button{gap:7px;padding:13px 9px}.lab-skills small{font-size:8px}.lab-skills strong{font-size:14px}.lab-play-row button{padding:10px 11px}.lab-settings{font-size:9px}.lab-settings select{font-size:10px}.lab-controls{padding-left:4px;padding-right:4px}}
+@media(prefers-reduced-motion:reduce){.lab-skills button{transition:none}}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="color-scheme" content="dark">
+  <title>배틀슈트 · 스킬칩 V3 연출 검수</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body class="chip-lab">
+  <main class="lab-wrap">
+    <header class="lab-heading">
+      <div><p>PROJECT V / SKILL CHIP LAB</p><h1>배틀슈트 <span>스킬칩</span></h1></div>
+      <div class="lab-scope"><i></i>독립 연출 검수 <small>운영 미연결</small></div>
+    </header>
+    <section class="stage-viewport" aria-label="기존 V3 엔진 전투 미리보기">
+      <iframe id="battle-frame" src="./battle.html" title="실제 V3 전장 · 스킬칩 연출" allow="autoplay"></iframe>
+      <div id="lab-boot" role="status">실제 V3 전장과 스킬 자산을 준비하고 있습니다.</div>
+    </section>
+    <section class="lab-controls" aria-label="스킬 연출 조작">
+      <div class="lab-skills" role="group" aria-label="검수할 스킬">
+        <button type="button" data-skill="airstrike" aria-pressed="true" disabled><span class="skill-index">01</span><span><strong>헬기 폭격</strong><small>기체 그림자 · 4연속 지면 폭발</small></span><em>3.60s</em></button>
+        <button type="button" data-skill="missile" aria-pressed="false" disabled><span class="skill-index">02</span><span><strong>고폭탄</strong><small>탄체 비행 · 충격파 · 화염 잔향</small></span><em>2.25s</em></button>
+      </div>
+      <div class="lab-transport">
+        <div class="lab-play-row"><button type="button" id="play" class="primary" disabled>재생</button><button type="button" id="replay" disabled>처음부터</button><button type="button" id="impact" disabled>충돌 확인</button><label class="lab-speed">속도 <select id="speed" disabled><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+        <div class="lab-timeline"><label for="scrub" class="sr-only">연출 시간</label><input type="range" id="scrub" min="0" max="3.6" step="0.001" value="0" disabled><output id="time" aria-live="off">0.00 / 3.60</output></div>
+        <p class="lab-caption" id="cue" aria-live="off">스킬 준비 중</p>
+      </div>
+      <div class="lab-settings">
+        <label>배틀슈트 <select id="suit" disabled><option value="BATTLE_SUIT_01">01 · 메카니컬</option><option value="BATTLE_SUIT_02">02 · 오렌지 택티컬</option><option value="BATTLE_SUIT_03" selected>03 · 아메시스트</option></select></label>
+        <label>무기 <select id="weapon" disabled><option value="EQ_1788486929132">황금용 AR</option><option value="EQ_1788486888336">황금용 저격총</option></select></label>
+        <label class="lab-check"><input id="audio" type="checkbox" checked disabled>실제 녹음 효과음</label>
+        <label class="lab-check"><input id="gunfire" type="checkbox" disabled>일반 사격 병행 검수</label>
+        <label class="lab-check"><input id="shake" type="checkbox" checked disabled>충돌 흔들림</label>
+      </div>
+    </section>
+    <footer class="lab-footer"><span id="health" role="status">자산 확인 중…</span><span>5장 덱·계정 배틀슈트·하단 카드 프레임은 라이브 V3 그대로 / 피해·재화·저장 없음</span><a href="./README.md" target="_blank" rel="noopener">검수 범위·출처</a></footer>
+  </main>
+</body>
+</html>
