@@ -45,7 +45,7 @@ test('V3 preview mounts the real five-card PVE payload plus one independently da
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
   assert.match(html,/project-v-firearm-qc-audio\.js\?v=8-gilded-dragon-battle-suit/);
-  assert.match(html,/project-v-client\.js\?v=73-gilded-dragon-battle-suit/);
+  assert.match(html,/project-v-client\.js\?v=74-boss-signatures/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
