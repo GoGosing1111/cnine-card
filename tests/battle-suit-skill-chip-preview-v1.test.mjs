@@ -29,6 +29,32 @@ function mockEngine(){
   return {mobile:false,combatLayer:new Container(),effectLayer:new Container(),stage:new Container(),camera:{base:{x:800,y:410}},enemies:[{battleActive:true,root}],accountBattleUnit:{muzzlePoint:()=>({x:580,y:490})}};
 }
 function mockTextures(){return {frames:Array(24).fill(Texture.EMPTY),...Object.fromEntries(['helicopter','rotor','rocket','exhaust','smoke','dust','cinder','flash'].map(name=>[name,Texture.EMPTY]))}}
+test('rocket launcher label and lower impact stay isolated from muzzle, ground and airstrike',async()=>{
+  assert.equal(SEQUENCES.missile.label,'로켓런처');
+  const html=await readFile(new URL('index.html',base),'utf8');
+  assert.match(html,/data-skill="missile"[^\n]+<strong>로켓런처<\/strong>/);
+  for(const mobile of [false,true]){
+    const engine=mockEngine();engine.mobile=mobile;
+    const fx=new SkillChipFX(engine,mockTextures()),unitScale=mobile?.78:1;
+    try{
+      fx.select('airstrike');fx.seek(.7);
+      const airstrikePoints=fx.getPoints();
+      assert.equal(fx.blasts[0].first.y,606-76*unitScale);
+      const airstrikeState=fx.sprites.map(s=>s.visible?[s.x,s.y,s.width,s.height,s.rotation,s.alpha]:null);
+      fx.select('missile');
+      assert.deepEqual(fx.getPoints(),{source:{x:580,y:490},foot:{x:1100,y:606},hit:{x:1100,y:558}});
+      assert.equal(fx.getPoints().hit.y-airstrikePoints.hit.y,30);
+      fx.seek(.24);
+      assert.ok(fx.rocket.visible);assert.equal(fx.rocket.x,840);assert.equal(fx.rocket.y,524);
+      fx.seek(.4);
+      assert.equal(fx.blasts[0].first.y,558);assert.equal(fx.blasts[0].second.y,558);
+      assert.equal(fx.blasts[0].flash.y,558-20*unitScale);assert.equal(fx.blasts[0].dust.y,606);
+      fx.select('airstrike');fx.seek(.7);
+      assert.deepEqual(fx.sprites.map(s=>s.visible?[s.x,s.y,s.width,s.height,s.rotation,s.alpha]:null),airstrikeState);
+    }finally{fx.destroy();}
+  }
+});
+
 test('50 alternating seeks/replays keep a single effect timeline and a bounded sprite pool',()=>{
   const engine=mockEngine(),fx=new SkillChipFX(engine,mockTextures());
   const count=fx.sprites.length;

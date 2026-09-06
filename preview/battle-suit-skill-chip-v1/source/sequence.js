@@ -1,7 +1,7 @@
 // Pure, deterministic visual timings. No server damage, cooldown or inventory state.
 export const SEQUENCES=Object.freeze({
   airstrike:Object.freeze({key:'airstrike',duration:3.6,release:.12,flightEnd:1.35,impacts:Object.freeze([.61,.83,1.05,1.27]),life:2.22,label:'헬기 폭격'}),
-  missile:Object.freeze({key:'missile',duration:2.25,release:.12,flightEnd:.36,impacts:Object.freeze([.36]),life:1.84,label:'고폭탄'})
+  missile:Object.freeze({key:'missile',duration:2.25,release:.12,flightEnd:.36,impacts:Object.freeze([.36]),life:1.84,label:'로켓런처'})
 });
 export const clamp=(value,min=0,max=1)=>Math.max(min,Math.min(max,Number(value)||0));
 export const mix=(a,b,t)=>a+(b-a)*t;

@@ -5,6 +5,7 @@ import frameOrigins from '../assets/textures/explosion-origins.json' with {type:
 
 const BASE='/preview/battle-suit-skill-chip-v1/assets/';
 const names=['helicopter','rotor','rocket','exhaust','smoke','dust','cinder','flash'];
+const ROCKET_IMPACT_OFFSET_Y=30; // V3 world units; keep muzzle and ground anchors unchanged.
 
 export class SkillChipFX{
   static async preload(){
@@ -49,7 +50,8 @@ export class SkillChipFX{
     const unit=this.engine.accountBattleUnit;const target=this.engine.enemies.find(x=>x.battleActive!==false&&x.root.visible);
     const root=target?.root;if(!unit||!root)return null;
     // Both layers share the original V3 stage; no screen-space guesses or new formation.
-    const source=unit.muzzlePoint();return {source,foot:{x:root.x,y:root.y-14},hit:{x:root.x,y:root.y-92}};
+    const source=unit.muzzlePoint();const impactOffsetY=this.key==='missile'?ROCKET_IMPACT_OFFSET_Y:0;
+    return {source,foot:{x:root.x,y:root.y-14},hit:{x:root.x,y:root.y-92+impactOffsetY}};
   }
   sized(sprite,width,height=width){sprite.width=width;sprite.height=height;return sprite}
   render(time){
