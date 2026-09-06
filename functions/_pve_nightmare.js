@@ -1,3 +1,5 @@
+import {apocalypseSignatureSkill} from '../shared/apocalypse-boss-skills-v2048.mjs';
+
 const clamp=(value,min,max,fallback=min)=>{
   const parsed=Number(value);
   return Math.max(min,Math.min(max,Number.isFinite(parsed)?parsed:fallback));
@@ -48,9 +50,9 @@ function normalizeApocalypseMonsterProfiles(raw={}){
       attackCount:Math.floor(clamp(value.attackCount,2,5,2)),
       forcedActionEvery:Math.floor(clamp(value.forcedActionEvery,2,6,4)),
       skillEnabled:value.skillEnabled!==false,
-      skillName:text(value.skillName,'종말 집행',60),
-      skillDescription:text(value.skillDescription,'전투 개시와 동시에 모든 출전 카드에 종말 피해를 가합니다.',300),
-      skillDamagePercent:clamp(value.skillDamagePercent,20,100,28)
+      skillName:text(value.skillName,apocalypseSignatureSkill(id)?.name||'종말 집행',60),
+      skillDescription:text(value.skillDescription,apocalypseSignatureSkill(id)?.description||'전투 개시와 동시에 모든 출전 카드에 종말 피해를 가합니다.',300),
+      skillDamagePercent:clamp(value.skillDamagePercent,20,100,apocalypseSignatureSkill(id)?.defaultDamagePercent||28)
     };
   }
   return profiles;
@@ -174,7 +176,7 @@ export function pveDifficultyRuntime(settings={},monster={}){
   const storedPower=Math.max(1,Number(monster.battle_power??monster.battlePower??1)),storedReward=Math.max(0,Number(monster.reward_coin??monster.rewardCoin??0));
   const basePower=special&&profile?profile.battlePower:storedPower,baseReward=special&&profile?profile.rewardCoin:storedReward;
   const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):1,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
-  const apocalypseSkill=isApocalypse?{enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0)}:null;
+  const apocalypseSkill=isApocalypse?{enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
   return {
     difficulty,isNightmare,isApocalypse,enabled:isNightmare?nightmare.enabled:isApocalypse?apocalypse.enabled:true,
     hpPercent,attackPercent,defensePercent,speedPercent,

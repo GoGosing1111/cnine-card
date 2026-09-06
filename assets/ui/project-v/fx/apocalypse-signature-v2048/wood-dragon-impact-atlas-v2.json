@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "wood-dragon_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "wood-dragon_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    }
+  },
+  "animations": {
+    "impact": [
+      "wood-dragon_00.png",
+      "wood-dragon_01.png",
+      "wood-dragon_02.png",
+      "wood-dragon_03.png",
+      "wood-dragon_04.png",
+      "wood-dragon_05.png",
+      "wood-dragon_06.png",
+      "wood-dragon_07.png",
+      "wood-dragon_08.png",
+      "wood-dragon_09.png",
+      "wood-dragon_10.png",
+      "wood-dragon_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "wood-dragon-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "wood-dragon",
+    "label": "WOOD_DRAGON",
+    "labelKo": "목둔 · 목룡 강림",
+    "fps": 18,
+    "frameDurationMs": 56,
+    "durationMs": 672,
+    "collisionFrame": 6,
+    "collisionHookMs": 333,
+    "anchors": {
+      "x": 0.5,
+      "y": 0.72
+    },
+    "source": "wood-dragon-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 254,
+        "totalPixels": 1572864,
+        "transparentPixels": 1028580,
+        "translucentPixels": 544284,
+        "visiblePixels": 544284,
+        "transparentRatio": 0.65395355,
+        "visibleRatio": 0.34604645,
+        "visibleBounds": {
+          "x": 0,
+          "y": 19,
+          "w": 1536,
+          "h": 1005
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 1832649,
+        "translucentPixels": 961920,
+        "visiblePixels": 962871,
+        "transparentRatio": 0.65556641,
+        "visibleRatio": 0.34443359,
+        "visibleBounds": {
+          "x": 0,
+          "y": 26,
+          "w": 2030,
+          "h": 1339
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "c22cbeec44fe9d84a9241cd3a5f4a8d463b7de2ece19f649940ffa01b6fdf816",
+      "atlas": "228f78cabb6be58a1b32a00664c3ca3523c6ba0651858793caba01a319dc0e32",
+      "frames": {
+        "wood-dragon_00.png": "bf4948009cd565cc5ddba67521e41774d69f609d1f0a71166290284a36cef99e",
+        "wood-dragon_01.png": "d8796f46146469588f6c1b92d25df17fe2b1d774304b94eb764964d711ce2924",
+        "wood-dragon_02.png": "3a204959bed19a5f953a07e4f97adde758d935aa725e811438c65c705406643d",
+        "wood-dragon_03.png": "e0753c98a1e3bb616aac41a8c72b18ac9c7d7e1d73b47d6c99d38cfd0dbf1a39",
+        "wood-dragon_04.png": "5a785386f493683a2af20e2dfce8cb3ca761dd169a723e70a5e58c72c2c1cc51",
+        "wood-dragon_05.png": "9d2d7e3cca25b14dcc352f3838da2c0d8844ed28bd274a179458ff01f9eb5ed1",
+        "wood-dragon_06.png": "38cbfed14598629c4342de81d985016c429778e13e8adc5465def0ec6eb226c6",
+        "wood-dragon_07.png": "7e9260cab4b665ea58499318fc4a84dca58465db5f663fc18c7a7e826cb54854",
+        "wood-dragon_08.png": "3cd49c23c6cab8dba4c8471f3098d6dde3f2404f1351bc87512dd89441bc6d20",
+        "wood-dragon_09.png": "ce99f440aadb5b4e412c42ddec72fafb03503dc703fdedf3e59570eee7af85ef",
+        "wood-dragon_10.png": "063a4547932fb705be6a078ee8dc410054f58c5b45ebaadc9f809807cc285c71",
+        "wood-dragon_11.png": "c00e5f5046f04f65a41494b413197e561151d2a55ac07432cc642119c7d2ae3c"
+      }
+    },
+    "generatedAt": "2026-09-06"
+  }
+}

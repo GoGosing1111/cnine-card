@@ -10,6 +10,8 @@ import {AdvancementEffectFX, advancementEffectProfile, normalizeAdvancementEffec
 import {AccountBattleUnit} from './AccountBattleUnit.js';
 import {resolveAccountBattleSuitAnimation} from './AccountBattleSuitAnimationCatalog.js';
 import {ApocalypseBossUltimateFX, APOCALYPSE_BOSS_ULTIMATE_PROFILE} from './ApocalypseBossUltimateFX.js';
+import {ApocalypseSignatureSkillFX} from './ApocalypseSignatureSkillFX.js';
+import {apocalypseSignatureSkill} from '../../../../shared/apocalypse-boss-skills-v2048.mjs';
 import {BattleSuitSkillChipPlayback,isSkillChipTimeline} from './BattleSuitSkillChipPlayback.js';
 
 const DESKTOP={width:1600,height:820};
@@ -1858,6 +1860,7 @@ export class BattleEngine{
 
   prepareApocalypseBossUltimateRuntime(payload){
     this.apocalypseMode=isApocalypsePayload(payload);
+    this.apocalypseSignatureSkill=this.apocalypseMode?apocalypseSignatureSkill(payload?.monster||payload?.battleV2?.teams?.B?.cards?.[0]||{}):null;
     if(!this.apocalypseMode){
       this.apocalypseBossUltimateReadyPromise=Promise.resolve(false);
       this.audio?.releaseApocalypseBossUltimate?.();
@@ -1865,7 +1868,7 @@ export class BattleEngine{
       return false;
     }
     this.apocalypseBossUltimateReadyPromise=Promise.all([
-      ApocalypseBossUltimateFX.preload(),
+      this.apocalypseUltimateRuntime().preload(),
       this.audio?.prepareApocalypseBossUltimate?.()??Promise.resolve(true)
     ]).then(([frames,audioReady])=>Array.isArray(frames)&&frames.length===12&&audioReady!==false)
       .catch(error=>{
@@ -1879,7 +1882,7 @@ export class BattleEngine{
     if(!this.apocalypseMode)return false;
     const load=Promise.all([
       this.apocalypseBossUltimateReadyPromise,
-      ApocalypseBossUltimateFX.preload(),
+      this.apocalypseUltimateRuntime().preload(),
       this.audio?.prepareApocalypseBossUltimate?.()??Promise.resolve(true)
     ]).then(([,frames,audioReady])=>Array.isArray(frames)&&frames.length===12&&audioReady!==false)
       .catch(()=>false);
@@ -1893,6 +1896,8 @@ export class BattleEngine{
     return ready;
   }
 
+  apocalypseUltimateRuntime(){return ApocalypseSignatureSkillFX.forSkill(this.apocalypseSignatureSkill?.code)||ApocalypseBossUltimateFX}
+
   async releaseOptionalAdvancementAssets(){
     this.advancementCodes.clear();
     this.advancementReadyPromise=Promise.resolve(false);
@@ -1900,6 +1905,7 @@ export class BattleEngine{
     this.audio?.releaseApocalypseBossUltimate?.();
     await AdvancementEffectFX.retain([]);
     await ApocalypseBossUltimateFX.release();
+    await ApocalypseSignatureSkillFX.release();
     return true;
   }
 
@@ -2683,7 +2689,9 @@ export class BattleEngine{
       x:targets.reduce((sum,target)=>sum+Number(target.root?.x||0),0)/targets.length,
       y:targets.reduce((sum,target)=>sum+Number(target.root?.y||0),0)/targets.length-(this.mobile?150:165)
     };
-    const effect=ApocalypseBossUltimateFX.create({x:center.x,y:center.y,scale:this.mobile?.76:1.02}).attach(this.effectLayer);
+    const runtime=this.apocalypseUltimateRuntime(),profile=runtime.profile||APOCALYPSE_BOSS_ULTIMATE_PROFILE;
+    if(this.apocalypseSignatureSkill)center.y+=this.mobile?120:135;
+    const effect=runtime.create({x:center.x,y:center.y,scale:this.mobile?.76:1.02,origin:attacker?.root?{x:attacker.root.x,y:attacker.root.y-130}:null,reducedMotion:this.reducedMotion,viewport:this.scene}).attach(this.effectLayer);
     if(!effect.display){effect.release();return false}
     const damageLabels=hits.map(({hit,target})=>{
       const label=this.pools.damage.acquire();
@@ -2702,7 +2710,7 @@ export class BattleEngine{
       return {label,target,hit};
     });
     const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED;
-    const impactAt=APOCALYPSE_BOSS_ULTIMATE_PROFILE.impactAt;
+    const impactAt=profile.impactAt;
     let whiteFlashHandle=null;
     let hitStopTimer=null;
     const cleanup=()=>{
@@ -2716,7 +2724,7 @@ export class BattleEngine{
       });
     };
     this.updateStatus(`${attacker?.name||'아포칼립스 보스'} · ${event.label||'멸절 프로토콜'}`);
-    const bannerPromise=this.showBanner(event.label||'멸절 프로토콜',0xff754f,'APOCALYPSE ULTIMATE');
+    const bannerPromise=this.showBanner(event.label||profile.name||'멸절 프로토콜',profile.color||0xff754f,'APOCALYPSE ULTIMATE');
     const effectPromise=this.timeline(timeline=>{
       timeline.call(()=>this.audio?.scheduleApocalypseBossUltimate?.({impactAt,playbackSpeed}),[],0);
       effect.play(timeline,{impactAt});
@@ -2725,13 +2733,13 @@ export class BattleEngine{
         whiteFlashHandle=this.triggerAdvancementScreenFlash({durationMs:Math.round(50/playbackSpeed),alpha:.2});
         damageLabels.forEach(({target,hit})=>{
           target.setState(CHARACTER_STATE.HIT);
-          target.tint=0xffc2ac;
+          target.tint=profile.hitTint||0xffc2ac;
           this.syncTargetShield(target,hit.targetShieldAfter,hit.targetMaxShieldAfter??hit.targetMaxShield);
           const hp=this.eventHpPercent(target,hit.targetHpAfter);
           if(hasFiniteNumber(hp))this.syncTargetHp(target,hp);
         });
       },[],impactAt);
-      this.camera.addShake(timeline,{intensity:APOCALYPSE_BOSS_ULTIMATE_PROFILE.shake,duration:.42,rotation:.012,at:impactAt});
+      if(!this.reducedMotion)this.camera.addShake(timeline,{intensity:profile.shake,duration:.42,rotation:.012,at:impactAt});
       damageLabels.forEach(({label,target},index)=>{
         const startY=target.root.y-(this.mobile?220:292);
         timeline.fromTo(label,{alpha:0,y:startY},{alpha:1,y:startY-42,duration:.18,ease:'back.out(2.2)'},impactAt+index*.018);
@@ -2744,7 +2752,7 @@ export class BattleEngine{
           hitStopTimer=setTimeout(()=>{
             hitStopTimer=null;
             timeline.resume();
-          },Math.max(1,Math.round(APOCALYPSE_BOSS_ULTIMATE_PROFILE.hitStopMs/playbackSpeed)));
+          },Math.max(1,Math.round(profile.hitStopMs/playbackSpeed)));
         },[],impactAt+.005);
       }
     },cleanup,playbackSpeed);
@@ -3275,6 +3283,7 @@ export class BattleEngine{
         roleFx:SkillEffectFX.diagnostics(),
         advancementFx:AdvancementEffectFX.diagnostics(),
         apocalypseBossUltimateFx:ApocalypseBossUltimateFX.diagnostics(),
+        apocalypseSignatureSkillFx:ApocalypseSignatureSkillFX.diagnostics(),
         apocalypseBossUltimateActive:this.apocalypseMode,
         apocalypseBossUltimateLoadTimeouts:this.apocalypseBossUltimateLoadTimeouts,
         advancementActivation:['SHATTER:TURN','AFTERIMAGE:DODGE_TURN','RIPOSTE:COUNTER','IMMORTAL:ADVANCEMENT'],

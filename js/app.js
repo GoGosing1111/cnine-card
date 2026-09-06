@@ -938,11 +938,11 @@ const FEATURE_RESOURCE_MANIFEST={
     scripts:[
       'js/battle-v2-live.js?v=1991-sweep-result-front',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
-      'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
-      'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
+      'js/project-v-tier-battle-art-adapter-v1.js?v=3.6.0-iyejun-fur',
+      'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=99-skill-chip-runtime',
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=100-boss-signatures',
       'js/battle-v3-live.js?v=3.31.0-skill-chip-runtime'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'

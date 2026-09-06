@@ -104,7 +104,9 @@ assert.match(battleEngineSource,/targetShieldAfter=hasFiniteNumber\(event\.targe
 assert.match(battleEngineSource,/character\.setShield\?\.\(Math\.max\(0,Number\(row\?\.shield\)\|\|0\),character\.serverMaxShield\)/,'final server shield state must be forced after playback');
 assert.match(battleEngineSource,/this\.apocalypseMode&&await this\.playApocalypseBossUltimate\(event,bossActor\)/,'the authored finisher must stay scoped to Apocalypse BOSS_ULTIMATE events');
 const apocalypsePlayback=battleEngineSource.slice(battleEngineSource.indexOf('async playApocalypseBossUltimate'),battleEngineSource.indexOf('\n  /**',battleEngineSource.indexOf('async playApocalypseBossUltimate')));
-assert.match(apocalypsePlayback,/ApocalypseBossUltimateFX\.create/);
+assert.match(apocalypsePlayback,/this\.apocalypseUltimateRuntime\(\)/);
+assert.match(apocalypsePlayback,/runtime\.create/);
+assert.match(battleEngineSource,/ApocalypseSignatureSkillFX\.forSkill\(this\.apocalypseSignatureSkill\?\.code\)\|\|ApocalypseBossUltimateFX/,'unassigned bosses retain the original authored Apocalypse effect');
 assert.match(apocalypsePlayback,/scheduleApocalypseBossUltimate/);
 assert.doesNotMatch(apocalypsePlayback,/pvUltimateLayer|pvUltimateVideo|\.play\(\)/,'Apocalypse must use the Pixi EffectLayer, never a screen video/DOM cutscene');
 assert.match(apocalypseFxSource,/V3_APOCALYPSE_BOSS_ULTIMATE_ATLAS/);

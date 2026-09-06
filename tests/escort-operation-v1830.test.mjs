@@ -92,7 +92,7 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1843-public-launch/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=99-skill-chip-runtime/);
+  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=100-boss-signatures/);
   assert.match(app,/battle-v3-live\.js\?v=3\.31\.0-skill-chip-runtime/);
   const appShellVersion=index.match(/app\.js\?v=([^"']+)/)?.[1];
   const serviceWorkerShellVersion=sw.match(/soop-card-shell-v([^"']+)/)?.[1];

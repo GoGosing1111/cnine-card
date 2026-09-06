@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "night-guy_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "night-guy_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    }
+  },
+  "animations": {
+    "impact": [
+      "night-guy_00.png",
+      "night-guy_01.png",
+      "night-guy_02.png",
+      "night-guy_03.png",
+      "night-guy_04.png",
+      "night-guy_05.png",
+      "night-guy_06.png",
+      "night-guy_07.png",
+      "night-guy_08.png",
+      "night-guy_09.png",
+      "night-guy_10.png",
+      "night-guy_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "night-guy-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "night-guy",
+    "label": "NIGHT_GUY",
+    "labelKo": "팔문둔갑 · 야가이",
+    "fps": 18,
+    "frameDurationMs": 56,
+    "durationMs": 672,
+    "collisionFrame": 6,
+    "collisionHookMs": 333,
+    "anchors": {
+      "x": 0.5,
+      "y": 0.72
+    },
+    "source": "night-guy-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 254,
+        "totalPixels": 1572864,
+        "transparentPixels": 1065919,
+        "translucentPixels": 506945,
+        "visiblePixels": 506945,
+        "transparentRatio": 0.67769305,
+        "visibleRatio": 0.32230695,
+        "visibleBounds": {
+          "x": 31,
+          "y": 9,
+          "w": 1505,
+          "h": 1015
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 1894251,
+        "translucentPixels": 901217,
+        "visiblePixels": 901269,
+        "transparentRatio": 0.67760238,
+        "visibleRatio": 0.32239762,
+        "visibleBounds": {
+          "x": 42,
+          "y": 12,
+          "w": 1991,
+          "h": 1334
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "e379a493ae3a80fe08765a45841d928a543d4cb6a5a4aef665e4695a52c3374c",
+      "atlas": "aaed13f897f51726e777012c63a6719a83cb6ab5279bcf691d548381f1258364",
+      "frames": {
+        "night-guy_00.png": "b05026b016c7b1ad209dd80922b2c5cb0b676c4562f3b54ae943f3d199acaf1b",
+        "night-guy_01.png": "f1ab3a10b9c9dcc654e2352a5b9397d5bc4a2ea6c60c331b90563a0c183db81c",
+        "night-guy_02.png": "f515b584938d4c147eca183e69dfb3a7ad7c1bdb30c6803307bf64675f059cc2",
+        "night-guy_03.png": "98b25b3624ad46862ad6bca66c396db410c3581b9d93cc645eb95b19a1a21d43",
+        "night-guy_04.png": "bbfcfef8dd901354f768e17e3fc09eda678bfe08e78da6a3496217921d324257",
+        "night-guy_05.png": "9e25e615064f6662b1081c97181e2532f4fb6263493a1d00a7e08228efdd5512",
+        "night-guy_06.png": "42b0a44ca7a30cbbb3b84afdddd07401dfdc685e4f28d119220a9bc0659e0c86",
+        "night-guy_07.png": "06fffe8065c041dee65b371dd3dd3f692c8ec9115e9f120c219fdc02ac62e4f8",
+        "night-guy_08.png": "6346a93bc01d73712892d4eacbcb1e9b1c9c98ed6f71a9913685ff28b797e4f0",
+        "night-guy_09.png": "6e3dabc3396c8c63418be96379ce8ad7c3d2a1d85e626bc4e9a3a50f256e7b03",
+        "night-guy_10.png": "59d1b78f2546689b2ce28c761d938c67a6fb6cf51a8ca7677f595a350eaceacf",
+        "night-guy_11.png": "5a07e608821bd8ea52ef70f33d15b645936be6690e87a656ef08d05d59ad4bfd"
+      }
+    },
+    "generatedAt": "2026-09-06"
+  }
+}

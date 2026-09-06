@@ -22,7 +22,7 @@ if (!existsSync(coreTicketAsset)) fail('the dedicated Core raid entry-ticket ima
 for (const resource of [
   'css/core-protocol-raid-v1924.css?v=2026-core-balance',
   'js/project-v-raid-qte-v1924.js?v=2021-sequence-swipe',
-  'js/core-protocol-raid-v1924.js?v=2045-observer-perf',
+  'js/core-protocol-raid-v1924.js?v=2048-yhwach',
 ]) {
   if (!index.includes(resource)) fail(`index.html is missing the reviewed Core test resource: ${resource}`);
 }

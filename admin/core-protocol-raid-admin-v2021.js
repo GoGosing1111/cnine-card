@@ -53,7 +53,8 @@
       '<label><span>영문 부제</span><input id="coreRaidSubtitle" maxlength="80"></label>',
       '<label class="wide"><span>설명</span><textarea id="coreRaidDescription" rows="2" maxlength="240"></textarea></label>',
       '<label><span>보스명</span><input id="coreRaidBossName" maxlength="60"></label>',
-      '<label><span>보스 SD 경로</span><input id="coreRaidBossImage" maxlength="420"></label>',
+      '<label><span>보스 원화 경로</span><input id="coreRaidBossImage" maxlength="420"></label>',
+      '<label class="wide"><span>전투 전용 SD 경로</span><input id="coreRaidBossBattleSprite" maxlength="420"></label>',
       input('coreRaidLobbyMinutes', '공대 모집 시간', 1, 60, '분'),
       input('coreRaidBattleMinutes', '공략 제한 시간', 5, 120, '분'),
       input('coreRaidMinParticipants', '최소 시작 인원', 1, 30, '명'),
@@ -120,6 +121,7 @@
     set('#coreRaidDescription', settings.description || '');
     set('#coreRaidBossName', settings.bossName || '');
     set('#coreRaidBossImage', settings.bossImage || '');
+    set('#coreRaidBossBattleSprite', settings.bossBattleSprite || '');
     set('#coreRaidLobbyMinutes', settings.lobbyMinutes ?? 10);
     set('#coreRaidBattleMinutes', settings.battleMinutes ?? 30);
     set('#coreRaidMinParticipants', settings.minParticipants ?? 1);
@@ -160,6 +162,7 @@
       description: $('#coreRaidDescription').value,
       bossName: $('#coreRaidBossName').value,
       bossImage: $('#coreRaidBossImage').value,
+      bossBattleSprite: $('#coreRaidBossBattleSprite').value,
       lobbyMinutes: value('#coreRaidLobbyMinutes'),
       battleMinutes: value('#coreRaidBattleMinutes'),
       minParticipants: value('#coreRaidMinParticipants'),

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.1.0-triple-core-balance-v2026';
+  const VERSION = '3.2.0-yhwach-v2048';
   const TAB_KEY = 'cnine:raid-content-v1924';
   const OP_NAMES = { BREAK: '파쇄', BLOCK: '차단', STABILIZE: '안정화', FINAL: '최종 보스' };
   const esc = value => String(value ?? '').replace(
@@ -213,7 +213,7 @@
     const current = state.current;
     const pending = state.pendingAttempt;
     return '<section class="core-action is-final"><div><small>FINAL BOSS ASSAULT</small><b>' +
-      (pending ? '최종 보스 전투 재개' : '아르케온 반복 공략') + '</b><span>남은 시간 ' +
+      (pending ? '최종 보스 전투 재개' : esc(current.bossName || state.settings?.bossName || '유하바하') + ' 반복 공략') + '</b><span>남은 시간 ' +
       remainingText(current.endsAt) + ' · 전투와 두 입력 기믹을 모두 성공해야 피해가 누적됩니다.</span></div>' +
       '<button type="button" data-core-action="battle">' + (pending ? '전투 재개' : '최종 보스 출전') +
       '</button></section>';
@@ -451,7 +451,7 @@
       return { eyebrow: 'CORE SUPPRESSION', title: event.label || operation + ' 코어 타격', detail: '공대 코어 게이지에 진척도를 전송합니다.', tone: 'violet' };
     }
     if (type === 'RAID_STAGGER') {
-      return { eyebrow: 'FINAL SUPPRESSION', title: event.label || '멸절 프로토콜 차단', detail: '아르케온 장시간 그로기 진입', tone: 'success' };
+      return { eyebrow: 'FINAL SUPPRESSION', title: event.label || '멸절 프로토콜 차단', detail: (data?.settings?.bossName || '유하바하') + ' 장시간 그로기 진입', tone: 'success' };
     }
     if (type === 'RAID_PARTY_DAMAGE') {
       return { eyebrow: 'EXPEDITION DAMAGE', title: event.label || '공대 HP 감소', detail: '기믹 실패 피해가 공대 전체에 누적됩니다.', tone: 'danger' };

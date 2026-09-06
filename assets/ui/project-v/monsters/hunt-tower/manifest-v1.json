@@ -636,6 +636,52 @@
         "safeMarginPx": 72
       },
       "sha256": "22CA349FBABA785BF6402918D8E0FBFA7CB824A6C57FDA58D5C3882CDBB62596"
+    },
+    {
+      "monsterId": 73,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "name": "마이트 가이",
+      "sourceArt": "assets/tower/GAI.jpg",
+      "isBoss": true,
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-073-night-guy-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-073-night-guy-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "ABD69ADCB2FA4D6742B3C20780EC94FFA2D8B4F706105FCC663C0548FB4C14A0",
+      "sha256": "BED306C12B9CD70317942EEB4F7C32E1D6DD12370CD544242EB355A7A563B707",
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "reviewedBy": "CODEX_VISUAL_QA",
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "safeMarginPx": 72
+      }
+    },
+    {
+      "monsterId": 74,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "name": "센쥬 하시라마",
+      "sourceArt": "assets/tower/SENJU.jpg",
+      "isBoss": true,
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-074-wood-dragon-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-074-wood-dragon-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "3C393CD8B6455E1563806103E6AE0538DB2837B02089AEB0309E7A4FD316341D",
+      "sha256": "60E7BC9C972AA3441127311E47129F033DB66F450AC4BB5EC174DA5EB499160B",
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "reviewedBy": "CODEX_VISUAL_QA",
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "safeMarginPx": 72
+      }
     }
   ]
 }

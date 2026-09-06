@@ -23,7 +23,7 @@
     "test:clan": "node --test tests/clan-v3-v1820.mjs tests/clan-war-cms-v1943.test.mjs tests/clan-participation-positive-v2040.test.mjs",
     "test:prison": "node --test tests/prison-system-v1950.test.mjs",
     "test:project-v-sd": "node --test tests/project-v-zenith-sd-assets-v1.mjs tests/project-v-apocalypse-boss-sd-v1958.test.mjs",
-    "test:apocalypse": "node --test tests/pve-apocalypse-v1952.test.mjs tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs",
+    "test:apocalypse": "node --test tests/pve-apocalypse-v1952.test.mjs tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs tests/apocalypse-signature-v2048.test.mjs tests/boss-sd-v2048.test.mjs",
     "test:pve-sweep": "node --test tests/pve-sweep-v1989.test.mjs",
     "test:battle-suit": "node --test tests/project-v-battle-suit-backend-v1953.test.mjs tests/project-v-battle-suit-frontend-v1953.test.mjs tests/project-v-v3-account-battle-unit-v1953.test.mjs tests/project-v-v3-battle-suit-firearm-qc-v1957.test.mjs",
     "test:skill-chips": "node --test tests/battle-suit-skill-chip-v2046.test.mjs tests/battle-suit-skill-chip-preview-v1.test.mjs tests/battle-suit-skill-chip-runtime-v2046.test.mjs",

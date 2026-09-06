@@ -15,6 +15,7 @@
     {"cardId":"CN-A21C3D87C47D4D95","title":"거품목욕 이상호","member":"이상호","sourceArt":"assets/cards/newcard0730/sangho3.png","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-a21c3d87c47d4d95-sd-v1.png","sha256":"934B65B4BC1B7E2E662A2DA5129BAD0C82212FDB308D2E60CD27DE448534EEAD"},
     {"cardId":"CN-716F6A71EE5F488E","title":"이상호","member":"이상호","sourceArt":"assets/NEWCARD/30.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-716f6a71ee5f488e-sd-v1.png","sha256":"CB285157BD457EA24EC343003F057FF291DB3B0BF83B3CE7331692C6C700A65D"},
     {"cardId":"CN-DAE98309A47C4CCA","title":"서수길","member":"서수길","sourceArt":"assets/cards/newcard0730/7887878.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-dae98309a47c4cca-sd-v1.png","sha256":"994E8C373F0DE8EEA5680180C8DE892F73EC1A62AC086D306830D2D717D76FFA"},
-    {"cardId":"CN-0B48C6FF8F9B4AC5","title":"Faker","member":"Faker","sourceArt":"assets/cards/7777777.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-0b48c6ff8f9b4ac5-sd-v1.png","sha256":"9CB0EB7FE0C016EBAAB75CD16358D98AE046F046FF06A804778D06CDA6B2708E"}
+    {"cardId":"CN-0B48C6FF8F9B4AC5","title":"Faker","member":"Faker","sourceArt":"assets/cards/7777777.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-0b48c6ff8f9b4ac5-sd-v1.png","sha256":"9CB0EB7FE0C016EBAAB75CD16358D98AE046F046FF06A804778D06CDA6B2708E"},
+    {"cardId":"CN-346F8DB0DEB84D41","title":"철구","member":"이예준","sourceArt":"assets/cards/special/chulgu-fur.webp","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-346f8db0deb84d41-sd-v1.png","sha256":"331A96398DFDB0500E314E09747B114F9D0278831B15CBAD362DBB2203EC66D0"}
   ]
 }

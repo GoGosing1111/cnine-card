@@ -12,6 +12,10 @@ const RECEIPT_TABLE = 'raid_core_receipts_v2024';
 const REWARD_RECEIPT_TABLE = 'raid_core_reward_receipts_v2024';
 export const CORE_RAID_ENTRY_TICKET = 'CORE_RAID_ENTRY_TICKET';
 export const CORE_RAID_ENTRY_TICKET_IMAGE = 'assets/items/core-raid-entry-ticket-v1.png';
+export const CORE_RAID_BOSS_SOURCE_ART = 'assets/tower/uhabha.jpg';
+export const CORE_RAID_BOSS_BATTLE_SPRITE = '/assets/responsive/project-v/monsters/core-yhwach-sd-v1-768.webp';
+const CORE_NODE_SOURCE_ART = 'assets/tower/badq.jpg';
+const CORE_NODE_BATTLE_SPRITE = '/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp';
 
 const OPERATIONS = Object.freeze({
   BREAK: {
@@ -84,9 +88,10 @@ export function defaultCoreRaidSettings() {
     mode: 'TEST',
     title: '심연 관측소: 붕괴 코어',
     subtitle: 'ABYSS OBSERVATORY / CORE PROTOCOL',
-    description: '입장권으로 공대를 만들고 제한 시간 안에 세 코어와 아르케온을 연속 제압하십시오.',
-    bossName: '오메가 코어 · 아르케온',
-    bossImage: '/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp',
+    description: '입장권으로 공대를 만들고 제한 시간 안에 세 코어와 유하바하를 연속 제압하십시오.',
+    bossName: '유하바하',
+    bossImage: CORE_RAID_BOSS_SOURCE_ART,
+    bossBattleSprite: CORE_RAID_BOSS_BATTLE_SPRITE,
     lobbyMinutes: 10,
     battleMinutes: 30,
     minParticipants: 1,
@@ -131,6 +136,7 @@ export function cleanCoreRaidSettings(raw = {}) {
     description: cleanText(raw.description || base.description, 240),
     bossName: cleanText(raw.bossName || base.bossName, 60),
     bossImage: cleanText(raw.bossImage || base.bossImage, 420),
+    bossBattleSprite: cleanText(raw.bossBattleSprite || base.bossBattleSprite, 420),
     lobbyMinutes: integer(raw.lobbyMinutes, base.lobbyMinutes, 1, 60),
     battleMinutes: integer(raw.battleMinutes, base.battleMinutes, 5, 120),
     minParticipants: integer(raw.minParticipants, base.minParticipants, 1, 30),
@@ -653,8 +659,8 @@ function coreBossEngineMonster(cfg, totalPower, stage, operation) {
   return {
     id: finalBoss ? 'CORE_ARCHEON' : 'CORE_NODE_' + operation,
     name: finalBoss ? cfg.bossName : (op?.name || '미확인') + ' 코어',
-    image: cfg.bossImage,
-    image_url: cfg.bossImage,
+    image: finalBoss ? cfg.bossImage : CORE_NODE_SOURCE_ART,
+    image_url: finalBoss ? cfg.bossImage : CORE_NODE_SOURCE_ART,
     is_boss: 1,
     pve_difficulty: 'APOCALYPSE',
     battle_power: Math.max(
@@ -682,6 +688,7 @@ function mechanicTimeline({
   operation = '',
   stage = 'CORE',
   bossId = '',
+  bossName = '유하바하',
   failureDamage = 0
 }) {
   const combat = (Array.isArray(engineTimeline) ? engineTimeline : []).filter(
@@ -729,7 +736,7 @@ function mechanicTimeline({
       type: finalBoss ? 'RAID_STAGGER' : 'RAID_CORE_BREAK',
       operation,
       qteCondition: 'ALL_SUCCESS',
-      label: finalBoss ? '멸절 프로토콜 차단 · 아르케온 그로기' : (OPERATIONS[operation]?.name || '코어') + ' 제압 신호 전송'
+      label: finalBoss ? '멸절 프로토콜 차단 · ' + bossName + ' 그로기' : (OPERATIONS[operation]?.name || '코어') + ' 제압 신호 전송'
     },
     {
       type: 'BOSS_ULTIMATE',
@@ -784,6 +791,7 @@ export function buildCoreRaidBattlePayload({
       }
     : null;
   const monster = coreBossEngineMonster(cfg, participant.total_power, stage, operation);
+  const bossBattleSprite = stage === 'BOSS' ? cfg.bossBattleSprite : CORE_NODE_BATTLE_SPRITE;
   const seed = stableHash(
     (participant.room_id || participant.instance_id || '') +
     ':' + (participant.attempt_id || participant.user_id || '') +
@@ -805,8 +813,8 @@ export function buildCoreRaidBattlePayload({
     cardId: 'MONSTER:' + monster.id,
     name: monster.name,
     title: monster.name,
-    image: cfg.bossImage,
-    image_url: cfg.bossImage,
+    image: monster.image,
+    image_url: monster.image,
     grade: 'BOSS',
     isBoss: true,
     hp: 100,
@@ -818,8 +826,10 @@ export function buildCoreRaidBattlePayload({
     monsterId: monster.id,
     name: monster.name,
     title: monster.name,
-    image: cfg.bossImage,
-    image_url: cfg.bossImage,
+    image: monster.image,
+    image_url: monster.image,
+    sourceArt: monster.image,
+    battleSprite: bossBattleSprite,
     grade: 'BOSS',
     isBoss: true,
     mode: 'RAID',
@@ -827,8 +837,8 @@ export function buildCoreRaidBattlePayload({
     projectVMonsterArt: {
       scope: 'BATTLE_ENGINE_ONLY',
       kind: stage === 'BOSS' ? 'CORE_PROTOCOL_BOSS_SD' : 'CORE_PROTOCOL_NODE_SD',
-      primaryUrl: cfg.bossImage,
-      pngFallbackUrl: cfg.bossImage,
+      primaryUrl: bossBattleSprite,
+      pngFallbackUrl: bossBattleSprite,
       footAnchor: { x: 0.5, y: 0.94 },
       objectFit: 'contain',
       objectPosition: '50% 100%',
@@ -853,6 +863,7 @@ export function buildCoreRaidBattlePayload({
             operation,
             stage,
             bossId: boss.id,
+            bossName: cfg.bossName,
             failureDamage: cfg.mechanicFailureDamage
           })
         }
@@ -868,6 +879,7 @@ export function buildCoreRaidBattlePayload({
             operation,
             stage,
             bossId: boss.id,
+            bossName: cfg.bossName,
             failureDamage: cfg.mechanicFailureDamage
           })
         }
@@ -968,6 +980,7 @@ async function ensure(env) {
     subtitle: old.subtitle,
     bossName: old.bossName,
     bossImage: old.bossImage,
+    bossBattleSprite: old.bossBattleSprite,
     rewardCoin: old.rewardCoin,
     rewardShards: old.rewardShards,
     testUsers: old.testUsers,

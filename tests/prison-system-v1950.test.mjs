@@ -157,7 +157,7 @@ test('수감 계정 콜드 스타트는 V21 부트 로딩을 즉시 해제한다
   assert.match(lockedRender,/document\.documentElement\.dataset\.v21UiReady='1'/);
   assert.match(index,/body\.v21-renewal-required #app\{visibility:hidden\}/);
   assert.match(index,/body\.v21-ui-ready \.v21-renewal-boot\{display:none\}/);
-  assert.match(index,/js\/app\.js\?v=2047-superstar-batch/);
+  assert.match(index,/js\/app\.js\?v=2048-boss-signatures/);
 });
 
 test('CMS는 현재 수감 상태와 10분~6시간 입력, 즉시 석방을 제공한다',()=>{

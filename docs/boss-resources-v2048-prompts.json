@@ -1,0 +1,350 @@
+{
+  "version": "2048",
+  "finalFx": {
+    "reviewedOn": "2026-09-06",
+    "toolMode": "built-in image_gen",
+    "productionReview": "12 RGBA frames; frame 6 on GSAP damage time; mobile browser review passed; no opaque backdrop or hard clipping",
+    "finalPrompts": {
+      "nightGuy": "Transparent game VFX animation sprite sheet, actual transparent PNG alpha. Twelve separate images arranged in exactly 4 columns and 3 rows, 1536x1024. High-end painted red chakra dragon head: deep black-crimson crystalline scales, orange-red luminous eyes and jaws, tapered flowing red energy. Left-facing. Each of the 12 phases is SMALL and centered in its own 384x341 cell, with a completely empty transparent 48-pixel margin inside every side of EACH CELL. Absolutely all tendrils, sparks and radiance stop well before the margins. Reading order: 0 tiny coiling ember; 1 emerging dragon; 2 head appears; 3 gathering power; 4 lunging head; 5 full charge; 6 a rounded radial dragon-roar IMPACT EXPLOSION with a closed feathered circular silhouette, complete on all sides, no flat cut edge, not a beam entering from the side; 7 explosion breaking apart; 8 curling remnant; 9 sparse red shards; 10 few tiny embers; 11 near-empty embers. Every frame fully isolated; no rectangular backgrounds, no backdrop haze, no grids, no labels, no text, no smoke, no watermarks. This must be usable as 12 equal independent transparent animation frames. Do not make a poster.",
+      "woodDragon": "Use case: background-extraction. Remove only the existing background from this twelve-frame sprite sheet. Preserve the exact 4-column by 3-row layout, each individual dragon frame, its position, scale, color and details unchanged. Deliver a genuinely transparent PNG with alpha channel. Keep empty gaps between frames actually transparent. No backdrop, no shadow, no colored haze, no grid pattern. Preserve the 1536x1024 sheet dimensions."
+    },
+    "assets": [
+      {
+        "id": "night-guy",
+        "generated": "exec-f511c672-78d6-4f45-89b4-e76bbd223867.png",
+        "source": "assets/ui/project-v/fx/apocalypse-signature-v2048/night-guy-sheet-v2.png",
+        "sourceSha256": "e379a493ae3a80fe08765a45841d928a543d4cb6a5a4aef665e4695a52c3374c",
+        "atlas": "assets/ui/project-v/fx/apocalypse-signature-v2048/night-guy-impact-atlas-v2.json",
+        "atlasSha256": "aaed13f897f51726e777012c63a6719a83cb6ab5279bcf691d548381f1258364"
+      },
+      {
+        "id": "wood-dragon",
+        "generated": "exec-3635cb14-a1e0-4587-a94f-c122702113b8.png",
+        "source": "assets/ui/project-v/fx/apocalypse-signature-v2048/wood-dragon-sheet-v2.png",
+        "sourceSha256": "c22cbeec44fe9d84a9241cd3a5f4a8d463b7de2ece19f649940ffa01b6fdf816",
+        "atlas": "assets/ui/project-v/fx/apocalypse-signature-v2048/wood-dragon-impact-atlas-v2.json",
+        "atlasSha256": "228f78cabb6be58a1b32a00664c3ca3523c6ba0651858793caba01a319dc0e32"
+      }
+    ]
+  },
+  "toolMode": "built-in image_gen",
+  "builtInOnly": true,
+  "originalReferencesUntouched": true,
+  "masterNormalization": "scripts/process-project-v-alpha-sd-v1.mjs (preserve generated alpha; 1350-square canvas; minimum 72px safe margin; 384/768 WebP+AVIF)",
+  "fxNormalization": "scripts/build-apocalypse-signature-fx-v2048.mjs (existing V3 atlas packer; authored 12-frame source sheets)",
+  "initialPrompts": [
+    {
+      "id": "might-guy",
+      "reference": "assets/tower/GAI.jpg",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent full-body SD battle sprite for a premium isometric RPG. Image 1 is the SUBJECT identity/outfit reference. Image 2 is ONLY a rendering/proportion quality reference, do NOT copy its cat ears, gender, clothing, or weapon. Single character, coherent mature 3.5-to-4-head SD proportions, crisp finely painted anime-game materials and clean anti-aliased silhouette, three-quarter view looking slightly towards screen LEFT, subtle elevated isometric camera. Entire hair, hands, feet and held weapon must be visible with 10% empty padding on all sides. Standing combat-ready stable stance, feet at same ground level, no base or cast shadow. Genuinely transparent RGBA background, not black, not white, absolutely NO checkerboard drawn in the image. No scene, no UI, no frame, no text, no watermark, no detached particles, no extra figures. 1024x1536 portrait composition. Subject: Might Guy in his Eighth Gate form as shown: fiercely swept-up scarlet hair, strong eyebrows, glowing pale eyes, reddish heated muscular bare upper torso with thin molten chakra lines, dark green trousers, yellow-orange ribbed shin guards and blue ninja sandals. Fierce determined face. Recompose into a grounded martial-arts ready stance with both hands and both feet clearly visible. Preserve exact character identity and garment colors; red energy restricted to small highlights on skin/hair, NO large dragon or background aura."
+    },
+    {
+      "id": "hashirama",
+      "reference": "assets/tower/SENJU.jpg",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent full-body SD battle sprite for a premium isometric RPG. Image 1 is the SUBJECT identity/outfit reference. Image 2 is ONLY a rendering/proportion quality reference, do NOT copy its cat ears, gender, clothing, or weapon. Single character, coherent mature 3.5-to-4-head SD proportions, crisp finely painted anime-game materials and clean anti-aliased silhouette, three-quarter view looking slightly towards screen LEFT, subtle elevated isometric camera. Entire hair, hands, feet and held weapon must be visible with 10% empty padding on all sides. Standing combat-ready stable stance, feet at same ground level, no base or cast shadow. Genuinely transparent RGBA background, not black, not white, absolutely NO checkerboard drawn in the image. No scene, no UI, no frame, no text, no watermark, no detached particles, no extra figures. 1024x1536 portrait composition. Subject: Senju Hashirama as shown: long straight black hair, metal ninja forehead protector, calm stern adult face with dark sage markings, substantial deep crimson segmented samurai-style shinobi shoulder/chest/hip armor over black clothing, white shin wraps, open-toe black sandals. Hands forming a clear compact wood-style seal near chest, stable two-foot stance. Preserve armor construction and original colors. No summoned statue, no forest and no dragon behind him."
+    },
+    {
+      "id": "yhwach",
+      "reference": "assets/tower/uhabha.jpg",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent full-body SD battle sprite for a premium isometric RPG. Image 1 is the SUBJECT identity/outfit reference. Image 2 is ONLY a rendering/proportion quality reference, do NOT copy its cat ears, gender, clothing, or weapon. Single character, coherent mature 3.5-to-4-head SD proportions, crisp finely painted anime-game materials and clean anti-aliased silhouette, three-quarter view looking slightly towards screen LEFT, subtle elevated isometric camera. Entire hair, hands, feet and held weapon must be visible with 10% empty padding on all sides. Standing combat-ready stable stance, feet at same ground level, no base or cast shadow. Genuinely transparent RGBA background, not black, not white, absolutely NO checkerboard drawn in the image. No scene, no UI, no frame, no text, no watermark, no detached particles, no extra figures. 1024x1536 portrait composition. Subject: Yhwach as the supplied image: commanding mature male with medium long black hair and distinct dark moustache, fitted white double-breasted military tunic with tall collar, white trousers, dark belt, glossy tall black boots, black shoulder cape gathered by round clasps. In one hand a long cyan-blue luminous sword angled DOWN towards screen left, entire sword visible. Same clothing, facial identity and cool cyan highlights as the source. Restrained single cape flow, no background ghost or duplicate figure."
+    },
+    {
+      "id": "iyejun-fur",
+      "reference": "assets/cards/special/chulgu-fur.webp",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent full-body SD battle sprite for a premium isometric RPG. Image 1 is the SUBJECT identity/outfit reference. Image 2 is ONLY a rendering/proportion quality reference, do NOT copy its cat ears, gender, clothing, or weapon. Single character, coherent mature 3.5-to-4-head SD proportions, crisp finely painted anime-game materials and clean anti-aliased silhouette, three-quarter view looking slightly towards screen LEFT, subtle elevated isometric camera. Entire hair, hands, feet and held weapon must be visible with 10% empty padding on all sides. Standing combat-ready stable stance, feet at same ground level, no base or cast shadow. Genuinely transparent RGBA background, not black, not white, absolutely NO checkerboard drawn in the image. No scene, no UI, no frame, no text, no watermark, no detached particles, no extra figures. 1024x1536 portrait composition. Subject: stylized SD version of the man in reference 1, preserving his brushed-back black hairstyle, facial proportions and confident expression. Wear the same tailored charcoal textured three-piece suit, white shirt and diagonally striped dark tie, full-length matching trousers and black formal shoes. Full-body battle-ready gentleman with one open hand raised and the other in a loose relaxed fist; elegant slightly broad shoulders, no weapons or invented armor. Use charcoal/slate/white palette preserving the monochrome source identity. No cat features."
+    }
+  ],
+  "correctionPrompts": {
+    "hashirama": "Edit this exact provided character into a true super-deformed CHIBI battle sprite. Change ONLY proportions to exactly THREE-AND-A-HALF heads tall: enlarge the head substantially, shorten legs/torso, keep adult facial identity, same hairstyle, exact costume, colors, accessories and pose. Entire character and all held items in frame on a SQUARE 1024x1024 canvas with safe empty 10% margins. CRITICAL: REMOVE the gray-white CHECKERBOARD from the supplied image. The output must have ACTUAL ALPHA TRANSPARENCY, not a drawn transparency pattern and not an opaque white/black fill. Keep only the clean silhouette of the character and weapon. Do not draw any background pixels. This is a ready-to-use transparent game asset, not an illustration with a checkerboard background. Fine cel-painted game shading, clean silhouette, no text, labels, ground shadow, frame or duplicates.",
+    "yhwach": "Edit this exact provided character into a true super-deformed CHIBI battle sprite. Change ONLY proportions to exactly THREE-AND-A-HALF heads tall: enlarge the head substantially, shorten legs/torso, keep adult facial identity, same hairstyle, exact costume, colors, accessories and pose. Entire character and all held items in frame on a SQUARE 1024x1024 canvas with safe empty 10% margins. CRITICAL: REMOVE the gray-white CHECKERBOARD from the supplied image. The output must have ACTUAL ALPHA TRANSPARENCY, not a drawn transparency pattern and not an opaque white/black fill. Keep only the clean silhouette of the character and weapon. Do not draw any background pixels. This is a ready-to-use transparent game asset, not an illustration with a checkerboard background. Fine cel-painted game shading, clean silhouette, no text, labels, ground shadow, frame or duplicates."
+  },
+  "finalAlphaPrompt": "Use case: background-extraction. Isolate this exact character on an actually transparent background. Remove the existing background completely. Keep the character design, face, colors, proportions and pose unchanged. Deliver a transparent PNG with an alpha channel, clean cutout edges, the full character and generous empty transparent margins. No ground, no shadow, no background pattern. This is a production game sprite, not an image of a sprite.",
+  "fxPrompts": [
+    {
+      "id": "night-guy-fx",
+      "prompt": "Use case: stylized-concept. Asset type: production RPG VFX animation sprite sheet, ONE coherent 12-frame attack animation. Make a strict 4 columns by 3 rows grid on a 1536x1024 truly transparent RGBA canvas. Every cell has equal size, invisible gutters, no labels or drawn grid, no characters, no scene or ground. Primary request: Might Guy's Night Guy red chakra dragon strike. Rich crimson and deep burgundy energy shaped into a fierce Eastern dragon head travelling towards screen LEFT, with restrained ember-gold core, black-red contour, flowing pressure streaks. Frames read left-to-right then top-to-bottom: 1 tight ember/chakra knot, 2-3 dragon head forms, 4-6 full clear dragon charge silhouette, frame 7 strongest dragon-jaw impact with dense red pressure shockwave, frames 8-9 shattered crimson arcs dissipating, frames 10-12 quickly disappearing tiny embers. Highest visual density in frame 7, last frame nearly empty. Keep each animation centered within its own cell with ample margin, nothing touches or crosses the cell borders. Painterly premium hand-authored anime-game VFX with varied organic tendrils, crisp readable silhouette, NO white flare, NO gray smoke, NO opaque background, NO checkerboard, NO text, no watermark. Actual alpha transparency including semi-transparent energy edges. The sheet must be usable as consecutive animation frames, not an assortment of different icons."
+    },
+    {
+      "id": "wood-dragon-fx",
+      "prompt": "Use case: stylized-concept. Asset type: production RPG VFX animation sprite sheet, ONE coherent 12-frame attack animation. Strict 4 columns by 3 rows grid on a 1536x1024 genuinely transparent RGBA canvas. Each cell equal-sized, invisible gutters, no labels or grid lines, no character or scene. Primary request: Senju Hashirama's wood-style forest dragon crushing strike. Deep carved cedar/ochre wooden dragon with branching horn crown, emerald chakra veins, jade-green foliage particles and a solid bark-textured silhouette. Dragon faces LEFT. Frames left-to-right top-to-bottom: 1 compact emerald seal-like root swirl with NO writing, 2-3 twisting roots grow into dragon head, 4-6 great clearly readable wood dragon coiled forward, frame 7 powerful dragon-bite/root eruption impact with deep green energy and sharp brown wood splinters, 8-9 roots recoil and leaves scatter, 10-12 fast dissolution to small leaves. Strong coherent outline with dimensional hand-painted wood material; organic wood anatomy not metal; last frame almost empty. Keep every frame fully inside its cell with generous empty margin, consistent center, no clipped roots or crossing cell boundaries. Premium anime RPG VFX, clear at small battle scale. No white flashes, gray smoke, ground slabs, landscape, statues, UI, text, logos, watermark, black or white fill, or fake checkerboard. Real alpha transparency with softly translucent emerald aura."
+    }
+  ],
+  "finals": [
+    {
+      "id": "guy",
+      "inputPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-591c871d-6d60-470d-a916-651e162c0b1a.png",
+      "outputPath": "assets/ui/project-v/monsters/hunt-tower/hunt-073-night-guy-boss-sd-v1.png",
+      "source": {
+        "width": 1189,
+        "height": 1323,
+        "channels": 4
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "alphaBounds": {
+        "x": 352,
+        "y": 72,
+        "width": 647,
+        "height": 1206,
+        "alphaPixels": {
+          "transparent": 1387388,
+          "opaque": 1928,
+          "partial": 433184
+        }
+      },
+      "margins": {
+        "left": 352,
+        "top": 72,
+        "right": 351,
+        "bottom": 72
+      },
+      "safeMarginPx": 72,
+      "footAnchor": [
+        0.50037,
+        0.946667
+      ],
+      "sha256": "BED306C12B9CD70317942EEB4F7C32E1D6DD12370CD544242EB355A7A563B707",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-073-night-guy-boss-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-073-night-guy-boss-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-073-night-guy-boss-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-073-night-guy-boss-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "adjacentWebp": {
+        "path": "assets/ui/project-v/monsters/hunt-tower/hunt-073-night-guy-boss-sd-v1-768.webp",
+        "sha256": "ABD69ADCB2FA4D6742B3C20780EC94FFA2D8B4F706105FCC663C0548FB4C14A0"
+      }
+    },
+    {
+      "id": "hashirama",
+      "inputPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-f1647a7a-7fa7-477d-86b0-c075fb6921e4.png",
+      "outputPath": "assets/ui/project-v/monsters/hunt-tower/hunt-074-wood-dragon-boss-sd-v1.png",
+      "source": {
+        "width": 1024,
+        "height": 1536,
+        "channels": 4
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "alphaBounds": {
+        "x": 280,
+        "y": 72,
+        "width": 790,
+        "height": 1206,
+        "alphaPixels": {
+          "transparent": 1281068,
+          "opaque": 2409,
+          "partial": 539023
+        }
+      },
+      "margins": {
+        "left": 280,
+        "top": 72,
+        "right": 280,
+        "bottom": 72
+      },
+      "safeMarginPx": 72,
+      "footAnchor": [
+        0.5,
+        0.946667
+      ],
+      "sha256": "60E7BC9C972AA3441127311E47129F033DB66F450AC4BB5EC174DA5EB499160B",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-074-wood-dragon-boss-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-074-wood-dragon-boss-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-074-wood-dragon-boss-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/monsters/hunt-074-wood-dragon-boss-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "adjacentWebp": {
+        "path": "assets/ui/project-v/monsters/hunt-tower/hunt-074-wood-dragon-boss-sd-v1-768.webp",
+        "sha256": "3C393CD8B6455E1563806103E6AE0538DB2837B02089AEB0309E7A4FD316341D"
+      }
+    },
+    {
+      "id": "yhwach",
+      "inputPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-0261e6e9-1aa8-4549-b696-87ff041192e4.png",
+      "outputPath": "assets/ui/project-v/monsters/hunt-tower/core-yhwach-sd-v1.png",
+      "source": {
+        "width": 1224,
+        "height": 1285,
+        "channels": 4
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "alphaBounds": {
+        "x": 166,
+        "y": 105,
+        "width": 1019,
+        "height": 1173,
+        "alphaPixels": {
+          "transparent": 1220014,
+          "opaque": 1111,
+          "partial": 601375
+        }
+      },
+      "margins": {
+        "left": 166,
+        "top": 105,
+        "right": 165,
+        "bottom": 72
+      },
+      "safeMarginPx": 72,
+      "footAnchor": [
+        0.50037,
+        0.946667
+      ],
+      "sha256": "AEDA60E99A8A81B13A5526E163CF695322785D95E65675EA395480AA6B01E777",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/monsters/core-yhwach-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/monsters/core-yhwach-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/monsters/core-yhwach-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/monsters/core-yhwach-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "adjacentWebp": {
+        "path": "assets/ui/project-v/monsters/hunt-tower/core-yhwach-sd-v1-768.webp",
+        "sha256": "7398427358AD1EB4057E5689C808A7C271D191A1288B7AF552146A58004B83C5"
+      }
+    },
+    {
+      "id": "iyejun",
+      "inputPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-a7b7215a-6af4-4898-84e5-b5ea683d493b.png",
+      "outputPath": "assets/ui/project-v/characters/fur/fur-cn-346f8db0deb84d41-sd-v1.png",
+      "source": {
+        "width": 1209,
+        "height": 1300,
+        "channels": 4
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "alphaBounds": {
+        "x": 297,
+        "y": 72,
+        "width": 756,
+        "height": 1206,
+        "alphaPixels": {
+          "transparent": 1368010,
+          "opaque": 1125,
+          "partial": 453365
+        }
+      },
+      "margins": {
+        "left": 297,
+        "top": 72,
+        "right": 297,
+        "bottom": 72
+      },
+      "safeMarginPx": 72,
+      "footAnchor": [
+        0.5,
+        0.946667
+      ],
+      "sha256": "331A96398DFDB0500E314E09747B114F9D0278831B15CBAD362DBB2203EC66D0",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/fur/fur-cn-346f8db0deb84d41-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/fur/fur-cn-346f8db0deb84d41-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/fur/fur-cn-346f8db0deb84d41-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/fur/fur-cn-346f8db0deb84d41-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "adjacentWebp": {
+        "path": "assets/ui/project-v/characters/fur/fur-cn-346f8db0deb84d41-sd-v1-768.webp",
+        "sha256": "6B7A84994B07330B009B5DA9B01F906959AC0A8B8260337B97900F55C96408AC"
+      }
+    }
+  ]
+}
