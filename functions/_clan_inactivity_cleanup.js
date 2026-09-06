@@ -56,6 +56,8 @@ async function transaction(db, operation) {
   });
 }
 
+export {transaction as clanAdminTransaction};
+
 async function snapshot(q, cutoffMs, expectedSeasonId = null, days = 5) {
   const [season] = await q("SELECT * FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC,id DESC LIMIT 1");
   check(season && ['ACTIVE', 'DRAFT', 'REGISTRATION'].includes(season.phase), '정리 가능한 진행 중 클랜 시즌이 없습니다.');

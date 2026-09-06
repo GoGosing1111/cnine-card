@@ -1,5 +1,6 @@
 import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarParticipationSettings,clanParticipationProgress,clanParticipationReplay,settleClanParticipationBattle,validateClanParticipationSettings,prepareClanParticipationSettings} from './_clan_participation.js';
 import {handleClanInactivityCleanup} from './_clan_inactivity_cleanup.js';
+import {handleClanMemberAssignment} from './_clan_member_assignment.js';
 
 const CLAN_FOUNDATION_VERSION='safe_runtime_upgrade_v1820_clan_v1';
 const CLAN_OFFICIAL_CATALOG_VERSION='safe_runtime_upgrade_v1882_clan_official_catalog_v1';
@@ -817,6 +818,11 @@ async function clanWallet(env,userId){const row=await env.DB.prepare('SELECT coi
 export {clanWarReservationCheck};
 
 export async function handleClan({path,request,env,deps}){
+  if(path==='admin/clan-war/member-assignment'){
+    const user=await deps.authenticate(request,env);
+    if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
+    return handleClanMemberAssignment({request,env,user,deps});
+  }
   if(path==='admin/clan-war/inactivity-cleanup'){
     const user=await deps.authenticate(request,env);
     if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
