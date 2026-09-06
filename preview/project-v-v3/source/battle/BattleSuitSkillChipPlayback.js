@@ -52,6 +52,9 @@ export class BattleSuitSkillChipPlayback{
       this.audio.setEnabled(Boolean(audioReady&&sound));
       this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.pump(),onComplete:()=>this.finish()});
       this.timeline.to(this.clock,{time:this.endMs/1000,duration:this.endMs/1000,ease:'none'});
+      // Sample the final actor transforms immediately before Pixi renders.
+      // This also keeps a paused blast grounded while a card finishes moving.
+      this.renderTick=()=>this.render();this.engine.app?.ticker?.add(this.renderTick,null,-10);
       this.pump();
       if(this.valid()&&!this.waiting&&!this.holds)this.timeline.play();
     }catch(error){this.fail(error);}
@@ -175,6 +178,7 @@ export class BattleSuitSkillChipPlayback{
   diagnostics(){return {clock:SKILL_CHIP_CLOCK,timeMs:Math.round(this.clock.time*1000),endMs:this.endMs,active:this.active,completed:Boolean(this.completed),casts:this.casts,hits:this.hits,barrierPauses:this.pauses,activeEffects:this.fx.size,pendingGroups:this.pending.size,audio:this.audio.diagnostics()};}
   dispose(){
     this.active=false;this.timeline?.kill();this.timeline=null;
+    if(this.renderTick)this.engine.app?.ticker?.remove(this.renderTick);this.renderTick=null;
     for(const {fx} of this.fx.values())fx.destroy();this.fx.clear();
     this.textures?.frames.forEach(frame=>frame.destroy(false));this.textures=null;
     void this.audio.destroy();

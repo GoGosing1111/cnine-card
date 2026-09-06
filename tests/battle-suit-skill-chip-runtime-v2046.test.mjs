@@ -122,7 +122,9 @@ function replayEvents(){
 }
 test('live clock displays both simultaneous skills, four separate hits, then releases all owned FX',async t=>{
   t.mock.method(SkillChipFX,'preload',async()=>mockTextures());
-  const engine=mockEngine(),playback=new BattleSuitSkillChipPlayback(engine,replayEvents());
+  const engine=mockEngine();let renderTick=null;
+  engine.app={ticker:{add(fn,_context,priority){renderTick=fn;assert.equal(priority,-10);},remove(fn){assert.equal(fn,renderTick);renderTick=null;}}};
+  const playback=new BattleSuitSkillChipPlayback(engine,replayEvents());
   const run=playback.play();await flush();playback.timeline.pause();
   assert.ok(isSkillChipTimeline(replayEvents()));
   playback.timeline.time(15,true);playback.pump();assert.equal(playback.casts,2);assert.equal(playback.fx.size,2);
@@ -130,10 +132,13 @@ test('live clock displays both simultaneous skills, four separate hits, then rel
   assert.equal(playback.hits,2);assert.equal(engine.target.hp,85);
   const rocket=playback.fx.get(ROCKET).fx;
   assert.equal(rocket.blasts[0].first.y,engine.target.root.y,'the live explosion remains exactly on the target sole');
+  engine.target.root.y+=100;renderTick();
+  assert.equal(rocket.blasts[0].first.y,engine.target.root.y,'a late actor transform is sampled before the next Pixi frame, even while paused');
   playback.timeline.time(16.28,true);playback.pump();assert.equal(playback.hits,5);assert.equal(engine.target.hp,70);
   playback.timeline.time(playback.endMs/1000,true);await playback.finish();
   assert.equal(await run,true);assert.equal(playback.active,false);assert.equal(playback.fx.size,0);
   assert.equal(engine.combatLayer.children.length,0);assert.equal(engine.effectLayer.children.length,0);
+  assert.equal(renderTick,null,'the extra pre-render hook must be removed on completion');
 });
 test('slow card animation pauses the shared clock without replaying a chip twice',async t=>{
   t.mock.method(SkillChipFX,'preload',async()=>mockTextures());
@@ -201,6 +206,8 @@ test('raid QTE holds the same game clock in event order, skips rejected branches
 test('live adapter batches the full server clock and cancel/reset stops the clock',async()=>{
   const [adapter,engine]=await Promise.all([readFile(new URL('../js/battle-v3-live.js',import.meta.url),'utf8'),readFile(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8')]);
   assert.match(adapter,/playEvents\(timedEvents, \{ beforeEvent: prepareEvent \}\)/);assert.match(adapter,/durationMs \* 2 \+ 15000/);
+  const timed=adapter.slice(adapter.indexOf('if (timedSkillChips && !destroyed)'),adapter.indexOf('const finalState = payload?.battleV2?.result?.final'));
+  assert.match(timed,/await stopAccountBattleUnitContinuousFire\(\{ drain: true \}\)/);
   assert.match(engine,/this\.skillChipPlayback\?\.cancel\(\)/);
   assert.match(engine,/currentHp\(target,value\)/);
 });

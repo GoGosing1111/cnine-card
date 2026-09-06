@@ -1051,6 +1051,9 @@
               '스킬칩 전투 연출을 서버 최종 상태로 복구합니다.',
               { fallback: false, onFailure: () => recoverPlayback('스킬칩 전투 연출을 복구했습니다.') }
             );
+            // Drain the final authoritative ordinary shot before syncFinalState
+            // cancels animations; otherwise the killing damage number is lost.
+            await stopAccountBattleUnitContinuousFire({ drain: true });
           } else {
             for (const sourceEvent of timeline) {
               if (destroyed) return false;
