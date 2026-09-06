@@ -5,7 +5,7 @@ import frameOrigins from '../assets/textures/explosion-origins.json' with {type:
 
 const BASE='/preview/battle-suit-skill-chip-v1/assets/';
 const names=['helicopter','rotor','rocket','exhaust','smoke','dust','cinder','flash'];
-const ROCKET_IMPACT_OFFSET_Y=30; // V3 world units; keep muzzle and ground anchors unchanged.
+const ROCKET_PROJECTILE_OFFSET_Y=30; // Preserve the approved projectile trajectory in V3 world units.
 
 export class SkillChipFX{
   static async preload(){
@@ -50,8 +50,9 @@ export class SkillChipFX{
     const unit=this.engine.accountBattleUnit;const target=this.engine.enemies.find(x=>x.battleActive!==false&&x.root.visible);
     const root=target?.root;if(!unit||!root)return null;
     // Both layers share the original V3 stage; no screen-space guesses or new formation.
-    const source=unit.muzzlePoint();const impactOffsetY=this.key==='missile'?ROCKET_IMPACT_OFFSET_Y:0;
-    return {source,foot:{x:root.x,y:root.y-14},hit:{x:root.x,y:root.y-92+impactOffsetY}};
+    const source=unit.muzzlePoint();const impactOffsetY=this.key==='missile'?ROCKET_PROJECTILE_OFFSET_Y:0;
+    // V3 actor roots are SOLE_CENTER. The grounded blast must not inherit the projectile's torso hit point.
+    return {source,foot:{x:root.x,y:root.y-14},hit:{x:root.x,y:root.y-92+impactOffsetY},blast:{x:root.x,y:root.y}};
   }
   sized(sprite,width,height=width){sprite.width=width;sprite.height=height;return sprite}
   render(time){
@@ -88,7 +89,7 @@ export class SkillChipFX{
     const offsets=this.key==='airstrike'?[[-130,-76],[22,-18],[158,52],[-30,87]]:[[0,0]];
     seq.impacts.forEach((at,i)=>{
       const age=time-at;const f=explosionFrame(age,seq.life);if(!f)return;
-      const b=this.blasts[i],point=this.key==='missile'?points.hit:points.foot;
+      const b=this.blasts[i],point=this.key==='missile'?points.blast:points.foot;
       const x=point.x+offsets[i][0]*unitScale,y=point.y+offsets[i][1]*unitScale;
       const size=(this.key==='airstrike'?365:390)*unitScale;
       b.first.texture=this.textures.frames[f.index];b.second.texture=this.textures.frames[f.next];
@@ -98,7 +99,7 @@ export class SkillChipFX{
       // Fading both straight-alpha sprites would make the impact artificially
       // see-through at every frame midpoint.
       b.first.alpha=f.alpha;b.second.alpha=f.alpha*f.blend;
-      const groundY=this.key==='missile'?points.foot.y:y;
+      const groundY=y;
       if(age<.78){b.dust.visible=true;b.dust.position.set(x,groundY);const p=smooth(age/.78);this.sized(b.dust,(110+280*p)*unitScale,(40+83*p)*unitScale);b.dust.alpha=(1-p)*.5;}
       if(age<.45){b.light.visible=true;b.light.position.set(x,groundY);this.sized(b.light,size*1.45,size*.42);b.light.alpha=Math.exp(-age*7)*.35;}
       if(age<.14){b.flash.visible=true;b.flash.position.set(x,y-20*unitScale);const peak=1-smooth(age/.14);this.sized(b.flash,(150+age*900)*unitScale,(130+age*700)*unitScale);b.flash.alpha=peak*.85;}

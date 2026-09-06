@@ -29,7 +29,7 @@ function mockEngine(){
   return {mobile:false,combatLayer:new Container(),effectLayer:new Container(),stage:new Container(),camera:{base:{x:800,y:410}},enemies:[{battleActive:true,root}],accountBattleUnit:{muzzlePoint:()=>({x:580,y:490})}};
 }
 function mockTextures(){return {frames:Array(24).fill(Texture.EMPTY),...Object.fromEntries(['helicopter','rotor','rocket','exhaust','smoke','dust','cinder','flash'].map(name=>[name,Texture.EMPTY]))}}
-test('rocket launcher label and lower impact stay isolated from muzzle, ground and airstrike',async()=>{
+test('rocket launcher grounds its blast at the sole without moving the approved projectile or airstrike',async()=>{
   assert.equal(SEQUENCES.missile.label,'로켓런처');
   const html=await readFile(new URL('index.html',base),'utf8');
   assert.match(html,/data-skill="missile"[^\n]+<strong>로켓런처<\/strong>/);
@@ -42,15 +42,39 @@ test('rocket launcher label and lower impact stay isolated from muzzle, ground a
       assert.equal(fx.blasts[0].first.y,606-76*unitScale);
       const airstrikeState=fx.sprites.map(s=>s.visible?[s.x,s.y,s.width,s.height,s.rotation,s.alpha]:null);
       fx.select('missile');
-      assert.deepEqual(fx.getPoints(),{source:{x:580,y:490},foot:{x:1100,y:606},hit:{x:1100,y:558}});
+      assert.deepEqual(fx.getPoints(),{source:{x:580,y:490},foot:{x:1100,y:606},hit:{x:1100,y:558},blast:{x:1100,y:620}});
       assert.equal(fx.getPoints().hit.y-airstrikePoints.hit.y,30);
       fx.seek(.24);
       assert.ok(fx.rocket.visible);assert.equal(fx.rocket.x,840);assert.equal(fx.rocket.y,524);
       fx.seek(.4);
-      assert.equal(fx.blasts[0].first.y,558);assert.equal(fx.blasts[0].second.y,558);
-      assert.equal(fx.blasts[0].flash.y,558-20*unitScale);assert.equal(fx.blasts[0].dust.y,606);
+      assert.equal(fx.blasts[0].first.y,620);assert.equal(fx.blasts[0].second.y,620);
+      assert.equal(fx.blasts[0].flash.y,620-20*unitScale);assert.equal(fx.blasts[0].dust.y,620);
+      assert.equal(fx.blasts[0].light.y,620);
       fx.select('airstrike');fx.seek(.7);
       assert.deepEqual(fx.sprites.map(s=>s.visible?[s.x,s.y,s.width,s.height,s.rotation,s.alpha]:null),airstrikeState);
+    }finally{fx.destroy();}
+  }
+});
+
+test('every rocket explosion frame keeps its measured contact row on the moving target sole',async()=>{
+  const origins=JSON.parse(await readFile(new URL('assets/textures/explosion-origins.json',base),'utf8'));
+  for(const mobile of [false,true]){
+    const engine=mockEngine();engine.mobile=mobile;
+    const fx=new SkillChipFX(engine,mockTextures()),root=engine.enemies[0].root;
+    try{
+      fx.select('missile');
+      for(let i=0;i<96;i++){
+        root.position.set(1100+i*2,620+i);
+        const time=.36+1.84*i/96;fx.seek(time);
+        const frame=explosionFrame(fx.time-.36,1.84),blast=fx.blasts[0];
+        for(const [sprite,index] of [[blast.first,frame.index],[blast.second,frame.next]]){
+          assert.ok(sprite.visible);assert.equal(sprite.x,root.x);assert.equal(sprite.y,root.y);
+          assert.equal(sprite.anchor.y,origins[index].y);
+        }
+        if(blast.dust.visible)assert.equal(blast.dust.y,root.y);
+        if(blast.light.visible)assert.equal(blast.light.y,root.y);
+        assert.equal(fx.getPoints().hit.y,root.y-62);
+      }
     }finally{fx.destroy();}
   }
 });
