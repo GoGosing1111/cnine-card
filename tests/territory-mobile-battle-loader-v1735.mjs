@@ -9,6 +9,6 @@ assert.match(territory,/await globalThis\.ensureFeatureResources\('battleV2'\)/)
 assert.match(territory,/view=await prepareTerritoryBattle\(\)/);
 assert.match(territory,/PROJECT V V3 공성 전장 연결 중/);
 assert.match(territory,/playSiegeBattleV2Live/);
-assert.match(index,/territory-war-v1811\.js\?v=1995-territory-coin-sync/);
+assert.match(index,/territory-war-v1811\.js\?v=2053-player-calling-card/);
 
 console.log('territory mobile battle loader v1735: ok');

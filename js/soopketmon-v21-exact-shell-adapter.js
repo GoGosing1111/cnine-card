@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.24.1-master-star';
+  const VERSION = '21.25.0-player-card';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -217,7 +217,7 @@
     const coin = Math.max(0, Number(user.coin || 0));
     const shards = Math.max(0, Number(user.cardShards || 0));
     const masterStars = Math.max(0, Number(user.masterStars) || 0);
-    return `<button class="profile-chip ui-press" type="button" data-v21-profile aria-label="내 정보 열기"><span class="profile-copy"><b>${nickname}</b><small>내 계정${level ? ` · Lv. ${level}` : ''} · ${role}</small></span></button>
+    return `<div class="profile-chip"><span class="profile-copy"><b>${global.PlayerCallingCard?.nameHtml(user.nickname,user.serverUserId||user.id)||nickname}</b><button class="pc-account-link" type="button" data-v21-profile aria-label="내 정보 열기"><small>내 계정${level ? ` · Lv. ${level}` : ''} · ${role}</small></button></span></div>
       <div class="resource-rail" aria-label="보유 재화">
         <button class="resource-chip coin ui-press" type="button" aria-label="코인 ${coin.toLocaleString()}"><i></i><span><small>코인</small><b><span class="resource-full">${coin.toLocaleString()}</span><span class="resource-short">${compact(coin)}</span></b></span></button>
         <button class="resource-chip shard ui-press" type="button" aria-label="카드 조각 ${shards.toLocaleString()}"><i></i><span><small>조각</small><b>${compact(shards)}</b></span></button>

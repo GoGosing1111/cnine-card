@@ -1,0 +1,21 @@
+{
+  "version": 2052,
+  "mode": "built-in imagegen",
+  "purpose": "Player calling-card trophy artwork",
+  "originalsPreserved": true,
+  "processing": "1254px RGBA PNG originals; 512px alpha-preserving WebP, quality 90",
+  "prompts": [
+    {
+      "key": "clan-champion",
+      "prompt": "Use case: stylized-concept. Asset type: a premium collectible CLAN SEASON CHAMPION trophy for a Korean fantasy esports game's player identity card. A single exquisitely sculpted victory chalice, substantial brushed champagne-gold metal and obsidian enamel, two restrained sweeping wing handles, a faceted pale amber heart inside the cup, a strong stepped dark pedestal. Front three-quarter view, complete object centered, occupying 76% of a square image, 12% clear margin on all sides. High-end cinematic product-render craftsmanship, physically plausible distinct polished gold / brushed metal / cut crystal, crisp deep engraved detail that remains readable at 100px, weighty graceful proportions, sharp clean silhouette. Restrained warm edge lighting and cool steel fill, no excessive bloom or fog. Genuine transparent background with clean alpha, not checkerboard, no scenery, no ground plane, no floating particles, no text, no numbers, no logos, no watermark, no frame. One trophy only. 1024x1024."
+    },
+    {
+      "key": "challenger-streak",
+      "prompt": "Use case: stylized-concept. Asset type: premium legendary THREE CONSECUTIVE CHALLENGER SEASONS trophy, matching a high-end fantasy esports player identity-card collection. One standing sculptural award: three ascending sapphire-blue crystal spires held inside an elegant platinum winged crown, three distinct small ice-blue stars across the crown, a restrained champagne-gold central rim, resting on a short polished midnight-blue hexagonal pedestal. Complete single object front three-quarter view centered in a square, 76% image height with safe margins. AAA game collectible, immaculate jewel refraction, distinct cold platinum and blue enamel, fine precise engraving, balanced broad silhouette readable as a trophy at 100px. Luxurious controlled pale cyan and blue light, dark-to-light facets, NOT a flat logo, not a sports team emblem, no broad white bloom. Genuine transparent background, clean alpha edges, no floor or scene, no mist, no particles, no text, no numbers, no watermark, no UI or frame. 1024x1024."
+    },
+    {
+      "key": "ranked-champion",
+      "prompt": "Use case: stylized-concept. Asset type: a premium FIRST PLACE RANKED SEASON collectible trophy for a fantasy esports player's identity card. A single sovereign crown trophy: beautifully structured champagne-gold crown with a deep crimson cut jewel, restrained dark red enamel, a sculptural half laurel wreath framing the crown, supported on a black onyx tapered pedestal with a small blank polished gold plaque. Complete one object, front three-quarter view centered, 76% image height, ample clear safe margins. Cinematic AAA game product render, exceptionally fine craftsmanship, weighty metal, faceted crystal and crisp edges, readable iconic silhouette at 100px, highlights carefully controlled to preserve detail. Warm gold reflected light with quiet cool edges, no broad glow, no haze. Genuine transparent background with clean alpha, no checkered pattern, no floor, no scene, no sparks, no characters, no lettering or numbers, no watermark, no border. Square 1024x1024."
+    }
+  ]
+}

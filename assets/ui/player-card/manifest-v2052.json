@@ -1,0 +1,54 @@
+{
+  "version": 2052,
+  "mode": "built-in imagegen",
+  "files": [
+    {
+      "path": "assets/ui/player-card/clan-champion-v2052.png",
+      "sha256": "931934e0601fa0dbfa85141e0b984e755451d1b807e0673bc0d7090f93e36022",
+      "bytes": 1470175,
+      "width": 1254,
+      "height": 1254,
+      "alpha": true
+    },
+    {
+      "path": "assets/ui/player-card/clan-champion-v2052.webp",
+      "sha256": "543e7eaed7453a8f0b1e51546d521d0a416fc1c97a15667e89c2a049a148734f",
+      "bytes": 80822,
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    },
+    {
+      "path": "assets/ui/player-card/challenger-streak-v2052.png",
+      "sha256": "a9bf0857ebf34b97f1241869e03c1d15f06af71f5bf4b28f91859b29936fea55",
+      "bytes": 1678386,
+      "width": 1254,
+      "height": 1254,
+      "alpha": true
+    },
+    {
+      "path": "assets/ui/player-card/challenger-streak-v2052.webp",
+      "sha256": "094796f142bf1641cf94812ea430d27584f9e83f653eb3b26dac95d02f6f7eab",
+      "bytes": 94210,
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    },
+    {
+      "path": "assets/ui/player-card/ranked-champion-v2052.png",
+      "sha256": "ff5dc682723bce4987b91575862bfd987bd73214ac473dec7c874be4d7e94722",
+      "bytes": 1700100,
+      "width": 1254,
+      "height": 1254,
+      "alpha": true
+    },
+    {
+      "path": "assets/ui/player-card/ranked-champion-v2052.webp",
+      "sha256": "df350d18be4e41d5531d43fd3717c599fb6d9e4c1e6181584b5d28f09267ea9c",
+      "bytes": 94062,
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    }
+  ]
+}

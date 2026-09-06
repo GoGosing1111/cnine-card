@@ -2,6 +2,7 @@ import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleStreamerLounge } from '../_streamer_lounge.js';
+import { handlePlayerCard } from '../_player_card.js';
 import { handleSoopketLand, redeemLandCoupon } from '../_soopket_land.js';
 import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
@@ -5048,6 +5049,7 @@ async function handleRequest(context){
         breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
       },serverNow:new Date().toISOString()});
     }
+    const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
     const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
 

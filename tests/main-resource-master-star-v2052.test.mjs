@@ -75,7 +75,7 @@ test('HUD rereads updated balances after rewards/spending without changing store
 
 test('header script and injected icon stylesheet are cache-busted together', () => {
   const version = loadHud(null).version;
-  assert.equal(version, '21.24.1-master-star');
+  assert.equal(version, '21.25.0-player-card');
   assert.ok(read('index.html').includes(`js/soopketmon-v21-exact-shell-adapter.js?v=${version}`));
   assert.ok(shell.includes('link.href = `${cssHref(filename)}?v=${VERSION}`;'));
   const css = read('css/soopketmon-v21-exact-base.css');

@@ -2,7 +2,8 @@ import {build} from 'esbuild';
 const targets={
   prime:'js/prime-draw-live-v1985',
   soopketland:'js/soopketland-v2039',
-  challenger:'js/ranked-challenger-fx-v2032'
+  challenger:'js/ranked-challenger-fx-v2032',
+  playerCard:'js/player-card-fx-v2052'
 };
 const selected=process.argv[2]||'all';
 if(selected!=='all'&&!targets[selected])throw new Error(`Unknown UI renderer: ${selected}`);
