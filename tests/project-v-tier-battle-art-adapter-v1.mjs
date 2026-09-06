@@ -33,6 +33,7 @@ const superstar=adapter.resolveForV3({cardId:'CN-48BBCAC81D0E44FA',grade:'SUPERS
 const superstarZeus=adapter.resolveForV3({cardId:'CN-F7D77F561A7949EE',grade:'SUPERSTAR'});
 const superstarSon=adapter.resolveForV3({cardId:'CN-A041807B14B54C89',grade:'SUPERSTAR'});
 const superstarHaaland=adapter.resolveForV3({cardId:'CN-17EDFC0B27E54069',grade:'SUPERSTAR'});
+const cheetah=adapter.resolveForV3({cardId:'CN-5D0E2E4D58C9416F',grade:'FUR'});
 assert.match(fur.primaryUrl,/characters\/fur\/fur-cn-0b48/);
 assert.match(prestige.primaryUrl,/characters\/prestige\/prestige-kim-taekyong/);
 assert.match(prestigeNew.primaryUrl,/characters\/prestige\/prestige-cn-7d9f82b5283044b8/);
@@ -41,6 +42,8 @@ assert.equal(superstar.kind,'SUPERSTAR_SD');
 assert.match(superstarZeus.primaryUrl,/characters\/superstar\/superstar-cn-f7d77f561a7949ee/);
 assert.match(superstarSon.primaryUrl,/characters\/superstar\/superstar-cn-a041807b14b54c89/);
 assert.match(superstarHaaland.primaryUrl,/characters\/superstar\/superstar-cn-17edfc0b27e54069/);
+assert.match(cheetah.primaryUrl,/characters\/fur\/fur-cn-5d0e2e4d58c9416f/);
+assert.equal(cheetah.scaleMultiplier,1.7);
 assert.equal(superstarZeus.kind,'SUPERSTAR_SD');
 assert.equal(superstarSon.kind,'SUPERSTAR_SD');
 assert.equal(superstarHaaland.kind,'SUPERSTAR_SD');

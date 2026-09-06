@@ -97,7 +97,7 @@ test('SUPERSTAR +11~+13은 챔피언십 프레임과 강화 자산을 유지하�
   for(const asset of ['admin-v1065-card-management-reorg.js','admin-v1170-user-card-grant.js']){
     assert.match(adminIndex,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
-  assert.match(index,/js\/app\.js\?v=2057-superstar-reroll/);
+  assert.match(index,/js\/app\.js\?v=2058-cheetah-sd/);
   assert.match(adminIndex,/admin-v1276\.js\?v=2050-verified-coin-50eok/);
-  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v2057-superstar-reroll'/);
+  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v2058-cheetah-sd'/);
 });

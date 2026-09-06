@@ -22,6 +22,6 @@ assert.match(client,/data\.bonusEquipment/);
 assert.match(admin,/승리 추가 장비 준비 완료/);
 assert.match(index,/territory-war-v1811\.js\?v=2053-player-calling-card-empty-fx/);
 assert.match(index,/territory-war-v1811\.css\?v=1914-territory-dispatch-persist/);
-assert.match(serviceWorker,/soop-card-shell-v2057-superstar-reroll/);
+assert.match(serviceWorker,/soop-card-shell-v2058-cheetah-sd/);
 
 console.log('territory round equipment reward v1737: ok');

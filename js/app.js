@@ -943,7 +943,7 @@ const FEATURE_RESOURCE_MANIFEST={
     scripts:[
       'js/battle-v2-live.js?v=1991-sweep-result-front',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
-      'js/project-v-tier-battle-art-adapter-v1.js?v=3.6.0-iyejun-fur',
+      'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.0-cheetah-fur',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',

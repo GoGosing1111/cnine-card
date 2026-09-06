@@ -8,6 +8,8 @@ window.CNineResponsiveBattleSprites=Object.freeze(Object.assign({},window.CNineR
   "assets/ui/project-v/monsters/hunt-tower/core-yhwach-sd-v1-768.webp":"/assets/responsive/project-v/monsters/core-yhwach-sd-v1-768.webp",
   "assets/ui/project-v/characters/fur/fur-cn-346f8db0deb84d41-sd-v1.png":"/assets/responsive/project-v/fur/fur-cn-346f8db0deb84d41-sd-v1-768.webp",
   "assets/ui/project-v/characters/fur/fur-cn-346f8db0deb84d41-sd-v1-768.webp":"/assets/responsive/project-v/fur/fur-cn-346f8db0deb84d41-sd-v1-768.webp",
+  "assets/ui/project-v/characters/fur/fur-cn-5d0e2e4d58c9416f-sd-v1.png":"/assets/responsive/project-v/fur/fur-cn-5d0e2e4d58c9416f-sd-v1-768.webp",
+  "assets/ui/project-v/characters/fur/fur-cn-5d0e2e4d58c9416f-sd-v1-768.webp":"/assets/responsive/project-v/fur/fur-cn-5d0e2e4d58c9416f-sd-v1-768.webp",
   "assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png":"/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-768.webp",
   "assets/ui/project-v/characters/zenith/zenith-cn-25f931ce393d474e-sd-v1.png":"/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-768.webp",
   "assets/ui/project-v/characters/zenith/zenith-cn-a5a786e91b314805-sd-v1.png":"/assets/responsive/project-v/zenith/zenith-cn-a5a786e91b314805-sd-v1-768.webp",
