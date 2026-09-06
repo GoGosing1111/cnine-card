@@ -1453,7 +1453,9 @@ export class BattleEngine{
             if(!await this.waitForAccountBattleUnitFire(40,run))break;
             continue;
           }
-          const target=pending.target?.root&&this.isAlive(pending.target)?pending.target:(pending.target?.root||this.accountBattleUnitSustainedTarget());
+          // Timed KO/HP updates can precede this queued shot. Keep the character,
+          // not its root container, so the final hit still uses its server target.
+          const target=pending.target?.root?pending.target:this.accountBattleUnitSustainedTarget();
           if(!target){
             this.accountBattleUnitDamageQueue.shift();
             pending.resolve?.(false);

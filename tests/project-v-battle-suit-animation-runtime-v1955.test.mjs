@@ -494,6 +494,34 @@ test('PVE server-shot playback preserves weapon cadence differences and never en
   assert.equal(engine.startAccountBattleUnitSustainedFire(),null,'forbidden/non-PVE state must never start sustained fire');
 });
 
+test('queued killing shots keep their authoritative character target after a timed KO',async()=>{
+  for(const hasNextEnemy of [false,true]){
+    const target={id:'DEFEATED',hp:0,root:{x:900,y:420}};
+    const next={id:'NEXT',hp:100,root:{x:1100,y:420}};
+    const impacts=[];
+    const unit={
+      active:true,cancelFire(){},async prepareRangedFireEffects(){return true},hasAuthoredAnimation(){return false},
+      async playRangedFire({targetX,onImpact}){impacts.push(targetX);onImpact({profile:{}});return true}
+    };
+    const engine=Object.assign(Object.create(BattleEngine.prototype),{
+      visible:true,accountBattleUnitEnabled:true,accountBattleUnit:unit,
+      accountBattleUnitEquipment:{weapon:{code:'EQ_1785427638137'}},
+      accountBattleUnitFireRun:null,accountBattleUnitDamageQueue:[],accountBattleUnitSustainedShotCount:0,
+      accountBattleUnitShotCount:0,accountBattleUnitDamageEventCount:0,accountBattleUnitDamageTotal:0,
+      currentEnemyTarget:hasNextEnemy?next:null,enemies:hasNextEnemy?[target,next]:[target],
+      isAlive(character){return character.hp>0},triggerAccountBattleUnitBallisticHit(){},
+      showAccountBattleUnitDamage(){},updateStatus(){},
+      async waitForAccountBattleUnitFire(_delay,run){return run.active&&impacts.length<1}
+    });
+    const run=engine.startAccountBattleUnitSustainedFire();
+    assert.equal(await engine.queueAccountBattleUnitDamageShot(target,{damage:10462,authoritative:true}),true);
+    assert.equal(await run.promise,1);
+    assert.deepEqual(impacts,[target.root.x],'the final hit must not disappear or jump to another living enemy');
+    assert.equal(engine.accountBattleUnitDamageTotal,10462);
+    assert.equal(engine.accountBattleUnitDamageEventCount,1);
+  }
+});
+
 test('server Battle Suit damage is the only source that starts a visible sustained-fire round',async()=>{
   let signalIdle;
   let releaseIdle;
