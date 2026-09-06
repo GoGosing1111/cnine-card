@@ -44,7 +44,7 @@ async function mount(host, card, signal) {
     cleanups.push(() => document.removeEventListener('visibilitychange', sync), () => reduced.removeEventListener('change', sync));
     observer = new ResizeObserver(() => { if (!destroyed) { app.renderer.resize(Math.max(1, host.clientWidth), Math.max(1, host.clientHeight)); paint(); } }); observer.observe(host);
     // Animate only decoration: text, awards, controls and results never depend on a tween completing.
-    entrance = gsap.fromTo(targets, { y: 10, scale: .96 }, { y: 0, scale: 1, duration: .75, stagger: .09, ease: 'power3.out', clearProps: 'transform' });
+    if (targets.length) entrance = gsap.fromTo(targets, { y: 10, scale: .96 }, { y: 0, scale: 1, duration: .75, stagger: .09, ease: 'power3.out', clearProps: 'transform' });
     targets.forEach(target => {
       const button = target.closest('button');
       const over = () => { if (!reduced.matches) gsap.to(target, { y: -4, scale: 1.055, duration: .3, ease: 'power2.out' }); };

@@ -169,3 +169,27 @@ test('request error has retry and close controls, not an infinite loader', async
   const f=uiFixture(),p=f.ui.open({userId:2}); f.pending[0].reject(Error('연결 실패')); await p;
   assert.match(f.modal.innerHTML,/data-pc-retry/); assert.match(f.modal.innerHTML,/data-pc-close/); assert.match(f.modal.innerHTML,/연결 실패/); f.ui.close();
 });
+
+test('empty trophy shelves keep border FX without creating an empty GSAP tween', async () => {
+  for (const owned of [false, true]) {
+    let tweens=0, destroyed=0;
+    const button={addEventListener(){},removeEventListener(){}};
+    const target={style:{},closest(){return button;}};
+    class Application {
+      screen={width:600,height:800}; ticker={add(){}}; stage={addChild(){}}; renderer={resize(){}}; canvas={};
+      async init(){} start(){} stop(){} destroy(){destroyed++;}
+    }
+    class Graphics { clear(){return this;} circle(){return this;} fill(){return this;} }
+    const context={Application,Graphics,devicePixelRatio:1,ResizeObserver:class{observe(){}disconnect(){}},
+      matchMedia:()=>({matches:false,addEventListener(){},removeEventListener(){}}),
+      document:{hidden:false,addEventListener(){},removeEventListener(){}},
+      gsap:{killTweensOf(){},to(){},fromTo(targets){assert.ok(targets.length);tweens++;return {kill(){},pause(){},resume(){}};}}
+    };
+    vm.runInNewContext(read('js/player-card-fx-v2052.src.js').replace(/^import .*;\r?\n/gm,''),context);
+    const controller=new AbortController();
+    const renderer=await context.PlayerCardFX.mount({isConnected:true,clientWidth:600,clientHeight:800,appendChild(){}},{querySelectorAll:()=>owned?[target]:[]},controller.signal);
+    assert.ok(renderer,'border renderer must mount for both new and decorated players');
+    assert.equal(tweens,owned?1:0);
+    controller.abort(); assert.equal(destroyed,1); renderer.destroy(); assert.equal(destroyed,1);
+  }
+});

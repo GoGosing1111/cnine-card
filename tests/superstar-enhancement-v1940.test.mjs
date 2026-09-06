@@ -99,5 +99,5 @@ test('SUPERSTAR +11~+13은 챔피언십 프레임과 강화 자산을 유지하�
   }
   assert.match(index,/js\/app\.js\?v=2053-player-calling-card/);
   assert.match(adminIndex,/admin-v1276\.js\?v=2050-verified-coin-50eok/);
-  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v2053-player-calling-card'/);
+  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v2053-player-calling-card-empty-fx'/);
 });
