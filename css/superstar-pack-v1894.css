@@ -384,6 +384,29 @@
 .superstar-pack-display-label small{margin-top:3px;color:#7e888e;font-size:7px;letter-spacing:1.6px}
 
 /* Full-screen opening */
+.superstar-draw-options .superstar-draw{min-width:0}
+.superstar-batch-progress{display:flex;justify-content:center;gap:6px;margin:10px auto 0}
+.superstar-batch-progress span{display:grid;place-items:center;width:24px;height:24px;border:1px solid #42413a;border-radius:50%;color:#878780;font:700 10px Arial}
+.superstar-batch-progress .is-current{border-color:var(--superstar-gold);color:#fff0ad;box-shadow:0 0 12px #f4c85c44}
+.superstar-batch-progress .is-win{color:#f4c85c;background:#f4c85c22}
+.superstar-batch-progress .is-miss{color:#777;background:#ffffff08}
+.superstar-batch-summary .superstar-opening-pack,.superstar-batch-summary .superstar-opening-core,.superstar-batch-summary .superstar-vault-rings{display:none}
+.superstar-batch-results{width:min(900px,90vw);max-height:57dvh;overflow:auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:8px;text-align:center}
+.superstar-batch-results article{display:grid;align-content:start;justify-items:center;gap:5px;min-width:0;padding:9px 6px;border:1px solid #ffffff20;border-radius:8px;background:#080b11e8}
+.superstar-batch-results article.is-win{border-color:#f4c85c88;background:linear-gradient(145deg,#2a2212,#080b11)}
+.superstar-batch-results img{width:70px;height:95px;object-fit:cover;border-radius:3px}
+.superstar-batch-results i{display:grid;place-items:center;width:70px;height:95px;color:#616670;font-size:32px;font-style:normal}
+.superstar-batch-results small,.superstar-batch-results span{font-size:9px;color:#a8acb4}
+.superstar-batch-results b{font-size:12px;overflow-wrap:anywhere;color:#e5d8ad}
+@media(max-width:600px){
+  .superstar-batch-progress{gap:4px;margin-top:6px}
+  .superstar-batch-progress span{width:20px;height:20px;font-size:9px}
+  .superstar-batch-results{grid-template-columns:repeat(2,minmax(0,1fr));max-height:49dvh;gap:7px}
+  .superstar-batch-results article{grid-template-columns:44px 1fr;gap:4px;text-align:left;justify-items:start}
+  .superstar-batch-results article>small{grid-column:1/-1}
+  .superstar-batch-results img,.superstar-batch-results i{grid-row:2/4;width:44px;height:60px}
+  .superstar-batch-results b{font-size:11px}.superstar-batch-results span{font-size:8px}
+}
 .modal.superstar-opening-modal{
   z-index:2147482500!important;
   align-items:stretch!important;

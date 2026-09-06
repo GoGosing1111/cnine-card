@@ -13,22 +13,22 @@ import {
 const root = path.resolve(import.meta.dirname, '..');
 const read = (relative) => readFileSync(path.join(root, relative), 'utf8');
 
-test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 OFF·1장 3억·10%다', () => {
+test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 ON·1장 3억·10%와 최대 10회다', () => {
   const settings = __superstarPackTest.cleanSuperstarPackSettings({});
   assert.deepEqual(settings, {
     visible: true,
-    drawEnabled: false,
+    drawEnabled: true,
     price: 300_000_000,
     successRate: 10,
     drawCount: 1,
     imageUrl: 'assets/ui/packs/superstar-card-pack-v1.png',
   });
   const row = __superstarPackTest.superstarPackCatalogRow(settings);
-  assert.equal(row.maxDrawCount, 1);
+  assert.equal(row.maxDrawCount, 10);
   assert.equal(row.price, 300_000_000);
   assert.equal(row.successRate, 10);
   assert.equal(row.missRate, 90);
-  assert.equal(row.drawEnabled, false);
+  assert.equal(row.drawEnabled, true);
   assert.equal(row.ownerDrawEnabled, true);
   assert.equal(row.revealMode, 'SWIPE');
 });
@@ -78,11 +78,13 @@ test('10% 경계와 당첨 카드 선택이 결정론적으로 계산된다', ()
 });
 
 test('일반 유저의 전용 개봉 요청은 서버에서 423으로 차단된다', async () => {
-  const statement = {
-    bind() { return this; },
-    async first() { return { value: JSON.stringify({ ...SUPERSTAR_PACK_DEFAULTS, drawEnabled: false }) }; },
-  };
-  const env = { DB: { prepare() { return statement; } } };
+  const env = { DB: {
+    async batch(){return []},
+    prepare(sql){return {
+      bind(...args){this.args=args;return this},async run(){return {meta:{changes:0}}},
+      async first(){if(sql.includes('superstar_pack_receipts'))return null;return {value:this.args?.[0]==='superstar_pack_public_release_v2047'?'1':JSON.stringify({...SUPERSTAR_PACK_DEFAULTS,drawEnabled:false})}}
+    }}
+  } };
   const request = new Request('https://game.example/api/superstar-pack/draw', {
     method: 'POST',
     headers: {
@@ -129,7 +131,7 @@ test('결제는 스와이프 완료 콜백 뒤에서만 요청되고 결과 연�
   assert.ok(bindStart >= 0 && mountStart > bindStart);
   assert.match(source.slice(bindStart, mountStart), /progress>=\.82/);
   assert.match(source.slice(bindStart, mountStart), /onComplete\(\)/);
-  assert.match(source, /await requestFactory\(\);await revealSuperstarPackResult/);
+  assert.match(source, /await requestFactory\(\);if\(count===10\)await revealSuperstarPackBatch/);
   assert.match(source, /statusCode>=400&&statusCode<500&&!pending\)clearPendingSuperstarDraw/);
   assert.match(source, /window\.SuperstarPackV1894/);
   assert.match(source, /outcome-win/);
@@ -145,7 +147,7 @@ test('전용 서버 경로 우회와 폐기 일반팩 요청을 차단한다', (
   assert.match(module, /idx_superstar_pack_one_pending_per_user/);
   assert.match(module, /superstar_pack_debits_v1/);
   assert.match(module, /SELECT \?,\?,\? WHERE EXISTS\(SELECT 1 FROM users WHERE id=\? AND status='ACTIVE' AND coin>=\?\)/);
-  assert.match(module, /if \(!Number\(batchResults\?\.\[0\]\?\.meta\?\.changes \|\| 0\)\)/);
+  assert.match(module, /if \(!Number\(batchResults\?\.\[debitIndex\]\?\.meta\?\.changes \|\| 0\)\)/);
 });
 
 test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에 연결된다', () => {
@@ -166,9 +168,9 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
   assert.equal(png.readUInt32BE(20), 1536);
   const index = read('index.html');
   const serviceWorker = read('service-worker.js');
-  assert.match(index, /superstar-pack-v1894\.css\?v=1895-larger-pack-clean-label/);
-  assert.match(index, /app\.js\?v=2046-skill-chips/);
-  assert.match(serviceWorker, /soop-card-shell-v2046-skill-chips/);
+  assert.match(index, /superstar-pack-v1894\.css\?v=2047-superstar-batch/);
+  assert.match(index, /app\.js\?v=2047-superstar-batch/);
+  assert.match(serviceWorker, /soop-card-shell-v2047-superstar-batch/);
   const css = read('css/superstar-pack-v1894.css');
   assert.match(css, /\.superstar-swipe-track/);
   assert.match(css, /\.pack-splitting \.pack-half-left/);

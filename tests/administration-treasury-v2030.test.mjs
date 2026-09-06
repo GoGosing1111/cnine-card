@@ -62,7 +62,7 @@ test('정상 완료되는 활성 코인 상점에만 1% 원자 영수증이 연�
   assert.match(api,/sourceType:'CARD_PACK'[\s\S]*?grossCoin:cost/);
   assert.match(prime,/sourceType:product\.kind==='equipment'\?'PRIME_EQUIPMENT':'PRIME_VEHICLE'[\s\S]*?grossCoin:totalPrice/);
   assert.match(avatar,/sourceType:'AVATAR_SHOP'[\s\S]*?grossCoin:price/);
-  assert.match(superstar,/sourceType:'CARD_PACK'[\s\S]*?grossCoin:settings\.price/);
+  assert.match(superstar,/sourceType:'CARD_PACK'[\s\S]*?grossCoin:cost/);
   for(const source of [api,prime,avatar,superstar])assert.match(source,/shopTaxStatements/);
   assert.match(backend,/PRIMARY KEY\(source_type,source_request_id\)/,'원 판매 요청당 한 번만 징수해야 한다');
   assert.match(backend,/status='PENDING'/);
@@ -88,6 +88,6 @@ test('전체 메뉴 행정부와 반응형 게임 내 승인 UI가 연결된다'
   assert.match(router,/treasury: \{ shell: 'treasury' \}/);
   assert.match(app,/administration-treasury-v2030\.js\?v=2030-tax-one-percent/);
   assert.match(app,/window\.bindAdministrationTreasuryView/);
-  assert.match(index,/js\/app\.js\?v=2046-skill-chips/);
-  assert.match(worker,/soop-card-shell-v2046-skill-chips/);
+  assert.match(index,/js\/app\.js\?v=2047-superstar-batch/);
+  assert.match(worker,/soop-card-shell-v2047-superstar-batch/);
 });

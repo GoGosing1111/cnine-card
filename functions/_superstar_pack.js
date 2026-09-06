@@ -1,11 +1,13 @@
 import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
+import { readRuntimeData,cacheRuntimeData } from './_runtime_data_cache.js';
 
 const SETTINGS_KEY = "superstar_pack_settings_v1";
+const PUBLIC_RELEASE_KEY = "superstar_pack_public_release_v2047";
 export const SUPERSTAR_PACK_ID = "superstar";
 export const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES = Object.freeze(["조은", "강구열", "진짜디임", "오리꿍", "요닝", "하이희야♡"]);
 export const SUPERSTAR_PACK_DEFAULTS = Object.freeze({
   visible: true,
-  drawEnabled: false,
+  drawEnabled: true,
   price: 300_000_000,
   successRate: 10,
   drawCount: 1,
@@ -35,26 +37,39 @@ export function cleanSuperstarPackSettings(raw = {}) {
   };
 }
 
-let settingsCache = null;
+// One user-authorized release patch. Keep all price/odds/CMS fields, and never
+// reopen a later manual OFF. Compare-and-swap avoids overwriting a concurrent edit.
+export async function ensureSuperstarPackPublicRelease(env) {
+  for(let attempt=0;attempt<3;attempt++){
+    const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(PUBLIC_RELEASE_KEY).first();
+    if(marker?.value==='1')return;
+    const before=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();
+    const raw=JSON.parse(before?.value||'{}');
+    if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('슈퍼스타팩 설정을 확인해주세요.');
+    const next=JSON.stringify({...raw,visible:true,drawEnabled:true});
+    await env.DB.batch([
+      env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at)
+        SELECT ?,?,CURRENT_TIMESTAMP WHERE NOT EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value='1')
+        ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
+        WHERE app_meta.value=? AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value='1')`)
+        .bind(SETTINGS_KEY,next,PUBLIC_RELEASE_KEY,before?.value??'',PUBLIC_RELEASE_KEY),
+      env.DB.prepare(`INSERT OR IGNORE INTO app_meta(key,value,updated_at)
+        SELECT ?,'1',CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)`)
+        .bind(PUBLIC_RELEASE_KEY,SETTINGS_KEY,next)
+    ]);
+  }
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(PUBLIC_RELEASE_KEY).first();
+  if(marker?.value!=='1')throw new Error('슈퍼스타팩 공개 설정이 변경 중입니다. 다시 시도해주세요.');
+}
+
 export async function superstarPackSettings(env, fresh = false) {
-  const now = Date.now();
-  if (!fresh && settingsCache?.expiresAt > now) return settingsCache.promise;
-  const promise = env.DB.prepare("SELECT value FROM app_meta WHERE key=?")
-    .bind(SETTINGS_KEY)
-    .first()
-    .then((row) => {
-      try {
-        return cleanSuperstarPackSettings(JSON.parse(row?.value || "{}"));
-      } catch {
-        return cleanSuperstarPackSettings();
-      }
-    })
-    .catch((error) => {
-      if (settingsCache?.promise === promise) settingsCache = null;
-      throw error;
-    });
-  settingsCache = { promise, expiresAt: now + 5_000 };
-  return promise;
+  const cached=!fresh&&readRuntimeData(env,SETTINGS_KEY);
+  if(cached)return cached;
+  await ensureSuperstarPackPublicRelease(env);
+  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();
+  const raw=JSON.parse(row?.value||'{}');
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('슈퍼스타팩 설정을 확인해주세요.');
+  return cacheRuntimeData(env,SETTINGS_KEY,cleanSuperstarPackSettings(raw),5000);
 }
 
 export function superstarPackCatalogRow(settings = SUPERSTAR_PACK_DEFAULTS) {
@@ -79,7 +94,8 @@ export function superstarPackCatalogRow(settings = SUPERSTAR_PACK_DEFAULTS) {
     drawMode: "SUPERSTAR_CHANCE",
     drawEnabled: clean.drawEnabled,
     ownerDrawEnabled: true,
-    maxDrawCount: 1,
+    maxDrawCount: 10,
+    allowedDrawCounts: [1,10],
     successRate: clean.successRate,
     missRate: Math.max(0, 100 - clean.successRate),
     imageUrl: clean.imageUrl,
@@ -110,7 +126,6 @@ const secureUnit = () => {
   return values[0] / 0x1_0000_0000;
 };
 
-const foundationByDatabase = new WeakMap();
 function superstarPackSchemaStatements(env) {
   const postgres = env.DB?.dialect === "postgres";
   const userIdType = postgres ? "BIGINT" : "INTEGER";
@@ -133,23 +148,20 @@ function superstarPackSchemaStatements(env) {
     "CREATE INDEX IF NOT EXISTS idx_superstar_pack_receipts_user ON superstar_pack_receipts_v1(user_id,created_at DESC)",
     "CREATE UNIQUE INDEX IF NOT EXISTS idx_superstar_pack_one_pending_per_user ON superstar_pack_receipts_v1(user_id) WHERE status='PENDING'",
     "CREATE INDEX IF NOT EXISTS idx_superstar_pack_debits_user ON superstar_pack_debits_v1(user_id,created_at DESC)",
+    "CREATE TABLE IF NOT EXISTS superstar_pack_atomic_guard_v2047(id TEXT PRIMARY KEY,verified INTEGER NOT NULL CHECK(verified=1))",
   ];
 }
 
 async function ensureSuperstarPackFoundation(env) {
-  if (foundationByDatabase.has(env.DB)) return foundationByDatabase.get(env.DB);
+  if (readRuntimeData(env,'superstar:foundation:v2047')) return;
   const schema = superstarPackSchemaStatements(env);
   // PostgreSQL 호환 계층은 일반 prepare()/batch()의 DDL을 의도적으로 건너뛴다.
   // 사용자 입력이 없는 고정 DDL만 execSchema()로 전달해 신규 배포에서도 relation을 만든다.
   const operation = env.DB?.dialect === "postgres" && typeof env.DB.execSchema === "function"
     ? env.DB.execSchema(schema)
     : env.DB.batch(schema.map((sql) => env.DB.prepare(sql)));
-  const promise = operation.catch((error) => {
-    foundationByDatabase.delete(env.DB);
-    throw error;
-  });
-  foundationByDatabase.set(env.DB, promise);
-  return promise;
+  await operation;
+  cacheRuntimeData(env,'superstar:foundation:v2047',true,60000);
 }
 
 const cardRow = (row) => ({
@@ -190,20 +202,11 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
   }
 
   const body = await readBody(request);
-  if (body.count !== undefined && Number(body.count) !== 1) {
-    return json({ error: "슈퍼스타팩은 한 번에 1장만 판정할 수 있습니다.", code: "SUPERSTAR_SINGLE_DRAW_ONLY" }, 400);
-  }
-  const requestId = String(body.requestId || crypto.randomUUID()).trim().slice(0, 100);
-  if (!requestId) return json({ error: "슈퍼스타팩 개봉 요청번호가 필요합니다." }, 400);
-
-  const settings = await superstarPackSettings(env, true);
-  if (!canOpenSuperstarPack(settings, user)) {
-    return json({
-      error: "슈퍼스타팩은 현재 지정된 사전 개봉 계정만 이용할 수 있으며 일반 유저 개봉은 OFF 상태입니다.",
-      code: "SUPERSTAR_PACK_OFF",
-      drawEnabled: false,
-    }, 423);
-  }
+  if(!body||typeof body!=='object'||Array.isArray(body))return json({error:'올바른 개봉 요청이 아닙니다.'},400);
+  const count=body.count??1;
+  if(![1,10].includes(count))return json({error:'슈퍼스타팩은 1회 또는 10회만 개봉할 수 있습니다.',code:'SUPERSTAR_DRAW_COUNT_INVALID'},400);
+  const requestId=body.requestId??crypto.randomUUID();
+  if(typeof requestId!=='string'||!/^[a-zA-Z0-9_-]{8,100}$/.test(requestId))return json({error:'올바른 개봉 요청번호가 필요합니다.'},400);
 
   await ensureSuperstarPackFoundation(env);
   const staleBefore = new Date(Date.now() - 3 * 60_000).toISOString().replace("T", " ").slice(0, 19);
@@ -211,7 +214,11 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     .bind(user.id, staleBefore)
     .run();
   const prior = await completedReceipt(env, requestId, user.id);
-  if (prior.response) return json(prior.response);
+  const replay=response=>Number(response.count||1)!==count
+    ?json({error:'이 요청번호는 다른 개봉 수량에 사용됐습니다.',code:'SUPERSTAR_DRAW_COUNT_MISMATCH'},409)
+    :json(response);
+  // Already-paid results remain recoverable even after the operator turns OFF.
+  if (prior.response) return replay(prior.response);
   if (prior.row) {
     return json({
       error: prior.row.status === "PENDING" ? "같은 슈퍼스타팩 요청을 처리 중입니다." : String(prior.row.error_message || "이 요청은 이미 실패했습니다."),
@@ -220,12 +227,16 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     }, 409);
   }
 
+  const settings=await superstarPackSettings(env,true),cost=settings.price*count;
+  if(!canOpenSuperstarPack(settings,user))return json({error:'슈퍼스타팩 일반 유저 개봉은 OFF 상태입니다.',code:'SUPERSTAR_PACK_OFF',drawEnabled:false},423);
+  if(body.expectedCost!==undefined&&body.expectedCost!==cost)return json({error:'개봉 가격이 변경됐습니다. 새로고침 후 다시 확인해주세요.',code:'SUPERSTAR_PRICE_CHANGED'},409);
+
   const claimed = await env.DB.prepare("INSERT OR IGNORE INTO superstar_pack_receipts_v1(request_id,user_id,status) VALUES(?,?,'PENDING')")
     .bind(requestId, user.id)
     .run();
   if (!Number(claimed.meta?.changes || 0)) {
     const duplicate = await completedReceipt(env, requestId, user.id);
-    if (duplicate.response) return json(duplicate.response);
+    if (duplicate.response) return replay(duplicate.response);
     return json({ error: "같은 슈퍼스타팩 요청을 처리 중입니다.", code: "SUPERSTAR_DRAW_PENDING", requestId }, 409);
   }
 
@@ -241,93 +252,119 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
         ORDER BY c.id`).all(),
     ]);
     if (!fresh) throw new Error("유저 정보를 확인하지 못했습니다.");
-    if (Number(fresh.coin || 0) < settings.price) {
+    if (Number(fresh.coin || 0) < cost) {
       await env.DB.prepare("UPDATE superstar_pack_receipts_v1 SET status='FAILED',cost=?,error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?")
-        .bind(settings.price, requestId, user.id)
+        .bind(cost, requestId, user.id)
         .run();
       return json({ error: "코인이 부족합니다." }, 400);
     }
     const candidates = (candidateRows.results || []).map(cardRow);
     if (!candidates.length) throw new Error("개봉 가능한 SUPERSTAR 카드가 등록되지 않았습니다.");
 
-    const roll = resolveSuperstarPackRoll({
-      successRate: settings.successRate,
-      hitRoll: secureUnit(),
-      cardRoll: secureUnit(),
-      cards: candidates,
+    const random=deps.randomUnit||secureUnit;
+    const rolls=Array.from({length:count},()=>resolveSuperstarPackRoll({successRate:settings.successRate,hitRoll:random(),cardRoll:random(),cards:candidates}));
+    const ids=[...new Set(rolls.filter(roll=>roll.hit).map(roll=>roll.card.id))].sort();
+    const ownedRows=ids.length?await env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all():{results:[]};
+    const beforeQuantities=new Map(ids.map(id=>[id,0]));
+    for(const row of ownedRows.results||[])beforeQuantities.set(String(row.card_id),Math.max(0,Number(row.quantity||0)));
+    const afterQuantities=new Map(beforeQuantities);
+    const coinBefore=Number(fresh.coin||0),shardsBefore=Number(fresh.card_shards||0);
+    let shardGained=0;
+    const results=rolls.map((roll,slot)=>{
+      const quantityBefore=roll.hit?afterQuantities.get(roll.card.id):0,duplicate=roll.hit&&quantityBefore>0,gained=duplicate?600:0;
+      const quantityAfter=quantityBefore+(roll.hit?1:0);
+      if(roll.hit)afterQuantities.set(roll.card.id,quantityAfter);
+      shardGained+=gained;
+      return {slot,outcome:roll.outcome,hit:roll.hit,card:roll.card,duplicate,shardGained:gained,quantityBefore,quantityAfter,cost:settings.price};
     });
-    const owned = roll.hit
-      ? await env.DB.prepare("SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?").bind(user.id, roll.card.id).first()
-      : null;
-    const quantityBefore = Math.max(0, Number(owned?.quantity || 0));
-    const duplicate = roll.hit && quantityBefore > 0;
-    const shardGained = duplicate ? 600 : 0;
-    const coinAfter = Number(fresh.coin || 0) - settings.price;
-    const shardsAfter = Number(fresh.card_shards || 0) + shardGained;
+    const coinAfter=coinBefore-cost,shardsAfter=shardsBefore+shardGained,hitCount=results.filter(result=>result.hit).length;
+    if(![coinBefore,shardsBefore,coinAfter,shardsAfter,...afterQuantities.values()].every(Number.isSafeInteger))throw new Error('개봉 재화 범위를 확인해주세요.');
     const response = {
       requestId,
       packId: SUPERSTAR_PACK_ID,
-      count: 1,
-      cost: settings.price,
+      unitPrice:settings.price,
       successRate: settings.successRate,
-      outcome: roll.outcome,
-      hit: roll.hit,
-      card: roll.card,
-      duplicate,
+      ...(count===1?results[0]:{outcome:hitCount?'WIN':'MISS',hit:hitCount>0,card:null}),
+      count,cost,results,hitCount,missCount:count-hitCount,
       shardGained,
-      quantityBefore,
-      quantityAfter: roll.hit ? quantityBefore + 1 : quantityBefore,
       coin: coinAfter,
       cardShards: shardsAfter,
-      drawProtocol: { version: 1, status: "COMPLETED", revealMode: "SWIPE" },
+      drawProtocol: { version: 2, status: "COMPLETED", revealMode: "SWIPE",count },
     };
 
     await ensureAdministrationTreasuryFoundation(env);
     const guarded = "EXISTS(SELECT 1 FROM superstar_pack_debits_v1 d WHERE d.request_id=? AND d.user_id=?)";
-    const statements = [
+    const statements=[];
+    // Lock the wallet before validating a snapshot under PostgreSQL READ COMMITTED.
+    if(env.DB.dialect==='postgres')statements.push(env.DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id));
+    const preConditions=[
+      "EXISTS(SELECT 1 FROM users WHERE id=? AND status='ACTIVE' AND coin=? AND card_shards=?)",
+      "EXISTS(SELECT 1 FROM superstar_pack_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')",
+      "NOT EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=?)"
+    ],preBindings=[user.id,coinBefore,shardsBefore,requestId,user.id,requestId];
+    for(const id of ids){
+      preConditions.push('COALESCE((SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?),0)=?');
+      preBindings.push(user.id,id,beforeQuantities.get(id));
+      preConditions.push("EXISTS(SELECT 1 FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=? AND c.is_active=1 AND m.is_active=1 AND UPPER(c.rarity)='SUPERSTAR' AND COALESCE(c.card_status,'PUBLIC')='PUBLIC')");
+      preBindings.push(id);
+    }
+    statements.push(env.DB.prepare(`INSERT INTO superstar_pack_atomic_guard_v2047(id,verified) SELECT ?,CASE WHEN ${preConditions.join(' AND ')} THEN 1 ELSE 0 END`).bind(`${requestId}:pre`,...preBindings));
+    const debitIndex=statements.length;
+    statements.push(
       env.DB.prepare(`INSERT OR IGNORE INTO superstar_pack_debits_v1(request_id,user_id,cost)
         SELECT ?,?,? WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND status='ACTIVE' AND coin>=?)`)
-        .bind(requestId, user.id, settings.price, user.id, settings.price),
+        .bind(requestId, user.id, cost, user.id, cost),
       env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards+? WHERE id=? AND ${guarded}`)
-        .bind(settings.price, shardGained, user.id, requestId, user.id),
-    ];
-    if (roll.hit) {
+        .bind(cost, shardGained, user.id, requestId, user.id),
+    );
+    for(const result of results.filter(result=>result.hit)) {
       statements.push(
         env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity)
           SELECT ?,?,1 WHERE ${guarded}
           ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`)
-          .bind(user.id, roll.card.id, requestId, user.id),
+          .bind(user.id, result.card.id, requestId, user.id),
         env.DB.prepare(`INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new)
           SELECT ?,?,?,?,?,?,? WHERE ${guarded}`)
-          .bind(requestId, user.id, SUPERSTAR_PACK_ID, roll.card.id, "SUPERSTAR", settings.price, duplicate ? 0 : 1, requestId, user.id),
+          .bind(requestId, user.id, SUPERSTAR_PACK_ID, result.card.id, "SUPERSTAR", settings.price, result.duplicate ? 0 : 1, requestId, user.id),
       );
     }
     statements.push(
       env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
         SELECT ?,-?,coin,'SUPERSTAR_PACK_DRAW' FROM users WHERE id=? AND ${guarded}`)
-        .bind(user.id, settings.price, user.id, requestId, user.id),
+        .bind(user.id, cost, user.id, requestId, user.id),
     );
     if (shardGained > 0) {
       statements.push(
         env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id)
           SELECT ?,?,card_shards,'SUPERSTAR_DUPLICATE',? FROM users WHERE id=? AND ${guarded}`)
-          .bind(user.id, shardGained, roll.card.id, user.id, requestId, user.id),
+          .bind(user.id, shardGained, count===1?results[0].card?.id||null:null, user.id, requestId, user.id),
       );
     }
     statements.push(...shopTaxStatements(env,{
-      sourceType:'CARD_PACK',sourceRequestId:`SUPERSTAR:${requestId}`,userId:user.id,grossCoin:settings.price,label:'SUPERSTAR 카드팩',
+      sourceType:'CARD_PACK',sourceRequestId:`SUPERSTAR:${requestId}`,userId:user.id,grossCoin:cost,label:`SUPERSTAR 카드팩 ${count}회`,
       guardSql:"EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=? AND user_id=?) AND EXISTS(SELECT 1 FROM superstar_pack_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')",
       guardBindings:[requestId,user.id,requestId,user.id]
     }));
+    const finalConditions=[
+      'EXISTS(SELECT 1 FROM users WHERE id=? AND coin=? AND card_shards=?)',
+      'EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=? AND user_id=? AND cost=?)',
+      '(SELECT COUNT(*) FROM draw_logs WHERE draw_group_id=? AND user_id=?)=?'
+    ],finalBindings=[user.id,coinAfter,shardsAfter,requestId,user.id,cost,requestId,user.id,hitCount];
+    for(const id of ids){finalConditions.push('EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=?)');finalBindings.push(user.id,id,afterQuantities.get(id));}
+    statements.push(env.DB.prepare(`INSERT INTO superstar_pack_atomic_guard_v2047(id,verified) SELECT ?,CASE WHEN ${finalConditions.join(' AND ')} THEN 1 ELSE 0 END`).bind(`${requestId}:final`,...finalBindings));
     statements.push(
       env.DB.prepare(`UPDATE superstar_pack_receipts_v1 SET status='COMPLETED',outcome=?,card_id=?,cost=?,response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP
         WHERE request_id=? AND user_id=? AND ${guarded}`)
-        .bind(roll.outcome, roll.card?.id || null, settings.price, JSON.stringify(response), requestId, user.id, requestId, user.id),
+        .bind(response.outcome, count===1?results[0].card?.id||null:null, cost, JSON.stringify(response), requestId, user.id, requestId, user.id),
+      env.DB.prepare(`INSERT INTO superstar_pack_atomic_guard_v2047(id,verified)
+        SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM superstar_pack_receipts_v1 WHERE request_id=? AND user_id=? AND status='COMPLETED' AND response_json=?) THEN 1 ELSE 0 END`)
+        .bind(`${requestId}:receipt`,requestId,user.id,JSON.stringify(response)),
+      env.DB.prepare('DELETE FROM superstar_pack_atomic_guard_v2047 WHERE id IN (?,?,?)').bind(`${requestId}:pre`,`${requestId}:final`,`${requestId}:receipt`),
     );
     const batchResults = await env.DB.batch(statements);
-    if (!Number(batchResults?.[0]?.meta?.changes || 0)) {
+    if (!Number(batchResults?.[debitIndex]?.meta?.changes || 0)) {
       await env.DB.prepare("UPDATE superstar_pack_receipts_v1 SET status='FAILED',cost=?,error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'")
-        .bind(settings.price, requestId, user.id)
+        .bind(cost, requestId, user.id)
         .run();
       return json({ error: "코인이 부족합니다." }, 400);
     }
@@ -344,14 +381,17 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     return json(response);
   } catch (error) {
     if (!committed) {
-      const completed = await completedReceipt(env, requestId, user.id).catch(() => ({}));
+      const completed = await completedReceipt(env, requestId, user.id).catch(() => null);
       if (completed?.response) return json(completed.response);
+      if(!completed)return json({error:'개봉 결과 확인이 지연되고 있습니다. 같은 요청으로 다시 확인해주세요.',code:'SUPERSTAR_DRAW_PENDING',requestId},503);
+      const debit=await env.DB.prepare('SELECT request_id FROM superstar_pack_debits_v1 WHERE request_id=?').bind(requestId).first().catch(()=>({uncertain:true}));
+      if(debit)return json({error:'개봉 결과 확인이 지연되고 있습니다. 같은 요청으로 다시 확인해주세요.',code:'SUPERSTAR_DRAW_PENDING',requestId},503);
       await env.DB.prepare("UPDATE superstar_pack_receipts_v1 SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'")
         .bind(String(error?.message || "슈퍼스타팩 개봉에 실패했습니다.").slice(0, 300), requestId, user.id)
         .run()
         .catch(() => {});
     }
-    return json({ error: String(error?.message || "슈퍼스타팩 개봉에 실패했습니다."), requestId }, 409);
+    return json({ error: '개봉을 완료하지 못해 결제를 취소했습니다. 다시 시도해주세요.',code:'SUPERSTAR_DRAW_FAILED',requestId }, 409);
   }
 }
 
