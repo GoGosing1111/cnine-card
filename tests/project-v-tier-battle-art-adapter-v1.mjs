@@ -43,7 +43,7 @@ assert.match(superstarZeus.primaryUrl,/characters\/superstar\/superstar-cn-f7d77
 assert.match(superstarSon.primaryUrl,/characters\/superstar\/superstar-cn-a041807b14b54c89/);
 assert.match(superstarHaaland.primaryUrl,/characters\/superstar\/superstar-cn-17edfc0b27e54069/);
 assert.match(cheetah.primaryUrl,/characters\/fur\/fur-cn-5d0e2e4d58c9416f/);
-assert.equal(cheetah.scaleMultiplier,1.7);
+assert.equal(cheetah.scaleMultiplier,0.8);
 assert.equal(superstarZeus.kind,'SUPERSTAR_SD');
 assert.equal(superstarSon.kind,'SUPERSTAR_SD');
 assert.equal(superstarHaaland.kind,'SUPERSTAR_SD');

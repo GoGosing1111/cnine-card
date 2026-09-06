@@ -37,7 +37,8 @@ test('치타구 FUR는 카드 원화와 분리된 투명 전투 SD로 연결된�
   assert.equal(entry.sourceArt,'assets/cards/cheetah-face-card-portrait-2x3-v1.png');
   assert.notEqual(entry.sourceArt,entry.battleSprite);
   assert.equal(entry.battleSprite,spriteRelative);
-  assert.equal(entry.scaleMultiplier,1.7);
+  assert.equal(entry.scaleMultiplier,0.8);
+  assert.ok(entry.scaleMultiplier<=1.7/2,'치타구 표시 크기는 이전 설정의 절반 이하여야 합니다.');
   assert.equal(sha256(spritePath),expectedHash);
   assert.equal(entry.sha256,expectedHash);
 
@@ -70,10 +71,10 @@ test('치타구 반응형 자산과 V3 캐시·라우팅 계약이 함께 갱신
   const worker=fs.readFileSync(path.join(root,'service-worker.js'),'utf8');
   assert.match(responsive,/fur-cn-5d0e2e4d58c9416f-sd-v1\.png/);
   assert.match(responsive,/fur-cn-5d0e2e4d58c9416f-sd-v1-768\.webp/);
-  assert.match(adapter,/manifest-v2\.json\?v=3-cheetah/);
+  assert.match(adapter,/manifest-v2\.json\?v=4-cheetah-scale/);
   assert.match(adapter,/scaleMultiplier: Math\.min\(2, Math\.max\(\.5, Number\(entry\.scaleMultiplier\) \|\| 1\)\)/);
-  assert.match(app,/project-v-tier-battle-art-adapter-v1\.js\?v=3\.7\.0-cheetah-fur/);
-  assert.match(index,/responsive-battle-sprites-v1815\.js\?v=2058-cheetah-sd/);
-  assert.match(index,/js\/app\.js\?v=2058-cheetah-sd/);
-  assert.match(worker,/soop-card-shell-v2058-cheetah-sd/);
+  assert.match(app,/project-v-tier-battle-art-adapter-v1\.js\?v=3\.7\.1-cheetah-scale/);
+  assert.match(index,/responsive-battle-sprites-v1815\.js\?v=2059-cheetah-scale/);
+  assert.match(index,/js\/app\.js\?v=2059-cheetah-scale/);
+  assert.match(worker,/soop-card-shell-v2059-cheetah-scale/);
 });

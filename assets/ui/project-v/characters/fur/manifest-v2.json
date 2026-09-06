@@ -17,6 +17,6 @@
     {"cardId":"CN-DAE98309A47C4CCA","title":"서수길","member":"서수길","sourceArt":"assets/cards/newcard0730/7887878.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-dae98309a47c4cca-sd-v1.png","sha256":"994E8C373F0DE8EEA5680180C8DE892F73EC1A62AC086D306830D2D717D76FFA"},
     {"cardId":"CN-0B48C6FF8F9B4AC5","title":"Faker","member":"Faker","sourceArt":"assets/cards/7777777.jpg","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-0b48c6ff8f9b4ac5-sd-v1.png","sha256":"9CB0EB7FE0C016EBAAB75CD16358D98AE046F046FF06A804778D06CDA6B2708E"},
     {"cardId":"CN-346F8DB0DEB84D41","title":"철구","member":"이예준","sourceArt":"assets/cards/special/chulgu-fur.webp","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-346f8db0deb84d41-sd-v1.png","sha256":"331A96398DFDB0500E314E09747B114F9D0278831B15CBAD362DBB2203EC66D0"},
-    {"cardId":"CN-5D0E2E4D58C9416F","title":"치타구","member":"이예준","sourceArt":"assets/cards/cheetah-face-card-portrait-2x3-v1.png","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-5d0e2e4d58c9416f-sd-v1.png","sha256":"CE63406916F6BD6C03DDE62E0E25910FB104C130A8A86803E95C2ABA4078BA2F","scaleMultiplier":1.7}
+    {"cardId":"CN-5D0E2E4D58C9416F","title":"치타구","member":"이예준","sourceArt":"assets/cards/cheetah-face-card-portrait-2x3-v1.png","battleSprite":"assets/ui/project-v/characters/fur/fur-cn-5d0e2e4d58c9416f-sd-v1.png","sha256":"CE63406916F6BD6C03DDE62E0E25910FB104C130A8A86803E95C2ABA4078BA2F","scaleMultiplier":0.8}
   ]
 }

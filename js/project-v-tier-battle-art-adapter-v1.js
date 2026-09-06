@@ -3,7 +3,7 @@
 
   const root = typeof window !== 'undefined' ? window : globalThis;
   const MANIFEST_URLS = Object.freeze({
-    FUR: '/assets/ui/project-v/characters/fur/manifest-v2.json?v=3-cheetah',
+    FUR: '/assets/ui/project-v/characters/fur/manifest-v2.json?v=4-cheetah-scale',
     PRESTIGE: '/assets/ui/project-v/characters/prestige/manifest-v1.json?v=2-full-roster',
     SUPERSTAR: '/assets/ui/project-v/characters/superstar/manifest-v1.json?v=3-haaland'
   });
