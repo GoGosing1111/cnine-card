@@ -3844,7 +3844,8 @@ const RETIREMENT_REROLL_META={
   MA_REROLL_TICKET:{title:'MA 재뽑기권',grade:'MA',theme:'ma'},
   LIMITED_REROLL_TICKET:{title:'리미티드 재뽑기권',grade:'LIMITED',theme:'limited'},
   PRESTIGE_REROLL_TICKET:{title:'PRESTIGE 재뽑기권',grade:'PRESTIGE',theme:'prestige'},
-  FUR_REROLL_TICKET:{title:'FUR 재뽑기권',grade:'FUR',theme:'fur'}
+  FUR_REROLL_TICKET:{title:'FUR 재뽑기권',grade:'FUR',theme:'fur'},
+  SUPERSTAR_REROLL_TICKET:{title:'슈퍼스타 재뽑기권',grade:'SUPERSTAR',theme:'superstar'}
 };
 const WORKSHOP_ONLY_ITEM_CODES=new Set(['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE']);
 function inventoryView(){return `${summaryBar(loadUser())}<section class="inventory-vault"><div class="inventory-hero"><div class="inventory-hero-copy"><h2>인벤토리</h2><p>획득한 보상 큐브와 특별 아이템을 안전하게 보관합니다.</p><div class="inventory-hero-meta"><b id="inventoryOwnedSummary">보관품 확인 중</b></div></div><div class="inventory-vault-mark" aria-hidden="true"><img src="assets/ui/cninelogo.png" alt=""></div></div><div class="inventory-toolbar" id="inventoryToolbar"><div><button type="button" class="active" data-inventory-filter="ALL">전체</button><button type="button" data-inventory-filter="MATERIAL">재료</button><button type="button" data-inventory-filter="CUBE">큐브</button><button type="button" data-inventory-filter="SUPPLY_BOX">보급상자</button><button type="button" data-inventory-filter="ENTRY_TICKET">입장권</button><button type="button" data-inventory-filter="VEHICLE_DRAW">이동수단</button><button type="button" data-inventory-filter="REROLL" id="inventoryRerollFilter" hidden>재뽑기권</button></div></div><div id="inventoryGrid" class="inventory-grid"><div class="inventory-loading"><i></i><b>보관함 확인 중</b><span>보유 정보를 확인하고 있습니다.</span></div></div></section>`}
@@ -3922,6 +3923,7 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
   document.getElementById('inventoryOpenClose').onclick=close;
   if(bulkPremium)modal.querySelectorAll('[data-cube-open-count]').forEach(button=>button.onclick=()=>{selectedCount=Number(button.dataset.cubeOpenCount||1);modal.querySelectorAll('[data-cube-open-count]').forEach(item=>item.classList.toggle('active',item===button));document.getElementById('inventoryOpenRange').textContent=`${meta.range} · 카드 ${selectedCount}장`;document.getElementById('inventoryOpenConfirm').textContent=`${selectedCount}개 개방`;document.getElementById('inventoryOpenBalance').textContent=`보유 ${Number(ownedQuantity).toLocaleString()}개 · 완료되면 인벤토리 수량 ${selectedCount}개가 차감됩니다.`});
   document.getElementById('inventoryOpenConfirm').onclick=async()=>{
+    if(busy)return;
     const btn=document.getElementById('inventoryOpenConfirm'),panel=modal.querySelector('.inventory-open-panel'),requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
     busy=true;btn.disabled=true;btn.textContent=reroll?'재뽑기 처리 중':selectedCount>1?`${selectedCount}개 결과 계산 중`:'봉인 확인 중';panel.classList.add('opening');
     try{

@@ -88,6 +88,6 @@ test('전체 메뉴 행정부와 반응형 게임 내 승인 UI가 연결된다'
   assert.match(router,/treasury: \{ shell: 'treasury' \}/);
   assert.match(app,/administration-treasury-v2030\.js\?v=2030-tax-one-percent/);
   assert.match(app,/window\.bindAdministrationTreasuryView/);
-  assert.match(index,/js\/app\.js\?v=2054-clan-rank-name/);
-  assert.match(worker,/soop-card-shell-v2054-clan-rank-name/);
+  assert.match(index,/js\/app\.js\?v=2057-superstar-reroll/);
+  assert.match(worker,/soop-card-shell-v2057-superstar-reroll/);
 });

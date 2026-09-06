@@ -39,7 +39,7 @@
     "test:prime-draw": "node --test tests/prime-draw-live-v1985.test.mjs tests/prime-draw-opening-preview-v1984.test.mjs",
     "test:superstar-pack": "node --test tests/superstar-duplicates-v2051.test.mjs tests/superstar-pack-v1894.test.mjs tests/superstar-pack-batch-v2047.test.mjs tests/superstar-pack-postgres-v2048.test.mjs tests/superstar-pack-client-v2047.test.mjs tests/superstar-power-deck-v2034.test.mjs tests/superstar-enhancement-v1940.test.mjs tests/superstar-grade-v1851.mjs tests/deck-rules-api-contract-v1.mjs tests/zenith-deck-limit-v1850.mjs",
     "test:gamst-retirement": "node --test tests/gamst-card-retirement-v2001.test.mjs tests/gamst-territory-deck-repair-v2005.test.mjs tests/roster-card-retirement-v2056.test.mjs tests/card-catalog-account-visibility-v1908.test.mjs",
-    "test:reroll-recovery": "node --test tests/iyejun-fur-reroll-recovery-v2023.test.mjs tests/iyejun-fur-card-pack-eligibility.test.mjs",
+    "test:reroll-recovery": "node --test tests/iyejun-fur-reroll-recovery-v2023.test.mjs tests/iyejun-fur-card-pack-eligibility.test.mjs tests/superstar-reroll-v2057.test.mjs",
     "test:targeted-transfer": "node --test tests/targeted-card-transfer-v2003.test.mjs tests/targeted-avatar-grant-v2007.test.mjs tests/targeted-avatar-grant-v2014.test.mjs tests/targeted-card-grant-v2015.test.mjs tests/targeted-card-grant-v2016.test.mjs tests/targeted-inventory-grant-v2025.test.mjs tests/targeted-inventory-grant-v2026.test.mjs tests/targeted-inventory-grant-v2027.test.mjs tests/targeted-skill-chip-grant-v2055.test.mjs",
     "test:idle-dungeon": "node tests/idle-dungeon-daily-cap-v1732.mjs && node --test tests/idle-v3-preview-v1.test.mjs",
     "test:treasury": "node --test tests/administration-treasury-v2030.test.mjs",
