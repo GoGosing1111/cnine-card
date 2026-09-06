@@ -178,7 +178,7 @@ test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=
   assert.match(css,/@keyframes clanRadarSweep/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
   assert.match(html,/clan-v1\.css\?v=2040-clan-participation-positive/);
-  assert.match(html,/clan-v1\.js\?v=2053-player-calling-card-empty-fx/);
+  assert.match(html,/clan-v1\.js\?v=2054-clan-rank-name/);
   assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
 });
 

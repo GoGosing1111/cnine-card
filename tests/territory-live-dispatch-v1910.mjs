@@ -53,5 +53,5 @@ test('lite state carries a cached twenty-result pulse and deploy assets are cach
   assert.match(server,/SELECT a\.id,a\.side,a\.winner_side/);
   assert.match(index,/territory-war-v1824\.css\?v=1994-commander-direct-live-status/);
   assert.match(index,/territory-war-v1811\.js\?v=2053-player-calling-card-empty-fx/);
-  assert.match(worker,/soop-card-shell-v2053-player-calling-card-empty-fx/);
+  assert.match(worker,/soop-card-shell-v2054-clan-rank-name/);
 });

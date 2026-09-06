@@ -19,7 +19,7 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/id="view-clanwar"/);
   assert.match(html,/id="clanWarAdminRoot"/);
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=2040-clan-participation-positive/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=2054-clan-rank-name/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
   assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
