@@ -43,6 +43,7 @@ import { handleUniqueAdvancement } from '../_unique_advancement.js';
 import { ensureUniqueAdvancementPassCatalog, UNIQUE_ADVANCEMENT_PASS_CODE } from '../_unique_advancement.js';
 import { ensureGamstCardRetirement } from '../_gamst_card_retirement.js';
 import { ensureGamstDeckRepairV2005 } from '../_gamst_deck_repair_v2005.js';
+import { ensureRosterCardRetirementV2056,ROSTER_CARD_RETIREMENT_SOURCES } from '../_roster_card_retirement_v2056.js';
 import { ensureTargetedCardTransferV2003 } from '../_targeted_card_transfer_v2003.js';
 import { ensureTargetedAvatarGrantV2007 } from '../_targeted_avatar_grant_v2007.js';
 import { ensureTargetedAvatarGrantV2014 } from '../_targeted_avatar_grant_v2014.js';
@@ -1671,6 +1672,17 @@ async function furRetirementRefundByLevel(env){
   for(const refund of rules)cumulative.push(cumulative.at(-1)+refund);
   return cumulative;
 }
+async function retirementRefundByGrades(env,grades=[]){
+  const config=await breakthroughConfig(env),normalized=[...new Set(grades.map(grade=>String(grade||'').trim().toUpperCase()).filter(Boolean))];
+  const pairs=await Promise.all(normalized.map(async grade=>{
+    const rules=(Array.isArray(config[grade])?config[grade]:[]).map(rule=>Math.max(0,Number(rule?.cost)||0));
+    const highConfig=await highBreakthroughConfigFor(env,grade);
+    if(highConfig)for(const step of highConfig.steps||[])rules.push(Math.max(0,Number(step?.retirementShardRefund)||0));
+    const cumulative=[0];for(const refund of rules)cumulative.push(cumulative.at(-1)+refund);
+    return [grade,cumulative];
+  }));
+  return Object.fromEntries(pairs);
+}
 // 고급 강화 단계는 자기 단계의 천장을 쓰고, 값이 0이면 기존 등급 천장 규칙으로 되돌아간다.
 function highBreakthroughStepPity(grade,level,rule,pity){const threshold=Math.max(0,Math.floor(Number(rule?.pityThreshold)||0));return threshold>0?{enabled:true,grade:String(grade||'').trim().toUpperCase(),threshold}:breakthroughPityRule(grade,level,pity)}
 // FUR/ZENITH/SUPERSTAR 는 11강부터 공용 표를 쓰지 않는다. SUPERSTAR는 ZENITH 표를 항상 공유한다.
@@ -1796,7 +1808,8 @@ const RETIREMENT_REROLL_TICKETS={
   MA:{code:'MA_REROLL_TICKET',name:'MA 재뽑기권'},
   LIMITED:{code:'LIMITED_REROLL_TICKET',name:'리미티드 재뽑기권'},
   PRESTIGE:{code:'PRESTIGE_REROLL_TICKET',name:'PRESTIGE 재뽑기권'},
-  FUR:{code:'FUR_REROLL_TICKET',name:'FUR 재뽑기권'}
+  FUR:{code:'FUR_REROLL_TICKET',name:'FUR 재뽑기권'},
+  SUPERSTAR:{code:'SUPERSTAR_REROLL_TICKET',name:'슈퍼스타 재뽑기권'}
 };
 const RETIREMENT_REROLL_CODES=Object.values(RETIREMENT_REROLL_TICKETS).map(item=>item.code);
 function defaultCubeSettings(){return {PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
@@ -2444,6 +2457,15 @@ async function ensureUpgrades(env){
         env.DB.prepare("UPDATE inventory_items SET name='PRESTIGE 재뽑기권',subtitle='PRESTIGE RETIREMENT REROLL',description='퇴사 처리된 PRESTIGE 카드를 대신해 활성 PRESTIGE 카드 1장을 다시 뽑습니다.',category='REROLL',rarity='PRESTIGE',image_url='',sort_order=112,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='PRESTIGE_REROLL_TICKET'"),
         env.DB.prepare("UPDATE inventory_items SET name='FUR 재뽑기권',subtitle='FUR RETIREMENT REROLL',description='퇴사 처리된 FUR 카드를 대신해 활성 FUR 카드 1장을 다시 뽑습니다.',category='REROLL',rarity='FUR',image_url='',sort_order=113,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='FUR_REROLL_TICKET'"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1164_retirement_reroll_tickets','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const superstarRetirementRerollDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v2056_superstar_retirement_reroll_ticket'").first();
+    if(superstarRetirementRerollDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+          VALUES('SUPERSTAR_REROLL_TICKET','슈퍼스타 재뽑기권','SUPERSTAR RETIREMENT REROLL','퇴사 처리된 슈퍼스타 카드를 대신해 활성 슈퍼스타 카드 1장을 다시 뽑습니다.','REROLL','SUPERSTAR','',114,1)
+          ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v2056_superstar_retirement_reroll_ticket','1',CURRENT_TIMESTAMP)")
       ]);
     }
     const retirementRerollRepairDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1271_limited_fur_reroll_repair'").first();
@@ -4823,6 +4845,7 @@ async function handleRequest(context){
       const databaseInitialized=await initialized(env);
       let gamstCardRetirement=null;
       let gamstDeckRepair=null;
+      let rosterCardRetirementV2056=null;
       let targetedCardTransfer=null;
       let targetedAvatarGrant=null;
       let targetedAvatarGrantV2014=null;
@@ -4838,6 +4861,15 @@ async function handleRequest(context){
         await ensureApocalypseEnergyFoundation(env);
         gamstCardRetirement=await ensureGamstCardRetirement(env,{refundByLevel:await furRetirementRefundByLevel(env)});
         gamstDeckRepair=await ensureGamstDeckRepairV2005(env);
+        const rosterRetirement=await ensureRosterCardRetirementV2056(env,{refundByGrade:await retirementRefundByGrades(env,ROSTER_CARD_RETIREMENT_SOURCES.map(card=>card.grade))});
+        rosterCardRetirementV2056=rosterRetirement?{
+          status:rosterRetirement.status,version:rosterRetirement.version,replayed:Boolean(rosterRetirement.replayed),
+          retiredCards:Number(rosterRetirement.retiredCards||0),ownershipRows:Number(rosterRetirement.ownershipRows||0),
+          affectedUsers:Number(rosterRetirement.affectedUsers||0),snapshotRows:Number(rosterRetirement.snapshotRows||0),
+          fakerAdvancementSnapshots:Number(rosterRetirement.fakerAdvancementSnapshots||0),
+          compensation:rosterRetirement.compensation||null,rewrittenDecks:rosterRetirement.rewrittenDecks||null,
+          verification:rosterRetirement.verification||null
+        }:null;
         const transfer=await ensureTargetedCardTransferV2003(env);
         targetedCardTransfer=transfer?{
           status:transfer.status,version:transfer.version,replayed:Boolean(transfer.replayed),
@@ -4905,12 +4937,12 @@ async function handleRequest(context){
           shardsReversed:Number(rerollRecovery.shardsReversed||0),missingCurrentCards:Number(rerollRecovery.missingCurrentCards||0),
           stateChanged:Number(rerollRecovery.stateChanged||0)
         }:null;
-        if(gamstCardRetirement?.status==='COMPLETED'){
+        if(gamstCardRetirement?.status==='COMPLETED'||rosterRetirement?.status==='COMPLETED'){
           drawContextCache.clear();
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,iyejunFurRerollRecovery});
+      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,iyejunFurRerollRecovery});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
@@ -5288,7 +5320,7 @@ async function handleRequest(context){
         const used=await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=MIN(unseen_quantity,quantity-1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>0').bind(user.id,itemCode).run();
         if(!used.meta.changes)throw new Error('보유한 아이템이 없습니다.');
         consumed=true;
-        const fixedGradeByItem={GUARANTEED_MA_PACK:'MA',GUARANTEED_LIMITED_PACK:'LIMITED',MA_REROLL_TICKET:'MA',LIMITED_REROLL_TICKET:'LIMITED',PRESTIGE_REROLL_TICKET:'PRESTIGE',FUR_REROLL_TICKET:'FUR'};
+        const fixedGradeByItem={GUARANTEED_MA_PACK:'MA',GUARANTEED_LIMITED_PACK:'LIMITED',MA_REROLL_TICKET:'MA',LIMITED_REROLL_TICKET:'LIMITED',PRESTIGE_REROLL_TICKET:'PRESTIGE',FUR_REROLL_TICKET:'FUR',SUPERSTAR_REROLL_TICKET:'SUPERSTAR'};
         const fixedGrade=fixedGradeByItem[itemCode]||null,isReroll=RETIREMENT_REROLL_CODES.includes(itemCode),cubeConfig=await cubeSettings(env),configured=fixedGrade?{[fixedGrade]:100}:cubeConfig[itemCode];
         if(isReroll)await ensureHighGradeRerollFoundation(env);
         const rerollResultEligibility=isReroll?` AND EXISTS(SELECT 1 FROM cards rc WHERE rc.id=c.id AND COALESCE(rc.reroll_result_enabled,1)=1)
