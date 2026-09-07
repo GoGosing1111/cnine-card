@@ -1,0 +1,85 @@
+{
+  "status": "DRAFT_USER_REVIEW_PENDING",
+  "createdAt": "2026-09-07",
+  "generationMode": "BUILT_IN_IMAGE_GEN",
+  "promptSet": "prompts.json",
+  "sourceArtOnly": true,
+  "liveRosterConnected": false,
+  "references": [
+    {
+      "path": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "role": "PRIMARY_STYLE_ANCHOR_NOT_CHARACTER_IDENTITY",
+      "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874"
+    },
+    {
+      "path": "preview/mercenary-vespera-beauty-v1/assets/female-beauty-v1.png",
+      "role": "APPROVED_BEAUTY_AND_PAINTING_TONE",
+      "sha256": "41B2179B9A35C10662EAA0804611CD7A2A6B047EA13E458BB2D774FC5784FD7E"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "office-gauntlet",
+      "label": "오피스룩 × 건틀릿",
+      "path": "assets/office-gauntlet-source-art-v1.png",
+      "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-c90b54e8-adb2-4168-a25f-6d56315cb5d8.png",
+      "sha256": "15498B1A48643F51498038531A4647AC5C7D17561AA7D3529F7A9B854166DA0E",
+      "width": 1024,
+      "height": 1536,
+      "format": "png",
+      "space": "srgb",
+      "channels": 3,
+      "processing": "NONE_BYTE_FOR_BYTE_COPY"
+    },
+    {
+      "id": "garter-chainsword",
+      "label": "가터벨트 치마 × 체인소드",
+      "path": "assets/garter-chainsword-source-art-v1.png",
+      "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-bc3db939-0241-489e-998b-83b41d1ad7aa.png",
+      "sha256": "1ACB0840FCE80FACD1CE5A75C26AD7E7D84AB66146EA8FFC4C0482A7197F4B84",
+      "width": 1024,
+      "height": 1536,
+      "format": "png",
+      "space": "srgb",
+      "channels": 3,
+      "processing": "NONE_BYTE_FOR_BYTE_COPY"
+    },
+    {
+      "id": "bikini-bow",
+      "label": "비키니룩 × 활",
+      "path": "assets/bikini-bow-source-art-v1.png",
+      "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-df26e9b6-b91a-47e8-8632-9135b6a903be.png",
+      "sha256": "D5A52F7DA6C496B1C9BAC9732CE6D423A59CB401B58D55940DA43FE7815C5488",
+      "width": 1024,
+      "height": 1536,
+      "format": "png",
+      "space": "srgb",
+      "channels": 3,
+      "processing": "NONE_BYTE_FOR_BYTE_COPY"
+    },
+    {
+      "id": "hotpants-greatsword",
+      "label": "핫팬츠룩 × 대검",
+      "path": "assets/hotpants-greatsword-source-art-v1.png",
+      "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-f52face3-29be-4c39-8c10-658995040a39.png",
+      "sha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D",
+      "width": 1024,
+      "height": 1536,
+      "format": "png",
+      "space": "srgb",
+      "channels": 3,
+      "processing": "NONE_BYTE_FOR_BYTE_COPY"
+    }
+  ],
+  "qa": {
+    "nativeResolutionAndRgb": "PASS",
+    "distinctFaceHairOutfitWeaponComposition": "VISUALLY_REVIEWED",
+    "handsAndWeaponContact": "VISUALLY_REVIEWED",
+    "thumbnailAndSeparateFrame": "VISUALLY_REVIEWED_160PX_WIDE_4_CARDS",
+    "desktopViewport": "1440x1000: four 160x240 cards, separate frame layer, no horizontal overflow",
+    "mobileViewport": "390x844: single-column large view and two-column 160px view, no horizontal overflow",
+    "originalZoomAndFocusReturn": "PASS",
+    "audioElements": 0,
+    "userArtApproval": "PENDING"
+  }
+}
