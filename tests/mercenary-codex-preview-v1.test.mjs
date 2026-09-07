@@ -22,6 +22,35 @@ test('reads the canonical 21-card preview roster and never inherits historic ran
   assert.ok(roster.cards.every(card => card.rank === null));
   assert.deepEqual(summarize(roster.cards), { total: 21, sourceReady: 21, spriteReady: 21, rankPending: 21, positions: { 전위: 11, 중거리: 5, 후열: 5 } });
 });
+test('current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft', async () => {
+  assert.equal(roster.cardComposition.frame, 'assets/ui/card-frames/mercenary-contract-frame-slim-v3.png');
+  const bytes = fs.readFileSync(path.join(root, roster.cardComposition.frame));
+  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex').toUpperCase(), roster.cardComposition.frameSha256);
+  const metadata = await sharp(bytes).metadata();
+  assert.deepEqual([metadata.width, metadata.height, metadata.channels, metadata.hasAlpha], [1024, 1536, 4, true]);
+  const { data, info } = await sharp(bytes).raw().toBuffer({ resolveWithObject: true });
+  let transparent = 0;
+  let solidMetal = 0;
+  for (let i = 3; i < data.length; i += 4) {
+    if (data[i] === 0) transparent++;
+    if (data[i] >= 240) solidMetal++;
+  }
+  assert.ok(transparent > info.width * info.height * 0.8, 'opening and exterior must contain genuine alpha');
+  assert.ok(solidMetal > 100000, 'the metal frame must remain visually solid (native alpha peaks at 254)');
+  for (const [x, y] of [[0, 0], [1023, 0], [0, 1535], [1023, 1535]]) {
+    assert.ok(data[(y * info.width + x) * 4 + 3] <= 1, `clear exterior sample ${x},${y}`);
+  }
+  for (const [x, y] of [[512, 768], [160, 240], [864, 1296]]) {
+    assert.equal(data[(y * info.width + x) * 4 + 3], 0, `transparent sample ${x},${y}`);
+  }
+  assert.match(client, /assetUrl\(roster\.cardComposition\.frame\)/);
+  assert.match(client, /class="card-display-name"/);
+  assert.doesNotMatch(client, /class="card-name"/);
+  assert.match(css, /\.card-display-name\{[^}]*font-size:17px/);
+  const systemPreview = read('preview/project-v-mercenary-system-v1/mercenary-system.js');
+  assert.match(systemPreview, /assetUrl\(state\.roster\.cardComposition\.frame\)/);
+  assert.doesNotMatch(systemPreview, /mercenary-contract-frame-premium-v2/);
+});
 test('preview menu inserts the codex next to dex without mutating the real navigation contract', () => {
   const context = { console, URLSearchParams, location: { search: '' }, document: { currentScript: { dataset: { enabled: 'false' } }, readyState: 'loading', addEventListener() {} } };
   context.window = context;

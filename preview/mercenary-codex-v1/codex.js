@@ -71,8 +71,8 @@ function toggleFavorite(code) {
   updateDetailNavigation();
   if (persisted) announce(favorites.has(code) ? '이 브라우저의 즐겨찾기에 저장했습니다.' : '즐겨찾기에서 해제했습니다.');
 }
-function visual(card, { sizes = '(max-width: 520px) 45vw, (max-width: 800px) 30vw, (max-width: 1100px) 23vw, 245px', eager = false, name = true } = {}) {
-  return `<span class="card-visual"><img class="card-source" data-media="sourceArt" src="${assetUrl(mediaPath(card.code))}" srcset="${assetUrl(mediaPath(card.code))} 320w, ${assetUrl(mediaPath(card.code, 'art', 640))} 640w" sizes="${sizes}" alt="" width="320" height="480" loading="${eager ? 'eager' : 'lazy'}" decoding="async"><span class="card-vignette"></span><img class="card-frame" src="${assetUrl(roster.cardComposition.frame)}" alt="" width="1024" height="1536" loading="lazy">${name ? `<span class="card-name">${esc(card.name)}</span>` : ''}</span>`;
+function visual(card, { sizes = '(max-width: 520px) 45vw, (max-width: 800px) 30vw, (max-width: 1100px) 23vw, 245px', eager = false } = {}) {
+  return `<span class="card-visual"><img class="card-source" data-media="sourceArt" src="${assetUrl(mediaPath(card.code))}" srcset="${assetUrl(mediaPath(card.code))} 320w, ${assetUrl(mediaPath(card.code, 'art', 640))} 640w" sizes="${sizes}" alt="" width="320" height="480" loading="${eager ? 'eager' : 'lazy'}" decoding="async"><span class="card-vignette"></span><img class="card-frame" src="${assetUrl(roster.cardComposition.frame)}" alt="" width="1024" height="1536" loading="lazy"></span>`;
 }
 function persistUrl() {
   const url = new URL(location.href);
@@ -102,7 +102,7 @@ function renderGrid() {
   grid.setAttribute('aria-busy', 'false');
   $('#resultCount').textContent = `${visibleCards.length} / ${roster.cards.length}종`;
   grid.innerHTML = visibleCards.length ? visibleCards.map((card, index) => `<li class="codex-card" data-card="${card.code}">
-    <button type="button" class="card-open" data-open="${card.code}" aria-label="${esc(`${card.name} · ${card.title} · ${card.role} 상세 보기`)}">${visual(card, { eager: index < 5 })}<span class="card-caption"><span class="caption-top"><span>${card.code}</span><span class="role-tag">${esc(card.role)}</span></span><span class="card-title">${esc(card.title)}</span></span></button>
+    <button type="button" class="card-open" data-open="${card.code}" aria-label="${esc(`${card.name} · ${card.title} · ${card.role} 상세 보기`)}">${visual(card, { eager: index < 5 })}<span class="card-caption"><strong class="card-display-name">${esc(card.name)}</strong><span class="caption-top"><span>${card.code}</span><span class="role-tag">${esc(card.role)}</span></span><span class="card-title">${esc(card.title)}</span></span></button>
     <button type="button" class="card-save" data-save="${card.code}" aria-pressed="false" aria-label="${esc(card.name)} 즐겨찾기 추가">${icon('bookmark')}</button></li>`).join('') : `<li class="load-state">${icon('search')}<strong>${state.favoritesOnly && !favorites.size ? '아직 저장한 용병이 없습니다' : '조건에 맞는 용병이 없습니다'}</strong><p>${state.favoritesOnly && !favorites.size ? '카드 오른쪽 위의 책갈피를 눌러 관심 있는 용병을 모아보세요.' : '검색어 또는 전투 위치·역할 필터를 바꿔보세요.'}</p><button class="primary-button" type="button" data-reset>전체 용병 보기</button></li>`;
   refreshSavedButtons();
 }

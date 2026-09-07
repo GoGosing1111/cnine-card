@@ -12,6 +12,10 @@ export async function runMercenaryCodexBrowserQa() {
   try {
     check('21 cards', document.querySelectorAll('.codex-card').length === 21);
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
+    const frame = $('.card-frame');
+    await frame.decode();
+    check('slim V3 frame loaded on every list card', frame.naturalWidth === 1024 && [...document.querySelectorAll('.codex-card .card-frame')].every(node => node.src.endsWith('/mercenary-contract-frame-slim-v3.png')));
+    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 21 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
     if (publicMode) {
       const back = $('#lobbyReturn');
       check('explicit same-tab lobby return', back && !back.hidden && back.textContent.includes('로비로 돌아가기') && back.getAttribute('href') === '/?screen=home' && !back.target);

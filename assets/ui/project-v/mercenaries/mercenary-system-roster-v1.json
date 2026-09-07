@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 3,
-  "updatedAt": "2026-08-31",
+  "version": 4,
+  "updatedAt": "2026-09-07",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "ALL_SPRITES_TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
@@ -22,7 +22,8 @@
   },
   "cardComposition": {
     "mode": "HTML_CSS_LAYERED",
-    "frame": "assets/ui/card-frames/mercenary-contract-frame-premium-v2.png",
+    "frame": "assets/ui/card-frames/mercenary-contract-frame-slim-v3.png",
+    "frameSha256": "0486312ABD46D90680FEA968E552CB4A234ECE7110BEBE31072053BB477A065A",
     "sourceArtUsage": ["CATALOG", "SHOP", "DECK", "DETAIL", "SKILL_CUTIN"],
     "battleSpriteUsage": ["BATTLE_FIELD_ONLY"]
   },

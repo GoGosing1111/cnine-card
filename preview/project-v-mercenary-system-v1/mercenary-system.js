@@ -5,7 +5,6 @@ import {
 import { createMercenaryBattleArtAdapter } from '../../js/project-v-mercenary-battle-art-adapter-v1.js';
 
 const DATA_URL = '../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json';
-const FRAME_URL = '../../assets/ui/card-frames/mercenary-contract-frame-premium-v2.png';
 
 const state = {
   roster: null,
@@ -81,7 +80,7 @@ function renderGrid() {
         <span class="card-visual">
           <img class="card-art" src="${assetUrl(card.sourceArt)}" alt="${escapeHtml(card.title)} ${escapeHtml(card.name)}" loading="lazy">
           <span class="card-shade"></span>
-          <img class="card-frame" src="${FRAME_URL}" alt="" loading="lazy">
+          <img class="card-frame" src="${assetUrl(state.roster.cardComposition.frame)}" alt="" loading="lazy">
           <span class="card-code">${escapeHtml(card.code)}</span>
           <span class="rank-pending">등급 미정</span>
           ${assigned ? '<span class="assigned-mark">6번 배치</span>' : ''}
@@ -118,7 +117,7 @@ function renderDetail() {
     <div class="detail-media">
       <div class="detail-card">
         <img class="detail-art" src="${assetUrl(card.sourceArt)}" alt="${escapeHtml(card.name)} 원화">
-        <img class="detail-frame" src="${FRAME_URL}" alt="">
+        <img class="detail-frame" src="${assetUrl(state.roster.cardComposition.frame)}" alt="">
       </div>
       <div class="sprite-stage ${battleArt ? '' : 'empty'}">
         ${battleArt
