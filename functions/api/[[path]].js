@@ -31,7 +31,7 @@ import { handleEscortOperation } from '../_escort_operation.js';
 import { handleRaidCoreProtocol } from '../_raid_core_protocol.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
-import { handleWorkshop } from '../_workshop.js';
+import { handleWorkshop,ensureWorkshopFoundation } from '../_workshop.js';
 import { ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
 import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_reward_batch.js';
@@ -53,6 +53,7 @@ import { ensureTargetedInventoryGrantV2025 } from '../_targeted_inventory_grant_
 import { ensureTargetedInventoryGrantV2026 } from '../_targeted_inventory_grant_v2026.js';
 import { ensureTargetedInventoryGrantV2027 } from '../_targeted_inventory_grant_v2027.js';
 import { ensureTargetedSkillChipGrantV2055 } from '../_targeted_skill_chip_grant_v2055.js';
+import { ensureBattleSuitEbodyPityV2059 } from '../_battle_suit_ebody_pity_v2059.js';
 import { ensureIyejunFurRerollRecoveryV2023 } from '../_iyejun_fur_reroll_recovery_v2023.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
@@ -4855,6 +4856,7 @@ async function handleRequest(context){
       let targetedInventoryGrantV2026=null;
       let targetedInventoryGrantV2027=null;
       let targetedSkillChipGrantV2055=null;
+      let battleSuitEbodyPityV2059=null;
       let iyejunFurRerollRecovery=null;
       if(databaseInitialized){
         await ensurePrisonFoundation(env);
@@ -4926,6 +4928,15 @@ async function handleRequest(context){
           itemCount:Number(skillChipGrant.itemCount||0),verifiedPairs:Number(skillChipGrant.verifiedPairs||0),
           quantityGranted:Number(skillChipGrant.quantityGranted||0),alreadyOwned:Number(skillChipGrant.alreadyOwned||0)
         }:null;
+        await ensureWorkshopFoundation(env);
+        const ebodyPity=await ensureBattleSuitEbodyPityV2059(env);
+        battleSuitEbodyPityV2059=ebodyPity?{
+          status:ebodyPity.status,version:ebodyPity.version,replayed:Boolean(ebodyPity.replayed),oneTime:Boolean(ebodyPity.oneTime),
+          failureThresholdExclusive:Number(ebodyPity.failureThresholdExclusive||0),minimumFailures:Number(ebodyPity.minimumFailures||0),
+          equipment:ebodyPity.equipment||null,eligibleAccounts:Number(ebodyPity.eligibleAccounts||0),
+          grantedQuantity:Number(ebodyPity.grantedQuantity||0),alreadyOwnedAccounts:Number(ebodyPity.alreadyOwnedAccounts||0),
+          failureCountTotal:Number(ebodyPity.failureCountTotal||0),snapshotRows:Number(ebodyPity.snapshotRows||0),verification:ebodyPity.verification||null
+        }:null;
         const rerollRecovery=await ensureIyejunFurRerollRecoveryV2023(env);
         iyejunFurRerollRecovery=rerollRecovery?{
           status:rerollRecovery.status,version:rerollRecovery.version,replayed:Boolean(rerollRecovery.replayed),
@@ -4942,7 +4953,7 @@ async function handleRequest(context){
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.7',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,iyejunFurRerollRecovery});
+      return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
