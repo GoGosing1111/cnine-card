@@ -163,7 +163,7 @@
   background: linear-gradient(180deg, rgba(6, 17, 25, .98), rgba(3, 9, 14, .99));
 }
 .tw4-command-rail { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; border-right: 1px solid var(--line); }
-.tw4-detail-rail { display: flex; flex-direction: column; border-left: 1px solid var(--line); }
+.tw4-detail-rail { display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; border-left: 1px solid var(--line); }
 .tw4-rail > header { position: relative; padding: 18px 17px 14px; border-bottom: 1px solid var(--line); }
 .tw4-rail > header::before { content: ""; position: absolute; left: 0; top: 0; width: 3px; height: 100%; background: linear-gradient(var(--cyan), transparent); }
 .tw4-rail header h2 { margin: 4px 0 0; font-size: 20px; }
@@ -314,9 +314,41 @@
 .tw4-hp-stack small { color: #8195a0; font-size: 9px; }
 .tw4-hp-stack b { font-size: 15px; font-variant-numeric: tabular-nums; }
 
-.tw4-my-unit { padding: 16px 17px; }
-.tw4-my-unit > header { display: flex; justify-content: space-between; gap: 8px; }
-.tw4-my-unit > header span { color: var(--cyan); font-size: 9px; font-weight: 900; }
+.tw4-my-unit { flex-shrink: 0; padding: 16px 17px; }
+.tw4-my-team {
+  --team-accent: #a8bbc7;
+  --team-rgb: 168, 187, 199;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(var(--team-rgb), .48);
+  border-left: 4px solid var(--team-accent);
+  border-radius: 6px;
+  background: linear-gradient(115deg, rgba(var(--team-rgb), .14), rgba(5, 13, 20, .96) 85%);
+}
+.tw4-my-team.side-a { --team-accent: #8aecff; --team-rgb: 79, 225, 255; }
+.tw4-my-team.side-b { --team-accent: #ffacbd; --team-rgb: 255, 80, 109; }
+.tw4-my-team.is-assigned::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border: 1px solid rgba(var(--team-rgb), .72);
+  border-radius: inherit;
+  box-shadow: inset 0 0 20px rgba(var(--team-rgb), .12), 0 0 15px rgba(var(--team-rgb), .2);
+  pointer-events: none;
+  animation: tw4MyTeamGlow 3.2s ease-in-out infinite;
+}
+.tw4-my-team-eyebrow { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.tw4-my-team .tw4-my-team-label { color: #e6f1f7; font-size: 12px; font-weight: 800; letter-spacing: .03em; }
+.tw4-my-team-badge { flex-shrink: 0; padding: 3px 6px; border: 1px solid rgba(var(--team-rgb), .38); border-radius: 3px; color: var(--team-accent); font-size: 9px; font-weight: 900; letter-spacing: .06em; }
+.tw4-my-team .tw4-my-team-name { display: block; min-width: 0; margin-top: 8px; color: var(--team-accent); font-size: 28px; font-weight: 900; line-height: 1.25; letter-spacing: -.035em; word-break: keep-all; overflow-wrap: anywhere; }
+.tw4-my-team.is-assigned .tw4-my-team-name { text-shadow: 0 0 18px rgba(var(--team-rgb), .3); }
+.tw4-my-team .tw4-my-team-hint { margin: 8px 0 0; color: #a8bdc9; font-size: 10px; line-height: 1.55; word-break: keep-all; overflow-wrap: anywhere; }
+.tw4-my-team.is-unassigned .tw4-my-team-name { font-size: 23px; }
+.tw4-mobile-my-team { display: none; }
+@keyframes tw4MyTeamGlow { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
 .tw4-my-unit > div { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 10px; background: rgba(86, 126, 144, .16); }
 .tw4-my-unit article { padding: 11px; background: #071119; }
 .tw4-my-unit article small, .tw4-my-unit article b { display: block; }
@@ -589,7 +621,7 @@
   .tw4-dispatch-rail { height: 29px; }
   .tw4-dispatch-card > em { font-size: 19px; }
   .tw4-map-event { transition: opacity .18s ease, transform .18s ease; }
-  .tw3-shell.tw4-shell { grid-template-rows: calc(58px + var(--safe-top)) 64px minmax(0, 1fr) calc(58px + var(--safe-bottom)); }
+  .tw3-shell.tw4-shell { grid-template-rows: calc(58px + var(--safe-top)) auto minmax(0, 1fr) calc(58px + var(--safe-bottom)); }
   .tw4-topbar { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: var(--safe-top) 10px 0; }
   .tw4-brand { gap: 9px; }
   .tw4-brand .tw4-icon-button { width: 42px; height: 42px; }
@@ -603,9 +635,13 @@
   .tw4-scoreboard article.side-b > div { text-align: right; }
   .tw4-scoreboard strong { display: block; margin-top: 2px; font-size: 16px; }
   .tw4-scoreboard small { font-size: 7px; }
-  .tw4-front-status { position: absolute; left: 50%; top: 50%; width: 118px; padding: 4px 7px; background: #050b10; transform: translate(-50%, -50%); }
+  .tw4-front-status { position: absolute; left: 50%; top: 32px; width: 118px; padding: 4px 7px; background: #050b10; transform: translate(-50%, -50%); }
   .tw4-front-status span, .tw4-front-status small { display: none; }
   .tw4-front-status b { margin: 0; font-size: 10px; }
+  .tw4-mobile-my-team { display: block; grid-column: 1 / -1; min-width: 0; }
+  .tw4-mobile-my-team .tw4-my-team { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; padding: 8px 12px; }
+  .tw4-mobile-my-team .tw4-my-team-name { margin: 0; font-size: 22px; text-align: right; }
+  .tw4-mobile-my-team .tw4-my-team-badge, .tw4-mobile-my-team .tw4-my-team-hint { display: none; }
   .tw4-workspace { grid-template-columns: minmax(0, 1fr); grid-row: 3; }
   .tw4-map-shell { grid-column: 1; }
   .tw4-detail-rail { position: absolute; z-index: 20; left: 8px; right: 8px; bottom: 8px; display: none; max-height: min(45vh, 350px); overflow: auto; border: 1px solid #315163; background: rgba(4, 13, 20, .97); box-shadow: 0 -20px 45px rgba(0,0,0,.5); clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px); }
@@ -672,8 +708,8 @@
 @media (max-width: 520px) {
   .tw4-top-actions .tw4-icon-button { display: none; }
   .tw4-scoreboard { padding-inline: 8px; }
-  .tw4-scoreboard article:first-child { padding-right: 50px; }
-  .tw4-scoreboard article:last-child { padding-left: 50px; }
+  .tw4-scoreboard article.side-a { padding-right: 50px; }
+  .tw4-scoreboard article.side-b { padding-left: 50px; }
   .tw4-map-toolbar span { font-size: 7px; }
   .tw4-map-event { grid-template-columns: 6px minmax(0, 1fr); }
   .tw4-map-event > span { display: none; }
@@ -701,6 +737,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .tw4-my-team.is-assigned::before { animation: none; opacity: .7; }
   .tw4-shell *, .tw4-shell *::before, .tw4-shell *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
   .tw4-dispatch-layer.is-live .tw4-dispatch-card { animation: tw4DispatchFade 2.1s ease both; transform: none; clip-path: none; }
   .tw4-dispatch-layer.is-live::before, .tw4-dispatch-layer.is-live::after { animation: tw4DispatchFade 2.1s ease both; }

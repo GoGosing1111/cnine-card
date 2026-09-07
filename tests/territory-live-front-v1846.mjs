@@ -16,7 +16,7 @@ assert.doesNotMatch(css,/\.tw4-ranking-list article:nth-child\(even\) > i/);
 assert.match(css,/\.tw4-node\.combat-active/);
 assert.match(css,/\.tw4-combat-beacon/);
 assert.match(css,/@media \(prefers-reduced-motion: reduce\)/);
-assert.match(index,/territory-war-v1824\.css\?v=1994-commander-direct-live-status/);
-assert.match(index,/territory-war-v1811\.js\?v=2053-player-calling-card-empty-fx/);
+assert.match(index,/territory-war-v1824\.css\?v=2062-my-team-emphasis/);
+assert.match(index,/territory-war-v1811\.js\?v=2062-my-team-emphasis/);
 
 console.log('territory live front v1846: ok');

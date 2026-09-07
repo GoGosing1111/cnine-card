@@ -19,8 +19,8 @@ assert.match(client,/contribution_total/);
 assert.match(css,/\.tw4-contribution-rank/);
 assert.match(css,/grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 assert.match(index,/js\/app\.js\?v=2061-mercenary-codex/);
-assert.match(index,/territory-war-v1811\.js\?v=2053-player-calling-card-empty-fx/);
-assert.match(index,/territory-war-v1824\.css\?v=1994-commander-direct-live-status/);
+assert.match(index,/territory-war-v1811\.js\?v=2062-my-team-emphasis/);
+assert.match(index,/territory-war-v1824\.css\?v=2062-my-team-emphasis/);
 assert.match(serviceWorker,/soop-card-shell-v2061-mercenary-codex/);
 
 console.log('territory my rank v1847: ok');
