@@ -1,5 +1,21 @@
 # v2062 검토 완료 기록 — 재정금고·뽑기·연금술 조회 최적화
 
+## 후속 운영 배포 승인 — 2026-09-08
+
+사용자의 후속 **“푸시 배포 해라”** 지시로 아래 사전 검토 당시의 푸시·배포 금지를 해제한다.
+배포 대상은 최적화 커밋 `3471d868`, 희야 아바타 리소스 커밋 `aca84ee0`과 이 승인 기록이다.
+희야 아바타의 라이브 카탈로그·판매·지급·장착 활성화는 여전히 포함하지 않는다.
+
+검증 전 Git 자동 배포를 막기 위해 이 승인 기록 커밋에 `[CF-Pages-Skip]` 접두사를 쓴다.
+이는 [Cloudflare 공식 GitHub 연동 규칙](https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/#skipping-a-build-via-a-commit-message)에 따른 단일 푸시의 자동 배포 생략이며, 프로젝트 설정은 변경하지 않는다.
+별도 깨끗한 배포 작업 트리에서 `npm run release:gate`를 통과시키고,
+운영 배포는 전체 게이트가 포함된 `npm run deploy:production`만 사용한다.
+테스트 의존성·캐시·로그는 배포 디렉터리 밖에 둔다. dirty 배포 예외는 사용하지 않는다.
+
+아래 내용과 `TEST-REPORT-v2062.txt`는 후속 배포 승인 이전의 검토 기록으로 보존한다.
+
+---
+
 검토일: 2026-09-08
 사용자 원본: `Claude outputs/CODEX-COMMIT-v2062.md` (원본은 수정하지 않음)
 
