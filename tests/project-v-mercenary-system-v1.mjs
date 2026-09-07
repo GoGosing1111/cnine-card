@@ -68,10 +68,10 @@ test('review roster has thirty-seven unique cards and no inherited rank', () => 
 test('all source art and all declared battle sprites exist with recorded hashes', () => {
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
-  assert.equal(sprites.length, 21);
-  assert.equal(pending.length, 16);
-  assert.equal(roster.summary.battleSpriteReady, 21);
-  assert.equal(roster.summary.battleSpritePending, 16);
+  assert.equal(sprites.length, 37);
+  assert.equal(pending.length, 0);
+  assert.equal(roster.summary.battleSpriteReady, 37);
+  assert.equal(roster.summary.battleSpritePending, 0);
 
   for (const card of roster.cards) {
     assert.equal(fs.existsSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);
@@ -117,14 +117,25 @@ test('battle art adapter resolves SD only for battle consumers and never replace
   assert.equal(adapter.resolveForConsumer('CARD_DOCK', 'V-013'), null);
   assert.equal(adapter.resolveForConsumer('BATTLE_FIELD', 'V-999'), null);
   for (const card of roster.cards.slice(21)) {
-    assert.equal(adapter.resolveForConsumer('BATTLE_FIELD', card.code), null, 'art-only catalog additions never become battle sprites');
+    const resolved = adapter.resolveForConsumer('BATTLE_FIELD', card.code);
+    assert.equal(resolved.battleSprite, card.battleSprite);
+    assert.notEqual(resolved.battleSprite, card.sourceArt);
+    assert.equal(adapter.resolveForConsumer('DECK', card.code), null);
+    assert.equal(adapter.resolveForConsumer('CARD_DOCK', card.code), null);
     assert.equal(adapter.getRosterEntry(card.code).sourceArt, card.sourceArt);
   }
-  const invalid = structuredClone(roster);
+  const pending = structuredClone(roster);
+  pending.cards[21].battleSprite = null;
+  pending.cards[21].battleSpriteSha256 = null;
+  pending.cards[21].battleSpriteStatus = 'NOT_YET_PRODUCED';
+  pending.summary.battleSpriteReady = 36;
+  pending.summary.battleSpritePending = 1;
+  assert.equal(createMercenaryBattleArtAdapter(pending).resolveForConsumer('BATTLE_FIELD', 'V-022'), null, 'future missing SD never falls back to source art');
+  const invalid = structuredClone(pending);
   invalid.cards[21].battleSpriteStatus = 'TECH_QA_COMPLETE';
   assert.throws(() => validateMercenaryBattleRoster(invalid));
   const invalidSummary = structuredClone(roster);
-  invalidSummary.summary.battleSpriteReady = 37;
+  invalidSummary.summary.battleSpriteReady = 36;
   assert.throws(() => validateMercenaryBattleRoster(invalidSummary));
 });
 

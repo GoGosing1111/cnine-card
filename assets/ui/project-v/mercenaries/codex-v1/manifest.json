@@ -719,6 +719,17 @@
       "sha256": "7B32C90FCD2CD3BBC03FC09F0F81FC93783DCB33697991699446B76A759F9DCB"
     },
     {
+      "code": "V-022",
+      "kind": "sd",
+      "file": "v-022-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 138006,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+      "sourceSha256": "C537EF7DF99F01926BBFEFAB0C4AAB9AF3898A6975820E0A980DD397194688C3",
+      "sha256": "B6E088D76452BD788AA921BD611D3A7DA40546E004DFC8A0DB619C7BFCC28F1C"
+    },
+    {
       "code": "V-023",
       "kind": "art",
       "file": "v-023-art-320.webp",
@@ -739,6 +750,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
       "sourceSha256": "386B9FEE2788695CE113991A4FF301708C30C35E201817C14EAAFE15D4324FFB",
       "sha256": "DEEE3E962C3B3319C6B6D1AABB8E2CC15D875FE6BC9DE72A11C9C8369B2093A3"
+    },
+    {
+      "code": "V-023",
+      "kind": "sd",
+      "file": "v-023-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 116590,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v023-ian-sd-v1.png",
+      "sourceSha256": "8443F090FDC4F4DB384BA104F2BC73C3A916731F658253299D510FC7B0220813",
+      "sha256": "C8B5A85A56B2188C3B3E94F2B7D0B68D70D2FEAB2D3CE340CE5D1D3DEBA307C9"
     },
     {
       "code": "V-024",
@@ -763,6 +785,17 @@
       "sha256": "E07EF1E4A2BA86494DBD230C7D2B79C38215E91B8271BFDE1692026895918694"
     },
     {
+      "code": "V-024",
+      "kind": "sd",
+      "file": "v-024-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 105246,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v024-velua-sd-v1.png",
+      "sourceSha256": "8058BC1D85CE5E64317EF9122F6DE558B8A5919C3DCD5329B1BC4CF15D16E318",
+      "sha256": "9D3A6CE37FCB57034EE631502040CB794C6CDC2E5395C848C78B2318CE351382"
+    },
+    {
       "code": "V-025",
       "kind": "art",
       "file": "v-025-art-320.webp",
@@ -783,6 +816,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
       "sourceSha256": "F3EA813141337A5E5CC7055F96261C54E89A58A84CBBB741605E806B5AAFB6A2",
       "sha256": "91F2B100A2645EA92777C368946CB4EC153285C99F02E1994EE2728741CF88A2"
+    },
+    {
+      "code": "V-025",
+      "kind": "sd",
+      "file": "v-025-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 122128,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v025-eira-sd-v1.png",
+      "sourceSha256": "D86D9663A9CCCD789294A5BF9942944B48575C38E1BAD66757060153697357E5",
+      "sha256": "B7F760EC51762DCA672270C21BC87220816268F299E542F748B7E34A5BBFAE83"
     },
     {
       "code": "V-026",
@@ -807,6 +851,17 @@
       "sha256": "AAEAEA7E811F82753A10CDB9ED0619AD12B47406CDBA1C799F5054F93CDD94B1"
     },
     {
+      "code": "V-026",
+      "kind": "sd",
+      "file": "v-026-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 111510,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v026-lucas-sd-v1.png",
+      "sourceSha256": "9FAAA83AFF94D33A241BED629DBDA3D2351D6B7EF492CFA3C12C5D1E3FE3865A",
+      "sha256": "BA23BBFFC884C99EC1FC2D236465CF9BC8119E6627E534149969073180628DCD"
+    },
+    {
       "code": "V-027",
       "kind": "art",
       "file": "v-027-art-320.webp",
@@ -827,6 +882,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
       "sourceSha256": "EBCEAD635CCC670A138B67A274E2EA5507A8DA7990733B56546439AC75CA5C19",
       "sha256": "9EB78D2EC0B2039EF1BFA82C240C3484E6ED1791054FFFE28932A5B1E39264D7"
+    },
+    {
+      "code": "V-027",
+      "kind": "sd",
+      "file": "v-027-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 126730,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v027-kael-sd-v1.png",
+      "sourceSha256": "CE864104C78AA86D998CC55C0BB4ADD9DE01EA5A5C340CAE963E90B33EBDD188",
+      "sha256": "F89901A0BACF71C6398A37FC4EAAEA1218ABF912980D919E4C988C0D9A852AAD"
     },
     {
       "code": "V-028",
@@ -851,6 +917,17 @@
       "sha256": "EB1F91C65F41DAD16A13F73E3A63BCC68AE79F8478B3B935AA8F210531070BEF"
     },
     {
+      "code": "V-028",
+      "kind": "sd",
+      "file": "v-028-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 112444,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v028-yeonhwi-sd-v1.png",
+      "sourceSha256": "EA98EB68A9F981C5F3933AA849C3159B1717BC5FDE05B725C274B3CE6B0CEBE4",
+      "sha256": "BF5C64DA6DD9493335FE98D017754ADDD77FCD9C7C5B37DAA3FA5C64B4704B15"
+    },
+    {
       "code": "V-029",
       "kind": "art",
       "file": "v-029-art-320.webp",
@@ -871,6 +948,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
       "sourceSha256": "CBEA6F8B671CEB7ABBE04CAF6588AE3515BE7028F5C340E2ADC2C59F72FA0F8D",
       "sha256": "D0EDC0E707B62E35AC9C2EDD2A7CCD378C2C4032A5F15E65D48564DE8D05A790"
+    },
+    {
+      "code": "V-029",
+      "kind": "sd",
+      "file": "v-029-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 149510,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v029-leona-sd-v1.png",
+      "sourceSha256": "DFF01066B7088787EF99B57B95181AB427B665AFF368A1A00302B2C378E06D55",
+      "sha256": "BD5AF610FE7C616262125687A343871EBD742A8F6116BC1A33804046B8BA2BA2"
     },
     {
       "code": "V-030",
@@ -895,6 +983,17 @@
       "sha256": "B8B03D2D3DBFE77F432EC31B2F0CB7D1FB4F032F560686DC48E551B922162A25"
     },
     {
+      "code": "V-030",
+      "kind": "sd",
+      "file": "v-030-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 135140,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v030-hongryeon-sd-v1.png",
+      "sourceSha256": "F441F0ABFF8916602E981BF04894C9F94D376B08D2E23C7AB3E2C0CEB1149312",
+      "sha256": "700838A1838C30E5B37F2960187B6FAB0F9E4F48B5A4C31BA0669E0E75C7736D"
+    },
+    {
       "code": "V-031",
       "kind": "art",
       "file": "v-031-art-320.webp",
@@ -915,6 +1014,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
       "sourceSha256": "210318DCC1CED01DA879634B3CDBF8D5035DC896267C13CAEC59271D7E9C6492",
       "sha256": "553F2C1DD21D552DDC781569A180C00CA4FCA9E1D71D252ED8BBE39C61D81C12"
+    },
+    {
+      "code": "V-031",
+      "kind": "sd",
+      "file": "v-031-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 125268,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v031-lucian-sd-v1.png",
+      "sourceSha256": "750F24364B64897CE4E02614AE873AE4C71A9D8C1D2DBF8DB9DF8A05A264E5B0",
+      "sha256": "E5B32259988EC784AEF87E42A01E16C16E4AF11D5BED8F8E3A3D34BF27E1768F"
     },
     {
       "code": "V-032",
@@ -939,6 +1049,17 @@
       "sha256": "BB153411994D8B58184613B35F05E4023113977F66EBF015AE9DF842B111F1C0"
     },
     {
+      "code": "V-032",
+      "kind": "sd",
+      "file": "v-032-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 118882,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v032-selene-sd-v1.png",
+      "sourceSha256": "84DE94632DDFD27414795C8CDAD3AB87418E65C6828D6F40C6B2FEA9D44B9A4C",
+      "sha256": "88B58DC61BEDA144D0D556A74C9E089661FC3E72D871E0F73A3CE221480F3AA0"
+    },
+    {
       "code": "V-033",
       "kind": "art",
       "file": "v-033-art-320.webp",
@@ -959,6 +1080,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
       "sourceSha256": "B3A999469C05B84C6EF3E682979A6F6F581087D0523A83E12B6E612A20DA0598",
       "sha256": "96CD8D26A141479D1941C8A475B1D28805EE4A556678F1BFAAE7D99845461A07"
+    },
+    {
+      "code": "V-033",
+      "kind": "sd",
+      "file": "v-033-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 129864,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v033-roselle-sd-v1.png",
+      "sourceSha256": "565B49AA0CEBD81E00557EE4D2DF8CC5159327508031FA3F51C4F5BA79E45469",
+      "sha256": "C51754769FC692AC03FF15D1B0F049FC418C0CA9EB2BA4FAFFAB79A5EFFE6664"
     },
     {
       "code": "V-034",
@@ -983,6 +1115,17 @@
       "sha256": "DD2D43C9411F868462C032E7410C4703E11C29621336C5D9D112C4097D6B8BBB"
     },
     {
+      "code": "V-034",
+      "kind": "sd",
+      "file": "v-034-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 119992,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v034-sage-sd-v1.png",
+      "sourceSha256": "C1904216FF888863C78B20A741D6C7631C5EB7BCEE829B051CB77AE64573B960",
+      "sha256": "28AC35FFAE7E109CD8172DA694A037BED4F11BE6FC11583B1FB97593A41B8DAD"
+    },
+    {
       "code": "V-035",
       "kind": "art",
       "file": "v-035-art-320.webp",
@@ -1003,6 +1146,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
       "sourceSha256": "541B2B2434E9DB10992B7AA3BAB0A9FFA88682D17C07E1FAA2BEAB0D33B75402",
       "sha256": "838ADB9E7F40EB2E54052AE6D03BA5E57F4713CF22E2163DDECB971830EBF4FD"
+    },
+    {
+      "code": "V-035",
+      "kind": "sd",
+      "file": "v-035-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 155940,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v035-sera-sd-v1.png",
+      "sourceSha256": "CD06B3595B46A8BCCDD1D67E4D25C1D72B07376455809B48CD8643AEFDCE0182",
+      "sha256": "EB8415351C8CFB882AF90FFBCD62CA3C64770672661A7B0398AF6F848D59223C"
     },
     {
       "code": "V-036",
@@ -1027,6 +1181,17 @@
       "sha256": "795BD7E6233F00DDB521F5357D352D29471DD39B0AE43EA0508FCD24C67C34BC"
     },
     {
+      "code": "V-036",
+      "kind": "sd",
+      "file": "v-036-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 153992,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+      "sourceSha256": "06D390083ED019E0860800EA749BBA730DF070344ABDD67A65E4FF2A8B14549F",
+      "sha256": "5F97F2AFCE9C8B729C3012B74F779DE5862DC9B966CEE372D31AB4F39A2DD68D"
+    },
+    {
       "code": "V-037",
       "kind": "art",
       "file": "v-037-art-320.webp",
@@ -1047,6 +1212,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
       "sourceSha256": "3C374324EC4F3420F292AE821F2CDC2AA81CE81F128C2BCE7545E81599841A73",
       "sha256": "98E672277E472E007224FC2585A471942CCD43D56D6C6117A57DF941EC991EE5"
+    },
+    {
+      "code": "V-037",
+      "kind": "sd",
+      "file": "v-037-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 143156,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+      "sourceSha256": "6045B04EC1E1369DB267F4B95336E434F7348F8D0A2916D8F3D0E9E739D586F8",
+      "sha256": "0F63357987D9D5D5C08DF28CE8227C14D1088A980F72218D3DA574E76667DF2F"
     }
   ]
 }

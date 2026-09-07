@@ -18,7 +18,11 @@ export async function runMercenaryCodexBrowserQa() {
   const storageKey = publicMode ? 'cnine.mercenaryCodex.public.v1' : 'cnine.mercenaryCodex.preview.v1';
   const savedBefore = localStorage.getItem(storageKey);
   try {
+    // Start deterministically even when the user opened a newest-first deep link.
+    $('#resetFilters').click();
+    input('#sort', 'code', 'change');
     check('37 cards including 16 approved additions', document.querySelectorAll('.codex-card').length === 37);
+    check('all 37 SD resources counted', $('#sdCount').textContent === '37');
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
     const frame = $('.card-frame');
     await decode(frame);
@@ -81,7 +85,12 @@ export async function runMercenaryCodexBrowserQa() {
     $('[data-open="V-024"]').click();
     check('provisional name and weapon are explicit', $('#detailContent').textContent.includes('가칭') && $('#detailContent').textContent.includes('SKS'));
     $('#sdTab').click();
-    check('missing new SD has an honest empty state', $('#mediaPanel').textContent.includes('제작 대기') && !$('#mediaPanel img') && !$('#mediaPanel [data-zoom]'));
+    await decode($('#mediaPanel [data-media="battleSprite"]'));
+    check('new SKS SD has its own loaded image', $('#mediaPanel [data-media="battleSprite"]').src.includes('/v-024-sd-640.webp') && Boolean($('#mediaPanel [data-zoom]')) && !$('#mediaPanel .card-source'));
+    $('#mediaPanel [data-zoom]').click();
+    await decode($('#originalArt'));
+    check('SKS SD zoom resolves the separate native sprite', $('#originalArt').src.includes('/mercenary-v024-velua-sd-v1.png') && $('#originalArt').naturalWidth >= 1024);
+    $('#closeArt').click(); await pause();
     $('#artTab').click();
     $('#mediaPanel [data-zoom]').click();
     $('#closeArt').click();
@@ -94,6 +103,20 @@ export async function runMercenaryCodexBrowserQa() {
     $('#closeDetail').click(); await pause();
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
+    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json', { cache: 'no-store', credentials: 'omit' });
+    if (!rosterResponse.ok) throw new Error(`Roster HTTP ${rosterResponse.status}`);
+    const roster = await rosterResponse.json();
+    for (const entry of roster.cards.slice(21)) {
+      const sprite = new Image();
+      sprite.src = `/assets/ui/project-v/mercenaries/codex-v1/${entry.code.toLowerCase()}-sd-640.webp`;
+      await decode(sprite);
+      const canvas = document.createElement('canvas');
+      canvas.width = sprite.naturalWidth; canvas.height = sprite.naturalHeight;
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      context.drawImage(sprite, 0, 0);
+      const corner = context.getImageData(0, 0, 1, 1).data[3];
+      check(`${entry.code} SD derivative loads with real alpha`, sprite.naturalWidth === 640 && sprite.naturalHeight === 960 && corner <= 1 && entry.sourceArt !== entry.battleSprite);
+    }
     check('no account API', performance.getEntriesByType('resource').every(resource => !resource.name.includes('/api/')));
     check('no runtime error', !(window.__codexErrors || []).length);
     window.scrollTo(0, 0);

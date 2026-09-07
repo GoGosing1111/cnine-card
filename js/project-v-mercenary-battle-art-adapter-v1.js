@@ -71,6 +71,11 @@ export function validateMercenaryBattleRoster(roster) {
     if (clean(card.sourceArt) === clean(card.battleSprite)) {
       throw new Error(`${code} 카드 원화와 전투 SD가 분리되지 않았습니다.`);
     }
+    const anchor = card.battleSpriteFootAnchor;
+    if (anchor != null && (!Number.isFinite(anchor.x) || !Number.isFinite(anchor.y)
+      || anchor.x < 0 || anchor.x > 1 || anchor.y <= 0 || anchor.y > 1)) {
+      throw new Error(`${code} 전투 SD 발끝 기준점이 올바르지 않습니다.`);
+    }
     seen.add(code);
   }
 
@@ -102,7 +107,7 @@ export function createMercenaryBattleArtAdapter(roster) {
         battleSprite: clean(card.battleSprite),
         battleSpriteSha256: upper(card.battleSpriteSha256),
         spriteUrl: withContentVersion(card.battleSprite, card.battleSpriteSha256),
-        footAnchor: Object.freeze({ x: 0.5, y: 1 })
+        footAnchor: Object.freeze({ ...(card.battleSpriteFootAnchor || { x: 0.5, y: 1 }) })
       });
     },
     getRosterEntry(mercenary) {

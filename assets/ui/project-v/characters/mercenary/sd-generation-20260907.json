@@ -1,0 +1,822 @@
+{
+  "format": "MERCENARY_SD_GENERATION_20260907",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "date": "2026-09-07",
+  "userRequest": "SD이미지 빠진 용병들 만들어서 연결해",
+  "toolMode": "BUILT_IN_IMAGE_GEN",
+  "sourceBaselineCommit": "3506967d",
+  "scope": "Fill V-022 through V-037 missing SD images and connect the read-only public codex and battle-art resource adapter. No rank, stats, acquisition, loadout or live-battle activation.",
+  "styleReference": "assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png",
+  "sourceArtUnmodified": true,
+  "existingSpritesUnmodified": true,
+  "entries": [
+    {
+      "code": "V-022",
+      "slug": "elodie",
+      "description": "Adult woman with long flowing pale-golden half-up hair, turquoise eyes, turquoise drop earrings and small silver jewelry. Preserve the ivory off-shoulder blouse with long gathered sleeves, teal high-waisted tailored wide-leg trousers and thin white-silver belt. Matching closed-toe ivory shoes visible beneath trousers. Her ornate silver-and-teal fantasy crossbow is held naturally across her lower torso, pointing to the left with both hands supporting the stock and fore-end. Gentle confident smile.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Adult woman with long flowing pale-golden half-up hair, turquoise eyes, turquoise drop earrings and small silver jewelry. Preserve the ivory off-shoulder blouse with long gathered sleeves, teal high-waisted tailored wide-leg trousers and thin white-silver belt. Matching closed-toe ivory shoes visible beneath trousers. Her ornate silver-and-teal fantasy crossbow is held naturally across her lower torso, pointing to the left with both hands supporting the stock and fore-end. Gentle confident smile.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+      "name": "엘로디",
+      "sourceArtSha256": "41B2179B9A35C10662EAA0804611CD7A2A6B047EA13E458BB2D774FC5784FD7E",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-9326bd95-c7da-482c-ba12-b0ad1b6f3ac7.png",
+      "nativeOutputSha256": "C537EF7DF99F01926BBFEFAB0C4AAB9AF3898A6975820E0A980DD397194688C3",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. REMOVE the entire background and return a genuinely transparent PNG cutout (real alpha channel, background alpha exactly 0), not a simulated transparency checkerboard. Preserve the character, face, hair, hands, outfit, weapon, colors, existing pose and full-body composition exactly. No redesign, no checkerboard pixels, no white/black/gray fill, no gradient, no aura or shadow. Clean precise edges including gaps between arms, legs, hair and weapon. This is a production 2D sprite to be composited over arbitrary battle scenes.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-46ddff26-603a-4fd4-a28b-5c4efdcb703d.png"
+      ],
+      "qa": {
+        "sha256": "C537EF7DF99F01926BBFEFAB0C4AAB9AF3898A6975820E0A980DD397194688C3",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 961208,
+        "solidPixels": 531892,
+        "partialPixels": 79764,
+        "transparentFraction": 0.61112,
+        "solidFraction": 0.338168,
+        "visibleBounds": {
+          "left": 48,
+          "top": 9,
+          "right": 845,
+          "bottom": 1514
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.552246,
+          "y": 0.986328
+        }
+      }
+    },
+    {
+      "code": "V-023",
+      "slug": "ian",
+      "description": "Handsome adult man with short swept navy-black hair, blue-grey eyes, fitted navy jacket with blue lining over a grey stand-collar shirt, silver star-like clasp at chest, black slim trousers and polished black ankle boots. Preserve his navy-and-silver sapphire hilt and scabbard design. Standing calm sword-ready, one hand naturally grips the sheathed saber at his hip while the other rests on its hilt; entire scabbard visible and no seated prop.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Handsome adult man with short swept navy-black hair, blue-grey eyes, fitted navy jacket with blue lining over a grey stand-collar shirt, silver star-like clasp at chest, black slim trousers and polished black ankle boots. Preserve his navy-and-silver sapphire hilt and scabbard design. Standing calm sword-ready, one hand naturally grips the sheathed saber at his hip while the other rests on its hilt; entire scabbard visible and no seated prop.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v023-ian-sd-v1.png",
+      "name": "이안",
+      "sourceArtSha256": "386B9FEE2788695CE113991A4FF301708C30C35E201817C14EAAFE15D4324FFB",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-08f87c80-5564-4206-9dad-c913256287de.png",
+      "nativeOutputSha256": "8443F090FDC4F4DB384BA104F2BC73C3A916731F658253299D510FC7B0220813",
+      "finalPrompt": "이 남성 용병을 약 4등신의 전투 SD로 만들어줘. 성인 미남 얼굴과 의상, 세이버의 디자인은 그대로 유지하고 머리를 더 크게, 몸통과 다리를 짧게 해서 SD 비율을 맞춰줘. 배경은 완전히 제거해서 진짜 투명 배경 PNG로 만들어줘. 흰색이나 체크무늬를 배경으로 그리지 말고 실제 알파 채널을 넣어줘. 인물과 무기만 남기고 머리부터 양쪽 신발까지 전신이 다 보여야 해. 프레임, 글씨, 바닥, 그림자, 배경색 없이 독립 전투 스프라이트로 쓸 거야.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-1997d787-fb2e-4ed3-ac3a-58cfe2ed161f.png"
+      ],
+      "qa": {
+        "sha256": "8443F090FDC4F4DB384BA104F2BC73C3A916731F658253299D510FC7B0220813",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 940596,
+        "solidPixels": 591032,
+        "partialPixels": 41236,
+        "transparentFraction": 0.598015,
+        "solidFraction": 0.375768,
+        "visibleBounds": {
+          "left": 154,
+          "top": 59,
+          "right": 924,
+          "bottom": 1501
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.587891,
+          "y": 0.977865
+        }
+      }
+    },
+    {
+      "code": "V-024",
+      "slug": "velua",
+      "description": "Elegant adult woman with black high ponytail and wavy locks, violet eyes, diamond-drop earrings, delicate jewelry, black halter evening dress with its existing plunging neckline and single leg slit, long black gloves, black closed-toe heels. Preserve the reference black-and-gold SKS battle rifle with purple gemstone inlays, recognizable long wooden-style stock silhouette, gas tube and slim long barrel. Both gloved hands support it naturally across the waist; muzzle points LEFT. This is the final SKS character, absolutely no pistol. Dress and gun readable, mature elegant expression, neutral ready stance.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Elegant adult woman with black high ponytail and wavy locks, violet eyes, diamond-drop earrings, delicate jewelry, black halter evening dress with its existing plunging neckline and single leg slit, long black gloves, black closed-toe heels. Preserve the reference black-and-gold SKS battle rifle with purple gemstone inlays, recognizable long wooden-style stock silhouette, gas tube and slim long barrel. Both gloved hands support it naturally across the waist; muzzle points LEFT. This is the final SKS character, absolutely no pistol. Dress and gun readable, mature elegant expression, neutral ready stance.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v024-velua-sd-v1.png",
+      "name": "벨루아",
+      "sourceArtSha256": "27F309BF365B42CCC167F33358793E3EA6863F8642CFEBA8621F28D22B5678D5",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-9b7fc8d8-2d6c-4da3-a0d5-f27020ddd163.png",
+      "nativeOutputSha256": "8058BC1D85CE5E64317EF9122F6DE558B8A5919C3DCD5329B1BC4CF15D16E318",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. REMOVE the entire background and return a genuinely transparent PNG cutout (real alpha channel, background alpha exactly 0), not a simulated transparency checkerboard. Preserve the character, face, hair, hands, outfit, weapon, colors, existing pose and full-body composition exactly. No redesign, no checkerboard pixels, no white/black/gray fill, no gradient, no aura or shadow. Clean precise edges including gaps between arms, legs, hair and weapon. This is a production 2D sprite to be composited over arbitrary battle scenes.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-2c969bf1-06d8-428c-ad8b-e26b72605b65.png"
+      ],
+      "qa": {
+        "sha256": "8058BC1D85CE5E64317EF9122F6DE558B8A5919C3DCD5329B1BC4CF15D16E318",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 993314,
+        "solidPixels": 537465,
+        "partialPixels": 42085,
+        "transparentFraction": 0.631532,
+        "solidFraction": 0.341711,
+        "visibleBounds": {
+          "left": 66,
+          "top": 4,
+          "right": 925,
+          "bottom": 1486
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.530273,
+          "y": 0.968099
+        }
+      }
+    },
+    {
+      "code": "V-025",
+      "slug": "eira",
+      "description": "Adult female winter sniper with copper auburn loose side braid and warm hazel eyes. Preserve pale ice-blue cropped winter jacket, ivory fur collar/cuffs, cream cable-knit turtleneck, fitted charcoal trousers, black lace-up winter boots, dark gloves, small silver snow-star brooches and a dangling pale blue crystal at the belt. Carry her long white-silver-and-icy-blue crystal fantasy scoped sniper rifle in a natural two-handed low-ready stance, muzzle LEFT, full stock and full barrel visible; no snow or balcony.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Adult female winter sniper with copper auburn loose side braid and warm hazel eyes. Preserve pale ice-blue cropped winter jacket, ivory fur collar/cuffs, cream cable-knit turtleneck, fitted charcoal trousers, black lace-up winter boots, dark gloves, small silver snow-star brooches and a dangling pale blue crystal at the belt. Carry her long white-silver-and-icy-blue crystal fantasy scoped sniper rifle in a natural two-handed low-ready stance, muzzle LEFT, full stock and full barrel visible; no snow or balcony.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v025-eira-sd-v1.png",
+      "name": "에이라",
+      "sourceArtSha256": "F3EA813141337A5E5CC7055F96261C54E89A58A84CBBB741605E806B5AAFB6A2",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-e38a1fe1-ec45-47d3-a24e-9d1cc3cd355d.png",
+      "nativeOutputSha256": "D86D9663A9CCCD789294A5BF9942944B48575C38E1BAD66757060153697357E5",
+      "finalPrompt": "이 SD 캐릭터의 얼굴, 의상, 저격총, 포즈를 그대로 유지해. 배경은 완전히 제거해서 진짜 투명 배경 PNG로 만들어줘. 흰색이나 체크무늬를 배경으로 그리지 말고 실제 알파 채널을 넣어줘. 인물과 무기만 남기고 머리부터 양쪽 신발까지 전신이 다 보여야 해. 프레임, 글씨, 바닥, 그림자, 배경색 없이 독립 전투 스프라이트로 쓸 거야.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-9d7337ba-1b34-4956-8148-d4605619b85d.png"
+      ],
+      "qa": {
+        "sha256": "D86D9663A9CCCD789294A5BF9942944B48575C38E1BAD66757060153697357E5",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1074381,
+        "solidPixels": 454567,
+        "partialPixels": 43916,
+        "transparentFraction": 0.683073,
+        "solidFraction": 0.289006,
+        "visibleBounds": {
+          "left": 15,
+          "top": 15,
+          "right": 837,
+          "bottom": 1501
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.538574,
+          "y": 0.977865
+        }
+      }
+    },
+    {
+      "code": "V-026",
+      "slug": "lucas",
+      "description": "Handsome cheerful adult man with tousled warm-brown hair, amber eyes, brown shearling aviator jacket, white tee, single leather shoulder strap, small amber necklace, charcoal trousers, thigh utility strap and brown leather boots. His ornate bronze-gold, ivory and amber-core fantasy assault rifle is naturally supported by two hands in low ready, muzzle LEFT, full barrel and stock visible. Standing confident light-footed idle pose, no stairs or airship.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Handsome cheerful adult man with tousled warm-brown hair, amber eyes, brown shearling aviator jacket, white tee, single leather shoulder strap, small amber necklace, charcoal trousers, thigh utility strap and brown leather boots. His ornate bronze-gold, ivory and amber-core fantasy assault rifle is naturally supported by two hands in low ready, muzzle LEFT, full barrel and stock visible. Standing confident light-footed idle pose, no stairs or airship.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v026-lucas-sd-v1.png",
+      "name": "루카스",
+      "sourceArtSha256": "DBBD3C759D22F6676E3A6E3E60E2C3531F18A1A1F543D920EDEB139FF334B93E",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-5a8162d3-cb4c-488e-aaec-328930aae9b5.png",
+      "nativeOutputSha256": "9FAAA83AFF94D33A241BED629DBDA3D2351D6B7EF492CFA3C12C5D1E3FE3865A",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. Remove the entire background and deliver a clean cutout PNG with a real transparent alpha channel (background alpha 0). Keep the complete character, face, hair, outfit, hands, weapon, colors and pose unchanged. Preserve all equipment and both shoes without cropping. There must be NO simulated checkerboard, solid background, gradients, aura or shadow. Clean transparent gaps between arms, legs, hair and weapon. Production 2D game sprite; empty pixels must be truly transparent, not a picture of transparency.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-33bc5067-1dd5-41ed-9007-970f54aa2b00.png"
+      ],
+      "qa": {
+        "sha256": "9FAAA83AFF94D33A241BED629DBDA3D2351D6B7EF492CFA3C12C5D1E3FE3865A",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1098826,
+        "solidPixels": 438503,
+        "partialPixels": 35535,
+        "transparentFraction": 0.698615,
+        "solidFraction": 0.278793,
+        "visibleBounds": {
+          "left": 72,
+          "top": 38,
+          "right": 838,
+          "bottom": 1515
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.523926,
+          "y": 0.986979
+        }
+      }
+    },
+    {
+      "code": "V-027",
+      "slug": "kael",
+      "description": "Handsome muscular adult male heavy gunner with short silver swept hair, cool blue-green eyes, olive sleeveless tactical vest, black sleeveless high-neck shirt, black cargo trousers, one dark forearm bracer, black boots. Preserve the black steel belt-fed machine gun, perforated barrel shroud, ammo box and small emerald receiver core. Strong grounded two-handed waist-level support, muzzle LEFT, folded bipod stays above feet; no crate, no sitting, no dock.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Handsome muscular adult male heavy gunner with short silver swept hair, cool blue-green eyes, olive sleeveless tactical vest, black sleeveless high-neck shirt, black cargo trousers, one dark forearm bracer, black boots. Preserve the black steel belt-fed machine gun, perforated barrel shroud, ammo box and small emerald receiver core. Strong grounded two-handed waist-level support, muzzle LEFT, folded bipod stays above feet; no crate, no sitting, no dock.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v027-kael-sd-v1.png",
+      "name": "케일",
+      "sourceArtSha256": "EBCEAD635CCC670A138B67A274E2EA5507A8DA7990733B56546439AC75CA5C19",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-7ab9ad0b-9acc-411a-9196-61ec57d1e910.png",
+      "nativeOutputSha256": "CE864104C78AA86D998CC55C0BB4ADD9DE01EA5A5C340CAE963E90B33EBDD188",
+      "finalPrompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Handsome muscular adult male heavy gunner with short silver swept hair, cool blue-green eyes, olive sleeveless tactical vest, black sleeveless high-neck shirt, black cargo trousers, one dark forearm bracer, black boots. Preserve the black steel belt-fed machine gun, perforated barrel shroud, ammo box and small emerald receiver core. Strong grounded two-handed waist-level support, muzzle LEFT, folded bipod stays above feet; no crate, no sitting, no dock.",
+      "finalReferencedImagePaths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "qa": {
+        "sha256": "CE864104C78AA86D998CC55C0BB4ADD9DE01EA5A5C340CAE963E90B33EBDD188",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 949664,
+        "solidPixels": 575964,
+        "partialPixels": 47236,
+        "transparentFraction": 0.60378,
+        "solidFraction": 0.366188,
+        "visibleBounds": {
+          "left": 40,
+          "top": 12,
+          "right": 927,
+          "bottom": 1523
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.558105,
+          "y": 0.992188
+        }
+      }
+    },
+    {
+      "code": "V-028",
+      "slug": "yeonhwi",
+      "description": "Handsome adult male spear guardian with long black hair tied into a low ponytail, calm narrow pale green eyes, jade-and-ivory asymmetric martial robe with fine bamboo embroidery, black waist sash, one small silver shoulder guard and matching forearm armor, black trousers and tall black boots. Preserve the long black-shaft spear with silver leaf blade and small jade crystal. Spear held upright diagonally along his side, whole spear including tip inside the canvas. Refined poised standing guard; no lotus pond, bridge or floor.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Handsome adult male spear guardian with long black hair tied into a low ponytail, calm narrow pale green eyes, jade-and-ivory asymmetric martial robe with fine bamboo embroidery, black waist sash, one small silver shoulder guard and matching forearm armor, black trousers and tall black boots. Preserve the long black-shaft spear with silver leaf blade and small jade crystal. Spear held upright diagonally along his side, whole spear including tip inside the canvas. Refined poised standing guard; no lotus pond, bridge or floor.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v028-yeonhwi-sd-v1.png",
+      "name": "연휘",
+      "sourceArtSha256": "015C759CB749816F5FE200297106C0EEA17923329DA292D8700A4F066C3DF74A",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-d17aa3ce-6fa9-4daf-bb91-3db5b27f7b0a.png",
+      "nativeOutputSha256": "EA98EB68A9F981C5F3933AA849C3159B1717BC5FDE05B725C274B3CE6B0CEBE4",
+      "finalPrompt": "이 SD 캐릭터의 얼굴, 의상, 무기, 비율과 포즈는 그대로 유지해. 배경은 완전히 제거해서 진짜 투명 배경 PNG로 만들어줘. 흰색이나 체크무늬를 배경으로 그리지 말고 실제 알파 채널을 넣어줘. 인물과 무기만 남기고 머리부터 양쪽 신발까지 전신이 다 보여야 해. 프레임, 글씨, 바닥, 그림자, 배경색 없이 독립 전투 스프라이트로 쓸 거야. 창끝과 양쪽 신발을 모두 보존해. 출력은 1024×1536 PNG.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-2d938ee2-3aaf-4be5-80e4-861132e7e175.png"
+      ],
+      "qa": {
+        "sha256": "EA98EB68A9F981C5F3933AA849C3159B1717BC5FDE05B725C274B3CE6B0CEBE4",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1100273,
+        "solidPixels": 425773,
+        "partialPixels": 46818,
+        "transparentFraction": 0.699535,
+        "solidFraction": 0.270699,
+        "visibleBounds": {
+          "left": 234,
+          "top": 10,
+          "right": 929,
+          "bottom": 1500
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.473633,
+          "y": 0.977214
+        }
+      }
+    },
+    {
+      "code": "V-029",
+      "slug": "leona",
+      "description": "Beautiful adult female paladin with shoulder-length wavy chestnut hair and gold star hair clip, warm golden-brown eyes. Preserve fitted ivory plate breastplate, layered ivory-gold shoulder armor, ivory long sleeves and fitted trousers, gold-trimmed gauntlets and tall plated boots, short ivory-gold mantle behind one shoulder. Hold the round ivory-and-gold sunburst shield on one arm and silver-gold straight sword in the other, blade angled away from body and not below the soles. Proud protective upright standing posture. Keep face and both shoes unobstructed; no cathedral or light burst.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful adult female paladin with shoulder-length wavy chestnut hair and gold star hair clip, warm golden-brown eyes. Preserve fitted ivory plate breastplate, layered ivory-gold shoulder armor, ivory long sleeves and fitted trousers, gold-trimmed gauntlets and tall plated boots, short ivory-gold mantle behind one shoulder. Hold the round ivory-and-gold sunburst shield on one arm and silver-gold straight sword in the other, blade angled away from body and not below the soles. Proud protective upright standing posture. Keep face and both shoes unobstructed; no cathedral or light burst.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v029-leona-sd-v1.png",
+      "name": "레오나",
+      "sourceArtSha256": "CBEA6F8B671CEB7ABBE04CAF6588AE3515BE7028F5C340E2ADC2C59F72FA0F8D",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-79e33658-c4a8-47a8-b00c-a3dc8a11b6e2.png",
+      "nativeOutputSha256": "DFF01066B7088787EF99B57B95181AB427B665AFF368A1A00302B2C378E06D55",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. Remove the entire background and deliver a clean cutout PNG with a real transparent alpha channel (background alpha 0). Keep the complete character, face, hair, outfit, hands, weapon, colors and pose unchanged. Preserve all equipment and both shoes without cropping. There must be NO simulated checkerboard, solid background, gradients, aura or shadow. Clean transparent gaps between arms, legs, hair and weapon. Production 2D game sprite; empty pixels must be truly transparent, not a picture of transparency.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-f1664f70-88de-4dcc-9c3e-a94abf146f6f.png"
+      ],
+      "qa": {
+        "sha256": "DFF01066B7088787EF99B57B95181AB427B665AFF368A1A00302B2C378E06D55",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 942898,
+        "solidPixels": 585953,
+        "partialPixels": 44013,
+        "transparentFraction": 0.599478,
+        "solidFraction": 0.372539,
+        "visibleBounds": {
+          "left": 76,
+          "top": 12,
+          "right": 940,
+          "bottom": 1481
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.522461,
+          "y": 0.964844
+        }
+      }
+    },
+    {
+      "code": "V-030",
+      "slug": "hongryeon",
+      "description": "Beautiful adult female sword dancer with shoulder-length tousled dark red hair, warm amber eyes, deep red halter martial crop top with delicate gold trim, black wrap shorts/skirt panel, a single restrained red waist sash, dark gold-detailed forearm guards and tall dark boots. Preserve her slim curved silver katana/dao, ornate red-gold guard and matching dark red scabbard. Calm balanced ready stance with blade angled outward safely above foot level, other hand naturally carries the scabbard. Keep mature face and existing outfit proportions, no added exposure or exaggerated anatomy, no ribbons covering limbs, no city or petals.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful adult female sword dancer with shoulder-length tousled dark red hair, warm amber eyes, deep red halter martial crop top with delicate gold trim, black wrap shorts/skirt panel, a single restrained red waist sash, dark gold-detailed forearm guards and tall dark boots. Preserve her slim curved silver katana/dao, ornate red-gold guard and matching dark red scabbard. Calm balanced ready stance with blade angled outward safely above foot level, other hand naturally carries the scabbard. Keep mature face and existing outfit proportions, no added exposure or exaggerated anatomy, no ribbons covering limbs, no city or petals.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v030-hongryeon-sd-v1.png",
+      "name": "홍련",
+      "sourceArtSha256": "D9C608E6E4BB65AA9F0A2F3A782C96CF2EFEB513CA46BF77A331F3FF800F989F",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-8ae74340-1a55-44cc-bfcb-b526440a5ea9.png",
+      "nativeOutputSha256": "F441F0ABFF8916602E981BF04894C9F94D376B08D2E23C7AB3E2C0CEB1149312",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. Remove the entire background and deliver a clean cutout PNG with a real transparent alpha channel (background alpha 0). Keep the complete character, face, hair, outfit, hands, weapon, colors and pose unchanged. Preserve all equipment and both shoes without cropping. There must be NO simulated checkerboard, solid background, gradients, aura or shadow. Clean transparent gaps between arms, legs, hair and weapon. Production 2D game sprite; empty pixels must be truly transparent, not a picture of transparency.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-962a5d40-f72e-4b5e-85af-d48a0b34b374.png"
+      ],
+      "qa": {
+        "sha256": "F441F0ABFF8916602E981BF04894C9F94D376B08D2E23C7AB3E2C0CEB1149312",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1009604,
+        "solidPixels": 508219,
+        "partialPixels": 55041,
+        "transparentFraction": 0.641889,
+        "solidFraction": 0.323117,
+        "visibleBounds": {
+          "left": 115,
+          "top": 5,
+          "right": 918,
+          "bottom": 1494
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.509766,
+          "y": 0.973307
+        }
+      }
+    },
+    {
+      "code": "V-031",
+      "slug": "lucian",
+      "description": "Handsome adult male knight with softly parted ash-silver hair and clear blue eyes, long navy coat over fitted silver-white chest armor, a single silver pauldron, dark gloves, dark trousers and silver-trimmed black boots. Preserve the heavy straight silver greatsword with twin open blade channels and sapphire crystal in the crossguard. Both hands resting naturally on the pommel, sword vertically beside rather than obscuring his face or feet; sword tip at or above the soles ground line. Regal composed idle standing, no ruin, moon or cape cloud.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Handsome adult male knight with softly parted ash-silver hair and clear blue eyes, long navy coat over fitted silver-white chest armor, a single silver pauldron, dark gloves, dark trousers and silver-trimmed black boots. Preserve the heavy straight silver greatsword with twin open blade channels and sapphire crystal in the crossguard. Both hands resting naturally on the pommel, sword vertically beside rather than obscuring his face or feet; sword tip at or above the soles ground line. Regal composed idle standing, no ruin, moon or cape cloud.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v031-lucian-sd-v1.png",
+      "name": "루시안",
+      "sourceArtSha256": "210318DCC1CED01DA879634B3CDBF8D5035DC896267C13CAEC59271D7E9C6492",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-6a71abfb-5221-4192-a0fb-c8f2cde107cf.png",
+      "nativeOutputSha256": "750F24364B64897CE4E02614AE873AE4C71A9D8C1D2DBF8DB9DF8A05A264E5B0",
+      "finalPrompt": "이 SD 캐릭터의 얼굴, 의상, 무기, 비율과 포즈는 그대로 유지해. 배경은 완전히 제거해서 진짜 투명 배경 PNG로 만들어줘. 흰색이나 체크무늬를 배경으로 그리지 말고 실제 알파 채널을 넣어줘. 인물과 무기만 남기고 머리부터 양쪽 신발까지 전신이 다 보여야 해. 프레임, 글씨, 바닥, 그림자, 배경색 없이 독립 전투 스프라이트로 쓸 거야. 출력은 1024×1536 PNG.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-95c4a246-c807-44cd-bba0-55adec47af4e.png"
+      ],
+      "qa": {
+        "sha256": "750F24364B64897CE4E02614AE873AE4C71A9D8C1D2DBF8DB9DF8A05A264E5B0",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 965205,
+        "solidPixels": 571768,
+        "partialPixels": 35891,
+        "transparentFraction": 0.613661,
+        "solidFraction": 0.36352,
+        "visibleBounds": {
+          "left": 85,
+          "top": 13,
+          "right": 888,
+          "bottom": 1511
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.481445,
+          "y": 0.984375
+        }
+      }
+    },
+    {
+      "code": "V-032",
+      "slug": "selene",
+      "description": "Beautiful mature adult woman with short side-swept silver pixie hair, violet eyes, silver hoop earrings and choker. Preserve lavender high-collared sleeveless tailored top with existing open-front cut and side openings, light lavender tailored shorts with silver belt details, matching pale thigh-high boots and hip holster. Hold the ornate silver-and-lilac moonstone revolver with luminous lavender cylinder at low ready, muzzle LEFT; thumb, palm and fingers correctly wrap its pistol grip. Confident composed standing adult duelist, no change of outfit exposure, no pinup pose, no moon bridge or backdrop.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful mature adult woman with short side-swept silver pixie hair, violet eyes, silver hoop earrings and choker. Preserve lavender high-collared sleeveless tailored top with existing open-front cut and side openings, light lavender tailored shorts with silver belt details, matching pale thigh-high boots and hip holster. Hold the ornate silver-and-lilac moonstone revolver with luminous lavender cylinder at low ready, muzzle LEFT; thumb, palm and fingers correctly wrap its pistol grip. Confident composed standing adult duelist, no change of outfit exposure, no pinup pose, no moon bridge or backdrop.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v032-selene-sd-v1.png",
+      "name": "셀레네",
+      "sourceArtSha256": "25D3F9D1F861219310F89F021E620BA0D69D2374D3ACEC2E8B4E00B3F042AC3B",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-712e7828-088a-40e3-bd37-846de2e8bb47.png",
+      "nativeOutputSha256": "84DE94632DDFD27414795C8CDAD3AB87418E65C6828D6F40C6B2FEA9D44B9A4C",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. Remove the entire background and deliver a clean cutout PNG with a real transparent alpha channel (background alpha 0). Keep the complete character, face, hair, outfit, hands, weapon, colors and pose unchanged. Preserve all equipment and both shoes without cropping. There must be NO simulated checkerboard, solid background, gradients, aura or shadow. Clean transparent gaps between arms, legs, hair and weapon. Production 2D game sprite; empty pixels must be truly transparent, not a picture of transparency.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-a49d45f5-0963-4c65-942c-75e5f54ec1b1.png"
+      ],
+      "qa": {
+        "sha256": "84DE94632DDFD27414795C8CDAD3AB87418E65C6828D6F40C6B2FEA9D44B9A4C",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1097464,
+        "solidPixels": 429787,
+        "partialPixels": 45613,
+        "transparentFraction": 0.697749,
+        "solidFraction": 0.273251,
+        "visibleBounds": {
+          "left": 19,
+          "top": 19,
+          "right": 872,
+          "bottom": 1516
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.57959,
+          "y": 0.98763
+        }
+      }
+    },
+    {
+      "code": "V-033",
+      "slug": "roselle",
+      "description": "Beautiful adult female infiltrator with long wavy rose-pink hair, warm brown eyes, rose-pink halter crop top, black leather cropped biker jacket worn off one shoulder, fitted black shorts and tall black leather boots. Preserve her compact black-and-rose-gold fantasy submachine gun with unified rose crystal casing and straight magazine. Both hands naturally support it across her waist, muzzle LEFT, fingers correctly wrap grip, all gun parts visible. Relaxed but balanced battle-ready standing, mature face, no new exposed areas or anatomy exaggeration, no street, shop or neon background.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful adult female infiltrator with long wavy rose-pink hair, warm brown eyes, rose-pink halter crop top, black leather cropped biker jacket worn off one shoulder, fitted black shorts and tall black leather boots. Preserve her compact black-and-rose-gold fantasy submachine gun with unified rose crystal casing and straight magazine. Both hands naturally support it across her waist, muzzle LEFT, fingers correctly wrap grip, all gun parts visible. Relaxed but balanced battle-ready standing, mature face, no new exposed areas or anatomy exaggeration, no street, shop or neon background.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v033-roselle-sd-v1.png",
+      "name": "로젤",
+      "sourceArtSha256": "B3A999469C05B84C6EF3E682979A6F6F581087D0523A83E12B6E612A20DA0598",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-def5bf26-ed93-4092-9a55-d62829a85233.png",
+      "nativeOutputSha256": "565B49AA0CEBD81E00557EE4D2DF8CC5159327508031FA3F51C4F5BA79E45469",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. Remove the entire background and deliver a clean cutout PNG with a real transparent alpha channel (background alpha 0). Keep the complete character, face, hair, outfit, hands, weapon, colors and pose unchanged. Preserve all equipment and both shoes without cropping. There must be NO simulated checkerboard, solid background, gradients, aura or shadow. Clean transparent gaps between arms, legs, hair and weapon. Production 2D game sprite; empty pixels must be truly transparent, not a picture of transparency.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-10e56108-352a-4e27-a0b4-e2fa460d49d7.png"
+      ],
+      "qa": {
+        "sha256": "565B49AA0CEBD81E00557EE4D2DF8CC5159327508031FA3F51C4F5BA79E45469",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1017363,
+        "solidPixels": 503467,
+        "partialPixels": 52034,
+        "transparentFraction": 0.646822,
+        "solidFraction": 0.320096,
+        "visibleBounds": {
+          "left": 148,
+          "top": 12,
+          "right": 902,
+          "bottom": 1504
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.473145,
+          "y": 0.979818
+        }
+      }
+    },
+    {
+      "code": "V-034",
+      "slug": "sage",
+      "description": "Beautiful adult female nature-tech riflewoman with chin-length green bob, green eyes and small silver earrings. Preserve the white-and-teal halter light-armor crop top, existing chest opening, teal shorts with silver side plates, long white gloves and white knee-high armored boots. Her entire silver-teal leaf-armored assault rifle includes a curved magazine and jade core. Natural two-handed low ready, muzzle LEFT. Stand with both feet grounded rather than seated, mature adult face and silhouette, no extra exposed areas, no greenery, flowers, steps or pond.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful adult female nature-tech riflewoman with chin-length green bob, green eyes and small silver earrings. Preserve the white-and-teal halter light-armor crop top, existing chest opening, teal shorts with silver side plates, long white gloves and white knee-high armored boots. Her entire silver-teal leaf-armored assault rifle includes a curved magazine and jade core. Natural two-handed low ready, muzzle LEFT. Stand with both feet grounded rather than seated, mature adult face and silhouette, no extra exposed areas, no greenery, flowers, steps or pond.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v034-sage-sd-v1.png",
+      "name": "세이지",
+      "sourceArtSha256": "D017D0EA4FD6CB7D8FA1F805A8959B248EB8E3DC1015EA7E5DF82CD71849893F",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-c7281648-246b-483f-b089-9b978dce8070.png",
+      "nativeOutputSha256": "C1904216FF888863C78B20A741D6C7631C5EB7BCEE829B051CB77AE64573B960",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. Remove the entire background and deliver a clean cutout PNG with a real transparent alpha channel (background alpha 0). Keep the complete character, face, hair, outfit, hands, weapon, colors and pose unchanged. Preserve all equipment and both shoes without cropping. There must be NO simulated checkerboard, solid background, gradients, aura or shadow. Clean transparent gaps between arms, legs, hair and weapon. Production 2D game sprite; empty pixels must be truly transparent, not a picture of transparency.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-93257310-b707-467f-a0b4-8da702180a2f.png"
+      ],
+      "qa": {
+        "sha256": "C1904216FF888863C78B20A741D6C7631C5EB7BCEE829B051CB77AE64573B960",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1102095,
+        "solidPixels": 424315,
+        "partialPixels": 46454,
+        "transparentFraction": 0.700693,
+        "solidFraction": 0.269772,
+        "visibleBounds": {
+          "left": 92,
+          "top": 14,
+          "right": 811,
+          "bottom": 1497
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.489258,
+          "y": 0.97526
+        }
+      }
+    },
+    {
+      "code": "V-035",
+      "slug": "sera",
+      "description": "Beautiful adult female assault specialist with warm brown hair in a long thick ponytail braid, amber eyes, orange cropped jacket with restrained gold detailing, fully covering ivory zip-neck top, khaki cargo trousers, gold forearm bracer and sturdy brown laced boots. Preserve the long ornate ivory-gold-and-orange sunstone shotgun, rich amber core and flame-shaped casing. Two-handed horizontal low-ready grip, muzzle LEFT. Energetic balanced standing idle, all weapon tips visible, no foundry, stairs, flame burst or background.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful adult female assault specialist with warm brown hair in a long thick ponytail braid, amber eyes, orange cropped jacket with restrained gold detailing, fully covering ivory zip-neck top, khaki cargo trousers, gold forearm bracer and sturdy brown laced boots. Preserve the long ornate ivory-gold-and-orange sunstone shotgun, rich amber core and flame-shaped casing. Two-handed horizontal low-ready grip, muzzle LEFT. Energetic balanced standing idle, all weapon tips visible, no foundry, stairs, flame burst or background.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v035-sera-sd-v1.png",
+      "name": "세라",
+      "sourceArtSha256": "541B2B2434E9DB10992B7AA3BAB0A9FFA88682D17C07E1FAA2BEAB0D33B75402",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-d80c931c-a529-4d5f-a953-a9bd05b626ee.png",
+      "nativeOutputSha256": "CD06B3595B46A8BCCDD1D67E4D25C1D72B07376455809B48CD8643AEFDCE0182",
+      "finalPrompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful adult female assault specialist with warm brown hair in a long thick ponytail braid, amber eyes, orange cropped jacket with restrained gold detailing, fully covering ivory zip-neck top, khaki cargo trousers, gold forearm bracer and sturdy brown laced boots. Preserve the long ornate ivory-gold-and-orange sunstone shotgun, rich amber core and flame-shaped casing. Two-handed horizontal low-ready grip, muzzle LEFT. Energetic balanced standing idle, all weapon tips visible, no foundry, stairs, flame burst or background.",
+      "finalReferencedImagePaths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "qa": {
+        "sha256": "CD06B3595B46A8BCCDD1D67E4D25C1D72B07376455809B48CD8643AEFDCE0182",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 965414,
+        "solidPixels": 522592,
+        "partialPixels": 84858,
+        "transparentFraction": 0.613794,
+        "solidFraction": 0.332255,
+        "visibleBounds": {
+          "left": 41,
+          "top": 6,
+          "right": 987,
+          "bottom": 1527
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.576172,
+          "y": 0.994792
+        }
+      }
+    },
+    {
+      "code": "V-036",
+      "slug": "nereia",
+      "description": "Elegant mature adult female sniper with very long wavy icy silver-blue hair, blue eyes, dark blue halter slit evening dress and existing side openings, sapphire pendant and drop earrings, long navy gloves, dark blue armored heeled boots. Preserve the long silver-and-deep-blue fantasy sniper rifle with celestial crystal inlays and scope. Hold it diagonally in both hands with the muzzle toward upper LEFT, keeping face clear and stock above feet. Calm adult standing battle pose, one restrained dress flow, no increased exposure, no floor, underwater architecture, stars, nebula or particles.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Elegant mature adult female sniper with very long wavy icy silver-blue hair, blue eyes, dark blue halter slit evening dress and existing side openings, sapphire pendant and drop earrings, long navy gloves, dark blue armored heeled boots. Preserve the long silver-and-deep-blue fantasy sniper rifle with celestial crystal inlays and scope. Hold it diagonally in both hands with the muzzle toward upper LEFT, keeping face clear and stock above feet. Calm adult standing battle pose, one restrained dress flow, no increased exposure, no floor, underwater architecture, stars, nebula or particles.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+      "name": "네레이아",
+      "sourceArtSha256": "86283DB676CF862B6AA0EFC83BF220847AF8C6509062911CBF1ABDB5682B8CF4",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-f751a857-d1c1-4044-8ca3-7b10a0670c30.png",
+      "nativeOutputSha256": "06D390083ED019E0860800EA749BBA730DF070344ABDD67A65E4FF2A8B14549F",
+      "finalPrompt": "Use case: background-extraction. Edit the supplied SD game character image. Remove the entire background and deliver a clean cutout PNG with a real transparent alpha channel (background alpha 0). Keep the complete character, face, hair, outfit, hands, weapon, colors and pose unchanged. Preserve all equipment and both shoes without cropping. There must be NO simulated checkerboard, solid background, gradients, aura or shadow. Clean transparent gaps between arms, legs, hair and weapon. Production 2D game sprite; empty pixels must be truly transparent, not a picture of transparency.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-83c62d38-4889-4b37-a7f3-7d3089746816.png"
+      ],
+      "qa": {
+        "sha256": "06D390083ED019E0860800EA749BBA730DF070344ABDD67A65E4FF2A8B14549F",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 918268,
+        "solidPixels": 590679,
+        "partialPixels": 63917,
+        "transparentFraction": 0.583819,
+        "solidFraction": 0.375544,
+        "visibleBounds": {
+          "left": 40,
+          "top": 22,
+          "right": 923,
+          "bottom": 1474
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.582031,
+          "y": 0.960286
+        }
+      }
+    },
+    {
+      "code": "V-037",
+      "slug": "adeline",
+      "description": "Beautiful adult heavy gunner with asymmetric chin-length black bob with subtle violet undertones, violet eyes, white high-collared fitted armored coat and ivory breastplate, pale-lavender sleeves and gold-edged shoulder plates, white gloves, dark lavender trousers and ivory armored boots. Preserve the imposing white-platinum-and-lilac belt-fed fantasy machine gun with faceted amethyst receiver, vented barrel and short hanging ammo belt. Natural grounded two-handed supporting stance, muzzle LEFT, bipod folded and no stand. Face unobstructed, no large energy cloud, furniture, floating city, floor or background.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated 2D RPG battle SD character sprite, a separate derivative of approved card artwork.\nInput image 1 is the exact adult character identity/outfit/weapon reference. Input image 2 is ONLY the established SD rendering and proportion reference; do NOT copy its purple colors, bob haircut, uniform, or rifle.\nCreate ONE complete full-body adult-character SD, about 4 heads tall, with a clearly mature stylized face and adult silhouette, polished Korean collectible RPG painterly shading, beautiful readable face, delicate thin outlines, separated cloth/metal/hair highlights. Preserve the identity and costume/weapon design of image 1; simplify tiny surface marks only for battle readability. Not a child, baby, toy figurine, photoreal person, or flat cartoon.\nComposition: 1024x1536 portrait RGBA PNG with a genuinely transparent alpha background. Single character centered in a balanced three-quarter standing idle battle pose. Entire head, hair, hands, weapon tips and both shoes visible, with small clear margins. Feet at the same ground level near 95% canvas height; all equipment stays above the shoes' ground-contact level. No cropped feet, no floor, no pedestal, no backdrop, no baked shadow, no colored rectangle and NO checkerboard pattern. No attack trails, smoke, glow cloud, scenery, companion, text, watermark, labels or frame. Actual transparency is mandatory; this asset will be layered on different battle backgrounds.\nCharacter-specific requirements: Beautiful adult heavy gunner with asymmetric chin-length black bob with subtle violet undertones, violet eyes, white high-collared fitted armored coat and ivory breastplate, pale-lavender sleeves and gold-edged shoulder plates, white gloves, dark lavender trousers and ivory armored boots. Preserve the imposing white-platinum-and-lilac belt-fed fantasy machine gun with faceted amethyst receiver, vented barrel and short hanging ammo belt. Natural grounded two-handed supporting stance, muzzle LEFT, bipod folded and no stand. Face unobstructed, no large energy cloud, furniture, floating city, floor or background.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+      "name": "아델린",
+      "sourceArtSha256": "3C374324EC4F3420F292AE821F2CDC2AA81CE81F128C2BCE7545E81599841A73",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-c8125b33-0ae7-48e7-9af6-fb81eeeeecd5.png",
+      "nativeOutputSha256": "6045B04EC1E1369DB267F4B95336E434F7348F8D0A2916D8F3D0E9E739D586F8",
+      "finalPrompt": "이 SD 캐릭터의 얼굴, 의상, 무기, 비율과 포즈는 그대로 유지해. 배경은 완전히 제거해서 진짜 투명 배경 PNG로 만들어줘. 흰색이나 체크무늬를 배경으로 그리지 말고 실제 알파 채널을 넣어줘. 인물과 무기만 남기고 머리부터 양쪽 신발까지 전신이 다 보여야 해. 프레임, 글씨, 바닥, 그림자, 배경색 없이 독립 전투 스프라이트로 쓸 거야. 출력은 1024×1536 PNG.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a067c3-ca46-71c3-9817-7b4b820224a1\\exec-ffef5699-390a-4df4-8f2b-ff2c7eb85b23.png"
+      ],
+      "qa": {
+        "sha256": "6045B04EC1E1369DB267F4B95336E434F7348F8D0A2916D8F3D0E9E739D586F8",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 976391,
+        "solidPixels": 546481,
+        "partialPixels": 49992,
+        "transparentFraction": 0.620773,
+        "solidFraction": 0.347443,
+        "visibleBounds": {
+          "left": 11,
+          "top": 19,
+          "right": 968,
+          "bottom": 1473
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.520508,
+          "y": 0.959635
+        }
+      }
+    }
+  ],
+  "integration": {
+    "readOnlyPublicCodex": true,
+    "battleArtResourceAdapter": true,
+    "liveBattleEnabled": false
+  },
+  "nativeOutputPolicy": "Native RGBA copied byte-for-byte. Only the existing codex media builder creates separate WebP derivatives. No programmatic background removal, cropping or original-art modification."
+}

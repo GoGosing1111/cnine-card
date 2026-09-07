@@ -1,9 +1,9 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 5,
+  "version": 6,
   "updatedAt": "2026-09-07",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
-  "battleAssetStatus": "PARTIAL_SPRITES_READY_NEW_SOURCE_ART_APPROVED",
+  "battleAssetStatus": "ALL_SPRITES_READY_USER_REVIEW_PENDING",
   "rankPolicy": {
     "authority": "USER",
     "defaultRank": null,
@@ -38,8 +38,8 @@
   "summary": {
     "total": 37,
     "sourceArtReady": 37,
-    "battleSpriteReady": 21,
-    "battleSpritePending": 16,
+    "battleSpriteReady": 37,
+    "battleSpritePending": 0,
     "rankPending": 37
   },
   "cards": [
@@ -375,10 +375,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#58B5A8"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+      "battleSpriteSha256": "C537EF7DF99F01926BBFEFAB0C4AAB9AF3898A6975820E0A980DD397194688C3",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#58B5A8",
+      "battleSpriteFootAnchor": {
+        "x": 0.552246,
+        "y": 0.986328
+      }
     },
     {
       "code": "V-023",
@@ -396,10 +400,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#738DCF"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v023-ian-sd-v1.png",
+      "battleSpriteSha256": "8443F090FDC4F4DB384BA104F2BC73C3A916731F658253299D510FC7B0220813",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#738DCF",
+      "battleSpriteFootAnchor": {
+        "x": 0.587891,
+        "y": 0.977865
+      }
     },
     {
       "code": "V-024",
@@ -417,10 +425,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#CCB790"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v024-velua-sd-v1.png",
+      "battleSpriteSha256": "8058BC1D85CE5E64317EF9122F6DE558B8A5919C3DCD5329B1BC4CF15D16E318",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#CCB790",
+      "battleSpriteFootAnchor": {
+        "x": 0.530273,
+        "y": 0.968099
+      }
     },
     {
       "code": "V-025",
@@ -438,10 +450,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#9CCADD"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v025-eira-sd-v1.png",
+      "battleSpriteSha256": "D86D9663A9CCCD789294A5BF9942944B48575C38E1BAD66757060153697357E5",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#9CCADD",
+      "battleSpriteFootAnchor": {
+        "x": 0.538574,
+        "y": 0.977865
+      }
     },
     {
       "code": "V-026",
@@ -459,10 +475,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#DFA652"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v026-lucas-sd-v1.png",
+      "battleSpriteSha256": "9FAAA83AFF94D33A241BED629DBDA3D2351D6B7EF492CFA3C12C5D1E3FE3865A",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#DFA652",
+      "battleSpriteFootAnchor": {
+        "x": 0.523926,
+        "y": 0.986979
+      }
     },
     {
       "code": "V-027",
@@ -480,10 +500,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#96A788"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v027-kael-sd-v1.png",
+      "battleSpriteSha256": "CE864104C78AA86D998CC55C0BB4ADD9DE01EA5A5C340CAE963E90B33EBDD188",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#96A788",
+      "battleSpriteFootAnchor": {
+        "x": 0.558105,
+        "y": 0.992188
+      }
     },
     {
       "code": "V-028",
@@ -501,10 +525,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#70B6A0"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v028-yeonhwi-sd-v1.png",
+      "battleSpriteSha256": "EA98EB68A9F981C5F3933AA849C3159B1717BC5FDE05B725C274B3CE6B0CEBE4",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#70B6A0",
+      "battleSpriteFootAnchor": {
+        "x": 0.473633,
+        "y": 0.977214
+      }
     },
     {
       "code": "V-029",
@@ -522,10 +550,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#E9CB83"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v029-leona-sd-v1.png",
+      "battleSpriteSha256": "DFF01066B7088787EF99B57B95181AB427B665AFF368A1A00302B2C378E06D55",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#E9CB83",
+      "battleSpriteFootAnchor": {
+        "x": 0.522461,
+        "y": 0.964844
+      }
     },
     {
       "code": "V-030",
@@ -543,10 +575,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#D96F71"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v030-hongryeon-sd-v1.png",
+      "battleSpriteSha256": "F441F0ABFF8916602E981BF04894C9F94D376B08D2E23C7AB3E2C0CEB1149312",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#D96F71",
+      "battleSpriteFootAnchor": {
+        "x": 0.509766,
+        "y": 0.973307
+      }
     },
     {
       "code": "V-031",
@@ -564,10 +600,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#8CA7E8"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v031-lucian-sd-v1.png",
+      "battleSpriteSha256": "750F24364B64897CE4E02614AE873AE4C71A9D8C1D2DBF8DB9DF8A05A264E5B0",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#8CA7E8",
+      "battleSpriteFootAnchor": {
+        "x": 0.481445,
+        "y": 0.984375
+      }
     },
     {
       "code": "V-032",
@@ -585,10 +625,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#C7A8EF"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v032-selene-sd-v1.png",
+      "battleSpriteSha256": "84DE94632DDFD27414795C8CDAD3AB87418E65C6828D6F40C6B2FEA9D44B9A4C",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#C7A8EF",
+      "battleSpriteFootAnchor": {
+        "x": 0.57959,
+        "y": 0.98763
+      }
     },
     {
       "code": "V-033",
@@ -606,10 +650,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#DB8EA8"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v033-roselle-sd-v1.png",
+      "battleSpriteSha256": "565B49AA0CEBD81E00557EE4D2DF8CC5159327508031FA3F51C4F5BA79E45469",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#DB8EA8",
+      "battleSpriteFootAnchor": {
+        "x": 0.473145,
+        "y": 0.979818
+      }
     },
     {
       "code": "V-034",
@@ -627,10 +675,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#79C8B2"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v034-sage-sd-v1.png",
+      "battleSpriteSha256": "C1904216FF888863C78B20A741D6C7631C5EB7BCEE829B051CB77AE64573B960",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#79C8B2",
+      "battleSpriteFootAnchor": {
+        "x": 0.489258,
+        "y": 0.97526
+      }
     },
     {
       "code": "V-035",
@@ -648,10 +700,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#EBA766"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v035-sera-sd-v1.png",
+      "battleSpriteSha256": "CD06B3595B46A8BCCDD1D67E4D25C1D72B07376455809B48CD8643AEFDCE0182",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#EBA766",
+      "battleSpriteFootAnchor": {
+        "x": 0.576172,
+        "y": 0.994792
+      }
     },
     {
       "code": "V-036",
@@ -669,10 +725,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#81AFE8"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+      "battleSpriteSha256": "06D390083ED019E0860800EA749BBA730DF070344ABDD67A65E4FF2A8B14549F",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#81AFE8",
+      "battleSpriteFootAnchor": {
+        "x": 0.582031,
+        "y": 0.960286
+      }
     },
     {
       "code": "V-037",
@@ -690,10 +750,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-beauty-firearms",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#C8B8E2"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+      "battleSpriteSha256": "6045B04EC1E1369DB267F4B95336E434F7348F8D0A2916D8F3D0E9E739D586F8",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#C8B8E2",
+      "battleSpriteFootAnchor": {
+        "x": 0.520508,
+        "y": 0.959635
+      }
     }
   ]
 }

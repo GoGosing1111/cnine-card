@@ -20,7 +20,7 @@ test('reads the canonical 37-card preview roster and never inherits historic ran
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
   assert.ok(roster.cards.every(card => card.rank === null));
-  assert.deepEqual(summarize(roster.cards), { total: 37, sourceReady: 37, spriteReady: 21, rankPending: 37, positions: { 전위: 17, 중거리: 12, 후열: 8 } });
+  assert.deepEqual(summarize(roster.cards), { total: 37, sourceReady: 37, spriteReady: 37, rankPending: 37, positions: { 전위: 17, 중거리: 12, 후열: 8 } });
 });
 test('current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft', async () => {
   assert.equal(roster.cardComposition.frame, 'assets/ui/card-frames/mercenary-contract-frame-slim-v3.png');
@@ -51,7 +51,7 @@ test('current mercenary frame is the native transparent slim V3 asset, never a c
   assert.match(systemPreview, /assetUrl\(state\.roster\.cardComposition\.frame\)/);
   assert.doesNotMatch(systemPreview, /mercenary-contract-frame-premium-v2/);
 });
-test('all sixteen approved additions match their reviewed originals and remain art-only', () => {
+test('all sixteen approved additions preserve reviewed originals and have separate SD resources', () => {
   const approval = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-art-approval-20260907.json'));
   assert.equal(approval.newCards, 16);
   assert.equal(approval.existingCardsPreserved, 21);
@@ -66,8 +66,8 @@ test('all sixteen approved additions match their reviewed originals and remain a
     assert.equal(card.catalogRelease, 'READ_ONLY_USER_APPROVED');
     assert.equal(card.sourceArt, entry.sourceArt);
     assert.equal(card.sourceArtSha256, entry.sha256);
-    assert.equal(card.battleSprite, null);
-    assert.equal(card.battleSpriteStatus, 'NOT_YET_PRODUCED');
+    assert.match(card.battleSprite, /^assets\/ui\/project-v\/characters\/mercenary\/mercenary-v\d{3}-.+-sd-v1\.png$/);
+    assert.equal(card.battleSpriteStatus, 'TECH_QA_COMPLETE_USER_REVIEW_PENDING');
     const hash = file => crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex').toUpperCase();
     assert.equal(hash(entry.reviewSource), entry.sha256);
     assert.equal(hash(entry.sourceArt), entry.sha256);
@@ -145,7 +145,7 @@ test('resource states preserve approval differences, including the supplied Omeg
 });
 test('responsive WebP derivatives are complete, traceable, transparent for SD and keep every source hash', async () => {
   assert.equal(media.originalsModified, false);
-  assert.equal(media.entries.length, 95);
+  assert.equal(media.entries.length, 111);
   let listBytes = 0;
   const seen = new Set();
   for (const entry of media.entries) {

@@ -11,7 +11,7 @@ export function publicCodexHtml(template) {
     ['<html lang="ko">', '<html lang="ko" data-codex-mode="public">'],
     ['용병도감 · 숲켓몬 검수 프리뷰', '용병도감 · 숲켓몬'],
     ['./codex.css?v=1.4', '../preview/mercenary-codex-v1/codex.css?v=1.4'],
-    ['./codex.js?v=2061.3-zoom-race', '../preview/mercenary-codex-v1/codex.js?v=2061.3-zoom-race'],
+    ['./codex.js?v=2061.4-sd-complete', '../preview/mercenary-codex-v1/codex.js?v=2061.4-sd-complete'],
     ['../../js/soopketmon-v21-exact-shell-adapter.js', '../js/soopketmon-v21-exact-shell-adapter.js'],
     ['class="brand" href="?view=menu" data-menu', 'class="brand" href="/?screen=home" aria-label="숲켓몬 로비로 돌아가기"'],
     ['class="lobby-return" href="/?screen=home" hidden', 'class="lobby-return" href="/?screen=home"'],
