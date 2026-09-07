@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="same-origin">
+  <title>용병도감 · 숲켓몬 검수 프리뷰</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./codex.css?v=1.1">
+</head>
+<body>
+  <a class="skip-link" href="#catalogControls">용병 검색으로 바로가기</a>
+  <header class="topbar">
+    <a class="brand" href="?view=menu" data-menu><span class="brand-symbol" aria-hidden="true">V</span><span>SOOPKETMON<small>PROJECT V · MERCENARY ARCHIVE</small></span></a>
+    <span class="preview-label"><i aria-hidden="true"></i>검수용 프리뷰 <span>· 유저 미공개</span></span>
+  </header>
+  <main id="main" class="codex-shell">
+    <nav class="breadcrumb" aria-label="현재 위치"><a href="?view=menu" data-menu>도감·강화</a><span aria-hidden="true">/</span><span id="breadcrumbCurrent" aria-current="page">용병도감</span></nav>
+    <section id="menuView" hidden aria-labelledby="menuTitle">
+      <div class="menu-heading"><p class="eyebrow">COLLECTION & UPGRADE</p><h1 id="menuTitle" tabindex="-1">도감·강화</h1><p>기존 메뉴에 용병도감을 추가한 배치입니다.</p></div>
+      <div id="collectionMenu" class="collection-menu"></div>
+      <p class="menu-note">이번 프리뷰에서는 용병도감만 열 수 있습니다. 기존 메뉴와 계정 데이터는 변경하지 않습니다.</p>
+    </section>
+    <section id="catalogView" aria-labelledby="catalogTitle">
+      <header class="hero">
+        <div class="hero-copy"><p class="eyebrow">THE MERCENARY ARCHIVE</p><h1 id="catalogTitle" tabindex="-1">용병도감<span>다섯 장의 덱, 하나의 새로운 가능성.</span></h1><p>각자의 무기, 각자의 전장.<br>숲켓몬에 합류할 용병들의 원화와 전투 모습을 만나보세요.</p><a class="text-link" href="#catalogControls">전체 용병 살펴보기 <span aria-hidden="true">↓</span></a></div>
+        <div id="heroArt" class="hero-art" aria-label="대표 용병 바로보기"></div>
+        <span class="hero-watermark" aria-hidden="true">PROJECT V</span>
+      </header>
+      <section class="overview" aria-label="용병 명단 현황">
+        <div><span>등록 용병</span><strong id="totalCount">—</strong><small>종</small></div>
+        <div><span>카드 원화</span><strong id="artCount">—</strong><small>준비</small></div>
+        <div><span>전투 SD</span><strong id="sdCount">—</strong><small>준비</small></div>
+        <p>등급 · 능력치 · 스킬은 확정 대기<small>현재 준비된 정보만 표시합니다.</small></p>
+      </section>
+      <section id="catalogControls" class="catalog-controls" aria-label="용병 검색 및 필터" tabindex="-1">
+        <div class="control-top">
+          <div class="search-field"><span data-icon="search" aria-hidden="true"></span><label class="sr-only" for="search">용병 이름, 칭호, 코드 검색</label><input id="search" type="search" placeholder="이름, 칭호, 코드 검색 · 초성 가능" maxlength="80" autocomplete="off" enterkeyhint="search"><button id="clearSearch" class="icon-button" type="button" aria-label="검색어 지우기" hidden>×</button></div>
+          <label class="select-field"><span>정렬</span><select id="sort"><option value="code">등록순</option><option value="name">이름순</option><option value="position">전투 위치순</option></select></label>
+          <button id="savedOnly" class="saved-filter" type="button" aria-pressed="false"><span data-icon="bookmark" aria-hidden="true"></span>즐겨찾기 <span id="savedCount">0</span></button>
+        </div>
+        <div class="control-bottom"><div id="positions" class="position-filters" role="group" aria-label="전투 위치"></div><label class="select-field role-select"><span class="sr-only">역할 필터</span><select id="role"><option value="">모든 역할</option></select></label></div>
+      </section>
+      <div class="results-line"><h2>용병 명단 <span id="resultCount" role="status" aria-live="polite"></span></h2><button id="resetFilters" type="button" class="text-button" hidden>필터 초기화 ↺</button><span class="list-hint">카드를 선택하면 상세 정보를 볼 수 있습니다.</span></div>
+      <ul id="cardGrid" class="card-grid" aria-label="용병 카드 목록" aria-busy="true"><li class="load-state" role="status">용병 명단을 불러오는 중입니다.</li></ul>
+      <p class="list-footnote">즐겨찾기는 이 브라우저에만 저장됩니다. 실제 보유 여부나 덱 편성과는 무관합니다.</p>
+      <details class="review-summary"><summary>현재 용병 정보 · 검수 현황 <span>열기</span></summary><div id="reviewSummary"></div></details>
+    </section>
+    <footer class="footer"><span>SOOPKETMON <b>PROJECT V</b></span><p>읽기 전용 프리뷰 · 계정 / 뽑기 / 전투 API 미연결</p></footer>
+  </main>
+  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="detailName">
+    <header class="dialog-bar"><span><span id="detailBarName">용병 상세</span><small id="detailCode"></small></span><div><button id="previousCard" class="icon-button" type="button" aria-label="이전 용병">←</button><span id="detailIndex" class="detail-index"></span><button id="nextCard" class="icon-button" type="button" aria-label="다음 용병">→</button><button id="closeDetail" class="icon-button close" type="button" aria-label="용병 상세 닫기">×</button></div></header>
+    <div id="detailContent" class="detail-content"></div>
+  </dialog>
+  <dialog id="artDialog" class="art-dialog" aria-label="용병 원본 확대 보기"><header><strong id="artTitle"></strong><div><button id="toggleOriginal" type="button">원본 크기</button><button id="closeArt" class="icon-button" type="button" aria-label="원본 확대 닫기">×</button></div></header><div id="artViewport" class="art-viewport"><img id="originalArt" alt=""></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <!-- Consume only the real menu contract. No live app, account, router or battle boot. -->
+  <script src="../../js/soopketmon-v21-exact-shell-adapter.js" data-enabled="false" data-default-home="false"></script>
+  <script type="module" src="./codex.js?v=1.1"></script>
+</body>
+</html>
