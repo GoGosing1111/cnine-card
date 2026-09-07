@@ -1,0 +1,43 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-09-07",
+  "status": "APPROVED_SOURCE_ART",
+  "userRequest": "경찰 조은으로 이름 변경하고 라이브서버 연결해",
+  "scope": "READ_ONLY_CATALOG_ONLY",
+  "newCards": 1,
+  "existingCardsPreserved": 41,
+  "previousRosterCardsSha256": "0265DE687A04C0FDC9A1E5D57CDBCF5EB2EE8745E8883844814E165E13BADA6A",
+  "totalCards": 42,
+  "battleSpriteReady": 37,
+  "battleSpritePending": 5,
+  "rankAssigned": false,
+  "runtimeConnected": false,
+  "originalsModified": false,
+  "qa": {
+    "sourceDimensions": [1024, 1536],
+    "sourceFormat": "RGB_PNG",
+    "thumbnailWidth": 160,
+    "frame": "assets/ui/card-frames/mercenary-contract-frame-slim-v3.png",
+    "visualReview": "FACE_AND_NAME_READABLE_FRAME_DOES_NOT_OCCLUDE_FACE",
+    "catalogTestsPassed": 52,
+    "desktopBrowserChecksPassed": 68,
+    "mobileBrowserChecksPassed": 68
+  },
+  "entries": [
+    {
+      "code": "V-042",
+      "conceptId": "police-joeun",
+      "name": "경찰 조은",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "previousDraftName": "킬러 조은",
+      "outfit": "하늘색 경찰 제복",
+      "weapon": "판타지 권총",
+      "reviewSource": "preview/mercenary-killer-joeun-v1/assets/killer-joeun-source-art-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+      "sha256": "838CC6DE03E2C9EBBC35267C838F040ADEB04D7B288D192A936B27D3E5366823",
+      "identityReference": "assets/cards/1315415134.png",
+      "identityReferenceUsage": "USER_REQUESTED_ZENITH_JOEUN_FACE_ONLY",
+      "artStyleReference": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png"
+    }
+  ]
+}

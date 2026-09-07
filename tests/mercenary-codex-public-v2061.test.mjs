@@ -88,7 +88,7 @@ test('native desktop, mobile and old subtab fallbacks redirect without mounting 
 test('public information remains read-only with separate local favorites and no guessed ranks', () => {
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length, 41);
+  assert.equal(roster.cards.length, 42);
   assert.ok(roster.cards.every(card => card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.match(html, /data-enabled="false"/);
   assert.doesNotMatch(html, /src="[^"]*(?:app\.js|runtime-router|battle-engine|loadout|gsap|pixi)/i);
@@ -105,10 +105,10 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.match(index, /exact-shell-adapter\.js\?v=21\.26\.0-mercenary-codex/);
   assert.match(index, /runtime-router\.js\?v=1\.9\.0-mercenary-codex/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
-  assert.match(html, /codex\.js\?v=2062\.1-four-looks/);
+  assert.match(html, /codex\.js\?v=2063\.1-police-joeun/);
   assert.match(html, /codex\.css\?v=1\.4/);
   assert.match(read('preview/mercenary-codex-v1/codex.css'), /\.search-field input\{min-height:44px\}/);
-  assert.match(client, /model\.js\?v=2062\.1-four-looks/);
+  assert.match(client, /model\.js\?v=2063\.1-police-joeun/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);
 });
 

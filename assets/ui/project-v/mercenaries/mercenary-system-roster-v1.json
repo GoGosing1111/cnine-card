@@ -1,6 +1,6 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 7,
+  "version": 8,
   "updatedAt": "2026-09-07",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "PARTIAL_SPRITES_READY_NEW_ART_PENDING",
@@ -36,11 +36,11 @@
     ]
   },
   "summary": {
-    "total": 41,
-    "sourceArtReady": 41,
+    "total": 42,
+    "sourceArtReady": 42,
     "battleSpriteReady": 37,
-    "battleSpritePending": 4,
-    "rankPending": 41
+    "battleSpritePending": 5,
+    "rankPending": 42
   },
   "cards": [
     {
@@ -846,6 +846,28 @@
       "battleSpriteSha256": null,
       "battleSpriteStatus": "NOT_YET_PRODUCED",
       "accent": "#E9A867"
+    },
+    {
+      "code": "V-042",
+      "rank": null,
+      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "name": "경찰 조은",
+      "title": "하늘빛 제복의 경찰",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "중거리 사격",
+      "roleStatus": "ART_CONCEPT_ONLY",
+      "weapon": "판타지 권총",
+      "outfit": "하늘색 경찰 제복",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+      "sourceArtSha256": "838CC6DE03E2C9EBBC35267C838F040ADEB04D7B288D192A936B27D3E5366823",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-07",
+      "catalogRelease": "READ_ONLY_USER_APPROVED",
+      "approvalBatch": "2026-09-07-police-joeun",
+      "battleSprite": null,
+      "battleSpriteSha256": null,
+      "battleSpriteStatus": "NOT_YET_PRODUCED",
+      "accent": "#83B9ED"
     }
   ]
 }

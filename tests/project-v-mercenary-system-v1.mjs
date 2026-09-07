@@ -52,11 +52,11 @@ test('mercenary slot remains optional and does not change the existing five-card
   assert.equal(validateMercenaryLoadout({ cardIds: cardIds.slice(0, 4), mercenaryCode: 'V-001' }).ok, false);
 });
 
-test('review roster has forty-one unique cards and no inherited rank', () => {
+test('review roster has forty-two unique cards and no inherited rank', () => {
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length, 41);
-  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 41);
-  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 41 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
+  assert.equal(roster.cards.length, 42);
+  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 42);
+  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 42 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
   assert.ok(roster.cards.every((card) => card.rank === null));
   assert.ok(roster.cards.every((card) => card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
@@ -69,9 +69,9 @@ test('all source art and all declared battle sprites exist with recorded hashes'
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
   assert.equal(sprites.length, 37);
-  assert.equal(pending.length, 4);
+  assert.equal(pending.length, 5);
   assert.equal(roster.summary.battleSpriteReady, 37);
-  assert.equal(roster.summary.battleSpritePending, 4);
+  assert.equal(roster.summary.battleSpritePending, 5);
 
   for (const card of roster.cards) {
     assert.equal(fs.existsSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);
@@ -159,7 +159,7 @@ test('preview states the 5+1 rule and never exposes legacy ranks', () => {
   assert.match(html, /5 \+ 1 편성 구조/);
   assert.match(client, /등급 미정/);
   assert.match(client, /사용자 지정 원화/);
-  assert.match(html, /전체 41/);
+  assert.match(html, /전체 42/);
   assert.doesNotMatch(html, /data-rank=/);
   assert.match(standard, /`cardIds` 5장과 `mercenaryCode` 1개/);
   assert.match(standard, /PREVIEW_ONLY_NOT_RUNTIME_CONNECTED/);

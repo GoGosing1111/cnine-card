@@ -1311,6 +1311,28 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
       "sourceSha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D",
       "sha256": "C0B5242C20EC7C0BDE624637A19DA911D98FDD7722039D315894113986D77A48"
+    },
+    {
+      "code": "V-042",
+      "kind": "art",
+      "file": "v-042-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 32134,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+      "sourceSha256": "838CC6DE03E2C9EBBC35267C838F040ADEB04D7B288D192A936B27D3E5366823",
+      "sha256": "DF972D709BF1EBE0E4EBDF02162189FD4A74A1507AC9A5599F9015499DCD9A29"
+    },
+    {
+      "code": "V-042",
+      "kind": "art",
+      "file": "v-042-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 91782,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+      "sourceSha256": "838CC6DE03E2C9EBBC35267C838F040ADEB04D7B288D192A936B27D3E5366823",
+      "sha256": "0216898EC553AE745B2FC2EA8BE308C19B329D7FACF51E5A431158BE66E34C0F"
     }
   ]
 }

@@ -21,13 +21,13 @@ export async function runMercenaryCodexBrowserQa() {
     // Start deterministically even when the user opened a newest-first deep link.
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
-    check('41 cards including four approved outfit concepts', document.querySelectorAll('.codex-card').length === 41);
-    check('37 prepared SD resources counted, four new originals pending SD', $('#sdCount').textContent === '37');
+    check('42 cards including the approved Police Joeun', document.querySelectorAll('.codex-card').length === 42);
+    check('37 prepared SD resources counted, five new originals pending SD', $('#sdCount').textContent === '37');
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
     const frame = $('.card-frame');
     await decode(frame);
     check('slim V3 frame loaded on every list card', frame.naturalWidth === 1024 && [...document.querySelectorAll('.codex-card .card-frame')].every(node => node.src.endsWith('/mercenary-contract-frame-slim-v3.png')));
-    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 41 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
+    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 42 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
     if (publicMode) {
       const back = $('#lobbyReturn');
       check('explicit same-tab lobby return', back && !back.hidden && back.textContent.includes('로비로 돌아가기') && back.getAttribute('href') === '/?screen=home' && !back.target);
@@ -79,7 +79,7 @@ export async function runMercenaryCodexBrowserQa() {
     history.back(); await pause();
     check('browser back closes only detail', !$('#detailDialog').open && !$('#catalogView').hidden && document.body.style.overflow !== 'hidden');
     input('#sort', 'newest', 'change');
-    check('newest sorting surfaces approved additions', $('.codex-card').dataset.card === 'V-041');
+    check('newest sorting surfaces approved additions', $('.codex-card').dataset.card === 'V-042');
     input('#search', 'SKS');
     check('SKS search resolves the replaced weapon', document.querySelectorAll('.codex-card').length === 1 && $('.codex-card').dataset.card === 'V-024');
     $('[data-open="V-024"]').click();
@@ -103,7 +103,7 @@ export async function runMercenaryCodexBrowserQa() {
     $('#closeDetail').click(); await pause();
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
-    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2062.1-four-looks', { cache: 'no-store', credentials: 'omit' });
+    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2063.1-police-joeun', { cache: 'no-store', credentials: 'omit' });
     if (!rosterResponse.ok) throw new Error(`Roster HTTP ${rosterResponse.status}`);
     const roster = await rosterResponse.json();
     for (const entry of roster.cards.slice(21).filter(card => card.battleSprite)) {
@@ -122,7 +122,7 @@ export async function runMercenaryCodexBrowserQa() {
       check(`${entry.code} outfit search`, document.querySelectorAll('.codex-card').length === 1 && $('.codex-card').dataset.card === entry.code);
       $(`[data-open="${entry.code}"]`).click();
       await decode($('#mediaPanel .card-source'));
-      check(`${entry.code} concept metadata`, $('#detailContent').textContent.includes(entry.outfit) && $('#detailContent').textContent.includes(entry.weapon) && $('#detailContent').textContent.includes('가칭'));
+      check(`${entry.code} concept metadata`, $('#detailContent').textContent.includes(entry.outfit) && $('#detailContent').textContent.includes(entry.weapon) && $('#detailContent').textContent.includes(entry.nameStatus === 'USER_ASSIGNED_NAME' ? '사용자 지정' : '가칭'));
       $('#sdTab').click();
       check(`${entry.code} pending SD never uses original art as sprite`, $('#mediaPanel').textContent.includes('전투 SD 제작 대기') && !$('#mediaPanel img'));
       $('#artTab').click();
