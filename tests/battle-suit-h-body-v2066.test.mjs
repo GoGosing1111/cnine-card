@@ -65,6 +65,22 @@ test('failed H-BODY registration never records a completed migration or poisons 
   }finally{db.close()}
 });
 
+test('adding core 4 preserves existing core CMS appearance, rarity, ordering and disabled state',async()=>{
+  const {db,DB}=fixture();
+  try{
+    for(const code of ['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4']){
+      db.prepare("INSERT INTO inventory_items(code,name,image_url,rarity,sort_order,is_active,category) VALUES(?,'CMS custom','custom.png','EPIC',999,0,'MATERIAL')").run(code);
+    }
+    await ensureBattleSuitCoreCatalog({DB});
+    for(const code of ['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3']){
+      const row=db.prepare('SELECT * FROM inventory_items WHERE code=?').get(code);
+      assert.deepEqual([row.name,row.image_url,row.rarity,row.sort_order,row.is_active],['CMS custom','custom.png','EPIC',999,0]);
+    }
+    const core4=db.prepare("SELECT * FROM inventory_items WHERE code='SUIT_CORE_4'").get();
+    assert.deepEqual([core4.name,core4.image_url,core4.rarity,core4.sort_order,core4.is_active],['슈트 코어 4','assets/items/suit-core-4-v2066.png','EPIC',999,0]);
+  }finally{db.close()}
+});
+
 test('H-BODY item art and separate V3 fallback are true RGBA with clear margins',async()=>{
   assert.equal(manifest.liveEnabled,true);assert.equal(manifest.scope,'PVE_ONLY');
   assert.equal(manifest.suit.code,H_BODY_ITEM.code);

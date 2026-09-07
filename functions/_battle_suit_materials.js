@@ -17,7 +17,15 @@ export async function ensureBattleSuitCoreCatalog(env){
   const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BATTLE_SUIT_CORE_UPGRADE_KEY).first();
   if(marker?.value==='1')return cacheRuntimeData(env,BATTLE_SUIT_CORE_UPGRADE_KEY,true,1800000);
   await env.DB.batch([
-    ...BATTLE_SUIT_CORE_CATALOG.map(item=>env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,'MATERIAL',?,?,?,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category='MATERIAL',rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`).bind(item.code,item.name,item.subtitle,item.description,item.rarity,item.image,item.sortOrder)),
+    // Adding core 4 must not replay old catalog defaults over OWNER CMS edits.
+    // Existing cores keep their name/art/rarity/order and active state; only
+    // material classification is canonical. Core 4 refreshes its requested art.
+    ...BATTLE_SUIT_CORE_CATALOG.map(item=>{
+      const updates=item.code==='SUIT_CORE_4'
+        ? "name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category='MATERIAL',image_url=excluded.image_url,updated_at=CURRENT_TIMESTAMP"
+        : "category='MATERIAL',updated_at=CURRENT_TIMESTAMP";
+      return env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,'MATERIAL',?,?,?,1) ON CONFLICT(code) DO UPDATE SET ${updates}`).bind(item.code,item.name,item.subtitle,item.description,item.rarity,item.image,item.sortOrder);
+    }),
     env.DB.prepare("UPDATE inventory_items SET category='MATERIAL',updated_at=CURRENT_TIMESTAMP WHERE code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') AND category<>'MATERIAL'"),
     env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(BATTLE_SUIT_CORE_UPGRADE_KEY)
   ]);
