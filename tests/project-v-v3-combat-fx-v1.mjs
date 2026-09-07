@@ -34,7 +34,7 @@ assert.match(engine,/const sourceArt=originalCardArtUrl\(card,art\);[\s\S]*targe
 
 assert.doesNotMatch(index,/type="importmap"/,'preview must not depend on cross-origin runtime modules');
 assert.match(index,/project-v-client\.js\?v=75-nonblocking-fx/);
-assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=101-nonblocking-fx/);
+assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=102-h-body/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>500_000,'public PixiJS bundle must exist');
 
 console.log('project-v V3 combat FX contract: OK');

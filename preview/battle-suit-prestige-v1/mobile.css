@@ -1,0 +1,11 @@
+.suit-headings,.download-grid{grid-template-columns:1fr}
+.suit-headings>div:last-child small{color:#ffbf69}
+.light .suit-headings>div:last-child small{color:#836023}
+@media(max-width:550px){
+  .suit-headings{grid-template-columns:1fr}
+  .suit-headings>div{display:none;border:0}
+  .suit-headings>div.is-selected{display:block;padding:20px 20px 4px}
+  .suit-headings small{font-size:10px}
+  .suit-headings h2{font-size:24px}
+  #stage{height:420px}
+}

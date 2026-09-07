@@ -32,7 +32,7 @@ import { handleRaidCoreProtocol } from '../_raid_core_protocol.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop,ensureWorkshopFoundation } from '../_workshop.js';
-import { ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
+import { BATTLE_SUIT_CORE_CODES, ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
 import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_reward_batch.js';
 import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
@@ -8151,6 +8151,7 @@ async function handleRequest(context){
         const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
         if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)await ensureUniqueAdvancementPassCatalog(env);
+        if(BATTLE_SUIT_CORE_CODES.includes(itemCode))await ensureBattleSuitCoreCatalog(env);
         if(itemCode==='CORE_RAID_ENTRY_TICKET'){
           await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
             VALUES('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','CORE PROTOCOL ENTRY','붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.','ENTRY_TICKET','ZENITH','assets/items/core-raid-entry-ticket-v1.png',126,1)

@@ -1,0 +1,11 @@
+assets/prepared/
+qa-browser*.png
+# Cancelled second-suit draft remains local, excluded from review/publication.
+assets/sources/seraph-*
+assets/sprites/seraph-*
+assets/atlases/seraph-*
+# Rejected SKS attempt, preserved locally only.
+assets/sources/helios-sks-authored-v2.png
+assets/sources/helios-sks-authored-v3.png
+assets/sprites/helios-sks-exact-full-v4.png
+assets/sprites/helios-sks-exact-full-v5.png

@@ -1,6 +1,7 @@
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
 import { burningEventIsLive } from './_burning_event_access.js';
 import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_skill_chips.js';
+import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const BATTLE_SUIT_SLOT='BATTLE_SUIT';
@@ -493,6 +494,7 @@ export async function ensureEquipmentFoundation(env){
       statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1969_battle_suit_power_tiers','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP"));
       await env.DB.batch(statements);
     }
+    await ensureHBodyEquipment(env);
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -510,7 +512,7 @@ function publicItem(row){const pveOnly=row.slot===BATTLE_SUIT_SLOT,pvePower=Numb
 function publicEquippedItem(row,prefix,{pveOnly=false}={}){
   const id=Number(row?.[`${prefix}_id`]||0);if(!id)return null;
   const image=row?.[`${prefix}_image`]||'',name=row?.[`${prefix}_name`]||'',pvePower=Number(row?.[`${prefix}_pve`]||0),pvpPower=pveOnly?0:Number(row?.[`${prefix}_pvp`]||0);
-  return {instanceId:Number(row?.[`${prefix}_instance_id`]||0)||null,id,code:row?.[`${prefix}_code`]||'',name,displayName:name,slot:row?.[`${prefix}_slot`]||'',subtype:row?.[`${prefix}_subtype`]||'',rarity:normalizeEquipmentRarity(row?.[`${prefix}_rarity`]),image,imageUrl:image,battleSprite:pveOnly?image:'',totalPower:pveOnly?pvePower:Number(row?.[`${prefix}_total`]||0),pvePower,pvpPower,scaleMultiplier:1};
+  return {instanceId:Number(row?.[`${prefix}_instance_id`]||0)||null,id,code:row?.[`${prefix}_code`]||'',name,displayName:name,slot:row?.[`${prefix}_slot`]||'',subtype:row?.[`${prefix}_subtype`]||'',rarity:normalizeEquipmentRarity(row?.[`${prefix}_rarity`]),image,imageUrl:image,battleSprite:pveOnly?(row?.[`${prefix}_code`]===H_BODY_ITEM.code?H_BODY_ITEM.battleSprite:image):'',totalPower:pveOnly?pvePower:Number(row?.[`${prefix}_total`]||0),pvePower,pvpPower,scaleMultiplier:1};
 }
 function publicGarageItem(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,rarity:normalizeGarageRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),acquiredAt:row.acquired_at||null}}
 function publicTitle(row,owned=false,equipped=false){const unlockConfig=parseJson(row.unlock_config_json,{});return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig,stylePreset:normalizeTitleStylePreset(row.style_preset),fontPreset:normalizeTitleFontPreset(unlockConfig.fontPreset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null,expiresAt:row.expires_at||null}}
@@ -717,7 +719,7 @@ async function adminSystemPayload(env){
   return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,equipmentRarities:EQUIPMENT_RARITIES,garageRarities:GARAGE_RARITIES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,titleStylePresets:TITLE_STYLE_PRESETS,titleFontPresets:TITLE_FONT_PRESETS,items:items.results.map(publicItem),garageItems:garageItems.results.map(row=>publicGarageItem(row)),titles:titles.results.map(row=>publicTitle(row)),profiles:[],supplyBox:publicSupplyBoxConfig(settings),supplyBoxSettings:settings};
 }
 
-export const __equipmentTest=Object.freeze({BATTLE_SUIT_SLOT,BATTLE_SUIT_CATALOG,equipmentPowerForSlot});
+export const __equipmentTest=Object.freeze({BATTLE_SUIT_SLOT,BATTLE_SUIT_CATALOG,equipmentPowerForSlot,publicEquippedItem});
 
 export async function handleEquipment({path,request,env,deps}){
   if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')||path.startsWith('admin/garage')))return null;

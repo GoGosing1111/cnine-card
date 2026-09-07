@@ -1,0 +1,769 @@
+{
+  "version": "HELIOS_LONG_WEAPON_FIT_V7",
+  "status": "USER_APPROVED_20260908",
+  "scope": "PREVIEW_ONLY",
+  "liveEnabled": false,
+  "approvedLiveEquipmentCode": "BATTLE_SUIT_H_BODY",
+  "liveConnectionApprovedAt": "2026-09-08",
+  "generationTool": "built-in image_gen",
+  "processingConsent": "2026-09-08 user: 기존 스크립트로 투명화·아틀라스 제작",
+  "animationContract": {
+    "format": "PNG_RGBA_GRID",
+    "grid": {
+      "columns": 4,
+      "rows": 2
+    },
+    "frameSize": {
+      "width": 384,
+      "height": 512
+    },
+    "frameOrder": [
+      "ready",
+      "fire",
+      "recoil",
+      "recover"
+    ],
+    "durationsMs": {
+      "ready": 45,
+      "fire": 45,
+      "recoil": 70,
+      "recover": 125
+    },
+    "camera": "PROJECT_V_V3_ELEVATED_ISOMETRIC",
+    "pivot": "SOLE_CENTER",
+    "movement": false,
+    "approvedWeaponScalePolicy": "PAIR_CONTENT_BOUNDS_WITH_M200_SCALE_CORRECTION",
+    "muzzleFlashSource": "RUNTIME_EFFECT_ONLY",
+    "placementTuning": "SUIT_WEAPON_PAIR_CONTENT_BOUNDS",
+    "muzzleBinding": "FIRE_FRAME_RENDERED_WEAPON_TIP",
+    "staticPosePolicy": "REPEAT_AUTHORED_READY_POSE_RUNTIME_BALLISTIC_FX",
+    "poseAnimation": false
+  },
+  "runtimeModule": "/preview/project-v-v3/source/battle/AccountBattleUnit.js",
+  "compositor": "scripts/compose-exact-battle-suit-weapons.cjs",
+  "suits": [
+    {
+      "id": "helios",
+      "name": "백색 · 엠버 코어",
+      "accent": "#ffb14a",
+      "source": "/preview/battle-suit-prestige-v1/assets/sources/helios-proxy-source.png",
+      "description": "백색 판금 · 주황 코어 · 트윈 크레스트",
+      "sourceSha256": "37C1E97A4A7C0A741CE091273F617319ABFE618DF92D47196ED81903F910B72E",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "keyedPixels": 1181121,
+      "entries": [
+        {
+          "weaponCode": "EQ_1785427638137",
+          "weaponName": "아발론 M4A1",
+          "weaponIndex": 0,
+          "image": "/preview/battle-suit-prestige-v1/assets/sprites/helios-1.png",
+          "sha256": "A71140C7DE0997832BC9100F0B4E0FC79EBA953FDD2979DE7E47164A7E5D4020",
+          "atlasSha256": "44E7098FEB66082FFE66D202BBBD7B943726324B93C030E40425CAAA53D1E80F",
+          "diagnostics": {
+            "bounds": {
+              "left": 45,
+              "top": 40,
+              "width": 290,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.19507058287795995,
+              "y": 0.935546875
+            },
+            "transparentPixels": 157817,
+            "greenPixels": 0,
+            "magentaPixels": 0
+          },
+          "authored": null,
+          "profile": {
+            "suitCode": "PREVIEW_HELIOS",
+            "weaponCode": "EQ_1785427638137",
+            "sheetUrl": "/preview/battle-suit-prestige-v1/assets/atlases/helios-m4a1-m200-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.8671875,
+              "y": 0.2548828125,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1785961232958",
+          "weaponName": "인피니티 AK",
+          "weaponIndex": 1,
+          "image": "/preview/battle-suit-prestige-v1/assets/sprites/helios-2.png",
+          "sha256": "397C5E09D847539A8E2300670418E525CCA94321F227D6B057E618835C571EF9",
+          "atlasSha256": "C5E9941C0E6B7216EA0AC53B98880AB367378BC2339D421194FDB67861805BFA",
+          "diagnostics": {
+            "bounds": {
+              "left": 45,
+              "top": 40,
+              "width": 291,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.19507058287795995,
+              "y": 0.935546875
+            },
+            "transparentPixels": 158509,
+            "greenPixels": 0,
+            "magentaPixels": 0
+          },
+          "authored": null,
+          "profile": {
+            "suitCode": "PREVIEW_HELIOS",
+            "weaponCode": "EQ_1785961232958",
+            "sheetUrl": "/preview/battle-suit-prestige-v1/assets/atlases/helios-ak-sks-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.19507058287795995,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.8671875,
+              "y": 0.2578125,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1785961300455",
+          "weaponName": "인피니티 M200",
+          "weaponIndex": 2,
+          "image": "/preview/battle-suit-prestige-v1/assets/sprites/helios-3.png",
+          "sha256": "92B9FB66C5C2160E05168C03617DBC31B8D377BCE726C6A1E00C8F7732278EAC",
+          "atlasSha256": "44E7098FEB66082FFE66D202BBBD7B943726324B93C030E40425CAAA53D1E80F",
+          "diagnostics": {
+            "bounds": {
+              "left": 5,
+              "top": 55,
+              "width": 374,
+              "height": 425,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.07797262854609929,
+              "y": 0.935546875
+            },
+            "transparentPixels": 156104,
+            "greenPixels": 0,
+            "magentaPixels": 10
+          },
+          "authored": {
+            "source": "/preview/battle-suit-prestige-v1/assets/sources/helios-m200-authored-v2.png",
+            "sha256": "DF2775D3A0D4E2BC4DB47A10D0C0CA92196A628FD084D7BFDD45DB1359B4D732",
+            "approval": "USER_APPROVED_20260908",
+            "composition": "IMAGEGEN_AUTHORED_INTEGRATED_GRIP",
+            "matte": "CONNECTED_LIGHT",
+            "weaponRasterCopied": false,
+            "uniformScaleOnly": true,
+            "sourceBounds": {
+              "left": 20,
+              "top": 115,
+              "width": 1046,
+              "height": 1189,
+              "bottom": 1303
+            },
+            "weaponLengthToFigureHeight": 0.6913372582001682
+          },
+          "profile": {
+            "suitCode": "PREVIEW_HELIOS",
+            "weaponCode": "EQ_1785961300455",
+            "sheetUrl": "/preview/battle-suit-prestige-v1/assets/atlases/helios-m4a1-m200-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.07797262854609929,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.07797262854609929,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.07797262854609929,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.07797262854609929,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.107421875,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9804612810707457,
+              "y": 0.27427525756938603,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1786966923833",
+          "weaponName": "소버린 SKS",
+          "weaponIndex": 3,
+          "image": "/preview/battle-suit-prestige-v1/assets/sprites/helios-4.png",
+          "sha256": "463D446D2C9DF31F236DBC06718EFF6A28927E7DF238CA8174AA8051AB77B082",
+          "atlasSha256": "C5E9941C0E6B7216EA0AC53B98880AB367378BC2339D421194FDB67861805BFA",
+          "diagnostics": {
+            "bounds": {
+              "left": 28,
+              "top": 40,
+              "width": 327,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.15098536036036037,
+              "y": 0.935546875
+            },
+            "transparentPixels": 155747,
+            "greenPixels": 0,
+            "magentaPixels": 765
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+            "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+            "bodySource": "/preview/battle-suit-prestige-v1/assets/sources/helios-sks-long-fit-proxy-v6.png",
+            "bodySha256": "C2E91F36ED902A4E501896C4BE9EB01238907AA0EB6DC4C3499A3C90D4759864",
+            "approval": "USER_APPROVED_20260908",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "sourceBounds": {
+              "left": 47,
+              "top": 48,
+              "width": 1041,
+              "height": 1400,
+              "bottom": 1447
+            },
+            "placement": {
+              "width": 840,
+              "left": 244,
+              "top": 188,
+              "flop": true,
+              "rotationDegrees": 6
+            },
+            "highResolution": "/preview/battle-suit-prestige-v1/assets/sprites/helios-sks-exact-full-v6.png",
+            "aimAxisDegrees": 0.07315206403268662,
+            "weaponLengthToFigureHeight": 0.6
+          },
+          "profile": {
+            "suitCode": "PREVIEW_HELIOS",
+            "weaponCode": "EQ_1786966923833",
+            "sheetUrl": "/preview/battle-suit-prestige-v1/assets/atlases/helios-ak-sks-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.15098536036036037,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.15098536036036037,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.15098536036036037,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.15098536036036037,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9229117183346033,
+              "y": 0.27149755912249807,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1788486929132",
+          "weaponName": "東方軍火商(동방무기상) · 금룡 돌격소총",
+          "weaponIndex": 4,
+          "image": "/preview/battle-suit-prestige-v1/assets/sprites/helios-5.png",
+          "sha256": "B885B6ADB9D37F281A35A2BA1CDAC071EBDDEA271F179135601EA34D86795A6E",
+          "atlasSha256": "0F5ABDCE61E4A4ED41EA5346743A2E099DC523BD02C6E83C4DAAF44381FC4395",
+          "diagnostics": {
+            "bounds": {
+              "left": 24,
+              "top": 40,
+              "width": 336,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.13141689686924493,
+              "y": 0.935546875
+            },
+            "transparentPixels": 153914,
+            "greenPixels": 1,
+            "magentaPixels": 2
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+            "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+            "bodySource": "/preview/battle-suit-prestige-v1/assets/sources/helios-gilded-ar-long-fit-proxy-v7.png",
+            "bodySha256": "0782A4DD00F7F6E8977235505108F976FD4987603479D182BD1FA75FA700E75F",
+            "approval": "USER_APPROVED_20260908",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "sourceBounds": {
+              "left": 51,
+              "top": 53,
+              "width": 1066,
+              "height": 1396,
+              "bottom": 1448
+            },
+            "placement": {
+              "width": 900,
+              "left": 217,
+              "top": 228,
+              "flop": false,
+              "rotationDegrees": 0
+            },
+            "highResolution": "/preview/battle-suit-prestige-v1/assets/sprites/helios-gilded-ar-exact-full-v7.png",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.6446991404011462
+          },
+          "profile": {
+            "suitCode": "PREVIEW_HELIOS",
+            "weaponCode": "EQ_1788486929132",
+            "sheetUrl": "/preview/battle-suit-prestige-v1/assets/atlases/helios-gilded-dragon-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.13141689686924493,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.13141689686924493,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.13141689686924493,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.13141689686924493,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.935335713971623,
+              "y": 0.2448294565807441,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1788486888336",
+          "weaponName": "東方軍火商(동방무기상) · 금룡 대물저격총",
+          "weaponIndex": 5,
+          "image": "/preview/battle-suit-prestige-v1/assets/sprites/helios-6.png",
+          "sha256": "B68271FBB54155A393F82378E57620F640C09AA2FDB2D700A083F7FCDEF6EEEA",
+          "atlasSha256": "0F5ABDCE61E4A4ED41EA5346743A2E099DC523BD02C6E83C4DAAF44381FC4395",
+          "diagnostics": {
+            "bounds": {
+              "left": 6,
+              "top": 40,
+              "width": 372,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.09486204954954956,
+              "y": 0.935546875
+            },
+            "transparentPixels": 150954,
+            "greenPixels": 1,
+            "magentaPixels": 3
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+            "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+            "bodySource": "/preview/battle-suit-prestige-v1/assets/sources/helios-gilded-antimateriel-long-fit-proxy-v6.png",
+            "bodySha256": "EF0E970D0E79EC9492839E1BBEBB88D807E06B491BBB08403311A23EA04E7804",
+            "approval": "USER_APPROVED_20260908",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "sourceBounds": {
+              "left": 48,
+              "top": 52,
+              "width": 1179,
+              "height": 1396,
+              "bottom": 1447
+            },
+            "placement": {
+              "width": 980,
+              "left": 247,
+              "top": 217,
+              "flop": false,
+              "rotationDegrees": 0
+            },
+            "highResolution": "/preview/battle-suit-prestige-v1/assets/sprites/helios-gilded-antimateriel-exact-full-v6.png",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.7020057306590258
+          },
+          "profile": {
+            "suitCode": "PREVIEW_HELIOS",
+            "weaponCode": "EQ_1788486888336",
+            "sheetUrl": "/preview/battle-suit-prestige-v1/assets/atlases/helios-gilded-dragon-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.09486204954954956,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.09486204954954956,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.09486204954954956,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.09486204954954956,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9772977173783396,
+              "y": 0.25569861119661086,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "weapons": [
+    {
+      "equipmentCode": "EQ_1785427638137",
+      "name": "아발론 M4A1",
+      "sourceImage": "/assets/new myth/20.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961232958",
+      "name": "인피니티 AK",
+      "sourceImage": "/assets/items/GUN1.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961300455",
+      "name": "인피니티 M200",
+      "sourceImage": "/assets/items/GUN2.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1786966923833",
+      "name": "소버린 SKS",
+      "sourceImage": "/assets/items/41515123.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1788486929132",
+      "name": "東方軍火商(동방무기상) · 금룡 돌격소총",
+      "sourceImage": "/assets/items/gilded-dragon-ar-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+      "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+      "authoredCompositeSource": "IMAGEGEN_EXACT_WEAPON_CUTOUT_V1"
+    },
+    {
+      "equipmentCode": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상) · 금룡 대물저격총",
+      "sourceImage": "/assets/items/gilded-dragon-antimateriel-rifle-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+      "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+      "authoredCompositeSource": "IMAGEGEN_EXACT_WEAPON_CUTOUT_V1"
+    }
+  ]
+}

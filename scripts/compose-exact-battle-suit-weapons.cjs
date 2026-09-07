@@ -12,11 +12,17 @@ const ROWS = 2;
 
 const [, , proxyArg, row0WeaponArg, row1WeaponArg, outputArg, ...optionArgs] = process.argv;
 if (!proxyArg || !row0WeaponArg || !row1WeaponArg || !outputArg) {
-  console.error('Usage: node scripts/compose-exact-battle-suit-weapons.cjs <green-proxy-atlas.png> <row-0-weapon.png> <row-1-weapon.png> <output.png> [--force-horizontal]');
+  console.error('Usage: node scripts/compose-exact-battle-suit-weapons.cjs <green-proxy-atlas.png> <row-0-weapon.png> <row-1-weapon.png> <output.png> [--force-horizontal] [--preserve-separated-parts] [--row-y-offsets=a,b]');
   process.exit(1);
 }
 
 const forceHorizontal=optionArgs.includes('--force-horizontal');
+// Opt-in for new proxy sources whose support arm crosses behind the weapon.
+// Keep the old connected-component cleanup unchanged for existing rebuilds.
+const preserveSeparatedParts=optionArgs.includes('--preserve-separated-parts');
+const rowYOffsetOption=optionArgs.find(value=>value.startsWith('--row-y-offsets='));
+const rowYOffsets=rowYOffsetOption?rowYOffsetOption.split('=')[1].split(',').map(Number):[0,0];
+if(rowYOffsets.length!==2||rowYOffsets.some(value=>!Number.isFinite(value)||Math.abs(value)>32))throw new Error('Expected two row Y offsets within +/-32px');
 
 const proxyPath = path.resolve(proxyArg);
 const outputPath = path.resolve(outputArg);
@@ -155,7 +161,7 @@ function keyProxyAndMeasure(frame) {
   });
 
   const middle = (minimum + maximum) / 2;
-  keepLargestAlphaComponent(frame);
+  if(!preserveSeparatedParts)keepLargestAlphaComponent(frame);
   return {
     centerX: meanX + middle * axisX,
     centerY: meanY + middle * axisY,
@@ -257,7 +263,7 @@ async function composeFrame(frame, weaponKey, measurement, targetWidth) {
   ));
   const top = Math.max(4, Math.min(
     FRAME_HEIGHT - 4 - exactWeapon.height,
-    Math.round(measurement.centerY - exactWeapon.height / 2)
+    Math.round(measurement.centerY - exactWeapon.height / 2 + rowYOffsets[weaponKey==='ROW_0'?0:1])
   ));
   const body = await sharp(frame, {raw: {width: FRAME_WIDTH, height: FRAME_HEIGHT, channels: 4}}).png().toBuffer();
   const composite = await sharp({

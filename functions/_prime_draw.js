@@ -16,6 +16,7 @@ const PURCHASE_LIMIT=2000000000;
 const RARITIES=['NORMAL','MAGIC','RARE','EPIC','LEGENDARY','MYTHIC'];
 const EQUIPMENT_SLOT_LABELS={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구',BATTLE_SUIT:'배틀슈트'};
 const PRIME_EQUIPMENT_ITEM_CODES=new Set(BATTLE_SUIT_CORE_CODES);
+const PRIME_CORE_PLACEHOLDERS=BATTLE_SUIT_CORE_CODES.map(()=>'?').join(',');
 
 const PRODUCTS=Object.freeze({
   equipment:Object.freeze({
@@ -264,12 +265,12 @@ async function loadPool(env,product,{includeZero=false,fresh=true}={}){
   const nativeType=product.kind==='equipment'?'EQUIPMENT':'VEHICLE',nativeTable=product.kind==='equipment'?'character_equipment_items':'character_garage_items';
   const nativeExtraSql=`SELECT x.*,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.total_power,i.pve_power,i.pvp_power${product.kind==='equipment'?',i.slot':''},0 source_probability,1 boost_multiplier FROM ${EXTRA_POOL_TABLE} x JOIN ${nativeTable} i ON i.code=x.reward_ref WHERE x.product_kind=? AND x.reward_type=? AND i.is_active=1 AND i.is_public=1${extraWeightClause} ORDER BY x.draw_weight DESC,i.id`;
   const avatarSql=`SELECT x.*,a.code,a.name,'AVATAR' rarity,a.lobby_image image_url,a.description,a.role_label,a.accent,0 total_power,0 pve_power,0 pvp_power,0 source_probability,1 boost_multiplier FROM ${EXTRA_POOL_TABLE} x JOIN avatar_catalog_v1 a ON a.code=x.reward_ref WHERE x.product_kind=? AND x.reward_type='AVATAR' AND a.is_active=1 AND a.is_public=1${extraWeightClause} ORDER BY x.draw_weight DESC,a.sort_order,a.code`;
-  const inventoryItemSql=`SELECT x.*,i.code,i.name,i.rarity,i.image_url,i.description,i.category,0 total_power,0 pve_power,0 pvp_power,0 source_probability,1 boost_multiplier FROM ${EXTRA_POOL_TABLE} x JOIN inventory_items i ON i.code=x.reward_ref WHERE x.product_kind='equipment' AND x.reward_type='INVENTORY_ITEM' AND i.is_active=1 AND i.code IN ('SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3')${extraWeightClause} ORDER BY x.draw_weight DESC,i.sort_order,i.code`;
+  const inventoryItemSql=`SELECT x.*,i.code,i.name,i.rarity,i.image_url,i.description,i.category,0 total_power,0 pve_power,0 pvp_power,0 source_probability,1 boost_multiplier FROM ${EXTRA_POOL_TABLE} x JOIN inventory_items i ON i.code=x.reward_ref WHERE x.product_kind='equipment' AND x.reward_type='INVENTORY_ITEM' AND i.is_active=1 AND i.code IN (${PRIME_CORE_PLACEHOLDERS})${extraWeightClause} ORDER BY x.draw_weight DESC,i.sort_order,i.code`;
   const [baseResult,nativeExtraResult,avatarResult,inventoryItemResult]=await Promise.all([
     env.DB.prepare(baseSql).all(),
     env.DB.prepare(nativeExtraSql).bind(product.kind,nativeType).all(),
     env.DB.prepare(avatarSql).bind(product.kind).all(),
-    product.kind==='equipment'?env.DB.prepare(inventoryItemSql).all():Promise.resolve({results:[]})
+    product.kind==='equipment'?env.DB.prepare(inventoryItemSql).bind(...BATTLE_SUIT_CORE_CODES).all():Promise.resolve({results:[]})
   ]);
   const combined=[...(baseResult.results||[]).map(row=>poolRow(row,nativeType,false)),...(nativeExtraResult.results||[]).map(row=>poolRow(row,nativeType,true)),...(avatarResult.results||[]).map(row=>poolRow(row,'AVATAR',true)),...(inventoryItemResult.results||[]).map(row=>poolRow(row,'INVENTORY_ITEM',true))],seen=new Set();
   const built=combined.filter(row=>row.code&&!seen.has(row.poolKey)&&(seen.add(row.poolKey)||true));
@@ -281,7 +282,7 @@ async function loadAdminCatalog(env){
     env.DB.prepare('SELECT id,code,name,rarity,image_url,description,total_power,pve_power,pvp_power,slot FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY sort_order,id').all(),
     env.DB.prepare('SELECT id,code,name,rarity,image_url,description,total_power,pve_power,pvp_power FROM character_garage_items WHERE is_active=1 AND is_public=1 ORDER BY sort_order,id').all(),
     env.DB.prepare("SELECT code,name,'AVATAR' rarity,lobby_image image_url,description,role_label,accent,0 total_power,0 pve_power,0 pvp_power FROM avatar_catalog_v1 WHERE is_active=1 AND is_public=1 ORDER BY sort_order,code").all(),
-    env.DB.prepare("SELECT code,name,rarity,image_url,description,category,0 total_power,0 pve_power,0 pvp_power FROM inventory_items WHERE is_active=1 AND code IN ('SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3') ORDER BY sort_order,code").all()
+    env.DB.prepare(`SELECT code,name,rarity,image_url,description,category,0 total_power,0 pve_power,0 pvp_power FROM inventory_items WHERE is_active=1 AND code IN (${PRIME_CORE_PLACEHOLDERS}) ORDER BY sort_order,code`).bind(...BATTLE_SUIT_CORE_CODES).all()
   ]);
   const map=(rows,type)=>(rows.results||[]).map(row=>({poolKey:`${type}:${row.code}`,rewardType:type,rewardRef:row.code,id:Number(row.id||0),code:row.code,name:row.name,rarity:row.rarity,image:row.image_url||'',description:row.description||'',power:Number(row.total_power||0),roleLabel:row.role_label||'',accent:row.accent||''}));
   return {equipment:map(equipment,'EQUIPMENT'),vehicle:map(vehicle,'VEHICLE'),avatar:map(avatar,'AVATAR'),inventory_item:map(inventoryItem,'INVENTORY_ITEM')};

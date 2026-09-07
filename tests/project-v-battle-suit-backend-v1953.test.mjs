@@ -379,8 +379,9 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
 
   await ensureEquipmentFoundation({DB});
   const suits=DB.db.prepare("SELECT * FROM character_equipment_items WHERE slot='BATTLE_SUIT' ORDER BY code").all();
-  assert.equal(suits.length,3);
-  assert.deepEqual(suits.map(row=>row.pve_power),[100000,200000,300000]);
+  assert.equal(suits.length,4);
+  assert.deepEqual(suits.map(row=>row.pve_power),[100000,200000,300000,0]);
+  assert.equal(suits[3].code,'BATTLE_SUIT_H_BODY');
   assert.ok(suits.every(row=>row.pvp_power===0&&row.supply_enabled===0));
 
   DB.db.prepare("UPDATE character_equipment_items SET total_power=250,pve_power=250,pvp_power=999 WHERE code='BATTLE_SUIT_01'").run();

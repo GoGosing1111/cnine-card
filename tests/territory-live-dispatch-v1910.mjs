@@ -53,5 +53,5 @@ test('lite state carries a cached twenty-result pulse and deploy assets are cach
   assert.match(server,/SELECT a\.id,a\.side,a\.winner_side/);
   assert.match(index,/territory-war-v1824\.css\?v=2062-my-team-emphasis/);
   assert.match(index,/territory-war-v1811\.js\?v=2062-my-team-emphasis/);
-  assert.match(worker,/soop-card-shell-v2065-land-rewards/);
+  assert.match(worker,/soop-card-shell-v2066-h-body/);
 });

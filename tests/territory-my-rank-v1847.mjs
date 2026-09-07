@@ -18,9 +18,9 @@ assert.match(client,/contribution_rank/);
 assert.match(client,/contribution_total/);
 assert.match(css,/\.tw4-contribution-rank/);
 assert.match(css,/grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-assert.match(index,/js\/app\.js\?v=2065-land-rewards/);
+assert.match(index,/js\/app\.js\?v=2066-h-body/);
 assert.match(index,/territory-war-v1811\.js\?v=2062-my-team-emphasis/);
 assert.match(index,/territory-war-v1824\.css\?v=2062-my-team-emphasis/);
-assert.match(serviceWorker,/soop-card-shell-v2065-land-rewards/);
+assert.match(serviceWorker,/soop-card-shell-v2066-h-body/);
 
 console.log('territory my rank v1847: ok');
