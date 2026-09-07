@@ -142,7 +142,7 @@ test('all stopped, finite-edition and globally excluded random cards preserve un
 });
 test('client integration is shared, recovers pending requests, and never renders a self-redeem action for event codes',()=>{
   const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8'),app=read('js/app.js'),live=read('js/soopketland-v2039.src.js'),index=read('index.html'),api=read('functions/api/[[path]].js');
-  assert.match(app,/data-copy-event-coupon/);assert.match(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=2059-cheetah-scale/);
+  assert.match(app,/data-copy-event-coupon/);assert.match(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=2060-nonblocking-fx/);
   assert.match(live,/PachinkoStage/);assert.match(live,/setTimeout\(finish,12000\)/);assert.match(live,/savePending\(requestId\)/);assert.match(live,/document.hidden/);
   assert.ok(api.indexOf('const landResponse=')<api.indexOf('const couponSchemaPath='),'land endpoints must not wait for legacy global upgrade');
   assert.match(read('preview/soopketland-v2039/index.html'),/soopketland-v2039\.bundle\.js/);

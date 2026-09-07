@@ -458,6 +458,13 @@ export class BattleEngine{
     this.motes=[];
     this.moteTicker=null;
     this.simpleTimelines=new Set();
+    // V2059: 논블로킹 배너 큐. 발동 연출이 전투 진행을 멈추지 않게 한다.
+    this.bannerQueue=[];
+    this.bannerPump=null;
+    this.bannerPlayback=null;
+    // V2061: 타격 뒷정리(복귀·데미지 라벨) 구간을 다음 행동과 겹칠 때
+    //   캐릭터별로 아직 안 끝난 꼬리 타임라인을 들고 있는다.
+    this.pendingTails=new Map();
     // V1812: 전투가 길어질수록 뒷부분 재생을 빠르게 한다.
     //   판정·타임라인은 그대로고 보여주는 속도만 바뀐다.
     this.paceActions=0;
@@ -2195,20 +2202,38 @@ export class BattleEngine{
     return target;
   }
 
-  timeline(build,cleanup=()=>{},fixedTimeScale=null){
+  // V2060: releaseAt 을 주면 그 시점에 호출자를 먼저 놓아주고 뒷정리 구간은 계속 재생한다.
+  //   cleanup 은 타임라인이 실제로 끝날 때만 돈다(공격자 복귀·데미지 라벨 반납이 여기 있다).
+  //   owners 로 넘긴 캐릭터는 pendingTails 에 등록해, 그 캐릭터가 다음 행동을 시작하기 전에
+  //   남은 꼬리를 강제로 끝내도록 한다(같은 객체에 트윈 두 개가 붙는 것을 막는다).
+  timeline(build,cleanup=()=>{},fixedTimeScale=null,{releaseAt=null,owners=null}={}){
     return new Promise(resolve=>{
       let finished=false;
+      let released=false;
+      const release=value=>{
+        if(released)return;
+        released=true;
+        resolve(value);
+      };
       const settle=value=>{
         if(finished)return;
         finished=true;
         this.simpleTimelines.delete(entry);
+        if(ownerList)for(const owner of ownerList){
+          if(this.pendingTails.get(owner)===entry)this.pendingTails.delete(owner);
+        }
         cleanup();
-        resolve(value);
+        release(value);
       };
       const instance=gsap.timeline({paused:true,onComplete:()=>settle(true),onInterrupt:()=>settle(false)});
       const entry={instance,settle};
+      const ownerList=Array.isArray(owners)?owners.filter(Boolean):null;
       this.simpleTimelines.add(entry);
+      if(ownerList)for(const owner of ownerList)this.pendingTails.set(owner,entry);
       build(instance);
+      if(Number.isFinite(Number(releaseAt))&&Number(releaseAt)>0){
+        instance.call(()=>release(true),[],Number(releaseAt));
+      }
       const requestedScale=Number(fixedTimeScale);
       instance.timeScale(Number.isFinite(requestedScale)&&requestedScale>0
         ?requestedScale
@@ -2239,11 +2264,28 @@ export class BattleEngine{
     return {release};
   }
 
+  // V2060: 이 캐릭터들이 소유한 꼬리 타임라인이 남아 있으면 즉시 끝낸다.
+  //   cleanup 이 공격자를 제자리로, 피격자 tint·상태를 원래대로 돌려놓으므로
+  //   새 행동은 항상 깨끗한 상태에서 시작한다.
+  settlePendingTails(characters=[]){
+    for(const character of characters){
+      if(!character)continue;
+      const entry=this.pendingTails.get(character);
+      if(!entry)continue;
+      this.pendingTails.delete(character);
+      try{entry.instance.kill()}catch(_){}
+      entry.settle(false);
+    }
+  }
+
   cancelTimelines(){
     // Invalidate event handlers still waiting on an optional atlas or recorded
     // SFX decode. The late network result may warm a cache, but it must never
     // start a stale combat timeline after recovery, reset, or modal close.
     this.playbackEpoch+=1;
+    this.bannerQueue.length=0;
+    this.pendingTails.clear();
+    this.bannerPlayback=null;
     this.skillChipPlayback?.cancel();
     this.skillTimeline?.cancelAll();
     this.clearAccountBattleUnitHitReactions();
@@ -2314,18 +2356,56 @@ export class BattleEngine{
   }
 
   showBanner(name,color=0xffd43d,label='전술 스킬 발동'){
-    const banner=this.uiLayer.banner;
-    banner.nameText.text=name;
-    banner.nameText.style.fill=color;
-    banner.typeText.text=label;
-    banner.glow.tint=color;
-    return this.timeline(timeline=>{
-      timeline.set(banner,{alpha:0,y:128});
-      timeline.set(banner.scale,{x:.84,y:.84});
-      timeline.to(banner,{alpha:1,y:118,duration:.2,ease:'power3.out'});
-      timeline.to(banner.scale,{x:1,y:1,duration:.2,ease:'back.out(1.8)'},0);
-      timeline.to(banner,{alpha:0,y:104,duration:.2,ease:'power2.in'},.72);
-    });
+    // Queued support banners and blocking ultimate/escort banners share one
+    // display object. Serialize both paths and discard work from a closed battle.
+    const playbackEpoch=this.playbackEpoch;
+    const play=()=>{
+      if(playbackEpoch!==this.playbackEpoch||!this.visible)return false;
+      const banner=this.uiLayer.banner;
+      banner.nameText.text=name;
+      banner.nameText.style.fill=color;
+      banner.typeText.text=label;
+      banner.glow.tint=color;
+      return this.timeline(timeline=>{
+        timeline.set(banner,{alpha:0,y:128});
+        timeline.set(banner.scale,{x:.84,y:.84});
+        timeline.to(banner,{alpha:1,y:118,duration:.2,ease:'power3.out'});
+        timeline.to(banner.scale,{x:1,y:1,duration:.2,ease:'back.out(1.8)'},0);
+        timeline.to(banner,{alpha:0,y:104,duration:.2,ease:'power2.in'},.72);
+      },()=>{banner.alpha=0});
+    };
+    const playback=(this.bannerPlayback||Promise.resolve()).then(play,play);
+    this.bannerPlayback=playback;
+    const clear=()=>{if(this.bannerPlayback===playback)this.bannerPlayback=null};
+    playback.then(clear,clear);
+    return playback;
+  }
+
+  // V2060: 배너를 기다리지 않고 띄운다. 배너 표시 객체가 하나뿐이라 큐로 직렬화하되,
+  //   전투 타임라인은 큐를 기다리지 않는다. 밀린 배너가 전투보다 뒤처지지 않도록
+  //   대기열은 최신 2건만 남기고 오래된 것을 버린다.
+  queueBanner(name,color=0xffd43d,label='전술 스킬 발동'){
+    if(!this.visible)return false;
+    this.bannerQueue.push([name,color,label]);
+    if(this.bannerQueue.length>2)this.bannerQueue.splice(0,this.bannerQueue.length-2);
+    if(this.bannerPump)return false;
+    this.bannerPump=(async()=>{
+      try{
+        while(this.bannerQueue.length&&this.visible){
+          const entry=this.bannerQueue.shift();
+          await this.showBanner(entry[0],entry[1],entry[2]);
+        }
+      }catch(error){console.warn('[Project V V3] Banner queue failed',error)}
+    })().finally(()=>{this.bannerPump=null});
+    return true;
+  }
+
+  // V2060: 회복·상태 연출을 기다리지 않고 재생한다. HP 동기화는 호출부에서 이벤트
+  //   순서대로 먼저 끝내야 한다(늦게 도착한 onImpact 가 뒤 타격 HP 를 되돌리는 사고 방지).
+  queueSupportEffect(targets,options={}){
+    Promise.resolve(this.playSupportEffect(targets,options))
+      .catch(error=>console.warn('[Project V V3] Support effect failed',error));
+    return false;
   }
 
   deployCards({force=false,instant=false}={}){
@@ -2420,6 +2500,9 @@ export class BattleEngine{
     const playbackEpoch=this.playbackEpoch;
     if(advancementProfile)await this.ensureAdvancementReady(advancementCode);
     if(playbackEpoch!==this.playbackEpoch||!this.visible)return false;
+    // V2060: 이 둘이 앞 타격의 꼬리를 아직 재생 중이면 먼저 끝낸다.
+    //   (공격자 위치·크기, 피격자 상태·tint 가 겹쳐 어긋나는 것을 막는다)
+    this.settlePendingTails([actor,victim]);
     const damageLabel=this.pools.damage.acquire();
     const impact={x:victimView.x,y:victimView.y-176};
     const isBossTarget=Boolean(victim.isBoss);
@@ -2509,7 +2592,11 @@ export class BattleEngine{
       timeline.to(damageLabel,{alpha:0,y:victimView.y-406,duration:.25,ease:'power2.in'},impactAt+.23);
       timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.3,ease:'power3.inOut'},returnAt);
       timeline.to(actorView.scale,{x:actor.restScale,y:actor.restScale,duration:.3,ease:'power3.inOut'},returnAt);
-    },cleanup,advancementProfile?playbackSpeed:null);
+    },cleanup,advancementProfile?playbackSpeed:null,
+    // V2060: 임팩트(0.25)는 이미 끝났고 남은 0.3초는 공격자 복귀와 데미지 숫자 페이드뿐이다.
+    //   복귀가 시작되는 시점에 다음 행동을 놓아주고 꼬리는 겹쳐서 재생한다.
+    //   전직 연출은 히트스탑으로 타임라인을 멈추는 authored 연출이라 그대로 끝까지 기다린다.
+    advancementProfile||this.reducedMotion?{}:{releaseAt:returnAt,owners:[actor,victim]});
   }
 
   escortObjectiveAttack(event={}){
@@ -2519,6 +2606,7 @@ export class BattleEngine{
       this.updateStatus('호송차 타격 대상을 구성하지 못했습니다.');
       return Promise.resolve(false);
     }
+    this.settlePendingTails([actor]);
     const actorView=actor.root;
     const damage=Math.max(0,Number(event.damage||0));
     const roleKind=normalizeSkillEffectKind(actor.effectKind||SKILL_EFFECT_KIND.ATTACK);
@@ -2578,6 +2666,7 @@ export class BattleEngine{
     const card=this.cards[actorIndex%this.cards.length]||this.cards[0];
     const victim=this.selectLiveTarget(actor,target);
     if(!victim){this.updateStatus('스킬 대상이 없습니다.');return false}
+    this.settlePendingTails([actor,victim]);
     this.updateStatus(`${actor.name} · ${label}`);
     const result=await this.skillTimeline.play({
       attacker:actor,
@@ -2610,6 +2699,7 @@ export class BattleEngine{
     const playbackEpoch=this.playbackEpoch;
     await this.ensureAdvancementReady(code);
     if(playbackEpoch!==this.playbackEpoch||!this.visible)return false;
+    this.settlePendingTails([participant]);
     const height=Math.max(0,Number(view?.height)||0);
     const point={x:Number(view.x||0),y:Number(view.y||0)-Math.max(76,Math.min(178,height*.34||178))};
     const effect=AdvancementEffectFX.create(code,{
@@ -2685,6 +2775,7 @@ export class BattleEngine{
     const hits=hitRows.map(hit=>({hit,target:this.combatantById(hit.targetId)})).filter(item=>item.target);
     if(!hits.length||!await this.ensureApocalypseBossUltimateReady())return false;
     const targets=[...new Set(hits.map(item=>item.target))];
+    this.settlePendingTails([attacker,...targets]);
     const center={
       x:targets.reduce((sum,target)=>sum+Number(target.root?.x||0),0)/targets.length,
       y:targets.reduce((sum,target)=>sum+Number(target.root?.y||0),0)/targets.length-(this.mobile?150:165)
@@ -2842,7 +2933,7 @@ export class BattleEngine{
           if(type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='AFTERIMAGE'){
             await this.playAdvancementMoment('AFTERIMAGE',{target,label:event.label||'잔영자 · 시공매 초월가속'});
           }
-          await this.showBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');
+          this.queueBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');
           syncEventShields();
           continue;
         }
@@ -2862,7 +2953,7 @@ export class BattleEngine{
         const bossActor=explicitActor||this.enemies.find(character=>this.isAlive(character));
         const apocalypsePlayed=this.apocalypseMode&&await this.playApocalypseBossUltimate(event,bossActor);
         if(!apocalypsePlayed){
-          await this.showBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
+          this.queueBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
           for(const hit of event.hits||[]){
             const hitTarget=this.combatantById(hit.targetId);
             await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:bossActor,target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter),targetShield:hit.targetShieldAfter,healing:Number(hit.healing||0),hitCount:Number(hit.hitCount||1)});
@@ -2872,14 +2963,11 @@ export class BattleEngine{
         const label=event.magicName||event.magicCode||'마법카드';
         if(damage>0)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:explicitActor,healing,hitCount});
         else{
-          if(event.amount||healing){
-            await this.playSupportEffect(target||this.currentAllyTarget,{
-              kind:SKILL_EFFECT_KIND.HP,
-              onImpact:()=>{if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp)}
-            });
-          }
-          await this.showBanner(label,event.amount?0x6affb7:0xb57cff,event.amount?'회복효과 발동':'마법효과 발동');
-          if(!event.amount&&!healing&&target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+          // V2060: 피해 없는 마법(봉인·표식·실드흡수·회복)은 전투를 멈추지 않는다.
+          //   HP 는 이벤트 순서대로 여기서 먼저 맞추고, 연출·배너만 비동기로 띄운다.
+          if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+          if(event.amount||healing)this.queueSupportEffect(target||this.currentAllyTarget,{kind:SKILL_EFFECT_KIND.HP});
+          this.queueBanner(label,event.amount?0x6affb7:0xb57cff,event.amount?'회복효과 발동':'마법효과 발동');
         }
       }else if(type==='ADVANCEMENT'||type==='ADVANCEMENT_SEALED'){
         const success=normalizeAdvancementEffectCode(event.classCode)==='IMMORTAL';
@@ -2889,10 +2977,10 @@ export class BattleEngine{
             label:event.label||'불멸자 · 세계수 완전개화',
             onImpact:()=>{if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp)}
           });
-          await this.showBanner(event.label||'불멸자 · 최후 저항',0x72f5ad,type==='ADVANCEMENT_SEALED'?'봉인 저항 성공':'전직효과 발동');
+          this.queueBanner(event.label||'불멸자 · 최후 저항',0x72f5ad,type==='ADVANCEMENT_SEALED'?'봉인 저항 성공':'전직효과 발동');
         }else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
       }else if(type==='ADVANCEMENT_BLOCKED'){
-        await this.showBanner(event.label||'불멸자 · 부활 봉인',0xff7a8d,'전직효과 차단');
+        this.queueBanner(event.label||'불멸자 · 부활 봉인',0xff7a8d,'전직효과 차단');
       }else if(['TEAM_HEAL','REGEN','EMERGENCY_HEAL','SURVIVE','INDOMITABLE','SINGLE_HEALER_AURA'].includes(type)){
         // V1800: INDOMITABLE(방어형 불굴)은 서버가 HP 를 0 에서 1 로 되돌리는 이벤트인데
         // 여기서 빠져 있어 HP 표시가 0 에 멈췄고, 그 캐릭터가 죽은 것으로 취급됐다.
@@ -2900,18 +2988,19 @@ export class BattleEngine{
         const supportTargets=targetRows.length
           ?targetRows.map(item=>this.combatantById(item.targetId)).filter(Boolean)
           :target?[target]:type==='TEAM_HEAL'?this.allies.filter(character=>this.isAlive(character)):[];
-        await this.playSupportEffect(supportTargets,{
-          kind:type==='INDOMITABLE'?SKILL_EFFECT_KIND.DEFENSE:SKILL_EFFECT_KIND.HP,
-          onImpact:()=>{
-            if(type==='SINGLE_HEALER_AURA'||targetRows.length){
-              for(const item of targetRows){
-                const itemTarget=this.combatantById(item.targetId);
-                if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter));
-              }
-            }else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+        // V2060: 회복·불굴은 매 라운드 반복되는 이벤트라 전투를 멈추지 않는다.
+        //   HP 는 이벤트 순서를 지켜 여기서 즉시 반영하고, 이펙트·배너만 비동기로 띄운다.
+        //   (onImpact 로 미루면 뒤따른 타격이 내린 HP 를 되돌리는 사고가 난다)
+        if(type==='SINGLE_HEALER_AURA'||targetRows.length){
+          for(const item of targetRows){
+            const itemTarget=this.combatantById(item.targetId);
+            if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter));
           }
+        }else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+        this.queueSupportEffect(supportTargets,{
+          kind:type==='INDOMITABLE'?SKILL_EFFECT_KIND.DEFENSE:SKILL_EFFECT_KIND.HP
         });
-        await this.showBanner(type==='TEAM_HEAL'?'아군 회복':type==='SURVIVE'?'불굴의 생존':type==='INDOMITABLE'?'방어형 · 불굴':'생명 회복',type==='INDOMITABLE'?0x69ddff:0x6affb7,type==='INDOMITABLE'?'방어효과 발동':'회복효과 발동');
+        this.queueBanner(type==='TEAM_HEAL'?'아군 회복':type==='SURVIVE'?'불굴의 생존':type==='INDOMITABLE'?'방어형 · 불굴':'생명 회복',type==='INDOMITABLE'?0x69ddff:0x6affb7,type==='INDOMITABLE'?'방어효과 발동':'회복효과 발동');
       }else if(type==='KO'){
         if(target)this.syncTargetHp(target,0);
       }else if(type==='RESULT'){
@@ -2931,7 +3020,7 @@ export class BattleEngine{
     if(!attacker||!target)return false;
     this.updateStatus(`적 반격 · ${target.name} 방어 판정`);
     await this.normalAttack(0,{damage:74210,critical:false,attacker,target,targetHp:Math.max(1,target.hp-18)});
-    await this.showBanner('강철의 수호 · 치명상 방지',0x69ddff,'방어효과 발동');
+    this.queueBanner('강철의 수호 · 치명상 방지',0x69ddff,'방어효과 발동');
   }
 
   async playUltimate({target=null,targetHp=null}={}){

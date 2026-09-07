@@ -74,7 +74,7 @@ test('치타구 반응형 자산과 V3 캐시·라우팅 계약이 함께 갱신
   assert.match(adapter,/manifest-v2\.json\?v=4-cheetah-scale/);
   assert.match(adapter,/scaleMultiplier: Math\.min\(2, Math\.max\(\.5, Number\(entry\.scaleMultiplier\) \|\| 1\)\)/);
   assert.match(app,/project-v-tier-battle-art-adapter-v1\.js\?v=3\.7\.1-cheetah-scale/);
-  assert.match(index,/responsive-battle-sprites-v1815\.js\?v=2059-cheetah-scale/);
-  assert.match(index,/js\/app\.js\?v=2059-cheetah-scale/);
-  assert.match(worker,/soop-card-shell-v2059-cheetah-scale/);
+  assert.match(index,/responsive-battle-sprites-v1815\.js\?v=2060-nonblocking-fx/);
+  assert.match(index,/js\/app\.js\?v=2060-nonblocking-fx/);
+  assert.match(worker,/soop-card-shell-v2060-nonblocking-fx/);
 });

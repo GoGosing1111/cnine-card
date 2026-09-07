@@ -45,7 +45,7 @@ test('V3 preview mounts the real five-card PVE payload plus one independently da
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
   assert.match(html,/project-v-firearm-qc-audio\.js\?v=8-gilded-dragon-battle-suit/);
-  assert.match(html,/project-v-client\.js\?v=74-boss-signatures/);
+  assert.match(html,/project-v-client\.js\?v=75-nonblocking-fx/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
@@ -59,7 +59,7 @@ test('V3 preview mounts the real five-card PVE payload plus one independently da
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=100-boss-signatures/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=101-nonblocking-fx/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);

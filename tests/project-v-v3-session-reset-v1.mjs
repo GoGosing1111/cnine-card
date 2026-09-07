@@ -19,7 +19,7 @@ assert.match(live,/ProjectVPixiBattle\.resetSession\(payload, host\)/);
 assert.match(live,/const VERSION = '3\.31\.0-skill-chip-runtime'/);
 assert.match(live,/ProjectVPixiBattle\.cancelActiveAnimations/);
 assert.match(live,/ProjectVPixiBattle\.syncFinalState\(finalState\)/);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=100-boss-signatures/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=101-nonblocking-fx/);
 assert.match(app,/battle-v3-live\.js\?v=3\.31\.0-skill-chip-runtime/);
 
 console.log('Project V V3 session reset contract: OK');

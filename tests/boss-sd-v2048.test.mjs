@@ -54,7 +54,7 @@ test('exact monster/card IDs resolve the new sprites without changing original c
   const art=tierAdapter.resolveForV3(original);assert(art);assert(art.primaryUrl.includes(card.master));assert.equal(original.image,card.art);
   assert.equal(art.kind,'FUR_SD');
   const app=(await read('js/app.js')).toString();
-  assert(app.includes('project-v-pixi-battle.bundle.js?v=100-boss-signatures'));
+  assert(app.includes('project-v-pixi-battle.bundle.js?v=101-nonblocking-fx'));
   const preview=(await read('preview/boss-resources-v2048/battle.html')).toString();
   for(const adapter of ['project-v-battle-art-adapter-v1','project-v-tier-battle-art-adapter-v1','project-v-monster-battle-art-adapter-v1','project-v-unassigned-battle-fallback-v1'])assert(preview.includes(adapter));
 });
