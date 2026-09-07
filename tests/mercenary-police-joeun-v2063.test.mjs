@@ -21,7 +21,7 @@ test('Police Joeun is the user-assigned name and the previous 41 mercenaries are
   assert.equal(approval.newCards, 1);
   assert.equal(approval.existingCardsPreserved, 41);
   assert.equal(hash(JSON.stringify(roster.cards.slice(0, 41))), approval.previousRosterCardsSha256);
-  assert.deepEqual(roster.cards.slice(41).map(entry => entry.code), ['V-042']);
+  assert.deepEqual(roster.cards.slice(41, 42).map(entry => entry.code), ['V-042']);
   assert.equal(card.name, '경찰 조은');
   assert.equal(card.nameStatus, 'USER_ASSIGNED_NAME');
   assert.equal(card.catalogRelease, 'READ_ONLY_USER_APPROVED');
@@ -30,7 +30,7 @@ test('Police Joeun is the user-assigned name and the previous 41 mercenaries are
   for (const q of ['경찰 조은', '경찰조은', '조은', 'ㄱㅊㅈㅇ', 'V042', '하늘색 경찰 제복']) {
     assert.deepEqual(filterCards(roster.cards, { q }).map(entry => entry.code), ['V-042'], q);
   }
-  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, card.code);
+  assert.equal(filterCards(roster.cards, { q: '경찰 조은', sort: 'newest' })[0].code, card.code);
 });
 
 test('renaming preserves the approved face and full 1024x1536 RGB original byte-for-byte', async () => {
@@ -50,8 +50,8 @@ test('renaming preserves the approved face and full 1024x1536 RGB original byte-
 });
 
 test('publication refreshes shared catalog caches without assigning a rank or inventing an SD', () => {
-  assert.equal(ROSTER_URL.searchParams.get('v'), '2063.1-police-joeun');
-  assert.deepEqual(roster.summary, { total: 42, sourceArtReady: 42, battleSpriteReady: 37, battleSpritePending: 5, rankPending: 42 });
+  assert.equal(ROSTER_URL.searchParams.get('v'), '2063.2-dongtan-diim');
+  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 37, battleSpritePending: 6, rankPending: 43 });
   assert.equal(approval.runtimeConnected, false);
   assert.equal(approval.rankAssigned, false);
   assert.equal(card.rank, null);
@@ -63,7 +63,7 @@ test('publication refreshes shared catalog caches without assigning a rank or in
   assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD', card.code), null);
   const html = read('mercenary-codex/index.html').toString();
   assert.match(html, /경찰 조은\(V-042\)/);
-  assert.match(html, /codex\.js\?v=2063\.1-police-joeun/);
+  assert.match(html, /codex\.js\?v=2063\.2-dongtan-diim/);
   assert.doesNotMatch(html, /킬러 조은/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /USER_ASSIGNED_NAME.*이름은 사용자 지정으로 확정/);
 });

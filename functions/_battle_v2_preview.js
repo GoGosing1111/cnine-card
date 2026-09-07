@@ -419,8 +419,11 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 // V2063 (2026-09-07): 현재 일반 사격·스킬칩 피해를 각각 3배 상향한다.
 //   스킬칩도 이 배율이 적용된 1발 피해를 사용하므로 칩 자체의 2.5/5배를 다시 올리지 않는다.
 //   정수 반올림·아포칼립스 덱 게이트 이후 누적 배율만 4→12로 변경한다.
+// V2063 후속 롤백: 일반 사격(아포칼립스 관통 포함)만 상향 전 누적 4배로 복원한다.
+//   스킬칩 산출 배율은 12배로 독립 유지해 일반공격 롤백이 스킬 피해를 낮추지 않게 한다.
 const BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER = 2;
-const BATTLE_SUIT_DAMAGE_MULTIPLIER = 12;
+const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;
+const BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER = 12;
 const BATTLE_SUIT_PVE_FIREPOWER = BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER * BATTLE_SUIT_DAMAGE_MULTIPLIER;
 const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;
@@ -978,7 +981,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER<=1||!target?.isApocalypse)return BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER;
     return 1+(BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER-1)*Math.pow(apocalypseDeckGate(actor,target),BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT);
   };
-  const apocalypseSuitPierce=(actor,target)=>{
+  const apocalypseSuitPierce=(actor,target,damageMultiplier=BATTLE_SUIT_DAMAGE_MULTIPLIER)=>{
     if(!isBattleSuitSupport(actor)||!target?.isApocalypse)return 0;
     const basePower=Math.max(1,Number(target.power||1));
     const ratioScale=clamp(Math.max(0,Number(actor.power||0))/basePower/APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO,0,APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE);
@@ -988,7 +991,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const referenceCycle=100/referenceSpeed;
     const interval=Math.max(.0002,Number(actor.independentFireInterval||BATTLE_SUIT_REFERENCE_CYCLE/10));
     const previousPierce=Math.max(0,Math.round(target.maxHp*APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT*ratioScale*deckGate*(interval/referenceCycle)));
-    return previousPierce*BATTLE_SUIT_DAMAGE_MULTIPLIER;
+    return previousPierce*damageMultiplier;
   };
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
@@ -1026,8 +1029,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const cast=chipSchedule.take(),chip=cast.chip;combatMs=cast.atMs;
       const pool=targetPool(chipActor.side==='A'?b:a);if(!pool.length)return;
       const target=lowestRatioTarget(pool,chipRandom),hit=hitResult(chipActor,target,chipRandom,Math.max(.1,Number(chipActor.independentAttackMultiplier||1)),false,hitOptions);
-      const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_DAMAGE_MULTIPLIER;
-      const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target);
+      const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER;
+      const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target,BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER);
       const count=chip.impactOffsetsMs.length,total=skillChipDamage(basePrimary+basePierce,chip.code),pierceTotal=skillChipDamage(basePierce,chip.code);
       const parts=splitSkillChipDamage(total-pierceTotal,count),pierceParts=splitSkillChipDamage(pierceTotal,count),castId=`${chip.code}:${cast.activation}`;
       pushEvent(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_SKILL_CHIP',targetId:target.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:basePrimary+basePierce,damageMultiplier:chip.damageMultiplier,calculatedDamage:total,dodge:hit.dodge,critical:hit.critical,label:chip.name});

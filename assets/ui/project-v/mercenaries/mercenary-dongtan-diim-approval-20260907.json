@@ -1,0 +1,46 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-09-07",
+  "status": "APPROVED_SOURCE_ART",
+  "userRequest": "디임 용병사진도 라이브 배포하고",
+  "nameApprovalRequest": "확정하고 동탄 디임으로 용병 추가해서배포해",
+  "scope": "READ_ONLY_CATALOG_ONLY",
+  "newCards": 1,
+  "existingCardsPreserved": 42,
+  "previousRosterCardsSha256": "CB9B511025BE3F48F2D088625E0028E7A9FD3801DC97F188DA3037BC1903615B",
+  "totalCards": 43,
+  "battleSpriteReady": 37,
+  "battleSpritePending": 6,
+  "rankAssigned": false,
+  "runtimeConnected": false,
+  "originalsModified": false,
+  "qa": {
+    "sourceDimensions": [1024, 1536],
+    "sourceFormat": "RGB_PNG",
+    "thumbnailWidth": 160,
+    "frame": "assets/ui/card-frames/mercenary-contract-frame-slim-v3.png",
+    "visualReview": "FACE_AND_NAME_READABLE_FRAME_DOES_NOT_OCCLUDE_FACE",
+    "catalogTestsPassed": 55,
+    "desktopBrowserChecksPassed": 72,
+    "mobileBrowserChecksPassed": 72
+  },
+  "entries": [
+    {
+      "code": "V-043",
+      "conceptId": "dongtan-diim",
+      "name": "동탄 디임",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "outfit": "회색 니트 원피스",
+      "weapon": "판타지 권총",
+      "approvedDraftVersion": "V4_GAME_ILLUSTRATION",
+      "reviewSource": "preview/mercenary-diim-pistol-fullbody-v1/assets/dongtan-diim-game-illustration-source-art-v4.png",
+      "promptRecord": "preview/mercenary-diim-pistol-fullbody-v1/prompt-v4.md",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+      "sha256": "81FE7FB2BACEBF340FD53F730668BA079831DA7E5F34C396D4285DACECFA8B92",
+      "identityReference": "assets/cards/ZENITH/20.jpg",
+      "identityReferenceUsage": "USER_REQUESTED_DIIM_FACE_ONLY",
+      "artStyleReference": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "renderingReference": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png"
+    }
+  ]
+}

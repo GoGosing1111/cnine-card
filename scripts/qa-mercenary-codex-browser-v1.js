@@ -21,13 +21,13 @@ export async function runMercenaryCodexBrowserQa() {
     // Start deterministically even when the user opened a newest-first deep link.
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
-    check('42 cards including the approved Police Joeun', document.querySelectorAll('.codex-card').length === 42);
-    check('37 prepared SD resources counted, five new originals pending SD', $('#sdCount').textContent === '37');
+    check('43 cards including approved Dongtan Diim', document.querySelectorAll('.codex-card').length === 43);
+    check('37 prepared SD resources counted, six new originals pending SD', $('#sdCount').textContent === '37');
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
     const frame = $('.card-frame');
     await decode(frame);
     check('slim V3 frame loaded on every list card', frame.naturalWidth === 1024 && [...document.querySelectorAll('.codex-card .card-frame')].every(node => node.src.endsWith('/mercenary-contract-frame-slim-v3.png')));
-    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 42 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
+    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 43 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
     if (publicMode) {
       const back = $('#lobbyReturn');
       check('explicit same-tab lobby return', back && !back.hidden && back.textContent.includes('로비로 돌아가기') && back.getAttribute('href') === '/?screen=home' && !back.target);
@@ -79,7 +79,7 @@ export async function runMercenaryCodexBrowserQa() {
     history.back(); await pause();
     check('browser back closes only detail', !$('#detailDialog').open && !$('#catalogView').hidden && document.body.style.overflow !== 'hidden');
     input('#sort', 'newest', 'change');
-    check('newest sorting surfaces approved additions', $('.codex-card').dataset.card === 'V-042');
+    check('newest sorting surfaces approved additions', $('.codex-card').dataset.card === 'V-043');
     input('#search', 'SKS');
     check('SKS search resolves the replaced weapon', document.querySelectorAll('.codex-card').length === 1 && $('.codex-card').dataset.card === 'V-024');
     $('[data-open="V-024"]').click();
@@ -103,7 +103,7 @@ export async function runMercenaryCodexBrowserQa() {
     $('#closeDetail').click(); await pause();
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
-    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2063.1-police-joeun', { cache: 'no-store', credentials: 'omit' });
+    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2063.2-dongtan-diim', { cache: 'no-store', credentials: 'omit' });
     if (!rosterResponse.ok) throw new Error(`Roster HTTP ${rosterResponse.status}`);
     const roster = await rosterResponse.json();
     for (const entry of roster.cards.slice(21).filter(card => card.battleSprite)) {

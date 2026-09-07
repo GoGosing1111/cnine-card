@@ -1,6 +1,6 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 8,
+  "version": 9,
   "updatedAt": "2026-09-07",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "PARTIAL_SPRITES_READY_NEW_ART_PENDING",
@@ -36,11 +36,11 @@
     ]
   },
   "summary": {
-    "total": 42,
-    "sourceArtReady": 42,
+    "total": 43,
+    "sourceArtReady": 43,
     "battleSpriteReady": 37,
-    "battleSpritePending": 5,
-    "rankPending": 42
+    "battleSpritePending": 6,
+    "rankPending": 43
   },
   "cards": [
     {
@@ -868,6 +868,28 @@
       "battleSpriteSha256": null,
       "battleSpriteStatus": "NOT_YET_PRODUCED",
       "accent": "#83B9ED"
+    },
+    {
+      "code": "V-043",
+      "rank": null,
+      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "name": "동탄 디임",
+      "title": "은빛 거리의 사수",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "중거리 사격",
+      "roleStatus": "ART_CONCEPT_ONLY",
+      "weapon": "판타지 권총",
+      "outfit": "회색 니트 원피스",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+      "sourceArtSha256": "81FE7FB2BACEBF340FD53F730668BA079831DA7E5F34C396D4285DACECFA8B92",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-07",
+      "catalogRelease": "READ_ONLY_USER_APPROVED",
+      "approvalBatch": "2026-09-07-dongtan-diim",
+      "battleSprite": null,
+      "battleSpriteSha256": null,
+      "battleSpriteStatus": "NOT_YET_PRODUCED",
+      "accent": "#94C7CF"
     }
   ]
 }

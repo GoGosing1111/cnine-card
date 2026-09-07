@@ -54,19 +54,19 @@ test('monster stats do not scale to player strength', () => {
     assert.deepEqual(high, low);
   }
 });
-test('V2063 suit buff clears the first seven encounters across thirty seeds without retuning enemies', () => {
-  for (let seed = 1; seed <= 30; seed++) for (let s = 0; s < 7; s++) {
+test('ordinary rollback restores the first three clears across thirty seeds without retuning enemies', () => {
+  for (let seed = 1; seed <= 30; seed++) for (let s = 0; s < 3; s++) {
     assert.equal(simulate(s, 0, seed).battleV2.result.winner, 'A');
   }
 });
-test('the second gate still needs training after the V2063 suit buff', () => {
+test('the first gate again requires training after the ordinary-damage rollback', () => {
   for (let seed = 1; seed <= 30; seed++) {
-    const low = simulate(7, 0, seed).battleV2.result;
+    const low = simulate(3, 0, seed).battleV2.result;
     assert.equal(low.winner, 'B');
     assert.ok(low.final.B[0].hp > 0);
     assert.ok(low.actions <= ACTION_LIMIT);
     assert.equal(low.timeline.at(-1).winner, 'B');
-    assert.equal(simulate(7, 3, seed).battleV2.result.winner, 'A');
+    assert.equal(simulate(3, 3, seed).battleV2.result.winner, 'A');
   }
 });
 test('all gates are reachable at maximum training without hidden player scaling', () => {
@@ -87,17 +87,17 @@ test('first clear bonus paid only once, repeated farm pays normal reward', () =>
 });
 test('a failed gate preserves currency and clears, switches to previous normal farm', () => {
   const session = new IdleSession();
-  for (let i = 0; i < 7; i++) assert.equal(play(session).outcome.won, true);
+  for (let i = 0; i < 3; i++) assert.equal(play(session).outcome.won, true);
   const before = session.serialize();
   const loss = play(session).outcome;
   assert.equal(loss.won, false);
   assert.equal(loss.reward, 0);
   assert.equal(session.state.data, before.data);
-  assert.equal(session.state.cleared, 6);
-  assert.equal(session.state.wall, 7);
+  assert.equal(session.state.cleared, 2);
+  assert.equal(session.state.wall, 3);
   assert.equal(session.state.mode, 'FARM');
-  assert.equal(session.target, 6);
-  assert.equal(play(session).outcome.reward, STAGES[6].reward);
+  assert.equal(session.target, 2);
+  assert.equal(play(session).outcome.reward, STAGES[2].reward);
 });
 test('begin rejects overlapping rounds; finish is idempotent; stale/cancelled results award nothing', () => {
   const session = new IdleSession();

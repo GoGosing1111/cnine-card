@@ -24,7 +24,7 @@ test('explicit approval adds exactly four originals without changing the previou
   assert.equal(approval.originalsModified, false);
   assert.equal(hash(JSON.stringify(roster.cards.slice(0, 37))), approval.previousRosterCardsSha256);
   assert.deepEqual(roster.cards.slice(37, 41).map(card => card.code), codes);
-  assert.equal(new Set(roster.cards.map(card => card.name)).size, 42);
+  assert.equal(new Set(roster.cards.map(card => card.name)).size, 43);
   for (const entry of approval.entries) {
     const card = roster.cards.find(card => card.code === entry.code);
     assert.equal(card.sourceArt, entry.sourceArt);
@@ -41,7 +41,7 @@ test('outfit and weapon concepts are searchable while all four new SDs remain ex
   const outfits = ['오피스룩', '가터벨트 치마', '비키니룩', '핫팬츠룩'];
   const weapons = ['건틀릿', '체인소드', '활', '대검'];
   const adapter = createMercenaryBattleArtAdapter(roster);
-  assert.deepEqual(roster.summary, { total: 42, sourceArtReady: 42, battleSpriteReady: 37, battleSpritePending: 5, rankPending: 42 });
+  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 37, battleSpritePending: 6, rankPending: 43 });
   for (const [i, code] of codes.entries()) {
     const card = roster.cards.find(card => card.code === code);
     assert.equal(card.outfit, outfits[i]);
@@ -60,15 +60,15 @@ test('outfit and weapon concepts are searchable while all four new SDs remain ex
     assert.equal(media.entries.filter(entry => entry.code === code && entry.kind === 'art').length, 2);
     assert.equal(media.entries.some(entry => entry.code === code && entry.kind === 'sd'), false);
   }
-  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-042');
+  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-043');
 });
 
-test('catalog release refreshes data and module caches and describes the current 42/37/5 resource state', () => {
-  assert.equal(ROSTER_URL.searchParams.get('v'), '2063.1-police-joeun');
+test('catalog release refreshes data and module caches and describes the current 43/37/6 resource state', () => {
+  assert.equal(ROSTER_URL.searchParams.get('v'), '2063.2-dongtan-diim');
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /codex\.js\?v=2063\.1-police-joeun/);
-  assert.match(html, /전체 원화 42종, 전투 SD 37종/);
-  assert.match(html, /신규 5종의 SD는 제작 대기/);
+  assert.match(html, /codex\.js\?v=2063\.2-dongtan-diim/);
+  assert.match(html, /전체 원화 43종, 전투 SD 37종/);
+  assert.match(html, /신규 6종의 SD는 제작 대기/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /의상 콘셉트/);
   const generation = json('preview/mercenary-four-looks-v1/generation.json');
   assert.equal(generation.status, 'APPROVED_SOURCE_ART');

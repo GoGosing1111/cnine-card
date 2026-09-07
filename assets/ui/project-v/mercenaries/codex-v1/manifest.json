@@ -1333,6 +1333,28 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
       "sourceSha256": "838CC6DE03E2C9EBBC35267C838F040ADEB04D7B288D192A936B27D3E5366823",
       "sha256": "0216898EC553AE745B2FC2EA8BE308C19B329D7FACF51E5A431158BE66E34C0F"
+    },
+    {
+      "code": "V-043",
+      "kind": "art",
+      "file": "v-043-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 37014,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+      "sourceSha256": "81FE7FB2BACEBF340FD53F730668BA079831DA7E5F34C396D4285DACECFA8B92",
+      "sha256": "2D2CFE574AA8F6A94DDFFE9E981181A59939040EA414C7048E41065163208D25"
+    },
+    {
+      "code": "V-043",
+      "kind": "art",
+      "file": "v-043-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 113994,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+      "sourceSha256": "81FE7FB2BACEBF340FD53F730668BA079831DA7E5F34C396D4285DACECFA8B92",
+      "sha256": "9E43B3FE90639D1FE9274935ADBA052740AB34FACBEECDE6B0B6AAA1B6912235"
     }
   ]
 }
