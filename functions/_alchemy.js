@@ -1,4 +1,5 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
+import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 
 /* SOOPKETMON ALCHEMY V3
  *
@@ -296,16 +297,29 @@ export async function alchemyFeatureAccess(env,user,{fresh=false}={}){
 function cardAsset(row){const rarity=code(row.rarity,30),meta=rarityMeta(rarity),value=materialScore({type:'CARD',rarity});return{type:'CARD',id:String(row.id),name:String(row.name||'카드'),member:String(row.member||''),rarity,rank:meta.rank,value,gradeBonus:value,available:Number(row.available||0),image:publicPath(row.image),color:meta.color,confirmRequired:true}}
 function equipmentAsset(row,bounds){const rarity=code(row.rarity,30),meta=rarityMeta(rarity),totalPower=Math.max(0,Number(row.total_power||0)),value=materialScore({type:'EQUIPMENT',totalPower},bounds);return{type:'EQUIPMENT',id:String(row.id),name:String(row.name||'장비'),rarity,rank:meta.rank,value,totalPower,powerPercent:strengthPercent(totalPower,bounds),available:Number(row.available||0),enhancement:0,image:publicPath(row.image),color:meta.color}}
 
-async function catalogStrengthBounds(env){
+// V2062: 여러 사용자에게 공통인 강도 범위 집계와 보상 풀 조인을 재사용한다.
+//   화면 조회만 캐시한다. 실제 연성은 CMS 변경과 퇴사를 즉시 반영하도록 새로 읽는다.
+const CATALOG_BOUNDS_CACHE_KEY='alchemy:catalog-strength-bounds';
+const REWARD_POOL_CACHE_KEY='alchemy:reward-pool';
+const CATALOG_CACHE_TTL_MS=120000;
+function invalidateAlchemyCatalogCaches(env){
+  invalidateRuntimeData(env,CATALOG_BOUNDS_CACHE_KEY);
+  invalidateRuntimeData(env,REWARD_POOL_CACHE_KEY);
+}
+
+async function catalogStrengthBounds(env,{fresh=false}={}){
+  const cached=!fresh&&readRuntimeData(env,CATALOG_BOUNDS_CACHE_KEY);if(cached)return cached;
   const [equipment,vehicle,card]=await Promise.all([
     env.DB.prepare(`SELECT COALESCE(MIN(total_power),0) min,COALESCE(MAX(total_power),0) max FROM character_equipment_items WHERE is_active=1 AND is_public=1 AND UPPER(slot)<>'BATTLE_SUIT'`).first(),
     env.DB.prepare(`SELECT COALESCE(MIN(total_power),0) min,COALESCE(MAX(total_power),0) max FROM character_garage_items WHERE is_active=1 AND is_public=1`).first(),
     env.DB.prepare(`SELECT COALESCE(MIN(score),0) min,COALESCE(MAX(score),0) max FROM (SELECT ${CARD_STRENGTH_SQL} score FROM cards_effective_v1210 c LEFT JOIN card_unique_effects cue ON cue.card_id=c.id AND cue.is_active=1 WHERE c.is_active=1 AND UPPER(c.rarity) IN ('LIMITED','PRESTIGE','FUR','ZENITH') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')) q`).first()
   ]);
-  return{EQUIPMENT:{min:Number(equipment?.min||0),max:Number(equipment?.max||0)},VEHICLE:{min:Number(vehicle?.min||0),max:Number(vehicle?.max||0)},CARD:{min:Number(card?.min||0),max:Number(card?.max||0)},ITEM:{min:0,max:RARITY.SUPERSTAR.value}};
+  return cacheRuntimeData(env,CATALOG_BOUNDS_CACHE_KEY,{EQUIPMENT:{min:Number(equipment?.min||0),max:Number(equipment?.max||0)},VEHICLE:{min:Number(vehicle?.min||0),max:Number(vehicle?.max||0)},CARD:{min:Number(card?.min||0),max:Number(card?.max||0)},ITEM:{min:0,max:RARITY.SUPERSTAR.value}},CATALOG_CACHE_TTL_MS);
 }
 
-async function rewardPool(env,{admin=false}={}){
+async function rewardPool(env,{admin=false,fresh=false,bounds:injectedBounds=null}={}){
+  // admin 조회는 비활성 보상까지 포함하므로 캐시하지 않는다.
+  if(!admin&&!fresh){const cached=readRuntimeData(env,REWARD_POOL_CACHE_KEY);if(cached)return cached;}
   const [result,bounds]=await Promise.all([env.DB.prepare(`SELECT p.*,c.title card_name,c.rarity card_rarity,c.image_url card_image,c.base_power card_base_power,m.name card_member,
       COALESCE(cue.attack_percent,0) attack_percent,COALESCE(cue.defense_percent,0) defense_percent,COALESCE(cue.hp_percent,0) hp_percent,COALESCE(cue.speed_percent,0) speed_percent,COALESCE(cue.effect_value,0) effect_value,COALESCE(cue.trigger_chance,100) trigger_chance,COALESCE(cue.max_activations,1) max_activations,
       e.name equipment_name,e.rarity equipment_rarity,e.image_url equipment_image,e.slot equipment_slot,e.total_power equipment_total_power,
@@ -318,7 +332,7 @@ async function rewardPool(env,{admin=false}={}){
     LEFT JOIN character_equipment_items e ON p.reward_type='EQUIPMENT' AND CAST(e.id AS TEXT)=p.reward_ref AND e.is_active=1 AND e.is_public=1 AND UPPER(e.slot)<>'BATTLE_SUIT'
     LEFT JOIN inventory_items i ON p.reward_type='ITEM' AND i.code=p.reward_ref AND i.is_active=1
     LEFT JOIN character_garage_items v ON p.reward_type='VEHICLE' AND CAST(v.id AS TEXT)=p.reward_ref AND v.is_active=1 AND v.is_public=1
-    WHERE ${admin?'1=1':'p.is_active=1'} ORDER BY p.sort_order,p.reward_id`).all(),catalogStrengthBounds(env)]);
+    WHERE ${admin?'1=1':'p.is_active=1'} ORDER BY p.sort_order,p.reward_id`).all(),injectedBounds||catalogStrengthBounds(env,{fresh:admin||fresh})]);
   const mapped=list(result).map(row=>{
     const type=code(row.reward_type,30),valid=type==='CARD'?Boolean(row.card_name)&&SAFE_CARD_REWARD_RARITIES.has(code(row.card_rarity,30))&&cardRewardTierAllowed(row.card_rarity,row.tier_code):type==='EQUIPMENT'?Boolean(row.equipment_name):type==='ITEM'?Boolean(row.item_name)&&isAllowedRewardItem(row.reward_ref):type==='VEHICLE'?Boolean(row.vehicle_name):false;
     const base=type==='CARD'?{name:row.card_name,rarity:row.card_rarity,image:row.card_image,member:row.card_member}:type==='EQUIPMENT'?{name:row.equipment_name,rarity:row.equipment_rarity,image:row.equipment_image}:type==='VEHICLE'?{name:row.vehicle_name,rarity:row.vehicle_rarity,image:row.vehicle_image}:{name:row.item_name,rarity:row.item_rarity,image:row.item_image};
@@ -326,16 +340,18 @@ async function rewardPool(env,{admin=false}={}){
     const strength=type==='CARD'?basePower+uniqueEffectScore*100:type==='ITEM'?itemRewardStrength(row.reward_ref,base.rarity,quantity):totalPower,percent=strengthPercent(strength,bounds[type]||{}),autoFactor=rewardAutoFactor(percent),gradeFactor=type==='CARD'?rewardGradeFactor(base.rarity):1,manualWeight=Number(row.weight||0),effectiveWeight=Math.round(manualWeight*autoFactor*gradeFactor*1000000)/1000000;
     return{rewardId:String(row.reward_id),mode:code(row.alchemy_mode,30),tierCode:code(row.tier_code,30),type,id:String(row.reward_ref),name:String(base.name||row.reward_ref),member:String(base.member||''),rarity:code(base.rarity,30),rank:meta.rank,image:publicPath(base.image),quantity,weight:manualWeight,manualWeight,rawEffectiveWeight:effectiveWeight,effectiveWeight,autoFactor,gradeFactor,strengthPercent:percent,strengthScore:Math.round(strength*100)/100,totalPower,basePower,uniqueEffectScore,active:Boolean(Number(row.is_active||0)),sortOrder:Number(row.sort_order||0),valid,color:meta.color};
   });
-  return applyAlchemyCardPoolDensity(mapped).filter(row=>admin||row.valid);
+  const built=applyAlchemyCardPoolDensity(mapped).filter(row=>admin||row.valid);
+  return admin?built:cacheRuntimeData(env,REWARD_POOL_CACHE_KEY,built,CATALOG_CACHE_TTL_MS);
 }
 
-async function userState(env,user,settings){
-  const [cards,equipment,current,pool,bounds,ownedVehicles]=await Promise.all([
+async function userState(env,user,settings,{fresh=false}={}){
+  // V2062: bounds 를 먼저 확정해 rewardPool 이 같은 풀스캔 집계를 다시 돌리지 않게 한다.
+  const bounds=await catalogStrengthBounds(env,{fresh});
+  const [cards,equipment,current,pool,ownedVehicles]=await Promise.all([
     env.DB.prepare(`SELECT c.id,c.title name,m.name member,c.rarity,c.image_url image,COALESCE(uc.quantity,0)-1 available FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN members m ON m.id=c.member_id LEFT JOIN ${TABLES.locks} l ON l.user_id=uc.user_id AND l.asset_type='CARD' AND l.asset_ref=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>1 AND c.is_active=1 AND UPPER(c.rarity) IN ('LIMITED','PRESTIGE','FUR','ZENITH') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') AND l.asset_ref IS NULL ORDER BY CASE UPPER(c.rarity) WHEN 'ZENITH' THEN 4 WHEN 'FUR' THEN 3 WHEN 'PRESTIGE' THEN 2 ELSE 1 END DESC,uc.quantity DESC,c.updated_at DESC`).bind(user.id).all(),
     env.DB.prepare(`SELECT CAST(e.id AS TEXT) id,e.name,e.rarity,e.image_url image,e.total_power,COUNT(x.id) available FROM user_equipment_instances x JOIN character_equipment_items e ON e.id=x.equipment_id LEFT JOIN user_equipment_loadout lo ON lo.instance_id=x.id LEFT JOIN ${TABLES.locks} l ON l.user_id=x.user_id AND l.asset_type='EQUIPMENT' AND l.asset_ref=CAST(e.id AS TEXT) WHERE x.user_id=? AND lo.instance_id IS NULL AND l.asset_ref IS NULL AND e.is_active=1 AND e.is_public=1 AND UPPER(e.slot)<>'BATTLE_SUIT' GROUP BY e.id,e.name,e.rarity,e.image_url,e.total_power HAVING COUNT(x.id)>0 ORDER BY e.total_power DESC,COUNT(x.id) DESC,e.sort_order,e.id`).bind(user.id).all(),
     env.DB.prepare(`SELECT total_runs,stability FROM ${TABLES.state} WHERE user_id=?`).bind(user.id).first(),
-    rewardPool(env),
-    catalogStrengthBounds(env),
+    rewardPool(env,{bounds,fresh}),
     env.DB.prepare(`SELECT garage_id FROM user_garage_vehicles WHERE user_id=?`).bind(user.id).all()
   ]);
   return{profile:{id:Number(user.id),nickname:String(user.nickname||''),role:String(user.role||'USER')},totalRuns:Number(current?.total_runs||0),stability:Number(current?.stability||0),stabilityMax:settings.stabilityMax,requirements:settings.requirements,tiers:settings.tiers,scoring:{equipmentPowerBounds:bounds.EQUIPMENT,equipmentScoreRange:EQUIPMENT_SCORE_RANGE,cardGradeBonus:CARD_INPUT_BONUS,cardRewardGradeFactor:CARD_REWARD_GRADE_FACTOR,cardRewardTiers:CARD_REWARD_TIERS,cardRewardDensityScale:CARD_REWARD_DENSITY_SCALE,rewardCurve:{name:'BLACK_MIRACLE_INVERSE',minFactor:.1,maxFactor:1,exponent:1.35}},assets:[...list(cards).map(cardAsset),...list(equipment).map(row=>equipmentAsset(row,bounds.EQUIPMENT))],rewardPool:pool,ownedVehicleIds:list(ownedVehicles).map(row=>String(row.garage_id)),serverNow:new Date().toISOString()};
@@ -354,12 +370,16 @@ function normalizeRequestedInputs(raw){
 function aggregateInputs(inputs){const map=new Map();for(const entry of inputs){const key=assetKey(entry.type,entry.id),current=map.get(key)||{...entry,quantity:0};current.quantity+=1;map.set(key,current)}return[...map.values()]}
 
 async function selectedEquipmentInstances(env,userId,aggregates){
-  const map=new Map();
+  // V2062: 종류별 LIMIT 을 유지하면서 재료 조회를 한 batch 로 묶는다.
+  // D1 API 호출은 줄지만 PostgreSQL 호환 계층은 각 SQL 을 순서대로 실행한다.
+  const map=new Map(),rows=[];
   for(const entry of aggregates.filter(row=>row.type==='EQUIPMENT')){
     const id=int(entry.id,1,2147483647,0);if(!id)continue;
-    const result=await env.DB.prepare(`SELECT x.id FROM user_equipment_instances x LEFT JOIN user_equipment_loadout lo ON lo.instance_id=x.id LEFT JOIN ${TABLES.locks} l ON l.user_id=x.user_id AND l.asset_type='EQUIPMENT' AND l.asset_ref=CAST(x.equipment_id AS TEXT) WHERE x.user_id=? AND x.equipment_id=? AND lo.instance_id IS NULL AND l.asset_ref IS NULL ORDER BY x.id LIMIT ?`).bind(userId,id,entry.quantity).all();
-    map.set(entry.id,list(result).map(row=>Number(row.id)));
+    rows.push({key:entry.id,statement:env.DB.prepare(`SELECT x.id FROM user_equipment_instances x LEFT JOIN user_equipment_loadout lo ON lo.instance_id=x.id LEFT JOIN ${TABLES.locks} l ON l.user_id=x.user_id AND l.asset_type='EQUIPMENT' AND l.asset_ref=CAST(x.equipment_id AS TEXT) WHERE x.user_id=? AND x.equipment_id=? AND lo.instance_id IS NULL AND l.asset_ref IS NULL ORDER BY x.id LIMIT ?`).bind(userId,id,entry.quantity)});
   }
+  if(!rows.length)return map;
+  const results=await env.DB.batch(rows.map(row=>row.statement));
+  rows.forEach((row,index)=>map.set(row.key,list(results[index]).map(item=>Number(item.id))));
   return map;
 }
 
@@ -378,7 +398,7 @@ async function transmute(env,user,body){
   if(prior?.status==='FAILED')throw Object.assign(new Error(prior.error_message||'이전 연금술 요청이 취소되었습니다.'),{status:409,code:'ALCHEMY_FAILED'});
   const mode='STANDARD',inputs=normalizeRequestedInputs(body.inputs),rules=settings.requirements;
   if(inputs.length<rules.minSlots||inputs.length>rules.maxSlots)throw Object.assign(new Error(`연금 재료는 ${rules.minSlots}개 이상 ${rules.maxSlots}개 이하로 선택하세요.`),{status:400});
-  const snapshot=await userState(env,user,settings),aggregates=aggregateInputs(inputs),selected=[];
+  const snapshot=await userState(env,user,settings,{fresh:true}),aggregates=aggregateInputs(inputs),selected=[];
   for(const entry of inputs){const row=snapshot.assets.find(asset=>asset.type===entry.type&&String(asset.id)===String(entry.id));if(!row)throw Object.assign(new Error('사용할 수 없거나 보호된 재료가 포함되어 있습니다.'),{status:409});selected.push(row)}
   for(const entry of aggregates){const row=snapshot.assets.find(asset=>asset.type===entry.type&&String(asset.id)===String(entry.id));if(Number(row?.available||0)<entry.quantity)throw Object.assign(new Error(`${row?.name||entry.id}의 사용 가능 수량이 변경되었습니다.`),{status:409})}
   const highGrade=selected.filter(row=>row.type==='CARD'&&HIGH_GRADE_CONFIRM.has(code(row.rarity,30)));if(highGrade.length&&!bool(body.confirmedHighGrade))throw Object.assign(new Error('고등급 중복 카드 소모 재확인이 필요합니다.'),{status:400,code:'ALCHEMY_HIGH_GRADE_CONFIRM_REQUIRED'});
@@ -410,7 +430,13 @@ async function transmute(env,user,body){
     env.DB.prepare(`UPDATE ${TABLES.runs} SET status='COMPLETED',result_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND ${verified}`).bind(JSON.stringify(result),requestId,user.id,guardId)
   );
   try{
-    await env.DB.batch(statements);const guard=await env.DB.prepare(`SELECT verified FROM ${TABLES.guards} WHERE guard_id=?`).bind(guardId).first();await env.DB.prepare(`DELETE FROM ${TABLES.guards} WHERE guard_id=?`).bind(guardId).run();
+    // V2062: 가드 SELECT/DELETE 를 지급 batch 에 포함해 별도 DB API 호출을 없앤다.
+    // SELECT 는 모든 지급 문장 뒤, DELETE 앞에서 실행돼 해당 시점의 결과를 반환한다.
+    statements.push(
+      env.DB.prepare(`SELECT verified FROM ${TABLES.guards} WHERE guard_id=?`).bind(guardId),
+      env.DB.prepare(`DELETE FROM ${TABLES.guards} WHERE guard_id=?`).bind(guardId)
+    );
+    const batched=await env.DB.batch(statements),guard=(list(batched?.[batched.length-2])||[])[0]||null;
     if(Number(guard?.verified)!==1)throw new Error('보유 자산이 변경되어 연금술이 취소되었습니다. 재료를 다시 확인하세요.');
     return{...result,state:await userState(env,user,settings)};
   }catch(error){
@@ -437,6 +463,7 @@ async function adminSnapshot(env){
 async function saveSettings(env,admin,body,deps){
   const before=await alchemySettings(env,{fresh:true}),next=normalizeSettings({...before,...body.settings,mode:body.settings?.mode??body.mode,version:before.version+1});
   await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(SETTINGS_KEY,JSON.stringify(next)).run();settingsCache=next;settingsCacheAt=Date.now();
+  invalidateAlchemyCatalogCaches(env);
   if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'ALCHEMY_SETTINGS_SAVE','ALCHEMY',SETTINGS_KEY,before,next);return next;
 }
 
@@ -453,14 +480,16 @@ async function saveReward(env,admin,body,deps){
   if(!catalog)throw new Error('보상 카탈로그 대상을 찾을 수 없습니다.');if(type==='CARD'&&!SAFE_CARD_REWARD_RARITIES.has(code(catalog.rarity,30)))throw new Error('카드 보상은 LIMITED·PRESTIGE·FUR·ZENITH만 등록할 수 있습니다. MA와 SUPERSTAR는 제외됩니다.');if(type==='EQUIPMENT'&&code(catalog.slot,30)==='BATTLE_SUIT')throw new Error('배틀슈트는 연금술 보상에 포함할 수 없습니다.');if(type==='ITEM'&&/VEHICLE/i.test(String(catalog.category||'')))throw new Error('이동수단은 VEHICLE 보상 유형으로 등록하세요.');
   const rewardId=code(raw.rewardId||`ALCH_${type}_${tier}_${ref}`,120),before=await env.DB.prepare(`SELECT * FROM ${TABLES.pool} WHERE reward_id=?`).bind(rewardId).first(),next={rewardId,type,ref,tier,mode,quantity:type==='VEHICLE'?1:int(raw.quantity,1,type==='ITEM'?100000:20,1),weight:number(raw.weight,.001,1000000,1),active:bool(raw.active??true),sortOrder:int(raw.sortOrder,-100000,100000,0)};
   await env.DB.prepare(`INSERT INTO ${TABLES.pool}(reward_id,alchemy_mode,tier_code,reward_type,reward_ref,quantity,weight,is_active,sort_order,updated_at) VALUES(?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(reward_id) DO UPDATE SET alchemy_mode=excluded.alchemy_mode,tier_code=excluded.tier_code,reward_type=excluded.reward_type,reward_ref=excluded.reward_ref,quantity=excluded.quantity,weight=excluded.weight,is_active=excluded.is_active,sort_order=excluded.sort_order,updated_at=CURRENT_TIMESTAMP`).bind(rewardId,mode,tier,type,ref,next.quantity,next.weight,next.active?1:0,next.sortOrder).run();
+  invalidateAlchemyCatalogCaches(env);
   if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'ALCHEMY_REWARD_SAVE','ALCHEMY_REWARD',rewardId,before,next);return next;
 }
 
-async function deleteReward(env,admin,body,deps){const rewardId=code(body.rewardId,120),before=await env.DB.prepare(`SELECT * FROM ${TABLES.pool} WHERE reward_id=?`).bind(rewardId).first();if(!before)throw new Error('삭제할 보상을 찾을 수 없습니다.');await env.DB.prepare(`DELETE FROM ${TABLES.pool} WHERE reward_id=?`).bind(rewardId).run();if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'ALCHEMY_REWARD_DELETE','ALCHEMY_REWARD',rewardId,before,null)}
+async function deleteReward(env,admin,body,deps){const rewardId=code(body.rewardId,120),before=await env.DB.prepare(`SELECT * FROM ${TABLES.pool} WHERE reward_id=?`).bind(rewardId).first();if(!before)throw new Error('삭제할 보상을 찾을 수 없습니다.');await env.DB.prepare(`DELETE FROM ${TABLES.pool} WHERE reward_id=?`).bind(rewardId).run();invalidateAlchemyCatalogCaches(env);if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'ALCHEMY_REWARD_DELETE','ALCHEMY_REWARD',rewardId,before,null)}
 async function syncRewards(env,admin,deps){
   await seedSpecialRewardPool(env);
   await env.DB.prepare(`UPDATE ${TABLES.pool} SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE reward_type='CARD' AND NOT EXISTS(SELECT 1 FROM cards_effective_v1210 c WHERE c.id=${TABLES.pool}.reward_ref AND c.is_active=1 AND UPPER(c.rarity) IN ('LIMITED','PRESTIGE','FUR','ZENITH') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED'))`).run();
   const result=await syncCardRewardPool(env,{replace:true});
+  invalidateAlchemyCatalogCaches(env);
   if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'ALCHEMY_REWARD_AUTO_SYNC','ALCHEMY_REWARD','AUTO_CARD_POOL',null,result);
   return result;
 }

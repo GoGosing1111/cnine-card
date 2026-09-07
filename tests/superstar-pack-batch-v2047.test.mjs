@@ -68,6 +68,59 @@ test('public release changes only visibility/opening, preserves CMS odds/price, 
   assert.equal(__superstarPackTest.superstarPackCatalogRow(raw).maxDrawCount,10);
 });
 
+test('release completion is isolated by database and failed checks are retried',async()=>{
+  for(let index=0;index<2;index++){
+    const f=fixture({release:false,enabled:false});
+    await ensureSuperstarPackPublicRelease(f.env);
+    assert.equal(f.sqlite.prepare('SELECT value FROM app_meta WHERE key=?').get(RELEASE)?.value,'1');
+    f.sqlite.close();
+  }
+  let reads=0;
+  const env={DB:{prepare(){return {bind(){return this},async first(){if(++reads===1)throw Error('retry marker');return {value:'1'}}}}}};
+  await assert.rejects(ensureSuperstarPackPublicRelease(env),/retry marker/);
+  await ensureSuperstarPackPublicRelease(env);
+  await ensureSuperstarPackPublicRelease(env);
+  assert.equal(reads,2,'only successful completed checks may be reused');
+});
+
+test('concurrent release checks do not share a pending request-owned database promise',async()=>{
+  const scope={};let finishFirst;
+  const firstEnv={RUNTIME_DB_CACHE_SCOPE:scope,DB:{prepare(){return {
+    bind(){return this},
+    first(){return new Promise(resolve=>{finishFirst=()=>resolve({value:'1'})})}
+  }}}};
+  let secondReads=0;
+  const secondEnv={RUNTIME_DB_CACHE_SCOPE:scope,DB:{prepare(){return {bind(){return this},async first(){secondReads++;return {value:'1'}}}}}};
+  const first=ensureSuperstarPackPublicRelease(firstEnv);
+  const second=ensureSuperstarPackPublicRelease(secondEnv);
+  try{assert.equal(secondReads,1,'a second request must perform its own unfinished I/O');}
+  finally{finishFirst?.();await Promise.all([first,second]);}
+});
+
+test('a stale pending receipt with a different request ID cannot block new opening forever',async()=>{
+  const f=fixture();await superstarPackSettings(f.env,true);
+  f.sqlite.exec("INSERT INTO superstar_pack_receipts_v1(request_id,user_id,status,updated_at) VALUES('abandoned-old-id',1,'PENDING','2000-01-01 00:00:00')");
+  const id=crypto.randomUUID(),first=await f.call(1,id);
+  assert.equal(first.status,200);
+  assert.equal(f.sqlite.prepare("SELECT status FROM superstar_pack_receipts_v1 WHERE request_id='abandoned-old-id'").get().status,'FAILED');
+  assert.equal(f.user().coin,4700000000);
+  assert.equal(f.n('superstar_pack_debits_v1'),1);
+  assert.deepEqual(await f.call(1,id),first,'retry must replay without charging twice');
+  f.sqlite.close();
+});
+
+test('a live pending receipt remains protected when a different request ID conflicts',async()=>{
+  const f=fixture();await superstarPackSettings(f.env,true);
+  f.sqlite.exec("INSERT INTO superstar_pack_receipts_v1(request_id,user_id,status) VALUES('still-active-id',1,'PENDING')");
+  const result=await f.call(1);
+  assert.equal(result.status,409);
+  assert.equal(result.body.code,'SUPERSTAR_DRAW_PENDING');
+  assert.equal(f.user().coin,5000000000);
+  assert.equal(f.n('superstar_pack_debits_v1'),0);
+  assert.equal(f.sqlite.prepare("SELECT status FROM superstar_pack_receipts_v1 WHERE request_id='still-active-id'").get().status,'PENDING');
+  f.sqlite.close();
+});
+
 test('10 independent misses atomically charge 3 billion once and collect the existing 1% tax',async()=>{
   const f=fixture(),id=crypto.randomUUID(),first=await f.call(10,id,{expectedCost:3000000000});
   assert.equal(first.status,200);assert.equal(first.body.results.length,10);assert.equal(first.body.hitCount,0);

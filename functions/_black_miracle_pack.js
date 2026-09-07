@@ -1,3 +1,4 @@
+import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 const ITEM_CODE = 'BLACK_MIRACLE_PACK';
 const SETTINGS_KEY = 'black_miracle_pack_settings_v1485';
 const IMAGE = 'assets/ui/packs/black-miracle-pack-v1485-768.jpg';
@@ -155,7 +156,7 @@ async function ensure(env) {
   })().catch((error) => { ready = null; throw error; }); return ready;
 }
 export async function blackMiracleSettings(env, { fresh = false } = {}) { void fresh; await ensure(env); const row = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first(); const settings = cleanBlackMiracleSettings(parse(row?.value, DEFAULTS)); return { ...settings, enabled: BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED && settings.enabled }; }
-export async function saveBlackMiracleSettings(env, raw) { const settings = cleanBlackMiracleSettings(raw); const total = Object.values(settings.rewards).reduce((sum, value) => sum + value.rate, 0); const fillerTotal = settings.rewards.MASTER_STAR.rate + settings.rewards.COIN.rate; if (!settings.powerRewards.enabled && Math.abs(total - 100) > 0.0001) throw new Error(`LEGACY 팩 내부 보상 확률 합계는 100%여야 합니다. 현재 ${total}%입니다.`); if (settings.powerRewards.enabled && fillerTotal <= 0) throw new Error('AUTO 모드의 실패 보상은 마스터의 별 또는 코인 가중치가 1개 이상 필요합니다.'); await ensure(env); await env.DB.batch([env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(SETTINGS_KEY, JSON.stringify(settings)), env.DB.prepare('UPDATE inventory_items SET name=?,image_url=?,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(settings.name, settings.image, ITEM_CODE)]); return settings; }
+export async function saveBlackMiracleSettings(env, raw) { const settings = cleanBlackMiracleSettings(raw); const total = Object.values(settings.rewards).reduce((sum, value) => sum + value.rate, 0); const fillerTotal = settings.rewards.MASTER_STAR.rate + settings.rewards.COIN.rate; if (!settings.powerRewards.enabled && Math.abs(total - 100) > 0.0001) throw new Error(`LEGACY 팩 내부 보상 확률 합계는 100%여야 합니다. 현재 ${total}%입니다.`); if (settings.powerRewards.enabled && fillerTotal <= 0) throw new Error('AUTO 모드의 실패 보상은 마스터의 별 또는 코인 가중치가 1개 이상 필요합니다.'); await ensure(env); await env.DB.batch([env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(SETTINGS_KEY, JSON.stringify(settings)), env.DB.prepare('UPDATE inventory_items SET name=?,image_url=?,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(settings.name, settings.image, ITEM_CODE) ]); invalidateRuntimeData(env, BM_CATALOG_CACHE_KEY); return settings; }
 
 function capPowerPool(entries, maxTotalRatePercent) {
   const configured = [...entries].sort((left, right) => { const byPower = comparePowerEntries(left, right); return byPower !== 0 ? byPower : String(left.type).localeCompare(String(right.type)); });
@@ -172,12 +173,21 @@ function capPowerPool(entries, maxTotalRatePercent) {
   return { pool, totalRareRatePercent, configuredTotalRareRatePercent, rateScale: 1, excludedByCap: Math.max(0, configured.length - pool.length) };
 }
 
-async function blackMiraclePowerCatalog(env, settings) {
+// V2062: 공통 MYTHIC 카탈로그 2건의 CMS 미리보기 조회만 캐시한다.
+// 실제 개봉은 fresh 조회로 운영 변경을 반영한다.
+const BM_CATALOG_CACHE_KEY='black-miracle:power-catalog';
+async function blackMiraclePowerCatalogRows(env, { fresh = false } = {}) {
+  const cached = !fresh && readRuntimeData(env, BM_CATALOG_CACHE_KEY);
+  if (cached) return cached;
   const [equipmentResult, vehicleResult] = await Promise.all([
     env.DB.prepare(`SELECT id,code,name,slot,rarity,image_url,total_power,pve_power,pvp_power,is_active,is_public,sort_order FROM character_equipment_items WHERE is_active=1 AND is_public=1 AND UPPER(rarity)='MYTHIC' ORDER BY total_power DESC,id ASC`).all(),
-    env.DB.prepare(`SELECT id,code,name,rarity,image_url,total_power,pve_power,pvp_power,is_active,is_public,sort_order FROM character_garage_items WHERE is_active=1 AND is_public=1 AND UPPER(rarity)='MYTHIC' ORDER BY total_power DESC,id ASC`).all(),
+    env.DB.prepare(`SELECT id,code,name,rarity,image_url,total_power,pve_power,pvp_power,is_active,is_public,sort_order FROM character_garage_items WHERE is_active=1 AND is_public=1 AND UPPER(rarity)='MYTHIC' ORDER BY total_power DESC,id ASC`).all()
   ]);
-  const equipmentRows = equipmentResult.results || []; const vehicleRows = vehicleResult.results || [];
+  return cacheRuntimeData(env, BM_CATALOG_CACHE_KEY, { equipmentRows: equipmentResult.results || [], vehicleRows: vehicleResult.results || [] }, 120000);
+}
+
+async function blackMiraclePowerCatalog(env, settings, { fresh = false } = {}) {
+  const { equipmentRows, vehicleRows } = await blackMiraclePowerCatalogRows(env, { fresh });
   const configuredEquipment = buildBlackMiraclePowerPool(equipmentRows, settings.powerRewards.equipment, 'EQUIPMENT'); const configuredVehicles = buildBlackMiraclePowerPool(vehicleRows, settings.powerRewards.vehicle, 'VEHICLE');
   const capped = capPowerPool([...configuredEquipment, ...configuredVehicles], settings.powerRewards.maxTotalRatePercent);
   const configuredMap = new Map([...configuredEquipment, ...configuredVehicles].map((entry) => [`${entry.type}:${entry.id}`, entry])); const effectiveMap = new Map(capped.pool.map((entry) => [`${entry.type}:${entry.id}`, entry]));
@@ -226,7 +236,7 @@ export async function openBlackMiraclePack(env, { userId, requestId }) {
   await ensure(env); const safeRequestId = String(requestId || '').trim().slice(0, 160); if (!safeRequestId) throw new Error('개봉 요청 식별값이 없습니다.');
   const prior = await env.DB.prepare(`SELECT status,response_json,error_message FROM black_miracle_pack_open_receipts WHERE request_id=? AND user_id=?`).bind(safeRequestId, userId).first(); if (prior?.status === 'COMPLETED') return parse(prior.response_json, null); if (prior?.status === 'FAILED') throw new Error(prior.error_message || '이미 실패한 개봉 요청입니다.');
   const settings = await blackMiracleSettings(env); if (!BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED || settings.enabled !== true) throw new Error('현재 블랙 미라클 팩 사용이 중지되어 있습니다. 드랍 및 보유 수량은 유지됩니다.');
-  const [catalog, packRow] = await Promise.all([blackMiraclePowerCatalog(env, settings), env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId, ITEM_CODE).first()]);
+  const [catalog, packRow] = await Promise.all([blackMiraclePowerCatalog(env, settings, { fresh: true }), env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId, ITEM_CODE).first()]);
   const balanceBefore = Number(packRow?.quantity || 0); if (balanceBefore <= 0) throw new Error('보유한 블랙 미라클 팩이 없습니다.'); const remaining = balanceBefore - 1; const reward = await chooseOpenReward(env, settings, catalog, userId);
   const response = { ok: true, itemCode: ITEM_CODE, remaining, reward, requestId: safeRequestId, cardCount: settings.presentation.cardCount, presentation: { cardCount: settings.presentation.cardCount } }; const responseJson = JSON.stringify(response); const itemReward = reward.type === 'MYTHIC_EQUIPMENT' || reward.type === 'MYTHIC_VEHICLE'; const completionStatus = itemReward ? 'REWARDED' : 'CLAIMED'; const claimGuard = openGuardSql('CLAIMED'); const claimGuardBindings = () => openGuardBindings(safeRequestId, userId, balanceBefore); const completionGuard = openGuardSql(completionStatus); const completionGuardBindings = () => openGuardBindings(safeRequestId, userId, remaining);
   const statements = [
@@ -265,7 +275,7 @@ export async function openBlackMiraclePack(env, { userId, requestId }) {
 export async function handleBlackMiracleAdmin({ path, request, env, deps }) {
   if (!path.startsWith('admin/black-miracle-pack')) return null; const user = await deps.authenticate(request, env); if (!user || String(user.role).toUpperCase() !== 'OWNER') return deps.json({ error: '관리자 권한이 필요합니다.' }, 403);
   if (request.method === 'GET') { const settings = await blackMiracleSettings(env); const powerCatalog = await blackMiraclePowerCatalog(env, settings); return deps.json({ settings, powerCatalog, totalRareRatePercent: powerCatalog.totalRareRatePercent, previewTotalRareRatePercent: powerCatalog.previewTotalRareRatePercent }); }
-  if (request.method === 'PATCH') { try { const settings = await saveBlackMiracleSettings(env, (await deps.readBody(request)).settings || {}); const powerCatalog = await blackMiraclePowerCatalog(env, settings); return deps.json({ ok: true, settings, powerCatalog, totalRareRatePercent: powerCatalog.totalRareRatePercent, previewTotalRareRatePercent: powerCatalog.previewTotalRareRatePercent }); } catch (error) { return deps.json({ error: error.message }, 400); } }
+  if (request.method === 'PATCH') { try { const settings = await saveBlackMiracleSettings(env, (await deps.readBody(request)).settings || {}); const powerCatalog = await blackMiraclePowerCatalog(env, settings, { fresh: true }); return deps.json({ ok: true, settings, powerCatalog, totalRareRatePercent: powerCatalog.totalRareRatePercent, previewTotalRareRatePercent: powerCatalog.previewTotalRareRatePercent }); } catch (error) { return deps.json({ error: error.message }, 400); } }
   return deps.json({ error: '지원하지 않는 요청입니다.' }, 405);
 }
 export { ITEM_CODE as BLACK_MIRACLE_PACK_CODE };

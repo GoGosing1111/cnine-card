@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {handleSuperstarPackDraw} from '../functions/_superstar_pack.js';
+import {handleSuperstarPackDraw,superstarPackSettings} from '../functions/_superstar_pack.js';
 
 // PostgreSQL WASM, not SQLite or SQL-string mocks. In particular, it enforces
 // int4 range/type inference and executes the real compatibility adapter.
@@ -85,4 +85,35 @@ test('PostgreSQL insufficient 10-pack balance and post-debit receipt failure lea
       assert.equal((await f.row('SELECT status FROM superstar_pack_receipts_v1')).status,'FAILED');
     }finally{await f.close();}
   }
+});
+
+test('PostgreSQL partial unique conflict expires an abandoned request and charges its replacement once',async()=>{
+  const f=await fixture();
+  try{
+    await superstarPackSettings(f.env,true);
+    await f.pg.query("INSERT INTO superstar_pack_receipts_v1(request_id,user_id,status,updated_at) VALUES('abandoned-old-id',1,'PENDING','2000-01-01 00:00:00')");
+    const id=crypto.randomUUID(),result=await f.call(1,id);
+    assert.equal(result.status,200,JSON.stringify({result,errors:f.errors}));
+    assert.equal((await f.row("SELECT status FROM superstar_pack_receipts_v1 WHERE request_id='abandoned-old-id'")).status,'FAILED');
+    assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),4700000000);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM superstar_pack_debits_v1')).n),1);
+    assert.deepEqual(await f.call(1,id),result);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),1);
+    assert.deepEqual(f.errors,[]);
+  }finally{await f.close();}
+});
+
+test('PostgreSQL partial unique conflict preserves a live request without charging or granting',async()=>{
+  const f=await fixture({hit:true});
+  try{
+    await superstarPackSettings(f.env,true);
+    await f.pg.query("INSERT INTO superstar_pack_receipts_v1(request_id,user_id,status) VALUES('still-active-id',1,'PENDING')");
+    const result=await f.call(1);
+    assert.equal(result.status,409,JSON.stringify({result,errors:f.errors}));
+    assert.equal(result.body.code,'SUPERSTAR_DRAW_PENDING');
+    assert.equal((await f.row("SELECT status FROM superstar_pack_receipts_v1 WHERE request_id='still-active-id'")).status,'PENDING');
+    assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),5000000000);
+    for(const table of ['coin_logs','user_cards','draw_logs','superstar_pack_debits_v1'])assert.equal(Number((await f.row('SELECT COUNT(*) n FROM '+table)).n),0,table);
+    assert.deepEqual(f.errors,[]);
+  }finally{await f.close();}
 });

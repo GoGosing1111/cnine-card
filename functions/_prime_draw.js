@@ -1,4 +1,5 @@
 /* V1985 PRIME EQUIPMENT + VEHICLE DRAW */
+import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 import { BATTLE_SUIT_CORE_CODES,ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
 
@@ -74,9 +75,19 @@ function cleanProductSettings(raw,product){
   return {...defaults,openEnabled:bool(value.openEnabled,defaults.openEnabled),shopEnabled:bool(value.shopEnabled,defaults.shopEnabled)};
 }
 
-async function loadProductSettings(env,product){
+// V2062: 개봉/구매/설정조회가 전부 매번 app_meta 를 읽었다. 풀도 요청당 4쿼리였다.
+//   공개 설정 화면만 캐시한다. 구매·개봉 및 CMS 조회는 fresh로 운영 변경을 반영한다.
+const PRIME_CACHE_TTL_MS=120000;
+const primeSettingsCacheKey=product=>`prime:settings:${product.settingsKey}`;
+const primePoolCacheKey=product=>`prime:pool:${product.kind}`;
+export function invalidatePrimeDrawCaches(env,product){
+  if(product){invalidateRuntimeData(env,primeSettingsCacheKey(product));invalidateRuntimeData(env,primePoolCacheKey(product));return}
+  for(const item of Object.values(PRODUCTS||{})){invalidateRuntimeData(env,primeSettingsCacheKey(item));invalidateRuntimeData(env,primePoolCacheKey(item))}
+}
+async function loadProductSettings(env,product,{fresh=true}={}){
+  const key=primeSettingsCacheKey(product),cached=!fresh&&readRuntimeData(env,key);if(cached)return cached;
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(product.settingsKey).first();
-  return cleanProductSettings(row?.value,product);
+  return cacheRuntimeData(env,key,cleanProductSettings(row?.value,product),PRIME_CACHE_TTL_MS);
 }
 
 function randomUnit(){
@@ -243,7 +254,9 @@ function poolRow(row,rewardType,isExtra=false){
   return {...row,id:Number(row.id||0),code,rewardType:type,rewardRef:code,poolKey:`${type}:${code}`,isExtra,removable:isExtra,presentation:{enabled:Number(row.presentation_enabled)!==0,tier:row.presentation_tier||'STANDARD',effectKey:row.effect_key||'NONE'}};
 }
 
-async function loadPool(env,product,{includeZero=false}={}){
+async function loadPool(env,product,{includeZero=false,fresh=true}={}){
+  // includeZero 는 CMS 편집 화면 전용이라 캐시하지 않는다.
+  if(!includeZero&&!fresh){const cached=readRuntimeData(env,primePoolCacheKey(product));if(cached)return cached}
   const weightClause=includeZero?'':' AND p.draw_weight>0',extraWeightClause=includeZero?'':' AND x.draw_weight>0';
   const baseSql=product.kind==='equipment'
     ?`SELECT p.*,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.slot,i.total_power,i.pve_power,i.pvp_power FROM ${EQUIPMENT_POOL_TABLE} p JOIN character_equipment_items i ON i.id=p.equipment_id WHERE i.is_active=1 AND i.is_public=1${weightClause} ORDER BY p.draw_weight DESC,i.id`
@@ -259,7 +272,8 @@ async function loadPool(env,product,{includeZero=false}={}){
     product.kind==='equipment'?env.DB.prepare(inventoryItemSql).all():Promise.resolve({results:[]})
   ]);
   const combined=[...(baseResult.results||[]).map(row=>poolRow(row,nativeType,false)),...(nativeExtraResult.results||[]).map(row=>poolRow(row,nativeType,true)),...(avatarResult.results||[]).map(row=>poolRow(row,'AVATAR',true)),...(inventoryItemResult.results||[]).map(row=>poolRow(row,'INVENTORY_ITEM',true))],seen=new Set();
-  return combined.filter(row=>row.code&&!seen.has(row.poolKey)&&(seen.add(row.poolKey)||true));
+  const built=combined.filter(row=>row.code&&!seen.has(row.poolKey)&&(seen.add(row.poolKey)||true));
+  return includeZero?built:cacheRuntimeData(env,primePoolCacheKey(product),built,PRIME_CACHE_TTL_MS);
 }
 
 async function loadAdminCatalog(env){
@@ -277,8 +291,8 @@ async function configPayload(env,user,product,{includePool=true,includeZero=fals
   const [balance,account,pool,settings]=await Promise.all([
     env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),
     env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first(),
-    includePool?loadPool(env,product,{includeZero}):Promise.resolve([]),
-    loadProductSettings(env,product)
+    includePool?loadPool(env,product,{includeZero,fresh:includeZero}):Promise.resolve([]),
+    loadProductSettings(env,product,{fresh:includeZero})
   ]);
   const available=pool.length>0;
   return {kind:product.kind,itemCode:product.itemCode,legacyItemCode:product.legacyItemCode,name:product.name,subtitle:product.subtitle,image:product.image,openEnabled:available&&settings.openEnabled,maxOpen:OPEN_LIMIT,maxPurchase:PURCHASE_LIMIT,batchOpenEnabled:true,poolVersion:product.poolVersion,priceRatio:product.priceRatio,balance:Number(balance?.quantity||0),ticketQuantity:Number(balance?.quantity||0),coin:Number(account?.coin||0),settings,shop:{enabled:available&&settings.shopEnabled,unitPrice:product.unitPrice,originalUnitPrice:product.unitPrice,promotionDiscountPercent:0},pool:{independent:true,legacyShared:false,entryCount:pool.length,entries:pool.map(row=>({id:Number(row.id),poolKey:row.poolKey,rewardType:row.rewardType,rewardRef:row.rewardRef,isExtra:Boolean(row.isExtra),removable:Boolean(row.removable),code:row.code,name:row.name,rarity:row.rarity,image:row.image_url||'',power:Number(row.total_power||0),sourceProbability:Number(row.source_probability||0),boostMultiplier:Number(row.boost_multiplier||0),drawWeight:Number(row.draw_weight||0),presentation:row.presentation}))}};
@@ -464,6 +478,7 @@ export async function handlePrimeDraw({path,request,env,deps}){
       else statements.push(env.DB.prepare(`UPDATE ${product.table} SET draw_weight=?,presentation_enabled=?,presentation_tier=?,effect_key=?,updated_at=CURRENT_TIMESTAMP WHERE ${idColumn}=?`).bind(row.weight,row.enabled?1:0,row.tier,row.effectKey,row.id));
     }
     await env.DB.batch(statements);
+    invalidatePrimeDrawCaches(env,product);
     return json({ok:true,...await configPayload(env,user,product,{includeZero:true})});
   }
   if(route.action==='config'&&request.method==='GET')return json(await configPayload(env,user,route.product));

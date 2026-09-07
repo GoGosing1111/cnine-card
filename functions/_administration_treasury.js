@@ -57,7 +57,10 @@ function treasurySchemaStatements(postgres=false){
     `CREATE INDEX IF NOT EXISTS idx_administration_budget_proposals_status_v2030 ON ${PROPOSAL_TABLE}(status,created_at)`,
     `CREATE TABLE IF NOT EXISTS ${DISTRIBUTION_TABLE}(proposal_id TEXT NOT NULL,user_id ${idType} NOT NULL,amount ${amountType} NOT NULL,created_at TEXT NOT NULL DEFAULT ${nowDefault},PRIMARY KEY(proposal_id,user_id))`,
     `CREATE TABLE IF NOT EXISTS ${TREASURY_PREDICTION_SUBSIDY_TABLE}(proposal_id TEXT PRIMARY KEY,event_id ${idType} NOT NULL,amount ${amountType} NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
-    `CREATE INDEX IF NOT EXISTS idx_administration_prediction_subsidy_event_v2030 ON ${TREASURY_PREDICTION_SUBSIDY_TABLE}(event_id,status)`
+    `CREATE INDEX IF NOT EXISTS idx_administration_prediction_subsidy_event_v2030 ON ${TREASURY_PREDICTION_SUBSIDY_TABLE}(event_id,status)`,
+    // V2062: sourceStatistics 의 필터와 집계 컬럼을 포괄하는 인덱스.
+    // 실제 인덱스 사용 여부와 비용은 DB 통계 및 실행 계획에 따라 달라진다.
+    `CREATE INDEX IF NOT EXISTS idx_administration_tax_receipts_stat_v2030 ON ${TAX_RECEIPT_TABLE}(status,source_type,gross_coin,tax_coin)`
   ];
 }
 
@@ -66,12 +69,16 @@ export async function ensureAdministrationTreasuryFoundation(env){
   if(!foundationPromise){
     foundationPromise=(async()=>{
       const postgres=db?.dialect==='postgres',schema=treasurySchemaStatements(postgres);
-      if(postgres&&typeof db.execSchema==='function')await db.execSchema(schema);
-      else await db.batch(schema.map(statement=>db.prepare(statement)));
-      await db.batch([
+      // V2062: SQLite/D1 은 스키마와 seed 를 한 batch 로 처리한다.
+      // PostgreSQL 은 기존 execSchema + seed batch 경로를 유지한다.
+      const seed=[
         db.prepare(`INSERT OR IGNORE INTO ${ACCOUNT_TABLE}(id,balance,total_collected,total_disbursed,total_refunded,tax_bps,reserve_bps,version) VALUES(1,0,0,0,0,${SHOP_TAX_BPS},${TREASURY_RESERVE_BPS},0)`),
         db.prepare(`UPDATE ${ACCOUNT_TABLE} SET tax_bps=${SHOP_TAX_BPS},reserve_bps=${TREASURY_RESERVE_BPS},updated_at=CURRENT_TIMESTAMP WHERE id=1 AND (tax_bps<>${SHOP_TAX_BPS} OR reserve_bps<>${TREASURY_RESERVE_BPS})`)
-      ]);
+      ];
+      const pgSchema=postgres&&typeof db.execSchema==='function';
+      if(postgres&&typeof db.execSchema==='function')await db.execSchema(schema);
+      else await db.batch([...schema.map(statement=>db.prepare(statement)),...seed]);
+      if(pgSchema)await db.batch(seed);
       return true;
     })().catch(error=>{foundationPromise=null;throw error});
   }
@@ -102,37 +109,43 @@ async function activeChief(env){
   return user?{active:true,id:String(raw.id),userId:Number(user.id),nickname:String(user.nickname||raw.nickname||''),startsAt:new Date(starts).toISOString(),endsAt:new Date(ends).toISOString()}:{active:false};
 }
 
-async function latestChampion(env){
+// V2062: champion / events 의 공통 조인·정렬 조회를 폴링마다 반복하지 않는다.
+//   폴링 표시만 캐시한다. 실제 지급 대상이 고정되는 예산안 상신은 새로 조회한다.
+const GLOBAL_LOOKUP_TTL_MS=60000;
+async function latestChampion(env,{fresh=false}={}){
+  const cached=fresh?undefined:readRuntimeData(env,'treasury:latest-champion');if(cached!==undefined)return cached;
   try{
     const row=await env.DB.prepare(`SELECT s.id season_id,s.season_no,ss.champion_clan_id,o.name clan_name
       FROM clan_season_settlements ss JOIN clan_seasons s ON s.id=ss.season_id
       JOIN clan_organizations o ON o.id=ss.champion_clan_id
       WHERE ss.status='COMPLETED' AND ss.champion_clan_id IS NOT NULL
       ORDER BY datetime(COALESCE(ss.completed_at,ss.updated_at)) DESC,s.season_no DESC LIMIT 1`).first();
-    if(!row)return null;
+    if(!row)return cacheRuntimeData(env,'treasury:latest-champion',null,GLOBAL_LOOKUP_TTL_MS);
     const countRow=await env.DB.prepare('SELECT COUNT(*) count FROM clan_members WHERE season_id=? AND clan_id=?').bind(row.season_id,row.champion_clan_id).first();
-    return {seasonId:Number(row.season_id),seasonNo:Number(row.season_no||0),clanId:Number(row.champion_clan_id),clanName:String(row.clan_name||''),memberCount:Number(countRow?.count||0)};
+    return cacheRuntimeData(env,'treasury:latest-champion',{seasonId:Number(row.season_id),seasonNo:Number(row.season_no||0),clanId:Number(row.champion_clan_id),clanName:String(row.clan_name||''),memberCount:Number(countRow?.count||0)},GLOBAL_LOOKUP_TTL_MS);
   }catch{return null}
 }
 
 async function openPredictionEvents(env){
-  try{return (await env.DB.prepare("SELECT id,title,status,closes_at,total_pool FROM coin_prediction_events WHERE status IN ('OPEN','CLOSED') ORDER BY CASE status WHEN 'OPEN' THEN 0 ELSE 1 END,datetime(COALESCE(closes_at,created_at)) DESC LIMIT 40").all()).results||[]}catch{return []}
+  const cached=readRuntimeData(env,'treasury:open-prediction-events');if(cached)return cached;
+  try{return cacheRuntimeData(env,'treasury:open-prediction-events',(await env.DB.prepare("SELECT id,title,status,closes_at,total_pool FROM coin_prediction_events WHERE status IN ('OPEN','CLOSED') ORDER BY CASE status WHEN 'OPEN' THEN 0 ELSE 1 END,datetime(COALESCE(closes_at,created_at)) DESC LIMIT 40").all()).results||[],GLOBAL_LOOKUP_TTL_MS)}catch{return []}
 }
 
 async function sourceStatistics(env){
   const cached=readRuntimeData(env,'treasury:source-statistics');if(cached)return cached;
   const rows=await env.DB.prepare(`SELECT source_type,COUNT(*) sale_count,COALESCE(SUM(gross_coin),0) gross_coin,COALESCE(SUM(tax_coin),0) tax_coin FROM ${TAX_RECEIPT_TABLE} WHERE status='COMPLETED' GROUP BY source_type ORDER BY tax_coin DESC`).all();
-  return cacheRuntimeData(env,'treasury:source-statistics',rows,10000);
+  return cacheRuntimeData(env,'treasury:source-statistics',rows,GLOBAL_LOOKUP_TTL_MS);
 }
 async function state(env,user){
-  const [account,chief,champion,events,proposalRows,sourceRows,recentLedger]=await Promise.all([
+  // V2062: 클라이언트(js/administration-treasury-v2030.js)가 쓰지 않는 ledger 조회와
+  // 응답 필드를 제거한다. 원장 기록은 유지하고 불필요한 조회·정렬만 생략한다.
+  const [account,chief,champion,events,proposalRows,sourceRows]=await Promise.all([
     env.DB.prepare(`SELECT * FROM ${ACCOUNT_TABLE} WHERE id=1`).first(),activeChief(env),latestChampion(env),openPredictionEvents(env),
     env.DB.prepare(`SELECT p.*,u.nickname target_nickname FROM ${PROPOSAL_TABLE} p LEFT JOIN users u ON u.id=p.target_user_id ORDER BY CASE p.status WHEN 'PENDING' THEN 0 WHEN 'APPROVING' THEN 1 ELSE 2 END,datetime(p.created_at) DESC LIMIT 80`).all(),
-    sourceStatistics(env),
-    env.DB.prepare(`SELECT * FROM ${LEDGER_TABLE} ORDER BY datetime(created_at) DESC LIMIT 40`).all()
+    sourceStatistics(env)
   ]),funds=treasurySpendable(account?.balance,account?.reserve_bps),isOwner=String(user?.role||'').toUpperCase()==='OWNER',isChief=chief.active&&Number(chief.userId)===Number(user?.id),isFinalApprover=isTreasuryFinalApprover(user);
   const limits=Object.fromEntries(Object.keys(PROPOSAL_CAP_BPS).map(type=>[type,{label:PROPOSAL_LABELS[type],...proposalLimit(account?.balance,type,account?.reserve_bps)}]));
-  return {ok:true,policy:{taxBps:SHOP_TAX_BPS,taxPercent:1,reserveBps:TREASURY_RESERVE_BPS,reservePercent:20,collectionScope:'SUCCESSFUL_COIN_SHOP_SALES_ONLY',buyerSurcharge:false,effectiveFrom:account?.started_at||null,finalApproverNickname:FINAL_APPROVER_NICKNAME},account:{balance:funds.balance,totalCollected:Number(account?.total_collected||0),totalDisbursed:Number(account?.total_disbursed||0),totalRefunded:Number(account?.total_refunded||0),reserve:funds.reserve,spendable:funds.spendable,version:Number(account?.version||0),updatedAt:account?.updated_at||null},access:{visible:true,isOwner,isChief,isFinalApprover,canSubmit:isChief,canDecide:isFinalApprover},chief,champion,events,limits,proposals:proposalRows.results||[],sources:(sourceRows.results||[]).map(row=>({...row,label:SOURCE_LABELS[row.source_type]||row.source_type})),ledger:recentLedger.results||[]};
+  return {ok:true,policy:{taxBps:SHOP_TAX_BPS,taxPercent:1,reserveBps:TREASURY_RESERVE_BPS,reservePercent:20,collectionScope:'SUCCESSFUL_COIN_SHOP_SALES_ONLY',buyerSurcharge:false,effectiveFrom:account?.started_at||null,finalApproverNickname:FINAL_APPROVER_NICKNAME},account:{balance:funds.balance,totalCollected:Number(account?.total_collected||0),totalDisbursed:Number(account?.total_disbursed||0),totalRefunded:Number(account?.total_refunded||0),reserve:funds.reserve,spendable:funds.spendable,version:Number(account?.version||0),updatedAt:account?.updated_at||null},access:{visible:true,isOwner,isChief,isFinalApprover,canSubmit:isChief,canDecide:isFinalApprover},chief,champion,events,limits,proposals:proposalRows.results||[],sources:(sourceRows.results||[]).map(row=>({...row,label:SOURCE_LABELS[row.source_type]||row.source_type}))};
 }
 
 function validateRequestId(value){const cleaned=text(value,120);return cleaned.length>=8&&/^[A-Za-z0-9:_-]+$/.test(cleaned)?cleaned:''}
@@ -156,7 +169,7 @@ async function submitProposal(env,user,body){
     if(duplicate)throw Object.assign(new Error('해당 승부예측에는 이미 지원 예산이 상신되었거나 적용되었습니다.'),{status:409});targetLabel=String(event.title||'');
   }
   if(type==='TOP_CLAN_DIVIDEND'){
-    const champion=await latestChampion(env);if(!champion||champion.memberCount<1)throw Object.assign(new Error('지급할 최근 완료 시즌 1위 클랜을 찾을 수 없습니다.'),{status:404});
+    const champion=await latestChampion(env,{fresh:true});if(!champion||champion.memberCount<1)throw Object.assign(new Error('지급할 최근 완료 시즌 1위 클랜을 찾을 수 없습니다.'),{status:404});
     ({seasonId:targetSeasonId,clanId:targetClanId,clanName:targetLabel}=champion);
   }
   const id=crypto.randomUUID();

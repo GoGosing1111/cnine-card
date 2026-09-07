@@ -1,5 +1,6 @@
 const MAGIC_DECK_TYPES=['PVE','PVP'];
 import {loadUniqueAdvancementsForCards,uniqueAdvancementSettings} from './_unique_advancement.js';
+import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 
 export const MAGIC_BATTLE_EFFECTS=['OPENING_ATTACK','GUARD_BARRIER','LIFE_AMPLIFY','CRISIS_HEAL','PUNISH_TRAP','ARCANE_COUNTER','FOLLOWUP_HASTE','ARCANE_SEAL','DOOM_MARK','SHIELD_SIPHON','TIME_DISTORTION','PHOENIX_REVIVE','PURIFY_LIGHT','CHAIN_ECHO'];
 const MAGIC_EFFECT_IMAGES={
@@ -95,10 +96,17 @@ export function cleanMagicSettings(raw={}){
     version:2
   };
 }
-export async function magicSettings(env){
+// V2062: Only status polling opts into caching. Purchases, rewards, battles and
+// CMS reads keep the original fresh-by-default settings contract.
+const MAGIC_SETTINGS_CACHE_KEY='magic:settings';
+export function invalidateMagicSettingsCache(env){
+  invalidateRuntimeData(env,MAGIC_SETTINGS_CACHE_KEY);
+}
+export async function magicSettings(env,{fresh=true}={}){
+  const cached=!fresh&&readRuntimeData(env,MAGIC_SETTINGS_CACHE_KEY);if(cached)return cached;
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='magic_card_settings_v1'").first();
-  if(!row?.value)return defaultMagicSettings();
-  try{return cleanMagicSettings(JSON.parse(row.value))}catch{return defaultMagicSettings()}
+  if(!row?.value)return cacheRuntimeData(env,MAGIC_SETTINGS_CACHE_KEY,defaultMagicSettings(),30000);
+  try{return cacheRuntimeData(env,MAGIC_SETTINGS_CACHE_KEY,cleanMagicSettings(JSON.parse(row.value)),30000)}catch{return defaultMagicSettings()}
 }
 
 function normalizeMagicBattleEffect(row={}){
@@ -600,7 +608,7 @@ export async function handleMagic({path,request,env,deps}){
   const {authenticate,readBody,json,profile,writeAdminLog}=deps;
   if(path==='magic/status'&&request.method==='GET'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    return json(await userStatus(env,user,await magicSettings(env)));
+    return json(await userStatus(env,user,await magicSettings(env,{fresh:false})));
   }
   if(path==='magic/equip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -640,7 +648,9 @@ export async function handleMagic({path,request,env,deps}){
       ];
       let result;
       if(rewardType==='MAGIC_CARD'){
-        const pool=(await env.DB.prepare('SELECT * FROM magic_cards WHERE is_active=1 AND draw_weight>0 ORDER BY sort_order,id').all()).results||[];if(!pool.length)throw new Error('활성화된 마법카드가 없습니다.');
+        // CMS card toggles/weights may change in a different isolate; never draw from a stale pool.
+        const pool=(await env.DB.prepare('SELECT * FROM magic_cards WHERE is_active=1 AND draw_weight>0 ORDER BY sort_order,id').all()).results||[];
+        if(!pool.length)throw new Error('활성화된 마법카드가 없습니다.');
         const picked=randomPick(pool),owned=await env.DB.prepare('SELECT quantity,enhancement_level FROM user_magic_cards WHERE user_id=? AND magic_card_id=?').bind(user.id,picked.id).first(),quantityBeforeCard=Math.max(0,Number(owned?.quantity||0)),quantityAfter=quantityBeforeCard+1,duplicate=quantityBeforeCard>0,refund=duplicate?integer(cfg.duplicateRefund,0):0,magicCrystals=Number(balance?.magic_crystals||0)+refund;
         statements.push(env.DB.prepare('INSERT INTO user_magic_cards(user_id,magic_card_id,quantity,enhancement_level,first_obtained_at,updated_at) VALUES(?,?,1,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,magic_card_id) DO UPDATE SET quantity=user_magic_cards.quantity+1,updated_at=CURRENT_TIMESTAMP').bind(user.id,picked.id));
         if(refund>0){
@@ -758,7 +768,7 @@ export async function handleMagic({path,request,env,deps}){
       const body=await readBody(request),before=await magicSettings(env);
       const acquisition=body.acquisition||body.settings?.acquisition||{};
       const next=cleanMagicSettings({...before,acquisition});
-      await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();
+      await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateMagicSettingsCache(env);
       await writeAdminLog(env,admin,'MAGIC_ACQUISITION_SAVE','APP_META','magic_card_settings_v1',before.acquisition,next.acquisition);
       return json({ok:true,settings:{acquisition:next.acquisition}});
     }
@@ -771,7 +781,7 @@ export async function handleMagic({path,request,env,deps}){
       const body=await readBody(request),action=String(body.action||'').toUpperCase();
       if(action==='SAVE_SETTINGS'){
         const before=await magicSettings(env),next=cleanMagicSettings(body.settings||body);
-        await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();
+        await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateMagicSettingsCache(env);
         await writeAdminLog(env,admin,'MAGIC_SETTINGS_SAVE','APP_META','magic_card_settings_v1',before,next);
         return json({ok:true,settings:next});
       }

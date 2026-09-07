@@ -39,7 +39,15 @@ export function cleanSuperstarPackSettings(raw = {}) {
 
 // One user-authorized release patch. Keep all price/odds/CMS fields, and never
 // reopen a later manual OFF. Compare-and-swap avoids overwriting a concurrent edit.
+// V2062: Only completed, database-scoped markers may cross request boundaries.
+// A pending database promise belongs to its originating Workers request.
 export async function ensureSuperstarPackPublicRelease(env) {
+  if(readRuntimeData(env,PUBLIC_RELEASE_KEY))return;
+  await runSuperstarPackPublicRelease(env);
+  cacheRuntimeData(env,PUBLIC_RELEASE_KEY,true,60000);
+}
+
+async function runSuperstarPackPublicRelease(env) {
   for(let attempt=0;attempt<3;attempt++){
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(PUBLIC_RELEASE_KEY).first();
     if(marker?.value==='1')return;
@@ -237,11 +245,16 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
   if(typeof requestId!=='string'||!/^[a-zA-Z0-9_-]{8,100}$/.test(requestId))return json({error:'올바른 개봉 요청번호가 필요합니다.'},400);
 
   await ensureSuperstarPackFoundation(env);
-  const staleBefore = new Date(Date.now() - 3 * 60_000).toISOString().replace("T", " ").slice(0, 19);
-  await env.DB.prepare("UPDATE superstar_pack_receipts_v1 SET status='FAILED',error_message='만료된 개봉 요청입니다.',updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND status='PENDING' AND updated_at<?")
-    .bind(user.id, staleBefore)
+  // V2062: 정상 신규 요청에서는 불필요한 만료 영수증 청소 쓰기를 생략한다.
+  //   실제로 필요한 시점(PENDING 과 충돌해 409 를 낼 때)에만 돌린다.
+  const expireStalePending=()=>env.DB.prepare("UPDATE superstar_pack_receipts_v1 SET status='FAILED',error_message='만료된 개봉 요청입니다.',updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND status='PENDING' AND updated_at<?")
+    .bind(user.id, new Date(Date.now() - 3 * 60_000).toISOString().replace("T", " ").slice(0, 19))
     .run();
-  const prior = await completedReceipt(env, requestId, user.id);
+  let prior = await completedReceipt(env, requestId, user.id);
+  if (prior.row && prior.row.status === "PENDING") {
+    await expireStalePending().catch(() => null);
+    prior = await completedReceipt(env, requestId, user.id);
+  }
   const replay=async response=>{
     if(Number(response.count||1)!==count)return json({error:'이 요청번호는 다른 개봉 수량에 사용됐습니다.',code:'SUPERSTAR_DRAW_COUNT_MISMATCH'},409);
     try{return json(await currentSuperstarInventory(env,user.id,response));}
@@ -261,9 +274,16 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
   if(!canOpenSuperstarPack(settings,user))return json({error:'슈퍼스타팩 일반 유저 개봉은 OFF 상태입니다.',code:'SUPERSTAR_PACK_OFF',drawEnabled:false},423);
   if(body.expectedCost!==undefined&&body.expectedCost!==cost)return json({error:'개봉 가격이 변경됐습니다. 새로고침 후 다시 확인해주세요.',code:'SUPERSTAR_PRICE_CHANGED'},409);
 
-  const claimed = await env.DB.prepare("INSERT OR IGNORE INTO superstar_pack_receipts_v1(request_id,user_id,status) VALUES(?,?,'PENDING')")
+  const claimReceipt = () => env.DB.prepare("INSERT OR IGNORE INTO superstar_pack_receipts_v1(request_id,user_id,status) VALUES(?,?,'PENDING')")
     .bind(requestId, user.id)
     .run();
+  let claimed = await claimReceipt();
+  if (!Number(claimed.meta?.changes || 0)) {
+    // The unique pending-per-user index also conflicts with OTHER request IDs.
+    // Only an actually expired row permits one bounded claim retry.
+    const expired = await expireStalePending();
+    if (Number(expired.meta?.changes || 0)) claimed = await claimReceipt();
+  }
   if (!Number(claimed.meta?.changes || 0)) {
     const duplicate = await completedReceipt(env, requestId, user.id);
     if (duplicate.response) return replay(duplicate.response);

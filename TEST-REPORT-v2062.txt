@@ -1,0 +1,99 @@
+TEST REPORT v2062 — 최적화 패치 최종 검토
+검토일: 2026-09-08
+환경: Windows PowerShell / Node v24.18.0 / npm 11.16.0
+저장소: C:/Users/User/Downloads/upload/cnine-card
+선행 로컬 커밋: aca84ee0 (Hi Heeya avatar review assets)
+직전 운영/원격 기준: 4e5afa75
+배포 정책: 첨부 원본 지시대로 커밋만 수행. push·배포·운영 DB 변경 없음.
+
+1. 변경 파일 구문 검사
+   node --check로 변경한 서버 JS 7개 모두 통과.
+   git diff --check 통과. Windows LF/CRLF 안내는 문법 실패가 아니다.
+
+2. 성능 회귀 검사
+   npm run test:performance
+   결과: 27/27 통과, 실패/생략 0.
+   구성: 기존 performance-v2045 10개 + v2062 17개.
+   package.json의 test:performance에 v2062 검사를 추가하여 이후 release:gate에도 포함한다.
+
+3. 통합 검사
+   node --test tests/treasury-draw-alchemy-perf-v2062.test.mjs
+               tests/superstar-pack-batch-v2047.test.mjs
+               tests/superstar-pack-postgres-v2048.test.mjs
+               tests/postgres-d1-compat.test.mjs
+               preview/avatar-hi-heeya-v1/qa-assets.test.cjs
+   결과: 총 53개, 51 통과, 실패 0, 2 생략.
+   생략은 환경이 제공되지 않은 live PostgreSQL/Pages smoke test 2개다.
+   운영 DB 또는 라이브 응답 시간을 검증했다는 의미가 아니다.
+
+   세부:
+   - v2062: 17/17.
+   - 슈퍼스타팩 SQLite batch: 14/14.
+   - 슈퍼스타팩 로컬 PostgreSQL(PGlite + 실제 PostgresD1Database): 7/7.
+   - PostgreSQL 호환 계층: 8 통과 / 라이브 2 생략.
+   - 희야 아바타 자산: 5/5.
+
+4. 목 DB 호출 계측
+   실제 핸들러에 목 D1을 연결해 first/all/run 1회 및 batch 1회를
+   각각 API 호출 1회로 센다. 워밍 뒤 두 번째 state 요청을 단언한다.
+   - 연금술 alchemy/state: 4회.
+   - 재정금고 administration/treasury/state: 3회.
+   - 강도 범위/보상 풀/우승 클랜/이벤트/세금 출처는 재사용하고
+     사용자 카드/장비/차량 및 금고 잔액은 새로 조회한다.
+
+   원안 문서의 11→4 / 6→3은 원안 작성자가 보고한 목 환경 전후 비교다.
+   이번 최종 검토에서 직접 재확인한 값은 수정 후 4 / 3이다.
+   treasury 목 환경은 비활성 족장·우승 클랜 없음 조건이다.
+   PostgreSQL 호환 계층은 batch 안에서도 개별 SQL을 순차 실행하므로
+   이 수치를 실제 PostgreSQL 왕복이나 운영 지연 감소량으로 환산하지 않는다.
+   실제 연성의 보상 후보 판정은 fresh여서 화면 캐시 적중 감소량을
+   transmute에 두 배 적용한다는 원안 주장은 최종 코드에 해당하지 않는다.
+
+5. 원안 회귀 재현 및 수정 확인
+   작업 파일을 되돌리지 않고 임시 메모리 모듈에 원안의 두 변경을 재현했다.
+   - 모듈 전역 publicReleasePromise.
+   - requestId가 다른 PENDING 충돌에서 만료 청소/claim 재시도 누락.
+   release completion / concurrent release / stale pending / live pending
+   4개 시나리오만 선별해 실행했다.
+   - 원안 동작 재현: 3 실패 / 1 통과.
+   - 수정 코드 동일 시나리오: 4/4 통과.
+   운영에서 발생한 사고를 직접 관측한 결과가 아니라 로컬 회귀 재현이다.
+
+   추가 보완:
+   - 다른 DB의 공개 마커를 건너뛰지 않고 실패한 마커 조회는 재시도.
+   - 동시 요청이 다른 요청의 미완료 DB Promise를 공유하지 않음.
+   - 과거 requestId의 만료 PENDING은 정리하되 살아 있는 PENDING은 보호.
+   - 완료 재요청 시 1회만 차감; 30억/200억 비용 및 BIGINT 호환 유지.
+   - 지급 중 실패하면 차감·카드·로그·영수증을 원자 롤백.
+   - 낡은 마법/프라임/차량/블랙미라클/연금술 캐시를 주입해도
+     실제 재화 경로는 최신 설정·후보 풀을 조회.
+   - 재정금고 배당 예산안은 캐시된 옛 우승 클랜 대신 최신 클랜을 사용.
+
+6. 전체 release:gate
+   npm run release:gate를 실행했다.
+   check:worker와 연결된 모든 기능 회귀 검사를 통과한 뒤
+   마지막 scripts/verify-production-release.mjs가 다음 조건으로 차단했다.
+   - 관련/무관 작업 파일이 있는 dirty 작업 트리.
+   - 배포 폴더에 node_modules 등 무시 파일 존재.
+   - 로컬 HEAD와 origin/main 불일치.
+
+   따라서 전체 명령은 exit 1이며 release:gate 전체 통과가 아니다.
+   별도 운영 배포 지시가 없으므로 관련 없는 파일을 지우거나
+   원격을 변경하거나 emergency dirty 배포 우회를 하지 않았다.
+   로컬 커밋 후에도 무관 파일과 원격 차이가 남을 수 있다.
+   향후 배포는 별도 검토 후 깨끗한 배포 후보에서 release:gate를 통과해야 한다.
+
+7. 희야 아바타 검증
+   원본 MA 카드 참조와 두 종류의 1024×1536 원화를 구분해 보존.
+   장비창 원화는 실제 알파 채널이며 흰 신발/손/불투명 RGB 보존을 검사했다.
+   모바일 WebP 규격과 알파, 이전 가짜 체크무늬 실패 기록도 검사했다.
+   preview/avatar-hi-heeya-v1의 13개 파일은 선행 로컬 커밋 aca84ee0에 있다.
+   상태는 TECHNICAL_PASS_USER_ART_REVIEW_PENDING / PREVIEW_ONLY.
+   라이브 등록·판매·계정 지급은 이 검증이나 커밋으로 승인되지 않는다.
+
+8. 검토 한계
+   프로덕션 부하·실제 응답 시간·인덱스 실행 계획은 측정하지 않았다.
+   스토리지 전반의 기존 설정/스키마 Promise 캐시를 개편한 작업이 아니다.
+   신규 표시 캐시는 TTL 동안 오래된 표시를 반환할 수 있다.
+   이번 패치에서 도입할 캐시가 실제 재화 판정을 오래된 상태로 바꾸지 않게
+   보완한 범위이며, 모든 운영 동시성 문제를 해결했다는 주장은 하지 않는다.
