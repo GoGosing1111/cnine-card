@@ -12,3 +12,4 @@ h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus{outline:none}
 @media(max-width:520px){.hero{min-height:250px}.hero-copy{width:calc(100% - 140px);padding:22px}.hero h1{font-size:32px;margin:8px 0 10px}.hero h1 span{max-width:100%;font-size:13px;line-height:1.65}.hero-copy>p:not(.eyebrow){display:none}.hero-copy .eyebrow{font-size:9px;letter-spacing:.04em}.hero-art{bottom:-12px}.overview p small{display:none}}
 @media(max-width:359px){.hero-copy{width:calc(100% - 130px);padding:20px 14px}.hero h1{font-size:28px}.hero-art{right:-24px}.card-name{font-size:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+.search-field input{min-height:44px}.search-field .icon-button{min-width:44px;width:44px}

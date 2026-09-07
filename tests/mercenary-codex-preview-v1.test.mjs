@@ -34,7 +34,8 @@ test('preview menu inserts the codex next to dex without mutating the real navig
   assert.equal(entries[1], ENTRY);
   assert.equal(entries[1].previewOnly, true);
   assert.equal(JSON.stringify(original), before);
-  assert.equal(original.routes.mercenaryDex, undefined);
+  assert.equal(original.routes.mercenaryDex.title, '용병도감');
+  assert.equal(Array.from(original.groups.collection.routes).filter(id => id === ENTRY.id).length, 1);
   assert.match(html, /data-enabled="false"/);
 });
 test('search supports Korean names, titles, whitespace, code normalization and initial consonants', () => {

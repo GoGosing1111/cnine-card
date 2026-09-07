@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.25.0-player-card';
+  const VERSION = '21.26.0-mercenary-codex';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -79,7 +79,7 @@
    */
   const MENU_GROUPS = Object.freeze({
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'inventory']) }),
-    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'upgrade', 'evolution', 'magic']) }),
+    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic']) }),
     pve: Object.freeze({ title: 'PVE 전투', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
     pvp: Object.freeze({ title: 'PVP·경쟁', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
@@ -97,6 +97,7 @@
   const ROUTE_META = Object.freeze({
     buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
     dex: Object.freeze({ title: '도감', group: 'collection', icon: 'book', home: Object.freeze({ title: '도감·강화', meta: '카드 수집 · 상세 · 진화' }) }),
+    mercenaryDex: Object.freeze({ title: '용병도감', group: 'collection', icon: 'cards' }),
     upgrade: Object.freeze({ title: '일괄 강화', group: 'collection', icon: 'upgrade' }),
     evolution: Object.freeze({ title: '카드 진화', group: 'collection', icon: 'cards' }),
     magic: Object.freeze({ title: '마법카드', group: 'collection', icon: 'magic' }),

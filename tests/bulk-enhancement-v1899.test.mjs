@@ -57,8 +57,8 @@ test('v1899 일괄 강화 리소스와 앱 셸 캐시는 함께 버전이 오른
   }
   assert.match(index, /css\/bulk-enhancement-v1899\.css\?v=1899(?:[-._a-z0-9]+)?/i);
   assert.match(index, /js\/bulk-enhancement-v1899\.js\?v=1941-superstar-pack-early-access/i);
-  assert.match(index, /js\/app\.js\?v=1941-superstar-pack-early-access/i);
-  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch['"]/i);
+  assert.match(index, /js\/app\.js\?v=2061-mercenary-codex/i);
+  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v2061-mercenary-codex['"]/i);
 });
 
 test('legacy 앱 셸은 upgrade 화면을 도감 그룹에서 렌더하고 바인딩한다', () => {
@@ -80,7 +80,7 @@ test('V21 exact shell과 runtime router가 동일한 native upgrade 계약을 �
   assert.ok(navigation, 'exact shell navigation contract missing');
   assert.ok(router, 'runtime router contract missing');
   assert.strictEqual(router.navigationContract, navigation);
-  assert.deepEqual(Array.from(navigation.groups.collection.routes), ['dex', 'upgrade', 'evolution', 'magic']);
+  assert.deepEqual(Array.from(navigation.groups.collection.routes), ['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic']);
   assert.equal(navigation.routes.upgrade.title, '일괄 강화');
   assert.equal(navigation.routes.upgrade.group, 'collection');
   assert.ok(Array.from(router.shellRoutes).includes('upgrade'));

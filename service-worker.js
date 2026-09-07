@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v2060-nonblocking-fx';
+const SHELL_CACHE='soop-card-shell-v2061-mercenary-codex';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -121,15 +121,19 @@ self.addEventListener('fetch',event=>{
 
   if(request.mode==='navigate'){
     event.respondWith((async()=>{
+      // A standalone codex/preview must never overwrite the cached game index.
+      // Query-only game routes share index; other documents keep their own key.
+      const documentKey=url.pathname==='/'||url.pathname==='/index.html'?APP_SHELL_URL:url.pathname;
       try{
         const response=await fetch(request,{cache:'no-store'});
-        if(response.ok){
+        if(response.ok&&String(response.headers.get('content-type')||'').toLowerCase().includes('text/html')){
           const cache=await caches.open(SHELL_CACHE);
-          await cache.put(APP_SHELL_URL,response.clone());
+          try{await cache.put(documentKey,response.clone())}catch(_){}
         }
         return response;
       }catch(_){
-        return (await caches.match(APP_SHELL_URL))||(await caches.match(OFFLINE_URL))||Response.error();
+        const cache=await caches.open(SHELL_CACHE);
+        return (await cache.match(documentKey))||(await cache.match(OFFLINE_URL))||Response.error();
       }
     })());
     return;

@@ -733,7 +733,7 @@ function renderMainNavigation(tab){
     {id:'administration',label:'행정부',tab:group==='administration'?tab:'treasury'}
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
-  if(group==='dex')return `${primaryHtml}<nav class="sub-tabs" aria-label="도감과 강화 메뉴"><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">카드 도감</button><button class="tab ${tab==='upgrade'?'active':''}" data-tab="upgrade">일괄 강화</button><button class="tab ${tab==='evolution'?'active':''}" data-tab="evolution">카드 진화</button>${magicSystemState.visible?`<button class="tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}</nav>`;
+  if(group==='dex')return `${primaryHtml}<nav class="sub-tabs" aria-label="도감과 강화 메뉴"><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">카드 도감</button><button class="tab" data-tab="mercenaryDex">용병도감</button><button class="tab ${tab==='upgrade'?'active':''}" data-tab="upgrade">일괄 강화</button><button class="tab ${tab==='evolution'?'active':''}" data-tab="evolution">카드 진화</button>${magicSystemState.visible?`<button class="tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}</nav>`;
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜</button>`:''}</nav>`;
   if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작·합성</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
@@ -762,6 +762,7 @@ function mobileNavigationHtml(tab){
       <header><div><small>COLLECTION & UPGRADE</small><h2>도감·강화</h2><p>카드 수집 현황과 일괄 강화·진화·마법카드 편성을 한곳에서 관리합니다.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="dex"><i>▤</i><span><b>카드 도감</b><small>멤버별 수집 카드 확인</small></span><em>열기</em></button>
+        <button type="button" data-mobile-tab="mercenaryDex"><i>V</i><span><b>용병도감</b><small>용병 원화 · 전투 모습 · 상세 정보</small></span><em>열기</em></button>
         <button type="button" data-mobile-tab="upgrade"><i>★</i><span><b>일괄 강화</b><small>여러 카드 선택 · 목표 단계 자동 강화</small></span><em>입장</em></button>
         <button type="button" data-mobile-tab="evolution"><i>+</i><span><b>카드 진화</b><small>SSR → MA · MA +13 → PRESTIGE · LIMITED +13 → ZENITH</small></span><em>입장</em></button>
         ${magicSystemState.visible?'<button type="button" data-mobile-tab="magic"><i>M</i><span><b>마법카드</b><small>PVE·PVP 마법카드 편성</small></span><em>입장</em></button>':''}
@@ -1202,6 +1203,8 @@ function renderShell(tab) {
   if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
+  // Read-only public codex, also reachable when the optional V21 router is unavailable.
+  if(tab==='mercenaryDex'){window.location.assign('/mercenary-codex/');return;}
   // V1803: 로비 BGM 은 로비에서만 난다.
   // V21 어댑터가 renderShell 을 감싸고 있어서, 로비를 그릴 때 이 함수에 들어오는 tab 은
   // 'home' 이 아니라 'buy' 다(exactRenderShell 이 requested==='home' 을 'buy' 로 바꿔 부른다).
@@ -1217,6 +1220,7 @@ function renderShell(tab) {
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">▤</span><b>도감·강화</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="dex"><span>멤버별 카드 수집 현황</span><b>카드 도감</b></button>
+        <button type="button" data-tab="mercenaryDex"><span>용병 원화·전투 모습·상세 정보</span><b>용병도감</b></button>
         <button type="button" data-tab="upgrade"><span>여러 카드 선택·목표 단계 자동 진행</span><b>일괄 강화</b></button>
         <button type="button" data-tab="evolution"><span>상위 등급 카드 진화</span><b>카드 진화</b></button>
         ${magicSystemState.visible?'<button type="button" data-tab="magic"><span>PVE·PVP 마법카드 편성</span><b>마법카드</b></button>':''}

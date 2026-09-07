@@ -42,6 +42,7 @@
   const ROUTE_CONTRACT = Object.freeze({
     buy: { shell: 'buy' },
     dex: { shell: 'dex' },
+    mercenaryDex: Object.freeze({ href: '/mercenary-codex/' }),
     upgrade: { shell: 'upgrade' },
     evolution: { shell: 'evolution' },
     battle: { shell: 'battle' },
@@ -233,6 +234,14 @@
     const runtime = defaultRuntime(options.runtime);
     const timeoutMs = Number(options.timeoutMs || DEFAULT_TIMEOUT_MS);
 
+    // Explicit, same-tab information page. Never render a mercenary battle
+    // shell or accept a document destination from untrusted route parameters.
+    if (contract.href) {
+      if (contract.href !== '/mercenary-codex/') throw new Error('허용되지 않은 도감 주소입니다.');
+      runtime.global.location.assign(contract.href);
+      return { ok: true, shell: '', global: '', href: contract.href };
+    }
+
     if (contract.shell) {
       if (!SHELL_ROUTE_SET.has(contract.shell)) throw new Error(`허용되지 않은 운영 화면: ${contract.shell}`);
       const render = await waitFor(runtime, () => typeof runtime.renderShell === 'function' && runtime.renderShell, timeoutMs);
@@ -343,7 +352,7 @@
   }
 
   const api = Object.freeze({
-    version: '1.5.0',
+    version: '1.9.0-mercenary-codex',
     shellRoutes: SHELL_ROUTES,
     routeContract: ROUTE_CONTRACT,
     subtabContract: SUBTAB_CONTRACT,

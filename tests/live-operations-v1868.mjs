@@ -59,8 +59,8 @@ test('operation board ships desktop and mobile game UI with cache-busted assets'
   assert.match(css,/grid-auto-columns: minmax\(300px, 1fr\)/);
   assert.match(css,/grid-auto-columns: minmax\(252px, 78vw\)/);
   assert.match(index,/live-operations-v1868\.css\?v=1868-live-operations-r2/);
-  assert.match(index,/app\.js\?v=2060-nonblocking-fx/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.25\.0-player-card/);
-  assert.match(worker,/soop-card-shell-v2060-nonblocking-fx/);
-  assert.match(shell,/const VERSION = '21\.25\.0-player-card'/);
+  assert.match(index,/app\.js\?v=2061-mercenary-codex/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.26\.0-mercenary-codex/);
+  assert.match(worker,/soop-card-shell-v2061-mercenary-codex/);
+  assert.match(shell,/const VERSION = '21\.26\.0-mercenary-codex'/);
 });

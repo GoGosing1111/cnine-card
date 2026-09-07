@@ -220,7 +220,7 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
 
 test('캐시 태그가 갱신되어 있다', () => {
   assert.match(appSrc, /project-v-pixi-battle\.bundle\.js\?v=101-nonblocking-fx/);
-  assert.match(read('service-worker.js'), /const SHELL_CACHE='soop-card-shell-v2060-nonblocking-fx'/);
+  assert.match(read('service-worker.js'), /const SHELL_CACHE='soop-card-shell-v2061-mercenary-codex'/);
 });
 
 test('숨겨진 전투에 배너를 넣어도 큐가 잠기지 않고 다시 열면 재생된다', async () => {

@@ -1,12 +1,13 @@
-// Run only in the independent preview through a browser evaluator; no live calls.
+// Run only in the read-only codex through a browser evaluator; no account calls.
 export async function runMercenaryCodexBrowserQa() {
-  if (!location.pathname.startsWith('/preview/mercenary-codex-v1/')) throw new Error('Preview-only QA');
+  const publicMode = document.documentElement.dataset.codexMode === 'public';
+  if (!location.pathname.startsWith('/preview/mercenary-codex-v1/') && !(publicMode && location.pathname === '/mercenary-codex/')) throw new Error('Read-only codex QA only');
   const $ = selector => document.querySelector(selector);
   const checks = [];
   const check = (name, ok) => { checks.push({ name, ok: Boolean(ok) }); if (!ok) throw new Error(name); };
   const pause = () => new Promise(resolve => setTimeout(resolve, 100));
   const input = (id, value, type = 'input') => { const node = $(id); node.value = value; node.dispatchEvent(new Event(type, { bubbles: true })); };
-  const storageKey = 'cnine.mercenaryCodex.preview.v1';
+  const storageKey = publicMode ? 'cnine.mercenaryCodex.public.v1' : 'cnine.mercenaryCodex.preview.v1';
   const savedBefore = localStorage.getItem(storageKey);
   try {
     check('21 cards', document.querySelectorAll('.codex-card').length === 21);

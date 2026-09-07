@@ -1,4 +1,4 @@
-// Read-only preview. The preparation roster is the only authority; no legacy ranks.
+// Shared read-only codex model. The preparation roster owns all facts; no legacy ranks.
 export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json', import.meta.url);
 export const ASSET_ROOT = new URL('../../', import.meta.url);
 export const MEDIA_PREFIX = 'assets/ui/project-v/mercenaries/codex-v1/';
@@ -68,7 +68,7 @@ export function summarize(cards) {
 export function collectionEntries(navigation) {
   const group = navigation?.groups?.collection;
   if (!group) throw new Error('도감·강화 메뉴 정보를 찾지 못했습니다.');
-  const entries = Array.from(group.routes, id => ({ id, ...navigation.routes[id] }));
+  const entries = Array.from(group.routes).filter(id => id !== ENTRY.id).map(id => ({ id, ...navigation.routes[id] }));
   entries.splice(1, 0, ENTRY);
   return entries;
 }

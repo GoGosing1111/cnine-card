@@ -1,27 +1,27 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-codex-mode="public">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <meta name="robots" content="noindex, nofollow">
   <meta name="referrer" content="same-origin">
-  <title>용병도감 · 숲켓몬 검수 프리뷰</title>
+  <title>용병도감 · 숲켓몬</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./codex.css?v=1.2">
+  <link rel="stylesheet" href="../preview/mercenary-codex-v1/codex.css?v=1.2">
 </head>
 <body>
   <a class="skip-link" href="#catalogControls">용병 검색으로 바로가기</a>
   <header class="topbar">
-    <a class="brand" href="?view=menu" data-menu><span class="brand-symbol" aria-hidden="true">V</span><span>SOOPKETMON<small>PROJECT V · MERCENARY ARCHIVE</small></span></a>
-    <span class="preview-label"><i aria-hidden="true"></i>검수용 프리뷰 <span>· 유저 미공개</span></span>
+    <a class="brand" href="/?screen=home" aria-label="숲켓몬 로비로 돌아가기"><span class="brand-symbol" aria-hidden="true">V</span><span>SOOPKETMON<small>PROJECT V · MERCENARY ARCHIVE</small></span></a>
+    <span class="preview-label"><i aria-hidden="true"></i>도감 공개 중 <span>· 정보 열람 전용</span></span>
   </header>
   <main id="main" class="codex-shell">
     <nav class="breadcrumb" aria-label="현재 위치"><a href="?view=menu" data-menu>도감·강화</a><span aria-hidden="true">/</span><span id="breadcrumbCurrent" aria-current="page">용병도감</span></nav>
     <section id="menuView" hidden aria-labelledby="menuTitle">
-      <div class="menu-heading"><p class="eyebrow">COLLECTION & UPGRADE</p><h1 id="menuTitle" tabindex="-1">도감·강화</h1><p>기존 메뉴에 용병도감을 추가한 배치입니다.</p></div>
+      <div class="menu-heading"><p class="eyebrow">COLLECTION & UPGRADE</p><h1 id="menuTitle" tabindex="-1">도감·강화</h1><p>카드 수집부터 용병 정보까지 한곳에서 살펴보세요.</p></div>
       <div id="collectionMenu" class="collection-menu"></div>
-      <p class="menu-note">이번 프리뷰에서는 용병도감만 열 수 있습니다. 기존 메뉴와 계정 데이터는 변경하지 않습니다.</p>
+      <p class="menu-note">용병도감은 정보 열람 전용입니다. 용병 획득·편성 기능은 준비 중입니다.</p>
     </section>
     <section id="catalogView" aria-labelledby="catalogTitle">
       <header class="hero">
@@ -46,9 +46,9 @@
       <div class="results-line"><h2>용병 명단 <span id="resultCount" role="status" aria-live="polite"></span></h2><button id="resetFilters" type="button" class="text-button" hidden>필터 초기화 ↺</button><span class="list-hint">카드를 선택하면 상세 정보를 볼 수 있습니다.</span></div>
       <ul id="cardGrid" class="card-grid" aria-label="용병 카드 목록" aria-busy="true"><li class="load-state" role="status">용병 명단을 불러오는 중입니다.</li></ul>
       <p class="list-footnote">즐겨찾기는 이 브라우저에만 저장됩니다. 실제 보유 여부나 덱 편성과는 무관합니다.</p>
-      <details class="review-summary"><summary>현재 용병 정보 · 검수 현황 <span>열기</span></summary><div id="reviewSummary"></div></details>
+      <details class="review-summary"><summary>용병 정보 · 공개 안내 <span>열기</span></summary><div id="reviewSummary"></div></details>
     </section>
-    <footer class="footer"><span>SOOPKETMON <b>PROJECT V</b></span><p>읽기 전용 프리뷰 · 계정 / 뽑기 / 전투 API 미연결</p></footer>
+    <footer class="footer"><span>SOOPKETMON <b>PROJECT V</b></span><p>용병 정보 선공개 · 획득 / 편성 / 전투 기능 준비 중</p></footer>
   </main>
   <dialog id="detailDialog" class="detail-dialog" aria-labelledby="detailName">
     <header class="dialog-bar"><span><span id="detailBarName">용병 상세</span><small id="detailCode"></small></span><div><button id="previousCard" class="icon-button" type="button" aria-label="이전 용병">←</button><span id="detailIndex" class="detail-index"></span><button id="nextCard" class="icon-button" type="button" aria-label="다음 용병">→</button><button id="closeDetail" class="icon-button close" type="button" aria-label="용병 상세 닫기">×</button></div></header>
@@ -57,7 +57,7 @@
   <dialog id="artDialog" class="art-dialog" aria-label="용병 원본 확대 보기"><header><strong id="artTitle"></strong><div><button id="toggleOriginal" type="button">원본 크기</button><button id="closeArt" class="icon-button" type="button" aria-label="원본 확대 닫기">×</button></div></header><div id="artViewport" class="art-viewport"><img id="originalArt" alt=""></div></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <!-- Consume only the real menu contract. No live app, account, router or battle boot. -->
-  <script src="../../js/soopketmon-v21-exact-shell-adapter.js?v=21.26.0-mercenary-codex" data-enabled="false" data-default-home="false"></script>
-  <script type="module" src="./codex.js?v=2061-mercenary-codex"></script>
+  <script src="../js/soopketmon-v21-exact-shell-adapter.js?v=21.26.0-mercenary-codex" data-enabled="false" data-default-home="false"></script>
+  <script type="module" src="../preview/mercenary-codex-v1/codex.js?v=2061-mercenary-codex"></script>
 </body>
 </html>

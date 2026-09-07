@@ -1,5 +1,6 @@
-import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js';
+import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js?v=2061-mercenary-codex';
 
+const IS_PUBLIC = document.documentElement.dataset.codexMode === 'public';
 const $ = selector => document.querySelector(selector);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const shapes = {
@@ -14,7 +15,7 @@ const shapes = {
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${shapes[name] || shapes.book}</svg>`;
 document.querySelectorAll('[data-icon]').forEach(node => { node.innerHTML = icon(node.dataset.icon); });
 
-const storageKey = 'cnine.mercenaryCodex.preview.v1';
+const storageKey = IS_PUBLIC ? 'cnine.mercenaryCodex.public.v1' : 'cnine.mercenaryCodex.preview.v1';
 let roster;
 let state = {};
 let favorites = new Set();
@@ -120,13 +121,18 @@ function renderSummary() {
   const approved = roster.cards.filter(card => card.sourceArtStatus === 'APPROVED_SOURCE_ART').length;
   const legacy = roster.cards.filter(card => card.sourceArtStatus === 'LEGACY_ROSTER_ART').length;
   const supplied = roster.cards.filter(card => card.sourceArtStatus === 'USER_SUPPLIED_SOURCE_ART').length;
-  $('#reviewSummary').innerHTML = `<dl class="summary-grid"><div><dt>신규 승인 원화</dt><dd>${approved}종</dd></div><div><dt>보존 / 사용자 지정 원화</dt><dd>${legacy}종 / ${supplied}종</dd></div><div><dt>등급 확정 대기</dt><dd>${info.rankPending}종</dd></div></dl><p>준비 로스터 기준일 ${esc(roster.updatedAt)} · 원화 ${info.sourceReady}종, 전투 SD ${info.spriteReady}종 준비.<br>전투 SD 기술검수와 사용자 시각검수는 별개입니다. 개별 상태는 용병 상세에서 확인할 수 있습니다.<br>등급·능력치·스킬·획득 경로가 확정되기 전에는 수치를 추정하거나 운영 도감에 공개하지 않습니다.</p>${POSITIONS.map(position => `<p class="review-names"><b>${position} ${info.positions[position]}종</b> — ${roster.cards.filter(card => positionOf(card) === position).map(card => esc(card.name)).join(' · ')}</p>`).join('')}`;
+  const summary = IS_PUBLIC
+    ? `<dl class="summary-grid"><div><dt>공개 용병</dt><dd>${info.total}종</dd></div><div><dt>전투 모습 준비</dt><dd>${info.spriteReady}종</dd></div><div><dt>등급 확정 대기</dt><dd>${info.rankPending}종</dd></div></dl><p>용병의 이름, 역할, 카드 원화와 전투 모습을 먼저 공개합니다.<br>등급·능력치·스킬·획득 경로는 확정 후 안내합니다. 현재는 정보 열람만 가능하며, 용병 획득·편성·전투 기능은 열리지 않았습니다.</p>`
+    : `<dl class="summary-grid"><div><dt>신규 승인 원화</dt><dd>${approved}종</dd></div><div><dt>보존 / 사용자 지정 원화</dt><dd>${legacy}종 / ${supplied}종</dd></div><div><dt>등급 확정 대기</dt><dd>${info.rankPending}종</dd></div></dl><p>준비 로스터 기준일 ${esc(roster.updatedAt)} · 원화 ${info.sourceReady}종, 전투 SD ${info.spriteReady}종 준비.<br>전투 SD 기술검수와 사용자 시각검수는 별개입니다. 개별 상태는 용병 상세에서 확인할 수 있습니다.<br>등급·능력치·스킬·획득 경로가 확정되기 전에는 수치를 추정하지 않습니다. 운영에는 별도 승인된 읽기 전용 도감만 공개합니다.</p>`;
+  $('#reviewSummary').innerHTML = summary + POSITIONS.map(position => `<p class="review-names"><b>${position} ${info.positions[position]}종</b> — ${roster.cards.filter(card => positionOf(card) === position).map(card => esc(card.name)).join(' · ')}</p>`).join('');
 }
 function renderMenu() {
   const entries = collectionEntries(window.SoopketmonV21NavigationContract);
-  $('#collectionMenu').innerHTML = entries.map(entry => entry.previewOnly
+  $('#collectionMenu').innerHTML = entries.map(entry => entry.id === 'mercenaryDex'
     ? `<a class="menu-tile menu-tile-new" href="?" data-catalog><i aria-hidden="true">${icon('mercenary')}</i><span><b>${entry.title}</b><small>도감·강화 · 용병 원화와 상세 정보</small></span><em>NEW →</em></a>`
-    : `<div class="menu-tile" aria-label="${esc(entry.title)} · 기존 메뉴"><i aria-hidden="true">${icon(entry.icon)}</i><span><b>${esc(entry.title)}</b><small>도감·강화</small></span></div>`).join('');
+    : IS_PUBLIC
+      ? `<a class="menu-tile" href="/?screen=${encodeURIComponent(entry.id)}"><i aria-hidden="true">${icon(entry.icon)}</i><span><b>${esc(entry.title)}</b><small>도감·강화</small></span><em>열기 →</em></a>`
+      : `<div class="menu-tile" aria-label="${esc(entry.title)} · 기존 메뉴"><i aria-hidden="true">${icon(entry.icon)}</i><span><b>${esc(entry.title)}</b><small>도감·강화</small></span></div>`).join('');
 }
 function setView(menu, { push = false, focus = false } = {}) {
   if (push) {
@@ -137,7 +143,7 @@ function setView(menu, { push = false, focus = false } = {}) {
   }
   $('#menuView').hidden = !menu;
   $('#catalogView').hidden = menu;
-  $('#breadcrumbCurrent').textContent = menu ? '메뉴 미리보기' : '용병도감';
+  $('#breadcrumbCurrent').textContent = menu ? (IS_PUBLIC ? '전체 메뉴' : '메뉴 미리보기') : '용병도감';
   if (focus) { window.scrollTo(0, 0); $(menu ? '#menuTitle' : '#catalogTitle').focus({ preventScroll: true }); }
 }
 function detailCard() { return roster?.cards.find(card => card.code === activeCode); }
@@ -160,9 +166,9 @@ function renderDetail() {
   $('#detailContent').innerHTML = `<div class="detail-media"><div class="media-tabs" role="tablist" aria-label="용병 모습"><button type="button" role="tab" id="artTab" data-media-tab="art" aria-controls="mediaPanel" aria-selected="true">카드 원화</button><button type="button" role="tab" id="sdTab" data-media-tab="sd" aria-controls="mediaPanel" aria-selected="false" tabindex="-1">전투 SD</button></div><div id="mediaPanel" role="tabpanel" aria-labelledby="artTab"></div><p id="mediaNote" class="media-note"></p></div>
     <div class="detail-copy"><p class="detail-title">${esc(card.title)}</p><div class="identity-row"><h2 id="detailName" tabindex="-1">${esc(card.name)}</h2><button type="button" class="detail-save" data-save="${card.code}" aria-pressed="false">${icon('bookmark')}<span>즐겨찾기</span></button></div><div class="identity-tags"><span>${esc(card.role)}</span><span>용병 전용 슬롯</span></div>
     <dl class="info-ledger"><div><dt>신규 등급</dt><dd>${card.rank == null ? '확정 대기' : esc(card.rank)}</dd></div><div><dt>전투 위치</dt><dd>${esc(positionOf(card))}</dd></div><div><dt>역할</dt><dd>${esc(roleOf(card))}</dd></div><div><dt>편성 한도</dt><dd>일반 덱과 별개 · 최대 ${Number(rules.mercenarySlots)}장</dd></div></dl>
-    <section class="pending-info"><h3>전투 정보 · 확정 대기</h3><p>능력치, 고유 스킬, 획득 경로는 아직 준비 로스터에 등록되지 않았습니다. 확정 전 수치나 과거 임시 등급은 표시하지 않습니다.</p></section>
+    <section class="pending-info"><h3>전투 정보 · 확정 대기</h3><p>${IS_PUBLIC ? '등급, 능력치, 고유 스킬과 획득 경로는 확정 후 안내합니다. 지금은 용병 정보를 먼저 살펴볼 수 있으며, 획득·편성·전투 기능은 준비 중입니다.' : '능력치, 고유 스킬, 획득 경로는 아직 준비 로스터에 등록되지 않았습니다. 확정 전 수치나 과거 임시 등급은 표시하지 않습니다.'}</p></section>
     <section class="formation-info"><h3>기존 덱은 그대로, 용병은 별도로</h3><div class="formation-line"><span class="five-cards" aria-hidden="true">${'<i></i>'.repeat(rules.regularCardSlots)}</span><span>일반 ${Number(rules.regularCardSlots)}장</span><span aria-hidden="true">+</span><b>용병 ${Number(rules.mercenarySlots)}장</b></div><p>최대 ${Number(rules.maxDeployedUnits)}장 편성. 용병 슬롯은 선택 사항이며,<br>비워 두면 기존 5장 덱으로 전투합니다.</p></section>
-    <details class="asset-details"><summary>원화 · 전투 리소스 현황</summary><dl class="info-ledger"><div><dt>원화</dt><dd>${artStatus(card)}</dd></div><div><dt>전투 SD</dt><dd>${sdStatus(card)}</dd></div><div><dt>운영 상태</dt><dd>검수 프리뷰 · 라이브 미연결</dd></div></dl>${card.sourceArtNote === 'USER_DIRECTED_AS_IS_736X1104_JPEG' ? '<p class="asset-note">사용자 지정 736 × 1104 JPEG 원본을 보존했습니다. 신규 승인 마스터 규격 충족으로 표시하지 않습니다.</p>' : ''}<p class="asset-note">카드 원화와 전투 SD는 별도 리소스입니다. 도감·덱·상세 화면의 원화를 SD로 대체하지 않습니다.</p></details></div>`;
+    <details class="asset-details"><summary>원화 · 전투 리소스 현황</summary><dl class="info-ledger"><div><dt>원화</dt><dd>${artStatus(card)}</dd></div><div><dt>전투 SD</dt><dd>${sdStatus(card)}</dd></div><div><dt>운영 상태</dt><dd>${IS_PUBLIC ? '도감 공개 중 · 편성 미연결' : '검수 프리뷰 · 정보 열람 전용'}</dd></div></dl>${card.sourceArtNote === 'USER_DIRECTED_AS_IS_736X1104_JPEG' ? '<p class="asset-note">사용자 지정 736 × 1104 JPEG 원본을 보존했습니다. 신규 승인 마스터 규격 충족으로 표시하지 않습니다.</p>' : ''}<p class="asset-note">카드 원화와 전투 SD는 별도 리소스입니다. 도감·덱·상세 화면의 원화를 SD로 대체하지 않습니다.</p></details></div>`;
   renderMedia();
   refreshSavedButtons();
   updateDetailNavigation();
