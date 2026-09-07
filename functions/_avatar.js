@@ -14,6 +14,7 @@ const EQUIPMENT_ALPHA_V3_KEY='safe_runtime_upgrade_v1870_avatar_equipment_alpha_
 const OWNERSHIP_EXPIRY_KEY='safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1';
 const DIMWOOS_AVATAR_KEY='safe_runtime_upgrade_v1985_dimwoos_avatar_v1';
 const TERRAN_EMPRESS_JOEUN_AVATAR_KEY='safe_runtime_upgrade_v2006_terran_empress_joeun_avatar_v1';
+const HI_HEEYA_AVATAR_KEY='safe_runtime_upgrade_v2064_hi_heeya_avatar_v1';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -213,9 +214,29 @@ export async function ensureAvatarFoundation(env){
     await ensureAvatarEquipmentAlphaV3(env);
     await ensureDimwoosAvatar(env);
     await ensureTerranEmpressJoeunAvatar(env);
+    await ensureHiHeeyaAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
+}
+
+async function ensureHiHeeyaAvatar(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HI_HEEYA_AVATAR_KEY).first();
+  if(marker?.value==='1')return;
+  const base='preview/avatar-hi-heeya-v1/assets/';
+  // Register art for CMS configuration only. Never infer effects, sale/public
+  // flags or ownership, and preserve any operator edits if this seed is replayed.
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO avatar_catalog_v1(
+      code,serial,name,call_sign,role_label,description,lobby_image,lobby_mobile_image,equipment_image,accent,acquisition_type,coin_price,source_label,source_detail,effect_type,effect_value,is_active,is_public,sale_enabled,sort_order
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,'UNSET',NULL,'','','',0,0,0,0,?) ON CONFLICT(code) DO NOTHING`).bind(
+      'HI_HEEYA','A-13','하이희야','HI HEEYA','짱구 희야',
+      'MA 짱구 희야 카드의 얼굴·표정과 붉은 티셔츠를 재해석한 하이희야 전용 아바타입니다.',
+      `${base}avatar-hi-heeya-lobby-v1-1024.webp`,`${base}avatar-hi-heeya-lobby-v1-640.webp`,
+      `${base}avatar-hi-heeya-equipment-v1-640.webp`,'#f04d4d',130
+    ),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(HI_HEEYA_AVATAR_KEY,'1')
+  ]);
 }
 
 export async function avatarSettings(env,{fresh=false}={}){

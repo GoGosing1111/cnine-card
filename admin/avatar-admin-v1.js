@@ -26,17 +26,17 @@
 
   function modeOptions(current){return ['OFF','TEST','ON'].map(mode=>`<option value="${mode}" ${mode===current?'selected':''}>${mode}${mode==='OFF'?' · 완전 비공개':mode==='TEST'?' · OWNER만':' · 전체 공개'}</option>`).join('')}
   function acquisitionOptions(current){return Object.entries(ACQUISITION_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
-  function effectOptions(current){return Object.entries(EFFECT_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
+  function effectOptions(current){return (current?'':'<option value="" selected>미설정 · 효과를 선택하세요</option>')+Object.entries(EFFECT_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
   function effectMax(type){return type==='COIN_GAIN_PERCENT'?50:type==='RAID_EXTRA_ENTRY'?20:type==='SCRAPYARD_FREE_ENTRY'?1:100}
   function itemEffects(item){return Array.isArray(item.effects)&&item.effects.length?item.effects:[item.effect||{type:'BATTLE_POWER_PERCENT',value:1}]}
-  function effectRow(effect,index){const type=effect?.type||'BATTLE_POWER_PERCENT';return `<div class="avatar-admin-effect-row" data-effect-row><i>${String(index+1).padStart(2,'0')}</i><label><span>효과 유형</span><select data-effect-type>${effectOptions(type)}</select></label><label><span>효과 수치</span><input data-effect-value type="number" min="1" max="${effectMax(type)}" step="1" value="${Math.max(1,Number(effect?.value||1))}"></label><button type="button" data-effect-remove aria-label="효과 삭제">삭제</button></div>`}
+  function effectRow(effect,index){const type=effect?.type||'';return `<div class="avatar-admin-effect-row" data-effect-row><i>${String(index+1).padStart(2,'0')}</i><label><span>효과 유형</span><select data-effect-type>${effectOptions(type)}</select></label><label><span>효과 수치</span><input data-effect-value type="number" min="1" max="${effectMax(type)}" step="1" value="${Math.max(1,Number(effect?.value||1))}"></label><button type="button" data-effect-remove aria-label="효과 삭제">삭제</button></div>`}
 
   function avatarCard(item){
     const image=String(item.lobbyMobileImage||item.lobbyImage||'');
     const effects=itemEffects(item);
     return `<article class="avatar-admin-card" data-avatar-code="${esc(item.code)}" data-version="${Number(item.version||1)}" style="--avatar-accent:${esc(item.accent||'#82c7d7')}">
       <header><div class="avatar-admin-thumb"><img src="../${esc(image)}" alt="${esc(item.name)}" loading="lazy" decoding="async"></div><div><small>${esc(item.serial)} · ${esc(item.callSign)}</small><h3>${esc(item.name)}</h3><p>${esc(item.role)}</p></div><span class="avatar-admin-state ${item.public?'is-public':item.active?'is-test':'is-off'}">${item.public?'PUBLIC':item.active?'READY':'OFF'}</span></header>
-      <div class="avatar-admin-effect"><span>고유 효과</span><b>${effects.length}개 옵션 · 장착 시 모두 적용</b></div>
+      <div class="avatar-admin-effect"><span>고유 효과</span><b>${effects.some(effect=>effect.type)?`${effects.filter(effect=>effect.type).length}개 옵션 · 장착 시 모두 적용`:'미설정 · 공개 전 설정 필요'}</b></div>
       <div class="avatar-admin-fields">
         <label><span>획득 방식</span><select data-field="acquisitionType">${acquisitionOptions(item.acquisitionType)}</select></label>
         <label><span>코인 가격</span><input data-field="coinPrice" type="number" inputmode="numeric" min="0" step="1" value="${item.coinPrice==null?'':esc(item.coinPrice)}" placeholder="미설정"></label>
@@ -62,7 +62,7 @@
       <label class="avatar-shop-switch"><input id="avatarShopEnabled" type="checkbox" ${settings.shopEnabled?'checked':''}><span>아바타 상점 판매 기능</span></label>
       <button type="button" id="avatarConfigSave">전체 공개 설정 저장</button>
     </section>
-    <div class="avatar-admin-warning"><b>안전 초기값</b><span>10종 모두 가격 미설정 · 판매 OFF · 공개 OFF로 등록됩니다. 가격과 획득처를 확정하기 전에는 ON으로 바꾸지 마세요.</span></div>
+    <div class="avatar-admin-warning"><b>안전 초기값</b><span>신규 아바타는 가격 미설정 · 판매 OFF · 공개 OFF로 등록됩니다. 효과와 가격·획득처를 확정하기 전에는 ON으로 바꾸지 마세요.</span></div>
     <section class="avatar-admin-grid">${(state.avatars||[]).map(avatarCard).join('')}</section>`;
     bind();
   }

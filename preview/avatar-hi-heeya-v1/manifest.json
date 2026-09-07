@@ -3,10 +3,14 @@
   "name": "하이희야",
   "code": "HI_HEEYA",
   "date": "2026-09-08",
-  "status": "TECHNICAL_PASS_USER_ART_REVIEW_PENDING",
-  "scope": "PREVIEW_ONLY",
-  "runtimeConnected": false,
-  "catalogRegistered": false,
+  "status": "CMS_REGISTERED_PUBLIC_OFF",
+  "scope": "LIVE_CMS_DRAFT",
+  "runtimeConnected": true,
+  "catalogRegistered": true,
+  "serial": "A-13",
+  "publicEnabled": false,
+  "saleEnabled": false,
+  "effectConfigured": false,
   "grantIssued": false,
   "originalReferencesModified": false,
   "sourceCard": {
@@ -96,6 +100,6 @@
   ],
   "pending": [
     "USER_ART_REVIEW",
-    "EXPLICIT_AVATAR_CATALOG_CONNECTION"
+    "CMS_EFFECT_PRICE_ACQUISITION_AND_PUBLICATION_CONFIGURATION"
   ]
 }

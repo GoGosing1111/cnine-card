@@ -10,13 +10,16 @@ const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, 'manifest.json'
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase();
 const assetPath = entry => path.join(__dirname, entry.file);
 
-test('exact MA source is preserved; this is a separate avatar art review, not a mercenary or live grant', () => {
+test('exact MA source is preserved; the CMS draft is connected without public release or grants', () => {
   assert.equal(manifest.name, '하이희야');
   assert.equal(manifest.sourceCard.id, 'CN-B2F4D52C44C74C4F');
   assert.equal(manifest.sourceCard.grade, 'MA');
   assert.equal(manifest.sourceCard.title, '짱구 희야');
   assert.equal(hash(path.join(root, manifest.sourceCard.image)), manifest.sourceCard.sha256);
-  for (const flag of ['runtimeConnected', 'catalogRegistered', 'grantIssued', 'originalReferencesModified']) assert.equal(manifest[flag], false);
+  for (const flag of ['runtimeConnected', 'catalogRegistered']) assert.equal(manifest[flag], true);
+  for (const flag of ['grantIssued', 'originalReferencesModified', 'publicEnabled', 'saleEnabled', 'effectConfigured']) assert.equal(manifest[flag], false);
+  assert.equal(manifest.serial, 'A-13');
+  assert.equal(manifest.scope, 'LIVE_CMS_DRAFT');
   assert.equal(manifest.generation.codeImageEditingApproval, '배경만 코드로 제거');
 });
 
@@ -67,5 +70,5 @@ test('both extraction failures remain explicit history and cannot be confused wi
   const draft = manifest.assets.find(a => a.kind === 'equipment_draft');
   assert.equal(draft.status, 'REJECTED_FOR_RUNTIME_NO_REAL_ALPHA');
   assert.equal(manifest.assets.find(a => a.kind === 'equipment').status, 'TECHNICAL_PASS_USER_REVIEW_PENDING');
-  assert.equal(manifest.status, 'TECHNICAL_PASS_USER_ART_REVIEW_PENDING');
+  assert.equal(manifest.status, 'CMS_REGISTERED_PUBLIC_OFF');
 });

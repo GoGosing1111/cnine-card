@@ -6,7 +6,7 @@ import sharp from 'sharp';
 
 import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
-test('avatar foundation seeds twelve hidden unsold records including Dimwoos and Terran Empress Joeun without overwriting settings', async () => {
+test('avatar foundation seeds thirteen hidden unsold records including Hi Heeya without overwriting settings', async () => {
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
@@ -25,8 +25,8 @@ test('avatar foundation seeds twelve hidden unsold records including Dimwoos and
   await ensureAvatarFoundation(env);
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
-  const legacySeedStatements=seedStatements.filter(statement=>!statement.values.includes('DIMWOOS_ESPORTS_ACE')&&!statement.values.includes('TERRAN_EMPRESS_JOEUN'));
-  assert.equal(seedStatements.length,12);
+  const legacySeedStatements=seedStatements.filter(statement=>!['DIMWOOS_ESPORTS_ACE','TERRAN_EMPRESS_JOEUN','HI_HEEYA'].some(code=>statement.values.includes(code)));
+  assert.equal(seedStatements.length,13);
   assert.equal(legacySeedStatements.length,10);
   assert.equal(schema.length,17);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
