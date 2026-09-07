@@ -91,11 +91,14 @@ test('all suits and weapon cadences restore pre-buff ordinary damage while retai
   assert.ok(checkedPierces>0,'matrix must include shield-ignoring pierce');
 });
 
-test('unequipped/zero-power PVE and canonical five-card PVP are identical to previous live',()=>{
+test('unequipped/zero-power PVE and non-speed five-card PVP are identical to previous live',()=>{
   for(const seed of [1,17,2011])for(const battleSuit of [null,{code:'BATTLE_SUIT_03',pvePower:0,skillChips:chips}]){
     const input={cards,monster,battleSuit,seed};
     assert.deepEqual(createPveBattleV2(input).result,previous.createPveBattleV2(input).result);
   }
-  const input={teamA:cards.map((c,i)=>buildFighter(c,i,'A')),teamB:cards.map((c,i)=>buildFighter({...c,id:`ENEMY-${i}`},i,'B')),maxActions:80,seed:2011};
+  // Speed targeting/damage intentionally changed in the later v2063 assassin patch.
+  // Its regression matrix is in speed-suppression-v2063.test.mjs; preserve old parity for unaffected cards here.
+  const pvpCards=cards.map(c=>({...c,power_type:c.power_type==='SPEED'?'ATTACK':c.power_type}));
+  const input={teamA:pvpCards.map((c,i)=>buildFighter(c,i,'A')),teamB:pvpCards.map((c,i)=>buildFighter({...c,id:`ENEMY-${i}`},i,'B')),maxActions:80,seed:2011};
   assert.deepEqual(simulateBattleV2Preview(input),previous.simulateBattleV2Preview(input));
 });
