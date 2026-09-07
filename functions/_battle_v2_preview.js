@@ -479,7 +479,10 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const pvpOpeningPressure = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && actor.actions === 1 ? 1.12 : 1;
   const pvpShieldBreaker = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && target.shield > 0 ? 1.15 : 1;
   const advancementDamage = Math.max(0.1, 1 + Number(actorAdvancement.damageDealtPercent || 0) / 100);
-  const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1) * advancementDamage;
+  // V2063: PVP speed assassins gain 50% against HP uniques, 15% otherwise (not stacked).
+  // PVE, counters and existing damage caps stay unchanged.
+  const pvpSpeedDamage = actor.type === 'SPEED' && actor.battleMode === 'PVP' && !counter ? (target.type === 'HP' ? 1.50 : 1.15) : 1;
+  const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1) * advancementDamage * pvpSpeedDamage;
   // V1936: 상한 0.46 은 공격력 11만 이상에서 걸려 딜 성장을 통째로 흡수했다. PVP 만 0.60 으로 완화.
   const baseCapPct = counter ? 0.24 : (usePvpDamageModel ? S1.damageCapPercent : 0.46);
   const capPct = clamp(baseCapPct + (!counter ? Math.max(0, Number(actorAdvancement.damageCapPoints || 0)) / 100 : 0), baseCapPct, 0.90);
@@ -1177,7 +1180,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     const enemyTeam = actor.side === 'A' ? b : a;
-    const pool = targetPool(enemyTeam);
+    // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
+    // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
+    const healerTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'
+      ? targetableAlive(enemyTeam).filter(card => card.type === 'HP') : [];
+    const pool = healerTargets.length ? healerTargets : targetPool(enemyTeam);
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||lowestRatioTarget(pool, random);
