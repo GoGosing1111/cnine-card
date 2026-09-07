@@ -6,6 +6,14 @@ export async function runMercenaryCodexBrowserQa() {
   const checks = [];
   const check = (name, ok) => { checks.push({ name, ok: Boolean(ok) }); if (!ok) throw new Error(name); };
   const pause = () => new Promise(resolve => setTimeout(resolve, 100));
+  const decode = async image => {
+    let timer;
+    try {
+      await Promise.race([image.decode(), new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error(`Image decode timed out: ${image.getAttribute('src') || '<empty>'}`)), 12000);
+      })]);
+    } finally { clearTimeout(timer); }
+  };
   const input = (id, value, type = 'input') => { const node = $(id); node.value = value; node.dispatchEvent(new Event(type, { bubbles: true })); };
   const storageKey = publicMode ? 'cnine.mercenaryCodex.public.v1' : 'cnine.mercenaryCodex.preview.v1';
   const savedBefore = localStorage.getItem(storageKey);
@@ -13,7 +21,7 @@ export async function runMercenaryCodexBrowserQa() {
     check('37 cards including 16 approved additions', document.querySelectorAll('.codex-card').length === 37);
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
     const frame = $('.card-frame');
-    await frame.decode();
+    await decode(frame);
     check('slim V3 frame loaded on every list card', frame.naturalWidth === 1024 && [...document.querySelectorAll('.codex-card .card-frame')].every(node => node.src.endsWith('/mercenary-contract-frame-slim-v3.png')));
     check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 37 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
     if (publicMode) {
@@ -76,7 +84,11 @@ export async function runMercenaryCodexBrowserQa() {
     check('missing new SD has an honest empty state', $('#mediaPanel').textContent.includes('제작 대기') && !$('#mediaPanel img') && !$('#mediaPanel [data-zoom]'));
     $('#artTab').click();
     $('#mediaPanel [data-zoom]').click();
-    await $('#originalArt').decode();
+    $('#closeArt').click();
+    $('#mediaPanel [data-zoom]').click();
+    await pause();
+    check('rapid zoom reopen preserves the latest original', $('#artDialog').open && $('#originalArt').src.includes('mercenary-v024-nocturne-sks-source-art-v1.png'));
+    await decode($('#originalArt'));
     check('final SKS source is connected and uncropped', $('#originalArt').src.includes('mercenary-v024-nocturne-sks-source-art-v1.png') && $('#originalArt').naturalWidth === 1024 && $('#originalArt').naturalHeight === 1536);
     $('#closeArt').click();
     $('#closeDetail').click(); await pause();

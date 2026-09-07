@@ -1,4 +1,4 @@
-import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js?v=2061.2-art-expansion';
+import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js?v=2061.3-zoom-race';
 
 const IS_PUBLIC = document.documentElement.dataset.codexMode === 'public';
 const $ = selector => document.querySelector(selector);
@@ -271,7 +271,10 @@ detail.addEventListener('keydown', event => {
   if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); nextDetail(event.key === 'ArrowLeft' ? -1 : 1); }
 });
 $('#closeArt').addEventListener('click', () => artDialog.close());
-artDialog.addEventListener('close', () => { $('#originalArt').removeAttribute('src'); });
+artDialog.addEventListener('close', () => {
+  // Native close events are queued; an earlier close must not clear a reopened image.
+  if (!artDialog.open) $('#originalArt').removeAttribute('src');
+});
 $('#toggleOriginal').addEventListener('click', () => { const natural = $('#artViewport').classList.toggle('is-natural'); $('#toggleOriginal').textContent = natural ? '화면에 맞춤' : '원본 크기'; });
 window.addEventListener('popstate', () => {
   if (!roster) return;

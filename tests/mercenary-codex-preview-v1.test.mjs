@@ -189,3 +189,20 @@ test('interaction contract includes dialogs, focus return, history, keyboard tab
   assert.match(css, /min-height:44px/);
   assert.match(css, /focus-visible/);
 });
+test('a queued art-dialog close cannot erase the image after a rapid reopen', () => {
+  const handler = client.match(/artDialog\.addEventListener\('close', \(\) => \{[\s\S]*?\n\}\);/)?.[0];
+  assert.ok(handler, 'test the actual production close handler');
+  let onClose;
+  const image = { src: 'first.png', removeAttribute(name) { assert.equal(name, 'src'); this.src = ''; } };
+  const dialog = { open: false, addEventListener(name, callback) { assert.equal(name, 'close'); onClose = callback; } };
+  vm.runInNewContext(handler, { artDialog: dialog, $: selector => { assert.equal(selector, '#originalArt'); return image; } });
+  onClose();
+  assert.equal(image.src, '', 'a completed close still releases the image');
+  dialog.open = true;
+  image.src = 'latest-sks.png';
+  onClose();
+  assert.equal(image.src, 'latest-sks.png', 'a stale close cannot clear the reopened SKS image');
+  dialog.open = false;
+  onClose();
+  assert.equal(image.src, '', 'the final close releases the current image');
+});

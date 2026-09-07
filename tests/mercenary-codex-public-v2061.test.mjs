@@ -105,10 +105,10 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.match(index, /exact-shell-adapter\.js\?v=21\.26\.0-mercenary-codex/);
   assert.match(index, /runtime-router\.js\?v=1\.9\.0-mercenary-codex/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
-  assert.match(html, /codex\.js\?v=2061\.2-art-expansion/);
+  assert.match(html, /codex\.js\?v=2061\.3-zoom-race/);
   assert.match(html, /codex\.css\?v=1\.4/);
   assert.match(read('preview/mercenary-codex-v1/codex.css'), /\.search-field input\{min-height:44px\}/);
-  assert.match(client, /model\.js\?v=2061\.2-art-expansion/);
+  assert.match(client, /model\.js\?v=2061\.3-zoom-race/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);
 });
 
