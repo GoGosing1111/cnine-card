@@ -416,8 +416,11 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 //   기존 배율을 2→4로 단순 교체하면 아포칼립스 덱 게이트 구간이 정확히 2배가 되지 않으므로,
 //   이전 계산식과 신규 최종 배율을 분리해 모든 PVE 구간에서 현재 대비 정확한 2배를 보장한다.
 // V2012: V2011 라이브값을 다시 2배 상향한다. V1990 산출값 기준 누적 최종 배율은 4다.
+// V2063 (2026-09-07): 현재 일반 사격·스킬칩 피해를 각각 3배 상향한다.
+//   스킬칩도 이 배율이 적용된 1발 피해를 사용하므로 칩 자체의 2.5/5배를 다시 올리지 않는다.
+//   정수 반올림·아포칼립스 덱 게이트 이후 누적 배율만 4→12로 변경한다.
 const BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER = 2;
-const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;
+const BATTLE_SUIT_DAMAGE_MULTIPLIER = 12;
 const BATTLE_SUIT_PVE_FIREPOWER = BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER * BATTLE_SUIT_DAMAGE_MULTIPLIER;
 const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;

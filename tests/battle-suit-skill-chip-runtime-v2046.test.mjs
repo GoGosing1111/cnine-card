@@ -77,9 +77,13 @@ test('a short battle does not invent a last-second rocket or helicopter',()=>{
   assert.equal(battle.result.winner,'A');
   assert.ok(!battle.result.timeline.some(e=>e.type.startsWith('SKILL_CHIP')));
 });
-test('legacy no-chip winners, RNG stream, action count, shot cadence and every HP snapshot are unchanged',async()=>{
+test('at equal balance, legacy no-chip winners, RNG stream, cadence and every HP snapshot are unchanged',async()=>{
   const source=execFileSync('git',['show','8dade82d:functions/_battle_v2_preview.js'],{encoding:'utf8',maxBuffer:2*1024*1024});
-  const baseline=await import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`);
+  // Normalize the historical engine to the explicitly approved V2063 balance;
+  // this regression isolates the skill-chip runtime rather than freezing damage tuning.
+  const balancedSource=source.replace('const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;','const BATTLE_SUIT_DAMAGE_MULTIPLIER = 12;');
+  assert.notEqual(balancedSource,source,'historical fixture must change only the known final damage multiplier');
+  const baseline=await import(`data:text/javascript;base64,${Buffer.from(balancedSource).toString('base64')}`);
   for(const seed of [1,17,2011,98765])for(const apocalypse of [false,true]){
     const input={...options,seed,battleSuit:suit,monster:{...monster,...(apocalypse?{pve_difficulty:'APOCALYPSE'}:{})},bossUltimatePercent:28};
     const before=baseline.createPveBattleV2(input).result,now=createPveBattleV2(input).result;

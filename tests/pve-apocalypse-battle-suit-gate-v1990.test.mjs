@@ -28,8 +28,8 @@ test('apocalypse exposes its final-difficulty rules',()=>{
   assert.equal(battle.rules.apocalypseRules.floorGain,APOCALYPSE_RULES.floorGain);
   assert.equal(battle.rules.apocalypseRules.magicEffectCap,'ONE_FLOORED_HIT_PER_ACTIVATION');
   assert.equal(battle.rules.apocalypseRules.battleSuitPierce,'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT');
-  assert.equal(APOCALYPSE_RULES.suitFirepower,8);
-  assert.equal(APOCALYPSE_RULES.suitDamageMultiplier,4);
+  assert.equal(APOCALYPSE_RULES.suitFirepower,24);
+  assert.equal(APOCALYPSE_RULES.suitDamageMultiplier,12);
   assert.equal(APOCALYPSE_RULES.suitFirepowerGateExponent,3);
   const normal=createPveBattleV2({cards:deck(400000),monster:{id:1,name:'일반',battle_power:2000000,is_boss:1},seed:1});
   assert.equal(normal.rules.apocalypseRules,null,'non-apocalypse battles carry no apocalypse rules');
@@ -57,7 +57,8 @@ test('강탈의 성배 cannot strip an apocalypse boss shield beyond one floored
 });
 
 test('battle suit shots pierce the apocalypse shield with shield-ignoring HP damage',()=>{
-  const battle=createPveBattleV2({cards:deck(400000),battleSuit:suit(300000),monster:apocalypseBoss(2000000),seed:3});
+  // A below-gate deck keeps this sustained-fire fixture alive after the V2063 x3 buff.
+  const battle=createPveBattleV2({cards:deck(200000),battleSuit:suit(300000),monster:apocalypseBoss(2000000),seed:3});
   const actorId=battle.teams.A.supports[0].id;
   const shots=battle.result.timeline.filter(event=>event.type==='TURN'&&event.actorId===actorId&&!event.dodge);
   assert.ok(shots.length>20,'battle suit must keep firing through the apocalypse fight');
