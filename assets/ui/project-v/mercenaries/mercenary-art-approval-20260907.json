@@ -1,0 +1,157 @@
+{
+  "format": "MERCENARY_SOURCE_ART_APPROVAL_20260907",
+  "date": "2026-09-07",
+  "userRequest": "맨 위 사진부터 다 승인하니까 용병 도감 라이브에 추가해라",
+  "followup": "검은 드레스 캐릭터는 거의 그대로 유지하면서 SKS 무기로 수정",
+  "scope": "16 source illustrations approved for read-only public codex. No rank, stats, acquisition, database, deck or battle release.",
+  "existingCardsPreserved": 21,
+  "newCards": 16,
+  "totalCards": 37,
+  "namePolicy": "New names and titles are provisional concept names, not separately user-confirmed.",
+  "entries": [
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "weapon": "석궁",
+      "reviewSource": "preview/mercenary-vespera-beauty-v1/assets/female-beauty-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+      "sha256": "41B2179B9A35C10662EAA0804611CD7A2A6B047EA13E458BB2D774FC5784FD7E",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-023",
+      "name": "이안",
+      "weapon": "세이버",
+      "reviewSource": "preview/mercenary-vespera-beauty-v1/assets/male-beauty-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
+      "sha256": "386B9FEE2788695CE113991A4FF301708C30C35E201817C14EAAFE15D4324FFB",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-024",
+      "name": "벨루아",
+      "weapon": "SKS",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/01-sks-nocturne-v3.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png",
+      "sha256": "27F309BF365B42CCC167F33358793E3EA6863F8642CFEBA8621F28D22B5678D5",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-025",
+      "name": "에이라",
+      "weapon": "저격총",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/02-sniper-snowwatch-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
+      "sha256": "F3EA813141337A5E5CC7055F96261C54E89A58A84CBBB741605E806B5AAFB6A2",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-026",
+      "name": "루카스",
+      "weapon": "라이플",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/03-rifle-skycourier-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png",
+      "sha256": "DBBD3C759D22F6676E3A6E3E60E2C3531F18A1A1F543D920EDEB139FF334B93E",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-027",
+      "name": "케일",
+      "weapon": "기관총",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/04-machine-gun-harbor-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+      "sha256": "EBCEAD635CCC670A138B67A274E2EA5507A8DA7990733B56546439AC75CA5C19",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-028",
+      "name": "연휘",
+      "weapon": "창",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/05-spear-lotuswarden-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png",
+      "sha256": "015C759CB749816F5FE200297106C0EEA17923329DA292D8700A4F066C3DF74A",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-029",
+      "name": "레오나",
+      "weapon": "검방",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/06-sword-shield-dawnguard-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
+      "sha256": "CBEA6F8B671CEB7ABBE04CAF6588AE3515BE7028F5C340E2ADC2C59F72FA0F8D",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-030",
+      "name": "홍련",
+      "weapon": "도",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/07-katana-pomegranate-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png",
+      "sha256": "D9C608E6E4BB65AA9F0A2F3A782C96CF2EFEB513CA46BF77A331F3FF800F989F",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-031",
+      "name": "루시안",
+      "weapon": "대검",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/08-greatsword-moonknight-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
+      "sha256": "210318DCC1CED01DA879634B3CDBF8D5035DC896267C13CAEC59271D7E9C6492",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-032",
+      "name": "셀레네",
+      "weapon": "리볼버",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/09-revolver-moonstone-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png",
+      "sha256": "25D3F9D1F861219310F89F021E620BA0D69D2374D3ACEC2E8B4E00B3F042AC3B",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-033",
+      "name": "로젤",
+      "weapon": "기관단총",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/10-smg-blackrose-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
+      "sha256": "B3A999469C05B84C6EF3E682979A6F6F581087D0523A83E12B6E612A20DA0598",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-034",
+      "name": "세이지",
+      "weapon": "라이플",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/11-rifle-verdant-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png",
+      "sha256": "D017D0EA4FD6CB7D8FA1F805A8959B248EB8E3DC1015EA7E5DF82CD71849893F",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-035",
+      "name": "세라",
+      "weapon": "샷건",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/12-shotgun-sunforge-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+      "sha256": "541B2B2434E9DB10992B7AA3BAB0A9FFA88682D17C07E1FAA2BEAB0D33B75402",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "weapon": "저격총",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/13-sniper-astraltide-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+      "sha256": "86283DB676CF862B6AA0EFC83BF220847AF8C6509062911CBF1ABDB5682B8CF4",
+      "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "weapon": "기관총",
+      "reviewSource": "preview/mercenary-weapons-beauty-v1/assets/14-machine-gun-seraph-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+      "sha256": "3C374324EC4F3420F292AE821F2CDC2AA81CE81F128C2BCE7545E81599841A73",
+      "status": "APPROVED_SOURCE_ART"
+    }
+  ]
+}

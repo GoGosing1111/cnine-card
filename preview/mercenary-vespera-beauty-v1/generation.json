@@ -1,0 +1,70 @@
+{
+  "format": "PROJECT_V_VESPERA_BEAUTY_REVIEW_V1",
+  "date": "2026-09-07",
+  "status": "APPROVED_SOURCE_ART",
+  "approval": {
+    "date": "2026-09-07",
+    "userQuotes": [
+      "좋다",
+      "이런 느낌으로 여러개 만들어봐"
+    ],
+    "scope": "미형·채색 톤 및 원화 승인. 읽기 전용 도감 공개 승인; 등급·전투 연결 제외.",
+    "sourceArtAndCatalogUserQuote": "맨 위 사진부터 다 승인하니까 용병 도감 라이브에 추가해라"
+  },
+  "runtimeConnected": false,
+  "originalsModified": false,
+  "request": "베스페라를 작화 기준으로 다양성을 확보하되, 전원 미녀·미남으로 제작하고 과한 실사·장비 묘사를 줄인다.",
+  "method": "Built-in image_gen. Native generated PNGs copied byte-for-byte; no code image editing, compositing, resizing or recompression.",
+  "anchor": {
+    "file": "../../assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+    "name": "베스페라",
+    "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874",
+    "role": "Painting quality and illustrated beauty; not a same-character identity reference."
+  },
+  "rejectedPass": {
+    "reason": "User rejected realistic/over-detailed treatment and required universally appealing idealized adult beauty. Initial four-concept pass cancelled. No first-pass asset is connected here.",
+    "generatedFiles": [
+      "exec-87bf2b2a-0751-4b4d-a5b0-92c29cbc808f.png",
+      "exec-540a6134-c5ea-4404-b9d1-dbde25ff263d.png"
+    ]
+  },
+  "entries": [
+    {
+      "key": "beauty_female",
+      "file": "assets/female-beauty-v1.png",
+      "sha256": "41B2179B9A35C10662EAA0804611CD7A2A6B047EA13E458BB2D774FC5784FD7E",
+      "bytes": 2413559,
+      "generatedFile": "exec-cfc766f9-acbf-4225-a578-b5466743ef1e.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 3,
+      "prompt": "Use case: stylized-concept. One original collectible fantasy mercenary illustration, 1024x1536 PNG, vertical 2:3. Image 1 is the VESPERA PAINTING STYLE reference. Match its beautiful STYLIZED ILLUSTRATED face, smooth luminous skin, delicate clean contours, softly painted hair, refined cloth and restrained fantasy detail. This is premium Korean character-collection game 2D artwork, not a photo, not a Western realistic RPG, not a film still, not an Unreal/3D render. The user's priority is immediate beauty and desirability: gorgeous, elegant, appealing adult characters with harmonious faces. Keep the finish lighter and cleaner than a hyper-detailed rendering. No visible pores, freckles, scars, wrinkles, dirt, scratches, bulky machinery, huge armor plates, dense ornament, chains everywhere or excessive particles. Preserve Vespera's quality and illustrated beauty but create a NEW identity, hairstyle, outfit, weapon and pose, not a recolor. Show only one character. No text, logo, frame, UI or watermark. Eyes and key weapon details remain inside the top 8%, outer 4% and bottom 12% safe margins, never cut off.\nA stunning adult WOMAN in her mid-20s, graceful and warmly confident. A soft heart-shaped face with slightly fuller cheeks than Vespera, bright gently rounded blue-green eyes, delicate straight nose, softly curved lips and a subtle inviting smile; idealized beauty, not a real person's face. Long pearl-blond hair in soft flowing waves, loosely pinned on one side, no bob and no messy buns. Outfit: a fine ivory off-shoulder knit top with an elegant folded neckline, high-waisted deep-teal wide-leg trousers, a slim silver belt and clean ankle boots; contemporary feminine fashion, NOT a corset, armored bikini, maid outfit or office uniform. One small polished-silver and teal crystal repeating crossbow, finished as an elegant fantasy game weapon with simple flowing surfaces and a single gem, no industrial clutter. Hold it lowered naturally beside the hip. A relaxed diagonal lean against a sunlit stone balcony, one hand resting on the balustrade, framed from head to knees with the face large and expressive. A light Mediterranean-inspired fantasy garden terrace, pale blue sky and soft white flowers in the distance. Character first, clothing second, quiet background. Gentle ivory, teal and champagne light, soft painted transitions. Delicate 2D illustration; attractive game heroine, not photographic realism.",
+      "status": "APPROVED_SOURCE_ART",
+      "cardCode": "V-022",
+      "rank": null,
+      "battleSprite": null,
+      "catalogSourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png"
+    },
+    {
+      "key": "beauty_male",
+      "file": "assets/male-beauty-v1.png",
+      "sha256": "386B9FEE2788695CE113991A4FF301708C30C35E201817C14EAAFE15D4324FFB",
+      "bytes": 2157125,
+      "generatedFile": "exec-331d808e-72bb-4a5c-88c0-c6cc0ea76a9f.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 3,
+      "prompt": "Use case: stylized-concept. One original collectible fantasy mercenary illustration, 1024x1536 PNG, vertical 2:3. Image 1 is the VESPERA PAINTING STYLE reference. Match its beautiful STYLIZED ILLUSTRATED face, smooth luminous skin, delicate clean contours, softly painted hair, refined cloth and restrained fantasy detail. This is premium Korean character-collection game 2D artwork, not a photo, not a Western realistic RPG, not a film still, not an Unreal/3D render. The user's priority is immediate beauty and desirability: gorgeous, elegant, appealing adult characters with harmonious faces. Keep the finish lighter and cleaner than a hyper-detailed rendering. No visible pores, freckles, scars, wrinkles, dirt, scratches, bulky machinery, huge armor plates, dense ornament, chains everywhere or excessive particles. Preserve Vespera's quality and illustrated beauty but create a NEW identity, hairstyle, outfit, weapon and pose, not a recolor. Show only one character. No text, logo, frame, UI or watermark. Eyes and key weapon details remain inside the top 8%, outer 4% and bottom 12% safe margins, never cut off.\nA strikingly HANDSOME adult MAN in his late 20s, refined and charismatic, like a premium fantasy-game leading man. Clean-shaven, clear smooth skin, harmonious masculine proportions: longer oval face, defined but not broad/blocky jaw, elegant straight nose, cool slightly narrow gray-blue eyes, neat brows and a subtle confident half-smile. No beard, ruggedness, exaggerated muscles, scars or aging lines. Short midnight-blue hair softly swept back with a few carefully shaped forehead strands, natural volume; no long hair. Outfit: a tailored dark ink-blue high-collar long jacket, silver-gray fitted inner layers, straight dark trousers and polished boots; sleek contemporary fantasy tailoring, a single understated silver clasp and one muted blue lining accent, no cape, giant pauldrons or brocade overload. ONE slim moon-silver saber with a polished dark-blue scabbard and restrained crystal guard. Seated sideways on a wide pavilion step, one knee casually raised, forearm on the knee and the sheathed saber across the thighs; upper body turned toward the viewer, head-to-knees framing. Clearly different composition from the standing female. A quiet rainwashed bamboo courtyard with soft pale lantern light and cool blue-gray atmosphere, background simply painted and lower contrast. Beautiful face is the unmistakable focal point. Match the refined illustrative face rendering of the reference, not a handsome photograph or realistic movie actor.",
+      "status": "APPROVED_SOURCE_ART",
+      "cardCode": "V-023",
+      "rank": null,
+      "battleSprite": null,
+      "catalogSourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png"
+    }
+  ],
+  "reviewNotes": [
+    "두 원화 모두 2026-09-07 사용자 원화 승인 및 읽기 전용 도감 공개 지시에 따라 V-022·V-023으로 연결했다.",
+    "기존 앵커와 모든 원본을 무가공 보존하며, 신규 등급·능력치·SD·전투는 미확정이다."
+  ],
+  "catalogConnected": true
+}

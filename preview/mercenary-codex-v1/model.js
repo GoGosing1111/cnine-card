@@ -3,7 +3,7 @@ export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercena
 export const ASSET_ROOT = new URL('../../', import.meta.url);
 export const MEDIA_PREFIX = 'assets/ui/project-v/mercenaries/codex-v1/';
 export const POSITIONS = ['전위', '중거리', '후열'];
-export const SORTS = ['code', 'name', 'position'];
+export const SORTS = ['code', 'newest', 'name', 'position'];
 export const ENTRY = Object.freeze({ id: 'mercenaryDex', title: '용병도감', group: 'collection', previewOnly: true });
 const INITIALS = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
 const collator = new Intl.Collator('ko', { numeric: true });
@@ -30,7 +30,7 @@ export function initials(value) {
 export function queryMatches(card, query) {
   const q = normalizeQuery(query);
   if (!q) return true;
-  const haystack = normalizeQuery([card.code, card.name, card.title, card.role].join(' '));
+  const haystack = normalizeQuery([card.code, card.name, card.title, card.role, card.weapon || ''].join(' '));
   return haystack.includes(q) || (/^[ㄱ-ㅎ]+$/.test(q) && initials(haystack).includes(q));
 }
 export function filterCards(cards, state = {}, favorites = new Set()) {
@@ -39,6 +39,7 @@ export function filterCards(cards, state = {}, favorites = new Set()) {
     && (!state.role || state.role === roleOf(card))
     && (!state.favoritesOnly || favorites.has(card.code)));
   return result.sort((a, b) => {
+    if (state.sort === 'newest') return collator.compare(b.code, a.code);
     if (state.sort === 'name') return collator.compare(a.name, b.name) || collator.compare(a.code, b.code);
     if (state.sort === 'position') return POSITIONS.indexOf(positionOf(a)) - POSITIONS.indexOf(positionOf(b)) || collator.compare(a.code, b.code);
     return collator.compare(a.code, b.code);

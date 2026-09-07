@@ -58,7 +58,13 @@ export function validateMercenaryBattleRoster(roster) {
     const code = normalizeCode(card);
     if (!code || seen.has(code)) throw new Error(`용병 코드가 올바르지 않습니다: ${clean(card?.code)}`);
     if (!clean(card?.sourceArt)) throw new Error(`${code} 카드 원화가 없습니다.`);
-    if (!clean(card?.battleSprite)) throw new Error(`${code} 전투 SD가 없습니다.`);
+    if (!clean(card?.battleSprite)) {
+      if (card.battleSpriteStatus !== 'NOT_YET_PRODUCED' || clean(card.battleSpriteSha256)) {
+        throw new Error(`${code} 전투 SD 제작 대기 상태가 올바르지 않습니다.`);
+      }
+      seen.add(code);
+      continue;
+    }
     if (!/^[A-F0-9]{64}$/.test(upper(card?.battleSpriteSha256))) {
       throw new Error(`${code} 전투 SD 해시가 올바르지 않습니다.`);
     }
@@ -68,7 +74,8 @@ export function validateMercenaryBattleRoster(roster) {
     seen.add(code);
   }
 
-  if (Number(roster.summary?.battleSpriteReady) !== cards.length || Number(roster.summary?.battleSpritePending) !== 0) {
+  const ready = cards.filter(card => clean(card.battleSprite)).length;
+  if (Number(roster.summary?.battleSpriteReady) !== ready || Number(roster.summary?.battleSpritePending) !== cards.length - ready) {
     throw new Error('용병 전투 SD 준비 집계가 로스터와 일치하지 않습니다.');
   }
   return roster;
@@ -85,7 +92,7 @@ export function createMercenaryBattleArtAdapter(roster) {
       const code = normalizeCode(mercenary);
       if (!code) return null;
       const card = byCode.get(code);
-      if (!card) return null;
+      if (!card || !clean(card.battleSprite)) return null;
       return Object.freeze({
         code,
         name: clean(card.name),

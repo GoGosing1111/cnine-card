@@ -10,12 +10,12 @@ export async function runMercenaryCodexBrowserQa() {
   const storageKey = publicMode ? 'cnine.mercenaryCodex.public.v1' : 'cnine.mercenaryCodex.preview.v1';
   const savedBefore = localStorage.getItem(storageKey);
   try {
-    check('21 cards', document.querySelectorAll('.codex-card').length === 21);
+    check('37 cards including 16 approved additions', document.querySelectorAll('.codex-card').length === 37);
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
     const frame = $('.card-frame');
     await frame.decode();
     check('slim V3 frame loaded on every list card', frame.naturalWidth === 1024 && [...document.querySelectorAll('.codex-card .card-frame')].every(node => node.src.endsWith('/mercenary-contract-frame-slim-v3.png')));
-    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 21 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
+    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 37 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
     if (publicMode) {
       const back = $('#lobbyReturn');
       check('explicit same-tab lobby return', back && !back.hidden && back.textContent.includes('로비로 돌아가기') && back.getAttribute('href') === '/?screen=home' && !back.target);
@@ -30,11 +30,11 @@ export async function runMercenaryCodexBrowserQa() {
     $('#clearSearch').click();
     $('[data-position="후열"]').click();
     input('#role', '저격', 'change');
-    check('combined role + position', document.querySelectorAll('.codex-card').length === 2);
+    check('combined role + position', document.querySelectorAll('.codex-card').length === 4);
     const card = $('[data-open="V-004"]'); card.focus(); card.click();
-    check('dialog focus and result position', $('#detailDialog').open && document.activeElement.id === 'detailName' && $('#detailIndex').textContent === '1 / 2');
+    check('dialog focus and result position', $('#detailDialog').open && document.activeElement.id === 'detailName' && $('#detailIndex').textContent === '1 / 4');
     $('#nextCard').click();
-    check('filtered next and boundary', $('#detailCode').textContent === 'V-008' && $('#nextCard').disabled);
+    check('filtered next preserves legacy order', $('#detailCode').textContent === 'V-008' && !$('#nextCard').disabled);
     $('#sdTab').click();
     check('separate SD', Boolean($('#mediaPanel [data-media="battleSprite"]')) && !$('#mediaPanel .card-source'));
     $('#mediaPanel [data-zoom]').click();
@@ -66,6 +66,22 @@ export async function runMercenaryCodexBrowserQa() {
     $('#closeArt').click();
     history.back(); await pause();
     check('browser back closes only detail', !$('#detailDialog').open && !$('#catalogView').hidden && document.body.style.overflow !== 'hidden');
+    input('#sort', 'newest', 'change');
+    check('newest sorting surfaces approved additions', $('.codex-card').dataset.card === 'V-037');
+    input('#search', 'SKS');
+    check('SKS search resolves the replaced weapon', document.querySelectorAll('.codex-card').length === 1 && $('.codex-card').dataset.card === 'V-024');
+    $('[data-open="V-024"]').click();
+    check('provisional name and weapon are explicit', $('#detailContent').textContent.includes('가칭') && $('#detailContent').textContent.includes('SKS'));
+    $('#sdTab').click();
+    check('missing new SD has an honest empty state', $('#mediaPanel').textContent.includes('제작 대기') && !$('#mediaPanel img') && !$('#mediaPanel [data-zoom]'));
+    $('#artTab').click();
+    $('#mediaPanel [data-zoom]').click();
+    await $('#originalArt').decode();
+    check('final SKS source is connected and uncropped', $('#originalArt').src.includes('mercenary-v024-nocturne-sks-source-art-v1.png') && $('#originalArt').naturalWidth === 1024 && $('#originalArt').naturalHeight === 1536);
+    $('#closeArt').click();
+    $('#closeDetail').click(); await pause();
+    $('#resetFilters').click();
+    input('#sort', 'code', 'change');
     check('no account API', performance.getEntriesByType('resource').every(resource => !resource.name.includes('/api/')));
     check('no runtime error', !(window.__codexErrors || []).length);
     window.scrollTo(0, 0);

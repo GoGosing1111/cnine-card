@@ -15,12 +15,12 @@ const client = read('preview/mercenary-codex-v1/codex.js');
 const css = read('preview/mercenary-codex-v1/codex.css');
 const media = JSON.parse(read('assets/ui/project-v/mercenaries/codex-v1/manifest.json'));
 
-test('reads the canonical 21-card preview roster and never inherits historic ranks', () => {
+test('reads the canonical 37-card preview roster and never inherits historic ranks', () => {
   assert.equal(validateRoster(roster), roster);
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
   assert.ok(roster.cards.every(card => card.rank === null));
-  assert.deepEqual(summarize(roster.cards), { total: 21, sourceReady: 21, spriteReady: 21, rankPending: 21, positions: { 전위: 11, 중거리: 5, 후열: 5 } });
+  assert.deepEqual(summarize(roster.cards), { total: 37, sourceReady: 37, spriteReady: 21, rankPending: 37, positions: { 전위: 17, 중거리: 12, 후열: 8 } });
 });
 test('current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft', async () => {
   assert.equal(roster.cardComposition.frame, 'assets/ui/card-frames/mercenary-contract-frame-slim-v3.png');
@@ -51,6 +51,31 @@ test('current mercenary frame is the native transparent slim V3 asset, never a c
   assert.match(systemPreview, /assetUrl\(state\.roster\.cardComposition\.frame\)/);
   assert.doesNotMatch(systemPreview, /mercenary-contract-frame-premium-v2/);
 });
+test('all sixteen approved additions match their reviewed originals and remain art-only', () => {
+  const approval = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-art-approval-20260907.json'));
+  assert.equal(approval.newCards, 16);
+  assert.equal(approval.existingCardsPreserved, 21);
+  assert.equal(approval.totalCards, 37);
+  assert.match(approval.userRequest, /다 승인/);
+  assert.deepEqual(approval.entries.map(entry => entry.code), Array.from({length:16}, (_, index) => `V-${String(index + 22).padStart(3, '0')}`));
+  for (const entry of approval.entries) {
+    const card = roster.cards.find(card => card.code === entry.code);
+    assert.equal(card.sourceArtStatus, 'APPROVED_SOURCE_ART');
+    assert.equal(card.nameStatus, 'PROVISIONAL_CONCEPT_NAME');
+    assert.equal(card.roleStatus, 'ART_CONCEPT_ONLY');
+    assert.equal(card.catalogRelease, 'READ_ONLY_USER_APPROVED');
+    assert.equal(card.sourceArt, entry.sourceArt);
+    assert.equal(card.sourceArtSha256, entry.sha256);
+    assert.equal(card.battleSprite, null);
+    assert.equal(card.battleSpriteStatus, 'NOT_YET_PRODUCED');
+    const hash = file => crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex').toUpperCase();
+    assert.equal(hash(entry.reviewSource), entry.sha256);
+    assert.equal(hash(entry.sourceArt), entry.sha256);
+  }
+  assert.equal(roster.cards[23].weapon, 'SKS');
+  assert.equal(roster.cards[23].sourceArtSha256, '27F309BF365B42CCC167F33358793E3EA6863F8642CFEBA8621F28D22B5678D5');
+  assert.ok(!roster.cards.some(card => /01-pistol-nocturne-v[12]/.test(card.sourceArt)));
+});
 test('preview menu inserts the codex next to dex without mutating the real navigation contract', () => {
   const context = { console, URLSearchParams, location: { search: '' }, document: { currentScript: { dataset: { enabled: 'false' } }, readyState: 'loading', addEventListener() {} } };
   context.window = context;
@@ -75,11 +100,13 @@ test('search supports Korean names, titles, whitespace, code normalization and i
 });
 test('combined position/role/search filters do not mutate or omit roster records', () => {
   const before = roster.cards.map(card => card.code);
-  assert.equal(filterCards(roster.cards).length, 21);
-  assert.deepEqual(filterCards(roster.cards, { position: '후열', role: '저격' }).map(card => card.code), ['V-004', 'V-008']);
+  assert.equal(filterCards(roster.cards).length, 37);
+  assert.deepEqual(filterCards(roster.cards, { position: '후열', role: '저격' }).map(card => card.code), ['V-004', 'V-008', 'V-025', 'V-036']);
   assert.deepEqual(filterCards(roster.cards, { position: '중거리', q: '라비에나' }).map(card => card.code), ['V-013']);
   assert.equal(filterCards(roster.cards, { position: '후열', q: '라비에나' }).length, 0);
-  assert.equal(filterCards(roster.cards, { sort: 'name' })[0].name, '녹시아');
+  assert.equal(filterCards(roster.cards, { sort: 'name' })[0].name, '네레이아');
+  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-037');
+  assert.deepEqual(filterCards(roster.cards, { q: 'SKS' }).map(card => card.code), ['V-024']);
   assert.equal(filterCards(roster.cards, { sort: 'position' })[0].role.split(' ')[0], '전위');
   assert.deepEqual(roster.cards.map(card => card.code), before);
 });
@@ -118,7 +145,7 @@ test('resource states preserve approval differences, including the supplied Omeg
 });
 test('responsive WebP derivatives are complete, traceable, transparent for SD and keep every source hash', async () => {
   assert.equal(media.originalsModified, false);
-  assert.equal(media.entries.length, 63);
+  assert.equal(media.entries.length, 95);
   let listBytes = 0;
   const seen = new Set();
   for (const entry of media.entries) {
@@ -135,8 +162,11 @@ test('responsive WebP derivatives are complete, traceable, transparent for SD an
     assert.equal(seen.has(entry.file), false);
     seen.add(entry.file);
   }
-  assert.ok(listBytes < 1100000, `${listBytes} byte list exceeds 1.1MB budget`);
-  for (const card of roster.cards) for (const [kind, size] of [['art', 320], ['art', 640], ['sd', 640]]) assert.ok(fs.existsSync(path.join(root, mediaPath(card.code, kind, size))));
+  assert.ok(listBytes < 1100000 / 21 * roster.cards.length, `${listBytes} byte list exceeds the existing per-card budget`);
+  for (const card of roster.cards) {
+    for (const [kind, size] of [['art', 320], ['art', 640], ...(card.battleSprite ? [['sd', 640]] : [])]) assert.ok(fs.existsSync(path.join(root, mediaPath(card.code, kind, size))));
+    if (!card.battleSprite) assert.ok(!media.entries.some(entry => entry.code === card.code && entry.kind === 'sd'));
+  }
 });
 test('preview has no live boot, mutation APIs, inherited stats, audio, or ownership claims', () => {
   assert.doesNotMatch(html, /src="[^\"]*(?:app\.js|runtime-router|battle-engine|gsap|pixi)/i);
