@@ -15,7 +15,8 @@ try{
     await page.screenshot({path:path.join(out,`idle-${viewport.width}.png`),fullPage:true});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'no horizontal overflow');
     assert.equal(await page.locator('.sl-prize').count(),8);
-    assert.match(await page.locator('.sl-prize').filter({hasText:'이예준 카드'}).innerText(),/1장[\s\S]*3\.00%/);
+    assert.match(await page.locator('.sl-prize').filter({hasText:'슈퍼스타팩 확정권'}).innerText(),/5\.00%/);
+    assert.match(await page.locator('.sl-prize').filter({hasText:'미스틱 에너지'}).innerText(),/10\.00%/);
     await page.locator('[data-sl-play]').click();await page.waitForTimeout(2200);
     await page.locator('[data-sl-canvas]').screenshot({path:path.join(out,`balls-${viewport.width}.png`)});
     await page.waitForTimeout(2900);await page.locator('[data-sl-canvas]').screenshot({path:path.join(out,`reels-${viewport.width}.png`)});
@@ -27,7 +28,7 @@ try{
     await page.waitForFunction(()=>document.querySelector('[data-sl-result]')?.textContent.includes('제니스 랜덤카드'));
     assert.equal(await page.locator('[data-sl-balance]').innerText(),'10개');
     assert.equal(await page.evaluate(()=>window.SoopketLand.diagnostics().busy),false);
-    for(const [key,amount] of [['IYEJUN_CARD','1장'],['FUR_RANDOM_CARD','5장'],['MASTER_STAR','15,000개'],['BLACK_MIRACLE_PACK','10개']]){
+    for(const [key,amount] of [['SUPERSTAR_GUARANTEED_PACK','1개'],['STARLIGHT_ARMOR_CORE','15개'],['FUR_RANDOM_CARD','5장'],['MASTER_STAR','15,000개'],['BLACK_MIRACLE_PACK','20개']]){
       await page.selectOption('#previewPrize',key);await page.locator('[data-sl-play]').click();await page.waitForTimeout(300);await page.locator('[data-sl-skip]').click();
       await page.waitForFunction(()=>!window.SoopketLand.diagnostics().busy);
       assert.ok((await page.locator('[data-sl-result]').innerText()).includes(amount));

@@ -100,8 +100,8 @@ test('public information remains read-only with separate local favorites and no 
 });
 
 test('public page and live entry use synchronized cache tags and revalidation headers', () => {
-  assert.match(index, /js\/app\.js\?v=2061-mercenary-codex/);
-  assert.match(sw, /soop-card-shell-v2061-mercenary-codex/);
+  assert.match(index, /js\/app\.js\?v=2065-land-rewards/);
+  assert.match(sw, /soop-card-shell-v2065-land-rewards/);
   assert.match(index, /exact-shell-adapter\.js\?v=21\.26\.0-mercenary-codex/);
   assert.match(index, /runtime-router\.js\?v=1\.9\.0-mercenary-codex/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);

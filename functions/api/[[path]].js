@@ -5104,7 +5104,7 @@ async function handleRequest(context){
     }
     const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
-    const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
+    const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,isRandomDrawExcluded,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
 
     if(path==='live-operations'&&request.method==='GET'){
       const items=await liveOperationAlerts(env),payload=JSON.stringify({items,serverNow:new Date().toISOString(),pollSeconds:30});

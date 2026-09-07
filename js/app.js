@@ -919,7 +919,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=2039'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2045-shared-fx'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2065-land-rewards'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
@@ -3884,6 +3884,18 @@ async function loadInventory(){
     document.getElementById('inventoryRetry').onclick=loadInventory;
   }
 }
+let landSuperstarBusy=false;
+async function openGuaranteedSuperstarTicket(){
+  if(landSuperstarBusy)return;
+  if(!confirm('슈퍼스타팩 확정권 1개를 사용해 슈퍼스타 카드 1장을 100% 획득할까요?'))return;
+  landSuperstarBusy=true;const key=`soopketland.superstar.v2065:${loadUser()?.serverUserId||''}`;
+  try{
+    let requestId=localStorage.getItem(key);if(!requestId){requestId=crypto.randomUUID();localStorage.setItem(key,requestId)}
+    const result=await apiRequest('soopketland/superstar/open',{method:'POST',body:JSON.stringify({requestId})});
+    localStorage.removeItem(key);clearApiCache('inventory');clearApiCache('cards');clearApiCache('shell/summary');
+    alert(result.message);await loadInventory();
+  }catch(error){alert(error.message)}finally{landSuperstarBusy=false}
+}
 let landHyperBusy=false;
 async function activateLandHyperTicket(){
   if(landHyperBusy)return;
@@ -3897,6 +3909,7 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(itemCode==='SUPERSTAR_GUARANTEED_PACK')return openGuaranteedSuperstarTicket();
   if(WORKSHOP_ONLY_ITEM_CODES.has(String(itemCode||'').toUpperCase()))return showSupplyNotice('차량 부품은 제작소에서만 사용할 수 있습니다.',true);
   if(itemCode==='SOOPKETLAND_TICKET')return renderShell('soopketland');
   if(itemCode==='SOOPKETLAND_HYPER_BURNING_TICKET')return activateLandHyperTicket();

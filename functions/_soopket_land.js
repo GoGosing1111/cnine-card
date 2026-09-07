@@ -3,22 +3,28 @@ import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 // No daily allowance, client-side prize selection, or nickname-based ongoing access.
 export const LAND_TICKET='SOOPKETLAND_TICKET';
 export const HYPER_TICKET='SOOPKETLAND_HYPER_BURNING_TICKET';
+export const SUPERSTAR_TICKET='SUPERSTAR_GUARANTEED_PACK';
 export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
   {key:'COIN',label:'코인',range:'1억 ~ 20억',min:1,max:20,unit:100000000,symbol:'C',color:0xffd477},
-  {key:'HIGH_GRADE_REROLL_TICKET',label:'고등급 재뽑기권',range:'1개',min:1,max:1,unit:1,symbol:'R',color:0xdbb8ff},
+  {key:SUPERSTAR_TICKET,label:'슈퍼스타팩 확정권',range:'1개 · 슈퍼스타 100%',min:1,max:1,unit:1,symbol:'SS',color:0xffdf91},
   {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 15,000개',min:1,max:15,unit:1000,symbol:'S',color:0xffe7a6},
-  {key:'BLACK_MIRACLE_PACK',label:'블랙미라클 카드',range:'1 ~ 10개',min:1,max:10,unit:1,symbol:'B',color:0xbc91ff},
+  {key:'BLACK_MIRACLE_PACK',label:'블랙미라클 카드',range:'20개 확정',min:20,max:20,unit:1,symbol:'B',color:0xbc91ff},
   {key:HYPER_TICKET,label:'하이퍼버닝 발동권',range:'서버 전체 ×15 · 60분',min:1,max:1,unit:1,symbol:'15',color:0xff8059},
   {key:'ZENITH_RANDOM_CARD',label:'제니스 랜덤카드',range:'1 ~ 3장',min:1,max:3,unit:1,symbol:'Z',color:0x90ebff},
   {key:'FUR_RANDOM_CARD',label:'FUR 랜덤카드',range:'1 ~ 5장',min:1,max:5,unit:1,symbol:'F',color:0xffb5d9},
-  {key:LAND_IYEJUN_PRIZE,label:'이예준 카드',range:'1장',min:1,max:1,unit:1,symbol:'Y',color:0xff916f}
+  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 15개',min:1,max:15,unit:1,symbol:'M',color:0xc5a5ff}
 ]);
+// Existing issued coupons remain redeemable; retired prizes cannot be spun again.
+const REDEEM_PRIZES=[...LAND_PRIZES.filter(p=>p.key!=='BLACK_MIRACLE_PACK'),
+ {key:'BLACK_MIRACLE_PACK',min:1,max:20,unit:1},
+ {key:'HIGH_GRADE_REROLL_TICKET',min:1,max:1,unit:1},
+ {key:LAND_IYEJUN_PRIZE,min:1,max:1,unit:1}];
 const SCHEMA='soopketland_schema_v2039',SETTINGS='soopketland_settings_v2039';
 const BURNING=['burning_event_settings_v1','hyper_burning_event_settings_v1310'];
-const defaults=()=>({weights:Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===LAND_IYEJUN_PRIZE?210:970]))});
+const defaults=()=>({weights:Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===SUPERSTAR_TICKET?500:p.key==='STARLIGHT_ARMOR_CORE'?1000:['COIN','MASTER_STAR','BLACK_MIRACLE_PACK',HYPER_TICKET].includes(p.key)?1417:1416]))});
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
 const fail=(message,status=400,code='LAND_INVALID')=>Object.assign(new Error(message),{status,code});
 const validId=value=>typeof value==='string'&&/^[A-Za-z0-9._:-]{8,100}$/.test(value);
@@ -41,10 +47,18 @@ export function validateLandWeights(raw){
   if(!Object.values(raw).some(n=>n>0))throw fail('최소 한 종류의 보상을 활성화하세요.');
   return Object.fromEntries(LAND_PRIZES.map(p=>[p.key,raw[p.key]]));
 }
-// A rolling deployment must keep the existing seven-prize setting usable until
-// the separately audited 3% activation is committed. OWNER saves require all eight.
+// Map legacy settings to the replacement pool without changing issued coupons.
 export function storedLandWeights(raw){
-  return validateLandWeights(raw&&!Object.hasOwn(raw,LAND_IYEJUN_PRIZE)?{...raw,[LAND_IYEJUN_PRIZE]:0}:raw);
+  if(raw&&Object.hasOwn(raw,SUPERSTAR_TICKET)&&Object.hasOwn(raw,'STARLIGHT_ARMOR_CORE'))return validateLandWeights(raw);
+  const common=LAND_PRIZES.filter(p=>![SUPERSTAR_TICKET,'STARLIGHT_ARMOR_CORE'].includes(p.key));
+  if(!raw)return defaults().weights;
+  const sum=common.reduce((n,p)=>n+(safeInt(raw[p.key],0,10000)?raw[p.key]:0),0);
+  if(!sum)return defaults().weights;
+  const weights={};let remaining=8500;
+  common.forEach(p=>{const n=Math.floor((raw[p.key]||0)*8500/sum);weights[p.key]=n;remaining-=n});
+  const ranked=[...common].sort((a,b)=>((raw[b.key]||0)*8500%sum)-((raw[a.key]||0)*8500%sum));
+  for(let i=0;i<remaining;i++)weights[ranked[i].key]++;
+  return validateLandWeights({...weights,[SUPERSTAR_TICKET]:500,STARLIGHT_ARMOR_CORE:1000});
 }
 export function pickLandPrize(weights,random=secureLandInt){
   const total=Object.values(weights).reduce((a,b)=>a+b,0);let roll=random(total);
@@ -53,6 +67,14 @@ export function pickLandPrize(weights,random=secureLandInt){
 }
 
 export async function ensureLand(db,env={DB:db}){
+  const catalogKey='soopketland_superstar_catalog_v2065';
+  if(!readRuntimeData(env,catalogKey)){
+    if((await one(db,'SELECT value FROM app_meta WHERE key=?',catalogKey))?.value!=='1')await db.batch([
+      stmt(db,"INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,'슈퍼스타팩 확정권','GUARANTEED SUPERSTAR','사용 시 활성·공개 슈퍼스타 카드 중 1장을 100% 획득합니다. 중복도 카드 1장으로 지급됩니다.','ENTRY_TICKET','SPECIAL','assets/ui/soopketland/superstar-guaranteed-v2065.svg',126,1) ON CONFLICT(code) DO NOTHING",SUPERSTAR_TICKET),
+      stmt(db,"INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",catalogKey)
+    ]);
+    cacheRuntimeData(env,catalogKey,true,1800000);
+  }
   if(readRuntimeData(env,SCHEMA))return;
   if((await one(db,'SELECT value FROM app_meta WHERE key=?',SCHEMA))?.value==='1'){cacheRuntimeData(env,SCHEMA,true,1800000);return;}
   const uid=db.dialect==='postgres'?'BIGINT':'INTEGER';
@@ -72,7 +94,8 @@ export async function ensureLand(db,env={DB:db}){
     stmt(db,"INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",SETTINGS,JSON.stringify(defaults())),
     ...[
       [LAND_TICKET,'숲켓랜드 이용권','STREAMER EVENT PASS','OWNER가 지급하는 방송 이벤트 전용 이용권. 숲켓랜드에서 1개를 사용합니다.','assets/ui/soopketland/event-ticket-v1.svg'],
-      [HYPER_TICKET,'하이퍼버닝 발동권 ×15','SERVER HYPER BURNING','스트리머가 사용하면 서버 전체에 ×15 하이퍼버닝이 60분간 적용됩니다. 기존 버닝 진행 중에는 사용할 수 없습니다.','assets/ui/soopketland/hyper-ticket-v1.svg']
+      [HYPER_TICKET,'하이퍼버닝 발동권 ×15','SERVER HYPER BURNING','스트리머가 사용하면 서버 전체에 ×15 하이퍼버닝이 60분간 적용됩니다. 기존 버닝 진행 중에는 사용할 수 없습니다.','assets/ui/soopketland/hyper-ticket-v1.svg'],
+      [SUPERSTAR_TICKET,'슈퍼스타팩 확정권','GUARANTEED SUPERSTAR','사용 시 활성·공개 슈퍼스타 카드 중 1장을 100% 획득합니다. 중복도 카드 1장으로 지급됩니다.','assets/ui/soopketland/superstar-guaranteed-v2065.svg']
     ].map(([code,name,subtitle,description,image])=>stmt(db,"INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,'ENTRY_TICKET','SPECIAL',?,125,1) ON CONFLICT(code) DO NOTHING",code,name,subtitle,description,image)),
     stmt(db,"INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",SCHEMA)
   ]);
@@ -88,8 +111,8 @@ export async function landAccess(db,user,env={DB:db}){
   if(!active(user))return {allowed:false,isOwner:false};
   if(owner(user))return {allowed:true,isOwner:true};
   if(!readRuntimeData(env,SCHEMA)){
-    if((await one(db,'SELECT value FROM app_meta WHERE key=?',SCHEMA))?.value!=='1')return {allowed:false,isOwner:false};
-    cacheRuntimeData(env,SCHEMA,true,1800000);
+    if((await one(db,"SELECT value FROM app_meta WHERE key IN (?, 'soopketland_schema_v2039') AND value='1' LIMIT 1",SCHEMA))?.value!=='1')return {allowed:false,isOwner:false};
+    // An old access marker does not prove the new inventory catalog migration ran.
   }
   return {allowed:!!(await one(db,'SELECT user_id FROM soopketland_accounts WHERE user_id=?',user.id)),isOwner:false};
 }
@@ -138,6 +161,12 @@ export async function handleSoopketLand({path,request,env,deps}){
   if(!path.startsWith('soopketland/'))return null;
   const db=env.DB,user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
   try{
+    if(path==='soopketland/superstar/open'&&request.method==='POST'){
+      if(!active(user))throw fail('활성 계정만 사용할 수 있습니다.',403);
+      await ensureLand(db,env);const body=await deps.readBody(request);
+      if(!validId(body.requestId))throw fail('요청 번호를 확인하세요.');
+      return deps.json(await openGuaranteedSuperstar(db,user,body,deps));
+    }
     const access=await landAccess(db,user,env);
     if(path==='soopketland/access'&&request.method==='GET')return deps.json(access);
     if(!access.allowed)throw fail('등록된 스트리머 계정과 OWNER만 이용할 수 있습니다.',403,'LAND_FORBIDDEN');
@@ -219,7 +248,7 @@ export async function redeemLandCoupon({env,user,body,deps}){
     const coupon=await one(db,'SELECT * FROM soopketland_coupons WHERE code=?',code);
     if(!coupon||!Number(coupon.is_active))throw fail('존재하지 않거나 중지된 숲켓랜드 쿠폰입니다.',404);
     if(Number(coupon.used_count)>=Number(coupon.max_uses))throw fail('쿠폰 사용 인원이 모두 마감되었습니다.',409,'LAND_COUPON_EXHAUSTED');
-    const prize=parse(coupon.reward_json),spec=LAND_PRIZES.find(p=>p.key===prize?.key);
+    const prize=parse(coupon.reward_json),spec=REDEEM_PRIZES.find(p=>p.key===prize?.key);
     if(!spec||prize.key===HYPER_TICKET||!safeInt(prize.amount,spec.min*spec.unit,spec.max*spec.unit)||prize.amount%spec.unit)throw fail('쿠폰 보상 설정을 확인해야 합니다.',409);
     const list=[];lockUser(db,list,user.id);
     if(db.dialect==='postgres')list.push(stmt(db,'SELECT code FROM soopketland_coupons WHERE code=? FOR UPDATE',code));
@@ -251,6 +280,23 @@ export async function redeemLandCoupon({env,user,body,deps}){
     list.push(stmt(db,'UPDATE soopketland_coupons SET used_count=used_count+1 WHERE code=?',code),stmt(db,'INSERT INTO soopketland_redemptions(code,user_id,operation_key,response_json,created_at) VALUES(?,?,?,?,?)',code,user.id,operationKey,JSON.stringify(response),now()));
     return finish(await commit(db,list,read)||response);
   }catch(error){if(error.status)return deps.json({error:error.message,code:error.code},error.status);throw error}
+}
+
+async function openGuaranteedSuperstar(db,user,body,deps){
+  const plan={itemCode:SUPERSTAR_TICKET,quantity:1};
+  const prior=await replayAction(db,user,body.requestId,'SUPERSTAR_OPEN',plan);if(prior)return prior;
+  const candidates=await rows(db,"SELECT c.id,c.title,c.rarity,c.image_url,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='SUPERSTAR' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(c.limited_total,0)<=0 ORDER BY c.id");
+  const pool=candidates.filter(c=>!deps.isRandomDrawExcluded(c));
+  if(!pool.length)throw fail('현재 지급 가능한 슈퍼스타 카드가 없습니다. 확정권은 보존됩니다.',409,'LAND_POOL_EMPTY');
+  const card=pool[secureLandInt(pool.length)],list=[];lockUser(db,list,user.id);
+  guard(db,list,"EXISTS(SELECT 1 FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=CURRENT_TIMESTAMP))",[user.id]);
+  inventoryDebit(db,list,user.id,SUPERSTAR_TICKET,body.requestId);
+  guard(db,list,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1)',[SUPERSTAR_TICKET]);
+  guard(db,list,"EXISTS(SELECT 1 FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=? AND c.rarity='SUPERSTAR' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(c.limited_total,0)<=0)",[card.id]);
+  list.push(stmt(db,'INSERT INTO user_cards(user_id,card_id,quantity,first_obtained_at,last_obtained_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP',user.id,card.id));
+  const response={ok:true,card,message:`${card.title} 슈퍼스타 카드 1장을 획득했습니다.`};
+  actionReceipt(db,list,user,body.requestId,'SUPERSTAR_OPEN',plan,response);
+  return await commit(db,list,()=>replayAction(db,user,body.requestId,'SUPERSTAR_OPEN',plan))||response;
 }
 
 async function activateHyper(db,user,body,deps){

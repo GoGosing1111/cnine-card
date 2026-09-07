@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import fs from 'node:fs';
-import {handleSoopketLand,redeemLandCoupon,landAccess,LAND_TICKET,HYPER_TICKET,LAND_PRIZES,LAND_STREAMERS,LAND_IYEJUN_PRIZE,LAND_IYEJUN_CARD_ID,pickLandPrize,validateLandWeights,storedLandWeights} from '../functions/_soopket_land.js';
+import {handleSoopketLand,redeemLandCoupon,landAccess,LAND_TICKET,HYPER_TICKET,SUPERSTAR_TICKET,LAND_PRIZES,LAND_STREAMERS,LAND_IYEJUN_PRIZE,LAND_IYEJUN_CARD_ID,pickLandPrize,validateLandWeights,storedLandWeights} from '../functions/_soopket_land.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 
 class Statement{
@@ -36,7 +36,7 @@ async function fixture(){
     INSERT INTO cards(id,title,rarity,image_url,member_id,is_active,card_status) VALUES('z1','제니스 테스트','ZENITH','test.png',1,1,'PUBLIC'),('z2','퇴사','ZENITH','',1,1,'RETIRED'),('f1','FUR 테스트','FUR','test.png',1,1,'PUBLIC');
   `);
   LAND_STREAMERS.forEach((n,i)=>sqlite.prepare('INSERT INTO users(id,nickname) VALUES(?,?)').run(i+2,n));
-  for(const code of ['MASTER_STAR','BLACK_MIRACLE_PACK','HIGH_GRADE_REROLL_TICKET'])sqlite.prepare('INSERT INTO inventory_items(code,is_active) VALUES(?,1)').run(code);
+  for(const code of ['MASTER_STAR','BLACK_MIRACLE_PACK','HIGH_GRADE_REROLL_TICKET','STARLIGHT_ARMOR_CORE'])sqlite.prepare('INSERT INTO inventory_items(code,is_active) VALUES(?,1)').run(code);
   const db=new DB(sqlite),env={DB:db},current={id:1};let invalidations=0;
   const deps={authenticate:async()=>sqlite.prepare('SELECT * FROM users WHERE id=?').get(current.id),readBody:async r=>r.body,json:(body,status=200)=>({body,status}),profile:async(e,u)=>u,isRandomDrawExcluded:()=>false,cleanBurningEventSettings:raw=>({pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,generation:0,...raw}),invalidateBurning:()=>invalidations++};
   const call=(path='state',body=null,method=body?'POST':'GET')=>handleSoopketLand({path:`soopketland/${path}`,request:{method,body},env,deps});
@@ -142,7 +142,7 @@ test('all stopped, finite-edition and globally excluded random cards preserve un
 });
 test('client integration is shared, recovers pending requests, and never renders a self-redeem action for event codes',()=>{
   const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8'),app=read('js/app.js'),live=read('js/soopketland-v2039.src.js'),index=read('index.html'),api=read('functions/api/[[path]].js');
-  assert.match(app,/data-copy-event-coupon/);assert.match(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=2061-mercenary-codex/);
+  assert.match(app,/data-copy-event-coupon/);assert.match(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=2065-land-rewards/);
   assert.match(live,/PachinkoStage/);assert.match(live,/setTimeout\(finish,12000\)/);assert.match(live,/savePending\(requestId\)/);assert.match(live,/document.hidden/);
   assert.ok(api.indexOf('const landResponse=')<api.indexOf('const couponSchemaPath='),'land endpoints must not wait for legacy global upgrade');
   assert.match(read('preview/soopketland-v2039/index.html'),/soopketland-v2039\.bundle\.js/);
@@ -157,32 +157,62 @@ function couponAmount(f,code,amount){
   const prize=JSON.parse(f.sqlite.prepare('SELECT reward_json FROM soopketland_coupons WHERE code=?').get(code).reward_json);
   f.sqlite.prepare('UPDATE soopketland_coupons SET reward_json=? WHERE code=?').run(JSON.stringify({...prize,amount}),code);
 }
+
+test('viewer coupon delivers a guaranteed ticket; normal viewer opens once, including duplicate card, without coins',async()=>{
+ const f=await fixture();f.sqlite.exec("INSERT INTO cards VALUES('ss1','슈퍼스타 테스트','SUPERSTAR','ss.png',1,1,'PUBLIC',NULL)");
+ await f.force(SUPERSTAR_TICKET);await f.grant();f.current.id=2;const roll=(await f.spin()).body;
+ assert.equal((await f.redeem(roll.code)).status,200);assert.equal(f.qty(SUPERSTAR_TICKET,20),1);
+ f.sqlite.prepare('INSERT INTO user_cards VALUES(?,?,2,13,NULL,NULL)').run(20,'ss1');f.current.id=20;
+ const requestId=crypto.randomUUID();const r=await f.call('superstar/open',{requestId});assert.equal(r.status,200);assert.equal(r.body.card.id,'ss1');
+ assert.equal(f.qty(SUPERSTAR_TICKET,20),0);assert.equal((await f.call('superstar/open',{requestId})).body.replayed,true);
+ const card=f.sqlite.prepare("SELECT * FROM user_cards WHERE user_id=20 AND card_id='ss1'").get();assert.equal(card.quantity,3);assert.equal(card.breakthrough_level,13);
+ assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=20').get().coin,0);
+ assert.equal((await f.call('superstar/open',{requestId:crypto.randomUUID()})).status,409);
+});
+
+test('guaranteed ticket empty pool and failed card insert preserve inventory; concurrent open spends only once',async()=>{
+ const f=await fixture();f.sqlite.prepare('INSERT INTO cnine_user_inventory VALUES(?,?,1,1,NULL,NULL)').run(20,SUPERSTAR_TICKET);f.current.id=20;
+ assert.equal((await f.call('superstar/open',{requestId:crypto.randomUUID()})).body.code,'LAND_POOL_EMPTY');assert.equal(f.qty(SUPERSTAR_TICKET,20),1);
+ f.sqlite.exec("INSERT INTO cards VALUES('ss1','슈퍼스타 테스트','SUPERSTAR','ss.png',1,1,'PUBLIC',NULL)");
+ f.sqlite.exec("CREATE TRIGGER superstar_fault BEFORE INSERT ON user_cards BEGIN SELECT RAISE(ABORT,'card offline'); END");
+ await assert.rejects(()=>f.call('superstar/open',{requestId:crypto.randomUUID()}),/card offline/);assert.equal(f.qty(SUPERSTAR_TICKET,20),1);
+ f.sqlite.exec('DROP TRIGGER superstar_fault');
+ const out=await Promise.all([f.call('superstar/open',{requestId:crypto.randomUUID()}),f.call('superstar/open',{requestId:crypto.randomUUID()})]);
+ assert.equal(out.filter(r=>r.status===200).length,1);assert.equal(f.qty(SUPERSTAR_TICKET,20),0);
+ assert.equal(f.sqlite.prepare('SELECT SUM(quantity) n FROM user_cards WHERE user_id=20').get().n,1);
+});
+
+test('mystic energy delivers 1 and 15, black miracle new spin is fixed 20; old reroll coupon remains usable',async()=>{
+ for(const amount of [1,15]){const f=await fixture();await f.force('STARLIGHT_ARMOR_CORE');await f.grant();f.current.id=2;const {code}=(await f.spin()).body;couponAmount(f,code,amount);assert.equal((await f.redeem(code)).status,200);assert.equal(f.qty('STARLIGHT_ARMOR_CORE',20),amount)}
+ const f=await fixture();await f.force('BLACK_MIRACLE_PACK');await f.grant();f.current.id=2;const roll=(await f.spin()).body;
+ assert.equal(roll.prize.amount,20);assert.equal((await f.redeem(roll.code)).status,200);assert.equal(f.qty('BLACK_MIRACLE_PACK',20),20);
+ f.sqlite.prepare('UPDATE soopketland_coupons SET reward_json=? WHERE code=?').run(JSON.stringify({key:'HIGH_GRADE_REROLL_TICKET',label:'고등급 재뽑기권',amount:1}),roll.code);
+ assert.equal((await f.redeem(roll.code,21)).status,409); // original single-use coupon remains capped
+});
 function addIyejun(f){
   f.sqlite.prepare("INSERT INTO cards(id,title,rarity,image_url,member_id,is_active,card_status) VALUES(?,'철구','FUR','iyejun.png',1,1,'PUBLIC')").run(LAND_IYEJUN_CARD_ID);
 }
 
 test('expanded prize bounds are exact, inclusive and keep the original minimum/step',()=>{
-  const expected={COIN:[1,20,100000000],MASTER_STAR:[1,15,1000],BLACK_MIRACLE_PACK:[1,10,1],FUR_RANDOM_CARD:[1,5,1],ZENITH_RANDOM_CARD:[1,3,1],IYEJUN_CARD:[1,1,1]};
+  const expected={COIN:[1,20,100000000],MASTER_STAR:[1,15,1000],BLACK_MIRACLE_PACK:[20,20,1],FUR_RANDOM_CARD:[1,5,1],ZENITH_RANDOM_CARD:[1,3,1],SUPERSTAR_GUARANTEED_PACK:[1,1,1],STARLIGHT_ARMOR_CORE:[1,15,1]};
   for(const [key,bounds] of Object.entries(expected)){
     const prize=LAND_PRIZES.find(p=>p.key===key);assert.deepEqual([prize.min,prize.max,prize.unit],bounds);
     const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===key?1:0]));
     for(let step=0;step<=prize.max-prize.min;step++){let calls=0;assert.equal(pickLandPrize(weights,()=>calls++?step:0).amount,(prize.min+step)*prize.unit)}
   }
 });
-test('default Iyejun chance is exactly 3%, strictly lowest, and spans precisely 210 of 7000 outcomes',async()=>{
-  const f=await fixture(),state=(await f.call()).body,weights=state.owner.weights;
-  assert.equal(state.prizes.length,8);assert.equal(state.prizes.find(p=>p.key===LAND_IYEJUN_PRIZE).percent,3);
-  assert.ok(state.prizes.filter(p=>p.key!==LAND_IYEJUN_PRIZE).every(p=>p.percent>3));
-  let wins=0;for(let roll=0;roll<7000;roll++){let calls=0;if(pickLandPrize(weights,()=>calls++?0:roll).key===LAND_IYEJUN_PRIZE)wins++}assert.equal(wins,210);
+test('new rewards are 5% and 10%; retired keys cannot be spun or saved',async()=>{
+ const f=await fixture(),s=(await f.call()).body;
+ assert.equal(s.prizes.find(p=>p.key===SUPERSTAR_TICKET).percent,5);
+ assert.equal(s.prizes.find(p=>p.key==='STARLIGHT_ARMOR_CORE').percent,10);
+ assert.ok(!s.prizes.some(p=>['HIGH_GRADE_REROLL_TICKET',LAND_IYEJUN_PRIZE].includes(p.key)));
+ const legacy={COIN:970,MASTER_STAR:970,BLACK_MIRACLE_PACK:970,[HYPER_TICKET]:970,ZENITH_RANDOM_CARD:970,FUR_RANDOM_CARD:970,HIGH_GRADE_REROLL_TICKET:970,IYEJUN_CARD:210};
+ const migrated=storedLandWeights(legacy);assert.equal(migrated[SUPERSTAR_TICKET],500);assert.equal(migrated.STARLIGHT_ARMOR_CORE,1000);
+ assert.equal(Object.values(migrated).reduce((a,b)=>a+b),10000);assert.throws(()=>validateLandWeights(legacy));
+ f.sqlite.prepare("UPDATE app_meta SET value=? WHERE key='soopketland_settings_v2039'").run(JSON.stringify({weights:legacy}));
+ assert.equal((await f.call()).body.prizes.find(p=>p.key===SUPERSTAR_TICKET).percent,5);
 });
-test('legacy seven-prize settings stay usable until activation but stale OWNER saves cannot erase the new prize',async()=>{
-  const f=await fixture(),legacy=Object.fromEntries(LAND_PRIZES.filter(p=>p.key!==LAND_IYEJUN_PRIZE).map(p=>[p.key,10]));
-  assert.equal(storedLandWeights(legacy)[LAND_IYEJUN_PRIZE],0);assert.throws(()=>validateLandWeights(legacy));
-  f.sqlite.prepare("UPDATE app_meta SET value=? WHERE key='soopketland_settings_v2039'").run(JSON.stringify({weights:legacy}));
-  const state=(await f.call()).body;assert.equal(state.prizes.find(p=>p.key===LAND_IYEJUN_PRIZE).percent,0);
-  assert.equal((await f.call('settings',{requestId:crypto.randomUUID(),weights:legacy})).status,400);
-  await f.grant();f.current.id=2;assert.equal((await f.spin()).status,200);
-});
+
 test('20억 coins, 15000 stars and 10 Black Miracles credit exactly once per viewer without touching pack settings',async()=>{
   for(const [key,amount] of [['COIN',2000000000],['MASTER_STAR',15000],['BLACK_MIRACLE_PACK',10]]){
     const f=await fixture();await f.force(key);await f.grant(1,2);f.current.id=2;const {code}=(await f.spin()).body;couponAmount(f,code,amount);
@@ -210,8 +240,8 @@ test('each card is independently sampled and a later card insert failure rolls b
   f.sqlite.exec('DROP TRIGGER card_fault');counter=0;const r=await f.redeem(code);assert.equal(r.status,200);assert.equal(r.body.cards.length,2);assert.deepEqual(r.body.cards.map(c=>c.quantity).sort(),[2,3]);
 });
 test('Iyejun coupon uses the fixed ID, grants one unenhanced copy, and is excluded only from land random cards',async()=>{
-  const f=await fixture();addIyejun(f);await f.force(LAND_IYEJUN_PRIZE);await f.grant(1,2);f.current.id=2;const roll=(await f.spin()).body;
-  assert.equal(roll.prize.amount,1);assert.equal(roll.prize.jackpot,true);assert.match(f.sqlite.prepare('SELECT body FROM user_messages WHERE coupon_code=?').get(roll.code).body,/1장/);
+  const f=await fixture();addIyejun(f);await f.force('COIN');await f.grant(1,2);f.current.id=2;const roll=(await f.spin()).body;
+  f.sqlite.prepare('UPDATE soopketland_coupons SET reward_json=? WHERE code=?').run(JSON.stringify({key:LAND_IYEJUN_PRIZE,label:'이예준 카드',amount:1}),roll.code);
   f.deps.isRandomDrawExcluded=()=>true;
   const requestId=crypto.randomUUID(),r=await f.redeem(roll.code,20,requestId);assert.equal(r.body.card.id,LAND_IYEJUN_CARD_ID);assert.equal(r.body.cards[0].quantity,1);
   assert.equal(f.sqlite.prepare('SELECT breakthrough_level FROM user_cards WHERE user_id=20').get().breakthrough_level,0);assert.equal((await f.redeem(roll.code,20,requestId)).body.replayed,true);
@@ -227,5 +257,5 @@ test('old issued one-card coupons retain their amount and amounts above new caps
 test('client formats named cards as 장, uses server coin cap, and loads the new versioned bundle',()=>{
   const live=fs.readFileSync(new URL('../js/soopketland-v2039.src.js',import.meta.url),'utf8'),app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
   assert.match(live,/endsWith\('_CARD'\)/);assert.match(live,/s\.data\.prizes\.find\(p=>p\.key==='COIN'\)\?\.max/);assert.doesNotMatch(live,/couponUses\*500000000|7종 동일 가중치/);
-  assert.match(app,/soopketland-v2039\.bundle\.js\?v=2045-shared-fx/);
+  assert.match(app,/soopketland-v2039\.bundle\.js\?v=2065-land-rewards/);
 });
