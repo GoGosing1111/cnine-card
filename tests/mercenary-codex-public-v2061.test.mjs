@@ -37,6 +37,9 @@ test('public document is exactly the reviewed layout with public copy and correc
   assert.match(html, /도감 공개 중/);
   assert.doesNotMatch(html, /검수용 프리뷰|유저 미공개|메뉴 배치입니다|target="_blank"/);
   assert.match(html, /class="brand" href="\/\?screen=home" aria-label="숲켓몬 로비로 돌아가기"/);
+  assert.match(html, /id="lobbyReturn" class="lobby-return" href="\/\?screen=home">/);
+  assert.match(html, /<span>로비로 돌아가기<\/span>/);
+  assert.match(template, /class="lobby-return" href="\/\?screen=home" hidden/);
   assert.match(html, /획득 \/ 편성 \/ 전투 기능 준비 중/);
   for (const match of html.matchAll(/(?:src|href)="(\.\.[^"?]+)(?:\?[^" ]+)?"/g)) {
     assert.ok(fs.existsSync(path.resolve(root, 'mercenary-codex', match[1])), match[1]);
@@ -103,7 +106,7 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.match(index, /runtime-router\.js\?v=1\.9\.0-mercenary-codex/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
   assert.match(html, /codex\.js\?v=2061-mercenary-codex/);
-  assert.match(html, /codex\.css\?v=1\.2/);
+  assert.match(html, /codex\.css\?v=1\.3/);
   assert.match(read('preview/mercenary-codex-v1/codex.css'), /\.search-field input\{min-height:44px\}/);
   assert.match(client, /model\.js\?v=2061-mercenary-codex/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);

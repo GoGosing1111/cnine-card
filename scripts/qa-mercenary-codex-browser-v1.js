@@ -12,6 +12,15 @@ export async function runMercenaryCodexBrowserQa() {
   try {
     check('21 cards', document.querySelectorAll('.codex-card').length === 21);
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
+    if (publicMode) {
+      const back = $('#lobbyReturn');
+      check('explicit same-tab lobby return', back && !back.hidden && back.textContent.includes('로비로 돌아가기') && back.getAttribute('href') === '/?screen=home' && !back.target);
+      check('lobby return touch target', back.getBoundingClientRect().height >= 44);
+      window.scrollTo(0, 500); await pause();
+      const rect = back.getBoundingClientRect();
+      check('lobby return stays visible while scrolling', rect.top >= 0 && rect.bottom <= innerHeight && rect.left >= 0 && rect.right <= innerWidth);
+      window.scrollTo(0, 0);
+    }
     input('#search', 'ㄹㅂㅇㄴ');
     check('initial consonant search', document.querySelectorAll('.codex-card').length === 1 && $('.codex-card').dataset.card === 'V-013');
     $('#clearSearch').click();

@@ -10,10 +10,11 @@ export function publicCodexHtml(template) {
   const replacements = [
     ['<html lang="ko">', '<html lang="ko" data-codex-mode="public">'],
     ['용병도감 · 숲켓몬 검수 프리뷰', '용병도감 · 숲켓몬'],
-    ['./codex.css?v=1.2', '../preview/mercenary-codex-v1/codex.css?v=1.2'],
+    ['./codex.css?v=1.3', '../preview/mercenary-codex-v1/codex.css?v=1.3'],
     ['./codex.js?v=2061-mercenary-codex', '../preview/mercenary-codex-v1/codex.js?v=2061-mercenary-codex'],
     ['../../js/soopketmon-v21-exact-shell-adapter.js', '../js/soopketmon-v21-exact-shell-adapter.js'],
     ['class="brand" href="?view=menu" data-menu', 'class="brand" href="/?screen=home" aria-label="숲켓몬 로비로 돌아가기"'],
+    ['class="lobby-return" href="/?screen=home" hidden', 'class="lobby-return" href="/?screen=home"'],
     ['검수용 프리뷰 <span>· 유저 미공개</span>', '도감 공개 중 <span>· 정보 열람 전용</span>'],
     ['기존 메뉴에 용병도감을 추가한 배치입니다.', '카드 수집부터 용병 정보까지 한곳에서 살펴보세요.'],
     ['이번 프리뷰에서는 용병도감만 열 수 있습니다. 기존 메뉴와 계정 데이터는 변경하지 않습니다.', '용병도감은 정보 열람 전용입니다. 용병 획득·편성 기능은 준비 중입니다.'],
