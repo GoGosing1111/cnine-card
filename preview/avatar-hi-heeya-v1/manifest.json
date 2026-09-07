@@ -1,0 +1,101 @@
+{
+  "format": "SOOPKETMON_AVATAR_ART_DRAFT_V1",
+  "name": "하이희야",
+  "code": "HI_HEEYA",
+  "date": "2026-09-08",
+  "status": "TECHNICAL_PASS_USER_ART_REVIEW_PENDING",
+  "scope": "PREVIEW_ONLY",
+  "runtimeConnected": false,
+  "catalogRegistered": false,
+  "grantIssued": false,
+  "originalReferencesModified": false,
+  "sourceCard": {
+    "id": "CN-B2F4D52C44C74C4F",
+    "grade": "MA",
+    "title": "짱구 희야",
+    "member": "하이희야",
+    "image": "assets/cards/0719card/hih9.png",
+    "sha256": "BB32E417F2D2420B41E7B77834F82F33AEEA6634DBB0510C00D0E36A21513485",
+    "verifiedVia": "Authenticated read-only GET /api/admin/cards",
+    "role": "SOLE_FACE_HAIR_EXPRESSION_AND_RED_SHIRT_IDENTITY_REFERENCE"
+  },
+  "renderingReference": {
+    "image": "assets/ui/avatars-v1/lobby-source-approved/avatar-f09-terran-empress-joeun-lobby-v1.png",
+    "role": "PAINTERLY_RENDERING_ONLY_NOT_IDENTITY_OUTFIT_OR_SCENE"
+  },
+  "generation": {
+    "mode": "BUILT_IN_IMAGE_GEN",
+    "apiCliFallbackUsed": false,
+    "codeImageEditingUsed": true,
+    "codeImageEditingScope": "USER_APPROVED_BACKGROUND_REMOVAL_ONLY",
+    "codeImageEditingApproval": "배경만 코드로 제거",
+    "backgroundRemovalScript": "remove-equipment-background.cjs",
+    "promptRecord": "prompt.md"
+  },
+  "assets": [
+    {
+      "kind": "lobby",
+      "file": "assets/avatar-hi-heeya-lobby-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 3,
+      "hasAlpha": false,
+      "sha256": "40FAE11577976A810084931FC110985765EB75650DEEDA6B53E82C762D161897",
+      "visualQa": "FACE_BROWS_PUFFED_CHEEKS_RED_SHIRT_PRESERVED",
+      "status": "TECHNICAL_PASS_USER_REVIEW_PENDING",
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-3d1694c9-625f-4be8-94b2-c3a74ce8e845.png"
+    },
+    {
+      "kind": "equipment",
+      "file": "assets/avatar-hi-heeya-equipment-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 4,
+      "hasAlpha": true,
+      "sha256": "789D31328632D7F308E73E3FEC223596D54E3B5670BE047D213680A5C0695B13",
+      "visualQa": "DARK_AND_LIGHT_BACKGROUNDS_FULL_BODY_HANDS_SHOES_AND_FACE_CHECKED",
+      "status": "TECHNICAL_PASS_USER_REVIEW_PENDING",
+      "derivedFrom": "assets/avatar-hi-heeya-equipment-draft-v2.png",
+      "transparentPixels": 1275559,
+      "opaquePixels": 292663,
+      "partialAlphaPixels": 4642,
+      "opaqueRgbChanged": 0,
+      "visibleBounds": { "left": 221, "top": 84, "right": 763, "bottom": 1424 }
+    },
+    {
+      "kind": "equipment_draft",
+      "file": "assets/avatar-hi-heeya-equipment-draft-v2.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 3,
+      "hasAlpha": false,
+      "sha256": "98BF04A3D573F32C1A26CE1B480861AE33505FD706ADE8FC065D2735CA9C6E38",
+      "visualQa": "SAME_IDENTITY_AND_OUTFIT_COMPLETE_HANDS_AND_SHOES",
+      "status": "REJECTED_FOR_RUNTIME_NO_REAL_ALPHA",
+      "warning": "The checkerboard is painted RGB content, not transparency. Do not connect to equipment UI.",
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-4e474592-e23b-404e-9e6c-0edaf5b184b7.png"
+    }
+  ],
+  "alphaAttempts": [
+    {
+      "version": 1,
+      "hasAlpha": false,
+      "sha256": "4522FAD4A4BE9EE65E48FA2E3C43749721C61150BB7CC7E3230A2866630D5E4D",
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a067c3-ca46-71c3-9817-7b4b820224a1/exec-0a4dd92d-2515-4542-99f2-4e53a0e338c6.png"
+    },
+    {
+      "version": 2,
+      "hasAlpha": false,
+      "sha256": "98BF04A3D573F32C1A26CE1B480861AE33505FD706ADE8FC065D2735CA9C6E38"
+    }
+  ],
+  "responsive": [
+    { "kind": "lobby", "file": "assets/avatar-hi-heeya-lobby-v1-640.webp", "width": 640, "height": 960, "hasAlpha": false, "sha256": "964C0080C4F18CE8049BD69CBC86C5EC63D4CB3AE169934B26AB3630C80F04F4" },
+    { "kind": "lobby", "file": "assets/avatar-hi-heeya-lobby-v1-1024.webp", "width": 1024, "height": 1536, "hasAlpha": false, "sha256": "118EB3E563304BC146CE105F3B8375AE34605EA278517FCCA1FB5F801E60B9A4" },
+    { "kind": "equipment", "file": "assets/avatar-hi-heeya-equipment-v1-640.webp", "width": 640, "height": 960, "hasAlpha": true, "sha256": "DEA1AB0468761977A1A250EF2FEB0F0038551F45AF0D6F717CCE6CFC42F32C1B" }
+  ],
+  "pending": [
+    "USER_ART_REVIEW",
+    "EXPLICIT_AVATAR_CATALOG_CONNECTION"
+  ]
+}
