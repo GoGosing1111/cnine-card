@@ -21,13 +21,13 @@ export async function runMercenaryCodexBrowserQa() {
     // Start deterministically even when the user opened a newest-first deep link.
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
-    check('37 cards including 16 approved additions', document.querySelectorAll('.codex-card').length === 37);
-    check('all 37 SD resources counted', $('#sdCount').textContent === '37');
+    check('41 cards including four approved outfit concepts', document.querySelectorAll('.codex-card').length === 41);
+    check('37 prepared SD resources counted, four new originals pending SD', $('#sdCount').textContent === '37');
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
     const frame = $('.card-frame');
     await decode(frame);
     check('slim V3 frame loaded on every list card', frame.naturalWidth === 1024 && [...document.querySelectorAll('.codex-card .card-frame')].every(node => node.src.endsWith('/mercenary-contract-frame-slim-v3.png')));
-    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 37 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
+    check('readable names outside the slim frame', document.querySelectorAll('.card-display-name').length === 41 && parseFloat(getComputedStyle($('.card-display-name')).fontSize) >= 16 && !$('.card-visual .card-name'));
     if (publicMode) {
       const back = $('#lobbyReturn');
       check('explicit same-tab lobby return', back && !back.hidden && back.textContent.includes('로비로 돌아가기') && back.getAttribute('href') === '/?screen=home' && !back.target);
@@ -79,7 +79,7 @@ export async function runMercenaryCodexBrowserQa() {
     history.back(); await pause();
     check('browser back closes only detail', !$('#detailDialog').open && !$('#catalogView').hidden && document.body.style.overflow !== 'hidden');
     input('#sort', 'newest', 'change');
-    check('newest sorting surfaces approved additions', $('.codex-card').dataset.card === 'V-037');
+    check('newest sorting surfaces approved additions', $('.codex-card').dataset.card === 'V-041');
     input('#search', 'SKS');
     check('SKS search resolves the replaced weapon', document.querySelectorAll('.codex-card').length === 1 && $('.codex-card').dataset.card === 'V-024');
     $('[data-open="V-024"]').click();
@@ -103,10 +103,10 @@ export async function runMercenaryCodexBrowserQa() {
     $('#closeDetail').click(); await pause();
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
-    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json', { cache: 'no-store', credentials: 'omit' });
+    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2062.1-four-looks', { cache: 'no-store', credentials: 'omit' });
     if (!rosterResponse.ok) throw new Error(`Roster HTTP ${rosterResponse.status}`);
     const roster = await rosterResponse.json();
-    for (const entry of roster.cards.slice(21)) {
+    for (const entry of roster.cards.slice(21).filter(card => card.battleSprite)) {
       const sprite = new Image();
       sprite.src = `/assets/ui/project-v/mercenaries/codex-v1/${entry.code.toLowerCase()}-sd-640.webp`;
       await decode(sprite);
@@ -117,6 +117,23 @@ export async function runMercenaryCodexBrowserQa() {
       const corner = context.getImageData(0, 0, 1, 1).data[3];
       check(`${entry.code} SD derivative loads with real alpha`, sprite.naturalWidth === 640 && sprite.naturalHeight === 960 && corner <= 1 && entry.sourceArt !== entry.battleSprite);
     }
+    for (const entry of roster.cards.slice(37)) {
+      input('#search', entry.outfit);
+      check(`${entry.code} outfit search`, document.querySelectorAll('.codex-card').length === 1 && $('.codex-card').dataset.card === entry.code);
+      $(`[data-open="${entry.code}"]`).click();
+      await decode($('#mediaPanel .card-source'));
+      check(`${entry.code} concept metadata`, $('#detailContent').textContent.includes(entry.outfit) && $('#detailContent').textContent.includes(entry.weapon) && $('#detailContent').textContent.includes('가칭'));
+      $('#sdTab').click();
+      check(`${entry.code} pending SD never uses original art as sprite`, $('#mediaPanel').textContent.includes('전투 SD 제작 대기') && !$('#mediaPanel img'));
+      $('#artTab').click();
+      $('#mediaPanel [data-zoom]').click();
+      await decode($('#originalArt'));
+      check(`${entry.code} native approved original`, $('#originalArt').src.endsWith(entry.sourceArt) && $('#originalArt').naturalWidth === 1024 && $('#originalArt').naturalHeight === 1536);
+      $('#closeArt').click(); await pause();
+      $('#closeDetail').click(); await pause();
+    }
+    $('#resetFilters').click();
+    input('#sort', 'newest', 'change');
     check('no account API', performance.getEntriesByType('resource').every(resource => !resource.name.includes('/api/')));
     check('no runtime error', !(window.__codexErrors || []).length);
     window.scrollTo(0, 0);

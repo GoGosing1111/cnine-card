@@ -1,10 +1,19 @@
 {
-  "status": "DRAFT_USER_REVIEW_PENDING",
+  "status": "APPROVED_SOURCE_ART",
   "createdAt": "2026-09-07",
   "generationMode": "BUILT_IN_IMAGE_GEN",
   "promptSet": "prompts.json",
   "sourceArtOnly": true,
-  "liveRosterConnected": false,
+  "liveRosterConnected": true,
+  "catalogConnected": true,
+  "runtimeConnected": false,
+  "approval": {
+    "date": "2026-09-07",
+    "userRequest": "연결해",
+    "scope": "READ_ONLY_CATALOG_ONLY",
+    "record": "assets/ui/project-v/mercenaries/mercenary-four-looks-approval-20260907.json",
+    "codes": ["V-038", "V-039", "V-040", "V-041"]
+  },
   "references": [
     {
       "path": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
@@ -80,6 +89,6 @@
     "mobileViewport": "390x844: single-column large view and two-column 160px view, no horizontal overflow",
     "originalZoomAndFocusReturn": "PASS",
     "audioElements": 0,
-    "userArtApproval": "PENDING"
+    "userArtApproval": "APPROVED_SOURCE_ART"
   }
 }

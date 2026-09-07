@@ -1,0 +1,63 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-09-07",
+  "status": "APPROVED_SOURCE_ART",
+  "userRequest": "연결해",
+  "context": "검수 완료된 오피스룩·가터벨트 치마·비키니룩·핫팬츠룩 여성 용병 4종을 라이브 용병도감에 연결",
+  "scope": "READ_ONLY_CATALOG_ONLY",
+  "newCards": 4,
+  "existingCardsPreserved": 37,
+  "previousRosterCardsSha256": "49ED10E09CCAA50FA40EBBC3075FDDA810EF60CDCF3A6EC1782F809E17B188E3",
+  "totalCards": 41,
+  "battleSpriteReady": 37,
+  "battleSpritePending": 4,
+  "rankAssigned": false,
+  "runtimeConnected": false,
+  "originalsModified": false,
+  "entries": [
+    {
+      "code": "V-038",
+      "conceptId": "office-gauntlet",
+      "name": "세실리아",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "outfit": "오피스룩",
+      "weapon": "건틀릿",
+      "reviewSource": "preview/mercenary-four-looks-v1/assets/office-gauntlet-source-art-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+      "sha256": "15498B1A48643F51498038531A4647AC5C7D17561AA7D3529F7A9B854166DA0E"
+    },
+    {
+      "code": "V-039",
+      "conceptId": "garter-chainsword",
+      "name": "로제타",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "outfit": "가터벨트 치마",
+      "weapon": "체인소드",
+      "reviewSource": "preview/mercenary-four-looks-v1/assets/garter-chainsword-source-art-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+      "sha256": "1ACB0840FCE80FACD1CE5A75C26AD7E7D84AB66146EA8FFC4C0482A7197F4B84"
+    },
+    {
+      "code": "V-040",
+      "conceptId": "bikini-bow",
+      "name": "마리엘",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "outfit": "비키니룩",
+      "weapon": "활",
+      "reviewSource": "preview/mercenary-four-looks-v1/assets/bikini-bow-source-art-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+      "sha256": "D5A52F7DA6C496B1C9BAC9732CE6D423A59CB401B58D55940DA43FE7815C5488"
+    },
+    {
+      "code": "V-041",
+      "conceptId": "hotpants-greatsword",
+      "name": "레니아",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "outfit": "핫팬츠룩",
+      "weapon": "대검",
+      "reviewSource": "preview/mercenary-four-looks-v1/assets/hotpants-greatsword-source-art-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+      "sha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D"
+    }
+  ]
+}

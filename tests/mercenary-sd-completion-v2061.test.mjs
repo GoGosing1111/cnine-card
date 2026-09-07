@@ -16,7 +16,7 @@ test('all sixteen native SD outputs have genuine alpha, full-body bounds and tra
   assert.equal(record.sourceArtUnmodified, true);
   assert.equal(record.existingSpritesUnmodified, true);
   assert.equal(record.entries.length, 16);
-  assert.deepEqual(record.entries.map(entry => entry.code), roster.cards.slice(21).map(card => card.code));
+  assert.deepEqual(record.entries.map(entry => entry.code), roster.cards.slice(21, 37).map(card => card.code));
   for (const entry of record.entries) {
     const card = roster.cards.find(card => card.code === entry.code);
     const qa = await inspectMercenarySprite(path.join(root, card.battleSprite));
@@ -43,7 +43,7 @@ test('all sixteen native SD outputs have genuine alpha, full-body bounds and tra
 test('battle adapter preserves measured feet, legacy defaults and rejects invalid anchors', () => {
   const adapter = createMercenaryBattleArtAdapter(roster);
   assert.deepEqual(adapter.resolveForConsumer('BATTLE_FIELD', 'V-013').footAnchor, { x: 0.5, y: 1 });
-  for (const card of roster.cards.slice(21)) {
+  for (const card of roster.cards.slice(21, 37)) {
     const resolved = adapter.resolveForConsumer('BATTLE_FIELD', card.code);
     assert.deepEqual(resolved.footAnchor, card.battleSpriteFootAnchor);
     assert.ok(Object.isFrozen(resolved.footAnchor));

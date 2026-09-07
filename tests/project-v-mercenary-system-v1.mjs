@@ -52,11 +52,11 @@ test('mercenary slot remains optional and does not change the existing five-card
   assert.equal(validateMercenaryLoadout({ cardIds: cardIds.slice(0, 4), mercenaryCode: 'V-001' }).ok, false);
 });
 
-test('review roster has thirty-seven unique cards and no inherited rank', () => {
+test('review roster has forty-one unique cards and no inherited rank', () => {
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length, 37);
-  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 37);
-  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 37 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
+  assert.equal(roster.cards.length, 41);
+  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 41);
+  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 41 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
   assert.ok(roster.cards.every((card) => card.rank === null));
   assert.ok(roster.cards.every((card) => card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
@@ -69,9 +69,9 @@ test('all source art and all declared battle sprites exist with recorded hashes'
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
   assert.equal(sprites.length, 37);
-  assert.equal(pending.length, 0);
+  assert.equal(pending.length, 4);
   assert.equal(roster.summary.battleSpriteReady, 37);
-  assert.equal(roster.summary.battleSpritePending, 0);
+  assert.equal(roster.summary.battleSpritePending, 4);
 
   for (const card of roster.cards) {
     assert.equal(fs.existsSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);
@@ -116,7 +116,7 @@ test('battle art adapter resolves SD only for battle consumers and never replace
   assert.equal(adapter.resolveForConsumer('DECK', 'V-013'), null);
   assert.equal(adapter.resolveForConsumer('CARD_DOCK', 'V-013'), null);
   assert.equal(adapter.resolveForConsumer('BATTLE_FIELD', 'V-999'), null);
-  for (const card of roster.cards.slice(21)) {
+  for (const card of roster.cards.slice(21).filter(card => card.battleSprite)) {
     const resolved = adapter.resolveForConsumer('BATTLE_FIELD', card.code);
     assert.equal(resolved.battleSprite, card.battleSprite);
     assert.notEqual(resolved.battleSprite, card.sourceArt);
@@ -128,8 +128,8 @@ test('battle art adapter resolves SD only for battle consumers and never replace
   pending.cards[21].battleSprite = null;
   pending.cards[21].battleSpriteSha256 = null;
   pending.cards[21].battleSpriteStatus = 'NOT_YET_PRODUCED';
-  pending.summary.battleSpriteReady = 36;
-  pending.summary.battleSpritePending = 1;
+  pending.summary.battleSpriteReady -= 1;
+  pending.summary.battleSpritePending += 1;
   assert.equal(createMercenaryBattleArtAdapter(pending).resolveForConsumer('BATTLE_FIELD', 'V-022'), null, 'future missing SD never falls back to source art');
   const invalid = structuredClone(pending);
   invalid.cards[21].battleSpriteStatus = 'TECH_QA_COMPLETE';
@@ -159,7 +159,7 @@ test('preview states the 5+1 rule and never exposes legacy ranks', () => {
   assert.match(html, /5 \+ 1 편성 구조/);
   assert.match(client, /등급 미정/);
   assert.match(client, /사용자 지정 원화/);
-  assert.match(html, /전체 37/);
+  assert.match(html, /전체 41/);
   assert.doesNotMatch(html, /data-rank=/);
   assert.match(standard, /`cardIds` 5장과 `mercenaryCode` 1개/);
   assert.match(standard, /PREVIEW_ONLY_NOT_RUNTIME_CONNECTED/);

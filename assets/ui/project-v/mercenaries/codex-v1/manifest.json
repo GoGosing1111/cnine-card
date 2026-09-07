@@ -1223,6 +1223,94 @@
       "source": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
       "sourceSha256": "6045B04EC1E1369DB267F4B95336E434F7348F8D0A2916D8F3D0E9E739D586F8",
       "sha256": "0F63357987D9D5D5C08DF28CE8227C14D1088A980F72218D3DA574E76667DF2F"
+    },
+    {
+      "code": "V-038",
+      "kind": "art",
+      "file": "v-038-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 32520,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+      "sourceSha256": "15498B1A48643F51498038531A4647AC5C7D17561AA7D3529F7A9B854166DA0E",
+      "sha256": "E85265ECA70E84470F0DAA8034C6CF6EECA1D1B9B431B611BD74E3B29E1CAB6B"
+    },
+    {
+      "code": "V-038",
+      "kind": "art",
+      "file": "v-038-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 88740,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+      "sourceSha256": "15498B1A48643F51498038531A4647AC5C7D17561AA7D3529F7A9B854166DA0E",
+      "sha256": "409BEC826DFF72273789D080CEE9D585CC6B3CC6E6785E502AFE356D82D5C7E0"
+    },
+    {
+      "code": "V-039",
+      "kind": "art",
+      "file": "v-039-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 43598,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+      "sourceSha256": "1ACB0840FCE80FACD1CE5A75C26AD7E7D84AB66146EA8FFC4C0482A7197F4B84",
+      "sha256": "88AEDA9801A0D170F30D3778FADDFB6A1CEDB4301CF9ED6DA1E9457936E34AB4"
+    },
+    {
+      "code": "V-039",
+      "kind": "art",
+      "file": "v-039-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 138830,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+      "sourceSha256": "1ACB0840FCE80FACD1CE5A75C26AD7E7D84AB66146EA8FFC4C0482A7197F4B84",
+      "sha256": "AC127A29FA6FAAD2A45A79A0513C3FD19E3D83B22DCE09F5E3E07DA2D6F8DA90"
+    },
+    {
+      "code": "V-040",
+      "kind": "art",
+      "file": "v-040-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 46604,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+      "sourceSha256": "D5A52F7DA6C496B1C9BAC9732CE6D423A59CB401B58D55940DA43FE7815C5488",
+      "sha256": "EA74792FBEE5314F15D5D42897FB84642ADDAEEE5BEDF1DB1C908B536EEF880A"
+    },
+    {
+      "code": "V-040",
+      "kind": "art",
+      "file": "v-040-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 144626,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+      "sourceSha256": "D5A52F7DA6C496B1C9BAC9732CE6D423A59CB401B58D55940DA43FE7815C5488",
+      "sha256": "1760E470E8BD58BE49449DC100FAAED23AB7F4A43B5772EBC49B3FF3108AAD5C"
+    },
+    {
+      "code": "V-041",
+      "kind": "art",
+      "file": "v-041-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 44548,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+      "sourceSha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D",
+      "sha256": "03B6C1F8347C9436960644FA04A5A524FB8E9A40F34A9BF1D443845B840963A9"
+    },
+    {
+      "code": "V-041",
+      "kind": "art",
+      "file": "v-041-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 131428,
+      "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+      "sourceSha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D",
+      "sha256": "C0B5242C20EC7C0BDE624637A19DA911D98FDD7722039D315894113986D77A48"
     }
   ]
 }

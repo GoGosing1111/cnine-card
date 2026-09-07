@@ -1,9 +1,9 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 6,
+  "version": 7,
   "updatedAt": "2026-09-07",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
-  "battleAssetStatus": "ALL_SPRITES_READY_USER_REVIEW_PENDING",
+  "battleAssetStatus": "PARTIAL_SPRITES_READY_NEW_ART_PENDING",
   "rankPolicy": {
     "authority": "USER",
     "defaultRank": null,
@@ -36,11 +36,11 @@
     ]
   },
   "summary": {
-    "total": 37,
-    "sourceArtReady": 37,
+    "total": 41,
+    "sourceArtReady": 41,
     "battleSpriteReady": 37,
-    "battleSpritePending": 0,
-    "rankPending": 37
+    "battleSpritePending": 4,
+    "rankPending": 41
   },
   "cards": [
     {
@@ -758,6 +758,94 @@
         "x": 0.520508,
         "y": 0.959635
       }
+    },
+    {
+      "code": "V-038",
+      "rank": null,
+      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "name": "세실리아",
+      "title": "청람의 집행관",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "role": "전위 격투",
+      "roleStatus": "ART_CONCEPT_ONLY",
+      "weapon": "건틀릿",
+      "outfit": "오피스룩",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+      "sourceArtSha256": "15498B1A48643F51498038531A4647AC5C7D17561AA7D3529F7A9B854166DA0E",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-07",
+      "catalogRelease": "READ_ONLY_USER_APPROVED",
+      "approvalBatch": "2026-09-07-four-looks",
+      "battleSprite": null,
+      "battleSpriteSha256": null,
+      "battleSpriteStatus": "NOT_YET_PRODUCED",
+      "accent": "#7BBEE7"
+    },
+    {
+      "code": "V-039",
+      "rank": null,
+      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "name": "로제타",
+      "title": "흑장미의 추격자",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "role": "전위 돌격",
+      "roleStatus": "ART_CONCEPT_ONLY",
+      "weapon": "체인소드",
+      "outfit": "가터벨트 치마",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+      "sourceArtSha256": "1ACB0840FCE80FACD1CE5A75C26AD7E7D84AB66146EA8FFC4C0482A7197F4B84",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-07",
+      "catalogRelease": "READ_ONLY_USER_APPROVED",
+      "approvalBatch": "2026-09-07-four-looks",
+      "battleSprite": null,
+      "battleSpriteSha256": null,
+      "battleSpriteStatus": "NOT_YET_PRODUCED",
+      "accent": "#B79ACC"
+    },
+    {
+      "code": "V-040",
+      "rank": null,
+      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "name": "마리엘",
+      "title": "산호빛 해풍의 궁수",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "role": "후열 사격",
+      "roleStatus": "ART_CONCEPT_ONLY",
+      "weapon": "활",
+      "outfit": "비키니룩",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+      "sourceArtSha256": "D5A52F7DA6C496B1C9BAC9732CE6D423A59CB401B58D55940DA43FE7815C5488",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-07",
+      "catalogRelease": "READ_ONLY_USER_APPROVED",
+      "approvalBatch": "2026-09-07-four-looks",
+      "battleSprite": null,
+      "battleSpriteSha256": null,
+      "battleSpriteStatus": "NOT_YET_PRODUCED",
+      "accent": "#65D5CB"
+    },
+    {
+      "code": "V-041",
+      "rank": null,
+      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "name": "레니아",
+      "title": "호박빛 철로의 방랑자",
+      "nameStatus": "PROVISIONAL_CONCEPT_NAME",
+      "role": "전위 공격",
+      "roleStatus": "ART_CONCEPT_ONLY",
+      "weapon": "대검",
+      "outfit": "핫팬츠룩",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+      "sourceArtSha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-07",
+      "catalogRelease": "READ_ONLY_USER_APPROVED",
+      "approvalBatch": "2026-09-07-four-looks",
+      "battleSprite": null,
+      "battleSpriteSha256": null,
+      "battleSpriteStatus": "NOT_YET_PRODUCED",
+      "accent": "#E9A867"
     }
   ]
 }

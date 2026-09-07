@@ -11,9 +11,11 @@ const prompts = JSON.parse(read('prompts.json'));
 const sha = buffer => createHash('sha256').update(buffer).digest('hex').toUpperCase();
 
 test('네 의상·무기 조합은 독립된 성인 원화 시안이며 운영 편성과 구분한다', () => {
-  assert.equal(prompts.status, 'DRAFT_USER_REVIEW_PENDING');
+  assert.equal(prompts.status, 'APPROVED_SOURCE_ART');
   assert.equal(prompts.generationMode, 'BUILT_IN_IMAGE_GEN');
-  assert.equal(prompts.liveRosterConnected, false);
+  assert.equal(prompts.liveRosterConnected, true);
+  assert.equal(prompts.catalogConnected, true);
+  assert.equal(prompts.runtimeConnected, false);
   assert.equal(prompts.sourceArtOnly, true);
   assert.deepEqual(prompts.jobs.map(job => job.id), ['office-gauntlet', 'garter-chainsword', 'bikini-bow', 'hotpants-greatsword']);
   for (const job of prompts.jobs) {
@@ -51,7 +53,7 @@ test('베스페라 앵커를 보존하고 원화·프레임은 검수 페이지�
   assert.equal((html.match(/class="art"/g) || []).length, 4);
   assert.equal((html.match(/class="frame"/g) || []).length, 4);
   assert.match(html, /160px 카드 크기/);
-  assert.match(html, /사용자 시각 승인 전 시안/);
+  assert.match(html, /사용자 시각 승인 완료 원화/);
   assert.doesNotMatch(html, /apiRequest|fetch\(|localStorage|AudioContext|<audio/);
   for (const job of prompts.jobs) assert.ok(html.includes(`./assets/${job.file}`));
 });

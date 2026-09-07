@@ -1,5 +1,5 @@
 // Shared read-only codex model. The preparation roster owns all facts; no legacy ranks.
-export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json', import.meta.url);
+export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2062.1-four-looks', import.meta.url);
 export const ASSET_ROOT = new URL('../../', import.meta.url);
 export const MEDIA_PREFIX = 'assets/ui/project-v/mercenaries/codex-v1/';
 export const POSITIONS = ['전위', '중거리', '후열'];
@@ -30,7 +30,7 @@ export function initials(value) {
 export function queryMatches(card, query) {
   const q = normalizeQuery(query);
   if (!q) return true;
-  const haystack = normalizeQuery([card.code, card.name, card.title, card.role, card.weapon || ''].join(' '));
+  const haystack = normalizeQuery([card.code, card.name, card.title, card.role, card.weapon || '', card.outfit || ''].join(' '));
   return haystack.includes(q) || (/^[ㄱ-ㅎ]+$/.test(q) && initials(haystack).includes(q));
 }
 export function filterCards(cards, state = {}, favorites = new Set()) {

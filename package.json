@@ -11,7 +11,7 @@
     "build:v3": "esbuild preview/project-v-v3/source/project-v-pixi-battle.src.js --bundle --minify --format=iife --outfile=preview/project-v-v3/project-v-pixi-battle.bundle.js",
     "build:idle-v3-preview": "node scripts/build-idle-v3-preview-v1.mjs",
     "build:mercenary-codex": "node scripts/build-mercenary-codex-public-v1.mjs",
-    "test:mercenary-codex": "node --test tests/mercenary-codex-public-v2061.test.mjs tests/mercenary-codex-preview-v1.test.mjs tests/project-v-mercenary-system-v1.mjs tests/project-v-approved-mercenary-cards-v1.mjs tests/mercenary-vespera-beauty-v1.test.mjs tests/mercenary-weapons-beauty-v1.test.mjs tests/mercenary-sd-completion-v2061.test.mjs",
+    "test:mercenary-codex": "node --test tests/mercenary-codex-public-v2061.test.mjs tests/mercenary-codex-preview-v1.test.mjs tests/project-v-mercenary-system-v1.mjs tests/project-v-approved-mercenary-cards-v1.mjs tests/mercenary-vespera-beauty-v1.test.mjs tests/mercenary-weapons-beauty-v1.test.mjs tests/mercenary-sd-completion-v2061.test.mjs tests/mercenary-four-looks-v1.test.mjs tests/mercenary-four-looks-catalog-v2062.test.mjs",
     "build:prime-draw": "node scripts/build-ui-fx.mjs prime",
     "test:escort": "node --test tests/escort-operation-v1830.test.mjs",
     "test:postgres-compat": "node --test tests/postgres-d1-compat.test.mjs",
