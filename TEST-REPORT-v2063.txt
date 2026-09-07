@@ -1,0 +1,25 @@
+기준 HEAD: c64e3f47. 테스트: node --test tests/speed-suppression-v2063.test.mjs
+7/7 PASS.
+비교 엔진: 현재 소스에서 이번 두 변경만 역적용한 baseline을 독립 data URL로 import.
+PVE: hunt/idle/siege/escort 대표 엔진 입력 각 100시드, 전체 반환값 deepEqual 400/400.
+PVE SPEED_UNIQUE_SUPPRESSED: 0건.
+PVP: 무작위 600쌍, 크래시 0. schemaVersion/result keys 유지, timeline type/at 검증.
+연장전: 기존 1/600 -> 수정 0/600.
+봉쇄 미발동 474쌍: 전체 반환값 동일.
+클랜 _clan.js:719 및 영토전 _territory_war.js:739가 공통 createPvpBattleV2 호출.
+
+독립 합성 표본: 고유 계열 비중 32/16/12/10, LCG 초기값 2063.
+원본 CMS 70장 복원이 아니며 원본 표 ±2%p 기준 통과를 주장하지 않음.
+36 상대 덱, 10시드, 양방향, 카드 12만/장비 50만. 각 행 720판 승수:
+NONE 398 -> 398
+SPEED9 637 -> 644
+SPEED30 649 -> 656
+SPEED50 669 -> 676
+ATTACK22 625 -> 625
+ATTACK50 666 -> 666
+DEFENSE14 508 -> 450
+사용자가 원본 측정 자료 없음을 확인했으며, 별도 검증의 한계를 고지함.
+
+package.json에 일반 npm test 스크립트 없음. 신규 테스트와 기존 release:gate를 사용.
+커밋 시점 전체 release:gate 및 배포는 대기. 배포 명령 자체가 gate 성공 전 업로드를 차단함.
+최종 성공 여부는 작업 대화의 배포 결과 및 Cloudflare 배포 기록으로 확인.

@@ -741,13 +741,14 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     pushEvent(timeline,eventClock+0.000001,'MAGIC_CARD',magicEvent(magic,target,target,{amount,hpAfter:target.hp,maxHp:target.maxHp,revived:true}));
     return true;
   };
+  // V2063: Keep action-speed/starting-gauge suppression, but preserve dodge, crit and gauge steal.
   const suppressSpeedUnique=(guardTeam,targetTeam)=>{
     if(guardTeam.filter(card=>card.type==='DEFENSE').length<2)return;
     for(const fighter of targetTeam.filter(card=>card.type==='SPEED')){
       const speedPercent=Math.max(-90,Number(fighter.uniqueAbility?.speedPercent||0));
       fighter.speed=Math.max(35,Math.round(fighter.speed/Math.max(0.1,1+speedPercent/100)));
-      fighter.gauge=0;fighter.speedUniqueSuppressed=true;
-      pushEvent(timeline,clock,'SPEED_UNIQUE_SUPPRESSED',{targetId:fighter.id,guardSide:guardTeam[0]?.side||'',label:'방어형 연계 · 속도 봉쇄'});
+      fighter.gauge=0;
+      pushEvent(timeline,clock,'SPEED_UNIQUE_SUPPRESSED',{targetId:fighter.id,guardSide:guardTeam[0]?.side||'',label:'방어형 연계 · 행동 속도 봉쇄'});
     }
   };
   suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);
