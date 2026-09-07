@@ -185,6 +185,6 @@ test('라이브 health는 카탈로그 보장 뒤 일회 지급을 실행하고 
   assert.match(api,/await ensureSkillChipFoundation\(env\);\s*const skillChipGrant=await ensureTargetedSkillChipGrantV2055\(env\)/);
   assert.match(api,/targetedSkillChipGrantV2055=skillChipGrant\?\{/);
   assert.match(api,/quantityGranted:Number\(skillChipGrant\.quantityGranted\|\|0\)/);
-  assert.match(api,/targetedSkillChipGrantV2055,iyejunFurRerollRecovery/);
+  assert.match(api,/targetedSkillChipGrantV2055,battleSuitEbodyPityV2059,iyejunFurRerollRecovery/);
   assert.doesNotMatch(api,/targetedSkillChipGrantV2055=skillChipGrant;/);
 });
