@@ -61,3 +61,40 @@ test('server identity mismatch is not reported as completion', async () => {
   assert.equal(session.receipt.started, true);
   assert.equal(session.receipt.result, undefined);
 });
+
+test('completed admissions can start a new account after archiving, without replaying the old write', async () => {
+  let saved, archived, calls = [];
+  const nextTarget = {...target, userId:8, nickname:'다음 계정'};
+  const session = new AdmissionSession(async (path, body) => {
+    calls.push(body);
+    return {...preview, ...nextTarget, previewId:'next-preview-123456789'};
+  }, value => { saved = structuredClone(value); }, {preview, started:true, result});
+  session.startNext(receipt => { archived = structuredClone(receipt); });
+  assert.deepEqual(archived, {preview, started:true, result});
+  assert.equal(saved, null);assert.equal(session.receipt, null);assert.equal(calls.length, 0);
+  await session.preview(nextTarget);
+  assert.equal(calls.length, 1);assert.equal(calls[0].action, 'preview');
+  assert.equal(session.receipt.preview.userId, 8);assert.equal(session.receipt.started, false);
+});
+
+test('unfinished, busy or mismatched receipts cannot be cleared for a new admission', () => {
+  for (const receipt of [null, {preview, started:false}, {preview, started:true},
+    {preview, started:true, result:{...result, userId:8}}]) {
+    let mutations = 0;
+    const session = new AdmissionSession(() => {}, () => { mutations++; }, receipt);
+    assert.throws(() => session.startNext(() => { mutations++; }), /완료/);
+    assert.equal(mutations, 0);assert.equal(session.receipt, receipt);
+  }
+  const session = new AdmissionSession(() => {}, () => {}, {preview, started:true, result});
+  session.busy = true;
+  assert.throws(() => session.startNext(() => {}), /완료/);
+});
+
+test('archive or storage failure preserves the current completed receipt', () => {
+  for (const fault of ['archive', 'save']) {
+    const receipt = {preview, started:true, result};
+    const session = new AdmissionSession(() => {}, () => { if (fault === 'save') throw Error('save failed'); }, receipt);
+    assert.throws(() => session.startNext(() => { if (fault === 'archive') throw Error('archive failed'); }), /failed/);
+    assert.equal(session.receipt, receipt);
+  }
+});

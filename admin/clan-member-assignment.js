@@ -63,6 +63,15 @@ export class AdmissionSession {
       return result;
     } finally { this.busy = false; }
   }
+  startNext(archive) {
+    const receipt = this.receipt, result = receipt?.result;
+    assert(!this.busy && receipt?.started && result?.ok && result.previewId === receipt.preview.previewId
+      && KEYS.every(key => result[key] === receipt.preview[key]) && result.completedAt,
+      '완료가 확인된 편입 기록만 보관하고 새 요청을 시작할 수 있습니다.');
+    archive(receipt);
+    this.save(null);
+    this.receipt = null;
+  }
 }
 
 async function boot() {
@@ -101,11 +110,21 @@ async function boot() {
       byId('apply').hidden = !preview || Boolean(result);
       byId('apply').disabled = session.busy || !preview || Boolean(result);
       byId('apply').textContent = receipt?.started ? '같은 요청 번호로 결과 재확인' : '확인한 계정 편입';
+      byId('next').hidden = !result;
+      byId('next').disabled = session.busy;
       byId('details').hidden = !preview;
       if (preview) {
         byId('details').textContent = `${result ? '편입 완료' : '서버 검증 완료'}\n계정: ${preview.nickname} (ID ${preview.userId})\n클랜: ${preview.clanName} (ID ${preview.clanId})\n시즌: ${preview.seasonNo} (ID ${preview.seasonId})\n정원: ${preview.memberCount}명 → ${result ? result.memberCount : preview.afterCount}/${preview.maxMembers}명\n2차 인증·랭크전 덱: 확인\n기존 멤버 탈퇴·보상 지급: 없음\n요청 번호: ${preview.previewId}${result ? '\n완료 시각: ' + result.completedAt : ''}`;
       }
     };
+    byId('next').addEventListener('click', () => {
+      try {
+        session.startNext(receipt => localStorage.setItem(`${storageKey}:completed:${receipt.preview.previewId}`, JSON.stringify(receipt)));
+        byId('assignment-form').reset();
+        status('이전 완료 기록을 보관했습니다. 새 계정과 편입할 클랜을 선택하세요.');
+      } catch (error) { status(error.message, true); }
+      render();
+    });
     byId('assignment-form').addEventListener('submit', async event => {
       event.preventDefault();
       if (session.busy || session.receipt?.started) return;
