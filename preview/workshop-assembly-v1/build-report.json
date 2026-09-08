@@ -23,5 +23,34 @@
     "legR",
     "core"
   ],
-  "bundleSha256": "44f6cac0100677ee16d050e17ba175861b0cade49aca42b3f9ddad02e46dc67d"
+  "additionalModels": [
+    "e",
+    "f",
+    "g",
+    "ignis"
+  ],
+  "suitSources": [
+    {
+      "key": "e",
+      "source": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png",
+      "sha256": "322e1958cfbf80cf7940cefd9c05a49b353559afe5319c05ec11a4c4e2c922f3",
+      "visibleRgbaExact": true,
+      "parts": 11
+    },
+    {
+      "key": "f",
+      "source": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png",
+      "sha256": "d5e661b53fc0098106c1f2e9feb002ccc8d0cb898103561a84ea61cd38689cb0",
+      "visibleRgbaExact": true,
+      "parts": 11
+    },
+    {
+      "key": "g",
+      "source": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png",
+      "sha256": "33411d6fb94a44b409470e94cf90edf1d96ce06803fc40c6d54e6431bfd99841",
+      "visibleRgbaExact": true,
+      "parts": 10
+    }
+  ],
+  "bundleSha256": "ba6f8fd18af394373b31df572974b957b317149ba7d84cb1b6e2e3f50412c8e7"
 }

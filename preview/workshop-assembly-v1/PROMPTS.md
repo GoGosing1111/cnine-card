@@ -28,3 +28,17 @@ Prepare the exact supplied grey hypercar as a crafting-animation sprite. Remove 
 Transparent RGBA sprite atlas of exactly THREE mechanical assembly-arm components in three horizontal rows. Orthographic side view, pointing right. Upper row: long heavy upper-arm piston beam, charcoal gunmetal, silver beveled armor, brass detail, circular pivot at both ends. Middle: slimmer hydraulic forearm actuator with nested piston and narrow wrist. Bottom: precise three-finger metal gripper, half open. Clear transparent gutters, no overlapping parts. High-end hard-surface game art, coherent machined materials, crisp edges, restrained detail. No text, grid, checkerboard, shadow, character or whole robot.
 
 실제 생성 이미지의 부품 경계에 맞춰 upper=0..411, lower=412..651, grip=652..1023을 분리하고 투명 여백만 trim했다. 배경을 새로 칠하거나 부품을 다시 그리지 않았다.
+
+## ignis-x-cutout.png — 추가 모델
+
+ImageGen 선택 원본 `exec-5b12bcb1-d0e1-44fb-9fb9-7c0b2b9966c0.png`를 `assets/sources/ignis-x-extracted-source-v1.png`로 보존했다. 1679×937 RGB, SHA-256 `569b3b5904e379b2e95b581ae56a299d45a15d1e3bf26b5095672bd413fc5fdb`.
+
+참고 입력은 CMS 차량 `GARAGE_1787232065012`의 `/assets/tire/1321312.jpg`, SHA-256 `e0233448b61e39b171335d8853975cae02abb98b092fd8dd28365b44750e5f22`다. 기존 JPG는 수정하지 않았다.
+
+재현용 생성 지시 요약:
+
+Extract the supplied exact red Ignis-X futuristic roadster for a game crafting animation. Retain the front-left three-quarter view, long red nose, red wheels, open cockpit, roof-mounted jet turbine and its support struts, body-panel design, proportions and materials. Remove showroom, floor, platform, reflections, ribbons, sparks and exhaust flame. One complete car, no new design, no text or UI. Keep the turbine and thin supports intact. Request a true transparent alpha background, not a checkerboard.
+
+도구가 체크무늬를 포함한 RGB를 반환했기 때문에 그대로 런타임에 쓰지 않았다. `prepare-ignis-assets.mjs`가 프로젝트의 `scripts/remove-connected-light-background.cjs`를 호출한 뒤 검수한 내부 공기 영역에 같은 밝은 중성색 flood-fill을 적용한다. 알파만 변경하며 RGB·비율은 보존한다. 후처리 PNG의 SHA와 규격은 `asset-manifest.json`에 기록한다.
+
+투명화 재시도 이미지와 불필요한 E-BODY 재추출 시안은 채택하지 않았다. E/F/G는 이미 실제 알파가 있는 CMS 원본을 그대로 분할했으며 생성 이미지로 교체하지 않는다.

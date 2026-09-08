@@ -26,10 +26,241 @@
       "channels": 4
     },
     {
+      "path": "assets/ignis-x-cutout.png",
+      "sha256": "0d382d0e2390f33eedeb2b4f415777280c64897509c450a7ed5862e44892ab0a",
+      "width": 1679,
+      "height": 937,
+      "channels": 4
+    },
+    {
       "path": "assets/robot-kit.png",
       "sha256": "5c86bd2b2d1511df87201a2a2f639cab4f75c36ebc4da520212fbea5c7d46302",
       "width": 1536,
       "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/head.png",
+      "sha256": "b908fa259626c75d41efb1d985c001e9fa0c4b41124fa75974b10eb21916dd92",
+      "width": 226,
+      "height": 247,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/torso.png",
+      "sha256": "145c8098959f8b81c9c1fba4acde7491448cf279a6360301e8def8c5eae8faff",
+      "width": 245,
+      "height": 279,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/shoulderL.png",
+      "sha256": "90dd53a682a03bd034a3e1cd8754b5a769bf470a1c6e2e07cc7013385bec17c7",
+      "width": 124,
+      "height": 150,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/wing.png",
+      "sha256": "2cb66d6910c60bfa69b0727eecc102c53c6f353accd788f0cd4bf20e1ff96e7a",
+      "width": 261,
+      "height": 284,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/shoulderR.png",
+      "sha256": "41081879387f2d9500c9d37ce8acc4a45267f3a696cd29896fc8fbf1d2cf2f36",
+      "width": 44,
+      "height": 108,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/core.png",
+      "sha256": "656554f4c6e0fdb6e1cbce6b2da417931a953b517237added3fbb3414b363fa3",
+      "width": 37,
+      "height": 40,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/armR.png",
+      "sha256": "cf35ff92be5f9a4955a8b890fccd3eca11d6c4826765c1b498c0d78d2e2a530f",
+      "width": 88,
+      "height": 317,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/armL.png",
+      "sha256": "b7886c02307c83b97257dfdb087186fd3b53bf09335d03ca382b7e527cff100e",
+      "width": 83,
+      "height": 310,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/hips.png",
+      "sha256": "01e542024902424e1510f43de1cb03ac53c7ef880723ea0cf621489d25903b8d",
+      "width": 223,
+      "height": 137,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/legL.png",
+      "sha256": "5c80f2a96479168d72ff3745626c7aab75a611aa516425ae2726a1bb3eca4fff",
+      "width": 216,
+      "height": 526,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/e/legR.png",
+      "sha256": "72e65bf244108c894d986d0de44d1dabff484da1bc8b2842d63dc06249946884",
+      "width": 296,
+      "height": 526,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/torso.png",
+      "sha256": "0a16862c260ee9410102c7db6e861366a4e8978d085da144f6019f77c7eb6728",
+      "width": 1020,
+      "height": 511,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/head.png",
+      "sha256": "b8b42cdcc55f7dab1682d2ff980ac4d993816e4d642cf930bbc1ba4f2d38a668",
+      "width": 202,
+      "height": 197,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/shoulderR.png",
+      "sha256": "afc87db99830842cc2e9295af929a5b291650a095433b095dea00965147ce576",
+      "width": 60,
+      "height": 104,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/shoulderL.png",
+      "sha256": "63332a36727c35b180f7d61ed483596f57bb2c499709be181498c480f74b5ce5",
+      "width": 117,
+      "height": 130,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/armR.png",
+      "sha256": "ee1af425ca7349afe49bf9c87474ecca8f21027cc57bf1a0f8f07135122c78f8",
+      "width": 110,
+      "height": 281,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/core.png",
+      "sha256": "7a9b2217025d3a6ec5fdc55df53aba3f46ae4ac67be20e60888365891680d99b",
+      "width": 32,
+      "height": 39,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/armL.png",
+      "sha256": "29e790456a87413f7734b23020ec9008101cc6a203b5c91cd36b3cf599595916",
+      "width": 80,
+      "height": 315,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/hips.png",
+      "sha256": "dd3eef80c2153383d0c0528cbeaa2a7af775e20a1afbf360c052c4da54553208",
+      "width": 268,
+      "height": 103,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/coat.png",
+      "sha256": "2b54bc44f010f0293343c65303b9734d322a7331bfd5a993eaacef03c1ef5ec7",
+      "width": 420,
+      "height": 479,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/legL.png",
+      "sha256": "68a2b4663b85881a023d7c87cf19e83ed459fcef8500a7d82b5b2859ad67ee70",
+      "width": 496,
+      "height": 668,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/f/legR.png",
+      "sha256": "a2dc5e35e6146f6ec4e98c760f72df5b8dcf0c31b94a2a2070a81744eb0f1c61",
+      "width": 567,
+      "height": 617,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/head.png",
+      "sha256": "c6f743ae0cbddeded619c8006abb7bb74bf50d70d355895967113beb2e74eea1",
+      "width": 310,
+      "height": 337,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/torso.png",
+      "sha256": "016d7c10891368c2371105aa25e169d9e2ac217fe0f5ee3c2c2793e88dfc05e7",
+      "width": 1104,
+      "height": 507,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/shoulderR.png",
+      "sha256": "48d0b96b855c47196ed6df56908ec5eb6e787d2ecb8467667a37dca21a35460a",
+      "width": 49,
+      "height": 136,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/shoulderL.png",
+      "sha256": "e00049e6384d686ed6739e9e6bd6d28d8b15e6cbb8650471ec8e20ff88e19927",
+      "width": 169,
+      "height": 190,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/core.png",
+      "sha256": "c6f2cab611bdf3439d2f8ce74591a4a068da4316171448c6a8df126bacd89a45",
+      "width": 42,
+      "height": 57,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/armR.png",
+      "sha256": "a3c6ad2a5ae297813598ef40c21bff338f9c30a0c806f097e172786cd34d4298",
+      "width": 131,
+      "height": 333,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/armL.png",
+      "sha256": "315dede23ffa8d811101a0fdffc3ce858a74e6ca932944f9cbffc2efa0c05630",
+      "width": 130,
+      "height": 396,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/hips.png",
+      "sha256": "33bdc0a9d34b93163287f564399374aea6b2b64a0199438325e348b13bd4c4cb",
+      "width": 680,
+      "height": 163,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/legL.png",
+      "sha256": "2a071b1b4133289d5dadcda8a198ad0d5bc7930b45c1bf0d8a013f8abeb2239a",
+      "width": 595,
+      "height": 623,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/g/legR.png",
+      "sha256": "76e529af35f2de6dfea28d65ad83e7afcbcbc5b22dec7775e56edf1fc4263307",
+      "width": 566,
+      "height": 623,
       "channels": 4
     },
     {

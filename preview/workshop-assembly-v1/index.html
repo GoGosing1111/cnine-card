@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="ko">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>제작 연출 · 숲켓몬 WORKSHOP</title><link rel="stylesheet" href="style.css?v=1"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>제작 연출 · 숲켓몬 WORKSHOP</title><link rel="stylesheet" href="style.css?v=2-models"></head>
 <body>
 <main id="lab">
   <header class="masthead"><a href="/" class="brand" aria-label="숲켓몬으로">SOOP<span>KETMON</span><small>ENGINEERING DIVISION</small></a><span class="preview-tag"><i></i> CRAFTING FILM / 01</span></header>
   <div class="heading"><div><p class="eyebrow">PRECISION. POWER. PERFECTION.</p><h1>완성의 순간<span>제작 연출</span></h1></div><p class="intro">부품에서 완성까지.<br>두 개의 제작 라인, 서로 다른 탄생의 순간.</p></div>
   <nav class="mode-tabs" aria-label="제작 라인"><button data-mode="suit" aria-pressed="true"><span class="mode-number">01</span><span><strong>배틀슈트 조립</strong><small>EXOSUIT ASSEMBLY</small></span><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M12 4h8l2 9-6 4-6-4zM8 12l-5 4 3 11h5M24 12l5 4-3 11h-5M12 17v10h8V17M16 19v8"/></svg></button><button data-mode="vehicle" aria-pressed="false"><span class="mode-number">02</span><span><strong>차량 제작</strong><small>VEHICLE ASSEMBLY</small></span><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 21v-6l4-2 4-6h11l5 8 2 2v4M4 21h4m6 0h8m5 0h2M9 13h16M11 7v6"/><circle cx="11" cy="21" r="3"/><circle cx="25" cy="21" r="3"/></svg></button></nav>
+  <section class="model-picker" aria-labelledby="model-label"><div class="model-picker-label"><span id="model-label">슈트 모델 선택</span><small>각 모델의 성공 · 실패 연출을 확인하세요</small></div><div id="model-selector" role="group" aria-labelledby="model-label"></div></section>
   <section id="stage" aria-label="배틀슈트 및 차량 조립 애니메이션">
     <div id="canvas-host" aria-hidden="true"></div>
     <div class="stage-top"><span id="line-code">EXOSUIT / ASSEMBLY BAY 04</span><span class="stage-status"><i></i><span id="status">준비 완료</span></span></div>
@@ -22,5 +23,5 @@
   <footer><p><span>PREVIEW ONLY</span> 제작 확률·재료·보상은 변경하지 않습니다.</p><div class="qa-controls"><label>결과 검수 <select id="outcome"><option value="success">성공</option><option value="failure">실패</option></select></label><label>재생 속도 <select id="speed"><option value="1">1×</option><option value=".5">0.5×</option><option value="2">2×</option></select></label><label class="motion-toggle"><input type="checkbox" id="reduce-motion"> 모션 줄이기</label><button id="mobile">모바일 보기</button></div></footer>
   <details class="inspect"><summary>프레임별 검수</summary><label for="seek">타임라인 <output id="time">0.00 / 13.40s</output></label><input type="range" id="seek" min="0" max="13.4" step=".01" value="0"><p id="diagnostic">PixiJS + GSAP · 실제 제작 API 호출 없음</p></details>
 </main>
-<script src="/js/ui-fx-vendor-v2045.bundle.js"></script><script src="assembly.bundle.js?v=1"></script>
+<script src="/js/ui-fx-vendor-v2045.bundle.js"></script><script src="assembly.bundle.js?v=2-models"></script>
 </body></html>

@@ -1,3 +1,4 @@
+import {modelPhases,DEFAULT_MODEL} from './models.mjs';
 export const DURATION=13.4;
 export const MODES=Object.freeze({
   suit:{title:'배틀슈트 조립',english:'EXOSUIT ASSEMBLY',item:'H-BODY',descriptor:'백색 판금 · 엠버 코어',accent:0xffc178,phases:[
@@ -13,8 +14,8 @@ export function acceptResult(result){
   if(result.success&&!result.output)throw new TypeError('성공 결과의 아이템이 없습니다.');
   return Object.freeze({requestId:result.requestId,success:result.success,output:result.output?Object.freeze({...result.output}):null});
 }
-export function phaseAt(mode,time,success=true){
-  const phases=MODES[mode].phases;
+export function phaseAt(mode,time,success=true,item=DEFAULT_MODEL[mode]){
+  const phases=modelPhases(mode,item,MODES[mode].phases);
   if(!success&&time>=10.3)return time>=12?['제작 실패','ASSEMBLY FAILED']:['최종 검사 불합격','INSPECTION FAILED'];
   const p=[...phases].reverse().find(p=>p[0]<=time)||phases[0];return p.slice(1);
 }

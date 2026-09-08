@@ -3,33 +3,40 @@
   "scope": "ISOLATED_PREVIEW_USER_REVIEW_PENDING",
   "liveCraftingConnected": false,
   "browser": "Codex in-app Chromium",
+  "models": ["E-BODY", "F-BODY", "G-BODY", "H-BODY", "이그니스 - X", "LAMBORGHINI VENENO"],
+  "newModelsCmsReadOnlyVerified": true,
   "viewportTests": [
-    {"width":1440,"height":1100,"result":"PASS","checks":["suit assembly mid-frame","suit completion","vehicle welding","robot actuator textures"]},
-    {"width":390,"height":844,"result":"PASS","checks":["full suit silhouette","completion readability","vehicle chassis/engine","no document horizontal overflow"]},
-    {"width":320,"height":780,"result":"PASS","checks":["no document horizontal overflow","mode buttons fit","play button within viewport width"]}
+    {"width":1440,"height":1100,"result":"PASS","checks":["E-BODY wing and arm assembly","E-BODY completion","F-BODY tactical interface","Ignis-X turbine attachment and ignition","interior background cleanup"]},
+    {"width":390,"height":844,"result":"PASS","checks":["E/F/G success and failure result labels","full suit silhouette","Ignis-X success and failure","no document horizontal overflow"]},
+    {"width":320,"height":780,"result":"PASS","checks":["model picker and all playback controls fit","no document horizontal overflow","new texture mipmap filtering","rapid model switches"]}
   ],
   "interactiveChecks": {
-    "suitRealTimePlaybackToEnd": "PASS: 13.4 seconds, completed, stopped",
-    "recordedAudioLoading": "PASS: four WAV decoded, enabled, no audio error",
-    "vehicleFailure": "PASS: failed outcome preserved after skip",
-    "twoTimesSpeedPauseResume": "PASS: paused at 0.524 seconds at 2x, resumed and skipped",
-    "rapidModeSwitching": "PASS: eight repeated switches; generation 11; one owned timeline; no console errors",
-    "reducedMotion": "PASS: immediate confirmed result at 13.4 seconds",
+    "newModelOutcomes": "PASS: E/F/G/Ignis-X success and failure, finished at 13.4 seconds with correct item names",
+    "ignisRealTimePlaybackToEnd": "PASS: 13.4 seconds, success, completed, stopped",
+    "recordedAudioLoading": "PASS: four existing WAV decoded, enabled, no audio error",
+    "failureIsolation": "PASS: no success rollout, reactor ignition or Ignis-X booster flame",
+    "pauseResumeSkip": "PASS: E-BODY paused at 0.265 seconds, resumed and skipped",
+    "rapidModelSwitching": "PASS: eight successive model selections; generation 11; one owned timeline; no console errors",
+    "reducedMotion": "PASS: F-BODY immediately resolves the confirmed result at 13.4 seconds",
     "pixiAutoTicker": "OFF",
     "browserConsoleErrors": 0,
-    "actualCraftApiCalls": 0
+    "actualCraftApiCalls": 0,
+    "toolNavigationNote": "One automation navigation timeout resolved after fresh tab inspection; page was loaded and no application error was logged."
   },
   "automated": {
     "testFile":"tests/workshop-assembly-preview-v1.test.mjs",
-    "targetedTests":7,
-    "targetedPassed":7,
-    "workshopSuiteTests":40,
-    "workshopSuitePassed":40,
-    "checks":["immutable confirmed outcome","distinct deterministic phases","every H-BODY RGBA byte reassembles exactly once","real alpha","source audio SHA-256","shared vendor only","real GSAP/Pixi seek/skip/replay/pause/rate/dispose"]
+    "targetedTests":10,
+    "targetedPassed":10,
+    "workshopSuiteTests":43,
+    "workshopSuitePassed":43,
+    "modelOutcomeCombinations":12,
+    "checks":["immutable confirmed outcome","distinct deterministic phases","H-BODY complete RGBA reconstruction","E/F/G every visible RGBA pixel reassembles exactly once","Ignis-X alpha-only cleanup and air openings","source audio SHA-256","shared vendor only","real GSAP/Pixi seek/skip/replay/pause/rate/dispose for six models and both outcomes"]
   },
   "limitations": [
-    "Vehicle matte coordinates are authored for the Veneno preview sample, not arbitrary CMS cars.",
+    "Vehicle mattes are authored separately for Ignis-X and Veneno, not arbitrary CMS cars.",
+    "Ignis-X is a background-extracted ImageGen preview derivative. The original CMS JPG is unchanged; only the derivative's RGB is locked through alpha cleanup.",
     "No new recipe, crafting probability, price, reward or production gameplay hook is introduced.",
+    "Browser viewport testing is not a physical mobile-device test.",
     "Audio is optional and initially off. Device speaker/latency subjective review remains user review."
   ]
 }

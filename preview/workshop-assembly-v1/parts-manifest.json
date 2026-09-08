@@ -1,0 +1,317 @@
+{
+  "e": {
+    "source": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png",
+    "sourceSha256": "322e1958cfbf80cf7940cefd9c05a49b353559afe5319c05ec11a4c4e2c922f3",
+    "width": 1254,
+    "height": 1254,
+    "visibleRgbaExact": true,
+    "parts": [
+      {
+        "name": "head",
+        "path": "assets/parts/e/head.png",
+        "x": 526,
+        "y": 58,
+        "width": 226,
+        "height": 247,
+        "pixels": 33398
+      },
+      {
+        "name": "torso",
+        "path": "assets/parts/e/torso.png",
+        "x": 516,
+        "y": 227,
+        "width": 245,
+        "height": 279,
+        "pixels": 32091
+      },
+      {
+        "name": "shoulderL",
+        "path": "assets/parts/e/shoulderL.png",
+        "x": 504,
+        "y": 245,
+        "width": 124,
+        "height": 150,
+        "pixels": 9420
+      },
+      {
+        "name": "wing",
+        "path": "assets/parts/e/wing.png",
+        "x": 282,
+        "y": 249,
+        "width": 261,
+        "height": 284,
+        "pixels": 24101
+      },
+      {
+        "name": "shoulderR",
+        "path": "assets/parts/e/shoulderR.png",
+        "x": 717,
+        "y": 283,
+        "width": 44,
+        "height": 108,
+        "pixels": 2260
+      },
+      {
+        "name": "core",
+        "path": "assets/parts/e/core.png",
+        "x": 672,
+        "y": 288,
+        "width": 37,
+        "height": 40,
+        "pixels": 1006
+      },
+      {
+        "name": "armR",
+        "path": "assets/parts/e/armR.png",
+        "x": 750,
+        "y": 387,
+        "width": 88,
+        "height": 317,
+        "pixels": 11208
+      },
+      {
+        "name": "armL",
+        "path": "assets/parts/e/armL.png",
+        "x": 506,
+        "y": 392,
+        "width": 83,
+        "height": 310,
+        "pixels": 18154
+      },
+      {
+        "name": "hips",
+        "path": "assets/parts/e/hips.png",
+        "x": 572,
+        "y": 506,
+        "width": 223,
+        "height": 137,
+        "pixels": 27111
+      },
+      {
+        "name": "legL",
+        "path": "assets/parts/e/legL.png",
+        "x": 447,
+        "y": 643,
+        "width": 216,
+        "height": 526,
+        "pixels": 55049
+      },
+      {
+        "name": "legR",
+        "path": "assets/parts/e/legR.png",
+        "x": 590,
+        "y": 643,
+        "width": 296,
+        "height": 526,
+        "pixels": 52702
+      }
+    ]
+  },
+  "f": {
+    "source": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png",
+    "sourceSha256": "d5e661b53fc0098106c1f2e9feb002ccc8d0cb898103561a84ea61cd38689cb0",
+    "width": 1174,
+    "height": 1339,
+    "visibleRgbaExact": true,
+    "parts": [
+      {
+        "name": "torso",
+        "path": "assets/parts/f/torso.png",
+        "x": 35,
+        "y": 19,
+        "width": 1020,
+        "height": 511,
+        "pixels": 46506
+      },
+      {
+        "name": "head",
+        "path": "assets/parts/f/head.png",
+        "x": 477,
+        "y": 105,
+        "width": 202,
+        "height": 197,
+        "pixels": 27225
+      },
+      {
+        "name": "shoulderR",
+        "path": "assets/parts/f/shoulderR.png",
+        "x": 649,
+        "y": 225,
+        "width": 60,
+        "height": 104,
+        "pixels": 4540
+      },
+      {
+        "name": "shoulderL",
+        "path": "assets/parts/f/shoulderL.png",
+        "x": 400,
+        "y": 276,
+        "width": 117,
+        "height": 130,
+        "pixels": 10427
+      },
+      {
+        "name": "armR",
+        "path": "assets/parts/f/armR.png",
+        "x": 676,
+        "y": 326,
+        "width": 110,
+        "height": 281,
+        "pixels": 12718
+      },
+      {
+        "name": "core",
+        "path": "assets/parts/f/core.png",
+        "x": 591,
+        "y": 327,
+        "width": 32,
+        "height": 39,
+        "pixels": 807
+      },
+      {
+        "name": "armL",
+        "path": "assets/parts/f/armL.png",
+        "x": 394,
+        "y": 401,
+        "width": 80,
+        "height": 315,
+        "pixels": 17597
+      },
+      {
+        "name": "hips",
+        "path": "assets/parts/f/hips.png",
+        "x": 454,
+        "y": 530,
+        "width": 268,
+        "height": 103,
+        "pixels": 23998
+      },
+      {
+        "name": "coat",
+        "path": "assets/parts/f/coat.png",
+        "x": 370,
+        "y": 551,
+        "width": 420,
+        "height": 479,
+        "pixels": 36814
+      },
+      {
+        "name": "legL",
+        "path": "assets/parts/f/legL.png",
+        "x": 97,
+        "y": 633,
+        "width": 496,
+        "height": 668,
+        "pixels": 83857
+      },
+      {
+        "name": "legR",
+        "path": "assets/parts/f/legR.png",
+        "x": 593,
+        "y": 633,
+        "width": 567,
+        "height": 617,
+        "pixels": 66334
+      }
+    ]
+  },
+  "g": {
+    "source": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png",
+    "sourceSha256": "33411d6fb94a44b409470e94cf90edf1d96ce06803fc40c6d54e6431bfd99841",
+    "width": 1173,
+    "height": 1341,
+    "visibleRgbaExact": true,
+    "parts": [
+      {
+        "name": "head",
+        "path": "assets/parts/g/head.png",
+        "x": 403,
+        "y": 0,
+        "width": 310,
+        "height": 337,
+        "pixels": 64785
+      },
+      {
+        "name": "torso",
+        "path": "assets/parts/g/torso.png",
+        "x": 33,
+        "y": 48,
+        "width": 1104,
+        "height": 507,
+        "pixels": 51475
+      },
+      {
+        "name": "shoulderR",
+        "path": "assets/parts/g/shoulderR.png",
+        "x": 693,
+        "y": 250,
+        "width": 49,
+        "height": 136,
+        "pixels": 5131
+      },
+      {
+        "name": "shoulderL",
+        "path": "assets/parts/g/shoulderL.png",
+        "x": 357,
+        "y": 283,
+        "width": 169,
+        "height": 190,
+        "pixels": 19709
+      },
+      {
+        "name": "core",
+        "path": "assets/parts/g/core.png",
+        "x": 626,
+        "y": 344,
+        "width": 42,
+        "height": 57,
+        "pixels": 1502
+      },
+      {
+        "name": "armR",
+        "path": "assets/parts/g/armR.png",
+        "x": 710,
+        "y": 381,
+        "width": 131,
+        "height": 333,
+        "pixels": 23166
+      },
+      {
+        "name": "armL",
+        "path": "assets/parts/g/armL.png",
+        "x": 334,
+        "y": 444,
+        "width": 130,
+        "height": 396,
+        "pixels": 28286
+      },
+      {
+        "name": "hips",
+        "path": "assets/parts/g/hips.png",
+        "x": 407,
+        "y": 555,
+        "width": 680,
+        "height": 163,
+        "pixels": 53497
+      },
+      {
+        "name": "legL",
+        "path": "assets/parts/g/legL.png",
+        "x": 0,
+        "y": 718,
+        "width": 595,
+        "height": 623,
+        "pixels": 124319
+      },
+      {
+        "name": "legR",
+        "path": "assets/parts/g/legR.png",
+        "x": 595,
+        "y": 718,
+        "width": 566,
+        "height": 623,
+        "pixels": 114887
+      }
+    ]
+  }
+}
