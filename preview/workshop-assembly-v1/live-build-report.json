@@ -1,0 +1,28 @@
+{
+  "version": "2073-assembly-live",
+  "runtimeConnected": true,
+  "artRegenerated": false,
+  "codeHashNormalization": "UTF-8 / LF",
+  "versions": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0"
+  },
+  "sharedVendor": "/js/ui-fx-vendor-v2045.bundle.js",
+  "outputs": [
+    {
+      "source": "js/workshop-assembly-live-v2073.src.js",
+      "path": "js/workshop-assembly-live-v2073.bundle.js",
+      "sha256": "3ba42d07322952a06d35042acbea2c98d8a88e75b154dd85beae0343dfc603bf"
+    },
+    {
+      "source": "js/workshop-assembly-fx-v2073.src.js",
+      "path": "js/workshop-assembly-fx-v2073.bundle.js",
+      "sha256": "36748d40521204410999fc84aa39acbb49d06edcb7eb25a7d1261fde728f2d0c"
+    },
+    {
+      "source": "preview/workshop-assembly-v1/source/preview.js",
+      "path": "preview/workshop-assembly-v1/assembly.bundle.js",
+      "sha256": "d9c80da94d9c4a130b291dac14164b7d6a46338cb9c02cb4c360c5784b02a24d"
+    }
+  ]
+}

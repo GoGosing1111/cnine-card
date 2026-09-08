@@ -42,11 +42,12 @@ test('car and actuator assets contain genuine transparency',async()=>{
     assert.ok(empty>data.length/4*.1,p);assert.ok(visible>1000,p);
   }
 });
-test('one existing shared vendor, isolated preview, no mutations or synthetic sound',async()=>{
+test('one existing shared vendor, preview controls stay isolated, no mutations or synthetic sound',async()=>{
   const source=await read('source/AssemblyFilm.js'),html=await read('index.html'),bundle=await read('assembly.bundle.js');
   assert.match(html,/ui-fx-vendor-v2045\.bundle/);assert.doesNotMatch(bundle,/class WebGLRenderer|class WebGPURenderer/);
   assert.doesNotMatch(source,/Math\.random|createOscillator|createScriptProcessor|method:\s*['"]POST|workshop\/craft/);
-  for(const p of ['../js/workshop-v1881.js','../index.html'])assert.doesNotMatch(await readFile(new URL(p,import.meta.url),'utf8'),/workshop-assembly-v1|AssemblyFilm/);
+  for(const p of ['../js/workshop-v1881.js','../index.html'])assert.doesNotMatch(await readFile(new URL(p,import.meta.url),'utf8'),/WorkshopAssemblyPreview|source\/preview\.js|previewResult/);
+  assert.match(await readFile(new URL('../js/workshop-v1881.js',import.meta.url),'utf8'),/presentWorkshopAssembly/);
 });
 test('recorded Foley assets match source manifest hashes',async()=>{
   const m=JSON.parse(await read('assets/audio/manifest.json'));assert.equal(m.proceduralSynthesis,false);assert.equal(m.records.length,4);

@@ -1,6 +1,6 @@
 {
-  "previewOnly": true,
-  "runtimeConnected": false,
+  "previewOnly": false,
+  "runtimeConnected": true,
   "renderer": "PixiJS",
   "timeline": "GSAP",
   "sharedVendor": "/js/ui-fx-vendor-v2045.bundle.js",
@@ -52,5 +52,5 @@
       "parts": 10
     }
   ],
-  "bundleSha256": "ba6f8fd18af394373b31df572974b957b317149ba7d84cb1b6e2e3f50412c8e7"
+  "bundleSha256": "d9c80da94d9c4a130b291dac14164b7d6a46338cb9c02cb4c360c5784b02a24d"
 }

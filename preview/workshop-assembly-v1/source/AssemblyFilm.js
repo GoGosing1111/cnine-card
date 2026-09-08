@@ -4,29 +4,39 @@ import {DURATION,MODES,acceptResult,phaseAt} from './contract.mjs';
 import {MODELS,DEFAULT_MODEL,modelFor,suitPlacement} from './models.mjs';
 import variantParts from '../parts-manifest.json' with {type:'json'};
 
-// esbuild IIFE resolves assets relative to this preview, not the source directory.
-const base=new URL('assets/',location.href).href;
+// Shared by the standalone preview AND the live game, regardless of route.
+const assetRoot=new URL('/preview/workshop-assembly-v1/',location.origin).href;
+const base=new URL('assets/',assetRoot).href;
 const root=location.origin;
 const clamp=v=>Math.max(0,Math.min(1,v));
 const parts=['helmet','torso','hips','shoulderL','shoulderR','armL','armR','legL','legR','core'];
 const resources={suitBackground:base+'suit-bay.png',vehicleBackground:base+'vehicle-bay.png',car:base+'car-cutout.png',suit:root+'/assets/items/h-body-v2066.png',frame:root+'/assets/ui/workshop/vehicle-part-frame-v1668.png',engine:root+'/assets/ui/workshop/vehicle-part-engine-v1668.png',...Object.fromEntries(parts.map(n=>[n,base+`parts/${n}.png`])),...Object.fromEntries(['upper','lower','grip'].map(n=>['robot-'+n,base+`parts/robot-${n}.png`]))};
-resources.ignis=new URL(MODELS.ignis.source,location.href).href;
+resources.ignis=new URL(MODELS.ignis.source,assetRoot).href;
 for(const [key,v]of Object.entries(variantParts)){
   resources[key]=root+v.source;
-  for(const p of v.parts)resources[`${key}:${p.name}`]=new URL(p.path,location.href).href;
+  for(const p of v.parts)resources[`${key}:${p.name}`]=new URL(p.path,assetRoot).href;
 }
 export const RESOURCE_KEYS=Object.freeze(Object.keys(resources));
+export function resourceKeysFor(item){
+  const model=modelFor(MODELS[item]?.mode,item);
+  const common=[`${model.mode}Background`,'robot-upper','robot-lower','robot-grip'];
+  if(model.mode==='vehicle')return [...common,'frame','engine',item==='ignis'?'ignis':'car'];
+  return [...common,...(item==='h'?['suit',...parts]:[item,...variantParts[item].parts.map(p=>`${item}:${p.name}`)])];
+}
 
 // Recorded Foley only; no oscillator/noise synthesis. Sound source positions
 // follow the GSAP playhead so pause, seek and 2× never create orphan playback.
 class MechanicalAudio {
   constructor(){this.enabled=false;this.voices=[];this.buffers={};this.context=null;this.anchor=null;this.error=null;this.lockPeak=0;this.destroyed=false;}
   async enable(){
-    if(this.destroyed)return;this.context??=new AudioContext();await this.context.resume();
-    try{await Promise.all(['lock','driver','ignition','failure'].map(async n=>{
+    if(this.destroyed)return;
+    try{this.context??=new AudioContext();const context=this.context;await context.resume();
+    if(this.destroyed)return;
+    await Promise.all(['lock','driver','ignition','failure'].map(async n=>{
       if(this.buffers[n])return;
       const r=await fetch(base+`audio/${n}.wav`);if(!r.ok)throw new Error(`Audio ${r.status}`);
-      this.buffers[n]=await this.context.decodeAudioData(await r.arrayBuffer());
+      const decoded=await context.decodeAudioData(await r.arrayBuffer());
+      if(this.destroyed)return;this.buffers[n]=decoded;
       if(n==='lock'){
         const b=this.buffers[n];let peak=0;
         for(let c=0;c<b.numberOfChannels;c++){const pcm=b.getChannelData(c);for(let i=0;i<pcm.length;i++)if(Math.abs(pcm[i])>peak){peak=Math.abs(pcm[i]);this.lockPeak=i/b.sampleRate;}}
@@ -52,19 +62,22 @@ class MechanicalAudio {
     }
   }
   sync(t,rate,cues){if(!this.anchor||Math.abs(this.anchor.t+(this.context.currentTime-this.anchor.clock)*this.anchor.rate-t)>.12||this.anchor.rate!==rate)this.schedule(t,rate,cues);}
-  destroy(){this.destroyed=true;this.enabled=false;this.stop();this.context?.close();this.context=null;}
+  destroy(){this.destroyed=true;this.enabled=false;this.stop();this.context?.close().catch(()=>{});this.context=null;}
 }
 
 export class AssemblyFilm {
   constructor(host,onUpdate){
     this.host=host;this.onUpdate=onUpdate;this.mode='suit';this.disposed=false;this.timeline=null;this.audio=new MechanicalAudio();this.reducedMotion=false;this.rate=1;this.generation=0;this.buffers=[];
   }
-  async init(){
+  async init(item){
     this.app=new Application();await this.app.init({backgroundAlpha:0,antialias:true,autoStart:false,resolution:Math.min(devicePixelRatio||1,2),autoDensity:true,preference:'webgl',powerPreference:'low-power'});
+    this.appInitialized=true;
     if(this.disposed){this.app.destroy(true);return;}
     this.host.append(this.app.canvas);
-    await Promise.all(Object.entries(resources).map(async([key,url])=>{
+    await Promise.all((item?resourceKeysFor(item):RESOURCE_KEYS).map(async key=>{
+      const url=resources[key];
       const texture=await Assets.load(url);
+      if(this.disposed)return;
       // Preserve source artwork while filtering detailed new parts cleanly
       // at mobile scale. Configure before the first GPU texture upload.
       if(key==='ignis'||/^[efg](?::|$)/.test(key)){
@@ -303,5 +316,5 @@ export class AssemblyFilm {
   setReducedMotion(value){this.reducedMotion=Boolean(value);if(this.reducedMotion)this.skip();else this.render();}
   async setSound(value){if(value)await this.audio.enable();else{this.audio.enabled=false;this.audio.stop();}this.render();return this.audio.enabled;}
   diagnostics(){const t=this.timeline?.time()||0;return {mode:this.mode,model:this.modelKey,modelName:this.model?.name,modelCode:this.model?.code||null,authoredPartCount:this.renderedParts?.length||0,time:t,duration:DURATION,phase:phaseAt(this.mode,t,this.result?.success,this.modelKey),success:this.result?.success,playing:!!this.timeline&&!this.timeline.paused()&&t<DURATION,complete:t>=12,finished:t>=DURATION,progress:t/DURATION,rate:this.rate,reducedMotion:this.reducedMotion,activeTimelines:this.timeline?1:0,pixiTickerRunning:this.app?.ticker?.started||false,sceneChildren:this.camera?.children.length||0,generation:this.generation,audioEnabled:this.audio.enabled,audioError:this.audio.error,apiMutations:0,disposed:this.disposed};}
-  destroy(){if(this.disposed)return;this.disposed=true;this.timeline?.kill();this.timeline=null;this.audio.destroy();this.observer?.disconnect();document.removeEventListener('visibilitychange',this.visibility);this.app?.destroy(true,{children:true,texture:false,textureSource:false});}
+  destroy(){if(this.disposed)return;this.disposed=true;this.timeline?.kill();this.timeline=null;this.audio.destroy();this.observer?.disconnect();document.removeEventListener('visibilitychange',this.visibility);if(this.appInitialized||this.app?.renderer)this.app?.destroy(true,{children:true,texture:false,textureSource:false});}
 }

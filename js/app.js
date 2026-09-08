@@ -888,9 +888,13 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label'],
-    scripts:['js/workshop-v1881.js?v=2009-material-label'],
-    ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-assembly-live-v2073.css?v=2073.1'],
+    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2073-assembly-live.1'],
+    ready:()=>Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
+  },
+  workshopAssemblyFx:{
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=2073.1'],
+    ready:()=>typeof window.WorkshopAssemblyFilm==='function'
   },
   alchemy:{
     styles:['css/card.css?v=1973-alchemy-live','css/alchemy-v1.css?v=6-reward-pool-1979'],
@@ -899,7 +903,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=2009-material-label','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-v1881.js?v=2073-assembly-live.1','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{

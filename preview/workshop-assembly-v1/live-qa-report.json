@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-09",
+  "version": "2073-workshop-assembly",
+  "scope": "APPROVED_LIVE_PRESENTATION_INTEGRATION",
+  "liveCraftingConnected": true,
+  "productionEconomicTest": false,
+  "artChanges": false,
+  "automated": {
+    "workshop": {"passed":48,"failed":0},
+    "navigation": {"passed":6,"failed":0},
+    "performance": {"passed":27,"failed":0},
+    "modelOutcomeCombinations":12,
+    "checks":["server receipt and output identity","unknown model fallback","no animation API mutations","model-scoped texture loading","immutable success/failure","real GSAP/Pixi timeline controls and cleanup","late initialization cancellation","load failure/timeout","reduced motion","request cleared before presentation","balance update before presentation","client mutation guard retained"]
+  },
+  "browser": {
+    "engine":"Codex in-app Chromium",
+    "desktop":["E-BODY success","Ignis-X assembly/final inspection and failure"],
+    "mobile390x844":["G-BODY failure screenshot","all dialog buttons visible","no horizontal overflow","one Pixi canvas"],
+    "mobile320x780":["F-BODY resource-failure fallback","result and confirm button visible","no horizontal overflow"],
+    "actualClientHarness":["H-BODY craft button calls in-memory API once","failure film maps to H-BODY","Ignis-X vehicle craft button calls in-memory API once and starts turbine assembly","closing result removes dialog","craft button unlocks","wallet updates from 20,000,000,000 to 19,800,000,000; stars 50,000 to 49,000","final cache revision 2073.1 verified with body scroll lock"],
+    "physicalDeviceTest":false,
+    "realCraftApiCalls":0
+  },
+  "limitations":["Only approved E/F/G/H, Ignis-X and Veneno have authored assembly geometry; other recipes retain their real item result view.","No live user resources spent for testing.","Sound remains optional and initially muted.","Existing recipe visibility and all crafting probabilities/costs are unchanged."]
+}

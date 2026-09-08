@@ -1,6 +1,6 @@
 {
-  "previewOnly": true,
-  "runtimeConnected": false,
+  "previewOnly": false,
+  "runtimeConnected": true,
   "generatedImageTool": "built-in ImageGen",
   "sourceArtPreserved": true,
   "visualAssets": [

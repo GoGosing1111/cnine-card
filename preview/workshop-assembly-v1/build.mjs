@@ -78,4 +78,6 @@ for(const p of ['assets/vehicle-bay.png','assets/suit-bay.png','assets/car-cutou
 }
 await writeFile(path.join(dir,'asset-manifest.json'),JSON.stringify({previewOnly:true,runtimeConnected:false,generatedImageTool:'built-in ImageGen',sourceArtPreserved:true,visualAssets},null,2)+'\n');
 await writeFile(path.join(dir,'build-report.json'),JSON.stringify({previewOnly:true,runtimeConnected:false,renderer:'PixiJS',timeline:'GSAP',sharedVendor:'/js/ui-fx-vendor-v2045.bundle.js',versions:{pixi:lock.packages['node_modules/pixi.js'].version,gsap:lock.packages['node_modules/gsap'].version},hBodySource:'/assets/items/h-body-v2066.png',hBodySha256:await hash(source),hBodyPartitionPixelExact:exact,parts:names,additionalModels:['e','f','g','ignis'],suitSources:Object.entries(variants).map(([key,v])=>({key,source:v.source,sha256:v.sourceSha256,visibleRgbaExact:v.visibleRgbaExact,parts:v.parts.length})),bundleSha256:await hash(path.join(dir,'assembly.bundle.js'))},null,2)+'\n');
-console.log('Workshop assembly preview built; approved source pixels preserved; live crafting untouched.');
+// The live and preview consumers share AssemblyFilm; rebuild both from source.
+await import('../../scripts/build-workshop-assembly.mjs');
+console.log('Workshop assets built; approved source pixels and crafting rules preserved.');

@@ -142,6 +142,7 @@
     workshopLoadVersion += 1;
     scrapyardLoadVersion += 1;
     scrapyardSyncVersion += 1;
+    window.WorkshopAssemblyLive?.cancel();
   });
 
   function workshopView() {
@@ -557,7 +558,8 @@
       if (canPresent()) {
         workshopLoadVersion += 1;
         workshopState = data.state;
-        showVehicleResult(data);
+        syncWorkshopBalances(data);
+        await presentWorkshopAssembly(data, recipe, canPresent, () => showVehicleResult(data));
       }
     } catch (error) {
       const uncertain = mutationTransportUncertain(error);
@@ -587,6 +589,20 @@
       : `<section><small>ASSEMBLY FAILED</small><h2>차량 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(recipeName)}</b><p>제작 판정에 실패했습니다. 투입한 재료와 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
     normalizeImages(modal);
     modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
+  }
+
+  async function presentWorkshopAssembly(data, recipe, canPresent, fallback) {
+    // Presentation failure is NOT an uncertain crafting transaction. The
+    // receipt was already saved and the pending request cleared by the caller.
+    const showFallback = () => { if (canPresent()) { try { fallback(); } catch (error) { console.warn('Workshop result view unavailable:', error); } } };
+    try {
+      const savedRecipe = (data.state?.recipes || []).find(row => Number(row.id) === Number(data.recipeId)) || recipe;
+      const handled = await window.WorkshopAssemblyLive?.play({ data, recipe: savedRecipe, isActive: canPresent });
+      if (!handled) showFallback();
+    } catch (error) {
+      console.warn('Saved workshop result presentation failed:', error);
+      showFallback();
+    }
   }
 
   async function craftMaterial() {
@@ -711,7 +727,7 @@
         workshopLoadVersion += 1;
         workshopState = data.state;
         syncWorkshopBalances(data);
-        showBattleSuitResult(data, outputName);
+        await presentWorkshopAssembly(data, recipe, canPresent, () => showBattleSuitResult(data, outputName));
       }
     } catch (error) {
       const uncertain = mutationTransportUncertain(error);
@@ -739,7 +755,7 @@
     modal.className = `modal show ws76-simple-result ws81-suit-result ${success ? 'is-success' : 'is-failed'}`;
     modal.innerHTML = success
       ? `<section><small>BATTLE SUIT FORGE COMPLETE</small><h2>배틀슈트 제작 성공</h2><img src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)}</b><p>완성된 배틀슈트가 장비창에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
-      : `<section><small>BATTLE SUIT FORGE FAILED</small><h2>배틀슈트 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(outputName)}</b><p>10% 제작 판정에 실패했습니다. 투입된 슈트 코어와 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
+      : `<section><small>BATTLE SUIT FORGE FAILED</small><h2>배틀슈트 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(outputName)}</b><p>제작 판정에 실패했습니다. 투입된 슈트 코어와 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
     normalizeImages(modal);
     modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
   }
