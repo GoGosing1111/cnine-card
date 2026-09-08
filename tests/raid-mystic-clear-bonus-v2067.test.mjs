@@ -158,12 +158,13 @@ test('CMS renders and reads default, edited and disabled bonus without losing ze
   assert.match(admin,/기존 격파 보상에 더해/);
 });
 
-test('result display includes the named material and only legacy raid CMS resources are refreshed',()=>{
+test('result display and current CMS resources keep the mystic bonus exclusive to legacy raid',()=>{
   const display=raidRewardDisplayV1293(raidRewardPlanV1293({...input,cfg:defaultRaidSettingsV1293()}));
   assert.equal(quantity(display),3);assert.equal(display.inventoryRewards.find(x=>x.itemCode===ENERGY).label,'미스틱 에너지');
   const index=read('admin/index.html');
-  for(const ext of ['js','css'])assert.ok(index.includes(`raid-overhaul-v1293.${ext}?v=2067-raid-mystic-bonus`));
-  assert.match(admin,/core-protocol-raid-admin-v2021\.js\?v=2048-yhwach/);
+  assert.ok(index.includes('raid-overhaul-v1293.css?v=2067-raid-mystic-bonus'));
+  assert.ok(index.includes('raid-overhaul-v1293.js?v=2070-fixed-power'));
+  assert.match(admin,/core-protocol-raid-admin-v2021\.js\?v=2070-fixed-power/);
   const core=read('functions/_raid_core_protocol.js');assert.doesNotMatch(core,/clearMysticEnergy|DEFAULT_CLEAR_MYSTIC_ENERGY/);
   assert.ok(JSON.parse(read('package.json')).scripts['test:raid-entry'].includes('raid-mystic-clear-bonus-v2067.test.mjs'));
 });

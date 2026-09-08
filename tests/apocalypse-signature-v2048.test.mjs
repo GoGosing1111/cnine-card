@@ -50,7 +50,7 @@ test('Core Yhwach keeps original artwork separate from battle SD and preserves T
   assert.equal(defaults.mode,'TEST');assert.equal(defaults.rewardLocked,true);
   assert.equal(cleanCoreRaidSettings({...defaults,bossImage:'assets/custom-art.png',bossBattleSprite:'/assets/custom-sd.webp'}).bossBattleSprite,'/assets/custom-sd.webp');
   for(const stage of ['BOSS','CORE']){
-    const payload=buildCoreRaidBattlePayload({participant:{room_id:'QA',attempt_id:'QA',user_id:1,stage,operation:'BREAK',total_power:2000000,deck_snapshot:JSON.stringify(cards),challenge_json:JSON.stringify({challengeId:'QA',weaknessCycle:[],sequence:[],mashTarget:1})}});
+    const payload=buildCoreRaidBattlePayload({settings:{...defaults,coreCombatPower:500000,bossCombatPower:750000},participant:{room_id:'QA',attempt_id:'QA',user_id:1,stage,operation:'BREAK',server_winner:'A',total_power:2000000,deck_snapshot:JSON.stringify(cards),challenge_json:JSON.stringify({challengeId:'QA',weaknessCycle:[],sequence:[],mashTarget:1})}});
     const boss=payload.battleV2.teams.B.cards[0];
     assert.equal(boss.image,stage==='BOSS'?'assets/tower/uhabha.jpg':'assets/tower/badq.jpg');
     assert.equal(boss.sourceArt,boss.image);assert.notEqual(boss.image,boss.battleSprite);

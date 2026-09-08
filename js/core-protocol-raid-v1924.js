@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.2.0-yhwach-v2048';
+  const VERSION = '3.3.0-fixed-power-v2070';
   const TAB_KEY = 'cnine:raid-content-v1924';
   const OP_NAMES = { BREAK: '파쇄', BLOCK: '차단', STABILIZE: '안정화', FINAL: '최종 보스' };
   const esc = value => String(value ?? '').replace(
@@ -13,6 +13,9 @@
   const requestId = () => globalThis.crypto?.randomUUID?.() || Date.now() + '-' + Math.random().toString(36).slice(2);
   const wait = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms) || 0)));
   const bridge = () => globalThis.CNineCoreRaidBridge || null;
+  const combatPowerReady = settings => [settings?.coreCombatPower, settings?.bossCombatPower]
+    .every(value => Number.isSafeInteger(value) && value >= 1000 && value <= 2000000000);
+  const fixedPowerText = value => number(value) >= 1000 ? number(value).toLocaleString() : '미설정';
 
   let data = null;
   let feature = null;
@@ -143,7 +146,7 @@
       '" alt=""><span>' + esc(ticket.ticketName || '붕괴 코어 입장권') + '</span>' +
       '<strong>보유 ' + number(ticket.quantity).toLocaleString() + '장</strong></div>' +
       '<button type="button" data-core-action="open" ' +
-      (number(ticket.quantity) < number(ticket.required || 1) ? 'data-core-locked="1" disabled' : '') +
+      (!combatPowerReady(state.settings) || number(ticket.quantity) < number(ticket.required || 1) ? 'data-core-locked="1" disabled' : '') +
       '>입장권 1장으로 공대 생성</button></article>' +
       '<article class="core-room-list"><header><span><small>OPEN EXPEDITIONS</small><b>참가 가능한 공대</b></span>' +
       '<button type="button" data-core-action="browse">새로고침</button></header>' +
@@ -177,7 +180,7 @@
   function lobbyActionMarkup(state) {
     const current = state.current;
     const isHost = Number(current.hostUserId) === Number(state.me?.userId);
-    const ready = number(current.participantCount) >= number(current.minParticipants);
+    const ready = combatPowerReady(state.settings) && number(current.participantCount) >= number(current.minParticipants);
     return '<section class="core-lobby-command"><div><small>ROOM ' + esc(current.code) + '</small>' +
       '<h3>공대 집결 중</h3><p>남은 모집 시간 ' + remainingText(current.lobbyEndsAt) +
       ' · ' + number(current.participantCount) + ' / ' + number(current.maxParticipants) + '명</p></div>' +
@@ -206,7 +209,8 @@
       (risk
         ? ' · 앞선 코어를 더 밀면 진척도가 무효화되고 공대 HP가 ' + number(state.settings?.coreImbalanceDamage) + ' 감소합니다.'
         : ' · 낮은 코어부터 맞춰 세 코어의 공명 편차를 유지하십시오.') + '</span></div>' +
-      '<button type="button" data-core-action="battle">선택 코어 출전</button></section>';
+      '<button type="button" data-core-action="battle" ' +
+      (!combatPowerReady(state.settings) ? 'data-core-locked="1" disabled' : '') + '>선택 코어 출전</button></section>';
   }
 
   function bossActionMarkup(state) {
@@ -215,7 +219,8 @@
     return '<section class="core-action is-final"><div><small>FINAL BOSS ASSAULT</small><b>' +
       (pending ? '최종 보스 전투 재개' : esc(current.bossName || state.settings?.bossName || '유하바하') + ' 반복 공략') + '</b><span>남은 시간 ' +
       remainingText(current.endsAt) + ' · 전투와 두 입력 기믹을 모두 성공해야 피해가 누적됩니다.</span></div>' +
-      '<button type="button" data-core-action="battle">' + (pending ? '전투 재개' : '최종 보스 출전') +
+      '<button type="button" data-core-action="battle" ' +
+      (!pending && !combatPowerReady(state.settings) ? 'data-core-locked="1" disabled' : '') + '>' + (pending ? '전투 재개' : '최종 보스 출전') +
       '</button></section>';
   }
 
@@ -318,9 +323,14 @@
       esc(status + ' · ' + statusLabel) + '</span><span>' +
       (current ? number(current.participantCount) + ' / ' + number(current.maxParticipants) + ' MEMBERS' : 'ROOM EXPEDITION') +
       '</span><span>' + (settings.rewardLocked ? '보상 검수 잠금' : '보상 활성') +
+      '</span><span>코어 고정 전투력 ' + fixedPowerText(settings.coreCombatPower) +
+      '</span><span>최종 보스 고정 전투력 ' + fixedPowerText(settings.bossCombatPower) +
       '</span></div></div><div class="core-raid-boss"><img src="' + esc(settings.bossImage) +
       '" alt="' + esc(settings.bossName) + '"><div class="core-raid-boss-label"><small>CORE ENTITY / RAID BOSS</small><b>' +
       esc(settings.bossName) + '</b></div></div></section>' +
+      (!combatPowerReady(settings)
+        ? '<p class="core-room-empty">고정 전투력 설정 대기 중입니다. OWNER가 CMS에서 설정하면 공대 생성·새 출전이 가능합니다. 이미 시작한 전투는 재개할 수 있습니다.</p>'
+        : '') +
       (current ? battleStageMarkup(data) : roomListMarkup(data)) + '</main>';
     bindActions();
     setBusy(busy);
@@ -454,7 +464,7 @@
       return { eyebrow: 'FINAL SUPPRESSION', title: event.label || '멸절 프로토콜 차단', detail: (data?.settings?.bossName || '유하바하') + ' 장시간 그로기 진입', tone: 'success' };
     }
     if (type === 'RAID_PARTY_DAMAGE') {
-      return { eyebrow: 'EXPEDITION DAMAGE', title: event.label || '공대 HP 감소', detail: '기믹 실패 피해가 공대 전체에 누적됩니다.', tone: 'danger' };
+      return { eyebrow: 'EXPEDITION DAMAGE', title: event.label || '공대 HP 감소', detail: '전투·기믹 실패 피해가 공대 전체에 누적됩니다.', tone: 'danger' };
     }
     return null;
   }

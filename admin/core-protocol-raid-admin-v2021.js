@@ -44,6 +44,8 @@
       '</div><span id="coreRaidAdminState">설정 확인 전</span></header>',
       '<div class="coreRaidAdminSafety"><b>출시 안전 상태</b><span>TEST · 보상 잠금 · 지정 계정만 공개</span>',
       '<em>ON은 전체 유저에게 즉시 노출됩니다. 공대 생성은 붕괴 코어 입장권 1장을 소모합니다.</em></div>',
+      '<div class="coreRaidAdminSafety"><b>고정 전투력</b><span>유저 전투력과 무관하게 같은 상대를 공략합니다.</span>',
+      '<em>코어·최종 보스 전투력을 각각 설정하세요. 0은 미설정이며 공대 생성·새 출전이 차단됩니다. 변경값은 다음 전투부터 적용되며 진행 중인 전투는 유지됩니다.</em></div>',
       '<div class="coreRaidAdminGrid">',
       '<label><span>공개 단계</span><select id="coreRaidMode"><option value="OFF">OFF · 완전 숨김</option><option value="TEST">TEST · 지정 유저만</option><option value="ON">ON · 전체 공개</option></select></label>',
       '<label><span>보상 지급</span><select id="coreRaidRewardLocked"><option value="1">잠금 · 테스트 기록만</option><option value="0">해제 · 공대 클리어 보상</option></select></label>',
@@ -65,8 +67,8 @@
       input('coreRaidBalanceTolerance', '코어 허용 편차', 10, 75, '%'),
       input('coreRaidImbalanceDamage', '코어 과충전 HP 피해', 1, 100000, ''),
       input('coreRaidBossMaxHp', '최종 보스 공유 HP', 1000000, 2000000000, ''),
-      input('coreRaidCoreCombatPower', '코어 전투력 비율', 20, 300, '%'),
-      input('coreRaidBossCombatPower', '보스 전투력 비율', 20, 300, '%'),
+      input('coreRaidFixedCorePower', '코어 고정 전투력 · 3종 공통', 0, 2000000000, ''),
+      input('coreRaidFixedBossPower', '최종 보스 고정 전투력', 0, 2000000000, ''),
       input('coreRaidDamageScale', '성공 피해 배율', 1, 5000, ''),
       input('coreRaidBossHpPercent', '보스 HP 계수', 100, 1000, '%'),
       input('coreRaidBossAttackPercent', '보스 공격 계수', 50, 1000, '%'),
@@ -132,8 +134,8 @@
     set('#coreRaidBalanceTolerance', settings.coreBalanceTolerancePercent ?? 34);
     set('#coreRaidImbalanceDamage', settings.coreImbalanceDamage ?? 100);
     set('#coreRaidBossMaxHp', settings.bossMaxHp ?? 900000000);
-    set('#coreRaidCoreCombatPower', settings.coreCombatPowerPercent ?? 55);
-    set('#coreRaidBossCombatPower', settings.bossCombatPowerPercent ?? 80);
+    set('#coreRaidFixedCorePower', settings.coreCombatPower ?? 0);
+    set('#coreRaidFixedBossPower', settings.bossCombatPower ?? 0);
     set('#coreRaidDamageScale', settings.damageScale ?? 130);
     set('#coreRaidBossHpPercent', settings.bossHpPercent ?? 300);
     set('#coreRaidBossAttackPercent', settings.bossAttackPercent ?? 240);
@@ -173,8 +175,8 @@
       coreBalanceTolerancePercent: value('#coreRaidBalanceTolerance'),
       coreImbalanceDamage: value('#coreRaidImbalanceDamage'),
       bossMaxHp: value('#coreRaidBossMaxHp'),
-      coreCombatPowerPercent: value('#coreRaidCoreCombatPower'),
-      bossCombatPowerPercent: value('#coreRaidBossCombatPower'),
+      coreCombatPower: value('#coreRaidFixedCorePower'),
+      bossCombatPower: value('#coreRaidFixedBossPower'),
       damageScale: value('#coreRaidDamageScale'),
       bossHpPercent: value('#coreRaidBossHpPercent'),
       bossAttackPercent: value('#coreRaidBossAttackPercent'),
@@ -216,6 +218,11 @@
 
   async function save() {
     const settings = collect();
+    if (![settings.coreCombatPower, settings.bossCombatPower].every(value =>
+      Number.isSafeInteger(value) && (value === 0 || (value >= 1000 && value <= 2000000000)))) {
+      alert('고정 전투력은 1,000~2,000,000,000 사이의 정수로 입력하세요. 0은 미설정입니다.');
+      return;
+    }
     if (settings.minParticipants > settings.maxParticipants) {
       alert('최소 시작 인원은 최대 참가 인원보다 클 수 없습니다.');
       return;

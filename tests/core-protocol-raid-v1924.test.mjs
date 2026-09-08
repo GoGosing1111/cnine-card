@@ -20,6 +20,7 @@ import {
 } from '../functions/_raid_core_protocol.js';
 
 const read = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const configuredSettings = () => ({ ...defaultCoreRaidSettings(), coreCombatPower: 500000, bossCombatPower: 750000 });
 const cards = [
   { id: 'A1', title: '공격', power_type: 'ATTACK', power: 50000, image: '/a.png', battleSprite: '/a-sd.png' },
   { id: 'D1', title: '방어', power_type: 'DEFENSE', power: 50000, image: '/d.png', battleSprite: '/d-sd.png' },
@@ -196,7 +197,7 @@ test('room state requires all three cores before boss and respects time/party wi
 });
 
 test('V3 payload uses apocalypse tuning, ultimate, both QTEs and failure party damage', () => {
-  const settings = defaultCoreRaidSettings();
+  const settings = configuredSettings();
   const challenge = createCoreRaidChallenge({ roomId: 'ROOM-2', attemptId: 'TRY-9', userId: 9, cards, settings });
   let engineInput;
   const createBattle = input => {
@@ -221,7 +222,7 @@ test('V3 payload uses apocalypse tuning, ultimate, both QTEs and failure party d
   });
   const types = payload.battleV2.result.timeline.map(event => event.type);
   assert.equal(engineInput.monster.pve_difficulty, 'APOCALYPSE');
-  assert.equal(engineInput.monster.battle_power, Math.round(250000 * settings.coreCombatPowerPercent / 100));
+  assert.equal(engineInput.monster.battle_power, settings.coreCombatPower);
   assert.equal(engineInput.bossUltimatePercent, settings.bossUltimatePercent);
   assert.equal(payload.battleV2.result.winner, 'PENDING');
   assert.equal(payload.coreRaid.serverWinner, 'A');
@@ -235,7 +236,7 @@ test('V3 payload uses apocalypse tuning, ultimate, both QTEs and failure party d
 test('core payload preserves live V3 source art and keeps battle sprites separate', () => {
   const sourceCard = { ...cards[0], image: '/assets/cards/source-card.webp', image_url: '/assets/cards/stale.webp', battleSprite: '/assets/ui/project-v/characters/card-sd-v1.png', battle_sprite: '/assets/ui/project-v/characters/stale-sd.png' };
   const challenge = { challengeId: 'CORE-PRESENTATION', weaknessCycle: ['ATTACK'], sequence: ['UP'], sequenceWindowMs: 5500, mashTarget: 10, mashWindowMs: 5000 };
-  const payload = buildCoreRaidBattlePayload({ participant: { room_id: 'ROOM', attempt_id: 'TRY', deck_snapshot: JSON.stringify([sourceCard]), challenge_json: JSON.stringify(challenge), operation: 'BREAK', total_power: 50000 } });
+  const payload = buildCoreRaidBattlePayload({ settings: configuredSettings(), participant: { room_id: 'ROOM', attempt_id: 'TRY', deck_snapshot: JSON.stringify([sourceCard]), challenge_json: JSON.stringify(challenge), operation: 'BREAK', total_power: 50000 } });
   const normalized = payload.battleV2.teams.A.cards[0];
   assert.equal(normalized.image, '/assets/cards/source-card.webp');
   assert.equal(normalized.image_url, '/assets/cards/source-card.webp');
@@ -248,7 +249,7 @@ test('core payload preserves live V3 source art and keeps battle sprites separat
     cardFrameRenderer: 'LIVE_CARD_FRAME',
     preserveCardSourceArt: true
   });
-  const noSourceArt = buildCoreRaidBattlePayload({ participant: { room_id: 'ROOM', attempt_id: 'TRY', deck_snapshot: JSON.stringify([{ ...sourceCard, image: '', image_url: '' }]), challenge_json: JSON.stringify(challenge), operation: 'BREAK', total_power: 50000 } }).battleV2.teams.A.cards[0];
+  const noSourceArt = buildCoreRaidBattlePayload({ settings: configuredSettings(), participant: { room_id: 'ROOM', attempt_id: 'TRY', deck_snapshot: JSON.stringify([{ ...sourceCard, image: '', image_url: '' }]), challenge_json: JSON.stringify(challenge), operation: 'BREAK', total_power: 50000 } }).battleV2.teams.A.cards[0];
   assert.equal(noSourceArt.image, '', 'SD must never be promoted into roster/card artwork');
 });
 
@@ -353,7 +354,7 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
   };
 
   try {
-    const configured = await call('admin/raid/core/settings', 'POST', { ...defaultCoreRaidSettings(), coreRequired: 100, bossMaxHp: 1000000, testUsers: ['공대원'] });
+    const configured = await call('admin/raid/core/settings', 'POST', { ...configuredSettings(), coreRequired: 100, bossMaxHp: 1000000, testUsers: ['공대원'] });
     assert.equal(configured.status, 200);
     assert.equal(configured.body.settings.coreBalanceTolerancePercent, 34);
     assert.equal(configured.body.settings.coreImbalanceDamage, 100);
@@ -516,9 +517,9 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   assert.doesNotMatch(qte, /data-qte-dir/);
   assert.match(index, /core-protocol-raid-v1924\.css\?v=2026-core-balance/);
   assert.match(index, /project-v-raid-qte-v1924\.js\?v=2021-sequence-swipe/);
-  assert.match(index, /core-protocol-raid-v1924\.js\?v=2048-yhwach/);
+  assert.match(index, /core-protocol-raid-v1924\.js\?v=2070-fixed-power/);
   assert.match(adminIndex, /admin-v1276\.js\?v=2050-verified-coin-50eok/);
-  assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=2067-raid-mystic-bonus/);
+  assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=2070-fixed-power/);
   assert.match(coreAdmin, /coreRaidBalanceTolerance/);
   assert.match(coreAdmin, /coreRaidImbalanceDamage/);
   assert.match(admin, /option\.value='CORE_RAID_ENTRY_TICKET'/);

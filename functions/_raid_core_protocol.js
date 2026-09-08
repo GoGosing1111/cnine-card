@@ -16,6 +16,8 @@ export const CORE_RAID_BOSS_SOURCE_ART = 'assets/tower/uhabha.jpg';
 export const CORE_RAID_BOSS_BATTLE_SPRITE = '/assets/responsive/project-v/monsters/core-yhwach-sd-v1-768.webp';
 const CORE_NODE_SOURCE_ART = 'assets/tower/badq.jpg';
 const CORE_NODE_BATTLE_SPRITE = '/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp';
+const CORE_RAID_MAX_COMBAT_POWER = 2000000000;
+const CORE_RAID_POWER_NOT_CONFIGURED = '코어·최종 보스의 고정 전투력이 미설정입니다. OWNER가 CMS에서 설정한 뒤 공략할 수 있습니다.';
 
 const OPERATIONS = Object.freeze({
   BREAK: {
@@ -103,6 +105,10 @@ export function defaultCoreRaidSettings() {
     coreImbalanceDamage: 100,
     bossMaxHp: 900000000,
     damageScale: 130,
+    // Zero is an explicit unconfigured state, never an easy or player-scaled enemy.
+    coreCombatPower: 0,
+    bossCombatPower: 0,
+    // Retained only to replay attempts already started before the fixed-power patch.
     coreCombatPowerPercent: 55,
     bossCombatPowerPercent: 80,
     bossHpPercent: 300,
@@ -153,6 +159,8 @@ export function cleanCoreRaidSettings(raw = {}) {
     coreImbalanceDamage: integer(raw.coreImbalanceDamage, base.coreImbalanceDamage, 1, 100000),
     bossMaxHp: integer(raw.bossMaxHp, base.bossMaxHp, 1000000, 2000000000),
     damageScale: integer(raw.damageScale, base.damageScale, 1, 5000),
+    coreCombatPower: integer(raw.coreCombatPower, base.coreCombatPower, 0, CORE_RAID_MAX_COMBAT_POWER),
+    bossCombatPower: integer(raw.bossCombatPower, base.bossCombatPower, 0, CORE_RAID_MAX_COMBAT_POWER),
     coreCombatPowerPercent: integer(raw.coreCombatPowerPercent, base.coreCombatPowerPercent, 20, 300),
     bossCombatPowerPercent: integer(raw.bossCombatPowerPercent, base.bossCombatPowerPercent, 20, 300),
     bossHpPercent: integer(raw.bossHpPercent, base.bossHpPercent, 100, 1000),
@@ -653,7 +661,13 @@ function participantDeckSnapshot(participant = {}) {
   };
 }
 
-function coreBossEngineMonster(cfg, totalPower, stage, operation) {
+function coreRaidCombatReady(cfg) {
+  return [cfg.coreCombatPower, cfg.bossCombatPower].every(
+    value => Number.isSafeInteger(value) && value >= 1000 && value <= CORE_RAID_MAX_COMBAT_POWER
+  );
+}
+
+function coreBossEngineMonster(cfg, stage, operation) {
   const finalBoss = String(stage).toUpperCase() === 'BOSS';
   const op = OPERATIONS[operation];
   return {
@@ -663,14 +677,7 @@ function coreBossEngineMonster(cfg, totalPower, stage, operation) {
     image_url: finalBoss ? cfg.bossImage : CORE_NODE_SOURCE_ART,
     is_boss: 1,
     pve_difficulty: 'APOCALYPSE',
-    battle_power: Math.max(
-      1000,
-      Math.round(
-        Number(totalPower || 1) *
-        (finalBoss ? cfg.bossCombatPowerPercent : cfg.coreCombatPowerPercent) /
-        100
-      )
-    ),
+    battle_power: finalBoss ? cfg.bossCombatPower : cfg.coreCombatPower,
     pve_hp_percent: finalBoss ? cfg.bossHpPercent : Math.max(180, Math.round(cfg.bossHpPercent * 0.72)),
     pve_attack_percent: finalBoss ? cfg.bossAttackPercent : Math.max(150, Math.round(cfg.bossAttackPercent * 0.78)),
     pve_defense_percent: finalBoss ? cfg.bossDefensePercent : Math.max(140, Math.round(cfg.bossDefensePercent * 0.78)),
@@ -689,6 +696,7 @@ function mechanicTimeline({
   stage = 'CORE',
   bossId = '',
   bossName = '유하바하',
+  serverWinner = 'B',
   failureDamage = 0
 }) {
   const combat = (Array.isArray(engineTimeline) ? engineTimeline : []).filter(
@@ -732,12 +740,17 @@ function mechanicTimeline({
       windowMs: challenge.mashWindowMs,
       label: '연타하여 즉사 구속을 파괴하십시오.'
     },
-    {
+    ...(serverWinner === 'A' ? [{
       type: finalBoss ? 'RAID_STAGGER' : 'RAID_CORE_BREAK',
       operation,
       qteCondition: 'ALL_SUCCESS',
       label: finalBoss ? '멸절 프로토콜 차단 · ' + bossName + ' 그로기' : (OPERATIONS[operation]?.name || '코어') + ' 제압 신호 전송'
-    },
+    }] : [{
+      type: 'RAID_PARTY_DAMAGE',
+      qteCondition: 'ALL_SUCCESS',
+      damage: failureDamage,
+      label: '전투 패배 · 공대 HP ' + failureDamage + ' 감소'
+    }]),
     {
       type: 'BOSS_ULTIMATE',
       qteCondition: 'ANY_FAILURE',
@@ -756,7 +769,9 @@ function mechanicTimeline({
       damage: failureDamage,
       label: '기믹 실패 · 공대 HP ' + failureDamage + ' 감소'
     },
-    { type: 'RESULT', qteCondition: 'ALL_SUCCESS', winner: 'A', reason: 'CORE_PROTOCOL_SUCCESS', label: '공략 성공' },
+    { type: 'RESULT', qteCondition: 'ALL_SUCCESS', winner: serverWinner,
+      reason: serverWinner === 'A' ? 'CORE_PROTOCOL_SUCCESS' : 'CORE_BATTLE_DEFEAT',
+      label: serverWinner === 'A' ? '공략 성공' : '전투 패배' },
     { type: 'RESULT', qteCondition: 'ANY_FAILURE', winner: 'B', reason: 'CORE_PROTOCOL_FAILURE', label: '공략 실패' }
   ];
   timeline.forEach((event, index) => {
@@ -772,8 +787,12 @@ export function buildCoreRaidBattlePayload({
   createBattle = null,
   accountNickname = ''
 } = {}) {
-  const cfg = cleanCoreRaidSettings(settings);
   const snapshot = participantDeckSnapshot(participant);
+  // A resumed battle must retain the exact settings used for its server verdict.
+  const cfg = cleanCoreRaidSettings(snapshot.coreRaidCombatSettings || settings);
+  if (!coreRaidCombatReady(cfg)) {
+    throw Object.assign(new Error(CORE_RAID_POWER_NOT_CONFIGURED), { status: 503 });
+  }
   const cards = snapshot.cards;
   const challenge = jsonSafe(participant.challenge_json, participant.challenge || {});
   const stage = String(participant.stage || aggregate.status || 'CORE').toUpperCase() === 'BOSS' ? 'BOSS' : 'CORE';
@@ -790,7 +809,7 @@ export function buildCoreRaidBattlePayload({
         accountNickname: cleanText(accountNickname, 60)
       }
     : null;
-  const monster = coreBossEngineMonster(cfg, participant.total_power, stage, operation);
+  const monster = coreBossEngineMonster(cfg, stage, operation);
   const bossBattleSprite = stage === 'BOSS' ? cfg.bossBattleSprite : CORE_NODE_BATTLE_SPRITE;
   const seed = stableHash(
     (participant.room_id || participant.instance_id || '') +
@@ -823,6 +842,7 @@ export function buildCoreRaidBattlePayload({
   const engineBoss = engine?.teams?.B?.cards?.[0] || fallbackBoss;
   const boss = {
     ...engineBoss,
+    battlePower: monster.battle_power,
     monsterId: monster.id,
     name: monster.name,
     title: monster.name,
@@ -847,7 +867,7 @@ export function buildCoreRaidBattlePayload({
       technicalPass: true
     }
   };
-  const serverWinner = String(engine?.result?.winner || 'B').toUpperCase();
+  const serverWinner = String(participant.server_winner || engine?.result?.winner || 'B').toUpperCase();
   const battleV2 = engine
     ? {
         ...engine,
@@ -864,6 +884,7 @@ export function buildCoreRaidBattlePayload({
             stage,
             bossId: boss.id,
             bossName: cfg.bossName,
+            serverWinner,
             failureDamage: cfg.mechanicFailureDamage
           })
         }
@@ -880,6 +901,7 @@ export function buildCoreRaidBattlePayload({
             stage,
             bossId: boss.id,
             bossName: cfg.bossName,
+            serverWinner,
             failureDamage: cfg.mechanicFailureDamage
           })
         }
@@ -899,6 +921,7 @@ export function buildCoreRaidBattlePayload({
     monster: boss,
     cards,
     playerPower: Number(snapshot.power || participant.total_power || 0),
+    monsterPower: monster.battle_power,
     cardPower: Number(snapshot.cardPower || 0),
     characterBonus: equipment,
     equippedBattleSuit: equipment.equippedBattleSuit || null,
@@ -1025,6 +1048,9 @@ function publicSettings(cfg) {
   const value = cleanCoreRaidSettings(cfg);
   delete value.testUsers;
   delete value.testUserIds;
+  delete value.coreCombatPowerPercent;
+  delete value.bossCombatPowerPercent;
+  value.combatPowerReady = coreRaidCombatReady(value);
   return value;
 }
 
@@ -1318,6 +1344,7 @@ async function openRoom(env, user, cfg, body) {
   if (!requestId) return { error: '공대 생성 요청 ID가 필요합니다.', status: 400 };
   const active = await activeRoomForUser(env, user.id, cfg);
   if (active) return { response: await statusPayload(env, user, cfg, active.room_id) };
+  if (!coreRaidCombatReady(cfg)) return { error: CORE_RAID_POWER_NOT_CONFIGURED, status: 503 };
   const roomId = randomToken('CORE');
   const receipt = await reserveReceipt(env, {
     requestId,
@@ -1419,6 +1446,7 @@ async function joinRoom(env, user, cfg, body) {
 }
 
 async function startRoom(env, user, cfg, body) {
+  if (!coreRaidCombatReady(cfg)) return { error: CORE_RAID_POWER_NOT_CONFIGURED, status: 503 };
   const roomId = cleanText(body.roomId, 100);
   const room = await roomById(env, roomId, cfg);
   if (!room) return { error: '공대를 찾을 수 없습니다.', status: 404 };
@@ -1451,9 +1479,17 @@ function deckSnapshot(deckInfo, cards) {
 }
 
 function battleResponseFromAttempt(attempt, cfg, createPveBattleV2, nickname) {
+  const snapshot = participantDeckSnapshot(attempt);
+  // Compatibility is limited to a persisted, already-started attempt. New attempts
+  // always have coreRaidCombatSettings and can never enter this player-ratio branch.
+  const replaySettings = snapshot.coreRaidCombatSettings || {
+    ...cfg,
+    coreCombatPower: Math.max(1000, Math.round(Number(attempt.total_power || 1) * cfg.coreCombatPowerPercent / 100)),
+    bossCombatPower: Math.max(1000, Math.round(Number(attempt.total_power || 1) * cfg.bossCombatPowerPercent / 100))
+  };
   const payload = buildCoreRaidBattlePayload({
     participant: attempt,
-    settings: cfg,
+    settings: replaySettings,
     aggregate: { status: attempt.stage },
     createBattle: createPveBattleV2,
     accountNickname: nickname
@@ -1478,6 +1514,7 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
   ).bind(roomId, user.id).first();
   if (existing) return { response: battleResponseFromAttempt(existing, cfg, deps.createPveBattleV2, user.nickname) };
   if (resumeOnly) return { error: '재개할 공략 전투가 없습니다.', status: 404 };
+  if (!coreRaidCombatReady(cfg)) return { error: CORE_RAID_POWER_NOT_CONFIGURED, status: 503 };
 
   const room = await roomById(env, roomId, cfg);
   if (!room || !['CORE', 'BOSS'].includes(room.status)) {
@@ -1524,7 +1561,7 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
     user_id: user.id,
     stage,
     operation,
-    deck_snapshot: JSON.stringify(deckSnapshot(deckInfo, cards)),
+    deck_snapshot: JSON.stringify({ ...deckSnapshot(deckInfo, cards), coreRaidCombatSettings: cfg }),
     role_counts_json: JSON.stringify(coreRaidRoleCounts(cards)),
     challenge_json: JSON.stringify(challenge),
     total_power: totalPower
@@ -1619,21 +1656,23 @@ async function resolveAttempt(env, user, cfg, body) {
       throw Object.assign(new Error('기믹 시드 검증에 실패했습니다.'), { status: 409 });
     }
     const qte = evaluateCoreRaidQte(challenge, body.results || {});
-    const cards = participantDeckSnapshot(attempt).cards;
+    const attemptSnapshot = participantDeckSnapshot(attempt);
+    const cards = attemptSnapshot.cards;
+    const attemptSettings = cleanCoreRaidSettings(attemptSnapshot.coreRaidCombatSettings || cfg);
     const contribution = coreRaidContribution({
       cards,
       totalPower: attempt.total_power,
       operation: attempt.operation,
       challenge,
       qte,
-      settings: cfg
+      settings: attemptSettings
     });
     const baseOutcome = coreRaidAttemptOutcome({
       serverWinner: attempt.server_winner,
       qte,
       contribution,
       stage: attempt.stage,
-      settings: cfg
+      settings: attemptSettings
     });
     const outcome = applyCoreRaidBalanceGate({
       room: room.aggregate || room,
@@ -1863,7 +1902,20 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
     if (request.method === 'PATCH' || request.method === 'POST') {
       const before = cfg;
       const body = await readBody(request);
-      cfg = cleanCoreRaidSettings(body);
+      if (!body || typeof body !== 'object' || Array.isArray(body) ||
+          !['coreCombatPower', 'bossCombatPower'].every(key => Object.hasOwn(body, key))) {
+        return json({ error: '고정 전투력 설정 항목이 필요합니다. CMS를 새로고침한 뒤 저장하세요.' }, 400);
+      }
+      if (![body.coreCombatPower, body.bossCombatPower].every(value =>
+        typeof value === 'number' && Number.isSafeInteger(value) &&
+        (value === 0 || (value >= 1000 && value <= CORE_RAID_MAX_COMBAT_POWER)))) {
+        return json({ error: '고정 전투력은 1,000~2,000,000,000 사이의 정수로 입력하세요. 0은 미설정입니다.' }, 400);
+      }
+      cfg = cleanCoreRaidSettings({
+        ...body,
+        coreCombatPowerPercent: before.coreCombatPowerPercent,
+        bossCombatPowerPercent: before.bossCombatPowerPercent
+      });
       if (cfg.minParticipants > cfg.maxParticipants) {
         return json({ error: '최소 참가 인원은 최대 참가 인원보다 클 수 없습니다.' }, 400);
       }

@@ -5,7 +5,7 @@
   const settings = {
     mode: 'TEST',
     title: '심연 관측소: 붕괴 코어',
-    subtitle: 'ABYSS OBSERVATORY / CORE PROTOCOL',
+    subtitle: '화면·기믹 시연 전용 · 전투력은 프리뷰 예시 (운영 설정 아님)',
     description: '입장권으로 공대를 만들고 제한 시간 안에 세 코어와 아르케온을 연속 제압하십시오.',
     bossName: '오메가 코어 · 아르케온',
     bossImage: '/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp',
@@ -19,6 +19,9 @@
     coreBalanceTolerancePercent: 34,
     coreImbalanceDamage: 100,
     bossMaxHp: 180000000,
+    // UI fixtures only. Balance tests run the actual server engine, not this demo timeline.
+    coreCombatPower: 500000,
+    bossCombatPower: 750000,
     rewardLocked: true
   };
   const operations = [
@@ -205,6 +208,7 @@
       id: 'B:0:MONSTER:CORE',
       cardId: 'MONSTER:CORE',
       monsterId: stage === 'BOSS' ? 'CORE-ARCHEON' : 'CORE-NODE-' + op,
+      battlePower: stage === 'BOSS' ? settings.bossCombatPower : settings.coreCombatPower,
       name,
       title: name,
       image: settings.bossImage,
@@ -320,6 +324,7 @@
         preserveCardSourceArt: true
       },
       monster: boss,
+      monsterPower: boss.battlePower,
       cards: deck,
       challenge,
       coreRaid: {

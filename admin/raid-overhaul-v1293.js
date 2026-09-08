@@ -37,4 +37,4 @@
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',install):setTimeout(install,0);
 })();
 
-void import('./core-protocol-raid-admin-v2021.js?v=2048-yhwach').catch(error=>console.error('core protocol raid admin load failed',error));
+void import('./core-protocol-raid-admin-v2021.js?v=2070-fixed-power').catch(error=>console.error('core protocol raid admin load failed',error));
