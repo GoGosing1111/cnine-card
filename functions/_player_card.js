@@ -30,7 +30,7 @@ const CLAN_HONORS = `FROM clan_season_settlements x
   JOIN clan_members m ON m.season_id=x.season_id AND m.clan_id=x.champion_clan_id AND m.user_id=?
   JOIN clan_organizations o ON o.id=x.champion_clan_id
   WHERE x.status='COMPLETED' AND x.completed_at IS NOT NULL AND x.reward_status<>'DISABLED_TEST'
-    AND s.phase='COMPLETE' AND datetime(m.joined_at)<=datetime(x.completed_at)`;
+    AND s.phase IN ('COMPLETE','CHAMPIONS') AND datetime(m.joined_at)<=datetime(x.completed_at)`;
 const n = value => Math.max(0, Number(value) || 0);
 
 export async function handlePlayerCard({ path, request, env, deps, now = Date.now() }) {
@@ -68,9 +68,14 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
         JOIN avatar_catalog_v1 a ON a.code=l.avatar_code AND a.is_active=1 AND a.is_public=1 WHERE l.user_id=?`).bind(id).first(),
       env.DB.prepare(`SELECT t.name,t.badge_text,t.style_preset FROM user_title_loadout l
         JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP)
-        JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 AND t.is_public=1 WHERE l.user_id=?`).bind(id).first()
+        JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 AND t.is_public=1 WHERE l.user_id=?`).bind(id).first(),
+      env.DB.prepare(`SELECT COUNT(DISTINCT r.season_id) wins,MIN(r.completed_at) first_at
+        FROM clan_championship_rewards r JOIN clan_championships c ON c.season_id=r.season_id
+        JOIN clan_championship_members m ON m.season_id=r.season_id AND m.user_id=r.user_id AND m.clan_id=c.winner_clan_id
+        WHERE r.user_id=? AND r.reward_type='CLAN_CHAMPIONS_TROPHY' AND r.reward_amount=1 AND r.status='SENT'
+          AND c.status='COMPLETED' AND c.completed_at IS NOT NULL AND c.reward_status<>'DISABLED_TEST'`).bind(id).first()
     ]);
-    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title] = result;
+    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}] = result;
     const endAt = settings.endsAt && Date.parse(settings.endsAt);
     const startAt = settings.startsAt && Date.parse(settings.startsAt);
     const openSeason = !settlement && (!endAt || endAt > now) && (!startAt || startAt <= now);
@@ -78,7 +83,8 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
     const earned = {
       CLAN_CHAMPION: { count: n(clanStats.wins), acquiredAt: clanStats.first_at || null, progress: n(clanStats.wins), goal: 1 },
       CHALLENGER_STREAK_3: { count: n(stats.longest_streak) >= 3 ? 1 : 0, acquiredAt: stats.streak_at || null, progress: n(stats.current_streak), goal: 3 },
-      RANKED_CHAMPION: { count: n(stats.champion_count), acquiredAt: stats.champion_at || null, progress: n(stats.champion_count), goal: 1 }
+      RANKED_CHAMPION: { count: n(stats.champion_count), acquiredAt: stats.champion_at || null, progress: n(stats.champion_count), goal: 1 },
+      CLAN_CHAMPIONS_TROPHY: { count: n(champions.wins), acquiredAt: champions.first_at || null, progress: n(champions.wins), goal: 1 }
     };
     return json({ version: PLAYER_CARD_VERSION, serverNow: new Date(now).toISOString(),
       player: { id, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,

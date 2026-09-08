@@ -25,3 +25,5 @@ button.player-card-name:hover,.clan-shell button.player-card-name:hover{border:0
 @media(max-width:620px){.pc-portrait{object-position:50% 9%}.pc-statline dt{font-size:10px}.pc-trophy>small{font-size:9px;min-height:28px}.pc-trophy-foot{font-size:7px}.pc-trophy-detail p{font-size:11px}.pc-trophy-detail b{font-size:12px}.pc-effect-note{font-size:10px}.pc-bottom{font-size:8px}.pc-tabs button{font-size:12px}.pc-history-list li{font-size:12px}.pc-history-list li small{font-size:10px}.pc-history-note{font-size:11px!important}}
 .pc-account-link{display:block;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}.pc-account-link:focus-visible{outline:2px solid #a5deef;outline-offset:3px}
 .pc-card{overflow:clip}.pc-dialog{scrollbar-width:thin;scrollbar-color:#526471 #0a1017}
+.pc-trophies{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:900px){.pc-trophies{grid-template-columns:repeat(2,minmax(0,1fr))}.pc-trophy-stage{max-height:180px}}

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { handlePlayerCard, TROPHY_CATALOG } from '../functions/_player_card.js';
+import { championsSchema } from '../functions/_clan_champions.js';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import sharp from 'sharp';
@@ -38,6 +39,7 @@ async function fixture() {
     CREATE TABLE character_titles(id bigint,name text,badge_text text,style_preset text,is_active int,is_public int);
     INSERT INTO user_title_loadout VALUES(2,1);INSERT INTO user_character_titles VALUES(2,1,NULL);INSERT INTO character_titles VALUES(1,'칭호','챌린저★★★★','challenger',1,1);
   `);
+  await pg.exec(championsSchema(true).join(';'));
   const sql = [];
   const db = new __postgresCompatTest.PostgresD1Database({ async query(input) {
     const text = typeof input === 'string' ? input : input.text;
@@ -80,6 +82,32 @@ test('missing participation, non-challenger final tier and rank 11 all break con
     r = await f.call(); assert.equal(trophy(r, 'CHALLENGER_STREAK_3').owned, true); assert.equal(r.body.ranked.currentStreak, 0); assert.equal(r.body.ranked.longestStreak, 3);
     assert.equal(trophy(r, 'CHALLENGER_STREAK_3').acquiredAt, '2026-07-15');
   } finally { await f.close(); }
+});
+test('rank first-place trophy is only one per completed season, never for another player or a live first place', async () => {
+  const f=await fixture();try{
+    const other=await f.call('userId=3');assert.equal(trophy(other,'RANKED_CHAMPION').count,0);assert.equal(trophy(other,'RANKED_CHAMPION').owned,false);
+    await f.pg.exec("UPDATE pvp_season_settlement_ranks SET final_rank=2 WHERE settlement_id=2");
+    const leader=await f.call();assert.equal(leader.body.ranked.rank,1);assert.equal(trophy(leader,'RANKED_CHAMPION').count,0);
+    await f.pg.exec("UPDATE pvp_season_settlement_ranks SET final_rank=1 WHERE settlement_id=2;UPDATE pvp_season_settlements SET status='PREPARING' WHERE id=2");
+    assert.equal(trophy(await f.call(),'RANKED_CHAMPION').owned,false);
+    await f.pg.exec("UPDATE pvp_season_settlements SET status='COMPLETED' WHERE id=2");
+    for(let i=0;i<3;i++)assert.equal(trophy(await f.call(),'RANKED_CHAMPION').count,1);
+  }finally{await f.close()}
+});
+test('champions trophy requires a delivered receipt and frozen winner membership, distinct from regular first place',async()=>{
+  const f=await fixture();try{
+    await f.pg.exec(`INSERT INTO clan_championships(season_id,status,seeds_json,settings_json,creation_token,semifinal_starts_at,final_starts_at,winner_clan_id,reward_status,completed_at)
+      VALUES(4,'COMPLETED','[]','{}','cup','2026-08-01','2026-08-02',9,'SENT','2026-08-02');
+      INSERT INTO clan_championship_members VALUES(4,2,9),(4,3,8);
+      INSERT INTO clan_championship_rewards(season_id,user_id,reward_type,reward_amount,processing_token,status,completed_at)
+      VALUES(4,2,'CLAN_CHAMPIONS_TROPHY',1,'a','SENT','2026-08-02'),(4,3,'CLAN_CHAMPIONS_TROPHY',1,'b','SENT','2026-08-02')`);
+    assert.equal(trophy(await f.call(),'CLAN_CHAMPIONS_TROPHY').count,1);
+    assert.equal(trophy(await f.call('userId=3'),'CLAN_CHAMPIONS_TROPHY').owned,false);
+    await f.pg.exec("UPDATE clan_championships SET reward_status='DISABLED_TEST'");
+    assert.equal(trophy(await f.call(),'CLAN_CHAMPIONS_TROPHY').owned,false);
+    await f.pg.exec("UPDATE clan_seasons SET phase='CHAMPIONS' WHERE id=1");
+    assert.equal(trophy(await f.call(),'CLAN_CHAMPION').count,1,'regular settlement remains final during postseason');
+  }finally{await f.close()}
 });
 test('unfinished settlements and expired season never claim current challenger; hidden/expired appearance stays private', async () => {
   const f = await fixture(); try {

@@ -10,7 +10,7 @@
     const finalMatch={id:102,stage:'FINAL',status:complete?'COMPLETED':'ACTIVE',clanAId:9,clanBId:6,scoreA:complete?401:202,scoreB:complete?422:216,startsAt:stamp(-1200000),endsAt:stamp(2400000),winnerClanId:complete?6:0};
     return{verified:true,season:{id:7,seasonNo:4,phase:upcoming?'ACTIVE':complete?'COMPLETE':'CHAMPIONS',endsAt:stamp(2400000)},membership:null,teams,rules:{maxMembers:22},
       champions:{enabled:true,seasonId:7,seasonNo:4,status:upcoming?'UPCOMING':complete?'COMPLETED':final?'FINAL':'SEMIFINAL',seeds:upcoming?[]:teams,matches:upcoming?[]:final?[semi,finalMatch]:[semi],winnerClanId:complete?6:0,
-        semifinalStartsAt:semi.startsAt,finalStartsAt:final?finalMatch.startsAt:stamp(86400000),rewardStatus:'AWAITING_CONFIG',rewards:[]}};
+        semifinalStartsAt:semi.startsAt,finalStartsAt:final?finalMatch.startsAt:stamp(86400000),rewardStatus:complete?'SENT':'CONFIGURED',rewards:[{type:'CLAN_CHAMPIONS_TROPHY',label:'챔피언스리그 우승 트로피',amount:1,unit:'개'},{type:'AVATAR_SOLAR_VANGUARD',label:'태양의 선봉대장 아바타',amount:14,unit:'일'}]}};
   }
   function render(){document.querySelectorAll('[data-case]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.case===view)));ClanV1.stop();ClanV1.state.tab='champions';ClanV1.bind({apiRequest:async()=>fixture()});}
   document.querySelectorAll('[data-case]').forEach(b=>b.onclick=()=>{view=b.dataset.case;render()});render();

@@ -30,7 +30,7 @@
     return `<button type="button" class="pc-trophy ${t.owned ? 'is-owned' : 'is-locked'} pc-tone-${tone}" data-pc-trophy="${i}" aria-pressed="false" aria-label="${esc(t.name)} · ${t.owned ? '획득' : '미획득'} · 상세 보기">
       <span class="pc-trophy-status">${t.owned ? `획득${t.count > 1 ? ' ×' + num(t.count) : ''}` : '미획득'}</span>
       <span class="pc-trophy-stage">${art ? `<img src="${esc(art)}" alt="" width="512" height="512" decoding="async">` : ''}<span class="pc-plinth"></span></span>
-      <span class="pc-trophy-name">${esc(t.name)}</span><small>${t.code === 'CLAN_CHAMPION' ? '클랜 시즌 우승' : t.code === 'CHALLENGER_STREAK_3' ? '3시즌 연속 챌린저' : '랭크 시즌 1위'}</small>
+      <span class="pc-trophy-name">${esc(t.name)}</span><small>${t.code === 'CLAN_CHAMPIONS_TROPHY' ? '챔피언스리그 최종 우승' : t.code === 'CLAN_CHAMPION' ? '클랜 시즌 우승' : t.code === 'CHALLENGER_STREAK_3' ? '3시즌 연속 챌린저' : '랭크 시즌 1위'}</small>
       <span class="pc-trophy-foot">${t.owned ? 'VERIFIED HONOR' : `${num(Math.min(t.progress, t.goal))} / ${num(t.goal)}`} <span aria-hidden="true">↗</span></span>
     </button>`;
   }

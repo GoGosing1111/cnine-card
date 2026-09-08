@@ -15,6 +15,11 @@ const REWARDS = Object.freeze([
   ['championsMasterStar', 'MASTER_STAR', '마스터의 별', 100000],
   ['championsRerollTicket', 'HIGH_GRADE_REROLL_TICKET', '고등급 재뽑기권', 100000]
 ]);
+// Approved base prizes are separate from optional CMS currency bonuses.
+export const CHAMPIONS_BASE_REWARDS = Object.freeze([
+  Object.freeze({ type: 'CLAN_CHAMPIONS_TROPHY', label: '챔피언스리그 우승 트로피', amount: 1, unit: '개' }),
+  Object.freeze({ type: 'AVATAR_SOLAR_VANGUARD', label: '태양의 선봉대장 아바타', amount: 14, unit: '일' })
+]);
 const SCHEMA_KEY = 'safe_runtime_upgrade_v2071_clan_champions';
 const parse = (value, fallback = {}) => { try { return JSON.parse(value || ''); } catch { return fallback; } };
 const num = value => Number(value || 0);
@@ -97,8 +102,8 @@ export function championsNextWindow(from, days, settings) {
 }
 
 function rewardSpec(settings) {
-  return REWARDS.filter(([key]) => num(settings[key]) > 0)
-    .map(([key, type, label]) => ({ type, label, amount: num(settings[key]) }));
+  return [...CHAMPIONS_BASE_REWARDS, ...REWARDS.filter(([key]) => settings.championsRewardsEnabled && num(settings[key]) > 0)
+    .map(([key, type, label]) => ({ type, label, amount: num(settings[key]) }))];
 }
 
 export async function startChampions(env, season, settings, rankedTeams, now = Date.now()) {
@@ -115,7 +120,7 @@ export async function startChampions(env, season, settings, rankedTeams, now = D
   const token = crypto.randomUUID(), db = env.DB, writes = [];
   const p = (sql, ...values) => db.prepare(sql).bind(...values);
   if (db.dialect === 'postgres') writes.push(p('SELECT id FROM clan_seasons WHERE id=? FOR UPDATE', season.id));
-  const rewards = settings.mode === 'ON' && settings.championsRewardsEnabled ? rewardSpec(settings) : null;
+  const rewards = settings.mode === 'ON' ? rewardSpec(settings) : null;
   writes.push(p(`INSERT OR IGNORE INTO clan_championships(season_id,seeds_json,settings_json,creation_token,
     semifinal_starts_at,final_starts_at,reward_status,reward_json)
     SELECT ?,?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='SETTLEMENT')`,
@@ -191,15 +196,14 @@ export async function advanceChampions(env, season, settings, now = Date.now()) 
   }
 }
 
-// Each reward is one standard claimable message. A unique receipt and transaction token
-// guard message + attachment together, including concurrent retries and missing users.
+// Honors are direct ownership grants with notification messages; optional currency uses
+// claimable attachments. Both share unique receipts and one atomic transaction.
 export async function deliverChampionsRewards(env, seasonId, settings, { configurePending = false } = {}) {
   const db = env.DB, p = (sql, ...values) => db.prepare(sql).bind(...values);
   let cup = await p('SELECT * FROM clan_championships WHERE season_id=?', seasonId).first();
   if (!cup || cup.status !== 'COMPLETED' || settings.mode !== 'ON' || cup.reward_status === 'DISABLED_TEST') return;
   if (configurePending && cup.reward_status === 'AWAITING_CONFIG') {
     validateChampionsSettings(settings, settings);
-    invariant(settings.championsRewardsEnabled, '챔피언스리그 우승 보상을 먼저 설정·활성화하세요.');
     await p("UPDATE clan_championships SET reward_json=?,reward_status='PENDING' WHERE season_id=? AND reward_status='AWAITING_CONFIG'",
       JSON.stringify(rewardSpec(settings)), seasonId).run();
     cup = await p('SELECT * FROM clan_championships WHERE season_id=?', seasonId).first();
@@ -207,24 +211,59 @@ export async function deliverChampionsRewards(env, seasonId, settings, { configu
   if (cup.reward_status !== 'PENDING') return;
   const rewards = parse(cup.reward_json, []);
   invariant(rewards.length > 0, '챔피언스리그 우승 보상 설정이 비어 있습니다.');
+  const avatarReward = rewards.find(reward => reward.type === 'AVATAR_SOLAR_VANGUARD');
+  const avatarExpiry = new Date(Date.now() + 14 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
+  if (avatarReward) {
+    invariant(avatarReward.amount === 14, '챔피언스리그 아바타 기간은 14일입니다.');
+    const avatar = await p("SELECT code FROM avatar_catalog_v1 WHERE code='SOLAR_VANGUARD' AND is_active=1 AND is_public=1").first();
+    invariant(avatar, '태양의 선봉대장 아바타의 CMS 공개·활성 상태를 확인하세요. 보상은 미지급 상태로 보존됩니다.');
+  }
   const members = rows(await p('SELECT user_id FROM clan_championship_members WHERE season_id=? AND clan_id=? ORDER BY user_id', seasonId, cup.winner_clan_id).all());
   invariant(members.length > 0, '챔피언스리그 우승 명단이 비어 있습니다. 보상을 확인하세요.');
   const writes = [];
   if (db.dialect === 'postgres') writes.push(p('SELECT season_id FROM clan_championships WHERE season_id=? FOR UPDATE', seasonId));
+  if (avatarReward && db.dialect === 'postgres') writes.push(p("SELECT code FROM avatar_catalog_v1 WHERE code='SOLAR_VANGUARD' FOR UPDATE"));
   for (const reward of rewards) {
     const token = crypto.randomUUID(), prefix = `clan-champions:${seasonId}:`, suffix = `:${reward.type}`;
+    const direct = reward.type === 'CLAN_CHAMPIONS_TROPHY' || reward.type === 'AVATAR_SOLAR_VANGUARD';
+    if (reward.type === 'CLAN_CHAMPIONS_TROPHY') invariant(reward.amount === 1, '대회별 트로피는 1개만 지급합니다.');
     // One bulk transaction per cup, not one network transaction per member/item.
     writes.push(p(`INSERT OR IGNORE INTO clan_championship_rewards(season_id,user_id,reward_type,reward_amount,processing_token)
       SELECT m.season_id,m.user_id,?,?,? FROM clan_championship_members m JOIN users u ON u.id=m.user_id
       WHERE m.season_id=? AND m.clan_id=? AND EXISTS(SELECT 1 FROM clan_championships
-        WHERE season_id=? AND status='COMPLETED' AND reward_status='PENDING')`,
-      reward.type, reward.amount, token, seasonId, cup.winner_clan_id, seasonId));
+        WHERE season_id=? AND status='COMPLETED' AND reward_status='PENDING')
+        AND (?=0 OR EXISTS(SELECT 1 FROM avatar_catalog_v1 WHERE code='SOLAR_VANGUARD' AND is_active=1 AND is_public=1))`,
+      reward.type, reward.amount, token, seasonId, cup.winner_clan_id, seasonId, avatarReward ? 1 : 0));
+    if (reward.type === 'AVATAR_SOLAR_VANGUARD') {
+      // Only the newly inserted receipt owns this grant. Retrying never restarts 14 days.
+      // Permanent ownership and an existing later expiry are never shortened.
+      writes.push(p(`INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref,expires_at)
+        SELECT user_id,'SOLAR_VANGUARD','CLAN_CHAMPIONS',? || CAST(user_id AS TEXT),?
+        FROM clan_championship_rewards WHERE season_id=? AND reward_type=? AND processing_token=? AND status='PENDING'
+        ON CONFLICT(user_id,avatar_code) DO UPDATE SET
+          source_type=excluded.source_type,source_ref=excluded.source_ref,acquired_at=CURRENT_TIMESTAMP,expires_at=excluded.expires_at
+        WHERE avatar_user_ownership_v1.expires_at IS NOT NULL AND avatar_user_ownership_v1.expires_at<excluded.expires_at`,
+        prefix, avatarExpiry, seasonId, reward.type, token));
+    }
     writes.push(p(`INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
       SELECT user_id,'SYSTEM',?,?,'CLAN_CHAMPIONS_REWARD',? || CAST(user_id AS TEXT) || ?
       FROM clan_championship_rewards WHERE season_id=? AND reward_type=? AND processing_token=? AND status='PENDING'`,
       '챔피언스리그 최종 우승 보상',
-      `챔피언스리그 최종 우승을 축하합니다.\n${reward.label} ${reward.amount.toLocaleString('ko-KR')}개\n정규시즌 보상과 별도로 지급됩니다. 아래 버튼으로 수령하세요.`,
+      `챔피언스리그 최종 우승을 축하합니다.\n${reward.label} ${reward.amount.toLocaleString('ko-KR')}${reward.unit || '개'}\n정규시즌 보상과 별도로 지급됩니다. ${direct ? reward.type === 'CLAN_CHAMPIONS_TROPHY' ? '명함에 우승 트로피 1개가 기록되었습니다. 대회당 1회만 지급됩니다.' : '아바타 보유 목록에 14일간 사용할 수 있도록 지급했습니다. 기존 영구 소유권·더 긴 이용기간은 유지됩니다.' : '아래 버튼으로 수령하세요.'}`,
       prefix, suffix, seasonId, reward.type, token));
+    if (direct) {
+      writes.push(p(`UPDATE clan_championship_rewards SET status='SENT',completed_at=CURRENT_TIMESTAMP,
+        message_id=(SELECT id FROM user_messages m WHERE m.user_id=clan_championship_rewards.user_id
+          AND m.campaign_key=? || CAST(clan_championship_rewards.user_id AS TEXT) || ? LIMIT 1)
+        WHERE season_id=? AND reward_type=? AND processing_token=? AND status='PENDING'
+        AND EXISTS(SELECT 1 FROM user_messages m WHERE m.user_id=clan_championship_rewards.user_id
+          AND m.campaign_key=? || CAST(clan_championship_rewards.user_id AS TEXT) || ?)
+        AND (?='CLAN_CHAMPIONS_TROPHY' OR EXISTS(SELECT 1 FROM avatar_user_ownership_v1 o
+          WHERE o.user_id=clan_championship_rewards.user_id AND o.avatar_code='SOLAR_VANGUARD'
+          AND (o.expires_at IS NULL OR o.expires_at>=?)))`,
+        prefix, suffix, seasonId, reward.type, token, prefix, suffix, reward.type, avatarExpiry));
+      continue;
+    }
     writes.push(p(`INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
       SELECT m.id,r.user_id,r.reward_type,r.reward_amount FROM clan_championship_rewards r JOIN user_messages m
         ON m.user_id=r.user_id AND m.campaign_key=? || CAST(r.user_id AS TEXT) || ?
@@ -249,7 +288,7 @@ export async function championsPublicState(env, seasonId, settings) {
   let cup = await env.DB.prepare('SELECT * FROM clan_championships WHERE season_id=?').bind(seasonId).first();
   // Keep the latest champion visible after next season registration opens.
   if (!cup) cup = await env.DB.prepare("SELECT * FROM clan_championships WHERE status='COMPLETED' ORDER BY season_id DESC LIMIT 1").first();
-  if (!cup) return { enabled: settings.championsEnabled, status: 'UPCOMING', seeds: [], matches: [], rewards: rewardSpec(settings), rewardStatus: settings.championsRewardsEnabled ? 'CONFIGURED' : 'AWAITING_CONFIG' };
+  if (!cup) return { enabled: settings.championsEnabled, status: 'UPCOMING', seeds: [], matches: [], rewards: rewardSpec(settings), rewardStatus: settings.mode === 'ON' ? 'CONFIGURED' : 'DISABLED_TEST' };
   if(cup.status==='COMPLETED'&&cup.reward_status==='PENDING'&&settings.mode==='ON'){
     await deliverChampionsRewards(env,cup.season_id,settings);
     cup=await env.DB.prepare('SELECT * FROM clan_championships WHERE season_id=?').bind(cup.season_id).first();

@@ -53,21 +53,32 @@
           ${field('cwChampionsOpenTime','대회 개방 시각 (KST)','time')}
           ${field('cwChampionsSemifinalDelayDays','정규시즌 종료 후 진출전 (일)','number','min="1" max="30" step="1"')}
           ${field('cwChampionsFinalDelayDays','진출전 이후 결승 (일)','number','min="1" max="30" step="1"')}
-          ${select('cwChampionsRewardsEnabled','최종 우승 별도 보상',[['0','수량 설정 대기'],['1','ON · 보상 메시지 발송']])}
+          ${select('cwChampionsRewardsEnabled','선택 추가 재화 보상',[['0','기본 트로피·아바타만 지급'],['1','ON · 추가 재화 메시지 발송']])}
           ${field('cwChampionsCoin','우승 클랜원 1인당 코인','number','min="0" step="1"')}
           ${field('cwChampionsMysticEnergy','1인당 미스틱 에너지','number','min="0" max="100000" step="1"')}
           ${field('cwChampionsMasterStar','1인당 마스터의 별','number','min="0" max="100000" step="1"')}
           ${field('cwChampionsRerollTicket','1인당 고등급 재뽑기권','number','min="0" max="100000" step="1"')}
-        </div><p class="cwadmin-warning">2위 vs 3위 → 승자 vs 1위. 동점은 정규시즌 상위 시드가 진출합니다. 지정일이 휴무이면 다음 개방 요일로 이동합니다. 개최 시 참가 명단·시드·경기 규칙·설정된 보상을 고정하며 이후 저장은 다음 대회부터 적용합니다. 미설정 보상은 수량을 저장한 뒤 아래 버튼으로 별도 발송할 수 있습니다. 기존 시즌 보상은 그대로 유지됩니다.</p></section>
+        </div><div class="cwadmin-operation-summary" id="cwChampionsBaseRewards"><span><small>확정 기본 보상 · 1인당</small><b>챔피언스리그 우승 트로피 1개</b></span><span><small>기간제 아바타</small><b>태양의 선봉대장 14일</b></span></div><p class="cwadmin-warning">공개 ON 대회의 최종 우승 확정 명단에 기본 보상을 자동 지급하고 메시지로 안내합니다. 트로피는 대회당 1개이며 아바타는 지급일로부터 14일입니다. 기존 영구 소유권·더 긴 기간은 유지합니다. 선택 재화 보상을 꺼도 기본 보상은 지급합니다. 2위 vs 3위 → 승자 vs 1위. 동점은 상위 시드 진출, 휴무는 다음 개방일로 이동합니다. 개최 시 명단·규칙·보상을 고정하며 기존 시즌 보상은 유지됩니다.</p></section>
         <footer class="cwadmin-save"><span id="cwSaveState">서버 설정을 불러오는 중입니다.</span><button type="submit" id="cwSaveButton">클랜전 전체 설정 저장</button></footer>
       </form>
       <section class="cwadmin-panel"><header><div><small>CHAMPIONS BRACKET & DELIVERY</small><h3>챔피언스리그 대진·보상 현황</h3></div><button type="button" id="cwChampionsRetry">미발송 우승 보상 발송</button></header><div id="cwChampionsState" class="cwadmin-operation-summary"></div></section>
+      <section class="cwadmin-panel"><header><div><small>READ ONLY · OFFICIAL SETTLEMENTS</small><h3>명함 트로피 기록 조회</h3></div><em>지급·회수 없음</em></header><form id="cwTrophyAuditForm" class="cwadmin-grid cols-3">${field('cwTrophyNickname','정확한 닉네임','text','required maxlength="80"')}<button type="submit" id="cwTrophyAuditButton">명함 기록 조회</button></form><pre id="cwTrophyAuditResult" style="white-space:pre-wrap;overflow-wrap:anywhere" aria-live="polite">공식 시즌 종료 기록과 실제 트로피 보유 여부를 조회합니다.</pre></section>
       <section class="cwadmin-panel cwadmin-operations"><header><div><small>05 · OWNER SEASON CONTROL</small><h3>시즌 단계·드래프트 리셋</h3></div><button type="button" class="ghost" id="cwReload">현황 새로고침</button></header><div class="cwadmin-operation-summary" id="cwOperationSummary"></div><div class="cwadmin-operation-buttons"><button type="button" data-cw-operation="bootstrap">테스트 풀 구성·드래프트 시작</button><button type="button" data-cw-operation="activate">잔여 지명 완료·클랜전 개막</button><button type="button" data-cw-operation="settle">현재 점수로 테스트 정산</button><button type="button" class="danger" data-cw-operation="reset">최초 드래프트로 리셋</button><button type="button" class="danger" data-cw-operation="official-reset">공식 시즌 1·트로피 초기화</button></div></section>
       <section class="cwadmin-panel"><header><div><small>06 · OFFICIAL CLANS</small><h3>공식 8클랜 현황</h3></div><em id="cwClanCount">0 / 8</em></header><div class="cwadmin-clans" id="cwClans"></div></section>
       <section class="cwadmin-panel"><header><div><small>07 · CURRENT MATCHES</small><h3>현재 대진·점수</h3></div><em id="cwWarCount">0 MATCHES</em></header><div class="cwadmin-wars" id="cwWars"></div></section>
       <section class="cwadmin-panel"><header><div><small>08 · BATTLE RECEIPTS</small><h3>최근 클랜전 처리 현황</h3></div><em>최근 40건 · 상세 타임라인 미보존</em></header><div class="cwadmin-receipts" id="cwReceipts"></div></section>
     </section>`;
     q('cwSettingsForm').addEventListener('submit',save);
+    q('cwTrophyAuditForm').addEventListener('submit',async event=>{
+      event.preventDefault();const button=q('cwTrophyAuditButton'),result=q('cwTrophyAuditResult');
+      if(button.disabled)return;button.disabled=true;result.textContent='공식 명함 기록을 조회하고 있습니다.';
+      try{const profile=await api('player-card?nickname='+encodeURIComponent(q('cwTrophyNickname').value.trim()));
+        result.textContent=[`${profile.player.nickname} · ID ${profile.player.id}`,`현재 랭크: ${profile.ranked.rank||'미배치'}위 (트로피 지급 기준 아님)`,
+          ...(profile.trophies||[]).map(t=>`${t.name}: ${t.owned?'보유':'미획득'} ${num(t.count)}개 · 최초 ${date(t.acquiredAt)}\n  ${t.rule}`),
+          '\n최근 공식 랭크 시즌 정산:',...(profile.ranked.history||[]).map(h=>`${h.season}: 최종 ${h.rank}위 · ${h.settledAt}`),
+          '\n공식 클랜 시즌 우승:',...(profile.clanHistory||[]).map(h=>`시즌 ${h.season} · ${h.clan} · ${h.settledAt}`)].join('\n');
+      }catch(error){result.textContent=error.message}finally{button.disabled=false}
+    });
     q('cwChampionsRetry').onclick=async()=>{
       const cup=data?.champions;if(busy||cup?.status!=='COMPLETED')return;
       if(!confirm(`시즌 ${cup.seasonNo} 챔피언스리그 우승 명단에 미발송 보상을 메시지로 지급할까요? 기존 발송분은 중복 지급하지 않습니다.`))return;
@@ -106,7 +117,7 @@
   function render(){
     if(!data)return;const settings=data.settings||{},season=data.season||{},metrics=data.metrics||{},phase=String(season.phase||'NO SEASON'),mode=String(settings.mode||'TEST');populate(settings);
     const cup=data.champions||{},cupTeams=cup.seeds||[],champion=cupTeams.find(team=>team.clanId===cup.winnerClanId);
-    q('cwChampionsState').innerHTML=`<span><small>대회</small><b>${cup.seasonNo?'SEASON '+num(cup.seasonNo):'다음 시즌 종료 후'} · ${esc(cup.status||'UPCOMING')}</b></span><span><small>시드 순서</small><b>${cupTeams.map(team=>'#'+team.seed+' '+esc(team.name)).join(' / ')||'정규시즌 종료 시 확정'}</b></span><span><small>2·3위전 → 결승</small><b>${date(cup.semifinalStartsAt)} → ${date(cup.finalStartsAt)}</b></span><span><small>최종 우승</small><b>${esc(champion?.name||'미정')}</b></span><span><small>별도 보상 상태</small><b>${esc(({AWAITING_CONFIG:'OWNER 수량 설정 대기',PENDING:'미발송분 대기',SENT:'메시지 발송 완료',DISABLED_TEST:'TEST · 지급 없음'}[cup.rewardStatus]||cup.rewardStatus||'미설정'))}</b></span>`;
+    q('cwChampionsState').innerHTML=`<span><small>대회</small><b>${cup.seasonNo?'SEASON '+num(cup.seasonNo):'다음 시즌 종료 후'} · ${esc(cup.status||'UPCOMING')}</b></span><span><small>시드 순서</small><b>${cupTeams.map(team=>'#'+team.seed+' '+esc(team.name)).join(' / ')||'정규시즌 종료 시 확정'}</b></span><span><small>2·3위전 → 결승</small><b>${date(cup.semifinalStartsAt)} → ${date(cup.finalStartsAt)}</b></span><span><small>최종 우승</small><b>${esc(champion?.name||'미정')}</b></span><span><small>별도 보상 상태</small><b>${esc(({CONFIGURED:'기본 보상 확정',AWAITING_CONFIG:'OWNER 수량 설정 대기',PENDING:'미지급분 대기',SENT:'기본 보상 지급·메시지 발송 완료',DISABLED_TEST:'TEST · 지급 없음'}[cup.rewardStatus]||cup.rewardStatus||'미설정'))}</b></span>`;
     q('cwChampionsRetry').disabled=busy||cup.status!=='COMPLETED'||!['AWAITING_CONFIG','PENDING'].includes(cup.rewardStatus)||mode!=='ON';
     q('cwModeBadge').className=`mode-${mode.toLowerCase()}`;q('cwModeBadge').textContent=mode;q('cwSeasonBadge').textContent=season.seasonNo?`SEASON ${season.seasonNo} · ${phase}`:'시즌 없음';q('cwServerNow').textContent=`KST ${date(data.serverNow)}`;
     q('cwMetrics').innerHTML=[['시즌 참가',metrics.registered],['공식 클랜',`${metrics.clansActive||0} / 8`],['진행 대진',metrics.warsActive],['전투 영수증',metrics.battlesTotal]].map(([label,value])=>`<article><small>${label}</small><b>${typeof value==='number'?num(value):esc(value)}</b></article>`).join('');

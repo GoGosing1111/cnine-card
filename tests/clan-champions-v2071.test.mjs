@@ -39,7 +39,10 @@ async function fixture(t, postgres = false) {
     `CREATE TABLE clan_season_settlements(season_id INTEGER PRIMARY KEY,champion_clan_id INTEGER,status TEXT,reward_status TEXT,processing_token TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,completed_at TEXT)`,
     `CREATE TABLE clan_reward_receipts(season_id INTEGER,user_id INTEGER,clan_id INTEGER,reward_tier TEXT,status TEXT,coin INTEGER,card_shards INTEGER,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,completed_at TEXT,PRIMARY KEY(season_id,user_id))`,
     `CREATE TABLE user_messages(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER,sender_type TEXT,title TEXT,body TEXT,message_type TEXT,campaign_key TEXT)`,
-    `CREATE TABLE user_message_rewards(id INTEGER PRIMARY KEY AUTOINCREMENT,message_id INTEGER,user_id INTEGER,reward_type TEXT,reward_amount INTEGER,UNIQUE(message_id,reward_type))`
+    `CREATE TABLE user_message_rewards(id INTEGER PRIMARY KEY AUTOINCREMENT,message_id INTEGER,user_id INTEGER,reward_type TEXT,reward_amount INTEGER,UNIQUE(message_id,reward_type))`,
+    `CREATE TABLE avatar_catalog_v1(code TEXT PRIMARY KEY,is_active INTEGER,is_public INTEGER)`,
+    `INSERT INTO avatar_catalog_v1 VALUES('SOLAR_VANGUARD',1,1)`,
+    `CREATE TABLE avatar_user_ownership_v1(user_id INTEGER,avatar_code TEXT,source_type TEXT,source_ref TEXT,acquired_at TEXT DEFAULT CURRENT_TIMESTAMP,expires_at TEXT,PRIMARY KEY(user_id,avatar_code))`
   ];
   let DB, pg, failAt = '';
   if (postgres) {
@@ -73,7 +76,7 @@ async function fixture(t, postgres = false) {
   return { env, p, now, season, rank, cup, war, fresh, fail(value) { failAt = value; DB.failAt = value; } };
 }
 
-test('championship CMS defaults are enabled, rewards unset; numeric/time validation and partial saves', () => {
+test('championship CMS enables base honors, optional currencies unset; numeric/time validation and partial saves', () => {
   assert.equal(CHAMPIONS_DEFAULTS.championsEnabled, true);
   assert.equal(CHAMPIONS_DEFAULTS.championsRewardsEnabled, false);
   assert.equal(CHAMPIONS_DEFAULTS.championsCoin, 0);
@@ -165,12 +168,12 @@ for (const postgres of [false, true]) {
     await f.p("UPDATE clan_war_battles SET status='COMPLETED'").run();
     await advanceChampions(f.env,await f.fresh(),s,late);
     assert.ok(Date.parse((await f.war(1002)).starts_at)>late);
-    assert.equal((await f.cup()).reward_status,'AWAITING_CONFIG');
+    assert.equal((await f.cup()).reward_status,'PENDING');
   });
 
   test(`${backend}: reward rollback/retry, original roster retained, late CMS config only once`, async t => {
     const f=await fixture(t,postgres),s=settings(); await startChampions(f.env,f.season,s,await f.rank(),f.now);
-    await f.p("UPDATE clan_championships SET status='COMPLETED',winner_clan_id=6").run();
+    await f.p("UPDATE clan_championships SET status='COMPLETED',winner_clan_id=6,reward_status='AWAITING_CONFIG',reward_json=NULL").run();
     await f.p('DELETE FROM clan_members WHERE user_id=61').run();
     await f.p('INSERT INTO clan_members(season_id,clan_id,user_id) VALUES(7,6,999)').run();
     const configured=settings({championsRewardsEnabled:true,championsCoin:1234,championsMysticEnergy:30});
@@ -182,6 +185,44 @@ for (const postgres of [false, true]) {
     await deliverChampionsRewards(f.env,7,{...configured,championsCoin:999999},{configurePending:true});
     assert.equal(Number((await f.p("SELECT reward_amount FROM user_message_rewards WHERE reward_type='COIN' LIMIT 1").first()).reward_amount),1234);
     assert.deepEqual((await f.p('SELECT DISTINCT user_id FROM user_messages ORDER BY user_id').all()).results.map(r=>Number(r.user_id)),[60,61]);
+    assert.equal((await f.cup()).reward_status,'SENT');
+  });
+
+  test(`${backend}: approved trophy and 14-day avatar are automatic, exactly once and atomic`, async t => {
+    const f=await fixture(t,postgres),s=settings();
+    await startChampions(f.env,f.season,s,await f.rank(),f.now);
+    assert.deepEqual(JSON.parse((await f.cup()).reward_json).map(r=>[r.type,r.amount]),[['CLAN_CHAMPIONS_TROPHY',1],['AVATAR_SOLAR_VANGUARD',14]]);
+    await f.p("UPDATE clan_championships SET status='COMPLETED',winner_clan_id=6,completed_at=CURRENT_TIMESTAMP").run();
+    f.fail('INSERT INTO avatar_user_ownership_v1');
+    await assert.rejects(()=>deliverChampionsRewards(f.env,7,s),/INJECTED_FAILURE/);
+    assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_championship_rewards').first()).count),0);
+    assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),0);
+    f.fail('');
+    await Promise.all([deliverChampionsRewards(f.env,7,s),deliverChampionsRewards(f.env,7,s)]);
+    const owned=(await f.p('SELECT * FROM avatar_user_ownership_v1 ORDER BY user_id').all()).results;
+    assert.deepEqual(owned.map(r=>Number(r.user_id)),[60,61]);
+    for(const row of owned) assert.ok(Math.abs(Date.parse(row.expires_at.replace(' ','T')+'Z')-Date.now()-14*86400000)<10000);
+    const receipts=(await f.p('SELECT * FROM clan_championship_rewards').all()).results;
+    assert.equal(receipts.length,4);assert.ok(receipts.every(r=>r.status==='SENT'));
+    assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),4);
+    assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),0,'honors are direct grants, not unsupported claimable items');
+    await deliverChampionsRewards(f.env,7,s);
+    assert.deepEqual((await f.p('SELECT * FROM avatar_user_ownership_v1 ORDER BY user_id').all()).results,owned);
+    assert.equal((await f.cup()).reward_status,'SENT');
+  });
+
+  test(`${backend}: permanent/later avatar expiry is preserved; unavailable avatar prevents all awards`, async t => {
+    const f=await fixture(t,postgres),s=settings();await startChampions(f.env,f.season,s,await f.rank(),f.now);
+    await f.p("UPDATE clan_championships SET status='COMPLETED',winner_clan_id=6,completed_at=CURRENT_TIMESTAMP").run();
+    await f.p("INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref,expires_at) VALUES(60,'SOLAR_VANGUARD','ADMIN','original',NULL),(61,'SOLAR_VANGUARD','EVENT','original','2099-01-01 00:00:00')").run();
+    await f.p('UPDATE avatar_catalog_v1 SET is_public=0').run();
+    await assert.rejects(()=>deliverChampionsRewards(f.env,7,s),/CMS 공개/);
+    assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_championship_rewards').first()).count),0);
+    await f.p('UPDATE avatar_catalog_v1 SET is_public=1').run();
+    await deliverChampionsRewards(f.env,7,s);
+    assert.equal((await f.p('SELECT expires_at FROM avatar_user_ownership_v1 WHERE user_id=60').first()).expires_at,null);
+    assert.equal((await f.p('SELECT expires_at FROM avatar_user_ownership_v1 WHERE user_id=61').first()).expires_at,'2099-01-01 00:00:00');
+    assert.equal((await f.p('SELECT source_ref FROM avatar_user_ownership_v1 WHERE user_id=61').first()).source_ref,'original');
     assert.equal((await f.cup()).reward_status,'SENT');
   });
 }
@@ -215,7 +256,8 @@ test('live/CMS expose the bracket, reward editor and scoped cache versions; no r
   assert.match(cms, /cwChampionsMysticEnergy/);
   assert.match(cms, /SEND_CHAMPIONS_REWARDS/);
   assert.match(read('index.html'), /clan-champions-v2071.css\?v=2071-clan-champions/);
-  assert.match(read('admin/index.html'), /clan-war-admin-v1943.js\?v=2071-clan-champions/);
+  assert.match(read('admin/index.html'), /clan-war-admin-v1943.js\?v=2072-champions-rewards/);
+  assert.match(cms,/cwTrophyAuditForm/);assert.match(cms,/태양의 선봉대장 14일/);
 });
 
 test('bracket renderer handles empty, active and historical results without raw HTML/name injection',()=>{

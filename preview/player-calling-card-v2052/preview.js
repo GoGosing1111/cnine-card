@@ -1,8 +1,9 @@
-import { TROPHY_CATALOG } from '../../js/player-card-model-v2052.js';
+import { TROPHY_CATALOG } from '../../js/player-card-model-v2052.js?v=2072';
 const trophyData = [
   { count: 2, acquiredAt: '2026-08-20T13:00:00Z', progress: 2, goal: 1 },
   { count: 1, acquiredAt: '2026-09-01T13:00:00Z', progress: 3, goal: 3 },
-  { count: 1, acquiredAt: '2026-08-25T13:00:00Z', progress: 1, goal: 1 }
+  { count: 1, acquiredAt: '2026-08-25T13:00:00Z', progress: 1, goal: 1 },
+  { count: 1, acquiredAt: '2026-09-02T13:00:00Z', progress: 1, goal: 1 }
 ];
 const profile = {
   version: 2052, player: { id: 0, nickname: '별을걷는사람', title: { badgeText: '챌린저★★★★' }, clan: { name: 'AURORA', role: '클랜원' }, avatar: { name: '테란여제 조은', image: '/assets/ui/avatars-v1/lobby-v1/avatar-f09-terran-empress-joeun-lobby-v1-640.webp' } },
