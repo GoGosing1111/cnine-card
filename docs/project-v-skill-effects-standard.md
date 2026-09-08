@@ -1,0 +1,41 @@
+# PROJECT V 스킬 이펙트 제작·사용 기록 기준
+
+2026-09-08 사용자 지시: **스킬 이펙트는 PixiJS로 표현하고 GSAP으로 타임라인·트윈을 제어한다.** 신규 제작·수정 전에 이 문서를 먼저 읽는다. 이 문서는 제작 규칙과 확인된 기존 구현을 기록하며, 새 이펙트 제작이나 라이브 활성화 자체를 뜻하지 않는다.
+
+## 역할과 재생 계약
+
+- PixiJS는 기존 V3의 효과 레이어에서 스프라이트·아틀라스·입자·광원·필터 등 시각 요소를 렌더링한다. 기존 캐릭터 진형·카드 도크·아트 어댑터를 복제하거나 교체하지 않는다.
+- GSAP은 예고 → 발사/이동 → 충돌 → 잔향/정리의 타임라인과 위치·크기·회전·투명도 등의 트윈을 제어한다. 라이브러리를 가져오기만 하고 실제로 사용했다고 보고하지 않는다.
+- 아틀라스 프레임 진행과 충돌 이벤트는 같은 GSAP 시각 기준에 맞춘다. 같은 프레임을 GSAP과 Pixi 자동 재생으로 동시에 진행하지 않는다. Pixi Ticker의 렌더링·좌표 갱신을 별도 전투 시계로 오인하지 않는다.
+- 기존 전투 재생 컨트롤러의 배속·일시정지·히트스톱·취소를 따른다. 화면 이탈·전투 종료·세션 교체 시 타임라인, 등록한 Ticker, 표시 객체와 예약 사운드를 정리한다. 공유 텍스처는 다른 연출이 사용 중인 상태에서 파괴하지 않는다.
+- 피해·대상·발동 횟수·승패는 서버 이벤트를 재생한다. 연출용 타이머나 프레임 수로 게임 결과를 다시 계산하지 않는다.
+- 기존 프로젝트의 PixiJS·GSAP 의존성과 V3 엔진을 재사용한다. 별도 CDN 사본이나 두 번째 렌더러를 추가하지 않는다.
+- 사운드는 `AGENTS.md`의 실제 녹음·폴리 및 충돌 피크 동기화 기준을 따른다. 제작 규칙이나 프리뷰 검수는 별도 라이브 연결 승인과 구분한다.
+
+## 확인된 사용 위치 — 2026-09-08
+
+이 날짜의 `package-lock.json` 잠금 버전은 **PixiJS 8.20.0 / GSAP 3.13.0**이다. 이는 확인 이력이며 버전 업그레이드 지시가 아니다. 이후 변경 시 당시 잠금 버전을 다시 기록한다.
+
+| 실제 구현 파일 | PixiJS / GSAP 역할 |
+| --- | --- |
+| `preview/project-v-v3/source/battle/BattleEngine.js` | 공유 PixiJS Application·전투 레이어와 GSAP 전투 재생 기반 |
+| `preview/project-v-v3/source/battle/SkillTimeline.js` | PixiJS 컷인·전투 객체를 GSAP 타임라인으로 이동·암전·충돌·복귀 처리 |
+| `preview/project-v-v3/source/battle/SkillEffectFX.js` | PixiJS AnimatedSprite 아틀라스; 전달받은 GSAP 타임라인이 프레임과 충돌 시각을 제어 |
+| `preview/battle-suit-skill-chip-v1/source/SkillChipFX.js` | PixiJS 스프라이트·폭발 아틀라스 합성과 GSAP 로컬 검수 시계·재생·탐색·배속 |
+| `preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js` | 라이브 GSAP 전투 시계로 서버 스킬칩 이벤트 재생; 개별 FX의 자율 시계는 정지하고 공유 시각으로 샘플링 |
+| `preview/project-v-v3/source/battle/AccountBattleUnit.js` | PixiJS 배틀슈트 객체와 GSAP 대기·사격 타임라인 |
+
+배틀슈트 스킬칩의 서버 시간·정지·보상 분리 계약은 `docs/battle-suit-skill-chip-v2046.md`를 함께 따른다. 배틀슈트 이미지 원본 합성 방식은 `docs/project-v-account-battle-suit-standard.md`를 따른다.
+
+## 매 작업에서 남길 사용 기록
+
+해당 프리뷰의 README 또는 자산 매니페스트에 다음을 기록한다. 구현되지 않은 항목은 완료로 표시하지 않는다.
+
+- 이펙트 이름·버전·작업일·승인 상태와 실제 PixiJS/GSAP 구현 파일 경로.
+- `package-lock.json` 기준 라이브러리 버전, 사용한 시각 레이어·아틀라스/텍스처 경로·해시.
+- GSAP 타임라인 소유자, 기준 시간 단위, 단계별 시각, 충돌 프레임·총구/대상 기준점, 배속·정지·취소 방식.
+- 사운드가 있으면 원음 출처·라이선스·해시와 충돌 시각 동기화 검수 기록.
+- 데스크톱/모바일 재생, 프레임·충돌 일치, 배속·일시정지·재시작, 화면 이탈·전투 종료 후 잔여 타임라인/표시 객체 정리 결과.
+- 실제 수행한 검증 명령·결과와 프리뷰 경로. 미검수 항목과 라이브 연결 여부는 별도 표기.
+
+현재 관련 검증 진입점은 `npm run test:skill-chips`와 `npm run test:battle-suit`다. 구현·자산 변경 시 변경 영역에 맞는 검증을 추가하고 운영 배포 전에는 기존 `npm run release:gate`를 통과한다.
