@@ -121,8 +121,8 @@
         </div>
 
         <div class="seal-admin-reward-grid">
-          <article><header><small>PER ATTEMPT</small><h4>참여 1회 보상</h4></header><label><span>코인</span><input id="sealAttemptCoin" type="number" min="0"></label><label><span>카드 조각</span><input id="sealAttemptShards" type="number" min="0"></label></article>
-          <article><header><small>SERVER CLEAR</small><h4>봉인 완료 참여자 보상</h4></header><label><span>코인</span><input id="sealClearCoin" type="number" min="0"></label><label><span>카드 조각</span><input id="sealClearShards" type="number" min="0"></label></article>
+          <article><header><small>PER ATTEMPT</small><h4>참여 1회 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealAttemptCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealAttemptShards" type="number" min="0"></label></article>
+          <article><header><small>SERVER CLEAR</small><h4>봉인 완료 참여자 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealClearCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealClearShards" type="number" min="0"></label></article>
           <article><header><small>STORAGE LIMIT</small><h4>소형 기록 보존</h4></header><label><span>요청 영수증</span><div class="input-unit"><input id="sealReceiptDays" type="number" min="1" max="90"><em>일</em></div></label><label><span>종료 이벤트 개인 집계</span><div class="input-unit"><input id="sealProgressDays" type="number" min="7" max="365"><em>일</em></div></label></article>
         </div>
 
@@ -197,11 +197,12 @@
     const rewardFields = [
       ['premiumCube', '프리미엄 큐브', 'PREMIUM'],
       ['equipmentBox', '장비 보급상자', 'EQUIPMENT'],
-      ['coin', '코인', 'COIN']
+      ['coin', '코인 · 한도 없음', 'COIN']
     ];
     const rewards = rewardFields.map(([field, label, badge]) => {
       const quantity = Math.max(0, Number(tier[field] || 0));
-      return `<label class="seal-rank-item ${quantity > 0 ? 'enabled' : ''}" data-rank-reward-item="${field}"><input type="checkbox" ${quantity > 0 ? 'checked' : ''}><span><small>${badge}</small><b>${label}</b></span><input type="number" data-rank-reward-quantity="${field}" min="0" max="1000000000" value="${quantity}" ${quantity > 0 ? '' : 'disabled'}></label>`;
+      const maxAttribute = field === 'coin' ? '' : ' max="1000000000"';
+      return `<label class="seal-rank-item ${quantity > 0 ? 'enabled' : ''}" data-rank-reward-item="${field}"><input type="checkbox" ${quantity > 0 ? 'checked' : ''}><span><small>${badge}</small><b>${label}</b></span><input type="number" data-rank-reward-quantity="${field}" min="0" step="1"${maxAttribute} value="${quantity}" ${quantity > 0 ? '' : 'disabled'}></label>`;
     }).join('');
     return `<article class="seal-rank-tier" data-rank-tier-index="${index}">
       <header><div><small>RANK RANGE</small><h4><span data-rank-tier-label>${Number(tier.startRank || 1)}위${Number(tier.endRank || tier.startRank || 1) > Number(tier.startRank || 1) ? ` ~ ${Number(tier.endRank)}위` : ''}</span> 보상</h4></div><button type="button" data-rank-tier-remove aria-label="구간 삭제">삭제</button></header>
@@ -334,6 +335,8 @@
     if (Object.values(settings.targets).some(value => value < 1)) return '역할별 목표 공헌도는 1 이상이어야 합니다.';
     if (Object.values(settings.multipliers).some(value => value < 1 || value > 1000)) return '역할 배율은 1~1,000%로 입력하세요.';
     if (Object.values(settings.battlePowers).some(value => value < 1)) return '역할별 보스 전투력은 1 이상이어야 합니다.';
+    const coinRewards = [settings.attemptReward.coin, settings.clearReward.coin, ...(settings.rankRewards?.tiers || []).map(tier => tier.coin)];
+    if (coinRewards.some(value => !Number.isSafeInteger(value) || value < 0)) return '코인 보상은 0 이상의 안전한 정수로 입력하세요.';
     if (settings.rankRewards?.enabled) {
       if (!settings.rankRewards.tiers.length) return '공헌도 순위 보상 구간을 하나 이상 추가하세요.';
       let previousEnd = 0;

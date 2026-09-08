@@ -34,6 +34,9 @@ const DEFAULT_SETTINGS = {
   progressRetentionDays: 90
 };
 
+// No gameplay coin-reward cap; retain only JavaScript's exact-integer boundary.
+const SEAL_COIN_REWARD_MAX = Number.MAX_SAFE_INTEGER;
+
 let foundationPromise = null;
 
 function safeJson(value, fallback) {
@@ -69,7 +72,7 @@ function cleanRankRewardTier(raw = {}, index = 0) {
   return {
     startRank,
     endRank,
-    coin: clampInt(raw.coin, 0, 0, 1000000000),
+    coin: clampInt(raw.coin, 0, 0, SEAL_COIN_REWARD_MAX),
     premiumCube: clampInt(raw.premiumCube, 0, 0, 1000000),
     equipmentBox: clampInt(raw.equipmentBox, 0, 0, 1000000)
   };
@@ -139,11 +142,11 @@ function cleanSettings(raw = {}) {
     lowestRoleBonusPercent: clampInt(raw.lowestRoleBonusPercent, base.lowestRoleBonusPercent, 0, 500),
     defeatContributionPercent: clampInt(raw.defeatContributionPercent, base.defeatContributionPercent, 0, 100),
     attemptReward: {
-      coin: clampInt(attemptReward.coin, base.attemptReward.coin, 0, 100000000),
+      coin: clampInt(attemptReward.coin, base.attemptReward.coin, 0, SEAL_COIN_REWARD_MAX),
       shards: clampInt(attemptReward.shards, base.attemptReward.shards, 0, 1000000)
     },
     clearReward: {
-      coin: clampInt(clearReward.coin, base.clearReward.coin, 0, 100000000),
+      coin: clampInt(clearReward.coin, base.clearReward.coin, 0, SEAL_COIN_REWARD_MAX),
       shards: clampInt(clearReward.shards, base.clearReward.shards, 0, 1000000)
     },
     rankRewards: cleanRankRewards(raw.rankRewards || base.rankRewards),
