@@ -6,7 +6,7 @@ import sharp from 'sharp';
 
 import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
-test('avatar foundation seeds thirteen hidden unsold records including Hi Heeya without overwriting settings', async () => {
+test('avatar foundation seeds fourteen hidden unsold records including Hi Heeya and Cheon without overwriting settings', async () => {
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
@@ -25,8 +25,8 @@ test('avatar foundation seeds thirteen hidden unsold records including Hi Heeya 
   await ensureAvatarFoundation(env);
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
-  const legacySeedStatements=seedStatements.filter(statement=>!['DIMWOOS_ESPORTS_ACE','TERRAN_EMPRESS_JOEUN','HI_HEEYA'].some(code=>statement.values.includes(code)));
-  assert.equal(seedStatements.length,13);
+  const legacySeedStatements=seedStatements.filter(statement=>!['DIMWOOS_ESPORTS_ACE','TERRAN_EMPRESS_JOEUN','HI_HEEYA','CHEON'].some(code=>statement.values.includes(code)));
+  assert.equal(seedStatements.length,14);
   assert.equal(legacySeedStatements.length,10);
   assert.equal(schema.length,17);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
@@ -51,6 +51,11 @@ test('avatar foundation seeds thirteen hidden unsold records including Hi Heeya 
   assert.ok(terranEmpressSeed.values.includes('assets/ui/avatars-v1/equipment-v3/avatar-f09-terran-empress-joeun-equipment-v1-640.webp'));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1985_dimwoos_avatar_v1')));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v2006_terran_empress_joeun_avatar_v1')));
+  const cheonSeed=seedStatements.find(statement=>statement.values.includes('CHEON'));
+  assert.ok(cheonSeed.values.includes('체온'));
+  assert.ok(cheonSeed.values.includes('A-14'));
+  assert.ok(cheonSeed.values.includes('preview/avatar-cheon-v1/assets/avatar-cheon-equipment-v1-640.webp'));
+  assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v2068_cheon_avatar_v1')));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2')));
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3')));
   assert.ok(prepared.some(statement=>statement.sql.includes('ON CONFLICT(avatar_code,option_order) DO NOTHING')));

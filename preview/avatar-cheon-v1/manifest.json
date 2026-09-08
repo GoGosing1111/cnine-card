@@ -1,0 +1,70 @@
+{
+  "format": "SOOPKETMON_AVATAR_ART_DRAFT_V1",
+  "name": "체온",
+  "code": "CHEON",
+  "date": "2026-09-08",
+  "status": "CMS_REGISTERED_PUBLIC_OFF",
+  "scope": "LIVE_CMS_DRAFT",
+  "runtimeConnected": true,
+  "catalogRegistered": true,
+  "serial": "A-14",
+  "userArtAndCmsApproval": "라이브적용하고 CMS바로 적용해",
+  "publicEnabled": false,
+  "saleEnabled": false,
+  "effectConfigured": false,
+  "grantIssued": false,
+  "originalReferencesModified": false,
+  "referencePhotoPublished": false,
+  "sourceReference": {
+    "fileName": "codex-clipboard-4d65df2d-f178-41b8-af4e-e5c8226da7d9.png",
+    "sha256": "8CCB27BAAE1DF847C5B95DBD17FECC83ED9033A1AB6C9D2E76CC646DF2196E4E",
+    "role": "USER_SUPPLIED_FACE_HAIR_UPPER_OUTFIT_REFERENCE"
+  },
+  "generation": {
+    "mode": "BUILT_IN_IMAGE_GEN",
+    "apiCliFallbackUsed": false,
+    "codeImageEditingUsed": true,
+    "codeImageEditingScope": "USER_APPROVED_BACKGROUND_REMOVAL_ONLY",
+    "codeImageEditingApproval": "배경만 스크립트로 제거",
+    "backgroundRemovalScript": "remove-equipment-background.cjs",
+    "promptRecord": "prompt.md"
+  },
+  "assets": [
+    {
+      "kind": "lobby",
+      "file": "assets/avatar-cheon-lobby-source-art-v1.png",
+      "width": 1024, "height": 1536, "channels": 3, "hasAlpha": false,
+      "sha256": "282953B5A3704885482DEF6CCA9235619617547469475B485FFA0310E44061DB",
+      "nativeOutputUnmodified": true
+    },
+    {
+      "kind": "equipment",
+      "file": "assets/avatar-cheon-equipment-source-art-v1.png",
+      "width": 1024, "height": 1536, "channels": 4, "hasAlpha": true,
+      "sha256": "6BDCB4851549856612F4056C1A00A169383CC08299929B21209D5A6869953325",
+      "derivedFrom": "assets/avatar-cheon-equipment-draft-v1.png",
+      "transparentPixels": 1265214, "opaquePixels": 299541, "partialAlphaPixels": 8109,
+      "opaqueRgbChanged": 0,
+      "visibleBounds": {"left": 321, "top": 30, "right": 678, "bottom": 1496},
+      "visualQa": "FULL_BODY_DARK_LIGHT_HAND_GAP_HAIR_STRAP_AND_BOOTS_REVIEWED"
+    },
+    {
+      "kind": "equipment_draft",
+      "file": "assets/avatar-cheon-equipment-draft-v1.png",
+      "width": 1024, "height": 1536, "channels": 3, "hasAlpha": false,
+      "sha256": "62FB9857862015C4B24AB166C070A6A2222F1913BDDD5EE726FF9046174C6153",
+      "status": "REJECTED_FOR_RUNTIME_NO_REAL_ALPHA",
+      "warning": "Painted RGB checkerboard, retained for reproducibility only. Never use as the equipment image."
+    }
+  ],
+  "responsive": [
+    {"kind": "lobby", "file": "assets/avatar-cheon-lobby-v1-640.webp", "width": 640, "height": 960, "hasAlpha": false, "sha256": "5C1C3ECFE90F6D7F07A91E233E2D7200E0EC635F9E0E96A3C848F43CAA2A6CBE"},
+    {"kind": "lobby", "file": "assets/avatar-cheon-lobby-v1-1024.webp", "width": 1024, "height": 1536, "hasAlpha": false, "sha256": "8E04063E24C88D5B662D8AD0B082C56BE2D19915796EAEFC72B36232D1F82071"},
+    {"kind": "equipment", "file": "assets/avatar-cheon-equipment-v1-640.webp", "width": 640, "height": 960, "hasAlpha": true, "sha256": "DED74D3EB1CE0EFB6BB9E3BF3913C310EA42C9E551A407F143107118CE4DD950"}
+  ],
+  "qaBackgrounds": [
+    {"file": "assets/qa-equipment-dark-v1.png", "width": 768, "height": 1152, "hasAlpha": false, "sha256": "DE9A99E741C5E9A7A72A250ED84838875F6D39CE7732C680C7399F8D55733036"},
+    {"file": "assets/qa-equipment-light-v1.png", "width": 768, "height": 1152, "hasAlpha": false, "sha256": "6DAF40A6DEE51C083D7EC0CBFCFCF2528DE0645014355ADB0AF70621106EDF9F"}
+  ],
+  "pending": ["CMS_EFFECT_PRICE_ACQUISITION_AND_PUBLICATION_CONFIGURATION"]
+}
