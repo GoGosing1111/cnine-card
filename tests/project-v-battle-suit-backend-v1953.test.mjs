@@ -372,6 +372,7 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     'safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1','safe_runtime_upgrade_v1985_dimwoos_avatar_v1',
     'safe_runtime_upgrade_v2006_terran_empress_joeun_avatar_v1',
     'safe_runtime_upgrade_v2064_hi_heeya_avatar_v1',
+    'safe_runtime_upgrade_v2068_cheon_avatar_v1',
   ];
   const markerInsert=DB.db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)');
   for(const key of completedMarkers)markerInsert.run(key,'1');
