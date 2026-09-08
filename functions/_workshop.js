@@ -32,11 +32,10 @@ const FIXED_RECIPE_COSTS=Object.freeze({
 let foundationPromise=null;
 
 const int=(value,min=0,max=Number.MAX_SAFE_INTEGER,fallback=min)=>{const n=Math.floor(Number(value));return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
-export const VEHICLE_WORKSHOP_COIN_COST_MAX=Number.MAX_SAFE_INTEGER;
-const STANDARD_WORKSHOP_COIN_COST_MAX=1000000000;
+export const WORKSHOP_COIN_COST_MAX=Number.MAX_SAFE_INTEGER;
+export const VEHICLE_WORKSHOP_COIN_COST_MAX=WORKSHOP_COIN_COST_MAX;
 export function normalizeWorkshopCoinCost(value,category){
-  const limit=String(category||'').toUpperCase()==='VEHICLE'?VEHICLE_WORKSHOP_COIN_COST_MAX:STANDARD_WORKSHOP_COIN_COST_MAX;
-  return int(value,0,limit,0);
+  return int(value,0,WORKSHOP_COIN_COST_MAX,0);
 }
 const num=(value,min=0,max=100,fallback=min)=>{const n=Number(value);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
 const clean=(value,max=180)=>String(value??'').trim().slice(0,max);
@@ -438,4 +437,4 @@ export async function handleWorkshop({path,request,env,deps}){
   return deps.json({error:'지원하지 않는 요청입니다.'},405);
 }
 
-export const __workshopBattleSuitTest=Object.freeze({BATTLE_SUIT_CRAFT_UPGRADE_KEY,BATTLE_SUIT_RECIPES,CATEGORIES});
+export const __workshopBattleSuitTest=Object.freeze({BATTLE_SUIT_CRAFT_UPGRADE_KEY,BATTLE_SUIT_RECIPES,CATEGORIES,saveRecipe,paymentFor});
