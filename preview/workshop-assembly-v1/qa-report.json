@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-08",
+  "scope": "ISOLATED_PREVIEW_USER_REVIEW_PENDING",
+  "liveCraftingConnected": false,
+  "browser": "Codex in-app Chromium",
+  "viewportTests": [
+    {"width":1440,"height":1100,"result":"PASS","checks":["suit assembly mid-frame","suit completion","vehicle welding","robot actuator textures"]},
+    {"width":390,"height":844,"result":"PASS","checks":["full suit silhouette","completion readability","vehicle chassis/engine","no document horizontal overflow"]},
+    {"width":320,"height":780,"result":"PASS","checks":["no document horizontal overflow","mode buttons fit","play button within viewport width"]}
+  ],
+  "interactiveChecks": {
+    "suitRealTimePlaybackToEnd": "PASS: 13.4 seconds, completed, stopped",
+    "recordedAudioLoading": "PASS: four WAV decoded, enabled, no audio error",
+    "vehicleFailure": "PASS: failed outcome preserved after skip",
+    "twoTimesSpeedPauseResume": "PASS: paused at 0.524 seconds at 2x, resumed and skipped",
+    "rapidModeSwitching": "PASS: eight repeated switches; generation 11; one owned timeline; no console errors",
+    "reducedMotion": "PASS: immediate confirmed result at 13.4 seconds",
+    "pixiAutoTicker": "OFF",
+    "browserConsoleErrors": 0,
+    "actualCraftApiCalls": 0
+  },
+  "automated": {
+    "testFile":"tests/workshop-assembly-preview-v1.test.mjs",
+    "targetedTests":7,
+    "targetedPassed":7,
+    "workshopSuiteTests":40,
+    "workshopSuitePassed":40,
+    "checks":["immutable confirmed outcome","distinct deterministic phases","every H-BODY RGBA byte reassembles exactly once","real alpha","source audio SHA-256","shared vendor only","real GSAP/Pixi seek/skip/replay/pause/rate/dispose"]
+  },
+  "limitations": [
+    "Vehicle matte coordinates are authored for the Veneno preview sample, not arbitrary CMS cars.",
+    "No new recipe, crafting probability, price, reward or production gameplay hook is introduced.",
+    "Audio is optional and initially off. Device speaker/latency subjective review remains user review."
+  ]
+}

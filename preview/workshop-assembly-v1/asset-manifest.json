@@ -1,0 +1,127 @@
+{
+  "previewOnly": true,
+  "runtimeConnected": false,
+  "generatedImageTool": "built-in ImageGen",
+  "sourceArtPreserved": true,
+  "visualAssets": [
+    {
+      "path": "assets/vehicle-bay.png",
+      "sha256": "03e02a00e91e02614e50b2ea8c11c77e4a1aa70b9083473e41f2473736d44306",
+      "width": 1536,
+      "height": 1024,
+      "channels": 3
+    },
+    {
+      "path": "assets/suit-bay.png",
+      "sha256": "f68af57d0626095a05dd40f6bf44ec2cde0099e113e98724afa4d9ffdf6a8cef",
+      "width": 1536,
+      "height": 1024,
+      "channels": 3
+    },
+    {
+      "path": "assets/car-cutout.png",
+      "sha256": "579419f13f8ea66ea810d426763e49772de9c503ef2e87bd34f8af86e5d7990e",
+      "width": 1672,
+      "height": 941,
+      "channels": 4
+    },
+    {
+      "path": "assets/robot-kit.png",
+      "sha256": "5c86bd2b2d1511df87201a2a2f639cab4f75c36ebc4da520212fbea5c7d46302",
+      "width": 1536,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/helmet.png",
+      "sha256": "ac5305ba3a0a13a96b952d4b65ba644d0bcd9303722dea370c9d1e2f5847a229",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/torso.png",
+      "sha256": "047d4b9f76773f55f088dd848290d9b57b6c4244c16a31053d1d73886ddeb884",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/hips.png",
+      "sha256": "9f006105e5d48ed22b2ad7c14e58dd8bfe75574e0287dc5e09adb4da7525898b",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/shoulderL.png",
+      "sha256": "aa8ad039ee6a23acb66799289d81f65050916e97e890a84d3482b5f709e2bbd9",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/shoulderR.png",
+      "sha256": "29d8d0dd0fdde8066157a0272aac39633725b5edc3d34e7be73a62e5a1d27cf7",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/armL.png",
+      "sha256": "a2c16b9fb001dc8e661ece6363b0c761a13cceff0e77d3a641f28b40dda72c45",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/armR.png",
+      "sha256": "0bf5632bd3b63c9fab98ad5999005101a9ec7c108ff381c1790b504823831fb8",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/legL.png",
+      "sha256": "d555ceebf1bc88dcc01ab0284ff220a91b3f89a0cb759eb397803d4d5292f74c",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/legR.png",
+      "sha256": "02eb8912035f5ff694e90ab09278882361a6263a0a74908b96aa9ecd084a482a",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/core.png",
+      "sha256": "f27e1732d809576d2dd948714dbae4e52a0e26c94f25f96b6fe792dfdeaeb798",
+      "width": 768,
+      "height": 1024,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/robot-upper.png",
+      "sha256": "5108a5850888dccb8fd369e5e7f7e322ddd33ed941a0ff2102f51e6f5ce2c1d2",
+      "width": 1483,
+      "height": 358,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/robot-lower.png",
+      "sha256": "63c994a6fe2ac9b37f3945f7f11694e3b8d9b3d8f64b7ea57ff3ad74102f684e",
+      "width": 1463,
+      "height": 203,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/robot-grip.png",
+      "sha256": "f71827f270cf2096b2d5aba63a9e6c93e1f3fe7b1ef7df9f0a8dda27c8c9dcdf",
+      "width": 732,
+      "height": 335,
+      "channels": 4
+    }
+  ]
+}

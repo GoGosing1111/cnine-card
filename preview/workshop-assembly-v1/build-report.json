@@ -1,0 +1,27 @@
+{
+  "previewOnly": true,
+  "runtimeConnected": false,
+  "renderer": "PixiJS",
+  "timeline": "GSAP",
+  "sharedVendor": "/js/ui-fx-vendor-v2045.bundle.js",
+  "versions": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0"
+  },
+  "hBodySource": "/assets/items/h-body-v2066.png",
+  "hBodySha256": "e227cad71835a4bf3407ca1fd634446502a5b43d659329a2a7fc32cd02c695f5",
+  "hBodyPartitionPixelExact": true,
+  "parts": [
+    "helmet",
+    "torso",
+    "hips",
+    "shoulderL",
+    "shoulderR",
+    "armL",
+    "armR",
+    "legL",
+    "legR",
+    "core"
+  ],
+  "bundleSha256": "44f6cac0100677ee16d050e17ba175861b0cade49aca42b3f9ddad02e46dc67d"
+}

@@ -1,0 +1,53 @@
+{
+  "license": "Mixkit Sound Effects Free License",
+  "licenseUrl": "https://mixkit.co/license/#sfxFree",
+  "retrievedAt": "2026-09-08",
+  "previewOnly": true,
+  "proceduralSynthesis": false,
+  "records": [
+    {
+      "name": "lock",
+      "id": 1564,
+      "title": "Car door slam",
+      "sourceUrl": "https://assets.mixkit.co/active_storage/sfx/1564/1564.wav",
+      "sourcePage": "https://mixkit.co/free-sound-effects/car/",
+      "local": "assets/audio/lock.wav",
+      "sha256": "7e13265f674697036dd689f17ee695d5a27bbb086215872b9f57637ba192f706",
+      "bytes": 188210,
+      "processing": "Original recorded WAV. Playback trim, 8 ms attack, 70 ms release and gain only. No pitch synthesis."
+    },
+    {
+      "name": "driver",
+      "id": 817,
+      "title": "Garage pneumatic screwer",
+      "sourceUrl": "https://assets.mixkit.co/active_storage/sfx/817/817.wav",
+      "sourcePage": "https://mixkit.co/free-sound-effects/car/",
+      "local": "assets/audio/driver.wav",
+      "sha256": "0866e43ca32791102f9f3fd7631fa97ac9e86a8e5d9b209ab27f98fecfc01a2f",
+      "bytes": 399356,
+      "processing": "Original recorded WAV. Playback trim, 8 ms attack, 70 ms release and gain only. No pitch synthesis."
+    },
+    {
+      "name": "ignition",
+      "id": 1559,
+      "title": "Car start ignition",
+      "sourceUrl": "https://assets.mixkit.co/active_storage/sfx/1559/1559.wav",
+      "sourcePage": "https://mixkit.co/free-sound-effects/car/",
+      "local": "assets/audio/ignition.wav",
+      "sha256": "1b95adaa9f773d67ffb6cec8343cfa4a8ccba4e5ba38dd79a1781b66ac84aa9b",
+      "bytes": 1263014,
+      "processing": "Original recorded WAV. Playback trim, 8 ms attack, 70 ms release and gain only. No pitch synthesis."
+    },
+    {
+      "name": "failure",
+      "id": 1540,
+      "title": "Failed car ignition",
+      "sourceUrl": "https://assets.mixkit.co/active_storage/sfx/1540/1540.wav",
+      "sourcePage": "https://mixkit.co/free-sound-effects/car/",
+      "local": "assets/audio/failure.wav",
+      "sha256": "b117b821461113dc5f46d43a9b64a2c82e2eef59a6d2e1604ef2c104ae5cf22b",
+      "bytes": 483270,
+      "processing": "Original recorded WAV. Playback trim, 8 ms attack, 70 ms release and gain only. No pitch synthesis."
+    }
+  ]
+}
