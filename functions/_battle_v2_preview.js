@@ -668,10 +668,28 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [] } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
+  // Opt-in encounter lane; no live route currently supplies this field. A
+  // single simulation owns HP, RNG, magic budgets and suit clocks throughout.
+  // Restrict it to bounded, uniquely identified PVE monsters, never player cards.
+  if (!Array.isArray(reinforcements) || reinforcements.length > 40) throw new Error('INVALID_REINFORCEMENTS');
+  const pendingMonsters = reinforcements.map(card => ({ ...card }));
+  const encounterMode = pendingMonsters.length > 0;
+  if (encounterMode) {
+    const ids = new Set(a.map(card => card.id));
+    for (const card of [...b, ...pendingMonsters]) {
+      if (!card.isMonster || card.side !== 'B' || !card.id || ids.has(card.id) ||
+          !Number.isInteger(card.slot) || card.slot < 0 || card.slot > 4 ||
+          !Number.isFinite(card.hp) || card.hp <= 0 || !Number.isFinite(card.speed) || card.speed <= 0) {
+        throw new Error('INVALID_REINFORCEMENT_MONSTER');
+      }
+      ids.add(card.id);
+    }
+    if (new Set(b.map(card => card.slot)).size !== b.length) throw new Error('DUPLICATE_ENCOUNTER_SLOT');
+  }
   const timeline = [];
   let clock = 0;
   let actionCount = 0;
@@ -1052,7 +1070,26 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     support.id,
     Math.max(.0002,Number(support.independentOpeningDelay||support.independentFireInterval*.35||.0005))
   ]));
-  while (targetableAlive(a).length && targetableAlive(b).length && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+  while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+    // Refill only empty slots. The final boss waits until every earlier enemy
+    // is dead. Existing fighters are never rebuilt or healed at this boundary.
+    if (pendingMonsters.length) {
+      let index;
+      while ((index = pendingMonsters.findIndex((card, i) =>
+        !targetableAlive(b).some(live => live.slot === card.slot) &&
+        (!card.encounterAfterClear || (i === 0 && !targetableAlive(b).length)))) >= 0) {
+        const [card] = pendingMonsters.splice(index, 1);
+        card.gauge = clamp(Number(card.gauge || 0) + random() * 8, 0, 99);
+        card.teamHealerCount = 0;
+        b.push(card);
+        pushEvent(timeline, clock, 'ENEMY_SPAWN', {
+          targetId: card.id, slot: card.slot, boss: Boolean(card.isBoss),
+          targetHpAfter: card.hp, targetMaxHp: card.maxHp,
+          targetShieldAfter: card.shield, name: card.title || card.name,
+          label: card.isBoss ? '고철군주 출현' : '회수 방어대 증원'
+        });
+      }
+    }
     const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card));
     if(!actors.length)break;
     const gaugeDt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
@@ -1391,11 +1428,14 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   const aRatio = teamHpRatio(a);
   const bRatio = teamHpRatio(b);
-  const winner = targetableAlive(a).length && !targetableAlive(b).length ? 'A'
+  const winner = encounterMode
+    ? (targetableAlive(a).length && !targetableAlive(b).length && !pendingMonsters.length ? 'A' : 'B')
+    : targetableAlive(a).length && !targetableAlive(b).length ? 'A'
     : targetableAlive(b).length && !targetableAlive(a).length ? 'B'
       : aRatio === bRatio ? 'DRAW' : (aRatio > bRatio ? 'A' : 'B');
   const timedOut = durationStopped || (durationLimit > 0 && clock >= durationLimit);
-  const reason = timedOut && targetableAlive(a).length && targetableAlive(b).length ? 'TIME_LIMIT' : actionCount >= maxActions && targetableAlive(a).length && targetableAlive(b).length ? 'ACTION_LIMIT' : 'ELIMINATION';
+  const enemiesRemain = targetableAlive(b).length > 0 || pendingMonsters.length > 0;
+  const reason = timedOut && targetableAlive(a).length && enemiesRemain ? 'TIME_LIMIT' : actionCount >= maxActions && targetableAlive(a).length && enemiesRemain ? 'ACTION_LIMIT' : 'ELIMINATION';
   pushEvent(timeline, clock + 0.01, 'RESULT', {
     winner,
     reason,
@@ -1410,6 +1450,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   }
 
   return {
+    ...(encounterMode ? {encounter: {spawned: b.length, remaining: pendingMonsters.length,
+      defeated: b.filter(card => !card.alive || card.hp <= 0).length,
+      pendingIds: pendingMonsters.map(card => card.id)}} : {}),
     winner,
     reason,
     actions: actionCount,

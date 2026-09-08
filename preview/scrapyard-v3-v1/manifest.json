@@ -1,0 +1,44 @@
+{
+  "version": "scrapyard-v3-preview-v1",
+  "createdAt": "2026-09-09",
+  "status": "USER_REVIEW_PENDING",
+  "liveConnected": false,
+  "scope": "OUTER single continuous encounter, no economy or account API",
+  "libraries": {"pixi.js": "8.20.0", "gsap": "3.13.0"},
+  "normalEnemies": 9,
+  "simultaneousNormals": 3,
+  "bosses": 1,
+  "audio": "MUTED",
+  "assets": [
+    {
+      "path": "preview/scrapyard-v3-v1/assets/gearjaw-sd-v1.png",
+      "sha256": "4E1BD3A3FF97DA2410BA6DCB3AAD44EFD5C0F4A17B165D1306D021180326E27A",
+      "sourceArt": "assets/ui/scrapyard/monsters/gearjaw-scavenger-v1698.webp",
+      "sourceSha256": "3A9377B3788E6DFC55BB304ECC26F5DBD72068859C414B17F86A8CACAFA30BC3",
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a02ccc-3379-7880-9a1e-641917502c8a/exec-7f892676-693f-41df-b198-554135051d0b.png",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "visibleBoundsAlphaAbove8": [39, 189, 1240, 1144],
+      "edgeAlphaMaximum": 1,
+      "postprocessing": "None; byte-identical copy of generated RGBA"
+    },
+    {
+      "path": "preview/scrapyard-v3-v1/assets/breaker-sd-v1.png",
+      "sha256": "4BFCC18BB027E9996F04ABC5564BD4F9EBFE34B4D82E5E22C595F974967385FD",
+      "sourceArt": "assets/ui/scrapyard/monsters/wrecklord-breaker-v1698.webp",
+      "sourceSha256": "50707D66C445361FECD8B61D15937F4EBC59507C2BC6BBAAF90F6EE90AB927DB",
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a02ccc-3379-7880-9a1e-641917502c8a/exec-d4aac305-626a-41ce-b93d-8a7620b69257.png",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "visibleBoundsAlphaAbove8": [16, 5, 1233, 1235],
+      "edgeAlphaMaximum": 4,
+      "postprocessing": "None; byte-identical copy of generated RGBA"
+    }
+  ],
+  "battlefield": {
+    "path": "assets/ui/scrapyard/scrapyard-arena-v1676.png",
+    "sha256": "66FEB7079FD6D1B6F9543E533B90194275CE212B9C88EAF59F1CC2A353538EF5"
+  }
+}

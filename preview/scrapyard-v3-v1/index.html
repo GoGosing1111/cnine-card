@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark">
+  <title>폐차장 · 회수 작전 V3</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css?v=1"><script defer src="./app.bundle.js?v=1"></script>
+</head><body><main>
+  <header class="masthead"><a href="/" class="brand" aria-label="숲켓몬 홈">SOOPKETMON <span>OPERATIONS DIVISION</span></a><span class="preview-label"><i></i> 전투 검수실 <b>PREVIEW ONLY</b></span></header>
+  <section class="heading"><div><p class="eyebrow">SALVAGE OPERATION / SECTOR 01</p><h1>폐차장 <em>회수 작전</em></h1><p class="lede">잔해 속에서 깨어난 군단. 방어선을 뚫고 고철군주를 제압하라.</p></div><div class="sector-stamp"><span>OUTER</span><b>01</b><small>외곽 회수 구역</small></div></section>
+  <section class="mission-strip" aria-label="작전 진행"><div class="mission-step current" id="step-1"><b>01</b><span>방어대 돌파<small>3마리 동시 교전</small></span></div><div class="mission-step" id="step-2"><b>02</b><span>증원 차단<small>일반 몬스터 총 9마리</small></span></div><div class="mission-step" id="step-3"><b>03</b><span>고철군주 제압<small>잔존 체력으로 보스전</small></span></div><div class="mission-count"><span>격파 목표</span><strong id="kill-count">00 <small>/ 10</small></strong></div></section>
+  <div class="workspace"><section class="battle-column">
+    <div class="battle-panel"><header class="battle-bar"><div class="signal"><i></i><span id="battle-state">전장 연결 중</span></div><span>V3 <b>/</b> CONTINUOUS COMBAT</span><button id="fullscreen" title="전장 전체화면">전체화면 ↗</button></header>
+      <div class="battle-viewport" id="viewport"><iframe id="battle-frame" src="./battle.html" title="폐차장 V3 전장"></iframe><div id="boot" class="boot"><span class="loader"></span><strong>회수대를 전개하고 있습니다</strong><small>전투 엔진 · 카드 원화 · 전투 SD 연결 중</small></div></div>
+      <div class="combat-progress"><i id="progress"></i></div>
+      <div class="battle-controls"><div class="action-note"><strong id="action-label">한 번의 출격, 끊김 없는 전투</strong><span id="action-detail">카드 체력 · 방벽 · 게이지 · 지원 사격이 끝까지 이어집니다.</span></div><div class="buttons"><button id="pause" disabled>일시정지</button><button id="start" class="primary" disabled>작전 시작 <span>→</span></button></div></div>
+    </div>
+    <div class="under-grid"><section class="log-panel"><header><h2>전황 기록</h2><span>COMBAT LOG</span></header><ol id="combat-log" aria-live="polite"><li>외곽 구역 진입 준비. 고철군주를 격파하면 작전이 종료됩니다.</li></ol></section><section class="result-panel"><p class="eyebrow">OPERATION REPORT</p><h2 id="result-title">출격 대기</h2><dl><div><dt>일반 카드 피해</dt><dd id="card-damage">—</dd></div><div><dt>배틀슈트 피해</dt><dd id="suit-damage">—</dd></div><div><dt>아군 생존</dt><dd id="survivors">5 / 5</dd></div></dl><p id="result-note">실제 입장권·보상은 사용하지 않습니다.</p></section></div>
+  </section><aside>
+    <section class="boss-dossier"><div class="dossier-top"><span>PRIORITY TARGET</span><b>BOSS</b></div><div class="boss-art"><img src="./assets/breaker-sd-v1.png" alt="고철군주 브레이커 투명 전투 리소스"><span>WRECKLORD</span></div><div class="dossier-copy"><p>외곽 구역 최종 목표</p><h2>고철군주 브레이커</h2><div class="rule"><i></i> 방어대 전멸 후 출현</div><p class="boss-description">폐차의 잔해를 두른 거체.<br>앞선 교전에서 소모한 체력은 복구되지 않습니다.</p></div></section>
+    <section class="settings"><header><h2>검수 설정</h2><span>LOCAL</span></header><label for="power">검수 덱 전투력</label><select id="power" disabled><option value="0.25">32.5만 · 저전력</option><option value="1" selected>130만 · 기본 편성</option><option value="2">260만 · 강화 편성</option></select><label for="speed">연출 배속</label><select id="speed"><option value="1">1× 기본</option><option value="2">2× 빠르게</option></select><p>적 스펙은 고정입니다. 덱 전투력만 달라지며 실제 계정에는 영향을 주지 않습니다.</p></section>
+    <section class="field-note"><span>FORMATION CONTRACT</span><b>일반 카드 5장 + 배틀슈트</b><p>기존 V3 진형·카드 프레임 유지<br>신규 용병·오프라인 보상 미연결</p></section>
+  </aside></div>
+  <footer><strong>INDEPENDENT V3 REVIEW</strong><span>무한의탑·운영 폐차장·입장권·CMS·보상 변경 없음 · 무음 검수</span><button id="reset" disabled>처음부터 다시</button></footer>
+</main></body></html>
