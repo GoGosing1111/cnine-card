@@ -8,7 +8,7 @@ const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 const TICKET_RESERVATION_TABLE='scrapyard_ticket_reservations_v1680';
 const DROP_RECEIPT_TABLE='unified_drop_receipts_v1667';
 const MODE_SET=new Set(['OFF','TEST','ON']);
-const SCRAPYARD_ENEMIES={
+export const SCRAPYARD_ENEMIES={
   OUTER:{
     normal:[{id:'SCRAP_OUTER_GEARJAW',name:'기어죠 스캐빈저',image:'assets/ui/scrapyard/monsters/gearjaw-scavenger-v1698.webp'}],
     boss:[{id:'SCRAP_OUTER_BREAKER',name:'고철군주 브레이커',image:'assets/ui/scrapyard/monsters/wrecklord-breaker-v1698.webp'}]
@@ -148,7 +148,7 @@ async function refundEntryTicket(env,userId,requestId,error){
 async function recoverStaleEntryTickets(env,userId){
   const now=Date.now(),last=Number(staleRecoveryAt.get(Number(userId))||0);if(now-last<60000)return;staleRecoveryAt.set(Number(userId),now);
   if(staleRecoveryAt.size>256)for(const [id,checkedAt] of staleRecoveryAt)if(now-checkedAt>60000)staleRecoveryAt.delete(id);
-  const rows=await env.DB.prepare(`SELECT r.request_id FROM ${TICKET_RESERVATION_TABLE} r JOIN ${RECEIPT_TABLE} x ON x.request_id=r.request_id AND x.user_id=r.user_id WHERE r.user_id=? AND r.status='RESERVED' AND x.status='PENDING' AND r.updated_at<datetime('now','-5 minutes') AND NOT EXISTS(SELECT 1 FROM ${DROP_RECEIPT_TABLE} d WHERE d.request_id=('SCRAPYARD:'||r.request_id) AND d.user_id=r.user_id AND d.status='COMPLETED') ORDER BY r.updated_at LIMIT 3`).bind(userId).all();
+  const rows=await env.DB.prepare(`SELECT r.request_id FROM ${TICKET_RESERVATION_TABLE} r JOIN ${RECEIPT_TABLE} x ON x.request_id=r.request_id AND x.user_id=r.user_id WHERE r.user_id=? AND r.status='RESERVED' AND x.status='PENDING' AND (x.response_json IS NULL OR x.response_json NOT LIKE '%"engineVersion":"PVE_CONTINUOUS_V1"%') AND r.updated_at<datetime('now','-5 minutes') AND NOT EXISTS(SELECT 1 FROM ${DROP_RECEIPT_TABLE} d WHERE d.request_id=('SCRAPYARD:'||r.request_id) AND d.user_id=r.user_id AND d.status='COMPLETED') ORDER BY r.updated_at LIMIT 3`).bind(userId).all();
   for(const row of rows.results||[])await refundEntryTicket(env,userId,row.request_id,'폐차장 처리 중단 자동 복구');
 }
 
@@ -214,4 +214,4 @@ export async function handleScrapyard({path,request,env,deps}){
   return deps.json({error:'지원하지 않는 폐차장 요청입니다.'},405);
 }
 
-export const __scrapyardTest={kstDayRange};
+export const __scrapyardTest={kstDayRange,FOUNDATION_SQL,DEFAULT_SETTINGS};

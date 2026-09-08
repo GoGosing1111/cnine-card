@@ -1622,15 +1622,39 @@ function forcePveMonsterSurvivalLoss(result = {}) {
   return { ...result, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason, timeline };
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null } = {}) {
+// Opt-in common PVE encounter contract. No production route enables this until
+// the complete PVE overhaul is reviewed. Existing single-monster calls are unchanged.
+function preparePveEncounter(encounter) {
+  if (!encounter || !Array.isArray(encounter.instances) || encounter.instances.length < 2 || encounter.instances.length > 45) throw new Error('INVALID_PVE_ENCOUNTER');
+  const {initialCount, maxActions, maxDuration, forcedMonsterEvery} = encounter;
+  if (!Number.isInteger(initialCount) || initialCount < 1 || initialCount > 5 || initialCount >= encounter.instances.length || encounter.instances.length - initialCount > 40 ||
+      !Number.isInteger(maxActions) || maxActions < 1 || maxActions > 600 || !Number.isFinite(maxDuration) || maxDuration <= 0 || maxDuration > 4 ||
+      !Number.isInteger(forcedMonsterEvery) || forcedMonsterEvery < 1 || forcedMonsterEvery > 20) throw new Error('INVALID_PVE_ENCOUNTER_LIMITS');
+  const ids = new Set();
+  const fighters = encounter.instances.map(row => {
+    if (!row || typeof row.instanceId !== 'string' || !/^[A-Za-z0-9_:-]{1,100}$/.test(row.instanceId) || ids.has(row.instanceId) ||
+        !Number.isInteger(row.slot) || row.slot < 0 || row.slot > 4 || !Number.isFinite(row.monster?.battle_power) || row.monster.battle_power <= 0) throw new Error('INVALID_PVE_ENCOUNTER_INSTANCE');
+    ids.add(row.instanceId);
+    const fighter = buildMonsterFighter(row.monster);
+    return {...fighter, id:`B:${row.slot}:ENCOUNTER:${row.instanceId}`, slot:row.slot, encounterAfterClear:row.afterClear === true};
+  });
+  const initial = fighters.slice(0, initialCount);
+  if (new Set(initial.map(row => row.slot)).size !== initial.length || initial.some(row => row.encounterAfterClear)) throw new Error('INVALID_PVE_ENCOUNTER_INITIAL');
+  return {initial, pending:fighters.slice(initialCount), maxActions, maxDuration, forcedMonsterEvery};
+}
+
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null } = {}) {
+  const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
+  if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
   const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
   const simulationTeamA = battleSuitFighter ? [...teamA, battleSuitFighter] : teamA;
-  const teamB = [buildMonsterFighter(monster)];
-  const forcedMonsterEvery = escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
+  const teamB = encounterPlan ? encounterPlan.initial : [buildMonsterFighter(monster)];
+  const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
-    teamA:simulationTeamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
+    teamA:simulationTeamA, teamB, magicA:magicCards, seed, maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0,
+    reinforcements: encounterPlan ? encounterPlan.pending : [],
     // V1813: 플레이어 15회마다 몬스터 1회를 보장한다. PVP 는 끈 채로 둔다.
     // V1837: 호송작전만 주기를 15 → 4 로 줄인다. 차량이 자주 맞아야
     //   호송이라는 긴장감이 생긴다. 이 값은 "몇 번 때리나" 만 정하고
@@ -1693,7 +1717,10 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitDamageMultiplier:BATTLE_SUIT_DAMAGE_MULTIPLIER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitDamageMultiplier:BATTLE_SUIT_DAMAGE_MULTIPLIER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    ...(encounterPlan ? {encounter: {schemaVersion:1, initialIds:teamB.map(row => row.id), instances:[...teamB,...encounterPlan.pending].map(publicFighter),
+      maxActions:encounterPlan.maxActions, maxDuration:encounterPlan.maxDuration, forcedMonsterEvery,
+      stateContinuity:['HP','SHIELD','GAUGE','MAGIC_BUDGET','REVIVE_BUDGET','BATTLE_SUIT_CLOCK'], fixedEnemyStats:true}} : {}),
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
