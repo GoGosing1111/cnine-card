@@ -28,12 +28,12 @@ export function validateClanParticipationSettings(candidate, next) {
 
 export async function prepareClanParticipationSettings(env, previous, next, now = Date.now()) {
   const at = new Date(now).toISOString();
-  // Freeze the old rules even if nobody opened the current round before this CMS edit.
-  const current = await env.DB.prepare("SELECT * FROM clan_wars WHERE status IN ('ACTIVE','SCHEDULED') AND starts_at<=? AND ends_at>?").bind(at, at).all();
+  // Postseason rules were already frozen at championship creation; CMS edits only freeze regular rounds.
+  const current = await env.DB.prepare("SELECT * FROM clan_wars WHERE round_no<1000 AND status IN ('ACTIVE','SCHEDULED') AND starts_at<=? AND ends_at>?").bind(at, at).all();
   for (const war of current.results || []) await clanWarParticipationSettings(env, war, previous, now);
   next.participationEffectiveAt = previous.participationEffectiveAt || '';
   if (next.participationEnabled && (!previous.participationEnabled || !next.participationEffectiveAt)) {
-    const upcoming = await env.DB.prepare("SELECT starts_at FROM clan_wars WHERE status IN ('ACTIVE','SCHEDULED') AND starts_at>? ORDER BY starts_at LIMIT 1").bind(at).first();
+    const upcoming = await env.DB.prepare("SELECT starts_at FROM clan_wars WHERE round_no<1000 AND status IN ('ACTIVE','SCHEDULED') AND starts_at>? ORDER BY starts_at LIMIT 1").bind(at).first();
     next.participationEffectiveAt = upcoming?.starts_at || new Date(now + 1000).toISOString();
   }
   return next;

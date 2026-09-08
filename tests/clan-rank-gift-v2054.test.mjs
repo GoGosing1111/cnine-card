@@ -13,7 +13,7 @@ async function fixture(t){
     CREATE TABLE clan_organizations(id bigint,name text,mark_key text,primary_color text,accent_color text,slogan text);
     CREATE TABLE users(id bigint PRIMARY KEY,nickname text,coin bigint DEFAULT 9000000000);
     CREATE TABLE clan_members(season_id bigint,clan_id bigint,user_id bigint);
-    CREATE TABLE clan_wars(season_id bigint,clan_a_id bigint,clan_b_id bigint,score_a bigint,score_b bigint,status text);
+    CREATE TABLE clan_wars(season_id bigint,clan_a_id bigint,clan_b_id bigint,score_a bigint,score_b bigint,status text,round_no bigint DEFAULT 1);
     CREATE TABLE user_messages(id bigserial PRIMARY KEY,user_id bigint,sender_type text,title text,body text,message_type text,campaign_key text,UNIQUE(user_id,campaign_key));
     CREATE TABLE user_message_rewards(id bigserial PRIMARY KEY,message_id bigint UNIQUE,user_id bigint,reward_type text,reward_amount bigint,claimed_at text);
     CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id bigint PRIMARY KEY,reward_amount bigint,balance_before bigint,balance_after bigint);
@@ -25,7 +25,7 @@ async function fixture(t){
     await pg.query('INSERT INTO clan_season_teams VALUES(4,$1::bigint,$2,$3,3,0,$1::int)',[c.id,c.id*1000+1,c.id===7||c.id===4?9:0]);
     await pg.query("INSERT INTO users(id,nickname) SELECT $1::bigint+n,'synthetic-'||n FROM generate_series(1,$2::int) n",[c.id*1000,c.members]);
     await pg.query('INSERT INTO clan_members SELECT 4,$1,$2::bigint+n FROM generate_series(1,$3::int) n',[c.id,c.id*1000,c.members]);
-    await pg.query("INSERT INTO clan_wars VALUES(4,$1,99,$2,1991,'COMPLETED')",[c.id,c.id===7?2164:2138]);
+    await pg.query("INSERT INTO clan_wars(season_id,clan_a_id,clan_b_id,score_a,score_b,status) VALUES(4,$1,99,$2,1991,'COMPLETED')",[c.id,c.id===7?2164:2138]);
   }
   let fail='';const calls=[];
   const client={async query(sql,values=[]){

@@ -1,0 +1,46 @@
+/* Postseason uses the existing clan identity assets, isolated from V3 battle CSS. */
+.clan-tabs [data-clan-tab="champions"]{min-width:168px;color:#e5c683}
+.clan-tabs [data-clan-tab="champions"].active{color:#20180b;background:linear-gradient(110deg,#e8cb8e,#f5e6c3)}
+.clan-shell .clan-champions-entry{display:flex;width:100%;height:auto;min-height:118px;margin-bottom:20px;padding:18px 30px;gap:24px;text-align:left;border:1px solid #6a5634;border-left:3px solid #e6c47c;background:radial-gradient(ellipse at 10% 70%,#66533344,transparent 60%),#10141b;color:#f1e9d6;box-shadow:0 14px 40px #0004;transition:border-color .2s,background .2s}
+.clan-shell .clan-champions-entry:hover{border-color:#e6c47c;background-color:#1b2029}
+.clan-champions-entry .clan-cup-mini{flex:0 0 52px}.clan-cup-mini svg{display:block;width:52px;height:62px}
+.clan-champions-entry>span:nth-child(2){display:grid;gap:7px}.clan-champions-entry small{color:#c3a46a;font-size:9px;letter-spacing:.2em}
+.clan-champions-entry b{font-size:24px;letter-spacing:-.05em}.clan-champions-entry em{font-size:12px;font-style:normal;color:#aeb6c2}
+.clan-champions-entry>strong{margin-left:auto;font-size:13px;white-space:nowrap}.clan-champions-entry i{font-size:24px;font-style:normal;margin-left:12px}
+.clan-champions{--cup-gold:#dfc188;--cup-line:#74634155;overflow:hidden;color:#eef1f5;border:1px solid #5f513638;background:#090e15;box-shadow:0 30px 90px #0005}
+.clan-cup-hero{position:relative;display:grid;grid-template-columns:1fr 240px;align-items:center;gap:30px;padding:48px 48px 38px;border-bottom:1px solid var(--cup-line);background:radial-gradient(ellipse at 90% 55%,#91794922,transparent 52%),linear-gradient(120deg,#151c29,#090d14)}
+.clan-cup-hero:before{content:"";position:absolute;left:48px;top:0;width:72px;height:3px;background:var(--cup-gold)}
+.clan-cup-hero small{color:#bda472;font-size:10px;font-weight:800;letter-spacing:.18em}.clan-cup-hero p{margin:22px 0 10px;color:#bdc8d8;font-size:16px;letter-spacing:-.02em}
+.clan-cup-hero h2{margin:0 0 20px;font-size:clamp(36px,5vw,76px);line-height:.96;letter-spacing:-.055em;font-weight:950}.clan-cup-hero h2 em{font-style:normal;color:var(--cup-gold)}
+.clan-cup-hero>div>span{display:block;color:#a7b3c4;font-size:12px;line-height:1.7}
+.clan-cup-emblem{display:grid;justify-items:center;gap:12px;text-align:center}.clan-cup-emblem svg{width:124px;height:146px;filter:drop-shadow(0 5px 25px #d8b16924)}
+.clan-cup-emblem b{font-size:21px;letter-spacing:.025em;color:#f1dbad}.clan-cup-emblem small{font-size:9px;color:#9b9d9c}
+.clan-cup-bye{display:flex;align-items:center;gap:16px;padding:20px 32px;background:linear-gradient(90deg,#b68c3e19,transparent);border-bottom:1px solid var(--cup-line)}
+.clan-cup-bye>span{font:800 9px/1.5 ui-monospace,monospace;letter-spacing:.12em;color:#bba174;margin-right:auto}.clan-cup-bye .clan-mark{width:44px;height:44px;min-width:44px}.clan-cup-bye>b{font-size:17px}.clan-cup-bye>em{color:#e3c382;font-size:12px;font-style:normal}
+.clan-cup-bracket{display:grid;grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr);align-items:center;padding:32px}
+.clan-cup-match{min-width:0;padding:24px;border:1px solid #65758a44;border-radius:8px;background:linear-gradient(135deg,#18212f,#101720);box-shadow:0 10px 30px #0003}
+.clan-cup-match:nth-of-type(2){border-color:#ac8b4a6b;background:linear-gradient(145deg,#24241f,#121820 70%)}
+.clan-cup-match.is-live{border-color:#bba570;box-shadow:inset 0 3px #e3c382,0 10px 30px #0003}
+.clan-cup-match header{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#97a7bc;font-size:9px;font-weight:850;letter-spacing:.09em}
+.clan-cup-match header em{padding:5px 8px;background:#c1d0e011;border:1px solid #a6b5c122;color:#b6c1cd;font-size:10px;font-style:normal;letter-spacing:0;white-space:nowrap}
+.clan-cup-match.is-live header em{color:#ead39e;border-color:#ddbc7266;background:#e4bc6019}
+.clan-cup-match h3{font-size:23px;line-height:1.25;margin:20px 0 8px;letter-spacing:-.05em}.clan-cup-match time{font-size:12px;color:#95a5b9;line-height:1.6}
+.clan-cup-teams{display:grid;gap:5px;margin:22px 0 16px}.clan-cup-team{display:grid;grid-template-columns:28px 45px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 10px;border:1px solid transparent;background:#03091160;border-radius:5px}
+.clan-cup-team .clan-mark{width:45px;height:45px;min-width:45px}.clan-cup-seed{font:700 11px/1 ui-monospace,monospace;color:#8499b0}
+.clan-cup-team b{font-size:17px;overflow-wrap:anywhere}.clan-cup-team>strong{font:700 25px/1.2 ui-monospace,monospace;font-variant-numeric:tabular-nums;color:#d4dde9}
+.clan-cup-team.is-winner{border-color:#ae8d5266;background:#b08d4215}.clan-cup-team.is-winner>strong{color:#ecd197}
+.clan-cup-unknown{display:grid;place-items:center;width:45px;height:45px;border:1px dashed #64728655;border-radius:50%;color:#778a9f}
+.clan-cup-match footer{color:#a7b5c7;font-size:11px;line-height:1.7;min-height:20px}
+.clan-shell .clan-cup-match>button{width:100%;margin-top:20px;min-height:46px;border:1px solid #aa8b5066;background:#e5c583;color:#241e13;font-size:13px;font-weight:850}
+.clan-cup-connector{display:grid;place-items:center;gap:4px;color:#b49a6b;font-size:30px}.clan-cup-connector small{font-size:8px;letter-spacing:.1em}
+.clan-cup-reward{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;padding:28px 32px;border-top:1px solid var(--cup-line);background:#b0904010}
+.clan-cup-reward small{font-size:9px;letter-spacing:.13em;color:#bd9e67;font-weight:850}.clan-cup-reward h3{margin:10px 0;font-size:20px;color:#ecdbb8}
+.clan-cup-reward p{margin:0;color:#9caabe;font-size:12px;line-height:1.8;max-width:520px}.clan-cup-reward>div:last-child{display:flex;flex-direction:column;justify-content:center;gap:12px;line-height:1.8}
+.clan-cup-reward strong{font-size:16px;color:#ecdbb8;overflow-wrap:anywhere}.clan-cup-reward span{color:#9fb5ca;font-size:11px}
+.clan-cup-rules{display:flex;flex-wrap:wrap;gap:10px 24px;padding:20px 32px;border-top:1px solid #a2b4c515;color:#8798ad;font-size:10px;line-height:1.6}
+.clan-tabs button:focus-visible,.clan-champions button:focus-visible,.clan-champions-entry:focus-visible{outline:2px solid #f1d69e;outline-offset:3px}
+@media(max-width:1000px){.clan-tabs{overflow-x:auto}.clan-tabs button{min-width:118px}.clan-cup-hero{padding:36px;grid-template-columns:1fr 160px}.clan-cup-bracket{padding:22px;grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr)}.clan-cup-match{padding:18px}.clan-cup-team{grid-template-columns:20px 38px minmax(0,1fr) auto;gap:7px}.clan-cup-team .clan-mark{width:38px;min-width:38px;height:38px}}
+@media(max-width:700px){.clan-shell .clan-champions-entry{padding:17px;gap:14px;min-height:110px}.clan-champions-entry>strong{font-size:0}.clan-champions-entry i{font-size:23px;margin-left:0}.clan-champions-entry b{font-size:21px}.clan-champions-entry em{font-size:11px;line-height:1.6}.clan-tabs{overflow-x:auto;scrollbar-width:thin;gap:3px}.clan-tabs button{min-width:76px;flex:1 0 auto}.clan-tabs [data-clan-tab="champions"]{min-width:126px}.clan-cup-hero{padding:28px 22px;gap:14px;grid-template-columns:1fr 85px}.clan-cup-hero:before{left:22px}.clan-cup-hero small{font-size:8px;letter-spacing:.08em}.clan-cup-hero h2{font-size:36px}.clan-cup-hero p{font-size:12px}.clan-cup-hero>div>span{font-size:11px}.clan-cup-emblem svg{width:65px;height:83px}.clan-cup-emblem b{font-size:12px}.clan-cup-emblem small{font-size:7px;line-height:1.5}.clan-cup-bye{padding:14px 18px;gap:10px;flex-wrap:wrap}.clan-cup-bye>span{width:100%;font-size:8px}.clan-cup-bye>em{margin-left:auto}.clan-cup-bracket{grid-template-columns:1fr;padding:18px;gap:12px}.clan-cup-connector{font-size:0;height:36px}.clan-cup-connector:before{content:'↓';font-size:24px;line-height:1}.clan-cup-connector small{display:none}.clan-cup-match{padding:21px}.clan-cup-team{padding:12px;grid-template-columns:24px 44px minmax(0,1fr) auto;gap:12px}.clan-cup-reward{grid-template-columns:1fr;padding:22px;gap:18px}.clan-cup-reward strong{font-size:15px}.clan-cup-rules{padding:18px 22px;gap:8px;font-size:10px;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.clan-champions-entry{transition:none}}
+.clan-cup-bye>.clan-mark{margin-right:0;font:inherit;letter-spacing:normal}
+@media(max-width:700px){.clan-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}.clan-tabs button,.clan-tabs [data-clan-tab="champions"]{min-width:0;min-height:44px;width:100%}.clan-tabs .clan-refresh{max-width:none;min-width:0;width:100%;margin:0}.clan-tabs .clan-refresh span{display:grid}.clan-cup-bye>.clan-mark{width:44px}}

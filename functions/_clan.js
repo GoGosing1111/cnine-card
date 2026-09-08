@@ -2,6 +2,7 @@ import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarPartici
 import {handleClanInactivityCleanup} from './_clan_inactivity_cleanup.js';
 import {handleClanMemberAssignment} from './_clan_member_assignment.js';
 import {CLAN_RANKED_TEAMS_SQL,clanCombatStats} from './_clan_ranking.js';
+import {CHAMPIONS_DEFAULTS,cleanChampionsSettings,validateChampionsSettings,ensureChampionsSchema,startChampions,advanceChampions,championsBattleSettings,championsMemberEligible,championsPublicState,deliverChampionsRewards} from './_clan_champions.js';
 
 const CLAN_FOUNDATION_VERSION='safe_runtime_upgrade_v1820_clan_v1';
 const CLAN_OFFICIAL_CATALOG_VERSION='safe_runtime_upgrade_v1882_clan_official_catalog_v1';
@@ -36,6 +37,7 @@ const SEOUL_OFFSET_MS=9*60*60*1000;
 const CLAN_ADMIN_SETTINGS_KEY='clan_settings_v1';
 const CLAN_ADMIN_SETTINGS_DEFAULTS=Object.freeze({
   ...CLAN_PARTICIPATION_DEFAULTS,
+  ...CHAMPIONS_DEFAULTS,
   mode:'TEST',scheduleEnabled:true,timezone:'Asia/Seoul',warOpenTime:'21:00',warDurationMinutes:60,openDays:Object.freeze([0,1,2,3,4,5,6]),fixedOpponentPerWindow:true,
   initialEnergy:10,energyCap:10,energyRecoverySeconds:300,attackEnergyCost:1,totalUseLimit:CLAN_ATTACKS_PER_WAR,defensesPerTarget:CLAN_DEFENSES_PER_TARGET,repeatTargetLimit:1,
   matchMode:'RANDOM_AVAILABLE',powerMatchEnabled:false,powerMatchTolerancePct:100,powerMatchFallback:'LOWEST_DEFENSE',powerSnapshot:'LIVE_RANKED_DECK_5',
@@ -311,6 +313,7 @@ async function ensureFoundation(env){
   await ensureClanRandomScoreRuntimeUpgrade(env);
   await ensureClanConcurrentReservationRuntimeUpgrade(env);
   await ensureClanParticipationSchema(env);
+  await ensureChampionsSchema(env);
 }
 
 function cleanClock(value,fallback='21:00'){const match=String(value||'').trim().match(/^(\d{1,2}):(\d{2})$/);if(!match)return fallback;const hour=Number(match[1]),minute=Number(match[2]);return hour>=0&&hour<=23&&minute>=0&&minute<=59?`${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`:fallback}
@@ -319,6 +322,7 @@ function cleanClanAdminSettings(raw={},current=CLAN_ADMIN_SETTINGS_DEFAULTS){
   const energyCap=clampInt(raw.energyCap,1,30,base.energyCap),initialEnergy=clampInt(raw.initialEnergy,1,energyCap,Math.min(base.initialEnergy,energyCap)),totalUseLimit=clampInt(raw.totalUseLimit,initialEnergy,99,Math.max(base.totalUseLimit,initialEnergy));
   return{
     participationEnabled:cleanBoolean(raw.participationEnabled,base.participationEnabled),
+    ...cleanChampionsSettings(raw,base),
     participationEffectiveAt:Number.isFinite(sqlMs(raw.participationEffectiveAt??base.participationEffectiveAt))?iso(sqlMs(raw.participationEffectiveAt??base.participationEffectiveAt)):'',
     battleParticipationRewardsEnabled:cleanBoolean(raw.battleParticipationRewardsEnabled,base.battleParticipationRewardsEnabled),
     battleParticipationCoin:clampInt(raw.battleParticipationCoin,0,100000000,base.battleParticipationCoin),
@@ -448,6 +452,7 @@ async function activateSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,{
 }
 function warWinnerClanId(war){const a=Number(war?.score_a||0),b=Number(war?.score_b||0),aId=Number(war?.clan_a_id||0),bId=Number(war?.clan_b_id||0);return a===b?Math.min(aId,bId):(a>b?aId:bId)}
 async function finalizeWar(env,war,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
+  if(Number(war?.round_no)>=1000)return false; // Postseason has its own winner/settlement; no regular-season points.
   if(!war||!['ACTIVE','CLOSING'].includes(String(war.status)))return false;
   if(war.status==='ACTIVE'){const claim=await env.DB.prepare("UPDATE clan_wars SET status='CLOSING',updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE' AND NOT EXISTS(SELECT 1 FROM clan_war_battles WHERE war_id=? AND status IN ('PENDING','RESOLVING'))").bind(war.id,war.id).run();if(Number(claim?.meta?.changes||0)!==1)return false}
   const winnerId=warWinnerClanId(war),loserId=winnerId===Number(war.clan_a_id)?Number(war.clan_b_id):Number(war.clan_a_id);
@@ -477,6 +482,8 @@ async function payClanSeasonRewards(env,season,settings,rankedTeams){
 async function settleSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   const settleLock=await acquireDraftLock(env,season.id);if(!settleLock.ok)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
   try{
+    season=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
+    if(season?.phase!=='SETTLEMENT')return season; // A stale request must not cancel newly created playoffs.
     await env.DB.prepare("UPDATE clan_war_battles SET status='FAILED',error_message='STALE_RESOLUTION_RECOVERED',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='RESOLVING' AND updated_at<datetime('now','-60 seconds')").bind(season.id).run();
     const resolving=await env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE season_id=? AND status='RESOLVING'").bind(season.id).first();
     if(Number(resolving?.count||0)>0)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
@@ -485,14 +492,13 @@ async function settleSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
     const rankedTeams=rows(await env.DB.prepare(CLAN_RANKED_TEAMS_SQL).bind(season.id).all()),championId=Number(rankedTeams[0]?.clan_id||0),initialRewardStatus=settings.mode!=='ON'?'DISABLED_TEST':settings.rewardsEnabled?'PENDING':'DISABLED_CONFIG';
     await env.DB.prepare("INSERT OR IGNORE INTO clan_season_settlements(season_id,champion_clan_id,status,reward_status) VALUES(?,?,'PENDING',?)").bind(season.id,championId||null,initialRewardStatus).run();
     let settlement=await env.DB.prepare('SELECT * FROM clan_season_settlements WHERE season_id=?').bind(season.id).first();
-    if(settlement?.status==='COMPLETED'){await env.DB.prepare("UPDATE clan_seasons SET phase='COMPLETE',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase<>'COMPLETE'").bind(season.id).run();return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first()}
+    if(settlement?.status==='COMPLETED'){await startChampions(env,season,settings,rankedTeams);return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first()}
     if(settlement?.status==='PROCESSING'&&Date.now()-sqlMs(settlement.updated_at)>60000){await env.DB.prepare("UPDATE clan_season_settlements SET status='PENDING',processing_token=NULL,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PROCESSING'").bind(season.id).run();settlement={...settlement,status:'PENDING'}}
     const processingToken=crypto.randomUUID(),claim=await env.DB.prepare("UPDATE clan_season_settlements SET status='PROCESSING',processing_token=?,champion_clan_id=?,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PENDING'").bind(processingToken,championId||null,season.id).run();
     if(Number(claim?.meta?.changes||0)!==1)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
     const rewardStatus=await payClanSeasonRewards(env,season,settings,rankedTeams),writes=[];if(championId)writes.push(env.DB.prepare("UPDATE clan_organizations SET trophies=trophies+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND EXISTS(SELECT 1 FROM clan_season_settlements WHERE season_id=? AND status='PROCESSING' AND processing_token=?)").bind(championId,season.id,processingToken));
-    writes.push(env.DB.prepare("UPDATE clan_seasons SET phase='COMPLETE',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='SETTLEMENT' AND EXISTS(SELECT 1 FROM clan_season_settlements WHERE season_id=? AND status='PROCESSING' AND processing_token=?)").bind(season.id,season.id,processingToken));
     writes.push(env.DB.prepare("UPDATE clan_season_settlements SET status='COMPLETED',processing_token=NULL,reward_status=?,completed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PROCESSING' AND processing_token=?").bind(rewardStatus,season.id,processingToken));
-    await env.DB.batch(writes);return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
+    await env.DB.batch(writes);await startChampions(env,season,settings,rankedTeams);return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
   }finally{await releaseDraftLock(env,settleLock)}
 }
 async function autoDraftDue(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,maxPicks=40){
@@ -517,6 +523,7 @@ async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
   if(fresh.phase==='DRAFT')fresh=await autoDraftDue(env,fresh,settings);
   if(fresh.phase==='ACTIVE')fresh=await reconcileWarWindows(env,fresh,settings);
   if(fresh.phase==='SETTLEMENT')fresh=await settleSeason(env,fresh,settings);
+  if(fresh.phase==='CHAMPIONS'){await advanceChampions(env,fresh,settings);fresh=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(fresh.id).first()}
   return fresh;
 }
 
@@ -550,9 +557,9 @@ async function clanAdminState(env,settings){
   const wars=rows(warsResult).map(row=>({id:Number(row.id),roundNo:Number(row.round_no),status:row.status,clanAId:Number(row.clan_a_id),clanAName:row.clan_a_name,clanBId:Number(row.clan_b_id),clanBName:row.clan_b_name,scoreA:Number(row.score_a||0),scoreB:Number(row.score_b||0),battleCount:Number(row.battle_count||0),startsAt:row.starts_at,endsAt:row.ends_at,winnerClanId:Number(row.winner_clan_id||0),winnerName:row.winner_name||''}));
   rows(rankedResult).forEach((row,index)=>{const clan=clans.find(c=>c.id===Number(row.clan_id));if(clan)Object.assign(clan,{rank:index+1,...clanCombatStats(row)})});
   const battleStatus=Object.fromEntries(rows(battleStatusResult).map(row=>[String(row.status||'UNKNOWN'),Number(row.count||0)])),recentBattles=rows(recentResult).map(row=>({id:Number(row.id),requestId:row.request_id,warId:Number(row.war_id),status:row.status,participationPoints:Number(row.participation_points||0),participationCoin:Number(row.participation_coin||0),attackerNickname:row.attacker_nickname,defenderNickname:row.defender_nickname,attackerClan:row.attacker_clan,defenderClan:row.defender_clan,winnerClan:row.winner_clan||'',errorMessage:row.error_message||'',createdAt:row.created_at,updatedAt:row.updated_at}));
-  const ruleWar=rows(warsResult).find(w=>w.status==='ACTIVE')||rows(warsResult).find(w=>w.status==='SCHEDULED'),roundSettings=ruleWar?await clanWarParticipationSettings(env,ruleWar,settings):null;
+  const ruleWar=rows(warsResult).find(w=>w.status==='ACTIVE')||rows(warsResult).find(w=>w.status==='SCHEDULED'),roundSettings=ruleWar?await clanWarParticipationSettings(env,ruleWar,await championsBattleSettings(env,season,settings)):null;
   return{
-    ok:true,settings,participationRuntime:roundSettings?{roundNo:Number(ruleWar.round_no),scorePolicy:roundSettings.scorePolicy,scorePerWin:roundSettings.warWinScore,scorePerLoss:roundSettings.warLossScore,startsAt:ruleWar.starts_at,rewardsEnabled:roundSettings.mode==='ON'&&roundSettings.battleParticipationRewardsEnabled,battleCoin:roundSettings.battleParticipationCoin}:null,season:publicSeason(season),settlement:settlement?{status:settlement.status,championClanId:Number(settlement.champion_clan_id||0),rewardStatus:settlement.reward_status,completedAt:settlement.completed_at}:null,clans,wars,recentBattles,
+    ok:true,settings,champions:await championsPublicState(env,seasonId,settings),participationRuntime:roundSettings?{roundNo:Number(ruleWar.round_no),scorePolicy:roundSettings.scorePolicy,scorePerWin:roundSettings.warWinScore,scorePerLoss:roundSettings.warLossScore,startsAt:ruleWar.starts_at,rewardsEnabled:roundSettings.mode==='ON'&&roundSettings.battleParticipationRewardsEnabled,battleCoin:roundSettings.battleParticipationCoin}:null,season:publicSeason(season),settlement:settlement?{status:settlement.status,championClanId:Number(settlement.champion_clan_id||0),rewardStatus:settlement.reward_status,completedAt:settlement.completed_at}:null,clans,wars,recentBattles,
     metrics:{registered:Number(poolResult?.registered||0),available:Number(poolResult?.available||0),drafted:Number(poolResult?.drafted||0),clansActive:clans.filter(clan=>clan.active).length,warsActive:wars.filter(war=>war.status==='ACTIVE').length,battlesTotal:Object.values(battleStatus).reduce((sum,count)=>sum+Number(count||0),0),battleStatus},
     runtimeContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,lateRegistrationOpen:Boolean(season&&clanRegistrationOpen(season)&&String(season.phase).toUpperCase()==='DRAFT'),attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,battleEngine:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed,roundGeneration:'ROUND_ROBIN_7_WINDOWS',warDurationMinutes:settings.warDurationMinutes,matchMode:settings.matchMode,deckPolicy:settings.powerSnapshot,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,rewards:settings.rewardsEnabled?'ENABLED':'READY_OFF'},
     targetContract:{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,warDurationMinutes:settings.warDurationMinutes,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,totalUseLimit:settings.totalUseLimit,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,powerSnapshot:settings.powerSnapshot,warWinScore:settings.warWinScore,playbackSpeed:settings.playbackSpeed},
@@ -586,12 +593,13 @@ async function opponentMatchState(env,deps,user,season,war,mine,settings,selecti
       COALESCE((SELECT p.card_ids FROM pvp_active_presets a JOIN pvp_deck_presets p ON p.user_id=a.user_id AND p.preset_no=a.preset_no WHERE a.user_id=m.user_id LIMIT 1),d.card_ids) live_deck,
       (SELECT COUNT(*) FROM clan_war_battles b WHERE b.war_id=? AND b.defender_user_id=m.user_id AND b.status IN ('PENDING','RESOLVING','COMPLETED')) defense_count,
       (SELECT COUNT(*) FROM clan_war_battles b WHERE b.war_id=? AND b.attacker_user_id=? AND b.defender_user_id=m.user_id AND b.status IN ('PENDING','RESOLVING','COMPLETED')) faced_count
-      FROM clan_members m JOIN users u ON u.id=m.user_id LEFT JOIN pvp_decks d ON d.user_id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY m.user_id LIMIT ?`).bind(war.id,war.id,user.id,season.id,enemyClan,CLAN_MAX_MEMBERS).all()
+      FROM clan_members m JOIN users u ON u.id=m.user_id LEFT JOIN pvp_decks d ON d.user_id=m.user_id WHERE m.season_id=? AND m.clan_id=? AND (?=0 OR EXISTS(SELECT 1 FROM clan_championship_members cm WHERE cm.season_id=m.season_id AND cm.user_id=m.user_id AND cm.clan_id=m.clan_id)) ORDER BY m.user_id LIMIT ?`).bind(war.id,war.id,user.id,season.id,enemyClan,season.phase==='CHAMPIONS'?1:0,CLAN_MAX_MEMBERS).all()
   ]),attackerPower=await rankedDeckPower(env,deps,user.id,attackerDeckIds,battle),raw=rows(opponentResult);
   const candidates=raw.map(row=>{const defenseCount=Number(row.defense_count||0),alreadyFaced=Number(row.faced_count||0)>=settings.repeatTargetLimit,liveDeck=safeJson(row.live_deck,[]),deckReady=Array.isArray(liveDeck)&&liveDeck.length===5;return{userId:Number(row.user_id),nickname:row.nickname,preferredRole:row.preferred_role,battleWins:Number(row.battle_wins),battleLosses:Number(row.battle_losses),defenseCount,alreadyFaced,deckReady,available:(settings.sharedDefenseLimit===false||defenseCount<settings.defensesPerTarget)&&!alreadyFaced&&deckReady}}),availableOpponentCount=candidates.filter(candidate=>candidate.available).length;
   return{enemyClan,attackerPower,attackerDeckReady:attackerDeckIds.length===5,availableOpponentCount,opponents:randomMatchCandidates(candidates,`${season.id}:${war.id}:${user.id}:${selectionKey}`)};
 }
 async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
+  settings=await championsBattleSettings(env,season,settings);
   const ownerBypass=isOwner(user),overviewStatements=[
     env.DB.prepare(`SELECT m.*,t.master_user_id,t.draft_position,t.score,t.wins,t.losses,o.name,o.mark_key,o.primary_color,o.accent_color,o.slogan
       FROM clan_members m JOIN clan_season_teams t ON t.season_id=m.season_id AND t.clan_id=m.clan_id JOIN clan_organizations o ON o.id=m.clan_id WHERE m.season_id=? AND m.user_id=?`).bind(season.id,user.id),
@@ -607,13 +615,13 @@ async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAUL
       const ctx=await draftContext(env,season);draft={isMyTurn:Number(ctx.current?.clan_id)===Number(membership.clan_id),pickNo:ctx.pickNo,currentClan:ctx.current?publicTeam({...ctx.current,member_count:teams.find(t=>t.clanId===Number(ctx.current.clan_id))?.memberCount}):null};
       if(draft.isMyTurn)candidates=rows(await env.DB.prepare("SELECT candidate_key,preferred_role,activity_window,activity_band,rank_band,activity_score,rank_score,contribution_score,reliability_score,total_score FROM clan_draft_pool WHERE season_id=? AND status='AVAILABLE' ORDER BY total_score DESC,user_id LIMIT 80").bind(season.id).all()).map(r=>({candidateKey:r.candidate_key,preferredRole:r.preferred_role,activityWindow:r.activity_window,activityBand:r.activity_band,rankBand:r.rank_band,activityScore:Number(r.activity_score),rankScore:Number(r.rank_score),contributionScore:Number(r.contribution_score),reliabilityScore:Number(r.reliability_score),totalScore:Number(r.total_score)}));
     }
-    if(season.phase==='ACTIVE'){
+    if(['ACTIVE','CHAMPIONS'].includes(season.phase)){
       war=await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status IN ('ACTIVE','SCHEDULED') AND (clan_a_id=? OR clan_b_id=?) ORDER BY CASE status WHEN 'ACTIVE' THEN 0 ELSE 1 END,starts_at,round_no,id LIMIT 1").bind(season.id,membership.clan_id,membership.clan_id).first();
       if(war){
         settings=await clanWarParticipationSettings(env,war,settings);
         const participation=await clanParticipationProgress(env,war.id,user.id);
         const attackRow=await env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id).first(),attacksUsed=Number(attackRow?.count||0),matched=await opponentMatchState(env,deps,user,season,war,membership,settings,`OVERVIEW:${attacksUsed}`),energy=clanEnergySnapshot(war,attacksUsed,settings);opponents=[];
-        war={id:Number(war.id),roundNo:Number(war.round_no),status:war.status,clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),battleCount:Number(war.battle_count),attacksUsed,attackLimit:settings.totalUseLimit,attacksRemaining:energy.usesRemaining,attackerPower:matched.attackerPower,liveDeckReady:matched.attackerDeckReady,availableOpponentCount:matched.availableOpponentCount,energy,startsAt:war.starts_at,endsAt:war.ends_at,
+        war={id:Number(war.id),stage:Number(war.round_no)===1001?'SEMIFINAL':Number(war.round_no)===1002?'FINAL':'REGULAR',roundNo:Number(war.round_no),status:war.status,clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),battleCount:Number(war.battle_count),attacksUsed,attackLimit:settings.totalUseLimit,attacksRemaining:energy.usesRemaining,attackerPower:matched.attackerPower,liveDeckReady:matched.attackerDeckReady,availableOpponentCount:matched.availableOpponentCount,energy,startsAt:war.starts_at,endsAt:war.ends_at,
           scorePolicy:settings.scorePolicy,scorePerWin:settings.warWinScore,scorePerLoss:settings.warLossScore||0,sharedDefenseLimit:settings.sharedDefenseLimit!==false,
           participation:{...participation,rewardsEnabled:settings.mode==='ON'&&settings.battleParticipationRewardsEnabled,battleCoin:settings.battleParticipationCoin,winBonusPercent:settings.battleWinBonusPercent,milestoneCoin:settings.participationMilestoneCoin}};
       }
@@ -624,7 +632,7 @@ async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAUL
     roster=roster.map(row=>({...row,participationAttacks:Number(byUser.get(row.userId)?.attacks||0),participationPoints:Number(byUser.get(row.userId)?.points||0)}));
   }
   const settlementRow=await env.DB.prepare('SELECT * FROM clan_season_settlements WHERE season_id=?').bind(season.id).first(),settlement=settlementRow?{status:settlementRow.status,championClanId:Number(settlementRow.champion_clan_id||0),rewardStatus:settlementRow.reward_status,completedAt:settlementRow.completed_at}:null;
-  return{ok:true,season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,userId:Number(user.id),memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:CLAN_MAX_PARTICIPANTS,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,deckPolicy:settings.powerSnapshot,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'},serverNow:iso()};
+  return{ok:true,champions:await championsPublicState(env,season.id,settings),season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,userId:Number(user.id),memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:CLAN_MAX_PARTICIPANTS,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,deckPolicy:settings.powerSnapshot,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'},serverNow:iso()};
 }
 
 async function register(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
@@ -655,7 +663,9 @@ async function updateIdentity(env,deps,user,season,body,settings=CLAN_ADMIN_SETT
 }
 
 async function resetSeasonToDraft(env,deps,user,settings,body){
-  if(!isOwner(user))return deps.json({error:'클랜전 드래프트 리셋은 OWNER만 실행할 수 있습니다.'},403);const season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();if(!season)return deps.json({error:'리셋할 클랜 시즌이 없습니다.'},404);
+  if(!isOwner(user))return deps.json({error:'클랜전 드래프트 리셋은 OWNER만 실행할 수 있습니다.'},403);
+  if(await env.DB.prepare('SELECT 1 ok FROM clan_championships WHERE season_id=(SELECT id FROM clan_seasons ORDER BY season_no DESC LIMIT 1)').first())return deps.json({error:'챔피언스리그 대진·보상 기록이 있는 시즌은 자동 리셋할 수 없습니다.'},409);
+  const season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();if(!season)return deps.json({error:'리셋할 클랜 시즌이 없습니다.'},404);
   if(String(body.confirmation||'')!=='RESET_TO_DRAFT'||Number(body.seasonNo)!==Number(season.season_no))return deps.json({error:'시즌 번호와 RESET_TO_DRAFT 확인값이 필요합니다.',code:'CLAN_RESET_CONFIRMATION_REQUIRED'},400);
   const [poolCount,paidRewards,stats,settlement]=await Promise.all([
     env.DB.prepare('SELECT COUNT(*) count FROM clan_draft_pool WHERE season_id=?').bind(season.id).first(),
@@ -678,6 +688,7 @@ async function resetSeasonToDraft(env,deps,user,settings,body){
 
 async function resetOfficialSeasonOne(env,deps,user,settings,body){
   if(!isOwner(user))return deps.json({error:'공식 클랜 시즌 초기화는 OWNER만 실행할 수 있습니다.'},403);
+  if(await env.DB.prepare('SELECT 1 ok FROM clan_championships LIMIT 1').first())return deps.json({error:'챔피언스리그 기록을 보존해야 하므로 공식 시즌 초기화를 차단합니다.'},409);
   if(String(body.confirmation||'')!=='RESET_OFFICIAL_SEASON_1')return deps.json({error:'RESET_OFFICIAL_SEASON_1 확인값이 필요합니다.',code:'CLAN_OFFICIAL_RESET_CONFIRMATION_REQUIRED'},400);
   if(settings.mode!=='ON')return deps.json({error:'클랜 공개 모드를 ON으로 저장한 뒤 공식 시즌을 초기화하세요.',code:'CLAN_OFFICIAL_RESET_REQUIRES_ON'},409);
   const season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC,id DESC LIMIT 1').first();
@@ -740,8 +751,10 @@ async function clanWarReservationCheck(env,war,userId,defenderUserId,settings=CL
 async function fight(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   const requestId=validRequestId(body.requestId);if(!requestId)return deps.json({error:'전투 요청 키가 올바르지 않습니다.'},400);
   try{const replay=await clanParticipationReplay(env,requestId,user.id);if(replay)return deps.json({...replay,wallet:await clanWallet(env,user.id)})}catch(error){return deps.json({error:error.message},409)}
-  if(season.phase!=='ACTIVE')return deps.json({error:'클랜전 진행 기간이 아닙니다.'},409);
+  if(!['ACTIVE','CHAMPIONS'].includes(season.phase))return deps.json({error:'클랜전 진행 기간이 아닙니다.'},409);
+  settings=await championsBattleSettings(env,season,settings);
   const mine=await env.DB.prepare('SELECT * FROM clan_members WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();if(!mine)return deps.json({error:'이번 시즌 클랜 소속이 아닙니다.'},403);
+  if(season.phase==='CHAMPIONS'&&!await championsMemberEligible(env,season.id,user.id,mine.clan_id))return deps.json({error:'정규시즌 종료 시 확정된 챔피언스리그 참가 명단에 없습니다.'},403);
   const war=await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status='ACTIVE' AND starts_at<=? AND ends_at>? AND (clan_a_id=? OR clan_b_id=?) ORDER BY round_no,id LIMIT 1").bind(season.id,iso(),iso(),mine.clan_id,mine.clan_id).first();if(!war)return deps.json({error:'현재 개방 중인 60분 클랜전 대진이 없습니다.',code:'CLAN_WAR_WINDOW_CLOSED'},409);
   settings=await clanWarParticipationSettings(env,war,settings);
   const match=await opponentMatchState(env,deps,user,season,war,mine,settings,requestId),enemyClan=match.enemyClan,battleSeed=seedOf(`${season.id}:${war.id}:${requestId}:CLAN_V3`);
@@ -806,7 +819,7 @@ async function fight(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFA
     if(settings.scorePolicy==='ATTACKER_PARTICIPATION_V1'){
       participationResult=await settleClanParticipationBattle(env,{war,receipt,userId:user.id,clanId:mine.clan_id,defenderId:defender.user_id,winnerClanId:winnerClan,won,settings,result:{winner:won?'ATTACKER':'DEFENDER',reason:simulation.battleV2?.result?.reason||'',actions:Number(simulation.battleV2?.result?.actions||0)}});
     }else if(claimed){const scoreColumn=Number(war.clan_a_id)===winnerClan?'score_a':'score_b';await env.DB.batch([env.DB.prepare(`UPDATE clan_wars SET ${scoreColumn}=${scoreColumn}+?,battle_count=battle_count+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE' AND EXISTS(SELECT 1 FROM clan_war_battles WHERE id=? AND status='RESOLVING')`).bind(settings.warWinScore,war.id,receipt.id),env.DB.prepare(`UPDATE clan_members SET ${won?'battle_wins':'battle_losses'}=${won?'battle_wins':'battle_losses'}+1,contribution_score=contribution_score+1,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=? AND EXISTS(SELECT 1 FROM clan_war_battles WHERE id=? AND status='RESOLVING')`).bind(season.id,user.id,receipt.id),env.DB.prepare(`UPDATE clan_members SET ${won?'battle_losses':'battle_wins'}=${won?'battle_losses':'battle_wins'}+1,contribution_score=contribution_score+1,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=? AND EXISTS(SELECT 1 FROM clan_war_battles WHERE id=? AND status='RESOLVING')`).bind(season.id,defender.user_id,receipt.id),env.DB.prepare("UPDATE clan_war_battles SET status='COMPLETED',winner_clan_id=?,result_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESOLVING'").bind(winnerClan,JSON.stringify({winner:won?'ATTACKER':'DEFENDER',reason:simulation.battleV2?.result?.reason||'',actions:Number(simulation.battleV2?.result?.actions||0)}),receipt.id)])}
-    const retention=Math.max(1,Number(settings.battleReceiptRetentionDays||30));await env.DB.prepare(`DELETE FROM clan_war_battles WHERE id IN (SELECT id FROM clan_war_battles WHERE updated_at<datetime('now','-${retention} days') ORDER BY id LIMIT 200)`).run();const attacks=await env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id).first(),attacksUsed=Number(attacks?.count||0),freshWar=await env.DB.prepare('SELECT * FROM clan_wars WHERE id=?').bind(war.id).first(),energy=clanEnergySnapshot(freshWar,attacksUsed,settings);
+    const retention=Math.max(1,Number(settings.battleReceiptRetentionDays||30));await env.DB.prepare(`DELETE FROM clan_war_battles WHERE id IN (SELECT id FROM clan_war_battles WHERE updated_at<datetime('now','-${retention} days') AND status IN ('COMPLETED','FAILED') AND war_id IN (SELECT id FROM clan_wars WHERE status IN ('COMPLETED','CANCELLED')) ORDER BY id LIMIT 200)`).run();const attacks=await env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE war_id=? AND attacker_user_id=? AND status IN ('PENDING','RESOLVING','COMPLETED')").bind(war.id,user.id).first(),attacksUsed=Number(attacks?.count||0),freshWar=await env.DB.prepare('SELECT * FROM clan_wars WHERE id=?').bind(war.id).first(),energy=clanEnergySnapshot(freshWar,attacksUsed,settings);
     return deps.json({ok:true,result:won?'WIN':'LOSE',wallet:participationResult?await clanWallet(env,user.id):undefined,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},battleV2:simulation.battleV2,attackerDeck:simulation.attackerDeck,defenderDeck:simulation.defenderDeck,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,opponent:{id:Number(defender.user_id),nickname:defender.nickname},clanWar:{id:Number(war.id),winnerClanId:winnerClan,pointsAwarded:settings.warWinScore,...(participationResult?.clanWar||{}),matchMode:settings.matchMode,deckPolicy:settings.powerSnapshot,attackLimit:settings.totalUseLimit,attacksUsed,attacksRemaining:energy.usesRemaining,energy}});
   }catch(error){
     if(claimed)await env.DB.prepare("UPDATE clan_war_battles SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESOLVING'").bind(String(error?.message||error).slice(0,240),receipt.id).run();
@@ -842,6 +855,7 @@ export async function handleClan({path,request,env,deps}){
       if(requestedInitial>requestedCap)return deps.json({error:'시작 행동력은 행동력 상한보다 클 수 없습니다.'},400);
       if(requestedUseLimit<requestedInitial||requestedUseLimit>99)return deps.json({error:'개인 총 사용 상한은 시작 행동력 이상, 99회 이하여야 합니다.'},400);
       const next=cleanClanAdminSettings(candidate,settings);
+      try{validateChampionsSettings(candidate,next)}catch(error){return deps.json({error:error.message},400)}
       try{validateClanParticipationSettings(candidate,next)}catch(error){return deps.json({error:error.message},400)}
       if(!Number.isSafeInteger(Number(next.participationCoin)+Number(next.winnerCoin))||!Number.isSafeInteger(Number(next.participationCoin)+Number(next.runnerUpCoin)))return deps.json({error:'참여 기본 코인과 순위 추가 코인의 합계가 안전한 정수 범위를 넘었습니다.'},400);
       if(next.rewardsEnabled&&next.mode!=='ON')return deps.json({error:'경제 보상은 클랜 공개 모드가 ON일 때만 활성화할 수 있습니다.'},400);
@@ -855,6 +869,17 @@ export async function handleClan({path,request,env,deps}){
     return deps.json({error:'지원하지 않는 클랜전 CMS 요청 방식입니다.'},405);
   }
   if(path==='admin/clan-war/reset-draft'&&request.method==='POST')return resetSeasonToDraft(env,deps,user,settings,await deps.readBody(request));
+  if(path==='admin/clan-war/champions-rewards'&&request.method==='POST'){
+    if(!owner)return deps.json({error:'챔피언스리그 보상 지급은 OWNER만 실행할 수 있습니다.'},403);
+    const body=await deps.readBody(request),seasonId=Number(body.seasonId);
+    if(!Number.isSafeInteger(seasonId)||seasonId<=0||body.confirmation!=='SEND_CHAMPIONS_REWARDS')return deps.json({error:'대회 시즌과 지급 확인값이 필요합니다.'},400);
+    const before=await championsPublicState(env,seasonId,settings);
+    if(before.seasonId!==seasonId||before.status!=='COMPLETED')return deps.json({error:'최종 우승이 확정된 챔피언스리그만 보상을 지급할 수 있습니다.'},409);
+    try{await deliverChampionsRewards(env,seasonId,settings,{configurePending:true})}catch(error){return deps.json({error:error.message},409)}
+    const after=await championsPublicState(env,seasonId,settings);
+    if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_CHAMPIONS_REWARDS','CLAN_SEASON',String(seasonId),before,after);
+    return deps.json(await clanAdminState(env,settings));
+  }
   if(path==='admin/clan-war/reset-official-season-one'&&request.method==='POST')return resetOfficialSeasonOne(env,deps,user,settings,await deps.readBody(request));
   if(path==='clan/admin/mode'&&request.method==='POST'){
     if(!owner)return deps.json({error:'OWNER 권한이 필요합니다.'},403);const body=await deps.readBody(request),mode=String(body.mode||'').toUpperCase();if(!['OFF','TEST','ON'].includes(mode))return deps.json({error:'클랜 공개 상태는 OFF, TEST, ON 중 하나여야 합니다.'},400);const next={...settings,mode,rewardsEnabled:mode==='ON'?settings.rewardsEnabled:false};await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)).run();if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_WAR_MODE_UPDATE','APP_META',CLAN_ADMIN_SETTINGS_KEY,{mode:settings.mode,rewardsEnabled:settings.rewardsEnabled},{mode,rewardsEnabled:next.rewardsEnabled});return deps.json({ok:true,mode,rewardsEnabled:next.rewardsEnabled});
@@ -887,4 +912,4 @@ export async function handleClan({path,request,env,deps}){
   return deps.json({error:'요청한 클랜 기능을 찾을 수 없습니다.'},404);
 }
 
-export const __clanTest={normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,randomMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};
+export const __clanTest={settleSeason,advanceLifecycle,fight,normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,randomMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};

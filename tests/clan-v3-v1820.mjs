@@ -48,7 +48,7 @@ test('클랜별 2명 확장과 2시간 추가 신청은 드래프트를 안전�
   assert.match(server,/clanLateRegistrationSchedule\(season\)/);
   assert.match(server,/if\(fresh\.phase==='DRAFT'&&clanRegistrationOpen\(fresh\)\)return fresh/);
   assert.match(server,/if\(String\(season\.phase\)\.toUpperCase\(\)==='DRAFT'\)await calculateSeasonScores\(env,season\)/);
-  assert.match(server,/LIMIT \?`\)\.bind\(war\.id,war\.id,user\.id,season\.id,enemyClan,CLAN_MAX_MEMBERS\)/);
+  assert.match(server,/LIMIT \?`\)\.bind\(war\.id,war\.id,user\.id,season\.id,enemyClan,season\.phase==='CHAMPIONS'\?1:0,CLAN_MAX_MEMBERS\)/);
   assert.match(client,/LATE REGISTRATION OPEN/);
   assert.match(client,/총 \$\{number\(participantLimit\(d\)\)\}명까지 신청 가능/);
   assert.doesNotMatch(client,/ROSTER LIMIT 20|최대 160명|\/ 20(?:명)?/);
@@ -178,7 +178,7 @@ test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=
   assert.match(css,/@keyframes clanRadarSweep/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
   assert.match(html,/clan-v1\.css\?v=2040-clan-participation-positive/);
-  assert.match(html,/clan-v1\.js\?v=2054-clan-rank-name/);
+  assert.match(html,/clan-v1\.js\?v=2071-clan-champions/);
   assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
 });
 

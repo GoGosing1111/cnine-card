@@ -12,12 +12,12 @@ test('ranking uses season points, completed-war points and difference without ch
     CREATE TABLE clan_organizations(id bigint,name text,mark_key text,primary_color text,accent_color text,slogan text);
     CREATE TABLE users(id bigint,nickname text);
     CREATE TABLE clan_members(season_id bigint,clan_id bigint,user_id bigint);
-    CREATE TABLE clan_wars(season_id bigint,clan_a_id bigint,clan_b_id bigint,score_a bigint,score_b bigint,status text);
+    CREATE TABLE clan_wars(season_id bigint,clan_a_id bigint,clan_b_id bigint,score_a bigint,score_b bigint,status text,round_no bigint DEFAULT 1);
     INSERT INTO clan_season_teams VALUES(4,4,40,9,3,0,3),(4,7,70,9,3,0,6),(3,7,70,999,99,0,0);
     INSERT INTO clan_organizations(id,name) VALUES(4,'한화'),(7,'FM');
     INSERT INTO users VALUES(40,'리네트'),(70,'Moo블루');
     INSERT INTO clan_members VALUES(4,4,40),(4,7,70);
-    INSERT INTO clan_wars VALUES
+    INSERT INTO clan_wars(season_id,clan_a_id,clan_b_id,score_a,score_b,status) VALUES
       (4,4,5,387,377,'COMPLETED'),(4,3,4,762,835,'COMPLETED'),(4,4,8,916,855,'COMPLETED'),
       (4,2,7,359,426,'COMPLETED'),(4,7,1,832,822,'COMPLETED'),(4,5,7,810,906,'COMPLETED'),
       (4,4,7,90000,0,'ACTIVE'),(4,4,7,90000,0,'CANCELLED'),(4,4,7,90000,0,'SCHEDULED'),(3,4,7,90000,0,'COMPLETED');
