@@ -1,6 +1,8 @@
 const ITEM_TYPES=['PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR'];
+const CLEAR_MYSTIC_ENERGY_CODE='STARLIGHT_ARMOR_CORE';
+const DEFAULT_CLEAR_MYSTIC_ENERGY=3;
 const ALL_REWARD_TYPES=['COIN','CARD_SHARD',...ITEM_TYPES];
-const ITEM_LABELS={PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',MAGIC_CARD_PACK:'마법카드 팩',MASTER_STAR:'마스터의 별'};
+const ITEM_LABELS={PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',MAGIC_CARD_PACK:'마법카드 팩',MASTER_STAR:'마스터의 별',[CLEAR_MYSTIC_ENERGY_CODE]:'미스틱 에너지'};
 const DEFAULT_REWARDS={
   participation:[{type:'COIN',amount:100}],
   clear:[{type:'COIN',amount:300},{type:'CARD_SHARD',amount:20}],
@@ -85,7 +87,7 @@ export function defaultRaidSettingsV1293(){
     timeSlots:cleanTimeSlots(null,{openTime:'20:00',closeTime:'21:00'}),
     phase2Enabled:true,phase2StartHpPercent:70,phase2EndHpPercent:30,phase2ShieldPercent:12,phase2BreakDamageMultiplier:1.25,
     phase3EnrageEnabled:true,phase3EnrageMultiplier:1.75,
-    rewards:clone(DEFAULT_REWARDS)
+    clearMysticEnergy:DEFAULT_CLEAR_MYSTIC_ENERGY,rewards:clone(DEFAULT_REWARDS)
   };
 }
 export function cleanRaidSettingsV1293(raw={}){
@@ -107,6 +109,7 @@ export function cleanRaidSettingsV1293(raw={}){
   const first=timeSlots.find(x=>x.enabled)||timeSlots[0],scheduleMode=String(raw.scheduleMode||base.scheduleMode).toUpperCase()==='ALWAYS'?'ALWAYS':'SCHEDULED';
   const scheduledDailyEntries=Math.max(1,timeSlots.filter(x=>x.enabled!==false).reduce((sum,slot)=>sum+Math.max(1,Number(slot.entriesPerSlot||0)),0));
   const out={...base,
+    clearMysticEnergy:integer(raw.clearMysticEnergy??base.clearMysticEnergy,base.clearMysticEnergy,0,1000000),
     enabled:raw.enabled===true,ownerOnlyTest:raw.ownerOnlyTest===true,userOpenEnabled:raw.userOpenEnabled!==false,title:String(raw.title||base.title).trim().slice(0,40),
     maxParticipants:integer(raw.maxParticipants,base.maxParticipants,1,200),minParticipants:integer(raw.minParticipants,base.minParticipants,1,200),lobbySeconds:integer(raw.lobbySeconds,base.lobbySeconds,5,3600),battleSeconds:integer(raw.battleSeconds,base.battleSeconds,10,3600),dailyEntries:scheduleMode==='SCHEDULED'?scheduledDailyEntries:integer(raw.dailyEntries,base.dailyEntries,1,99),autoStartOnFull:raw.autoStartOnFull!==false,
     showNicknames:raw.showNicknames!==false,showRepresentativeCard:raw.showRepresentativeCard!==false,showDamageLog:raw.showDamageLog!==false,showPersonalDamage:raw.showPersonalDamage!==false,showLiveRanking:raw.showLiveRanking!==false,rankingSize:integer(raw.rankingSize,base.rankingSize,1,100),attackIntervalMs:integer(raw.attackIntervalMs,base.attackIntervalMs,200,5000),damageMultiplier:num(raw.damageMultiplier,base.damageMultiplier,.01,100),criticalEnabled:raw.criticalEnabled!==false,criticalChance:num(raw.criticalChance,base.criticalChance,0,100),criticalMultiplier:num(raw.criticalMultiplier,base.criticalMultiplier,1,10),
@@ -187,8 +190,9 @@ export async function snapshotRaidInstanceV1293(env,instanceId,slotId,cfg){
 }
 export async function raidInstanceSettingsV1293(env,instanceId,fallbackCfg){
   await ensureRaidOverhaulV1293(env);const row=await env.DB.prepare('SELECT settings_json FROM raid_instance_v1293 WHERE instance_id=?').bind(Number(instanceId)).first();
-  if(row?.settings_json){try{return cleanRaidSettingsV1293(JSON.parse(row.settings_json))}catch{}}
-  return snapshotRaidInstanceV1293(env,instanceId,'LEGACY',fallbackCfg);
+  // Newly opened rooms snapshot the bonus. Never add it retroactively to old rooms.
+  if(row?.settings_json){try{const stored=JSON.parse(row.settings_json);return cleanRaidSettingsV1293({...stored,clearMysticEnergy:stored.clearMysticEnergy??0})}catch{}}
+  return snapshotRaidInstanceV1293(env,instanceId,'LEGACY',{...fallbackCfg,clearMysticEnergy:0});
 }
 export async function raidInstanceSlotV1293(env,instanceId){await ensureRaidOverhaulV1293(env);const row=await env.DB.prepare('SELECT slot_id AS slotId FROM raid_instance_v1293 WHERE instance_id=?').bind(Number(instanceId)).first();return String(row?.slotId||'LEGACY');}
 export async function raidSlotEntryCountV1293(env,userId,dateKey,slotId){
@@ -252,7 +256,10 @@ function addReward(target,item,source){if(!item||Number(item.amount)<=0)return;c
 export function raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared}){
   const rewards=cfg?.rewards||DEFAULT_REWARDS,entries=[];
   for(const item of rewards.participation||[])addReward(entries,item,'참여');
-  if(cleared)for(const item of rewards.clear||[])addReward(entries,item,'처치');
+  if(cleared){
+    for(const item of rewards.clear||[])addReward(entries,item,'처치');
+    addReward(entries,{type:CLEAR_MYSTIC_ENERGY_CODE,amount:integer(cfg?.clearMysticEnergy??DEFAULT_CLEAR_MYSTIC_ENERGY,DEFAULT_CLEAR_MYSTIC_ENERGY,0,1000000)},'처치');
+  }
   for(const milestone of rewards.damageMilestones||[])if(Number(totalDamage)>=Number(milestone.damage||0))for(const item of milestone.rewards||[])addReward(entries,item,`누적 피해 ${Number(milestone.damage).toLocaleString()}`);
   const rankBand=(rewards.rankRewards||[]).find(x=>Number(finalRank)>=Number(x.from)&&Number(finalRank)<=Number(x.to));if(rankBand)for(const item of rankBand.rewards||[])addReward(entries,item,`${rankBand.from===rankBand.to?rankBand.from:`${rankBand.from}~${rankBand.to}`}위`);
   const rare=[];for(let i=0;i<(rewards.rareDrops||[]).length;i++){const item=rewards.rareDrops[i],roll=hash01(`${instanceId}:${userId}:${item.type}:${i}`)*100,won=roll<Number(item.chance||0);rare.push({...item,roll:Number(roll.toFixed(4)),won});if(won)addReward(entries,item,`희귀 드롭 ${Number(item.chance||0)}%`);}
@@ -267,7 +274,7 @@ export async function ensureRaidUserRewardPlanV1293(env,{instanceId,userId,cfg,t
   row=await env.DB.prepare('SELECT status,reward_json AS rewardJson FROM raid_user_reward_v1293 WHERE instance_id=? AND user_id=?').bind(Number(instanceId),Number(userId)).first();try{return {status:String(row?.status||'READY'),plan:JSON.parse(row?.rewardJson||JSON.stringify(plan))}}catch{return {status:'READY',plan};}
 }
 export async function raidInventoryGrantStatementsV1293(env,{userId,instanceId,inventoryRewards}){
-  const rewards=(Array.isArray(inventoryRewards)?inventoryRewards:[]).filter(x=>ITEM_TYPES.includes(String(x.itemCode||x.type))&&Number(x.amount)>0);if(!rewards.length)return {statements:[],balances:[]};
+  const rewards=(Array.isArray(inventoryRewards)?inventoryRewards:[]).filter(x=>(ITEM_TYPES.includes(String(x.itemCode||x.type))||String(x.itemCode||x.type)===CLEAR_MYSTIC_ENERGY_CODE)&&Number(x.amount)>0);if(!rewards.length)return {statements:[],balances:[]};
   const codes=[...new Set(rewards.map(x=>String(x.itemCode||x.type)))],marks=codes.map(()=>'?').join(','),rows=(await env.DB.prepare(`SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=? AND item_code IN (${marks})`).bind(Number(userId),...codes).all()).results||[],balanceMap=Object.fromEntries(rows.map(x=>[String(x.item_code),Number(x.quantity||0)])),statements=[],balances=[];
   for(const reward of rewards){const code=String(reward.itemCode||reward.type),amount=Math.floor(Number(reward.amount)),after=Number(balanceMap[code]||0)+amount;balanceMap[code]=after;statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?, ?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(Number(userId),code,amount,amount));statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,'RAID_V1293_REWARD','RAID',?)").bind(Number(userId),code,amount,after,String(instanceId)));balances.push({itemCode:code,amount,balanceAfter:after,label:ITEM_LABELS[code]||code});}
   return {statements,balances};
