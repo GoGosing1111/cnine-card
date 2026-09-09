@@ -49,11 +49,6 @@ let PACKS = [
     allowed: ['U','R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'SR', guarantee20: 'HR'
   },
   {
-    id: 'premium', name: '프리미엄 카드팩', subtitle: 'PREMIUM PACK', theme: 'premium',
-    description: 'R 이상만 등장하는 고급 수집팩', range: 'R ~ FUR', price: 60,
-    allowed: ['R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'HR', guarantee20: 'UR'
-  },
-  {
     id: 'pickup', name: '리미티드팩', subtitle: 'LIMITED PACK', theme: 'pickup',
     description: '별도 확률로 한정판 카드 등장', range: 'C ~ FUR + LIMITED', price: 30,
     allowed: ['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'], guarantee10: 'R', guarantee20: 'SR', limitedRate: 1
@@ -63,6 +58,12 @@ let PACKS = [
     description: '1회 1장 판정 · SUPERSTAR 10% · 꽝 90%', range: 'SUPERSTAR 10% · 꽝 90%', price: 300000000,
     allowed: ['SUPERSTAR'], guarantee10: null, guarantee20: null, drawMode: 'SUPERSTAR_CHANCE', drawEnabled: false,
     ownerDrawEnabled: true, maxDrawCount: 10, successRate: 10, missRate: 90, imageUrl: 'assets/ui/packs/superstar-card-pack-v1.png', revealMode: 'SWIPE'
+  },
+  {
+    id: 'hyper', name: '하이퍼팩', subtitle: 'EXTREME HYPER PACK', theme: 'hyper',
+    description: '꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드', range: '용병 출시 대비 · 개봉 준비 중', price: 500000000,
+    allowed: [], guarantee10: null, guarantee20: null, drawMode: 'HYPER_REWARD', drawEnabled: false,
+    ownerDrawEnabled: false, maxDrawCount: 10, imageUrl: 'assets/ui/packs/hyper-pack-v2076.png', revealMode: 'HYPER_SEQUENCE'
   }
 ];
 
@@ -76,7 +77,8 @@ function packRangeFromAllowed(allowed = []) {
 
 function applyServerPacks(rows = []) {
   if (!Array.isArray(rows) || !rows.length) return;
-  PACKS = rows.filter(row => String(row.id) !== 'basic').map(row => {
+  const hyper = PACKS.find(pack => pack.id === 'hyper');
+  PACKS = rows.filter(row => !['basic','premium','hyper'].includes(String(row.id))).map(row => {
     let allowed = row.allowed;
     if (!Array.isArray(allowed)) {
       try { allowed = JSON.parse(row.allowed_rarities || '[]'); } catch { allowed = []; }
@@ -105,6 +107,9 @@ function applyServerPacks(rows = []) {
       revealMode: row.revealMode || row.reveal_mode || 'STANDARD'
     };
   });
+  const order = ['advanced','pickup','ultimate','superstar'];
+  PACKS.sort((a,b)=>(order.includes(a.id)?order.indexOf(a.id):order.length)-(order.includes(b.id)?order.indexOf(b.id):order.length));
+  if (hyper) PACKS.push(hyper); // A stale server/CMS flag cannot open the unreleased mercenary pack.
   if (!PACKS.some(pack => pack.id === selectedPackId)) selectedPackId = PACKS[0].id;
 }
 
@@ -622,7 +627,10 @@ function publicNameHtml(nickname,title,{tag='b',compact=true,userId}={}){const s
 window.publicTitleBadgeHtml=publicTitleBadgeHtml;window.publicNameHtml=publicNameHtml;
 function powerTypeIndicator(card){const grade=String(card?.grade||card?.rarity||'').toUpperCase();if(grade==='FUR')return '';const type=String(card?.powerType||card?.power_type||'').toUpperCase();return type==='NORMAL'?'⚡':type==='HIGH'?'⚡⚡':type==='TOP'?'⚡⚡⚡':'';}
 function powerTypeIndicatorHtml(card,classes=''){const icon=powerTypeIndicator(card);if(!icon)return '';const type=String(card?.powerType||card?.power_type||'').toUpperCase();const tone=type==='NORMAL'?'normal':type==='HIGH'?'advanced':type==='TOP'?'top':'';return `<i class="power-type-indicator power-type-${tone} ${classes}" aria-label="전투력 유형">${icon}</i>`;}
-function getPack(id) { return PACKS.find(p => p.id === id) || PACKS[0]; }
+function getPack(id) {
+  if(id==='premium')return {id,name:'프리미엄 카드팩 (판매 종료)',theme:'premium',imageUrl:'assets/ui/packs/premium-pack.png',allowed:[],price:0,drawEnabled:false};
+  return PACKS.find(p => p.id === id) || PACKS[0];
+}
 function kstDateKey(date = new Date()) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year:'numeric', month:'2-digit', day:'2-digit' }).format(date); }
 function formatKstDateTime(value) {
   const raw = String(value || '').trim();
@@ -1390,6 +1398,7 @@ async function loadLiveOperations(fresh=false){
 }
 
 function packImagePath(pack) {
+  if (pack?.id === 'hyper') return 'assets/ui/packs/hyper-pack-v2076.png';
   if (pack?.imageUrl) return `${pack.imageUrl}?v=1894-superstar-pack`;
   const files = { basic: 'standard-pack.png', advanced: 'advanced-pack.png', premium: 'premium-pack.png', pickup: 'limited-pack.png', ultimate: 'ultimate-pack.png', superstar: 'superstar-card-pack-v1.png' };
   return `assets/ui/packs/${files[pack.id] || files[pack.theme] || files.basic}?v=1544-ultimate-pack`;
@@ -1399,6 +1408,7 @@ function responsiveLogoImage(classes='',loading='eager'){
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-240.avif 240w, ${base}-480.avif 480w" sizes="240px"><source type="image/webp" srcset="${base}-240.webp 240w, ${base}-480.webp 480w" sizes="240px"><img src="assets/ui/cninelogo.png" class="${classes}" alt="SOOP" loading="${loading}" decoding="async" fetchpriority="${loading==='eager'?'high':'auto'}"></picture>`;
 }
 function packResponsiveImage(pack,{classes='',hero=false}={}){
+  if (pack?.id === 'hyper') return `<img src="assets/ui/packs/hyper-pack-v2076.png" class="${classes}" alt="하이퍼팩" loading="${hero?'eager':'lazy'}" decoding="async">`;
   const names={basic:'standard-pack',advanced:'advanced-pack',premium:'premium-pack',pickup:'limited-pack',ultimate:'ultimate-pack',superstar:'superstar-card-pack-v1'},name=names[pack.id]||names[pack.theme]||names.basic,base=`/assets/responsive/ui/${name}`,sizes=hero?'(max-width:760px) 72vw, 390px':'(max-width:760px) 34vw, 150px',loading=hero?'eager':'lazy',priority=hero?'high':'low';
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-160.avif 160w, ${base}-320.avif 320w" sizes="${sizes}"><source type="image/webp" srcset="${base}-160.webp 160w, ${base}-320.webp 320w" sizes="${sizes}"><img src="${packImagePath(pack)}" class="${classes}" alt="${escapeHtml(pack.name)}" loading="${loading}" decoding="async" fetchpriority="${priority}"></picture>`;
 }
@@ -1413,7 +1423,7 @@ function superstarPackAccess(user=loadUser()){
 
 function packSelector() {
   const access=superstarPackAccess();
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&access.owner&&pack.ownerDrawEnabled===true,earlyAccess=superstar&&access.early,exceptionAccess=ownerAccess||earlyAccess,off=superstar&&pack.drawEnabled!==true&&!exceptionAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':earlyAccess?'early-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':earlyAccess?'<b class="pack-owner-access-badge">EARLY OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · 1장 ${pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&access.owner&&pack.ownerDrawEnabled===true,earlyAccess=superstar&&access.early,exceptionAccess=ownerAccess||earlyAccess,off=superstar&&pack.drawEnabled!==true&&!exceptionAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':earlyAccess?'early-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':earlyAccess?'<b class="pack-owner-access-badge">EARLY OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · ${pack.id==='hyper'?'1회':'1장'} ${pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
 }
 
 function supplyBoxShopMarkup(config=null){
@@ -1500,12 +1510,17 @@ function superstarPackHero(pack) {
 }
 
 function standardPackHero(pack) {
+  if (pack.id === 'hyper') return hyperPackHero();
   return `<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${Number(pack.price).toLocaleString()}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>`;
 }
 
 function buyView(user) {
   const pack=getPack(selectedPackId),hero=pack.drawMode==='SUPERSTAR_CHANCE'?superstarPackHero(pack):standardPackHero(pack);
   return `${summaryBar(user)}${packSelector()}${hero}${cardStoreSecondaryMarkup(user)}`;
+}
+
+function hyperPackHero() {
+  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status">용병 출시 준비 중 · 개봉 잠금</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>확률·재료 수량과 용병 획득 조건 확정 후 개봉됩니다.</p><div class="hyper-prices"><button class="btn" type="button" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" disabled><small>10회 개봉</small>50억 코인</button></div><a class="btn secondary hyper-preview-link" href="/preview/hyper-pack-v1/">신규 개봉 연출 미리보기</a><small class="hyper-safe-notice">미리보기는 코인 차감·보상 지급이 없습니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
 }
 
 function recentCards(user) {
@@ -3153,6 +3168,7 @@ async function freshAutoDrawUserState(){
   const next=apiUserToLocal(data.user);saveUser(next);return next;
 }
 async function startOfficialAutoDraw(packId,prefs){
+  if(['hyper','premium'].includes(String(packId)))return showSupplyNotice('이 카드팩은 자동 개봉할 수 없습니다.',true);
   if(autoDrawState.active||autoDrawState.startInFlight||drawRequestInFlight){alert('현재 카드 개봉 요청을 처리 중입니다.');return false}
   const pack=getPack(packId);if(!pack){alert('카드팩 정보를 찾지 못했습니다.');return false}
   const v21Bulk1000=String(prefs?.source||'')==='V21_BULK_1000';
@@ -3333,6 +3349,7 @@ function makeDraws(pack, count) {
 }
 
 function openPack(packId, count, cost) {
+  if(['hyper','premium'].includes(String(packId)))return showSupplyNotice('이 카드팩은 개봉할 수 없습니다.',true);
   const user=loadUser(), pack=getPack(packId);
   if(!cards.length)return alert('카드 데이터를 불러오지 못했습니다.');
   if(user.coin<cost)return alert('코인이 부족합니다.');
@@ -4968,6 +4985,7 @@ window.SuperstarPackV1894=Object.freeze({
 });
 
 openPack=async function(packId,count,cost,options={}){
+  if(String(packId)==='hyper'||(String(packId)==='premium'&&!readPendingDraw()))return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';
   if(drawRequestInFlight){if(autoRun)return false;alert('카드 개봉 요청을 처리 중입니다.');return false}

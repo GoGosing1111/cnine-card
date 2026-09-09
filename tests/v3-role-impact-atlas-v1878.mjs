@@ -86,7 +86,7 @@ assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
 assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=102-h-body/);
-assert.match(index,/js\/app\.js\?v=2075-new-user-gift/);
+assert.match(index,/js\/app\.js\?v=2076-hyper-pack/);
 assert.match(previewIndex,/project-v-client\.js\?v=75-nonblocking-fx/);
 assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=102-h-body/);
 

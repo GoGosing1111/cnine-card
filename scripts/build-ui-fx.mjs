@@ -1,5 +1,6 @@
 import {build} from 'esbuild';
 const targets={
+  hyper:'js/hyper-pack-fx-v2076',
   prime:'js/prime-draw-live-v1985',
   soopketland:'js/soopketland-v2039',
   challenger:'js/ranked-challenger-fx-v2032',

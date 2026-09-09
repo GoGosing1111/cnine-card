@@ -60,6 +60,7 @@ import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmare
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
 import { handleNewUserGift,NEW_USER_GIFT_CODE } from '../_new_user_gift.js';
+import { handleHyperPack,arrangeHyperPackCatalog } from '../_hyper_pack.js';
 import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
@@ -5135,6 +5136,7 @@ async function handleRequest(context){
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
+    const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
     // raid/status는 화면의 반복 조회 경로다. 매 조회마다 전체 런타임 마이그레이션 게이트를 기다리면
@@ -5295,7 +5297,7 @@ async function handleRequest(context){
       const [rows,burning,superstarSettings]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs,burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      return json({packs:arrangeHyperPackCatalog(packs),burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});
@@ -5451,6 +5453,7 @@ async function handleRequest(context){
       const payload=await readBody(request);
       const requestedPackId=String(payload.packId||'');
       if(requestedPackId==='basic')return json({error:'일반 카드팩은 판매가 종료되었습니다.',code:'BASIC_PACK_RETIRED'},410);
+      if(requestedPackId==='hyper')return json({error:'하이퍼팩은 용병 출시 준비 중입니다.',code:'HYPER_PACK_NOT_RELEASED'},409);
       if(requestedPackId===SUPERSTAR_PACK_ID)return json({error:'슈퍼스타팩은 전용 개봉 경로를 사용해야 합니다.',code:'SUPERSTAR_DRAW_ROUTE_REQUIRED'},400);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,20,100].includes(Number(payload.count))?Number(payload.count):1;
@@ -5541,6 +5544,8 @@ async function handleRequest(context){
       if(prior?.status==='APPLIED'&&prior.response_json){
         try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json)))}catch(error){return json({error:String(error?.message||'이전 카드 지급 확정을 완료하지 못했습니다.'),requestId,status:'APPLIED'},503)}
       }
+      // Completed/applied historical receipts remain recoverable; no new Premium purchases or retries.
+      if(requestedPackId==='premium')return json({error:'프리미엄 카드팩은 판매가 종료되었습니다.',code:'PREMIUM_PACK_RETIRED'},410);
       if(prior?.status==='ARCHIVED')return json({error:'이미 지급·확인 완료된 이전 자동 뽑기 요청입니다.',code:'DRAW_RESULT_ARCHIVED',requestId,status:'ARCHIVED'},410);
       let receiptAlreadyClaimed=false;
       if(prior?.status==='RETRYABLE'&&drawReceiptTable==='draw_request_receipts_v2'){

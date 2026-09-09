@@ -106,15 +106,17 @@ test('일반 유저의 전용 개봉 요청은 서버에서 423으로 차단된�
   assert.equal((await response.json()).code, 'SUPERSTAR_PACK_OFF');
 });
 
-test('클라이언트는 일반팩을 제거하고 슈퍼스타팩을 우측 끝에 배치한다', () => {
+test('클라이언트는 일반·프리미엄팩을 제거하고 슈퍼스타 다음 하이퍼팩을 배치한다', () => {
   const source = read('js/app.js');
   assert.doesNotMatch(source, /id:\s*'basic',\s*name:\s*'일반 카드팩'/);
   const advanced = source.indexOf("id: 'advanced'");
   const premium = source.indexOf("id: 'premium'");
   const pickup = source.indexOf("id: 'pickup'");
   const superstar = source.indexOf("id: 'superstar'");
-  assert.ok(advanced >= 0 && advanced < premium && premium < pickup && pickup < superstar);
-  assert.match(source, /rows\.filter\(row => String\(row\.id\) !== 'basic'\)/);
+  const hyper = source.indexOf("id: 'hyper'");
+  assert.equal(premium, -1);
+  assert.ok(advanced >= 0 && advanced < pickup && pickup < superstar && superstar < hyper);
+  assert.match(source, /rows\.filter\(row => !\['basic','premium','hyper'\]\.includes\(String\(row\.id\)\)\)/);
   assert.match(source, /const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES=new Set\(\['조은','강구열','진짜디임','오리꿍','요닝','하이희야♡'\]\);/);
   assert.match(source, /const early=SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES\.has\(nickname\);/);
   assert.match(source, /OWNER OPEN/);
@@ -169,8 +171,8 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
   const index = read('index.html');
   const serviceWorker = read('service-worker.js');
   assert.match(index, /superstar-pack-v1894\.css\?v=2051-superstar-duplicates/);
-  assert.match(index, /app\.js\?v=2075-new-user-gift/);
-  assert.match(serviceWorker, /soop-card-shell-v2075-new-user-gift/);
+  assert.match(index, /app\.js\?v=2076-hyper-pack/);
+  assert.match(serviceWorker, /soop-card-shell-v2076-hyper-pack/);
   const css = read('css/superstar-pack-v1894.css');
   assert.match(css, /\.superstar-swipe-track/);
   assert.match(css, /\.pack-splitting \.pack-half-left/);

@@ -1,0 +1,19 @@
+.pack-choice-hyper{--pack-color:#c589ff;border-color:#9f70bb!important;background:linear-gradient(140deg,#20172b,#0b0b14)!important}
+.pack-choice-hyper .mini-pack img{width:100%;height:100%;object-fit:contain}
+.pack-theme-hyper{position:relative;background:radial-gradient(ellipse at 82% 45%,#47166585,transparent 55%),#0d0b14;border:1px solid #76518e}
+.pack-theme-hyper .hero-copy em{color:#d9aeff}.pack-theme-hyper .hero-pack-zone{isolation:isolate;min-height:420px}
+.pack-theme-hyper .pack-image-envelope{max-width:240px;width:75%;height:auto;aspect-ratio:946/1672;transform:none}
+.pack-theme-hyper .pack-product-image{width:100%;height:100%;object-fit:contain}
+.hyper-status{display:inline-block;color:#dcc0ff;border:1px solid #9063af;padding:8px 12px;font-size:12px;border-radius:5px}
+.hyper-prices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:24px 0 12px}.hyper-prices .btn{opacity:.7;padding:16px;background:#2a1a3e;color:#e4cef5}
+.hyper-preview-link{display:inline-flex!important;margin-bottom:10px}.hyper-safe-notice{display:block;color:#a99cb8;font-size:12px}
+#hyperPackAdmin{border:1px solid #6d4b89;border-radius:12px;padding:22px;margin:18px 0;background:#14111c;color:#e7e0f0}
+#hyperPackAdmin h3{margin:8px 0;font-size:24px}#hyperPackAdmin p{color:#b8aaca;line-height:1.6}#hyperPackAdmin small{color:#ad83d0}
+#hyperPackAdmin .hyper-admin-top{display:flex;justify-content:space-between;gap:20px}#hyperPackAdmin .hyper-admin-top img{width:85px;object-fit:contain}
+#hyperPackAdmin .hyper-admin-rows{display:grid;gap:8px;margin:18px 0}#hyperPackAdmin .hyper-admin-row{display:grid;grid-template-columns:minmax(110px,1fr) minmax(80px,1fr) minmax(80px,1fr);gap:14px;align-items:center}
+#hyperPackAdmin input{width:100%;min-width:0;box-sizing:border-box;background:#0a0811;border:1px solid #665475;color:#fff;padding:10px;border-radius:5px}
+#hyperPackAdmin label{display:grid;gap:5px;font-size:12px}#hyperPackAdmin .hyper-admin-bar{display:flex;height:12px;overflow:hidden;border-radius:6px;background:#35303b;margin:12px 0}
+#hyperPackAdmin .hyper-admin-bar i{display:block;height:100%;min-width:0}#hyperPackAdmin .hyper-admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+#hyperPackAdmin button,#hyperPackAdmin a{background:#3b2555;color:#fff;border:1px solid #755398;border-radius:6px;padding:11px 14px;cursor:pointer;text-decoration:none}
+#hyperPackAdmin button:disabled{opacity:.4;cursor:wait}#hyperPackAdmin output{display:block;min-height:20px;margin-top:12px;color:#d6baff}#hyperPackAdmin .hyper-admin-error{color:#ffb2bf}
+@media(max-width:600px){.pack-theme-hyper .hero-pack-zone{min-height:320px}.pack-theme-hyper .pack-image-envelope{max-width:170px}.hyper-prices .btn{font-size:17px}#hyperPackAdmin{padding:14px}#hyperPackAdmin .hyper-admin-row{grid-template-columns:1fr 80px 80px;gap:8px}#hyperPackAdmin .hyper-admin-top img{width:65px}}
