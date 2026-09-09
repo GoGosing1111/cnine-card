@@ -62,6 +62,12 @@ test('preview is deterministic, explicitly simulated, no fabricated grant count 
   for(const kind of ['MISS','MASTER_STAR','MYSTIC_ENERGY','MERCENARY'])assert(buildHyperPreview(10,kind).every(r=>r.kind===kind&&r.preview&&!r.granted&&r.quantity===null));
   assert.throws(()=>buildHyperPreview(11));assert.throws(()=>buildHyperPreview(10,'UNKNOWN'));
 });
+test('public preview returns to the game lobby in the same tab and exposes no CMS link',()=>{
+  const html=read('preview/hyper-pack-v1/index.html');
+  assert.match(html,/<a\b[^>]*href="\/\?screen=home"[^>]*>← 로비로 가기<\/a>/);
+  assert.doesNotMatch(html,/CMS 설정으로 이동|href="\/admin\/"/);
+  assert.doesNotMatch(html,/<a\b[^>]*href="\/\?screen=home"[^>]*target=/);
+});
 test('original artwork preserved; lightweight shared Pixi/GSAP preview, live does not load renderer',()=>{
   const image=readFileSync(new URL('../'+HYPER_PACK_IMAGE,import.meta.url));assert.equal(createHash('sha256').update(image).digest('hex'),'b23ba9f88b98a17f400a96cb7bcf19c82933c4d66275d6f96c3c6d1bab74a80c');
   const runtime=read('js/hyper-pack-fx-v2076.src.js'),preview=read('preview/hyper-pack-v1/preview.js'),index=read('index.html');
