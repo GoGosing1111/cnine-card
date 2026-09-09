@@ -8,10 +8,14 @@
     const raw = String(value), d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw + 'T00:00:00Z' : /(?:Z|[+-]\d\d:\d\d)$/i.test(raw) ? raw : raw.replace(' ', 'T') + 'Z');
     return Number.isNaN(+d) ? '정산 기록' : new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
   };
-  function asset(value) {
+  function asset(value, portrait = false) {
     try {
       const url = new URL(value, global.location.origin);
-      return url.origin === global.location.origin && url.pathname.startsWith('/assets/') ? url.pathname + url.search : '';
+      if (url.origin !== global.location.origin || !['http:', 'https:'].includes(url.protocol) || url.username || url.password) return '';
+      // Some live CMS avatars retain their approved preview asset paths. Only
+      // portraits may use those raster files; do not allow arbitrary previews.
+      const avatarArt = portrait === true && /^\/preview\/avatar-[a-z0-9-]+\/assets\/[a-z0-9][a-z0-9._-]*\.(?:avif|webp|png|jpe?g)$/i.test(url.pathname);
+      return url.pathname.startsWith('/assets/') || avatarArt ? url.pathname + url.search : '';
     } catch { return ''; }
   }
   function nameHtml(nickname, userId, options = {}) {
@@ -35,7 +39,7 @@
     </button>`;
   }
   function render(profile, { demo = false } = {}) {
-    const p = profile.player, r = profile.ranked, trophies = profile.trophies || [], avatar = asset(p.avatar?.image);
+    const p = profile.player, r = profile.ranked, trophies = profile.trophies || [], avatar = asset(p.avatar?.image, true);
     const owned = trophies.filter(t => t.owned).length;
     const title = p.title?.badgeText || p.title?.name;
     return `<article class="pc-card" aria-label="${esc(p.nickname)} 명함">

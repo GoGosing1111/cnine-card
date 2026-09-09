@@ -146,6 +146,61 @@ test('nickname renderer escapes text and attributes; only local asset images all
   assert.doesNotMatch(html,/<img/); assert.match(html,/&lt;img/); assert.match(ui.nameHtml('닉',42),/data-player-id="42"/);
   assert.equal(ui.asset('javascript:alert(1)'), ''); assert.equal(ui.asset('https://evil.test/track'), ''); assert.equal(ui.asset('/api/private'), ''); assert.equal(ui.asset('/assets/safe.webp'),'/assets/safe.webp');
 });
+test('live Hi Heeya and Cheon portrait paths render without widening trophy image access', async () => {
+  const f=await fixture();
+  try {
+    const window={location:{origin:'https://game.test'}};
+    vm.runInNewContext(read('js/player-card-v2052.js'),{window,URL,Intl,AbortController});
+    const ui=window.PlayerCallingCard;
+    for(const [code,name,path] of [
+      ['HI_HEEYA','하이희야','preview/avatar-hi-heeya-v1/assets/avatar-hi-heeya-lobby-v1-1024.webp'],
+      ['CHEON','체온','preview/avatar-cheon-v1/assets/avatar-cheon-lobby-v1-1024.webp']
+    ]) {
+      await pgAvatar(code,name,path);
+      const response=await f.call(),profile=response.body;
+      assert.equal(response.status,200);
+      assert.equal(profile.player.avatar.image,path);
+      assert.equal(ui.asset(path),'','preview art remains disallowed for trophies');
+      for(const input of [path,'/'+path,'https://game.test/'+path,path+'?v=2078']) {
+        assert.equal(ui.asset(input,true),'/'+path+(input.includes('?')?'?v=2078':''));
+        const html=ui.render({...profile,player:{...profile.player,avatar:{name,image:input}}});
+        assert.match(html,/class="pc-portrait"/);assert.doesNotMatch(html,/class="pc-monogram"/);
+        assert.ok(html.includes(`src="/${path}`),name);
+      }
+      const metadata=await sharp(new URL('../'+path,import.meta.url).pathname.replace(/^\/(?=[A-Z]:)/,'')).metadata();
+      assert.equal(metadata.format,'webp');assert.ok(metadata.width>=640);
+    }
+    async function pgAvatar(code,name,path) {
+      await f.pg.query('UPDATE avatar_catalog_v1 SET code=$1,name=$2,lobby_image=$3',[code,name,path]);
+      await f.pg.query('UPDATE avatar_user_loadout_v1 SET avatar_code=$1',[code]);
+      await f.pg.query('UPDATE avatar_user_ownership_v1 SET avatar_code=$1',[code]);
+    }
+    await f.pg.exec('DELETE FROM avatar_user_loadout_v1');
+    const unequipped=await f.call();
+    assert.equal(unequipped.body.player.avatar,null,'ownership alone never auto-equips an avatar');
+    assert.match(ui.render(unequipped.body),/class="pc-monogram"/);
+    assert.match(read('index.html'),/player-card-v2052\.js\?v=2078-player-card-avatars/,'new URL bypasses the old service-worker script cache');
+  } finally {await f.close();}
+});
+test('portrait preview exception rejects foreign origins, credentials, documents, APIs and traversal', () => {
+  const window={location:{origin:'https://game.test'}};
+  vm.runInNewContext(read('js/player-card-v2052.js'),{window,URL,Intl,AbortController});
+  const ui=window.PlayerCallingCard;
+  for(const path of [
+    'https://evil.test/preview/avatar-hi-heeya-v1/assets/art.webp',
+    '//evil.test/preview/avatar-hi-heeya-v1/assets/art.webp',
+    'https://user:password@game.test/preview/avatar-hi-heeya-v1/assets/art.webp',
+    'http://game.test/preview/avatar-hi-heeya-v1/assets/art.webp',
+    'javascript:alert(1)','data:image/png;base64,AA==','blob:https://game.test/id',
+    '/api/player-card','/preview/avatar-hi-heeya-v1/index.html',
+    '/preview/avatar-hi-heeya-v1/assets/page.html','/preview/avatar-hi-heeya-v1/assets/script.js',
+    '/preview/avatar-hi-heeya-v1/assets/art.svg','/preview/other-content/assets/art.webp',
+    '/preview/avatar-hi-heeya-v1/assets/../../../private.webp',
+    '/preview/avatar-hi-heeya-v1/assets/%2e%2e%2fprivate.webp',
+    '/preview/avatar-hi-heeya-v1/assets/subfolder/art.webp'
+  ]) assert.equal(ui.asset(path,true),'',path);
+  assert.equal(ui.asset('/assets/ui/avatar.webp',true),'/assets/ui/avatar.webp');
+});
 test('live connections use exact user IDs; FX remains lazy, cancellable and non-blocking', () => {
   const ui=read('js/player-card-v2052.js'),fx=read('js/player-card-fx-v2052.src.js'),app=read('js/app.js'),index=read('index.html');
   assert.match(ui,/modal\.showModal/); assert.match(ui,/run !== serial/); assert.match(ui,/controller\?\.abort/); assert.match(ui,/timeoutMs: 12000/); assert.match(ui,/addEventListener\('close'/); assert.match(ui,/if \(!modal.open\) cleanup/);
