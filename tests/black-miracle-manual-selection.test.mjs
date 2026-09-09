@@ -74,6 +74,6 @@ test('CMS preserves an explicit check even when its rate is automatic, and cache
   assert.match(admin,/신규 신화 장비·이동수단은 자동으로 추가되지 않습니다/);
   assert.doesNotMatch(admin,/<option value="(?:AUTO|HYBRID)">/);
   assert.match(admin,/if\(rateInput\.value!==''\)override\.rate=Number\(rateInput\.value\);overrides\[id\]=override/);
-  assert.match(read('admin/index.html'),/admin-v1276\.js\?v=2050-manual-black-miracle-20260909/);
+  assert.match(read('admin/index.html'),/admin-v1276\.js\?v=2050-verified-coin-50eok-manual-black-miracle-20260909/);
   assert.match(read('admin/admin-v1276.js'),/black-miracle-pack-admin-v1485\.js\?v=1926-manual-pool-20260909/);
 });
