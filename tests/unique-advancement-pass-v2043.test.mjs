@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import test from 'node:test';
-import {handleUniqueAdvancement,ensureUniqueAdvancementPassCatalog,UNIQUE_ADVANCEMENT_PASS_CODE as PASS,__uniqueAdvancementTest as internals} from '../functions/_unique_advancement.js';
+import {handleUniqueAdvancement,loadUniqueAdvancementsForCards,ensureUniqueAdvancementPassCatalog,UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS as CLASSES,UNIQUE_ADVANCEMENT_PASS_CODE as PASS,__uniqueAdvancementTest as internals} from '../functions/_unique_advancement.js';
+import {cardUniqueDeckState,cardUniqueSettings} from '../functions/_magic.js';
+import {buildFighter} from '../functions/_battle_v2_preview.js';
 
 class Statement{
   constructor(owner,sql,values=[]){Object.assign(this,{owner,sql,values})}
@@ -159,4 +161,106 @@ test('inventory and CMS expose the pass without putting it in generic pack openi
   assert.match(api,/카드 상세 전직 시 자동 사용/);
   assert.match(admin,/option\.value='UNIQUE_ADVANCEMENT_PASS'/);
   assert.match(index,/unique-advancement-pass-v2043\.js\?v=2043-advancement-pass/);
+});
+
+test('CMS ATTACK to DEFENSE change synchronizes status, battle loading and completed retries without charging again',async t=>{
+  const f=fixture(t),first=await f.post();
+  assert.equal(first.payload.uniqueAdvancement.classCode,'SHATTER');
+  const snapshot=()=>({
+    advancement:f.sqlite.prepare(`SELECT * FROM ${internals.ADVANCEMENT_TABLE}`).all(),
+    receipt:f.sqlite.prepare(`SELECT * FROM ${internals.RECEIPT_TABLE}`).all(),
+    cards:f.sqlite.prepare('SELECT * FROM user_cards ORDER BY card_id').all(),
+    inventory:f.sqlite.prepare('SELECT * FROM cnine_user_inventory ORDER BY item_code').all(),
+    logs:f.sqlite.prepare('SELECT * FROM inventory_logs').all()
+  }),before=snapshot();
+  f.sqlite.exec("UPDATE card_unique_effects SET attack_percent=10,defense_percent=35,speed_percent=0,hp_percent=10 WHERE card_id='CARD-1'");
+  const status=await f.status(),current=status.payload.uniqueAdvancement;
+  assert.equal(current.classCode,'RIPOSTE');assert.equal(current.dominantType,'DEFENSE');
+  assert.equal(status.payload.recommendedType,'DEFENSE');assert.equal(status.payload.recommendedClass.name,'반격자');
+  assert.equal(current.activatedAt,first.payload.uniqueAdvancement.activatedAt);
+  assert.equal(current.configVersion,first.payload.uniqueAdvancement.configVersion);
+  assert.equal(current.modifiers.counterChancePoints,11);assert.equal(current.modifiers.counterMultiplierPoints,13);
+  assert.equal(current.modifiers.penetrationPoints,0);assert.equal(current.modifiers.openingGaugePoints,0);
+  assert.deepEqual((await loadUniqueAdvancementsForCards(f.env,1,['CARD-1'])).get('CARD-1'),current);
+  for(const mode of ['ON','OFF']){
+    f.env.UNIQUE_ADVANCEMENT_MODE=mode;
+    const replay=await f.post();assert.equal(replay.payload.replayed,true);
+    assert.deepEqual(replay.payload.uniqueAdvancement,current);assert.equal(replay.payload.recommendedType,'DEFENSE');
+    assert.deepEqual(replay.payload.masterStars,first.payload.masterStars);
+    assert.deepEqual(replay.payload.advancementPass,first.payload.advancementPass);
+  }
+  assert.deepEqual(snapshot(),before,'only effective class changes; ownership, enhancement, costs and audit receipts stay untouched');
+});
+
+test('completed class follows all four active dominant stats and the same tie priority as new advancement',async t=>{
+  const f=fixture(t);await f.post();
+  for(const [stats,expected] of [
+    [[10,35,0,10],'RIPOSTE'],[[10,10,35,10],'AFTERIMAGE'],[[10,10,0,35],'IMMORTAL'],
+    [[35,10,0,10],'SHATTER'],[[35,35,35,35],'SHATTER'],[[10,35,35,35],'RIPOSTE'],[[10,10,35,35],'AFTERIMAGE']
+  ]){
+    f.sqlite.prepare("UPDATE card_unique_effects SET attack_percent=?,defense_percent=?,speed_percent=?,hp_percent=? WHERE card_id='CARD-1'").run(...stats);
+    const status=await f.status(),loaded=(await loadUniqueAdvancementsForCards(f.env,1,['CARD-1'])).get('CARD-1');
+    assert.equal(status.payload.uniqueAdvancement.classCode,expected);
+    assert.equal(loaded.classCode,expected);assert.equal(loaded.dominantType,CLASSES[expected].dominantType);
+    assert.deepEqual(loaded,status.payload.uniqueAdvancement);
+  }
+  assert.equal(f.balance('MASTER_STAR'),6000);assert.equal(f.count('inventory_logs'),2);
+});
+
+test('missing, inactive or zero unique stats preserve completed advancement rather than remove it',async t=>{
+  const f=fixture(t),first=await f.post(),original=first.payload.uniqueAdvancement;
+  for(const update of [
+    "UPDATE card_unique_effects SET defense_percent=35,is_active=0 WHERE card_id='CARD-1'",
+    "UPDATE card_unique_effects SET is_active=1,attack_percent=0,defense_percent=0,speed_percent=0,hp_percent=0 WHERE card_id='CARD-1'",
+    "DELETE FROM card_unique_effects WHERE card_id='CARD-1'"
+  ]){
+    f.sqlite.exec(update);
+    assert.deepEqual((await f.status()).payload.uniqueAdvancement,original);
+    assert.deepEqual((await loadUniqueAdvancementsForCards(f.env,1,['CARD-1'])).get('CARD-1'),original);
+  }
+  f.sqlite.exec("INSERT INTO card_unique_effects(card_id,defense_percent) VALUES('CARD-1',35)");
+  assert.equal((await f.status()).payload.uniqueAdvancement.classCode,'RIPOSTE');
+  assert.equal(f.balance('MASTER_STAR'),6000);
+});
+
+test('automatic class sync neither grants advancement nor leaks another user or card state',async t=>{
+  const f=fixture(t,{passes:2});
+  f.sqlite.exec("UPDATE card_unique_effects SET defense_percent=35 WHERE card_id='CARD-1'");
+  const unadvanced=await f.status();assert.equal(unadvanced.payload.uniqueAdvancement,null);
+  assert.equal(unadvanced.payload.recommendedType,'DEFENSE');
+  assert.equal((await loadUniqueAdvancementsForCards(f.env,1,['CARD-1'])).size,0);
+  await f.post();await f.post({cardId:'CARD-2',requestId:'test:sync:second-card'});
+  const loaded=await loadUniqueAdvancementsForCards(f.env,1,['CARD-1','CARD-2','CARD-1']);
+  assert.equal(loaded.size,2);assert.equal(loaded.get('CARD-1').classCode,'RIPOSTE');assert.equal(loaded.get('CARD-2').classCode,'SHATTER');
+  assert.equal((await loadUniqueAdvancementsForCards(f.env,2,['CARD-1','CARD-2'])).size,0);
+  assert.equal((await loadUniqueAdvancementsForCards(f.env,1,[])).size,0);
+});
+
+for(const mode of ['PVE','PVP'])test(`${mode}: real deck-to-fighter pipeline applies DEFENSE/RIPOSTE after CMS change, not stale or forged ATTACK`,async t=>{
+  const f=fixture(t),first=await f.post();
+  f.sqlite.exec(`
+    ALTER TABLE card_unique_effects ADD COLUMN scope_pve INTEGER DEFAULT 1;
+    ALTER TABLE card_unique_effects ADD COLUMN scope_pvp INTEGER DEFAULT 1;
+    ALTER TABLE card_unique_effects ADD COLUMN effect_name TEXT DEFAULT '';
+    ALTER TABLE card_unique_effects ADD COLUMN effect_description TEXT DEFAULT '';
+    ALTER TABLE card_unique_effects ADD COLUMN effect_type TEXT DEFAULT 'NONE';
+    ALTER TABLE card_unique_effects ADD COLUMN trigger_type TEXT DEFAULT 'PASSIVE';
+    ALTER TABLE card_unique_effects ADD COLUMN effect_value REAL DEFAULT 0;
+    ALTER TABLE card_unique_effects ADD COLUMN trigger_chance REAL DEFAULT 100;
+    ALTER TABLE card_unique_effects ADD COLUMN max_activations INTEGER DEFAULT 1;
+    INSERT INTO app_meta(key,value) VALUES('card_unique_effect_settings_v1','{"enabled":true}');
+    UPDATE card_unique_effects SET attack_percent=10,defense_percent=35,speed_percent=0,hp_percent=10 WHERE card_id='CARD-1';
+  `);
+  await cardUniqueSettings(f.env,{fresh:true});
+  const input={id:'CARD-1',title:'하이희야',grade:'ZENITH',breakthroughLevel:13,power:100000,
+    uniqueAdvancement:first.payload.uniqueAdvancement,uniqueAbility:{attackPercent:500,dominantType:'ATTACK'}};
+  const state=await cardUniqueDeckState(f.env,{id:1,role:'USER'},[input],mode),card=state.cards[0];
+  assert.equal(card.uniqueAbility.dominantType,'DEFENSE');assert.equal(card.uniqueAdvancement.classCode,'RIPOSTE');
+  const fighter=buildFighter(card,0,'A',card.uniqueAbility,mode);
+  assert.equal(fighter.type,'DEFENSE');assert.equal(fighter.uniqueAdvancement.classCode,'RIPOSTE');
+  assert.equal(fighter.uniqueAdvancement.modifiers.counterChancePoints,11);
+  assert.equal(fighter.uniqueAdvancement.modifiers.counterMultiplierPoints,13);
+  assert.equal(fighter.uniqueAdvancement.modifiers.penetrationPoints,0);
+  assert.equal(fighter.uniqueAdvancement.modifiers.criticalChancePoints,0);
+  assert.equal(fighter.gauge,0);assert.ok(fighter.shield>0);assert.equal(fighter.breakthroughLevel,13);
 });

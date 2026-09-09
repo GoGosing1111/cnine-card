@@ -254,17 +254,27 @@ export async function uniqueAdvancementSettings(env,{fresh=false,ensure=true}={}
   return value;
 }
 
-function advancementFromRow(row){
+function advancementFromRow(row,card=null){
   if(!row)return null;
-  const classCode=normalizedGrade(row.class_code??row.classCode),definition=UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[classCode];
+  let classCode=normalizedGrade(row.class_code??row.classCode),definition=UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[classCode];
   if(!definition)return null;
-  // DB 행은 소유권·전직 계열·감사 스냅샷의 권위이고, 실제 전투 계수는 현재
-  // 서버 계약이 권위다. 그래야 밸런스 패치가 기존 전직 보유 카드에도 즉시
-  // 동일하게 적용되고 과거 modifiers_json 때문에 유저별 계수가 갈리지 않는다.
+  let dominantType=normalizedGrade(row.dominant_type??row.dominantType)||definition.dominantType;
+  // 완료 행은 전직 소유권·비용·시점의 감사 원본으로 보존한다. 실제 계열은
+  // 신규 전직과 동일하게 현재 활성 고유효과의 최고 스탯을 따른다.
+  // CMS에서 계열을 바꿔도 재전직·재료 차감·전투 중 DB 쓰기가 필요 없다.
+  // 고유효과가 삭제/비활성/0이면 기존 완료 전직을 잃지 않도록 유지한다.
+  if(Number(card?.unique_is_active??card?.uniqueIsActive??0)===1){
+    const dominant=resolveDominantUniqueStat(card);
+    if(dominant.highest>0){
+      classCode=dominant.classCode;
+      dominantType=dominant.dominantType;
+      definition=UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[classCode];
+    }
+  }
   return {
     active:true,
     classCode,
-    dominantType:normalizedGrade(row.dominant_type??row.dominantType)||definition.dominantType,
+    dominantType,
     configVersion:Math.max(1,Math.floor(finite(row.config_version??row.configVersion,1))),
     modifiers:normalizeUniqueAdvancementModifiers(definition.modifiers),
     activatedAt:String((row.activated_at??row.activatedAt)||'')||null
@@ -277,10 +287,12 @@ export async function loadUniqueAdvancementsForCards(env,userId,cardIds=[]){
   if(!ids.length)return output;
   await ensureUniqueAdvancementFoundation(env);
   const marks=ids.map(()=>'?').join(',');
-  const result=await env.DB.prepare(`SELECT card_id,class_code,dominant_type,config_version,modifiers_json,activated_at
-    FROM ${ADVANCEMENT_TABLE} WHERE user_id=? AND card_id IN (${marks})`).bind(userId,...ids).all();
+  const result=await env.DB.prepare(`SELECT a.card_id,a.class_code,a.dominant_type,a.config_version,a.modifiers_json,a.activated_at,
+    cue.is_active AS unique_is_active,cue.attack_percent,cue.defense_percent,cue.speed_percent,cue.hp_percent
+    FROM ${ADVANCEMENT_TABLE} a LEFT JOIN card_unique_effects cue ON cue.card_id=a.card_id AND cue.is_active=1
+    WHERE a.user_id=? AND a.card_id IN (${marks})`).bind(userId,...ids).all();
   for(const row of rows(result)){
-    const advancement=advancementFromRow(row);
+    const advancement=advancementFromRow(row,row);
     if(advancement)output.set(String(row.card_id),advancement);
   }
   return output;
@@ -325,7 +337,7 @@ function responsePayload({requestId='',card,masterStars,passQuantity=0,passUsed=
 }
 
 function statusPayload({card,masterStars,passQuantity=0,row,settings,user}){
-  const access=featureAccess(settings.mode,user),advancement=advancementFromRow(row);
+  const access=featureAccess(settings.mode,user),advancement=advancementFromRow(row,card);
   const eligibility=evaluateUniqueAdvancementEligibility({card,masterStars,existing:advancement,featureEnabled:access.enabled});
   const currentDefinition=advancement?UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[advancement.classCode]:null;
   const displayType=advancement?.dominantType||(eligibility.dominant.highest>0?eligibility.dominant.dominantType:null);
@@ -335,7 +347,7 @@ function statusPayload({card,masterStars,passQuantity=0,row,settings,user}){
     feature:{mode:settings.mode,enabledForUser:access.enabled,testAccess:access.testAccess,ready:true},
     config:{version:settings.version,costMasterStars:UNIQUE_ADVANCEMENT_COST,successChancePercent:UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT,minimumBreakthrough:UNIQUE_ADVANCEMENT_MIN_BREAKTHROUGH,allowedGrades:[...UNIQUE_ADVANCEMENT_ALLOWED_GRADES],classes:uniqueAdvancementDefinitions()},
     card:{id:String(card.card_id),title:String(card.title||''),grade:eligibility.grade,breakthroughLevel:eligibility.breakthroughLevel,uniqueStats:eligibility.dominant.stats},
-    // 완료 뒤 CMS 고유 스탯이 바뀌더라도 저장된 전직이 표시 권위다.
+    // 표시와 전투 모두 현재 고유효과에 맞춰 해석한 완료 전직을 사용한다.
     recommendedType:displayType,
     recommendedClass:displayClass,
     masterStars,
@@ -345,6 +357,16 @@ function statusPayload({card,masterStars,passQuantity=0,row,settings,user}){
     eligibility,
     canAdvance:eligibility.eligible
   };
+}
+
+async function replayWithCurrentAdvancement(env,userId,cardId,replay){
+  const response={...replay,replayed:true};
+  if(!replay.success||!replay.uniqueAdvancement)return response;
+  const state=await stateRows(env,userId,cardId),advancement=advancementFromRow(state.row,state.card);
+  if(!state.card||!advancement)return response;
+  // 영수증의 당시 비용·잔액·성공 여부는 바꾸지 않는다. 최신 계열만 응답에 반영한다.
+  return {...response,recommendedType:advancement.dominantType,
+    recommendedClass:publicClassDefinition(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[advancement.classCode]),uniqueAdvancement:advancement};
 }
 
 async function markReceiptFailed(env,requestId,userId,message){
@@ -360,7 +382,7 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
   if(String(receipt.card_id)!==cardId)return {error:'같은 요청 번호가 다른 카드에 사용되었습니다.',code:'REQUEST_ID_CARD_MISMATCH',status:409};
   if(receipt.status==='COMPLETED'&&receipt.response_json){
     const replay=safeJson(receipt.response_json,null);
-    if(replay)return {response:{...replay,replayed:true}};
+    if(replay)return {response:await replayWithCurrentAdvancement(env,user.id,cardId,replay)};
   }
   if(receipt.status==='FAILED'){
     await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='PENDING',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND card_id=? AND status='FAILED'`)
@@ -369,7 +391,7 @@ async function executeAdvancement({env,user,cardId,requestId,settings,randomUint
   }
   if(receipt.status!=='PENDING')return {error:'동일한 전직 요청을 처리 중입니다.',code:'ADVANCEMENT_REQUEST_IN_PROGRESS',status:409,retryable:true};
 
-  const state=await stateRows(env,user.id,cardId),existing=advancementFromRow(state.row);
+  const state=await stateRows(env,user.id,cardId),existing=advancementFromRow(state.row,state.card);
   if(existing){
     if(String(state.row?.request_id||'')===requestId){
       const passLog=await env.DB.prepare("SELECT balance_after FROM inventory_logs WHERE user_id=? AND item_code=? AND reference_type='UNIQUE_ADVANCEMENT_PASS' AND reference_id=? AND change_amount=-1")
@@ -551,7 +573,7 @@ export async function handleUniqueAdvancement({path,request,env,deps}){
       const prior=await env.DB.prepare(`SELECT card_id,status,response_json FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
       if(prior&&String(prior.card_id)===cardId&&prior.status==='COMPLETED'&&prior.response_json){
         const replay=safeJson(prior.response_json,null);
-        if(replay)return json({...replay,replayed:true});
+        if(replay)return json(await replayWithCurrentAdvancement(env,user.id,cardId,replay));
       }
       return json({error:'고유특성 전직은 현재 준비 중입니다.',code:'FEATURE_DISABLED',feature:{mode:settings.mode,enabledForUser:false}},409);
     }
