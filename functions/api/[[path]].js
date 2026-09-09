@@ -58,6 +58,7 @@ import { ensureIyejunFurRerollRecoveryV2023 } from '../_iyejun_fur_reroll_recove
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
+import { handleNewUserGift,NEW_USER_GIFT_CODE } from '../_new_user_gift.js';
 import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
@@ -5165,6 +5166,7 @@ async function handleRequest(context){
     const battleV2PreviewResponse=await handleBattleV2Preview({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckStates,userEquipmentBonuses,magicBattleLoadout}});if(battleV2PreviewResponse)return battleV2PreviewResponse;
 
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
+    const newUserGiftResponse=await handleNewUserGift({path,request,env,deps:{authenticate,readBody,json,requirePermission,ensureSecondVerificationFoundation}});if(newUserGiftResponse)return newUserGiftResponse;
     const uniqueAdvancementResponse=await handleUniqueAdvancement({path,request,env,deps:{authenticate,readBody,json}});if(uniqueAdvancementResponse)return uniqueAdvancementResponse;
     const primeDrawResponse=await handlePrimeDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation}});if(primeDrawResponse)return primeDrawResponse;
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
@@ -5301,7 +5303,7 @@ async function handleRequest(context){
           CASE WHEN i.category='SKILL_CHIP' THEN 0 WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code='CORE_RAID_ENTRY_TICKET' THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
         WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
-          AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET') OR COALESCE(ui.quantity,0)>0)
+          AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
@@ -8149,6 +8151,7 @@ async function handleRequest(context){
       else if(action==='SHARDS'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경할 카드 조각 수량을 입력하세요.'},400);const current=Number(before.card_shards||0);if(current+amount<0)return json({error:'보유 카드 조각보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(amount,userId).run();const balance=current+amount;await env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId,amount,balance,String(p.reason||'관리자 조정').slice(0,100)).run();}
       else if(action==='INVENTORY'){
         const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);
+        if(itemCode===NEW_USER_GIFT_CODE)return json({error:'신규유저 기프트 박스는 유저관리의 전용 지급 기능에서만 지급할 수 있습니다.'},400);
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
         if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)await ensureUniqueAdvancementPassCatalog(env);
         if(BATTLE_SUIT_CORE_CODES.includes(itemCode))await ensureBattleSuitCoreCatalog(env);

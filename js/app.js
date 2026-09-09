@@ -3913,6 +3913,7 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(itemCode==='NEW_USER_GIFT_BOX')return window.NewUserGiftV2075.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell});
   if(itemCode==='SUPERSTAR_GUARANTEED_PACK')return openGuaranteedSuperstarTicket();
   if(WORKSHOP_ONLY_ITEM_CODES.has(String(itemCode||'').toUpperCase()))return showSupplyNotice('차량 부품은 제작소에서만 사용할 수 있습니다.',true);
   if(itemCode==='SOOPKETLAND_TICKET')return renderShell('soopketland');
