@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>아바타 직접 지급 · OWNER CMS</title><link rel="stylesheet" href="./avatar-grant.css?v=2079"><script type="module" src="./avatar-grant.js?v=2079"></script></head>
+<body><main>
+<header><a href="./">← CMS로 돌아가기</a><span>OWNER CONTROL</span></header>
+<section class="intro"><small>AVATAR DELIVERY</small><h1>아바타 직접 지급</h1><p>원하는 아바타를 선택하고, 받을 사람만 정확히 지정하세요.</p><p id="owner">관리자 인증 확인 중…</p></section>
+<div class="layout"><form id="grantForm"><fieldset id="fields" disabled>
+<label for="avatar">01 · 지급할 아바타</label><select id="avatar" required><option value="">아바타 선택</option></select>
+<div id="art" class="art" hidden><img id="portrait" alt=""><div><strong id="avatarName"></strong><span>영구 보유 · 계정당 1개</span></div></div>
+<label for="nicknames">02 · 받을 계정</label><textarea id="nicknames" required rows="5" placeholder="정확한 닉네임을 한 줄에 한 명씩 입력" maxlength="2430" spellcheck="false"></textarea><small>최대 30명 · 공백과 특수문자까지 정확히 입력하세요.</small>
+<label for="reason">03 · 지급 사유</label><input id="reason" required maxlength="200" value="운영 아바타 지급">
+<button type="submit" class="primary">계정·보유 상태 확인</button></fieldset></form>
+<aside><h2>지급 확인</h2><p id="status" role="status" aria-live="polite">대상 확인만으로 아바타가 지급되지는 않습니다.</p>
+<div id="summary" hidden><h3 id="summaryTitle"></h3><p id="summaryReason"></p><ul id="recipients"></ul><p id="receiptId" class="receipt"></p></div>
+<label id="approval" class="approval" hidden><input id="confirm" type="checkbox">위 계정에 선택한 아바타를 영구 지급합니다.</label>
+<button id="apply" class="primary" type="button" hidden disabled>확인한 계정에 지급</button>
+<button id="refreshResult" type="button" hidden>같은 요청 결과 확인</button>
+<button id="cancel" type="button" hidden>미처리 요청 취소</button>
+<button id="next" type="button" hidden>다른 계정에 새로 지급</button>
+<div class="policy"><strong>지급만 변경합니다</strong><p>현재 장착 · 코인 · 아바타 공개 설정은 유지합니다. 이미 영구 보유한 계정은 건너뛰며, 기간제 보유는 영구로 전환됩니다.</p></div>
+</aside></div></main></body></html>

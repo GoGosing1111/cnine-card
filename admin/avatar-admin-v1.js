@@ -20,7 +20,7 @@
     let button=nav.querySelector('[data-view="avatars"]');
     if(!button){button=document.createElement('button');button.type='button';button.dataset.view='avatars';button.innerHTML='아바타 관리 <span class="buildBadge">OFF</span>';nav.insertBefore(button,nav.querySelector('[data-view="settings"]')||null)}
     let section=$('#view-avatars');
-    if(!section){section=document.createElement('section');section.id='view-avatars';section.className='view avatar-admin-view';section.hidden=true;section.innerHTML=`<div class="sectionIntro"><div><small>AVATAR ARCHIVE CONTROL</small><h2>아바타 카탈로그·공개 설정</h2><p>등록 데이터와 판매 조건을 확정한 뒤 OFF → TEST → ON 순서로 공개합니다.</p></div><button class="ghost" id="avatarAdminReload" type="button">새로고침</button></div><div id="avatarAdminRoot" class="avatar-admin-root">불러오는 중...</div>`;main.appendChild(section)}
+    if(!section){section=document.createElement('section');section.id='view-avatars';section.className='view avatar-admin-view';section.hidden=true;section.innerHTML=`<div class="sectionIntro"><div><small>AVATAR ARCHIVE CONTROL</small><h2>아바타 카탈로그·공개 설정</h2><p>등록 데이터와 판매 조건을 확정한 뒤 OFF → TEST → ON 순서로 공개합니다.</p><a class="avatar-grant-entry" href="./avatar-grant">아바타 직접 지급 →</a></div><button class="ghost" id="avatarAdminReload" type="button">새로고침</button></div><div id="avatarAdminRoot" class="avatar-admin-root">불러오는 중...</div>`;main.appendChild(section)}
     button.onclick=()=>show(button,section);$('#avatarAdminReload').onclick=load;
   }
 

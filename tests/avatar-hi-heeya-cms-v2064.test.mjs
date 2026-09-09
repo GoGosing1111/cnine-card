@@ -103,5 +103,5 @@ test('CMS displays an unset effect honestly, retaining existing configured effec
   const legacy=context.qa.effectRow({type:'COIN_GAIN_PERCENT',value:50},0);
   assert.match(legacy,/<option value="COIN_GAIN_PERCENT" selected>/);
   assert.doesNotMatch(legacy,/<option value=""/);
-  assert.match(readFileSync(new URL('../admin/index.html',import.meta.url),'utf8'),/avatar-admin-v1\.js\?v=2064-hi-heeya-cms/);
+  assert.match(readFileSync(new URL('../admin/index.html',import.meta.url),'utf8'),/avatar-admin-v1\.js\?v=2079-direct-grant/);
 });

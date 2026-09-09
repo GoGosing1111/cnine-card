@@ -1,4 +1,5 @@
 import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
+import {handleAvatarAdminGrant} from './_avatar_admin_grant.js';
 
 /* SOOPKETMON AVATAR CATALOG V1
  *
@@ -510,11 +511,17 @@ async function saveAdminAvatar(env,admin,body,writeAdminLog){
 
 export async function handleAvatar({path,request,env,deps}){
   if(!path.startsWith('avatar/')&&!path.startsWith('admin/avatars'))return null;
+  if(path==='admin/avatars/grant'){
+    const admin=await deps.requirePermission(request,env,'SETTINGS');
+    if(admin?.role!=='OWNER')return deps.json({error:'OWNER만 아바타를 지급할 수 있습니다.'},403);
+    await ensureAvatarFoundation(env);
+    return handleAvatarAdminGrant({request,env,admin,deps});
+  }
   await ensureAvatarFoundation(env);
   const {authenticate,readBody,json,requirePermission,writeAdminLog}=deps;
   if(path==='admin/avatars'){
     const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 필요합니다.'},403);
-    if(request.method==='GET')return json(await adminPayload(env));
+    if(request.method==='GET')return json({...await adminPayload(env),grantAccess:isOwner(admin)?{ownerId:Number(admin.id),nickname:admin.nickname}:null});
     if(request.method==='POST'){
       const body=await readBody(request),action=String(body.action||'').trim().toUpperCase();
       const result=action==='SAVE_CONFIG'?await saveAdminConfig(env,admin,body,writeAdminLog):action==='SAVE_AVATAR'?await saveAdminAvatar(env,admin,body,writeAdminLog):{error:'지원하지 않는 아바타 관리 작업입니다.',status:400};
