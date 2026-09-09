@@ -47,6 +47,7 @@ import { ensureRosterCardRetirementV2056,ROSTER_CARD_RETIREMENT_SOURCES } from '
 import { ensureTargetedCardTransferV2003 } from '../_targeted_card_transfer_v2003.js';
 import { ensureTargetedAvatarGrantV2007 } from '../_targeted_avatar_grant_v2007.js';
 import { ensureTargetedAvatarGrantV2014 } from '../_targeted_avatar_grant_v2014.js';
+import { ensureTargetedAvatarGrantDeodeumiguV1 } from '../_targeted_avatar_grant_deodeumigu_v1.js';
 import { ensureTargetedCardGrantV2015 } from '../_targeted_card_grant_v2015.js';
 import { ensureTargetedCardGrantV2016 } from '../_targeted_card_grant_v2016.js';
 import { ensureTargetedInventoryGrantV2025 } from '../_targeted_inventory_grant_v2025.js';
@@ -4851,6 +4852,7 @@ async function handleRequest(context){
       let targetedCardTransfer=null;
       let targetedAvatarGrant=null;
       let targetedAvatarGrantV2014=null;
+      let targetedAvatarGrantDeodeumiguV1=null;
       let targetedCardGrantV2015=null;
       let targetedCardGrantV2016=null;
       let targetedInventoryGrantV2025=null;
@@ -4888,6 +4890,12 @@ async function handleRequest(context){
         targetedAvatarGrantV2014=joeunAvatarGrant?{
           status:joeunAvatarGrant.status,version:joeunAvatarGrant.version,replayed:Boolean(joeunAvatarGrant.replayed),
           avatarCode:joeunAvatarGrant.avatarCode||null,permanent:Boolean(joeunAvatarGrant.permanent)
+        }:null;
+        const deodeumiguAvatarGrant=await ensureTargetedAvatarGrantDeodeumiguV1(env);
+        targetedAvatarGrantDeodeumiguV1=deodeumiguAvatarGrant?{
+          status:deodeumiguAvatarGrant.status,version:deodeumiguAvatarGrant.version,replayed:Boolean(deodeumiguAvatarGrant.replayed),
+          avatarCode:deodeumiguAvatarGrant.avatarCode||null,permanent:Boolean(deodeumiguAvatarGrant.permanent),
+          ownershipVerified:Boolean(deodeumiguAvatarGrant.ownershipVerified)
         }:null;
         const joeunZenithGrant=await ensureTargetedCardGrantV2015(env);
         targetedCardGrantV2015=joeunZenithGrant?{
@@ -4954,7 +4962,7 @@ async function handleRequest(context){
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
+      return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedAvatarGrantDeodeumiguV1,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
