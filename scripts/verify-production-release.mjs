@@ -20,9 +20,9 @@ const coreTicketAsset = new URL('../assets/items/core-raid-entry-ticket-v1.png',
 if (!existsSync(coreTicketAsset)) fail('the dedicated Core raid entry-ticket image is missing');
 
 for (const resource of [
-  'css/core-protocol-raid-v1924.css?v=2026-core-balance',
+  'css/core-protocol-raid-v1924.css?v=2074-clan-only',
   'js/project-v-raid-qte-v1924.js?v=2021-sequence-swipe',
-  'js/core-protocol-raid-v1924.js?v=2070-fixed-power',
+  'js/core-protocol-raid-v1924.js?v=2074-clan-only',
 ]) {
   if (!index.includes(resource)) fail(`index.html is missing the reviewed Core test resource: ${resource}`);
 }

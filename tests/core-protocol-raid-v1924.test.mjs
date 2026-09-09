@@ -515,9 +515,9 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   assert.match(qte, /addEventListener\('pointerdown'/);
   assert.match(qte, /swipeStart/);
   assert.doesNotMatch(qte, /data-qte-dir/);
-  assert.match(index, /core-protocol-raid-v1924\.css\?v=2026-core-balance/);
+  assert.match(index, /core-protocol-raid-v1924\.css\?v=2074-clan-only/);
   assert.match(index, /project-v-raid-qte-v1924\.js\?v=2021-sequence-swipe/);
-  assert.match(index, /core-protocol-raid-v1924\.js\?v=2070-fixed-power/);
+  assert.match(index, /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
   assert.match(adminIndex, /admin-v1276\.js\?v=2050-verified-coin-50eok/);
   assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=2070-fixed-power/);
   assert.match(coreAdmin, /coreRaidBalanceTolerance/);

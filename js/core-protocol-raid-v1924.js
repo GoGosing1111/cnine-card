@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.3.0-fixed-power-v2070';
+  const VERSION = '3.4.0-clan-only';
   const TAB_KEY = 'cnine:raid-content-v1924';
   const OP_NAMES = { BREAK: '파쇄', BLOCK: '차단', STABILIZE: '안정화', FINAL: '최종 보스' };
   const esc = value => String(value ?? '').replace(
@@ -25,6 +25,7 @@
   let activeTab = sessionStorage.getItem(TAB_KEY) === 'core' ? 'core' : 'world';
   let pollTimer = null;
   let lastError = null;
+  let clanOnly = false;
 
   async function api(path, options = {}) {
     if (!bridge()?.apiRequest) throw new Error('붕괴 코어 레이드 연결 모듈을 불러오지 못했습니다.');
@@ -145,6 +146,8 @@
       '<div class="core-room-ticket"><img src="' + esc(ticket.ticketImage || '/assets/items/core-raid-entry-ticket-v1.png') +
       '" alt=""><span>' + esc(ticket.ticketName || '붕괴 코어 입장권') + '</span>' +
       '<strong>보유 ' + number(ticket.quantity).toLocaleString() + '장</strong></div>' +
+      '<label class="core-clan-only"><input id="coreRaidClanOnly" type="checkbox"' + (clanOnly ? ' checked' : '') +
+      '><span><b>클랜원만 참여</b><small>공대장과 현재 같은 클랜인 계정만 참가할 수 있습니다.</small></span></label>' +
       '<button type="button" data-core-action="open" ' +
       (!combatPowerReady(state.settings) || number(ticket.quantity) < number(ticket.required || 1) ? 'data-core-locked="1" disabled' : '') +
       '>입장권 1장으로 공대 생성</button></article>' +
@@ -152,8 +155,9 @@
       '<button type="button" data-core-action="browse">새로고침</button></header>' +
       (rooms.length
         ? '<div>' + rooms.map(room =>
-            '<button type="button" class="core-room-row" data-core-action="join" data-room-id="' + esc(room.id) + '">' +
-            '<span><small>ROOM ' + esc(room.code) + '</small><b>붕괴 코어 공대</b></span>' +
+            '<button type="button" class="core-room-row" data-core-action="join" data-room-id="' + esc(room.id) + '"' +
+            (room.canJoin === false ? ' data-core-locked="1" disabled title="공대장과 같은 클랜만 참가할 수 있습니다."' : '') + '>' +
+            '<span><small>ROOM ' + esc(room.code) + '</small><b>' + (room.clanOnly ? '클랜 전용 공대' : '붕괴 코어 공대') + '</b></span>' +
             '<em>' + number(room.participantCount) + ' / ' + number(room.maxParticipants) + '명</em>' +
             '<strong>' + remainingText(room.lobbyEndsAt) + '</strong></button>'
           ).join('') + '</div>'
@@ -182,7 +186,7 @@
     const isHost = Number(current.hostUserId) === Number(state.me?.userId);
     const ready = combatPowerReady(state.settings) && number(current.participantCount) >= number(current.minParticipants);
     return '<section class="core-lobby-command"><div><small>ROOM ' + esc(current.code) + '</small>' +
-      '<h3>공대 집결 중</h3><p>남은 모집 시간 ' + remainingText(current.lobbyEndsAt) +
+      '<h3>' + (current.clanOnly ? '클랜 전용 공대 집결 중' : '공대 집결 중') + '</h3><p>남은 모집 시간 ' + remainingText(current.lobbyEndsAt) +
       ' · ' + number(current.participantCount) + ' / ' + number(current.maxParticipants) + '명</p></div>' +
       (isHost
         ? '<button type="button" data-core-action="start" ' +
@@ -363,7 +367,7 @@
     try {
       data = await api('raid/core/open', {
         method: 'POST',
-        body: JSON.stringify({ requestId: requestId() })
+        body: JSON.stringify({ requestId: requestId(), clanOnly })
       });
       viewedRoomId = data.current?.id || '';
       render();
@@ -564,6 +568,9 @@
   }
 
   function bindActions() {
+    document.getElementById('coreRaidClanOnly')?.addEventListener('change', event => {
+      clanOnly = event.target.checked;
+    });
     document.querySelectorAll('#pveCoreRaidView [data-core-operation]').forEach(node => {
       const select = () => {
         if (busy) return;

@@ -94,6 +94,60 @@ function harness(t) {
   return { db, state, call, save, room, begin, resolve };
 }
 
+test('clan-only rooms enforce current season membership and preserve ticket/public-room behavior', async t => {
+  const h = harness(t);
+  h.db.exec(`
+    CREATE TABLE clan_seasons(id INTEGER PRIMARY KEY,season_no INTEGER,phase TEXT);
+    CREATE TABLE clan_members(season_id INTEGER,clan_id INTEGER,user_id INTEGER,PRIMARY KEY(season_id,user_id));
+    INSERT INTO clan_seasons VALUES(1,1,'COMPLETE'),(2,2,'ACTIVE');
+    INSERT INTO clan_members VALUES(1,10,1),(1,10,3),(2,10,2),(2,20,3);
+    INSERT INTO users(id,nickname,role) VALUES(2,'동료','OWNER'),(3,'다른클랜','OWNER'),(4,'무소속','OWNER');
+  `);
+  await h.save(configured());
+  const open = body => h.call('raid/core/open', 'POST', body);
+  const ticket = () => h.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=1').get().quantity;
+  assert.equal((await open({ requestId: 'BAD-TYPE', clanOnly: 'false' })).status, 400);
+  assert.equal((await open({ requestId: 'NO-CLAN', clanOnly: true, clanId: 10 })).status, 403);
+  assert.equal(ticket(), 3, 'past membership and client clan ID cannot authorize creation or spend a ticket');
+  h.db.exec('INSERT INTO clan_members VALUES(2,10,1)');
+  const opened = await open({ requestId: 'CLAN', clanOnly: true });
+  assert.equal(opened.status, 200);
+  assert.equal(opened.body.current.clanOnly, true);
+  assert.equal(ticket(), 2);
+  assert.equal((await open({ requestId: 'CLAN', clanOnly: true })).body.current.id, opened.body.current.id);
+  assert.equal(ticket(), 2);
+  const roomId = opened.body.current.id;
+  const asUser = id => { h.state.user = { id, nickname: '테스터', role: 'OWNER' }; };
+  const join = () => h.call('raid/core/join', 'POST', { roomId, clanId: 10 });
+  for (const id of [3, 4]) {
+    asUser(id);
+    const list = await h.call('raid/core/status?browse=1');
+    assert.equal(list.body.rooms.find(room => room.id === roomId).canJoin, false);
+    assert.equal((await join()).status, 403);
+    assert.equal(h.db.prepare('SELECT COUNT(*) n FROM raid_core_active_members_v2024 WHERE user_id=?').get(id).n, 0);
+  }
+  asUser(2);
+  assert.equal((await h.call('raid/core/status?browse=1')).body.rooms[0].canJoin, true);
+  h.db.exec('UPDATE clan_members SET clan_id=20 WHERE season_id=2 AND user_id=2');
+  assert.equal((await join()).status, 403, 'membership is re-read after browsing');
+  h.db.exec('UPDATE clan_members SET clan_id=10 WHERE season_id=2 AND user_id=2');
+  h.db.exec('DELETE FROM clan_members WHERE season_id=2 AND user_id=1');
+  assert.equal((await join()).status, 403, 'host must also still belong to the clan');
+  h.db.exec('INSERT INTO clan_members VALUES(2,10,1)');
+  assert.equal((await join()).status, 200);
+  assert.equal((await join()).body.current.participantCount, 2, 'retries do not duplicate members');
+  assert.equal(ticket(), 2, 'guests do not spend host tickets');
+  h.db.exec("UPDATE clan_seasons SET phase='COMPLETE' WHERE id=2");
+  asUser(3);
+  assert.equal((await join()).status, 403, 'completed season must not authorize new entrants');
+  h.db.exec("INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(3,'CORE_RAID_ENTRY_TICKET',1)");
+  const publicRoom = await open({ requestId: 'PUBLIC', clanOnly: false });
+  assert.equal(publicRoom.status, 200);
+  assert.equal(publicRoom.body.current.clanOnly, false);
+  asUser(4);
+  assert.equal((await h.call('raid/core/join', 'POST', { roomId: publicRoom.body.current.id })).status, 200);
+});
+
 test('fixed power is deliberately unconfigured by default; legacy percentages cannot configure it', () => {
   for (const settings of [defaultCoreRaidSettings(), cleanCoreRaidSettings({ coreCombatPowerPercent: 55, bossCombatPowerPercent: 80 })]) {
     assert.equal(settings.coreCombatPower, 0);
@@ -320,6 +374,29 @@ test('raid UI shows both absolute values and blocks only new fights when power i
   assert.doesNotMatch(api.bossActionMarkup(state), /data-core-action="battle"[^>]*disabled/);
 });
 
+test('clan checkbox survives polling renders and sends the selected boolean', async () => {
+  const view = { innerHTML: '' }, checkbox = { addEventListener(_event, handler) { this.change = handler; } };
+  const requests = [];
+  const state = { settings: configured(), entry: { quantity: 3 }, rooms: [{ id: 'PRIVATE', code: '123', clanOnly: true, canJoin: false }], current: null, operations: [] };
+  const api = expose(read('js/core-protocol-raid-v1924.js'), '{createRoom,renderState(next){data=next;render();}}', {
+    sessionStorage: { getItem() {}, setItem() {} }, MutationObserver: class {}, addEventListener() {},
+    document: { getElementById: id => id === 'pveCoreRaidView' ? view : id === 'coreRaidClanOnly' ? checkbox : null, querySelectorAll: () => [], addEventListener() {} },
+    CNineCoreRaidBridge: { apiRequest: async (_path, options) => { requests.push(JSON.parse(options.body)); return state; } }
+  });
+  api.renderState(state);
+  assert.match(view.innerHTML, /클랜원만 참여/);
+  assert.doesNotMatch(view.innerHTML, /id="coreRaidClanOnly"[^>]*checked/);
+  assert.match(view.innerHTML, /data-room-id="PRIVATE"[^>]*disabled/);
+  checkbox.change({ target: { checked: true } });
+  api.renderState(state);
+  assert.match(view.innerHTML, /id="coreRaidClanOnly"[^>]*checked/);
+  await api.createRoom();
+  assert.equal(requests[0].clanOnly, true);
+  checkbox.change({ target: { checked: false } });
+  await api.createRoom();
+  assert.equal(requests[1].clanOnly, false);
+});
+
 test('CMS renders numeric absolute fields and sends them without percent conversion', async () => {
   const fields = new Map(), requests = [], alerts = [];
   const node = id => {
@@ -350,10 +427,10 @@ test('CMS renders numeric absolute fields and sends them without percent convers
 });
 
 test('new runtime and nested CMS cache tags are reachable from their actual entry points', () => {
-  assert.match(read('index.html'), /core-protocol-raid-v1924\.js\?v=2070-fixed-power/);
-  assert.match(read('scripts/verify-production-release.mjs'), /core-protocol-raid-v1924\.js\?v=2070-fixed-power/);
+  assert.match(read('index.html'), /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
+  assert.match(read('scripts/verify-production-release.mjs'), /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
   assert.match(read('admin/index.html'), /raid-overhaul-v1293\.js\?v=2070-fixed-power/);
   assert.match(read('admin/raid-overhaul-v1293.js'), /core-protocol-raid-admin-v2021\.js\?v=2070-fixed-power/);
-  assert.match(read('preview/core-protocol-raid-v1/index.html'), /core-protocol-raid-v1924\.js\?v=2070-fixed-power/);
+  assert.match(read('preview/core-protocol-raid-v1/index.html'), /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
   assert.match(read('preview/core-protocol-raid-v1/preview.js'), /운영 설정 아님/);
 });
