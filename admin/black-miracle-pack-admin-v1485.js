@@ -25,9 +25,9 @@
 
   function groupControls(kind,label,config){
     const ids=powerControlIds[kind];
-    return `<section style="margin:18px 0;padding:16px;border:1px solid rgba(88,217,255,.22);border-radius:10px"><h4 style="margin-top:0">${label} 자동 획득률</h4><div class="form-grid">
+    return `<section style="margin:18px 0;padding:16px;border:1px solid rgba(88,217,255,.22);border-radius:10px"><h4 style="margin-top:0">${label} 직접 선택 · 획득률</h4><div class="form-grid">
       <label>풀 사용<select id="${ids.enabled}"><option value="1">사용</option><option value="0">제외</option></select></label>
-      <label>설정 방식<select id="${ids.mode}"><option value="AUTO">AUTO · 전투력 자동</option><option value="HYBRID">HYBRID · 자동+개별</option><option value="MANUAL">MANUAL · 개별만</option></select></label>
+      <label>보상 대상 선택<select id="${ids.mode}"><option value="MANUAL">직접 선택한 항목만</option></select></label>
       <label>최저 획득률 (%)<input id="${ids.min}" type="number" min="0.01" max="0.1" step="0.001" value="${config.minRatePercent}"></label>
       <label>최고 획득률 (%)<input id="${ids.max}" type="number" min="0.01" max="0.1" step="0.001" value="${config.maxRatePercent}"></label>
       <label>전투력 곡선<select id="${ids.curve}"><option value="LINEAR">LINEAR</option><option value="EASE_IN">EASE IN</option><option value="EASE_OUT">EASE OUT</option></select></label>
@@ -41,7 +41,7 @@
     if(!entries?.length)return `<p class="muted">공개·활성 신화 ${type==='EQUIPMENT'?'장비':'이동수단'}가 없습니다.</p>`;
     return `<div class="table"><div class="tr"><b>보상 / 전투력</b><b>포함</b><b>개별 획득률 (%)</b><b>서버 적용률</b></div>${entries.map(item=>{
       const key=`${type}:${item.id}`,override=item.overrideRatePercent;
-      const checked=group?.mode==='MANUAL'?item.selected:item.enabled!==false;
+      const checked=item.enabled===true;
       return `<div class="tr" data-bmp-power-item="${esc(key)}"><span><b>${esc(item.name||item.code||item.id)}</b><small style="display:block">총 ${Number(item.totalPower||0).toLocaleString()} · PVE ${Number(item.pvePower||0).toLocaleString()} · PVP ${Number(item.pvpPower||0).toLocaleString()}</small></span><label><input type="checkbox" data-bmp-power-enabled ${checked?'checked':''}> 사용</label><input type="number" data-bmp-power-rate min="0.01" max="0.1" step="0.001" value="${override==null?'':Number(override)}" placeholder="AUTO ${Number(item.automaticRatePercent||item.configuredDropRatePercent||0).toFixed(3)}"><span data-bmp-rate-preview data-rate="${Number(item.dropRatePercent||0)}">${item.included?`${Number(item.dropRatePercent||0).toFixed(4)}%`:'제외'}</span></div>`;
     }).join('')}</div>`;
   }
@@ -52,7 +52,7 @@
       const data=await request(),settings=data.settings,power=settings.powerRewards,catalog=data.powerCatalog||{};currentSettings=settings;
       body.innerHTML=`<div class="form-grid"><label>인벤토리 개봉 사용<select id="bmpEnabled"><option value="1">사용</option><option value="0">중지 (드랍 유지)</option></select></label><label>팩 이름<input id="bmpName" value="${esc(settings.name)}"></label><label>미보유 신화 없음 대체 별<input id="bmpFallback" type="number" min="1" value="${Number(settings.fallbackMasterStars)}"></label><label>선택 카드 수 (3~7)<input id="bmpCardCount" type="number" min="3" max="7" step="1" value="${Number(settings.presentation?.cardCount||5)}"></label></div>
       <h3>콘텐츠별 팩 드랍</h3><div class="table"><div class="tr"><b>콘텐츠</b><b>사용</b><b>확률 (%)</b><b>수량</b></div>${Object.entries(sources).map(([key,label])=>`<div class="tr" data-bmp-source="${key}"><span>${label}</span><select><option value="1">ON</option><option value="0">OFF</option></select><input type="number" min="0" max="100" step="0.001" value="${settings.sources[key].rate}"><input type="number" min="1" max="10" value="${settings.sources[key].quantity}"></div>`).join('')}</div>
-      <h3>전투력 기반 초희귀 보상</h3><p class="muted">각 항목은 팩 1개 기준 절대 확률입니다. 총 전투력이 높을수록 자동 획득률이 낮아지며 0.01%~0.1% 안에서 계산됩니다. 실패 구간은 아래 마스터의 별/코인 비중으로 채웁니다.</p><div class="form-grid"><label>전투력 자동 획득<select id="bmpPowerEnabled"><option value="1">AUTO 사용</option><option value="0">LEGACY 25%/15%</option></select></label><label>희귀 보상 합산 상한 (%)<input id="bmpPowerMaxTotal" type="number" min="0.01" max="100" step="0.001" value="${power.maxTotalRatePercent}"></label></div>
+      <h3>전투력 기반 초희귀 보상</h3><p class="muted">신규 신화 장비·이동수단은 자동으로 추가되지 않습니다. 아래에서 직접 체크하고 저장한 항목만 보상에 포함됩니다. 각 항목은 팩 1개 기준 절대 확률입니다. 개별 획득률을 비워 두면 선택한 항목의 총 전투력을 기준으로 0.01%~0.1% 안에서 자동 계산됩니다. 실패 구간은 아래 마스터의 별/코인 비중으로 채웁니다.</p><div class="form-grid"><label>전투력 자동 획득<select id="bmpPowerEnabled"><option value="1">AUTO 사용</option><option value="0">LEGACY 25%/15%</option></select></label><label>희귀 보상 합산 상한 (%)<input id="bmpPowerMaxTotal" type="number" min="0.01" max="100" step="0.001" value="${power.maxTotalRatePercent}"></label></div>
       ${groupControls('Equipment','신화 장비',power.equipment)}${groupControls('Vehicle','신화 이동수단',power.vehicle)}
       <h4>신화 장비 상세 설정</h4>${catalogRows(catalog.equipment,'EQUIPMENT',power.equipment)}<h4>신화 이동수단 상세 설정</h4>${catalogRows(catalog.vehicle,'VEHICLE',power.vehicle)}
       <p id="bmpPowerTotal">현재 서버 적용 희귀 합계: ${Number(data.totalRareRatePercent||0).toFixed(4)}% · 설정 미리보기 ${Number(data.previewTotalRareRatePercent||0).toFixed(4)}%${Number(catalog.excludedByCap||0)>0?` · 합산 상한으로 ${Number(catalog.excludedByCap)}개 제외`:''}</p>
@@ -71,7 +71,7 @@
 
   function readPowerGroup(body,kind){
     const ids=powerControlIds[kind],overrides={},mode=body.querySelector(`#${ids.mode}`).value;
-    body.querySelectorAll(`[data-bmp-power-item^="${kind==='Equipment'?'EQUIPMENT':'VEHICLE'}:"]`).forEach(row=>{const id=row.dataset.bmpPowerItem.split(':').slice(1).join(':'),enabled=row.querySelector('[data-bmp-power-enabled]').checked,rateInput=row.querySelector('[data-bmp-power-rate]'),override={enabled};if(rateInput.value!=='')override.rate=Number(rateInput.value);if(!enabled||rateInput.value!==''||mode==='MANUAL'&&enabled)overrides[id]=override;});
+    body.querySelectorAll(`[data-bmp-power-item^="${kind==='Equipment'?'EQUIPMENT':'VEHICLE'}:"]`).forEach(row=>{const id=row.dataset.bmpPowerItem.split(':').slice(1).join(':'),enabled=row.querySelector('[data-bmp-power-enabled]').checked,rateInput=row.querySelector('[data-bmp-power-rate]'),override={enabled};if(rateInput.value!=='')override.rate=Number(rateInput.value);overrides[id]=override;});
     return {enabled:body.querySelector(`#${ids.enabled}`).value==='1',mode,minRatePercent:numberValue(body,ids.min),maxRatePercent:numberValue(body,ids.max),curve:body.querySelector(`#${ids.curve}`).value,powerFloor:numberValue(body,ids.floor),powerCeiling:numberValue(body,ids.ceiling),maxItems:numberValue(body,ids.maxItems),overrides};
   }
 

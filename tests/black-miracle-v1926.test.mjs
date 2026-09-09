@@ -35,7 +35,7 @@ test('power-derived item rates stay within 0.01%-0.1% and stronger rewards are r
   closeTo(blackMiraclePowerRate(1_000, 100, 1_000, -20, 90), 0.01);
 });
 
-test('automatic power pools are stable, public-only, power-sorted and overrideable', () => {
+test('explicitly selected power pools are stable, public-only, power-sorted and overrideable', () => {
   const rows = [
     { id: 30, name: 'middle', total_power: 550, rarity: 'MYTHIC', is_active: 1, is_public: 1 },
     { id: 20, name: 'floor', totalPower: 100, rarity: 'MYTHIC', isActive: true, isPublic: true },
@@ -53,7 +53,7 @@ test('automatic power pools are stable, public-only, power-sorted and overrideab
     powerFloor: 100,
     powerCeiling: 1_000,
     maxItems: 10,
-    overrides: { 30: { enabled: true, rate: 0.07 } },
+    overrides: { 10: { enabled: true }, 11: { enabled: true }, 20: { enabled: true }, 30: { enabled: true, rate: 0.07 }, 40: { enabled: true }, 50: { enabled: true }, 60: { enabled: true } },
   };
 
   const forward = buildBlackMiraclePowerPool(rows, config, 'EQUIPMENT');
@@ -68,7 +68,7 @@ test('automatic power pools are stable, public-only, power-sorted and overrideab
 
   const disabled = buildBlackMiraclePowerPool(rows, {
     ...config,
-    overrides: { 30: { enabled: false, ratePercent: 0.07 } },
+    overrides: { ...config.overrides, 30: { enabled: false, ratePercent: 0.07 } },
   }, 'EQUIPMENT');
   assert.equal(disabled.some((entry) => entry.id === 30), false, 'an explicit disabled override removes the item');
   assert.deepEqual(buildBlackMiraclePowerPool(rows, { ...config, maxItems: 2 }, 'EQUIPMENT').map((entry) => entry.id), [10, 11]);
@@ -86,10 +86,10 @@ test('release switch lets the CMS setting control opening while preserving rewar
       COIN: { rate: 25, min: 1_000_000, max: 1_000_000 },
     },
   });
-  assert.equal(migrated.powerRewards.enabled, true, 'saved v1485 settings without powerRewards must adopt AUTO');
+  assert.equal(migrated.powerRewards.enabled, true, 'saved v1485 settings keep the power probability model');
   assert.equal(migrated.enabled, true, 'an enabled saved setting must remain enabled after migration');
-  assert.equal(migrated.powerRewards.equipment.mode, 'AUTO');
-  assert.equal(migrated.powerRewards.vehicle.mode, 'AUTO');
+  assert.equal(migrated.powerRewards.equipment.mode, 'MANUAL');
+  assert.equal(migrated.powerRewards.vehicle.mode, 'MANUAL');
 
   const clamped = cleanBlackMiracleSettings({
     powerRewards: {
@@ -255,7 +255,7 @@ test('zero-row equipment and vehicle grants leave the pack untouched and never c
     powerRewards: {
       enabled: true,
       maxTotalRatePercent: 1,
-      equipment: { enabled: true, mode: 'AUTO', minRatePercent: 0.1, maxRatePercent: 0.1 },
+      equipment: { enabled: true, mode: 'AUTO', minRatePercent: 0.1, maxRatePercent: 0.1, overrides: { 101: { enabled: true } } },
       vehicle: { enabled: false },
     },
   };
@@ -276,7 +276,7 @@ test('zero-row equipment and vehicle grants leave the pack untouched and never c
       powerRewards: {
         ...settings.powerRewards,
         equipment: { enabled: false },
-        vehicle: { enabled: true, mode: 'AUTO', minRatePercent: 0.1, maxRatePercent: 0.1 },
+        vehicle: { enabled: true, mode: 'AUTO', minRatePercent: 0.1, maxRatePercent: 0.1, overrides: { 202: { enabled: true } } },
       },
     };
     run('UPDATE app_meta SET value=? WHERE key=?', [JSON.stringify(vehicleSettings), 'black_miracle_pack_settings_v1485']);
@@ -337,9 +337,10 @@ test('live app delegates to the module and deployment cache keys include v1926 a
 
   assert.match(index, /css\/black-miracle-v1485\.css\?v=1926-[^"']+/);
   assert.match(index, /js\/black-miracle-opening-v1926\.js\?v=1926-[^"']+/);
-  assert.match(index, /js\/app\.js\?v=1941-superstar-pack-early-access/);
+  const appVersion=index.match(/js\/app\.js\?v=([^"']+)/)?.[1];
+  assert.ok(appVersion,'the live app must have a versioned URL');
   assert.ok(index.indexOf('black-miracle-opening-v1926.js') < index.indexOf('js/app.js'), 'the opening module must load before app.js');
-  assert.match(worker, /soop-card-shell-v1941-superstar-pack-early-access/);
+  assert.ok(worker.includes('soop-card-shell-v'+appVersion),'app and service worker cache versions must match');
   assert.match(adminLoader, /black-miracle-pack-admin-v1485\.js\?v=1926-[^'";]+/);
 });
 
