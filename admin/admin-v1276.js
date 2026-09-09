@@ -626,7 +626,7 @@ new MutationObserver(removeRetiredCubeAdminUi).observe(document.documentElement,
 removeRetiredCubeAdminUi();
 
 // V1485: dedicated Black Miracle Pack CMS is kept in its own maintainable module.
-{const script=document.createElement('script');script.src='black-miracle-pack-admin-v1485.js?v=1926-black-miracle-power-rates';document.head.append(script)}
+{const script=document.createElement('script');script.src='black-miracle-pack-admin-v1485.js?v=1926-manual-pool-20260909';document.head.append(script)}
 
 // V1973: keep the alchemy CMS independent from the large static admin HTML.
 {

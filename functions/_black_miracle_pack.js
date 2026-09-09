@@ -8,7 +8,7 @@ const MAX_POWER_RATE_PERCENT = 0.1;
 // CMS remains the operational switch so an OWNER can pause opening without
 // affecting drops or already-owned quantities.
 const BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED = true;
-const POWER_GROUP_DEFAULTS = { enabled: true, mode: 'AUTO', minRatePercent: MIN_POWER_RATE_PERCENT, maxRatePercent: MAX_POWER_RATE_PERCENT, curve: 'LINEAR', powerFloor: 0, powerCeiling: 0, maxItems: 0, overrides: {} };
+const POWER_GROUP_DEFAULTS = { enabled: true, mode: 'MANUAL', minRatePercent: MIN_POWER_RATE_PERCENT, maxRatePercent: MAX_POWER_RATE_PERCENT, curve: 'LINEAR', powerFloor: 0, powerCeiling: 0, maxItems: 0, overrides: {} };
 const DEFAULTS = {
   // Opening must fail closed. Drops and owned quantities are controlled separately.
   enabled: false, name: '블랙 미라클 팩', image: IMAGE,
@@ -36,21 +36,20 @@ const randomUnit = (random = Math.random) => { let value = 0; try { value = Numb
 function cleanPowerGroup(raw = {}) {
   const firstRate = number(raw.minRatePercent, MIN_POWER_RATE_PERCENT, MAX_POWER_RATE_PERCENT, MIN_POWER_RATE_PERCENT);
   const secondRate = number(raw.maxRatePercent, MIN_POWER_RATE_PERCENT, MAX_POWER_RATE_PERCENT, MAX_POWER_RATE_PERCENT);
-  const modeValue = String(raw.mode || POWER_GROUP_DEFAULTS.mode).trim().toUpperCase();
   const curveValue = String(raw.curve || POWER_GROUP_DEFAULTS.curve).trim().toUpperCase();
   const overrides = {};
   if (raw.overrides && typeof raw.overrides === 'object' && !Array.isArray(raw.overrides)) {
     for (const [rawId, rawOverride] of Object.entries(raw.overrides)) {
       const id = String(rawId || '').trim().slice(0, 120);
       if (!id || !rawOverride || typeof rawOverride !== 'object') continue;
-      const override = { enabled: bool(rawOverride.enabled, true) };
+      const override = { enabled: bool(rawOverride.enabled, false) };
       const suppliedRate = rawOverride.ratePercent ?? rawOverride.rate;
       if (suppliedRate !== undefined && suppliedRate !== null && suppliedRate !== '') override.rate = number(suppliedRate, MIN_POWER_RATE_PERCENT, MAX_POWER_RATE_PERCENT, MIN_POWER_RATE_PERCENT);
       overrides[id] = override;
     }
   }
   return {
-    enabled: bool(raw.enabled, true), mode: ['AUTO', 'HYBRID', 'MANUAL'].includes(modeValue) ? modeValue : 'AUTO',
+    enabled: bool(raw.enabled, true), mode: 'MANUAL',
     minRatePercent: Math.min(firstRate, secondRate), maxRatePercent: Math.max(firstRate, secondRate),
     curve: ['LINEAR', 'EASE_IN', 'EASE_OUT'].includes(curveValue) ? curveValue : 'LINEAR',
     powerFloor: integer(raw.powerFloor, 0, 1_000_000_000, 0), powerCeiling: integer(raw.powerCeiling, 0, 1_000_000_000, 0),
@@ -71,7 +70,7 @@ export function cleanBlackMiracleSettings(raw = {}) {
     enabled: BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED && bool(raw.enabled, DEFAULTS.enabled), name: String(raw.name || DEFAULTS.name).trim().slice(0, 80), image: String(raw.image || IMAGE).trim().slice(0, 500),
     sources, rewards,
     powerRewards: {
-      // Missing v1485 powerRewards migrates to AUTO. Only explicit false restores legacy 25% / 15% categories.
+      // Item eligibility is always an explicit CMS selection, including legacy reward mode.
       enabled: bool(rawPowerRewards.enabled, true), maxTotalRatePercent: number(rawPowerRewards.maxTotalRatePercent, MIN_POWER_RATE_PERCENT, 100, 5),
       equipment: cleanPowerGroup(rawPowerRewards.equipment || {}), vehicle: cleanPowerGroup(rawPowerRewards.vehicle || {}),
     },
@@ -107,13 +106,14 @@ function comparePowerEntries(left, right) { if (right.totalPower !== left.totalP
 
 export function buildBlackMiraclePowerPool(rows = [], config = {}, type = 'EQUIPMENT') {
   const settings = cleanPowerGroup(config || {}); if (!settings.enabled) return [];
-  const candidates = (Array.isArray(rows) ? rows : []).map((row) => powerRow(row, type)).filter(Boolean).sort(comparePowerEntries); if (!candidates.length) return [];
+  const candidates = (Array.isArray(rows) ? rows : []).map((row) => powerRow(row, type)).filter(Boolean)
+    .filter((entry) => (settings.overrides[String(entry.id)] || settings.overrides[entry.code])?.enabled === true)
+    .sort(comparePowerEntries); if (!candidates.length) return [];
   const autoFloor = Math.min(...candidates.map((entry) => entry.totalPower)); const autoCeiling = Math.max(...candidates.map((entry) => entry.totalPower));
   const floor = settings.powerFloor > 0 ? settings.powerFloor : autoFloor; const ceiling = settings.powerCeiling > 0 ? Math.max(floor, settings.powerCeiling) : Math.max(floor, autoCeiling);
   const selected = [];
   for (const entry of candidates) {
     const override = settings.overrides[String(entry.id)] || settings.overrides[entry.code];
-    if (override?.enabled === false || (settings.mode === 'MANUAL' && !override)) continue;
     const automaticRate = blackMiraclePowerRate(entry.totalPower, floor, ceiling, settings.minRatePercent, settings.maxRatePercent, settings.curve);
     selected.push({ ...entry, dropRatePercent: roundedRate(override?.rate === undefined ? automaticRate : override.rate), automaticRatePercent: automaticRate, overridden: override?.rate !== undefined });
   }
@@ -156,7 +156,7 @@ async function ensure(env) {
   })().catch((error) => { ready = null; throw error; }); return ready;
 }
 export async function blackMiracleSettings(env, { fresh = false } = {}) { void fresh; await ensure(env); const row = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first(); const settings = cleanBlackMiracleSettings(parse(row?.value, DEFAULTS)); return { ...settings, enabled: BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED && settings.enabled }; }
-export async function saveBlackMiracleSettings(env, raw) { const settings = cleanBlackMiracleSettings(raw); const total = Object.values(settings.rewards).reduce((sum, value) => sum + value.rate, 0); const fillerTotal = settings.rewards.MASTER_STAR.rate + settings.rewards.COIN.rate; if (!settings.powerRewards.enabled && Math.abs(total - 100) > 0.0001) throw new Error(`LEGACY 팩 내부 보상 확률 합계는 100%여야 합니다. 현재 ${total}%입니다.`); if (settings.powerRewards.enabled && fillerTotal <= 0) throw new Error('AUTO 모드의 실패 보상은 마스터의 별 또는 코인 가중치가 1개 이상 필요합니다.'); await ensure(env); await env.DB.batch([env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(SETTINGS_KEY, JSON.stringify(settings)), env.DB.prepare('UPDATE inventory_items SET name=?,image_url=?,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(settings.name, settings.image, ITEM_CODE) ]); invalidateRuntimeData(env, BM_CATALOG_CACHE_KEY); return settings; }
+export async function saveBlackMiracleSettings(env, raw) { const settings = cleanBlackMiracleSettings(raw); const total = Object.values(settings.rewards).reduce((sum, value) => sum + value.rate, 0); const fillerTotal = settings.rewards.MASTER_STAR.rate + settings.rewards.COIN.rate; if (!settings.powerRewards.enabled && Math.abs(total - 100) > 0.0001) throw new Error(`LEGACY 팩 내부 보상 확률 합계는 100%여야 합니다. 현재 ${total}%입니다.`); if (settings.powerRewards.enabled && fillerTotal <= 0) throw new Error('전투력 확률 모드의 실패 보상은 마스터의 별 또는 코인 가중치가 1개 이상 필요합니다.'); await ensure(env); await env.DB.batch([env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(SETTINGS_KEY, JSON.stringify(settings)), env.DB.prepare('UPDATE inventory_items SET name=?,image_url=?,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(settings.name, settings.image, ITEM_CODE) ]); invalidateRuntimeData(env, BM_CATALOG_CACHE_KEY); return settings; }
 
 function capPowerPool(entries, maxTotalRatePercent) {
   const configured = [...entries].sort((left, right) => { const byPower = comparePowerEntries(left, right); return byPower !== 0 ? byPower : String(left.type).localeCompare(String(right.type)); });
@@ -186,12 +186,12 @@ async function blackMiraclePowerCatalogRows(env, { fresh = false } = {}) {
   return cacheRuntimeData(env, BM_CATALOG_CACHE_KEY, { equipmentRows: equipmentResult.results || [], vehicleRows: vehicleResult.results || [] }, 120000);
 }
 
-async function blackMiraclePowerCatalog(env, settings, { fresh = false } = {}) {
+export async function blackMiraclePowerCatalog(env, settings, { fresh = false } = {}) {
   const { equipmentRows, vehicleRows } = await blackMiraclePowerCatalogRows(env, { fresh });
   const configuredEquipment = buildBlackMiraclePowerPool(equipmentRows, settings.powerRewards.equipment, 'EQUIPMENT'); const configuredVehicles = buildBlackMiraclePowerPool(vehicleRows, settings.powerRewards.vehicle, 'VEHICLE');
   const capped = capPowerPool([...configuredEquipment, ...configuredVehicles], settings.powerRewards.maxTotalRatePercent);
   const configuredMap = new Map([...configuredEquipment, ...configuredVehicles].map((entry) => [`${entry.type}:${entry.id}`, entry])); const effectiveMap = new Map(capped.pool.map((entry) => [`${entry.type}:${entry.id}`, entry]));
-  const decorate = (rows, group, type) => buildBlackMiraclePowerPool(rows, { ...group, enabled: true, mode: 'AUTO', maxItems: 0, overrides: {} }, type).map((entry) => { const key = `${type}:${entry.id}`; const configuredEntry = configuredMap.get(key); const effectiveEntry = effectiveMap.get(key); const override = group.overrides[String(entry.id)] || group.overrides[entry.code]; return { ...entry, enabled: override?.enabled !== false, selected: Boolean(configuredEntry), included: Boolean(effectiveEntry), overrideRatePercent: override?.rate ?? null, configuredDropRatePercent: configuredEntry?.dropRatePercent ?? entry.dropRatePercent, dropRatePercent: effectiveEntry?.dropRatePercent ?? 0 }; });
+  const decorate = (rows, group, type) => buildBlackMiraclePowerPool(rows, { ...group, enabled: true, mode: 'MANUAL', maxItems: 0, overrides: Object.fromEntries(rows.map((row) => [String(row.id), { enabled: true }])) }, type).map((entry) => { const key = `${type}:${entry.id}`; const configuredEntry = configuredMap.get(key); const effectiveEntry = effectiveMap.get(key); const override = group.overrides[String(entry.id)] || group.overrides[entry.code]; return { ...entry, enabled: override?.enabled === true, selected: Boolean(configuredEntry), included: Boolean(effectiveEntry), overrideRatePercent: override?.rate ?? null, configuredDropRatePercent: configuredEntry?.dropRatePercent ?? entry.dropRatePercent, dropRatePercent: effectiveEntry?.dropRatePercent ?? 0 }; });
   return { equipment: decorate(equipmentRows, settings.powerRewards.equipment, 'EQUIPMENT'), vehicle: decorate(vehicleRows, settings.powerRewards.vehicle, 'VEHICLE'), pool: capped.pool, totalRareRatePercent: settings.powerRewards.enabled ? capped.totalRareRatePercent : 0, previewTotalRareRatePercent: capped.totalRareRatePercent, configuredTotalRareRatePercent: capped.configuredTotalRareRatePercent, rateScale: capped.rateScale, excludedByCap: capped.excludedByCap, maxTotalRatePercent: settings.powerRewards.maxTotalRatePercent };
 }
 
@@ -225,8 +225,8 @@ async function chooseOpenReward(env, settings, catalog, userId) {
     return fillerReward(settings, outcome.type);
   }
   const outcome = rollBlackMiracleOutcome(settings, [], Math.random);
-  if (outcome.type === 'MYTHIC_EQUIPMENT') { const candidates = catalog.equipment; const selected = randomEntry(candidates); if (selected) return itemReward('MYTHIC_EQUIPMENT', selected, settings.rewards.MYTHIC_EQUIPMENT.rate / candidates.length); }
-  if (outcome.type === 'MYTHIC_VEHICLE') { const candidates = catalog.vehicle.filter((entry) => !ownedVehicleIds.has(String(entry.id))); const selected = randomEntry(candidates); if (selected) return itemReward('MYTHIC_VEHICLE', selected, settings.rewards.MYTHIC_VEHICLE.rate / candidates.length); }
+  if (outcome.type === 'MYTHIC_EQUIPMENT') { const candidates = catalog.equipment.filter((entry) => entry.selected); const selected = randomEntry(candidates); if (selected) return itemReward('MYTHIC_EQUIPMENT', selected, settings.rewards.MYTHIC_EQUIPMENT.rate / candidates.length); }
+  if (outcome.type === 'MYTHIC_VEHICLE') { const candidates = catalog.vehicle.filter((entry) => entry.selected && !ownedVehicleIds.has(String(entry.id))); const selected = randomEntry(candidates); if (selected) return itemReward('MYTHIC_VEHICLE', selected, settings.rewards.MYTHIC_VEHICLE.rate / candidates.length); }
   if (outcome.type === 'COIN') return fillerReward(settings, 'COIN'); if (outcome.type === 'MASTER_STAR') return fillerReward(settings, 'MASTER_STAR'); return fillerReward(settings, 'MASTER_STAR', settings.fallbackMasterStars);
 }
 function openGuardSql(status = 'CLAIMED') { const safeStatus = status === 'REWARDED' ? 'REWARDED' : 'CLAIMED'; return `EXISTS(SELECT 1 FROM black_miracle_pack_open_receipts r WHERE r.request_id=? AND r.user_id=? AND r.status='${safeStatus}') AND EXISTS(SELECT 1 FROM cnine_user_inventory p WHERE p.user_id=? AND p.item_code=? AND p.quantity=?)`; }
