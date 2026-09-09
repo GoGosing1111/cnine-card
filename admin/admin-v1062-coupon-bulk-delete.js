@@ -8,6 +8,7 @@
     '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'
   })[ch]);
   const number=value=>Number(value||0).toLocaleString('ko-KR');
+  const rewardLabels={COIN:'코인',MASTER_STAR:'마스터의 별',PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',HIGH_GRADE_REROLL_TICKET:'고등급 재뽑기권',PINGDU_WISH_TICKET:'핑두의 소원권'};
   const shortDate=value=>value?String(value).replace('T',' ').replace(/\.000Z$/,'').slice(0,16):'제한 없음';
 
   function statusOf(coupon){
@@ -47,7 +48,7 @@
       return `<div class="couponBulkRow" data-coupon-row="${id}">
         <label class="couponBulkCheck" title="${escapeHtml(coupon.code)} 선택"><input type="checkbox" data-coupon-select="${id}"><span></span></label>
         <div class="couponBulkCode"><small>COUPON CODE</small><b>${escapeHtml(coupon.code)}</b><em>#${id}</em></div>
-        <div class="couponBulkReward"><small>보상 코인</small><strong>${number(coupon.reward_coin)}</strong></div>
+        <div class="couponBulkReward"><small>${escapeHtml(rewardLabels[String(coupon.reward_type||'COIN').toUpperCase()]||'보상')}</small><strong>${number(coupon.reward_amount||coupon.reward_coin||0)}</strong></div>
         <div class="couponBulkUsage"><small>사용 현황</small><b>${number(coupon.used_count)} / ${number(coupon.max_uses)}</b><div><i style="width:${Math.min(100,Math.max(0,(Number(coupon.used_count||0)/Math.max(1,Number(coupon.max_uses||1)))*100))}%"></i></div></div>
         <div class="couponBulkPeriod"><small>사용 기간</small><span>${shortDate(coupon.starts_at)}</span><span>${shortDate(coupon.ends_at)}</span></div>
         <div class="couponBulkActions"><span class="couponBulkStatus ${status.className}">${status.label}</span><button type="button" class="ghost" data-coupon-toggle="${id}" data-next-active="${Number(coupon.is_active)===1?'0':'1'}">${Number(coupon.is_active)===1?'중지':'재개'}</button></div>

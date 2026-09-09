@@ -4,6 +4,8 @@ import { handleEvolution } from '../_evolution.js';
 import { handleStreamerLounge } from '../_streamer_lounge.js';
 import { handlePlayerCard } from '../_player_card.js';
 import { handleSoopketLand, redeemLandCoupon } from '../_soopket_land.js';
+import { ensureWishLamp } from '../_wish_lamp.js';
+import { redeemWishTicketCoupon } from '../_wish_lamp_coupon.js';
 import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
 import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2,estimateApocalypseRecommendedPower } from '../_battle_v2_preview.js';
@@ -456,8 +458,8 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮',inventory:true,max:100000,messageType:'ITEM_REWARD'}
 };
 function verifiedMessageRewardSpec(value){const type=String(value||'').trim().toUpperCase();return VERIFIED_MESSAGE_REWARD_TYPES[type]?{type,...VERIFIED_MESSAGE_REWARD_TYPES[type]}:null}
-const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000};
-function couponRewardSpec(value){const spec=verifiedMessageRewardSpec(value);return spec?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
+const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_WISH_TICKET:100000};
+function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_WISH_TICKET'?{type,label:'핑두의 소원권',inventory:true}:verifiedMessageRewardSpec(type);return spec?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
   if(verifiedRewardMessageV1276ReadyPromise)return verifiedRewardMessageV1276ReadyPromise;
@@ -7528,6 +7530,7 @@ async function handleRequest(context){
       const landCoupon=await redeemLandCoupon({env,user,body:payload,deps:{json,profile,isRandomDrawExcluded}});if(landCoupon)return landCoupon;
       const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
+      const wishCoupon=await redeemWishTicketCoupon({env,user,coupon,body:payload,deps:{json,profile}});if(wishCoupon)return wishCoupon;
       const requestedKey=String(payload.operationKey||'').trim(),operationKey=/^[A-Za-z0-9:_-]{8,120}$/.test(requestedKey)?requestedKey:`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;
       const priorReceipt=await env.DB.prepare('SELECT reward_type,reward_amount FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?').bind(coupon.id,user.id,operationKey).first();
       if(priorReceipt){const priorType=String(priorReceipt.reward_type||'COIN').toUpperCase(),priorAmount=Number(priorReceipt.reward_amount||0),priorSpec=verifiedMessageRewardSpec(priorType),updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,replayed:true,rewardType:priorType,rewardAmount:priorAmount,rewardLabel:priorSpec?.label||'쿠폰 보상',rewardCoin:priorType==='COIN'?priorAmount:0,message:`${priorSpec?.label||'쿠폰 보상'} ${priorAmount.toLocaleString()}개를 받았습니다.`,user:await profile(env,updated)})}
@@ -7951,6 +7954,7 @@ async function handleRequest(context){
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
       if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
       if(!Number.isInteger(maxUses)||maxUses<1||maxUses>1000000)return json({error:'전체 최대 사용 횟수를 확인하세요.'},400);
+      if(rewardType==='PINGDU_WISH_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureWishLamp(env)}
       await releaseDeletedCouponCode(env,code,admin.id);
       const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
       if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
@@ -7977,9 +7981,10 @@ async function handleRequest(context){
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=couponRewardSpec(rewardType);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
-        if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
+        if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_WISH_TICKET'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
+        if(rewardType==='PINGDU_WISH_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureWishLamp(env)}
         await releaseDeletedCouponCode(env,code,admin.id);
         const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
         if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
