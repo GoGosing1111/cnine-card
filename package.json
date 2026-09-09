@@ -16,6 +16,8 @@
     "build:v3": "esbuild preview/project-v-v3/source/project-v-pixi-battle.src.js --bundle --minify --format=iife --outfile=preview/project-v-v3/project-v-pixi-battle.bundle.js",
     "build:idle-v3-preview": "node scripts/build-idle-v3-preview-v1.mjs",
     "build:scrapyard-v3-preview": "node scripts/build-scrapyard-v3-preview-v1.mjs",
+    "build:cow-room-v3": "node scripts/build-cow-room-v3-v1.mjs",
+    "test:cow-room-v3": "node --test tests/cow-room-v3-v1.test.mjs",
     "build:v3-wide-grid-preview": "node scripts/build-v3-wide-grid-preview-v1.mjs",
     "test:v3-wide-grid": "node --test tests/v3-wide-grid-preview-v1.test.mjs",
     "test:scrapyard-v3": "node --test tests/scrapyard-v3-preview-v1.test.mjs tests/scrapyard-v3-server-v1.test.mjs tests/pve-continuous-session-v1.test.mjs",

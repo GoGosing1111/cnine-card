@@ -15,11 +15,10 @@ export class BattleEngine extends LiveBattleEngine {
     this.boss = this.currentEnemyTarget;
     return this;
   }
-  async loadBattlefieldTexture() {
-    return Assets.load('/assets/ui/scrapyard/scrapyard-arena-v1676.png');
-  }
+  get battlefieldAsset() { return '/assets/ui/scrapyard/scrapyard-arena-v1676.png'; }
+  async loadBattlefieldTexture() { return Assets.load(this.battlefieldAsset); }
   async applyBattlePayload(payload) {
-    const config = payload.scrapyardPreview;
+    const config = payload.continuousEncounter || payload.scrapyardPreview;
     if (!config) throw new Error('SCRAPYARD_PREVIEW_PAYLOAD_REQUIRED');
     this.instances = new Map(config.instances.map(row => [row.id, row]));
     this.retiredIds = new Set();
@@ -55,7 +54,7 @@ export class BattleEngine extends LiveBattleEngine {
     actor.fullBodySprite.position.set(0, 0); actor.fullBodySprite.rotation = 0;
     actor.fullBodySprite.alpha = 1;
     actor.id = row.id; actor.cardId = row.cardId; actor.name = row.name;
-    actor.nameLabel.text = row.boss ? row.name : `기어죠 ${row.id.split(':').at(-1)}`;
+    actor.nameLabel.text = row.displayName || (row.boss ? row.name : `기어죠 ${row.id.split(':').at(-1)}`);
     actor.serverMaxHp = row.maxHp; actor.serverMaxShield = row.maxShield || 0;
     actor.startingShield = row.shield || 0; actor.startingMaxShield = row.maxShield || 0;
     actor.texture = this.spriteTextures.get(row.battleSprite);
@@ -78,7 +77,7 @@ export class BattleEngine extends LiveBattleEngine {
   }
   combatantById(value) {
     const id = String(value?.id || value || '');
-    if (id.startsWith('B:') && id.includes(':SCRAP:')) return this.enemies.find(actor => actor.id === id) || null;
+    if (id.startsWith('B:') && (id.includes(':SCRAP:') || id.includes(':ENCOUNTER:'))) return this.enemies.find(actor => actor.id === id) || null;
     return super.combatantById(value);
   }
   advancePace(type) { super.advancePace(type); this.paceScale = this.previewSpeed || 1; }
@@ -93,7 +92,7 @@ export class BattleEngine extends LiveBattleEngine {
     const row = this.instances.get(event.targetId);
     if (!row || this.isAlive(this.enemies[row.slot])) throw new Error('ENEMY_SPAWN_SLOT_NOT_EMPTY');
     const actor = this.bindMonster(row);
-    if (row.boss) await this.showBanner('고철군주 브레이커', 0xffa750, 'FINAL TARGET / BOSS');
+    if (row.boss) await this.showBanner(row.name, 0xffa750, 'FINAL TARGET / BOSS');
     if (epoch !== this.playbackEpoch || !this.visible) return false;
     // GSAP timeline owned by the shared engine. No autonomous ticker/timer.
     const fx = new Container({label: 'SCRAPYARD_SPAWN_DUST'});
@@ -160,7 +159,7 @@ export class BattleEngine extends LiveBattleEngine {
         neutralRotation: actor.neutralAvatarPose.rotation, sprite: this.instances.get(actor.id)?.battleSprite}))};
   }
   diagnostics() {
-    return {...super.diagnostics(), previewBattlefieldAsset: '/assets/ui/scrapyard/scrapyard-arena-v1676.png',
+    return {...super.diagnostics(), previewBattlefieldAsset: this.battlefieldAsset,
       scrapyard: this.scrapyardState()};
   }
 }
