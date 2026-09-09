@@ -5,6 +5,22 @@ const SETTINGS_KEY = 'raid_core_protocol_settings_v2024';
 const LEGACY_SETTINGS_KEY = 'raid_core_protocol_settings_v2021';
 const FOUNDATION_KEY = 'raid_core_protocol_foundation_v2026';
 const ROOM_TABLE = 'raid_core_rooms_v2024';
+const CLAN_ROOM_TABLE = 'raid_core_clan_rooms_v1';
+const CURRENT_CLAN_SEASON_SQL = "SELECT id FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC,id DESC LIMIT 1";
+const SAME_CLAN_SQL = 'SELECT 1 FROM clan_members host JOIN clan_members guest ON guest.season_id=host.season_id AND guest.clan_id=host.clan_id ' +
+  'WHERE host.user_id=? AND guest.user_id=? AND host.season_id=(' + CURRENT_CLAN_SEASON_SQL + ')';
+
+async function currentClanMember(env, userId) {
+  return env.DB.prepare('SELECT clan_id FROM clan_members WHERE user_id=? AND season_id=(' + CURRENT_CLAN_SEASON_SQL + ')').bind(userId).first();
+}
+
+async function isClanRoom(env, roomId) {
+  return Boolean(await env.DB.prepare('SELECT 1 restricted FROM ' + CLAN_ROOM_TABLE + ' WHERE room_id=?').bind(roomId).first());
+}
+
+async function sameCurrentClan(env, hostId, userId) {
+  return Boolean(await env.DB.prepare(SAME_CLAN_SQL).bind(hostId, userId).first());
+}
 const MEMBER_TABLE = 'raid_core_members_v2024';
 const ACTIVE_MEMBER_TABLE = 'raid_core_active_members_v2024';
 const ATTEMPT_TABLE = 'raid_core_attempts_v2024';
@@ -985,6 +1001,13 @@ function schemaStatements(env) {
 }
 
 async function ensure(env) {
+  // Independent additive schema: existing foundation markers must also receive this table.
+  if (!readRuntimeData(env, CLAN_ROOM_TABLE)) {
+    const sql = 'CREATE TABLE IF NOT EXISTS ' + CLAN_ROOM_TABLE + '(room_id TEXT PRIMARY KEY)';
+    if (env.DB?.dialect === 'postgres' && typeof env.DB.execSchema === 'function') await env.DB.execSchema([sql]);
+    else await env.DB.prepare(sql).run();
+    cacheRuntimeData(env, CLAN_ROOM_TABLE, true, 1800000);
+  }
   if (readRuntimeData(env, FOUNDATION_KEY)) return true;
   const marker = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FOUNDATION_KEY).first();
   if (marker?.value === '1') return cacheRuntimeData(env, FOUNDATION_KEY, true, 1800000);
@@ -1091,7 +1114,7 @@ async function refreshRoom(env, row, cfg) {
     };
   }
   if (TERMINAL_ROOM_STATUSES.has(state.status)) await releaseTerminalMemberships(env, row.room_id);
-  return { ...row, aggregate: { ...state, participantCount } };
+  return { ...row, clanOnly: await isClanRoom(env, row.room_id), aggregate: { ...state, participantCount } };
 }
 
 async function roomById(env, roomId, cfg) {
@@ -1120,7 +1143,7 @@ async function latestRoomForUser(env, userId, cfg) {
   return refreshRoom(env, row, cfg);
 }
 
-async function availableRooms(env, cfg) {
+async function availableRooms(env, cfg, userId) {
   const rows = (await env.DB.prepare(
     'SELECT r.*,(SELECT COUNT(*) FROM ' + MEMBER_TABLE + ' m WHERE m.room_id=r.room_id) live_count FROM ' +
     ROOM_TABLE + " r WHERE r.status='LOBBY' ORDER BY r.created_at ASC LIMIT 20"
@@ -1143,10 +1166,13 @@ async function availableRooms(env, cfg) {
     }
     if (TERMINAL_ROOM_STATUSES.has(state.status)) await releaseTerminalMemberships(env, row.room_id);
     if (state.status === 'LOBBY' && participantCount < cfg.maxParticipants) {
+      const clanOnly = await isClanRoom(env, row.room_id);
       output.push({
         id: row.room_id,
         code: row.room_code,
         hostUserId: Number(row.host_user_id),
+        clanOnly,
+        canJoin: !clanOnly || await sameCurrentClan(env, row.host_user_id, userId),
         participantCount,
         maxParticipants: cfg.maxParticipants,
         lobbyEndsAt: row.lobby_ends_at
@@ -1182,6 +1208,7 @@ function publicRoom(room, cfg) {
     id: room.room_id,
     code: room.room_code,
     hostUserId: Number(room.host_user_id),
+    clanOnly: room.clanOnly === true,
     isTerminal: TERMINAL_ROOM_STATUSES.has(state.status),
     status: state.status,
     phase: state.phase,
@@ -1263,7 +1290,7 @@ async function statusPayload(env, user, cfg, requestedId = '', browseOnly = fals
     me,
     participants: members,
     pendingAttempt,
-    rooms: room ? [] : await availableRooms(env, cfg),
+    rooms: room ? [] : await availableRooms(env, cfg, user.id),
     entry: {
       ticketCode: CORE_RAID_ENTRY_TICKET,
       ticketName: '붕괴 코어 입장권',
@@ -1340,6 +1367,10 @@ async function failReceipt(env, requestId, userId, error) {
 }
 
 async function openRoom(env, user, cfg, body) {
+  if (body.clanOnly !== undefined && typeof body.clanOnly !== 'boolean') {
+    return { error: '클랜원만 참여 설정이 올바르지 않습니다.', status: 400 };
+  }
+  const clanOnly = body.clanOnly === true;
   const requestId = cleanText(body.requestId, 120);
   if (!requestId) return { error: '공대 생성 요청 ID가 필요합니다.', status: 400 };
   const active = await activeRoomForUser(env, user.id, cfg);
@@ -1357,12 +1388,16 @@ async function openRoom(env, user, cfg, body) {
   const roomCode = roomId.replace(/[^A-Z0-9]/g, '').slice(-6).padStart(6, '0');
   const lobbyEndsAt = plusMinutesIso(cfg.lobbyMinutes);
   try {
+    if (clanOnly && !await currentClanMember(env, user.id)) {
+      throw Object.assign(new Error('현재 클랜 소속이 있어야 클랜 전용 공대를 만들 수 있습니다.'), { status: 403 });
+    }
     await env.DB.batch([
       env.DB.prepare(
         'INSERT INTO ' + ACTIVE_MEMBER_TABLE + '(user_id,room_id) ' +
         'SELECT ?,? WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1) ' +
+        (clanOnly ? 'AND EXISTS(' + SAME_CLAN_SQL + ') ' : '') +
         'ON CONFLICT(user_id) DO NOTHING'
-      ).bind(user.id, roomId, user.id, CORE_RAID_ENTRY_TICKET),
+      ).bind(user.id, roomId, user.id, CORE_RAID_ENTRY_TICKET, ...(clanOnly ? [user.id, user.id] : [])),
       env.DB.prepare(
         'INSERT INTO ' + ROOM_TABLE +
         '(room_id,room_code,host_user_id,status,party_hp,party_max_hp,core_target,boss_hp,boss_max_hp,participant_count,lobby_ends_at) ' +
@@ -1381,6 +1416,7 @@ async function openRoom(env, user, cfg, body) {
         user.id,
         roomId
       ),
+      ...(clanOnly ? [env.DB.prepare('INSERT INTO ' + CLAN_ROOM_TABLE + ' (room_id) SELECT room_id FROM ' + ROOM_TABLE + ' WHERE room_id=?').bind(roomId)] : []),
       env.DB.prepare(
         'UPDATE cnine_user_inventory SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP ' +
         'WHERE user_id=? AND item_code=? AND quantity>=1 AND EXISTS(SELECT 1 FROM ' + ROOM_TABLE + ' WHERE room_id=?)'
@@ -1422,17 +1458,22 @@ async function joinRoom(env, user, cfg, body) {
   if (active) return { error: '이미 다른 붕괴 코어 공대에 참가 중입니다.', status: 409 };
   const room = await roomById(env, roomId, cfg);
   if (!room || room.status !== 'LOBBY') return { error: '참가 가능한 공대가 아닙니다.', status: 409 };
+  if (room.clanOnly && !await sameCurrentClan(env, room.host_user_id, user.id)) {
+    return { error: '공대장과 현재 같은 클랜인 계정만 참가할 수 있습니다.', status: 403 };
+  }
   await env.DB.batch([
     env.DB.prepare(
       'INSERT INTO ' + ACTIVE_MEMBER_TABLE + '(user_id,room_id) SELECT ?,? WHERE EXISTS(' +
       'SELECT 1 FROM ' + ROOM_TABLE + " WHERE room_id=? AND status='LOBBY') AND (" +
-      'SELECT COUNT(*) FROM ' + MEMBER_TABLE + ' WHERE room_id=?)<? ON CONFLICT(user_id) DO NOTHING'
-    ).bind(user.id, roomId, roomId, roomId, cfg.maxParticipants),
+      'SELECT COUNT(*) FROM ' + MEMBER_TABLE + ' WHERE room_id=?)<? ' +
+      (room.clanOnly ? 'AND EXISTS(' + SAME_CLAN_SQL + ') ' : '') + 'ON CONFLICT(user_id) DO NOTHING'
+    ).bind(user.id, roomId, roomId, roomId, cfg.maxParticipants, ...(room.clanOnly ? [room.host_user_id, user.id] : [])),
     env.DB.prepare(
       'INSERT INTO ' + MEMBER_TABLE + '(room_id,user_id) SELECT ?,? WHERE EXISTS(' +
       'SELECT 1 FROM ' + ACTIVE_MEMBER_TABLE + ' WHERE user_id=? AND room_id=?) ' +
+      (room.clanOnly ? 'AND EXISTS(' + SAME_CLAN_SQL + ') ' : '') +
       'ON CONFLICT(room_id,user_id) DO NOTHING'
-    ).bind(roomId, user.id, user.id, roomId),
+    ).bind(roomId, user.id, user.id, roomId, ...(room.clanOnly ? [room.host_user_id, user.id] : [])),
     env.DB.prepare(
       'UPDATE ' + ROOM_TABLE + ' SET participant_count=(SELECT COUNT(*) FROM ' + MEMBER_TABLE +
       ' WHERE room_id=?),updated_at=CURRENT_TIMESTAMP WHERE room_id=?'
@@ -1441,7 +1482,11 @@ async function joinRoom(env, user, cfg, body) {
   const joined = await env.DB.prepare(
     'SELECT 1 joined FROM ' + MEMBER_TABLE + ' WHERE room_id=? AND user_id=?'
   ).bind(roomId, user.id).first();
-  if (!joined) return { error: '공대 정원이 가득 찼거나 다른 공대에 참가 중입니다.', status: 409 };
+  if (!joined) {
+    await env.DB.prepare('DELETE FROM ' + ACTIVE_MEMBER_TABLE + ' WHERE user_id=? AND room_id=? AND NOT EXISTS(' +
+      'SELECT 1 FROM ' + MEMBER_TABLE + ' WHERE room_id=? AND user_id=?)').bind(user.id, roomId, roomId, user.id).run();
+    return { error: '공대 정원·클랜 소속·참가 상태가 변경되었습니다. 새로고침 후 다시 시도해 주세요.', status: 409 };
+  }
   return { response: await statusPayload(env, user, cfg, roomId) };
 }
 
