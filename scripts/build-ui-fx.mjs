@@ -1,5 +1,6 @@
 import {build} from 'esbuild';
 const targets={
+  wish:'js/wish-lamp-fx-v2077',
   hyper:'js/hyper-pack-fx-v2076',
   prime:'js/prime-draw-live-v1985',
   soopketland:'js/soopketland-v2039',

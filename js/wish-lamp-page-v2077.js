@@ -1,0 +1,59 @@
+import {WISH_CHOICES,WISH_REWARDS,WISH_LAMP_IMAGE,cleanWishSettings,wishChoicePool} from './wish-lamp-model-v2077.js';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>n===null||n===undefined?'미설정':Number(n).toLocaleString('ko-KR');
+const pct=n=>n===null||n===undefined?'미설정':`${Number(n.toFixed(4))}%`;
+const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',hour12:false}):'기간 미설정';
+const phaseNames={HIDDEN:'이벤트 준비 중',UNCONFIGURED:'설정 준비 중',PAUSED:'잠시 쉬어가는 중',SCHEDULED:'오픈 예정',ENDED:'종료된 이벤트',OPEN:'소원을 빌 시간'};
+const scripts=new Map();
+function loadScript(url){if(!scripts.has(url))scripts.set(url,new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=url;s.onload=resolve;s.onerror=()=>reject(new Error('연출 파일을 불러오지 못했습니다.'));document.head.append(s)}));return scripts.get(url)}
+function fixture(){const s=cleanWishSettings({visible:true,enabled:false,startsAt:'2026-09-01T00:00:00Z',endsAt:'2027-01-01T00:00:00Z',coinCost:500000000,ticketCost:1,choices:Object.fromEntries(WISH_CHOICES.map(c=>[c.id,{rates:{...Object.fromEntries(c.keys.map(k=>[k,50/c.keys.length])),MISS:50}}]))});return {userId:0,phase:'OPEN',coinCost:s.coinCost,ticketCost:s.ticketCost,coin:5000000000,tickets:10,choices:WISH_CHOICES.map(c=>wishChoicePool(s,c.id)),startsAt:null,endsAt:null,serverNow:new Date().toISOString(),history:[]}}
+export async function startWishLamp({preview=false}={}){
+ if(preview&&!location.pathname.startsWith('/preview/wish-lamp-v1'))throw new Error('미리보기 전용 경로가 아닙니다.');
+ let state,choice='VEHICLE',busy=false,fxReady=false,pending=null,fx,disposed=false,clockOffset=0,lastRefresh=0,previewIndex=0;
+ const main=document.getElementById('wishApp');
+ main.innerHTML=`<div class="wish-page"><header class="wish-top"><a class="wish-brand" href="/?screen=home">SOOPKETMON <span>/ WISH ARCHIVE</span></a><span class="wish-status" id="wishStatus">${preview?'연출 미리보기 · 실제 지급 없음':'이벤트 확인 중'}</span></header><section class="wish-intro"><div><p class="wish-eyebrow">A LITTLE WISH, AN EXTRAORDINARY GIFT</p><h1>핑두의 <span>소원램프</span></h1><p>간절한 마음을 담아 램프를 깨워보세요.<br>당신이 고른 소원에, 특별한 선물이 찾아옵니다.</p></div><div class="wish-clock"><span id="wishDates">${preview?'일정·비용·확률은 모두 검수용 예시':'기간을 확인하고 있습니다'}</span><strong id="wishCountdown">—</strong></div></section>${preview?'<div class="wish-preview-toolbar"><b>연출 검수</b><label>결과 <select id="wishPreviewResult"><option value="WIN">소원 성취</option><option value="MISS">꽝</option></select></label><span>실제 결제·소원권 차감 없음</span></div>':''}<section class="wish-layout"><aside class="wish-choices"><h2>01 &nbsp; 어떤 소원을 빌까요?<small>종류를 먼저 선택해주세요</small></h2>${WISH_CHOICES.map((c,i)=>`<button class="wish-choice" data-choice="${c.id}" aria-pressed="${i===0}"><span class="choice-num">0${i+1}</span><span><b>${c.name}</b><small>${c.caption}</small></span><i class="choice-dot"></i></button>`).join('')}<p class="wish-help">선택한 종류의 아이템 <b>1개</b> 또는 꽝이 등장합니다.<br>이동수단은 보유한 차량을 제외합니다. 모두 보유했다면 다른 소원을 골라주세요.</p><a class="wish-back" href="/?screen=home">← 로비로 가기</a></aside><div><div class="wish-theatre"><div class="wish-stage-top"><span id="wishPhase">AWAKEN YOUR WISH</span><span>THE LAMP OF PINGDU</span></div><div id="wishStage" role="img" aria-label="핑두의 소원램프 연출"></div><div class="wish-theatre-bottom"><button id="wishPause" disabled>일시정지</button><button id="wishSkip" disabled>결과 바로 보기</button></div></div><div class="wish-cost"><div class="wish-cost-copy">한 번의 소원에 필요한 재화<strong id="wishPrice">설정 확인 중</strong><span id="wishBalance">보유량 확인 중</span></div><button class="wish-submit" id="wishSubmit" disabled>소원 빌기</button></div><p class="wish-message" id="wishMessage" role="status"></p></div></section><section class="wish-rewards"><div class="wish-section-head"><h2 id="wishPoolTitle">소원이 닿을 수 있는 선물</h2><span>${preview?'확률은 검수용 예시':'계정 기준 실제 등장확률'}</span></div><div class="wish-pool" id="wishPool"></div><p class="wish-rate-note" id="wishRateNote"></p></section><details class="wish-history"><summary>최근 소원 기록</summary><ol id="wishHistory"></ol></details><footer class="wish-footer">PINGDU’S WISH LAMP · 기간 한정 이벤트<br>코인과 소원권은 소원 1회마다 함께 사용됩니다. 꽝에도 참여 비용이 소모됩니다. 최종 결과와 지급은 서버에서 확정합니다.</footer><dialog class="wish-confirm" id="wishConfirm"><h2>이 소원을 빌까요?</h2><p id="wishConfirmText"></p><div class="wish-confirm-actions"><button id="wishCancel">취소</button><button id="wishAccept">확인 · 소원 빌기</button></div></dialog></div>`;
+ const $=id=>document.getElementById(id),notify=message=>{$('wishMessage').textContent=message};
+ const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
+ async function api(path,body){
+  if(preview)throw new Error('미리보기에서는 서버 지급을 호출할 수 없습니다.');
+  const headers={'content-type':'application/json',authorization:'Bearer '+token(),'x-cnine-client-id':localStorage.getItem('cnine_player_client_id_v1552')||''};
+  const r=await fetch('/api/events/wish-lamp/'+path,{method:body?'POST':'GET',headers,cache:'no-store',...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(25000)});
+  const data=await r.json();if(!r.ok){const e=new Error(data.error||'이벤트 정보를 확인하지 못했습니다.');e.status=r.status;e.code=data.code;throw e}return data;
+ }
+ const storageKey=()=>`cnine_wish_pending_v2077:${state?.userId}`;
+ function readPending(){if(preview)return;pending=null;try{const v=JSON.parse(localStorage.getItem(storageKey())||'null');if(v&&v.userId===state.userId&&typeof v.requestId==='string'&&WISH_CHOICES.some(c=>c.id===v.choiceId))pending=v}catch{notify('이전 소원 기록을 확인해주세요.')}}
+ function setPending(value){pending=value;if(preview)return;try{value?localStorage.setItem(storageKey(),JSON.stringify(value)):localStorage.removeItem(storageKey())}catch(e){if(value){pending=null;throw new Error('복구 기록을 저장할 수 없습니다. 브라우저 저장공간을 확인하세요.')}}}
+ function render(){
+  if(!state||disposed)return;const pool=state.choices.find(c=>c.id===choice);$('wishStatus').textContent=preview?'연출 미리보기 · 실제 지급 없음':phaseNames[state.phase]||'확인 중';
+  if(!preview)$('wishDates').textContent=`${date(state.startsAt)} ~ ${date(state.endsAt)} (KST)`;
+  $('wishPrice').textContent=`${fmt(state.coinCost)} 코인 + 소원권 ${fmt(state.ticketCost)}개`;
+  $('wishBalance').textContent=`보유 ${fmt(state.coin)} 코인 · 소원권 ${fmt(state.tickets)}개`;
+  const active=state.phase==='OPEN'&&(!state.endsAt||Date.now()+clockOffset<Date.parse(state.endsAt));
+  $('wishSubmit').disabled=busy||(!pending&&(!fxReady||!active||!pool?.available||state.coin<state.coinCost||state.tickets<state.ticketCost));
+  $('wishSubmit').textContent=busy?'소원이 전해지는 중…':pending?'이전 소원 결과 복구':preview?'소원 연출 미리보기':'소원 빌기';
+  main.querySelectorAll('[data-choice]').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.choice===choice);b.disabled=busy||Boolean(pending)});
+  $('wishPoolTitle').textContent=`${pool.name} · 소원이 닿을 수 있는 선물`;
+  $('wishPool').innerHTML=pool.items.map(r=>`<article class="wish-reward${r.owned?' owned':''}"><img src="${esc(r.image)}" alt="${esc(r.name)}"><b>${esc(r.name)}</b><small>${r.owned?'보유 중 · 추첨 제외':r.available===false?'지급 불가 · 운영 확인 필요':pct(r.rate)}</small></article>`).join('');
+  $('wishRateNote').textContent=`꽝 ${pct(pool.missRate)} · 당첨 시 아이템 1개 지급.${choice==='VEHICLE'?' 보유 차량은 제외하고 남은 차량에 당첨확률을 배분합니다. 꽝 확률은 유지됩니다.':''}${pool.available?'':' 현재 선택할 수 있는 보상이 없습니다.'}`;
+  $('wishHistory').innerHTML=state.history.length?state.history.map(r=>`<li><b>${esc(r.reward?.name||'꽝')}${r.reward?' ×1':''}</b><time>${esc(date(r.completedAt))}</time></li>`).join(''):'<li>아직 소원 기록이 없습니다.</li>';
+ }
+ async function refresh(){if(disposed||busy)return;try{state=preview?(state||fixture()):await api('state');clockOffset=Date.parse(state.serverNow)-Date.now();lastRefresh=Date.now();readPending();if(pending)choice=pending.choiceId;render();if(pending)notify('이전에 진행한 소원이 있습니다. 결과 복구로 확인하세요.')}catch(e){notify(e.message);$('wishStatus').textContent=e.status===401?'로그인 필요':'연결 확인 필요'}}
+ async function execute(body){
+  if(busy)return;busy=true;render();notify(preview?'결제 없는 연출 미리보기입니다.':'소원을 서버에 전달하고 있습니다…');
+  try{
+   let result;if(preview){const p=state.choices.find(c=>c.id===choice),win=$('wishPreviewResult').value==='WIN',r=p.items[previewIndex++%p.items.length];result={kind:win?choice:'MISS',reward:win?{...r,quantity:1}:null,preview:true,completedAt:new Date().toISOString()};state.history.unshift(result)}
+   else{result=await api('open',body);setPending(null);state.coin=result.coin;state.tickets=result.tickets;state.history=[result,...state.history.filter(r=>r.requestId!==result.requestId)].slice(0,12)}
+   if(disposed)return;notify(result.replayed?'기존 지급 결과를 복구했습니다. 추가 차감은 없습니다.':preview?'검수용 연출입니다.':result.reward?`${result.reward.name} 1개 지급 완료`:'꽝 · 이번 소원에 획득한 아이템이 없습니다.');
+   if(fxReady){$('wishSkip').disabled=false;$('wishPause').disabled=false;await fx.play(result)}
+  }catch(e){if(!preview&&['REQUEST_INVALID','EVENT_CLOSED','POOL_UNAVAILABLE','QUOTE_CHANGED','INSUFFICIENT_BALANCE','TICKET_DISABLED','GRANT_FAILED','DEBIT_FAILED','RECEIPT_FAILED'].includes(e.code))setPending(null);notify(e.message+(pending?' 같은 요청으로 결과를 복구할 수 있습니다.':''))}
+  finally{busy=false;if(!disposed){$('wishSkip').disabled=true;$('wishPause').disabled=true;$('wishPause').textContent='일시정지';render();if(!preview&&!pending)await refresh()}}
+ }
+ main.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{choice=b.dataset.choice;render();fx?.idle()});
+ $('wishSubmit').onclick=()=>{if(pending){void execute(pending);return}if(preview){void execute(null);return}const p=state.choices.find(c=>c.id===choice);$('wishConfirmText').innerHTML=`<strong>${esc(p.name)}</strong> 소원에<br><strong>${fmt(state.coinCost)} 코인 + 소원권 ${fmt(state.ticketCost)}개</strong>를 사용합니다.<br>아이템 1개 또는 꽝이 나오며, 꽝에도 비용이 소모됩니다.<br>꽝 확률: ${pct(p.missRate)}`;$('wishConfirm').showModal()};
+ $('wishCancel').onclick=()=>$('wishConfirm').close();$('wishAccept').onclick=()=>{$('wishConfirm').close();const p=state.choices.find(c=>c.id===choice);const body={requestId:crypto.randomUUID(),userId:state.userId,choiceId:choice,revision:state.revision,quote:p.quote};try{setPending(body);void execute(body)}catch(e){notify(e.message)}};
+ $('wishSkip').onclick=()=>fx?.skip();$('wishPause').onclick=()=>{const pause=$('wishPause').textContent==='일시정지';fx?.pause(pause);$('wishPause').textContent=pause?'계속 재생':'일시정지'};
+ const visibility=()=>{fx?.pause(document.hidden);if(!document.hidden){$('wishPause').textContent='일시정지';if(Date.now()-lastRefresh>30000)void refresh()}};document.addEventListener('visibilitychange',visibility);
+ const clock=setInterval(()=>{if(disposed||!state)return;const until=state.phase==='SCHEDULED'?state.startsAt:state.endsAt;if(until){const remaining=Math.max(0,Date.parse(until)-Date.now()-clockOffset),seconds=Math.floor(remaining/1000);$('wishCountdown').textContent=`${Math.floor(seconds/86400)}일 ${String(Math.floor(seconds/3600)%24).padStart(2,'0')}:${String(Math.floor(seconds/60)%60).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;if(!remaining)render()}else $('wishCountdown').textContent=preview?'PREVIEW':'COMING SOON';},1000);
+ window.addEventListener('pagehide',()=>{disposed=true;clearInterval(clock);document.removeEventListener('visibilitychange',visibility);fx?.destroy()},{once:true});
+ await refresh();try{await loadScript('/js/ui-fx-vendor-v2045.bundle.js?v=2045');await loadScript('/js/wish-lamp-fx-v2077.bundle.js?v=2077');if(disposed)return;fx=new globalThis.WishLampPresentation($('wishStage'),phase=>{$('wishPhase').textContent=({ready:'AWAKEN YOUR WISH',casting:'소원을 불어넣는 중',revealed:'소원의 결과',complete:'REVEAL COMPLETE'})[phase]||phase});await fx.init();fxReady=true;render()}catch(e){notify(e.message+' 새로고침해 주세요.');$('wishStage').innerHTML=`<img src="${WISH_LAMP_IMAGE}" alt="핑두의 소원램프" style="width:100%;height:100%;object-fit:contain">`}
+}

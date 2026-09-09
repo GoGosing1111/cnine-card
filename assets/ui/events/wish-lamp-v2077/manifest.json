@@ -1,0 +1,45 @@
+{
+  "version": 2077,
+  "event": "핑두의 소원램프",
+  "createdAt": "2026-09-09",
+  "publication": {
+    "visible": false,
+    "enabled": false,
+    "economicValues": "CMS_REQUIRED_NO_DEFAULT",
+    "selection": "CATEGORY_FIRST",
+    "duplicateVehicles": "EXCLUDE_OWNED_BLOCK_WHEN_ALL_OWNED"
+  },
+  "runtime": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "vendor": "js/ui-fx-vendor-v2045.bundle.js",
+    "source": "js/wish-lamp-fx-v2077.src.js",
+    "bundle": "js/wish-lamp-fx-v2077.bundle.js",
+    "clock": "GSAP timeline",
+    "audio": "none"
+  },
+  "art": [
+    {
+      "file": "lamp.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "alpha": true,
+      "sha256": "086E4356CA94D11C04B68F6D218408CE99BD617675CE7DAF5A1388EB203C9B95",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Asset type: premium Korean fantasy RPG limited-event magical wish lamp, transparent PNG cutout for layered PixiJS animation. Primary request: a spectacular genie-style wishing lamp, a single complete lamp only. Sculpted luminous warm gold and aged rose-gold metal, elegant long curved spout pointing to the upper left, ornate open loop handle on the right, jewel-tipped lid, deep magenta enamel and restrained opal inlays, engraved arabesque filigree with tasteful high-end material hierarchy. Refined hand-painted 2D game illustration, jewel-like highlights, clear silhouette readable at 320px, gorgeous concentrated detail, not photographic, not cartoon emoji. Three-quarter elevated view, whole object centered and fully inside frame with generous clear margins, 1536x1024 landscape. Delicate pink magical light emerging from the spout, short faint whiff only; the main smoke and energy will be animated separately. Real transparent alpha background, no floor, no scene, no pedestal, no cast shadow rectangle, no floating extra objects. No humans, no genie figure, no lettering, no words, no logo, no frame, no watermark. The object should occupy about 75 percent width, retain crisp finely painted edges and a visibly hollow handle. Luxurious luminous pink and golden mood."
+    },
+    {
+      "file": "announcement-poster.png",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "sha256": "878E797E154601062D31819492CFBA09DF96F063C8276F6EF757FD3B86D82663",
+      "tool": "built-in image_gen",
+      "reference": "lamp.png",
+      "prompt": "Use case: ads-marketing. Asset type: finished Korean fantasy RPG limited-event player announcement poster, portrait 1024x1536 PNG.\nInput image 1: design reference for the actual in-game wish lamp, preserve its recognizable gold/rose-gold, deep pink enamel, opal and pink jewel design, elegantly curved spout to the left, loop handle to the right. Build a new complete poster, not a screenshot.\nPrimary request: a stunning, polished game event poster for 숲켓몬's 핑두의 소원램프. Hero lamp floats in the central upper-middle on luxurious midnight-plum space, luminous rose mist spiraling upwards, tiny gold stars, refracted opal light, luminous concentric magical rings and elegant gold borders. Sophisticated painted fantasy art, jewel-like material quality, dramatic light, magazine-quality Korean typography, uncluttered intentional hierarchy. No people or genie figure. No invented vehicles, weapons, or character rewards; the three reward categories are represented by clean typographic plaques below the hero illustration.\nTypography and exact Korean copy: small top eyebrow \"숲켓몬 · 기간 한정 이벤트\"; dominant large gold title on two lines \"핑두의\" / \"소원램프\"; beneath title subtitle \"원하는 보상 종류를 먼저 선택하세요\".\nBelow lamp a prominent elegant instruction line \"보상 종류 선택 → 코인 + 소원권 → 소원 빌기\".\nThree clearly separated horizontally aligned plaques across lower portion, text:\n\"이동수단\" with \"베네노 · 이그니스X\"\n\"장비\" with \"미스틱 4종 · SKS\"\n\"배틀슈트\" with \"E-BODY · F-BODY\".\nBelow plaques prominent honest outcome line \"선택한 종류의 아이템 1개 또는 꽝\".\nSmall but genuinely readable footer in two lines: \"꽝에도 코인과 소원권이 소모됩니다.\" / \"운영 기간·참여 비용·등장확률은 게임 내 안내를 확인하세요.\"\nKeep generous margins, all copy spelled exactly, high contrast and no cropped text. No dates, numeric costs or probabilities because not configured yet. No guaranteed-win wording. No unrelated logo, no watermark. The final poster must feel like a premium fully finished player announcement, consistent with the lamp reference."
+    }
+  ]
+}

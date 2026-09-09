@@ -62,6 +62,7 @@ import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
 import { handleNewUserGift,NEW_USER_GIFT_CODE } from '../_new_user_gift.js';
 import { handleHyperPack,arrangeHyperPackCatalog } from '../_hyper_pack.js';
+import { handleWishLamp } from '../_wish_lamp.js';
 import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
@@ -5145,6 +5146,7 @@ async function handleRequest(context){
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
+    const wishLampResponse=await handleWishLamp({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(wishLampResponse)return wishLampResponse;
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
     // raid/status는 화면의 반복 조회 경로다. 매 조회마다 전체 런타임 마이그레이션 게이트를 기다리면
@@ -5318,12 +5320,12 @@ async function handleRequest(context){
       const blackMiracleUseEnabled=(await blackMiracleSettings(env)).enabled===true;
       await ensureMysticEnergyCatalog(env);
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
-          CASE WHEN i.category='SKILL_CHIP' THEN 0 WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code='CORE_RAID_ENTRY_TICKET' THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
+          CASE WHEN i.category='SKILL_CHIP' THEN 0 WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code IN ('CORE_RAID_ENTRY_TICKET','PINGDU_WISH_TICKET') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
         WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
-          AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX') OR COALESCE(ui.quantity,0)>0)
+          AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','PINGDU_WISH_TICKET') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
-      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
+      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code==='PINGDU_WISH_TICKET'?'핑두의 소원램프에서 사용':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
