@@ -67,6 +67,10 @@ git diff --check
   - `scrapyard-pve-unique-monsters-v1698`: 이전 CSS 캐시 태그.
   - `scrapyard-responsive-entry-v1699`: 이전 workshop 경로/캐시 태그.
 
+### 2026-09-09 — 전장 확장안 별도 검수
+
+사용자 후속 요청으로 `preview/v3-wide-grid-v1/`에 기존 7×6 / 확장 9×7 비교 화면을 추가했다. PC 가로 +23.08%, 모바일 +17.48%이며 캐릭터·슈트·원화 카드 도크 크기는 그대로다. 라이브 공통 진형은 변경하지 않았다. 세부 좌표·PixiJS/GSAP 재사용·회귀/브라우저 검수는 해당 README가 기준이다. 이 시안 역시 전체 개편 묶음의 승인 대기 항목이며 독립 배포하지 않는다.
+
 ### 다음 통합 단계 — 아직 남은 작업
 
 1. 새 `scrapyardEncounter` 응답을 기존 V3 아트 어댑터·개체 교체 렌더러에 연결한다. `deckCards`는 원화 도크, `battleSprite`는 몬스터 전장에만 사용한다. 개체 ID의 `ENCOUNTER` 세대도 이전 개체의 대체 매칭으로 해석하면 안 된다.
