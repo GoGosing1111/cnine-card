@@ -126,7 +126,7 @@ const MAGIC_V2_PREVIEW_EXAMPLES = [
   { code:'V2_ARCANE_COUNTER', name:'비전 반격', enhancementLevel:5, imageUrl:'assets/ui/magic-cards/arcane-counter-768-v1500.webp', effectType:'ARCANE_COUNTER', effectValue:16, triggerChance:25, maxActivations:2 },
   { code:'V2_ARCANE_SEAL', name:'봉인의 칙령', enhancementLevel:6, imageUrl:'assets/ui/magic-cards/arcane-seal-768-v1665.webp', effectType:'ARCANE_SEAL', effectValue:1, triggerChance:30, maxActivations:2 },
   { code:'V2_DOOM_MARK', name:'파멸의 낙인', enhancementLevel:7, imageUrl:'assets/ui/magic-cards/doom-mark-768-v1665.webp', effectType:'DOOM_MARK', effectValue:18, triggerChance:35, maxActivations:3 },
-  { code:'V2_SHIELD_SIPHON', name:'강탈의 성배', enhancementLevel:4, imageUrl:'assets/ui/magic-cards/shield-siphon-768-v1665.webp', effectType:'SHIELD_SIPHON', effectValue:60, triggerChance:20, maxActivations:2 },
+  { code:'V2_SHIELD_SIPHON', name:'강탈의 성배', enhancementLevel:4, imageUrl:'assets/ui/magic-cards/shield-siphon-768-v1665.webp', effectType:'SHIELD_SIPHON', effectValue:15, triggerChance:20, maxActivations:2 },
   { code:'V2_TIME_DISTORTION', name:'시간의 족쇄', enhancementLevel:8, imageUrl:'assets/ui/magic-cards/time-distortion-768-v1665.webp', effectType:'TIME_DISTORTION', effectValue:30, triggerChance:40, maxActivations:2 },
   { code:'V2_PHOENIX_REVIVE', name:'불사조의 계약', enhancementLevel:9, imageUrl:'assets/ui/magic-cards/phoenix-revive-768-v1665.webp', effectType:'PHOENIX_REVIVE', effectValue:22, triggerChance:50, maxActivations:1 },
   { code:'V2_PURIFY_LIGHT', name:'정화의 성광', enhancementLevel:5, imageUrl:'assets/ui/magic-cards/purify-light-768-v1665.webp', effectType:'PURIFY_LIGHT', effectValue:12, triggerChance:25, maxActivations:2 },
@@ -430,6 +430,9 @@ const APOCALYPSE_FLOOR_GAIN = 1.7;
 const APOCALYPSE_FLOOR_SCALE_MIN = 0.4;
 const APOCALYPSE_FLOOR_SCALE_MAX = 6;
 const APOCALYPSE_MAGIC_CAP_HITS = 1;
+// 2026-09-11: 성배 운영 강탈률 60% → 15%와 함께 기존 아포 상한도 1/4로 낮춘다.
+// 비율만 바꾸면 보스의 큰 보호막에서는 계속 기존 상한에 걸려 하향이 적용되지 않는다.
+const APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER = 0.25;
 const APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT = 0.06;
 const APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO = 0.15;
 const APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE = 2;
@@ -437,6 +440,7 @@ const APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT = 2;
 export const APOCALYPSE_RULES = Object.freeze({
   floorGain: APOCALYPSE_FLOOR_GAIN,
   magicCapHits: APOCALYPSE_MAGIC_CAP_HITS,
+  shieldSiphonCapMultiplier: APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER,
   suitPierceCyclePercent: APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT,
   suitPierceReferenceRatio: APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO,
   suitPierceMaxRatioScale: APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE,
@@ -985,10 +989,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   }
 
   // V1990: 아포 몬스터 대상 마법 효과 1회 상한 = 일반 타격 1회 하한 × APOCALYPSE_MAGIC_CAP_HITS.
-  const apocalypseMagicCap=(target,amount)=>{
+  const apocalypseMagicCap=(target,amount,capMultiplier=1)=>{
     if(!target?.isApocalypse||!(hitOptions.apocalypseFloorScale>0))return Math.max(0,Number(amount||0));
     const cap=Math.max(1,Math.round(target.maxHp*MONSTER_MIN_DAMAGE_PERCENT*hitOptions.apocalypseFloorScale*APOCALYPSE_MAGIC_CAP_HITS));
-    return Math.min(Math.max(0,Number(amount||0)),cap);
+    return Math.min(Math.max(0,Number(amount||0)),Math.max(1,Math.round(cap*capMultiplier)));
   };
   // V1990: 아포칼립스에서 덱이 보스 기본 전투력보다 약하면 배틀슈트 기여를 (덱/기본)^2 로 줄인다.
   //   약한 덱의 슈트 기여를 낮추는 게이트이며 관통과 화력 증가분에 공통 적용한다.
@@ -1328,7 +1332,15 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         pushEvent(timeline,clock+0.00006,'MAGIC_CARD',magicEvent(mark,actor,target,{markStacks:target.doomMarks,detonated,damage:markDamage,absorbed:markAbsorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));
       }
 
-      if(target.hp>0&&target.shield>0){const siphon=activateMagic(actor,'SHIELD_SIPHON');if(siphon){const amount=Math.max(1,Math.min(target.shield,apocalypseMagicCap(target,Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100))));target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);pushEvent(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));}}
+      if(target.hp>0&&target.shield>0){
+        const siphon=activateMagic(actor,'SHIELD_SIPHON');
+        if(siphon){
+          const requested=Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100);
+          const amount=Math.max(1,Math.min(target.shield,apocalypseMagicCap(target,requested,APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER)));
+          target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);
+          pushEvent(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));
+        }
+      }
 
       const distort=target.hp>0?activateMagic(actor,'TIME_DISTORTION'):null;
       if(distort){const amount=Math.min(95,Math.max(0,Number(distort.effectValue||0))),before=target.gauge;target.gauge=Math.max(0,target.gauge-amount);target.timeDistortionStacks=Math.min(3,Number(target.timeDistortionStacks||0)+1);pushEvent(timeline,clock+0.00008,'MAGIC_CARD',magicEvent(distort,actor,target,{gaugeLoss:before-target.gauge,gaugeAfter:target.gauge,targetHpAfter:target.hp}));}
