@@ -11,7 +11,7 @@ const apocalypseBoss=(basePower)=>({
   pve_hp_percent:260,pve_attack_percent:220,pve_defense_percent:190,pve_speed_percent:160,pve_shield_percent:40,
   pve_attack_count:2,pve_forced_action_every:4
 });
-const siphonCards=[1,2,3,4,5].map(slotNo=>({id:`GRAIL-${slotNo}`,code:'V2_SHIELD_SIPHON',name:'강탈의 성배',slotNo,effectType:'SHIELD_SIPHON',effectValue:60,triggerChance:20,maxActivations:2,enhancementLevel:4}));
+const siphonCards=[1,2,3,4,5].map(slotNo=>({id:`GRAIL-${slotNo}`,code:'V2_SHIELD_SIPHON',name:'강탈의 성배',slotNo,effectType:'SHIELD_SIPHON',effectValue:15,triggerChance:20,maxActivations:2,enhancementLevel:4}));
 const suit=(pvePower,weapon='EQ_1785427638137')=>({code:'BATTLE_SUIT_02',name:'배틀슈트 02',pvePower,weapon:{code:weapon}});
 
 function winRate(options,seeds=24){
@@ -35,7 +35,7 @@ test('apocalypse exposes its final-difficulty rules',()=>{
   assert.equal(normal.rules.apocalypseRules,null,'non-apocalypse battles carry no apocalypse rules');
 });
 
-test('강탈의 성배 cannot strip an apocalypse boss shield beyond one floored hit per activation',()=>{
+test('강탈의 성배 cannot strip an apocalypse boss shield beyond one quarter of a floored hit per activation',()=>{
   const cards=deck(400000);
   const siphons=[];
   let boss=null;
@@ -44,16 +44,17 @@ test('강탈의 성배 cannot strip an apocalypse boss shield beyond one floored
     boss=battle.teams.B.cards[0];
     siphons.push(...battle.result.timeline.filter(event=>event.type==='MAGIC_CARD'&&event.effectType==='SHIELD_SIPHON'));
   }
-  const floorCap=boss.maxHp*0.016*APOCALYPSE_RULES.floorGain*APOCALYPSE_RULES.magicCapHits;
+  const floorCap=boss.maxHp*0.016*APOCALYPSE_RULES.floorGain*APOCALYPSE_RULES.magicCapHits*0.25;
   assert.ok(siphons.length>0,'fixture must activate the grail');
-  assert.ok(siphons.every(event=>Number(event.shieldStolen||0)<=floorCap+1),'stolen shield per activation must be capped to one floored hit');
-  // 비-아포 보스는 종전대로 현재 보호막의 60% 를 빼앗는다.
+  assert.ok(siphons.every(event=>Number(event.shieldStolen||0)<=floorCap+1),'stolen shield per activation must be capped to one quarter of a floored hit');
+  // 비-아포 보스는 운영 강탈률 15%를 사용하고 아포 상한은 적용하지 않는다.
   const normalSiphons=[];
   for(let seed=1;seed<=40&&normalSiphons.length<6;seed+=1){
     const normal=createPveBattleV2({cards,magicCards:siphonCards,monster:{id:2,name:'일반 실드 보스',battle_power:2000000,is_boss:1,pve_shield_percent:40},seed});
     normalSiphons.push(...normal.result.timeline.filter(event=>event.type==='MAGIC_CARD'&&event.effectType==='SHIELD_SIPHON'));
   }
-  assert.ok(normalSiphons.some(event=>Number(event.shieldStolen||0)>floorCap*3),'non-apocalypse siphon must keep its full 60% steal');
+  assert.ok(normalSiphons.length>0,'normal boss fixture must activate the grail');
+  assert.ok(normalSiphons.every(event=>event.shieldStolen===Math.round((event.targetShieldAfter+event.shieldStolen)*.15)),'non-apocalypse siphon must transfer 15% without the apocalypse cap');
 });
 
 test('battle suit shots pierce the apocalypse shield with shield-ignoring HP damage',()=>{
