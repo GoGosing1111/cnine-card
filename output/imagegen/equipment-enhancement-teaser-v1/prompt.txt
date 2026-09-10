@@ -1,0 +1,18 @@
+Use case: ads-marketing.
+Create ONE finished, premium cinematic Korean game UPDATE TEASER POSTER for 숲켓몬, announcing equipment enhancement. Portrait 2:3, minimum 1024 x 1536, maximum available image quality. Final publishable promotional artwork, rich and polished Korean online RPG campaign aesthetic.
+
+Creative direction: a spectacular dark fantasy armory forge, with one elegant long fantasy rifle and refined plated torso armor suspended above a circular molten enhancement anvil. Equipment is the hero, with powerful amber energy, electric cyan rimlight, sharp metallic silhouettes, cascading sparks, fragments near the anvil, deep charcoal background and dramatic volumetric smoke. A sense of escalating power and the tension of risking equipment at high enhancement levels. Finely painted game key art rather than a screenshot. No characters. The key equipment should have a beautiful unified magical game-skin silhouette; do not clutter it with tiny machinery. Clear, sophisticated poster hierarchy and generous negative space around all text. Metallic warm gold and cream headlines with precise clean Korean letter shapes. Bottom warning is conspicuous with warm red/orange accent, dark readable backing, never tiny.
+
+Render exactly this Korean copy, each only once, perfectly spelled:
+Top game name: "숲켓몬"
+Main huge headline: "장비 강화"
+Directly beneath headline: "도입 예고"
+Large prominent feature text: "+1 ~ +10"
+Smaller accompanying label: "강화 단계"
+Bottom warning, two clear centered lines:
+"+9·+10 강화 실패 시"
+"일정 확률로 장비 파괴"
+
+The typography is part of the final designed poster, clean straight-on readable. The game name MUST be EXACTLY 숲켓몬. For 숲, compose the real Hangul syllable ㅅ + ㅜ + ㅍ. The vowel ㅜ horizontal bar has its central vertical stroke extending DOWNWARD, never upward (NOT ㅗ). Use actual conventional Korean bold sans letterforms, restrained gold texture, no light reflections that reverse or hide the vowel direction. Make the ㅜ direction unmistakable. Do not substitute 솦, 숩, 숲켔몬 or other characters.
+
+Do not add any other copy, date, release date, probability number, percentages, costs, stat bonuses, success guarantees, protection items, subtitles, English slogans, watermark, brand from another game, or UI buttons. In particular do not imply guaranteed destruction: the exact condition is a chance of equipment destruction on failed +9/+10 enhancement. All copy within safe margins, with a polished large illustration between headline and warning, striking high-end finished poster.
