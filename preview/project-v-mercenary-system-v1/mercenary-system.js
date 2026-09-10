@@ -4,7 +4,7 @@ import {
 } from '../../js/project-v-mercenary-loadout-v1.js';
 import { createMercenaryBattleArtAdapter } from '../../js/project-v-mercenary-battle-art-adapter-v1.js';
 
-const DATA_URL = '../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2063.1-police-joeun';
+const DATA_URL = '../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260910-sd-complete';
 
 const state = {
   roster: null,

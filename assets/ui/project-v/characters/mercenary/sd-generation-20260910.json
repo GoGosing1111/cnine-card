@@ -1,0 +1,386 @@
+{
+  "format": "MERCENARY_SD_GENERATION_20260910",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "date": "2026-09-10",
+  "userRequest": "용병 SD이미지 안만든애들 다 제작해서 연결해",
+  "toolMode": "BUILT_IN_IMAGE_GEN",
+  "sourceBaselineCommit": "1ceecb81",
+  "scope": "Complete V-038 through V-043 and connect read-only public codex, preparation preview and battle-art resource adapter. Rank, stats, acquisition, loadout and live-battle activation remain pending.",
+  "styleReference": "assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png",
+  "sourceArtUnmodified": true,
+  "existingSpritesUnmodified": true,
+  "previousRosterCardsSha256": "F5375EE044FC4907A206A30A040ABFAC8188A4AC84BC7BC6069C1D0AF30C0924",
+  "previousExistingCardsSha256": "49ED10E09CCAA50FA40EBBC3075FDDA810EF60CDCF3A6EC1782F809E17B188E3",
+  "entries": [
+    {
+      "code": "V-038",
+      "slug": "cecilia",
+      "name": "세실리아",
+      "description": "Adult woman with elegant chestnut-brown hair in a loose low bun, side bangs, blue eyes, sapphire drop earrings and pendant. Ivory tailored blazer over navy collared blouse and navy knee-length pencil skirt, slim black waist belt. Both forearms and articulated gloves are sleek white-silver fantasy gauntlets with blue crystal cores as in reference; no gun. Add simple navy closed-toe office pumps to complete the lower body. Relaxed battle-ready stance, one armored fist slightly raised and the other near waist, both gauntlets fully visible.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v038-cecilia-sd-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: standalone 2D RPG full-body SD battle sprite derived from an approved ADULT character design.\nInput image 1 is the exact adult character identity, outfit and weapon reference. Input image 2 is ONLY the established SD painting and proportion reference. Never copy image 2's purple uniform, hair, rifle or face.\nCreate ONE complete full-body stylized ADULT SD character, approximately 4 heads tall like input 2, elegant mature face with readable expressive eyes, adult body silhouette, polished Korean collectible RPG painterly shading and delicate outlines, rich yet clean separated cloth/metal/hair materials. Not photorealistic, 3D, toy, baby or child. Preserve reference 1's unique face, hairstyle, clothing structure, colors and entire weapon design; only simplify tiny ornament for small battle readability.\n1024x1536 portrait PNG, actual RGBA transparency. Background pixels alpha exactly 0. Single character centered in a neutral balanced three-quarter STANDING idle battle pose. Entire hair, both hands, complete weapon tips and both feet visible inside canvas with clear margins of at least 3%. Feet near 94% canvas height and on same ground level. Weapon stays above feet ground-contact line. No backdrop, floor, scenery, pedestal, ground shadow, aura, particles, muzzle flash, text, frame, watermark, other character, solid background, gradient or baked checkerboard. This is an isolated transparent production sprite to overlay arbitrary battle backgrounds. Real alpha is mandatory.\nCharacter requirements: Adult woman with elegant chestnut-brown hair in a loose low bun, side bangs, blue eyes, sapphire drop earrings and pendant. Ivory tailored blazer over navy collared blouse and navy knee-length pencil skirt, slim black waist belt. Both forearms and articulated gloves are sleek white-silver fantasy gauntlets with blue crystal cores as in reference; no gun. Add simple navy closed-toe office pumps to complete the lower body. Relaxed battle-ready stance, one armored fist slightly raised and the other near waist, both gauntlets fully visible.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "initialOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-da280fe1-ffa7-475a-be56-985eb53a2b5e.png",
+      "sourceArtSha256": "15498B1A48643F51498038531A4647AC5C7D17561AA7D3529F7A9B854166DA0E",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-3e599451-8ee3-44fb-9f2f-f728f8a4346a.png",
+      "nativeOutputSha256": "E8E06593B0389E85897527B86AFD48465E12E23A34812186E477F3670557C74B",
+      "finalPrompt": "Remove the background and make it transparent.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-da280fe1-ffa7-475a-be56-985eb53a2b5e.png"
+      ],
+      "rejectedOutputs": [
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-da280fe1-ffa7-475a-be56-985eb53a2b5e.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        },
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-220f9325-7aba-46e0-b67d-cdc34b8e3346.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        }
+      ],
+      "qa": {
+        "sha256": "E8E06593B0389E85897527B86AFD48465E12E23A34812186E477F3670557C74B",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1055205,
+        "solidPixels": 459647,
+        "partialPixels": 58012,
+        "transparentFraction": 0.670881,
+        "solidFraction": 0.292236,
+        "visibleBounds": {
+          "left": 223,
+          "top": 3,
+          "right": 852,
+          "bottom": 1491
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.529785,
+          "y": 0.971354
+        }
+      }
+    },
+    {
+      "code": "V-039",
+      "slug": "rosetta",
+      "name": "로제타",
+      "description": "Adult woman with wavy shoulder-length ash-grey hair, side-swept fringe, grey eyes and a composed smile. Preserve plum purple cropped leather biker jacket, black collared blouse, short fitted black skirt with garter straps to dark thigh-high stockings, black lace-up ankle boots, black gloves and purple pendant. Holds the long silver-black fantasy chainsword with narrow violet blade inset and clearly separated saw teeth along the edge, naturally in both hands diagonally across lower body; whole sword visible and its tip above foot ground level.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v039-rosetta-sd-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: standalone 2D RPG full-body SD battle sprite derived from an approved ADULT character design.\nInput image 1 is the exact adult character identity, outfit and weapon reference. Input image 2 is ONLY the established SD painting and proportion reference. Never copy image 2's purple uniform, hair, rifle or face.\nCreate ONE complete full-body stylized ADULT SD character, approximately 4 heads tall like input 2, elegant mature face with readable expressive eyes, adult body silhouette, polished Korean collectible RPG painterly shading and delicate outlines, rich yet clean separated cloth/metal/hair materials. Not photorealistic, 3D, toy, baby or child. Preserve reference 1's unique face, hairstyle, clothing structure, colors and entire weapon design; only simplify tiny ornament for small battle readability.\n1024x1536 portrait PNG, actual RGBA transparency. Background pixels alpha exactly 0. Single character centered in a neutral balanced three-quarter STANDING idle battle pose. Entire hair, both hands, complete weapon tips and both feet visible inside canvas with clear margins of at least 3%. Feet near 94% canvas height and on same ground level. Weapon stays above feet ground-contact line. No backdrop, floor, scenery, pedestal, ground shadow, aura, particles, muzzle flash, text, frame, watermark, other character, solid background, gradient or baked checkerboard. This is an isolated transparent production sprite to overlay arbitrary battle backgrounds. Real alpha is mandatory.\nCharacter requirements: Adult woman with wavy shoulder-length ash-grey hair, side-swept fringe, grey eyes and a composed smile. Preserve plum purple cropped leather biker jacket, black collared blouse, short fitted black skirt with garter straps to dark thigh-high stockings, black lace-up ankle boots, black gloves and purple pendant. Holds the long silver-black fantasy chainsword with narrow violet blade inset and clearly separated saw teeth along the edge, naturally in both hands diagonally across lower body; whole sword visible and its tip above foot ground level.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "initialOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-91a72a70-93e7-48e6-aa67-d9ec046662df.png",
+      "sourceArtSha256": "1ACB0840FCE80FACD1CE5A75C26AD7E7D84AB66146EA8FFC4C0482A7197F4B84",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-ae9ea0d7-3b48-4c0c-afdc-194b028bc09c.png",
+      "nativeOutputSha256": "9D6C6D8E3CFC3B0C7F05351DE638F7258D6BC344D49B3E7742D514FE948002DD",
+      "finalPrompt": "Remove the background and make it transparent.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-91a72a70-93e7-48e6-aa67-d9ec046662df.png"
+      ],
+      "rejectedOutputs": [
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-91a72a70-93e7-48e6-aa67-d9ec046662df.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        },
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-e6ee8bf2-e8be-486b-bda4-415471f40ee9.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        },
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-67821927-4db4-4d9f-b8b1-0afa551b9fb4.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        }
+      ],
+      "qa": {
+        "sha256": "9D6C6D8E3CFC3B0C7F05351DE638F7258D6BC344D49B3E7742D514FE948002DD",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1100105,
+        "solidPixels": 422787,
+        "partialPixels": 49972,
+        "transparentFraction": 0.699428,
+        "solidFraction": 0.268801,
+        "visibleBounds": {
+          "left": 177,
+          "top": 11,
+          "right": 983,
+          "bottom": 1505
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.589844,
+          "y": 0.980469
+        }
+      }
+    },
+    {
+      "code": "V-040",
+      "slug": "mariel",
+      "name": "마리엘",
+      "description": "Clearly adult woman, mature facial features and mature silhouette, long dark navy hair in thick braid over shoulder, golden brown eyes, warm lightly tanned skin. Preserve tasteful opaque ivory-and-turquoise bikini swimsuit with gold trim, turquoise and gold earrings, pendant and waist-chain, one slim white-gold-and-turquoise forearm bracer. Fully clothed in the reference swimsuit; no nudity. Bare feet. Holds the large elegant translucent turquoise, ivory and gold fantasy recurve bow, whole bow with taut bowstring visible, one hand at real grip and other holding a single arrow lowered, no firing effect. A calm neutral upright battle-idle pose.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: standalone 2D RPG full-body SD battle sprite derived from an approved ADULT character design.\nInput image 1 is the exact adult character identity, outfit and weapon reference. Input image 2 is ONLY the established SD painting and proportion reference. Never copy image 2's purple uniform, hair, rifle or face.\nCreate ONE complete full-body stylized ADULT SD character, approximately 4 heads tall like input 2, elegant mature face with readable expressive eyes, adult body silhouette, polished Korean collectible RPG painterly shading and delicate outlines, rich yet clean separated cloth/metal/hair materials. Not photorealistic, 3D, toy, baby or child. Preserve reference 1's unique face, hairstyle, clothing structure, colors and entire weapon design; only simplify tiny ornament for small battle readability.\n1024x1536 portrait PNG, actual RGBA transparency. Background pixels alpha exactly 0. Single character centered in a neutral balanced three-quarter STANDING idle battle pose. Entire hair, both hands, complete weapon tips and both feet visible inside canvas with clear margins of at least 3%. Feet near 94% canvas height and on same ground level. Weapon stays above feet ground-contact line. No backdrop, floor, scenery, pedestal, ground shadow, aura, particles, muzzle flash, text, frame, watermark, other character, solid background, gradient or baked checkerboard. This is an isolated transparent production sprite to overlay arbitrary battle backgrounds. Real alpha is mandatory.\nCharacter requirements: Clearly adult woman, mature facial features and mature silhouette, long dark navy hair in thick braid over shoulder, golden brown eyes, warm lightly tanned skin. Preserve tasteful opaque ivory-and-turquoise bikini swimsuit with gold trim, turquoise and gold earrings, pendant and waist-chain, one slim white-gold-and-turquoise forearm bracer. Fully clothed in the reference swimsuit; no nudity. Bare feet. Holds the large elegant translucent turquoise, ivory and gold fantasy recurve bow, whole bow with taut bowstring visible, one hand at real grip and other holding a single arrow lowered, no firing effect. A calm neutral upright battle-idle pose.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "initialOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-0f2b67c1-44e4-440a-ba88-9f8c1e962ea3.png",
+      "sourceArtSha256": "D5A52F7DA6C496B1C9BAC9732CE6D423A59CB401B58D55940DA43FE7815C5488",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-bfd997b0-6959-4d38-9d59-f5abc5cd4f1a.png",
+      "nativeOutputSha256": "A9AACAAE3BF01C022CED7E258C52090A135BCA7EBF08CE789708F70A1C7684D3",
+      "finalPrompt": "Remove the background and make it transparent.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-0f2b67c1-44e4-440a-ba88-9f8c1e962ea3.png"
+      ],
+      "rejectedOutputs": [
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-0f2b67c1-44e4-440a-ba88-9f8c1e962ea3.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        },
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-581f7583-91c7-4da5-913d-e22f7494eced.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        }
+      ],
+      "qa": {
+        "sha256": "A9AACAAE3BF01C022CED7E258C52090A135BCA7EBF08CE789708F70A1C7684D3",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1025978,
+        "solidPixels": 460091,
+        "partialPixels": 86795,
+        "transparentFraction": 0.652299,
+        "solidFraction": 0.292518,
+        "visibleBounds": {
+          "left": 159,
+          "top": 4,
+          "right": 1005,
+          "bottom": 1505
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.464355,
+          "y": 0.980469
+        }
+      }
+    },
+    {
+      "code": "V-041",
+      "slug": "renia",
+      "name": "레니아",
+      "description": "Adult woman with short tousled copper-orange pixie hair, amber eyes and bright confident smile. Burnt-orange short biker jacket, ivory fitted blouse, black denim high-waisted shorts, black belt and gloves, one black thigh strap and a dark knee guard, dark lace-up ankle boots. Preserve giant dark steel greatsword with unified bronze edges, geometric gold guard, and a bright amber central blade core. STANDING full-body battle idle, no seated prop; grip sword naturally at side angled upright, weapon tip slightly above same baseline as feet. Entire blade, boots and hair inside canvas.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v041-renia-sd-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: standalone 2D RPG full-body SD battle sprite derived from an approved ADULT character design.\nInput image 1 is the exact adult character identity, outfit and weapon reference. Input image 2 is ONLY the established SD painting and proportion reference. Never copy image 2's purple uniform, hair, rifle or face.\nCreate ONE complete full-body stylized ADULT SD character, approximately 4 heads tall like input 2, elegant mature face with readable expressive eyes, adult body silhouette, polished Korean collectible RPG painterly shading and delicate outlines, rich yet clean separated cloth/metal/hair materials. Not photorealistic, 3D, toy, baby or child. Preserve reference 1's unique face, hairstyle, clothing structure, colors and entire weapon design; only simplify tiny ornament for small battle readability.\n1024x1536 portrait PNG, actual RGBA transparency. Background pixels alpha exactly 0. Single character centered in a neutral balanced three-quarter STANDING idle battle pose. Entire hair, both hands, complete weapon tips and both feet visible inside canvas with clear margins of at least 3%. Feet near 94% canvas height and on same ground level. Weapon stays above feet ground-contact line. No backdrop, floor, scenery, pedestal, ground shadow, aura, particles, muzzle flash, text, frame, watermark, other character, solid background, gradient or baked checkerboard. This is an isolated transparent production sprite to overlay arbitrary battle backgrounds. Real alpha is mandatory.\nCharacter requirements: Adult woman with short tousled copper-orange pixie hair, amber eyes and bright confident smile. Burnt-orange short biker jacket, ivory fitted blouse, black denim high-waisted shorts, black belt and gloves, one black thigh strap and a dark knee guard, dark lace-up ankle boots. Preserve giant dark steel greatsword with unified bronze edges, geometric gold guard, and a bright amber central blade core. STANDING full-body battle idle, no seated prop; grip sword naturally at side angled upright, weapon tip slightly above same baseline as feet. Entire blade, boots and hair inside canvas.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "initialOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-b6933008-5b60-450a-b6a3-1a8f9a5260ea.png",
+      "sourceArtSha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-3524a5ed-a84a-4265-a8f2-b2537757fdf7.png",
+      "nativeOutputSha256": "C1375F195B9A8080CB06303C838A838C53C2F9741E81CE5EE9AB7B19E2B97CA4",
+      "finalPrompt": "Remove the background and make it transparent.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-b6933008-5b60-450a-b6a3-1a8f9a5260ea.png"
+      ],
+      "rejectedOutputs": [
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-b6933008-5b60-450a-b6a3-1a8f9a5260ea.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        },
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-a4f0b57c-1aab-4901-8f2c-5d6c76df9b0d.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        }
+      ],
+      "qa": {
+        "sha256": "C1375F195B9A8080CB06303C838A838C53C2F9741E81CE5EE9AB7B19E2B97CA4",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 974539,
+        "solidPixels": 534597,
+        "partialPixels": 63728,
+        "transparentFraction": 0.619595,
+        "solidFraction": 0.339888,
+        "visibleBounds": {
+          "left": 123,
+          "top": 8,
+          "right": 891,
+          "bottom": 1501
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.588379,
+          "y": 0.977865
+        }
+      }
+    },
+    {
+      "code": "V-042",
+      "slug": "police-joeun",
+      "name": "경찰 조은",
+      "description": "Adult Korean fantasy policewoman from reference; preserve her long straight side-parted black hair without bangs, distinct brown eyes, soft elegant adult face. Sky-blue short-sleeved police uniform shirt with black-and-gold shoulder epaulettes and gold buttons, long black necktie, fitted black leather miniskirt and tall fitted black boots. Preserve her ornate long-barrel black-and-silver fantasy pistol with sapphire-blue core and silver engraved full casing. Hold pistol safely lowered to side in a natural firm grip, other hand lightly supporting wrist near hip. No hat or new gear. Retain likeness in SD illustration style.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: standalone 2D RPG full-body SD battle sprite derived from an approved ADULT character design.\nInput image 1 is the exact adult character identity, outfit and weapon reference. Input image 2 is ONLY the established SD painting and proportion reference. Never copy image 2's purple uniform, hair, rifle or face.\nCreate ONE complete full-body stylized ADULT SD character, approximately 4 heads tall like input 2, elegant mature face with readable expressive eyes, adult body silhouette, polished Korean collectible RPG painterly shading and delicate outlines, rich yet clean separated cloth/metal/hair materials. Not photorealistic, 3D, toy, baby or child. Preserve reference 1's unique face, hairstyle, clothing structure, colors and entire weapon design; only simplify tiny ornament for small battle readability.\n1024x1536 portrait PNG, actual RGBA transparency. Background pixels alpha exactly 0. Single character centered in a neutral balanced three-quarter STANDING idle battle pose. Entire hair, both hands, complete weapon tips and both feet visible inside canvas with clear margins of at least 3%. Feet near 94% canvas height and on same ground level. Weapon stays above feet ground-contact line. No backdrop, floor, scenery, pedestal, ground shadow, aura, particles, muzzle flash, text, frame, watermark, other character, solid background, gradient or baked checkerboard. This is an isolated transparent production sprite to overlay arbitrary battle backgrounds. Real alpha is mandatory.\nCharacter requirements: Adult Korean fantasy policewoman from reference; preserve her long straight side-parted black hair without bangs, distinct brown eyes, soft elegant adult face. Sky-blue short-sleeved police uniform shirt with black-and-gold shoulder epaulettes and gold buttons, long black necktie, fitted black leather miniskirt and tall fitted black boots. Preserve her ornate long-barrel black-and-silver fantasy pistol with sapphire-blue core and silver engraved full casing. Hold pistol safely lowered to side in a natural firm grip, other hand lightly supporting wrist near hip. No hat or new gear. Retain likeness in SD illustration style.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "initialOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-b2d4eddc-6b68-4e68-8b5c-3c47af51652e.png",
+      "sourceArtSha256": "838CC6DE03E2C9EBBC35267C838F040ADEB04D7B288D192A936B27D3E5366823",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-0d17e7d7-f85d-488a-891a-2d96b4c4fa67.png",
+      "nativeOutputSha256": "F6EDE2DB6286F9831675FABF8B62AC74E87255336C7EAC20FC611C567545C0CB",
+      "finalPrompt": "Remove the background and make it transparent.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-b2d4eddc-6b68-4e68-8b5c-3c47af51652e.png"
+      ],
+      "rejectedOutputs": [
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-b2d4eddc-6b68-4e68-8b5c-3c47af51652e.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        },
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-595736c1-79f1-440c-aac8-9ad694188143.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        }
+      ],
+      "qa": {
+        "sha256": "F6EDE2DB6286F9831675FABF8B62AC74E87255336C7EAC20FC611C567545C0CB",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 991929,
+        "solidPixels": 517725,
+        "partialPixels": 63210,
+        "transparentFraction": 0.630651,
+        "solidFraction": 0.329161,
+        "visibleBounds": {
+          "left": 186,
+          "top": 6,
+          "right": 893,
+          "bottom": 1516
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.50293,
+          "y": 0.98763
+        }
+      }
+    },
+    {
+      "code": "V-043",
+      "slug": "dongtan-diim",
+      "name": "동탄 디임",
+      "description": "Adult Korean fantasy woman from reference; preserve distinct warm brown eyes, full softly parted lips, long loose wavy black hair with straight wispy eyebrow-length bangs. Light grey ribbed cable-knit fitted mini dress with matching small open-front cropped long-sleeved cardigan and subtle gold buttons, thin silver pendant necklace. Complete full body with simple neutral grey closed-toe pumps and bare legs. Preserve her long-barrel silver-and-black fantasy revolver with teal oval core integrated into its ornate body, black grip and gold filigree; hold in one hand beside thigh, barrel pointing down and away from feet. Other arm naturally relaxed. Mature face and body silhouette; no pose emphasizing body parts.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: standalone 2D RPG full-body SD battle sprite derived from an approved ADULT character design.\nInput image 1 is the exact adult character identity, outfit and weapon reference. Input image 2 is ONLY the established SD painting and proportion reference. Never copy image 2's purple uniform, hair, rifle or face.\nCreate ONE complete full-body stylized ADULT SD character, approximately 4 heads tall like input 2, elegant mature face with readable expressive eyes, adult body silhouette, polished Korean collectible RPG painterly shading and delicate outlines, rich yet clean separated cloth/metal/hair materials. Not photorealistic, 3D, toy, baby or child. Preserve reference 1's unique face, hairstyle, clothing structure, colors and entire weapon design; only simplify tiny ornament for small battle readability.\n1024x1536 portrait PNG, actual RGBA transparency. Background pixels alpha exactly 0. Single character centered in a neutral balanced three-quarter STANDING idle battle pose. Entire hair, both hands, complete weapon tips and both feet visible inside canvas with clear margins of at least 3%. Feet near 94% canvas height and on same ground level. Weapon stays above feet ground-contact line. No backdrop, floor, scenery, pedestal, ground shadow, aura, particles, muzzle flash, text, frame, watermark, other character, solid background, gradient or baked checkerboard. This is an isolated transparent production sprite to overlay arbitrary battle backgrounds. Real alpha is mandatory.\nCharacter requirements: Adult Korean fantasy woman from reference; preserve distinct warm brown eyes, full softly parted lips, long loose wavy black hair with straight wispy eyebrow-length bangs. Light grey ribbed cable-knit fitted mini dress with matching small open-front cropped long-sleeved cardigan and subtle gold buttons, thin silver pendant necklace. Complete full body with simple neutral grey closed-toe pumps and bare legs. Preserve her long-barrel silver-and-black fantasy revolver with teal oval core integrated into its ornate body, black grip and gold filigree; hold in one hand beside thigh, barrel pointing down and away from feet. Other arm naturally relaxed. Mature face and body silhouette; no pose emphasizing body parts.",
+      "referenced_image_paths": [
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+        "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ],
+      "initialOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-a2a12575-54cf-4b2f-a147-8dee4b4af606.png",
+      "sourceArtSha256": "81FE7FB2BACEBF340FD53F730668BA079831DA7E5F34C396D4285DACECFA8B92",
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "nativeOutput": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-d0f6cf1e-4115-4f24-ad79-58ba0e42634e.png",
+      "nativeOutputSha256": "9B342949FEB24DFACCA663A47272846C390341FF3489DF0AEDE04C7ECFC8BCA3",
+      "finalPrompt": "Remove the background and make it transparent.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-a2a12575-54cf-4b2f-a147-8dee4b4af606.png"
+      ],
+      "rejectedOutputs": [
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-a2a12575-54cf-4b2f-a147-8dee4b4af606.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        },
+        {
+          "path": "C:\\Users\\User\\.codex\\generated_images\\01a089cb-d4f5-77d1-b2b5-f960b37913f8\\exec-4ebffe9f-b37b-49a7-bb69-eea1b3d45e07.png",
+          "reason": "RGB output with baked checkerboard background; no true alpha. Not connected."
+        }
+      ],
+      "qa": {
+        "sha256": "9B342949FEB24DFACCA663A47272846C390341FF3489DF0AEDE04C7ECFC8BCA3",
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "channels": 4,
+        "hasAlpha": true,
+        "transparentPixels": 1032012,
+        "solidPixels": 480047,
+        "partialPixels": 60805,
+        "transparentFraction": 0.656136,
+        "solidFraction": 0.305206,
+        "visibleBounds": {
+          "left": 174,
+          "top": 7,
+          "right": 840,
+          "bottom": 1527
+        },
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "footAnchor": {
+          "x": 0.62207,
+          "y": 0.994792
+        }
+      }
+    }
+  ]
+}

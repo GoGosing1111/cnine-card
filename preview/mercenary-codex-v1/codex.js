@@ -1,4 +1,4 @@
-import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js?v=2063.2-dongtan-diim';
+import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js?v=20260910-sd-complete';
 
 const IS_PUBLIC = document.documentElement.dataset.codexMode === 'public';
 const $ = selector => document.querySelector(selector);

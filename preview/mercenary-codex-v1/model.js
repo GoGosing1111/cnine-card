@@ -1,5 +1,5 @@
 // Shared read-only codex model. The preparation roster owns all facts; no legacy ranks.
-export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2063.2-dongtan-diim', import.meta.url);
+export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260910-sd-complete', import.meta.url);
 export const ASSET_ROOT = new URL('../../', import.meta.url);
 export const MEDIA_PREFIX = 'assets/ui/project-v/mercenaries/codex-v1/';
 export const POSITIONS = ['전위', '중거리', '후열'];

@@ -37,11 +37,11 @@ test('explicit approval adds exactly four originals without changing the previou
   }
 });
 
-test('outfit and weapon concepts are searchable while all four new SDs remain explicitly pending', () => {
+test('outfit and weapon concepts remain searchable after the four SDs are connected', () => {
   const outfits = ['오피스룩', '가터벨트 치마', '비키니룩', '핫팬츠룩'];
   const weapons = ['건틀릿', '체인소드', '활', '대검'];
   const adapter = createMercenaryBattleArtAdapter(roster);
-  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 37, battleSpritePending: 6, rankPending: 43 });
+  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 43 });
   for (const [i, code] of codes.entries()) {
     const card = roster.cards.find(card => card.code === code);
     assert.equal(card.outfit, outfits[i]);
@@ -51,24 +51,24 @@ test('outfit and weapon concepts are searchable while all four new SDs remain ex
     assert.equal(card.rank, null);
     assert.equal(card.rankStatus, 'PENDING_USER_ASSIGNMENT');
     assert.equal(card.roleStatus, 'ART_CONCEPT_ONLY');
-    assert.equal(card.battleSprite, null);
-    assert.equal(card.battleSpriteSha256, null);
-    assert.equal(card.battleSpriteStatus, 'NOT_YET_PRODUCED');
-    assert.equal(sdStatus(card), '제작 대기');
-    assert.equal(adapter.resolveForConsumer('BATTLE_FIELD', code), null);
+    assert.notEqual(card.battleSprite, card.sourceArt);
+    assert.equal(hash(read(card.battleSprite)), card.battleSpriteSha256);
+    assert.equal(card.battleSpriteStatus, 'TECH_QA_COMPLETE_USER_REVIEW_PENDING');
+    assert.equal(sdStatus(card), '기술검수 완료 · 시각검수 대기');
+    assert.equal(adapter.resolveForConsumer('BATTLE_FIELD', code).battleSprite, card.battleSprite);
     assert.equal(adapter.resolveForConsumer('CARD_DOCK', code), null);
     assert.equal(media.entries.filter(entry => entry.code === code && entry.kind === 'art').length, 2);
-    assert.equal(media.entries.some(entry => entry.code === code && entry.kind === 'sd'), false);
+    assert.equal(media.entries.some(entry => entry.code === code && entry.kind === 'sd'), true);
   }
   assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-043');
 });
 
-test('catalog release refreshes data and module caches and describes the current 43/37/6 resource state', () => {
-  assert.equal(ROSTER_URL.searchParams.get('v'), '2063.2-dongtan-diim');
+test('catalog release refreshes data and module caches and describes the current 43/43/0 resource state', () => {
+  assert.equal(ROSTER_URL.searchParams.get('v'), '20260910-sd-complete');
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /codex\.js\?v=2063\.2-dongtan-diim/);
-  assert.match(html, /전체 원화 43종, 전투 SD 37종/);
-  assert.match(html, /신규 6종의 SD는 제작 대기/);
+  assert.match(html, /codex\.js\?v=20260910-sd-complete/);
+  assert.match(html, /전체 원화 43종, 전투 SD 43종/);
+  assert.doesNotMatch(html, /신규 6종의 SD는 제작 대기/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /의상 콘셉트/);
   const generation = json('preview/mercenary-four-looks-v1/generation.json');
   assert.equal(generation.status, 'APPROVED_SOURCE_ART');

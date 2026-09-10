@@ -68,10 +68,10 @@ test('review roster has forty-three unique cards and no inherited rank', () => {
 test('all source art and all declared battle sprites exist with recorded hashes', () => {
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
-  assert.equal(sprites.length, 37);
-  assert.equal(pending.length, 6);
-  assert.equal(roster.summary.battleSpriteReady, 37);
-  assert.equal(roster.summary.battleSpritePending, 6);
+  assert.equal(sprites.length, 43);
+  assert.equal(pending.length, 0);
+  assert.equal(roster.summary.battleSpriteReady, 43);
+  assert.equal(roster.summary.battleSpritePending, 0);
 
   for (const card of roster.cards) {
     assert.equal(fs.existsSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);

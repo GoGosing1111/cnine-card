@@ -1247,6 +1247,17 @@
       "sha256": "409BEC826DFF72273789D080CEE9D585CC6B3CC6E6785E502AFE356D82D5C7E0"
     },
     {
+      "code": "V-038",
+      "kind": "sd",
+      "file": "v-038-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 118144,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v038-cecilia-sd-v1.png",
+      "sourceSha256": "E8E06593B0389E85897527B86AFD48465E12E23A34812186E477F3670557C74B",
+      "sha256": "8950552F388A1392FDBE4485938A5999CA3C0972ACBE07D126CD6F16FC2325D3"
+    },
+    {
       "code": "V-039",
       "kind": "art",
       "file": "v-039-art-320.webp",
@@ -1267,6 +1278,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
       "sourceSha256": "1ACB0840FCE80FACD1CE5A75C26AD7E7D84AB66146EA8FFC4C0482A7197F4B84",
       "sha256": "AC127A29FA6FAAD2A45A79A0513C3FD19E3D83B22DCE09F5E3E07DA2D6F8DA90"
+    },
+    {
+      "code": "V-039",
+      "kind": "sd",
+      "file": "v-039-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 113142,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v039-rosetta-sd-v1.png",
+      "sourceSha256": "9D6C6D8E3CFC3B0C7F05351DE638F7258D6BC344D49B3E7742D514FE948002DD",
+      "sha256": "13CE3E303011CDCCF8380CED9D51AE9F17F815E947957FB73A45D3033489D50A"
     },
     {
       "code": "V-040",
@@ -1291,6 +1313,17 @@
       "sha256": "1760E470E8BD58BE49449DC100FAAED23AB7F4A43B5772EBC49B3FF3108AAD5C"
     },
     {
+      "code": "V-040",
+      "kind": "sd",
+      "file": "v-040-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 152478,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+      "sourceSha256": "A9AACAAE3BF01C022CED7E258C52090A135BCA7EBF08CE789708F70A1C7684D3",
+      "sha256": "4F61682C563362A815920BA7C48A1C6EFEF70030F60B38756646B4D0E62EA36C"
+    },
+    {
       "code": "V-041",
       "kind": "art",
       "file": "v-041-art-320.webp",
@@ -1311,6 +1344,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
       "sourceSha256": "BF0837FABA391BD7C322D389033EB190FDAFA8FE47AF758AA0D1337D89BADD8D",
       "sha256": "C0B5242C20EC7C0BDE624637A19DA911D98FDD7722039D315894113986D77A48"
+    },
+    {
+      "code": "V-041",
+      "kind": "sd",
+      "file": "v-041-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 152120,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v041-renia-sd-v1.png",
+      "sourceSha256": "C1375F195B9A8080CB06303C838A838C53C2F9741E81CE5EE9AB7B19E2B97CA4",
+      "sha256": "5D5074A061E0BFE4ACF2606612DEC8B09A2ED1D2BB7379C6E5DDE1FA0D6549F4"
     },
     {
       "code": "V-042",
@@ -1335,6 +1379,17 @@
       "sha256": "0216898EC553AE745B2FC2EA8BE308C19B329D7FACF51E5A431158BE66E34C0F"
     },
     {
+      "code": "V-042",
+      "kind": "sd",
+      "file": "v-042-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 120126,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+      "sourceSha256": "F6EDE2DB6286F9831675FABF8B62AC74E87255336C7EAC20FC611C567545C0CB",
+      "sha256": "6E6FB6C87DA28F837B1881952CCA0702474F79D9A430F2AE6BE9012EEAA7AA34"
+    },
+    {
       "code": "V-043",
       "kind": "art",
       "file": "v-043-art-320.webp",
@@ -1355,6 +1410,17 @@
       "source": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
       "sourceSha256": "81FE7FB2BACEBF340FD53F730668BA079831DA7E5F34C396D4285DACECFA8B92",
       "sha256": "9E43B3FE90639D1FE9274935ADBA052740AB34FACBEECDE6B0B6AAA1B6912235"
+    },
+    {
+      "code": "V-043",
+      "kind": "sd",
+      "file": "v-043-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 119296,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+      "sourceSha256": "9B342949FEB24DFACCA663A47272846C390341FF3489DF0AEDE04C7ECFC8BCA3",
+      "sha256": "418D3B036EBC75191A62EC26A1D181C8E8B1794071A5A0573A5039826295F55A"
     }
   ]
 }
