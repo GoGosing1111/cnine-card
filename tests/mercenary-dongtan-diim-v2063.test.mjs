@@ -53,8 +53,8 @@ test('the final game-illustration V4 is connected byte-for-byte with only separa
 });
 
 test('Diim is read-only with fresh caches, no assigned rank and no original-as-SD fallback',()=>{
-  assert.equal(ROSTER_URL.searchParams.get('v'),'20260910-sd-complete');
-  assert.deepEqual(roster.summary,{total:43,sourceArtReady:43,battleSpriteReady:43,battleSpritePending:0,rankPending:43});
+  assert.equal(ROSTER_URL.searchParams.get('v'),'20260911-omega-ranks');
+  assert.deepEqual(roster.summary,{total:43,sourceArtReady:43,battleSpriteReady:43,battleSpritePending:0,rankPending:42});
   assert.equal(approval.runtimeConnected,false);
   assert.equal(approval.rankAssigned,false);
   assert.equal(card.rank,null);
@@ -66,7 +66,7 @@ test('Diim is read-only with fresh caches, no assigned rank and no original-as-S
   assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD',card.code).battleSprite,card.battleSprite);
   const html=read('mercenary-codex/index.html').toString();
   assert.match(html,/동탄 디임\(V-043\)/);
-  assert.match(html,/codex\.js\?v=20260910-sd-complete/);
+  assert.match(html,/codex\.js\?v=20260911-omega-ranks/);
   assert.match(html,/로비로 돌아가기/);
   assert.match(html,/전체 원화 43종, 전투 SD 43종/);
 });

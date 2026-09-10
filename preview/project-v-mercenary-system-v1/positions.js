@@ -2,12 +2,13 @@ import {
   POSITIONS, ROLES, TARGETS, DRAFT_STORAGE_KEY, MAX_DRAFT_BYTES,
   cloneDraft, parsePositionDraft, validatePositionDraft, revisePositionDraft,
   summarizePositions, changedAssignments
-} from '../../shared/mercenary-position-config-v1.mjs';
-import { ROSTER_URL, assetUrl, mediaPath } from '../mercenary-codex-v1/model.js';
+} from '../../shared/mercenary-position-config-v1.mjs?v=20260911-omega';
+import { ROSTER_URL, assetUrl, mediaPath } from '../mercenary-codex-v1/model.js?v=20260911-omega-ranks';
+import {MERCENARY_RANKS} from '../../shared/mercenary-ranks-v1.mjs';
 
 const $ = selector => document.querySelector(selector);
 const escape = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-const state = { roster: null, seed: null, saved: null, draft: null, selected: 'V-001', storageAvailable: true };
+const state = { roster: null, seed: null, saved: null, draft: null, selected: 'V-021', storageAvailable: true };
 const entryFor = code => state.draft.assignments.find(entry => entry.code === code);
 const cardFor = code => state.roster.cards.find(card => card.code === code);
 const isDirty = () => state.draft && changedAssignments(state.saved, state.draft).length > 0;
@@ -33,6 +34,7 @@ function renderState() {
 
 function renderOverview() {
   const summary = summarizePositions(state.draft);
+  $('#rankSummary').innerHTML = [...MERCENARY_RANKS, null].map(rank => `<span><b>${rank || '미정'}</b> ${state.draft.assignments.filter(entry => entry.rank === rank).length}명</span>`).join('');
   $('#positionSummary').innerHTML = Object.entries(POSITIONS).map(([key, value]) => `<button type="button" class="position-item${$('#positionFilter').value === key ? ' active' : ''}" data-position="${key}" aria-pressed="${$('#positionFilter').value === key}"><strong>${summary.positions[key]}</strong><span>${value.label} · ${value.engineRow === 'FRONT' ? '전선 교전' : '전열 뒤 배치'}</span></button>`).join('');
   $('#roleSummary').innerHTML = Object.entries(ROLES).map(([key, value]) => `<button type="button" class="role-card${$('#roleFilter').value === key ? ' active' : ''}" data-role="${key}" aria-pressed="${$('#roleFilter').value === key}"><span class="role-label"><b>${value.label}</b><b class="role-count">${summary.roles[key]}</b></span><small>${value.purpose}</small></button>`).join('');
 }
@@ -50,7 +52,7 @@ function renderList() {
   $('#resultCount').textContent = `${rows.length} / ${state.draft.assignments.length}명`;
   $('#rosterList').innerHTML = rows.length ? rows.map(entry => {
     const card = cardFor(entry.code);
-    return `<button type="button" class="roster-row" data-code="${entry.code}" aria-pressed="${entry.code === state.selected}" aria-label="${escape(card.code + ' ' + card.name + ' 설정 선택')}"><img class="portrait" src="${assetUrl(mediaPath(card.code))}" alt="" loading="lazy" width="50" height="70"><span><strong class="roster-name">${escape(card.name)}</strong><span class="roster-meta">${card.code} · ${escape(card.weapon || card.title)}</span></span><span class="assignment-label"><b>${POSITIONS[entry.position].label} / ${ROLES[entry.role].label}</b>${changed.has(entry.code) ? '<span class="changed">기본안에서 변경</span>' : '<span class="roster-meta">제안 배정</span>'}</span></button>`;
+    return `<button type="button" class="roster-row" data-code="${entry.code}" aria-pressed="${entry.code === state.selected}" aria-label="${escape(card.code + ' ' + card.name + ' 설정 선택')}"><img class="portrait" src="${assetUrl(mediaPath(card.code))}" alt="" loading="lazy" width="50" height="70"><span><strong class="roster-name">${escape(card.name)}</strong><span class="roster-meta">${card.code} · ${entry.rank ? escape(entry.rank)+(card.rank ? ' 확정' : ' 초안') : '등급 미정'} · ${escape(card.weapon || card.title)}</span></span><span class="assignment-label"><b>${POSITIONS[entry.position].label} / ${ROLES[entry.role].label}</b>${changed.has(entry.code) ? '<span class="changed">기본안에서 변경</span>' : '<span class="roster-meta">제안 배정</span>'}</span></button>`;
   }).join('') : '<p class="empty">조건에 맞는 용병이 없습니다.</p>';
 }
 
@@ -59,6 +61,9 @@ function renderDetail() {
   const card = cardFor(state.selected);
   const role = ROLES[entry.role];
   $('#detail').innerHTML = `<div class="detail-top"><img class="detail-image" src="${assetUrl(mediaPath(card.code, 'art', 320))}" alt="${escape(card.name)} 승인 로스터 원화"><div><span class="eyebrow">${card.code}</span><h3>${escape(card.name)}</h3><p>${escape(card.title)}</p><p>기존 콘셉트: ${escape(card.role)}</p><span class="badge">배정안 검토 중</span></div></div>
+    <label>용병 등급${card.rank ? ' · 사용자 확정' : ' · 검토 초안'}<select id="editRank" data-field="rank" ${card.rank ? 'disabled' : ''}><option value=""${entry.rank == null ? ' selected' : ''}>미정</option>${MERCENARY_RANKS.map(rank => `<option value="${rank}"${entry.rank === rank ? ' selected' : ''}>${rank}</option>`).join('')}</select></label>
+    <p class="target-help">C → B → A → S → SS → SSS${card.code === 'V-021' ? ' · 오메가-X 최상위 고정' : ' · 저장해도 운영 등급은 바뀌지 않습니다.'}</p>
+    ${card.code === 'V-021' ? '<a class="omega-skill-link" href="./skills.html?skill=MS-021">SSS 전용기 · 종언의 사건지평선 검수 →</a>' : ''}
     <div class="field-grid"><label>전투 역할<select id="editRole" data-field="role">${options(Object.keys(ROLES), ROLES, entry.role)}</select></label><label>배치 위치<select id="editPosition" data-field="position">${options(role.positions, POSITIONS, entry.position)}</select></label></div>
     <div class="role-help">${role.purpose}<br>약점: ${role.tradeoff}</div>
     <label>스킬 표적<select id="editTarget" data-field="skillTarget">${options(role.targets, TARGETS, entry.skillTarget)}</select></label><p class="target-help">${TARGETS[entry.skillTarget].description}</p>
@@ -66,14 +71,14 @@ function renderDetail() {
     <label>명확한 약점<textarea id="editWeakness" data-field="weakness" maxlength="240" rows="2">${escape(entry.weakness)}</textarea></label>
     <label>배정 근거<textarea id="editRationale" data-field="rationale" maxlength="240" rows="3">${escape(entry.rationale)}</textarea></label>
     <button type="button" id="restoreEntry">이 용병의 기본 제안 불러오기</button>
-    <div class="fixed-fields"><span>기본 공격: 적 전열 우선</span><span>등급: 사용자 확정 대기</span><span>수치·획득: 미설정</span></div>`;
+    <div class="fixed-fields"><span>기본 공격: 적 전열 우선</span><span>공식 등급: ${card.rank || '사용자 확정 대기'}</span><span>수치·획득: 미설정</span></div>`;
 }
 
 function renderAll() { renderState(); renderOverview(); renderList(); renderDetail(); }
 
 function updateEntry(field, value) {
   const entry = entryFor(state.selected);
-  entry[field] = value;
+  entry[field] = field === 'rank' ? value || null : value;
   if (field === 'role') {
     const role = ROLES[value];
     if (!role.positions.includes(entry.position)) entry.position = role.positions[0];
@@ -81,7 +86,7 @@ function updateEntry(field, value) {
     notice('역할에 허용된 위치와 스킬 표적을 함께 확인하세요. 고유 임무와 약점 설명도 직접 검토해 주세요.');
   }
   renderState();
-  if (field === 'role' || field === 'position') { renderOverview(); renderList(); }
+  if (field === 'role' || field === 'position' || field === 'rank') { renderOverview(); renderList(); }
   if (['role', 'position', 'skillTarget'].includes(field)) {
     renderDetail();
     $(`#detail [data-field="${field}"]`).focus();
@@ -121,7 +126,7 @@ function bind() {
   });
   $('#detail').addEventListener('change', event => {
     const field = event.target.dataset.field;
-    if (['position', 'role', 'skillTarget'].includes(field)) updateEntry(field, event.target.value);
+    if (['rank', 'position', 'role', 'skillTarget'].includes(field)) updateEntry(field, event.target.value);
   });
   $('#detail').onclick = event => {
     if (!event.target.closest('#restoreEntry')) return;

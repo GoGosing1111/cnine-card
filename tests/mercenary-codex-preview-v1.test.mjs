@@ -19,8 +19,8 @@ test('reads the canonical 43-card preview roster and never inherits historic ran
   assert.equal(validateRoster(roster), roster);
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
-  assert.ok(roster.cards.every(card => card.rank === null));
-  assert.deepEqual(summarize(roster.cards), { total: 43, sourceReady: 43, spriteReady: 43, rankPending: 43, positions: { 전위: 20, 중거리: 14, 후열: 9 } });
+  assert.ok(roster.cards.every(card => card.code === 'V-021' ? card.rank === 'SSS' : card.rank === null));
+  assert.deepEqual(summarize(roster.cards), { total: 43, sourceReady: 43, spriteReady: 43, rankPending: 42, positions: { 전위: 20, 중거리: 14, 후열: 9 } });
 });
 test('current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft', async () => {
   assert.equal(roster.cardComposition.frame, 'assets/ui/card-frames/mercenary-contract-frame-slim-v3.png');

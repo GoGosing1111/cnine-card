@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {MERCENARY_RANKS, validateRankPolicy} from '../shared/mercenary-ranks-v1.mjs';
+import {beforeOmegaRankAssignment} from './helpers/mercenary-sd-history.mjs';
 import {
   MERCENARY_FORMATION_RULES,
   buildMercenaryFormation,
@@ -17,6 +19,16 @@ import {
 const root = path.resolve(import.meta.dirname, '..');
 const rosterPath = path.join(root, 'assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
 const roster = JSON.parse(fs.readFileSync(rosterPath, 'utf8'));
+
+test('new rank ladder assigns only user-directed Omega and preserves every prior card field', () => {
+  assert.deepEqual(MERCENARY_RANKS, ['C','B','A','S','SS','SSS']);
+  assert.equal(validateRankPolicy(roster), roster);
+  const record = JSON.parse(fs.readFileSync(path.join(root, 'assets/ui/project-v/mercenaries/mercenary-rank-approval-20260911.json'), 'utf8'));
+  const digest = crypto.createHash('sha256').update(JSON.stringify(beforeOmegaRankAssignment(roster.cards))).digest('hex').toUpperCase();
+  assert.equal(digest, record.previousCardsSha256);
+  const bad = structuredClone(roster);bad.cards[20].rank = 'SS';assert.throws(() => validateRankPolicy(bad));
+  bad.cards[20].rank = 'SSS';bad.rankPolicy.tiers.push('SSR');assert.throws(() => validateRankPolicy(bad));
+});
 
 function sha256(relativePath) {
   return crypto.createHash('sha256').update(fs.readFileSync(path.join(root, relativePath))).digest('hex').toUpperCase();
@@ -57,8 +69,8 @@ test('review roster has forty-three unique cards and no inherited rank', () => {
   assert.equal(roster.cards.length, 43);
   assert.equal(new Set(roster.cards.map((card) => card.code)).size, 43);
   assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 43 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
-  assert.ok(roster.cards.every((card) => card.rank === null));
-  assert.ok(roster.cards.every((card) => card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
+  assert.ok(roster.cards.every((card) => card.code === 'V-021' ? card.rank === 'SSS' : card.rank === null));
+  assert.ok(roster.cards.every((card) => card.rankStatus === (card.code === 'V-021' ? 'USER_ASSIGNED_RANK' : 'PENDING_USER_ASSIGNMENT')));
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
   assert.equal(roster.formationRule.regularCardSlots, 5);
   assert.equal(roster.formationRule.mercenarySlots, 1);
@@ -90,12 +102,12 @@ test('all source art and all declared battle sprites exist with recorded hashes'
   }
 });
 
-test('Omega-X preserves the exact user-supplied source and connects a separate battle sprite without inventing a rank', () => {
+test('Omega-X preserves the exact user-supplied source and connects a separate battle sprite with its user-directed SSS rank', () => {
   const omega = roster.cards.find((card) => card.code === 'V-021');
   assert.ok(omega);
   assert.equal(omega.name, '오메가-X');
-  assert.equal(omega.rank, null);
-  assert.equal(omega.rankStatus, 'PENDING_USER_ASSIGNMENT');
+  assert.equal(omega.rank, 'SSS');
+  assert.equal(omega.rankStatus, 'USER_ASSIGNED_RANK');
   assert.equal(omega.sourceArtStatus, 'USER_SUPPLIED_SOURCE_ART');
   assert.equal(omega.sourceArtNote, 'USER_DIRECTED_AS_IS_736X1104_JPEG');
   assert.equal(omega.sourceArtSha256, 'F7AE2726C2B445201F344518DA687CA12C7D5D0FB9E0D1954554F21677DF8117');

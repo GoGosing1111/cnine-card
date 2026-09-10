@@ -1,4 +1,4 @@
-import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js?v=20260910-sd-complete';
+import { ROSTER_URL, POSITIONS, assetUrl, mediaPath, positionOf, roleOf, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from './model.js?v=20260911-omega-ranks';
 
 const IS_PUBLIC = document.documentElement.dataset.codexMode === 'public';
 const $ = selector => document.querySelector(selector);
@@ -72,7 +72,7 @@ function toggleFavorite(code) {
   if (persisted) announce(favorites.has(code) ? '이 브라우저의 즐겨찾기에 저장했습니다.' : '즐겨찾기에서 해제했습니다.');
 }
 function visual(card, { sizes = '(max-width: 520px) 45vw, (max-width: 800px) 30vw, (max-width: 1100px) 23vw, 245px', eager = false } = {}) {
-  return `<span class="card-visual"><img class="card-source" data-media="sourceArt" src="${assetUrl(mediaPath(card.code))}" srcset="${assetUrl(mediaPath(card.code))} 320w, ${assetUrl(mediaPath(card.code, 'art', 640))} 640w" sizes="${sizes}" alt="" width="320" height="480" loading="${eager ? 'eager' : 'lazy'}" decoding="async"><span class="card-vignette"></span><img class="card-frame" src="${assetUrl(roster.cardComposition.frame)}" alt="" width="1024" height="1536" loading="lazy"></span>`;
+  return `<span class="card-visual"><img class="card-source" data-media="sourceArt" src="${assetUrl(mediaPath(card.code))}" srcset="${assetUrl(mediaPath(card.code))} 320w, ${assetUrl(mediaPath(card.code, 'art', 640))} 640w" sizes="${sizes}" alt="" width="320" height="480" loading="${eager ? 'eager' : 'lazy'}" decoding="async"><span class="card-vignette"></span><img class="card-frame" src="${assetUrl(roster.cardComposition.frame)}" alt="" width="1024" height="1536" loading="lazy">${card.rank ? `<span class="mercenary-rank" data-rank="${esc(card.rank)}">${esc(card.rank)}</span>` : ''}</span>`;
 }
 function persistUrl() {
   const url = new URL(location.href);
@@ -122,7 +122,7 @@ function renderSummary() {
   const legacy = roster.cards.filter(card => card.sourceArtStatus === 'LEGACY_ROSTER_ART').length;
   const supplied = roster.cards.filter(card => card.sourceArtStatus === 'USER_SUPPLIED_SOURCE_ART').length;
   const summary = IS_PUBLIC
-    ? `<dl class="summary-grid"><div><dt>공개 용병</dt><dd>${info.total}종</dd></div><div><dt>전투 모습 준비</dt><dd>${info.spriteReady}종</dd></div><div><dt>등급 확정 대기</dt><dd>${info.rankPending}종</dd></div></dl><p>용병의 이름, 역할, 카드 원화와 전투 모습을 먼저 공개합니다.<br>등급·능력치·스킬·획득 경로는 확정 후 안내합니다. 현재는 정보 열람만 가능하며, 용병 획득·편성·전투 기능은 열리지 않았습니다.</p>`
+    ? `<dl class="summary-grid"><div><dt>공개 용병</dt><dd>${info.total}종</dd></div><div><dt>전투 모습 준비</dt><dd>${info.spriteReady}종</dd></div><div><dt>등급 확정 대기</dt><dd>${info.rankPending}종</dd></div></dl><p>용병의 이름, 역할, 카드 원화와 전투 모습을 먼저 공개합니다.<br>등급은 C·B·A·S·SS·SSS입니다. 오메가-X는 SSS로 확정했으며 나머지는 검토 중입니다. 능력치·스킬·획득 경로는 확정 후 안내합니다. 현재는 정보 열람만 가능하며, 용병 획득·편성·전투 기능은 열리지 않았습니다.</p>`
     : `<dl class="summary-grid"><div><dt>신규 승인 원화</dt><dd>${approved}종</dd></div><div><dt>보존 / 사용자 지정 원화</dt><dd>${legacy}종 / ${supplied}종</dd></div><div><dt>등급 확정 대기</dt><dd>${info.rankPending}종</dd></div></dl><p>준비 로스터 기준일 ${esc(roster.updatedAt)} · 원화 ${info.sourceReady}종, 전투 SD ${info.spriteReady}종 준비.<br>전투 SD 기술검수와 사용자 시각검수는 별개입니다. 개별 상태는 용병 상세에서 확인할 수 있습니다.<br>등급·능력치·스킬·획득 경로가 확정되기 전에는 수치를 추정하지 않습니다. 운영에는 별도 승인된 읽기 전용 도감만 공개합니다.</p>`;
   $('#reviewSummary').innerHTML = summary + POSITIONS.map(position => `<p class="review-names"><b>${position} ${info.positions[position]}종</b> — ${roster.cards.filter(card => positionOf(card) === position).map(card => esc(card.name)).join(' · ')}</p>`).join('');
 }
@@ -167,7 +167,7 @@ function renderDetail() {
     <div class="detail-copy"><p class="detail-title">${esc(card.title)}</p><div class="identity-row"><h2 id="detailName" tabindex="-1">${esc(card.name)}</h2><button type="button" class="detail-save" data-save="${card.code}" aria-pressed="false">${icon('bookmark')}<span>즐겨찾기</span></button></div><div class="identity-tags"><span>${esc(card.role)}</span><span>용병 전용 슬롯</span></div>
     ${card.nameStatus === 'PROVISIONAL_CONCEPT_NAME' ? '<p class="asset-note">이름·칭호는 가칭이며, 역할은 원화의 무기 콘셉트 기준입니다. 최종 전투 설정은 별도 확정됩니다.</p>' : card.nameStatus === 'USER_ASSIGNED_NAME' ? '<p class="asset-note">이름은 사용자 지정으로 확정되었습니다. 역할은 원화의 무기 콘셉트이며, 최종 전투 설정은 별도 확정됩니다.</p>' : ''}
     <dl class="info-ledger"><div><dt>신규 등급</dt><dd>${card.rank == null ? '확정 대기' : esc(card.rank)}</dd></div>${card.weapon ? `<div><dt>무기 콘셉트</dt><dd>${esc(card.weapon)}</dd></div>` : ''}${card.outfit ? `<div><dt>의상 콘셉트</dt><dd>${esc(card.outfit)}</dd></div>` : ''}<div><dt>전투 위치</dt><dd>${esc(positionOf(card))}</dd></div><div><dt>역할</dt><dd>${esc(roleOf(card))}</dd></div><div><dt>편성 한도</dt><dd>일반 덱과 별개 · 최대 ${Number(rules.mercenarySlots)}장</dd></div></dl>
-    <section class="pending-info"><h3>전투 정보 · 확정 대기</h3><p>${IS_PUBLIC ? '등급, 능력치, 고유 스킬과 획득 경로는 확정 후 안내합니다. 지금은 용병 정보를 먼저 살펴볼 수 있으며, 획득·편성·전투 기능은 준비 중입니다.' : '능력치, 고유 스킬, 획득 경로는 아직 준비 로스터에 등록되지 않았습니다. 확정 전 수치나 과거 임시 등급은 표시하지 않습니다.'}</p></section>
+    <section class="pending-info"><h3>전투 정보 · 확정 대기</h3><p>${IS_PUBLIC ? '등급은 확정된 카드에 표시합니다. 능력치, 고유 스킬과 획득 경로는 확정 후 안내합니다. 지금은 용병 정보를 먼저 살펴볼 수 있으며, 획득·편성·전투 기능은 준비 중입니다.' : '능력치, 고유 스킬, 획득 경로는 아직 준비 로스터에 등록되지 않았습니다. 확정 전 수치나 과거 임시 등급은 표시하지 않습니다.'}</p></section>
     <section class="formation-info"><h3>기존 덱은 그대로, 용병은 별도로</h3><div class="formation-line"><span class="five-cards" aria-hidden="true">${'<i></i>'.repeat(rules.regularCardSlots)}</span><span>일반 ${Number(rules.regularCardSlots)}장</span><span aria-hidden="true">+</span><b>용병 ${Number(rules.mercenarySlots)}장</b></div><p>최대 ${Number(rules.maxDeployedUnits)}장 편성. 용병 슬롯은 선택 사항이며,<br>비워 두면 기존 5장 덱으로 전투합니다.</p></section>
     <details class="asset-details"><summary>원화 · 전투 리소스 현황</summary><dl class="info-ledger"><div><dt>원화</dt><dd>${artStatus(card)}</dd></div><div><dt>전투 SD</dt><dd>${sdStatus(card)}</dd></div><div><dt>운영 상태</dt><dd>${IS_PUBLIC ? '도감 공개 중 · 편성 미연결' : '검수 프리뷰 · 정보 열람 전용'}</dd></div></dl>${card.sourceArtNote === 'USER_DIRECTED_AS_IS_736X1104_JPEG' ? '<p class="asset-note">사용자 지정 736 × 1104 JPEG 원본을 보존했습니다. 신규 승인 마스터 규격 충족으로 표시하지 않습니다.</p>' : ''}<p class="asset-note">카드 원화와 전투 SD는 별도 리소스입니다. 도감·덱·상세 화면의 원화를 SD로 대체하지 않습니다.</p></details></div>`;
   renderMedia();

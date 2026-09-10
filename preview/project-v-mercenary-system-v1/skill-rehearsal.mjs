@@ -72,6 +72,23 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'RIFT_MARK_DETONATION': {
+      // Fixed target shares: losing/cleansing a mark never buffs another target.
+      const firstShare = 18/targets.length, finalShare = 48/targets.length;
+      for (const id of targets) {
+        hit(1.05, id, firstShare, '첫 검격: 전체 예산 18 분배', {stage: 'RIFT'});
+        if (get(id).hp > 0) flag(1.05, id, '성좌 균열', true, '명중한 생존 표적에 균열 1개');
+      }
+      if (counter) flag(1.55, t, '성좌 균열', false, '첫 표적이 균열 정화: 다른 표적의 몫은 증가하지 않음', 'CLEANSE');
+      for (const id of targets) {
+        if (get(id).hp > 0 && get(id).flags['성좌 균열']) {
+          hit(2.25, id, finalShare, '종언 검격: 남은 균열의 고정 몫만 폭발', {stage: 'DETONATE', procEligible: false});
+          flag(2.25, id, '성좌 균열', false, '균열 1회 소모');
+        } else mark(2.25, '균열 없음·표적 상실: 폭발 취소, 피해 이전 없음', [id], 'BLOCKED');
+      }
+      flag(2.5, 'M', '과부하', true, '성공·실패와 무관하게 다음 기본 공격 준비 지연');
+      break;
+    }
     case 'INTERCEPT_ONE_HIT':
       if (t === 'M') {mark(.55, '자기 자신은 호위 피해를 다시 이전하지 않습니다.', ['M'], 'BLOCKED');break;}
       flag(.55, t, '호위', true, '단일 직접 피해 1회 호위');

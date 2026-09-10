@@ -1,14 +1,15 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 10,
-  "updatedAt": "2026-09-10",
+  "version": 11,
+  "updatedAt": "2026-09-11",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
     "authority": "USER",
     "defaultRank": null,
-    "status": "PENDING_USER_ASSIGNMENT",
-    "inheritLegacyRanks": false
+    "status": "PARTIALLY_ASSIGNED",
+    "inheritLegacyRanks": false,
+    "tiers": ["C", "B", "A", "S", "SS", "SSS"]
   },
   "formationRule": {
     "regularCardSlots": 5,
@@ -40,7 +41,7 @@
     "sourceArtReady": 43,
     "battleSpriteReady": 43,
     "battleSpritePending": 0,
-    "rankPending": 43
+    "rankPending": 42
   },
   "cards": [
     {
@@ -345,8 +346,8 @@
     },
     {
       "code": "V-021",
-      "rank": null,
-      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "rank": "SSS",
+      "rankStatus": "USER_ASSIGNED_RANK",
       "name": "오메가-X",
       "title": "종언의 성좌기사",
       "role": "전위 공격",

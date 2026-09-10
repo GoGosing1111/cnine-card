@@ -1,5 +1,6 @@
 // Shared read-only codex model. The preparation roster owns all facts; no legacy ranks.
-export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260910-sd-complete', import.meta.url);
+import {validateRankPolicy} from '../../shared/mercenary-ranks-v1.mjs';
+export const ROSTER_URL = new URL('../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260911-omega-ranks', import.meta.url);
 export const ASSET_ROOT = new URL('../../', import.meta.url);
 export const MEDIA_PREFIX = 'assets/ui/project-v/mercenaries/codex-v1/';
 export const POSITIONS = ['전위', '중거리', '후열'];
@@ -55,7 +56,7 @@ export function validateRoster(roster) {
     seen.add(card.code);
   }
   assetUrl(roster.cardComposition.frame);
-  return roster;
+  return validateRankPolicy(roster);
 }
 export function summarize(cards) {
   return {

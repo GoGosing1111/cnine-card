@@ -1,5 +1,5 @@
 // Authored skill proposals and offline rehearsal only. Never imported by live battle routes.
-export const SKILL_VERSION = 1;
+export const SKILL_VERSION = 2;
 export const SKILL_STORAGE_KEY = 'cnine.mercenarySkills.draft.v1';
 const definition = (id, code, name, role, target, mechanic, trigger, effect, counterplay, bossRule, visual, steps) => ({
   id, code, name, role, target, mechanic, trigger, effect, counterplay, bossRule, visual, steps,
@@ -9,6 +9,14 @@ const definition = (id, code, name, role, target, mechanic, trigger, effect, cou
 });
 const art = (asset, motion, windup, impacts, duration, color) => ({asset, motion, windup, impacts, duration, color});
 export const MERCENARY_SKILLS = [
+  {...definition('MS-021', 'V-021', '종언의 사건지평선', 'VANGUARD', 'FRONT_GROUP', 'RIFT_MARK_DETONATION',
+    '오메가-X 전용. 살아 있는 적 전열 최대 2명을 고정하고 성좌 균열을 준비한다. 전열이 없으면 단일 표적만 지정한다.',
+    '첫 검격이 맞은 생존 표적에 균열을 새긴다. 재차 대검을 내리쳐 남은 균열만 한 번 폭발시킨다. 두 단계 각각의 전체 피해 예산을 처음 지정한 대상 수로 나눈다.',
+    '두 타격 사이 균열을 정화하거나 오메가를 제압한다. 사라진 표적의 몫은 이전하지 않는다. 성공·실패와 무관하게 과부하가 남아 다음 기본 공격 준비가 늦어진다.',
+    '보스는 단일 대상으로 같은 예산을 적용한다. 최대 HP 비례·즉사·강제 이동·방어 무시를 추가하지 않는다. 균열은 해제 가능한 공격 표식이며 제어 면역을 우회하는 스턴이 아니다.',
+    art('omega-event-horizon', 'EVENT_HORIZON', .65, [1.05, 2.25], 4.2, '#ffc56b'),
+    ['전열 고정 · 성좌 압축', '첫 검격으로 균열 부여', '남은 균열만 종언 폭발', '과부하 · 다음 기본 공격 지연']),
+    exclusivity: {code: 'V-021', rank: 'SSS', transferable: false}},
   definition('MS-003', 'V-003', '황금 구명선', 'GUARDIAN', 'ALLY_LOW_HP', 'INTERCEPT_ONE_HIT',
     'HP 비율이 가장 낮은 아군에게 단일 직접 공격이 예고되면 호위한다.',
     '첫 타격의 피해 일부를 솔바인이 대신 받는다. 피해 총량은 늘지 않으며 한 번 막으면 연결이 끊어진다.',
@@ -128,7 +136,7 @@ export function validateSkillDraft(draft, rosterVersion) {
     draft.rosterVersion !== rosterVersion || draft.status !== 'DRAFT' || draft.runtimeEnabled !== false ||
     !Number.isSafeInteger(draft.revision) || draft.revision < 1 || draft.revision >= Number.MAX_SAFE_INTEGER)
     fail('초안 형식·버전·운영 미연결 상태를 확인하세요.');
-  if (!Array.isArray(draft.skills) || draft.skills.length !== MERCENARY_SKILLS.length) fail('스킬 16종이 모두 있어야 합니다.');
+  if (!Array.isArray(draft.skills) || draft.skills.length !== MERCENARY_SKILLS.length) fail(`스킬 ${MERCENARY_SKILLS.length}종이 모두 있어야 합니다.`);
   const seen = new Set();
   for (const row of draft.skills) {
     if (!exact(row, ['id','code','name','review','note'])) fail('허용되지 않은 스킬 설정입니다.');
@@ -142,5 +150,12 @@ export function validateSkillDraft(draft, rosterVersion) {
 }
 export function parseSkillDraft(text, rosterVersion) {
   if (typeof text !== 'string' || new TextEncoder().encode(text).length > 48*1024) throw new Error('초안은 48 KB 이하여야 합니다.');
-  return validateSkillDraft(JSON.parse(text), rosterVersion);
+  let draft = JSON.parse(text);
+  if (draft?.format === 'PROJECT_V_MERCENARY_SKILL_DRAFT_V1' && draft.version === 1 &&
+      draft.rosterVersion === 10 && rosterVersion === 11 && Array.isArray(draft.skills) && draft.skills.length === 16 &&
+      draft.skills.every(row => row?.id !== 'MS-021')) {
+    draft = {...draft, version: SKILL_VERSION, rosterVersion,
+      skills: [createSkillDraft(rosterVersion).skills.find(row => row.id === 'MS-021'), ...draft.skills]};
+  }
+  return validateSkillDraft(draft, rosterVersion);
 }

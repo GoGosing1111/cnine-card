@@ -89,12 +89,12 @@ test('public information remains read-only with separate local favorites and no 
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.cards.length, 43);
-  assert.ok(roster.cards.every(card => card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
+  assert.ok(roster.cards.every(card => card.code === 'V-021' ? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.match(html, /data-enabled="false"/);
   assert.doesNotMatch(html, /src="[^"]*(?:app\.js|runtime-router|battle-engine|loadout|gsap|pixi)/i);
   assert.doesNotMatch(client, /apiRequest|\/api\/|method:\s*['"](?:POST|PUT|DELETE)|new Audio|AudioContext/);
   assert.match(client, /IS_PUBLIC \? 'cnine\.mercenaryCodex\.public\.v1' : 'cnine\.mercenaryCodex\.preview\.v1'/);
-  assert.match(client, /등급·능력치·스킬·획득 경로는 확정 후 안내/);
+  assert.match(client, /능력치·스킬·획득 경로는 확정 후 안내/);
   assert.match(client, /도감 공개 중 · 편성 미연결/);
   assert.match(client, /href="\/\?screen=\$\{encodeURIComponent\(entry.id\)\}"/);
 });
@@ -105,10 +105,10 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.match(index, /exact-shell-adapter\.js\?v=21\.27\.0-wish-lamp/);
   assert.match(index, /runtime-router\.js\?v=1\.9\.0-mercenary-codex/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
-  assert.match(html, /codex\.js\?v=20260910-sd-complete/);
-  assert.match(html, /codex\.css\?v=1\.4/);
+  assert.match(html, /codex\.js\?v=20260911-omega-ranks/);
+  assert.match(html, /codex\.css\?v=1\.5/);
   assert.match(read('preview/mercenary-codex-v1/codex.css'), /\.search-field input\{min-height:44px\}/);
-  assert.match(client, /model\.js\?v=20260910-sd-complete/);
+  assert.match(client, /model\.js\?v=20260911-omega-ranks/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);
 });
 

@@ -19,9 +19,9 @@ export async function loadAuxiliary(){
   return Object.fromEntries(pairs);
 }
 export function releaseFrameViews(sequence){for(const frame of sequence?.frames||[])frame.destroy(false);}
-export function sampleSequence(age,lead=.24,life=1.05){
+export function sampleSequence(age,lead=.24,life=1.05,authoredKeys=null){
   if(age< -lead||age>=life)return null;
-  const keys=[[-lead,0],[-.035,3],[0,4],[.13,7],[life*.44,10],[life*.75,13],[life,15]];
+  const keys=authoredKeys||[[-lead,0],[-.035,3],[0,4],[.13,7],[life*.44,10],[life*.75,13],[life,15]];
   let frame=0;
   for(let i=1;i<keys.length;i++)if(age<=keys[i][0]){
     const [a,av]=keys[i-1],[b,bv]=keys[i];frame=av+(bv-av)*(age-a)/(b-a);break;

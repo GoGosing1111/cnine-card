@@ -4,7 +4,7 @@
   "status": "USER_REVIEW_PENDING",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 256,
+  "frameCount": 272,
   "images": [
     {
       "id": "closing-punch",
@@ -5554,6 +5554,405 @@
           ]
         }
       ]
+    },
+    {
+      "id": "omega-event-horizon",
+      "skillId": "MS-021",
+      "code": "V-021",
+      "name": "종언의 사건지평선",
+      "source": "source/omega-event-horizon-sequence-v2.png",
+      "runtime": "omega-event-horizon/atlas-v2.webp",
+      "sourceSha256": "73E59BBAE747F3AC9BB78C4852B3D51A4693D1D89EE603F0E2675077CF7C1C1E",
+      "runtimeSha256": "6C0D25F7C50044D14C6B4EB9C6BE06BF52F6EDFF39154D6122F6B086B2BE3AE8",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE individually authored premium fantasy RPG skill VFX animation sheet for Omega-X, a celestial gold-armored greatsword knight. Skill: Terminal Event Horizon.\nReal TRANSPARENT RGBA PNG. Exactly FOUR columns and FOUR rows, 16 sequential equal SQUARE frames in row-major time order, requested 2048x2048. Fixed camera and fixed effect origin at x50% y55% of every cell. All material, glows, wisps and tiny debris entirely within the central 32% of each cell. Extremely wide completely empty transparent gutters, no visible material anywhere near tile boundaries.\nSubject: a gold-and-violet gravitational rift gathers stellar matter, is cut by a single diagonal celestial blade of light, then collapses and ruptures into broken radiant filaments. Black core is a small contained material orb, not a black background. Rich layered golden molten threads, deep violet vacuum folds, bright ivory contact core; realistic directional broken plasma sheets, dense energy compression, subtle gold fragments. Sophisticated detailed hand-painted game VFX matching high-end 2.5D game art.\nExact animation storyboard: Frame01 two tiny inward-bending gold wisps. Frame02 wisps thread together around a pinprick. Frame03 violet vacuum core forms with an incomplete gold orbit. Frame04 orbit warps inward, a small crescent blade begins. Frame05 first contact: the tiny crescent cleaves a gold fault across the core, a contained white-gold spark. Frame06 jagged golden fissures crawl into the core. Frame07 denser violet core squeezes spiralling filaments tightly inward. Frame08 compressed irregular gold/violet sphere under high tension, clearly different from frame07. Frame09 second contact: ONE sharp diagonal white-gold celestial greatsword slash splits the compressed sphere, moment of massive pressure release. Frame10 split halves rupture into asymmetrical broken radiant sheets. Frame11 torn curved plasma ribbons burst outward with golden fragments, all still compact. Frame12 shattered arcs curl and fragment, diminishing. Frame13 violet vapor and gold filaments shear apart. Frame14 only thin disconnected golden embers. Frame15 three tiny dying specks. Frame16 one nearly extinguished speck.\nEvery frame must have actual changing painted material, silhouette, internal motion, rupture direction and density. Do not repeat identical image with scaling/rotation. Not sixteen different icons. ONE continuous visual event. No characters, no physical sword prop, no logos, no Omega letters, no emblems, no UI, no text, no numbers, no gridlines, no scenery, no floor tile, no painted checkerboard, no background. Preserve genuine transparency.",
+      "sourceFilename": "exec-94ea81bb-fef6-42eb-a288-a399a071807d.png",
+      "visualReview": "Native 16-frame sequence and actual V3 desktop 1280x720/mobile390x844 reviewed. Gold/violet strands gather into a gravity core; two contact frames05/09 at1.05s/2.25s split and rupture it, with fading broken filaments. Normal/cleansed/boss playback and cancellation verified; final user visual review pending. See OMEGA-REVIEW.md.",
+      "runtimeBytes": 823912,
+      "frames": [
+        {
+          "index": 0,
+          "file": "omega-event-horizon/frames/01.webp",
+          "rawSha256": "6BEA4AE8845BF423577931A6DDCE266F0A02D1B9982D4F660335367D1F0E118C",
+          "sha256": "799CADB2F933184D9117CC36D823B6FFA7B8CBD62538C840CCC80D46A3B9B62D",
+          "edgeMax": 1,
+          "opaque": 735,
+          "nonempty": 19396,
+          "alphaTotal": 424549,
+          "bounds": [
+            94,
+            142,
+            236,
+            217
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "omega-event-horizon/frames/02.webp",
+          "rawSha256": "AFEC4338AE16D98ACC78EB9AA4A9CA0DC6B4160B4897DA2A9C7D919D293A8960",
+          "sha256": "023A2CBF13B22C9DA2BD6AF9913AA90BAD5EEF9FC2B722D3C7B1ACE647CD37B9",
+          "edgeMax": 1,
+          "opaque": 1461,
+          "nonempty": 27440,
+          "alphaTotal": 759623,
+          "bounds": [
+            89,
+            120,
+            220,
+            239
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "omega-event-horizon/frames/03.webp",
+          "rawSha256": "F18160AF286CE7C8EC1794EBB31941A985C58C55ED35FC422F85CD49364A0226",
+          "sha256": "1AAA32D35E4864263871D0F5A8FD8544CF6343FF218FB0F5BB2A189BE0EC154E",
+          "edgeMax": 1,
+          "opaque": 6991,
+          "nonempty": 33683,
+          "alphaTotal": 2351158,
+          "bounds": [
+            68,
+            108,
+            249,
+            249
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "omega-event-horizon/frames/04.webp",
+          "rawSha256": "92404BF839F41229FE5B4F15A8417C9A8E54EAE9AAC4E1763D4712B52531719B",
+          "sha256": "41B3F93E692654E5AB3601102CFDA078FBDBCF07A2517F57D0F4DD48662CA08A",
+          "edgeMax": 1,
+          "opaque": 7317,
+          "nonempty": 31262,
+          "alphaTotal": 2483336,
+          "bounds": [
+            79,
+            107,
+            232,
+            252
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "omega-event-horizon/frames/05.webp",
+          "rawSha256": "BED8B8996099B9BC06D11AB766EC10F501AE936717C88C0D80025E0D02C43C92",
+          "sha256": "B4859D1E27E6FCB75EC8B8D00EB568D1F8D7CC3A9404A523AE606FE2CBC1498B",
+          "edgeMax": 1,
+          "opaque": 10296,
+          "nonempty": 35599,
+          "alphaTotal": 3205578,
+          "bounds": [
+            65,
+            89,
+            257,
+            233
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "omega-event-horizon/frames/06.webp",
+          "rawSha256": "B8B73021F41FD1B13AC8D46E2494F494E0F3FCE417BE30C76C29B805E3945BD2",
+          "sha256": "FBFBD979CE51A05C579B12B0A079A650E5B705E274F180BDA958C77C60C05031",
+          "edgeMax": 1,
+          "opaque": 10877,
+          "nonempty": 34215,
+          "alphaTotal": 3388278,
+          "bounds": [
+            65,
+            87,
+            243,
+            237
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "omega-event-horizon/frames/07.webp",
+          "rawSha256": "6EA64565105034D84F6E97F65844BAC77BE19C43596C11530320E1278A2E1C72",
+          "sha256": "54F6EF797395C7D7310122D4824D2D397DA635DC6A62B2A1EACCF05D0519EE81",
+          "edgeMax": 1,
+          "opaque": 13148,
+          "nonempty": 33554,
+          "alphaTotal": 4064243,
+          "bounds": [
+            64,
+            82,
+            242,
+            247
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "omega-event-horizon/frames/08.webp",
+          "rawSha256": "CDC13A10C466121D84833FF335FF05FDBEAF7F03F7E16202C9C60B89975441BE",
+          "sha256": "C8E672907E7AB8B39F304D1D4E7D953EFADD693B977B747CA0E15639C7188CA5",
+          "edgeMax": 1,
+          "opaque": 15284,
+          "nonempty": 33450,
+          "alphaTotal": 4505644,
+          "bounds": [
+            62,
+            85,
+            254,
+            247
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "omega-event-horizon/frames/09.webp",
+          "rawSha256": "D90335CD582AFA1F7EDA1E7226178B971EB592D39FECE6B64F18E5E042679662",
+          "sha256": "A0A43D7F6077917431D47629F09D0006D0B2443DEC1FD70A84EB9C322EFCEE18",
+          "edgeMax": 1,
+          "opaque": 18659,
+          "nonempty": 50408,
+          "alphaTotal": 5531402,
+          "bounds": [
+            57,
+            49,
+            271,
+            253
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "omega-event-horizon/frames/10.webp",
+          "rawSha256": "21943D2B3EC32A767A2B2C52E4E80A05E7596F4DEBF838336FEB1A2081C8E9BF",
+          "sha256": "E65FCE6780A1F532FB86BE9A65D50B93CEEFB7420F0A6B69529C7D593FC01A45",
+          "edgeMax": 1,
+          "opaque": 17762,
+          "nonempty": 46704,
+          "alphaTotal": 5289182,
+          "bounds": [
+            51,
+            53,
+            265,
+            240
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "omega-event-horizon/frames/11.webp",
+          "rawSha256": "5E571448BFCB920F5459E7FDC05CF0B594A16B26ED7323B6F094A84605927C63",
+          "sha256": "2AD10E413F60B9634F2DC4374F1B304087147132368F1F2D776F085955107E4D",
+          "edgeMax": 1,
+          "opaque": 10571,
+          "nonempty": 45282,
+          "alphaTotal": 4057744,
+          "bounds": [
+            48,
+            59,
+            278,
+            258
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "omega-event-horizon/frames/12.webp",
+          "rawSha256": "A5E28327A729D31D345E8F93700F68602455AA1CDA013AD3590F4ABF36CC92BE",
+          "sha256": "77F3CC50DB3D1B2874856446C86EA0EA3E5171A06FB4CB0B1E9551A692B30E0A",
+          "edgeMax": 1,
+          "opaque": 4449,
+          "nonempty": 38411,
+          "alphaTotal": 2299469,
+          "bounds": [
+            57,
+            70,
+            258,
+            250
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "omega-event-horizon/frames/13.webp",
+          "rawSha256": "08A7D2E4EE647575B37C9DFFF2908546643168E7C9434A271D15D0D8357AA893",
+          "sha256": "A07488782064F9C94F90538A48A958E31113C8DE1F7F39C98E9406A41D5378DC",
+          "edgeMax": 1,
+          "opaque": 1532,
+          "nonempty": 35127,
+          "alphaTotal": 1543968,
+          "bounds": [
+            67,
+            53,
+            254,
+            251
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "omega-event-horizon/frames/14.webp",
+          "rawSha256": "525590FAB06640BF8EB244B84FEC506BE6C90CF61A795B39848EEAF2D8D8E7CD",
+          "sha256": "3AB8EB32FF6E8DB4182EE67D66117FF2D1E244C12B2A907BA6AFE68AA402233A",
+          "edgeMax": 1,
+          "opaque": 714,
+          "nonempty": 20671,
+          "alphaTotal": 480315,
+          "bounds": [
+            96,
+            92,
+            216,
+            217
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "omega-event-horizon/frames/15.webp",
+          "rawSha256": "3D1074E249096C02E6BF3D4E63958332F8F0667DD1AF207A9C789B9FDF9C487D",
+          "sha256": "F67237778E59EF9D428C04B7F6DEE8359813C1348573525CF3EF147B9F52290C",
+          "edgeMax": 1,
+          "opaque": 77,
+          "nonempty": 9067,
+          "alphaTotal": 96545,
+          "bounds": [
+            114,
+            118,
+            191,
+            178
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "omega-event-horizon/frames/16.webp",
+          "rawSha256": "2C6A441EEBE3EDD4131DB77F53DDFEF76F3B86D6F578A4F5A99D6CCA6DB4332E",
+          "sha256": "7D6F07DEB2CB5F57AE94029764685B3BBB1E55F6F43D185F9DB9383761D170F8",
+          "edgeMax": 1,
+          "opaque": 47,
+          "nonempty": 7662,
+          "alphaTotal": 43608,
+          "bounds": [
+            145,
+            144,
+            168,
+            166
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ],
+      "timeline": {
+        "durationSeconds": 4.2,
+        "contactFrames": [
+          {
+            "frame": 5,
+            "at": 1.05
+          },
+          {
+            "frame": 9,
+            "at": 2.25
+          }
+        ],
+        "frameNumbering": "ONE_BASED",
+        "keysRelativeToFirstContact": [
+          [
+            -0.75,
+            0
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0.9,
+            7
+          ],
+          [
+            1.2,
+            8
+          ],
+          [
+            1.38,
+            9
+          ],
+          [
+            1.78,
+            11
+          ],
+          [
+            2.3,
+            13
+          ],
+          [
+            2.85,
+            15
+          ]
+        ],
+        "keyFrameNumbering": "ZERO_BASED",
+        "cleanse": "Only remaining marks receive terminal frames; erased marks fade within180ms"
+      }
     }
   ],
   "reference": {
