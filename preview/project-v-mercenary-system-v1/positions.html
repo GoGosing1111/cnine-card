@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,nofollow">
+  <title>용병 포지션 · CMS 준비실 | 숲켓몬</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./positions.css?v=20260910-1">
+</head>
+<body>
+  <a class="skip-link" href="#editor">설정 편집으로 이동</a>
+  <main>
+    <header class="page-header">
+      <div><a class="eyebrow" href="./">숲켓몬 / 용병 시스템 준비실</a><h1>용병 포지션 설계</h1><p>한 명의 용병이 기존 다섯 장의 빈틈을 채우도록.</p></div>
+      <div class="review-label"><strong>검토 초안</strong><span>역할 배정안 · 운영 미적용</span></div>
+    </header>
+    <div class="intro-grid">
+      <section class="panel brief"><h2>위치와 임무를 따로 정합니다</h2><p><b>배치 위치</b>는 어디서 싸우는지, <b>전투 역할</b>은 어떤 약점을 보완하는지, <b>스킬 표적</b>은 누구에게 개입하는지를 정합니다.</p><p>기본 공격은 적 전열 우선. 후열 추격은 해당 스킬에만 제안합니다.</p><div class="formation-note">일반 카드 <b>5</b><span>+</span>선택 용병 <b>1</b><span>·</span>별도 계약 슬롯</div></section>
+      <section class="panel"><h2>배치 위치</h2><div id="positionSummary" class="position-summary"></div><p class="muted small">중열은 전열 뒤의 전술 위치입니다. 실제 전투의 전열·후열 판정과 별도로 관리합니다.</p></section>
+    </div>
+    <section class="role-section" aria-labelledby="roleHeading"><div class="section-title"><h2 id="roleHeading">7가지 전투 역할</h2><span>역할을 누르면 해당 용병만 표시됩니다</span></div><div id="roleSummary" class="role-grid"></div></section>
+    <div class="balance-note"><strong>출시 검토 포인트</strong><span>기본 제안은 수호 4 · 돌격 10 · 기습 5 · 사격 11 · 저격 4 · 제압 6 · 지원 3명입니다. 지원은 지휘·보호·회복 각 1명이라 선택 폭 검수가 필요합니다.</span></div>
+    <section id="editor" class="editor" aria-labelledby="editorHeading">
+      <div class="editor-top"><div><span class="eyebrow">CMS 설정 초안</span><h2 id="editorHeading">43종 배정 및 개별 편집</h2><p id="draftState">기준 로스터를 불러오는 중입니다.</p></div><div class="actions"><button id="reloadDraft" type="button" disabled>저장본 불러오기</button><button id="saveDraft" class="primary" type="button" disabled>이 브라우저에 저장</button><button id="exportDraft" type="button" disabled>JSON 내보내기</button><label class="file-button">JSON 가져오기<input id="importDraft" type="file" accept="application/json,.json" disabled></label></div></div>
+      <p class="scope-note">이 화면의 저장은 브라우저 초안만 변경합니다. 실제 CMS 서버 저장·공개는 후속 연결 대상입니다.</p>
+      <div id="notice" role="status" aria-live="polite" hidden></div>
+      <div class="filters"><label>검색<input id="search" type="search" maxlength="80" placeholder="이름, 코드, 무기, 역할"></label><label>배치 위치<select id="positionFilter"><option value="">전체 위치</option></select></label><label>전투 역할<select id="roleFilter"><option value="">전체 역할</option></select></label><button type="button" id="clearFilters">필터 초기화</button><span id="resultCount"></span></div>
+      <div class="editor-grid"><div class="roster-pane"><div class="table-heading"><span>용병 · 원화</span><span>위치 / 역할</span></div><div id="rosterList" aria-label="용병 선택"><p class="empty">로스터 확인 중</p></div></div><aside id="detail" class="detail" aria-label="선택 용병 설정"><p class="empty">용병을 선택하세요.</p></aside></div>
+    </section>
+    <section class="panel contract"><h2>CMS 연결 준비 범위</h2><div class="contract-grid"><div><b>준비된 편집 항목</b><p>위치, 역할, 스킬 표적, 고유 임무, 약점, 배정 근거. 43종 누락·중복과 역할에 맞지 않는 조합을 검사합니다.</p></div><div><b>출시 전에 추가할 항목</b><p>사용자 확정 등급, 스탯·스킬 수치, 획득·성장 정책, 모드별 사용 범위. 현재는 값을 자동으로 부여하지 않습니다.</p></div><div><b>서버 CMS 연결 계약</b><p>초안 저장 → 변경 비교 → 검수 → 적용. 권한 확인, 수정 충돌 검사, 감사 기록과 이전 버전 복원은 서버 구현 시 필수입니다.</p></div><div><b>전투 연결 검수</b><p>일반 덱 5장과 용병을 분리하고 배틀슈트와 겹치지 않게 배치합니다. 표적·피해·승패는 서버가 확정합니다.</p></div></div><details><summary>출시 보류 항목과 설계 문서</summary><p>등급 43종 미정 · 스킬/능력치 미확정 · 운영 저장 API 미연결 · 전투 배치·표적 규칙 미구현 · PVE/PVP 회귀 검수 대기.</p><p><a href="../../docs/project-v-mercenary-position-cms-v1.md">포지션·CMS 설계 문서 보기</a> · <a href="../../mercenary-codex/?sort=newest">읽기 전용 용병도감</a></p></details></section>
+    <footer>원화·SD는 승인 로스터에서 조회합니다. 이 초안은 등급·획득·전투 출시 승인이 아닙니다.</footer>
+  </main>
+  <script type="module" src="./positions.js?v=20260910-1"></script>
+</body>
+</html>

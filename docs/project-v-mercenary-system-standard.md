@@ -74,6 +74,8 @@ mercenary_loadouts
 - 전투 SD 해석 모듈: `js/project-v-mercenary-battle-art-adapter-v1.js`
 - 현재 상태: `PREVIEW_ONLY_NOT_RUNTIME_CONNECTED`
 
+2026-09-10 포지션·CMS 출시 준비 초안은 `docs/project-v-mercenary-position-cms-v1.md`와 `preview/project-v-mercenary-system-v1/positions.html`에서 검토한다. 43종의 위치·역할·스킬 표적을 별도 초안으로 편집하며, 기존 원화 로스터·등급·운영 CMS·전투 API를 변경하지 않는다. 전열·중열·후열과 7개 전투 역할은 사용자 검토 대기 제안이다.
+
 2026-08-31 기준 전투 SD 21종은 모두 로스터와 검수 프리뷰에 연결됐다. 전투 SD 해석 모듈은 `BATTLE_FIELD` 계열 소비자에만 `battleSprite`를 반환하고 도감·상점·덱·상세·스킬 컷인·하단 카드 도크에는 반환하지 않는다. 등급 21종은 여전히 `PENDING_USER_ASSIGNMENT`이므로 운영 DB·덱 저장 API·라이브 전투 편성 활성화는 아래 금지선을 유지한다.
 
 사용자가 등급을 확정하고 라이브 연결을 지시하기 전에는 다음 작업을 하지 않는다.
