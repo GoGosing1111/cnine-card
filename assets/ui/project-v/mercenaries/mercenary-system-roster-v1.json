@@ -1,9 +1,9 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 9,
-  "updatedAt": "2026-09-07",
+  "version": 10,
+  "updatedAt": "2026-09-10",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
-  "battleAssetStatus": "PARTIAL_SPRITES_READY_NEW_ART_PENDING",
+  "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
     "authority": "USER",
     "defaultRank": null,
@@ -38,8 +38,8 @@
   "summary": {
     "total": 43,
     "sourceArtReady": 43,
-    "battleSpriteReady": 37,
-    "battleSpritePending": 6,
+    "battleSpriteReady": 43,
+    "battleSpritePending": 0,
     "rankPending": 43
   },
   "cards": [
@@ -776,10 +776,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-four-looks",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#7BBEE7"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v038-cecilia-sd-v1.png",
+      "battleSpriteSha256": "E8E06593B0389E85897527B86AFD48465E12E23A34812186E477F3670557C74B",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#7BBEE7",
+      "battleSpriteFootAnchor": {
+        "x": 0.529785,
+        "y": 0.971354
+      }
     },
     {
       "code": "V-039",
@@ -798,10 +802,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-four-looks",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#B79ACC"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v039-rosetta-sd-v1.png",
+      "battleSpriteSha256": "9D6C6D8E3CFC3B0C7F05351DE638F7258D6BC344D49B3E7742D514FE948002DD",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#B79ACC",
+      "battleSpriteFootAnchor": {
+        "x": 0.589844,
+        "y": 0.980469
+      }
     },
     {
       "code": "V-040",
@@ -820,10 +828,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-four-looks",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#65D5CB"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+      "battleSpriteSha256": "A9AACAAE3BF01C022CED7E258C52090A135BCA7EBF08CE789708F70A1C7684D3",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#65D5CB",
+      "battleSpriteFootAnchor": {
+        "x": 0.464355,
+        "y": 0.980469
+      }
     },
     {
       "code": "V-041",
@@ -842,10 +854,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-four-looks",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#E9A867"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v041-renia-sd-v1.png",
+      "battleSpriteSha256": "C1375F195B9A8080CB06303C838A838C53C2F9741E81CE5EE9AB7B19E2B97CA4",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#E9A867",
+      "battleSpriteFootAnchor": {
+        "x": 0.588379,
+        "y": 0.977865
+      }
     },
     {
       "code": "V-042",
@@ -864,10 +880,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-police-joeun",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#83B9ED"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+      "battleSpriteSha256": "F6EDE2DB6286F9831675FABF8B62AC74E87255336C7EAC20FC611C567545C0CB",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#83B9ED",
+      "battleSpriteFootAnchor": {
+        "x": 0.50293,
+        "y": 0.98763
+      }
     },
     {
       "code": "V-043",
@@ -886,10 +906,14 @@
       "sourceArtApprovedAt": "2026-09-07",
       "catalogRelease": "READ_ONLY_USER_APPROVED",
       "approvalBatch": "2026-09-07-dongtan-diim",
-      "battleSprite": null,
-      "battleSpriteSha256": null,
-      "battleSpriteStatus": "NOT_YET_PRODUCED",
-      "accent": "#94C7CF"
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+      "battleSpriteSha256": "9B342949FEB24DFACCA663A47272846C390341FF3489DF0AEDE04C7ECFC8BCA3",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "accent": "#94C7CF",
+      "battleSpriteFootAnchor": {
+        "x": 0.62207,
+        "y": 0.994792
+      }
     }
   ]
 }

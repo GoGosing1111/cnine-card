@@ -20,7 +20,7 @@ test('reads the canonical 43-card preview roster and never inherits historic ran
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
   assert.ok(roster.cards.every(card => card.rank === null));
-  assert.deepEqual(summarize(roster.cards), { total: 43, sourceReady: 43, spriteReady: 37, rankPending: 43, positions: { 전위: 20, 중거리: 14, 후열: 9 } });
+  assert.deepEqual(summarize(roster.cards), { total: 43, sourceReady: 43, spriteReady: 43, rankPending: 43, positions: { 전위: 20, 중거리: 14, 후열: 9 } });
 });
 test('current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft', async () => {
   assert.equal(roster.cardComposition.frame, 'assets/ui/card-frames/mercenary-contract-frame-slim-v3.png');
@@ -145,7 +145,7 @@ test('resource states preserve approval differences, including the supplied Omeg
 });
 test('responsive WebP derivatives are complete, traceable, transparent for SD and keep every source hash', async () => {
   assert.equal(media.originalsModified, false);
-  assert.equal(media.entries.length, 123);
+  assert.equal(media.entries.length, 129);
   let listBytes = 0;
   const seen = new Set();
   for (const entry of media.entries) {

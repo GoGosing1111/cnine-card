@@ -22,7 +22,7 @@ export async function runMercenaryCodexBrowserQa() {
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
     check('43 cards including approved Dongtan Diim', document.querySelectorAll('.codex-card').length === 43);
-    check('37 prepared SD resources counted, six new originals pending SD', $('#sdCount').textContent === '37');
+    check('all 43 SD resources counted', $('#sdCount').textContent === '43');
     check('no horizontal overflow', document.documentElement.scrollWidth <= innerWidth);
     const frame = $('.card-frame');
     await decode(frame);
@@ -103,7 +103,7 @@ export async function runMercenaryCodexBrowserQa() {
     $('#closeDetail').click(); await pause();
     $('#resetFilters').click();
     input('#sort', 'code', 'change');
-    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=2063.2-dongtan-diim', { cache: 'no-store', credentials: 'omit' });
+    const rosterResponse = await fetch('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260910-sd-complete', { cache: 'no-store', credentials: 'omit' });
     if (!rosterResponse.ok) throw new Error(`Roster HTTP ${rosterResponse.status}`);
     const roster = await rosterResponse.json();
     for (const entry of roster.cards.slice(21).filter(card => card.battleSprite)) {
@@ -124,7 +124,12 @@ export async function runMercenaryCodexBrowserQa() {
       await decode($('#mediaPanel .card-source'));
       check(`${entry.code} concept metadata`, $('#detailContent').textContent.includes(entry.outfit) && $('#detailContent').textContent.includes(entry.weapon) && $('#detailContent').textContent.includes(entry.nameStatus === 'USER_ASSIGNED_NAME' ? '사용자 지정' : '가칭'));
       $('#sdTab').click();
-      check(`${entry.code} pending SD never uses original art as sprite`, $('#mediaPanel').textContent.includes('전투 SD 제작 대기') && !$('#mediaPanel img'));
+      await decode($('#mediaPanel [data-media="battleSprite"]'));
+      check(`${entry.code} separate SD is connected`, $('#mediaPanel [data-media="battleSprite"]').src.endsWith(`${entry.code.toLowerCase()}-sd-640.webp`) && !$('#mediaPanel .card-source'));
+      $('#mediaPanel [data-zoom]').click();
+      await decode($('#originalArt'));
+      check(`${entry.code} native transparent SD`, $('#originalArt').src.endsWith(entry.battleSprite) && $('#originalArt').naturalWidth === 1024 && $('#originalArt').naturalHeight === 1536);
+      $('#closeArt').click(); await pause();
       $('#artTab').click();
       $('#mediaPanel [data-zoom]').click();
       await decode($('#originalArt'));

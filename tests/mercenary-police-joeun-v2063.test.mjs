@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { beforeSdCompletion } from './helpers/mercenary-sd-history.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -20,7 +21,7 @@ test('Police Joeun is the user-assigned name and the previous 41 mercenaries are
   assert.equal(approval.scope, 'READ_ONLY_CATALOG_ONLY');
   assert.equal(approval.newCards, 1);
   assert.equal(approval.existingCardsPreserved, 41);
-  assert.equal(hash(JSON.stringify(roster.cards.slice(0, 41))), approval.previousRosterCardsSha256);
+  assert.equal(hash(JSON.stringify(beforeSdCompletion(roster.cards.slice(0, 41)))), approval.previousRosterCardsSha256);
   assert.deepEqual(roster.cards.slice(41, 42).map(entry => entry.code), ['V-042']);
   assert.equal(card.name, '경찰 조은');
   assert.equal(card.nameStatus, 'USER_ASSIGNED_NAME');
@@ -44,26 +45,26 @@ test('renaming preserves the approved face and full 1024x1536 RGB original byte-
   const meta = await sharp(read(card.sourceArt)).metadata();
   assert.deepEqual([meta.width, meta.height, meta.channels, meta.hasAlpha, meta.space], [1024, 1536, 3, false, 'srgb']);
   const media = json('assets/ui/project-v/mercenaries/codex-v1/manifest.json');
-  const images = media.entries.filter(entry => entry.code === card.code);
+  const images = media.entries.filter(entry => entry.code === card.code && entry.kind === 'art');
   assert.deepEqual(images.map(entry => [entry.kind, entry.width]), [['art', 320], ['art', 640]]);
   assert.ok(images.every(entry => entry.sourceSha256 === sourceHash));
 });
 
-test('publication refreshes shared catalog caches without assigning a rank or inventing an SD', () => {
-  assert.equal(ROSTER_URL.searchParams.get('v'), '2063.2-dongtan-diim');
-  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 37, battleSpritePending: 6, rankPending: 43 });
+test('publication refreshes shared catalog caches with the separate produced SD and no assigned rank', () => {
+  assert.equal(ROSTER_URL.searchParams.get('v'), '20260910-sd-complete');
+  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 43 });
   assert.equal(approval.runtimeConnected, false);
   assert.equal(approval.rankAssigned, false);
   assert.equal(card.rank, null);
   assert.equal(card.rankStatus, 'PENDING_USER_ASSIGNMENT');
   assert.equal(card.roleStatus, 'ART_CONCEPT_ONLY');
-  assert.equal(card.battleSprite, null);
-  assert.equal(card.battleSpriteStatus, 'NOT_YET_PRODUCED');
-  assert.equal(sdStatus(card), '제작 대기');
-  assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD', card.code), null);
+  assert.notEqual(card.battleSprite, card.sourceArt);
+  assert.equal(card.battleSpriteStatus, 'TECH_QA_COMPLETE_USER_REVIEW_PENDING');
+  assert.equal(sdStatus(card), '기술검수 완료 · 시각검수 대기');
+  assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD', card.code).battleSprite, card.battleSprite);
   const html = read('mercenary-codex/index.html').toString();
   assert.match(html, /경찰 조은\(V-042\)/);
-  assert.match(html, /codex\.js\?v=2063\.2-dongtan-diim/);
+  assert.match(html, /codex\.js\?v=20260910-sd-complete/);
   assert.doesNotMatch(html, /킬러 조은/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /USER_ASSIGNED_NAME.*이름은 사용자 지정으로 확정/);
 });
