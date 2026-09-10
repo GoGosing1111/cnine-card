@@ -5,6 +5,7 @@ import {GRID, FORMATIONS, configuration, project, formationPoint, scaleAt, bound
 import {createEncounter} from '../preview/scrapyard-v3-v1/source/encounter-model.mjs';
 import {createGridPreview} from '../preview/v3-wide-grid-v1/source/preview-model.mjs';
 import {waitForVisualDrain} from '../preview/v3-wide-grid-v1/source/visual-drain.mjs';
+import {COMPACT_BOARD, compactStation, fitCompactViewport, preferredFrameHeight, usesCompactViewport} from '../preview/v3-wide-grid-v1/source/viewport-layout.mjs';
 
 const root = new URL('../', import.meta.url);
 const read = p => fs.readFileSync(new URL(p, root), 'utf8');
@@ -55,7 +56,6 @@ for (const mobile of [false, true]) {
       epsilon(resolve(b.y), scaleAt(before, base, a.y));
       for (const step of [-30, 20, 60]) assert.ok(Number.isFinite(resolve(b.y + step)));
     }
-    assert.match(gridEngine, /actor\.setFormation\(next\.x, next\.y, originalScale\)/);
     assert.match(gridEngine, /layoutAccountBattleUnit\(\)/);
     assert.match(gridEngine, /this\.accountBattleUnit\.root\.restScale/);
   });
@@ -88,6 +88,45 @@ test('comparison shares one frozen combat snapshot and cannot alter damage, targ
   }
   const app = read('preview/v3-wide-grid-v1/source/app.mjs');
   assert.match(app, /if \(!ready \|\| busy/);
+});
+
+test('compact fitting follows content width; a taller viewport never shrinks or stretches the formation', () => {
+  for (const width of [368, 554, 738, 760]) {
+    const height = preferredFrameHeight({width, header: 60, dock: 125, notice: 38}) - 60;
+    const fitted = fitCompactViewport({width, height, top: 38, bottom: 125});
+    const taller = fitCompactViewport({width, height: height + 420, top: 38, bottom: 125});
+    epsilon(fitted.scale, (width - 24) / COMPACT_BOARD.width);
+    epsilon(taller.scale, fitted.scale);
+    epsilon(fitted.scene.width * fitted.scale, width);
+    epsilon(fitted.scene.height * fitted.scale, height);
+    const a = compactStation('cards', 0, 'ALLY'), b = compactStation('cards', 3, 'ALLY');
+    epsilon((b.x - a.x) * taller.scale, (b.x - a.x) * fitted.scale);
+    epsilon((b.y - a.y) * taller.scale, (b.y - a.y) * fitted.scale);
+    const short = fitCompactViewport({width, height: 400, top: 38, bottom: 125});
+    assert.ok(COMPACT_BOARD.height * short.scale <= short.available.height);
+    assert.ok(COMPACT_BOARD.width * short.scale <= short.available.width);
+  }
+  assert.equal(usesCompactViewport(760), true);
+  for (const width of [761, 988, 1366, 1600]) assert.equal(preferredFrameHeight({width}), null);
+});
+
+test('compact PVP and PVE use distinct occupied stations with the suit inside the allied group', () => {
+  for (const scenario of ['PVP', 'PVE']) {
+    const rows = occupiedStations({scenario, enemySlots: scenario === 'PVE' ? [0, 1, 2] : [0, 1, 2, 3, 4]})
+      .map(s => ({...s, ...compactStation(s.kind, s.index, s.team, scenario)}));
+    assert.equal(rows.length, scenario === 'PVE' ? 10 : 12);
+    assert.equal(new Set(rows.map(s => `${s.x}:${s.y}`)).size, rows.length);
+    for (const [i, a] of rows.entries()) {
+      assert.ok(a.x >= 95 && a.x + 95 <= COMPACT_BOARD.width);
+      assert.ok(a.y - 39 >= 0 && a.y + 39 <= COMPACT_BOARD.height);
+      for (const b of rows.slice(i + 1)) assert.ok(Math.abs(a.x - b.x) / 190 + Math.abs(a.y - b.y) / 78 >= 1);
+    }
+    if (scenario === 'PVE') {
+      const suit = rows.find(s => s.kind === 'support'), allies = rows.filter(s => s.team === 'ALLY' && s.kind !== 'support');
+      assert.ok(suit.x > Math.min(...allies.map(a => a.x)) && suit.x < Math.max(...allies.map(a => a.x)));
+      assert.ok(suit.y > Math.min(...allies.map(a => a.y)) && suit.y < Math.max(...allies.map(a => a.y)));
+    }
+  }
 });
 
 test('only a preview constructor is substituted; shared live card art, dock and timelines stay intact', () => {

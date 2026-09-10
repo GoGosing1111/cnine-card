@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><base href="/preview/v3-wide-grid-v1/"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>PROJECT V · 전장 확장 프리뷰</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./style.css?v=2-occupied"><script defer src="./app.bundle.js?v=2-occupied"></script></head>
+<html lang="ko"><head><meta charset="utf-8"><base href="/preview/v3-wide-grid-v1/"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>PROJECT V · 전장 확장 프리뷰</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./style.css?v=3-viewport-fit"><script defer src="./app.bundle.js?v=3-viewport-fit"></script></head>
 <body><main>
   <header class="page-head"><div><span class="eyebrow">PROJECT V / BATTLEFIELD STUDY 02</span><h1>배치된 곳에만, 그리드.</h1><p>빈 바닥을 걷어내고, 용병과 슈트까지 여유롭게.</p></div><span class="preview-tag"><i></i> 검수 전용 · 라이브 미적용</span></header>
   <section class="comparison" aria-label="전장 비교">
     <div class="compare-switch" role="group" aria-label="그리드 선택"><button data-grid="original" aria-pressed="false" disabled>기존 <b>5인 진형</b></button><button data-grid="wide" class="selected" aria-pressed="true" disabled>확장안 <b>배치형</b></button></div>
-    <div class="facts"><span id="width-fact">배치된 자리만 12칸</span><span id="formation-fact">아군 5 + 1 / 상대 5 + 1</span><span>캐릭터 크기 유지</span></div>
+    <div class="facts"><span id="width-fact">배치된 자리만 12칸</span><span id="formation-fact">아군 5 + 1 / 상대 5 + 1</span><span>화면에 맞춘 전장</span></div>
   </section>
   <section class="formation-controls" aria-label="편성 가정">
     <div class="scenario-switch" role="group" aria-label="전투 모드"><button data-scenario="PVP" class="selected" aria-pressed="true" disabled>PVP · 양쪽 6인</button><button data-scenario="PVE" aria-pressed="false" disabled>PVE · 슈트 포함</button></div>
@@ -14,7 +14,7 @@
     <div class="stage-top"><div><i class="status-dot"></i><strong id="state" role="status">전장 준비 중</strong></div><span id="grid-label">PVP / 12 OCCUPIED STATIONS</span><button id="fullscreen" title="전투 화면 전체화면">전체화면 ↗</button></div>
     <div class="viewport" id="viewport"><iframe id="battle-frame" src="./battle.html" title="확장 전장 실제 V3 렌더러" allow="fullscreen"></iframe><div id="boot"><span class="loader"></span><strong>전투 리소스를 불러오고 있습니다</strong><small>기존 카드 · 배틀슈트 · 몬스터 로딩 중</small></div></div>
     <p class="pan-hint">↔ 작은 화면에서는 전장을 좌우로 밀어 보세요.</p>
-    <div class="transport"><div class="encounter-state"><span id="kill-count">00 / 10</span><div><strong id="action-label">전투 전 배치 비교</strong><small id="detail">기존 / 확장안을 눌러 같은 크기로 비교하세요.</small></div></div><div class="actions"><button id="reset" disabled>초기화</button><button id="pause" disabled>일시정지</button><button id="start" class="primary" disabled>전투 재생 →</button></div></div>
+    <div class="transport"><div class="encounter-state"><span id="kill-count">00 / 10</span><div><strong id="action-label">전투 전 배치 비교</strong><small id="detail">기존 / 확장안의 배치를 비교하세요.</small></div></div><div class="actions"><button id="reset" disabled>초기화</button><button id="pause" disabled>일시정지</button><button id="start" class="primary" disabled>전투 재생 →</button></div></div>
   </section>
   <p id="scope-note" class="scope-note">진영당 용병 최대 1장 배치 시안입니다.</p>
   <footer><p><span class="legend ally"></span> 아군 <span class="legend enemy"></span> 상대 <span class="legend mercenary"></span> 용병 <span class="legend suit"></span> PVE 슈트</p><p>입장권·보상 소모 없음 <span>/</span> 전체 개편과 함께 반영 예정</p></footer>
