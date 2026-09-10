@@ -34,7 +34,7 @@ for(const skill of MERCENARY_SKILLS){
 }
 if(errors.length)throw new Error(errors.join('\n'));
 const lock=JSON.parse(await fs.readFile('package-lock.json','utf8'));
-await fs.writeFile(`${root}/manifest.json`,JSON.stringify({id:'mercenary-signature-skills-v1',date:'2026-09-10',status:'TECH_QA_PENDING_USER_REVIEW',runtimeEnabled:false,
+await fs.writeFile(`${root}/manifest.json`,JSON.stringify({id:'mercenary-signature-skills-v1',date:'2026-09-10',status:'USER_REJECTED_V1_SINGLE_SPRITE_TWEENS',runtimeEnabled:false,
   renderer:{pixi:lock.packages['node_modules/pixi.js'].version,gsap:lock.packages['node_modules/gsap'].version,engine:'preview/project-v-v3/source/battle/BattleEngine.js',effects:'preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js',timeline:'V3_REGISTERED_GSAP',unit:'SECONDS',atlasAutoPlayback:false},
   encoding:'Uniform fit-inside 512px lossless WebP; original generated PNG bytes preserved.',audio:'SILENT_REVIEW_NO_NEW_AUDIO',images},null,2)+'\n');
 console.log(`Prepared ${images.length} distinct effect sprites; ${images.reduce((n,r)=>n+r.bytes,0)} runtime bytes.`);

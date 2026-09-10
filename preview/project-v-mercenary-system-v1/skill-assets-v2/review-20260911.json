@@ -1,0 +1,106 @@
+{
+  "date": "2026-09-11",
+  "authoredSequences": 16,
+  "sourceFrames": 256,
+  "normalAndHalfSpeedFullPlaybacks": 32,
+  "desktopScenarios": 48,
+  "mobileScenarios": 48,
+  "mobileViewport": [
+    390,
+    844
+  ],
+  "canvasCount": 1,
+  "effectLayerCount": 1,
+  "regularCards": 5,
+  "mercenaries": 1,
+  "cancel": {
+    "visibleSprites": 0,
+    "registeredTimelines": 0,
+    "displacement": 0
+  },
+  "visualReview": "USER_REVIEW_PENDING",
+  "liveBattleEnabled": false,
+  "clippingCorrection": "After 96 scenario checks, mobile authored silhouette was capped using native alpha bounds; large impact and rotated slash rechecked on real 390px viewport; 67 effect tests passed.",
+  "skills": [
+    {
+      "id": "MS-038",
+      "review": "압력 응축 → 네 갈래 충돌 → 금속 파편/증기 → 소멸. V3 접촉과 0.5배 재생·취소 복귀 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-042",
+      "review": "개방 고리 → 체결 → 사슬 장력 → 해체. V3 1.04초 초기 프레임과 1.49초 체결 프레임 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-003",
+      "review": "황금 판의 전개·접촉·균열·해체. V3 1.13초 아군 보호 범위 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-004",
+      "review": "루비 관통점·방향성 파편·연기. V3 데스크톱과 390px 모바일 접촉 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-006",
+      "review": "흑철 판 절단·금속 덩어리·먼지. V3 접촉 크기와 파편 밀도 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-005",
+      "review": "세 번의 점사 탄착과 마지막 집중 타격. V3 0.88초/1.78초 프레임 및 취소 복귀 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-013",
+      "review": "깃털의 전개·가닥 분리·소멸. V3 아군 6개별 대상 시차와 2배 재생 완료 시 시계 해제 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-015",
+      "review": "독액 꼬임·파열·물방울 분리·증발. V3 첫 접촉 및 지연 독 피해 프레임 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-016",
+      "review": "장막 접힘·봉합·해짐·소멸. V3에서 크기300/알파0.5로 조정해 내부 캐릭터 가독성 확인. 390px 모바일 전환·취소 원위치 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-018",
+      "review": "생명선 교차·봉합·입자 소멸. V3 1.73초 회복 접촉과 상태 변화 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-023",
+      "review": "청색 검격 접점·되베기·분절된 바람. V3 1.48초 실제 근접 반격 궤적 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-025",
+      "review": "냉기 응축·관통 서리·증기 잔향. V3 2.13초 저격 접촉 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-027",
+      "review": "탄착 파편·콘크리트 가루·먼지. V3 1.26초 다중 표적 연속 탄착과 잔향 중첩 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-028",
+      "review": "결정 꽃잎 전개·접힘·분리. V3에서 크기245/발 위14/알파0.78로 조정해 얼굴을 가리지 않는 보호 범위 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-032",
+      "review": "흑요석 판의 내향 붕괴·보랏빛 재 소멸. V3 1.28초 강화 마무리탄의 접촉 확인.",
+      "status": "USER_REVIEW_PENDING"
+    },
+    {
+      "id": "MS-043",
+      "review": "진주빛 압력 분리·찢어진 공기·잔광 소멸. V3 첫 탄착과 1.63초 두 번째 탄착의 별도 시퀀스 확인.",
+      "status": "USER_REVIEW_PENDING"
+    }
+  ]
+}
