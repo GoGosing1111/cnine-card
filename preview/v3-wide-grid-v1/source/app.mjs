@@ -1,10 +1,24 @@
 import {createGridPreview} from './preview-model.mjs';
+import {preferredFrameHeight} from './viewport-layout.mjs';
 const $ = id => document.getElementById(id);
 let bridge, layout, payload, ready = false, busy = false, ended = false, paused = false, preparing = false, disposed = false, epoch = 0;
 let mode = new URLSearchParams(location.search).get('grid') === 'original' ? 'original' : 'wide';
 let scenario = new URLSearchParams(location.search).get('scenario') === 'PVE' ? 'PVE' : 'PVP';
 let payloads, allyMercenaries = 1, enemyMercenaries = 1;
 let snapshotDigest = '';
+function resizePreviewFrame() {
+  if (!ready || disposed) return;
+  const frame = $('battle-frame'), doc = frame.contentDocument;
+  const header = doc?.querySelector('.battle-v3-header')?.getBoundingClientRect().height;
+  const dock = doc?.querySelector('.battle-v3-dock')?.getBoundingClientRect().height;
+  if (!header || !dock) return;
+  if (document.fullscreenElement) {$('viewport').style.height = ''; layout?.refreshViewport(); return;}
+  const height = preferredFrameHeight({width: frame.clientWidth, header, dock, notice: scenario === 'PVE' ? 38 : 8});
+  const value = height ? `${height}px` : '';
+  if ($('viewport').style.height !== value) $('viewport').style.height = value;
+  layout?.refreshViewport();
+  describeGrid();
+}
 const json = async url => {const response = await fetch(url, {credentials: 'omit'}); if (!response.ok) throw new Error(`자산 로드 실패 (${response.status})`); return response.json();};
 function controls() {
   for (const button of document.querySelectorAll('[data-grid]')) {
@@ -46,6 +60,7 @@ async function prepare(token = ++epoch) {
   if (!prepared || token !== epoch || disposed) return false;
   layout = $('battle-frame').contentWindow.WideGridLayout;
   layout.setMode(mode); layout.setMercenaries(allyMercenaries, enemyMercenaries); bridge.setSpeed(2); ready = true; preparing = false; $('boot').hidden = true;
+  resizePreviewFrame();
   $('state').textContent = '배치 비교 준비 완료'; $('kill-count').textContent = scenario === 'PVE' ? '00 / 10' : '6 : 6';
   $('action-label').textContent = '전투 전 배치 비교'; $('detail').textContent = '빈 칸 없이 배치되는지 용병 수를 바꿔 확인하세요.';
   describeGrid(); controls(); return true;
@@ -124,8 +139,14 @@ for (const id of ['ally-mercenaries', 'enemy-mercenaries']) $(id).addEventListen
 $('start').addEventListener('click', start); $('reset').addEventListener('click', reset);
 $('pause').addEventListener('click', () => {paused = !paused; paused ? bridge.pause() : bridge.resume(); $('state').textContent = paused ? '현재 공격 정리 중' : '전투 재생 중 · 2배속'; controls();});
 $('fullscreen').addEventListener('click', () => $('viewport').requestFullscreen?.().catch(() => {$('state').textContent = '이 브라우저는 전체화면을 지원하지 않습니다';}));
-window.addEventListener('resize', () => requestAnimationFrame(describeGrid));
-window.addEventListener('pagehide', () => {disposed = true; ++epoch; bridge?.dispose();}, {once: true});
+let resizeFrame;
+const scheduleFrameResize = () => {cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(resizePreviewFrame);};
+// Observe the actual preview width as well as window/orientation changes.
+const frameObserver = new ResizeObserver(scheduleFrameResize);
+frameObserver.observe($('battle-frame'));
+window.addEventListener('resize', scheduleFrameResize);
+document.addEventListener('fullscreenchange', scheduleFrameResize);
+window.addEventListener('pagehide', () => {disposed = true; ++epoch; frameObserver.disconnect(); cancelAnimationFrame(resizeFrame); bridge?.dispose();}, {once: true});
 window.WideGridPreview = {selectMode, selectScenario, start, reset, diagnostics: () => ({ready, busy, ended, paused, mode, scenario, snapshotDigest,
   layout: layout?.diagnostics(), bridge: bridge?.diagnostics()})};
 boot();
