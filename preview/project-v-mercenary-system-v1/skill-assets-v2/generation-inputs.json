@@ -191,5 +191,64 @@
     "status": "SELECTED",
     "visualReview": "진주빛 압력 분리·찢어진 공기·잔광 소멸. V3 첫 탄착과 1.63초 두 번째 탄착의 별도 시퀀스 확인. 정상 속도/0.5배속 전체 재생·취소 검수. 사용자 시각 검수 대기.",
     "originalFilename": "exec-0c2d2d5d-ffc9-469b-87ae-30628bf737ba.png"
+  },
+  {
+    "id": "omega-event-horizon",
+    "skillId": "MS-021",
+    "path": "preview/project-v-mercenary-system-v1/skill-assets-v2/source/omega-event-horizon-sequence-v2.png",
+    "prompt": "Use case: stylized-concept.\nAsset type: ONE individually authored premium fantasy RPG skill VFX animation sheet for Omega-X, a celestial gold-armored greatsword knight. Skill: Terminal Event Horizon.\nReal TRANSPARENT RGBA PNG. Exactly FOUR columns and FOUR rows, 16 sequential equal SQUARE frames in row-major time order, requested 2048x2048. Fixed camera and fixed effect origin at x50% y55% of every cell. All material, glows, wisps and tiny debris entirely within the central 32% of each cell. Extremely wide completely empty transparent gutters, no visible material anywhere near tile boundaries.\nSubject: a gold-and-violet gravitational rift gathers stellar matter, is cut by a single diagonal celestial blade of light, then collapses and ruptures into broken radiant filaments. Black core is a small contained material orb, not a black background. Rich layered golden molten threads, deep violet vacuum folds, bright ivory contact core; realistic directional broken plasma sheets, dense energy compression, subtle gold fragments. Sophisticated detailed hand-painted game VFX matching high-end 2.5D game art.\nExact animation storyboard: Frame01 two tiny inward-bending gold wisps. Frame02 wisps thread together around a pinprick. Frame03 violet vacuum core forms with an incomplete gold orbit. Frame04 orbit warps inward, a small crescent blade begins. Frame05 first contact: the tiny crescent cleaves a gold fault across the core, a contained white-gold spark. Frame06 jagged golden fissures crawl into the core. Frame07 denser violet core squeezes spiralling filaments tightly inward. Frame08 compressed irregular gold/violet sphere under high tension, clearly different from frame07. Frame09 second contact: ONE sharp diagonal white-gold celestial greatsword slash splits the compressed sphere, moment of massive pressure release. Frame10 split halves rupture into asymmetrical broken radiant sheets. Frame11 torn curved plasma ribbons burst outward with golden fragments, all still compact. Frame12 shattered arcs curl and fragment, diminishing. Frame13 violet vapor and gold filaments shear apart. Frame14 only thin disconnected golden embers. Frame15 three tiny dying specks. Frame16 one nearly extinguished speck.\nEvery frame must have actual changing painted material, silhouette, internal motion, rupture direction and density. Do not repeat identical image with scaling/rotation. Not sixteen different icons. ONE continuous visual event. No characters, no physical sword prop, no logos, no Omega letters, no emblems, no UI, no text, no numbers, no gridlines, no scenery, no floor tile, no painted checkerboard, no background. Preserve genuine transparency.",
+    "status": "SELECTED",
+    "visualReview": "Native 16-frame sequence and actual V3 desktop 1280x720/mobile390x844 reviewed. Gold/violet strands gather into a gravity core; two contact frames05/09 at1.05s/2.25s split and rupture it, with fading broken filaments. Normal/cleansed/boss playback and cancellation verified; final user visual review pending. See OMEGA-REVIEW.md.",
+    "originalFilename": "exec-94ea81bb-fef6-42eb-a288-a399a071807d.png",
+    "timeline": {
+      "durationSeconds": 4.2,
+      "contactFrames": [
+        {
+          "frame": 5,
+          "at": 1.05
+        },
+        {
+          "frame": 9,
+          "at": 2.25
+        }
+      ],
+      "frameNumbering": "ONE_BASED",
+      "keysRelativeToFirstContact": [
+        [
+          -0.75,
+          0
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0.9,
+          7
+        ],
+        [
+          1.2,
+          8
+        ],
+        [
+          1.38,
+          9
+        ],
+        [
+          1.78,
+          11
+        ],
+        [
+          2.3,
+          13
+        ],
+        [
+          2.85,
+          15
+        ]
+      ],
+      "keyFrameNumbering": "ZERO_BASED",
+      "cleanse": "Only remaining marks receive terminal frames; erased marks fade within180ms"
+    }
   }
 ]

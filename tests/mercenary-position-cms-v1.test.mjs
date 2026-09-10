@@ -12,11 +12,38 @@ const seed = JSON.parse(read('preview/project-v-mercenary-system-v1/position-dra
 const change = fn => { const copy = cloneDraft(seed); fn(copy); return copy; };
 const reject = fn => assert.equal(validatePositionDraft(change(fn), roster).ok, false);
 
+test('six-tier draft edits preserve Omega SSS and do not mutate the official roster', () => {
+  const before = JSON.stringify(roster);
+  for (const rank of ['C', 'B', 'A', 'S', 'SS', 'SSS', null]) {
+    const candidate = change(draft => draft.assignments[0].rank = rank);
+    assert.equal(validatePositionDraft(candidate, roster).ok, true);
+    assert.equal(parsePositionDraft(JSON.stringify(candidate), roster).assignments[0].rank, rank);
+  }
+  for (const rank of ['', 'D', 'SSR', 'ss', 6, {}, ['SSS']]) reject(draft => draft.assignments[0].rank = rank);
+  reject(draft => draft.assignments.find(entry => entry.code === 'V-021').rank = 'SS');
+  reject(draft => draft.assignments.find(entry => entry.code === 'V-021').rank = null);
+  assert.equal(JSON.stringify(roster), before);
+});
+
+test('known v1 draft migration preserves prior notes, assignments and revision', () => {
+  const legacy = {...cloneDraft(seed), format: 'PROJECT_V_MERCENARY_POSITION_DRAFT_V1', schemaVersion: 1, rosterVersion: 10, revision: 9};
+  legacy.assignments = legacy.assignments.map(({rank, ...entry}) => entry);
+  legacy.assignments[0].rationale = '사용자가 저장한 기존 배정 의견';
+  const text = JSON.stringify(legacy), migrated = parsePositionDraft(text, roster);
+  assert.equal(migrated.revision, 9);
+  assert.equal(migrated.assignments[0].rationale, legacy.assignments[0].rationale);
+  assert.deepEqual(migrated.assignments.map(({rank, ...entry}) => entry), legacy.assignments);
+  assert.equal(migrated.assignments.find(entry => entry.code === 'V-021').rank, 'SSS');
+  assert.equal(JSON.stringify(legacy), text);
+  assert.throws(() => parsePositionDraft(JSON.stringify({...legacy, runtimeEnabled: true}), roster));
+  assert.throws(() => parsePositionDraft(JSON.stringify({...legacy, rosterVersion: 9}), roster));
+});
+
 test('43 approved roster codes each have a distinct, complete proposed assignment', () => {
   assert.deepEqual(validatePositionDraft(seed, roster), { ok: true, errors: [] });
   assert.deepEqual(seed.assignments.map(entry => entry.code).sort(), roster.cards.map(card => card.code).sort());
   assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size, 43);
-  assert.equal(roster.cards.every(card => card.rank === null), true);
+  assert.equal(roster.cards.every(card => card.code === 'V-021' ? card.rank === 'SSS' : card.rank === null), true);
   assert.deepEqual(summarizePositions(seed), {
     total: 43,
     positions: { FRONT: 20, MIDDLE: 15, REAR: 8 },

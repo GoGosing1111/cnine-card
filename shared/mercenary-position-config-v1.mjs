@@ -1,5 +1,6 @@
 // Release preparation only. No battle engine, account API or CMS route imports this module.
-export const DRAFT_FORMAT = 'PROJECT_V_MERCENARY_POSITION_DRAFT_V1';
+import {isMercenaryRank} from './mercenary-ranks-v1.mjs';
+export const DRAFT_FORMAT = 'PROJECT_V_MERCENARY_POSITION_DRAFT_V2';
 export const DRAFT_STORAGE_KEY = 'cnine.mercenaryPosition.draft.v1';
 export const MAX_DRAFT_BYTES = 128 * 1024;
 
@@ -51,7 +52,7 @@ export const ROLES = Object.freeze({
 });
 
 const rootKeys = ['format', 'schemaVersion', 'revision', 'rosterVersion', 'status', 'runtimeEnabled', 'assignments'];
-const entryKeys = ['code', 'position', 'role', 'basicTarget', 'skillTarget', 'specialty', 'weakness', 'rationale'];
+const entryKeys = ['code', 'rank', 'position', 'role', 'basicTarget', 'skillTarget', 'specialty', 'weakness', 'rationale'];
 const own = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
 const record = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 export const cloneDraft = value => JSON.parse(JSON.stringify(value));
@@ -69,7 +70,7 @@ export function validatePositionDraft(draft, roster) {
   }
   if (!record(draft)) return { ok: false, errors: [{ path: 'draft', message: '설정은 JSON 객체여야 합니다.' }] };
   exactKeys(draft, rootKeys, 'draft');
-  if (draft.format !== DRAFT_FORMAT || draft.schemaVersion !== 1) fail('format', '지원하지 않는 설정 형식입니다.');
+  if (draft.format !== DRAFT_FORMAT || draft.schemaVersion !== 2) fail('format', '지원하지 않는 설정 형식입니다.');
   if (!Number.isSafeInteger(draft.revision) || draft.revision < 1 || draft.revision >= Number.MAX_SAFE_INTEGER) fail('revision', '수정 번호는 1 이상의 안전한 정수여야 합니다.');
   if (draft.rosterVersion !== roster.version) fail('rosterVersion', '원화 로스터 버전이 달라 재검토가 필요합니다.');
   if (draft.status !== 'DRAFT' || draft.runtimeEnabled !== false) fail('status', '이 준비 설정은 검토 초안·전투 미연결 상태만 허용합니다.');
@@ -83,6 +84,9 @@ export function validatePositionDraft(draft, roster) {
     if (!expected.has(entry.code)) fail(`${path}.code`, '기준 로스터에 없는 용병입니다.');
     if (seen.has(entry.code)) fail(`${path}.code`, '같은 용병이 두 번 배정됐습니다.');
     seen.add(entry.code);
+    const card = roster.cards.find(card => card.code === entry.code);
+    if (entry.rank !== null && !isMercenaryRank(entry.rank)) fail(`${path}.rank`, 'C·B·A·S·SS·SSS 중 선택하거나 미정으로 두세요.');
+    if (card?.rank != null && entry.rank !== card.rank) fail(`${path}.rank`, '사용자가 확정한 등급은 초안에서 바꿀 수 없습니다.');
     const role = typeof entry.role === 'string' && own(ROLES, entry.role) ? ROLES[entry.role] : null;
     if (!role) fail(`${path}.role`, '정의된 전투 역할을 선택하세요.');
     if (typeof entry.position !== 'string' || !own(POSITIONS, entry.position) || (role && !role.positions.includes(entry.position))) fail(`${path}.position`, '이 역할에 허용되지 않는 배치 위치입니다.');
@@ -98,7 +102,15 @@ export function validatePositionDraft(draft, roster) {
 
 export function parsePositionDraft(text, roster) {
   if (typeof text !== 'string' || new TextEncoder().encode(text).byteLength > MAX_DRAFT_BYTES) throw new Error('설정 파일은 128 KB 이하여야 합니다.');
-  const draft = JSON.parse(text);
+  let draft = JSON.parse(text);
+  // Only the known rank-only roster transition is migratable. Preserve every
+  // legacy user edit and revision; never discard an old draft on an upgrade.
+  if (draft?.format === 'PROJECT_V_MERCENARY_POSITION_DRAFT_V1' && draft.schemaVersion === 1 &&
+      draft.rosterVersion === 10 && roster.version === 11 && Array.isArray(draft.assignments) &&
+      draft.assignments.every(entry => record(entry) && !own(entry, 'rank'))) {
+    draft = {...draft, format: DRAFT_FORMAT, schemaVersion: 2, rosterVersion: roster.version,
+      assignments: draft.assignments.map(entry => ({...entry, rank: roster.cards.find(card => card.code === entry.code)?.rank ?? null}))};
+  }
   const result = validatePositionDraft(draft, roster);
   if (!result.ok) throw new Error(result.errors.map(error => `${error.path}: ${error.message}`).join('\n'));
   return draft;

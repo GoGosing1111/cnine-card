@@ -51,8 +51,8 @@ test('renaming preserves the approved face and full 1024x1536 RGB original byte-
 });
 
 test('publication refreshes shared catalog caches with the separate produced SD and no assigned rank', () => {
-  assert.equal(ROSTER_URL.searchParams.get('v'), '20260910-sd-complete');
-  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 43 });
+  assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
+  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 42 });
   assert.equal(approval.runtimeConnected, false);
   assert.equal(approval.rankAssigned, false);
   assert.equal(card.rank, null);
@@ -64,7 +64,7 @@ test('publication refreshes shared catalog caches with the separate produced SD 
   assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD', card.code).battleSprite, card.battleSprite);
   const html = read('mercenary-codex/index.html').toString();
   assert.match(html, /경찰 조은\(V-042\)/);
-  assert.match(html, /codex\.js\?v=20260910-sd-complete/);
+  assert.match(html, /codex\.js\?v=20260911-omega-ranks/);
   assert.doesNotMatch(html, /킬러 조은/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /USER_ASSIGNED_NAME.*이름은 사용자 지정으로 확정/);
 });

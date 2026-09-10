@@ -18,7 +18,7 @@ for(const row of inputs){
   const source=await fs.readFile(row.path),meta=await sharp(source).metadata();
   const cached=previous.images.find(i=>i.id===row.id&&i.sourceSha256===digest(source)&&i.prompt===row.prompt);
   if(cached&&await fs.access(`${root}/${cached.runtime}`).then(()=>true,()=>false)){
-    images.push({...cached,visualReview:row.visualReview||cached.visualReview});console.log(`${skill.id}: preserved existing 16-frame sequence`);continue;
+    images.push({...cached,visualReview:row.visualReview||cached.visualReview,...(row.timeline?{timeline:row.timeline}:{})});console.log(`${skill.id}: preserved existing 16-frame sequence`);continue;
   }
   if(!meta.hasAlpha||meta.width!==meta.height||meta.width<1024)throw new Error(`${row.id}: expected square RGBA 4 by 4 sheet, >=256px native cells`);
   const cell=Math.ceil(meta.width/4),tiles=[];
@@ -55,7 +55,7 @@ for(const row of inputs){
   images.push({id:row.id,skillId:skill.id,code:skill.code,name:skill.name,source:sourceFile,runtime:runtimeFile,
     sourceSha256:digest(source),runtimeSha256:digest(runtime),sourceSize:[meta.width,meta.height],size:[cell*4,cell*4],cellSize:cell,columns:4,rows:4,frameCount:16,
     generation:'BUILT_IN_IMAGEGEN',prompt:row.prompt,sourceFilename:row.originalFilename||path.basename(row.path.replaceAll('\\','/')),
-    visualReview:row.visualReview||'PENDING',runtimeBytes:runtime.length,frames});
+    visualReview:row.visualReview||'PENDING',...(row.timeline?{timeline:row.timeline}:{}),runtimeBytes:runtime.length,frames});
   console.log(`${skill.id}: 16 unique RGBA frames, ${cell}px cells, clean alpha gutters`);
 }
 await fs.writeFile(`${root}/manifest.json`,JSON.stringify({id:'mercenary-authored-skill-atlases-v2',date:'2026-09-11',status:'USER_REVIEW_PENDING',

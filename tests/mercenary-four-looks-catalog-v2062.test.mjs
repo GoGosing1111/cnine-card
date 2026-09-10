@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {beforeOmegaRankAssignment} from './helpers/mercenary-sd-history.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -22,7 +23,7 @@ test('explicit approval adds exactly four originals without changing the previou
   assert.equal(approval.totalCards, 41);
   assert.equal(approval.runtimeConnected, false);
   assert.equal(approval.originalsModified, false);
-  assert.equal(hash(JSON.stringify(roster.cards.slice(0, 37))), approval.previousRosterCardsSha256);
+  assert.equal(hash(JSON.stringify(beforeOmegaRankAssignment(roster.cards.slice(0, 37)))), approval.previousRosterCardsSha256);
   assert.deepEqual(roster.cards.slice(37, 41).map(card => card.code), codes);
   assert.equal(new Set(roster.cards.map(card => card.name)).size, 43);
   for (const entry of approval.entries) {
@@ -41,7 +42,7 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
   const outfits = ['오피스룩', '가터벨트 치마', '비키니룩', '핫팬츠룩'];
   const weapons = ['건틀릿', '체인소드', '활', '대검'];
   const adapter = createMercenaryBattleArtAdapter(roster);
-  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 43 });
+  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 42 });
   for (const [i, code] of codes.entries()) {
     const card = roster.cards.find(card => card.code === code);
     assert.equal(card.outfit, outfits[i]);
@@ -64,9 +65,9 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
 });
 
 test('catalog release refreshes data and module caches and describes the current 43/43/0 resource state', () => {
-  assert.equal(ROSTER_URL.searchParams.get('v'), '20260910-sd-complete');
+  assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /codex\.js\?v=20260910-sd-complete/);
+  assert.match(html, /codex\.js\?v=20260911-omega-ranks/);
   assert.match(html, /전체 원화 43종, 전투 SD 43종/);
   assert.doesNotMatch(html, /신규 6종의 SD는 제작 대기/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /의상 콘셉트/);

@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-11",
+  "userDirection": "오메가 최상위용병카드인데 스킬 별도로 있어야할거같은데 등급은 C,B,A,S,SS,SSS 이렇게 가야할듯",
+  "tiersAscending": [
+    "C",
+    "B",
+    "A",
+    "S",
+    "SS",
+    "SSS"
+  ],
+  "assigned": [
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "rank": "SSS",
+      "reason": "사용자 지정 최상위 용병을 새 체계의 최상위 SSS에 배정"
+    }
+  ],
+  "remainingUnassigned": 42,
+  "rosterVersion": 11,
+  "previousRosterVersion": 10,
+  "exclusiveSkill": {
+    "id": "MS-021",
+    "name": "종언의 사건지평선",
+    "status": "DRAFT_USER_REVIEW_PENDING"
+  },
+  "sourceArtAndBattleSpriteChanged": false,
+  "runtimeEnabled": false,
+  "scope": "읽기 전용 도감의 등급 표시 · 포지션/CMS 등급 초안 · 오메가 전용 스킬 독립 검수",
+  "previousCardsSha256": "BD4698586FFACD1510618E96D99519489218B676DDB4E6033D9BB4DC6B7C42DD"
+}

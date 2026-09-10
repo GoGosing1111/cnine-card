@@ -25,8 +25,9 @@ export function renderAuthored(fx,time){
     const s=pool[index],scale=engine.mobile?.88:1;s.texture=texture;s.visible=true;s.anchor.set(.5,anchorY);
     s.position.set(p.x,p.y);s.width=width*scale;s.height=height*scale;s.alpha=clamp(alpha);s.rotation=angle;s.tint=tint;s.blendMode=add?'add':'normal';
   };
-  const material=(p,age,{size=340,lead=.24,life=1.05,angle=0,alpha=1}={})=>{
-    const f=sampleSequence(age,lead,life);if(!f)return;
+  const material=(p,age,{size=340,lead=.24,life=1.05,angle=0,alpha=1,frameKeys=null}={})=>{
+    if(alpha<=0)return;
+    const f=sampleSequence(age,lead,life,frameKeys);if(!f)return;
     // Preserve the impact origin. Fit the whole authored silhouette, including
     // rotated arcs, inside a narrow mobile arena instead of clipping its edge.
     if(engine.mobile&&engine.scene?.width&&sequence.extent){
@@ -73,6 +74,27 @@ export function renderAuthored(fx,time){
   };
   const hits=plan.events.filter(e=>e.kind==='HIT'&&e.targets[0].startsWith('E')&&!e.sourceId);
   switch(mode){
+    case 'EVENT_HORIZON': {
+      // One continuous, newly painted sequence: contact 05 at 1.05s, then
+      // contact 09 at 2.25s. A cleansed/dead mark has no terminal explosion.
+      const keys=[[-.75,0],[0,4],[.9,7],[1.2,8],[1.38,9],[1.78,11],[2.3,13],[2.85,15]];
+      const last=hits.filter(e=>e.stage==='DETONATE');
+      if(time<1.6)approach(1.05,target,{reach:62,returnAt:1.2,returnDuration:.3});
+      else if(last.length)approach(2.25,last[0].targets[0],{reach:62,returnAt:2.5,returnDuration:.45});
+      for(const id of plan.targets){
+        const terminal=last.some(e=>e.targets.includes(id));
+        const loss=plan.events.find(e=>e.targets.includes(id)&&e.kind==='CLEANSE')?.at??1.05;
+        const alpha=terminal?1:1-smooth((time-loss)/.18);
+        material(point(id),time-1.05,{size:370,lead:.75,life:2.85,frameKeys:keys,alpha});
+        light(point(id,true),time-.45,230,.65);
+      }
+      for(const e of hits){const id=e.targets[0],age=time-e.at,final=e.stage==='DETONATE';
+        flash(point(id),age,final?175:70);light(point(id,true),age,final?390:200,final?.45:.22);
+        debris(point(id),age,{count:final?25:8,strength:final?1.2:.45});
+        if(final)dust(point(id,true),age,350);
+      }
+      break;
+    }
     case 'INTERRUPT': {
       approach(.85,target,{reach:65,returnAt:1.04});const p=point(target),age=time-.85;
       material(p,age,{size:390,lead:.26,life:1.3});flash(p,age,165);light(point(target,true),age,390);

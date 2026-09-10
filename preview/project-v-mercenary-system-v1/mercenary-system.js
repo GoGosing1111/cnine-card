@@ -4,7 +4,7 @@ import {
 } from '../../js/project-v-mercenary-loadout-v1.js';
 import { createMercenaryBattleArtAdapter } from '../../js/project-v-mercenary-battle-art-adapter-v1.js';
 
-const DATA_URL = '../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260910-sd-complete';
+const DATA_URL = '../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260911-omega-ranks';
 
 const state = {
   roster: null,
@@ -82,7 +82,7 @@ function renderGrid() {
           <span class="card-shade"></span>
           <img class="card-frame" src="${assetUrl(state.roster.cardComposition.frame)}" alt="" loading="lazy">
           <span class="card-code">${escapeHtml(card.code)}</span>
-          <span class="rank-pending">등급 미정</span>
+          <span class="rank-pending" data-rank="${card.rank || 'PENDING'}">${escapeHtml(card.rank || '등급 미정')}</span>
           ${assigned ? '<span class="assigned-mark">6번 배치</span>' : ''}
           <span class="card-name"><small>${escapeHtml(card.title)}</small><b>${escapeHtml(card.name)}</b><em>${escapeHtml(card.role)}</em></span>
         </span>
@@ -112,7 +112,7 @@ function renderDetail() {
   nodes.detail.innerHTML = `
     <div class="detail-head">
       <span><small>SELECTED CONTRACT</small><b>${escapeHtml(card.code)}</b></span>
-      <em>등급 미정 · 사용자 확정 대기</em>
+      <em>${card.rank ? escapeHtml(card.rank)+' · 사용자 확정' : '등급 미정 · 사용자 확정 대기'}</em>
     </div>
     <div class="detail-media">
       <div class="detail-card">
@@ -133,7 +133,7 @@ function renderDetail() {
     <dl class="asset-ledger">
       <div><dt>카드 원화</dt><dd>${sourceStatusLabel(card)}</dd></div>
       <div><dt>전투 리소스</dt><dd>${spriteStatusLabel(card)}</dd></div>
-      <div><dt>신규 등급</dt><dd>미정</dd></div>
+      <div><dt>신규 등급</dt><dd>${escapeHtml(card.rank || '미정')}</dd></div>
       <div><dt>편성 위치</dt><dd>일반 덱과 분리된 6번 슬롯</dd></div>
     </dl>
     <div class="detail-actions">

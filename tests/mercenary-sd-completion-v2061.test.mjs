@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { beforeSdCompletion } from './helpers/mercenary-sd-history.mjs';
+import { beforeSdCompletion, beforeOmegaRankAssignment } from './helpers/mercenary-sd-history.mjs';
 import { inspectMercenarySprite } from '../scripts/inspect-mercenary-sd-v2061.mjs';
 import { createMercenaryBattleArtAdapter, validateMercenaryBattleRoster } from '../js/project-v-mercenary-battle-art-adapter-v1.js';
 
@@ -49,9 +49,9 @@ test('six new SDs complete the roster while preserving every original card field
   const record = records[1].record;
   const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex').toUpperCase();
   assert.equal(hash(beforeSdCompletion(roster.cards)), record.previousRosterCardsSha256);
-  assert.equal(hash(roster.cards.slice(0, 37)), record.previousExistingCardsSha256);
+  assert.equal(hash(beforeOmegaRankAssignment(roster.cards.slice(0, 37))), record.previousExistingCardsSha256);
   assert.equal(record.userRequest, '용병 SD이미지 안만든애들 다 제작해서 연결해');
-  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 43 });
+  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 42 });
   assert.equal(new Set(roster.cards.map(card => card.battleSprite)).size, 43);
   assert.ok(roster.cards.every(card => card.battleSprite));
 });
