@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark"><meta name="robots" content="noindex,nofollow">
+  <title>용병 고유 스킬 16종 · 숲켓몬</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./skills.css?v=20260910-1">
+</head>
+<body>
+<a class="skip" href="#selectedSkill">선택한 스킬로 이동</a>
+<main>
+  <header><a class="eyebrow" href="./">숲켓몬 / PROJECT V</a><nav><a href="./positions.html">포지션 · CMS</a><a href="../../mercenary-codex/?sort=newest">용병도감</a></nav></header>
+  <section class="hero"><div><span class="eyebrow">MERCENARY SIGNATURE SKILLS / 01</span><h1>한 명이 바꾸는 전투.</h1><p>누구를 지키고, 무엇을 끊고, 언제 쏠 것인가.<br>서로 다른 전투 기회를 만드는 고유 스킬 16종.</p></div><div class="numbers"><div><b>16</b><span>고유 스킬</span></div><div><b>7</b><span>전투 역할</span></div><div><b>48</b><span>상황 검수</span></div></div></section>
+  <p class="scope">검수 초안 · 수치는 100 HP 모의 전투용입니다. 운영 계수·등급·쿨다운은 미확정이며 실제 계정에 적용되지 않습니다.</p>
+  <div class="workbench">
+    <aside class="selection"><div class="list-head"><h2>스킬 로스터</h2><span id="count">16종</span></div><label class="search-label">검색<input id="search" type="search" maxlength="80" placeholder="용병, 스킬, 효과 검색"></label><label>전투 역할<select id="roleFilter"><option value="">전체 역할</option></select></label><div id="skillList" class="skill-list" aria-label="고유 스킬 선택"><p>준비 중…</p></div></aside>
+    <article id="selectedSkill" class="detail" aria-label="선택 스킬">
+      <div class="skill-heading"><div><span id="skillMeta" class="eyebrow">스킬 검수</span><h2 id="skillName">준비 중입니다</h2><p id="skillEffect"></p></div><img id="skillArt" alt="" hidden></div>
+      <div class="design-grid"><section><h3>발동 조건</h3><p id="trigger"></p></section><section><h3>공략할 약점</h3><p id="counterplay"></p></section><section><h3>보스 상대 규칙</h3><p id="bossRule"></p></section></div>
+      <ol id="steps" class="steps"></ol>
+      <section class="rehearsal" aria-label="스킬 동작 검수">
+        <div class="rehearsal-head"><div><span class="eyebrow">V3 REHEARSAL</span><h3>상황을 바꾸어 확인하세요</h3></div><label>검수 상황<select id="scenario" disabled><option value="normal">유효한 상황</option><option value="counter">약점 공략</option><option value="boss">보스 상대</option></select></label></div>
+        <p id="scenarioNote" class="scenario-note"></p>
+        <div class="controls"><button id="play" class="primary" disabled>재생</button><button id="replay" disabled>처음부터</button><button id="impact" disabled>첫 충돌</button><button id="cancel" disabled>취소 · 복귀</button><label>배속<select id="speed" disabled><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+        <label class="scrubber"><span>재생 위치</span><input id="scrub" type="range" min="0" max="3" value="0" step="0.01" disabled><output id="time">0.00 / 3.00초</output></label>
+        <p id="health" class="health" role="status">승인 캐릭터와 V3 전장을 준비하고 있습니다.</p>
+        <iframe id="battleFrame" src="./skills-battle.html" title="기존 V3 진형의 용병 스킬 검수 전장" allow="autoplay"></iframe>
+        <div class="cast-status"><strong id="cue">재생 대기</strong><span>무음 검수 · 신규 사운드는 제작하지 않았습니다</span></div>
+        <div class="ledger"><div><h4>확정된 검수 이벤트</h4><ol id="eventLog"></ol></div><div><h4>효과를 받은 유닛</h4><div id="stateLog"></div></div></div>
+      </section>
+      <section class="cms"><div class="cms-heading"><div><span class="eyebrow">CMS DRAFT</span><h3>이름과 검수 의견</h3></div><span id="draftState">미저장 초안</span></div><p>이 브라우저의 초안만 저장합니다. 동작 규칙과 배정은 위 설계 기준을 따릅니다.</p><div class="cms-fields"><label>스킬 이름<input id="editName" maxlength="40" disabled></label><label>검토 상태<select id="editReview" disabled><option value="PENDING">검토 대기</option><option value="REVISE">수정 필요</option><option value="REVIEWED">검토 표시 · 출시 승인 아님</option></select></label></div><label>검토 의견<textarea id="editNote" rows="3" maxlength="800" disabled placeholder="유지할 개성, 수정할 효과, 밸런스 의견"></textarea></label><div class="draft-actions"><button id="saveDraft" disabled>브라우저에 저장</button><button id="reloadDraft" disabled>저장본 불러오기</button><button id="exportDraft" disabled>JSON 내보내기</button><label class="file-button">JSON 가져오기<input id="importDraft" type="file" accept=".json,application/json" disabled></label></div><p id="notice" role="status" aria-live="polite"></p></section>
+    </article>
+  </div>
+  <footer><p>일반 카드 5장 + 독립 용병 1장 · 원화는 카드에, SD는 전장에 사용합니다.</p><p>특색 기준: 발동 조건 · 표적 · 상태 변화 · 공격 흐름 · 약점 · 보스 예외를 구분합니다.</p><a href="../../docs/project-v-mercenary-skills-v1.md">스킬 설계·CMS 연결 계약</a></footer>
+</main>
+</body></html>

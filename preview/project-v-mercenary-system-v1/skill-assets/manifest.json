@@ -1,0 +1,451 @@
+{
+  "id": "mercenary-signature-skills-v1",
+  "date": "2026-09-10",
+  "status": "TECH_QA_PENDING_USER_REVIEW",
+  "runtimeEnabled": false,
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "effects": "preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js",
+    "timeline": "V3_REGISTERED_GSAP",
+    "unit": "SECONDS",
+    "atlasAutoPlayback": false
+  },
+  "encoding": "Uniform fit-inside 512px lossless WebP; original generated PNG bytes preserved.",
+  "audio": "SILENT_REVIEW_NO_NEW_AUDIO",
+  "images": [
+    {
+      "id": "golden-lifeline",
+      "skillId": "MS-003",
+      "code": "V-003",
+      "source": "skill-assets/source/golden-lifeline.png",
+      "runtime": "skill-assets/golden-lifeline.webp",
+      "sourceSha256": "4037998C28454A97B8BCC12B613D80A32765EC32D6E1B3BB0CD64282C1F44CAF",
+      "runtimeSha256": "7213E77CF9D4F3306C8A420162052F75F01634874256F29BE54980DE1007EDF9",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 70042,
+      "alpha": {
+        "transparentFraction": 0.8754615783691406,
+        "opaquePixels": 435,
+        "solidPixels": 28697,
+        "edgeMax": 0
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Generate ONE isolated transparent game VFX sprite. A rounded GOLDEN translucent kite shield in isometric three-quarter view, with two broad short side plates and a small golden light tether hanging from its lower left. Rounded top instead of a long spike. Elegant hand-painted 2D fantasy stained-glass armor effect, bright gold core, readable silhouette. The entire object is SMALL within the canvas, occupying only the middle 55% of the square. Large empty transparent margin on every side. No cropped parts. Genuinely TRANSPARENT ALPHA background. No checkerboard graphic, no grid, no backdrop, no ground, no square, no text, no lettering, no UI, no emblem, no people. Game-compositing sprite with clean real alpha edges, not a picture of transparency. Square 1024x1024 image.",
+      "originalFilename": "exec-37f53448-c7f8-494f-acdd-e5cd88d4e206.png"
+    },
+    {
+      "id": "ruby-warrant",
+      "skillId": "MS-004",
+      "code": "V-004",
+      "source": "skill-assets/source/ruby-warrant.png",
+      "runtime": "skill-assets/ruby-warrant.webp",
+      "sourceSha256": "59210836D6215EC504CCFCD4F4AC1401CE7FB3AEB913FE0B8E58CB59E76C441A",
+      "runtimeSha256": "EE32C6E360C2FA7223759CF5F94D2727DAED5D3E06262183C4AF64D716E6A2A1",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 56154,
+      "alpha": {
+        "transparentFraction": 0.871673583984375,
+        "opaquePixels": 186,
+        "solidPixels": 8018,
+        "edgeMax": 2
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. A long needle-like ruby red precision shot with a bright narrow spearhead and three segmented reticle brackets arranged around the impact point at its right end. Elegant fantasy sniper beam, horizontal left to right. No firearm. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, very restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-69280a76-da0d-44d2-b912-bc99b24e23ee.png"
+    },
+    {
+      "id": "iron-unmaking",
+      "skillId": "MS-006",
+      "code": "V-006",
+      "source": "skill-assets/source/iron-unmaking.png",
+      "runtime": "skill-assets/iron-unmaking.webp",
+      "sourceSha256": "E0679034D96F952CD69B49A808D970B11F561AB7E290E29E9D8CC0464DC2913F",
+      "runtimeSha256": "363B331B57939FCED723F8135F837A64E433E1E1F1B30E0C8564CF87A9480800",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 216954,
+      "alpha": {
+        "transparentFraction": 0.6124076843261719,
+        "opaquePixels": 1063,
+        "solidPixels": 76947,
+        "edgeMax": 0
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. A black iron armor plate splitting into exactly three large jagged fragments around an ivory-white diagonal cutting seam, copper embers erupting outward. Dark physical shards have clear silver edges. No sword. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, very restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-3dc61d62-3b01-4621-86f4-79bb85a585a7.png"
+    },
+    {
+      "id": "emerald-calibration",
+      "skillId": "MS-005",
+      "code": "V-005",
+      "source": "skill-assets/source/emerald-calibration.png",
+      "runtime": "skill-assets/emerald-calibration.webp",
+      "sourceSha256": "ED38024E7CC4EB0E48D9B9FC46466615588AB32E915119681DD0B04E52D7C85F",
+      "runtimeSha256": "375B5CC378EE1088767D08AAF833801DBDBD52A77DB685CF6FC297A833FAC5FE",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 132254,
+      "alpha": {
+        "transparentFraction": 0.7653388977050781,
+        "opaquePixels": 119,
+        "solidPixels": 22681,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. Three parallel emerald tracer projectiles converging from the left into a single concentrated mint impact spark at the right, slim luminous streaks with visible crystalline tips. Precise fantasy assault-rifle burst. No firearm. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, very restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-0783da84-eb06-4ce8-80c3-685cd8ee3a51.png"
+    },
+    {
+      "id": "command-feathers",
+      "skillId": "MS-013",
+      "code": "V-013",
+      "source": "skill-assets/source/command-feathers.png",
+      "runtime": "skill-assets/command-feathers.webp",
+      "sourceSha256": "C8AA1012931763178337A3006BEA535BC9F5EDDFB6762DA40E801BD3716F49F4",
+      "runtimeSha256": "1DDA107B1113A60F0BBEA0AE22C4B4F82B9B2127FDD75C896C45D7E5399A910A",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 242694,
+      "alpha": {
+        "transparentFraction": 0.5735931396484375,
+        "opaquePixels": 21,
+        "solidPixels": 44441,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. Six small distinct ivory-gold command pennants made of luminous magical quills, connected by one orderly branching violet-gold thread, opening outward like a tactical relay fan. A light instruction being passed to a team. No lettering, no actual UI. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-a271921a-0475-4009-8206-318b75efa8d1.png"
+    },
+    {
+      "id": "serpent-shadow",
+      "skillId": "MS-015",
+      "code": "V-015",
+      "source": "skill-assets/source/serpent-shadow.png",
+      "runtime": "skill-assets/serpent-shadow.webp",
+      "sourceSha256": "1883809A581F988D48D71B45303F779B9914224399F63391433A084B7213C1A8",
+      "runtimeSha256": "A6AE1A801ED31C19040EDCB4EB5A2ED31CE302CEEF5E62E78FDF0FD1E543D9F8",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 193890,
+      "alpha": {
+        "transparentFraction": 0.5997314453125,
+        "opaquePixels": 174,
+        "solidPixels": 61503,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. One long sleek spectral emerald-black viper formed of dark translucent smoke with luminous lime eyes, curled into a low lateral S-shaped striking path, sharp fang of verdigris light at the right. Elegant dangerous infiltration, not a dragon. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-388a5de8-22ee-4e06-ac4e-e167d0ee86d3.png"
+    },
+    {
+      "id": "dusk-veil",
+      "skillId": "MS-016",
+      "code": "V-016",
+      "source": "skill-assets/source/dusk-veil.png",
+      "runtime": "skill-assets/dusk-veil.webp",
+      "sourceSha256": "DCB6CE5C605FAD626B38EE9159E69444A399738FCDE718F3338BFAADDD0B72CC",
+      "runtimeSha256": "AF154DD89DC8BB55F4AE51F48B3FF9F1B6105A4F57F554A94079792C3C79D242",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 192998,
+      "alpha": {
+        "transparentFraction": 0.5217475891113281,
+        "opaquePixels": 1172,
+        "solidPixels": 117159,
+        "edgeMax": 0
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. A broad translucent mauve dusk curtain with three interlocking vertical silver clasps descending from its top, billowing gently, a physical fabric-like magical veil to weaken attacks. Visible pleated volume, no ring or magic circle. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-2bcddb6b-cfab-4132-b494-b70af8082959.png"
+    },
+    {
+      "id": "life-stitch",
+      "skillId": "MS-018",
+      "code": "V-018",
+      "source": "skill-assets/source/life-stitch.png",
+      "runtime": "skill-assets/life-stitch.webp",
+      "sourceSha256": "16DD35FAEBDC98B313D9C2D92E98932CEC7C484EE92F05B3390A44F3056BFCCD",
+      "runtimeSha256": "F44E55E8582156749A690DEE62367E88CEE89119DE0EAD11B683A30283E2C892",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 142366,
+      "alpha": {
+        "transparentFraction": 0.7145156860351562,
+        "opaquePixels": 594,
+        "solidPixels": 44066,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. A curved mint-white enchanted surgical thread passing through five tiny golden needle-like stitches, joining two separated soft folds of pale green life energy. Delicate healing motion, cohesive graceful arc; no red cross, no medical logo. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-12dd7682-ea14-446f-8544-f9e0e3662f54.png"
+    },
+    {
+      "id": "blue-riposte",
+      "skillId": "MS-023",
+      "code": "V-023",
+      "source": "skill-assets/source/blue-riposte.png",
+      "runtime": "skill-assets/blue-riposte.webp",
+      "sourceSha256": "66D5CC7365840503325DA065423EC45FA9FCD91C56994FA647868CC23D6DB67B",
+      "runtimeSha256": "284282CDC3AD55A16C3359BB198B9F721CDD119C7858D3AE368CAD4731ACCEEC",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 160120,
+      "alpha": {
+        "transparentFraction": 0.7030448913574219,
+        "opaquePixels": 26,
+        "solidPixels": 38069,
+        "edgeMax": 0
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. Two pale sapphire spectral saber edges crossing asymmetrically at a tiny sharp silver contact spark: one broad defensive curved crescent catching an incoming blow, and one thinner returning thrust beginning at the same point. Elegant physical sword motion, no actual hands, no large explosion. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-97154083-b3b2-4451-92be-14be17cb8ea2.png"
+    },
+    {
+      "id": "white-stillness",
+      "skillId": "MS-025",
+      "code": "V-025",
+      "source": "skill-assets/source/white-stillness.png",
+      "runtime": "skill-assets/white-stillness.webp",
+      "sourceSha256": "A52D30BF2AAD8A4ED22EE2BD19F241F454C651E9ED10093C6B6F780479B8A27C",
+      "runtimeSha256": "A2BEB6B194274AB66EE2B6E5474D061D11B0D7DA4A955554EE0F292D7C9DF8AA",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 99510,
+      "alpha": {
+        "transparentFraction": 0.8342666625976562,
+        "opaquePixels": 387,
+        "solidPixels": 18340,
+        "edgeMax": 0
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. A very long single white-blue ice needle emerging horizontally from a quiet cluster of six delicate suspended snow crystal facets, the needle tapers to a brilliant tiny point on the right. A precise silent frost sniper impact, not a snowstorm or circular seal. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-e68d7e29-6fd1-4f16-baa6-889a11be3783.png"
+    },
+    {
+      "id": "closed-firelane",
+      "skillId": "MS-027",
+      "code": "V-027",
+      "source": "skill-assets/source/closed-firelane.png",
+      "runtime": "skill-assets/closed-firelane.webp",
+      "sourceSha256": "02DEDBBEA6A4264349A7063F62E481FBBBBB08433D592507B319D27DD53BD131",
+      "runtimeSha256": "DC12B33C10EBB2B13E646F02B0D87EDBFB40F2B0EB2A8EFFBAD6ADD3B039D91A",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 160866,
+      "alpha": {
+        "transparentFraction": 0.6956863403320312,
+        "opaquePixels": 11,
+        "solidPixels": 22788,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. A disciplined fan of seven amber tracer streaks raking diagonally across a low horizontal band of slate dust, creating a clearly bounded suppressive fire lane. Distinct downward slant, no circular explosion, no firearm or bullets in a belt. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-df5dda27-fed9-4557-b95c-300e1704df0d.png"
+    },
+    {
+      "id": "lotus-barrier",
+      "skillId": "MS-028",
+      "code": "V-028",
+      "source": "skill-assets/source/lotus-barrier.png",
+      "runtime": "skill-assets/lotus-barrier.webp",
+      "sourceSha256": "959AB13CB0584034890DBC8B1D26C6EFB0F2A0CAAE4B2CA07F549330ADD5B9A8",
+      "runtimeSha256": "87544AFC4BC9956CCB29003170C3040C04CF25CF5DB393D1C599D4F921E7EC90",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 177646,
+      "alpha": {
+        "transparentFraction": 0.6351242065429688,
+        "opaquePixels": 842,
+        "solidPixels": 89786,
+        "edgeMax": 0
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. One luminous translucent rose quartz lotus made of six broad layered armored petals, half-open in isometric view, forming a shallow protective bowl with soft gold ribs and a small mint core. No circular rune, no thin line art, no vase. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-363f3227-ecc9-4c5b-8640-05b45f0e5498.png"
+    },
+    {
+      "id": "last-chamber",
+      "skillId": "MS-032",
+      "code": "V-032",
+      "source": "skill-assets/source/last-chamber.png",
+      "runtime": "skill-assets/last-chamber.webp",
+      "sourceSha256": "DBAF11766AB18BD01FB50B61E29A447D03F7582DCE3F6265FFEA4DBA417E85C6",
+      "runtimeSha256": "F23BCAB29225FDEFD6656F0EF1976456B7EB5CA99D2E9C660F4A52FB41E9A10F",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 155146,
+      "alpha": {
+        "transparentFraction": 0.73626708984375,
+        "opaquePixels": 458,
+        "solidPixels": 38528,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. One large amethyst-silver revolver cartridge disintegrating into a narrow lavender ballistic wake, six small separated empty chamber segments trailing in an open horseshoe at the left, bullet nose pointing right. The silhouette communicates a final reserved shot; no gun, no actual revolver cylinder, no UI. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-323e10b6-54f5-4894-9b4a-9418a3157751.png"
+    },
+    {
+      "id": "closing-punch",
+      "skillId": "MS-038",
+      "code": "V-038",
+      "source": "skill-assets/source/closing-punch.png",
+      "runtime": "skill-assets/closing-punch.webp",
+      "sourceSha256": "D8437788A1CEF60915D1685A233051DFF5F3357D63946EBBC43A5E37427B1867",
+      "runtimeSha256": "FA39AEC156E0D5E2C8EEB6F783CB46158DCA9D8C86C780AD2646B505C9764E3D",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 226192,
+      "alpha": {
+        "transparentFraction": 0.5923194885253906,
+        "opaquePixels": 557,
+        "solidPixels": 65134,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. One massive spectral cyan energy gauntlet punching horizontally right into two fractured slate casting brackets, squared knuckle plates and short impact compression waves. Readable punch silhouette from the wrist onward, magical translucent gauntlet only, no person or skin. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-ab233f2c-0d36-4f66-9d8f-28154cbeaeba.png"
+    },
+    {
+      "id": "police-restraint",
+      "skillId": "MS-042",
+      "code": "V-042",
+      "source": "skill-assets/source/police-restraint.png",
+      "runtime": "skill-assets/police-restraint.webp",
+      "sourceSha256": "FC13858F764486B79C0C73569ED082F848A493C07321C864E449AE1540218B50",
+      "runtimeSha256": "D918E7836DF811483D10B081EF64A44E577256C2A270073172C9532E403081ED",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 199572,
+      "alpha": {
+        "transparentFraction": 0.6768531799316406,
+        "opaquePixels": 521,
+        "solidPixels": 48447,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. One pair of luminous cobalt-silver arc-shaped spectral restraints linked by a short chain, snapping closed around a small gold projectile impact. Precise elegant fantasy police restraint effect, strong readable open-to-closed suggestion, no police logo, no badge. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-01f65a34-5502-485b-aa3d-e14a9c6a0844.png"
+    },
+    {
+      "id": "evening-encore",
+      "skillId": "MS-043",
+      "code": "V-043",
+      "source": "skill-assets/source/evening-encore.png",
+      "runtime": "skill-assets/evening-encore.webp",
+      "sourceSha256": "D697561C58E5EF5A55AA6C5DE108FCA288D946457ACEE9ECEDD5DC781612C52D",
+      "runtimeSha256": "C41DBC83FDDA4F186A963496117C67F1B20D138EAFE8377D0ED6369228974806",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtimeSize": [
+        512,
+        512
+      ],
+      "bytes": 116358,
+      "alpha": {
+        "transparentFraction": 0.7823677062988281,
+        "opaquePixels": 178,
+        "solidPixels": 22145,
+        "edgeMax": 1
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. Two distinct sweeping pink-gold ballistic ribbons traveling right, the leading ribbon is a small crisp straight pistol tracer and the trailing ribbon is a longer flowing peach arc with a bright second impact tip. Asymmetric two-beat rhythm; no heart, no petals, no gun, no lettering. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
+      "originalFilename": "exec-46957c22-435c-4e93-976f-5de314d51ef6.png"
+    }
+  ]
+}
