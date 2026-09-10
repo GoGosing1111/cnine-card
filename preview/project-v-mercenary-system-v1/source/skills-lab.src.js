@@ -8,6 +8,7 @@ import {ROLES, POSITIONS} from '../../../shared/mercenary-position-config-v1.mjs
 import {compileRehearsal, sampleRehearsal} from '../skill-rehearsal.mjs';
 import {MercenarySkillFX} from './MercenarySkillFX.js';
 import {skillAssetBaseUrl} from '../skill-asset-base.mjs';
+import {loadSequence,loadAuxiliary,releaseFrameViews} from './MercenarySpriteSequence.js';
 
 const doc=window.parent.document,$=id=>doc.getElementById(id)||document.getElementById(id);
 const ROOT='/preview/project-v-mercenary-system-v1/';
@@ -16,7 +17,8 @@ const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replac
 const abs=path=>'/'+String(path).replace(/^\//,'');
 const getJson=async path=>{const r=await fetch(path);if(!r.ok)throw new Error(`자산을 불러오지 못했습니다: ${path}`);return r.json()};
 let roster,positions,adapter,deck,engine,renderer,merc,fx,draft,savedRevision=null,changing=false,disposed=false,epoch=0;
-let selected='MS-003',lastUi='',lastTick=-1,dirty=false;
+let selected=MERCENARY_SKILLS.some(s=>s.id===new URL(window.parent.location.href).searchParams.get('skill'))?new URL(window.parent.location.href).searchParams.get('skill'):'MS-003',lastUi='',lastTick=-1,dirty=false;
+let atlasManifest,auxiliary,activeSequence=null,assetQueue=Promise.resolve();
 const actors=new Map(),texturePaths=new Set();
 const row=()=>draft.skills.find(s=>s.id===selected);
 const base=()=>skillById(selected);
@@ -62,7 +64,7 @@ function update(time,instance,sample){
       return `<div class="actor-state"><span>${esc(actorName(a.id))}</span><span>HP ${Math.round(a.hp)}${a.shield>0?` · 방호 ${Math.round(a.shield)}`:''}</span>${flags?`<em>${esc(flags)}</em>`:''}</div>`;
     }).join('');
   }
-  if(Math.floor(time*10)!==lastTick){lastTick=Math.floor(time*10);publishDiagnostics(instance);}
+  if(Math.floor(time*10)!==lastTick||!instance.playing||time>=plan.duration){lastTick=Math.floor(time*10);publishDiagnostics(instance);}
 }
 function publishDiagnostics(instance=fx){
   if(!instance)return;
@@ -72,6 +74,8 @@ function publishDiagnostics(instance=fx){
     mercenaryInRegularArray:engine?.allies.includes(merc),mercenaryDisplacement:merc?Math.hypot(merc.root.x-merc.baseX,merc.root.y-merc.baseY):0,
     sourceArt:card()?.sourceArt,battleSprite:card()?.battleSprite};
   $('health').dataset.diagnostics=JSON.stringify(snapshot);
+  const active=new Set((snapshot.activeFrames||[]).flatMap(f=>[f.index,f.next]));
+  for(const a of doc.querySelectorAll('#frameStrip [data-frame]'))a.classList.toggle('active',active.has(Number(a.dataset.frame)));
 }
 function placeMercenary(){
   if(!merc||!engine)return;
@@ -83,25 +87,35 @@ function placeMercenary(){
 }
 async function configure(id=selected){
   const token=++epoch;changing=true;controls(false);fx?.destroy();fx=null;selected=id;
+  $('health').dataset.diagnostics=JSON.stringify({ready:false,skillId:id,changing:true});
   lastUi='';lastTick=-1;showDetails();list();$('health').textContent='선택한 용병과 전용 효과 준비 중…';
+  $('frameStrip').innerHTML='';$('sequenceRecord').textContent='선택한 스킬의 개별 프레임 준비 중';
+  assetQueue=assetQueue.catch(()=>{}).then(async()=>{
+  if(token!==epoch||disposed)return;
   try{
+    if(activeSequence){const previous=activeSequence;activeSequence=null;releaseFrameViews(previous);await Assets.unload(previous.url);texturePaths.delete(previous.url);}
     const s=base(),c=card(),art=adapter.resolveForConsumer('BATTLE_FIELD',c.code);
     if(!art)throw new Error('승인 SD를 찾을 수 없습니다.');
     const artPath=`/assets/ui/project-v/mercenaries/codex-v1/${c.code.toLowerCase()}-art-640.webp`;
-    const effectPath=`${ROOT}skill-assets/${s.visual.asset}.webp`;
+    const atlasRow=atlasManifest.images.find(r=>r.skillId===s.id);
+    if(!atlasRow)throw new Error('이 스킬은 개별 스프라이트 재제작 중입니다.');
+    const effectPath=`${ROOT}skill-assets-v2/${atlasRow.runtime}`;
     [art.spriteUrl,artPath,effectPath].forEach(p=>texturePaths.add(p));
-    const [sd,cutin,texture]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(artPath),Assets.load(effectPath)]);
-    if(disposed){for(const p of [art.spriteUrl,artPath,effectPath])void Assets.unload(p).catch(()=>{});return;}
-    if(token!==epoch)return;
+    const [sd,cutin,sequence]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(artPath),loadSequence(atlasRow)]);
+    if(disposed||token!==epoch){releaseFrameViews(sequence);await Assets.unload(effectPath);texturePaths.delete(effectPath);return;}
+    activeSequence=sequence;
+    $('frameStrip').innerHTML=atlasRow.frames.map(f=>`<a data-frame="${f.index}" href="${ROOT}skill-assets-v2/${f.file}" target="_blank" rel="noopener"><img loading="lazy" src="${ROOT}skill-assets-v2/${f.file}" alt="${esc(s.name)} 스프라이트 ${f.index+1}"><span>${String(f.index+1).padStart(2,'0')}</span></a>`).join('');
+    $('sequenceRecord').textContent=`개별 원본 16프레임 · ${atlasRow.cellSize}px · 시각 검수 대기`;
     if(!merc){merc=new BattleCharacter({id:'MERCENARY_PREVIEW',name:c.name,team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:260});engine.combatLayer.addChild(merc.root);actors.set('M',merc);}
     merc.name=c.name;merc.nameLabel.text=c.name;merc.cutInTexture=cutin;merc.useFullBodySprite(sd,260);
     merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);placeMercenary();
     const plan=compileRehearsal(s.id,$('scenario').value);
     $('scenarioNote').textContent=plan.explanation+($('scenario').value==='boss'?' 이 화면은 단일 표적에 보스 예외를 적용한 모의 상황입니다.':'');
-    fx=new MercenarySkillFX(engine,actors,s,plan,texture,update);fx.setSpeed(Number($('speed').value));
+    fx=new MercenarySkillFX(engine,actors,s,plan,sequence,auxiliary,update);fx.setSpeed(Number($('speed').value));
     changing=false;controls(true);$('health').classList.remove('error');$('health').textContent='V3 WebGL · PixiJS 8.20.0 / GSAP 3.13.0 · 전용 효과 준비 완료';
     fx.render(0);publishDiagnostics();
   }catch(error){if(token!==epoch)return;changing=false;$('health').textContent=`검수 준비 실패: ${error.message}`;$('health').classList.add('error');console.error('[MercenarySkills]',error);}
+  });return assetQueue;
 }
 function edit(){
   const d=row();d.name=$('editName').value;d.review=$('editReview').value;d.note=$('editNote').value;
@@ -137,12 +151,17 @@ function bind(){
     }catch(error){notice(error.message,true)}finally{event.target.value='';}
   });
   document.addEventListener('visibilitychange',()=>{if(document.hidden){fx?.cancel();publishDiagnostics()}});
-  window.addEventListener('resize',()=>{fx?.pause();placeMercenary();fx?.render(fx.time);publishDiagnostics()});
+  // Runs after the existing V3 renderer updates its formation and camera.
+  engine.app.renderer.on('resize',resizeFormation);
   window.addEventListener('pagehide',dispose,{once:true});
   engine.app.canvas.addEventListener('webglcontextlost',()=>{fx?.cancel();controls(false);$('health').textContent='WebGL이 중단되었습니다. 새로고침해 주세요.'});
 }
+function resizeFormation(){
+  if(disposed)return;fx?.pause();placeMercenary();fx?.syncFormation();fx?.render(fx.time);publishDiagnostics();
+}
 function dispose(){
-  if(disposed)return;disposed=true;epoch++;fx?.destroy();fx=null;merc?.destroy?.();merc=null;
+  if(disposed)return;disposed=true;epoch++;engine?.app?.renderer.off('resize',resizeFormation);fx?.destroy();fx=null;merc?.destroy?.();merc=null;
+  releaseFrameViews(activeSequence);activeSequence=null;
   renderer?.destroy();window.ProjectVPixiBattle?.destroy();actors.clear();
   // These textures are private to this iframe. Shared V3 textures are preserved by the engine.
   for(const p of texturePaths)void Assets.unload(p).catch(()=>{});texturePaths.clear();
@@ -158,7 +177,8 @@ async function boot(){
   try{
     if(doc.readyState==='loading')await new Promise(resolve=>doc.addEventListener('DOMContentLoaded',resolve,{once:true}));
     await Assets.init({basePath:skillAssetBaseUrl(location.href)});
-    [roster,positions,deck]=await Promise.all([getJson('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'),getJson(`${ROOT}position-draft-v1.json`),loadDeck()]);
+    [roster,positions,deck,atlasManifest,auxiliary]=await Promise.all([getJson('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'),getJson(`${ROOT}position-draft-v1.json`),loadDeck(),getJson(`${ROOT}skill-assets-v2/manifest.json`),loadAuxiliary()]);
+    $('authoredCount').textContent=atlasManifest.images.length;$('frameCount').textContent=atlasManifest.frameCount;
     adapter=createMercenaryBattleArtAdapter(roster);draft=createSkillDraft(roster.version);
     try{const stored=readStored();if(stored){draft=stored;savedRevision=stored.revision;}}catch(error){notice(`저장본 확인 필요: ${error.message}`,true);}
     $('roleFilter').innerHTML='<option value="">전체 역할</option>'+Object.entries(ROLES).map(([id,r])=>`<option value="${id}">${r.label}</option>`).join('');

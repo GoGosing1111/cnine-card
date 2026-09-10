@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark"><meta name="robots" content="noindex,nofollow">
-  <title>용병 고유 스킬 16종 · 숲켓몬</title><link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./skills.css?v=20260910-1">
+  <title>용병 스킬 이펙트 V2 · 숲켓몬</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./skills.css?v=20260911-1">
 </head>
 <body>
 <a class="skip" href="#selectedSkill">선택한 스킬로 이동</a>
 <main>
   <header><a class="eyebrow" href="./">숲켓몬 / PROJECT V</a><nav><a href="./positions.html">포지션 · CMS</a><a href="../../mercenary-codex/?sort=newest">용병도감</a></nav></header>
-  <section class="hero"><div><span class="eyebrow">MERCENARY SIGNATURE SKILLS / 01</span><h1>한 명이 바꾸는 전투.</h1><p>누구를 지키고, 무엇을 끊고, 언제 쏠 것인가.<br>서로 다른 전투 기회를 만드는 고유 스킬 16종.</p></div><div class="numbers"><div><b>16</b><span>고유 스킬</span></div><div><b>7</b><span>전투 역할</span></div><div><b>48</b><span>상황 검수</span></div></div></section>
+  <section class="hero"><div><span class="eyebrow">MERCENARY SIGNATURE SKILLS / V2</span><h1>용병 스킬 재검수.</h1><p>스킬별로 따로 제작한 연속 스프라이트.<br>준비, 충돌, 파열과 소멸을 직접 확인하세요.</p></div><div class="numbers"><div><b id="authoredCount">—</b><span>개별 시퀀스</span></div><div><b id="frameCount">—</b><span>실제 프레임</span></div><div><b>48</b><span>상황 검수</span></div></div></section>
   <p class="scope">검수 초안 · 수치는 100 HP 모의 전투용입니다. 운영 계수·등급·쿨다운은 미확정이며 실제 계정에 적용되지 않습니다.</p>
   <div class="workbench">
     <aside class="selection"><div class="list-head"><h2>스킬 로스터</h2><span id="count">16종</span></div><label class="search-label">검색<input id="search" type="search" maxlength="80" placeholder="용병, 스킬, 효과 검색"></label><label>전투 역할<select id="roleFilter"><option value="">전체 역할</option></select></label><div id="skillList" class="skill-list" aria-label="고유 스킬 선택"><p>준비 중…</p></div></aside>
@@ -26,6 +26,7 @@
         <p id="health" class="health" role="status">승인 캐릭터와 V3 전장을 준비하고 있습니다.</p>
         <iframe id="battleFrame" src="./skills-battle.html" title="기존 V3 진형의 용병 스킬 검수 전장" allow="autoplay"></iframe>
         <div class="cast-status"><strong id="cue">재생 대기</strong><span>무음 검수 · 신규 사운드는 제작하지 않았습니다</span></div>
+        <details class="frame-review"><summary>개별 스프라이트 16프레임 확인</summary><p id="sequenceRecord"></p><div id="frameStrip" class="frame-strip"></div></details>
         <div class="ledger"><div><h4>확정된 검수 이벤트</h4><ol id="eventLog"></ol></div><div><h4>효과를 받은 유닛</h4><div id="stateLog"></div></div></div>
       </section>
       <section class="cms"><div class="cms-heading"><div><span class="eyebrow">CMS DRAFT</span><h3>이름과 검수 의견</h3></div><span id="draftState">미저장 초안</span></div><p>이 브라우저의 초안만 저장합니다. 동작 규칙과 배정은 위 설계 기준을 따릅니다.</p><div class="cms-fields"><label>스킬 이름<input id="editName" maxlength="40" disabled></label><label>검토 상태<select id="editReview" disabled><option value="PENDING">검토 대기</option><option value="REVISE">수정 필요</option><option value="REVIEWED">검토 표시 · 출시 승인 아님</option></select></label></div><label>검토 의견<textarea id="editNote" rows="3" maxlength="800" disabled placeholder="유지할 개성, 수정할 효과, 밸런스 의견"></textarea></label><div class="draft-actions"><button id="saveDraft" disabled>브라우저에 저장</button><button id="reloadDraft" disabled>저장본 불러오기</button><button id="exportDraft" disabled>JSON 내보내기</button><label class="file-button">JSON 가져오기<input id="importDraft" type="file" accept=".json,application/json" disabled></label></div><p id="notice" role="status" aria-live="polite"></p></section>

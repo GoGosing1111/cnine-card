@@ -1,7 +1,7 @@
 {
   "id": "mercenary-signature-skills-v1",
   "date": "2026-09-10",
-  "status": "TECH_QA_PENDING_USER_REVIEW",
+  "status": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
   "renderer": {
     "pixi": "8.20.0",
@@ -447,5 +447,8 @@
       "prompt": "Use case: stylized-concept. Asset type: single isolated PROJECT V combat VFX sprite, NOT an icon and NOT a poster. Two distinct sweeping pink-gold ballistic ribbons traveling right, the leading ribbon is a small crisp straight pistol tracer and the trailing ribbon is a longer flowing peach arc with a bright second impact tip. Asymmetric two-beat rhythm; no heart, no petals, no gun, no lettering. High-end hand-painted 2D fantasy game effect with clean readable silhouette, refined luminous material, restrained particles, bright core and rich midtones. One cohesive effect occupying the central 75% of a square 1024 by 1024 canvas, fully contained with at least 10% empty margin. Genuinely transparent alpha background, no black rectangle, no checkerboard baked in. No characters, hands, scenery, text, letters, numbers, logo, badge, card frame or UI. Must composite naturally over an isometric dark battlefield. Only this exact subject.",
       "originalFilename": "exec-46957c22-435c-4e93-976f-5de314d51ef6.png"
     }
-  ]
+  ],
+  "rejectionDate": "2026-09-11",
+  "replacedBy": "skill-assets-v2/manifest.json",
+  "rejectionReason": "Individual still motifs moved and scaled do not satisfy authored animation quality. Technical tests were not visual approval."
 }

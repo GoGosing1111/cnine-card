@@ -1,3 +1,5 @@
+> 2026-09-11 사용자 반려 기록: 아래 V1은 정지 소재 트윈 방식의 과거 기술 검수 기록입니다. 시각 품질 승인이나 현재 제작 기준이 아닙니다. 현재 기준은 [개별 연속 스프라이트 V2 검수](./SKILLS-V2-REVIEW.md)입니다.
+
 # 용병 스킬 검수 V1
 
 - 화면: `skills.html` (배포 URL은 `/preview/project-v-mercenary-system-v1/skills`)
