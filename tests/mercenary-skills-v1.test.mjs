@@ -2,17 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import {Container, Texture} from 'pixi.js';
+import {Container, Texture, path as pixiPath} from 'pixi.js';
 import {gsap} from 'gsap';
 import {MERCENARY_SKILLS as skills, createSkillDraft, validateSkillDraft, parseSkillDraft} from '../shared/mercenary-skills-v1.mjs';
 import {compileRehearsal, rehearsalSnapshot, sampleRehearsal, selectSkillTargets} from '../preview/project-v-mercenary-system-v1/skill-rehearsal.mjs';
 import {MercenarySkillFX} from '../preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js';
+import {skillAssetBaseUrl} from '../preview/project-v-mercenary-system-v1/skill-asset-base.mjs';
 const read=p=>JSON.parse(fs.readFileSync(new URL('../'+p,import.meta.url),'utf8'));
 const roster=read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
 const positions=read('preview/project-v-mercenary-system-v1/position-draft-v1.json');
 const finish=(id,scenario='normal',snapshot)=>sampleRehearsal(compileRehearsal(id,scenario,snapshot),10);
 const actor=(sample,id)=>sample.actors.find(a=>a.id===id);
 const copy=v=>structuredClone(v);
+
+test('Pages extensionless documents and local .html resolve shared V3 assets identically',()=>{
+  for(const url of ['https://cnine-card.pages.dev/preview/project-v-mercenary-system-v1/skills-battle','http://127.0.0.1:8793/preview/project-v-mercenary-system-v1/skills-battle.html']){
+    const base=skillAssetBaseUrl(url),origin=new URL(url).origin;
+    for(const resource of ['../../assets/ui/coin-prediction/arena-v1.png','../../assets/ui/idle-dungeon/enchanted-card-battlefield-v4.webp','/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json'])
+      assert.equal(pixiPath.toAbsolute(resource,base),origin+'/'+resource.replace(/^(?:\.\.\/)+|^\//g,''));
+  }
+});
 
 test('16 authored identities cover all seven roles and match the position draft',()=>{
   assert.equal(skills.length,16);assert.equal(new Set(skills.map(s=>s.role)).size,7);

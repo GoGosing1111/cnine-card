@@ -7,6 +7,7 @@ import {MERCENARY_SKILLS, skillById, createSkillDraft, parseSkillDraft, validate
 import {ROLES, POSITIONS} from '../../../shared/mercenary-position-config-v1.mjs';
 import {compileRehearsal, sampleRehearsal} from '../skill-rehearsal.mjs';
 import {MercenarySkillFX} from './MercenarySkillFX.js';
+import {skillAssetBaseUrl} from '../skill-asset-base.mjs';
 
 const doc=window.parent.document,$=id=>doc.getElementById(id)||document.getElementById(id);
 const ROOT='/preview/project-v-mercenary-system-v1/';
@@ -156,6 +157,7 @@ async function loadDeck(){
 async function boot(){
   try{
     if(doc.readyState==='loading')await new Promise(resolve=>doc.addEventListener('DOMContentLoaded',resolve,{once:true}));
+    await Assets.init({basePath:skillAssetBaseUrl(location.href)});
     [roster,positions,deck]=await Promise.all([getJson('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'),getJson(`${ROOT}position-draft-v1.json`),loadDeck()]);
     adapter=createMercenaryBattleArtAdapter(roster);draft=createSkillDraft(roster.version);
     try{const stored=readStored();if(stored){draft=stored;savedRevision=stored.revision;}}catch(error){notice(`저장본 확인 필요: ${error.message}`,true);}
