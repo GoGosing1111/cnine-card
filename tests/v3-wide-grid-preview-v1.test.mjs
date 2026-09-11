@@ -11,6 +11,7 @@ const root = new URL('../', import.meta.url);
 const read = p => fs.readFileSync(new URL(p, root), 'utf8');
 const originalEngine = read('preview/project-v-v3/source/battle/BattleEngine.js');
 const gridEngine = read('preview/v3-wide-grid-v1/source/WideGridBattleEngine.js');
+const commonLayout = read('preview/project-v-v3/source/battle/OccupiedGridLayout.js');
 const epsilon = (a, b) => assert.ok(Math.abs(a - b) < 1e-9, `${a} != ${b}`);
 
 test('comparison baseline matches the actual live 7x6 projection, not a smaller strawman', () => {
@@ -56,8 +57,8 @@ for (const mobile of [false, true]) {
       epsilon(resolve(b.y), scaleAt(before, base, a.y));
       for (const step of [-30, 20, 60]) assert.ok(Number.isFinite(resolve(b.y + step)));
     }
-    assert.match(gridEngine, /layoutAccountBattleUnit\(\)/);
-    assert.match(gridEngine, /this\.accountBattleUnit\.root\.restScale/);
+    assert.match(commonLayout, /layoutAccountBattleUnit\(\)/);
+    assert.match(commonLayout, /this\.accountBattleUnit\.root\.restScale/);
   });
 }
 
@@ -72,7 +73,7 @@ test('comparison shares one frozen combat snapshot and cannot alter damage, targ
   }
   assert.equal(JSON.stringify(payload), snapshot);
   assert.equal(payload.cards.length, 5); assert.equal(payload.battleV2.result.encounter.defeated, 10);
-  assert.doesNotMatch(gridEngine, /simulateBattle|createPveBattleV2|fetch\(|POST|damage\s*=/);
+  assert.doesNotMatch(gridEngine + commonLayout, /simulateBattle|createPveBattleV2|fetch\(|POST|damage\s*=/);
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   const pve = createGridPreview({catalog, equipment, roster, scenario: 'PVE'});
   assert.deepEqual(pve.battleV2, payload.battleV2);
@@ -129,7 +130,7 @@ test('compact PVP and PVE use distinct occupied stations with the suit inside th
   }
 });
 
-test('only a preview constructor is substituted; shared live card art, dock and timelines stay intact', () => {
+test('comparison controls extend the common grid; shared card art, dock and timelines stay intact', () => {
   const html = read('preview/v3-wide-grid-v1/battle.html'), css = read('preview/v3-wide-grid-v1/style.css');
   for (const file of ['card.css', 'battle-v3-live.css', 'zenith-v1.css', 'superstar-v1.css', 'faker-card-v1.css', 'project-v-battle-art-adapter-v1.js', 'battle-v3-live.js']) assert.ok(html.includes(file));
   assert.match(html, /\.\/battle-bridge\.js/);
@@ -138,6 +139,9 @@ test('only a preview constructor is substituted; shared live card art, dock and 
   assert.match(bridge, /ProjectVBattleV3Live.createRenderer/);
   assert.doesNotMatch(css, /battle-v3-roster|battle-v3-dock|\.card-image/);
   assert.match(gridEngine, /extends ScrapyardBattleEngine/);
+  assert.match(originalEngine, /export class BattleEngine extends withOccupiedGrid\(BaseBattleEngine\)/);
+  assert.doesNotMatch(gridEngine, /layoutCharacterGrid\(|drawIsometricFloor\(|configureIsometricScene\(/);
+  assert.match(read('preview/v3-wide-grid-v1/source/grid-layout.mjs'), /export \* from .*FormationLayout.mjs/);
   assert.doesNotMatch(gridEngine, /new Application|new Renderer|playEvents\(|new AudioContext/);
   assert.match(gridEngine, /window\.WideGridLayout === this\.gridControl/);
   const builder = read('scripts/build-v3-wide-grid-preview-v1.mjs');

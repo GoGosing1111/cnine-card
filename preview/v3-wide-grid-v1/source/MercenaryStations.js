@@ -1,5 +1,4 @@
 import {Assets, Container, Graphics, Sprite, Text} from 'pixi.js';
-import {stationPoint} from './grid-layout.mjs';
 
 // Placement specimens share the existing V3 combat layer and depth sort.
 // They never join characters/allies/enemies, target selection or the card dock.
@@ -25,13 +24,4 @@ export async function createMercenaryStations(engine, roster) {
     stations.push({team, index, art, root, sprite});
   }
   return stations;
-}
-export function layoutMercenaryStations(engine) {
-  for (const item of engine.previewMercenaries || []) {
-    const point = engine.station('mercenaries', item.index, item.team) || stationPoint('mercenaries', item.index, item.team, engine.mobile);
-    item.root.position.set(point.x, point.y);
-    item.root.depthSortY = point.y;
-    item.root.scale.set(engine.viewportFit ? .51 * engine.viewportFit.actorScale : engine.mobile ? .43 : .51);
-    item.root.visible = engine.gridMode === 'wide' && item.index < engine.mercenaryCounts[item.team];
-  }
 }
