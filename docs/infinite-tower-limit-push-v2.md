@@ -119,4 +119,6 @@ CMS에는 모드(TEST/OFF/ON), 난도 버전, 기본 적 능력치와 단계별 
 
 ## 참고한 나락 구조
 
+2026-09-11 사용자 후속 요청으로 `preview/infinite-tower-v3-v1/`에 서버 저장/복구 검수판을 구현했다. 새 모듈·CMS·경제·기록판·범위 검증은 `docs/v3-overhaul-readiness-20260911.md`, 수량은 `docs/infinite-tower-v3-economy-draft-20260911.md`에 기록한다. 기획 수치를 운영 승인으로 취급하거나 기존 통합 출시 묶음을 자동 변경하지 않는다.
+
 블리자드의 [공식 나락 소개](https://news.blizzard.com/en-us/article/24077223/galvanize-your-legend-in-season-4-loot-reborn)에서 `몬스터 처치 → 수호자 출현 → 제한 내 성공 → 더 높은 난도 해금`과 빠른 성공의 추가 난도 해금을 참고했다. 해당 글은 시즌 4 소개이며 최신 시즌의 모든 수치를 뜻하지 않는다. 위 제안의 층 구조·180초·진행도·보상 예산은 숲켓몬용 초안이다.

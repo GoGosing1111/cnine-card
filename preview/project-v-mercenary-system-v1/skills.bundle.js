@@ -42,7 +42,7 @@ uniform vec4 uOutputTexture;
 vec4 filterVertexPosition( void )
 {
     vec2 position = aPosition * uOutputFrame.zw + uOutputFrame.xy;
-    
+
     position.x = position.x * (2.0 / uOutputTexture.x) - 1.0;
     position.y = position.y * (2.0*uOutputTexture.z / uOutputTexture.y) - uOutputTexture.z;
 
@@ -440,7 +440,7 @@ uniform mat3 uFilterMatrix;
 vec4 filterVertexPosition(  vec2 aPosition )
 {
     vec2 position = aPosition * uOutputFrame.zw + uOutputFrame.xy;
-       
+
     position.x = position.x * (2.0 / uOutputTexture.x) - 1.0;
     position.y = position.y * (2.0*uOutputTexture.z / uOutputTexture.y) - uOutputTexture.z;
 
@@ -455,7 +455,7 @@ vec2 filterTextureCoord(  vec2 aPosition )
 vec2 getFilterCoord( vec2 aPosition )
 {
     return  ( uFilterMatrix * vec3( filterTextureCoord(aPosition), 1.0)  ).xy;
-}   
+}
 
 void main(void)
 {
@@ -1172,7 +1172,7 @@ struct VSOutput {
     @builtin(position) position: vec4<f32>,
     @location(0) uv : vec2<f32>,
   };
-  
+
 fn filterVertexPosition(aPosition:vec2<f32>) -> vec4<f32>
 {
     var position = aPosition * gfu.uOutputFrame.zw + gfu.uOutputFrame.xy;
@@ -1190,7 +1190,7 @@ fn filterTextureCoord( aPosition:vec2<f32> ) -> vec2<f32>
 
 @vertex
 fn mainVertex(
-  @location(0) aPosition : vec2<f32>, 
+  @location(0) aPosition : vec2<f32>,
 ) -> VSOutput {
   return VSOutput(
    filterVertexPosition(aPosition),
@@ -1206,12 +1206,12 @@ fn mainFragment(
 
 
   var c = textureSample(uTexture, uSampler, uv);
-  
+
   if (colorMatrixUniforms.uAlpha == 0.0) {
     return c;
   }
 
- 
+
     // Un-premultiply alpha before applying the color matrix. See issue #3539.
     if (c.a > 0.0) {
       c.r /= c.a;

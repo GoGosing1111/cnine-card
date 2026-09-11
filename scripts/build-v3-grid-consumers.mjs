@@ -10,6 +10,7 @@ const jobs = [
   [entry, 'preview/project-v-v3/project-v-pixi-battle.bundle.js'],
   [entry, 'preview/scrapyard-v3-v1/battle.bundle.js', 'preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js'],
   [entry, 'preview/cow-room-v3-v1/battle.bundle.js', 'preview/cow-room-v3-v1/source/CowBattleEngine.js'],
+  [entry, 'preview/infinite-tower-v3-v1/battle.bundle.js', 'preview/infinite-tower-v3-v1/source/TowerBattleEngine.js'],
   [entry, 'preview/v3-wide-grid-v1/battle.bundle.js', 'preview/v3-wide-grid-v1/source/WideGridBattleEngine.js'],
   ['preview/boss-resources-v2048/lab.src.js', 'preview/boss-resources-v2048/lab.bundle.js'],
   ['preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js', 'preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js'],

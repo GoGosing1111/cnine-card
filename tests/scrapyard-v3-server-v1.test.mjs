@@ -116,15 +116,16 @@ test('latest saved slot order, raw enhanced power + unique once, equipment and s
   assert.equal(b.battleV2.result.final.A.length,5);
 });
 
-test('all 3 zone encounters use fixed CMS enemies; weak decks really lose; unfinished SD is explicitly absent',async()=>{
+test('all 3 zone encounters use fixed CMS enemies; weak decks really lose; each has a separate battle SD',async()=>{
   const d=dependencies(),strong=await loadScrapyardV3Snapshot({},user,d.deps);
   const low=deck(100);low.characterBonus={pve:0};d.setDeck(low);const weak=await loadScrapyardV3Snapshot({},user,d.deps);
   for(const difficulty of settings().difficulties){
     const b=buildScrapyardV3Battle({snapshot:strong,difficulty,seed:72}),w=buildScrapyardV3Battle({snapshot:weak,difficulty,seed:72});
     assert.deepEqual(b.scrapyardEncounter.instances,w.scrapyardEncounter.instances);
     assert.equal(w.success,false);assert.equal(w.battleV2.result.winner,'B');
-    assert.equal(b.resourceReady,difficulty.id==='OUTER');
-    if(difficulty.id!=='OUTER')assert.ok(b.scrapyardEncounter.instances.every(row=>row.battleSprite===null));
+    assert.equal(b.resourceReady,true);
+    for(const row of b.continuousEncounter.instances){assert.ok(fs.existsSync(new URL('..'+row.battleSprite,import.meta.url)));assert.notEqual(row.battleSprite,row.sourceArt);}
+    assert.ok(b.scrapyardEncounter.instances.every(row=>typeof row.battleSprite==='string'));
     assert.ok(b.battleV2.result.encounter.defeated<=b.enemiesTotal);
   }
 });

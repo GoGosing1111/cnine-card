@@ -37,6 +37,11 @@
       "commonGrid": true
     },
     {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "c8f97685fcb72345bacb6090caaa6eae81214d1185780619d600d60b9a3239cf",
+      "commonGrid": true
+    },
+    {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
       "sha256": "3ddf2af3e2fc77db25dd3eb3f542249edf7e3daffd615c0ab217255ce2473bde",
       "commonGrid": true
@@ -53,7 +58,7 @@
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "114ded852bb0d7a2fe5a8ac921e8960e06745e1325ae9b10c35fe0c09a9c93f0",
+      "sha256": "476b75184dd4cc6d231635fbad81920ab7bfdfc056511cbe364542184145d141",
       "commonGrid": true
     }
   ]

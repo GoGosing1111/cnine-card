@@ -169,7 +169,9 @@ test('one shared Pixi renderer, original cards/adapters, no live navigation or A
   assert.doesNotMatch(css, /\.battle-v3-|\.game-card|\.pv-pixi/);
   for (const file of ['index.html', 'js/app.js', 'functions/api/[[path]].js', 'js/pve-command-v2-live.js']) assert.doesNotMatch(read(file), /scrapyard-v3-v1|reinforcements\s*:/);
   const app = read('preview/scrapyard-v3-v1/app.bundle.js');
-  assert.doesNotMatch(app, /\/api\/|localStorage|new Application|method:\s*["']POST/);
+  assert.doesNotMatch(app, /\/api\/|new Application|method:\s*["']POST/);
+  const source=read('preview/scrapyard-v3-v1/source/app.mjs');
+  for(const m of source.matchAll(/localStorage\.(?:getItem|setItem)\('([^']+)'/g))assert.equal(m[1],'cnine.preview.scrapyard-v3.cms','only the explicit local CMS draft is stored');
   assert.match(read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js'), /extends LiveBattleEngine/);
   assert.match(read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js'), /this\.timeline\(tl/);
 });

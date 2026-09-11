@@ -81,10 +81,10 @@ test('single boss, ally-center support and escort carrier have separate stations
   value.isoFloorLayer.destroy();
 });
 
-test('all seven served V3 bundles are rebuilt together from the current common grid', () => {
+test('all eight served V3 bundles including the tower share the current common grid', () => {
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
-  assert.equal(report.outputs.length, 7); assert.equal(report.sources.length, 4);
+  assert.equal(report.outputs.length, 8); assert.equal(report.sources.length, 4);
   const seen = new Set();
   for (const row of [...report.sources, ...report.outputs]) {
     assert.ok(!seen.has(row.file)); seen.add(row.file);
