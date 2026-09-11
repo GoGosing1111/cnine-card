@@ -167,7 +167,7 @@ async function poolEntries(env,pool){
   return entries;
 }
 
-async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
+async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards},writePoolLedger=true){
   const user=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
   if(!user)throw new Error('드랍 보상을 지급할 유저를 찾을 수 없습니다.');
   const aggregates=new Map();
@@ -192,7 +192,7 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
     if(item.type==='EQUIPMENT'){const ref=Number(item.ref),before=Number(equipmentBalances.get(ref)||0);for(let index=0;index<item.quantity;index++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'UNIFIED_DROP',?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,`${requestId}:EQ:${ref}:${index}`,ref));equipmentBalances.set(ref,before+item.quantity)}
     if(item.type==='VEHICLE')statements.push(env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,id,'UNIFIED_DROP',? FROM character_garage_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,Number(item.ref)));
   }
-  for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:type==='CARD'?cardBalances.get(String(ref)):type==='EQUIPMENT'?equipmentBalances.get(Number(ref)):inventoryBalances.get(ref);statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null))}
+  if(writePoolLedger)for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:type==='CARD'?cardBalances.get(String(ref)):type==='EQUIPMENT'?equipmentBalances.get(Number(ref)):inventoryBalances.get(ref);statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null))}
   return {statements,balances:{coin,cardShards:shards,magicCrystals:crystals,inventory:Object.fromEntries(inventoryBalances),cards:Object.fromEntries(cardBalances),equipment:Object.fromEntries(equipmentBalances)}};
 }
 
@@ -249,8 +249,10 @@ export async function planUnifiedDropRoll(env,{userId,requestId,sourceType,sourc
     pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards};
 }
 
-export async function prepareUnifiedDropGrant(env,plan) {
-  const grant=await grantRewards(env,plan);
+export async function prepareUnifiedDropGrant(env,plan,{writePoolLedger=true}={}) {
+  // Fixed PVE rewards use a caller-owned atomic ledger instead of inventing a
+  // unified pool/entry ID. All existing drop callers retain the default ledger.
+  const grant=await grantRewards(env,plan,writePoolLedger);
   const rewards=await rewardPresentation(env,plan.rewards,grant.balances);
   // Recheck grant destinations inside the caller's transaction. In particular,
   // equipment/vehicle INSERT ... SELECT must not silently insert zero rows.

@@ -7,13 +7,15 @@ const problem = (code, message) => Object.assign(new Error(message), {code});
 const clone = value => value == null ? value : JSON.parse(JSON.stringify(value));
 
 export function createPveContinuousSession({accountId, transport, storage, onChange = () => {},
+  content = 'SCRAPYARD', validateSelection = value => ZONES.has(value),
   makeRequestId = () => crypto.randomUUID(), now = () => Date.now(),
   schedule = setTimeout, unschedule = clearTimeout, maxAutoRetries = 6,
   exclusive = (key, work) => globalThis.navigator?.locks?.request
     ? globalThis.navigator.locks.request(key, work) : work()} = {}) {
   if (!Number.isSafeInteger(Number(accountId)) || Number(accountId) <= 0 ||
       typeof transport?.run !== 'function' || typeof transport?.status !== 'function') throw problem('PVE_SESSION_OPTIONS', '계정과 원정 연결을 확인하세요.');
-  const uid = String(Number(accountId)), storageKey = `cnine.pve-continuous.v1:SCRAPYARD:${uid}`;
+  if(!/^[A-Z0-9_]{1,30}$/.test(content)||typeof validateSelection!=='function')throw problem('PVE_SESSION_OPTIONS','콘텐츠 식별값을 확인하세요.');
+  const uid = String(Number(accountId)), storageKey = `cnine.pve-continuous.v1:${content}:${uid}`;
   const retryLimit = Math.min(8, Math.max(0, Math.floor(Number(maxAutoRetries) || 0)));
   let state = {phase:'IDLE', requestId:null, difficulty:null, result:null, error:null};
   let disposed = false, visible = true, generation = 0, flight = null, timer = null, retries = 0;
@@ -33,13 +35,13 @@ export function createPveContinuousSession({accountId, transport, storage, onCha
     if (!raw) return null;
     let record;
     try { record = JSON.parse(raw); } catch { /* validated below */ }
-    if (record?.version !== 1 || record.accountId !== uid || !validId(record.requestId) || !ZONES.has(record.difficulty)) {
+    if (record?.version !== 1 || record.accountId !== uid || !validId(record.requestId) || !validateSelection(record.difficulty)) {
       throw problem('PVE_RECOVERY_INVALID', '원정 복구 기록을 확인할 수 없습니다. 새 입장은 중단했습니다.');
     }
     return record;
   }
   function remember(requestId, difficulty) {
-    if (!validId(requestId) || !ZONES.has(difficulty)) throw problem('PVE_RESPONSE_INVALID', '서버 원정 식별값을 확인할 수 없습니다.');
+    if (!validId(requestId) || !validateSelection(difficulty)) throw problem('PVE_RESPONSE_INVALID', '서버 원정 식별값을 확인할 수 없습니다.');
     const record = {version:1, accountId:uid, requestId, difficulty, savedAt:now()};
     try {
       storage.setItem(storageKey, JSON.stringify(record));
@@ -95,7 +97,7 @@ export function createPveContinuousSession({accountId, transport, storage, onCha
       // Validation/closed/stock errors are not network failures. Keep the same
       // ID for an explicit retry, without silently entering when stock changes.
       if (!['PVE_RECOVERY_STORAGE','PVE_RECOVERY_INVALID','PVE_RESPONSE_INVALID','PVE_ZONE'].includes(error.code) &&
-          !String(error.code || '').startsWith('SCRAPYARD_V3_')) retry(1500);
+          !/^(SCRAPYARD|TOWER)_V3_/.test(String(error.code || ''))) retry(1500);
       return null;
     }).finally(() => {flight = null;});
     return flight;
@@ -115,7 +117,7 @@ export function createPveContinuousSession({accountId, transport, storage, onCha
   }
   function start(difficulty) {
     return once(async token => {
-      if (!ZONES.has(difficulty)) throw problem('PVE_ZONE', '폐차장 구역을 선택하세요.');
+      if (!validateSelection(difficulty)) throw problem('PVE_ZONE', '원정 지역을 선택하세요.');
       const prior = await reconcile(token);
       if (disposed || token !== generation) return null;
       // Selecting a different zone does not discard an unfinished expedition.

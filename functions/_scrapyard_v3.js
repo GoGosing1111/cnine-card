@@ -11,7 +11,11 @@ export const SCRAPYARD_V3_DRAFT = Object.freeze({
 });
 const ART = Object.freeze({
   SCRAP_OUTER_GEARJAW:'/preview/scrapyard-v3-v1/assets/gearjaw-sd-v1.png',
-  SCRAP_OUTER_BREAKER:'/preview/scrapyard-v3-v1/assets/breaker-sd-v1.png'
+  SCRAP_OUTER_BREAKER:'/preview/scrapyard-v3-v1/assets/breaker-sd-v1.png',
+  SCRAP_CORE_POLARITY:'/preview/scrapyard-v3-v1/assets/polarity-sd-v1.png',
+  SCRAP_CORE_ATLAS:'/preview/scrapyard-v3-v1/assets/atlas-sd-v1.png',
+  SCRAP_FURNACE_RAVAGER:'/preview/scrapyard-v3-v1/assets/ravager-sd-v1.png',
+  SCRAP_FURNACE_MOLOCH:'/preview/scrapyard-v3-v1/assets/moloch-sd-v1.png'
 });
 function fail(code, message) { throw Object.assign(new Error(message), {code}); }
 function integer(value, min, max, label) {
@@ -32,12 +36,13 @@ export function validateScrapyardV3Config(zone, input = SCRAPYARD_V3_DRAFT[zone]
 
 // The same saved-deck validator, equipment resolver and magic loadout as live
 // PVE are dependencies. Client-supplied cards, powers and outcomes are never read.
-export async function loadScrapyardV3Snapshot(env, user, deps) {
+export async function loadScrapyardV3Snapshot(env, user, deps, mode = 'PVE') {
+  if (!['PVE','TOWER'].includes(mode)) fail('SCRAPYARD_V3_SCOPE', '전투 범위를 확인하세요.');
   for (const key of ['raidDeckPower','cardBattlePower','magicBattleLoadout','selectActivatedUltimate']) {
     if (typeof deps?.[key] !== 'function') fail('SCRAPYARD_V3_DEPENDENCY', `서버 전투 의존성 누락: ${key}`);
   }
   const [deck, magic] = await Promise.all([
-    deps.raidDeckPower(env, user.id, null, 'PVE'), deps.magicBattleLoadout(env, user, 'PVE')
+    deps.raidDeckPower(env, user.id, null, mode), deps.magicBattleLoadout(env, user, mode)
   ]);
   if (deck?.ids?.length !== 5 || new Set(deck.ids.map(String)).size !== 5 || deck?.cards?.length !== 5) fail('SCRAPYARD_V3_DECK', '저장된 PVE 덱 5장이 필요합니다.');
   const byId = new Map(deck.cards.map(card => [String(card.id), card]));
@@ -95,7 +100,13 @@ export function buildScrapyardV3Battle({snapshot, difficulty, config, seed}) {
   const defeated = Number(battleV2.result.encounter?.defeated || 0), success = battleV2.result.winner === 'A';
   const wavesTotal = integer(Number(difficulty.waves), 3, 10, '기존 정산 웨이브 수');
   const wavesCleared = success ? wavesTotal : Math.min(wavesTotal - 1, Math.floor(defeated / cfg.normalCount * (wavesTotal - 1)));
+  const continuousEncounter={total:instances.length,normalCount:cfg.normalCount,initialIds:battleV2.encounter.initialIds,
+    instances:battleV2.encounter.instances.map((fighter,i)=>({...fighter,slot:instances[i].slot,boss:instances[i].afterClear,
+      name:instances[i].monster.name,displayName:instances[i].afterClear?instances[i].monster.name:`${instances[i].monster.name} ${i+1}`,
+      sourceArt:instances[i].sourceArt,battleSprite:instances[i].battleSprite}))};
   return {protocolVersion:3, engineVersion:SCRAPYARD_V3_VERSION, success, wavesCleared, wavesTotal,
+    mode:'HUNT',battlefieldMode:'HUNT',title:'폐차장',phaseLabel:difficulty.name||zone,cards:snapshot.cards,
+    equippedBattleSuit:snapshot.characterBonus?.equippedBattleSuit,equippedWeapon:snapshot.characterBonus?.equippedWeapon,continuousEncounter,
     defeated, enemiesTotal:instances.length, normalCount:cfg.normalCount,
     remainingPartyHp:battleV2.result.timeline.at(-1)?.teamAHpPercent ?? 0,
     failureReason:success ? null : battleV2.result.originalReason || battleV2.result.reason,

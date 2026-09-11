@@ -1,4 +1,5 @@
-import {createEncounter, NORMAL_COUNT} from './encounter-model.mjs';
+import {createReleaseEncounter as createEncounter,ZONES} from './release-model.mjs';
+import {SCRAPYARD_V3_DRAFT,validateScrapyardV3Config} from '../../../functions/_scrapyard_v3.js';
 const $ = id => document.getElementById(id);
 const number = n => Math.round(Number(n || 0)).toLocaleString('ko-KR');
 let catalog, equipment, bridge, payload, busy = false, ready = false, ended = false, paused = false, disposed = false, epoch = 0;
@@ -11,6 +12,7 @@ function log(text) {
 }
 function controls() {
   $('start').disabled = !ready || busy; $('power').disabled = !ready || busy;
+  $('zone').disabled = !ready || busy;
   $('pause').disabled = !busy; $('reset').disabled = !ready;
   $('pause').textContent = paused ? '이어하기' : '일시정지';
   $('start').textContent = ended ? '다시 출격 →' : '작전 시작 →';
@@ -19,20 +21,21 @@ function event(event, state) {
   if (disposed) return;
   const count = state?.defeated || 0;
   $('survivors').textContent = `${state?.survivors ?? 5} / 5`;
-  $('kill-count').innerHTML = `${String(count).padStart(2, '0')} <small>/ 10</small>`;
-  $('progress').style.width = `${count * 10}%`;
-  const step = state?.spawned >= 10 ? 3 : state?.spawned > 3 ? 2 : 1;
+  const total=payload.continuousEncounter.total;
+  $('kill-count').innerHTML = `${String(count).padStart(2, '0')} <small>/ ${total}</small>`;
+  $('progress').style.width = `${count/total*100}%`;
+  const step = state?.spawned >= total ? 3 : state?.spawned > 3 ? 2 : 1;
   for (let i = 1; i <= 3; i++) {
     $('step-' + i).classList.toggle('current', i === step);
-    $('step-' + i).classList.toggle('done', i < step || count === 10);
+    $('step-' + i).classList.toggle('done', i < step || count === total);
   }
   if (event.type === 'PREVIEW_PAUSED') {
     $('battle-state').textContent = '일시정지'; $('action-label').textContent = '현재 공격까지 완료하고 대기 중입니다'; return;
   }
   if (event.type === 'ENEMY_SPAWN') {
-    log(event.boss ? '최종 목표 출현 — 고철군주 브레이커.' : `회수 방어대 증원. 현재 격파 ${count}/${NORMAL_COUNT}.`);
+    log(event.boss ? `최종 목표 출현 — ${payload.continuousEncounter.instances.at(-1).name}.` : `회수 방어대 증원. 현재 격파 ${count}/${payload.normalCount}.`);
     $('battle-state').textContent = event.boss ? '최종 보스 교전' : '증원 차단 중';
-    $('action-label').textContent = event.boss ? '고철군주 브레이커를 제압하세요' : '방어대가 계속 합류하고 있습니다';
+    $('action-label').textContent = event.boss ? `${payload.continuousEncounter.instances.at(-1).name}를 제압하세요` : '방어대가 계속 합류하고 있습니다';
   }
   if (event.type === 'KO' && String(event.targetId).startsWith('A:')) log('아군 전투 불능. 남은 회수대가 교전을 이어갑니다.');
   const damage = Math.max(0, Number(event.damage || 0)) + Math.max(0, Number(event.absorbed || 0));
@@ -47,7 +50,19 @@ async function prepare() {
   $('boot').querySelector('.loader').hidden = false;
   $('boot').querySelector('strong').textContent = '회수대를 전개하고 있습니다';
   $('boot').querySelector('small').textContent = '전투 엔진 · 카드 원화 · 전투 SD 연결 중';
-  payload = createEncounter({catalog, equipment, seed: 7123, powerScale: Number($('power').value)});
+  const zone=$('zone').value;let saved;
+  try{saved=JSON.parse(localStorage.getItem('cnine.preview.scrapyard-v3.cms')||'{}')[zone];}catch{throw new Error('검수 설정을 읽을 수 없습니다.');}
+  const config=validateScrapyardV3Config(zone,saved||SCRAPYARD_V3_DRAFT[zone]);
+  payload = createEncounter({catalog, equipment, seed: 7123, powerScale: Number($('power').value),zone,config});
+  const boss=payload.continuousEncounter.instances.at(-1),index=ZONES.findIndex(r=>r.id===zone);
+  document.querySelector('.sector-stamp>span').textContent=zone;document.querySelector('.sector-stamp>b').textContent=String(index+1).padStart(2,'0');
+  document.querySelector('.sector-stamp>small').textContent=payload.difficulty.name;
+  document.querySelector('.boss-art img').src=boss.battleSprite;document.querySelector('.boss-art img').alt=boss.name;
+  document.querySelector('.boss-art>span').textContent=zone;document.querySelector('.dossier-copy h2').textContent=boss.name;
+  document.querySelector('.dossier-copy>p').textContent=payload.difficulty.name+' 최종 목표';
+  document.querySelector('#step-2 small').textContent=`일반 몬스터 총 ${payload.normalCount}마리`;
+  $('normal-count').value=config.normalCount;$('action-limit').value=config.maxActions;
+  $('reward-reference').textContent=`기존 완주 코인 ${number(payload.difficulty.clearCoin)} · 입장권 1장 · 운영 일일 30회 기준`;
   const prepared = await bridge.prepare(payload);
   if (!prepared || disposed || token !== preparation) return false;
   ready = true; $('boot').hidden = true; $('battle-state').textContent = '출격 준비 완료';
@@ -66,7 +81,7 @@ async function start() {
     if (ended && !await prepare()) return;
     if (token !== epoch || disposed) return;
     busy = true; paused = false; controls();
-    $('battle-state').textContent = '외곽 방어대 교전'; $('result-title').textContent = '작전 수행 중';
+    $('battle-state').textContent = payload.difficulty.name+' 교전'; $('result-title').textContent = '작전 수행 중';
     log('회수대 출격. 일반 카드 5명과 배틀슈트가 동시 전개됩니다.');
     const complete = await bridge.play(event);
     if (!complete || token !== epoch || disposed) return;
@@ -77,7 +92,7 @@ async function start() {
     $('action-label').textContent = win ? '고철군주 격파 · 작전 종료' : '회수대의 전력이 부족합니다';
     $('action-detail').textContent = '연출 결과는 동일 시드의 전투 엔진 판정입니다. 실제 보상은 지급하지 않습니다.';
     $('survivors').textContent = `${result.final.A.filter(row => row.hp > 0).length} / 5`;
-    $('result-note').textContent = `${result.actions}행동 · ${result.encounter.defeated}/10 격파 · 탄착 대기열 정리 완료`;
+    $('result-note').textContent = `${result.actions}행동 · ${result.encounter.defeated}/${payload.continuousEncounter.total} 격파 · ${win?'완주':'미완주'}`;
     log(win ? '고철군주 격파. 회수 작전을 완료했습니다.' : `작전 종료. ${result.encounter.defeated}마리 격파 후 돌파에 실패했습니다.`);
   } catch (error) {if (token === epoch && !disposed) fail(error);}
   finally {if (token === epoch) {busy = false; paused = false; controls();}}
@@ -118,6 +133,12 @@ async function boot() {
 $('start').addEventListener('click', start);
 $('reset').addEventListener('click', () => bridge && catalog && equipment ? reset() : location.reload());
 $('power').addEventListener('change', () => prepare().catch(fail));
+$('zone').addEventListener('change',()=>prepare().catch(fail));
+$('zone-settings').addEventListener('submit',event=>{event.preventDefault();if(busy)return;try{
+  const zone=$('zone').value,all=JSON.parse(localStorage.getItem('cnine.preview.scrapyard-v3.cms')||'{}');
+  all[zone]=validateScrapyardV3Config(zone,{...SCRAPYARD_V3_DRAFT[zone],normalCount:Number($('normal-count').value),maxActions:Number($('action-limit').value)});
+  localStorage.setItem('cnine.preview.scrapyard-v3.cms',JSON.stringify(all));prepare().catch(fail);
+}catch(error){fail(error);}});
 $('speed').addEventListener('change', () => bridge?.setSpeed(Number($('speed').value)));
 $('pause').addEventListener('click', () => {
   if (!busy) return;
@@ -131,6 +152,6 @@ $('fullscreen').addEventListener('click', async () => {
   catch {log('이 브라우저는 전장 전체화면을 지원하지 않습니다.');}
 });
 window.addEventListener('pagehide', () => {disposed = true; ++epoch; bridge?.dispose();}, {once: true});
-window.ScrapyardPreview = {diagnostics: () => ({ready, busy, ended, paused, epoch, payloadResult: payload?.battleV2.result,
+window.ScrapyardPreview = {diagnostics: () => ({ready, busy, ended, paused, epoch, zone:payload?.difficulty.id,payloadResult: payload?.battleV2.result,
   bridge: bridge?.diagnostics()}), start, reset};
 boot();

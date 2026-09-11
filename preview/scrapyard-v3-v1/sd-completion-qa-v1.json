@@ -1,0 +1,70 @@
+{
+  "method": "CONNECTED_BACKGROUND_ONLY",
+  "userAuthorized": "2026-09-11",
+  "assets": [
+    {
+      "code": "polarity",
+      "sourceSha256": "eed0e7e1d092e0e967ed8a5d9a26b6697fdca5f52b0cccef01c623c96b31d0b9",
+      "sha256": "32ad7f99ba9c314bb93725c591591aa44c9abc31a7d3e89ccfc2150aea6f4a3a",
+      "width": 1254,
+      "height": 1254,
+      "bounds": {
+        "x": 69,
+        "y": 109,
+        "width": 1105,
+        "height": 1073
+      },
+      "transparentPixels": 820578,
+      "opaqueRgbChanged": 0,
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING"
+    },
+    {
+      "code": "atlas",
+      "sourceSha256": "c1317b2fbea7d3e3dece115fb3bfec8cba93e5e19bc73953f34a3976c08bfb33",
+      "sha256": "1b3fb54be1bed9f973822ea42f4d8efba08d7e4e2325672a4c8856645ffdd55c",
+      "width": 1254,
+      "height": 1254,
+      "bounds": {
+        "x": 12,
+        "y": 12,
+        "width": 1227,
+        "height": 1203
+      },
+      "transparentPixels": 742636,
+      "opaqueRgbChanged": 0,
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING"
+    },
+    {
+      "code": "ravager",
+      "sourceSha256": "41d1b14d1f62e8126ba16138b60e864ec301f32c56b33567dfe9627f0967d1ef",
+      "sha256": "ef7a800c8916d8c1a38c62f1245694d31e63a1bb76117e73c8c3342bee9e9511",
+      "width": 1254,
+      "height": 1254,
+      "bounds": {
+        "x": 28,
+        "y": 150,
+        "width": 1207,
+        "height": 1004
+      },
+      "transparentPixels": 938617,
+      "opaqueRgbChanged": 0,
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING"
+    },
+    {
+      "code": "moloch",
+      "sourceSha256": "86af2a32e3a26459ef7fd2781e6a20583cc47427f433b8a8ce2a1693aec948f3",
+      "sha256": "7b62206004e4a029a3a6c78d246cfff30184e2f653c03a022077be42fa06c63c",
+      "width": 1254,
+      "height": 1254,
+      "bounds": {
+        "x": 7,
+        "y": 37,
+        "width": 1238,
+        "height": 1184
+      },
+      "transparentPixels": 778331,
+      "opaqueRgbChanged": 0,
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING"
+    }
+  ]
+}
