@@ -9,7 +9,6 @@
     {
       "id": "closing-punch",
       "skillId": "MS-038",
-      "code": "V-038",
       "name": "업무 종료",
       "source": "source/closing-punch-sequence-v2.png",
       "runtime": "closing-punch/atlas-v2.webp",
@@ -353,12 +352,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-038"
     },
     {
       "id": "police-restraint",
       "skillId": "MS-042",
-      "code": "V-042",
       "name": "현행범 체포",
       "source": "source/police-restraint-sequence-v2.png",
       "runtime": "police-restraint/atlas-v2.webp",
@@ -702,12 +701,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-042"
     },
     {
       "id": "golden-lifeline",
       "skillId": "MS-003",
-      "code": "V-003",
       "name": "황금 구명선",
       "source": "source/golden-lifeline-sequence-v2.png",
       "runtime": "golden-lifeline/atlas-v2.webp",
@@ -1051,12 +1050,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-003"
     },
     {
       "id": "ruby-warrant",
       "skillId": "MS-004",
-      "code": "V-004",
       "name": "루비 최후통첩",
       "source": "source/ruby-warrant-sequence-v2.png",
       "runtime": "ruby-warrant/atlas-v2.webp",
@@ -1400,12 +1399,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-004"
     },
     {
       "id": "iron-unmaking",
       "skillId": "MS-006",
-      "code": "V-006",
       "name": "흑철 해체",
       "source": "source/iron-unmaking-sequence-v2.png",
       "runtime": "iron-unmaking/atlas-v2.webp",
@@ -1749,12 +1748,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-006"
     },
     {
       "id": "emerald-calibration",
       "skillId": "MS-005",
-      "code": "V-005",
       "name": "탄착 교정",
       "source": "source/emerald-calibration-sequence-v2.png",
       "runtime": "emerald-calibration/atlas-v2.webp",
@@ -2098,12 +2097,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-005"
     },
     {
       "id": "command-feathers",
       "skillId": "MS-013",
-      "code": "V-013",
       "name": "일제 사격 명령",
       "source": "source/command-feathers-sequence-v2.png",
       "runtime": "command-feathers/atlas-v2.webp",
@@ -2447,12 +2446,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-013"
     },
     {
       "id": "serpent-shadow",
       "skillId": "MS-015",
-      "code": "V-015",
       "name": "독사 그림자",
       "source": "source/serpent-shadow-sequence-v2.png",
       "runtime": "serpent-shadow/atlas-v2.webp",
@@ -2796,12 +2795,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-015"
     },
     {
       "id": "dusk-veil",
       "skillId": "MS-016",
-      "code": "V-016",
       "name": "황혼 봉인",
       "source": "source/dusk-veil-sequence-v2.png",
       "runtime": "dusk-veil/atlas-v2.webp",
@@ -3145,12 +3144,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-016"
     },
     {
       "id": "life-stitch",
       "skillId": "MS-018",
-      "code": "V-018",
       "name": "생명선 봉합",
       "source": "source/life-stitch-sequence-v2.png",
       "runtime": "life-stitch/atlas-v2.webp",
@@ -3489,12 +3488,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-018"
     },
     {
       "id": "blue-riposte",
       "skillId": "MS-023",
-      "code": "V-023",
       "name": "푸른 응수",
       "source": "source/blue-riposte-sequence-v2.png",
       "runtime": "blue-riposte/atlas-v2.webp",
@@ -3833,12 +3832,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-023"
     },
     {
       "id": "white-stillness",
       "skillId": "MS-025",
-      "code": "V-025",
       "name": "백색 정적",
       "source": "source/white-stillness-sequence-v2.png",
       "runtime": "white-stillness/atlas-v2.webp",
@@ -4177,12 +4176,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-025"
     },
     {
       "id": "closed-firelane",
       "skillId": "MS-027",
-      "code": "V-027",
       "name": "폐쇄 사선",
       "source": "source/closed-firelane-sequence-v2.png",
       "runtime": "closed-firelane/atlas-v2.webp",
@@ -4521,12 +4520,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-027"
     },
     {
       "id": "lotus-barrier",
       "skillId": "MS-028",
-      "code": "V-028",
       "name": "연화 결계",
       "source": "source/lotus-barrier-sequence-v2.png",
       "runtime": "lotus-barrier/atlas-v2.webp",
@@ -4865,12 +4864,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-028"
     },
     {
       "id": "last-chamber",
       "skillId": "MS-032",
-      "code": "V-032",
       "name": "마지막 약실",
       "source": "source/last-chamber-sequence-v2.png",
       "runtime": "last-chamber/atlas-v2.webp",
@@ -5209,12 +5208,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-032"
     },
     {
       "id": "evening-encore",
       "skillId": "MS-043",
-      "code": "V-043",
       "name": "퇴근길 앙코르",
       "source": "source/evening-encore-sequence-v2.png",
       "runtime": "evening-encore/atlas-v2.webp",
@@ -5553,12 +5552,12 @@
             314
           ]
         }
-      ]
+      ],
+      "creationReferenceCode": "V-043"
     },
     {
       "id": "omega-event-horizon",
       "skillId": "MS-021",
-      "code": "V-021",
       "name": "종언의 사건지평선",
       "source": "source/omega-event-horizon-sequence-v2.png",
       "runtime": "omega-event-horizon/atlas-v2.webp",
@@ -5952,7 +5951,8 @@
         ],
         "keyFrameNumbering": "ZERO_BASED",
         "cleanse": "Only remaining marks receive terminal frames; erased marks fade within180ms"
-      }
+      },
+      "creationReferenceCode": "V-021"
     }
   ],
   "reference": {
@@ -5987,5 +5987,6 @@
     "firearmEmission": "Approximate body-relative origin on existing idle SD; dedicated joint/aim sprites not authored"
   },
   "processing": "Exact native grid extraction and lossless WebP encoding. Native original bytes preserved. No synthetic in-between images.",
-  "audio": "SILENT_VISUAL_REVIEW"
+  "audio": "SILENT_VISUAL_REVIEW",
+  "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED"
 }

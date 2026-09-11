@@ -4,7 +4,7 @@ import {Assets} from 'pixi.js';
 import {BattleCharacter, TEAM} from '../../project-v-v3/source/battle/BattleCharacter.js';
 import {createMercenaryBattleArtAdapter} from '../../../js/project-v-mercenary-battle-art-adapter-v1.js';
 import {MERCENARY_SKILLS, skillById, createSkillDraft, parseSkillDraft, validateSkillDraft, SKILL_STORAGE_KEY} from '../../../shared/mercenary-skills-v1.mjs';
-import {ROLES, POSITIONS} from '../../../shared/mercenary-position-config-v1.mjs';
+import {ROLES} from '../../../shared/mercenary-position-config-v1.mjs';
 import {compileRehearsal, sampleRehearsal} from '../skill-rehearsal.mjs';
 import {MercenarySkillFX} from './MercenarySkillFX.js';
 import {skillAssetBaseUrl} from '../skill-asset-base.mjs';
@@ -19,31 +19,36 @@ const getJson=async path=>{const r=await fetch(path);if(!r.ok)throw new Error(`�
 let roster,positions,adapter,deck,engine,renderer,merc,fx,draft,savedRevision=null,changing=false,disposed=false,epoch=0;
 let selected=MERCENARY_SKILLS.some(s=>s.id===new URL(window.parent.location.href).searchParams.get('skill'))?new URL(window.parent.location.href).searchParams.get('skill'):'MS-003',lastUi='',lastTick=-1,dirty=false;
 let atlasManifest,auxiliary,activeSequence=null,assetQueue=Promise.resolve();
+let previewCode='V-001';
 const actors=new Map(),texturePaths=new Set();
 const row=()=>draft.skills.find(s=>s.id===selected);
 const base=()=>skillById(selected);
-const card=()=>roster.cards.find(c=>c.code===base().code);
+const card=()=>roster.cards.find(c=>c.code===previewCode);
+const icon=skill=>`${ROOT}skill-assets-v2/${atlasManifest.images.find(image=>image.skillId===skill.id).frames[4].file}`;
 const notice=(text,error=false)=>{ $('notice').textContent=text;$('notice').classList.toggle('error',error)};
-function controls(enabled){for(const e of doc.querySelectorAll('.controls button,.controls select,.scrubber input,#scenario'))e.disabled=!enabled;}
+function controls(enabled){for(const e of doc.querySelectorAll('.controls button,.controls select,.scrubber input,#scenario,#previewMercenary'))e.disabled=!enabled;}
 function list(){
+  const left=$('skillList').scrollLeft,top=$('skillList').scrollTop;
   const q=$('search').value.trim().toLocaleLowerCase(),role=$('roleFilter').value;
   const items=MERCENARY_SKILLS.filter(s=>{
-    const c=roster.cards.find(c=>c.code===s.code),d=draft.skills.find(d=>d.id===s.id);
-    return (!role||s.role===role)&&(!q||`${c.name} ${s.code} ${d.name} ${s.effect} ${s.trigger}`.toLocaleLowerCase().includes(q));
-  });
+    const d=draft.skills.find(d=>d.id===s.id);
+    return (!role||s.role===role)&&(!q||`${s.id} ${d.name} ${ROLES[s.role].label} ${s.effect} ${s.trigger}`.toLocaleLowerCase().includes(q));
+  }).sort((a,b)=>a.id.localeCompare(b.id));
   $('count').textContent=`${items.length} / ${MERCENARY_SKILLS.length}종`;
-  $('skillList').innerHTML=items.map(s=>{const c=roster.cards.find(c=>c.code===s.code),d=draft.skills.find(d=>d.id===s.id);
-    return `<button class="skill-row" type="button" data-skill="${s.id}" aria-pressed="${s.id===selected}"><img loading="lazy" src="/assets/ui/project-v/mercenaries/codex-v1/${s.code.toLowerCase()}-art-320.webp" alt=""><span><strong>${esc(d.name)}</strong><small>${esc(c.name)} · ${c.rank ? esc(c.rank)+' · ' : ''}${ROLES[s.role].label}${s.exclusivity ? ' · 전용' : ''}</small></span></button>`;
+  $('skillList').innerHTML=items.map(s=>{const d=draft.skills.find(d=>d.id===s.id);
+    return `<button class="skill-row" type="button" data-skill="${s.id}" aria-pressed="${s.id===selected}"><img loading="lazy" src="${icon(s)}" alt=""><span><strong>${esc(d.name)}</strong><small>${s.id} · ${ROLES[s.role].label} 효과</small></span></button>`;
   }).join('')||'<p>검색 결과가 없습니다.</p>';
+  $('skillList').scrollLeft=left;$('skillList').scrollTop=top;
 }
 function showDetails(){
-  const s=base(),c=card(),d=row(),assignment=positions.assignments.find(a=>a.code===s.code);
+  const s=base(),d=row();
   doc.documentElement.style.setProperty('--accent',s.visual.color);
-  $('skillMeta').textContent=`${s.code} · ${c.name} · ${c.rank ? c.rank+' 전용 · ' : ''}${POSITIONS[assignment.position].label} / ${ROLES[s.role].label}`;
+  $('skillMeta').textContent=`${s.id} · ${ROLES[s.role].label} 효과 · 독립 스킬`;
   $('skillName').textContent=d.name;$('skillEffect').textContent=s.effect;$('trigger').textContent=s.trigger;
   $('counterplay').textContent=s.counterplay;$('bossRule').textContent=s.bossRule;
-  $('skillArt').src=`/assets/ui/project-v/mercenaries/codex-v1/${s.code.toLowerCase()}-art-640.webp`;
-  $('skillArt').alt=`${c.name} 승인 카드 원화`;$('skillArt').hidden=false;
+  $('skillArt').src=icon(s);
+  $('skillArt').alt=`${d.name} 이펙트 충돌 프레임`;$('skillArt').hidden=false;
+  $('assignSkill').href=`./skill-assignments.html?skill=${s.id}`;
   $('steps').innerHTML=s.steps.map(step=>`<li>${esc(step)}</li>`).join('');
   $('editName').value=d.name;$('editReview').value=d.review;$('editNote').value=d.note;
   $('draftState').textContent=`수정 ${draft.revision}${dirty?' · 저장 전 변경 있음':' · 브라우저 초안'}`;
@@ -72,6 +77,7 @@ function publishDiagnostics(instance=fx){
     regularCards:engine?.allies.length,mercenaries:merc?1:0,canvasCount:document.querySelectorAll('canvas').length,
     layerCount:engine?.effectLayer.children.filter(c=>c.label?.startsWith('MercenarySkill:')).length,
     mercenaryInRegularArray:engine?.allies.includes(merc),mercenaryDisplacement:merc?Math.hypot(merc.root.x-merc.baseX,merc.root.y-merc.baseY):0,
+    previewMercenaryCode:previewCode,assignmentChangedByPreview:false,
     sourceArt:card()?.sourceArt,battleSprite:card()?.battleSprite};
   $('health').dataset.diagnostics=JSON.stringify(snapshot);
   const active=new Set((snapshot.activeFrames||[]).flatMap(f=>[f.index,f.next]));
@@ -79,7 +85,7 @@ function publishDiagnostics(instance=fx){
 }
 function placeMercenary(){
   if(!merc||!engine)return;
-  const position=positions.assignments.find(a=>a.code===base().code).position;
+  const position=positions.assignments.find(a=>a.code===card().code).position;
   const grid={FRONT:[3,3],MIDDLE:[1,4],REAR:[0,4]}[position];
   const p=engine.gridToScreen(...grid),scale=engine.perspectiveScale(.5*(engine.mobile?.84:1),p.y);
   merc.setFormation(p.x,p.y,scale);merc.setCompactHud?.(engine.mobile);merc.root.alpha=1;merc.root.visible=true;
@@ -88,7 +94,7 @@ function placeMercenary(){
 async function configure(id=selected){
   const token=++epoch;changing=true;controls(false);fx?.destroy();fx=null;selected=id;
   $('health').dataset.diagnostics=JSON.stringify({ready:false,skillId:id,changing:true});
-  lastUi='';lastTick=-1;showDetails();list();$('health').textContent='선택한 용병과 전용 효과 준비 중…';
+  lastUi='';lastTick=-1;showDetails();list();$('health').textContent='시연용 용병과 선택한 효과 준비 중…';
   $('frameStrip').innerHTML='';$('sequenceRecord').textContent='선택한 스킬의 개별 프레임 준비 중';
   assetQueue=assetQueue.catch(()=>{}).then(async()=>{
   if(token!==epoch||disposed)return;
@@ -112,7 +118,7 @@ async function configure(id=selected){
     const plan=compileRehearsal(s.id,$('scenario').value);
     $('scenarioNote').textContent=plan.explanation+($('scenario').value==='boss'?' 이 화면은 단일 표적에 보스 예외를 적용한 모의 상황입니다.':'');
     fx=new MercenarySkillFX(engine,actors,s,plan,sequence,auxiliary,update);fx.setSpeed(Number($('speed').value));
-    changing=false;controls(true);$('health').classList.remove('error');$('health').textContent='V3 WebGL · PixiJS 8.20.0 / GSAP 3.13.0 · 전용 효과 준비 완료';
+    changing=false;controls(true);$('health').classList.remove('error');$('health').textContent='V3 WebGL · PixiJS 8.20.0 / GSAP 3.13.0 · 스킬 시연 준비 완료';
     fx.render(0);publishDiagnostics();
   }catch(error){if(token!==epoch)return;changing=false;$('health').textContent=`검수 준비 실패: ${error.message}`;$('health').classList.add('error');console.error('[MercenarySkills]',error);}
   });return assetQueue;
@@ -121,22 +127,23 @@ function edit(){
   const d=row();d.name=$('editName').value;d.review=$('editReview').value;d.note=$('editNote').value;
   dirty=true;$('skillName').textContent=d.name;$('draftState').textContent=`수정 ${draft.revision} · 저장 전 변경 있음`;list();
 }
-function readStored(){const text=window.parent.localStorage.getItem(SKILL_STORAGE_KEY);return text?parseSkillDraft(text,roster.version):null;}
+function readStored(){const text=window.parent.localStorage.getItem(SKILL_STORAGE_KEY);return text?parseSkillDraft(text):null;}
 function save(){
   try{
-    const checked=validateSkillDraft(draft,roster.version),stored=readStored();
+    const checked=validateSkillDraft(draft),stored=readStored();
     if((stored?.revision??null)!==savedRevision)throw new Error('다른 화면에서 저장본이 바뀌었습니다. JSON 내보내기로 현재 의견을 보존한 뒤 저장본을 불러오세요.');
     checked.revision=Math.max(checked.revision,savedRevision||0)+1;
-    validateSkillDraft(checked,roster.version);window.parent.localStorage.setItem(SKILL_STORAGE_KEY,JSON.stringify(checked));
+    validateSkillDraft(checked);window.parent.localStorage.setItem(SKILL_STORAGE_KEY,JSON.stringify(checked));
     draft=checked;savedRevision=draft.revision;dirty=false;showDetails();notice(`스킬 ${MERCENARY_SKILLS.length}종의 검토 의견을 이 브라우저에 저장했습니다.`);
   }catch(error){notice(error.message,true);}
 }
 function load(){try{const stored=readStored();if(!stored)throw new Error('이 브라우저에 저장된 초안이 없습니다.');draft=stored;savedRevision=draft.revision;dirty=false;showDetails();list();notice('브라우저 저장본을 불러왔습니다.');}catch(error){notice(error.message,true);}}
-function exportDraft(){try{const checked=validateSkillDraft(draft,roster.version);const url=URL.createObjectURL(new Blob([JSON.stringify(checked,null,2)+'\n'],{type:'application/json'}));const a=doc.createElement('a');a.href=url;a.download='mercenary-skills-draft-v1.json';a.click();URL.revokeObjectURL(url);notice('스킬 초안을 JSON으로 내보냈습니다.');}catch(error){notice(error.message,true);}}
+function exportDraft(){try{const checked=validateSkillDraft(draft);const url=URL.createObjectURL(new Blob([JSON.stringify(checked,null,2)+'\n'],{type:'application/json'}));const a=doc.createElement('a');a.href=url;a.download='mercenary-skill-catalog-review-v3.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notice('용병 배정이 없는 스킬 검토 목록을 JSON으로 내보냈습니다.');}catch(error){notice(error.message,true);}}
 function bind(){
   $('skillList').addEventListener('click',event=>{const button=event.target.closest('[data-skill]');if(button)void configure(button.dataset.skill)});
   $('search').addEventListener('input',list);$('roleFilter').addEventListener('change',list);
   $('scenario').addEventListener('change',()=>void configure());
+  $('previewMercenary').addEventListener('change',()=>{previewCode=$('previewMercenary').value;void configure();});
   $('play').addEventListener('click',()=>{if(!fx)return;fx.playing?fx.pause():fx.play();publishDiagnostics()});
   $('replay').addEventListener('click',()=>{fx?.seek(0);fx?.play();publishDiagnostics()});
   $('impact').addEventListener('click',()=>{fx?.seek(base().visual.impacts[0]+.08);publishDiagnostics()});
@@ -148,7 +155,7 @@ function bind(){
   $('saveDraft').addEventListener('click',save);$('reloadDraft').addEventListener('click',load);$('exportDraft').addEventListener('click',exportDraft);
   $('importDraft').addEventListener('change',async event=>{
     try{const file=event.target.files?.[0];if(!file)return;if(file.size>48*1024)throw new Error('초안 파일은 48 KB 이하여야 합니다.');
-      draft=parseSkillDraft(await file.text(),roster.version);dirty=true;showDetails();list();notice('가져온 초안을 검증했습니다. 브라우저 저장은 별도로 눌러 주세요.');
+      draft=parseSkillDraft(await file.text());dirty=true;showDetails();list();notice('스킬 검토 목록을 가져왔습니다. 용병 배정은 별도 화면에서 설정합니다.');
     }catch(error){notice(error.message,true)}finally{event.target.value='';}
   });
   document.addEventListener('visibilitychange',()=>{if(document.hidden){fx?.cancel();publishDiagnostics()}});
@@ -178,12 +185,13 @@ async function boot(){
   try{
     if(doc.readyState==='loading')await new Promise(resolve=>doc.addEventListener('DOMContentLoaded',resolve,{once:true}));
     await Assets.init({basePath:skillAssetBaseUrl(location.href)});
-    [roster,positions,deck,atlasManifest,auxiliary]=await Promise.all([getJson('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260911-omega-ranks'),getJson(`${ROOT}position-draft-v1.json?v=20260911-omega`),loadDeck(),getJson(`${ROOT}skill-assets-v2/manifest.json?v=20260911-omega`),loadAuxiliary()]);
+    [roster,positions,deck,atlasManifest,auxiliary]=await Promise.all([getJson('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260911-omega-ranks'),getJson(`${ROOT}position-draft-v1.json?v=20260911-library`),loadDeck(),getJson(`${ROOT}skill-assets-v2/manifest.json?v=20260911-library`),loadAuxiliary()]);
     $('scenarioCount').textContent=MERCENARY_SKILLS.length*3;
     $('authoredCount').textContent=atlasManifest.images.length;$('frameCount').textContent=atlasManifest.frameCount;
-    adapter=createMercenaryBattleArtAdapter(roster);draft=createSkillDraft(roster.version);
+    adapter=createMercenaryBattleArtAdapter(roster);draft=createSkillDraft();
     try{const stored=readStored();if(stored){draft=stored;savedRevision=stored.revision;}}catch(error){notice(`저장본 확인 필요: ${error.message}`,true);}
-    $('roleFilter').innerHTML='<option value="">전체 역할</option>'+Object.entries(ROLES).map(([id,r])=>`<option value="${id}">${r.label}</option>`).join('');
+    $('roleFilter').innerHTML='<option value="">전체 분류</option>'+Object.entries(ROLES).map(([id,r])=>`<option value="${id}">${r.label}</option>`).join('');
+    $('previewMercenary').innerHTML=roster.cards.map(c=>`<option value="${c.code}"${c.code===previewCode?' selected':''}>${c.code} · ${esc(c.name)}</option>`).join('');
     showDetails();list();window.cnineCardCatalog=()=>deck;
     const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};
     const api=window.ProjectVPixiBattle;api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine};

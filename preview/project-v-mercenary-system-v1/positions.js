@@ -63,11 +63,11 @@ function renderDetail() {
   $('#detail').innerHTML = `<div class="detail-top"><img class="detail-image" src="${assetUrl(mediaPath(card.code, 'art', 320))}" alt="${escape(card.name)} 승인 로스터 원화"><div><span class="eyebrow">${card.code}</span><h3>${escape(card.name)}</h3><p>${escape(card.title)}</p><p>기존 콘셉트: ${escape(card.role)}</p><span class="badge">배정안 검토 중</span></div></div>
     <label>용병 등급${card.rank ? ' · 사용자 확정' : ' · 검토 초안'}<select id="editRank" data-field="rank" ${card.rank ? 'disabled' : ''}><option value=""${entry.rank == null ? ' selected' : ''}>미정</option>${MERCENARY_RANKS.map(rank => `<option value="${rank}"${entry.rank === rank ? ' selected' : ''}>${rank}</option>`).join('')}</select></label>
     <p class="target-help">C → B → A → S → SS → SSS${card.code === 'V-021' ? ' · 오메가-X 최상위 고정' : ' · 저장해도 운영 등급은 바뀌지 않습니다.'}</p>
-    ${card.code === 'V-021' ? '<a class="omega-skill-link" href="./skills.html?skill=MS-021">SSS 전용기 · 종언의 사건지평선 검수 →</a>' : ''}
+    <a class="omega-skill-link" href="./skill-assignments.html?mercenary=${card.code}">이 용병에 적용할 스킬 직접 선택 →</a>
     <div class="field-grid"><label>전투 역할<select id="editRole" data-field="role">${options(Object.keys(ROLES), ROLES, entry.role)}</select></label><label>배치 위치<select id="editPosition" data-field="position">${options(role.positions, POSITIONS, entry.position)}</select></label></div>
     <div class="role-help">${role.purpose}<br>약점: ${role.tradeoff}</div>
     <label>스킬 표적<select id="editTarget" data-field="skillTarget">${options(role.targets, TARGETS, entry.skillTarget)}</select></label><p class="target-help">${TARGETS[entry.skillTarget].description}</p>
-    <label>고유 임무 · 스킬 방향<textarea id="editSpecialty" data-field="specialty" maxlength="240" rows="2">${escape(entry.specialty)}</textarea></label>
+    <label>고유 임무 아이디어 · 배정과 별도<textarea id="editSpecialty" data-field="specialty" maxlength="240" rows="2">${escape(entry.specialty)}</textarea></label>
     <label>명확한 약점<textarea id="editWeakness" data-field="weakness" maxlength="240" rows="2">${escape(entry.weakness)}</textarea></label>
     <label>배정 근거<textarea id="editRationale" data-field="rationale" maxlength="240" rows="3">${escape(entry.rationale)}</textarea></label>
     <button type="button" id="restoreEntry">이 용병의 기본 제안 불러오기</button>
