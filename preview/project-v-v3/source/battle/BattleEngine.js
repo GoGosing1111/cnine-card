@@ -13,6 +13,7 @@ import {ApocalypseBossUltimateFX, APOCALYPSE_BOSS_ULTIMATE_PROFILE} from './Apoc
 import {ApocalypseSignatureSkillFX} from './ApocalypseSignatureSkillFX.js';
 import {apocalypseSignatureSkill} from '../../../../shared/apocalypse-boss-skills-v2048.mjs';
 import {BattleSuitSkillChipPlayback,isSkillChipTimeline} from './BattleSuitSkillChipPlayback.js';
+import {withOccupiedGrid} from './OccupiedGridLayout.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -383,7 +384,7 @@ function addGlow(parent,width,height,color,alpha=.26){
   return glow;
 }
 
-export class BattleEngine{
+class BaseBattleEngine{
   constructor({host=null,onStatus=()=>{},battleData=null}={}){
     this.host=host;
     this.onStatus=onStatus;
@@ -3434,3 +3435,6 @@ export class BattleEngine{
     this.mounted=false;
   }
 }
+
+// Every V3 entry and continuous-content subclass shares this layout policy.
+export class BattleEngine extends withOccupiedGrid(BaseBattleEngine) {}

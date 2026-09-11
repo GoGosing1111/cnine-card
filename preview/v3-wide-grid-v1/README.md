@@ -1,6 +1,8 @@
 # V3 배치형 그리드 프리뷰
 
-2026-09-11 · **PC_USER_APPROVED / MOBILE_REVIEW_PENDING** · 운영 미연결.
+2026-09-11 · **LOCAL_COMMON_GRID_INTEGRATED / LIVE_DEPLOYMENT_HELD_BY_USER**.
+
+후속 전체 적용 지시에 따라 배치 구현을 공통 V3로 이동했다. `라이브는 아직` 지시로 배포는 보류한다. [공통 그리드 문서](../../docs/project-v-common-grid-v1.md)가 기준이며 이 페이지는 기존/개편 비교용이다.
 
 ## 사용자 확정 범위
 
@@ -47,14 +49,14 @@ PC는 기존 V3 씬 1600×820과 루트 배율을 유지한다. 모바일은 공
 - 이전의 모바일 간격 22% 축소만으로는 고정 1050×1500 씬과 710px 프리뷰 높이 때문에 유닛이 작고 여백이 남았다. 새 배치는 이 고정 씬을 사용하지 않는다. 헤더·상태 표시·실제 카드창을 제외한 영역을 구하고, 유닛·타일·이펙트의 공통 루트를 같은 배율로 맞춘다.
 - 모바일 프리뷰 높이는 창의 세로 길이가 아니라 전투 영역 폭과 배치 비율, 실제 헤더·카드창 높이로 정한다. 같은 폭에서 바깥 창 높이만 늘어나도 캐릭터 크기와 발끝 간격은 동일하다. 전체화면에서는 가능한 영역 안에 같은 비율로 맞추고, 나가면 원래 프리뷰 높이를 복원한다.
 - PC 일반 카드와 슈트는 공통 V3의 기존 `restScale`을 그대로 사용한다. 모바일은 공통 PC 기준 크기의 1.3배를 배치 디자인 단위로 사용한 뒤 한 번의 공통 배율을 적용한다. 가로·세로를 따로 늘리거나 모바일 축소를 중복 적용하지 않는다. 이동 원근도 같은 배율을 따르고, 이름/체력 패널은 해당 SD 위에 놓는다.
-- `source/viewport-layout.mjs`가 모바일 배치·배율의 기준이다. `grid-layout.mjs`의 과거 모바일 좌표는 공통 엔진이 리사이즈 도중 기준 배치를 계산할 때만 쓰는 중간값이며 최종 모바일 화면에는 적용하지 않는다.
+- 두 좌표 모듈은 공통 `FormationLayout.mjs` / `ViewportLayout.mjs`를 재수출한다. 과거 모바일 좌표는 리사이즈 도중 기준 배치를 계산하는 중간값이며 최종 모바일 화면에는 적용하지 않는다.
 - 사망한 유닛은 타일을 숨기고, 증원은 살아 있는 실제 슬롯에만 다시 그린다. 배경 장식이나 영구적인 빈 아래쪽 행은 추가하지 않는다.
 
 ## 공통 엔진·리소스
 
-`package-lock.json`: PixiJS **8.20.0**, GSAP **3.13.0**. 버전·라이브 번들 변경 없음.
+`package-lock.json`: PixiJS **8.20.0**, GSAP **3.13.0**. 잠금 버전은 유지한다. 공통 소스와 소비 번들은 로컬에서 함께 갱신했고 운영 서버에는 배포하지 않았다.
 
-- `source/WideGridBattleEngine.js`: 기존 `ScrapyardBattleEngine` / 공통 `BattleEngine`을 재사용하는 배치 어댑터다. PVP는 공통 카드 아트 바인딩을 직접 사용하며, 추가 Application·Renderer·공격 판정은 없다.
+- `source/WideGridBattleEngine.js`: 기존 `ScrapyardBattleEngine` / 공통 `BattleEngine`에 비교 조작과 용병 표본만 추가한다. 배치·타일·리사이즈는 공통 엔진이 소유한다. PVP는 공통 카드 아트 바인딩을 직접 사용하며 추가 Application·Renderer·공격 판정은 없다.
 - `source/MercenaryStations.js`: 기존 Pixi 전투 레이어에 배치 검수 SD만 추가한다. 별도의 `allies`, `enemies`, `characters`나 카드 도크 원소로 넣지 않는다. GSAP 스킬·별도 사운드를 새로 제작하지 않았다.
 - 용병 SD는 공용 `createMercenaryBattleArtAdapter`로 단일 로스터에서 V-013 라비에나 / V-017 마레나를 읽는다. `battleSprite`와 발끝 기준점을 사용하며 원화를 전투 SD로 사용하지 않는다.
 - `battle-bridge.js`: 기존 연속 전투 검수 브리지의 재생·취소·초기화 흐름에 PVP/PVE 표시 모드만 분리했다. 실제 `ProjectVBattleV3Live.createRenderer`, 원화 카드 도크·등급별 프레임·CSS·아트 어댑터는 공유한다.
@@ -67,5 +69,5 @@ PC는 기존 V3 씬 1600×820과 루트 배율을 유지한다. 모바일은 공
 - 새 스크린샷과 실행 결과는 `output/v3-viewport-fit-20260911/`에 기록한다. 이전 배치 결과는 `output/v3-occupied-grid-20260911/`다.
 - 이전 PC 배치의 실제 GSAP 시계 360개 이벤트·10/10 격파 검수를 보존한다. 이번 모바일 수정도 같은 전투의 10/10 격파와 정상 종료를 390px에서 확인했다. 전체화면 복원·공격 경계 일시정지·PC 폭으로 전환 후 모바일 복원·초기화·단일 캔버스·사격 큐 0을 통과했으며, 최종 생존 일반 카드 2 + 용병 1 + 슈트 1 = 4칸이다. 기록은 `output/v3-viewport-fit-20260911/mobile-replay/qa.json`이다.
 - 브라우저 JavaScript 오류·HTTP 실패는 없었다. 기존 공용 V3 초기화에서 아포칼립스 선택 자산 캐시 경고, 헤드리스 스크린샷에서 GPU ReadPixels 경고가 발생했다. 이번 배치 변경과 별개이며 라이브 코드의 자산 수명은 수정하지 않았다.
-- 운영 `preview/project-v-v3/`, `js/`, `css/`, `functions/`, `assets/`는 이 작업에서 수정하지 않았다.
+- 후속 전체 적용 작업에서 로컬 `preview/project-v-v3/` 공통 소스·번들을 갱신했다. 운영 진입 파일 `js/`, `css/`, `functions/`, `assets/` 및 운영 서버는 변경하지 않았다.
 - 이 전장 변경은 `docs/pve-continuous-overhaul-v1.md`의 통합 출시 묶음이다. PC 배치 승인을 전체 개편 출시 승인으로 확대하지 않는다. 전체 묶음·모바일 검수 완료 전 단독 운영 연결/배포를 하지 않는다. 이번 범위 커밋 후, 통합 출시 시 깨끗한 배포 트리에서 `npm run release:gate` → `npm run deploy:production`을 적용한다.

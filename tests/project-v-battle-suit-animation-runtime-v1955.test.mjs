@@ -303,46 +303,44 @@ test('twenty-character nicknames are ellipsized inside the fixed panel width',()
   }
 });
 
-test('account Battle Suit occupies the dedicated internal front-left support tile',()=>{
+test('account Battle Suit occupies the allied center in every PVE field and leaves no empty tile when absent',()=>{
   const engine=Object.create(BattleEngine.prototype);
   engine.mobile=false;
+  engine.gridMode='wide';
+  engine.allies=[];engine.enemies=[];engine.formationMercenaries=[];
   engine.configureIsometricScene();
   let formation=null;
   engine.accountBattleUnit={
     root:{depthSortY:0},
-    setFormation(x,y,scale){formation={x,y,scale}}
+    setFormation(x,y,scale){formation={x,y,scale};this.root.restScale=scale}
   };
   engine.layoutAccountBattleUnit();
-  const expected=engine.gridToScreen(2,5);
-  assert.deepEqual({x:formation.x,y:formation.y},expected,'account unit must advance one cell toward the enemy side and center on the unused 2:5 tile');
-  assert.ok(formation.x>=engine.gridToScreen(0,5).x&&formation.x<=engine.gridToScreen(2,5).x,'support tile must remain inside the canonical grid');
+  const expected={x:410,y:425};
+  assert.deepEqual({x:formation.x,y:formation.y},expected);
+  assert.ok(Number.isFinite(formation.scale)&&formation.scale>0);
   engine.activeBattlefieldMode='ESCORT';
   engine.layoutAccountBattleUnit();
-  assert.deepEqual(
-    {x:formation.x,y:formation.y},
-    engine.gridToScreen(1,5),
-    'ESCORT must fall back to 1:5 because the objective vehicle owns 2:5'
-  );
+  assert.deepEqual({x:formation.x,y:formation.y},expected,'escort shares the central suit station');
+  assert.notDeepEqual(engine.station('objective'),expected,'the vehicle has its own occupied station');
   engine.activeBattlefieldMode='HUNT';
   engine.layoutAccountBattleUnit();
-  assert.deepEqual({x:formation.x,y:formation.y},expected,'leaving ESCORT must restore the advanced HUNT station');
+  assert.deepEqual({x:formation.x,y:formation.y},expected);
   engine.isoFloorLayer=new Container({label:'FormationModeFloor'});
   engine.accountBattleUnitEnabled=true;
   engine.drawIsometricFloor();
-  assert.equal(engine.accountBattleUnitTile.label,'AccountSupportTile:2:5','HUNT accent must follow the advanced station');
+  assert.equal(engine.accountBattleUnitTile.label,'OccupiedTile:ALLY:support:0');
+  assert.equal(engine.isoTiles.length,1,'only the equipped support is present');
   engine.activeBattlefieldMode='ESCORT';
   engine.drawIsometricFloor();
-  assert.equal(engine.accountBattleUnitTile.label,'AccountSupportTile:1:5','ESCORT accent must follow the safe fallback station');
+  assert.equal(engine.accountBattleUnitTile.label,'OccupiedTile:ALLY:support:0');
   engine.isoFloorLayer.destroy({children:true});
-  engine.accountBattleUnitTile={visible:false,accountSupportAccent:{visible:false}};
+  engine.accountBattleUnitTile={visible:false};
   engine.accountBattleUnitEnabled=true;
   engine.syncAccountBattleUnitTile();
-  assert.equal(engine.accountBattleUnitTile.visible,true,'the internal grid cell must never become a visual hole');
-  assert.equal(engine.accountBattleUnitTile.accountSupportAccent.visible,true,'PVE account unit enables its matching support accent');
+  assert.equal(engine.accountBattleUnitTile.visible,true);
   engine.accountBattleUnitEnabled=false;
   engine.syncAccountBattleUnitTile();
-  assert.equal(engine.accountBattleUnitTile.visible,true,'forbidden modes retain the neutral base tile');
-  assert.equal(engine.accountBattleUnitTile.accountSupportAccent.visible,false,'forbidden modes hide only the account support accent');
+  assert.equal(engine.accountBattleUnitTile.visible,false,'absent support leaves no filler cell');
 });
 
 test('forced live replay redeploy restores all five allied Pixi visibility gates',async()=>{

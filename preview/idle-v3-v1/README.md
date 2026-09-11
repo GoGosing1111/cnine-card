@@ -2,6 +2,8 @@
 
 상태: **INDEPENDENT_PREVIEW_ONLY / 사용자 검수 대기 / 무음 고정**
 
+2026-09-11: [공통 점유 그리드](../../docs/project-v-common-grid-v1.md)를 기본 적용한다. 모바일 프리뷰는 전투 폭에 맞는 콘텐츠 높이를 사용한다. 사용자 지시로 라이브 배포 보류.
+
 프리뷰 주소: `/preview/idle-v3-v1/`
 
 ## 구현 범위

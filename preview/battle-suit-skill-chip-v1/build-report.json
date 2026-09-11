@@ -15,17 +15,24 @@
     "preview/project-v-v3/source/battle/AdvancementEffectFX.js",
     "preview/project-v-v3/source/battle/BallisticVFX.js",
     "preview/project-v-v3/source/battle/AccountBattleUnit.js",
+    "assets/ui/project-v/account-battle-suits/h-body-v2066.json",
+    "preview/project-v-v3/source/battle/AccountBattleSuitHBodyCatalog.js",
     "preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js",
     "preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js",
+    "shared/apocalypse-boss-skills-v2048.mjs",
+    "preview/project-v-v3/source/battle/ApocalypseSignatureSkillFX.js",
     "shared/battle-suit-skill-chips.mjs",
     "preview/battle-suit-skill-chip-v1/source/sequence.js",
     "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
     "preview/battle-suit-skill-chip-v1/source/SkillChipFX.js",
     "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
     "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+    "preview/project-v-v3/source/battle/FormationLayout.mjs",
+    "preview/project-v-v3/source/battle/ViewportLayout.mjs",
+    "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 909123
+  "outputBytes": 946643
 }
