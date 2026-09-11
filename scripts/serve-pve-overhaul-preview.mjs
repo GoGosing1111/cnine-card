@@ -11,7 +11,7 @@ import {buildScrapyardV3Battle} from '../functions/_scrapyard_v3.js';
 import {buildCowRoomBattle} from '../functions/_cow_room_v3.js';
 import {buildPreviewDeck,BATTLE_SUIT} from '../preview/idle-v3-v1/source/idle-model.mjs';
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.PVE_PREVIEW_PORT||8897),csrf=randomBytes(32).toString('hex');
-const dir=path.join(root,'tmp/v3-overhaul-ready-20260911');fs.mkdirSync(dir,{recursive:true});
+const dir=path.resolve(process.env.PVE_PREVIEW_DATA_DIR||path.join(root,'tmp/v3-overhaul-ready-20260911'));fs.mkdirSync(dir,{recursive:true});
 const sql=new DatabaseSync(path.join(dir,'preview.sqlite'));
 const DB={prepare(source){return {source,values:[],bind(...values){return {...this,values};},async first(){return sql.prepare(source).get(...this.values)||null;},async all(){return {results:sql.prepare(source).all(...this.values)};},async run(){const r=sql.prepare(source).run(...this.values);return {meta:{changes:Number(r.changes)}};}};},async batch(stmts){sql.exec('BEGIN');try{for(const s of stmts)sql.prepare(s.source).run(...s.values);sql.exec('COMMIT');return [];}catch(e){sql.exec('ROLLBACK');throw e;}}};
 sql.exec(`CREATE TABLE IF NOT EXISTS preview_settings(key TEXT PRIMARY KEY,value TEXT NOT NULL);

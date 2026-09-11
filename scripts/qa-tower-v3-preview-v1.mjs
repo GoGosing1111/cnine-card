@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE_URL||'playwright');
-const base=process.env.QA_BASE_URL||'http://127.0.0.1:8897',out=path.resolve('tmp/v3-overhaul-ready-20260911/browser');await fs.mkdir(out,{recursive:true});
+const base=process.env.QA_BASE_URL||'http://127.0.0.1:8897',out=path.resolve(process.env.QA_OUTPUT_DIR||'tmp/v3-overhaul-ready-20260911/browser');await fs.mkdir(out,{recursive:true});
 const browser=await chromium.launch({headless:true,...(process.env.QA_CHROMIUM?{executablePath:process.env.QA_CHROMIUM}:{}),args:['--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows']});
 const report={checks:[],errors:[],requests:[]};
 try{
