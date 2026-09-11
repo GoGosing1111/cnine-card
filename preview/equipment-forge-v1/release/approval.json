@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "status": "UI_AND_EFFECTS_FINAL_APPROVED",
+  "approvedAt": "2026-09-12",
+  "userInstruction": "장비 프리뷰 해당 UI,연출 최종 승인 라이브 업데이트 준비할것",
+  "previewRevision": 2,
+  "previewPath": "preview/equipment-forge-v1/",
+  "approvedSourceCommit": "19bdc5c5",
+  "inspectedProductionBase": "1257409e6e14c6d77dec7e7954916985d2be96b0",
+  "scope": [
+    "V2 화면 구성·색감·UI",
+    "성공·유지·파괴·보호·복구 연출",
+    "현재 프리뷰의 원음 믹스·게인·동기화"
+  ],
+  "exclusions": [
+    "단계별 운영 확률·최대 단계",
+    "비용·전투력·보호권 소모·획득 수치",
+    "복구 대상·기간·단계·지급 정책",
+    "실제 계정 변경 및 운영 활성화"
+  ],
+  "liveConnected": false,
+  "policyApproved": false,
+  "runtime": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "renderer": "CNineUiFxVendor",
+    "clock": "ONE_GSAP_TIMELINE",
+    "impactMs": 2250,
+    "durationMs": 4800
+  },
+  "reuse": {
+    "presentation": [
+      "source/fx.mjs",
+      "source/success-v2.mjs",
+      "style.css"
+    ],
+    "previewOnly": [
+      "source/app.mjs",
+      "source/model.mjs"
+    ],
+    "note": "프리뷰 메모리 모델과 추첨·확률 편집·초기화 버튼을 운영 코드에 가져오지 않는다."
+  },
+  "files": [
+    {
+      "path": "preview/equipment-forge-v1/index.html",
+      "bytes": 17174,
+      "sha256": "e4c778e9d05a00e04a33c9760deb7e581a8caa4df9f83df2a90f753624d617ee",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/equipment-forge-v1/style.css",
+      "bytes": 47427,
+      "sha256": "b8a6caa54d0a547b1bcc7180135dd0896ec9d8df8c5bdecb1ec9fffdcc3585fc",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/equipment-forge-v1/source/app.mjs",
+      "bytes": 27292,
+      "sha256": "9342b9e503f72dfb15bab1f0a69b38c0185c60ffedc4468782ee9307ff1ba895",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/equipment-forge-v1/source/model.mjs",
+      "bytes": 7871,
+      "sha256": "f9820dbda9b4b9d9bb4ced094fb0fecd342b4ac2a556f28cdfe3acefe6d35314",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/equipment-forge-v1/source/fx.mjs",
+      "bytes": 21311,
+      "sha256": "73d69cc0cdcdc87a182a170b4e18c6dd3692c8f01603d639f1ccf10c67cbcc86",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/equipment-forge-v1/source/success-v2.mjs",
+      "bytes": 7916,
+      "sha256": "70d3bb7fb8563b083ae181695a7b6cd355d6a6ba32fef48de5e9c785f01f7984",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+      "bytes": 433614,
+      "sha256": "8174ef39ee88cd3e87907d2d94cb21f0d7225c7cf7b551908c41b1ce7680acc2",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "bytes": 347413,
+      "sha256": "9fe876729d85de6b45d27ceaa65f49a91915ab340e5b520146b2e8fa81713462",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "bytes": 252336,
+      "sha256": "eeb1066050e00f52d16ea3b6af93539b1649562413b1dffeebc1523e6cdd4213",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "bytes": 337863,
+      "sha256": "66ca580d5af11b17a069e3174cb4b8f86baa31edb18f15bed91cc18c0b12327a",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "bytes": 319564,
+      "sha256": "82ef345faecf7a00cded0aeee6bdd9f8bd40c2237ba868b1301d5b12238d6329",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+      "bytes": 427212,
+      "sha256": "6873e9b6a5560943e1c15bcc7221e7e7b2a09aa92146a562081389b2152af6b0",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/riposte-advancement-v1.mp3",
+      "bytes": 42284,
+      "sha256": "e649a410e874bdfef29f88981170a5faaa683b4e34550ae459148e538831078f",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/afterimage-advancement-v1.mp3",
+      "bytes": 30764,
+      "sha256": "28b9a99971ad0564aa0da74fc8a9627cc2758ebd835db63da722e291f242aef6",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/shatter-advancement-v1.mp3",
+      "bytes": 36908,
+      "sha256": "b4c498a8ae554411456f1c2b5a3883275b3d1e4b2fb974ab7df0b227c7b576c0",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/immortal-advancement-v1.mp3",
+      "bytes": 72236,
+      "sha256": "d86b5f69e20c5d7f0527683d4f7c5980438c9dc912f75ebd006768f78b785691",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+      "bytes": 2015969,
+      "sha256": "03a6948c30a929664299a3a1bf6f919d162ebd3bf84270a8c487d535ba2d1cc1",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/protection-module-v2.png",
+      "bytes": 1418454,
+      "sha256": "8f098dfb40a9bf2e27c57d83a38128e99ff8a9f5255f00302a58de2dfd570d2c",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/success-plasma-atlas-v2.png",
+      "bytes": 2135459,
+      "sha256": "2794df75f23ef10dbad12621ae9e7a24c9fa7d0e184befff5a8979105b0cb6d2",
+      "hashMode": "EXACT_BYTES"
+    },
+    {
+      "path": "js/ui-fx-vendor-v2045.bundle.js",
+      "bytes": 660060,
+      "sha256": "e7e694aa0c30c3de5dae6dd586059462ef5dfd78e984daf603a39c6ae281c627",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/manifest.json",
+      "bytes": 986,
+      "sha256": "75b7da2732dc7c2f505e611ba2a635918be250db92bf1a29953a5ce89d0436e4",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/project-v-advancement-fx-v1/assets/audio/PROVENANCE.md",
+      "bytes": 3930,
+      "sha256": "9529160f028ea24e83afe27b6161190f1e1e719432fe7a794598db58526d9a9f",
+      "hashMode": "UTF8_LF"
+    }
+  ]
+}

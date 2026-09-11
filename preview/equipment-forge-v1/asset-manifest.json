@@ -1,7 +1,7 @@
 {
   "version": 2,
   "date": "2026-09-11",
-  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "status": "UI_AND_EFFECTS_FINAL_APPROVED",
   "liveConnected": false,
   "uiRuntime": "js/ui-fx-vendor-v2045.bundle.js",
   "versions": {
@@ -86,19 +86,19 @@
       "path": "preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
       "bytes": 2015969,
       "sha256": "03a6948c30a929664299a3a1bf6f919d162ebd3bf84270a8c487d535ba2d1cc1",
-      "status": "V2_USER_REVIEW_PENDING"
+      "status": "V2_USER_APPROVED"
     },
     {
       "path": "preview/equipment-forge-v1/assets/protection-module-v2.png",
       "bytes": 1418454,
       "sha256": "8f098dfb40a9bf2e27c57d83a38128e99ff8a9f5255f00302a58de2dfd570d2c",
-      "status": "V2_USER_REVIEW_PENDING"
+      "status": "V2_USER_APPROVED"
     },
     {
       "path": "preview/equipment-forge-v1/assets/success-plasma-atlas-v2.png",
       "bytes": 2135459,
       "sha256": "2794df75f23ef10dbad12621ae9e7a24c9fa7d0e184befff5a8979105b0cb6d2",
-      "status": "V2_USER_REVIEW_PENDING"
+      "status": "V2_USER_APPROVED"
     }
   ],
   "concept": "UPGRADE_LAB",
@@ -111,7 +111,8 @@
     },
     {
       "version": 2,
-      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING"
+      "status": "UI_AND_EFFECTS_FINAL_APPROVED",
+      "approvedAt": "2026-09-12"
     }
   ],
   "successAtlas": {
@@ -128,5 +129,8 @@
     "peakMs": 2250,
     "resultMs": 3150,
     "durationMs": 4800
-  }
+  },
+  "approvalDate": "2026-09-12",
+  "deliveryState": "LIVE_UPDATE_PREPARATION",
+  "approvalRecord": "preview/equipment-forge-v1/release/approval.json"
 }

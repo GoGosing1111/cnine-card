@@ -1,8 +1,8 @@
 # 장비 강화 V2 · Upgrade Lab
 
-상태: **TECH_QA_COMPLETE_USER_REVIEW_PENDING / PREVIEW_ONLY** · 2026-09-11.
+상태: **UI_AND_EFFECTS_FINAL_APPROVED / LIVE_UPDATE_PREPARATION** · 2026-09-12.
 
-사용자가 V1의 성공 이펙트와 오래된 UI 디자인·색감·컨셉을 반려했다. 같은 프리뷰를 현대적인 SF 강화실로 교체했다. 이 V2도 사용자의 시각 품질 검수 전이다. 단계별 확률표와 경제는 사용자 답변 `확률표 미정 · 시연 수치로 제작`에 따른 체험 데이터이며, 운영 연결은 하지 않았다.
+사용자가 V1의 성공 이펙트와 오래된 UI 디자인·색감·컨셉을 반려한 뒤 교체한 현대적인 SF 강화실이다. **2026-09-12 V2의 해당 UI·연출을 최종 승인하고 라이브 업데이트 준비를 지시했다.** 승인 화면·연출·원본 파일은 그대로 보존한다. 단계별 확률표와 경제는 사용자 답변 `확률표 미정 · 시연 수치로 제작`에 따른 체험 데이터이며, 운영 연결은 하지 않았다.
 
 ## 실행과 조작
 
@@ -80,4 +80,19 @@ AudioContext 재생 시점은 GSAP 충돌 2.25초에서 원음 피크 오프셋�
 - 브라우저 오류·경고 없음, 렌더러 하나. 원본 무기·기존 음원·V1 생성 원본의 해시 일치.
 - 가려진 검수 브라우저에서는 RAF가 제한되므로 시간 측정 전 브라우저를 전면으로 전환했다. 위 결과를 모든 장치의 성능 보장으로 해석하지 않는다.
 
-운영 관련 파일은 수정하지 않았다. 확률·소모량·획득·복구 정책과 UI 품질의 사용자 확정이 필요한 독립 시연이므로 운영 배포는 하지 않았다. 이 작업으로 다른 콘텐츠의 출시 게이트를 해제하지 않는다. 상세 정책과 운영 연결 조건은 `docs/equipment-enhancement-forge-v1.md`를 따른다.
+## 최종 승인과 라이브 적용 준비
+
+- `release/approval.json`: 사용자 승인 문구·범위, 원본 22개 파일의 SHA-256, PixiJS·GSAP·충돌 시점 고정. UI·연출은 최종 승인 완료다.
+- `release/launch-draft.json`: 운영 확률·비용·전투력·보호권·복구 정책은 미정, `liveEnabled=false`. 시연값을 복사하지 않는다.
+- `release/policy.mjs`: 3종 판정·성공률 10% 하한·합계 100%·보호권 GAMEPLAY 전용을 검증한다. 운영 설정 저장 API나 확률 추첨 엔진은 아니다.
+- `release/server-receipt.mjs`: 인증 요청 함수에 연결할 준비 모듈. 개별 장비·서버 견적·버전·요청 ID만 전송하고 완료된 서버 결과를 기존 5종 연출로 변환한다. 중복 클릭, 응답 유실, 다른 계정·장비·정책 결과를 검증한다.
+- `functions/_equipment_forge_preparation.js`: 기존 운영 스키마에 맞는 개별 장비 페이지 조회. 실제 인스턴스를 묶거나 변경하지 않고 강화 상태는 미설정으로 반환한다. 운영 라우트에서 가져오지 않는다.
+
+```powershell
+node --test preview/equipment-forge-v1/qa.test.mjs preview/equipment-forge-v1/release/qa.test.mjs
+node preview/equipment-forge-v1/release/check.mjs
+# 실제 서버 구현·경제 확정 전에는 아래 명령이 실패하는 것이 정상이다.
+node preview/equipment-forge-v1/release/check.mjs --require-launch-ready
+```
+
+기존 승인 UI·연출 소스와 운영 진입점은 변경하지 않았다. 실제 계정의 강화·파괴·복구, CMS·보상·전투력 연결과 운영 활성화는 준비 기록에 남은 항목이다. 작업 범위는 업데이트 준비이므로 운영 배포를 실행하지 않는다. 다른 콘텐츠의 출시 게이트도 해제하지 않는다. 상세 정책은 `docs/equipment-enhancement-forge-v1.md`, 실제 연결 작업표는 `docs/equipment-forge-live-preparation-v1.md`를 따른다.

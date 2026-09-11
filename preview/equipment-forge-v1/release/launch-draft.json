@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "status": "PREPARATION",
+  "liveEnabled": false,
+  "policyRevision": null,
+  "policyApproved": false,
+  "activationRequested": false,
+  "fixedRules": {
+    "outcomes": ["success", "maintain", "destroy"],
+    "minimumSuccessPercent": 10,
+    "protectionAcquisition": "GAMEPLAY_ONLY",
+    "protectionRarity": "EXTREMELY_RARE",
+    "boxAcquisition": false
+  },
+  "policy": {
+    "stages": null,
+    "eligibleEquipment": null,
+    "costs": null,
+    "powerScaling": null,
+    "protectionConsumption": null,
+    "protectionSources": [],
+    "restorationEligibility": null,
+    "restorationLevel": null,
+    "restorationConsumption": null,
+    "restorationRefund": null
+  },
+  "integration": {
+    "individualInventory": false,
+    "serverQuotesAndRandomness": false,
+    "atomicEnhancementAndDestruction": false,
+    "atomicRestoration": false,
+    "loadoutAndBattlePower": false,
+    "authenticatedRoutes": false,
+    "approvedUiMounted": false,
+    "cmsAndGameplayAcquisition": false,
+    "databaseConcurrencyTests": false,
+    "mobileAndAccountQa": false,
+    "productionReleaseGate": false
+  }
+}
