@@ -17,6 +17,7 @@ const DIMWOOS_AVATAR_KEY='safe_runtime_upgrade_v1985_dimwoos_avatar_v1';
 const TERRAN_EMPRESS_JOEUN_AVATAR_KEY='safe_runtime_upgrade_v2006_terran_empress_joeun_avatar_v1';
 const HI_HEEYA_AVATAR_KEY='safe_runtime_upgrade_v2064_hi_heeya_avatar_v1';
 const CHEON_AVATAR_KEY='safe_runtime_upgrade_v2068_cheon_avatar_v1';
+const ORIKKUNG_AVATAR_KEY='safe_runtime_upgrade_orikkung_zenith_avatar_v1';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -218,6 +219,7 @@ export async function ensureAvatarFoundation(env){
     await ensureTerranEmpressJoeunAvatar(env);
     await ensureHiHeeyaAvatar(env);
     await ensureCheonAvatar(env);
+    await ensureOrikkungAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -258,6 +260,25 @@ async function ensureCheonAvatar(env){
       `${base}avatar-cheon-equipment-v1-640.webp`,'#d7bca5',140
     ),
     env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CHEON_AVATAR_KEY,'1')
+  ]);
+}
+
+async function ensureOrikkungAvatar(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(ORIKKUNG_AVATAR_KEY).first();
+  if(marker?.value==='1')return;
+  const base='preview/avatar-orikkung-v1/assets/';
+  // Approved avatar art enters CMS with acquisition, effects and release flags
+  // unset. A replay must preserve operator edits and never grant ownership.
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO avatar_catalog_v1(
+      code,serial,name,call_sign,role_label,description,lobby_image,lobby_mobile_image,equipment_image,accent,acquisition_type,coin_price,source_label,source_detail,effect_type,effect_value,is_active,is_public,sale_enabled,sort_order
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,'UNSET',NULL,'','','',0,0,0,0,?) ON CONFLICT(code) DO NOTHING`).bind(
+      'ORIKKUNG_ZENITH','A-15','오리꿍','ORIKKUNG','제니스 오리꿍',
+      '제니스 오리꿍 카드의 하늘색·백색 머리와 꽃 장식, 흰색·청록색 의상을 담은 오리꿍 전용 아바타입니다.',
+      `${base}avatar-orikkung-lobby-v1-1024.webp`,`${base}avatar-orikkung-lobby-v1-640.webp`,
+      `${base}avatar-orikkung-equipment-v1-640.webp`,'#a9d7ed',150
+    ),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(ORIKKUNG_AVATAR_KEY,'1')
   ]);
 }
 
