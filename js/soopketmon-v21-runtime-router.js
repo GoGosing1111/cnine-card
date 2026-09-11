@@ -23,7 +23,8 @@
     'mineral',
     'inventory',
     'soopketland',
-    'treasury'
+    'treasury',
+    'prisoncamp'
   ]);
 
   const SHELL_ROUTE_SET = new Set(SHELL_ROUTES);
@@ -62,6 +63,7 @@
     inventory: { shell: 'inventory' },
     soopketland: { shell: 'soopketland' },
     treasury: { shell: 'treasury' },
+    prisoncamp: { shell: 'prisoncamp' },
 
     profile: { global: 'showAccountPanel', fallbackSelector: '#playerAccountBtn' },
     territory: {

@@ -2,6 +2,8 @@ import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarPartici
 import {handleClanInactivityCleanup} from './_clan_inactivity_cleanup.js';
 import {handleClanMemberAssignment} from './_clan_member_assignment.js';
 import {CLAN_RANKED_TEAMS_SQL,clanCombatStats} from './_clan_ranking.js';
+import {clanCampSettlementStatements} from './_clan_prison_camp.js';
+import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {CHAMPIONS_DEFAULTS,cleanChampionsSettings,validateChampionsSettings,ensureChampionsSchema,startChampions,advanceChampions,championsBattleSettings,championsMemberEligible,championsPublicState,deliverChampionsRewards} from './_clan_champions.js';
 
 const CLAN_FOUNDATION_VERSION='safe_runtime_upgrade_v1820_clan_v1';
@@ -497,6 +499,7 @@ async function settleSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
     const processingToken=crypto.randomUUID(),claim=await env.DB.prepare("UPDATE clan_season_settlements SET status='PROCESSING',processing_token=?,champion_clan_id=?,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PENDING'").bind(processingToken,championId||null,season.id).run();
     if(Number(claim?.meta?.changes||0)!==1)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
     const rewardStatus=await payClanSeasonRewards(env,season,settings,rankedTeams),writes=[];if(championId)writes.push(env.DB.prepare("UPDATE clan_organizations SET trophies=trophies+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND EXISTS(SELECT 1 FROM clan_season_settlements WHERE season_id=? AND status='PROCESSING' AND processing_token=?)").bind(championId,season.id,processingToken));
+    writes.push(...await clanCampSettlementStatements(env,season,settings,rankedTeams));
     writes.push(env.DB.prepare("UPDATE clan_season_settlements SET status='COMPLETED',processing_token=NULL,reward_status=?,completed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PROCESSING' AND processing_token=?").bind(rewardStatus,season.id,processingToken));
     await env.DB.batch(writes);await startChampions(env,season,settings,rankedTeams);return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
   }finally{await releaseDraftLock(env,settleLock)}
@@ -831,6 +834,21 @@ async function fight(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFA
 async function clanWallet(env,userId){const row=await env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(userId).first();return row?{coin:Number(row.coin),cardShards:Number(row.card_shards)}:null}
 
 export {clanWarReservationCheck};
+
+// Runtime status polling also advances expired regular seasons, even when nobody opens the clan page.
+export async function reconcileClanCampSeason(env){
+  const key='clan_camp_lifecycle_v2083';if(readRuntimeData(env,key))return;
+  const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
+  if(ready){
+    const season=await latestSeason(env);
+    if(season&&['ACTIVE','SETTLEMENT'].includes(season.phase)){
+      const settings=await clanSettings(env);
+      const due=season.phase==='SETTLEMENT'||await env.DB.prepare("SELECT 1 FROM clan_wars WHERE season_id=? AND status IN ('ACTIVE','CLOSING','SCHEDULED') AND ends_at<=? LIMIT 1").bind(season.id,iso()).first();
+      if(settings.mode==='ON'&&due){await ensureFoundation(env);await advanceLifecycle(env,season,settings)}
+    }
+  }
+  cacheRuntimeData(env,key,true,15000);
+}
 
 export async function handleClan({path,request,env,deps}){
   if(path==='admin/clan-war/member-assignment'){
