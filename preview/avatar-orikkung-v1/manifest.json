@@ -3,10 +3,10 @@
   "name": "오리꿍",
   "code": "ORIKKUNG_ZENITH",
   "date": "2026-09-11",
-  "status": "LOCAL_PREVIEW_READY_USER_REVIEW_PENDING",
-  "scope": "LOCAL_AVATAR_ART",
-  "runtimeConnected": false,
-  "catalogRegistered": false,
+  "status": "CMS_REGISTERED_PUBLIC_OFF",
+  "scope": "LIVE_CMS_DRAFT",
+  "runtimeConnected": true,
+  "catalogRegistered": true,
   "publicEnabled": false,
   "saleEnabled": false,
   "effectConfigured": false,
@@ -238,6 +238,8 @@
     }
   },
   "pending": [
-    "USER_ART_REVIEW"
-  ]
+    "OPERATOR_ACQUISITION_PRICE_EFFECT_VISIBILITY_CONFIGURATION"
+  ],
+  "serial": "A-15",
+  "userArtAndCmsApproval": "라이브에 반영해"
 }

@@ -6,7 +6,7 @@ import sharp from 'sharp';
 
 import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
-test('avatar foundation seeds fourteen hidden unsold records including Hi Heeya and Cheon without overwriting settings', async () => {
+test('avatar foundation seeds fifteen hidden unsold records including Hi Heeya, Cheon and Orikkung without overwriting settings', async () => {
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
@@ -25,8 +25,8 @@ test('avatar foundation seeds fourteen hidden unsold records including Hi Heeya 
   await ensureAvatarFoundation(env);
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
-  const legacySeedStatements=seedStatements.filter(statement=>!['DIMWOOS_ESPORTS_ACE','TERRAN_EMPRESS_JOEUN','HI_HEEYA','CHEON'].some(code=>statement.values.includes(code)));
-  assert.equal(seedStatements.length,14);
+  const legacySeedStatements=seedStatements.filter(statement=>!['DIMWOOS_ESPORTS_ACE','TERRAN_EMPRESS_JOEUN','HI_HEEYA','CHEON','ORIKKUNG_ZENITH'].some(code=>statement.values.includes(code)));
+  assert.equal(seedStatements.length,15);
   assert.equal(legacySeedStatements.length,10);
   assert.equal(schema.length,17);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
