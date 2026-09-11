@@ -16,5 +16,5 @@ export function createReleaseEncounter({catalog,equipment,seed=7123,powerScale=1
     power:{cards:cards.reduce((s,c)=>s+c.power,0),equipment:0,battleSuit:power},
     battleSuit:{...equippedBattleSuit,weapon:equippedWeapon,accountNickname:'회수대 지원'},characterBonus:{pve:power,battleSuitPve:power,equippedBattleSuit,equippedWeapon}};
   const battle=buildScrapyardV3Battle({snapshot,difficulty,seed,config:config||SCRAPYARD_V3_DRAFT[zone]});
-  return {...battle,previewOnly:true,difficulty,scrapyardPreview:battle.continuousEncounter};
+  return {...battle,previewOnly:true,difficulty,playerName:snapshot.accountNickname,opponentName:`${difficulty.name} 방어대`,scrapyardPreview:battle.continuousEncounter};
 }

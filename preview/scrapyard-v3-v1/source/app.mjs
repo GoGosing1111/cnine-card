@@ -55,6 +55,8 @@ async function prepare() {
   const config=validateScrapyardV3Config(zone,saved||SCRAPYARD_V3_DRAFT[zone]);
   payload = createEncounter({catalog, equipment, seed: 7123, powerScale: Number($('power').value),zone,config});
   const boss=payload.continuousEncounter.instances.at(-1),index=ZONES.findIndex(r=>r.id===zone);
+  document.querySelector('.heading .eyebrow').textContent=`SALVAGE OPERATION / SECTOR ${String(index+1).padStart(2,'0')}`;
+  document.querySelector('.heading .lede').textContent=`${payload.difficulty.name}의 방어선을 뚫고 ${boss.name}를 제압하라.`;
   document.querySelector('.sector-stamp>span').textContent=zone;document.querySelector('.sector-stamp>b').textContent=String(index+1).padStart(2,'0');
   document.querySelector('.sector-stamp>small').textContent=payload.difficulty.name;
   document.querySelector('.boss-art img').src=boss.battleSprite;document.querySelector('.boss-art img').alt=boss.name;
@@ -71,6 +73,7 @@ async function prepare() {
   $('action-label').textContent = '한 번의 출격, 끊김 없는 전투';
   $('action-detail').textContent = '카드 체력 · 방벽 · 게이지 · 지원 사격이 끝까지 이어집니다.';
   $('reset').textContent = '처음부터 다시';
+  records.length=0;log(`${payload.difficulty.name} 진입 준비. ${boss.name}를 격파하면 작전이 종료됩니다.`);
   event({type: 'READY'}, {spawned: 3, defeated: 0}); controls();
   return true;
 }
@@ -89,11 +92,11 @@ async function start() {
     const result = payload.battleV2.result, win = result.winner === 'A';
     $('battle-state').textContent = win ? '회수 작전 완료' : '작전 실패';
     $('result-title').textContent = win ? '구역 제압 완료' : '돌파 실패';
-    $('action-label').textContent = win ? '고철군주 격파 · 작전 종료' : '회수대의 전력이 부족합니다';
+    $('action-label').textContent = win ? `${payload.continuousEncounter.instances.at(-1).name} 격파 · 작전 종료` : '회수대의 전력이 부족합니다';
     $('action-detail').textContent = '연출 결과는 동일 시드의 전투 엔진 판정입니다. 실제 보상은 지급하지 않습니다.';
     $('survivors').textContent = `${result.final.A.filter(row => row.hp > 0).length} / 5`;
     $('result-note').textContent = `${result.actions}행동 · ${result.encounter.defeated}/${payload.continuousEncounter.total} 격파 · ${win?'완주':'미완주'}`;
-    log(win ? '고철군주 격파. 회수 작전을 완료했습니다.' : `작전 종료. ${result.encounter.defeated}마리 격파 후 돌파에 실패했습니다.`);
+    log(win ? `${payload.continuousEncounter.instances.at(-1).name} 격파. 회수 작전을 완료했습니다.` : `작전 종료. ${result.encounter.defeated}마리 격파 후 돌파에 실패했습니다.`);
   } catch (error) {if (token === epoch && !disposed) fail(error);}
   finally {if (token === epoch) {busy = false; paused = false; controls();}}
 }
