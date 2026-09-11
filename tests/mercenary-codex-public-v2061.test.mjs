@@ -102,8 +102,8 @@ test('public information remains read-only with separate local favorites and no 
 test('public page and live entry use synchronized cache tags and revalidation headers', () => {
   assert.match(index, /js\/app\.js\?v=2083-clan-prison-camp/);
   assert.match(sw, /soop-card-shell-v2083-clan-prison-camp/);
-  assert.match(index, /exact-shell-adapter\.js\?v=21\.27\.0-wish-lamp/);
-  assert.match(index, /runtime-router\.js\?v=1\.9\.0-mercenary-codex/);
+  assert.match(index, /exact-shell-adapter\.js\?v=2083-clan-prison-camp/);
+  assert.match(index, /runtime-router\.js\?v=2083-clan-prison-camp/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
   assert.match(html, /codex\.js\?v=20260911-omega-ranks/);
   assert.match(html, /codex\.css\?v=1\.5/);
