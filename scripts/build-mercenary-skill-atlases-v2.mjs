@@ -18,7 +18,8 @@ for(const row of inputs){
   const source=await fs.readFile(row.path),meta=await sharp(source).metadata();
   const cached=previous.images.find(i=>i.id===row.id&&i.sourceSha256===digest(source)&&i.prompt===row.prompt);
   if(cached&&await fs.access(`${root}/${cached.runtime}`).then(()=>true,()=>false)){
-    images.push({...cached,visualReview:row.visualReview||cached.visualReview,...(row.timeline?{timeline:row.timeline}:{})});console.log(`${skill.id}: preserved existing 16-frame sequence`);continue;
+    const {code,...asset}=cached;
+    images.push({...asset,...(code?{creationReferenceCode:code}:{}),visualReview:row.visualReview||cached.visualReview,...(row.timeline?{timeline:row.timeline}:{})});console.log(`${skill.id}: preserved existing 16-frame sequence`);continue;
   }
   if(!meta.hasAlpha||meta.width!==meta.height||meta.width<1024)throw new Error(`${row.id}: expected square RGBA 4 by 4 sheet, >=256px native cells`);
   const cell=Math.ceil(meta.width/4),tiles=[];
@@ -52,13 +53,14 @@ for(const row of inputs){
   const runtime=await sharp({create:{width:cell*4,height:cell*4,channels:4,background:{r:0,g:0,b:0,alpha:0}}}).composite(tiles).webp({lossless:true,effort:6}).toBuffer();
   const sourceFile=`source/${row.id}-sequence-v2.png`,runtimeFile=`${row.id}/atlas-v2.webp`;
   await fs.writeFile(`${root}/${sourceFile}`,source);await fs.writeFile(`${root}/${runtimeFile}`,runtime);
-  images.push({id:row.id,skillId:skill.id,code:skill.code,name:skill.name,source:sourceFile,runtime:runtimeFile,
+  images.push({id:row.id,skillId:skill.id,name:skill.name,source:sourceFile,runtime:runtimeFile,
     sourceSha256:digest(source),runtimeSha256:digest(runtime),sourceSize:[meta.width,meta.height],size:[cell*4,cell*4],cellSize:cell,columns:4,rows:4,frameCount:16,
     generation:'BUILT_IN_IMAGEGEN',prompt:row.prompt,sourceFilename:row.originalFilename||path.basename(row.path.replaceAll('\\','/')),
     visualReview:row.visualReview||'PENDING',...(row.timeline?{timeline:row.timeline}:{}),runtimeBytes:runtime.length,frames});
   console.log(`${skill.id}: 16 unique RGBA frames, ${cell}px cells, clean alpha gutters`);
 }
 await fs.writeFile(`${root}/manifest.json`,JSON.stringify({id:'mercenary-authored-skill-atlases-v2',date:'2026-09-11',status:'USER_REVIEW_PENDING',
+  assignmentPolicy:'INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED',
   replaces:'USER_REJECTED_V1_SINGLE_SPRITE_TWEENS',runtimeEnabled:false,frameCount:images.length*16,images,
   reference:{skills:['SKILL_CHIP_ROCKET_LAUNCHER','SKILL_CHIP_HELICOPTER_AIRSTRIKE'],file:'preview/battle-suit-skill-chip-v1/source/SkillChipFX.js'},
   renderer:{pixi:'8.20.0',gsap:'3.13.0',timeline:'V3_REGISTERED_GSAP',autoAnimationTicker:false,

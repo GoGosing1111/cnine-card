@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import {Container, Texture, path as pixiPath} from 'pixi.js';
 import {gsap} from 'gsap';
 import {MERCENARY_SKILLS as skills, createSkillDraft, validateSkillDraft, parseSkillDraft} from '../shared/mercenary-skills-v1.mjs';
+import {createSkillAssignments, validateSkillAssignments, parseSkillAssignments, reviseSkillAssignments, ASSIGNMENT_STORAGE_KEY} from '../shared/mercenary-skill-assignments-v1.mjs';
 import {compileRehearsal, rehearsalSnapshot, sampleRehearsal, selectSkillTargets} from '../preview/project-v-mercenary-system-v1/skill-rehearsal.mjs';
 import {MercenarySkillFX} from '../preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js';
 import {skillAssetBaseUrl} from '../preview/project-v-mercenary-system-v1/skill-asset-base.mjs';
@@ -16,9 +17,9 @@ const finish=(id,scenario='normal',snapshot)=>sampleRehearsal(compileRehearsal(i
 const actor=(sample,id)=>sample.actors.find(a=>a.id===id);
 const copy=v=>structuredClone(v);
 
-test('Omega alone owns the SSS two-stage skill, with bounded shares and a cleanse window',()=>{
+test('event horizon is independently assignable and preserves bounded shares and its cleanse window',()=>{
   const omega=skills.find(s=>s.id==='MS-021');
-  assert.deepEqual(omega.exclusivity,{code:'V-021',rank:'SSS',transferable:false});
+  assert.equal(omega.exclusivity,undefined);assert.equal(omega.code,undefined);
   for(const scenario of ['normal','boss']){
     const plan=compileRehearsal('MS-021',scenario),hits=plan.events.filter(e=>e.kind==='HIT');
     assert.equal(hits.reduce((total,e)=>total+e.amount,0),66);
@@ -34,14 +35,21 @@ test('Omega alone owns the SSS two-stage skill, with bounded shares and a cleans
   assert.deepEqual(lost.events.filter(e=>e.stage==='DETONATE').map(e=>[e.targets[0],e.amount]),[['E2',24]]);
 });
 
-test('adding Omega migrates saved sixteen-skill review notes without auto-approving the new skill',()=>{
-  const old={...createSkillDraft(roster.version),version:1,rosterVersion:10,revision:7};
-  old.skills=old.skills.filter(s=>s.id!=='MS-021');old.skills[0].name='내가 검토한 이름';old.skills[0].note='보존할 의견';old.skills[0].review='REVISE';
-  const migrated=parseSkillDraft(JSON.stringify(old),roster.version);
-  assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,17);
-  assert.deepEqual(migrated.skills.filter(s=>s.id!=='MS-021'),old.skills);
-  assert.equal(migrated.skills.find(s=>s.id==='MS-021').review,'PENDING');
-  assert.throws(()=>parseSkillDraft(JSON.stringify({...old,runtimeEnabled:true}),roster.version));
+test('both legacy reviews preserve names, notes and revisions while removing proposed ownership',()=>{
+  for(const version of [1,2]){
+    const old={format:'PROJECT_V_MERCENARY_SKILL_DRAFT_V1',version,rosterVersion:version===1?10:11,revision:7,status:'DRAFT',runtimeEnabled:false,
+      skills:createSkillDraft().skills.filter(s=>version===2||s.id!=='MS-021').map(s=>({...s,code:`V-${s.id.slice(3)}`}))};
+    old.skills[0].name='내가 검토한 이름';old.skills[0].note='보존할 의견';old.skills[0].review='REVISE';
+    const before=copy(old),migrated=parseSkillDraft(JSON.stringify(old));
+    assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,17);assert.equal(migrated.version,3);
+    assert.equal(migrated.rosterVersion,undefined);assert.equal(migrated.catalogVersion,1);assert.deepEqual(old,before);
+    assert.deepEqual(migrated.skills.filter(s=>version===2||s.id!=='MS-021'),old.skills.map(({code,...review})=>review));
+    if(version===1)assert.equal(migrated.skills.find(s=>s.id==='MS-021').review,'PENDING');
+    assert.ok(createSkillAssignments(roster).assignments.every(row=>row.skillIds.length===0));
+    for(const mutate of [d=>d.runtimeEnabled=true,d=>d.skills[0].code='V-099',d=>d.skills[0].damage=99,d=>d.skills[1]=d.skills[0],d=>d.skills[0].note=99,d=>d.extra=true]){
+      const bad=copy(old);mutate(bad);assert.throws(()=>parseSkillDraft(JSON.stringify(bad)));
+    }
+  }
 });
 
 test('Pages extensionless documents and local .html resolve shared V3 assets identically',()=>{
@@ -52,12 +60,13 @@ test('Pages extensionless documents and local .html resolve shared V3 assets ide
   }
 });
 
-test('17 authored identities cover all seven roles and match the position draft',()=>{
+test('17 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
   assert.equal(skills.length,17);assert.equal(new Set(skills.map(s=>s.role)).size,7);
-  for(const key of ['id','code','mechanic'])assert.equal(new Set(skills.map(s=>s[key])).size,17);
+  for(const key of ['id','mechanic'])assert.equal(new Set(skills.map(s=>s[key])).size,17);
   assert.equal(new Set(skills.map(s=>s.visual.asset)).size,17);
   assert.equal(new Set(skills.map(s=>s.visual.motion)).size,17);
-  for(const s of skills){const p=positions.assignments.find(p=>p.code===s.code);assert.equal(s.role,p.role);assert.equal(s.target,p.skillTarget);
+  for(const s of skills){assert.equal(s.code,undefined);assert.equal(s.exclusivity,undefined);assert.equal(s.rank,undefined);
+    for(const card of roster.cards)assert.ok(!`${s.trigger} ${s.effect} ${s.counterplay}`.includes(card.name));
     assert.equal(s.runtimeEnabled,false);assert.equal(s.status,'DRAFT');assert.equal(s.balance.damageRatio,null);assert.equal(s.balance.cooldownTurns,null);assert.equal(s.balance.cost,null);}
 });
 for(const s of skills)for(const scenario of ['normal','counter','boss'])test(`${s.id} ${scenario}: resolved playback is deterministic, bounded and reversible`,()=>{
@@ -115,11 +124,46 @@ test('dead caster and missing targets fail closed; invalid snapshots are rejecte
   const empty=rehearsalSnapshot().filter(a=>a.team==='ALLY');assert.equal(compileRehearsal('MS-004','normal',empty).events[0].kind,'CANCEL');
   assert.throws(()=>compileRehearsal('MS-004','invalid'));assert.throws(()=>compileRehearsal('MS-004','normal',[...dead,dead[0]]));
 });
-test('CMS imports reject live activation, unknown fields, wrong assignments, missing rows and stale versions',()=>{
-  const good=createSkillDraft(roster.version);assert.deepEqual(parseSkillDraft(JSON.stringify(good),roster.version),good);
-  const mutations=[d=>d.runtimeEnabled=true,d=>d.skills[0].damageRatio=99,d=>d.skills[0].code='V-043',d=>d.skills.pop(),d=>d.skills[1]=d.skills[0],d=>d.rosterVersion--,d=>d.skills[0].name='',d=>d.skills[0].review='APPROVED',d=>d.revision=Number.MAX_SAFE_INTEGER];
-  for(const mutate of mutations){const bad=copy(good);mutate(bad);assert.throws(()=>validateSkillDraft(bad,roster.version));}
-  assert.throws(()=>parseSkillDraft(' '.repeat(49*1024),roster.version));
+test('review imports reject assignment fields, live activation, missing skills and stale catalog versions',()=>{
+  const good=createSkillDraft();assert.deepEqual(parseSkillDraft(JSON.stringify(good)),good);
+  const mutations=[d=>d.runtimeEnabled=true,d=>d.skills[0].damageRatio=99,d=>d.skills[0].code='V-043',d=>d.skills.pop(),d=>d.skills[1]=d.skills[0],d=>d.catalogVersion--,d=>d.skills[0].name='',d=>d.skills[0].review='APPROVED',d=>d.revision=Number.MAX_SAFE_INTEGER,d=>d.rosterVersion=11];
+  for(const mutate of mutations){const bad=copy(good);mutate(bad);assert.throws(()=>validateSkillDraft(bad));}
+  assert.throws(()=>parseSkillDraft(' '.repeat(49*1024)));
+});
+
+test('assignment drafts start with all 43 mercenaries unassigned, including SSS Omega',()=>{
+  const before=copy(roster),draft=createSkillAssignments(roster);
+  assert.equal(draft.authority,'USER');assert.equal(draft.runtimeEnabled,false);
+  assert.equal(draft.assignments.length,43);assert.ok(draft.assignments.every(row=>row.skillIds.length===0));
+  assert.deepEqual(roster,before);assert.equal(roster.cards.find(card=>card.code==='V-021').rank,'SSS');
+  assert.notEqual(ASSIGNMENT_STORAGE_KEY,'cnine.mercenarySkills.draft.v1');
+});
+test('users can select event horizon for other mercenaries, combine skills and reuse one skill',()=>{
+  const draft=createSkillAssignments(roster);
+  draft.assignments.find(row=>row.code==='V-004').skillIds=['MS-021','MS-003'];
+  draft.assignments.find(row=>row.code==='V-043').skillIds=['MS-021'];
+  const accepted=parseSkillAssignments(JSON.stringify(draft),roster);
+  assert.deepEqual(accepted,draft);assert.deepEqual(accepted.assignments.find(row=>row.code==='V-021').skillIds,[]);
+  accepted.assignments[0].skillIds.push('MS-004');assert.equal(draft.assignments[0].skillIds.length,0);
+  draft.assignments.find(row=>row.code==='V-004').skillIds=[];assert.deepEqual(validateSkillAssignments(draft,roster),draft);
+});
+test('assignment import rejects invented IDs, duplicate pairs, omitted mercenaries and release bypasses',()=>{
+  const good=createSkillAssignments(roster);
+  for(const mutate of [d=>d.authority='ASSISTANT',d=>d.runtimeEnabled=true,d=>d.status='APPROVED',d=>d.rosterVersion--,d=>d.catalogVersion++,d=>d.assignments.pop(),d=>d.assignments[1]=d.assignments[0],d=>d.assignments[0].code='CN-123',d=>d.assignments[0].skillIds=['MS-999'],d=>d.assignments[0].skillIds=['MS-003','MS-003'],d=>d.assignments[0].rank='SSS',d=>d.assignments[0].skillIds=null,d=>d.revision=Number.MAX_SAFE_INTEGER]){
+    const bad=copy(good);mutate(bad);assert.throws(()=>parseSkillAssignments(JSON.stringify(bad),roster));
+  }
+  assert.throws(()=>parseSkillAssignments(JSON.stringify(createSkillDraft()),roster));
+  assert.throws(()=>parseSkillAssignments(' '.repeat(65*1024),roster));
+  assert.throws(()=>parseSkillDraft(JSON.stringify(good)));
+});
+test('assignment revisions reject stale saves and preserve the caller draft on success or failure',()=>{
+  const initial=createSkillAssignments(roster),before=copy(initial);
+  const first=reviseSkillAssignments(initial,null,null,roster);assert.equal(first.revision,2);assert.deepEqual(initial,before);
+  const edited=copy(first);edited.assignments[0].skillIds=['MS-021'];
+  const saved=reviseSkillAssignments(edited,first,2,roster);assert.equal(saved.revision,3);assert.deepEqual(initial,before);
+  assert.throws(()=>reviseSkillAssignments(edited,saved,2,roster),/다른 화면/);
+  assert.throws(()=>reviseSkillAssignments(edited,null,2,roster),/다른 화면/);
+  assert.equal(edited.revision,2);assert.deepEqual(saved.assignments[0].skillIds,['MS-021']);
 });
 test('Pixi lifecycle uses one cancellable V3 clock, rewinds poses, and preserves shared textures',()=>{
   const layer=new Container(),combatLayer=new Container(),engine={effectLayer:layer,combatLayer,simpleTimelines:new Set(),mobile:false,reducedMotion:false};
@@ -196,6 +240,7 @@ test('seventeen individually authored sequences retain 272 original frames and c
   assert.equal(manifest.images.length,17);assert.equal(manifest.frameCount,272);assert.equal(manifest.runtimeEnabled,false);
   const hashes=new Set(),ids=new Set();
   for(const row of manifest.images){
+    assert.equal(row.code,undefined,'Creation references must never be used as skill ownership');
     assert.ok(skills.some(s=>s.id===row.skillId&&s.visual.asset===row.id));assert.equal(row.frameCount,16);assert.equal(row.frames.length,16);ids.add(row.skillId);
     for(const [file,hash]of [[row.source,row.sourceSha256],[row.runtime,row.runtimeSha256],...row.frames.map(f=>[f.file,f.sha256])]){
       const bytes=fs.readFileSync(new URL('../preview/project-v-mercenary-system-v1/skill-assets-v2/'+file,import.meta.url));

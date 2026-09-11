@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="data:,">
+  <title>용병 스킬 직접 배정 · 숲켓몬</title>
+  <link rel="stylesheet" href="./skills.css?v=20260911-library"><link rel="stylesheet" href="./skill-assignments.css?v=20260911-library">
+  <script type="module" src="./skill-assignments.js?v=20260911-library"></script>
+</head>
+<body>
+<a class="skip" href="#assignmentEditor">용병 배정 편집으로 이동</a>
+<main>
+  <header><a class="eyebrow" href="./">숲켓몬 / PROJECT V</a><nav><a href="./skills.html">독립 스킬 목록</a><a href="./positions.html">등급 · 포지션</a></nav></header>
+  <section class="hero"><div><span class="eyebrow">USER SKILL ASSIGNMENTS</span><h1>용병별 스킬 배정</h1><p>용병을 고른 뒤 원하는 스킬을 체크하세요.<br>자동으로 배정된 스킬은 없습니다.</p></div><div class="numbers"><div><b id="assignedMercenaries">0</b><span>배정한 용병</span></div><div><b id="assignmentCount">0</b><span>선택한 연결</span></div></div></section>
+  <p class="scope">배정 초안 · 등급이나 역할에 따른 전용 잠금은 없습니다. 여러 스킬·여러 용병을 선택해 비교할 수 있으며, 실제 장착 슬롯 수와 전투 적용은 별도 검수 대상입니다.</p>
+  <section class="assignment-toolbar" aria-label="배정 초안 저장"><strong id="assignmentState">배정 목록을 준비하고 있습니다.</strong><div class="draft-actions"><button id="saveAssignments" disabled>배정 초안 저장</button><button id="reloadAssignments" disabled>저장본 불러오기</button><button id="exportAssignments" disabled>배정 JSON 내보내기</button><label class="file-button">배정 JSON 가져오기<input id="importAssignments" type="file" accept=".json,application/json" disabled></label></div><p>저장은 이 브라우저에만 적용됩니다. 스킬 이름·검토 의견과 용병 배정은 각각 보관합니다.</p><p id="assignmentNotice" role="status" aria-live="polite"></p></section>
+  <div class="workbench" id="assignmentEditor">
+    <aside class="selection"><div class="list-head"><h2>용병 선택</h2><span id="mercenaryCount">43종</span></div><label class="search-label">용병 검색<input id="mercenarySearch" type="search" maxlength="80" placeholder="이름, 코드, 무기 검색" disabled></label><div id="mercenaryList" class="skill-list" aria-label="배정할 용병"><p>준비 중…</p></div></aside>
+    <section class="assignment-editor" aria-label="선택 용병의 스킬 배정">
+      <div class="assigned-card"><img id="selectedArt" alt="" hidden><div><span class="eyebrow" id="selectedCode">용병 선택</span><h2 id="selectedName">준비 중입니다</h2><p id="selectedInfo"></p><strong id="selectedSkillCount">0개 선택</strong></div></div>
+      <div class="assignment-filter"><label>스킬 검색<input id="assignmentSkillSearch" type="search" maxlength="80" placeholder="스킬 이름, 코드, 효과 검색" disabled></label><button id="clearSkillSearch" disabled>전체 스킬</button></div>
+      <div id="assignmentSkills" class="assignment-skills" aria-label="적용할 스킬 선택"></div>
+    </section>
+  </div>
+  <footer><p>스킬 목록의 ID·이름·효과는 용병 배정과 독립입니다. 시연용 용병 선택은 이 초안에 반영되지 않습니다.</p><a href="../../docs/project-v-mercenary-skill-catalog-v1.md">스킬 전체 목록 · 배정 기준</a></footer>
+</main>
+</body></html>

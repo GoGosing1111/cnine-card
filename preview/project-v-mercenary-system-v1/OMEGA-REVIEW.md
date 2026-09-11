@@ -1,5 +1,7 @@
 # 오메가-X SSS 전용기 검수 · 2026-09-11
 
+> 후속 지시 반영: 스킬 목록과 용병 배정을 분리했다. 아래 오메가 전용 배정은 당시 제안 이력이며 현재 적용하지 않는다. 종언의 사건지평선도 사용자 직접 배정 대상이다. SSS 등급과 연속 프레임·충돌 검수 기록은 유지한다. 최신 기준: `docs/project-v-mercenary-skill-catalog-v1.md`.
+
 상태: **USER_REVIEW_PENDING / runtimeEnabled=false**. 사용자 지정 SSS 등급은 도감에 표시한다. 전용 스킬 이름·메커니즘·연출은 독립 검수 초안이며 실제 계정 전투 활성화가 아니다.
 
 검수 화면: `/preview/project-v-mercenary-system-v1/skills?skill=MS-021` · 등급 초안: `positions.html` · 설계: `docs/project-v-mercenary-omega-ranks-v1.md`.
