@@ -28,7 +28,7 @@ function updateButtons() {
   const record = getRecord();
   $('restore-button').disabled = blocked || !record || !!record.restoredAt || model.wallet.restoration < 1;
   $('protection-toggle').disabled = blocked || model.wallet.protection < 1;
-  for (const id of ['settings-button', 'rates-button', 'showcase-button', 'tab-enhance', 'tab-restore', 'archive-button']) $(id).disabled = blocked;
+  for (const id of ['settings-button', 'rates-button', 'showcase-button', 'quick-success', 'tab-enhance', 'tab-restore', 'archive-button']) $(id).disabled = blocked;
   document.querySelectorAll('.equipment-row, .filters button').forEach(button => { button.disabled = blocked || button.dataset.unavailable === 'true'; });
   $('confirm-action').disabled = blocked;
 }
@@ -45,7 +45,7 @@ function renderInventory() {
     const unavailable = mode === 'enhance' && item.status !== 'owned';
     const restored = mode === 'restore' && row.restoredAt;
     const note = mode === 'enhance' ? unavailable ? '파괴 기록 보관 중' : item.kindLabel : restored ? '복구 완료' : `${date(row.destroyedAt)}${row.sample ? ' · 예시' : ''}`;
-    return `<button class="equipment-row${unavailable ? ' is-destroyed' : ''}${mode === 'restore' ? ' record-row' : ''}${restored ? ' is-restored' : ''}" data-id="${escape(row.id)}" data-unavailable="${unavailable}" aria-pressed="${chosen}" aria-label="${escape(item.name)} +${item.level}, ${escape(note)}" ${unavailable ? 'disabled' : ''}><span class="equipment-thumb"><img src="${escape(item.image)}" alt="" loading="lazy"></span><span class="equipment-copy"><small>${item.grade}</small><b>${escape(item.name)}</b><em>${escape(note)}</em></span><span class="equipment-level">+${item.level}</span></button>`;
+    return `<button class="equipment-row${unavailable ? ' is-destroyed' : ''}${mode === 'restore' ? ' record-row' : ''}${restored ? ' is-restored' : ''}" data-id="${escape(row.id)}" data-grade="${item.grade}" data-unavailable="${unavailable}" aria-pressed="${chosen}" aria-label="${escape(item.name)} +${item.level}, ${escape(note)}" ${unavailable ? 'disabled' : ''}><span class="equipment-thumb"><img src="${escape(item.image)}" alt="" loading="lazy"></span><span class="equipment-copy"><small>${item.grade}</small><b>${escape(item.name)}</b><em>${escape(note)}</em></span><span class="equipment-level">+${item.level}</span></button>`;
   }).join('') || '<p class="empty-inventory">표시할 기록이 없습니다.<br>파괴된 장비는 이곳에 기록됩니다.</p>';
 }
 function renderRates() {
@@ -91,7 +91,10 @@ function render() {
 }
 function clearOutcome() {
   activeReceipt = null; $('stage-outcome').hidden = true;
-  document.querySelector('.forge-stage').removeAttribute('data-result');
+  const stage = document.querySelector('.forge-stage');
+  stage.removeAttribute('data-result'); stage.removeAttribute('data-playing');
+  stage.style.setProperty('--scene-dark', '0'); stage.style.setProperty('--result-progress', '1');
+  $('cinematic-hud').hidden = true;
   $('stage-item-heading').style.opacity = '1'; $('level-transition').hidden = false;
   $('stage-status').textContent = fxAvailable ? '준비 완료' : '간소화 연출';
   $('stage-rule').textContent = mode === 'enhance' ? '강화 단계는 성공 시에만 상승합니다.' : '파괴 이전의 상태가 기록에 남아 있습니다.';
@@ -102,7 +105,7 @@ async function selectCurrent() {
   const generation = ++selectionGeneration; loading = true;
   clearOutcome(); const item = getItem(); render();
   if (!item) { loading = false; updateButtons(); return; }
-  $('stage-code').textContent = mode === 'enhance' ? 'ENHANCEMENT CHAMBER' : 'RESTORATION ARCHIVE';
+  $('stage-code').textContent = mode === 'enhance' ? 'UPGRADE SYSTEM / 01' : 'RECOVERY SYSTEM / 02';
   $('stage-grade').textContent = item.grade + ' EQUIPMENT';
   $('stage-item-name').textContent = item.name; $('stage-item-sub').textContent = item.collection + ' · ' + item.kindLabel;
   $('level-before').textContent = mode === 'enhance' ? '+' + item.level : '파괴';
@@ -155,23 +158,25 @@ function confirmRestore() {
 function showOutcome(receipt, visualOnly = false) {
   const kind = receipt.visual;
   const copy = {
-    success: ['ENHANCEMENT SUCCESS', '강화 성공', `${receipt.before.name} +${receipt.after.level} · 새로운 힘이 깨어났습니다.`],
-    maintain: ['UNCHANGED, UNBROKEN', '유지 · 무반응', `장비는 +${receipt.before.level} 그대로 유지됩니다.`],
+    success: ['UPGRADE COMPLETE', '강화 성공', `${receipt.before.name} · +${receipt.before.level} → +${receipt.after.level}`],
+    maintain: ['LEVEL MAINTAINED', '유지 · 무반응', `장비는 +${receipt.before.level} 그대로 유지됩니다.`],
     destroy: ['EQUIPMENT SHATTERED', '장비 파괴', `${receipt.before.name} +${receipt.before.level}의 파괴 기록이 남았습니다.`],
-    protected: ['GUARDIAN SEAL ACTIVATED', '장비를 지켜냈습니다', `파괴를 방지했습니다. 장비는 +${receipt.before.level} 유지됩니다.`],
-    restore: ['A LEGEND, REBORN', '장비 복구 완료', `${receipt.after.name} +${receipt.after.level} · 다시, 당신의 곁으로.`],
+    protected: ['PROTECTION ACTIVATED', '파괴 방지 성공', `파괴를 방지했습니다. 장비는 +${receipt.before.level} 유지됩니다.`],
+    restore: ['RECOVERY COMPLETE', '장비 복구 완료', `${receipt.after.name} · +${receipt.after.level} 복구 완료`],
   }[kind];
   $('level-transition').hidden = true; $('stage-protection').hidden = true;
-  $('outcome-eyebrow').textContent = visualOnly ? 'CINEMATIC PREVIEW · ' + copy[0] : copy[0];
+  $('outcome-eyebrow').textContent = copy[0];
+  $('outcome-level').textContent = '+' + receipt.after.level;
   $('outcome-title').textContent = copy[1]; $('outcome-description').textContent = visualOnly && kind === 'destroy' ? '장비 파괴 연출 시연입니다. 실제 기록은 변경되지 않습니다.' : copy[2];
   $('stage-outcome').hidden = false;
   $('outcome-continue').innerHTML = (!visualOnly && kind === 'destroy' ? '복구소에서 기록 보기' : '계속하기') + icon('arrow');
   document.querySelector('.forge-stage').dataset.result = kind;
-  $('stage-item-heading').style.opacity = '.6';
+  $('stage-item-heading').style.opacity = '.8';
 }
 async function animate(receipt, visualOnly = false) {
   busy = true; activeReceipt = { ...receipt, visualOnly }; updateButtons();
   const stage = document.querySelector('.forge-stage'), bounds = stage.getBoundingClientRect();
+  stage.dataset.playing = receipt.visual; stage.style.setProperty('--result-progress', '0');
   if (bounds.top < 0 || bounds.bottom > innerHeight) stage.scrollIntoView({ behavior: 'instant', block: innerWidth <= 700 ? 'start' : 'center' });
   $('stage-outcome').hidden = true; $('level-transition').hidden = false; $('stage-protection').hidden = true;
   $('playback').hidden = false; $('pause-button').textContent = '일시정지';
@@ -183,6 +188,7 @@ async function animate(receipt, visualOnly = false) {
   else { $('weapon-fallback').style.opacity = receipt.visual === 'destroy' ? '.1' : '1'; }
   if (destroyedPage || result.cancelled) return;
   busy = false; $('playback').hidden = true;
+  stage.style.setProperty('--result-progress', '1'); stage.style.setProperty('--scene-dark', '0'); $('cinematic-hud').hidden = true;
   $('stage-status').textContent = visualOnly ? '연출 시연 완료' : '결과 확인';
   $('stage-rule').textContent = visualOnly ? '연출만 재생했습니다. 장비·재료·기록은 그대로입니다.' : receipt.visual === 'protected' ? '보호권 1장 소모 · 장비와 강화 단계 유지' : receipt.visual === 'restore' ? '복구 쿠폰 1장 소모 · 파괴 기록 사용 완료' : '결과가 이번 체험 기록에 저장되었습니다.';
   showOutcome(receipt, visualOnly); $('outcome-continue').disabled = false;
@@ -239,6 +245,7 @@ $('settings-button').addEventListener('click', () => showDialog('settings-dialog
 $('rates-button').addEventListener('click', () => showDialog('settings-dialog'));
 $('rules-button').addEventListener('click', () => showDialog('rules-dialog'));
 $('showcase-button').addEventListener('click', () => showDialog('showcase-dialog'));
+$('quick-success').addEventListener('click', () => showcase('success'));
 document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
 document.querySelectorAll('dialog').forEach(dialog => {
   dialog.addEventListener('click', event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); } });
@@ -281,14 +288,23 @@ window.addEventListener('pageshow', event => { if (event.persisted) location.rel
 
 // Compact read-only diagnostics for browser review; no control or real-account hooks.
 globalThis.ForgePreview = Object.freeze({
-  inspect: () => ({ previewOnly: true, mode, selectedId, recordId, busy, loading, fxAvailable, wallet: { ...model.wallet }, rates: structuredClone(model.rates), items: structuredClone(model.items), records: structuredClone(model.records), history: structuredClone(model.history), fx: fx ? { time: fx.clock.time, kind: fx.kind, paused: fx.paused, running: fx.running, fragments: fx.fragments.length, syncErrorMs: fx.sound.syncErrorMs } : null }),
+  inspect: () => ({ previewOnly: true, version: 2, mode, selectedId, recordId, busy, loading, fxAvailable, wallet: { ...model.wallet }, rates: structuredClone(model.rates), items: structuredClone(model.items), records: structuredClone(model.records), history: structuredClone(model.history), fx: fx ? { time: fx.clock.time, kind: fx.kind, paused: fx.paused, running: fx.running, fragments: fx.fragments.length, successAtlasReady: !!fx.success?.ready, successFrame: fx.success?.frame, syncErrorMs: fx.sound.syncErrorMs } : null }),
 });
 
 render();
 try {
-  fx = new ForgeFX($('fx-host'), { onTime(time) {
+  fx = new ForgeFX($('fx-host'), { onTime(time, kind) {
     const phase = time < 1 ? 0 : time < EFFECT_TIMING.impact ? 1 : time < EFFECT_TIMING.reveal ? 2 : 3;
     document.querySelectorAll('#phase-rail i').forEach((node, index) => node.classList.toggle('active', index <= phase));
+    const stage = document.querySelector('.forge-stage');
+    const pressure = Math.max(0, Math.min(1, (time - 1.2) / 1.05));
+    stage.style.setProperty('--scene-dark', String(kind === 'success' ? pressure * .5 * (1 - Math.max(0, Math.min(1, (time - EFFECT_TIMING.impact) / .28))) : 0));
+    const progress = Math.max(0, Math.min(1, (time - EFFECT_TIMING.reveal) / .3));
+    stage.style.setProperty('--result-progress', String(1 - (1 - progress) ** 3));
+    $('cinematic-hud').hidden = kind !== 'success' || time >= EFFECT_TIMING.impact + .1 || fx?.reduced;
+    $('cinematic-label').textContent = time < 1.4 ? 'ENERGY CHARGING' : 'CORE OVERDRIVE';
+    $('cinematic-count').textContent = String(Math.round(Math.min(100, time / EFFECT_TIMING.impact * 100))).padStart(2, '0');
+    $('cinematic-progress').style.transform = `scaleX(${Math.min(1, time / EFFECT_TIMING.impact)})`;
     if (time >= EFFECT_TIMING.reveal && activeReceipt && $('stage-outcome').hidden) showOutcome(activeReceipt, activeReceipt.visualOnly);
   } });
   await fx.init(); fx.reduced = motionQuery.matches; fxAvailable = true;

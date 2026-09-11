@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "date": "2026-09-11",
   "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "liveConnected": false,
@@ -23,12 +23,14 @@
     {
       "path": "preview/equipment-forge-v1/assets/celestial-forge-v1.png",
       "bytes": 2535372,
-      "sha256": "74fa40afe6ef5e14b07b7132afe02c0a13f53efe688894aa88652b0d32571239"
+      "sha256": "74fa40afe6ef5e14b07b7132afe02c0a13f53efe688894aa88652b0d32571239",
+      "status": "PRESERVED_V1_USER_REJECTED"
     },
     {
       "path": "preview/equipment-forge-v1/assets/protection-seal-v1.png",
       "bytes": 1431812,
-      "sha256": "4aab29f6719d40f61129016d2799166bc3a4240cc2195e1c57edc41aae9e48dd"
+      "sha256": "4aab29f6719d40f61129016d2799166bc3a4240cc2195e1c57edc41aae9e48dd",
+      "status": "PRESERVED_V1_USER_REJECTED"
     },
     {
       "path": "assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
@@ -79,6 +81,52 @@
       "path": "assets/sfx/v3-advancement-awakening-v1/immortal-advancement-v1.mp3",
       "bytes": 72236,
       "sha256": "d86b5f69e20c5d7f0527683d4f7c5980438c9dc912f75ebd006768f78b785691"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+      "bytes": 2015969,
+      "sha256": "03a6948c30a929664299a3a1bf6f919d162ebd3bf84270a8c487d535ba2d1cc1",
+      "status": "V2_USER_REVIEW_PENDING"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/protection-module-v2.png",
+      "bytes": 1418454,
+      "sha256": "8f098dfb40a9bf2e27c57d83a38128e99ff8a9f5255f00302a58de2dfd570d2c",
+      "status": "V2_USER_REVIEW_PENDING"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/success-plasma-atlas-v2.png",
+      "bytes": 2135459,
+      "sha256": "2794df75f23ef10dbad12621ae9e7a24c9fa7d0e184befff5a8979105b0cb6d2",
+      "status": "V2_USER_REVIEW_PENDING"
     }
-  ]
+  ],
+  "concept": "UPGRADE_LAB",
+  "prompts": "preview/equipment-forge-v1/PROMPTS-V2.md",
+  "revisionHistory": [
+    {
+      "version": 1,
+      "status": "USER_REJECTED",
+      "reason": "성공 연출 부실, 오래된 UI 디자인·색감·컨셉"
+    },
+    {
+      "version": 2,
+      "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING"
+    }
+  ],
+  "successAtlas": {
+    "path": "preview/equipment-forge-v1/assets/success-plasma-atlas-v2.png",
+    "width": 1254,
+    "height": 1254,
+    "columns": 4,
+    "rows": 4,
+    "frames": 16,
+    "cellWidth": 313.5,
+    "cellHeight": 313.5,
+    "blend": "add over opaque Pixi room",
+    "clock": "GSAP shared elapsed time",
+    "peakMs": 2250,
+    "resultMs": 3150,
+    "durationMs": 4800
+  }
 }

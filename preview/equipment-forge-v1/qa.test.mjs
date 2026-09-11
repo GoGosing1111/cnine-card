@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { ForgeSimulation, DEFAULT_RATES, PREVIEW_POLICY, validateRates, rollOutcome, displayedRates, canAcquireProtection, costAt } from './source/model.mjs';
+import { SUCCESS_ATLAS, successFrameAt } from './source/success-v2.mjs';
 const request = (id, roll = 0) => ({ itemId: 'demo-gold-ar', requestId: id, roll });
 const snapshot = model => JSON.stringify({ items: model.items, wallet: model.wallet, records: model.records, history: model.history });
 
@@ -103,10 +104,36 @@ test('repeated requests return the same isolated receipt without duplicate costs
 test('preview modules have no account persistence or account mutation paths', () => {
   const app = readFileSync(new URL('./source/app.mjs', import.meta.url), 'utf8');
   const fx = readFileSync(new URL('./source/fx.mjs', import.meta.url), 'utf8');
-  assert.doesNotMatch(app + fx, /\/api\/|apiRequest\(|localStorage|sessionStorage|createOscillator|createPeriodicWave/);
+  const success = readFileSync(new URL('./source/success-v2.mjs', import.meta.url), 'utf8');
+  assert.doesNotMatch(app + fx + success, /\/api\/|apiRequest\(|localStorage|sessionStorage|createOscillator|createPeriodicWave/);
   const index = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
   assert.match(index, /ui-fx-vendor-v2045\.bundle\.js/); assert.doesNotMatch(index, /cdn.*(?:pixi|gsap)/i);
   assert.match(fx, /part\.node\.position\.set/); assert.match(fx, /source\.playbackRate\.value = speed/);
+});
+
+test('authored success sequence reaches its blast at the shared impact and visits every frame in order', () => {
+  assert.equal(successFrameAt(0), 0);
+  assert.equal(successFrameAt(2.25), 4);
+  assert.equal(successFrameAt(4.8), 15);
+  const visited = new Set(); let previous = -1;
+  for (let milliseconds = 0; milliseconds <= 4800; milliseconds += 5) {
+    const frame = successFrameAt(milliseconds / 1000);
+    assert.ok(frame >= previous && frame >= 0 && frame < SUCCESS_ATLAS.frames);
+    visited.add(Math.floor(frame)); previous = frame;
+  }
+  assert.equal(visited.size, 16);
+});
+
+test('V2 authored assets match their recorded originals and actual atlas dimensions', () => {
+  const manifest = JSON.parse(readFileSync(new URL('./asset-manifest.json', import.meta.url), 'utf8'));
+  assert.equal(manifest.version, 2);
+  for (const asset of manifest.assets) {
+    const data = readFileSync(new URL('../../' + asset.path, import.meta.url));
+    assert.equal(createHash('sha256').update(data).digest('hex'), asset.sha256, asset.path);
+  }
+  const png = readFileSync(new URL('./' + SUCCESS_ATLAS.file, import.meta.url));
+  assert.equal(png.readUInt32BE(16), SUCCESS_ATLAS.width);
+  assert.equal(png.readUInt32BE(20), SUCCESS_ATLAS.height);
 });
 test('all equipment source images exist and preserved source audio hashes match provenance', () => {
   const m = new ForgeSimulation(); for (const item of m.items) assert.ok(existsSync(new URL('../..' + item.image, import.meta.url)));

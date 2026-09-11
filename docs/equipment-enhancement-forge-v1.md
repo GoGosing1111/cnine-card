@@ -28,9 +28,12 @@
 
 ## 검수 진입점
 
+2026-09-11 후속 피드백에서 V1의 성공 이펙트와 오래된 디자인·색감·컨셉이 반려됐다. 현재 같은 진입점은 **V2 Upgrade Lab**으로 교체했다. 네이비·코발트·라임 UI, 장비 카드 선택, 전용 16프레임 성공 폭발을 검수한다. V1 배경·보호권 원본은 보존하지만 표시하지 않으며, V2 역시 사용자 시각 검수 대기다. 확률과 경제는 기존 시연 모델을 유지한다.
+
 - `preview/equipment-forge-v1/index.html`: 장비 6종, 강화소/복구소, 확률표 편집, 보호권, 확인 창, 기록, 결과별 연출 시연.
 - `preview/equipment-forge-v1/source/model.mjs`: 검수 전용 메모리 모델. 실제 계정·API·DB·브라우저 보유 자산 저장과 연결하지 않는다.
 - `preview/equipment-forge-v1/source/fx.mjs`: 공유 PixiJS·GSAP UI 런타임으로 구현한 장비 강화 연출.
+- `preview/equipment-forge-v1/source/success-v2.mjs`: 전용 연속 프레임, 에너지 압축·폭발·각성 연출.
 - `preview/equipment-forge-v1/README.md`: 재생/검수 결과와 미확정 범위.
 
 ## 운영 연결 전에 남는 일

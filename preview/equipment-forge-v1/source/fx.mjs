@@ -1,3 +1,4 @@
+import { SuccessCinematic } from './success-v2.mjs';
 const { pixi: { Application, Assets, Container, Graphics, Sprite } = {}, gsap } = globalThis.CNineUiFxVendor || {};
 const TAU = Math.PI * 2;
 const clamp = n => Math.max(0, Math.min(1, n));
@@ -7,7 +8,7 @@ const easeOut = n => 1 - (1 - clamp(n)) ** 3;
 export const EFFECT_TIMING = Object.freeze({ charge: 1.5, impact: 2.25, reveal: 3.15, duration: 4.8 });
 const AUDIO_ROOT = '/assets/sfx/v3-advancement-awakening-v1/';
 export const SOUND_CUES = Object.freeze({
-  success: { file: 'riposte-advancement-v1.mp3', sync: .300, gain: .34 },
+  success: { file: 'riposte-advancement-v1.mp3', sync: .300, gain: .48 },
   maintain: { file: 'afterimage-advancement-v1.mp3', sync: .178, gain: .16 },
   destroy: { file: 'shatter-advancement-v1.mp3', sync: .250, gain: .34 },
   protected: { file: 'immortal-advancement-v1.mp3', sync: .333, gain: .32 },
@@ -78,22 +79,45 @@ export class ForgeFX {
     this.host.appendChild(this.app.canvas);
     this.app.ticker.maxFPS = 60;
     this.root = new Container();
+    // Additive plasma must blend against the room inside WebGL. A transparent canvas
+    // above a CSS room would accumulate the atlas's dark alpha as a black rectangle.
+    this.room = new Container(); this.roomFill = new Graphics(); this.roomSprite = new Sprite(); this.roomSprite.anchor.set(.5); this.roomSprite.alpha = .75;
+    this.roomShade = new Graphics(); this.roomDark = new Graphics();
+    this.room.addChild(this.roomFill, this.roomSprite, this.roomShade, this.roomDark);
     this.back = new Graphics(); this.weapon = new Sprite(); this.weapon.anchor.set(.5);
     this.fragmentLayer = new Container(); this.front = new Graphics();
-    this.root.addChild(this.back, this.weapon, this.fragmentLayer, this.front);
-    this.app.stage.addChild(this.root);
+    this.success = new SuccessCinematic();
+    this.root.addChild(this.back, this.success.layer, this.weapon, this.fragmentLayer, this.success.flash, this.front);
+    this.app.stage.addChild(this.room, this.root);
     this.draw = () => this.render();
     this.app.ticker.add(this.draw);
     this.ambientTimeline = gsap.to(this.ambient, { time: 120, duration: 120, repeat: -1, ease: 'none' });
     this.resize = new ResizeObserver(() => this.layout()); this.resize.observe(this.host);
     this.layout();
+    const [roomTexture] = await Promise.all([Assets.load(new URL('../assets/upgrade-lab-v2.png', import.meta.url).href), this.success.init()]);
+    if (this.destroyed) return this;
+    this.roomTexture = roomTexture; this.roomSprite.texture = roomTexture; this.layout();
+    this.host.closest('.forge-stage').classList.add('renderer-ready');
     return this;
   }
   layout() {
     if (!this.app?.renderer) return;
     const { width, height } = this.host.getBoundingClientRect();
     this.w = width; this.h = height;
-    this.center = { x: width / 2, y: height * .465 };
+    this.roomFill.clear().rect(0, 0, width, height).fill(0x0d152b);
+    if (this.roomTexture) {
+      const scale = Math.max(width / this.roomTexture.width, height / this.roomTexture.height);
+      this.roomSprite.scale.set(scale); this.roomSprite.position.set(width / 2, height / 2);
+    }
+    this.roomShade.clear();
+    const stops = [[0, .86], [.27, .15], [.51, 0], [.7, .3], [1, 1]];
+    for (let i = 0; i < 128; i++) {
+      const y = (i + .5) / 128, end = stops.findIndex(stop => stop[0] >= y);
+      const [a, b] = [stops[end - 1], stops[end]], mix = (y - a[0]) / (b[0] - a[0]);
+      this.roomShade.rect(0, i / 128 * height, width, height / 128).fill({ color: 0x090f25, alpha: a[1] + (b[1] - a[1]) * mix });
+    }
+    this.roomDark.clear().rect(0, 0, width, height).fill(0x020510); this.roomDark.alpha = 0;
+    this.center = { x: width / 2, y: height * .445 };
     this.root.position.set(this.center.x, this.center.y);
     this.weaponWidth = Math.min(width * .83, 640);
     if (this.texture) { this.weapon.width = this.weaponWidth; this.weapon.height = this.weaponWidth * this.texture.height / this.texture.width; }
@@ -179,24 +203,27 @@ export class ForgeFX {
   render() {
     if (!this.back || !this.w) return;
     const b = this.back, f = this.front; b.clear(); f.clear();
+    if (this.kind !== 'success' || this.reduced) this.success?.hide();
+    this.root.position.set(this.center.x, this.center.y);
     const idle = this.reduced ? 0 : this.ambient.time, t = this.clock.time;
     const hit = EFFECT_TIMING.impact, post = t - hit, kind = this.kind;
+    this.roomDark.alpha = kind === 'success' && !this.reduced ? clamp((t - 1.2) / 1.05) * .5 * (1 - clamp(post / .28)) : 0;
     const charge = kind && t < hit ? clamp(t / hit) : 0;
     const restore = kind === 'restore', destroyed = kind === 'destroy', protectedItem = kind === 'protected';
-    const color = restore ? 0xa9d4df : protectedItem ? 0xa6d6b8 : destroyed ? 0xe48961 : 0xe6c484;
+    const color = restore ? 0x9fcaff : protectedItem ? 0x7af3b7 : destroyed ? 0xff718d : 0x9bbaff;
     const size = Math.min(this.w * .3, 180), floorY = this.h * .253;
     this.weapon.alpha = 1; this.weapon.tint = 0xffffff; this.weapon.rotation = -.095;
+    this.weapon.width = this.weaponWidth; this.weapon.height = this.weaponHeight;
     this.weapon.y = this.reduced || kind ? 0 : Math.sin(idle * 1.3) * 4;
     this.weapon.x = 0; this.weapon.visible = !!this.texture; this.fragmentLayer.visible = false;
     if (!this.texture) return;
     // Subtle layered lighting and floating embers. No random values are sampled during playback.
-    for (let j = 7; j > 0; j--) b.ellipse(0, floorY, size * (1 + j * .06), 15 + j * 2).fill({ color: 0xd9a45d, alpha: .006 * (8 - j) });
-    b.ellipse(0, floorY, size * 1.18, 20).stroke({ color: 0xc9a26b, width: .7, alpha: .23 });
+    for (let j = 7; j > 0; j--) b.ellipse(0, floorY, size * (1 + j * .06), 15 + j * 2).fill({ color: 0x6193ff, alpha: .009 * (8 - j) });
     if (!this.reduced) for (let i = 0; i < 42; i++) {
       const x = (random(i + 800) - .5) * this.w * 1.08 + Math.sin(idle * .3 + i) * 7;
       const y = this.h * .35 - fract(random(i + 900) + (kind ? t : idle) * (.025 + random(i + 990) * .03)) * this.h * .65;
       const a = (Math.sin(idle + i) + 1) * .11 + .06;
-      b.circle(x, y, .6 + random(i + 700) * .8).fill({ color: 0xeec58c, alpha: a });
+      b.circle(x, y, .6 + random(i + 700) * .8).fill({ color: i % 7 === 0 ? 0xc7ff84 : 0x8aafff, alpha: a });
     }
     if (!kind) return;
     if (this.reduced) {
@@ -204,6 +231,7 @@ export class ForgeFX {
       if (protectedItem || restore) b.ellipse(0, 0, size * 1.3, size * .7).stroke({ color, alpha: .28, width: 1 });
       return;
     }
+    if (kind === 'success') { this.success.render(this, t, hit); return; }
     if (charge > 0) {
       const intensity = Math.sin(charge * Math.PI * .65);
       for (let j = 9; j > 0; j--) b.ellipse(0, 0, size * (1 + j * .06), size * (.44 + j * .04)).fill({ color, alpha: intensity * .009 });
@@ -227,7 +255,7 @@ export class ForgeFX {
         const pressure = (t - 1.5) / .75;
         this.weapon.x = Math.sin(t * 72) * pressure * 1.4;
         this.weapon.y = Math.cos(t * 68) * pressure;
-        this.weapon.tint = protectedItem ? 0xe0ffe8 : 0xffeed0;
+        this.weapon.tint = protectedItem ? 0xe0ffe8 : 0xdfeaff;
         f.ellipse(0, 0, size * .8 * (1 - pressure), 50 * (1 - pressure)).stroke({ color, width: 1.7, alpha: pressure * .65 });
       }
     }
@@ -311,5 +339,5 @@ export class ForgeFX {
     for (let i = 5; i > 0; i--) f.ellipse(0, 0, size * (.6 + i * .12), size * (.18 + i * .07)).fill({ color: 0xfff0ce, alpha: flash * .025 });
   }
   suspend(value) { if (value) { this.app?.ticker.stop(); this.ambientTimeline?.pause(); if (this.running) this.pause(true); } else { this.app?.ticker.start(); if (!this.running && !this.kind) this.ambientTimeline?.resume(); } }
-  destroy() { this.destroyed = true; this.loadGeneration++; this.cancel(); this.sound.destroy(); this.ambientTimeline?.kill(); this.resize?.disconnect(); this.app?.ticker?.remove(this.draw); this.app?.destroy(true, { children: true, texture: false, textureSource: false }); }
+  destroy() { this.destroyed = true; this.loadGeneration++; this.cancel(); this.sound.destroy(); this.ambientTimeline?.kill(); this.resize?.disconnect(); this.app?.ticker?.remove(this.draw); this.app?.destroy(true, { children: true, texture: false, textureSource: false }); this.success?.destroy(); }
 }
