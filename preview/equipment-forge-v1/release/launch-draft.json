@@ -5,6 +5,13 @@
   "policyRevision": null,
   "policyApproved": false,
   "activationRequested": false,
+  "releaseGroup": {
+    "id": "V3_MERCENARY_EQUIPMENT_20260912",
+    "mode": "SIMULTANEOUS_RELEASE_ONLY",
+    "components": ["V3_OVERHAUL", "MERCENARY_RELEASE", "EQUIPMENT_FORGE"],
+    "standaloneReleaseAllowed": false,
+    "record": "docs/v3-mercenary-equipment-joint-release-20260912.md"
+  },
   "fixedRules": {
     "outcomes": ["success", "maintain", "destroy"],
     "minimumSuccessPercent": 10,
