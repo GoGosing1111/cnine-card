@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.27.0-wish-lamp';
+  const VERSION = '2083-clan-prison-camp';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -86,7 +86,7 @@
     crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'wishLamp']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
-    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['treasury', 'soopketland', 'prison']) })
+    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['treasury', 'soopketland', 'prison', 'prisoncamp']) })
   });
   const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market', 'administration']);
   const HUB_GROUPS = Object.freeze({
@@ -134,7 +134,8 @@
     inventory: Object.freeze({ title: '인벤토리', group: 'store', icon: 'inventory' }),
     soopketland: Object.freeze({ title: '숲켓랜드', group: 'administration', icon: 'gift' }),
     treasury: Object.freeze({ title: '세금징수', group: 'administration', icon: 'treasury' }),
-    prison: Object.freeze({ title: '감옥', group: 'administration', icon: 'prison' })
+    prison: Object.freeze({ title: '감옥', group: 'administration', icon: 'prison' }),
+    prisoncamp: Object.freeze({ title: '포로수용소', group: 'administration', icon: 'prison' })
   });
   const NAVIGATION_CONTRACT = Object.freeze({
     version: '1.0.0',

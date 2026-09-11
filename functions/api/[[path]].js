@@ -24,6 +24,8 @@ import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,shopTaxStatements } from '../_administration_treasury.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
+import { clanCampStatusForUser,handleClanPrisonCamp } from '../_clan_prison_camp.js';
+import { reconcileClanCampSeason } from '../_clan.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
 import { handleSuperstarDuplicateAudit } from '../_superstar_duplicate_audit.js';
@@ -4782,6 +4784,7 @@ function prisonPublicStatus(row){
 }
 async function prisonStatusForUser(env,userId){
   await ensurePrisonFoundation(env);
+  await reconcileClanCampSeason(env);
   const row=await env.DB.prepare(`SELECT p.*,a.nickname AS jailed_by_nickname
     FROM user_prison_status p LEFT JOIN users a ON a.id=p.jailed_by WHERE p.user_id=?`).bind(userId).first();
   const status=prisonPublicStatus(row);
@@ -4793,7 +4796,7 @@ async function prisonStatusForUser(env,userId){
       closePrisonReleaseCaseStatement(env,{inmateUserId:userId,status:'SENTENCE_EXPIRED'})
     ]);
   }
-  return status;
+  return status.incarcerated?status:await clanCampStatusForUser(env,userId);
 }
 async function clearPrisonChatIfEmpty(env){
   return env.DB.prepare(`DELETE FROM prison_chat_messages WHERE NOT EXISTS (
@@ -5046,6 +5049,17 @@ async function handleRequest(context){
       if(!operator)return json({error:'관리자 로그인이 필요합니다.'},401);
       const access=await adminPermissionProfile(env,operator);
       if(!restrictedAdminPathAllowed(path,access))return json({error:'ADMIN 계정은 승부예측 관리만 사용할 수 있습니다.',code:'ADMIN_PERMISSION_RESTRICTED'},403);
+    }
+
+    const clanCampResponse=await handleClanPrisonCamp({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser}});if(clanCampResponse)return clanCampResponse;
+
+    // The disciplinary prison has its own chat, bail and combat exemptions. Camp captives stay in their facility.
+    if(['prison/chat','prison/release-price','prison/fund','prison/hit'].includes(path)){
+      const current=await authenticate(request,env);
+      if(current){
+        const prison=await prisonStatusForUser(env,current.id);
+        if(prison.incarcerated&&prison.facility==='CLAN_CAMP')return json({error:'포로수용소 수감 중에는 수용소 채팅만 이용할 수 있습니다.',code:'USER_INCARCERATED',prison},423);
+      }
     }
 
     if(path==='prison/status'&&request.method==='GET'){
