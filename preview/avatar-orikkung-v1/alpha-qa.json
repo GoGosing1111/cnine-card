@@ -1,0 +1,69 @@
+{
+  "sourceSha256": "16874949373D634EDF6EB45EDA14AA1B0A95D096ACB4968947E77D1C9854F20E",
+  "outputSha256": "D091E954B72421645B5C65DE3046453FC5816A78D8C6FCF1A8996350EC88BA12",
+  "width": 1024,
+  "height": 1536,
+  "hasAlpha": true,
+  "transparent": 1213444,
+  "opaque": 348336,
+  "partial": 11084,
+  "connectedRemoved": 1211317,
+  "mattePixels": 7071,
+  "opaqueRgbChanged": 0,
+  "bounds": {
+    "left": 278,
+    "top": 8,
+    "right": 784,
+    "bottom": 1519
+  },
+  "enclosedSeeds": [
+    [
+      363,
+      550
+    ],
+    [
+      452,
+      274
+    ],
+    [
+      600,
+      510
+    ],
+    [
+      613,
+      570
+    ],
+    [
+      452,
+      18
+    ],
+    [
+      606,
+      53
+    ],
+    [
+      475,
+      84
+    ],
+    [
+      430,
+      259
+    ],
+    [
+      752,
+      850
+    ],
+    [
+      584,
+      286
+    ],
+    [
+      583,
+      94
+    ],
+    [
+      496,
+      1200
+    ]
+  ]
+}

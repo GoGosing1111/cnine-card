@@ -1,0 +1,243 @@
+{
+  "format": "SOOPKETMON_AVATAR_ART_DRAFT_V1",
+  "name": "오리꿍",
+  "code": "ORIKKUNG_ZENITH",
+  "date": "2026-09-11",
+  "status": "LOCAL_PREVIEW_READY_USER_REVIEW_PENDING",
+  "scope": "LOCAL_AVATAR_ART",
+  "runtimeConnected": false,
+  "catalogRegistered": false,
+  "publicEnabled": false,
+  "saleEnabled": false,
+  "effectConfigured": false,
+  "grantIssued": false,
+  "originalReferencesModified": false,
+  "sourceReference": {
+    "cardId": "CN-B5718BF375CA42C8",
+    "rarity": "ZENITH",
+    "file": "assets/cards/1412312312312.jpg",
+    "sha256": "B8B7A55CB3930748B8B4BF8295C6C1723EBCCF1A049AF49A558FA7CE4A8F280E",
+    "role": "FACE_HAIR_COSTUME_IDENTITY"
+  },
+  "generation": {
+    "mode": "BUILT_IN_IMAGE_GEN",
+    "apiCliFallbackUsed": false,
+    "codeImageEditingUsed": true,
+    "codeImageEditingScope": "USER_APPROVED_BACKGROUND_REMOVAL_ONLY",
+    "codeImageEditingApproval": "배경만 코드로 제거 (권장)",
+    "promptRecord": "prompt.md",
+    "backgroundMaskScript": "segment-equipment-background.py",
+    "backgroundMattingScript": "remove-equipment-background.cjs"
+  },
+  "assets": [
+    {
+      "kind": "lobby",
+      "file": "assets/avatar-orikkung-lobby-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 3,
+      "hasAlpha": false,
+      "bytes": 2146751,
+      "sha256": "42561FF4F33831E197FB87D8E30D8D3DF9A270DFC9FE9C5E8EA526D12CCAD6DD"
+    },
+    {
+      "kind": "equipment",
+      "file": "assets/avatar-orikkung-equipment-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 947351,
+      "sha256": "D091E954B72421645B5C65DE3046453FC5816A78D8C6FCF1A8996350EC88BA12"
+    },
+    {
+      "kind": "equipment_draft",
+      "file": "assets/avatar-orikkung-equipment-draft-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 3,
+      "hasAlpha": false,
+      "bytes": 2326968,
+      "sha256": "16874949373D634EDF6EB45EDA14AA1B0A95D096ACB4968947E77D1C9854F20E"
+    },
+    {
+      "kind": "background_mask",
+      "file": "assets/equipment-background-mask-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 1,
+      "hasAlpha": false,
+      "bytes": 11616,
+      "sha256": "028601BAE8830EE5023D200385631542B30522131E31A9E8D292890BEF60E8DE"
+    }
+  ],
+  "responsive": [
+    {
+      "kind": "lobby",
+      "file": "assets/avatar-orikkung-lobby-v1-1024.webp",
+      "width": 1024,
+      "height": 1536,
+      "channels": 3,
+      "hasAlpha": false,
+      "bytes": 186396,
+      "sha256": "B850FB34AF00B6BC7D6C7CFDB0B616FF9E339FD1EB06D2444DFAAD11B3DB6A86"
+    },
+    {
+      "kind": "lobby",
+      "file": "assets/avatar-orikkung-lobby-v1-640.webp",
+      "width": 640,
+      "height": 960,
+      "channels": 3,
+      "hasAlpha": false,
+      "bytes": 99272,
+      "sha256": "BB27346040C81EC023CD7D8B9F184E8D6A29AB6760D60FDFB33F7696B88A39FC"
+    },
+    {
+      "kind": "equipment",
+      "file": "assets/avatar-orikkung-equipment-v1-640.webp",
+      "width": 640,
+      "height": 960,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 73018,
+      "sha256": "CA7D95316B0446F07850FC56F9874B8493468174F1A264A3939E0BC857B29723"
+    }
+  ],
+  "alphaQa": {
+    "sourceSha256": "16874949373D634EDF6EB45EDA14AA1B0A95D096ACB4968947E77D1C9854F20E",
+    "outputSha256": "D091E954B72421645B5C65DE3046453FC5816A78D8C6FCF1A8996350EC88BA12",
+    "width": 1024,
+    "height": 1536,
+    "hasAlpha": true,
+    "transparent": 1213444,
+    "opaque": 348336,
+    "partial": 11084,
+    "connectedRemoved": 1211317,
+    "mattePixels": 7071,
+    "opaqueRgbChanged": 0,
+    "bounds": {
+      "left": 278,
+      "top": 8,
+      "right": 784,
+      "bottom": 1519
+    },
+    "enclosedSeeds": [
+      [
+        363,
+        550
+      ],
+      [
+        452,
+        274
+      ],
+      [
+        600,
+        510
+      ],
+      [
+        613,
+        570
+      ],
+      [
+        452,
+        18
+      ],
+      [
+        606,
+        53
+      ],
+      [
+        475,
+        84
+      ],
+      [
+        430,
+        259
+      ],
+      [
+        752,
+        850
+      ],
+      [
+        584,
+        286
+      ],
+      [
+        583,
+        94
+      ],
+      [
+        496,
+        1200
+      ]
+    ],
+    "backgroundOnly": true,
+    "gapAnchors": [
+      [
+        363,
+        550
+      ],
+      [
+        600,
+        510
+      ],
+      [
+        752,
+        850
+      ],
+      [
+        496,
+        1200
+      ]
+    ],
+    "opaqueCharacterAnchors": [
+      [
+        500,
+        250
+      ],
+      [
+        479,
+        188
+      ],
+      [
+        450,
+        432
+      ],
+      [
+        469,
+        520
+      ],
+      [
+        430,
+        680
+      ],
+      [
+        338,
+        1410
+      ],
+      [
+        545,
+        1460
+      ]
+    ]
+  },
+  "validation": {
+    "sourceReferenceUnmodified": true,
+    "lobbyNativeOutputUnmodified": true,
+    "realAlphaVerified": true,
+    "allOuterEdgesTransparent": true,
+    "opaqueRgbChanged": 0,
+    "previewUsesFinalAssetsOnly": true,
+    "gameApiCalls": false,
+    "browser": {
+      "url": "http://127.0.0.1:8894/preview/avatar-orikkung-v1/",
+      "imagesLoaded": true,
+      "horizontalOverflow": false,
+      "darkLightControlsVerified": true,
+      "temporaryViewportOverride": false
+    }
+  },
+  "pending": [
+    "USER_ART_REVIEW"
+  ]
+}
