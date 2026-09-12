@@ -523,6 +523,12 @@
   globalThis.cnineCardCatalog = () => deck.map(card => ({ ...card }));
   globalThis.CNineCoreRaidBridge = {
     apiRequest,
+    createMechanicFixture() {
+      reset();
+      syncRoom(makeRoom(true));
+      state.current.status = 'CORE';
+      return battlePayload('BREAK');
+    },
     loadUser: () => ({ id: 1, nickname: '프리뷰 지휘관' }),
     saveUser: () => {},
     ensureFeatureResources: async () => true,
