@@ -24,18 +24,18 @@
     renderer?.destroy();
     window.cnineCardCatalog = () => payload.cards;
     const modal = document.getElementById('scrapyard-modal');
-    const prepared = ProjectVBattleV3Live.prepareLoading({modal, mode: 'HUNT',
-      playerName: '폐차장 회수대', opponentName: '외곽 방어대', autoText: '연속 교전 검수'});
+    const prepared = ProjectVBattleV3Live.prepareLoading({modal, mode: payload.battlefieldMode || 'HUNT',
+      playerName: payload.playerName || '폐차장 회수대', opponentName: payload.opponentName || '외곽 방어대', autoText: '연속 교전 검수'});
     // Remove only the generic forest CSS backdrop behind the Pixi canvas.
     // Formation, card dock, grade frames and all renderer CSS stay untouched.
     prepared.stage.querySelector('.battle-v3-canvas-host').style.backgroundImage = 'none';
     const nextRenderer = await ProjectVBattleV3Live.createRenderer({...prepared, modal, data: payload,
-      mode: 'HUNT', playerName: '폐차장 회수대', playUltimateCinematics: false});
+      mode: payload.battlefieldMode || 'HUNT', playerName: payload.playerName || '폐차장 회수대', playUltimateCinematics: false});
     if (token !== epoch || disposed) {nextRenderer.destroy(); return false;}
     renderer = nextRenderer;
     engine.previewSpeed = speed;
-    prepared.stage.querySelector('.battle-v3-header strong').textContent = '폐차장 회수 작전';
-    prepared.stage.querySelector('#battlePhase').textContent = 'SECTOR 01';
+    prepared.stage.querySelector('.battle-v3-header strong').textContent = payload.title || '폐차장 회수 작전';
+    prepared.stage.querySelector('#battlePhase').textContent = payload.phaseLabel || 'SECTOR 01';
     await api.restoreDeployedFormation();
     return true;
   }
@@ -88,5 +88,5 @@
     diagnostics: () => ({playing, paused, pauseWanted, disposed, epoch,
       canvasCount: document.querySelectorAll('canvas').length,
       cards: document.querySelectorAll('[data-v3-roster-card]').length,
-      audioDisposed: engine?.audio?.destroyed === true, engine: api.diagnostics()})};
+      audioDisposed: engine?.audio?.destroyed === true, formation:engine?.gridDiagnostics?.(), geometry:engine?.viewportGeometry?.(), engine: api.diagnostics()})};
 })();

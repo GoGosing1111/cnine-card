@@ -85,11 +85,8 @@ function publishDiagnostics(instance=fx){
 }
 function placeMercenary(){
   if(!merc||!engine)return;
-  const position=positions.assignments.find(a=>a.code===card().code).position;
-  const grid={FRONT:[3,3],MIDDLE:[1,4],REAR:[0,4]}[position];
-  const p=engine.gridToScreen(...grid),scale=engine.perspectiveScale(.5*(engine.mobile?.84:1),p.y);
-  merc.setFormation(p.x,p.y,scale);merc.setCompactHud?.(engine.mobile);merc.root.alpha=1;merc.root.visible=true;
-  merc.root.depthSortY=p.y;engine.sortCombatDepth();
+  engine.setFormationMercenaries([merc]);
+  merc.root.alpha=1;merc.root.visible=true;engine.sortCombatDepth();
 }
 async function configure(id=selected){
   const token=++epoch;changing=true;controls(false);fx?.destroy();fx=null;selected=id;

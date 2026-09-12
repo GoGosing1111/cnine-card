@@ -177,7 +177,7 @@ async function poolEntries(env,pool){
   return entries;
 }
 
-async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
+async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards},writePoolLedger=true){
   const user=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
   if(!user)throw new Error('드랍 보상을 지급할 유저를 찾을 수 없습니다.');
   const aggregates=new Map();
@@ -202,7 +202,7 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
     if(item.type==='EQUIPMENT'){const ref=Number(item.ref),before=Number(equipmentBalances.get(ref)||0);for(let index=0;index<item.quantity;index++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'UNIFIED_DROP',?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,`${requestId}:EQ:${ref}:${index}`,ref));equipmentBalances.set(ref,before+item.quantity)}
     if(item.type==='VEHICLE')statements.push(env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,id,'UNIFIED_DROP',? FROM character_garage_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,Number(item.ref)));
   }
-  for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:type==='CARD'?cardBalances.get(String(ref)):type==='EQUIPMENT'?equipmentBalances.get(Number(ref)):inventoryBalances.get(ref);statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null))}
+  if(writePoolLedger)for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:type==='CARD'?cardBalances.get(String(ref)):type==='EQUIPMENT'?equipmentBalances.get(Number(ref)):inventoryBalances.get(ref);statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null))}
   return {statements,balances:{coin,cardShards:shards,magicCrystals:crystals,inventory:Object.fromEntries(inventoryBalances),cards:Object.fromEntries(cardBalances),equipment:Object.fromEntries(equipmentBalances)}};
 }
 
@@ -240,6 +240,54 @@ async function rewardPresentation(env,rewards,balances){
     return {...reward,rewardRef:ref,displayName:meta?.name||reward.rewardName||fallback.name||ref||type,image:meta?.image||'',rarity:meta?.rarity||fallback.rarity||(type==='VEHICLE'?'MYTHIC':'SPECIAL'),balance:balance??null,destination};
   });
 }
+
+// Staged continuous-PVE callers freeze the roll alongside their battle before
+// charging entry. These planners perform reads only; the caller owns the one
+// atomic transaction for grants, drop receipt and expedition completion.
+export async function planUnifiedDropRoll(env,{userId,requestId,sourceType,sourceId='*',triggerType='WIN',context={},role='USER'}={}) {
+  const uid=int(userId,1),rid=text(requestId,120),source=code(sourceType),sid=text(sourceId||'*',120)||'*',trigger=code(triggerType);
+  if(!uid||!rid||!source||!trigger)throw new Error('통합 드랍 판정 식별값이 부족합니다.');
+  const pools=await matchingPools(env,source,trigger,sid,role);
+  if(pools.length)context={...context,avatarDropPercent:await avatarDropIncreasePercent(env,uid)};
+  let rewards=[];
+  for(const pool of pools){
+    const entries=await poolEntries(env,pool),fixedScrapyard=source==='SCRAPYARD'&&SCRAPYARD_POOL_CODES.has(String(pool.code||''));
+    rewards.push(...rollPool(fixedScrapyard?{...pool,roll_mode:'INDEPENDENT',rolls:1,no_drop_weight:0}:pool,entries,
+      fixedScrapyard?{...context,rollsMultiplier:1}:context,seededRandom(`${uid}:${rid}:${pool.id}:${pool.config_version}`)));
+  }
+  rewards=await applyDailyLimits(env,uid,rewards);
+  return {userId:uid,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,
+    pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards};
+}
+
+export async function prepareUnifiedDropGrant(env,plan,{writePoolLedger=true}={}) {
+  // Fixed PVE rewards use a caller-owned atomic ledger instead of inventing a
+  // unified pool/entry ID. All existing drop callers retain the default ledger.
+  const grant=await grantRewards(env,plan,writePoolLedger);
+  const rewards=await rewardPresentation(env,plan.rewards,grant.balances);
+  // Recheck grant destinations inside the caller's transaction. In particular,
+  // equipment/vehicle INSERT ... SELECT must not silently insert zero rows.
+  const aggregates=new Map();
+  for(const reward of plan.rewards){
+    const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),key=`${type}:${ref}`;
+    aggregates.set(key,{type,ref,quantity:(aggregates.get(key)?.quantity||0)+Number(reward.quantity)});
+  }
+  const proofs=[];
+  for(const item of aggregates.values()){
+    const uid=plan.userId,ref=item.ref;
+    if(item.type==='INVENTORY_ITEM')proofs.push({sql:'EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)',values:[uid,ref,grant.balances.inventory[ref]]});
+    else if(item.type==='CARD')proofs.push({sql:'EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity>=?)',values:[uid,ref,grant.balances.cards[ref]]});
+    else if(item.type==='EQUIPMENT')proofs.push({sql:"(SELECT COUNT(*) FROM user_equipment_instances WHERE user_id=? AND equipment_id=? AND source_type='UNIFIED_DROP' AND source_id=?)>=?",values:[uid,Number(ref),plan.requestId,item.quantity]});
+    else if(item.type==='VEHICLE')proofs.push({sql:'EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)',values:[uid,Number(ref)]});
+    else if(['COIN','CARD_SHARDS','MAGIC_CRYSTAL'].includes(item.type)){
+      const column={COIN:'coin',CARD_SHARDS:'card_shards',MAGIC_CRYSTAL:'magic_crystals'}[item.type],balance={COIN:grant.balances.coin,CARD_SHARDS:grant.balances.cardShards,MAGIC_CRYSTAL:grant.balances.magicCrystals}[item.type];
+      proofs.push({sql:`EXISTS(SELECT 1 FROM users WHERE id=? AND ${column}>=?)`,values:[uid,balance]});
+    }else throw new Error('지원하지 않는 통합 드랍 지급 유형입니다.');
+  }
+  return {...grant,rewards,proofs};
+}
+
+export const __dropPoolTest = {FOUNDATION_SQL};
 
 export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourceId='*',triggerType='WIN',context={},role='USER'}={}){
   await ensureUnifiedDropPoolFoundation(env);

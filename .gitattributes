@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Generated Pixi WGSL templates intentionally retain end-of-line spaces.
+preview/v3-wide-grid-v1/battle.bundle.js whitespace=-blank-at-eol
+preview/cow-room-v3-v1/battle.bundle.js whitespace=-blank-at-eol

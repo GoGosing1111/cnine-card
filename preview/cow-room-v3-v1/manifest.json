@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "date": "2026-09-09",
+  "status": "LOCAL_COMBAT_QA_NO_ACCOUNT_ECONOMY",
+  "generator": "Built-in image_gen",
+  "releaseEnabled": false,
+  "pixi": "8.20.0",
+  "gsap": "3.13.0",
+  "assets": [
+    {
+      "id": "cow-warrior",
+      "path": "assets/ui/project-v/monsters/cow-room/cow-warrior-sd-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a083f7-2d71-7c32-a80f-fbb0d9f2e4f7/exec-366a6008-ff9b-4153-af91-3e51605fe83a.png",
+      "sha256": "cfc1c96d2e5100614af22fbd06d37da7650f660a8cfe3221a5eabc6296f7d251",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "hasAlpha": true,
+      "alpha": {
+        "min": 0,
+        "max": 255
+      },
+      "processing": "Generated original copied unchanged"
+    },
+    {
+      "id": "cow-king",
+      "path": "assets/ui/project-v/monsters/cow-room/cow-king-sd-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a083f7-2d71-7c32-a80f-fbb0d9f2e4f7/exec-1fcae8cf-eedb-4926-a0e5-1d55380c5e30.png",
+      "sha256": "54707fd36af749bf46437ca5911a2d1815c50b22d69c044b69cb4d8736d607c0",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "hasAlpha": true,
+      "alpha": {
+        "min": 0,
+        "max": 255
+      },
+      "processing": "Generated original copied unchanged"
+    },
+    {
+      "id": "battlefield",
+      "path": "assets/ui/project-v/battlefields/v3-cow-pasture-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a083f7-2d71-7c32-a80f-fbb0d9f2e4f7/exec-d9acc4fa-6aed-41c2-9377-653b6c642c0c.png",
+      "sha256": "ed33d5b8efbac6a90169f4547b9fa53b5847886002944a99752f99e691d3839a",
+      "width": 1672,
+      "height": 941,
+      "channels": 3,
+      "hasAlpha": false,
+      "alpha": null,
+      "processing": "Generated original copied unchanged"
+    }
+  ]
+}
