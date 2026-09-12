@@ -1,0 +1,171 @@
+{
+  "id": "diim-hanbok-2d-reference-review-20260912",
+  "photographCount": 21,
+  "illustrationCount": 2,
+  "inspectionMethod": "Viewed each of the 23 local files individually using view_image",
+  "reviewedPhotographs": [
+    {
+      "file": "assets/cards/디임/001.webp",
+      "sha256": "8596AFCE1F202A51D413BC22707A6B336D98CB504870E92ABABD6BF4CEB56D20",
+      "bytes": 51514
+    },
+    {
+      "file": "assets/cards/디임/002.webp",
+      "sha256": "B565BC09F241B35E10D7E5DA3A3F1865620ED3B2E5B5BDAD18E7A4B8F27E8088",
+      "bytes": 10644
+    },
+    {
+      "file": "assets/cards/디임/003.webp",
+      "sha256": "22B3C55845F9C2410F4723E528777C755F12D24685414A4DEE61A0DF836A5ED8",
+      "bytes": 14188
+    },
+    {
+      "file": "assets/cards/디임/004.webp",
+      "sha256": "548F6CE7FEE4257CAF9AA0E9A3DA36474A4565CE2DC26A006EE52D3CE491EB5D",
+      "bytes": 23684
+    },
+    {
+      "file": "assets/cards/디임/005.webp",
+      "sha256": "0648F53B11E8A9A51DA915514A6986422FA7FD2C678DC60A83C5EB227A12C6A8",
+      "bytes": 9854
+    },
+    {
+      "file": "assets/cards/디임/006.webp",
+      "sha256": "156814FDFE8AA17126F07888988189EF35A5C1D5F8DBD04A61201239594EF158",
+      "bytes": 10090
+    },
+    {
+      "file": "assets/cards/디임/007.webp",
+      "sha256": "6C9BA914559BEFF23343FF657568F9D8A8A2FC3611131CFE2533DE93F9FF647A",
+      "bytes": 21472
+    },
+    {
+      "file": "assets/cards/디임/008.webp",
+      "sha256": "D6ABFB5F30153260C3B72F516317B669AB5044D271B41D4CB6AD2EBCF4AEBCA9",
+      "bytes": 7468
+    },
+    {
+      "file": "assets/cards/디임/009.webp",
+      "sha256": "38822C405D5E28FED765523C5D23D1E6F871FF1808B473A079EE7AF6F3F4E962",
+      "bytes": 20794
+    },
+    {
+      "file": "assets/cards/디임/010.webp",
+      "sha256": "E24E81611F58D276DFD7DF6B8F908E430344F922378FD0FF9F8656E66B2CD3FD",
+      "bytes": 16218
+    },
+    {
+      "file": "assets/cards/디임/011.webp",
+      "sha256": "9D0A931ABF318F900B4864F177809B0FAEE9F701A55B5086E77C6900BC657489",
+      "bytes": 44436
+    },
+    {
+      "file": "assets/cards/디임/012.webp",
+      "sha256": "B3080C3B8C907428A555D138EE626F08DF90B0673781343C06E858B8DE9EE074",
+      "bytes": 19158
+    },
+    {
+      "file": "assets/cards/디임/013.webp",
+      "sha256": "1CBB0F9005C4640C93FA4BE38E52B035275603526D54ED6ABA1712F9FC682941",
+      "bytes": 6952
+    },
+    {
+      "file": "assets/cards/디임/014.webp",
+      "sha256": "2A83ECF4467ADE0644FD51CFFD68DA822F85E20544608A55551F4D90C0EF3344",
+      "bytes": 19476
+    },
+    {
+      "file": "assets/cards/디임/015.webp",
+      "sha256": "7AF32EA2EB4E541BDEE0D7122973189B88D496F96132A11425DC10D8F0270560",
+      "bytes": 9830
+    },
+    {
+      "file": "assets/cards/디임/016.webp",
+      "sha256": "604493A13F9FFEE05FACD33D9DC538933008A2C903136EA85D4A3F1B1D0317EA",
+      "bytes": 4108
+    },
+    {
+      "file": "assets/cards/디임/017.webp",
+      "sha256": "DDD27210E28AAB82FE3A19CBEDBBE82F2B0741F8D3AB13C6F238199F106ECA83",
+      "bytes": 7466
+    },
+    {
+      "file": "assets/cards/디임/018.webp",
+      "sha256": "1058242CB58F208D6B919B1C051B0D235150762E6864B71D17042D477522CA7A",
+      "bytes": 11308
+    },
+    {
+      "file": "assets/cards/디임/019.webp",
+      "sha256": "83C6458169B3185D28902B02487D64495D41B5E1758E94CA2B408A5B45BD0865",
+      "bytes": 15926
+    },
+    {
+      "file": "assets/cards/디임/020.webp",
+      "sha256": "46725337A63F0300C50CD1BEE670D3C18520C745A33982E92226390123C4560B",
+      "bytes": 16350
+    },
+    {
+      "file": "assets/cards/limited/diim.webp",
+      "sha256": "587F24B057D6C7B1F4532F0D5EBDE5A96EFF21A1C530416F4E0DD8B914183642",
+      "bytes": 29598
+    }
+  ],
+  "reviewedIllustrations": [
+    {
+      "file": "assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png",
+      "sha256": "07155FC396F73741936E45F29A608209FFF2B79A135F89B14A7E6A2AA09C7EED",
+      "bytes": 2713748
+    },
+    {
+      "file": "assets/ui/avatars-v1/equipment-drafts/avatar-f08-ember-esports-ace-v1.png",
+      "sha256": "18DE680F3BC0FB25B1918EC759257CB792DAAC88CB3219753B233EEACB61C4DB",
+      "bytes": 1604657
+    }
+  ],
+  "selectedGenerationInputsV7": [
+    {
+      "file": "assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png",
+      "sha256": "07155FC396F73741936E45F29A608209FFF2B79A135F89B14A7E6A2AA09C7EED",
+      "bytes": 2713748,
+      "inputIndex": 1,
+      "role": "primary 2D drawing style and avatar reference"
+    },
+    {
+      "file": "assets/cards/디임/001.webp",
+      "sha256": "8596AFCE1F202A51D413BC22707A6B336D98CB504870E92ABABD6BF4CEB56D20",
+      "bytes": 51514,
+      "inputIndex": 2,
+      "role": "adult facial and hair reference only"
+    },
+    {
+      "file": "assets/cards/디임/010.webp",
+      "sha256": "E24E81611F58D276DFD7DF6B8F908E430344F922378FD0FF9F8656E66B2CD3FD",
+      "bytes": 16218,
+      "inputIndex": 3,
+      "role": "adult facial and hair reference only"
+    },
+    {
+      "file": "assets/cards/디임/019.webp",
+      "sha256": "83C6458169B3185D28902B02487D64495D41B5E1758E94CA2B408A5B45BD0865",
+      "bytes": 15926,
+      "inputIndex": 4,
+      "role": "adult facial and hair reference only"
+    },
+    {
+      "file": "assets/cards/디임/006.webp",
+      "sha256": "156814FDFE8AA17126F07888988189EF35A5C1D5F8DBD04A61201239594EF158",
+      "bytes": 10090,
+      "inputIndex": 5,
+      "role": "adult facial and hair reference only"
+    }
+  ],
+  "notes": [
+    "디임 사진 001~020과 limited/diim.webp 총 21장을 확인했다.",
+    "딤우스 로비·장비 원본 2장을 별도 작화 기준으로 확인했다.",
+    "사진의 얼굴·헤어 특징은 부드러운 타원형 얼굴과 턱선, 또렷한 어두운 눈, 완만한 눈썹, 작은 코, 자연스러운 입술, 긴 검은 머리와 가벼운 앞머리로 정리했다.",
+    "선택한 대표 사진 4장만 생성 입력으로 보냈다. 모든 사진을 생성 도구에 보냈다고 보고하지 않는다.",
+    "V1~V6 한복 시안은 V7 생성 입력에서 제외했다.",
+    "전통 저고리·깃·동정·고름·치마 말기와 주름을 유지하고, 치마 길이와 재단을 현대적으로 해석한다.",
+    "V8은 V7의 얼굴·의상·체형을 유지하며 인물과 배경의 2D 채색을 통일한다."
+  ]
+}

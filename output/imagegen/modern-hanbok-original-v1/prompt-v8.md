@@ -1,0 +1,12 @@
+# Diim traditional hanbok reinterpretation V8 — built-in image_gen
+
+Use case: style-transfer, final cohesive 2D illustration finish.
+Edit the attached illustrated Korean adult game character and KEEP the existing face identity, bangs and long black hair, natural body proportions, pose, full-body framing, short ivory jeogori, white dongjeong, crimson otgoreum, short gathered crimson chima, gold floral embroidery, jade norigae, opaque coverage and shoes exactly as designed.
+
+The requested correction is DRAWING STYLE CONSISTENCY: the entire image must look deliberately hand-drawn in the same polished 2D game-illustration language as the character, including the background.
+
+Replace the current photo-like hanok background texture and optical blur with a carefully drawn 2D Korean hanok garden. Keep the broad placement of the wooden posts, tiled eaves, blossoms, rocks and courtyard, but REDRAW them using intentional clean edges, selective fine contour lines, simplified designed shapes, broad matte colour planes and painted shadows. Stone paving should be a handful of well-designed polygonal stone shapes, wood should be illustrated colour bands with sparse purposeful grain lines, foliage should be grouped graphic leaf masses, and blossoms should be clearly drawn petal shapes. No photographic camera-depth blur, real stone microtexture, photoreal leaves, photographic wood grain, or realistic lens effects. Preserve the airy daylight, calm muted background and face readability.
+
+For the character, retain the existing adult Diim-inspired facial design while finishing it with crisp expressive illustrated eye/nose/lip lines, flat clean skin colour and controlled two- or three-tone matte cel shadows. Preserve graceful high-quality hair linework and organized drawn highlights. Fabric folds must have clear painted shape design, not photographed silk shine. Keep the fine embroidery attractive but selective. Do not turn the character into a photograph, glossy 3D doll, tiny chibi, flat vector icon or rough sketch.
+The result should be a refined fully drawn 2D game character illustration with coherent background art, no realistic-photo rendering anywhere. Keep the anatomy and clothing lengths unchanged; do not slim, stretch, enlarge, change the neckline, or shorten the skirt further.
+One finished 1024 x 1536 RGB PNG. No text, watermark, frame, logo, UI, labels or comparison panels.

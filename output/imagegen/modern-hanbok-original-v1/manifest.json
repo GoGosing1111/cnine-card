@@ -3,40 +3,40 @@
   "status": "CONCEPT_USER_REVIEW_PENDING",
   "date": "2026-09-12",
   "generator": "built-in image_gen",
-  "subject": "ORIGINAL_FICTIONAL_ADULT",
-  "currentVersion": 6,
+  "subject": "DIIM_REFERENCED_ADULT_2D_AVATAR",
+  "currentVersion": 8,
   "userDirection": [
-    "딤우스의 2D 작화",
-    "과하게 넓거나 마른 체형을 피한 자연스러운 성인 비율",
-    "한국 한복의 형태를 최대한 유지",
-    "치마를 더 짧게"
+    "디임 사진 전체를 확인해 얼굴·헤어 특징 반영",
+    "딤우스 기준의 선과 색면이 분명한 2D 작화",
+    "대한민국 전통 저고리·치마 구조를 기본으로 현대적 재단과 짧은 치마 해석",
+    "과하게 넓거나 마른 체형을 피한 자연스러운 성인 비율"
   ],
   "referenceImagesSentToGenerator": [
     {
-      "file": "modern-hanbok-original-source-art-v4.png",
-      "role": "localized costume edit target; preserve fictional adult identity, healthy proportions and Korean jeogori",
-      "sha256": "B72034088002C5D799C8BE9A7C86166F9CC1E52B4818FDB61500580C765237F6"
+      "file": "modern-hanbok-diim-source-art-v7.png",
+      "role": "2D finish edit target; preserve adult face, body, pose and traditional Korean hanbok reinterpretation",
+      "sha256": "309A16329B86EC793FEDC63A7BBA2291B0B9D6A9AE2A1BEE3947868706F352B0"
     }
   ],
   "styleReference": {
     "file": "assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png",
-    "role": "2D painting and balanced silhouette only; no identity transfer",
+    "role": "primary 2D game-avatar rendering reference",
     "sha256": "07155FC396F73741936E45F29A608209FFF2B79A135F89B14A7E6A2AA09C7EED",
-    "usedInVersion": 4
+    "usedInVersion": 7
   },
-  "file": "modern-hanbok-original-source-art-v6.png",
+  "file": "modern-hanbok-diim-source-art-v8.png",
   "width": 1024,
   "height": 1536,
   "format": "PNG",
   "channels": 3,
   "colorSpace": "sRGB",
-  "sha256": "EC9CBEA59217B52EDEC363C9929D677B14E3B785EB3ECF851C35EE8BC36AF6EF",
-  "prompt": "prompt-v6.md",
+  "sha256": "2F8CA42C38EA3865BE2628E2455455EEE5B0EA828EF62EAAE7F534EEC0569BE0",
+  "prompt": "prompt-v8.md",
   "finalPromptSet": [
-    "prompt-v4.md",
-    "prompt-v6.md"
+    "prompt-v7.md",
+    "prompt-v8.md"
   ],
-  "costume": "modern Korean short chima-jeogori with attached opaque inner shorts",
+  "costume": "ivory jeogori with white dongjeong and crimson otgoreum; high-waisted short crimson gathered chima; jade norigae; embroidered kkotshin-inspired shoes",
   "history": [
     {
       "version": 1,
@@ -73,16 +73,32 @@
       "errorCode": "moderation_blocked",
       "moderationStage": "output",
       "requestId": "b542cb52-d4d7-43f0-9a39-b2bf7c4e99bc"
+    },
+    {
+      "version": 6,
+      "status": "REJECTED_REALISTIC_STYLE_AND_DIIM_REFERENCE",
+      "file": "modern-hanbok-original-source-art-v6.png",
+      "sha256": "EC9CBEA59217B52EDEC363C9929D677B14E3B785EB3ECF851C35EE8BC36AF6EF",
+      "prompt": "prompt-v6.md",
+      "subject": "ORIGINAL_FICTIONAL_ADULT"
+    },
+    {
+      "version": 7,
+      "status": "SUPERSEDED_UNIFIED_2D_BACKGROUND_FINISH",
+      "file": "modern-hanbok-diim-source-art-v7.png",
+      "sha256": "309A16329B86EC793FEDC63A7BBA2291B0B9D6A9AE2A1BEE3947868706F352B0",
+      "prompt": "prompt-v7.md"
     }
   ],
   "visualReview": {
     "status": "AGENT_REVIEW_COMPLETE_USER_REVIEW_PENDING",
     "checks": [
-      "Korean crossed collar, white dongjeong, attached sleeves and otgoreum visible",
-      "Natural body fullness restored; no further slimming in V6",
-      "Chima hem visibly raised from V4 with opaque attached shorts",
-      "Face, hands, shoes, pose and 2D painting preserved",
-      "No text, frame or UI"
+      "Diim photo traits and light bangs translated into a drawn adult face",
+      "Character and hanok background share clear 2D linework and painted colour shapes",
+      "Ivory connected jeogori, crossing white dongjeong and otgoreum visible",
+      "Traditional high-waisted gathered chima relationship retained at modern mini length",
+      "Natural adult figure and secure opaque costume; both hands and shoes visible",
+      "No text, card frame or UI"
     ]
   },
   "constructionReference": {
@@ -92,5 +108,13 @@
   },
   "originalBytesPreserved": true,
   "catalogRegistration": false,
-  "existingAvatarReplacement": false
+  "existingAvatarReplacement": false,
+  "referenceReview": {
+    "file": "diim-reference-review-v7.json",
+    "photographsIndividuallyViewed": 21,
+    "illustrationsIndividuallyViewed": 2,
+    "photographsSentInV7": 4,
+    "illustrationsSentInV7": 1,
+    "previousHanbokImagesSentInV7": 0
+  }
 }
