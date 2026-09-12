@@ -2,6 +2,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {DatabaseSync} from 'node:sqlite';
 import {jointFixture} from '../tests/helpers/joint-db.mjs';
 import {handlePveV3Ready} from '../functions/_pve_v3_routes.js';
 import {mercenaryFixture} from '../tests/helpers/mercenary-db.mjs';
@@ -12,11 +13,19 @@ import {loadMercenaryBattleSnapshot} from '../functions/_mercenary_account.js';
 import {discoverCowPortalReady} from '../functions/_cow_room_portal.js';
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.JOINT_QA_PORT||8899),hostname=`127.0.0.1:${port}`,origin=`http://${hostname}`;
 const dataDir=path.resolve(root,'../qa');fs.mkdirSync(dataDir,{recursive:true});
-const f=await jointFixture(null,{filename:path.join(dataDir,`joint-account-${Date.now()}.sqlite`)});
+const databaseFile=path.join(dataDir,`joint-account-${Date.now()}.sqlite`);
+const f=await jointFixture(null,{filename:databaseFile});
 await mercenaryFixture(null,{base:f});await forgeFixture(null,{base:f});
 f.deps.loadMercenaryBattleSnapshot=loadMercenaryBattleSnapshot;
 let forgeRoll=0;f.deps.forgeRandomInt=()=>[0,999999,600000,999999][forgeRoll++%4];
 await f.p("UPDATE character_equipment_items SET image_url='assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png' WHERE id=1").run();
+// Restart the local server with updated code while preserving the reviewer's
+// drafts and account state. The previous database remains an untouched backup.
+if(process.env.JOINT_QA_RESTORE_DATABASE){
+  const source=path.resolve(process.env.JOINT_QA_RESTORE_DATABASE);
+  if(path.dirname(source)!==dataDir||!/^joint-account-\d+\.sqlite$/.test(path.basename(source))||source===databaseFile)throw Error('Restore requires a previous local QA database');
+  f.DB.sql.close();fs.copyFileSync(source,databaseFile);f.DB.sql=new DatabaseSync(databaseFile);
+}
 const catalog=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/characters/fur/manifest-v2.json'),'utf8')).characters.slice(0,5);
 const ids=catalog.map(c=>String(c.cardId));
 f.deps.raidDeckPower=async(_env,uid,requested,mode)=>{if(requested!==null||!['PVE','TOWER'].includes(mode))throw Error('Saved deck required');return {ids,cards:catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],power:20000000,base_power:20000000,image:c.sourceArt})),power:100000000,characterBonus:{pve:0},battleSettings:{engine:{}}};};

@@ -62,7 +62,7 @@ for(const postgres of[false,true]){
     f.fail('INSERT INTO expedition_v3_progress_v1');await assert.rejects(()=>runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps),{code:'PVE_V3_RESULT_PENDING'});
     assert.equal(await f.coin(),9750000);assert.equal((await cowPortalStatus(f.env,f.user)).available,0);
     f.fail('');assert.equal((await runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps)).status,'COMPLETED');
-    assert.equal(await f.coin(),11750000);
+    assert.equal(await f.coin(),509750000);
   });
   test(`${backend}: authenticated concurrent entry cannot use one portal twice or another account's portal`,async t=>{
     const f=await jointFixture(t,{postgres});await clean(f);await grant(f,'concurrent-portal');

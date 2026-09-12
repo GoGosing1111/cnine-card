@@ -1,4 +1,10 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
+import {COW_ROOM_REWARD_COIN_LIMIT} from '../shared/cow-room-economy-v1.mjs';
+function rewardAmountHint(input){
+  const hint=document.createElement('small');hint.className='pve-v3-amount-hint';
+  const update=()=>{const amount=Number(input.value);hint.textContent=Number.isSafeInteger(amount)&&amount>=0?`${amount>=100000000?`${Number((amount/100000000).toFixed(4)).toLocaleString('ko-KR')}억`:amount>=10000?`${Number((amount/10000).toFixed(4)).toLocaleString('ko-KR')}만`:amount.toLocaleString('ko-KR')} 코인 · 최대 100억`:'0~100억 코인을 입력하세요.';};
+  input.addEventListener('input',update);update();return hint;
+}
 const names={mode:'입장 모드',rulesVersion:'전투 규칙 버전',version:'경제 정책 버전',maxTier:'준비 최고층',normalCount:'일반 수',eliteCount:'정예 수',simultaneous:'동시 등장',normalPoints:'일반 점수',elitePoints:'정예 점수',basePower:'기본 전투력',powerGrowth:'층당 전투력 배율',hpGrowth:'HP 배율',attackGrowth:'공격 배율',eliteMultiplier:'정예 배율',guardianMultiplier:'수호자 배율',maxActions:'행동 한도',forcedMonsterEvery:'적 행동 간격',combatLimitMs:'전투 제한 (ms)',autoRepeatMax:'자동 반복 한도',fastUnlockTwo:'2층 해금 비율',fastUnlockThree:'3층 해금 비율',entryCoin:'입장 코인',dailyRewardedClears:'일일 보상 성공 횟수',repeatCoinPercent:'반복 코인 비율 (%)',repeatCoinCap:'반복 코인 상한',materialCode:'부가 재료 코드',materialName:'부가 재료 이름',materialMinTier:'재료 시작층',materialEvery:'재료 지급 간격',materialQuantity:'재료 수량',materialDailyCap:'재료 일일 한도',dailyRuns:'일일 입장 횟수',dailyCoinCap:'일일 코인 상한'};
 export async function mountPveV3Cms(host){
   let data,busy=false,dirty=false;
@@ -15,9 +21,9 @@ export async function mountPveV3Cms(host){
       for(const [key,value] of Object.entries(values)){if(!Object.hasOwn(names,key))continue;const label=document.createElement('label'),name=document.createElement('span');name.textContent=names[key];let input;
         if(key==='mode'){input=document.createElement('select');for(const mode of ['OFF','TEST']){const option=document.createElement('option');option.value=mode;option.textContent=mode==='OFF'?'OFF · 입장 중지':'TEST · OWNER 검수';input.append(option);}}
         else{input=document.createElement('input');input.type=typeof value==='number'?'number':'text';if(input.type==='number'){input.min='0';input.step='any';}else input.maxLength=100;}
-        input.name=section+'.'+key;input.value=String(value);if(selected==='TOWER'&&key==='entryCoin'){input.readOnly=true;input.max='0';name.textContent='입장 코인 · 무료 고정';}label.append(name,input);fieldset.append(label);
+        input.name=section+'.'+key;input.value=String(value);if(selected==='TOWER'&&key==='entryCoin'){input.readOnly=true;input.max='0';name.textContent='입장 코인 · 무료 고정';}label.append(name,input);if(selected==='COW_ROOM'&&key==='dailyCoinCap'){input.max=String(COW_ROOM_REWARD_COIN_LIMIT);input.step='1';label.append(rewardAmountHint(input));}fieldset.append(label);
       }
-      if(selected==='COW_ROOM'){const label=document.createElement('label'),name=document.createElement('span'),input=document.createElement('input');name.textContent='카우 킹 돌파 코인';input.type='number';input.min='0';input.max='20000000';input.name='economy.clearCoin.0';input.value=String(values.clearCoin[0]);label.append(name,input);fieldset.append(label);}
+      if(selected==='COW_ROOM'){const label=document.createElement('label'),name=document.createElement('span'),input=document.createElement('input');name.textContent='카우 킹 돌파 코인';input.type='number';input.min='0';input.max=String(COW_ROOM_REWARD_COIN_LIMIT);input.step='1';input.name='economy.clearCoin.0';input.value=String(values.clearCoin[0]);label.append(name,input,rewardAmountHint(input));fieldset.append(label);}
       form.append(fieldset);
     }form.append(buttons);save.disabled=busy;
   }

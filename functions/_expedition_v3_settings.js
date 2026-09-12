@@ -1,8 +1,9 @@
 import {readJointReleaseComponent} from './_joint_release_document.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {jointError} from './_joint_request.js';
+import {COW_ROOM_REWARD_COIN_LIMIT} from '../shared/cow-room-economy-v1.mjs';
 export const EXPEDITION_V3_DRAFTS=Object.freeze({
-  COW_ROOM:{revision:0,version:'cow-economy-draft-20260913',mode:'OFF',approved:false,entryCoin:250000,dailyRuns:3,dailyCoinCap:6000000,clearCoin:[2000000]}
+  COW_ROOM:{revision:0,version:'cow-economy-v2-20260913',mode:'OFF',approved:false,entryCoin:250000,dailyRuns:6,dailyCoinCap:3000000000,clearCoin:[500000000]}
 });
 export function validateExpeditionPolicy(content,value){
   if(!Object.hasOwn(EXPEDITION_V3_DRAFTS,content))throw jointError('PVE_V3_CONTENT','콘텐츠를 확인하세요.');
@@ -10,8 +11,8 @@ export function validateExpeditionPolicy(content,value){
   if(!value||Object.keys(value).some(k=>!['revision','version','mode','approved','entryCoin','dailyRuns','dailyCoinCap','clearCoin','updatedBy','updatedAt'].includes(k))||
     !integer(value.revision,1e9)||typeof value.version!=='string'||!/^[a-zA-Z0-9._:-]{1,80}$/.test(value.version)||
     !['OFF','TEST','ON'].includes(value.mode)||typeof value.approved!=='boolean'||!integer(value.entryCoin,1e9)||
-    !integer(value.dailyRuns,200)||value.dailyRuns<1||!integer(value.dailyCoinCap,200000000)||
-    !Array.isArray(value.clearCoin)||value.clearCoin.length!==1||value.clearCoin.some(n=>!integer(n,20000000)))
+    !integer(value.dailyRuns,200)||value.dailyRuns<1||!integer(value.dailyCoinCap,COW_ROOM_REWARD_COIN_LIMIT)||
+    !Array.isArray(value.clearCoin)||value.clearCoin.length!==1||value.clearCoin.some(n=>!integer(n,COW_ROOM_REWARD_COIN_LIMIT)))
     throw jointError('PVE_V3_POLICY','입장 비용·일일 횟수·보상 상한을 확인하세요.');
   return structuredClone(value);
 }

@@ -81,15 +81,15 @@ for(const postgres of [false,true]){
     assert.equal(await f.coin(),9750000);const saved=await f.p('SELECT checkpoint_json FROM expedition_v3_runs_v1 WHERE user_id=7').first();
     await assert.rejects(()=>runExpeditionV3(f.env,f.user,'COW_ROOM',{...body,requestId:'another'},f.deps),{code:'PVE_V3_RUNNING'});
     const policy=JSON.parse(saved.checkpoint_json).policy;await f.setting('expedition_v3_cow_room',{...policy,mode:'OFF',clearCoin:[0]});f.setPower(1);f.setClock(Date.parse('2026-09-14T03:00:00Z'));f.fail('');
-    const result=await runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps);assert.equal(result.success,true);assert.equal(result.budget.day,'2026-09-13');assert.equal(await f.coin(),11750000);
-    assert.equal((await runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps)).replayed,true);assert.equal(await f.coin(),11750000);
+    const result=await runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps);assert.equal(result.success,true);assert.equal(result.budget.day,'2026-09-13');assert.equal(await f.coin(),509750000);
+    assert.equal((await runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps)).replayed,true);assert.equal(await f.coin(),509750000);
     assert.equal((await expeditionV3Result(f.env,{id:8},'COW_ROOM',body.requestId)).status,'NOT_FOUND');
   });
   test(`${db}: cow insufficient funds, capped rewards, daily limit and transaction failures cannot mint rewards`,async t=>{
     const f=await jointFixture(t,{postgres}),body=i=>({requestId:`cow-budget-${i}`,difficulty:'PASTURE'});
     await f.p('UPDATE users SET coin=10 WHERE id=7').run();await assert.rejects(()=>runExpeditionV3(f.env,f.user,'COW_ROOM',body(0),f.deps),{code:'PVE_V3_ENTRY_CONFLICT'});assert.equal(await f.coin(),10);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM expedition_v3_runs_v1').first()).n),0);
-    await f.p('UPDATE users SET coin=10000000 WHERE id=7').run();const state=await expeditionV3Status(f.env,f.user,'COW_ROOM',f.deps);await f.setting('expedition_v3_cow_room',{...state.policy,dailyCoinCap:2500000});
+    await f.p('UPDATE users SET coin=10000000 WHERE id=7').run();const state=await expeditionV3Status(f.env,f.user,'COW_ROOM',f.deps);await f.setting('expedition_v3_cow_room',{...state.policy,dailyRuns:3,dailyCoinCap:2500000});
     for(let i=1;i<=3;i++)await runExpeditionV3(f.env,f.user,'COW_ROOM',body(i),f.deps);
     assert.equal(await f.coin(),11750000);await assert.rejects(()=>runExpeditionV3(f.env,f.user,'COW_ROOM',body(4),f.deps),{code:'PVE_V3_DAILY_LIMIT'});
   });
