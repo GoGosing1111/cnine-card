@@ -1,3 +1,4 @@
+import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 const ITEM_CODE = 'BLACK_MIRACLE_PACK';
 const SETTINGS_KEY = 'black_miracle_pack_settings_v1485';
@@ -199,7 +200,8 @@ export async function rollBlackMiracleDrop(env, { userId, source, referenceId })
   const settings = await blackMiracleSettings(env); const type = String(source || '').toUpperCase(); const rule = settings.sources[type]; const ref = String(referenceId || '').slice(0, 160); if (!rule?.enabled || !ref) return null;
   const prior = await env.DB.prepare(`SELECT status,quantity FROM black_miracle_pack_drop_receipts WHERE user_id=? AND source_type=? AND reference_id=?`).bind(userId, type, ref).first();
   if (prior && prior.status !== 'PENDING') return prior.status === 'GRANTED' ? { itemCode: ITEM_CODE, name: settings.name, image: settings.image, quantity: Number(prior.quantity), reused: true } : null;
-  const won = Math.random() * 100 < rule.rate; const quantity = won ? rule.quantity : 0;
+  const dropRate = await resolveAvatarDropRate(env, userId, rule.rate);
+  const won = Math.random() * 100 < dropRate.total; const quantity = won ? rule.quantity : 0;
   const results = await env.DB.batch([
     env.DB.prepare(`INSERT OR IGNORE INTO black_miracle_pack_drop_receipts(user_id,source_type,reference_id,status,quantity) VALUES(?,?,?,'PENDING',?)`).bind(userId, type, ref, quantity),
     env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,r.quantity,r.quantity,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP FROM black_miracle_pack_drop_receipts r WHERE r.user_id=? AND r.source_type=? AND r.reference_id=? AND r.status='PENDING' AND r.quantity>0 ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId, ITEM_CODE, userId, type, ref),

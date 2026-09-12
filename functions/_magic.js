@@ -1,3 +1,4 @@
+import { resolveAvatarDropRate } from './_avatar_drop.js';
 const MAGIC_DECK_TYPES=['PVE','PVP'];
 import {loadUniqueAdvancementsForCards,uniqueAdvancementSettings} from './_unique_advancement.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
@@ -471,7 +472,7 @@ export async function resolveMagicCrystalReward(env,{userId,source,referenceId,e
   await ensureMagicRewardFoundation(env);
   source=String(source||'MAGIC_REWARD').toUpperCase().replace(/[^A-Z0-9_]/g,'_').slice(0,50);
   referenceId=String(referenceId||'').trim().slice(0,160);
-  const configuredChance=Math.max(0,Math.min(100,Number(chance)||0)),configuredAmount=integer(amount,0,0,100000000),limit=integer(dailyLimit,0,0,100000000);
+  const baseChance=Math.max(0,Math.min(100,Number(chance)||0)),configuredAmount=integer(amount,0,0,100000000),limit=integer(dailyLimit,0,0,100000000);
   if(!userId||!referenceId)return null;
   const receiptId=`${source}:${Number(userId)}:${referenceId}`.slice(0,240);
   let existing=await env.DB.prepare('SELECT status,response_json,updated_at AS updatedAt FROM magic_crystal_reward_receipts WHERE receipt_id=?').bind(receiptId).first();
@@ -481,6 +482,7 @@ export async function resolveMagicCrystalReward(env,{userId,source,referenceId,e
     if(Number.isFinite(age)&&age<45000)return {pending:true,source,amount:0,awarded:false};
     await env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='RETRYABLE',error_message='STALE_PENDING',updated_at=CURRENT_TIMESTAMP WHERE receipt_id=? AND status='PENDING'").bind(receiptId).run();
   }
+  const configuredChance=enabled&&configuredAmount>0?(await resolveAvatarDropRate(env,userId,baseChance)).total:baseChance;
   let reserved={meta:{changes:0}};
   if(existing)reserved=await env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='PENDING',configured_chance=?,configured_amount=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=? AND status IN ('RETRYABLE','FAILED')").bind(configuredChance,configuredAmount,receiptId).run();
   if(!Number(reserved?.meta?.changes||0))reserved=await env.DB.prepare("INSERT OR IGNORE INTO magic_crystal_reward_receipts(receipt_id,user_id,source,reference_id,status,configured_chance,configured_amount) VALUES(?,?,?,?,'PENDING',?,?)").bind(receiptId,userId,source,referenceId,configuredChance,configuredAmount).run();

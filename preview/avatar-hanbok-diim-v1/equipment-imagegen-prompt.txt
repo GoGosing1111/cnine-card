@@ -1,0 +1,6 @@
+Use case: background-extraction.
+Asset: transparent full-body equipment-slot avatar for the game, named 한복디임.
+Remove ONLY the background from the attached approved 2D adult character illustration. Preserve this exact character: the adult face, light bangs and long black hair, hair ornament, ivory Korean jeogori with white dongjeong and crimson collar/cuffs, otgoreum, short crimson gathered chima, floral embroidery, jade norigae, both hands, natural body proportions, pose and both embroidered shoes.
+Keep the original hand-drawn 2D painting and all character colours. Do not redesign or repaint the face, alter the body, change the neckline or skirt length, add accessories, or change the pose.
+Deliver the isolated complete character with a GENUINELY TRANSPARENT ALPHA background. Completely remove the hanok, blossoms, leaves, stone paving, landscape, detached petals and any ground shadow. Preserve delicate hair strands and clean anti-aliased garment edges. No drawn checkerboard, grey grid, white rectangle, coloured background, text, border, watermark or UI. Keep all hair and both shoes inside the canvas with a small clear margin.
+Portrait 1024 x 1536 RGBA PNG, transparent outside the character.
