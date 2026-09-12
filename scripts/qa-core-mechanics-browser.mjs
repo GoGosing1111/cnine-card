@@ -16,7 +16,7 @@ const center=async locator=>{const r=await locator.boundingBox();assert.ok(r);re
 try{
  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:1});
  const page=await context.newPage();track(page);
- await page.route('**/__qte_test__/',route=>route.fulfill({contentType:'text/html; charset=utf-8',body:`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/core-protocol-raid-v1924.css?v=2074-clan-only"><link rel="stylesheet" href="/css/raid-qte-mobile-v2085.css?v=2085"><style>body{margin:0}#stage{position:fixed;inset:0}</style><div id="stage"></div><script src="/js/project-v-raid-qte-v1924.js?v=2085-mobile-input"></script>`}));
+ await page.route('**/__qte_test__/',route=>route.fulfill({contentType:'text/html; charset=utf-8',body:`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/core-protocol-raid-v1924.css?v=2074-clan-only"><link rel="stylesheet" href="/css/raid-qte-mobile-v2085.css?v=2085"><style>body{margin:0}#stage{position:fixed;inset:0}</style><div id="stage"></div><script src="/js/project-v-raid-qte-v1924.js?v=2086-random-two"></script>`}));
  await page.goto(base+'/__qte_test__/');
  const cdp=await context.newCDPSession(page);
  const touches=(type,points)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:points.map((p,i)=>({id:p.id??i+1,x:p.x,y:p.y,radiusX:3,radiusY:3,force:1}))});

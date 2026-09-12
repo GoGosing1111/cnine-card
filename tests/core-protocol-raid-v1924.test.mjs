@@ -1,3 +1,4 @@
+import {coreTraces} from './helpers/core-mechanic-traces.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -226,7 +227,7 @@ test('V3 payload uses apocalypse tuning, ultimate, both QTEs and failure party d
   assert.equal(engineInput.bossUltimatePercent, settings.bossUltimatePercent);
   assert.equal(payload.battleV2.result.winner, 'PENDING');
   assert.equal(payload.coreRaid.serverWinner, 'A');
-  for (const type of ['TURN', 'RAID_PHASE_CHANGE', 'RAID_WEAKNESS_REVEAL', 'RAID_QTE_SEQUENCE', 'RAID_QTE_MASH', 'RAID_CORE_BREAK', 'BOSS_ULTIMATE', 'RAID_PARTY_DAMAGE']) {
+  for (const type of ['TURN', 'RAID_PHASE_CHANGE', 'RAID_WEAKNESS_REVEAL', ...challenge.mechanics.map(plan=>'RAID_QTE_'+plan.kind), 'RAID_CORE_BREAK', 'BOSS_ULTIMATE', 'RAID_PARTY_DAMAGE']) {
     assert.ok(types.includes(type), `${type} missing`);
   }
   assert.ok(payload.battleV2.result.timeline.some(event => event.type === 'BOSS_ULTIMATE' && event.qteCondition === 'ANY_FAILURE'));
@@ -329,6 +330,7 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
     writeAdminLog: async () => {}
   };
   const call = async (pathWithQuery, method = 'GET', body = null) => {
+    if (pathWithQuery.startsWith('raid/core/battle')) { if(method==='GET')pathWithQuery += '&clientMechanicVersion=2086'; else body={clientMechanicVersion:2086,...body}; }
     const path = pathWithQuery.split('?')[0];
     const request = new Request('https://example.test/api/' + pathWithQuery, {
       method,
@@ -338,16 +340,13 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
     const response = await handleRaidCoreProtocol({ path, request, env, deps });
     return { status: response.status, body: await response.json() };
   };
-  const traces = challenge => ({
-    sequence: { inputs: challenge.sequence.map((key, index) => ({ key, at: 250 + index * 300 })) },
-    mash: { presses: Array.from({ length: challenge.mashTarget }, (_, index) => 200 + index * 60) }
-  });
+  const traces = coreTraces;
   const fight = async (roomId, operation, requestSuffix, success = true) => {
     const started = await call('raid/core/battle', 'POST', { roomId, operation });
     assert.equal(started.status, 200);
     const resumed = await call('raid/core/battle?roomId=' + encodeURIComponent(roomId));
     assert.equal(resumed.body.attemptId, started.body.attemptId, 'resume must return the same pending attempt');
-    const results = success ? traces(started.body.challenge) : { sequence: { inputs: [] }, mash: { presses: [] } };
+    const results = coreTraces(started.body.challenge, success);
     const resolved = await call('raid/core/resolve', 'POST', { roomId, attemptId: started.body.attemptId, requestId: 'RESOLVE-' + requestSuffix, results });
     assert.equal(resolved.status, 200);
     return resolved.body;
@@ -404,7 +403,10 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
       failed.current.partyHp - configured.body.settings.coreImbalanceDamage
     );
 
-    for (const [index, operation] of ['BLOCK', 'STABILIZE', 'BLOCK', 'STABILIZE', 'BREAK'].entries()) {
+    for (let index=0;index<15;index++) {
+      const current = (await call('raid/core/status?roomId=' + encodeURIComponent(roomId))).body.current;
+      if(current.status==='BOSS')break;
+      const operation = current.coreBalance.recommendedOperations[0];
       const resolved = await fight(roomId, operation, operation + '-BALANCE-' + index);
       assert.equal(
         resolved.outcome.success,
@@ -508,17 +510,17 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   assert.match(app, /CNineCoreRaidBridge/);
   assert.match(api, /handleRaidCoreProtocol/);
   assert.match(api, /CORE_RAID_ENTRY_TICKET/);
-  assert.match(bridge, /RAID_QTE_SEQUENCE/);
-  assert.match(bridge, /RAID_QTE_MASH/);
+  assert.match(bridge, /type\.startsWith\('RAID_QTE_'\)/);
+  assert.match(bridge, /expectedQtes/);
   assert.match(bridge, /getInteractiveResults/);
   assert.match(qte, /addEventListener\('keydown'/);
   assert.match(qte, /addEventListener\('pointerdown'/);
   assert.match(qte, /swipeStart/);
   assert.match(qte, /data-qte-dir/);
   assert.match(index, /core-protocol-raid-v1924\.css\?v=2074-clan-only/);
-  assert.match(index, /project-v-raid-qte-v1924\.js\?v=2085-mobile-input/);
+  assert.match(index, /project-v-raid-qte-v1924\.js\?v=2086-random-two/);
   assert.match(index, /raid-qte-mobile-v2085\.css\?v=2085/);
-  assert.match(index, /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
+  assert.match(index, /core-protocol-raid-v1924\.js\?v=2086-random-two/);
   assert.match(adminIndex, /admin-v1276\.js\?v=2050-verified-coin-50eok/);
   assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=2070-fixed-power/);
   assert.match(coreAdmin, /coreRaidBalanceTolerance/);

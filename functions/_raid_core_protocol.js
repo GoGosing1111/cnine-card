@@ -1,3 +1,4 @@
+import {CORE_MECHANIC_VERSION,createCoreMechanicPlans,coreMechanicPlans,coreMechanicEvents,verifyScreenMechanic,MECHANIC_NAMES} from '../shared/core-raid-mechanics-v2086.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 // 붕괴 코어 레이드는 라이브 월드 레이드와 분리된 방 기반 협동 콘텐츠다.
 // PROJECT V V3는 전투 표현만 담당하며 방 상태, 기믹 판정과 보상은 서버가 확정한다.
@@ -269,6 +270,8 @@ export function createCoreRaidChallenge({
   );
   const mashTarget = cfg.mashTarget + (seed % 3) - 1;
   return {
+    mechanicVersion: CORE_MECHANIC_VERSION,
+    mechanics: createCoreMechanicPlans(seed, cfg),
     challengeId: 'QTE-' + seed.toString(16).padStart(8, '0'),
     seed,
     weaknessCycle,
@@ -308,7 +311,7 @@ function normalizeTrace(rows = [], windowMs = 10000, max = 160) {
   });
 }
 
-export function evaluateCoreRaidQte(challenge = {}, rawResults = {}) {
+function evaluateLegacyCoreRaidQte(challenge = {}, rawResults = {}) {
   const sequenceWindowMs = integer(challenge.sequenceWindowMs, 5500, 1000, 20000);
   const mashWindowMs = integer(challenge.mashWindowMs, 5000, 1000, 20000);
   const expected = (Array.isArray(challenge.sequence) ? challenge.sequence : [])
@@ -379,6 +382,58 @@ export function evaluateCoreRaidQte(challenge = {}, rawResults = {}) {
   };
 }
 
+// Missing/cancelled input is an interrupted attempt, never a combat loss.
+function legacyInputValid(kind, plan, result, verdict) {
+  if (!result || result.cancelled || !Number.isSafeInteger(result.durationMs) || result.durationMs < 0 || result.durationMs > plan.windowMs) return false;
+  const rows = kind === 'SEQUENCE' ? result.inputs : result.presses;
+  if (!Array.isArray(rows) || rows.length > (kind === 'SEQUENCE' ? 64 : 180)) return false;
+  let previous = -1;
+  for (const row of rows) {
+    const at = typeof row === 'number' ? row : row?.at;
+    if (!Number.isSafeInteger(at) || at < previous || at < 0 || at > result.durationMs || (kind === 'SEQUENCE' && !normalizeDirection(row?.key))) return false;
+    previous = at;
+  }
+  return verdict.success || result.durationMs === plan.windowMs;
+}
+
+export function validCoreRaidSubmission(challenge = {}, rawResults = {}) {
+  const plans = coreMechanicPlans(challenge);
+  if (plans.length !== 2) return false;
+  const legacy = evaluateLegacyCoreRaidQte(challenge, challenge.mechanicVersion ? {
+    sequence: rawResults.mechanics?.SEQUENCE, mash: rawResults.mechanics?.MASH
+  } : rawResults);
+  return plans.every(plan => {
+    const result = challenge.mechanicVersion ? rawResults.mechanics?.[plan.kind] : rawResults[plan.kind.toLowerCase()];
+    return ['SEQUENCE','MASH'].includes(plan.kind)
+      ? legacyInputValid(plan.kind, plan, result, legacy[plan.kind.toLowerCase()])
+      : verifyScreenMechanic(plan, result).valid;
+  });
+}
+
+export function evaluateCoreRaidQte(challenge = {}, rawResults = {}) {
+  if (challenge.mechanicVersion === undefined) return evaluateLegacyCoreRaidQte(challenge, rawResults);
+  const plans = coreMechanicPlans(challenge);
+  const legacy = evaluateLegacyCoreRaidQte(challenge, {
+    sequence: rawResults.mechanics?.SEQUENCE, mash: rawResults.mechanics?.MASH
+  });
+  const mechanics = plans.map(plan => {
+    const result = rawResults.mechanics?.[plan.kind];
+    let verified;
+    if (['SEQUENCE','MASH'].includes(plan.kind)) {
+      const verdict = legacy[plan.kind.toLowerCase()];
+      const valid = legacyInputValid(plan.kind, plan, result, verdict);
+      verified = {...verdict, valid, success: valid && verdict.success, perfect: valid && verdict.perfect,
+        reason: !valid ? 'INVALID_TRACE' : verdict.success ? '' : 'TIMEOUT'};
+    } else verified = verifyScreenMechanic(plan, result);
+    return {kind: plan.kind, name: MECHANIC_NAMES[plan.kind], ...verified};
+  });
+  const valid = mechanics.length === 2 && mechanics.every(row => row.valid);
+  const perfectCount = mechanics.filter(row => row.perfect).length;
+  return {mechanics, selected: plans.map(plan => plan.kind), valid,
+    allSuccess: valid && mechanics.every(row => row.success), perfectCount,
+    suppressionScore: mechanics.filter(row => row.success).length * 50 + perfectCount * 10};
+}
+
 function operationScore(operation, roles) {
   if (operation === 'BREAK') {
     return Math.min(100, roles.ATTACK * 22 + roles.SPEED * 18 + (roles.DEFENSE + roles.HP + roles.NONE) * 4);
@@ -446,6 +501,8 @@ export function coreRaidAttemptOutcome({
     success,
     engineSuccess,
     mechanicSuccess,
+    failureReason: !engineSuccess ? 'CORE_BATTLE_DEFEAT' : !mechanicSuccess ? 'CORE_MECHANIC_FAILED' : '',
+    failedMechanics: (qte.mechanics || ['SEQUENCE','MASH'].map(kind => ({kind, ...qte[kind.toLowerCase()]}))).filter(row => !row.success).map(row => row.kind),
     stage: String(stage || 'CORE').toUpperCase(),
     partyHpDamage: success ? 0 : cfg.mechanicFailureDamage,
     coreProgress: success && String(stage).toUpperCase() === 'CORE'
@@ -719,6 +776,7 @@ function mechanicTimeline({
     event => String(event?.type || '').toUpperCase() !== 'RESULT'
   );
   const split = Math.ceil(combat.length * 0.58);
+  if (coreMechanicPlans(challenge).length !== 2) throw new Error('기믹 구성을 읽을 수 없습니다. 공략을 다시 불러오세요.');
   const finalBoss = String(stage).toUpperCase() === 'BOSS';
   const weaknessEvents = cards.map((card, index) => {
     const weakness = challenge.weaknessCycle?.[index] || WEAKNESSES[index % 4];
@@ -739,23 +797,9 @@ function mechanicTimeline({
     },
     ...weaknessEvents,
     ...combat.slice(0, split),
-    {
-      type: 'RAID_QTE_SEQUENCE',
-      qteId: 'SEQUENCE',
-      title: finalBoss ? '멸절 좌표 해독' : '코어 좌표 추적',
-      sequence: challenge.sequence,
-      windowMs: challenge.sequenceWindowMs,
-      label: '화면을 지정 방향으로 밀거나 방향키를 순서대로 입력하십시오.'
-    },
+    coreMechanicEvents(challenge, finalBoss)[0],
     ...combat.slice(split),
-    {
-      type: 'RAID_QTE_MASH',
-      qteId: 'MASH',
-      title: finalBoss ? '멸절 구속 파쇄' : '코어 구속 파쇄',
-      target: challenge.mashTarget,
-      windowMs: challenge.mashWindowMs,
-      label: '연타하여 즉사 구속을 파괴하십시오.'
-    },
+    coreMechanicEvents(challenge, finalBoss)[1],
     ...(serverWinner === 'A' ? [{
       type: finalBoss ? 'RAID_STAGGER' : 'RAID_CORE_BREAK',
       operation,
@@ -1557,9 +1601,15 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
     "SELECT * FROM " + ATTEMPT_TABLE +
     " WHERE room_id=? AND user_id=? AND status='PENDING' ORDER BY created_at DESC LIMIT 1"
   ).bind(roomId, user.id).first();
-  if (existing) return { response: battleResponseFromAttempt(existing, cfg, deps.createPveBattleV2, user.nickname) };
+  const clientReady = Number(body.clientMechanicVersion) >= CORE_MECHANIC_VERSION;
+  const needsUpdate = { error: '새 기믹이 추가되었습니다. 화면을 새로고침한 뒤 공략을 재개하세요.', status: 426 };
+  if (existing) {
+    if (jsonSafe(existing.challenge_json, {}).mechanicVersion && !clientReady) return needsUpdate;
+    return { response: battleResponseFromAttempt(existing, cfg, deps.createPveBattleV2, user.nickname) };
+  }
   if (resumeOnly) return { error: '재개할 공략 전투가 없습니다.', status: 404 };
   if (!coreRaidCombatReady(cfg)) return { error: CORE_RAID_POWER_NOT_CONFIGURED, status: 503 };
+  if (!clientReady) return needsUpdate;
 
   const room = await roomById(env, roomId, cfg);
   if (!room || !['CORE', 'BOSS'].includes(room.status)) {
@@ -1699,6 +1749,9 @@ async function resolveAttempt(env, user, cfg, body) {
       Number(challenge?.issuedFor?.userId || 0) !== Number(user.id)
     ) {
       throw Object.assign(new Error('기믹 시드 검증에 실패했습니다.'), { status: 409 });
+    }
+    if (!validCoreRaidSubmission(challenge, body.results || {})) {
+      throw Object.assign(new Error('기믹 입력이 중단되었거나 기록을 읽을 수 없습니다. HP 차감 없이 같은 공략을 재개하세요.'), {status: 422});
     }
     const qte = evaluateCoreRaidQte(challenge, body.results || {});
     const attemptSnapshot = participantDeckSnapshot(attempt);
@@ -2007,7 +2060,7 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
   if (path === 'raid/core/battle' && (request.method === 'POST' || request.method === 'GET')) {
     const body = request.method === 'POST'
       ? await readBody(request)
-      : { roomId: requestedId };
+      : { roomId: requestedId, clientMechanicVersion: url.searchParams.get('clientMechanicVersion') };
     const result = await battleAttempt(
       env,
       user,

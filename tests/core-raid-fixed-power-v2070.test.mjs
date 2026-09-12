@@ -1,3 +1,4 @@
+import {coreTraces} from './helpers/core-mechanic-traces.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -24,10 +25,7 @@ const engineStub = (input, winner = 'A') => ({
   teams: { A: { cards: input.cards }, B: { cards: [{ id: 'B:0', hp: 100, maxHp: 100 }] } },
   result: { winner, timeline: [{ type: 'RESULT', winner }] }
 });
-const traces = challenge => ({
-  sequence: { inputs: challenge.sequence.map((key, i) => ({ key, at: 250 + i * 300 })) },
-  mash: { presses: Array.from({ length: challenge.mashTarget }, (_, i) => 200 + i * 60) }
-});
+const traces = coreTraces;
 
 function harness(t) {
   const db = new DatabaseSync(':memory:');
@@ -72,6 +70,7 @@ function harness(t) {
     writeAdminLog: async () => {}
   };
   const call = async (path, method = 'GET', body) => {
+    if (path.startsWith('raid/core/battle')) { if(method==='GET')path += '&clientMechanicVersion=2086'; else body={clientMechanicVersion:2086,...body}; }
     const request = new Request('https://test.invalid/api/' + path, {
       method, ...(method !== 'GET' ? { body: JSON.stringify(body), headers: { 'content-type': 'application/json' } } : {})
     });
@@ -427,10 +426,44 @@ test('CMS renders numeric absolute fields and sends them without percent convers
 });
 
 test('new runtime and nested CMS cache tags are reachable from their actual entry points', () => {
-  assert.match(read('index.html'), /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
-  assert.match(read('scripts/verify-production-release.mjs'), /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
+  assert.match(read('index.html'), /core-protocol-raid-v1924\.js\?v=2086-random-two/);
+  assert.match(read('scripts/verify-production-release.mjs'), /core-protocol-raid-v1924\.js\?v=2086-random-two/);
   assert.match(read('admin/index.html'), /raid-overhaul-v1293\.js\?v=2070-fixed-power/);
   assert.match(read('admin/raid-overhaul-v1293.js'), /core-protocol-raid-admin-v2021\.js\?v=2070-fixed-power/);
-  assert.match(read('preview/core-protocol-raid-v1/index.html'), /core-protocol-raid-v1924\.js\?v=2074-clan-only/);
+  assert.match(read('preview/core-protocol-raid-v1/index.html'), /core-protocol-raid-v1924\.js\?v=2086-random-two/);
   assert.match(read('preview/core-protocol-raid-v1/preview.js'), /운영 설정 아님/);
+});
+
+test('incomplete, cancelled and forged submissions preserve pending attempt and HP; retry settles once',async t=>{
+ const h=harness(t),id=await h.room(),battle=(await h.begin(id)).body;
+ const initial=h.db.prepare('SELECT party_hp FROM raid_core_rooms_v2024 WHERE room_id=?').get(id).party_hp;
+ const good=coreTraces(battle.challenge),kind=battle.challenge.mechanics[0].kind;
+ const cancelled=structuredClone(good);cancelled.mechanics[kind].cancelled=true;
+ const missing=structuredClone(good);delete missing.mechanics[kind];
+ const malformed=structuredClone(good);malformed.mechanics[kind].durationMs=-1;
+ for(const [i,results] of [{},cancelled,missing,malformed].entries()){
+  const r=await h.call('raid/core/resolve','POST',{roomId:id,attemptId:battle.attemptId,requestId:'BAD-'+i,results});
+  assert.equal(r.status,422);assert.match(r.body.error,/HP 차감 없이/);
+  assert.equal(h.db.prepare('SELECT party_hp FROM raid_core_rooms_v2024 WHERE room_id=?').get(id).party_hp,initial);
+  assert.equal(h.db.prepare('SELECT status FROM raid_core_attempts_v2024 WHERE attempt_id=?').get(battle.attemptId).status,'PENDING');
+ }
+ h.state.power=900000;
+ const resumed=(await h.begin(id)).body;
+ assert.equal(resumed.attemptId,battle.attemptId);assert.deepEqual(resumed.challenge,battle.challenge);
+ const settled=await h.resolve(id,resumed,'GOOD');assert.equal(settled.status,200);assert.equal(settled.body.personalResult,'SUCCESS');
+ const replay=await h.resolve(id,resumed,'GOOD');assert.equal(replay.status,200);
+ assert.equal(h.db.prepare('SELECT attempt_count FROM raid_core_members_v2024 WHERE room_id=? AND user_id=1').get(id).attempt_count,1);
+});
+
+test('stale client cannot create or reroll a new pair, but legacy pending attempts resume unchanged',async t=>{
+ const h=harness(t),id=await h.room();
+ const stale=()=>h.call('raid/core/battle','POST',{roomId:id,operation:'BREAK',clientMechanicVersion:0});
+ assert.equal((await stale()).status,426);
+ assert.equal(h.db.prepare('SELECT COUNT(*) n FROM raid_core_attempts_v2024').get().n,0);
+ const battle=(await h.begin(id)).body;
+ assert.equal((await stale()).status,426);
+ const old=structuredClone(battle.challenge);delete old.mechanicVersion;delete old.mechanics;
+ h.db.prepare('UPDATE raid_core_attempts_v2024 SET challenge_json=? WHERE attempt_id=?').run(JSON.stringify(old),battle.attemptId);
+ const resumed=(await stale());assert.equal(resumed.status,200);assert.deepEqual(resumed.body.challenge,old);
+ assert.equal((await h.resolve(id,resumed.body,'LEGACY')).status,200);
 });

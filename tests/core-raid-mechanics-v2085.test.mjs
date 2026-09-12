@@ -55,7 +55,7 @@ test('shelter requires all three waves; partial progress and one hit fail',()=>{
  assert.equal(summarize('SHELTER',[{safe:true},{safe:true},{safe:true}]).success,true);
  assert.ok(MECHANICS.SHELTER.windowMs>=3*3500);
 });
-test('new mechanic modules remain isolated from live entry and resolve contracts',()=>{
+test('review page stays isolated while approved mechanics share the live runtime',()=>{
  const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
  const index=read('index.html'),app=read('js/app.js'),api=read('functions/api/[[path]].js');
  for(const source of [index,app,api])assert.doesNotMatch(source,/core-raid-mechanics-v1|previewMechanic/);

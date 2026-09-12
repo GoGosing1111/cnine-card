@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.4.0-clan-only';
+  const VERSION = '3.5.0-random-two';
   const TAB_KEY = 'cnine:raid-content-v1924';
   const OP_NAMES = { BREAK: '파쇄', BLOCK: '차단', STABILIZE: '안정화', FINAL: '최종 보스' };
   const esc = value => String(value ?? '').replace(
@@ -291,7 +291,8 @@
       '<small>EXPEDITION RULE</small><b>반복 공략 규칙</b></div></header><ol>' +
       '<li>공대장은 입장권 1장으로 방을 생성합니다.</li>' +
       '<li>모든 공대원은 제한 시간 동안 횟수 제한 없이 코어와 보스를 반복 공략합니다.</li>' +
-      '<li>전투 승리·방향 입력·연타 입력을 모두 성공해야 진척도가 반영됩니다.</li>' +
+      '<li>매 공략마다 방향 신호·구속 파쇄·코어 동조·회로 복원·차폐 구역 중 서로 다른 2종이 등장합니다.</li>' +
+      '<li>전투와 선택된 두 기믹을 모두 성공해야 진척도가 반영됩니다. 전투 재개 시 기믹은 유지됩니다.</li>' +
       '<li>세 코어의 편차가 허용 범위를 넘지 않게 낮은 코어부터 교대로 공략해야 합니다.</li>' +
       '<li>앞선 코어를 과충전하면 해당 진척도는 무효이며 공대 HP가 ' + number(state.settings?.coreImbalanceDamage) + ' 감소합니다.</li>' +
       '<li>실패할 때마다 공대 HP가 ' + number(state.settings?.mechanicFailureDamage) + ' 감소합니다.</li>' +
@@ -430,19 +431,23 @@
     node.className = 'core-v3-mechanic-result ' + (success ? 'is-success' : 'is-failure');
     node.setAttribute('role', 'dialog');
     node.setAttribute('aria-modal', 'true');
+    const names = {SEQUENCE:'방향 신호 추적',MASH:'구속 파쇄',CENTER:'코어 동조',CIRCUIT:'회로 복원',SHELTER:'차폐 구역 이동'};
+    const rows = verified.mechanics || ['SEQUENCE','MASH'].map(kind => ({kind,...verified[kind.toLowerCase()]}));
+    const detail = rows.map(row => esc(names[row.kind] || row.kind) + ' ' + (row.success ? '성공' : '실패')).join(' · ');
+    const balance = resolved.outcome?.projectedBalance || resolved.outcome?.balance || {};
+    const recommended = (balance.recommendedOperations || []).map(key => OP_NAMES[key]).filter(Boolean).join(' · ');
+    const reason = overload
+      ? '코어 편차 ' + number(balance.spread) + ' / 허용 ' + number(balance.tolerance) + ' · 다음 공략: ' + esc(recommended || '뒤처진 코어')
+      : resolved.outcome?.engineSuccess === false ? '전투에서 패배했습니다. 덱 전투력과 편성을 확인하세요.'
+      : !success ? '선택된 기믹을 모두 해제하지 못했습니다.' : '';
     node.innerHTML = '<small>CORE PROTOCOL / VERIFIED RESULT</small><strong>' +
-      (success ? '공략 진척도 전송 완료' : overload ? '코어 공명 과부하' : '멸절 프로토콜 피격') + '</strong><span>전투 ' +
-      (resolved.outcome?.engineSuccess ? '승리' : '패배') + ' · 방향 해독 ' +
-      (verified.sequence?.success ? '성공' : '실패') + ' · 구속 파쇄 ' +
-      (verified.mash?.success ? '성공' : '실패') +
-      (success
-        ? resolved.outcome?.stage === 'BOSS'
-          ? ' · 보스 피해 ' + number(resolved.outcome?.bossDamage).toLocaleString()
-          : ' · 코어 진척 +' + number(resolved.outcome?.coreProgress).toLocaleString()
-        : overload
-          ? ' · 앞선 코어 진척 무효 · 공대 HP -' + number(resolved.outcome?.partyHpDamage).toLocaleString()
-          : ' · 공대 HP -' + number(resolved.outcome?.partyHpDamage).toLocaleString()) +
-      '</span><button type="button" class="btn core-v3-return">공대 전황으로 돌아가기</button>';
+      (success ? '공략 진척도 전송 완료' : overload ? '코어 공명 과부하' : resolved.outcome?.engineSuccess === false ? '전투 패배' : '기믹 해제 실패') +
+      '</strong><span>전투 ' + (resolved.outcome?.engineSuccess ? '승리' : '패배') + ' · ' + detail +
+      (success ? resolved.outcome?.stage === 'BOSS' ? ' · 보스 피해 ' + number(resolved.outcome?.bossDamage).toLocaleString()
+        : ' · 코어 진척 +' + number(resolved.outcome?.coreProgress).toLocaleString()
+        : ' · 공대 HP -' + number(resolved.outcome?.partyHpDamage).toLocaleString()) +
+      '</span>' + (reason ? '<span class="core-result-reason">' + reason + '</span>' : '') +
+      '<button type="button" class="btn core-v3-return">공대 전황으로 돌아가기</button>';
     stage.appendChild(node);
     return node;
   }
@@ -499,9 +504,11 @@
     try {
       const response = await api('raid/core/battle', {
         method: 'POST',
-        body: JSON.stringify({ roomId, operation: selectedOperation })
+        body: JSON.stringify({ roomId, operation: selectedOperation, clientMechanicVersion: 2086 })
       });
       await bridge()?.ensureFeatureResources?.('battleV2');
+      if (!globalThis.ProjectVRaidQteV1924?.prepare) throw new Error('기믹 파일을 새로 불러와야 합니다. 새로고침 후 같은 공략을 재개하세요.');
+      await globalThis.ProjectVRaidQteV1924.prepare();
       const live = globalThis.ProjectVBattleV3Live?.prepareLoading?.({
         modal,
         mode: 'RAID',
@@ -519,16 +526,13 @@
         onInteractiveEvent: (event, context) => globalThis.ProjectVRaidQteV1924?.run?.(event, context)
       });
       const qte = renderer.getInteractiveResults?.() || {};
-      const results = {
-        sequence: {
-          inputs: qte.SEQUENCE?.inputs || [],
-          durationMs: qte.SEQUENCE?.durationMs || 0
-        },
-        mash: {
-          presses: qte.MASH?.presses || [],
-          durationMs: qte.MASH?.durationMs || 0
-        }
-      };
+      const expected = response.challenge?.mechanics?.map(plan => plan.kind) || ['SEQUENCE','MASH'];
+      if (expected.length !== 2 || expected.some(kind => !qte[kind] || qte[kind].cancelled)) {
+        throw new Error('기믹 입력이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.');
+      }
+      const results = response.challenge?.mechanicVersion
+        ? {mechanics: Object.fromEntries(expected.map(kind => [kind, qte[kind]]))}
+        : {sequence: qte.SEQUENCE, mash: qte.MASH};
       const status = live.stage.querySelector('#pvBattleStatus');
       if (status) status.textContent = '입력 기록 검증 및 공대 전황 반영 중';
       const resolved = await api('raid/core/resolve', {
@@ -540,7 +544,8 @@
           results
         })
       });
-      renderer.showResult();
+      renderer.showResult(resolved);
+      if (status) status.textContent = '입력 검증 완료 · 공대 전황 반영 완료';
       mountMechanicResult(live.stage, resolved);
       const close = () => {
         try { renderer?.destroy?.(); } catch {}
@@ -555,7 +560,7 @@
         close();
       });
     } catch (error) {
-      try { renderer?.destroy?.(); } catch {}
+      try { (renderer || modal?.__battleV2Renderer)?.destroy?.(); } catch {}
       if (modal) {
         modal.__battleV2Renderer = null;
         modal.className = 'modal';

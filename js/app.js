@@ -964,7 +964,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=102-h-body',
-      'js/battle-v3-live.js?v=3.31.0-skill-chip-runtime'
+      'js/battle-v3-live.js?v=3.32.0-core-random-two'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }

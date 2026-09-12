@@ -1,10 +1,12 @@
 (()=>{
   'use strict';
-  const VERSION='1.1.0-mobile-input';
+  const VERSION='1.2.0-random-two';
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const directionMap=Object.freeze({ARROWUP:'UP',W:'UP',UP:'UP',ARROWRIGHT:'RIGHT',D:'RIGHT',RIGHT:'RIGHT',ARROWDOWN:'DOWN',S:'DOWN',DOWN:'DOWN',ARROWLEFT:'LEFT',A:'LEFT',LEFT:'LEFT'});
   const directionGlyph=Object.freeze({UP:'↑',RIGHT:'→',DOWN:'↓',LEFT:'←'});
-  let cancelActive=null;
+  let cancelActive=null,screenModule=null,screenPromise=null,generation=0;
+  const screenUrl=new URL('core-raid-screen-qte-v2086.js',document.currentScript?.src||location.href).href;
+  function prepare(){return screenPromise||(screenPromise=import(screenUrl).then(module=>(screenModule=module)).catch(error=>{screenPromise=null;throw error;}));}
 
   const normalizeDirection=value=>directionMap[String(value||'').trim().toUpperCase()]||'';
   const wait=ms=>new Promise(resolve=>setTimeout(resolve,Math.max(0,Number(ms||0))));
@@ -36,11 +38,12 @@
       const overlay=mount(stage,event,kind),timeNode=overlay.querySelector('[data-qte-time]'),bar=overlay.querySelector('[data-qte-progress]'),resultNode=overlay.querySelector('[data-qte-result]');
       const started=now();let raf=0,settled=false,penalty=0,cleanupInput=()=>{},latestResult={};
       const elapsed=()=>Math.max(0,now()-started+penalty);
-      const cleanup=()=>{cancelAnimationFrame(raf);cleanupInput();stage.classList.remove('is-raid-qte-active');if(cancelActive===cancel)cancelActive=null};
+      const cleanup=()=>{cancelAnimationFrame(raf);globalThis.removeEventListener('pagehide',cancel);document.removeEventListener('visibilitychange',visibility);cleanupInput();stage.classList.remove('is-raid-qte-active');if(cancelActive===cancel)cancelActive=null};
       const finish=async(success,extra={})=>{
         if(settled)return;settled=true;latestResult={kind,success:Boolean(success),cancelled:Boolean(extra.cancelled),durationMs:Math.round(Math.min(duration,elapsed())),...extra};cleanup();overlay.classList.add(success?'is-success':'is-failure');if(resultNode)resultNode.textContent=success?(extra.perfect?'PERFECT BREAK':'기믹 해제'):(extra.cancelled?'입력 취소':'기믹 실패');await wait(success?520:680);overlay.remove();resolve(latestResult);
       };
       const cancel=()=>finish(false,{cancelled:true});cancelActive=cancel;
+      const visibility=()=>{if(document.hidden)cancel();};globalThis.addEventListener('pagehide',cancel);document.addEventListener('visibilitychange',visibility);
       const addPenalty=amount=>{penalty+=Math.max(0,Number(amount||0));overlay.classList.remove('is-error');void overlay.offsetWidth;overlay.classList.add('is-error')};
       cleanupInput=bindInput({overlay,duration,started,elapsed,finish,addPenalty,isActive:()=>!settled&&elapsed()<duration,setResult:value=>{latestResult=value||{};}})||(()=>{});
       const tick=()=>{if(settled)return;const used=elapsed(),remaining=Math.max(0,duration-used),ratio=Math.max(0,Math.min(1,remaining/duration));if(timeNode)timeNode.textContent=(remaining/1000).toFixed(1);if(bar)bar.style.width=`${ratio*100}%`;if(remaining<=0){finish(Boolean(latestResult.success),latestResult);return}raf=requestAnimationFrame(tick)};tick();
@@ -90,7 +93,16 @@
     });
   }
 
-  async function run(event={},context={}){const type=String(event.type||'').toUpperCase();return type==='RAID_QTE_MASH'?runMash(event,context):runSequence(event,context)}
-  function cancel(){if(cancelActive)cancelActive()}
-  globalThis.ProjectVRaidQteV1924=Object.freeze({version:VERSION,run,cancel});
+  async function run(event={},context={}){
+    cancel();const current=generation,type=String(event.type||'').toUpperCase();
+    if(type==='RAID_QTE_SEQUENCE')return runSequence(event,context);
+    if(type==='RAID_QTE_MASH')return runMash(event,context);
+    const kind=type.replace(/^RAID_QTE_/,'');
+    if(!['CENTER','CIRCUIT','SHELTER'].includes(kind))throw new Error('지원하지 않는 기믹입니다. 새로고침 후 재개하세요.');
+    const module=await prepare();
+    if(current!==generation)return {kind,success:false,cancelled:true};
+    return module.run(kind,{stage:context.stage,seed:event.mechanic?.seed,slot:event.mechanicSlot,count:event.mechanicCount});
+  }
+  function cancel(){generation++;if(cancelActive)cancelActive();screenModule?.cancel();}
+  globalThis.ProjectVRaidQteV1924=Object.freeze({version:VERSION,prepare,run,cancel});
 })();

@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.31.0-skill-chip-runtime';
+  const VERSION = '3.32.0-core-random-two';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -424,6 +424,13 @@
     const result = payload?.battleV2?.result;
     const winner = String(result?.winner || '').toUpperCase();
     if (winner !== 'A' && winner !== 'B') return '';
+    const coreOutcome = payload?.coreRaid?.verifiedOutcome;
+    if (coreOutcome) {
+      const reason = coreOutcome.failureReason === 'CORE_OVERLOAD' ? '코어 공명 과부하'
+        : coreOutcome.engineSuccess === false ? '전투 패배'
+        : coreOutcome.mechanicSuccess === false ? '기믹 해제 실패' : '서버 확인 완료';
+      return (coreOutcome.success ? '공략 성공' : '공략 실패') + ' · ' + reason;
+    }
     const { A, B } = survivorCounts(result);
     const reason = VERDICT_REASON_TEXT[String(result.reason || '').toUpperCase()] || '판정 완료';
     const verdict = mode === 'PVP' || mode === 'SIEGE'
@@ -938,13 +945,16 @@
 
     bindAccountBattleUnitFirearmAudio();
     await init();
+    const expectedQtes = (payload?.battleV2?.result?.timeline || []).filter(event => /^RAID_QTE_/.test(event.type)).map(event => event.qteId || event.type.slice(9));
+    let interactiveFailure = null;
     const qteBranchAllowed = condition => {
       const key = String(condition || '').trim().toUpperCase();
       if (!key) return true;
-      const rows = [...interactiveResults.values()];
-      if (key === 'ALL_SUCCESS') return rows.length > 0 && rows.every(result => result?.success === true);
-      if (key === 'ANY_FAILURE') return rows.length === 0 || rows.some(result => result?.success !== true);
-      const match = key.match(/^(SEQUENCE|MASH)_(SUCCESS|FAILURE)$/);
+      const rows = expectedQtes.map(id => interactiveResults.get(id));
+      const complete = rows.length > 0 && rows.every(result => result && !result.cancelled);
+      if (key === 'ALL_SUCCESS') return complete && rows.every(result => result.success === true);
+      if (key === 'ANY_FAILURE') return complete && rows.some(result => result.success !== true);
+      const match = key.match(/^(SEQUENCE|MASH|CENTER|CIRCUIT|SHELTER)_(SUCCESS|FAILURE)$/);
       if (!match) return true;
       const result = interactiveResults.get(match[1]);
       return match[2] === 'SUCCESS' ? result?.success === true : result?.success !== true;
@@ -967,21 +977,19 @@
           const timedSkillChips = timeline.some(event => event.combatClock === 'V3_COMBAT_MS_V1');
           const prepareEvent = async sourceEvent => {
             if (destroyed) return null;
+            if (interactiveFailure) throw interactiveFailure;
             const type = String(sourceEvent?.type || '').toUpperCase();
             let event = { ...sourceEvent };
-            if (type === 'RAID_QTE_SEQUENCE' || type === 'RAID_QTE_MASH') {
-              const qteId = String(event.qteId || (type.endsWith('MASH') ? 'MASH' : 'SEQUENCE')).toUpperCase();
+            if (type.startsWith('RAID_QTE_')) {
+              const qteId = String(event.qteId || type.slice(9)).toUpperCase();
               const handler = options.onInteractiveEvent || root.ProjectVRaidQteV1924?.run;
-              if (phase) phase.textContent = type.endsWith('MASH') ? 'EXECUTION BREAK' : 'CORE DECODE';
-              let result = { success: false, cancelled: true, qteId };
-              try {
-                if (typeof handler === 'function') result = await handler(event, { stage, host, payload, phase, status, qteId }) || result;
-                else if (status) status.textContent = '입력 기믹 모듈을 찾지 못해 실패 처리되었습니다.';
-              } catch (error) {
-                console.warn('[PROJECT V V3] RAID QTE failed', error);
-                if (status) status.textContent = '입력 기믹을 완료하지 못해 실패 처리되었습니다.';
-              }
-              interactiveResults.set(qteId, { ...result, qteId, success: result?.success === true });
+              if (phase) phase.textContent = 'CORE OVERRIDE · ' + (event.mechanicSlot || interactiveResults.size + 1) + ' / ' + expectedQtes.length;
+              if (typeof handler !== 'function') throw new Error('입력 기믹을 불러오지 못했습니다. HP 차감 없이 같은 공략을 재개하세요.');
+              let result;
+              try { result = await handler(event, {stage, host, payload, phase, status, qteId}); }
+              catch(error) { interactiveFailure = error; throw error; }
+              if (destroyed || !result || result.cancelled) throw new Error('기믹 입력이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.');
+              interactiveResults.set(qteId, {...result, qteId, success: result.success === true});
               return null;
             }
             if (!qteBranchAllowed(event.qteCondition)) return null;
@@ -1047,9 +1055,12 @@
             const durationMs = Math.max(0, ...timedEvents.map(event => Number(event.combatAtMs || 0)));
             await withTimeout(
               Promise.resolve(root.ProjectVPixiBattle.playEvents(timedEvents, { beforeEvent: prepareEvent })),
-              Math.max(30000, durationMs * 2 + 15000),
+              Math.max(30000, durationMs * 2 + 15000) + timeline.filter(event => /^RAID_QTE_/.test(event.type)).reduce((ms,event) => ms + Number(event.windowMs || 0) + 3500, 0),
               '스킬칩 전투 연출을 서버 최종 상태로 복구합니다.',
-              { fallback: false, onFailure: () => recoverPlayback('스킬칩 전투 연출을 복구했습니다.') }
+              { fallback: false, onFailure: () => {
+                if(expectedQtes.length) { interactiveFailure = new Error('기믹 전장이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.'); root.ProjectVRaidQteV1924?.cancel?.(); }
+                return recoverPlayback('스킬칩 전투 연출을 복구했습니다.');
+              } }
             );
             // Drain the final authoritative ordinary shot before syncFinalState
             // cancels animations; otherwise the killing damage number is lost.
@@ -1061,6 +1072,8 @@
               if (event) await safePlayEvents([event], `${event.label || event.type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
             }
           }
+          if (interactiveFailure) throw interactiveFailure;
+          if (expectedQtes.some(id => !interactiveResults.get(id) || interactiveResults.get(id).cancelled)) throw new Error('기믹 기록이 완료되지 않았습니다. HP 차감 없이 같은 공략을 재개하세요.');
           const finalState = payload?.battleV2?.result?.final || {};
           // V1787: 무한의탑 자동전투 2판째부터 몬스터·SD 캐릭터가 전부 사라지던 버그 수정.
           //
@@ -1110,7 +1123,11 @@
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
       },
-      showResult() {
+      showResult(verifiedResult) {
+        if(options.preserveServerTimeline && ['SUCCESS','FAILED'].includes(verifiedResult?.personalResult)) {
+          payload.battleV2.result.winner = verifiedResult.personalResult === 'SUCCESS' ? 'A' : 'B';
+          payload.coreRaid = {...payload.coreRaid, verifiedOutcome: verifiedResult.outcome};
+        }
         releaseBlockingLayers();
         // 연출을 건너뛰고 결과만 띄우는 경로(재시도·즉시 종료)에서도 판정 근거는 남긴다.
         showVerdict(stage, payload, mode);

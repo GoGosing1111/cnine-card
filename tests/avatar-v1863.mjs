@@ -169,7 +169,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=2084-forge-public/);
+  assert.match(index,/app\.js\?v=2086-core-random-two/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=2083-clan-prison-camp/);
-  assert.match(serviceWorker,/soop-card-shell-v2084-forge-public/);
+  assert.match(serviceWorker,/soop-card-shell-v2086-core-random-two/);
 });
