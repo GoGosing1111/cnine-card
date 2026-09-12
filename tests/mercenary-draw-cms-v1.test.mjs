@@ -27,9 +27,10 @@ async function fixture(mode='postgres'){
 test('proposal has four reward kinds, six grades, exact 100% and no enabled opening',()=>{
   const draft=validateMercenaryDraw(suggestedMercenaryDraw());
   assert.deepEqual([...new Set(DRAW_OUTCOMES.map(row=>row.type))],['MERCENARY_CARD','MASTER_STAR','MYSTIC_ENERGY','NONE']);
-  assert.deepEqual(summarizeMercenaryDraw(draft).groups,{MERCENARY_CARD:300000,MASTER_STAR:100000,MYSTIC_ENERGY:200000,NONE:400000});
+  assert.deepEqual(summarizeMercenaryDraw(draft).groups,{MERCENARY_CARD:111111,MASTER_STAR:100000,MYSTIC_ENERGY:200000,NONE:588889});
   assert.equal(summarizeMercenaryDraw(draft).total,1000000);assert.equal(draft.openingEnabled,false);assert.equal(MERCENARY_CARD_OPENING_RELEASE_ENABLED,false);
-  assert.equal(draft.outcomes.find(row=>row.id==='CARD_SSS').chancePpm,200);
+  assert.equal(draft.outcomes.find(row=>row.id==='CARD_SSS').chancePpm,1);
+  assert.deepEqual(draft.outcomes.filter(row=>row.id.startsWith('CARD_')).map(row=>row.chancePpm),[100000,10000,1000,100,10,1]);
   for(const [input,expected] of [['0',0],['0.0001',1],['0.02',200],['16',160000],['100',1000000],['0.00001',null],['100.0001',null],['-1',null],['1e2',null],['',null]])assert.equal(parseDrawPercent(input),expected,input);
 });
 test('malformed outcomes, fractional quantities, invalid totals, rank tampering and all ON flags are rejected',()=>{
@@ -52,7 +53,7 @@ for(const mode of ['postgres','sqlite']){
   test(mode+': persists policy, audits before/after and preserves catalog, wallet and pack quantity',async()=>{
     const f=await fixture(mode);try{
       const first=await f.call();assert.equal(first.body.revision,1);assert.equal(first.body.audit.length,1);
-      const policy=first.body.policy;policy.outcomes[0].chancePpm=150000;policy.outcomes[8].chancePpm=410000;policy.outcomes[6].quantity=2;
+      const policy=first.body.policy;policy.outcomes[0].chancePpm=90000;policy.outcomes[8].chancePpm=598889;policy.outcomes[6].quantity=2;
       const saved=await f.call(payload(policy));assert.equal(saved.status,200,JSON.stringify(saved));assert.equal(saved.body.revision,2);
       const read=await f.call();assert.deepEqual(read.body.policy,policy);assert.equal(read.body.userOpeningEnabled,false);
       const audit=await f.rows('SELECT * FROM mercenary_draw_audit_v1 ORDER BY revision');assert.equal(audit.length,2);assert.deepEqual(JSON.parse(audit[1].before_json),suggestedMercenaryDraw());assert.deepEqual(JSON.parse(audit[1].after_json),policy);

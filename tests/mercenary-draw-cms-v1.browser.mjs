@@ -33,7 +33,7 @@ try{
     const login=async()=>{await page.evaluate(()=>{document.body.classList.remove('auth-guest');document.body.classList.add('auth-active');document.getElementById('cms').hidden=false;document.getElementById('roleBadge').textContent='OWNER';});await page.locator('[data-draw-chance="CARD_C"]').waitFor();};
     await page.goto(origin+'/admin/#mercenaries/draw');await login();
     assert.equal(await page.locator('[data-draw-chance]').count(),9);assert.equal(await page.locator('[data-draw-quantity]').count(),2);
-    assert.equal(await page.locator('[data-draw-chance="CARD_SSS"]').inputValue(),'0.02');
+    assert.equal(await page.locator('[data-draw-chance="CARD_SSS"]').inputValue(),'0.0001');
     assert.equal(await page.locator('.md-hold strong').textContent(),'OFF');
     assert.match(await page.locator('[data-draw-total]').textContent(),/^100/);
     assert.equal(await page.locator('.mc-savebar').isVisible(),false);
@@ -41,13 +41,13 @@ try{
     await page.locator('.md-heading').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'top-'+width+'.png'),fullPage:false});
     await page.locator('.md-editor').screenshot({path:path.join(out,'complete-'+width+'.png')});
     await page.locator('[data-draw-summary]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'summary-'+width+'.png'),fullPage:false});
-    await page.locator('[data-draw-chance="CARD_C"]').fill('15');await page.locator('[data-draw-reason]').fill('확률 합계 검증 중');await page.locator('[data-draw-save]').click();
+    await page.locator('[data-draw-chance="CARD_C"]').fill('9');await page.locator('[data-draw-reason]').fill('확률 합계 검증 중');await page.locator('[data-draw-save]').click();
     await page.locator('[data-draw-message]').filter({hasText:'100%로 맞추세요'}).waitFor();assert.equal(writes,0);
-    await page.locator('[data-draw-remainder]').click();assert.equal(await page.locator('[data-draw-chance="NONE"]').inputValue(),'41');
+    await page.locator('[data-draw-remainder]').click();assert.equal(await page.locator('[data-draw-chance="NONE"]').inputValue(),'59.8889');
     await page.locator('[data-draw-quantity="MASTER_STAR"]').fill('3');await page.locator('[data-draw-quantity="MYSTIC_ENERGY"]').fill('2');
     await page.locator('[data-draw-reason]').fill('기기별 확률 수량 저장 검증');await page.locator('[data-draw-save]').click();await page.locator('[data-draw-message]').filter({hasText:'확률 저장 완료'}).waitFor();
     assert.equal(writes,1);assert.equal(catalogWrites,0);
-    await page.reload();await login();assert.equal(await page.locator('[data-draw-chance="CARD_C"]').inputValue(),'15');assert.equal(await page.locator('[data-draw-quantity="MASTER_STAR"]').inputValue(),'3');
+    await page.reload();await login();assert.equal(await page.locator('[data-draw-chance="CARD_C"]').inputValue(),'9');assert.equal(await page.locator('[data-draw-quantity="MASTER_STAR"]').inputValue(),'3');
     const current=await call();current.body.policy.notes='other admin tab';assert.equal((await call({policy:current.body.policy,expectedRevision:current.body.revision,requestId:crypto.randomUUID(),reason:'다른 창의 변경 기록'})).status,200);
     await page.locator('[data-draw-quantity="MASTER_STAR"]').fill('4');await page.locator('[data-draw-reason]').fill('충돌 초안 보존 검증');await page.locator('[data-draw-save]').click();await page.locator('[data-draw-message]').filter({hasText:'다른 창에서 먼저 저장'}).waitFor();
     assert.equal(await page.locator('[data-draw-quantity="MASTER_STAR"]').inputValue(),'4');

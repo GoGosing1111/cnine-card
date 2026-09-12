@@ -9,10 +9,10 @@ export const DRAW_OUTCOMES = Object.freeze([
   Object.freeze({id:'NONE',type:'NONE',rank:null,label:'꽝'})
 ]);
 export function suggestedMercenaryDraw(){
-  const chances=[160000,90000,40000,8000,1800,200,100000,200000,400000];
+  const chances=[100000,10000,1000,100,10,1,100000,200000,588889];
   return {format:'MERCENARY_DRAW_DRAFT_V1',status:'DRAFT',openingEnabled:false,
     outcomes:DRAW_OUTCOMES.map((row,i)=>({id:row.id,chancePpm:chances[i],quantity:row.id==='NONE'?0:1})),
-    notes:'확률·수량 제안 초안. 개봉 비용, 동일 등급 내 카드별 확률, 획득 대상, 중복 처리와 공동 출시 조건은 별도 확정 필요.'};
+    notes:'SSS 0.0001%를 기준으로 한 단계 낮아질 때마다 10배로 설정한 확률·수량 제안 초안. 개봉 비용, 동일 등급 내 카드별 확률, 획득 대상, 중복 처리와 공동 출시 조건은 별도 확정 필요.'};
 }
 function exactKeys(value,keys,label){
   if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))throw Error(`${label}: 누락되거나 허용되지 않은 항목이 있습니다.`);
