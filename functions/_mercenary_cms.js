@@ -1,6 +1,7 @@
 import {MERCENARY_CMS_SEED as seed} from './_mercenary_cms_seed.js';
 import {CMS_MAX_BYTES,validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
+import {handleMercenaryDrawCms} from './_mercenary_draw_cms.js';
 
 const tables=[
   `CREATE TABLE IF NOT EXISTS mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT NOT NULL,revision INTEGER NOT NULL,last_request_id TEXT NOT NULL,updated_by BIGINT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL)`,
@@ -35,6 +36,7 @@ async function boundedJson(request){
   return JSON.parse(new TextDecoder().decode(bytes));
 }
 export async function handleMercenaryCms({path,request,env,deps}){
+  const drawResponse=await handleMercenaryDrawCms({path,request,env,deps});if(drawResponse)return drawResponse;
   if(path!=='admin/mercenaries')return null;
   const {requirePermission,json}=deps;
   const admin=await requirePermission(request,env,'BATTLE_MANAGE');

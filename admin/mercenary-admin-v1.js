@@ -1,4 +1,5 @@
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260912-cms1';
+import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=20260912-draw1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=path=>'/'+String(path||'').replace(/^\/+/, '');
@@ -6,12 +7,13 @@ const thumb=(code,size=320)=>`/assets/ui/project-v/mercenaries/codex-v1/${code.t
 const date=value=>new Intl.DateTimeFormat('ko-KR',{dateStyle:'short',timeStyle:'short'}).format(new Date(value));
 let section,button,data,tab='roster',selected='V-004',skill='MS-021',query='',dirty=false,busy=false,pending=null,notice='',error=false;
 const $=selector=>section?.querySelector(selector);
-const tabs={roster:'용병 도감',skills:'스킬 목록',assignments:'스킬 배정',economy:'획득 · 성장',review:'리소스 · 검수'};
-async function api(options={}){
+const tabs={roster:'용병 도감',skills:'스킬 목록',assignments:'스킬 배정',draw:'개봉 확률',economy:'획득 · 성장',review:'리소스 · 검수'};
+const drawEditor=createMercenaryDrawEditor({request:options=>api(options,'/api/admin/mercenaries/draw'),onRender:()=>render()});
+async function api(options={},endpoint='/api/admin/mercenaries'){
   const token=localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||'';
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
   try{
-    const response=await fetch('/api/admin/mercenaries',{...options,signal:controller.signal,cache:'no-store',headers:{'content-type':'application/json',authorization:`Bearer ${token}`}});
+    const response=await fetch(endpoint,{...options,signal:controller.signal,cache:'no-store',headers:{'content-type':'application/json',authorization:`Bearer ${token}`}});
     const value=await response.json();if(!response.ok){const e=Error(value.error||`요청 실패 (${response.status})`);e.status=response.status;throw e;}return value;
   }finally{clearTimeout(timer);}
 }
@@ -93,9 +95,9 @@ function render(){
     <div class="mc-status"><span class="mc-status-dot"></span><p>운영 DB 저장 · 게임 출시는 V3 공동 업데이트 대기</p>${data?`<small>r${data.revision} · ${date(data.updatedAt)}</small>`:''}</div>
     <div class="mc-tabs" role="tablist" aria-label="용병 관리 분류">${Object.entries(tabs).map(([k,v])=>`<button role="tab" aria-selected="${tab===k}" data-tab="${k}">${v}</button>`).join('')}</div>
     <p class="mc-notice ${error?'is-error':''}" role="status" aria-live="polite">${esc(notice||'초안 저장 후 다른 기기에서도 이어서 관리할 수 있습니다.')}</p>
-    ${data?`<fieldset class="mc-content" ${busy?'disabled':''}>${({roster:rosterEditor,skills:skillEditor,assignments:assignmentEditor,economy:economyEditor,review:reviewEditor}[tab])()}</fieldset>`:'<div class="mc-empty">'+(busy?'운영 데이터를 불러오는 중…':'관리자 로그인 후 다시 불러와 주세요.')+'</div>'}
-    <footer class="mc-savebar"><span data-save-label>${dirty?'● 저장하지 않은 변경 있음':data?`✓ r${data.revision} 저장 상태`:'연결 대기'}</span><div><button data-export ${!data?'disabled':''}>JSON 내보내기</button><button data-reload ${busy?'disabled':''}>다시 불러오기</button><button class="mc-primary" data-save ${!data||busy||!dirty?'disabled':''}>${busy?'처리 중…':pending?'저장 결과 재확인':'운영 CMS 저장'}</button></div></footer></div>`;
-  section.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render();});
+    ${data?`<fieldset class="mc-content" ${busy?'disabled':''}>${({roster:rosterEditor,skills:skillEditor,assignments:assignmentEditor,draw:()=>drawEditor.html(data.document),economy:economyEditor,review:reviewEditor}[tab])()}</fieldset>`:'<div class="mc-empty">'+(busy?'운영 데이터를 불러오는 중…':'관리자 로그인 후 다시 불러와 주세요.')+'</div>'}
+    <footer class="mc-savebar" ${tab==='draw'?'hidden':''}><span data-save-label>${dirty?'● 저장하지 않은 변경 있음':data?`✓ r${data.revision} 저장 상태`:'연결 대기'}</span><div><button data-export ${!data?'disabled':''}>JSON 내보내기</button><button data-reload ${busy?'disabled':''}>다시 불러오기</button><button class="mc-primary" data-save ${!data||busy||!dirty?'disabled':''}>${busy?'처리 중…':pending?'저장 결과 재확인':'운영 CMS 저장'}</button></div></footer></div>`;
+  section.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;history.replaceState(null,'',tab==='draw'?'#mercenaries/draw':'#mercenaries');render();});
   section.querySelectorAll('[data-code]').forEach(b=>b.onclick=()=>{selected=b.dataset.code;render();});
   section.querySelectorAll('[data-skill]').forEach(b=>b.onclick=()=>{skill=b.dataset.skill;render();});
   $('[data-search]')?.addEventListener('input',e=>{query=e.target.value;$('[data-roster-list]').innerHTML=list();section.querySelectorAll('[data-code]').forEach(b=>b.onclick=()=>{selected=b.dataset.code;render();});});
@@ -109,6 +111,7 @@ function render(){
   section.querySelectorAll('[data-assign]').forEach(input=>input.onchange=()=>{const row=data.document.assignments.find(a=>a.code===selected);row.skillIds=input.checked?[...row.skillIds,input.dataset.assign]:row.skillIds.filter(id=>id!==input.dataset.assign);markDirty();render();});
   $('[data-save]').onclick=save;$('[data-reload]').onclick=()=>{if(!dirty||confirm('저장하지 않은 변경을 버리고 운영 DB에서 다시 불러올까요?'))void load();};
   $('[data-export]').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({revision:data.revision,document:data.document},null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`mercenary-cms-r${data.revision}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+  drawEditor.mount($('[data-draw-root]'));
 }
 function markDirty(){dirty=true;pending=null;const label=$('[data-save-label]');if(label)label.textContent='● 저장하지 않은 변경 있음';const saveButton=$('[data-save]');if(saveButton){saveButton.disabled=false;saveButton.textContent='운영 CMS 저장';}}
 async function load(){if(busy)return;busy=true;error=false;notice='운영 CMS를 불러오고 있습니다.';render();try{data=await api();dirty=false;pending=null;notice='43종 용병·17종 스킬을 불러왔습니다. 저장한 설정은 운영 DB에 보존됩니다.';}catch(e){error=true;notice=e.name==='AbortError'?'불러오기가 지연됩니다. 다시 불러오기를 눌러 주세요.':e.message;}finally{busy=false;render();}}
@@ -122,14 +125,14 @@ async function save(){
   catch(e){error=true;notice=e.name==='AbortError'?'응답 확인이 지연됩니다. 저장 결과 재확인을 누르면 같은 요청을 안전하게 확인합니다.':e.message;if(e.status&&e.status<500)pending=null;}
   finally{busy=false;render();}
 }
-function activate(){if(button.hidden)return;document.querySelectorAll('.view').forEach(v=>v.hidden=v!==section);document.querySelectorAll('#nav [data-view]').forEach(b=>b.classList.toggle('active',b===button));const title=document.getElementById('pageTitle');if(title)title.textContent='용병 운영실';history.replaceState(null,'','#mercenaries');if(!data&&!busy)void load();}
+function activate(){if(button.hidden)return;document.querySelectorAll('.view').forEach(v=>v.hidden=v!==section);document.querySelectorAll('#nav [data-view]').forEach(b=>b.classList.toggle('active',b===button));const title=document.getElementById('pageTitle');if(title)title.textContent='용병 운영실';history.replaceState(null,'',tab==='draw'?'#mercenaries/draw':'#mercenaries');if(!data&&!busy)void load();}
 function start(){
   const nav=document.getElementById('nav'),main=document.getElementById('cms')||document.querySelector('main'),badge=document.getElementById('roleBadge');if(!nav||!main||!badge)return;
   button=document.createElement('button');button.type='button';button.dataset.view='mercenaries';button.textContent='용병 관리';button.hidden=true;nav.insertBefore(button,nav.querySelector('[data-view="settings"]'));
   section=document.createElement('section');section.id='view-mercenaries';section.className='view mc-admin';section.hidden=true;main.append(section);render();
   button.addEventListener('click',event=>{event.stopImmediatePropagation();activate();},true);
   let deepLinkHandled=false;
-  const roleChanged=()=>{button.hidden=badge.textContent.trim()!=='OWNER';if(!button.hidden&&location.hash==='#mercenaries'&&!deepLinkHandled){deepLinkHandled=true;activate();}if(button.hidden){section.hidden=true;data=null;dirty=false;pending=null;render();}};
+  const roleChanged=()=>{button.hidden=badge.textContent.trim()!=='OWNER';if(!button.hidden&&['#mercenaries','#mercenaries/draw'].includes(location.hash)&&!deepLinkHandled){deepLinkHandled=true;if(location.hash.endsWith('/draw'))tab='draw';activate();}if(button.hidden){section.hidden=true;data=null;dirty=false;pending=null;drawEditor.reset();render();}};
   new MutationObserver(roleChanged).observe(badge,{childList:true,subtree:true,characterData:true});roleChanged();
   window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
 }
