@@ -1,0 +1,24 @@
+{
+  "name": "흑마 VS 백마 영토전 포스터",
+  "date": "2026-09-12",
+  "generator": "built-in image_gen",
+  "asset": "assets/posters/territory-war-black-horse-vs-white-horse-v1.png",
+  "source": "C:/Users/User/.codex/generated_images/01a0916a-88c4-7dd2-94f1-eaf31cebd655/exec-00118cf1-5942-4e7b-93fa-d71479f49727.png",
+  "sha256": "516831f62a00d2656424887415e3a471e2b120e3296bca59d61ba6db91a627d2",
+  "width": 1672,
+  "height": 941,
+  "format": "png",
+  "exactCopy": [
+    "숲켓몬 영토전",
+    "흑마 VS 백마",
+    "짧고 굵게 끝내줄게"
+  ],
+  "composition": "흑마의 검붉은 불꽃과 백마의 은빛 냉기, 중앙 영토 요새, 금속 제목과 하단 굵은 문구",
+  "review": {
+    "koreanText": "visually verified",
+    "gameName": "숲의 ㅜ 방향을 지정 한글 참조와 대조",
+    "wholePoster": "제목·슬로건 잘림 없음; 두 말의 대치와 진영 색 대비 확인"
+  },
+  "originalBytesPreserved": true,
+  "generatedReferences": []
+}
