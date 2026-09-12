@@ -1,4 +1,4 @@
-import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs?v=20260912-draw1';
+import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,equalMercenaryCardChance} from '../shared/mercenary-draw-policy-v1.mjs?v=20260913-uniform1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={MERCENARY_CARD:'용병카드',MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱에너지',NONE:'꽝'};
@@ -10,6 +10,10 @@ export function createMercenaryDrawEditor({request,onRender}){
   let state=null,root=null,busy=false,dirty=false,pending=null,notice='',failure=false,reason='',generation=0;
   const $=selector=>root?.querySelector(selector);
   const outcome=id=>state.policy.outcomes.find(row=>row.id===id);
+  const cardChance=(rank,count)=>{
+    const value=equalMercenaryCardChance(outcome(`CARD_${rank}`).chancePpm,count);
+    return !count?'등급 내 카드 미설정':value?`카드당 ${value.percent.toLocaleString('ko-KR',{maximumFractionDigits:10})}% · 등급 내 1/${count}`:'확률 입력 확인';
+  };
   function summary(){
     const s=summarizeMercenaryDraw(state.policy),valid=!s.missing&&s.total===DRAW_TOTAL;
     const expected=id=>number((outcome(id).chancePpm||0)/10000*(outcome(id).quantity||0));
@@ -27,9 +31,10 @@ export function createMercenaryDrawEditor({request,onRender}){
       <header class="md-heading"><div><small>CONTRACT / PROBABILITY DRAFT</small><h3>용병카드 개봉 확률</h3><p>개봉 1회에 적용할 결과와 지급 수량을 설계합니다.</p></div><div class="md-hold"><span>유저 개봉</span><strong>OFF</strong><small>서버 차단 유지</small></div></header>
       <p class="md-message ${failure?'is-error':''}" role="status" aria-live="polite" data-draw-message>${esc(notice||'확률·수량 제안 초안입니다. 저장해도 유저 개봉은 열리지 않습니다.')}</p>
       <fieldset class="md-form" ${busy?'disabled':''}>
+      <section class="md-card-rules" aria-label="확정 카드 추첨 규칙"><div><span>동일 등급 추첨</span><strong>모든 카드 균등</strong><p>등급 확률 ÷ 해당 등급 카드 수.<br>보유 여부·중복 횟수·개별 획득 확률은 반영하지 않습니다.</p></div><div><span>중복 당첨 처리</span><strong>같은 카드 중복 수량 +1</strong><p>첫 획득: 보유 1장 · 중복 0장.<br>다음 획득부터 중복으로 집계하며 재추첨·재화 전환은 하지 않습니다.</p></div></section>
       <div class="md-layout"><div class="md-ledger"><div class="md-section-heading"><span>01</span><div><h4>용병카드 · 등급별 확률</h4><p>모든 확률은 전체 개봉 기준입니다. 등급 내부 비율이 아닙니다.</p></div></div>
-        <div class="md-grade-list">${DRAW_OUTCOMES.filter(meta=>meta.rank).map(meta=>`<div class="md-grade-row"><b class="md-grade" data-rank="${meta.rank}">${meta.rank}</b><div class="md-grade-copy"><strong>${meta.rank} 용병카드</strong><span>1장 · CMS 등급 설정 ${counts[meta.rank]}종</span></div>${probability(meta)}</div>`).join('')}</div>
-        <p class="md-rank-note">${unset?`현재 ${unset}종의 등급이 미정입니다. `:''}개별 용병의 등급은 용병 도감 탭에서 직접 설정합니다. 카드별 획득 대상·같은 등급 내 확률·중복 처리는 출시 전 확정이 필요합니다.</p>
+        <div class="md-grade-list">${DRAW_OUTCOMES.filter(meta=>meta.rank).map(meta=>`<div class="md-grade-row"><b class="md-grade" data-rank="${meta.rank}">${meta.rank}</b><div class="md-grade-copy"><strong>${meta.rank} 용병카드</strong><span>1장 · CMS 등급 설정 ${counts[meta.rank]}종</span></div>${probability(meta)}<small class="md-card-chance" data-draw-card-chance="${meta.rank}" data-card-count="${counts[meta.rank]}">${cardChance(meta.rank,counts[meta.rank])}</small></div>`).join('')}</div>
+        <p class="md-rank-note">${unset?`현재 ${unset}종의 등급이 미정입니다. `:''}카드당 확률은 현재 CMS의 등급 설정 기준이며 전체 개봉 1회당 확률입니다. 카드 수가 바뀌면 해당 등급 안에서 균등하게 다시 나눕니다. 등급·획득 대상 확정과 공동 출시 전까지 개봉은 OFF입니다.</p>
       </div><div class="md-resource-ledger"><div class="md-section-heading"><span>02</span><div><h4>재화 · 꽝</h4><p>선택된 결과 한 종류만 지급하는 구조입니다.</p></div></div>
         ${DRAW_OUTCOMES.filter(meta=>!meta.rank).map(meta=>`<section class="md-reward" data-reward="${meta.id}"><div class="md-reward-name"><span>${meta.id==='MASTER_STAR'?'02':meta.id==='MYSTIC_ENERGY'?'03':'04'}</span><h5>${meta.label}</h5></div><div class="md-reward-inputs">${probability(meta)}${meta.id==='NONE'?'<div class="md-none-quantity"><span>지급 수량</span><b>없음</b></div>':`<label class="md-quantity"><span class="md-label">당첨 시 지급</span><span class="md-unit-input"><input data-draw-quantity="${meta.id}" aria-label="${meta.label} 지급 수량" type="number" min="1" max="1000000000" step="1" inputmode="numeric" value="${esc(outcome(meta.id).quantity)}"><span>개</span></span></label>`}</div></section>`).join('')}
         <button type="button" class="md-remainder" data-draw-remainder>남은 확률을 꽝으로 채우기</button>
@@ -41,7 +46,7 @@ export function createMercenaryDrawEditor({request,onRender}){
       <details class="md-history"><summary>최근 확률 변경 이력 · ${state.audit.length}건</summary>${state.audit.map(row=>`<p><b>r${row.revision}</b><span>${esc(row.reason)}</span><small>${date(row.created_at)} · 관리자 #${row.actor_id}</small></p>`).join('')}</details>
     </section>`;
   }
-  function markDirty(){dirty=true;pending=null;if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent='● 저장하지 않은 확률 변경';const button=$('[data-draw-save]');if(button){button.disabled=false;button.textContent='확률 초안 저장';}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();}
+  function markDirty(){dirty=true;pending=null;if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent='● 저장하지 않은 확률 변경';const button=$('[data-draw-save]');if(button){button.disabled=false;button.textContent='확률 초안 저장';}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
   async function load(){
     if(busy)return;const token=generation;busy=true;failure=false;notice='운영 확률 초안을 불러오는 중입니다.';onRender();
     try{const received=await request();if(token!==generation)return;state=received;dirty=false;pending=null;reason='';notice='확률·수량 제안 초안입니다. 저장해도 유저 개봉은 OFF로 유지됩니다.';}

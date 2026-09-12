@@ -2,6 +2,7 @@ import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
 export const DRAW_TOTAL = 1_000_000;
 export const DRAW_MAX_BYTES = 24 * 1024;
+export const MERCENARY_CARD_RULES=Object.freeze({sameRankSelection:'UNIFORM',ownershipWeighting:'NONE',duplicateHandling:'COUNT_EXTRA_COPIES'});
 export const DRAW_OUTCOMES = Object.freeze([
   ...MERCENARY_RANKS.map(rank=>Object.freeze({id:`CARD_${rank}`,type:'MERCENARY_CARD',rank,label:`${rank} 용병카드`})),
   Object.freeze({id:'MASTER_STAR',type:'MASTER_STAR',rank:null,label:'마스터의 별'}),
@@ -11,14 +12,20 @@ export const DRAW_OUTCOMES = Object.freeze([
 export function suggestedMercenaryDraw(){
   const chances=[100000,10000,1000,100,10,1,100000,200000,588889];
   return {format:'MERCENARY_DRAW_DRAFT_V1',status:'DRAFT',openingEnabled:false,
+    cardRules:{...MERCENARY_CARD_RULES},
     outcomes:DRAW_OUTCOMES.map((row,i)=>({id:row.id,chancePpm:chances[i],quantity:row.id==='NONE'?0:1})),
-    notes:'SSS 0.0001%를 기준으로 한 단계 낮아질 때마다 10배로 설정한 확률·수량 제안 초안. 개봉 비용, 동일 등급 내 카드별 확률, 획득 대상, 중복 처리와 공동 출시 조건은 별도 확정 필요.'};
+    notes:'SSS 0.0001%를 기준으로 한 단계 낮아질 때마다 10배로 설정한 확률·수량 제안 초안. 같은 등급의 카드는 보유 여부와 무관하게 균등 추첨하며 중복 당첨은 중복 수량으로 집계. 개봉 비용·공급·획득 대상과 공동 출시 조건은 별도 확정 필요.'};
 }
 function exactKeys(value,keys,label){
   if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))throw Error(`${label}: 누락되거나 허용되지 않은 항목이 있습니다.`);
 }
 export function validateMercenaryDraw(policy){
-  exactKeys(policy,['format','status','openingEnabled','outcomes','notes'],'개봉 확률');
+  const fields=['format','status','openingEnabled','outcomes','notes'];
+  exactKeys(policy,Object.hasOwn(policy||{},'cardRules')?[...fields,'cardRules']:fields,'개봉 확률');
+  if(Object.hasOwn(policy,'cardRules')){
+    exactKeys(policy.cardRules,Object.keys(MERCENARY_CARD_RULES),'카드 추첨 규칙');
+    if(Object.entries(MERCENARY_CARD_RULES).some(([key,value])=>policy.cardRules[key]!==value))throw Error('같은 등급 균등 추첨·보유 여부 미반영·중복 수량 집계 규칙을 유지하세요.');
+  }
   if(policy.format!=='MERCENARY_DRAW_DRAFT_V1'||policy.status!=='DRAFT'||policy.openingEnabled!==false)throw Error('유저 개봉 OFF 상태의 초안만 저장할 수 있습니다.');
   if(!Array.isArray(policy.outcomes)||policy.outcomes.length!==9||new Set(policy.outcomes.map(row=>row?.id)).size!==9)throw Error('용병 6등급·마스터의 별·미스틱에너지·꽝을 각각 한 번씩 설정하세요.');
   let total=0;
@@ -33,7 +40,18 @@ export function validateMercenaryDraw(policy){
   });
   if(total!==DRAW_TOTAL)throw Error(`전체 확률 합계를 100%로 맞추세요. 현재 ${formatDrawPercent(total)}%입니다.`);
   if(typeof policy.notes!=='string'||policy.notes.length>2000||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(policy.notes))throw Error('확률 메모는 2,000자 이내로 입력하세요.');
-  return {...policy,outcomes:ordered};
+  return {...policy,cardRules:{...MERCENARY_CARD_RULES},outcomes:ordered};
+}
+// The catalog is the pool authority. Ownership and per-card dropRate are not inputs.
+export function mercenaryGradePools(mercenaries,catalogCodes){
+  if(!Array.isArray(catalogCodes)||!catalogCodes.length||new Set(catalogCodes).size!==catalogCodes.length||
+     !Array.isArray(mercenaries)||mercenaries.length!==catalogCodes.length||new Set(mercenaries.map(row=>row?.code)).size!==catalogCodes.length||
+     mercenaries.some(row=>!catalogCodes.includes(row?.code)||(row.rank!==null&&!MERCENARY_RANKS.includes(row.rank))))throw Error('등록된 용병의 코드와 등급을 확인하세요.');
+  return Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,mercenaries.filter(row=>row.rank===rank).map(row=>row.code).sort()]));
+}
+export function equalMercenaryCardChance(chancePpm,count){
+  if(!Number.isSafeInteger(chancePpm)||chancePpm<0||chancePpm>DRAW_TOTAL||!Number.isSafeInteger(count)||count<1)return null;
+  return {numerator:chancePpm,denominator:DRAW_TOTAL*count,percent:chancePpm/(10000*count)};
 }
 export function parseDrawPercent(value){
   if(typeof value!=='string'||!/^(?:0|[1-9]\d*)(?:\.\d{1,4})?$/.test(value.trim()))return null;

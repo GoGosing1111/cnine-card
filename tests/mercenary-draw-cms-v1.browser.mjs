@@ -35,6 +35,10 @@ try{
     assert.equal(await page.locator('[data-draw-chance]').count(),9);assert.equal(await page.locator('[data-draw-quantity]').count(),2);
     assert.equal(await page.locator('[data-draw-chance="CARD_SSS"]').inputValue(),'0.0001');
     assert.equal(await page.locator('.md-hold strong').textContent(),'OFF');
+    assert.match(await page.locator('.md-card-rules').innerText(),/모든 카드 균등/);
+    assert.match(await page.locator('.md-card-rules').innerText(),/중복 수량 \+1/);
+    assert.equal(await page.locator('[data-draw-card-chance]').count(),6);
+    assert.match(await page.locator('[data-draw-card-chance="SSS"]').innerText(),/카드당 0\.0001% · 등급 내 1\/1/);
     assert.match(await page.locator('[data-draw-total]').textContent(),/^100/);
     assert.equal(await page.locator('.mc-savebar').isVisible(),false);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'overflow '+width);
@@ -53,6 +57,7 @@ try{
     assert.equal(await page.locator('[data-draw-quantity="MASTER_STAR"]').inputValue(),'4');
     const downloadPromise=page.waitForEvent('download');await page.locator('[data-draw-export]').click();const download=await downloadPromise;
     const exported=JSON.parse(fs.readFileSync(await download.path(),'utf8'));assert.equal(exported.policy.outcomes.find(row=>row.id==='MASTER_STAR').quantity,4);assert.equal(exported.policy.openingEnabled,false);
+    assert.deepEqual(exported.policy.cardRules,{sameRankSelection:'UNIFORM',ownershipWeighting:'NONE',duplicateHandling:'COUNT_EXTRA_COPIES'});
     await page.locator('[data-draw-reload]').click();await page.locator('[data-draw-quantity="MASTER_STAR"]').waitFor();assert.equal(await page.locator('[data-draw-quantity="MASTER_STAR"]').inputValue(),'3');
     await page.locator('[data-draw-quantity="MYSTIC_ENERGY"]').fill('5');await page.locator('[data-draw-reason]').fill('응답 유실 재시도 검증');loseResponse=true;await page.locator('[data-draw-save]').click();await page.locator('.md-message.is-error').waitFor();
     await page.locator('[data-draw-save]').click();await page.locator('[data-draw-message]').filter({hasText:'확률 저장 완료'}).waitFor();assert.equal(writes,2);

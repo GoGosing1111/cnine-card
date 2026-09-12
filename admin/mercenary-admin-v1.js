@@ -1,5 +1,5 @@
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260912-cms1';
-import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=20260912-draw1';
+import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=20260913-uniform1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=path=>'/'+String(path||'').replace(/^\/+/, '');

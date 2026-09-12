@@ -1,9 +1,10 @@
 import {DRAW_MAX_BYTES,suggestedMercenaryDraw,validateMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs';
+import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
 
-// Explicit user hold. No draw, consumption, reward or inventory handler is enabled here.
+// Explicit user hold. Accounting schema and policy are ready; opening remains blocked.
 export const MERCENARY_CARD_OPENING_RELEASE_ENABLED=false;
 const registration='mercenary-draw-proposal-20260912-v1';
-const tables=[
+const tables=[...MERCENARY_ACCOUNTING_SCHEMA,
   `CREATE TABLE IF NOT EXISTS mercenary_draw_config_v1(id INTEGER PRIMARY KEY CHECK(id=1),payload_json TEXT NOT NULL,revision INTEGER NOT NULL,last_request_id TEXT NOT NULL,updated_by BIGINT NOT NULL,updated_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS mercenary_draw_audit_v1(request_id TEXT PRIMARY KEY,actor_id BIGINT NOT NULL,payload_hash TEXT NOT NULL,revision INTEGER NOT NULL,reason TEXT NOT NULL,before_json TEXT,after_json TEXT NOT NULL,created_at TEXT NOT NULL)`
 ];

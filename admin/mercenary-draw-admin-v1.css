@@ -1,4 +1,6 @@
 .mc-savebar[hidden]{display:none!important}
+.md-card-rules{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:18px 0 22px;border-top:1px solid #405349}.md-card-rules>div{min-width:0}.md-card-rules span{display:block;color:#a1bba9;font-size:10px;letter-spacing:.5px}.md-card-rules strong{display:block;margin-top:7px;font-size:16px;font-weight:650;color:#e2ce9f}.md-card-rules p{font-size:11px;line-height:1.8;color:#b0c0b5;margin:8px 0 0}.md-card-chance{grid-column:2/-1;color:#c7b77f;font-size:10px;line-height:1.6;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+@media(max-width:600px){.md-card-rules{grid-template-columns:1fr;gap:18px;padding:16px 0 20px}.md-card-rules strong{font-size:15px}.md-card-rules p{font-size:11px}.md-card-chance{font-size:10px}}
 .md-editor{padding:28px 30px 0;color:#e5e8df;min-width:0}
 .md-heading{display:flex;justify-content:space-between;align-items:center;gap:22px;padding:0 0 22px;border-bottom:1px solid #44534a}
 .md-heading>div{min-width:0}.md-heading small{font-size:10px;color:#d6bc84;letter-spacing:2px}.md-heading h3{font-size:28px;letter-spacing:-1px;margin:9px 0}.md-heading p{font-size:12px;color:#a6b7ae;margin:0}

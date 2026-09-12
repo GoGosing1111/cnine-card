@@ -86,7 +86,7 @@ test('unknown fields, ranks, missing entries, automatic skill owners and runtime
 test('API and CMS navigation are connected without gameplay imports',()=>{
   const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
   assert.match(read('functions/api/[[path]].js'),/handleMercenaryCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);
-  assert.match(read('admin/index.html'),/mercenary-admin-v1\.js\?v=20260912-draw1/);
+  assert.match(read('admin/index.html'),/mercenary-admin-v1\.js\?v=20260913-uniform1/);
   assert.match(read('admin/mercenary-admin-v1.js'),/badge.textContent.trim\(\)!=='OWNER'/);
   for(const path of ['index.html','js/app.js','js/battle-v3-live.js'])assert.doesNotMatch(read(path),/mercenary-cms|mercenary-admin-v1/);
 });
