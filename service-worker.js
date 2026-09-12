@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v2087-hanbok-avatar-effects';
+const SHELL_CACHE='soop-card-shell-v2088-land-rewards';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

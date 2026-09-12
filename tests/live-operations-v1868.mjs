@@ -59,8 +59,8 @@ test('operation board ships desktop and mobile game UI with cache-busted assets'
   assert.match(css,/grid-auto-columns: minmax\(300px, 1fr\)/);
   assert.match(css,/grid-auto-columns: minmax\(252px, 78vw\)/);
   assert.match(index,/live-operations-v1868\.css\?v=1868-live-operations-r2/);
-  assert.match(index,/app\.js\?v=2087-hanbok-avatar-effects/);
+  assert.match(index,/app\.js\?v=2088-land-rewards/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=2083-clan-prison-camp/);
-  assert.match(worker,/soop-card-shell-v2087-hanbok-avatar-effects/);
+  assert.match(worker,/soop-card-shell-v2088-land-rewards/);
   assert.match(shell,/const VERSION = '2083-clan-prison-camp'/);
 });
