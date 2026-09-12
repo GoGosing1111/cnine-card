@@ -1,6 +1,6 @@
 {
   "id": "modern-hanbok-original-v1",
-  "status": "CONCEPT_USER_REVIEW_PENDING",
+  "status": "APPROVED_REGISTERED_IN_CMS",
   "date": "2026-09-12",
   "generator": "built-in image_gen",
   "subject": "DIIM_REFERENCED_ADULT_2D_AVATAR",
@@ -107,7 +107,7 @@
     "use": "garment construction terminology only; no external images sent"
   },
   "originalBytesPreserved": true,
-  "catalogRegistration": false,
+  "catalogRegistration": true,
   "existingAvatarReplacement": false,
   "referenceReview": {
     "file": "diim-reference-review-v7.json",
@@ -116,5 +116,18 @@
     "photographsSentInV7": 4,
     "illustrationsSentInV7": 1,
     "previousHanbokImagesSentInV7": 0
+  },
+  "registration": {
+    "name": "한복디임",
+    "code": "HANBOK_DIIM",
+    "serial": "A-17",
+    "approval": "디임아바타 추가하고 / 이름은 한복디임",
+    "registeredAtKst": "2026-09-12 20:52:13",
+    "public": false,
+    "acquisitionType": "UNSET",
+    "releaseCommit": "a563fda3",
+    "deployment": "https://2a4a3bf1.cnine-card.pages.dev",
+    "preview": "https://cnine-card.pages.dev/preview/avatar-hanbok-diim-v1/",
+    "manifest": "preview/avatar-hanbok-diim-v1/manifest.json"
   }
 }
