@@ -3,19 +3,20 @@ import {createPveContinuousSession} from '../js/pve-continuous-session-v1.mjs';
 import {createTowerV3Session} from '../js/tower-v3-session.mjs';
 const labels={tower:['무한의탑','끝을 넘어서는 도전','해금한 층에 다시 도전하고, 더 높은 기록을 남기세요.'],scrapyard:['폐차장','폐허 속에서 되찾는 가능성','전선을 돌파하고 차량 제작에 필요한 부품을 회수하세요.'],'cow-room':['카우방','붉은 목초지의 지배자','도끼병과 정예를 넘어, 카우 킹에게 도전하세요.'],'idle-dungeon':['자동 원정','끝나지 않는 원정대의 여정','접속하지 않아도 원정과 코인 적립은 계속됩니다.']};
 const raw=new URL(location.href).searchParams.get('content'),content=Object.hasOwn(labels,raw)?raw:'tower',isIdle=content==='idle-dungeon',isTower=content==='tower',base=`${content}/v3/`;
+const isCow=content==='cow-room';
 const $=id=>document.getElementById(id),text=(id,value)=>{$(id).textContent=String(value);},fmt=n=>Number(n||0).toLocaleString('ko-KR');
 let state,session,bridge,disposed=false,presenting=false,displayed='',repeatLeft=0,paused=false,speed=1,refreshing=false,idleSession='',idleKey='',idleTimer,heartbeatTimer;
 const storage=localStorage;
 const soundEnabled=storage.getItem('cnine_battle_sound')!=='OFF';$('sound').setAttribute('aria-pressed',String(soundEnabled));text('sound',soundEnabled?'소리 끄기':'소리 켜기');
 document.body.dataset.content=content;text('title',labels[content][0]);text('eyebrow',labels[content][1]);text('description',labels[content][2]);document.title=`숲켓몬 · ${labels[content][0]}`;
 document.querySelector(`[data-content-link="${content}"]`).setAttribute('aria-current','page');
-$('tier-control').hidden=!isTower;$('difficulty').hidden=isTower;$('repeat-control').hidden=isIdle;$('idle-stop').hidden=!isIdle;$('claim').hidden=!isIdle;
+$('tier-control').hidden=!isTower;$('difficulty').hidden=isTower;$('repeat-control').hidden=isIdle||isCow;$('idle-stop').hidden=!isIdle;$('claim').hidden=!isIdle;
 $('battle-frame').src=`./battle.html?content=${content}`;
 text('selection-title',isTower?'도전할 층':isIdle?'진행 난이도':'원정 지역');text('history-title',isTower?'돌파의 흔적':isIdle?'원정대의 발자취':'최근 작전');
 if(isIdle){text('record-label','최고 도달');text('cost-label','정산 대기');text('budget-label','오늘 누적');text('record2-label','자동 진행');text('rule-note','화면을 닫아도 원정은 계속됩니다. 직접 정지할 때까지 진행하며, 오늘 코인 상한 이후에도 전투는 이어집니다.');}
 function message(value){text('message',value||'');}
 function selection(){return isTower?String($('tier').value):$('difficulty').value;}
-function lockControls(busy){$('start').disabled=busy||!state;$('tier').disabled=busy;$('tier-down').disabled=busy;$('tier-up').disabled=busy;$('difficulty').disabled=busy;$('repeat').disabled=busy;}
+function lockControls(busy){$('start').disabled=busy||!state||isCow&&(!state.portals?.available||state.budget?.remaining<1||state.policy?.mode==='OFF');$('tier').disabled=busy;$('tier-down').disabled=busy;$('tier-up').disabled=busy;$('difficulty').disabled=busy;$('repeat').disabled=busy;}
 function showRecords(records){$('records').replaceChildren();if(!records.length){const li=document.createElement('li');li.textContent='아직 남겨진 기록이 없습니다.';$('records').append(li);return;}
   for(const r of records.slice(0,12)){const li=document.createElement('li'),b=document.createElement('b'),span=document.createElement('span');b.textContent=r.label;span.textContent=r.detail;li.append(b,span);$('records').append(li);}}
 async function refresh(){
@@ -32,6 +33,12 @@ async function refresh(){
       }else{text('record-value',state.progress.bestCleared?'돌파':'미돌파');text('entry-cost',`${fmt(state.policy.entryCoin)} 코인`);text('remaining',`${state.budget.remaining}회`);showRecords([{label:'카우 킹',detail:state.progress.bestCleared?'돌파 완료':'도전 대기'},{label:'오늘 출격',detail:`${state.budget.attempts}회`}]);}
     }
     text('start',isIdle?state.progress.running?'선택 난이도로 이어가기':'자동 원정 시작':'원정 출발');text('lobby-status',isIdle&&state.progress.running?`${state.progress.currentFloor}층 자동 원정 진행 중`:'원정대, 출발 준비 완료');text('lobby-detail',isIdle?'화면 연결과 관계없이 서버에서 계속 진행됩니다.':'저장된 일반 카드 5장과 별도 용병 편성을 사용합니다.');
+    if(isCow){
+      text('start',state.portals.available?'포탈로 입장하기':'포탈을 발견해 주세요');
+      text('lobby-status',state.portals.available?`발견한 젖소방 포탈 ${fmt(state.portals.available)}개`:'아직 발견한 포탈이 없습니다.');
+      text('lobby-detail','일반 PVE 2% · 아포칼립스 3% 확률로 포탈이 열립니다.');
+      text('rule-note','토벌·소탕의 완료 전투마다 개별 판정합니다. 입장 시 포탈 1개를 사용하며, 새로고침이나 전투 복구에는 추가 사용하지 않습니다.');
+    }
     if(!presenting&&(!session||session.getState().phase==='IDLE'))lockControls(false);
     return state;
   }catch(error){message(error.message);if(!state){text('lobby-status',error.status===423?'공동 업데이트 준비 중':'원정 정보를 불러오지 못했습니다.');text('lobby-detail',error.message);text('start','입장 대기');lockControls(true);}throw error;
@@ -66,7 +73,7 @@ async function startIdle(){
     clearInterval(heartbeatTimer);heartbeatTimer=setInterval(()=>{if(!disposed&&!document.hidden&&idleSession)void api(base+'heartbeat',{method:'POST',body:{sessionId:idleSession}}).catch(e=>message(e.message));},12000);
   }catch(e){message(e.message);}finally{lockControls(false);}
 }
-$('start').onclick=()=>{message('');if(isIdle){void startIdle();return;}repeatLeft=Number($('repeat').value);$('stop-repeat').hidden=repeatLeft<=1;void session.start(selection());};
+$('start').onclick=()=>{message('');if(isIdle){void startIdle();return;}repeatLeft=isCow?1:Number($('repeat').value);$('stop-repeat').hidden=repeatLeft<=1;void session.start(selection());};
 $('recover').onclick=()=>{displayed='';void session?.resume();};
 $('acknowledge').onclick=()=>{if(session?.acknowledge()){displayed='';$('result').hidden=true;lockControls(false);}};
 $('stop-repeat').onclick=()=>{repeatLeft=0;$('stop-repeat').hidden=true;message('이번 전투 이후 추가 입장을 중지합니다.');};
@@ -83,5 +90,10 @@ try{
   if(isIdle)idleTimer=setInterval(()=>{if(!document.hidden)void refresh().catch(()=>{});},8000);
   else{const transport={run:body=>api(base+'run',{method:'POST',body}),status:()=>api(base+'status')};
     session=isTower?createTowerV3Session({accountId:state.accountId,transport,storage,onChange:changed}):createPveContinuousSession({accountId:state.accountId,transport,storage,onChange:changed,content:content==='cow-room'?'COW_ROOM':'SCRAPYARD',...(content==='cow-room'?{validateSelection:s=>s==='PASTURE'}:{})});
-    await session.resume();}
+    await session.resume();
+    if(isCow&&new URL(location.href).searchParams.get('enter')==='1'){
+      const clean=new URL(location.href);clean.searchParams.delete('enter');history.replaceState(null,'',clean);
+      if(session.getState().phase==='IDLE'&&!$('start').disabled)$('start').click();
+    }
+  }
 }catch(e){message(e.message);}

@@ -4,6 +4,7 @@ import {buildCowRoomBattle} from './_cow_room_v3.js';
 import {readExpeditionPolicy,validateExpeditionPolicy} from './_expedition_v3_settings.js';
 import {planUnifiedDropRoll,prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointError} from './_joint_request.js';
+import {COW_PORTAL_SCHEMA,COW_PORTAL_TABLE,cowPortalStatus,requireCowPortal} from './_cow_room_portal.js';
 const RUN='expedition_v3_runs_v1',DAY='expedition_v3_daily_v1',PROGRESS='expedition_v3_progress_v1',LEASE=120000;
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const key=(user,content,requestId)=>{
@@ -18,6 +19,7 @@ const dayKey=at=>new Date(at+9*3600000).toISOString().slice(0,10);
 const pending=row=>({ok:true,status:'RUNNING',requestId:row.request_id,difficulty:row.selection,retryAfterMs:1500,resultPending:true});
 const owns=`EXISTS(SELECT 1 FROM ${RUN} WHERE user_id=? AND content=? AND request_id=? AND state='PREPARED' AND lease_token=?)`;
 export const EXPEDITION_V3_SCHEMA=[
+  ...COW_PORTAL_SCHEMA,
   `CREATE TABLE IF NOT EXISTS ${RUN}(user_id INTEGER NOT NULL,content TEXT NOT NULL,request_id TEXT NOT NULL,selection TEXT NOT NULL,state TEXT NOT NULL DEFAULT 'PREPARED',checkpoint_json TEXT NOT NULL,response_json TEXT,lease_token TEXT,lease_until INTEGER NOT NULL DEFAULT 0,integrity INTEGER NOT NULL DEFAULT 1,last_error TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,content,request_id))`,
   `CREATE UNIQUE INDEX IF NOT EXISTS expedition_v3_active_user ON ${RUN}(user_id) WHERE state<>'COMPLETED'`,
   `CREATE TABLE IF NOT EXISTS ${DAY}(user_id INTEGER NOT NULL,content TEXT NOT NULL,day_key TEXT NOT NULL,attempts INTEGER NOT NULL DEFAULT 0,coin INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(user_id,content,day_key))`,
@@ -31,12 +33,12 @@ async function get(env,uid,content,rid){return p(env,`SELECT * FROM ${RUN} WHERE
 async function active(env,uid){return p(env,`SELECT * FROM ${RUN} WHERE user_id=? AND state<>'COMPLETED'`,uid).first();}
 export async function expeditionV3Status(env,user,content,deps={}){
   const uid=key(user,content),now=(deps.now||Date.now)(),day=dayKey(now),policy=validateExpeditionPolicy(content,await (deps.readPolicy||readExpeditionPolicy)(env,content));
-  const [current,budget,progress]=await Promise.all([active(env,uid),p(env,`SELECT * FROM ${DAY} WHERE user_id=? AND content=? AND day_key=?`,uid,content,day).first(),
-    p(env,`SELECT best_cleared FROM ${PROGRESS} WHERE user_id=? AND content=?`,uid,content).first()]);
+  const [current,budget,progress,portals]=await Promise.all([active(env,uid),p(env,`SELECT * FROM ${DAY} WHERE user_id=? AND content=? AND day_key=?`,uid,content,day).first(),
+    p(env,`SELECT best_cleared FROM ${PROGRESS} WHERE user_id=? AND content=?`,uid,content).first(),cowPortalStatus(env,user)]);
   const attempts=Number(budget?.attempts||0),coin=Number(budget?.coin||0);
   return {ok:true,accountId:uid,content,status:current?'RUNNING':'IDLE',...(current?{...pending(current),activeContent:current.content}:{}),policy,progress:{bestCleared:Number(progress?.best_cleared||0),maxUnlocked:1},
     budget:{day,attempts,remaining:Math.max(0,policy.dailyRuns-attempts),coin,coinRemaining:Math.max(0,policy.dailyCoinCap-coin)},
-    difficulties:[{id:'PASTURE',name:'붉은 목초지'}]};
+    portals,difficulties:[{id:'PASTURE',name:'붉은 목초지'}]};
 }
 export async function expeditionV3Result(env,user,content,rid){const row=await get(env,key(user,content,rid),content,rid);return row?.state==='COMPLETED'?{...parse(row.response_json),replayed:true}:row?pending(row):{ok:true,status:'NOT_FOUND'};}
 async function settle(env,user,row,token,deps){
@@ -44,7 +46,7 @@ async function settle(env,user,row,token,deps){
   if(saved.userId!==uid||saved.content!==content||saved.requestId!==rid||saved.selection!==row.selection)throw jointError('PVE_V3_RECORD','전투 기록의 소유자를 확인할 수 없습니다.',409);
   const grants=await prepareUnifiedDropGrant(env,saved.plan,{writePoolLedger:false});
   const response={...saved.battle,ok:true,status:'COMPLETED',requestId:rid,difficulty:{id:saved.selection,name:saved.name},success:saved.success,
-    rewards:grants.rewards,budget:saved.budget,entryCost:saved.policy.entryCoin,policyVersion:saved.policy.version,refreshAccount:true};
+    rewards:grants.rewards,budget:saved.budget,entryCost:saved.policy.entryCoin,portalId:saved.portalId||null,policyVersion:saved.policy.version,refreshAccount:true};
   const proof=grants.proofs.length?grants.proofs.map(q=>`(${q.sql})`).join(' AND '):'1=1';
   await env.DB.batch([
     p(env,`INSERT INTO ${RUN}(user_id,content,request_id,selection,checkpoint_json,integrity) SELECT ?,?,?,'','',NULL WHERE NOT EXISTS(SELECT 1 FROM ${RUN} WHERE user_id=? AND content=? AND request_id=? AND state='PREPARED' AND lease_token=? AND lease_until>?) OR NOT EXISTS(SELECT 1 FROM users WHERE id=?)`,uid,content,rid,uid,content,rid,token,now,uid),
@@ -72,6 +74,7 @@ export async function runExpeditionV3(env,user,content,body,deps={}){
     const state=await expeditionV3Status(env,user,content,deps),policy=state.policy;
     if(policy.mode==='OFF'||policy.mode==='TEST'&&user.role!=='OWNER'||policy.mode==='ON'&&!policy.approved)throw jointError('PVE_V3_CLOSED','현재 입장할 수 없는 원정입니다.',423);
     if(state.budget.remaining<=0)throw jointError('PVE_V3_DAILY_LIMIT','오늘 입장 횟수를 모두 사용했습니다.',409);
+    const portal=await requireCowPortal(env,user);
     const snapshot=await (deps.loadSnapshot||loadScrapyardV3Snapshot)(env,user,deps),seed=crypto.getRandomValues(new Uint32Array(1))[0],battle=buildCowRoomBattle({snapshot,seed});
     const success=battle.battleV2.result.winner==='A',coin=success?Math.min(policy.clearCoin[0],state.budget.coinRemaining):0;
     const plan=await planUnifiedDropRoll(env,{userId:uid,requestId:`${content}_V3:${rid}`,sourceType:content,sourceId:selection,triggerType:success?'CLEAR':'DEFEAT',role:user.role,context:{difficulty:selection}});
@@ -79,11 +82,13 @@ export async function runExpeditionV3(env,user,content,body,deps={}){
     plan.rewards=success?plan.rewards.filter(r=>r.rewardType!=='COIN'):[];
     plan.rewards.push(...await planForgeProtectionDrop(env,content,{cleared:success}));
     if(coin>0)plan.rewards.push({rewardType:'COIN',rewardRef:'COIN',rewardName:'원정 보상',quantity:coin,poolId:null,entryId:null});
-    const saved={userId:uid,content,requestId:rid,selection,name:state.difficulties.find(s=>s.id===selection).name,snapshot,seed,battle,success,policy,plan,
+    const saved={userId:uid,content,requestId:rid,selection,portalId:portal.id,name:state.difficulties.find(s=>s.id===selection).name,snapshot,seed,battle,success,policy,plan,
       budget:{...state.budget,attempts:state.budget.attempts+1,remaining:state.budget.remaining-1,coin:state.budget.coin+coin,coinRemaining:state.budget.coinRemaining-coin}};
     const args=[uid,content,rid,token],day=state.budget.day,dayCoin=state.budget.coin;
     const statements=[
       p(env,`INSERT INTO ${RUN}(user_id,content,request_id,selection,checkpoint_json,lease_token,lease_until) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND COALESCE((SELECT attempts FROM ${DAY} WHERE user_id=? AND content=? AND day_key=?),0)=?`,uid,content,rid,selection,encode(saved),token,at+LEASE,uid,policy.entryCoin,uid,content,day,state.budget.attempts),
+      p(env,`UPDATE ${COW_PORTAL_TABLE} SET state='CONSUMED',consumed_request_id=?,consumed_at=? WHERE id=? AND user_id=? AND state='OPEN' AND ${owns}`,rid,new Date(at).toISOString(),portal.id,uid,...args),
+      p(env,`INSERT INTO ${RUN}(user_id,content,request_id,selection,checkpoint_json,integrity) SELECT ?,?,?,'','',NULL WHERE NOT EXISTS(SELECT 1 FROM ${COW_PORTAL_TABLE} WHERE id=? AND user_id=? AND state='CONSUMED' AND consumed_request_id=?)`,uid,content,rid,portal.id,uid,rid),
       p(env,`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND ${owns}`,policy.entryCoin,uid,policy.entryCoin,...args),
       p(env,`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,? FROM users WHERE id=? AND ${owns}`,uid,-policy.entryCoin,`${content} V3 입장 ${rid}`,uid,...args),
       p(env,`INSERT INTO ${DAY}(user_id,content,day_key,attempts,coin) SELECT ?,?,?,?,? WHERE ${owns} ON CONFLICT(user_id,content,day_key) DO UPDATE SET attempts=excluded.attempts,coin=excluded.coin`,uid,content,day,state.budget.attempts+1,dayCoin+coin,...args),

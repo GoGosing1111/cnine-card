@@ -9,6 +9,7 @@ export async function mountPveV3Cms(host){
   const tabs=document.createElement('div'),form=document.createElement('form'),buttons=document.createElement('div'),reload=document.createElement('button'),save=document.createElement('button');reload.type='button';reload.textContent='다시 불러오기';save.type='submit';save.textContent='초안 저장';buttons.append(reload,save);let selected='TOWER';
   host.append(title,note,tabs,form,status);let original;
   function draw(){form.replaceChildren();if(!data)return;original=selected==='TOWER'?data.tower:data.cow;const version=document.createElement('p');version.textContent=`저장 버전 r${original.revision} · 미승인 초안 · 공동 실행 ${data.release.enabled?'ON':'OFF'}`;form.append(version);
+    if(selected==='COW_ROOM'){const portal=document.createElement('p');portal.className='pve-v3-portal-policy';portal.textContent=`포탈 입장 · 일반 PVE ${data.cowPortal.standardPercent}% / 아포칼립스 ${data.cowPortal.apocalypsePercent}% · 토벌·소탕 완료 전투마다 1회 판정 · 포탈 1개당 1회 입장`;form.append(portal);}
     const sections=selected==='TOWER'?{config:original.config,economy:original.economy}:{economy:original};
     for(const [section,values] of Object.entries(sections)){const fieldset=document.createElement('fieldset'),legend=document.createElement('legend');legend.textContent=section==='config'?'전투 규칙':'입장과 보상';fieldset.append(legend);
       for(const [key,value] of Object.entries(values)){if(!Object.hasOwn(names,key))continue;const label=document.createElement('label'),name=document.createElement('span');name.textContent=names[key];let input;

@@ -435,7 +435,10 @@
       // V1989: 첫 1회는 위에서 기존 V3 타임라인을 끝까지 재생했다. 이후 회차는
       // 새 전장을 반복 생성하지 않고 서버 소탕 API로 독립 승패/보상을 일괄 판정한다.
       await window.completePveSweepAfterAnimatedBattle({data,modal,msg,renderer});
-    } else setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);
+    } else {
+      setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);
+      if(data.cowPortal)await window.CowRoomPortal?.offer([data.cowPortal]);
+    }
   }
 
   window.playPveBattleV2Live = async options => {

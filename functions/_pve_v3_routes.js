@@ -9,6 +9,7 @@ import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {runExpeditionV3,expeditionV3Status,expeditionV3Result} from './_expedition_v3_runs.js';
 import {readExpeditionPolicy,saveExpeditionDraft} from './_expedition_v3_settings.js';
 import {handleIdleV3Ready} from './_idle_v3_routes.js';
+import {cowPortalStatus,COW_PORTAL_POLICY} from './_cow_room_portal.js';
 
 export const PVE_V3_PREFIXES=Object.freeze(['tower/v3/','scrapyard/v3/','cow-room/v3/','idle-dungeon/v3/']);
 export const isPveV3Path=path=>PVE_V3_PREFIXES.some(prefix=>path.startsWith(prefix));
@@ -39,13 +40,14 @@ export async function handlePveV3Ready({path,request,env,deps}){
     if(path.startsWith('idle-dungeon/'))return await handleIdleV3Ready({path,request,env,user,deps});
     if(path==='admin/pve-v3'){
       if(user.role!=='OWNER')return json({error:'OWNER만 개편 설정을 관리할 수 있습니다.'},403);
-      if(request.method==='GET')return json({release:v3JointReleaseState(),tower:await readTowerV3Settings(env,{draft:true}),cow:await readExpeditionPolicy(env,'COW_ROOM',{draft:true})});
+      if(request.method==='GET')return json({release:v3JointReleaseState(),tower:await readTowerV3Settings(env,{draft:true}),cow:await readExpeditionPolicy(env,'COW_ROOM',{draft:true}),cowPortal:COW_PORTAL_POLICY});
       if(request.method!=='PATCH')return json({error:'지원하지 않는 요청입니다.'},405);
       const body=await readJointBody(request,{maxBytes:32000,fields:['content','revision','config','economy']});
       if(!['TOWER','COW_ROOM'].includes(body.content))throw jointError('PVE_V3_CONTENT','콘텐츠를 확인하세요.');
       if(typeof withUserMutationLock!=='function')throw jointError('PVE_V3_LOCK','계정 잠금 서비스를 확인하세요.',503);
       return json(await withUserMutationLock(env,user.id,path,()=>body.content==='TOWER'?saveTowerV3Draft(env,user,body):saveExpeditionDraft(env,user,body.content,body)));
     }
+    if(path==='cow-room/v3/portals')return request.method==='GET'?json({ok:true,accountId:Number(user.id),portals:await cowPortalStatus(env,user)}):json({error:'GET 요청이 필요합니다.'},405);
     const match=/^(tower|scrapyard|cow-room)\/v3\/(state|status|result|run)$/.exec(path);
     if(!match)return json({error:'원정 경로를 찾을 수 없습니다.'},404);
     const [,content,action]=match,query=new URL(request.url).searchParams;

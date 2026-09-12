@@ -957,7 +957,7 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
-      'js/battle-v2-live.js?v=1991-sweep-result-front',
+      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
@@ -2009,11 +2009,11 @@ async function requestPveSweepChunk(payload){
 function pveSweepQuantity(rows=[]){return (rows||[]).reduce((sum,row)=>sum+Math.max(1,Number(row?.quantity||1)),0)}
 function pveSweepFirstResult(data={}){
   const win=String(data.result||'').toUpperCase()==='WIN';
-  return {battles:1,requestedBattles:1,wins:win?1:0,losses:win?0:1,totalReward:Number(data.reward||0),magicCrystalTotal:Number(data.magicReward?.amount||0),cardRewards:data.cardReward?[data.cardReward]:[],cubeRewards:data.cubeReward?[data.cubeReward]:[],equipmentRewards:data.equipmentReward?[data.equipmentReward]:[],blackMiracleRewards:data.blackMiracleReward?[data.blackMiracleReward]:[],unifiedDrops:data.unifiedDrop?.rewards?.length?[data.unifiedDrop]:[],outcomes:[{battle:1,result:win?'WIN':'LOSE',reward:Number(data.reward||0),reason:String(data.battleV2?.result?.reason||'')}],firstResult:win?'WIN':'LOSE'};
+  return {battles:1,requestedBattles:1,wins:win?1:0,losses:win?0:1,totalReward:Number(data.reward||0),magicCrystalTotal:Number(data.magicReward?.amount||0),cardRewards:data.cardReward?[data.cardReward]:[],cubeRewards:data.cubeReward?[data.cubeReward]:[],equipmentRewards:data.equipmentReward?[data.equipmentReward]:[],blackMiracleRewards:data.blackMiracleReward?[data.blackMiracleReward]:[],unifiedDrops:data.unifiedDrop?.rewards?.length?[data.unifiedDrop]:[],cowPortals:data.cowPortal?[data.cowPortal]:[],outcomes:[{battle:1,result:win?'WIN':'LOSE',reward:Number(data.reward||0),reason:String(data.battleV2?.result?.reason||'')}],firstResult:win?'WIN':'LOSE'};
 }
 function mergePveSweepResults(first,batch={}){
   const offset=Math.max(0,Number(first.battles||0)),extraOutcomes=(batch.outcomes||[]).map((row,index)=>({...row,battle:offset+index+1}));
-  return {...first,battles:offset+Number(batch.battles||0),requestedBattles:Number(first.requestedBattles||offset)+Number(batch.requestedBattles||batch.battles||0),wins:Number(first.wins||0)+Number(batch.wins||0),losses:Number(first.losses||0)+Number(batch.losses||0),totalReward:Number(first.totalReward||0)+Number(batch.totalReward||0),magicCrystalTotal:Number(first.magicCrystalTotal||0)+Number(batch.magicCrystalTotal||0),cardRewards:[...(first.cardRewards||[]),...(batch.cardRewards||[])],cubeRewards:[...(first.cubeRewards||[]),...(batch.cubeRewards||[])],equipmentRewards:[...(first.equipmentRewards||[]),...(batch.equipmentRewards||[])],blackMiracleRewards:[...(first.blackMiracleRewards||[]),...(batch.blackMiracleRewards||[])],unifiedDrops:[...(first.unifiedDrops||[]),...(batch.unifiedDrops||[])],outcomes:[...(first.outcomes||[]),...extraOutcomes],cappedByEnergy:Boolean(first.cappedByEnergy||batch.cappedByEnergy),serverCapped:Boolean(first.serverCapped||batch.serverCapped)};
+  return {...first,battles:offset+Number(batch.battles||0),requestedBattles:Number(first.requestedBattles||offset)+Number(batch.requestedBattles||batch.battles||0),wins:Number(first.wins||0)+Number(batch.wins||0),losses:Number(first.losses||0)+Number(batch.losses||0),totalReward:Number(first.totalReward||0)+Number(batch.totalReward||0),magicCrystalTotal:Number(first.magicCrystalTotal||0)+Number(batch.magicCrystalTotal||0),cardRewards:[...(first.cardRewards||[]),...(batch.cardRewards||[])],cubeRewards:[...(first.cubeRewards||[]),...(batch.cubeRewards||[])],equipmentRewards:[...(first.equipmentRewards||[]),...(batch.equipmentRewards||[])],blackMiracleRewards:[...(first.blackMiracleRewards||[]),...(batch.blackMiracleRewards||[])],unifiedDrops:[...(first.unifiedDrops||[]),...(batch.unifiedDrops||[])],cowPortals:[...new Map([...(first.cowPortals||[]),...(batch.cowPortals||[])].map(p=>[p.id,p])).values()],outcomes:[...(first.outcomes||[]),...extraOutcomes],cappedByEnergy:Boolean(first.cappedByEnergy||batch.cappedByEnergy),serverCapped:Boolean(first.serverCapped||batch.serverCapped)};
 }
 function pveSweepLootRows(summary={}){
   const rows=[],cards=summary.cardRewards||[],equipment=summary.equipmentRewards||[],cubes=summary.cubeRewards||[],miracles=summary.blackMiracleRewards||[],unified=(summary.unifiedDrops||[]).flatMap(drop=>drop?.rewards||[]);
@@ -2037,7 +2037,7 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
   if(!battleState.autoRunning)return false;
   const first=pveSweepFirstResult(data),remaining=Math.max(0,Math.min(999,Number(battleState.autoRemaining||0)));
   battleState.autoSummary=first;modal.onclick=null;modal.classList.add('pve-sweep-modal');
-  if(!remaining){battleState.autoRunning=false;msg.innerHTML=pveSweepResultMarkup(first);renderer?.showResult?.();bindPveSweepExit(modal,renderer);return true}
+  if(!remaining){battleState.autoRunning=false;msg.innerHTML=pveSweepResultMarkup(first);renderer?.showResult?.();bindPveSweepExit(modal,renderer);await window.CowRoomPortal?.offer(first.cowPortals);return true}
   let summary=first,processed=0,chunkIndex=0,activeRequestId='',runInFlight=false;
   const run=async()=>{
     if(runInFlight)return true;
@@ -2054,7 +2054,7 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
         summary=mergePveSweepResults(summary,batch);processed+=completed;chunkIndex++;battleState.autoSummary=summary;battleState.autoRemaining=Math.max(0,remaining-processed);
         if(batch.cappedByEnergy||completed<requestedBattles)break;
       }
-      summary.requestedBattles=remaining+1;battleState.autoSummary=summary;battleState.autoRunning=false;battleState.autoRemaining=0;msg.innerHTML=pveSweepResultMarkup(summary);bindPveSweepExit(modal,renderer);return true;
+      summary.requestedBattles=remaining+1;battleState.autoSummary=summary;battleState.autoRunning=false;battleState.autoRemaining=0;msg.innerHTML=pveSweepResultMarkup(summary);bindPveSweepExit(modal,renderer);await window.CowRoomPortal?.offer(summary.cowPortals);return true;
     }catch(error){
       battleState.autoRunning=false;if(error?.energy)applyPveEnergyResponse({energy:error.energy,energyKind:error.energyKind||'STANDARD'});
       const pending=Math.max(0,remaining-processed),retryable=error?.retryable!==false&&!['PVE_SWEEP_FAILED','PVE_SWEEP_STALE','PVE_SWEEP_RECEIPT_INVALID'].includes(String(error?.code||'').toUpperCase());
@@ -2511,7 +2511,7 @@ async function startBattle(){
     applyPveEnergyResponse(d);
     saveUser(apiUserToLocal(d.user));
     if(battleState.autoRunning)await completePveSweepAfterAnimatedBattle({data:d,modal,msg});
-    else setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);
+    else {setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);if(d.cowPortal)await window.CowRoomPortal?.offer([d.cowPortal]);}
 
   }catch(e){
     // V1803: 여기서 티커를 끄지 않아, 20초에 실패한 요청이 화면에서는 34초까지 도는 것처럼 보였다.

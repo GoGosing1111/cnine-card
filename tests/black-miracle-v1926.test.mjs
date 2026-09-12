@@ -337,7 +337,7 @@ test('live app delegates to the module and deployment cache keys include v1926 a
 
   assert.match(index, /css\/black-miracle-v1485\.css\?v=1926-[^"']+/);
   assert.match(index, /js\/black-miracle-opening-v1926\.js\?v=1926-[^"']+/);
-  const appVersion=index.match(/js\/app\.js\?v=([^"']+)/)?.[1];
+  const appVersion=index.match(/js\/app\.js\?v=([^"'&]+)/)?.[1];
   assert.ok(appVersion,'the live app must have a versioned URL');
   assert.ok(index.indexOf('black-miracle-opening-v1926.js') < index.indexOf('js/app.js'), 'the opening module must load before app.js');
   assert.ok(worker.includes('soop-card-shell-v'+appVersion),'app and service worker cache versions must match');

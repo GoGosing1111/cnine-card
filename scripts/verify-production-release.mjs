@@ -82,7 +82,8 @@ if (/dailyEntries|cycleIdentity/.test(core)) {
   fail('the retired global-cycle/one-attempt Core model is still present');
 }
 
-const appTag = index.match(/js\/app\.js\?v=([^"']+)/)?.[1] || '';
+// Feature cache keys can follow the main release tag in the query string.
+const appTag = index.match(/js\/app\.js\?v=([^"'&]+)/)?.[1] || '';
 const shellTag = worker.match(/soop-card-shell-v([^']+)/)?.[1] || '';
 if (!appTag || appTag !== shellTag) {
   fail(`app/service-worker release tags differ: app=${appTag || 'missing'}, shell=${shellTag || 'missing'}`);

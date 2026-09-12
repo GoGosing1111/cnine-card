@@ -11,6 +11,7 @@ import {TOWER_V3_ECONOMY_DRAFT} from '../../functions/_tower_v3_economy.js';
 import {EXPEDITION_V3_DRAFTS} from '../../functions/_expedition_v3_settings.js';
 import {__idleDungeonTest} from '../../functions/_idle_dungeon.js';
 import {ensureJointAtomicSchema} from '../../functions/_joint_atomic.js';
+import {discoverCowPortalReady} from '../../functions/_cow_room_portal.js';
 
 export class JointSQLiteDB{
   constructor(filename=':memory:'){this.sql=new DatabaseSync(filename);this.failAt='';this.afterCommit=null;}
@@ -60,6 +61,7 @@ export async function jointFixture(t,{postgres=false,filename}={}){
   const close=()=>pg?pg.close():DB.sql.close();t?.after(close);
   const env={DB},p=(sql,...v)=>DB.prepare(sql).bind(...v);await ensureTowerV3Schema(env);await ensureScrapyardV3Schema(env);await ensureExpeditionV3Schema(env);await ensureJointAtomicSchema(env);
   for(const id of [7,8])await p('INSERT INTO users(id,nickname) VALUES(?,?)',id,`검수 계정 ${id}`).run();
+  for(let i=0;i<6;i++)await discoverCowPortalReady(env,{id:7},{sourceType:'HUNT',sourceRef:`fixture-portal-${i}`,result:'WIN'},{randomInt:()=>0});
   await p("INSERT INTO tower_seasons VALUES(1,'ACTIVE')").run();await p('INSERT INTO tower_floors VALUES(1,1,1000000,1)').run();
   await p("INSERT INTO battle_monsters(id,name,image_url,battle_power) VALUES(1,'귀여운 슬라임','assets/cards/monster/sla2.jfif',500000)").run();
   for(const code of ['SCRAPYARD_ENTRY_TICKET','VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'])await p('INSERT INTO inventory_items(code,name,rarity,image_url) VALUES(?,?,?,?)',code,code,'SPECIAL','/test.png').run();

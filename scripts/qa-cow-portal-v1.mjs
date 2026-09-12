@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE_URL||'playwright');
+const base=process.env.QA_BASE_URL||'http://127.0.0.1:8899',output=path.resolve(process.env.QA_OUTPUT_DIR||'../qa/cow-portal');
+if(new URL(base).hostname!=='127.0.0.1')throw Error('Isolated local QA only');
+await fs.mkdir(output,{recursive:true});
+const browser=await chromium.launch({headless:true,...(process.env.QA_CHROMIUM?{executablePath:process.env.QA_CHROMIUM}:{})});
+const errors=[],checks=[];
+try{
+  const context=await browser.newContext();
+  const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
+  page.on('response',response=>{if(response.status()>=400)errors.push(`${response.status()} ${response.url()}`);});
+  const state=()=>page.evaluate(async()=>{const response=await fetch('/api/cow-room/v3/state',{headers:{authorization:'Bearer local-account-7'}});return response.json();});
+  for(const [width,height,source]of[[1440,1000,'HUNT'],[390,844,'APOCALYPSE'],[320,640,'SWEEP']]){
+    await page.setViewportSize({width,height});await page.goto(base+'/preview/cow-portal-v1/');
+    await page.locator(`[data-event="${source}"]`).click();
+    const dialog=page.getByRole('dialog');await dialog.waitFor();
+    assert.match(await dialog.innerText(),/미지의 젖소방 포탈이\s*열렸습니다/);
+    assert.match(await dialog.innerText(),/입장하시겠습니까\?/);
+    const overflow=await page.evaluate(()=>{const d=document.querySelector('dialog'),r=d.getBoundingClientRect();return {page:document.documentElement.scrollWidth>innerWidth,dialog:d.scrollWidth>d.clientWidth+1,inside:r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight};});
+    assert.deepEqual(overflow,{page:false,dialog:false,inside:true});
+    await page.screenshot({path:path.join(output,`portal-${source}-${width}.png`),fullPage:true,animations:'disabled'});
+    const before=await state();await dialog.getByRole('button',{name:'나중에'}).click();
+    assert.equal((await state()).portals.available,before.portals.available,'Later must preserve portals');
+    await page.reload();await page.getByRole('button',{name:'보관한 포탈 확인'}).click();await dialog.waitFor();
+    await page.keyboard.press('Escape');await dialog.waitFor({state:'detached'});
+    assert.equal((await state()).portals.available,before.portals.available,'Reload and Escape must preserve portals');
+    checks.push({source,width,layout:'contained',later:'preserved',reload:'restored',escape:'preserved'});
+    console.log(`Portal ${source} ${width}px: layout, later and restore passed`);
+  }
+  await page.setViewportSize({width:1440,height:1000});
+  await page.getByRole('button',{name:'보관한 포탈 확인'}).click();await page.getByRole('dialog').waitFor();
+  const before=await state();
+  await page.getByRole('dialog').getByRole('button',{name:'입장하기'}).click();
+  await page.waitForURL(/\/pve-v3\/\?content=cow-room/);
+  await page.frameLocator('#battle-frame').locator('canvas').waitFor({timeout:60000});
+  const after=await state();assert.equal(after.portals.available,before.portals.available-1);
+  assert.equal(after.budget.attempts,before.budget.attempts+1);
+  await page.waitForFunction(()=>document.getElementById('battle-frame').contentWindow.PveV3BattleBridge?.diagnostics().formation?.layoutVersion==='UNIFORM_LATTICE_V2');
+  await page.screenshot({path:path.join(output,'portal-entered-v3.png'),fullPage:true,animations:'disabled'});
+  assert.equal(new URL(page.url()).searchParams.has('enter'),false);
+  await page.reload();await page.frameLocator('#battle-frame').locator('canvas').waitFor({timeout:60000});
+  const recovered=await state();assert.equal(recovered.portals.available,after.portals.available);assert.equal(recovered.budget.attempts,after.budget.attempts);
+  checks.push({entry:'real account handler and common V3 renderer',portalsConsumed:1,reloadAdditionalConsumption:0});
+  await page.goto(base+'/pve-v3/cms.html');await page.getByRole('button',{name:'카우방',exact:true}).click();
+  await page.locator('.pve-v3-portal-policy').waitFor();
+  assert.match(await page.locator('.pve-v3-portal-policy').innerText(),/일반 PVE 2% \/ 아포칼립스 3%/);
+  checks.push({cms:'fixed 2% and 3% policy shown'});
+  assert.deepEqual(errors,[]);
+  await fs.writeFile(path.join(output,'report.json'),JSON.stringify({ok:true,checks,errors},null,2)+'\n');
+  console.log(JSON.stringify({ok:true,checks,errors}));
+}finally{await browser.close();}
