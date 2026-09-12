@@ -12,19 +12,19 @@ export const LAND_PRIZES=Object.freeze([
   {key:SUPERSTAR_TICKET,label:'슈퍼스타팩 확정권',range:'1개 · 슈퍼스타 100%',min:1,max:1,unit:1,symbol:'SS',color:0xffdf91},
   {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 30,000개',min:1,max:30,unit:1000,symbol:'S',color:0xffe7a6},
   {key:'BLACK_MIRACLE_PACK',label:'블랙미라클 카드',range:'10 ~ 20개',min:10,max:20,unit:1,symbol:'B',color:0xbc91ff},
-  {key:'ZENITH_RANDOM_CARD',label:'제니스 랜덤카드',range:'1 ~ 3장',min:1,max:3,unit:1,symbol:'Z',color:0x90ebff},
-  {key:'FUR_RANDOM_CARD',label:'FUR 랜덤카드',range:'1 ~ 5장',min:1,max:5,unit:1,symbol:'F',color:0xffb5d9},
   {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 50개',min:1,max:50,unit:1,symbol:'M',color:0xc5a5ff}
 ]);
 // Existing issued coupons remain redeemable; retired prizes cannot be spun again.
 const REDEEM_PRIZES=[...LAND_PRIZES.filter(p=>p.key!=='BLACK_MIRACLE_PACK'),
+ {key:'ZENITH_RANDOM_CARD',min:1,max:3,unit:1},
+ {key:'FUR_RANDOM_CARD',min:1,max:5,unit:1},
  {key:'BLACK_MIRACLE_PACK',min:1,max:20,unit:1},
  {key:'HIGH_GRADE_REROLL_TICKET',min:1,max:1,unit:1},
  {key:LAND_IYEJUN_PRIZE,min:1,max:1,unit:1}];
 const SCHEMA='soopketland_schema_v2039',SETTINGS='soopketland_settings_v2039';
 const BURNING=['burning_event_settings_v1','hyper_burning_event_settings_v1310'];
 const PREVIOUS_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK',HYPER_TICKET,'ZENITH_RANDOM_CARD','FUR_RANDOM_CARD','STARLIGHT_ARMOR_CORE'];
-const defaults=()=>({weights:removeHyperWeight(Object.fromEntries(PREVIOUS_KEYS.map(key=>[key,key===SUPERSTAR_TICKET?500:key==='STARLIGHT_ARMOR_CORE'?1000:['COIN','MASTER_STAR','BLACK_MIRACLE_PACK',HYPER_TICKET].includes(key)?1417:1416])))});
+const defaults=()=>({weights:{COIN:9916,[SUPERSTAR_TICKET]:1500,MASTER_STAR:9916,BLACK_MIRACLE_PACK:5668,STARLIGHT_ARMOR_CORE:3000}});
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
 const fail=(message,status=400,code='LAND_INVALID')=>Object.assign(new Error(message),{status,code});
 const validId=value=>typeof value==='string'&&/^[A-Za-z0-9._:-]{8,100}$/.test(value);
@@ -48,15 +48,21 @@ export function validateLandWeights(raw){
   return Object.fromEntries(LAND_PRIZES.map(p=>[p.key,raw[p.key]]));
 }
 // Scale all legacy weights by three to split the retired probability exactly.
-// This preserves every other probability, including an operator's zero weights.
+// Preserve surviving relative weights; retired random-card rows are discarded.
 function removeHyperWeight(raw){
-  if(!Object.hasOwn(raw,HYPER_TICKET))return validateLandWeights(raw);
+  if(!Object.hasOwn(raw,HYPER_TICKET))return removeRandomCardWeights(raw);
   if(Object.keys(raw).length!==PREVIOUS_KEYS.length||PREVIOUS_KEYS.some(key=>!safeInt(raw[key],0,10000)))throw fail('이전 보상 가중치 설정을 확인하세요.');
   const retired=raw[HYPER_TICKET];
   return validateLandWeights(Object.fromEntries(LAND_PRIZES.map(p=>[p.key,raw[p.key]*3+(['COIN','MASTER_STAR','BLACK_MIRACLE_PACK'].includes(p.key)?retired:0)])));
 }
+function removeRandomCardWeights(raw){
+  const retired=['ZENITH_RANDOM_CARD','FUR_RANDOM_CARD'];
+  const allowed=[...LAND_PRIZES.map(p=>p.key),...retired];
+  if(Object.keys(raw).some(key=>!allowed.includes(key))||retired.some(key=>Object.hasOwn(raw,key)&&!safeInt(raw[key],0,40000)))throw fail('이전 랜덤카드 보상 설정을 확인하세요.');
+  return validateLandWeights(Object.fromEntries(LAND_PRIZES.map(p=>[p.key,raw[p.key]])));
+}
 // Apply the historical v2065 conversion first, then remove Hyper once.
-// A saved seven-prize configuration is returned unchanged on later requests.
+// Retired random-card rows are removed; a saved five-prize configuration stays unchanged.
 export function storedLandWeights(raw){
   if(raw&&Object.hasOwn(raw,SUPERSTAR_TICKET)&&Object.hasOwn(raw,'STARLIGHT_ARMOR_CORE'))return removeHyperWeight(raw);
   const common=PREVIOUS_KEYS.filter(key=>![SUPERSTAR_TICKET,'STARLIGHT_ARMOR_CORE'].includes(key)).map(key=>({key}));

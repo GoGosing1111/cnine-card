@@ -100,12 +100,12 @@ test('missing inventory catalog row never consumes coupon; log failure rolls bac
   f.sqlite.exec("CREATE TRIGGER coin_fault BEFORE INSERT ON coin_logs BEGIN SELECT RAISE(ABORT,'log offline'); END");await assert.rejects(()=>f.redeem(roll.code),/log offline/);
   assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=20').get().coin,0);
 });
-test('ZENITH/FUR coupon grants a public active card and preserves existing enhancement; empty pools preserve coupon',async()=>{
-  const f=await fixture();await f.force('ZENITH_RANDOM_CARD');await f.grant(1,2);f.current.id=2;const {code}=(await f.spin()).body;
+test('previously issued ZENITH/FUR coupons grant public active cards and preserve enhancement; empty pools preserve coupons',async()=>{
+  const f=await fixture(),code=issuedCoupon(f,'ZENITH_RANDOM_CARD',1,2);
   couponAmount(f,code,1);
   f.sqlite.exec("INSERT INTO user_cards VALUES(20,'z1',1,13,NULL,NULL)");const r=await f.redeem(code);assert.equal(r.body.card.id,'z1');assert.equal(f.sqlite.prepare('SELECT quantity FROM user_cards WHERE user_id=20').get().quantity,2);assert.equal(f.sqlite.prepare('SELECT breakthrough_level FROM user_cards WHERE user_id=20').get().breakthrough_level,13);
   f.sqlite.exec("UPDATE cards SET is_active=0 WHERE id='z1'");assert.equal((await f.redeem(code,21)).body.code,'LAND_POOL_EMPTY');assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons').get().used_count,1);
-  f.current.id=1;await f.force('FUR_RANDOM_CARD');await f.grant();f.current.id=2;const fur=(await f.spin()).body;couponAmount(f,fur.code,1);assert.equal((await f.redeem(fur.code)).body.card.id,'f1');
+  const fur=issuedCoupon(f,'FUR_RANDOM_CARD');assert.equal((await f.redeem(fur)).body.card.id,'f1');
 });
 test('previously issued Hyper tickets retain server-wide 15x/60min activation and idempotency',async()=>{
   const f=await fixture();f.sqlite.prepare('INSERT INTO cnine_user_inventory VALUES(?,?,1,1,NULL,NULL)').run(2,HYPER_TICKET);f.current.id=2;
@@ -139,7 +139,7 @@ test('concurrent replay of identical grant and roll identifiers returns one dura
   await f.force('MASTER_STAR');f.current.id=2;const id=crypto.randomUUID(),spins=await Promise.all([f.spin(id),f.spin(id)]);assert.ok(spins.every(r=>r.status===200));assert.equal(spins[0].body.code,spins[1].body.code);assert.equal(f.qty(LAND_TICKET),1);
 });
 test('all stopped, finite-edition and globally excluded random cards preserve unused coupons',async()=>{
-  const f=await fixture();await f.force('FUR_RANDOM_CARD');await f.grant(1,2);f.current.id=2;const {code}=(await f.spin()).body;
+  const f=await fixture(),code=issuedCoupon(f,'FUR_RANDOM_CARD',1,2);
   f.sqlite.exec("UPDATE cards SET limited_total=10 WHERE id='f1'");assert.equal((await f.redeem(code)).body.code,'LAND_POOL_EMPTY');
   f.sqlite.exec("UPDATE cards SET limited_total=NULL WHERE id='f1'");f.deps.isRandomDrawExcluded=()=>true;assert.equal((await f.redeem(code)).body.code,'LAND_POOL_EMPTY');assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons').get().used_count,0);
 });
@@ -156,6 +156,11 @@ test('PostgreSQL translates every captured statement with matched binds; new tra
   const source=fs.readFileSync(new URL('../functions/_soopket_land.js',import.meta.url),'utf8');assert.match(source,/SELECT code FROM soopketland_coupons WHERE code=\? FOR UPDATE/);assert.match(source,/SELECT key FROM app_meta WHERE key IN/);
 });
 
+function issuedCoupon(f,key,amount=1,uses=1){
+  const code='SLD-'+crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase();
+  f.sqlite.prepare('INSERT INTO soopketland_coupons(code,issuer_id,request_id,reward_json,max_uses,created_at) VALUES(?,2,?,?,?,?)').run(code,crypto.randomUUID(),JSON.stringify({key,label:key,amount}),uses,'2026-09-12T12:00:00Z');
+  return code;
+}
 function couponAmount(f,code,amount){
   const prize=JSON.parse(f.sqlite.prepare('SELECT reward_json FROM soopketland_coupons WHERE code=?').get(code).reward_json);
   f.sqlite.prepare('UPDATE soopketland_coupons SET reward_json=? WHERE code=?').run(JSON.stringify({...prize,amount}),code);
@@ -197,7 +202,7 @@ function addIyejun(f){
 }
 
 test('expanded prize bounds are exact, inclusive and keep the original minimum/step',()=>{
-  const expected={COIN:[1,50,100000000],MASTER_STAR:[1,30,1000],BLACK_MIRACLE_PACK:[10,20,1],FUR_RANDOM_CARD:[1,5,1],ZENITH_RANDOM_CARD:[1,3,1],SUPERSTAR_GUARANTEED_PACK:[1,1,1],STARLIGHT_ARMOR_CORE:[1,50,1]};
+  const expected={COIN:[1,50,100000000],MASTER_STAR:[1,30,1000],BLACK_MIRACLE_PACK:[10,20,1],SUPERSTAR_GUARANTEED_PACK:[1,1,1],STARLIGHT_ARMOR_CORE:[1,50,1]};
   for(const [key,bounds] of Object.entries(expected)){
     const prize=LAND_PRIZES.find(p=>p.key===key);assert.deepEqual([prize.min,prize.max,prize.unit],bounds);
     const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===key?1:0]));
@@ -208,8 +213,8 @@ test('new rewards are 5% and 10%; retired keys cannot be spun or saved',async()=
  const f=await fixture(),s=(await f.call()).body;
  assert.equal(s.prizes.find(p=>p.key===SUPERSTAR_TICKET).percent,5);
  assert.equal(s.prizes.find(p=>p.key==='STARLIGHT_ARMOR_CORE').percent,10);
- assert.ok(!s.prizes.some(p=>['HIGH_GRADE_REROLL_TICKET',LAND_IYEJUN_PRIZE,HYPER_TICKET].includes(p.key)));
- const legacy={COIN:970,MASTER_STAR:970,BLACK_MIRACLE_PACK:970,[HYPER_TICKET]:970,ZENITH_RANDOM_CARD:970,FUR_RANDOM_CARD:970,HIGH_GRADE_REROLL_TICKET:970,IYEJUN_CARD:210};
+ assert.ok(!s.prizes.some(p=>['HIGH_GRADE_REROLL_TICKET',LAND_IYEJUN_PRIZE,HYPER_TICKET,'ZENITH_RANDOM_CARD','FUR_RANDOM_CARD'].includes(p.key)));
+ const legacy={COIN:970,MASTER_STAR:970,BLACK_MIRACLE_PACK:970,[HYPER_TICKET]:970,ZENITH_RANDOM_CARD:0,FUR_RANDOM_CARD:0,HIGH_GRADE_REROLL_TICKET:970,IYEJUN_CARD:210};
  const migrated=storedLandWeights(legacy);assert.equal(migrated[SUPERSTAR_TICKET],1500);assert.equal(migrated.STARLIGHT_ARMOR_CORE,3000);
  assert.equal(Object.values(migrated).reduce((a,b)=>a+b),30000);assert.throws(()=>validateLandWeights(legacy));
  f.sqlite.prepare("UPDATE app_meta SET value=? WHERE key='soopketland_settings_v2039'").run(JSON.stringify({weights:legacy}));
@@ -224,9 +229,9 @@ test('50억 coins, 30000 stars and 20 Black Miracles credit exactly once per vie
     assert.equal(f.sqlite.prepare("SELECT COUNT(*) n FROM app_meta WHERE key LIKE '%miracle%'").get().n,0);
   }
 });
-test('maximum random card prizes deliver all copies, preserve enhancement, and replay cannot add copies',async()=>{
+test('previously issued maximum random card coupons deliver all copies, preserve enhancement, and replay cannot add copies',async()=>{
   for(const [key,amount,id] of [['FUR_RANDOM_CARD',5,'f1'],['ZENITH_RANDOM_CARD',3,'z1']]){
-    const f=await fixture();await f.force(key);await f.grant();f.current.id=2;const {code}=(await f.spin()).body;couponAmount(f,code,amount);
+    const f=await fixture(),code=issuedCoupon(f,key,amount);
     f.sqlite.prepare('INSERT INTO user_cards VALUES(?,?,2,13,NULL,NULL)').run(20,id);
     const requestId=crypto.randomUUID(),r=await f.redeem(code,20,requestId);assert.equal(r.status,200);assert.equal(r.body.rewardAmount,amount);assert.equal(r.body.cards.reduce((n,c)=>n+c.quantity,0),amount);
     assert.match(r.body.message,new RegExp(`${amount}장`));const card=f.sqlite.prepare('SELECT * FROM user_cards WHERE user_id=20').get();assert.equal(card.quantity,amount+2);assert.equal(card.breakthrough_level,13);
@@ -236,7 +241,7 @@ test('maximum random card prizes deliver all copies, preserve enhancement, and r
 });
 test('each card is independently sampled and a later card insert failure rolls back the whole coupon',async t=>{
   const f=await fixture();f.sqlite.exec("INSERT INTO cards VALUES('f2','두번째 FUR','FUR','test.png',1,1,'PUBLIC',NULL)");
-  await f.force('FUR_RANDOM_CARD');await f.grant();f.current.id=2;const {code}=(await f.spin()).body;couponAmount(f,code,5);
+  const code=issuedCoupon(f,'FUR_RANDOM_CARD',5);
   let counter=0;t.mock.method(crypto,'getRandomValues',buffer=>{buffer[0]=counter++%2;return buffer});
   f.sqlite.exec("CREATE TRIGGER card_fault BEFORE INSERT ON user_cards WHEN NEW.card_id='f2' BEGIN SELECT RAISE(ABORT,'card insert offline'); END");
   await assert.rejects(()=>f.redeem(code),/card insert offline/);assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_cards').get().n,0);assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons').get().used_count,0);
@@ -250,10 +255,10 @@ test('Iyejun coupon uses the fixed ID, grants one unenhanced copy, and is exclud
   assert.equal(f.sqlite.prepare('SELECT breakthrough_level FROM user_cards WHERE user_id=20').get().breakthrough_level,0);assert.equal((await f.redeem(roll.code,20,requestId)).body.replayed,true);
   f.sqlite.prepare('UPDATE cards SET is_active=0 WHERE id=?').run(LAND_IYEJUN_CARD_ID);assert.equal((await f.redeem(roll.code,21)).body.code,'LAND_POOL_EMPTY');
   f.sqlite.prepare('UPDATE cards SET is_active=1 WHERE id=?').run(LAND_IYEJUN_CARD_ID);f.sqlite.exec("UPDATE cards SET is_active=0 WHERE id='f1'");f.deps.isRandomDrawExcluded=()=>false;
-  f.current.id=1;await f.force('FUR_RANDOM_CARD');await f.grant();f.current.id=2;assert.equal((await f.redeem((await f.spin()).body.code,21)).body.code,'LAND_POOL_EMPTY');
+  assert.equal((await f.redeem(issuedCoupon(f,'FUR_RANDOM_CARD'),21)).body.code,'LAND_POOL_EMPTY');
 });
 test('old issued one-card coupons retain their amount and amounts above new caps are refused without consumption',async()=>{
-  const f=await fixture();await f.force('ZENITH_RANDOM_CARD');await f.grant(1,2);f.current.id=2;const {code}=(await f.spin()).body;couponAmount(f,code,1);
+  const f=await fixture(),code=issuedCoupon(f,'ZENITH_RANDOM_CARD',1,2);
   const r=await f.redeem(code);assert.equal(r.body.rewardAmount,1);assert.equal(f.sqlite.prepare('SELECT quantity FROM user_cards WHERE user_id=20').get().quantity,1);
   couponAmount(f,code,4);assert.equal((await f.redeem(code,21)).status,409);assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons').get().used_count,1);
 });
@@ -263,19 +268,33 @@ test('client formats named cards as 장, uses server coin cap, and loads the new
   assert.match(app,/soopketland-v2039\.bundle\.js\?v=2088-land-rewards/);
 });
 
-test('retired Hyper chance splits exactly three ways, retains unrelated zero odds, and never redistributes twice',async()=>{
+test('retired Hyper chance splits exactly three ways, removes zero random-card rows, and never redistributes twice',async()=>{
   const previous={COIN:2833,[SUPERSTAR_TICKET]:500,MASTER_STAR:2833,BLACK_MIRACLE_PACK:1417,[HYPER_TICKET]:1417,ZENITH_RANDOM_CARD:0,FUR_RANDOM_CARD:0,STARLIGHT_ARMOR_CORE:1000};
   const actual=storedLandWeights(previous);
-  assert.deepEqual(actual,{COIN:9916,[SUPERSTAR_TICKET]:1500,MASTER_STAR:9916,BLACK_MIRACLE_PACK:5668,ZENITH_RANDOM_CARD:0,FUR_RANDOM_CARD:0,STARLIGHT_ARMOR_CORE:3000});
+  assert.deepEqual(actual,{COIN:9916,[SUPERSTAR_TICKET]:1500,MASTER_STAR:9916,BLACK_MIRACLE_PACK:5668,STARLIGHT_ARMOR_CORE:3000});
   assert.equal(Object.values(actual).reduce((a,b)=>a+b,0),30000);
   assert.deepEqual(storedLandWeights(actual),actual);
   for(const key of ['COIN','MASTER_STAR','BLACK_MIRACLE_PACK'])assert.equal(actual[key]-previous[key]*3,previous[HYPER_TICKET]);
   assert.throws(()=>validateLandWeights({...actual,[HYPER_TICKET]:0}));
   const f=await fixture();f.sqlite.prepare("UPDATE app_meta SET value=? WHERE key='soopketland_settings_v2039'").run(JSON.stringify({weights:previous}));
-  assert.equal((await f.call()).body.prizes.length,7);await f.grant(10);f.current.id=2;
+  assert.equal((await f.call()).body.prizes.length,5);await f.grant(10);f.current.id=2;
   for(let i=0;i<10;i++){const r=await f.spin();assert.equal(r.status,200);assert.notEqual(r.body.prize.key,HYPER_TICKET);assert.equal(r.body.delivery,'VIEWER_COUPON');}
   assert.equal(f.qty(HYPER_TICKET),0);
   const maximum=Object.fromEntries(Object.keys(previous).map(key=>[key,10000]));assert.doesNotThrow(()=>storedLandWeights(maximum));
+});
+
+test('seven-prize live settings lose ZENITH/FUR rows without changing any remaining weight; OWNER cannot add them back',async()=>{
+  const expected={COIN:9916,[SUPERSTAR_TICKET]:1500,MASTER_STAR:9916,BLACK_MIRACLE_PACK:5668,STARLIGHT_ARMOR_CORE:3000};
+  const previous={...expected,ZENITH_RANDOM_CARD:0,FUR_RANDOM_CARD:0};
+  assert.deepEqual(storedLandWeights(previous),expected);assert.deepEqual(storedLandWeights(expected),expected);
+  const f=await fixture();f.sqlite.prepare("UPDATE app_meta SET value=? WHERE key='soopketland_settings_v2039'").run(JSON.stringify({weights:previous}));
+  const state=(await f.call()).body;assert.deepEqual(state.owner.weights,expected);assert.deepEqual(state.prizes.map(p=>p.key),Object.keys(expected));
+  for(const key of ['ZENITH_RANDOM_CARD','FUR_RANDOM_CARD']){
+    assert.throws(()=>validateLandWeights({...expected,[key]:0}));
+    assert.equal((await f.call('settings',{requestId:crypto.randomUUID(),weights:{...expected,[key]:0}})).status,400);
+  }
+  assert.equal((await f.call('settings',{requestId:crypto.randomUUID(),weights:expected})).status,200);
+  assert.deepEqual(JSON.parse(f.sqlite.prepare("SELECT value FROM app_meta WHERE key='soopketland_settings_v2039'").get().value).weights,expected);
 });
 
 test('old one-pack Black Miracle coupons remain valid, and above-cap coupons cannot be consumed',async()=>{

@@ -5,10 +5,8 @@ const prizes=[
   {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 30,000개',symbol:'S',color:0xffe7a6,amount:30000},
   {key:'BLACK_MIRACLE_PACK',label:'블랙미라클 카드',range:'10 ~ 20개',symbol:'B',color:0xbc91ff,amount:20},
 
-  {key:'ZENITH_RANDOM_CARD',label:'제니스 랜덤카드',range:'1 ~ 3장',symbol:'Z',color:0x90ebff,amount:3},
-  {key:'FUR_RANDOM_CARD',label:'FUR 랜덤카드',range:'1 ~ 5장',symbol:'F',color:0xffb5d9,amount:5},
   {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 50개',symbol:'M',color:0xc5a5ff,amount:50}
-].map(p=>{const weight=p.key==='SUPERSTAR_GUARANTEED_PACK'?1500:p.key==='STARLIGHT_ARMOR_CORE'?3000:['COIN','MASTER_STAR','BLACK_MIRACLE_PACK'].includes(p.key)?5668:4248;return {...p,weight,percent:weight/300}});
+].map(p=>{const weight=p.key==='SUPERSTAR_GUARANTEED_PACK'?1500:p.key==='STARLIGHT_ARMOR_CORE'?3000:p.key==='BLACK_MIRACLE_PACK'?5668:9916;return {...p,weight,percent:weight/300}});
 const select=document.querySelector('#previewPrize');select.innerHTML=prizes.map(p=>`<option value="${p.key}">${p.label}</option>`).join('');
 const history=[],receipts=new Map();let tickets=12;
 const transport=async(path,body)=>{
