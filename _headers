@@ -21,6 +21,12 @@
   Cache-Control: no-cache, must-revalidate, max-age=0
 /mercenary-codex/*
   Cache-Control: no-cache, must-revalidate, max-age=0
+/equipment-forge
+  Cache-Control: no-cache, must-revalidate, max-age=0
+/equipment-forge/
+  Cache-Control: no-cache, must-revalidate, max-age=0
+/equipment-forge/*
+  Cache-Control: no-cache, must-revalidate, max-age=0
 /offline.html
   Cache-Control: no-cache, must-revalidate, max-age=0
 /manifest.webmanifest

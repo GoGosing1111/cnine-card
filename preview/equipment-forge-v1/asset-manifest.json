@@ -1,0 +1,136 @@
+{
+  "version": 2,
+  "date": "2026-09-11",
+  "status": "UI_AND_EFFECTS_FINAL_APPROVED",
+  "liveConnected": false,
+  "uiRuntime": "js/ui-fx-vendor-v2045.bundle.js",
+  "versions": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0"
+  },
+  "generationMode": "BUILT_IN_IMAGE_GEN",
+  "audio": {
+    "source": "RECORDED_FOLEY_MIX",
+    "license": "Mixkit Sound Effects Free License",
+    "provenance": "preview/project-v-advancement-fx-v1/assets/audio/PROVENANCE.md",
+    "runtimeProcessing": [
+      "GAIN",
+      "PLAYBACK_RATE"
+    ],
+    "peakTargetMs": 2250
+  },
+  "assets": [
+    {
+      "path": "preview/equipment-forge-v1/assets/celestial-forge-v1.png",
+      "bytes": 2535372,
+      "sha256": "74fa40afe6ef5e14b07b7132afe02c0a13f53efe688894aa88652b0d32571239",
+      "status": "PRESERVED_V1_USER_REJECTED"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/protection-seal-v1.png",
+      "bytes": 1431812,
+      "sha256": "4aab29f6719d40f61129016d2799166bc3a4240cc2195e1c57edc41aae9e48dd",
+      "status": "PRESERVED_V1_USER_REJECTED"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+      "bytes": 433614,
+      "sha256": "8174ef39ee88cd3e87907d2d94cb21f0d7225c7cf7b551908c41b1ce7680acc2"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "bytes": 347413,
+      "sha256": "9fe876729d85de6b45d27ceaa65f49a91915ab340e5b520146b2e8fa81713462"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "bytes": 252336,
+      "sha256": "eeb1066050e00f52d16ea3b6af93539b1649562413b1dffeebc1523e6cdd4213"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "bytes": 337863,
+      "sha256": "66ca580d5af11b17a069e3174cb4b8f86baa31edb18f15bed91cc18c0b12327a"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "bytes": 319564,
+      "sha256": "82ef345faecf7a00cded0aeee6bdd9f8bd40c2237ba868b1301d5b12238d6329"
+    },
+    {
+      "path": "assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+      "bytes": 427212,
+      "sha256": "6873e9b6a5560943e1c15bcc7221e7e7b2a09aa92146a562081389b2152af6b0"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/riposte-advancement-v1.mp3",
+      "bytes": 42284,
+      "sha256": "e649a410e874bdfef29f88981170a5faaa683b4e34550ae459148e538831078f"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/afterimage-advancement-v1.mp3",
+      "bytes": 30764,
+      "sha256": "28b9a99971ad0564aa0da74fc8a9627cc2758ebd835db63da722e291f242aef6"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/shatter-advancement-v1.mp3",
+      "bytes": 36908,
+      "sha256": "b4c498a8ae554411456f1c2b5a3883275b3d1e4b2fb974ab7df0b227c7b576c0"
+    },
+    {
+      "path": "assets/sfx/v3-advancement-awakening-v1/immortal-advancement-v1.mp3",
+      "bytes": 72236,
+      "sha256": "d86b5f69e20c5d7f0527683d4f7c5980438c9dc912f75ebd006768f78b785691"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+      "bytes": 2015969,
+      "sha256": "03a6948c30a929664299a3a1bf6f919d162ebd3bf84270a8c487d535ba2d1cc1",
+      "status": "V2_USER_APPROVED"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/protection-module-v2.png",
+      "bytes": 1418454,
+      "sha256": "8f098dfb40a9bf2e27c57d83a38128e99ff8a9f5255f00302a58de2dfd570d2c",
+      "status": "V2_USER_APPROVED"
+    },
+    {
+      "path": "preview/equipment-forge-v1/assets/success-plasma-atlas-v2.png",
+      "bytes": 2135459,
+      "sha256": "2794df75f23ef10dbad12621ae9e7a24c9fa7d0e184befff5a8979105b0cb6d2",
+      "status": "V2_USER_APPROVED"
+    }
+  ],
+  "concept": "UPGRADE_LAB",
+  "prompts": "preview/equipment-forge-v1/PROMPTS-V2.md",
+  "revisionHistory": [
+    {
+      "version": 1,
+      "status": "USER_REJECTED",
+      "reason": "성공 연출 부실, 오래된 UI 디자인·색감·컨셉"
+    },
+    {
+      "version": 2,
+      "status": "UI_AND_EFFECTS_FINAL_APPROVED",
+      "approvedAt": "2026-09-12"
+    }
+  ],
+  "successAtlas": {
+    "path": "preview/equipment-forge-v1/assets/success-plasma-atlas-v2.png",
+    "width": 1254,
+    "height": 1254,
+    "columns": 4,
+    "rows": 4,
+    "frames": 16,
+    "cellWidth": 313.5,
+    "cellHeight": 313.5,
+    "blend": "add over opaque Pixi room",
+    "clock": "GSAP shared elapsed time",
+    "peakMs": 2250,
+    "resultMs": 3150,
+    "durationMs": 4800
+  },
+  "approvalDate": "2026-09-12",
+  "deliveryState": "LIVE_UPDATE_PREPARATION",
+  "approvalRecord": "preview/equipment-forge-v1/release/approval.json"
+}

@@ -162,7 +162,7 @@ test('live asset loader includes styles and puts skill chips immediately to the 
   const [ui,app,preview]=await Promise.all(['../js/character-loadout-v2.js','../js/app.js','../preview/battle-suit-skill-chip-v1/source/skill-chip-loadout-preview.mjs'].map(path=>readFile(new URL(path,import.meta.url),'utf8')));
   assert.match(ui,/\$\{avatarEntry\}\$\{chipEntry\}/);
   assert.match(app,/css\/character-skill-chips-v2046\.css\?v=1/);
-  assert.match(app,/character-loadout-v2\.js\?v=16-skill-chip-runtime/);
+  assert.match(app,/character-loadout-v2\.js\?v=2084-forge-public/);
   assert.doesNotMatch(preview,/\bfetch\s*\(/);
   assert.match(preview,/battleEnabled:true/);
 });

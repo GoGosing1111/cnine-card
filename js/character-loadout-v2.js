@@ -349,6 +349,7 @@
           <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
           <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small class="${titleStyleClass(activeTitle?.stylePreset)}">[${escapeHtml(activeTitle?.badgeText || activeTitle?.name || '칭호 없음')}]</small></div>
         </header>
+        ${options.forgePublicEntry === true ? `<a class="clv2-forge-entry" href="/equipment-forge/" aria-label="무기와 방어구 장비 강화 센터 열기">${icon('equipment')}<div><small>UPGRADE LAB</small><b>장비 강화 센터</b><p>무기·방어구·장신구의 다음 강화를 준비하세요.</p></div><span>강화 오픈 준비</span><i>↗</i></a>` : ''}
         <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : state.tab === 'skillChips' ? skillChipView() : garageView()}</main>
         <div class="clv2-notice" data-loadout-notice role="status" aria-live="polite"></div>
       </div>`;

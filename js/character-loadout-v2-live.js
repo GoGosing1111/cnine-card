@@ -38,6 +38,7 @@
     if (!root || !window.SoopketmonCharacterLoadoutV2?.create) return;
     destroyController();
     controller = window.SoopketmonCharacterLoadoutV2.create(root, {
+      forgePublicEntry: true,
       profile: profile() || { nickname: '플레이어' },
       request,
       onOpenAvatarShop() {
