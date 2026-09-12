@@ -1,0 +1,48 @@
+{
+  "name": "이클립스 - 레비아탄",
+  "date": "2026-09-13",
+  "status": "CONCEPT_PREVIEW",
+  "useCase": "stylized-concept",
+  "generator": "built-in image_gen.imagegen",
+  "concept": "미니어처 블랙홀 코어를 봉인한 1인승 중력 순항정. 흑요석·심해색 장갑, 백금 구조체, 초승달형 선체와 보라색 중력장.",
+  "reference": {
+    "code": "SOLARIS_OMEGA",
+    "name": "솔라리스 - Ω",
+    "id": 31,
+    "asset": "assets/tire/solaris-omega-v1.png",
+    "sha256": "0bbaaa7e8daf6de3091980cd6251695a528a079faf2ea84da1abea81c017c5c5",
+    "verifiedAtKst": "2026-09-13 00:56:05",
+    "source": "Production PostgreSQL read-only transaction",
+    "rarity": "MYTHIC",
+    "totalPower": 350000,
+    "pvePower": 315000,
+    "pvpPower": 35000,
+    "role": "Finish and top-tier presence reference only; new vehicle silhouette and propulsion concept."
+  },
+  "proposedBalance": {
+    "status": "PROPOSAL_ONLY_NOT_REGISTERED",
+    "rarity": "MYTHIC",
+    "totalPower": 350000,
+    "pvePower": 315000,
+    "pvpPower": 35000
+  },
+  "image": {
+    "asset": "assets/tire/eclipse-leviathan-concept-v1.png",
+    "source": "C:/Users/User/.codex/generated_images/01a0916a-88c4-7dd2-94f1-eaf31cebd655/exec-d7c9a077-5a34-48b4-a482-5d2b0badaa60.png",
+    "sha256": "6216503e17a9f87fb338d80a7a5ccc07d60a63630a6ef6cb71ceb09949301e39",
+    "width": 1672,
+    "height": 941,
+    "format": "png",
+    "originalBytesPreserved": true
+  },
+  "effects": "STATIC_IMAGE",
+  "runtimeConnected": false,
+  "catalogRegistered": false,
+  "blackMiraclePoolChanged": false,
+  "visualReview": {
+    "wholeSilhouette": "Complete nose, side hulls and upper reactor visible; no cropped components",
+    "vehicleReadability": "Pilot seat/cockpit, connected hull and levitation gap visible",
+    "finish": "Black and midnight-teal panels readable with silver highlights; cyan lift and violet core light separated",
+    "constraints": "Single craft; no text, logos, people, frame or UI"
+  }
+}
