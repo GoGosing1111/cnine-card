@@ -1,0 +1,26 @@
+{
+  "name": "생뷰왕",
+  "assetType": "avatar-source-art",
+  "version": 1,
+  "createdDate": "2026-09-12",
+  "generator": "built-in image_gen",
+  "sourceArt": "saengbyuwang-bikini-avatar-source-v1.png",
+  "prompt": "prompt.md",
+  "width": 1024,
+  "height": 1536,
+  "format": "RGB PNG",
+  "sha256": "A1A16A547EAC4DC12DEA5C0A9AF87A2F4511DC49B6EB8594E070446A680B99BF",
+  "originalPreserved": true,
+  "character": {
+    "fictional": true,
+    "adult": true,
+    "ageDirection": 26,
+    "appearanceDirection": "한국인 느낌의 성인 미녀",
+    "hair": "긴 검은 생머리",
+    "outfit": "화이트 스트링 비키니"
+  },
+  "visualReview": {
+    "reviewed": true,
+    "notes": "생머리, 성인 인상, 비키니 원단, 얼굴 가독성, 손과 팔 연결, 텍스트·프레임 부재를 확인. 원본 RGB PNG를 변형 없이 복사하고 SHA-256 일치를 검증."
+  }
+}
