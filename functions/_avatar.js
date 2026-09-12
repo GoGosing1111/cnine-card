@@ -18,6 +18,7 @@ const TERRAN_EMPRESS_JOEUN_AVATAR_KEY='safe_runtime_upgrade_v2006_terran_empress
 const HI_HEEYA_AVATAR_KEY='safe_runtime_upgrade_v2064_hi_heeya_avatar_v1';
 const CHEON_AVATAR_KEY='safe_runtime_upgrade_v2068_cheon_avatar_v1';
 const ORIKKUNG_AVATAR_KEY='safe_runtime_upgrade_orikkung_zenith_avatar_v1';
+const SAENGBYUWANG_AVATAR_KEY='safe_runtime_upgrade_saengbyuwang_avatar_v1';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -220,6 +221,7 @@ export async function ensureAvatarFoundation(env){
     await ensureHiHeeyaAvatar(env);
     await ensureCheonAvatar(env);
     await ensureOrikkungAvatar(env);
+    await ensureSaengbyuwangAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -279,6 +281,25 @@ async function ensureOrikkungAvatar(env){
       `${base}avatar-orikkung-equipment-v1-640.webp`,'#a9d7ed',150
     ),
     env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(ORIKKUNG_AVATAR_KEY,'1')
+  ]);
+}
+
+export async function ensureSaengbyuwangAvatar(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SAENGBYUWANG_AVATAR_KEY).first();
+  if(marker?.value==='1')return;
+  const base='preview/avatar-saengbyuwang-v1/assets/';
+  // Register the revised lobby art and the user-selected office equipment
+  // costume without replacing CMS edits or assigning acquisition and effects.
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO avatar_catalog_v1(
+      code,serial,name,call_sign,role_label,description,lobby_image,lobby_mobile_image,equipment_image,accent,acquisition_type,coin_price,source_label,source_detail,effect_type,effect_value,is_active,is_public,sale_enabled,sort_order
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,'UNSET',NULL,'','','',0,0,0,0,?) ON CONFLICT(code) DO NOTHING`).bind(
+      'SAENGBYUWANG','A-16','생뷰왕','SAENGBYUWANG','아이보리 오피스',
+      '긴 검은 생머리와 아이보리 블라우스, 블랙 미니스커트의 생뷰왕 아바타입니다. 도시 야경의 로비 일러스트와 장비창 전신이 함께 적용됩니다.',
+      `${base}avatar-saengbyuwang-lobby-v1-1024.webp`,`${base}avatar-saengbyuwang-lobby-v1-640.webp`,
+      `${base}avatar-saengbyuwang-equipment-v1-640.webp`,'#e2cfac',160
+    ),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(SAENGBYUWANG_AVATAR_KEY,'1')
   ]);
 }
 

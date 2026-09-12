@@ -37,7 +37,7 @@ test('Cheon CMS registration executes atomically against PostgreSQL without rele
     await t.test('admin list includes all three real art paths, but user catalog and purchases remain gated',async()=>{
       const response=await call('admin/avatars');
       assert.equal(response.status,200);
-      assert.equal(response.body.avatars.length,15);
+      assert.equal(response.body.avatars.length,16);
       assert.deepEqual(response.body.settings,{mode:'ON',shopEnabled:true,version:17});
       const item=response.body.avatars.find(a=>a.code==='CHEON');
       assert.equal(item.serial,'A-14');assert.equal(item.name,'체온');
