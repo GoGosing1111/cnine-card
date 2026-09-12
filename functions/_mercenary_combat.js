@@ -1,11 +1,19 @@
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
+import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import attachments from '../assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json' with {type:'json'};
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
 const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot)[0];
-export function buildMercenaryFighter(snapshot,side,mode){
- if(!snapshot)return null;if(!/^V-\d{3}$/.test(snapshot.code)||!['A','B'].includes(side)||Object.values(snapshot.stats||{}).length!==4||Object.values(snapshot.stats).some(n=>!Number.isSafeInteger(n)||n<=0))throw Error('INVALID_MERCENARY_SNAPSHOT');
+export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
+ if(!snapshot)return null;
+ if(snapshot.statMode==='RANK_FIXED'){
+  const power=MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
+  if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
+  const base=buildCardFighter({id:snapshot.code,power,type:'NONE'},5,side,null,mode);
+  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:base.speed}};
+ }
+ if(!/^V-\d{3}$/.test(snapshot.code)||!['A','B'].includes(side)||Object.values(snapshot.stats||{}).length!==4||Object.values(snapshot.stats).some(n=>!Number.isSafeInteger(n)||n<=0))throw Error('INVALID_MERCENARY_SNAPSHOT');
  for(const s of snapshot.skills||[]){const b=s.balance;if(!b||!Number.isFinite(b.damageRatio)||b.damageRatio<0||b.damageRatio>10000||!Number.isSafeInteger(Math.floor(snapshot.stats.attack*b.damageRatio))||!Number.isInteger(b.cost)||b.cost<0||!Number.isInteger(b.cooldownTurns)||b.cooldownTurns<0)throw Error('INVALID_MERCENARY_SKILL_BALANCE');}
  const config=validateMercenaryCombat(snapshot.combat),power=Math.round(snapshot.basePower*(1+config.powerGrowthPercentPerLevel*(snapshot.level-1)/100));
  return {...snapshot,id:`${side}:MERCENARY:${snapshot.code}`,cardId:snapshot.code,slot:5,side,battleMode:mode,row:snapshot.position==='FRONT'?'FRONT':'BACK',type:'MERCENARY',typeLabel:snapshot.role,actorKind:'MERCENARY',isMercenary:true,

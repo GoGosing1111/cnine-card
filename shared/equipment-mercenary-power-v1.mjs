@@ -12,9 +12,11 @@ export const EQUIPMENT_POWER_STANDARD=Object.freeze({
 });
 export const MERCENARY_POWER_STANDARD=Object.freeze({
   ...approval,
-  basis:'BEFORE_GROWTH_EQUIPMENT_SKILLS',
+  basis:'RANK_FIXED',
   basePowerByRank:Object.freeze({C:10000,B:20000,A:40000,S:70000,SS:120000,SSS:180000}),
   comparison:Object.freeze({grade:'SUPERSTAR',enhancementLevel:13,power:93200,verifiedOn:'2026-09-12'}),
   statAllocation:null,
   growth:null,
 });
+// 2026-09-13: upgrading is a future feature; neither EXP nor coins level mercenaries.
+export const MERCENARY_UPGRADE_PLAN=Object.freeze({mode:'OFF',method:'DUPLICATE_AND_MASTER_STAR',itemCode:'MASTER_STAR'});

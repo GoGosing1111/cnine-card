@@ -3,3 +3,5 @@
 @media(max-width:760px){.forge-opening{padding:14px 15px;gap:10px;align-items:flex-start}.forge-opening>div{gap:8px}.forge-opening>div>span{width:100%;font-size:10px}.forge-opening b{font-size:12px}.forge-opening>strong{font-size:9px;padding:5px 7px}.forge-public .top-actions>.text-button{font-size:9px}.forge-public .filters button{padding:7px 12px}.forge-public .stage-rule{font-size:9px}.forge-public .top-actions{gap:10px}.forge-public .wallet{font-size:11px}.forge-public .level-transition{bottom:13%}.forge-public .heading-actions{display:flex}.forge-public #rules-button{display:inline-flex;font-size:10px;white-space:nowrap}.forge-public .page-heading{gap:10px}.forge-public .heading-tag{display:none}}
 
 @media(max-width:760px){.forge-public .inventory-footer{display:flex;gap:8px;padding:12px 16px}.forge-public .inventory-footer .text-button{min-height:32px;padding:6px}}
+
+@media(max-width:700px){.forge-public .inventory-panel{grid-template-columns:minmax(0,1fr)}.forge-public .inventory-panel .filters{grid-column:1/-1;width:100%}.forge-public .filters button{white-space:nowrap;min-width:0;padding:8px 6px}.forge-public .inventory-footer{grid-column:1/-1}}

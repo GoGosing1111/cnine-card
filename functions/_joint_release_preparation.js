@@ -30,12 +30,12 @@ export async function collectJointReleaseSchema({postgres=false}={}){
 export async function compileJointReleaseDocument(input){
  const doc=validateJointReleaseDocument(input),c=doc.components,fail=message=>{throw jointError('JOINT_RELEASE_CONFIG',message,409);};
  const merc=c.MERCENARY,config=validateMercenaryCms(merc.document,MERCENARY_CMS_SEED.catalog),runtime=validateMercenaryRuntime({...merc.runtime,mode:'TEST'});
- if(config.mercenaries.some(m=>m.review!=='REVIEWED'||!m.rank||Object.values(m.stats).some(n=>!Number.isSafeInteger(n)||n<=0)||Object.values(m.growth).some(n=>n===null))||config.settings.rankGrowth.some(r=>Object.values(r).some(n=>n===null)))fail('용병 등급·능력치·성장 정책을 모두 확정하세요.');
+ if(config.mercenaries.some(m=>!m.rank))fail('용병 등급을 모두 확정하세요.');
  const assigned=new Set(config.assignments.flatMap(a=>a.skillIds));if(config.skills.some(s=>assigned.has(s.id)&&(s.review!=='REVIEWED'||Object.values(s.balance).some(n=>n===null))))fail('직접 배정한 스킬의 검수·계수를 확정하세요.');
- if(runtime.opening.paymentKind==='UNSET'||!runtime.training.itemCode||!runtime.training.experiencePerItem)fail('용병 획득·훈련 비용을 확정하세요.');
+ if(runtime.opening.paymentKind==='UNSET')fail('용병 획득 비용을 확정하세요.');
  c.MERCENARY={...merc,document:config,draw:validateMercenaryDraw(merc.draw),runtime:{...runtime,mode:'ON',approved:true}};
  const forge=validateForgePolicy({...c.EQUIPMENT_FORGE,mode:'TEST'});
- if(forge.steps.some(s=>['successPpm','maintainPpm','destroyPpm','coinCost','protectionQuantity'].some(k=>s[k]===null))||!forge.protection.itemCode||forge.protection.consume==='UNSET'||!forge.protection.sources.some(s=>s.enabled)||!forge.restoration.enabled)fail('강화 10단계·보호권 게임 내 획득·복구 정책을 모두 확정하세요.');
+ if(forge.steps.some(s=>['successPpm','maintainPpm','destroyPpm','coinCost','itemQuantity','protectionQuantity'].some(k=>s[k]===null))||!forge.protection.itemCode||forge.protection.consume==='UNSET'||!forge.protection.sources.some(s=>s.enabled)||!forge.restoration.enabled)fail('강화 10단계 코인·마스터의 별·확률·보호권 게임 내 획득·복구 정책을 모두 확정하세요.');
  c.EQUIPMENT_FORGE={...forge,mode:'ON',approved:true};
  c.TOWER={...c.TOWER,config:validateTowerV3Config({...c.TOWER.config,mode:'ON'}),economy:validateTowerEconomy({...c.TOWER.economy,approved:true})};
  c.COW_ROOM=validateExpeditionPolicy('COW_ROOM',{...c.COW_ROOM,mode:'ON',approved:true});

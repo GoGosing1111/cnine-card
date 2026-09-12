@@ -24,7 +24,7 @@ function field(label,path,value,{type='text',max=2000,wide=false,step='1',min='0
 function select(label,path,value,options,disabled=false){return `<label class="mc-field"><span>${esc(label)}</span><select data-field="${esc(path)}" ${disabled?'disabled':''}>${Object.entries(options).map(([key,label])=>`<option value="${esc(key)}" ${String(value??'')===key?'selected':''}>${esc(label)}</option>`).join('')}</select></label>`;}
 function fields(title,description,content){return `<section class="mc-fields-section"><div class="mc-section-title"><h3>${title}</h3><p>${description}</p></div><div class="mc-fields">${content}</div></section>`;}
 function powerReference(rank){const power=data?.powerStandard?.basePowerByRank?.[rank];return `<div class="mc-field"><span>${esc(rank||'미정')} · 승인 기본 전투력</span><output class="mc-power-value" data-power-rank="${esc(rank||'UNSET')}">${Number.isSafeInteger(power)?power.toLocaleString('ko-KR'):'등급 선택 후 확인'}</output></div>`;}
-function rankPowerReferences(){return data?.powerStandard?fields('등급별 기본 전투력 · 확정','획득 직후 기준 · 성장·장비·스킬 적용 전 · 실제 전투는 공동 출시 대기',data.catalog.ranks.map(powerReference).join('')):'';}
+function rankPowerReferences(){return data?.powerStandard?fields('등급별 기본 전투력 · 확정','등급별 고정 전투력 · 중복 카드 + 마스터의 별 업그레이드는 차후 공개',data.catalog.ranks.map(powerReference).join('')):'';}
 function current(){return data.document.mercenaries.find(row=>row.code===selected);}
 function list(){
   const rows=data.document.mercenaries.filter(r=>(`${r.code} ${r.name} ${r.title} ${r.rank||'미정'}`).toLowerCase().includes(query.toLowerCase()));
@@ -48,7 +48,7 @@ function rosterEditor(){
       select('스킬 대상',root+'skillTarget',r.skillTarget,Object.fromEntries(role.targets.map(k=>[k,data.catalog.targets[k].label])))+
       field('강점',root+'specialty',r.specialty,{type:'textarea',max:240})+field('약점',root+'weakness',r.weakness,{type:'textarea',max:240})+
       field('설계 의도',root+'rationale',r.rationale,{type:'textarea',max:240,wide:true}))}
-    ${fields('03 / 기본 능력치','기준 전투력은 성장·장비·스킬 적용 전 수치입니다. 역할별 능력치 배분은 준비 중입니다.',powerReference(r.rank)+Object.entries({hp:'체력',attack:'공격력',defense:'방어력',speed:'속도'}).map(([key,label])=>field(label,root+'stats.'+key,r.stats[key],{type:'number'})).join(''))}
+    ${fields('03 / 등급별 고정 전투력','등급 기준값을 공통 전투 공식으로 변환합니다. 개별 능력치·경험치 성장 초안은 적용하지 않습니다.',powerReference(r.rank))}
     ${fields('04 / 운영 메모','출시 전 검수 사항과 변경 의도를 기록하세요.',field('메모',root+'notes',r.notes,{type:'textarea',wide:true}))}
     </div></div>`;
 }
@@ -73,13 +73,12 @@ function assignmentEditor(){
 }
 function economyEditor(){
   const r=current(),root=`mercenaries.${data.document.mercenaries.indexOf(r)}.`;
-  return `<div class="mc-workspace">${rosterRail()}<div class="mc-editor"><div class="mc-economy-heading"><small>ACQUISITION & GROWTH / ${r.code}</small><h3>${esc(r.name)}</h3><p>개별 획득 조건과 성장 수치를 관리합니다.</p></div>
+  return `<div class="mc-workspace">${rosterRail()}<div class="mc-editor"><div class="mc-economy-heading"><small>ACQUISITION & GROWTH / ${r.code}</small><h3>${esc(r.name)}</h3><p>획득 조건과 향후 업그레이드 계획을 관리합니다.</p></div>
     ${rankPowerReferences()}
     ${fields('01 / 획득 조건','운영 재화·보상 풀에는 자동 반영되지 않습니다.',
       select('획득 방식',root+'acquisition.type',r.acquisition.type,ACQUISITIONS)+field('구매 가격 · 코인',root+'acquisition.coinPrice',r.acquisition.coinPrice,{type:'number'})+
       field('획득 확률 · %',root+'acquisition.dropRate',r.acquisition.dropRate,{type:'number',step:'any'})+field('획득처와 조건',root+'acquisition.source',r.acquisition.source,{type:'textarea',max:500,wide:true}))}
-    ${fields('02 / 개별 성장','확정 전 값은 비워 둘 수 있습니다.',Object.entries({maxLevel:'최대 레벨',hpPerLevel:'레벨당 체력',attackPerLevel:'레벨당 공격력',defensePerLevel:'레벨당 방어력'}).map(([k,label])=>field(label,root+'growth.'+k,r.growth[k],{type:'number',min:k==='maxLevel'?'1':'0'})).join(''))}
-    <section class="mc-fields-section"><div class="mc-section-title"><h3>03 / 등급 공통 성장</h3><p>C → B → A → S → SS → SSS</p></div><div class="mc-rank-table">${data.document.settings.rankGrowth.map((row,i)=>`<div><b>${row.rank}</b>${field('최대 레벨',`settings.rankGrowth.${i}.maxLevel`,row.maxLevel,{type:'number',min:'1'})}${field('레벨당 코인',`settings.rankGrowth.${i}.coinPerLevel`,row.coinPerLevel,{type:'number'})}${field('레벨당 경험치',`settings.rankGrowth.${i}.expPerLevel`,row.expPerLevel,{type:'number'})}</div>`).join('')}</div></section>
+    ${fields('02 / 업그레이드 · 차후 공개','동일 용병 중복 카드 + 마스터의 별을 사용합니다. 필요 수량·단계·상승 효과는 추후 확정합니다.','<p>현재는 등급별 고정 전투력을 사용하고 중복 카드를 집계합니다.</p>')}
     ${fields('04 / 공통 정책', '출시 시 반영할 조건을 기록합니다.',field('획득 정책', 'settings.acquisitionNotes',data.document.settings.acquisitionNotes,{type:'textarea',wide:true,max:4000})+field('성장 정책','settings.growthNotes',data.document.settings.growthNotes,{type:'textarea',wide:true,max:4000}))}
     </div></div>`;
 }

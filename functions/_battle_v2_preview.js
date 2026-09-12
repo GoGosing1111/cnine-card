@@ -1675,7 +1675,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
   if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');
-  const mercenaryFighter=buildMercenaryFighter(mercenary,'A','PVE');
+  const mercenaryFighter=buildMercenaryFighter(mercenary,'A','PVE',buildFighter);
   const simulationTeamA = [...teamA,...(battleSuitFighter?[battleSuitFighter]:[]),...(mercenaryFighter?[mercenaryFighter]:[])];
   const teamB = encounterPlan ? encounterPlan.initial : [buildMonsterFighter(monster)];
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
@@ -1833,7 +1833,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
   if((attackerMercenary&&(attackerCards.length!==5||new Set(attackerCards.map(c=>String(c.id))).size!==5))||(defenderMercenary&&(defenderCards.length!==5||new Set(defenderCards.map(c=>String(c.id))).size!==5)))throw Error('INVALID_MERCENARY_PARTY');
-  const mercA=buildMercenaryFighter(attackerMercenary,'A','PVP'),mercB=buildMercenaryFighter(defenderMercenary,'B','PVP'),simulationA=mercA?[...teamA,mercA]:teamA,simulationB=mercB?[...teamB,mercB]:teamB;
+  const mercA=buildMercenaryFighter(attackerMercenary,'A','PVP',buildFighter),mercB=buildMercenaryFighter(defenderMercenary,'B','PVP',buildFighter),simulationA=mercA?[...teamA,mercA]:teamA,simulationB=mercB?[...teamB,mercB]:teamB;
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.

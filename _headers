@@ -56,3 +56,11 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /data/*
   Cache-Control: public, max-age=300, stale-while-revalidate=60
+/pve-v3/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/mercenary-hangar/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/shared/*
+  Cache-Control: public, max-age=0, must-revalidate

@@ -29,14 +29,18 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
   assert.equal(await qty('MASTER_STAR'),106);assert.equal(await qty('MERCENARY_TEST_PACK'),96);assert.equal(await f.coin(),10000000);
   for(const o of changed.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(changed);await assert.rejects(()=>openMercenaryCards(f.env,f.user,{requestId:rid(),count:1}),{code:'MERCENARY_RANK_POOL_EMPTY'});assert.equal(await qty('MERCENARY_TEST_PACK'),96);
  });
- test(`${label}: owned slot and growth use independent revisions and never consume duplicates`,async t=>{
+ test(`${label}: owned slot uses rank-fixed power; future upgrades never spend or grow`,async t=>{
   const f=await mercenaryFixture(t,{postgres});await openMercenaryCards(f.env,f.user,{requestId:rid(),count:2},{randomInt:zero});
   const slot={requestId:rid(),mercenaryCode:'V-001',revision:0};const s=await saveMercenaryLoadout(f.env,f.user,slot);assert.equal(s.revision,1);assert.equal((await saveMercenaryLoadout(f.env,f.user,slot)).replayed,true);
   await assert.rejects(()=>saveMercenaryLoadout(f.env,{id:8,role:'OWNER'},{...slot,requestId:rid()}),{code:'MERCENARY_NOT_OWNED'});
-  const train={requestId:rid(),mercenaryCode:'V-001',revision:0,quantity:2};await growMercenary(f.env,f.user,train,'TRAIN');assert.equal((await growMercenary(f.env,f.user,train,'TRAIN')).replayed,true);
-  const level=await growMercenary(f.env,f.user,{requestId:rid(),mercenaryCode:'V-001',revision:1,quantity:2},'LEVEL');assert.equal(level.level,3);assert.equal(level.experience,0);
-  const state=await mercenaryAccountState(f.env,f.user);assert.equal(state.cards[0].duplicates,1);assert.equal(state.cards[0].level,3);assert.equal(state.loadout.mercenaryCode,'V-001');
-  const snapshot=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(snapshot.basePower,10000);assert.equal(snapshot.stats.hp,10200);assert.notEqual(snapshot.sourceArt,snapshot.battleSprite);assert.deepEqual(snapshot.skills,[]);
+  const beforeCoin=await f.coin(),train={requestId:rid(),mercenaryCode:'V-001',revision:0,quantity:2};
+  for(const action of ['TRAIN','LEVEL','UPGRADE'])await assert.rejects(()=>growMercenary(f.env,f.user,train,action),{code:'MERCENARY_UPGRADE_PENDING'});
+  assert.equal(await f.coin(),beforeCoin);
+  const stored=structuredClone(f.document);for(const c of stored.mercenaries){for(const key of Object.keys(c.stats))c.stats[key]=null;for(const key of Object.keys(c.growth))c.growth[key]=null;c.review='PENDING';}for(const row of stored.settings.rankGrowth)for(const key of ['maxLevel','coinPerLevel','expPerLevel'])row[key]=null;
+  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(stored)).run();
+  await f.p('INSERT INTO user_mercenary_growth_v1(user_id,mercenary_code,level,experience,revision) VALUES(7,?,9,90000,0)','V-001').run();
+  const state=await mercenaryAccountState(f.env,f.user);assert.equal(state.cards[0].duplicates,1);assert.equal(state.cards[0].level,1);assert.equal(state.loadout.mercenaryCode,'V-001');assert.equal(state.policy.upgrade.method,'DUPLICATE_AND_MASTER_STAR');assert.equal(state.policy.upgrade.mode,'OFF');assert.equal(state.policy.training.itemCode,null);
+  const snapshot=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(snapshot.basePower,10000);assert.equal(snapshot.level,1);assert.equal(snapshot.statMode,'RANK_FIXED');assert.equal(snapshot.stats,undefined);assert.notEqual(snapshot.sourceArt,snapshot.battleSprite);assert.deepEqual(snapshot.skills,[]);
   await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mercenaryCode:null,revision:1});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user),null);
  });
  test(`${label}: route rejects forged deck, cross-origin, non-owner TEST and ON policy`,async t=>{

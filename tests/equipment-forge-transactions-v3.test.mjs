@@ -23,7 +23,7 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
  });
  test(`${label}: success/maintain receipts are atomic, replayable and invalidate stale quotes`,async t=>{
   const f=await forgeFixture(t,{postgres}),q=await quote(f),stale=await quote(f),body={requestId:rid(),quoteId:q.quoteId};
-  const r=await executeForge(f.env,f.user,body,'ENHANCE',{randomInt:()=>0});assert.equal(r.outcome,'SUCCESS');assert.equal(r.level,1);assert.equal(await f.coin(),9999900);assert.equal(await f.qty('FORGE_TEST_MATERIAL'),98);assert.deepEqual(await forgeEquipmentBonus(f.env,7),{pve:540,pvp:60});
+  const r=await executeForge(f.env,f.user,body,'ENHANCE',{randomInt:()=>0});assert.equal(r.outcome,'SUCCESS');assert.equal(r.level,1);assert.equal(await f.coin(),9999900);assert.equal(await f.qty('MASTER_STAR'),98);assert.deepEqual(await forgeEquipmentBonus(f.env,7),{pve:540,pvp:60});
   const retry=await executeForge(f.env,f.user,body,'ENHANCE',{randomInt(){throw Error('reroll');}});assert.equal(retry.replayed,true);assert.equal(await f.coin(),9999900);
   await assert.rejects(()=>executeForge(f.env,f.user,{requestId:rid(),quoteId:stale.quoteId},'ENHANCE'),{code:'FORGE_STALE'});
   const m=await quote(f);assert.equal((await executeForge(f.env,f.user,{requestId:rid(),quoteId:m.quoteId},'ENHANCE',{randomInt:()=>600000})).outcome,'MAINTAIN');assert.equal((await forgeAccountState(f.env,f.user)).items[0].enhancement.level,1);
@@ -41,7 +41,7 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
   const success=await quote(f,{useProtection:true});await executeForge(f.env,f.user,{requestId:rid(),quoteId:success.quoteId},'ENHANCE',{randomInt:()=>0});assert.equal(await f.qty('FORGE_TEST_PROTECTION'),99);
  });
  test(`${label}: failed destruction rolls all payment/state back and retries the original roll after CMS changes`,async t=>{
-  const f=await forgeFixture(t,{postgres}),q=await quote(f),body={requestId:rid(),quoteId:q.quoteId};f.fail('DELETE FROM user_equipment_instances');await assert.rejects(()=>executeForge(f.env,f.user,body,'ENHANCE',{randomInt:()=>999999}));assert.equal(await f.coin(),10000000);assert.equal(await f.qty('FORGE_TEST_MATERIAL'),100);assert.equal((await forgeAccountState(f.env,f.user)).records.length,0);
+  const f=await forgeFixture(t,{postgres}),q=await quote(f),body={requestId:rid(),quoteId:q.quoteId};f.fail('DELETE FROM user_equipment_instances');await assert.rejects(()=>executeForge(f.env,f.user,body,'ENHANCE',{randomInt:()=>999999}));assert.equal(await f.coin(),10000000);assert.equal(await f.qty('MASTER_STAR'),100);assert.equal((await forgeAccountState(f.env,f.user)).records.length,0);
   const changed=structuredClone(f.policy);changed.steps[0].coinCost=9000;await f.setting(FORGE_RUNTIME_KEY,changed);f.fail('');const r=await executeForge(f.env,f.user,body,'ENHANCE',{randomInt(){throw Error('reroll');}});assert.equal(r.outcome,'DESTROY');assert.equal(await f.coin(),9999900);
  });
  test(`${label}: expiry, missing ownership, unconfigured and invalid policies fail without spending`,async t=>{

@@ -20,8 +20,10 @@ for(const postgres of[false,true])test(`${postgres?'PostgreSQL':'SQLite'}: expli
   MERCENARY:{document:merc.document,runtime:merc.policy,draw:merc.draw,cmsRevision:1,drawRevision:1},EQUIPMENT_FORGE:await readForgeRuntime(f.env),
   TOWER:await readTowerV3Settings(f.env),COW_ROOM:await readExpeditionPolicy(f.env,'COW_ROOM'),SCRAPYARD:{...await readScrapyardSettings(f.env,{fresh:true}),mode:'ON'},IDLE:{progression:'EXISTING_SERVER_AUTOMATIC'}}};
  for(const key of JOINT_APPROVALS)await assert.rejects(()=>compileJointReleaseDocument({...input,approvals:{...input.approvals,[key]:false}}),{code:'JOINT_RELEASE_PENDING'});
- const pending=structuredClone(input);pending.components.MERCENARY.document.mercenaries[0].stats.attack=null;await assert.rejects(()=>compileJointReleaseDocument(pending));
+ const pending=structuredClone(input);pending.components.MERCENARY.document.mercenaries[0].rank=null;await assert.rejects(()=>compileJointReleaseDocument(pending));
  input.components.EQUIPMENT_FORGE.protection.sources[0]={content:'TOWER',enabled:true,chancePpm:10,quantity:1};
+ for(const c of input.components.MERCENARY.document.mercenaries){for(const key of Object.keys(c.stats))c.stats[key]=null;for(const key of Object.keys(c.growth))c.growth[key]=null;c.review='PENDING';}
+ for(const row of input.components.MERCENARY.document.settings.rankGrowth)for(const key of ['maxLevel','coinPerLevel','expPerLevel'])row[key]=null;
  const compiled=await compileJointReleaseDocument(input);await f.setting(compiled.key,JSON.parse(compiled.value));
  const released=await readJointReleaseComponent(f.env,'MERCENARY',{enabled:true});assert.equal(released.runtime.mode,'ON');assert.equal(released.runtime.approved,true);assert.equal((await readForgeRuntime(f.env)).approved,false);
  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json='{}' WHERE doc_key='config'").run();assert.equal((await readJointReleaseComponent(f.env,'MERCENARY',{enabled:true})).cmsRevision,1);
