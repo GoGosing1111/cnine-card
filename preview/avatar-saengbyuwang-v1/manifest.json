@@ -1,0 +1,62 @@
+{
+  "name": "생뷰왕",
+  "code": "SAENGBYUWANG",
+  "serial": "A-16",
+  "generator": "built-in image_gen",
+  "date": "2026-09-12",
+  "lobby": "오피스 야경. 사용자 요청으로 얼굴을 새로 정리한 최종 원본.",
+  "equipment": "같은 얼굴의 오피스 전신. 아이보리 블라우스 상단 단추 두 개 열림, 블랙 미니스커트, 블랙 힐.",
+  "backgroundRemoval": {
+    "userAuthorization": "배경만 스크립트로 제거",
+    "sourceSha256": "db54b41d8eea604cec6bb1de114c28ba74b7825c454182babcee9195efd7a83b",
+    "script": "remove-equipment-background.cjs",
+    "opaqueRgbChanged": 0
+  },
+  "alpha": {
+    "clearPixels": 1257784,
+    "solidPixelsAtLeast240": 307291,
+    "visibleBoundsAbove16": [
+      298,
+      23,
+      750,
+      1507
+    ]
+  },
+  "files": {
+    "avatar-saengbyuwang-lobby-source-art-v1.png": {
+      "sha256": "728880e0701bc5bd052e798284a1bc384e0b68ce0bf0952ef5399bdae360206e",
+      "bytes": 1864732,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-saengbyuwang-equipment-source-art-v1.png": {
+      "sha256": "e84b143c8eeefffd6f68e4706e073ba2e71026775fb5571f9e92aa245725c94e",
+      "bytes": 726785,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-saengbyuwang-lobby-v1-1024.webp": {
+      "sha256": "09be3dd388858607f07b2f0476c4d8a6541a50a61260517fac381fae99b40ee4",
+      "bytes": 144186,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-saengbyuwang-lobby-v1-640.webp": {
+      "sha256": "a2c344963b4a8ecfd0db4e801b394111538755219255590791de0307a4d9292f",
+      "bytes": 80820,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-saengbyuwang-equipment-v1-640.webp": {
+      "sha256": "f2e498abc3cfa9f427434790f140f6ac7e009c49f9f5e73b4d0699bb9fa86608",
+      "bytes": 73490,
+      "width": 640,
+      "height": 1664,
+      "hasAlpha": true
+    }
+  }
+}

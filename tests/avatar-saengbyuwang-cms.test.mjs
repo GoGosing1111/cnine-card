@@ -4,10 +4,10 @@ import {existsSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 
-const marker='safe_runtime_upgrade_v2068_cheon_avatar_v1';
-const coldModule=()=>import(`../functions/_avatar.js?cheon-qa=${crypto.randomUUID()}`);
+const marker='safe_runtime_upgrade_saengbyuwang_avatar_v1';
+const coldModule=()=>import(`../functions/_avatar.js?saengbyuwang-qa=${crypto.randomUUID()}`);
 
-test('Cheon CMS registration executes atomically against PostgreSQL without releasing or granting it',async t=>{
+test('Saengbyuwang CMS registration executes atomically against PostgreSQL without releasing or granting it',async t=>{
   const pg=new PGlite();
   let failMarker=false;
   try{
@@ -39,53 +39,68 @@ test('Cheon CMS registration executes atomically against PostgreSQL without rele
       assert.equal(response.status,200);
       assert.equal(response.body.avatars.length,16);
       assert.deepEqual(response.body.settings,{mode:'ON',shopEnabled:true,version:17});
-      const item=response.body.avatars.find(a=>a.code==='CHEON');
-      assert.equal(item.serial,'A-14');assert.equal(item.name,'체온');
+      const item=response.body.avatars.find(a=>a.code==='SAENGBYUWANG');
+      assert.equal(item.serial,'A-16');assert.equal(item.name,'생뷰왕');
       for(const flag of ['active','public','saleEnabled','owned','equipped'])assert.equal(item[flag],false,flag);
       assert.equal(item.acquisitionType,'UNSET');assert.equal(item.coinPrice,null);
       assert.deepEqual(item.effects,[]);assert.deepEqual(item.effect,{type:'',value:0});
-      assert.equal(item.lobbyImage,'preview/avatar-cheon-v1/assets/avatar-cheon-lobby-v1-1024.webp');
-      assert.equal(item.lobbyMobileImage,'preview/avatar-cheon-v1/assets/avatar-cheon-lobby-v1-640.webp');
-      assert.equal(item.equipmentImage,'preview/avatar-cheon-v1/assets/avatar-cheon-equipment-v1-640.webp');
+      assert.equal(item.lobbyImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-lobby-v1-1024.webp');
+      assert.equal(item.lobbyMobileImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-lobby-v1-640.webp');
+      assert.equal(item.equipmentImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-equipment-v1-640.webp');
       for(const field of ['lobbyImage','lobbyMobileImage','equipmentImage'])assert.ok(existsSync(new URL(`../${item[field]}`,import.meta.url)));
       const catalog=await call('avatar/catalog');assert.equal(catalog.status,200);
-      assert.ok(!catalog.body.avatars.some(a=>a.code==='CHEON'));
-      assert.equal((await call('avatar/equip',{avatarCode:'CHEON'})).status,404);
-      assert.equal((await call('avatar/purchase',{avatarCode:'CHEON',requestId:'cheon-qa-purchase'})).status,404);
+      assert.ok(!catalog.body.avatars.some(a=>a.code==='SAENGBYUWANG'));
+      assert.equal((await call('avatar/equip',{avatarCode:'SAENGBYUWANG'})).status,404);
+      assert.equal((await call('avatar/purchase',{avatarCode:'SAENGBYUWANG',requestId:'saengbyuwang-qa-purchase'})).status,404);
       for(const table of ['avatar_user_ownership_v1','avatar_user_loadout_v1','avatar_purchase_receipts_v1'])assert.equal(Number((await one(`SELECT COUNT(*) n FROM ${table}`)).n),0);
       assert.equal(Number((await one('SELECT coin FROM users WHERE id=1')).coin),5000000000);
       assert.equal(logs.length,0);
-      legacy=await all("SELECT * FROM avatar_catalog_v1 WHERE code<>'CHEON' ORDER BY code");
+      legacy=await all("SELECT * FROM avatar_catalog_v1 WHERE code<>'SAENGBYUWANG' ORDER BY code");
     });
 
     await t.test('CMS edits are saved normally and survive a cold-start seed replay',async()=>{
-      const saved=await call('admin/avatars',{action:'SAVE_AVATAR',code:'CHEON',version:1,
+      const saved=await call('admin/avatars',{action:'SAVE_AVATAR',code:'SAENGBYUWANG',version:1,
         acquisitionType:'EVENT',coinPrice:null,sourceLabel:'QA event',sourceDetail:'QA configured later',
-        effects:[{type:'COIN_GAIN_PERCENT',value:9}],sortOrder:131,active:true,public:false,saleEnabled:false});
+        effects:[{type:'COIN_GAIN_PERCENT',value:9}],sortOrder:151,active:true,public:false,saleEnabled:false});
       assert.equal(saved.status,200,JSON.stringify(saved.body));assert.equal(saved.body.avatar.version,2);
-      const before=await one("SELECT * FROM avatar_catalog_v1 WHERE code='CHEON'");
-      const effects=await all("SELECT * FROM avatar_effect_options_v1 WHERE avatar_code='CHEON'");
+      const before=await one("SELECT * FROM avatar_catalog_v1 WHERE code='SAENGBYUWANG'");
+      const effects=await all("SELECT * FROM avatar_effect_options_v1 WHERE avatar_code='SAENGBYUWANG'");
       await pg.query('DELETE FROM app_meta WHERE key=$1',[marker]);
       api=await coldModule();await api.ensureAvatarFoundation(env);
-      assert.deepEqual(await one("SELECT * FROM avatar_catalog_v1 WHERE code='CHEON'"),before);
-      assert.deepEqual(await all("SELECT * FROM avatar_effect_options_v1 WHERE avatar_code='CHEON'"),effects);
-      assert.deepEqual(await all("SELECT * FROM avatar_catalog_v1 WHERE code<>'CHEON' ORDER BY code"),legacy);
-      assert.equal(Number((await one("SELECT COUNT(*) n FROM avatar_catalog_v1 WHERE code='CHEON'")).n),1);
+      assert.deepEqual(await one("SELECT * FROM avatar_catalog_v1 WHERE code='SAENGBYUWANG'"),before);
+      assert.deepEqual(await all("SELECT * FROM avatar_effect_options_v1 WHERE avatar_code='SAENGBYUWANG'"),effects);
+      assert.deepEqual(await all("SELECT * FROM avatar_catalog_v1 WHERE code<>'SAENGBYUWANG' ORDER BY code"),legacy);
+      assert.equal(Number((await one("SELECT COUNT(*) n FROM avatar_catalog_v1 WHERE code='SAENGBYUWANG'")).n),1);
       assert.equal(logs.length,1);
     });
 
     await t.test('marker failure rolls back insertion and permits a clean retry',async()=>{
-      await pg.exec("DELETE FROM avatar_effect_options_v1 WHERE avatar_code='CHEON'; DELETE FROM avatar_catalog_v1 WHERE code='CHEON';");
+      await pg.exec("DELETE FROM avatar_effect_options_v1 WHERE avatar_code='SAENGBYUWANG'; DELETE FROM avatar_catalog_v1 WHERE code='SAENGBYUWANG';");
       await pg.query('DELETE FROM app_meta WHERE key=$1',[marker]);
       api=await coldModule();failMarker=true;
       await assert.rejects(api.ensureAvatarFoundation(env),/QA marker write failed/);
-      assert.equal(Number((await one("SELECT COUNT(*) n FROM avatar_catalog_v1 WHERE code='CHEON'")).n),0);
+      assert.equal(Number((await one("SELECT COUNT(*) n FROM avatar_catalog_v1 WHERE code='SAENGBYUWANG'")).n),0);
       assert.equal((await pg.query('SELECT value FROM app_meta WHERE key=$1',[marker])).rows.length,0);
       failMarker=false;await api.ensureAvatarFoundation(env);
-      assert.equal(Number((await one("SELECT COUNT(*) n FROM avatar_catalog_v1 WHERE code='CHEON'")).n),1);
+      assert.equal(Number((await one("SELECT COUNT(*) n FROM avatar_catalog_v1 WHERE code='SAENGBYUWANG'")).n),1);
       assert.equal((await pg.query('SELECT value FROM app_meta WHERE key=$1',[marker])).rows[0].value,'1');
-      assert.deepEqual(await all("SELECT * FROM avatar_catalog_v1 WHERE code<>'CHEON' ORDER BY code"),legacy);
+      assert.deepEqual(await all("SELECT * FROM avatar_catalog_v1 WHERE code<>'SAENGBYUWANG' ORDER BY code"),legacy);
       assert.equal((await one("SELECT value FROM app_meta WHERE key='avatar_settings_v1'")).value,'{"mode":"ON","shopEnabled":true,"version":17}');
+    });
+    await t.test('a later CMS release and grant exposes the real art through the equipped-avatar contract',async()=>{
+      const saved=await call('admin/avatars',{action:'SAVE_AVATAR',code:'SAENGBYUWANG',version:1,
+        acquisitionType:'EVENT',coinPrice:null,sourceLabel:'QA configured event',sourceDetail:'In-memory integration test',
+        effects:[{type:'COIN_GAIN_PERCENT',value:1}],sortOrder:160,active:true,public:true,saleEnabled:false});
+      assert.equal(saved.status,200,JSON.stringify(saved.body));
+      const grant=await api.grantAvatarOwnership(env,{userId:1,avatarCode:'SAENGBYUWANG',sourceType:'EVENT',sourceRef:'qa-only'});
+      assert.equal(grant.granted,true);
+      const equipped=await call('avatar/equip',{avatarCode:'SAENGBYUWANG'});
+      assert.equal(equipped.status,200,JSON.stringify(equipped.body));
+      const avatar=await api.equippedAvatarEffect(env,1);
+      assert.equal(avatar.name,'생뷰왕');
+      assert.equal(avatar.equipmentImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-equipment-v1-640.webp');
+      assert.equal(avatar.lobbyImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-lobby-v1-1024.webp');
+      assert.equal(avatar.lobbyMobileImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-lobby-v1-640.webp');
     });
   }finally{await pg.close();}
 });
