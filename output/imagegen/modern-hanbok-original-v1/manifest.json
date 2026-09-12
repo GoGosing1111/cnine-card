@@ -1,0 +1,27 @@
+{
+  "id": "modern-hanbok-original-v1",
+  "status": "CONCEPT_USER_REVIEW_PENDING",
+  "date": "2026-09-12",
+  "generator": "built-in image_gen",
+  "subject": "ORIGINAL_FICTIONAL_ADULT",
+  "currentVersion": 3,
+  "referenceImagesSentToGenerator": [
+    {"file": "modern-hanbok-original-source-art-v2.png", "role": "edit target: original fictional adult"},
+    {"file": "assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png", "role": "2D rendering and slender silhouette only; no identity transfer"}
+  ],
+  "file": "modern-hanbok-original-source-art-v3.png",
+  "width": 1024,
+  "height": 1536,
+  "format": "PNG",
+  "channels": 3,
+  "colorSpace": "sRGB",
+  "sha256": "C39C4DF80D13CE3C3D9CF10727CA403BD124E3B28CDC47AC3C4057ECC3F35091",
+  "prompt": "prompt-v3.md",
+  "history": [
+    {"version": 1, "status": "REJECTED_PHOTOREALISM", "file": "modern-hanbok-original-source-art-v1.png", "sha256": "46F184775C44A6715824104FCA6053B018BE648AE99A6317D7B3B61BAC626E23", "prompt": "prompt.md"},
+    {"version": 2, "status": "REJECTED_PROPORTIONS", "file": "modern-hanbok-original-source-art-v2.png", "sha256": "560C7F0FBE70B6F480C1BD836DC33A2AFFEC45DC7FD929BE2439F85AC3089B8F", "prompt": "prompt-v2.md"}
+  ],
+  "originalBytesPreserved": true,
+  "catalogRegistration": false,
+  "existingAvatarReplacement": false
+}

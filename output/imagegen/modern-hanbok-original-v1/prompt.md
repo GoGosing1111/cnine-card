@@ -1,0 +1,15 @@
+# 현대 한복 의상 시안 V1
+
+- 생성 방식: 내장 image_gen.
+- 사용자 방향: 짧은 치마의 현대 한복, 가능한 범위에서 대담한 노출.
+- 인물: 실존 인물의 얼굴을 복제하지 않는 별개의 가상 성인 여성. 이 방향에 대해 사용자가 `ㅇㅇ 가능선까지 최대한 해`라고 답했다.
+- 참고 자료는 게임 일러스트의 채색 완성도를 확인하는 데만 사용했다. 사진·디임 원화·디임 아바타를 생성 입력으로 전송하지 않았다.
+- 상태: 의상·원화 시안. 신규 아바타 등록, 기존 디임 이미지 교체, 이름·등급·효과·배포 승인과는 구분한다.
+
+## 생성 프롬프트
+
+Create one premium 2D game-character fashion illustration, exact vertical 2:3, 1024x1536 RGB PNG.
+An ORIGINAL FICTIONAL Korean-inspired adult woman, clearly about 28 to 32 years old. Invent a distinctive new face, not the likeness of any actual person, celebrity, streamer, or supplied photo. Elegant slightly angular oval face, refined almond eyes, natural adult facial proportions, warm brown eyes, confident composed expression. Glossy long black hair with a pronounced side part, swept behind one ear, and a small sculpted jade hairpin. No childish face or giant doll eyes.
+Design a daring MODERN KOREAN HANBOK mini-dress ensemble as a high-fashion game costume. The garment must be recognizably Korean through the overlapping jeogori collar and white dongjeong edging, a sculptural asymmetric goreum silk bow, a beautiful norigae at the waist, and the chima's gathered, gently bell-shaped construction. A fitted short ivory silk jeogori with a deep tasteful V neckline and a structured opaque bust panel, open shoulders, attached airy detached-style sleeves, and a short exposed midriff. A very short high-waisted ink-black chima miniskirt, with subtle vermilion inner pleats and a clean asymmetric hem ending high on the thighs. Bare shoulders, waist and long bare legs create a bold revealing silhouette; maintain complete opaque coverage of breasts and intimate areas, with no visible underwear. Delicate restrained gold crane embroidery placed on one sleeve and near the skirt hem, vermilion goreum, jade-and-gold norigae, elegant pointed black shoes. One restrained ribbon flow, not many billowing strips. This is a complete carefully tailored contemporary hanbok, not generic lingerie or a kimono.
+Standing at an eye-level camera in a softly illuminated modern hanok courtyard after sunset. One hand lightly rests at her waist and the other hangs gracefully with relaxed anatomically correct fingers. Balanced calm fashion pose, both legs clearly readable, no suggestive action. Frame from above her hair to the lower shins so the face is large and expressive and the short skirt is clearly shown. A charcoal timber veranda, softly lit paper lattice windows, warm amber lantern light, muted blue dusk through the garden, one quiet branch with a few blossoms. Background is painterly and lower contrast than the character. No weapons or extra people.
+High-end character-centered semi-realistic fantasy splash-art finish: deliberate hand-painted value shapes, sophisticated clean face, expressive eyes, silky cloth folds, beautiful controlled hair highlights, crisp garment construction, convincing anatomy and rich atmospheric depth. Maintain polished 2D game art, neither a photograph nor a plastic 3D render. Ivory, ink black, vermilion and small jade accents. No text, name, serial, rank, logo, watermark, border, frame or UI.
