@@ -1,0 +1,55 @@
+// Real Chrome UI verification. All CMS API traffic uses an isolated in-memory fixture.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import http from 'node:http';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
+import {validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const root=fileURLToPath(new URL('../',import.meta.url)), out=path.resolve(root,'../qa-mercenary-cms');fs.mkdirSync(out,{recursive:true});
+const types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg'};
+const server=http.createServer((req,res)=>{const url=new URL(req.url,'http://localhost');const file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end();return;}res.setHeader('content-type',types[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const origin=`http://127.0.0.1:${server.address().port}`;
+const html=fs.readFileSync(path.join(root,'admin/index.html'),'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'').replace('</body>','<script type="module" src="/admin/mercenary-admin-v1.js"></script></body>');
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const checks=[];
+try{for(const [width,height] of [[1440,1000],[1024,900],[390,844],[360,740]]){
+  const context=await browser.newContext({viewport:{width,height},isMobile:width<760,hasTouch:width<760});const page=await context.newPage(),errors=[];
+  page.on('pageerror',e=>errors.push(e.message));let d=structuredClone(seed.document),revision=1,conflict=false,dropResponse=false,last=null,puts=0;
+  const state=()=>({catalog:seed.catalog,document:d,revision,updatedAt:'2026-09-12T03:00:00Z',updatedBy:1,audit:[{revision,action:revision===1?'REGISTER':'SAVE',actor_id:1,created_at:'2026-09-12T03:00:00Z'}]});
+  await page.route(origin+'/admin/',route=>route.fulfill({contentType:'text/html',body:html}));
+  await page.route(origin+'/api/admin/mercenaries',async route=>{
+    if(route.request().method()==='GET')return route.fulfill({json:state()});
+    const body=route.request().postDataJSON();
+    if(last===body.requestId)return route.fulfill({json:{...state(),replayed:true}});
+    if(conflict||body.expectedRevision!==revision)return route.fulfill({status:409,json:{error:'다른 창에서 먼저 저장했습니다. 내보낸 뒤 다시 불러오세요.'}});
+    d=validateMercenaryCms(body.document,seed.catalog);revision++;puts++;last=body.requestId;
+    if(dropResponse){dropResponse=false;return route.abort('failed');}return route.fulfill({json:state()});
+  });
+  page.on('dialog',dialog=>dialog.accept());
+  await page.goto(origin+'/admin/#mercenaries');await page.evaluate(()=>{document.body.classList.remove('auth-guest');document.body.classList.add('auth-active');document.getElementById('cms').hidden=false;});await page.locator('#roleBadge').evaluate(el=>el.textContent='OWNER');
+  await page.locator('[data-code="V-004"]').waitFor();assert.equal(await page.locator('[data-code]').count(),43);
+  await page.locator('.mc-art img').evaluate(img=>img.decode());
+  await page.locator('#view-mercenaries').scrollIntoViewIfNeeded();
+  await page.screenshot({path:path.join(out,`roster-${width}.png`),fullPage:false});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`viewport overflow ${width}: `+JSON.stringify(await page.evaluate(()=>[...document.querySelectorAll('body, .layout, main, .mc-console, .mc-header, .mc-header-counts, .mc-editor')].map(el=>({tag:el.tagName,class:el.className,width:el.getBoundingClientRect().width,scroll:el.scrollWidth,css:getComputedStyle(el).width})))));
+  await page.locator('[data-search]').fill('동탄 디임');assert.equal(await page.locator('[data-code]').count(),1);await page.locator('[data-code="V-043"]').click();
+  await page.locator('[data-field="mercenaries.42.name"]').fill('동탄 디임 검수');
+  await page.locator('[data-field="mercenaries.42.rank"]').selectOption('A');
+  await page.locator('[data-tab="assignments"]').click();await page.locator('[data-assign="MS-021"]').check();await page.locator('[data-assign="MS-003"]').check();
+  await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();assert.equal(puts,1);assert.deepEqual(d.assignments[42].skillIds,['MS-021','MS-003']);
+  await page.reload();await page.evaluate(()=>{document.body.classList.remove('auth-guest');document.body.classList.add('auth-active');document.getElementById('cms').hidden=false;});await page.locator('#roleBadge').evaluate(el=>el.textContent='OWNER');await page.locator('[data-search]').fill('동탄 디임');await page.locator('[data-code="V-043"]').click();assert.equal(await page.locator('[data-field="mercenaries.42.name"]').inputValue(),'동탄 디임 검수');
+  await page.locator('[data-search]').fill('오메가');await page.locator('[data-code="V-021"]').click();assert.equal(await page.locator('[data-field="mercenaries.20.rank"]').isDisabled(),true);
+  await page.locator('[data-tab="skills"]').click();assert.equal(await page.locator('[data-skill]').count(),17);await page.locator('[data-field="skills.0.balance.damageRatio"]').fill('2.5');
+  await page.screenshot({path:path.join(out,`skills-${width}.png`),fullPage:false});
+  conflict=true;await page.locator('[data-save]').click();await page.locator('.mc-notice.is-error').waitFor();assert.equal(await page.locator('[data-field="skills.0.balance.damageRatio"]').inputValue(),'2.5');conflict=false;
+  dropResponse=true;await page.locator('[data-save]').click();await page.locator('.mc-notice.is-error').waitFor();await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();assert.equal(puts,2);
+  await page.locator('[data-tab="economy"]').click();await page.locator('[data-field="settings.rankGrowth.0.maxLevel"]').fill('25');await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();
+  await page.locator('[data-tab="review"]').click();assert.equal(await page.locator('.mc-resource-grid article').count(),43);await page.locator('.mc-release-strip').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`review-${width}.png`),fullPage:false});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`review overflow ${width}`);
+  const invalidImages=await page.locator('#view-mercenaries img').evaluateAll(imgs=>imgs.filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src));assert.deepEqual(invalidImages,[]);assert.deepEqual(errors,[]);
+  await page.locator('#roleBadge').evaluate(el=>el.textContent='ADMIN');assert.equal(await page.locator('#nav [data-view="mercenaries"]').isVisible(),false);assert.equal(await page.locator('#view-mercenaries').isVisible(),false);
+  checks.push({width,height,roster:43,skills:17,persistence:true,explicitAssignments:true,conflictPreservesDraft:true,lostResponseRetry:true,noOverflow:true,noPageErrors:true});await context.close();
+}}finally{await browser.close();server.close();}
+fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(checks,null,2));console.log(JSON.stringify(checks));
