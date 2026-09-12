@@ -1,3 +1,4 @@
+import {readJointReleaseComponent} from './_joint_release_document.js';
 import {TOWER_V3_DRAFT,TOWER_V3_RELEASE_ENABLED,validateTowerConfigChange,towerError} from './_tower_v3.js';
 import {TOWER_V3_ECONOMY_DRAFT,validateTowerEconomy} from './_tower_v3_economy.js';
 export const TOWER_V3_SETTINGS_KEY='tower_v3_settings_v1';
@@ -7,7 +8,7 @@ async function readRecord(env){
   let value;try{value=JSON.parse(row.value);}catch{throw towerError('TOWER_V3_CONFIG','저장된 탑 설정을 확인하세요.');}
   return {raw:row.value,value:{...value,config:validateTowerConfigChange(null,value.config),economy:validateTowerEconomy(value.economy)}};
 }
-export async function readTowerV3Settings(env){return (await readRecord(env)).value;}
+export async function readTowerV3Settings(env,{draft=false}={}){return (!draft&&await readJointReleaseComponent(env,'TOWER'))||(await readRecord(env)).value;}
 export async function saveTowerV3Draft(env,user,body){
   if(String(user?.role).toUpperCase()!=='OWNER')throw towerError('TOWER_V3_PERMISSION','운영자 권한이 필요합니다.');
   const record=await readRecord(env),before=record.value;

@@ -49,6 +49,7 @@
     }finally{S.ensureBusy=false}
   }
   async function openTower(){
+    if(await globalThis.PveV3Runtime?.tryOpen('tower'))return;
     stopAuto();
     document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));
     const raidHost=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(raidHost)raidHost.hidden=true;

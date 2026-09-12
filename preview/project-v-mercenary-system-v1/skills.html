@@ -21,11 +21,11 @@
       <section class="rehearsal" aria-label="스킬 동작 검수">
         <div class="rehearsal-head"><div><span class="eyebrow">V3 REHEARSAL</span><h3>상황을 바꾸어 확인하세요</h3></div><label>검수 상황<select id="scenario" disabled><option value="normal">유효한 상황</option><option value="counter">약점 공략</option><option value="boss">보스 상대</option></select></label></div>
         <div class="preview-model"><label>시연용 용병<select id="previewMercenary" disabled></select></label><p>연출을 확인할 모델입니다. 이 선택은 용병 배정에 저장되지 않습니다.</p></div><p id="scenarioNote" class="scenario-note"></p>
-        <div class="controls"><button id="play" class="primary" disabled>재생</button><button id="replay" disabled>처음부터</button><button id="impact" disabled>첫 충돌</button><button id="lastImpact" disabled>마지막 충돌</button><button id="cancel" disabled>취소 · 복귀</button><label>배속<select id="speed" disabled><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+        <div class="controls"><button id="play" class="primary" disabled>재생</button><button id="replay" disabled>처음부터</button><button id="impact" disabled>첫 충돌</button><button id="lastImpact" disabled>마지막 충돌</button><button id="cancel" disabled>취소 · 복귀</button><button id="sound" aria-pressed="true" disabled>효과음 ON</button><label>배속<select id="speed" disabled><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
         <label class="scrubber"><span>재생 위치</span><input id="scrub" type="range" min="0" max="3" value="0" step="0.01" disabled><output id="time">0.00 / 3.00초</output></label>
         <p id="health" class="health" role="status">승인 캐릭터와 V3 전장을 준비하고 있습니다.</p>
         <iframe id="battleFrame" src="./skills-battle.html?v=20260911-library" title="기존 V3 진형의 용병 스킬 검수 전장" allow="autoplay"></iframe>
-        <div class="cast-status"><strong id="cue">재생 대기</strong><span>무음 검수 · 신규 사운드는 제작하지 않았습니다</span></div>
+        <div class="cast-status"><strong id="cue">재생 대기</strong><span>녹음 기반 효과음 · 시각·청음 검수 대기</span></div>
         <details class="frame-review"><summary>개별 스프라이트 16프레임 확인</summary><p id="sequenceRecord"></p><div id="frameStrip" class="frame-strip"></div></details>
         <div class="ledger"><div><h4>확정된 검수 이벤트</h4><ol id="eventLog"></ol></div><div><h4>효과를 받은 유닛</h4><div id="stateLog"></div></div></div>
       </section>

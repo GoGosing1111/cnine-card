@@ -269,7 +269,7 @@ test('ordinary rollback retains the older V2012 x2 buff in normal and apocalypse
     'const BATTLE_SUIT_DAMAGE_MULTIPLIER = 2;',
   );
   assert.notEqual(previousSource,currentSource,'the V2011 fixture must remove only the older V2012 x2 multiplier');
-  const resolvableSource=previousSource.replace("'../shared/battle-suit-skill-chips.mjs'",JSON.stringify(new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href));
+  const resolvableSource=previousSource.replace(/(from\s*)'([^']+)'/g,(_match,prefix,specifier)=>prefix+JSON.stringify(new URL(specifier,battleEngineUrl).href));
   const previousEngine=await import(`data:text/javascript;base64,${Buffer.from(resolvableSource).toString('base64')}`);
   const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((type,index)=>({
     id:`V2012-${index+1}`,

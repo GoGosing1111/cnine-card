@@ -284,7 +284,7 @@ export class BattleCharacter{
 
   applyFacing(){
     const magnitude=Math.abs(this.view.scale.x||1);
-    this.view.scale.x=this.team===TEAM.ENEMY?-magnitude:magnitude;
+    this.view.scale.x=(this.team===TEAM.ENEMY?-magnitude:magnitude)*(this.artFacing===-1?-1:1);
     if(this.neutralAvatarPose)this.neutralAvatarPose.scaleX=this.view.scale.x;
     this.animationAdapter?.setFacing?.(this.team===TEAM.ENEMY?-1:1);
   }

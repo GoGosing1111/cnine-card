@@ -1,3 +1,4 @@
+import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {loadScrapyardV3Snapshot, buildScrapyardV3Battle, validateScrapyardV3Config} from './_scrapyard_v3.js';
 import {planUnifiedDropRoll, prepareUnifiedDropGrant} from './_drop_pool.js';
 
@@ -148,6 +149,7 @@ export async function runScrapyardV3(env,user,body,deps) {
     const battle = buildScrapyardV3Battle({snapshot,difficulty,config,seed});
     const plan = battle.success ? await planUnifiedDropRoll(env,{userId:uid,requestId:`SCRAPYARD:${rid}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role})
       : {userId:uid,requestId:`SCRAPYARD:${rid}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',pools:[],rewards:[]};
+    plan.rewards.push(...await planForgeProtectionDrop(env,'SCRAPYARD',{cleared:battle.success}));
     // Start the lease after snapshot/roll reads, not before potentially slow I/O.
     try { op = await reserve(env,user,rid,difficulty,cfg,snapshot,battle,plan,seed,token,Date.now()); }
     catch (cause) {
@@ -177,4 +179,11 @@ export async function scrapyardV3RecoveryStatus(env,user) {
   if (!Number.isSafeInteger(Number(user?.id)) || Number(user.id) <= 0) throw error('SCRAPYARD_V3_AUTH', '로그인이 필요합니다.');
   const row = await p(env,`SELECT request_id,state,lease_until,battle_json FROM ${OPS} WHERE user_id=? AND state<>'COMPLETED'`,Number(user.id)).first();
   return row ? {...pending(row.request_id, 'SCRAPYARD_V3_RUNNING',parse(row.battle_json).difficulty.id),canResume:Number(row.lease_until)<=Date.now()} : {ok:true,status:'IDLE'};
+}
+
+export async function scrapyardV3Result(env,user,requestId){
+  const {uid,rid}=key(user,{requestId,difficulty:'OUTER'}),row=await receipt(env,uid,rid);
+  if(row?.status==='COMPLETED')return {...parse(row.response_json),replayed:true};
+  const op=await operation(env,uid,rid);
+  return op?pending(rid,'SCRAPYARD_V3_RUNNING',parse(op.battle_json).difficulty.id):{ok:true,status:'NOT_FOUND'};
 }

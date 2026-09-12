@@ -1,3 +1,4 @@
+import {releasedMercenarySnapshot} from './_mercenary_account.js';
 import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarParticipationSettings,clanParticipationProgress,clanParticipationReplay,settleClanParticipationBattle,validateClanParticipationSettings,prepareClanParticipationSettings} from './_clan_participation.js';
 import {handleClanInactivityCleanup} from './_clan_inactivity_cleanup.js';
 import {handleClanMemberAssignment} from './_clan_member_assignment.js';
@@ -730,7 +731,7 @@ async function buildClanBattle(env,deps,attackerUser,defenderUser,seed){
   ]);
   const [aUnique,dUnique]=unique,aMap=new Map((aUnique?.cards||[]).map(c=>[String(c.id),c])),dMap=new Map((dUnique?.cards||[]).map(c=>[String(c.id),c])),aMult=1+Number(aSynergy?.totals?.attackPercent||0)/100,dMult=1+Number(dSynergy?.totals?.attackPercent||0)/100;
   const attackerDeck=aCards.map(c=>{const uniqueCard=aMap.get(String(c.id));return {...c,power:Math.max(1,Math.floor(Number(c.power||0)*aMult)),uniqueAbility:uniqueCard?.uniqueAbility||c.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}}),defenderDeck=dCards.map(c=>{const uniqueCard=dMap.get(String(c.id));return {...c,power:Math.max(1,Math.floor(Number(c.power||0)*dMult)),uniqueAbility:uniqueCard?.uniqueAbility||c.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
-  const battleV2=deps.createPvpBattleV2({attackerCards:attackerDeck,defenderCards:defenderDeck,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:dMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(dBonus?.pvp||0),seed,singleHealerBonus:battle?.engine?.singleHealerBonus});
+  const battleV2=deps.createPvpBattleV2({attackerMercenary:await releasedMercenarySnapshot(env,attackerUser),defenderMercenary:await releasedMercenarySnapshot(env,defenderUser),attackerCards:attackerDeck,defenderCards:defenderDeck,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:dMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(dBonus?.pvp||0),seed,singleHealerBonus:battle?.engine?.singleHealerBonus});
   return{battleV2,attackerDeck,defenderDeck,attackerPower:Number(battleV2.teams?.A?.summary?.power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||0)};
 }
 

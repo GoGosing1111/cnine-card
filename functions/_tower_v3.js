@@ -72,7 +72,7 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT}={}
       name,elite,boss,points:boss?0:elite?c.elitePoints:c.normalPoints,battleSprite:root+f[offset+2]};
   });
   const battleV2=createPveBattleV2({cards:snapshot.cards,magicCards:snapshot.magicCards||[],characterBonus:snapshot.cardSupportBonus||0,
-    battleSuit:snapshot.battleSuit||null,singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,seed,
+    battleSuit:snapshot.battleSuit||null,mercenary:snapshot.mercenary||null,singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,seed,
     encounter:{initialCount:c.simultaneous,instances,maxActions:c.maxActions,maxDuration:c.combatLimitMs/TOWER_CLOCK_UNIT_MS,forcedMonsterEvery:c.forcedMonsterEvery}});
   const rows=battleV2.encounter.instances.map((fighter,i)=>({...fighter,slot:instances[i].slot,boss:instances[i].boss,elite:instances[i].elite,
     points:instances[i].points,name:instances[i].name,displayName:instances[i].boss?instances[i].name:`${instances[i].name} ${i+1}`,sourceArt:null,battleSprite:instances[i].battleSprite}));

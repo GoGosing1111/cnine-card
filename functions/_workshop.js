@@ -1,5 +1,7 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
+import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+const forgeSynthesisFilter=V3_JOINT_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
 
 const RECIPE_TABLE='workshop_recipes_v1668';
 const MATERIAL_TABLE='workshop_recipe_materials_v1668';
@@ -210,7 +212,7 @@ async function synthesisRecipeRows(env,user,{admin=false}={}){
     FROM ${SYNTH_RECIPE_TABLE} r
     JOIN character_equipment_items input ON input.id=r.input_equipment_id AND input.is_active=1
     JOIN character_equipment_items output ON output.id=r.output_equipment_id AND output.is_active=1
-    LEFT JOIN (SELECT x.equipment_id,COUNT(*) quantity FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND l.instance_id IS NULL GROUP BY x.equipment_id) owned ON owned.equipment_id=r.input_equipment_id
+    LEFT JOIN (SELECT x.equipment_id,COUNT(*) quantity FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND l.instance_id IS NULL${forgeSynthesisFilter} GROUP BY x.equipment_id) owned ON owned.equipment_id=r.input_equipment_id
     WHERE ${visibility} ORDER BY r.sort_order,r.id`);
   const rows=admin?await statement.bind(user.id).all():await statement.bind(user.id,String(user.role||'').toUpperCase()).all();
   const normalized=(rows.results||[]).map(row=>({...row,recipe_id:Number(row.recipe_id),input_equipment_id:Number(row.input_equipment_id),output_equipment_id:Number(row.output_equipment_id),input_quantity:Number(row.input_quantity||3),success_rate:Number(row.success_rate??100),quantity:Number(row.quantity||0),pve_power:Number(row.pve_power||0),pvp_power:Number(row.pvp_power||0),output_pve_power:Number(row.output_pve_power||0),output_pvp_power:Number(row.output_pvp_power||0)}));
@@ -324,7 +326,7 @@ async function synthesizeEquipment(env,user,body){
   const equipmentId=recipe.input_equipment_id,required=int(recipe.input_quantity,1,20,3),plan=equipmentSynthesisBatchPlan({available:recipe.quantity,required,attempts:body.attempts??1}),materialCode=code(recipe.material_code,100),materialRequired=materialCode?int(recipe.material_quantity,1,1000000,1):0;
   if(materialCode&&Number(recipe.material_active)!==1)throw new Error('추가 합성 재료가 비활성 상태입니다. 운영자에게 문의하세요.');
   const materialPlan=equipmentSynthesisMaterialPlan({available:recipe.material_owned,required:materialRequired,attempts:plan.attempts});
-  const inputs=await env.DB.prepare(`SELECT x.id,i.id equipment_id,i.name,i.slot,i.rarity,i.image_url FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL AND i.is_active=1 AND i.is_public=1 ORDER BY x.id LIMIT ?`).bind(user.id,equipmentId,plan.totalRequired).all();
+  const inputs=await env.DB.prepare(`SELECT x.id,i.id equipment_id,i.name,i.slot,i.rarity,i.image_url FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL AND i.is_active=1 AND i.is_public=1${forgeSynthesisFilter} ORDER BY x.id LIMIT ?`).bind(user.id,equipmentId,plan.totalRequired).all();
   if((inputs.results||[]).length!==plan.totalRequired)throw new Error(`장착하지 않은 동일 장비 ${plan.totalRequired}개가 필요합니다.`);
   const source=inputs.results[0],result=await env.DB.prepare(`SELECT id,name,slot,rarity,replace(image_url,char(92),'/') image_url,pve_power,pvp_power FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1`).bind(recipe.output_equipment_id).first();if(!result)throw new Error('CMS에 지정된 합성 결과 장비가 비활성 상태입니다.');
   const instanceIds=inputs.results.map(row=>Number(row.id)),reserved=await env.DB.prepare(`INSERT OR IGNORE INTO ${SYNTH_RECEIPT_TABLE}(request_id,user_id,equipment_id,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,equipmentId).run();if(!reserved.meta?.changes)throw new Error('같은 장비 합성을 처리 중입니다.');
@@ -333,7 +335,7 @@ async function synthesizeEquipment(env,user,body){
   const statements=[];
   if(env.DB?.dialect==='postgres'&&materialCode)statements.push(env.DB.prepare(`SELECT item_code FROM cnine_user_inventory WHERE user_id=? AND item_code=? FOR UPDATE`).bind(user.id,materialCode));
   statements.push(
-    env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,0,CASE WHEN (SELECT COUNT(*) FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL AND x.id IN (${selectedIdRows}))=? AND (?='' OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,user.id,equipmentId,instanceIdsJson,plan.totalRequired,materialCode,user.id,materialCode,materialPlan.totalRequired),
+    env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,0,CASE WHEN (SELECT COUNT(*) FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND x.equipment_id=? AND l.instance_id IS NULL${forgeSynthesisFilter} AND x.id IN (${selectedIdRows}))=? AND (?='' OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,user.id,equipmentId,instanceIdsJson,plan.totalRequired,materialCode,user.id,materialCode,materialPlan.totalRequired),
     env.DB.prepare(`DELETE FROM user_equipment_instances WHERE id IN (${selectedIdRows}) AND user_id=? AND EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(instanceIdsJson,user.id,guardId)
   );
   if(materialCode)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`).bind(materialPlan.totalRequired,materialPlan.totalRequired,user.id,materialCode,guardId));

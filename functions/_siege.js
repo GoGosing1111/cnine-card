@@ -1,3 +1,4 @@
+import {releasedMercenarySnapshot} from './_mercenary_account.js';
 const KEY = "monster_siege_settings_v1";
 const SIEGE_ENERGY_MAX = 5;
 const SIEGE_ENERGY_RECHARGE_SECONDS = 180;
@@ -1607,6 +1608,7 @@ export async function handleSiege({ path, request, env, deps }) {
       },
       battleV2 = createPveBattleV2({
         cards: engineDeck,
+        mercenary: await releasedMercenarySnapshot(env,user),
         characterBonus: siegePveBonus,
         monster,
         seed,

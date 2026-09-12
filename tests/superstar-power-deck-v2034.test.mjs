@@ -3,6 +3,9 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { DatabaseSync } from 'node:sqlite';
 import test from 'node:test';
+import {releasedMercenarySnapshots,mercenarySnapshotPower} from '../functions/_mercenary_account.js';
+import {forgeEquipmentBonuses} from '../functions/_equipment_forge_transactions.js';
+import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const api=read('functions/api/[[path]].js'),app=read('js/app.js'),pve=read('js/pve-command-v2-live.js');
@@ -18,11 +21,12 @@ function constantSource(source,name){
   assert.ok(line,`${name} must exist`);
   return line;
 }
-function server(){
+function server(overrides={}){
   const context=vm.createContext({
+    releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,
     normalizeBattleEngineSettings:x=>x||{},normalizeNightmareSettings:x=>x||{},normalizeApocalypseSettings:x=>x||{},normalizeUltimateRequiredGrade:x=>x,
     async pvpDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},
-    async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')}
+    async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},...overrides
   });
   vm.runInContext([
     ...['BATTLE_POWER_DEFAULT','BATTLE_BREAKTHROUGH_DEFAULT','HIGH_BREAKTHROUGH_BONUS_DEFAULT','FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','PRESTIGE_DECK_LIMIT','FUR_DECK_LIMIT','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT'].map(n=>constantSource(api,n)),
@@ -155,6 +159,15 @@ test('ranked matchmaking batch excludes invalid defenders before creating a matc
     assert.equal(result.get(2).deckReady,false);
     assert.ok(result.get(1).power>0);
   }finally{db.close()}
+});
+test('joint matchmaking adds mercenary and forge power once in batches without making an invalid five-card deck eligible',async()=>{
+ const {db,env}=database(),calls=[];
+ try{
+  const base=await server().pvpDefenseFormationPowers(env,[1,2],server().defaultBattleSettings());
+  const s=server({V3_JOINT_RELEASE_ENABLED:true,releasedMercenarySnapshots:async(_env,ids)=>{calls.push(['mercenary',...ids]);return new Map([[1,{basePower:10000,level:1,combat:{powerGrowthPercentPerLevel:1}}],[2,{basePower:180000,level:1,combat:{powerGrowthPercentPerLevel:1}}]]);},forgeEquipmentBonuses:async(_env,ids)=>{calls.push(['forge',...ids]);return new Map([[1,{pvp:1234}],[2,{pvp:9000}]]);}});
+  const result=await s.pvpDefenseFormationPowers(env,[1,2,1],s.defaultBattleSettings());
+  assert.equal(result.get(1).power,base.get(1).power+11234);assert.equal(result.get(2).deckReady,false);assert.deepEqual(plain(calls),[['mercenary',1,2],['forge',1,2]]);
+ }finally{db.close();}
 });
 
 test('client defaults, stale cached contracts, counters and selection validation all enforce one SUPERSTAR',()=>{

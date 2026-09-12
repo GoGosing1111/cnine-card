@@ -7,6 +7,8 @@ import {MERCENARY_SKILLS, skillById, createSkillDraft, parseSkillDraft, validate
 import {ROLES} from '../../../shared/mercenary-position-config-v1.mjs';
 import {compileRehearsal, sampleRehearsal} from '../skill-rehearsal.mjs';
 import {MercenarySkillFX} from './MercenarySkillFX.js';
+import {attachMercenaryArt} from './MercenaryAttachmentPoints.js';
+import {getMercenaryAudio} from './MercenarySkillAudio.js';
 import {skillAssetBaseUrl} from '../skill-asset-base.mjs';
 import {loadSequence,loadAuxiliary,releaseFrameViews} from './MercenarySpriteSequence.js';
 
@@ -20,6 +22,7 @@ let roster,positions,adapter,deck,engine,renderer,merc,fx,draft,savedRevision=nu
 let selected=MERCENARY_SKILLS.some(s=>s.id===new URL(window.parent.location.href).searchParams.get('skill'))?new URL(window.parent.location.href).searchParams.get('skill'):'MS-003',lastUi='',lastTick=-1,dirty=false;
 let atlasManifest,auxiliary,activeSequence=null,assetQueue=Promise.resolve();
 let previewCode='V-001';
+let playRequest=0,soundEnabled=localStorage.getItem('cnine_battle_sound')!=='OFF';
 const actors=new Map(),texturePaths=new Set();
 const row=()=>draft.skills.find(s=>s.id===selected);
 const base=()=>skillById(selected);
@@ -89,7 +92,7 @@ function placeMercenary(){
   merc.root.alpha=1;merc.root.visible=true;engine.sortCombatDepth();
 }
 async function configure(id=selected){
-  const token=++epoch;changing=true;controls(false);fx?.destroy();fx=null;selected=id;
+  const token=++epoch;++playRequest;changing=true;controls(false);fx?.destroy();fx=null;selected=id;
   $('health').dataset.diagnostics=JSON.stringify({ready:false,skillId:id,changing:true});
   lastUi='';lastTick=-1;showDetails();list();$('health').textContent='시연용 용병과 선택한 효과 준비 중…';
   $('frameStrip').innerHTML='';$('sequenceRecord').textContent='선택한 스킬의 개별 프레임 준비 중';
@@ -111,10 +114,10 @@ async function configure(id=selected){
     $('sequenceRecord').textContent=`개별 원본 16프레임 · ${atlasRow.cellSize}px · 시각 검수 대기`;
     if(!merc){merc=new BattleCharacter({id:'MERCENARY_PREVIEW',name:c.name,team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:260});engine.combatLayer.addChild(merc.root);actors.set('M',merc);}
     merc.name=c.name;merc.nameLabel.text=c.name;merc.cutInTexture=cutin;merc.useFullBodySprite(sd,260);
-    merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);placeMercenary();
+    merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);attachMercenaryArt(merc,art);placeMercenary();
     const plan=compileRehearsal(s.id,$('scenario').value);
     $('scenarioNote').textContent=plan.explanation+($('scenario').value==='boss'?' 이 화면은 단일 표적에 보스 예외를 적용한 모의 상황입니다.':'');
-    fx=new MercenarySkillFX(engine,actors,s,plan,sequence,auxiliary,update);fx.setSpeed(Number($('speed').value));
+    fx=new MercenarySkillFX(engine,actors,s,plan,sequence,auxiliary,update,{audio:getMercenaryAudio(engine)});fx.audio?.setEnabled(soundEnabled);fx.setSpeed(Number($('speed').value));
     changing=false;controls(true);$('health').classList.remove('error');$('health').textContent='V3 WebGL · PixiJS 8.20.0 / GSAP 3.13.0 · 스킬 시연 준비 완료';
     fx.render(0);publishDiagnostics();
   }catch(error){if(token!==epoch)return;changing=false;$('health').textContent=`검수 준비 실패: ${error.message}`;$('health').classList.add('error');console.error('[MercenarySkills]',error);}
@@ -136,17 +139,29 @@ function save(){
 }
 function load(){try{const stored=readStored();if(!stored)throw new Error('이 브라우저에 저장된 초안이 없습니다.');draft=stored;savedRevision=draft.revision;dirty=false;showDetails();list();notice('브라우저 저장본을 불러왔습니다.');}catch(error){notice(error.message,true);}}
 function exportDraft(){try{const checked=validateSkillDraft(draft);const url=URL.createObjectURL(new Blob([JSON.stringify(checked,null,2)+'\n'],{type:'application/json'}));const a=doc.createElement('a');a.href=url;a.download='mercenary-skill-catalog-review-v3.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notice('용병 배정이 없는 스킬 검토 목록을 JSON으로 내보냈습니다.');}catch(error){notice(error.message,true);}}
+async function playWithAudio(restart=false){
+  const instance=fx,token=++playRequest;if(!instance)return;
+  if(!restart&&instance.playing){instance.pause();publishDiagnostics();return;}
+  if(restart)instance.seek(0);
+  if(soundEnabled&&instance.audio){
+    try{const ready=await instance.audio.unlock();if(token!==playRequest||fx!==instance||disposed)return;instance.audio.setEnabled(ready);}
+    catch(error){if(token!==playRequest||fx!==instance||disposed)return;instance.audio.setEnabled(false);notice(`효과음 로드 실패: ${error.message}`,true);}
+  }
+  if(token===playRequest&&fx===instance&&!disposed){instance.play();publishDiagnostics();}
+}
 function bind(){
   $('skillList').addEventListener('click',event=>{const button=event.target.closest('[data-skill]');if(button)void configure(button.dataset.skill)});
   $('search').addEventListener('input',list);$('roleFilter').addEventListener('change',list);
   $('scenario').addEventListener('change',()=>void configure());
   $('previewMercenary').addEventListener('change',()=>{previewCode=$('previewMercenary').value;void configure();});
-  $('play').addEventListener('click',()=>{if(!fx)return;fx.playing?fx.pause():fx.play();publishDiagnostics()});
-  $('replay').addEventListener('click',()=>{fx?.seek(0);fx?.play();publishDiagnostics()});
+  $('play').addEventListener('click',()=>void playWithAudio());
+  $('replay').addEventListener('click',()=>void playWithAudio(true));
+  const soundLabel=()=>{$('sound').textContent=`효과음 ${soundEnabled?'ON':'OFF'}`;$('sound').setAttribute('aria-pressed',String(soundEnabled));};soundLabel();
+  $('sound').addEventListener('click',()=>{++playRequest;soundEnabled=!soundEnabled;localStorage.setItem('cnine_battle_sound',soundEnabled?'ON':'OFF');fx?.audio?.setEnabled(soundEnabled);soundLabel();if(soundEnabled&&fx?.playing){fx.pause();void playWithAudio();}});
   $('impact').addEventListener('click',()=>{fx?.seek(base().visual.impacts[0]+.08);publishDiagnostics()});
   $('lastImpact').addEventListener('click',()=>{fx?.seek(base().visual.impacts.at(-1));publishDiagnostics()});
-  $('cancel').addEventListener('click',()=>{fx?.cancel();publishDiagnostics()});
-  $('scrub').addEventListener('input',()=>{fx?.seek(Number($('scrub').value));publishDiagnostics()});
+  $('cancel').addEventListener('click',()=>{++playRequest;fx?.cancel();publishDiagnostics()});
+  $('scrub').addEventListener('input',()=>{++playRequest;fx?.seek(Number($('scrub').value));publishDiagnostics()});
   $('speed').addEventListener('change',()=>{fx?.setSpeed(Number($('speed').value));publishDiagnostics()});
   for(const id of ['editName','editReview','editNote'])$(id).addEventListener('input',edit);
   $('saveDraft').addEventListener('click',save);$('reloadDraft').addEventListener('click',load);$('exportDraft').addEventListener('click',exportDraft);
@@ -155,7 +170,7 @@ function bind(){
       draft=parseSkillDraft(await file.text());dirty=true;showDetails();list();notice('스킬 검토 목록을 가져왔습니다. 용병 배정은 별도 화면에서 설정합니다.');
     }catch(error){notice(error.message,true)}finally{event.target.value='';}
   });
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){fx?.cancel();publishDiagnostics()}});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){++playRequest;fx?.cancel();publishDiagnostics()}});
   // Runs after the existing V3 renderer updates its formation and camera.
   engine.app.renderer.on('resize',resizeFormation);
   window.addEventListener('pagehide',dispose,{once:true});

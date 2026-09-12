@@ -1,4 +1,5 @@
 import { applyAvatarDropRate,avatarDropIncreasePercent } from './_avatar_drop.js';
+import {guardForgeProtectionGrant} from './_forge_protection_drop.js';
 
 const POOL_TABLE='unified_drop_pools_v1667';
 const ENTRY_TABLE='unified_drop_entries_v1667';
@@ -261,6 +262,7 @@ export async function planUnifiedDropRoll(env,{userId,requestId,sourceType,sourc
 }
 
 export async function prepareUnifiedDropGrant(env,plan,{writePoolLedger=true}={}) {
+  await guardForgeProtectionGrant(env,plan);
   // Fixed PVE rewards use a caller-owned atomic ledger instead of inventing a
   // unified pool/entry ID. All existing drop callers retain the default ledger.
   const grant=await grantRewards(env,plan,writePoolLedger);

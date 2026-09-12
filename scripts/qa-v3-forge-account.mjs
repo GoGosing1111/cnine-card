@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';import fs from 'node:fs/promises';import path from 'node:path';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE_URL||'playwright'),base='http://127.0.0.1:8899',out=path.resolve('../qa/forge-account');await fs.mkdir(out,{recursive:true});
+const browser=await chromium.launch({headless:true,executablePath:process.env.QA_CHROMIUM}),errors=[];
+try{const p=await browser.newPage({viewport:{width:1440,height:1000}});p.on('pageerror',e=>errors.push(e.message));await p.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-account-7');localStorage.setItem('cnine_admin_token','local-account-7');localStorage.setItem('cnine_battle_sound','OFF');});
+ await p.goto(base+'/pve-v3/runtime-cms.html');await p.getByText('정책을 불러왔습니다.',{exact:true}).waitFor();await p.locator('[name="quoteSeconds"]').fill('120');await p.getByRole('button',{name:'정책 초안 저장',exact:true}).click();await p.getByText('정책 초안을 저장했습니다. 공동 운영 실행은 OFF입니다.',{exact:true}).waitFor();await p.screenshot({path:path.join(out,'cms-1440.png'),fullPage:true});
+ await p.goto(base+'/equipment-forge/');await p.locator('#enhance-button:not([disabled])').waitFor();assert.equal(await p.locator('#success-rate').innerText(),'50%');await p.screenshot({path:path.join(out,'quote-1440.png'),fullPage:true});
+ await p.click('#enhance-button');await p.waitForFunction(()=>document.querySelector('#stage-status').textContent==='강화 성공');await p.locator('#enhance-button:not([disabled])').waitFor();assert.equal(await p.locator('#stage-level').innerText(),'+1');
+ await p.click('#enhance-button');await p.waitForFunction(()=>document.querySelector('#stage-status').textContent==='장비 파괴');await p.waitForFunction(()=>document.querySelector('#record-count').textContent==='1');
+ await p.setViewportSize({width:390,height:960});await p.click('#tab-restore');await p.locator('#restore-button:not([disabled])').waitFor();await p.screenshot({path:path.join(out,'restore-390.png'),fullPage:true});assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
+ await p.click('#restore-button');await p.waitForFunction(()=>document.querySelector('#stage-status').textContent==='장비 복구 완료');await p.waitForFunction(()=>document.querySelector('#record-count').textContent==='0');
+ await p.reload();await p.click('#tab-enhance');await p.locator('#enhance-button:not([disabled])').waitFor();assert.equal(await p.locator('#stage-level').innerText(),'+1');
+ assert.deepEqual(errors,[]);console.log('Passed real CMS save, +1 success, destruction/unload, mobile restore and reload; approved V2 renderer preserved.');
+}finally{await fs.writeFile(path.join(out,'errors.json'),JSON.stringify(errors));await browser.close();}

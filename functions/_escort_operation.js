@@ -1,3 +1,4 @@
+import {releasedMercenarySnapshot} from './_mercenary_account.js';
 const SETTINGS_KEY='escort_operation_settings_v1840';
 // V1840: 보상 구조가 '전체 클리어 일괄' → '구간별 적립' 으로 바뀌었다.
 //   기존 v1830 행에는 baseCoin=2,500,000 이 들어 있어서 그대로 읽으면
@@ -297,7 +298,7 @@ export async function handleEscortOperation({path,request,env,deps}){
     if(weekly.startedCount>=cfg.weeklyRunLimit)return json({error:`이번 주 출전 가능 횟수 ${cfg.weeklyRunLimit}회를 모두 사용했습니다.`},409);
     if(weekly.rewardCount>=cfg.weeklyRewardLimit)return json({error:`이번 주 보상 횟수 ${cfg.weeklyRewardLimit}회를 모두 달성했습니다.`},409);
     const deck=await pveDeckSnapshot(env,user.id);if(deck.length!==5)return json({error:'PVE 출전 덱 5장을 먼저 저장하세요.'},400);
-    const runId=crypto.randomUUID(),state={phase:'READY',cardHp:Object.fromEntries(deck.map(card=>[String(card.id),100])),pendingTactic:null,choices:[],history:[]};
+    const runId=crypto.randomUUID(),state={phase:'READY',mercenary:await releasedMercenarySnapshot(env,user),mercenaryHpPercent:100,cardHp:Object.fromEntries(deck.map(card=>[String(card.id),100])),pendingTactic:null,choices:[],history:[]};
     await env.DB.batch([
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(run_id,user_id,week_key,status,sector_index,vehicle_hp,vehicle_max_hp,deck_snapshot,state_json) VALUES(?,? ,?,'ACTIVE',0,?,?,?,?)`).bind(runId,user.id,key,cfg.vehicleMaxHp,cfg.vehicleMaxHp,JSON.stringify(deck),JSON.stringify(state)),
       env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,started_count,updated_at) VALUES(?,?,1,CURRENT_TIMESTAMP) ON CONFLICT(user_id,week_key) DO UPDATE SET started_count=${WEEKLY_TABLE}.started_count+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,key)
@@ -324,7 +325,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       const monster={id:`ESCORT-${sector.key}`,name:sector.enemyName,image:sector.enemyImage,image_url:sector.enemyImage,battle_power:enemyPower,is_boss:sector.isBoss?1:0,isBoss:sector.isBoss,mode:'ESCORT',contentType:'ESCORT',projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'ESCORT_MONSTER_SD',primaryUrl:sector.enemyImage,pngFallbackUrl:sector.enemyImage,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:sector.isBoss?1.08:1,approved:true,technicalPass:true}};
       const battleSuitPve=Math.max(0,Number(equipment?.battleSuitPve||0)),cardSupportBonus=Math.max(0,Number(equipment?.pve||0)-battleSuitPve);
       const battleSuit=battleSuitPve>0&&equipment?.equippedBattleSuit?{...equipment.equippedBattleSuit,pvePower:battleSuitPve,weapon:equipment.equippedWeapon||null,accountNickname:user.nickname}:null;
-      const seed=hashText(`${run.run_id}:${run.sector_index}:${requestId}`),battleV2=createPveBattleV2({cards,magicCards:magic?.cards||[],characterBonus:cardSupportBonus,battleSuit,monster,seed,singleHealerBonus:battleCfg?.engine?.singleHealerBonus,escortObjective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차'}});
+      const seed=hashText(`${run.run_id}:${run.sector_index}:${requestId}`),battleV2=createPveBattleV2({mercenary:run.state.mercenary?{...run.state.mercenary,startingHpPercent:run.state.mercenaryHpPercent??100}:null,cards,magicCards:magic?.cards||[],characterBonus:cardSupportBonus,battleSuit,monster,seed,singleHealerBonus:battleCfg?.engine?.singleHealerBonus,escortObjective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차'}});
       battleV2.mode='ESCORT';battleV2.contentType='ESCORT';battleV2.battlefieldMode='ESCORT';
       const won=String(battleV2?.result?.winner||'B').toUpperCase()==='A';
       const formationReduction=roles.DEFENSE*.07+(['DEPARTURE','AMBUSH'].includes(sector.key)?roles.SPEED*.05:0),
@@ -356,7 +357,8 @@ export async function handleEscortOperation({path,request,env,deps}){
       //   일반 구간은 종전대로 균등 — 잡몹은 갉아먹고 보스는 내리찍는 대비.
       finalizeEscortObjectiveTimeline(battleV2,{hpBefore:run.vehicle_hp,maxHp:run.vehicle_max_hp,totalDamage:damage,recovery:vehicleHp-vehicleHpAfterDamage,
         burstEvery:sector.isBoss?4:1,burstShare:sector.isBoss?0.82:0});
-      const failed=!won||living===0||vehicleDestroyed,finalSector=run.sector_index>=cfg.sectors.length-1;
+      const mercenaryFinal=battleV2.result.final.mercenaries?.A?.[0],mercenaryHpPercent=mercenaryFinal?Math.max(0,Math.min(100,mercenaryFinal.hp/Math.max(1,mercenaryFinal.maxHp)*100)):run.state.mercenaryHpPercent;
+      const failed=!won||(living===0&&!(run.state.mercenary&&mercenaryHpPercent>0))||vehicleDestroyed,finalSector=run.sector_index>=cfg.sectors.length-1;
       // ── V1840 구간별 보상 ────────────────────────────────────────────
       //   이 구간을 '살아서 통과' 했을 때만 적립한다. 전투에서 이겨도 차량이
       //   터졌거나 전멸했으면 그 구간은 못 넘은 것이므로 적립되지 않는다.
@@ -373,7 +375,7 @@ export async function handleEscortOperation({path,request,env,deps}){
             // 실패했어도 적립분이 있으면 수령 가능 상태로 넘긴다. 없으면 종전대로 FAILED.
             status=failed?(hasBanked?'COMPLETED_PENDING':'FAILED'):finalSector?'COMPLETED_PENDING':'ACTIVE';
       const history=[...(Array.isArray(run.state.history)?run.state.history:[]),{sectorIndex:run.sector_index,sectorKey:sector.key,sectorName:sector.name,result:won?'WIN':'LOSE',vehicleDamage:damage,vehicleHp,aliveCards:living,tactic:run.state.pendingTactic||null,strikes:strikeCount,rewardCoin:gainCoin,rewardShards:gainShards,rewardTickets:gainTickets}].slice(-5);
-      const state={...run.state,phase,cardHp:nextHp,pendingTactic:null,choices,history,clearedSectors:Number(run.state.clearedSectors||0)+(failed?0:1)};
+      const state={...run.state,phase,mercenaryHpPercent,cardHp:nextHp,pendingTactic:null,choices,history,clearedSectors:Number(run.state.clearedSectors||0)+(failed?0:1)};
       const updated=await env.DB.prepare(`UPDATE ${RUN_TABLE} SET status=?,vehicle_hp=?,state_json=?,reward_coin=reward_coin+?,reward_shards=reward_shards+?,reward_tickets=reward_tickets+?,version=version+1,updated_at=CURRENT_TIMESTAMP,completed_at=CASE WHEN ? IN ('FAILED','COMPLETED_PENDING') THEN CURRENT_TIMESTAMP ELSE completed_at END WHERE run_id=? AND user_id=? AND status='ACTIVE' AND version=?`).bind(status,vehicleHp,JSON.stringify(state),gainCoin,gainShards,gainTickets,status,run.run_id,user.id,run.version).run();
       if(Number(updated?.meta?.changes||0)!==1)throw Object.assign(new Error('호송 상태가 갱신되었습니다. 현재 작전을 다시 불러오세요.'),{status:409});
       if(finalSector&&!failed)await env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,completed_count,best_vehicle_hp_percent,updated_at) VALUES(?,?,1,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,week_key) DO UPDATE SET completed_count=${WEEKLY_TABLE}.completed_count+1,best_vehicle_hp_percent=CASE WHEN ${WEEKLY_TABLE}.best_vehicle_hp_percent>=excluded.best_vehicle_hp_percent THEN ${WEEKLY_TABLE}.best_vehicle_hp_percent ELSE excluded.best_vehicle_hp_percent END,updated_at=CURRENT_TIMESTAMP`).bind(user.id,run.week_key,Math.round(vehicleHp/run.vehicle_max_hp*100)).run();

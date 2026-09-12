@@ -1,4 +1,5 @@
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,createSkillChipSchedule,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
+import {buildMercenaryFighter,mercenaryCombat} from './_mercenary_combat.js';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -290,6 +291,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     side,
     slot: index,
     row: index < 2 ? 'FRONT' : 'BACK',
+    ...(['MELEE','RANGED','CAST'].includes(card.attackStyle)?{attackStyle:card.attackStyle}:{}),
     title: String(card.title || card.name || 'CARD'),
     memberName: String(card.name || card.member_name || ''),
     grade: String(card.rarity || card.grade || '').toUpperCase(),
@@ -502,7 +504,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null };
 }
 
-function applyDamage(target, incoming, options = {}) {
+function applyCanonicalDamage(target, incoming, options = {}) {
   // V1936: 속도형은 방벽을 벗기는 역할. 실드가 남아 있을 때만 추가로 들어간다.
   if (options.shieldBonus > 0 && target.shield > 0) {
     incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
@@ -673,6 +675,8 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
 }
 
 export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [] } = {}) {
+  let mercenaryRuntime=null;
+  const applyDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);return result;};
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
@@ -978,6 +982,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // V1902: 호송작전은 차량 피해가 별도 공식이라 전투 길이가 바뀌면 난이도가 흔들린다.
   //   호송에서는 하한을 끈다.
   const hitOptions = { minDamagePercent: escortMode ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
+  mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({teams:{A:a,B:b},
+    hit:(actor,target,multiplier)=>hitResult(actor,target,random,multiplier,false,{...hitOptions,minDamagePercent:0}),damage:applyDamage,
+    knockout:target=>resolveKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data),clock:()=>clock}):null;
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
   {
     const apocalypseMonster = b.find(card => card.isMonster && card.isApocalypse);
@@ -1221,6 +1228,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     const enemyTeam = actor.side === 'A' ? b : a;
+    if(!independentAction&&mercenaryRuntime?.beforeAction(actor))continue;
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
     const healerTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'
@@ -1229,7 +1237,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||lowestRatioTarget(pool, random);
-    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):1, false, hitOptions);
+    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1), false, hitOptions);
     if(isBattleSuitSupport(actor)){
       // V1990: 기준 사이클(0.018) 동안의 배틀슈트 총 타격이
       //   "배틀슈트 전투력만큼의 카드 1장이 1회 공격" 과 같도록 발당 피해를 나눈다.
@@ -1249,6 +1257,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     if (hit.dodge) {
+      if(!independentAction)mercenaryRuntime?.afterBasic(actor,target,false);
       pushEvent(timeline, clock, 'TURN', {
         actorId: actor.id,
         actorKind: actor.actorKind || undefined,
@@ -1264,6 +1273,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       continue;
     }
 
+    if(!independentAction&&mercenaryRuntime)hit.damage=mercenaryRuntime.beforeBasicDamage(actor,target,hit.damage);
     const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0 });
     actor.damageDealt += damageState.hpDamage + damageState.absorbed;
     let suitPierceDamage=0;
@@ -1320,6 +1330,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       targetGaugeAfter: target.gauge
     });
 
+    if(!independentAction)mercenaryRuntime?.afterBasic(actor,target,true,{additional:repeatedMonsterAction});
     if(target.hp>0){
       const seal=activateMagic(actor,'ARCANE_SEAL');
       if(seal){target.magicSealCharges=Math.max(1,Math.round(Number(seal.effectValue||1)));target.magicSealSourceId=actor.id;pushEvent(timeline,clock+0.00005,'MAGIC_CARD',magicEvent(seal,actor,target,{sealCharges:target.magicSealCharges,targetHpAfter:target.hp,targetShieldAfter:target.shield}));}
@@ -1348,8 +1359,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const echo=target.hp>0?activateMagic(actor,'CHAIN_ECHO'):null;
       if(echo){const baseDamage=damageState.hpDamage+damageState.absorbed,echoState=applyDamage(target,Math.max(1,apocalypseMagicCap(target,Math.round(baseDamage*Math.min(200,Number(echo.effectValue||0))/100))));actor.damageDealt+=echoState.hpDamage+echoState.absorbed;pushEvent(timeline,clock+0.00009,'MAGIC_CARD',magicEvent(echo,actor,target,{damage:echoState.hpDamage,absorbed:echoState.absorbed,echoDamage:echoState.hpDamage+echoState.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));}
 
-      if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0)){
+      if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0||mercenaryRuntime?.debuffs.get(target.id)&&Object.keys(mercenaryRuntime.debuffs.get(target.id)).length)){
         const purify=activateMagic(target,'PURIFY_LIGHT');
+        if(purify)mercenaryRuntime?.cleanse(target);
         if(purify){const cleared={seal:Number(target.magicSealCharges||0),marks:Number(target.doomMarks||0),distortion:Number(target.timeDistortionStacks||0)};target.magicSealCharges=0;target.magicSealSourceId='';target.doomMarks=0;target.timeDistortionStacks=0;const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(purify.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.000095,'MAGIC_CARD',magicEvent(purify,target,target,{amount,cleared,hpAfter:target.hp,maxHp:target.maxHp}));}
       }
     }
@@ -1612,6 +1624,7 @@ export function buildMonsterFighter(monster = {}) {
     id: `B:0:MONSTER:${String(monster.id || 0)}`,
     cardId: `MONSTER:${String(monster.id || 0)}`,
     side: 'B', slot: 0, row: 'FRONT',
+    ...(['MELEE','RANGED','CAST'].includes(monster.attackStyle)?{attackStyle:monster.attackStyle}:{}),
     title: String(monster.name || 'MONSTER'), memberName: '',
     grade: isBoss ? 'BOSS' : 'MONSTER', image: String(monster.image_url || monster.image || ''),
     focusX: 50, focusY: 50, breakthroughLevel: 0,
@@ -1655,13 +1668,15 @@ function preparePveEncounter(encounter) {
   return {initial, pending:fighters.slice(initialCount), maxActions, maxDuration, forcedMonsterEvery};
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null } = {}) {
   const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
   if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
   const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
-  const simulationTeamA = battleSuitFighter ? [...teamA, battleSuitFighter] : teamA;
+  if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');
+  const mercenaryFighter=buildMercenaryFighter(mercenary,'A','PVE');
+  const simulationTeamA = [...teamA,...(battleSuitFighter?[battleSuitFighter]:[]),...(mercenaryFighter?[mercenaryFighter]:[])];
   const teamB = encounterPlan ? encounterPlan.initial : [buildMonsterFighter(monster)];
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
@@ -1693,15 +1708,16 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const chipEvents=simulated.timeline.filter(event=>event.type==='SKILL_CHIP_HIT'&&event.actorId===battleSuitActorId);
   const skillChipAppliedDamage=chipEvents.reduce((sum,event)=>sum+appliedDamage(event),0);
   const cardDamage = simulated.timeline.reduce((sum, event) => {
-    const actorId = String(event?.actorId || '');
-    return actorId.startsWith('A:') && actorId !== battleSuitActorId ? sum + appliedDamage(event) : sum;
+    const actorId = String(event?.sourceAttackerId || event?.actorId || '');
+    return actorId.startsWith('A:') && actorId !== battleSuitActorId && actorId!==mercenaryFighter?.id ? sum + appliedDamage(event) : sum;
   }, 0);
   const ultimateAppliedDamage = simulated.timeline.filter(event => event.type === 'PVE_ULTIMATE').reduce((sum, event) => sum + appliedDamage(event), 0);
   const canonicalResult = {
     ...simulated,
     final: {
       ...simulated.final,
-      A: (simulated.final?.A || []).filter(card => String(card?.id || '') !== battleSuitActorId)
+      A: (simulated.final?.A || []).filter(card => String(card?.id || '') !== battleSuitActorId&&!card.isMercenary),
+      ...(mercenaryFighter?{mercenaries:{A:simulated.final.A.filter(card=>card.isMercenary),B:[]}}:{})
     },
     supports: {
       A: battleSuitFighter ? [{
@@ -1716,10 +1732,11 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     },
     damageBreakdown: {
       cards: cardDamage,
+      ...(mercenaryFighter?{mercenary:simulated.timeline.filter(e=>(e.sourceAttackerId||e.actorId)===mercenaryFighter.id).reduce((s,e)=>s+appliedDamage(e),0)}:{}),
       battleSuit: battleSuitDamage,
       skillChips:skillChipAppliedDamage,
       ultimate: ultimateAppliedDamage,
-      total: cardDamage + battleSuitDamage + skillChipAppliedDamage + ultimateAppliedDamage,
+      total: cardDamage + battleSuitDamage + skillChipAppliedDamage + ultimateAppliedDamage+(mercenaryFighter?simulated.timeline.filter(e=>(e.sourceAttackerId||e.actorId)===mercenaryFighter.id).reduce((s,e)=>s+appliedDamage(e),0):0),
       authority: 'SERVER_TIMELINE'
     }
   };
@@ -1734,7 +1751,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
       maxActions:encounterPlan.maxActions, maxDuration:encounterPlan.maxDuration, forcedMonsterEvery,
       stateContinuity:['HP','SHIELD','GAUGE','MAGIC_BUDGET','REVIVE_BUDGET','BATTLE_SUIT_CLOCK'], fixedEnemyStats:true}} : {}),
     teams: {
-      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
+      A: { summary: teamSummary(mercenaryFighter?[...teamA,mercenaryFighter]:teamA), cards: teamA.map(publicFighter),...(mercenaryFighter?{mercenaries:[publicFighter(mercenaryFighter)]}:{}), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
     },
     result
@@ -1810,16 +1827,19 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {} } = {}) {
+export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {} } = {}) {
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)));
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
+  if((attackerMercenary&&(attackerCards.length!==5||new Set(attackerCards.map(c=>String(c.id))).size!==5))||(defenderMercenary&&(defenderCards.length!==5||new Set(defenderCards.map(c=>String(c.id))).size!==5)))throw Error('INVALID_MERCENARY_PARTY');
+  const mercA=buildMercenaryFighter(attackerMercenary,'A','PVP'),mercB=buildMercenaryFighter(defenderMercenary,'B','PVP'),simulationA=mercA?[...teamA,mercA]:teamA,simulationB=mercB?[...teamB,mercB]:teamB;
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
-  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus });
-  const result = resolvePvpOutcome(simulated, teamA, teamB);
+  const simulated = simulateBattleV2Preview({ teamA:simulationA, teamB:simulationB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus });
+  const result = resolvePvpOutcome(simulated, simulationA, simulationB);
+  if(mercA||mercB){result.final={...result.final,mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:result.final.B.filter(c=>c.isMercenary)},A:result.final.A.filter(c=>!c.isMercenary),B:result.final.B.filter(c=>!c.isMercenary)};}
   return {
     schemaVersion: 2,
     engine: 'BATTLE_ENGINE_V2_PVP',
@@ -1841,8 +1861,8 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       dbTimelineWrites: 0
     },
     teams: {
-      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
-      B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
+      A: { summary: teamSummary(simulationA), cards: teamA.map(publicFighter),...(mercA?{mercenaries:[publicFighter(mercA)]}:{}) },
+      B: { summary: teamSummary(simulationB), cards: teamB.map(publicFighter),...(mercB?{mercenaries:[publicFighter(mercB)]}:{}) }
     },
     result
   };

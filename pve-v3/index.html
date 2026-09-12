@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>숲켓몬 · 원정 지휘소</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./app.css"><script type="module" src="./app.mjs"></script></head>
+<body data-content="tower">
+  <header class="mast"><a class="home" href="/">숲켓몬 <span>돌아가기 ↗</span></a><span id="account-label">원정 지휘소</span><a href="/mercenary-hangar/">용병 편성</a><a href="/equipment-forge/">장비 강화</a></header>
+  <main>
+    <nav class="destinations" aria-label="원정 선택"><a href="?content=tower" data-content-link="tower">01 <b>무한의탑</b></a><a href="?content=scrapyard" data-content-link="scrapyard">02 <b>폐차장</b></a><a href="?content=cow-room" data-content-link="cow-room">03 <b>카우방</b></a><a href="?content=idle-dungeon" data-content-link="idle-dungeon">04 <b>자동 원정</b></a></nav>
+    <section class="operation">
+      <div class="mission-head"><div><p class="eyebrow" id="eyebrow">끝을 넘어서는 도전</p><h1 id="title">무한의탑</h1><p id="description">해금한 층에 다시 도전하고, 더 높은 기록을 남기세요.</p></div><div class="record"><small id="record-label">최고 돌파</small><strong id="record-value">—</strong></div></div>
+      <div class="command-layout">
+        <section class="arena" data-v3-fit-container aria-label="전투 화면"><div id="lobby" class="lobby"><p id="lobby-status">원정대와 전황을 불러오는 중</p><span id="lobby-detail">저장된 편성으로 출발합니다.</span></div><iframe id="battle-frame" src="./battle.html" title="공통 V3 전투" allow="autoplay" hidden></iframe><div class="battle-tools"><button id="pause" disabled>일시정지</button><button id="speed" disabled>1배속</button><button id="sound" disabled aria-pressed="false">소리 켜기</button><button id="stop-repeat" hidden>다음 입장 중지</button></div></section>
+        <aside class="orders"><p class="eyebrow">출발 준비</p><h2 id="selection-title">도전할 층</h2><div id="tier-control" class="tier-control"><button id="tier-down" aria-label="이전 층">−</button><label><input id="tier" type="number" min="1" value="1" aria-label="도전할 층"><span>층</span></label><button id="tier-up" aria-label="다음 층">＋</button></div><select id="difficulty" aria-label="원정 난이도" hidden></select>
+          <dl class="facts"><div><dt id="cost-label">입장 비용</dt><dd id="entry-cost">—</dd></div><div><dt id="budget-label">오늘 남은 보상</dt><dd id="remaining">—</dd></div><div><dt id="record2-label">저장된 편성</dt><dd id="formation">일반 카드 5장</dd></div></dl>
+          <label id="repeat-control" class="repeat">반복 도전 <select id="repeat"><option value="1">1회</option><option value="3">3회</option><option value="5">5회</option><option value="10">10회</option></select></label>
+          <button id="start" class="primary" disabled>전황 확인 중</button><button id="recover" hidden>진행 중인 전투 복구</button><button id="idle-stop" hidden>자동 원정 정지</button><button id="claim" class="claim" hidden>누적 코인 수령</button><p id="rule-note" class="rule-note">전투 도중 나가도 확정된 결과와 보상은 보존됩니다.</p><p id="message" role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+      <section id="result" class="result" hidden aria-live="polite"><div><p id="result-label" class="eyebrow">전투 완료</p><h2 id="result-title"></h2></div><div id="rewards"></div><button id="acknowledge">결과 확인</button></section>
+      <section class="chronicle"><div><p class="eyebrow">원정 기록</p><h2 id="history-title">돌파의 흔적</h2></div><ol id="records"><li>기록을 불러오는 중입니다.</li></ol></section>
+    </section>
+  </main>
+</body></html>

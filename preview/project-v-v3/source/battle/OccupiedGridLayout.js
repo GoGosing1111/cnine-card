@@ -195,7 +195,7 @@ export const withOccupiedGrid = Base => class extends Base {
         item.perspectiveResolver = () => scale;
       } else {item.root.position.set(p.x, p.y); item.root.scale.set(scale);}
       item.root.depthSortY = p.y;
-      item.root.visible = this.gridMode === 'wide' && item.enabled !== false;
+      item.root.visible = this.gridMode === 'wide' && item.enabled !== false && (!item.isMercenary||item.hp>0&&item.battleActive!==false);
     }
   }
   gridDiagnostics() {

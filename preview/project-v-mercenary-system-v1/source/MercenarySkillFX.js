@@ -1,15 +1,16 @@
 import {Container, Sprite, Graphics} from 'pixi.js';
 import {gsap} from 'gsap';
 import {renderAuthored} from './RenderAuthoredSkill.js';
+import {mercenaryAttachment,mercenaryEmission} from './MercenaryAttachmentPoints.js';
 
 const clamp = (n, a=0, b=1) => Math.max(a, Math.min(b,n));
 
 // One existing V3 renderer, one registered GSAP clock. No independent animation
 // ticker, collision callback, RNG, audio scheduler or live damage calculation.
 export class MercenarySkillFX {
-  constructor(engine, actors, skill, plan, sequence, auxiliary, onUpdate=()=>{}) {
+  constructor(engine, actors, skill, plan, sequence, auxiliary, onUpdate=()=>{}, {authoritative=false,muzzlePoint=null,audio=null}={}) {
     if(sequence?.frames?.length!==16)throw new Error('A skill requires its own sixteen-frame authored sequence, not a still image.');
-    Object.assign(this, {engine, actors, skill, plan, sequence, auxiliary, onUpdate});
+    Object.assign(this, {engine, actors, skill, plan, sequence, auxiliary, onUpdate,authoritative,muzzlePoint,audio});
     this.clock={time:0};this.speed=1;this.timeline=null;this.registration=null;this.destroyed=false;
     this.layer=new Container({label:`MercenarySkill:${skill.id}`});this.layer.eventMode='none';
     engine.effectLayer.addChild(this.layer);
@@ -26,11 +27,12 @@ export class MercenarySkillFX {
   makeTimeline(){
     this.removeTimeline();
     this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{
-      this.engine.simpleTimelines.delete(this.registration);this.render(this.plan.duration);
+      this.audio?.stop();this.engine.simpleTimelines.delete(this.registration);this.render(this.plan.duration);
     }}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);
     this.registration={instance:this.timeline,settle:()=>{this.removeTimeline();this.clock.time=0;this.render(0)}};
   }
   removeTimeline(){
+    this.audio?.stop();
     if(this.registration)this.engine.simpleTimelines.delete(this.registration);
     this.timeline?.kill();this.timeline=null;this.registration=null;
   }
@@ -38,21 +40,24 @@ export class MercenarySkillFX {
     if(this.destroyed)return;
     if(!this.timeline)this.makeTimeline();
     if(this.time>=this.plan.duration)this.seek(0);
-    this.engine.simpleTimelines.add(this.registration);this.timeline.play();this.onUpdate(this.time,this);
+    this.engine.simpleTimelines.add(this.registration);this.audio?.select(this.skill,this.plan);this.audio?.scheduleFrom(this.time,this.speed);this.timeline.play();this.onUpdate(this.time,this);
   }
-  pause(){this.timeline?.pause();this.onUpdate(this.time,this)}
+  pause(){this.audio?.stop();this.timeline?.pause();this.onUpdate(this.time,this)}
   seek(time){
     if(this.destroyed)return;
     if(!this.timeline)this.makeTimeline();
+    this.audio?.stop();
     this.timeline.pause().time(clamp(time,0,this.plan.duration),true);this.render(this.clock.time);
   }
-  setSpeed(speed){this.speed=clamp(Number(speed)||1,.5,2);this.timeline?.timeScale(this.speed)}
+  setSpeed(speed){this.speed=clamp(Number(speed)||1,.5,2);this.timeline?.timeScale(this.speed);if(this.playing)this.audio?.scheduleFrom(this.time,this.speed)}
   cancel(){this.removeTimeline();this.clock.time=0;this.render(0)}
   point(id, foot=false){
     const actor=this.actors.get(id);if(!actor)return {x:0,y:0};
+    if(!foot){const p=mercenaryAttachment(actor,'contact',this.engine.effectLayer);if(p)return p;}
     const root=actor.root, height=actor.fullBodyHeight||260;
     return {x:root.x,y:root.y-(foot?0:height*root.scale.y*.54)};
   }
+  emission(id='M'){return this.muzzlePoint?.(id)||mercenaryEmission(this.actors.get(id),this.engine.effectLayer);}
   restore(){
     if((this.lastShake.x||this.lastShake.y)&&this.engine.camera?.base)this.engine.stage.position.set(this.engine.camera.base.x,this.engine.camera.base.y);
     this.lastShake={x:0,y:0};
@@ -65,6 +70,7 @@ export class MercenarySkillFX {
   diagnostics(){return {skillId:this.skill.id,time:this.time,playing:this.playing,speed:this.speed,
     visibleSprites:this.sprites.filter(s=>s.visible).length,ownedTimelines:this.timeline?1:0,
     registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,
-    layerChildren:this.layer?.children.length||0,clockOwner:'V3_REGISTERED_GSAP',destroyed:this.destroyed,primaryAnimation:'INDIVIDUAL_AUTHORED_SEQUENCE_V2',totalAuthoredFrames:this.sequence.frames.length,activeFrames:this.activeFrames,poolOverflow:this.poolOverflow};}
+    layerChildren:this.layer?.children.length||0,clockOwner:'V3_REGISTERED_GSAP',destroyed:this.destroyed,primaryAnimation:'INDIVIDUAL_AUTHORED_SEQUENCE_V2',totalAuthoredFrames:this.sequence.frames.length,activeFrames:this.activeFrames,poolOverflow:this.poolOverflow,
+    audio:this.audio?.diagnostics()||null,emission:this.emission(),contact:this.point(this.plan.targets[0]),phaseIndex:this.plan.effectPhase??null};}
   destroy(){if(this.destroyed)return;this.removeTimeline();this.restore();this.layer.destroy({children:true});this.ground.destroy({children:true});this.sprites=[];this.destroyed=true;}
 }

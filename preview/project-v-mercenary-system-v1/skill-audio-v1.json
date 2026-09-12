@@ -1,0 +1,511 @@
+{
+  "version": 1,
+  "status": "TECH_QA_USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "sourceType": "EXISTING_LICENSED_RECORDINGS",
+  "proceduralSynthesis": false,
+  "newRecordings": 0,
+  "sampleRate": 48000,
+  "impactToleranceMs": 20,
+  "processing": "원본 MP3 무변경. Web Audio에서 구간 선택, 이득, 페이드, 좌우 패닝과 공용 GSAP 배속만 적용. PCM 전역 최대 피크를 충돌에 정렬.",
+  "assets": {
+    "critical": {
+      "url": "/preview/project-v-v3-event-fx-v1/assets/audio/critical-combat-v4.mp3",
+      "license": "Mixkit Free License",
+      "licenseUrl": "https://mixkit.co/license/#sfxFree",
+      "sources": {
+        "2793": {
+          "name": "Quick magic sword slice",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "785c10dd107c35db6dec78ccf123b7badb93215a8a243b05a73c3ae565d3b997",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2793/2793.wav"
+        },
+        "2655": {
+          "name": "Fast impact blow",
+          "page": "https://mixkit.co/free-sound-effects/impact/",
+          "sha256": "1addc9a7e2d2e1780c2a48d78a79857e39d0287220c695104b1f2a6df7f57633",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2655/2655.wav"
+        },
+        "1487": {
+          "name": "Dagger woosh",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "f8483970bec9e69ed7234545da9ee59a733c5310c8becbd3db8b6a63064c3049",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1487/1487.wav"
+        },
+        "781": {
+          "name": "Cinematic impact waves",
+          "page": "https://mixkit.co/free-sound-effects/impact/",
+          "sha256": "1dd7d383688ce07544322279ef43ccc0adec94ed65a51abb437863bcd67070cd",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/781/781.wav"
+        }
+      },
+      "provenance": "/preview/project-v-v3-event-fx-v1/assets/audio/manifest.json",
+      "sha256": "e70e49a84da87a0e1f52a366e339b21724b7708811c06046da02a439570e8c6b",
+      "sampleRate": 48000,
+      "duration": 1.3,
+      "peak": 0.2546041666666667,
+      "peakAmplitude": 0.7027514576911926
+    },
+    "counter": {
+      "url": "/preview/project-v-v3-event-fx-v1/assets/audio/counter-combat-v2.mp3",
+      "license": "Mixkit Free License",
+      "licenseUrl": "https://mixkit.co/license/#sfxFree",
+      "sources": {
+        "2765": {
+          "name": "Sword strikes armor",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "0c05aeb28b5a795bf1e309f9bc209e00df954af9dd2b2da825b0bc83696bda64",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2765/2765.wav"
+        },
+        "1487": {
+          "name": "Dagger woosh",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "f8483970bec9e69ed7234545da9ee59a733c5310c8becbd3db8b6a63064c3049",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1487/1487.wav"
+        },
+        "2797": {
+          "name": "Sword hits heavy metal",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "e449eacce54ec3430f8f4ace7a5ff22aafaa833f710631daf67d879382a2d32f",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2797/2797.wav"
+        },
+        "2160": {
+          "name": "Metallic sword strike",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "2717a659587f7962dbfdfc59b2716894620834b9d24836794560d86bf10b4c30",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2160/2160.wav"
+        }
+      },
+      "provenance": "/preview/project-v-v3-event-fx-v1/assets/audio/manifest.json",
+      "sha256": "3c0e96419dd75a28731799a8cb37407d7c8ff3a19f58b4ec683ec107190f7c7a",
+      "sampleRate": 48000,
+      "duration": 1.18,
+      "peak": 0.2724375,
+      "peakAmplitude": 0.8147552609443665
+    },
+    "ultimate": {
+      "url": "/preview/project-v-v3-event-fx-v1/assets/audio/ultimate-combat-v2.mp3",
+      "license": "Mixkit Free License",
+      "licenseUrl": "https://mixkit.co/license/#sfxFree",
+      "sources": {
+        "1085": {
+          "name": "Rewind magic spell",
+          "page": "https://mixkit.co/free-sound-effects/spell/",
+          "sha256": "2ea47afa92626e84fa0648dfc22aa20e38b476b883edcbd1d80eae325dd12d25",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1085/1085.wav"
+        },
+        "874": {
+          "name": "Spell waves",
+          "page": "https://mixkit.co/free-sound-effects/spell/",
+          "sha256": "9f62b33ffe1690e266ec60416c702d3390f05361ab44b407609ef15354210479",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/874/874.wav"
+        },
+        "2793": {
+          "name": "Quick magic sword slice",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "785c10dd107c35db6dec78ccf123b7badb93215a8a243b05a73c3ae565d3b997",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2793/2793.wav"
+        },
+        "1685": {
+          "name": "Explosion spell",
+          "page": "https://mixkit.co/free-sound-effects/spell/",
+          "sha256": "0c247e2a229afbc5c911de7f53224b6012a7148377a13c4fe552f9a340033931",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1685/1685.wav"
+        },
+        "2601": {
+          "name": "Electricity lightning blast",
+          "page": "https://mixkit.co/free-sound-effects/lightning/",
+          "sha256": "f81e65d00ed906a974a5cb94330e3c56a42b4cf97a9e5ee4055ccb0f1ae67224",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2601/2601.wav"
+        }
+      },
+      "provenance": "/preview/project-v-v3-event-fx-v1/assets/audio/manifest.json",
+      "sha256": "5abf5c9e590662b52b2c2561cb51cc70861cd47ae527b32aaaf13d7a24c2f2b3",
+      "sampleRate": 48000,
+      "duration": 2.1,
+      "peak": 0.3354375,
+      "peakAmplitude": 0.7246748208999634
+    },
+    "boss-ultimate": {
+      "url": "/preview/project-v-v3-event-fx-v1/assets/audio/boss-ultimate-combat-v2.mp3",
+      "license": "Mixkit Free License",
+      "licenseUrl": "https://mixkit.co/license/#sfxFree",
+      "sources": {
+        "2599": {
+          "name": "Heavy electric shockwave impact",
+          "page": "https://mixkit.co/free-sound-effects/impact/",
+          "sha256": "e4b4a658a77136544978137b3760ea1b6c959c455641142466edc7d146ca61c4",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2599/2599.wav"
+        },
+        "1687": {
+          "name": "Dramatic metal explosion impact",
+          "page": "https://mixkit.co/free-sound-effects/impact/",
+          "sha256": "4d9c68705bcd669377a98c194c45c8ac7fa272ec4420e6b15aac0ada45925584",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1687/1687.wav"
+        },
+        "781": {
+          "name": "Cinematic impact waves",
+          "page": "https://mixkit.co/free-sound-effects/impact/",
+          "sha256": "1dd7d383688ce07544322279ef43ccc0adec94ed65a51abb437863bcd67070cd",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/781/781.wav"
+        },
+        "2601": {
+          "name": "Electricity lightning blast",
+          "page": "https://mixkit.co/free-sound-effects/lightning/",
+          "sha256": "f81e65d00ed906a974a5cb94330e3c56a42b4cf97a9e5ee4055ccb0f1ae67224",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2601/2601.wav"
+        }
+      },
+      "provenance": "/preview/project-v-v3-event-fx-v1/assets/audio/manifest.json",
+      "sha256": "2af601f8b81b9f3f5863a69a15b2bd438d62282cd0c3b0338c5824557024ede6",
+      "sampleRate": 48000,
+      "duration": 2.65,
+      "peak": 0.3615,
+      "peakAmplitude": 0.8889326453208923
+    },
+    "dodge": {
+      "url": "/preview/project-v-v3-event-fx-v1/assets/audio/dodge-combat-v2.mp3",
+      "license": "Mixkit Free License",
+      "licenseUrl": "https://mixkit.co/license/#sfxFree",
+      "sources": {
+        "2792": {
+          "name": "Fast sword whoosh",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "e1de4e011ee6369aed772202a979590f03261e3607147bd2f04eda58ba5746eb",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2792/2792.wav"
+        },
+        "1487": {
+          "name": "Dagger woosh",
+          "page": "https://mixkit.co/free-sound-effects/sword/",
+          "sha256": "f8483970bec9e69ed7234545da9ee59a733c5310c8becbd3db8b6a63064c3049",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1487/1487.wav"
+        },
+        "1508": {
+          "name": "Lightning whip",
+          "page": "https://mixkit.co/free-sound-effects/lightning/",
+          "sha256": "6326cfd06e64e0b9b1a0da07327950c5a1325cf9e77bcca43b6b244528de3de2",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1508/1508.wav"
+        },
+        "772": {
+          "name": "Quick zoom impact",
+          "page": "https://mixkit.co/free-sound-effects/impact/",
+          "sha256": "a9acddce67b0ad80e44674964ac2cdcd91810593049f49d2afea508c8f15add1",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/772/772.wav"
+        }
+      },
+      "provenance": "/preview/project-v-v3-event-fx-v1/assets/audio/manifest.json",
+      "sha256": "171123e14ba469cd58efdbc63c4a11b80d6e8e1a94821a3d26562454bc9d7b41",
+      "sampleRate": 48000,
+      "duration": 0.86,
+      "peak": 0.21552083333333333,
+      "peakAmplitude": 0.7287414073944092
+    },
+    "revive": {
+      "url": "/preview/project-v-v3-event-fx-v1/assets/audio/revive-combat-v2.mp3",
+      "license": "Mixkit Free License",
+      "licenseUrl": "https://mixkit.co/license/#sfxFree",
+      "sources": {
+        "1085": {
+          "name": "Rewind magic spell",
+          "page": "https://mixkit.co/free-sound-effects/spell/",
+          "sha256": "2ea47afa92626e84fa0648dfc22aa20e38b476b883edcbd1d80eae325dd12d25",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1085/1085.wav"
+        },
+        "878": {
+          "name": "Heal soft water spell",
+          "page": "https://mixkit.co/free-sound-effects/spell/",
+          "sha256": "27f574f4a35c633c3f26016b62e4cfe8d53b2523e47b9045b164e7dff946c032",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/878/878.wav"
+        },
+        "877": {
+          "name": "Healing water spell with deep hit",
+          "page": "https://mixkit.co/free-sound-effects/spell/",
+          "sha256": "ce0da16d048dad829c5ed19f9c710e8406b71b1b1675ab3c17bec0846b02e5f2",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/877/877.wav"
+        },
+        "873": {
+          "name": "Light spell",
+          "page": "https://mixkit.co/free-sound-effects/spell/",
+          "sha256": "394090b28b6a63689047954bcb86576045341cd42da9ee74b624c7e28bd23206",
+          "assetUrl": "https://assets.mixkit.co/active_storage/sfx/873/873.wav"
+        }
+      },
+      "provenance": "/preview/project-v-v3-event-fx-v1/assets/audio/manifest.json",
+      "sha256": "8db5e99f374be1e840b8f01fb5d89c81043589973ce7ddc30bc84bd2b244aa0e",
+      "sampleRate": 48000,
+      "duration": 2.4,
+      "peak": 0.1955,
+      "peakAmplitude": 0.8820391297340393
+    },
+    "rifle": {
+      "url": "/preview/project-v-v3/assets/audio/firearm-qc-v1/m4a1-colt-socom-cc0-freesound-737569.mp3",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sources": [
+        {
+          "provider": "Freesound",
+          "soundId": 737569,
+          "title": "Colt M4A1 SOCOM",
+          "author": "areniporgen",
+          "page": "https://freesound.org/people/areniporgen/sounds/737569/",
+          "license": "CC0 1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "recording": "real firearm recording; exterior close perspective",
+          "sourceSha256": "1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2"
+        }
+      ],
+      "provenance": "/preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json",
+      "sha256": "1735b196b5db6369d734ee5731834e35c9ad17a2a32353e9d809b6c6c2ecb6f2",
+      "sampleRate": 48000,
+      "duration": 2.1472708333333332,
+      "peak": 0.059416666666666666,
+      "peakAmplitude": 0.8465163707733154
+    },
+    "automatic": {
+      "url": "/preview/project-v-v3/assets/audio/firearm-qc-v1/ak47-shot-cc0-freesound-163457.mp3",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sources": [
+        {
+          "provider": "Freesound",
+          "soundId": 163457,
+          "title": "AK47 Shot",
+          "author": "LeMudCrab",
+          "page": "https://freesound.org/people/LeMudCrab/sounds/163457/",
+          "license": "CC0 1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "recording": "recorded AK-47 single shot",
+          "sourceSha256": "26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73"
+        }
+      ],
+      "provenance": "/preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json",
+      "sha256": "26bbb8986aea9958b1c5da48c8eec1b205aa153680ef74dcd2b344c5863e5b73",
+      "sampleRate": 48000,
+      "duration": 0.5989166666666667,
+      "peak": 0.005833333333333334,
+      "peakAmplitude": 0.7607183456420898
+    },
+    "sniper": {
+      "url": "/preview/project-v-v3/assets/audio/firearm-qc-v1/m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sources": [
+        {
+          "provider": "Freesound",
+          "soundId": 737570,
+          "title": "MacMillan Tac-50A1-R2 Suppressed",
+          "author": "areniporgen",
+          "page": "https://freesound.org/people/areniporgen/sounds/737570/",
+          "license": "CC0 1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "recording": "real suppressed .50 BMG firearm recording; exterior close perspective",
+          "sourceSha256": "F4E5F79C3D4BB47C9A8D396564CD02FDD099C26E9FDD37BB75DB563B9A2C4C8B"
+        }
+      ],
+      "provenance": "/preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json",
+      "sha256": "f4e5f79c3d4bb47c9a8d396564cd02fdd099c26e9fdd37bb75db563b9a2c4c8b",
+      "sampleRate": 48000,
+      "duration": 3.2554166666666666,
+      "peak": 0.11704166666666667,
+      "peakAmplitude": 0.8251441717147827
+    }
+  },
+  "profiles": {
+    "MS-021": {
+      "notice": "ultimate",
+      "impacts": [
+        "critical",
+        "boss-ultimate"
+      ],
+      "gains": [
+        0.3,
+        0.38
+      ],
+      "design": "검풍 → 중량 검격 → 붕괴 잔향"
+    },
+    "MS-003": {
+      "notice": "counter",
+      "impacts": [
+        "counter"
+      ],
+      "gains": [
+        0.27
+      ],
+      "design": "방패 전개 → 둔중 금속 충돌 → 방벽 잔향"
+    },
+    "MS-004": {
+      "notice": "rifle",
+      "impacts": [
+        "sniper"
+      ],
+      "gains": [
+        0.28
+      ],
+      "design": "기계 준비 → 단발 저격 → 실외 잔향"
+    },
+    "MS-006": {
+      "notice": "dodge",
+      "impacts": [
+        "critical",
+        "counter"
+      ],
+      "gains": [
+        0.31,
+        0.22
+      ],
+      "design": "무거운 검풍 → 파쇄 → 금속 균열"
+    },
+    "MS-005": {
+      "notice": "rifle",
+      "impacts": [
+        "rifle",
+        "rifle",
+        "automatic"
+      ],
+      "gains": [
+        0.2,
+        0.22,
+        0.29
+      ],
+      "design": "조준 준비 → 세 번의 점사 → 짧은 탄착 잔향"
+    },
+    "MS-013": {
+      "notice": "ultimate",
+      "impacts": [
+        "ultimate",
+        "rifle",
+        "rifle"
+      ],
+      "gains": [
+        0.19,
+        0.16,
+        0.16
+      ],
+      "design": "명령 압력 → 아군 전파 → 다음 사격 보강"
+    },
+    "MS-015": {
+      "notice": "dodge",
+      "impacts": [
+        "critical",
+        "revive"
+      ],
+      "gains": [
+        0.24,
+        0.21
+      ],
+      "design": "침투 검풍 → 단검 접촉 → 액체성 독 잔향"
+    },
+    "MS-016": {
+      "notice": "ultimate",
+      "impacts": [
+        "ultimate"
+      ],
+      "gains": [
+        0.24
+      ],
+      "design": "역방향 흡입 → 봉인 파동 → 낮은 마력 잔향"
+    },
+    "MS-018": {
+      "notice": "revive",
+      "impacts": [
+        "revive",
+        "revive"
+      ],
+      "gains": [
+        0.16,
+        0.23
+      ],
+      "design": "물결 준비 → 정화 → 봉합 회복의 물성"
+    },
+    "MS-023": {
+      "notice": "dodge",
+      "impacts": [
+        "counter",
+        "critical"
+      ],
+      "gains": [
+        0.24,
+        0.31
+      ],
+      "design": "방어 검풍 → 금속 받아내기 → 응수 검격"
+    },
+    "MS-025": {
+      "notice": "sniper",
+      "impacts": [
+        "sniper"
+      ],
+      "gains": [
+        0.32
+      ],
+      "design": "절제된 기계 준비 → 굵은 단발 → 긴 실총 잔향"
+    },
+    "MS-027": {
+      "notice": "automatic",
+      "impacts": [
+        "automatic",
+        "automatic",
+        "automatic"
+      ],
+      "gains": [
+        0.22,
+        0.22,
+        0.26
+      ],
+      "design": "사격 준비 → 교차 점사 → 탄착과 반사음"
+    },
+    "MS-028": {
+      "notice": "revive",
+      "impacts": [
+        "revive"
+      ],
+      "gains": [
+        0.23
+      ],
+      "design": "물결 전개 → 연화 방호 → 부드러운 확산"
+    },
+    "MS-032": {
+      "notice": "automatic",
+      "impacts": [
+        "automatic"
+      ],
+      "gains": [
+        0.32
+      ],
+      "design": "약실 준비 → 강한 단발 → 짧은 재장전 여운"
+    },
+    "MS-038": {
+      "notice": "dodge",
+      "impacts": [
+        "critical"
+      ],
+      "gains": [
+        0.34
+      ],
+      "design": "근접 공기 파열 → 둔중 충격 → 지면 잔향"
+    },
+    "MS-042": {
+      "notice": "rifle",
+      "impacts": [
+        "rifle",
+        "counter"
+      ],
+      "gains": [
+        0.23,
+        0.18
+      ],
+      "design": "권총 준비 → 제압탄 → 구속 금속음"
+    },
+    "MS-043": {
+      "notice": "rifle",
+      "impacts": [
+        "automatic",
+        "rifle"
+      ],
+      "gains": [
+        0.22,
+        0.3
+      ],
+      "design": "짧은 준비 → 첫 탄 → 무게가 다른 둘째 탄"
+    }
+  }
+}

@@ -14,6 +14,7 @@ import {ApocalypseSignatureSkillFX} from './ApocalypseSignatureSkillFX.js';
 import {apocalypseSignatureSkill} from '../../../../shared/apocalypse-boss-skills-v2048.mjs';
 import {BattleSuitSkillChipPlayback,isSkillChipTimeline} from './BattleSuitSkillChipPlayback.js';
 import {withOccupiedGrid} from './OccupiedGridLayout.js';
+import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -3428,6 +3429,10 @@ class BaseBattleEngine{
     // textures so a completed battle does not tax the next mobile screen.
     void AdvancementEffectFX.retain([]);
     void ApocalypseBossUltimateFX.release();
+    // Character idle/stance animations own GSAP timelines outside the event
+    // queue. Destroy them before Pixi clears their sprite transforms.
+    for(const actor of this.characters||[])actor.destroy();
+    this.characters=[];this.allies=[];this.enemies=[];
     this.app?.destroy(true,{children:true,texture:false});
     this.app=null;
     this.cards=[];
@@ -3437,4 +3442,4 @@ class BaseBattleEngine{
 }
 
 // Every V3 entry and continuous-content subclass shares this layout policy.
-export class BattleEngine extends withOccupiedGrid(BaseBattleEngine) {}
+export class BattleEngine extends withMercenaryBattle(withOccupiedGrid(BaseBattleEngine)) {}

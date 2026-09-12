@@ -99,4 +99,4 @@ export async function handleIdleDungeon({path,request,env,deps}){if(!path.starts
   return json({error:'지원하지 않는 요청입니다.'},404);
 }
 
-export const __idleDungeonTest={DAILY_ACCOUNT_COIN_CAP,clean,coinPerClear,compute};
+export const __idleDungeonTest={DAILY_ACCOUNT_COIN_CAP,clean,coinPerClear,compute,resetCaches(){foundationPromise=null;settingsCache=null;poolCache=null;maxPowerCache=null;}};

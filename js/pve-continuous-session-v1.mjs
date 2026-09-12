@@ -97,7 +97,7 @@ export function createPveContinuousSession({accountId, transport, storage, onCha
       // Validation/closed/stock errors are not network failures. Keep the same
       // ID for an explicit retry, without silently entering when stock changes.
       if (!['PVE_RECOVERY_STORAGE','PVE_RECOVERY_INVALID','PVE_RESPONSE_INVALID','PVE_ZONE'].includes(error.code) &&
-          !/^(SCRAPYARD|TOWER)_V3_/.test(String(error.code || ''))) retry(1500);
+          !/^(?:(?:SCRAPYARD|TOWER|PVE|IDLE)_V3_|JOINT_)/.test(String(error.code || ''))) retry(1500);
       return null;
     }).finally(() => {flight = null;});
     return flight;

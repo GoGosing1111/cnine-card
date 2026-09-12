@@ -1,3 +1,4 @@
+import {readJointReleaseComponent} from './_joint_release_document.js';
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureUnifiedDropPoolFoundation } from './_drop_pool.js';
 
@@ -91,7 +92,7 @@ async function ensureFoundation(env){
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
 }
-async function settings(env,{fresh=false}={}){if(!fresh&&settingsCache?.expiresAt>Date.now())return settingsCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(META_KEY).first(),value=cleanSettings(parse(row?.value,DEFAULT_SETTINGS));settingsCache={value,expiresAt:Date.now()+15000};return value}
+async function settings(env,{fresh=false}={}){const release=await readJointReleaseComponent(env,'SCRAPYARD');if(release)return cleanSettings(release);if(!fresh&&settingsCache?.expiresAt>Date.now())return settingsCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(META_KEY).first(),value=cleanSettings(parse(row?.value,DEFAULT_SETTINGS));settingsCache={value,expiresAt:Date.now()+15000};return value}
 function publicDeck(deck){return (deck?.cards||[]).slice(0,5).map(card=>({id:String(card.id),title:card.title,rarity:card.rarity||card.grade||'C',grade:card.rarity||card.grade||'C',image:card.image||card.image_url||'',power:Number(card.power||0),powerType:card.powerType||card.power_type||'',breakthroughLevel:Number(card.breakthroughLevel??card.breakthrough_level??0),focusX:Number(card.focusX??card.focus_x??50),focusY:Number(card.focusY??card.focus_y??50),uniqueAbility:card.uniqueAbility||null}))}
 
 async function status(env,user,raidDeckPower){
@@ -215,3 +216,4 @@ export async function handleScrapyard({path,request,env,deps}){
 }
 
 export const __scrapyardTest={kstDayRange,FOUNDATION_SQL,DEFAULT_SETTINGS};
+export {settings as readScrapyardSettings,status as readScrapyardStatus};

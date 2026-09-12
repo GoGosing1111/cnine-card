@@ -3,6 +3,8 @@ import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { burningEventIsLive } from './_burning_event_access.js';
 import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_skill_chips.js';
 import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
+import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const BATTLE_SUIT_SLOT='BATTLE_SUIT';
@@ -628,7 +630,8 @@ export async function userEquipmentBonuses(env,userId){
     LEFT JOIN equipped_weapon ON 1=1
     LEFT JOIN garage ON 1=1
     LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId,userId,userId).first();
-  const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
+  const forge=V3_JOINT_RELEASE_ENABLED?await forgeEquipmentBonus(env,userId):{pve:0,pvp:0};
+  const equipmentPve=Number(row?.equipment_pve||0)+forge.pve,equipmentPvp=Number(row?.equipment_pvp||0)+forge.pvp,battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
   const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');
   if(equippedBattleSuit&&battleSuitPve>0)equippedBattleSuit.skillChips=await equippedSkillChipCodes(env,userId);

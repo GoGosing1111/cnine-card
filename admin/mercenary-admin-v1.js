@@ -62,7 +62,7 @@ function skillEditor(){
       field('스킬 이름',root+'name',r.name,{max:80})+select('검수 상태',root+'review',r.review,REVIEWS)+
       ['role','target','mechanic','trigger','effect','counterplay','bossRule','procRule'].map((key,i)=>field(['역할','대상','핵심 기믹','발동 조건','효과','대응 방법','보스 적용 규칙','추가 발동 규칙'][i],root+key,r[key],{type:'textarea',wide:['effect','procRule'].includes(key)})).join(''))}
     ${fields('02 / 밸런스 수치','값을 입력해도 전투에는 적용되지 않습니다.',
-      field('피해 배율',root+'balance.damageRatio',r.balance.damageRatio,{type:'number',step:'any'})+
+      field('피해 배율 (1 = 100%)',root+'balance.damageRatio',r.balance.damageRatio,{type:'number',step:'any'})+
       field('재사용 대기 · 턴',root+'balance.cooldownTurns',r.balance.cooldownTurns,{type:'number'})+
       field('발동 비용',root+'balance.cost',r.balance.cost,{type:'number'})+field('검수 메모',root+'notes',r.notes,{type:'textarea',wide:true}))}
   </div></div>`;

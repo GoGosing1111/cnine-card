@@ -30,9 +30,20 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "js/project-v-mercenary-battle-art-adapter-v1.js",
+    "shared/mercenary-skills-v1.mjs",
+    "preview/project-v-mercenary-system-v1/skill-rehearsal.mjs",
+    "preview/project-v-mercenary-system-v1/source/MercenarySpriteSequence.js",
+    "preview/project-v-mercenary-system-v1/source/RenderAuthoredSkill.js",
+    "assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json",
+    "preview/project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js",
+    "preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js",
+    "preview/project-v-mercenary-system-v1/skill-audio-v1.json",
+    "preview/project-v-mercenary-system-v1/source/MercenarySkillAudio.js",
+    "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 946969
+  "outputBytes": 1020858
 }

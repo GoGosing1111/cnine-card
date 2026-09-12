@@ -49,9 +49,14 @@ const layoutClient = 'preview/v3-wide-grid-v1/app.bundle.js';
 await build({entryPoints: ['preview/v3-wide-grid-v1/source/app.mjs'], outfile: layoutClient,
   bundle: true, minify: true, format: 'iife', target: ['es2022'], legalComments: 'none'});
 const layoutClients = [{file: layoutClient, sha256: hash(await readFile(layoutClient, 'utf8'))}];
-for (const name of ['BattleEngine.js', 'BattleCharacter.js', 'ObjectPool.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs']) {
+for (const name of ['BattleEngine.js', 'BattleCharacter.js', 'ObjectPool.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs','MercenaryCombatPlayback.js']) {
   const file = `preview/project-v-v3/source/battle/${name}`;
   sources.push({file, sha256: hash(await readFile(file, 'utf8'))});
 }
+for(const name of ['MercenarySkillFX.js','RenderAuthoredSkill.js','MercenarySkillAudio.js','MercenaryAttachmentPoints.js']){
+  const file=`preview/project-v-mercenary-system-v1/source/${name}`;
+  sources.push({file,sha256:hash(await readFile(file,'utf8'))});
+}
+for(const file of ['preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js','preview/project-v-mercenary-system-v1/skill-audio-v1.json','assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 await writeFile('preview/project-v-v3/grid-build-report.json', JSON.stringify({version: 'OCCUPIED_GRID_V1', layoutVersion: 'UNIFORM_LATTICE_V2', deployment: 'HELD_BY_USER', hashEncoding: 'UTF8_LF', sources, outputs, layoutClients}, null, 2) + '\n');
 console.log(`Built ${outputs.length} V3 consumers with one shared grid. No deployment performed.`);

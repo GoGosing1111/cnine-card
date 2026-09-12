@@ -1,3 +1,4 @@
+import {forgeEquipmentBonuses} from '../_equipment_forge_transactions.js';
 import { resolveAvatarDropRate,withAvatarDropScope } from '../_avatar_drop.js';
 import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
@@ -15,6 +16,9 @@ import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_sto
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
 import { ensureSkillChipFoundation } from '../_skill_chips.js';
 import {handleMercenaryCms} from '../_mercenary_cms.js';
+import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
+import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.js';
+import {releasedMercenarySnapshot,releasedMercenarySnapshots,mercenarySnapshotPower} from '../_mercenary_account.js';
 import {handleEquipmentForgePublic} from '../_equipment_forge_public.js';
 import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,applyAvatarRaidEntryBonus,ensureAvatarFoundation } from '../_avatar.js';
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
@@ -44,6 +48,9 @@ import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
 import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_reward_batch.js';
 import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
 import { handleScrapyard } from '../_scrapyard.js';
+import {handlePveV3,isPveV3Path} from '../_pve_v3_routes.js';
+import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
+import {jointError} from '../_joint_request.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
 import { handleUniqueAdvancement } from '../_unique_advancement.js';
@@ -974,13 +981,14 @@ function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=s
 function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){const diff=Number(opponentScore||0)-Number(myScore||0);let change,label;if(diff>=500){change=isWin?36:6;label=isWin?'상위 점수 상대 승리 보너스':'상위 점수 상대 패배 완화'}else if(diff>=200){change=isWin?30:10;label=isWin?'강한 상대 승리 보너스':'강한 상대 패배 완화'}else if(diff<=-500){change=isWin?12:24;label=isWin?'낮은 점수 상대 승리 조정':'낮은 점수 상대 패배 패널티'}else if(diff<=-200){change=isWin?18:20;label=isWin?'낮은 상대 승리 조정':'낮은 상대 패배 패널티'}else{change=isWin?24:16;label='비슷한 시즌 점수'}return {change,scoreDiff:diff,label}}
 function pvpTierIndex(score,tiers=[]){const resolved=resolveTier(Number(score||0),tiers);return Math.max(0,(tiers||[]).findIndex(tier=>tier.id===resolved.id))}
 async function pvpFormationPower(env,userId,battle,{defense=false}={}){
-  const [deck,bonus]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId)]);
+  const [deck,bonus,mercenary]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId),releasedMercenarySnapshot(env,{id:userId})]);
   if(deck.length!==5)return {power:0,deckReady:false};
-  return {power:Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)),deckReady:true};
+  return {power:Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)+mercenarySnapshotPower(mercenary)),deckReady:true};
 }
 async function pvpDefenseFormationPowers(env,userIds,battle){
   const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
-  const [cardRows,equipmentRows,garageRows,titleRows]=await Promise.all([
+  const [mercenaries,forgeBonuses,cardRows,equipmentRows,garageRows,titleRows]=await Promise.all([
+    releasedMercenarySnapshots(env,ids),V3_JOINT_RELEASE_ENABLED?forgeEquipmentBonuses(env,ids):Promise.resolve(new Map()),
     // Keep the five JSON deck ids as the outer loop. The previous implicit JOIN
     // order scanned every owned card (and, in practice, the effective card view)
     // for every candidate, producing tens of millions of reads per matchmaking
@@ -1000,7 +1008,7 @@ async function pvpDefenseFormationPowers(env,userIds,battle){
   ]);
   const result=new Map(ids.map(id=>[id,{power:0,count:0,superstarCount:0}]));for(const row of cardRows.results||[]){const state=result.get(Number(row.user_id));if(state){state.power+=cardBattlePower(row,Number(row.breakthrough_level||0),battle);state.count++;state.superstarCount+=superstarDeckCount([row])}}
   for(const rows of [equipmentRows.results||[],garageRows.results||[],titleRows.results||[]])for(const row of rows){const state=result.get(Number(row.user_id));if(state)state.power+=Number(row.power||0)}
-  return new Map([...result].map(([id,state])=>[id,{power:Math.max(0,Math.floor(state.power)),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT}]));
+  return new Map([...result].map(([id,state])=>[id,{power:Math.max(0,Math.floor(state.power+mercenarySnapshotPower(mercenaries.get(id))+Number(forgeBonuses.get(id)?.pvp||0))),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT}]));
 }
 async function createRankedMatchTicket(env,user,settings){
   await ensureRankedPvpFoundation(env);
@@ -1356,8 +1364,8 @@ async function raidDeckPower(env,userId,cardIds,mode='RAID'){
   const battleCards=unique?.cards?.length?unique.cards:cards;
   const basePower=Number(unique.power||cards.reduce((n,c)=>n+Number(c.power||0),0));
   const cardPower=Math.max(0,Math.floor(basePower*(1+Number(synergy.totals.attackPercent||0)/100+Number(synergy.totals.bossDamagePercent||0)/100)));
-  const power=cardPower+Number(characterBonus.pve||0);
-  return {ids,power,basePower,cardPower,characterBonus,synergy,unique,cards:battleCards,battleSettings:battleCfg};
+  const mercenary=await releasedMercenarySnapshot(env,deckUser),mercenaryPower=mercenarySnapshotPower(mercenary),power=cardPower+Number(characterBonus.pve||0)+mercenaryPower;
+  return {ids,power,basePower,cardPower,characterBonus,synergy,unique,cards:battleCards,battleSettings:battleCfg,...(mercenary?{mercenary,mercenaryPower}:{})};
 }
 
 /* V1191: 차원의 균열 원정 */
@@ -1619,7 +1627,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
     const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
     const engineCards=cards.map(card=>{const uniqueCard=uniqueCardsById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
     const battleSuit=battleSuitDamage>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitDamage,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-    battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+    battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:engineCards,magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
     result=battleV2.result.winner==='A'?'WIN':'LOSE';
   }else result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
   const damageBreakdown=battleV2?.result?.damageBreakdown||{cards:cardPower,support:nonBattleSuitSupport,battleSuit:battleSuitDamage,ultimate:ultimateDamage,total:uniquePlayerPower+ultimateDamage,authority:'SERVER_SWEEP_FALLBACK'};
@@ -4651,6 +4659,9 @@ async function ensureBreakthroughAutoReceipts(env){
 }
 function serializedGameAction(path,method){
   if(String(method).toUpperCase()!=='POST'||String(path).startsWith('admin/'))return false;
+  // Joint endpoints acquire the same lock inside their authenticated handler.
+  if(isPveV3Path(String(path))||mercenaryUsesInnerLock(String(path))||(V3_JOINT_RELEASE_ENABLED&&isForgeRuntimePath(String(path))))return false;
+  if(V3_JOINT_RELEASE_ENABLED&&String(path).startsWith('idle-dungeon/'))return false;
   // 영토전 공격은 자체 requestId 영수증 + 사용자 공격 락으로 원자 처리한다.
   // 전역 사용자 락을 한 겹 더 씌우면 정상 재시도가 USER_ACTION_IN_PROGRESS로 먼저 차단된다.
   if(String(path)==='territory-war/attack')return false;
@@ -4729,6 +4740,15 @@ async function releaseUserMutationLock(env,lock){
   if(!lock)return;
   if(lock.durable){await durableUserLock(env,lock.userId,'release',{token:lock.token});return}
   await env.DB.prepare('DELETE FROM user_mutation_locks_v1520 WHERE user_id=? AND token=?').bind(lock.userId,lock.token).run();
+}
+
+async function withJointUserMutationLock(env,userId,path,work){
+  let lock;
+  try{lock=await acquireUserMutationLock(env,userId,path);}
+  catch{throw jointError('JOINT_LOCK_UNAVAILABLE','계정 요청 잠금 확인이 지연됩니다. 같은 요청으로 다시 확인하세요.',503);}
+  if(!lock)throw jointError('JOINT_LOCK_BUSY','같은 계정의 요청을 처리 중입니다. 잠시 후 다시 확인하세요.',409);
+  try{return await work();}
+  finally{try{await releaseUserMutationLock(env,lock);}catch(error){console.warn('JOINT_LOCK_RELEASE_FAILED',{userId,path,code:error?.code||'RELEASE'});}}
 }
 
 // V1950 감옥은 화면 장식이 아니라 모든 플레이어 API 앞에서 판정하는 서버 권한이다.
@@ -5166,6 +5186,7 @@ async function handleRequest(context){
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
+    const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
     const wishLampResponse=await handleWishLamp({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(wishLampResponse)return wishLampResponse;
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
@@ -5211,6 +5232,7 @@ async function handleRequest(context){
     const uniqueAdvancementResponse=await handleUniqueAdvancement({path,request,env,deps:{authenticate,readBody,json}});if(uniqueAdvancementResponse)return uniqueAdvancementResponse;
     const primeDrawResponse=await handlePrimeDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation}});if(primeDrawResponse)return primeDrawResponse;
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
+    const forgeRuntimeResponse=await handleForgeRuntime({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(forgeRuntimeResponse)return forgeRuntimeResponse;
     const forgePublicResponse=await handleEquipmentForgePublic({path,request,env,deps:{authenticate,requirePermission,json}});if(forgePublicResponse)return forgePublicResponse;
     const mercenaryCmsResponse=await handleMercenaryCms({path,request,env,deps:{requirePermission,json}});if(mercenaryCmsResponse)return mercenaryCmsResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
@@ -5220,6 +5242,8 @@ async function handleRequest(context){
     const dropPoolResponse=await handleDropPool({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(dropPoolResponse)return dropPoolResponse;
     const workshopResponse=await handleWorkshop({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(workshopResponse)return workshopResponse;
     const alchemyResponse=await handleAlchemy({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(alchemyResponse)return alchemyResponse;
+    const pveV3Response=await handlePveV3({path,request,env,deps:{authenticate,json,raidDeckPower,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot,withUserMutationLock:withJointUserMutationLock}});if(pveV3Response)return pveV3Response;
+    if(V3_JOINT_RELEASE_ENABLED&&request.method==='POST'&&['tower/fight','scrapyard/run'].includes(path))return json({error:'개편 전투 화면에서 다시 입장하세요.',code:'PVE_V3_CLIENT_REQUIRED'},409);
     const scrapyardResponse=await handleScrapyard({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,raidDeckPower,resolveUnifiedDrops,resolveUniqueBattleRuntime,uniqueBattleResponsePayload}});if(scrapyardResponse)return scrapyardResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
@@ -6663,7 +6687,7 @@ async function handleRequest(context){
         const battleSuitPve=Math.max(0,Number(characterBonus.battleSuitPve||0));
         const cardSupportBonus=Math.max(0,Number(characterBonus.pve||0)-battleSuitPve);
         const battleSuit=battleSuitPve>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitPve,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-        battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:engineCards,magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
       const eventReward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0,avatarCoin=applyAvatarCoinGain(eventReward,avatarEffect),reward=avatarCoin.total;
@@ -6986,7 +7010,8 @@ async function handleRequest(context){
       const aUniqueRuntime=aUnique.enabled?resolveUniqueBattleRuntime(aUnique,{mode:'PVP',opponentPower:dBase}):null,dUniqueRuntime=dUnique.enabled?resolveUniqueBattleRuntime(dUnique,{mode:'PVP',opponentPower:aBase}):null;
       const aSynergyMultiplier=1+Number(aSyn.totals.attackPercent||0)/100,dSynergyMultiplier=1+Number(dSyn.totals.attackPercent||0)/100;
       const aCardPower=Math.max(0,Math.floor(Number(aUniqueRuntime?.effectivePower||aBase)*aSynergyMultiplier)),dCardPower=Math.max(0,Math.floor(Number(dUniqueRuntime?.effectivePower||dBase)*dSynergyMultiplier)),legacyAPower=aCardPower+Number(aCharacterBonus.pvp||0),legacyDPower=dCardPower+Number(dCharacterBonus.pvp||0);
-      const currentMatchAPower=Math.max(1,aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)),currentMatchDPower=Math.max(1,dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0));
+      const [aMercenary,dMercenary]=await Promise.all([releasedMercenarySnapshot(env,user),releasedMercenarySnapshot(env,defUser)]);
+      const currentMatchAPower=Math.max(1,aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)+mercenarySnapshotPower(aMercenary)),currentMatchDPower=Math.max(1,dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0)+mercenarySnapshotPower(dMercenary));
       if(currentMatchAPower!==Number(rankedTicket.attacker_power)||currentMatchDPower!==Number(rankedTicket.defender_power))return json({error:'매칭 후 덱·장비·칭호 정보가 변경되었습니다. 새로 매칭해주세요.',code:'PVP_MATCH_FORMATION_CHANGED'},409);
       const engineState=battleEngineState(battle,user),aUniqueById=new Map((aUnique.cards||[]).map(card=>[String(card.id),card])),dUniqueById=new Map((dUnique.cards||[]).map(card=>[String(card.id),card]));
       let battleV2=null,battleSeed=0;
@@ -6994,7 +7019,7 @@ async function handleRequest(context){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;battleSeed=seed;
         const attackerEngineCards=aCards.map(card=>{const uniqueCard=aUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
         const defenderEngineCards=dCards.map(card=>{const uniqueCard=dUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
-        battleV2=createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPvpBattleV2({attackerMercenary:aMercenary,defenderMercenary:dMercenary,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
       }
       const attackerWin=engineState.active?battleV2.result.winner==='A':legacyAPower>=legacyDPower;
       const aPower=engineState.active?Number(battleV2.teams.A.summary.power||legacyAPower):legacyAPower,dPower=engineState.active?Number(battleV2.teams.B.summary.power||legacyDPower):legacyDPower;

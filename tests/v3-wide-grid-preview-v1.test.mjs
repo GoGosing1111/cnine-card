@@ -165,7 +165,7 @@ test('comparison controls extend the common grid; shared card art, dock and time
   assert.match(bridge, /ProjectVBattleV3Live.createRenderer/);
   assert.doesNotMatch(css, /battle-v3-roster|battle-v3-dock|\.card-image/);
   assert.match(gridEngine, /extends ScrapyardBattleEngine/);
-  assert.match(originalEngine, /export class BattleEngine extends withOccupiedGrid\(BaseBattleEngine\)/);
+  assert.match(originalEngine, /export class BattleEngine extends withMercenaryBattle\(withOccupiedGrid\(BaseBattleEngine\)\)/);
   assert.doesNotMatch(gridEngine, /layoutCharacterGrid\(|drawIsometricFloor\(|configureIsometricScene\(/);
   assert.match(read('preview/v3-wide-grid-v1/source/grid-layout.mjs'), /export \* from .*FormationLayout.mjs/);
   assert.doesNotMatch(gridEngine, /new Application|new Renderer|playEvents\(|new AudioContext/);

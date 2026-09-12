@@ -1,3 +1,4 @@
+import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {buildTowerV3Battle,validateTowerV3Config,migrateTowerProgress,towerProgressAfter,towerError,towerInt} from './_tower_v3.js';
 import {validateTowerEconomy,planTowerRewards,towerBudgetDate} from './_tower_v3_economy.js';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
@@ -96,6 +97,7 @@ export async function runTowerV3(env,user,body,deps){
     const budget=Object.fromEntries(Object.entries(before).map(([k,v])=>[k,Number(v)]));
     const first=await p(env,`SELECT 1 AS claimed FROM ${FIRST} WHERE user_id=? AND tier=?`,uid,tier).first();
     const plan=planTowerRewards({battle,progress:state,firstClaimed:Boolean(first),budget,policy,firstTable:legacy.firstRewards});
+    plan.rewards.push(...await planForgeProtectionDrop(env,'TOWER',{cleared:battle.success,eligible:plan.repeatReserved||plan.firstClear}));
     const checkpoint=json({userId:uid,requestId:rid,snapshot,battle,progress:state,plan,config,policy,seed});
     const stamp=now();
     try{

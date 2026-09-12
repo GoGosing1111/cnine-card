@@ -1,0 +1,740 @@
+{
+  "version": 1,
+  "coordinateSpace": "FULL_TEXTURE_NORMALIZED",
+  "status": "TECH_QA_USER_REVIEW_PENDING",
+  "measuredAt": "2026-09-13",
+  "affectsSkillAssignments": false,
+  "cards": {
+    "V-001": {
+      "battleSpriteSha256": "9831816C80F23BC11D395E41B89B18D8695420E93D8C8268FFC57F0280A00755",
+      "weaponKind": "BLADE",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.02,
+        "y": 0.94
+      },
+      "cast": {
+        "x": 0.36,
+        "y": 0.63
+      },
+      "contact": {
+        "x": 0.55,
+        "y": 0.53
+      }
+    },
+    "V-002": {
+      "battleSpriteSha256": "37F5B830FCA85EF83B8A3A8C9B61EB6B1DBAD5509BE43317DC9890E28EA41074",
+      "weaponKind": "GUN",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.84,
+        "y": 0.78
+      },
+      "cast": {
+        "x": 0.66,
+        "y": 0.68
+      },
+      "contact": {
+        "x": 0.52,
+        "y": 0.53
+      }
+    },
+    "V-003": {
+      "battleSpriteSha256": "2D99E191E18675F52700A47E68DE1ECC6278239DBC8038CEB4D943180C861534",
+      "weaponKind": "SHIELD",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.79,
+        "y": 0.62
+      },
+      "cast": {
+        "x": 0.74,
+        "y": 0.57
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.5
+      }
+    },
+    "V-004": {
+      "battleSpriteSha256": "2CD6D3DC86C8FDCFE070A7674D09779A02AF12B01D543FD6B87BDBBE03FF6F67",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.19,
+        "y": 0.19
+      },
+      "cast": {
+        "x": 0.36,
+        "y": 0.6
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.49
+      }
+    },
+    "V-005": {
+      "battleSpriteSha256": "7EAA80F4830F2C8584807EC359F1D35A58C59CC667B81CD26A9DA730B9AB0494",
+      "weaponKind": "GUN",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.97,
+        "y": 0.73
+      },
+      "cast": {
+        "x": 0.73,
+        "y": 0.6
+      },
+      "contact": {
+        "x": 0.52,
+        "y": 0.48
+      }
+    },
+    "V-006": {
+      "battleSpriteSha256": "7109935D3CBB8F9208F744E260F384BA85DC5BB295B74C63C8D4B38E76D66318",
+      "weaponKind": "BLADE",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.03,
+        "y": 0.91
+      },
+      "cast": {
+        "x": 0.34,
+        "y": 0.62
+      },
+      "contact": {
+        "x": 0.53,
+        "y": 0.49
+      }
+    },
+    "V-007": {
+      "battleSpriteSha256": "A470E5F3B909205449A2F89868A0ED3B5F2F7FF064B6D4725AC249E4E778F9C2",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.19,
+        "y": 0.86
+      },
+      "cast": {
+        "x": 0.33,
+        "y": 0.65
+      },
+      "contact": {
+        "x": 0.52,
+        "y": 0.51
+      }
+    },
+    "V-008": {
+      "battleSpriteSha256": "92067C0ECAF8FE1BDD1BDE473B08C040EB7A39EEE7BF7C2D4C0C35F394B96F87",
+      "weaponKind": "GUN",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.98,
+        "y": 0.15
+      },
+      "cast": {
+        "x": 0.73,
+        "y": 0.47
+      },
+      "contact": {
+        "x": 0.52,
+        "y": 0.48
+      }
+    },
+    "V-009": {
+      "battleSpriteSha256": "698F69276AFCD2397627C8F22A1CAED4B01D54E98D01DAA57B329BDC3E82DA58",
+      "weaponKind": "GUN",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.98,
+        "y": 0.7
+      },
+      "cast": {
+        "x": 0.69,
+        "y": 0.56
+      },
+      "contact": {
+        "x": 0.56,
+        "y": 0.51
+      }
+    },
+    "V-010": {
+      "battleSpriteSha256": "6CE90D6CBA2A90A8BB671855F255548342B49E2DCC97F236DFAB37C1063357EF",
+      "weaponKind": "BLADE",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.2,
+        "y": 0.98
+      },
+      "cast": {
+        "x": 0.58,
+        "y": 0.62
+      },
+      "contact": {
+        "x": 0.55,
+        "y": 0.49
+      }
+    },
+    "V-011": {
+      "battleSpriteSha256": "2E73B46BC33D9A42B372EEF45AE0B01A3A23B902AD7DACEF4EC7DB51F2257B5C",
+      "weaponKind": "BLADE",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.94,
+        "y": 0.95
+      },
+      "cast": {
+        "x": 0.55,
+        "y": 0.7
+      },
+      "contact": {
+        "x": 0.48,
+        "y": 0.65
+      }
+    },
+    "V-012": {
+      "battleSpriteSha256": "32B59DB0E3B4A0218FE23932A47F5887B349B8A31728951B2BD593EE84CE5800",
+      "weaponKind": "BLADE",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.12,
+        "y": 0.94
+      },
+      "cast": {
+        "x": 0.4,
+        "y": 0.69
+      },
+      "contact": {
+        "x": 0.54,
+        "y": 0.59
+      }
+    },
+    "V-013": {
+      "battleSpriteSha256": "875DA8F8567322F8A9B882309AD1EA20C524B26E12CBF86D6ED0708182D7E28F",
+      "weaponKind": "GUN",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.85,
+        "y": 0.85
+      },
+      "cast": {
+        "x": 0.6,
+        "y": 0.61
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.47
+      }
+    },
+    "V-014": {
+      "battleSpriteSha256": "3DD4510F8796D66E797A3156396C1969D92AC5ACA0A52F552DD2A541A1BB7724",
+      "weaponKind": "GUN",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.98,
+        "y": 0.69
+      },
+      "cast": {
+        "x": 0.7,
+        "y": 0.56
+      },
+      "contact": {
+        "x": 0.56,
+        "y": 0.4
+      }
+    },
+    "V-015": {
+      "battleSpriteSha256": "8E299013164AAD2C3C6C096F89E071A503100F33F4FA32FDE187807E437ECB92",
+      "weaponKind": "BLADE",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.94,
+        "y": 0.54
+      },
+      "cast": {
+        "x": 0.72,
+        "y": 0.36
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.52
+      }
+    },
+    "V-016": {
+      "battleSpriteSha256": "ADE9737D55B5C56D5F76D0578BC10173C8C869142FFEBCAE85CF80AD4741AC8E",
+      "weaponKind": "MAGIC",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.26,
+        "y": 0.25
+      },
+      "cast": {
+        "x": 0.27,
+        "y": 0.31
+      },
+      "contact": {
+        "x": 0.55,
+        "y": 0.5
+      }
+    },
+    "V-017": {
+      "battleSpriteSha256": "4EE846408D96732EA3F614AAB0C300EC1A7B9B143CCEEA47F50D6813A542C776",
+      "weaponKind": "SHIELD",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.88,
+        "y": 0.51
+      },
+      "cast": {
+        "x": 0.7,
+        "y": 0.53
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.45
+      }
+    },
+    "V-018": {
+      "battleSpriteSha256": "67AC9EEDA92F6707BE9856BCFF4AE0C327B7E67C257185701739676FFD1B81B6",
+      "weaponKind": "MAGIC",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.91,
+        "y": 0.37
+      },
+      "cast": {
+        "x": 0.86,
+        "y": 0.44
+      },
+      "contact": {
+        "x": 0.56,
+        "y": 0.49
+      }
+    },
+    "V-019": {
+      "battleSpriteSha256": "319F33DCA34643A2FFA5B5A89CEF388D74AFAC06F547D2CCE55130427B15456D",
+      "weaponKind": "BLADE",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.98,
+        "y": 0.99
+      },
+      "cast": {
+        "x": 0.71,
+        "y": 0.64
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.5
+      }
+    },
+    "V-020": {
+      "battleSpriteSha256": "D5BECF7E3DC615C1BD5AD6F58F72AB2CA00AF81404EF4D5A897FFD6F60802712",
+      "weaponKind": "BLADE",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.3,
+        "y": 0.39
+      },
+      "cast": {
+        "x": 0.27,
+        "y": 0.42
+      },
+      "contact": {
+        "x": 0.49,
+        "y": 0.51
+      }
+    },
+    "V-021": {
+      "battleSpriteSha256": "C0DC4BDF39FDC09CFC8933FEDD4E60D55A0241C3C0A18E62AE1CB5F5B2390447",
+      "weaponKind": "MAGIC",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.15,
+        "y": 0.34
+      },
+      "cast": {
+        "x": 0.16,
+        "y": 0.43
+      },
+      "contact": {
+        "x": 0.47,
+        "y": 0.43
+      }
+    },
+    "V-022": {
+      "battleSpriteSha256": "C537EF7DF99F01926BBFEFAB0C4AAB9AF3898A6975820E0A980DD397194688C3",
+      "weaponKind": "BOW",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.08,
+        "y": 0.56
+      },
+      "cast": {
+        "x": 0.35,
+        "y": 0.48
+      },
+      "contact": {
+        "x": 0.48,
+        "y": 0.42
+      }
+    },
+    "V-023": {
+      "battleSpriteSha256": "8443F090FDC4F4DB384BA104F2BC73C3A916731F658253299D510FC7B0220813",
+      "weaponKind": "BLADE",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.88,
+        "y": 0.87
+      },
+      "cast": {
+        "x": 0.74,
+        "y": 0.67
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.52
+      }
+    },
+    "V-024": {
+      "battleSpriteSha256": "8058BC1D85CE5E64317EF9122F6DE558B8A5919C3DCD5329B1BC4CF15D16E318",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.075,
+        "y": 0.345
+      },
+      "cast": {
+        "x": 0.35,
+        "y": 0.44
+      },
+      "contact": {
+        "x": 0.52,
+        "y": 0.43
+      }
+    },
+    "V-025": {
+      "battleSpriteSha256": "D86D9663A9CCCD789294A5BF9942944B48575C38E1BAD66757060153697357E5",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.025,
+        "y": 0.57
+      },
+      "cast": {
+        "x": 0.36,
+        "y": 0.51
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.43
+      }
+    },
+    "V-026": {
+      "battleSpriteSha256": "9FAAA83AFF94D33A241BED629DBDA3D2351D6B7EF492CFA3C12C5D1E3FE3865A",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.075,
+        "y": 0.55
+      },
+      "cast": {
+        "x": 0.32,
+        "y": 0.51
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.43
+      }
+    },
+    "V-027": {
+      "battleSpriteSha256": "CE864104C78AA86D998CC55C0BB4ADD9DE01EA5A5C340CAE963E90B33EBDD188",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.05,
+        "y": 0.58
+      },
+      "cast": {
+        "x": 0.36,
+        "y": 0.54
+      },
+      "contact": {
+        "x": 0.52,
+        "y": 0.42
+      }
+    },
+    "V-028": {
+      "battleSpriteSha256": "EA98EB68A9F981C5F3933AA849C3159B1717BC5FDE05B725C274B3CE6B0CEBE4",
+      "weaponKind": "POLEARM",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.9,
+        "y": 0.02
+      },
+      "cast": {
+        "x": 0.69,
+        "y": 0.5
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.45
+      }
+    },
+    "V-029": {
+      "battleSpriteSha256": "DFF01066B7088787EF99B57B95181AB427B665AFF368A1A00302B2C378E06D55",
+      "weaponKind": "SHIELD",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.81,
+        "y": 0.49
+      },
+      "cast": {
+        "x": 0.73,
+        "y": 0.49
+      },
+      "contact": {
+        "x": 0.47,
+        "y": 0.44
+      }
+    },
+    "V-030": {
+      "battleSpriteSha256": "F441F0ABFF8916602E981BF04894C9F94D376B08D2E23C7AB3E2C0CEB1149312",
+      "weaponKind": "BLADE",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.84,
+        "y": 0.76
+      },
+      "cast": {
+        "x": 0.28,
+        "y": 0.53
+      },
+      "contact": {
+        "x": 0.47,
+        "y": 0.42
+      }
+    },
+    "V-031": {
+      "battleSpriteSha256": "750F24364B64897CE4E02614AE873AE4C71A9D8C1D2DBF8DB9DF8A05A264E5B0",
+      "weaponKind": "BLADE",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.58,
+        "y": 0.995
+      },
+      "cast": {
+        "x": 0.56,
+        "y": 0.44
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.36
+      }
+    },
+    "V-032": {
+      "battleSpriteSha256": "84DE94632DDFD27414795C8CDAD3AB87418E65C6828D6F40C6B2FEA9D44B9A4C",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.03,
+        "y": 0.44
+      },
+      "cast": {
+        "x": 0.36,
+        "y": 0.52
+      },
+      "contact": {
+        "x": 0.54,
+        "y": 0.41
+      }
+    },
+    "V-033": {
+      "battleSpriteSha256": "565B49AA0CEBD81E00557EE4D2DF8CC5159327508031FA3F51C4F5BA79E45469",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.15,
+        "y": 0.36
+      },
+      "cast": {
+        "x": 0.27,
+        "y": 0.42
+      },
+      "contact": {
+        "x": 0.53,
+        "y": 0.39
+      }
+    },
+    "V-034": {
+      "battleSpriteSha256": "C1904216FF888863C78B20A741D6C7631C5EB7BCEE829B051CB77AE64573B960",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.1,
+        "y": 0.375
+      },
+      "cast": {
+        "x": 0.32,
+        "y": 0.44
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.41
+      }
+    },
+    "V-035": {
+      "battleSpriteSha256": "CD06B3595B46A8BCCDD1D67E4D25C1D72B07376455809B48CD8643AEFDCE0182",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.055,
+        "y": 0.425
+      },
+      "cast": {
+        "x": 0.39,
+        "y": 0.43
+      },
+      "contact": {
+        "x": 0.53,
+        "y": 0.39
+      }
+    },
+    "V-036": {
+      "battleSpriteSha256": "06D390083ED019E0860800EA749BBA730DF070344ABDD67A65E4FF2A8B14549F",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.055,
+        "y": 0.025
+      },
+      "cast": {
+        "x": 0.44,
+        "y": 0.47
+      },
+      "contact": {
+        "x": 0.56,
+        "y": 0.43
+      }
+    },
+    "V-037": {
+      "battleSpriteSha256": "6045B04EC1E1369DB267F4B95336E434F7348F8D0A2916D8F3D0E9E739D586F8",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.025,
+        "y": 0.35
+      },
+      "cast": {
+        "x": 0.32,
+        "y": 0.41
+      },
+      "contact": {
+        "x": 0.53,
+        "y": 0.37
+      }
+    },
+    "V-038": {
+      "battleSpriteSha256": "E8E06593B0389E85897527B86AFD48465E12E23A34812186E477F3670557C74B",
+      "weaponKind": "GAUNTLET",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.31,
+        "y": 0.33
+      },
+      "cast": {
+        "x": 0.31,
+        "y": 0.33
+      },
+      "contact": {
+        "x": 0.57,
+        "y": 0.38
+      }
+    },
+    "V-039": {
+      "battleSpriteSha256": "9D6C6D8E3CFC3B0C7F05351DE638F7258D6BC344D49B3E7742D514FE948002DD",
+      "weaponKind": "BLADE",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.96,
+        "y": 0.81
+      },
+      "cast": {
+        "x": 0.4,
+        "y": 0.46
+      },
+      "contact": {
+        "x": 0.54,
+        "y": 0.38
+      }
+    },
+    "V-040": {
+      "battleSpriteSha256": "A9AACAAE3BF01C022CED7E258C52090A135BCA7EBF08CE789708F70A1C7684D3",
+      "weaponKind": "BOW",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.81,
+        "y": 0.5
+      },
+      "cast": {
+        "x": 0.76,
+        "y": 0.54
+      },
+      "contact": {
+        "x": 0.49,
+        "y": 0.43
+      }
+    },
+    "V-041": {
+      "battleSpriteSha256": "C1375F195B9A8080CB06303C838A838C53C2F9741E81CE5EE9AB7B19E2B97CA4",
+      "weaponKind": "BLADE",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.4,
+        "y": 0.955
+      },
+      "cast": {
+        "x": 0.195,
+        "y": 0.31
+      },
+      "contact": {
+        "x": 0.54,
+        "y": 0.39
+      }
+    },
+    "V-042": {
+      "battleSpriteSha256": "F6EDE2DB6286F9831675FABF8B62AC74E87255336C7EAC20FC611C567545C0CB",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.205,
+        "y": 0.73
+      },
+      "cast": {
+        "x": 0.37,
+        "y": 0.53
+      },
+      "contact": {
+        "x": 0.52,
+        "y": 0.39
+      }
+    },
+    "V-043": {
+      "battleSpriteSha256": "9B342949FEB24DFACCA663A47272846C390341FF3489DF0AEDE04C7ECFC8BCA3",
+      "weaponKind": "GUN",
+      "authoredFacing": -1,
+      "weapon": {
+        "x": 0.185,
+        "y": 0.795
+      },
+      "cast": {
+        "x": 0.305,
+        "y": 0.605
+      },
+      "contact": {
+        "x": 0.51,
+        "y": 0.415
+      }
+    }
+  }
+}

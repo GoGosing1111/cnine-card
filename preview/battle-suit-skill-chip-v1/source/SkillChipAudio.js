@@ -7,7 +7,7 @@ export const AUDIO_FILES=Object.freeze({
 });
 
 export class SkillChipAudio{
-  constructor({sharedContext=null}={}){this.context=null;this.sharedContext=sharedContext;this.destroyed=false;this.master=null;this.buffers={};this.sources=new Set();this.enabled=true;this.ready=false;this.epoch=0;this.syncRecords=[];this.loadPromise=null;}
+  constructor({sharedContext=null,files=AUDIO_FILES,maxPlaybackRate=2}={}){this.context=null;this.sharedContext=sharedContext;this.files=files;this.maxPlaybackRate=maxPlaybackRate;this.destroyed=false;this.master=null;this.buffers={};this.sources=new Set();this.enabled=true;this.ready=false;this.epoch=0;this.syncRecords=[];this.loadPromise=null;}
   async prepare(){
     if(this.loadPromise)return this.loadPromise;
     this.loadPromise=(async()=>{
@@ -16,7 +16,7 @@ export class SkillChipAudio{
       if(this.destroyed)return false;
       const context=this.context=this.sharedContext||new Audio({latencyHint:'interactive'});
       this.master=context.createGain();this.master.gain.value=.58;this.master.connect(context.destination);
-      await Promise.all(Object.entries(AUDIO_FILES).map(async([key,url])=>{
+      await Promise.all(Object.entries(this.files).map(async([key,url])=>{
         const response=await fetch(url);if(!response.ok)throw new Error(`효과음 로드 실패: ${key}`);
         const buffer=await context.decodeAudioData(await response.arrayBuffer());
         if(!this.destroyed)this.buffers[key]=buffer;
@@ -55,7 +55,7 @@ export class SkillChipAudio{
   schedule(key,from=0,speed=1,{append=false}={}){
     if(!append){this.stop();this.syncRecords=[];}
     if(!this.ready||!this.enabled||this.context.state!=='running')return;
-    const context=this.context,now=context.currentTime,rate=clamp(speed,.25,2);
+    const context=this.context,now=context.currentTime,rate=clamp(speed,.25,this.maxPlaybackRate);
     const performanceNow=performance.now(),stamp=context.getOutputTimestamp?.();
     // Map visual time to DAC/output time, not merely AudioContext render time.
     // This compensates the observed ~40 ms device latency in desktop QA.
