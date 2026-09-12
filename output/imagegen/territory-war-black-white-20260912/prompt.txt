@@ -1,0 +1,15 @@
+Use case: ads-marketing.
+Create one finished premium Korean fantasy strategy-game territory-war poster, landscape 16:9, preferably 2048x1152 PNG. This is a complete illustrated poster with carefully art-directed Korean typography, not a website mockup.
+
+Main visual: an enormous obsidian BLACK warhorse on the left and a luminous WHITE warhorse on the right, both powerful, muscular and anatomically convincing, charging toward each other in a decisive clash. Each horse has an elegant, coherent set of battle barding: blackened steel and restrained ember-red details for the black faction; carved silver and ivory with cold moon-blue reflections for the white faction. Both heads, necks and front hooves must read clearly; no fused anatomy, no extra legs. No riders or human portraits. Behind them, a vast contested fortress, opposing ranks of tiny banners and distant armies, a narrow shattered stone causeway converging at center. Dark red sparks and ash meet cold white mist along the central collision line. Use controlled dramatic rim light and rich painted materials, strong silhouettes, deep charcoal shadows. Expensive 2D fantasy promotional illustration; painterly rather than live-action photography or a plastic 3D render.
+
+Composition: monumental versus title in the upper quarter; the two horses dominate the central image and lean toward the center, creating immediate rivalry and forward motion. A clean dark area across the lower edge carries the taunting slogan. Intentional editorial hierarchy, not clutter, not dashboard boxes. Excellent readability at mobile-feed size. Keep every letter comfortably inside the canvas.
+
+The ONLY printed text, all spelled EXACTLY:
+1. Small centered header at the very top: "숲켓몬 영토전"
+2. Main very large title: "흑마 VS 백마"
+3. Large powerful bottom tagline, one line: "짧고 굵게 끝내줄게"
+
+Typography: the main title is broad, heavy, sharply cut Korean display lettering with a subtle forged-metal surface, beautifully kerned. Black-horse name has pale warm steel highlights over dark shadows; white-horse name is crisp ivory-silver; a smaller burning gold VS separates the names. Bottom tagline is extremely legible bold ivory Korean lettering with a restrained brush-cut edge. Do not make Korean letters out of illegible ornament.
+Exact Korean glyph checks: 숲 is ㅅ + ㅜ + ㅍ; the middle vowel ㅜ has its vertical stem pointing DOWN. Preserve the exact final consonants of 짧 and 굵. Bottom syllables in order: 짧 / 고 / 굵 / 게 / 끝 / 내 / 줄 / 게.
+No additional slogans, dates, prices, credits, English subtitles, invented logos, watermark, UI, frames, or text substitutions. No gore. Neither faction is shown defeated.
