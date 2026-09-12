@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {stationPoint} from '../preview/v3-wide-grid-v1/source/grid-layout.mjs';
+import {stationPoint, FORMATION_LATTICES} from '../preview/v3-wide-grid-v1/source/grid-layout.mjs';
 
 const {chromium} = await import(process.env.PLAYWRIGHT_MODULE_URL || 'playwright');
 const output = path.resolve(process.env.QA_OUTPUT_DIR || 'output/v3-viewport-fit-20260911');
@@ -36,10 +36,12 @@ try {
       assert.equal(wide.bridge.canvasCount, 1);
       assert.equal(wide.bridge.cards, scenario === 'PVP' ? 10 : 5);
       if (scenario === 'PVP') assert.equal(wide.layout.support, null);
-      else if (!wide.layout.viewportFit) close(wide.layout.support.x, 410);
+      else if (!wide.layout.viewportFit) close(wide.layout.support.x, stationPoint('support').x);
+      assert.equal(wide.layout.layoutVersion, 'UNIFORM_LATTICE_V2');
+      for (const actor of wide.layout.actors) close(actor.scale, wide.layout.viewportFit ? .65 : .5, 'uniform actor scale');
       const before = await geometry();
       if (before.fit) {
-        close(before.fit.scale, (before.width - 24) / 1020, 'content fills available width');
+        close(before.fit.scale, (before.width - 24) / FORMATION_LATTICES.compact.width, 'content fills available width');
         close(wide.layout.scene.width * wide.layout.rootScale, before.width, 'background width');
         close(wide.layout.scene.height * wide.layout.rootScale, before.height, 'background height');
         const {available} = before.fit, bottom = available.top + available.height;
@@ -70,11 +72,7 @@ try {
       const original = await diag();
       assert.equal(original.layout.tiles.length, 42);
       assert.equal(original.layout.mercenaries.length, 0);
-      if (!wide.layout.viewportFit) {
-        assert.deepEqual(original.layout.actors.map(a => a.scale), wide.layout.actors.map(a => a.scale));
-        assert.equal(original.layout.support?.scale, wide.layout.support?.scale);
-        assert.equal(original.layout.rootScale, wide.layout.rootScale);
-      } else assert.ok(wide.layout.rootScale * wide.layout.actors[0].scale > original.layout.rootScale * original.layout.actors[0].scale * 1.15);
+      if (!wide.layout.viewportFit) assert.equal(original.layout.rootScale, wide.layout.rootScale);
       assert.deepEqual(await dock(), wideDock);
       assert.equal(original.snapshotDigest, wide.snapshotDigest);
       await page.evaluate(() => WideGridPreview.selectMode('wide'));
@@ -83,7 +81,7 @@ try {
       await page.screenshot({path: path.join(output, `${scenario.toLowerCase()}-${width}.png`), fullPage: true});
       results.push({width, height, scenario, tiles: wide.layout.tiles.length, mercenaries: wide.layout.mercenaries.length,
         support: wide.layout.support, compact: Boolean(before.fit), heightIndependent: Boolean(before.fit),
-        desktopPreserved: !before.fit, dockPreserved: true, snapshotDigest: wide.snapshotDigest, geometry: before});
+        uniformStations: true, dockPreserved: true, snapshotDigest: wide.snapshotDigest, geometry: before});
       await save();
     };
     await baseline('PVP');

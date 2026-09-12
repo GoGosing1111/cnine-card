@@ -8,6 +8,12 @@ const results=[],errors=[],requests=[];
 const base=process.env.QA_BASE_URL || 'http://127.0.0.1:8791';
 const save=()=>fs.writeFile(path.join(output,'qa.json'),JSON.stringify({results,errors,requests},null,2));
 const settle=page=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+const uniform = formation => {
+  assert.equal(formation.layoutVersion, 'UNIFORM_LATTICE_V2');
+  const scale = formation.viewportFit ? .65 : .5;
+  for (const actor of formation.actors) assert.ok(Math.abs(actor.scale - scale) < .00001, 'slot/faction changes actor scale');
+  if (formation.support) assert.ok(Math.abs(formation.support.scale - scale) < .00001, 'support scale differs');
+};
 try {
   for (const width of [390,1366]) {
     if (process.env.QA_LABS_ONLY === '1' || process.env.QA_CORE_ONLY === '1') continue;
@@ -23,6 +29,7 @@ try {
       const pve=!['PVP','SIEGE','TERRITORY','CLAN'].includes(mode);
       assert.equal(d.ready,true,mode); assert.equal(d.canvasCount,1); assert.equal(d.cards,pve?5:10);
       assert.equal(d.formation.version,'OCCUPIED_GRID_V1'); assert.equal(d.formation.mode,'wide');
+      uniform(d.formation);
       assert.equal(Boolean(d.formation.support),pve,`${mode} suit gate`);
       assert.equal(Boolean(d.formation.objective),mode==='ESCORT');
       assert.equal(d.formation.tiles.length,pve?(mode==='ESCORT'?8:7):10,`${mode} occupied cells`);
@@ -46,6 +53,7 @@ try {
     const d=await page.evaluate(name=>window[name].diagnostics(),global);
     const formation=d.bridge?.engine?.formation;
     assert.equal(formation?.version,'OCCUPIED_GRID_V1',route);
+    uniform(formation);
     assert.equal(formation.tiles.length,route==='idle-v3-v1'?7:9,route);
     await page.screenshot({path:path.join(output,`${route}-390.png`),fullPage:true});
     results.push({route,formation});await save();await page.close();
@@ -64,6 +72,7 @@ try {
       await page.setViewportSize({width,height:960});await settle(page);
       const d=await page.evaluate(name=>({formation:window[name].engine.gridDiagnostics(),geometry:window[name].engine.viewportGeometry()}),name);
       assert.equal(d.formation.tiles.length,count);
+      uniform(d.formation);
       assert.equal(await page.evaluate(()=>{
         const frame=document.querySelector('iframe'),parent=frame.parentElement;
         return parent.tagName==='BODY'||frame.getBoundingClientRect().bottom<=parent.getBoundingClientRect().bottom+1;
@@ -102,6 +111,7 @@ try {
     await page.waitForFunction(()=>ProjectVPixiBattle.diagnostics().formation?.tiles.length===6,null,{timeout:60000});
     const d=await page.evaluate(()=>ProjectVPixiBattle.diagnostics());
     assert.equal(d.formation.version,'OCCUPIED_GRID_V1');
+    uniform(d.formation);
     assert.equal(await page.locator('canvas').count(),1);assert.equal(await page.locator('[data-v3-roster-card]').count(),5);
     await page.screenshot({path:path.join(output,'core-protocol-raid-390.png')});
     results.push({route:'core-protocol-raid-v1',width:390,formation:d.formation});await save();

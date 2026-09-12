@@ -7,7 +7,6 @@
   api.mountForBattle = async (...args) => {
     engine = await mount(...args);
     engine.audio?.destroy(); // Never change the live sound preference.
-    window.IdleDamageStyleCache?.install(engine);
     return engine;
   };
   window.cnineBattleSpriteUrl = path => {

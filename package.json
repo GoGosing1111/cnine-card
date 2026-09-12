@@ -67,7 +67,7 @@
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main",
     "build:mercenary-skills": "node scripts/build-mercenary-skills-v1.mjs",
     "test:mercenary-skills": "node --test tests/mercenary-skills-v1.test.mjs",
-    "test:v3-grid": "node --test tests/v3-common-grid-v1.test.mjs tests/v3-wide-grid-preview-v1.test.mjs",
+    "test:v3-grid": "node --test tests/v3-common-grid-v1.test.mjs tests/v3-wide-grid-preview-v1.test.mjs tests/v3-damage-style-cache.test.mjs",
     "build:tower-v3": "node scripts/build-tower-v3-preview-v1.mjs",
     "test:pve-overhaul": "node --test tests/tower-v3-v1.test.mjs tests/pve-overhaul-ready-v1.test.mjs tests/cow-room-v3-v1.test.mjs",
     "preview:pve-overhaul": "node scripts/serve-pve-overhaul-preview.mjs",

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {GRID, FORMATIONS, configuration, project, formationPoint, scaleAt, bounds, occupiedStations, stationPoint, mercenaryCount} from '../preview/v3-wide-grid-v1/source/grid-layout.mjs';
+import {GRID, FORMATIONS, FORMATION_LATTICES, latticeStation, formationActorScale, configuration, project, formationPoint, bounds, occupiedStations, stationPoint, mercenaryCount} from '../preview/v3-wide-grid-v1/source/grid-layout.mjs';
 import {createEncounter} from '../preview/scrapyard-v3-v1/source/encounter-model.mjs';
 import {createGridPreview} from '../preview/v3-wide-grid-v1/source/preview-model.mjs';
 import {waitForVisualDrain} from '../preview/v3-wide-grid-v1/source/visual-drain.mjs';
@@ -26,8 +26,8 @@ for (const mobile of [false, true]) {
   test(`${label}: occupied stations fit the scene without an empty rectangular floor`, () => {
     const old = bounds(mobile, 'original'), next = bounds(mobile), scene = mobile ? {width: 1050, height: 1500} : {width: 1600, height: 820};
     assert.equal(GRID.wide.kind, 'OCCUPIED_STATIONS');
-    assert.ok(mobile ? next.width <= 850 : next.width > old.width * 1.17);
-    assert.ok(next.left >= 16 && next.right <= scene.width - 16);
+    assert.ok(mobile ? next.width <= scene.width - 24 : next.width > old.width * 1.17);
+    assert.ok(next.left >= 12 && next.right <= scene.width - 12);
     assert.ok(next.top > 0 && next.bottom + 16 < scene.height);
     const c = configuration(mobile);
     const stations = occupiedStations({mobile});
@@ -48,17 +48,15 @@ for (const mobile of [false, true]) {
       }
     }
   });
-  test(`${label}: moving stations preserves every actor's exact baseline perspective scale`, () => {
-    const before = configuration(mobile, 'original'), after = configuration(mobile);
+  test(`${label}: canonical combat slots map to uniform presentation stations`, () => {
+    const after = configuration(mobile);
     for (const [i, p] of [...FORMATIONS.allies, ...FORMATIONS.enemies].entries()) {
-      const a = project(before, ...p), mapped = formationPoint(...p, i < 5 ? 'ALLY' : 'ENEMY', 'wide', mobile), b = project(after, mapped.x, mapped.y);
-      const base = .52 * (mobile ? .84 : 1);
-      const resolve = y => scaleAt(before, base, a.y + (y - b.y) * before.tileHeight / after.tileHeight);
-      epsilon(resolve(b.y), scaleAt(before, base, a.y));
-      for (const step of [-30, 20, 60]) assert.ok(Number.isFinite(resolve(b.y + step)));
+      const team = i < 5 ? 'ALLY' : 'ENEMY', expected = stationPoint('cards', i % 5, team, mobile);
+      const mapped = formationPoint(...p, team, 'wide', mobile), actual = project(after, mapped.x, mapped.y);
+      epsilon(actual.x, expected.x); epsilon(actual.y, expected.y);
     }
-    assert.match(commonLayout, /layoutAccountBattleUnit\(\)/);
-    assert.match(commonLayout, /this\.accountBattleUnit\.root\.restScale/);
+    assert.equal(after.minScale, after.maxScale, 'row depth must not change slot sizes');
+    assert.ok(formationActorScale(false, mobile) > 0);
   });
 }
 
@@ -111,7 +109,7 @@ test('compact fitting follows content width; a taller viewport never shrinks or 
   for (const width of [761, 988, 1366, 1600]) assert.equal(preferredFrameHeight({width}), null);
 });
 
-test('compact PVP and PVE use distinct occupied stations with the suit inside the allied group', () => {
+test('compact PVP and PVE share stations, tile sizes and row/column pitch', () => {
   for (const scenario of ['PVP', 'PVE']) {
     const rows = occupiedStations({scenario, enemySlots: scenario === 'PVE' ? [0, 1, 2] : [0, 1, 2, 3, 4]})
       .map(s => ({...s, ...compactStation(s.kind, s.index, s.team, scenario)}));
@@ -124,9 +122,37 @@ test('compact PVP and PVE use distinct occupied stations with the suit inside th
     }
     if (scenario === 'PVE') {
       const suit = rows.find(s => s.kind === 'support'), allies = rows.filter(s => s.team === 'ALLY' && s.kind !== 'support');
-      assert.ok(suit.x > Math.min(...allies.map(a => a.x)) && suit.x < Math.max(...allies.map(a => a.x)));
+      assert.ok(suit.x >= Math.min(...allies.map(a => a.x)) && suit.x <= Math.max(...allies.map(a => a.x)));
       assert.ok(suit.y > Math.min(...allies.map(a => a.y)) && suit.y < Math.max(...allies.map(a => a.y)));
     }
+  }
+  for (const kind of ['cards', 'support', 'mercenaries']) for (const team of ['ALLY', 'ENEMY']) {
+    for (let index = 0; index < (kind === 'cards' ? 5 : 1); index++)
+      assert.deepEqual(compactStation(kind, index, team, 'PVE'), compactStation(kind, index, team, 'PVP'));
+  }
+});
+
+test('all roles use integer cells and identical pitches, with mirrored factions and a reserved objective column', () => {
+  for (const profile of ['desktop', 'compact']) {
+    const layout = FORMATION_LATTICES[profile];
+    const points = [];
+    for (const kind of ['cards', 'mercenaries', 'support']) for (let index = 0; index < (kind === 'cards' ? 5 : 1); index++) {
+      const a = latticeStation(kind, index, 'ALLY', profile), b = latticeStation(kind, index, 'ENEMY', profile);
+      epsilon(a.x + b.x, layout.width); assert.equal(a.y, b.y);
+      points.push(a, b);
+    }
+    points.push(latticeStation('objective', 0, 'ALLY', profile));
+    assert.equal(new Set(points.map(p => `${p.x}:${p.y}`)).size, points.length);
+    for (const p of points) {
+      epsilon((p.x - layout.left) / layout.columnPitch, Math.round((p.x - layout.left) / layout.columnPitch));
+      epsilon((p.y - layout.top) / layout.rowPitch, Math.round((p.y - layout.top) / layout.rowPitch));
+      assert.ok(p.x >= layout.tileWidth / 2 && p.x <= layout.width - layout.tileWidth / 2);
+      assert.ok(p.y >= layout.tileHeight / 2 && p.y <= layout.height - layout.tileHeight / 2);
+    }
+    const columns = [...new Set(points.map(p => p.x))].sort((a, b) => a - b);
+    const rows = [...new Set(points.map(p => p.y))].sort((a, b) => a - b);
+    for (let i = 1; i < columns.length; i++) epsilon(columns[i] - columns[i - 1], layout.columnPitch);
+    for (let i = 1; i < rows.length; i++) epsilon(rows[i] - rows[i - 1], layout.rowPitch);
   }
 });
 
@@ -163,12 +189,12 @@ test('zero or one mercenary removes unused stations independently on each side, 
 });
 
 test('the PVE suit sits inside the allied formation above the existing dock on both screen sizes', () => {
-  for (const p of occupiedStations()) assert.ok(p.y + configuration().tileHeight / 2 < 624 || (p.x > 620 && p.x < 980));
+  for (const p of occupiedStations()) assert.ok(p.y + configuration().tileHeight / 2 <= 624);
   const suit = stationPoint('support');
-  assert.equal(suit.x, 410);
+  assert.equal(suit.x, stationPoint('mercenaries').x);
   assert.ok(suit.y + configuration().tileHeight / 2 < 595);
   const mobileSuit = stationPoint('support', 0, 'ALLY', true);
-  assert.equal(mobileSuit.x, 311);
+  assert.equal(mobileSuit.x, stationPoint('mercenaries', 0, 'ALLY', true).x);
   assert.ok(mobileSuit.y + configuration(true).tileHeight / 2 < 1240);
 });
 

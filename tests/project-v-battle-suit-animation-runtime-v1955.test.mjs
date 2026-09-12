@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {Assets, Container, Rectangle, Texture, TextureSource} from 'pixi.js';
 import {gsap} from 'gsap';
+import {stationPoint} from '../preview/project-v-v3/source/battle/FormationLayout.mjs';
 
 globalThis.matchMedia??=()=>({matches:false,addEventListener(){},removeEventListener(){}});
 globalThis.document??={hidden:false,addEventListener(){},removeEventListener(){},getElementById(){return null},querySelector(){return null}};
@@ -315,7 +316,7 @@ test('account Battle Suit occupies the allied center in every PVE field and leav
     setFormation(x,y,scale){formation={x,y,scale};this.root.restScale=scale}
   };
   engine.layoutAccountBattleUnit();
-  const expected={x:410,y:425};
+  const expected=stationPoint('support');
   assert.deepEqual({x:formation.x,y:formation.y},expected);
   assert.ok(Number.isFinite(formation.scale)&&formation.scale>0);
   engine.activeBattlefieldMode='ESCORT';

@@ -1,4 +1,4 @@
-import {BitmapText, Container, Graphics} from 'pixi.js';
+import {BitmapText, Container, Graphics, TextStyle} from 'pixi.js';
 
 /**
  * Fixed-cost reusable object pool.
@@ -73,37 +73,36 @@ const normalizeDamageKind=value=>{
   return DAMAGE_STYLE[raw]?raw:'ATTACK';
 };
 
+// Pixi 8.20 keys stroked bitmap fonts by TextStyle uid/tick. Mutating a pooled
+// label's style for every hit creates an unbounded succession of font atlases.
+// Share immutable style instances for the finite role/critical/viewport states.
+const damageStyles=new Map();
+function sharedDamageStyle(options){
+  const key=JSON.stringify(options);if(!damageStyles.has(key))damageStyles.set(key,new TextStyle(options));return damageStyles.get(key);
+}
+
 export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,healing=0,hitCount=1,compact=false}={}){
   const normalized=normalizeDamageKind(kind);
   const profile=DAMAGE_STYLE[normalized];
   const amount=Math.max(0,Number(damage)||0);
   view.effectKind=normalized;
   view.numberGlow.text=amount.toLocaleString('ko-KR');
-  view.numberGlow.style.fill=profile.tagColor;
-  view.numberGlow.style.stroke={color:profile.stroke,width:critical?18:16,join:'round'};
-  view.numberGlow.style.fontSize=compact?(critical?86:78):(critical?78:68);
+  view.numberGlow.style=sharedDamageStyle({fontFamily:'Arial Black, Arial',fontSize:compact?(critical?86:78):(critical?78:68),fill:profile.tagColor,stroke:{color:profile.stroke,width:critical?18:16,join:'round'},letterSpacing:-2});
   view.numberLabel.text=amount.toLocaleString('ko-KR');
-  view.numberLabel.style.fill=critical?0xffffff:profile.fill;
-  view.numberLabel.style.stroke={color:profile.stroke,width:critical?15:13,join:'round'};
-  view.numberLabel.style.fontSize=compact?(critical?84:76):(critical?76:68);
+  view.numberLabel.style=sharedDamageStyle({fontFamily:'Arial Black, Arial',fontSize:compact?(critical?84:76):(critical?76:68),fill:critical?0xffffff:profile.fill,stroke:{color:profile.stroke,width:critical?15:13,join:'round'},letterSpacing:-2});
   view.roleTag.text=normalized==='SPEED'?`${Math.max(2,Math.floor(Number(hitCount)||7))} HIT · TOTAL`:profile.tag;
-  view.roleTag.style.fill=0xf5fbff;
-  view.roleTag.style.fontSize=compact?24:17;
+  view.roleTag.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?24:17,fill:0xf5fbff,letterSpacing:2});
   view.roleTag.alpha=amount>0?1:0;
   view.criticalLabel.text=critical?'CRITICAL':'';
-  view.criticalLabel.style.fill=profile.tagColor;
-  view.criticalLabel.style.fontSize=compact?21:12;
+  view.criticalLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?21:12,fill:profile.tagColor,letterSpacing:2});
   view.healLabel.text=Number(healing)>0?`+${Number(healing).toLocaleString('ko-KR')} HP`:'';
-  view.healLabel.style.fill=0x75ffbd;
-  view.healLabel.style.fontSize=compact?31:28;
+  view.healLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?31:28,fill:0x75ffbd,letterSpacing:.5});
   view.hitLabel.text='';
-  view.hitLabel.style.fill=profile.tagColor;
-  view.hitLabel.style.fontSize=compact?21:13;
+  view.hitLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?21:13,fill:profile.tagColor,letterSpacing:1});
   view.underline.tint=profile.tagColor;
   const speedValues=[.1428,.1333,.1514].map(rate=>Math.round(amount*rate));
   view.speedHitLabels?.forEach((label,index)=>{
     label.text=normalized==='SPEED'?speedValues[index].toLocaleString('ko-KR'):'';
-    label.style.fill=index%2?0x66f7ff:0xb795ff;
     label.alpha=normalized==='SPEED'?.86:0;
   });
   return view;
@@ -156,8 +155,6 @@ export function createDamageTextPool(size=24){
       resetDisplayObject(root);
       root.numberLabel.text='0';
       root.numberGlow.text='0';root.numberGlow.alpha=.5;
-      root.numberLabel.style.fill=0xfff4a6;
-      root.numberLabel.style.fontSize=56;
       root.roleTag.text='';root.criticalLabel.text='';root.healLabel.text='';root.hitLabel.text='';
       root.speedHitLabels?.forEach(label=>{label.text='';label.alpha=0});
     }

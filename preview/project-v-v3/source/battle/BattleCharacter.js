@@ -309,8 +309,9 @@ export class BattleCharacter{
     this.perspectiveDepth=clamp(Number(depth)||0,0,1);
     this.root.perspectiveDepth=this.perspectiveDepth;
     const perspectiveScale=.9+this.perspectiveDepth*.1;
-    const hudScale=perspectiveScale*(this.team===TEAM.ALLY?1.38:1);
-    this.hud.position.set(0,-392-this.perspectiveDepth*20);
+    const uniform=Number.isFinite(this.formationHudY);
+    const hudScale=uniform?1:perspectiveScale*(this.team===TEAM.ALLY?1.38:1);
+    this.hud.position.set(0,uniform?this.formationHudY:-392-this.perspectiveDepth*20);
     this.hud.scale.set(hudScale);
     this.stateHalo.scale.set(.9+this.perspectiveDepth*.1);
     this.shadow.scale.set(.9+this.perspectiveDepth*.12);

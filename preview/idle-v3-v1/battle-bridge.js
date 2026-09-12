@@ -10,7 +10,6 @@
     // User requested silence. Dispose this preview's mixer before any playback,
     // including its gesture listeners; never alter the live account sound key.
     engine.audio?.destroy();
-    window.IdleDamageStyleCache?.install(engine);
     return engine;
   };
   window.cnineBattleSpriteUrl = path => {

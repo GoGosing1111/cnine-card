@@ -4,6 +4,8 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {Container} from 'pixi.js';
 import {withOccupiedGrid} from '../preview/project-v-v3/source/battle/OccupiedGridLayout.js';
+import {configuration, unproject} from '../preview/project-v-v3/source/battle/FormationLayout.mjs';
+import {BattleCharacter} from '../preview/project-v-v3/source/battle/BattleCharacter.js';
 
 const root = new URL('../', import.meta.url);
 const read = file => readFileSync(new URL(file, root), 'utf8');
@@ -19,6 +21,21 @@ class PresentationHarness {
 const Grid = withOccupiedGrid(PresentationHarness);
 function engine() {const value = new Grid(); value.configureIsometricScene(); return value;}
 const tileIds = value => value.isoTiles.map(tile => tile.station.id);
+
+test('movement depth updates keep uniform nameplates anchored to the body on both factions', () => {
+  for (const team of ['ALLY', 'ENEMY']) {
+    const actor = {team, formationHudY: -342.8, root: new Container(), hud: new Container(), stateHalo: new Container(), shadow: new Container()};
+    for (const depth of [0, .2, .5, .9, 1]) {
+      BattleCharacter.prototype.updatePerspective.call(actor, depth);
+      assert.equal(actor.hud.y, actor.formationHudY);
+      assert.equal(actor.hud.scale.x, 1);
+    }
+    delete actor.formationHudY;
+    BattleCharacter.prototype.updatePerspective.call(actor, 0);
+    assert.equal(actor.hud.y, -392, 'comparison baseline can restore legacy layout');
+    for (const key of ['root', 'hud', 'stateHalo', 'shadow']) actor[key].destroy();
+  }
+});
 
 test('common floor follows deployment, KO, revival and replacement without trailing cells', () => {
   const value = engine();
@@ -71,22 +88,61 @@ test('only enabled support and visible escort objective get occupied cells', () 
 
 test('single boss, ally-center support and escort carrier have separate stations on desktop and mobile', () => {
   const value = engine(); value.formationScenario = 'PVE'; value.formationSingleTarget = true;
-  assert.deepEqual(value.station('support'), {x: 410, y: 425});
-  assert.deepEqual(value.station('cards', 0, 'ENEMY'), {x: 1210, y: 425});
-  assert.deepEqual(value.station('objective'), {x: 890, y: 540});
+  assert.deepEqual(value.station('support'), {x: 380, y: 416});
+  assert.deepEqual(value.station('cards', 0, 'ENEMY'), {x: 1010, y: 416});
+  assert.deepEqual(value.station('objective'), {x: 800, y: 592});
   value.viewportFit = {offsetX: 30, offsetY: 90};
-  assert.deepEqual(value.station('support'), {x: 275, y: 780});
-  assert.deepEqual(value.station('cards', 0, 'ENEMY'), {x: 835, y: 740});
-  assert.deepEqual(value.station('objective'), {x: 820, y: 1060});
+  assert.deepEqual(value.station('support'), {x: 354, y: 670});
+  assert.deepEqual(value.station('cards', 0, 'ENEMY'), {x: 786, y: 670});
+  assert.deepEqual(value.station('objective'), {x: 570, y: 970});
   value.isoFloorLayer.destroy();
 });
 
-test('all eight served V3 bundles including the tower share the current common grid', () => {
+test('repeated layouts give both factions, mercenaries and support the same scale without accumulating old slot/depth factors', () => {
+  class Legacy extends PresentationHarness {
+    constructor() {
+      super();
+      this.characters.forEach((actor, index) => Object.assign(actor, {root: new Container(), hud: {y: 0}, fullBodyHeight: 360,
+        setFormation(x, y, scale) {this.baseX = x; this.baseY = y; this.restScale = scale;},
+        setCompactHud() {}, updatePerspective(value) {this.perspectiveDepth = value;}}));
+      this.accountBattleUnit = {root: new Container(), setFormation(x, y, scale) {this.root.baseX = x; this.root.baseY = y; this.root.restScale = scale;}};
+    }
+    layoutCharacterGrid() {
+      this.characters.forEach((actor, index) => {actor.baseY = 100 + index * 29; actor.restScale = .31 + index * .08; actor.designScale = .48 + index * .01;});
+      this.accountBattleUnit.root.restScale = .37;
+    }
+    screenToGrid(x, y) {const p = unproject(this.isoConfig, x, y); return {gridX: p.x, gridY: p.y};}
+  }
+  const Uniform = withOccupiedGrid(Legacy), value = new Uniform();
+  const mercenary = {team: 'ALLY', root: new Container()}; value.formationMercenaries = [mercenary];
+  for (const compact of [false, true, false, true]) {
+    value.mobile = compact; value.viewportFit = compact ? {offsetX: 30, offsetY: 90, actorScale: 1.3} : null;
+    value.configureIsometricScene();
+    value.layoutCharacterGrid();
+    const expected = compact ? .65 : .5;
+    for (const actor of value.characters) {
+      assert.equal(actor.restScale, expected);
+      assert.equal(actor.perspectiveResolver(actor.baseY - 400), expected);
+      assert.equal(actor.perspectiveResolver(actor.baseY + 400), expected);
+      const p = unproject(configuration(false), actor.baseX, actor.baseY);
+      assert.deepEqual(actor.gridPosition, p, 'movement still uses the common inverse projection');
+    }
+    assert.equal(value.accountBattleUnit.root.restScale, expected);
+    assert.equal(mercenary.root.scale.x, expected);
+  }
+  value.isoFloorLayer.destroy({children: true});
+  for (const actor of value.characters) actor.root.destroy();
+  mercenary.root.destroy(); value.accountBattleUnit.root.destroy();
+});
+
+test('all nine served V3 bundles including the account entry share the current common grid', () => {
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
-  assert.equal(report.outputs.length, 8); assert.equal(report.sources.length, 4);
+  assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
+  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 6);
   const seen = new Set();
-  for (const row of [...report.sources, ...report.outputs]) {
+  assert.equal(report.layoutClients.length, 1);
+  for (const row of [...report.sources, ...report.outputs, ...report.layoutClients]) {
     assert.ok(!seen.has(row.file)); seen.add(row.file);
     assert.equal(hash(read(row.file)), row.sha256, `stale consumer/source: ${row.file}; run npm run build:v3-grid`);
   }

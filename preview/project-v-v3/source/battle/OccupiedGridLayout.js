@@ -1,5 +1,5 @@
 import {Container, Graphics} from 'pixi.js';
-import {GRID, configuration, scaleAt, stationPoint} from './FormationLayout.mjs';
+import {GRID, FORMATION_LAYOUT_VERSION, configuration, formationActorScale, stationPoint} from './FormationLayout.mjs';
 import {compactStation, fitCompactViewport, usesCompactViewport} from './ViewportLayout.mjs';
 
 // Shared presentation policy. The base engine still owns combatants, attacks,
@@ -31,13 +31,11 @@ export const withOccupiedGrid = Base => class extends Base {
     this.isoConfig = configuration(this.viewportFit ? false : this.mobile, this.gridMode || 'wide');
     return this.isoConfig;
   }
+  depthForY(y) {return this.gridMode === 'wide' ? .5 : super.depthForY(y);}
   station(kind, index = 0, team = 'ALLY') {
     const scenario = this.formationScenario || 'PVP';
-    let p;
-    if (kind === 'objective') p = this.viewportFit ? {x: 790, y: 970} : {x: 890, y: 540};
-    else if (kind === 'cards' && team === 'ENEMY' && this.formationSingleTarget)
-      p = this.viewportFit ? {x: 805, y: 650} : {x: 1210, y: 425};
-    else p = this.viewportFit ? compactStation(kind, index, team, scenario) : stationPoint(kind, index, team, this.mobile);
+    if (kind === 'cards' && team === 'ENEMY' && this.formationSingleTarget) {kind = 'boss'; index = 0;}
+    const p = this.viewportFit ? compactStation(kind, index, team, scenario) : stationPoint(kind, index, team, this.mobile);
     return {x: p.x + (this.viewportFit?.offsetX || 0), y: p.y + (this.viewportFit?.offsetY || 0)};
   }
   resize() {
@@ -127,7 +125,10 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   layoutCharacterGrid() {
     if (this.gridMode !== 'wide') {
-      for (const actor of this.characters || []) if (Number.isFinite(actor.legacyGridHudY)) actor.hud.y = actor.legacyGridHudY;
+      for (const actor of this.characters || []) {
+        delete actor.formationHudY;
+        if (Number.isFinite(actor.legacyGridHudY)) actor.hud.y = actor.legacyGridHudY;
+      }
       this.layoutFormationMercenaries(); return super.layoutCharacterGrid();
     }
     const wide = this.isoConfig, mobile = this.mobile, original = configuration(this.viewportFit ? false : mobile, 'original');
@@ -135,16 +136,21 @@ export const withOccupiedGrid = Base => class extends Base {
     if (this.viewportFit) this.mobile = false;
     try {super.layoutCharacterGrid();} finally {this.baselineLayout = false; this.isoConfig = wide; this.mobile = mobile;}
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) for (const [index, actor] of actors.entries()) {
-      const originalY = actor.baseY, scale = actor.restScale, next = this.station('cards', index, team), factor = this.viewportFit?.actorScale || 1;
+      const scale = formationActorScale(Boolean(this.viewportFit), mobile), next = this.station('cards', index, team);
       const p = this.screenToGrid(next.x, next.y); actor.gridPosition = {x: p.gridX, y: p.gridY};
-      actor.setFormation(next.x, next.y, scale * factor); actor.setCompactHud?.(mobile);
-      actor.hud.y = -(actor.fullBodyHeight + 88);
-      actor.perspectiveResolver = y => factor * scaleAt(original, actor.designScale, originalY + (y - next.y) * original.tileHeight / wide.tileHeight);
+      actor.designScale = scale;
+      actor.setFormation(next.x, next.y, scale); actor.setCompactHud?.(mobile);
+      actor.formationHudY = -(actor.fullBodyHeight * .98 + 88);
+      // Slot order and faction must not change a character's apparent size.
+      // Asset-defined boss/body proportions and attack transforms stay intact.
+      actor.perspectiveResolver = () => scale; actor.updatePerspective?.(.5);
+      actor.hud.y = actor.formationHudY;
       actor.root.depthSortY = next.y;
     }
     if (this.accountBattleUnit) {
       const next = this.station('support');
-      this.accountBattleUnit.setFormation(next.x, next.y, this.accountBattleUnit.root.restScale * (this.viewportFit?.actorScale || 1));
+      this.accountBattleUnit.setFormation(next.x, next.y, formationActorScale(Boolean(this.viewportFit), mobile));
+      this.accountBattleUnit.root.depthSortY = next.y;
     }
     this.layoutObjective(); this.layoutFormationMercenaries(); this.drawIsometricFloor();
   }
@@ -155,7 +161,8 @@ export const withOccupiedGrid = Base => class extends Base {
     if (this.viewportFit) this.mobile = false;
     try {super.layoutAccountBattleUnit();} finally {this.baselineLayout = false; this.isoConfig = wide; this.mobile = mobile;}
     if (!this.accountBattleUnit) return;
-    const p = this.station('support'); this.accountBattleUnit.setFormation(p.x, p.y, this.accountBattleUnit.root.restScale * (this.viewportFit?.actorScale || 1));
+    const p = this.station('support'); this.accountBattleUnit.setFormation(p.x, p.y, formationActorScale(Boolean(this.viewportFit), mobile));
+    this.accountBattleUnit.root.depthSortY = p.y;
   }
   layoutObjective() {
     if (this.gridMode !== 'wide' || this.baselineLayout) return super.layoutObjective();
@@ -182,7 +189,7 @@ export const withOccupiedGrid = Base => class extends Base {
   layoutFormationMercenaries() {
     for (const item of this.formationMercenaries || []) {
       const p = this.station('mercenaries', 0, item.team);
-      const scale = this.viewportFit ? .51 * this.viewportFit.actorScale : this.mobile ? .43 : .51;
+      const scale = formationActorScale(Boolean(this.viewportFit), this.mobile);
       if (typeof item.setFormation === 'function') {
         item.setFormation(p.x, p.y, scale); item.setCompactHud?.(this.mobile);
         item.perspectiveResolver = () => scale;
@@ -196,7 +203,7 @@ export const withOccupiedGrid = Base => class extends Base {
     const w = this.isoConfig?.tileWidth || 0, h = this.isoConfig?.tileHeight || 0;
     const left = Math.min(...tiles.map(t => t.x - w / 2)), right = Math.max(...tiles.map(t => t.x + w / 2));
     const top = Math.min(...tiles.map(t => t.y - h / 2)), bottom = Math.max(...tiles.map(t => t.y + h / 2));
-    return {version: 'OCCUPIED_GRID_V1', mode: this.gridMode, scenario: this.formationScenario, mobile: this.mobile,
+    return {version: 'OCCUPIED_GRID_V1', layoutVersion: FORMATION_LAYOUT_VERSION, mode: this.gridMode, scenario: this.formationScenario, mobile: this.mobile,
       grid: GRID[this.gridMode], tiles, floor: tiles.length ? {left, right, top, bottom, width: right - left, height: bottom - top} : null,
       mercenaries: (this.formationMercenaries || []).filter(m => m.root.visible).map(m => ({code: m.art?.code, team: m.team, index: 0, x: m.root.x, y: m.root.y, scale: m.root.scale.x})),
       rootScale: this.root?.scale.x, scene: this.scene, viewportFit: this.viewportFit,

@@ -5,16 +5,35 @@ export const FORMATIONS = Object.freeze({
   enemies: [[6, 0], [6, 2], [4, 2], [4, 0], [4, 4]],
   support: [2, 5]
 });
-// Authored positions, with no rectangular envelope or empty filler rows.
-const DESKTOP = {width: 1600, cards: [[280, 260], [695, 280], [125, 425], [655, 520], [300, 575]],
-  mercenaries: [[495, 250]], support: [410, 425]};
-const MOBILE = {width: 1050, cards: [[248, 641], [439, 736], [178, 816], [435, 994], [205, 1059]],
-  mercenaries: [[330, 550]], support: [311, 869]};
+// Every station is an integer cell on one shared lattice. Content may change
+// occupancy, never pitch, team separation or individual station coordinates.
+// Portrait reflows the same seven roles into two columns to keep SDs readable.
+export const FORMATION_LAYOUT_VERSION = 'UNIFORM_LATTICE_V2';
+export const FORMATION_LATTICES = Object.freeze({
+  desktop: Object.freeze({width: 1600, height: 820, columns: 7, left: 170, top: 240,
+    columnPitch: 210, rowPitch: 176, tileWidth: 190, tileHeight: 64, actorScale: 1}),
+  compact: Object.freeze({width: 1080, height: 1240, columns: 5, left: 108, top: 280,
+    columnPitch: 216, rowPitch: 300, tileWidth: 190, tileHeight: 64, actorScale: 1.3})
+});
+const CELLS = {
+  desktop: {cards: [[0, 0], [2, 0], [0, 1], [2, 1], [1, 2]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[4, 1]], objective: [[3, 2]]},
+  compact: {cards: [[0, 0], [0, 1], [0, 2], [1, 2], [0, 3]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[3, 1]], objective: [[2, 2]]}
+};
+export function latticeStation(kind, index = 0, team = 'ALLY', profile = 'desktop') {
+  const layout = FORMATION_LATTICES[profile], cell = CELLS[profile]?.[kind]?.[index];
+  if (!layout || !cell || !['ALLY', 'ENEMY'].includes(team)) throw new Error('INVALID_FORMATION_STATION');
+  const column = team === 'ENEMY' && !['objective', 'boss'].includes(kind) ? layout.columns - 1 - cell[0] : cell[0];
+  return {x: layout.left + column * layout.columnPitch, y: layout.top + cell[1] * layout.rowPitch};
+}
+export function formationActorScale(compact = false, mobile = false) {
+  return .5 * (compact ? FORMATION_LATTICES.compact.actorScale : mobile ? 1050 / FORMATION_LATTICES.compact.width : 1);
+}
 export function configuration(mobile = false, mode = 'wide') {
   const original = mobile
     ? {originX: 525, originY: 414, tileWidth: 132, tileHeight: 68, farY: 470, nearY: 720, minScale: .84, maxScale: 1.1}
     : {originX: 800, originY: 292, tileWidth: 190, tileHeight: 90, farY: 405, nearY: 650, minScale: .82, maxScale: 1.08};
-  return mode === 'original' ? original : {...original, tileWidth: mobile ? 120 : 190, tileHeight: mobile ? 68 : 78};
+  const factor = mobile ? 1050 / FORMATION_LATTICES.compact.width : 1;
+  return mode === 'original' ? original : {...original, tileWidth: 190 * factor, tileHeight: 64 * factor, minScale: 1, maxScale: 1};
 }
 export function project(config, x, y) {
   return {x: config.originX + (x - y) * config.tileWidth / 2,
@@ -25,10 +44,9 @@ export function unproject(config, x, y) {
   return {x: (dx + dy) / 2, y: (dy - dx) / 2};
 }
 export function stationPoint(kind, index = 0, team = 'ALLY', mobile = false) {
-  const layout = mobile ? MOBILE : DESKTOP;
-  const point = kind === 'support' ? layout.support : layout[kind]?.[index];
-  if (!point) throw new Error('INVALID_FORMATION_STATION');
-  return {x: team === 'ENEMY' ? layout.width - point[0] : point[0], y: point[1]};
+  const point = latticeStation(kind, index, team, mobile ? 'compact' : 'desktop');
+  const factor = mobile ? 1050 / FORMATION_LATTICES.compact.width : 1;
+  return {x: point.x * factor, y: point.y * factor};
 }
 export function formationPoint(x, y, team, mode = 'wide', mobile = false) {
   if (mode === 'original') return {x, y};

@@ -11,6 +11,7 @@ const jobs = [
   [entry, 'preview/scrapyard-v3-v1/battle.bundle.js', 'preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js'],
   [entry, 'preview/cow-room-v3-v1/battle.bundle.js', 'preview/cow-room-v3-v1/source/CowBattleEngine.js'],
   [entry, 'preview/infinite-tower-v3-v1/battle.bundle.js', 'preview/infinite-tower-v3-v1/source/TowerBattleEngine.js'],
+  [entry, 'pve-v3/battle.bundle.js', 'pve-v3/BattleEngine.js'],
   [entry, 'preview/v3-wide-grid-v1/battle.bundle.js', 'preview/v3-wide-grid-v1/source/WideGridBattleEngine.js'],
   ['preview/boss-resources-v2048/lab.src.js', 'preview/boss-resources-v2048/lab.bundle.js'],
   ['preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js', 'preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js'],
@@ -44,9 +45,13 @@ for (const [entryPoint, outfile, constructor] of jobs) {
   outputs.push({file: outfile, sha256: hash(bundle), commonGrid: true});
 }
 const sources = [];
-for (const name of ['BattleEngine.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs']) {
+const layoutClient = 'preview/v3-wide-grid-v1/app.bundle.js';
+await build({entryPoints: ['preview/v3-wide-grid-v1/source/app.mjs'], outfile: layoutClient,
+  bundle: true, minify: true, format: 'iife', target: ['es2022'], legalComments: 'none'});
+const layoutClients = [{file: layoutClient, sha256: hash(await readFile(layoutClient, 'utf8'))}];
+for (const name of ['BattleEngine.js', 'BattleCharacter.js', 'ObjectPool.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs']) {
   const file = `preview/project-v-v3/source/battle/${name}`;
   sources.push({file, sha256: hash(await readFile(file, 'utf8'))});
 }
-await writeFile('preview/project-v-v3/grid-build-report.json', JSON.stringify({version: 'OCCUPIED_GRID_V1', deployment: 'HELD_BY_USER', hashEncoding: 'UTF8_LF', sources, outputs}, null, 2) + '\n');
+await writeFile('preview/project-v-v3/grid-build-report.json', JSON.stringify({version: 'OCCUPIED_GRID_V1', layoutVersion: 'UNIFORM_LATTICE_V2', deployment: 'HELD_BY_USER', hashEncoding: 'UTF8_LF', sources, outputs, layoutClients}, null, 2) + '\n');
 console.log(`Built ${outputs.length} V3 consumers with one shared grid. No deployment performed.`);
