@@ -4,23 +4,92 @@
   "date": "2026-09-12",
   "generator": "built-in image_gen",
   "subject": "ORIGINAL_FICTIONAL_ADULT",
-  "currentVersion": 3,
-  "referenceImagesSentToGenerator": [
-    {"file": "modern-hanbok-original-source-art-v2.png", "role": "edit target: original fictional adult"},
-    {"file": "assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png", "role": "2D rendering and slender silhouette only; no identity transfer"}
+  "currentVersion": 6,
+  "userDirection": [
+    "딤우스의 2D 작화",
+    "과하게 넓거나 마른 체형을 피한 자연스러운 성인 비율",
+    "한국 한복의 형태를 최대한 유지",
+    "치마를 더 짧게"
   ],
-  "file": "modern-hanbok-original-source-art-v3.png",
+  "referenceImagesSentToGenerator": [
+    {
+      "file": "modern-hanbok-original-source-art-v4.png",
+      "role": "localized costume edit target; preserve fictional adult identity, healthy proportions and Korean jeogori",
+      "sha256": "B72034088002C5D799C8BE9A7C86166F9CC1E52B4818FDB61500580C765237F6"
+    }
+  ],
+  "styleReference": {
+    "file": "assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png",
+    "role": "2D painting and balanced silhouette only; no identity transfer",
+    "sha256": "07155FC396F73741936E45F29A608209FFF2B79A135F89B14A7E6A2AA09C7EED",
+    "usedInVersion": 4
+  },
+  "file": "modern-hanbok-original-source-art-v6.png",
   "width": 1024,
   "height": 1536,
   "format": "PNG",
   "channels": 3,
   "colorSpace": "sRGB",
-  "sha256": "C39C4DF80D13CE3C3D9CF10727CA403BD124E3B28CDC47AC3C4057ECC3F35091",
-  "prompt": "prompt-v3.md",
-  "history": [
-    {"version": 1, "status": "REJECTED_PHOTOREALISM", "file": "modern-hanbok-original-source-art-v1.png", "sha256": "46F184775C44A6715824104FCA6053B018BE648AE99A6317D7B3B61BAC626E23", "prompt": "prompt.md"},
-    {"version": 2, "status": "REJECTED_PROPORTIONS", "file": "modern-hanbok-original-source-art-v2.png", "sha256": "560C7F0FBE70B6F480C1BD836DC33A2AFFEC45DC7FD929BE2439F85AC3089B8F", "prompt": "prompt-v2.md"}
+  "sha256": "EC9CBEA59217B52EDEC363C9929D677B14E3B785EB3ECF851C35EE8BC36AF6EF",
+  "prompt": "prompt-v6.md",
+  "finalPromptSet": [
+    "prompt-v4.md",
+    "prompt-v6.md"
   ],
+  "costume": "modern Korean short chima-jeogori with attached opaque inner shorts",
+  "history": [
+    {
+      "version": 1,
+      "status": "REJECTED_PHOTOREALISM",
+      "file": "modern-hanbok-original-source-art-v1.png",
+      "sha256": "46F184775C44A6715824104FCA6053B018BE648AE99A6317D7B3B61BAC626E23",
+      "prompt": "prompt.md"
+    },
+    {
+      "version": 2,
+      "status": "REJECTED_PROPORTIONS",
+      "file": "modern-hanbok-original-source-art-v2.png",
+      "sha256": "560C7F0FBE70B6F480C1BD836DC33A2AFFEC45DC7FD929BE2439F85AC3089B8F",
+      "prompt": "prompt-v2.md"
+    },
+    {
+      "version": 3,
+      "status": "REJECTED_TOO_THIN_AND_HANBOK_STRUCTURE",
+      "file": "modern-hanbok-original-source-art-v3.png",
+      "sha256": "C39C4DF80D13CE3C3D9CF10727CA403BD124E3B28CDC47AC3C4057ECC3F35091",
+      "prompt": "prompt-v3.md"
+    },
+    {
+      "version": 4,
+      "status": "SUPERSEDED_HEM_CHANGE_INSUFFICIENT",
+      "file": "modern-hanbok-original-source-art-v4.png",
+      "sha256": "B72034088002C5D799C8BE9A7C86166F9CC1E52B4818FDB61500580C765237F6",
+      "prompt": "prompt-v4.md"
+    },
+    {
+      "version": 5,
+      "status": "GENERATION_BLOCKED_NO_ASSET",
+      "prompt": "prompt-v5.md",
+      "errorCode": "moderation_blocked",
+      "moderationStage": "output",
+      "requestId": "b542cb52-d4d7-43f0-9a39-b2bf7c4e99bc"
+    }
+  ],
+  "visualReview": {
+    "status": "AGENT_REVIEW_COMPLETE_USER_REVIEW_PENDING",
+    "checks": [
+      "Korean crossed collar, white dongjeong, attached sleeves and otgoreum visible",
+      "Natural body fullness restored; no further slimming in V6",
+      "Chima hem visibly raised from V4 with opaque attached shorts",
+      "Face, hands, shoes, pose and 2D painting preserved",
+      "No text, frame or UI"
+    ]
+  },
+  "constructionReference": {
+    "title": "국립민속박물관 — 한복과 조선옷 사이",
+    "url": "https://webzine.nfm.go.kr/2018/05/23/%ED%95%9C%EB%B3%B5%EA%B3%BC-%EC%A1%B0%EC%84%A0%EC%98%B7-%EC%82%AC%EC%9D%B4/",
+    "use": "garment construction terminology only; no external images sent"
+  },
   "originalBytesPreserved": true,
   "catalogRegistration": false,
   "existingAvatarReplacement": false
