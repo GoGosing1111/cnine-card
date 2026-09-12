@@ -1,0 +1,82 @@
+{
+  "name": "황금 배틀크루저",
+  "date": "2026-09-13",
+  "status": "FINAL_IMAGE_READY",
+  "generator": "built-in image_gen.imagegen",
+  "userDirection": {
+    "design": "배틀크루저 디자인 승인 후 형상 유지",
+    "effects": "선체를 감싸는 화려한 오라",
+    "material": "황금색 기체",
+    "background": "사용자 최종 지시에 따라 배경 포함 불투명 이미지"
+  },
+  "image": {
+    "asset": "assets/tire/battlecruiser-gold-aura-v1.png",
+    "source": "C:/Users/User/.codex/generated_images/01a0916a-88c4-7dd2-94f1-eaf31cebd655/exec-e5301028-d070-4e78-9330-ec3915fe04cd.png",
+    "sha256": "8a949d85b55e19141d3a858acf9869b496661763db9fbd4bfe869b70ea9a9849",
+    "width": 1536,
+    "height": 1024,
+    "format": "png",
+    "pngColorType": 2,
+    "background": "OPAQUE_ORBITAL_HANGAR",
+    "originalBytesPreserved": true,
+    "scriptPixelProcessing": false
+  },
+  "effects": "STATIC_IMAGE",
+  "referenceBalance": {
+    "name": "솔라리스 - Ω",
+    "code": "SOLARIS_OMEGA",
+    "verifiedAtKst": "2026-09-13 00:56:05",
+    "source": "Production PostgreSQL read-only transaction",
+    "rarity": "MYTHIC",
+    "totalPower": 350000,
+    "pvePower": 315000,
+    "pvpPower": 35000
+  },
+  "proposedBalance": {
+    "status": "PROPOSAL_ONLY_NOT_REGISTERED",
+    "rarity": "MYTHIC",
+    "totalPower": 350000,
+    "pvePower": 315000,
+    "pvpPower": 35000
+  },
+  "runtimeConnected": false,
+  "catalogRegistered": false,
+  "blackMiraclePoolChanged": false,
+  "designSources": [
+    {
+      "path": "output/imagegen/battlecruiser-vehicle-v1/generated-extraction-v2.png",
+      "sha256": "d784f93e1b440fce756032ab080ee50948f2bf706c339e21fe53bc912d5267b8"
+    },
+    {
+      "path": "output/imagegen/battlecruiser-vehicle-v1/generated-aura-v3.png",
+      "sha256": "22f3e948b41583f374d01ea84e9f06b4e2ff1ea41eb7d1492ae7ca89c0322a46"
+    },
+    {
+      "path": "output/imagegen/battlecruiser-vehicle-v1/generated-gold-v4.png",
+      "sha256": "88e0ca6fa4f52b675c9db9145dd828a989e6f97d2a314f1c94863bb0213d8974"
+    }
+  ],
+  "references": [
+    {
+      "file": "blizzard-remastered-battlecruiser.jpg",
+      "sourcePage": "https://news.blizzard.com/en-us/article/20695698/remastering-starcraft-s-art",
+      "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/gallery/TA17UJIR1TV31492476406352.jpg",
+      "role": "Primary Battlecruiser silhouette reference",
+      "sha256": "f51896c2a5c4464f813d093aa6c53df93b5eaec786a1f17bf5031b0ddf2bc041"
+    },
+    {
+      "file": "blizzard-horner-battlecruiser.png",
+      "sourcePage": "https://news.blizzard.com/en-us/article/21191766/patch-4-0-han-and-horner-commander",
+      "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/content_entry_media/7XOCLSG38IRM1510349982134.png",
+      "role": "Secondary bridge and engineering reference",
+      "sha256": "54ada64769b111533cc1787341afac1baa79e6e6aa2302f7614f96553caa0505"
+    }
+  ],
+  "visualReview": {
+    "shape": "Approved hammerhead bow, bridge, antennae, side cannon batteries and aft engines retained",
+    "material": "Gold armour and dark mechanical recesses; blue-white engine lights retained",
+    "aura": "Blue-white hull-wrapping aura with gold current; ship and bridge readable",
+    "background": "Complete orbital hangar and planet view; no checkerboard, green key or transparency",
+    "framing": "Whole ship and emission tips visible; no text, frame or UI"
+  }
+}
