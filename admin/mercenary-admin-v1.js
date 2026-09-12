@@ -21,6 +21,8 @@ function field(label,path,value,{type='text',max=2000,wide=false,step='1',min='0
 }
 function select(label,path,value,options,disabled=false){return `<label class="mc-field"><span>${esc(label)}</span><select data-field="${esc(path)}" ${disabled?'disabled':''}>${Object.entries(options).map(([key,label])=>`<option value="${esc(key)}" ${String(value??'')===key?'selected':''}>${esc(label)}</option>`).join('')}</select></label>`;}
 function fields(title,description,content){return `<section class="mc-fields-section"><div class="mc-section-title"><h3>${title}</h3><p>${description}</p></div><div class="mc-fields">${content}</div></section>`;}
+function powerReference(rank){const power=data?.powerStandard?.basePowerByRank?.[rank];return `<div class="mc-field"><span>${esc(rank||'미정')} · 승인 기본 전투력</span><output class="mc-power-value" data-power-rank="${esc(rank||'UNSET')}">${Number.isSafeInteger(power)?power.toLocaleString('ko-KR'):'등급 선택 후 확인'}</output></div>`;}
+function rankPowerReferences(){return data?.powerStandard?fields('등급별 기본 전투력 · 확정','획득 직후 기준 · 성장·장비·스킬 적용 전 · 실제 전투는 공동 출시 대기',data.catalog.ranks.map(powerReference).join('')):'';}
 function current(){return data.document.mercenaries.find(row=>row.code===selected);}
 function list(){
   const rows=data.document.mercenaries.filter(r=>(`${r.code} ${r.name} ${r.title} ${r.rank||'미정'}`).toLowerCase().includes(query.toLowerCase()));
@@ -44,7 +46,7 @@ function rosterEditor(){
       select('스킬 대상',root+'skillTarget',r.skillTarget,Object.fromEntries(role.targets.map(k=>[k,data.catalog.targets[k].label])))+
       field('강점',root+'specialty',r.specialty,{type:'textarea',max:240})+field('약점',root+'weakness',r.weakness,{type:'textarea',max:240})+
       field('설계 의도',root+'rationale',r.rationale,{type:'textarea',max:240,wide:true}))}
-    ${fields('03 / 기본 능력치','미정 항목은 빈칸으로 보존합니다.',Object.entries({hp:'체력',attack:'공격력',defense:'방어력',speed:'속도'}).map(([key,label])=>field(label,root+'stats.'+key,r.stats[key],{type:'number'})).join(''))}
+    ${fields('03 / 기본 능력치','기준 전투력은 성장·장비·스킬 적용 전 수치입니다. 역할별 능력치 배분은 준비 중입니다.',powerReference(r.rank)+Object.entries({hp:'체력',attack:'공격력',defense:'방어력',speed:'속도'}).map(([key,label])=>field(label,root+'stats.'+key,r.stats[key],{type:'number'})).join(''))}
     ${fields('04 / 운영 메모','출시 전 검수 사항과 변경 의도를 기록하세요.',field('메모',root+'notes',r.notes,{type:'textarea',wide:true}))}
     </div></div>`;
 }
@@ -70,6 +72,7 @@ function assignmentEditor(){
 function economyEditor(){
   const r=current(),root=`mercenaries.${data.document.mercenaries.indexOf(r)}.`;
   return `<div class="mc-workspace">${rosterRail()}<div class="mc-editor"><div class="mc-economy-heading"><small>ACQUISITION & GROWTH / ${r.code}</small><h3>${esc(r.name)}</h3><p>개별 획득 조건과 성장 수치를 관리합니다.</p></div>
+    ${rankPowerReferences()}
     ${fields('01 / 획득 조건','운영 재화·보상 풀에는 자동 반영되지 않습니다.',
       select('획득 방식',root+'acquisition.type',r.acquisition.type,ACQUISITIONS)+field('구매 가격 · 코인',root+'acquisition.coinPrice',r.acquisition.coinPrice,{type:'number'})+
       field('획득 확률 · %',root+'acquisition.dropRate',r.acquisition.dropRate,{type:'number',step:'any'})+field('획득처와 조건',root+'acquisition.source',r.acquisition.source,{type:'textarea',max:500,wide:true}))}
@@ -101,6 +104,7 @@ function render(){
     ref[key]=input.type==='number'?(input.value===''?null:Number(input.value)):key==='rank'?(input.value||null):input.value;
     markDirty();
     if(key==='role'){const role=data.catalog.roles[ref.role];if(!role.positions.includes(ref.position))ref.position=role.positions[0];if(!role.targets.includes(ref.skillTarget))ref.skillTarget=role.targets[0];render();}
+    if(key==='rank')render();
   }));
   section.querySelectorAll('[data-assign]').forEach(input=>input.onchange=()=>{const row=data.document.assignments.find(a=>a.code===selected);row.skillIds=input.checked?[...row.skillIds,input.dataset.assign]:row.skillIds.filter(id=>id!==input.dataset.assign);markDirty();render();});
   $('[data-save]').onclick=save;$('[data-reload]').onclick=()=>{if(!dirty||confirm('저장하지 않은 변경을 버리고 운영 DB에서 다시 불러올까요?'))void load();};

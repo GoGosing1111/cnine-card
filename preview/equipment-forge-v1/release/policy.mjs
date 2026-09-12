@@ -1,7 +1,7 @@
 // Release preparation only. No fallback probabilities, prices, rewards or database writes.
 export const OUTCOMES = Object.freeze(['success', 'maintain', 'destroy']);
 export const POLICY_FIELDS = Object.freeze({
-  stages: '최대 단계·단계별 성공/유지/파괴 확률',
+  stages: '단계별 성공/유지/파괴 확률',
   eligibleEquipment: '강화 대상 장비·등급·배틀슈트 포함 여부',
   costs: '강화 재료·수량·결과별 차감 규칙',
   powerScaling: '단계별 실제 PVE/PVP 전투력',

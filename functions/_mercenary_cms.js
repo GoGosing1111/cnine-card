@@ -1,5 +1,6 @@
 import {MERCENARY_CMS_SEED as seed} from './_mercenary_cms_seed.js';
 import {CMS_MAX_BYTES,validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
+import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 
 const tables=[
   `CREATE TABLE IF NOT EXISTS mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT NOT NULL,revision INTEGER NOT NULL,last_request_id TEXT NOT NULL,updated_by BIGINT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL)`,
@@ -23,7 +24,7 @@ async function readState(env){
   const rows=(await env.DB.prepare('SELECT * FROM mercenary_cms_documents_v1 ORDER BY doc_key').all()).results;
   const row=rows.find(r=>r.doc_key==='config'), catalog=JSON.parse(rows.find(r=>r.doc_key==='catalog').payload_json);
   const audit=(await env.DB.prepare('SELECT request_id,actor_id,revision,action,created_at FROM mercenary_cms_audit_v1 ORDER BY revision DESC,created_at DESC LIMIT 20').all()).results;
-  return {catalog,document:JSON.parse(row.payload_json),revision:Number(row.revision),updatedAt:row.updated_at,updatedBy:Number(row.updated_by),audit};
+  return {catalog,document:JSON.parse(row.payload_json),revision:Number(row.revision),updatedAt:row.updated_at,updatedBy:Number(row.updated_by),audit,powerStandard:MERCENARY_POWER_STANDARD};
 }
 async function boundedJson(request){
   if(Number(request.headers.get('content-length'))>CMS_MAX_BYTES)throw Error('CMS 요청은 512KB 이내여야 합니다.');

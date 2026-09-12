@@ -6,6 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
+import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const root=fileURLToPath(new URL('../',import.meta.url)), out=path.resolve(root,'../qa-mercenary-cms');fs.mkdirSync(out,{recursive:true});
 const types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg'};
@@ -17,7 +18,7 @@ const checks=[];
 try{for(const [width,height] of [[1440,1000],[1024,900],[390,844],[360,740]]){
   const context=await browser.newContext({viewport:{width,height},isMobile:width<760,hasTouch:width<760});const page=await context.newPage(),errors=[];
   page.on('pageerror',e=>errors.push(e.message));let d=structuredClone(seed.document),revision=1,conflict=false,dropResponse=false,last=null,puts=0;
-  const state=()=>({catalog:seed.catalog,document:d,revision,updatedAt:'2026-09-12T03:00:00Z',updatedBy:1,audit:[{revision,action:revision===1?'REGISTER':'SAVE',actor_id:1,created_at:'2026-09-12T03:00:00Z'}]});
+  const state=()=>({catalog:seed.catalog,document:d,revision,powerStandard:MERCENARY_POWER_STANDARD,updatedAt:'2026-09-12T03:00:00Z',updatedBy:1,audit:[{revision,action:revision===1?'REGISTER':'SAVE',actor_id:1,created_at:'2026-09-12T03:00:00Z'}]});
   await page.route(origin+'/admin/',route=>route.fulfill({contentType:'text/html',body:html}));
   await page.route(origin+'/api/admin/mercenaries',async route=>{
     if(route.request().method()==='GET')return route.fulfill({json:state()});
@@ -37,6 +38,7 @@ try{for(const [width,height] of [[1440,1000],[1024,900],[390,844],[360,740]]){
   await page.locator('[data-search]').fill('동탄 디임');assert.equal(await page.locator('[data-code]').count(),1);await page.locator('[data-code="V-043"]').click();
   await page.locator('[data-field="mercenaries.42.name"]').fill('동탄 디임 검수');
   await page.locator('[data-field="mercenaries.42.rank"]').selectOption('A');
+  assert.equal(await page.locator('[data-power-rank="A"]').textContent(),'40,000');
   await page.locator('[data-tab="assignments"]').click();await page.locator('[data-assign="MS-021"]').check();await page.locator('[data-assign="MS-003"]').check();
   await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();assert.equal(puts,1);assert.deepEqual(d.assignments[42].skillIds,['MS-021','MS-003']);
   await page.reload();await page.evaluate(()=>{document.body.classList.remove('auth-guest');document.body.classList.add('auth-active');document.getElementById('cms').hidden=false;});await page.locator('#roleBadge').evaluate(el=>el.textContent='OWNER');await page.locator('[data-search]').fill('동탄 디임');await page.locator('[data-code="V-043"]').click();assert.equal(await page.locator('[data-field="mercenaries.42.name"]').inputValue(),'동탄 디임 검수');
@@ -45,7 +47,7 @@ try{for(const [width,height] of [[1440,1000],[1024,900],[390,844],[360,740]]){
   await page.screenshot({path:path.join(out,`skills-${width}.png`),fullPage:false});
   conflict=true;await page.locator('[data-save]').click();await page.locator('.mc-notice.is-error').waitFor();assert.equal(await page.locator('[data-field="skills.0.balance.damageRatio"]').inputValue(),'2.5');conflict=false;
   dropResponse=true;await page.locator('[data-save]').click();await page.locator('.mc-notice.is-error').waitFor();await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();assert.equal(puts,2);
-  await page.locator('[data-tab="economy"]').click();await page.locator('[data-field="settings.rankGrowth.0.maxLevel"]').fill('25');await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();
+  await page.locator('[data-tab="economy"]').click();assert.equal(await page.locator('[data-power-rank="SS"]').textContent(),'120,000');assert.equal(await page.locator('[data-power-rank="SSS"]').textContent(),'180,000');await page.locator('[data-power-rank="SS"]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`power-${width}.png`),fullPage:false});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.locator('[data-field="settings.rankGrowth.0.maxLevel"]').fill('25');await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();
   await page.locator('[data-tab="review"]').click();assert.equal(await page.locator('.mc-resource-grid article').count(),43);await page.locator('.mc-release-strip').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`review-${width}.png`),fullPage:false});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`review overflow ${width}`);
   const invalidImages=await page.locator('#view-mercenaries img').evaluateAll(imgs=>imgs.filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src));assert.deepEqual(invalidImages,[]);assert.deepEqual(errors,[]);

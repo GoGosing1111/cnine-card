@@ -6,6 +6,7 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {handleMercenaryCms} from '../functions/_mercenary_cms.js';
 import {validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
+import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 const clone=structuredClone;
 async function fixture(){
   const pg=new PGlite();let fail='',calls=0;
@@ -40,6 +41,7 @@ test('PostgreSQL registers once, persists complete configuration and never chang
     d.assignments[0].skillIds=['MS-021','MS-003'];d.assignments[1].skillIds=['MS-021'];d.skills[0].balance.damageRatio=2.5;d.settings.rankGrowth[0].maxLevel=30;
     const saved=await f.call(payload(d));assert.equal(saved.status,200,JSON.stringify(saved));assert.equal(saved.body.revision,2);
     const read=await f.call();assert.deepEqual(read.body.document,d);assert.equal(read.body.audit.length,2);assert.equal(read.body.catalog.cards.length,43);
+    assert.deepEqual(read.body.powerStandard,MERCENARY_POWER_STANDARD);assert.equal(read.body.powerStandard.basePowerByRank.SS,120000);assert.equal(read.body.document.runtimeEnabled,false);
     assert.equal((await f.rows('SELECT * FROM mercenary_cms_documents_v1')).length,2);
     assert.deepEqual(await f.rows('SELECT * FROM users'),[{id:1,coin:12345}]);assert.deepEqual(await f.rows('SELECT * FROM decks'),[{user_id:1,card_ids:'[1,2,3,4,5]',mercenary_code:null}]);
   }finally{await f.close();}
@@ -84,7 +86,7 @@ test('unknown fields, ranks, missing entries, automatic skill owners and runtime
 test('API and CMS navigation are connected without gameplay imports',()=>{
   const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
   assert.match(read('functions/api/[[path]].js'),/handleMercenaryCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);
-  assert.match(read('admin/index.html'),/mercenary-admin-v1\.js\?v=20260912-cms1/);
+  assert.match(read('admin/index.html'),/mercenary-admin-v1\.js\?v=20260912-power1/);
   assert.match(read('admin/mercenary-admin-v1.js'),/badge.textContent.trim\(\)!=='OWNER'/);
   for(const path of ['index.html','js/app.js','js/battle-v3-live.js'])assert.doesNotMatch(read(path),/mercenary-cms|mercenary-admin-v1/);
 });

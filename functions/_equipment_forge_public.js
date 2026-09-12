@@ -1,9 +1,10 @@
 import {readForgePreparationInventory} from './_equipment_forge_preparation.js';
+import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 
 export const FORGE_SETTINGS_KEY='equipment_forge_public_settings_v1';
 export const FORGE_EXECUTION_IMPLEMENTED=false;
 const defaults=()=>({schemaVersion:1,revision:0,publicVisible:true,executionMode:'OFF',notice:'무기와 방어구의 강화 센터가 공개되었습니다. 강화 오픈 일정은 추후 안내됩니다.'});
-const pending=['운영 확률·최대 단계·비용·전투력 확정','보호권·복구 정책 확정','강화·파괴·복구 원자 처리 및 전투력 연결 검수','V3·용병·장비 공동 활성화'];
+const pending=['단계별 운영 확률·비용 확정','보호권·복구 정책 확정','강화·파괴·복구 원자 처리 및 전투력 연결 검수','V3·용병·장비 공동 활성화'];
 export async function readForgeSettings(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FORGE_SETTINGS_KEY).first();
   if(!row)return {settings:defaults(),raw:null};
@@ -18,7 +19,7 @@ function publicState(settings){
     canEnhance:false,canRestore:false,status:settings.publicVisible?'OPENING_SOON':'UNAVAILABLE',notice:settings.notice,
     supportedSlots:['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'],
     rules:{minimumSuccessPercent:10,outcomes:['success','maintain','destroy'],protectionAcquisition:'GAMEPLAY_ONLY',protectionRarity:'EXTREMELY_RARE',boxAcquisition:false},
-    policy:{rates:null,costs:null,maxLevel:null,powerScaling:null,restoration:null}};
+    policy:{rates:null,costs:null,maxLevel:EQUIPMENT_POWER_STANDARD.maxLevel,powerScaling:EQUIPMENT_POWER_STANDARD,restoration:null}};
 }
 export async function saveForgeSettings(env,admin,body){
   if(!body||Object.keys(body).sort().join(',')!=='expectedRevision,settings'||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<0||body.expectedRevision>1000000000)return {error:'설정 버전을 확인하세요.',status:400};
@@ -37,7 +38,7 @@ export async function saveForgeSettings(env,admin,body){
     .bind(admin.id,FORGE_SETTINGS_KEY,JSON.stringify(previous.settings),raw,FORGE_SETTINGS_KEY,raw)]);
   const current=await readForgeSettings(env);
   if(current.raw!==raw)return {error:'다른 창의 설정이 먼저 저장됐습니다. 다시 불러오세요.',status:409};
-  return {settings,executionReady:FORGE_EXECUTION_IMPLEMENTED,pending};
+  return {settings,executionReady:FORGE_EXECUTION_IMPLEMENTED,pending,powerStandard:EQUIPMENT_POWER_STANDARD};
 }
 export async function handleEquipmentForgePublic({path,request,env,deps}){
   const prefix='character/equipment/forge/';
@@ -45,7 +46,7 @@ export async function handleEquipmentForgePublic({path,request,env,deps}){
   const {authenticate,requirePermission,json}=deps;
   if(path==='admin/equipment-forge'){
     const admin=await requirePermission(request,env,'SETTINGS');if(!admin||admin.role!=='OWNER')return json({error:'OWNER만 장비 강화 설정을 변경할 수 있습니다.'},403);
-    if(request.method==='GET')return json({...await readForgeSettings(env),executionReady:FORGE_EXECUTION_IMPLEMENTED,pending});
+    if(request.method==='GET')return json({...await readForgeSettings(env),executionReady:FORGE_EXECUTION_IMPLEMENTED,pending,powerStandard:EQUIPMENT_POWER_STANDARD});
     if(request.method!=='PATCH')return json({error:'지원하지 않는 요청입니다.'},405);
     if(Number(request.headers.get('content-length'))>4096)return json({error:'요청이 너무 큽니다.'},413);
     let body;try{const reader=request.body?.getReader();if(!reader)throw Error('body');const chunks=[];let size=0;try{while(true){const r=await reader.read();if(r.done)break;size+=r.value.length;if(size>4096){await reader.cancel();throw Error('size');}chunks.push(r.value);}}finally{reader.releaseLock();}const bytes=new Uint8Array(size);let offset=0;for(const c of chunks){bytes.set(c,offset);offset+=c.length;}body=JSON.parse(new TextDecoder().decode(bytes));}catch{return json({error:'올바른 설정 요청이 필요합니다.'},400);}

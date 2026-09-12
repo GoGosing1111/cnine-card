@@ -7,6 +7,7 @@ import { readForgePreparationInventory } from '../../../functions/_equipment_for
 import { validateRates, assessLaunch } from './policy.mjs';
 import { createCommand, visualReceipt, ForgeCommandSession } from './server-receipt.mjs';
 import { checkPreparation } from './check.mjs';
+import { EQUIPMENT_POWER_STANDARD } from '../../../shared/equipment-mercenary-power-v1.mjs';
 
 const draft = () => JSON.parse(readFileSync(new URL('./launch-draft.json', import.meta.url)));
 const command = (kind = 'enhance', extra = {}) => createCommand({ kind, instanceId: '101', quoteId: 'server-quote-1',
@@ -26,7 +27,9 @@ test('final approved presentation stays byte-identical and the release draft can
   assert.equal(result.visualApproved, true); assert.ok(result.verifiedFiles >= 20);
   assert.equal(result.launchReady, false); assert.equal(result.liveEnabled, false);
   assert.equal(result.mutationRuntimeImplemented, false);
-  for (const field of ['stages', 'costs', 'powerScaling', 'restorationLevel']) assert.equal(draft().policy[field], null);
+  for (const field of ['stages', 'costs', 'restorationLevel']) assert.equal(draft().policy[field], null);
+  assert.deepEqual(draft().policy.powerScaling, EQUIPMENT_POWER_STANDARD);
+  assert.equal(draft().policyApproved, false); assert.equal(draft().activationRequested, false);
 });
 
 test('release rates enforce exactly three outcomes, integer basis points, the 10% floor and 100% total', () => {

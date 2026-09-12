@@ -21,8 +21,17 @@ async function fixture(){
   return {pg,env,call,count:()=>calls,rows:async sql=>(await pg.query(sql)).rows,failOn:s=>{fail=s;},close:()=>pg.close()};
 }
 const settings=(revision=0,extra={})=>({expectedRevision:revision,settings:{publicVisible:true,executionMode:'OFF',notice:'무기·방어구 공개',...extra}});
-test('public disclosure defaults ON, execution OFF, policies unset and armor included',async()=>{
+test('public disclosure defaults ON, approved power is available, execution OFF and other policies unset',async()=>{
   const f=await fixture();try{const r=await f.call('status',{anonymous:true});assert.equal(r.status,200);assert.equal(r.body.publicVisible,true);assert.equal(r.body.canEnhance,false);assert.equal(r.body.canRestore,false);assert.equal(r.body.executionMode,'OFF');assert.equal(r.body.rules.minimumSuccessPercent,10);assert.equal(r.body.rules.boxAcquisition,false);assert.equal(r.body.policy.rates,null);assert.deepEqual(r.body.supportedSlots,['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY']);assert.equal((await f.rows('SELECT * FROM app_meta')).length,0);}finally{await f.close();}
+});
+test('approved power is identical in status and CMS while save preserves the execution lock',async()=>{
+  const f=await fixture();try{
+    const status=await f.call('status'),admin=await f.call('admin');
+    assert.equal(status.body.policy.maxLevel,10);assert.deepEqual(status.body.policy.powerScaling.bonusPercentByLevel,[0,6,12,18,24,30,36,42,48,80,120]);
+    assert.deepEqual(status.body.policy.powerScaling,admin.body.powerStandard);
+    const saved=await f.call('admin',{method:'PATCH',body:settings()});assert.deepEqual(saved.body.powerStandard,admin.body.powerStandard);assert.equal(saved.body.executionReady,false);
+    assert.equal((await f.call('enhance',{method:'POST'})).status,423);
+  }finally{await f.close();}
 });
 test('read-only account inventory separates duplicates and includes every armor slot without hidden or foreign items',async()=>{
   const f=await fixture();try{const before=await f.rows('SELECT * FROM user_equipment_loadout');const r=await f.call();assert.equal(r.status,200);assert.deepEqual(r.body.items.map(x=>x.instanceId),['16','15','14','13','12','11']);assert.equal(r.body.wallet.coins,'5000000000');assert.deepEqual(r.body.items.filter(x=>x.equipped).map(x=>x.instanceId),['13']);assert.ok(r.body.items.every(x=>x.enhancement===null));

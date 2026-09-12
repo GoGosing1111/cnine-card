@@ -6,7 +6,11 @@
   "policyApproved": false,
   "activationRequested": false,
   "fixedRules": {
-    "outcomes": ["success", "maintain", "destroy"],
+    "outcomes": [
+      "success",
+      "maintain",
+      "destroy"
+    ],
     "minimumSuccessPercent": 10,
     "protectionAcquisition": "GAMEPLAY_ONLY",
     "protectionRarity": "EXTREMELY_RARE",
@@ -16,7 +20,36 @@
     "stages": null,
     "eligibleEquipment": null,
     "costs": null,
-    "powerScaling": null,
+    "powerScaling": {
+      "revision": "20260912-power1",
+      "status": "USER_APPROVED_BASELINE",
+      "approvedOn": "2026-09-12",
+      "basis": "BASE_ITEM_TOTAL_POWER",
+      "maxLevel": 10,
+      "bonusPercentByLevel": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        80,
+        120
+      ],
+      "rounding": "FLOOR",
+      "pvePercent": 90,
+      "pvpRemainder": true,
+      "supportedSlots": [
+        "WEAPON",
+        "TOP",
+        "BOTTOM",
+        "SHOES",
+        "ACCESSORY"
+      ]
+    },
     "protectionConsumption": null,
     "protectionSources": [],
     "restorationEligibility": null,
