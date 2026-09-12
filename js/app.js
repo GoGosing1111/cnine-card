@@ -894,8 +894,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{
-    styles:['css/avatar-shop-v1.css?v=5-effect-value-fit'],
-    scripts:['js/avatar-shop-v1.js?v=4-multi-effect-cooldown','js/avatar-shop-v1-live.js?v=2-avatar-cache-sync'],
+    styles:['css/avatar-shop-v1.css?v=6-drop-rate-100'],
+    scripts:['js/avatar-shop-v1.js?v=5-drop-rate-100','js/avatar-shop-v1-live.js?v=2-avatar-cache-sync'],
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
@@ -1502,7 +1502,7 @@ async function purchasePrimeDrawProduct(kind,count,unitPrice,button){
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
 function cardStoreSecondaryMarkup(user) {
   const weekly=user.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2};
-  return `${primeDrawShopMarkup('equipment')}${primeDrawShopMarkup('vehicle')}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
+  return `${primeDrawShopMarkup('equipment')}${primeDrawShopMarkup('vehicle')}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.effectiveRate??weekly.currentRate??.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.effectiveRate??weekly.currentRate??.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
 }
 
 function superstarPackHero(pack) {

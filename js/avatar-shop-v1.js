@@ -31,8 +31,12 @@
       return { type, tone: 'raid', icon: 'raid', label: '레이드 추가 횟수', value: `+${value}회`, summary: `레이드 입장 +${value}회`, detail: `장착 중에는 레이드 각 운영 슬롯의 입장 가능 횟수가 ${value}회 증가합니다.` };
     }
     if (type === 'COIN_GAIN_PERCENT') {
-      const value = Math.max(1, Math.min(50, amount || 1));
+      const value = Math.max(1, Math.min(100, amount || 1));
       return { type, tone: 'coin', icon: 'coinGain', label: '코인 습득률', value: `+${value}%`, summary: `코인 습득률 +${value}%`, detail: `전투와 콘텐츠에서 직접 획득하는 코인이 ${value}% 증가합니다. 거래·환불·관리자 지급은 제외됩니다.` };
+    }
+    if (type === 'DROP_RATE_PERCENT') {
+      const value = Math.max(1, Math.min(100, amount || 1));
+      return { type, tone: 'drop', icon: 'drop', label: '드랍률 증가', value: `+${value}%`, summary: `드랍률 +${value}%`, detail: `콘텐츠 보상의 기본 드랍 확률이 ${value}% 증가합니다. 최종 확률은 100%를 넘지 않으며, 확정 보상 수량과 뽑기·상자 개봉 확률은 그대로입니다.` };
     }
     if (type === 'BATTLE_POWER_PERCENT') {
       const value = Math.max(1, Math.min(100, amount || 1));

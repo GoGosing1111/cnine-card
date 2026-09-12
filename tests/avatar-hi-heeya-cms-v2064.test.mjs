@@ -38,7 +38,7 @@ test('Hi Heeya CMS registration executes atomically against PostgreSQL without r
     await t.test('admin list includes all three real art paths, but user catalog and purchases remain gated',async()=>{
       const response=await call('admin/avatars');
       assert.equal(response.status,200);
-      assert.equal(response.body.avatars.length,16);
+      assert.equal(response.body.avatars.length,17);
       assert.deepEqual(response.body.settings,{mode:'ON',shopEnabled:true,version:17});
       const item=response.body.avatars.find(a=>a.code==='HI_HEEYA');
       assert.equal(item.serial,'A-13');assert.equal(item.name,'하이희야');
@@ -103,5 +103,5 @@ test('CMS displays an unset effect honestly, retaining existing configured effec
   const legacy=context.qa.effectRow({type:'COIN_GAIN_PERCENT',value:50},0);
   assert.match(legacy,/<option value="COIN_GAIN_PERCENT" selected>/);
   assert.doesNotMatch(legacy,/<option value=""/);
-  assert.match(readFileSync(new URL('../admin/index.html',import.meta.url),'utf8'),/avatar-admin-v1\.js\?v=2079-direct-grant/);
+  assert.match(readFileSync(new URL('../admin/index.html',import.meta.url),'utf8'),/avatar-admin-v1\.js\?v=5-drop-rate-100/);
 });

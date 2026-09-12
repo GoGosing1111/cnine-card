@@ -1,3 +1,4 @@
+import { resolveAvatarDropRate,withAvatarDropScope } from '../_avatar_drop.js';
 import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
@@ -1627,7 +1628,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   // 수동 PVE와 같은 방식으로 서로 독립적인 지급을 한 파동에서 처리한다. 소탕 회차마다
   // 코인→카드→장비→큐브를 직렬 대기하면 행동력 30회 기준 응답이 과도하게 길어진다.
   const dropRequestId=requestId||`${Date.now()}-${monster.id}`,pveMagic=options.pveMagic||{};
-  const cardRate=result==='WIN'&&settings.cardDrop?.enabled!==false?Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0))):0;
+  const cardRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0)).total;
   const cardDropHit=cardRate>0&&Math.random()*100<cardRate;
   const [,cardReward,equipmentReward,blackMiracleReward,cubeReward,magicReward]=await Promise.all([
     reward?env.DB.batch([
@@ -1856,7 +1857,8 @@ function premiumCubeWeekKey(date=new Date()){
 async function premiumCubeWeeklyStatus(env,userId,settingsOverride=null){
   const settings=settingsOverride||await weeklyPremiumCubeSettings(env),weekKey=premiumCubeWeekKey();
   const row=await env.DB.prepare('SELECT current_rate,earned_count,attempt_count,last_attempt_key,last_attempt_won FROM premium_cube_weekly_state WHERE user_id=? AND week_key=?').bind(userId,weekKey).first();
-  return {weekKey,currentRate:Math.max(settings.startRate,Math.min(settings.maxRate,Number(row?.current_rate??settings.startRate))),earnedCount:Math.max(0,Number(row?.earned_count||0)),weeklyLimit:settings.weeklyLimit,attemptCount:Math.max(0,Number(row?.attempt_count||0)),enabled:settings.enabled,settings,lastAttemptKey:String(row?.last_attempt_key||''),lastAttemptWon:Number(row?.last_attempt_won||0)===1};
+  const status=premiumCubeWeeklyStatusFromRow(row,settings,weekKey),drop=await resolveAvatarDropRate(env,userId,settings.enabled?status.currentRate:0);
+  return {...status,effectiveRate:drop.total,avatarDropPercent:drop.percent};
 }
 function premiumCubeWeeklyStatusFromRow(row,settings,weekKey){
   return {weekKey,currentRate:Math.max(settings.startRate,Math.min(settings.maxRate,Number(row?.current_rate??settings.startRate))),earnedCount:Math.max(0,Number(row?.earned_count||0)),weeklyLimit:settings.weeklyLimit,attemptCount:Math.max(0,Number(row?.attempt_count||0)),enabled:settings.enabled,settings,lastAttemptKey:String(row?.last_attempt_key||''),lastAttemptWon:Number(row?.last_attempt_won||0)===1};
@@ -1882,10 +1884,11 @@ async function rollWeeklyPremiumCube(env,userId,source,referenceId){
   }
   const status=premiumCubeWeeklyStatusFromRow(snapshot,settings,weekKey);
   if(!source||!referenceId||!settings.enabled||status.earnedCount>=status.weeklyLimit)return {won:false,status,duplicate:false};
-  const operationKey=weeklyPremiumOperationKey(source,referenceId),won=Math.random()*100<status.currentRate;
+  const dropRate=await resolveAvatarDropRate(env,userId,status.currentRate);
+  const operationKey=weeklyPremiumOperationKey(source,referenceId),won=Math.random()*100<dropRate.total;
   if(won){
     await env.DB.batch([
-      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'PENDING',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,status.currentRate,operationKey),
+      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'PENDING',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,dropRate.total,operationKey),
       env.DB.prepare(`UPDATE premium_cube_weekly_state SET earned_count=earned_count+1,current_rate=?,attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<? AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) AND EXISTS(SELECT 1 FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?)`).bind(settings.startRate,operationKey,userId,weekKey,settings.weeklyLimit,userId,source,referenceId,userId,weekKey,source,referenceId,operationKey),
       env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'PREMIUM_CUBE',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM premium_cube_weekly_state s JOIN premium_cube_weekly_attempt_receipts r ON r.user_id=s.user_id AND r.week_key=s.week_key WHERE s.user_id=? AND s.week_key=? AND s.last_attempt_key=? AND s.last_attempt_won=1 AND r.source=? AND r.reference_id=? AND r.outcome='PENDING' AND r.operation_key=?) AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+1,unseen_quantity=cnine_user_inventory.unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,userId,weekKey,operationKey,source,referenceId,operationKey,userId,source,referenceId),
       env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'PREMIUM_CUBE',1,i.quantity,'WEEKLY_PREMIUM_CUBE',?,? FROM cnine_user_inventory i WHERE i.user_id=? AND i.item_code='PREMIUM_CUBE' AND EXISTS(SELECT 1 FROM premium_cube_weekly_state s JOIN premium_cube_weekly_attempt_receipts r ON r.user_id=s.user_id AND r.week_key=s.week_key WHERE s.user_id=? AND s.week_key=? AND s.last_attempt_key=? AND s.last_attempt_won=1 AND r.source=? AND r.reference_id=? AND r.outcome='PENDING' AND r.operation_key=?) AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?)`).bind(userId,source,referenceId,userId,userId,weekKey,operationKey,source,referenceId,operationKey,userId,source,referenceId),
@@ -1895,7 +1898,7 @@ async function rollWeeklyPremiumCube(env,userId,source,referenceId){
     // 실패 판정은 PENDING→LOST 후속 UPDATE를 만들지 않고 최초 INSERT 시 바로 LOST로 확정한다.
     // 동일 reference_id 재호출은 INSERT OR IGNORE로 차단되며, 상태 증가는 새 LOST 영수증이 존재할 때만 1회 반영된다.
     await env.DB.batch([
-      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'LOST',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,status.currentRate,operationKey),
+      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'LOST',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,dropRate.total,operationKey),
       env.DB.prepare(`UPDATE premium_cube_weekly_state SET current_rate=MIN(?,current_rate+?),attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<? AND EXISTS(SELECT 1 FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='LOST' AND operation_key=?)`).bind(settings.maxRate,settings.incrementRate,operationKey,userId,weekKey,settings.weeklyLimit,userId,weekKey,source,referenceId,operationKey)
     ]);
   }
@@ -6675,7 +6678,7 @@ async function handleRequest(context){
       // 다른 지급이 끝난 뒤 마지막에 단독으로 돌린다. 그래야 그쪽 로그의 balance_after 가 정확하다.
       const rewardSource=payload.autoBattle===true?'PVE_AUTO':'PVE';
       const pveMagic=pveMagicSettings.acquisition?.pve||{};
-      const cardDropRate=result==='WIN'&&settings.cardDrop?.enabled!==false?Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0))):0;
+      const cardDropRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0)).total;
       const cardDropHit=cardDropRate>0&&Math.random()*100<cardDropRate;
       const [,cardReward,equipmentReward,blackMiracleReward,cubeReward,magicReward]=await Promise.all([
         reward?env.DB.batch([
@@ -9265,7 +9268,7 @@ export async function onRequest(context){
     }),{status:503,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store','retry-after':'60'}});
   }
   const usePostgres=String(context.env?.DB_BACKEND||'').trim().toLowerCase()==='postgres';
-  if(!usePostgres)return handleRequestWithDatabase(context);
+  if(!usePostgres)return handleRequestWithDatabase({...context,env:withAvatarDropScope(context.env)});
   const connectionString=context.env?.HYPERDRIVE?.connectionString;
   if(!connectionString)throw new Error('DB_BACKEND=postgres이지만 HYPERDRIVE 바인딩이 없습니다.');
 
@@ -9283,7 +9286,7 @@ export async function onRequest(context){
   };
   const postgresContext={
     ...context,
-    env:{...context.env,DB:runtime.db,DB_DIALECT:'postgres',RUNTIME_DB_CACHE_SCOPE:runtimeCacheScope},
+    env:withAvatarDropScope({...context.env,DB:runtime.db,DB_DIALECT:'postgres',RUNTIME_DB_CACHE_SCOPE:runtimeCacheScope}),
     waitUntil:trackedWaitUntil
   };
   try{

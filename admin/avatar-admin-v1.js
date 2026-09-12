@@ -3,7 +3,8 @@
 
   const $ = selector => document.querySelector(selector);
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[char]));
-  const EFFECT_LABELS={BATTLE_POWER_PERCENT:'전투력 상승 (%)',SCRAPYARD_FREE_ENTRY:'폐차장 입장권 무료',RAID_EXTRA_ENTRY:'레이드 추가 횟수',COIN_GAIN_PERCENT:'코인 습득률 (%)'};
+  const EFFECT_LABELS={BATTLE_POWER_PERCENT:'전투력 상승 (%)',SCRAPYARD_FREE_ENTRY:'폐차장 입장권 무료',RAID_EXTRA_ENTRY:'레이드 추가 횟수',COIN_GAIN_PERCENT:'코인 습득률 (%)',DROP_RATE_PERCENT:'드랍률 증가 (%)'};
+  const MAX_EFFECTS=Object.keys(EFFECT_LABELS).length;
   const ACQUISITION_LABELS={UNSET:'미설정',COIN:'코인 판매',DROP:'콘텐츠 드랍',EVENT:'이벤트/운영 지급'};
   let state=null;
 
@@ -27,7 +28,7 @@
   function modeOptions(current){return ['OFF','TEST','ON'].map(mode=>`<option value="${mode}" ${mode===current?'selected':''}>${mode}${mode==='OFF'?' · 완전 비공개':mode==='TEST'?' · OWNER만':' · 전체 공개'}</option>`).join('')}
   function acquisitionOptions(current){return Object.entries(ACQUISITION_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
   function effectOptions(current){return (current?'':'<option value="" selected>미설정 · 효과를 선택하세요</option>')+Object.entries(EFFECT_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
-  function effectMax(type){return type==='COIN_GAIN_PERCENT'?50:type==='RAID_EXTRA_ENTRY'?20:type==='SCRAPYARD_FREE_ENTRY'?1:100}
+  function effectMax(type){return type==='RAID_EXTRA_ENTRY'?20:type==='SCRAPYARD_FREE_ENTRY'?1:100}
   function itemEffects(item){return Array.isArray(item.effects)&&item.effects.length?item.effects:[item.effect||{type:'BATTLE_POWER_PERCENT',value:1}]}
   function effectRow(effect,index){const type=effect?.type||'';return `<div class="avatar-admin-effect-row" data-effect-row><i>${String(index+1).padStart(2,'0')}</i><label><span>효과 유형</span><select data-effect-type>${effectOptions(type)}</select></label><label><span>효과 수치</span><input data-effect-value type="number" min="1" max="${effectMax(type)}" step="1" value="${Math.max(1,Number(effect?.value||1))}"></label><button type="button" data-effect-remove aria-label="효과 삭제">삭제</button></div>`}
 
@@ -44,7 +45,7 @@
         <label class="avatar-admin-wide"><span>획득 상세 안내</span><textarea data-field="sourceDetail" maxlength="500" rows="2" placeholder="유저에게 표시할 획득 조건">${esc(item.sourceDetail||'')}</textarea></label>
         <label><span>정렬 순서</span><input data-field="sortOrder" type="number" min="0" max="9999" step="1" value="${Number(item.sortOrder||0)}"></label>
       </div>
-      <section class="avatar-admin-effects"><header><div><small>MULTI EFFECT OPTIONS</small><b>최대 4개 · 중복 유형 불가</b></div><button type="button" data-effect-add ${effects.length>=4?'disabled':''}>+ 옵션 추가</button></header><div data-effect-list>${effects.map(effectRow).join('')}</div></section>
+      <section class="avatar-admin-effects"><header><div><small>MULTI EFFECT OPTIONS</small><b>최대 ${MAX_EFFECTS}개 · 중복 유형 불가</b></div><button type="button" data-effect-add ${effects.length>=MAX_EFFECTS?'disabled':''}>+ 옵션 추가</button></header><div data-effect-list>${effects.map(effectRow).join('')}</div><p class="avatar-admin-option-help">코인·드랍률은 최대 +100%. 드랍률은 기본 확률에 비례해 증가합니다. 예: 10%에 +50% → 15%.</p></section>
       <div class="avatar-admin-switches">
         <label><input data-field="active" type="checkbox" ${item.active?'checked':''}><span>데이터 사용 ON</span></label>
         <label><input data-field="public" type="checkbox" ${item.public?'checked':''}><span>유저 공개</span></label>
@@ -69,7 +70,7 @@
 
   function field(card,name){const input=card.querySelector(`[data-field="${name}"]`);return input?.type==='checkbox'?Boolean(input.checked):input?.value??''}
   function syncCard(card){const acquisition=field(card,'acquisitionType'),price=card.querySelector('[data-field="coinPrice"]'),sale=card.querySelector('[data-field="saleEnabled"]');if(price)price.disabled=acquisition!=='COIN';if(sale&&acquisition!=='COIN')sale.checked=false}
-  function syncEffects(card){const rows=[...card.querySelectorAll('[data-effect-row]')],selected=rows.map(row=>row.querySelector('[data-effect-type]').value);rows.forEach((row,index)=>{row.querySelector('i').textContent=String(index+1).padStart(2,'0');const select=row.querySelector('[data-effect-type]'),type=select.value,input=row.querySelector('[data-effect-value]');[...select.options].forEach(option=>{option.disabled=option.value!==type&&selected.includes(option.value)});input.max=effectMax(type);input.min=1;if(Number(input.value)>Number(input.max))input.value=input.max;if(Number(input.value)<1)input.value=1;if(type==='SCRAPYARD_FREE_ENTRY')input.value=1;row.querySelector('[data-effect-remove]').disabled=rows.length<=1});const add=card.querySelector('[data-effect-add]');if(add)add.disabled=rows.length>=4}
+  function syncEffects(card){const rows=[...card.querySelectorAll('[data-effect-row]')],selected=rows.map(row=>row.querySelector('[data-effect-type]').value);rows.forEach((row,index)=>{row.querySelector('i').textContent=String(index+1).padStart(2,'0');const select=row.querySelector('[data-effect-type]'),type=select.value,input=row.querySelector('[data-effect-value]');[...select.options].forEach(option=>{option.disabled=option.value!==type&&selected.includes(option.value)});input.max=effectMax(type);input.min=1;if(Number(input.value)>Number(input.max))input.value=input.max;if(Number(input.value)<1)input.value=1;if(type==='SCRAPYARD_FREE_ENTRY')input.value=1;row.querySelector('[data-effect-remove]').disabled=rows.length<=1});const add=card.querySelector('[data-effect-add]');if(add)add.disabled=rows.length>=MAX_EFFECTS}
   function readEffects(card){return[...card.querySelectorAll('[data-effect-row]')].map(row=>({type:row.querySelector('[data-effect-type]').value,value:Number(row.querySelector('[data-effect-value]').value)}))}
 
   function bind(){

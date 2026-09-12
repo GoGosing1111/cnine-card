@@ -1,0 +1,70 @@
+{
+  "name": "한복디임",
+  "code": "HANBOK_DIIM",
+  "serial": "A-17",
+  "date": "2026-09-12",
+  "generator": "built-in image_gen",
+  "lobby": "사용자가 아바타 추가를 지시한 2D 한복 최종 V8 원본",
+  "equipment": "같은 한복 전신의 장비창 전용 투명 이미지",
+  "backgroundRemoval": {
+    "script": "remove-equipment-background.cjs",
+    "authorization": "이 대화에서 사용자 승인한 배경만 스크립트로 제거하는 방식 재사용",
+    "opaqueRgbChanged": 0
+  },
+  "alpha": {
+    "clearPixels": 1216290,
+    "opaquePixels": 345264,
+    "crop": {
+      "left": 267,
+      "top": 6,
+      "width": 603,
+      "height": 1489
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1664,
+    "uniformScale": 1,
+    "bodyWidth": 603,
+    "bodyHeight": 1489,
+    "top": 24,
+    "bottom": 151
+  },
+  "files": {
+    "avatar-hanbok-diim-lobby-source-art-v1.png": {
+      "sha256": "2f8ca42c38ea3865be2628e2455455eee5b0ea828ef62eaae7f534eec0569be0",
+      "bytes": 2517123,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-hanbok-diim-equipment-source-art-v1.png": {
+      "sha256": "73daa1851b84111bdd5880d2dc8c42b812c8044160ad766ab95de0be499efb08",
+      "bytes": 949399,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-hanbok-diim-lobby-v1-1024.webp": {
+      "sha256": "543aa29d6e20716c64d027260fe290e525441e513330813871f6c450d69dc405",
+      "bytes": 310774,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-hanbok-diim-lobby-v1-640.webp": {
+      "sha256": "135c75acc227d740b8293067eac0b2068801a3e40a36568f76bc7c7d55ea435c",
+      "bytes": 166720,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-hanbok-diim-equipment-v1-640.webp": {
+      "sha256": "7337b36233ea389b65a5a2835deba36afcd6a11fd42a1a30b1bfeb671596f828",
+      "bytes": 131754,
+      "width": 640,
+      "height": 1664,
+      "hasAlpha": true
+    }
+  }
+}

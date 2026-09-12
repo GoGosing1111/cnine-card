@@ -1,4 +1,5 @@
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
+import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { burningEventIsLive } from './_burning_event_access.js';
 import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_skill_chips.js';
 import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
@@ -645,12 +646,13 @@ export async function grantEquipmentDrop(env,{userId,sourceType,sourceId='*',req
   if(!settings.enabled||!source?.enabled||source.rate<=0)return null;
   const configuredQuantity=cleanInt(source.quantity??1,1,100);
   const rollKey=`SUPPLY_DROP:${userId}:${type}:${key}:${rid}`;
-  if(deterministicUnit(rollKey)*100>=source.rate)return null;
   const prior=await env.DB.prepare('SELECT status,quantity FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=?').bind(userId,type,rid).first();
   if(prior?.status==='GRANTED'){
     const balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,SUPPLY_BOX_CODE).first();
     return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:cleanInt(prior.quantity??1,1,100),balance:Number(balance?.quantity||0),sourceType:type,sourceId:key,reused:true};
   }
+  const dropRate=await resolveAvatarDropRate(env,userId,source.rate);
+  if(deterministicUnit(rollKey)*100>=dropRate.total)return null;
   await env.DB.batch([
     env.DB.prepare("INSERT OR IGNORE INTO equipment_supply_drop_grants(user_id,source_type,reference_id,status,quantity) VALUES(?,?,?,'PENDING',?)").bind(userId,type,rid,configuredQuantity),
     env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)

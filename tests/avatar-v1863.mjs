@@ -6,7 +6,7 @@ import sharp from 'sharp';
 
 import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
-test('avatar foundation seeds sixteen hidden unsold records including Hi Heeya, Cheon and Orikkung without overwriting settings', async () => {
+test('avatar foundation seeds seventeen hidden unsold records including Hi Heeya, Cheon and Orikkung without overwriting settings', async () => {
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
@@ -25,8 +25,8 @@ test('avatar foundation seeds sixteen hidden unsold records including Hi Heeya, 
   await ensureAvatarFoundation(env);
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
-  const legacySeedStatements=seedStatements.filter(statement=>!['DIMWOOS_ESPORTS_ACE','TERRAN_EMPRESS_JOEUN','HI_HEEYA','CHEON','ORIKKUNG_ZENITH','SAENGBYUWANG'].some(code=>statement.values.includes(code)));
-  assert.equal(seedStatements.length,16);
+  const legacySeedStatements=seedStatements.filter(statement=>!['DIMWOOS_ESPORTS_ACE','TERRAN_EMPRESS_JOEUN','HI_HEEYA','CHEON','ORIKKUNG_ZENITH','SAENGBYUWANG','HANBOK_DIIM'].some(code=>statement.values.includes(code)));
+  assert.equal(seedStatements.length,17);
   assert.equal(legacySeedStatements.length,10);
   assert.equal(schema.length,17);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
@@ -66,7 +66,7 @@ test('avatar coin gain stacks after burning and hyper burning reward multiplicat
   assert.deepEqual(applyAvatarCoinGain(5000,avatar),{base:5000,percent:50,bonus:2500,total:7500});
   assert.deepEqual(applyAvatarCoinGain(2500,{type:'COIN_GAIN_PERCENT',value:20}),{base:2500,percent:20,bonus:500,total:3000});
   assert.deepEqual(applyAvatarCoinGain(5000,{effects:[{type:'BATTLE_POWER_PERCENT',value:10}]}),{base:5000,percent:0,bonus:0,total:5000});
-  assert.deepEqual(applyAvatarCoinGain(1000,{type:'COIN_GAIN_PERCENT',value:999}),{base:1000,percent:50,bonus:500,total:1500});
+  assert.deepEqual(applyAvatarCoinGain(1000,{type:'COIN_GAIN_PERCENT',value:999}),{base:1000,percent:100,bonus:1000,total:2000});
 });
 test('equipped avatar raid effect increases the usable daily and slot entry limits', () => {
   const avatar={effects:[{type:'COIN_GAIN_PERCENT',value:20},{type:'RAID_EXTRA_ENTRY',value:7}]};
@@ -141,7 +141,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(runtime,/avatar:\s*\{ shell: 'avatar' \}/);
   assert.match(server,/code:'AVATAR_FEATURE_OFF'/);
   assert.match(server,/AVATAR_EQUIP_COOLDOWN_MS=24\*60\*60\*1000/);
-  assert.match(server,/COIN_GAIN_PERCENT'\?50/);
+  assert.match(server,/DROP_RATE_PERCENT/);
   assert.match(server,/avatar_effect_options_v1/);
   assert.match(server,/effects:effectOptions/);
   assert.match(server,/safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2/);
@@ -169,7 +169,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=2086-core-random-two/);
+  assert.match(index,/app\.js\?v=2087-hanbok-avatar-effects/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=2083-clan-prison-camp/);
-  assert.match(serviceWorker,/soop-card-shell-v2086-core-random-two/);
+  assert.match(serviceWorker,/soop-card-shell-v2087-hanbok-avatar-effects/);
 });

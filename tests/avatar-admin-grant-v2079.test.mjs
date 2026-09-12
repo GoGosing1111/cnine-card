@@ -129,7 +129,7 @@ test('CMS entry is accessible and cache-busted; nickname whitespace does not spl
   assert.throws(()=>avatarGrantInput({avatarCode:'HI_HEEYA',nicknames:['QA\nA'],reason:'QA'}));
   const read=file=>readFileSync(new URL('../'+file,import.meta.url),'utf8');
   assert.match(read('admin/avatar-admin-v1.js'),/href="\.\/avatar-grant"/);
-  assert.match(read('admin/index.html'),/avatar-admin-v1\.js\?v=2079-direct-grant/);
+  assert.match(read('admin/index.html'),/avatar-admin-v1\.js\?v=5-drop-rate-100/);
   assert.match(read('admin/avatar-grant.html'),/aria-live="polite"/);
   assert.doesNotMatch(read('admin/avatar-grant.js'),/innerHTML/);
   assert.match(read('package.json'),/tests\/avatar-admin-grant-v2079\.test\.mjs/);

@@ -85,6 +85,7 @@
 .avs1-effect-badge.is-scrapyard { color: #e8bb6d; }
 .avs1-effect-badge.is-raid { color: #9ba7ff; }
 .avs1-effect-badge.is-coin { color: #ffe08e; }
+.avs1-effect-badge.is-drop { color: #8de2bd; }
 .avs1-source-badge { display: inline-flex; align-items: center; gap: 7px; min-height: 31px; padding: 0 10px; border: 1px solid currentColor; background: rgba(3, 6, 9, .78); font-size: 9px; font-weight: 900; }
 .avs1-source-badge.is-coin { color: #efd184; }
 .avs1-source-badge.is-drop { color: #7bd5e6; }
@@ -116,6 +117,7 @@
 .avs1-effect-module.is-scrapyard { border-left: 3px solid #d8a14d; }
 .avs1-effect-module.is-raid { border-left: 3px solid #8995ff; }
 .avs1-effect-module.is-coin { border-left: 3px solid #e2bf62; }
+.avs1-effect-module.is-drop { border-left: 3px solid #67cfa3; }
 .avs1-effect-module.is-neutral { border-left: 3px solid #718289; }
 .avs1-acquisition-ledger { min-width: 0; margin: 0; align-self: center; }
 .avs1-acquisition-ledger div { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(164, 189, 200, .12); }

@@ -19,11 +19,12 @@ const HI_HEEYA_AVATAR_KEY='safe_runtime_upgrade_v2064_hi_heeya_avatar_v1';
 const CHEON_AVATAR_KEY='safe_runtime_upgrade_v2068_cheon_avatar_v1';
 const ORIKKUNG_AVATAR_KEY='safe_runtime_upgrade_orikkung_zenith_avatar_v1';
 const SAENGBYUWANG_AVATAR_KEY='safe_runtime_upgrade_saengbyuwang_avatar_v1';
+const HANBOK_DIIM_AVATAR_KEY='safe_runtime_upgrade_hanbok_diim_avatar_v1';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
 const ACQUISITION_TYPES=Object.freeze(['UNSET','COIN','DROP','EVENT']);
-const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY','RAID_EXTRA_ENTRY','COIN_GAIN_PERCENT']);
+const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY','RAID_EXTRA_ENTRY','COIN_GAIN_PERCENT','DROP_RATE_PERCENT']);
 const MAX_SAFE_COIN=Number.MAX_SAFE_INTEGER;
 const AVATAR_EQUIP_COOLDOWN_MS=24*60*60*1000;
 let foundationPromise=null;
@@ -51,7 +52,7 @@ function cleanBool(value,fallback=false){if(value===undefined||value===null)retu
 function cleanMode(value){const mode=String(value||'').trim().toUpperCase();return MODES.includes(mode)?mode:'OFF'}
 function cleanAcquisition(value){const type=String(value||'').trim().toUpperCase();return ACQUISITION_TYPES.includes(type)?type:'UNSET'}
 function cleanEffect(value){const type=String(value||'').trim().toUpperCase();return EFFECT_TYPES.includes(type)?type:''}
-function cleanEffectValue(type,value){const n=Math.floor(Number(value)||0),max=type==='COIN_GAIN_PERCENT'?50:type==='BATTLE_POWER_PERCENT'?100:type==='RAID_EXTRA_ENTRY'?20:1;return Math.max(1,Math.min(max,n))}
+function cleanEffectValue(type,value){const n=Math.floor(Number(value)||0),max=['COIN_GAIN_PERCENT','BATTLE_POWER_PERCENT','DROP_RATE_PERCENT'].includes(type)?100:type==='RAID_EXTRA_ENTRY'?20:1;return Math.max(1,Math.min(max,n))}
 function cleanPrice(value){if(value===null||value===undefined||String(value).trim()==='')return null;const n=Number(value);return Number.isSafeInteger(n)&&n>=0&&n<=MAX_SAFE_COIN?n:NaN}
 function safeJson(value,fallback={}){try{const parsed=typeof value==='string'?JSON.parse(value):value;return parsed&&typeof parsed==='object'?parsed:fallback}catch{return fallback}}
 function normalizeSettings(raw){const value=raw&&typeof raw==='object'?raw:{};return{mode:cleanMode(value.mode),shopEnabled:cleanBool(value.shopEnabled,false),version:Math.max(1,Math.floor(Number(value.version)||1))}}
@@ -222,6 +223,7 @@ export async function ensureAvatarFoundation(env){
     await ensureCheonAvatar(env);
     await ensureOrikkungAvatar(env);
     await ensureSaengbyuwangAvatar(env);
+    await ensureHanbokDiimAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -300,6 +302,23 @@ export async function ensureSaengbyuwangAvatar(env){
       `${base}avatar-saengbyuwang-equipment-v1-640.webp`,'#e2cfac',160
     ),
     env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(SAENGBYUWANG_AVATAR_KEY,'1')
+  ]);
+}
+
+export async function ensureHanbokDiimAvatar(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HANBOK_DIIM_AVATAR_KEY).first();
+  if(marker?.value==='1')return;
+  const base='preview/avatar-hanbok-diim-v1/assets/';
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO avatar_catalog_v1(
+      code,serial,name,call_sign,role_label,description,lobby_image,lobby_mobile_image,equipment_image,accent,acquisition_type,coin_price,source_label,source_detail,effect_type,effect_value,is_active,is_public,sale_enabled,sort_order
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,'UNSET',NULL,'','','',0,0,0,0,?) ON CONFLICT(code) DO NOTHING`).bind(
+      'HANBOK_DIIM','A-17','한복디임','HANBOK DIIM','붉은 비단의 한복',
+      '아이보리 저고리와 붉은 짧은 치마로 전통 한복을 현대적으로 해석한 디임 아바타입니다. 한옥 정원의 2D 로비 일러스트와 장비창 전신이 함께 적용됩니다.',
+      `${base}avatar-hanbok-diim-lobby-v1-1024.webp`,`${base}avatar-hanbok-diim-lobby-v1-640.webp`,
+      `${base}avatar-hanbok-diim-equipment-v1-640.webp`,'#ae343b',170
+    ),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(HANBOK_DIIM_AVATAR_KEY,'1')
   ]);
 }
 
@@ -465,7 +484,7 @@ export function applyAvatarCoinGain(amount,equippedAvatar){
   const base=Math.max(0,Math.min(MAX_SAFE_COIN,Math.floor(Number(amount)||0)));
   const effects=Array.isArray(equippedAvatar?.effects)?equippedAvatar.effects:equippedAvatar?[{type:equippedAvatar.type,value:equippedAvatar.value}]:[];
   const coinEffect=effects.find(effect=>String(effect?.type||'').toUpperCase()==='COIN_GAIN_PERCENT');
-  const percent=coinEffect?Math.max(0,Math.min(50,Math.floor(Number(coinEffect.value)||0))):0;
+  const percent=coinEffect?Math.max(0,Math.min(100,Math.floor(Number(coinEffect.value)||0))):0;
   const bonus=Math.min(MAX_SAFE_COIN-base,Math.floor(base*(percent/100)));
   return{base,percent,bonus,total:base+bonus};
 }
@@ -505,7 +524,7 @@ async function adminAvatarByCode(env,code){
 
 function cleanAdminEffects(body){
   const source=Array.isArray(body.effects)?body.effects:[{type:body.effectType,value:body.effectValue}];
-  if(!source.length||source.length>EFFECT_TYPES.length)return{error:'아바타 효과는 1개 이상 4개 이하로 설정해 주세요.'};
+  if(!source.length||source.length>EFFECT_TYPES.length)return{error:`아바타 효과는 1개 이상 ${EFFECT_TYPES.length}개 이하로 설정해 주세요.`};
   const seen=new Set(),effects=[];
   for(const option of source){
     const type=cleanEffect(option?.type);if(!type)return{error:'아바타 효과 유형이 올바르지 않습니다.'};

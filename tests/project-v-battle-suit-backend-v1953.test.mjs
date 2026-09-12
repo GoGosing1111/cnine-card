@@ -375,6 +375,7 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     'safe_runtime_upgrade_v2068_cheon_avatar_v1',
     'safe_runtime_upgrade_orikkung_zenith_avatar_v1',
     'safe_runtime_upgrade_saengbyuwang_avatar_v1',
+    'safe_runtime_upgrade_hanbok_diim_avatar_v1',
   ];
   const markerInsert=DB.db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)');
   for(const key of completedMarkers)markerInsert.run(key,'1');

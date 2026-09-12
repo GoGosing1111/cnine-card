@@ -1,3 +1,5 @@
+import { applyAvatarDropRate,avatarDropIncreasePercent } from './_avatar_drop.js';
+
 const POOL_TABLE='unified_drop_pools_v1667';
 const ENTRY_TABLE='unified_drop_entries_v1667';
 const BINDING_TABLE='unified_drop_bindings_v1667';
@@ -123,14 +125,19 @@ function rollPool(pool,entries,context={},random=randomUnit){
   const totalRolls=Math.min(100,int(pool.rolls,1,100,1)*int(context.rollsMultiplier,1,10,1));
   for(let roll=0;roll<totalRolls;roll++){
     if(String(pool.roll_mode)==='WEIGHTED_ONE'){
-      const total=enabled.reduce((sum,entry)=>sum+Math.max(0,Number(entry.weight||0)),0)+Math.max(0,Number(pool.no_drop_weight||0));
+      const rewardWeight=enabled.reduce((sum,entry)=>sum+Math.max(0,Number(entry.weight||0)),0);
+      const noDropWeight=Math.max(0,Number(pool.no_drop_weight||0)),baseTotal=rewardWeight+noDropWeight;
+      const successRate=baseTotal>0?applyAvatarDropRate(100*rewardWeight/baseTotal,context.avatarDropPercent).total:0;
+      // Increase the chance of receiving something, preserving the relative
+      // weights of rewards and the single-reward contract.
+      const total=Number(context.avatarDropPercent)>0?(successRate>0?rewardWeight/(successRate/100):0):baseTotal;
       if(total<=0)continue;
       let point=random()*total,picked=null;
       for(const entry of enabled){point-=Math.max(0,Number(entry.weight||0));if(point<0){picked=entry;break}}
       if(picked)rewards.push({poolId:Number(pool.id),poolCode:pool.code,entryId:Number(picked.id),rewardType:picked.reward_type,rewardRef:picked.reward_ref,rewardName:picked.reward_name,quantity:quantity(picked,random),dailyLimit:Number(picked.daily_limit||0)});
       continue;
     }
-    for(const entry of enabled)if(random()*100<Math.max(0,Math.min(100,Number(entry.chance_percent||0))))rewards.push({poolId:Number(pool.id),poolCode:pool.code,entryId:Number(entry.id),rewardType:entry.reward_type,rewardRef:entry.reward_ref,rewardName:entry.reward_name,quantity:quantity(entry,random),dailyLimit:Number(entry.daily_limit||0)});
+    for(const entry of enabled)if(random()*100<applyAvatarDropRate(entry.chance_percent,context.avatarDropPercent).total)rewards.push({poolId:Number(pool.id),poolCode:pool.code,entryId:Number(entry.id),rewardType:entry.reward_type,rewardRef:entry.reward_ref,rewardName:entry.reward_name,quantity:quantity(entry,random),dailyLimit:Number(entry.daily_limit||0)});
   }
   return rewards;
 }
@@ -142,7 +149,10 @@ async function applyDailyLimits(env,userId,rewards){
   for(const reward of rewards){
     let amount=Math.max(0,Number(reward.quantity||0));
     if(reward.dailyLimit>0)amount=Math.min(amount,Math.max(0,reward.dailyLimit-Number(usedByEntry.get(Number(reward.entryId))||0)));
-    if(amount>0)result.push({...reward,quantity:amount});
+    if(amount>0){
+      result.push({...reward,quantity:amount});
+      if(reward.dailyLimit>0)usedByEntry.set(Number(reward.entryId),Number(usedByEntry.get(Number(reward.entryId))||0)+amount);
+    }
   }
   return result;
 }
@@ -241,6 +251,7 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
   const prior=await env.DB.prepare(`SELECT status,result_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(rid,uid).first();
   if(prior?.status==='COMPLETED')return {...parse(prior.result_json,{rewards:[]}),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 드랍 요청을 처리 중입니다.');
+  context={...context,avatarDropPercent:await avatarDropIncreasePercent(env,uid)};
   let rewards=[];
   for(const pool of pools){
     const entries=await poolEntries(env,pool),fixedScrapyard=source==='SCRAPYARD'&&SCRAPYARD_POOL_CODES.has(String(pool.code||''));
@@ -263,6 +274,8 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
     return response;
   }catch(error){await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(String(error?.message||error).slice(0,500),rid,uid).run();throw error}
 }
+
+export const __avatarDropPoolTest={rollPool,applyDailyLimits};
 
 function cleanEntry(raw,index){
   const rewardType=code(raw.rewardType||raw.reward_type),rawRef=text(raw.rewardRef||raw.reward_ref,100),rewardRef=rewardType==='CARD'?rawRef:code(rawRef,100);
