@@ -1,5 +1,5 @@
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260913-s-skills';
-import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2097-opening';
+import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2098-cms';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=path=>'/'+String(path||'').replace(/^\/+/, '');
@@ -120,7 +120,7 @@ async function save(){
   try{validateMercenaryCms(data.document,data.catalog);}catch(e){error=true;notice=e.message;render();return;}
   pending??={requestId:crypto.randomUUID(),expectedRevision:data.revision,document:structuredClone(data.document)};
   busy=true;error=false;notice='변경 내용을 운영 DB에 저장하고 있습니다.';render();
-  try{data=await api({method:'PATCH',body:JSON.stringify(pending)});dirty=false;pending=null;notice=`저장 완료 · r${data.revision}. CMS 초안이 보존되었습니다.`;}
+  try{data=await api({method:'PATCH',body:JSON.stringify(pending)});dirty=false;pending=null;notice=`저장 완료 · r${data.revision}. 도감에도 저장한 설정이 적용됩니다.`;try{localStorage.setItem('cnine.mercenary.cms.changed',String(Date.now()));}catch{}}
   catch(e){error=true;notice=e.name==='AbortError'?'응답 확인이 지연됩니다. 저장 결과 재확인을 누르면 같은 요청을 안전하게 확인합니다.':e.message;if(e.status&&e.status<500)pending=null;}
   finally{busy=false;render();}
 }

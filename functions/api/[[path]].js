@@ -17,6 +17,7 @@ import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_sto
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
 import { ensureSkillChipFoundation } from '../_skill_chips.js';
 import {handleMercenaryCms} from '../_mercenary_cms.js';
+import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
 import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.js';
 import {releasedMercenarySnapshot,releasedMercenarySnapshots,mercenarySnapshotPower} from '../_mercenary_account.js';
@@ -5036,6 +5037,9 @@ async function handleRequest(context){
     }
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
+    // The public archive reads only published character fields, like its static
+    // artwork page. It cannot access account state, mutate data, or start play.
+    if(path==='mercenary-codex')return await handleMercenaryCodex({path,request,env,deps:{json}});
     // V1470: maintenance is a hard server gate. Read D1 fresh before any player route,
     // migration, cached summary, or mutation can run. Per-isolate memory caches must
     // never create a grace window after the operator enables maintenance.

@@ -7,8 +7,19 @@ const colors={MERCENARY_CARD:'#dbc38c',MASTER_STAR:'#dba264',MYSTIC_ENERGY:'#7eb
 const number=value=>Number(value).toLocaleString('ko-KR',{maximumFractionDigits:4});
 const date=value=>new Intl.DateTimeFormat('ko-KR',{dateStyle:'short',timeStyle:'short'}).format(new Date(value));
 
+export function mercenaryDrawSaveReason(policy,before,reason=''){
+  if(reason.trim())return `하이퍼팩 설정: ${reason.trim()}`.slice(0,500);
+  const changes=[];
+  for(const meta of DRAW_OUTCOMES){const next=policy.outcomes.find(r=>r.id===meta.id),old=before?.outcomes.find(r=>r.id===meta.id);
+    if(next.chancePpm!==old?.chancePpm)changes.push(`${meta.label} 확률 ${percent(old?.chancePpm)}% → ${percent(next.chancePpm)}%`);
+    if(next.quantity!==old?.quantity)changes.push(`${meta.label} 수량 ${old?.quantity??'미설정'} → ${next.quantity}개`);
+  }
+  if(policy.notes!==before?.notes)changes.push('운영 메모 변경');
+  return (changes.join(' / ')||'하이퍼팩 운영 확률·수량 저장').slice(0,500);
+}
+
 export function createMercenaryDrawEditor({request,onRender}){
-  let state=null,root=null,busy=false,dirty=false,pending=null,notice='',failure=false,reason='',generation=0;
+  let state=null,root=null,busy=false,dirty=false,pending=null,notice='',failure=false,reason='',generation=0,savedPolicy=null;
   const $=selector=>root?.querySelector(selector);
   const outcome=id=>state.policy.outcomes.find(row=>row.id===id);
   const cardChance=(rank,count)=>{
@@ -26,13 +37,13 @@ export function createMercenaryDrawEditor({request,onRender}){
   function probability(meta){const row=outcome(meta.id);return `<label class="md-probability"><span class="md-label">개봉 확률</span><span class="md-unit-input"><input data-draw-chance="${meta.id}" aria-label="${meta.label} 확률" type="number" min="0" max="100" step="0.0001" inputmode="decimal" value="${row.chancePpm===null?'':percent(row.chancePpm)}"><span>%</span></span></label>`;}
   function html(cmsDocument){
     queueMicrotask(mountHyperOpening);
-    if(!state)return `<section class="md-editor" data-draw-root><p class="md-message" role="status">${esc(notice||'개봉 확률 초안을 불러옵니다.')}</p>${failure?'<button data-draw-reload>다시 불러오기</button>':''}</section>`;
+    if(!state)return `<section class="md-editor" data-draw-root><p class="md-message" role="status">${esc(notice||'운영 확률·수량을 불러옵니다.')}</p>${failure?'<button data-draw-reload>다시 불러오기</button>':''}</section>`;
     const counts=Object.fromEntries(['C','B','A','S','SS','SSS'].map(rank=>[rank,cmsDocument.mercenaries.filter(row=>row.rank===rank).length]));
     const unset=cmsDocument.mercenaries.filter(row=>row.rank===null).length;
     return `<section class="md-editor" data-draw-root>
       <div data-hyper-opening></div>
-      <header class="md-heading"><div><small>CONTRACT / PROBABILITY DRAFT</small><h3>용병카드 개봉 확률</h3><p>개봉 1회에 적용할 결과와 지급 수량을 설계합니다.</p></div><div class="md-hold"><span>유저 개봉</span><strong data-draw-opening-mode>${state.userOpeningEnabled?'ON':'OFF'}</strong><small>CMS 개봉 상태</small></div></header>
-      <p class="md-message ${failure?'is-error':''}" role="status" aria-live="polite" data-draw-message>${esc(notice||'저장된 확률·수량이 실제 개봉에 적용됩니다. 개방 상태는 아래 ON/OFF에서 관리합니다.')}</p>
+      <header class="md-heading"><div><small>HYPER PACK / LIVE SETTINGS</small><h3>용병카드 개봉 확률</h3><p>개봉 1회에 적용할 결과와 지급 수량을 설계합니다.</p></div><div class="md-hold"><span>유저 개봉</span><strong data-draw-opening-mode>${state.userOpeningEnabled?'ON':'OFF'}</strong><small>CMS 개봉 상태</small></div></header>
+      <p class="md-message ${failure?'is-error':''}" role="status" aria-live="polite" data-draw-message>${esc(notice||'저장된 확률·수량이 실제 개봉에 적용됩니다. 개방 상태는 위 ON/OFF에서 관리합니다.')}</p>
       <fieldset class="md-form" ${busy?'disabled':''}>
       <section class="md-card-rules" aria-label="확정 카드 추첨 규칙"><div><span>동일 등급 추첨</span><strong>모든 카드 균등</strong><p>등급 확률 ÷ 해당 등급 카드 수.<br>보유 여부·중복 횟수·개별 획득 확률은 반영하지 않습니다.</p></div><div><span>중복 당첨 처리</span><strong>같은 카드 중복 수량 +1</strong><p>첫 획득: 보유 1장 · 중복 0장.<br>다음 획득부터 중복으로 집계하며 재추첨·재화 전환은 하지 않습니다.</p></div></section>
       <div class="md-layout"><div class="md-ledger"><div class="md-section-heading"><span>01</span><div><h4>용병카드 · 등급별 확률</h4><p>모든 확률은 전체 개봉 기준입니다. 등급 내부 비율이 아닙니다.</p></div></div>
@@ -43,26 +54,27 @@ export function createMercenaryDrawEditor({request,onRender}){
         <button type="button" class="md-remainder" data-draw-remainder>남은 확률을 꽝으로 채우기</button>
       </div></div>
       <section class="md-summary" data-draw-summary aria-label="확률 합계와 기대 수량">${summary()}</section>
-      <div class="md-notes"><label><span>검토 메모</span><textarea data-draw-notes maxlength="2000" rows="3">${esc(state.policy.notes)}</textarea></label><label><span>이번 저장 사유</span><input data-draw-reason maxlength="500" minlength="4" placeholder="예: 용병 등급별 확률 1차 조정" value="${esc(reason)}"><small>변경 전후 설정과 함께 이력에 남습니다.</small></label></div>
+      <div class="md-notes"><label><span>운영 메모</span><textarea data-draw-notes maxlength="2000" rows="3">${esc(state.policy.notes)}</textarea></label><label><span>저장 사유 · 선택</span><input data-draw-reason maxlength="480" placeholder="비워 두면 변경한 확률·수량이 자동 기록됩니다." value="${esc(reason)}"><small>입력하지 않아도 저장됩니다. 변경 전후 값은 항상 이력에 남습니다.</small></label></div>
       </fieldset>
-      <footer class="md-savebar"><span data-draw-save-label>${dirty?'● 저장하지 않은 확률 변경':`✓ 확률 초안 r${state.revision} · ${date(state.updatedAt)}`}</span><div><button data-draw-export>JSON 내보내기</button><button data-draw-reload ${busy?'disabled':''}>다시 불러오기</button><button class="md-primary" data-draw-save ${busy||!dirty?'disabled':''}>${busy?'처리 중…':pending?'저장 결과 재확인':'확률 초안 저장'}</button></div></footer>
+      <footer class="md-savebar"><span data-draw-save-label>${dirty?'● 저장하지 않은 확률·수량 변경':`✓ 운영 설정 r${state.revision} · ${date(state.updatedAt)}`}</span><div><button data-draw-export>JSON 내보내기</button><button data-draw-reload ${busy?'disabled':''}>다시 불러오기</button><button class="md-primary" data-draw-save ${busy||!dirty?'disabled':''}>${busy?'저장 중…':pending?'저장 결과 재확인':'운영 확률·수량 저장'}</button></div><p class="md-save-feedback ${failure?'is-error':''}" data-draw-save-feedback role="status" aria-live="polite">${esc(notice)}</p></footer>
       <details class="md-history"><summary>최근 확률 변경 이력 · ${state.audit.length}건</summary>${state.audit.map(row=>`<p><b>r${row.revision}</b><span>${esc(row.reason)}</span><small>${date(row.created_at)} · 관리자 #${row.actor_id}</small></p>`).join('')}</details>
     </section>`;
   }
-  function markDirty(){dirty=true;pending=null;if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent='● 저장하지 않은 확률 변경';const button=$('[data-draw-save]');if(button){button.disabled=false;button.textContent='확률 초안 저장';}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
+  function markDirty(){dirty=true;pending=null;failure=false;notice='변경한 확률·수량을 저장하면 다음 개봉부터 적용됩니다.';root?.querySelectorAll('[data-draw-message],[data-draw-save-feedback]').forEach(el=>{el.textContent=notice;el.classList.remove('is-error');});if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent='● 저장하지 않은 확률·수량 변경';const button=$('[data-draw-save]');if(button){button.disabled=false;button.textContent='운영 확률·수량 저장';}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
   async function load(){
-    if(busy)return;const token=generation;busy=true;failure=false;notice='운영 확률 초안을 불러오는 중입니다.';onRender();
-    try{const received=await request();if(token!==generation)return;state=received;dirty=false;pending=null;reason='';notice='확률 저장과 개봉 ON/OFF는 별도 설정입니다.';}
+    if(busy)return;const token=generation;busy=true;failure=false;notice='운영 확률·수량을 불러오는 중입니다.';onRender();
+    try{const received=await request();if(token!==generation)return;state=received;savedPolicy=structuredClone(state.policy);dirty=false;pending=null;reason='';notice='저장한 확률·수량은 다음 개봉부터 적용됩니다. 개봉 ON/OFF는 별도 설정입니다.';}
     catch(error){if(token!==generation)return;failure=true;notice=error.message;}
     finally{if(token===generation){busy=false;onRender();}}
   }
   async function save(){
     if(!state||busy||!dirty)return;
-    if([...root.querySelectorAll('input,textarea')].some(input=>!input.reportValidity()))return;
-    try{validateMercenaryDraw(state.policy);if(reason.trim().length<4)throw Error('저장 사유를 4자 이상 입력하세요.');}catch(error){failure=true;notice=error.message;onRender();return;}
-    pending??={requestId:crypto.randomUUID(),expectedRevision:state.revision,policy:structuredClone(state.policy),reason:reason.trim()};
-    const token=generation;busy=true;failure=false;notice='확률 초안을 운영 CMS에 저장하고 있습니다.';onRender();
-    try{const received=await request({method:'PATCH',body:JSON.stringify(pending)});if(token!==generation)return;state=received;dirty=false;pending=null;reason='';notice=`확률 저장 완료 · r${state.revision} · 유저 개봉 ${state.userOpeningEnabled?'ON':'OFF'}`;}
+    const invalid=[...root.querySelectorAll('input,textarea')].find(input=>!input.checkValidity());
+    if(invalid){failure=true;notice=`${invalid.getAttribute('aria-label')||'입력값'}: ${invalid.validationMessage}`;onRender();return;}
+    try{validateMercenaryDraw(state.policy);}catch(error){failure=true;notice=error.message;onRender();return;}
+    pending??={requestId:crypto.randomUUID(),expectedRevision:state.revision,policy:structuredClone(state.policy),reason:mercenaryDrawSaveReason(state.policy,savedPolicy,reason)};
+    const token=generation;busy=true;failure=false;notice='확률·수량을 운영 DB에 저장하고 있습니다.';onRender();
+    try{const received=await request({method:'PATCH',body:JSON.stringify(pending)});if(token!==generation)return;state=received;savedPolicy=structuredClone(state.policy);dirty=false;pending=null;reason='';notice=`운영 확률·수량 저장 완료 · r${state.revision} · 유저 개봉 ${state.userOpeningEnabled?'ON':'OFF'}`;}
     catch(error){if(token!==generation)return;failure=true;notice=error.name==='AbortError'?'응답 확인이 지연됩니다. 저장 결과 재확인으로 같은 요청을 확인하세요.':error.message;if(error.status&&error.status<500)pending=null;}
     finally{if(token===generation){busy=false;onRender();}}
   }
@@ -73,7 +85,7 @@ export function createMercenaryDrawEditor({request,onRender}){
     if($('[data-draw-notes]'))$('[data-draw-notes]').oninput=e=>{state.policy.notes=e.target.value;markDirty();};
     if($('[data-draw-reason]'))$('[data-draw-reason]').oninput=e=>{reason=e.target.value;pending=null;};
     if($('[data-draw-save]'))$('[data-draw-save]').onclick=save;
-    if($('[data-draw-reload]'))$('[data-draw-reload]').onclick=()=>{if(!dirty||confirm('저장하지 않은 확률 변경을 버리고 다시 불러올까요?'))void load();};
+    if($('[data-draw-reload]'))$('[data-draw-reload]').onclick=()=>{if(!dirty||confirm('저장하지 않은 확률·수량 변경을 버리고 다시 불러올까요?'))void load();};
     if($('[data-draw-remainder]'))$('[data-draw-remainder]').onclick=()=>{
       const others=state.policy.outcomes.filter(row=>row.id!=='NONE'),sum=others.reduce((total,row)=>total+(row.chancePpm||0),0);
       if(others.some(row=>!Number.isSafeInteger(row.chancePpm))||sum>DRAW_TOTAL){failure=true;notice='용병·재화 확률을 먼저 0~100% 안으로 맞추세요.';onRender();return;}

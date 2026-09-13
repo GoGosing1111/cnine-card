@@ -9,7 +9,7 @@ import { collectionEntries } from '../preview/mercenary-codex-v1/model.js';
 const root = path.resolve(import.meta.dirname, '..');
 const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 const html = read('mercenary-codex/index.html');
-const client = read('preview/mercenary-codex-v1/codex.js');
+const client = read('mercenary-codex/app.mjs');
 const app = read('js/app.js');
 const index = read('index.html');
 const sw = read('service-worker.js');
@@ -29,18 +29,17 @@ function navigationRuntime() {
   return { context, destinations, router: context.SoopketmonV21RuntimeRouter, menu: context.SoopketmonV21NavigationContract };
 }
 
-test('public document is exactly the reviewed layout with public copy and correct shared URLs', () => {
-  const template = read('preview/mercenary-codex-v1/index.html');
-  assert.equal(html.replaceAll('\r\n', '\n'), publicCodexHtml(template));
-  assert.throws(() => publicCodexHtml(template.replace('<html lang="ko">', '<html>')), /marker changed/);
+test('public document uses the native forge-inspired archive with game links and CMS information', () => {
+  assert.equal(html.replaceAll('\r\n', '\n'), publicCodexHtml());
   assert.match(html, /data-codex-mode="public"/);
   assert.match(html, /도감 공개 중/);
   assert.doesNotMatch(html, /검수용 프리뷰|유저 미공개|메뉴 배치입니다|target="_blank"/);
   assert.match(html, /class="brand" href="\/\?screen=home" aria-label="숲켓몬 로비로 돌아가기"/);
   assert.match(html, /id="lobbyReturn" class="lobby-return" href="\/\?screen=home">/);
-  assert.match(html, /<span>로비로 돌아가기<\/span>/);
-  assert.match(template, /class="lobby-return" href="\/\?screen=home" hidden/);
-  assert.match(html, /획득 \/ 편성 \/ 전투 기능 준비 중/);
+  assert.match(html, /로비로 돌아가기 ↗/);
+  assert.match(html, /archive-workspace/);
+  assert.match(html, /href="\/mercenary-hangar\/"/);
+  assert.doesNotMatch(html, /획득 \/ 편성 \/ 전투 기능 준비 중|preview\/mercenary-codex/);
   for (const match of html.matchAll(/(?:src|href)="(\.\.[^"?]+)(?:\?[^" ]+)?"/g)) {
     assert.ok(fs.existsSync(path.resolve(root, 'mercenary-codex', match[1])), match[1]);
   }
@@ -90,25 +89,23 @@ test('public information remains read-only with separate local favorites and no 
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.cards.length, 43);
   assert.ok(roster.cards.every(card => card.code === 'V-021' ? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
-  assert.match(html, /data-enabled="false"/);
-  assert.doesNotMatch(html, /src="[^"]*(?:app\.js|runtime-router|battle-engine|loadout|gsap|pixi)/i);
-  assert.doesNotMatch(client, /apiRequest|\/api\/|method:\s*['"](?:POST|PUT|DELETE)|new Audio|AudioContext/);
-  assert.match(client, /IS_PUBLIC \? 'cnine\.mercenaryCodex\.public\.v1' : 'cnine\.mercenaryCodex\.preview\.v1'/);
-  assert.match(client, /능력치·스킬·획득 경로는 확정 후 안내/);
-  assert.match(client, /도감 공개 중 · 편성 미연결/);
-  assert.match(client, /href="\/\?screen=\$\{encodeURIComponent\(entry.id\)\}"/);
+  assert.doesNotMatch(html, /src="[^"]*(?:runtime-router|battle-engine|loadout|gsap|pixi)/i);
+  assert.doesNotMatch(client, /method:\s*['"](?:POST|PATCH|PUT|DELETE)|new Audio|AudioContext/);
+  assert.match(client, /storageKey='cnine\.mercenaryCodex\.public\.v1'/);
+  assert.match(client, /api\('mercenary-codex'/);
+  assert.match(client, /c\.skills\.map\(skillHtml\)/);
 });
 
 test('public page and live entry use synchronized cache tags and revalidation headers', () => {
-  assert.match(index, /js\/app\.js\?v=2097-mercenary/);
-  assert.match(sw, /soop-card-shell-v2097-mercenary/);
+  assert.match(index, /js\/app\.js\?v=2098-hyper-codex/);
+  assert.match(sw, /soop-card-shell-v2098-hyper-codex/);
   assert.match(index, /exact-shell-adapter\.js\?v=2083-clan-prison-camp/);
   assert.match(index, /runtime-router\.js\?v=2083-clan-prison-camp/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
-  assert.match(html, /codex\.js\?v=20260911-omega-ranks/);
-  assert.match(html, /codex\.css\?v=1\.5/);
-  assert.match(read('preview/mercenary-codex-v1/codex.css'), /\.search-field input\{min-height:44px\}/);
-  assert.match(client, /model\.js\?v=20260911-omega-ranks/);
+  assert.match(html, /mercenary-codex\/app\.mjs\?v=2098/);
+  assert.match(html, /mercenary-codex\/style\.css\?v=2098/);
+  assert.match(read('mercenary-codex/style.css'), /search-field input\{height:44px/);
+  assert.match(client, /model\.mjs\?v=2098/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);
 });
 

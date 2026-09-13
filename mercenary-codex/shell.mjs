@@ -1,4 +1,5 @@
-<!doctype html>
+// Native public archive. The independent art-review preview remains unchanged.
+export function publicCodexHtml(){return `<!doctype html>
 <html lang="ko" data-codex-mode="public">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080c17"><meta name="color-scheme" content="dark"><title>용병도감 · 숲켓몬</title><link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/mercenary-codex/style.css?v=2098"></head>
 <body><a class="skip-link" href="#catalogControls">용병 검색으로 바로가기</a>
@@ -19,3 +20,4 @@
 <section class="archive-guide"><div><span>DEPLOYMENT CONTRACT</span><h2>다섯 장의 덱에, 한 명의 동료.</h2><p>PVE와 PVP가 하나의 용병 전용 슬롯을 함께 사용합니다.<br>용병을 편성하지 않으면 기존 일반 카드 5장으로 출전합니다.</p></div><div class="guide-actions"><a class="primary-link" href="/mercenary-hangar/">내 용병 편성 <span>↗</span></a><a class="quiet-link" href="/?screen=buy&amp;pack=hyper">하이퍼팩 개봉 ↗</a></div></section>
 <footer class="page-footer"><span>SOOPKETMON <i>/</i> MERCENARY ARCHIVE</span><p>카드 원화 · 전투 SD · 현재 배정 스킬</p></footer></main></div>
 <dialog id="artDialog" class="art-dialog" aria-label="용병 원본 확대 보기"><header><strong id="artTitle"></strong><button id="closeArt" type="button" aria-label="원본 확대 닫기">닫기 ×</button></header><img id="originalArt" alt=""></dialog><div id="toast" role="status" aria-live="polite" hidden></div><noscript><p>용병 정보를 보려면 JavaScript를 켜 주세요.</p></noscript><script type="module" src="/mercenary-codex/app.mjs?v=2098"></script></body></html>
+`;}

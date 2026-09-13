@@ -99,8 +99,8 @@ await router.navigate('scrapyard', {
 });
 assert.deepEqual(renderedShells, ['scrapyard'], 'scrapyard route must render the independent native shell without an intermediate workshop click');
 
-assert.match(appSource, /scrapyard:\{[\s\S]*?css\/workshop-v1881\.css\?v=2009-material-label[\s\S]*?js\/workshop-v1881\.js\?v=2097-mercenary/);
-assert.match(appSource, /js\/scrapyard-battle-v1698\.js\?v=2097-mercenary/);
+assert.match(appSource, /scrapyard:\{[\s\S]*?css\/workshop-v1881\.css\?v=2009-material-label[\s\S]*?js\/workshop-v1881\.js\?v=2098-hyper-codex/);
+assert.match(appSource, /js\/scrapyard-battle-v1698\.js\?v=2098-hyper-codex/);
 assert.match(appSource, /typeof window\.scrapyardView==='function'&&typeof window\.bindScrapyardView==='function'/);
 assert.match(appSource, /if\(itemCode==='SCRAPYARD_ENTRY_TICKET'\)return renderShell\('scrapyard'\)/, 'entry ticket must open the independent scrapyard shell');
 
