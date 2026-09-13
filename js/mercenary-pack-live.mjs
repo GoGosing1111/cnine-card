@@ -8,8 +8,8 @@ function syncButtons(){
   for(const button of document.querySelectorAll('[data-mercenary-open]'))button.disabled=busy||access.userOpeningEnabled!==true;
   for(const button of document.querySelectorAll('[data-mercenary-repeat]'))button.disabled=busy||button.dataset.ready!=='true'||access.userOpeningEnabled!==true;
   for(const label of document.querySelectorAll('[data-hyper-opening-label]')){const value=access.userOpeningEnabled?'용병 계약 개봉 가능':'현재 개봉 준비 중';if(label.textContent!==value)label.textContent=value;}
-  const accountId=Number(globalThis.loadUser?.()?.serverUserId);let hasPending=false;try{hasPending=accountId>0&&Boolean(localStorage.getItem(`cnine.mercenary.pack.pending:${accountId}`));}catch{}
-  for(const button of document.querySelectorAll('[data-mercenary-recover]')){button.hidden=!hasPending;button.disabled=busy;}
+  const accountId=Number(globalThis.loadUser?.()?.serverUserId);let hasPending=false,hasReceipt=false;try{hasPending=accountId>0&&Boolean(localStorage.getItem(`cnine.mercenary.pack.pending:${accountId}`));hasReceipt=accountId>0&&Boolean(localStorage.getItem(`cnine.mercenary.pack.receipt:${accountId}`));}catch{}
+  for(const button of document.querySelectorAll('[data-mercenary-recover]')){button.hidden=!hasPending&&!hasReceipt;button.disabled=busy;const label=hasPending?'이전 개봉 처리 확인':'최근 개봉 결과';if(button.textContent!==label)button.textContent=label;}
   notice(statusText);
 }
 async function feature(){const before=access.userOpeningEnabled;access=await api(MERCENARY_PACK.featurePath);syncButtons();if(before!==access.userOpeningEnabled){notice(access.userOpeningEnabled?'1회 5억 코인 · 같은 등급의 용병은 균등 추첨합니다.':'하이퍼팩 개봉은 현재 OFF입니다.');window.dispatchEvent(new CustomEvent('mercenary-pack:availability',{detail:access}));}return access;}
@@ -60,20 +60,45 @@ async function open(count=1,{recoverOnly=false}={}){
     const state=await api(MERCENARY_PACK.statePath);
     key=`cnine.mercenary.pack.pending:${state.accountId}`;
     try{pending=JSON.parse(localStorage.getItem(key)||'null');}catch{}
-    if(!pending){
-      if(recoverOnly){notice('확인할 이전 개봉이 없습니다.');return false;}
-      if(access.userOpeningEnabled!==true||!(state.openingAvailable??state.available)){notice('하이퍼팩 개봉은 현재 OFF입니다.');return false;}
-      pending={requestId:crypto.randomUUID(),count};localStorage.setItem(key,JSON.stringify(pending));
-    }
+    const receiptKey=`cnine.mercenary.pack.receipt:${state.accountId}`;
+    const validatePending=value=>{if(typeof value?.requestId!=='string'||!Number.isInteger(value.count)||value.count<1||value.count>MERCENARY_PACK.maxCount)throw Error('이전 개봉 요청 정보를 확인하세요.');};
+    const readReceipt=async value=>{try{return await api(MERCENARY_PACK.receiptPath+'?requestId='+encodeURIComponent(value.requestId));}catch(error){if(error.status!==404)throw error;return null;}};
+    const completeReceipt=result=>{
+      const results=mercenaryPackResults(result);
+      if(result.requestId!==pending.requestId||results.length!==pending.count)throw Object.assign(Error('요청한 횟수와 개봉 결과가 다릅니다. 이전 개봉 처리를 확인하세요.'),{code:'MERCENARY_RECEIPT_MISMATCH'});
+      localStorage.setItem(receiptKey,JSON.stringify({requestId:result.requestId,count:results.length}));
+      if(localStorage.getItem(key)===JSON.stringify(pending))localStorage.removeItem(key);
+    };
     let result;
-    try{result=await api(MERCENARY_PACK.receiptPath+'?requestId='+encodeURIComponent(pending.requestId));}catch(error){if(error.status!==404)throw error;}
+    if(pending){
+      validatePending(pending);result=await readReceipt(pending);
+      if(result?.status==='COMPLETED'){
+        completeReceipt(result);
+        // A normal click starts the newly selected amount. Old completed draws
+        // are only displayed by the explicit recovery button.
+        if(!recoverOnly){pending=null;result=null;}
+      }else if(!recoverOnly&&pending.count!==count){
+        notice(`이전 ${pending.count}회 개봉 처리를 먼저 확인해 주세요. 선택한 ${count}회 개봉은 아직 실행하지 않았습니다.`);return false;
+      }
+    }
+    if(!pending){
+      if(recoverOnly){
+        try{pending=JSON.parse(localStorage.getItem(receiptKey)||'null');}catch{}
+        if(!pending){notice('확인할 이전 개봉이 없습니다.');return false;}
+        validatePending(pending);result=await readReceipt(pending);
+        if(result?.status!=='COMPLETED'){notice('저장된 개봉 결과를 확인하지 못했습니다. 다시 조회해 주세요.');return false;}
+      }else{
+        if(access.userOpeningEnabled!==true||!(state.openingAvailable??state.available)){notice('하이퍼팩 개봉은 현재 OFF입니다.');return false;}
+        pending={requestId:crypto.randomUUID(),count};localStorage.setItem(key,JSON.stringify(pending));
+      }
+    }
     if(result?.status!=='COMPLETED'){
       if(access.userOpeningEnabled!==true){notice('개봉은 OFF입니다. 아직 완료되지 않은 요청은 보관합니다.');return false;}
       result=await api(pending.count>1?MERCENARY_PACK.batchPath:MERCENARY_PACK.openPath,{method:'POST',body:pending});
     }
-    mercenaryPackResults(result);notice('개봉 결과를 계정에 저장했습니다.');
+    completeReceipt(result);notice(`${result.draws.length}회 개봉 결과를 계정에 저장했습니다.`);
     window.dispatchEvent(new CustomEvent('mercenary-pack:complete',{detail:{accountId:state.accountId,requestId:result.requestId}}));
-    await showMercenaryReceipt(result,{onClose:()=>{if(localStorage.getItem(key)===JSON.stringify(pending))localStorage.removeItem(key);},onRepeat:()=>open(pending.count)});return true;
+    await showMercenaryReceipt(result,{onRepeat:()=>open(result.draws.length)});return true;
   }catch(error){
     // These responses precede a saved transaction, or explicitly cancel it.
     // Keep uncertain/in-flight requests so retries cannot charge twice.

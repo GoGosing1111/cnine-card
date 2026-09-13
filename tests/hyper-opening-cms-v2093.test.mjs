@@ -27,7 +27,8 @@ for(const postgres of [false,true]){
   const firstBody={requestId:crypto.randomUUID(),count:1},batchBody={requestId:crypto.randomUUID(),count:10};
   assert.equal((await call(f,'mercenary-cards/open',firstBody)).status,200);
   const response=await call(f,'mercenary-cards/open-batch',batchBody);assert.equal(response.status,200,JSON.stringify(await response.clone().json()));const receipt=await response.json();assert.equal(receipt.draws.length,10);
-  for(const path of HYPER_OPEN_PATHS){const r=await call(f,path,batchBody);assert.equal(r.status,200);assert.equal((await r.json()).replayed,true);}
+  for(const path of HYPER_OPEN_PATHS){const r=await call(f,path,path==='mercenary-cards/open'?firstBody:batchBody);assert.equal(r.status,200);assert.equal((await r.json()).replayed,true);}
+  const rejected=await call(f,'mercenary-cards/open',{requestId:crypto.randomUUID(),count:10});assert.equal(rejected.status,400);assert.equal((await rejected.json()).code,'MERCENARY_SINGLE_COUNT');
   assert.equal(await f.coin(),54500000000);assert.equal(Number((await f.p('SELECT SUM(total_copies) n FROM user_mercenary_cards_v1 WHERE user_id=7').first()).n),11);
   assert.equal((await call(f,'mercenaries/v3/loadout',{requestId:crypto.randomUUID(),mercenaryCode:receipt.draws[0].mercenaryCode,revision:0})).status,200);
   const before=await(await call(f,'mercenaries/v3/state')).json();assert.equal(before.available,true);assert.equal(before.openingAvailable,true);

@@ -30,7 +30,9 @@ export async function handleMercenaryAccountReady({path,request,env,deps,publicO
     const action=['mercenary-cards/open','mercenary-cards/open-batch','hyper-pack/open','mercenaries/v3/open'].includes(path)?'OPEN':path==='mercenaries/v3/loadout'?'LOADOUT':path==='mercenaries/v3/train'?'TRAIN':path==='mercenaries/v3/level-up'?'LEVEL':null;
     if(!admin&&!action)throw jointError('MERCENARY_PATH','용병 경로를 찾을 수 없습니다.',404);
     const fields=admin?['policy']:action==='OPEN'?['requestId','count']:action==='LOADOUT'?['requestId','mercenaryCode','revision']:['requestId','mercenaryCode','revision','quantity'];
-    const body=await readJointBody(request,{fields});if(typeof withUserMutationLock!=='function')throw jointError('MERCENARY_LOCK','계정 잠금 서비스를 확인하세요.',503);
+    const body=await readJointBody(request,{fields});
+    if(path==='mercenary-cards/open'&&body.count!==1)throw jointError('MERCENARY_SINGLE_COUNT','1회 개봉은 정확히 1장만 요청할 수 있습니다.',400);
+    if(typeof withUserMutationLock!=='function')throw jointError('MERCENARY_LOCK','계정 잠금 서비스를 확인하세요.',503);
     return json(await withUserMutationLock(env,user.id,path,async()=>admin?{policy:await saveMercenaryRuntime(env,user,body.policy),releaseEnabled:false}:action==='OPEN'?openMercenaryCards(env,user,body,publicOpening?{readOpeningPolicy:hyperOpeningRuntime,openingGuards:hyperOpeningGuards}:{}):action==='LOADOUT'?saveMercenaryLoadout(env,user,body):growMercenary(env,user,body,action)));
   }catch(error){return jointResponseError(error,json);}
 }
