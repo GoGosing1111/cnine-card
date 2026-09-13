@@ -10,6 +10,7 @@ import {__dropPoolTest,invalidateUnifiedDropPoolCache,planUnifiedDropRoll} from 
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED,loadScrapyardV3Snapshot,buildScrapyardV3Battle,validateScrapyardV3Config} from '../functions/_scrapyard_v3.js';
 import {ensureScrapyardV3Schema,runScrapyardV3,scrapyardV3RecoveryStatus} from '../functions/_scrapyard_v3_runs.js';
+import {isPvePublicPath} from '../shared/pve-public-release-v2092.mjs';
 
 const read=path=>fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const user={id:7,nickname:'LOCAL QA',role:'USER'};
@@ -90,11 +91,15 @@ async function fixture(t,postgres=false){
     count:async table=>Number((await p(`SELECT COUNT(*) count FROM ${table}`).first()).count)};
 }
 
-test('whole-overhaul wiring preserves the hard release hold and legacy reward separation',()=>{
+test('public scrapyard wiring preserves unreleased routes and legacy reward separation',()=>{
   assert.equal(PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED,false);
-  assert.match(read('functions/_pve_v3_routes.js'),/if\(!V3_JOINT_RELEASE_ENABLED&&path!==/);
+  assert.match(read('functions/_pve_v3_routes.js'),/if\(!V3_JOINT_RELEASE_ENABLED&&!isPvePublicPath\(path\)&&path!==/);
+  assert.equal(isPvePublicPath('scrapyard/v3/run'),true);
+  assert.equal(isPvePublicPath('cow-room/v3/run'),true);
+  assert.equal(isPvePublicPath('tower/v3/run'),false);
+  assert.equal(isPvePublicPath('idle-dungeon/v3/state'),false);
   assert.match(read('shared/v3-joint-release-v1.mjs'),/V3_JOINT_RELEASE_ENABLED = false/);
-  assert.match(read('docs/pve-continuous-overhaul-v1.md'),/무한의탑을 제외한 이번 개편안 전체를 한 번에 출시/);
+  assert.match(read('docs/cow-tower-live-on-2092-20260913.md'),/현재 70층·최초 합계 14억 4,500만/);
   assert.match(read('functions/_scrapyard.js'),/response_json NOT LIKE '%"engineVersion":"PVE_CONTINUOUS_V1"%'/,'legacy stale-ticket refund excludes persisted V3 results');
 });
 
