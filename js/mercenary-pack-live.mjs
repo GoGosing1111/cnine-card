@@ -55,7 +55,12 @@ async function open(count=1){
     mercenaryPackResults(result);notice('개봉 결과를 계정에 저장했습니다.');
     window.dispatchEvent(new CustomEvent('mercenary-pack:complete',{detail:{accountId:state.accountId,requestId:result.requestId}}));
     await showMercenaryReceipt(result,{onClose:()=>{if(localStorage.getItem(key)===JSON.stringify(pending))localStorage.removeItem(key);}});return true;
-  }catch(error){notice(error.message);return false;}
+  }catch(error){
+    // These responses precede a saved transaction, or explicitly cancel it.
+    // Keep uncertain/in-flight requests so retries cannot charge twice.
+    if(key&&pending&&['MERCENARY_FUNDS','MERCENARY_COUNT','MERCENARY_PRICE_PENDING','MERCENARY_DRAW_PENDING','JOINT_OPERATION_SUPERSEDED'].includes(error.code)&&localStorage.getItem(key)===JSON.stringify(pending))localStorage.removeItem(key);
+    notice(error.message);return false;
+  }
   finally{busy=false;syncButtons();}
 }
 globalThis.MercenaryPack=Object.freeze({open,showReceipt:showMercenaryReceipt,feature:()=>({...access})});
