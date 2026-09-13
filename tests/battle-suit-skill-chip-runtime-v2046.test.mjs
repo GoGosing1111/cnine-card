@@ -208,7 +208,7 @@ test('raid QTE holds the same game clock in event order, skips rejected branches
 test('live adapter batches the full server clock and cancel/reset stops the clock',async()=>{
   const [adapter,engine]=await Promise.all([readFile(new URL('../js/battle-v3-live.js',import.meta.url),'utf8'),readFile(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8')]);
   assert.match(adapter,/playEvents\(timedEvents, \{ beforeEvent: prepareEvent \}\)/);assert.match(adapter,/durationMs \* 2 \+ 15000/);
-  const timed=adapter.slice(adapter.indexOf('if (timedSkillChips && !destroyed)'),adapter.indexOf('const finalState = payload?.battleV2?.result?.final'));
+  const timed=adapter.slice(adapter.indexOf('if (timedSkillChips && !options.continuousPlayback && !destroyed)'),adapter.indexOf('const finalState = payload?.battleV2?.result?.final'));
   assert.match(timed,/await stopAccountBattleUnitContinuousFire\(\{ drain: true \}\)/);
   assert.match(engine,/this\.skillChipPlayback\?\.cancel\(\)/);
   assert.match(engine,/currentHp\(target,value\)/);
