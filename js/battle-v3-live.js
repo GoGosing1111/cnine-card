@@ -772,7 +772,7 @@
       }
     });
     if (options.monster) payload.monster = { ...options.monster, mode };
-    if (options.floor) payload = rewriteBattleSpriteUrls(towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] }));
+    if (options.floor && !payload.continuousEncounter) payload = rewriteBattleSpriteUrls(towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] }));
 
     // V1796: payload 가 확정된 직후 로스터를 그린다. 자동전투 2판째처럼
     // 셸을 다시 만들지 않는 경로에서도 매 판 새 카드로 덮어써야 하므로

@@ -79,7 +79,7 @@ const context={
   ProjectVPixiBattle:{
     destroy:()=>calls.push(['destroy']),
     mount:async()=>calls.push(['mount']),
-    setBattlePayload:async payload=>calls.push(['payload',payload.mode]),
+    setBattlePayload:async payload=>calls.push(['payload',payload.mode,payload]),
     setBattlefield:async mode=>calls.push(['field',mode]),
     setVisible:async value=>calls.push(['visible',value]),
     playEvents:async events=>calls.push(['events',events.map(event=>({...event}))])
@@ -120,5 +120,23 @@ assert.equal(eventCalls[1][1][0].actorId,'CARD-CMS-01');
 assert.equal(eventCalls[1][1][0].label,'CMS USER ULTIMATE');
 assert.equal(eventCalls[3][1][0].actorId,'MONSTER:7');
 assert.equal(eventCalls[3][1][0].label,'CMS BOSS ULTIMATE');
+
+// Native Tower still supplies legacy floor/card display options. They must not
+// replace the server's continuous encounter with five locally invented strikes.
+calls.length=0;
+const authoritativeTimeline=[{type:'KO',targetId:'TOWER:70:1',guardianProgress:2},
+  {type:'ENEMY_SPAWN',instanceId:'TOWER:70:4',guardianProgress:2},
+  {type:'TURN',actorId:'CARD-1',targetId:'TOWER:70:4',damage:271,guardianProgress:2},
+  {type:'KO',targetId:'TOWER:70:28',guardianProgress:100},
+  {type:'RESULT',winner:'A',guardianProgress:100,remainingCombatMs:40000}];
+const liveTower=await runtime.createRenderer({stage,host,modal,mode:'TOWER',continuousPlayback:true,
+  floor:{floorNo:70,monsterName:'CMS 수호자'},cards:[{id:'legacy-card-display'}],
+  data:{continuousEncounter:{total:28},battleV2:{teams:{A:{cards:[{id:'CARD-1',row:'FRONT'}]},B:{cards:[]}},result:{winner:'A',timeline:authoritativeTimeline}}}});
+const mounted=calls.find(call=>call[0]==='payload')[2];
+assert.equal(JSON.stringify(mounted.battleV2.result.timeline),JSON.stringify(authoritativeTimeline));
+assert.equal(mounted.battleV2.teams.A.cards[0].row,'FRONT');
+await liveTower.play();
+const liveEvents=calls.filter(call=>call[0]==='events').flatMap(call=>call[1]).filter(event=>event.type!=='DEPLOY');
+assert.equal(JSON.stringify(liveEvents),JSON.stringify(authoritativeTimeline));
 
 console.log('project-v-v3 live payload contract: OK');

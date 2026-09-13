@@ -20,7 +20,7 @@ export async function playContinuousBattle({modal,data,view=null,mode='PVE',isAc
   pauseButton.onclick=()=>{if(paused)resume();else{paused=true;pauseButton.textContent='재개';}};
   const defeated=new Set(),enemies=new Set(data.continuousEncounter.instances.map(row=>row.id));
   try{
-    renderer=await api.createRenderer({...view,modal,data,mode,continuousPlayback:true,playUltimateCinematics:true,
+    renderer=await api.createRenderer({modal,stage:view.stage,host:view.host,phase:view.phase,data,mode,continuousPlayback:true,playUltimateCinematics:true,
       beforeCombatEvent:async()=>{if(!isActive()){cancel();return;}if(paused){await globalThis.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire({drain:true});await new Promise(resolve=>{resumeWait=resolve;if(!paused)resolve();});if(!ended)globalThis.ProjectVPixiBattle.startAccountBattleUnitSustainedFire();}},
       onCombatEvent:event=>{if(event.type==='KO'&&enemies.has(event.targetId))defeated.add(event.targetId);const progress=tower?Number(event.guardianProgress||0):defeated.size/enemies.size*100;track.style.width=`${Math.min(100,progress)}%`;const seconds=Math.ceil(Math.max(0,Number(event.remainingCombatMs??data.combatLimitMs)||0)/1000);view.phase.textContent=tower?`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${progress>=100?'수호자 결전':`수호자 소환 ${progress}%`}`:`격파 ${defeated.size} / ${enemies.size}`;}});
     if(!isActive()){cancel();return null;}
