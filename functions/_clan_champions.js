@@ -175,13 +175,16 @@ export async function advanceChampions(env, season, settings, now = Date.now()) 
   for (const round of [CHAMPIONS_SEMIFINAL_ROUND, CHAMPIONS_FINAL_ROUND]) await closeChampionsWar(env, season.id, round, seeds, now);
   const semi = await p('SELECT * FROM clan_wars WHERE season_id=? AND round_no=?', season.id, CHAMPIONS_SEMIFINAL_ROUND).first();
   if (semi?.status === 'COMPLETED' && cup.status === 'SEMIFINAL') {
-    // If settlement is delayed past the planned final, give the finalists a future window.
-    const finalStart = time(cup.final_starts_at) > now ? time(cup.final_starts_at) : championsNextWindow(now, 1, frozen);
+    // Back-to-back rounds retain the booked final while its window is still open.
+    // Only a fully missed final window is moved to a future opening.
+    const bookedFinalStart = time(cup.final_starts_at), finalDuration = frozen.warDurationMinutes * 60000;
+    const finalStart = now < bookedFinalStart + finalDuration ? bookedFinalStart : championsNextWindow(now, 1, frozen);
+    const finalStatus = finalStart <= now ? 'ACTIVE' : 'SCHEDULED';
     const writes = [];
     if (db.dialect === 'postgres') writes.push(p('SELECT season_id FROM clan_championships WHERE season_id=? FOR UPDATE', season.id));
     writes.push(p(`INSERT OR IGNORE INTO clan_wars(season_id,round_no,clan_a_id,clan_b_id,status,starts_at,ends_at)
-      SELECT ?,?,?,?,'SCHEDULED',?,? WHERE EXISTS(SELECT 1 FROM clan_championships WHERE season_id=? AND status='SEMIFINAL')`,
-      season.id, CHAMPIONS_FINAL_ROUND, seeds[0].clanId, semi.winner_clan_id, iso(finalStart), iso(finalStart + frozen.warDurationMinutes * 60000), season.id));
+      SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM clan_championships WHERE season_id=? AND status='SEMIFINAL')`,
+      season.id, CHAMPIONS_FINAL_ROUND, seeds[0].clanId, semi.winner_clan_id, finalStatus, iso(finalStart), iso(finalStart + finalDuration), season.id));
     writes.push(p("UPDATE clan_championships SET status='FINAL',final_starts_at=? WHERE season_id=? AND status='SEMIFINAL'", iso(finalStart), season.id));
     writes.push(p("UPDATE clan_seasons SET ends_at=(SELECT ends_at FROM clan_wars WHERE season_id=? AND round_no=? LIMIT 1),updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='CHAMPIONS'", season.id, CHAMPIONS_FINAL_ROUND, season.id));
     await db.batch(writes);

@@ -158,6 +158,41 @@ for (const postgres of [false, true]) {
     assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_wars').first()).count),2);
   });
 
+  for (const delay of [0, 1000]) test(`${backend}: back-to-back final opens immediately at booked time plus ${delay}ms`, async t => {
+    const f=await fixture(t,postgres),s=settings();
+    await startChampions(f.env,f.season,s,await f.rank(),f.now);
+    const semi=await f.war(1001),finalStart=semi.ends_at,finalEnd=new Date(Date.parse(finalStart)+3600000).toISOString();
+    await f.p('UPDATE clan_championships SET final_starts_at=? WHERE season_id=7',finalStart).run();
+    await f.p('UPDATE clan_seasons SET ends_at=? WHERE id=7',finalEnd).run();
+    await f.p('UPDATE clan_wars SET score_a=10,score_b=20 WHERE id=?',semi.id).run();
+    await advanceChampions(f.env,await f.fresh(),s,Date.parse(finalStart)+delay);
+    const final=await f.war(1002);
+    assert.equal((await f.war(1001)).status,'COMPLETED');
+    assert.deepEqual([Number(final.clan_a_id),Number(final.clan_b_id)],[9,2]);
+    assert.equal(final.status,'ACTIVE');assert.equal(final.starts_at,finalStart);assert.equal(final.ends_at,finalEnd);
+    assert.equal((await f.cup()).final_starts_at,finalStart);assert.equal((await f.fresh()).ends_at,finalEnd);
+    await advanceChampions(f.env,await f.fresh(),s,Date.parse(finalStart)+delay+1000);
+    assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_wars WHERE round_no=1002').first()).count),1);
+    assert.equal((await f.war(1002)).starts_at,finalStart);assert.equal((await f.cup()).reward_status,'PENDING');
+  });
+
+  test(`${backend}: resolving semifinal holds the final, then opens within its booked hour`, async t => {
+    const f=await fixture(t,postgres),s=settings();
+    await startChampions(f.env,f.season,s,await f.rank(),f.now);
+    const semi=await f.war(1001),finalStart=semi.ends_at;
+    await f.p('UPDATE clan_championships SET final_starts_at=? WHERE season_id=7',finalStart).run();
+    await f.p("INSERT INTO clan_war_battles(request_id,season_id,war_id,attacker_clan_id,defender_clan_id,attacker_user_id,defender_user_id,battle_seed,status) VALUES('boundary-pending',7,?,6,2,60,20,1,'RESOLVING')",semi.id).run();
+    await advanceChampions(f.env,await f.fresh(),s,Date.parse(finalStart)+1000);
+    assert.equal((await f.war(1001)).status,'ACTIVE');assert.equal(await f.war(1002),null);
+    await f.p("UPDATE clan_war_battles SET status='COMPLETED' WHERE request_id='boundary-pending'").run();
+    await f.p('UPDATE clan_wars SET score_a=10,score_b=20 WHERE id=?',semi.id).run();
+    await advanceChampions(f.env,await f.fresh(),s,Date.parse(finalStart)+5000);
+    const final=await f.war(1002);
+    assert.equal(final.status,'ACTIVE');assert.equal(final.starts_at,finalStart);
+    assert.equal(final.ends_at,new Date(Date.parse(finalStart)+3600000).toISOString());
+    assert.equal(Number(final.clan_b_id),2);assert.equal((await f.cup()).final_starts_at,finalStart);
+  });
+
   test(`${backend}: pending battles delay advancement, late resolution reschedules a future final`, async t => {
     const f=await fixture(t,postgres),s=settings(); await startChampions(f.env,f.season,s,await f.rank(),f.now);
     const semi=await f.war(1001);
