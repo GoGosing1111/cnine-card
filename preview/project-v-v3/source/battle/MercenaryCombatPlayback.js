@@ -6,19 +6,24 @@ import {MercenarySkillFX} from '../../../project-v-mercenary-system-v1/source/Me
 import {loadSequence,loadAuxiliary,releaseFrameViews} from '../../../project-v-mercenary-system-v1/source/MercenarySpriteSequence.js';
 import {attachMercenaryArt} from '../../../project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js';
 import {getMercenaryAudio} from '../../../project-v-mercenary-system-v1/source/MercenarySkillAudio.js';
+import {MERCENARY_ROLE_ATTACKS,preloadMercenaryRole,playMercenaryRoleAttack} from './MercenaryRoleAttackFX.js';
 import {SKILL_CHIP_CLOCK} from '../../../../shared/battle-suit-skill-chips.mjs';
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`MERCENARY_ASSET:${r.status}`);return r.json();};
 let rosterPromise,atlasPromise;
 export const withMercenaryBattle=Base=>class extends Base{
  constructor(options){super(options);this.mercenaries=[];this.mercenarySequences=new Map();this.mercenaryLoads=new Map();this.mercenaryHitIndices=new Map();this.mercenaryFx=null;}
  cancelTimelines(){this.mercenaryAudio?.stop();super.cancelTimelines();}
+ normalAttack(index,options){
+  if(options?.attacker?.isMercenary&&MERCENARY_ROLE_ATTACKS[options.attacker.role])return playMercenaryRoleAttack(this,options);
+  return super.normalAttack(index,options);
+ }
  clearMercenaryActors(){this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
  async applyBattlePayload(payload){
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>1||entries.filter(e=>e.side==='B').length>1)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
   const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json')),adapter=createMercenaryBattleArtAdapter(roster);
   for(const {side,card}of entries){const art=adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
-   const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,''))]);
+   const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
    const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:260,x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
    Object.assign(a,{cardId:card.cardId,art,actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:card.maxHp,serverMaxShield:card.maxShield||0,startingShield:card.shield||0,startingMaxShield:card.maxShield||0,mercenaryRow:card,role:card.role});

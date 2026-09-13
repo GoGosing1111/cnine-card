@@ -1,0 +1,24 @@
+{
+  "version": 2100,
+  "date": "2026-09-13",
+  "userInstruction": "검수 완료, 라이브에 연결",
+  "scope": "수호·돌격·기습·사격·저격·제압·지원 기본 공격 7종 및 타격음",
+  "sources": {
+    "GUARDIAN": "72d559c0e35a711debe4ac358d27e100483aafede2760fb0d05bf88ac689d0a9",
+    "VANGUARD": "d7f8961db0c2d20c2e63e05c58fd8ffd997d693b62e6ca8c098c3a927854f588",
+    "ASSASSIN": "fb4e43fb48de54c92c8ddc05aa3bd9ae1ec1a150f091d29f23d50bf48cc67491",
+    "MARKSMAN": "6347bde98eff776a86f8be2bdba7fb2ace0c79382a3571881c114e6dd85c166e",
+    "SNIPER": "a91aa51f039106754905b77bb434f54e7eae5c11151dfadbf3f934b8046d25be",
+    "CONTROLLER": "42c0389c4a40df63c5430d78363beb275dc01c23f0226e1221f5ee5e0f0cb9d8",
+    "SUPPORT": "403d3d37163c0bc868eb2f4b836ab1d17b7679339338aadc88b8515848b29664"
+  },
+  "runtimeAtlases": {
+    "GUARDIAN": "7c5696440edcce764d5c76d8b66780904ee46130c3cbcff3c2da8bc70f9d730c",
+    "VANGUARD": "aa1a997fcf07a78205133b902fed2b862de02f74894b23eecfb124a37fb4c9d8",
+    "ASSASSIN": "6ab3a290e47077e8eeea6268b0149d066a23e902a142280d2c230c348e03b89f",
+    "MARKSMAN": "c69cd714096d97cfea480d6bd4fbd1e63b173d43c6eafddf97ed5cb060ea447a",
+    "SNIPER": "6925e7f9c8e4417a051facd5f248802539629faae3fe0384ce29b23194799a5c",
+    "CONTROLLER": "0c466f048e2f197b4d57f9ae4109cd7ca7bf47f6798390db7041699d541fdfc4",
+    "SUPPORT": "4bc0a34cdccfda7c21f0e2f0316235cc5076dab6597ef4c11e29404408e8909a"
+  }
+}

@@ -677,7 +677,10 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
 export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [] } = {}) {
   let mercenaryRuntime=null;
   const applyDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);return result;};
-  const random = seededRandom(seed);
+  const cardRandom = seededRandom(seed);
+  const mercenaryRandom = {A:seededRandom((Number(seed)^0x4d455243)>>>0),B:seededRandom((Number(seed)^0x534c4f54)>>>0)};
+  let actionRandom = cardRandom;
+  const random = () => actionRandom();
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
   const mercenaryTurns=mercenaryTurnCadence({A:a,B:b});
@@ -702,6 +705,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const timeline = [];
   let clock = 0;
   let actionCount = 0;
+  let mercenaryActionCount = 0;
+  const mercenaryActionsBySide={A:0,B:0};
+  const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<maxActions*2;
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;
   // APOCALYPSE monsters can own a real multi-attack sequence. The repeat is
@@ -812,7 +818,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // 방어형: 팀 방벽. 무료 부활 대신 소모되는 자원으로 생존력을 준다.
   if (S1.guardShieldPercent > 0) {
     for (const team of [a, b]) {
-      const members = canonicalTeam(team);
+      // This finite resource belongs to the regular five-card formation.
+      // Adding an optional mercenary must not reduce each card's share by 1/6.
+      const members = canonicalTeam(team).filter(card=>!card.isMercenary);
       const guards = members.filter(card => card.type === 'DEFENSE');
       if (!guards.length) continue;
       let pool = 0;
@@ -905,7 +913,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // fill, drain or consume the canonical card/monster speed gauge.
     fighter.gauge = isBattleSuitSupport(fighter)
       ? 0
-      : clamp(Number(fighter.gauge || 0) + random() * 8, 0, 99);
+      : clamp(Number(fighter.gauge || 0) + (fighter.isMercenary?mercenaryRandom[fighter.side]():random()) * 8, 0, 99);
     if (fighter.shield > 0) {
       pushEvent(timeline, clock, 'START_EFFECT', {
         targetId: fighter.id,
@@ -984,7 +992,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   //   호송에서는 하한을 끈다.
   const hitOptions = { minDamagePercent: escortMode ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
   mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({teams:{A:a,B:b},
-    hit:(actor,target,multiplier)=>hitResult(actor,target,random,multiplier,false,{...hitOptions,minDamagePercent:0}),damage:applyDamage,
+    hit:(actor,target,multiplier)=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,minDamagePercent:0}),damage:applyDamage,
     knockout:target=>resolveKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data),clock:()=>clock}):null;
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
   {
@@ -1102,7 +1110,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         });
       }
     }
-    const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card));
+    const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card)&&mercenaryActionAvailable(card));
     if(!actors.length)break;
     const gaugeDt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
     // Once a card can refill a whole gauge in the legacy .001 step, that
@@ -1111,13 +1119,15 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // preserve the established cadence/balance below that saturation boundary.
     const minimumGaugeStep=actors.some(card=>card.speed*.001>=100)?0:.001;
     const gaugeReadyAt=clock+Math.max(minimumGaugeStep,gaugeDt);
+    const reservedMercenary=mercenaryTurns.pending(mercenaryActionAvailable);
+    const nextCardAt=reservedMercenary?clock:gaugeReadyAt;
     const eligibleSupports=independentSupports
       .filter(support=>support.alive&&support.hp>0&&targetableAlive(support.side==='A'?b:a).length)
       .sort((left,right)=>(independentNextFireAt.get(left.id)??Infinity)-(independentNextFireAt.get(right.id)??Infinity)||left.slot-right.slot);
     const independentActor=eligibleSupports[0]||null;
     const independentReadyAt=independentActor?(independentNextFireAt.get(independentActor.id)??Infinity):Infinity;
-    const independentAction=Boolean(independentActor&&independentReadyAt<=gaugeReadyAt);
-    const nextActionAt=independentAction?Math.max(clock,independentReadyAt):gaugeReadyAt;
+    const independentAction=Boolean(independentActor&&independentReadyAt<=nextCardAt);
+    const nextActionAt=independentAction?Math.max(clock,independentReadyAt):nextCardAt;
     if (durationLimit && nextActionAt > durationLimit) { durationStopped = true; break; }
     let nextStepMs=nextCombatMs;
     if(chipActor&&independentAction){
@@ -1137,7 +1147,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     //   보스가 샌드백처럼 맞고만 있는 원인이라, 게이지와 무관하게
     //   "플레이어가 N번 움직이면 몬스터가 한 번" 을 보장한다.
     //   ⚠ 몬스터 행동이 늘어난 만큼 1회 피해는 낮춰 뒀다 (buildMonsterFighter 참고).
-    let actor = independentAction?independentActor:mercenaryTurns.select(ready[0]);
+    let actor = independentAction?independentActor:reservedMercenary||ready[0];
     if(!actor)continue;
     if(independentAction){
       independentNextFireAt.set(actor.id,clock+Math.max(.0002,Number(actor.independentFireInterval||.0018)));
@@ -1155,7 +1165,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         repeatMonsterActions = 0;
       }
     }
-    if (!independentAction && !repeatedMonsterAction && forcedMonsterEvery > 0) {
+    if (!independentAction && !actor.isMercenary && !repeatedMonsterAction && forcedMonsterEvery > 0) {
       if (actor.side === 'A') {
         playerStreak += 1;
         if (playerStreak >= forcedMonsterEvery) {
@@ -1178,10 +1188,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
+    actionRandom=actor.isMercenary?mercenaryRandom[actor.side]:cardRandom;
     if(!independentAction)mercenaryTurns.acted(actor);
-    if(!independentAction)actionCount += 1;
+    if(actor.isMercenary){mercenaryActionCount += 1;mercenaryActionsBySide[actor.side] += 1;}
+    else if(!independentAction)actionCount += 1;
     const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
-    if(suddenDeath&&actionCount===Number(suddenDeathAfter||0)+1){
+    if(suddenDeath&&!actor.isMercenary&&actionCount===Number(suddenDeathAfter||0)+1){
       pushEvent(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
     }
 
@@ -1255,7 +1267,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const previousDamage=Math.max(1,Math.round(Number(hit.damage||0)/shotsPerCycle*battleSuitFirepowerBeforeV2011(actor,target)));
       hit.damage=previousDamage*BATTLE_SUIT_DAMAGE_MULTIPLIER;
     }
-    if(suddenDeath){
+    if(suddenDeath&&!actor.isMercenary){
       hit.dodge=false;
       const overtimeStep=Math.max(1,actionCount-Number(suddenDeathAfter||0));
       const minimumPercent=Math.min(.9,.55+overtimeStep*.012);
@@ -1269,7 +1281,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         actorId: actor.id,
         actorKind: actor.actorKind || undefined,
         damageSource: actor.damageSource || undefined,
-        actionClock: isBattleSuitSupport(actor)?'INDEPENDENT_TIME_CADENCE':'SPEED_GAUGE',
+        actionClock: isBattleSuitSupport(actor)?'INDEPENDENT_TIME_CADENCE':actor.isMercenary?'MERCENARY_ADDITIONAL':'SPEED_GAUGE',
         targetId: target.id,
         dodge: true,
         actorGaugeAfter: actor.gauge,
@@ -1319,7 +1331,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       actorId: actor.id,
       actorKind: actor.actorKind || undefined,
       damageSource: actor.damageSource || undefined,
-      actionClock: 'SPEED_GAUGE',
+      actionClock: actor.isMercenary?'MERCENARY_ADDITIONAL':'SPEED_GAUGE',
       targetId: target.id,
       damage: damageState.hpDamage,
       absorbed: damageState.absorbed,
@@ -1454,7 +1466,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
-    } finally {stampCombatGroup(groupFrom,combatMs,!independentAction);}
+    } finally {actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);
@@ -1466,11 +1478,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       : aRatio === bRatio ? 'DRAW' : (aRatio > bRatio ? 'A' : 'B');
   const timedOut = durationStopped || (durationLimit > 0 && clock >= durationLimit);
   const enemiesRemain = targetableAlive(b).length > 0 || pendingMonsters.length > 0;
-  const reason = timedOut && targetableAlive(a).length && enemiesRemain ? 'TIME_LIMIT' : actionCount >= maxActions && targetableAlive(a).length && enemiesRemain ? 'ACTION_LIMIT' : 'ELIMINATION';
+  const reason = timedOut && targetableAlive(a).length && enemiesRemain ? 'TIME_LIMIT' : (actionCount >= maxActions||mercenaryActionCount>=maxActions*2) && targetableAlive(a).length && enemiesRemain ? 'ACTION_LIMIT' : 'ELIMINATION';
   pushEvent(timeline, clock + 0.01, 'RESULT', {
     winner,
     reason,
     actions: actionCount,
+    ...(mercenaryActionCount?{mercenaryActions:mercenaryActionCount}:{}),
     duration: Number(clock.toFixed(3)),
     teamAHpPercent: Math.round(aRatio * 1000) / 10,
     teamBHpPercent: Math.round(bRatio * 1000) / 10
@@ -1487,6 +1500,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     winner,
     reason,
     actions: actionCount,
+    ...(mercenaryActionCount?{mercenaryActions:mercenaryActionCount}:{}),
     duration: Number(clock.toFixed(3)),
     timeline,
     healerPenalty: healerRules,

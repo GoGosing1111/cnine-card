@@ -43,6 +43,7 @@
     "preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js",
     "preview/project-v-mercenary-system-v1/skill-audio-v1.json",
     "preview/project-v-mercenary-system-v1/source/MercenarySkillAudio.js",
+    "preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js",
     "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js",
@@ -50,5 +51,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1046124
+  "outputBytes": 1053197
 }

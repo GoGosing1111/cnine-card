@@ -1,0 +1,624 @@
+{
+  "revision": 53,
+  "updatedAt": "2026-09-13T08:50:28.112Z",
+  "source": "/api/mercenary-codex",
+  "purpose": "READ_ONLY_REHEARSAL",
+  "cards": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+      "basePower": 70000,
+      "skills": [
+        {
+          "id": "MS-001",
+          "balance": {
+            "damageRatio": 1.4,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-002",
+      "name": "리시아",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-mercenary-m4-v4-knight-style.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v002-licia-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-003",
+      "name": "솔바인",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v003-solvain-sd-v1.png",
+      "basePower": 70000,
+      "skills": [
+        {
+          "id": "MS-003",
+          "balance": {
+            "damageRatio": 0,
+            "cooldownTurns": 5,
+            "cost": 20
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v004-vespera-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-004",
+          "balance": {
+            "damageRatio": 2.1,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-005",
+      "name": "청아",
+      "rank": "S",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v005-cheonga-sd-v1.png",
+      "basePower": 70000,
+      "skills": [
+        {
+          "id": "MS-005",
+          "balance": {
+            "damageRatio": 2.1,
+            "cooldownTurns": 6,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-006",
+      "name": "카르시아",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/black-eclipse-greatsword-mercenary-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v006-carsia-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-007",
+      "name": "서윤",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "ASSASSIN",
+      "sourceArt": "assets/ui/project-v/mercenaries/modern-office-pistol-mercenary-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v007-seoyoon-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "rank": "S",
+      "position": "REAR",
+      "role": "SNIPER",
+      "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v008-astel-sd-v1.png",
+      "basePower": 70000,
+      "skills": [
+        {
+          "id": "MS-008",
+          "balance": {
+            "damageRatio": 1.7,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v009-ryeonhwa-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-009",
+          "balance": {
+            "damageRatio": 2.4,
+            "cooldownTurns": 7,
+            "cost": 35
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-010",
+      "name": "월령",
+      "rank": "SS",
+      "position": "FRONT",
+      "role": "ASSASSIN",
+      "sourceArt": "assets/ui/project-v/mercenaries/moonlit-crimson-sword-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v010-wolryeong-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-010",
+          "balance": {
+            "damageRatio": 1.55,
+            "cooldownTurns": 6,
+            "cost": 35
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-011",
+      "name": "아르카엘",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v011-arkael-sd-v1.png",
+      "basePower": 70000,
+      "skills": [
+        {
+          "id": "MS-011",
+          "balance": {
+            "damageRatio": 1.5,
+            "cooldownTurns": 6,
+            "cost": 35
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-012",
+      "name": "세리온",
+      "rank": "B",
+      "position": "FRONT",
+      "role": "CONTROLLER",
+      "sourceArt": "assets/ui/project-v/mercenaries/dawn-spear-marshal-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v012-serion-sd-v1.png",
+      "basePower": 20000,
+      "skills": []
+    },
+    {
+      "code": "V-013",
+      "name": "라비에나",
+      "rank": "B",
+      "position": "MIDDLE",
+      "role": "SUPPORT",
+      "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png",
+      "basePower": 20000,
+      "skills": []
+    },
+    {
+      "code": "V-014",
+      "name": "엘리시아",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/tempest-wing-k2-officer-mercenary-source-art-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v014-elysia-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-015",
+      "name": "녹시아",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "ASSASSIN",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-assassin-urban-nightblade-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v015-noxia-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-016",
+      "name": "솔레아",
+      "rank": "A",
+      "position": "REAR",
+      "role": "CONTROLLER",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-mage-eclipse-arcanist-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v016-solea-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-017",
+      "name": "마레나",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-swordshield-tide-bastion-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v017-marena-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-018",
+      "name": "미레시아",
+      "rank": "C",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-staff-mage-mirror-salt-magister-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v018-miresia-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-019",
+      "name": "아우렐리온",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/male-spear-archangel-high-seraph-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v019-aurelion-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-020",
+      "name": "사요",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "ASSASSIN",
+      "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v020-sayo-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "rank": "SSS",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v021-omega-x-sd-v1.png",
+      "basePower": 180000,
+      "skills": [
+        {
+          "id": "MS-021",
+          "balance": {
+            "damageRatio": 2.4,
+            "cooldownTurns": 7,
+            "cost": 45
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "rank": "S",
+      "position": "REAR",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+      "basePower": 70000,
+      "skills": [
+        {
+          "id": "MS-022",
+          "balance": {
+            "damageRatio": 1.8,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-023",
+      "name": "이안",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v023-ian-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-024",
+      "name": "벨루아",
+      "rank": "B",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v024-velua-sd-v1.png",
+      "basePower": 20000,
+      "skills": []
+    },
+    {
+      "code": "V-025",
+      "name": "에이라",
+      "rank": "C",
+      "position": "REAR",
+      "role": "SNIPER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v025-eira-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-026",
+      "name": "루카스",
+      "rank": "C",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v026-lucas-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-027",
+      "name": "케일",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v027-kael-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-028",
+      "name": "연휘",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "SUPPORT",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v028-yeonhwi-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-029",
+      "name": "레오나",
+      "rank": "B",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v029-leona-sd-v1.png",
+      "basePower": 20000,
+      "skills": []
+    },
+    {
+      "code": "V-030",
+      "name": "홍련",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v030-hongryeon-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-031",
+      "name": "루시안",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v031-lucian-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-032",
+      "name": "셀레네",
+      "rank": "C",
+      "position": "MIDDLE",
+      "role": "ASSASSIN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v032-selene-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-033",
+      "name": "로젤",
+      "rank": "C",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v033-roselle-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-034",
+      "name": "세이지",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v034-sage-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-035",
+      "name": "세라",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v035-sera-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-032",
+          "balance": {
+            "damageRatio": 1.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        },
+        {
+          "id": "MS-036",
+          "balance": {
+            "damageRatio": 2,
+            "cooldownTurns": 6,
+            "cost": 40
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-037",
+          "balance": {
+            "damageRatio": 1.8,
+            "cooldownTurns": 7,
+            "cost": 35
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-038",
+      "name": "세실리아",
+      "rank": "B",
+      "position": "FRONT",
+      "role": "CONTROLLER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v038-cecilia-sd-v1.png",
+      "basePower": 20000,
+      "skills": []
+    },
+    {
+      "code": "V-039",
+      "name": "로제타",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v039-rosetta-sd-v1.png",
+      "basePower": 10000,
+      "skills": []
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-040",
+          "balance": {
+            "damageRatio": 2.1,
+            "cooldownTurns": 6,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-041",
+      "name": "레니아",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v041-renia-sd-v1.png",
+      "basePower": 40000,
+      "skills": []
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-042",
+          "balance": {
+            "damageRatio": 1.35,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+      "basePower": 120000,
+      "skills": [
+        {
+          "id": "MS-043",
+          "balance": {
+            "damageRatio": 2,
+            "cooldownTurns": 6,
+            "cost": 30
+          }
+        }
+      ]
+    }
+  ]
+}

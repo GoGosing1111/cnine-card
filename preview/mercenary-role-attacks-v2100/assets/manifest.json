@@ -1,0 +1,1837 @@
+{
+  "version": 2100,
+  "runtimeEnabled": true,
+  "status": "USER_APPROVED_LIVE_CONNECTION",
+  "frameCount": 112,
+  "images": [
+    {
+      "role": "GUARDIAN",
+      "label": "수호",
+      "source": "preview/mercenary-role-attacks-v2100/assets/source/guardian.png",
+      "sourceSha256": "72d559c0e35a711debe4ac358d27e100483aafede2760fb0d05bf88ac689d0a9",
+      "runtime": "/preview/mercenary-role-attacks-v2100/assets/guardian/atlas.json",
+      "runtimeSha256": "7c5696440edcce764d5c76d8b66780904ee46130c3cbcff3c2da8bc70f9d730c",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "cellSize": 314,
+      "frameCount": 16,
+      "contactFrame": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "guardian/frames/01.webp",
+          "edgeMax": 1,
+          "nonempty": 41702,
+          "alphaTotal": 8426411,
+          "bounds": [
+            46,
+            52,
+            289,
+            275
+          ],
+          "rawSha256": "d3623970382139f3c7652031a0235cfc8a6250fbc9d78bf34981395ba6c0ff96",
+          "sha256": "ee3ea30235d28c4273aa725b8fdef1d3b183c8630a1ac4b4a6925b1612f502f4"
+        },
+        {
+          "index": 1,
+          "file": "guardian/frames/02.webp",
+          "edgeMax": 1,
+          "nonempty": 40846,
+          "alphaTotal": 8345364,
+          "bounds": [
+            32,
+            51,
+            279,
+            274
+          ],
+          "rawSha256": "0f10f2aea89551c0179b7149da092cce570ef231b1b7a14eff4ea3e356e7548d",
+          "sha256": "d2c11bf9a8c13f469d60c97bc082fbfd0f517db36026f773c29e6908f2127e66"
+        },
+        {
+          "index": 2,
+          "file": "guardian/frames/03.webp",
+          "edgeMax": 1,
+          "nonempty": 41793,
+          "alphaTotal": 8271038,
+          "bounds": [
+            31,
+            50,
+            280,
+            276
+          ],
+          "rawSha256": "fc52b5b11c7da10900b3aba4b3f5d70efe6ecc433cbea4b5d9c8add321c8e838",
+          "sha256": "009c7dc5ecb8fe3bbd6d4c723c594196170b5eda107fc1dda894ef9e4151c56c"
+        },
+        {
+          "index": 3,
+          "file": "guardian/frames/04.webp",
+          "edgeMax": 1,
+          "nonempty": 40940,
+          "alphaTotal": 8073735,
+          "bounds": [
+            34,
+            49,
+            267,
+            276
+          ],
+          "rawSha256": "3e0d5c5349f85563f7666c40fdc3a35e516f496564f95212e2910bc637471e22",
+          "sha256": "586882516406a50fbd7463bd0c4575db89f44455f0d36aade12a6578d87d9d2f"
+        },
+        {
+          "index": 4,
+          "file": "guardian/frames/05.webp",
+          "edgeMax": 1,
+          "nonempty": 52475,
+          "alphaTotal": 10586335,
+          "bounds": [
+            25,
+            26,
+            293,
+            283
+          ],
+          "rawSha256": "d807319247ba8e830fc45cfdda674619868cbe4354973bf88087e435b282cb25",
+          "sha256": "03a55349e5f3acffefed3e42b4b2b9bc79bbf0efadec1ae71f9a7a074270d8dd"
+        },
+        {
+          "index": 5,
+          "file": "guardian/frames/06.webp",
+          "edgeMax": 1,
+          "nonempty": 56714,
+          "alphaTotal": 11735799,
+          "bounds": [
+            21,
+            13,
+            303,
+            291
+          ],
+          "rawSha256": "33c087e4660392ff675303e052bb919967f2c15a700593c4f957430e1bd691b2",
+          "sha256": "666468ea7c3b2333c1714bc784e34be1d97171f1efe78a5132c84fc509d61c3e"
+        },
+        {
+          "index": 6,
+          "file": "guardian/frames/07.webp",
+          "edgeMax": 2,
+          "nonempty": 55559,
+          "alphaTotal": 10821239,
+          "bounds": [
+            10,
+            28,
+            307,
+            295
+          ],
+          "rawSha256": "37b7df3f3d501e1b7a37ea43e226fee0c84f3ada59d9d1a0ec7cc83be3c04c7e",
+          "sha256": "3205e5d01916694b858ade058edf24eeac1ce4d367195ef5b6281591bf3284f7"
+        },
+        {
+          "index": 7,
+          "file": "guardian/frames/08.webp",
+          "edgeMax": 2,
+          "nonempty": 51486,
+          "alphaTotal": 8828037,
+          "bounds": [
+            20,
+            35,
+            298,
+            294
+          ],
+          "rawSha256": "5e4a76d4506ec7e945d64319ecb08a9b42dfb4491b9c1de92577621e8de9e9c4",
+          "sha256": "5d6477b60659b540ad5b820d7016e97073c2079ec13820131d2579662bebb109"
+        },
+        {
+          "index": 8,
+          "file": "guardian/frames/09.webp",
+          "edgeMax": 1,
+          "nonempty": 46369,
+          "alphaTotal": 7752551,
+          "bounds": [
+            25,
+            58,
+            304,
+            291
+          ],
+          "rawSha256": "515ec12e6bdaabb9bf3f6ab483bf0469e3d92969ea6270490d6b7d4fae7dd4a5",
+          "sha256": "ad8ec83398def7afd5ecd6b737f8fd418a64a6efadfc43c980898f179d64d928"
+        },
+        {
+          "index": 9,
+          "file": "guardian/frames/10.webp",
+          "edgeMax": 2,
+          "nonempty": 49017,
+          "alphaTotal": 7792512,
+          "bounds": [
+            14,
+            40,
+            297,
+            284
+          ],
+          "rawSha256": "534fd2af65bd9c1a84e19cbadfa301e752c5103db3ed1ab9061161dee5e6416d",
+          "sha256": "ec8748a0c0a5abcccb5f8b7553c314d8d6cfcab84527d73f560e8dd16c3f98e6"
+        },
+        {
+          "index": 10,
+          "file": "guardian/frames/11.webp",
+          "edgeMax": 2,
+          "nonempty": 48807,
+          "alphaTotal": 6974138,
+          "bounds": [
+            9,
+            41,
+            304,
+            282
+          ],
+          "rawSha256": "cb13930ac45b9af4a0bf951964f77dbbf502ed80367326ed4223768bdffd51ac",
+          "sha256": "2c598161cbb9214043452ff019b2781b7833b4bc12ecf99ad8f37f1de1882ae2"
+        },
+        {
+          "index": 11,
+          "file": "guardian/frames/12.webp",
+          "edgeMax": 1,
+          "nonempty": 37925,
+          "alphaTotal": 3489683,
+          "bounds": [
+            25,
+            64,
+            275,
+            276
+          ],
+          "rawSha256": "8d51fd8709292c9b80c2674dfca7b9e6cf08f5b507717c9554a76ae3dfdb95ed",
+          "sha256": "3191692c13593342c4ac99e8ec88bcd1189c8839bd893c2df8c68471228a2f77"
+        },
+        {
+          "index": 12,
+          "file": "guardian/frames/13.webp",
+          "edgeMax": 1,
+          "nonempty": 34691,
+          "alphaTotal": 2766632,
+          "bounds": [
+            25,
+            51,
+            295,
+            262
+          ],
+          "rawSha256": "f89849b94ecbe9bfffec2b8784f08ea5a3deb6b113fcd7b118dcbd8715b29d6f",
+          "sha256": "e32aec12974339076357f62b3f0eebb8b8cfa0f416078f687763fcae6985c96b"
+        },
+        {
+          "index": 13,
+          "file": "guardian/frames/14.webp",
+          "edgeMax": 1,
+          "nonempty": 23934,
+          "alphaTotal": 1384729,
+          "bounds": [
+            49,
+            61,
+            284,
+            258
+          ],
+          "rawSha256": "1526c7aa5f4485454174ab455f1dcf0d2aeddc0b7413f1b30c029897dc82aefd",
+          "sha256": "3860cb34868adf287a522876b246c383c818e22713898d72de5c35850c736881"
+        },
+        {
+          "index": 14,
+          "file": "guardian/frames/15.webp",
+          "edgeMax": 1,
+          "nonempty": 13079,
+          "alphaTotal": 482175,
+          "bounds": [
+            35,
+            62,
+            273,
+            244
+          ],
+          "rawSha256": "4621cb775426570ff0b2bd56368039c992e2fb8b2a5925246e1d56aff2b9df55",
+          "sha256": "f47cdc6434407e7014d7cdaacdf717dc74fa0e4d3ead311b306c8c93e685defa"
+        },
+        {
+          "index": 15,
+          "file": "guardian/frames/16.webp",
+          "edgeMax": 1,
+          "nonempty": 5435,
+          "alphaTotal": 129214,
+          "bounds": [
+            66,
+            63,
+            221,
+            242
+          ],
+          "rawSha256": "592402356d24fcbfc4b6f4c15de2f985d73fff14aedbdfae51a8223db3db8b11",
+          "sha256": "8b3db10e06349e8aac47d63e5406a138d21e23f1cd4082557b7e47d4cce01d84"
+        }
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: production 2D fantasy combat VFX animation sprite atlas, GUARDIAN mercenary role, shield ram contact.\nCreate ONE 2048x2048 PNG with genuinely transparent alpha background. Exactly 4 columns x 4 rows of equally sized cells, 16 consecutive animation frames read left-to-right row-by-row. No drawn grid, no letters, numbers, labels, UI, characters, weapon props, ground plane or checkerboard. Each 512px cell shows the same fixed impact anchor at its center. Leave at least 55px completely transparent padding at all cell edges. All visible pixels must fit inside each cell; no cross-cell glow.\nStyle: high-end hand-painted 2D RPG battle effects, sharp readable silhouette, detailed luminous shards and layered soft particulate smoke, premium animation comparable to an authored explosion sheet. This is not a row of icons nor a single still resized/rotated.\nSubject: a silver-white and warm old-gold KINETIC SHIELD STRIKE. A heavy broad beveled shield-shaped light pressure plate folds forward and shatters on contact into thick faceted silver sparks, short gold stress streaks and a low dense pressure puff. NOT a magical bubble, no red sword or generic circular fire explosion.\nExact temporal evolution: frames 1-3 tight compressed silver-gold pressure gathering with curling dust, 4 plate buckles inward, 5 contact white-hot compact core and broad asymmetric shield-like fracture, 6-8 thick chunks burst out with distinct changing orientations and bright short impact filaments, 9-11 energy fragments break into smaller sparks while pale warm dust rolls outward, 12-14 smoke curls detach and lose density, 15 only a few tiny embers, 16 nearly fully gone with very faint residual dust. The shape, cracks, particles and smoke must really evolve frame by frame; smoothly connected action and decay, not copies at different sizes. No opaque or tinted background.",
+      "generation": "BUILT_IN_IMAGEGEN",
+      "review": "USER_APPROVED_LIVE_CONNECTION"
+    },
+    {
+      "role": "VANGUARD",
+      "label": "돌격",
+      "source": "preview/mercenary-role-attacks-v2100/assets/source/vanguard.png",
+      "sourceSha256": "d7f8961db0c2d20c2e63e05c58fd8ffd997d693b62e6ca8c098c3a927854f588",
+      "runtime": "/preview/mercenary-role-attacks-v2100/assets/vanguard/atlas.json",
+      "runtimeSha256": "aa1a997fcf07a78205133b902fed2b862de02f74894b23eecfb124a37fb4c9d8",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "cellSize": 314,
+      "frameCount": 16,
+      "contactFrame": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "vanguard/frames/01.webp",
+          "edgeMax": 1,
+          "nonempty": 13007,
+          "alphaTotal": 1848672,
+          "bounds": [
+            55,
+            37,
+            286,
+            275
+          ],
+          "rawSha256": "78968ccedc8955f5e1ae05785b42ca6127aac662272a9f23b9c13fe257d1d422",
+          "sha256": "680ecd0bad7a88fe4130f2c65f0d714df574bf649660ff8878996bbf4de1741a"
+        },
+        {
+          "index": 1,
+          "file": "vanguard/frames/02.webp",
+          "edgeMax": 1,
+          "nonempty": 17784,
+          "alphaTotal": 2555277,
+          "bounds": [
+            55,
+            35,
+            271,
+            276
+          ],
+          "rawSha256": "8a7292b226640066d6888b2999bbc4c0ece61157e4cba1175bb73798893c536f",
+          "sha256": "fe35eb067af946d7cee6244dfd5212cd22dcbc44b15ef5b3663bf61862a9838c"
+        },
+        {
+          "index": 2,
+          "file": "vanguard/frames/03.webp",
+          "edgeMax": 1,
+          "nonempty": 21143,
+          "alphaTotal": 2979311,
+          "bounds": [
+            28,
+            47,
+            271,
+            276
+          ],
+          "rawSha256": "4bccfb5d104d8cc78c1dc1d8248bef79628a8434ddbd57e1233fb65f13886564",
+          "sha256": "571c6eedfabc17702b4f3538d5b16b291771c7b5f7adfa38dae6e0b0e01f4d7c"
+        },
+        {
+          "index": 3,
+          "file": "vanguard/frames/04.webp",
+          "edgeMax": 1,
+          "nonempty": 35666,
+          "alphaTotal": 5902471,
+          "bounds": [
+            19,
+            13,
+            279,
+            285
+          ],
+          "rawSha256": "23dd724022c61ad27e7a8d5c34d12899dc14be312bdc107c9073ec4183ed5344",
+          "sha256": "c6e72b5e2fd3f0c843378533484f15c5e5fca7607fcca058075129466223144b"
+        },
+        {
+          "index": 4,
+          "file": "vanguard/frames/05.webp",
+          "edgeMax": 1,
+          "nonempty": 47530,
+          "alphaTotal": 8440773,
+          "bounds": [
+            25,
+            7,
+            297,
+            288
+          ],
+          "rawSha256": "c2079f7795d9b2615b4d7a6439296796a6896fc8177e40873beedff6b50bb63f",
+          "sha256": "250bb88184cbb476ab56b8ce9bc966a6281573928474543a4cafe2f8fc10e047"
+        },
+        {
+          "index": 5,
+          "file": "vanguard/frames/06.webp",
+          "edgeMax": 2,
+          "nonempty": 48744,
+          "alphaTotal": 8660450,
+          "bounds": [
+            25,
+            7,
+            299,
+            286
+          ],
+          "rawSha256": "2b8baa9e5b762fb9e059f8bfc0d78e4570ee6dc2d9dfdcbddb1d74affa7f2c33",
+          "sha256": "3ea9595e81b6d4184bb7614dc8c12375720b0c2085ce4a2aeea6037f2df51e2b"
+        },
+        {
+          "index": 6,
+          "file": "vanguard/frames/07.webp",
+          "edgeMax": 1,
+          "nonempty": 47059,
+          "alphaTotal": 8191357,
+          "bounds": [
+            19,
+            9,
+            302,
+            287
+          ],
+          "rawSha256": "052145937eadd76ca1c942c154e1c3ee2c2b20008382b32d093b2b6f08884651",
+          "sha256": "c27b392415c8a71a3213392edbad9d88204dd696f5af0e2a3d006a5e3def1aa4"
+        },
+        {
+          "index": 7,
+          "file": "vanguard/frames/08.webp",
+          "edgeMax": 2,
+          "nonempty": 44737,
+          "alphaTotal": 6894803,
+          "bounds": [
+            24,
+            8,
+            301,
+            284
+          ],
+          "rawSha256": "2f3aff451782fa07627797ca43fbde0b12eeb1fe86949c9ec1a8cadd5b71144b",
+          "sha256": "a9071c9601602029a432783338ca13e1d3cc9553723e32ae97efeb5471bb98cb"
+        },
+        {
+          "index": 8,
+          "file": "vanguard/frames/09.webp",
+          "edgeMax": 1,
+          "nonempty": 44188,
+          "alphaTotal": 6032088,
+          "bounds": [
+            34,
+            18,
+            300,
+            289
+          ],
+          "rawSha256": "3b21e976e860e5cfdbdacf49dffaae4e0c69daa3cc797dbb97aa9a83ffa8d047",
+          "sha256": "d881bb06acfd46825931836ea26740b590cead135d3aaf32262fcc2cb4e1b594"
+        },
+        {
+          "index": 9,
+          "file": "vanguard/frames/10.webp",
+          "edgeMax": 1,
+          "nonempty": 43120,
+          "alphaTotal": 5773570,
+          "bounds": [
+            42,
+            18,
+            293,
+            287
+          ],
+          "rawSha256": "855c683593791dcff09ed3f05d3c53906446e808f9b388844828b6b68f1664bb",
+          "sha256": "bf1b6a8ad280288537826cf6f6be467b68ea09f36107aa5ee3108ca1c42011e4"
+        },
+        {
+          "index": 10,
+          "file": "vanguard/frames/11.webp",
+          "edgeMax": 1,
+          "nonempty": 40824,
+          "alphaTotal": 5081249,
+          "bounds": [
+            35,
+            27,
+            290,
+            289
+          ],
+          "rawSha256": "fb6cabdc0b8ede581b2d48b4af84ed060477726943da6ef7ca4b9d23d0dd6403",
+          "sha256": "c4aa1b9c043c64ae98b065dbd2bf3a1ebaf1af63aab6a02425d4b2225a582680"
+        },
+        {
+          "index": 11,
+          "file": "vanguard/frames/12.webp",
+          "edgeMax": 1,
+          "nonempty": 31051,
+          "alphaTotal": 2071038,
+          "bounds": [
+            27,
+            29,
+            271,
+            288
+          ],
+          "rawSha256": "fb88577a8548a6cad3ff0a60bdc21189696f1d387feeaf8f53922a7c036f6569",
+          "sha256": "3246b009a5502e9e0ba15bb301a2d3cb260df3125196e4c2bc4faf97d8920b8a"
+        },
+        {
+          "index": 12,
+          "file": "vanguard/frames/13.webp",
+          "edgeMax": 1,
+          "nonempty": 27306,
+          "alphaTotal": 1690032,
+          "bounds": [
+            43,
+            17,
+            285,
+            279
+          ],
+          "rawSha256": "ccf2361d2e00d33ec25e85c4a34fab80dd46e4116b5e16fdaff99726bedbc581",
+          "sha256": "33609d36a5d18f28705999a3fd7af16456f96cd0d9b2f64723577ff5a84d0a7b"
+        },
+        {
+          "index": 13,
+          "file": "vanguard/frames/14.webp",
+          "edgeMax": 1,
+          "nonempty": 20621,
+          "alphaTotal": 1178340,
+          "bounds": [
+            63,
+            31,
+            289,
+            264
+          ],
+          "rawSha256": "0c566046c83b31f027454bd4a4a81f954f897a383e104073b1284b79a7d5c303",
+          "sha256": "0baf2c5153d622a3ffaf1e5ffdd9c6ee83535e42b3e746213ea8c4e6ba4f5484"
+        },
+        {
+          "index": 14,
+          "file": "vanguard/frames/15.webp",
+          "edgeMax": 1,
+          "nonempty": 5627,
+          "alphaTotal": 273885,
+          "bounds": [
+            67,
+            49,
+            288,
+            258
+          ],
+          "rawSha256": "2e887ffe2cc111bb80e35e27ff5d9a8c3a55bedb094f3a074da18f2710e27733",
+          "sha256": "231c00976c47100ae23525c208ad6ffca5ec1e94f3b0d4ed1c07cad8c1bf1aeb"
+        },
+        {
+          "index": 15,
+          "file": "vanguard/frames/16.webp",
+          "edgeMax": 1,
+          "nonempty": 1445,
+          "alphaTotal": 79980,
+          "bounds": [
+            71,
+            73,
+            234,
+            224
+          ],
+          "rawSha256": "1af4e6f43c253f7f55a002a01ca509498a34bd55797535032626790c7fd6f612",
+          "sha256": "d42bf0eb743e03c1a47cc4db687622c043fc2751aaa5139bec5a7914f52a560e"
+        }
+      ],
+      "prompt": "Use case: stylized-concept. Production asset: individually hand-painted fantasy combat VFX animation sprite sheet for ONE mercenary role. Create ONE square PNG 2048x2048 with GENUINELY TRANSPARENT ALPHA BACKGROUND. Exactly 4 columns by 4 rows, 16 chronological frames read left-to-right row-by-row. Equal cell sizes, fixed center contact anchor. Leave at least 12% completely transparent margin inside EVERY cell on all sides; no visible material touches a cell edge. No drawn grid, checkerboard, text, numbers, UI, people, weapon props, background scenery or ground plane. Premium 2D RPG effects with rich hand-painted light, material deformation, crisp energy edges, dimensional particles and fluid smoke. Every consecutive frame MUST have genuinely changing shapes/particles/material; never one image rotated/resized/faded. This is an animation atlas of ONE action, not icons or a concept sheet. Timeline: frames 1-3 restrained anticipation/pressure charge at the impact anchor, 4 sudden release, frame 5 exact bright physical contact, frames 6-8 maximal material fragmentation, 9-11 expanding broken fragments and separated curls, 12-14 rapidly fading detached smoke and small particles, 15 a few isolated dim sparks,16 almost fully extinguished. Preserve delicate genuine semitransparency. DOLGYEOK / VANGUARD: a heavy greatsword cleaving impact with an unmistakable broad DIAGONAL SCARLET AND IVORY blade-pressure wedge down from upper left to lower right, rough orange-hot metallic fragments torn outward, chalky dust shearing sideways underneath. It is a weighty severing sweep: the crescent blade edge splits and buckles into jagged red-white strips at contact, then short red embers and rolling grey-orange dust. No shield, circles, magic runes or generic fireball.",
+      "generation": "BUILT_IN_IMAGEGEN",
+      "review": "USER_APPROVED_LIVE_CONNECTION"
+    },
+    {
+      "role": "ASSASSIN",
+      "label": "기습",
+      "source": "preview/mercenary-role-attacks-v2100/assets/source/assassin.png",
+      "sourceSha256": "fb4e43fb48de54c92c8ddc05aa3bd9ae1ec1a150f091d29f23d50bf48cc67491",
+      "runtime": "/preview/mercenary-role-attacks-v2100/assets/assassin/atlas.json",
+      "runtimeSha256": "6ab3a290e47077e8eeea6268b0149d066a23e902a142280d2c230c348e03b89f",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "cellSize": 314,
+      "frameCount": 16,
+      "contactFrame": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assassin/frames/01.webp",
+          "edgeMax": 1,
+          "nonempty": 19022,
+          "alphaTotal": 1570140,
+          "bounds": [
+            103,
+            79,
+            239,
+            282
+          ],
+          "rawSha256": "dd55116f522d3cf0cf9997d6a4a53eb1a511b7e866de8cfa831079982df89bab",
+          "sha256": "1c196b8b8d9c3377328a56a1a6d0554cb59ae483078e3537b266d31446abb81a"
+        },
+        {
+          "index": 1,
+          "file": "assassin/frames/02.webp",
+          "edgeMax": 1,
+          "nonempty": 23268,
+          "alphaTotal": 2403307,
+          "bounds": [
+            80,
+            59,
+            254,
+            283
+          ],
+          "rawSha256": "a4f7cfce1680e275c39858600660492bae17f05f6124f1ad982e96a30fce1b11",
+          "sha256": "bad6fd9b511fc6c97ab42828ce2692065ed36fb36beac70bc64d7c7276b8bb7c"
+        },
+        {
+          "index": 2,
+          "file": "assassin/frames/03.webp",
+          "edgeMax": 1,
+          "nonempty": 28148,
+          "alphaTotal": 3127669,
+          "bounds": [
+            58,
+            65,
+            260,
+            285
+          ],
+          "rawSha256": "fbae797289d07fae512e3439f8a75e0dde5b0d1d1bd85570d9856dc8bb5d7e79",
+          "sha256": "278683f34652f9a8c69a9dadbe003d8559068fa816ecb87ce89aa6ec75831a51"
+        },
+        {
+          "index": 3,
+          "file": "assassin/frames/04.webp",
+          "edgeMax": 1,
+          "nonempty": 25457,
+          "alphaTotal": 2558661,
+          "bounds": [
+            36,
+            40,
+            258,
+            294
+          ],
+          "rawSha256": "262b1d628a4dc260f2cc3b0879cf709299b531c85e6534852d025966245b477f",
+          "sha256": "d707844b00ae187af358676213b4385ed41399a8da72f32bf05810e573372282"
+        },
+        {
+          "index": 4,
+          "file": "assassin/frames/05.webp",
+          "edgeMax": 1,
+          "nonempty": 32002,
+          "alphaTotal": 3655541,
+          "bounds": [
+            59,
+            30,
+            283,
+            289
+          ],
+          "rawSha256": "0b69f3cea427c5445849f2cb098b7468697b6c155a5aaddc62ec764afd96967d",
+          "sha256": "12827f2ab5d4d50ae35e2146f551b15cad463b0c8e6724340ebdfdeaeada9225"
+        },
+        {
+          "index": 5,
+          "file": "assassin/frames/06.webp",
+          "edgeMax": 1,
+          "nonempty": 36385,
+          "alphaTotal": 3702321,
+          "bounds": [
+            36,
+            30,
+            280,
+            281
+          ],
+          "rawSha256": "b72e8c4a7a34bfeb63ec86835768833884085aab94a597ae93b4862dcd288be8",
+          "sha256": "9beb880e0b5ccbe18a32052bc879aee7f76c3908d19e9834b89d30cc80807d2e"
+        },
+        {
+          "index": 6,
+          "file": "assassin/frames/07.webp",
+          "edgeMax": 1,
+          "nonempty": 40023,
+          "alphaTotal": 4320936,
+          "bounds": [
+            14,
+            38,
+            300,
+            300
+          ],
+          "rawSha256": "06be1a7a5144b9376ce5ffa78936af2630c1115f08297af4e57dbfc61835ae52",
+          "sha256": "a4a9d8685bc2b5b4ec77eee77aeada5fbfd6d7ec5c1ed2a1afe622e84486041e"
+        },
+        {
+          "index": 7,
+          "file": "assassin/frames/08.webp",
+          "edgeMax": 1,
+          "nonempty": 34509,
+          "alphaTotal": 2898714,
+          "bounds": [
+            28,
+            49,
+            265,
+            298
+          ],
+          "rawSha256": "8ec292e42c6adff732edd7c009091bf2430c2440d0ef6c6f0d1afdae2ce9cbf1",
+          "sha256": "0b19a712440e9403d0574955e70718093e96ef976f58ee33cd139ff8c0ae7350"
+        },
+        {
+          "index": 8,
+          "file": "assassin/frames/09.webp",
+          "edgeMax": 1,
+          "nonempty": 29848,
+          "alphaTotal": 2423301,
+          "bounds": [
+            48,
+            29,
+            298,
+            293
+          ],
+          "rawSha256": "2613e369af33f5ef114fc28d8a20edf63b217513e078873fdb5a5d70edad50fb",
+          "sha256": "40a95edc090b99393999ee8385e13442e0dea45f38991f02a92a30a7a778f971"
+        },
+        {
+          "index": 9,
+          "file": "assassin/frames/10.webp",
+          "edgeMax": 1,
+          "nonempty": 23129,
+          "alphaTotal": 1699449,
+          "bounds": [
+            81,
+            51,
+            276,
+            286
+          ],
+          "rawSha256": "c9040b7d0b38cc5a76cb78a474f22102a2715fae8be5ad19766e69df4201caad",
+          "sha256": "4d2a6192832efb6706cfc650a2a6611ac2952f091eec01deb87716babf19945f"
+        },
+        {
+          "index": 10,
+          "file": "assassin/frames/11.webp",
+          "edgeMax": 1,
+          "nonempty": 18377,
+          "alphaTotal": 1130913,
+          "bounds": [
+            74,
+            44,
+            267,
+            277
+          ],
+          "rawSha256": "28389369d41b4ea68145712214277f383ba33182a1109e689072b47193896d4d",
+          "sha256": "74510829f8db5fdf8e559ddbdff7fa5c38a50358078a62653cd29b495c9192ec"
+        },
+        {
+          "index": 11,
+          "file": "assassin/frames/12.webp",
+          "edgeMax": 1,
+          "nonempty": 9232,
+          "alphaTotal": 418035,
+          "bounds": [
+            78,
+            83,
+            238,
+            264
+          ],
+          "rawSha256": "bdfde315a49b4df38bf3f350862d82c6d347bfbe760aebbaa757bae4b7dc0ee5",
+          "sha256": "5a0fd17364b3a45e046a3136caaec53c1eaff81e5d8fabf03b858c7f0a9261ce"
+        },
+        {
+          "index": 12,
+          "file": "assassin/frames/13.webp",
+          "edgeMax": 1,
+          "nonempty": 6507,
+          "alphaTotal": 304930,
+          "bounds": [
+            79,
+            46,
+            249,
+            260
+          ],
+          "rawSha256": "1e068de1b27d3b32566df550f7382e01ac66264064194af07ada4da2ba605d9d",
+          "sha256": "74fe6794be7b4be3e7a841ab0b5aee36d19a068cf460690f93988267a23ed2e5"
+        },
+        {
+          "index": 13,
+          "file": "assassin/frames/14.webp",
+          "edgeMax": 1,
+          "nonempty": 4420,
+          "alphaTotal": 217428,
+          "bounds": [
+            93,
+            52,
+            243,
+            232
+          ],
+          "rawSha256": "35c1220d57d771532361cfbe421eb0c8692ebdb7098859736062c623d380b655",
+          "sha256": "128506a95037be5c5fbf01688860905eafd23856f5b8c1dad537f5b043221bd1"
+        },
+        {
+          "index": 14,
+          "file": "assassin/frames/15.webp",
+          "edgeMax": 1,
+          "nonempty": 1643,
+          "alphaTotal": 83895,
+          "bounds": [
+            112,
+            95,
+            247,
+            232
+          ],
+          "rawSha256": "d74404991aba07f10042f7f784cb0a7feee03c5b9839d0c3ead707942429b72c",
+          "sha256": "a59512e07e4cfcb95708b59a2bef441d68eb1b74ebd93f75d0e16d719fafd2a3"
+        },
+        {
+          "index": 15,
+          "file": "assassin/frames/16.webp",
+          "edgeMax": 1,
+          "nonempty": 208,
+          "alphaTotal": 25569,
+          "bounds": [
+            104,
+            141,
+            216,
+            222
+          ],
+          "rawSha256": "1aa524eb620ddebc3fb0e39b9732a6705f3d080c7e244ed670b37cfec927a75a",
+          "sha256": "f195bd6770ffcadec847128e4db633a5c2b2233c279ef0b5297d4c55a72aca35"
+        }
+      ],
+      "prompt": "Use case: stylized-concept. Production asset: individually hand-painted fantasy combat VFX animation sprite sheet for ONE mercenary role. Create ONE square PNG 2048x2048 with GENUINELY TRANSPARENT ALPHA BACKGROUND. Exactly 4 columns by 4 rows, 16 chronological frames read left-to-right row-by-row. Equal cell sizes, fixed center contact anchor. Leave at least 12% completely transparent margin inside EVERY cell on all sides; no visible material touches a cell edge. No drawn grid, checkerboard, text, numbers, UI, people, weapon props, background scenery or ground plane. Premium 2D RPG effects with rich hand-painted light, material deformation, crisp energy edges, dimensional particles and fluid smoke. Every consecutive frame MUST have genuinely changing shapes/particles/material; never one image rotated/resized/faded. This is an animation atlas of ONE action, not icons or a concept sheet. Timeline: frames 1-3 restrained anticipation/pressure charge at the impact anchor, 4 sudden release, frame 5 exact bright physical contact, frames 6-8 maximal material fragmentation, 9-11 expanding broken fragments and separated curls, 12-14 rapidly fading detached smoke and small particles, 15 a few isolated dim sparks,16 almost fully extinguished. Preserve delicate genuine semitransparency. GISEUP / ASSASSIN: an extremely precise compact hooked violet-black shadow incision. Two slender uneven serrated purple cuts scissor across the center, white-violet razor glint at intersection, smoky dark indigo ink peels away in thin ribbons, needle-like obsidian chips and tiny violet sparks. Quiet rapid laceration with sharp inward collapsing silhouette, then torn smoke threads dissolve. No huge explosion, swords or icons, skull, moon, circle or fireball.",
+      "generation": "BUILT_IN_IMAGEGEN",
+      "review": "USER_APPROVED_LIVE_CONNECTION"
+    },
+    {
+      "role": "MARKSMAN",
+      "label": "사격",
+      "source": "preview/mercenary-role-attacks-v2100/assets/source/marksman.png",
+      "sourceSha256": "6347bde98eff776a86f8be2bdba7fb2ace0c79382a3571881c114e6dd85c166e",
+      "runtime": "/preview/mercenary-role-attacks-v2100/assets/marksman/atlas.json",
+      "runtimeSha256": "c69cd714096d97cfea480d6bd4fbd1e63b173d43c6eafddf97ed5cb060ea447a",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "cellSize": 314,
+      "frameCount": 16,
+      "contactFrame": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "marksman/frames/01.webp",
+          "edgeMax": 1,
+          "nonempty": 3362,
+          "alphaTotal": 311839,
+          "bounds": [
+            112,
+            138,
+            200,
+            184
+          ],
+          "rawSha256": "69ffa5077c561cb9f6fa68390fc5e3140f5469ad72b6be40f40b83bf2f455877",
+          "sha256": "d2fb1841239a7b991f52bc66eab728043f7351ff8567720187946e45e9f38661"
+        },
+        {
+          "index": 1,
+          "file": "marksman/frames/02.webp",
+          "edgeMax": 1,
+          "nonempty": 10880,
+          "alphaTotal": 1287968,
+          "bounds": [
+            83,
+            99,
+            212,
+            220
+          ],
+          "rawSha256": "9dabb3f0a0a643fc6d4ee2a506dd61a52a96ac9f1b4a8560cded35ebe0c9e68f",
+          "sha256": "7a8daedefc16cb8b6c6b681a842635c4ce749f7b2e2b50e04f4eced0b1222070"
+        },
+        {
+          "index": 2,
+          "file": "marksman/frames/03.webp",
+          "edgeMax": 1,
+          "nonempty": 17202,
+          "alphaTotal": 2404205,
+          "bounds": [
+            66,
+            73,
+            216,
+            225
+          ],
+          "rawSha256": "3270c5914c235a93a5e1e97ec94d7ce8a13a83878fc8b9604a19c292fc26c902",
+          "sha256": "96c9b6f51830a0af7c5baf9ce80d0f64a60402d0a9d77eb4d4e71ac2cc5747c1"
+        },
+        {
+          "index": 3,
+          "file": "marksman/frames/04.webp",
+          "edgeMax": 1,
+          "nonempty": 24108,
+          "alphaTotal": 3431383,
+          "bounds": [
+            47,
+            37,
+            265,
+            270
+          ],
+          "rawSha256": "d45429644342a79e2e2a01e7bb07be906397941d18f497f998b28bd72df11af8",
+          "sha256": "1a5c9cb27b7d08de9069113c7f5e8b0167529d8f461505cd70bb8a3cf578fac6"
+        },
+        {
+          "index": 4,
+          "file": "marksman/frames/05.webp",
+          "edgeMax": 1,
+          "nonempty": 23132,
+          "alphaTotal": 3519754,
+          "bounds": [
+            58,
+            63,
+            251,
+            259
+          ],
+          "rawSha256": "2d117425163d915abc9f953bb1d8169978575240c7af4d1799d2d305f411e8fa",
+          "sha256": "4f7720afc8a71f45be68deb968b0feb2821ea0e0b5866c46ded13d362469ebbf"
+        },
+        {
+          "index": 5,
+          "file": "marksman/frames/06.webp",
+          "edgeMax": 1,
+          "nonempty": 34248,
+          "alphaTotal": 5374386,
+          "bounds": [
+            24,
+            39,
+            265,
+            283
+          ],
+          "rawSha256": "e04194180a1c7724c640180124d35b762115fe966332bb0ff5799e46b59011f9",
+          "sha256": "e10ae7c1e2d41562765b0a94a2f6bc4a6ce27aea5692cd5be7d21342ff0bf39b"
+        },
+        {
+          "index": 6,
+          "file": "marksman/frames/07.webp",
+          "edgeMax": 1,
+          "nonempty": 42856,
+          "alphaTotal": 6826794,
+          "bounds": [
+            9,
+            27,
+            289,
+            287
+          ],
+          "rawSha256": "183372db3f2b53dc4bf9899201a3c973d727d83dbccf5156d3d03fda8d52c4a7",
+          "sha256": "33bee2688c7afc40630d71d648f4edfc3d542e2b7dd84230e6d2f4b2542e7ba6"
+        },
+        {
+          "index": 7,
+          "file": "marksman/frames/08.webp",
+          "edgeMax": 1,
+          "nonempty": 32516,
+          "alphaTotal": 4681692,
+          "bounds": [
+            24,
+            32,
+            273,
+            299
+          ],
+          "rawSha256": "ecf892b69f4d10c9ee6236c47a312ca749659bd26f1f45d71a8fc47579a9bc66",
+          "sha256": "346654040e77cfc088d344cd58ff3b9e678c6d3df221cbf797bba40f6252064a"
+        },
+        {
+          "index": 8,
+          "file": "marksman/frames/09.webp",
+          "edgeMax": 2,
+          "nonempty": 27286,
+          "alphaTotal": 3911321,
+          "bounds": [
+            25,
+            22,
+            284,
+            268
+          ],
+          "rawSha256": "9e3b1056b18912099de7a75260b8bbd1bf7fbe7d136d1b518edcf09bfdaa6ffa",
+          "sha256": "b5c8029cfb805cb3ce0c4994e677cfbe717c1a3a236f37d31648e7288dddfd98"
+        },
+        {
+          "index": 9,
+          "file": "marksman/frames/10.webp",
+          "edgeMax": 1,
+          "nonempty": 23802,
+          "alphaTotal": 2983552,
+          "bounds": [
+            43,
+            27,
+            272,
+            280
+          ],
+          "rawSha256": "fd7965f7b38eb8f07db194c1703672d67386dbd7fb77fa6eff55afa47dbe5e03",
+          "sha256": "4a70c3204ba2493d31bb53bf590e58e3d514bdb45c57a121f8a18cd05ffeed40"
+        },
+        {
+          "index": 10,
+          "file": "marksman/frames/11.webp",
+          "edgeMax": 1,
+          "nonempty": 23063,
+          "alphaTotal": 2330270,
+          "bounds": [
+            45,
+            37,
+            278,
+            290
+          ],
+          "rawSha256": "f04c483e3d7f04ff1c538c4fed8e38b761c27dc3f2b0aa080b465e166602007a",
+          "sha256": "5f1d322676bc613f1d44f0f03ef0bdbcb5b1d278830210380f2bbbf1f692f554"
+        },
+        {
+          "index": 11,
+          "file": "marksman/frames/12.webp",
+          "edgeMax": 1,
+          "nonempty": 18744,
+          "alphaTotal": 1523950,
+          "bounds": [
+            51,
+            36,
+            269,
+            280
+          ],
+          "rawSha256": "734bf5d3245bc9bf87ffca74ee8888050b09c8ace8e4d46cf4793d31ba136d27",
+          "sha256": "440435f410237de39ba38cb8275af59644f5bc42d0fc3fd9909ecdfa77122a5e"
+        },
+        {
+          "index": 12,
+          "file": "marksman/frames/13.webp",
+          "edgeMax": 1,
+          "nonempty": 16484,
+          "alphaTotal": 933011,
+          "bounds": [
+            56,
+            31,
+            280,
+            263
+          ],
+          "rawSha256": "b8158f4cb92137d153d213dfa869afd76e43912dd02e3b12cc6783330f09684d",
+          "sha256": "d480aff1ae724898558ddf217b78f75113c2bea37ae7ee54a6735eab7be0ffbf"
+        },
+        {
+          "index": 13,
+          "file": "marksman/frames/14.webp",
+          "edgeMax": 1,
+          "nonempty": 7904,
+          "alphaTotal": 288604,
+          "bounds": [
+            72,
+            62,
+            276,
+            262
+          ],
+          "rawSha256": "df64ba80ddf1671eb1d5a8006755c42a1b684524b463b1366a0265e976198270",
+          "sha256": "b72a1d0cb2aec361415bfcbca9aa0ce69d3b6194dbca6d04ee82dedc94665949"
+        },
+        {
+          "index": 14,
+          "file": "marksman/frames/15.webp",
+          "edgeMax": 1,
+          "nonempty": 560,
+          "alphaTotal": 44594,
+          "bounds": [
+            98,
+            63,
+            246,
+            219
+          ],
+          "rawSha256": "09d7a61c16b9a6038babcefaec4fa33570161e1ce7bedec0043fba016a0701aa",
+          "sha256": "8bb375995e7c8d60733046dd75bb2f7e9808745e448b1fee5f377802f347e53f"
+        },
+        {
+          "index": 15,
+          "file": "marksman/frames/16.webp",
+          "edgeMax": 1,
+          "nonempty": 348,
+          "alphaTotal": 28891,
+          "bounds": [
+            131,
+            128,
+            220,
+            196
+          ],
+          "rawSha256": "6ec247b9cf6f40b9227b34369197f578e4557d71dde62b7c2bc9f031fbda96cd",
+          "sha256": "920a04fb625d56d0b0178a58ba78d53526e3d0e51a619c5a1a5e1720f05fc886"
+        }
+      ],
+      "prompt": "Use case: stylized-concept. Production asset: individually hand-painted fantasy combat VFX animation sprite sheet for ONE mercenary role. Create ONE square PNG 2048x2048 with GENUINELY TRANSPARENT ALPHA BACKGROUND. Exactly 4 columns by 4 rows, 16 chronological frames read left-to-right row-by-row. Equal cell sizes, fixed center contact anchor. Leave at least 12% completely transparent margin inside EVERY cell on all sides; no visible material touches a cell edge. No drawn grid, checkerboard, text, numbers, UI, people, weapon props, background scenery or ground plane. Premium 2D RPG effects with rich hand-painted light, material deformation, crisp energy edges, dimensional particles and fluid smoke. Every consecutive frame MUST have genuinely changing shapes/particles/material; never one image rotated/resized/faded. This is an animation atlas of ONE action, not icons or a concept sheet. Timeline: frames 1-3 restrained anticipation/pressure charge at the impact anchor, 4 sudden release, frame 5 exact bright physical contact, frames 6-8 maximal material fragmentation, 9-11 expanding broken fragments and separated curls, 12-14 rapidly fading detached smoke and small particles, 15 a few isolated dim sparks,16 almost fully extinguished. Preserve delicate genuine semitransparency. SAGYEOK / MARKSMAN: one copper-gold rifle bullet kinetic impact, small white-hot central puncture bursting into many very short asymmetrical brass sparks, sharply angled steel ricochet flakes and a compact dense grey gunpowder puff. Anticipation is a tiny compressed amber pressure streak, contact creates a jagged five-point kinetic spall not a star icon, then sparks streak obliquely outward and smoke splits into multiple curling threads. Stable precise firearm physical material, no sword slash, magic rings or giant explosion.",
+      "generation": "BUILT_IN_IMAGEGEN",
+      "review": "USER_APPROVED_LIVE_CONNECTION"
+    },
+    {
+      "role": "SNIPER",
+      "label": "저격",
+      "source": "preview/mercenary-role-attacks-v2100/assets/source/sniper.png",
+      "sourceSha256": "a91aa51f039106754905b77bb434f54e7eae5c11151dfadbf3f934b8046d25be",
+      "runtime": "/preview/mercenary-role-attacks-v2100/assets/sniper/atlas.json",
+      "runtimeSha256": "6925e7f9c8e4417a051facd5f248802539629faae3fe0384ce29b23194799a5c",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "cellSize": 314,
+      "frameCount": 16,
+      "contactFrame": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "sniper/frames/01.webp",
+          "edgeMax": 1,
+          "nonempty": 5921,
+          "alphaTotal": 340066,
+          "bounds": [
+            119,
+            141,
+            209,
+            202
+          ],
+          "rawSha256": "0a01523fcde879810d20ba1d858b409a2afa841ce9821c6ac106a7f784a4f348",
+          "sha256": "e7635b2a693b67f09dec8dba9aa6b124d85e35b1c95d70f40a81767b4be59c05"
+        },
+        {
+          "index": 1,
+          "file": "sniper/frames/02.webp",
+          "edgeMax": 1,
+          "nonempty": 10810,
+          "alphaTotal": 1001322,
+          "bounds": [
+            89,
+            122,
+            215,
+            219
+          ],
+          "rawSha256": "6293b5affcff89f41ae2ca30c9e5cb8218864fad40a9d47120fe61797a058acd",
+          "sha256": "74474618891d39beaee7d85ac2b7d5a7863dd00f69035f64bef52989819e9845"
+        },
+        {
+          "index": 2,
+          "file": "sniper/frames/03.webp",
+          "edgeMax": 1,
+          "nonempty": 16323,
+          "alphaTotal": 1689030,
+          "bounds": [
+            34,
+            98,
+            247,
+            237
+          ],
+          "rawSha256": "c38bf87c2a2af16ef1c860e9d5035e531e1a1057e2cac53f682ccbd683a499de",
+          "sha256": "3cd92d7843973b2ed5aa25da0962dca8498445a727274e038f86995381f52da5"
+        },
+        {
+          "index": 3,
+          "file": "sniper/frames/04.webp",
+          "edgeMax": 1,
+          "nonempty": 24145,
+          "alphaTotal": 2593583,
+          "bounds": [
+            25,
+            73,
+            293,
+            267
+          ],
+          "rawSha256": "f32c92643686c6bc617222c7f9efbdf08ecca1702ad37718e06fc5d741247885",
+          "sha256": "9f3886a08c1110a55be4ece01a30ebca222fd84f76b87a07b28ae9e709568b33"
+        },
+        {
+          "index": 4,
+          "file": "sniper/frames/05.webp",
+          "edgeMax": 1,
+          "nonempty": 35129,
+          "alphaTotal": 4039182,
+          "bounds": [
+            21,
+            39,
+            300,
+            265
+          ],
+          "rawSha256": "4413d5468077357544cc01db1d1797bc826a23670cc2656a375a4b759dca8900",
+          "sha256": "fed7ed0038233ae5ba542ff027ec1a4d0e45fcbbff0c5f0b347472df10742e9c"
+        },
+        {
+          "index": 5,
+          "file": "sniper/frames/06.webp",
+          "edgeMax": 1,
+          "nonempty": 36444,
+          "alphaTotal": 3995384,
+          "bounds": [
+            20,
+            31,
+            289,
+            285
+          ],
+          "rawSha256": "5751671156c6a0c9a219572ee3b6f22385d7b69813afd4e4c92d69c3a25cca1c",
+          "sha256": "5a3bda900fe424ceb6d2d74c577253e0a0bd8a113f4bde03fade535ad8800256"
+        },
+        {
+          "index": 6,
+          "file": "sniper/frames/07.webp",
+          "edgeMax": 1,
+          "nonempty": 34636,
+          "alphaTotal": 3472703,
+          "bounds": [
+            23,
+            33,
+            289,
+            283
+          ],
+          "rawSha256": "6ad36c13bc9af45c908f7016856ee927229565343f75467f83bf1000b22ad607",
+          "sha256": "e73f047e87bbc29f0d09d6620bb0edb015f2f54c8182c371ae83ddcb65aa4d38"
+        },
+        {
+          "index": 7,
+          "file": "sniper/frames/08.webp",
+          "edgeMax": 1,
+          "nonempty": 31844,
+          "alphaTotal": 3065330,
+          "bounds": [
+            22,
+            41,
+            287,
+            273
+          ],
+          "rawSha256": "6ab81709dbbb7afd534b0a736b859096fbba47ae003f0e41340f44e7eb9c301f",
+          "sha256": "6336ce8039007fb0af80c4797397015b295b24285832a615f5bc884f8cf22c70"
+        },
+        {
+          "index": 8,
+          "file": "sniper/frames/09.webp",
+          "edgeMax": 1,
+          "nonempty": 27490,
+          "alphaTotal": 2689827,
+          "bounds": [
+            44,
+            48,
+            296,
+            276
+          ],
+          "rawSha256": "9de4d0ee7995640205da07fdf0558542e385ab421f87b947815213fc2d40f9ac",
+          "sha256": "715fe8ec9e7f78da7f89285035caf021314b89330d6161058f02c93852ba12de"
+        },
+        {
+          "index": 9,
+          "file": "sniper/frames/10.webp",
+          "edgeMax": 1,
+          "nonempty": 28935,
+          "alphaTotal": 2111832,
+          "bounds": [
+            27,
+            44,
+            288,
+            258
+          ],
+          "rawSha256": "3d74b304a2219ee3021d931ad86d338f24fe5fcb914fa1e4010d0511c8a8464e",
+          "sha256": "183174dd1bc14234cff0e6ab1869188bb9bf19e52541e5125ffa6f6cdf070814"
+        },
+        {
+          "index": 10,
+          "file": "sniper/frames/11.webp",
+          "edgeMax": 1,
+          "nonempty": 27177,
+          "alphaTotal": 1651113,
+          "bounds": [
+            32,
+            48,
+            286,
+            249
+          ],
+          "rawSha256": "9590e99d992de2bbd368be3bdd361af986f799324ac03b5ee7e5a36b928154aa",
+          "sha256": "8ae81bf7da9d817a198c14f635629bc9c2751fe70414287f97027cb4e26f09d8"
+        },
+        {
+          "index": 11,
+          "file": "sniper/frames/12.webp",
+          "edgeMax": 2,
+          "nonempty": 23949,
+          "alphaTotal": 1189522,
+          "bounds": [
+            22,
+            59,
+            279,
+            250
+          ],
+          "rawSha256": "586382705f658284a64a89e562d87d081ad5a01a74e31919eb187bbb27c212a0",
+          "sha256": "55a4fcf04766bb6fc099e34fa395aedf8e03bfce34e27f32973eba47f52b7766"
+        },
+        {
+          "index": 12,
+          "file": "sniper/frames/13.webp",
+          "edgeMax": 1,
+          "nonempty": 16547,
+          "alphaTotal": 843550,
+          "bounds": [
+            55,
+            41,
+            281,
+            219
+          ],
+          "rawSha256": "ec98539ae872a220fc51a586b20d11ad01d0ac27948f04e9ed65d997d6888887",
+          "sha256": "66e2de14ab89f282ae71c48d054e15eb20e30fc62db2929dc60c7146581ac9fa"
+        },
+        {
+          "index": 13,
+          "file": "sniper/frames/14.webp",
+          "edgeMax": 1,
+          "nonempty": 8401,
+          "alphaTotal": 462868,
+          "bounds": [
+            61,
+            75,
+            234,
+            213
+          ],
+          "rawSha256": "7619e67067bd588de15cdb9ff44aaf92c322c235f91b6fd789335a14f178482b",
+          "sha256": "8b88e094cd19dd7ee71c82c38b50b8512297582f36f49be230c1af1867153442"
+        },
+        {
+          "index": 14,
+          "file": "sniper/frames/15.webp",
+          "edgeMax": 1,
+          "nonempty": 1890,
+          "alphaTotal": 129564,
+          "bounds": [
+            71,
+            94,
+            245,
+            187
+          ],
+          "rawSha256": "de147e2894a3ca9bc24dfe3fce6cb997e0573fd0f02a8816b5691cdb021b3319",
+          "sha256": "e651efcc1c8715248a60765b4a0c5ea95c8c1ac8dbe6a0bdb714b210296e069d"
+        },
+        {
+          "index": 15,
+          "file": "sniper/frames/16.webp",
+          "edgeMax": 1,
+          "nonempty": 294,
+          "alphaTotal": 29108,
+          "bounds": [
+            122,
+            145,
+            178,
+            172
+          ],
+          "rawSha256": "6b2080396b692937a246036ea6888ebf508c949bf732963dd51fca288096e445",
+          "sha256": "cf8a13a2662fe31ac8276d3dff7d5a0501f983db0e4654c66cf42fa021c1e3d0"
+        }
+      ],
+      "prompt": "Use case: stylized-concept. Production asset: individually hand-painted fantasy combat VFX animation sprite sheet for ONE mercenary role. Create ONE square PNG 2048x2048 with GENUINELY TRANSPARENT ALPHA BACKGROUND. Exactly 4 columns by 4 rows, 16 chronological frames read left-to-right row-by-row. Equal cell sizes, fixed center contact anchor. Leave at least 12% completely transparent margin inside EVERY cell on all sides; no visible material touches a cell edge. No drawn grid, checkerboard, text, numbers, UI, people, weapon props, background scenery or ground plane. Premium 2D RPG effects with rich hand-painted light, material deformation, crisp energy edges, dimensional particles and fluid smoke. Every consecutive frame MUST have genuinely changing shapes/particles/material; never one image rotated/resized/faded. This is an animation atlas of ONE action, not icons or a concept sheet. Timeline: frames 1-3 restrained anticipation/pressure charge at the impact anchor, 4 sudden release, frame 5 exact bright physical contact, frames 6-8 maximal material fragmentation, 9-11 expanding broken fragments and separated curls, 12-14 rapidly fading detached smoke and small particles, 15 a few isolated dim sparks,16 almost fully extinguished. Preserve delicate genuine semitransparency. JEOGYEOK / SNIPER: a powerful ultra-focused RUBY WHITE PENETRATING shot entering left-to-right, needle-straight white-hot penetration channel through the fixed central anchor, two uneven wafer-thin pale ruby pressure cones bursting sideways, fine crystalline silver fragments sheared into long narrow streaks and a tight torn vapor wake. Preparation tiny ruby glint compresses, exact contact is intensely sharp pin-point with very fast needle ray, after contact the conical wave edges fracture into filaments and the narrow vapor trail separates and dissipates. No target crosshair, scopes, rifles, sword crescent, flame or circular generic orb.",
+      "generation": "BUILT_IN_IMAGEGEN",
+      "review": "USER_APPROVED_LIVE_CONNECTION"
+    },
+    {
+      "role": "CONTROLLER",
+      "label": "제압",
+      "source": "preview/mercenary-role-attacks-v2100/assets/source/controller-v2.png",
+      "sourceSha256": "42c0389c4a40df63c5430d78363beb275dc01c23f0226e1221f5ee5e0f0cb9d8",
+      "runtime": "/preview/mercenary-role-attacks-v2100/assets/controller/atlas.json",
+      "runtimeSha256": "0c466f048e2f197b4d57f9ae4109cd7ca7bf47f6798390db7041699d541fdfc4",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "cellSize": 314,
+      "frameCount": 16,
+      "contactFrame": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "controller/frames/01.webp",
+          "edgeMax": 1,
+          "nonempty": 14322,
+          "alphaTotal": 1613773,
+          "bounds": [
+            89,
+            89,
+            253,
+            263
+          ],
+          "rawSha256": "4c0c6cf740129a9cd135f32252b37b27cd29c81ff1efb956031a4b3eeb4a35ad",
+          "sha256": "814371d4723a2d06e97fa30f84768eec91a12f9501b179d68d9581c7a95ad2d8"
+        },
+        {
+          "index": 1,
+          "file": "controller/frames/02.webp",
+          "edgeMax": 1,
+          "nonempty": 17499,
+          "alphaTotal": 2392172,
+          "bounds": [
+            89,
+            69,
+            269,
+            271
+          ],
+          "rawSha256": "b8bef2cf6a4fb4ad19f581cb7ce3ca87872aa9ebcb7a922a96b4321963e2c1e8",
+          "sha256": "59696a5474c89eb0f8a507cd1063efd97daa20a6ae32b9b34bad02e3321c91db"
+        },
+        {
+          "index": 2,
+          "file": "controller/frames/03.webp",
+          "edgeMax": 1,
+          "nonempty": 16697,
+          "alphaTotal": 2615909,
+          "bounds": [
+            97,
+            79,
+            247,
+            267
+          ],
+          "rawSha256": "2b5ffa231299799d1146aca3ddd197af932929d90e367aab4cd7cb8f90135066",
+          "sha256": "4397dab11a499fb37795c2e32bef8cbfa66266a205ac525087498bedde7f1921"
+        },
+        {
+          "index": 3,
+          "file": "controller/frames/04.webp",
+          "edgeMax": 1,
+          "nonempty": 16494,
+          "alphaTotal": 2789865,
+          "bounds": [
+            99,
+            97,
+            230,
+            255
+          ],
+          "rawSha256": "841dc384a089d2ed99f5319724bbddbc88ec483113f6464efd4c42085a97138d",
+          "sha256": "ec9cfbe0050df7cb1692e805e4826f686d2c0de83b6d0499248e2b7e51ef1604"
+        },
+        {
+          "index": 4,
+          "file": "controller/frames/05.webp",
+          "edgeMax": 1,
+          "nonempty": 27852,
+          "alphaTotal": 3438176,
+          "bounds": [
+            96,
+            47,
+            267,
+            257
+          ],
+          "rawSha256": "ed59974589464d9be6e2f4639c9b7dbdedba513be859c370479bfb0048bde851",
+          "sha256": "589270327d5799f14f0fd0b58c29627bca8021bf83bfac2b49476ffb606eb277"
+        },
+        {
+          "index": 5,
+          "file": "controller/frames/06.webp",
+          "edgeMax": 1,
+          "nonempty": 23062,
+          "alphaTotal": 3670537,
+          "bounds": [
+            80,
+            76,
+            257,
+            276
+          ],
+          "rawSha256": "811a30ba9728651bc4fe792320fc6b0b417e260feb526495e70d575c9d2e1541",
+          "sha256": "178fb67914c48517f45d4bf9f3f23dc7e843c908675825f9212e4a8b95c31d1a"
+        },
+        {
+          "index": 6,
+          "file": "controller/frames/07.webp",
+          "edgeMax": 1,
+          "nonempty": 24999,
+          "alphaTotal": 3733023,
+          "bounds": [
+            71,
+            78,
+            249,
+            262
+          ],
+          "rawSha256": "6ade48e6c945e92874f51b0e11b9eaff1e57cbc18abe0059f51cdfc7fe529142",
+          "sha256": "e8b69f522c16ef40b180c21f370394bb3ea34b54ee40e310683ce824cc21b6ba"
+        },
+        {
+          "index": 7,
+          "file": "controller/frames/08.webp",
+          "edgeMax": 1,
+          "nonempty": 23280,
+          "alphaTotal": 3202444,
+          "bounds": [
+            70,
+            77,
+            260,
+            262
+          ],
+          "rawSha256": "e93d9290ff4cb68a8a6101167384ca8e3b7f25023afc548791e4ab10f1f72004",
+          "sha256": "ae95525e4b7271802c6990cc1ba0b408f999ab26f3501136e5c7db8477e355d2"
+        },
+        {
+          "index": 8,
+          "file": "controller/frames/09.webp",
+          "edgeMax": 1,
+          "nonempty": 24409,
+          "alphaTotal": 2389560,
+          "bounds": [
+            59,
+            61,
+            274,
+            257
+          ],
+          "rawSha256": "5a71ea543d44d8c7778698584a597e795313e3f78ebc2400046a3b37a0640fb1",
+          "sha256": "3a67cd9c060b22a88d52915e6c0169cf72ab3db0bc438333990428cb998a4c33"
+        },
+        {
+          "index": 9,
+          "file": "controller/frames/10.webp",
+          "edgeMax": 1,
+          "nonempty": 20036,
+          "alphaTotal": 1912194,
+          "bounds": [
+            62,
+            79,
+            267,
+            245
+          ],
+          "rawSha256": "8e31d66cc17c83f879dd466d41817e4944b3c6b04b23de1fdac1ce19e3b264ff",
+          "sha256": "cb77c6e37b82e2c1bc091664d1baa9491f19e0d2577ae3b6848d81da5c3c63a9"
+        },
+        {
+          "index": 10,
+          "file": "controller/frames/11.webp",
+          "edgeMax": 2,
+          "nonempty": 18879,
+          "alphaTotal": 1706708,
+          "bounds": [
+            83,
+            81,
+            263,
+            249
+          ],
+          "rawSha256": "b44ca0b34dba0aa58974321d23c31d9bd3bc4d52e3d1f1326212167d12608a92",
+          "sha256": "53fc14916acd626cfb3571618e98d4ee946d9f6f79a577129e24932630d5060e"
+        },
+        {
+          "index": 11,
+          "file": "controller/frames/12.webp",
+          "edgeMax": 2,
+          "nonempty": 11011,
+          "alphaTotal": 837466,
+          "bounds": [
+            90,
+            88,
+            230,
+            246
+          ],
+          "rawSha256": "85fed4cb609ab6d8dad6e05def809b3fb4d5c565a24c3decab61d9f88f8dbaeb",
+          "sha256": "7fefbf4a5213bedd6fdd522136e6f392106a3c6226d05fe8c06aa0d50136f64d"
+        },
+        {
+          "index": 12,
+          "file": "controller/frames/13.webp",
+          "edgeMax": 1,
+          "nonempty": 8191,
+          "alphaTotal": 554998,
+          "bounds": [
+            103,
+            75,
+            232,
+            231
+          ],
+          "rawSha256": "ffb603cacadbb981620c5d0eae43bbd3685cb54c41897bf36186b4e1b90562f9",
+          "sha256": "7d94f2955a5764ce94ff0d0252a0baadf2e872e42c260e6a71f764de90edc572"
+        },
+        {
+          "index": 13,
+          "file": "controller/frames/14.webp",
+          "edgeMax": 1,
+          "nonempty": 3441,
+          "alphaTotal": 195706,
+          "bounds": [
+            101,
+            79,
+            222,
+            225
+          ],
+          "rawSha256": "bb2051a439921c32e532ac0d059ae34cd6c0ac3b6c58cb912d84d9c1fa4821c8",
+          "sha256": "2629bc62469b7111cbbe56af6c2227dc69a7d87619f8308e5eccdb0aa5332437"
+        },
+        {
+          "index": 14,
+          "file": "controller/frames/15.webp",
+          "edgeMax": 1,
+          "nonempty": 949,
+          "alphaTotal": 68944,
+          "bounds": [
+            111,
+            82,
+            205,
+            222
+          ],
+          "rawSha256": "237d620e20ed9efa0187654ea7ca4b81f527c469eb94ed03a43922241de65aef",
+          "sha256": "3b7a4028cac60dbdf32a0c70379a09aa8c74244ca3c3670a19a0ce84c33d41b5"
+        },
+        {
+          "index": 15,
+          "file": "controller/frames/16.webp",
+          "edgeMax": 1,
+          "nonempty": 179,
+          "alphaTotal": 11936,
+          "bounds": [
+            155,
+            137,
+            165,
+            147
+          ],
+          "rawSha256": "5b442c181d04af2fce7ea33a945c6e1e9c0a38ef8ff734cfbdf8ac66aed459eb",
+          "sha256": "ac21f44954789f93d96fda5e04f40cf3065358d889e4ee84758687c7288560b9"
+        }
+      ],
+      "prompt": "Use case: stylized-concept. Production asset: individually hand-painted fantasy combat VFX animation sprite sheet for ONE mercenary role. Create ONE square PNG 2048x2048 with GENUINELY TRANSPARENT ALPHA BACKGROUND. Exactly 4 columns by 4 rows, 16 chronological frames read left-to-right row-by-row. Equal cell sizes, fixed center contact anchor. Leave at least 12% completely transparent margin inside EVERY cell on all sides; no visible material touches a cell edge. No drawn grid, checkerboard, text, numbers, UI, people, weapon props, background scenery or ground plane. Premium 2D RPG effects with rich hand-painted light, material deformation, crisp energy edges, dimensional particles and fluid smoke. Every consecutive frame MUST have genuinely changing shapes/particles/material; never one image rotated/resized/faded. This is an animation atlas of ONE action, not icons or a concept sheet. Timeline: frames 1-3 restrained anticipation/pressure charge at the impact anchor, 4 sudden release, frame 5 exact bright physical contact, frames 6-8 maximal material fragmentation, 9-11 expanding broken fragments and separated curls, 12-14 rapidly fading detached smoke and small particles, 15 a few isolated dim sparks,16 almost fully extinguished. Preserve delicate genuine semitransparency. JEAP / CONTROLLER: a CERULEAN ELECTROMAGNETIC RESTRAINT impact. Three angular segmented electric current bands coil inward from different directions then lock and crush a small white-blue core; at contact the bands snap into branching lightning splinters and tiny blue ionized crystalline flakes with violet-blue cold vapor. Bright jagged electricity has actual changing forks every frame. Fragmented segments recoil outward in restrained angular silhouette and their vapor unravels to nothing. No shield, chain props, weapon, UI symbols or generic flame explosion.\nCritical layout correction for this new variant: make each effect visibly SMALLER within its cell. Total visible effect including all translucent glow must fit inside the CENTER 60 PERCENT of cell width and height. Leave 20 percent totally empty transparent margin on every side of EVERY cell. This applies especially to contact frames 5 and 6. NO blue smoke or electric arcs may extend into the gutters. Keep all 16 different sequential frames at their same fixed center anchor. Keep coherent high-quality electro-restraint animation.",
+      "generation": "BUILT_IN_IMAGEGEN",
+      "review": "USER_APPROVED_LIVE_CONNECTION"
+    },
+    {
+      "role": "SUPPORT",
+      "label": "지원",
+      "source": "preview/mercenary-role-attacks-v2100/assets/source/support.png",
+      "sourceSha256": "403d3d37163c0bc868eb2f4b836ab1d17b7679339338aadc88b8515848b29664",
+      "runtime": "/preview/mercenary-role-attacks-v2100/assets/support/atlas.json",
+      "runtimeSha256": "4bc0a34cdccfda7c21f0e2f0316235cc5076dab6597ef4c11e29404408e8909a",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "cellSize": 314,
+      "frameCount": 16,
+      "contactFrame": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "support/frames/01.webp",
+          "edgeMax": 1,
+          "nonempty": 18248,
+          "alphaTotal": 1891529,
+          "bounds": [
+            70,
+            54,
+            275,
+            271
+          ],
+          "rawSha256": "041d58f80d33c44fbfaf90e40073e8126636543bdb6c2ff8a9d0274708651879",
+          "sha256": "ee8d33264e8a69441cf1bd64b97b3d35612aefce8b1cc5ed383c456a09b7fa7a"
+        },
+        {
+          "index": 1,
+          "file": "support/frames/02.webp",
+          "edgeMax": 1,
+          "nonempty": 19139,
+          "alphaTotal": 2257176,
+          "bounds": [
+            70,
+            66,
+            271,
+            271
+          ],
+          "rawSha256": "4bb5fb8d42763ede801fdc5fa12018b338d0786e5cd030550f3b13a588b3fd25",
+          "sha256": "51ddcefc4f75b9d6999ce8066de0b5296e096c1a7ba7ad9cbaac239a4977c1ed"
+        },
+        {
+          "index": 2,
+          "file": "support/frames/03.webp",
+          "edgeMax": 1,
+          "nonempty": 14006,
+          "alphaTotal": 2269808,
+          "bounds": [
+            113,
+            41,
+            203,
+            294
+          ],
+          "rawSha256": "821010ed7223d7eb565e398856c89d60a1aa258fd3b7004a5b5a771172ca1eb5",
+          "sha256": "5948ee93f330717f123636d69ead15f407ce7e1f7c74add5302a7754a4a81e1c"
+        },
+        {
+          "index": 3,
+          "file": "support/frames/04.webp",
+          "edgeMax": 1,
+          "nonempty": 32941,
+          "alphaTotal": 4220068,
+          "bounds": [
+            15,
+            80,
+            284,
+            256
+          ],
+          "rawSha256": "7f58f0ff9b423283dc45dc05556744a4b47646a6710bb6665738b1a1238eee61",
+          "sha256": "98b58214456b6154252faa07f2449eccc8f92e56230422ab726c469e4943c71b"
+        },
+        {
+          "index": 4,
+          "file": "support/frames/05.webp",
+          "edgeMax": 1,
+          "nonempty": 40887,
+          "alphaTotal": 6125222,
+          "bounds": [
+            32,
+            34,
+            288,
+            288
+          ],
+          "rawSha256": "3fc9c0f0a6a245f3b22067e6cc83f7922eb893b8c538d67be7771157eb1f4dac",
+          "sha256": "defe5bf850ed5983667f5a7b585235c25f16a07f46d1af904d684e208e9289de"
+        },
+        {
+          "index": 5,
+          "file": "support/frames/06.webp",
+          "edgeMax": 1,
+          "nonempty": 42276,
+          "alphaTotal": 6294370,
+          "bounds": [
+            39,
+            37,
+            299,
+            285
+          ],
+          "rawSha256": "bbc3e346f7ca3d0a0af45ec4cdb22c7d3a740d6e08b0e1f88f16db9b041ccdcc",
+          "sha256": "77044415ced390e58bb16961adf98e8c980514e22685402d1877f791e3b807cc"
+        },
+        {
+          "index": 6,
+          "file": "support/frames/07.webp",
+          "edgeMax": 1,
+          "nonempty": 46507,
+          "alphaTotal": 5342739,
+          "bounds": [
+            35,
+            35,
+            286,
+            297
+          ],
+          "rawSha256": "de3f56bbc8d93f73ca1c40ab3816ab39615470f6edb2e31bd73c48e1115dc29c",
+          "sha256": "85c180bd6a064986380bc52eb3e14f271b9c03e728d2773b5ef4cdfd7ce3c077"
+        },
+        {
+          "index": 7,
+          "file": "support/frames/08.webp",
+          "edgeMax": 2,
+          "nonempty": 50611,
+          "alphaTotal": 4932102,
+          "bounds": [
+            26,
+            41,
+            281,
+            305
+          ],
+          "rawSha256": "b95d25a530fb1abb93ea4b950aae3aedb9e328126b0101cbfeedcb4d96de369b",
+          "sha256": "c2bffb9d9500b604118e676d8b417764636a6448ab1ac5739bc16ba000bf3cf9"
+        },
+        {
+          "index": 8,
+          "file": "support/frames/09.webp",
+          "edgeMax": 1,
+          "nonempty": 45507,
+          "alphaTotal": 3893633,
+          "bounds": [
+            40,
+            50,
+            288,
+            300
+          ],
+          "rawSha256": "2c631cec67657a85ac8a0bd0b1293b033cc968ca00f54a1dbcfa8861e088302a",
+          "sha256": "968c21b06ef0ac373e058ad02a928260e198194579d6b75cf0d0cd71f778c889"
+        },
+        {
+          "index": 9,
+          "file": "support/frames/10.webp",
+          "edgeMax": 1,
+          "nonempty": 41182,
+          "alphaTotal": 2793509,
+          "bounds": [
+            39,
+            45,
+            294,
+            283
+          ],
+          "rawSha256": "ccc14038655c949d89f5741df05f123d5b920a6a93dd944aa1974e1b7fa1ce4e",
+          "sha256": "9f18fc59e985be201552d286e2bed19495ff23ecb207f353683e84c566a2c7bc"
+        },
+        {
+          "index": 10,
+          "file": "support/frames/11.webp",
+          "edgeMax": 1,
+          "nonempty": 35947,
+          "alphaTotal": 2007047,
+          "bounds": [
+            43,
+            51,
+            271,
+            295
+          ],
+          "rawSha256": "223128db0da5a4c3caab924bf64c692ff5a49f87a7a743f0503b45bc3a66451b",
+          "sha256": "dbe33f6de670ed925db26e7f8aed9fe1d7004e9da636845e46a5108575f67458"
+        },
+        {
+          "index": 11,
+          "file": "support/frames/12.webp",
+          "edgeMax": 1,
+          "nonempty": 35617,
+          "alphaTotal": 1981142,
+          "bounds": [
+            32,
+            50,
+            264,
+            288
+          ],
+          "rawSha256": "f08c13329782ad80db43192b5257b2c114cecc91d1a0865f0867de8eee00a701",
+          "sha256": "222fe49d81d365a44454020acb8e4ec1b9356c9e63a373de16c7a2588ba8d21e"
+        },
+        {
+          "index": 12,
+          "file": "support/frames/13.webp",
+          "edgeMax": 1,
+          "nonempty": 20569,
+          "alphaTotal": 956647,
+          "bounds": [
+            55,
+            89,
+            252,
+            254
+          ],
+          "rawSha256": "c3206b729e879fc360e9f9e93395cbfdb9c819231de3ddec65e318aedaec4e07",
+          "sha256": "222ffcfc0df4906c400b36c84253dcc247d35794ec54491d05fbb4f504bd4bca"
+        },
+        {
+          "index": 13,
+          "file": "support/frames/14.webp",
+          "edgeMax": 1,
+          "nonempty": 9445,
+          "alphaTotal": 332724,
+          "bounds": [
+            118,
+            107,
+            215,
+            239
+          ],
+          "rawSha256": "b8e14f3d5f3fb526041ab1596bbf3a48199bc6711124cb13cfb7cfd46b79810a",
+          "sha256": "f3890ded03c216fcc7a25134a3c44ead4b4d8e8b5d4e62782d2a459287599003"
+        },
+        {
+          "index": 14,
+          "file": "support/frames/15.webp",
+          "edgeMax": 1,
+          "nonempty": 2617,
+          "alphaTotal": 90791,
+          "bounds": [
+            89,
+            110,
+            217,
+            190
+          ],
+          "rawSha256": "b138815f8158f1c738b403bd7182ee96f4106e210cf6d01cf464cb3126dd9b3d",
+          "sha256": "cbec2ce053fc86c99c29e67d2257007a19f17e49718e4aaf39a5ee41103b1cce"
+        },
+        {
+          "index": 15,
+          "file": "support/frames/16.webp",
+          "edgeMax": 1,
+          "nonempty": 625,
+          "alphaTotal": 39220,
+          "bounds": [
+            130,
+            125,
+            210,
+            173
+          ],
+          "rawSha256": "c1c87e940cd1fc0c6e8459431301e75a1c25c2b361a6e5dcb151e4d396759fe3",
+          "sha256": "d8be0d6d714ade3927e6a7d6e79fad3ca3165100ecdbd275d6a433fd195e64be"
+        }
+      ],
+      "prompt": "Use case: stylized-concept. Production asset: individually hand-painted fantasy combat VFX animation sprite sheet for ONE mercenary role. Create ONE square PNG 2048x2048 with GENUINELY TRANSPARENT ALPHA BACKGROUND. Exactly 4 columns by 4 rows, 16 chronological frames read left-to-right row-by-row. Equal cell sizes, fixed center contact anchor. Leave at least 12% completely transparent margin inside EVERY cell on all sides; no visible material touches a cell edge. No drawn grid, checkerboard, text, numbers, UI, people, weapon props, background scenery or ground plane. Premium 2D RPG effects with rich hand-painted light, material deformation, crisp energy edges, dimensional particles and fluid smoke. Every consecutive frame MUST have genuinely changing shapes/particles/material; never one image rotated/resized/faded. This is an animation atlas of ONE action, not icons or a concept sheet. Timeline: frames 1-3 restrained anticipation/pressure charge at the impact anchor, 4 sudden release, frame 5 exact bright physical contact, frames 6-8 maximal material fragmentation, 9-11 expanding broken fragments and separated curls, 12-14 rapidly fading detached smoke and small particles, 15 a few isolated dim sparks,16 almost fully extinguished. Preserve delicate genuine semitransparency. JIWON / SUPPORT: a focused IVORY AND TEAL arcane pulse used as a light staff basic attack. Three slender asymmetric pearlescent light ribbons weave into a tight spear-shaped seed; at exact center contact the seed bursts into smooth petal-like luminous porcelain slivers, pale mint scintillation and very fine translucent white vapor. A clean airy precision impact distinct from guns, lightning, blades and explosions; actual curved shards unfold then dissolve sequentially. No healing cross, heart, flowers, leaves, runic writing, magic-circle icon or floating orb.",
+      "generation": "BUILT_IN_IMAGEGEN",
+      "review": "USER_APPROVED_LIVE_CONNECTION"
+    }
+  ],
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "file": "preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js",
+    "clock": "V3_REGISTERED_GSAP",
+    "autonomousTicker": false,
+    "contactFrame": 4
+  },
+  "processing": "Unchanged source bytes, exact grid extraction and lossless WebP only. No color key, repainted alpha, recoloring or fabricated frames."
+}

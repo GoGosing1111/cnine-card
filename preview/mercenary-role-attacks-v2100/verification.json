@@ -1,0 +1,2568 @@
+{
+  "date": "2026-09-13T12:20:13.188Z",
+  "newEffects": "USER_APPROVED_LIVE_CONNECTION",
+  "cmsRevision": 53,
+  "benchmarks": {
+    "seeds": 512,
+    "cards": 43,
+    "powers": [
+      10000,
+      100000,
+      400000,
+      1000000,
+      20000000
+    ],
+    "sidePolicy": "A and B paired, pooled win rate",
+    "comparisons": 215,
+    "negativeBefore": 50,
+    "negativeAfter": 0,
+    "cases": [
+      {
+        "code": "V-001",
+        "role": "VANGUARD",
+        "rank": "S",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-002",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-003",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-004",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-005",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-006",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-007",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-008",
+        "role": "SNIPER",
+        "rank": "S",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-009",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-010",
+        "role": "ASSASSIN",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-011",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-012",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-013",
+        "role": "SUPPORT",
+        "rank": "B",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-014",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-015",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-016",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-017",
+        "role": "GUARDIAN",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-018",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.919921875,
+        "after": 0.921875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-019",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-020",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-021",
+        "role": "VANGUARD",
+        "rank": "SSS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-022",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-023",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-024",
+        "role": "MARKSMAN",
+        "rank": "B",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-025",
+        "role": "SNIPER",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.919921875,
+        "after": 0.921875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-026",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.919921875,
+        "after": 0.921875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-027",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-028",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-029",
+        "role": "GUARDIAN",
+        "rank": "B",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-030",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-031",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-032",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.919921875,
+        "after": 0.921875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-033",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.919921875,
+        "after": 0.921875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-034",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-035",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-036",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-037",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-038",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-039",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 10000,
+        "before": 0.966796875,
+        "after": 0.970703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-040",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-041",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-042",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-043",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 10000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-001",
+        "role": "VANGUARD",
+        "rank": "S",
+        "cardPower": 100000,
+        "before": 0.77734375,
+        "after": 0.7666015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-002",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.5703125,
+        "after": 0.609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-003",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 100000,
+        "before": 0.76953125,
+        "after": 0.7548828125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-004",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.900390625,
+        "after": 0.884765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-005",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 100000,
+        "before": 0.5693359375,
+        "after": 0.609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-006",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.767578125,
+        "after": 0.7646484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-007",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.5703125,
+        "after": 0.609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-008",
+        "role": "SNIPER",
+        "rank": "S",
+        "cardPower": 100000,
+        "before": 0.5703125,
+        "after": 0.6259765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-009",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.896484375,
+        "after": 0.9140625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-010",
+        "role": "ASSASSIN",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.9892578125,
+        "after": 0.9892578125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-011",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 100000,
+        "before": 0.7861328125,
+        "after": 0.775390625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-012",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 100000,
+        "before": 0.7451171875,
+        "after": 0.7265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-013",
+        "role": "SUPPORT",
+        "rank": "B",
+        "cardPower": 100000,
+        "before": 0.515625,
+        "after": 0.54296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-014",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.5703125,
+        "after": 0.609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-015",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.767578125,
+        "after": 0.7646484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-016",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.5703125,
+        "after": 0.609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-017",
+        "role": "GUARDIAN",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-018",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.498046875,
+        "after": 0.5283203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-019",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.767578125,
+        "after": 0.7646484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-020",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-021",
+        "role": "VANGUARD",
+        "rank": "SSS",
+        "cardPower": 100000,
+        "before": 1,
+        "after": 1,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-022",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 100000,
+        "before": 0.5751953125,
+        "after": 0.623046875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-023",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-024",
+        "role": "MARKSMAN",
+        "rank": "B",
+        "cardPower": 100000,
+        "before": 0.515625,
+        "after": 0.54296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-025",
+        "role": "SNIPER",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.498046875,
+        "after": 0.5283203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-026",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.498046875,
+        "after": 0.5283203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-027",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.5703125,
+        "after": 0.609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-028",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-029",
+        "role": "GUARDIAN",
+        "rank": "B",
+        "cardPower": 100000,
+        "before": 0.7451171875,
+        "after": 0.7265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-030",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-031",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-032",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.498046875,
+        "after": 0.5283203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-033",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.498046875,
+        "after": 0.5283203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-034",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.5703125,
+        "after": 0.609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-035",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-036",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.9560546875,
+        "after": 0.96875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-037",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.8505859375,
+        "after": 0.8623046875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-038",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 100000,
+        "before": 0.7451171875,
+        "after": 0.7265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-039",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 100000,
+        "before": 0.80078125,
+        "after": 0.720703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-040",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.8251953125,
+        "after": 0.830078125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-041",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 100000,
+        "before": 0.767578125,
+        "after": 0.7646484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-042",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.9345703125,
+        "after": 0.9326171875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-043",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 100000,
+        "before": 0.900390625,
+        "after": 0.9111328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-001",
+        "role": "VANGUARD",
+        "rank": "S",
+        "cardPower": 400000,
+        "before": 0.70703125,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-002",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.5009765625,
+        "after": 0.5458984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-003",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 400000,
+        "before": 0.7041015625,
+        "after": 0.716796875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-004",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.5400390625,
+        "after": 0.578125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-005",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 400000,
+        "before": 0.498046875,
+        "after": 0.53515625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-006",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.7939453125,
+        "after": 0.7333984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-007",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.5009765625,
+        "after": 0.5458984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-008",
+        "role": "SNIPER",
+        "rank": "S",
+        "cardPower": 400000,
+        "before": 0.5009765625,
+        "after": 0.537109375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-009",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.5107421875,
+        "after": 0.5498046875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-010",
+        "role": "ASSASSIN",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.7236328125,
+        "after": 0.724609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-011",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 400000,
+        "before": 0.7177734375,
+        "after": 0.734375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-012",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 400000,
+        "before": 0.7802734375,
+        "after": 0.7275390625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-013",
+        "role": "SUPPORT",
+        "rank": "B",
+        "cardPower": 400000,
+        "before": 0.486328125,
+        "after": 0.5341796875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-014",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.5009765625,
+        "after": 0.5458984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-015",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.7939453125,
+        "after": 0.7333984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-016",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.5009765625,
+        "after": 0.5458984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-017",
+        "role": "GUARDIAN",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-018",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.4814453125,
+        "after": 0.529296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-019",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.7939453125,
+        "after": 0.7333984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-020",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-021",
+        "role": "VANGUARD",
+        "rank": "SSS",
+        "cardPower": 400000,
+        "before": 0.7080078125,
+        "after": 0.7294921875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-022",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 400000,
+        "before": 0.4990234375,
+        "after": 0.537109375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-023",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-024",
+        "role": "MARKSMAN",
+        "rank": "B",
+        "cardPower": 400000,
+        "before": 0.486328125,
+        "after": 0.5341796875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-025",
+        "role": "SNIPER",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.4814453125,
+        "after": 0.529296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-026",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.4814453125,
+        "after": 0.529296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-027",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.5009765625,
+        "after": 0.5458984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-028",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-029",
+        "role": "GUARDIAN",
+        "rank": "B",
+        "cardPower": 400000,
+        "before": 0.7802734375,
+        "after": 0.7275390625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-030",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-031",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-032",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.4814453125,
+        "after": 0.529296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-033",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.4814453125,
+        "after": 0.529296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-034",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.5009765625,
+        "after": 0.5458984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-035",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-036",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.5224609375,
+        "after": 0.55078125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-037",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.5029296875,
+        "after": 0.5458984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-038",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 400000,
+        "before": 0.7802734375,
+        "after": 0.7275390625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-039",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 400000,
+        "before": 0.8359375,
+        "after": 0.7255859375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-040",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.5029296875,
+        "after": 0.5390625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-041",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 400000,
+        "before": 0.7939453125,
+        "after": 0.7333984375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-042",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.5078125,
+        "after": 0.5537109375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-043",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 400000,
+        "before": 0.505859375,
+        "after": 0.546875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-001",
+        "role": "VANGUARD",
+        "rank": "S",
+        "cardPower": 1000000,
+        "before": 0.53125,
+        "after": 0.56640625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-002",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.4619140625,
+        "after": 0.533203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-003",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 1000000,
+        "before": 0.5302734375,
+        "after": 0.560546875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-004",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.4814453125,
+        "after": 0.5244140625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-005",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 1000000,
+        "before": 0.4716796875,
+        "after": 0.529296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-006",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.515625,
+        "after": 0.56640625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-007",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.4619140625,
+        "after": 0.533203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-008",
+        "role": "SNIPER",
+        "rank": "S",
+        "cardPower": 1000000,
+        "before": 0.4736328125,
+        "after": 0.53125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-009",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.4755859375,
+        "after": 0.5302734375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-010",
+        "role": "ASSASSIN",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.53125,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-011",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 1000000,
+        "before": 0.5322265625,
+        "after": 0.5703125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-012",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 1000000,
+        "before": 0.5615234375,
+        "after": 0.5654296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-013",
+        "role": "SUPPORT",
+        "rank": "B",
+        "cardPower": 1000000,
+        "before": 0.462890625,
+        "after": 0.5322265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-014",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.4619140625,
+        "after": 0.533203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-015",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.515625,
+        "after": 0.56640625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-016",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.4619140625,
+        "after": 0.533203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-017",
+        "role": "GUARDIAN",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-018",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.462890625,
+        "after": 0.5322265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-019",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.515625,
+        "after": 0.56640625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-020",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-021",
+        "role": "VANGUARD",
+        "rank": "SSS",
+        "cardPower": 1000000,
+        "before": 0.5244140625,
+        "after": 0.5625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-022",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 1000000,
+        "before": 0.47265625,
+        "after": 0.53125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-023",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-024",
+        "role": "MARKSMAN",
+        "rank": "B",
+        "cardPower": 1000000,
+        "before": 0.462890625,
+        "after": 0.5322265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-025",
+        "role": "SNIPER",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.462890625,
+        "after": 0.5322265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-026",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.462890625,
+        "after": 0.5322265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-027",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.4619140625,
+        "after": 0.533203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-028",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-029",
+        "role": "GUARDIAN",
+        "rank": "B",
+        "cardPower": 1000000,
+        "before": 0.5615234375,
+        "after": 0.5654296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-030",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-031",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-032",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.462890625,
+        "after": 0.5322265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-033",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.462890625,
+        "after": 0.5322265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-034",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.4619140625,
+        "after": 0.533203125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-035",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-036",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.4765625,
+        "after": 0.52734375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-037",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.474609375,
+        "after": 0.529296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-038",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 1000000,
+        "before": 0.5615234375,
+        "after": 0.5654296875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-039",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 1000000,
+        "before": 0.587890625,
+        "after": 0.5634765625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-040",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.4755859375,
+        "after": 0.52734375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-041",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 1000000,
+        "before": 0.515625,
+        "after": 0.56640625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-042",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.48046875,
+        "after": 0.53515625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-043",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 1000000,
+        "before": 0.4765625,
+        "after": 0.5302734375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-001",
+        "role": "VANGUARD",
+        "rank": "S",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7294921875,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-002",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 0.4931640625,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-003",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 20000000,
+        "before": 0.95703125,
+        "after": 0.7197265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-004",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.5205078125,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-005",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 20000000,
+        "before": 0.513671875,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-006",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-007",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 0.4931640625,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-008",
+        "role": "SNIPER",
+        "rank": "S",
+        "cardPower": 20000000,
+        "before": 0.5126953125,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-009",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.5234375,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-010",
+        "role": "ASSASSIN",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.994140625,
+        "after": 0.72265625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-011",
+        "role": "GUARDIAN",
+        "rank": "S",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.74609375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-012",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-013",
+        "role": "SUPPORT",
+        "rank": "B",
+        "cardPower": 20000000,
+        "before": 0.4921875,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-014",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 0.4931640625,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-015",
+        "role": "ASSASSIN",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-016",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 0.4931640625,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-017",
+        "role": "GUARDIAN",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-018",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 0.4921875,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-019",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-020",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-021",
+        "role": "VANGUARD",
+        "rank": "SSS",
+        "cardPower": 20000000,
+        "before": 0.97265625,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-022",
+        "role": "MARKSMAN",
+        "rank": "S",
+        "cardPower": 20000000,
+        "before": 0.51171875,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-023",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-024",
+        "role": "MARKSMAN",
+        "rank": "B",
+        "cardPower": 20000000,
+        "before": 0.4921875,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-025",
+        "role": "SNIPER",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 0.4921875,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-026",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 0.4921875,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-027",
+        "role": "CONTROLLER",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 0.4931640625,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-028",
+        "role": "SUPPORT",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-029",
+        "role": "GUARDIAN",
+        "rank": "B",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-030",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-031",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-032",
+        "role": "ASSASSIN",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 0.4921875,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-033",
+        "role": "MARKSMAN",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 0.4921875,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-034",
+        "role": "MARKSMAN",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 0.4931640625,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-035",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-036",
+        "role": "SNIPER",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.52734375,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-037",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.513671875,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-038",
+        "role": "CONTROLLER",
+        "rank": "B",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-039",
+        "role": "VANGUARD",
+        "rank": "C",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-040",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.5302734375,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-041",
+        "role": "VANGUARD",
+        "rank": "A",
+        "cardPower": 20000000,
+        "before": 1,
+        "after": 0.7236328125,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-042",
+        "role": "CONTROLLER",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.5126953125,
+        "after": 0.5166015625,
+        "withoutMercenary": 0.5
+      },
+      {
+        "code": "V-043",
+        "role": "MARKSMAN",
+        "rank": "SS",
+        "cardPower": 20000000,
+        "before": 0.5146484375,
+        "after": 0.5146484375,
+        "withoutMercenary": 0.5
+      }
+    ]
+  },
+  "visual": {
+    "ok": true,
+    "cases": [
+      {
+        "width": 1440,
+        "role": "GUARDIAN",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 870.1596143527471,
+          "y": 146.20609891350622
+        },
+        "weapon": "SHIELD",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 1440,
+        "role": "VANGUARD",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 869.438522095341,
+          "y": 145.73879718235227
+        },
+        "weapon": "BLADE",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 1440,
+        "role": "ASSASSIN",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 870.8804640653888,
+          "y": 146.2486479729261
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 1440,
+        "role": "MARKSMAN",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 870.8804652172922,
+          "y": 146.25065827503516
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 1440,
+        "role": "SNIPER",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 869.9191689252696,
+          "y": 145.90788660699386
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 1440,
+        "role": "CONTROLLER",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 870.6401409576795,
+          "y": 146.1639073484424
+        },
+        "weapon": "BLADE",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 1440,
+        "role": "SUPPORT",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 871.1207911546172,
+          "y": 146.33887287943645
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 390,
+        "role": "GUARDIAN",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 319.01452662523934,
+          "y": 234.26325480735946
+        },
+        "weapon": "SHIELD",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 390,
+        "role": "VANGUARD",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 318.7423959902085,
+          "y": 234.13189948473268
+        },
+        "weapon": "BLADE",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 390,
+        "role": "ASSASSIN",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 319.2866177147329,
+          "y": 234.3250429080734
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 390,
+        "role": "MARKSMAN",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 319.28661932971943,
+          "y": 234.32786138344406
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 390,
+        "role": "SNIPER",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 318.9238032402085,
+          "y": 234.19629523473273
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 390,
+        "role": "CONTROLLER",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 319.1959140815313,
+          "y": 234.29255423812114
+        },
+        "weapon": "BLADE",
+        "impacts": 1,
+        "remaining": 0
+      },
+      {
+        "width": 390,
+        "role": "SUPPORT",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "contact": {
+          "x": 319.3773216242647,
+          "y": 234.3574611830373
+        },
+        "weapon": "GUN",
+        "impacts": 1,
+        "remaining": 0
+      }
+    ],
+    "errors": []
+  },
+  "extended": {
+    "ok": true,
+    "unchangedNoMercenaryBattles": 256,
+    "cases": [
+      {
+        "code": "V-022",
+        "emptyTarget": {
+          "weapon": "BOW",
+          "prior": true,
+          "gone": true,
+          "remaining": null
+        }
+      },
+      {
+        "code": "V-016",
+        "emptyTarget": {
+          "weapon": "MAGIC",
+          "prior": true,
+          "gone": true,
+          "remaining": null
+        }
+      },
+      {
+        "code": "V-028",
+        "emptyTarget": {
+          "weapon": "POLEARM",
+          "prior": true,
+          "gone": true,
+          "remaining": null
+        }
+      },
+      {
+        "code": "V-038",
+        "emptyTarget": {
+          "weapon": "GAUNTLET",
+          "prior": true,
+          "gone": true,
+          "remaining": null
+        }
+      },
+      {
+        "mode": "PVP",
+        "result": true
+      },
+      {
+        "mode": "PVP_BASICS"
+      },
+      {
+        "mode": "PVE",
+        "result": true
+      }
+    ],
+    "errors": []
+  },
+  "audio": {
+    "cases": [
+      {
+        "role": "GUARDIAN",
+        "rate": "0.5",
+        "diagnostics": {
+          "ready": true,
+          "enabled": true,
+          "state": "running",
+          "activeSources": 0,
+          "sync": [
+            {
+              "visualImpact": 0.29,
+              "predictedOutputPeakDeltaMs": -2.7755575615628914e-14
+            }
+          ],
+          "outputCompensationMs": 11.747333333333334,
+          "baseLatencyMs": 10,
+          "outputLatencyMs": 40,
+          "sourceType": "EXISTING_LICENSED_RECORDINGS",
+          "sharedV3Context": true,
+          "profileEvents": 3,
+          "rate": 1.3
+        }
+      },
+      {
+        "role": "SNIPER",
+        "rate": "1",
+        "diagnostics": {
+          "ready": true,
+          "enabled": true,
+          "state": "running",
+          "activeSources": 0,
+          "sync": [
+            {
+              "visualImpact": 0.36,
+              "predictedOutputPeakDeltaMs": 0
+            }
+          ],
+          "outputCompensationMs": 45.38733330949141,
+          "baseLatencyMs": 10,
+          "outputLatencyMs": 40,
+          "sourceType": "EXISTING_LICENSED_RECORDINGS",
+          "sharedV3Context": true,
+          "profileEvents": 3,
+          "rate": 1.3
+        }
+      },
+      {
+        "role": "CONTROLLER",
+        "rate": "2",
+        "diagnostics": {
+          "ready": true,
+          "enabled": true,
+          "state": "running",
+          "activeSources": 0,
+          "sync": [
+            {
+              "visualImpact": 0.29,
+              "predictedOutputPeakDeltaMs": 0
+            }
+          ],
+          "outputCompensationMs": 52.23233335717548,
+          "baseLatencyMs": 10,
+          "outputLatencyMs": 40,
+          "sourceType": "EXISTING_LICENSED_RECORDINGS",
+          "sharedV3Context": true,
+          "profileEvents": 3,
+          "rate": 1.3
+        }
+      }
+    ],
+    "errors": [],
+    "ok": true
+  },
+  "approval": "검수 완료, 라이브에 연결",
+  "liveConnection": {
+    "checkedAt": "2026-09-13T12:38:21.729Z",
+    "ok": true,
+    "bundle": "http://127.0.0.1:8905/preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100",
+    "cases": [
+      {
+        "mode": "NATIVE_BASIC",
+        "role": "GUARDIAN",
+        "impacted": true,
+        "remaining": 0
+      },
+      {
+        "mode": "NATIVE_BASIC",
+        "role": "VANGUARD",
+        "impacted": true,
+        "remaining": 0
+      },
+      {
+        "mode": "NATIVE_BASIC",
+        "role": "ASSASSIN",
+        "impacted": true,
+        "remaining": 0
+      },
+      {
+        "mode": "NATIVE_BASIC",
+        "role": "MARKSMAN",
+        "impacted": true,
+        "remaining": 0
+      },
+      {
+        "mode": "NATIVE_BASIC",
+        "role": "SNIPER",
+        "impacted": true,
+        "remaining": 0
+      },
+      {
+        "mode": "NATIVE_BASIC",
+        "role": "CONTROLLER",
+        "impacted": true,
+        "remaining": 0
+      },
+      {
+        "mode": "NATIVE_BASIC",
+        "role": "SUPPORT",
+        "impacted": true,
+        "remaining": 0
+      },
+      {
+        "mode": "PVP",
+        "result": true,
+        "basicActions": 2,
+        "remaining": 0
+      },
+      {
+        "mode": "PVE_CHIPS",
+        "result": true,
+        "basicActions": 6,
+        "remaining": 0
+      },
+      {
+        "mode": "CONTINUOUS",
+        "result": true,
+        "basicActions": 6,
+        "remaining": 0
+      }
+    ],
+    "errors": [],
+    "missing": []
+  }
+}

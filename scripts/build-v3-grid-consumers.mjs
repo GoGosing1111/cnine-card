@@ -50,7 +50,7 @@ const layoutClient = 'preview/v3-wide-grid-v1/app.bundle.js';
 await build({entryPoints: ['preview/v3-wide-grid-v1/source/app.mjs'], outfile: layoutClient,
   bundle: true, minify: true, format: 'iife', target: ['es2022'], legalComments: 'none'});
 const layoutClients = [{file: layoutClient, sha256: hash(await readFile(layoutClient, 'utf8'))}];
-for (const name of ['BattleEngine.js', 'BattleCharacter.js', 'ObjectPool.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs','MercenaryCombatPlayback.js']) {
+for (const name of ['BattleEngine.js', 'BattleCharacter.js', 'ObjectPool.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs','MercenaryCombatPlayback.js','MercenaryRoleAttackFX.js']) {
   const file = `preview/project-v-v3/source/battle/${name}`;
   sources.push({file, sha256: hash(await readFile(file, 'utf8'))});
 }
