@@ -22,15 +22,15 @@ for(const postgres of [false,true]){
   assert.equal(Number((await f.p("SELECT COUNT(*) n FROM admin_logs WHERE action_type='HYPER_PACK_OPENING_MODE'").first()).n),1);
   assert.equal((await toggle(f,'OFF',1)).status,200);
  });
- test(`${label}: ordinary user opens 1/10 at fixed price; aliases replay once; OFF retains receipts and collection while combat stays held`,async t=>{
+ test(`${label}: ordinary user opens 1/10 at fixed price; aliases replay once; OFF retains receipts, collection and independent deployment`,async t=>{
   const f=await fixture(t,postgres);assert.equal((await toggle(f,'ON',0)).status,200);
   const firstBody={requestId:crypto.randomUUID(),count:1},batchBody={requestId:crypto.randomUUID(),count:10};
   assert.equal((await call(f,'mercenary-cards/open',firstBody)).status,200);
   const response=await call(f,'mercenary-cards/open-batch',batchBody);assert.equal(response.status,200,JSON.stringify(await response.clone().json()));const receipt=await response.json();assert.equal(receipt.draws.length,10);
   for(const path of HYPER_OPEN_PATHS){const r=await call(f,path,batchBody);assert.equal(r.status,200);assert.equal((await r.json()).replayed,true);}
   assert.equal(await f.coin(),54500000000);assert.equal(Number((await f.p('SELECT SUM(total_copies) n FROM user_mercenary_cards_v1 WHERE user_id=7').first()).n),11);
-  assert.equal((await call(f,'mercenaries/v3/loadout',{requestId:crypto.randomUUID(),mercenaryCode:'V-001',revision:0})).status,423);
-  const before=await(await call(f,'mercenaries/v3/state')).json();assert.equal(before.available,false);assert.equal(before.openingAvailable,true);
+  assert.equal((await call(f,'mercenaries/v3/loadout',{requestId:crypto.randomUUID(),mercenaryCode:receipt.draws[0].mercenaryCode,revision:0})).status,200);
+  const before=await(await call(f,'mercenaries/v3/state')).json();assert.equal(before.available,true);assert.equal(before.openingAvailable,true);
   assert.equal((await toggle(f,'OFF',1)).status,200);
   assert.equal((await call(f,'hyper-pack/open',{requestId:crypto.randomUUID(),count:10})).status,409);
   const path='mercenaries/v3/receipt';const result=await handleMercenaryAccount({path,env:f.env,deps:{...f.deps,authenticate:async()=>({...f.user,role:'USER'})},request:new Request(origin+'/api/'+path+'?requestId='+batchBody.requestId)});assert.equal(result.status,200);assert.deepEqual((await result.json()).draws,receipt.draws);

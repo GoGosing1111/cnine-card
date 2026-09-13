@@ -1,5 +1,5 @@
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260913-s-skills';
-import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2093-opening';
+import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2097-opening';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=path=>'/'+String(path||'').replace(/^\/+/, '');
@@ -56,12 +56,12 @@ function skillEditor(){
   const r=data.document.skills.find(s=>s.id===skill),index=data.document.skills.indexOf(r),root=`skills.${index}.`;
   const fx=data.catalog.effects.images.find(x=>x.skillId===r.id),v=data.catalog.skills.find(x=>x.id===r.id).visual;
   const reviewLink='/preview/project-v-mercenary-system-v1/skills.html';
-  return `<div class="mc-workspace"><div class="mc-rail mc-skill-rail"><p class="mc-rail-caption">독립 스킬 카탈로그 <b>17</b></p>${data.document.skills.map(s=>`<button class="mc-skill-row ${s.id===skill?'is-selected':''}" data-skill="${s.id}"><small>${s.id}</small><b>${esc(s.name)}</b><span>${esc(s.role)}</span></button>`).join('')}</div><div class="mc-editor">
+  return `<div class="mc-workspace"><div class="mc-rail mc-skill-rail"><p class="mc-rail-caption">독립 스킬 카탈로그 <b>${data?.document?.skills?.length??0}</b></p>${data.document.skills.map(s=>`<button class="mc-skill-row ${s.id===skill?'is-selected':''}" data-skill="${s.id}"><small>${s.id}</small><b>${esc(s.name)}</b><span>${esc(s.role)}</span></button>`).join('')}</div><div class="mc-editor">
     <div class="mc-skill-hero"><div><small>SKILL LIBRARY / ${r.id}</small><h3>${esc(r.name)}</h3><p>${esc(r.mechanic)}</p><a href="${reviewLink}" target="_blank" rel="noopener">PixiJS · GSAP 연출 검수 열기 ↗</a></div><div class="mc-fx-contact">${fx?fx.frames.filter((_,i)=>[4,8,12].includes(i)).map(f=>`<img src="/preview/project-v-mercenary-system-v1/skill-assets-v2/${esc(f.file)}" alt="${esc(r.name)} ${f.index+1}번 프레임">`).join(''):''}<small>연속 ${fx?.frameCount||16}프레임 · ${v.duration}초</small></div></div>
     ${fields('01 / 스킬 설계','용병 배정은 별도 탭에서 직접 선택합니다.',
       field('스킬 이름',root+'name',r.name,{max:80})+select('검수 상태',root+'review',r.review,REVIEWS)+
       ['role','target','mechanic','trigger','effect','counterplay','bossRule','procRule'].map((key,i)=>field(['역할','대상','핵심 기믹','발동 조건','효과','대응 방법','보스 적용 규칙','추가 발동 규칙'][i],root+key,r[key],{type:'textarea',wide:['effect','procRule'].includes(key)})).join(''))}
-    ${fields('02 / 밸런스 수치','값을 입력해도 전투에는 적용되지 않습니다.',
+    ${fields('02 / 밸런스 수치','피해 배율·재사용·비용을 모두 설정하고 CMS 검수를 완료한 스킬만 전투에 적용됩니다. 미정 스킬은 배정을 보존하며 기본 공격으로 출전합니다.',
       field('피해 배율 (1 = 100%)',root+'balance.damageRatio',r.balance.damageRatio,{type:'number',step:'any'})+
       field('재사용 대기 · 턴',root+'balance.cooldownTurns',r.balance.cooldownTurns,{type:'number'})+
       field('발동 비용',root+'balance.cost',r.balance.cost,{type:'number'})+field('검수 메모',root+'notes',r.notes,{type:'textarea',wide:true}))}
@@ -83,15 +83,15 @@ function economyEditor(){
     </div></div>`;
 }
 function reviewEditor(){
-  return `<div class="mc-review"><div class="mc-release-strip"><div><small>JOINT RELEASE</small><h3>V3 개편 + 용병 + 장비 강화</h3><p>운영 CMS에 등록 완료 · 게임 출시는 공동 업데이트로 진행</p></div><div><b>획득 OFF</b><b>편성 OFF</b><b>전투 OFF</b></div></div>
+  return `<div class="mc-review"><div class="mc-release-strip"><div><small>MERCENARY DEPLOYMENT</small><h3>PVE · PVP 용병 편성</h3><p>일반 카드 5장 + 별도 용병 1장 · 업그레이드 차후 공개</p></div><div><b>개봉: 개봉 확률 탭에서 관리</b><b>편성 ${data.deployment?.enabled?'ON':'OFF'}</b><b>전투 ${data.deployment?.enabled?'ON':'OFF'}</b></div></div>
     ${fields('출시 메모','CMS 검수 상태와 최종 공동 출시 승인은 별도로 관리합니다.',field('출시 준비 사항','settings.releaseNotes',data.document.settings.releaseNotes,{type:'textarea',max:4000,wide:true}))}
-    <div class="mc-section-title"><h3>등록 리소스 <span>43 원화 / 43 SD / 17 스킬 · 272 프레임</span></h3><p>원본 경로·해시를 보존하고 검수 화면으로 연결합니다.</p></div><div class="mc-resource-grid">${data.catalog.cards.map(c=>{const row=data.document.mercenaries.find(r=>r.code===c.code);return `<article><img src="${thumb(c.code)}" alt="" loading="lazy"><div><small>${c.code}</small><b>${esc(row.name)}</b><span>${esc(REVIEWS[row.review])}</span><div><a href="${asset(c.sourceArt)}" target="_blank" rel="noopener">원화 ↗</a><a href="${asset(c.battleSprite)}" target="_blank" rel="noopener">SD ↗</a></div><details><summary>원본 해시</summary><p>ART ${esc(c.sourceArtSha256)}<br>SD ${esc(c.battleSpriteSha256)}</p></details></div></article>`;}).join('')}</div>
+    <div class="mc-section-title"><h3>등록 리소스 <span>${data.catalog.cards.length} 원화 / ${data.catalog.cards.filter(c=>c.battleSprite).length} SD / ${data.document.skills.length} 스킬 · ${data.catalog.effects.images.reduce((n,e)=>n+Number(e.frameCount||0),0)} 프레임</span></h3><p>원본 경로·해시를 보존하고 검수 화면으로 연결합니다.</p></div><div class="mc-resource-grid">${data.catalog.cards.map(c=>{const row=data.document.mercenaries.find(r=>r.code===c.code);return `<article><img src="${thumb(c.code)}" alt="" loading="lazy"><div><small>${c.code}</small><b>${esc(row.name)}</b><span>${esc(REVIEWS[row.review])}</span><div><a href="${asset(c.sourceArt)}" target="_blank" rel="noopener">원화 ↗</a><a href="${asset(c.battleSprite)}" target="_blank" rel="noopener">SD ↗</a></div><details><summary>원본 해시</summary><p>ART ${esc(c.sourceArtSha256)}<br>SD ${esc(c.battleSpriteSha256)}</p></details></div></article>`;}).join('')}</div>
     <div class="mc-section-title"><h3>최근 저장 기록</h3></div><div class="mc-audit">${data.audit.map(a=>`<p><b>r${a.revision}</b><span>${a.action==='REGISTER'?'전체 항목 최초 등록':'CMS 설정 저장'}</span><span>관리자 #${a.actor_id}</span><time>${date(a.created_at)}</time></p>`).join('')}</div></div>`;
 }
 function render(){
   if(!section)return;
-  section.innerHTML=`<div class="mc-console"><header class="mc-header"><div><small>SOOPKETMON / PROJECT V</small><h2>용병 운영실<span>CMS</span></h2><p>캐릭터, 스킬, 성장 설계를 한곳에서 관리합니다.</p></div><div class="mc-header-counts"><span><b>43</b> MERCENARIES</span><span><b>17</b> SKILLS</span><em>CMS LIVE</em></div></header>
-    <div class="mc-status"><span class="mc-status-dot"></span><p>운영 DB 저장 · 게임 출시는 V3 공동 업데이트 대기</p>${data?`<small>r${data.revision} · ${date(data.updatedAt)}</small>`:''}</div>
+  section.innerHTML=`<div class="mc-console"><header class="mc-header"><div><small>SOOPKETMON / PROJECT V</small><h2>용병 운영실<span>CMS</span></h2><p>캐릭터, 스킬, 성장 설계를 한곳에서 관리합니다.</p></div><div class="mc-header-counts"><span><b>43</b> MERCENARIES</span><span><b>${data?.document?.skills?.length??0}</b> SKILLS</span><em>CMS LIVE</em></div></header>
+    <div class="mc-status"><span class="mc-status-dot"></span><p>${data?.deployment?.enabled?'PVE·PVP 용병 1장 편성 ON · 스킬은 수치·검수 완료 후 적용':'용병 운영 상태 확인 중'}</p>${data?`<small>r${data.revision} · ${date(data.updatedAt)}</small>`:''}</div>
     <div class="mc-tabs" role="tablist" aria-label="용병 관리 분류">${Object.entries(tabs).map(([k,v])=>`<button role="tab" aria-selected="${tab===k}" data-tab="${k}">${v}</button>`).join('')}</div>
     <p class="mc-notice ${error?'is-error':''}" role="status" aria-live="polite">${esc(notice||'초안 저장 후 다른 기기에서도 이어서 관리할 수 있습니다.')}</p>
     ${data?`<fieldset class="mc-content" ${busy?'disabled':''}>${({roster:rosterEditor,skills:skillEditor,assignments:assignmentEditor,draw:()=>drawEditor.html(data.document),economy:economyEditor,review:reviewEditor}[tab])()}</fieldset>`:'<div class="mc-empty">'+(busy?'운영 데이터를 불러오는 중…':'관리자 로그인 후 다시 불러와 주세요.')+'</div>'}
@@ -113,7 +113,7 @@ function render(){
   drawEditor.mount($('[data-draw-root]'));
 }
 function markDirty(){dirty=true;pending=null;const label=$('[data-save-label]');if(label)label.textContent='● 저장하지 않은 변경 있음';const saveButton=$('[data-save]');if(saveButton){saveButton.disabled=false;saveButton.textContent='운영 CMS 저장';}}
-async function load(){if(busy)return;busy=true;error=false;notice='운영 CMS를 불러오고 있습니다.';render();try{data=await api();dirty=false;pending=null;notice='43종 용병·17종 스킬을 불러왔습니다. 저장한 설정은 운영 DB에 보존됩니다.';}catch(e){error=true;notice=e.name==='AbortError'?'불러오기가 지연됩니다. 다시 불러오기를 눌러 주세요.':e.message;}finally{busy=false;render();}}
+async function load(){if(busy)return;busy=true;error=false;notice='운영 CMS를 불러오고 있습니다.';render();try{data=await api();dirty=false;pending=null;notice=`${data.document.mercenaries.length}종 용병·${data.document.skills.length}종 스킬을 불러왔습니다. 저장한 설정은 운영 DB에 보존됩니다.`;}catch(e){error=true;notice=e.name==='AbortError'?'불러오기가 지연됩니다. 다시 불러오기를 눌러 주세요.':e.message;}finally{busy=false;render();}}
 async function save(){
   if(busy||!data||!dirty)return;
   if([...section.querySelectorAll('input,select,textarea')].some(input=>!input.reportValidity()))return;

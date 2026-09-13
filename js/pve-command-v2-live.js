@@ -307,7 +307,7 @@
       const card = cards.find(item => String(item.id) === String(id));
       return sum + (card ? battleCardPower(card, user, battleState.config) : 0);
     }, 0);
-    const totalPower = cardPower + Number(bonus.pve || 0), violation = pveDeckLimitViolation(), ready = battleState.deck.length === 5 && !violation, energy = battleEnergySnapshot(false);
+    const totalPower = cardPower + Number(bonus.pve || 0) + Number(globalThis.MercenaryDeckSlot?.power?.() || 0), violation = pveDeckLimitViolation(), ready = battleState.deck.length === 5 && !violation, energy = battleEnergySnapshot(false);
     document.getElementById('pveCommandV2')?.setAttribute('data-screen', viewMode);
     root.classList.toggle('pve-view-deck', viewMode === 'deck');
     root.classList.toggle('pve-view-hunt', viewMode === 'hunt');

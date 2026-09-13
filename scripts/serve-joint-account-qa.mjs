@@ -18,6 +18,7 @@ import {discoverCowPortalReady} from '../functions/_cow_room_portal.js';
 import {handleMercenaryCms} from '../functions/_mercenary_cms.js';
 import {MERCENARY_CMS_SEED as mercenarySeed} from '../functions/_mercenary_cms_seed.js';
 import {prepareSSkillAssignments} from '../shared/mercenary-s-skill-assignment-v3.mjs';
+import {applyMercenaryBalanceV2097} from '../shared/mercenary-skill-balance-v2097.mjs';
 import {mercenaryCardAcquisitionStatements} from '../functions/_mercenary_draw_accounting.js';
 import {saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {V3_LIVE_CONNECTIONS} from '../shared/v3-live-connections.mjs';
@@ -33,7 +34,7 @@ if(process.env.JOINT_QA_SKILL_CONNECTIONS==='1'){
  const plan=JSON.parse(fs.readFileSync(path.join(root,'preview/project-v-mercenary-system-v1/skill-s-ss-plan-v3.json'))),draft=structuredClone(mercenary.document);
  for(const c of draft.mercenaries)c.rank=plan.targets.find(r=>r.code===c.code)?.rank||(c.code==='V-021'?'SSS':'C');
  for(const skill of draft.skills){skill.review='REVIEWED';skill.balance={damageRatio:1,cooldownTurns:3,cost:0};}
- const document=prepareSSkillAssignments(draft,mercenarySeed.document,mercenarySeed.catalog,plan);
+ const document=applyMercenaryBalanceV2097(prepareSSkillAssignments(draft,mercenarySeed.document,mercenarySeed.catalog,plan),mercenarySeed.catalog);
  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(document)).run();
  for(const row of plan.targets)await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:row.code,acquisitionId:crypto.randomUUID()}));
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-001',revision:0});
@@ -109,6 +110,7 @@ const server=http.createServer(async(req,res)=>{try{
       if(apiPath==='packs')return send(res,200,{packs:[hyperPackCatalogRow((await hyperOpeningFeature(f.env)).userOpeningEnabled)]});
       if(apiPath==='service/status')return send(res,200,{maintenance:{active:false}});
       if(apiPath==='battle/config')return send(res,200,{deck:ids,monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000}],settings:{},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pve:0},energy:{energy:30,maxEnergy:30,costPerBattle:1}});
+      if(apiPath==='pvp/config')return send(res,200,{deck:ids,presets:{1:ids,2:[],3:[]},activePreset:1,settings:{enabled:true,seasonName:'로컬 랭크전 검수',tiers:[]},profile:{season_score:0,tier:{id:'bronze',name:'브론즈',color:'#b87333'}},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pvp:0},energy:{energy:30,maxEnergy:30,costPerBattle:1,unlimited:true}});
       if(apiPath==='scrapyard/status')return send(res,200,await readScrapyardStatus(f.env,f.user,f.deps.raidDeckPower));
       if(apiPath.startsWith('tower/')){const response=await nativeTower.handle(apiPath,request);return send(res,response.status,await response.json());}
       if(!['cow-room/v3/','scrapyard/v3/','admin/mercenaries','mercenar','hyper-pack','pve/v3/'].some(prefix=>apiPath.startsWith(prefix)))return send(res,200,{ok:true,enabled:false,items:[],commands:[],maintenance:{active:false}});

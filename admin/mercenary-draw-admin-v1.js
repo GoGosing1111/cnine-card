@@ -1,4 +1,4 @@
-import {mountHyperOpening} from './hyper-pack-opening.mjs?v=2093';
+import {mountHyperOpening} from './hyper-pack-opening.mjs?v=2097';
 import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,equalMercenaryCardChance} from '../shared/mercenary-draw-policy-v1.mjs?v=20260913-uniform1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -30,7 +30,8 @@ export function createMercenaryDrawEditor({request,onRender}){
     const counts=Object.fromEntries(['C','B','A','S','SS','SSS'].map(rank=>[rank,cmsDocument.mercenaries.filter(row=>row.rank===rank).length]));
     const unset=cmsDocument.mercenaries.filter(row=>row.rank===null).length;
     return `<section class="md-editor" data-draw-root>
-      <header class="md-heading"><div><small>CONTRACT / PROBABILITY DRAFT</small><h3>용병카드 개봉 확률</h3><p>개봉 1회에 적용할 결과와 지급 수량을 설계합니다.</p></div><div class="md-hold"><span>유저 개봉</span><strong>${state.userOpeningEnabled?'ON':'OFF'}</strong><small>CMS 개봉 상태</small></div></header>
+      <div data-hyper-opening></div>
+      <header class="md-heading"><div><small>CONTRACT / PROBABILITY DRAFT</small><h3>용병카드 개봉 확률</h3><p>개봉 1회에 적용할 결과와 지급 수량을 설계합니다.</p></div><div class="md-hold"><span>유저 개봉</span><strong data-draw-opening-mode>${state.userOpeningEnabled?'ON':'OFF'}</strong><small>CMS 개봉 상태</small></div></header>
       <p class="md-message ${failure?'is-error':''}" role="status" aria-live="polite" data-draw-message>${esc(notice||'저장된 확률·수량이 실제 개봉에 적용됩니다. 개방 상태는 아래 ON/OFF에서 관리합니다.')}</p>
       <fieldset class="md-form" ${busy?'disabled':''}>
       <section class="md-card-rules" aria-label="확정 카드 추첨 규칙"><div><span>동일 등급 추첨</span><strong>모든 카드 균등</strong><p>등급 확률 ÷ 해당 등급 카드 수.<br>보유 여부·중복 횟수·개별 획득 확률은 반영하지 않습니다.</p></div><div><span>중복 당첨 처리</span><strong>같은 카드 중복 수량 +1</strong><p>첫 획득: 보유 1장 · 중복 0장.<br>다음 획득부터 중복으로 집계하며 재추첨·재화 전환은 하지 않습니다.</p></div></section>

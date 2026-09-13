@@ -38,10 +38,10 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=2096-combat-flow'));
+assert.ok(index.includes('js/app.js?v=2097-mercenary'));
 assert.ok(index.includes('js/responsive-battle-sprites-v1815.js?v=2060-nonblocking-fx'));
 assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd'));
-assert.ok(index.includes('js/tower-v1038.js?v=2096-combat-flow'));
+assert.ok(index.includes('js/tower-v1038.js?v=2097-mercenary'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';
 assert.ok(exists(bundle),'V3 PixiJS bundle missing');

@@ -900,7 +900,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   workshop:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2096-combat-flow&joint=2090'],
+    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2097-mercenary&joint=2090'],
     ready:()=>Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
@@ -914,7 +914,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=2096-combat-flow&joint=2090','js/scrapyard-battle-v1698.js?v=2096-combat-flow'],
+    scripts:['js/workshop-v1881.js?v=2097-mercenary&joint=2090','js/scrapyard-battle-v1698.js?v=2097-mercenary'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -933,8 +933,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
-    styles:['css/soopketland-v2039.css?v=2096-combat-flow'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2096-combat-flow'],
+    styles:['css/soopketland-v2039.css?v=2097-mercenary'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2097-mercenary'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
@@ -5207,8 +5207,13 @@ function bindPvpDeckFilters(list,user=loadUser()){
 }
 function pvpDeckStats(cardIds,user=loadUser()){
   const ids=Array.isArray(cardIds)?cardIds:[],cardPower=ids.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,pvpState.battleConfig||battleState.config):0)},0),support=Number(pvpState.characterBonus?.pvp||0);
-  return {count:ids.length,cardPower,totalPower:ids.length?cardPower+support:0};
+  return {count:ids.length,cardPower,totalPower:ids.length?cardPower+support+Number(globalThis.MercenaryDeckSlot?.power?.()||0):0};
 }
+addEventListener('mercenary-deployment:changed',()=>{
+  if(document.getElementById('battleDeck'))renderBattleBuilder();
+  const box=document.getElementById('pvpContent');if(!box||!pvpState.config)return;
+  if(pvpState.tab==='deck')renderPvpDeckTab(box);else if(pvpState.tab==='match')void renderPvpTab();
+});
 function pvpDeckListsMatch(left,right){const a=Array.isArray(left)?left:[],b=Array.isArray(right)?right:[];return a.length===b.length&&a.every((id,index)=>String(id)===String(b[index]))}
 function pvpDeckHasUnsavedChanges(){const no=Math.max(1,Math.min(3,Number(pvpState.selectedPreset||1)));return !pvpDeckListsMatch(pvpState.deck,pvpState.presets?.[no]||[])}
 let pvpDeckNoticeTimer=0;
