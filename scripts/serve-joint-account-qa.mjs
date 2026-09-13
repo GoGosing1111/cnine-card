@@ -1,3 +1,7 @@
+import {handleMercenaryAccount} from '../functions/_mercenary_account_routes.js';
+import {hyperOpeningFeature} from '../functions/_hyper_pack_opening.js';
+import {hyperPackCatalogRow} from '../functions/_hyper_pack.js';
+import {readScrapyardStatus} from '../functions/_scrapyard.js';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -51,6 +55,14 @@ if(process.env.JOINT_QA_RESTORE_DATABASE){
 const catalog=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/characters/fur/manifest-v2.json'),'utf8')).characters.slice(0,5);
 const ids=catalog.map(c=>String(c.cardId));
 f.deps.raidDeckPower=async(_env,uid,requested,mode)=>{if(requested!==null||!['PVE','TOWER'].includes(mode))throw Error('Saved deck required');return {ids,cards:catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],power:20000000,base_power:20000000,image:c.sourceArt})),power:100000000,characterBonus:{pve:0},battleSettings:{engine:{}}};};
+const native=process.env.JOINT_QA_NATIVE==='1';
+if(native){
+ await f.setting('mercenary_runtime_policy_v1',{...mercenary.policy,mode:'OFF',opening:{...mercenary.policy.opening,coinPerOpen:500000000}});
+ await f.p('UPDATE users SET coin=60000000000 WHERE id=7').run();
+ const cow=JSON.parse((await f.p("SELECT value FROM app_meta WHERE key='expedition_v3_cow_room'").first()).value);await f.setting('expedition_v3_cow_room',{...cow,mode:'ON',approved:true});
+}
+const nativeCards=catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',grade:'FUR',powerType:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],basePower:20000000,image:c.sourceArt}));
+const profile=async()=>({id:7,nickname:'로컬 검수',role:'OWNER',coin:await f.coin(),owned:ids,quantities:Object.fromEntries(ids.map(id=>[id,1])),breakthroughs:{},masterStars:100});
 const mime={'.html':'text/html','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.jpeg':'image/jpeg','.jfif':'image/jpeg','.svg':'image/svg+xml','.mp3':'audio/mpeg','.wav':'audio/wav','.ogg':'audio/ogg','.ttf':'font/ttf','.woff2':'font/woff2'};
 const send=(res,status,body,type='application/json')=>{res.writeHead(status,{'content-type':type,'cache-control':'no-store'});res.end(typeof body==='string'?body:JSON.stringify(body));};
 const server=http.createServer(async(req,res)=>{try{
@@ -63,7 +75,7 @@ const server=http.createServer(async(req,res)=>{try{
     const body=JSON.parse(raw);if(!['HUNT','SWEEP','APOCALYPSE'].includes(body.event))return send(res,400,{error:'Unknown QA event'});
     const cowPortals=[];
     for(let i=0;i<(body.event==='SWEEP'?4:1);i++){
-      const portal=await discoverCowPortalReady(f.env,f.user,{sourceType:body.event==='SWEEP'?'SWEEP':'HUNT',sourceRef:crypto.randomUUID(),isApocalypse:body.event==='APOCALYPSE',result:'WIN'},{randomInt:()=>body.event==='SWEEP'&&i%2?999999:0});
+      const portal=await discoverCowPortalReady(f.env,f.user,{battleMode:'PVE',sourceType:body.event==='SWEEP'?'SWEEP':'HUNT',sourceRef:crypto.randomUUID(),isApocalypse:body.event==='APOCALYPSE',result:'WIN'},{randomInt:()=>body.event==='SWEEP'&&i%2?999999:0});
       if(portal)cowPortals.push(portal);
     }
     return send(res,200,{event:body.event,cowPortals});
@@ -71,13 +83,24 @@ const server=http.createServer(async(req,res)=>{try{
   if(url.pathname==='/__qa/login')return send(res,200,'<!doctype html><html lang="ko"><meta charset="utf-8"><title>공동 출시 로컬 계정 검수</title><body style="background:#102017;color:white;font:18px sans-serif;padding:60px"><h1>로컬 계정 검수</h1><p>운영 계정·재화와 분리된 SQLite 검수 데이터입니다.</p><button id="login">검수 계정 7로 접속</button><script>document.getElementById("login").onclick=()=>{localStorage.setItem("cnine_card_api_token","local-account-7");localStorage.setItem("cnine_admin_token","local-account-7");location.href="/pve-v3/?content=tower"}</script></body></html>','text/html');
   if(url.pathname.startsWith('/api/')){let body;const chunks=[];let length=0;for await(const chunk of req){length+=chunk.length;if(length>64000)return send(res,413,{error:'Too large'});chunks.push(chunk);}if(length)body=Buffer.concat(chunks);
     const request=new Request(url,{method:req.method,headers:req.headers,...(body?{body,duplex:'half'}:{})});
-    if(url.pathname==='/api/mercenary-cards/feature'&&req.method==='GET')return send(res,200,{connected:true,userOpeningEnabled:true,localQa:true});
+    if(url.pathname==='/api/mercenary-cards/feature'&&req.method==='GET')return send(res,200,native?await hyperOpeningFeature(f.env):{connected:true,userOpeningEnabled:true,localQa:true});
     if(url.pathname==='/api/pve/v3/feature'&&req.method==='GET')return send(res,200,{...v3JointReleaseState(),localQa:true});
-    const apiPath=url.pathname.slice(5),handler=apiPath==='admin/mercenaries'||apiPath.startsWith('admin/mercenaries/draw')?handleMercenaryCms:isForgeRuntimePath(apiPath)?handleForgeRuntimeReady:isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/runtime'?handleMercenaryAccountReady:handlePveV3Ready;
+    const apiPath=url.pathname.slice(5);
+    if(native){
+      if(['me','me/summary'].includes(apiPath))return send(res,200,{user:await profile(),prison:{incarcerated:false}});
+      if(apiPath==='me/collection')return send(res,200,{collection:await profile()});
+      if(apiPath==='cards')return send(res,200,{cards:nativeCards});
+      if(apiPath==='packs')return send(res,200,{packs:[hyperPackCatalogRow((await hyperOpeningFeature(f.env)).userOpeningEnabled)]});
+      if(apiPath==='service/status')return send(res,200,{maintenance:{active:false}});
+      if(apiPath==='battle/config')return send(res,200,{deck:ids,monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000}],settings:{},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pve:0},energy:{energy:30,maxEnergy:30,costPerBattle:1}});
+      if(apiPath==='scrapyard/status')return send(res,200,await readScrapyardStatus(f.env,f.user,f.deps.raidDeckPower));
+      if(!['cow-room/v3/','admin/mercenaries','mercenar','hyper-pack','pve/v3/'].some(prefix=>apiPath.startsWith(prefix)))return send(res,200,{ok:true,enabled:false,items:[],commands:[],maintenance:{active:false}});
+    }
+    const handler=native&&(isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/opening')?handleMercenaryAccount:apiPath==='admin/mercenaries'||apiPath.startsWith('admin/mercenaries/draw')?handleMercenaryCms:isForgeRuntimePath(apiPath)?handleForgeRuntimeReady:isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/runtime'?handleMercenaryAccountReady:handlePveV3Ready;
     const response=await handler({path:apiPath,request,env:f.env,deps:f.deps});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;}
   if(!['GET','HEAD'].includes(req.method))return send(res,405,{});
-  const rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),target=path.resolve(root,rel);
-  const pure=['functions/_battle_v2_preview.js','functions/_mercenary_combat.js','admin/pve-v3-settings.mjs','admin/pve-v3-settings.css','admin/joint-runtime-settings.mjs','admin/joint-runtime-settings.css','admin/v3-live-connections.mjs','admin/v3-live-connections.css','admin/admin.css'].includes(rel);
+  const rel=decodeURIComponent(url.pathname).replace(/^\/+/, '')||(native?'index.html':''),target=path.resolve(root,rel);
+  const pure=native&&['index.html','service-worker.js','manifest.webmanifest','favicon.ico','admin/hyper-pack-opening.mjs','admin/hyper-pack-v2076.js','admin/hyper-pack-opening.css'].includes(rel)||['functions/_battle_v2_preview.js','functions/_mercenary_combat.js','admin/pve-v3-settings.mjs','admin/pve-v3-settings.css','admin/joint-runtime-settings.mjs','admin/joint-runtime-settings.css','admin/v3-live-connections.mjs','admin/v3-live-connections.css','admin/admin.css'].includes(rel);
   if(!target.startsWith(root+path.sep)||rel.split(/[\\/]/).some(s=>s==='..'||s.startsWith('.'))||!pure&&!['pve-v3','mercenary-hangar','equipment-forge','preview','assets','css','js','shared','style.css'].includes(rel.split('/')[0]))return send(res,404,{});
   const file=fs.existsSync(target)&&fs.statSync(target).isDirectory()?path.join(target,'index.html'):target;if(!fs.existsSync(file))return send(res,404,{});
   res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});if(req.method==='HEAD')res.end();else fs.createReadStream(file).pipe(res);

@@ -31,6 +31,7 @@ async function writeBundle(file, contents) {
 }
 for (const [entryPoint, outfile, constructor] of jobs) {
   const result = await build({entryPoints: [entryPoint], outfile, write: false, bundle: true, minify: true, format: 'iife', target: ['es2022'], legalComments: 'none', metafile: true,
+    define:{__CNINE_NATIVE_CONTINUOUS__:String(outfile==='preview/project-v-v3/project-v-pixi-battle.bundle.js')},
     plugins: constructor ? [{name: 'existing-content-extension', setup(bundler) {
       bundler.onResolve({filter: /battle\/BattleEngine\.js$/}, args => {
         if (args.importer.replaceAll('\\', '/').endsWith('/project-v-pixi-battle.src.js')) return {path: path.resolve(constructor)};

@@ -1,4 +1,4 @@
-import {showMercenaryReceipt} from '/js/mercenary-pack-live.mjs?v=2091';
+import {showMercenaryReceipt} from '/js/mercenary-pack-live.mjs?v=2093';
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=n=>Number(n||0).toLocaleString('ko-KR');
 let state,selected,busy=false;const pendingKey=()=>`cnine.mercenary.pending:${state?.accountId||''}`;const message=text=>$('message').textContent=text;
@@ -7,7 +7,7 @@ function show(){if(!state)return;const card=state.cards.find(c=>c.code===selecte
  $('selected-stats').hidden=!card;$('portrait').hidden=!card;if(card){$('portrait').src='/'+card.sourceArt;$('portrait').alt=card.name;$('name').textContent=card.name;$('rank').textContent=`${card.rank||'등급 미정'} CLASS`;$('serial').textContent=`PROJECT V / ${card.code}`;$('character-note').textContent='일반 카드 덱과 독립된 전속 용병 슬롯';$('level').textContent=card.level;$('duplicates').textContent=fmt(card.duplicates);$('power').textContent=fmt(card.basePower);}
  $('assigned-skills').hidden=!card; $('skill-list').innerHTML=card?(card.skills||[]).map(s=>`<article><h4>${esc(s.name)}</h4><p>${esc(s.effect)}</p><small>${esc(s.trigger)}</small>${s.review!=='REVIEWED'||Object.values(s.balance).some(v=>v===null)?'<em>스킬 수치 설정 대기</em>':''}</article>`).join('')||'<p>배정된 스킬이 없습니다.</p>':'';
  $('equip').disabled=blocked||!card||card.canDeploy===false||state.loadout.mercenaryCode===selected;$('equip').textContent=card?state.loadout.mercenaryCode===selected?'현재 편성된 용병':'선택 용병 편성':'용병 선택 대기';$('unequip').disabled=blocked||!state.loadout.mercenaryCode;
- const o=state.policy.opening,count=Number($('draw-count').value);$('draw-cost').textContent=o.paymentKind==='COIN'?`${count}회 · ${fmt(o.coinPerOpen*count)} 코인`:o.paymentKind==='ITEM'?`개봉권 ${fmt(o.itemsPerOpen*count)}장 사용`:'개봉 비용을 준비 중입니다.';$('open').disabled=blocked||o.paymentKind==='UNSET'||count>o.maxBatch;$('open').textContent=o.paymentKind==='UNSET'?'개봉 준비 중':'용병카드 개봉';$('recover').hidden=!localStorage.getItem(pendingKey());
+ const o=state.policy.opening,count=Number($('draw-count').value);$('draw-cost').textContent=o.paymentKind==='COIN'?`${count}회 · ${fmt(o.coinPerOpen*count)} 코인`:o.paymentKind==='ITEM'?`개봉권 ${fmt(o.itemsPerOpen*count)}장 사용`:'개봉 비용을 준비 중입니다.';$('open').disabled=busy||!(state.openingAvailable??state.available)||o.paymentKind==='UNSET'||count>o.maxBatch;$('open').textContent=o.paymentKind==='UNSET'?'개봉 준비 중':'용병카드 개봉';$('recover').hidden=!localStorage.getItem(pendingKey());
 }
 async function refresh(){try{state=await api('mercenaries/v3/state');if(!state.cards.some(c=>c.code===selected))selected=state.loadout.mercenaryCode||state.cards[0]?.code;show();}catch(e){message(e.message);$('slot').textContent='공동 업데이트 준비 중';$('roster').textContent=e.message;}}
 async function run(action,body){if(busy)return;let pending;try{pending=JSON.parse(localStorage.getItem(pendingKey())||'null');}catch{}if(!pending){pending={action,body:{requestId:crypto.randomUUID(),...body}};localStorage.setItem(pendingKey(),JSON.stringify(pending));}busy=true;show();
@@ -21,3 +21,4 @@ $('equip').onclick=()=>run('loadout',{mercenaryCode:selected,revision:state.load
 $('open').onclick=()=>void globalThis.MercenaryPack.open(Number($('draw-count').value));
 window.addEventListener('mercenary-pack:complete',()=>void refresh());$('refresh').onclick=()=>{if(!busy)void refresh();};$('recover').onclick=()=>run();
 await refresh();
+window.addEventListener('mercenary-pack:availability',event=>{if(state){state.openingAvailable=event.detail?.userOpeningEnabled===true;show();}});

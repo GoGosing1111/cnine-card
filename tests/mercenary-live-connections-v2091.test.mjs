@@ -13,10 +13,10 @@ const plan=JSON.parse(fs.readFileSync(new URL('../preview/project-v-mercenary-sy
 const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const request=(path,body)=>new Request('https://game.test/api/'+path,{method:body?'POST':'GET',headers:{authorization:'Bearer local-account-7',origin:'https://game.test','content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
 
-test('production links and all opening aliases are connected while the user hold precedes DB access',async()=>{
+test('production links and all opening aliases are connected while OFF permits only a settings read',async()=>{
  assert.equal(MERCENARY_PACK.price,500000000);assert.equal(MERCENARY_PACK.maxCount,10);
  for(const row of Object.values(V3_LIVE_CONNECTIONS))assert.doesNotMatch(row.url,/preview/);
- const env=new Proxy({},{get(){throw Error('DB touched');}}),deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate(){throw Error('auth touched');}};
+ const env={DB:{prepare(sql){assert.match(sql,/SELECT value FROM app_meta/);return {bind(){return {first:async()=>null};}};}}},deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate(){throw Error('auth touched');}};
  for(const path of ['mercenary-cards/open','mercenary-cards/open-batch','hyper-pack/open','mercenaries/v3/open']){
   const r=await handleMercenaryAccount({path,request:request(path,{requestId:crypto.randomUUID(),count:10}),env,deps});assert.ok(r.status>=400);assert.equal((await r.json()).userOpeningEnabled,false);
  }

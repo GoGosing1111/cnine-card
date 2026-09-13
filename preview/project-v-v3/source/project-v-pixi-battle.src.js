@@ -1,7 +1,9 @@
 import {BattleEngine} from './battle/BattleEngine.js';
+import {BattleEngine as ExpeditionBattleEngine} from '../../../pve-v3/BattleEngine.js';
 
 let engine=null;
 let accountPreviewFirearmHook=null;
+const engineType=payload=>typeof __CNINE_NATIVE_CONTINUOUS__!=='undefined'&&__CNINE_NATIVE_CONTINUOUS__&&payload?.continuousEncounter?ExpeditionBattleEngine:BattleEngine;
 
 async function mount(target=document.getElementById('pvPixiBattle')){
   if(engine)return engine;
@@ -13,7 +15,8 @@ async function mount(target=document.getElementById('pvPixiBattle')){
 
 async function mountForBattle(payload,target=document.getElementById('pvPixiBattle')){
   if(engine)return resetSession(payload,target);
-  engine=new BattleEngine({host:target,battleData:payload});
+  const Engine=engineType(payload);
+  engine=new Engine({host:target,battleData:payload});
   engine.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
   try{
     await engine.mount();
@@ -25,6 +28,8 @@ async function mountForBattle(payload,target=document.getElementById('pvPixiBatt
 }
 
 async function resetSession(payload,target=document.getElementById('pvPixiBattle')){
+  const Engine=engineType(payload);
+  if(engine&&(engine.constructor!==Engine||engine.battleData?.title!==payload?.title&&payload?.continuousEncounter))destroy();
   if(!engine)return mountForBattle(payload,target);
   return engine.resetSession(payload,target);
 }

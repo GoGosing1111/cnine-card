@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.32.0-core-random-two';
+  const VERSION = '3.33.0-cow-native';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -963,7 +963,7 @@
       async play() {
         if (destroyed) return false;
         const timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
-        if (phase) phase.textContent = 'V3 LIVE BATTLE';
+        if (phase) phase.textContent = options.continuousPlayback?'목초지 진입':'V3 LIVE BATTLE';
         try {
           await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
           // The account Battle Suit is an independent PVE support actor. Its
@@ -976,6 +976,7 @@
           let bossUltimateShown = false;
           const timedSkillChips = timeline.some(event => event.combatClock === 'V3_COMBAT_MS_V1');
           const prepareEvent = async sourceEvent => {
+            if(options.continuousPlayback)await options.beforeCombatEvent?.(sourceEvent);
             if (destroyed) return null;
             if (interactiveFailure) throw interactiveFailure;
             const type = String(sourceEvent?.type || '').toUpperCase();
@@ -1048,7 +1049,7 @@
             }
             return event;
           };
-          if (timedSkillChips && !destroyed) {
+          if (timedSkillChips && !options.continuousPlayback && !destroyed) {
             // Keep QTE/raid overlays in their original event positions. Their
             // awaited prelude pauses the shared clock without resetting it.
             const timedEvents = timeline;
@@ -1069,7 +1070,10 @@
             for (const sourceEvent of timeline) {
               if (destroyed) return false;
               const event = await prepareEvent(sourceEvent);
-              if (event) await safePlayEvents([event], `${event.label || event.type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
+              if (event) {
+                await safePlayEvents([event], `${event.label || event.type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
+                options.onCombatEvent?.(event);
+              }
             }
           }
           if (interactiveFailure) throw interactiveFailure;

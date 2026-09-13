@@ -1,12 +1,14 @@
 import {jointAccountRequest} from './joint-account-transport.mjs';
+import {cowPortalNoticeEligible} from '../shared/cow-portal-eligibility.mjs';
 
-export function createCowPortalPrompt({request=jointAccountRequest,navigate=url=>location.assign(url)}={}){
+export function createCowPortalPrompt({request=jointAccountRequest,navigate=url=>globalThis.PveV3Runtime?.tryOpen('cow-room',{enter:true})||location.assign(url)}={}){
   let flight=null;
   const offered=new Set();
   const announce=available=>window.dispatchEvent(new CustomEvent('cow-portal:availability',{detail:{available}}));
+  const blockedContext=()=>document.body.dataset.contentScope==='pvp'||Boolean(document.querySelector('.battle-modal.show [data-v3-field="PVP"],.battle-modal.show [data-v3-field="SIEGE"]'));
   async function present(){
     const state=await request('cow-room/v3/state'),count=Number(state.portals?.available||0);
-    announce(count);if(count<1)return false;
+    announce(count);if(count<1||blockedContext())return false;
     if(!document.querySelector('link[data-cow-portal-style]')){
       const link=document.createElement('link');link.rel='stylesheet';link.href='/css/cow-room-portal.css?v=20260913-portal1';link.dataset.cowPortalStyle='';document.head.append(link);
       await new Promise(resolve=>{link.onload=link.onerror=resolve;setTimeout(resolve,1800);});
@@ -26,7 +28,7 @@ export function createCowPortalPrompt({request=jointAccountRequest,navigate=url=
     document.body.append(dialog);
     return new Promise(resolve=>{
       let finished=false;
-      const finish=enter=>{if(finished)return;finished=true;dialog.close();dialog.remove();if(!enter&&focus?.isConnected)focus.focus();resolve(enter);if(enter)navigate('/pve-v3/?content=cow-room&enter=1');};
+      const finish=enter=>{if(finished)return;finished=true;dialog.close();dialog.remove();if(!enter&&focus?.isConnected)focus.focus();resolve(enter);if(enter)navigate('/?screen=battle&pve=cow-room&enter=1');};
       dialog.querySelector('[data-later]').onclick=()=>finish(false);
       dialog.querySelector('[data-enter]').onclick=()=>finish(true);
       dialog.addEventListener('cancel',event=>{event.preventDefault();finish(false);});
@@ -34,15 +36,17 @@ export function createCowPortalPrompt({request=jointAccountRequest,navigate=url=
       dialog.showModal();
     });
   }
-  function offer(portals=[],{recover=false}={}){
-    const fresh=(Array.isArray(portals)?portals:[]).filter(p=>p?.state==='OPEN'&&typeof p.id==='string'&&!offered.has(p.id));
-    if(!recover&&!fresh.length)return Promise.resolve(false);
+  function offer(portals=[],{mode}={}){
+    const fresh=(Array.isArray(portals)?portals:[]).filter(p=>cowPortalNoticeEligible(p,mode)&&!offered.has(p.id));
+    if(blockedContext()||!fresh.length)return Promise.resolve(false);
     if(flight)return flight;
     for(const portal of fresh)offered.add(portal.id);
     flight=present().catch(error=>{for(const portal of fresh)offered.delete(portal.id);console.warn('카우방 포탈 안내를 다시 확인할 수 있습니다.',error?.code||error?.status||'NETWORK');return false;}).finally(()=>flight=null);
     return flight;
   }
-  return {offer,recover:()=>offer([],{recover:true})};
+  // Stored portals are accessible from the Cow Room menu. Login/navigation must
+  // never redisplay a discovery notice over PVP, ranked or territory battles.
+  return {offer};
 }
 export const cowPortalPrompt=createCowPortalPrompt();
 globalThis.CowRoomPortal=cowPortalPrompt;

@@ -33,7 +33,7 @@ for(const postgres of [false,true]){
   const first=await call();assert.equal(first.status,200,await first.clone().text());const result=await first.json();assert.equal(result.success,true);
   const balance=await f.coin();assert.equal((await(await call()).json()).replayed,true);assert.equal(await f.coin(),balance);
   assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='SCRAPYARD_ENTRY_TICKET'").first()).quantity),4);
-  assert.match(read('js/workshop-v1881.js'),/PveV3Runtime\?\.tryOpen\('scrapyard'\)/);
+  assert.doesNotMatch(read('js/workshop-v1881.js'),/PveV3Runtime\?\.tryOpen\('scrapyard'\)/);
  });
  test(`${postgres?'PostgreSQL':'SQLite'}: OWNER enables cow, ordinary user enters, exact reward and six-run cap survive replay`,async t=>{
   const f=await jointFixture(t,{postgres}),policy=await readExpeditionPolicy(f.env,'COW_ROOM');
@@ -51,7 +51,7 @@ for(const postgres of [false,true]){
   assert.equal(await f.coin(),coinsBefore+3000000000-6*250000);assert.equal((await cowPortalStatus(f.env,f.user)).available,0);
   assert.equal((await call('cow-room/v3/run',{requestId:'user-cow-seven',difficulty:'PASTURE'})).status,409);
   const current=await readExpeditionPolicy(f.env,'COW_ROOM');await call('admin/pve-v3',{content:'COW_ROOM',revision:current.revision,economy:{...current,mode:'OFF'}},f.deps,'PATCH');
-  assert.equal(await discoverCowPortal(f.env,f.user,{sourceType:'HUNT',sourceRef:'closed-event',result:'WIN'}),null);
+  assert.equal(await discoverCowPortal(f.env,f.user,{battleMode:'PVE',sourceType:'HUNT',sourceRef:'closed-event',result:'WIN'}),null);
   const restored=await call('cow-room/v3/run',{requestId:'user-cow-one-after-off',difficulty:'PASTURE'});assert.equal(restored.status,423);
   assert.equal((await(await call('cow-room/v3/run',{requestId:'user-cow-6',difficulty:'PASTURE'})).json()).replayed,true,'CMS stop preserves settled result recovery');
  });

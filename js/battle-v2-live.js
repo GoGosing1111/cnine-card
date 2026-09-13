@@ -437,7 +437,7 @@
       await window.completePveSweepAfterAnimatedBattle({data,modal,msg,renderer});
     } else {
       setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);
-      if(data.cowPortal)await window.CowRoomPortal?.offer([data.cowPortal]);
+      if(data.cowPortal)await window.CowRoomPortal?.offer([data.cowPortal],{mode:data.difficulty?.isApocalypse?'APOCALYPSE':'PVE'});
     }
   }
 

@@ -76,18 +76,18 @@ export async function mercenaryAccountState(env,user){
   return {accountId:Number(user.id),available:policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:{mercenaryCode:loadout?.mercenary_code||null,revision:Number(loadout?.revision||0)},cards:owned.results.map(row=>{const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,skills:assignedSkills(config.document,row.mercenary_code),canDeploy:Boolean(meta.rank)&&skillsReady(assignedSkills(config.document,row.mercenary_code))};})};
 }
 
-export async function openMercenaryCards(env,user,body,{randomInt}={}){
+export async function openMercenaryCards(env,user,body,{randomInt,readOpeningPolicy=readMercenaryRuntime,openingGuards}={}){
   const count=integer(body.count??1,1,10,'개봉 횟수'),requestId=body.requestId;
   const result=await runJointOperation(env,user,{requestId,kind:'MERCENARY_OPEN',input:{count},prepare:async()=>{
-    const policy=await readMercenaryRuntime(env);allowRuntime(policy,user);if(policy.opening.paymentKind==='UNSET')throw jointError('MERCENARY_PRICE_PENDING','개봉 비용이 확정되지 않았습니다.',409);if(count>policy.opening.maxBatch)throw jointError('MERCENARY_COUNT','개봉 횟수를 줄이세요.');
+    const policy=await readOpeningPolicy(env);allowRuntime(policy,user);if(policy.opening.paymentKind==='UNSET')throw jointError('MERCENARY_PRICE_PENDING','개봉 비용이 확정되지 않았습니다.',409);if(count>policy.opening.maxBatch)throw jointError('MERCENARY_COUNT','개봉 횟수를 줄이세요.');
     const config=await readMercenaryDocument(env),released=await readJointReleaseComponent(env,'MERCENARY'),row=released?{payload_json:JSON.stringify(released.draw),revision:released.drawRevision}:await env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first();if(!row)throw jointError('MERCENARY_DRAW_PENDING','개봉 확률 설정이 없습니다.',409);
     const draw=validateMercenaryDraw(JSON.parse(row.payload_json)),draws=Array.from({length:count},()=>{const result=pickMercenaryDraw({policy:draw,mercenaries:config.document.mercenaries,randomInt});return {...result,...(result.mercenaryCode?{name:config.document.mercenaries.find(c=>c.code===result.mercenaryCode).name}:{})};});
     const coinCost=policy.opening.paymentKind==='COIN'?policy.opening.coinPerOpen*count:0;
     if(coinCost>Number((await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()).coin))throw jointError('MERCENARY_FUNDS','코인이 부족합니다.',409);
     return {count,draws,coinCost,payment:policy.opening,cmsRevision:config.revision,drawRevision:Number(row.revision),policyVersion:policy.version};
   },statements:async plan=>{
-    allowRuntime(await readMercenaryRuntime(env),user);
-    const list=jointCoinDebit(env.DB,user.id,plan.coinCost,`용병 개봉 ${requestId}`);
+    allowRuntime(await readOpeningPolicy(env),user);
+    const list=[...(openingGuards?await openingGuards(env):[]),...jointCoinDebit(env.DB,user.id,plan.coinCost,`용병 개봉 ${requestId}`)];
     if(plan.payment.paymentKind==='ITEM')list.push(...jointInventoryChange(env.DB,user.id,plan.payment.itemCode,-plan.payment.itemsPerOpen*plan.count,'용병 개봉',requestId));
     plan.draws.forEach((draw,i)=>{if(draw.mercenaryCode)list.push(...mercenaryCardAcquisitionStatements(env.DB,{userId:Number(user.id),mercenaryCode:draw.mercenaryCode,acquisitionId:`${requestId}:${i}`}));else if(draw.quantity)list.push(...jointInventoryChange(env.DB,user.id,draw.outcomeId==='MASTER_STAR'?'MASTER_STAR':'STARLIGHT_ARMOR_CORE',draw.quantity,'용병 개봉 보상',`${requestId}:${i}`));});return list;
   }});return mercenaryOpeningReceipt(env,user,result.requestId,result.replayed);

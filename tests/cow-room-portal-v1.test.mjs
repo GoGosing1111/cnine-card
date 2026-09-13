@@ -7,7 +7,7 @@ import {cowPortalRate,discoverCowPortal,discoverCowPortalReady,cowPortalStatus} 
 import {runExpeditionV3} from '../functions/_expedition_v3_runs.js';
 import {handlePveV3,handlePveV3Ready} from '../functions/_pve_v3_routes.js';
 const origin='https://game.example';
-const event=(ref,sourceType='HUNT',isApocalypse=false,result='WIN')=>({sourceRef:ref,sourceType,isApocalypse,result});
+const event=(ref,sourceType='HUNT',isApocalypse=false,result='WIN')=>({battleMode:isApocalypse?'APOCALYPSE':'PVE',sourceRef:ref,sourceType,isApocalypse,result});
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const clean=f=>f.p('DELETE FROM cow_room_portal_rolls_v1').run();
 const grant=(f,ref,roll=0,source='HUNT',apocalypse=false,result='WIN')=>discoverCowPortalReady(f.env,f.user,event(ref,source,apocalypse,result),{randomInt:()=>roll});
@@ -36,7 +36,7 @@ for(const postgres of[false,true]){
     assert.equal((await cowPortalStatus(f.env,f.user)).available,5);
     assert.equal((await cowPortalStatus(f.env,{id:8})).available,0);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM cow_room_portal_rolls_v1').first()).n),8);
-    await assert.rejects(()=>discoverCowPortalReady(f.env,f.user,event('forged','PVP')),{code:'PVE_V3_PORTAL_EVENT'});
+    assert.equal(await discoverCowPortalReady(f.env,f.user,event('forged','PVP')),null);
     await assert.rejects(()=>discoverCowPortalReady(f.env,f.user,event('unfinished','HUNT',false,'RUNNING')),{code:'PVE_V3_PORTAL_EVENT'});
     await assert.rejects(()=>grant(f,'invalid-rng',1000000),{code:'PVE_V3_PORTAL_RANDOM'});
   });
@@ -81,8 +81,8 @@ test('sweep result aggregation retains every unique portal and both real result 
   const first=context.pveSweepFirstResult({result:'WIN',cowPortal:a});
   const merged=context.mergePveSweepResults(first,{battles:2,wins:2,cowPortals:[a,b]});
   assert.equal(JSON.stringify(merged.cowPortals),JSON.stringify([a,b]));
-  assert.ok(source.includes('await window.CowRoomPortal?.offer(summary.cowPortals)'));
-  assert.ok(read('js/battle-v2-live.js').includes('await window.CowRoomPortal?.offer([data.cowPortal])'));
+  assert.ok(source.includes('await window.CowRoomPortal?.offer(summary.cowPortals,{mode:\'PVE\'})'));
+  assert.ok(read('js/battle-v2-live.js').includes('await window.CowRoomPortal?.offer([data.cowPortal],{mode:data.difficulty?.isApocalypse?\'APOCALYPSE\':\'PVE\'})'));
   const api=read('functions/api/[[path]].js');
   assert.ok(api.includes("sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result"));
   assert.ok(api.includes("sourceType:'SWEEP',sourceRef:dropRequestId,isApocalypse:difficulty.isApocalypse,result"));

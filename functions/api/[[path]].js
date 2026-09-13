@@ -1,3 +1,4 @@
+import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
 import {forgeEquipmentBonuses} from '../_equipment_forge_transactions.js';
 import { resolveAvatarDropRate,withAvatarDropScope } from '../_avatar_drop.js';
 import { SCHEMA } from '../_data/schema.js';
@@ -1652,7 +1653,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   ]);
   const unifiedDrop=result==='WIN'?await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${dropRequestId}`,sourceType:'PVE_AUTO',sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare,isApocalypse:difficulty.isApocalypse}):null;
   const autoBattleLogStatement=env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward);
-  const cowPortal=await discoverCowPortal(env,user,{sourceType:'SWEEP',sourceRef:dropRequestId,isApocalypse:difficulty.isApocalypse,result});
+  const cowPortal=await discoverCowPortal(env,user,{battleMode:difficulty.isApocalypse?'APOCALYPSE':'PVE',sourceType:'SWEEP',sourceRef:dropRequestId,isApocalypse:difficulty.isApocalypse,result});
   if(typeof options.collectBattleLog==='function')options.collectBattleLog(autoBattleLogStatement);
   else await autoBattleLogStatement.run();
   return {result,reward,avatarCoin,cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,cowPortal,playerPower:uniquePlayerPower,cardPower,battleSuitDamage,damageBreakdown,characterBonus,monsterPower,battleReason:String(battleV2?.result?.reason||''),difficulty:{...difficulty,engineMonster:undefined},bossUltimate:bossShouldCast?{name:apocalypseSkillCast?apocalypseSkill.name:String(monster.ultimate_name||'보스 궁극기'),description:apocalypseSkillCast?apocalypseSkill.description:String(monster.ultimate_description||''),apocalypseExclusive:apocalypseSkillCast,damagePercent:bossPveDamagePercent,penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
@@ -5353,10 +5354,10 @@ async function handleRequest(context){
       return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning,superstarSettings]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env)]);
+      const [rows,burning,superstarSettings,hyperOpening]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),hyperOpeningFeature(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs:arrangeHyperPackCatalog(packs),burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      return json({packs:arrangeHyperPackCatalog(packs,hyperOpening.userOpeningEnabled),burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});
@@ -6733,7 +6734,7 @@ async function handleRequest(context){
         unifiedDrops:unifiedDrop?[unifiedDrop]:[]
       }));
       const battleSuitSupport=(battleV2?.result?.supports?.A||battleV2?.teams?.A?.supports||[]).find(item=>String(item?.actorKind||'').toUpperCase()==='BATTLE_SUIT')||null;
-      const cowPortal=await discoverCowPortal(env,user,{sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result});
+      const cowPortal=await discoverCowPortal(env,user,{battleMode:difficulty.isApocalypse?'APOCALYPSE':'PVE',sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result});
       const battleSuitRuntime={...engineState.battleSuitLive,actorId:String(battleSuitSupport?.id||''),actions:Math.max(0,Number(battleSuitSupport?.actions||0)),damageDealt:Math.max(0,Number(battleSuitSupport?.damageDealt??battleV2?.result?.damageBreakdown?.battleSuit??0)),authoritative:Boolean(battleSuitSupport?.authoritative&&battleV2?.rules?.battleSuitDamageAuthority==='SERVER_TIMELINE')};
       return json({result,reward,rewardBeforeAvatar:avatarCoin.base,avatarCoinBonus:avatarCoin.bonus,avatarCoinGainPercent:avatarCoin.percent,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,battleSuitRuntime,equippedBattleSuit:characterBonus.equippedBattleSuit||null,equippedWeapon:characterBonus.equippedWeapon||null,battleSuitDamage:Number(battleV2?.result?.damageBreakdown?.battleSuit||characterBonus.battleSuitPve||0),damageBreakdown:battleV2?.result?.damageBreakdown||{cards:cardPower,support:Math.max(0,Number(characterBonus.pve||0)-Number(characterBonus.battleSuitPve||0)),battleSuit:Math.max(0,Number(characterBonus.battleSuitPve||0)),ultimate:ultimateDamage,total:totalBattleDamage,authority:'SERVER_POWER_FALLBACK'},cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,cowPortal,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured||apocalypseSkillCast,enabled:bossUltimateEnabled||apocalypseSkillCast,isBoss:bossIsBoss,forceCast:apocalypseSkillCast||bossForceCast,trigger:apocalypseSkillCast?'ALWAYS':bossTrigger,chance:apocalypseSkillCast?100:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked,apocalypseExclusive:apocalypseSkillCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare,apocalypse:difficulty.isApocalypse},cards:battleCards,energy:energyAfter,energyKind:difficulty.isApocalypse?'APOCALYPSE':'STANDARD',serverNow:new Date().toISOString(),user:battleProfile});
     }

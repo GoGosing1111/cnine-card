@@ -520,7 +520,6 @@
   async function bindScrapyardView() {
     const root = document.getElementById('scrapyardRootV1881');
     if (!root) return;
-    if(await globalThis.PveV3Runtime?.tryOpen('scrapyard'))return;
     const loadVersion = ++scrapyardLoadVersion;
     const syncVersion = ++scrapyardSyncVersion;
     const epoch = routeEpoch;
@@ -1087,7 +1086,6 @@
 
   async function runScrapyard(difficulty) {
     if (scrapyardBusy) return;
-    if(await globalThis.PveV3Runtime?.tryOpen('scrapyard'))return;
     const ticket = prepareMutationRequest('scrapyard', difficulty, 'SCRAP');
     if (ticket.blocked) return alert('이전 폐차장 원정 결과를 먼저 확인해야 합니다. 이전에 선택한 난이도로 다시 시도해 주세요.');
     const actionVersion = ++scrapyardActionVersion;

@@ -900,7 +900,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   workshop:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2092-cow-tower-on&joint=2090'],
+    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2093-native-pve-hyper&joint=2090'],
     ready:()=>Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
@@ -914,7 +914,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=2092-cow-tower-on&joint=2090','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-v1881.js?v=2093-native-pve-hyper&joint=2090','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -933,8 +933,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
-    styles:['css/soopketland-v2039.css?v=2092-cow-tower-on'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2092-cow-tower-on'],
+    styles:['css/soopketland-v2039.css?v=2093-native-pve-hyper'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2093-native-pve-hyper'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
@@ -963,8 +963,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=102-h-body&joint=2090',
-      'js/battle-v3-live.js?v=3.32.0-core-random-two'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=103-cow-native&joint=2090',
+      'js/battle-v3-live.js?v=3.33.0-cow-native'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }
@@ -1523,7 +1523,7 @@ function buyView(user) {
 }
 
 function hyperPackHero() {
-  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status">용병 출시 준비 중 · 개봉 잠금</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>확률·재료 수량과 용병 획득 조건 확정 후 개봉됩니다.</p><div class="hyper-prices"><button class="btn" type="button" data-mercenary-open="1" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" data-mercenary-open="10" disabled><small>10회 개봉</small>50억 코인</button></div><small class="hyper-safe-notice" data-mercenary-open-status>용병카드 개봉은 현재 OFF입니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
+  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status" data-hyper-opening-label>개봉 준비 중</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>같은 등급의 용병은 균등 추첨 · 중복 카드는 수량으로 보관</p><div class="hyper-prices"><button class="btn" type="button" data-mercenary-open="1" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" data-mercenary-open="10" disabled><small>10회 개봉</small>50억 코인</button></div><button type="button" data-mercenary-recover hidden>이전 개봉 결과 확인</button><small class="hyper-safe-notice" data-mercenary-open-status>용병카드 개봉은 현재 OFF입니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
 }
 
 function recentCards(user) {
@@ -2037,7 +2037,7 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
   if(!battleState.autoRunning)return false;
   const first=pveSweepFirstResult(data),remaining=Math.max(0,Math.min(999,Number(battleState.autoRemaining||0)));
   battleState.autoSummary=first;modal.onclick=null;modal.classList.add('pve-sweep-modal');
-  if(!remaining){battleState.autoRunning=false;msg.innerHTML=pveSweepResultMarkup(first);renderer?.showResult?.();bindPveSweepExit(modal,renderer);await window.CowRoomPortal?.offer(first.cowPortals);return true}
+  if(!remaining){battleState.autoRunning=false;msg.innerHTML=pveSweepResultMarkup(first);renderer?.showResult?.();bindPveSweepExit(modal,renderer);await window.CowRoomPortal?.offer(first.cowPortals,{mode:'PVE'});return true}
   let summary=first,processed=0,chunkIndex=0,activeRequestId='',runInFlight=false;
   const run=async()=>{
     if(runInFlight)return true;
@@ -2054,7 +2054,7 @@ async function completePveSweepAfterAnimatedBattle({data,modal,msg,renderer}={})
         summary=mergePveSweepResults(summary,batch);processed+=completed;chunkIndex++;battleState.autoSummary=summary;battleState.autoRemaining=Math.max(0,remaining-processed);
         if(batch.cappedByEnergy||completed<requestedBattles)break;
       }
-      summary.requestedBattles=remaining+1;battleState.autoSummary=summary;battleState.autoRunning=false;battleState.autoRemaining=0;msg.innerHTML=pveSweepResultMarkup(summary);bindPveSweepExit(modal,renderer);await window.CowRoomPortal?.offer(summary.cowPortals);return true;
+      summary.requestedBattles=remaining+1;battleState.autoSummary=summary;battleState.autoRunning=false;battleState.autoRemaining=0;msg.innerHTML=pveSweepResultMarkup(summary);bindPveSweepExit(modal,renderer);await window.CowRoomPortal?.offer(summary.cowPortals,{mode:'PVE'});return true;
     }catch(error){
       battleState.autoRunning=false;if(error?.energy)applyPveEnergyResponse({energy:error.energy,energyKind:error.energyKind||'STANDARD'});
       const pending=Math.max(0,remaining-processed),retryable=error?.retryable!==false&&!['PVE_SWEEP_FAILED','PVE_SWEEP_STALE','PVE_SWEEP_RECEIPT_INVALID'].includes(String(error?.code||'').toUpperCase());
@@ -2511,7 +2511,7 @@ async function startBattle(){
     applyPveEnergyResponse(d);
     saveUser(apiUserToLocal(d.user));
     if(battleState.autoRunning)await completePveSweepAfterAnimatedBattle({data:d,modal,msg});
-    else {setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);if(d.cowPortal)await window.CowRoomPortal?.offer([d.cowPortal]);}
+    else {setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);if(d.cowPortal)await window.CowRoomPortal?.offer([d.cowPortal],{mode:d.difficulty?.isApocalypse?'APOCALYPSE':'PVE'});}
 
   }catch(e){
     // V1803: 여기서 티커를 끄지 않아, 20초에 실패한 요청이 화면에서는 34초까지 도는 것처럼 보였다.
@@ -2867,6 +2867,8 @@ if(!document.documentElement.dataset.raidV3StartGuardV1877){
   document.addEventListener('click',handleRaidV3StartClick,true);
 }
 function switchPveMode(mode){
+  if(mode==='cow-room'){void globalThis.PveV3Runtime?.tryOpen('cow-room');return;}
+  globalThis.CowRoomLive?.hide?.();
   if(mode==='rift')mode='deck';
   const hunt=document.getElementById('pveHuntView'),raidHub=document.getElementById('pveRaidHubView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView'),escort=document.getElementById('pveEscortView');
   if(mode!=='raid'){invalidateRaidUiState({clearSelection:false,stopClaimRetry:true});globalThis.CoreProtocolRaidV1924?.deactivate?.()}
@@ -4999,7 +5001,7 @@ window.SuperstarPackV1894=Object.freeze({
 });
 
 openPack=async function(packId,count,cost,options={}){
-  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2091');return globalThis.MercenaryPack.open(Number(count));}
+  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2093');return globalThis.MercenaryPack.open(Number(count));}
   if(String(packId)==='premium'&&!readPendingDraw())return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';

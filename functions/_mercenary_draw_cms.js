@@ -1,3 +1,4 @@
+import {readHyperOpening} from './_hyper_pack_opening.js';
 import {DRAW_MAX_BYTES,suggestedMercenaryDraw,validateMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs';
 import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
 
@@ -23,7 +24,7 @@ export async function ensureMercenaryDrawCms(env,adminId){
 async function readState(env){
   const row=await env.DB.prepare('SELECT * FROM mercenary_draw_config_v1 WHERE id=1').first();
   const audit=(await env.DB.prepare('SELECT request_id,actor_id,revision,reason,created_at FROM mercenary_draw_audit_v1 ORDER BY revision DESC,created_at DESC LIMIT 10').all()).results;
-  return {policy:validateMercenaryDraw(JSON.parse(row.payload_json)),revision:Number(row.revision),updatedBy:Number(row.updated_by),updatedAt:row.updated_at,audit,userOpeningEnabled:MERCENARY_CARD_OPENING_RELEASE_ENABLED};
+  return {policy:validateMercenaryDraw(JSON.parse(row.payload_json)),revision:Number(row.revision),updatedBy:Number(row.updated_by),updatedAt:row.updated_at,audit,userOpeningEnabled:(await readHyperOpening(env)).mode==='ON'};
 }
 async function boundedJson(request){
   if(Number(request.headers.get('content-length'))>DRAW_MAX_BYTES)throw Error('확률 설정 요청은 24KB 이내여야 합니다.');

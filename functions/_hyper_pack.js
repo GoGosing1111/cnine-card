@@ -1,5 +1,6 @@
 // Live shop contract. Execution shares the account grant path; public opening stays gated.
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {hyperOpeningFeature} from './_hyper_pack_opening.js';
 import {MERCENARY_PACK} from '../shared/mercenary-pack-contract-v1.mjs';
 export const HYPER_PACK_PRICE = MERCENARY_PACK.price;
 export const HYPER_PACK_MAX_COUNT = MERCENARY_PACK.maxCount;
@@ -9,23 +10,23 @@ export const HYPER_PACK_REWARDS = Object.freeze(['MISS', 'MASTER_STAR', 'MYSTIC_
 export const HYPER_PACK_MATERIALS = Object.freeze({ MASTER_STAR: 'MASTER_STAR', MYSTIC_ENERGY: 'STARLIGHT_ARMOR_CORE' });
 export const HYPER_PACK_IMAGE = 'assets/ui/packs/hyper-pack-v2076.png';
 
-export function hyperPackCatalogRow() {
+export function hyperPackCatalogRow(openingEnabled=false) {
   return { id: 'hyper', name: '하이퍼팩', subtitle: 'EXTREME HYPER PACK', theme: 'hyper',
     description: '꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드', range: '용병 출시 대비 · 개봉 준비 중',
     price: HYPER_PACK_PRICE, originalPrice: HYPER_PACK_PRICE, burningDiscountPercent: 0,
     allowed: [], guarantee10: null, guarantee20: null, drawMode: 'HYPER_REWARD',
-    drawEnabled: HYPER_PACK_RELEASE_ENABLED, ownerDrawEnabled: false, openingConnected:true, openPath:MERCENARY_PACK.openPath, batchPath:MERCENARY_PACK.batchPath, accountUrl:MERCENARY_PACK.accountUrl, maxDrawCount: HYPER_PACK_MAX_COUNT,
-    imageUrl: HYPER_PACK_IMAGE, revealMode: 'HYPER_SEQUENCE', releaseStatus: HYPER_PACK_RELEASE_ENABLED?'RELEASED':'CONNECTED_USER_OFF' };
+    drawEnabled: openingEnabled===true, ownerDrawEnabled: false, openingConnected:true, openPath:MERCENARY_PACK.openPath, batchPath:MERCENARY_PACK.batchPath, accountUrl:MERCENARY_PACK.accountUrl, maxDrawCount: HYPER_PACK_MAX_COUNT,
+    imageUrl: HYPER_PACK_IMAGE, revealMode: 'HYPER_SEQUENCE', releaseStatus: openingEnabled===true?'RELEASED':'CONNECTED_USER_OFF' };
 }
 
-export function arrangeHyperPackCatalog(rows) {
+export function arrangeHyperPackCatalog(rows,openingEnabled=false) {
   // Close the old Premium slot, shift Limited/Superstar left, append Hyper.
   const order = ['advanced', 'pickup', 'ultimate', 'superstar'];
   return [...rows.filter(row => !['basic', 'premium', 'hyper'].includes(String(row.id)))
     .sort((a, b) => {
       const rank = row => order.includes(String(row.id)) ? order.indexOf(String(row.id)) : order.length;
       return rank(a) - rank(b);
-    }), hyperPackCatalogRow()];
+    }), hyperPackCatalogRow(openingEnabled)];
 }
 
 export function hyperPackCost(count) {
@@ -69,7 +70,7 @@ async function readDraft(env) {
 export async function handleHyperPack({ path, request, env, deps }) {
   if (!['hyper-pack/config', 'hyper-pack/open', 'admin/hyper-pack'].includes(path)) return null;
   const { json, authenticate, readBody, requirePermission, writeAdminLog } = deps;
-  if (path === 'hyper-pack/config' && request.method === 'GET') return json({ pack: hyperPackCatalogRow(), rewardKinds: HYPER_PACK_REWARDS });
+  if (path === 'hyper-pack/config' && request.method === 'GET') return json({ pack: hyperPackCatalogRow((await hyperOpeningFeature(env)).userOpeningEnabled), rewardKinds: HYPER_PACK_REWARDS });
   if (path === 'hyper-pack/open' && request.method === 'POST') {
     if (!await authenticate(request, env)) return json({ error: '로그인이 필요합니다.' }, 401);
     const body = await readBody(request);

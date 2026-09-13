@@ -14,7 +14,7 @@ import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 const payload=(policy=suggestedMercenaryDraw(),expectedRevision=1,requestId=crypto.randomUUID())=>({policy,expectedRevision,requestId,reason:'확률 수량 1차 검토'});
 async function fixture(mode='postgres'){
   const engine=mode==='postgres'?new PGlite():new DatabaseSync(':memory:');let calls=0,failAudit=false,failAcquisition=false;
-  await engine.exec("CREATE TABLE users(id INTEGER,coin BIGINT);INSERT INTO users VALUES(1,12345);CREATE TABLE inventory(item TEXT,quantity INTEGER);INSERT INTO inventory VALUES('MERCENARY_CARD_PACK',3);CREATE TABLE mercenary_cms_documents_v1(doc_key TEXT,payload_json TEXT);INSERT INTO mercenary_cms_documents_v1 VALUES('config','{\"rank\":\"user-edited\"}');");
+  await engine.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT); CREATE TABLE users(id INTEGER,coin BIGINT);INSERT INTO users VALUES(1,12345);CREATE TABLE inventory(item TEXT,quantity INTEGER);INSERT INTO inventory VALUES('MERCENARY_CARD_PACK',3);CREATE TABLE mercenary_cms_documents_v1(doc_key TEXT,payload_json TEXT);INSERT INTO mercenary_cms_documents_v1 VALUES('config','{\"rank\":\"user-edited\"}');");
   const fault=sql=>{calls++;if(failAudit&&sql.startsWith('INSERT INTO mercenary_draw_audit_v1')&&!sql.includes('NULL'))throw Error('injected audit failure');if(failAcquisition&&sql.startsWith('INSERT INTO mercenary_card_acquisitions_v1'))throw Error('injected acquisition receipt failure');};
   let DB;
   if(mode==='postgres'){

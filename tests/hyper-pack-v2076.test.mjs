@@ -37,7 +37,7 @@ test('config and locked open never access DB or grant to OWNER, including repeat
   for(const count of [1,10,10]){const result=await handleHyperPack({path:'hyper-pack/open',request:request('hyper-pack/open','POST',{count}),env,deps:deps()});assert.equal(result.status,409);assert.equal((await result.json()).code,'HYPER_PACK_NOT_RELEASED');}
   for(const count of [0,11,'10',1.5])assert.equal((await handleHyperPack({path:'hyper-pack/open',request:request('hyper-pack/open','POST',{count}),env,deps:deps()})).status,400);
   assert.equal((await handleHyperPack({path:'hyper-pack/open',request:request('hyper-pack/open','POST',{count:1}),env,deps:deps({authenticate:async()=>null})})).status,401);
-  assert.equal((await handleHyperPack({path:'hyper-pack/config',request:request('hyper-pack/config'),env,deps:deps()})).status,200);
+  assert.equal((await handleHyperPack({path:'hyper-pack/config',request:request('hyper-pack/config'),env:{DB:{prepare:()=>({bind:()=>({first:async()=>null})})}},deps:deps()})).status,200);
 });
 test('CMS PostgreSQL roundtrip, permission, stale revision and cross-site protection; no live money/card writes',async()=>{
   const pg=new PGlite();await pg.exec(`CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$; CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);`);

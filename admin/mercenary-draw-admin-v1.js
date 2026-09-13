@@ -1,3 +1,4 @@
+import {mountHyperOpening} from './hyper-pack-opening.mjs?v=2093';
 import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,equalMercenaryCardChance} from '../shared/mercenary-draw-policy-v1.mjs?v=20260913-uniform1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -24,17 +25,18 @@ export function createMercenaryDrawEditor({request,onRender}){
   }
   function probability(meta){const row=outcome(meta.id);return `<label class="md-probability"><span class="md-label">개봉 확률</span><span class="md-unit-input"><input data-draw-chance="${meta.id}" aria-label="${meta.label} 확률" type="number" min="0" max="100" step="0.0001" inputmode="decimal" value="${row.chancePpm===null?'':percent(row.chancePpm)}"><span>%</span></span></label>`;}
   function html(cmsDocument){
+    queueMicrotask(mountHyperOpening);
     if(!state)return `<section class="md-editor" data-draw-root><p class="md-message" role="status">${esc(notice||'개봉 확률 초안을 불러옵니다.')}</p>${failure?'<button data-draw-reload>다시 불러오기</button>':''}</section>`;
     const counts=Object.fromEntries(['C','B','A','S','SS','SSS'].map(rank=>[rank,cmsDocument.mercenaries.filter(row=>row.rank===rank).length]));
     const unset=cmsDocument.mercenaries.filter(row=>row.rank===null).length;
     return `<section class="md-editor" data-draw-root>
-      <header class="md-heading"><div><small>CONTRACT / PROBABILITY DRAFT</small><h3>용병카드 개봉 확률</h3><p>개봉 1회에 적용할 결과와 지급 수량을 설계합니다.</p></div><div class="md-hold"><span>유저 개봉</span><strong>OFF</strong><small>서버 차단 유지</small></div></header>
-      <p class="md-message ${failure?'is-error':''}" role="status" aria-live="polite" data-draw-message>${esc(notice||'확률·수량 제안 초안입니다. 저장해도 유저 개봉은 열리지 않습니다.')}</p>
+      <header class="md-heading"><div><small>CONTRACT / PROBABILITY DRAFT</small><h3>용병카드 개봉 확률</h3><p>개봉 1회에 적용할 결과와 지급 수량을 설계합니다.</p></div><div class="md-hold"><span>유저 개봉</span><strong>${state.userOpeningEnabled?'ON':'OFF'}</strong><small>CMS 개봉 상태</small></div></header>
+      <p class="md-message ${failure?'is-error':''}" role="status" aria-live="polite" data-draw-message>${esc(notice||'저장된 확률·수량이 실제 개봉에 적용됩니다. 개방 상태는 아래 ON/OFF에서 관리합니다.')}</p>
       <fieldset class="md-form" ${busy?'disabled':''}>
       <section class="md-card-rules" aria-label="확정 카드 추첨 규칙"><div><span>동일 등급 추첨</span><strong>모든 카드 균등</strong><p>등급 확률 ÷ 해당 등급 카드 수.<br>보유 여부·중복 횟수·개별 획득 확률은 반영하지 않습니다.</p></div><div><span>중복 당첨 처리</span><strong>같은 카드 중복 수량 +1</strong><p>첫 획득: 보유 1장 · 중복 0장.<br>다음 획득부터 중복으로 집계하며 재추첨·재화 전환은 하지 않습니다.</p></div></section>
       <div class="md-layout"><div class="md-ledger"><div class="md-section-heading"><span>01</span><div><h4>용병카드 · 등급별 확률</h4><p>모든 확률은 전체 개봉 기준입니다. 등급 내부 비율이 아닙니다.</p></div></div>
         <div class="md-grade-list">${DRAW_OUTCOMES.filter(meta=>meta.rank).map(meta=>`<div class="md-grade-row"><b class="md-grade" data-rank="${meta.rank}">${meta.rank}</b><div class="md-grade-copy"><strong>${meta.rank} 용병카드</strong><span>1장 · CMS 등급 설정 ${counts[meta.rank]}종</span></div>${probability(meta)}<small class="md-card-chance" data-draw-card-chance="${meta.rank}" data-card-count="${counts[meta.rank]}">${cardChance(meta.rank,counts[meta.rank])}</small></div>`).join('')}</div>
-        <p class="md-rank-note">${unset?`현재 ${unset}종의 등급이 미정입니다. `:''}카드당 확률은 현재 CMS의 등급 설정 기준이며 전체 개봉 1회당 확률입니다. 카드 수가 바뀌면 해당 등급 안에서 균등하게 다시 나눕니다. 등급·획득 대상 확정과 공동 출시 전까지 개봉은 OFF입니다.</p>
+        <p class="md-rank-note">${unset?`현재 ${unset}종의 등급이 미정입니다. `:''}카드당 확률은 현재 CMS의 등급 설정 기준이며 전체 개봉 1회당 확률입니다. 카드 수가 바뀌면 해당 등급 안에서 균등하게 다시 나눕니다. 개봉 시작 여부는 ON/OFF 설정을 따릅니다.</p>
       </div><div class="md-resource-ledger"><div class="md-section-heading"><span>02</span><div><h4>재화 · 꽝</h4><p>선택된 결과 한 종류만 지급하는 구조입니다.</p></div></div>
         ${DRAW_OUTCOMES.filter(meta=>!meta.rank).map(meta=>`<section class="md-reward" data-reward="${meta.id}"><div class="md-reward-name"><span>${meta.id==='MASTER_STAR'?'02':meta.id==='MYSTIC_ENERGY'?'03':'04'}</span><h5>${meta.label}</h5></div><div class="md-reward-inputs">${probability(meta)}${meta.id==='NONE'?'<div class="md-none-quantity"><span>지급 수량</span><b>없음</b></div>':`<label class="md-quantity"><span class="md-label">당첨 시 지급</span><span class="md-unit-input"><input data-draw-quantity="${meta.id}" aria-label="${meta.label} 지급 수량" type="number" min="1" max="1000000000" step="1" inputmode="numeric" value="${esc(outcome(meta.id).quantity)}"><span>개</span></span></label>`}</div></section>`).join('')}
         <button type="button" class="md-remainder" data-draw-remainder>남은 확률을 꽝으로 채우기</button>
@@ -49,7 +51,7 @@ export function createMercenaryDrawEditor({request,onRender}){
   function markDirty(){dirty=true;pending=null;if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent='● 저장하지 않은 확률 변경';const button=$('[data-draw-save]');if(button){button.disabled=false;button.textContent='확률 초안 저장';}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
   async function load(){
     if(busy)return;const token=generation;busy=true;failure=false;notice='운영 확률 초안을 불러오는 중입니다.';onRender();
-    try{const received=await request();if(token!==generation)return;state=received;dirty=false;pending=null;reason='';notice='확률·수량 제안 초안입니다. 저장해도 유저 개봉은 OFF로 유지됩니다.';}
+    try{const received=await request();if(token!==generation)return;state=received;dirty=false;pending=null;reason='';notice='확률 저장과 개봉 ON/OFF는 별도 설정입니다.';}
     catch(error){if(token!==generation)return;failure=true;notice=error.message;}
     finally{if(token===generation){busy=false;onRender();}}
   }
@@ -59,7 +61,7 @@ export function createMercenaryDrawEditor({request,onRender}){
     try{validateMercenaryDraw(state.policy);if(reason.trim().length<4)throw Error('저장 사유를 4자 이상 입력하세요.');}catch(error){failure=true;notice=error.message;onRender();return;}
     pending??={requestId:crypto.randomUUID(),expectedRevision:state.revision,policy:structuredClone(state.policy),reason:reason.trim()};
     const token=generation;busy=true;failure=false;notice='확률 초안을 운영 CMS에 저장하고 있습니다.';onRender();
-    try{const received=await request({method:'PATCH',body:JSON.stringify(pending)});if(token!==generation)return;state=received;dirty=false;pending=null;reason='';notice=`확률 저장 완료 · r${state.revision} · 유저 개봉 OFF`;}
+    try{const received=await request({method:'PATCH',body:JSON.stringify(pending)});if(token!==generation)return;state=received;dirty=false;pending=null;reason='';notice=`확률 저장 완료 · r${state.revision} · 유저 개봉 ${state.userOpeningEnabled?'ON':'OFF'}`;}
     catch(error){if(token!==generation)return;failure=true;notice=error.name==='AbortError'?'응답 확인이 지연됩니다. 저장 결과 재확인으로 같은 요청을 확인하세요.':error.message;if(error.status&&error.status<500)pending=null;}
     finally{if(token===generation){busy=false;onRender();}}
   }

@@ -18,7 +18,7 @@ export async function readJointBody(request,{maxBytes=8192,fields}={}){
   return body;
 }
 export function jointResponseError(error,json=(value,status=200)=>Response.json(value,{status})){
-  const known=/^(?:JOINT_|PVE_V3_|TOWER_V3_|SCRAPYARD_V3_|IDLE_V3_|MERCENARY_|FORGE_)/.test(String(error.code||''));
+  const known=/^(?:JOINT_|PVE_V3_|TOWER_V3_|SCRAPYARD_V3_|IDLE_V3_|MERCENARY_|FORGE_|HYPER_)/.test(String(error.code||''));
   const code=known?error.code:'JOINT_REQUEST_FAILED';
   const status=known?(Number.isInteger(error.status)?error.status:/AUTH|LOGIN/.test(code)?401:/PERMISSION/.test(code)?403:/CONFLICT|LOCK|CLOSED|RUNNING|PENDING/.test(code)?409:400):503;
   return json({ok:false,code,error:known?error.message:'요청을 처리하지 못했습니다. 잠시 후 같은 요청으로 다시 확인하세요.',retryable:!known||/LOCK|PENDING/.test(code)},status);

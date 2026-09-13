@@ -2,6 +2,7 @@ import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {COW_ROOM_PUBLIC_RELEASE_ENABLED} from '../shared/pve-public-release-v2092.mjs';
 import {readExpeditionPolicy} from './_expedition_v3_settings.js';
 import {jointError} from './_joint_request.js';
+import {cowPortalBattleEligible} from '../shared/cow-portal-eligibility.mjs';
 
 export const COW_PORTAL_POLICY=Object.freeze({standardPercent:2,apocalypsePercent:3,basis:'COMPLETED_BATTLE',entry:'ONE_PORTAL_ONE_RUN'});
 export const COW_PORTAL_TABLE='cow_room_portal_rolls_v1';
@@ -23,12 +24,14 @@ const visible=row=>row?.state==='OPEN'?{id:row.id,state:'OPEN',sourceType:row.so
 // Only server-verified completed PVE actions call this. The public release hold
 // precedes every database read, so preparing the feature cannot grant portals.
 export async function discoverCowPortal(env,user,event){
+  if(!cowPortalBattleEligible(event))return null;
   if(!V3_JOINT_RELEASE_ENABLED&&!COW_ROOM_PUBLIC_RELEASE_ENABLED)return null;
   const policy=await readExpeditionPolicy(env,'COW_ROOM');
   if(policy.mode!=='ON'||policy.approved!==true)return null;
   return discoverCowPortalReady(env,user,event);
 }
 export async function discoverCowPortalReady(env,user,event,{randomInt=randomPpm,now=Date.now}={}){
+  if(!cowPortalBattleEligible(event))return null;
   const userId=uid(user);
   if(!event||!['HUNT','SWEEP'].includes(event.sourceType)||!['WIN','LOSE'].includes(event.result)||typeof event.sourceRef!=='string'||event.sourceRef.length<1||event.sourceRef.length>250)
     throw jointError('PVE_V3_PORTAL_EVENT','완료된 PVE 전투 기록을 확인하세요.');
