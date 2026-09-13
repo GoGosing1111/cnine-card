@@ -41,7 +41,7 @@ for(const postgres of [false,true]){
     await assert.rejects(()=>runExpeditionV3(f.env,f.user,'COW_ROOM',body(7),f.deps),{code:'PVE_V3_DAILY_LIMIT'});
     f.setClock(Date.parse('2026-09-14T03:00:00Z'));
     await f.setting('expedition_v3_cow_room',{...state.policy,clearCoin:[10000000000],dailyCoinCap:10000000000});
-    await discoverCowPortalReady(f.env,f.user,{sourceType:'HUNT',sourceRef:'next-day-portal',result:'WIN'},{randomInt:()=>0});
+    await discoverCowPortalReady(f.env,f.user,{battleMode:'PVE',sourceType:'HUNT',sourceRef:'next-day-portal',result:'WIN'},{randomInt:()=>0});
     const maximum=await runExpeditionV3(f.env,f.user,'COW_ROOM',body(8),f.deps);
     assert.equal(maximum.rewards.filter(r=>r.rewardType==='COIN').reduce((n,r)=>n+r.quantity,0),10000000000);
     assert.equal(maximum.budget.coin,10000000000);assert.equal(maximum.budget.coinRemaining,0);assert.equal(maximum.budget.attempts,1);
