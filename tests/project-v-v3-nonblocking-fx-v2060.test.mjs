@@ -212,7 +212,7 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
   assert.ok(bundleSrc.includes('queueSupportEffect('), '번들에 queueSupportEffect 가 없습니다');
   assert.ok(bundleSrc.includes('this.bannerQueue=[],this.bannerPump=null'), '번들 생성자에 배너 큐 초기화가 없습니다');
   assert.ok(bundleSrc.includes('this.playbackEpoch+=1,this.bannerQueue.length=0'), '번들 cancelTimelines 에 큐 비우기가 없습니다');
-  const bannerSources=engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js');
+  const bannerSources=engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
   assert.equal((bundleSrc.match(/queueBanner\(/g) || []).length, (bannerSources.match(/queueBanner\(/g) || []).length, '공용 엔진·용병 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다');
   assert.equal((bundleSrc.match(/queueSupportEffect\(/g) || []).length, 3, '번들의 queueSupportEffect 호출 수가 소스와 다릅니다');
   // 정의 1 + 배너펌프 1 + 호송 1 + ZENITH 궁극기 1
@@ -220,8 +220,8 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
 });
 
 test('캐시 태그가 갱신되어 있다', () => {
-  assert.match(appSrc, /project-v-pixi-battle\.bundle\.js\?v=105-continuous-clock/);
-  assert.match(read('service-worker.js'), /const SHELL_CACHE='soop-card-shell-v2095-combat-clock'/);
+  assert.match(appSrc, /project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
+  assert.match(read('service-worker.js'), /const SHELL_CACHE='soop-card-shell-v2096-combat-flow'/);
 });
 
 test('숨겨진 전투에 배너를 넣어도 큐가 잠기지 않고 다시 열면 재생된다', async () => {

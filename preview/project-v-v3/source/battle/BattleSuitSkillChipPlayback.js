@@ -13,9 +13,13 @@ const deadline=(promise,ms,fallback)=>{
 // One pausable game clock owns both chips. Ordinary V3 animations remain on the
 // existing engine; no timer computes damage, invents casts, or changes a roster.
 export class BattleSuitSkillChipPlayback{
-  constructor(engine,events,{beforeEvent=null,afterEvent=null,sequential=false}={}){
+  constructor(engine,events,{beforeEvent=null,afterEvent=null,sequential=false,isPaused=()=>false}={}){
     this.engine=engine;this.events=events;this.beforeEvent=beforeEvent;this.afterEvent=afterEvent;this.sequential=sequential;this.clock={time:0};this.holds=0;this.revision=0;
-    this.epoch=engine.playbackEpoch;this.active=true;this.fx=new Map();this.pending=new Set();
+    this.epoch=engine.playbackEpoch;this.active=true;this.fx=new Map();this.pending=new Set();this.isPaused=isPaused;
+    this.castHits=new Map();this.finishedEvents=new Set();this.notifyIndex=0;this.suppressedCasts=0;
+    for(const event of events)if(event.type==='SKILL_CHIP_HIT'){
+      const key=event.castId||event.chipCode,rows=this.castHits.get(key)||[];rows.push(event);this.castHits.set(key,rows);
+    }
     this.snapshots=new Map();this.index=0;this.casts=0;this.hits=0;this.pauses=0;this.rate=1;
     this.groups=[];let lastAt=0;
     for(const event of events){
@@ -50,13 +54,16 @@ export class BattleSuitSkillChipPlayback{
       ]);
       if(!this.valid()){this.cancel();return;}
       this.audio.setEnabled(Boolean(audioReady&&sound));
-      this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.pump(),onComplete:()=>this.finish()});
-      this.timeline.to(this.clock,{time:this.endMs/1000,duration:this.endMs/1000,ease:'none'});
+      this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.pump()});
+      // A dependency can delay dispatch, never the aging of an existing blast.
+      // One GSAP clock drives flight, confirmed collisions and particle expiry.
+      // Completion below owns its lifetime, including the final smoke tail.
+      this.timeline.to(this.clock,{time:86400,duration:86400,ease:'none'});
       // Sample the final actor transforms immediately before Pixi renders.
       // This also keeps a paused blast grounded while a card finishes moving.
-      this.renderTick=()=>this.render();this.engine.app?.ticker?.add(this.renderTick,null,-10);
+      this.renderTick=()=>{this.syncPause();this.render();};this.engine.app?.ticker?.add(this.renderTick,null,-10);
       this.pump();
-      if(this.valid()&&!this.waiting&&!this.holds)this.timeline.play();
+      if(this.valid()&&!this.holds&&!this.userPaused)this.timeline.play();
     }catch(error){this.fail(error);}
   }
   remember(event){
@@ -79,19 +86,25 @@ export class BattleSuitSkillChipPlayback{
   currentShield(target,fallback){return this.active?(this.snapshots.get(target)?.shield??fallback):fallback;}
   cast(event){
     const chip=skillChipByCode(event.chipCode);if(!chip)return;
-    let entry=this.fx.get(chip.code);
-    if(!entry){
-      const fx=new SkillChipFX(this.engine,this.textures);fx.shake=false;
-      entry={fx,chip,at:0};this.fx.set(chip.code,entry);
-    }
-    entry.at=event.combatAtMs/1000;
-    entry.fx.target=this.engine.combatantById(event.targetId);
-    entry.fx.select(chip.effectKey);entry.fx.timeline.pause();
-    this.audio.schedule(chip.effectKey,Math.max(0,this.clock.time-entry.at),this.rate,{append:true});
     this.casts++;
+    const castId=event.castId||chip.code,target=this.engine.combatantById(event.targetId);
+    const hits=(this.castHits.get(castId)||[]).filter(hit=>hit.targetId===event.targetId);
+    // The server omits impacts when this target died during anticipation. Do
+    // not launch a cosmetic missile into that empty slot or a replacement mob.
+    if(!hits.length||!target?.root?.visible||target.id!==event.targetId||target.battleActive===false){this.suppressedCasts++;return;}
+    const fx=new SkillChipFX(this.engine,this.textures);fx.shake=false;fx.target=target;
+    fx.select(chip.effectKey);fx.bindTarget(event.targetId);fx.timeline.pause();
+    const at=Math.max(Number(event.combatAtMs)/1000||0,this.clock.time);
+    this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started:!this.sequential,targetId:event.targetId,impacts:new Map(),scheduledImpacts:new Map()});
+    if(!this.sequential)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
   }
   hit(event){
     const target=this.engine.combatantById(event.targetId);if(!target)return;
+    const entry=this.fx.get(event.castId||event.chipCode);
+    if(entry&&target.id===entry.targetId&&target.root.visible){
+      const index=Number(event.hitIndex)||0,age=this.clock.time-entry.at;
+      entry.fx.confirmImpact(index,age);entry.impacts.set(index,age);
+    }
     const hp=this.engine.eventHpPercent(target,event.targetHpAfter);
     if(finite(hp))this.engine.syncTargetHp(target,hp);
     if(finite(event.targetShieldAfter))this.engine.syncTargetShield(target,event.targetShieldAfter);
@@ -101,81 +114,153 @@ export class BattleSuitSkillChipPlayback{
   }
   resyncAudio(){
     this.audio.stop();this.audio.syncRecords=[];
-    if(!this.valid()||this.waiting||this.holds)return;
-    for(const {fx,at,chip} of this.fx.values()){
+    if(!this.valid()||this.holds||this.userPaused)return;
+    for(const {fx,at,chip,scheduledImpacts,started} of this.fx.values()){
+      if(!started)continue;
       const from=this.clock.time-at;
-      if(from>=0&&from<chip.effectDurationMs/1000)this.audio.schedule(fx.key,from,this.rate,{append:true});
+      if(from>=0)this.audio.schedule(fx.key,from,this.rate,{append:true,impactTimes:scheduledImpacts,indices:[...scheduledImpacts.keys()]});
     }
   }
   render(){
-    for(const {fx,at,chip} of this.fx.values()){
-      const time=Math.max(0,Math.min(chip.effectDurationMs/1000,this.clock.time-at));
+    for(const [key,{fx,at,chip,impacts,started}] of this.fx){
+      const time=started?Math.max(0,this.clock.time-at):0;
       fx.clock.time=time;fx.render(time);
+      const lastImpact=Math.max(0,...impacts.values());
+      const pendingHit=(this.castHits.get(key)||[]).some(event=>!this.finishedEvents.has(event));
+      if(!pendingHit&&time>=Math.max(chip.effectDurationMs/1000,lastImpact+fx.sequence.life)){
+        fx.destroy();this.fx.delete(key);
+      }
     }
+  }
+  notify(event){
+    this.finishedEvents.add(event);
+    while(this.notifyIndex<this.events.length&&this.finishedEvents.has(this.events[this.notifyIndex])){
+      const next=this.events[this.notifyIndex++];this.afterEvent?.(next);
+    }
+  }
+  syncPause(){
+    const paused=Boolean(this.isPaused());
+    if(paused===Boolean(this.userPaused))return;
+    this.userPaused=paused;
+    if(paused){this.timeline?.pause();this.audio.stop();}
+    else if(this.valid()&&!this.holds){this.resyncAudio();this.timeline?.play();this.pump();}
   }
   async prepare(event){
     if(!this.beforeEvent)return event;
-    const hold=this.sequential||/^(RAID_|PVE_ULTIMATE$|BOSS_ULTIMATE$)/.test(event.type);
+    const hold=/^(RAID_|PVE_ULTIMATE$|BOSS_ULTIMATE$)/.test(event.type);
     if(hold){this.holds++;this.timeline?.pause();this.audio.stop();}
     try{return await this.beforeEvent(event);}
     finally{
-      if(hold){this.holds--;if(this.valid()&&!this.holds&&!this.waiting){this.resyncAudio();this.timeline?.play();}}
+      if(hold){this.holds--;if(this.valid()&&!this.holds&&!this.userPaused){this.resyncAudio();this.timeline?.play();}}
     }
   }
   pump(){
-    if(!this.valid()||this.waiting||this.holds)return;
+    this.syncPause();
+    if(!this.valid()||this.waiting||this.holds||this.userPaused)return;
     const nextRate=this.engine.paceScale||1;
     if(nextRate!==this.rate){this.rate=nextRate;this.timeline?.timeScale(this.rate);this.resyncAudio();}
     while(this.index<this.groups.length&&this.groups[this.index].at<=this.clock.time*1000+.001){
       const group=this.groups[this.index];
-      const previousRun=this.blocking||((group.external||this.sequential)&&this.pending.size?Promise.all([...this.pending]):null);
-      if((group.blocking||this.sequential)&&previousRun){
-        // A cold asset or slow device can overrun an authored card animation.
-        // Freeze game time (including both chips) until that action is ready.
+      const fence=group.external||group.events.some(event=>event.type==='KO');
+      const predecessors=[...this.pending];
+      const previousRun=this.fence||((group.external||group.blocking)&&predecessors.length?Promise.all(predecessors):null);
+      if(previousRun){
+        // Keep already launched effects moving while a card returns, a final
+        // bullet lands, or the old monster is retired. Only user/QTE pauses
+        // stop the clock; event dependencies cannot leave a frozen smoke frame.
         this.waiting=true;this.pauses++;
-        this.timeline.pause().time(group.at/1000,true);this.render();this.audio.stop();
         const wait=previousRun;
         wait.then(()=>{
           if(!this.valid())return;
-          this.waiting=false;if(this.blocking===wait)this.blocking=null;
-          this.pump();this.resyncAudio();if(!this.waiting&&!this.holds)this.timeline.play();
+          this.waiting=false;if(this.fence===wait)this.fence=null;
+          this.pump();
         }).catch(error=>this.fail(error));
         return;
       }
+      const lethalChip=group.events.some(event=>event.type==='SKILL_CHIP_HIT'&&finite(event.targetHpAfter)&&Number(event.targetHpAfter)<=0);
+      if(lethalChip&&(this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)){
+        this.waiting=true;
+        this.engine.waitForAccountBattleUnitDamageQueueDrain(6000).then(drained=>{
+          if(!this.valid())return;
+          if(!drained)throw Error('스킬 충돌 전 탄착 대기열이 남아 있습니다.');
+          this.waiting=false;this.pump();
+        }).catch(error=>this.fail(error));
+        return;
+      }
+      // Impact presentation is armed only after its dependencies are ready.
+      // Give recorded audio its measured output lead; the same GSAP clock then
+      // releases the damage and explosion together, without a second timer.
+      const earlyHit=group.events.some(event=>{
+        const entry=event.type==='SKILL_CHIP_HIT'&&this.fx.get(event.castId||event.chipCode);
+        if(!entry)return false;
+        if(!entry.started){
+          // Continuous waves can spend time draining bullets or replacing a
+          // slot. Launch only once the collision lane is ready: the missile
+          // then travels straight into its explosion without disappearing and
+          // waiting for a delayed impact. Simultaneous chips share the launch.
+          for(const other of this.fx.values())if(!other.started&&other.castAtMs===entry.castAtMs){
+            other.started=true;other.at=this.clock.time;
+            this.audio.schedule(other.chip.effectKey,0,this.rate,{append:true,phase:'launch'});
+          }
+        }
+        const index=Number(event.hitIndex)||0,from=this.clock.time-entry.at;
+        if(!entry.scheduledImpacts.has(index)){
+          entry.scheduledImpacts.set(index,Math.max(entry.chip.impactOffsetsMs[index]/1000,from+this.audio.presentationLead(this.rate)));
+          this.audio.schedule(entry.chip.effectKey,from,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[index]});
+        }
+        return from+.001<entry.scheduledImpacts.get(index);
+      });
+      if(earlyHit)break;
       this.index++;
       const regular=[];
       for(const event of group.events){
-        if(event.type==='SKILL_CHIP_CAST'){this.cast(event);this.afterEvent?.(event);}
-        else if(event.type==='SKILL_CHIP_HIT'){this.remember(event);this.hit(event);this.afterEvent?.(event);}
+        if(event.type==='SKILL_CHIP_CAST'){this.cast(event);this.notify(event);}
+        else if(event.type==='SKILL_CHIP_HIT'){this.remember(event);this.hit(event);this.notify(event);}
         else regular.push(event);
       }
       if(regular.length){
         const run=(async()=>{
+          if(fence&&predecessors.length)await Promise.all(predecessors);
           for(const event of regular){
             if(!this.valid())return;
             const prepared=await this.prepare(event);
             if(!this.valid())return;
-            if(prepared){this.remember(prepared);await this.engine.playEvents([prepared],{timedInternal:true});if(this.valid())this.afterEvent?.(prepared);}
+            if(prepared){
+              const shot=this.engine.isAccountBattleUnitDamageEvent?.(prepared);
+              if(!shot&&finite(prepared.targetHpAfter)&&Number(prepared.targetHpAfter)<=0&&(this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)){
+                const drained=await this.engine.waitForAccountBattleUnitDamageQueueDrain(6000);
+                if(!this.valid())return;
+                if(!drained)throw Error('마지막 타격 전 탄착 대기열이 남아 있습니다.');
+              }
+              // Queued bullets have not landed yet. Recording their future HP
+              // here made the first bullet apply the last bullet's lethal HP,
+              // leaving a corpse to receive the rest of the queued attacks.
+              if(!shot)this.remember(prepared);
+              await this.engine.playEvents([prepared],{timedInternal:true});
+            }
+            if(this.valid())this.notify(event);
           }
         })();
-        this.pending.add(run);if(group.blocking)this.blocking=run;
+        this.pending.add(run);if(fence)this.fence=run;
         run.then(()=>{
-          this.pending.delete(run);if(this.blocking===run)this.blocking=null;
-          if(this.valid()&&this.clock.time>=this.endMs/1000)void this.finish();
+          this.pending.delete(run);if(this.fence===run)this.fence=null;
+          if(this.valid())this.pump();
         },error=>this.fail(error));
       }
       if(this.holds){this.render();return;}
     }
     this.render();
+    if(this.index===this.groups.length&&!this.pending.size&&!this.fx.size)void this.finish();
   }
   async finish(){
     if(this.finishing||this.waiting||this.holds||!this.valid())return;
-    this.pump();if(this.waiting||this.holds)return;
     this.finishing=true;
+    this.pump();this.render();
+    if(this.index<this.groups.length||this.pending.size||this.fx.size){this.finishing=false;return;}
     try{await Promise.all([...this.pending]);if(this.valid()){this.completed=true;this.dispose();this.resolve(true);}}
     catch(error){this.fail(error);}
   }
-  diagnostics(){return {clock:SKILL_CHIP_CLOCK,timeMs:Math.round(this.clock.time*1000),endMs:this.endMs,active:this.active,completed:Boolean(this.completed),casts:this.casts,hits:this.hits,barrierPauses:this.pauses,activeEffects:this.fx.size,pendingGroups:this.pending.size,audio:this.audio.diagnostics()};}
+  diagnostics(){return {clock:SKILL_CHIP_CLOCK,timeMs:Math.round(this.clock.time*1000),endMs:this.endMs,active:this.active,completed:Boolean(this.completed),casts:this.casts,hits:this.hits,barrierPauses:0,dispatchWaits:this.pauses,suppressedCasts:this.suppressedCasts,activeEffects:this.fx.size,pendingGroups:this.pending.size,effects:[...this.fx.values()].map(({castId,targetId,fx})=>({castId,targetId,...fx.diagnostics()})),audio:this.audio.diagnostics()};}
   dispose(){
     this.active=false;this.timeline?.kill();this.timeline=null;
     if(this.renderTick)this.engine.app?.ticker?.remove(this.renderTick);this.renderTick=null;

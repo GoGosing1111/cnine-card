@@ -43,5 +43,7 @@ npm run test:core-raid
 
 ## 참고 문서
 
+2026-09-13 운영 V2096의 시간축·타격 대상·연속 프레임·취소 검수 기록은 [전투 흐름 수정 기록](../../docs/v3-combat-flow-targets-2096.md)에 정리했다. 승인된 아틀라스와 원음은 보존하며 운영 연결 이후의 변경 이력을 해당 문서에서 관리한다.
+
 - [GSAP Timeline](https://gsap.com/docs/v3/GSAP/Timeline/) — 독립 재생·정지·시킹 시간축.
 - [Web Audio output timestamp](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/getOutputTimestamp) — 오디오 출력과 화면의 시간 매핑.

@@ -7,22 +7,26 @@ const engineType=payload=>typeof __CNINE_NATIVE_CONTINUOUS__!=='undefined'&&__CN
 
 async function mount(target=document.getElementById('pvPixiBattle')){
   if(engine)return engine;
-  engine=new BattleEngine({host:target});
-  engine.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
-  await engine.mount();
-  return engine;
+  const candidate=engine=new BattleEngine({host:target});
+  candidate.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
+  await candidate.mount();
+  if(engine!==candidate)throw Error('취소된 전투 화면 초기화입니다.');
+  return candidate;
 }
 
 async function mountForBattle(payload,target=document.getElementById('pvPixiBattle')){
   if(engine)return resetSession(payload,target);
   const Engine=engineType(payload);
-  engine=new Engine({host:target,battleData:payload});
-  engine.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
+  const candidate=engine=new Engine({host:target,battleData:payload});
+  candidate.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
   try{
-    await engine.mount();
-    return engine;
+    await candidate.mount();
+    if(engine!==candidate)throw Error('취소된 전투 화면 초기화입니다.');
+    return candidate;
   }catch(error){
-    destroy();
+    // The first attempt may reject after the watchdog started a new renderer.
+    // A stale rejection owns only its original instance, never the replacement.
+    if(engine===candidate)destroy();
     throw error;
   }
 }
@@ -45,8 +49,8 @@ async function runSequence(){
 }
 
 function destroy(){
-  engine?.destroy();
-  engine=null;
+  const previous=engine;engine=null;
+  previous?.destroy();
 }
 
 async function playEvents(events,options){

@@ -121,7 +121,7 @@ function replayEvents(){
     {type:'SKILL_CHIP_HIT',chipCode:ROCKET,combatAtMs:15360,damage:10,targetHpAfter:90,targetShieldAfter:0},
     ...[15610,15830,16050,16270].map((combatAtMs,i)=>({type:'SKILL_CHIP_HIT',chipCode:HELI,combatAtMs,damage:5,targetHpAfter:85-i*5,targetShieldAfter:0})),
     {type:'RESULT',combatAtMs:17000}
-  ].map((e,i)=>({...e,combatClock:SKILL_CHIP_CLOCK,combatGroup:i,combatGroupDurationMs:0,targetId:'B:0:MONSTER:68'}));
+  ].map((e,i)=>({...e,castId:e.chipCode?`${e.chipCode}:1`:undefined,hitIndex:e.type==='SKILL_CHIP_HIT'?Math.max(0,i-3):undefined,combatClock:SKILL_CHIP_CLOCK,combatGroup:i,combatGroupDurationMs:0,targetId:'B:0:MONSTER:68'}));
 }
 test('live clock displays both simultaneous skills, four separate hits, then releases all owned FX',async t=>{
   t.mock.method(SkillChipFX,'preload',async()=>mockTextures());
@@ -133,23 +133,23 @@ test('live clock displays both simultaneous skills, four separate hits, then rel
   playback.timeline.time(15,true);playback.pump();assert.equal(playback.casts,2);assert.equal(playback.fx.size,2);
   playback.timeline.time(15.7,true);playback.pump();
   assert.equal(playback.hits,2);assert.equal(engine.target.hp,85);
-  const rocket=playback.fx.get(ROCKET).fx;
+  const rocket=playback.fx.get(`${ROCKET}:1`).fx;
   assert.equal(rocket.blasts[0].first.y,engine.target.root.y,'the live explosion remains exactly on the target sole');
-  engine.target.root.y+=100;renderTick();
-  assert.equal(rocket.blasts[0].first.y,engine.target.root.y,'a late actor transform is sampled before the next Pixi frame, even while paused');
+  const hitY=engine.target.root.y;engine.target.root.y+=100;renderTick();
+  assert.equal(rocket.blasts[0].first.y,hitY,'smoke stays at its actual collision instead of following a moving or recycled actor');
   playback.timeline.time(16.28,true);playback.pump();assert.equal(playback.hits,5);assert.equal(engine.target.hp,70);
   playback.timeline.time(playback.endMs/1000,true);await playback.finish();
   assert.equal(await run,true);assert.equal(playback.active,false);assert.equal(playback.fx.size,0);
   assert.equal(engine.combatLayer.children.length,0);assert.equal(engine.effectLayer.children.length,0);
   assert.equal(renderTick,null,'the extra pre-render hook must be removed on completion');
 });
-test('slow card animation pauses the shared clock without replaying a chip twice',async t=>{
+test('slow card animation delays dispatch without stopping the effect clock or replaying a chip twice',async t=>{
   t.mock.method(SkillChipFX,'preload',async()=>mockTextures());
   const engine=mockEngine();let release;
   engine.playEvents=()=>new Promise(resolve=>{release=resolve;});
   const events=[{type:'TURN',combatAtMs:0,combatGroup:0,combatGroupDurationMs:500},{type:'TURN',combatAtMs:500,combatGroup:1,combatGroupDurationMs:500},{type:'RESULT',combatAtMs:1000,combatGroup:2,combatGroupDurationMs:0}].map(e=>({...e,combatClock:SKILL_CHIP_CLOCK}));
   const playback=new BattleSuitSkillChipPlayback(engine,events),run=playback.play();await flush();playback.timeline.pause();
-  playback.timeline.time(.7,true);playback.pump();assert.equal(playback.waiting,true);assert.equal(playback.clock.time,.5);
+  playback.timeline.time(.7,true);playback.pump();assert.equal(playback.waiting,true);assert.equal(playback.clock.time,.7);
   release();await flush();assert.equal(playback.waiting,false);assert.equal(playback.index,2);
   playback.cancel();release();assert.equal(await run,false);assert.equal(playback.casts,0);
 });
@@ -245,18 +245,86 @@ test('continuous generation barrier holds later shots and chip impacts until the
   const completed=[],playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true,afterEvent:e=>completed.push(e.seq)});
   const run=playback.play();await flush();playback.timeline.pause();playback.timeline.time(2.5,true);playback.pump();
   assert.equal(playback.waiting,true);assert.deepEqual(seen,['KO']);assert.equal(playback.hits,0);
-  release();await flush();playback.timeline.pause();assert.deepEqual(completed,[1,2]);
+  release();await flush();playback.timeline.pause();assert.deepEqual(completed,[1,2,3],'already due events continue immediately after the generation is safe');
   playback.timeline.time(3,true);playback.pump();await flush();
   assert.equal(await run,true);assert.deepEqual(completed,[1,2,3,4]);assert.equal(engine.target.hp,65);
 });
 
-test('continuous pause freezes the same clock and cancellation releases it without running later events',async()=>{
-  const engine=mockEngine(),seen=[];let resume;
+test('explicit continuous pause freezes the same clock and cancellation cannot run later events',async()=>{
+  const engine=mockEngine(),seen=[];
   engine.playEvents=async events=>seen.push(events[0].type);
   const events=[{type:'TURN',combatAtMs:0},{type:'RESULT',combatAtMs:1000}].map((e,i)=>({...e,combatClock:SKILL_CHIP_CLOCK,combatGroup:i,combatGroupDurationMs:0}));
-  const playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true,beforeEvent:async e=>{await new Promise(resolve=>{resume=resolve;});return e;}});
+  const playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true,isPaused:()=>true});
   const run=playback.play();await flush();assert.equal(playback.timeline.paused(),true);assert.equal(playback.clock.time,0);
-  playback.cancel();resume();assert.equal(await run,false);await flush();assert.deepEqual(seen,[]);assert.equal(playback.active,false);
+  playback.cancel();assert.equal(await run,false);await flush();assert.deepEqual(seen,[]);assert.equal(playback.active,false);
+});
+
+test('unresolved casts cannot launch into an empty or replacement monster slot',async t=>{
+  t.mock.method(SkillChipFX,'preload',async()=>mockTextures());
+  const engine=mockEngine(),events=[{type:'SKILL_CHIP_CAST',chipCode:ROCKET,castId:'cancelled',targetId:engine.target.id,combatAtMs:0},{type:'RESULT',combatAtMs:3000}].map((e,i)=>({...e,combatClock:SKILL_CHIP_CLOCK,combatGroup:i}));
+  const playback=new BattleSuitSkillChipPlayback(engine,events),run=playback.play();await flush();playback.timeline.pause();
+  assert.equal(playback.suppressedCasts,1);assert.equal(playback.fx.size,0);assert.equal(engine.effectLayer.children.length,0);
+  playback.cancel();assert.equal(await run,false);
+});
+
+test('enqueuing a future killing bullet cannot make an earlier bullet kill the monster',async()=>{
+  const engine=mockEngine(),targetId=engine.target.id,queued=[];
+  engine.isAccountBattleUnitDamageEvent=e=>e.actorKind==='BATTLE_SUIT';
+  engine.playEvents=async events=>queued.push(...events);
+  const events=[{seq:1,type:'TURN',actorKind:'BATTLE_SUIT',targetId,targetHpAfter:80,combatAtMs:0},
+    {seq:2,type:'TURN',actorKind:'BATTLE_SUIT',targetId,targetHpAfter:0,combatAtMs:10},
+    {seq:3,type:'RESULT',combatAtMs:1000}].map((e,i)=>({...e,combatClock:SKILL_CHIP_CLOCK,combatGroup:i}));
+  const playback=new BattleSuitSkillChipPlayback(engine,events),run=playback.play();await flush();playback.timeline.pause();
+  playback.timeline.time(.02,true);playback.pump();await flush();
+  assert.equal(queued.length,2);assert.equal(playback.currentHp(engine.target,100),100);
+  playback.remember(queued[0]);assert.equal(playback.currentHp(engine.target,100),80);
+  playback.remember(queued[1]);assert.equal(playback.currentHp(engine.target,80),0);
+  playback.cancel();assert.equal(await run,false);
+});
+
+test('a delayed continuous collision plays a complete missile flight directly into the live target',async t=>{
+  t.mock.method(SkillChipFX,'preload',async()=>mockTextures());
+  const engine=mockEngine(),targetId=engine.target.id;let release;
+  engine.accountBattleUnitDamageQueue=[{}];
+  engine.waitForAccountBattleUnitDamageQueueDrain=()=>new Promise(resolve=>{release=()=>{engine.accountBattleUnitDamageQueue=[];resolve(true);};});
+  const events=[{type:'SKILL_CHIP_CAST',chipCode:ROCKET,castId:'late',targetId,combatAtMs:0},
+    {type:'SKILL_CHIP_HIT',chipCode:ROCKET,castId:'late',targetId,targetHpAfter:0,damage:100,combatAtMs:360},
+    {type:'RESULT',combatAtMs:4000}].map((e,i)=>({...e,combatClock:SKILL_CHIP_CLOCK,combatGroup:i}));
+  const playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true}),run=playback.play();await flush();playback.timeline.pause();
+  playback.timeline.time(2,true);playback.pump();const fx=playback.fx.get('late').fx;
+  assert.equal(playback.waiting,true);assert.ok(fx.sprites.every(s=>!s.visible));assert.equal(engine.target.hp,100);
+  release();await flush();playback.timeline.pause();
+  playback.timeline.time(2.2,true);playback.pump();assert.equal(fx.rocket.visible,true);assert.equal(fx.blasts[0].first.visible,false);
+  playback.timeline.time(2.36,true);playback.pump();assert.equal(fx.rocket.visible,false);assert.equal(fx.blasts[0].first.visible,true);assert.equal(engine.target.hp,0);
+  playback.timeline.time(4.3,true);await playback.finish();assert.equal(await run,true);
+});
+
+test('only confirmed helicopter hits explode, and their frames expire while generation dispatch waits',async t=>{
+  t.mock.method(SkillChipFX,'preload',async()=>mockTextures());
+  const engine=mockEngine(),targetId=engine.target.id;let release;
+  engine.playEvents=async events=>{if(events[0].type==='KO')await new Promise(resolve=>{release=resolve;});};
+  const events=[{type:'SKILL_CHIP_CAST',chipCode:HELI,castId:'h1',targetId,combatAtMs:0},
+    {type:'SKILL_CHIP_HIT',chipCode:HELI,castId:'h1',hitIndex:0,targetId,targetHpAfter:0,damage:100,combatAtMs:610},
+    {type:'KO',targetId,combatAtMs:610},{type:'RESULT',combatAtMs:620}]
+    .map((e,i)=>({...e,combatClock:SKILL_CHIP_CLOCK,combatGroup:i}));
+  const playback=new BattleSuitSkillChipPlayback(engine,events),run=playback.play();await flush();playback.timeline.pause();
+  playback.timeline.time(.61,true);playback.pump();await flush();
+  playback.timeline.time(.7,true);playback.pump();
+  assert.equal(playback.waiting,true);const fx=playback.fx.get('h1').fx,position={x:fx.blasts[0].first.x,y:fx.blasts[0].first.y};
+  engine.target.id='B:0:MONSTER:NEW';engine.target.root.x+=400;
+  playback.timeline.time(1.4,true);playback.render();
+  assert.equal(fx.blasts[0].first.x,position.x);assert.equal(fx.blasts[0].first.y,position.y);
+  assert.ok(fx.blasts.slice(1).every(b=>!b.first.visible),'the three server-cancelled impacts must never appear');
+  playback.timeline.time(3.7,true);playback.render();assert.equal(playback.fx.size,0);assert.equal(engine.effectLayer.children.length,0);
+  release();await flush();assert.equal(await run,true);
+});
+
+test('an exact live target cannot fall back to another monster after death or slot retirement',()=>{
+  const old={id:'B:0:ENCOUNTER:OLD',cardId:'shared',root:{visible:false},battleActive:true,hp:0};
+  const replacement={id:'B:0:ENCOUNTER:NEW',cardId:'shared',root:{visible:true},battleActive:true,hp:100};
+  const engine={livePayload:true,characters:[replacement],enemies:[replacement],allies:[],combatantById:ContinuousBattleEngine.prototype.combatantById,isAlive:a=>a.hp>0};
+  assert.equal(engine.combatantById('B:0:ENCOUNTER:OLD'),null);
+  assert.equal(ContinuousBattleEngine.prototype.selectLiveTarget.call(engine,{team:'ALLY'},old),null);
 });
 test('simultaneous audio schedules append voices instead of cutting off the other chip',()=>{
   const audio=new SkillChipAudio();let stops=0;audio.stop=()=>{stops++;};

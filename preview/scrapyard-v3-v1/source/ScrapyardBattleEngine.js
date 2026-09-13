@@ -93,7 +93,7 @@ export class BattleEngine extends LiveBattleEngine {
     const row = this.instances.get(event.targetId);
     if (!row || this.isAlive(this.enemies[row.slot])) throw new Error('ENEMY_SPAWN_SLOT_NOT_EMPTY');
     const actor = this.bindMonster(row);
-    if (row.boss) await this.showBanner(row.name, 0xffa750, 'FINAL TARGET / BOSS');
+    if (row.boss) this.queueBanner(row.name, 0xffa750, 'FINAL TARGET / BOSS');
     if (epoch !== this.playbackEpoch || !this.visible) return false;
     // GSAP timeline owned by the shared engine. No autonomous ticker/timer.
     const fx = new Container({label: 'SCRAPYARD_SPAWN_DUST'});
@@ -111,7 +111,7 @@ export class BattleEngine extends LiveBattleEngine {
       fx.children.slice(1).forEach((particle, i) => tl.to(particle, {
         x: actor.baseX + Math.cos(i * 2.4) * (48 + i * 4),
         y: actor.baseY - 20 - (i % 4) * 14, alpha: 0, duration: .45, ease: 'power2.out'}, .08));
-    }, () => {fx.destroy({children: true}); actor.root.x = actor.baseX;});
+    }, () => {fx.destroy({children: true}); actor.root.x = actor.baseX; actor.root.alpha = 1;}, null, {releaseAt:.24,owners:[actor]});
   }
   async playEvents(events, options = {}) {
     // Absolute combat timestamps belong to ONE playback session. Starting a
@@ -144,7 +144,7 @@ export class BattleEngine extends LiveBattleEngine {
         if (event.type === 'KO' && this.instances.has(event.targetId) && !this.seenKnockouts.has(event.targetId)) {
           this.seenKnockouts.add(event.targetId); this.defeatedCount++;
           const actor = this.combatantById(event.targetId);
-          await this.timeline(tl => tl.to(actor.root, {alpha: 0, duration: .16}, .34),
+          await this.timeline(tl => tl.to(actor.root, {alpha: 0, duration: .16}, 0),
             () => {actor.root.visible = false;});
         }
       }

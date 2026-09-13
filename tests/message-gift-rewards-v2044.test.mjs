@@ -105,6 +105,6 @@ test('batch retains atomic receipts, isolates another account and resumes failed
 test('gift rewards are allowed by verified sending route and use a fresh paired client cache',()=>{
   const route=api.slice(api.indexOf("if((path==='admin/verified-reward-message-send'"),api.indexOf("if(path==='admin/verified-coupon-send'"));
   for(const [code] of gifts)assert.ok(route.includes(`'${code}'`));
-  assert.match(read('index.html'),/js\/app\.js\?v=2095-combat-clock/);
-  assert.match(read('service-worker.js'),/soop-card-shell-v2095-combat-clock/);
+  assert.match(read('index.html'),/js\/app\.js\?v=2096-combat-flow/);
+  assert.match(read('service-worker.js'),/soop-card-shell-v2096-combat-flow/);
 });

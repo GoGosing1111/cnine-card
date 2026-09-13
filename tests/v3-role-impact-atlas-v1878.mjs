@@ -85,9 +85,9 @@ for(const pattern of retired){
 assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=105-continuous-clock/);
-assert.match(index,/js\/app\.js\?v=2095-combat-clock/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
+assert.match(index,/js\/app\.js\?v=2096-combat-flow/);
 assert.match(previewIndex,/project-v-client\.js\?v=75-nonblocking-fx/);
-assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=105-continuous-clock/);
+assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
 
 console.log('Project V V3 role impact atlas/audio live contract: PASS');

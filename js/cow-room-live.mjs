@@ -89,6 +89,7 @@ async function present(result){
     modal.querySelector('[data-cow-pause]').onclick=()=>{if(paused)resumePlayback();else{paused=true;modal.querySelector('[data-cow-pause]').textContent='재개';}};
     let defeated=0;const total=result.continuousEncounter?.total||22;
     renderer=await globalThis.ProjectVBattleV3Live.createRenderer({...view,modal,data:result,mode:'PVE',continuousPlayback:true,
+      isPlaybackPaused:()=>paused,
       beforeCombatEvent:async()=>{if(paused){await globalThis.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire({drain:true});await new Promise(resolve=>{releasePause=resolve;if(!paused)resolve();});if(token===epoch)globalThis.ProjectVPixiBattle.startAccountBattleUnitSustainedFire();}},
       onCombatEvent:event=>{if(event.type==='KO'&&String(event.targetId).startsWith('B:'))defeated++;if(token===epoch)view.phase.textContent=`토벌 ${defeated} / ${total}`;}});
     if(token!==epoch){renderer.destroy();return;}

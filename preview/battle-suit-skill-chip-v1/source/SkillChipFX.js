@@ -46,8 +46,18 @@ export class SkillChipFX{
   pause(){this.timeline.pause();this.render(this.time);this.onUpdate(this.time)}
   seek(time){this.timeline.pause().time(clamp(time,0,this.sequence.duration),true);this.render(this.clock.time);this.onUpdate(this.clock.time)}
   setSpeed(speed){this.speed=clamp(speed,.25,2);this.timeline.timeScale(this.speed)}
+  bindTarget(id){this.targetId=id;this.confirmedImpacts=new Map();this.castPoints=this.getPoints();}
+  confirmImpact(index,time){
+    const points=this.getPoints();
+    if(!points||this.target?.id!==this.targetId||!this.target.root.visible)return false;
+    // Freeze the collision in world space. A pooled enemy actor may now move,
+    // die or bind another instance without dragging its predecessor's smoke.
+    this.castPoints=structuredClone(points);
+    this.confirmedImpacts.set(index,{time,points:this.castPoints});return true;
+  }
   getPoints(){
-    const unit=this.engine.accountBattleUnit;const target=this.target||this.engine.enemies.find(x=>x.battleActive!==false&&x.root.visible);
+    const unit=this.engine.accountBattleUnit;const target=this.targetId?this.target:this.target||this.engine.enemies.find(x=>x.battleActive!==false&&x.root.visible);
+    if(this.targetId&&(target?.id!==this.targetId||!target.root.visible||target.battleActive===false))return this.castPoints||null;
     const root=target?.root;if(!unit||!root)return null;
     // Both layers share the original V3 stage; no screen-space guesses or new formation.
     const source=unit.muzzlePoint();const impactOffsetY=this.key==='missile'?ROCKET_PROJECTILE_OFFSET_Y:0;
@@ -74,7 +84,7 @@ export class SkillChipFX{
       const start=seq.release,end=seq.flightEnd;const p=clamp((time-start)/(end-start));
       const angle=Math.atan2(points.hit.y-points.source.y,points.hit.x-points.source.x);
       const x=mix(points.source.x,points.hit.x,p),y=mix(points.source.y,points.hit.y,p);
-      if(time>=start&&time<end){
+      if(time>=start&&time<end&&!this.confirmedImpacts?.has(0)){
         this.rocket.visible=this.exhaust.visible=true;this.rocket.position.set(x,y);this.rocket.rotation=angle;this.sized(this.rocket,70*unitScale,18*unitScale);
         this.exhaust.position.set(x-Math.cos(angle)*25*unitScale,y-Math.sin(angle)*25*unitScale);this.exhaust.rotation=angle;this.exhaust.alpha=.8;this.sized(this.exhaust,(90+Math.sin(time*111)*8)*unitScale,28*unitScale);
       }
@@ -88,8 +98,11 @@ export class SkillChipFX{
     }
     const offsets=this.key==='airstrike'?[[-130,-76],[22,-18],[158,52],[-30,87]]:[[0,0]];
     seq.impacts.forEach((at,i)=>{
-      const age=time-at;const f=explosionFrame(age,seq.life);if(!f)return;
-      const b=this.blasts[i],point=this.key==='missile'?points.blast:points.foot;
+      const confirmed=this.confirmedImpacts?.get(i);
+      if(this.confirmedImpacts&&!confirmed)return;
+      const age=time-(confirmed?.time??at);const f=explosionFrame(age,seq.life);if(!f)return;
+      const collision=confirmed?.points||points;
+      const b=this.blasts[i],point=this.key==='missile'?collision.blast:collision.foot;
       const x=point.x+offsets[i][0]*unitScale,y=point.y+offsets[i][1]*unitScale;
       const size=(this.key==='airstrike'?365:390)*unitScale;
       b.first.texture=this.textures.frames[f.index];b.second.texture=this.textures.frames[f.next];

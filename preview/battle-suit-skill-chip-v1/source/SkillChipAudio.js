@@ -40,6 +40,12 @@ export class SkillChipAudio{
     return context.state==='running';
   }
   setEnabled(value){this.enabled=Boolean(value);if(!this.enabled)this.stop()}
+  presentationLead(speed=1){
+    if(!this.ready||!this.enabled||this.context?.state!=='running')return 0;
+    const now=this.context.currentTime,stamp=this.context.getOutputTimestamp?.();
+    const output=stamp?.contextTime>0&&stamp?.performanceTime>0?stamp.contextTime+(performance.now()-stamp.performanceTime)/1000:now-(this.context.outputLatency||this.context.baseLatency||0);
+    return (Math.max(0,now-output)+.025)*clamp(speed,.25,this.maxPlaybackRate);
+  }
   stop(){this.epoch++;for(const entry of this.sources){entry.source.onended=null;try{entry.source.stop()}catch{}entry.source.disconnect();entry.gain.disconnect();entry.pan.disconnect();}this.sources.clear()}
   events(key){
     const seq=SEQUENCES[key],events=[];
@@ -52,7 +58,7 @@ export class SkillChipAudio{
       events.push({asset:'explosion',at:impact+.16,offset:.7626875,duration:Math.min(1.62,seq.duration-impact-.16),gain:.12,fadeIn:.04,fadeOut:1.0,pan:.15});
     });return events;
   }
-  schedule(key,from=0,speed=1,{append=false}={}){
+  schedule(key,from=0,speed=1,{append=false,phase=null,impactTimes=null,indices=null}={}){
     if(!append){this.stop();this.syncRecords=[];}
     if(!this.ready||!this.enabled||this.context.state!=='running')return;
     const context=this.context,now=context.currentTime,rate=clamp(speed,.25,this.maxPlaybackRate);
@@ -62,7 +68,17 @@ export class SkillChipAudio{
     const validStamp=stamp&&stamp.contextTime>0&&stamp.performanceTime>0;
     const outputNow=validStamp?stamp.contextTime+(performanceNow-stamp.performanceTime)/1000:now-(context.outputLatency||context.baseLatency||0);
     this.outputCompensationMs=(now-outputNow)*1000;
-    for(const event of this.events(key)){
+    for(const original of this.events(key)){
+      const event={...original},isImpact=event.asset==='explosion';
+      if(phase==='launch'&&isImpact||phase==='impact'&&!isImpact)continue;
+      if(isImpact){
+        const index=SEQUENCES[key].impacts.findIndex(at=>Math.abs((event.impact??event.at-.16)-at)<.001);
+        if(indices&&!indices.includes(index))continue;
+        if(impactTimes?.has(index)){
+          const delta=impactTimes.get(index)-SEQUENCES[key].impacts[index];
+          event.at+=delta;if(event.impact!==undefined)event.impact+=delta;
+        }
+      }
       const wanted=outputNow+(event.at-from)/rate,when=Math.max(now,wanted);
       const skipped=Math.max(0,(when-wanted)*rate),remaining=event.duration-skipped;
       if(remaining<=0)continue;

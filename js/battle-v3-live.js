@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.35.0-continuous-clock';
+  const VERSION = '3.36.0-combat-flow';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -1057,7 +1057,7 @@
             // attacks/queued shots. Cancellation is owned by the live modal;
             // actual playback failures propagate so its saved receipt can resume.
             await root.ProjectVPixiBattle.playEvents(timeline, {
-              beforeEvent: prepareEvent, afterEvent: options.onCombatEvent
+              beforeEvent: prepareEvent, afterEvent: options.onCombatEvent, isPaused: options.isPlaybackPaused
             });
             if (destroyed) return false;
             await stopAccountBattleUnitContinuousFire({ drain: true });
@@ -1169,7 +1169,7 @@
 
   async function playTower(options = {}) {
     if(options.data?.continuousEncounter){
-      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2094');
+      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2096');
       return playContinuousBattle({modal:options.modal,data:options.data,view:options,mode:'TOWER',isActive:options.isActive});
     }
     const data = towerPayload(options);

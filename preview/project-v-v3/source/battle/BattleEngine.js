@@ -479,7 +479,13 @@ class BaseBattleEngine{
     if(this.mounted)return this;
     if(!target)throw new Error('전투 렌더링 영역을 찾지 못했습니다.');
     this.host=target;
-    this.app=new Application();
+    this.disposed=false;
+    const application=this.app=new Application();
+    const assertMount=()=>{
+      if(!this.disposed&&this.app===application)return;
+      try{application.destroy(true,{children:true,texture:false});}catch{}
+      throw Error('취소된 전투 화면 초기화입니다.');
+    };
     await this.app.init({
       resizeTo:target,
       backgroundAlpha:0,
@@ -489,6 +495,7 @@ class BaseBattleEngine{
       preference:'webgl',
       powerPreference:'high-performance'
     });
+    assertMount();
     this.app.canvas.className='pv-pixi-canvas';
     this.app.canvas.setAttribute('aria-hidden','true');
     target.appendChild(this.app.canvas);
@@ -505,6 +512,7 @@ class BaseBattleEngine{
       this.textures=await Assets.loadBundle(BUNDLE);
     }
     this.activeBattlefieldTexture=await battlefieldTexturePromise;
+    assertMount();
 
     this.root=new Container();
     this.stage=new Container({sortableChildren:true,label:'BattleStage'});
@@ -535,7 +543,11 @@ class BaseBattleEngine{
     // must never sit inside the first-frame barrier that is protected by the
     // mobile renderer watchdog. applyBattlePayload() starts desktop warming in
     // the background; low-memory clients load one exact activation on demand.
-    await Promise.all([SkillEffectFX.preloadAll(),this.audio.prepare()]);
+    // Optional recorded audio must not keep a cold first frame behind the
+    // renderer watchdog. Its own playback path waits for decode when needed.
+    void this.audio.prepare().catch(()=>false);
+    await SkillEffectFX.preloadAll();
+    assertMount();
     this.skillTimeline=new SkillTimeline({
       ...DESKTOP,
       backgroundLayer:this.backgroundLayer,
@@ -555,6 +567,7 @@ class BaseBattleEngine{
     this.cards=CARD_DATA.map((data,index)=>this.createCard(data,index));
     this.cards.forEach(card=>this.combatLayer.addChild(card));
     await this.createCharacters();
+    assertMount();
     this.boss=this.enemies[1];
     this.currentEnemyTarget=this.boss;
     this.currentAllyTarget=this.allies[0]||null;
@@ -569,6 +582,7 @@ class BaseBattleEngine{
     // 최초 마운트에서는 setBattlePayload()가 배우 생성 중 실행되어 mounted=false다.
     // 호송 목표물은 Stage가 완성된 지금 한 번 더 연결해야 첫 판부터 표시된다.
     if(this.battleData)await this.setObjective(this.battleData);
+    assertMount();
     this.app.stop();
     // All critical Pixi/character work is complete. Warm the compact combat
     // sprite outside mount() so first-frame readiness never awaits audio.
@@ -1320,14 +1334,16 @@ class BaseBattleEngine{
     return true;
   }
 
-  async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,targetShield=null,authoritative=false,monotonicHp=false}={}){
+  async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,targetShield=null,authoritative=false,monotonicHp=false,targetId=target?.id,authoritativeEvent=null}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
     // Preserve the just-resolved authoritative target even when that hit set
     // its HP to zero. Retargeting here would make the cosmetic tracer fly at
     // a different enemy than the card action it visually follows.
     const victim=target?.root?target:this.enemies.find(character=>this.isAlive(character));
-    if(!victim)return false;
+    if(!victim||targetId&&(victim.id!==targetId||victim.root.visible===false)||authoritative&&!target)return false;
+    const playbackEpoch=this.playbackEpoch;
+    const sameTarget=()=>this.visible&&this.playbackEpoch===playbackEpoch&&(!targetId||victim.id===targetId)&&victim.root.visible!==false;
     const previewRun=this.accountBattleUnitFireRun;
     const previewHook=previewRun?.active?this.accountBattleUnitPreviewFireHook:null;
     const weaponCode=this.accountBattleUnitSustainedFireProfile().weaponCode;
@@ -1336,6 +1352,7 @@ class BaseBattleEngine{
     // otherwise the recorded impact plays while the first visual shot is still
     // waiting on textures and can be perceived as missing or detached audio.
     if(!await unit.prepareRangedFireEffects())return false;
+    if(!sameTarget())return false;
     const visualLeadMs=unit.hasAuthoredAnimation()
       ?Math.max(0,Number(unit.authoredProfile?.durationsMs?.ready)||45)/Math.max(.5,Number(playbackRate)||1)
       :0;
@@ -1375,8 +1392,10 @@ class BaseBattleEngine{
         targetY:victim.root.y-90,
         weaponCode,
         onImpact:({profile})=>{
+          if(!sameTarget())return;
           this.triggerAccountBattleUnitBallisticHit(victim,profile,playbackRate);
           if(authoritative){
+            if(authoritativeEvent)this.skillChipPlayback?.remember(authoritativeEvent);
             if(hasFiniteNumber(targetHp)&&(!monotonicHp||Number(targetHp)<Number(victim.hp)))this.syncTargetHp(victim,Number(targetHp));
             if(hasFiniteNumber(targetShield)&&(!monotonicHp||Number(targetShield)<Number(victim.shield)))this.syncTargetShield(victim,Number(targetShield));
             this.showAccountBattleUnitDamage(victim,{damage,critical,playbackRate});
@@ -1403,7 +1422,7 @@ class BaseBattleEngine{
     if(!run?.active)return this.playAccountBattleUnitShot(target,options);
     this.accountBattleUnitDamageQueue??=[];
     return new Promise((resolve,reject)=>{
-      this.accountBattleUnitDamageQueue.push({target,options:{...options},resolve,reject});
+      this.accountBattleUnitDamageQueue.push({target,options:{...options,targetId:target?.id},resolve,reject});
     });
   }
 
@@ -1488,7 +1507,8 @@ class BaseBattleEngine{
             damage:merged.reduce((sum,entry)=>sum+Math.max(0,Number(entry.options?.damage)||0),0),
             critical:merged.some(entry=>Boolean(entry.options?.critical)),
             targetHp:merged[merged.length-1].options?.targetHp,
-            targetShield:merged[merged.length-1].options?.targetShield
+            targetShield:merged[merged.length-1].options?.targetShield,
+            authoritativeEvent:merged[merged.length-1].options?.authoritativeEvent
           };
           const rush=clamp(1+backlog*.18,1,3);
           let played=false;
@@ -1505,7 +1525,7 @@ class BaseBattleEngine{
             throw error;
           }
           if(!run.active||this.accountBattleUnitFireRun!==run)break;
-          if(!played)break;
+          if(!played)continue;
           run.shots+=1;
           this.accountBattleUnitSustainedShotCount+=1;
           run.roundInBurst=(run.roundInBurst+1)%profile.roundsPerBurst;
@@ -2119,6 +2139,7 @@ class BaseBattleEngine{
     // => 유일성이 보장되는 순서로 단계를 나누고, 후보가 둘 이상이면 포기한다.
     const exact=this.characters.find(character=>String(character.id)===id);
     if(exact)return exact;
+    if(/^[AB]:/.test(id))return null;
     const byCardId=this.characters.filter(character=>String(character.cardId||'')===id);
     if(byCardId.length===1)return byCardId[0];
     const bySuffix=this.characters.filter(character=>{
@@ -2132,6 +2153,9 @@ class BaseBattleEngine{
     if(!attacker)return null;
     const candidates=attacker.team===TEAM.ENEMY?this.allies:this.enemies;
     const explicit=preferred&&typeof preferred==='object'?preferred:this.combatantById(preferred);
+    // An authoritative action may finish after a newer HP snapshot. Its
+    // target must never silently change to another live monster.
+    if(this.livePayload&&preferred)return explicit?.root?.visible&&explicit.battleActive!==false?explicit:null;
     if(explicit&&candidates.includes(explicit)&&this.isAlive(explicit))return explicit;
     const current=attacker.team===TEAM.ENEMY?this.currentAllyTarget:this.currentEnemyTarget;
     if(current&&candidates.includes(current)&&this.isAlive(current))return current;
@@ -2486,8 +2510,9 @@ class BaseBattleEngine{
   }
 
   async normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,targetShield=null,healing=0,hitCount=1,advancementClass='',onImpact=()=>{}}={}){
+    if(this.livePayload&&!target?.root?.visible)return false;
     const requestedActor=attacker||this.allies[index%this.allies.length];
-    const actor=this.isAlive(requestedActor)?requestedActor:(requestedActor?.team===TEAM.ENEMY?this.enemies:this.allies).find(character=>this.isAlive(character));
+    const actor=this.livePayload?requestedActor:this.isAlive(requestedActor)?requestedActor:(requestedActor?.team===TEAM.ENEMY?this.enemies:this.allies).find(character=>this.isAlive(character));
     const victim=this.selectLiveTarget(actor,target);
     if(!actor||!victim){
       this.updateStatus('공격 가능한 생존 대상이 없습니다.');
@@ -2663,6 +2688,7 @@ class BaseBattleEngine{
   }
 
   async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null,targetShield=null,attacker=null,healing=0,hitCount=1}={}){
+    if(this.livePayload&&!target?.root?.visible)return false;
     const actor=attacker||this.allies[index%this.allies.length];
     const actorIndex=Math.max(0,this.allies.indexOf(actor));
     const card=this.cards[actorIndex%this.cards.length]||this.cards[0];
@@ -2866,10 +2892,10 @@ class BaseBattleEngine{
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }
 
-  async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null,afterEvent=null,sequential=false}={}){
+  async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null,afterEvent=null,sequential=false,isPaused=()=>false}={}){
     if(!timedInternal&&isSkillChipTimeline(events)){
       this.skillChipPlayback?.cancel();
-      this.skillChipPlayback=new BattleSuitSkillChipPlayback(this,events,{beforeEvent,afterEvent,sequential});
+      this.skillChipPlayback=new BattleSuitSkillChipPlayback(this,events,{beforeEvent,afterEvent,sequential,isPaused});
       return this.skillChipPlayback.play();
     }
     for(const event of events){
@@ -2926,6 +2952,7 @@ class BaseBattleEngine{
             targetHp:resolvedTargetHp,
             targetShield:targetShieldAfter,
             authoritative:!event.dodge,
+            authoritativeEvent:event,
             monotonicHp:true,
             playbackRate:this.paceScale||1
           }).catch(error=>console.warn('[Project V V3] Battle Suit shot failed',error));
@@ -3407,6 +3434,7 @@ class BaseBattleEngine{
   }
 
   destroy(){
+    this.disposed=true;
     this.cancelTimelines();
     document.removeEventListener('visibilitychange',this.onVisibility);
     if(this.moteTicker)this.app?.ticker.remove(this.moteTicker);

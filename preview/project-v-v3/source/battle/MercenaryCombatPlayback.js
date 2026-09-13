@@ -51,8 +51,8 @@ export const withMercenaryBattle=Base=>class extends Base{
   const hitIndex=type==='MERCENARY_DEBUFF'&&['ARMOR_WINDOW','NEXT_BASIC_WEAKENED'].includes(event.effect)?1:event.skillPhaseIndex??(this.mercenaryHitIndices.get(key)||0),impact=skill.visual.impacts[Math.min(hitIndex,skill.visual.impacts.length-1)];
   if(['MERCENARY_HIT','MERCENARY_HEAL','MERCENARY_DOT','MERCENARY_RIPOSTE'].includes(type))this.mercenaryHitIndices.set(key,hitIndex+1);
   const ids=event.targetIds?.length?event.targetIds:[event.targetId].filter(Boolean),actors=new Map([['M',actor]]),targets=[];
-  for(const id of ids){const a=this.combatantById(id);if(!a)continue;const alias=a===actor?'M':`${a.team===actor.team?'A':'E'}${targets.length+1}`;actors.set(alias,a);targets.push(alias);}
-  if(!targets.length)targets.push('M');
+  for(const id of ids){const a=this.combatantById(id);if(!a?.root?.visible||a.battleActive===false)continue;const alias=a===actor?'M':`${a.team===actor.team?'A':'E'}${targets.length+1}`;actors.set(alias,a);targets.push(alias);}
+  if(!targets.length){if(!ids.length&&type==='MERCENARY_BUFF')targets.push('M');else{sync();return true;}}
   if(event.sourceAttackerId){const attacker=this.combatantById(event.sourceAttackerId);if(attacker)actors.set('E_SOURCE',attacker);}
   const initial=[...actors].map(([id,a])=>({id,team:id.startsWith('E')?'ENEMY':'ALLY',row:'FRONT',hp:a.hp,maxHp:100,shield:0,attack:1,flags:{},alive:a.hp>0}));
   const isWindup=type==='MERCENARY_WINDUP',events=isWindup?[]:[{id:'authoritative',kind:['MERCENARY_HIT','MERCENARY_DOT','MERCENARY_RIPOSTE'].includes(type)?'HIT':'STATUS',at:impact,targets,phaseIndex:hitIndex,stage:hitIndex>0?'DETONATE':'MARK',amount:event.damage||event.amount||0,changes:{}}];

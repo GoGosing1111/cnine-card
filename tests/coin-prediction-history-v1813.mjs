@@ -60,10 +60,10 @@ assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 assert.match(app, /coin-prediction-v2033\.css\?v=2033-matchday-star/);
 assert.match(app, /coin-prediction-model-v2033\.js\?v=2033-matchday-star/);
 assert.match(app, /coin-prediction-v2033\.js\?v=2045-poll-perf/);
-assert.match(index, /js\/app\.js\?v=2095-combat-clock/);
+assert.match(index, /js\/app\.js\?v=2096-combat-flow/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=2033-matchday/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=2033-matchday/);
-assert.match(serviceWorker, /soop-card-shell-v2095-combat-clock/);
+assert.match(serviceWorker, /soop-card-shell-v2096-combat-flow/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
 

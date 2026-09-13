@@ -7,7 +7,7 @@
     const esc=helpers.esc||String,fmt=helpers.fmt||(value=>Number(value||0).toLocaleString('ko-KR')),asset=helpers.asset||(value=>String(value||'')),normalizeImages=helpers.normalizeImages||(()=>{}),showResult=helpers.showResult,isActive=typeof helpers.isActive==='function'?helpers.isActive:()=>true;
     if(!isActive())return;
     if(result.battleV2&&result.continuousEncounter){
-      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2094');
+      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2096');
       const renderer=await playContinuousBattle({modal,data:result,mode:'PVE',isActive});
       if(renderer&&isActive()){renderer.destroy();showResult?.(modal,result);}return;
     }
