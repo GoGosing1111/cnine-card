@@ -14,5 +14,5 @@ test('native Cow entry preserves game shell and shared V3; original Scrapyard en
  assert.equal(pvePublicContentState().COW_ROOM.url,'/?screen=battle&pve=cow-room');assert.equal(pvePublicContentState().SCRAPYARD.url,'/?screen=scrapyard');
  const cow=read('js/cow-room-live.mjs'),nav=read('js/pve-v3-navigation.mjs'),scrap=read('js/workshop-v1881.js');
  assert.match(cow,/pveV2LiveViewport/);assert.match(cow,/ProjectVBattleV3Live\.createRenderer/);assert.match(cow,/createPveContinuousSession/);assert.doesNotMatch(cow,/<iframe|battle\.html|location\.assign\('\/pve-v3/);
- assert.doesNotMatch(nav,/cowPortalPrompt\.recover/);assert.match(nav,/if\(content==='scrapyard'\)return false/);assert.doesNotMatch(scrap,/PveV3Runtime\?\.tryOpen/);assert.match(scrap,/api\('scrapyard\/run'/);
+ assert.doesNotMatch(nav,/cowPortalPrompt\.recover/);assert.match(nav,/if\(content==='scrapyard'\)return false/);assert.doesNotMatch(scrap,/PveV3Runtime\?\.tryOpen/);assert.match(scrap,/api\('scrapyard\/v3\/run'/);
 });

@@ -107,9 +107,9 @@ test('SQLite: commit response loss, concurrent tabs and zero-row grant destinati
   await assert.rejects(()=>f.run('deleted-user'));assert.equal(await f.count('tower_v3_first_clears_v1'),0);
   assert.ok(before>=80010);
 });
-test('live boundary remains held even if dependencies request ON',async()=>{
+test('extended tower runs and re-ascent economy remain gated while native single-pass combat is released',async()=>{
   const r=await handleTowerV3Route({request:new Request('https://example.test/api/tower/v3/run',{method:'POST'}),env:{},user,path:'tower/v3/run',deps:{releaseEnabled:true}});assert.equal(r.status,404);
-  for(const file of ['index.html','js/app.js','functions/api/[[path]].js'])assert.doesNotMatch(fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),/_tower_v3|tower\/v3\//);
+  for(const file of ['index.html','js/app.js','functions/api/[[path]].js'])assert.doesNotMatch(fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),/_tower_v3_(?:routes|runs|economy)|tower\/v3\//);
 });
 test('CMS draft CAS, owner-only editing and no approval/ON through submitted fields',async t=>{
   const f=await fixture(t);f.DB.sql.exec('CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP)');

@@ -1,6 +1,8 @@
 import {createPveBattleV2} from './_battle_v2_preview.js';
+import monsterArt from '../assets/ui/project-v/monsters/hunt-tower/manifest-v1.json' with {type:'json'};
 
-// Release candidate only. The operating tower route continues to use its old contract.
+// Extended re-ascent rules remain gated. Live single-pass combat uses operatingFloor
+// while retaining the existing tower API, CMS rewards and one-floor progression.
 export const TOWER_V3_RELEASE_ENABLED = false;
 export const TOWER_V3_ENGINE_VERSION = 'TOWER_LIMIT_PUSH_V1';
 export const TOWER_V3_DRAFT = Object.freeze({
@@ -21,6 +23,9 @@ export const TOWER_V3_FAMILIES = Object.freeze([
   [24,'블러드 크로우','tower-024-blood-crow-sd-v1.png',23,'쿠치키 뱌쿠야','tower-023-petal-swordsman-boss-sd-v1.png'],
   [27,'달빛 악령','tower-027-moon-wraith-sd-v1.png',28,'아이젠 소스케','tower-028-violet-magus-boss-sd-v1.png']
 ]);
+const liveFamilies=[...TOWER_V3_FAMILIES,
+  [64,'커맨더 크리그','tower-064-commander-krieg-sd-v1.png',67,'나미카제 미나토','hunt-067-yellow-flash-boss-sd-v1.png'],
+  [68,'오메가-09','hunt-068-omega-09-sd-v1.png',69,'쿠로사키 이치고','hunt-069-masked-soul-swordsman-boss-sd-v1.png']];
 export function towerError(code,message){return Object.assign(new Error(message),{code});}
 export function towerInt(value,min,max,label){
   if(!Number.isSafeInteger(value)||value<min||value>max)throw towerError('TOWER_V3_CONFIG',`${label} 범위를 확인하세요.`);
@@ -29,7 +34,7 @@ export function towerInt(value,min,max,label){
 export function validateTowerV3Config(input=TOWER_V3_DRAFT){
   const c={...input};
   if(!['OFF','TEST','ON'].includes(c.mode)||!/^TOWER_[A-Z0-9_:-]{1,80}$/.test(c.rulesVersion))throw towerError('TOWER_V3_CONFIG','모드와 난도 버전을 확인하세요.');
-  for(const [key,min,max] of [['maxTier',71,1000],['normalCount',3,36],['eliteCount',1,5],['simultaneous',3,3],['normalPoints',1,25],['elitePoints',1,100],['basePower',1000,1e8],['maxActions',10,600],['forcedMonsterEvery',1,20],['combatLimitMs',30000,240000],['autoRepeatMax',1,20]])towerInt(c[key],min,max,key);
+  for(const [key,min,max] of [['maxTier',1,1000],['normalCount',3,36],['eliteCount',1,5],['simultaneous',3,3],['normalPoints',1,25],['elitePoints',1,100],['basePower',1000,1e8],['maxActions',10,600],['forcedMonsterEvery',1,20],['combatLimitMs',30000,240000],['autoRepeatMax',1,20]])towerInt(c[key],min,max,key);
   for(const [key,min,max] of [['powerGrowth',1.001,1.2],['hpGrowth',0,10],['attackGrowth',0,10],['eliteMultiplier',1,10],['guardianMultiplier',1,20],['fastUnlockTwo',.1,.8],['fastUnlockThree',.2,.95]]){
     if(!Number.isFinite(c[key])||c[key]<min||c[key]>max)throw towerError('TOWER_V3_CONFIG',`${key} 범위를 확인하세요.`);
   }
@@ -54,28 +59,34 @@ export function towerProgressAfter(progress,battle){
   return {...progress,bestClearedTier:Math.max(progress.bestClearedTier,battle.tier),
     maxUnlockedTier:Math.max(progress.maxUnlockedTier,battle.tier+battle.unlockStep)};
 }
-export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT}={}){
+export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,operatingFloor=null,bossUltimatePercent=0}={}){
   const c=validateTowerV3Config(config);towerInt(tier,1,c.maxTier,'도전층');
   towerInt(seed,0,4294967295,'서버 시드');
   if(snapshot?.cards?.length!==5||new Set(snapshot.cards.map(row=>String(row.id))).size!==5)throw towerError('TOWER_V3_DECK','일반 카드 정확히 5장이 필요합니다.');
   if(snapshot.cards.some(row=>!Number.isFinite(Number(row.power))||Number(row.power)<=0||Number(row.power)>1e12))throw towerError('TOWER_V3_DECK','카드 전투력을 확인하세요.');
-  const f=TOWER_V3_FAMILIES[Math.floor((tier-1)/10)%TOWER_V3_FAMILIES.length];
-  const base=c.basePower*Math.pow(c.powerGrowth,tier-1), beforeBoss=c.normalCount+c.eliteCount;
+  const families=operatingFloor?liveFamilies:TOWER_V3_FAMILIES;
+  const f=families[Math.floor((tier-1)/10)%families.length];
+  const guardianArt=operatingFloor?monsterArt.sprites.find(row=>String(row.monsterId)===String(operatingFloor.id)&&row.qa?.visualApproval===true):null;
+  // The live single-pass tower retains its CMS guardian and floor power. Only
+  // its encounter uses the approved normal -> elite -> guardian composition.
+  if(operatingFloor&&(!Number.isSafeInteger(operatingFloor.power)||operatingFloor.power<1||operatingFloor.power>1e9))throw towerError('TOWER_V3_CONFIG','운영 층 전투력을 확인하세요.');
+  const base=operatingFloor?operatingFloor.power/c.guardianMultiplier:c.basePower*Math.pow(c.powerGrowth,tier-1), beforeBoss=c.normalCount+c.eliteCount;
   const instances=Array.from({length:beforeBoss+1},(_,i)=>{
     const boss=i===beforeBoss,elite=!boss&&i>=c.normalCount,offset=boss?3:0;
-    const name=(elite?'정예 ':'')+f[offset+1],power=Math.round(base*(boss?c.guardianMultiplier:elite?c.eliteMultiplier:1));
+    const name=boss&&operatingFloor?operatingFloor.name:(elite?'정예 ':'')+f[offset+1],power=Math.max(1,Math.round(base*(boss?c.guardianMultiplier:elite?c.eliteMultiplier:1)));
     return {instanceId:`TOWER:${tier}:${i+1}`,slot:boss?1:i%c.simultaneous,afterClear:boss||elite,
-      monster:{id:f[offset],name,battle_power:power,is_boss:boss?1:0,
-        pve_hp_percent:Math.min(1200,100+(tier-1)*c.hpGrowth),
-        pve_attack_percent:Math.min(1200,100+(tier-1)*c.attackGrowth),
-        pve_defense_percent:Math.min(200,100+(tier-1)*.35)},
-      name,elite,boss,points:boss?0:elite?c.elitePoints:c.normalPoints,battleSprite:root+f[offset+2]};
+      monster:{id:boss&&operatingFloor?operatingFloor.id:f[offset],name,battle_power:power,is_boss:boss?1:0,
+        pve_hp_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.hpGrowth),
+        pve_attack_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.attackGrowth),
+        pve_defense_percent:operatingFloor?100:Math.min(200,100+(tier-1)*.35)},
+      name,elite,boss,points:boss?0:elite?c.elitePoints:c.normalPoints,sourceArt:boss&&operatingFloor?operatingFloor.image:null,
+      battleSprite:boss&&operatingFloor?guardianArt?.battleSprite||null:root+f[offset+2]};
   });
   const battleV2=createPveBattleV2({cards:snapshot.cards,magicCards:snapshot.magicCards||[],characterBonus:snapshot.cardSupportBonus||0,
-    battleSuit:snapshot.battleSuit||null,mercenary:snapshot.mercenary||null,singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,seed,
+    battleSuit:snapshot.battleSuit||null,mercenary:snapshot.mercenary||null,singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,bossUltimatePercent,seed,
     encounter:{initialCount:c.simultaneous,instances,maxActions:c.maxActions,maxDuration:c.combatLimitMs/TOWER_CLOCK_UNIT_MS,forcedMonsterEvery:c.forcedMonsterEvery}});
   const rows=battleV2.encounter.instances.map((fighter,i)=>({...fighter,slot:instances[i].slot,boss:instances[i].boss,elite:instances[i].elite,
-    points:instances[i].points,name:instances[i].name,displayName:instances[i].boss?instances[i].name:`${instances[i].name} ${i+1}`,sourceArt:null,battleSprite:instances[i].battleSprite}));
+    points:instances[i].points,name:instances[i].name,displayName:instances[i].boss?instances[i].name:`${instances[i].name} ${i+1}`,sourceArt:instances[i].sourceArt||null,battleSprite:instances[i].battleSprite}));
   const byId=new Map(rows.map(row=>[row.id,row])),dead=new Set();let points=0,officialClock=0;
   for(const event of battleV2.result.timeline){
     if(event.type==='KO'&&byId.has(event.targetId)&&!dead.has(event.targetId)){dead.add(event.targetId);points+=byId.get(event.targetId).points;}
@@ -97,7 +108,7 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT}={}
   const guardian=battleV2.result.final.B.find(row=>row.id===bossId);
   return {ok:true,mode:'TOWER',battlefieldMode:'TOWER',title:'무한의탑',phaseLabel:`${tier}층 · 한계 돌파`,tier,
     engineVersion:TOWER_V3_ENGINE_VERSION,rulesVersion:c.rulesVersion,success,elapsedCombatMs,combatLimitMs:c.combatLimitMs,
-    unlockStep:success?(remaining>=c.fastUnlockThree?3:remaining>=c.fastUnlockTwo?2:1):0,
+    unlockStep:success?(operatingFloor?1:remaining>=c.fastUnlockThree?3:remaining>=c.fastUnlockTwo?2:1):0,
     failureReason:reason,guardianProgress:Math.min(100,points),guardianHpPercent:dead.has(bossId)?0:guardian?Math.round(guardian.hp/guardian.maxHp*100):100,
     defeated:dead.size,playerName:snapshot.accountNickname||'탑 원정대',opponentName:`${tier}층 수호자`,cards:snapshot.cards,
     accountNickname:snapshot.accountNickname,characterBonus:snapshot.characterBonus||{},

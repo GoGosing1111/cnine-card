@@ -3,6 +3,10 @@
   const AUTO_KEY='cnine:tower:autoProgress:v1';
   let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
   const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,autoEnabled:loadAuto(),autoRunning:false,autoTimer:null};
+  const pendingKey=()=>`cnine:tower:battle:v2094:${Number(loadUser?.()?.id||0)}`;
+  function pendingBattle(){try{return JSON.parse(sessionStorage.getItem(pendingKey())||'null')}catch{return null}}
+  function rememberBattle(value){try{sessionStorage.setItem(pendingKey(),JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}
+  function acknowledgeBattle(){sessionStorage.removeItem(pendingKey());}
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   function loadAuto(){try{return localStorage.getItem(AUTO_KEY)==='ON'}catch{return false}}
   function saveAuto(value){S.autoEnabled=Boolean(value);try{localStorage.setItem(AUTO_KEY,S.autoEnabled?'ON':'OFF')}catch{}}
@@ -50,14 +54,14 @@
       if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}
     }finally{S.ensureBusy=false}
   }
-  async function openTower(){
+  async function openTower(restoreBattle=true){
     if(await globalThis.PveV3Runtime?.tryOpen('tower'))return;
     stopAuto();
     document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));
     const raidHost=document.getElementById('pveRaidHubView')||document.getElementById('pveRaidView');if(raidHost)raidHost.hidden=true;
     ['pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true});
     const box=document.getElementById('pveTowerView');if(!box)return;box.hidden=false;box.innerHTML='<section class="tower-loading"><div class="tower-spinner"></div><h2>무한의탑을 불러오는 중...</h2></section>';
-    try{S.data=await apiRequest('tower/status',{}, {ttl:0});render()}catch(e){box.innerHTML=`<section class="tower-empty"><h2>무한의탑</h2><p>${esc(e.message)}</p></section>`}
+    try{S.data=await apiRequest('tower/status',{}, {ttl:0});render();if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight(false)}catch(e){box.innerHTML=`<section class="tower-empty"><h2>무한의탑</h2><p>${esc(e.message)}</p></section>`}
   }
   function currentDeckCards(){return (S.data?.deck||[]).map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean)}
   function render(){
@@ -126,14 +130,15 @@
     if(S.busy)return;
     if((S.data?.deck||[]).length!==5)return alert('먼저 PVE 덱 5장을 저장하세요.');
     clearAutoTimer();S.busy=true;S.autoRunning=Boolean(fromAuto||S.autoEnabled);
-    const f=S.data.floor||{},modal=document.getElementById('modal'),deckCards=currentDeckCards();
+    const pending=pendingBattle(),saved=pending?.result;
+    const f=saved?{floorNo:saved.floorNo,monsterName:saved.monster?.name,monsterImage:saved.monster?.image,monsterPower:saved.monsterPower,isBoss:saved.isBoss}:S.data.floor||{},modal=document.getElementById('modal'),deckCards=currentDeckCards();
     const previewPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||battleState?.characterBonus?.pve||0);
     let v3View=null;
     try{
       if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');
       if(window.ProjectVBattleV3Live?.ready?.())v3View=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:'MEMBER TEAM',opponentName:f.monsterName||'TOWER MONSTER',autoText:S.autoRunning?'자동 등반 · 서버 판정 동기화':'무한의탑 서버 판정 동기화'});
-    }catch(error){console.warn('[PROJECT V V3] 무한의탑 렌더러 준비 실패, 안전 렌더러로 전환합니다.',error)}
-    if(!v3View){modal.className='modal show battle-modal tower-battle-modal';modal.innerHTML=towerBattleMarkup(f,deckCards,previewPower)}
+    }catch(error){console.warn('[PROJECT V V3] 무한의탑 렌더러 준비 실패',error)}
+    if(!v3View){S.busy=false;stopAuto();modal.className='modal';modal.innerHTML='';alert('V3 전투 화면을 준비하지 못했습니다. 다시 도전해 주세요.');return;}
     const stage=v3View?.stage||modal.querySelector('.battle-stage'),phase=v3View?.phase||document.getElementById('towerBattlePhase'),count=document.getElementById('towerBattleCountdown'),msg=v3View?.towerMsg||document.getElementById('towerBattleMessage');
     if(msg)msg.hidden=false;
     ensureBattleSoundButton(stage);
@@ -144,9 +149,12 @@
         stage.classList.add('enemy-enter');phase.textContent=f.isBoss?'BOSS APPEARS':'GUARDIAN APPEARS';battleSfx(f.isBoss?'warning':'swing');if(navigator.vibrate)navigator.vibrate(f.isBoss?[100,45,150]:60);await battleSleep(f.isBoss?1000:780);
         count.textContent='READY';stage.classList.add('ready');await battleSleep(600);count.textContent='FIGHT';battleTone(440,.18,'square',.075);stage.classList.add('fight');await battleSleep(480);count.textContent='';
       }
-      const d=await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})}),win=d.result==='WIN';
+      const ticket=pending?.floorNo===Number(f.floorNo)?pending:{requestId:crypto.randomUUID(),floorNo:Number(f.floorNo)};
+      if(!saved)rememberBattle(ticket);
+      const d=saved||await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})}),win=d.result==='WIN';
+      rememberBattle({...ticket,result:d});
       let v3Renderer=null;
-      if(v3View){v3Renderer=await window.playTowerBattleV3Live({...v3View,modal,data:d,floor:f,cards:d.cards?.length?d.cards:deckCards});modal.__battleV2Renderer=v3Renderer}
+      if(v3View){v3Renderer=await window.playTowerBattleV3Live({...v3View,modal,data:d,floor:f,cards:d.cards?.length?d.cards:deckCards,isActive:()=>v3View.stage.isConnected&&modal.classList.contains('show')});if(!v3Renderer){S.busy=false;stopAuto();return;}modal.__battleV2Renderer=v3Renderer}
       if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('무한의탑 큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
       if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('무한의탑 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
       if(d.weeklyPremiumError)console.warn('무한의탑 프리미엄 큐브 처리 경고:',d.weeklyPremiumError);
@@ -187,16 +195,17 @@
         msg.innerHTML=win?`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()}${magicRewardText} · 다음 ${Number(d.nextFloor)}층</span><button type="button" class="tower-result-button" id="towerResultBtn">다음 층 확인</button>`:`<strong>${Number(d.floorNo)}층 도전 실패</strong><span>${S.autoEnabled?'패배하여 자동진행이 중단되었습니다. ':''}현재 층에서 다시 도전할 수 있습니다.</span><button type="button" class="tower-result-button retry" id="towerResultBtn">무한의탑으로 돌아가기</button>`;
         document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
       }
-    }catch(e){stopAuto();msg.innerHTML=`<span>${esc(e.message)}</span><button class="tower-result-button retry" id="towerCloseErr">닫기</button>`;document.getElementById('towerCloseErr').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()}}
+    }catch(e){stopAuto();if(e.code==='TOWER_FLOOR_CHANGED'||e.code==='TOWER_COMPLETED')acknowledgeBattle();stage.classList.add('is-result-visible');msg.innerHTML=`<span>${esc(e.message)}</span><button class="tower-result-button retry" id="towerCloseErr">닫기</button>`;document.getElementById('towerCloseErr').onclick=e=>{e.stopPropagation();closeBattleAndRefresh(false)}}
   }
   async function continueAuto(){
     clearAutoTimer();
+    acknowledgeBattle();
     if(!S.autoEnabled){stopAuto();return closeBattleAndRefresh()}
     const modal=document.getElementById('modal');modal.className='modal';modal.innerHTML='';S.busy=false;
     try{S.data=await apiRequest('tower/status',{}, {ttl:0});if(!S.data?.active){stopAuto();return openTower()}return startFight(true)}
     catch(e){stopAuto();alert(e.message);openTower()}
   }
-  function closeBattleAndRefresh(){clearAutoTimer();S.busy=false;S.autoRunning=false;const modal=document.getElementById('modal');modal.className='modal';modal.innerHTML='';openTower()}
+  function closeBattleAndRefresh(acknowledge=true){if(acknowledge)acknowledgeBattle();clearAutoTimer();S.busy=false;S.autoRunning=false;const modal=document.getElementById('modal');modal.__battleV2Renderer?.destroy();modal.className='modal';modal.innerHTML='';openTower(acknowledge)}
   window.addEventListener('cnine:character-power-changed',event=>{const bonuses=event.detail?.bonuses;if(!bonuses)return;if(S.data)S.data.characterBonus=bonuses;const view=document.getElementById('pveTowerView');if(view&&!view.hidden&&S.data)render()});
   const observer=new MutationObserver(scheduleEnsure);observer.observe(document.documentElement,{childList:true,subtree:true});ensure();
 })();

@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.33.0-cow-native';
+  const VERSION = '3.34.0-pve-continuous';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -963,7 +963,7 @@
       async play() {
         if (destroyed) return false;
         const timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
-        if (phase) phase.textContent = options.continuousPlayback?'목초지 진입':'V3 LIVE BATTLE';
+        if (phase) phase.textContent = options.continuousPlayback?'전장 진입':'V3 LIVE BATTLE';
         try {
           await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
           // The account Battle Suit is an independent PVE support actor. Its
@@ -1156,6 +1156,10 @@
   }
 
   async function playTower(options = {}) {
+    if(options.data?.continuousEncounter){
+      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2094');
+      return playContinuousBattle({modal:options.modal,data:options.data,view:options,mode:'TOWER',isActive:options.isActive});
+    }
     const data = towerPayload(options);
     const renderer = await createRenderer({ ...options, data, mode: 'TOWER' });
     options.modal.__battleV2Renderer = renderer;

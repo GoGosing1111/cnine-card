@@ -68,7 +68,7 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "019f6bbe26bd4691906fd2cca25257412cd737a534e69884c1607a8767780998",
+      "sha256": "fdef0dfe886667983f179fafb1e56757128c190ba65e74a7fb5943790c5456aa",
       "commonGrid": true
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "5d4fe55f259fb802ac603f2b2e35ef7953fb22526624c52436ccf16cb30c3f1f",
+      "sha256": "8f93499225617bfc43357109109752443ff7febbd346ea39d81ae7823d9aadd8",
       "commonGrid": true
     },
     {

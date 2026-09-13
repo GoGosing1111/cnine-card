@@ -50,6 +50,8 @@ import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_rewa
 import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
 import { handleScrapyard } from '../_scrapyard.js';
 import {handlePveV3,isPveV3Path} from '../_pve_v3_routes.js';
+import {loadScrapyardV3Snapshot} from '../_scrapyard_v3.js';
+import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../_tower_v3.js';
 import {discoverCowPortal} from '../_cow_room_portal.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
 import {jointError} from '../_joint_request.js';
@@ -5246,7 +5248,7 @@ async function handleRequest(context){
     const workshopResponse=await handleWorkshop({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(workshopResponse)return workshopResponse;
     const alchemyResponse=await handleAlchemy({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(alchemyResponse)return alchemyResponse;
     const pveV3Response=await handlePveV3({path,request,env,deps:{authenticate,json,raidDeckPower,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot,withUserMutationLock:withJointUserMutationLock}});if(pveV3Response)return pveV3Response;
-    if(V3_JOINT_RELEASE_ENABLED&&request.method==='POST'&&['tower/fight','scrapyard/run'].includes(path))return json({error:'개편 전투 화면에서 다시 입장하세요.',code:'PVE_V3_CLIENT_REQUIRED'},409);
+    if(V3_JOINT_RELEASE_ENABLED&&request.method==='POST'&&path==='scrapyard/run')return json({error:'개편 전투 화면에서 다시 입장하세요.',code:'PVE_V3_CLIENT_REQUIRED'},409);
     const scrapyardResponse=await handleScrapyard({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,raidDeckPower,resolveUnifiedDrops,resolveUniqueBattleRuntime,uniqueBattleResponsePayload}});if(scrapyardResponse)return scrapyardResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
@@ -6770,6 +6772,7 @@ async function handleRequest(context){
       if(maxFloor<1)return json({active:true,configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
       const completed=Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor;
       const floorNo=completed?maxFloor:Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
+      if(completed)return json({active:true,configured:true,completed:true,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:Number(progress.current_floor||maxFloor+1),highestFloor:Number(progress.highest_floor||0),rank:Math.max(1,ranking.findIndex(row=>Number(row.user_id)===Number(user.id))+1),completed:true},floor:null,deck,characterBonus,ranking});
       const towerRankPromise=env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
       towerRankPromise.catch(()=>{});
       let floor=completed?null:await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();if(!floor)floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
@@ -6790,7 +6793,8 @@ async function handleRequest(context){
       if(maxFloor<1)return json({error:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.',code:'TOWER_NOT_CONFIGURED'},409);
       if(Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor)return json({error:'무한의탑 최고층 등반을 완료했습니다. 운영자가 진행도를 초기화하기 전까지 다시 1층부터 시작하지 않습니다.',code:'TOWER_COMPLETED',completed:true,maxFloor},409);
       const floorNo=Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
-      const deckInfo=await raidDeckPower(env,user.id);const settings=await battleSettings(env);const ids=deckInfo.ids,marks=ids.map(()=>'?').join(',');
+      if(towerBody.floorNo!==undefined&&Number(towerBody.floorNo)!==floorNo)return json({error:'현재 도전층이 변경되었습니다. 진행도를 다시 확인하세요.',code:'TOWER_FLOOR_CHANGED',floorNo,maxFloor},409);
+      const deckInfo=await raidDeckPower(env,user.id,null,'TOWER');const settings=await battleSettings(env);const ids=deckInfo.ids,marks=ids.map(()=>'?').join(',');
       const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(user.id,...ids).all();
       let floor=await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,
         bm.ultimate_enabled,bm.ultimate_name,bm.ultimate_description,bm.ultimate_trigger,bm.ultimate_chance,bm.ultimate_damage_percent,bm.ultimate_tower_damage_percent,
@@ -6840,7 +6844,12 @@ async function handleRequest(context){
           }
         }
       }
-      const result=effectiveTowerPower>=monsterPower?'WIN':'LOSE';let reward=0;
+      const towerSnapshot=await loadScrapyardV3Snapshot(env,user,{raidDeckPower:async()=>deckInfo,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot},'TOWER');
+      const towerBattle=buildTowerV3Battle({snapshot:towerSnapshot,tier:floorNo,seed:crypto.getRandomValues(new Uint32Array(1))[0],
+        config:{...TOWER_V3_DRAFT,mode:'ON',rulesVersion:'TOWER_LIVE_CMS_2094',maxTier:maxFloor,powerGrowth:1.001},
+        operatingFloor:{id:floor.linked_battle_monster_id||floor.monster_id,name:floor.monster_name,image:floor.monster_image,power:monsterPower},
+        bossUltimatePercent:Number(towerBossUltimate?.damagePercent||0)});
+      const result=towerBattle.success?'WIN':'LOSE';let reward=0;
       let completed=false,nextFloor=floorNo;
       let magicReward=null,equipmentReward=null,blackMiracleReward=null;
       if(result==='WIN'){
@@ -6862,7 +6871,7 @@ async function handleRequest(context){
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));
       const towerBattleCards=owned.results.map(c=>{const uniqueCard=towerUniqueCardMap.get(String(c.id))||{};return {...c,...uniqueCard,id:String(c.id),title:c.title,image:c.image,grade:c.rarity,rarity:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)};});
       if(result==='WIN')await grantHighGradeRerollDrop(env,{userId:user.id,content:'TOWER',referenceId:towerRequestId});
-      return json({result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,equipmentReward,blackMiracleReward,characterBonus:deckInfo.characterBonus,towerCardPower,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards});
+      return json({...towerBattle,requestId:towerRequestId,result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,equipmentReward,blackMiracleReward,characterBonus:deckInfo.characterBonus,towerCardPower,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});

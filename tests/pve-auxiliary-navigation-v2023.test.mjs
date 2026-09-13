@@ -17,7 +17,7 @@ for(const source of [idle,tower]){
 }
 assert.match(idle,/#pveHuntView,#pveRiftView,#pveEscortView,#pveTowerView,#pveSealBattleView,#pveIdleDungeonView/);
 assert.match(tower,/\['pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'\]/);
-assert.match(index,/tower-v1038\.js\?v=2093-native-pve-hyper/);
+assert.match(index,/tower-v1038\.js\?v=2094-combat-only/);
 assert.match(index,/idle-dungeon-v1600\.js\?v=2026-continuous-expedition/);
 
 console.log('PVE auxiliary navigation host v2023: OK');

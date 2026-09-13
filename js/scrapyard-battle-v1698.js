@@ -6,6 +6,13 @@
     const modal=document.getElementById('modal');if(!modal)return;
     const esc=helpers.esc||String,fmt=helpers.fmt||(value=>Number(value||0).toLocaleString('ko-KR')),asset=helpers.asset||(value=>String(value||'')),normalizeImages=helpers.normalizeImages||(()=>{}),showResult=helpers.showResult,isActive=typeof helpers.isActive==='function'?helpers.isActive:()=>true;
     if(!isActive())return;
+    if(result.battleV2&&result.continuousEncounter){
+      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2094');
+      const renderer=await playContinuousBattle({modal,data:result,mode:'PVE',isActive});
+      if(renderer&&isActive()){renderer.destroy();showResult?.(modal,result);}return;
+    }
+    // Historical receipts retain their saved outcome; new admissions use V3.
+    if(result.replayed){showResult?.(modal,result);return;}
     const cards=Array.isArray(result.deckCards)?result.deckCards:[],waves=Array.isArray(result.waves)?result.waves:[],fx=window.SoopBattleFxV1698||{};
     const fallbackFighter=(card,index)=>{const type=String(card?.uniqueAbility?.dominantType||'').toLowerCase();return `<div class="battle-card-fighter${type?` unique-card-fx-host unique-fx-${type}`:''}" data-fighter="${index}" ${type?`data-unique-fx="${type}"`:''}><div class="fighter-aura"></div><article class="ws98-fallback-card"><em>${esc(card.rarity||card.grade||'C')}</em><img src="${esc(asset(card.image))}" alt=""><b>${esc(card.title||'카드')}</b></article></div>`};
     const fighter=(card,index)=>`<div class="ws98-fighter-slot" data-fighter-wrap="${index}">${typeof fx.fighterHtml==='function'?fx.fighterHtml(card,index):fallbackFighter(card,index)}<div class="ws98-card-hp"><i></i><span>100%</span></div></div>`;

@@ -42,15 +42,15 @@ assert.match(engine,/this\.textures=Object\.fromEntries\(Object\.keys\(ASSETS\)/
 assert.match(engine,/const unique=\[\.\.\.new Set\(preloadUrls\)\]\.filter\(Boolean\);[\s\S]*Promise\.allSettled\(unique\.map\(url=>Assets\.load\(url\)\)\)/,'live card and monster assets must load concurrently');
 assert.match(engine,/onInterrupt:\(\)=>settle\(false\)/,'interrupted GSAP timelines must settle instead of hanging');
 
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=103-cow-native/);
-assert.match(app,/battle-v3-live\.js\?v=3\.33\.0-cow-native/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=104-pve-continuous/);
+assert.match(app,/battle-v3-live\.js\?v=3\.34\.0-pve-continuous/);
 assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');
 assert.match(app,/const resourceTask=ensureFeatureResources\('battleV2'\)[\s\S]*const fightTask=apiRequest\('battle\/fight'[\s\S]*await Promise\.all\(\[resourceTask,fightTask\]\)[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must finish its parallel resource and server work before revealing the ready V3 scene');
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=2093-native-pve-hyper/);
-assert.match(serviceWorker,/soop-card-shell-v2093-native-pve-hyper/);
+assert.match(index,/js\/app\.js\?v=2094-combat-only/);
+assert.match(serviceWorker,/soop-card-shell-v2094-combat-only/);
 
 const calls=[];
 const phase={textContent:''};

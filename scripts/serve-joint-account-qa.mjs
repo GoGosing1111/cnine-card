@@ -22,6 +22,7 @@ import {mercenaryCardAcquisitionStatements} from '../functions/_mercenary_draw_a
 import {saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {V3_LIVE_CONNECTIONS} from '../shared/v3-live-connections.mjs';
 import {v3JointReleaseState} from '../shared/v3-joint-release-v1.mjs';
+import {operatingTowerFixture} from '../tests/helpers/tower-live-route.mjs';
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.JOINT_QA_PORT||8899),hostname=`127.0.0.1:${port}`,origin=`http://${hostname}`;
 const dataDir=path.resolve(root,'../qa');fs.mkdirSync(dataDir,{recursive:true});
 const databaseFile=path.join(dataDir,`joint-account-${Date.now()}.sqlite`);
@@ -62,6 +63,13 @@ if(native){
  const cow=JSON.parse((await f.p("SELECT value FROM app_meta WHERE key='expedition_v3_cow_room'").first()).value);await f.setting('expedition_v3_cow_room',{...cow,mode:'ON',approved:true});
 }
 const nativeCards=catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',grade:'FUR',powerType:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],basePower:20000000,image:c.sourceArt}));
+const nativeTower=native?await operatingTowerFixture(f,{floorNo:69,rewardCoin:25000000}):null;
+if(native){
+ const monsters=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/monsters/hunt-tower/manifest-v1.json'),'utf8')).sprites;
+ for(const id of [68,69]){const m=monsters.find(row=>row.monsterId===id);await f.p('INSERT INTO battle_monsters(id,name,image_url,battle_power,is_boss) VALUES(?,?,?,?,?)',id,m.name,m.sourceArt,id===68?400000:2000000,id===69?1:0).run();}
+ await f.p('UPDATE tower_floor_ranges SET monster_id=68,power_override=400000,is_boss=0,end_floor=69 WHERE id=2094').run();
+ await f.p('INSERT INTO tower_floor_ranges(id,season_id,start_floor,end_floor,reward_coin,monster_id,is_active,power_override,is_boss) VALUES(2095,1,70,70,500000000,69,1,2000000,1)').run();
+}
 const profile=async()=>({id:7,nickname:'로컬 검수',role:'OWNER',coin:await f.coin(),owned:ids,quantities:Object.fromEntries(ids.map(id=>[id,1])),breakthroughs:{},masterStars:100});
 const mime={'.html':'text/html','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.jpeg':'image/jpeg','.jfif':'image/jpeg','.svg':'image/svg+xml','.mp3':'audio/mpeg','.wav':'audio/wav','.ogg':'audio/ogg','.ttf':'font/ttf','.woff2':'font/woff2'};
 const send=(res,status,body,type='application/json')=>{res.writeHead(status,{'content-type':type,'cache-control':'no-store'});res.end(typeof body==='string'?body:JSON.stringify(body));};
@@ -94,7 +102,8 @@ const server=http.createServer(async(req,res)=>{try{
       if(apiPath==='service/status')return send(res,200,{maintenance:{active:false}});
       if(apiPath==='battle/config')return send(res,200,{deck:ids,monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000}],settings:{},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pve:0},energy:{energy:30,maxEnergy:30,costPerBattle:1}});
       if(apiPath==='scrapyard/status')return send(res,200,await readScrapyardStatus(f.env,f.user,f.deps.raidDeckPower));
-      if(!['cow-room/v3/','admin/mercenaries','mercenar','hyper-pack','pve/v3/'].some(prefix=>apiPath.startsWith(prefix)))return send(res,200,{ok:true,enabled:false,items:[],commands:[],maintenance:{active:false}});
+      if(apiPath.startsWith('tower/')){const response=await nativeTower.handle(apiPath,request);return send(res,response.status,await response.json());}
+      if(!['cow-room/v3/','scrapyard/v3/','admin/mercenaries','mercenar','hyper-pack','pve/v3/'].some(prefix=>apiPath.startsWith(prefix)))return send(res,200,{ok:true,enabled:false,items:[],commands:[],maintenance:{active:false}});
     }
     const handler=native&&(isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/opening')?handleMercenaryAccount:apiPath==='admin/mercenaries'||apiPath.startsWith('admin/mercenaries/draw')?handleMercenaryCms:isForgeRuntimePath(apiPath)?handleForgeRuntimeReady:isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/runtime'?handleMercenaryAccountReady:handlePveV3Ready;
     const response=await handler({path:apiPath,request,env:f.env,deps:f.deps});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;}

@@ -1058,13 +1058,16 @@
     scrapyardState = { ...scrap, access, best, parts, ticket: { ...(scrap.ticket || {}), quantity: remainingTicket }, deckPower: Number(result.baseDeckPower ?? scrap.deckPower ?? 0), deckCards: result.deckCards || scrap.deckCards };
   }
 
-  function showScrapyardConnecting(difficultyId) {
-    const modal = document.getElementById('modal');
-    const difficulty = (scrapyardState?.settings?.difficulties || []).find(row => row.id === difficultyId);
-    if (!modal) return;
-    modal.className = 'modal show ws76-battle-modal ws98-battle-modal ws98-entry-connecting';
-    modal.innerHTML = `<section class="ws76-battle ws98-battle"><header><div><small>SCRAPYARD · FAST COMBAT LINK</small><h2>${esc(difficulty?.name || '폐차장')} 진입</h2></div><div class="ws98-header-state"><span>ENTRY SYNC</span></div></header><div class="ws98-combat-hud"><span><small>활성 전투력</small><b>${fmt(scrapyardState?.deckPower)}</b></span><span><small>전투 구역</small><b>${esc(difficulty?.name || '폐차장')}</b></span><span><small>입장권 확인</small><b>진행 중</b></span></div><div class="ws76-battlefield"><div class="ws76-party">${(scrapyardState?.deckCards || []).map((card, index) => `<div class="ws98-fighter-slot" style="--i:${index}"><article class="ws98-fallback-card"><em>${esc(card.rarity || card.grade || 'C')}</em><img src="${esc(asset(card.image))}" alt=""><b>${esc(card.title || '카드')}</b></article></div>`).join('')}</div><div class="ws76-monster battle-enemy-card enter" id="wsMonster"><div><small>SERVER VERIFIED ENTRY</small><b>전투 데이터 동기화</b><span><i style="width:42%"></i></span></div><i class="ws98-monster-core"></i></div></div><footer><span>입장권 예약과 전투 결과를 안전하게 확정하고 있습니다.</span></footer></section>`;
-    normalizeImages(modal);
+  async function showScrapyardConnecting(difficultyId, isActive=()=>true) {
+    await globalThis.ensureFeatureResources('battleV2');
+    if(!isActive())return false;
+    const modal=document.getElementById('modal'),difficulty=scrapyardState?.settings?.difficulties?.find(row=>row.id===difficultyId);
+    if(!modal||!globalThis.ProjectVBattleV3Live?.ready?.())throw Error('V3 전투 화면을 준비하지 못했습니다. 다시 도전해 주세요.');
+    const view=globalThis.ProjectVBattleV3Live.prepareLoading({modal,mode:'PVE',playerName:loadUser?.()?.nickname||'원정대',opponentName:difficulty?.name||'폐차장',autoText:'폐차장 출입 허가를 확인하고 있습니다.'});
+    modal.classList.add('ws98-entry-connecting');
+    view.stage.querySelector('.battle-v3-header strong').textContent='폐차장';
+    view.stage.querySelector('.battle-v3-header small').textContent='연속 교전 · 부품 회수';
+    return true;
   }
 
   function closeScrapyardConnecting() {
@@ -1097,11 +1100,17 @@
     scrapyardBusy = true;
     activeScrapRun = difficulty;
     renderScrapyard();
-    showScrapyardConnecting(difficulty);
-    let reconcile = false;
+    let reconcile = false,resultHasBeenReceived=false;
     try {
-      const result = await api('scrapyard/run', { method: 'POST', body: JSON.stringify({ difficulty, requestId: ticket.requestId }) });
-      clearMutationRequest('scrapyard', ticket.requestId);
+      if(!await showScrapyardConnecting(difficulty,canPresent))return;
+      let result = await api('scrapyard/v3/run', { method: 'POST', body: JSON.stringify({ difficulty, requestId: ticket.requestId }) });
+      for(let attempt=0;result.status==='RUNNING'&&attempt<6;attempt++){
+        if(result.requestId!==ticket.requestId){ticket.requestId=result.requestId;ticket.target=String(result.difficulty||difficulty);mutationSlot('scrapyard',{...ticket});persistPendingRequests();}
+        await wait(Math.max(1000,Math.min(3000,Number(result.retryAfterMs)||1500)));
+        result=await api('scrapyard/v3/run',{method:'POST',body:JSON.stringify({difficulty:ticket.target,requestId:ticket.requestId})});
+      }
+      if(result.status==='RUNNING')throw new Error('같은 폐차장 원정이 처리 중입니다. 잠시 후 다시 확인해 주세요.');
+      resultHasBeenReceived=true;
       if (!ownsAction()) return;
       if (canPresent()) {
         scrapyardLoadVersion += 1;
@@ -1121,9 +1130,10 @@
     } catch (error) {
       const uncertain = mutationTransportUncertain(error);
       if (uncertain) reconcile = true;
-      else clearMutationRequest('scrapyard', ticket.requestId);
+      else if(!resultHasBeenReceived)clearMutationRequest('scrapyard', ticket.requestId);
       if (canPresent()) {
         closeScrapyardConnecting();
+        if(resultHasBeenReceived){const modal=document.getElementById('modal');modal.__battleV2Renderer?.destroy();modal.className='modal';modal.innerHTML='';}
         alert(uncertain ? mutationRetryMessage('폐차장 원정') : error.message);
       }
     } finally {
@@ -1145,7 +1155,7 @@
     const partRewards = rewards.filter(reward => reward.rewardType !== 'COIN');
     modal.className = 'modal show ws76-battle-modal';
     modal.innerHTML = `<section class="ws76-operation-result ${result.success ? 'success' : 'failed'}"><small>${result.success ? 'OPERATION COMPLETE' : 'OPERATION FAILED'}</small><h2>${result.success ? '폐차장 완주 성공' : '원정대 전멸'}</h2><p>${fmt(result.wavesCleared)} / ${fmt(result.difficulty?.waves)} 웨이브 클리어</p><div><article class="ticket-spent"><b>폐차장 출입 허가증</b><strong>-1 · ${fmt(result.entryTicket?.remaining)}장 남음</strong></article>${rewards.map(reward => `<article><b>${esc(reward.rewardName || reward.rewardRef || reward.rewardType)}${reward.guaranteed ? ' · 확정' : ''}</b><strong>+${fmt(reward.quantity)}</strong></article>`).join('')}${result.success && !partRewards.length ? '<article><b>랜덤 차량 부품</b><strong>미획득</strong></article>' : ''}${!result.success ? '<article><b>완주 실패</b><strong>보상 없음</strong></article>' : ''}</div><button type="button">폐차장으로 돌아가기</button></section>`;
-    modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
+    modal.querySelector('button').onclick = () => { clearMutationRequest('scrapyard',result.requestId||currentMutationRequest('scrapyard')?.requestId);modal.className = 'modal'; modal.innerHTML = '';renderScrapyard(); };
   }
 
   window.workshopView = workshopView;
