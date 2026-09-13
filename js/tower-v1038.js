@@ -1,6 +1,7 @@
 (()=>{
   const mediaPath=(value)=>String(value||'').trim().replace(/\\/g,'/');
   const AUTO_KEY='cnine:tower:autoProgress:v1';
+  let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
   const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,autoEnabled:loadAuto(),autoRunning:false,autoTimer:null};
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   function loadAuto(){try{return localStorage.getItem(AUTO_KEY)==='ON'}catch{return false}}
@@ -46,6 +47,7 @@
         });
       }
       tabs.dataset.towerReady='1';
+      if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}
     }finally{S.ensureBusy=false}
   }
   async function openTower(){
@@ -63,8 +65,8 @@
     if(!d?.active){box.innerHTML='<section class="tower-empty"><h2>무한의탑을 이용할 수 없습니다</h2><p>운영 설정을 확인해 주세요.</p></section>';return}
     const p=d.progress||{},f=d.floor||{},rank=d.ranking||[],deckCards=currentDeckCards(),cardPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0),bonus=d.characterBonus||battleState?.characterBonus||{},deckPower=cardPower+Number(bonus.pve||0);
     if(d.configured===false||Number(d.maxFloor||0)<1){box.innerHTML=`<section class="tower-empty tower-unconfigured"><p class="eyebrow">INFINITE TOWER</p><h2>아직 개방되지 않았습니다</h2><p>${esc(d.message||'운영자가 무한의탑 층을 아직 설정하지 않았습니다.')}</p><strong>설정된 층이 생기면 이곳에서 바로 도전할 수 있습니다.</strong></section>`;return}
-    if(d.blocked||!d.floor){box.innerHTML=`<section class="tower-empty tower-blocked"><p class="eyebrow">FLOOR LOCKED</p><h2>${Number(p.currentFloor||1)}층은 아직 설정되지 않았습니다</h2><p>${esc(d.message||'운영자가 다음 층을 배치할 때까지 진행할 수 없습니다.')}</p><strong>임의 몬스터는 출현하지 않으며, 설정된 최고층까지만 등반할 수 있습니다.</strong></section>`;return}
     if(d.completed||p.completed){box.innerHTML=`<section class="tower-empty tower-completed"><p class="eyebrow">INFINITE TOWER COMPLETE</p><h2>최고층 등반 완료</h2><p>${Number(d.maxFloor||p.highestFloor||0)}층까지 모두 클리어했습니다.</p><strong>자동으로 1층으로 돌아가지 않습니다.</strong><span>운영자가 진행도를 직접 초기화하거나 새로운 층을 추가하면 다시 도전할 수 있습니다.</span></section>`;return}
+    if(d.blocked||!d.floor){box.innerHTML=`<section class="tower-empty tower-blocked"><p class="eyebrow">FLOOR LOCKED</p><h2>${Number(p.currentFloor||1)}층은 아직 설정되지 않았습니다</h2><p>${esc(d.message||'운영자가 다음 층을 배치할 때까지 진행할 수 없습니다.')}</p><strong>임의 몬스터는 출현하지 않으며, 설정된 최고층까지만 등반할 수 있습니다.</strong></section>`;return}
     box.innerHTML=`
     <section class="tower-hero ${f.isBoss?'boss-ready':''}">
       <div class="tower-hero-copy"><p class="eyebrow">INFINITE TOWER</p><h2>무한의탑</h2><p>저장된 PVE 덱 5장으로 최고층까지 도전하세요.</p></div>

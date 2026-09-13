@@ -1,4 +1,5 @@
 import {V3_JOINT_RELEASE_ENABLED,v3JointReleaseState} from '../shared/v3-joint-release-v1.mjs';
+import {isPvePublicPath} from '../shared/pve-public-release-v2092.mjs';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {runScrapyardV3,scrapyardV3RecoveryStatus,scrapyardV3Result} from './_scrapyard_v3_runs.js';
 import {readScrapyardSettings,readScrapyardStatus} from './_scrapyard.js';
@@ -27,7 +28,7 @@ function towerDependencies(env,deps){
 export async function handlePveV3({path,request,env,deps}){
   if(path==='pve/v3/feature')return request.method==='GET'?deps.json(v3JointReleaseState()):deps.json({error:'GET 요청이 필요합니다.'},405);
   if(!isPveV3Path(path)&&path!=='admin/pve-v3'&&!(V3_JOINT_RELEASE_ENABLED&&path.startsWith('idle-dungeon/')))return null;
-  if(!V3_JOINT_RELEASE_ENABLED&&path!=='admin/pve-v3')return failHeld(deps.json);
+  if(!V3_JOINT_RELEASE_ENABLED&&!isPvePublicPath(path)&&path!=='admin/pve-v3')return failHeld(deps.json);
   return handlePveV3Ready({path,request,env,deps});
 }
 

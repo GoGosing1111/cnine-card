@@ -56,7 +56,7 @@ test('new sprites have real alpha and keep useful silhouettes inside the canvas'
   }
 });
 test('cow combat reuses the V3 renderer and bridge without touching account economy or live navigation',()=>{
-  assert.equal(COW_ROOM_RELEASE_ENABLED,false);
+  assert.equal(COW_ROOM_RELEASE_ENABLED,true);
   const html=read('preview/cow-room-v3-v1/battle.html');
   for(const name of ['card.css','battle-v3-live.js','project-v-battle-art-adapter-v1.js','project-v-tier-battle-art-adapter-v1.js','project-v-monster-battle-art-adapter-v1.js','project-v-unassigned-battle-fallback-v1.js','scrapyard-v3-v1/battle-bridge.js'])assert.ok(html.includes(name));
   for(const file of ['index.html','js/app.js','functions/api/[[path]].js'])assert.doesNotMatch(read(file),/cow-room-v3|_cow_room_v3/);

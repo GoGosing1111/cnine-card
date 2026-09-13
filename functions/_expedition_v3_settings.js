@@ -2,6 +2,7 @@ import {readJointReleaseComponent} from './_joint_release_document.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {jointError} from './_joint_request.js';
 import {COW_ROOM_REWARD_COIN_LIMIT} from '../shared/cow-room-economy-v1.mjs';
+import {COW_ROOM_PUBLIC_RELEASE_ENABLED} from '../shared/pve-public-release-v2092.mjs';
 export const EXPEDITION_V3_DRAFTS=Object.freeze({
   COW_ROOM:{revision:0,version:'cow-economy-v2-20260913',mode:'OFF',approved:false,entryCoin:250000,dailyRuns:6,dailyCoinCap:3000000000,clearCoin:[500000000]}
 });
@@ -28,9 +29,10 @@ export async function saveExpeditionDraft(env,user,content,body){
   if(user.role!=='OWNER')throw jointError('PVE_V3_PERMISSION','OWNER 권한이 필요합니다.',403);
   const before=await record(env,content);
   if(body.revision!==before.value.revision)throw jointError('PVE_V3_CONFIG_CONFLICT','설정이 변경됐습니다. 다시 불러오세요.',409);
-  const next=validateExpeditionPolicy(content,{...body.economy,revision:body.revision+1,approved:false,updatedBy:Number(user.id),updatedAt:new Date().toISOString()});
-  if(next.mode==='ON'&&!V3_JOINT_RELEASE_ENABLED)throw jointError('PVE_V3_RELEASE_HELD','공동 출시 전에는 OFF 또는 TEST로 저장하세요.',423);
-  if(next.mode==='ON')throw jointError('PVE_V3_POLICY_APPROVAL','승인된 경제 정책이 필요합니다.',409);
+  const publicCow=content==='COW_ROOM'&&COW_ROOM_PUBLIC_RELEASE_ENABLED;
+  const next=validateExpeditionPolicy(content,{...body.economy,revision:body.revision+1,approved:publicCow&&body.economy?.mode==='ON',updatedBy:Number(user.id),updatedAt:new Date().toISOString()});
+  if(next.mode==='ON'&&!publicCow&&!V3_JOINT_RELEASE_ENABLED)throw jointError('PVE_V3_RELEASE_HELD','공동 출시 전에는 OFF 또는 TEST로 저장하세요.',423);
+  if(next.mode==='ON'&&!publicCow)throw jointError('PVE_V3_POLICY_APPROVAL','승인된 경제 정책이 필요합니다.',409);
   const raw=JSON.stringify(next),s=before.raw===null?
     env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(before.key,raw):
     env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,before.key,before.raw);

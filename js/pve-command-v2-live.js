@@ -19,10 +19,12 @@
     seal: ['봉인전', 'SEAL BATTLE', '<rect x="5" y="10" width="14" height="10"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>'],
     idle: ['방치형 원정', 'IDLE MISSION', '<path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/>'],
     tower: ['무한의 탑', 'INFINITE TOWER', '<path d="M6 21V7h12v14M9 7V3h6v4M9 11h2m2 0h2m-6 4h2m2 0h2"/>'],
+    'cow-room': ['카우방', 'COW PORTAL', '<path d="M5 21V10a7 7 0 0 1 14 0v11M3 21h18M8 21V11a4 4 0 0 1 8 0v10"/>'],
     scrapyard: ['폐차장 원정', 'SALVAGE', '<path d="M4 8h16v11H4zM7 8V5h10v3M8 13h8M10 16h4"/>']
   });
 
   function navKey(button) {
+    if (button.hasAttribute('data-v3-cow-entry')) return 'cow-room';
     if (button.dataset.monsterSiegeEntry) return 'siege';
     if (button.dataset.sealBattleMode) return 'seal';
     if (button.dataset.v21Route === 'scrapyard') return 'scrapyard';

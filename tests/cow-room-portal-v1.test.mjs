@@ -12,11 +12,11 @@ const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const clean=f=>f.p('DELETE FROM cow_room_portal_rolls_v1').run();
 const grant=(f,ref,roll=0,source='HUNT',apocalypse=false,result='WIN')=>discoverCowPortalReady(f.env,f.user,event(ref,source,apocalypse,result),{randomInt:()=>roll});
 
-test('joint hold blocks discovery and portal inspection before touching the database',async()=>{
-  const env={get DB(){throw Error('DB must not be touched');}};
+test('closed cow CMS blocks discovery; public portal inspection requires login',async()=>{
+  const env={DB:{prepare(){return {bind(){return {first:async()=>null};}};}}};
   assert.equal(await discoverCowPortal(env,{id:7},event('held')),null);
-  const response=await handlePveV3({path:'cow-room/v3/portals',request:new Request(origin+'/api/cow-room/v3/portals'),env,deps:{json:(b,s)=>Response.json(b,{status:s}),authenticate(){throw Error('must not authenticate');}}});
-  assert.equal(response.status,423);
+  const response=await handlePveV3({path:'cow-room/v3/portals',request:new Request(origin+'/api/cow-room/v3/portals'),env,deps:{json:(b,s)=>Response.json(b,{status:s}),authenticate:async()=>null}});
+  assert.equal(response.status,401);
   assert.equal(cowPortalRate({isApocalypse:false}),2);assert.equal(cowPortalRate({isApocalypse:true}),3);
 });
 

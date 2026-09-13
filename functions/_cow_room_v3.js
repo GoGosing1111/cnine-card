@@ -1,8 +1,9 @@
 import {createPveBattleV2} from './_battle_v2_preview.js';
+import {COW_ROOM_PUBLIC_RELEASE_ENABLED} from '../shared/pve-public-release-v2092.mjs';
 
 // Shared encounter builder. It accepts a server-owned snapshot, never a request body.
 // Account admission/economy are intentionally separate from this combat contract.
-export const COW_ROOM_RELEASE_ENABLED = false;
+export const COW_ROOM_RELEASE_ENABLED = COW_ROOM_PUBLIC_RELEASE_ENABLED;
 export const COW_ROOM_ASSETS = Object.freeze({
   warrior: '/assets/ui/project-v/monsters/cow-room/cow-warrior-sd-v1.png',
   king: '/assets/ui/project-v/monsters/cow-room/cow-king-sd-v1.png',

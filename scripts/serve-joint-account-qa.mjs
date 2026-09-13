@@ -17,6 +17,7 @@ import {prepareSSkillAssignments} from '../shared/mercenary-s-skill-assignment-v
 import {mercenaryCardAcquisitionStatements} from '../functions/_mercenary_draw_accounting.js';
 import {saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {V3_LIVE_CONNECTIONS} from '../shared/v3-live-connections.mjs';
+import {v3JointReleaseState} from '../shared/v3-joint-release-v1.mjs';
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.JOINT_QA_PORT||8899),hostname=`127.0.0.1:${port}`,origin=`http://${hostname}`;
 const dataDir=path.resolve(root,'../qa');fs.mkdirSync(dataDir,{recursive:true});
 const databaseFile=path.join(dataDir,`joint-account-${Date.now()}.sqlite`);
@@ -71,7 +72,7 @@ const server=http.createServer(async(req,res)=>{try{
   if(url.pathname.startsWith('/api/')){let body;const chunks=[];let length=0;for await(const chunk of req){length+=chunk.length;if(length>64000)return send(res,413,{error:'Too large'});chunks.push(chunk);}if(length)body=Buffer.concat(chunks);
     const request=new Request(url,{method:req.method,headers:req.headers,...(body?{body,duplex:'half'}:{})});
     if(url.pathname==='/api/mercenary-cards/feature'&&req.method==='GET')return send(res,200,{connected:true,userOpeningEnabled:true,localQa:true});
-    if(url.pathname==='/api/pve/v3/feature'&&req.method==='GET')return send(res,200,{connected:true,enabled:false,connections:V3_LIVE_CONNECTIONS,localQa:true});
+    if(url.pathname==='/api/pve/v3/feature'&&req.method==='GET')return send(res,200,{...v3JointReleaseState(),localQa:true});
     const apiPath=url.pathname.slice(5),handler=apiPath==='admin/mercenaries'||apiPath.startsWith('admin/mercenaries/draw')?handleMercenaryCms:isForgeRuntimePath(apiPath)?handleForgeRuntimeReady:isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/runtime'?handleMercenaryAccountReady:handlePveV3Ready;
     const response=await handler({path:apiPath,request,env:f.env,deps:f.deps});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;}
   if(!['GET','HEAD'].includes(req.method))return send(res,405,{});

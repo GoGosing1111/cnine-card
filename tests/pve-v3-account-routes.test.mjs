@@ -9,7 +9,7 @@ const origin='https://cnine.example';
 function request(path,body,account=7,headers={}){return new Request(`${origin}/api/${path}`,{method:body?'POST':'GET',headers:{authorization:`Bearer local-account-${account}`,origin,'content-type':'application/json',...headers},...(body?{body:JSON.stringify(body)}:{})});}
 test('public joint hold rejects every new account mutation before authentication and database access',async()=>{
   const deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate(){throw Error('must not authenticate');}};
-  for(const path of ['tower/v3/run','scrapyard/v3/run','cow-room/v3/run','idle-dungeon/v3/run']){
+  for(const path of ['tower/v3/run','idle-dungeon/v3/run']){
     const r=await handlePveV3({path,request:request(path,{requestId:'held'}),env:new Proxy({},{get(){throw Error('must not read DB');}}),deps});assert.equal(r.status,423);
   }
 });
@@ -35,7 +35,9 @@ for(const postgres of [false,true]){
       assert.ok((await call(body)).status>=400,'stale revision must fail');
       const enable={...body,revision:value.revision,...(content==='TOWER'?{config:{...value.config,mode:'ON'},economy:value.economy}:{economy:{...value,ok:undefined,content:undefined,mode:'ON'}})};
       if(content==='COW_ROOM'){delete enable.economy.ok;delete enable.economy.content;}
-      assert.ok((await call(enable)).status>=400,'draft save cannot activate');
+      const activated=await call(enable);
+      if(content==='COW_ROOM'){assert.equal(activated.status,200);assert.equal((await activated.json()).approved,true);}
+      else assert.ok(activated.status>=400,'tower re-ascent draft cannot activate');
     }
     assert.equal(await f.coin(),10000000);
   });

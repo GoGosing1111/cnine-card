@@ -21,6 +21,10 @@
       event.stopImmediatePropagation();
       activateTowerView().catch(()=>{});
     },true);
+    let requested=location.hash==='#tower';
+    const openRequested=()=>{if(requested&&q('#roleBadge')?.textContent.trim()==='OWNER'){requested=false;towerNav.click();}};
+    const role=q('#roleBadge');if(role)new MutationObserver(openRequested).observe(role,{childList:true,subtree:true,characterData:true});
+    openRequested();
   }
 
   // Keep programmatic navigation compatible with the rest of the CMS.

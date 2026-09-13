@@ -10,3 +10,5 @@ a{color:inherit;text-decoration:none}button,select,input{font:inherit;color:inhe
 @media(min-width:1500px){.arena{height:680px}}
 @media(max-width:900px){.arena{height:520px}}
 @media(max-width:680px){.arena{height:460px}}
+.chronicle,.chronicle>*,#records li{min-width:0}#records{grid-template-columns:repeat(3,minmax(0,1fr))}#records b{min-width:0;overflow-wrap:anywhere}#records span{flex-shrink:0}
+@media(max-width:900px){#records{grid-template-columns:repeat(2,minmax(0,1fr))}}
