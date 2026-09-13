@@ -19,6 +19,7 @@ test('500 million per open, max 10; no 32-bit truncation, discount or implicit e
   const pack=hyperPackCatalogRow();assert.equal(pack.price,500000000);assert.equal(pack.maxDrawCount,10);assert.equal(pack.burningDiscountPercent,0);
   assert.equal(pack.guarantee10,null);assert.deepEqual(pack.allowed,[]);assert.equal(pack.drawEnabled,false);assert.equal(pack.ownerDrawEnabled,false);
   assert.equal(HYPER_PACK_RELEASE_ENABLED,false);
+  assert.equal(hyperPackCatalogRow(true).drawEnabled,true);assert.equal(hyperPackCatalogRow(true).range,'용병 계약 개봉 가능');assert.match(hyperPackCatalogRow(false).range,/개봉 준비 중/);
 });
 test('Premium sale removed; others shift one slot, Hyper last, caller data and unknown packs preserved',()=>{
   const original=['basic','advanced','premium','pickup','superstar','hyper'].map(id=>({id})),snapshot=structuredClone(original);

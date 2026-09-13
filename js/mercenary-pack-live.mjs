@@ -1,14 +1,15 @@
 import {jointAccountRequest as api} from './joint-account-transport.mjs';
 import {MERCENARY_PACK,mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs';
 
-let busy=false,access={connected:true,userOpeningEnabled:false};
+let busy=false,access={connected:true,userOpeningEnabled:null},statusText='개봉 상태를 확인하고 있습니다.';
 const fmt=n=>Number(n||0).toLocaleString('ko-KR');
-const notice=text=>{for(const node of document.querySelectorAll('[data-mercenary-open-status]'))node.textContent=text;};
+const notice=text=>{statusText=text;for(const node of document.querySelectorAll('[data-mercenary-open-status]'))if(node.textContent!==text)node.textContent=text;};
 function syncButtons(){
   for(const button of document.querySelectorAll('[data-mercenary-open]'))button.disabled=busy||access.userOpeningEnabled!==true;
   for(const label of document.querySelectorAll('[data-hyper-opening-label]')){const value=access.userOpeningEnabled?'용병 계약 개봉 가능':'현재 개봉 준비 중';if(label.textContent!==value)label.textContent=value;}
   const accountId=Number(globalThis.loadUser?.()?.serverUserId);let hasPending=false;try{hasPending=accountId>0&&Boolean(localStorage.getItem(`cnine.mercenary.pack.pending:${accountId}`));}catch{}
   for(const button of document.querySelectorAll('[data-mercenary-recover]')){button.hidden=!hasPending;button.disabled=busy;}
+  notice(statusText);
 }
 async function feature(){const before=access.userOpeningEnabled;access=await api(MERCENARY_PACK.featurePath);syncButtons();if(before!==access.userOpeningEnabled){notice(access.userOpeningEnabled?'1회 5억 코인 · 같은 등급의 용병은 균등 추첨합니다.':'하이퍼팩 개봉은 현재 OFF입니다.');window.dispatchEvent(new CustomEvent('mercenary-pack:availability',{detail:access}));}return access;}
 function stylesheet(){if(document.querySelector('[data-mercenary-pack-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-pack-live.css?v=2091';link.dataset.mercenaryPackStyle='';document.head.append(link);}
@@ -78,7 +79,8 @@ async function open(count=1,{recoverOnly=false}={}){
 globalThis.MercenaryPack=Object.freeze({open,recover:()=>open(1,{recoverOnly:true}),showReceipt:showMercenaryReceipt,feature:()=>({...access})});
 document.addEventListener('click',event=>{const button=event.target.closest?.('[data-mercenary-open],[data-mercenary-recover]');if(button&&!button.disabled){event.preventDefault();void open(Number(button.dataset.mercenaryOpen||1),{recoverOnly:button.hasAttribute('data-mercenary-recover')});}});
 const observer=new MutationObserver(syncButtons);observer.observe(document.body,{childList:true,subtree:true});
-let featureFlight;const refreshFeature=()=>{if(document.hidden||featureFlight)return;featureFlight=feature().catch(()=>{access={...access,userOpeningEnabled:false};syncButtons();}).finally(()=>featureFlight=null);};
-const timer=setInterval(()=>{if(document.querySelector('[data-mercenary-open]'))refreshFeature();},15000);
+let featureFlight;const refreshFeature=()=>{if(document.hidden||featureFlight)return;featureFlight=feature().catch(()=>{access={...access,userOpeningEnabled:false};notice('개봉 상태를 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.');syncButtons();}).finally(()=>featureFlight=null);};
+const pollFeature=()=>{if(document.querySelector('[data-mercenary-open]'))refreshFeature();};let timer=setInterval(pollFeature,15000);
 addEventListener('focus',refreshFeature);addEventListener('storage',event=>{if(event.key==='cnine.hyper-opening.changed')refreshFeature();});document.addEventListener('visibilitychange',refreshFeature);
-addEventListener('pagehide',()=>{observer.disconnect();clearInterval(timer);},{once:true});refreshFeature();
+addEventListener('pagehide',()=>{observer.disconnect();clearInterval(timer);});
+addEventListener('pageshow',event=>{if(event.persisted){observer.observe(document.body,{childList:true,subtree:true});clearInterval(timer);timer=setInterval(pollFeature,15000);syncButtons();refreshFeature();}});refreshFeature();

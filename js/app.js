@@ -5001,7 +5001,7 @@ window.SuperstarPackV1894=Object.freeze({
 });
 
 openPack=async function(packId,count,cost,options={}){
-  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2093');return globalThis.MercenaryPack.open(Number(count));}
+  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2097');return globalThis.MercenaryPack.open(Number(count));}
   if(String(packId)==='premium'&&!readPendingDraw())return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';

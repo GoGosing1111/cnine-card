@@ -3,7 +3,8 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { DatabaseSync } from 'node:sqlite';
 import test from 'node:test';
-import {releasedMercenarySnapshots,mercenarySnapshotPower} from '../functions/_mercenary_account.js';
+import {releasedMercenarySnapshots,mercenarySnapshotPower,MERCENARY_RUNTIME_SCHEMA} from '../functions/_mercenary_account.js';
+import {MERCENARY_ACCOUNTING_SCHEMA} from '../functions/_mercenary_draw_accounting.js';
 import {forgeEquipmentBonuses} from '../functions/_equipment_forge_transactions.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 
@@ -101,6 +102,7 @@ test('other grades, per-card FUR bases, Faker flat bonus and LIMITED caps are un
 
 function database(){
   const db=new DatabaseSync(':memory:');
+  db.exec([...MERCENARY_RUNTIME_SCHEMA,...MERCENARY_ACCOUNTING_SCHEMA].join(';'));
   db.exec(`CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,power_type TEXT,base_power INTEGER,image_url TEXT,focus_x INTEGER,focus_y INTEGER,member_id INTEGER);
     CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,breakthrough_level INTEGER);
     CREATE TABLE members(id INTEGER PRIMARY KEY,name TEXT);

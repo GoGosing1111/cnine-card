@@ -12,7 +12,7 @@ export const HYPER_PACK_IMAGE = 'assets/ui/packs/hyper-pack-v2076.png';
 
 export function hyperPackCatalogRow(openingEnabled=false) {
   return { id: 'hyper', name: '하이퍼팩', subtitle: 'EXTREME HYPER PACK', theme: 'hyper',
-    description: '꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드', range: '용병 출시 대비 · 개봉 준비 중',
+    description: '꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드', range: openingEnabled===true?'용병 계약 개봉 가능':'용병 출시 대비 · 개봉 준비 중',
     price: HYPER_PACK_PRICE, originalPrice: HYPER_PACK_PRICE, burningDiscountPercent: 0,
     allowed: [], guarantee10: null, guarantee20: null, drawMode: 'HYPER_REWARD',
     drawEnabled: openingEnabled===true, ownerDrawEnabled: false, openingConnected:true, openPath:MERCENARY_PACK.openPath, batchPath:MERCENARY_PACK.batchPath, accountUrl:MERCENARY_PACK.accountUrl, maxDrawCount: HYPER_PACK_MAX_COUNT,
