@@ -1,4 +1,6 @@
 import test from 'node:test';
+import { mercenaryCodexDocument } from '../functions/_mercenary_codex.js';
+import { MERCENARY_CMS_SEED } from '../functions/_mercenary_cms_seed.js';
 import {beforeOmegaRankAssignment} from './helpers/mercenary-sd-history.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -64,11 +66,13 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
   assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-043');
 });
 
-test('catalog release refreshes data and module caches and describes the current 43/43/0 resource state', () => {
+test('catalog release uses current CMS data and preserves all 43 separate art and SD resources', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /codex\.js\?v=20260911-omega-ranks/);
-  assert.match(html, /전체 원화 43종, 전투 SD 43종/);
+  assert.match(html, /mercenary-codex\/app\.mjs\?v=2098/);
+  const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards;
+  assert.equal(published.length, 43);
+  assert.equal(published.filter(card=>card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length, 43);
   assert.doesNotMatch(html, /신규 6종의 SD는 제작 대기/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /의상 콘셉트/);
   const generation = json('preview/mercenary-four-looks-v1/generation.json');

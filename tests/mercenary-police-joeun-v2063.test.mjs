@@ -6,6 +6,8 @@ import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 import { ROSTER_URL, filterCards, sdStatus } from '../preview/mercenary-codex-v1/model.js';
 import { createMercenaryBattleArtAdapter } from '../js/project-v-mercenary-battle-art-adapter-v1.js';
+import { mercenaryCodexDocument } from '../functions/_mercenary_codex.js';
+import { MERCENARY_CMS_SEED } from '../functions/_mercenary_cms_seed.js';
 
 const root = new URL('../', import.meta.url);
 const read = file => fs.readFileSync(new URL(file, root));
@@ -50,7 +52,7 @@ test('renaming preserves the approved face and full 1024x1536 RGB original byte-
   assert.ok(images.every(entry => entry.sourceSha256 === sourceHash));
 });
 
-test('publication refreshes shared catalog caches with the separate produced SD and no assigned rank', () => {
+test('Joeun art approval stays unranked and the CMS codex publishes separate approved art and SD', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 42 });
   assert.equal(approval.runtimeConnected, false);
@@ -63,8 +65,11 @@ test('publication refreshes shared catalog caches with the separate produced SD 
   assert.equal(sdStatus(card), '기술검수 완료 · 시각검수 대기');
   assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD', card.code).battleSprite, card.battleSprite);
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /경찰 조은\(V-042\)/);
-  assert.match(html, /codex\.js\?v=20260911-omega-ranks/);
+  assert.match(html, /mercenary-codex\/app\.mjs\?v=2098/);
+  const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards.find(entry=>entry.code===card.code);
+  assert.equal(published.name, '경찰 조은');
+  assert.equal(published.sourceArt, card.sourceArt);
+  assert.equal(published.battleSprite, card.battleSprite);
   assert.doesNotMatch(html, /킬러 조은/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /USER_ASSIGNED_NAME.*이름은 사용자 지정으로 확정/);
 });

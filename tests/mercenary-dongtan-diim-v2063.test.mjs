@@ -6,6 +6,8 @@ import {createHash} from 'node:crypto';
 import sharp from 'sharp';
 import {ROSTER_URL,filterCards,sdStatus} from '../preview/mercenary-codex-v1/model.js';
 import {createMercenaryBattleArtAdapter} from '../js/project-v-mercenary-battle-art-adapter-v1.js';
+import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
+import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 
 const root=new URL('../',import.meta.url);
 const read=file=>fs.readFileSync(new URL(file,root));
@@ -52,7 +54,7 @@ test('the final game-illustration V4 is connected byte-for-byte with only separa
   }
 });
 
-test('Diim is read-only with fresh caches, no assigned rank and no original-as-SD fallback',()=>{
+test('Diim art approval stays unranked and the CMS codex publishes separate approved art and SD',()=>{
   assert.equal(ROSTER_URL.searchParams.get('v'),'20260911-omega-ranks');
   assert.deepEqual(roster.summary,{total:43,sourceArtReady:43,battleSpriteReady:43,battleSpritePending:0,rankPending:42});
   assert.equal(approval.runtimeConnected,false);
@@ -65,8 +67,10 @@ test('Diim is read-only with fresh caches, no assigned rank and no original-as-S
   assert.equal(sdStatus(card),'기술검수 완료 · 시각검수 대기');
   assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD',card.code).battleSprite,card.battleSprite);
   const html=read('mercenary-codex/index.html').toString();
-  assert.match(html,/동탄 디임\(V-043\)/);
-  assert.match(html,/codex\.js\?v=20260911-omega-ranks/);
+  assert.match(html,/mercenary-codex\/app\.mjs\?v=2098/);
   assert.match(html,/로비로 돌아가기/);
-  assert.match(html,/전체 원화 43종, 전투 SD 43종/);
+  const published=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards.find(entry=>entry.code===card.code);
+  assert.equal(published.name,'동탄 디임');
+  assert.equal(published.sourceArt,card.sourceArt);
+  assert.equal(published.battleSprite,card.battleSprite);
 });
