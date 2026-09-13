@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '2107-adventure-lobby';
+  const VERSION = '2108-shared-navigation';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -400,31 +400,46 @@
     });
   }
 
+  function ensureSharedNavigation(frame, route) {
+    if (!global.SoopAdventureLobby) return null;
+    // The shared chrome lives outside the native route markers. Feature
+    // rerenders replace only their own content, preserving menus and audio.
+    let lobby = frame.page.querySelector(':scope > soop-adventure-lobby');
+    if (!lobby) {
+      lobby = global.SoopAdventureLobby.create();
+      lobby.setAttribute('data-shared-navigation', '');
+      lobby.dataset.route = route;
+      const content = document.createElement('template');
+      content.innerHTML = typeof global.liveOperationsHtml === 'function' ? global.liveOperationsHtml('lobby-clarity') : '';
+      const operationsTitle = content.content.querySelector('.live-operations > header b');
+      if (operationsTitle) operationsTitle.textContent = '콘텐츠 현황';
+      content.content.querySelector('.live-operations')?.setAttribute('slot', 'operations');
+      lobby.append(content.content);
+      const lounge = document.createElement('aside');
+      lounge.hidden = true;
+      lounge.dataset.streamerLoungeHost = '';
+      lounge.slot = 'streamer-lounge';
+      lounge.setAttribute('aria-label', '스트리머 라운지 입구');
+      lobby.append(lounge);
+      const bgm = document.createElement('span');
+      bgm.slot = 'bgm'; bgm.dataset.lobbyBgmHost = '';
+      lobby.append(bgm);
+      frame.page.append(lobby);
+    }
+    frame.page.dataset.adventureNavigation = '1';
+    for (const legacy of frame.page.querySelectorAll(':scope > .header, :scope > .bottom-dock')) {
+      legacy.inert = true; legacy.setAttribute('aria-hidden', 'true');
+    }
+    lobby.setRoute(route);
+    lobby.update({ user: userModel(), chief: chiefView() });
+    void refreshWishLamp().then(changed => { if (changed && lobby.isConnected) lobby.refreshMenus(); });
+    return lobby;
+  }
+
   function renderHome(frame) {
     showChiefConsole = false;
-    if (global.SoopAdventureLobby) {
-      // Keep the reviewed lobby mounted during summary/chief refreshes so
-      // search, scroll and the optional tutorial retain their current state.
-      let lobby = frame.screen.querySelector('soop-adventure-lobby');
-      if (!lobby) {
-        clearBetween(frame.start, frame.end);
-        lobby = global.SoopAdventureLobby.create();
-        const content = document.createElement('template');
-        content.innerHTML = typeof global.liveOperationsHtml === 'function' ? global.liveOperationsHtml('lobby-clarity') : '';
-        const operationsTitle = content.content.querySelector('.live-operations > header b');
-        if (operationsTitle) operationsTitle.textContent = '콘텐츠 현황';
-        content.content.querySelector('.live-operations')?.setAttribute('slot', 'operations');
-        lobby.append(content.content);
-        const lounge = document.createElement('aside');
-        lounge.hidden = true;
-        lounge.dataset.streamerLoungeHost = '';
-        lounge.slot = 'streamer-lounge';
-        lounge.setAttribute('aria-label', '스트리머 라운지 입구');
-        lobby.append(lounge);
-        frame.end.parentNode.insertBefore(lobby, frame.end);
-      }
-      lobby.update({ user: userModel(), chief: chiefView() });
-      void refreshWishLamp().then(changed => { if (changed && lobby.isConnected) lobby.refreshMenus(); });
+    if (ensureSharedNavigation(frame, 'home')) {
+      clearBetween(frame.start, frame.end);
     } else {
       clearBetween(frame.start, frame.end);
       const template = document.createElement('template'); template.innerHTML = homeMarkup();
@@ -460,6 +475,7 @@
       frame.end.parentNode.insertBefore(wrapper, frame.end);
     }
     frame.page.classList.toggle('v21-show-chief-system', route === 'buy' && showChiefConsole);
+    ensureSharedNavigation(frame, route);
     syncDock(frame.page, route);
   }
 
@@ -469,6 +485,7 @@
     const frame = ensureFrame(page);
     if (!frame?.start || !frame?.end) return false;
     if (route === 'home') renderHome(frame); else skinRoute(frame, route);
+    try { global.lobbyBgm?.syncRoute(); } catch (_) {}
     markRenewalUiReady();
     queueMicrotask(() => global.ensureBurningEventHudVisible?.());
     return true;
@@ -530,6 +547,8 @@
   }
 
   function openRouteOverlay(title, routes) {
+    const shared = document.querySelector('soop-adventure-lobby[data-shared-navigation]');
+    if (shared) { shared.openRoutes(routes); return; }
     const modal = modalRoot(); if (!modal) return;
     if(routes.includes('wishLamp'))void refreshWishLamp().then(changed=>{if(changed&&modal.querySelector('.v21-command-grid')&&modal.querySelector('h2')?.textContent===title)openRouteOverlay(title,routes)});
     modal.className = 'modal v21-command-overlay open';
@@ -537,6 +556,8 @@
   }
 
   function openAllOverlay() {
+    const shared = document.querySelector('soop-adventure-lobby[data-shared-navigation]');
+    if (shared) { shared.openMenu('all'); return; }
     const modal = modalRoot(); if (!modal) return;
     void refreshWishLamp().then(changed=>{if(changed&&modal.querySelector('.v21-command-dialog-all'))openAllOverlay()});
     modal.className = 'modal v21-command-overlay open';

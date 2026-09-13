@@ -86,7 +86,7 @@ assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
 assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
-assert.match(index,/js\/app\.js\?v=2107-adventure-lobby/);
+assert.match(index,/js\/app\.js\?v=2108-shared-navigation/);
 assert.match(previewIndex,/project-v-client\.js\?v=75-nonblocking-fx/);
 assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
 

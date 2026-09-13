@@ -23,7 +23,7 @@ async function launch(viewport){
   const data={
    'service/status':{maintenance:{active:false}},
    'me/summary':{user,prison:{incarcerated:false}},me:{user},
-   cards:{cards:[]},packs:{packs:[]},
+   cards:{cards:[]},packs:{packs:[]},messages:{messages:[],unread:0},
    'chief/status':{chief:{active:true,ordinal:3,nickname:'오늘의 족장',startsAt:new Date(Date.now()-172800000).toISOString(),remainingMs:86400000,viewerAvatar:avatar}},
    'shell/summary':{inventory:{},messages:{unread:3},avatarFeature:{visible:true},alchemyFeature:{visible:false}},
    'live-operations':{serverNow:new Date().toISOString(),items:[{kind:'AUCTION',title:'신화 장비 경매 진행 중',detail:'현재 최고 입찰 12억 코인',deadlineAt:new Date(Date.now()+5400000).toISOString()},{kind:'TERRITORY',phase:'FORMATION',title:'영토전 편성 접수 중',detail:'우리 진영과 함께 전선에 참여하세요.',deadlineAt:new Date(Date.now()+1800000).toISOString()}]},
@@ -60,6 +60,13 @@ try{
   check(await lobby.locator('.lobby-body').evaluate(e=>e.scrollWidth<=e.clientWidth+1),size+' live inner viewport does not overflow');
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),size+' full app has no horizontal overflow');
   check(await page.locator('[slot="operations"][data-live-operations-surface="lobby-clarity"]').evaluate(e=>e.getBoundingClientRect().height<=64),size+' content status bar remains about 60px tall');
+  await page.evaluate(()=>{localStorage.setItem('soop-lobby-bgm-muted-v1','1');lobbyBgm.applySettings({enabled:true,tracks:[{title:'검수',url:'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA'}]});lobbyBgm.syncRoute();});
+  const bgm=page.locator('#lobbyBgmToggleV1803');await bgm.waitFor();
+  const bgmBox=await bgm.boundingBox(),chiefBox=await lobby.locator('#chief-shortcut').boundingBox(),headerBox=await lobby.locator('.topbar').boundingBox();
+  check(bgmBox.y>=chiefBox.y+chiefBox.height+8&&bgmBox.y>headerBox.y+headerBox.height&&bgmBox.x+bgmBox.width<=viewport.width,size+' BGM sits below chief and clear of tutorial/inbox');
+  await bgm.click();check(await bgm.getAttribute('aria-pressed')==='false',size+' BGM sound toggle still works');await bgm.click();
+  check(await page.evaluate(()=>localStorage.getItem('soop-lobby-bgm-muted-v1'))==='1',size+' BGM mute preference persists');
+  await page.waitForTimeout(350);
   await page.screenshot({path:path.join(out,'live-'+size+'.png')});
   await lobby.locator('.operations-scene').scrollIntoViewIfNeeded();
   await page.screenshot({path:path.join(out,'live-operations-'+size+'.png')});
@@ -126,14 +133,15 @@ try{
   await lobby.locator('#close-guide').click();
   await page.locator('[data-live-operation-kind="AUCTION"]').click();
   await page.locator('.v21-production-shell[data-route="auction"] #auctionRootV1553').waitFor();
-  check(await page.locator('.v21-production-shell>.header.top-hud').isVisible(),size+' original auction UI/HUD remains');
+  check(!await page.locator('.v21-production-shell>.header.top-hud').isVisible()&&await lobby.locator('.topbar').isVisible(),size+' auction retains the shared header');
+  check(await bgm.count()===0,size+' BGM stops and removes toggle outside lobby');
   await page.locator('.v21-route-command-head [data-v21-home]').click();
   await lobby.locator('.stage-character').waitFor();
   check(await lobby.locator('dialog[open]').count()===0,size+' returning from auction does not open guide');
   await lobby.locator(viewport.width>980?'.sidebar [data-category="combat"]':'.mobile-dock [data-category="combat"]').click();
   await lobby.locator('#menu-dialog .menu-result[data-route="deck"]').click();
   await page.locator('.v21-production-shell[data-route="battle"]').waitFor();
-  check(await page.locator('soop-adventure-lobby').count()===0,size+' PVE deck entry returns to native battle surface');
+  check(await page.locator('soop-adventure-lobby').count()===1&&await page.locator('.v21-route-body #pveHuntView').count()===1,size+' PVE deck entry retains shared navigation and original battle surface');
   check(writes.length===0,size+' lobby and guide never mutate account or place bids');
   check(requests.includes('live-operations')&&requests.includes('chief/status'),size+' existing operations/chief APIs reused');
   await page.close();

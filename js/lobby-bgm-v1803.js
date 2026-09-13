@@ -174,7 +174,8 @@
 .lobby-bgm-toggle i{font-style:normal;font-size:13px;line-height:1}
 .lobby-bgm-toggle em{font-style:normal}
 .lobby-bgm-toggle.is-muted{color:#8b9ab4;border-color:rgba(120,140,170,.3)}
-.lobby-bgm-toggle.is-floating{position:fixed;z-index:60;right:14px;top:calc(14px + env(safe-area-inset-top,0px))}
+.lobby-bgm-toggle.is-floating{position:fixed;z-index:60;right:14px;top:calc(94px + env(safe-area-inset-top,0px))}
+[data-lobby-bgm-host]>.lobby-bgm-toggle{position:static;min-height:34px;margin:0;white-space:nowrap;font-family:'Noto Sans KR','Malgun Gothic',sans-serif}
 .pc-lobby-brand>.lobby-bgm-toggle{position:absolute;left:296px;top:8px;z-index:20;min-height:34px;white-space:nowrap}
 .mobile-lobby-brand>.lobby-bgm-toggle{justify-self:start;margin-top:5px;white-space:nowrap}
 @media (max-width:759px){.lobby-bgm-toggle{padding:5px 9px;font-size:10px}.mobile-lobby-brand>.lobby-bgm-toggle em{display:inline}}
@@ -191,7 +192,8 @@
   }
 
   function buttonHost() {
-    return visibleHost('.pc-lobby-brand')
+    return visibleHost('[data-lobby-bgm-host]')
+      || visibleHost('.pc-lobby-brand')
       || visibleHost('.mobile-lobby-brand')
       || visibleHost('.mobile-command-nav header')
       || document.body;

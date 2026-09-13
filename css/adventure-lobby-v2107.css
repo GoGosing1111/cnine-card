@@ -1,5 +1,5 @@
-/* Only the approved lobby replaces the old home viewport. Native feature
-   screens, V3 battles and their existing route frames keep their own styles. */
+/* Shared chrome surrounds the original feature views. Native route content,
+   V3 battles, dialogs and their event binders retain ownership of their DOM. */
 .v21-production-shell[data-route="home"]:has(soop-adventure-lobby)>.header.top-hud,
 .v21-production-shell[data-route="home"]:has(soop-adventure-lobby)>.bottom-dock,
 .v21-production-shell[data-route="home"]:has(soop-adventure-lobby)>.world-backdrop,
@@ -7,6 +7,24 @@
 .v21-production-shell[data-route="home"]:has(soop-adventure-lobby)>.screen-viewport{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important}
 .v21-production-shell[data-route="home"]:has(soop-adventure-lobby) .screen[data-kind="home"]{display:block!important;width:100%!important;height:100%!important;padding:0!important;overflow:hidden!important}
 soop-adventure-lobby{display:block;width:100%;height:100%;min-width:0}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]>.header.top-hud,
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]>.bottom-dock,
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]>.world-backdrop,
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]>.world-vignette{display:none!important}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]>.screen-viewport{position:absolute!important;inset:var(--adventure-header-height,82px) 0 var(--adventure-dock-height,0px) var(--adventure-rail-width,205px)!important;width:auto!important;height:auto!important;min-width:0;overflow:hidden!important}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"][data-route="home"]>.screen-viewport{display:none!important}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]>.screen-viewport>.screen{height:100%!important;width:100%!important;padding:0!important;overflow:hidden!important}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-live-route{display:flex;flex-direction:column;background:#0b111e;color:#e8effc}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head{flex:none;min-height:68px;padding:10px 24px;background:#101929;border-bottom:1px solid #33435c;box-shadow:none}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head small{color:#99aecb;letter-spacing:.3px}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head h1{color:#edf3ff;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;font-size:21px;letter-spacing:-.6px}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head>button{border:1px solid #3a4b65;border-radius:4px;background:#152137;color:#b9cbe8;box-shadow:none}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head>button:hover{border-color:#9bbe67;color:#c8ff6b}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-body{flex:1;min-height:0;height:auto!important;scrollbar-color:#425473 #0b111e}
+@media(max-width:650px){
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head{min-height:62px;padding:8px 12px}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head h1{font-size:18px}
+}
 /* Native data, countdowns and click handlers; a lobby-specific presentation. */
 [data-live-operations-surface="lobby-clarity"]{display:block;min-width:0;width:100%;margin:0!important;border:0;border-radius:0;background:none;box-shadow:none;color:#eef3ff;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;overflow:visible}
 [data-live-operations-surface="lobby-clarity"]::before,[data-live-operations-surface="lobby-clarity"]::after{display:none}
@@ -79,4 +97,25 @@ soop-adventure-lobby{display:block;width:100%;height:100%;min-width:0}
  [data-live-operations-surface="lobby-clarity"] .live-operation-empty{min-height:60px;padding:6px 11px;gap:2px}
  [data-live-operations-surface="lobby-clarity"] .live-operation-empty>b{font-size:11px}
  [data-live-operations-surface="lobby-clarity"] .live-operation-empty>small{font-size:9px}
+}
+
+/* Route-specific legacy decorations must not recolor the shared heading. */
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head::before,
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head::after{display:none!important}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"] .v21-route-command-head{border-bottom-color:#33435c!important}
+@media(max-width:980px){
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .clv2-live-status{display:none}
+}
+/* The side rail leaves less room than the legacy viewport-based layout. */
+@media(min-width:981px) and (max-width:1280px){
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .clv2-equipment-view{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .clv2-armory-stage{order:1;min-width:0}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .clv2-inventory-panel{order:2;min-width:0}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .clv2-profile-panel{order:3;grid-column:1/-1}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] :is(.clv2-title-view,.clv2-garage-view){grid-template-columns:minmax(0,1fr)}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .clan-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .clan-tabs>button{min-width:0;width:100%;margin:0}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .avs1-workspace{display:block;min-height:0}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .avs1-hero{position:relative;top:auto;height:68dvh;min-height:480px;border-right:0;border-bottom:1px solid var(--avs1-line)}
+ .page.game-frame.v21-production-shell[data-adventure-navigation="1"] .avs1-card-grid{max-height:none}
 }

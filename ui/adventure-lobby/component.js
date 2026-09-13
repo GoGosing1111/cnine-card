@@ -11,22 +11,36 @@
     constructor(){super();this.attachShadow({mode:'open'});this.shadowRoot.innerHTML=template;this.model={};}
     connectedCallback(){
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
-      const user=global.loadUser?.()||{};
+      const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
         isRouteVisible:id=>['equipmentForge','mercenaryHangar'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
-        openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.()
+        openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings
       });
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});
-      listen(global,'cnine:player-updated',()=>this.update({user:global.loadUser?.()||{}}));
-      listen(global,'storage',()=>this.update({user:global.loadUser?.()||{}}));
+      listen(global,'cnine:player-updated',()=>this.update({user:getUser()}));
+      listen(global,'storage',()=>this.update({user:getUser()}));
       listen(global,'cnine:messages-updated',event=>this.updateUnread(event.detail?.count));
       listen(global,'resize',()=>this.update(this.model));
-      root.querySelector('.skip-link').onclick=event=>{event.preventDefault();root.getElementById('main').focus();};
+      root.querySelector('.skip-link').onclick=event=>{event.preventDefault();const target=this.dataset.standalone?global.document.querySelector('body main'):this.dataset.view==='route'?this.parentElement.querySelector('.v21-route-body'):root.getElementById('main');if(target){target.tabIndex=-1;target.focus();}};
       root.getElementById('fullscreen-button').onclick=()=>global.SoopketmonV21ExactShell.toggleFullscreen();
       this.updateUnread(Number((global.document.querySelector('[data-message-new-badge]')?.textContent||'').match(/\d+/)?.[0]||0));
       this.update({user});
+      this.setRoute(this.dataset.route||'home');
+      this.layoutObserver=new ResizeObserver(()=>this.measureChrome());
+      for(const el of root.querySelectorAll('.topbar,.sidebar,.mobile-dock'))this.layoutObserver.observe(el);
+      this.measureChrome();
     }
+    measureChrome(){
+      const frame=this.parentElement;if(!frame)return;
+      for(const [selector,key] of [['.topbar','header-height'],['.sidebar','rail-width'],['.mobile-dock','dock-height']]){
+        const box=this.shadowRoot.querySelector(selector).getBoundingClientRect(),value=Math.ceil(key==='rail-width'?box.width:box.height)+'px';
+        if(frame.style.getPropertyValue('--adventure-'+key)!==value)frame.style.setProperty('--adventure-'+key,value);
+      }
+    }
+    setRoute(route){this.dataset.route=route;this.dataset.view=route==='home'?'home':'route';this.controls?.setRoute(route);}
+    openMenu(category='all'){this.controls?.openMenu(category);}
+    openRoutes(routes){this.controls?.openRoutes(routes);}
     update(model={}){
       this.model={...this.model,...model};const {user={},chief={}}=this.model,root=this.shadowRoot;
       const player=root.getElementById('player-name');player.textContent=user.nickname||'플레이어';player.title=user.nickname||'플레이어';
@@ -41,8 +55,8 @@
     }
     updateUnread(value){const count=Math.max(0,Number(value)||0),badge=this.shadowRoot.getElementById('inbox-count');badge.textContent=count>99?'99+':String(count);badge.hidden=!count;badge.parentElement.setAttribute('aria-label',count?`메시지함 · 새 메시지 ${count}개`:'메시지함');}
     refreshMenus(){this.controls?.refreshMenus();}
-    disconnectedCallback(){this.lifecycle?.abort();this.controls?.destroy();this.controls=null;}
+    disconnectedCallback(){this.lifecycle?.abort();this.layoutObserver?.disconnect();this.controls?.destroy();this.controls=null;}
   }
   customElements.define('soop-adventure-lobby',AdventureLobby);
-  global.SoopAdventureLobby=Object.freeze({create(){return global.document.createElement('soop-adventure-lobby');}});
+  global.SoopAdventureLobby=Object.freeze({create(options={}){const element=global.document.createElement('soop-adventure-lobby');element.navigationOptions=options;return element;}});
 })(window);

@@ -19,7 +19,10 @@
   const byId=new Map(entries.map(e=>[e.id,e]));
   const hrefs={mercenaryDex:'/mercenary-codex/',equipmentForge:'/equipment-forge/',mercenaryHangar:'/mercenary-hangar/'};
   const keywords={attendance:'출석 출첵 출석체크',inventory:'인벤 가방 아이템 사용 개봉',buy:'뽑기 하이퍼팩 구매',dex:'보유카드 내카드 도감',deck:'팀 파티 덱 편성 저장',equipmentForge:'무기 방어구 강화 복구 보호권',mercenaryHangar:'용병 선택 편성',messages:'우편 선물 소식',dailyquest:'일퀘 임무 미션',vehicle:'자동차 이동수단 제작',character:'착용 무기 방어구 장착'};
-  let category='combat',query='',destinationOpener,lastResults='',guideOpener,menuOpener,fromAll=false;
+  let category='combat',activeRoute='home',query='',destinationOpener,lastResults='',guideOpener,menuOpener,fromAll=false;
+  const routeCategory=id=>byId.get(id)?.category||categoryOf(id,contract?.routes[id]?.group);
+  function highlight(value){document.querySelectorAll('.side-link,.all-menu,.mobile-dock button').forEach(b=>{const selected=value==='home'?b.hasAttribute('data-home'):b.dataset.category===value;b.toggleAttribute('aria-current',selected);if(selected)b.setAttribute('aria-current','page');});}
+  function setRoute(id){activeRoute=id||'home';if(!$('menu-dialog').open)highlight(activeRoute==='home'?'home':routeCategory(activeRoute));}
   const normalize=value=>value.normalize('NFKC').toLowerCase().replace(/\s+/g,'');
   function renderDirectory(){
     const tokens=query.trim().split(/\s+/).filter(Boolean).map(normalize);
@@ -44,10 +47,21 @@
     }
     if(!contract){$('result-count').textContent='메뉴 정보를 불러오지 못했습니다. 새로고침해 주세요.';}
   }
-  function selectCategory(value){if(value!=='all'&&!categories[value])return;if(!$('menu-dialog').open)fromAll=value==='all';category=value;query='';$('menu-search').value='';renderDirectory();document.querySelectorAll('.side-link,.all-menu,.mobile-dock button').forEach(b=>{b.removeAttribute('aria-current');if(b.dataset.category===value)b.setAttribute('aria-current','page');});$('menu-dialog').scrollTop=0;openMenu();}
+  function selectCategory(value){if(value!=='all'&&!categories[value])return;if(!$('menu-dialog').open)fromAll=value==='all';category=value;query='';$('menu-search').value='';renderDirectory();highlight(value);$('menu-dialog').scrollTop=0;openMenu();}
   function openDestination(id,opener){const item=byId.get(id);if(!item)return;if(options.navigate){if($('menu-dialog').open)$('menu-dialog').close();if($('guide-dialog').open)$('guide-dialog').close();void Promise.resolve().then(()=>options.navigate(id,hrefs[id])).catch(error=>{$('lobby-message').textContent=error.message||'화면을 열지 못했습니다. 다시 시도해 주세요.';$('lobby-message').hidden=false;jumpTo($('lobby-message'));});return;}destinationOpener=opener;$('destination-title').textContent=item.title;$('destination-description').textContent=item.description;$('destination-tip').textContent=tips[id]||'처음부터 모든 콘텐츠를 이용할 필요는 없어요. 필요한 순간에 이 메뉴를 찾아오세요.';$('destination-location').textContent=`로비 → ${categories[item.category].title} → ${item.title}`;$('destination-link').href=hrefs[id]||'/?screen='+encodeURIComponent(id);$('destination-dialog').showModal();}
   function closeDestination(){$('destination-dialog').close();destinationOpener?.focus({preventScroll:true});}
-  listen(document,'click',event=>{const b=event.target.closest('button');if(!b)return;if(b.hasAttribute('data-home')){if($('menu-dialog').open)closeMenu();document.querySelectorAll('.side-link,.mobile-dock button').forEach(x=>{x.removeAttribute('aria-current');if(x.hasAttribute('data-home'))x.setAttribute('aria-current','page');});scroller.scrollTo({top:0,behavior:'instant'});return;}if(b.dataset.route)return openDestination(b.dataset.route,b);if(b.dataset.category)return selectCategory(b.dataset.category,!b.closest('#category-tabs'));if(b.hasAttribute('data-close-destination'))return closeDestination();if(b.hasAttribute('data-start-guide'))return openGuide(b);});
+  listen(document,'click',event=>{
+    const b=event.target.closest('button,a.brand');if(!b)return;
+    if(b.hasAttribute('data-home')||b.matches('a.brand')){
+      event.preventDefault();if($('menu-dialog').open)closeMenu();
+      if(options.navigate)void options.navigate('home');else setRoute('home');
+      scroller.scrollTo({top:0,behavior:'instant'});return;
+    }
+    if(b.dataset.route)return openDestination(b.dataset.route,b);
+    if(b.dataset.category)return selectCategory(b.dataset.category);
+    if(b.hasAttribute('data-close-destination'))return closeDestination();
+    if(b.hasAttribute('data-start-guide'))return openGuide(b);
+  });
   listen($('destination-dialog'),'cancel',event=>{event.preventDefault();closeDestination();});
   listen($('menu-search'),'input',()=>{query=$('menu-search').value;renderDirectory();});
   function clearSearch(){query='';$('menu-search').value='';renderDirectory();$('menu-search').focus({preventScroll:true});}
@@ -59,7 +73,7 @@
   // The main lobby stays quiet. Its menus and the original proposal each
   // open only in their own explicit dialog.
   function openMenu(){if($('menu-dialog').open)return;menuOpener=document.activeElement;$('menu-dialog').showModal();$('close-menu').focus({preventScroll:true});}
-  function closeMenu(){$('menu-dialog').close();fromAll=false;document.querySelectorAll('.side-link,.all-menu,.mobile-dock button').forEach(b=>{b.removeAttribute('aria-current');if(b.hasAttribute('data-home'))b.setAttribute('aria-current','page');});menuOpener?.focus({preventScroll:true});}
+  function closeMenu(){$('menu-dialog').close();fromAll=false;setRoute(activeRoute);menuOpener?.focus({preventScroll:true});}
   $('close-menu').onclick=closeMenu;listen($('menu-dialog'),'cancel',event=>{event.preventDefault();closeMenu();});
   function openGuide(opener){guideOpener=opener;const frame=$('guide-frame');if(!frame.getAttribute('src')){const url=new URL(frame.dataset.src,location.origin);url.searchParams.set('account',String(options.accountId||'preview'));frame.src=url.href;}$('guide-dialog').showModal();$('close-guide').focus({preventScroll:true});}
   function closeGuide(){$('guide-dialog').close();guideOpener?.focus({preventScroll:true});}
@@ -68,7 +82,7 @@
   listen(window,'message',event=>{if(event.origin!==location.origin||event.source!==$('guide-frame').contentWindow)return;if(event.data?.type==='cnine:lobby-guide:close')closeGuide();if(event.data?.type==='cnine:lobby-guide:navigate'&&byId.has(event.data.route))openDestination(event.data.route,$('start-tutorial'));});
   $('fullscreen-button').onclick=()=>{const d=global.document;void Promise.resolve(d.fullscreenElement?d.exitFullscreen():d.documentElement.requestFullscreen()).catch(()=>{});};
   renderDirectory();
-  return {refreshMenus:renderDirectory,destroy(){lifecycle.abort();document.querySelectorAll('dialog[open]').forEach(el=>el.close());}};
+  return {refreshMenus:renderDirectory,setRoute,openMenu:selectCategory,openRoutes(routes){const groups=[...new Set(routes.map(routeCategory))];selectCategory(groups.length===1?groups[0]:'all');},destroy(){lifecycle.abort();document.querySelectorAll('dialog[open]').forEach(el=>el.close());}};
   }
   global.SoopLobbyInteractions=Object.freeze({mount});
   if(global.document.getElementById('menu-results'))mount(global.document);

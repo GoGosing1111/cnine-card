@@ -1,0 +1,6 @@
+/* Existing standalone page content retains its DOM and scroll container. */
+body[data-adventure-standalone]{margin-left:var(--adventure-rail-width,205px);padding-bottom:var(--adventure-dock-height,0px)}
+@media(max-width:1200px){body[data-adventure-standalone]{--adventure-rail-width:177px}}
+@media(max-width:980px){body[data-adventure-standalone]{--adventure-rail-width:0px;--adventure-dock-height:calc(67px + env(safe-area-inset-bottom,0px))}}
+
+body[data-adventure-standalone="equipmentForge"] #inventory-filters button{padding-inline:6px;white-space:nowrap}
