@@ -1,5 +1,6 @@
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,createSkillChipSchedule,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
+import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -476,7 +477,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   //   PVE 는 이미 승률 100% 라 이 공식을 살릴 실익이 없고, 난이도 체감만 올라간다.
   const usePvpDamageModel = actor.battleMode !== 'PVE' && !target.isMonster && !actor.isMonster;
   const reduction = usePvpDamageModel
-    ? clamp(effectiveDefense / (effectiveDefense + Math.max(1, actor.attack * S1.defenseDenomK)), 0, S1.defenseCapPercent)
+    ? clamp(effectiveDefense / (effectiveDefense + Math.max(1, mercenaryEffectiveAttack(actor) * S1.defenseDenomK)), 0, S1.defenseCapPercent)
     : clamp(effectiveDefense / (effectiveDefense + 600), 0, 0.65);
   const variance = 0.95 + random() * 0.10;
   const weakTarget = actor.type === 'ATTACK' && target.hp / Math.max(1, target.maxHp) <= 0.50;
@@ -488,11 +489,13 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   // V2063: PVP speed assassins gain 50% against HP uniques, 15% otherwise (not stacked).
   // PVE, counters and existing damage caps stay unchanged.
   const pvpSpeedDamage = actor.type === 'SPEED' && actor.battleMode === 'PVP' && !counter ? (target.type === 'HP' ? 1.50 : 1.15) : 1;
-  const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1) * advancementDamage * pvpSpeedDamage;
+  const raw = mercenaryEffectiveAttack(actor) * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1) * advancementDamage * pvpSpeedDamage;
   // V1936: 상한 0.46 은 공격력 11만 이상에서 걸려 딜 성장을 통째로 흡수했다. PVP 만 0.60 으로 완화.
   const baseCapPct = counter ? 0.24 : (usePvpDamageModel ? S1.damageCapPercent : 0.46);
   const capPct = clamp(baseCapPct + (!counter ? Math.max(0, Number(actorAdvancement.damageCapPoints || 0)) / 100 : 0), baseCapPct, 0.90);
-  const capped = Math.min(raw * (1 - reduction), target.maxHp * capPct);
+  // A linked ward is finite durability. Include its original size in the hit
+  // cap so a tiny fixed base HP cannot make a large ward nearly unbreakable.
+  const capped = Math.min(raw * (1 - reduction), mercenaryDamageCapHp(target) * capPct);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
   // V1975: 아포칼립스 몬스터는 덱 전투력 비례로 하한이 늘고 준다(위 APOCALYPSE_FLOOR_* 참고).
@@ -907,6 +910,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     pushEvent(timeline,clock,'DEFENSE_LINE_BREACHED',{actorSide:attackers[0]?.side||'',targetSide:targets[0]?.side||'',defenseCount,shieldReductionPercent:45,label:'공격형 연계 · 공성 돌파'});
   };
   breachDefenseLine(a,b);breachDefenseLine(b,a);
+  applyMercenaryCombatLink([a,b]);
 
   for (const fighter of [...a, ...b]) {
     // Battle Suit cadence is an independent wall-clock lane. It must not roll,
@@ -920,7 +924,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         effect: 'SHIELD',
         amount: fighter.shield,
         shieldAfter: fighter.shield,
-        label: '방어형 · 선봉 방벽'
+        label: fighter.mercenaryLink ? '용병 · 전력 연계 방벽' : '방어형 · 선봉 방벽'
       });
     }
   }

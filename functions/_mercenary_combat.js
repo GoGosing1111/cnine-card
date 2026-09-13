@@ -1,5 +1,6 @@
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
+import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
 import attachments from '../assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json' with {type:'json'};
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
@@ -7,23 +8,24 @@ const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');r
 const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot)[0];
 // Rank power is fixed while ordinary cards include unbounded equipment power.
 // The mercenary remains targetable, but its reserved action is additional:
-// it runs immediately after five allied card actions without replacing a card,
+// released fighters act after three allied card actions without replacing a card,
 // advancing its gauge, or consuming the five-card battle's action budget.
 // Natural mercenary turns clear the debt; suit shots and enemy turns cannot.
 export function mercenaryTurnCadence(teams){
  const debt={A:0,B:0};
+ const interval=side=>teams[side]?.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
   pending(eligible=()=>true){
-   return ['A','B'].flatMap(side=>debt[side]>=5?teams[side]?.filter(a=>a.isMercenary&&living(a)&&eligible(a))||[]:[])[0]||null;
+   return ['A','B'].flatMap(side=>debt[side]>=interval(side)?teams[side]?.filter(a=>a.isMercenary&&living(a)&&eligible(a))||[]:[])[0]||null;
   },
   select(actor){
-   if(!regular(actor)||debt[actor.side]<5)return actor;
+   if(!regular(actor)||debt[actor.side]<interval(actor.side))return actor;
    return teams[actor.side]?.find(a=>a.isMercenary&&living(a))||actor;
   },
   acted(actor){
    if(actor.isMercenary)debt[actor.side]=0;
-   else if(regular(actor))debt[actor.side]=Math.min(5,debt[actor.side]+1);
+   else if(regular(actor))debt[actor.side]=Math.min(interval(actor.side),debt[actor.side]+1);
   }
  };
 }
@@ -82,13 +84,13 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
    case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
-   case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(a.attack*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget);a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
+   case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget);a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
    case 'WOUNDED_MOON_DRAW':once(t=>strike(a,s,t,1+(1-t.hp/t.maxHp)*c.finisherBonusPercent/100));break;
-   case 'FRONT_STAND_FAST':once(t=>{table(buffs,t).standfast={actor:a,skill:s,percent:c.interceptPercent,budget:Math.floor(a.attack*s.balance.damageRatio/p.targets.length),expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'FRONT_STAND_FAST'});});break;
-   case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100);if(h.hit&&living(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(a.attack*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;
+   case 'FRONT_STAND_FAST':once(t=>{table(buffs,t).standfast={actor:a,skill:s,percent:c.interceptPercent,budget:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'FRONT_STAND_FAST'});});break;
+   case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100);if(h.hit&&living(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;
    case 'ABYSS_SHIELD_ECHO':{
-    const t=ts[0];if(!p.step){const h=strike(a,s,t,.5);if(!h.hit||!living(t)){finish(a,s);break;}p.absorbed=Math.min(h.absorbed||0,Math.floor(a.attack*s.balance.damageRatio*c.focusBonusPercent/100));p.step=1;p.due=a.actions+1;}
-    else{const base=a.attack*s.balance.damageRatio;strike(a,s,t,.5+(base>0?p.absorbed/base:0),'HIT',{followup:true});finish(a,s);}break;}
+    const t=ts[0];if(!p.step){const h=strike(a,s,t,.5);if(!h.hit||!living(t)){finish(a,s);break;}p.absorbed=Math.min(h.absorbed||0,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.focusBonusPercent/100));p.step=1;p.due=a.actions+1;}
+    else{const base=mercenaryEffectiveAttack(a)*s.balance.damageRatio;strike(a,s,t,.5+(base>0?p.absorbed/base:0),'HIT',{followup:true});finish(a,s);}break;}
    case 'DANCING_TARGET_VOLLEY':{
     const t=ts[0],index=p.step||0;strike(a,s,t,1/3,'HIT',{followup:index>0});if(index>=2){finish(a,s);break;}
     const next=weakest(enemies(a).filter(e=>e.id!==t.id))||weakest(enemies(a));if(!next){finish(a,s);break;}
@@ -102,11 +104,11 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'INTERCEPT_ONE_HIT':once(t=>{table(buffs,t).intercept={actor:a,skill:s,percent:c.interceptPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'INTERCEPT_ONE_HIT'});});break;
    case 'MELEE_PARRY_RIPOSTE':once(t=>{b.parry={skill:s,percent:c.parryPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'MELEE_PARRY_RIPOSTE'});});break;
    case 'NEXT_BASIC_ORDER':once(t=>{table(buffs,t).order={percent:c.orderPercent,source:a.id};send(a,s,'BUFF',t,{effect:'NEXT_BASIC_ORDER'});});break;
-   case 'FRONT_SHARED_BARRIER':once(t=>{const buff=table(buffs,t),old=buff.mercBarrier||0,budget=Math.floor(a.attack*s.balance.damageRatio/p.targets.length),remaining=Math.min(old,t.shield);t.shield=Math.max(0,t.shield-remaining)+budget;t.maxShield=Math.max(t.maxShield,t.shield);buff.mercBarrier=budget;send(a,s,'BUFF',t,{effect:'SHIELD',amount:budget,targetShieldAfter:t.shield});});break;
+   case 'FRONT_SHARED_BARRIER':once(t=>{const buff=table(buffs,t),old=buff.mercBarrier||0,budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),remaining=Math.min(old,t.shield);t.shield=Math.max(0,t.shield-remaining)+budget;t.maxShield=Math.max(t.maxShield,t.shield);buff.mercBarrier=budget;send(a,s,'BUFF',t,{effect:'SHIELD',amount:budget,targetShieldAfter:t.shield});});break;
    case 'FRONT_OFFENSE_VEIL':once(t=>{table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});});break;
    case 'CLEANSE_THEN_MEND':
     if(!p.step){const removed=cleanse(ts[0],true);send(a,s,'CLEANSE',ts[0],{removed});p.step=1;p.due=a.actions+1;break;}
-    once(t=>{const amount=Math.min(t.maxHp-t.hp,Math.floor(a.attack*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100)));t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
+    once(t=>{const amount=Math.min(t.maxHp-t.hp,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100)));t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
    case 'BREAK_ARMOR_WINDOW':once(t=>{const hadShield=t.shield>0;strike(a,s,t);if(hadShield&&living(t)){const d=table(debuffs,t),original=d.armor?.original??t.defense;d.armor={original,expires:t.actions+c.statusTurns};t.defense=original*(1-c.armorReductionPercent/100);send(a,s,'DEBUFF',t,{effect:'ARMOR_WINDOW',defenseAfter:t.defense});}});break;
    case 'ADVANCE_SUPPRESSION':once(t=>{strike(a,s,t,1/p.targets.length);if(living(t)&&!t.controlImmune&&!t.isBoss&&t.row==='FRONT'&&t.attackStyle==='MELEE'){t.gauge=Math.max(0,t.gauge-c.suppressGauge);send(a,s,'DEBUFF',t,{effect:'APPROACH_DELAY',targetGaugeAfter:t.gauge});}});break;
    case 'LOCKED_THREAT_SHOT':once(t=>strike(a,s,t));break;
@@ -114,7 +116,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'FINISHER_WITH_RELOAD':once(t=>{strike(a,s,t,t.hp/t.maxHp<=c.finisherHpPercent/100?1+c.finisherBonusPercent/100:1);if(living(t))st.reload=true;});break;
    case 'INTERRUPT_WINDUP':once(t=>{const h=strike(a,s,t);if(h.hit&&!t.controlImmune&&!t.isBoss&&state(t).pending)cancel(t,'INTERRUPTED');});break;
    case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0;const h=strike(a,s,t);if(h.hit&&marked>=c.restraintHits){d.restraint=c.restraintPercent;if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'NEXT_BASIC_WEAKENED'});}});break;
-   case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100);if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(a.attack*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
+   case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100);if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
    case 'RIFT_MARK_DETONATION':
     if(!p.step){for(const t of ts){const h=strike(a,s,t,.5/p.targets.length);if(h.hit&&living(t))table(debuffs,t).rift={actorId:a.id};}p.step=1;p.due=a.actions+1;}
     else{once(t=>{if(table(debuffs,t).rift?.actorId===a.id){delete table(debuffs,t).rift;strike(a,s,t,.5/p.targets.length,'HIT',{followup:true});}});}break;
@@ -124,7 +126,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    default:throw Error(`UNSUPPORTED_MERCENARY_MECHANIC:${s.mechanic}`);
   }
  }
- for(const a of all()){a.openingAttack=a.attack;if(a.isMercenary)state(a);}
+ for(const a of all()){a.openingAttack=mercenaryEffectiveAttack(a);if(a.isMercenary)state(a);}
  return {
   beforeAction(a){
    for(const actor of all())if(!living(actor)&&state(actor).pending)cancel(actor,'CASTER_LOST');
