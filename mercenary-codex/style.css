@@ -19,3 +19,4 @@
 @media(max-width:375px){.archive-shell{padding:0 12px}.portrait-stage{height:600px;padding:13px}.archive-status{gap:8px;padding:12px 10px}.formation-tag{font-size:8px}.heading-index{font-size:36px}h1{font-size:23px}.archive-counters{gap:6px}.archive-counters>span:nth-child(2){display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 .combat-panel>.primary-link{position:sticky;bottom:0;z-index:2;box-shadow:0 -8px 15px #080c17}.skill-effect{font-size:12px}@media(max-width:1150px){.combat-panel>.primary-link{position:static;box-shadow:none}}
+.sd-display{min-width:0;min-height:0;overflow:hidden;padding:0}.sd-display img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.media-tabs{position:relative;z-index:1;flex-shrink:0}
