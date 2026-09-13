@@ -9,6 +9,7 @@ import {SKILL_CHIP_CLOCK,SKILL_CHIP_CATALOG,createSkillChipSchedule,splitSkillCh
 import {BattleSuitSkillChipPlayback,isSkillChipTimeline} from '../preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js';
 import {SkillChipFX} from '../preview/battle-suit-skill-chip-v1/source/SkillChipFX.js';
 import {SkillChipAudio} from '../preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js';
+import {BattleEngine as ContinuousBattleEngine} from '../preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js';
 after(()=>gsap.ticker.sleep());
 const [ROCKET,HELI]=SKILL_CHIP_CATALOG.map(chip=>chip.code);
 const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:`CHIP-${i}`,title:`CHIP ${i}`,power_type,power:400000}));
@@ -208,10 +209,54 @@ test('raid QTE holds the same game clock in event order, skips rejected branches
 test('live adapter batches the full server clock and cancel/reset stops the clock',async()=>{
   const [adapter,engine]=await Promise.all([readFile(new URL('../js/battle-v3-live.js',import.meta.url),'utf8'),readFile(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8')]);
   assert.match(adapter,/playEvents\(timedEvents, \{ beforeEvent: prepareEvent \}\)/);assert.match(adapter,/durationMs \* 2 \+ 15000/);
-  const timed=adapter.slice(adapter.indexOf('if (timedSkillChips && !options.continuousPlayback && !destroyed)'),adapter.indexOf('const finalState = payload?.battleV2?.result?.final'));
+  const timed=adapter.slice(adapter.indexOf('else if (timedSkillChips && !destroyed)'),adapter.indexOf('const finalState = payload?.battleV2?.result?.final'));
   assert.match(timed,/await stopAccountBattleUnitContinuousFire\(\{ drain: true \}\)/);
   assert.match(engine,/this\.skillChipPlayback\?\.cancel\(\)/);
   assert.match(engine,/currentHp\(target,value\)/);
+});
+
+test('continuous combat keeps one absolute clock across turns beyond the old two-second guard',async t=>{
+  const previousWindow=globalThis.window;globalThis.window=new EventTarget();
+  t.after(()=>{globalThis.window=previousWindow;});
+  const engine=Object.create(ContinuousBattleEngine.prototype),seen=[];
+  Object.assign(engine,{visible:true,playbackEpoch:1,paceScale:1,previewEventCount:0,cards:[{}],
+    instances:new Map(),retiredIds:new Set(),accountBattleUnitDamageQueue:[],audio:{enabled:()=>false},
+    combatantById:()=>null,eventHpPercent:()=>null,isAccountBattleUnitDamageEvent:()=>false,
+    normalAttack:async()=>{},updateStatus:()=>{}});
+  const events=[{type:'TURN',combatAtMs:0},{type:'TURN',combatAtMs:15000},{type:'RESULT',combatAtMs:20000}]
+    .map((e,i)=>({...e,seq:i+1,combatGroup:i,combatGroupDurationMs:0,combatClock:SKILL_CHIP_CLOCK}));
+  const run=engine.playEvents(events,{beforeEvent:async e=>e,afterEvent:e=>seen.push(e.seq)});
+  await flush();const clock=engine.skillChipPlayback;clock.timeline.pause();
+  assert.deepEqual(seen,[1]);assert.equal(clock.events.length,3);
+  clock.timeline.time(15,true);clock.pump();await flush();clock.timeline.pause();
+  assert.equal(engine.skillChipPlayback,clock,'A turn must not create or cancel another clock');
+  assert.deepEqual(seen,[1,2]);assert.ok(clock.clock.time>=15&&clock.clock.time<16,'The clock stays at the later timestamp instead of restarting at zero');
+  clock.timeline.time(20,true);clock.pump();await flush();
+  assert.equal(await run,true);assert.deepEqual(seen,[1,2,3]);
+  assert.equal(engine.previewEventCount,3,'Each event passes the continuous engine exactly once');
+});
+
+test('continuous generation barrier holds later shots and chip impacts until the retiring actor is drained',async()=>{
+  const engine=mockEngine(),seen=[];let release;
+  engine.playEvents=async events=>{const e=events[0];seen.push(e.type);if(e.type==='KO')await new Promise(resolve=>{release=resolve;});};
+  const events=[{type:'KO',combatAtMs:0},{type:'TURN',combatAtMs:1000},
+    {type:'SKILL_CHIP_HIT',chipCode:ROCKET,combatAtMs:2000,targetId:engine.target.id,targetHpAfter:65,damage:35},
+    {type:'RESULT',combatAtMs:3000}].map((e,i)=>({...e,seq:i+1,combatClock:SKILL_CHIP_CLOCK,combatGroup:i,combatGroupDurationMs:0}));
+  const completed=[],playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true,afterEvent:e=>completed.push(e.seq)});
+  const run=playback.play();await flush();playback.timeline.pause();playback.timeline.time(2.5,true);playback.pump();
+  assert.equal(playback.waiting,true);assert.deepEqual(seen,['KO']);assert.equal(playback.hits,0);
+  release();await flush();playback.timeline.pause();assert.deepEqual(completed,[1,2]);
+  playback.timeline.time(3,true);playback.pump();await flush();
+  assert.equal(await run,true);assert.deepEqual(completed,[1,2,3,4]);assert.equal(engine.target.hp,65);
+});
+
+test('continuous pause freezes the same clock and cancellation releases it without running later events',async()=>{
+  const engine=mockEngine(),seen=[];let resume;
+  engine.playEvents=async events=>seen.push(events[0].type);
+  const events=[{type:'TURN',combatAtMs:0},{type:'RESULT',combatAtMs:1000}].map((e,i)=>({...e,combatClock:SKILL_CHIP_CLOCK,combatGroup:i,combatGroupDurationMs:0}));
+  const playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true,beforeEvent:async e=>{await new Promise(resolve=>{resume=resolve;});return e;}});
+  const run=playback.play();await flush();assert.equal(playback.timeline.paused(),true);assert.equal(playback.clock.time,0);
+  playback.cancel();resume();assert.equal(await run,false);await flush();assert.deepEqual(seen,[]);assert.equal(playback.active,false);
 });
 test('simultaneous audio schedules append voices instead of cutting off the other chip',()=>{
   const audio=new SkillChipAudio();let stops=0;audio.stop=()=>{stops++;};

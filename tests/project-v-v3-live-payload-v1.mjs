@@ -42,15 +42,15 @@ assert.match(engine,/this\.textures=Object\.fromEntries\(Object\.keys\(ASSETS\)/
 assert.match(engine,/const unique=\[\.\.\.new Set\(preloadUrls\)\]\.filter\(Boolean\);[\s\S]*Promise\.allSettled\(unique\.map\(url=>Assets\.load\(url\)\)\)/,'live card and monster assets must load concurrently');
 assert.match(engine,/onInterrupt:\(\)=>settle\(false\)/,'interrupted GSAP timelines must settle instead of hanging');
 
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=104-pve-continuous/);
-assert.match(app,/battle-v3-live\.js\?v=3\.34\.0-pve-continuous/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=105-continuous-clock/);
+assert.match(app,/battle-v3-live\.js\?v=3\.35\.0-continuous-clock/);
 assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');
 assert.match(app,/const resourceTask=ensureFeatureResources\('battleV2'\)[\s\S]*const fightTask=apiRequest\('battle\/fight'[\s\S]*await Promise\.all\(\[resourceTask,fightTask\]\)[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must finish its parallel resource and server work before revealing the ready V3 scene');
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=2094-combat-only/);
-assert.match(serviceWorker,/soop-card-shell-v2094-combat-only/);
+assert.match(index,/js\/app\.js\?v=2095-combat-clock/);
+assert.match(serviceWorker,/soop-card-shell-v2095-combat-clock/);
 
 const calls=[];
 const phase={textContent:''};
@@ -128,7 +128,8 @@ const authoritativeTimeline=[{type:'KO',targetId:'TOWER:70:1',guardianProgress:2
   {type:'ENEMY_SPAWN',instanceId:'TOWER:70:4',guardianProgress:2},
   {type:'TURN',actorId:'CARD-1',targetId:'TOWER:70:4',damage:271,guardianProgress:2},
   {type:'KO',targetId:'TOWER:70:28',guardianProgress:100},
-  {type:'RESULT',winner:'A',guardianProgress:100,remainingCombatMs:40000}];
+  {type:'RESULT',winner:'A',guardianProgress:100,remainingCombatMs:40000}]
+  .map((event,i)=>({...event,combatClock:'V3_COMBAT_MS_V1',combatAtMs:i*5000,combatGroup:i}));
 const liveTower=await runtime.createRenderer({stage,host,modal,mode:'TOWER',continuousPlayback:true,
   floor:{floorNo:70,monsterName:'CMS 수호자'},cards:[{id:'legacy-card-display'}],
   data:{continuousEncounter:{total:28},battleV2:{teams:{A:{cards:[{id:'CARD-1',row:'FRONT'}]},B:{cards:[]}},result:{winner:'A',timeline:authoritativeTimeline}}}});
@@ -136,6 +137,7 @@ const mounted=calls.find(call=>call[0]==='payload')[2];
 assert.equal(JSON.stringify(mounted.battleV2.result.timeline),JSON.stringify(authoritativeTimeline));
 assert.equal(mounted.battleV2.teams.A.cards[0].row,'FRONT');
 await liveTower.play();
+assert.equal(calls.filter(call=>call[0]==='events').length,2,'Deploy then the entire continuous timeline: never restart the absolute clock per turn');
 const liveEvents=calls.filter(call=>call[0]==='events').flatMap(call=>call[1]).filter(event=>event.type!=='DEPLOY');
 assert.equal(JSON.stringify(liveEvents),JSON.stringify(authoritativeTimeline));
 

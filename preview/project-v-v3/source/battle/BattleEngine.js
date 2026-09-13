@@ -2866,10 +2866,10 @@ class BaseBattleEngine{
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }
 
-  async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null}={}){
+  async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null,afterEvent=null,sequential=false}={}){
     if(!timedInternal&&isSkillChipTimeline(events)){
       this.skillChipPlayback?.cancel();
-      this.skillChipPlayback=new BattleSuitSkillChipPlayback(this,events,{beforeEvent});
+      this.skillChipPlayback=new BattleSuitSkillChipPlayback(this,events,{beforeEvent,afterEvent,sequential});
       return this.skillChipPlayback.play();
     }
     for(const event of events){

@@ -1,6 +1,7 @@
 import {Assets, Container, Graphics} from 'pixi.js';
 import {BattleEngine as LiveBattleEngine} from '../../project-v-v3/source/battle/BattleEngine.js';
 import {CHARACTER_STATE} from '../../project-v-v3/source/battle/BattleCharacter.js';
+import {isSkillChipTimeline} from '../../project-v-v3/source/battle/BattleSuitSkillChipPlayback.js';
 
 // Preview extension of the real renderer, NOT a second renderer or formation.
 // Only the five existing hostile actor slots are reused. A drained generation
@@ -112,9 +113,18 @@ export class BattleEngine extends LiveBattleEngine {
         y: actor.baseY - 20 - (i % 4) * 14, alpha: 0, duration: .45, ease: 'power2.out'}, .08));
     }, () => {fx.destroy({children: true}); actor.root.x = actor.baseX;});
   }
-  async playEvents(events, options) {
+  async playEvents(events, options = {}) {
+    // Absolute combat timestamps belong to ONE playback session. Starting a
+    // clock for each event re-waits 0..combatAtMs and cancels the preceding FX.
+    // Serial group barriers also finish KO/spawn before the next instance acts.
+    if (!options.timedInternal && isSkillChipTimeline(events)) {
+      return super.playEvents(events, {...options, sequential: true});
+    }
     const epoch = this.playbackEpoch;
-    for (const event of events) {
+    for (const sourceEvent of events) {
+      const event = !options.timedInternal && options.beforeEvent
+        ? await options.beforeEvent(sourceEvent) : sourceEvent;
+      if (!event) continue;
       if (!this.visible || epoch !== this.playbackEpoch) return false;
       this.previewEventCount++;
       if (event.type === 'ENEMY_SPAWN') await this.spawnMonster(event);
@@ -140,6 +150,7 @@ export class BattleEngine extends LiveBattleEngine {
       }
       if (!this.visible || epoch !== this.playbackEpoch) return false;
       window.dispatchEvent(new CustomEvent('scrapyard-combat-event', {detail: event}));
+      if (!options.timedInternal) options.afterEvent?.(event);
     }
     return true;
   }

@@ -55,7 +55,15 @@ if(process.env.JOINT_QA_RESTORE_DATABASE){
 }
 const catalog=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/characters/fur/manifest-v2.json'),'utf8')).characters.slice(0,5);
 const ids=catalog.map(c=>String(c.cardId));
-f.deps.raidDeckPower=async(_env,uid,requested,mode)=>{if(requested!==null||!['PVE','TOWER'].includes(mode))throw Error('Saved deck required');return {ids,cards:catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],power:20000000,base_power:20000000,image:c.sourceArt})),power:100000000,characterBonus:{pve:0},battleSettings:{engine:{}}};};
+const qaCardPower=Number(process.env.JOINT_QA_CARD_POWER||20000000);
+let qaCharacterBonus={pve:0};
+if(process.env.JOINT_QA_BATTLE_SUIT==='1'){
+ const assets=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/manifest-v2.json'),'utf8'));
+ const suit=assets.suits[2],weapon=assets.weapons[Number(process.env.JOINT_QA_WEAPON_INDEX||0)],pvePower=300000;
+ const {SKILL_CHIP_CATALOG}=await import('../shared/battle-suit-skill-chips.mjs');
+ qaCharacterBonus={pve:pvePower,battleSuitPve:pvePower,equippedBattleSuit:{code:suit.code,pvePower,appearance:{battleSprite:suit.image,battleHeight:278},skillChips:process.env.JOINT_QA_NO_CHIPS==='1'?[]:SKILL_CHIP_CATALOG.map(c=>c.code)},equippedWeapon:{code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}}};
+}
+f.deps.raidDeckPower=async(_env,uid,requested,mode)=>{if(requested!==null||!['PVE','TOWER'].includes(mode))throw Error('Saved deck required');return {ids,cards:catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],power:qaCardPower,base_power:qaCardPower,image:c.sourceArt})),power:qaCardPower*5+qaCharacterBonus.pve,characterBonus:qaCharacterBonus,battleSettings:{engine:{}}};};
 const native=process.env.JOINT_QA_NATIVE==='1';
 if(native){
  await f.setting('mercenary_runtime_policy_v1',{...mercenary.policy,mode:'OFF',opening:{...mercenary.policy.opening,coinPerOpen:500000000}});

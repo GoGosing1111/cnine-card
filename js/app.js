@@ -900,7 +900,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   workshop:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2094-combat-only&joint=2090'],
+    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2095-combat-clock&joint=2090'],
     ready:()=>Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
@@ -914,7 +914,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=2094-combat-only&joint=2090','js/scrapyard-battle-v1698.js?v=2094-combat-only'],
+    scripts:['js/workshop-v1881.js?v=2095-combat-clock&joint=2090','js/scrapyard-battle-v1698.js?v=2095-combat-clock'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -933,8 +933,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
-    styles:['css/soopketland-v2039.css?v=2094-combat-only'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2094-combat-only'],
+    styles:['css/soopketland-v2039.css?v=2095-combat-clock'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2095-combat-clock'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
@@ -963,8 +963,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=104-pve-continuous&joint=2090',
-      'js/battle-v3-live.js?v=3.34.0-pve-continuous'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=105-continuous-clock&joint=2090',
+      'js/battle-v3-live.js?v=3.35.0-continuous-clock'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }

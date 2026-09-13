@@ -13,8 +13,8 @@ const deadline=(promise,ms,fallback)=>{
 // One pausable game clock owns both chips. Ordinary V3 animations remain on the
 // existing engine; no timer computes damage, invents casts, or changes a roster.
 export class BattleSuitSkillChipPlayback{
-  constructor(engine,events,{beforeEvent=null}={}){
-    this.engine=engine;this.events=events;this.beforeEvent=beforeEvent;this.clock={time:0};this.holds=0;this.revision=0;
+  constructor(engine,events,{beforeEvent=null,afterEvent=null,sequential=false}={}){
+    this.engine=engine;this.events=events;this.beforeEvent=beforeEvent;this.afterEvent=afterEvent;this.sequential=sequential;this.clock={time:0};this.holds=0;this.revision=0;
     this.epoch=engine.playbackEpoch;this.active=true;this.fx=new Map();this.pending=new Set();
     this.snapshots=new Map();this.index=0;this.casts=0;this.hits=0;this.pauses=0;this.rate=1;
     this.groups=[];let lastAt=0;
@@ -115,7 +115,7 @@ export class BattleSuitSkillChipPlayback{
   }
   async prepare(event){
     if(!this.beforeEvent)return event;
-    const hold=/^(RAID_|PVE_ULTIMATE$|BOSS_ULTIMATE$)/.test(event.type);
+    const hold=this.sequential||/^(RAID_|PVE_ULTIMATE$|BOSS_ULTIMATE$)/.test(event.type);
     if(hold){this.holds++;this.timeline?.pause();this.audio.stop();}
     try{return await this.beforeEvent(event);}
     finally{
@@ -128,8 +128,8 @@ export class BattleSuitSkillChipPlayback{
     if(nextRate!==this.rate){this.rate=nextRate;this.timeline?.timeScale(this.rate);this.resyncAudio();}
     while(this.index<this.groups.length&&this.groups[this.index].at<=this.clock.time*1000+.001){
       const group=this.groups[this.index];
-      const previousRun=this.blocking||(group.external&&this.pending.size?Promise.all([...this.pending]):null);
-      if(group.blocking&&previousRun){
+      const previousRun=this.blocking||((group.external||this.sequential)&&this.pending.size?Promise.all([...this.pending]):null);
+      if((group.blocking||this.sequential)&&previousRun){
         // A cold asset or slow device can overrun an authored card animation.
         // Freeze game time (including both chips) until that action is ready.
         this.waiting=true;this.pauses++;
@@ -145,8 +145,8 @@ export class BattleSuitSkillChipPlayback{
       this.index++;
       const regular=[];
       for(const event of group.events){
-        if(event.type==='SKILL_CHIP_CAST')this.cast(event);
-        else if(event.type==='SKILL_CHIP_HIT'){this.remember(event);this.hit(event);}
+        if(event.type==='SKILL_CHIP_CAST'){this.cast(event);this.afterEvent?.(event);}
+        else if(event.type==='SKILL_CHIP_HIT'){this.remember(event);this.hit(event);this.afterEvent?.(event);}
         else regular.push(event);
       }
       if(regular.length){
@@ -155,7 +155,7 @@ export class BattleSuitSkillChipPlayback{
             if(!this.valid())return;
             const prepared=await this.prepare(event);
             if(!this.valid())return;
-            if(prepared){this.remember(prepared);await this.engine.playEvents([prepared],{timedInternal:true});}
+            if(prepared){this.remember(prepared);await this.engine.playEvents([prepared],{timedInternal:true});if(this.valid())this.afterEvent?.(prepared);}
           }
         })();
         this.pending.add(run);if(group.blocking)this.blocking=run;
