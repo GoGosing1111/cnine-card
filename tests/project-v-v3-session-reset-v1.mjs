@@ -30,15 +30,19 @@ for(const lateFailure of [false,true]){
   const instances=[];let release;
   class FakeEngine{
     constructor(){this.index=instances.length;instances.push(this);}
-    setAccountBattleUnitPreviewFireHook(){}
+    setAccountBattleUnitPreviewFireHook(hook){this.previewHook=hook;}
     async mount(){if(!this.index)await new Promise((resolve,reject)=>{release=()=>lateFailure?reject(Error('late decode failure')):resolve();});this.mounted=true;return this;}
     destroy(){this.destroyed=true;}
     diagnostics(){return {index:this.index,destroyed:Boolean(this.destroyed),mounted:this.mounted};}
   }
   const window={},context={window,document:{getElementById:()=>({})},BattleEngine:FakeEngine,ExpeditionBattleEngine:FakeEngine};
   vm.runInNewContext(entry.replace(/^import .*;\r?$/gm,'').replace(/^export .*;\r?$/gm,''),context);
-  const api=window.ProjectVPixiBattle,old=api.mountForBattle({}).then(()=>null,error=>error);
+  const api=window.ProjectVPixiBattle,previewHook=()=>{};
+  api.setAccountPreviewFirearmHook(previewHook);
+  const old=api.mountForBattle({}).then(()=>null,error=>error);
+  assert.equal(instances[0].previewHook,previewHook,'the initial renderer receives the registered fire hook before mount resolves');
   api.destroy();const replacement=await api.mountForBattle({});release();
+  assert.equal(replacement.previewHook,previewHook,'a renderer retry retains the same registered fire hook');
   assert.ok(await old,'the cancelled first initialization must reject');
   assert.equal(api.diagnostics().index,1);assert.equal(replacement.destroyed,undefined);
   api.destroy();

@@ -85,7 +85,7 @@ test('preview public shot hook reports the authored fire frame and renders an au
   assert.match(entry,/playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations/);
   assert.match(entry,/setAccountPreviewFirearmHook/);
   assert.match(entry,/accountPreviewFirearmHook=typeof handler==='function'\?handler:null/);
-  assert.match(entry,/engine\.setAccountBattleUnitPreviewFireHook\(accountPreviewFirearmHook\)/);
+  assert.match(entry,/candidate\.setAccountBattleUnitPreviewFireHook\(accountPreviewFirearmHook\)/);
   assert.match(bundle,/playAccountPreviewShot/,'rebuilt browser bundle must expose the QC hook');
   assert.match(bundle,/restoreDeployedFormation/,'rebuilt browser bundle must expose gap-free profile restoration');
   assert.match(client,/plan\?\.markVisualFire\?\.\(at\)/);
