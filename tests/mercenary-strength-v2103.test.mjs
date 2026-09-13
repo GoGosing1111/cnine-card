@@ -6,27 +6,50 @@ import {buildFighter,createPvpBattleV2,createPveBattleV2} from '../functions/_ba
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from '../functions/_mercenary_combat.js';
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
 import {MERCENARY_POWER_STANDARD as power} from '../shared/equipment-mercenary-power-v1.mjs';
-import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
+import {MERCENARY_COMBAT_LINK,applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {applyMercenaryBalanceV2103,MERCENARY_SKILL_BALANCE_V2103 as proposals} from '../shared/mercenary-skill-balance-v2103.mjs';
 const party=p=>['ATTACK','DEFENSE','SPEED','HP','ATTACK'].map((power_type,i)=>({id:String(i+1),power:p,power_type}));
 const snapshot=code=>{const row=catalog.cards.find(c=>c.code===code);return {...row,statMode:'RANK_FIXED',combat,skills:row.skills.map(s=>({...seed.document.skills.find(t=>t.id===s.id),balance:proposals.find(t=>t.id===s.id).balance}))};};
 
-test('linkage uses only five own ordinary cards, is frozen once, and preserves fixed stats and existing shields',()=>{
+test('linkage uses only five own ordinary cards, is frozen once, and scales real HP while preserving base power',()=>{
  const own=party(20000000).map((c,i)=>buildFighter(c,i,'A',null,'PVP')),before=structuredClone(own);
  const m=buildMercenaryFighter(snapshot('V-004'),'A','PVP',buildFighter),original=structuredClone(m);
  const suit={...own[0],isBattleSuit:true,attack:1e15,maxHp:1e15},foe=party(1e12).map((c,i)=>buildFighter(c,i,'B',null,'PVP'));
  applyMercenaryCombatLink([[...own,m,suit],foe]);assert.deepEqual(own,before);
- for(const key of ['power','basePower','attack','maxHp','hp','defense','speed'])assert.equal(m[key],original[key],key);
+ for(const key of ['power','basePower','attack','defense','speed'])assert.equal(m[key],original[key],key);
+ assert.equal(m.maxHp,Math.round(before.reduce((sum,c)=>sum+c.maxHp,0)/5*2));assert.equal(m.hp,m.maxHp);
+ assert.equal(mercenaryEffectiveAttack(m),Math.round(before.reduce((sum,c)=>sum+c.attack,0)/5*1.6));
  assert.equal(m.power,power.basePowerByRank.SS);assert.ok(mercenaryEffectiveAttack(m)>m.attack*100);
  const linked=structuredClone(m.mercenaryLink),shield=m.shield;own[0].attack*=1000;applyMercenaryCombatLink([[...own,m,suit],foe]);assert.deepEqual(m.mercenaryLink,linked);assert.equal(m.shield,shield);
  assert.equal(mercenaryDamageCapHp(m),m.maxHp+shield);assert.equal(mercenaryEffectiveAttack({...own[1],mercenaryLink:{attackFloor:1e15}}),own[1].attack);
  const dead={...original,hp:0,alive:false};applyMercenaryCombatLink([[...before,dead]]);assert.equal(dead.shield,0);assert.equal(dead.mercenaryLink,undefined);
 });
 
-test('released cadence takes one additional action after three own card actions and resets on a natural turn',()=>{
+test('released cadence takes one additional action after every own card action and never feeds itself',()=>{
  const a={side:'A',alive:true,hp:1},b={...a,side:'B'},m={...a,isMercenary:true,statMode:'RANK_FIXED',id:'M'},suit={...a,isBattleSuit:true};
- const c=mercenaryTurnCadence({A:[a,m,suit],B:[b]});c.acted(a);c.acted(b);c.acted(suit);c.acted(a);assert.equal(c.pending(),null);c.acted(m);c.acted(a);c.acted(a);assert.equal(c.pending(),null);c.acted(a);assert.equal(c.pending(),m);c.acted(m);assert.equal(c.pending(),null);
- for(let i=0;i<3;i++)c.acted(a);m.hp=0;assert.equal(c.pending(),null);
+ const c=mercenaryTurnCadence({A:[a,m,suit],B:[b]});c.acted(b);c.acted(suit);assert.equal(c.pending(),null);
+ for(let i=0;i<5;i++){c.acted(a);assert.equal(c.pending(),m);c.acted(m);assert.equal(c.pending(),null);}
+ c.acted(m);assert.equal(c.pending(),null);c.acted(a);m.hp=0;assert.equal(c.pending(),null);
+});
+
+test('HP linkage preserves wounded health ratios and cannot heal again when initialized twice',()=>{
+ const own=party(20000000).map((c,i)=>buildFighter(c,i,'A',null,'PVP'));
+ const m=buildMercenaryFighter({...snapshot('V-004'),startingHpPercent:50},'A','PVP',buildFighter);
+ applyMercenaryCombatLink([[...own,m]]);assert.equal(m.hp,Math.round(m.maxHp/2));
+ m.hp-=10000;m.shield-=10000;const before=structuredClone(m);applyMercenaryCombatLink([[...own,m]]);assert.deepEqual(m,before);
+});
+
+test('PVE and both PVP sides publish the authoritative linked starting HP and finite increased damage',()=>{
+ const cards=party(20000000),m=snapshot('V-004');
+ const pvp=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:m,defenderMercenary:m,seed:12});
+ const pve=createPveBattleV2({cards,mercenary:m,monster:{id:1,battle_power:1e9},seed:12});
+ for(const [battle,side]of [[pvp,'A'],[pvp,'B'],[pve,'A']]){
+  const initial=battle.teams[side].mercenaries[0],final=battle.result.final.mercenaries[side][0];
+  assert.equal(initial.mercenaryLink.version,2105);assert.equal(initial.maxHp,final.maxHp);assert.equal(initial.hp,initial.maxHp);
+  assert.equal(initial.maxHp,initial.mercenaryLink.hpFloor);assert.equal(initial.shield,initial.mercenaryLink.openingShield);
+  assert.ok(battle.result.timeline.some(e=>e.actorId===initial.id&&(e.type==='TURN'||e.type==='MERCENARY_HIT')));
+ }
+ assert.equal(MERCENARY_COMBAT_LINK.regularActionsPerTurn,1);
 });
 
 test('a large linked ward is depleted in combat instead of becoming invincible behind fixed low HP',()=>{

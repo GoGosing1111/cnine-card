@@ -8,7 +8,7 @@ const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');r
 const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot)[0];
 // Rank power is fixed while ordinary cards include unbounded equipment power.
 // The mercenary remains targetable, but its reserved action is additional:
-// released fighters act after three allied card actions without replacing a card,
+// released fighters act after each allied card action without replacing a card,
 // advancing its gauge, or consuming the five-card battle's action budget.
 // Natural mercenary turns clear the debt; suit shots and enemy turns cannot.
 export function mercenaryTurnCadence(teams){

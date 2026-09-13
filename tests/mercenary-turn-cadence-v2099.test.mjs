@@ -44,7 +44,8 @@ test('all six ranks without an assigned skill still perform basic attacks at rea
   const battle=createPveBattleV2({cards:cards(20000000),mercenary:mercenary(rank,[]),monster:{id:1,name:'평타 검수',battle_power:1e9},seed:12});
   assert.ok(ownedEvents(battle).some(e=>e.type==='TURN'&&e.damage+e.absorbed>0),rank);
   const actual=battle.teams.A.mercenaries[0],fixed=buildFighter({id:1,power,type:'NONE'},5,'A',null,'PVE');
-  for(const key of ['maxHp','attack','defense','speed'])assert.equal(actual[key],fixed[key],rank+' '+key+' stays fixed');
+  for(const key of ['attack','defense','speed'])assert.equal(actual[key],fixed[key],rank+' '+key+' stays fixed');
+  assert.ok(actual.maxHp>=fixed.maxHp,rank+' includes linked HP');assert.equal(actual.hp,actual.maxHp);
  }
 });
 

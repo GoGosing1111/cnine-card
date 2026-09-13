@@ -911,6 +911,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   };
   breachDefenseLine(a,b);breachDefenseLine(b,a);
   applyMercenaryCombatLink([a,b]);
+  const openingMercenaries={A:a.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f))),B:b.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f)))};
 
   for (const fighter of [...a, ...b]) {
     // Battle Suit cadence is an independent wall-clock lane. It must not roll,
@@ -1501,6 +1502,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     ...(encounterMode ? {encounter: {spawned: b.length, remaining: pendingMonsters.length,
       defeated: b.filter(card => !card.alive || card.hp <= 0).length,
       pendingIds: pendingMonsters.map(card => card.id)}} : {}),
+    ...(openingMercenaries.A.length||openingMercenaries.B.length?{openingMercenaries}:{}),
     winner,
     reason,
     actions: actionCount,
@@ -1776,7 +1778,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
       maxActions:encounterPlan.maxActions, maxDuration:encounterPlan.maxDuration, forcedMonsterEvery,
       stateContinuity:['HP','SHIELD','GAUGE','MAGIC_BUDGET','REVIVE_BUDGET','BATTLE_SUIT_CLOCK'], fixedEnemyStats:true}} : {}),
     teams: {
-      A: { summary: teamSummary(mercenaryFighter?[...teamA,mercenaryFighter]:teamA), cards: teamA.map(publicFighter),...(mercenaryFighter?{mercenaries:[publicFighter(mercenaryFighter)]}:{}), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
+      A: { summary: teamSummary(mercenaryFighter?[...teamA,...simulated.openingMercenaries.A]:teamA), cards: teamA.map(publicFighter),...(mercenaryFighter?{mercenaries:simulated.openingMercenaries.A}:{}), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
     },
     result
@@ -1886,8 +1888,8 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       dbTimelineWrites: 0
     },
     teams: {
-      A: { summary: teamSummary(simulationA), cards: teamA.map(publicFighter),...(mercA?{mercenaries:[publicFighter(mercA)]}:{}) },
-      B: { summary: teamSummary(simulationB), cards: teamB.map(publicFighter),...(mercB?{mercenaries:[publicFighter(mercB)]}:{}) }
+      A: { summary: teamSummary(mercA?[...teamA,...simulated.openingMercenaries.A]:teamA), cards: teamA.map(publicFighter),...(mercA?{mercenaries:simulated.openingMercenaries.A}:{}) },
+      B: { summary: teamSummary(mercB?[...teamB,...simulated.openingMercenaries.B]:teamB), cards: teamB.map(publicFighter),...(mercB?{mercenaries:simulated.openingMercenaries.B}:{}) }
     },
     result
   };
