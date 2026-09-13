@@ -5,6 +5,24 @@ const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
 const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot)[0];
+// Rank power is fixed while ordinary cards include unbounded equipment power.
+// Keep the mercenary in the normal, targetable turn lane, but reserve its next
+// allied turn after five ordinary-card actions. Natural mercenary turns clear
+// the debt; suit shots, enemy turns and follow-up damage cannot fill it.
+export function mercenaryTurnCadence(teams){
+ const debt={A:0,B:0};
+ const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
+ return {
+  select(actor){
+   if(!regular(actor)||debt[actor.side]<5)return actor;
+   return teams[actor.side]?.find(a=>a.isMercenary&&living(a))||actor;
+  },
+  acted(actor){
+   if(actor.isMercenary)debt[actor.side]=0;
+   else if(regular(actor))debt[actor.side]=Math.min(5,debt[actor.side]+1);
+  }
+ };
+}
 export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(!snapshot)return null;
  if(snapshot.statMode==='RANK_FIXED'){

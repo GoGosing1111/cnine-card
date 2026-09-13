@@ -1,5 +1,5 @@
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,createSkillChipSchedule,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
-import {buildMercenaryFighter,mercenaryCombat} from './_mercenary_combat.js';
+import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -680,6 +680,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
+  const mercenaryTurns=mercenaryTurnCadence({A:a,B:b});
   // Opt-in encounter lane; no live route currently supplies this field. A
   // single simulation owns HP, RNG, magic budgets and suit clocks throughout.
   // Restrict it to bounded, uniquely identified PVE monsters, never player cards.
@@ -1104,7 +1105,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card));
     if(!actors.length)break;
     const gaugeDt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
-    const gaugeReadyAt=clock+Math.max(.001,gaugeDt);
+    // Once a card can refill a whole gauge in the legacy .001 step, that
+    // minimum repeatedly saturates the 130 cap and the fastest actor wins every
+    // tie. Drain ready actors at the exact crossing in this high-speed range;
+    // preserve the established cadence/balance below that saturation boundary.
+    const minimumGaugeStep=actors.some(card=>card.speed*.001>=100)?0:.001;
+    const gaugeReadyAt=clock+Math.max(minimumGaugeStep,gaugeDt);
     const eligibleSupports=independentSupports
       .filter(support=>support.alive&&support.hp>0&&targetableAlive(support.side==='A'?b:a).length)
       .sort((left,right)=>(independentNextFireAt.get(left.id)??Infinity)-(independentNextFireAt.get(right.id)??Infinity)||left.slot-right.slot);
@@ -1131,7 +1137,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     //   보스가 샌드백처럼 맞고만 있는 원인이라, 게이지와 무관하게
     //   "플레이어가 N번 움직이면 몬스터가 한 번" 을 보장한다.
     //   ⚠ 몬스터 행동이 늘어난 만큼 1회 피해는 낮춰 뒀다 (buildMonsterFighter 참고).
-    let actor = independentAction?independentActor:ready[0];
+    let actor = independentAction?independentActor:mercenaryTurns.select(ready[0]);
     if(!actor)continue;
     if(independentAction){
       independentNextFireAt.set(actor.id,clock+Math.max(.0002,Number(actor.independentFireInterval||.0018)));
@@ -1172,6 +1178,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
+    if(!independentAction)mercenaryTurns.acted(actor);
     if(!independentAction)actionCount += 1;
     const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
     if(suddenDeath&&actionCount===Number(suddenDeathAfter||0)+1){
