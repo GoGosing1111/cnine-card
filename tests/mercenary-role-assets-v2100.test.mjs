@@ -4,9 +4,23 @@ import fs from 'node:fs/promises';
 import crypto from 'node:crypto';
 import sharp from 'sharp';
 import {ROLES} from '../shared/mercenary-position-config-v1.mjs';
+import {projectileTrailGeometry} from '../preview/project-v-v3/source/battle/ProjectileTrail.mjs';
 const root=new URL('../preview/mercenary-role-attacks-v2100/',import.meta.url);
 const manifest=JSON.parse(await fs.readFile(new URL('assets/manifest.json',root),'utf8'));
 const digest=b=>crypto.createHash('sha256').update(b).digest('hex');
+
+test('bullets and arrows stay readable under mobile scaling and reach the same target from both sides',()=>{
+ for(const scale of [.18,.35,.8,1,1.5])for(const direction of [-1,1])for(const arrow of [false,true]){
+  const from={x:direction>0?120:1100,y:240},to={x:direction>0?1100:120,y:360};
+  const flight=projectileTrailGeometry(from,to,.5,{scale,arrow,arcHeight:arrow?50:0});
+  assert.ok(flight.width*scale>=3,'readable core on a narrow viewport');
+  assert.ok(flight.head.x>=120&&flight.head.x<=1100,'flight remains between actor and target');
+  const contact=projectileTrailGeometry(from,to,1,{scale,arrow,arcHeight:arrow?50:0});
+  assert.ok(Math.hypot(contact.head.x-to.x,contact.head.y-to.y)<.00001,'same authoritative contact for left/right attacks');
+ }
+ assert.equal(projectileTrailGeometry({x:0,y:0},{x:0,y:0},.5),null);
+ assert.equal(projectileTrailGeometry({x:0,y:0},{x:NaN,y:1},.5),null);
+});
 test('seven mercenary roles own 112 genuine native frames with preserved original hashes and clean alpha',async()=>{
  assert.deepEqual(manifest.images.map(i=>i.role).sort(),Object.keys(ROLES).sort());assert.equal(manifest.frameCount,112);
  const allHashes=[];

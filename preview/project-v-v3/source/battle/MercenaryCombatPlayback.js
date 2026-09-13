@@ -68,7 +68,8 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(!valid())return false;
   this.settlePendingTails?.([...actors.values()]);
   const fx=new MercenarySkillFX(this,actors,skill,plan,sequence,this.mercenaryAuxiliary,()=>{},{authoritative:true});fx.removeTimeline();this.mercenaryFx=fx;
-  const begin=isWindup?0:Math.max(0,impact-.26),end=isWindup?Math.max(.25,skill.visual.impacts[0]-.26):Math.min(skill.visual.duration,impact+1.2),time={value:begin};
+  const flightLead=skill.visual.motion==='CORAL_ARCS'?.42:.26;
+  const begin=isWindup?0:Math.max(0,impact-flightLead),end=isWindup?Math.max(.25,skill.visual.impacts[0]-flightLead):Math.min(skill.visual.duration,impact+1.2),time={value:begin};
   // Server outcomes are applied at the same authored collision timestamp. The
   // rehearsal renderer cannot edit HP or produce a second damage/target result.
   try{

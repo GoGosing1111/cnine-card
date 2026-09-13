@@ -1,16 +1,12 @@
 // The primary material is always the skill's own authored sequence. Paths and
 // particles are secondary layers sampled from the existing registered V3 clock.
+import {drawProjectileTrail,projectilePixelScale,projectileTrailGeometry} from '../../project-v-v3/source/battle/ProjectileTrail.mjs';
 export function renderSSkill({fx,time,mode,plan,target,hits,point,material,impact,trace,muzzle,aim,approach,light,debris,dust,flash,phase,atPhase,color}) {
   const arc=(id,at,index)=>{
-    const from=muzzle(),to=point(id),age=time-at,travel=.36;
-    if(age< -travel||age>.025)return;
-    const q=Math.max(0,Math.min(1,(age+travel)/travel)),start=Math.max(0,q-.24),height=45+index*17;
-    const p=u=>({x:from.x+(to.x-from.x)*u,y:from.y+(to.y-from.y)*u-Math.sin(Math.PI*u)*height});
-    for(const [width,c,alpha] of [[5,color,.22],[1.8,0xf5ffff,.95]]){
-      const a=p(start);fx.lines.moveTo(a.x,a.y);
-      for(let j=1;j<=10;j++){const b=p(start+(q-start)*j/10);fx.lines.lineTo(b.x,b.y);}
-      fx.lines.stroke({width,color:c,alpha});
-    }
+    const from=muzzle(),to=point(id),age=time-at,travel=.42;
+    if(age< -travel||age>=0)return;
+    const q=Math.max(0,Math.min(1,(age+travel)/travel));
+    drawProjectileTrail(fx.lines,projectileTrailGeometry(from,to,q,{arrow:true,arcHeight:45+index*17,scale:projectilePixelScale(fx.lines),width:3}),color);
     flash(from,age+travel,45);
   };
   switch(mode) {

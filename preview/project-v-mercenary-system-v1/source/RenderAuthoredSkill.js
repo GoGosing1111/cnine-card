@@ -1,6 +1,7 @@
 import {renderSSkill} from './RenderSSkill.js';
 import {sampleRehearsal} from '../skill-rehearsal.mjs';
 import {sampleSequence} from './MercenarySpriteSequence.js';
+import {drawProjectileTrail,projectilePixelScale,projectileTrailGeometry} from '../../project-v-v3/source/battle/ProjectileTrail.mjs';
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),mix=(a,b,p)=>a+(b-a)*p;
 const smooth=v=>{const p=clamp(v);return p*p*(3-2*p)};
 
@@ -61,8 +62,9 @@ export function renderAuthored(fx,time){
   const dust=(p,age,size=280,strength=1)=>{if(age<0||age>.85)return;const q=smooth(age/.85);draw(aux.dust,p,size*(.3+q*.7),{height:size*(.07+q*.17),alpha:(1-q)*.43*strength,ground:true});};
   const muzzle=(id='M')=>{const measured=fx.emission(id);if(measured)return measured;const a=actors.get(id),p=point(id),direction=a?.team==='ENEMY'?-1:1;return{x:p.x+direction*(a?.fullBodyHeight||260)*(a?.root.scale.y||.5)*.23,y:p.y-3};};
   const trace=(from,to,at,{travel=.18,width=3,smoke=false}={})=>{
-    const age=time-at;if(age< -travel||age>.04)return;const q=clamp((age+travel)/travel),tail=clamp(q-.25);
-    for(const [w,c,a]of [[width*3,color,.2],[width,0xfff9ee,.95]])fx.lines.moveTo(mix(from.x,to.x,tail),mix(from.y,to.y,tail)).lineTo(mix(from.x,to.x,q),mix(from.y,to.y,q)).stroke({width:w,color:c,alpha:a});
+    travel=Math.max(.26,travel);const age=time-at;if(age< -travel||age>=0)return;
+    const q=clamp((age+travel)/travel),geometry=projectileTrailGeometry(from,to,q,{width,scale:projectilePixelScale(fx.lines)});
+    drawProjectileTrail(fx.lines,geometry,color);
     flash(from,age+travel,80);
     if(smoke)for(let i=0;i<5;i++){const born=i/5,a=age+travel-born*travel;if(a<0||a>.3)continue;draw(aux.smoke,{x:mix(from.x,to.x,born),y:mix(from.y,to.y,born)-a*18},13+a*34,{alpha:(1-a/.3)*.32});}
   };

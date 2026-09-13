@@ -1,4 +1,5 @@
-import {AnimatedSprite,Assets} from 'pixi.js';
+import {AnimatedSprite,Assets,Graphics} from 'pixi.js';
+import {drawProjectileTrail,projectilePixelScale,projectileTrailGeometry} from './ProjectileTrail.mjs';
 import {CHARACTER_STATE} from './BattleCharacter.js';
 import {configureDamageText} from './ObjectPool.js';
 import {mercenaryAttachment,mercenaryEmission} from '../../../project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js';
@@ -44,19 +45,28 @@ export class MercenaryRoleAttackFX{
  constructor(engine,actor,target,frames){
   this.engine=engine;this.actor=actor;this.target=target;this.role=actor.role;this.profile=MERCENARY_ROLE_ATTACKS[this.role];this.frame=-1;this.visited=new Set();this.released=false;
   this.sprite=new AnimatedSprite({textures:frames,autoUpdate:false});this.sprite.anchor.set(.5);this.sprite.eventMode='none';this.sprite.blendMode='normal';
-  this.sprite.label=`MERCENARY_ROLE_${this.role}`;engine.effectLayer.addChild(this.sprite);
+  this.trail=new Graphics();this.trail.label=`MERCENARY_ROLE_TRAIL_${this.role}`;this.trail.eventMode='none';
+  this.sprite.label=`MERCENARY_ROLE_${this.role}`;engine.effectLayer.addChild(this.trail,this.sprite);
   this.size=clamp(bodyHeight(target,engine.effectLayer)*this.profile.size,95,280);
  }
  render(time){
   if(this.released)return;
-  this.time=time;const frame=roleFrameAt(time,this.profile);this.frame=frame;
+  this.time=time;const frame=roleFrameAt(time,this.profile);this.frame=frame;this.trail.clear();this.projectile=null;
   if(frame<0||!this.target.root?.visible||this.target.battleActive===false||!this.contactApplied&&!this.engine.isAlive(this.target)){this.sprite.visible=false;return;}
   const layer=this.engine.effectLayer,source=mercenaryEmission(this.actor,layer)||roleContact(this.actor,layer),contact=roleContact(this.target,layer);
-  const remote=['GUN','BOW','MAGIC'].includes(this.actor.mercenaryAttachments?.weaponKind),emitted=time>=this.profile.impactAt*.72;
+  const kind=this.actor.mercenaryAttachments?.weaponKind,remote=['GUN','BOW','MAGIC'].includes(kind),emitted=time>=this.profile.impactAt*.20;
   let point=contact,size=this.size;
   if(frame<4){
-   const travel=remote&&emitted?clamp((time/this.profile.impactAt-.72)/.28,0,1):0;
-   point={x:source.x+(contact.x-source.x)*travel,y:source.y+(contact.y-source.y)*travel};size*=remote?.30:.58;
+   const travel=remote&&emitted?clamp((time/this.profile.impactAt-.20)/.80,0,1):0;
+   point={x:source.x+(contact.x-source.x)*travel,y:source.y+(contact.y-source.y)*travel};size*=remote?.55:.58;
+   if(remote){
+    const scale=projectilePixelScale(layer);size=Math.max(size,(emitted?36:28)/scale);
+    if(emitted&&(kind==='GUN'||kind==='BOW')){
+     this.projectile=projectileTrailGeometry(source,contact,travel,{arrow:kind==='BOW',arcHeight:kind==='BOW'?Math.min(48,Math.abs(contact.x-source.x)*.07):0,scale});
+     drawProjectileTrail(this.trail,this.projectile,kind==='BOW'?0x87e5ee:0xffcf75);
+     if(this.projectile)point=this.projectile.head;
+    }
+   }
   }
   this.sprite.position.set(point.x,point.y);this.sprite.width=size;this.sprite.height=size;
   // Only reflect direction; never stretch/recolor a common effect into roles.
@@ -64,8 +74,8 @@ export class MercenaryRoleAttackFX{
   this.sprite.visible=true;this.sprite.alpha=1;this.sprite.gotoAndStop(frame);this.visited.add(frame);
   this.contact={x:contact.x,y:contact.y};this.emission={x:source.x,y:source.y};
  }
- release(){if(this.released)return;this.released=true;this.sprite.removeFromParent();this.sprite.destroy({texture:false,textureSource:false});}
- diagnostics(){return {role:this.role,frame:this.frame,visited:[...this.visited],time:this.time,contact:this.contact,emission:this.emission,released:this.released};}
+ release(){if(this.released)return;this.released=true;this.trail.removeFromParent();this.trail.destroy();this.sprite.removeFromParent();this.sprite.destroy({texture:false,textureSource:false});}
+ diagnostics(){return {role:this.role,frame:this.frame,visited:[...this.visited],time:this.time,contact:this.contact,emission:this.emission,projectile:this.projectile,released:this.released};}
 }
 
 export async function playMercenaryRoleAttack(engine,{attacker:actor,target,damage=0,critical=false,targetHp=null,targetShield=null,onImpact=()=>{}}={}){
@@ -96,7 +106,7 @@ export async function playMercenaryRoleAttack(engine,{attacker:actor,target,dama
   t.call(()=>{actor.setState(remote?CHARACTER_STATE.ATTACK:CHARACTER_STATE.MOVE);audio?.scheduleFrom(0,t.timeScale());},[],0);
   t.to(clock,{value:p.duration,duration:p.duration,ease:'none',onUpdate:()=>{fx.render(clock.value);if(audio&&audio.planEvents===ownedAudioPlan&&audio.lastRate!==t.timeScale())audio.scheduleFrom(clock.value,t.timeScale());}},0);
   if(remote){
-   t.to(actorView,{x:actor.baseX-direction*10,duration:.055,ease:'power3.out'},p.impactAt*.68);
+   t.to(actorView,{x:actor.baseX-direction*10,duration:.055,ease:'power3.out'},p.impactAt*.20);
    t.to(actorView,{x:actor.baseX,duration:.18,ease:'power2.out'},p.impactAt);
   }else{
    t.to(actorView,{...approach,duration:p.impactAt*.82,ease:actor.role==='ASSASSIN'?'power4.in':'power2.out'},0);
