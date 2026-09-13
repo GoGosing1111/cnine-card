@@ -7,6 +7,7 @@ import {MERCENARY_COMBAT_DRAFT,validateMercenaryCombat} from '../shared/mercenar
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {MERCENARY_DEPLOYMENT_RELEASE_ENABLED,mercenaryDeploymentState} from '../shared/mercenary-public-release-v2097.mjs';
 import {pickMercenaryDraw,mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
+import {prepareMercenarySsOnce,pickMercenarySsOnce,consumeMercenarySsOnce} from './_mercenary_ss_once.js';
 import {jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {ensureJointTransactionSchema,saveJointPolicyDraft,runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
@@ -85,13 +86,14 @@ export async function openMercenaryCards(env,user,body,{randomInt,readOpeningPol
   const result=await runJointOperation(env,user,{requestId,kind:'MERCENARY_OPEN',input:{count},prepare:async()=>{
     const policy=await readOpeningPolicy(env);allowRuntime(policy,user);if(policy.opening.paymentKind==='UNSET')throw jointError('MERCENARY_PRICE_PENDING','개봉 비용이 확정되지 않았습니다.',409);if(count>policy.opening.maxBatch)throw jointError('MERCENARY_COUNT','개봉 횟수를 줄이세요.');
     const config=await readMercenaryDocument(env),released=await readJointReleaseComponent(env,'MERCENARY'),row=released?{payload_json:JSON.stringify(released.draw),revision:released.drawRevision}:await env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first();if(!row)throw jointError('MERCENARY_DRAW_PENDING','개봉 확률 설정이 없습니다.',409);
-    const draw=validateMercenaryDraw(JSON.parse(row.payload_json)),draws=Array.from({length:count},()=>{const result=pickMercenaryDraw({policy:draw,mercenaries:config.document.mercenaries,randomInt});return {...result,...(result.mercenaryCode?{name:config.document.mercenaries.find(c=>c.code===result.mercenaryCode).name}:{})};});
+    const draw=validateMercenaryDraw(JSON.parse(row.payload_json)),ssOnce=await prepareMercenarySsOnce(env,user,count);
+    const draws=Array.from({length:count},(_,index)=>{const pick=ssOnce?.index===index?pickMercenarySsOnce:pickMercenaryDraw;const result=pick({policy:draw,mercenaries:config.document.mercenaries,randomInt});return {...result,...(result.mercenaryCode?{name:config.document.mercenaries.find(c=>c.code===result.mercenaryCode).name}:{})};});
     const coinCost=policy.opening.paymentKind==='COIN'?policy.opening.coinPerOpen*count:0;
     if(coinCost>Number((await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()).coin))throw jointError('MERCENARY_FUNDS','코인이 부족합니다.',409);
-    return {count,draws,coinCost,payment:policy.opening,cmsRevision:config.revision,drawRevision:Number(row.revision),policyVersion:policy.version};
+    return {count,draws,coinCost,payment:policy.opening,cmsRevision:config.revision,drawRevision:Number(row.revision),policyVersion:policy.version,...(ssOnce?{ssOnce}:{})};
   },statements:async plan=>{
     allowRuntime(await readOpeningPolicy(env),user);
-    const list=[...(openingGuards?await openingGuards(env):[]),...jointCoinDebit(env.DB,user.id,plan.coinCost,`용병 개봉 ${requestId}`)];
+    const list=[...(openingGuards?await openingGuards(env):[]),...await consumeMercenarySsOnce(env,user,requestId,plan.ssOnce,plan.draws[plan.ssOnce?.index]),...jointCoinDebit(env.DB,user.id,plan.coinCost,`용병 개봉 ${requestId}`)];
     if(plan.payment.paymentKind==='ITEM')list.push(...jointInventoryChange(env.DB,user.id,plan.payment.itemCode,-plan.payment.itemsPerOpen*plan.count,'용병 개봉',requestId));
     plan.draws.forEach((draw,i)=>{if(draw.mercenaryCode)list.push(...mercenaryCardAcquisitionStatements(env.DB,{userId:Number(user.id),mercenaryCode:draw.mercenaryCode,acquisitionId:`${requestId}:${i}`}));else if(draw.quantity)list.push(...jointInventoryChange(env.DB,user.id,draw.outcomeId==='MASTER_STAR'?'MASTER_STAR':'STARLIGHT_ARMOR_CORE',draw.quantity,'용병 개봉 보상',`${requestId}:${i}`));});return list;
   }});return mercenaryOpeningReceipt(env,user,result.requestId,result.replayed);

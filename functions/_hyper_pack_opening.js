@@ -18,7 +18,7 @@ export async function readHyperOpening(env){
 }
 export async function hyperOpeningFeature(env){
  const setting=await readHyperOpening(env);
- return {connected:true,cmsControlled:true,mode:setting.mode,revision:setting.revision,userOpeningEnabled:setting.mode==='ON',packId:MERCENARY_PACK.id,price:MERCENARY_PACK.price,maxCount:MERCENARY_PACK.maxCount,openPath:MERCENARY_PACK.openPath,batchPath:MERCENARY_PACK.batchPath,receiptPath:MERCENARY_PACK.receiptPath,accountUrl:MERCENARY_PACK.accountUrl};
+ return {connected:true,cmsControlled:true,openingVersion:2104,mode:setting.mode,revision:setting.revision,userOpeningEnabled:setting.mode==='ON',packId:MERCENARY_PACK.id,price:MERCENARY_PACK.price,maxCount:MERCENARY_PACK.maxCount,openPath:MERCENARY_PACK.openPath,batchPath:MERCENARY_PACK.batchPath,receiptPath:MERCENARY_PACK.receiptPath,accountUrl:MERCENARY_PACK.accountUrl};
 }
 export async function hyperOpeningReadiness(env){
  const blockers=[];let cmsRevision=null,drawRevision=null,rankCounts={},outcomes=[];

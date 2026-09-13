@@ -1,0 +1,66 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mercenaryFixture} from './helpers/mercenary-db.mjs';
+import {openMercenaryCards,MERCENARY_RUNTIME_KEY} from '../functions/_mercenary_account.js';
+import {mercenarySsOnceKey,mercenarySsOnceState,pickMercenarySsOnce} from '../functions/_mercenary_ss_once.js';
+import {handleMercenaryAccount} from '../functions/_mercenary_account_routes.js';
+import {HYPER_OPENING_KEY} from '../functions/_hyper_pack_opening.js';
+import {mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs';
+
+async function fixture(t,postgres){
+ const f=await mercenaryFixture(t,{postgres});
+ for(const c of f.document.mercenaries)if(['V-004','V-040'].includes(c.code))c.rank='SS';
+ await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
+ await f.p('UPDATE users SET coin=60000000000').run();
+ await f.setting(MERCENARY_RUNTIME_KEY,{...f.policy,opening:{...f.policy.opening,coinPerOpen:500000000}});
+ await f.setting(HYPER_OPENING_KEY,{revision:1,mode:'ON',version:'hyper-opening-2093'});
+ const state=mercenarySsOnceState({userId:7,actorId:7,operationId:'test-one-time-ss-2104',reason:'Test next batch only'});
+ await f.setting(mercenarySsOnceKey(7),state);
+ return {...f,state,once:async()=>JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',mercenarySsOnceKey(7)).first()).value)};
+}
+const open=(f,count=10,requestId=crypto.randomUUID(),user=f.user,randomInt=()=>0)=>openMercenaryCards(f.env,user,{count,requestId},{randomInt});
+const grants=r=>r.draws.filter(d=>d.grantKind==='ONE_TIME_SS_GUARANTEE');
+for(const postgres of [false,true]){
+ const dialect=postgres?'PostgreSQL':'SQLite';
+ test(`${dialect}: only selected account's next ten-pack receives one SS; count, price and future odds remain unchanged`,async t=>{
+  const f=await fixture(t,postgres),beforeDraw=await f.p('SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1').first();
+  assert.equal(grants(await open(f,1)).length,0);assert.equal((await f.once()).status,'ARMED');
+  assert.equal(grants(await open(f,10,crypto.randomUUID(),{...f.user,id:8})).length,0);assert.equal((await f.once()).status,'ARMED');
+  const receipt=await open(f);assert.equal(receipt.count,10);assert.equal(receipt.coinCost,5000000000);assert.equal(receipt.draws.length,10);
+  assert.equal(grants(receipt).length,1);assert.equal(receipt.draws[9].rank,'SS');assert.equal(receipt.draws[9].mercenaryCode,'V-004');
+  assert.equal(mercenaryPackResults(receipt).length,10);assert.equal((await f.once()).status,'CONSUMED');
+  const replay=await open(f,10,receipt.requestId,f.user,()=>{throw Error('Must not reroll');});assert.equal(replay.replayed,true);assert.deepEqual(replay.draws,receipt.draws);
+  assert.equal(grants(await open(f)).length,0);assert.equal(await f.coin(),49500000000);
+  assert.equal(Number((await f.p('SELECT SUM(total_copies) n FROM user_mercenary_cards_v1 WHERE user_id=7').first()).n),21);
+  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM admin_logs WHERE action_type='MERCENARY_SS_ONCE_CONSUMED'").first()).n),1);
+  assert.deepEqual(await f.p('SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1').first(),beforeDraw);
+ });
+ test(`${dialect}: failed payment or grant never consumes the guarantee; saved retry grants exactly once`,async t=>{
+  const f=await fixture(t,postgres);await f.p('UPDATE users SET coin=1 WHERE id=7').run();
+  await assert.rejects(()=>open(f),e=>e.code==='MERCENARY_FUNDS');assert.equal((await f.once()).status,'ARMED');
+  await f.p('UPDATE users SET coin=60000000000 WHERE id=7').run();f.fail('INSERT INTO mercenary_card_acquisitions_v1');
+  const id=crypto.randomUUID();await assert.rejects(()=>open(f,10,id));assert.equal((await f.once()).status,'ARMED');assert.equal(await f.coin(),60000000000);
+  f.fail('');const r=await open(f,10,id,f.user,()=>{throw Error('Must reuse durable result');});assert.equal(grants(r).length,1);assert.equal(await f.coin(),55000000000);assert.equal((await f.once()).status,'CONSUMED');
+ });
+ test(`${dialect}: a stale competing pending request cannot consume a second grant or debit`,async t=>{
+  const f=await fixture(t,postgres),stale=crypto.randomUUID();f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(()=>open(f,10,stale));f.fail('');
+  const winner=await open(f);assert.equal(grants(winner).length,1);
+  await assert.rejects(()=>open(f,10,stale),e=>e.code==='JOINT_OPERATION_SUPERSEDED');assert.equal(await f.coin(),55000000000);
+  assert.equal((await f.p('SELECT status FROM joint_operations_v1 WHERE request_id=?',stale).first()).status,'CANCELLED');
+  assert.equal(Number((await f.p('SELECT SUM(total_copies) n FROM user_mercenary_cards_v1 WHERE user_id=7').first()).n),10);
+ });
+ test(`${dialect}: public aliases serialize concurrent requests; client fields cannot arm a guarantee`,async t=>{
+  const f=await fixture(t,postgres),origin='https://game.test';
+  const call=(path,body)=>handleMercenaryAccount({env:f.env,path,deps:{...f.deps,authenticate:async()=>({...f.user,role:'USER'})},request:new Request(origin+'/api/'+path,{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify(body)})});
+  const results=await Promise.all(['mercenary-cards/open-batch','hyper-pack/open'].map(path=>call(path,{count:10,requestId:crypto.randomUUID()})));
+  for(const r of results)assert.equal(r.status,200,await r.clone().text());
+  assert.equal((await Promise.all(results.map(r=>r.json()))).flatMap(grants).length,1);assert.equal(await f.coin(),50000000000);
+  assert.equal((await call('mercenary-cards/open-batch',{count:10,requestId:crypto.randomUUID(),ssOnce:{rank:'SS'}})).status,400);
+ });
+ test(`${dialect}: each SS remains equally selectable; duplicate grants use the existing copy accounting`,async t=>{
+  const f=await fixture(t,postgres),pool=f.document.mercenaries.filter(c=>c.rank==='SS').map(c=>c.code).sort();
+  for(let i=0;i<pool.length;i++)assert.equal(pickMercenarySsOnce({policy:f.draw,mercenaries:f.document.mercenaries,randomInt:max=>max===1000000?0:i}).mercenaryCode,pool[i]);
+  const draw=structuredClone(f.draw);for(const o of draw.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(draw);await open(f,1);await f.setDraw(f.draw);
+  const r=await open(f);assert.equal(r.draws[9].duplicate,true);assert.equal(r.draws[9].duplicateCount,1);assert.equal(r.draws[9].totalCopies,2);
+ });
+}
