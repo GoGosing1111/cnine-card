@@ -13,7 +13,7 @@ export async function mountPveV3Cms(host){
   const note=document.createElement('p');note.textContent='탑과 카우방의 전투·경제 초안을 저장합니다. 자동 원정은 기존 서버 자동 진행과 CMS 설정을 유지합니다. 공동 출시 실행은 OFF입니다.';
   const status=document.createElement('p');status.setAttribute('role','status');
   const tabs=document.createElement('div'),form=document.createElement('form'),buttons=document.createElement('div'),reload=document.createElement('button'),save=document.createElement('button');reload.type='button';reload.textContent='다시 불러오기';save.type='submit';save.textContent='초안 저장';buttons.append(reload,save);let selected='TOWER';
-  host.append(title,note,tabs,form,status);let original;
+  const live=document.createElement('nav');live.style.cssText='display:flex;gap:12px;flex-wrap:wrap;margin:12px 0';for(const [label,content] of [['폐차장 실게임','scrapyard'],['카우방 실게임','cow-room']]){const a=document.createElement('a');a.textContent=label+' ↗';a.href='/pve-v3/?content='+content;a.target='_blank';a.rel='noopener';live.append(a);}host.append(title,note,live,tabs,form,status);let original;
   function draw(){form.replaceChildren();if(!data)return;original=selected==='TOWER'?data.tower:data.cow;const version=document.createElement('p');version.textContent=`저장 버전 r${original.revision} · 미승인 초안 · 공동 실행 ${data.release.enabled?'ON':'OFF'}`;form.append(version);
     if(selected==='COW_ROOM'){const portal=document.createElement('p');portal.className='pve-v3-portal-policy';portal.textContent=`포탈 입장 · 일반 PVE ${data.cowPortal.standardPercent}% / 아포칼립스 ${data.cowPortal.apocalypsePercent}% · 토벌·소탕 완료 전투마다 1회 판정 · 포탈 1개당 1회 입장`;form.append(portal);}
     const sections=selected==='TOWER'?{config:original.config,economy:original.economy}:{economy:original};

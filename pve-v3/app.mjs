@@ -47,7 +47,7 @@ async function refresh(){
 async function readyBridge(){
   if(bridge)return bridge;const frame=$('battle-frame');for(let i=0;i<120;i++){if(disposed)throw Error('화면이 닫혔습니다.');const found=frame.contentWindow?.PveV3BattleBridge;if(found){bridge=found;return found;}await new Promise(r=>setTimeout(r,100));}throw Error('전투 화면을 불러오지 못했습니다. 결과 복구를 눌러 다시 확인하세요.');
 }
-async function prepareBattle(battle){const b=await readyBridge();$('lobby').hidden=true;$('battle-frame').hidden=false;await b.prepare(battle);$('pause').disabled=false;$('speed').disabled=isIdle;$('sound').disabled=false;paused=false;text('pause','일시정지');return b;}
+async function prepareBattle(battle){const b=await readyBridge();$('lobby').hidden=true;$('battle-frame').hidden=false;await b.prepare(battle);if(!isIdle)text('formation',`일반 카드 5장${b.diagnostics().formation?.mercenaries?.length?' + 용병 1장':''}`);$('pause').disabled=false;$('speed').disabled=isIdle;$('sound').disabled=false;paused=false;text('pause','일시정지');return b;}
 async function present(result){
   if(disposed||presenting||displayed===result.requestId)return;presenting=true;displayed=result.requestId;lockControls(true);$('result').hidden=true;
   try{const b=await prepareBattle(result);if(!await b.play()||disposed)return;
@@ -96,4 +96,4 @@ try{
       if(session.getState().phase==='IDLE'&&!$('start').disabled)$('start').click();
     }
   }
-}catch(e){message(e.message);}
+}catch(e){if(e.code==='PVE_V3_RELEASE_HELD'){document.body.dataset.release='off';text('account-label','운영 연결 완료 · 유저 입장 OFF');text('start','입장 OFF');$('start').disabled=true;$('battle-frame').hidden=true;}message(e.message);}

@@ -22,7 +22,7 @@ let cards = [];
 // V1797: 다른 스크립트(전투 로스터 등)가 "도감에 보이는 그대로의 카드"를 찾아 쓸 수 있게 노출한다.
 // 전투 페이로드의 card.image 는 전투 아트 어댑터가 SD 스프라이트로 바꿔치기하므로 그대로 쓰면 안 된다.
 window.cnineCardCatalog = () => cards;
-let selectedPackId = 'advanced';
+let selectedPackId = new URL(location.href).searchParams.get('pack')==='hyper'?'hyper':'advanced';
 let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 // 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.
 let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
@@ -109,7 +109,7 @@ function applyServerPacks(rows = []) {
   });
   const order = ['advanced','pickup','ultimate','superstar'];
   PACKS.sort((a,b)=>(order.includes(a.id)?order.indexOf(a.id):order.length)-(order.includes(b.id)?order.indexOf(b.id):order.length));
-  if (hyper) PACKS.push(hyper); // A stale server/CMS flag cannot open the unreleased mercenary pack.
+  if (hyper) PACKS.push({...hyper,openingConnected:true}); // Availability is rechecked against the live feature API before every open.
   if (!PACKS.some(pack => pack.id === selectedPackId)) selectedPackId = PACKS[0].id;
 }
 
@@ -933,8 +933,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
-    styles:['css/soopketland-v2039.css?v=2090-s-skills'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2090-s-skills'],
+    styles:['css/soopketland-v2039.css?v=2091-live-connections'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=2091-live-connections'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
@@ -1523,7 +1523,7 @@ function buyView(user) {
 }
 
 function hyperPackHero() {
-  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status">용병 출시 준비 중 · 개봉 잠금</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>확률·재료 수량과 용병 획득 조건 확정 후 개봉됩니다.</p><div class="hyper-prices"><button class="btn" type="button" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" disabled><small>10회 개봉</small>50억 코인</button></div><a class="btn secondary hyper-preview-link" href="/preview/hyper-pack-v1/">신규 개봉 연출 미리보기</a><small class="hyper-safe-notice">미리보기는 코인 차감·보상 지급이 없습니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
+  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status">용병 출시 준비 중 · 개봉 잠금</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>확률·재료 수량과 용병 획득 조건 확정 후 개봉됩니다.</p><div class="hyper-prices"><button class="btn" type="button" data-mercenary-open="1" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" data-mercenary-open="10" disabled><small>10회 개봉</small>50억 코인</button></div><small class="hyper-safe-notice" data-mercenary-open-status>용병카드 개봉은 현재 OFF입니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
 }
 
 function recentCards(user) {
@@ -4399,6 +4399,15 @@ function apiUserToLocal(u={},key){const old=loadUser()||{},scope=String(u.profil
 function mergeApiUserSummary(summary={},base=loadUser()||{}){
   return {...base,nickname:summary.nickname??base.nickname,role:summary.role??base.role??'USER',coin:Number(summary.coin??base.coin??0),cardShards:Number(summary.cardShards??summary.card_shards??base.cardShards??0),masterStars:Number(summary.masterStars??base.masterStars??0),magicCrystals:Number(summary.magicCrystals??summary.magic_crystals??base.magicCrystals??0),serverUserId:Number(summary.id??base.serverUserId??0)||base.serverUserId,testCoinGrantedV13:true};
 }
+window.addEventListener('mercenary-pack:complete',async event=>{
+  const accountId=Number(event.detail?.accountId);if(!API_MODE||!API_TOKEN||Number(loadUser()?.serverUserId)!==accountId)return;
+  const epoch=++PLAYER_STATE_MUTATION_EPOCH;
+  for(const path of ['me','me/summary','shell/summary','inventory']){clearApiCache(path);API_INFLIGHT.delete(path);}
+  try{const fresh=await apiRequest('me/summary',{}, {ttl:0,timeoutMs:12000});
+    if(epoch!==PLAYER_STATE_MUTATION_EPOCH||Number(loadUser()?.serverUserId)!==accountId||Number(fresh.user?.id)!==accountId)return;
+    saveUser(mergeApiUserSummary(fresh.user));if(runtimeCommandContext==='buy')renderShell('buy');
+  }catch(error){console.warn('용병 개봉 후 계정 정보 갱신 지연:',error);}
+});
 function mergeDrawUserSnapshot(snapshot={},results=[]){
   const current=mergeApiUserSummary(snapshot,loadUser()||{}),owned=new Set((current.owned||[]).map(String));
   current.quantities={...(current.quantities||{})};current.breakthroughs={...(current.breakthroughs||{})};
@@ -4990,7 +4999,8 @@ window.SuperstarPackV1894=Object.freeze({
 });
 
 openPack=async function(packId,count,cost,options={}){
-  if(String(packId)==='hyper'||(String(packId)==='premium'&&!readPendingDraw()))return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
+  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2091');return globalThis.MercenaryPack.open(Number(count));}
+  if(String(packId)==='premium'&&!readPendingDraw())return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';
   if(drawRequestInFlight){if(autoRun)return false;alert('카드 개봉 요청을 처리 중입니다.');return false}

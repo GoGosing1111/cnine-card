@@ -82,5 +82,5 @@ test('retired/hyper API guards precede receipt claiming and Premium Cube remains
   assert(section.indexOf('PREMIUM_PACK_RETIRED')<section.indexOf('let receiptAlreadyClaimed=false'));
   assert(section.indexOf('HYPER_PACK_NOT_RELEASED')<section.indexOf('ensureDrawReceiptV2'));
   assert.match(app,/function hyperPackHero/);assert.match(app,/50억 코인/);assert.match(app,/weekly-premium-cube-status/);
-  assert.match(read('admin/index.html'),/hyper-pack-v2076\.js/);assert.match(read('admin/hyper-pack-v2076.js'),/초안 저장 · 개봉 잠금 유지/);
+  assert.match(read('admin/index.html'),/hyper-pack-v2076\.js/);assert.match(read('admin/hyper-pack-v2076.js'),/#mercenaries\/draw/);
 });

@@ -1,7 +1,9 @@
-// Preparation only: mercenary ranks/acquisition must be approved before a grant route exists.
-export const HYPER_PACK_PRICE = 500000000;
-export const HYPER_PACK_MAX_COUNT = 10;
-export const HYPER_PACK_RELEASE_ENABLED = false;
+// Live shop contract. Execution shares the account grant path; public opening stays gated.
+import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {MERCENARY_PACK} from '../shared/mercenary-pack-contract-v1.mjs';
+export const HYPER_PACK_PRICE = MERCENARY_PACK.price;
+export const HYPER_PACK_MAX_COUNT = MERCENARY_PACK.maxCount;
+export const HYPER_PACK_RELEASE_ENABLED = V3_JOINT_RELEASE_ENABLED;
 export const HYPER_PACK_SETTINGS_KEY = 'hyper_pack_draft_v2076';
 export const HYPER_PACK_REWARDS = Object.freeze(['MISS', 'MASTER_STAR', 'MYSTIC_ENERGY', 'MERCENARY']);
 export const HYPER_PACK_MATERIALS = Object.freeze({ MASTER_STAR: 'MASTER_STAR', MYSTIC_ENERGY: 'STARLIGHT_ARMOR_CORE' });
@@ -12,8 +14,8 @@ export function hyperPackCatalogRow() {
     description: '꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드', range: '용병 출시 대비 · 개봉 준비 중',
     price: HYPER_PACK_PRICE, originalPrice: HYPER_PACK_PRICE, burningDiscountPercent: 0,
     allowed: [], guarantee10: null, guarantee20: null, drawMode: 'HYPER_REWARD',
-    drawEnabled: false, ownerDrawEnabled: false, maxDrawCount: HYPER_PACK_MAX_COUNT,
-    imageUrl: HYPER_PACK_IMAGE, revealMode: 'HYPER_SEQUENCE', releaseStatus: 'PREPARATION_ONLY' };
+    drawEnabled: HYPER_PACK_RELEASE_ENABLED, ownerDrawEnabled: false, openingConnected:true, openPath:MERCENARY_PACK.openPath, batchPath:MERCENARY_PACK.batchPath, accountUrl:MERCENARY_PACK.accountUrl, maxDrawCount: HYPER_PACK_MAX_COUNT,
+    imageUrl: HYPER_PACK_IMAGE, revealMode: 'HYPER_SEQUENCE', releaseStatus: HYPER_PACK_RELEASE_ENABLED?'RELEASED':'CONNECTED_USER_OFF' };
 }
 
 export function arrangeHyperPackCatalog(rows) {
@@ -54,7 +56,7 @@ export function hyperPackDraftStatus(settings) {
   const complete = HYPER_PACK_REWARDS.every(kind => settings.rates[kind] !== null) && Math.abs(total - 100) < 0.000001
     && ['MASTER_STAR', 'MYSTIC_ENERGY'].every(kind => settings.rates[kind] === 0 || settings.quantities[kind] !== null);
   return { total, complete, drawEnabled: false, releaseEnabled: HYPER_PACK_RELEASE_ENABLED,
-    blockers: [...(!complete ? ['REWARD_SETTINGS_INCOMPLETE'] : []), 'MERCENARY_APPROVAL_PENDING', 'ACQUISITION_GRANT_NOT_CONNECTED'] };
+    blockers: [...(!complete ? ['REWARD_SETTINGS_INCOMPLETE'] : []), 'MERCENARY_APPROVAL_PENDING', 'USER_OPENING_OFF'] };
 }
 
 async function readDraft(env) {

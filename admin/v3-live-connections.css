@@ -1,0 +1,16 @@
+#view-v3-connections{line-height:1.65;word-break:keep-all}
+#view-v3-connections h2{margin-bottom:8px}
+#view-v3-connections table th{text-align:left;color:#9aafc4;padding:12px}
+#view-v3-connections table tr{border-bottom:1px solid #aac0d52b}
+#view-v3-connections table td:first-child{min-width:140px;white-space:nowrap}
+#view-v3-connections table td:last-child{white-space:nowrap}
+#view-v3-connections .text-link{display:inline;padding:0;background:transparent;border:0;color:#70d1f7;text-decoration:underline}
+@media(max-width:600px){
+ #view-v3-connections table,#view-v3-connections tbody{display:block}
+ #view-v3-connections thead{display:none}
+ #view-v3-connections tr{display:grid;grid-template-columns:1fr auto;margin:12px 0;background:#152331;border:1px solid #aac0d52b;border-radius:8px}
+ #view-v3-connections td:first-child{font-weight:700}
+ #view-v3-connections td:nth-child(2){grid-column:1/-1;grid-row:2;padding-top:0!important}
+ #view-v3-connections td:last-child{grid-column:2;grid-row:1;color:#91bac7;font-size:12px}
+ #view-v3-connections td p{margin:0 0 8px}
+}

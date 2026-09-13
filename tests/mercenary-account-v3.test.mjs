@@ -3,7 +3,7 @@ import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {openMercenaryCards,mercenaryOpeningReceipt,saveMercenaryLoadout,growMercenary,mercenaryAccountState,loadMercenaryBattleSnapshot,MERCENARY_RUNTIME_KEY,saveMercenaryRuntime} from '../functions/_mercenary_account.js';
 import {handleMercenaryAccount,handleMercenaryAccountReady,mercenaryUsesInnerLock} from '../functions/_mercenary_account_routes.js';
 const rid=()=>crypto.randomUUID(),zero=()=>0;
-test('legacy hyper-pack keeps its outer account lock while the joint release is OFF',()=>{assert.equal(mercenaryUsesInnerLock('hyper-pack/open',false),false);assert.equal(mercenaryUsesInnerLock('hyper-pack/open',true),true);assert.equal(mercenaryUsesInnerLock('mercenaries/v3/open',false),true);});
+test('Hyper pack always shares the inner account lock with mercenary opening',()=>{assert.equal(mercenaryUsesInnerLock('hyper-pack/open',false),true);assert.equal(mercenaryUsesInnerLock('hyper-pack/open',true),true);assert.equal(mercenaryUsesInnerLock('mercenaries/v3/open',false),true);});
 test('mercenary public release hold never touches accounts or DB',async()=>{
  const deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate(){throw Error('auth touched');}};
  for(const path of ['mercenaries/v3/open','mercenaries/v3/loadout','mercenaries/v3/train','mercenary-cards/open']){const r=await handleMercenaryAccount({path,request:new Request(`https://game.test/api/${path}`,{method:'POST'}),env:new Proxy({},{get(){throw Error('DB touched');}}),deps});assert.ok(r.status>=400);}

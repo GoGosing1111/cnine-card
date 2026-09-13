@@ -2,11 +2,10 @@ import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {mercenaryAccountState,readMercenaryRuntime,saveMercenaryRuntime,openMercenaryCards,mercenaryOpeningReceipt,saveMercenaryLoadout,growMercenary} from './_mercenary_account.js';
 export const isMercenaryAccountPath=path=>path.startsWith('mercenaries/v3/')||['mercenary-cards/open','mercenary-cards/open-batch','mercenary-cards/feature','hyper-pack/open'].includes(path);
-export const mercenaryUsesInnerLock=(path,enabled=V3_JOINT_RELEASE_ENABLED)=>isMercenaryAccountPath(path)&&(path!=='hyper-pack/open'||enabled);
+export const mercenaryUsesInnerLock=path=>isMercenaryAccountPath(path);
 export async function handleMercenaryAccount({path,request,env,deps}){
   if(!isMercenaryAccountPath(path)&&path!=='admin/mercenaries/runtime')return null;
-  if(!V3_JOINT_RELEASE_ENABLED&&path==='hyper-pack/open')return null;
-  if(path==='mercenary-cards/feature')return deps.json({userOpeningEnabled:V3_JOINT_RELEASE_ENABLED});
+  if(path==='mercenary-cards/feature')return request.method==='GET'?deps.json({connected:true,userOpeningEnabled:V3_JOINT_RELEASE_ENABLED,packId:'hyper',openPath:'mercenary-cards/open',batchPath:'mercenary-cards/open-batch',receiptPath:'mercenaries/v3/receipt',accountUrl:'/mercenary-hangar/'}):deps.json({error:'GET 요청이 필요합니다.'},405);
   if(!V3_JOINT_RELEASE_ENABLED&&path!=='admin/mercenaries/runtime')return deps.json({code:'MERCENARY_OPENING_DISABLED',error:'용병 공동 업데이트를 준비 중입니다.',userOpeningEnabled:false},path.startsWith('mercenary-cards/')?409:423);
   return handleMercenaryAccountReady({path,request,env,deps});
 }
