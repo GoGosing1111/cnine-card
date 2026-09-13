@@ -3,5 +3,6 @@
 .pve-continuous-live .pve-continuous-controls{position:absolute;z-index:24;top:112px;right:16px;display:flex;gap:6px}
 .pve-continuous-live .pve-continuous-controls button{padding:9px 12px;border:1px solid #7aa8b855;border-radius:5px;background:#07121ceb;color:#e2eef0;font:700 12px sans-serif;cursor:pointer}
 .pve-continuous-live .pve-continuous-controls button:focus-visible{outline:2px solid #76e7ee;outline-offset:3px}
+.pve-continuous-live .pve-continuous-controls button:disabled{opacity:.5;cursor:wait}
 .pve-continuous-live [data-v3-field="TOWER"] .pve-continuous-track i{background:#baafff;box-shadow:0 0 12px #ae99ff88}
 @media(max-width:760px){.pve-continuous-live .pve-continuous-track{top:60px}.pve-continuous-live .pve-continuous-controls{top:96px;right:8px}.pve-continuous-live .pve-continuous-controls button{padding:8px 10px;font-size:10px}.pve-continuous-live .battle-v3-header>b{letter-spacing:0;font-size:10px}}

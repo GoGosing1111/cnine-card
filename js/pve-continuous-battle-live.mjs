@@ -10,8 +10,8 @@ export async function playContinuousBattle({modal,data,view=null,mode='PVE',isAc
   modal.classList.add('pve-continuous-live');
   view.stage.querySelector('.battle-v3-header strong').textContent=title;
   view.stage.querySelector('.battle-v3-header small').textContent=tower?'수호자의 성소':'연속 교전 · 부품 회수';
-  view.stage.insertAdjacentHTML('beforeend','<div class="pve-continuous-track" aria-hidden="true"><i></i></div><div class="pve-continuous-controls"><button type="button" data-continuous-pause>일시정지</button><button type="button" data-continuous-result>결과 보기</button></div>');
-  const pauseButton=view.stage.querySelector('[data-continuous-pause]'),track=view.stage.querySelector('.pve-continuous-track i');
+  view.stage.insertAdjacentHTML('beforeend','<div class="pve-continuous-track" aria-hidden="true"><i></i></div><div class="pve-continuous-controls"><button type="button" data-continuous-pause disabled>일시정지</button><button type="button" data-continuous-result disabled>결과 보기</button></div>');
+  const pauseButton=view.stage.querySelector('[data-continuous-pause]'),resultButton=view.stage.querySelector('[data-continuous-result]'),track=view.stage.querySelector('.pve-continuous-track i');
   let renderer,paused=false,resumeWait,ended=false,skipped=false,cancelled=false,releaseSkip;
   const skippedPromise=new Promise(resolve=>{releaseSkip=resolve;});
   const resume=()=>{paused=false;resumeWait?.();resumeWait=null;pauseButton.textContent='일시정지';};
@@ -27,7 +27,8 @@ export async function playContinuousBattle({modal,data,view=null,mode='PVE',isAc
     view.host.style.backgroundImage='none';modal.__battleV2Renderer=renderer;
     globalThis.ensureBattleSoundButton?.(view.stage);
     document.addEventListener('visibilitychange',background);addEventListener('cnine:route-will-change',cancel);addEventListener('pagehide',cancel);
-    view.stage.querySelector('[data-continuous-result]').onclick=()=>{skipped=true;ended=true;resume();renderer.destroy();globalThis.ProjectVPixiBattle.cancelActiveAnimations();releaseSkip(true);};
+    resultButton.onclick=()=>{skipped=true;ended=true;resume();renderer.destroy();globalThis.ProjectVPixiBattle.cancelActiveAnimations();releaseSkip(true);};
+    pauseButton.disabled=false;resultButton.disabled=false;
     await Promise.race([renderer.play(),skippedPromise]);
     if(cancelled||!isActive())return null;
     if(skipped)renderer.showResult();
