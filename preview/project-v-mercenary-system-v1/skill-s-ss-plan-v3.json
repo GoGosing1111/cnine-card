@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "date": "2026-09-13",
+  "basis": {
+    "source": "PRODUCTION_CMS",
+    "revision": 51
+  },
+  "authority": "USER_REQUEST_S_SS_CREATE_AND_ASSIGN",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "assignmentMode": "APPEND_PRESERVE_EXISTING",
+  "targets": [
+    {
+      "code": "V-001",
+      "rank": "S",
+      "name": "아우렌",
+      "skillId": "MS-001"
+    },
+    {
+      "code": "V-003",
+      "rank": "S",
+      "name": "솔바인",
+      "skillId": "MS-003"
+    },
+    {
+      "code": "V-004",
+      "rank": "SS",
+      "name": "베스페라",
+      "skillId": "MS-004"
+    },
+    {
+      "code": "V-005",
+      "rank": "S",
+      "name": "청아",
+      "skillId": "MS-005"
+    },
+    {
+      "code": "V-008",
+      "rank": "S",
+      "name": "아스텔",
+      "skillId": "MS-008"
+    },
+    {
+      "code": "V-009",
+      "rank": "SS",
+      "name": "련화",
+      "skillId": "MS-009"
+    },
+    {
+      "code": "V-010",
+      "rank": "SS",
+      "name": "월령",
+      "skillId": "MS-010"
+    },
+    {
+      "code": "V-011",
+      "rank": "S",
+      "name": "아르카엘",
+      "skillId": "MS-011"
+    },
+    {
+      "code": "V-022",
+      "rank": "S",
+      "name": "엘로디",
+      "skillId": "MS-022"
+    },
+    {
+      "code": "V-036",
+      "rank": "SS",
+      "name": "네레이아",
+      "skillId": "MS-036"
+    },
+    {
+      "code": "V-037",
+      "rank": "SS",
+      "name": "아델린",
+      "skillId": "MS-037"
+    },
+    {
+      "code": "V-040",
+      "rank": "SS",
+      "name": "마리엘",
+      "skillId": "MS-040"
+    },
+    {
+      "code": "V-042",
+      "rank": "SS",
+      "name": "경찰 조은",
+      "skillId": "MS-042"
+    },
+    {
+      "code": "V-043",
+      "rank": "SS",
+      "name": "동탄 디임",
+      "skillId": "MS-043"
+    }
+  ]
+}

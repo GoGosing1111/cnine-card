@@ -53,7 +53,7 @@ for (const name of ['BattleEngine.js', 'BattleCharacter.js', 'ObjectPool.js', 'O
   const file = `preview/project-v-v3/source/battle/${name}`;
   sources.push({file, sha256: hash(await readFile(file, 'utf8'))});
 }
-for(const name of ['MercenarySkillFX.js','RenderAuthoredSkill.js','MercenarySkillAudio.js','MercenaryAttachmentPoints.js']){
+for(const name of ['MercenarySkillFX.js','RenderAuthoredSkill.js','RenderSSkill.js','MercenarySkillAudio.js','MercenaryAttachmentPoints.js']){
   const file=`preview/project-v-mercenary-system-v1/source/${name}`;
   sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 }

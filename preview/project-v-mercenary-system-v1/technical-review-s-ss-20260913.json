@@ -1,0 +1,847 @@
+{
+  "id": "mercenary-s-ss-technical-review-20260913",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "catalogSkills": 26,
+  "scope": {
+    "S": 6,
+    "SS": 8,
+    "newSkills": 9,
+    "remadeSkills": 1,
+    "reusedSkills": 4,
+    "newFrames": 160,
+    "assignedFrames": 224
+  },
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0"
+  },
+  "browser": {
+    "viewports": [
+      1440,
+      390
+    ],
+    "journeys": [
+      {
+        "code": "V-001",
+        "rank": "S",
+        "skill": "MS-001",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.923
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-003",
+        "rank": "S",
+        "skill": "MS-003",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v003-solvain-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.923
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.05,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-004",
+        "rank": "SS",
+        "skill": "MS-004",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v004-vespera-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.6,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-005",
+        "rank": "S",
+        "skill": "MS-005",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v005-cheonga-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 5,
+            "next": 6,
+            "blend": 0.477
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.8,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.25,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.7,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-008",
+        "rank": "S",
+        "skill": "MS-008",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v008-astel-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.35,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-009",
+        "rank": "SS",
+        "skill": "MS-009",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v009-ryeonhwa-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.85,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.35,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.85,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-010",
+        "rank": "SS",
+        "skill": "MS-010",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/moonlit-crimson-sword-mercenary-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v010-wolryeong-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.1,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-011",
+        "rank": "S",
+        "skill": "MS-011",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v011-arkael-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          },
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          },
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-022",
+        "rank": "S",
+        "skill": "MS-022",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.176
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.85,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.8,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-036",
+        "rank": "SS",
+        "skill": "MS-036",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.1,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.95,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-037",
+        "rank": "SS",
+        "skill": "MS-037",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.8,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.2,
+            "predictedOutputPeakDeltaMs": -1.4210854715202004e-11
+          },
+          {
+            "visualImpact": 1.6,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-040",
+        "rank": "SS",
+        "skill": "MS-040",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 5,
+            "next": 6,
+            "blend": 0.108
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.9,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.35,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.8,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-042",
+        "rank": "SS",
+        "skill": "MS-042",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 0,
+            "next": 1,
+            "blend": 0.348
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.95,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.45,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-043",
+        "rank": "SS",
+        "skill": "MS-043",
+        "width": 1440,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.923
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.8,
+            "predictedOutputPeakDeltaMs": -2.8421709430404007e-11
+          },
+          {
+            "visualImpact": 1.55,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-001",
+        "rank": "S",
+        "skill": "MS-001",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.992
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-003",
+        "rank": "S",
+        "skill": "MS-003",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v003-solvain-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.05,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-004",
+        "rank": "SS",
+        "skill": "MS-004",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v004-vespera-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.6,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-005",
+        "rank": "S",
+        "skill": "MS-005",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v005-cheonga-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.8,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.25,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.7,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-008",
+        "rank": "S",
+        "skill": "MS-008",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v008-astel-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.35,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-009",
+        "rank": "SS",
+        "skill": "MS-009",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v009-ryeonhwa-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.85,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.35,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.85,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-010",
+        "rank": "SS",
+        "skill": "MS-010",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/moonlit-crimson-sword-mercenary-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v010-wolryeong-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.1,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-011",
+        "rank": "S",
+        "skill": "MS-011",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v011-arkael-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          },
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          },
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-022",
+        "rank": "S",
+        "skill": "MS-022",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.176
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.85,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.8,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-036",
+        "rank": "SS",
+        "skill": "MS-036",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 5,
+            "next": 6,
+            "blend": 0.662
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 1.1,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.95,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-037",
+        "rank": "SS",
+        "skill": "MS-037",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.8,
+            "predictedOutputPeakDeltaMs": -2.8421709430404007e-11
+          },
+          {
+            "visualImpact": 1.2,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.6,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-040",
+        "rank": "SS",
+        "skill": "MS-040",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.969
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.9,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.35,
+            "predictedOutputPeakDeltaMs": -5.6843418860808015e-11
+          },
+          {
+            "visualImpact": 1.8,
+            "predictedOutputPeakDeltaMs": -5.6843418860808015e-11
+          }
+        ]
+      },
+      {
+        "code": "V-042",
+        "rank": "SS",
+        "skill": "MS-042",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 0,
+            "next": 1,
+            "blend": 0.265
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.95,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.45,
+            "predictedOutputPeakDeltaMs": 0
+          }
+        ]
+      },
+      {
+        "code": "V-043",
+        "rank": "SS",
+        "skill": "MS-043",
+        "width": 390,
+        "normalPlayback": true,
+        "halfSpeedPlayback": true,
+        "pauseSeekCancel": true,
+        "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+        "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+        "collisionFrames": [
+          {
+            "index": 4,
+            "next": 5,
+            "blend": 0.946
+          }
+        ],
+        "audioSync": [
+          {
+            "visualImpact": 0.8,
+            "predictedOutputPeakDeltaMs": 0
+          },
+          {
+            "visualImpact": 1.55,
+            "predictedOutputPeakDeltaMs": -5.6843418860808015e-11
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "audioCheck": "Web Audio output peak scheduling; physical device listening remains user review"
+  },
+  "comparison": {
+    "reference": "preview/battle-suit-skill-chip-v1/",
+    "skills": [
+      "MISSILE_BARRAGE",
+      "AIRSTRIKE"
+    ],
+    "normalPlayback": true,
+    "impactScreenshots": true,
+    "sourceAssetsUnchanged": true
+  },
+  "visualReview": {
+    "eachSourceSheetInspected": true,
+    "desktopAndMobileContactScreenshotsInspected": true,
+    "fixes": [
+      "성검 상단 잘림: 전장 내부 높이 제한",
+      "백철 방호: 발 기준 배치 및 크기 조정",
+      "홍성 파쇄·청룡 탄착: 셀 경계 침범 원본 반려 후 재생성"
+    ],
+    "userApproval": false
+  },
+  "provenance": [
+    "skill-assets-v2/generation-inputs.json",
+    "skill-assets-v2/manifest.json",
+    "skill-audio-v1.json"
+  ],
+  "reproduce": "node scripts/qa-mercenary-s-skills-v3.mjs",
+  "sourceHashes": {
+    "RenderSSkill.js": "0ac020367c94436f3bfd44a77026e9d562519be6d3d1500cc0c8520f6811eb5e",
+    "RenderAuthoredSkill.js": "93228275716e323d1c6f9ee1eee810ff690d31f002b152e10b34406bcf6ce16c",
+    "skills-lab.src.js": "aa9a577d0a48cd506f61d306c2b71c039ffc4123577e8748155261ca028a19f5"
+  }
+}

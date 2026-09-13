@@ -1,10 +1,11 @@
 {
   "id": "mercenary-authored-skill-atlases-v2",
-  "date": "2026-09-11",
+  "date": "2026-09-13",
   "status": "USER_REVIEW_PENDING",
+  "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 272,
+  "frameCount": 416,
   "images": [
     {
       "id": "closing-punch",
@@ -1750,355 +1751,6 @@
         }
       ],
       "creationReferenceCode": "V-006"
-    },
-    {
-      "id": "emerald-calibration",
-      "skillId": "MS-005",
-      "name": "탄착 교정",
-      "source": "source/emerald-calibration-sequence-v2.png",
-      "runtime": "emerald-calibration/atlas-v2.webp",
-      "sourceSha256": "71CC8B11A79EEDEB77DAD9C16873C1C49584113CCD5C723F7F3C7F1CD178D523",
-      "runtimeSha256": "DC5A552CFEA7762051B48DEA54AC1E1E1F4BEBE7BDCF90A6905C0C033B86DA5D",
-      "sourceSize": [
-        1254,
-        1254
-      ],
-      "size": [
-        1256,
-        1256
-      ],
-      "cellSize": 314,
-      "columns": 4,
-      "rows": 4,
-      "frameCount": 16,
-      "generation": "BUILT_IN_IMAGEGEN",
-      "prompt": "Use case: stylized-concept. ONE individually authored premium 2.5D fantasy RPG VFX animation sheet. Real TRANSPARENT RGBA PNG. Exactly FOUR columns and FOUR rows of 16 sequential equal SQUARE frames in row-major time order, requested 2048x2048. Fixed camera, fixed effect origin x50% y55% in every cell. SMALL isolated frames: all effects including every faint glow, shard and smoke remain within the central 45% of their own cell; broad completely EMPTY transparent gutters >=27% each side. Actual evolving material and silhouette in every frame, not repeated scale/rotation or recoloring. Crisp highly detailed hand-painted cinematic VFX, tangible fluid and material response, readable at game size. No characters, weapon props, icons, emblems, UI, labels, text, gridlines, checkerboard, watermark, scenery, floor rectangle or background. Unique skill: EMERALD CALIBRATION, a compact fantasy rifle's converging burst impact. Frame1 three tiny separated jade glints; 2-3 the glints tighten into short corkscrew threads; 4 a compact trio of emerald/brass-edged streaks converges at the center; 5 brilliant WHITE-MINT contact shaped like three narrow converging prongs; 6-8 tightly spiraling emerald pressure shavings peel away from a central drilled point, with tiny warm brass flecks; 9-11 the curled shavings split and curl outward, silver-green particulate jets lose momentum; 12-14 a thin airy emerald mist and a few falling brass particles; 15-16 almost empty. Distinct compact three-lobed convergent geometry, NOT one large blast, no spear, no giant crystal chunks, no target/reticle icon. Changes are genuinely drawn frame by frame. Early prongs converge inward, late curls separate outward. Fine machined-metal sparks, glassy-green pressure and lively varied tiny particle trails. Peak contact is frame5. Keep short trails contained inside every cell; no surrounding ambient glow.",
-      "sourceFilename": "exec-acf365d9-8040-4194-996a-7a4d7fc9a90b.png",
-      "visualReview": "세 번의 점사 탄착과 마지막 집중 타격. V3 0.88초/1.78초 프레임 및 취소 복귀 확인. 정상 속도/0.5배속 전체 재생·취소 검수. 사용자 시각 검수 대기.",
-      "runtimeBytes": 627686,
-      "frames": [
-        {
-          "index": 0,
-          "file": "emerald-calibration/frames/01.webp",
-          "rawSha256": "4DA2D2360C78223CF46F91D27202BE89AF22EC5A7A2651365C72FB15C0430E0E",
-          "sha256": "792FB031B551AFBE6F0C1C9F7D49C8BF49A2920FF29475D5AF7600491FFF3D57",
-          "edgeMax": 1,
-          "opaque": 670,
-          "nonempty": 17744,
-          "alphaTotal": 407699,
-          "bounds": [
-            103,
-            114,
-            230,
-            228
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 1,
-          "file": "emerald-calibration/frames/02.webp",
-          "rawSha256": "C7B5BA8905A392C3BF068A8F0E0D579357B126558F966D7A2CBB78D1FC69B705",
-          "sha256": "0B4659CD51D86C0D8FCB1437DAC152F345C1FB4F445C3309E62BC222435B9FEF",
-          "edgeMax": 1,
-          "opaque": 1968,
-          "nonempty": 24675,
-          "alphaTotal": 871207,
-          "bounds": [
-            68,
-            80,
-            249,
-            241
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 2,
-          "file": "emerald-calibration/frames/03.webp",
-          "rawSha256": "37E430E3E27D4A6C419D1DBC576B9C56A1FA5C17F59482CE0E9BA3B75286F1AD",
-          "sha256": "9F5580B7CC94728365693684EEB956D5CF348AAC95FA66D47BA29B77EE31B7AD",
-          "edgeMax": 1,
-          "opaque": 3119,
-          "nonempty": 28082,
-          "alphaTotal": 1279627,
-          "bounds": [
-            66,
-            69,
-            242,
-            252
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 3,
-          "file": "emerald-calibration/frames/04.webp",
-          "rawSha256": "1EB125AFF5B5FF7867B9863D2FCC33EB8DD2D376C4761955CC65A8576269E0D4",
-          "sha256": "DB9C2CCBA1F21EF09084572628C20B837446EBC8C5B267849EBC85C78F687F34",
-          "edgeMax": 1,
-          "opaque": 5331,
-          "nonempty": 25458,
-          "alphaTotal": 1728288,
-          "bounds": [
-            49,
-            64,
-            246,
-            257
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 4,
-          "file": "emerald-calibration/frames/05.webp",
-          "rawSha256": "A386FAFF27B55D11D6440E38610F82E36A0A4B129EE747E87C9D0F1136FBEAE7",
-          "sha256": "C405915B7488ED3D32DA8D847D47B326898694F36A3206E998A75855B44B7F71",
-          "edgeMax": 1,
-          "opaque": 5916,
-          "nonempty": 30680,
-          "alphaTotal": 2106477,
-          "bounds": [
-            76,
-            51,
-            262,
-            234
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 5,
-          "file": "emerald-calibration/frames/06.webp",
-          "rawSha256": "948FFA14DD9BD219FAAD87116944B0A49F141D3DE877DC19F3D2506DDE2618C0",
-          "sha256": "F7BB266FD254CA1F24B3A2E0FE3812F8E402662A8A18FD9CCBCEA0B71BC7EBD5",
-          "edgeMax": 1,
-          "opaque": 7092,
-          "nonempty": 25052,
-          "alphaTotal": 2159138,
-          "bounds": [
-            92,
-            74,
-            248,
-            235
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 6,
-          "file": "emerald-calibration/frames/07.webp",
-          "rawSha256": "ADCD4AB0FD339324811361A24C3B9AAD605B75BC9647CB1ADA71ACCEBB897B8A",
-          "sha256": "BC26076626784557EA428F092739ABF489A3AFA5199DC2595352139B5EAF2F6C",
-          "edgeMax": 1,
-          "opaque": 8279,
-          "nonempty": 29329,
-          "alphaTotal": 2574940,
-          "bounds": [
-            72,
-            74,
-            250,
-            247
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 7,
-          "file": "emerald-calibration/frames/08.webp",
-          "rawSha256": "BF5D738CED3F0D2B2B2187D9595EB32EF3F1998D1FCB5FD5E38AA500A2595006",
-          "sha256": "36AB4D124857D0329B2336CEF370DA4C70853B337CAA40F4C75CB77971CE8700",
-          "edgeMax": 1,
-          "opaque": 7796,
-          "nonempty": 34736,
-          "alphaTotal": 2489328,
-          "bounds": [
-            72,
-            55,
-            253,
-            247
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 8,
-          "file": "emerald-calibration/frames/09.webp",
-          "rawSha256": "DB737D9F86A570594688DE5C2542E52034E7EED016C387C809A24AC8A7AAEC85",
-          "sha256": "A150405AA04CE2489507461D9B406FAA689F109A4F09D13D2C61162F8DB81FA7",
-          "edgeMax": 1,
-          "opaque": 7756,
-          "nonempty": 37353,
-          "alphaTotal": 2652230,
-          "bounds": [
-            66,
-            47,
-            265,
-            261
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 9,
-          "file": "emerald-calibration/frames/10.webp",
-          "rawSha256": "89D50AF00A806BFB8E577D3253388384EE12D2300D961B0AE7CDD35CE4176172",
-          "sha256": "8AE5BA20CF3921B445B2C7E7DB40DDB496EC5A0B8E7FB605D64C458CB239E87C",
-          "edgeMax": 1,
-          "opaque": 5443,
-          "nonempty": 37181,
-          "alphaTotal": 2070889,
-          "bounds": [
-            81,
-            39,
-            278,
-            253
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 10,
-          "file": "emerald-calibration/frames/11.webp",
-          "rawSha256": "B262489F4BB943D8A49357861E2E7E5594C8A172DAB2987040B3E74406CFF815",
-          "sha256": "13A3574C3CAB46B69AE492785D0FCF8E913E75D8B66A4D6701BBF199AD60EE20",
-          "edgeMax": 1,
-          "opaque": 2414,
-          "nonempty": 34606,
-          "alphaTotal": 1587735,
-          "bounds": [
-            67,
-            49,
-            270,
-            255
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 11,
-          "file": "emerald-calibration/frames/12.webp",
-          "rawSha256": "91A0225329F47F0EDC72161118E6FD1ED610851C80FE306C1CDE2B3BEDF97B6D",
-          "sha256": "4FCA77EBA68674F04FE7916B9FF925DE93E29575914225CC2C2182EB6EED32AA",
-          "edgeMax": 1,
-          "opaque": 358,
-          "nonempty": 28748,
-          "alphaTotal": 962874,
-          "bounds": [
-            80,
-            69,
-            251,
-            251
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 12,
-          "file": "emerald-calibration/frames/13.webp",
-          "rawSha256": "B97492966E15F2CB7CB72FE305E3E8B6D60A9AE74C65DF1D9DA071E3320ACF7A",
-          "sha256": "1C9D3A06690896FF7B5F1BD9B9774107D1180A893E167D1A0936A9B3EC1362A4",
-          "edgeMax": 1,
-          "opaque": 118,
-          "nonempty": 21402,
-          "alphaTotal": 653784,
-          "bounds": [
-            98,
-            83,
-            240,
-            241
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 13,
-          "file": "emerald-calibration/frames/14.webp",
-          "rawSha256": "0430CFE0468B63239B23EB535F0E36BA6B86095ABC0A0A3C97FD47BB5E972948",
-          "sha256": "D48318FC47538CDE5BAE10DA6E66A44149B2896D24AAB59415E3AAD600494C50",
-          "edgeMax": 1,
-          "opaque": 70,
-          "nonempty": 20634,
-          "alphaTotal": 211543,
-          "bounds": [
-            111,
-            94,
-            230,
-            237
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 14,
-          "file": "emerald-calibration/frames/15.webp",
-          "rawSha256": "9B78FC709411A3D82F0DC11A472AB612B9555815BB7ACADD990497EEF4DDA5E2",
-          "sha256": "D940544B17E7477999B55597CE3C56EF5DA7F447B459FA9713A79D49E4B18CCB",
-          "edgeMax": 2,
-          "opaque": 26,
-          "nonempty": 20072,
-          "alphaTotal": 35997,
-          "bounds": [
-            105,
-            142,
-            216,
-            201
-          ],
-          "size": [
-            314,
-            314
-          ]
-        },
-        {
-          "index": 15,
-          "file": "emerald-calibration/frames/16.webp",
-          "rawSha256": "8830C3B608110ACF07CB245028A25CC5758A87E003000B1ABAAF5C0E9AA02279",
-          "sha256": "A0917DE36FD6E65B57085235B1181610610B24566AED502598A34957B30C113E",
-          "edgeMax": 2,
-          "opaque": 0,
-          "nonempty": 4595,
-          "alphaTotal": 4841,
-          "bounds": [
-            174,
-            164,
-            176,
-            166
-          ],
-          "size": [
-            314,
-            314
-          ]
-        }
-      ],
-      "creationReferenceCode": "V-005"
     },
     {
       "id": "command-feathers",
@@ -5953,6 +5605,3491 @@
         "cleanse": "Only remaining marks receive terminal frames; erased marks fade within180ms"
       },
       "creationReferenceCode": "V-021"
+    },
+    {
+      "id": "holy-blade-oath",
+      "skillId": "MS-001",
+      "name": "성검의 맹세",
+      "source": "source/holy-blade-oath-sequence-v2.png",
+      "runtime": "holy-blade-oath/atlas-v2.webp",
+      "sourceSha256": "0247A159F322B2FD97F9E7303103E4AA3BDFC95002D229ED2CB7F5C886A8E8D1",
+      "runtimeSha256": "B7F79215A98ED6869406DB9648D34FDC2FBC04FF493AD371160DC64CE17BF5EA",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Create ONE individually authored high-end 2.5D RPG animated VFX sprite sheet: OATH OF THE HOLY BLADE. It belongs to a handsome silver-haired knight in dark blue and polished silver plate with antique gold trim, wielding a long luminous silver greatsword. This sheet contains ONLY the changing sword-cut energy and struck material, no character, no weapon prop, no scenery. TRUE TRANSPARENT RGBA PNG. Exactly 4 columns x 4 rows, sixteen sequential equal square cells, requested 2048x2048. Fixed side-on slightly elevated camera, stable contact origin at x50%, y55% of EVERY cell. Entire effect, smoke, sparks and dim glow contained within CENTRAL 54% of each cell. Completely transparent empty gutters at least23% on every edge. No grid lines, letters, checkerboard, background or border. Frame 01 tiny silver filament bending upward from lower left. 02 a narrow blue-white cutting edge grows diagonally. 03 taut blade-shaped pressure crescent with thin gold edge. 04 crescent compresses into the diagonal contact line, about to strike. 05 sharp WHITE SILVER impact at the fixed center, blade energy slices upward through center. 06-08 the cut genuinely opens into TWO unequal torn metallic light sheets, outward gold sparks and small silver shards peel off in curved trajectories. 09-11 the heavy light sheets split and dissolve into cobalt-blue wisps, their torn edges curl. 12-14 residual silver motes descend and separate while wisps break apart. 15 almost empty tiny cooling flecks. 16 nearly invisible final dust. Chronological physically evolving silhouettes and internal matter each frame, NOT a repeated scaled or rotated static swoosh. Strong readable sword weight, elegant disciplined silver/cobalt/gold, short dense contact flash, fine painterly metal-vapor detail. Not a circular magic seal, not a big generic explosion, not a logo. Maintain one consistent virtual sword trajectory and spatial origin through all sixteen frames. No humanoids or numbers. Generate real alpha, not a painted checkerboard.",
+      "sourceFilename": "exec-2912097a-d0f9-48e8-ab97-0400c6b9f8f4.png",
+      "visualReview": "독립 16프레임의 성검 준비·접촉·갈라진 은청색 압력·잔향 변화 확인. 가장자리 알파 최대 2/255. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 857720,
+      "frames": [
+        {
+          "index": 0,
+          "file": "holy-blade-oath/frames/01.webp",
+          "rawSha256": "1BC22E900C652F061251140CE27E643DD87549F690A685A79DDABD4493B22B60",
+          "sha256": "1A277E4284BADE1CB040547CE7A4EDB8D58644AF39A27E626ACFEE661DADC82E",
+          "edgeMax": 1,
+          "opaque": 232,
+          "nonempty": 9240,
+          "alphaTotal": 201193,
+          "bounds": [
+            109,
+            168,
+            205,
+            247
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "holy-blade-oath/frames/02.webp",
+          "rawSha256": "D4ABD8EDEDC22D17B1BDCB40F762259DABBBAE635802719DBCC2292DCEE91970",
+          "sha256": "6300A5F921F15373CF411FFA5C05C72C13B7F0CDD7DEBF39095A1AAF49783F2B",
+          "edgeMax": 1,
+          "opaque": 2800,
+          "nonempty": 17037,
+          "alphaTotal": 1036900,
+          "bounds": [
+            94,
+            72,
+            245,
+            263
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "holy-blade-oath/frames/03.webp",
+          "rawSha256": "7A674A77881FE2F3531A617D6387F4B6946DD76B52006C1EF4C9F39735145CDA",
+          "sha256": "64B7E1F627920E698CFCF7C4A6A737A5502DF7053D07694F41FA585B7A849248",
+          "edgeMax": 1,
+          "opaque": 8565,
+          "nonempty": 26000,
+          "alphaTotal": 2541170,
+          "bounds": [
+            91,
+            74,
+            248,
+            264
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "holy-blade-oath/frames/04.webp",
+          "rawSha256": "6744CF40B879571F57E84E67782DB14CC2EDB0E839C3771232992FA135D45127",
+          "sha256": "5D1EC1902C90B8496E5D29A9961A75564FCD248D414BD23625D56E48476802E4",
+          "edgeMax": 1,
+          "opaque": 4918,
+          "nonempty": 27529,
+          "alphaTotal": 1834805,
+          "bounds": [
+            88,
+            64,
+            238,
+            273
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "holy-blade-oath/frames/05.webp",
+          "rawSha256": "56B2283CD7E78A8C95994B4CEB8E10C0416D6FF44E454D7012F0D71D1D913E14",
+          "sha256": "EC07190FA0EB7064C57ED78A5F74AF2027C9CB8A7F0F445DEB678A2F43CF9CBD",
+          "edgeMax": 1,
+          "opaque": 8425,
+          "nonempty": 45769,
+          "alphaTotal": 3064674,
+          "bounds": [
+            56,
+            18,
+            282,
+            263
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "holy-blade-oath/frames/06.webp",
+          "rawSha256": "A0D0F404851EE220E995933DF1EF2171EB26EAEE66E99AF06692F26265EA9F6C",
+          "sha256": "4088C8CFC27867C2F34A808B77B9ED97D6ED9B1B2E44F72BC472E947770DBEB4",
+          "edgeMax": 1,
+          "opaque": 12160,
+          "nonempty": 47860,
+          "alphaTotal": 3937332,
+          "bounds": [
+            51,
+            25,
+            273,
+            272
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "holy-blade-oath/frames/07.webp",
+          "rawSha256": "EB1C03FA10D3C1D259353DC4538FF71FEAAC75288B6A95D62A4D04847CA9F492",
+          "sha256": "5A5369A9BB364290291DFAFC9E9D0AB8419CF01EA5578991FAE7C851A9472A07",
+          "edgeMax": 2,
+          "opaque": 16670,
+          "nonempty": 54447,
+          "alphaTotal": 5245905,
+          "bounds": [
+            52,
+            21,
+            290,
+            295
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "holy-blade-oath/frames/08.webp",
+          "rawSha256": "0961E7F029A36287548A15693F98913397ED2E609DED5C13DEE3954AD55AEA77",
+          "sha256": "A9A5622A09B1D33B4C61985B3C90741BC994D5A62918C5D21640A28617D4A9E7",
+          "edgeMax": 1,
+          "opaque": 18374,
+          "nonempty": 57041,
+          "alphaTotal": 5724449,
+          "bounds": [
+            54,
+            16,
+            294,
+            298
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "holy-blade-oath/frames/09.webp",
+          "rawSha256": "7F71913B8F763044B616E6C11526F64FEDCB66DAB902B9EFA5D723CF88632C4D",
+          "sha256": "5AFEF1B28DCF580D022B88BD2FA2A46F3C2F15BF9669E8C6891997737EC11063",
+          "edgeMax": 1,
+          "opaque": 16121,
+          "nonempty": 51939,
+          "alphaTotal": 5139661,
+          "bounds": [
+            59,
+            16,
+            291,
+            299
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "holy-blade-oath/frames/10.webp",
+          "rawSha256": "8FACF529D91B2D68D610C8B1197801614D3E2A55BFC1214D5100C7165A021B7E",
+          "sha256": "50B9E3CFAF75A9CC2AC9E2648DC11265C506EA51FB49BF0EB6677AA44EFAFF06",
+          "edgeMax": 1,
+          "opaque": 7888,
+          "nonempty": 48502,
+          "alphaTotal": 3647669,
+          "bounds": [
+            65,
+            15,
+            285,
+            297
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "holy-blade-oath/frames/11.webp",
+          "rawSha256": "984171C2021468FF5D5C07C0C3948D9ACF6C873647E33766A772996FBC34C9B2",
+          "sha256": "E23C7AFD13763CC3A3555B613C4630DFD07E50B5FF1BE563B1DAF0DF577E597F",
+          "edgeMax": 1,
+          "opaque": 4381,
+          "nonempty": 42739,
+          "alphaTotal": 2261497,
+          "bounds": [
+            81,
+            24,
+            279,
+            299
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "holy-blade-oath/frames/12.webp",
+          "rawSha256": "6EE50EEBDFBED2DCBDA0D68CCD227680DFC38D47066DF4D82EEAE411C2265E41",
+          "sha256": "4F45D0A999D68E3BDD356A35877AFDFEC16C1F4710DFF38945C3EA13BD9A0CB7",
+          "edgeMax": 1,
+          "opaque": 999,
+          "nonempty": 31513,
+          "alphaTotal": 949426,
+          "bounds": [
+            90,
+            28,
+            267,
+            229
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "holy-blade-oath/frames/13.webp",
+          "rawSha256": "280DFC1478DED24056C04474FD45BF1C587DB5F77BDA996C5B305BE906407657",
+          "sha256": "74887B9AA7577CC9288C3D4ECB8F961A3F3ABD7773BDE31A9D40AD262B3211EF",
+          "edgeMax": 1,
+          "opaque": 325,
+          "nonempty": 22535,
+          "alphaTotal": 353490,
+          "bounds": [
+            97,
+            33,
+            257,
+            243
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "holy-blade-oath/frames/14.webp",
+          "rawSha256": "F06DFEA778D946A39927F8A04A95299B918833AE5C701EEEF7802A6F431E0D95",
+          "sha256": "CC3DC2441F2377725179B40770EFC3A580A61052D46D27762F32D1B429A543E7",
+          "edgeMax": 1,
+          "opaque": 311,
+          "nonempty": 20054,
+          "alphaTotal": 234286,
+          "bounds": [
+            96,
+            42,
+            245,
+            243
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "holy-blade-oath/frames/15.webp",
+          "rawSha256": "2B03F0067B0630F4FCEEE2EDC9A64026A2329B3CC6F5D70E9E95DE87A2412ED6",
+          "sha256": "33D896272EFCE602E4F8D2D82A6B7002E655B49A64336E183B45CB7EFE188FF8",
+          "edgeMax": 2,
+          "opaque": 11,
+          "nonempty": 12475,
+          "alphaTotal": 43024,
+          "bounds": [
+            96,
+            58,
+            206,
+            197
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "holy-blade-oath/frames/16.webp",
+          "rawSha256": "0491A0E4E584A4B20A3794BE0704BE631FB6A89DF63DD3B69F517A2C0E90FBB3",
+          "sha256": "DE8BB608052D3C837A4BAD3B42F2B9E3CA31D78CB0E96C9AA6E82C30E8B47388",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 3874,
+          "alphaTotal": 3965,
+          "bounds": null,
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crimson-petal-waltz",
+      "skillId": "MS-009",
+      "name": "적주 윤무",
+      "source": "source/crimson-petal-waltz-sequence-v2.png",
+      "runtime": "crimson-petal-waltz/atlas-v2.webp",
+      "sourceSha256": "193D3CE7535CD7C78D5B05D0950C0D9BDA63F56A091DFA98150166F2490FEE78",
+      "runtimeSha256": "B9A62FAEE009236EFA3F429E45F7C820CA8ABE29C751D06E4DA722C0B57F4B07",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "One bespoke AAA Korean fantasy RPG animated VFX sheet, CRIMSON PETAL WALTZ: the physical impact of a dancer's red fantasy rifle round, a spiralling rose-silk pressure fan that peels apart into sharp petal-shaped hot sparks, distinct from fire, glass shield or a moon slash. Only transient energy matter, no actual flower object, person, weapon or scenery. Genuine TRANSPARENT RGBA PNG, requested2048x2048. Exactly4columns4rows, sixteen chronological square cells. Same orthographic slightly elevated camera and fixed contact x50% y55% in each cell. Every effect wholly within central48% of cell including glow, wisps and fragments; huge fully empty alpha gutters. 01 two tiny ruby filaments spiral inward.02 filaments twist into a folded compressed fan.03 fan edge tightens into three narrow pale-red cutting ribs.04 ribs press together as a tiny incoming shot strikes from left.05 intense short WHITE-PINK impact at center, three asymmetric silk-like pressure petals snap outward.06-08 each petal tears lengthwise into frayed scarlet ribbons and sprays fine warm sparks in a turning directional wake.09-11 ribbons tumble apart into small torn pieces as empty negative space grows.12-14 faded rose-gray wisps unwind and sparks fall.15 a few dim pinpricks.16 barely visible final dust. Actual evolving fragmentation each frame, NOT repeated scaled/rotated copies. Luminous scarlet edges and dense pale-white contact, darker wine smoke, realistic delicate pressure-sheet material, extremely clear temporal development, high-end painterly VFX. This is an impact animation in an in-world location, not a flower badge, magic circle, heart symbol or generic explosion. No text, labels, numbers, watermark, gridlines, backdrop, checkerboard. Actual alpha channel. Keep all effect matter compact centered and separated from neighboring cells.",
+      "sourceFilename": "exec-f3a6b7e0-b57c-475c-8242-873b3cf33bde.png",
+      "visualReview": "적주 압력 날개 전개·갈라짐·파편 분리·희미한 잔향의 형태 변화 확인. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 776012,
+      "frames": [
+        {
+          "index": 0,
+          "file": "crimson-petal-waltz/frames/01.webp",
+          "rawSha256": "4897D0F63F82A45BC759DE57424F5A98D4ECB50FFD15E3BC1F8C17955AAE3E01",
+          "sha256": "D4615AB82769EAD6B0E70ACB8B28A77C3B2428AF88AC325FBC4407B9477A1D35",
+          "edgeMax": 1,
+          "opaque": 962,
+          "nonempty": 17035,
+          "alphaTotal": 623522,
+          "bounds": [
+            115,
+            115,
+            217,
+            243
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "crimson-petal-waltz/frames/02.webp",
+          "rawSha256": "2AC0D8E9E54570F25E63DAAAE84811E11B74B2C06198FF2CF89FD375A9AFFAFB",
+          "sha256": "62665A35A9AE0902FBD1E74E06BC121AFF0ACBA5BD22F73B3985CA4FDEC5EA20",
+          "edgeMax": 1,
+          "opaque": 4776,
+          "nonempty": 23641,
+          "alphaTotal": 1817020,
+          "bounds": [
+            105,
+            101,
+            244,
+            245
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "crimson-petal-waltz/frames/03.webp",
+          "rawSha256": "F10695E182A139557978CB5C527E68949252A390C964DE20923357C8D51D3EFB",
+          "sha256": "2203D477E19D0BE0680808585555F2EBC00D40B6A7CCED01F1D17439CE208807",
+          "edgeMax": 1,
+          "opaque": 3637,
+          "nonempty": 20380,
+          "alphaTotal": 1348657,
+          "bounds": [
+            113,
+            96,
+            232,
+            253
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "crimson-petal-waltz/frames/04.webp",
+          "rawSha256": "2CADF6C859A1D3BC72D5507AEBC1C9387627E07140E15AE74B4C1C1164F8FAF6",
+          "sha256": "93097D014C5AC2DA7E1E74A7F4DFEF45ECA436D41C71039124CA69451509B1E2",
+          "edgeMax": 1,
+          "opaque": 4264,
+          "nonempty": 28265,
+          "alphaTotal": 1636194,
+          "bounds": [
+            26,
+            104,
+            246,
+            249
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "crimson-petal-waltz/frames/05.webp",
+          "rawSha256": "BD8CDDC2B4F0737CB737C0B9143399A522D0D42F95FD65721E94E88B233E3AFA",
+          "sha256": "E9F6E21525424388E1B174539E9B166E242C009506360D3808303965AE60BC0C",
+          "edgeMax": 1,
+          "opaque": 11064,
+          "nonempty": 43986,
+          "alphaTotal": 3781842,
+          "bounds": [
+            76,
+            49,
+            261,
+            246
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "crimson-petal-waltz/frames/06.webp",
+          "rawSha256": "62E3C66BF7D24EEDCDDD024796A7DCC3C1C66EA756698B908C103EA12CD1CAB2",
+          "sha256": "57F6BDEB7670D381E1EEEA10AEAE721F6303C1CD5C5E4F986C23385513357BD2",
+          "edgeMax": 1,
+          "opaque": 10011,
+          "nonempty": 44631,
+          "alphaTotal": 3616030,
+          "bounds": [
+            71,
+            38,
+            283,
+            254
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "crimson-petal-waltz/frames/07.webp",
+          "rawSha256": "7CB5139B715C2A0BCDB4568C72CBECE1441E8B5B54C4B1CFA1BD15CE9114A084",
+          "sha256": "A6AFA6CEA83D76BFCA95B69B4BF678A017F99555A10BE7DE7028DACFB112B063",
+          "edgeMax": 1,
+          "opaque": 9117,
+          "nonempty": 42040,
+          "alphaTotal": 3338490,
+          "bounds": [
+            64,
+            41,
+            266,
+            256
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "crimson-petal-waltz/frames/08.webp",
+          "rawSha256": "7481E3BD1EACE7C08C6FD9F396534DE26CF2411C0BEAE93A5AAEA4B5A781E204",
+          "sha256": "7238BAAB8DCC9F7C5AD8A69EE366F30E72433C4FF0D862ABB3B0B879E6E02721",
+          "edgeMax": 1,
+          "opaque": 5231,
+          "nonempty": 42461,
+          "alphaTotal": 2707807,
+          "bounds": [
+            58,
+            46,
+            262,
+            264
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "crimson-petal-waltz/frames/09.webp",
+          "rawSha256": "D6F8CFBD6CB90F9263E577D66F4D5E17FC487FAAD1882E754F9A8397DDA0E916",
+          "sha256": "04A390728E8DDB96BB3C125ABE7A3A55278927980196FB80D9E7962E7F99DDB5",
+          "edgeMax": 1,
+          "opaque": 5295,
+          "nonempty": 43193,
+          "alphaTotal": 2526354,
+          "bounds": [
+            63,
+            44,
+            276,
+            272
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "crimson-petal-waltz/frames/10.webp",
+          "rawSha256": "E0FC7C3E7AE40F080A899E9E80653CAB1161723B3431DD3368CBE3016CA587C5",
+          "sha256": "AC32E61EF006A5EB171753A63D9253E6EFD7F27C56042731D61F5B11D839BE4C",
+          "edgeMax": 1,
+          "opaque": 2856,
+          "nonempty": 41853,
+          "alphaTotal": 1908533,
+          "bounds": [
+            63,
+            51,
+            271,
+            264
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "crimson-petal-waltz/frames/11.webp",
+          "rawSha256": "A95C86ACFC4EE45CD7059915F198C978D66055F1BFB3A65847C434805BBB3AEE",
+          "sha256": "46B96C8AD61FE22B5433AAC768D9ADC5308920F4666920915D9D0732D47DC9AA",
+          "edgeMax": 1,
+          "opaque": 922,
+          "nonempty": 39187,
+          "alphaTotal": 1154998,
+          "bounds": [
+            76,
+            57,
+            257,
+            264
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "crimson-petal-waltz/frames/12.webp",
+          "rawSha256": "134CB9047FB11BD286373363803C2CDA07B7EB6B260C5801072D48CAB9BD9F08",
+          "sha256": "8B6ADEA271FD22EF241BE487354667FABA44D76F47868CD6C552E83359AB0473",
+          "edgeMax": 1,
+          "opaque": 171,
+          "nonempty": 33129,
+          "alphaTotal": 682060,
+          "bounds": [
+            80,
+            64,
+            252,
+            257
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "crimson-petal-waltz/frames/13.webp",
+          "rawSha256": "5EF158BE7C7617B6B4B72AE02055D65AE19FF34D824A0157E28524F94DD8FC56",
+          "sha256": "1CA8527EC3E721C63B48D3565F99C713DCC78D000E3AE03121C23C87F4906A06",
+          "edgeMax": 1,
+          "opaque": 81,
+          "nonempty": 23939,
+          "alphaTotal": 567326,
+          "bounds": [
+            104,
+            71,
+            259,
+            247
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "crimson-petal-waltz/frames/14.webp",
+          "rawSha256": "1BBDE0D63DDA399D1F6F0204239F63BB9804F0ACD60A2AAB2B8C76C280D805D5",
+          "sha256": "52E60B4179480363A6F1D4A1F4A2A2CE467409307AA3B0B992DA0B2B5144DAF4",
+          "edgeMax": 1,
+          "opaque": 25,
+          "nonempty": 22283,
+          "alphaTotal": 302724,
+          "bounds": [
+            99,
+            78,
+            249,
+            245
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "crimson-petal-waltz/frames/15.webp",
+          "rawSha256": "EAA46B56F61D9D610126174A626E660A14B257665107B3D6F1D8DE400FD0D7AC",
+          "sha256": "62199CF74089A985F21192758F98C50B92989BC09DE90222E70CC27A65F5657E",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 14120,
+          "alphaTotal": 53619,
+          "bounds": [
+            100,
+            122,
+            207,
+            224
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "crimson-petal-waltz/frames/16.webp",
+          "rawSha256": "7962ABF733E446A2D9B07446FEF93F000283130A15BDE9D3F1155E6AC8F77995",
+          "sha256": "09389875B26D73A4051D428BD42B1E167BA0E641A1D50E11928993AEC96757D6",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 13809,
+          "alphaTotal": 17501,
+          "bounds": [
+            138,
+            82,
+            201,
+            219
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crimson-observation",
+      "skillId": "MS-008",
+      "name": "홍성 파쇄탄",
+      "source": "source/crimson-observation-sequence-v2.png",
+      "runtime": "crimson-observation/atlas-v2.webp",
+      "sourceSha256": "6C58A88C579D322B67BDF022F0347DBF1B09E53761AF152582CBDA6130C910E5",
+      "runtimeSha256": "91C3A3DEE61FBF804AD6325690A0143AC65269FA5FFD9AFA8B078D3E76373D0E",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "One bespoke animated game VFX sprite sheet, CRIMSON OBSERVATION: a high-velocity shot from an elegant white-and-crimson fantasy long rifle shattering an enemy's translucent protective shell. Only the impact materials, no gun or person. Real transparent RGBA PNG, 2048x2048 requested, EXACT 4x4 chronological grid of sixteen equal square cells. Fixed camera, fixed impact x50% y55% of each cell, compact shape no more than central50% of cell with empty transparent moat at every edge. Frame01 a faint thin crimson point in a tiny clear curved glass fragment.02 three red observation glints tighten along the oblique glass surface.03 the fragile curved surface reveals hairline faults.04 narrow red pressure needle arrives from left.05 needle strikes exact center, intense tiny white-rose impact, branching fractures race outward through the clear convex shell.06-07 irregular substantial translucent glass plates break free outward, tiny crimson-lit edges.08-09 plates separate with real rotation and increasingly empty gaps, sharp concentrated red splinters continue to right.10-11 fragments split smaller and white-red dust streams right.12-13 curled pale wine-colored vapor thins.14 a few falling clear shards.15 just two dim red motes.16 almost completely empty. Each frame has materially changing geometry and fragmentation, not the same icon fading/scaling. High-end Korean fantasy RPG painterly VFX, clean razor-thin contact, physical broken-glass thickness, few focused red star-like glints, readable restrained violent precision, no fireball or generic magical circle. All light and dust fit inside each cell with very generous TRANSPARENT margins; no cell bleed. No glyph, crosshair UI, numbers, logo, frame, grid line, scenery, checkerboard, black/white background. Generate genuine alpha. CRITICAL production correction: the prior sheet failed because frame10 shards touched the cell boundary. Make every effect MUCH SMALLER inside its cell: the ENTIRE effect INCLUDING faintest debris, long projectile, fog and glows must fit into a strict central 34% width and 34% height box. No long horizontal spikes. Every cell has over 32% fully transparent margin on EVERY side. Very small compact intricate fragments in very large empty cells. Scale remains consistent for all sixteen frames. Fewer widely flying fragments, tight local disintegration, no expanding outer cloud. The shards break up locally and dissolve without traveling to the cell border. This is still a true animation, not sixteen badge designs.",
+      "sourceFilename": "exec-933f8539-43e7-4481-a75b-22ea8321e74d.png",
+      "visualReview": "홍성 관통점→유리판 분절→입자 분리→소멸. 프레임 경계를 침범했던 첫 시안을 재제작. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 226236,
+      "frames": [
+        {
+          "index": 0,
+          "file": "crimson-observation/frames/01.webp",
+          "rawSha256": "C50D6A80025EFAFFE11B391A89F103826DE9BF93273D38D084C36F00CC57DDF3",
+          "sha256": "43EA9D247519F43D89A708FFB3EB934588BE38F93C36DED7071DF9772ECF75BE",
+          "edgeMax": 1,
+          "opaque": 503,
+          "nonempty": 5897,
+          "alphaTotal": 237340,
+          "bounds": [
+            156,
+            129,
+            204,
+            229
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "crimson-observation/frames/02.webp",
+          "rawSha256": "85A6E2E79417C3ADB45A026E92F2143AFA49944774C1A701E0967C3F25174035",
+          "sha256": "F1454984138E420D73A5C31593782BF63DFED4EEEAFD18AB06F7DDF02C9F3065",
+          "edgeMax": 1,
+          "opaque": 803,
+          "nonempty": 5666,
+          "alphaTotal": 394932,
+          "bounds": [
+            141,
+            129,
+            204,
+            231
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "crimson-observation/frames/03.webp",
+          "rawSha256": "B63B1B5E43552134DB7059BB584015FE23BD841EF1510C4A7F21031A184A65C4",
+          "sha256": "1F3A831FAF15468C6D477C2E3C346CA190B3349DABC5316776A8F4EEDE1A06EE",
+          "edgeMax": 1,
+          "opaque": 1578,
+          "nonempty": 7501,
+          "alphaTotal": 556259,
+          "bounds": [
+            150,
+            129,
+            205,
+            231
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "crimson-observation/frames/04.webp",
+          "rawSha256": "60CE6645CD63D50E44E1A70CB3B80C204E6ADD4584FE8C457B4EA4CFB7CA6EA2",
+          "sha256": "DEC9529FDCDB4D10DB16570509E97BC33AAF28E0FE77BFA4AE3D9ABCBA70B86B",
+          "edgeMax": 1,
+          "opaque": 1686,
+          "nonempty": 7176,
+          "alphaTotal": 573780,
+          "bounds": [
+            96,
+            129,
+            204,
+            232
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "crimson-observation/frames/05.webp",
+          "rawSha256": "F9424E5057EEED6C9842ACD6FF70D16F5C943E704FD642EB53E98DCB9AEC02FE",
+          "sha256": "F543C897E6F75FFEEB1D877CAE18B8CA00C14598D31B4945FD4923FB0A6DCF80",
+          "edgeMax": 0,
+          "opaque": 3074,
+          "nonempty": 9288,
+          "alphaTotal": 935047,
+          "bounds": [
+            96,
+            125,
+            208,
+            240
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "crimson-observation/frames/06.webp",
+          "rawSha256": "48175293D08ECB6E9C98B8FE8446FC7C3D71F1C841D1C15D9CA24FB4A10AD50C",
+          "sha256": "B1DD2E0E77A16E1989EE2F1F134FF8175E105BAB773A0FBCD4F492B350CA25F8",
+          "edgeMax": 1,
+          "opaque": 4476,
+          "nonempty": 9790,
+          "alphaTotal": 1257128,
+          "bounds": [
+            124,
+            121,
+            209,
+            237
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "crimson-observation/frames/07.webp",
+          "rawSha256": "D23FF983755F70F35941D8B61FFAC8DC0CF35EDFAD07E5A4CD1F37987EB0FAA5",
+          "sha256": "3604AE27DE12DE9AF7ACB470F4BCFD4C56D93CA4B916986543E81BE3D962818E",
+          "edgeMax": 1,
+          "opaque": 4384,
+          "nonempty": 11697,
+          "alphaTotal": 1292712,
+          "bounds": [
+            113,
+            121,
+            223,
+            237
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "crimson-observation/frames/08.webp",
+          "rawSha256": "47D724954187DBA17F27845FE05928CBD38F8ED86C0A564AF51E6E08EB1D64B5",
+          "sha256": "7431C40D4A8694FA35631ACD16C0D7AB348043F673F64CE669C94688D85B8263",
+          "edgeMax": 1,
+          "opaque": 3553,
+          "nonempty": 11518,
+          "alphaTotal": 1085911,
+          "bounds": [
+            101,
+            121,
+            218,
+            238
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "crimson-observation/frames/09.webp",
+          "rawSha256": "1D983CCDD26E56DFF2CB771E8AF580C15B1BB4D0DA6A799CD6D07BAD3E274101",
+          "sha256": "7F36F6B3AA6C4C104085A26AFA1224D222C98CE6C8EE8D098DC93B54599B4AE1",
+          "edgeMax": 0,
+          "opaque": 1505,
+          "nonempty": 8443,
+          "alphaTotal": 569269,
+          "bounds": [
+            119,
+            126,
+            212,
+            226
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "crimson-observation/frames/10.webp",
+          "rawSha256": "0D9AE1B422D6F3F2F4425E7B64BACDBFFB29D10950C31814C7ECC70691F0C8C9",
+          "sha256": "929F3A5793C94EAC10CE5F58F5712C3D79D0350D7130D8954AD741BBC632F4AF",
+          "edgeMax": 1,
+          "opaque": 1096,
+          "nonempty": 8259,
+          "alphaTotal": 504605,
+          "bounds": [
+            119,
+            126,
+            216,
+            222
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "crimson-observation/frames/11.webp",
+          "rawSha256": "68A7DB5BE5A6CD1AF70F877BD5B171A6ECA641C51069BC6C984DCA4AE6DD08EF",
+          "sha256": "1F0C084497CB249295780012A13BAD739BD49E70489EA0A762DEBAA3BCDA86C5",
+          "edgeMax": 1,
+          "opaque": 305,
+          "nonempty": 8383,
+          "alphaTotal": 385705,
+          "bounds": [
+            123,
+            126,
+            219,
+            215
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "crimson-observation/frames/12.webp",
+          "rawSha256": "A998013005A47B29F1338A10F848FD0005AD2EC680DE1D0DE37959CB27440173",
+          "sha256": "D7319846F47DB4C19F1E568740B28004E56875AF989899F8056C1D57C1AE296D",
+          "edgeMax": 1,
+          "opaque": 2167,
+          "nonempty": 9843,
+          "alphaTotal": 784614,
+          "bounds": [
+            111,
+            125,
+            203,
+            215
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "crimson-observation/frames/13.webp",
+          "rawSha256": "5D5DA1686B82A6259CB796C9171A678CBEDB3C1FEEC1DF7FC53761FAC4356FF7",
+          "sha256": "E9C8197ACC4CB153638C953331BA56A177FE79658AE71468DC9691593E037AAD",
+          "edgeMax": 0,
+          "opaque": 2147,
+          "nonempty": 10092,
+          "alphaTotal": 751584,
+          "bounds": [
+            113,
+            100,
+            202,
+            190
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "crimson-observation/frames/14.webp",
+          "rawSha256": "A10E92160CE258BEA0B86791FC67A6640639859A1A569D48B73E64786AB949BA",
+          "sha256": "E6D96F7506442BF37F5AA304775FBC4FB04CB458CF320D05147369B53D4FB944",
+          "edgeMax": 1,
+          "opaque": 240,
+          "nonempty": 4040,
+          "alphaTotal": 99305,
+          "bounds": [
+            127,
+            140,
+            196,
+            185
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "crimson-observation/frames/15.webp",
+          "rawSha256": "0FD0C45720DF1E8992E4F13687460AE00010B204DE83582039A99CDC734D20D3",
+          "sha256": "CEFD85FA5222001E27B6B91CC776E314AC47EA210E700DC483ADD4E5B15FC051",
+          "edgeMax": 0,
+          "opaque": 18,
+          "nonempty": 2623,
+          "alphaTotal": 35876,
+          "bounds": [
+            143,
+            146,
+            191,
+            183
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "crimson-observation/frames/16.webp",
+          "rawSha256": "B54061B01817FD56C70CA788B78C7AB6D60CFE409A82789BE130D4AA9C99ACC7",
+          "sha256": "5CE1A9ACBFA66FB242714267F74EB92BB47B5F89D600BD41F4AAD108A7221E3E",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 677,
+          "alphaTotal": 2600,
+          "bounds": [
+            154,
+            154,
+            160,
+            161
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "red-moon-draw",
+      "skillId": "MS-010",
+      "name": "적월 낙형",
+      "source": "source/red-moon-draw-sequence-v2.png",
+      "runtime": "red-moon-draw/atlas-v2.webp",
+      "sourceSha256": "4B17560E3C0182DC444848362DDE7F0D7D0244B1FF0FF578EF2B2035AC276A6B",
+      "runtimeSha256": "DFB180397C534610B044C42FA781303BDCDDD2D2446B5EF44C0C44BF129C79D1",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Create ONE high-end individually authored sword VFX animation sheet: RED MOON DRAW. A crimson katana's rapid diagonal execution cut for an adult black-clad moonlit swordswoman. Only energy blade trail and impact fragments, no woman, katana object, moon disk or scenery. True transparent RGBA PNG, requested2048x2048, exactly4columns4rows of sixteen chronological equal-square frames. Contact origin x50% y55% fixed across allcells. Every piece of matter including dim glow lies within central48% of each cell with a generous transparent moat. 01 very thin dark red diagonal slash thread from upper-left to lower-right.02 thread tenses, tiny white edge appears.03 narrow blood-red crescent pressure front bends along the slash.04 crescent becomes sharply compressed before contact.05 WHITE-SCARLET diagonal slash snaps through contact center with a very small dense spark strike.06 two unequal razor-thin luminous crimson crescent edges separate on opposite sides of the diagonal cut, fine black-red metallic splinters fly perpendicular to it.07-08 crescents tear into long narrow irregular broken segments, never a complete ring or moon icon.09-11 severed ribbon fragments curl, shorten and fall with small sharp silver-red sparks.12-14 smoke is minimal: wispy dark burgundy trailing vapor, faint scarlet ash.15 just a few fine falling flecks.16 near-empty. Genuinely progressive disintegration and kinetic cutting silhouettes each frame; no static icon rotation or copy scaling. Elegant lethal speed, crisp lacquer-red cutting edge, restrained black ink vapor and silver impact core. Distinguished from a bulky explosion, holy greatsword or ruby bullet. Premium painterly Korean fantasy game VFX, no excessive bloom. No text, numbers, grid lines, border, watermark, solid background, checkerboard or ground tile. Absolutely real alpha gutters.",
+      "sourceFilename": "exec-828fa209-8609-43c9-a8fb-b297e9905451.png",
+      "visualReview": "얇은 발도선→접촉→양쪽으로 벌어지는 적월 검선→분절·붕괴를 개별 프레임으로 확인. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 683060,
+      "frames": [
+        {
+          "index": 0,
+          "file": "red-moon-draw/frames/01.webp",
+          "rawSha256": "BD7E4571A53A897F06A30C68911CAD1374110B4AF25772A97E724A7BF1FEB2C6",
+          "sha256": "BEEC7FADB53DF300A22F15D472AB56BE033396D62BF02802691E5F38DE1B3CB2",
+          "edgeMax": 1,
+          "opaque": 350,
+          "nonempty": 13139,
+          "alphaTotal": 227405,
+          "bounds": [
+            69,
+            87,
+            260,
+            272
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "red-moon-draw/frames/02.webp",
+          "rawSha256": "7718A7E27C6463A4C18C1F5D1EF644D97E7356302FCC2BF464C5D3FA6896A69C",
+          "sha256": "FD808CDAB3C3E117EAB61990ECB295C4F2A0E10F21A4214EB6E5CEE85FDDE502",
+          "edgeMax": 1,
+          "opaque": 1016,
+          "nonempty": 21202,
+          "alphaTotal": 587359,
+          "bounds": [
+            71,
+            85,
+            266,
+            282
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "red-moon-draw/frames/03.webp",
+          "rawSha256": "6C99B160413FB2C6EAE660A9687A798FE80E7C52027D60131C480FF4AA6F5E12",
+          "sha256": "A45ADC29F64E40816719CF1FBC7257AFE85D5257B20C06A7F47FDFBCAAF9FEDD",
+          "edgeMax": 1,
+          "opaque": 2854,
+          "nonempty": 26994,
+          "alphaTotal": 1233653,
+          "bounds": [
+            76,
+            90,
+            263,
+            281
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "red-moon-draw/frames/04.webp",
+          "rawSha256": "AAD8F0EB2C2E9D6845F974B8589055790458D1623BB6B6BD728740689809ED3F",
+          "sha256": "39C9228C746432B2FA37545CD6241B241D25374B13D710B780D05F97EB7E2F43",
+          "edgeMax": 1,
+          "opaque": 3121,
+          "nonempty": 26752,
+          "alphaTotal": 1311900,
+          "bounds": [
+            76,
+            91,
+            274,
+            290
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "red-moon-draw/frames/05.webp",
+          "rawSha256": "59C24076710256EA0B7F9347D0378B417E2A4192B5425E2E2B4618201EAD3812",
+          "sha256": "F984A71D06ACCFB2A75E5D3458D14BF2732A9486CAE24E069A5299BE9C57AFA8",
+          "edgeMax": 1,
+          "opaque": 4787,
+          "nonempty": 42999,
+          "alphaTotal": 2273455,
+          "bounds": [
+            46,
+            35,
+            293,
+            284
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "red-moon-draw/frames/06.webp",
+          "rawSha256": "B05B5D8D032A908E92B437E9E30F7259B0C669A7900D62A082F37B255191E293",
+          "sha256": "64CC009BD50F50BDA39097309C2F0B93E9EA2C7758F72F9249F66BE30D9EE425",
+          "edgeMax": 1,
+          "opaque": 9300,
+          "nonempty": 57746,
+          "alphaTotal": 3665612,
+          "bounds": [
+            49,
+            32,
+            289,
+            294
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "red-moon-draw/frames/07.webp",
+          "rawSha256": "66F7E426EB52CF94ECABAF8BC14176819368D7D3EC0034FD9093DF717EC6AA0A",
+          "sha256": "08AA2F34B95287FEBDB4CF8508B1F46F1C30ADFF8A647DEBF67DEE266C28C93B",
+          "edgeMax": 1,
+          "opaque": 6512,
+          "nonempty": 50473,
+          "alphaTotal": 2732756,
+          "bounds": [
+            49,
+            35,
+            288,
+            296
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "red-moon-draw/frames/08.webp",
+          "rawSha256": "205CEBA723CE4EBC8EA3A69717E902E1320542782D544BD7E855D0AA1DA1CF7E",
+          "sha256": "DD11CE98B091593172EC5F24069CFA10D5BA0353A5ADF048157B35678F1C8AEB",
+          "edgeMax": 1,
+          "opaque": 5935,
+          "nonempty": 44731,
+          "alphaTotal": 2587336,
+          "bounds": [
+            48,
+            34,
+            289,
+            294
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "red-moon-draw/frames/09.webp",
+          "rawSha256": "5CCEF47E4225CDAD1CEC6A61961A435A84C3EB7E39AB729820EBC025E91F674F",
+          "sha256": "BDDDE8798C11357F27AF58890A56420BEE85F46BADE16A84D6EFC586829C5877",
+          "edgeMax": 1,
+          "opaque": 5694,
+          "nonempty": 48052,
+          "alphaTotal": 2346604,
+          "bounds": [
+            49,
+            34,
+            284,
+            290
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "red-moon-draw/frames/10.webp",
+          "rawSha256": "AE32CED5C982B07E6EAB46173078F805CCDB7E06D7737C4A7C16C0DC50443D81",
+          "sha256": "C60E075424F513AE98FA53560935C39494C202B6498A227AFF0E5C5998AF0B11",
+          "edgeMax": 1,
+          "opaque": 2963,
+          "nonempty": 41129,
+          "alphaTotal": 1464168,
+          "bounds": [
+            54,
+            38,
+            273,
+            285
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "red-moon-draw/frames/11.webp",
+          "rawSha256": "CE29975770033ABDFDA6425150A8DBFBF2F3C624276852D26D254F8AAFD7CFCC",
+          "sha256": "0D8D61DD3D8EE085D28618D7EEABEE4ED3DE6E0B80379E3E0D18D1F78D69576C",
+          "edgeMax": 1,
+          "opaque": 1574,
+          "nonempty": 36095,
+          "alphaTotal": 1081873,
+          "bounds": [
+            60,
+            42,
+            290,
+            285
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "red-moon-draw/frames/12.webp",
+          "rawSha256": "7EFE26F24F051A10A3668B25A9D88484BAE62EE97AF71780BB92CA74182A9D62",
+          "sha256": "01655FBFDA0DC74CDDD579CB2ADDEE65242E6E8AE6E218327D318D33F4D965C2",
+          "edgeMax": 1,
+          "opaque": 921,
+          "nonempty": 30241,
+          "alphaTotal": 837773,
+          "bounds": [
+            58,
+            45,
+            268,
+            276
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "red-moon-draw/frames/13.webp",
+          "rawSha256": "9ED9C35A9B7E083C5C0F57F962B54E638BE70FB60DA2E9575A9BA3990BDE51D8",
+          "sha256": "93463BF3246CAAB266821AC1FA8E24C3EDEF1339361592B8FDF316CE9C243FF5",
+          "edgeMax": 1,
+          "opaque": 259,
+          "nonempty": 32264,
+          "alphaTotal": 840769,
+          "bounds": [
+            61,
+            40,
+            268,
+            267
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "red-moon-draw/frames/14.webp",
+          "rawSha256": "68C83FDCB7317A1D7A4D85A8E2362B5453BCEDA68A01B98D9895BDAC1D044670",
+          "sha256": "E8666F316D435FFD51FE13E5403C9C5C42D73B05851CBB3694FF260354042647",
+          "edgeMax": 1,
+          "opaque": 274,
+          "nonempty": 25609,
+          "alphaTotal": 410309,
+          "bounds": [
+            86,
+            40,
+            257,
+            258
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "red-moon-draw/frames/15.webp",
+          "rawSha256": "DA68320C2B5B1BEA8581F5806FA5FD5DF443643B91BBF7EDCE15851EC192B9BD",
+          "sha256": "CE5831427CF5C0EDD40671CAF78B08A7D190B23976A1665DDCC21028BE97FFE8",
+          "edgeMax": 1,
+          "opaque": 76,
+          "nonempty": 22790,
+          "alphaTotal": 183880,
+          "bounds": [
+            71,
+            47,
+            271,
+            258
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "red-moon-draw/frames/16.webp",
+          "rawSha256": "4AF99C508C93298A6DF0D300B2B6373C9D370D9AEA39BE5277917299B6C9D957",
+          "sha256": "AE29E05FBD4137576FB9735C2EAC4D4DEA5E04DD0B1006544BAACDC21D3D8BBF",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 7830,
+          "alphaTotal": 23751,
+          "bounds": [
+            91,
+            69,
+            231,
+            226
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ivory-standfast",
+      "skillId": "MS-011",
+      "name": "백철 불퇴진",
+      "source": "source/ivory-standfast-sequence-v2.png",
+      "runtime": "ivory-standfast/atlas-v2.webp",
+      "sourceSha256": "15D2D79821EE87C1E180E643443DE78641E7A3C9D63E206E65A59C6E81F4C1E2",
+      "runtimeSha256": "8A9DE5DFA434057BF39A49F718E359B5FAC6EFF13FD3FB8ACD242AC1AABE8C1A",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "ONE production-quality RPG VFX animation sheet: IVORY STANDFAST. The imposing ivory-and-silver heavy plate vanguard with long steel sword summons a short-lived, weighty brace of silver-white armor ribs to hold the frontline. Only transient defensive effect, no character, literal shield item, weapon or architecture. Genuine transparent RGBA PNG, exact 4x4 grid of16 sequential squareframes, requested2048x2048. Fixed oblique camera and effect origin x50%y55% everycell. Central46% maximum total effect footprint, very broad EMPTY alpha margins including all dust and bloom. Frame01 three tiny silver sparks in a low U shape.02 short heavy rectangular ivory-steel ribs rise in perspective from a thin blue-gray pressure wave.03 ribs pivot and overlap like functional articulated armor protecting an empty central space.04 six asymmetrical thick pale plates lock into a compact forward brace, clear gaps visible between pieces.05 sharp WHITE-SILVER contact at center-right of the brace, plates physically compress inward, dense steel sparks.06-08 articulated joints recoil outward sequentially, plates retain mass and fracture into smaller angular silver chunks, compact gray impact dust.09-11 the brace disassembles from upper to lower, broken plates peel outward/downward into isolated metal fragments.12-14 dim fragments sink through dissipating bluish ground dust, clear empty center.15 very sparse dust.16 near-empty. Every frame must materially differ: construction, lock, compression, recoil, break-up, dust. Not repeated scaling/rotation of an emblem. Disciplined pale steel, cool gray inner surfaces, subtle warm gold glints, compact shock pressure and physical weight. AAA painterly game effects, detailed plate thickness and restrained localized light. NOT a circular magic seal, coat of arms, generic bubble, flame cloud, shield badge or floating icon. No grid marks, text, frame, labels, checkerboard, solid background or scenery. True empty transparency.",
+      "sourceFilename": "exec-a9f9a22e-45dd-459e-8d7a-5de8b42c0407.png",
+      "visualReview": "백철 판 조립·압축·조각 분리·먼지의 프레임 변화 확인. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 1154708,
+      "frames": [
+        {
+          "index": 0,
+          "file": "ivory-standfast/frames/01.webp",
+          "rawSha256": "0E0EDDB8E9F2EA97B976D7FDD10C3007B04E527B1B13A5C03503A66828283BD2",
+          "sha256": "0CD3B8B4D87B321CE866DEA1A3EA3B398C0044065DA8105C70819452B245452B",
+          "edgeMax": 1,
+          "opaque": 1065,
+          "nonempty": 30644,
+          "alphaTotal": 622460,
+          "bounds": [
+            63,
+            171,
+            251,
+            273
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "ivory-standfast/frames/02.webp",
+          "rawSha256": "36CE31ECC5755E31A14A6080AFE5453EDD684DED7F20A573769590E87549BFB6",
+          "sha256": "EF8F29007D26CC81EC494CE38A55932D72DA167BC888FBE6C33498BD17669BBF",
+          "edgeMax": 1,
+          "opaque": 15307,
+          "nonempty": 48249,
+          "alphaTotal": 4747330,
+          "bounds": [
+            39,
+            138,
+            284,
+            292
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "ivory-standfast/frames/03.webp",
+          "rawSha256": "60BB611BF2AE67EAC860DF49E130CB0AD921C55C0A46321C7A6BB2C11C0D02B7",
+          "sha256": "24925E29F6E2D386456D1D4D886353F04637C58D0523AD5F8DE7DD622F9C7488",
+          "edgeMax": 1,
+          "opaque": 23260,
+          "nonempty": 50016,
+          "alphaTotal": 6422871,
+          "bounds": [
+            44,
+            100,
+            288,
+            290
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "ivory-standfast/frames/04.webp",
+          "rawSha256": "109CAB45CC5151F529BB69E00100F3CE9E81DBE24A700BB69D12D0E24657D6EE",
+          "sha256": "0B56C3BAB859840E1480C45DDBC8C53C248EAD4F19D8578C38F0AA863A905A8A",
+          "edgeMax": 1,
+          "opaque": 27006,
+          "nonempty": 49343,
+          "alphaTotal": 7238875,
+          "bounds": [
+            37,
+            91,
+            280,
+            288
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "ivory-standfast/frames/05.webp",
+          "rawSha256": "E72E8AD24574491E9AFE5D45741341BA110C849BEE77BCF71E0151E7F02E1BFD",
+          "sha256": "11A0F98A4B24C919F3EA0C73A543E1293B9AB98F6E61C3A28E55C8FA87C40A37",
+          "edgeMax": 1,
+          "opaque": 29381,
+          "nonempty": 69030,
+          "alphaTotal": 8227082,
+          "bounds": [
+            33,
+            31,
+            287,
+            284
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "ivory-standfast/frames/06.webp",
+          "rawSha256": "8C14DC6DF41A66029E6DC1D75D53DEFB168FDEE821ABD534DC1E27663ACE9346",
+          "sha256": "8672A56BB8F56352A7A422861D0C795A742F74192BACF71E3A57E748A0317845",
+          "edgeMax": 2,
+          "opaque": 28710,
+          "nonempty": 64385,
+          "alphaTotal": 8014894,
+          "bounds": [
+            32,
+            73,
+            299,
+            287
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "ivory-standfast/frames/07.webp",
+          "rawSha256": "9B8705904CF30D1C2F25980FD6091E0940E73FB7BFBC9B17CEBCEC2B6EB6C0B8",
+          "sha256": "C08E44EA4691DB3CD65140FF029CFB2137F8E44253B8FEB373B5096D5CA511F0",
+          "edgeMax": 1,
+          "opaque": 30949,
+          "nonempty": 61212,
+          "alphaTotal": 8508588,
+          "bounds": [
+            35,
+            53,
+            298,
+            288
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "ivory-standfast/frames/08.webp",
+          "rawSha256": "F10CBEE07A6ED49FE485736E7FBA81CE9769B290EF23F2D1AC0DEAFF2B6EA34A",
+          "sha256": "5F37438C600663F40D7208D462B6AC793248A8482A1AC9D5A0F65A647383D595",
+          "edgeMax": 1,
+          "opaque": 27663,
+          "nonempty": 63447,
+          "alphaTotal": 7944601,
+          "bounds": [
+            27,
+            37,
+            288,
+            290
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "ivory-standfast/frames/09.webp",
+          "rawSha256": "C3B0B5D1AB4F7F981A9DCF4D4797AB68FD1B3BEBF3AEA29AF711864CE1A1657B",
+          "sha256": "E2702EB57BA267883507BE3F9FAF1822BE28ADA6076185CFD90636349EA3FF7D",
+          "edgeMax": 5,
+          "opaque": 26741,
+          "nonempty": 69149,
+          "alphaTotal": 7900687,
+          "bounds": [
+            31,
+            25,
+            311,
+            294
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "ivory-standfast/frames/10.webp",
+          "rawSha256": "D4E524E32F45E8B273FDCAF14DC5A9343E4EF72EC6F6B22DA74BEBCBF4194244",
+          "sha256": "967B0E3284D9BE08A49B8B3FC75AA7456F0FBDE896EB9A0E54BE8527EB6D8D34",
+          "edgeMax": 2,
+          "opaque": 22149,
+          "nonempty": 65933,
+          "alphaTotal": 6751578,
+          "bounds": [
+            40,
+            41,
+            302,
+            296
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "ivory-standfast/frames/11.webp",
+          "rawSha256": "3987634E9D37049A4F39E32EBAE9CD9183B433404E8AC88BD140D41BAF90C9F9",
+          "sha256": "6A1D6016E2FE9BD87856F3758FDAC5DC82AC14E619A0086DC17F8F2261852C4A",
+          "edgeMax": 1,
+          "opaque": 17154,
+          "nonempty": 62520,
+          "alphaTotal": 5619146,
+          "bounds": [
+            45,
+            50,
+            301,
+            297
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "ivory-standfast/frames/12.webp",
+          "rawSha256": "6CE75E5927D351725F01E544AC4E68FB8D27961061380A111BBA4A58F9EB117B",
+          "sha256": "819E97D4889CC45B8A9E63FAA042B11E98A9E45C08DF132CC759C7E975CE72F4",
+          "edgeMax": 2,
+          "opaque": 11956,
+          "nonempty": 56823,
+          "alphaTotal": 4410418,
+          "bounds": [
+            28,
+            98,
+            289,
+            305
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "ivory-standfast/frames/13.webp",
+          "rawSha256": "515D7594883A00743040A00C15D7670F01B93EA59505F91ED8BDECE3FFB1EC7D",
+          "sha256": "9695FC70290CCFEEF5072E092B33BE7C6EA154D41C07CA70D265B2775D6EC384",
+          "edgeMax": 1,
+          "opaque": 3859,
+          "nonempty": 55663,
+          "alphaTotal": 2431184,
+          "bounds": [
+            42,
+            87,
+            289,
+            286
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "ivory-standfast/frames/14.webp",
+          "rawSha256": "2548B3894734053FA3F65EECA9C7567BFEF146EEE9A738769FC24549F159C6F7",
+          "sha256": "496252181AA9378EBF6766E0C12162066FE71B10DCFCAE10F88F25AEEB9C0B00",
+          "edgeMax": 2,
+          "opaque": 258,
+          "nonempty": 55533,
+          "alphaTotal": 1596587,
+          "bounds": [
+            47,
+            103,
+            279,
+            277
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "ivory-standfast/frames/15.webp",
+          "rawSha256": "CF459A80ABDC4BA42665E27217D6247D5511F374B1CD71B827EAB40530DCD529",
+          "sha256": "4E08EAA98BE66B194E6FB76D95F627898741010B46B45F54627B9BEBC0BE2472",
+          "edgeMax": 1,
+          "opaque": 20,
+          "nonempty": 46239,
+          "alphaTotal": 741536,
+          "bounds": [
+            52,
+            106,
+            268,
+            266
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "ivory-standfast/frames/16.webp",
+          "rawSha256": "F775B1907F9EB9D6D60A75BC0D64A4011211C514233031C55BC93BAE0C27E279",
+          "sha256": "4737813660A66CE097E96A72B9CDD47DC11D2FFA1CF6E8B5A46B3590C9E8E7C9",
+          "edgeMax": 2,
+          "opaque": 0,
+          "nonempty": 33433,
+          "alphaTotal": 395411,
+          "bounds": [
+            31,
+            149,
+            261,
+            260
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verdant-thorn-seal",
+      "skillId": "MS-022",
+      "name": "청록 관통화",
+      "source": "source/verdant-thorn-seal-sequence-v2.png",
+      "runtime": "verdant-thorn-seal/atlas-v2.webp",
+      "sourceSha256": "38F897EBCB75942662F01A5333CD50F921296C5F033A409BA47E44D3F6FC4DB1",
+      "runtimeSha256": "396F37C0A3E1646434AC838CF4DC4C9695E3F55EF6B44779FCF023D68E97105B",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Create ONE individually painted, high quality VFX animation sheet for VERDANT THORN SEAL, an elegant garden huntress's turquoise-and-ivory crossbow skill. It is a living crystal thorn embedded by an arrow which later bursts, NOT a plant icon. ONLY effect matter, no character, no bow, no arrow prop, no environment. True TRANSPARENT RGBA PNG, exactly4columns4rows sixteen equal square frames chronological left-to-right top-to-bottom, requested2048x2048. Fixed contact x50%y55% and same camera/scale in allcells. CRITICAL every particle/glow/strand in each frame stays within central36% width and height, over30% fully empty alpha moat on every side. Tiny intricate local effects, no long spikes across gutters. Frames01-02 tiny green-white compressed needle of light with two compact wisps.03 needle swells into tapered crystal pressure bud.04 narrow incoming point touches the center.05 FIRST IMPACT small white-teal contact star and four sharp translucent botanical crystal thorns drive outward from center.06-08 thorns curl inward, thin living teal veins grow between them, a tightly contained thorn trap gathers pressure; this must actually grow/change over threeframes.09 SECOND IMPACT the center ruptures in pale WHITE-JADE light and the thorns crack simultaneously.10-11 irregular clear green shards split away, fine amber pollen and turquoise droplets separate in an asymmetric burst.12-13 thorn fragments shrink via real break-up and fine mint-gray mist curls apart.14 tiny detached glass flecks/pollen.15 very few faint grains.16 near-empty. Two clear contact peaks in frames05 and09, materially different embedding then bursting. Shimmering glass-like plant material with clean pointed facets, crisp controlled contact, gentle garden gold highlights, no circular glyph, wreath, flower badge or generic fireball. Painterly premium Korean fantasy RPG VFX. Every frame distinct, never duplicates with scale/color changes. No text/numbers/lines/frame/checkerboard/solid backdrop, genuine alpha.",
+      "sourceFilename": "exec-1534dc4a-c835-49de-beeb-ac8dbf8251d5.png",
+      "visualReview": "05프레임 가시 부착→06~08 가시 성장→09 봉인 파열→유리 조각·꽃가루 소멸의 두 접촉 확인. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "timeline": {
+        "contactFrames": [
+          4,
+          8
+        ],
+        "contactTimes": [
+          0.85,
+          1.8
+        ]
+      },
+      "runtimeBytes": 823346,
+      "frames": [
+        {
+          "index": 0,
+          "file": "verdant-thorn-seal/frames/01.webp",
+          "rawSha256": "1D650025E370D93255B7A2A774254327F7F60FA5724FF737B6C84291E8DE8FF8",
+          "sha256": "F9D0A3E5E1E00C0A8366EC3ABCDB2CCC2020F943AD8DA95A50858FEA5DF359C8",
+          "edgeMax": 1,
+          "opaque": 811,
+          "nonempty": 20579,
+          "alphaTotal": 554640,
+          "bounds": [
+            126,
+            138,
+            208,
+            240
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "verdant-thorn-seal/frames/02.webp",
+          "rawSha256": "F954579B1959E71610B63C57DACCEA90EBBA793B6C5344F9E1F481ABC0B8E853",
+          "sha256": "D1B92F64B6BC958FCEAB3C4A58B24507ED68900CFD381BA525E48F56FC22666C",
+          "edgeMax": 1,
+          "opaque": 1671,
+          "nonempty": 19784,
+          "alphaTotal": 751782,
+          "bounds": [
+            113,
+            132,
+            209,
+            240
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "verdant-thorn-seal/frames/03.webp",
+          "rawSha256": "CE1839F02B7F64D371473ED460D60F10F1FC747AAA215C3E3E41A6F24945B57D",
+          "sha256": "96829239DCF812561079B3BEFE99B62CBD64A7A7D6D1963EFA63171EBDC7F968",
+          "edgeMax": 1,
+          "opaque": 3542,
+          "nonempty": 23539,
+          "alphaTotal": 1242298,
+          "bounds": [
+            117,
+            134,
+            209,
+            259
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "verdant-thorn-seal/frames/04.webp",
+          "rawSha256": "2A93F399C23F336DC5177E662179819B39B2EDA7359FE7D27D3921F31CFCC969",
+          "sha256": "17DFA209AE13C76682643230A2D24A0A81DA5E36B30CE4225764B841B3B4F07A",
+          "edgeMax": 1,
+          "opaque": 4247,
+          "nonempty": 25306,
+          "alphaTotal": 1390678,
+          "bounds": [
+            116,
+            51,
+            201,
+            261
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "verdant-thorn-seal/frames/05.webp",
+          "rawSha256": "79C80B6B6EB03B26A2E4D505EDD421AC376E2296A1348EED04307391ECB0CD9F",
+          "sha256": "F1101DD64EEC6B3571B681068E184F78AFD6E6C6077CAA65CEB7E77562301B0B",
+          "edgeMax": 1,
+          "opaque": 8944,
+          "nonempty": 46632,
+          "alphaTotal": 3060780,
+          "bounds": [
+            50,
+            49,
+            289,
+            291
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "verdant-thorn-seal/frames/06.webp",
+          "rawSha256": "BEE0B48158151AB9029BACBE55BB6491A223BEE6320EC028B35F5E33E5DBB95A",
+          "sha256": "5D648CACD2525AAAB1D6C05279FC1E2C7CFC29AA52EE5967A13F2825105112BB",
+          "edgeMax": 1,
+          "opaque": 11612,
+          "nonempty": 47815,
+          "alphaTotal": 3620314,
+          "bounds": [
+            64,
+            57,
+            275,
+            278
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "verdant-thorn-seal/frames/07.webp",
+          "rawSha256": "33E1DAE22078F46D053A54BCCACFD7D0FE5130C3B8B6CB6382D30547F071F30C",
+          "sha256": "CE060C46D6A994064023EAB3FEFA52AE0CEB370C619EBA2322BF208F7464CAF9",
+          "edgeMax": 1,
+          "opaque": 13114,
+          "nonempty": 42543,
+          "alphaTotal": 3828179,
+          "bounds": [
+            89,
+            73,
+            249,
+            266
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "verdant-thorn-seal/frames/08.webp",
+          "rawSha256": "E74EC91E45440C50DEB5D8D98CFDE7626EDC1184F852F7A40B8499B88DE6D7EA",
+          "sha256": "B11D754904C7856A735F476E54956B73F4D6FE7EFF86F414C5B31AE411AA3A79",
+          "edgeMax": 1,
+          "opaque": 12774,
+          "nonempty": 35721,
+          "alphaTotal": 3676672,
+          "bounds": [
+            87,
+            78,
+            230,
+            251
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "verdant-thorn-seal/frames/09.webp",
+          "rawSha256": "AF42B075EC78DEFDB2E19CA824CC89D3D0C13F2AC49E197AE02040F7B9EFB184",
+          "sha256": "DCDA19E3B388D25A0D12609862F4E0F345D1941628AC7A116DB39E1F10DC4D2D",
+          "edgeMax": 1,
+          "opaque": 18902,
+          "nonempty": 56910,
+          "alphaTotal": 5790736,
+          "bounds": [
+            61,
+            32,
+            275,
+            298
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "verdant-thorn-seal/frames/10.webp",
+          "rawSha256": "B17846CA7451485112676972B3B44E9737E7BA3BA9EC04C28B3FCEB090105D5E",
+          "sha256": "BA562BEC0E48A068085FD680D2A9F27AA56582484DAA82A39B4000D8E9F19ACB",
+          "edgeMax": 1,
+          "opaque": 17022,
+          "nonempty": 59096,
+          "alphaTotal": 5555969,
+          "bounds": [
+            53,
+            50,
+            267,
+            284
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "verdant-thorn-seal/frames/11.webp",
+          "rawSha256": "EA838EC457755D1BAEB4CE6310B761DA133F7766B0B42276FD8E4BB98EE0887A",
+          "sha256": "6EA3F03174ED73FE901B9ECF1814314E3171237BDCAB3A0CC43ECB4F4D42061A",
+          "edgeMax": 1,
+          "opaque": 10658,
+          "nonempty": 53216,
+          "alphaTotal": 4107412,
+          "bounds": [
+            76,
+            78,
+            263,
+            302
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "verdant-thorn-seal/frames/12.webp",
+          "rawSha256": "BB0721C1AE635B85C7FF4D6B780E00F389D748B4015C5A2DB70DCFE68ECB5B5C",
+          "sha256": "1B0281FD31CD89B3D100CDE24B4E7BBFA6E9503CB818E9B7D7EF17641782F4EE",
+          "edgeMax": 1,
+          "opaque": 5486,
+          "nonempty": 37312,
+          "alphaTotal": 2426875,
+          "bounds": [
+            90,
+            99,
+            242,
+            271
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "verdant-thorn-seal/frames/13.webp",
+          "rawSha256": "83FD012E8EAB24DED31580196B967C2EFD456416B5552B6A8D9191122645EE07",
+          "sha256": "C229E0897584BF2E6FDEFFC479ACEDDFF1FEE9AE2BD1B5F92C57FFEDA3B667A3",
+          "edgeMax": 1,
+          "opaque": 4110,
+          "nonempty": 35625,
+          "alphaTotal": 2033501,
+          "bounds": [
+            96,
+            69,
+            251,
+            261
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "verdant-thorn-seal/frames/14.webp",
+          "rawSha256": "9C1349AF66295EC497D388152F730A8FF1BC1DD692174C4A27626325DD8EA5DE",
+          "sha256": "6B035CC3B4BBD5F31D416B68BEFE7E2CEDCAB488F616475FC3924A80BA8FEC30",
+          "edgeMax": 1,
+          "opaque": 419,
+          "nonempty": 32485,
+          "alphaTotal": 760082,
+          "bounds": [
+            104,
+            98,
+            242,
+            232
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "verdant-thorn-seal/frames/15.webp",
+          "rawSha256": "E3E6281BEF1442ADD0F51EC764339FB84E6E353B7068E571D3172E4BEA118BDB",
+          "sha256": "0F99E75C014641045E5D13CA8BA611CA3E6E64311D0FE4315C30B771B23F2313",
+          "edgeMax": 1,
+          "opaque": 11,
+          "nonempty": 23188,
+          "alphaTotal": 273289,
+          "bounds": [
+            123,
+            121,
+            223,
+            223
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "verdant-thorn-seal/frames/16.webp",
+          "rawSha256": "CE84381A5DDA921861C8801B711249B4DEAC1CC18D24C1E3CF4E81F457722029",
+          "sha256": "E631682C4B3378DA74BDE850E6399D326B640943D25D93EF3FE1F02A98D9727C",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 16914,
+          "alphaTotal": 31909,
+          "bounds": [
+            138,
+            168,
+            193,
+            196
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "abyss-constellation-echo",
+      "skillId": "MS-036",
+      "name": "심해성좌 추적탄",
+      "source": "source/abyss-constellation-echo-sequence-v2.png",
+      "runtime": "abyss-constellation-echo/atlas-v2.webp",
+      "sourceSha256": "476B94DED9E89B2781568798AEA5BA4FF479E3D55F7C9A2580FF01D756196ABE",
+      "runtimeSha256": "FA2E1FE5C42C7C929ECAF9B454FEBFFB185A8ACA640445DE7EFD60C09984C2B5",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "ONE individually authored high-end 2.5D fantasy RPG VFX animation sprite sheet: ABYSS CONSTELLATION ECHO. A silver-haired deep-sea sniper in navy silk with a blue fantasy long rifle creates a compact high-pressure water implosion at the precise bullet contact. ONLY changing fluid VFX, no character, gun, bullet prop, sea scenery or UI. Real TRANSPARENT RGBA PNG, requested2048x2048, exact4columns4rows=16 chronological squareframes, fixed side-on elevated camera and center x50% y55% percell. ENTIRE fluid, mist and light within central38% width/height of every cell, huge completely clear alpha margins at least30%. 01 tiny navy-blue lens containing two pale blue specks.02 clear water threads spiral tightly inward.03 lens thickens into a small compressed oblique water shell, thin white surface highlights.04 tension pinches the shell inward at its middle.05 brief brilliant WHITE-CYAN pinpoint implosion at center, collapsed shell punches a conical translucent water jet rightward.06-08 cavity opens and water tears into distinct curling sheets, physically thick water lips, dozens of tiny separated blue-white droplets close to the center; navy shadows and restrained glistening constellation specks.09-11 collapsing sheets break into bead chains and smaller droplets, the internal hollow visibly enlarges.12-14 pressure relaxes into very thin cool water mist, isolated descending droplets.15 two dim droplets and tiny vapor curls.16 almost invisible final damp haze. Different real geometry and fluid surface deformation everyframe, not the same splash scaled/rotated, not a smooth sphere icon. Powerful precision underwater pressure, realistic fluid thickness and fine specular droplets, elegant abyss-blue/cyan/white. No ice crystals, no generic fireball, no circular magical glyph. Premium painterly game VFX, clean alpha gutters, no text/grid/numbers/border/logo/checkerboard/solid backdrop.",
+      "sourceFilename": "exec-126bfd14-930f-4fdb-9143-079f755d7831.png",
+      "visualReview": "압축 수막→내향 수압 충돌→물줄기 분열→기포·물안개 변화 확인. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 1136122,
+      "frames": [
+        {
+          "index": 0,
+          "file": "abyss-constellation-echo/frames/01.webp",
+          "rawSha256": "7BA65B2CF64BACBFD3A416A116752C9CCCC0F4647938222A24180CB5A70D7DCB",
+          "sha256": "82EE2C94A4EEAD1E57DBBC427ED3CD0D064EFB193C3583F5CC56CFA0A1C123C8",
+          "edgeMax": 1,
+          "opaque": 1700,
+          "nonempty": 13283,
+          "alphaTotal": 452160,
+          "bounds": [
+            137,
+            171,
+            186,
+            220
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "abyss-constellation-echo/frames/02.webp",
+          "rawSha256": "B19ECC4EBF946962999BFF481E8CD7DA66BB3D045B3183E586CAE99A3C427CD0",
+          "sha256": "4C6DCB54E55470CF5F6D097486F7F4CBE2F2479CFCC9964C82C8A8FFF998340B",
+          "edgeMax": 1,
+          "opaque": 6411,
+          "nonempty": 38802,
+          "alphaTotal": 2045968,
+          "bounds": [
+            63,
+            76,
+            256,
+            278
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "abyss-constellation-echo/frames/03.webp",
+          "rawSha256": "651123327A58A7142518EAC719D2727DE3141855B5622F32C338A74551B1C004",
+          "sha256": "19B4704F16C8A050BD6383BF9C5F285D96236B40CCFF544484F61C8F91903CD6",
+          "edgeMax": 1,
+          "opaque": 12386,
+          "nonempty": 35784,
+          "alphaTotal": 3450484,
+          "bounds": [
+            75,
+            84,
+            239,
+            267
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "abyss-constellation-echo/frames/04.webp",
+          "rawSha256": "D377D014FCF0274DA114EA360EA14D8AEE7B589E897CC3F2C521A5EF7FD9F8B8",
+          "sha256": "2AE601DA59C164412171B7393ACC681B11ABBA2D79CA722AA013AA40CA00F398",
+          "edgeMax": 1,
+          "opaque": 10078,
+          "nonempty": 31679,
+          "alphaTotal": 2856447,
+          "bounds": [
+            68,
+            113,
+            235,
+            264
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "abyss-constellation-echo/frames/05.webp",
+          "rawSha256": "D09C048942F2698F514BE13DDBD2DD443211DF68CA8017C50E106AF075CD6E3D",
+          "sha256": "A1599577D90959F7EA4E0B9682E9C80C9E4BE15EA222027097D72ED8EAA404E8",
+          "edgeMax": 1,
+          "opaque": 8348,
+          "nonempty": 42883,
+          "alphaTotal": 2475971,
+          "bounds": [
+            96,
+            104,
+            281,
+            249
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "abyss-constellation-echo/frames/06.webp",
+          "rawSha256": "B18F541EB15EBE0394F83ACE8F56E746260282D5E8F6D1487D554D7C06617CEA",
+          "sha256": "DA7CABE3B6A1EA7CC89D4D68142A3C74C3F35C6FB2DD635ED92E421F0A15735C",
+          "edgeMax": 1,
+          "opaque": 16758,
+          "nonempty": 56357,
+          "alphaTotal": 4757942,
+          "bounds": [
+            57,
+            59,
+            289,
+            285
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "abyss-constellation-echo/frames/07.webp",
+          "rawSha256": "BAE61F2307D4B8DA4390E7E2C5463B34D6E7666E545C88E0CA44446751D50F63",
+          "sha256": "89679B117196835A22B166FC40B4B3BBCEF3DF063CA206EF96DB408177CC5D3E",
+          "edgeMax": 1,
+          "opaque": 20007,
+          "nonempty": 61292,
+          "alphaTotal": 5644456,
+          "bounds": [
+            34,
+            55,
+            293,
+            284
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "abyss-constellation-echo/frames/08.webp",
+          "rawSha256": "5516CA14522647AC7082D1CEC12E5C8EF52C5D394BA10A921EDDE127D2FB312A",
+          "sha256": "001D60E73AD48851457170391CF3277D96C921BD0FE39AE3254F4B450A6FBB16",
+          "edgeMax": 1,
+          "opaque": 16849,
+          "nonempty": 61360,
+          "alphaTotal": 4852811,
+          "bounds": [
+            37,
+            59,
+            288,
+            299
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "abyss-constellation-echo/frames/09.webp",
+          "rawSha256": "28D92F83A6CAD6BEE0517395D21EF2A3D109134719A397830D62A8964BBF0A14",
+          "sha256": "7331088CCDE794ACDD5F769F6C96FBE3FFE23B5164B239803916F240EAC8A90D",
+          "edgeMax": 1,
+          "opaque": 18742,
+          "nonempty": 64720,
+          "alphaTotal": 5402735,
+          "bounds": [
+            43,
+            51,
+            300,
+            293
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "abyss-constellation-echo/frames/10.webp",
+          "rawSha256": "028EBB0DE0EE715876EE52D06F2D11F9E475EE70B9F170E6EFDD31E0B6A0C7B4",
+          "sha256": "40C65D5D79BE046EF1F8E922F3FC49A2AC4D1EA90389EE6F602AB02769DE0582",
+          "edgeMax": 1,
+          "opaque": 13541,
+          "nonempty": 60834,
+          "alphaTotal": 4105096,
+          "bounds": [
+            47,
+            52,
+            291,
+            285
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "abyss-constellation-echo/frames/11.webp",
+          "rawSha256": "E9B61F6F14F8AC92B261CA6BD161C99B0196AAB45A42F892326E040105E2C331",
+          "sha256": "B3711C57C9A4457442A995C2BACCFBF3A574E4BF540745DBBD7F118964D8D958",
+          "edgeMax": 2,
+          "opaque": 9095,
+          "nonempty": 67409,
+          "alphaTotal": 3253712,
+          "bounds": [
+            46,
+            56,
+            287,
+            282
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "abyss-constellation-echo/frames/12.webp",
+          "rawSha256": "335B9B3A9EE56129CE23E2B8BD01C219B450782C8064394F59A9CAC1DF1EAABC",
+          "sha256": "74215946B955959C78899A6E5A34EFF6BF806DB621109C2BEBEB6419A9D13DE0",
+          "edgeMax": 2,
+          "opaque": 4075,
+          "nonempty": 61945,
+          "alphaTotal": 2663931,
+          "bounds": [
+            45,
+            65,
+            276,
+            274
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "abyss-constellation-echo/frames/13.webp",
+          "rawSha256": "F48A7E0F2DCC44E930663B7779E48923FFC0C20220FFCA678A5E9020089A965C",
+          "sha256": "C9A4B47A4AFEF73ABD820575788E4DB9B7E988513CFD0C2DB3FBD7FD4E73C424",
+          "edgeMax": 1,
+          "opaque": 1696,
+          "nonempty": 63895,
+          "alphaTotal": 1924016,
+          "bounds": [
+            60,
+            58,
+            257,
+            252
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "abyss-constellation-echo/frames/14.webp",
+          "rawSha256": "C94BEF3D741ECA4D0DDA460621F28C9F42A82E5D4AE41D17502E18E159B57F6E",
+          "sha256": "BCAAD54095AC7B4B28DD6CA16B134E3ED2DF02843581F28CF54EA7D0B2671171",
+          "edgeMax": 1,
+          "opaque": 1052,
+          "nonempty": 57576,
+          "alphaTotal": 1426811,
+          "bounds": [
+            70,
+            83,
+            233,
+            240
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "abyss-constellation-echo/frames/15.webp",
+          "rawSha256": "DBCF86678B286FDBFE2AF19C5E9C19F07C94AE9853FFC84A469E3FD5DBF5ED6D",
+          "sha256": "AE761E5F3FE6D3FE0ADEBBE56EE8F15816CC8B8EE9ADDAD87B26BD1267198E8E",
+          "edgeMax": 1,
+          "opaque": 260,
+          "nonempty": 53772,
+          "alphaTotal": 1020996,
+          "bounds": [
+            87,
+            98,
+            233,
+            231
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "abyss-constellation-echo/frames/16.webp",
+          "rawSha256": "A8E9868838011DE9337B136A84F1F323DD01AC5CBF11400CA3086C848A41E291",
+          "sha256": "73E168804DCA6219EDBF15A445AD57EB85A8FB8953EC9115D760BB3710608389",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 42547,
+          "alphaTotal": 433064,
+          "bounds": [
+            98,
+            121,
+            227,
+            221
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platinum-focus-lock",
+      "skillId": "MS-037",
+      "name": "백금 봉쇄령",
+      "source": "source/platinum-focus-lock-sequence-v2.png",
+      "runtime": "platinum-focus-lock/atlas-v2.webp",
+      "sourceSha256": "8CF77F6926905AE07A6716E7737EFAFFD8FFC21BD2330B9BF249420340BE5837",
+      "runtimeSha256": "1B1F0E0C89830620B5FFC492FC0F3DCE4C19F64ED4C19ABB05BE1E03AEC3C799",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Create ONE high-end individually authored RPG VFX sprite sheet: PLATINUM FOCUS LOCK, precise heavy machine-gun impact from a beautiful white-and-lilac seraph gunner with a gilded ivory fantasy machinegun. ONLY kinetic impact and temporary crystal restraint material, no woman, gun, wings, halo emblem or scenery. Genuine transparent RGBA PNG. Exact 4columns by4rows,16 equal squareframes chronological rowmajor, requested2048x2048. Stable contact x50%y55% in everyframe, one elevated side camera. Entire detailed effect fits central36% width/height with exceptionally broad pure transparent gutters, absolutely no particles near cell boundaries. 01 tiny platinum glint and two lavender threads tensing horizontally.02 threads fold into three short thin linear pressure plates.03 plates stack close together into compressed ivory shell, small gold hot flecks.04 dense narrow white kinetic point arrives at center fromleft.05 powerful brief WHITE-PLATINUM hit, tiny thick angular ivory fragments blast outward.06-08 fragments separate, three translucent pale-lilac slats swing inward from different angles to momentarily clamp an empty center, chipped facets shedding bright gold sparks.09-11 slats buckle and break into small angular pieces, hot gold grains arc downward through narrow violet-gray gunsmoke.12-14 fragments cool to matte silver and disappear into sparse torn smoke.15 almost nothing except two fading gold grains.16 near-empty. Every frame changes actual plate geometry, contact fragmentation and smoke shape, not duplicated icon scaling/rotation. Heavy precise industrial ballistics meets restrained sacred platinum material, strong pinpoint contact, NOT generic fire blast, continuous laser, static barrier badge or flower seal. Premium hand-painted Korean fantasy VFX, crisp metal thickness with luminous crystal edges. No letters, numbers, lines, grid, labels, borders, UI, checkerboard or solidbackground. True alpha.",
+      "sourceFilename": "exec-723ee51f-8056-4672-8673-c45ac669b254.png",
+      "visualReview": "백금 압력판 압축·충돌·맞물림·파쇄·화약 연기의 실제 프레임 변화 확인. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 796860,
+      "frames": [
+        {
+          "index": 0,
+          "file": "platinum-focus-lock/frames/01.webp",
+          "rawSha256": "232FE335695A3FD415E84998F3BB2B3D618BE1BE0746C7F360962F6B40F3EF65",
+          "sha256": "6150887AB2FE67DD3F09BEE7E1484BCBD0A16FC141F9FFC53128419AAC62EEA3",
+          "edgeMax": 1,
+          "opaque": 1005,
+          "nonempty": 25491,
+          "alphaTotal": 660796,
+          "bounds": [
+            62,
+            137,
+            263,
+            217
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "platinum-focus-lock/frames/02.webp",
+          "rawSha256": "8F059016E1759EDA8A3FD024A4A09595614ED9568867C53FCD2C9B4704A7B296",
+          "sha256": "0A44E50875EEDFFFD4623422B76D36B9EA1429BAFE4235B81CA8981C8023B20C",
+          "edgeMax": 1,
+          "opaque": 3239,
+          "nonempty": 23052,
+          "alphaTotal": 1094823,
+          "bounds": [
+            97,
+            139,
+            262,
+            220
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "platinum-focus-lock/frames/03.webp",
+          "rawSha256": "DE5A85C2F87C1C952A515657A8092AA990B11718BF69A66D0AB6FC0AAFDB70C9",
+          "sha256": "908B7996841A183911AFC0E74A43DD7E269918CA38CA554154375F21FA1EC0DA",
+          "edgeMax": 1,
+          "opaque": 4333,
+          "nonempty": 21374,
+          "alphaTotal": 1324511,
+          "bounds": [
+            100,
+            138,
+            233,
+            226
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "platinum-focus-lock/frames/04.webp",
+          "rawSha256": "9B0F44E8427807FD172645B7F668716D151A303A13C319E95C1B35A1807F50E3",
+          "sha256": "56958C7B22B382ED703817938ECDC33096C13E1D5C0EC6AE80E9F70E7C836993",
+          "edgeMax": 1,
+          "opaque": 4100,
+          "nonempty": 21298,
+          "alphaTotal": 1296633,
+          "bounds": [
+            16,
+            134,
+            213,
+            216
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "platinum-focus-lock/frames/05.webp",
+          "rawSha256": "34137A02A66E5B38A64B421678C7929ECAAAB00E16C6B1F9C913A01E2B5E5221",
+          "sha256": "9C29489E379C9A371D067EE08E3228DBA5C32BBCA80171C816FFB51DD6617F55",
+          "edgeMax": 1,
+          "opaque": 12849,
+          "nonempty": 44035,
+          "alphaTotal": 3924330,
+          "bounds": [
+            57,
+            77,
+            266,
+            245
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "platinum-focus-lock/frames/06.webp",
+          "rawSha256": "3430D8343648270F4B80E2A5285DDA33B7D17BA0C1C491D3A76C4F74B37FD37D",
+          "sha256": "693C7F6D645469741DF52EC786413F0A4568FE55C08CE6CEDE3920D6D0A97759",
+          "edgeMax": 1,
+          "opaque": 16458,
+          "nonempty": 47597,
+          "alphaTotal": 4787137,
+          "bounds": [
+            81,
+            69,
+            265,
+            260
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "platinum-focus-lock/frames/07.webp",
+          "rawSha256": "E5D73FFC1E68521D5DA18848683DD37D90077775D28FA944E62AB5083DBCAF9B",
+          "sha256": "F0C0FD739A4AB4CB2FB540FBCCD1C0FC5A1A8734170F3A2BDDE79B90A2988BCB",
+          "edgeMax": 1,
+          "opaque": 16232,
+          "nonempty": 40872,
+          "alphaTotal": 4589276,
+          "bounds": [
+            79,
+            69,
+            251,
+            258
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "platinum-focus-lock/frames/08.webp",
+          "rawSha256": "9531445C4BEF7F1A2A5D2BD0C52A2C17524B46B82FF86038944CE0CFD6D44A75",
+          "sha256": "208F9329985E9FE68997C686F55AAEE427137E076D9E75C77312E0882ABB8DC3",
+          "edgeMax": 1,
+          "opaque": 15679,
+          "nonempty": 38027,
+          "alphaTotal": 4414567,
+          "bounds": [
+            68,
+            68,
+            238,
+            248
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "platinum-focus-lock/frames/09.webp",
+          "rawSha256": "59B83859534C8DDA694FE01BF6370D8A4BB14F00AFF95AC56BF8D262B15A68B9",
+          "sha256": "FB5849FA910A86560319FDEC73C72FDD256A8DF4C68AD5CF42B8DDB6C66F41E5",
+          "edgeMax": 1,
+          "opaque": 16725,
+          "nonempty": 46594,
+          "alphaTotal": 4792466,
+          "bounds": [
+            84,
+            66,
+            245,
+            267
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "platinum-focus-lock/frames/10.webp",
+          "rawSha256": "B926BA6DCDC08572D49E1FB698108D228416820E17323531F0637FAABB97A883",
+          "sha256": "04F83193B68AB67C403816382246B32D9A0071507441465D842386CC8479CB33",
+          "edgeMax": 1,
+          "opaque": 13216,
+          "nonempty": 52796,
+          "alphaTotal": 4501480,
+          "bounds": [
+            90,
+            53,
+            259,
+            269
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "platinum-focus-lock/frames/11.webp",
+          "rawSha256": "54EF2659D0EEA66EC08CFE490189D75E8CDF2EFC2492F442DA3AC9E407D29F48",
+          "sha256": "CE98EE3848C78F71DE569638306A908E3F57DF408574A5D4EC13CAC2D08EE03D",
+          "edgeMax": 1,
+          "opaque": 12010,
+          "nonempty": 59755,
+          "alphaTotal": 4469552,
+          "bounds": [
+            94,
+            52,
+            269,
+            275
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "platinum-focus-lock/frames/12.webp",
+          "rawSha256": "2254EF6E5223D3DE99F3A3373ECC036AD0FD4F6E60E4A0FD38D4ACB57C3122FC",
+          "sha256": "D9AE74F3EBBC030A9DFE6E0FCEE64E762627731E8258F6674B1EBDC8E037F851",
+          "edgeMax": 1,
+          "opaque": 5130,
+          "nonempty": 48986,
+          "alphaTotal": 2681499,
+          "bounds": [
+            95,
+            71,
+            257,
+            281
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "platinum-focus-lock/frames/13.webp",
+          "rawSha256": "B467C2C55CEBC911F5384C4AFFC6A18018B16269EFE16CD9E6EFBA0B955363FA",
+          "sha256": "917E11FEFFEBD42DD5B06B37C9A9487F3996FB138CC863E7A384A10B6D66FFFB",
+          "edgeMax": 1,
+          "opaque": 7277,
+          "nonempty": 52797,
+          "alphaTotal": 3054958,
+          "bounds": [
+            103,
+            48,
+            257,
+            259
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "platinum-focus-lock/frames/14.webp",
+          "rawSha256": "A27C5B1877C2E8938DF1CF1EC6EAD73A39FCA2BC32CDE1D39EB6F85EE80A39D3",
+          "sha256": "8E0EA615744FB87A08C145E9A6B0B4D12A2922E72DF8763FF459AAAED997F40A",
+          "edgeMax": 1,
+          "opaque": 3805,
+          "nonempty": 41372,
+          "alphaTotal": 1930564,
+          "bounds": [
+            111,
+            77,
+            255,
+            254
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "platinum-focus-lock/frames/15.webp",
+          "rawSha256": "49A2EB655B2D85EFFE3958ABF7705C9347E8F71D58B27BAA96C754BAE97074F2",
+          "sha256": "C23984565D663E19B4384923D6D336AF19DA4DEFF22532179C0D3B5488883725",
+          "edgeMax": 1,
+          "opaque": 47,
+          "nonempty": 26710,
+          "alphaTotal": 474799,
+          "bounds": [
+            139,
+            111,
+            237,
+            210
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "platinum-focus-lock/frames/16.webp",
+          "rawSha256": "E4D75088EC08206A1FACD0167249E6C0412BB8B41F9A1AEE9E39191B372B05D8",
+          "sha256": "AD4501D75FA8EA2B588304437D7C088DAA1EE3E5876A3E08BDCEBDE5218F47C2",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 20762,
+          "alphaTotal": 304021,
+          "bounds": [
+            127,
+            112,
+            208,
+            201
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coral-wind-volley",
+      "skillId": "MS-040",
+      "name": "산호풍 삼중시",
+      "source": "source/coral-wind-volley-sequence-v2.png",
+      "runtime": "coral-wind-volley/atlas-v2.webp",
+      "sourceSha256": "8887AF601C7093109A11FE39B25A01EF1D28F9F05BADA5B8A6EC03FF52BCC6A2",
+      "runtimeSha256": "504ADF646B57C6B6201B8E664057223D29540FFA17B1803F10D1698A355F9C0E",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "ONE individually authored premium fantasy RPG VFX sprite sheet: CORAL WIND VOLLEY, sea-breeze bow impacts for an elegant turquoise beach archer with an ivory-gold fantasy bow. This particular animation is the spiralling wind-and-coral impact where each arrow lands, NOT an arrow icon, floral emblem or bubble implosion. Only transient effect matter; no archer, bow, arrow prop, beach or backdrop. True transparent RGBA PNG, requested2048x2048, EXACT4columns4rows sixteen chronological square cells. Fixed camera slightly above sideview, impact x50%y55% remains fixed everyframe. All motion, flecks and glow restricted to central36% width/height of each cell with broad pure transparent empty margins. Frame01 tiny tapered turquoise gust curled upward.02 gust becomes two thin airy curving streams with a few coral-pink pinpoints.03 streams compress and twist into a compact forward spiral, opalescent seafoam edges.04 the curling gust tip approaches the center from lower-left.05 small dense WHITE-PEARL arrow-contact flash at center, a bright crescent of seafoam whips upward and right.06-08 three unequal fine turquoise pressure ribbons peel off the crescent into long but tightly contained wavelets, coral-pink flecks and pearl droplets physically separate.09-11 ribbons shred into disconnected transparent wind threads while droplets follow downward curves, clearly increasing negative space.12-14 only sparse fine spray and muted coral grains, no big cloud.15 two or three dim pearl specks.16 virtually empty. Everyframe materially morphs and breaks apart, not copied scale/rotation. Airy fast archery, elegant kinetic curve, crisp short white impact, turquoise/ivory and restrained coral-pink accents. Distinct from heavy deep-blue water pressure or ice crystal shattering. AAA painterly Korean game VFX with detailed spray and torn wind surfaces, controlled bloom. No symbols, rings, text, numbers, grid, border, checkerboard or solid background. Real alpha.",
+      "sourceFilename": "exec-0ccdc41d-703b-449a-ad47-38dbd396b3c1.png",
+      "visualReview": "산호빛 해풍 압축·접촉·물결 분절·물방울 및 산호 알갱이 소멸의 실제 프레임 변화 확인. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 574662,
+      "frames": [
+        {
+          "index": 0,
+          "file": "coral-wind-volley/frames/01.webp",
+          "rawSha256": "86DD08E983851C21C3218CD351B3844CB352C46C4349638AB92A51B52F44367B",
+          "sha256": "226AE57E359DB7EC2A12254D00E497F0395739E0961E8987B61DAFFFBFEBC033",
+          "edgeMax": 1,
+          "opaque": 605,
+          "nonempty": 15598,
+          "alphaTotal": 428847,
+          "bounds": [
+            130,
+            122,
+            214,
+            257
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "coral-wind-volley/frames/02.webp",
+          "rawSha256": "288E6086B3464024868829FA649C50E552469F5FF2523DE9A9F50A2C13F7EF07",
+          "sha256": "883D148F57B801B3AC84D55976FC89B79C2513B464161C95D919F4C264F24491",
+          "edgeMax": 1,
+          "opaque": 1206,
+          "nonempty": 23044,
+          "alphaTotal": 835934,
+          "bounds": [
+            106,
+            80,
+            216,
+            272
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "coral-wind-volley/frames/03.webp",
+          "rawSha256": "8842D48605CC5F1FA0AB849B536956EEC5D94FAD76AA62DFE3D6DDF815E75E88",
+          "sha256": "55C968975A60AE2A076D8DCB059EA3B98980C138E43DCD9FA93FE8484352D8E5",
+          "edgeMax": 1,
+          "opaque": 3755,
+          "nonempty": 26213,
+          "alphaTotal": 1471620,
+          "bounds": [
+            112,
+            104,
+            242,
+            269
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "coral-wind-volley/frames/04.webp",
+          "rawSha256": "82C4183B514283C99FE3414F6A5E58626F5E16D024A15C2BE1177010C2B3EB15",
+          "sha256": "1EF92A02DC0CA5CC449F6168B1F48BE78EA6E1C75D9AF180E6DAC74566E27AA6",
+          "edgeMax": 1,
+          "opaque": 5800,
+          "nonempty": 30612,
+          "alphaTotal": 2222662,
+          "bounds": [
+            49,
+            113,
+            244,
+            292
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "coral-wind-volley/frames/05.webp",
+          "rawSha256": "6FDE37B87E71BF9231001F55AC6AD97B0B053FC9EFC62BB3446374DC1FF1F194",
+          "sha256": "58A208B02EE192E9481CAC635FB57F4907BE994BFBDBF1B665743BB78EF68512",
+          "edgeMax": 1,
+          "opaque": 9188,
+          "nonempty": 38148,
+          "alphaTotal": 3243135,
+          "bounds": [
+            95,
+            46,
+            293,
+            267
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "coral-wind-volley/frames/06.webp",
+          "rawSha256": "CDEC017C2BFB461F84F4CA691014290F5C5975B9F23C314055D1C4BE6687D688",
+          "sha256": "7C7ED5824D5A1ADB6D15CB0DF52BB8C510D992E3504912EBD4987BD1179BA086",
+          "edgeMax": 1,
+          "opaque": 7758,
+          "nonempty": 39321,
+          "alphaTotal": 2963725,
+          "bounds": [
+            85,
+            52,
+            298,
+            258
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "coral-wind-volley/frames/07.webp",
+          "rawSha256": "6DDC20F9EBCB27CA3D99C07E2500646E30650C7E579BC0B28D7A98243D544A61",
+          "sha256": "4BD8CA1F4FA2D49A75A1119EF4638BB28A6A6D601DC96ED12C02DC4888A929B8",
+          "edgeMax": 1,
+          "opaque": 3951,
+          "nonempty": 40853,
+          "alphaTotal": 1879214,
+          "bounds": [
+            75,
+            48,
+            287,
+            268
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "coral-wind-volley/frames/08.webp",
+          "rawSha256": "57AE7CA72D29063DDE2ED540E1053A3198472272230A72620375F9FFAA23A6CE",
+          "sha256": "82DD4542D7654715F3DD6B303B40C7134FF2D344D5FFDC8526BEE9F4953A3CB0",
+          "edgeMax": 1,
+          "opaque": 2845,
+          "nonempty": 37949,
+          "alphaTotal": 1676088,
+          "bounds": [
+            46,
+            54,
+            263,
+            239
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "coral-wind-volley/frames/09.webp",
+          "rawSha256": "C9AB262FDEDEBA94AB35885DE74274BA54BE3A68047D3251B99FF0FA3B4BA817",
+          "sha256": "422B799346A559981CD11AE3B041617C5E35D96CA95E93B07D72FDDDD43AD3A8",
+          "edgeMax": 1,
+          "opaque": 1658,
+          "nonempty": 36736,
+          "alphaTotal": 1161346,
+          "bounds": [
+            98,
+            81,
+            283,
+            261
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "coral-wind-volley/frames/10.webp",
+          "rawSha256": "ED7BE2EEC3F6E65951B93C34A37B3D66A1721DB7392EC2614019E27823AD98E6",
+          "sha256": "C2ADF88975153F0CFB232FE8AACE9F6D00BEF766E6F87A1794F7D831F48376CA",
+          "edgeMax": 1,
+          "opaque": 736,
+          "nonempty": 34275,
+          "alphaTotal": 761037,
+          "bounds": [
+            94,
+            71,
+            273,
+            266
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "coral-wind-volley/frames/11.webp",
+          "rawSha256": "E6109C553AF8839E06AAFB750056A4E3453CFC2673DAA7283A638D810E80B1A2",
+          "sha256": "89C2134776A8EFCCD4336E9FA58DD7FB8B6512E53A1EC459B816F6EF9A66479A",
+          "edgeMax": 1,
+          "opaque": 584,
+          "nonempty": 25458,
+          "alphaTotal": 479648,
+          "bounds": [
+            80,
+            90,
+            238,
+            270
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "coral-wind-volley/frames/12.webp",
+          "rawSha256": "EECDAD3AA5466E053EA6B256887D1A38E0CE55EC841371E07443C0436C7666E1",
+          "sha256": "EAA3B7B7EE9FA918DD6E20EE2A81A9B47A97F9C85EE9CC0C7341A39AD8F8A602",
+          "edgeMax": 1,
+          "opaque": 280,
+          "nonempty": 16957,
+          "alphaTotal": 208874,
+          "bounds": [
+            82,
+            100,
+            213,
+            253
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "coral-wind-volley/frames/13.webp",
+          "rawSha256": "C60CAD3D90505692E039AD45AAFF44BC7CE9114DF81D64F52DE79A38DA7EC6B9",
+          "sha256": "4399ED2B13085CB2C6BA05D5C2F9453E55E49A2911F000F4FDCAA90483D68BDD",
+          "edgeMax": 1,
+          "opaque": 110,
+          "nonempty": 9576,
+          "alphaTotal": 57026,
+          "bounds": [
+            123,
+            115,
+            214,
+            195
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "coral-wind-volley/frames/14.webp",
+          "rawSha256": "E4B7601D7000B152C9F8EC9EE59D43959BB6982FB8EA7772C7ACD4454BEF75D4",
+          "sha256": "CC6365DBC38D9872B108421C563EEF17F0162E4DA6F2EE091AED6EFA087B147F",
+          "edgeMax": 1,
+          "opaque": 1,
+          "nonempty": 3923,
+          "alphaTotal": 17235,
+          "bounds": [
+            128,
+            144,
+            203,
+            199
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "coral-wind-volley/frames/15.webp",
+          "rawSha256": "BF1E65DDBB4512F8EECE89528CF445915E0BF296EA5F22DD301ED127C7211CB8",
+          "sha256": "3DDB0A17D2A369FF26F9D837B1B560A35B554D1A0D45979BB36C6579186FFD27",
+          "edgeMax": 1,
+          "opaque": 79,
+          "nonempty": 2747,
+          "alphaTotal": 30383,
+          "bounds": [
+            147,
+            155,
+            179,
+            187
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "coral-wind-volley/frames/16.webp",
+          "rawSha256": "436A674851494885E9E8EB79B9219785D6C63731049B4742277152C1D2630776",
+          "sha256": "93D72CEB75352E5F51BCA9F279D28A1329A094201B6BA7BBE3BE082AB2B2BCE7",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 2384,
+          "alphaTotal": 2722,
+          "bounds": [
+            138,
+            180,
+            140,
+            182
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
+    },
+    {
+      "id": "azure-dragon-calibration",
+      "skillId": "MS-005",
+      "name": "탄착 교정",
+      "source": "source/azure-dragon-calibration-sequence-v2.png",
+      "runtime": "azure-dragon-calibration/atlas-v2.webp",
+      "sourceSha256": "82576D71F765EFB05B6AC235705953AF155D7321B7CC81E422BDBF2EA1323E38",
+      "runtimeSha256": "022E3A03EBEC496CC1670D5A74FA3CF3001C4A21DFEFBE97476816291301A651",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGEGEN",
+      "prompt": "Create ONE individually authored high-end RPG VFX animation sprite sheet: AZURE DRAGON CALIBRATION. A blue-and-gold dragon-contract assault rifle's focused burst strikes with converging blue kinetic pressure and shattering sapphire dragon-scale light. This replaces an unsuitable emerald-green effect: use deep cobalt, electric azure, tiny gold edges and white contact, absolutely no green. ONLY transient impact VFX, no woman, rifle, dragon creature/head, emblem or scene. True transparent RGBA PNG requested2048x2048. Exactly 4columns4rows=16 chronological squareframes. Same fixed camera and impact origin x50%y55% allcells. CRITICAL effect including every glow, smoke strand, shard and faint particle fits inside central36% width/height of EACH cell, at least30% completely empty alpha on every edge. Compact finely detailed animation within huge transparent gutters.01 three tiny separated sapphire sparks form a narrow triangular pressure path.02 three short needle threads bend inward toward common center.03 a short twisting blue pressure ridge forms, layered like small overlapping reptile scales but clearly transient energy.04 ridge compresses into a taut tiny pointed front.05 brilliant WHITE-AZURE pinpoint hit exactly at center, three converging needle paths meet.06-08 the ridge splits into thin irregular blue scale-shaped pressure plates; clean gold-edged scale shards flick outward in asymmetric arcs, tiny sharp white sparks.09-11 plates crumble to smaller cobalt fragments; a slender blue-gray twisting vapor wake pulls right then tears into gaps.12-14 sparse cooling blue motes and faint vapor curls.15 only two dim flecks.16 near empty. Everyframe must change actual material shape and fragmentation, not copied scaled/rotated icons or a recolor of another effect. Fast precise burst-rifle force, defined reptile-scale texture and kinetic needle contact, elegant high-end Korean game painterly VFX, no fireball or magic circle. No letters, numbers, gridlines, frames, background or checkerboard. Real alpha transparency. CRITICAL CORRECTION after failed technical slicing: the prior generation's frame06 vapor crossed the cell edge. MAKE ALL SIXTEEN EFFECTS MUCH SMALLER. The complete visible effect including vapor, scales, tiny sparks and transparent glow fits in the CENTRAL 28% WIDTH AND 28% HEIGHT of each square cell. Over36% of each side is TOTALLY EMPTY alpha. This means tiny intricate sprites spaced VERY FAR APART in huge empty cells, not a tightly packed contact sheet. No horizontal vapor tail; keep smoke short and local. No scale shard moves farther than one small scale-length away from the contact. All frames share the same small scale and fixed center. Each effect must look small within a vast empty moat. Generate a fresh genuine-alpha PNG; preserve the sixteen stages and cobalt/gold dragon-scale quality with compact fine detail.",
+      "sourceFilename": "exec-b6e9cd9d-b2b5-4778-ae75-6b4682ae45d6.png",
+      "visualReview": "청색 압축선·집중 접촉·용린 파쇄·소멸 프레임을 개별 확인. 경계 침범 시안 재제작. 1440px·390px V3 정상/0.5배 전체 재생, 2배·일시정지·탐색·취소 검수 완료. 사용자 시각 검수 대기.",
+      "runtimeBytes": 283660,
+      "frames": [
+        {
+          "index": 0,
+          "file": "azure-dragon-calibration/frames/01.webp",
+          "rawSha256": "EAE0B70F8ED3FBB86E76B91937B6BB4F993F765940869179F06CAA4269076C23",
+          "sha256": "D178412D31106E0E276CD011CC10DBB49056CA050A006E790B4FA5CB3FAEE815",
+          "edgeMax": 1,
+          "opaque": 152,
+          "nonempty": 8394,
+          "alphaTotal": 117440,
+          "bounds": [
+            137,
+            148,
+            225,
+            233
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 1,
+          "file": "azure-dragon-calibration/frames/02.webp",
+          "rawSha256": "B8996E0BEBFA0902AE35D621F731D8D844B16C42CB9BBA8BBD3B041E9ED82E88",
+          "sha256": "41CEA7C48F8EC12B61F37DDE6C98ADF936EE9AED328927F7BF607A479EAD9CCA",
+          "edgeMax": 1,
+          "opaque": 252,
+          "nonempty": 10391,
+          "alphaTotal": 183097,
+          "bounds": [
+            112,
+            140,
+            222,
+            239
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 2,
+          "file": "azure-dragon-calibration/frames/03.webp",
+          "rawSha256": "057587AFCBAADB8E754B8C90E776264EF797818599656B58D310832DCEE8C3E1",
+          "sha256": "8331B72CE001E1E1A01A1B56A908A13A49DE376AF09BE12223C2001499ED1A4B",
+          "edgeMax": 1,
+          "opaque": 1226,
+          "nonempty": 14363,
+          "alphaTotal": 514122,
+          "bounds": [
+            114,
+            150,
+            203,
+            240
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 3,
+          "file": "azure-dragon-calibration/frames/04.webp",
+          "rawSha256": "079B0545345DDE2CD77BC8348909AD6345070FB1AE663264C6678A0C457C6FCA",
+          "sha256": "3D1BCB787332E818DA4E86F365A8BFC7BA01BA091C76D7EB51715B7AE95EF2F4",
+          "edgeMax": 1,
+          "opaque": 1031,
+          "nonempty": 13088,
+          "alphaTotal": 427877,
+          "bounds": [
+            106,
+            161,
+            172,
+            249
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 4,
+          "file": "azure-dragon-calibration/frames/05.webp",
+          "rawSha256": "BBE52A62C8DB9A01A34471772A95A28D9CFA98872B105A27CD88A2397536096B",
+          "sha256": "0B93CF57B38060D68BA592A27E2E6410D50D18B0724983DD5DC7ADE6DC1F2728",
+          "edgeMax": 1,
+          "opaque": 1067,
+          "nonempty": 14007,
+          "alphaTotal": 490786,
+          "bounds": [
+            126,
+            121,
+            241,
+            219
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 5,
+          "file": "azure-dragon-calibration/frames/06.webp",
+          "rawSha256": "9621F31E02284C9ACAFDA4CCF393713CE305BE714BDA66CFCAEAD559EAB2E6C1",
+          "sha256": "EE3E3926575E7A2AC132E5A7CF48D8751E6EB5554C76731B7BA2E9130DB9C487",
+          "edgeMax": 1,
+          "opaque": 1694,
+          "nonempty": 14018,
+          "alphaTotal": 703723,
+          "bounds": [
+            114,
+            125,
+            214,
+            232
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 6,
+          "file": "azure-dragon-calibration/frames/07.webp",
+          "rawSha256": "CD18E7DF5121CFEFD21CEB4E395FFB22937DA6B52CB5E942AF57D69FFBA919A2",
+          "sha256": "860632ECBAE177AF694C083CCD1CDCFDC85FCA3B6DEF6127945B04C7D8EECA79",
+          "edgeMax": 1,
+          "opaque": 1990,
+          "nonempty": 15502,
+          "alphaTotal": 808403,
+          "bounds": [
+            97,
+            120,
+            209,
+            235
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 7,
+          "file": "azure-dragon-calibration/frames/08.webp",
+          "rawSha256": "63E1AAE1CE61277FE881D25FF57C1DD5A8371C307C0AEA7A2352FBD80B7C8BB3",
+          "sha256": "3CF9AAC876349DF4471CF1BDE086C98B4C628831AD22B969BBDBF0D2EDFEC5E1",
+          "edgeMax": 1,
+          "opaque": 2328,
+          "nonempty": 15876,
+          "alphaTotal": 896110,
+          "bounds": [
+            84,
+            113,
+            207,
+            239
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 8,
+          "file": "azure-dragon-calibration/frames/09.webp",
+          "rawSha256": "1AE224CAC1FC59517D52B9BF353988A925D065583F4AFDD7A60A4247FA993D1D",
+          "sha256": "CF6F4635E25BF262EF156F1C567C9A67AB49D1CC581BA5BB4916862E09674FFE",
+          "edgeMax": 1,
+          "opaque": 1021,
+          "nonempty": 12654,
+          "alphaTotal": 482482,
+          "bounds": [
+            129,
+            109,
+            224,
+            209
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 9,
+          "file": "azure-dragon-calibration/frames/10.webp",
+          "rawSha256": "DBAA93AA1A0A0383463EA43BF02FC146294E5859AA1A5E3C95C2F60ED39A0154",
+          "sha256": "1A7F0ECAAEE912C755B71389EF0DC8AD01263EA6CA4D09A5F9D10EC926318D16",
+          "edgeMax": 1,
+          "opaque": 514,
+          "nonempty": 12766,
+          "alphaTotal": 366525,
+          "bounds": [
+            118,
+            113,
+            222,
+            218
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 10,
+          "file": "azure-dragon-calibration/frames/11.webp",
+          "rawSha256": "3F8D9C599B8C22FD1884B2CBAE6DF02FFC6E62519C4B3800F6F16BE9587DD39B",
+          "sha256": "0DD8DC2B002FC1C70C8CCB72414E04BB449D9FBDB4171FA98DA5380B3CD380F4",
+          "edgeMax": 1,
+          "opaque": 199,
+          "nonempty": 14347,
+          "alphaTotal": 232651,
+          "bounds": [
+            113,
+            114,
+            209,
+            213
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 11,
+          "file": "azure-dragon-calibration/frames/12.webp",
+          "rawSha256": "B50338F4D07E1F0CB31E443D3D88A56A1C69789F64C57DCA32867923339A8C5C",
+          "sha256": "942CEB6464D028367BB99F20ED00794096639AF23783A36908121440754D0DB5",
+          "edgeMax": 1,
+          "opaque": 12,
+          "nonempty": 16345,
+          "alphaTotal": 172870,
+          "bounds": [
+            113,
+            115,
+            193,
+            195
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 12,
+          "file": "azure-dragon-calibration/frames/13.webp",
+          "rawSha256": "49BF72F5A89E60A61BBF4D80A169D1ADAE76C93B08605DB17F9EF81960F0D865",
+          "sha256": "618DAD5BCE60499DB430FA2F825FFA8F0D23A5719BF346C343FB66C38D6B903D",
+          "edgeMax": 1,
+          "opaque": 7,
+          "nonempty": 14987,
+          "alphaTotal": 96439,
+          "bounds": [
+            151,
+            113,
+            207,
+            173
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 13,
+          "file": "azure-dragon-calibration/frames/14.webp",
+          "rawSha256": "609CD24421EA17533A897AE62956D361F1A8F2C219138697D64261C1917697A9",
+          "sha256": "F967627992AC4CB0D26377E9C24DFBDA1B597475788AE62657A11B884D22D2A8",
+          "edgeMax": 1,
+          "opaque": 13,
+          "nonempty": 17411,
+          "alphaTotal": 67836,
+          "bounds": [
+            145,
+            119,
+            186,
+            172
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 14,
+          "file": "azure-dragon-calibration/frames/15.webp",
+          "rawSha256": "11EDDE7C3DA5FD546FA7D48E8CD87168F4197E9A9C48DD55FD0DE212FD72EB5A",
+          "sha256": "DAD2E9414220572594648CCD65195FB4D60AFC6D55A5B77FC8FD30F912C5329C",
+          "edgeMax": 1,
+          "opaque": 16,
+          "nonempty": 11892,
+          "alphaTotal": 43002,
+          "bounds": [
+            131,
+            131,
+            176,
+            164
+          ],
+          "size": [
+            314,
+            314
+          ]
+        },
+        {
+          "index": 15,
+          "file": "azure-dragon-calibration/frames/16.webp",
+          "rawSha256": "4E1915C7E4643528CD53454BF2D5F447AEACB3C571361D55C6EF5EA77978D07E",
+          "sha256": "71953970181B3E6DC3EE34C9108100EE1C5AA148A95DE3FA8AC82E2A2931907F",
+          "edgeMax": 1,
+          "opaque": 0,
+          "nonempty": 3319,
+          "alphaTotal": 8177,
+          "bounds": [
+            144,
+            144,
+            155,
+            155
+          ],
+          "size": [
+            314,
+            314
+          ]
+        }
+      ]
     }
   ],
   "reference": {
@@ -5971,6 +9108,7 @@
       "source/MercenarySpriteSequence.js",
       "source/MercenarySkillFX.js",
       "source/RenderAuthoredSkill.js",
+      "source/RenderSSkill.js",
       "source/skills-lab.src.js"
     ],
     "layers": [
@@ -5984,9 +9122,8 @@
     "authoredContactFrame": 4,
     "contactAuthority": "skill-rehearsal.mjs resolved offline events; no live damage calculation",
     "bodyContact": "SD foot origin minus fullBodyHeight * root.scale.y * 0.54",
-    "firearmEmission": "Approximate body-relative origin on existing idle SD; dedicated joint/aim sprites not authored"
+    "firearmEmission": "Hash-bound mercenary-attachment-points-v1.json weapon/contact/foot markers; existing approved SD remains unchanged"
   },
   "processing": "Exact native grid extraction and lossless WebP encoding. Native original bytes preserved. No synthetic in-between images.",
-  "audio": "SILENT_VISUAL_REVIEW",
-  "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED"
+  "audio": "EXISTING_LICENSED_RECORDINGS_V3_SHARED_CONTEXT"
 }

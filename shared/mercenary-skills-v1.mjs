@@ -1,6 +1,7 @@
+import {createSSkillDefinitions, S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
 // Authored skill proposals and offline rehearsal only. Never imported by live battle routes.
 export const SKILL_VERSION = 3;
-export const SKILL_CATALOG_VERSION = 1;
+export const SKILL_CATALOG_VERSION = 2;
 export const SKILL_STORAGE_KEY = 'cnine.mercenarySkills.draft.v1';
 const definition = (id, name, role, target, mechanic, trigger, effect, counterplay, bossRule, visual, steps) => ({
   id, name, role, target, mechanic, trigger, effect, counterplay, bossRule, visual, steps,
@@ -10,6 +11,7 @@ const definition = (id, name, role, target, mechanic, trigger, effect, counterpl
 });
 const art = (asset, motion, windup, impacts, duration, color) => ({asset, motion, windup, impacts, duration, color});
 export const MERCENARY_SKILLS = [
+  ...createSSkillDefinitions(definition, art),
   definition('MS-021', '종언의 사건지평선', 'VANGUARD', 'FRONT_GROUP', 'RIFT_MARK_DETONATION',
     '살아 있는 적 전열 최대 2명을 고정하고 성좌 균열을 준비한다. 전열이 없으면 단일 표적만 지정한다.',
     '첫 검격이 맞은 생존 표적에 균열을 새긴다. 재차 대검을 내리쳐 남은 균열만 한 번 폭발시킨다. 두 단계 각각의 전체 피해 예산을 처음 지정한 대상 수로 나눈다.',
@@ -40,7 +42,7 @@ export const MERCENARY_SKILLS = [
     '세 번의 점사를 한 표적에 유지하면 마지막 탄이 교정 보너스를 얻는다. 표적 변경·빗나감은 교정을 초기화한다.',
     '도발·회피·표적 교체로 연속 명중을 끊는다. 교정을 다른 적에게 넘길 수 없다.',
     '같은 단일 보스에는 유지하기 쉽지만 보호막·회피를 무시하지 않는다.',
-    art('emerald-calibration', 'CONVERGE', .45, [.8, 1.25, 1.7], 2.7, '#60d4ab'), ['초탄 관측', '탄착 보정', '동일 표적 보너스', '교정 소모']),
+    art('azure-dragon-calibration', 'CONVERGE', .45, [.8, 1.25, 1.7], 2.7, '#69baff'), ['초탄 관측', '탄착 보정', '동일 표적 보너스', '교정 소모']),
   definition('MS-013', '일제 사격 명령', 'SUPPORT', 'ALLY_TEAM', 'NEXT_BASIC_ORDER',
     '살아 있는 일반 카드 5장과 용병에게 한 번씩 지휘권을 건다.',
     '각자의 다음 기본 공격에만 지휘 보너스를 더하고 소모한다. 새 행동을 생성하거나 즉시 전원이 공격하지 않는다.',
@@ -157,7 +159,7 @@ export function parseSkillDraft(text) {
   const legacy = exact(draft, legacyRootKeys) && draft.format === 'PROJECT_V_MERCENARY_SKILL_DRAFT_V1' &&
     ((draft.version === 1 && draft.rosterVersion === 10) || (draft.version === 2 && draft.rosterVersion === 11));
   if (legacy) {
-    const expected = MERCENARY_SKILLS.filter(skill => draft.version !== 1 || skill.id !== 'MS-021');
+    const expected = MERCENARY_SKILLS.filter(skill => !S_SKILL_IDS.includes(skill.id) && (draft.version !== 1 || skill.id !== 'MS-021'));
     if (!Array.isArray(draft.skills) || draft.skills.length !== expected.length ||
         new Set(draft.skills.map(row => row?.id)).size !== expected.length ||
         draft.skills.some(row => !exact(row, ['id', 'code', 'name', 'review', 'note']) ||
@@ -168,7 +170,12 @@ export function parseSkillDraft(text) {
     const reviews = draft.skills.map(({code, ...review}) => review);
     if (draft.version === 1) reviews.unshift(createSkillDraft().skills.find(row => row.id === 'MS-021'));
     draft = {format: draft.format, version: SKILL_VERSION, revision: draft.revision,
-      catalogVersion: SKILL_CATALOG_VERSION, status: draft.status, runtimeEnabled: draft.runtimeEnabled, skills: reviews};
+      catalogVersion: SKILL_CATALOG_VERSION, status: draft.status, runtimeEnabled: draft.runtimeEnabled, skills: [...reviews, ...createSkillDraft().skills.filter(row => S_SKILL_IDS.includes(row.id))]};
+  }
+  if (draft.version === SKILL_VERSION && draft.catalogVersion === 1) {
+    const legacySkills = MERCENARY_SKILLS.filter(s => !S_SKILL_IDS.includes(s.id));
+    if (!Array.isArray(draft.skills) || draft.skills.length !== legacySkills.length || new Set(draft.skills.map(s=>s?.id)).size !== legacySkills.length || draft.skills.some(s=>!legacySkills.some(old=>old.id===s.id))) throw Error('기존 스킬 목록이 누락되었거나 손상되었습니다.');
+    draft = {...draft, catalogVersion: SKILL_CATALOG_VERSION, skills:[...draft.skills,...createSkillDraft().skills.filter(s=>S_SKILL_IDS.includes(s.id))]};
   }
   return validateSkillDraft(draft);
 }

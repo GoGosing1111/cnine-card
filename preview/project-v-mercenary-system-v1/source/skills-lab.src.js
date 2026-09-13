@@ -1,3 +1,4 @@
+import ssPlan from '../skill-s-ss-plan-v3.json' with {type:'json'};
 // Bundle once with the existing V3 entry: esbuild deduplicates Pixi and GSAP.
 import {mountForBattle} from '../../project-v-v3/source/project-v-pixi-battle.src.js';
 import {Assets} from 'pixi.js';
@@ -21,7 +22,7 @@ const getJson=async path=>{const r=await fetch(path);if(!r.ok)throw new Error(`�
 let roster,positions,adapter,deck,engine,renderer,merc,fx,draft,savedRevision=null,changing=false,disposed=false,epoch=0;
 let selected=MERCENARY_SKILLS.some(s=>s.id===new URL(window.parent.location.href).searchParams.get('skill'))?new URL(window.parent.location.href).searchParams.get('skill'):'MS-003',lastUi='',lastTick=-1,dirty=false;
 let atlasManifest,auxiliary,activeSequence=null,assetQueue=Promise.resolve();
-let previewCode='V-001';
+let previewCode=new URL(window.parent.location.href).searchParams.get('mercenary')||'V-001';
 let playRequest=0,soundEnabled=localStorage.getItem('cnine_battle_sound')!=='OFF';
 const actors=new Map(),texturePaths=new Set();
 const row=()=>draft.skills.find(s=>s.id===selected);
@@ -153,6 +154,7 @@ function bind(){
   $('skillList').addEventListener('click',event=>{const button=event.target.closest('[data-skill]');if(button)void configure(button.dataset.skill)});
   $('search').addEventListener('input',list);$('roleFilter').addEventListener('change',list);
   $('scenario').addEventListener('change',()=>void configure());
+  $('reviewPair').addEventListener('change',()=>{const r=ssPlan.targets.find(r=>r.code===$('reviewPair').value);if(!r)return;previewCode=r.code;$('previewMercenary').value=previewCode;void configure(r.skillId);});
   $('previewMercenary').addEventListener('change',()=>{previewCode=$('previewMercenary').value;void configure();});
   $('play').addEventListener('click',()=>void playWithAudio());
   $('replay').addEventListener('click',()=>void playWithAudio(true));
@@ -197,12 +199,14 @@ async function boot(){
   try{
     if(doc.readyState==='loading')await new Promise(resolve=>doc.addEventListener('DOMContentLoaded',resolve,{once:true}));
     await Assets.init({basePath:skillAssetBaseUrl(location.href)});
-    [roster,positions,deck,atlasManifest,auxiliary]=await Promise.all([getJson('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260911-omega-ranks'),getJson(`${ROOT}position-draft-v1.json?v=20260911-library`),loadDeck(),getJson(`${ROOT}skill-assets-v2/manifest.json?v=20260911-library`),loadAuxiliary()]);
+    [roster,positions,deck,atlasManifest,auxiliary]=await Promise.all([getJson('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?v=20260911-omega-ranks'),getJson(`${ROOT}position-draft-v1.json?v=20260913-s-skills`),loadDeck(),getJson(`${ROOT}skill-assets-v2/manifest.json?v=20260913-s-skills`),loadAuxiliary()]);
     $('scenarioCount').textContent=MERCENARY_SKILLS.length*3;
     $('authoredCount').textContent=atlasManifest.images.length;$('frameCount').textContent=atlasManifest.frameCount;
     adapter=createMercenaryBattleArtAdapter(roster);draft=createSkillDraft();
     try{const stored=readStored();if(stored){draft=stored;savedRevision=stored.revision;}}catch(error){notice(`저장본 확인 필요: ${error.message}`,true);}
     $('roleFilter').innerHTML='<option value="">전체 분류</option>'+Object.entries(ROLES).map(([id,r])=>`<option value="${id}">${r.label}</option>`).join('');
+    if(!roster.cards.some(c=>c.code===previewCode))previewCode='V-001';
+    $('reviewPair').innerHTML='<option value="">S·SS 14명 제작 목록</option>'+ssPlan.targets.map(r=>'<option value="'+r.code+'">'+r.rank+' · '+esc(r.name)+' — '+esc(skillById(r.skillId).name)+'</option>').join('');
     $('previewMercenary').innerHTML=roster.cards.map(c=>`<option value="${c.code}"${c.code===previewCode?' selected':''}>${c.code} · ${esc(c.name)}</option>`).join('');
     showDetails();list();window.cnineCardCatalog=()=>deck;
     const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};

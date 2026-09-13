@@ -1,0 +1,19 @@
+{
+  "id": "verdant-thorn-seal",
+  "skillId": "MS-022",
+  "prompt": "Create ONE individually painted, high quality VFX animation sheet for VERDANT THORN SEAL, an elegant garden huntress's turquoise-and-ivory crossbow skill. It is a living crystal thorn embedded by an arrow which later bursts, NOT a plant icon. ONLY effect matter, no character, no bow, no arrow prop, no environment. True TRANSPARENT RGBA PNG, exactly4columns4rows sixteen equal square frames chronological left-to-right top-to-bottom, requested2048x2048. Fixed contact x50%y55% and same camera/scale in allcells. CRITICAL every particle/glow/strand in each frame stays within central36% width and height, over30% fully empty alpha moat on every side. Tiny intricate local effects, no long spikes across gutters. Frames01-02 tiny green-white compressed needle of light with two compact wisps.03 needle swells into tapered crystal pressure bud.04 narrow incoming point touches the center.05 FIRST IMPACT small white-teal contact star and four sharp translucent botanical crystal thorns drive outward from center.06-08 thorns curl inward, thin living teal veins grow between them, a tightly contained thorn trap gathers pressure; this must actually grow/change over threeframes.09 SECOND IMPACT the center ruptures in pale WHITE-JADE light and the thorns crack simultaneously.10-11 irregular clear green shards split away, fine amber pollen and turquoise droplets separate in an asymmetric burst.12-13 thorn fragments shrink via real break-up and fine mint-gray mist curls apart.14 tiny detached glass flecks/pollen.15 very few faint grains.16 near-empty. Two clear contact peaks in frames05 and09, materially different embedding then bursting. Shimmering glass-like plant material with clean pointed facets, crisp controlled contact, gentle garden gold highlights, no circular glyph, wreath, flower badge or generic fireball. Painterly premium Korean fantasy RPG VFX. Every frame distinct, never duplicates with scale/color changes. No text/numbers/lines/frame/checkerboard/solid backdrop, genuine alpha.",
+  "path": "preview/project-v-mercenary-system-v1/skill-assets-v2/source/verdant-thorn-seal-sequence-v2.png",
+  "status": "SELECTED",
+  "originalFilename": "exec-1534dc4a-c835-49de-beeb-ac8dbf8251d5.png",
+  "timeline": {
+    "contactFrames": [
+      4,
+      8
+    ],
+    "contactTimes": [
+      0.85,
+      1.8
+    ]
+  },
+  "visualReview": "05프레임 가시 부착→06~08 가시 성장→09 봉인 파열→유리 조각·꽃가루 소멸의 두 접촉 확인. V3 및 사용자 시각 검수 대기."
+}

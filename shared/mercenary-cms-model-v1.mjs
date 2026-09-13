@@ -1,3 +1,4 @@
+import {S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
 export const CMS_MAX_BYTES = 512 * 1024;
 export const ACQUISITIONS = {UNSET:'미설정',COIN:'코인 구매',DROP:'콘텐츠 획득',EVENT:'이벤트',CRAFT:'제작',QUEST:'퀘스트'};
 export const REVIEWS = {PENDING:'검수 대기',REVIEWED:'CMS 검수 완료'};
@@ -67,4 +68,15 @@ export function validateMercenaryCms(d, catalog) {
   }
   for(const key of ['acquisitionNotes','growthNotes','releaseNotes'])text(d.settings[key],4000,key);
   return structuredClone(d);
+}
+
+// A deploy may precede the audited CMS save. Expose the new catalog on read
+// without rewriting stored ranks, names, costs, reviews or explicit assignments.
+// Only the exact previous complete catalog is eligible, never a partial draft.
+export function expandMercenarySkillCatalog(document, defaults, catalog) {
+  if(document?.skills?.length===catalog.skills.length)return validateMercenaryCms(document,catalog);
+  const legacyCatalog={...catalog,skills:catalog.skills.filter(s=>!S_SKILL_IDS.includes(s.id))};
+  const previous=validateMercenaryCms(document,legacyCatalog);
+  const added=defaults.skills.filter(s=>S_SKILL_IDS.includes(s.id));
+  return validateMercenaryCms({...previous,skills:[...previous.skills,...structuredClone(added)]},catalog);
 }

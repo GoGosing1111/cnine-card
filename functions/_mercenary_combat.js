@@ -34,15 +34,16 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
   if(['INTERCEPT_ONE_HIT','CLEANSE_THEN_MEND'].includes(s.mechanic))return [weakest(friends)].filter(Boolean);
   if(s.mechanic==='MELEE_PARRY_RIPOSTE')return [a];
-  if(s.mechanic==='FRONT_SHARED_BARRIER')return front(friends);
+  if(['FRONT_SHARED_BARRIER','FRONT_STAND_FAST'].includes(s.mechanic))return front(friends);
   if(s.mechanic==='NEXT_BASIC_ORDER')return friends.filter(t=>!t.isMonster);
-  if(['LOCKED_THREAT_SHOT','INFILTRATE_DELAYED_VENOM','UNDISTURBED_FIRST_SHOT'].includes(s.mechanic)){const back=en.filter(t=>t.row==='BACK');return [...(back.length?back:fr)].sort((a,b)=>(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot).slice(0,1);}
-  if(s.mechanic==='FINISHER_WITH_RELOAD')return [weakest(en)].filter(Boolean);
+  if(['LOCKED_THREAT_SHOT','INFILTRATE_DELAYED_VENOM','UNDISTURBED_FIRST_SHOT','ABYSS_SHIELD_ECHO'].includes(s.mechanic)){const back=en.filter(t=>t.row==='BACK');return [...(back.length?back:fr)].sort((a,b)=>(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot).slice(0,1);}
+  if(['FINISHER_WITH_RELOAD','WOUNDED_MOON_DRAW','DANCING_TARGET_VOLLEY'].includes(s.mechanic))return [weakest(en)].filter(Boolean);
+  if(s.mechanic==='DISTRIBUTED_CORAL_VOLLEY')return [...en].sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot).slice(0,3);
   return fr.slice(0,['RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','FRONT_OFFENSE_VEIL'].includes(s.mechanic)?2:1);
  }
  function effect(a,s,t,amount,phase='HIT',dodge=false){
   if(!living(t))return {hit:false};const st=damage(t,Math.max(0,amount));a.damageDealt+=st.hpDamage+st.absorbed;
-  send(a,s,phase,t,{damage:st.hpDamage,absorbed:st.absorbed,targetHpAfter:t.hp,targetMaxHp:t.maxHp,targetShieldAfter:t.shield,dodge});knockout(t);return {hit:!dodge,damage:st.hpDamage+st.absorbed};
+  send(a,s,phase,t,{damage:st.hpDamage,absorbed:st.absorbed,targetHpAfter:t.hp,targetMaxHp:t.maxHp,targetShieldAfter:t.shield,dodge});knockout(t);return {hit:!dodge,damage:st.hpDamage+st.absorbed,absorbed:st.absorbed};
  }
  function strike(a,s,t,multiplier=1,phase='HIT',opts={}){
   if(!living(t))return {hit:false};const st=state(a),veil=table(debuffs,a).veil;let scale=Number(s.balance.damageRatio)*multiplier;
@@ -51,13 +52,31 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   const h=hit(a,t,scale);if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
   return effect(a,s,t,h.damage,phase);
  }
- function finish(a,s){const st=state(a);st.pending=null;if(['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP'].includes(s.mechanic))st.reload=true;send(a,s,'END');}
- function cancel(a,reason){const st=state(a),p=st.pending;if(!p)return;st.pending=null;if(['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP'].includes(p.skill.mechanic))st.reload=true;send(a,p.skill,'CANCEL',null,{reason});}
- function cleanse(target,onlyDot=false){const d=table(debuffs,target);for(const key of onlyDot?['poison','rift']:['poison','rift','armor','veil','restraint','offender'])if(d[key]){if(key==='armor')target.defense=d[key].original;delete d[key];return key;}return null;}
+ function finish(a,s){const st=state(a);st.pending=null;if(['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(s.mechanic))st.reload=true;send(a,s,'END');}
+ function cancel(a,reason){const st=state(a),p=st.pending;if(!p)return;st.pending=null;if(['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(p.skill.mechanic))st.reload=true;send(a,p.skill,'CANCEL',null,{reason});}
+ function cleanse(target,onlyDot=false){const d=table(debuffs,target);for(const key of onlyDot?['poison','rift']:['poison','rift','thorn','oath','armor','veil','restraint','offender'])if(d[key]){if(key==='armor')target.defense=d[key].original;delete d[key];return key;}return null;}
  function resolve(a,p){const s=p.skill,c=a.combat,st=state(a),ts=p.targets.map(id=>all().find(a=>a.id===id)).filter(living),b=table(buffs,a);
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
+   case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(a.attack*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget);a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
+   case 'WOUNDED_MOON_DRAW':once(t=>strike(a,s,t,1+(1-t.hp/t.maxHp)*c.finisherBonusPercent/100));break;
+   case 'FRONT_STAND_FAST':once(t=>{table(buffs,t).standfast={actor:a,skill:s,percent:c.interceptPercent,budget:Math.floor(a.attack*s.balance.damageRatio/p.targets.length),expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'FRONT_STAND_FAST'});});break;
+   case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100);if(h.hit&&living(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(a.attack*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;
+   case 'ABYSS_SHIELD_ECHO':{
+    const t=ts[0];if(!p.step){const h=strike(a,s,t,.5);if(!h.hit||!living(t)){finish(a,s);break;}p.absorbed=Math.min(h.absorbed||0,Math.floor(a.attack*s.balance.damageRatio*c.focusBonusPercent/100));p.step=1;p.due=a.actions+1;}
+    else{const base=a.attack*s.balance.damageRatio;strike(a,s,t,.5+(base>0?p.absorbed/base:0),'HIT',{followup:true});finish(a,s);}break;}
+   case 'DANCING_TARGET_VOLLEY':{
+    const t=ts[0],index=p.step||0;strike(a,s,t,1/3,'HIT',{followup:index>0});if(index>=2){finish(a,s);break;}
+    const next=weakest(enemies(a).filter(e=>e.id!==t.id))||weakest(enemies(a));if(!next){finish(a,s);break;}
+    p.step=index+1;p.targets=[next.id];p.due=a.actions+1;send(a,s,'WINDUP',next,{targetIds:[next.id],continuation:true});break;}
+   case 'PLATINUM_FOCUS_LOCK':{
+    const t=ts[0],index=p.step||0,h=strike(a,s,t,1/3,'HIT',{followup:index>0});p.allHit=(p.allHit!==false)&&h.hit;
+    if(!living(t)||index>=2){if(living(t)&&p.allHit){table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});}finish(a,s);}else{p.step=index+1;p.due=a.actions+1;}break;}
+   case 'DISTRIBUTED_CORAL_VOLLEY':{
+    const index=p.step||0,t=all().find(t=>t.id===p.targets[index]);if(living(t))strike(a,s,t,1/p.targets.length,'HIT',{followup:index>0});
+    if(index+1>=p.targets.length)finish(a,s);else{p.step=index+1;p.due=a.actions+1;}break;}
    case 'INTERCEPT_ONE_HIT':once(t=>{table(buffs,t).intercept={actor:a,skill:s,percent:c.interceptPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'INTERCEPT_ONE_HIT'});});break;
    case 'MELEE_PARRY_RIPOSTE':once(t=>{b.parry={skill:s,percent:c.parryPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'MELEE_PARRY_RIPOSTE'});});break;
    case 'NEXT_BASIC_ORDER':once(t=>{table(buffs,t).order={percent:c.orderPercent,source:a.id};send(a,s,'BUFF',t,{effect:'NEXT_BASIC_ORDER'});});break;
@@ -88,6 +107,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   beforeAction(a){
    for(const actor of all())if(!living(actor)&&state(actor).pending)cancel(actor,'CASTER_LOST');
    const d=table(debuffs,a),st=state(a),b=table(buffs,a);
+   for(const key of ['thorn','oath'])if(d[key]&&a.actions>=d[key].expires)delete d[key];
    if(d.armor&&a.actions>=d.armor.expires){a.defense=d.armor.original;delete d.armor;}
    if(d.poison&&a.actions>=d.poison.due){const p=d.poison;delete d.poison;effect(p.actor,p.skill,a,p.damage,'DOT');if(!living(a))return true;}
    if(b.parry&&a.actions>=b.parry.expires)delete b.parry;
@@ -101,13 +121,17 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){factor*=1-d.restraint/100;delete d.restraint;}return factor;},
-  beforeBasicDamage(a,t,amount){const buff=table(buffs,t),intercept=buff.intercept;
+  beforeBasicDamage(a,t,amount){const buff=table(buffs,t),intercept=buff.intercept,d=table(debuffs,a);
+   if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}
+   if(buff.standfast){const ward=buff.standfast;delete buff.standfast;if(living(ward.actor)&&ward.actor.actions<ward.expires){const saved=Math.min(ward.budget,Math.floor(amount*ward.percent/100));amount-=saved;send(ward.actor,ward.skill,'BUFF',t,{effect:'STAND_FAST_CONSUMED',amount:saved});}}
+
    if(intercept&&living(intercept.actor)&&intercept.actor.id!==t.id&&intercept.actor.actions<intercept.expires){delete buff.intercept;const share=Math.floor(amount*intercept.percent/100),protector=intercept.actor,result=damage(protector,share);a.damageDealt+=result.hpDamage+result.absorbed;send(protector,intercept.skill,'INTERCEPT',protector,{sourceAttackerId:a.id,damage:result.hpDamage,absorbed:result.absorbed,targetHpAfter:protector.hp,targetMaxHp:protector.maxHp,targetShieldAfter:protector.shield});knockout(protector);amount-=share;}
    if(buff.parry&&a.row==='FRONT'&&a.attackStyle==='MELEE'&&!a.counterImmune){const parry=buff.parry;delete buff.parry;amount=Math.floor(amount*(1-parry.percent/100));state(t).riposte={skill:parry.skill,target:a};}
    return amount;
   },
   onDamage(t,result){if(result.hpDamage+result.absorbed>0)state(t).hits++;const b=table(buffs,t);if(b.mercBarrier)b.mercBarrier=Math.max(0,b.mercBarrier-result.absorbed);},
   afterBasic(a,t,hit,{additional=false}={}){if(hit&&!additional){if(a.isMercenary)state(a).energy=Math.min(a.combat.energyMax,state(a).energy+a.combat.energyPerBasic);const d=table(debuffs,a);d.offender||={};for(const enemy of enemies(a).filter(e=>e.isMercenary&&e.skills?.some(s=>s.mechanic==='REPEAT_OFFENDER_RESTRAINT')))d.offender[enemy.id]=Math.min(10,(d.offender[enemy.id]||0)+1);}
+   if(hit&&!additional){const d=table(debuffs,a),thorn=d.thorn;if(thorn){delete d.thorn;if(living(thorn.actor)&&living(a)&&a.actions<thorn.expires)effect(thorn.actor,thorn.skill,a,thorn.damage,'DOT');}}
    const r=state(t).riposte;delete state(t).riposte;if(r&&living(t)&&living(r.target))strike(t,r.skill,r.target,1,'RIPOSTE',{followup:true});
   },cleanse,cancel,state,buffs,debuffs,
  };

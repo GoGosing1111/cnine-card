@@ -30,7 +30,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  async sequenceFor(skillId){
   if(this.mercenarySequences.has(skillId))return this.mercenarySequences.get(skillId);
   if(!this.mercenaryLoads.has(skillId))this.mercenaryLoads.set(skillId,(async()=>{
-   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
+   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260913-s-skills')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
    const sequence=await loadSequence(row);if(this.mercenaryDisposed){releaseFrameViews(sequence);return null;}
    this.mercenarySequences.set(skillId,sequence);return sequence;
   })().finally(()=>this.mercenaryLoads.delete(skillId)));
@@ -46,7 +46,8 @@ export const withMercenaryBattle=Base=>class extends Base{
   const skill=skillById(event.skillId);if(!skill){sync();return;}
   if(type==='MERCENARY_WINDUP')this.mercenaryHitIndices.set(key,0);
   // Secondary status records must not replay the direct hit which preceded them.
-  if(type==='MERCENARY_DEBUFF'&&['POISON','APPROACH_DELAY'].includes(event.effect)){this.queueBanner(event.skillName,0xc49cff,event.effect==='POISON'?'독 표식':'진입 지연');sync();return true;}
+  if(type==='MERCENARY_DEBUFF'&&(['POISON','APPROACH_DELAY','DUEL_OATH','SHIELD_ONLY_BREAK','THORN_RECOIL_SEAL'].includes(event.effect)||event.effect==='OFFENSIVE_SKILL_ONLY'&&skill.mechanic==='PLATINUM_FOCUS_LOCK')){this.queueBanner(event.skillName,0xc49cff,({POISON:'독 표식',APPROACH_DELAY:'진입 지연',DUEL_OATH:'결투 맹세',SHIELD_ONLY_BREAK:'보호막 파쇄',THORN_RECOIL_SEAL:'가시 봉인',OFFENSIVE_SKILL_ONLY:'공격술 약화'})[event.effect]);sync();return true;}
+  if(type==='MERCENARY_BUFF'&&event.effect==='STAND_FAST_CONSUMED'){this.queueBanner(event.skillName,0xc49cff,'백철 방호 소모');sync();return true;}
   const hitIndex=type==='MERCENARY_DEBUFF'&&['ARMOR_WINDOW','NEXT_BASIC_WEAKENED'].includes(event.effect)?1:event.skillPhaseIndex??(this.mercenaryHitIndices.get(key)||0),impact=skill.visual.impacts[Math.min(hitIndex,skill.visual.impacts.length-1)];
   if(['MERCENARY_HIT','MERCENARY_HEAL','MERCENARY_DOT','MERCENARY_RIPOSTE'].includes(type))this.mercenaryHitIndices.set(key,hitIndex+1);
   const ids=event.targetIds?.length?event.targetIds:[event.targetId].filter(Boolean),actors=new Map([['M',actor]]),targets=[];

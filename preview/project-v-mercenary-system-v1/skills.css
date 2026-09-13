@@ -7,3 +7,5 @@
 
 /* Independent skill art and an explicitly separate rehearsal model. */
 .skill-row img{width:52px;height:52px;object-fit:contain;background:#071019;border:1px solid var(--line)}.skill-heading img{width:128px;height:128px;object-fit:contain;background:#071019}.preview-model{display:grid;grid-template-columns:minmax(180px,1fr) 1fr;gap:16px;align-items:end;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.preview-model p{font-size:12px;margin:0}.assignment-link{font-size:13px;margin-top:-12px;margin-bottom:24px}@media(max-width:760px){.preview-model{grid-template-columns:1fr;gap:8px}.skill-heading img{width:91px;height:91px}header nav{flex-wrap:wrap;justify-content:flex-end;gap:8px 12px}.skill-row img{width:44px;height:44px}}
+
+.preview-model label{min-width:0}.preview-model select{width:100%;max-width:100%;min-width:0}.preview-model p{grid-column:1 / -1}

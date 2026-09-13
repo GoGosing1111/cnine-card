@@ -7,7 +7,7 @@ const read = path => JSON.parse(readFileSync(new URL('../'+path, import.meta.url
 const roster = read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
 const positions = read('preview/project-v-mercenary-system-v1/position-draft-v1.json');
 const fx = read('preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json');
-const catalog = {version:1, rosterVersion:roster.version, ranks:MERCENARY_RANKS,
+const catalog = {version:2, rosterVersion:roster.version, ranks:MERCENARY_RANKS,
   positions:POSITIONS, roles:ROLES, targets:TARGETS, formation:roster.formationRule,
   cards:roster.cards, skills:MERCENARY_SKILLS, effects:fx,
   release:{group:'V3_MERCENARY_EQUIPMENT',acquisitionEnabled:false,formationEnabled:false,battleEnabled:false}};

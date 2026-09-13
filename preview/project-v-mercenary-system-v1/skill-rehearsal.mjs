@@ -1,3 +1,4 @@
+import {rehearseSSkill} from './skill-rehearsal-s-v2.mjs';
 import {skillById, SCENARIOS} from '../../shared/mercenary-skills-v1.mjs';
 
 // All numbers below are deliberately confined to this offline, 100-HP rehearsal.
@@ -50,7 +51,7 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   if (!Object.hasOwn(SCENARIOS, scenario)) throw new Error('알 수 없는 검수 상황입니다.');
   validateSnapshot(snapshot);
   const skill = skillById(id), initial = clone(snapshot), work = clone(initial), events = [];
-  const targets = selectSkillTargets(skill.target, work).map(a => a.id), t = targets[0];
+  const targets = (skill.mechanic==='DISTRIBUTED_CORAL_VOLLEY'?work.filter(a=>a.team==='ENEMY'&&a.hp>0).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id)).slice(0,3):selectSkillTargets(skill.target, work)).map(a=>a.id),t=targets[0];
   const source = work.find(a => a.id === 'M');
   const get = id => work.find(a => a.id === id);
   const counter = scenario === 'counter', boss = scenario === 'boss';
@@ -72,6 +73,8 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'DUEL_OATH':case 'OBSERVED_SHIELD_BREAK':case 'DANCING_TARGET_VOLLEY':case 'WOUNDED_MOON_DRAW':case 'FRONT_STAND_FAST':case 'THORN_RECOIL_SEAL':case 'ABYSS_SHIELD_ECHO':case 'PLATINUM_FOCUS_LOCK':case 'DISTRIBUTED_CORAL_VOLLEY':
+      rehearseSSkill({skill,targets,t,work,get,add,flag,hit,mark,counter,boss});break;
     case 'RIFT_MARK_DETONATION': {
       // Fixed target shares: losing/cleansing a mark never buffs another target.
       const firstShare = 18/targets.length, finalShare = 48/targets.length;

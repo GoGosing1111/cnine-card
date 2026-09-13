@@ -1,3 +1,4 @@
+import {renderSSkill} from './RenderSSkill.js';
 import {sampleRehearsal} from '../skill-rehearsal.mjs';
 import {sampleSequence} from './MercenarySpriteSequence.js';
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),mix=(a,b,p)=>a+(b-a)*p;
@@ -34,6 +35,13 @@ export function renderAuthored(fx,time){
       const radius=sequence.extent.x*Math.abs(Math.cos(angle))+sequence.extent.y*Math.abs(Math.sin(angle));
       const room=Math.min(p.x-18,engine.scene.width-p.x-18);
       size=Math.min(size,Math.max(24,room/Math.max(radius*.88,.01)));
+    }
+    // New S/SS effects must fit above the top-row units as well as at the
+    // horizontal edges. Keep contact fixed; reduce the whole native silhouette.
+    if(['HOLY_CLEAVE','SHIELD_LANCE','PETAL_VOLLEY','MOON_DRAW','IRON_FRONT','THORN_BLOOM','ABYSS_ECHO','PLATINUM_BARRAGE','CORAL_ARCS','CONVERGE'].includes(mode)&&engine.scene?.height&&sequence.extent){
+      const radiusY=sequence.extent.y*Math.abs(Math.cos(angle))+sequence.extent.x*Math.abs(Math.sin(angle));
+      const roomY=Math.min(p.y-24,engine.scene.height-p.y-48);
+      size=Math.min(size,Math.max(24,roomY/Math.max(radiusY*(engine.mobile?.88:1),.01)));
     }
     fx.activeFrames.push({index:f.index,next:f.next,blend:Number(f.blend.toFixed(3))});
     // Current-frame density stays beneath the incoming frame. Fading both
@@ -76,6 +84,8 @@ export function renderAuthored(fx,time){
   const phase=(e,i)=>e.phaseIndex??i;
   const atPhase=index=>!fx.authoritative||plan.effectPhase===index;
   switch(mode){
+    case 'HOLY_CLEAVE':case 'SHIELD_LANCE':case 'PETAL_VOLLEY':case 'MOON_DRAW':case 'IRON_FRONT':case 'THORN_BLOOM':case 'ABYSS_ECHO':case 'PLATINUM_BARRAGE':case 'CORAL_ARCS':
+      renderSSkill({fx,time,mode,plan,target,hits,point,material,impact,trace,muzzle,aim,approach,light,debris,dust,flash,phase,atPhase,color});break;
     case 'EVENT_HORIZON': {
       // One continuous, newly painted sequence: contact 05 at 1.05s, then
       // contact 09 at 2.25s. A cleansed/dead mark has no terminal explosion.
@@ -113,7 +123,7 @@ export function renderAuthored(fx,time){
     case 'FRACTURE':
       if(atPhase(0))approach(.95,target,{returnAt:1.48});hits.forEach((e,i)=>impact(e.targets[0],e.at,{size:phase(e,i)?325:390,lead:.27,life:phase(e,i)?.85:.68,angle:phase(e,i)?-.8:0,grounded:true,particles:22}));if(fx.authoritative&&atPhase(1))material(point(target),time-1.35,{size:280,lead:.12,life:.8});break;
     case 'CONVERGE':
-      hits.forEach((e,i)=>{const n=phase(e,i);aim(point(e.targets[0]),e.at,27-n*5);trace(muzzle(),point(e.targets[0]),e.at,{travel:.13,width:n===2?3:2});impact(e.targets[0],e.at,{size:n===2?295:215,lead:.07,life:.72,particles:n===2?18:9});});break;
+      hits.forEach((e,i)=>{const n=phase(e,i);aim(point(e.targets[0]),e.at,27-n*5);trace(muzzle(),point(e.targets[0]),e.at,{travel:.13,width:n===2?3:2});impact(e.targets[0],e.at,{size:n===2?390:285,lead:.07,life:.72,particles:n===2?18:9});});break;
     case 'RELAY':
       plan.targets.forEach((id,i)=>{material(point(id),time-(.7+i*.035),{size:id==='M'?190:170,lead:.35,life:1.05});light(point(id,true),time-(.7+i*.035),190);});
       plan.events.filter(e=>e.kind==='HIT'&&e.sourceId).forEach(e=>{trace(muzzle(e.sourceId),point(e.targets[0]),e.at);flash(point(e.targets[0]),time-e.at,90);});break;

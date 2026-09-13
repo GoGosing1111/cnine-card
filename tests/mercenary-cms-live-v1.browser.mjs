@@ -43,7 +43,7 @@ try{for(const [width,height] of [[1440,1000],[1024,900],[390,844],[360,740]]){
   await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();assert.equal(puts,1);assert.deepEqual(d.assignments[42].skillIds,['MS-021','MS-003']);
   await page.reload();await page.evaluate(()=>{document.body.classList.remove('auth-guest');document.body.classList.add('auth-active');document.getElementById('cms').hidden=false;});await page.locator('#roleBadge').evaluate(el=>el.textContent='OWNER');await page.locator('[data-search]').fill('동탄 디임');await page.locator('[data-code="V-043"]').click();assert.equal(await page.locator('[data-field="mercenaries.42.name"]').inputValue(),'동탄 디임 검수');
   await page.locator('[data-search]').fill('오메가');await page.locator('[data-code="V-021"]').click();assert.equal(await page.locator('[data-field="mercenaries.20.rank"]').isDisabled(),true);
-  await page.locator('[data-tab="skills"]').click();assert.equal(await page.locator('[data-skill]').count(),17);await page.locator('[data-field="skills.0.balance.damageRatio"]').fill('2.5');
+  await page.locator('[data-tab="skills"]').click();assert.equal(await page.locator('[data-skill]').count(),26);await page.locator('[data-skill="MS-001"]').click();await page.locator('[data-field="skills.0.balance.damageRatio"]').fill('2.5');
   await page.screenshot({path:path.join(out,`skills-${width}.png`),fullPage:false});
   conflict=true;await page.locator('[data-save]').click();await page.locator('.mc-notice.is-error').waitFor();assert.equal(await page.locator('[data-field="skills.0.balance.damageRatio"]').inputValue(),'2.5');conflict=false;
   dropResponse=true;await page.locator('[data-save]').click();await page.locator('.mc-notice.is-error').waitFor();await page.locator('[data-save]').click();await page.getByRole('status').filter({hasText:'저장 완료'}).waitFor();assert.equal(puts,2);
@@ -53,6 +53,6 @@ try{for(const [width,height] of [[1440,1000],[1024,900],[390,844],[360,740]]){
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`review overflow ${width}`);
   const invalidImages=await page.locator('#view-mercenaries img').evaluateAll(imgs=>imgs.filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src));assert.deepEqual(invalidImages,[]);assert.deepEqual(errors,[]);
   await page.locator('#roleBadge').evaluate(el=>el.textContent='ADMIN');assert.equal(await page.locator('#nav [data-view="mercenaries"]').isVisible(),false);assert.equal(await page.locator('#view-mercenaries').isVisible(),false);
-  checks.push({width,height,roster:43,skills:17,persistence:true,explicitAssignments:true,conflictPreservesDraft:true,lostResponseRetry:true,noOverflow:true,noPageErrors:true});await context.close();
+  checks.push({width,height,roster:43,skills:26,persistence:true,explicitAssignments:true,conflictPreservesDraft:true,lostResponseRetry:true,noOverflow:true,noPageErrors:true});await context.close();
 }}finally{await browser.close();server.close();}
 fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(checks,null,2));console.log(JSON.stringify(checks));

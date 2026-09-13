@@ -59,17 +59,17 @@ for(const row of inputs){
     visualReview:row.visualReview||'PENDING',...(row.timeline?{timeline:row.timeline}:{}),runtimeBytes:runtime.length,frames});
   console.log(`${skill.id}: 16 unique RGBA frames, ${cell}px cells, clean alpha gutters`);
 }
-await fs.writeFile(`${root}/manifest.json`,JSON.stringify({id:'mercenary-authored-skill-atlases-v2',date:'2026-09-11',status:'USER_REVIEW_PENDING',
+await fs.writeFile(`${root}/manifest.json`,JSON.stringify({id:'mercenary-authored-skill-atlases-v2',date:'2026-09-13',status:'USER_REVIEW_PENDING',
   assignmentPolicy:'INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED',
   replaces:'USER_REJECTED_V1_SINGLE_SPRITE_TWEENS',runtimeEnabled:false,frameCount:images.length*16,images,
   reference:{skills:['SKILL_CHIP_ROCKET_LAUNCHER','SKILL_CHIP_HELICOPTER_AIRSTRIKE'],file:'preview/battle-suit-skill-chip-v1/source/SkillChipFX.js'},
   renderer:{pixi:'8.20.0',gsap:'3.13.0',timeline:'V3_REGISTERED_GSAP',autoAnimationTicker:false,
-    files:['source/MercenarySpriteSequence.js','source/MercenarySkillFX.js','source/RenderAuthoredSkill.js','source/skills-lab.src.js'],
+    files:['source/MercenarySpriteSequence.js','source/MercenarySkillFX.js','source/RenderAuthoredSkill.js','source/RenderSSkill.js','source/skills-lab.src.js'],
     layers:['EXISTING_V3_EFFECT_LAYER','EXISTING_V3_COMBAT_GROUND_LAYER'],
     atlasOrigin:{x:.5,y:.55},authoredContactFrame:4,
     contactAuthority:'skill-rehearsal.mjs resolved offline events; no live damage calculation',
     bodyContact:'SD foot origin minus fullBodyHeight * root.scale.y * 0.54',
-    firearmEmission:'Approximate body-relative origin on existing idle SD; dedicated joint/aim sprites not authored'},
+    firearmEmission:'Hash-bound mercenary-attachment-points-v1.json weapon/contact/foot markers; existing approved SD remains unchanged'},
   processing:'Exact native grid extraction and lossless WebP encoding. Native original bytes preserved. No synthetic in-between images.',
-  audio:'SILENT_VISUAL_REVIEW'},null,2)+'\n');
+  audio:'EXISTING_LICENSED_RECORDINGS_V3_SHARED_CONTEXT'},null,2)+'\n');
 console.log(`${images.length} individual skill sequences / ${images.length*16} actual frames`);

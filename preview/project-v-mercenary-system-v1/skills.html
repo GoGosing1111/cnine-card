@@ -4,27 +4,27 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark"><meta name="robots" content="noindex,nofollow">
   <title>독립 스킬 목록 · 숲켓몬</title><link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./skills.css?v=20260911-library">
+  <link rel="stylesheet" href="./skills.css?v=20260913-s-skills">
 </head>
 <body>
 <a class="skip" href="#selectedSkill">선택한 스킬로 이동</a>
 <main>
   <header><a class="eyebrow" href="./">숲켓몬 / PROJECT V</a><nav><a href="./skill-assignments.html">용병에 직접 배정</a><a href="./positions.html">포지션 · CMS</a><a href="../../mercenary-codex/?sort=newest">용병도감</a></nav></header>
-  <section class="hero"><div><span class="eyebrow">MERCENARY SKILL LIBRARY</span><h1>독립 스킬 목록</h1><p>17개 스킬을 독립적으로 검토하세요.<br>어떤 용병에 적용할지는 직접 정합니다.</p></div><div class="numbers"><div><b id="authoredCount">—</b><span>개별 시퀀스</span></div><div><b id="frameCount">—</b><span>실제 프레임</span></div><div><b id="scenarioCount">—</b><span>상황 검수</span></div></div></section>
+  <section class="hero"><div><span class="eyebrow">MERCENARY SKILL LIBRARY</span><h1>독립 스킬 목록</h1><p>26개 스킬의 실제 연속 프레임을 확인하세요.<br>S·SS 14명의 컨셉별 제작 목록을 추가했습니다.</p></div><div class="numbers"><div><b id="authoredCount">—</b><span>개별 시퀀스</span></div><div><b id="frameCount">—</b><span>실제 프레임</span></div><div><b id="scenarioCount">—</b><span>상황 검수</span></div></div></section>
   <p class="scope">스킬 목록과 용병 배정은 별도입니다. 시연용 용병을 바꿔도 배정은 저장되지 않습니다. 운영 수치·슬롯 수와 실제 전투 적용은 검수 대기입니다.</p>
   <div class="workbench">
-    <aside class="selection"><div class="list-head"><h2>스킬 목록</h2><span id="count">17종</span></div><label class="search-label">검색<input id="search" type="search" maxlength="80" placeholder="스킬 이름, 코드, 효과 검색"></label><label>효과 분류<select id="roleFilter"><option value="">전체 역할</option></select></label><div id="skillList" class="skill-list" aria-label="독립 스킬 선택"><p>준비 중…</p></div></aside>
+    <aside class="selection"><div class="list-head"><h2>스킬 목록</h2><span id="count">26종</span></div><label class="search-label">검색<input id="search" type="search" maxlength="80" placeholder="스킬 이름, 코드, 효과 검색"></label><label>효과 분류<select id="roleFilter"><option value="">전체 역할</option></select></label><div id="skillList" class="skill-list" aria-label="독립 스킬 선택"><p>준비 중…</p></div></aside>
     <article id="selectedSkill" class="detail" aria-label="선택 스킬">
       <div class="skill-heading"><div><span id="skillMeta" class="eyebrow">스킬 검수</span><h2 id="skillName">준비 중입니다</h2><p id="skillEffect"></p></div><img id="skillArt" alt="" hidden></div>
       <div class="design-grid"><section><h3>발동 조건</h3><p id="trigger"></p></section><section><h3>공략할 약점</h3><p id="counterplay"></p></section><section><h3>보스 상대 규칙</h3><p id="bossRule"></p></section></div>
       <ol id="steps" class="steps"></ol><p class="assignment-link"><a id="assignSkill" href="./skill-assignments.html">이 스킬을 적용할 용병 선택 →</a></p>
       <section class="rehearsal" aria-label="스킬 동작 검수">
         <div class="rehearsal-head"><div><span class="eyebrow">V3 REHEARSAL</span><h3>상황을 바꾸어 확인하세요</h3></div><label>검수 상황<select id="scenario" disabled><option value="normal">유효한 상황</option><option value="counter">약점 공략</option><option value="boss">보스 상대</option></select></label></div>
-        <div class="preview-model"><label>시연용 용병<select id="previewMercenary" disabled></select></label><p>연출을 확인할 모델입니다. 이 선택은 용병 배정에 저장되지 않습니다.</p></div><p id="scenarioNote" class="scenario-note"></p>
+        <div class="preview-model"><label>이번 S·SS 제작 목록<select id="reviewPair"><option>준비 중…</option></select></label><label>시연용 용병<select id="previewMercenary" disabled></select></label><p>연출을 확인할 모델입니다. 이 선택은 용병 배정에 저장되지 않습니다.</p></div><p id="scenarioNote" class="scenario-note"></p>
         <div class="controls"><button id="play" class="primary" disabled>재생</button><button id="replay" disabled>처음부터</button><button id="impact" disabled>첫 충돌</button><button id="lastImpact" disabled>마지막 충돌</button><button id="cancel" disabled>취소 · 복귀</button><button id="sound" aria-pressed="true" disabled>효과음 ON</button><label>배속<select id="speed" disabled><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
         <label class="scrubber"><span>재생 위치</span><input id="scrub" type="range" min="0" max="3" value="0" step="0.01" disabled><output id="time">0.00 / 3.00초</output></label>
         <p id="health" class="health" role="status">승인 캐릭터와 V3 전장을 준비하고 있습니다.</p>
-        <iframe id="battleFrame" src="./skills-battle.html?v=20260911-library" title="기존 V3 진형의 용병 스킬 검수 전장" allow="autoplay"></iframe>
+        <iframe id="battleFrame" src="./skills-battle.html?v=20260913-s-skills" title="기존 V3 진형의 용병 스킬 검수 전장" allow="autoplay"></iframe>
         <div class="cast-status"><strong id="cue">재생 대기</strong><span>녹음 기반 효과음 · 시각·청음 검수 대기</span></div>
         <details class="frame-review"><summary>개별 스프라이트 16프레임 확인</summary><p id="sequenceRecord"></p><div id="frameStrip" class="frame-strip"></div></details>
         <div class="ledger"><div><h4>확정된 검수 이벤트</h4><ol id="eventLog"></ol></div><div><h4>효과를 받은 유닛</h4><div id="stateLog"></div></div></div>

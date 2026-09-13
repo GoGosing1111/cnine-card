@@ -1,4 +1,4 @@
-import {MERCENARY_SKILLS, SKILL_CATALOG_VERSION} from './mercenary-skills-v1.mjs?v=20260911-library';
+import {MERCENARY_SKILLS, SKILL_CATALOG_VERSION} from './mercenary-skills-v1.mjs?v=20260913-s-skills';
 
 export const ASSIGNMENT_STORAGE_KEY = 'cnine.mercenarySkillAssignments.draft.v1';
 export const MAX_ASSIGNMENT_BYTES = 64 * 1024;
@@ -37,7 +37,9 @@ export function validateSkillAssignments(draft, roster) {
 export function parseSkillAssignments(text, roster) {
   if (typeof text !== 'string' || new TextEncoder().encode(text).length > MAX_ASSIGNMENT_BYTES)
     throw new Error('배정 파일은 64 KB 이하여야 합니다.');
-  return validateSkillAssignments(JSON.parse(text), roster);
+  const draft=JSON.parse(text);
+  if(draft.catalogVersion===1)draft.catalogVersion=SKILL_CATALOG_VERSION;
+  return validateSkillAssignments(draft, roster);
 }
 export function reviseSkillAssignments(draft, stored, expectedRevision, roster) {
   const checked = validateSkillAssignments(draft, roster);

@@ -30,8 +30,8 @@ test('all 43 immutable SDs have hash-bound attachment points and opposing team m
   assert.ok(Math.abs(positions[0].x+positions[1].x-1000)<.001);assert.equal(positions[0].y,positions[1].y);stage.destroy({children:true});
  }
 });
-test('17 profiles use preserved recordings and align their measured principal peaks at every impact',()=>{
- assert.equal(audio.proceduralSynthesis,false);assert.equal(audio.runtimeEnabled,false);assert.equal(Object.keys(audio.profiles).length,17);
+test('26 profiles use preserved recordings and align their measured principal peaks at every impact',()=>{
+ assert.equal(audio.proceduralSynthesis,false);assert.equal(audio.runtimeEnabled,false);assert.equal(Object.keys(audio.profiles).length,26);
  for(const row of Object.values(audio.assets)){assert.equal(createHash('sha256').update(read(row.url.slice(1))).digest('hex'),row.sha256);assert.ok(row.licenseUrl&&row.sources&&row.peakAmplitude>0);}
  for(const skill of MERCENARY_SKILLS){const events=mercenaryAudioEvents(skill,compileRehearsal(skill.id));
   for(const layer of ['NOTICE','IMPACT','TAIL'])assert.ok(events.some(e=>e.layer===layer),skill.id+layer);

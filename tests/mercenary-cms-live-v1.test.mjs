@@ -20,7 +20,7 @@ async function fixture(){
 const payload=(document=clone(seed.document),expectedRevision=1,requestId=crypto.randomUUID())=>({document,expectedRevision,requestId});
 test('canonical registration contains every mercenary, independent skill and original/SD reference',()=>{
   validateMercenaryCms(seed.document,seed.catalog);
-  assert.equal(seed.catalog.cards.length,43);assert.equal(seed.document.skills.length,17);assert.equal(seed.catalog.effects.frameCount,272);
+  assert.equal(seed.catalog.cards.length,43);assert.equal(seed.document.skills.length,26);assert.equal(seed.catalog.effects.frameCount,416);
   assert.equal(seed.document.mercenaries.filter(r=>r.rank===null).length,42);
   assert.equal(seed.document.mercenaries.find(r=>r.code==='V-021').rank,'SSS');
   assert.ok(seed.document.assignments.every(r=>r.skillIds.length===0));
@@ -86,7 +86,7 @@ test('unknown fields, ranks, missing entries, automatic skill owners and runtime
 test('API and CMS navigation are connected without gameplay imports',()=>{
   const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
   assert.match(read('functions/api/[[path]].js'),/handleMercenaryCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);
-  assert.match(read('admin/index.html'),/mercenary-admin-v1\.js\?v=20260913-uniform1/);
+  assert.match(read('admin/index.html'),/mercenary-admin-v1\.js\?v=20260913-s-skills/);
   assert.match(read('admin/mercenary-admin-v1.js'),/badge.textContent.trim\(\)!=='OWNER'/);
   for(const path of ['index.html','js/app.js','js/battle-v3-live.js'])assert.doesNotMatch(read(path),/mercenary-cms|mercenary-admin-v1/);
 });

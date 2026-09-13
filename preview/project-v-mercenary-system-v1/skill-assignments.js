@@ -1,7 +1,7 @@
-import {MERCENARY_SKILLS, SKILL_STORAGE_KEY, parseSkillDraft} from '../../shared/mercenary-skills-v1.mjs?v=20260911-library';
-import {ROLES} from '../../shared/mercenary-position-config-v1.mjs?v=20260911-library';
+import {MERCENARY_SKILLS, SKILL_STORAGE_KEY, parseSkillDraft} from '../../shared/mercenary-skills-v1.mjs?v=20260913-s-skills';
+import {ROLES} from '../../shared/mercenary-position-config-v1.mjs?v=20260913-s-skills';
 import {ASSIGNMENT_STORAGE_KEY, MAX_ASSIGNMENT_BYTES, createSkillAssignments, parseSkillAssignments,
-  validateSkillAssignments, reviseSkillAssignments} from '../../shared/mercenary-skill-assignments-v1.mjs?v=20260911-library';
+  validateSkillAssignments, reviseSkillAssignments} from '../../shared/mercenary-skill-assignments-v1.mjs?v=20260913-s-skills';
 import {ROSTER_URL} from '../mercenary-codex-v1/model.js?v=20260911-omega-ranks';
 
 const $ = id => document.getElementById(id);
@@ -103,7 +103,7 @@ function bind() {
 }
 async function boot() {
   try {
-    const responses = await Promise.all([fetch(ROSTER_URL, {cache:'no-store'}), fetch('./skill-assets-v2/manifest.json?v=20260911-library', {cache:'no-store'})]);
+    const responses = await Promise.all([fetch(ROSTER_URL, {cache:'no-store'}), fetch('./skill-assets-v2/manifest.json?v=20260913-s-skills', {cache:'no-store'})]);
     if (responses.some(response => !response.ok)) throw new Error('용병 또는 스킬 목록을 불러오지 못했습니다.');
     [roster, manifest] = await Promise.all(responses.map(response => response.json()));
     draft = createSkillAssignments(roster);

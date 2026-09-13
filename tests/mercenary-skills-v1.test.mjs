@@ -1,3 +1,4 @@
+import {S_SKILL_IDS} from '../shared/mercenary-s-skills-v2.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -38,12 +39,12 @@ test('event horizon is independently assignable and preserves bounded shares and
 test('both legacy reviews preserve names, notes and revisions while removing proposed ownership',()=>{
   for(const version of [1,2]){
     const old={format:'PROJECT_V_MERCENARY_SKILL_DRAFT_V1',version,rosterVersion:version===1?10:11,revision:7,status:'DRAFT',runtimeEnabled:false,
-      skills:createSkillDraft().skills.filter(s=>version===2||s.id!=='MS-021').map(s=>({...s,code:`V-${s.id.slice(3)}`}))};
+      skills:createSkillDraft().skills.filter(s=>!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')).map(s=>({...s,code:`V-${s.id.slice(3)}`}))};
     old.skills[0].name='내가 검토한 이름';old.skills[0].note='보존할 의견';old.skills[0].review='REVISE';
     const before=copy(old),migrated=parseSkillDraft(JSON.stringify(old));
-    assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,17);assert.equal(migrated.version,3);
-    assert.equal(migrated.rosterVersion,undefined);assert.equal(migrated.catalogVersion,1);assert.deepEqual(old,before);
-    assert.deepEqual(migrated.skills.filter(s=>version===2||s.id!=='MS-021'),old.skills.map(({code,...review})=>review));
+    assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,26);assert.equal(migrated.version,3);
+    assert.equal(migrated.rosterVersion,undefined);assert.equal(migrated.catalogVersion,2);assert.deepEqual(old,before);
+    assert.deepEqual(migrated.skills.filter(s=>!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')),old.skills.map(({code,...review})=>review));
     if(version===1)assert.equal(migrated.skills.find(s=>s.id==='MS-021').review,'PENDING');
     assert.ok(createSkillAssignments(roster).assignments.every(row=>row.skillIds.length===0));
     for(const mutate of [d=>d.runtimeEnabled=true,d=>d.skills[0].code='V-099',d=>d.skills[0].damage=99,d=>d.skills[1]=d.skills[0],d=>d.skills[0].note=99,d=>d.extra=true]){
@@ -60,11 +61,11 @@ test('Pages extensionless documents and local .html resolve shared V3 assets ide
   }
 });
 
-test('17 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
-  assert.equal(skills.length,17);assert.equal(new Set(skills.map(s=>s.role)).size,7);
-  for(const key of ['id','mechanic'])assert.equal(new Set(skills.map(s=>s[key])).size,17);
-  assert.equal(new Set(skills.map(s=>s.visual.asset)).size,17);
-  assert.equal(new Set(skills.map(s=>s.visual.motion)).size,17);
+test('26 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
+  assert.equal(skills.length,26);assert.equal(new Set(skills.map(s=>s.role)).size,7);
+  for(const key of ['id','mechanic'])assert.equal(new Set(skills.map(s=>s[key])).size,26);
+  assert.equal(new Set(skills.map(s=>s.visual.asset)).size,26);
+  assert.equal(new Set(skills.map(s=>s.visual.motion)).size,26);
   for(const s of skills){assert.equal(s.code,undefined);assert.equal(s.exclusivity,undefined);assert.equal(s.rank,undefined);
     for(const card of roster.cards)assert.ok(!`${s.trigger} ${s.effect} ${s.counterplay}`.includes(card.name));
     assert.equal(s.runtimeEnabled,false);assert.equal(s.status,'DRAFT');assert.equal(s.balance.damageRatio,null);assert.equal(s.balance.cooldownTurns,null);assert.equal(s.balance.cost,null);}
@@ -193,7 +194,7 @@ test('authored impact selects changing frame UVs on the shared clock and rejects
   assert.throws(()=>new MercenarySkillFX({},new Map(),skills[0],{},Texture.EMPTY),/sixteen-frame/);
 });
 
-test('all seventeen sequences and three scenarios stay within the sprite budget and fully rewind',()=>{
+test('all catalog sequences and three scenarios stay within the sprite budget and fully rewind',()=>{
   const layer=new Container(),combatLayer=new Container(),engine={effectLayer:layer,combatLayer,simpleTimelines:new Set(),mobile:true,scene:{width:320},reducedMotion:false};
   const actors=new Map(rehearsalSnapshot().map((a,i)=>[a.id,{baseX:50+i*20,baseY:200,fullBodyHeight:260,root:{x:50+i*20,y:200,rotation:0,scale:{y:.5},position:{set(x,y){const item=actors.get(a.id);item.root.x=x;item.root.y=y}}},fullBodySprite:{tint:0xffffff},layoutHudBars(){},setShield(){}}]));
   for(const s of skills)for(const scenario of ['normal','counter','boss']){
@@ -235,9 +236,9 @@ test('rejected V1 originals remain preserved as history, not a runtime fallback'
   }
 });
 
-test('seventeen individually authored sequences retain 272 original frames and clean gutters',()=>{
+test('twenty-six individually authored sequences retain 416 original frames and clean gutters',()=>{
   const manifest=read('preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json');
-  assert.equal(manifest.images.length,17);assert.equal(manifest.frameCount,272);assert.equal(manifest.runtimeEnabled,false);
+  assert.equal(manifest.images.length,26);assert.equal(manifest.frameCount,416);assert.equal(manifest.runtimeEnabled,false);
   const hashes=new Set(),ids=new Set();
   for(const row of manifest.images){
     assert.equal(row.code,undefined,'Creation references must never be used as skill ownership');
@@ -249,7 +250,7 @@ test('seventeen individually authored sequences retain 272 original frames and c
     assert.equal(new Set(row.frames.map(f=>f.rawSha256)).size,16);
     for(const f of row.frames){assert.ok(f.edgeMax<=5);assert.ok(f.nonempty>0||f.index===15);assert.ok(row.cellSize>=256);if(f.nonempty)hashes.add(f.rawSha256);}
   }
-  assert.equal(ids.size,17);assert.ok(hashes.size>=255,'All substantive frames are independently authored; a final empty extinction frame can be shared.');
+  assert.equal(ids.size,26);assert.ok(hashes.size>=390,'All substantive frames are independently authored; a final empty extinction frame can be shared.');
 });
 test('skill review stays outside production battle routes, source-art roster and five-card contract',()=>{
   for(const path of ['index.html','js/app.js','functions/api/[[path]].js','js/battle-v3-live.js']){
