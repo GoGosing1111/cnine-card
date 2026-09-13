@@ -1,0 +1,46 @@
+// Original 24px line drawings. Each destination has its own silhouette;
+// category symbols are reserved for the lobby navigation.
+(function(global){
+  'use strict';
+  global.SoopLobbyRouteIcons=Object.freeze({
+    battle:'<circle cx="12" cy="12" r="9"/><path d="m15.5 5.5-2 7.5-7 4 2-7.5Z"/><circle cx="11" cy="11.5" r="1"/>',
+    deck:'<rect x="7" y="3" width="10" height="15" rx="1.5"/><path d="m4 6-3 1 3 14 5-1M20 6l3 1-3 14-5-1M10 8h4m-4 4h4"/>',
+    hunt:'<path d="m5 8-2-5 6 3h6l6-3-2 5 1 8-5 5H9l-5-5Z"/><path d="m7 10 3 2m7-2-3 2M9 16l3 2 3-2m-3 2v3"/>',
+    raid:'<path d="m3 8 3-4 3 4 3-5 3 5 3-4 3 4-2 9-7 4-7-4Z"/><path d="m7 11 3 2m7-2-3 2M9 17h6M12 3V1"/>',
+    escort:'<path d="M2 7h12v10H2ZM14 10h4l4 4v3h-8M17 11v3h5M5 4h6"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
+    siege:'<path d="M3 21V10h4v11m10 0V10h4v11M2 6v4h6V6M16 6v4h6V6M7 14h10M10 21v-4h4v4M1 21h22M12 3v7m0-7h5l-2 2 2 2h-5"/>',
+    seal:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><rect x="9" y="11" width="6" height="6" rx="1"/><path d="M10 11V9a2 2 0 0 1 4 0v2M12 13v2"/>',
+    idle:'<path d="M3 20 11 6l9 14ZM11 6v14m-4 0 4-7 5 7M2 20h20M18 3a4 4 0 0 0 4 5 4 4 0 0 1-4-5Z"/>',
+    tower:'<path d="M6 21V8h12v13M4 21h16M5 4V2m0 2h14m0 0V2M9 2v2m6-2v2M5 4l1 4m13-4-1 4M9 11h2m2 0h2m-6 4h2m2 0h2M10 21v-3h4v3"/>',
+    scrapyard:'<path d="M4 18V6h12M4 6l5 5M4 3v18M1 21h8M16 6v6a2 2 0 1 0 2 2M11 21v-4h9l2 4ZM13 17l1-3h4l1 3"/>',
+    pvp:'<path d="M4 3h5v7l-3 3-3-3V3ZM15 3h5v7l-3 3-3-3V3ZM6 13v8m11-8v8M3 17h6m5 0h6M10 7h3m-3 3h3"/>',
+    rank:'<path d="M7 3h10v6a5 5 0 0 1-10 0ZM7 5H3v3a4 4 0 0 0 5 4m9-7h4v3a4 4 0 0 1-5 4M12 14v5M8 21h8M9 19h6"/>',
+    dex:'<path d="M12 5C9 2 5 2 2 4v16c3-2 7-2 10 0 3-2 7-2 10 0V4c-3-2-7-2-10 1ZM12 5v15M5 7h4m-4 4h4m6-4h4m-4 4h4"/>',
+    mercenaryDex:'<path d="M5 3h14v18H5ZM2 6h3M2 11h3m-3 5h3M8 18v-1a4 4 0 0 1 8 0v1"/><circle cx="12" cy="9" r="3"/>',
+    upgrade:'<rect x="3" y="6" width="11" height="15" rx="1.5"/><path d="M7 10h3m-3 4h3M19 16V3m-4 4 4-4 4 4"/>',
+    evolution:'<path d="m12 3 7 8-7 10-7-10ZM5 11h14M12 3l-3 8 3 10 3-10ZM3 6l1-3m16 18 1-3"/>',
+    magic:'<path d="M4 3h12v18H4ZM8 17 21 4m-3 1 2 2M8 7v3M6.5 8.5h3M18 15v5m-2.5-2.5h5"/>',
+    character:'<path d="m8 3 4 3 4-3 6 5-4 5-2-1v9H8v-9l-2 1-4-5Z"/><path d="M8 3v5l4 3 4-3V3M12 11v10"/>',
+    avatar:'<ellipse cx="11" cy="7" rx="4" ry="5"/><path d="M3 22v-2a8 8 0 0 1 12-7M7 6c4 0 4-3 4-3l4 3M19 13v8m-4-4h8"/>',
+    vehicle:'<path d="m3 12 2-7h14l2 7v8h-3v-3H6v3H3ZM3 12h18M7 5l-1 7m11-7 1 7M6 15h2m8 0h2M1 10h2m18 0h2"/>',
+    fusion:'<path d="M3 3h6v6H3ZM15 3h6v6h-6ZM9 16h6v6H9ZM6 9v3l6 4 6-4V9M9 19h6"/>',
+    alchemy:'<path d="M8 2h8m-6 0v7L3 19a2 2 0 0 0 2 3h14a2 2 0 0 0 2-3L14 9V2M7 15h10"/><circle cx="10" cy="18" r=".7"/><circle cx="14" cy="17" r=".7"/>',
+    equipmentForge:'<path d="M2 13h20l-4 4H6ZM8 17v3m8-3v3M5 22h14M8 4l3-2 6 6-3 3ZM12 8l-5 5M18 2v3m2-2h-4"/>',
+    mercenaryHangar:'<path d="m2 9 10-6 10 6v12H2ZM5 21V10h14v11M9 21v-3a3 3 0 0 1 6 0v3"/><circle cx="12" cy="13" r="2"/>',
+    buy:'<path d="M3 9v12h18V9M2 4h20l1 5H1ZM1 9a3 3 0 0 0 6 0 2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0 3 3 0 0 0 6 0M6 21v-7h5v7m4-7h3v3h-3Z"/>',
+    inventory:'<path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2M4 7h16v15H4ZM4 12h16M8 3v4m8-4v4M8 16h8v4H8Z"/>',
+    mineral:'<path d="M3 7h16m-4-4 4 4-4 4M21 17H5m4-4-4 4 4 4M3 11V7m18 6v4"/>',
+    prediction:'<path d="M3 3h18v14H3ZM12 17v4m-4 0h8M6 12l4-4 4 3 4-5M15 6h3v3"/>',
+    auction:'<path d="m12 3 8 8-4 4-8-8ZM6 5l4-4m8 14 4-4M12 11 3 20M2 21l1-1M14 19h6l2 3H12Z"/>',
+    attendance:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M7 2v5m10-5v5M3 10h18M8 15l3 3 5-5"/>',
+    dailyquest:'<path d="M8 4H4v18h16V4h-4M8 2h8v5H8ZM7 11l1 1 2-2m3 1h4M7 17l1 1 2-2m3 1h4"/>',
+    messages:'<rect x="2" y="5" width="20" height="15" rx="2"/><path d="m2 6 10 8L22 6M2 19l7-7m13 7-7-7"/>',
+    wishLamp:'<path d="M3 11h14v3c0 4-3 5-7 5s-7-2-7-5M17 11h5c0 4-2 5-6 5M7 19v3h7M1 9h4v2M9 8c-4-3 4-3 0-6m4 6c-2-2 3-3 1-5"/>',
+    clan:'<circle cx="12" cy="6" r="3"/><circle cx="4" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><path d="M7 22v-7a5 5 0 0 1 10 0v7M1 20v-5a3 3 0 0 1 6 0m10 0a3 3 0 0 1 6 0v5"/>',
+    territory:'<path d="m2 6 6-3 8 3 6-3v16l-6 3-8-3-6 3ZM8 3v16m8-13v16M11 9v7m0-7h4l-1 2 1 2h-4"/>',
+    treasury:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M6 3v18M18 10v4M10 16l1-1m4-4 1-1"/><circle cx="13" cy="13" r="4"/><circle cx="13" cy="13" r="1"/>',
+    soopketland:'<circle cx="12" cy="10" r="8"/><circle cx="12" cy="10" r="2"/><path d="M12 2v6m8 2h-6m-2 8v-6m-8-2h6m-4-6 5 5m7-5-5 5m5 7-5-5m-7 5 5-5M7 22l4-10m6 10-4-10M5 22h14"/>',
+    prison:'<path d="M3 3h18v19H3ZM7 3v19m5-19v19m5-19v19M3 8h18M3 17h18"/>',
+    prisoncamp:'<path d="M2 21V9l3-4 3 4v12M1 9h8M16 21V9l3-4 3 4v12M15 9h8M8 12h8m-8 5h8M11 12v9m2-9v9M1 21h22M5 5V2m14 3V2"/>'
+  });
+})(window);

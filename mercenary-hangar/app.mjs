@@ -7,7 +7,6 @@ function show(){if(!state)return;const card=state.cards.find(c=>c.code===selecte
  $('selected-stats').hidden=!card;$('portrait').hidden=!card;if(card){$('portrait').src='/'+card.sourceArt;$('portrait').alt=card.name;$('name').textContent=card.name;$('rank').textContent=`${card.rank||'등급 미정'} CLASS`;$('serial').textContent=`PROJECT V / ${card.code}`;$('character-note').textContent='PVE·PVP 공통으로 출전하는 용병 전용 슬롯';$('level').textContent=card.level;$('duplicates').textContent=fmt(card.duplicates);$('power').textContent=fmt(card.basePower);}
  $('assigned-skills').hidden=!card; $('skill-list').innerHTML=card?(card.skills||[]).map(s=>`<article><h4>${esc(s.name)}</h4><p>${esc(s.effect)}</p><small>${esc(s.trigger)}</small>${s.review!=='REVIEWED'||Object.values(s.balance).some(v=>v===null)?'<em>스킬 수치 설정 대기</em>':''}</article>`).join('')||'<p>배정된 스킬이 없습니다.</p>':'';
  $('equip').disabled=blocked||!card||card.canDeploy===false||state.loadout.mercenaryCode===selected;$('equip').textContent=card?state.loadout.mercenaryCode===selected?'현재 편성된 용병':'선택 용병 편성':'용병 선택 대기';$('unequip').disabled=blocked||!state.loadout.mercenaryCode;
- const o=state.policy.opening,count=Number($('draw-count').value);$('draw-cost').textContent=o.paymentKind==='COIN'?`${count}회 · ${fmt(o.coinPerOpen*count)} 코인`:o.paymentKind==='ITEM'?`개봉권 ${fmt(o.itemsPerOpen*count)}장 사용`:'개봉 비용을 준비 중입니다.';$('open').disabled=busy||!(state.openingAvailable??state.available)||o.paymentKind==='UNSET'||count>o.maxBatch;$('open').textContent=o.paymentKind==='UNSET'?'개봉 준비 중':`${count}회 개봉`;
  const packPending=localStorage.getItem(`cnine.mercenary.pack.pending:${state.accountId}`),packReceipt=localStorage.getItem(`cnine.mercenary.pack.receipt:${state.accountId}`);$('recover').hidden=!localStorage.getItem(pendingKey())&&!packPending&&!packReceipt;$('recover').textContent=localStorage.getItem(pendingKey())?'편성 처리 결과 확인':packPending?'이전 개봉 처리 확인':'최근 개봉 결과';
 }
 async function refresh(){try{state=await api('mercenaries/v3/state');if(!state.cards.some(c=>c.code===selected))selected=state.loadout.mercenaryCode||state.cards[0]?.code;show();}catch(e){message(e.message);$('slot').textContent='공동 업데이트 준비 중';$('roster').textContent=e.message;}}
@@ -18,9 +17,14 @@ async function run(action,body){if(busy)return;let pending;try{pending=JSON.pars
   message(result.replayed?'저장된 처리 결과를 복구했습니다.':'요청이 완료됐습니다.');await refresh();
  }catch(e){message(e.message);if(e.status>=400&&e.status<500&&!['JOINT_REQUEST_CONFLICT','MERCENARY_CLOSED'].includes(e.code))localStorage.removeItem(pendingKey());}
  finally{busy=false;show();}}
-$('roster').onclick=e=>{const b=e.target.closest('[data-code]');if(b&&!busy){selected=b.dataset.code;show();}};$('draw-count').onchange=show;
+$('roster').onclick=e=>{const b=e.target.closest('[data-code]');if(b&&!busy){selected=b.dataset.code;show();}};
 $('equip').onclick=()=>run('loadout',{mercenaryCode:selected,revision:state.loadout.revision});$('unequip').onclick=()=>run('loadout',{mercenaryCode:null,revision:state.loadout.revision});
-$('open').onclick=async()=>{if(busy)return;const count=Number($('draw-count').value);busy=true;show();try{await globalThis.MercenaryPack.open(count);}finally{busy=false;await refresh();}};
-window.addEventListener('mercenary-pack:complete',()=>void refresh());$('refresh').onclick=()=>{if(!busy)void refresh();};$('recover').onclick=()=>localStorage.getItem(pendingKey())?run():globalThis.MercenaryPack.recover();
+window.addEventListener('mercenary-pack:complete',()=>void refresh());$('refresh').onclick=()=>{if(!busy)void refresh();};
+$('recover').onclick=async()=>{
+ if(localStorage.getItem(pendingKey()))return run();
+ // Keep recovery for an earlier paid draw, without showing opening promotions
+ // in the selection screen during ordinary feature refreshes.
+ $('message').setAttribute('data-mercenary-open-status','');
+ try{await globalThis.MercenaryPack.recover();}finally{$('message').removeAttribute('data-mercenary-open-status');await refresh();}
+};
 await refresh();
-window.addEventListener('mercenary-pack:availability',event=>{if(state){state.openingAvailable=event.detail?.userOpeningEnabled===true;show();}});

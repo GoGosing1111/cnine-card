@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '2083-clan-prison-camp';
+  const VERSION = '2107-adventure-lobby';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -173,7 +173,8 @@
       ['soopketmonV21ExactBase', 'soopketmon-v21-exact-base.css'],
       ['soopketmonV21ExactLuxury', 'soopketmon-v21-exact-luxury.css'],
       ['soopketmonV21ProductionIntegration', 'soopketmon-v21-production-integration.css'],
-      ['liveOperationsV1868', 'live-operations-v1868.css']
+      ['liveOperationsV1868', 'live-operations-v1868.css'],
+      ['adventureLobbyV2107', 'adventure-lobby-v2107.css']
     ].forEach(([id, filename]) => {
       if (document.getElementById(id)) return;
       const link = document.createElement('link');
@@ -241,7 +242,7 @@
     const chief = chiefState?.chief;
     if (!chiefState) return { state: 'loading', ordinal: '—', title: '족장 정보 불러오는 중', nickname: '서버 연결 중', remaining: '잠시만 기다려 주세요' };
     if (chiefState.unavailable) return { state: 'unavailable', ordinal: '—', title: '족장 정보 확인 불가', nickname: '연결 상태 확인 필요', remaining: '자동으로 다시 시도합니다' };
-    if (!chief?.active) return { state: 'vacant', ordinal: '—', title: '족장 선출 대기', nickname: '공석', remaining: '차기 족장 선출을 기다립니다' };
+    if (!chief?.active) return { state: 'vacant', ordinal: '—', title: '족장 선출 대기', nickname: '공석', remaining: '차기 족장 선출을 기다립니다', viewerAvatar: chief?.viewerAvatar || null };
     const ordinal = Number.isInteger(Number(chief.ordinal)) && Number(chief.ordinal) > 0 ? Number(chief.ordinal) : '—';
     let remainingMs = Math.max(0, Number(chief.remainingMs || 0));
     if (chief.endsAt) remainingMs = Math.max(0, Date.parse(chief.endsAt) - Date.now());
@@ -401,9 +402,34 @@
 
   function renderHome(frame) {
     showChiefConsole = false;
-    clearBetween(frame.start, frame.end);
-    const template = document.createElement('template'); template.innerHTML = homeMarkup();
-    frame.end.parentNode.insertBefore(template.content, frame.end);
+    if (global.SoopAdventureLobby) {
+      // Keep the reviewed lobby mounted during summary/chief refreshes so
+      // search, scroll and the optional tutorial retain their current state.
+      let lobby = frame.screen.querySelector('soop-adventure-lobby');
+      if (!lobby) {
+        clearBetween(frame.start, frame.end);
+        lobby = global.SoopAdventureLobby.create();
+        const content = document.createElement('template');
+        content.innerHTML = typeof global.liveOperationsHtml === 'function' ? global.liveOperationsHtml('lobby-clarity') : '';
+        const operationsTitle = content.content.querySelector('.live-operations > header b');
+        if (operationsTitle) operationsTitle.textContent = '콘텐츠 현황';
+        content.content.querySelector('.live-operations')?.setAttribute('slot', 'operations');
+        lobby.append(content.content);
+        const lounge = document.createElement('aside');
+        lounge.hidden = true;
+        lounge.dataset.streamerLoungeHost = '';
+        lounge.slot = 'streamer-lounge';
+        lounge.setAttribute('aria-label', '스트리머 라운지 입구');
+        lobby.append(lounge);
+        frame.end.parentNode.insertBefore(lobby, frame.end);
+      }
+      lobby.update({ user: userModel(), chief: chiefView() });
+      void refreshWishLamp().then(changed => { if (changed && lobby.isConnected) lobby.refreshMenus(); });
+    } else {
+      clearBetween(frame.start, frame.end);
+      const template = document.createElement('template'); template.innerHTML = homeMarkup();
+      frame.end.parentNode.insertBefore(template.content, frame.end);
+    }
     frame.screen.dataset.kind = 'home';
     frame.page.dataset.route = 'home';
     syncDock(frame.page, 'home');
@@ -680,6 +706,9 @@
     navigate,
     enhance,
     openAll: openAllOverlay,
+    openChief: openChiefOverlay,
+    toggleFullscreen,
+    isRouteVisible: route => Boolean(routeButton(route)),
     get currentRoute() { return currentRoute; }
   });
 

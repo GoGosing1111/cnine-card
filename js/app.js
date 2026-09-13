@@ -395,7 +395,10 @@ function loadUser() {
     return user;
   } catch { return null; }
 }
-function saveUser(user) { localStorage.setItem(STORAGE_KEY, JSON.stringify(user)); }
+function saveUser(user) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+  try { window.dispatchEvent(new CustomEvent('cnine:player-updated')); } catch (_) {}
+}
 function ownedIds(user) { return new Set((user?.owned || []).map(id=>String(id))); }
 function normalizeClientCard(card={}){return {...card,id:String(card.id??card.card_id??''),grade:String(card.grade||card.rarity||'C').toUpperCase(),focusX:Number(card.focusX??card.focus_x??50),focusY:Number(card.focusY??card.focus_y??50)};}
 function collectionSurfaceCardHidden(card,user=loadUser()){
@@ -756,7 +759,7 @@ function renderMainNavigation(tab){
 
 let messageUnreadCount=0;
 function messageBadgeMarkup(){return `<strong class="message-new-badge" data-message-new-badge ${messageUnreadCount?'':'hidden'}>${messageUnreadCount>99?'99+':`NEW ${messageUnreadCount}`}</strong>`}
-function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(count)||0);document.querySelectorAll('[data-message-new-badge]').forEach(badge=>{badge.hidden=!messageUnreadCount;badge.textContent=messageUnreadCount>99?'99+':`NEW ${messageUnreadCount}`})}
+function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(count)||0);document.querySelectorAll('[data-message-new-badge]').forEach(badge=>{badge.hidden=!messageUnreadCount;badge.textContent=messageUnreadCount>99?'99+':`NEW ${messageUnreadCount}`});try{window.dispatchEvent(new CustomEvent('cnine:messages-updated',{detail:{count:messageUnreadCount}}));}catch(_){}}
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);

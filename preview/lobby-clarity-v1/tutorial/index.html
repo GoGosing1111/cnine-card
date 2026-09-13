@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080c17"><meta name="color-scheme" content="dark"><meta name="robots" content="noindex">
+  <title>숲켓몬 · 첫 이용 안내</title>
+  <link rel="icon" href="/assets/ui/pwa-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css?v=1">
+  <link rel="stylesheet" href="/css/adventure-lobby-v2107.css?v=2107-adventure-lobby">
+  <script defer src="/js/soopketmon-v21-exact-shell-adapter.js?v=2093-wish-lamp" data-enabled="false"></script>
+  <script defer src="./bridge.js?v=2107"></script><script defer src="./app.js?v=2107"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">본문으로 바로가기</a>
+  <div class="review-ribbon"><span><i></i> 첫 이용 안내</span><a href="/?screen=home">로비로 돌아가기 ↗</a></div>
+  <header class="topbar">
+    <a href="./" class="brand" aria-label="숲켓몬 로비 시안 처음으로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>숲켓몬<small>SOOPKETMON</small></span></a>
+    <button class="profile-summary" id="account-shortcut"><small>내 계정</small><b id="player-name">플레이어</b></button>
+    <div class="wallet" aria-label="보유 재화"><span><i class="coin-dot"></i>코인 <b id="wallet-coin">—</b></span><span>카드 조각 <b id="wallet-shards">—</b></span><span><i class="star-mark">✦</i>마스터의 별 <b id="wallet-stars">—</b></span></div>
+    <button class="header-help" id="start-tutorial"><span class="help-symbol">?</span>화면 안내 시작</button>
+    <button class="icon-button inbox" data-route="messages" aria-label="메시지함"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span id="inbox-count" hidden></span></button>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <p class="sidebar-label">콘텐츠</p>
+      <nav id="main-nav" aria-label="주요 메뉴">
+        <button class="side-link" data-home aria-current="page"><span data-icon="home"></span><b>로비</b></button>
+        <button class="side-link" data-category="combat"><span data-icon="swords"></span><b>전투</b><small>모험과 경쟁</small></button>
+        <button class="side-link" data-category="growth"><span data-icon="cards"></span><b>성장·수집</b><small>카드와 장비</small></button>
+        <button class="side-link" data-category="shop"><span data-icon="bag"></span><b>상점·교환</b><small>획득과 거래</small></button>
+        <button class="side-link" data-category="rewards"><span data-icon="gift"></span><b>보상</b><small>출석과 퀘스트</small></button>
+        <button class="side-link" data-category="social"><span data-icon="clan"></span><b>클랜·생활</b><small>함께하는 활동</small></button>
+        <button class="side-link" data-category="administration"><span data-icon="administration"></span><b>행정부</b><small>족장과 운영 시설</small></button>
+      </nav>
+      <button class="all-menu" data-category="all"><span data-icon="search"></span>전체 메뉴 찾기 <span>↗</span></button>
+      <button class="sidebar-help" data-start-guide><span class="help-symbol">?</span>이용 안내</button>
+      <a class="sidebar-return" href="/?screen=home">현재 로비로 돌아가기 ↗</a>
+    </aside>
+    <main id="main" tabindex="-1">
+      <div class="page-heading"><div class="heading-title"><span class="heading-index">00</span><div><p class="eyebrow">WELCOME TO SOOPKETMON</p><h1>오늘은 어떤 모험을 할까요?</h1></div></div><span class="heading-tag">LOBBY</span></div>
+      <div class="welcome-strip"><p><span class="live-dot"></span><b>처음이라면, 아래 순서부터.</b><span>보상을 확인하고 내 덱을 준비해 보세요.</span></p><button data-route="attendance" id="reward-shortcut">접속 보상 확인 <span>→</span></button></div>
+      <section class="start-workspace" aria-label="첫 모험 준비">
+        <article class="launch-stage">
+          <div class="stage-environment" aria-hidden="true"></div>
+          <img class="stage-character" src="/assets/ui/avatars-v1/lobby-v1/avatar-f01-azure-frost-strategist-lobby-v1-640.webp" alt="" fetchpriority="high">
+          <div class="stage-shade" aria-hidden="true"></div>
+          <div class="stage-caption"><span>YOUR FIRST LINEUP</span><span>FIRST STEPS</span></div>
+          <div class="launch-copy"><p class="eyebrow">추천 시작점</p><h2>다섯 장의 카드,<br>당신만의 <em>첫 전력.</em></h2><p>보유 카드로 덱을 만든 뒤<br>몬스터 토벌에 도전해 보세요.</p><button class="primary-button" id="deck-shortcut" data-route="deck">PVE 덱 편성 <span>→</span></button><button class="under-link" data-route="dex">내 카드부터 확인하기 ↗</button></div>
+          <div class="formation-strip"><span>출전 구성</span><b>일반 카드 <strong>5</strong>장</b><i>+</i><span>용병 <b>1</b>명 <small>선택</small></span></div>
+        </article>
+        <aside class="first-journey" aria-labelledby="journey-title"><div class="journey-heading"><div><p class="eyebrow">FIRST STEPS</p><h2 id="journey-title">첫 모험 길잡이</h2></div><span>01 — 04</span></div><p class="journey-intro">이 순서대로 시작하면 쉬워요.</p>
+          <ol>
+            <li><button data-route="attendance"><span class="step-number">01</span><span><b>받을 보상 확인</b><small>접속 보상 · 메시지함</small></span><i>↗</i></button></li>
+            <li><button data-route="dex" id="cards-shortcut"><span class="step-number">02</span><span><b>내 카드 살펴보기</b><small>보유 카드와 능력치 확인</small></span><i>↗</i></button></li>
+            <li class="journey-focus"><button data-route="deck"><span class="step-number">03</span><span><b>전투 덱 5장 편성</b><small>일반 카드를 고르고 저장</small></span><i>↗</i></button></li>
+            <li><button data-route="hunt" id="hunt-shortcut"><span class="step-number">04</span><span><b>첫 몬스터 토벌</b><small>상대를 확인하고 도전</small></span><i>↗</i></button></li>
+          </ol><button class="guide-replay" data-start-guide><span class="help-symbol">?</span>화면을 따라 안내받기 <span>→</span></button>
+        </aside>
+      </section>
+      <section class="growth-section" aria-labelledby="growth-heading"><div class="section-heading"><h2 id="growth-heading">장비·용병</h2></div>
+        <div class="growth-links">
+          <button class="growth-link" data-route="character"><span class="growth-icon" data-icon="shield"></span><span><b>장비·칭호·차고</b><em>보유 장비와 장착 상태</em></span><i>↗</i></button>
+          <button class="growth-link" data-route="equipmentForge"><span class="growth-icon" data-icon="forge"></span><span><b>장비 강화</b><em>강화·보호·복구</em></span><i>↗</i></button>
+          <button class="growth-link" data-route="mercenaryDex"><span class="growth-portrait"><img src="/assets/ui/project-v/mercenaries/codex-v1/v-004-art-640.webp" alt="" loading="lazy"></span><span><b>용병도감</b><em>등급·배정 스킬</em></span><i>↗</i></button>
+        </div>
+      </section>
+      <section class="directory" id="directory" aria-labelledby="directory-title">
+        <div class="section-heading"><h2 id="directory-title">콘텐츠 찾기</h2><span id="total-menus"></span></div>
+        <div class="directory-controls" id="menu-search-area"><label class="search-field"><span data-icon="search"></span><span class="sr-only">전체 콘텐츠 검색</span><input id="menu-search" type="search" maxlength="80" autocomplete="off" placeholder="이름이나 할 일로 검색 · 예: 강화, 출석"><kbd>/</kbd></label><button id="clear-search" class="clear-search" hidden>검색 지우기</button></div>
+        <div class="category-tabs" id="category-tabs" role="group" aria-label="콘텐츠 분류"><button data-category="popular" aria-pressed="true">자주 찾는 메뉴</button><button data-category="all" aria-pressed="false">전체</button><button data-category="combat" aria-pressed="false">전투</button><button data-category="growth" aria-pressed="false">성장·수집</button><button data-category="shop" aria-pressed="false">상점·교환</button><button data-category="rewards" aria-pressed="false">보상</button><button data-category="social" aria-pressed="false">클랜·생활</button><button data-category="administration" aria-pressed="false">행정부</button></div>
+        <div class="directory-status"><h3 id="category-name">전체 콘텐츠</h3><span id="result-count" role="status" aria-live="polite"></span></div>
+        <div id="menu-results" class="menu-results"></div>
+        <div class="empty-search" id="empty-search" hidden><h3>찾는 메뉴가 없어요.</h3><p>‘카드’, ‘장비’, ‘보상’처럼 짧게 검색해 보세요.</p><button id="reset-search">전체 메뉴 다시 보기</button></div>
+      </section>
+<p id="lobby-message" role="status" hidden></p></main>
+  </div>
+  <nav class="mobile-dock" aria-label="모바일 빠른 메뉴"><button data-home aria-current="page"><span data-icon="home"></span><b>로비</b></button><button data-category="combat"><span data-icon="swords"></span><b>전투</b></button><button data-category="growth"><span data-icon="cards"></span><b>성장</b></button><button data-category="rewards"><span data-icon="gift"></span><b>보상</b></button><button data-category="all"><span data-icon="search"></span><b>전체</b></button></nav>
+  <dialog id="guide-dialog" class="guide-dialog" aria-labelledby="guide-title">
+    <header class="guide-header"><div><p class="eyebrow">GETTING STARTED</p><h2 id="guide-title">첫 모험 길잡이</h2></div><button id="close-guide" class="icon-button" aria-label="이용 안내 닫기">×</button></header>
+    <p class="guide-intro">보상을 확인하고, 카드 다섯 장으로 첫 전투를 준비해 보세요.</p>
+    <ol class="guide-steps">
+      <li><b>01</b><div><h3>받을 보상 확인</h3><p>접속 보상과 메시지함에서 받을 수 있는 보상을 확인하세요.</p></div></li>
+      <li><b>02</b><div><h3>내 카드 살펴보기</h3><p>보유 카드와 능력치를 확인하세요. 카드가 없다면 카드팩이나 상점에서 시작할 수 있어요.</p></div></li>
+      <li><b>03</b><div><h3>전투 덱 5장 편성</h3><p>일반 카드 다섯 장을 PVE 덱에 저장하세요. 용병은 별도 선택 슬롯입니다.</p></div></li>
+      <li><b>04</b><div><h3>몬스터 토벌</h3><p>상대와 입장 조건을 확인한 뒤 저장한 덱으로 도전하세요.</p></div></li>
+    </ol>
+    <button id="begin-tour" class="primary-button">화면을 따라 안내받기 <span>→</span></button>
+  </dialog>
+  <dialog id="destination-dialog" class="destination-dialog" aria-labelledby="destination-title"><div class="dialog-head"><p class="eyebrow">이 메뉴에서는</p><button data-close-destination class="icon-button" aria-label="메뉴 설명 닫기">×</button></div><h2 id="destination-title"></h2><p id="destination-description"></p><p id="destination-tip" class="destination-tip"></p><div class="destination-location"><span>찾아가는 곳</span><b id="destination-location"></b></div><p class="preview-hint">메뉴 설명을 확인하고 실제 화면으로 이동할 수 있습니다.<br>아래 버튼은 현재 운영 화면으로 이동합니다.</p><a id="destination-link" class="primary-button" href="/">현재 화면 열기 <span>↗</span></a><button data-close-destination class="under-link">안내 계속 둘러보기</button></dialog>
+  <dialog id="tutorial-dialog" class="tutorial-dialog" aria-labelledby="tutorial-title" aria-describedby="tutorial-description"><div class="tutorial-spotlight" aria-hidden="true"></div><section class="tutorial-card"><div class="tutorial-top"><span id="tutorial-progress"></span><button id="close-tutorial" aria-label="튜토리얼 닫기">닫기 ×</button></div><div class="tutorial-dots" id="tutorial-dots" aria-hidden="true"></div><p class="eyebrow" id="tutorial-label"></p><h2 id="tutorial-title"></h2><p id="tutorial-description"></p><p class="tutorial-note">안내를 닫아도 진행 위치가 저장됩니다.</p><div class="tutorial-actions"><button id="tutorial-prev">이전</button><button id="tutorial-next" class="primary-button">다음 <span>→</span></button></div></section></dialog>
+  <noscript><p class="noscript">메뉴 검색과 튜토리얼을 이용하려면 JavaScript를 켜 주세요. <a href="/?screen=home">현재 로비로 돌아가기</a></p></noscript>
+</body></html>
