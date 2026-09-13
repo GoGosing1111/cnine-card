@@ -139,8 +139,9 @@ test('all nine served V3 bundles including the account entry share the current c
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 16);
+  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 17);
   assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js'));
+  assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/ProjectileTrail.mjs'));
   const seen = new Set();
   assert.equal(report.layoutClients.length, 1);
   for (const row of [...report.sources, ...report.outputs, ...report.layoutClients]) {
