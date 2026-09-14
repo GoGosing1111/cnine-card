@@ -1,0 +1,37 @@
+{
+  "version": 2109,
+  "mode": "built-in imagegen",
+  "trophyCode": "CLAN_CHAMPIONS_TROPHY",
+  "files": [
+    {
+      "path": "assets/ui/player-card/champions-league-v2109.png",
+      "sha256": "d13ac0065fb24e1b3a4ed39a6405b54ef7acaf6404da6dd84d5b5947cf7427c0",
+      "bytes": 1278108,
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "transparentPixels": 1026732,
+      "opaquePixels": 284
+    },
+    {
+      "path": "assets/ui/player-card/champions-league-v2109.webp",
+      "sha256": "78e38dac52efaef8f86693046b6420b8d7b9ac3c49b8cd70f025b731d85f17fd",
+      "bytes": 68600,
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "transparentPixels": 171636,
+      "opaquePixels": 1679
+    }
+  ],
+  "consumers": [
+    "js/clan-v1.js: Champions League entry and trophy hero",
+    "js/player-card-model-v2052.js: server trophy catalog",
+    "js/player-card-v2052.js: calling-card championship display"
+  ],
+  "preserved": [
+    "CLAN_CHAMPION artwork",
+    "award receipts, eligibility, count and acquiredAt",
+    "disabled trophy effects and calling-card enhancement"
+  ]
+}

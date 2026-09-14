@@ -44,3 +44,25 @@
 @media(prefers-reduced-motion:reduce){.clan-champions-entry{transition:none}}
 .clan-cup-bye>.clan-mark{margin-right:0;font:inherit;letter-spacing:normal}
 @media(max-width:700px){.clan-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}.clan-tabs button,.clan-tabs [data-clan-tab="champions"]{min-width:0;min-height:44px;width:100%}.clan-tabs .clan-refresh{max-width:none;min-width:0;width:100%;margin:0}.clan-tabs .clan-refresh span{display:grid}.clan-cup-bye>.clan-mark{width:44px}}
+
+/* Platinum championship trophy, shared with the player calling card. */
+.clan-cup-art{display:block;width:100%;height:100%;object-fit:contain}
+.clan-champions-entry .clan-cup-mini{flex:0 0 76px;height:84px;filter:drop-shadow(0 7px 12px #0008)}
+.clan-shell .clan-champions-entry{background:radial-gradient(ellipse at 10% 65%,#345c7c44,transparent 58%),#101820;border-color:#7d9dbb55;border-left-color:#a9d1ea}
+.clan-cup-hero{grid-template-columns:minmax(0,1fr) minmax(240px,34%);padding:30px 48px;gap:28px;min-height:380px;background:radial-gradient(ellipse at 82% 42%,#345b793a,transparent 45%),linear-gradient(115deg,#172231,#090f18 75%)}
+.clan-cup-hero>div:first-child{min-width:0;position:relative;z-index:1}
+.clan-cup-hero h2{font-size:clamp(36px,4.7vw,70px);line-height:1;letter-spacing:-.055em}
+.clan-cup-emblem{position:relative;min-width:0;gap:6px;padding:0 10px 8px}
+.clan-cup-emblem:before{content:'';position:absolute;top:8%;left:50%;width:240px;height:240px;max-width:95%;border-radius:50%;border:1px solid #a8cfee16;background:radial-gradient(circle,#70b6eb19,transparent 67%);transform:translateX(-50%);pointer-events:none}
+.clan-cup-emblem .clan-cup-art{position:relative;z-index:1;width:282px;height:282px;max-width:100%;filter:drop-shadow(0 12px 15px #000a)}
+.clan-cup-emblem b{position:relative;color:#e0eff9;font-size:19px;line-height:1.4;letter-spacing:-.025em;overflow-wrap:anywhere}
+.clan-cup-emblem small{position:relative;font-size:10px;line-height:1.5;letter-spacing:.06em;color:#bea77b}
+@media(min-width:701px) and (max-width:1100px){.clan-cup-hero{grid-template-columns:minmax(0,1fr) minmax(200px,36%);padding:28px;min-height:340px;gap:14px}.clan-cup-emblem .clan-cup-art{width:240px;height:240px}.clan-cup-hero h2{font-size:clamp(36px,4.4vw,52px)}.clan-cup-emblem:before{width:200px;height:200px}}
+@media(max-width:700px){
+  .clan-shell .clan-champions-entry{gap:12px;padding:14px}.clan-champions-entry .clan-cup-mini{flex-basis:60px;height:74px}.clan-champions-entry>span:nth-child(2){min-width:0}
+  .clan-cup-hero{grid-template-columns:minmax(0,1fr);gap:14px;padding:27px 22px 22px;min-height:0}
+  .clan-cup-hero h2{font-size:clamp(36px,9vw,56px);margin-bottom:14px}.clan-cup-hero h2 br{display:none}.clan-cup-hero h2 em{display:block}
+  .clan-cup-hero p{margin-top:17px}.clan-cup-emblem{padding:0;gap:4px}
+  .clan-cup-emblem .clan-cup-art{width:226px;height:226px}.clan-cup-emblem:before{width:210px;height:210px;top:0}
+  .clan-cup-emblem b{font-size:17px}.clan-cup-emblem small{font-size:9px}
+}

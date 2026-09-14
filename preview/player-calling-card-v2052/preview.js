@@ -1,4 +1,4 @@
-import { TROPHY_CATALOG } from '../../js/player-card-model-v2052.js?v=2072';
+import { TROPHY_CATALOG } from '../../js/player-card-model-v2052.js?v=2109-champions-trophy';
 const trophyData = [
   { count: 2, acquiredAt: '2026-08-20T13:00:00Z', progress: 2, goal: 1 },
   { count: 1, acquiredAt: '2026-09-01T13:00:00Z', progress: 3, goal: 3 },

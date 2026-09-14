@@ -25,5 +25,54 @@ button.player-card-name:hover,.clan-shell button.player-card-name:hover{border:0
 @media(max-width:620px){.pc-portrait{object-position:50% 9%}.pc-statline dt{font-size:10px}.pc-trophy>small{font-size:9px;min-height:28px}.pc-trophy-foot{font-size:7px}.pc-trophy-detail p{font-size:11px}.pc-trophy-detail b{font-size:12px}.pc-effect-note{font-size:10px}.pc-bottom{font-size:8px}.pc-tabs button{font-size:12px}.pc-history-list li{font-size:12px}.pc-history-list li small{font-size:10px}.pc-history-note{font-size:11px!important}}
 .pc-account-link{display:block;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}.pc-account-link:focus-visible{outline:2px solid #a5deef;outline-offset:3px}
 .pc-card{overflow:clip}.pc-dialog{scrollbar-width:thin;scrollbar-color:#526471 #0a1017}
-.pc-trophies{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:900px){.pc-trophies{grid-template-columns:repeat(2,minmax(0,1fr))}.pc-trophy-stage{max-height:180px}}
+/* Championship centerpiece with a separate shelf for regular-season honors. */
+.pc-trophies{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pc-trophies.pc-has-champions{grid-template-columns:minmax(0,.95fr) minmax(0,1.25fr);grid-template-rows:repeat(3,minmax(100px,auto))}
+.pc-trophy{padding:14px;border-radius:6px;background:linear-gradient(125deg,#171f28,#0c141d);transition:border-color .18s,background .18s}
+.pc-trophy-stage{aspect-ratio:1;flex:none}.pc-trophy-stage img{padding:0;filter:drop-shadow(0 6px 10px #0008)}
+.pc-trophy-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;width:100%}
+.pc-trophy-name{display:block;font-size:15px;line-height:1.35;margin:0;overflow-wrap:anywhere}
+.pc-trophy-subtitle{display:block;color:#94a7b8;font-size:10px;line-height:1.6;margin-top:4px}
+.pc-trophy-status{position:static;display:inline-flex;align-items:baseline;gap:3px;margin-top:9px;padding:3px 7px;border:1px solid #a8b9c124;border-radius:3px;background:#a4bdcf08;font-size:10px;line-height:1.4;letter-spacing:0}
+.pc-trophy-arrow{position:absolute;right:12px;bottom:12px;font-size:13px;color:#9bb1c4}
+.pc-has-champions .pc-trophy:not(.pc-trophy-champions){display:grid;grid-template-columns:80px minmax(0,1fr);align-items:center;gap:14px;min-height:100px;padding:10px 26px 10px 10px}
+.pc-has-champions .pc-trophy:not(.pc-trophy-champions) .pc-trophy-stage{width:80px;height:80px}
+.pc-trophy.pc-trophy-champions{grid-column:1;grid-row:1 / span 3;align-items:center;justify-content:center;padding:16px 20px 20px;border-color:#7babc555;background:radial-gradient(ellipse at 50% 30%,#29577755,transparent 68%),linear-gradient(150deg,#182b3d,#0a121d 75%);box-shadow:inset 0 1px #d8ecff20}
+.pc-trophy-champions:before{content:'';position:absolute;inset:14px;border:1px solid #9bc9e110;pointer-events:none}
+.pc-trophy-champions .pc-trophy-stage{width:100%;height:198px;max-height:none;aspect-ratio:auto}
+.pc-trophy-champions .pc-trophy-stage img{filter:drop-shadow(0 10px 12px #0009)}
+.pc-trophy-champions .pc-plinth{left:14%;right:14%;bottom:0;height:9%;background:radial-gradient(ellipse,#8acaf544,transparent 70%);box-shadow:0 1px #a3daf544}
+.pc-trophy-champions .pc-trophy-copy{align-items:center;text-align:center;margin-top:8px}
+.pc-champions-kicker{font-size:8px;line-height:1.5;font-weight:800;letter-spacing:.18em;color:#9fbfd6;margin-bottom:6px}
+.pc-trophy-champions .pc-trophy-name{font-size:19px;letter-spacing:-.035em;color:#e8f5ff}
+.pc-trophy-champions .pc-trophy-subtitle{color:#afc2d0}
+.pc-trophy-champions .pc-trophy-status{padding:4px 13px;margin-top:12px;border-color:#d6c19055;color:#ebd4a0;background:#c6aa5f0c;font-size:11px}
+.pc-trophy-champions .pc-trophy-status b{font-size:21px;line-height:1.1;font-weight:700;margin-right:3px}
+.pc-champions-date{display:block;margin-top:8px;font-size:9px;line-height:1.6;color:#91a9bc}
+.pc-trophy-champions.is-locked{background:radial-gradient(ellipse at 50% 30%,#20304144,transparent 68%),#0e1721;border-color:#71869a35}
+.pc-trophy-champions.is-locked .pc-trophy-name{color:#99adbe}.pc-trophy-champions.is-locked .pc-trophy-status{color:#92a6b8;border-color:#889aad30;background:#8ba0ba08}
+.pc-trophy:hover,.pc-trophy[aria-pressed=true]{border-color:#c0d7e6;background-color:#182737}
+.pc-trophy:focus-visible{outline:2px solid #b3e5ff;outline-offset:3px}
+@media(min-width:621px) and (max-width:1000px){
+  .pc-trophies.pc-has-champions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px}
+  .pc-has-champions .pc-trophy:not(.pc-trophy-champions){grid-template-columns:52px minmax(0,1fr);gap:7px;padding:9px 15px 9px 5px}
+  .pc-has-champions .pc-trophy:not(.pc-trophy-champions) .pc-trophy-stage{width:52px;height:68px}
+  .pc-trophy-name{font-size:12px}.pc-trophy-subtitle{font-size:9px}.pc-trophy-status{font-size:9px}
+  .pc-trophy.pc-trophy-champions{padding:14px 10px}.pc-trophy-champions .pc-trophy-name{font-size:16px}.pc-champions-kicker{font-size:7px;letter-spacing:.1em}
+}
+@media(max-width:620px){
+  .pc-trophies.pc-has-champions{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto;gap:7px}
+  .pc-trophy.pc-trophy-champions{grid-column:1 / -1;grid-row:auto;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:12px;min-height:154px;padding:12px 16px 12px 9px}
+  .pc-trophy-champions .pc-trophy-stage{width:100%;height:136px}
+  .pc-trophy-champions .pc-trophy-copy{align-items:flex-start;text-align:left;margin:0}
+  .pc-trophy-champions .pc-trophy-name{font-size:18px}.pc-champions-kicker{font-size:7px;letter-spacing:.12em}
+  .pc-trophy-champions .pc-trophy-status{margin-top:9px;padding:3px 10px}.pc-trophy-champions .pc-trophy-status b{font-size:18px}
+  .pc-trophy-champions .pc-champions-date{font-size:8px;margin-top:7px}
+  .pc-has-champions .pc-trophy:not(.pc-trophy-champions){display:flex;flex-direction:column;gap:6px;min-height:0;padding:9px 7px 12px}
+  .pc-has-champions .pc-trophy:not(.pc-trophy-champions) .pc-trophy-stage{width:100%;height:76px}
+  .pc-trophy-name{font-size:12px;letter-spacing:-.04em}.pc-trophy-subtitle{font-size:9px;min-height:29px;line-height:1.5;margin-top:4px}
+  .pc-trophy-champions .pc-trophy-subtitle{min-height:0;font-size:10px}
+  .pc-trophy-status{font-size:9px;padding:2px 5px;margin-top:6px}.pc-trophy-arrow{right:8px;bottom:10px;font-size:11px}
+}
+@media(max-width:370px){.pc-trophy.pc-trophy-champions{padding-right:12px;gap:6px}.pc-trophy-champions .pc-trophy-name{font-size:16px}.pc-champions-kicker{font-size:6px}.pc-trophy-name{font-size:11px}.pc-trophy-subtitle{font-size:8px}.pc-has-champions .pc-trophy:not(.pc-trophy-champions){padding:8px 5px 12px}.pc-trophy-status{font-size:8px}.pc-trophy-arrow{font-size:10px;right:5px}}
+@media(prefers-reduced-motion:reduce){.pc-trophy{transition:none}}

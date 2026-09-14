@@ -290,7 +290,7 @@ test('live/CMS expose the bracket, reward editor and scoped cache versions; no r
   assert.match(server, /settings=await championsBattleSettings/);
   assert.match(cms, /cwChampionsMysticEnergy/);
   assert.match(cms, /SEND_CHAMPIONS_REWARDS/);
-  assert.match(read('index.html'), /clan-champions-v2071.css\?v=2071-clan-champions/);
+  assert.match(read('index.html'), /clan-champions-v2071.css\?v=2109-champions-trophy/);
   assert.match(read('admin/index.html'), /clan-war-admin-v1943.js\?v=2072-champions-rewards/);
   assert.match(cms,/cwTrophyAuditForm/);assert.match(cms,/태양의 선봉대장 14일/);
 });

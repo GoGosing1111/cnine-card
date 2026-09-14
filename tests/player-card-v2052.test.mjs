@@ -179,7 +179,7 @@ test('live Hi Heeya and Cheon portrait paths render without widening trophy imag
     const unequipped=await f.call();
     assert.equal(unequipped.body.player.avatar,null,'ownership alone never auto-equips an avatar');
     assert.match(ui.render(unequipped.body),/class="pc-monogram"/);
-    assert.match(read('index.html'),/player-card-v2052\.js\?v=2078-player-card-avatars/,'new URL bypasses the old service-worker script cache');
+    assert.match(read('index.html'),/player-card-v2052\.js\?v=2109-champions-trophy/,'new URL bypasses the old service-worker script cache');
   } finally {await f.close();}
 });
 test('portrait preview exception rejects foreign origins, credentials, documents, APIs and traversal', () => {
