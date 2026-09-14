@@ -141,7 +141,7 @@ function burningEventHudMarkup(){
 function stopBurningCountdownWatch(){if(burningCountdownTimer){clearInterval(burningCountdownTimer);burningCountdownTimer=null}}
 function syncBurningCountdownUi(){
   const active=burningEventIsActive(),label=burningRemainingText();
-  document.querySelectorAll('[data-burning-countdown]').forEach(node=>{node.textContent=label});
+  document.querySelectorAll('[data-burning-countdown]').forEach(node=>{node.textContent=node.hasAttribute('data-burning-countdown-compact')?label.replace(/ 남음$/,''):label});
   if(active)return;
   stopBurningCountdownWatch();
   if(!burningEventState.enabled)return;
@@ -187,6 +187,7 @@ function applyBurningEventState(next={},options={}){
   document.documentElement.classList.toggle('burning-event-active',normalActive);
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   const changed=before!==burningEventFingerprint(burningEventState);
+  if(changed)queueMicrotask(()=>renderLiveOperations());
   if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1')}
   if(!burningEventIsActive()){stopBurningCountdownWatch();const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelectorAll('.burning-event-strip,#burningEventHud').forEach(node=>node.remove());if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
   startBurningCountdownWatch();
@@ -1365,6 +1366,7 @@ const LIVE_OPERATION_META=Object.freeze({
   RAID:{label:'레이드',state:'전투 진행',deadline:'종료까지'}
 });
 let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefreshTimer=0;
+let liveOperationsItems=[],liveOperationsFailed=false;
 function liveOperationTimestamp(value){const raw=String(value||'').trim();if(!raw)return NaN;return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw)?`${raw.replace(' ','T')}Z`:raw)}
 function liveOperationClock(value){const ms=liveOperationTimestamp(value)-(Date.now()+liveOperationsServerOffset);if(!Number.isFinite(ms))return '진행 중';if(ms<=0)return '상태 갱신 중';const seconds=Math.ceil(ms/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;if(hours>=24)return `${Math.floor(hours/24)}일 ${String(hours%24).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`}
 function liveOperationIcon(kind){return ({
@@ -1386,13 +1388,24 @@ function openLiveOperation(kind){
   const enter=()=>{attempts++;if(key==='TERRITORY'&&typeof window.openTerritoryWar==='function'){window.openTerritoryWar();return}if(key==='SIEGE'&&typeof window.openMonsterSiege==='function'){window.openMonsterSiege();return}if(key==='SEAL'){const button=document.querySelector('[data-seal-battle-mode]');if(button){button.click();return}}if(key==='RAID'){const button=document.querySelector('[data-pve-mode="raid"]');if(button){button.click();return}}if(attempts<20)setTimeout(enter,80)};
   setTimeout(enter,60);
 }
-function renderLiveOperations(payload={}){
+function liveBurningOperationHtml(){
+  if(!burningEventIsActive())return '';
+  const hyper=burningMode()==='HYPER',title=hyper?'하이퍼버닝':'버닝',{coins,minutes}=burningEventNumbers();
+  const flame='<path d="M13 2c1 5-4 6-3 10 2-1 3-3 3-5 4 3 6 6 5 10a6.3 6.3 0 0 1-12-1c-1-4 2-6 3-8-1 4 0 5 1 6"/>';
+  return `<article class="live-operation-card live-operation-event kind-${hyper?'hyper-burning':'burning'}" data-live-burning-event="${hyper?'HYPER':'BURNING'}" role="group" aria-label="${title} 진행 중"><span class="live-operation-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${flame}${hyper?'<path d="m13 12-3 5h3l-1 4 4-6h-3Z"/>':''}</svg></span><span class="live-operation-copy"><small><i aria-hidden="true"></i>이벤트<em>진행 중</em></small><b>${title}</b><span>전투 코인 ×${burningMultiplierText(coins)} · ${minutes}분 충전</span></span><strong><small>남은 시간</small><b data-burning-countdown data-burning-countdown-compact>${burningRemainingText().replace(/ 남음$/,'')}</b></strong></article>`;
+}
+function renderLiveOperations(payload=null){
   const lists=[...document.querySelectorAll('[data-live-operations-list]')];if(!lists.length)return;
-  const serverAt=liveOperationTimestamp(payload.serverNow);if(Number.isFinite(serverAt))liveOperationsServerOffset=serverAt-Date.now();
-  const items=(Array.isArray(payload.items)?payload.items:[]).filter(item=>LIVE_OPERATION_META[String(item?.kind||'').toUpperCase()]);
-  const html=items.length?items.map(liveOperationCardHtml).join(''):'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>';
-  lists.forEach(list=>{list.innerHTML=html});
-  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=items.length?`${items.length}건 진행`:'대기 중'});
+  if(payload){
+    const serverAt=liveOperationTimestamp(payload.serverNow);if(Number.isFinite(serverAt))liveOperationsServerOffset=serverAt-Date.now();
+    liveOperationsItems=(Array.isArray(payload.items)?payload.items:[]).filter(item=>LIVE_OPERATION_META[String(item?.kind||'').toUpperCase()]);
+    liveOperationsFailed=false;
+  }
+  const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),count=items.length+(eventHtml?1:0);
+  const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
+  const html=eventHtml+(liveOperationsFailed?errorHtml:items.length?items.map(liveOperationCardHtml).join(''):eventHtml?'':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>');
+  lists.forEach(list=>{const left=list.scrollLeft;list.innerHTML=html;list.scrollLeft=left});
+  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?`${count}건 진행`:liveOperationsFailed?'갱신 대기':'대기 중'});
   document.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
   updateLiveOperationClocks();if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
 }
@@ -1400,7 +1413,7 @@ function scheduleLiveOperationsRefresh(seconds=30){if(liveOperationsRefreshTimer
 async function loadLiveOperations(fresh=false){
   const lists=document.querySelectorAll('[data-live-operations-list]');if(!lists.length)return;
   if(!API_MODE){renderLiveOperations({items:[]});return}
-  try{if(fresh)clearApiCache('live-operations');const data=await apiRequest('live-operations',{}, {ttl:fresh?0:15000,timeoutMs:7000});renderLiveOperations(data);scheduleLiveOperationsRefresh(data.pollSeconds)}catch(error){lists.forEach(list=>{list.innerHTML='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>'});scheduleLiveOperationsRefresh(20)}
+  try{if(fresh)clearApiCache('live-operations');const data=await apiRequest('live-operations',{}, {ttl:fresh?0:15000,timeoutMs:7000});renderLiveOperations(data);scheduleLiveOperationsRefresh(data.pollSeconds)}catch(error){liveOperationsFailed=true;renderLiveOperations();scheduleLiveOperationsRefresh(20)}
 }
 
 function packImagePath(pack) {
