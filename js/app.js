@@ -980,9 +980,10 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118',
-      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2119&heeya=2118'
+      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2119&heeya=2118&entry=2121'
     ],
-    ready:()=>window.ProjectVPixiBattle?.runtimeVersion==='2119-battlefield-contract'&&Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
+    initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
+    ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }
 };
 const featureResourcePromises=new Map();
@@ -1003,7 +1004,7 @@ function ensureFeatureResources(key){
   if(featureResourcePromises.has(key))return featureResourcePromises.get(key);
   // async=false keeps dependency execution order while every request starts
   // together, removing the old seven-file V3 download waterfall.
-  const request=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(async()=>{await Promise.all((manifest.scripts||[]).map(loadFeatureScript));if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
+  const request=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(async()=>{await Promise.all((manifest.scripts||[]).map(loadFeatureScript));await manifest.initialize?.();if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
   featureResourcePromises.set(key,request);return request;
 }
 function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='alchemy'?'alchemy':tab==='scrapyard'?'scrapyard':['dex','inventory'].includes(tab)?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':tab==='soopketland'?'soopketland':tab==='treasury'?'treasury':['battle','pvp'].includes(tab)?'battleV2':''}
@@ -2548,9 +2549,13 @@ async function startBattle(){
     console.error('PVE 전투 시작 실패:',e);
     modal.classList.remove('battle-v3-preparing');
     modal.querySelectorAll('.battle-v3-loader').forEach(el=>el.remove());
+    modal.querySelector('.battle-v3-live-shell')?.classList.add('is-result-visible');
+    const failedStatus=modal.querySelector('.battle-v3-status');if(failedStatus)failedStatus.hidden=true;
+    const failedPhase=modal.querySelector('#battlePhase');if(failedPhase)failedPhase.textContent='연결 실패';
     if(msg){
       msg.classList.add('is-visible');
-      msg.innerHTML=`<div class="battle-defeat-tip" style="display:block"><b>전투 연결 실패</b><p>${escapeHtml(e.message||'전투를 시작하지 못했습니다.')}</p></div><em>화면을 눌러 돌아가기</em>`;
+      Object.assign(msg.style,{top:'40%',bottom:'auto'});
+      msg.innerHTML=`<div class="battle-defeat-tip" style="display:block"><b>전투 연결 실패</b><p>${escapeHtml(e.message||'전투를 시작하지 못했습니다.')}</p></div><button type="button" class="btn">토벌 화면으로 돌아가기</button>`;
       modal.onclick=()=>renderShell('battle');
     } else {
       modal.className='modal';modal.innerHTML='';alert(e.message||'전투 화면을 준비하지 못했습니다.');renderShell('battle');
@@ -5394,7 +5399,9 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
     setTimeout(()=>{modal.onclick=close;const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn)confirmBtn.onclick=e=>{e.stopPropagation();close()}},250);
   }catch(e){
     if(e.energy)pvpState.energy=e.energy;
-    if(phase&&msg){phase.textContent='RANKED ERROR';msg.innerHTML=`<strong>ERROR</strong><span>${escapeHtml(e.message)}</span><button type="button" class="btn pvp-result-confirm" id="pvpErrorConfirm">랭크전 화면으로 돌아가기</button>`;msg.classList.add('is-visible');modal.classList.remove('battle-v3-preparing');modal.onclick=close;const b=document.getElementById('pvpErrorConfirm');if(b)b.onclick=event=>{event.stopPropagation();close()}}
+    if(msg)Object.assign(msg.style,{top:'40%',bottom:'auto'});
+    const failedStatus=stage?.querySelector('.battle-v3-status');if(failedStatus)failedStatus.hidden=true;
+    if(phase&&msg){phase.textContent='RANKED ERROR';msg.innerHTML=`<strong>ERROR</strong><span>${escapeHtml(e.message)}</span><button type="button" class="btn pvp-result-confirm" id="pvpErrorConfirm">랭크전 화면으로 돌아가기</button>`;msg.classList.add('is-visible');stage?.classList.add('is-result-visible');modal.classList.remove('battle-v3-preparing');modal.querySelectorAll('.battle-v3-loader').forEach(el=>el.remove());modal.onclick=close;const b=document.getElementById('pvpErrorConfirm');if(b)b.onclick=event=>{event.stopPropagation();close()}}
     else{modal.className='modal';modal.innerHTML='';alert(e.message||'랭크전 전투를 시작하지 못했습니다.');pvpState.tab='match';renderShell('pvp')}
   }
 }

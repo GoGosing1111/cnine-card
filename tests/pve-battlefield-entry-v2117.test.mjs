@@ -10,6 +10,43 @@ import {BattleEngine as NativeEngine} from '../pve-v3/BattleEngine.js';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
+function liveFeatureHarness() {
+  const app=readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
+  const wrapper=readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
+  const bundle=readFileSync(new URL('../preview/project-v-v3/project-v-pixi-battle.bundle.js',import.meta.url),'utf8');
+  const version=bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1];
+  assert.ok(version,'use the actual shipped engine version');
+  const context={console,setTimeout,clearTimeout,ProjectVPixiBattle:{runtimeVersion:version},ProjectVFirearmAudio:{}};
+  context.window=context;
+  for(const name of ['prepareBattleV2LiveLoading','playPveBattleV2Live','playPvpBattleV2Live','playSiegeBattleV2Live'])context[name]=()=>{};
+  vm.runInNewContext(wrapper,context);
+  const loader=app.slice(app.indexOf('const FEATURE_RESOURCE_MANIFEST='),app.indexOf('function featureKeyForTab('));
+  const api=vm.runInNewContext(loader+'\n({manifest:FEATURE_RESOURCE_MANIFEST.battleV2,ensureFeatureResources})',context);
+  return {...api,context,version};
+}
+
+test('the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes',async()=>{
+  const {manifest,ensureFeatureResources,context,version}=liveFeatureHarness();
+  assert.equal(manifest.ready(),true,'current engine must allow actual game entry');
+  await ensureFeatureResources('battleV2');
+  context.ProjectVPixiBattle.runtimeVersion='obsolete-runtime';
+  assert.equal(manifest.ready(),false,'old engine must still be refreshed');
+  context.ProjectVPixiBattle.runtimeVersion=version;
+  context.playPvpBattleV2Live=null;
+  assert.equal(manifest.ready(),false,'missing PVP playback is not ready');
+});
+
+test('the lobby loader refreshes an already loaded stale engine before its final readiness check',async()=>{
+  const {manifest,ensureFeatureResources,context,version}=liveFeatureHarness();
+  manifest.styles=[];manifest.scripts=[];
+  context.ProjectVPixiBattle.runtimeVersion='obsolete-runtime';
+  let loads=0;
+  context.document={createElement:()=>({remove(){}}),head:{appendChild(script){loads++;queueMicrotask(()=>{context.ProjectVPixiBattle={runtimeVersion:version};script.onload();});}}};
+  await Promise.all([ensureFeatureResources('battleV2'),ensureFeatureResources('battleV2')]);
+  assert.equal(loads,1);
+  assert.equal(manifest.ready(),true);
+});
+
 after(()=>gsap.ticker.sleep());
 
 test('legacy string getter cannot mask the battlefield selector during construction or loading', async t=>{

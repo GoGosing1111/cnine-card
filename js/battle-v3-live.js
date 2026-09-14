@@ -1229,7 +1229,8 @@
   root.ProjectVBattleV3Live = Object.freeze({
     version: VERSION,
     playbackSpeed: PLAYBACK_SPEED,
-    ready: () => Boolean(root.ProjectVPixiBattle),
+    ready: () => root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME,
+    ensureRuntime: ensureCurrentBattleRuntime,
     prepareLoading,
     createRenderer,
     playTower,
