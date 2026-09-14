@@ -9,11 +9,11 @@ const paths={
   SUPERSTAR:'assets/ui/project-v/characters/superstar/manifest-v1.json'
 };
 const manifests=Object.fromEntries(Object.entries(paths).map(([key,path])=>[key,JSON.parse(fs.readFileSync(path,'utf8'))]));
-assert.equal(manifests.FUR.characters.length,14);
+assert.equal(manifests.FUR.characters.length,15);
 assert.equal(manifests.PRESTIGE.characters.length,28);
 assert.equal(manifests.SUPERSTAR.characters.length,9);
 const all=[...manifests.FUR.characters,...manifests.PRESTIGE.characters,...manifests.SUPERSTAR.characters];
-assert.equal(new Set(all.map(row=>row.cardId)).size,51);
+assert.equal(new Set(all.map(row=>row.cardId)).size,52);
 for(const row of all){
   assert.ok(fs.existsSync(row.battleSprite),`missing ${row.battleSprite}`);
   assert.equal(crypto.createHash('sha256').update(fs.readFileSync(row.battleSprite)).digest('hex').toUpperCase(),row.sha256);
@@ -25,7 +25,11 @@ sandbox.globalThis=sandbox;
 vm.runInNewContext(source,sandbox);
 const adapter=sandbox.ProjectVTierBattleArt.createAdapter({manifests});
 await adapter.ready();
-assert.equal(adapter.getMappedCardIds().length,51);
+assert.equal(adapter.getMappedCardIds().length,52);
+const joksuke=adapter.resolveForV3({cardId:'CN-47AD4B47B6A7452C',grade:'FUR'});
+assert.match(joksuke.primaryUrl,/fur-cn-47ad4b47b6a7452c-sd-v1\.png/);
+assert.equal(joksuke.sourceArtUrl,'/assets/NEWCARD/chulgu-aizen-v1.png');
+assert.equal(adapter.resolveForV3({cardId:'CN-47AD4B47B6A7452C',grade:'ZENITH'}),null);
 const fur=adapter.resolveForV3({cardId:'CN-0B48C6FF8F9B4AC5',grade:'FUR'});
 const prestige=adapter.resolveForV3({cardId:'CN-FE742947CBD14B74',grade:'PRESTIGE'});
 const prestigeNew=adapter.resolveForV3({cardId:'CN-7D9F82B5283044B8',grade:'PRESTIGE'});

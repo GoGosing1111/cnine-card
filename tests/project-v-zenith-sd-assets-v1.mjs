@@ -39,13 +39,14 @@ const liveRoster=[
   ['CN-B75BE0DC1AF749EB','히나','히나','assets/cards/1231314121331.jpg'],
   ['CN-FC5B6212B541498C','요닝','요닝','assets/cards/97974613147.jpg'],
   ['CN-B5718BF375CA42C8','오리꿍','오리꿍','assets/cards/1412312312312.jpg'],
-  ['CN-91A4FC0601D14931','하이희야','하이희야','assets/cards/717171717171.jpg']
+  ['CN-91A4FC0601D14931','하이희야','하이희야','assets/cards/717171717171.jpg'],
+  ['CN-ED78DCC2DA3C42B5','아윤','아윤','assets/NEWCARD/card-20260912-8d41437f.png']
 ];
 
 assert.equal(manifest.schemaVersion,2,'ZENITH manifest schemaVersion은 2여야 합니다.');
 assert.equal(manifest.scope,'BATTLE_ENGINE_ONLY','ZENITH SD는 전투엔진 전용이어야 합니다.');
 assert.equal(manifest.rarity,'ZENITH');
-assert.equal(manifest.rosterSnapshot?.expectedCount,29);
+assert.equal(manifest.rosterSnapshot?.expectedCount,30);
 assert.equal(manifest.rosterSnapshot?.identityKey,'cardId');
 assert.equal(manifest.assetContract?.format,'PNG');
 assert.equal(manifest.assetContract?.canvasMode,'RGBA_ALPHA_0');
@@ -65,7 +66,7 @@ assert.equal(manifest.visualApprovalRecord?.source,'USER_FINAL_APPROVAL');
 assert.deepEqual(
   manifest.characters.map(entry=>[entry.cardId,entry.member,entry.title,entry.sourceArt]),
   liveRoster,
-  'manifest가 잠근 운영 ZENITH 29명과 일치하지 않습니다.'
+  'manifest가 잠근 운영 ZENITH 30명과 일치하지 않습니다.'
 );
 assert(!manifest.characters.some(entry=>entry.cardId==='CN-0AC1F17733A24BEB'),'비활성 다크도도희가 포함되면 안 됩니다.');
 
@@ -273,7 +274,10 @@ for(const [index,entry] of manifest.characters.entries()){
   assert.equal(entry.qa.magentaStageReady,true,`${label}: MAGENTA 검수 준비 상태 불일치`);
   assert.equal(entry.qa.darkStageReady,true,`${label}: DARK_STAGE 검수 준비 상태 불일치`);
   assert.equal(entry.qa.sourceIdentityReviewed,true,`${label}: 원본 정체성 검토 상태 불일치`);
-  assert.equal(entry.qa.visualApproval,true,`${label}: 사용자 최종 시각 승인이 반영되지 않았습니다.`);
+  if(entry.cardId==='CN-ED78DCC2DA3C42B5'){
+    assert.equal(entry.qa.liveConnectionAuthorized,true,`${label}: 사용자 제작·연결 지시가 없습니다.`);
+    assert.equal(entry.qa.authorizationSource,'USER_CREATE_AND_CONNECT_20260914');
+  }else assert.equal(entry.qa.visualApproval,true,`${label}: 사용자 최종 시각 승인이 반영되지 않았습니다.`);
   const expectedFootAnchor=[
     Number(((actual.bounds.x+(actual.bounds.width-1)/2)/actual.width).toFixed(6)),
     Number(((actual.bounds.y+actual.bounds.height)/actual.height).toFixed(6))
@@ -348,4 +352,4 @@ assert.match(previewJs,/for\(const format of \['avif','webp'\]\)/,'프리뷰가 
 assert.match(previewJs,/preferred\.push\(actor\.battleSprite\)/,'PNG master fallback이 없습니다.');
 assert.doesNotMatch(previewJs,/const roster=\[/,'프리뷰에 roster를 하드코딩하면 안 됩니다.');
 
-console.log('project-v ZENITH SD assets v1: 29/29 TECHNICAL_PASS + VISUAL_APPROVED, battle-only contract OK');
+console.log('project-v ZENITH SD assets v1: 30 TECHNICAL_PASS, 29 prior visual approvals + Ayoon direct connection authorization, battle-only contract OK');

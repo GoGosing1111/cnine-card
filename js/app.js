@@ -974,8 +974,8 @@ const FEATURE_RESOURCE_MANIFEST={
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
       'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114',
-      'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
-      'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale',
+      'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=2115-ayoon',
+      'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
