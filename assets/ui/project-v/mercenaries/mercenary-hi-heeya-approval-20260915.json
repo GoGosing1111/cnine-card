@@ -1,0 +1,22 @@
+{
+  "code": "V-044",
+  "name": "하이희야",
+  "rank": "SS",
+  "rankAuthority": "USER_ASSIGNED",
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+  "sourceSha256": "1A5ADF3D106AE2FE455C2075E81CF19A09A8AAEF1558F6767EF3027E744D27EC",
+  "sourceFilename": "codex-clipboard-19dc09f6-e5ba-4391-9184-3b61a25bba5b.png",
+  "dimensions": [1024, 1536],
+  "format": "RGB PNG",
+  "approval": "일러스트 이미지는 이거로 업로드해",
+  "sourceArtStatus": "USER_APPROVED_EXACT_FILE",
+  "processing": "NONE_BYTE_FOR_BYTE_COPY",
+  "publication": "READ_ONLY_CODEX_ART_RELEASE",
+  "gameplayRosterChanged": false,
+  "acquisitionEnabled": false,
+  "combatEnabled": false,
+  "skillAssignment": null,
+  "battleSpriteReview": "TECH_QA_USER_REVIEW_PENDING",
+  "skillResourceReview": "TECH_QA_USER_REVIEW_PENDING",
+  "preview": "preview/mercenary-hi-heeya-ss-v1/"
+}

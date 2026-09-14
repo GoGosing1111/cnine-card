@@ -2,13 +2,14 @@ import {MERCENARY_CMS_SEED as seed} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {MERCENARY_COMBAT_LINK,mercenaryCombatLinkText} from '../shared/mercenary-combat-link-v2103.mjs';
+import {MERCENARY_ART_RELEASES,MERCENARY_ART_RELEASE_VERSION} from '../shared/mercenary-art-releases-v1.mjs';
 
 // Public, read-only projection. Never publish operator notes, audit records,
 // account ownership, acquisition drafts, or unassigned skill associations.
 export function mercenaryCodexDocument(row){
   const document=expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,seed.catalog);
   const skills=new Map(document.skills.map(skill=>[skill.id,skill]));
-  return {version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,
+  return {version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,
     formation:{regularCardSlots:5,mercenarySlots:1,maxDeployedUnits:6},
     combatLink:MERCENARY_COMBAT_LINK,
     ranks:seed.catalog.ranks,positions:seed.catalog.positions,roles:Object.fromEntries(Object.entries(seed.catalog.roles).map(([key,value])=>[key,{label:value.label}])),
@@ -24,7 +25,7 @@ export function mercenaryCodexDocument(row){
           return {id:s.id,name:s.name,role:seed.catalog.roles[s.role]?.label||s.role,target:seed.catalog.targets[s.target]?.label||s.target,
             trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},ready};
         })};
-    })};
+    }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})))};
 }
 
 export async function handleMercenaryCodex({path,request,env,deps}){
