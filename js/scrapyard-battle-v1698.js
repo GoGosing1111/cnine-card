@@ -7,9 +7,17 @@
     const esc=helpers.esc||String,fmt=helpers.fmt||(value=>Number(value||0).toLocaleString('ko-KR')),asset=helpers.asset||(value=>String(value||'')),normalizeImages=helpers.normalizeImages||(()=>{}),showResult=helpers.showResult,isActive=typeof helpers.isActive==='function'?helpers.isActive:()=>true;
     if(!isActive())return;
     if(result.battleV2&&result.continuousEncounter){
-      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2096');
-      const renderer=await playContinuousBattle({modal,data:result,mode:'PVE',isActive});
-      if(renderer&&isActive()){renderer.destroy();showResult?.(modal,result);}return;
+      try{
+        const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2096');
+        const renderer=await playContinuousBattle({modal,data:result,mode:'PVE',isActive});
+        if(renderer&&isActive()){renderer.destroy();showResult?.(modal,result);}
+      }catch(error){
+        // The server receipt is already settled. A WebGL/asset failure is not
+        // an uncertain admission and must not trap the player in a retry loop.
+        console.warn('Scrapyard presentation',error);
+        if(isActive())showResult?.(modal,{...result,presentationIssue:'전투 화면을 불러오지 못해 저장된 결과를 표시합니다.'});
+      }
+      return;
     }
     // Historical receipts retain their saved outcome; new admissions use V3.
     if(result.replayed){showResult?.(modal,result);return;}

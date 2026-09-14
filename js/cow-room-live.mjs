@@ -74,7 +74,11 @@ async function present(result){
   modal.className='modal show cow-live-loading';modal.innerHTML='<div><span>붉은 목초지</span><h2>포탈을 통과하는 중</h2><p>출전 편성을 불러오고 있습니다.</p></div>';
   const showResult=issue=>{
     if(token!==epoch||!modal)return;
-    resumePlayback();const message=modal.querySelector('#battleMessage')||modal;
+    resumePlayback();
+    // A renderer that failed during construction cannot reveal its hidden
+    // result layer. Show the committed receipt in the standalone modal.
+    if(!renderer){modal.className='modal show cow-live-loading';modal.innerHTML='';}
+    const message=modal.querySelector('#battleMessage')||modal;
     message.innerHTML=resultMarkup(result,issue);renderer?.showResult();
     modal.querySelector('[data-cow-controls]')?.remove();
     const confirm=modal.querySelector('[data-cow-confirm]');confirm.onclick=async()=>{if(session.acknowledge()){confirm.disabled=true;await refreshWallet();closeBattle();runId='';globalThis.renderShell?.('battle');await open();}};confirm.focus();

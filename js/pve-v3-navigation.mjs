@@ -7,7 +7,7 @@ globalThis.PveV3Runtime={async tryOpen(content,options={}){
   const release=await feature;
   if(content==='tower'&&release.publicContent?.TOWER?.policy==='LEGACY')return false;
   if(!destinations.has(content)||release.enabled!==true&&release.publicContent?.[content.replaceAll('-','_').toUpperCase()]?.enabled!==true)return false;
-  if(content==='cow-room'){const live=await import('./cow-room-live.mjs?v=2096');return live.open(options);}
+  if(content==='cow-room'){const live=await import('./cow-room-live.mjs?v=2096&pveEntry=2117');return live.open(options);}
   location.assign(`/pve-v3/?content=${encodeURIComponent(content)}`);return true;
 }};
 feature.then(value=>{

@@ -1155,6 +1155,7 @@
     const partRewards = rewards.filter(reward => reward.rewardType !== 'COIN');
     modal.className = 'modal show ws76-battle-modal';
     modal.innerHTML = `<section class="ws76-operation-result ${result.success ? 'success' : 'failed'}"><small>${result.success ? 'OPERATION COMPLETE' : 'OPERATION FAILED'}</small><h2>${result.success ? '폐차장 완주 성공' : '원정대 전멸'}</h2><p>${fmt(result.wavesCleared)} / ${fmt(result.difficulty?.waves)} 웨이브 클리어</p><div><article class="ticket-spent"><b>폐차장 출입 허가증</b><strong>-1 · ${fmt(result.entryTicket?.remaining)}장 남음</strong></article>${rewards.map(reward => `<article><b>${esc(reward.rewardName || reward.rewardRef || reward.rewardType)}${reward.guaranteed ? ' · 확정' : ''}</b><strong>+${fmt(reward.quantity)}</strong></article>`).join('')}${result.success && !partRewards.length ? '<article><b>랜덤 차량 부품</b><strong>미획득</strong></article>' : ''}${!result.success ? '<article><b>완주 실패</b><strong>보상 없음</strong></article>' : ''}</div><button type="button">폐차장으로 돌아가기</button></section>`;
+    if(result.presentationIssue){const notice=document.createElement('p');notice.textContent=result.presentationIssue;modal.querySelector('button').before(notice);}
     modal.querySelector('button').onclick = () => { clearMutationRequest('scrapyard',result.requestId||currentMutationRequest('scrapyard')?.requestId);modal.className = 'modal'; modal.innerHTML = '';renderScrapyard(); };
   }
 

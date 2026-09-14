@@ -76,32 +76,32 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "efcb799e8b6afe2f47b4566cdc74280bd36969a48df37c84bd2b9ae27ddbfdeb",
+      "sha256": "c84f2fa73a06c21cf7349b166ba21c47a4c031ecfd4039edef951459f3c9e8bf",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "09d5d8a4e1821f6a5bbdb7b6e044704fb5b620f6ddadc8dc4d5a70f81981329c",
+      "sha256": "737c4838a2a4f76547a0a2d52bf2a452ad8a4ff804020c3e55d091a54cd8375f",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "7bb64ba4123455d8bf8193534b249feb7aa2224035adc6d664b0aacffb188871",
+      "sha256": "f5f06b86e6d6dd5889cbb7892b3c1b527dc37863347d997fdf290315bb4fc723",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "234f765794333dba813d1f185fa660a45e2645501b68ac6f52e6d0a04d038448",
+      "sha256": "fffee59531a9a39e32944c260304d0958cd0f1f49669a3951575eb346e7f97c7",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "c3bca5daf6ff4b85f55529744044e6b6a6edae67640c36b07f58ca7e75913891",
+      "sha256": "c3726b176268955e1582380a8decd62dfc466e4e06dd915bedd3da15e9a41761",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "576cedc34a30964464a5d3d8838513724ec8fe7a79bdc4729498d933ab088d63",
+      "sha256": "1078f48c2eefd39aa94ab4017cb2dd54b91432b3f80da1b594d4c6adef530780",
       "commonGrid": true
     },
     {

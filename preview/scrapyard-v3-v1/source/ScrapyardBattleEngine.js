@@ -16,8 +16,9 @@ export class BattleEngine extends LiveBattleEngine {
     this.boss = this.currentEnemyTarget;
     return this;
   }
-  get battlefieldAsset() { return '/assets/ui/scrapyard/scrapyard-arena-v1676.png'; }
-  async loadBattlefieldTexture() { return Assets.load(this.battlefieldAsset); }
+  // Keep the shared method contract: construction, payload binding and scene
+  // transitions all resolve the background before loading hostile sprites.
+  battlefieldAsset() { return '/assets/ui/scrapyard/scrapyard-arena-v1676.png'; }
   async applyBattlePayload(payload) {
     const config = payload.continuousEncounter || payload.scrapyardPreview;
     if (!config) throw new Error('SCRAPYARD_PREVIEW_PAYLOAD_REQUIRED');
@@ -170,7 +171,7 @@ export class BattleEngine extends LiveBattleEngine {
         neutralRotation: actor.neutralAvatarPose.rotation, sprite: this.instances.get(actor.id)?.battleSprite}))};
   }
   diagnostics() {
-    return {...super.diagnostics(), previewBattlefieldAsset: this.battlefieldAsset,
+    return {...super.diagnostics(), previewBattlefieldAsset: this.battlefieldAsset(this.activeBattlefieldMode),
       scrapyard: this.scrapyardState()};
   }
 }
