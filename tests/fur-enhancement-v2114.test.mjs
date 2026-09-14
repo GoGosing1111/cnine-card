@@ -19,10 +19,10 @@ const base={enabled:true,steps:[
   {cost:400,duplicateCards:1,rate:25,pityThreshold:4,uniqueBoostPercent:60,retirementShardRefund:8000},
   {cost:800,duplicateCards:1,rate:15,pityThreshold:6,uniqueBoostPercent:100,retirementShardRefund:10000}
 ]};
-// Growth values below are fixtures only, never operating defaults.
+// 2026-09-14 release values: +14 is 1.5x +13, +15 is 2x +14.
 const readyConfig=()=>extendFurHighBreakthrough(base,{extendedEnabled:true,steps:[...base.steps,
-  {...FUR_EXTENDED_STEPS[0],powerBonusPercent:3200,uniqueBoostPercent:150,retirementShardRefund:12000},
-  {...FUR_EXTENDED_STEPS[1],powerBonusPercent:4000,uniqueBoostPercent:200,retirementShardRefund:15000}]});
+  {...FUR_EXTENDED_STEPS[0],powerBonusPercent:3800,uniqueBoostPercent:200,retirementShardRefund:15000},
+  {...FUR_EXTENDED_STEPS[1],powerBonusPercent:7700,uniqueBoostPercent:500,retirementShardRefund:30000}]});
 const schema=`
 CREATE TABLE users(id INTEGER PRIMARY KEY,card_shards BIGINT DEFAULT 0);
 CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,breakthrough_level INTEGER,breakthrough_fail_count INTEGER,PRIMARY KEY(user_id,card_id));
@@ -153,4 +153,34 @@ test('클라이언트는 FUR 확장 비용을 서버와 동일하게 표시하�
   assert.equal(config.steps[3].powerBonusPercent,null);assert.equal(config.steps[4].retirementShardRefund,null);
   assert.equal(context.furClientExtendedAvailable(config,13),false);
   assert.equal(context.furClientExtendedAvailable(readyConfig(),14),true);
+});
+
+const productionFunction=(source,name)=>{
+  const match=new RegExp(`^(?:async )?function ${name}\\(`,'m').exec(source);
+  assert.ok(match,name);
+  return source.slice(match.index).split(/\r?\n(?=(?:async )?function |const |let )/)[0];
+};
+
+test('운영 고유효과는 +13 2배 → +14 3배 → +15 6배이며 기존 효과 상한을 보존한다',async()=>{
+  const magic=fs.readFileSync(new URL('../functions/_magic.js',import.meta.url),'utf8');
+  const context=vm.createContext({HIGH_UNIQUE_BOOST_FALLBACK:{FUR:[30,60,100],ZENITH:[20,40,60]},highUniqueBoostCache:null});
+  vm.runInContext(['highUniqueBoostTable','uniqueBoostMultiplier','uniqueStat','scaleUniqueEffect'].map(name=>productionFunction(magic,name)).join('\n'),context);
+  const table=await context.highUniqueBoostTable({DB:{prepare:()=>({all:async()=>({results:[{key:'fur_master_star_breakthrough_v1802',value:JSON.stringify(readyConfig())}]})})}});
+  assert.deepEqual(Array.from(table.FUR),[30,60,100,200,500]);
+  for(const [level,multiplier] of [[13,2],[14,3],[15,6]]){
+    const actual=context.uniqueBoostMultiplier({grade:'FUR',breakthrough_level:level},table);
+    assert.equal(actual,multiplier);
+    assert.equal(context.scaleUniqueEffect({attackPercent:80},actual).attackPercent,80*multiplier);
+  }
+  const capped=context.scaleUniqueEffect({attackPercent:200,speedPercent:200},6);
+  assert.equal(capped.attackPercent,500);assert.equal(capped.speedPercent,300);
+});
+
+test('FUR 퇴사는 +14 단계 15,000개·+15 단계 30,000개를 기존 환급량에 누적한다',async()=>{
+  const context=vm.createContext({breakthroughConfig:async()=>({FUR:Array.from({length:10},()=>({cost:100}))}),highBreakthroughConfigFor:async()=>readyConfig()});
+  vm.runInContext(['furRetirementRefundByLevel','retirementRefundByGrades'].map(name=>productionFunction(api,name)).join('\n'),context);
+  const refunds=await context.furRetirementRefundByLevel({});
+  assert.equal(refunds.length,16);assert.equal(refunds[13],25000);
+  assert.equal(refunds[14]-refunds[13],15000);assert.equal(refunds[15]-refunds[14],30000);
+  assert.deepEqual(Array.from((await context.retirementRefundByGrades({},['FUR'])).FUR),Array.from(refunds));
 });

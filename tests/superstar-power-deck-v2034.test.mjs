@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { DatabaseSync } from 'node:sqlite';
 import test from 'node:test';
-import {FUR_MAX_ENHANCEMENT} from '../functions/_fur_enhancement_v2114.js';
+import {FUR_MAX_ENHANCEMENT,extendFurHighBreakthrough} from '../functions/_fur_enhancement_v2114.js';
 import {releasedMercenarySnapshots,mercenarySnapshotPower,MERCENARY_RUNTIME_SCHEMA} from '../functions/_mercenary_account.js';
 import {MERCENARY_ACCOUNTING_SCHEMA} from '../functions/_mercenary_draw_accounting.js';
 import {forgeEquipmentBonuses} from '../functions/_equipment_forge_transactions.js';
@@ -25,14 +25,14 @@ function constantSource(source,name){
 }
 function server(overrides={}){
   const context=vm.createContext({
-    releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,
+    releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,extendFurHighBreakthrough,
     normalizeBattleEngineSettings:x=>x||{},normalizeNightmareSettings:x=>x||{},normalizeApocalypseSettings:x=>x||{},normalizeUltimateRequiredGrade:x=>x,
     async pvpDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},
     async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},...overrides
   });
   vm.runInContext([
-    ...['BATTLE_POWER_DEFAULT','BATTLE_BREAKTHROUGH_DEFAULT','HIGH_BREAKTHROUGH_BONUS_DEFAULT','FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','PRESTIGE_DECK_LIMIT','FUR_DECK_LIMIT','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT'].map(n=>constantSource(api,n)),
-    ...['defaultBattleSettings','cleanBattleSettingsPayload','cardPowerBase','breakthroughBonusPercent','cardBattlePower','superstarDeckCount','deckRulesContract','deckGradeCounts','validateDeckGradeLimits','pvpDeckSnapshot','pvpDeckSnapshotByIds','pveDeckSnapshot','pvpDefenseFormationPowers','raidDeckPower','riftDeckCardsInfo'].map(n=>functionSource(api,n))
+    ...['BATTLE_POWER_DEFAULT','BATTLE_BREAKTHROUGH_DEFAULT','HIGH_BREAKTHROUGH_BONUS_DEFAULT','FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT','FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','PRESTIGE_DECK_LIMIT','FUR_DECK_LIMIT','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT'].map(n=>constantSource(api,n)),
+    ...['defaultBattleSettings','cleanBattleSettingsPayload','cleanHighBreakthroughSteps','cleanFurMasterStarBreakthrough','readBattleSettings','cardPowerBase','breakthroughBonusPercent','cardBattlePower','superstarDeckCount','deckRulesContract','deckGradeCounts','validateDeckGradeLimits','pvpDeckSnapshot','pvpDeckSnapshotByIds','pveDeckSnapshot','pvpDefenseFormationPowers','raidDeckPower','riftDeckCardsInfo'].map(n=>functionSource(api,n))
   ].join('\n'),context);
   context.battleSettings=async()=>context.defaultBattleSettings();
   return context;
@@ -54,13 +54,26 @@ const referencePower=(grade,level,cfg)=>{
 
 test('configured FUR +14/+15 power is shared by client and server without raising SUPERSTAR beyond +13',()=>{
   const s=server(),c=client(),cfg=s.defaultBattleSettings();
-  cfg.highBreakthroughBonus.FUR.push(3200,4000);
-  for(const [level,power] of [[14,105600],[15,131200]]){
+  cfg.highBreakthroughBonus.FUR.push(3800,7700);
+  for(const [level,power] of [[13,83200],[14,124800],[15,249600]]){
     assert.equal(s.cardBattlePower({id:'fur',rarity:'FUR',base_power:3200},level,cfg),power);
     assert.equal(c.battleCardPower({id:'fur',grade:'FUR',basePower:3200},{breakthroughs:{fur:level}},cfg),power);
   }
+  assert.equal(s.cardBattlePower({grade:'FUR'},14,cfg),s.cardBattlePower({grade:'FUR'},13,cfg)*1.5);
+  assert.equal(s.cardBattlePower({grade:'FUR'},15,cfg),s.cardBattlePower({grade:'FUR'},14,cfg)*2);
   assert.equal(s.cardBattlePower({grade:'SUPERSTAR'},15,cfg),93200);
   assert.equal(s.cardBattlePower({grade:'ZENITH'},15,cfg),75625);
+});
+
+test('saved FUR growth settings reach the battle snapshot instead of being truncated to three high levels',async()=>{
+  const s=server(),c=client();
+  const high=s.cleanFurMasterStarBreakthrough({enabled:true,extendedEnabled:true,steps:[{},{},{},
+    {powerBonusPercent:3800,uniqueBoostPercent:200,retirementShardRefund:15000},
+    {powerBonusPercent:7700,uniqueBoostPercent:500,retirementShardRefund:30000}]});
+  const cfg=await s.readBattleSettings({DB:{prepare:()=>({all:async()=>({results:[{key:'fur_master_star_breakthrough_v1802',value:JSON.stringify(high)}]})})}});
+  assert.deepEqual(Array.from(cfg.highBreakthroughBonus.FUR),[1400,1900,2500,3800,7700]);
+  assert.equal(s.cardBattlePower({grade:'FUR'},15,cfg),249600);
+  assert.equal(c.battleCardPower({id:'fur',grade:'FUR'},{breakthroughs:{fur:15}},cfg),249600);
 });
 
 test('all +0..13 levels: SUPERSTAR equals max(normal FUR, ZENITH) + exactly 10,000 on client and server',()=>{

@@ -1,4 +1,4 @@
-// 2026-09-14: approved costs and pity; growth/refund values need explicit CMS input.
+// Costs and pity have defaults; growth/refund values come from saved CMS settings.
 export const FUR_EXTENDED_STEPS=Object.freeze([
   Object.freeze({cost:20000,duplicateCards:5,rate:15,pityThreshold:10}),
   Object.freeze({cost:30000,duplicateCards:8,rate:10,pityThreshold:20})

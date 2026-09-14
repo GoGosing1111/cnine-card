@@ -12,7 +12,7 @@ const snippet=(start,end)=>app.slice(app.indexOf(start),app.indexOf(end,app.inde
 test('SUPERSTAR dex shows current copies and extra copies without changing battle card frames',()=>{
   const context=vm.createContext({uniqueAbilityBadgeHtml:()=>'',FAKER_CHAMPIONSHIP_CARD_ID:'faker',uniqueAbilityDominant:()=>null,
     deckAbilityIconHtml:()=>'',TIER_FRAME_GRADES:[],TIER_RANK_LABELS:{},escapeHtml:String,powerTypeIndicatorHtml:()=>'',responsiveCardImageMarkup:()=>'<img>',drawResultRenderCount:0});
-  vm.runInContext(snippet('function cardHtml(','function showDetail('),context);
+  vm.runInContext(snippet('function tierFrameLevel(','function tierFrameSource(')+snippet('function cardHtml(','function showDetail('),context);
   for(const [quantity,extra] of [[1,0],[2,1],[10,9],[1000,999]]){
     const user={quantities:{S1:quantity},breakthroughs:{S1:0}},card={id:'S1',grade:'SUPERSTAR',title:'스타'};
     const html=context.cardHtml(card,true,'dex-card-display',user);
