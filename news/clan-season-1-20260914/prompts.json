@@ -1,0 +1,35 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-09-14",
+  "prompts": [
+    {
+      "key": "double-crown",
+      "prompt": "Use case: illustration-story. Asset type: premium editorial sports-news photograph-style illustration for the Korean fantasy game SOOPKETMON. Create one wide cinematic 16:9 photograph-like editorial image: the TWO exact trophy designs from references 1 and 2 stand together on a dark marble championship presentation plinth. Reference 1 is the larger silver/blue-crystal Champions League trophy on the right, reference 2 the golden/amber regular-season trophy on the left. Preserve their distinctive silhouettes and colors. Behind them one large emerald green hanging championship banner with the FM heraldic emblem from reference 3, retaining the letters FM. Deep indoor esports arena, gold confetti, subtle emerald spotlights, premium tactile metal, convincing perspective, camera at trophy height, quiet grandeur after a hard-fought final. Wide composition, trophies occupy middle two thirds; show bases completely, no clipping. This is a conceptual illustration of the game's FM double championship, not a real documentary photograph. No people, no additional words or typography, no scoreboards, no watermark, no collage. Rich but restrained detail suitable for a serious newspaper front-page photograph.",
+      "referenced_image_paths": [
+        "assets/ui/player-card/champions-league-v2109.png",
+        "assets/ui/player-card/clan-champion-v2052.png",
+        "assets/ui/clan/marks/source/fm-clan-mark-source-v1.png"
+      ]
+    },
+    {
+      "key": "league-race",
+      "prompt": "Use case: illustration-story. Asset type: serious sports newspaper analysis feature illustration for a Korean fantasy clan competition. One wide landscape 16:9 cinematic scene of an expansive illuminated fantasy tournament arena at night with EIGHT tall fabric pennants around a stone competition table. Color identities: emerald green, royal blue, burgundy, magenta, dark azure, orange, scarlet, violet. On the table a meticulously crafted golden tournament laurel and black-and-white scorekeeper's pencil, shallow depth of field. The emerald green and royal-blue pennants closest together and most prominent, suggesting a narrow title race. Elegant tactile fabrics, subtle atmospheric haze, brushed metal, dark midnight stadium and warm editorial key light. Full composition, strong natural perspective, no humans, no letters, no numbers, no logos, no text, no infographic, no grid of panels. It must look like a commissioned conceptual editorial photograph/illustration, not a generic game UI or an actual real-world sports event."
+    },
+    {
+      "key": "final-night",
+      "prompt": "Use case: illustration-story. Asset type: cinematic newspaper sports feature image for SOOPKETMON clan Champions League, wide 16:9. A single elevated camera view across a dramatic indoor fantasy arena. Two enormous luxurious fabric banners face each other: emerald green FM banner on left using the exact heraldic emblem from reference1 (retain FM letters), burgundy LOTTE-clan banner on right using reference2's white seabird, lighthouse and gold crest (no invented LOTTE words). Between them stands the exact silver blue-crystal championship trophy from reference3 on a black polished stone podium. Arena ground is an intricate chessboard-like strategic stone battlefield, lit emerald on one side and burgundy on the other, intense electric-blue rim lighting on the cup, cinematic depth, floating sparse confetti. Real material texture with high-end fantasy game art finish. No people, no scores, no title or additional lettering, no fake real-world sport logos. It is an editorial conceptual illustration of the FM versus 롯데 final, not documentary evidence. Clear strong visual hierarchy, no collage.",
+      "referenced_image_paths": [
+        "assets/ui/clan/marks/source/fm-clan-mark-source-v1.png",
+        "assets/ui/clan/marks/source/lotte-clan-mark-source-v1.png",
+        "assets/ui/player-card/champions-league-v2109.png"
+      ]
+    },
+    {
+      "key": "player-honours",
+      "prompt": "Use case: illustration-story. Asset type: a serious commissioned editorial still-life illustration for the best-players section of a Korean fantasy game sports newspaper. Wide landscape 16:9 composition, luxurious scarlet-red velvet presentation background with black and muted gold accents. The exact T1 heraldic shield from reference1 stands upright like a substantial metal badge on a dark stone desk, positioned left of centre, preserve its gold T1 lettering and ruby crown silhouette. An elegant worn leather strategic notebook open to blank paper, a gold laurel branch and a fountain pen rest nearby. Narrow museum spotlight catches the badge, very finely rendered tactile materials and understated photographic grain, dark negative space on the right. Represents exceptional individual performance even without team championship. No human faces, no crown trophy that implies T1 won the competition, no extra text, no numbers, no watermark, no collage. Conceptual illustration for the game's clan, not a real-world esports photograph.",
+      "referenced_image_paths": [
+        "assets/ui/clan/marks/source/t1-clan-mark-source-v1.png"
+      ]
+    }
+  ]
+}

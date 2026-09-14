@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "edition": "숲켓몬 스포츠 · 클랜전 시즌 1 결산",
+  "date": "2026-09-14",
+  "images": [
+    {
+      "file": "assets/double-crown.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2389557,
+      "sha256": "2528e70d607bc7a8e1b6466a0333b00360f8dbedb220e11e3611967145b7701e",
+      "kind": "built-in image_gen original"
+    },
+    {
+      "file": "assets/final-night.png",
+      "width": 1672,
+      "height": 940,
+      "bytes": 3120461,
+      "sha256": "1a0a2a66bc37885aad14d9994e866e52a3f3e100284ade8472126de27499935c",
+      "kind": "built-in image_gen original"
+    },
+    {
+      "file": "assets/league-race.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2355083,
+      "sha256": "0caf2f91d9d129beba930339d2449c3ee1d40d055f13c27a89a0acd314025e64",
+      "kind": "built-in image_gen original"
+    },
+    {
+      "file": "assets/player-honours.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2130522,
+      "sha256": "3efe0859e79c5838eed4a167a2615e45fa882b917dcc53cbec8e61726fa10641",
+      "kind": "built-in image_gen original"
+    },
+    {
+      "file": "pages/01-front.png",
+      "width": 1800,
+      "height": 3270,
+      "bytes": 2522659,
+      "sha256": "51de274a5d1bddde1368876a5aca64dca0dd0009992142d7dff38a8619cd9e32",
+      "kind": "browser-composed news page"
+    },
+    {
+      "file": "pages/02-champions.png",
+      "width": 1800,
+      "height": 3270,
+      "bytes": 2490105,
+      "sha256": "be20d5e52e148f272ef62faa9c3e6fefc10e91bebdd2108365cc6679ad32c941",
+      "kind": "browser-composed news page"
+    },
+    {
+      "file": "pages/03-regular-season.png",
+      "width": 1800,
+      "height": 3270,
+      "bytes": 1787254,
+      "sha256": "34cafc567001054eb2441ad2268c2eab8a6302271920b4839767e002e500492c",
+      "kind": "browser-composed news page"
+    },
+    {
+      "file": "pages/04-players.png",
+      "width": 1800,
+      "height": 3270,
+      "bytes": 1193968,
+      "sha256": "da72692b670f2126d8468c9430fb0ab939e6d49e9f2c919cf369f2abd2a2a9e6",
+      "kind": "browser-composed news page"
+    },
+    {
+      "file": "pages/05-club-reviews.png",
+      "width": 1800,
+      "height": 3270,
+      "bytes": 509926,
+      "sha256": "ee28b041e1aac76561ac2fab1d6e657f6e42cfe72838b0a20b99afec53d2ef73",
+      "kind": "browser-composed news page"
+    },
+    {
+      "file": "pages/06-data-desk.png",
+      "width": 1800,
+      "height": 3270,
+      "bytes": 434131,
+      "sha256": "21cd883116f3236abebd72c08ba7c95cbbae9c3981c6e6661bfe16a8dcbed26c",
+      "kind": "browser-composed news page"
+    }
+  ]
+}
