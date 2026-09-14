@@ -126,6 +126,7 @@ const context={
   document:{querySelectorAll(){return []}},
   window:null,
   ProjectVPixiBattle:{
+    runtimeVersion:'2119-battlefield-contract',
     diagnostics(){return {mounted:true}},
     async mountForBattle(payload){payloads.push(payload)},
     async resetSession(payload){payloads.push(payload)},

@@ -447,7 +447,7 @@ class BaseBattleEngine{
     this.coupPalaceBattlefield=battleData?.sceneAssetKey==='COUP_PALACE';
     this.activeBattlefieldMode=battlefieldModeFromPayload(battleData);
     this.activeBattlefieldTexture=null;
-    this.activeBattlefieldAsset=this.battlefieldAsset(this.activeBattlefieldMode);
+    this.activeBattlefieldAsset=this.resolveBattlefieldAsset(this.activeBattlefieldMode);
     this.battlefieldRequest=0;
     this.parallaxLayers=[];
     this.parallaxTicker=null;
@@ -745,9 +745,16 @@ class BaseBattleEngine{
 
   battlefieldAsset(mode){return this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
 
+  resolveBattlefieldAsset(mode){
+    // Older content extensions exposed a string getter under this name.
+    // Resolve both contracts before construction, payload binding or texture load.
+    const selected=this.battlefieldAsset;
+    return typeof selected==='function'?selected.call(this,mode):typeof selected==='string'&&selected?selected:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE]);
+  }
+
   async loadBattlefieldTexture(mode){
     const normalized=normalizeBattlefieldMode(mode);
-    const primary=this.battlefieldAsset(normalized);
+    const primary=this.resolveBattlefieldAsset(normalized);
     try{return await Assets.load(primary)}catch(error){
       console.warn(`[Project V V3] ${normalized} 전장 로드 실패; 호환 배경을 사용합니다.`,error);
       return Assets.load(LEGACY_BATTLEFIELD);
@@ -757,7 +764,7 @@ class BaseBattleEngine{
   async setBattlefield(mode,{immediate=false}={}){
     const normalized=normalizeBattlefieldMode(mode);
     this.activeBattlefieldMode=normalized;
-    this.activeBattlefieldAsset=this.battlefieldAsset(normalized);
+    this.activeBattlefieldAsset=this.resolveBattlefieldAsset(normalized);
     if(this.isoFloorLayer){
       this.drawIsometricFloor();
       this.layoutAccountBattleUnit();
@@ -1689,7 +1696,7 @@ class BaseBattleEngine{
     });
     this.coupPalaceBattlefield=payload?.sceneAssetKey==='COUP_PALACE';
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
-    this.activeBattlefieldAsset=this.battlefieldAsset(this.activeBattlefieldMode);
+    this.activeBattlefieldAsset=this.resolveBattlefieldAsset(this.activeBattlefieldMode);
     if(this.mounted)await Promise.all([this.setBattlefield(this.activeBattlefieldMode),this.setObjective(payload)]);
     const adapter=globalThis.ProjectVMonsterBattleArt;
     const zenithAdapter=globalThis.ProjectVBattleArt;

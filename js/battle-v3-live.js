@@ -3,6 +3,25 @@
 
   const root = window;
   const VERSION = '3.36.0-combat-flow';
+  const BATTLE_RUNTIME = '2119-battlefield-contract';
+  let battleRuntimeRefresh = null;
+  async function ensureCurrentBattleRuntime() {
+    if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
+    if (battleRuntimeRefresh) return battleRuntimeRefresh;
+    battleRuntimeRefresh = new Promise((resolve, reject) => {
+      root.ProjectVPixiBattle?.destroy?.();
+      root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
+      root.__V3_PIXI_MOUNTED = false; root.__V3_PIXI_CANVAS = null; root.__V3_PIXI_INIT_PROMISE = null;
+      const script = document.createElement('script');
+      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?battleRuntime=' + BATTLE_RUNTIME;
+      script.async = false;
+      const timer = setTimeout(() => { script.remove(); reject(new Error('전투 엔진을 새로 불러오지 못했습니다. 다시 입장해 주세요.')); }, 20000);
+      script.onload = () => { clearTimeout(timer); root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME ? resolve() : reject(new Error('전투 엔진 버전 확인에 실패했습니다.')); };
+      script.onerror = () => { clearTimeout(timer); script.remove(); reject(new Error('전투 엔진을 불러오지 못했습니다.')); };
+      document.head.appendChild(script);
+    }).finally(() => { battleRuntimeRefresh = null; });
+    return battleRuntimeRefresh;
+  }
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -748,6 +767,7 @@
   }
 
   async function createRenderer(options = {}) {
+    await ensureCurrentBattleRuntime();
     if (!root.ProjectVPixiBattle) throw new Error('V3 PixiJS 번들이 로드되지 않았습니다.');
     const stage = options.stage || options.modal?.querySelector('.battle-v3-live-shell');
     const host = options.host || stage?.querySelector('#pvPixiBattle');

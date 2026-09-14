@@ -77,6 +77,7 @@ const context={
   document:{querySelectorAll:()=>[]},
   window:null,
   ProjectVPixiBattle:{
+    runtimeVersion:'2119-battlefield-contract',
     destroy:()=>calls.push(['destroy']),
     mount:async()=>calls.push(['mount']),
     setBattlePayload:async payload=>calls.push(['payload',payload.mode,payload]),
