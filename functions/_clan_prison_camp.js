@@ -1,7 +1,7 @@
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 
 export const CLAN_CAMP_HOURS = 8;
-const SCHEMA_KEY = 'safe_runtime_upgrade_v2083_clan_prison_camp';
+const SCHEMA_KEY = 'safe_runtime_upgrade_v2115_shared_prison_camp';
 const rows = result => result?.results || [];
 const sqlTime = ms => new Date(ms).toISOString().slice(0, 19).replace('T', ' ');
 const changes = result => Number(result?.meta?.changes || 0);
@@ -25,7 +25,19 @@ export function clanCampSchema(postgres = false) {
       id ${id},user_id ${int} NOT NULL,body TEXT NOT NULL,sender_was_captive INTEGER NOT NULL,
       created_at TEXT NOT NULL)`,
     `CREATE TABLE IF NOT EXISTS clan_prison_chat_cooldowns (
-      user_id ${int} PRIMARY KEY,next_at_ms ${int} NOT NULL DEFAULT 0,token TEXT)`
+      user_id ${int} PRIMARY KEY,next_at_ms ${int} NOT NULL DEFAULT 0,token TEXT)`,
+    `CREATE TABLE IF NOT EXISTS event_prison_camps(event_id TEXT PRIMARY KEY,source_type TEXT NOT NULL,title TEXT NOT NULL,reason TEXT NOT NULL,jailed_at TEXT NOT NULL,jailed_until TEXT NOT NULL)`,
+    `CREATE TABLE IF NOT EXISTS event_prison_captives(event_id TEXT NOT NULL,user_id ${int} NOT NULL,member_role TEXT NOT NULL,released_at TEXT,released_by ${int},release_reason TEXT NOT NULL DEFAULT '',PRIMARY KEY(event_id,user_id))`,
+    'CREATE INDEX IF NOT EXISTS idx_event_captives_user ON event_prison_captives(user_id,released_at)',
+    `${postgres ? 'CREATE OR REPLACE VIEW' : 'CREATE VIEW IF NOT EXISTS'} prison_camp_entries_v2115 AS
+      SELECT c.season_id,c.season_no,c.clan_name,c.final_rank,c.jailed_at,c.jailed_until,
+        p.user_id,p.member_role,p.released_at,'CLAN' AS source_type,'' AS event_id,
+        c.clan_name AS title,'클랜 시즌 ' || c.season_no || ' · ' || c.clan_name || ' 최하위' AS reason
+      FROM clan_prison_camps c JOIN clan_prison_captives p ON p.season_id=c.season_id
+      UNION ALL
+      SELECT 0,0,c.title,0,c.jailed_at,c.jailed_until,p.user_id,p.member_role,p.released_at,
+        c.source_type,c.event_id,c.title,c.reason
+      FROM event_prison_camps c JOIN event_prison_captives p ON p.event_id=c.event_id`
   ];
 }
 
@@ -66,15 +78,14 @@ export async function clanCampSettlementStatements(env, season, settings, ranked
   ];
 }
 
-const ACTIVE = `FROM clan_prison_captives p JOIN clan_prison_camps c ON c.season_id=p.season_id
-  WHERE p.released_at IS NULL AND c.jailed_until>?`;
+const ACTIVE = `FROM prison_camp_entries_v2115 c WHERE c.released_at IS NULL AND c.jailed_until>?`;
 
 export async function clanCampStatusForUser(env, userId, now = Date.now()) {
   await ensureClanCampSchema(env);
-  const camp = await env.DB.prepare(`SELECT c.* ${ACTIVE} AND p.user_id=? ORDER BY c.jailed_until DESC LIMIT 1`)
+  const camp = await env.DB.prepare(`SELECT c.* ${ACTIVE} AND c.user_id=? ORDER BY c.jailed_until DESC LIMIT 1`)
     .bind(sqlTime(now), userId).first();
   if (!camp) return { incarcerated: false };
-  return { incarcerated: true, facility: 'CLAN_CAMP', reason: `클랜 시즌 ${camp.season_no} · ${camp.clan_name} 최하위`,
+  return { incarcerated: true, facility: 'CLAN_CAMP', reason: camp.reason, sourceType: camp.source_type, eventId: camp.event_id, title: camp.title,
     seasonId: Number(camp.season_id), seasonNo: Number(camp.season_no), clanName: camp.clan_name,
     jailedAt: camp.jailed_at, jailedUntil: camp.jailed_until, jailedByNickname: '행정부',
     remainingSeconds: Math.max(0, Math.ceil((Date.parse(camp.jailed_until.replace(' ', 'T') + 'Z') - now) / 1000)) };
@@ -83,10 +94,7 @@ export async function clanCampStatusForUser(env, userId, now = Date.now()) {
 export async function clanCampRoomState(env, user, prison, now = Date.now()) {
   await ensureClanCampSchema(env);
   const [inmates, messages] = await Promise.all([
-    env.DB.prepare(`SELECT c.season_id,c.season_no,c.clan_name,c.final_rank,c.jailed_at,c.jailed_until,
-      p.user_id,p.member_role,u.nickname FROM clan_prison_captives p
-      JOIN clan_prison_camps c ON c.season_id=p.season_id JOIN users u ON u.id=p.user_id
-      WHERE p.released_at IS NULL AND c.jailed_until>? ORDER BY c.season_id DESC,p.member_role,p.user_id`)
+    env.DB.prepare(`SELECT c.*,u.nickname FROM prison_camp_entries_v2115 c JOIN users u ON u.id=c.user_id WHERE c.released_at IS NULL AND c.jailed_until>? ORDER BY c.jailed_at DESC,c.member_role,c.user_id`)
       .bind(sqlTime(now)).all(),
     env.DB.prepare(`SELECT q.*,u.nickname FROM (SELECT * FROM clan_prison_chat ORDER BY id DESC LIMIT 80) q
       JOIN users u ON u.id=q.user_id ORDER BY q.id`).all()
@@ -94,7 +102,7 @@ export async function clanCampRoomState(env, user, prison, now = Date.now()) {
   return { prison, sentenceHours: CLAN_CAMP_HOURS, serverNow: new Date(now).toISOString(),
     canRelease: canReleaseClanCaptives(user), viewerId: Number(user.id),
     inmates: rows(inmates).map(row => ({ seasonId: Number(row.season_id), seasonNo: Number(row.season_no),
-      clanName: row.clan_name, finalRank: Number(row.final_rank), userId: Number(row.user_id),
+      sourceType: row.source_type, eventId: row.event_id, title: row.title, reason: row.reason, clanName: row.clan_name, finalRank: Number(row.final_rank), userId: Number(row.user_id),
       memberRole: row.member_role, nickname: row.nickname, jailedAt: row.jailed_at, jailedUntil: row.jailed_until })),
     chatEnabled: rows(inmates).length > 0,
     messages: rows(inmates).length ? rows(messages).map(row => ({ id: Number(row.id), userId: Number(row.user_id),
@@ -111,7 +119,7 @@ export async function sendClanCampChat(env, user, payload, now = Date.now()) {
     env.DB.prepare(`UPDATE clan_prison_chat_cooldowns SET next_at_ms=?,token=? WHERE user_id=? AND next_at_ms<=?
       AND EXISTS(SELECT 1 ${ACTIVE})`).bind(now + 2000, token, user.id, now, date),
     env.DB.prepare(`INSERT INTO clan_prison_chat(user_id,body,sender_was_captive,created_at)
-      SELECT ?,?,CASE WHEN EXISTS(SELECT 1 ${ACTIVE} AND p.user_id=?) THEN 1 ELSE 0 END,?
+      SELECT ?,?,CASE WHEN EXISTS(SELECT 1 ${ACTIVE} AND c.user_id=?) THEN 1 ELSE 0 END,?
       WHERE EXISTS(SELECT 1 FROM clan_prison_chat_cooldowns WHERE user_id=? AND token=?)
       AND EXISTS(SELECT 1 ${ACTIVE})`).bind(user.id, body, date, user.id, date, user.id, token, date),
     env.DB.prepare('DELETE FROM clan_prison_chat WHERE id NOT IN (SELECT id FROM clan_prison_chat ORDER BY id DESC LIMIT 200)')
@@ -126,9 +134,17 @@ export async function sendClanCampChat(env, user, payload, now = Date.now()) {
 
 export async function releaseClanCaptives(env, user, payload, now = Date.now()) {
   if (!canReleaseClanCaptives(user)) fail('포로 석방은 OWNER 운영자만 할 수 있습니다.', 403);
+  const eventId = String(payload?.eventId || '');
   const seasonId = Number(payload?.seasonId), userId = payload?.userId == null ? null : Number(payload.userId);
-  if (!Number.isSafeInteger(seasonId) || seasonId < 1 || (userId !== null && (!Number.isSafeInteger(userId) || userId < 1))) fail('석방 대상을 확인하세요.');
+  if ((!eventId && (!Number.isSafeInteger(seasonId) || seasonId < 1)) || (userId !== null && (!Number.isSafeInteger(userId) || userId < 1))) fail('석방 대상을 확인하세요.');
   await ensureClanCampSchema(env);
+  if (eventId) {
+    const result = await env.DB.prepare(`UPDATE event_prison_captives SET released_at=?,released_by=?,release_reason='운영자 석방'
+      WHERE event_id=? AND released_at IS NULL ${userId === null ? '' : 'AND user_id=?'}
+      AND EXISTS(SELECT 1 FROM event_prison_camps c WHERE c.event_id=event_prison_captives.event_id AND c.jailed_until>?)`)
+      .bind(sqlTime(now), user.id, eventId, ...(userId === null ? [] : [userId]), sqlTime(now)).run();
+    return { ok: true, releasedCount: changes(result) };
+  }
   const result = await env.DB.prepare(`UPDATE clan_prison_captives SET released_at=?,released_by=?,release_reason='운영자 석방'
     WHERE season_id=? AND released_at IS NULL ${userId === null ? '' : 'AND user_id=?'}
     AND EXISTS(SELECT 1 FROM clan_prison_camps c WHERE c.season_id=clan_prison_captives.season_id AND c.jailed_until>?)`)

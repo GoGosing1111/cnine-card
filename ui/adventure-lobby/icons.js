@@ -37,6 +37,7 @@
     messages:'<rect x="2" y="5" width="20" height="15" rx="2"/><path d="m2 6 10 8L22 6M2 19l7-7m13 7-7-7"/>',
     wishLamp:'<path d="M3 11h14v3c0 4-3 5-7 5s-7-2-7-5M17 11h5c0 4-2 5-6 5M7 19v3h7M1 9h4v2M9 8c-4-3 4-3 0-6m4 6c-2-2 3-3 1-5"/>',
     clan:'<circle cx="12" cy="6" r="3"/><circle cx="4" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><path d="M7 22v-7a5 5 0 0 1 10 0v7M1 20v-5a3 3 0 0 1 6 0m10 0a3 3 0 0 1 6 0v5"/>',
+    coup:'<path d="M3 11l4 3 5-7 5 7 4-3-2 9H5ZM7 23h10M12 1v4m-8 0 2 3m14-3-2 3"/>',
     territory:'<path d="m2 6 6-3 8 3 6-3v16l-6 3-8-3-6 3ZM8 3v16m8-13v16M11 9v7m0-7h4l-1 2 1 2h-4"/>',
     treasury:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M6 3v18M18 10v4M10 16l1-1m4-4 1-1"/><circle cx="13" cy="13" r="4"/><circle cx="13" cy="13" r="1"/>',
     soopketland:'<circle cx="12" cy="10" r="8"/><circle cx="12" cy="10" r="2"/><path d="M12 2v6m8 2h-6m-2 8v-6m-8-2h6m-4-6 5 5m7-5-5 5m5 7-5-5m-7 5 5-5M7 22l4-10m6 10-4-10M5 22h14"/>',

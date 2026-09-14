@@ -743,7 +743,7 @@ function navGroupForTab(tab){
   if(['magic','upgrade'].includes(tab))return 'dex';
   if(['character','workshop','alchemy','avatar'].includes(tab))return 'character';
   if(['prediction','auction'].includes(tab))return 'market';
-  if(['treasury','prison','prisoncamp','soopketland'].includes(tab))return 'administration';
+  if(['treasury','prison','prisoncamp','soopketland','coup'].includes(tab))return 'administration';
   if(['dex','evolution'].includes(tab))return 'dex';
   return 'buy';
 }
@@ -979,7 +979,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106',
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115',
       'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
@@ -1243,8 +1243,8 @@ function renderShell(tab) {
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
-  const views = { buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), treasury:(...args)=>(routeFeatureReady&&typeof window.administrationTreasuryView==='function'?window.administrationTreasuryView(...args):featureRouteLoadingHtml('treasury')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, prisoncamp:(user)=>window.ClanPrisonCamp.view(user) };
-  const battleActive=['battle','scrapyard','pvp','rank','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab),administrationActive=['treasury','prison','prisoncamp','soopketland'].includes(tab);
+  const views = { buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), treasury:(...args)=>(routeFeatureReady&&typeof window.administrationTreasuryView==='function'?window.administrationTreasuryView(...args):featureRouteLoadingHtml('treasury')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, coup:()=>window.CoupPalace.view(), prisoncamp:(user)=>window.ClanPrisonCamp.view(user) };
+  const battleActive=['battle','scrapyard','pvp','rank','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab),administrationActive=['treasury','prison','prisoncamp','soopketland','coup'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드·상점</b></button>
     <div class="main-nav-group ${collectionActive?'active':''}" data-nav-group="collection">
@@ -1294,7 +1294,7 @@ function renderShell(tab) {
     </div>
     <div class="main-nav-group ${administrationActive?'active':''}" data-nav-group="administration">
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">A</span><b>행정부</b><i>⌄</i></button>
-      <div class="main-nav-dropdown" role="menu"><button type="button" data-tab="treasury"><span>실제 코인 매출 1% 공개 원장</span><b>세금징수</b></button><button type="button" data-tab="soopketland"><span>스트리머 전용 방송 이벤트</span><b>숲켓랜드</b></button><button type="button" data-tab="prison"><span>행정부 제재 현황</span><b>감옥</b></button><button type="button" data-tab="prisoncamp"><span>시즌 최하위 클랜 수감 구역</span><b>포로수용소</b></button></div>
+      <div class="main-nav-dropdown" role="menu"><button type="button" data-tab="coup"><span>황궁 영토전·족장 국민 재판</span><b>쿠데타</b></button><button type="button" data-tab="treasury"><span>실제 코인 매출 1% 공개 원장</span><b>세금징수</b></button><button type="button" data-tab="soopketland"><span>스트리머 전용 방송 이벤트</span><b>숲켓랜드</b></button><button type="button" data-tab="prison"><span>행정부 제재 현황</span><b>감옥</b></button><button type="button" data-tab="prisoncamp"><span>시즌 최하위 클랜 수감 구역</span><b>포로수용소</b></button></div>
     </div>
   </nav>`;
   const routeHtml=`${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}`;
@@ -3317,6 +3317,7 @@ async function runOfficialAutoDrawNext(){
 
 function bindView(tab) {
   if(tab==='prison')bindPrisonView();
+  if(tab==='coup')window.CoupPalace?.bind();
   if(tab==='prisoncamp')window.ClanPrisonCamp?.bind(loadUser());
   if(tab==='buy'){loadPrimeDrawShop('equipment');loadPrimeDrawShop('vehicle');}
   if(tab==='inventory')loadInventory();

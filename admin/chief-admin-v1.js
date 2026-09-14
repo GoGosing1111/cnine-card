@@ -84,8 +84,8 @@
             <img src="../assets/chief-council-election-v1.png" alt="대의회 족장 선출">
             <div>
               <small>${chief.active && chief.ordinal ? `제${Number(chief.ordinal)}대 · ` : ''}CURRENT CHIEF</small>
-              <h3>${chief.active ? esc(chief.nickname) : '공석'}</h3>
-              <p>${chief.active ? `${new Date(chief.endsAt).toLocaleString('ko-KR')}까지 · ${Math.ceil(chief.remainingMs / 3600000)}시간 남음${chief.ordinal?'':' · 대수 미등록'}` : '현재 부임 중인 족장이 없습니다.'}</p>
+              <h3>${chief.status==='SUSPENDED'?esc(chief.nickname)+' · 직무정지':chief.status==='REMOVED'?esc(chief.nickname)+' · 파면':chief.active ? esc(chief.nickname) : '공석'}</h3>
+              <p>${chief.status==='SUSPENDED'?'국민 재판 투표가 진행 중입니다.':chief.status==='REMOVED'?'유저 투표로 해당 임기의 권한이 종료되었습니다.':chief.active ? `${new Date(chief.endsAt).toLocaleString('ko-KR')}까지 · ${Math.ceil(chief.remainingMs / 3600000)}시간 남음${chief.ordinal?'':' · 대수 미등록'}` : '현재 부임 중인 족장이 없습니다.'}</p>
               ${chief.active ? `<div class="chief-admin-usage">
                 <span>오늘 족장 버닝 ${chief.usage.burningToday||0}/2</span>
                 <span>오늘 족장 하이퍼 ${chief.usage.hyperToday||0}/1</span>

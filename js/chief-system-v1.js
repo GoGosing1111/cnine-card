@@ -8,13 +8,13 @@
     if(typeof API_MODE==='undefined'||!API_MODE||typeof loadUser!=='function'||!loadUser()){runtimeStatus='UNAVAILABLE';return null}
     if(loading)return loading;if(!fresh&&state&&Date.now()-lastFetch<45000)return state;
     if(!state)runtimeStatus='LOADING';
-    lastFetch=Date.now();loading=apiRequest('chief/status',{}, {ttl:0,timeoutMs:7000}).then(d=>{if(!d?.chief||typeof d.chief.active!=='boolean')throw new Error('INVALID_CHIEF_STATUS_CONTRACT');state=d;runtimeStatus=d.chief.active?'ACTIVE':'VACANT';return state}).catch(()=>{runtimeStatus='UNAVAILABLE';return state}).finally(()=>loading=null);return loading;
+    lastFetch=Date.now();loading=apiRequest('chief/status',{}, {ttl:0,timeoutMs:7000}).then(d=>{if(!d?.chief||typeof d.chief.active!=='boolean')throw new Error('INVALID_CHIEF_STATUS_CONTRACT');state=d;runtimeStatus=['SUSPENDED','REMOVED'].includes(d.chief.status)?d.chief.status:d.chief.active?'ACTIVE':'VACANT';return state}).catch(()=>{runtimeStatus='UNAVAILABLE';return state}).finally(()=>loading=null);return loading;
   }
   function powerButton(type,label,sub,used){return `<button type="button" class="chief-power${used?' is-used':''}" data-chief-power="${type}" data-chief-used="${used?'1':'0'}" aria-disabled="${used?'true':'false'}"><span>${label}</span><small>${used?sub+' · 사용 완료':sub}</small></button>`}
   function markup(){
     if(runtimeStatus==='LOADING')return `<section class="chief-main-card vacant is-loading" data-chief-status="LOADING"><div><small>FOREST COUNCIL</small><h2>족장 정보 불러오는 중</h2><p>운영 서버에서 현재 임기 정보를 확인하고 있습니다.</p></div></section>`;
     if(runtimeStatus==='UNAVAILABLE')return `<section class="chief-main-card vacant is-unavailable" data-chief-status="UNAVAILABLE"><div><small>FOREST COUNCIL</small><h2>족장 정보 확인 불가</h2><p>통신 상태를 확인한 뒤 화면을 새로고침해 주세요.</p></div></section>`;
-    const c=state?.chief;if(runtimeStatus==='VACANT'||!c?.active)return `<section class="chief-main-card vacant" data-chief-status="VACANT"><div><small>FOREST COUNCIL</small><h2>족장 선출 대기</h2><p>PLAY DK 투표 결과에 따라 CMS에서 차기 족장을 임명합니다.</p></div></section>`;
+    const c=state?.chief;if(['SUSPENDED','REMOVED'].includes(runtimeStatus))return `<section class="chief-main-card vacant" data-chief-status="${runtimeStatus}"><div><small>국민 재판</small><h2>${esc(c.nickname)} · ${runtimeStatus==='SUSPENDED'?'직무정지':'파면'}</h2><p>${runtimeStatus==='SUSPENDED'?'유저 투표가 끝날 때까지 족장 권한을 사용할 수 없습니다.':'해당 임기의 족장 권한이 종료되었습니다.'}</p><button type="button" data-chief-trial>재판 현황 보기</button></div></section>`;if(runtimeStatus==='VACANT'||!c?.active)return `<section class="chief-main-card vacant" data-chief-status="VACANT"><div><small>FOREST COUNCIL</small><h2>족장 선출 대기</h2><p>PLAY DK 투표 결과에 따라 CMS에서 차기 족장을 임명합니다.</p></div></section>`;
     const u=c.usage||{},l=c.limits||{};
     const burningToday=Number(u.burningToday||0),burningLimit=Math.max(1,Number(l.burningPerDay||2)),burningMinutes=Math.max(1,Number(l.burningDurationMinutes||180));
     const hyperToday=Number(u.hyperToday||0),hyperLimit=Math.max(1,Number(l.hyperPerDay||1)),hyperMinutes=Math.max(1,Number(l.hyperDurationMinutes||60));
@@ -48,7 +48,7 @@
   async function sync(){mount();await load();mount();popup()}
   let mountQueued=false;
   const observer=new MutationObserver(()=>{if(typeof runtimeCommandContext!=='undefined'&&runtimeCommandContext==='buy'&&!mountQueued){mountQueued=true;requestAnimationFrame(()=>{mountQueued=false;mount()})}});
-  const onPowerClick=event=>{const button=event.target.closest?.('[data-chief-power]');if(!button||!document.getElementById('chiefMainRoot')?.contains(button))return;event.preventDefault();activate(button.dataset.chiefPower,button)};
+  const onPowerClick=event=>{if(event.target.closest?.('[data-chief-trial]')){void window.CoupPalace?.openTrial();return;}const button=event.target.closest?.('[data-chief-power]');if(!button||!document.getElementById('chiefMainRoot')?.contains(button))return;event.preventDefault();activate(button.dataset.chiefPower,button)};
   const boot=()=>{document.addEventListener('click',onPowerClick);observer.observe(document.getElementById('app')||document.body,{childList:true,subtree:true});sync();setTimeout(sync,500)};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});

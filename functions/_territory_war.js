@@ -1398,3 +1398,6 @@ export async function handleTerritoryWar({path,request,env,deps}){
 }
 
 export {balancedSideAssignments,buildFormationSnapshot,grantLatestWinnerMasterStarsV1956,magicFormationPercent,massAssaultPreview,pickPowerMatchedOpponent,matchPowerScale,participationInventoryReward};
+
+// Coup shares the live territory combat engine and formation rules.
+export { simulateTerritoryBattle as simulateTerritoryDuel, singleFormationSnapshot as territoryFormationSnapshot, pickPowerMatchedOpponent as territoryMatchedOpponent, damageFor as territorySiegeDamage };

@@ -6,7 +6,7 @@
   const template=global.__ADVENTURE_LOBBY_TEMPLATE__;
   const fallbackArt='/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp';
   const safeArt=value=>{try{const url=new URL(String(value||fallbackArt).replace(/\\/g,'/'),location.origin);return url.origin===location.origin&&/^\/(assets|preview)\//.test(url.pathname)?url.href:fallbackArt;}catch{return fallbackArt;}};
-  const compact=n=>{const v=Math.max(0,Number(n)||0);return v>=1e12?(v/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':v>=1e8?(v/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':v>=1e4?(v/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':v.toLocaleString('ko-KR');};
+  const compact=n=>{if(Number(n)<0)return '−'+compact(-Number(n));const v=Math.max(0,Number(n)||0);return v>=1e12?(v/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':v>=1e8?(v/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':v>=1e4?(v/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':v.toLocaleString('ko-KR');};
   class AdventureLobby extends HTMLElement{
     constructor(){super();this.attachShadow({mode:'open'});this.shadowRoot.innerHTML=template;this.model={};}
     connectedCallback(){
@@ -44,8 +44,8 @@
     update(model={}){
       this.model={...this.model,...model};const {user={},chief={}}=this.model,root=this.shadowRoot;
       const player=root.getElementById('player-name');player.textContent=user.nickname||'플레이어';player.title=user.nickname||'플레이어';
-      for(const [id,key] of [['wallet-coin','coin'],['wallet-shards','cardShards'],['wallet-stars','masterStars']]){const el=root.getElementById(id),amount=Math.max(0,Number(user[key])||0);el.textContent=compact(amount);el.parentElement.title=amount.toLocaleString('ko-KR');el.setAttribute('aria-label',amount.toLocaleString('ko-KR'));}
-      const name=root.getElementById('chief-name');name.textContent=chief.state==='active'?chief.nickname:chief.state==='vacant'?'선출 대기':chief.state==='unavailable'?'확인 불가':'확인 중';
+      for(const [id,key] of [['wallet-coin','coin'],['wallet-shards','cardShards'],['wallet-stars','masterStars']]){const el=root.getElementById(id),amount=key==='coin'?(Number(user[key])||0):Math.max(0,Number(user[key])||0);el.textContent=compact(amount);el.parentElement.title=amount.toLocaleString('ko-KR');el.setAttribute('aria-label',amount.toLocaleString('ko-KR'));}
+      const name=root.getElementById('chief-name');name.textContent=chief.state==='suspended'?`${chief.nickname} · 직무정지`:chief.state==='active'?chief.nickname:chief.state==='vacant'?'선출 대기':chief.state==='unavailable'?'확인 불가':'확인 중';
       root.getElementById('chief-shortcut').title=chief.state==='active'?`${chief.title} ${chief.nickname} · ${chief.remaining}`:'족장 정보';
       const avatar=chief.viewerAvatar||chief.avatar,art=root.querySelector('.stage-character');
       const src=safeArt(innerWidth<=759?(avatar?.lobbyMobileImage||avatar?.lobbyImage):avatar?.lobbyImage);

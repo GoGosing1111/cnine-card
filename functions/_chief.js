@@ -1,3 +1,4 @@
+import { ensureCoupSchema, chiefDuty, chiefAuthorityGuard } from './_coup_schema.js';
 import { ensureAvatarFoundation } from './_avatar.js';
 
 const CHIEF_META_KEY='chief_appointment_v1';
@@ -11,6 +12,7 @@ const iso=value=>{const ms=Date.parse(String(value||''));return Number.isFinite(
 const chiefOrdinal=value=>{if(typeof value!=='number'&&typeof value!=='string')return null;const text=String(value).trim();if(!/^[1-9]\d{0,3}$/.test(text))return null;const number=Number(text);return Number.isSafeInteger(number)&&number<=9999?number:null};
 const kstDate=(date=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(date);
 async function ensure(env){
+  await ensureCoupSchema(env);
   if(!foundationPromise)foundationPromise=env.DB.batch([
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS chief_power_uses(id INTEGER PRIMARY KEY AUTOINCREMENT,appointment_id TEXT NOT NULL,user_id INTEGER NOT NULL,power_type TEXT NOT NULL,period_key TEXT NOT NULL,use_slot INTEGER NOT NULL DEFAULT 1,starts_at TEXT NOT NULL,ends_at TEXT,details_json TEXT NOT NULL DEFAULT '{}',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(appointment_id,power_type,period_key,use_slot))`),
     env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_chief_power_uses_lookup ON chief_power_uses(appointment_id,power_type,period_key,created_at)`)
@@ -43,7 +45,8 @@ async function appointment(env,viewerId=null){
     WHERE u.id=?`).bind(Number(viewerId)||0,Number(raw.userId)).first();
   const avatar=user?.avatar_code?{code:String(user.avatar_code),name:String(user.avatar_name||''),callSign:String(user.avatar_call_sign||''),lobbyImage:String(user.avatar_lobby_image||''),lobbyMobileImage:String(user.avatar_lobby_mobile_image||'')}:null;
   const viewerAvatar=user?.viewer_avatar_code?{code:String(user.viewer_avatar_code),name:String(user.viewer_avatar_name||''),callSign:String(user.viewer_avatar_call_sign||''),lobbyImage:String(user.viewer_avatar_lobby_image||''),lobbyMobileImage:String(user.viewer_avatar_lobby_mobile_image||'')}:null;
-  return {...raw,userId:Number(raw.userId),nickname:user?.nickname||raw.nickname||'',avatar,viewerAvatar,startsAt,endsAt,active:Boolean(user&&user.status==='ACTIVE'&&now>=Date.parse(startsAt)&&now<Date.parse(endsAt))};
+  const duty=await chiefDuty(env,raw.id);
+  return {...raw,dutyStatus:duty?.status||null,trialId:duty?.trial_id||null,userId:Number(raw.userId),nickname:user?.nickname||raw.nickname||'',avatar,viewerAvatar,startsAt,endsAt,active:Boolean(!['OPEN','REMOVED'].includes(duty?.status)&&user&&user.status==='ACTIVE'&&now>=Date.parse(startsAt)&&now<Date.parse(endsAt))};
 }
 async function usage(env,a){
   if(!a.id)return {burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false};
@@ -57,7 +60,7 @@ async function usage(env,a){
 function publicState(a,u,viewerId){
   const remaining=Math.max(0,Date.parse(a.endsAt||0)-Date.now());
   const active=a.active===true;
-  return {status:active?'ACTIVE':'VACANT',active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',avatar:a.avatar||null,viewerAvatar:a.viewerAvatar||null,ordinal:chiefOrdinal(a.ordinal),source:'PLAY DK 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningControl:'CHIEF_FULL',burningPerDay:2,burningDurationMinutes:180,hyperPerDay:1,hyperDurationMinutes:60,towerResetsPerTerm:2}};
+  return {status:a.dutyStatus==='OPEN'?'SUSPENDED':a.dutyStatus==='REMOVED'?'REMOVED':active?'ACTIVE':'VACANT',trialId:a.trialId||null,active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',avatar:a.avatar||null,viewerAvatar:a.viewerAvatar||null,ordinal:chiefOrdinal(a.ordinal),source:'PLAY DK 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningControl:'CHIEF_FULL',burningPerDay:2,burningDurationMinutes:180,hyperPerDay:1,hyperDurationMinutes:60,towerResetsPerTerm:2}};
 }
 async function activate(env,a,user,type,activateBurningEvent){
   const u=await usage(env,a),now=new Date(),daily=type==='BURNING'||type==='HYPER',period=daily?kstDate(now):String(a.id);
@@ -72,7 +75,8 @@ async function activate(env,a,user,type,activateBurningEvent){
     if(type==='TOWER_RESET'){
       const season=await env.DB.prepare("SELECT id FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
       if(!season)throw new Error('진행 중인 무한의 탑 시즌이 없습니다.');
-      await env.DB.prepare('UPDATE tower_user_progress SET current_floor=1,highest_floor=0,highest_reached_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE season_id=?').bind(season.id).run();details={seasonId:Number(season.id)};
+      const authority=chiefAuthorityGuard(env,String(a.id),Number(user.id));
+      await env.DB.batch([...authority.before,env.DB.prepare('UPDATE tower_user_progress SET current_floor=1,highest_floor=0,highest_reached_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE season_id=?').bind(season.id),authority.after]);details={seasonId:Number(season.id)};
     }else if(type==='BURNING'||type==='HYPER'){
       if(typeof activateBurningEvent!=='function')throw new Error('버닝 서비스가 준비되지 않았습니다.');
       details=await activateBurningEvent(env,{type,chiefUserId:Number(user.id),appointmentId:String(a.id)});
@@ -81,6 +85,7 @@ async function activate(env,a,user,type,activateBurningEvent){
     return details;
   }catch(error){
     await env.DB.prepare('DELETE FROM chief_power_uses WHERE appointment_id=? AND power_type=? AND period_key=? AND use_slot=? AND details_json=?').bind(a.id,type,period,slot,JSON.stringify({status:'PENDING'})).run().catch(()=>{});
+    if(/coup_atomic_guard|check constraint/i.test(String(error.message)))throw new Error('족장 임기 또는 직무 상태가 변경되었습니다. 현재 재판과 임기를 확인해 주세요.');
     throw error;
   }
 }
@@ -90,7 +95,7 @@ export async function handleChief({path,request,env,deps}){
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
   if(path==='chief/status'&&request.method==='GET'){const a=await appointment(env,user.id);return json({chief:publicState(a,await usage(env,a),user.id),serverNow:new Date().toISOString()})}
   if(path==='chief/activate'&&request.method==='POST'){
-    const a=await appointment(env,user.id);if(!a.active||Number(a.userId)!==Number(user.id))return json({error:'현재 족장만 권한을 발동할 수 있습니다.'},403);
+    const a=await appointment(env,user.id);if(!a.active||Number(a.userId)!==Number(user.id))return json({error:a.dutyStatus==='OPEN'?'재판 중에는 족장 직무가 정지됩니다.':'현재 족장만 권한을 발동할 수 있습니다.'},403);
     const type=String((await readBody(request)).type||'').toUpperCase();
     if(type!=='BURNING'&&type!=='HYPER'&&type!=='TOWER_RESET')return json({error:'알 수 없는 족장 권한입니다.'},400);
     try{const result=await activate(env,a,user,type,activateBurningEvent);if(type==='BURNING'||type==='HYPER')await writeAdminLog(env,user,type==='HYPER'?'CHIEF_HYPER_BURNING_ACTIVATE':'CHIEF_BURNING_ACTIVATE','CHIEF_APPOINTMENT',String(a.id),null,result);return json({ok:true,type,result,chief:publicState(a,await usage(env,a),user.id)})}catch(error){return json({error:error.message||'권한 발동에 실패했습니다.'},409)}

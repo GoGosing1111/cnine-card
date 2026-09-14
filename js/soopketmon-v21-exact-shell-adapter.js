@@ -86,7 +86,7 @@
     crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'wishLamp']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
-    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['treasury', 'soopketland', 'prison', 'prisoncamp']) })
+    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'treasury', 'soopketland', 'prison', 'prisoncamp']) })
   });
   const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market', 'administration']);
   const HUB_GROUPS = Object.freeze({
@@ -114,6 +114,7 @@
     pvp: Object.freeze({ title: '랭크전', group: 'pvp', icon: 'swords' }),
     rank: Object.freeze({ title: '시즌 랭킹', group: 'pvp', icon: 'rank', home: Object.freeze({ title: 'PVP·경쟁', meta: '랭크전 · 시즌 랭킹', group: 'pvp' }) }),
     clan: Object.freeze({ title: '클랜', group: 'pvp', icon: 'clan' }),
+    coup: Object.freeze({ title: '쿠데타', group: 'administration', icon: 'swords' }),
     territory: Object.freeze({ title: '영토전', group: 'pvp', icon: 'swords' }),
     character: Object.freeze({ title: '장비·칭호·차고', group: 'equipment', icon: 'forge', home: Object.freeze({ title: '장비·칭호·차고', meta: '장비 · 칭호 · 차고 · 아바타', group: 'equipment' }) }),
     equipment: Object.freeze({ title: '장비', group: 'equipment', icon: 'forge' }),
@@ -156,6 +157,7 @@
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
   const svg = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ICONS.menu}</svg>`;
   const compact = value => {
+    if(Number(value)<0)return '−'+compact(-Number(value));
     const amount = Math.max(0, Number(value) || 0);
     if (amount >= 1e9) return `${(amount / 1e9).toFixed(amount >= 1e10 ? 1 : 2).replace(/\.0+$/, '')}B`;
     if (amount >= 1e6) return `${(amount / 1e6).toFixed(amount >= 1e8 ? 0 : 1).replace(/\.0$/, '')}M`;
@@ -218,7 +220,7 @@
     const userLevel = Number(user.level || user.lv);
     const level = userLevel > 0 ? userLevel : null;
     const role = esc(user.role || (user.isOwner || user.owner ? 'OWNER' : 'PLAYER'));
-    const coin = Math.max(0, Number(user.coin || 0));
+    const coin = Number(user.coin || 0);
     const shards = Math.max(0, Number(user.cardShards || 0));
     const masterStars = Math.max(0, Number(user.masterStars) || 0);
     return `<div class="profile-chip"><span class="profile-copy"><b>${global.PlayerCallingCard?.nameHtml(user.nickname,user.serverUserId||user.id)||nickname}</b><button class="pc-account-link" type="button" data-v21-profile aria-label="내 정보 열기"><small>내 계정${level ? ` · Lv. ${level}` : ''} · ${role}</small></button></span></div>
@@ -242,6 +244,7 @@
     const chief = chiefState?.chief;
     if (!chiefState) return { state: 'loading', ordinal: '—', title: '족장 정보 불러오는 중', nickname: '서버 연결 중', remaining: '잠시만 기다려 주세요' };
     if (chiefState.unavailable) return { state: 'unavailable', ordinal: '—', title: '족장 정보 확인 불가', nickname: '연결 상태 확인 필요', remaining: '자동으로 다시 시도합니다' };
+    if (chief?.status==='SUSPENDED') return { state:'suspended',nickname:chief.nickname,title:'족장 직무정지',remaining:'국민 재판 진행 중',avatar:chief.avatar,viewerAvatar:chief.viewerAvatar };
     if (!chief?.active) return { state: 'vacant', ordinal: '—', title: '족장 선출 대기', nickname: '공석', remaining: '차기 족장 선출을 기다립니다', viewerAvatar: chief?.viewerAvatar || null };
     const ordinal = Number.isInteger(Number(chief.ordinal)) && Number(chief.ordinal) > 0 ? Number(chief.ordinal) : '—';
     let remainingMs = Math.max(0, Number(chief.remainingMs || 0));

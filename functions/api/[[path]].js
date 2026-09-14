@@ -1,3 +1,5 @@
+import { handleCoup, pulseCoup } from '../_coup.js';
+import { chiefAuthorityGuard } from '../_coup_schema.js';
 import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
 import {extendFurHighBreakthrough,furExtendedReady,furExtendedStepAvailable,FUR_MAX_ENHANCEMENT} from '../_fur_enhancement_v2114.js';
 import {forgeEquipmentBonuses} from '../_equipment_forge_transactions.js';
@@ -768,9 +770,11 @@ async function activateChiefBurningEvent(env,{type='BURNING',chiefUserId,appoint
   const durationMinutes=isHyper?60:180,changedAt=new Date().toISOString();
   const next=cleanBurningEventSettings({...before,enabled:true,durationMinutes,generation:Number(before.generation||0)+1,activatedAt:changedAt,updatedAt:changedAt,endsAt:chiefBurningEndsAt(changedAt,durationMinutes)},mode);
   const otherNext=cleanBurningEventSettings({...otherBefore,enabled:false,endsAt:null,updatedAt:changedAt},isHyper?'BURNING':'HYPER');
-  await env.DB.batch([
+  const authority=chiefAuthorityGuard(env,String(appointmentId),Number(chiefUserId));
+  await env.DB.batch([...authority.before,
     env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(isHyper?HYPER_BURNING_EVENT_META_KEY:BURNING_EVENT_META_KEY,JSON.stringify(next)),
-    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(isHyper?BURNING_EVENT_META_KEY:HYPER_BURNING_EVENT_META_KEY,JSON.stringify(otherNext))
+    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(isHyper?BURNING_EVENT_META_KEY:HYPER_BURNING_EVENT_META_KEY,JSON.stringify(otherNext)),
+    authority.after
   ]);
   burningEventCache=null;invalidateEquipmentPromotionCache();
   const verifiedPair=await burningEventPair(env,{fresh:true}),verified=isHyper?verifiedPair.hyper:verifiedPair.normal;
@@ -4821,6 +4825,7 @@ function prisonPublicStatus(row){
   };
 }
 async function prisonStatusForUser(env,userId){
+  await pulseCoup(env,Date.now(),true);
   await ensurePrisonFoundation(env);
   await reconcileClanCampSeason(env);
   const row=await env.DB.prepare(`SELECT p.*,a.nickname AS jailed_by_nickname
@@ -5156,7 +5161,7 @@ async function handleRequest(context){
     // 무인증 공개 카탈로그는 그대로 유지하되, 로그인 세션이 확인되면 모든 하위 라우터보다 먼저 중단한다.
     const prisonExempt=path.startsWith('admin/')||path.startsWith('setup/')||path==='health'||path==='service/status'
       ||path==='auth/login'||path==='auth/register'||path==='auth/logout'||path==='me/summary'
-      ||path==='user/runtime-command'||path==='prison/status'||path==='prison/chat'||path==='prison/release-price'||path==='prison/fund'||path==='prison/hit';
+      ||path==='coup/status'||path==='coup/vote'||path==='coup/attack-result'||path==='user/runtime-command'||path==='prison/status'||path==='prison/chat'||path==='prison/release-price'||path==='prison/fund'||path==='prison/hit';
     if(!prisonExempt){
       const current=await authenticate(request,env);
       if(current){
@@ -5262,6 +5267,7 @@ async function handleRequest(context){
     if(V3_JOINT_RELEASE_ENABLED&&request.method==='POST'&&path==='scrapyard/run')return json({error:'개편 전투 화면에서 다시 입장하세요.',code:'PVE_V3_CLIENT_REQUIRED'},409);
     const scrapyardResponse=await handleScrapyard({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,raidDeckPower,resolveUnifiedDrops,resolveUniqueBattleRuntime,uniqueBattleResponsePayload}});if(scrapyardResponse)return scrapyardResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
+    const coupResponse=await handleCoup({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(coupResponse)return coupResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,writeAdminLog}});if(siegeResponse)return siegeResponse;

@@ -33,6 +33,7 @@ const BATTLEFIELD_ASSETS=Object.freeze({
   ESCORT:'../../assets/ui/escort/escort-fortress-route-bg-v1.webp?v=1830',
   SIEGE:'../../assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png'
 });
+const COUP_PALACE_BATTLEFIELD='/assets/ui/coup/imperial-palace-coup-v2115.png';
 const LEGACY_BATTLEFIELD='../../assets/ui/idle-dungeon/enchanted-card-battlefield-v4.webp';
 const ISO_FORMATIONS=Object.freeze({
   allies:[
@@ -443,9 +444,10 @@ class BaseBattleEngine{
     this.mobile=false;
     this.scene={...DESKTOP};
     this.backgroundSprite=null;
+    this.coupPalaceBattlefield=battleData?.sceneAssetKey==='COUP_PALACE';
     this.activeBattlefieldMode=battlefieldModeFromPayload(battleData);
     this.activeBattlefieldTexture=null;
-    this.activeBattlefieldAsset=BATTLEFIELD_ASSETS[this.activeBattlefieldMode];
+    this.activeBattlefieldAsset=this.battlefieldAsset(this.activeBattlefieldMode);
     this.battlefieldRequest=0;
     this.parallaxLayers=[];
     this.parallaxTicker=null;
@@ -741,9 +743,11 @@ class BaseBattleEngine{
     this.app.ticker.add(this.parallaxTicker);
   }
 
+  battlefieldAsset(mode){return this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
+
   async loadBattlefieldTexture(mode){
     const normalized=normalizeBattlefieldMode(mode);
-    const primary=BATTLEFIELD_ASSETS[normalized]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE];
+    const primary=this.battlefieldAsset(normalized);
     try{return await Assets.load(primary)}catch(error){
       console.warn(`[Project V V3] ${normalized} 전장 로드 실패; 호환 배경을 사용합니다.`,error);
       return Assets.load(LEGACY_BATTLEFIELD);
@@ -753,20 +757,21 @@ class BaseBattleEngine{
   async setBattlefield(mode,{immediate=false}={}){
     const normalized=normalizeBattlefieldMode(mode);
     this.activeBattlefieldMode=normalized;
-    this.activeBattlefieldAsset=BATTLEFIELD_ASSETS[normalized];
+    this.activeBattlefieldAsset=this.battlefieldAsset(normalized);
     if(this.isoFloorLayer){
       this.drawIsometricFloor();
       this.layoutAccountBattleUnit();
       this.sortCombatDepth();
     }
     if(!this.mounted||!this.backgroundLayer)return normalized;
-    if(this.activeBattlefieldTexture&&this.parallaxLayers.every(item=>item.sprite.texture===this.activeBattlefieldTexture)&&normalized===this.backgroundLayer.activeMode)return normalized;
+    if(this.activeBattlefieldTexture&&this.parallaxLayers.every(item=>item.sprite.texture===this.activeBattlefieldTexture)&&normalized===this.backgroundLayer.activeMode&&this.backgroundLayer.activeAsset===this.activeBattlefieldAsset)return normalized;
     const request=++this.battlefieldRequest;
     const texture=await this.loadBattlefieldTexture(normalized);
     if(request!==this.battlefieldRequest)return this.activeBattlefieldMode;
     const apply=()=>{
       this.activeBattlefieldTexture=texture;
       this.backgroundLayer.activeMode=normalized;
+      this.backgroundLayer.activeAsset=this.activeBattlefieldAsset;
       this.parallaxLayers.forEach(({sprite})=>{sprite.texture=texture});
       this.layoutParallax(this.scene.width,this.scene.height);
     };
@@ -1682,8 +1687,9 @@ class BaseBattleEngine{
       card.eventMode=this.livePayload?'none':'static';
       if(this.livePayload)card.alpha=0;
     });
+    this.coupPalaceBattlefield=payload?.sceneAssetKey==='COUP_PALACE';
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
-    this.activeBattlefieldAsset=BATTLEFIELD_ASSETS[this.activeBattlefieldMode];
+    this.activeBattlefieldAsset=this.battlefieldAsset(this.activeBattlefieldMode);
     if(this.mounted)await Promise.all([this.setBattlefield(this.activeBattlefieldMode),this.setObjective(payload)]);
     const adapter=globalThis.ProjectVMonsterBattleArt;
     const zenithAdapter=globalThis.ProjectVBattleArt;

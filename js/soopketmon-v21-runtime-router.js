@@ -24,6 +24,7 @@
     'inventory',
     'soopketland',
     'treasury',
+    'coup',
     'prisoncamp'
   ]);
 
@@ -63,6 +64,7 @@
     inventory: { shell: 'inventory' },
     soopketland: { shell: 'soopketland' },
     treasury: { shell: 'treasury' },
+    coup: { shell: 'coup' },
     prisoncamp: { shell: 'prisoncamp' },
 
     profile: { global: 'showAccountPanel', fallbackSelector: '#playerAccountBtn' },
