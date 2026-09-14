@@ -153,6 +153,29 @@ for (const pg of [false, true]) {
     await assert.rejects(attackCoup(f.env, {}, { id: 99 }, { roundId: id, requestId: 'valid-key-0001' }, f.now), e => e.status === 403);
   });
 }
+test('coupon CMS routes bypass the coup router before authentication, permission checks and DB access', async () => {
+  const unexpected = () => { throw new Error('Coupon request was intercepted by the coup router'); };
+  const deps = new Proxy({}, { get: unexpected }), env = new Proxy({}, { get: unexpected });
+  for (const [path, methods] of [
+    ['admin/coupons', ['GET', 'POST', 'PATCH', 'DELETE']],
+    ['admin/coupons-v2', ['GET', 'POST', 'PATCH', 'DELETE']],
+    ['admin/coupon-create-permanent-v3', ['POST']],
+    ['admin/verified-coupon-send', ['POST']],
+    ['coupon/redeem', ['POST']]
+  ]) {
+    for (const method of methods) assert.equal(await handleCoup({ path, request: { method }, env, deps }), null, `${method} ${path}`);
+  }
+});
+
+test('the exact coup admin route and its child routes retain authentication', async () => {
+  for (const path of ['admin/coup', 'admin/coup/settings', 'admin/coup/open', 'admin/coup/start', 'admin/coup/cancel', 'coup/status', 'coup/vote']) {
+    const response = await handleCoup({ path, request: { method: 'GET' }, env: {}, deps: {
+      authenticate: async () => null, json: (data, status) => ({ data, status })
+    } });
+    assert.equal(response.status, 401, path);
+  }
+});
+
 test('live wiring preserves V3 engine, scoped prison exemptions and chief authority guards', () => {
   const read = file => readFileSync(new URL('../' + file, import.meta.url), 'utf8');
   const api = read('functions/api/[[path]].js');

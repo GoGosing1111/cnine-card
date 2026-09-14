@@ -211,7 +211,8 @@ export async function coupStatus(env, user, now = Date.now()) {
       eligible: !!votes, myVote: votes?.choice || null } : null };
 }
 export async function handleCoup({ path, request, env, deps }) {
-  if (!path.startsWith('coup/') && !path.startsWith('admin/coup')) return null;
+  const adminPath = path === 'admin/coup' || path.startsWith('admin/coup/');
+  if (!path.startsWith('coup/') && !adminPath) return null;
   const user = await deps.authenticate(request, env); if (!user) return deps.json({ error: '로그인이 필요합니다.' }, 401);
   try {
     await pulseCoup(env);
@@ -227,7 +228,7 @@ export async function handleCoup({ path, request, env, deps }) {
     }
     if (path === 'coup/join' && request.method === 'POST') { await joinCoupRound(env, deps, user, await deps.readBody(request)); return deps.json(await coupStatus(env, user)); }
     if (path === 'coup/attack' && request.method === 'POST') return deps.json(await attackCoup(env, deps, user, await deps.readBody(request)));
-    if (path.startsWith('admin/coup')) {
+    if (adminPath) {
       const admin = await deps.requirePermission(request, env, 'SETTINGS'); if (!admin) return deps.json({ error: '운영 설정 권한이 필요합니다.' }, 403);
       if (path === 'admin/coup' && request.method === 'GET') return deps.json(await coupStatus(env, user));
       if (request.method !== 'POST') return deps.json({ error: '지원하지 않는 요청입니다.' }, 405);
