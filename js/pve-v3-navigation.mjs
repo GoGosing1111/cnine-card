@@ -13,7 +13,7 @@ globalThis.PveV3Runtime={async tryOpen(content,options={}){
 feature.then(value=>{
   if(value.enabled!==true&&value.publicContent?.COW_ROOM?.enabled!==true)return;
   let available=0;
-  const update=()=>{const button=document.querySelector('[data-v3-cow-entry]');if(button){button.hidden=false;const detail=button.querySelector('small');if(detail)detail.textContent=available>0?`포탈 ${available}개`:'COW PORTAL';else button.textContent=available>0?`카우방 · 포탈 ${available}개`:'카우방';}};
+  const update=()=>{const button=document.querySelector('[data-v3-cow-entry]');if(button){button.hidden=false;button.toggleAttribute('data-cow-available',available>0);const detail=button.querySelector('small');if(detail)detail.textContent=available>0?`포탈 ${available}개`:'COW PORTAL';else button.textContent=available>0?`카우방 · 포탈 ${available}개`:'카우방';}};
   window.addEventListener('cow-portal:availability',event=>{available=Number(event.detail?.available||0);update();});
   let requestedCow=new URL(location.href).searchParams.get('pve')==='cow-room';
   const add=()=>{
@@ -22,7 +22,6 @@ feature.then(value=>{
     button.onclick=()=>void globalThis.PveV3Runtime.tryOpen('cow-room');nav.append(button);globalThis.PveCommandV2Live?.syncModeNavigation();update();
     nav.addEventListener('click',event=>{if(event.target.closest('.pve-mode-btn')&&!event.target.closest('[data-v3-cow-entry]'))globalThis.CowRoomLive?.hide();},true);
     if(requestedCow){requestedCow=false;const url=new URL(location.href),enter=url.searchParams.get('enter')==='1';url.searchParams.delete('pve');url.searchParams.delete('enter');history.replaceState(history.state,'',url);void globalThis.PveV3Runtime.tryOpen('cow-room',{enter});}
-    if(value.enabled===true||value.publicContent?.MERCENARY?.enabled===true){const mercenary=document.createElement('a');mercenary.className='pve-mode-btn';mercenary.href='/mercenary-hangar/';mercenary.textContent='용병 지휘소';nav.append(mercenary);}
   };
   add();const observer=new MutationObserver(add);observer.observe(document.body,{childList:true,subtree:true});
   addEventListener('pagehide',()=>observer.disconnect(),{once:true});
