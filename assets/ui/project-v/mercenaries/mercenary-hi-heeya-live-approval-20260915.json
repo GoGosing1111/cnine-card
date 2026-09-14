@@ -271,7 +271,7 @@
     "damageRatio": 4.2,
     "cooldownTurns": 5,
     "cost": 25,
-    "reference": "기존 SS 사격 MS-005와 같은 총 피해·재사용·비용"
+    "reference": "기존 SS 사격 MS-040와 같은 총 피해·재사용·비용"
   },
   "basePower": 120000,
   "assignment": [
