@@ -27,6 +27,8 @@ const ACTIVE_MEMBER_TABLE = 'raid_core_active_members_v2024';
 const ATTEMPT_TABLE = 'raid_core_attempts_v2024';
 const RECEIPT_TABLE = 'raid_core_receipts_v2024';
 const REWARD_RECEIPT_TABLE = 'raid_core_reward_receipts_v2024';
+const WEEKLY_REWARD_TABLE = 'raid_core_weekly_rewards_v2112';
+export const CORE_RAID_WEEKLY_REWARD_LIMIT = 3;
 export const CORE_RAID_ENTRY_TICKET = 'CORE_RAID_ENTRY_TICKET';
 export const CORE_RAID_ENTRY_TICKET_IMAGE = 'assets/items/core-raid-entry-ticket-v1.png';
 export const CORE_RAID_BOSS_SOURCE_ART = 'assets/tower/uhabha.jpg';
@@ -141,6 +143,7 @@ export function defaultCoreRaidSettings() {
     mashTarget: 24,
     mashWindowMs: 5000,
     rewardLocked: true,
+    weeklyRewardLimit: CORE_RAID_WEEKLY_REWARD_LIMIT,
     rewardCoin: 0,
     rewardShards: 0,
     testUsers: [],
@@ -193,6 +196,7 @@ export function cleanCoreRaidSettings(raw = {}) {
     mashTarget: integer(raw.mashTarget, base.mashTarget, 10, 80),
     mashWindowMs: integer(raw.mashWindowMs, base.mashWindowMs, 3000, 15000),
     rewardLocked: raw.rewardLocked !== false,
+    weeklyRewardLimit: CORE_RAID_WEEKLY_REWARD_LIMIT,
     rewardCoin: integer(raw.rewardCoin, base.rewardCoin, 0, 2000000000),
     rewardShards: integer(raw.rewardShards, base.rewardShards, 0, 1000000),
     testUsers: cleanStringList(raw.testUsers),
@@ -1044,6 +1048,19 @@ function schemaStatements(env) {
   ];
 }
 
+async function ensureWeeklyRewardSchema(env) {
+  if (!readRuntimeData(env, WEEKLY_REWARD_TABLE)) {
+    const sql = 'CREATE TABLE IF NOT EXISTS ' + WEEKLY_REWARD_TABLE +
+      '(user_id BIGINT NOT NULL,week_key TEXT NOT NULL,reward_count INTEGER NOT NULL DEFAULT 0,' +
+      "last_request_id TEXT NOT NULL DEFAULT '',PRIMARY KEY(user_id,week_key))";
+    const indexSql = 'CREATE INDEX IF NOT EXISTS idx_raid_core_rewards_user_week_v2112 ON ' +
+      REWARD_RECEIPT_TABLE + '(user_id,status,updated_at)';
+    if (env.DB?.dialect === 'postgres' && typeof env.DB.execSchema === 'function') await env.DB.execSchema([sql,indexSql]);
+    else await env.DB.batch([env.DB.prepare(sql),env.DB.prepare(indexSql)]);
+    cacheRuntimeData(env, WEEKLY_REWARD_TABLE, true, 1800000);
+  }
+}
+
 async function ensure(env) {
   // Independent additive schema: existing foundation markers must also receive this table.
   if (!readRuntimeData(env, CLAN_ROOM_TABLE)) {
@@ -1181,10 +1198,43 @@ async function activeRoomForUser(env, userId, cfg) {
 
 async function latestRoomForUser(env, userId, cfg) {
   const row = await env.DB.prepare(
-    'SELECT r.* FROM ' + MEMBER_TABLE + ' m JOIN ' + ROOM_TABLE +
+    'SELECT r.*,m.status result_view_status FROM ' + MEMBER_TABLE + ' m JOIN ' + ROOM_TABLE +
     ' r ON r.room_id=m.room_id WHERE m.user_id=? ORDER BY r.created_at DESC LIMIT 1'
   ).bind(userId).first();
+  if (row?.result_view_status === 'RESULT_SEEN' && TERMINAL_ROOM_STATUSES.has(row.status)) return null;
   return refreshRoom(env, row, cfg);
+}
+
+async function acknowledgeResult(env, user, cfg, body = {}) {
+  const roomId = cleanText(body.roomId, 100);
+  const member = await env.DB.prepare('SELECT 1 joined FROM ' + MEMBER_TABLE + ' WHERE room_id=? AND user_id=?').bind(roomId, user.id).first();
+  const room = member ? await roomById(env, roomId, cfg) : null;
+  if (!room || !TERMINAL_ROOM_STATUSES.has(room.status)) return {error:'종료된 내 공대의 결과만 확인할 수 있습니다.',status:409};
+  await env.DB.prepare('UPDATE ' + MEMBER_TABLE + " SET status='RESULT_SEEN',updated_at=CURRENT_TIMESTAMP WHERE room_id=? AND user_id=?")
+    .bind(roomId, user.id).run();
+  return {response:await statusPayload(env, user, cfg, '', true)};
+}
+
+export function coreRaidRewardWeek(at = Date.now()) {
+  const day = 86400000, offset = 9 * 3600000, kst = new Date(at + offset);
+  const monday = Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate()) - ((kst.getUTCDay() + 6) % 7) * day;
+  return {weekKey:new Date(monday).toISOString().slice(0,10),startsAt:new Date(monday-offset).toISOString(),resetsAt:new Date(monday-offset+7*day).toISOString()};
+}
+
+function weeklyPaidCountSql() {
+  // New receipts retain their week even if profile enrichment updates them later.
+  // Existing completed receipts count in the week of their recorded payment.
+  return '(SELECT COUNT(*) FROM ' + REWARD_RECEIPT_TABLE + " WHERE user_id=? AND status='COMPLETED' AND (" +
+    "json_extract(response_json,'$.rewardWeekKey')=? OR (json_extract(response_json,'$.rewardWeekKey') IS NULL AND " +
+    "REPLACE(updated_at,' ','T')>=? AND REPLACE(updated_at,' ','T')<?)))";
+}
+
+export async function coreRaidWeeklyReward(env, userId, at = Date.now()) {
+  const week = coreRaidRewardWeek(at), countArgs = [userId,week.weekKey,week.startsAt.slice(0,19),week.resetsAt.slice(0,19)];
+  const row = await env.DB.prepare('SELECT ' + weeklyPaidCountSql() + ' paid_count,COALESCE((SELECT reward_count FROM ' +
+    WEEKLY_REWARD_TABLE + ' WHERE user_id=? AND week_key=?),0) reward_count').bind(...countArgs,userId,week.weekKey).first();
+  const used = Math.max(0,Number(row?.paid_count||0),Number(row?.reward_count||0));
+  return {...week,limit:CORE_RAID_WEEKLY_REWARD_LIMIT,used,remaining:Math.max(0,CORE_RAID_WEEKLY_REWARD_LIMIT-used)};
 }
 
 async function availableRooms(env, cfg, userId) {
@@ -1334,6 +1384,7 @@ async function statusPayload(env, user, cfg, requestedId = '', browseOnly = fals
     me,
     participants: members,
     pendingAttempt,
+    weeklyReward: await coreRaidWeeklyReward(env, user.id),
     rooms: room ? [] : await availableRooms(env, cfg, user.id),
     entry: {
       ticketCode: CORE_RAID_ENTRY_TICKET,
@@ -1865,6 +1916,19 @@ async function resolveAttempt(env, user, cfg, body) {
   }
 }
 
+async function coreRewardResponse(env, user, paid, profile) {
+  const response = { ...paid, weeklyReward: await coreRaidWeeklyReward(env, user.id) };
+  // Return a fresh wallet on both settlement and replay without moving the receipt's
+  // payment timestamp. Profile enrichment must not turn a committed payment into a failure.
+  if (typeof profile === 'function') {
+    try {
+      const updated = await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+      response.user = updated ? await profile(env, updated) : null;
+    } catch {}
+  }
+  return { response };
+}
+
 async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
   if (cfg.rewardLocked) {
     return {
@@ -1879,16 +1943,23 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
   const [member, room, collision, existing] = await Promise.all([
     env.DB.prepare('SELECT status FROM ' + MEMBER_TABLE + ' WHERE room_id=? AND user_id=?').bind(roomId, user.id).first(),
     env.DB.prepare('SELECT status FROM ' + ROOM_TABLE + ' WHERE room_id=?').bind(roomId).first(),
-    env.DB.prepare('SELECT user_id FROM ' + REWARD_RECEIPT_TABLE + ' WHERE request_id=?').bind(requestId).first(),
+    env.DB.prepare('SELECT user_id,room_id FROM ' + REWARD_RECEIPT_TABLE + ' WHERE request_id=?').bind(requestId).first(),
     env.DB.prepare('SELECT * FROM ' + REWARD_RECEIPT_TABLE + ' WHERE room_id=? AND user_id=?').bind(roomId, user.id).first()
   ]);
   if (!member || String(room?.status || '') !== 'CLEAR') {
     return { error: '공대가 최종 보스를 제압한 뒤 보상을 수령할 수 있습니다.', status: 409 };
   }
-  if (collision && Number(collision.user_id) !== Number(user.id)) return { error: '이미 사용된 요청 ID입니다.', status: 409 };
+  if (collision && (Number(collision.user_id) !== Number(user.id) || collision.room_id !== roomId)) return { error: '이미 사용된 요청 ID입니다.', status: 409 };
   if (existing?.status === 'COMPLETED' && existing.response_json) {
-    return { response: jsonSafe(existing.response_json, { ok: true, replayed: true }) };
+    return coreRewardResponse(env, user, { ...jsonSafe(existing.response_json, { ok: true }), replayed: true }, profile);
   }
+  const week = coreRaidRewardWeek();
+  const weekArgs = [user.id, week.weekKey, week.startsAt.slice(0,19), week.resetsAt.slice(0,19)];
+  const weeklyLimitResult = async () => ({
+    error: '이번 주 붕괴 코어 보상 3회를 모두 수령했습니다. 공략에는 계속 참여할 수 있습니다.',
+    code: 'CORE_RAID_WEEKLY_LIMIT', status: 409, weeklyReward: await coreRaidWeeklyReward(env, user.id)
+  });
+  if (!(await coreRaidWeeklyReward(env, user.id)).remaining) return weeklyLimitResult();
   if (existing?.status === 'PENDING') {
     const age = Math.max(0, Date.now() - Date.parse(existing.updated_at || existing.created_at || 0));
     if (age < 15000) {
@@ -1902,8 +1973,8 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     await env.DB.prepare(
       'UPDATE ' + REWARD_RECEIPT_TABLE +
       " SET status='RETRYABLE',error_message='STALE_PENDING_RECOVERED',updated_at=CURRENT_TIMESTAMP " +
-      "WHERE room_id=? AND user_id=? AND status='PENDING'"
-    ).bind(roomId, user.id).run();
+      "WHERE room_id=? AND user_id=? AND status='PENDING' AND request_id=? AND updated_at=?"
+    ).bind(roomId, user.id, existing.request_id, existing.updated_at).run();
   }
   const rewardCoin = cfg.rewardCoin;
   const rewardShards = cfg.rewardShards;
@@ -1913,6 +1984,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     instanceId: roomId,
     rewardClaimed: true,
     reward: { coin: rewardCoin, shards: rewardShards },
+    rewardWeekKey: week.weekKey,
     replayed: false
   };
   const reserved = existing
@@ -1934,15 +2006,34 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
       status: 409
     };
   }
-  const guard =
+  const pendingGuard =
     'EXISTS(SELECT 1 FROM ' + REWARD_RECEIPT_TABLE +
     " WHERE room_id=? AND user_id=? AND request_id=? AND status='PENDING')";
-  const guardBind = [roomId, user.id, requestId];
-  const statements = [
+  const pendingBind = [roomId, user.id, requestId];
+  const guard = pendingGuard + ' AND EXISTS(SELECT 1 FROM ' + WEEKLY_REWARD_TABLE +
+    ' WHERE user_id=? AND week_key=? AND last_request_id=?)';
+  const guardBind = [...pendingBind, user.id, week.weekKey, requestId];
+  const statements = [];
+  if (env.DB?.dialect === 'postgres') {
+    // Serialize this account's settlements across different rooms, then lock the receipt
+    // against stale-pending recovery. SQLite already serializes the batch transaction.
+    statements.push(env.DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id));
+    statements.push(env.DB.prepare('SELECT room_id FROM ' + REWARD_RECEIPT_TABLE +
+      ' WHERE room_id=? AND user_id=? FOR UPDATE').bind(roomId, user.id));
+  }
+  statements.push(
+    env.DB.prepare('INSERT INTO ' + WEEKLY_REWARD_TABLE + '(user_id,week_key,reward_count,last_request_id) ' +
+      'SELECT ?,?,' + weeklyPaidCountSql() + '+1,? WHERE ' + pendingGuard +
+      ' AND EXISTS(SELECT 1 FROM users WHERE id=?) AND ' + weeklyPaidCountSql() + '<? ' +
+      'ON CONFLICT(user_id,week_key) DO UPDATE SET reward_count=MAX(' + WEEKLY_REWARD_TABLE +
+      '.reward_count,excluded.reward_count-1)+1,last_request_id=excluded.last_request_id WHERE ' +
+      WEEKLY_REWARD_TABLE + '.reward_count<?')
+      .bind(user.id, week.weekKey, ...weekArgs, requestId, ...pendingBind, user.id,
+        ...weekArgs, CORE_RAID_WEEKLY_REWARD_LIMIT, CORE_RAID_WEEKLY_REWARD_LIMIT),
     env.DB.prepare(
       'UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND ' + guard
     ).bind(rewardCoin, rewardShards, user.id, ...guardBind)
-  ];
+  );
   if (rewardCoin > 0) {
     statements.push(
       env.DB.prepare(
@@ -1963,19 +2054,22 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     env.DB.prepare(
       'UPDATE ' + REWARD_RECEIPT_TABLE +
       " SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP " +
-      "WHERE room_id=? AND user_id=? AND request_id=? AND status='PENDING'"
-    ).bind(JSON.stringify(response), ...guardBind)
+      "WHERE room_id=? AND user_id=? AND " + guard
+    ).bind(JSON.stringify(response), roomId, user.id, ...guardBind)
   );
-  await env.DB.batch(statements);
-  if (typeof profile === 'function') {
-    const updated = await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-    response.user = updated ? await profile(env, updated) : null;
-    await env.DB.prepare(
-      'UPDATE ' + REWARD_RECEIPT_TABLE +
-      " SET response_json=?,updated_at=CURRENT_TIMESTAMP WHERE room_id=? AND user_id=? AND status='COMPLETED'"
-    ).bind(JSON.stringify(response), roomId, user.id).run();
+  let settlementError = null;
+  try { await env.DB.batch(statements); } catch (error) { settlementError = error; }
+  // A timed-out commit may already have paid. The completed receipt is authoritative.
+  const completed = await env.DB.prepare('SELECT response_json FROM ' + REWARD_RECEIPT_TABLE +
+    " WHERE room_id=? AND user_id=? AND status='COMPLETED'").bind(roomId, user.id).first();
+  if (!completed) {
+    await env.DB.prepare('UPDATE ' + REWARD_RECEIPT_TABLE +
+      " SET status='RETRYABLE',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE room_id=? AND user_id=? AND request_id=? AND status='PENDING'")
+      .bind(settlementError ? 'SETTLEMENT_ROLLED_BACK' : 'WEEKLY_LIMIT_OR_RESERVATION_LOST', ...pendingBind).run();
+    if (!(await coreRaidWeeklyReward(env, user.id)).remaining) return weeklyLimitResult();
+    return { error: '보상 정산을 완료하지 못했습니다. 다시 수령해 주세요.', code: 'CORE_RAID_REWARD_RETRYABLE', status: 503 };
   }
-  return { response };
+  return coreRewardResponse(env, user, jsonSafe(completed.response_json, response), profile);
 }
 
 export async function handleRaidCoreProtocol({ path, request, env, deps }) {
@@ -1990,6 +2084,7 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
     writeAdminLog
   } = deps;
   await ensure(env);
+  await ensureWeeklyRewardSchema(env);
   const user = await authenticate(request, env);
   if (!user) return json({ error: '로그인이 필요합니다.' }, 401);
   let cfg = await readSettings(env);
@@ -2045,6 +2140,10 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
   if (path === 'raid/core/status' && request.method === 'GET') {
     return json(await statusPayload(env, user, cfg, requestedId, url.searchParams.get('browse') === '1'));
   }
+  if (path === 'raid/core/acknowledge' && request.method === 'POST') {
+    const result = await acknowledgeResult(env, user, cfg, await readBody(request));
+    return result.response ? json(result.response) : json({error:result.error}, result.status);
+  }
   if (path === 'raid/core/open' && request.method === 'POST') {
     const result = await openRoom(env, user, cfg, await readBody(request));
     return result.response ? json(result.response) : json({ error: result.error }, result.status || 500);
@@ -2079,7 +2178,7 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
     const result = await claimCoreReward(env, user, cfg, await readBody(request), profile);
     if (result.response) return json(result.response);
     return json(
-      { error: result.error, code: result.code, retryAfterMs: result.retryAfterMs },
+      { error: result.error, code: result.code, retryAfterMs: result.retryAfterMs, weeklyReward: result.weeklyReward },
       result.status || 500
     );
   }

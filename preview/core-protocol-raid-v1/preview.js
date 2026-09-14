@@ -108,6 +108,7 @@
       me: null,
       participants: [],
       pendingAttempt: null,
+      weeklyReward: { limit: 3, used: 0, remaining: 3 },
       rooms: [
         {
           id: 'CORE-PREVIEW-GUEST',
@@ -375,6 +376,13 @@
       state.entry.quantity--;
       syncRoom(makeRoom(true));
       return clone(state);
+    }
+    if (path === 'raid/core/acknowledge') {
+      state.current = null;
+      state.me = null;
+      state.participants = [];
+      state.pendingAttempt = null;
+      return apiRequest('raid/core/status?browse=1');
     }
     if (path === 'raid/core/join') {
       syncRoom(makeRoom(false));

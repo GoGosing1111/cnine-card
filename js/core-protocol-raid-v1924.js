@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.5.0-random-two';
+  const VERSION = '3.6.0-weekly-return';
   const TAB_KEY = 'cnine:raid-content-v1924';
   const OP_NAMES = { BREAK: '파쇄', BLOCK: '차단', STABILIZE: '안정화', FINAL: '최종 보스' };
   const esc = value => String(value ?? '').replace(
@@ -22,6 +22,8 @@
   let busy = false;
   let selectedOperation = 'BREAK';
   let viewedRoomId = '';
+  let browseMode = false;
+  let loadRevision = 0;
   let activeTab = sessionStorage.getItem(TAB_KEY) === 'core' ? 'core' : 'world';
   let pollTimer = null;
   let lastError = null;
@@ -52,15 +54,21 @@
 
   function schedulePoll() {
     stopPoll();
-    if (activeTab !== 'core' || document.hidden) return;
+    const root = document.getElementById('pveCoreRaidView');
+    if (busy || activeTab !== 'core' || document.hidden || !root || root.hidden) return;
     pollTimer = setTimeout(() => load().catch(error => console.warn('[CORE RAID] poll failed', error)), 5000);
   }
 
   function setBusy(next) {
+    if (next && !busy) {
+      stopPoll();
+      loadRevision++;
+    }
     busy = Boolean(next);
     document.querySelectorAll('#pveCoreRaidView button').forEach(button => {
       button.disabled = busy || button.dataset.coreLocked === '1';
     });
+    if (!busy) schedulePoll();
   }
 
   function remainingText(value) {
@@ -233,13 +241,16 @@
     const clear = current.status === 'CLEAR';
     let reward = '';
     if (clear && state.me?.rewardStatus === 'COMPLETED') {
-      reward = '<button type="button" data-core-action="browse">보상 수령 완료 · 방 목록</button>';
+      reward = '<p class="core-reward-note">공대 보상을 수령했습니다.</p><button type="button" data-core-action="browse">대기실로 돌아가기</button>';
     } else if (clear && current.rewardLocked) {
-      reward = '<button type="button" data-core-action="browse">테스트 보상 잠금 · 방 목록</button>';
+      reward = '<p class="core-reward-note">테스트 보상이 잠겨 있습니다.</p><button type="button" data-core-action="browse">대기실로 돌아가기</button>';
+    } else if (clear && state.weeklyReward?.remaining === 0) {
+      reward = '<p class="core-reward-note">이번 주 보상 ' + number(state.weeklyReward.limit) +
+        '회 수령 완료</p><button type="button" data-core-action="browse">대기실로 돌아가기</button>';
     } else if (clear) {
       reward = '<button type="button" data-core-action="claim">공대 보상 수령</button>';
     } else {
-      reward = '<button type="button" data-core-action="browse">새 공대 찾기</button>';
+      reward = '<button type="button" data-core-action="browse">대기실로 돌아가기</button>';
     }
     const reason = {
       PARTY_WIPE: '공대 HP가 모두 소진되었습니다.',
@@ -299,6 +310,18 @@
       '</ol></article>' + memberMarkup(state) + '</section>';
   }
 
+  function weeklyRewardMarkup(state) {
+    const weekly = state.weeklyReward;
+    if (!weekly) return '';
+    const exhausted = number(weekly.remaining) === 0;
+    return '<section class="core-weekly-reward' + (exhausted ? ' is-exhausted' : '') + '" aria-label="주간 보상 현황">' +
+      '<div class="core-weekly-count"><span>이번 주 보상</span><strong>' + number(weekly.used) +
+      '<small> / ' + number(weekly.limit) + '회 수령</small></strong></div>' +
+      '<div class="core-weekly-detail"><b>' + (exhausted ? '주간 보상 수령 완료' : '보상 가능 ' + number(weekly.remaining) + '회') +
+      '</b><span>' + (exhausted ? '보상 소진 후에도 공략 가능' : '실패는 횟수에 포함되지 않습니다') +
+      '</span></div><p>매주 월요일 00:00 초기화 <small>한국 시간</small></p></section>';
+  }
+
   function render() {
     const root = document.getElementById('pveCoreRaidView');
     if (!root || root.hidden) return;
@@ -317,7 +340,8 @@
     const current = data.current;
     const status = current?.status || 'BROWSER';
     const statusLabel = current
-      ? current.phaseLabel + ' · ' + (current.endsAt ? remainingText(current.endsAt) : remainingText(current.lobbyEndsAt))
+      ? current.phaseLabel + (['CLEAR', 'FAILED'].includes(status) ? '' : ' · ' +
+        (current.endsAt ? remainingText(current.endsAt) : remainingText(current.lobbyEndsAt)))
       : '공대 탐색';
     root.innerHTML = '<main class="core-raid core-room-expedition" data-core-raid-version="' + VERSION + '">' +
       '<section class="core-raid-hero"><div class="core-raid-brief"><small>' +
@@ -332,7 +356,7 @@
       '</span><span>최종 보스 고정 전투력 ' + fixedPowerText(settings.bossCombatPower) +
       '</span></div></div><div class="core-raid-boss"><img src="' + esc(settings.bossImage) +
       '" alt="' + esc(settings.bossName) + '"><div class="core-raid-boss-label"><small>CORE ENTITY / RAID BOSS</small><b>' +
-      esc(settings.bossName) + '</b></div></div></section>' +
+      esc(settings.bossName) + '</b></div></div></section>' + weeklyRewardMarkup(data) +
       (!combatPowerReady(settings)
         ? '<p class="core-room-empty">고정 전투력 설정 대기 중입니다. OWNER가 CMS에서 설정하면 공대 생성·새 출전이 가능합니다. 이미 시작한 전투는 재개할 수 있습니다.</p>'
         : '') +
@@ -344,23 +368,50 @@
 
   async function load(options = {}) {
     lastError = null;
-    const browse = options.browse === true;
+    if (options.browse === true) {
+      browseMode = true;
+      viewedRoomId = '';
+    }
+    const revision = ++loadRevision;
+    const browse = browseMode;
     const query = browse
       ? '?browse=1'
       : viewedRoomId
         ? '?roomId=' + encodeURIComponent(viewedRoomId)
         : '';
     try {
-      data = await api('raid/core/status' + query);
+      const next = await api('raid/core/status' + query);
+      if (revision !== loadRevision) return data;
+      data = next;
       if (data.current?.id) viewedRoomId = data.current.id;
       if (browse) viewedRoomId = '';
       render();
       return data;
     } catch (error) {
+      if (revision !== loadRevision) return data;
       lastError = error;
       render();
       throw error;
     }
+  }
+
+  async function browseRooms() {
+    setBusy(true);
+    try {
+      const room = data?.current;
+      if (room && ['CLEAR', 'FAILED'].includes(room.status)) {
+        const next = await api('raid/core/acknowledge', {
+          method: 'POST', body: JSON.stringify({ roomId: room.id })
+        });
+        browseMode = true;
+        viewedRoomId = '';
+        data = next;
+        lastError = null;
+        render();
+      } else {
+        await load({ browse: true });
+      }
+    } finally { setBusy(false); }
   }
 
   async function createRoom() {
@@ -370,6 +421,7 @@
         method: 'POST',
         body: JSON.stringify({ requestId: requestId(), clanOnly })
       });
+      browseMode = false;
       viewedRoomId = data.current?.id || '';
       render();
     } finally {
@@ -384,6 +436,7 @@
         method: 'POST',
         body: JSON.stringify({ roomId })
       });
+      browseMode = false;
       viewedRoomId = data.current?.id || roomId;
       render();
     } finally {
@@ -417,6 +470,9 @@
       if (result.user) bridge()?.saveUser?.(bridge()?.apiUserToLocal?.(result.user) || result.user);
       await load();
       return result;
+    } catch (error) {
+      await load().catch(() => {});
+      throw error;
     } finally {
       setBusy(false);
     }
@@ -600,10 +656,8 @@
           else if (action === 'start') await startRoom();
           else if (action === 'battle') await battle();
           else if (action === 'claim') await claim();
-          else if (action === 'browse') {
-            viewedRoomId = '';
-            await load({ browse: true });
-          } else if (action === 'reload') {
+          else if (action === 'browse') await browseRooms();
+          else if (action === 'reload') {
             setBusy(true);
             try { await load(); } finally { setBusy(false); }
           }
@@ -676,7 +730,7 @@
   addEventListener('load', wire);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopPoll();
-    else if (activeTab === 'core') void load().catch(() => {});
+    else if (activeTab === 'core' && !busy) void load().catch(() => {});
   });
   globalThis.CoreProtocolRaidV1924 = Object.freeze({
     version: VERSION,
