@@ -8,7 +8,7 @@ import {createWorkshopAssemblyPresenter} from '../js/workshop-assembly-live-v207
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 function fixture(key='e',success=true){
-  const m=MODELS[key],recipe={id:100,category:m.mode==='suit'?'BATTLE_SUIT_CRAFT':'VEHICLE',output_ref:String(m.catalogId||901),output_type:m.mode==='suit'?'EQUIPMENT':'VEHICLE',output_name:m.name,output_image:key==='veneno'?'assets/tire/lamborghini-veneno-showroom-v1.png':m.source};
+  const m=MODELS[key],recipe={id:100,category:m.mode==='suit'?'BATTLE_SUIT_CRAFT':'VEHICLE',output_ref:String(m.catalogId||901),output_type:m.mode==='suit'?'EQUIPMENT':'VEHICLE',output_name:m.name,output_image:key==='veneno'?'assets/tire/lamborghini-veneno-showroom-v1.png':m.catalogSource||m.source};
   const data={ok:true,requestId:'saved-receipt',recipeId:100,category:recipe.category,success,coinSpent:200000000,masterStarSpent:1000,
     output:success?{ref:recipe.output_ref,type:recipe.output_type,name:m.name,image:m.source}:null};
   return {data,recipe};
@@ -122,4 +122,14 @@ test('route cancellation and closing during async init cannot reopen or resurrec
     task=presenter.play(fixture());await flush();presenter.cancel();await task;release();await flush();
     assert.equal(env.doc.body.children.length,0);assert.ok(env.films.at(-1).destroyed>=1);assert.equal(presenter.diagnostics().activeTimelines,0);
   }finally{presenter?.cancel();env.restore();}
+});
+
+test('Solaris binds exact CMS art on success and failure, never a name-only lookalike',()=>{
+  for(const success of [true,false]){
+    const {data,recipe}=fixture('solaris',success);
+    recipe.output_ref='new-cms-id';if(data.output)data.output.ref=recipe.output_ref;
+    assert.equal(liveAssemblyReceipt(data,recipe).model,'solaris');
+    recipe.output_image='assets/tire/unprepared-car.png';
+    assert.equal(liveAssemblyReceipt(data,recipe).model,null);
+  }
 });

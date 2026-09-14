@@ -108,3 +108,14 @@ E/F/G는 CMS에 연결된 실제 RGBA 아이템 원본을 사용한다. 이미�
 검증: 결과 계약/분기, H-BODY 전체 RGBA 원본 복원, E/F/G 가시 RGBA 복원, 이그니스 파생본 RGB 보존·내부 투명 영역, 차량·기계 팔 실 알파, 음원 해시, 연출 자체의 제작 API 호출 금지, 실제 GSAP/Pixi 객체로 6개 모델×성공/실패의 재생·정지·배속·seek·skip·재시작·모드 전환·폐기를 검증한다. 최초 프리뷰 브라우저 검수 결과는 `qa-report.json`에 기록한다.
 
 게임 연결 후에도 서버 응답을 먼저 확정하고 이를 연출에 전달한다. 요청 재시도와 보상 처리는 연출 수명과 분리한다. 최초 프리뷰의 비연결 상태는 위 v2073 사용자 연결 승인으로 해제됐다.
+
+## 2026-09-15 솔라리스 Ω 제작 연결 (2120)
+
+- 사용자 지시: 솔라리스 연출 추가. 기존 PixiJS 8.20.0 / GSAP 3.13.0의 13.4초 제작 시퀀스를 재사용한다. 실제 구현은 source/AssemblyFilm.js와 source/models.mjs다.
+- CMS 원본 assets/tire/solaris-omega-v1.png를 정확히 대조해 성공/실패 영수증 모두 연결한다. 차량 이름이나 임의 ID로 다른 차량을 선택하지 않는다. 제작 비용·판정·지급·제작법은 변경하지 않는다.
+- ImageGen으로 원본 차량의 연출 전용 파생본을 만들었다. 기존 차고 원본은 보존하며 분리용 중간본은 assets/sources/solaris-omega-extracted-source-v1.png, 실제 알파 자산은 assets/solaris-omega-cutout-v1.png다. 재현 명령은 node preview/workshop-assembly-v1/prepare-solaris-assets.mjs. 생성된 녹색 배경을 기술적으로 알파 처리하고 해시는 asset-manifest.json에 기록한다.
+- 모델별 휠 중심 (886,617)/(1529,480), 균일 배율 .67, 배치 (162,180). 두 터빈 외곽선을 별도 마스크로 사용한다. 7.00~8.15초/7.35~8.50초 순차 장착, 8.50~9.20초 용접, 9.20~10.10초 검사, 10.30초 황금 코어·트윈 배기 점화, 11.40초 출고 이동. 실패에는 점화·출고가 없다.
+- 체결음은 기존 녹음 lock.wav 피크를 각 접점에 맞추고, driver/ignition/failure 원음과 라이선스는 기존 assets/audio/manifest.json을 재사용한다. 새 합성음·별도 ticker는 없다. 건너뛰기/정지/seek/배속/취소는 기존 단일 타임라인을 따른다.
+- 검수: /preview/workshop-assembly-v1/?mode=vehicle&item=solaris 및 /preview/workshop-assembly-v1/live.html?item=solaris&play=1. 실제 서버 요청 없이 라이브 제작 클라이언트에서 성공/실패 연결을 검증한다.
+
+검증 기록: 관련 회귀 17개 통과. CUA로 1265×712 PC의 7.45/8.3초 터빈 분리·결합, 11.2초 황금 코어 점화와 390×844 모바일 라이브 팝업의 차체 결합·일시정지·건너뛰기를 확인했다. 실제 workshop-v1881.js 제작 버튼을 검수용 응답에 연결해 솔라리스 실패 영수증에서도 조립 팝업 진입을 확인했다.

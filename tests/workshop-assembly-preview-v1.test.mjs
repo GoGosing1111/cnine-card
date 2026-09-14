@@ -80,7 +80,7 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
   delete globalThis.location;delete globalThis.document;
 });
 test('E/F/G and Ignis-X map to verified CMS identities with model-specific geometry',()=>{
-  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h']);assert.deepEqual(MODEL_ORDER.vehicle,['ignis','veneno']);
+  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','ignis','veneno']);
   assert.equal(MODELS.e.code,'BATTLE_SUIT_01');assert.equal(MODELS.f.code,'BATTLE_SUIT_02');assert.equal(MODELS.g.code,'BATTLE_SUIT_03');assert.equal(MODELS.ignis.code,'GARAGE_1787232065012');
   for(const key of ['e','f','g']){const m=modelFor('suit',key),p=suitPlacement(m);assert.equal(p.scale*(m.box[3]-m.box[1]),650);assert.equal(modelPhases('suit',key,MODES.suit.phases)[4][2].includes('INTERFACE'),true);}
   assert.throws(()=>modelFor('suit','ignis'));assert.throws(()=>modelFor('vehicle','e'));assert.equal(resolveModel('suit','unknown'),'h');
@@ -111,4 +111,21 @@ test('Ignis background cleanup changes alpha only and clears turbine support ope
   for(let i=0;i<data.length;i+=4){assert.equal(data[i],source[i]);assert.equal(data[i+1],source[i+1]);assert.equal(data[i+2],source[i+2]);}
   for(const [x,y]of [[0,0],[835,335],[790,350],[969,267],[1031,280],[1046,281],[733,371],[1400,100]])assert.equal(data[(y*info.width+x)*4+3],0);
   for(const [x,y]of [[1000,300],[360,485]])assert.equal(data[(y*info.width+x)*4+3],255);
+});
+
+test('Solaris authored cutout has real alpha and source catalogue remains untouched',async()=>{
+  const manifest=JSON.parse(await read('asset-manifest.json'));
+  const entry=manifest.visualAssets.find(p=>p.path===MODELS.solaris.source);
+  const bytes=await readFile(new URL(entry.path,folder));
+  assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sha256);
+  const {data,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});
+  assert.equal(info.channels,4);assert.equal(info.width,1672);assert.equal(info.height,941);
+  for(const [x,y]of [[0,0],[1600,900],[1440,243],[1520,280]])assert.equal(data[(y*info.width+x)*4+3],0);
+  for(const [x,y]of [[890,620],[780,430],[1192,285]])assert.equal(data[(y*info.width+x)*4+3],255);
+  const original=await readFile(new URL('../assets/tire/solaris-omega-v1.png',import.meta.url));
+  assert.equal(createHash('sha256').update(original).digest('hex'),'0bbaaa7e8daf6de3091980cd6251695a528a079faf2ea84da1abea81c017c5c5');
+  assert.equal(MODELS.solaris.turbines.length,2);
+  assert.notEqual(MODELS.solaris.turbines[0].at,MODELS.solaris.turbines[1].at);
+  assert.equal(phaseAt('vehicle',7.4,true,'solaris')[1],'TWIN TURBINE LOCK');
+  assert.equal(phaseAt('vehicle',11,true,'solaris')[1],'SOLAR IGNITION');
 });

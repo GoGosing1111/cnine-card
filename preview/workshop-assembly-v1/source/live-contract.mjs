@@ -17,6 +17,9 @@ export function liveAssemblyReceipt(data,recipe){
   // arbitrary car through Veneno just because it is a vehicle recipe.
   const image=String(recipe.output_image||'').replace(/\\/g,'/').replace(/^\//,'');
   if(mode==='vehicle'&&!model&&image==='assets/tire/lamborghini-veneno-showroom-v1.png')model='veneno';
+  // Solaris is a CMS-defined vehicle: bind only its exact registered art,
+  // including failure receipts without output. Names are editable, not identity.
+  if(mode==='vehicle'&&!model&&image==='assets/tire/solaris-omega-v1.png')model='solaris';
   const name=String(result.output?.name||recipe.output_name||data.recipeName||'제작 아이템');
   return Object.freeze({mode,model,name,result,image:result.output?.image||recipe.output_image||'',
     coinSpent:Number(data.coinSpent||0),masterStarSpent:Number(data.masterStarSpent||0),

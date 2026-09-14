@@ -4,7 +4,7 @@ if(params.has('autoConfirm'))window.confirm=()=>true; // In-memory QA only.
 let count=0,state,receipts=new Map(),load;
 window.ensureFeatureResources=()=>load??=(async()=>{
   if(params.has('loadFailure'))throw Error('QA: resource unavailable');
-  for(const src of ['/js/ui-fx-vendor-v2045.bundle.js?v=2045','/js/workshop-assembly-fx-v2073.bundle.js?v=2073.1'])await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=src;script.onload=resolve;script.onerror=reject;document.body.append(script);});
+  for(const src of ['/js/ui-fx-vendor-v2045.bundle.js?v=2045','/js/workshop-assembly-fx-v2073.bundle.js?v=2120-solaris'])await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=src;script.onload=resolve;script.onerror=reject;document.body.append(script);});
 })();
 const recipes=Object.entries(MODELS).map(([key,m],i)=>({id:i+1,category:m.mode==='suit'?'BATTLE_SUIT_CRAFT':'VEHICLE',output_type:m.mode==='suit'?'EQUIPMENT':'VEHICLE',output_ref:String(m.catalogId||901),output_name:m.name,output_image:key==='veneno'?'assets/tire/lamborghini-veneno-showroom-v1.png':m.catalogSource||m.source,name:m.name+' 제작',description:'검수용 제작법 · 실제 비용 없음',success_rate:10,payment_mode:'BOTH',coin_cost:200000000,master_star_cost:1000,materials:[],output_rarity:'MYTHIC',qaModel:key}));
 function reset(){state={wallet:{coin:20000000000,masterStars:50000,cardShards:0},inventory:{},recipes:structuredClone(recipes),synthesis:[]};}

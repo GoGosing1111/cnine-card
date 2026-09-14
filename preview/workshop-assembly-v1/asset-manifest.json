@@ -353,6 +353,17 @@
       "width": 732,
       "height": 335,
       "channels": 4
+    },
+    {
+      "path": "assets/solaris-omega-cutout-v1.png",
+      "sha256": "ae64a695c10d0c54fc16b7b58a50eac382d2ed34eada8420aff455888b7959cd",
+      "width": 1672,
+      "height": 941,
+      "channels": 4,
+      "source": "assets/sources/solaris-omega-extracted-source-v1.png",
+      "sourceSha256": "d675729e52f797d7018de32f2615014a2b4d59cc87f79dc978202d461df3eb3e",
+      "alphaRemovedPixels": 948228,
+      "method": "ImageGen cutout, chroma green alpha only"
     }
   ]
 }

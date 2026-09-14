@@ -916,11 +916,11 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   workshop:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2073.1','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090'],
+    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090'],
     ready:()=>Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=2073.1'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=2120-solaris'],
     ready:()=>typeof window.WorkshopAssemblyFilm==='function'
   },
   alchemy:{

@@ -12,6 +12,7 @@ const clamp=v=>Math.max(0,Math.min(1,v));
 const parts=['helmet','torso','hips','shoulderL','shoulderR','armL','armR','legL','legR','core'];
 const resources={suitBackground:base+'suit-bay.png',vehicleBackground:base+'vehicle-bay.png',car:base+'car-cutout.png',suit:root+'/assets/items/h-body-v2066.png',frame:root+'/assets/ui/workshop/vehicle-part-frame-v1668.png',engine:root+'/assets/ui/workshop/vehicle-part-engine-v1668.png',...Object.fromEntries(parts.map(n=>[n,base+`parts/${n}.png`])),...Object.fromEntries(['upper','lower','grip'].map(n=>['robot-'+n,base+`parts/robot-${n}.png`]))};
 resources.ignis=new URL(MODELS.ignis.source,assetRoot).href;
+resources.solaris=new URL(MODELS.solaris.source,assetRoot).href;
 for(const [key,v]of Object.entries(variantParts)){
   resources[key]=root+v.source;
   for(const p of v.parts)resources[`${key}:${p.name}`]=new URL(p.path,assetRoot).href;
@@ -20,7 +21,7 @@ export const RESOURCE_KEYS=Object.freeze(Object.keys(resources));
 export function resourceKeysFor(item){
   const model=modelFor(MODELS[item]?.mode,item);
   const common=[`${model.mode}Background`,'robot-upper','robot-lower','robot-grip'];
-  if(model.mode==='vehicle')return [...common,'frame','engine',item==='ignis'?'ignis':'car'];
+  if(model.mode==='vehicle')return [...common,'frame','engine',model.art?item:'car'];
   return [...common,...(item==='h'?['suit',...parts]:[item,...variantParts[item].parts.map(p=>`${item}:${p.name}`)])];
 }
 
@@ -80,7 +81,7 @@ export class AssemblyFilm {
       if(this.disposed)return;
       // Preserve source artwork while filtering detailed new parts cleanly
       // at mobile scale. Configure before the first GPU texture upload.
-      if(key==='ignis'||/^[efg](?::|$)/.test(key)){
+      if(key==='ignis'||key==='solaris'||/^[efg](?::|$)/.test(key)){
         texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';
       }
       this.buffers[key]=texture;
@@ -159,7 +160,7 @@ export class AssemblyFilm {
     this.cues.push({name:'driver',at:8.5,gain:.12,length:.9},{name:this.result.success?'driver':'failure',at:10.3,gain:.1,length:1.2});
   }
   buildVehicle(){
-    if(this.modelKey==='ignis'){this.buildIgnis();return;}
+    if(this.model.art){this.buildIgnis();return;}
     this.carGroup=new Container();this.object.addChild(this.carGroup);
     const chassis=this.sprite('frame',this.carGroup,{x:590,y:250,alpha:0});chassis.scale.set(.93);
     const engine=this.sprite('engine',this.carGroup,{x:716,y:-80,alpha:0});engine.scale.set(.29);
@@ -187,31 +188,37 @@ export class AssemblyFilm {
     this.impacts=[{at:1.9,x:533,y:690},{at:3.35,x:810,y:410},{at:4.9,x:777,y:607},{at:5.45,x:1190,y:545},{at:6.85,x:628,y:660}];
   }
   buildIgnis(){
-    const m=this.model,a=m.art;this.carGroup=new Container();this.object.addChild(this.carGroup);
+    const m=this.model,a=m.art,key=this.modelKey;
+    const turbines=m.turbines||[{box:m.turbine,at:7.2,duration:1.3,joint:[1060,263]}];
+    this.carGroup=new Container();this.object.addChild(this.carGroup);
     const chassis=this.sprite('frame',this.carGroup,{x:590,y:250,alpha:0});chassis.scale.set(.93);
     const engine=this.sprite('engine',this.carGroup,{x:m.engine[0],y:-80,alpha:0});engine.scale.set(.29);
     this.timeline.to(chassis,{alpha:1,duration:.5},.6).to(chassis,{x:345,duration:1.3,ease:'power2.out'},.6);
     this.timeline.to(engine,{alpha:1,duration:.2},2).to(engine,{y:m.engine[1],duration:1.35,ease:'power2.inOut'},2);
     this.carArt=new Container();this.carArt.position.set(a.x,a.y);this.carArt.scale.set(a.scale);this.carGroup.addChild(this.carArt);
-    const body=new Container();this.carArt.addChild(body);this.sprite('ignis',body);
-    const bodyMask=new Graphics().rect(0,0,1679,937).fill(0xffffff);
+    const body=new Container();this.carArt.addChild(body);this.sprite(key,body);
+    const bodyMask=new Graphics().rect(...m.box).fill(0xffffff);
     for(const w of m.wheels)bodyMask.ellipse(w.cx,w.cy,w.rx,w.ry).cut();
-    bodyMask.rect(...m.turbine).cut();body.addChild(bodyMask);body.mask=bodyMask;body.alpha=0;body.y=-390;
+    for(const t of turbines){if(t.polygon)bodyMask.poly(t.polygon).cut();else bodyMask.rect(...t.box).cut();}
+    body.addChild(bodyMask);body.mask=bodyMask;body.alpha=0;body.y=-390;
     this.timeline.to(body,{alpha:1,duration:.45},5.4).to(body,{y:0,duration:1.45,ease:'power3.inOut'},5.4);
     for(const w of m.wheels){
-      const c=new Container();this.carArt.addChild(c);this.sprite('ignis',c);c.position.set(w.dx,w.dy);c.alpha=0;
+      const c=new Container();this.carArt.addChild(c);this.sprite(key,c);c.position.set(w.dx,w.dy);c.alpha=0;
       const mask=new Graphics().ellipse(w.cx,w.cy,w.rx+1,w.ry+1).fill(0xffffff);c.addChild(mask);c.mask=mask;
       this.timeline.to(c,{alpha:1,duration:.25},w.at).to(c,{x:0,y:0,duration:1.2,ease:'power3.inOut'},w.at);
     }
-    const turbine=new Container();this.carArt.addChild(turbine);this.sprite('ignis',turbine);turbine.y=-245;turbine.alpha=0;
-    const mask=new Graphics().rect(...m.turbine).fill(0xffffff);turbine.addChild(mask);turbine.mask=mask;
-    this.timeline.to(turbine,{alpha:1,duration:.2},7.2).to(turbine,{y:0,duration:1.3,ease:'power3.inOut'},7.2);
+    this.turbineParts=turbines.map(t=>{
+      const turbine=new Container();this.carArt.addChild(turbine);this.sprite(key,turbine);turbine.y=-245;turbine.alpha=0;
+      const mask=new Graphics();if(t.polygon)mask.poly(t.polygon).fill(0xffffff);else mask.rect(...t.box).fill(0xffffff);turbine.addChild(mask);turbine.mask=mask;
+      this.timeline.to(turbine,{alpha:1,duration:.2},t.at).to(turbine,{y:0,duration:t.duration,ease:'power3.inOut'},t.at);
+      return turbine;
+    });
     this.timeline.to([chassis,engine],{alpha:0,duration:.5},6.3);
-    const full=this.sprite('ignis',this.carArt,{alpha:0});this.timeline.to(full,{alpha:1,duration:.1},8.5);
+    const full=this.sprite(key,this.carArt,{alpha:0});this.timeline.to(full,{alpha:1,duration:.1},8.5);
     this.weldRange=[8.5,9.2];this.timeline.to(this.state,{weld:1,duration:.7,ease:'none'},8.5);
     if(this.result.success)this.timeline.to(this.carGroup,{x:-44,y:20,duration:1.9,ease:'power2.inOut'},11.4);
     const point=(x,y)=>({x:a.x+x*a.scale,y:a.y+y*a.scale});
-    this.impacts=[{at:1.9,x:533,y:690},{at:3.35,x:m.engine[0]+85,y:m.engine[1]+66},...m.wheels.map(w=>({at:w.at+1.2,...point(w.cx,w.cy)})),{at:6.85,x:710,y:604},{at:8.5,...point(1060,263)}];
+    this.impacts=[{at:1.9,x:533,y:690},{at:3.35,x:m.engine[0]+85,y:m.engine[1]+66},...m.wheels.map(w=>({at:w.at+1.2,...point(w.cx,w.cy)})),{at:6.85,x:710,y:604},...turbines.map(t=>({at:t.at+t.duration,...point(...t.joint)}))];
     this.cues=this.impacts.map(p=>({name:'lock',at:p.at,gain:.14,length:.6}));
     this.cues.push({name:'driver',at:8.5,gain:.12,length:.7},{name:this.result.success?'ignition':'failure',at:10.3,gain:.2,length:3});
   }
@@ -286,7 +293,29 @@ export class AssemblyFilm {
       }else{
         const dx=this.carGroup.x,dy=this.carGroup.y,lights=this.model.lights||[[365,580],[584,594]];
         for(const [x,y]of lights)this.glow.ellipse(x+dx,y+dy,40,12).fill({color:c,alpha:q*.35});
-        if(success&&this.modelKey==='ignis'){
+        if(success&&this.modelKey==='solaris'){
+          // Two authored turbine hubs charge together. Rays, exhaust and ground
+          // traces evolve from the same playhead, including seek and pause.
+          for(const [cx,cy] of this.model.cores){
+            const x=cx+dx,y=cy+dy;
+            this.glow.ellipse(x,y,30*q,26*q).fill({color:c,alpha:.42*q});
+            g.circle(x,y,5*q).fill({color:0xfff1c0,alpha:q});
+            for(let i=0;i<12;i++){
+              const angle=i*Math.PI/6+t*2.3;
+              g.moveTo(x+Math.cos(angle)*9,y+Math.sin(angle)*8).lineTo(x+Math.cos(angle)*21,y+Math.sin(angle)*18).stroke({width:1.5,color:c,alpha:q*.65});
+            }
+          }
+          for(const [nx,ny] of this.model.nozzles){
+            const x=nx+dx,y=ny+dy,len=(90+Math.sin(t*13+ny)*12)*q;
+            this.glow.ellipse(x+len*.4,y,len*.6,14).fill({color:0xffb938,alpha:.28*q});
+            g.moveTo(x,y-7).bezierCurveTo(x+len*.35,y-15,x+len*.8,y+8,x+len,y).bezierCurveTo(x+len*.6,y+13,x+len*.2,y+9,x,y+7).closePath().fill({color:0xffcd62,alpha:q*.65});
+            g.moveTo(x,y-3).lineTo(x+len*.72,y).lineTo(x,y+3).closePath().fill({color:0xfff2c4,alpha:q*.9});
+          }
+          for(let i=0;i<3;i++){
+            const u=((t-10.3)*.7+i/3)%1,x=430+u*710+dx,y=720-u*125+dy;
+            g.moveTo(x,y).lineTo(x+75*q,y-13*q).stroke({width:1.5,color:c,alpha:(1-u)*q*.5});
+          }
+        }else if(success&&this.modelKey==='ignis'){
           const [nx,ny]=this.model.nozzle,x=nx+dx,y=ny+dy,len=(105+Math.sin(t*9)*8)*q;
           this.glow.ellipse(x+len*.42,y,len*.65,19).fill({color:0xff592f,alpha:.22*q});
           g.moveTo(x,y-8).bezierCurveTo(x+len*.4,y-18,x+len*.7,y+7,x+len,y).bezierCurveTo(x+len*.65,y+14,x+len*.3,y+16,x,y+8).closePath().fill({color:0xff7944,alpha:.6*q});

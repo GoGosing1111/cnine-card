@@ -42,3 +42,13 @@ Extract the supplied exact red Ignis-X futuristic roadster for a game crafting a
 도구가 체크무늬를 포함한 RGB를 반환했기 때문에 그대로 런타임에 쓰지 않았다. `prepare-ignis-assets.mjs`가 프로젝트의 `scripts/remove-connected-light-background.cjs`를 호출한 뒤 검수한 내부 공기 영역에 같은 밝은 중성색 flood-fill을 적용한다. 알파만 변경하며 RGB·비율은 보존한다. 후처리 PNG의 SHA와 규격은 `asset-manifest.json`에 기록한다.
 
 투명화 재시도 이미지와 불필요한 E-BODY 재추출 시안은 채택하지 않았다. E/F/G는 이미 실제 알파가 있는 CMS 원본을 그대로 분할했으며 생성 이미지로 교체하지 않는다.
+
+## Solaris Ω / 2026-09-15 / built-in ImageGen
+
+Input edit target: assets/tire/solaris-omega-v1.png, original catalogue preserved.
+
+Prompt 1: Background extraction of exactly the supplied Solaris Omega white/gold supercar, same front-left three-quarter view, proportions, wheels, rear spoiler and both rooftop turbines. Remove showroom, ground, shadow, external trails, sparks and exhaust flames. Unlit gold turbines/wheels, whole car within canvas, transparent background, no text.
+
+Prompt 2 (checkerboard correction): Replace only the checkerboard backdrop with perfectly solid chroma green #00FF00, including rear wing openings. Keep entire car design, proportions, placement, size, perspective and white/gold materials. No green reflections or spill, floor, shadow, added glow, trail or flames. Same 1672×941 composition.
+
+Final generated intermediate: assets/sources/solaris-omega-extracted-source-v1.png. prepare-solaris-assets.mjs only extracts green alpha; actual rendering asset is assets/solaris-omega-cutout-v1.png. Both hashes are in asset-manifest.json.
