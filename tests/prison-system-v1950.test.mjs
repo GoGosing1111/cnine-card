@@ -112,7 +112,7 @@ test('수감자 때리기는 60초 서버 쿨타임·중복 영수증·자기 �
 });
 
 test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
-  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['treasury', 'soopketland', 'prison', 'prisoncamp'\]\) \}\)/);
+  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['coup', 'treasury', 'soopketland', 'prison', 'prisoncamp'\]\) \}\)/);
   assert.match(menu,/MENU_GROUP_ORDER = Object\.freeze\(\[[^\]]*'market', 'administration'\]\)/);
   assert.match(menu,/prison: Object\.freeze\(\{ title: '감옥', group: 'administration', icon: 'prison' \}\)/);
   assert.match(client,/prison: prisonView/);

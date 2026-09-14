@@ -83,7 +83,7 @@ test('승부예측 지원금은 예상 배당과 정산에 포함되고 무효 �
 });
 
 test('전체 메뉴 행정부와 반응형 게임 내 승인 UI가 연결된다',()=>{
-  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['treasury', 'soopketland', 'prison', 'prisoncamp'\]\) \}\)/);
+  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['coup', 'treasury', 'soopketland', 'prison', 'prisoncamp'\]\) \}\)/);
   assert.match(menu,/treasury: Object\.freeze\(\{ title: '세금징수', group: 'administration', icon: 'treasury' \}\)/);
   assert.match(router,/treasury: \{ shell: 'treasury' \}/);
   assert.match(app,/administration-treasury-v2030\.js\?v=2030-tax-one-percent/);
