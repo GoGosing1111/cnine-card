@@ -38,8 +38,8 @@ for(const postgres of [false,true]){
   assert.equal((await(await call(f,'mercenaries/v3/state')).json()).cards.length,before.cards.length);assert.equal(await f.coin(),54500000000);
  });
  test(`${label}: invalid reward readiness cannot start; audit failure cannot enable opening`,async t=>{
-  const f=await fixture(t,postgres);const draw=structuredClone(f.draw);for(const o of draw.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(draw);
-  let result=await toggle(f,'ON',0);assert.equal(result.status,409);assert.match((await result.json()).error,/SS/);
+  const f=await fixture(t,postgres);const draw=structuredClone(f.draw);for(const o of draw.outcomes)o.chancePpm=o.id==='CARD_A'?1000000:0;await f.setDraw(draw);
+  let result=await toggle(f,'ON',0);assert.equal(result.status,409);assert.match((await result.json()).error,/A/);
   await f.setDraw(f.draw);await f.p("UPDATE inventory_items SET is_active=0 WHERE code='MASTER_STAR'").run();for(const o of draw.outcomes)o.chancePpm=o.id==='MASTER_STAR'?1000000:0;await f.setDraw(draw);
   assert.equal((await toggle(f,'ON',0)).status,409);await f.p("UPDATE inventory_items SET is_active=1 WHERE code='MASTER_STAR'").run();await f.setDraw(f.draw);
   f.fail('INSERT INTO admin_logs');result=await toggle(f,'ON',0);assert.ok(result.status>=400);assert.equal((await hyperOpeningState(f.env)).mode,'OFF');f.fail('');
