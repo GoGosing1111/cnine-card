@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 416,
+  "frameCount": 432,
   "images": [
     {
       "id": "closing-punch",
@@ -9088,6 +9088,334 @@
             314,
             314
           ]
+        }
+      ]
+    },
+    {
+      "id": "tidal-barrage",
+      "skillId": "MS-044",
+      "name": "해일 탄막",
+      "source": "tidal-barrage/sequence-source-v1.png",
+      "runtime": "tidal-barrage/atlas-v1.webp",
+      "sourceSha256": "B567DBC71FC52893F212E5D8FA697DF96D0BA79B38C28F8EF1A535D6C5B867F9",
+      "runtimeSha256": "5E9579771BACFBC74414B0CEB3384CF163F513EF5EF9F399123889C04649D8D4",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Transparent-background 2D game animation asset: ONE 4 by 4 square spritesheet containing SIXTEEN consecutive hand-painted frames of a compact aquamarine machine-gun bullet impact. Output true RGBA PNG with alpha transparency, no checkerboard or opaque background.\nThe grid is exactly four equal columns and four equal rows, read left to right, top to bottom. Native square image. Every frame must remain within the CENTRAL 55% of its own cell, with at least 22% completely transparent padding around all sides. Largest impact is less than half a cell wide. Nothing crosses a cell boundary.\nAnimation is a small white ballistic spark splitting an aquamarine pressure shell into silver-blue water ribbons, brass sparks and tiny droplets, then those fragments dissolve. Direction of bullet from left to right, fixed contact center at (50%,55%) in each cell.\nFrames 1-4: a tiny projectile approaches the fixed point, a thin water-pressure crescent forms, small initial flash on frame 4.\nFrame 5: bright compact contact spark with a cyan tearing crescent and tiny brass chips.\nFrames 6-8: pressure crescent tears into multiple thin distinct curved water fragments, droplets flick rightwards. Each frame genuinely changes structure, not a scaled duplicate.\nFrames 9-12: fragments progressively break into smaller disconnected streams and scattered drops; no opaque circular blob.\nFrames 13-16: progressively sparse drifting mist specks, finally nearly empty.\nPremium illustrated game-VFX material, compact and sharp, actual temporal continuity, not sixteen unrelated icons. No gun, person, ground, grid lines, borders, numerals or text. Clean fully transparent margins and gaps are essential.\n",
+      "sourceFilename": "sequence-source-v1.png",
+      "visualReview": "2026-09-15 사용자 SD·스킬 전체 승인 및 라이브 연결 요청",
+      "runtimeBytes": 572398,
+      "creationReferenceCode": "V-044",
+      "frames": [
+        {
+          "index": 0,
+          "file": "tidal-barrage/frames/01.webp",
+          "bounds": [
+            73,
+            161,
+            166,
+            179
+          ],
+          "alphaPixels": 1425,
+          "sha256": "003D99FD1BE280545F02E57BF232C8F8705219514AB54452C19E68483294DD96",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "0D0E32E72A16474440353E39384498C0D2F8430BC90BBD5AABEF11F87A404E91",
+          "nonempty": 5806
+        },
+        {
+          "index": 1,
+          "file": "tidal-barrage/frames/02.webp",
+          "bounds": [
+            98,
+            118,
+            214,
+            223
+          ],
+          "alphaPixels": 3600,
+          "sha256": "6BB3222CE670B7593705E3EB6FD8A7424128A370D61CB74210CC21EF2D375224",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "903C2727A97D48886EFFAD3A7B5C6AA8B94EEFD74995D1DF37B73B8EEEC3F5A5",
+          "nonempty": 14626
+        },
+        {
+          "index": 2,
+          "file": "tidal-barrage/frames/03.webp",
+          "bounds": [
+            87,
+            106,
+            239,
+            238
+          ],
+          "alphaPixels": 8270,
+          "sha256": "D91D9873BE53BEC5E910FC917C910BF1A3FB0EB406B488EF137FD383CE13F249",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "AB02BA50A17A8C55AAE3D5100ECB8C3D26F7DAFC9CF805070A964E0686DF86AB",
+          "nonempty": 25093
+        },
+        {
+          "index": 3,
+          "file": "tidal-barrage/frames/04.webp",
+          "bounds": [
+            110,
+            96,
+            239,
+            241
+          ],
+          "alphaPixels": 10631,
+          "sha256": "7F4126BC6B0F3597BB53CE44CC53C4E1018F74D54E0C24614B97E3BF9A08ECC8",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "2DD5104EC032F78DB69092160F2CA765FD8ECC93F7F13DEC91744A2B0F207005",
+          "nonempty": 25046
+        },
+        {
+          "index": 4,
+          "file": "tidal-barrage/frames/05.webp",
+          "bounds": [
+            96,
+            74,
+            262,
+            242
+          ],
+          "alphaPixels": 15277,
+          "sha256": "C130ED5FE5DBF0AD1B08D72BA03E9D46D9D6C1FC06CC1B9304F34D228532EA4E",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "8EE265402C4CF73D18797ED2D8D055EAD584E7229BC7BD9CA0AF35266A91C136",
+          "nonempty": 29142
+        },
+        {
+          "index": 5,
+          "file": "tidal-barrage/frames/06.webp",
+          "bounds": [
+            98,
+            75,
+            269,
+            244
+          ],
+          "alphaPixels": 14532,
+          "sha256": "98613E4327D5D70CC3CEDCC85AB0E5A9773F4ECF8A56136F2D25840DF259217C",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "11BFF8826DA4FFDD2E38D4826151B19063ECD83D139D1DCBAAD1C477C7BA5FE9",
+          "nonempty": 32707
+        },
+        {
+          "index": 6,
+          "file": "tidal-barrage/frames/07.webp",
+          "bounds": [
+            75,
+            73,
+            273,
+            246
+          ],
+          "alphaPixels": 12820,
+          "sha256": "70DA0D65DEC45D66BAAAC402B46A29F683448427D8956C56129D421568C3C3C6",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "00BC6F77DACA5480F2291B410D76061FDB418D243D14F7E2DD58E70B95BC578D",
+          "nonempty": 33149
+        },
+        {
+          "index": 7,
+          "file": "tidal-barrage/frames/08.webp",
+          "bounds": [
+            87,
+            72,
+            262,
+            247
+          ],
+          "alphaPixels": 10295,
+          "sha256": "F51D6041B3BD60BB7031AD779FC32C033081ED3141CD13DB6438B8AEDF254C9B",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "76E22985A01FF2E3490D3B2AA0FC579509F0711A8D81B04CE358778BFAA3C8E3",
+          "nonempty": 32121
+        },
+        {
+          "index": 8,
+          "file": "tidal-barrage/frames/09.webp",
+          "bounds": [
+            87,
+            69,
+            272,
+            253
+          ],
+          "alphaPixels": 8995,
+          "sha256": "6F36FDEED8853D12AECC507D6C7F0686731491EE09DC7BA84AAA1B83C9F360A4",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "B3C47855F97E13FA9D0D5485034B6DB744E130294DE150E622772AB65FAF55D3",
+          "nonempty": 29718
+        },
+        {
+          "index": 9,
+          "file": "tidal-barrage/frames/10.webp",
+          "bounds": [
+            84,
+            70,
+            276,
+            241
+          ],
+          "alphaPixels": 5563,
+          "sha256": "EE365E021A8B35DB452FD4B38B47652E3843F609D0C12DE3628C09EE22D8ADE1",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "1AC876D11C4E1DF5AFE2CB0DB979FBF7C06E017919625411A470C4E8A5B3E844",
+          "nonempty": 31838
+        },
+        {
+          "index": 10,
+          "file": "tidal-barrage/frames/11.webp",
+          "bounds": [
+            97,
+            71,
+            260,
+            239
+          ],
+          "alphaPixels": 2992,
+          "sha256": "9264655C79C2B1A37DEF8F855BE36E391645D878887DDD9F459EFDA05940CD4E",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "90A50B38EC04746AE578C75C9DB090CDCAC648E464F5C875E4A8B817559B75EB",
+          "nonempty": 34940
+        },
+        {
+          "index": 11,
+          "file": "tidal-barrage/frames/12.webp",
+          "bounds": [
+            98,
+            88,
+            229,
+            230
+          ],
+          "alphaPixels": 1146,
+          "sha256": "854F48E737355527CBA082E1DDF899925E2ED34D24E57E61B3A122CEF154FF72",
+          "edgeMax": 2,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "12FEC9302E769777265ED3B62CD586024B5B3CC19ED0E9D75E7DF0D692CD7C78",
+          "nonempty": 35858
+        },
+        {
+          "index": 12,
+          "file": "tidal-barrage/frames/13.webp",
+          "bounds": [
+            100,
+            78,
+            233,
+            203
+          ],
+          "alphaPixels": 920,
+          "sha256": "D07A757C841E3B3E84C9ECA49123FE96F24249F47C9D9F70B498EF2D8E8D4423",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "336E9457A9585A93DF305DB58BE3FB63C9A56C716DA6A8E3DA984F50162E592A",
+          "nonempty": 26745
+        },
+        {
+          "index": 13,
+          "file": "tidal-barrage/frames/14.webp",
+          "bounds": [
+            105,
+            79,
+            232,
+            202
+          ],
+          "alphaPixels": 442,
+          "sha256": "0A38D19308F927C5D32839CEE9657A1295FE7C3F52949F23225BC94E63CBDAC6",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "F2C847D408E94505C8570FDC01088AECC054255816D0DA1C8F0A9FD1A94FF648",
+          "nonempty": 28602
+        },
+        {
+          "index": 14,
+          "file": "tidal-barrage/frames/15.webp",
+          "bounds": [
+            130,
+            82,
+            237,
+            172
+          ],
+          "alphaPixels": 180,
+          "sha256": "82B04392D4B86E675AE432C4C6D8075F78945BF956E0CEDB5BE08E9D86A7CC00",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "AF667381F2CB0DF9AC74FCE7FC0D8B1ADEFE86E3E16196D0DF5625065537684A",
+          "nonempty": 31842
+        },
+        {
+          "index": 15,
+          "file": "tidal-barrage/frames/16.webp",
+          "bounds": null,
+          "alphaPixels": 0,
+          "sha256": "F13418225BD86FC02EA747F0DBB934981E65813866B8FF081CE0FD3B65872F59",
+          "edgeMax": 2,
+          "size": [
+            314,
+            314
+          ],
+          "rawSha256": "AED168468C61947E8E3F2183422BB7A52ECFBD7E44365999C7B5E140B519B4C7",
+          "nonempty": 16290
         }
       ]
     }

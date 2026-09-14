@@ -24,7 +24,7 @@ test('Dongtan Diim uses the approved name and preserves all previous 42 mercenar
   assert.equal(approval.newCards,1);
   assert.equal(approval.existingCardsPreserved,42);
   assert.equal(hash(JSON.stringify(beforeSdCompletion(roster.cards.slice(0,42)))),approval.previousRosterCardsSha256);
-  assert.deepEqual(roster.cards.slice(42).map(entry=>entry.code),['V-043']);
+  assert.deepEqual(roster.cards.slice(42,43).map(entry=>entry.code),['V-043']);
   assert.equal(card.name,'동탄 디임');
   assert.equal(card.nameStatus,'USER_ASSIGNED_NAME');
   assert.equal(card.catalogRelease,'READ_ONLY_USER_APPROVED');
@@ -32,7 +32,7 @@ test('Dongtan Diim uses the approved name and preserves all previous 42 mercenar
   for(const q of ['동탄 디임','동탄디임','디임','ㄷㅌㄷㅇ','V043','회색 니트 원피스']){
     assert.deepEqual(filterCards(roster.cards,{q}).map(entry=>entry.code),['V-043'],q);
   }
-  assert.equal(filterCards(roster.cards,{sort:'newest'})[0].code,card.code);
+  assert.equal(filterCards(roster.cards.slice(0,43),{sort:'newest'})[0].code,card.code);
 });
 
 test('the final game-illustration V4 is connected byte-for-byte with only separate WebP derivatives',async()=>{
@@ -56,7 +56,7 @@ test('the final game-illustration V4 is connected byte-for-byte with only separa
 
 test('Diim art approval stays unranked and the CMS codex publishes separate approved art and SD',()=>{
   assert.equal(ROSTER_URL.searchParams.get('v'),'20260911-omega-ranks');
-  assert.deepEqual(roster.summary,{total:43,sourceArtReady:43,battleSpriteReady:43,battleSpritePending:0,rankPending:42});
+  assert.deepEqual(roster.summary,{total:44,sourceArtReady:44,battleSpriteReady:44,battleSpritePending:0,rankPending:42});
   assert.equal(approval.runtimeConnected,false);
   assert.equal(approval.rankAssigned,false);
   assert.equal(card.rank,null);

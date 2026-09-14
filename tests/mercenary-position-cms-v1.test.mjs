@@ -42,12 +42,12 @@ test('known v1 draft migration preserves prior notes, assignments and revision',
 test('43 approved roster codes each have a distinct, complete proposed assignment', () => {
   assert.deepEqual(validatePositionDraft(seed, roster), { ok: true, errors: [] });
   assert.deepEqual(seed.assignments.map(entry => entry.code).sort(), roster.cards.map(card => card.code).sort());
-  assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size, 43);
-  assert.equal(roster.cards.every(card => card.code === 'V-021' ? card.rank === 'SSS' : card.rank === null), true);
+  assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size, 44);
+  assert.equal(roster.cards.every(card => card.code === 'V-021' ? card.rank === 'SSS' : card.code === 'V-044' ? card.rank === 'SS' : card.rank === null), true);
   assert.deepEqual(summarizePositions(seed), {
-    total: 43,
-    positions: { FRONT: 20, MIDDLE: 15, REAR: 8 },
-    roles: { GUARDIAN: 4, VANGUARD: 10, ASSASSIN: 5, MARKSMAN: 11, SNIPER: 4, CONTROLLER: 6, SUPPORT: 3 }
+    total: 44,
+    positions: { FRONT: 20, MIDDLE: 16, REAR: 8 },
+    roles: { GUARDIAN: 4, VANGUARD: 10, ASSASSIN: 5, MARKSMAN: 12, SNIPER: 4, CONTROLLER: 6, SUPPORT: 3 }
   });
 });
 

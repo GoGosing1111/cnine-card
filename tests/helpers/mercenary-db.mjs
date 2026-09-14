@@ -6,7 +6,7 @@ import {suggestedMercenaryDraw} from '../../shared/mercenary-draw-policy-v1.mjs'
 import {ensureMercenaryRuntimeSchema,MERCENARY_RUNTIME_DRAFT,MERCENARY_RUNTIME_KEY} from '../../functions/_mercenary_account.js';
 export async function mercenaryFixture(t,options){
  const f=options?.base||await jointFixture(t,options);await ensureMercenaryCms(f.env,7);await ensureMercenaryDrawCms(f.env,7);await ensureMercenaryRuntimeSchema(f.env);
- const document=structuredClone(MERCENARY_CMS_SEED.document);for(const c of document.mercenaries){c.rank=c.code==='V-021'?'SSS':'C';c.review='REVIEWED';c.stats={hp:10000,attack:1000,defense:100,speed:100};c.growth={maxLevel:10,hpPerLevel:100,attackPerLevel:10,defensePerLevel:1};}
+ const document=structuredClone(MERCENARY_CMS_SEED.document);for(const c of document.mercenaries){c.rank=MERCENARY_CMS_SEED.catalog.cards.find(a=>a.code===c.code).rank||'C';c.review='REVIEWED';c.stats={hp:10000,attack:1000,defense:100,speed:100};c.growth={maxLevel:10,hpPerLevel:100,attackPerLevel:10,defensePerLevel:1};}
  for(const r of document.settings.rankGrowth)Object.assign(r,{maxLevel:10,coinPerLevel:1000,expPerLevel:100});
  const draw=suggestedMercenaryDraw();for(const o of draw.outcomes)o.chancePpm=o.id==='CARD_C'?1000000:0;
  const policy={...structuredClone(MERCENARY_RUNTIME_DRAFT),mode:'TEST',opening:{paymentKind:'COIN',coinPerOpen:1000,itemCode:null,itemsPerOpen:null,maxBatch:10},training:{itemCode:'MERCENARY_TEST_EXP',experiencePerItem:100}};

@@ -1421,6 +1421,39 @@
       "source": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
       "sourceSha256": "9B342949FEB24DFACCA663A47272846C390341FF3489DF0AEDE04C7ECFC8BCA3",
       "sha256": "418D3B036EBC75191A62EC26A1D181C8E8B1794071A5A0573A5039826295F55A"
+    },
+    {
+      "code": "V-044",
+      "kind": "art",
+      "file": "v-044-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 58898,
+      "source": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+      "sourceSha256": "1A5ADF3D106AE2FE455C2075E81CF19A09A8AAEF1558F6767EF3027E744D27EC",
+      "sha256": "374A68DFF18E7F88174E4D8B5BFDFF7E482F9872679EC15229BE998FF469FCC9"
+    },
+    {
+      "code": "V-044",
+      "kind": "art",
+      "file": "v-044-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 171236,
+      "source": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+      "sourceSha256": "1A5ADF3D106AE2FE455C2075E81CF19A09A8AAEF1558F6767EF3027E744D27EC",
+      "sha256": "409B53EEB2F9516E196CE9486B61EF6FE4A071A7900E5F3D3BC4921688B60822"
+    },
+    {
+      "code": "V-044",
+      "kind": "sd",
+      "file": "v-044-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 127244,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v044-hi-heeya-sd-v1.png",
+      "sourceSha256": "8BD6865E1972D60C9A48BF819DDCC6987A124D829C0A378DADC9170EC114AF91",
+      "sha256": "6ED5B4CD18ED652E21C4A6FC5B6B364DE5CE39A1188BEC2E36CCC46E08EB9F99"
     }
   ]
 }

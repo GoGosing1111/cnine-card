@@ -83,6 +83,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   // The nine authored tracers share one canonical hit, never nine full damage rolls.
+   case 'TIDAL_BARRAGE':once(t=>strike(a,s,t));break;
    case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
    case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget);a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
    case 'WOUNDED_MOON_DRAW':once(t=>strike(a,s,t,1+(1-t.hp/t.maxHp)*c.finisherBonusPercent/100));break;

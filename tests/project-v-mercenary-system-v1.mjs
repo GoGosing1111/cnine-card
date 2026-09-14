@@ -24,7 +24,7 @@ test('new rank ladder assigns only user-directed Omega and preserves every prior
   assert.deepEqual(MERCENARY_RANKS, ['C','B','A','S','SS','SSS']);
   assert.equal(validateRankPolicy(roster), roster);
   const record = JSON.parse(fs.readFileSync(path.join(root, 'assets/ui/project-v/mercenaries/mercenary-rank-approval-20260911.json'), 'utf8'));
-  const digest = crypto.createHash('sha256').update(JSON.stringify(beforeOmegaRankAssignment(roster.cards))).digest('hex').toUpperCase();
+  const digest = crypto.createHash('sha256').update(JSON.stringify(beforeOmegaRankAssignment(roster.cards.slice(0,43)))).digest('hex').toUpperCase();
   assert.equal(digest, record.previousCardsSha256);
   const bad = structuredClone(roster);bad.cards[20].rank = 'SS';assert.throws(() => validateRankPolicy(bad));
   bad.cards[20].rank = 'SSS';bad.rankPolicy.tiers.push('SSR');assert.throws(() => validateRankPolicy(bad));
@@ -66,11 +66,11 @@ test('mercenary slot remains optional and does not change the existing five-card
 
 test('review roster has forty-three unique cards and no inherited rank', () => {
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length, 43);
-  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 43);
-  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 43 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
-  assert.ok(roster.cards.every((card) => card.code === 'V-021' ? card.rank === 'SSS' : card.rank === null));
-  assert.ok(roster.cards.every((card) => card.rankStatus === (card.code === 'V-021' ? 'USER_ASSIGNED_RANK' : 'PENDING_USER_ASSIGNMENT')));
+  assert.equal(roster.cards.length, 44);
+  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 44);
+  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 44 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
+  assert.ok(roster.cards.every((card) => card.code === 'V-021' ? card.rank === 'SSS' : card.code === 'V-044' ? card.rank === 'SS' : card.rank === null));
+  assert.ok(roster.cards.every((card) => card.rankStatus === (['V-021','V-044'].includes(card.code) ? 'USER_ASSIGNED_RANK' : 'PENDING_USER_ASSIGNMENT')));
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
   assert.equal(roster.formationRule.regularCardSlots, 5);
   assert.equal(roster.formationRule.mercenarySlots, 1);
@@ -80,9 +80,9 @@ test('review roster has forty-three unique cards and no inherited rank', () => {
 test('all source art and all declared battle sprites exist with recorded hashes', () => {
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
-  assert.equal(sprites.length, 43);
+  assert.equal(sprites.length, 44);
   assert.equal(pending.length, 0);
-  assert.equal(roster.summary.battleSpriteReady, 43);
+  assert.equal(roster.summary.battleSpriteReady, 44);
   assert.equal(roster.summary.battleSpritePending, 0);
 
   for (const card of roster.cards) {

@@ -1,0 +1,280 @@
+{
+  "code": "V-044",
+  "name": "하이희야",
+  "rank": "SS",
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+  "sourceArtSha256": "1a5adf3d106ae2fe455c2075e81cf19a09a8aaef1558f6767ef3027e744d27ec",
+  "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v044-hi-heeya-sd-v1.png",
+  "status": {
+    "sourceArt": "USER_APPROVED_EXACT_FILE",
+    "battleSprite": "USER_APPROVED_LIVE",
+    "skill": "USER_APPROVED_LIVE",
+    "runtimeEnabled": true
+  },
+  "generation": {
+    "sourceArt": "USER_ATTACHMENT",
+    "battleSprite": "BUILT_IN_IMAGE_GEN_WITH_AUTHORIZED_ALPHA_ONLY_CLEANUP",
+    "skill": "BUILT_IN_IMAGE_GEN",
+    "prompts": [
+      "prompts/battle-sd-v1.txt",
+      "prompts/tidal-barrage-v1.txt"
+    ]
+  },
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "source": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+    "clock": "V3_REGISTERED_GSAP",
+    "duration": 3.4,
+    "contactTimes": [
+      0.66,
+      0.83,
+      1,
+      1.17,
+      1.34,
+      1.51,
+      1.68,
+      1.85,
+      2.02
+    ],
+    "damageAuthority": "SERVER_SINGLE_HIT_AT_LAST_CONTACT",
+    "weapon": {
+      "x": 0.9697265625,
+      "y": 0.18033854166666666
+    },
+    "feet": {
+      "x": 0.5,
+      "y": 0.966796875
+    }
+  },
+  "backgroundRemoval": {
+    "authorization": "배경만 코드로 제거",
+    "method": "CONNECTED_NEUTRAL_BACKGROUND_ALPHA_ONLY",
+    "sourceSha256": "617ede299b53301c045cd1b1de8a58f74f079a3156fd83d9501039963c4efdfe",
+    "outputSha256": "8bd6865e1972d60c9a48bf819ddcc6987a124d829c0a378dadc9170ec114af91",
+    "width": 1024,
+    "height": 1536,
+    "transparent": 993582,
+    "originalRgbChanges": 0,
+    "bounds": [
+      32,
+      48,
+      997,
+      1485
+    ]
+  },
+  "effect": {
+    "name": "해일 탄막",
+    "nameStatus": "APPROVED",
+    "frameCount": 16,
+    "columns": 4,
+    "rows": 4,
+    "cellSize": 314,
+    "sourceSize": 1254,
+    "sourceSha256": "b567dbc71fc52893f212e5d8fa697df96d0ba79b38c28f8ef1a535d6c5b867f9",
+    "runtime": "preview/project-v-mercenary-system-v1/skill-assets-v2/tidal-barrage/atlas-v1.webp",
+    "sha256": "5e9579771bacfbc74414b0ceb3384cf163f513ef5ef9f399123889c04649d8d4",
+    "frames": [
+      {
+        "index": 0,
+        "file": "tidal-barrage/frames/01.webp",
+        "bounds": [
+          73,
+          161,
+          166,
+          179
+        ],
+        "alphaPixels": 1425,
+        "sha256": "003d99fd1be280545f02e57bf232c8f8705219514ab54452c19e68483294dd96"
+      },
+      {
+        "index": 1,
+        "file": "tidal-barrage/frames/02.webp",
+        "bounds": [
+          98,
+          118,
+          214,
+          223
+        ],
+        "alphaPixels": 3600,
+        "sha256": "6bb3222ce670b7593705e3eb6fd8a7424128a370d61cb74210cc21ef2d375224"
+      },
+      {
+        "index": 2,
+        "file": "tidal-barrage/frames/03.webp",
+        "bounds": [
+          87,
+          106,
+          239,
+          238
+        ],
+        "alphaPixels": 8270,
+        "sha256": "d91d9873be53bec5e910fc917c910bf1a3fb0eb406b488ef137fd383ce13f249"
+      },
+      {
+        "index": 3,
+        "file": "tidal-barrage/frames/04.webp",
+        "bounds": [
+          110,
+          96,
+          239,
+          241
+        ],
+        "alphaPixels": 10631,
+        "sha256": "7f4126bc6b0f3597bb53ce44cc53c4e1018f74d54e0c24614b97e3bf9a08ecc8"
+      },
+      {
+        "index": 4,
+        "file": "tidal-barrage/frames/05.webp",
+        "bounds": [
+          96,
+          74,
+          262,
+          242
+        ],
+        "alphaPixels": 15277,
+        "sha256": "c130ed5fe5dbf0ad1b08d72ba03e9d46d9d6c1fc06cc1b9304f34d228532ea4e"
+      },
+      {
+        "index": 5,
+        "file": "tidal-barrage/frames/06.webp",
+        "bounds": [
+          98,
+          75,
+          269,
+          244
+        ],
+        "alphaPixels": 14532,
+        "sha256": "98613e4327d5d70cc3cedcc85ab0e5a9773f4ecf8a56136f2d25840df259217c"
+      },
+      {
+        "index": 6,
+        "file": "tidal-barrage/frames/07.webp",
+        "bounds": [
+          75,
+          73,
+          273,
+          246
+        ],
+        "alphaPixels": 12820,
+        "sha256": "70da0d65dec45d66baaac402b46a29f683448427d8956c56129d421568c3c3c6"
+      },
+      {
+        "index": 7,
+        "file": "tidal-barrage/frames/08.webp",
+        "bounds": [
+          87,
+          72,
+          262,
+          247
+        ],
+        "alphaPixels": 10295,
+        "sha256": "f51d6041b3bd60bb7031ad779fc32c033081ed3141cd13db6438b8aedf254c9b"
+      },
+      {
+        "index": 8,
+        "file": "tidal-barrage/frames/09.webp",
+        "bounds": [
+          87,
+          69,
+          272,
+          253
+        ],
+        "alphaPixels": 8995,
+        "sha256": "6f36fdeed8853d12aecc507d6c7f0686731491ee09dc7ba84aaa1b83c9f360a4"
+      },
+      {
+        "index": 9,
+        "file": "tidal-barrage/frames/10.webp",
+        "bounds": [
+          84,
+          70,
+          276,
+          241
+        ],
+        "alphaPixels": 5563,
+        "sha256": "ee365e021a8b35db452fd4b38b47652e3843f609d0c12de3628c09ee22d8ade1"
+      },
+      {
+        "index": 10,
+        "file": "tidal-barrage/frames/11.webp",
+        "bounds": [
+          97,
+          71,
+          260,
+          239
+        ],
+        "alphaPixels": 2992,
+        "sha256": "9264655c79c2b1a37def8f855be36e391645d878887ddd9f459efda05940cd4e"
+      },
+      {
+        "index": 11,
+        "file": "tidal-barrage/frames/12.webp",
+        "bounds": [
+          98,
+          88,
+          229,
+          230
+        ],
+        "alphaPixels": 1146,
+        "sha256": "854f48e737355527cba082e1ddf899925e2ed34d24e57e61b3a122cef154ff72"
+      },
+      {
+        "index": 12,
+        "file": "tidal-barrage/frames/13.webp",
+        "bounds": [
+          100,
+          78,
+          233,
+          203
+        ],
+        "alphaPixels": 920,
+        "sha256": "d07a757c841e3b3e84c9eca49123fe96f24249f47c9d9f70b498ef2d8e8d4423"
+      },
+      {
+        "index": 13,
+        "file": "tidal-barrage/frames/14.webp",
+        "bounds": [
+          105,
+          79,
+          232,
+          202
+        ],
+        "alphaPixels": 442,
+        "sha256": "0a38d19308f927c5d32839cee9657a1295fe7c3f52949f23225bc94e63cbdac6"
+      },
+      {
+        "index": 14,
+        "file": "tidal-barrage/frames/15.webp",
+        "bounds": [
+          130,
+          82,
+          237,
+          172
+        ],
+        "alphaPixels": 180,
+        "sha256": "82b04392d4b86e675ae432c4c6d8075f78945bf956e0cedb5be08e9d86a7cc00"
+      },
+      {
+        "index": 15,
+        "file": "tidal-barrage/frames/16.webp",
+        "bounds": null,
+        "alphaPixels": 0,
+        "sha256": "f13418225bd86fc02ea747f0dbb934981e65813866b8ff081ce0fd3b65872f59"
+      }
+    ]
+  },
+  "approvalRequest": "하이희야 용병 SD이미지 스킬 다 승인하니까 라이브 배포 적용해",
+  "approvedAt": "2026-09-15",
+  "skillId": "MS-044",
+  "balance": {
+    "damageRatio": 4.2,
+    "cooldownTurns": 5,
+    "cost": 25,
+    "reference": "기존 SS 사격 MS-005와 같은 총 피해·재사용·비용"
+  },
+  "basePower": 120000,
+  "assignment": [
+    "MS-044"
+  ]
+}

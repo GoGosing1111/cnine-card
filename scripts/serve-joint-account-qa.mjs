@@ -29,6 +29,12 @@ const dataDir=path.resolve(root,'../qa');fs.mkdirSync(dataDir,{recursive:true});
 const databaseFile=path.join(dataDir,`joint-account-${Date.now()}.sqlite`);
 const f=await jointFixture(null,{filename:databaseFile});
 const mercenary=await mercenaryFixture(null,{base:f});await forgeFixture(null,{base:f});
+if(process.env.JOINT_QA_MERCENARY_CODE){
+ const code=process.env.JOINT_QA_MERCENARY_CODE;
+ if(!mercenarySeed.catalog.cards.some(c=>c.code===code))throw Error('Unknown QA mercenary');
+ await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:code,acquisitionId:crypto.randomUUID()}));
+ await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:code,revision:0});
+}
 // Explicit local-only fixtures. No production flag, CMS or account is modified.
 if(process.env.JOINT_QA_SKILL_CONNECTIONS==='1'){
  const plan=JSON.parse(fs.readFileSync(path.join(root,'preview/project-v-mercenary-system-v1/skill-s-ss-plan-v3.json'))),draft=structuredClone(mercenary.document);

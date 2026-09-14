@@ -5,7 +5,7 @@ export function v3Harness(){
  const stage={classList:{add:(...v)=>v.forEach(x=>labels.add(x)),remove:(...v)=>v.forEach(x=>labels.delete(x)),contains:v=>labels.has(v)},querySelector:()=>null,querySelectorAll:()=>[]};
  const canvas={width:1600,height:820,getContext:()=>({isContextLost:()=>false})};
  const context={console:{warn:()=>{},error:()=>{}},setTimeout,clearTimeout,requestAnimationFrame:callback=>{callback(0);return 1;},document:{querySelectorAll:()=>[]},ProjectVPixiBattle:{
-  runtimeVersion:'2119-battlefield-contract',mount:async()=>{},setBattlePayload:async()=>{},setBattlefield:async()=>{},setVisible:async()=>{},destroy:()=>{},
+  runtimeVersion:'2119-battlefield-contract-heeya-2118',mount:async()=>{},setBattlePayload:async()=>{},setBattlefield:async()=>{},setVisible:async()=>{},destroy:()=>{},
   playEvents:async(events,options={})=>{for(const e of events){const event=options.beforeEvent?await options.beforeEvent(e):e;if(event)calls.push(event.type);}},
  }};
  context.window=context;vm.runInNewContext(readFileSync(new URL('../../js/battle-v3-live.js',import.meta.url),'utf8'),context);

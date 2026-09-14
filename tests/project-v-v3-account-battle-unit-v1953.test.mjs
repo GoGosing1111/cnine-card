@@ -126,7 +126,7 @@ const context={
   document:{querySelectorAll(){return []}},
   window:null,
   ProjectVPixiBattle:{
-    runtimeVersion:'2119-battlefield-contract',
+    runtimeVersion:'2119-battlefield-contract-heeya-2118',
     diagnostics(){return {mounted:true}},
     async mountForBattle(payload){payloads.push(payload)},
     async resetSession(payload){payloads.push(payload)},

@@ -48,11 +48,11 @@ for (const { record, start, end } of records) test(`${record.date} native SD out
 test('six new SDs complete the roster while preserving every original card field and existing SD', () => {
   const record = records[1].record;
   const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex').toUpperCase();
-  assert.equal(hash(beforeSdCompletion(roster.cards)), record.previousRosterCardsSha256);
+  assert.equal(hash(beforeSdCompletion(roster.cards.slice(0,43))), record.previousRosterCardsSha256);
   assert.equal(hash(beforeOmegaRankAssignment(roster.cards.slice(0, 37))), record.previousExistingCardsSha256);
   assert.equal(record.userRequest, '용병 SD이미지 안만든애들 다 제작해서 연결해');
-  assert.deepEqual(roster.summary, { total: 43, sourceArtReady: 43, battleSpriteReady: 43, battleSpritePending: 0, rankPending: 42 });
-  assert.equal(new Set(roster.cards.map(card => card.battleSprite)).size, 43);
+  assert.deepEqual(roster.summary, { total: 44, sourceArtReady: 44, battleSpriteReady: 44, battleSpritePending: 0, rankPending: 42 });
+  assert.equal(new Set(roster.cards.map(card => card.battleSprite)).size, 44);
   assert.ok(roster.cards.every(card => card.battleSprite));
 });
 

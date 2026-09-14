@@ -735,6 +735,23 @@
         "x": 0.51,
         "y": 0.415
       }
+    },
+    "V-044": {
+      "battleSpriteSha256": "8BD6865E1972D60C9A48BF819DDCC6987A124D829C0A378DADC9170EC114AF91",
+      "weaponKind": "GUN",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.9697265625,
+        "y": 0.18033854166666666
+      },
+      "cast": {
+        "x": 0.495,
+        "y": 0.41
+      },
+      "contact": {
+        "x": 0.495,
+        "y": 0.41
+      }
     }
   }
 }

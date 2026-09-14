@@ -27,7 +27,7 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
   const changed=structuredClone(f.draw);for(const o of changed.outcomes)o.chancePpm=o.id==='MASTER_STAR'?1000000:0;changed.outcomes.find(o=>o.id==='MASTER_STAR').quantity=3;await f.setDraw(changed);
   await openMercenaryCards(f.env,f.user,{requestId:rid(),count:2},{randomInt:zero});const qty=async code=>Number((await f.p('SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code=?',code).first()).quantity);
   assert.equal(await qty('MASTER_STAR'),106);assert.equal(await qty('MERCENARY_TEST_PACK'),96);assert.equal(await f.coin(),10000000);
-  for(const o of changed.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(changed);await assert.rejects(()=>openMercenaryCards(f.env,f.user,{requestId:rid(),count:1}),{code:'MERCENARY_RANK_POOL_EMPTY'});assert.equal(await qty('MERCENARY_TEST_PACK'),96);
+  for(const o of changed.outcomes)o.chancePpm=o.id==='CARD_A'?1000000:0;await f.setDraw(changed);await assert.rejects(()=>openMercenaryCards(f.env,f.user,{requestId:rid(),count:1}),{code:'MERCENARY_RANK_POOL_EMPTY'});assert.equal(await qty('MERCENARY_TEST_PACK'),96);
  });
  test(`${label}: owned slot uses rank-fixed power; future upgrades never spend or grow`,async t=>{
   const f=await mercenaryFixture(t,{postgres});await openMercenaryCards(f.env,f.user,{requestId:rid(),count:2},{randomInt:zero});

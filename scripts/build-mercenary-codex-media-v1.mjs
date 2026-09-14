@@ -9,9 +9,12 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const roster = JSON.parse(await fs.readFile(path.join(root, 'assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'), 'utf8'));
 const output = path.join(root, 'assets/ui/project-v/mercenaries/codex-v1');
 await fs.mkdir(output, { recursive: true });
-const entries = [];
+const selected=process.argv.find(a=>a.startsWith('--code='))?.slice(7);
+if(selected&&!roster.cards.some(c=>c.code===selected))throw Error('Unknown mercenary code');
+const entries = selected?JSON.parse(await fs.readFile(path.join(output,'manifest.json'),'utf8')).entries.filter(e=>e.code!==selected):[];
 const hash = buffer => crypto.createHash('sha256').update(buffer).digest('hex').toUpperCase();
 for (const card of roster.cards) {
+  if(selected&&card.code!==selected)continue;
   for (const kind of ['art', 'sd']) {
     const inputPath = kind === 'art' ? card.sourceArt : card.battleSprite;
     if (!inputPath) continue;

@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
   "version": 11,
-  "updatedAt": "2026-09-11",
+  "updatedAt": "2026-09-15",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
@@ -9,7 +9,14 @@
     "defaultRank": null,
     "status": "PARTIALLY_ASSIGNED",
     "inheritLegacyRanks": false,
-    "tiers": ["C", "B", "A", "S", "SS", "SSS"]
+    "tiers": [
+      "C",
+      "B",
+      "A",
+      "S",
+      "SS",
+      "SSS"
+    ]
   },
   "formationRule": {
     "regularCardSlots": 5,
@@ -37,9 +44,9 @@
     ]
   },
   "summary": {
-    "total": 43,
-    "sourceArtReady": 43,
-    "battleSpriteReady": 43,
+    "total": 44,
+    "sourceArtReady": 44,
+    "battleSpriteReady": 44,
     "battleSpritePending": 0,
     "rankPending": 42
   },
@@ -915,6 +922,31 @@
         "x": 0.62207,
         "y": 0.994792
       }
+    },
+    {
+      "code": "V-044",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "하이희야",
+      "title": "백색의 기관총 사수",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "중거리 사격",
+      "weapon": "판타지 경기관총",
+      "outfit": "백색 제복과 스커트",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+      "sourceArtSha256": "1A5ADF3D106AE2FE455C2075E81CF19A09A8AAEF1558F6767EF3027E744D27EC",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-15",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-15-hi-heeya-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v044-hi-heeya-sd-v1.png",
+      "battleSpriteSha256": "8BD6865E1972D60C9A48BF819DDCC6987A124D829C0A378DADC9170EC114AF91",
+      "battleSpriteStatus": "USER_APPROVED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.5,
+        "y": 0.966796875
+      },
+      "accent": "#7bcbe3"
     }
   ]
 }

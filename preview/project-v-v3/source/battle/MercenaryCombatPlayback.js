@@ -21,7 +21,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  async applyBattlePayload(payload){
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>1||entries.filter(e=>e.side==='B').length>1)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
-  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json')),adapter=createMercenaryBattleArtAdapter(roster);
+  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?heeya=2118')),adapter=createMercenaryBattleArtAdapter(roster);
   for(const {side,card}of entries){const art=adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
@@ -35,7 +35,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  async sequenceFor(skillId){
   if(this.mercenarySequences.has(skillId))return this.mercenarySequences.get(skillId);
   if(!this.mercenaryLoads.has(skillId))this.mercenaryLoads.set(skillId,(async()=>{
-   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260913-s-skills')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
+   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260915-hi-heeya')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
    const sequence=await loadSequence(row);if(this.mercenaryDisposed){releaseFrameViews(sequence);return null;}
    this.mercenarySequences.set(skillId,sequence);return sequence;
   })().finally(()=>this.mercenaryLoads.delete(skillId)));
@@ -53,7 +53,8 @@ export const withMercenaryBattle=Base=>class extends Base{
   // Secondary status records must not replay the direct hit which preceded them.
   if(type==='MERCENARY_DEBUFF'&&(['POISON','APPROACH_DELAY','DUEL_OATH','SHIELD_ONLY_BREAK','THORN_RECOIL_SEAL'].includes(event.effect)||event.effect==='OFFENSIVE_SKILL_ONLY'&&skill.mechanic==='PLATINUM_FOCUS_LOCK')){this.queueBanner(event.skillName,0xc49cff,({POISON:'독 표식',APPROACH_DELAY:'진입 지연',DUEL_OATH:'결투 맹세',SHIELD_ONLY_BREAK:'보호막 파쇄',THORN_RECOIL_SEAL:'가시 봉인',OFFENSIVE_SKILL_ONLY:'공격술 약화'})[event.effect]);sync();return true;}
   if(type==='MERCENARY_BUFF'&&event.effect==='STAND_FAST_CONSUMED'){this.queueBanner(event.skillName,0xc49cff,'백철 방호 소모');sync();return true;}
-  const hitIndex=type==='MERCENARY_DEBUFF'&&['ARMOR_WINDOW','NEXT_BASIC_WEAKENED'].includes(event.effect)?1:event.skillPhaseIndex??(this.mercenaryHitIndices.get(key)||0),impact=skill.visual.impacts[Math.min(hitIndex,skill.visual.impacts.length-1)];
+  const barrage=skill.mechanic==='TIDAL_BARRAGE';
+  const hitIndex=type==='MERCENARY_DEBUFF'&&['ARMOR_WINDOW','NEXT_BASIC_WEAKENED'].includes(event.effect)?1:event.skillPhaseIndex??(this.mercenaryHitIndices.get(key)||0),impact=barrage&&type==='MERCENARY_HIT'?skill.visual.impacts.at(-1):skill.visual.impacts[Math.min(hitIndex,skill.visual.impacts.length-1)];
   if(['MERCENARY_HIT','MERCENARY_HEAL','MERCENARY_DOT','MERCENARY_RIPOSTE'].includes(type))this.mercenaryHitIndices.set(key,hitIndex+1);
   const ids=event.targetIds?.length?event.targetIds:[event.targetId].filter(Boolean),actors=new Map([['M',actor]]),targets=[];
   for(const id of ids){const a=this.combatantById(id);if(!a?.root?.visible||a.battleActive===false)continue;const alias=a===actor?'M':`${a.team===actor.team?'A':'E'}${targets.length+1}`;actors.set(alias,a);targets.push(alias);}
@@ -61,6 +62,8 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(event.sourceAttackerId){const attacker=this.combatantById(event.sourceAttackerId);if(attacker)actors.set('E_SOURCE',attacker);}
   const initial=[...actors].map(([id,a])=>({id,team:id.startsWith('E')?'ENEMY':'ALLY',row:'FRONT',hp:a.hp,maxHp:100,shield:0,attack:1,flags:{},alive:a.hp>0}));
   const isWindup=type==='MERCENARY_WINDUP',events=isWindup?[]:[{id:'authoritative',kind:['MERCENARY_HIT','MERCENARY_DOT','MERCENARY_RIPOSTE'].includes(type)?'HIT':'STATUS',at:impact,targets,phaseIndex:hitIndex,stage:hitIndex>0?'DETONATE':'MARK',amount:event.damage||event.amount||0,changes:{}}];
+  // Approved rapid-fire animation is one server hit. Tracers never add damage.
+  if(barrage&&!isWindup)events.splice(0,events.length,...skill.visual.impacts.map((at,i)=>({id:`tracer:${i}`,kind:'HIT',at,targets,phaseIndex:i,amount:i===8?event.damage||0:0,changes:{}})));
   const plan={initial,targets,events,scenario:'normal',duration:skill.visual.duration,previewOnly:false,authoritative:true,effectPhase:hitIndex,eventType:type};
   const sequence=await this.sequenceFor(skill.id);this.mercenaryAuxiliary||=await loadAuxiliary();if(!sequence||!valid())return false;
   const audio=this.audio?.enabled?.()!==false?getMercenaryAudio(this):null;
@@ -69,7 +72,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   this.settlePendingTails?.([...actors.values()]);
   const fx=new MercenarySkillFX(this,actors,skill,plan,sequence,this.mercenaryAuxiliary,()=>{},{authoritative:true});fx.removeTimeline();this.mercenaryFx=fx;
   const flightLead=skill.visual.motion==='CORAL_ARCS'?.42:.26;
-  const begin=isWindup?0:Math.max(0,impact-flightLead),end=isWindup?Math.max(.25,skill.visual.impacts[0]-flightLead):Math.min(skill.visual.duration,impact+1.2),time={value:begin};
+  const begin=isWindup?0:barrage?skill.visual.windup:Math.max(0,impact-flightLead),end=isWindup?Math.max(.25,skill.visual.impacts[0]-flightLead):barrage?skill.visual.duration:Math.min(skill.visual.duration,impact+1.2),time={value:begin};
   // Server outcomes are applied at the same authored collision timestamp. The
   // rehearsal renderer cannot edit HP or produce a second damage/target result.
   try{

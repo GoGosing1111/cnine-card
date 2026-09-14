@@ -28,7 +28,7 @@ test('already loaded obsolete runtime is replaced once before mounting; current 
   const source=readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
   const chunk=source.slice(source.indexOf('  const BATTLE_RUNTIME'),source.indexOf('  const PLAYBACK_SPEED'));
   let destroyed=0,loads=0;const root={ProjectVPixiBattle:{destroy(){destroyed++;}},__V3_PIXI_MOUNTED:true};
-  const document={createElement(){return {remove(){}}},head:{appendChild(script){loads++;assert.match(script.src,/2119-battlefield-contract/);queueMicrotask(()=>{root.ProjectVPixiBattle={runtimeVersion:'2119-battlefield-contract'};script.onload();});}}};
+  const document={createElement(){return {remove(){}}},head:{appendChild(script){loads++;assert.match(script.src,/2119-battlefield-contract-heeya-2118/);queueMicrotask(()=>{root.ProjectVPixiBattle={runtimeVersion:'2119-battlefield-contract-heeya-2118'};script.onload();});}}};
   const ensure=vm.runInNewContext(chunk+'\nensureCurrentBattleRuntime',{root,document,setTimeout,clearTimeout});
   await Promise.all([ensure(),ensure()]);assert.equal(loads,1);assert.equal(destroyed,1);assert.equal(root.__V3_PIXI_MOUNTED,false);
   await ensure();assert.equal(loads,1);

@@ -73,6 +73,10 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'TIDAL_BARRAGE':
+      if(counter){mark(.4,'준비 중 제압: 집중 사격 취소',['M'],'CANCEL');break;}
+      skill.visual.impacts.forEach((at,i)=>i===8?hit(at,t,42,'집중 탄막 확정 피해'):mark(at,'백청색 연사 궤적',[t],'HIT'));
+      break;
     case 'DUEL_OATH':case 'OBSERVED_SHIELD_BREAK':case 'DANCING_TARGET_VOLLEY':case 'WOUNDED_MOON_DRAW':case 'FRONT_STAND_FAST':case 'THORN_RECOIL_SEAL':case 'ABYSS_SHIELD_ECHO':case 'PLATINUM_FOCUS_LOCK':case 'DISTRIBUTED_CORAL_VOLLEY':
       rehearseSSkill({skill,targets,t,work,get,add,flag,hit,mark,counter,boss});break;
     case 'RIFT_MARK_DETONATION': {
