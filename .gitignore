@@ -3,3 +3,13 @@
 /node_modules/
 **/__pycache__/
 *.py[cod]
+
+# Generated art, rejected drafts and local QA reports (keep files on disk).
+# Production assets belong in assets/; already tracked files remain tracked.
+/output/imagegen/
+/output/rejected/
+/output/reports/
+/output/mercenary-skill-fx-v2/
+/output/v3-common-grid-20260911/
+/output/v3-occupied-grid-20260911/
+/output/v3-viewport-fit-20260911/
