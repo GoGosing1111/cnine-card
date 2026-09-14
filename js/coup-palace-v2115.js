@@ -8,12 +8,58 @@
   const crest = side => `<svg viewBox="0 0 40 40" aria-hidden="true">${side === 'CHIEF' ? '<path d="M7 13 14 19 20 8 26 19 33 13 30 30H10ZM11 34h18M20 19v7"/>' : '<path d="m12 32 17-21 4-6-7 3L8 29m-2-3 9 9M13 10l6 7m4 8 6 8m-4-3 6-5M10 7l5 1-4 5-1-6Z"/>'}</svg>`;
   const api = (path, body) => apiRequest('coup/' + path, body ? { method: 'POST', body: JSON.stringify(body) } : {}, { ttl: 0, timeoutMs: 35000, replaceInflight: true });
   let root = null, state = null, poll = null, clock = null, busy = false, fetching = false, epoch = 0, offset = 0, selected = 2, battleModal = null, pendingAttack = null;
+  let pendingSkill = null, eventRound = null, eventIds = new Set(), skillQueue = [];
   const now = () => Date.now() + offset;
   const countdown = stamp => { const n = Math.max(0, Math.ceil((Number(stamp) - now()) / 1000)); return `${Math.floor(n / 3600).toString().padStart(2, '0')}:${Math.floor(n % 3600 / 60).toString().padStart(2, '0')}:${(n % 60).toString().padStart(2, '0')}`; };
   function view() {
     return `<section class="coup" id="coupPalace" aria-label="황궁 쿠데타"><header class="coup-heading"><div><span class="coup-eyebrow">IMPERIAL PALACE · TERRITORY WAR</span><h1>황궁 쿠데타</h1></div><div><button data-coup-rules>전쟁 규정</button><button data-coup-refresh aria-label="전황 새로고침">↻</button></div></header><div id="coupContent"><div class="coup-connecting"><img src="${ART}" alt="외문에서 정전으로 이어지는 황궁"><span>황궁 전황을 확인하고 있습니다.</span></div></div><p class="coup-notice" role="status" id="coupNotice"></p></section>`;
   }
   function notice(text) { const n = root?.querySelector('#coupNotice'); if (n) n.textContent = text || ''; }
+  function energyView() {
+    const e = state?.mine?.energyState; if (!e) return '';
+    return `<div class="coup-energy ${e.blockedUntil > now() ? 'is-blocked' : ''}"><span>출격 행동력</span><b>${num(e.energy)}<small> / ${e.energy > 10 ? '50 · 결집' : '10'}</small></b><i><u style="width:${Math.min(100, e.energy / (e.energy > 10 ? 50 : 10) * 100)}%"></u></i><em>${e.blockedUntil > now() ? `회복 차단 <time data-coup-until="${e.blockedUntil}">${countdown(e.blockedUntil)}</time>` : e.nextRecoveryAt ? `다음 회복 <time data-coup-until="${e.nextRecoveryAt}">${countdown(e.nextRecoveryAt)}</time>` : '충전 완료'}<span>출격 1 소모 · 2분마다 1 회복</span></em></div>`;
+  }
+  function skillConsole() {
+    if (!state?.round || !state.chiefSkills?.length) return '';
+    return `<section class="coup-chief-arsenal"><header><div><span class="coup-eyebrow">CHIEF’S SUPREME COMMAND</span><h2>족장의 결단</h2></div><p>${state.canUseChiefSkills ? '족장 전용 권한' : '족장만 발동 가능'}<b>포격 30분 · 결집 1시간</b></p></header><div class="coup-skill-grid">${state.chiefSkills.map((s,i) => `<button class="coup-skill-card ${s.code.toLowerCase()}" data-coup-skill="${s.code}" aria-label="${esc(s.name)} · ${esc(s.effect)} · 상세 보기"><img src="${esc(s.image)}" alt="" loading="lazy"><span class="coup-skill-number">0${i+1}</span><span class="coup-skill-type">${esc(s.label)}</span><span class="coup-skill-copy"><strong>${esc(s.name)}</strong><span>${esc(s.effect)}</span></span><span class="coup-skill-status" data-skill-status="${s.code}">${s.enabled === false ? '잠금 · OFF' : s.nextUseAt > now() ? countdown(s.nextUseAt) : state.canUseChiefSkills ? '발동 준비' : '스킬 정보'}<i>↗</i></span></button>`).join('')}</div></section>`;
+  }
+  function skillResult(result) {
+    const skill = state?.chiefSkills?.find(s => s.code === result.skillCode); if (!skill) return;
+    eventIds.add(result.requestId);
+    const mineHit = result.skillCode !== 'ARTILLERY' && result.affectedUserIds?.includes(Number(state.viewerId));
+    const message = result.skillCode === 'NUCLEAR' ? `${num(result.affectedCount)}명 행동력 0 · 10분간 회복 차단` : result.skillCode === 'ARTILLERY' ? `${esc(result.nodeName)} · 반란군 HP −${num(result.damage)}` : `족장팀 ${num(result.affectedCount)}명 · 행동력 50 충전`;
+    const d = modal(`<div class="coup-skill-popup ${result.skillCode.toLowerCase()} is-result"><img class="coup-skill-popup-art" src="${esc(skill.image)}" alt="${esc(skill.name)} 발동 일러스트"><div class="coup-skill-popup-copy"><span class="coup-eyebrow">SUPREME COMMAND · 발동 완료</span><h2>${esc(skill.name)}</h2><p class="coup-skill-result-chief">족장 ${esc(result.chiefName)}의 명령</p><div class="coup-skill-impact">${message}</div>${mineHit ? `<p class="coup-skill-personal">${result.skillCode === 'NUCLEAR' ? '내 부대가 피격되었습니다. 회복 차단 종료까지 ' : '내 행동력이 50으로 충전되었습니다.'}${result.skillCode === 'NUCLEAR' ? `<time data-coup-until="${result.blockedUntil}">${countdown(result.blockedUntil)}</time>` : ''}</p>` : ''}${result.frontMoved ? `<p>${result.winner ? '마지막 거점을 돌파했습니다.' : '반란군 방어선 돌파 · 다음 거점으로 진격합니다.'}</p>` : ''}<button class="coup-primary" data-skill-result-close>전황 확인 <span>→</span></button></div></div>`, `${skill.name} 발동`);
+    d.classList.add('coup-skill-dialog'); d.querySelector('[data-skill-result-close]').onclick = () => d.close();
+  }
+  function collectSkillEvents(next) {
+    const events = next.skillEvents || [];
+    if (eventRound !== next.round?.id) { eventRound = next.round?.id; eventIds = new Set(events.map(e => e.requestId)); skillQueue = []; return; }
+    for (const e of [...events].reverse()) if (!eventIds.has(e.requestId)) { eventIds.add(e.requestId); skillQueue.push(e); }
+  }
+  function openSkill(code) {
+    const s = state?.chiefSkills?.find(s => s.code === code); if (!s) return;
+    const allowed = s.enabled !== false && state.canUseChiefSkills && (pendingSkill?.skillCode === code || s.nextUseAt <= now()) && !busy;
+    const d = modal(`<div class="coup-skill-popup ${code.toLowerCase()}"><img class="coup-skill-popup-art" src="${esc(s.image)}" alt="${esc(s.name)} 일러스트"><div class="coup-skill-popup-copy"><span class="coup-eyebrow">CHIEF’S SUPREME COMMAND · 0${state.chiefSkills.indexOf(s)+1}</span><h2>${esc(s.name)}</h2><div class="coup-skill-impact">${esc(s.effect)}</div><p>${esc(s.detail)}</p><dl><div><dt>적용 대상</dt><dd>${esc(s.label)}</dd></div><div><dt>재사용 대기</dt><dd>${s.cooldownMs === 3600000 ? '1시간' : '30분'} · 스킬별 적용</dd></div></dl><button class="coup-primary" data-skill-execute ${allowed ? '' : 'disabled'}>${pendingSkill?.skillCode === code ? '발동 결과 다시 확인' : s.enabled === false ? '원자폭탄 잠금 · 운영자 ON 대기' : !state.canUseChiefSkills ? '현재 족장만 발동할 수 있습니다' : s.nextUseAt > now() ? '재사용 대기 중' : '스킬 발동'} <span>→</span></button><p class="coup-skill-error" data-skill-error role="status"></p></div></div>`, s.name);
+    d.classList.add('coup-skill-dialog');
+    const button = d.querySelector('[data-skill-execute]');
+    button.onclick = async () => {
+      if (busy || !state?.canUseChiefSkills || s.enabled === false) return;
+      if (pendingSkill && pendingSkill.skillCode !== code) { d.querySelector('[data-skill-error]').textContent = '이전에 요청한 스킬의 결과를 먼저 확인하세요.'; return; }
+      const version = epoch; pendingSkill ||= { roundId: state.round.id, skillCode: code, requestId: crypto.randomUUID() };
+      busy = true; clearTimeout(poll); button.disabled = true; button.textContent = '명령 전달 중…';
+      try {
+        const result = await api('skill', pendingSkill); pendingSkill = null;
+        if (version !== epoch) return;
+        eventIds.add(result.requestId); collectSkillEvents(result.state); state = result.state; offset = state.serverNow - Date.now();
+        d.close(); render(); skillResult(result);
+      } catch (e) {
+        if (version !== epoch) return;
+        d.querySelector('[data-skill-error]').textContent = e.message;
+        if ([400,403,409,429].includes(Number(e.status))) pendingSkill = null;
+        button.disabled = false; button.textContent = pendingSkill ? '동일 요청 결과 다시 확인' : '다시 확인';
+      } finally { if (version === epoch) { busy = false; void refresh(); } }
+    };
+  }
   function hp(side, r) {
     const value = side === 'CHIEF' ? r?.chiefHp : r?.rebelHp, amount = r ? Math.max(0, Math.min(100, Number(value) / Number(r.maxHp) * 100)) : 0;
     const members = (state.members || []).filter(m => m.side === side).length;
@@ -34,7 +80,7 @@
       <svg class="coup-paths" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M16 72 31 43 54 54 69 34 85 18"/><path class="coup-front-path" d="M${nodes[Math.max(0, front - 1)].x} ${nodes[Math.max(0, front - 1)].y} ${nodes[front].x} ${nodes[front].y}"/></svg>
       ${nodes.map((node, i) => `<button class="coup-node ${i === front ? 'contested' : i < front ? 'rebel' : 'chief'} ${selected === i ? 'selected' : ''}" style="--x:${node.x}%;--y:${node.y}%" data-coup-node="${i}" aria-label="${node.name} · ${i === front ? '현재 전선' : sideName(i < front ? 'REBEL' : 'CHIEF') + ' 점령'}" aria-pressed="${selected === i}"><span class="coup-node-ring">${String(i + 1).padStart(2, '0')}</span><strong>${node.name}</strong>${i === front ? '<em>현재 전선</em>' : ''}</button>`).join('')}
       <div class="coup-node-detail"><span>${String(selected + 1).padStart(2, '0')}</span><div><small>${selected === front ? '양 진영 교전 거점' : `${sideName(own)} 점령지`}</small><b>${n.name}</b></div><p>${selected === front ? '상대 진영 체력을 소진시키면 전선이 이동합니다.' : selected === 0 ? '족장팀이 이 거점을 함락하면 반란이 진압됩니다.' : selected === 4 ? '반란군이 정전을 함락하면 쿠데타가 성공합니다.' : '현재 전선을 돌파하면 이 거점으로 진격합니다.'}</p></div></div>
-      <div class="coup-command">${action}</div></div>
+      <div class="coup-command">${energyView()}${action}</div></div>${skillConsole()}
       ${state.penalty ? `<p class="coup-loss-receipt">패배 정산 <b>−${num(state.penalty.debit)} 코인</b><span>정산 직후 잔액 ${num(state.penalty.after_coin)} 코인</span></p>` : ''}${trialPreview(state.trial)}
       <div class="coup-details"><section><header><h2>전황 기록</h2><small>최근 교전</small></header>${state.events?.length ? `<ol class="coup-war-log">${state.events.map(e => `<li><time>${new Date(Number(e.created_at)).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}</time><span><b>${esc(e.nickname)}</b> · ${esc(e.node_name)}<small>${sideName(e.winner)}${e.winner === 'DRAW' ? '' : ' 승리'} · 진영 피해 ${num(e.damage)}</small></span></li>`).join('')}</ol>` : '<p class="coup-empty">아직 교전 기록이 없습니다.</p>'}</section><section><header><h2>내 진영</h2><small>${mine ? sideName(mine.side) : '참가 현황'}</small></header>${state.members?.length ? `<ul class="coup-roster">${state.members.filter(m => !mine || m.side === mine.side).slice(0, 40).map(m => `<li><i class="${m.side.toLowerCase()}"></i><b>${esc(m.nickname)}</b>${Number(m.user_id) === state.viewerId ? '<em>나</em>' : ''}<span>${num(m.attacks)}회 출격</span></li>`).join('')}</ul>` : '<p class="coup-empty">모집이 열리면 진영을 선택하세요.</p>'}</section></div>`;
     tick();
@@ -42,7 +88,9 @@
   function tick() {
     document.querySelectorAll('[data-coup-until]').forEach(n => { n.textContent = countdown(n.dataset.coupUntil); });
     const b = root?.querySelector('[data-coup-attack]');
-    if (b && !busy) { const wait = Math.ceil((Number(state?.mine?.next_attack_at || 0) - now()) / 1000); b.disabled = wait > 0 || now() >= Number(state?.round?.endsAt); b.innerHTML = wait > 0 ? `다음 출격 ${wait}초` : `${pendingAttack ? '전투 결과 다시 확인' : '전선 출격'} <span>→</span>`; }
+    if (b && !busy) { const wait = Math.ceil((Number(state?.mine?.next_attack_at || 0) - now()) / 1000), empty = state?.mine?.energyState?.energy < 1; b.disabled = !pendingAttack && (empty || wait > 0 || now() >= Number(state?.round?.endsAt)); b.innerHTML = pendingAttack ? '전투 결과 다시 확인' : empty ? state.mine.energyState.blockedUntil > now() ? '피격 · 회복 차단 중' : '행동력 회복 대기' : wait > 0 ? `다음 출격 ${wait}초` : '전선 출격 <span>→</span>'; }
+    root?.querySelectorAll('[data-skill-status]').forEach(el => { const s = state.chiefSkills.find(s => s.code === el.dataset.skillStatus); el.innerHTML = `${s.enabled === false ? '잠금 · OFF' : s.nextUseAt > now() ? countdown(s.nextUseAt) : state.canUseChiefSkills ? '발동 준비' : '스킬 정보'}<i>↗</i>`; });
+    if (root?.isConnected && skillQueue.length && !busy && !document.querySelector('.coup-dialog')) skillResult(skillQueue.shift());
   }
   function modal(content, label) {
     const previous = document.activeElement, d = document.createElement('dialog'); d.className = 'coup-dialog'; d.setAttribute('aria-label', label);
@@ -85,7 +133,7 @@
   async function refresh() {
     if (!root?.isConnected || fetching || busy) return;
     const version = epoch; fetching = true;
-    try { const next = await api('status'); if (version !== epoch) return; const changed = next.round?.id !== state?.round?.id || next.round?.front !== state?.round?.front; if (pendingAttack && pendingAttack.roundId !== next.round?.id) pendingAttack = null; state = next; offset = next.serverNow - Date.now(); if (changed) selected = state.round?.front ?? 2; render(); notice(''); }
+    try { const next = await api('status'); if (version !== epoch || busy || Number(next.serverNow) < Number(state?.serverNow || 0)) return; const changed = next.round?.id !== state?.round?.id || next.round?.front !== state?.round?.front; if (pendingAttack && pendingAttack.roundId !== next.round?.id) pendingAttack = null; if (pendingSkill && pendingSkill.roundId !== next.round?.id) pendingSkill = null; collectSkillEvents(next); state = next; offset = next.serverNow - Date.now(); if (changed) selected = state.round?.front ?? 2; render(); notice(''); }
     catch (e) { if (version === epoch) notice(e.message || '전황을 불러오지 못했습니다. 다시 확인해 주세요.'); }
     finally { if (version === epoch) { fetching = false; clearTimeout(poll); poll = setTimeout(refresh, 5000); } }
   }
@@ -114,13 +162,14 @@
     } catch (e) { if (version === epoch) { notice(e.message); if ([400, 403, 409, 429].includes(Number(e.status))) pendingAttack = null; } }
     finally { if (version === epoch) { closeBattle(); busy = false; await refresh(); if (typeof loadShellSummary === 'function') void loadShellSummary(); } }
   }
-  function stop() { epoch++; clearTimeout(poll); clearInterval(clock); poll = clock = null; battleModal?.__coupFinish?.(); closeBattle(); root = null; busy = fetching = false; }
+  function stop() { epoch++; clearTimeout(poll); clearInterval(clock); poll = clock = null; battleModal?.__coupFinish?.(); closeBattle(); document.querySelectorAll('.coup-skill-dialog').forEach(d => d.close()); skillQueue = []; eventRound = null; root = null; busy = fetching = false; }
   function bind() {
     stop(); root = document.getElementById('coupPalace'); state = null; selected = 2; if (!root) return;
     root.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
       if (b.hasAttribute('data-coup-refresh')) void refresh(); else if (b.hasAttribute('data-coup-rules')) rules(); else if (b.hasAttribute('data-coup-trial')) void openTrial();
       else if (b.hasAttribute('data-coup-node')) { selected = Number(b.dataset.coupNode); render(); root.querySelector(`[data-coup-node="${selected}"]`)?.focus(); }
       else if (b.hasAttribute('data-coup-join')) join(b.dataset.coupJoin); else if (b.hasAttribute('data-coup-attack')) void attack();
+      else if (b.hasAttribute('data-coup-skill')) openSkill(b.dataset.coupSkill);
     });
     clock = setInterval(tick, 1000); void refresh();
   }

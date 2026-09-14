@@ -1,5 +1,5 @@
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
-const KEY = 'safe_runtime_upgrade_coup_v2115';
+const KEY = 'safe_runtime_upgrade_coup_v2118';
 export function coupSchema(pg = false) {
   const int = pg ? 'BIGINT' : 'INTEGER';
   return [
@@ -14,7 +14,11 @@ export function coupSchema(pg = false) {
     `CREATE TABLE IF NOT EXISTS coup_electorate_v2115(trial_id TEXT NOT NULL,user_id ${int} NOT NULL,PRIMARY KEY(trial_id,user_id))`,
     `CREATE TABLE IF NOT EXISTS coup_votes_v2115(trial_id TEXT NOT NULL,user_id ${int} NOT NULL,choice TEXT NOT NULL CHECK(choice IN ('REINSTATE','REMOVE')),created_at ${int} NOT NULL,PRIMARY KEY(trial_id,user_id))`,
     `CREATE TABLE IF NOT EXISTS chief_duty_cases_v2115(appointment_id TEXT PRIMARY KEY,trial_id TEXT NOT NULL,status TEXT NOT NULL)`,
-    `CREATE TABLE IF NOT EXISTS coup_atomic_guard_v2115(id TEXT PRIMARY KEY,ok INTEGER NOT NULL CHECK(ok=1))`
+    `CREATE TABLE IF NOT EXISTS coup_atomic_guard_v2115(id TEXT PRIMARY KEY,ok INTEGER NOT NULL CHECK(ok=1))`,
+    `CREATE TABLE IF NOT EXISTS coup_energy_v2118(round_id TEXT NOT NULL,user_id ${int} NOT NULL,energy INTEGER NOT NULL CHECK(energy BETWEEN 0 AND 100),energy_at ${int} NOT NULL,blocked_until ${int} NOT NULL DEFAULT 0,PRIMARY KEY(round_id,user_id))`,
+    `CREATE TABLE IF NOT EXISTS coup_skill_cooldowns_v2118(appointment_id TEXT NOT NULL,skill_code TEXT NOT NULL,next_use_at ${int} NOT NULL,PRIMARY KEY(appointment_id,skill_code))`,
+    `CREATE TABLE IF NOT EXISTS coup_skills_v2118(request_id TEXT PRIMARY KEY,round_id TEXT NOT NULL,user_id ${int} NOT NULL,skill_code TEXT NOT NULL,result_json TEXT NOT NULL,created_at ${int} NOT NULL)`,
+    `CREATE INDEX IF NOT EXISTS idx_coup_skills_round ON coup_skills_v2118(round_id,created_at)`
   ];
 }
 export async function ensureCoupSchema(env) {
@@ -23,7 +27,7 @@ export async function ensureCoupSchema(env) {
     const schema = coupSchema(env.DB.dialect === 'postgres');
     if (env.DB.dialect === 'postgres') await env.DB.execSchema(schema);
     else await env.DB.batch(schema.map(s => env.DB.prepare(s)));
-    await env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value) VALUES(?,?)').bind(KEY, '2115').run();
+    await env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value) VALUES(?,?)').bind(KEY, '2118').run();
   }
   cacheRuntimeData(env, KEY, true, 1800000);
 }

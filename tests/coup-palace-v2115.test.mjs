@@ -9,6 +9,22 @@ import { clanCampStatusForUser, clanCampRoomState, releaseClanCaptives, sendClan
 import { advanceFront, deadlineWinner, rebelPenalty, coupSettings } from '../shared/coup-palace-v2115.mjs';
 import { readFileSync } from 'node:fs';
 import { createPvpBattleV2 } from '../functions/_battle_v2_preview.js';
+import { useCoupChiefSkill, COUP_SKILL_SETTINGS } from '../functions/_coup.js';
+import { coupEnergy, coupSkillCooldown, chooseNuclearTargets } from '../shared/coup-chief-skills-v2118.mjs';
+
+test('chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear has no deferred recovery', () => {
+  assert.equal(coupEnergy(null, 0).energy, 10);
+  assert.equal(coupEnergy({energy:8,energy_at:0},119999).energy,8);
+  assert.equal(coupEnergy({energy:8,energy_at:0},120000).energy,9);
+  assert.equal(coupEnergy({energy:8,energy_at:0},999999).energy,10);
+  assert.equal(coupEnergy({energy:50,energy_at:0},999999).energy,50);
+  const hit={energy:0,energy_at:600000,blocked_until:600000};
+  assert.equal(coupEnergy(hit,599999).energy,0);assert.equal(coupEnergy(hit,600000).energy,0);
+  assert.equal(coupEnergy(hit,719999).energy,0);assert.equal(coupEnergy(hit,720000).energy,1);
+  assert.equal(coupSkillCooldown('RALLY'),3600000);assert.equal(coupSkillCooldown('ARTILLERY'),1800000);
+  const targets=chooseNuclearTargets(Array.from({length:80},(_,i)=>i),()=>.4);
+  assert.equal(targets.length,50);assert.equal(new Set(targets).size,50);
+});
 
 async function fixture(t, pg) {
   let DB, sql, failAt = '';
@@ -61,6 +77,52 @@ test('front movement, timeout, strict CMS limits and bigint loss policy', () => 
 });
 for (const pg of [false, true]) {
   const label = pg ? 'PostgreSQL' : 'SQLite';
+  test(`${label}: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback`, async t => {
+    const f=await fixture(t,pg),id=await f.prepare();
+    const cast=(code,key,now=f.now,user=1)=>useCoupChiefSkill(f.env,{id:user},{roundId:id,skillCode:code,requestId:key},now);
+    await assert.rejects(cast('ARTILLERY','forbidden-001',f.now,2),e=>e.status===403);
+    await assert.rejects(cast('NUCLEAR','nuclear-off-001'),e=>e.status===403);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skill_cooldowns_v2118').first()).n),0);
+    f.fail('INSERT INTO coup_skills_v2118');await assert.rejects(cast('RALLY','rollback-001'),/INJECTED_FAILURE/);f.fail('');
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_energy_v2118').first()).n),0);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skill_cooldowns_v2118').first()).n),0);
+    const rally=await cast('RALLY','rally-test-001');assert.equal(rally.energyGranted,50);assert.equal(rally.nextUseAt,f.now+3600000);assert.equal(rally.affectedCount,2);
+    assert.equal((await cast('RALLY','rally-test-001')).replayed,true);
+    await assert.rejects(cast('RALLY','rally-too-soon',f.now+1800000),e=>e.status===429);
+    const arty=await cast('ARTILLERY','artillery-001');assert.equal(arty.damage,150000);assert.equal(arty.nextUseAt,f.now+1800000);
+    assert.equal(Number((await f.p('SELECT rebel_hp FROM coup_rounds_v2115 WHERE id=?',id).first()).rebel_hp),350000);
+    const status=await coupStatus(f.env,{id:1},f.now);assert.equal(status.chiefSkills.find(s=>s.code==='NUCLEAR').enabled,false);
+    assert.equal(status.mine.energyState.energy,50);assert.equal(status.skillEvents.length,2);
+    assert.equal((await coupStatus(f.env,{id:2},f.now)).mine.energyState.energy,10);
+    await f.p("UPDATE app_meta SET value=? WHERE key='chief_appointment_v1'",JSON.stringify({...f.appointment,id:'new-term',userId:2})).run();
+    await assert.rejects(cast('RALLY','stale-chief-001',f.now+3600000),e=>e.status===403);
+  });
+  test(`${label}: nuclear applies to exactly 50 rebels, blocks attacks, then recovers only after 10+2 minutes`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();
+    for(let userId=10;userId<65;userId++){
+      await f.p('INSERT INTO users(id,nickname) VALUES(?,?)',userId,'병사'+userId).run();
+      await f.p("INSERT INTO coup_participants_v2115(round_id,user_id,side,deck_snapshot,loadout_bonus_json,deck_power,joined_at) VALUES(?,?,'REBEL','[]','{}',100,?)",id,userId,f.now).run();
+    }
+    await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',COUP_SKILL_SETTINGS,JSON.stringify({nuclearEnabled:true})).run();
+    const result=await useCoupChiefSkill(f.env,{id:1},{roundId:id,skillCode:'NUCLEAR',requestId:'nuclear-on-test'},f.now);
+    assert.equal(result.affectedCount,50);assert.equal(new Set(result.affectedUserIds).size,50);assert.ok(!result.affectedUserIds.includes(1)&&!result.affectedUserIds.includes(5));
+    const hit=result.affectedUserIds[0];
+    await assert.rejects(attackCoup(f.env,{}, {id:hit},{roundId:id,requestId:'nuclear-hit-attack'},f.now+1),e=>e.status===429);
+    assert.equal((await coupStatus(f.env,{id:hit},f.now+600000)).mine.energyState.energy,0);
+    assert.equal((await coupStatus(f.env,{id:hit},f.now+720000)).mine.energyState.energy,1);
+    await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify({nuclearEnabled:false}),COUP_SKILL_SETTINGS).run();
+    await assert.rejects(useCoupChiefSkill(f.env,{id:1},{roundId:id,skillCode:'NUCLEAR',requestId:'nuclear-disabled-again'},f.now+1800000),e=>e.status===403);
+  });
+  test(`${label}: concurrent skill casts cannot double strike; artillery uses existing front advance`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();
+    const outcomes=await Promise.allSettled(['concurrent-a','concurrent-b'].map(requestId=>useCoupChiefSkill(f.env,{id:1},{roundId:id,skillCode:'ARTILLERY',requestId},f.now)));
+    assert.equal(outcomes.filter(r=>r.status==='fulfilled').length,1);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skills_v2118').first()).n),1);
+    await f.p('UPDATE coup_rounds_v2115 SET rebel_hp=100000 WHERE id=?',id).run();
+    const next=await useCoupChiefSkill(f.env,{id:1},{roundId:id,skillCode:'ARTILLERY',requestId:'advance-front-test'},f.now+1800000);
+    assert.equal(next.damage,100000);assert.equal(next.frontMoved,true);
+    const r=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();assert.equal(Number(r.front_index),1);assert.equal(Number(r.rebel_hp),500000);
+  });
   test(`${label}: rebel loss atomically debits 20%, allows -3 billion, adds 3 billion to existing debt, exactly once`, async t => {
     const f = await fixture(t, pg), id = await f.prepare('CHIEF');
     f.fail('UPDATE users SET coin=(SELECT'); await assert.rejects(settleCoupRound(f.env, id, f.now), /INJECTED_FAILURE/); f.fail('');
@@ -133,6 +195,7 @@ for (const pg of [false, true]) {
     assert.deepEqual(receipt,JSON.parse(JSON.stringify(result)));
     assert.equal(Number((await f.p('SELECT attacks FROM coup_participants_v2115 WHERE round_id=? AND user_id=2',id).first()).attacks),1);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_attacks_v2115').first()).n),1);
+    assert.equal(Number((await f.p('SELECT energy FROM coup_energy_v2118 WHERE round_id=? AND user_id=2',id).first()).energy),9);
     const r=await f.p('SELECT chief_hp,rebel_hp FROM coup_rounds_v2115 WHERE id=?',id).first();
     assert.equal(Number(r.chief_hp)+Number(r.rebel_hp),1000000-result.damage);
     await assert.rejects(attackCoup(f.env,deps,{id:3},{roundId:id,requestId:result.requestId},f.now),e=>e.status===403);
@@ -149,6 +212,17 @@ for (const pg of [false, true]) {
     assert.equal((await handleCoup({ path: 'coup/vote', request: { method: 'POST' }, env: f.env, deps })).status, 401);
     deps.authenticate = async () => ({ id: 1 }); deps.requirePermission = async () => null;
     assert.equal((await handleCoup({ path: 'admin/coup/open', request: { method: 'POST' }, env: f.env, deps })).status, 403);
+    let body = { nuclearEnabled: true }, audit;
+    deps.requirePermission = async () => ({ id: 1, role: 'ADMIN' });
+    deps.readBody = async () => body;
+    deps.writeAdminLog = async (...args) => { audit = args; };
+    const toggle = () => handleCoup({ path: 'admin/coup/skills', request: { method: 'POST' }, env: f.env, deps });
+    assert.equal((await toggle()).status, 403);
+    deps.requirePermission = async () => ({ id: 1, role: 'OWNER' });
+    body = { nuclearEnabled: 'true' }; assert.equal((await toggle()).status, 400);
+    body = { nuclearEnabled: true }; assert.equal((await toggle()).data.skillSettings.nuclearEnabled, true);
+    assert.equal(audit[2], 'COUP_SKILLS');
+    body = { nuclearEnabled: false }; assert.equal((await toggle()).data.skillSettings.nuclearEnabled, false);
     const id = await f.prepare();
     await assert.rejects(attackCoup(f.env, {}, { id: 99 }, { roundId: id, requestId: 'valid-key-0001' }, f.now), e => e.status === 403);
   });
