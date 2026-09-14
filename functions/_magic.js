@@ -206,10 +206,11 @@ function normalizeUniqueCards(cards=[]){
 // 해당 등급 고급 강화가 꺼져 있으면 0 이므로 배율 1(= 변화 없음)이 된다.
 const HIGH_UNIQUE_BOOST_FALLBACK={FUR:[30,60,100],ZENITH:[20,40,60]};
 let highUniqueBoostCache=null;
+export function invalidateHighUniqueBoostCache(){highUniqueBoostCache=null}
 async function highUniqueBoostTable(env){
   const now=Date.now();
   if(highUniqueBoostCache&&highUniqueBoostCache.expiresAt>now)return highUniqueBoostCache.value;
-  const value={FUR:[0,0,0],ZENITH:[0,0,0],SUPERSTAR:[0,0,0]};
+  const value={FUR:[0,0,0,0,0],ZENITH:[0,0,0],SUPERSTAR:[0,0,0]};
   try{
     const rows=(await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802')").all()).results||[];
     for(const row of rows){
@@ -217,6 +218,10 @@ async function highUniqueBoostTable(env){
       let parsed=null;try{parsed=JSON.parse(row?.value||'{}')}catch{parsed=null}
       if(parsed?.enabled!==true)continue;
       value[grade]=[0,1,2].map(i=>{const raw=Number(parsed?.steps?.[i]?.uniqueBoostPercent);return Number.isFinite(raw)&&raw>0?Math.min(1000,raw):HIGH_UNIQUE_BOOST_FALLBACK[grade][i]});
+      if(grade==='FUR')for(const i of [3,4]){
+        const saved=parsed?.steps?.[i]?.uniqueBoostPercent,raw=Number(saved);
+        value.FUR.push(saved!=null&&Number.isFinite(raw)&&raw>=0?Math.min(1000,raw):value.FUR[2]);
+      }
     }
     // SUPERSTAR 고급 강화는 ZENITH 운영 설정과 고유효과 증폭을 항상 공유한다.
     value.SUPERSTAR=[...value.ZENITH];
@@ -239,7 +244,7 @@ function uniqueBoostMultiplier(card,boostTable){
   if(!Array.isArray(table))return 1;
   const level=Math.max(0,Math.floor(Number(card?.breakthrough_level??card?.breakthroughLevel??0)||0));
   if(level<11)return 1;
-  const percent=Number(table[Math.min(2,level-11)]||0);
+  const percent=Number(table[Math.min(table.length-1,level-11)]||0);
   return percent>0?1+percent/100:1;
 }
 function scaleUniqueEffect(effect,multiplier){

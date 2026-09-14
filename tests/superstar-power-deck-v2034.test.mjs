@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { DatabaseSync } from 'node:sqlite';
 import test from 'node:test';
+import {FUR_MAX_ENHANCEMENT} from '../functions/_fur_enhancement_v2114.js';
 import {releasedMercenarySnapshots,mercenarySnapshotPower,MERCENARY_RUNTIME_SCHEMA} from '../functions/_mercenary_account.js';
 import {MERCENARY_ACCOUNTING_SCHEMA} from '../functions/_mercenary_draw_accounting.js';
 import {forgeEquipmentBonuses} from '../functions/_equipment_forge_transactions.js';
@@ -24,7 +25,7 @@ function constantSource(source,name){
 }
 function server(overrides={}){
   const context=vm.createContext({
-    releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,
+    releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,
     normalizeBattleEngineSettings:x=>x||{},normalizeNightmareSettings:x=>x||{},normalizeApocalypseSettings:x=>x||{},normalizeUltimateRequiredGrade:x=>x,
     async pvpDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},
     async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},...overrides
@@ -50,6 +51,17 @@ const referencePower=(grade,level,cfg)=>{
   const percent=level>=11&&Number.isFinite(high)&&high>0?high:Number(cfg.breakthroughBonus[level]||0);
   return Math.floor(Number(cfg.powerByGrade[grade])*(1+percent/100));
 };
+
+test('configured FUR +14/+15 power is shared by client and server without raising SUPERSTAR beyond +13',()=>{
+  const s=server(),c=client(),cfg=s.defaultBattleSettings();
+  cfg.highBreakthroughBonus.FUR.push(3200,4000);
+  for(const [level,power] of [[14,105600],[15,131200]]){
+    assert.equal(s.cardBattlePower({id:'fur',rarity:'FUR',base_power:3200},level,cfg),power);
+    assert.equal(c.battleCardPower({id:'fur',grade:'FUR',basePower:3200},{breakthroughs:{fur:level}},cfg),power);
+  }
+  assert.equal(s.cardBattlePower({grade:'SUPERSTAR'},15,cfg),93200);
+  assert.equal(s.cardBattlePower({grade:'ZENITH'},15,cfg),75625);
+});
 
 test('all +0..13 levels: SUPERSTAR equals max(normal FUR, ZENITH) + exactly 10,000 on client and server',()=>{
   const s=server(),c=client();

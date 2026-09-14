@@ -254,7 +254,7 @@
     const dex = dexCardFor(card, catalog);
     const art = rosterArt(card, dex);
     const grade = (String(card?.grade || dex?.grade || card?.rarity || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '') || 'C');
-    const level = Math.max(0, Math.min(13, Number(card?.breakthroughLevel || 0)));
+    const level = Math.max(0, Math.min(grade === 'FUR' ? 15 : 13, Number(card?.breakthroughLevel || 0)));
     const title = String(card?.title || dex?.title || card?.name || `CARD ${index + 1}`);
     const owner = String(card?.memberName || dex?.memberName || '');
     const row = String(card?.row || '').toUpperCase();

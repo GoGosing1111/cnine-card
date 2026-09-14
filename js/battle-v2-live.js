@@ -80,7 +80,7 @@
 
   function frameHtml(card) {
     const grade = String(card.grade || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '');
-    const level = Math.max(0, Math.min(13, Number(card.breakthroughLevel || 0)));
+    const level = Math.max(0, Math.min(grade === 'FUR' ? 15 : 13, Number(card.breakthroughLevel || 0)));
     const breakthroughClass = level > 0 ? ` breakthrough-${level}` : '';
     const isFakerChampionship = String(card.cardId || card.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
     return `<div class="card-frame grade-${grade}${breakthroughClass}${isFakerChampionship ? ' faker-championship-card' : ''} battle-v2-card-frame">

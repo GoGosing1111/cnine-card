@@ -30,7 +30,7 @@ test('SUPERSTAR는 전 강화 구간에서 마스터의 별을 사용하고 최�
   assert.deepEqual(uppercaseArray(api,'HIGH_BREAKTHROUGH_GRADES'),['MA','LIMITED','FUR','ZENITH','SUPERSTAR']);
   assert.deepEqual(uppercaseArray(api,'ALL_LEVEL_MASTER_STAR_GRADES'),['ZENITH','SUPERSTAR']);
   assert.match(api,/const masterStarStep=ALL_LEVEL_MASTER_STAR_GRADES\.includes\(grade\)\|\|highStep/);
-  assert.match(api,/usesMasterStars=ALL_LEVEL_MASTER_STAR_GRADES\.includes\(grade\)\|\|isMasterStarHigh,maxLevel=HIGH_BREAKTHROUGH_GRADES\.includes\(grade\)\?13:10/);
+  assert.match(api,/usesMasterStars=ALL_LEVEL_MASTER_STAR_GRADES\.includes\(grade\)\|\|isMasterStarHigh,maxLevel=grade==='FUR'\?FUR_MAX_ENHANCEMENT:HIGH_BREAKTHROUGH_GRADES\.includes\(grade\)\?13:10/);
   assert.match(api,/const autoHighBlocked=\['FUR','ZENITH','SUPERSTAR'\]\.includes\(grade\)/);
   assert.match(api,/ALL_LEVEL_MASTER_STAR_GRADES\.includes\(grade\)\?`\$\{grade\}_BREAKTHROUGH_AUTO`/);
 
