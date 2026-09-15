@@ -11,13 +11,15 @@
   function message(text, error = false) { const n = section.querySelector('[data-coup-admin-message]'); n.textContent = text; n.style.color = error ? '#ef9898' : '#bcd897'; }
   function render() {
     const r = state.round, t = state.trial, cfg = state.settings;
-    section.querySelector('[data-coup-admin-round]').innerHTML = `<h3>쿠데타 운영</h3><p>${r ? `${esc(r.chiefName)} · ${esc(({ RECRUITING:'참가 모집 중',ACTIVE:'전투 중',SETTLING:'정산 중',FINISHED:'종료',CANCELLED:'취소' })[r.status])}` : '개설된 쿠데타가 없습니다.'}</p>
+    section.querySelector('[data-coup-admin-round]').innerHTML = `<h3>쿠데타 운영 · ${cfg.enabled === false ? 'OFF' : 'ON'}</h3><p>${r ? `${esc(r.chiefName)} · ${esc(({ RECRUITING:'참가 모집 중',ACTIVE:'전투 중',SETTLING:'정산 중',FINISHED:'종료',CANCELLED:'취소' })[r.status])}` : '개설된 쿠데타가 없습니다.'}</p>
       <p>족장팀 ${state.members.filter(m => m.side === 'CHIEF').length}명 · 반란군 ${state.members.filter(m => m.side === 'REBEL').length}명</p>
       ${r?.status === 'ACTIVE' ? `<p>전투 종료 ${new Date(r.endsAt).toLocaleString('ko-KR')}<br>이번 회차: 전투 ${r.settings.battleMinutes}분 · 재판 ${r.settings.trialMinutes}분</p>` : ''}
-      <div class="coup-admin-actions">${!r || ['FINISHED','CANCELLED'].includes(r.status) ? `<button data-coup-admin="open" ${t?.status === 'OPEN' ? 'disabled' : ''}>새 참가 모집 개설</button>` : r.status === 'RECRUITING' ? '<button data-coup-admin="start">전투 시작</button><button class="ghost" data-coup-admin="cancel">모집 취소</button>' : ''}<button class="ghost" data-coup-admin="reload">현황 새로고침</button></div>
+      <div class="coup-admin-actions">${!r || ['FINISHED','CANCELLED'].includes(r.status) ? `<button data-coup-admin="open" ${t?.status === 'OPEN' || cfg.enabled === false ? 'disabled' : ''}>새 참가 모집 개설</button>` : r.status === 'RECRUITING' ? `<button data-coup-admin="start" ${cfg.enabled === false ? 'disabled' : ''}>전투 시작</button><button class="ghost" data-coup-admin="cancel">모집 취소</button>` : ''}<button class="ghost" data-coup-admin="reload">현황 새로고침</button></div>
       <small>양 진영에 최소 1명씩 참가해야 시작할 수 있습니다. 시작된 전투를 강제 취소하거나 승자를 지정할 수 없습니다.</small>`;
     section.querySelector('[data-coup-nuclear]').checked = state.skillSettings?.nuclearEnabled === true;
-    section.querySelector('[data-coup-nuclear-state]').textContent = state.skillSettings?.nuclearEnabled === true ? 'ON · 족장 발동 가능' : 'OFF · 잠금';
+    section.querySelector('[data-coup-enabled]').checked = cfg.enabled !== false;
+    section.querySelector('[data-coup-enabled-state]').textContent = cfg.enabled === false ? 'OFF · 모집·참가·전투·지휘 스킬 중지' : 'ON · 쿠데타 운영 중';
+    section.querySelector('[data-coup-nuclear-state]').textContent = state.skillSettings?.nuclearEnabled === true ? (cfg.enabled === false ? 'ON · 쿠데타 OFF로 발동 중지' : 'ON · 족장 발동 가능') : 'OFF · 잠금';
     for (const [key, value] of Object.entries(cfg)) { const n = section.querySelector(`[name="${key}"]`); if (n) n.value = value; }
     section.querySelector('[data-coup-admin-trial]').innerHTML = `<h3>국민 재판 현황</h3>${t ? `<p>${esc(t.defendantName)} · ${t.status === 'OPEN' ? '투표 진행 중 · 직무정지' : t.status === 'REMOVED' ? '파면 확정' : '복직 판결'}</p><p>복직 <b>${t.reinstate}</b>표 · 파면 <b>${t.remove}</b>표 / 유권자 ${t.electorate}명</p><p>마감 ${new Date(t.endsAt).toLocaleString('ko-KR')}</p>` : '<p>재판 기록이 없습니다.</p>'}<small>유저 투표로만 판결합니다. 마감 시 파면 표가 더 많으면 파면, 동률·무투표는 복직합니다. 복직 시 임기를 연장하지 않습니다.</small>`;
   }
@@ -43,6 +45,14 @@
       if (!confirm('원자폭탄을 ' + (enabled ? 'ON으로 개방' : 'OFF로 잠금') + '할까요?')) return;
       busy = true;
       try { state = await api('/skills', { nuclearEnabled: enabled }); render(); message('원자폭탄 설정을 저장했습니다.'); } catch(e) { message(e.message, true); } finally { busy = false; }
+    };
+    section.querySelector('.coup-admin-grid').insertAdjacentHTML('afterbegin', '<div class="panel"><h3>쿠데타 ON/OFF</h3><label><input type="checkbox" data-coup-enabled> 쿠데타 사용 ON</label><p data-coup-enabled-state></p><p>OWNER가 저장하면 즉시 적용됩니다. OFF 상태에서도 종료 기록·수용소·재판은 유지됩니다.</p><button type="button" data-coup-save-enabled>운영 상태 저장</button></div>');
+    section.querySelector('[data-coup-save-enabled]').onclick = async () => {
+      if (busy) return;
+      const enabled = section.querySelector('[data-coup-enabled]').checked;
+      if (!confirm(`쿠데타를 ${enabled ? 'ON으로 개방' : 'OFF로 중지'}할까요?`)) return;
+      busy = true;
+      try { state = await api('/settings', { enabled }); render(); message('쿠데타 운영 상태를 저장했습니다.'); } catch(e) { message(e.message, true); } finally { busy = false; }
     };
     main.append(section);
     button.addEventListener('click', e => { e.stopPropagation(); document.querySelectorAll('.view').forEach(v => { v.hidden = v !== section; }); nav.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('active', b === button)); const title = document.getElementById('pageTitle'); if (title) title.textContent = '쿠데타 · 재판'; void load(); });

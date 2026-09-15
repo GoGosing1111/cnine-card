@@ -4,7 +4,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { ensureCoupSchema, chiefDuty, chiefAuthorityGuard } from '../functions/_coup_schema.js';
-import { openCoupRound, startCoupRound, settleCoupRound, voteCoupTrial, closeCoupTrial, coupStatus, handleCoup, attackCoup } from '../functions/_coup.js';
+import { openCoupRound, startCoupRound, joinCoupRound, settleCoupRound, voteCoupTrial, closeCoupTrial, coupStatus, handleCoup, attackCoup } from '../functions/_coup.js';
 import { clanCampStatusForUser, clanCampRoomState, releaseClanCaptives, sendClanCampChat } from '../functions/_clan_prison_camp.js';
 import { advanceFront, deadlineWinner, rebelPenalty, coupSettings, coupRebelDefeatPolicy, coupMatchedOpponent } from '../shared/coup-palace-v2115.mjs';
 import { readFileSync } from 'node:fs';
@@ -95,6 +95,45 @@ test('coup matchmaking stays near power, avoids the previous opponent and rotate
 });
 for (const pg of [false, true]) {
   const label = pg ? 'PostgreSQL' : 'SQLite';
+  test(`${label}: OFF blocks all new coup actions, keeps receipts/status, rejects stale in-flight writes and preserves OFF on CMS partial saves`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();
+    const receipt={roundId:id,skillCode:'RALLY',requestId:'before-off-skill'};
+    await useCoupChiefSkill(f.env,{id:1},receipt,f.now);
+    await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)','coup_settings_v2115',JSON.stringify({enabled:false,siegeHp:15000000})).run();
+    for(const action of [()=>openCoupRound(f.env,f.now),()=>startCoupRound(f.env,id,f.now),()=>joinCoupRound(f.env,{}, {id:9},{roundId:id,side:'REBEL',acceptPenalty:true},f.now),()=>attackCoup(f.env,{}, {id:2},{roundId:id,requestId:'off-attack-blocked'},f.now),()=>useCoupChiefSkill(f.env,{id:1},{roundId:id,skillCode:'ARTILLERY',requestId:'off-artillery-blocked'},f.now)])await assert.rejects(action(),e=>e.status===403&&/OFF/.test(e.message));
+    assert.equal((await useCoupChiefSkill(f.env,{id:1},receipt,f.now)).replayed,true);
+    const s=await coupStatus(f.env,{id:1},f.now);assert.equal(s.settings.enabled,false);assert.equal(s.canUseCommandSkills,false);assert.equal(s.canUseChiefSkills,false);
+    let body={battleMinutes:80},role='ADMIN';const deps={authenticate:async()=>({id:1}),requirePermission:async()=>({id:1,role}),readBody:async()=>body,json:(data,status=200)=>({data,status}),writeAdminLog:async()=>{}};
+    const save=()=>handleCoup({env:f.env,path:'admin/coup/settings',request:{method:'POST'},deps});
+    let saved=await save();assert.equal(saved.status,200);assert.equal(saved.data.settings.enabled,false);assert.equal(saved.data.settings.siegeHp,15000000);
+    body={enabled:true};assert.equal((await save()).status,403);body={enabled:null};assert.equal((await save()).status,400);
+    role='OWNER';body={enabled:true};assert.equal((await save()).data.settings.enabled,true);
+    const batch=f.env.DB.batch.bind(f.env.DB);let once=true;f.env.DB.batch=async stmts=>{if(once){once=false;await f.p("UPDATE app_meta SET value=? WHERE key='coup_settings_v2115'",JSON.stringify({enabled:false})).run();}return batch(stmts)};
+    await assert.rejects(useCoupChiefSkill(f.env,{id:1},{roundId:id,skillCode:'ARTILLERY',requestId:'off-race-artillery'},f.now),e=>e.status===409);f.env.DB.batch=batch;
+    assert.equal(Number((await f.p('SELECT rebel_hp FROM coup_rounds_v2115 WHERE id=?',id).first()).rebel_hp),500000);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skills_v2118').first()).n),1);
+  });
+  test(`${label}: a concurrent CMS partial save cannot overwrite a newer ON/OFF decision`,async t=>{
+    const f=await fixture(t,pg),key='coup_settings_v2115',batch=f.env.DB.batch.bind(f.env.DB);
+    const deps={authenticate:async()=>({id:1}),requirePermission:async()=>({id:1,role:'ADMIN'}),readBody:async()=>({battleMinutes:80}),json:(data,status=200)=>({data,status}),writeAdminLog:async()=>{}};
+    for(const enabled of [false,true]){
+      await f.p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',key,JSON.stringify({enabled:!enabled,battleMinutes:60})).run();
+      const newer={enabled,battleMinutes:120,siegeHp:15000000};let once=true;
+      f.env.DB.batch=async stmts=>{if(once){once=false;await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(newer),key).run();}return batch(stmts)};
+      const result=await handleCoup({env:f.env,path:'admin/coup/settings',request:{method:'POST'},deps});
+      assert.equal(result.status,409);assert.deepEqual(JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',key).first()).value),newer);
+      f.env.DB.batch=batch;
+    }
+  });
+  test(`${label}: the 90-minute trial sentence is round-bound, expires exactly and settlement retry cannot extend it`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare('CHIEF');const r=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();
+    await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify({...JSON.parse(r.settings_json),rebelTrial:{roundId:id,prisonHours:1.5}}),id).run();
+    await settleCoupRound(f.env,id,f.now);await settleCoupRound(f.env,id,f.now+1000);
+    const before=await clanCampStatusForUser(f.env,2,f.now);assert.equal(before.remainingSeconds,5400);assert.match(before.reason,/1시간 30분/);
+    assert.equal((await clanCampRoomState(f.env,{id:2},before,f.now)).sentenceHours,1.5);
+    assert.equal((await clanCampStatusForUser(f.env,2,f.now+5399999)).incarcerated,true);assert.equal((await clanCampStatusForUser(f.env,2,f.now+5400000)).incarcerated,false);
+    assert.equal((await coupStatus(f.env,{id:2},f.now)).round.rebelDefeat.hours,1.5);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115').first()).n),0);
+  });
   async function assign(f,id,userId=2) {
     const r=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();
     await f.p('UPDATE coup_rounds_v2115 SET settings_json=?,revision=revision+1 WHERE id=?',JSON.stringify({...JSON.parse(r.settings_json),rebelCommand:{roundId:id,userId}}),id).run();

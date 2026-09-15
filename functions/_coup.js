@@ -36,6 +36,13 @@ async function atomic(env, statements) {
 export async function readCoupSettings(env) {
   return coupSettings(parse((await p(env, 'SELECT value FROM app_meta WHERE key=?', SETTINGS).first())?.value));
 }
+async function requireCoupEnabled(env) {
+  if (!(await readCoupSettings(env)).enabled) fail('쿠데타 운영이 종료되었습니다. 현재 OFF 상태입니다.', 403);
+}
+function operatingGate(env, token) {
+  return [p(env, 'UPDATE app_meta SET value=value WHERE key=?', SETTINGS),
+    guard(env, token + ':operating', "SELECT 1 WHERE NOT EXISTS(SELECT 1 FROM app_meta WHERE key=? AND CAST(json_extract(value,'$.enabled') AS TEXT) IN ('false','0'))", SETTINGS)];
+}
 async function currentChief(env, now) {
   const a = parse((await p(env, "SELECT value FROM app_meta WHERE key='chief_appointment_v1'").first())?.value);
   const user = a.userId && await p(env, "SELECT id,nickname FROM users WHERE id=? AND status='ACTIVE'", a.userId).first();
@@ -45,30 +52,33 @@ async function currentChief(env, now) {
 }
 export async function openCoupRound(env, now = Date.now()) {
   await ensureCoupSchema(env);
+  await requireCoupEnabled(env);
   const [a, cfg] = await Promise.all([currentChief(env, now), readCoupSettings(env)]);
   if (await p(env, "SELECT 1 FROM coup_trials_v2115 WHERE status='OPEN'").first()) fail('진행 중인 재판이 끝난 뒤 다음 쿠데타를 개설하세요.');
   const id = crypto.randomUUID(), token = crypto.randomUUID();
-  await atomic(env, [chiefMetaLock(env),
+  await atomic(env, [chiefMetaLock(env), ...operatingGate(env, token),
     guard(env, token, `SELECT 1 FROM app_meta WHERE key='chief_appointment_v1' AND json_extract(value,'$.id')=?
       AND NOT EXISTS(SELECT 1 FROM coup_trials_v2115 WHERE status='OPEN')
       AND NOT EXISTS(SELECT 1 FROM chief_duty_cases_v2115 WHERE appointment_id=? AND status IN ('OPEN','REMOVED'))`, a.id, a.id),
     p(env, `INSERT INTO coup_rounds_v2115(id,status,chief_user_id,appointment_id,chief_name,settings_json,created_at,chief_hp,rebel_hp,max_hp)
-      VALUES(?,'RECRUITING',?,?,?,?,?,?,?,?)`, id, a.userId, a.id, a.nickname, JSON.stringify(cfg), now, cfg.siegeHp, cfg.siegeHp, cfg.siegeHp), clearGuard(env, token)]);
+      VALUES(?,'RECRUITING',?,?,?,?,?,?,?,?)`, id, a.userId, a.id, a.nickname, JSON.stringify(cfg), now, cfg.siegeHp, cfg.siegeHp, cfg.siegeHp), clearGuard(env, token), clearGuard(env, token + ':operating')]);
   return getRound(env, id);
 }
 export async function startCoupRound(env, id, now = Date.now()) {
+  await requireCoupEnabled(env);
   const round = await getRound(env, id); if (!round || round.status !== 'RECRUITING') fail('모집 중인 쿠데타를 선택하세요.');
   const chief = await currentChief(env, now); if (chief.id !== round.appointment_id) fail('족장이 변경되었습니다. 모집을 취소하고 새 쿠데타를 개설하세요.');
   const cfg = coupSettings(parse(round.settings_json)), token = crypto.randomUUID();
-  await atomic(env, [chiefMetaLock(env), ...roundClaim(env, round, token, "AND status='RECRUITING'", [], false),
+  await atomic(env, [chiefMetaLock(env), ...operatingGate(env, token), ...roundClaim(env, round, token, "AND status='RECRUITING'", [], false),
     guard(env, token + ':teams', `SELECT 1 FROM app_meta WHERE key='chief_appointment_v1' AND json_extract(value,'$.id')=?
       AND (SELECT COUNT(DISTINCT side) FROM coup_participants_v2115 WHERE round_id=?)=2
       AND NOT EXISTS(SELECT 1 FROM chief_duty_cases_v2115 WHERE appointment_id=? AND status IN ('OPEN','REMOVED'))`, round.appointment_id, id, round.appointment_id),
     p(env, "UPDATE coup_rounds_v2115 SET status='ACTIVE',starts_at=?,ends_at=? WHERE id=?", now, now + cfg.battleMinutes * 60000, id),
-    clearGuard(env, token + ':teams'), clearGuard(env, token)]);
+    clearGuard(env, token + ':teams'), clearGuard(env, token), clearGuard(env, token + ':operating')]);
   return getRound(env, id);
 }
 export async function joinCoupRound(env, deps, user, body, now = Date.now()) {
+  await requireCoupEnabled(env);
   const round = await getRound(env, String(body.roundId || ''));
   if (!round || round.status !== 'RECRUITING') fail('현재 참가 신청을 받고 있지 않습니다.');
   const side = String(body.side || '');
@@ -79,9 +89,9 @@ export async function joinCoupRound(env, deps, user, body, now = Date.now()) {
   const [deck, battle] = await Promise.all([deps.pvpDeckSnapshot(env, user.id), deps.battleSettings(env)]);
   if (deck.length !== 5 || new Set(deck.map(c => String(c.id))).size !== 5) fail('PVP 덱에 일반 카드 5장을 편성한 뒤 참가하세요.', 400);
   const formation = await territoryFormationSnapshot(env, deps, user, deck, battle), token = crypto.randomUUID();
-  await atomic(env, [...roundClaim(env, round, token, "AND status='RECRUITING'", [], false),
+  await atomic(env, [...operatingGate(env, token), ...roundClaim(env, round, token, "AND status='RECRUITING'", [], false),
     p(env, `INSERT INTO coup_participants_v2115(round_id,user_id,side,deck_snapshot,loadout_bonus_json,deck_power,joined_at) VALUES(?,?,?,?,?,?,?)`,
-      round.id, user.id, side, JSON.stringify(deck.map(c => String(c.id))), JSON.stringify(formation.loadoutBonus), Math.round(formation.formationPower), now), clearGuard(env, token)]);
+      round.id, user.id, side, JSON.stringify(deck.map(c => String(c.id))), JSON.stringify(formation.loadoutBonus), Math.round(formation.formationPower), now), clearGuard(env, token), clearGuard(env, token + ':operating')]);
   return { ok: true };
 }
 
@@ -100,7 +110,7 @@ export async function settleCoupRound(env, id, now = Date.now()) {
   if (winner === 'CHIEF' && rebelPolicy.type === 'PRISON') {
     const eventId = `coup:${id}`;
     statements.push(
-      p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타 · 반란군','반란군 패배 · 이번 회차 시범 운영 · 3시간 수감',?,?)`, eventId, sqlTime(now), sqlTime(now + rebelPolicy.hours * 3600000)),
+      p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타 · 반란군',?,?,?)`, eventId, `반란군 패배 · 이번 회차 시범 운영 · ${rebelPolicy.hours === 1.5 ? '1시간 30분' : '3시간'} 수감`, sqlTime(now), sqlTime(now + rebelPolicy.hours * 3600000)),
       p(env, `INSERT INTO event_prison_captives(event_id,user_id,member_role) SELECT ?,user_id,'REBEL' FROM coup_participants_v2115 WHERE round_id=? AND side='REBEL'`, eventId, id));
   } else if (winner === 'CHIEF') {
     statements.push(
@@ -167,6 +177,7 @@ export async function attackCoup(env, deps, user, body, now = Date.now()) {
   if (!/^[A-Za-z0-9:_-]{8,80}$/.test(requestId)) fail('유효한 전투 요청 번호가 필요합니다.', 400);
   const old = await p(env, 'SELECT * FROM coup_attacks_v2115 WHERE request_id=?', requestId).first();
   if (old) { if (Number(old.user_id) !== Number(user.id) || old.round_id !== id) fail('다른 전투의 요청 번호입니다.', 403); return parse(old.result_json); }
+  await requireCoupEnabled(env);
   let round = await getRound(env, id);
   if (!round || round.status !== 'ACTIVE' || Number(round.ends_at) <= now) fail('지금은 전투 시간이 아닙니다.');
   let mine = await p(env, 'SELECT * FROM coup_participants_v2115 WHERE round_id=? AND user_id=?', id, user.id).first();
@@ -213,7 +224,7 @@ export async function attackCoup(env, deps, user, body, now = Date.now()) {
     damage, nodeName: PALACE_NODES[Number(round.front_index)].name, frontMoved: next.moved, winner: next.winner,
     nextAttackAt: committedAt + cfg.attackCooldownSeconds * 1000, matchPowerGapPercent: Math.round(Math.abs(opponent.deck_power - mine.deck_power) / Math.max(1, mine.deck_power) * 10000) / 100, matchPoolSize: opponent.match_pool_size,
     mode: 'SIEGE', battlefieldMode: 'SIEGE', sceneAssetKey: 'COUP_PALACE' };
-  await atomic(env, [...roundClaim(env, round, token, "AND status='ACTIVE' AND ends_at>?", [committedAt]),
+  await atomic(env, [...operatingGate(env, token), ...roundClaim(env, round, token, "AND status='ACTIVE' AND ends_at>?", [committedAt]),
     p(env, 'UPDATE users SET coin=coin+? WHERE id=?', response.coinReward, user.id),
     ...[mine, opponent].map(row => p(env, 'UPDATE coup_participants_v2115 SET deck_snapshot=?,deck_power=?,loadout_bonus_json=? WHERE round_id=? AND user_id=?', row.deck_snapshot, row.deck_power, row.loadout_bonus_json, id, row.user_id)),
     p(env, 'UPDATE coup_participants_v2115 SET attacks=attacks+1,damage=damage+?,next_attack_at=? WHERE round_id=? AND user_id=? AND next_attack_at<=?', result === 'A' ? damage : 0, response.nextAttackAt, id, user.id, committedAt),
@@ -222,7 +233,7 @@ export async function attackCoup(env, deps, user, body, now = Date.now()) {
       ON CONFLICT(round_id,user_id) DO UPDATE SET energy=excluded.energy,energy_at=excluded.energy_at,blocked_until=excluded.blocked_until`, id, user.id, energy.energy - 1, energy.energyAt, energy.blockedUntil),
     p(env, 'UPDATE coup_rounds_v2115 SET front_index=?,chief_hp=?,rebel_hp=?,front_seq=front_seq+?,status=?,winner=? WHERE id=?', next.front, next.chief, next.rebel, next.moved ? 1 : 0, next.winner ? 'SETTLING' : 'ACTIVE', next.winner, id),
     p(env, 'INSERT INTO coup_attacks_v2115(request_id,round_id,user_id,side,front_seq,result_json,created_at) VALUES(?,?,?,?,?,?,?)', requestId, id, user.id, mine.side, round.front_seq, JSON.stringify(response), committedAt),
-    clearGuard(env, token + ':player'), clearGuard(env, token)]);
+    clearGuard(env, token + ':player'), clearGuard(env, token), clearGuard(env, token + ':operating')]);
   if (next.winner) await settleCoupRound(env, id, committedAt);
   return response;
 }
@@ -242,6 +253,7 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
     if (Number(old.user_id) !== Number(user.id) || old.round_id !== id || old.skill_code !== code) fail('다른 스킬의 요청 번호입니다.', 403);
     return { ...parse(old.result_json), replayed: true };
   }
+  await requireCoupEnabled(env);
   const round = await getRound(env, id);
   if (!round || round.status !== 'ACTIVE' || Number(round.ends_at) <= now) fail('전투 중에만 지휘 스킬을 사용할 수 있습니다.');
   const side = Number(round.chief_user_id) === Number(user.id) ? 'CHIEF' : 'REBEL';
@@ -272,7 +284,7 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
     createdAt: now, nextUseAt: now + coupSkillCooldown(code, side), affectedCount: targets.length, affectedUserIds: targets.map(t => Number(t.user_id)),
     damage, nodeName: PALACE_NODES[Number(round.front_index)].name, frontMoved: next.moved, winner: next.winner,
     blockedUntil: code === 'NUCLEAR' ? now + COUP_NUCLEAR_BLOCK_MS : null, energyGranted: code === 'RALLY' ? 50 : null };
-  const statements = [...authority.before, ...roundClaim(env, round, token, "AND status='ACTIVE' AND ends_at>?", [now]),
+  const statements = [...authority.before, ...operatingGate(env, token), ...roundClaim(env, round, token, "AND status='ACTIVE' AND ends_at>?", [now]),
     guard(env, token + ':chief', "SELECT 1 FROM users WHERE id=? AND status='ACTIVE'", user.id),
     ...(side === 'REBEL' ? [guard(env, token + ':commander', `SELECT 1 FROM coup_rounds_v2115 r JOIN coup_participants_v2115 c ON c.round_id=r.id WHERE r.id=? AND r.settings_json=? AND c.user_id=? AND c.side='REBEL'`, id, round.settings_json, user.id)] : []),
     guard(env, token + ':cooldown', `SELECT 1 WHERE NOT EXISTS(SELECT 1 FROM coup_skill_cooldowns_v2118 WHERE appointment_id=? AND skill_code=? AND next_use_at>?)`, cooldownKey, code, now),
@@ -281,7 +293,7 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
   for (const t of targets) statements.push(p(env, `INSERT INTO coup_energy_v2118(round_id,user_id,energy,energy_at,blocked_until) VALUES(?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET energy=excluded.energy,energy_at=excluded.energy_at,blocked_until=excluded.blocked_until`, id, t.user_id, code === 'NUCLEAR' ? 0 : 50, code === 'NUCLEAR' ? result.blockedUntil : now, code === 'NUCLEAR' ? result.blockedUntil : 0));
   if (damage) statements.push(p(env, 'UPDATE coup_rounds_v2115 SET front_index=?,chief_hp=?,rebel_hp=?,front_seq=front_seq+?,status=?,winner=? WHERE id=?', next.front, next.chief, next.rebel, next.moved ? 1 : 0, next.winner ? 'SETTLING' : 'ACTIVE', next.winner, id));
   statements.push(p(env, 'INSERT INTO coup_skills_v2118(request_id,round_id,user_id,skill_code,result_json,created_at) VALUES(?,?,?,?,?,?)', requestId, id, user.id, code, JSON.stringify(result), now),
-    clearGuard(env, token + ':chief'), clearGuard(env, token + ':commander'), clearGuard(env, token + ':cooldown'), clearGuard(env, token + ':enabled'), clearGuard(env, token), ...authority.after);
+    clearGuard(env, token + ':chief'), clearGuard(env, token + ':commander'), clearGuard(env, token + ':cooldown'), clearGuard(env, token + ':enabled'), clearGuard(env, token + ':operating'), clearGuard(env, token), ...authority.after);
   try { await atomic(env, statements); }
   catch (e) {
     const saved = await p(env, 'SELECT result_json FROM coup_skills_v2118 WHERE request_id=? AND round_id=? AND user_id=? AND skill_code=?', requestId, id, user.id, code).first();
@@ -293,6 +305,7 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
 }
 export async function coupStatus(env, user, now = Date.now()) {
   await pulseCoup(env, now);
+  const settings = await readCoupSettings(env);
   const round = await p(env, 'SELECT * FROM coup_rounds_v2115 ORDER BY created_at DESC,id DESC LIMIT 1').first();
   const trial = await p(env, 'SELECT * FROM coup_trials_v2115 ORDER BY starts_at DESC,id DESC LIMIT 1').first();
   const members = round ? all(await p(env, `SELECT c.user_id,c.side,c.attacks,c.damage,c.deck_power,c.next_attack_at,u.nickname,e.energy,e.energy_at,e.blocked_until FROM coup_participants_v2115 c JOIN users u ON u.id=c.user_id LEFT JOIN coup_energy_v2118 e ON e.round_id=c.round_id AND e.user_id=c.user_id WHERE c.round_id=? ORDER BY c.damage DESC,c.joined_at`, round.id).all()).map(m => ({ ...m, energyState: coupEnergy(m, now) })) : [];
@@ -303,7 +316,7 @@ export async function coupStatus(env, user, now = Date.now()) {
   const events = round ? all(await p(env, `SELECT a.side,a.created_at,u.nickname,json_extract(a.result_json,'$.winningSide') AS winner,json_extract(a.result_json,'$.damage') AS damage,json_extract(a.result_json,'$.nodeName') AS node_name FROM coup_attacks_v2115 a JOIN users u ON u.id=a.user_id WHERE a.round_id=? ORDER BY a.created_at DESC LIMIT 12`, round.id).all()) : [];
   const cooldowns = round ? all(await p(env, 'SELECT appointment_id,skill_code,next_use_at FROM coup_skill_cooldowns_v2118 WHERE appointment_id IN (?,?)', round.appointment_id, 'coup-rebel:' + round.id).all()) : [];
   let canUseChiefSkills = false;
-  if (round?.status === 'ACTIVE' && Number(round.chief_user_id) === Number(user.id)) {
+  if (settings.enabled && round?.status === 'ACTIVE' && Number(round.chief_user_id) === Number(user.id)) {
     try { const a = await currentChief(env, now); canUseChiefSkills = a.id === round.appointment_id && Number(a.userId) === Number(user.id); } catch (e) { if (!e.status) throw e; }
   }
   const skillEvents = round ? all(await p(env, 'SELECT result_json FROM coup_skills_v2118 WHERE round_id=? ORDER BY created_at DESC,request_id DESC LIMIT 12', round.id).all()).map(r => parse(r.result_json)) : [];
@@ -314,8 +327,8 @@ export async function coupStatus(env, user, now = Date.now()) {
     enabled: s.code !== 'NUCLEAR' || skillSettings.nuclearEnabled, cooldownMs: coupSkillCooldown(s.code, side),
     nextUseAt: Number(cooldowns.find(c => c.appointment_id === (side === 'REBEL' ? 'coup-rebel:' + round?.id : round?.appointment_id) && c.skill_code === s.code)?.next_use_at || 0) }));
   const chiefSkills = skillsFor('CHIEF'), rebelSkills = skillsFor('REBEL');
-  const canUseCommandSkills = commandSide === 'REBEL' ? round?.status === 'ACTIVE' && Number(round.ends_at) > now && rebel?.userId === Number(user.id) : canUseChiefSkills;
-  return { serverNow: now, viewerId: Number(user.id), settings: await readCoupSettings(env), nodes: PALACE_NODES,
+  const canUseCommandSkills = settings.enabled && (commandSide === 'REBEL' ? round?.status === 'ACTIVE' && Number(round.ends_at) > now && rebel?.userId === Number(user.id) : canUseChiefSkills);
+  return { serverNow: now, viewerId: Number(user.id), settings, nodes: PALACE_NODES,
     energyPolicy: { maxEnergy: COUP_ENERGY_MAX, recoveryMs: COUP_ENERGY_RECOVERY_MS, attackCost: 1 },
     sortieRewards: { win: 20000000, loss: 10000000, draw: 20000000 },
     canUseChiefSkills, skillSettings, chiefSkills, rebelSkills, rebelCommander: rebel, commandSide,
@@ -362,8 +375,16 @@ export async function handleCoup({ path, request, env, deps }) {
         result = { nuclearEnabled: body.nuclearEnabled };
         await p(env, 'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP', COUP_SKILL_SETTINGS, JSON.stringify(result)).run();
       } else if (path === 'admin/coup/settings') {
-        let cfg; try { cfg = coupSettings(body); } catch (e) { fail(e.message, 400); }
-        await p(env, 'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP', SETTINGS, JSON.stringify(cfg)).run(); result = cfg;
+        const raw = (await p(env, 'SELECT value FROM app_meta WHERE key=?', SETTINGS).first())?.value ?? '{}';
+        const previous = coupSettings(parse(raw));
+        if (body.enabled != null && body.enabled !== previous.enabled && admin.role !== 'OWNER') fail('쿠데타 ON/OFF는 OWNER만 변경할 수 있습니다.', 403);
+        let cfg; try { cfg = coupSettings({ ...previous, ...body }); } catch (e) { fail(e.message, 400); }
+        const token = crypto.randomUUID();
+        await atomic(env, [
+          p(env, 'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=app_meta.value', SETTINGS, raw),
+          guard(env, token, "SELECT 1 FROM app_meta WHERE key=? AND COALESCE(value,'{}')=?", SETTINGS, raw),
+          p(env, 'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?', JSON.stringify(cfg), SETTINGS), clearGuard(env, token)]);
+        result = cfg;
       } else if (path === 'admin/coup/open') result = await openCoupRound(env);
       else if (path === 'admin/coup/start') result = await startCoupRound(env, String(body.roundId || ''));
       else if (path === 'admin/coup/cancel') {

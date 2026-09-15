@@ -99,7 +99,9 @@ export async function clanCampRoomState(env, user, prison, now = Date.now()) {
     env.DB.prepare(`SELECT q.*,u.nickname FROM (SELECT * FROM clan_prison_chat ORDER BY id DESC LIMIT 80) q
       JOIN users u ON u.id=q.user_id ORDER BY q.id`).all()
   ]);
-  return { prison, sentenceHours: CLAN_CAMP_HOURS, serverNow: new Date(now).toISOString(),
+  const selected = rows(inmates).find(row => Number(row.user_id) === Number(user.id)) || rows(inmates)[0];
+  const sentenceHours = selected ? (Date.parse(selected.jailed_until.replace(' ', 'T') + 'Z') - Date.parse(selected.jailed_at.replace(' ', 'T') + 'Z')) / 3600000 : CLAN_CAMP_HOURS;
+  return { prison, sentenceHours, serverNow: new Date(now).toISOString(),
     canRelease: canReleaseClanCaptives(user), viewerId: Number(user.id),
     inmates: rows(inmates).map(row => ({ seasonId: Number(row.season_id), seasonNo: Number(row.season_no),
       sourceType: row.source_type, eventId: row.event_id, title: row.title, reason: row.reason, clanName: row.clan_name, finalRank: Number(row.final_rank), userId: Number(row.user_id),

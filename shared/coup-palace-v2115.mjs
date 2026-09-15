@@ -6,12 +6,13 @@ export const PALACE_NODES = Object.freeze([
   { name: '황제의 정전', x: 85, y: 18 }
 ]);
 export function coupSettings(input = {}) {
+  if (input.enabled !== undefined && typeof input.enabled !== 'boolean') throw new Error('enabled: ON/OFF 값을 확인하세요.');
   const limits = { battleMinutes: [1, 10080], trialMinutes: [1, 10080], attackCooldownSeconds: [5, 300], siegeHp: [1000, 100000000] };
-  return Object.fromEntries(Object.entries(limits).map(([key, [min, max]]) => {
+  return { enabled: input.enabled !== false, ...Object.fromEntries(Object.entries(limits).map(([key, [min, max]]) => {
     const n = input[key] == null ? COUP_DEFAULTS[key] : Number(input[key]);
     if (!Number.isSafeInteger(n) || n < min || n > max) throw new Error(`${key}: ${min}~${max} 범위의 정수를 입력하세요.`);
     return [key, n];
-  }));
+  })) };
 }
 export function rebelPenalty(coin) {
   const n = BigInt(coin);
@@ -20,8 +21,8 @@ export function rebelPenalty(coin) {
 // This opt-in is pinned to one round and is never part of the global CMS defaults.
 export function coupRebelDefeatPolicy(roundId, settings = {}) {
   const trial = settings.rebelTrial;
-  return roundId && trial?.roundId === roundId && trial.prisonHours === 3
-    ? { type: 'PRISON', hours: 3, trialRun: true }
+  return roundId && trial?.roundId === roundId && [1.5, 3].includes(trial.prisonHours)
+    ? { type: 'PRISON', hours: trial.prisonHours, trialRun: true }
     : { type: 'COIN', hours: 0, trialRun: false };
 }
 export function coupMatchedOpponent(candidates, attackerPower, recentIds = [], random = Math.random) {

@@ -8,6 +8,10 @@
     return [Math.floor(seconds / 3600), Math.floor(seconds % 3600 / 60), seconds % 60].map(v => String(v).padStart(2, '0')).join(':');
   };
   const date = value => new Intl.DateTimeFormat('ko-KR', {timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(stamp(value)));
+  const sentence = row => {
+    const minutes = Math.round((stamp(row?.jailedUntil) - stamp(row?.jailedAt)) / 60000);
+    return Number.isFinite(minutes) && minutes > 0 ? [minutes >= 60 ? Math.floor(minutes / 60) + '시간' : '', minutes % 60 ? minutes % 60 + '분' : ''].filter(Boolean).join(' ') : '';
+  };
   const request = (path, options = {}) => apiRequest('prison-camp/' + path, options, {ttl:0,timeoutMs:12000,replaceInflight:true});
   const activeRoot = () => root?.isConnected;
 
@@ -22,7 +26,7 @@
           <div class="camp-gate-state"><i></i><b id="campGateLabel">수용 기록 조회 중</b></div>
           <div class="camp-iron" aria-hidden="true"></div><div class="camp-red-light" aria-hidden="true"></div>
           <div class="camp-scene-floor"><div class="camp-scene-copy" id="campSceneCopy"><span class="camp-scene-tag">수용동 기록</span><h2>입소 기록 확인 중</h2><p>잠시만 기다려 주세요.</p></div>
-            <div class="camp-scene-stats"><div><small>현재 수감 인원</small><strong><span id="campOccupancy">—</span><em>명</em></strong></div><div class="camp-timer"><small id="campTimerLabel">남은 형기</small><strong id="campCountdown">--:--:--</strong><span>기본 형기 08시간</span></div></div></div>
+            <div class="camp-scene-stats"><div><small>현재 수감 인원</small><strong><span id="campOccupancy">—</span><em>명</em></strong></div><div class="camp-timer"><small id="campTimerLabel">남은 형기</small><strong id="campCountdown">--:--:--</strong><span>형기 조회 중</span></div></div></div>
         </section>
         <section class="camp-roster"><header><div><span class="camp-roster-mark" aria-hidden="true">≡</span><h2>수감자 명부</h2><small>INMATE REGISTER</small></div><span>정산 당시 전원</span></header><div id="campReleaseAll" class="camp-release-all"></div><div class="camp-inmates" id="campInmates"><p class="camp-empty">수용 기록을 불러오는 중입니다.</p></div></section>
         <div class="camp-warning"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/></svg><p>수감 중에는 <b>수용소 채팅과 재판 투표</b> 이용할 수 있습니다.<span>형기 종료 또는 운영자 석방 후 모든 콘텐츠가 다시 열립니다.</span></p></div>
@@ -33,7 +37,7 @@
         <div class="camp-chat-base" aria-hidden="true"><i></i><span>행정부 감시 채널</span><i></i></div>
       </aside></div>
       <div class="camp-status" role="status"><span id="campConnection">수용소에 연결하고 있습니다.</span><button type="button" data-camp-refresh>다시 확인</button></div>
-      <footer class="camp-footer"><span>SOOPKETMON <i>/</i> ADMINISTRATION</span><p>8시간 후 자동 석방 · 운영자 조기 석방 가능</p></footer>
+      <footer class="camp-footer"><span>SOOPKETMON <i>/</i> ADMINISTRATION</span><p>형기 종료 시 자동 석방 · 운영자 조기 석방 가능</p></footer>
     </section>`;
   }
 
@@ -49,9 +53,10 @@
     root.querySelector('#campGateLabel').textContent = inmates.length ? '수용동 봉쇄 중' : '수감자 없음';
     root.querySelector('#campOccupancy').textContent = String(inmates.length);
     root.querySelector('#campTimerLabel').textContent = mine ? '내 남은 형기' : '다음 자동 석방까지';
-    root.querySelector('.camp-timer>span').textContent = selected?.memberRole === 'REBEL' ? '시범 운영 형기 03시간' : '기본 형기 08시간';
-    root.querySelector('.camp-footer p').textContent = selected?.memberRole === 'REBEL' ? '이번 회차 시범 운영 · 3시간 후 자동 석방 · 운영자 조기 석방 가능' : '8시간 후 자동 석방 · 운영자 조기 석방 가능';
-    root.querySelector('#campSceneCopy').innerHTML = selected ? `<span class="camp-scene-tag">${selected.sourceType==='COUP'?`황궁 쿠데타 <i>/</i> ${selected.memberRole==='REBEL'?'반란군 패배':'족장팀 패배'}`:`SEASON ${String(selected.seasonNo).padStart(2,'0')} <i>/</i> 최종 ${selected.finalRank}위`}</span><h2>${esc(selected.clanName)} <em>수감 중</em></h2><p>${locked ? '당신은 현재 이 수용동에 갇혀 있습니다.' : selected.sourceType==='COUP'?selected.memberRole==='REBEL'?'이번 회차 시범 운영 · 반란군 전원 3시간 수감':'황궁 함락 당시 족장과 족장팀 참가자 수감':'시즌 정산 당시 클랜장과 클랜원 전원 수감'}</p>` : '<span class="camp-scene-tag">수용 대기</span><h2>비어 있는 수용동</h2><p>수감 선고를 받은 인원이 이곳에 입소합니다.</p>';
+    const term = sentence(selected);
+    root.querySelector('.camp-timer>span').textContent = term ? `선고 형기 ${term}` : '수감 기록 기준';
+    root.querySelector('.camp-footer p').textContent = `${term ? `형기 ${term} · ` : ''}형기 종료 시 자동 석방 · 운영자 조기 석방 가능`;
+    root.querySelector('#campSceneCopy').innerHTML = selected ? `<span class="camp-scene-tag">${selected.sourceType==='COUP'?`황궁 쿠데타 <i>/</i> ${selected.memberRole==='REBEL'?'반란군 패배':'족장팀 패배'}`:`SEASON ${String(selected.seasonNo).padStart(2,'0')} <i>/</i> 최종 ${selected.finalRank}위`}</span><h2>${esc(selected.clanName)} <em>수감 중</em></h2><p>${locked ? '당신은 현재 이 수용동에 갇혀 있습니다.' : selected.sourceType==='COUP'?selected.memberRole==='REBEL'?`이번 회차 시범 운영 · 반란군 전원 ${esc(term)} 수감`:'황궁 함락 당시 족장과 족장팀 참가자 수감':'시즌 정산 당시 클랜장과 클랜원 전원 수감'}</p>` : '<span class="camp-scene-tag">수용 대기</span><h2>비어 있는 수용동</h2><p>수감 선고를 받은 인원이 이곳에 입소합니다.</p>';
     const groups = [...new Map(inmates.map(row => [campKey(row), row])).values()];
     root.querySelector('#campReleaseAll').innerHTML = room.canRelease ? groups.map(row => `<button type="button" data-camp-release-all="${row.seasonId}" data-event="${esc(row.eventId||'')}" ${releasing ? 'disabled' : ''}>${row.sourceType==='COUP'?'쿠데타':`시즌 ${row.seasonNo}`} · ${esc(row.clanName)} 전원 석방</button>`).join('') : '';
     root.querySelector('#campInmates').innerHTML = inmates.length ? inmates.map((row, index) => `<article class="camp-inmate ${row.userId === room.viewerId ? 'is-self' : ''}"><span class="camp-number">${String(index + 1).padStart(2, '0')}</span><div><b>${esc(row.nickname)}${row.userId === room.viewerId ? '<em>나</em>' : ''}</b><small>${esc(row.clanName)} · ${row.memberRole === 'CHIEF' ? '족장' : row.memberRole === 'LOYALIST' ? '족장팀' : row.memberRole === 'REBEL' ? '반란군' : row.memberRole === 'MASTER' ? '클랜장' : '클랜원'} · ${esc(date(row.jailedUntil))} 석방</small></div>${room.canRelease ? `<button type="button" data-camp-release="${row.userId}" data-season="${row.seasonId}" data-event="${esc(row.eventId||'')}" ${releasing ? 'disabled' : ''}>석방</button>` : '<span class="camp-inmate-state">수감</span>'}</article>`).join('') : '<p class="camp-empty">현재 수감자가 없습니다.<br><span>입소 시 수감 명단이 기록됩니다.</span></p>';
