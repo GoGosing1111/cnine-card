@@ -945,7 +945,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   prediction:{
     styles:['css/coin-prediction-v2033.css?v=2033-matchday-star'],
-    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday-star','js/coin-prediction-v2033.js?v=2045-poll-perf'],
+    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday-star','js/coin-prediction-v2033.js?v=2045-poll-perf-prediction-2b'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
