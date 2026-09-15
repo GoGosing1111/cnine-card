@@ -5,7 +5,7 @@ import {PGlite} from '@electric-sql/pglite';
 import {readFileSync} from 'node:fs';
 import {__clanTest as clan,reconcileClanDraft} from '../functions/_clan.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {runDraftSchedule} from '../workers/clan-draft/src/index.js';
+import {runDraftSchedule,nextAlarmAt,ensureDraftAlarm,handleDraftAlarm} from '../workers/clan-draft/src/schedule.js';
 
 const iso=ms=>new Date(ms).toISOString(),base=Date.parse('2026-09-15T14:00:00Z');
 const settings={...clan.CLAN_ADMIN_SETTINGS_DEFAULTS,mode:'ON',draftPickSeconds:30};
@@ -96,12 +96,27 @@ test('viewer-independent lifecycle starts after registration closes; ON gate and
   await f.pick();await clan.beginDraft(f.env,await f.fresh(),settings);assert.equal((await f.fresh()).draft_pick_count,1);
 });
 
-test('scheduler wakes at deadlines without holding DB connections while waiting and closes on errors',async()=>{
-  let clock=base,closed=0,opened=0,calls=0;const waits=[];
-  const openDatabase=async()=>{opened++;return{db:{prepare:()=>({bind:()=>({run:async()=>{}})})},close:async()=>{closed++}}};
-  await runDraftSchedule({HYPERDRIVE:{connectionString:'synthetic'}},{openDatabase,now:()=>clock,sleep:async ms=>{assert.equal(opened,closed);waits.push(ms);clock+=ms},reconcile:async()=>{calls++;return{phase:'DRAFT',nextCheckAt:iso(clock+30000)}}});
-  assert.equal(calls,3);assert.deepEqual(waits,[30000,30000]);assert.equal(opened,closed);
+test('alarm scheduler closes DB connections on success and failure and records actual alarm execution',async()=>{
+  let closed=0,opened=0,heartbeat;
+  const openDatabase=async()=>{opened++;return{db:{prepare:()=>({bind:value=>({run:async()=>{heartbeat=JSON.parse(value)}})})},close:async()=>{closed++}}};
+  const result=await runDraftSchedule({HYPERDRIVE:{connectionString:'synthetic'}},{openDatabase,now:()=>base,reconcile:async()=>({phase:'DRAFT',nextCheckAt:iso(base+30000)})});
+  assert.equal(opened,1);assert.equal(opened,closed);assert.equal(heartbeat.source,'DURABLE_ALARM');assert.equal(heartbeat.checkedAt,iso(base));assert.equal(result.phase,'DRAFT');
   await assert.rejects(runDraftSchedule({HYPERDRIVE:{}},{openDatabase,reconcile:async()=>{throw Error('synthetic failure')}}),/synthetic failure/);assert.equal(opened,closed);
+});
+
+test('durable alarms preserve earlier timers, wake at deadlines, and survive DB errors',async()=>{
+  let alarm=null;const history=[];
+  const storage={async getAlarm(){return alarm},async setAlarm(at){alarm=at;history.push(at)}};
+  await ensureDraftAlarm(storage,base);assert.equal(alarm,base+1000);
+  await ensureDraftAlarm(storage,base+100);assert.equal(history.length,1);
+  await handleDraftAlarm(storage,{}, {now:()=>base,run:async()=>{assert.equal(alarm,base+60000);return{phase:'DRAFT',nextCheckAt:iso(base+30000)}}});
+  assert.equal(alarm,base+30000);
+  await ensureDraftAlarm(storage,base+1000);assert.equal(alarm,base+30000);
+  await assert.rejects(handleDraftAlarm(storage,{}, {now:()=>base+30000,run:async()=>{throw Error('offline')}}),/offline/);
+  assert.equal(alarm,base+90000);
+  assert.equal(nextAlarmAt({nextCheckAt:iso(base-1)},base),base+5000);
+  assert.equal(nextAlarmAt({nextCheckAt:iso(base+86400000)},base),base+60000);
+  assert.equal(nextAlarmAt({phase:'OFF'},base),base+60000);
 });
 
 test('30s defaults, public countdown and scheduled deployment are included in the release',()=>{
@@ -111,6 +126,8 @@ test('30s defaults, public countdown and scheduled deployment are included in th
   assert.match(client,/data-clan-deadline/);assert.match(client,/pickNo:state.data.draft\?\.pickNo/);assert.doesNotMatch(client,/5분을 넘기면|시스템이 균형 후보를 자동 지명/);
   const config=JSON.parse(readFileSync(new URL('../workers/clan-draft/wrangler.jsonc',import.meta.url),'utf8'));
   assert.deepEqual(config.triggers.crons,['* * * * *']);assert.equal(config.workers_dev,false);
+  assert.deepEqual(config.durable_objects.bindings,[{name:'CLAN_DRAFT_ALARM',class_name:'ClanDraftAlarm'}]);
+  assert.deepEqual(config.migrations[0].new_sqlite_classes,['ClanDraftAlarm']);
   const scripts=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8')).scripts;
   assert.match(scripts['deploy:production'],/^npm run release:gate && .*workers\/clan-draft\/wrangler.jsonc/);
 });
