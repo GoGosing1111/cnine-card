@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "cnine-card-clan-draft",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "placement": {"mode": "smart"},
+  "observability": {"enabled": true},
+  "triggers": {"crons": ["* * * * *"]},
+  "hyperdrive": [{"binding": "HYPERDRIVE", "id": "6286c0411e9e465b93dfe21ad3f55720"}]
+}
