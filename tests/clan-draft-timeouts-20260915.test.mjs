@@ -14,7 +14,7 @@ class SQLiteDB{
   prepare(source){const db=this;return{source,values:[],bind(...values){this.values=values;return this},async first(){return db.sql.prepare(source).get(...this.values)||null},async all(){return{results:db.sql.prepare(source).all(...this.values)}},async run(){const r=db.sql.prepare(source).run(...this.values);return{meta:{changes:Number(r.changes),last_row_id:Number(r.lastInsertRowid)}}}}}
   async batch(statements){this.sql.exec('BEGIN');try{const r=statements.map(s=>{const row=this.sql.prepare(s.source).run(...s.values);return{meta:{changes:Number(row.changes)}}});this.sql.exec('COMMIT');return r}catch(error){this.sql.exec('ROLLBACK');throw error}}
 }
-async function fixture(t,{postgres=false,registration=false}={}){
+async function fixture(t,{postgres=false,registration=false,teamCount=3,candidateCount=6}={}){
   const schema=[...clan.FOUNDATION_SQL,
     'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP)',
     'CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,last_login_at TEXT)',
@@ -33,12 +33,12 @@ async function fixture(t,{postgres=false,registration=false}={}){
   const p=(s,...args)=>DB.prepare(s).bind(...args),env={DB};
   await p("INSERT INTO app_meta(key,value) VALUES('safe_runtime_upgrade_v1820_clan_v1','1')").run();
   await p("INSERT INTO app_meta(key,value) VALUES('clan_settings_v1',?)",JSON.stringify(settings)).run();
-  await p('INSERT INTO clan_seasons(id,season_no,phase,registration_ends_at,draft_ends_at,starts_at,ends_at,next_pick_deadline) VALUES(1,2,?,?,?,?,?,?)',registration?'REGISTRATION':'DRAFT',iso(registration?base+60000:base-1),iso(base+86400000),iso(base+86400000),iso(base+8*86400000),registration?null:iso(base+30000)).run();
-  for(let i=1;i<=3;i++){
+  await p('INSERT INTO clan_seasons(id,season_no,phase,registration_ends_at,draft_ends_at,starts_at,ends_at,next_pick_deadline) VALUES(1,2,?,?,?,?,?,?)',registration?'REGISTRATION':'DRAFT',iso(registration?base+60000:base),iso(base+86400000),iso(base+86400000),iso(base+8*86400000),registration?null:iso(base+30000)).run();
+  for(let i=1;i<=teamCount;i++){
     await p('INSERT INTO clan_organizations(id,name,mark_key) VALUES(?,?,?)',i,clan.OFFICIAL_CLAN_CATALOG[i-1].name,clan.OFFICIAL_CLAN_CATALOG[i-1].markKey).run();
     if(!registration){await p('INSERT INTO clan_season_teams(season_id,clan_id,master_user_id,draft_position) VALUES(1,?,?,?)',i,i,i-1).run();await p("INSERT INTO clan_members(season_id,clan_id,user_id,member_role) VALUES(1,?,?,'MASTER')",i,i).run()}
   }
-  for(let i=101;i<=106;i++){await p('INSERT INTO users(id,nickname,last_login_at) VALUES(?,?,?)',i,'Synthetic '+i,iso(base)).run();await p("INSERT INTO clan_draft_pool(season_id,user_id,candidate_key,total_score) VALUES(1,?,?,?)",i,'candidate-'+i,200-i).run()}
+  for(let i=101;i<101+candidateCount;i++){await p('INSERT INTO users(id,nickname,last_login_at) VALUES(?,?,?)',i,'Synthetic '+i,iso(base)).run();await p("INSERT INTO clan_draft_pool(season_id,user_id,candidate_key,total_score) VALUES(1,?,?,?)",i,'candidate-'+i,500-i).run()}
   const fresh=()=>p('SELECT * FROM clan_seasons WHERE id=1').first(),ctx=async()=>clan.draftContext(env,await fresh()),candidate=()=>p("SELECT * FROM clan_draft_pool WHERE status='AVAILABLE' ORDER BY user_id LIMIT 1").first();
   return{env,p,fresh,ctx,candidate,at(ms){clock=base+ms},skip:async()=>clan.autoDraftDue(env,await fresh(),settings),pick:async(extra={})=>clan.makeDraftPick(env,await fresh(),(await ctx()).current,await candidate(),settings,extra)};
 }
@@ -78,11 +78,47 @@ test('full clans are passed without blocking; a sole remaining clan still has ti
   await f.pick();assert.equal((await f.ctx()).current.clan_id,3);
 });
 
-test('the existing final draft deadline still completes remaining rosters and generates wars once',async t=>{
-  const f=await fixture(t);f.at(86400000);await f.skip();assert.equal((await f.fresh()).phase,'ACTIVE');
+test('registration close + one hour completes remaining rosters and generates wars once',async t=>{
+  const f=await fixture(t);f.at(3600000);await f.skip();assert.equal((await f.fresh()).phase,'ACTIVE');
   assert.equal((await f.p("SELECT COUNT(*) count FROM clan_draft_pool WHERE status='AVAILABLE'").first()).count,0);
   assert.equal((await f.p('SELECT COUNT(*) count FROM clan_wars').first()).count,3);
   await reconcileClanDraft(f.env);assert.equal((await f.p('SELECT COUNT(*) count FROM clan_wars').first()).count,3);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: a full 176-player pool is completed at one hour without duplicate membership`,async t=>{
+  const f=await fixture(t,{postgres,teamCount:8,candidateCount:168});
+  f.at(3590000);await f.skip();assert.equal((await f.p("SELECT COUNT(*) count FROM clan_draft_pool WHERE status='AVAILABLE'").first()).count,168);
+  await f.pick();assert.equal((await f.fresh()).next_pick_deadline,iso(base+3600000));
+  f.at(3600000);await assert.rejects(f.pick(),/제한 시간/);
+  await Promise.all([f.skip(),f.skip()]);assert.equal((await f.fresh()).phase,'ACTIVE');
+  assert.equal((await f.p("SELECT COUNT(*) count FROM clan_draft_pool WHERE status='AVAILABLE'").first()).count,0);
+  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_members').first()).count,176);
+  for(const team of (await f.ctx()).teams)assert.equal(Number(team.member_count),22);
+  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_wars').first()).count,28);
+  await f.skip();assert.equal((await f.p('SELECT COUNT(*) count FROM clan_members').first()).count,176);
+});
+
+test('a delayed start cannot move the one-hour deadline or make the final alarm wait for a longer turn',async t=>{
+  const f=await fixture(t,{registration:true});f.at(1800000);await reconcileClanDraft(f.env);
+  const season=await f.fresh();assert.equal(season.draft_ends_at,iso(base+3660000));
+  assert.equal(clan.nextDraftCheckAt({...season,next_pick_deadline:iso(base+3700000)}),iso(base+3660000));
+  f.at(3660000);await reconcileClanDraft(f.env);assert.equal((await f.fresh()).phase,'ACTIVE');
+});
+
+test('new seasons ignore legacy draft days and use one hour after registration',async t=>{
+  const f=await fixture(t);await f.p("UPDATE clan_seasons SET phase='COMPLETE'").run();
+  const season=await clan.createSeason(f.env,{...settings,draftDays:14});
+  assert.equal(Date.parse(season.draft_ends_at)-Date.parse(season.registration_ends_at),3600000);
+});
+
+test('failed final assignment rolls back all members and can safely resume',async t=>{
+  const f=await fixture(t);f.at(3600000);const batch=f.env.DB.batch.bind(f.env.DB);
+  f.env.DB.batch=statements=>batch([...statements,f.env.DB.prepare('INSERT INTO synthetic_missing_table VALUES(1)')]);
+  await assert.rejects(f.skip(),/synthetic_missing_table/);
+  assert.equal((await f.fresh()).phase,'DRAFT');
+  assert.equal((await f.p("SELECT COUNT(*) count FROM clan_draft_pool WHERE status='AVAILABLE'").first()).count,6);
+  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_members').first()).count,3);
+  f.env.DB.batch=batch;await f.skip();assert.equal((await f.fresh()).phase,'ACTIVE');
 });
 
 test('viewer-independent lifecycle starts after registration closes; ON gate and concurrent starts are safe',async t=>{
@@ -122,6 +158,7 @@ test('durable alarms preserve earlier timers, wake at deadlines, and survive DB 
 test('30s defaults, public countdown and scheduled deployment are included in the release',()=>{
   assert.equal(clan.cleanClanAdminSettings({}).draftPickSeconds,30);
   assert.equal(clan.cleanClanAdminSettings({draftDays:1}).draftDays,1);
+  assert.equal(clan.cleanClanAdminSettings({draftDays:14,draftMinutes:1440}).draftMinutes,60);
   const client=readFileSync(new URL('../js/clan-v1.js',import.meta.url),'utf8');
   assert.match(client,/data-clan-deadline/);assert.match(client,/pickNo:state.data.draft\?\.pickNo/);assert.doesNotMatch(client,/5분을 넘기면|시스템이 균형 후보를 자동 지명/);
   const config=JSON.parse(readFileSync(new URL('../workers/clan-draft/wrangler.jsonc',import.meta.url),'utf8'));

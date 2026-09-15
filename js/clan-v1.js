@@ -13,6 +13,7 @@
   const esc=value=>String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const number=value=>Math.max(0,Number(value)||0).toLocaleString();
   const time=value=>{const ms=Date.parse(String(value||''))-Date.now();if(!Number.isFinite(ms))return'일정 확인 중';if(ms<=0)return'전환 준비 중';const d=Math.floor(ms/86400000),h=Math.floor(ms%86400000/3600000),m=Math.floor(ms%3600000/60000);return d?`${d}일 ${h}시간`:h?`${h}시간 ${m}분`:`${Math.max(1,m)}분`};
+  const draftEndLabel=value=>{const date=new Date(value||'');return Number.isFinite(date.getTime())?date.toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}):'일정 확인 중'};
   const draftSeconds=value=>Math.max(0,Math.ceil((Date.parse(value||'')-Date.now()-state.clockOffset)/1000)||0);
   const draftCountdown=value=>`<span data-clan-deadline="${esc(value)}">${draftSeconds(value)}초</span>`;
   function acceptData(data){state.data=data;const server=Date.parse(data?.serverNow||'');if(Number.isFinite(server))state.clockOffset=server-Date.now()}
@@ -37,7 +38,7 @@
     return `<header class="clan-hero ${mine?'has-clan':''}" style="--clan-primary:${esc(mine?.primaryColor||'#31d7e8')};--clan-accent:${esc(mine?.accentColor||'#edfaff')}">
       <div class="clan-hero-media" aria-hidden="true"></div><div class="clan-hero-grid" aria-hidden="true"></div><div class="clan-hero-scan" aria-hidden="true"></div>
       <div class="clan-hero-copy"><span class="clan-access-signal"><i></i>${d.verificationExempt?'OWNER CLEARANCE':'CLAN OPERATIONS'}</span><small>SOOPKETMON / SEASON ${number(season.seasonNo)}</small><h2>${mine?`<em>${esc(mine.name)}</em> 작전본부`:'클랜 지휘국'}</h2><p>${mine?esc(mine.slogan||'고정 인원 없이 매 시즌 새롭게 편성되는 전략 클랜입니다.'):'친목 고착 없이 실력·활동·전투 기록으로 매 시즌 새로운 전선을 편성합니다.'}</p><div class="clan-hero-codes"><span>NODE C-${String(season.seasonNo||1).padStart(2,'0')}</span><span>ROSTER LIMIT ${number(rosterLimit(d))}</span><span>V3 LINK READY</span></div></div>
-      <div class="clan-phase-card ${late?'is-late':''}"><small>OPERATION PHASE</small><div><span>${String(Math.max(1,PHASE_ORDER.indexOf(phase)+1)).padStart(2,'0')}</span><em>${esc(phaseLabel)}</em></div><b>${phase==='DRAFT'&&!season.registrationOpen?draftCountdown(deadline):time(deadline)}</b><small>${season.registrationOpen?(late?'추가 신청 마감까지':'신청 마감까지'):phase==='DRAFT'?'현재 팀 지명 마감까지':'단계 종료까지'}</small></div>${mine?mark(mine,'hero-mark'):''}
+      <div class="clan-phase-card ${late?'is-late':''}"><small>OPERATION PHASE</small><div><span>${String(Math.max(1,PHASE_ORDER.indexOf(phase)+1)).padStart(2,'0')}</span><em>${esc(phaseLabel)}</em></div><b>${phase==='DRAFT'&&!season.registrationOpen?draftCountdown(deadline):time(deadline)}</b><small>${season.registrationOpen?(late?'추가 신청 마감까지':'신청 마감까지'):phase==='DRAFT'?'현재 팀 지명 마감까지':'단계 종료까지'}</small>${['REGISTRATION','DRAFT'].includes(phase)?`<p class="clan-draft-end">전체 드래프트 ${esc(draftEndLabel(season.draftEndsAt))} 종료<span>마감 시 남은 후보 자동 편성</span></p>`:''}</div>${mine?mark(mine,'hero-mark'):''}
     </header>`;
   }
 

@@ -9,7 +9,7 @@ export async function runDraftSchedule(env,{openDatabase=createPostgresD1Compat,
   try{
     connection=await openDatabase(env.HYPERDRIVE?.connectionString);
     const result=await reconcile({...env,DB:connection.db});
-    await connection.db.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('clan_draft_scheduler_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify({version:'20260915-alarm-30s',source:'DURABLE_ALARM',checkedAt:new Date(now()).toISOString(),...result})).run();
+    await connection.db.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('clan_draft_scheduler_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify({version:'20260915-alarm-1h-30s',source:'DURABLE_ALARM',checkedAt:new Date(now()).toISOString(),...result})).run();
     return result;
   }finally{await connection?.close()}
 }
