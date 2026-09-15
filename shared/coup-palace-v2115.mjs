@@ -17,6 +17,26 @@ export function rebelPenalty(coin) {
   const n = BigInt(coin);
   return n > 0n ? n / 5n : 3000000000n;
 }
+// This opt-in is pinned to one round and is never part of the global CMS defaults.
+export function coupRebelDefeatPolicy(roundId, settings = {}) {
+  const trial = settings.rebelTrial;
+  return roundId && trial?.roundId === roundId && trial.prisonHours === 3
+    ? { type: 'PRISON', hours: 3, trialRun: true }
+    : { type: 'COIN', hours: 0, trialRun: false };
+}
+export function coupMatchedOpponent(candidates, attackerPower, recentIds = [], random = Math.random) {
+  const power = Math.max(1, Number(attackerPower) || 1);
+  const ranked = candidates.map(row => ({ ...row, gap: Math.abs(Number(row.deck_power) - power) })).sort((a, b) => a.gap - b.gap);
+  if (!ranked.length) return null;
+  const pool = ranked.filter(row => row.gap <= Math.max(power * .15, ranked[0].gap + power * .1));
+  const recent = recentIds.map(Number);
+  const eligible = pool.length > 1 ? pool.filter(row => Number(row.user_id) !== recent[0]) : pool;
+  const encounters = row => recent.filter(id => id === Number(row.user_id)).length;
+  const least = Math.min(...eligible.map(encounters));
+  const choices = eligible.filter(row => encounters(row) === least);
+  const { gap, ...chosen } = choices[Math.min(choices.length - 1, Math.floor(Math.max(0, random()) * choices.length))];
+  return { ...chosen, match_power_gap_percent: Math.round(gap / power * 10000) / 100, match_pool_size: pool.length };
+}
 export function deadlineWinner(round) {
   const front = Number(round.front_index);
   if (front > 2) return 'REBEL';

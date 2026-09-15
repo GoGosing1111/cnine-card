@@ -6,7 +6,7 @@ import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { ensureCoupSchema, chiefDuty, chiefAuthorityGuard } from '../functions/_coup_schema.js';
 import { openCoupRound, startCoupRound, settleCoupRound, voteCoupTrial, closeCoupTrial, coupStatus, handleCoup, attackCoup } from '../functions/_coup.js';
 import { clanCampStatusForUser, clanCampRoomState, releaseClanCaptives, sendClanCampChat } from '../functions/_clan_prison_camp.js';
-import { advanceFront, deadlineWinner, rebelPenalty, coupSettings } from '../shared/coup-palace-v2115.mjs';
+import { advanceFront, deadlineWinner, rebelPenalty, coupSettings, coupRebelDefeatPolicy, coupMatchedOpponent } from '../shared/coup-palace-v2115.mjs';
 import { readFileSync } from 'node:fs';
 import { createPvpBattleV2 } from '../functions/_battle_v2_preview.js';
 import { useCoupChiefSkill, COUP_SKILL_SETTINGS } from '../functions/_coup.js';
@@ -51,6 +51,8 @@ async function fixture(t, pg) {
   }
   if (!pg) { const original = DB.batch.bind(DB); let queue = Promise.resolve(); DB.batch = stmts => { const next = queue.then(() => original(stmts)); queue = next.catch(() => {}); return next; }; }
   const env = { DB }, p = (s, ...v) => DB.prepare(s).bind(...v), now = Math.floor(Date.now() / 1000) * 1000;
+  await sql.exec('CREATE TABLE user_mercenary_loadout_v1(user_id BIGINT PRIMARY KEY,mercenary_code TEXT)');
+  await sql.exec('CREATE TABLE user_mercenary_cards_v1(user_id BIGINT,mercenary_code TEXT); CREATE TABLE user_mercenary_growth_v1(user_id BIGINT,mercenary_code TEXT,level INTEGER)');
   for (const [id, coin] of [[1, 1000], [2, 9876543210], [3, 0], [4, -3000000000], [5, 7]]) await p('INSERT INTO users(id,nickname,coin) VALUES(?,?,?)', id, '계정' + id, coin).run();
   const appointment = { id: 'term-1', userId: 1, nickname: '족장', startsAt: new Date(now - 10000).toISOString(), endsAt: new Date(now + 86400000).toISOString() };
   await p('INSERT INTO app_meta(key,value) VALUES(?,?)', 'chief_appointment_v1', JSON.stringify(appointment)).run();
@@ -75,8 +77,81 @@ test('front movement, timeout, strict CMS limits and bigint loss policy', () => 
   assert.equal(advanceFront({ ...r, front_index: 0 }, 'REBEL', 100).winner, 'CHIEF');
   assert.equal(deadlineWinner(r), 'DRAW'); assert.equal(deadlineWinner({ ...r, chief_hp: 99 }), 'REBEL');
 });
+test('coup matchmaking stays near power, avoids the previous opponent and rotates the recent pool', () => {
+  const candidates = [100, 104, 108, 200].map((power, i) => ({ user_id: i + 1, deck_power: power }));
+  assert.equal(coupMatchedOpponent(candidates, 100, [1, 1, 2], () => 0).user_id, 3);
+  assert.equal(coupMatchedOpponent(candidates, 100, [1, 2, 3], () => .99).user_id, 3);
+  assert.equal(coupMatchedOpponent(candidates, 100, [3, 2, 1], () => 0).user_id, 1);
+  assert.equal(coupMatchedOpponent(candidates, 100, [], () => 0).match_pool_size, 3);
+  assert.equal(coupMatchedOpponent([candidates[0]], 100, [1], () => 0).user_id, 1);
+  assert.equal(coupMatchedOpponent([], 100), null);
+  assert.equal(coupMatchedOpponent([{user_id:7,deck_power:1000},{user_id:8,deck_power:5000}],100).user_id,7);
+  assert.equal(coupRebelDefeatPolicy('new', {rebelTrial:{roundId:'old',prisonHours:3}}).type,'COIN');
+  assert.equal(coupRebelDefeatPolicy('old', {rebelTrial:{roundId:'old',prisonHours:3}}).type,'PRISON');
+  assert.equal(coupSettings({rebelTrial:{roundId:'old',prisonHours:3}}).rebelTrial,undefined);
+});
 for (const pg of [false, true]) {
   const label = pg ? 'PostgreSQL' : 'SQLite';
+  test(`${label}: trial round jails every rebel for exactly 3 hours with no coin debit, rollback and replay safe`, async t => {
+    const f=await fixture(t,pg),id=await f.prepare('CHIEF');
+    const round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();
+    await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify({...JSON.parse(round.settings_json),rebelTrial:{roundId:id,prisonHours:3}}),id).run();
+    f.fail('INSERT INTO event_prison_captives'); await assert.rejects(settleCoupRound(f.env,id,f.now),/INJECTED_FAILURE/); f.fail('');
+    assert.equal((await f.p('SELECT status FROM coup_rounds_v2115 WHERE id=?',id).first()).status,'SETTLING');
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM event_prison_camps').first()).n),0);
+    await settleCoupRound(f.env,id,f.now);
+    for(const [uid,balance] of [[2,9876543210],[3,0],[4,-3000000000]]){
+      assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=?',uid).first()).coin),balance);
+      assert.equal((await clanCampStatusForUser(f.env,uid,f.now)).remainingSeconds,10800);
+      assert.equal((await clanCampStatusForUser(f.env,uid,f.now+10800000)).incarcerated,false);
+    }
+    assert.equal((await clanCampStatusForUser(f.env,1,f.now)).incarcerated,false);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115').first()).n),0);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_trials_v2115').first()).n),0);
+    assert.equal((await coupStatus(f.env,{id:2},f.now)).round.rebelDefeat.hours,3);
+    const room=await clanCampRoomState(f.env,{id:2},{},f.now); assert.ok(room.inmates.every(row=>row.memberRole==='REBEL'));
+    await releaseClanCaptives(f.env,{id:1,role:'OWNER'},{eventId:'coup:'+id,userId:2},f.now);
+    await settleCoupRound(f.env,id,f.now+1000);
+    assert.equal((await clanCampStatusForUser(f.env,2,f.now+1000)).incarcerated,false);
+    const next=await openCoupRound(f.env,f.now+2000); assert.equal(JSON.parse(next.settings_json).rebelTrial,undefined);
+  });
+  test(`${label}: energy policy is visible before joining and zero energy recovers at the 2-minute boundary`, async t => {
+    const f=await fixture(t,pg),id=await f.prepare();
+    const spectator=await coupStatus(f.env,{id:99},f.now);
+    assert.equal(spectator.mine,null); assert.deepEqual(spectator.energyPolicy,{maxEnergy:10,recoveryMs:120000,attackCost:1});
+    await f.p('INSERT INTO coup_energy_v2118(round_id,user_id,energy,energy_at,blocked_until) VALUES(?,?,0,?,0)',id,2,f.now).run();
+    await assert.rejects(attackCoup(f.env,{}, {id:2},{roundId:id,requestId:'empty-energy-001'},f.now+119999),e=>e.status===429);
+    assert.equal((await coupStatus(f.env,{id:2},f.now+119999)).mine.energyState.energy,0);
+    assert.equal((await coupStatus(f.env,{id:2},f.now+120000)).mine.energyState.energy,1);
+    assert.equal((await coupStatus(f.env,{id:2},f.now+99999999)).mine.energyState.energy,10);
+  });
+  test(`${label}: latest PVP decks replace registrations, reward is atomic, win/loss/draw receipts never pay twice`, async t => {
+    const f=await fixture(t,pg),id=await f.prepare(); let stamp=f.now,winner='A',version=1;
+    t.mock.method(Date,'now',()=>stamp);
+    const deck=uid=>Array.from({length:5},(_,i)=>({id:`current-${uid}-${version}-${i}`,title:'현재 카드',rarity:'UR',power_type:'ATTACK',base_power:12000,breakthrough_level:version}));
+    const deps={pvpDeckSnapshot:async(_env,uid)=>deck(uid),pvpDeckSnapshotByIds:async()=>{throw Error('Old registration must not be read')},battleSettings:async()=>({engine:{}}),cardBattlePower:c=>c.base_power,
+      userEquipmentBonuses:async()=>({pvp:version*1000}),createPvpBattleV2:args=>{const b=createPvpBattleV2(args);b.result.winner=winner;return b;}};
+    const before=Number((await f.p('SELECT coin FROM users WHERE id=2').first()).coin);
+    f.fail('INSERT INTO coup_attacks_v2115'); await assert.rejects(attackCoup(f.env,deps,{id:2},{roundId:id,requestId:'failed-payment-001'},stamp),/INJECTED_FAILURE/); f.fail('');
+    assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=2').first()).coin),before);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_energy_v2118').first()).n),0);
+    let total=0,lastOpponent;
+    for(const [outcome,reward] of [['A',20000000],['B',10000000],['DRAW',20000000]]){
+      winner=outcome; const body={roundId:id,requestId:'latest-reward-'+outcome};
+      const r=await attackCoup(f.env,deps,{id:2,nickname:'현재 덱'},body,stamp);
+      assert.equal(r.coinReward,reward); total+=reward;
+      assert.equal(r.attackerCards[0].id,`current-2-${version}-0`);
+      assert.equal(r.defenderCards[0].id,`current-${r.opponent.id}-${version}-0`);
+      if(lastOpponent)assert.notEqual(r.opponent.id,lastOpponent);lastOpponent=r.opponent.id;
+      const saved=await f.p('SELECT * FROM coup_participants_v2115 WHERE round_id=? AND user_id=2',id).first();
+      assert.equal(JSON.parse(saved.deck_snapshot)[0],`current-2-${version}-0`);
+      assert.equal(JSON.parse(saved.loadout_bonus_json).pvp,version*1000);
+      assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=2').first()).coin),before+total);
+      const replay=await attackCoup(f.env,deps,{id:2},body,stamp);assert.equal(replay.coinReward,reward);
+      assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=2').first()).coin),before+total);
+      stamp+=31000;version++;
+    }
+  });
   test(`${label}: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback`, async t => {
     const f=await fixture(t,pg),id=await f.prepare();
     const cast=(code,key,now=f.now,user=1)=>useCoupChiefSkill(f.env,{id:user},{roundId:id,skillCode:code,requestId:key},now);
@@ -257,5 +332,5 @@ test('live wiring preserves V3 engine, scoped prison exemptions and chief author
   assert.match(api, /path==='coup\/status'\|\|path==='coup\/vote'/);
   assert.match(api, /const authority=chiefAuthorityGuard/);
   assert.match(read('functions/_chief.js'), /authority\.before/);
-  assert.match(read('functions/_coup.js'), /simulateTerritoryDuel\(env, deps/);
+  assert.match(read('functions/_coup.js'), /simulateTerritoryDuel\(env, combatDeps/);
 });
