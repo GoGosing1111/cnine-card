@@ -1,6 +1,14 @@
 import {pigCoinRewardStatements,readLootShopPolicy} from './_loot_shop.js';
+export const TERRITORY_PIG_COIN_RELEASE_KEY='pig_coin_territory_release_v1';
+async function territoryRelease(env){
+ const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(TERRITORY_PIG_COIN_RELEASE_KEY).first();
+ let firstRoundId;try{firstRoundId=JSON.parse(row?.value).firstRoundId;}catch{}
+ return Number.isSafeInteger(firstRoundId)&&firstRoundId>0?{firstRoundId,raw:row.value}:null;
+}
+const releasedRound=(release,roundId)=>release&&Number.isSafeInteger(Number(roundId))&&Number(roundId)>=release.firstRoundId;
 
 export async function territoryPigCoinPreview(env,reward){
+ if(!releasedRound(await territoryRelease(env),reward.round_id))return 0;
  const {policy}=await readLootShopPolicy(env),rule=policy.sources.find(s=>s.code==='TERRITORY');
  if(!policy.rewardsEnabled||!rule.enabled||!['A','B'].includes(reward.side))return 0;
  return (reward.pig_winner_side===reward.side?rule.victoryAmount:0)+(Number(reward.attacks)>=Number(reward.required_attacks)?rule.participationAmount:0);
@@ -9,8 +17,9 @@ export async function territoryPigCoinPreview(env,reward){
 export async function territoryPigCoinStatements(env,{userId,roundId,version}){
  // Retired legacy rounds predate this reward contract.
  if(version!=='V3')return [];
+ const release=await territoryRelease(env);if(!releasedRound(release,roundId))return [];
  return pigCoinRewardStatements(env,{userId,source:'TERRITORY',referenceId:`V3:${roundId}`,
-  guardSql:"EXISTS(SELECT 1 FROM territory_war_v3_rewards r JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=? AND r.claimed_at IS NULL AND w.settled_at IS NOT NULL AND r.side IN ('A','B'))",guardBindings:[roundId,userId],
+  guardSql:"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM territory_war_v3_rewards r JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=? AND w.id>=? AND r.claimed_at IS NULL AND w.settled_at IS NOT NULL AND r.side IN ('A','B'))",guardBindings:[TERRITORY_PIG_COIN_RELEASE_KEY,release.raw,roundId,userId,release.firstRoundId],
   rewardSql:rule=>({sql:`COALESCE((SELECT
    CASE WHEN w.winner_side=r.side THEN ? ELSE 0 END +
    CASE WHEN r.attacks>=r.required_attacks THEN ? ELSE 0 END

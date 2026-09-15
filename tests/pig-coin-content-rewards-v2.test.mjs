@@ -16,7 +16,8 @@ async function contentFixture(t,postgres){
   'CREATE TABLE clan_war_battles(war_id BIGINT,attacker_user_id BIGINT,attacker_clan_id BIGINT,defender_user_id BIGINT,status TEXT)',
   'CREATE TABLE clan_participation_progress(season_id BIGINT,war_id BIGINT,user_id BIGINT,completed_attacks INTEGER,PRIMARY KEY(war_id,user_id))'
  ];
- if(f.DB.execSchema)await f.DB.execSchema(ddl);else for(const sql of ddl)await f.p(sql).run();return f;
+ if(f.DB.execSchema)await f.DB.execSchema(ddl);else for(const sql of ddl)await f.p(sql).run();
+ await f.setting('pig_coin_territory_release_v1',{firstRoundId:1});return f;
 }
 
 test('approved separate rewards are explicit, additive and legacy flat policies require a CMS save',()=>{
@@ -49,6 +50,34 @@ test('operator first publication prepares an absent policy with sales OFF and no
 });
 
 for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
+ test(`${label}: late historical claims retain normal rewards but never receive pig coins; current/future rounds pay once`,async t=>{
+  const f=await contentFixture(t,postgres);await f.setting('pig_coin_territory_release_v1',{firstRoundId:49});
+  for(const id of [39,47,48,49,50]){
+   await f.p('INSERT INTO territory_war_v3_rounds VALUES(?,?,?)',id,'A','2026-09-15T00:00:00Z').run();
+   await f.p("INSERT INTO territory_war_v3_rewards VALUES(?,7,'A','WIN',50,50,NULL)",id).run();
+   assert.equal(await territoryPigCoinPreview(f.env,{round_id:id,side:'A',pig_winner_side:'A',attacks:50,required_attacks:50}),id<49?0:150);
+   const statements=await territoryPigCoinStatements(f.env,{userId:7,roundId:id,version:'V3'});
+   await f.DB.batch([...statements,f.p('UPDATE users SET coin=coin+100 WHERE id=7'),f.p('UPDATE territory_war_v3_rewards SET claimed_at=? WHERE round_id=?','2026-09-15T09:00:00Z',id)]);
+   await f.DB.batch(await territoryPigCoinStatements(f.env,{userId:7,roundId:id,version:'V3'}));
+  }
+  assert.equal(await pigCoinBalance(f.env,7),800);assert.equal((await f.p('SELECT COUNT(*) n FROM pig_coin_ledger_v1').first()).n,2);
+  assert.equal((await f.p('SELECT COUNT(*) n FROM territory_war_v3_rewards WHERE claimed_at IS NOT NULL').first()).n,5);
+ });
+ test(`${label}: missing/corrupt release boundary fails closed and a stale prepared claim cannot bypass a changed boundary`,async t=>{
+  const f=await contentFixture(t,postgres);
+  await f.p("INSERT INTO territory_war_v3_rounds VALUES(49,'A','2026-09-15T00:00:00Z')").run();
+  await f.p("INSERT INTO territory_war_v3_rewards VALUES(49,7,'A','WIN',50,50,NULL)").run();
+  for(const value of [null,'not-json','{}','{"firstRoundId":0}','{"firstRoundId":"49"}','{"firstRoundId":-1}']){
+   await f.p("DELETE FROM app_meta WHERE key='pig_coin_territory_release_v1'").run();
+   if(value!==null)await f.p("INSERT INTO app_meta(key,value) VALUES('pig_coin_territory_release_v1',?)",value).run();
+   assert.deepEqual(await territoryPigCoinStatements(f.env,{userId:7,roundId:49,version:'V3'}),[]);
+   assert.equal(await territoryPigCoinPreview(f.env,{round_id:49,side:'A',pig_winner_side:'A',attacks:50,required_attacks:50}),0);
+  }
+  await f.setting('pig_coin_territory_release_v1',{firstRoundId:49});
+  const pending=await territoryPigCoinStatements(f.env,{userId:7,roundId:49,version:'V3'});
+  await f.setting('pig_coin_territory_release_v1',{firstRoundId:50});await f.DB.batch(pending);
+  assert.equal(await pigCoinBalance(f.env,7),500);
+ });
  test(`${label}: territory WIN/LOSE/DRAW and CMS attack threshold pay independent 100+50 once`,async t=>{
   const f=await contentFixture(t,postgres);let expected=500;
   for(const [i,c] of [
@@ -57,14 +86,14 @@ for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
    {winner:'B',attacks:29,min:30,amount:0},{winner:'A',attacks:0,min:30,amount:100},
    {winner:'DRAW',attacks:0,min:0,amount:50},{winner:'B',attacks:50,min:51,amount:0}
   ].entries()){
-   await f.p('INSERT INTO territory_war_v3_rounds VALUES(?,?,?)',i,c.winner,'2026-09-15T00:00:00Z').run();
-   await f.p('INSERT INTO territory_war_v3_rewards VALUES(?,7,?,?,?,?,NULL)',i,'A',c.attacks<c.min?'INELIGIBLE':c.winner==='A'?'WIN':'LOSE',c.attacks,c.min).run();
-   assert.equal(await territoryPigCoinPreview(f.env,{side:'A',pig_winner_side:c.winner,attacks:c.attacks,required_attacks:c.min}),c.amount);
-   for(let n=0;n<2;n++)await f.DB.batch(await territoryPigCoinStatements(f.env,{userId:7,roundId:i,version:'V3'}));
+   await f.p('INSERT INTO territory_war_v3_rounds VALUES(?,?,?)',i+1,c.winner,'2026-09-15T00:00:00Z').run();
+   await f.p('INSERT INTO territory_war_v3_rewards VALUES(?,7,?,?,?,?,NULL)',i+1,'A',c.attacks<c.min?'INELIGIBLE':c.winner==='A'?'WIN':'LOSE',c.attacks,c.min).run();
+   assert.equal(await territoryPigCoinPreview(f.env,{round_id:i+1,side:'A',pig_winner_side:c.winner,attacks:c.attacks,required_attacks:c.min}),c.amount);
+   for(let n=0;n<2;n++)await f.DB.batch(await territoryPigCoinStatements(f.env,{userId:7,roundId:i+1,version:'V3'}));
    expected+=c.amount;assert.equal(await pigCoinBalance(f.env,7),expected);
   }
-  await f.p('UPDATE territory_war_v3_rounds SET settled_at=NULL WHERE id=7').run();await f.p('UPDATE territory_war_v3_rewards SET attacks=100 WHERE round_id=7').run();
-  await f.DB.batch(await territoryPigCoinStatements(f.env,{userId:7,roundId:7,version:'V3'}));assert.equal(await pigCoinBalance(f.env,7),expected);
+  await f.p('UPDATE territory_war_v3_rounds SET settled_at=NULL WHERE id=8').run();await f.p('UPDATE territory_war_v3_rewards SET attacks=100 WHERE round_id=8').run();
+  await f.DB.batch(await territoryPigCoinStatements(f.env,{userId:7,roundId:8,version:'V3'}));assert.equal(await pigCoinBalance(f.env,7),expected);
   assert.deepEqual(await territoryPigCoinStatements(f.env,{userId:7,roundId:7,version:'LEGACY'}),[]);
  });
  test(`${label}: clan 29/30 completed attacks, defeat participation, champion bonus, defense and retries`,async t=>{
