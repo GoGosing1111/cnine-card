@@ -1,3 +1,4 @@
+import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete} from './_clan_redraft.js';
 import {clanPigCoinStatements} from './_pig_coin_content_rewards.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
 import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarParticipationSettings,clanParticipationProgress,clanParticipationReplay,settleClanParticipationBattle,validateClanParticipationSettings,prepareClanParticipationSettings} from './_clan_participation.js';
@@ -440,7 +441,7 @@ function currentDraftPosition(pickCount,teamCount){const round=Math.floor(pickCo
 function draftTurnMs(settings){return clampInt(settings?.draftPickSeconds,30,1800,30)*1000}
 // Count denotes snake turns, including passes. Full rosters never block the queue.
 function nextDraftTurn(pickCount,teams,{skipClanId=0}={}){
-  const eligible=teams.filter(team=>Number(team.member_count||0)<CLAN_MAX_MEMBERS);
+  const eligible=teams.filter(team=>Number(team.member_count||0)<clanDraftCapacity(team));
   if(!eligible.length)return null;
   const alternatives=eligible.filter(team=>Number(team.clan_id)!==Number(skipClanId));
   const allowed=skipClanId&&alternatives.length?alternatives:eligible;
@@ -452,7 +453,8 @@ function nextDraftTurn(pickCount,teams,{skipClanId=0}={}){
 }
 async function draftContext(env,season){
   const teams=rows(await env.DB.prepare('SELECT t.*,o.name,o.mark_key,o.primary_color,o.accent_color,(SELECT COUNT(*) FROM clan_members m WHERE m.season_id=t.season_id AND m.clan_id=t.clan_id) member_count FROM clan_season_teams t JOIN clan_organizations o ON o.id=t.clan_id WHERE t.season_id=? ORDER BY t.draft_position').bind(season.id).all());
-  const pickCount=Number(season.draft_pick_count||0),position=currentDraftPosition(pickCount,Math.max(1,teams.length));return{teams,current:teams.find(t=>Number(t.draft_position)===position)||null,pickNo:pickCount+1};
+  const plan=await readClanRedraft(env,season.id),limited=applyClanRedraftQuotas(teams,plan);
+  const pickCount=Number(season.draft_pick_count||0),position=currentDraftPosition(pickCount,Math.max(1,limited.length));return{teams:limited,current:limited.find(t=>Number(t.draft_position)===position)||null,pickNo:pickCount+1,redraft:plan};
 }
 async function makeDraftPick(env,season,team,candidate,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,{auto=false,expectedPickNo=Number(season.draft_pick_count||0)+1}={}){
   const lock=await acquireDraftLock(env,season.id);if(!lock.ok)throw new Error('다른 클랜의 드래프트 지명이 처리 중입니다. 잠시 후 다시 시도하세요.');
@@ -462,7 +464,7 @@ async function makeDraftPick(env,season,team,candidate,settings=CLAN_ADMIN_SETTI
     if(Number(expectedPickNo)!==ctx.pickNo)throw new Error('지명 순서가 변경됐습니다. 현재 차례를 다시 확인하세요.');
     if(!auto&&(Date.now()>=sqlMs(fresh.next_pick_deadline)||Date.now()>=clanDraftDeadlineMs(fresh)))throw new Error('지명 제한 시간이 끝났습니다. 다음 클랜으로 차례를 넘깁니다.');
     const available=await env.DB.prepare("SELECT * FROM clan_draft_pool WHERE season_id=? AND candidate_key=? AND status='AVAILABLE'").bind(season.id,candidate.candidate_key).first();if(!available)throw new Error('이미 지명됐거나 존재하지 않는 후보입니다.');
-    const count=await env.DB.prepare('SELECT COUNT(*) count FROM clan_members WHERE season_id=? AND clan_id=?').bind(season.id,team.clan_id).first();if(Number(count?.count||0)>=CLAN_MAX_MEMBERS)throw new Error('클랜 정원이 가득 찼습니다.');
+    const count=await env.DB.prepare('SELECT COUNT(*) count FROM clan_members WHERE season_id=? AND clan_id=?').bind(season.id,team.clan_id).first();if(Number(count?.count||0)>=clanDraftCapacity(ctx.current))throw new Error('클랜 정원이 가득 찼습니다.');
     const nextTeams=ctx.teams.map(row=>Number(row.clan_id)===Number(team.clan_id)?{...row,member_count:Number(row.member_count)+1}:row),nextCount=nextDraftTurn(fresh.draft_pick_count,nextTeams)??Number(fresh.draft_pick_count)+1;
     await env.DB.batch([
       env.DB.prepare("UPDATE clan_draft_pool SET status='DRAFTED',drafted_clan_id=?,pick_no=?,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=? AND status='AVAILABLE'").bind(team.clan_id,ctx.pickNo,season.id,available.user_id),
@@ -482,7 +484,7 @@ async function skipExpiredDraftTurns(env,season,settings=CLAN_ADMIN_SETTINGS_DEF
     let count=Number(fresh.draft_pick_count),deadline=sqlMs(fresh.next_pick_deadline);
     const turnMs=draftTurnMs(settings);
     if(!Number.isFinite(deadline))deadline=now+turnMs;
-    if(Number(ctx.current.member_count)>=CLAN_MAX_MEMBERS){
+    if(Number(ctx.current.member_count)>=clanDraftCapacity(ctx.current)){
       const next=nextDraftTurn(count,ctx.teams);if(next===null)return fresh;
       count=next;deadline=now+turnMs;
     }
@@ -510,6 +512,7 @@ async function createWars(env,season,teams,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
   await batchChunks(env,writes);const persisted=await env.DB.prepare("SELECT MIN(starts_at) starts_at,MAX(ends_at) ends_at,COUNT(DISTINCT round_no) round_count FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE')").bind(season.id).first(),persistedStart=sqlMs(persisted?.starts_at),persistedEnd=sqlMs(persisted?.ends_at);return{startsAt:Number.isFinite(persistedStart)?persistedStart:starts[0],endsAt:Number.isFinite(persistedEnd)?persistedEnd:starts.at(-1)+duration,roundCount:Number(persisted?.round_count||rounds.length)};
 }
 async function activateSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,{immediateFirst=false}={}){
+  const plan=await readClanRedraft(env,season.id);if(plan){const ctx=await draftContext(env,season);assertClanRedraftComplete(ctx.teams,plan);const pending=await env.DB.prepare("SELECT COUNT(*) count FROM clan_draft_pool WHERE season_id=? AND status='AVAILABLE'").bind(season.id).first();if(Number(pending?.count||0))throw new Error('재드래프트 미편성 참가자가 남아 있습니다.');}
   const teams=rows(await env.DB.prepare('SELECT * FROM clan_season_teams WHERE season_id=? ORDER BY draft_position').bind(season.id).all()),windows=await createWars(env,season,teams,settings,{immediateFirst});
   await env.DB.prepare("UPDATE clan_seasons SET phase='ACTIVE',starts_at=?,ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='DRAFT'").bind(iso(windows.startsAt),iso(windows.endsAt),season.id).run();
   return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
@@ -587,7 +590,7 @@ async function finishDraftAtDeadline(env,season,settings){
     let count=Number(fresh.draft_pick_count||0);
     for(const candidate of candidates){
       let team=teams.find(row=>Number(row.draft_position)===currentDraftPosition(count,teams.length));
-      if(!team||Number(team.member_count)>=CLAN_MAX_MEMBERS){const next=nextDraftTurn(count,teams);if(next===null)throw new Error('드래프트 잔여 후보를 편성할 클랜 정원이 부족합니다.');count=next;team=teams.find(row=>Number(row.draft_position)===currentDraftPosition(count,teams.length))}
+      if(!team||Number(team.member_count)>=clanDraftCapacity(team)){const next=nextDraftTurn(count,teams);if(next===null)throw new Error('드래프트 잔여 후보를 편성할 클랜 정원이 부족합니다.');count=next;team=teams.find(row=>Number(row.draft_position)===currentDraftPosition(count,teams.length))}
       assignments.push({userId:candidate.user_id,clanId:team.clan_id,role:cleanRole(candidate.preferred_role),pickNo:count+1});
       team.member_count=Number(team.member_count)+1;count=nextDraftTurn(count,teams)??count+1;
     }
@@ -606,18 +609,36 @@ async function finishDraftAtDeadline(env,season,settings){
   }finally{await releaseDraftLock(env,lock)}
 }
 
+async function startScheduledRedraft(env,season,settings){
+  if(season?.phase!=='REDRAFT_WAIT'||Date.now()<sqlMs(season.registration_ends_at))return season;
+  const lock=await acquireDraftLock(env,season.id);if(!lock.ok)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
+  try{
+    const fresh=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
+    if(fresh?.phase!=='REDRAFT_WAIT'||Date.now()<sqlMs(fresh.registration_ends_at))return fresh;
+    const ctx=await draftContext(env,fresh),plan=ctx.redraft;
+    if(!plan||Date.parse(plan.startsAt)!==sqlMs(fresh.registration_ends_at)||ctx.teams.some(team=>Number(team.member_count)!==1))throw new Error('재드래프트 시작 상태가 일치하지 않습니다.');
+    const pool=await env.DB.prepare('SELECT COUNT(*) count FROM clan_draft_pool WHERE season_id=?').bind(fresh.id).first();
+    if(Number(pool?.count)!==plan.participantCount)throw new Error('재드래프트 참가 명단이 변경됐습니다.');
+    await calculateSeasonScores(env,fresh);
+    await env.DB.prepare("UPDATE clan_seasons SET phase='DRAFT',draft_pick_count=0,next_pick_deadline=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='REDRAFT_WAIT'").bind(iso(Math.min(sqlMs(fresh.registration_ends_at)+draftTurnMs(settings),clanDraftDeadlineMs(fresh))),fresh.id).run();
+    return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(fresh.id).first();
+  }finally{await releaseDraftLock(env,lock)}
+}
+
 // Scheduled entry: only registration/draft; never creates seasons, battles or rewards on its own.
 export async function reconcileClanDraft(env){
   const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
   if(!ready)return{phase:'NOT_READY',nextCheckAt:null};
   const settings=await clanSettings(env);if(settings.mode!=='ON')return{phase:settings.mode,nextCheckAt:null};
   let season=await latestSeason(env);
+  if(season?.phase==='REDRAFT_WAIT')season=await startScheduledRedraft(env,season,settings);
   if(season?.phase==='REGISTRATION'&&Date.now()>=sqlMs(season.registration_ends_at))season=await beginDraft(env,season,settings);
   if(season?.phase==='DRAFT')season=await autoDraftDue(env,season,settings);
-  return{phase:season?.phase||'NONE',seasonId:Number(season?.id||0),nextCheckAt:season?.phase==='REGISTRATION'?season.registration_ends_at:season?.phase==='DRAFT'?nextDraftCheckAt(season):null};
+  return{phase:season?.phase||'NONE',seasonId:Number(season?.id||0),nextCheckAt:['REGISTRATION','REDRAFT_WAIT'].includes(season?.phase)?season.registration_ends_at:season?.phase==='DRAFT'?nextDraftCheckAt(season):null};
 }
 async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   let fresh=season;
+  if(fresh.phase==='REDRAFT_WAIT')fresh=await startScheduledRedraft(env,fresh,settings);
   if(fresh.phase==='REGISTRATION'&&Date.now()>=sqlMs(fresh.registration_ends_at))fresh=await beginDraft(env,fresh,settings);
   if(fresh.phase==='DRAFT')fresh=await autoDraftDue(env,fresh,settings);
   if(fresh.phase==='ACTIVE')fresh=await reconcileWarWindows(env,fresh,settings);
@@ -626,7 +647,7 @@ async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
   return fresh;
 }
 
-function publicSeason(season){const registrationOpen=clanRegistrationOpen(season);return season?{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,maxMembers:Number(season.max_members||CLAN_MAX_MEMBERS),registrationOpen,lateRegistration:registrationOpen&&String(season.phase).toUpperCase()==='DRAFT',registrationEndsAt:season.registration_ends_at,draftEndsAt:['REGISTRATION','DRAFT'].includes(season.phase)?iso(clanDraftDeadlineMs(season)):season.draft_ends_at,startsAt:season.starts_at,endsAt:season.ends_at,nextPickDeadline:season.phase==='DRAFT'&&season.next_pick_deadline?nextDraftCheckAt(season):season.next_pick_deadline,draftPickCount:Number(season.draft_pick_count||0)}:null}
+function publicSeason(season){const registrationOpen=clanRegistrationOpen(season);return season?{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,maxMembers:Number(season.max_members||CLAN_MAX_MEMBERS),registrationOpen,lateRegistration:registrationOpen&&String(season.phase).toUpperCase()==='DRAFT',registrationEndsAt:season.registration_ends_at,draftEndsAt:['REGISTRATION','DRAFT','REDRAFT_WAIT'].includes(season.phase)?iso(clanDraftDeadlineMs(season)):season.draft_ends_at,startsAt:season.starts_at,endsAt:season.ends_at,nextPickDeadline:season.phase==='DRAFT'&&season.next_pick_deadline?nextDraftCheckAt(season):season.next_pick_deadline,draftPickCount:Number(season.draft_pick_count||0)}:null}
 function publicTeam(row){return row?{clanId:Number(row.clan_id),name:row.name,markKey:row.mark_key,primaryColor:row.primary_color,accentColor:row.accent_color,slogan:row.slogan||'',masterUserId:Number(row.master_user_id),masterNickname:row.master_nickname||'',memberCount:Number(row.member_count||0),score:Number(row.score||0),wins:Number(row.wins||0),losses:Number(row.losses||0),draftPosition:Number(row.draft_position||0),...clanCombatStats(row)}:null}
 async function clanAdminState(env,settings){
   let season=await latestSeason(env);if(season)season=await advanceLifecycle(env,season,settings);if(!season)season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();const seasonId=Number(season?.id||0);
@@ -731,7 +752,8 @@ async function overview(env,user,season,deps,settings=CLAN_ADMIN_SETTINGS_DEFAUL
     roster=roster.map(row=>({...row,participationAttacks:Number(byUser.get(row.userId)?.attacks||0),participationPoints:Number(byUser.get(row.userId)?.points||0)}));
   }
   const settlementRow=await env.DB.prepare('SELECT * FROM clan_season_settlements WHERE season_id=?').bind(season.id).first(),settlement=settlementRow?{status:settlementRow.status,championClanId:Number(settlementRow.champion_clan_id||0),rewardStatus:settlementRow.reward_status,completedAt:settlementRow.completed_at}:null;
-  return{ok:true,champions:await championsPublicState(env,season.id,settings),season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,userId:Number(user.id),memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{draftDurationMinutes:CLAN_DRAFT_DURATION_MINUTES,draftFinishFrom:'REGISTRATION_CLOSE',draftFinalAction:'AUTO_ASSIGN',draftPickSeconds:settings.draftPickSeconds,draftTimeoutAction:'SKIP_TURN',draftStartDelayMinutes:0,maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:CLAN_MAX_PARTICIPANTS,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,deckPolicy:settings.powerSnapshot,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'},serverNow:iso()};
+  const redraftPlan=await readClanRedraft(env,season.id);
+  return{ok:true,redraft:redraftPlan?{startsAt:redraftPlan.startsAt,participantCount:redraftPlan.participantCount,quotas:redraftPlan.quotas}:null,champions:await championsPublicState(env,season.id,settings),season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,userId:Number(user.id),memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,settlement,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:settings.playbackSpeed},rules:{draftDurationMinutes:CLAN_DRAFT_DURATION_MINUTES,draftFinishFrom:'REGISTRATION_CLOSE',draftFinalAction:'AUTO_ASSIGN',draftPickSeconds:settings.draftPickSeconds,draftTimeoutAction:'SKIP_TURN',draftStartDelayMinutes:0,maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,maxParticipants:CLAN_MAX_PARTICIPANTS,attacksPerWar:settings.totalUseLimit,initialEnergy:settings.initialEnergy,energyCap:settings.energyCap,energyRecoverySeconds:settings.energyRecoverySeconds,attackEnergyCost:settings.attackEnergyCost,defensesPerTarget:settings.defensesPerTarget,repeatTargetLimit:settings.repeatTargetLimit,matchMode:settings.matchMode,reservationScope:'PER_WAR_USER_AND_TARGET',scorePerWin:settings.warWinScore,deckPolicy:settings.powerSnapshot,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'LIVE_DECK_NO_VIEW_LOGS'},serverNow:iso()};
 }
 
 async function register(env,deps,user,season,body,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
@@ -1026,4 +1048,4 @@ export async function handleClan({path,request,env,deps}){
   return deps.json({error:'요청한 클랜 기능을 찾을 수 없습니다.'},404);
 }
 
-export const __clanTest={clanDraftDeadlineMs,nextDraftCheckAt,createSeason,finishDraftAtDeadline,beginDraft,autoDraftDue,skipExpiredDraftTurns,makeDraftPick,draftContext,nextDraftTurn,draftTurnMs,settleSeason,advanceLifecycle,fight,normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,randomMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};
+export const __clanTest={startScheduledRedraft,activateSeason,clanDraftDeadlineMs,nextDraftCheckAt,createSeason,finishDraftAtDeadline,beginDraft,autoDraftDue,skipExpiredDraftTurns,makeDraftPick,draftContext,nextDraftTurn,draftTurnMs,settleSeason,advanceLifecycle,fight,normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,randomMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};
