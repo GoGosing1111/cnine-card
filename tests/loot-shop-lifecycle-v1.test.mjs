@@ -9,12 +9,12 @@ for(const postgres of [false,true]){
  test(`${label}: content CMS shares one policy, preserves products and other source rates, rejects stale/invalid/non-OWNER saves`,async t=>{
   const f=await lootFixture(t,{postgres});await f.setShop(structuredClone(LOOT_SHOP_DEFAULTS));let state=await readLootShopPolicy(f.env);
   for(const [i,code] of ['TERRITORY','CLAN','CORE_RAID'].entries()){
-   const body={code,revision:state.policy.revision,enabled:true,amount:11+i,rewardsEnabled:true};const saved=await saveLootSourcePolicy(f.env,f.user,body);assert.equal(saved.sources.find(s=>s.code===code).amount,11+i);
+   const source={...state.policy.sources.find(s=>s.code===code),enabled:true},body={code,revision:state.policy.revision,source,rewardsEnabled:true};const saved=await saveLootSourcePolicy(f.env,f.user,body);assert.deepEqual(saved.sources.find(s=>s.code===code),source);
    await assert.rejects(()=>saveLootSourcePolicy(f.env,f.user,body),{code:'JOINT_POLICY_CONFLICT'});state=await readLootShopPolicy(f.env);assert.deepEqual(state.policy.products,LOOT_SHOP_DEFAULTS.products);assert.equal(state.policy.salesEnabled,false);
   }
-  assert.deepEqual(state.policy.sources.map(s=>s.amount),[11,12,13]);
-  const body={code:'CLAN',revision:state.policy.revision,enabled:true,amount:null,rewardsEnabled:true};await assert.rejects(()=>saveLootSourcePolicy(f.env,f.user,body),{code:'JOINT_LOOT_CONFIG'});await assert.rejects(()=>saveLootSourcePolicy(f.env,{id:8,role:'ADMIN'},body),{code:'JOINT_PERMISSION'});
-  await saveLootSourcePolicy(f.env,f.user,{...body,enabled:false,rewardsEnabled:false});state=await readLootShopPolicy(f.env);assert.equal(state.policy.rewardsEnabled,false);assert.equal(state.policy.sources[0].enabled,true);assert.equal(state.policy.sources[2].amount,13);
+  assert.deepEqual(state.policy.sources,LOOT_SHOP_DEFAULTS.sources.map(s=>({...s,enabled:true})));
+  const body={code:'CLAN',revision:state.policy.revision,source:{...state.policy.sources[1],participationAmount:null},rewardsEnabled:true};await assert.rejects(()=>saveLootSourcePolicy(f.env,f.user,body),{code:'JOINT_LOOT_CONFIG'});await assert.rejects(()=>saveLootSourcePolicy(f.env,{id:8,role:'ADMIN'},body),{code:'JOINT_PERMISSION'});
+  await saveLootSourcePolicy(f.env,f.user,{...body,source:{...body.source,enabled:false},rewardsEnabled:false});state=await readLootShopPolicy(f.env);assert.equal(state.policy.rewardsEnabled,false);assert.equal(state.policy.sources[0].enabled,true);assert.equal(state.policy.sources[2].amount,30);
  });
  test(`${label}: first deployment reads OFF without storage; explicit CMS save prepares storage`,async t=>{
   const f=await lootFixture(t,{postgres});await f.p('DELETE FROM app_meta WHERE key=?',LOOT_SHOP_KEY).run();

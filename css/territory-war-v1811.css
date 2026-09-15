@@ -136,3 +136,5 @@ body.territory-war-open .pwa-install-button{display:none!important}
   .tw3-operation-vote,.tw3-operation-groups>section:not([data-op-category="offense"]) .tw3-operation-vote{grid-template-columns:1fr}.tw3-operation-vote button{min-height:116px}.tw3-counter-head{padding:17px 14px 12px}.tw3-counter-meter{margin-left:14px;margin-right:14px}.tw3-vote-readiness{padding-left:14px;padding-right:14px}.tw3-commanders{grid-template-columns:1fr}.tw3-command{padding:16px}.tw3-attack>span{font-size:16px}
 }
 @media(prefers-reduced-motion:reduce){.tw3-front-route polyline,.tw3-theater-status i{animation:none}.tw3-operation-vote button,.tw3-operation-briefing,.tw3-operation-briefing>section{transition:none}}
+
+.tw3-reward-items>.is-pig-coin img{width:30px;height:30px;object-fit:contain;float:left;margin-right:9px}

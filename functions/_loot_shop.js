@@ -1,5 +1,5 @@
-import {LOOT_SHOP_DEFAULTS,validateLootShopPolicy,PIG_COIN_IMAGE} from '../shared/loot-shop-policy-v1.mjs';
-import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {LOOT_SHOP_DEFAULTS,validateLootShopPolicy,upgradeLootShopPolicy,PIG_COIN_IMAGE,pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
+import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {runJointOperation,saveJointPolicyDraft} from './_joint_transactions.js';
 import {jointError,readJointBody,jointResponseError} from './_joint_request.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
@@ -17,9 +17,9 @@ export const LOOT_SHOP_SCHEMA=[
 ];
 // Explicit CMS configuration prepares storage before publishing any settings.
 // Unconfigured HTTP reads never create tables or enable sales/rewards.
-export async function ensureLootShopSchema(env){if(env.DB.execSchema)await env.DB.execSchema(LOOT_SHOP_SCHEMA);else for(const sql of LOOT_SHOP_SCHEMA)await env.DB.prepare(sql).run();}
+export async function ensureLootShopSchema(env){if(env.DB.execSchema)await env.DB.execSchema(LOOT_SHOP_SCHEMA);else for(const sql of LOOT_SHOP_SCHEMA)await env.DB.prepare(sql).run();await ensureJointAtomicSchema(env);}
 const fail=(message,status=409)=>jointError('JOINT_LOOT_UNAVAILABLE',message,status);
-export async function readLootShopPolicy(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LOOT_SHOP_KEY).first();return {policy:row?validateLootShopPolicy(JSON.parse(row.value)):structuredClone(LOOT_SHOP_DEFAULTS),raw:row?.value??null};}
+export async function readLootShopPolicy(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LOOT_SHOP_KEY).first();return {policy:row?validateLootShopPolicy(upgradeLootShopPolicy(JSON.parse(row.value))):structuredClone(LOOT_SHOP_DEFAULTS),raw:row?.value??null};}
 export async function pigCoinBalance(env,userId){if((await readLootShopPolicy(env)).raw===null)return 0;return Number((await env.DB.prepare('SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=?').bind(userId).first())?.balance||0);}
 const pFor=DB=>(sql,...v)=>DB.prepare(sql).bind(...v);
 function guarded(DB,predicate,bindings,body){const token=crypto.randomUUID();return [jointGuard(DB,token,predicate,bindings),...body,jointGuardEnd(DB,token)];}
@@ -45,7 +45,7 @@ export async function saveLootSourcePolicy(env,user,body){
  if(user.role!=='OWNER')throw jointError('JOINT_PERMISSION','OWNER만 지급 설정을 변경할 수 있습니다.',403);
  const before=await readLootShopPolicy(env);if(body.revision!==before.policy.revision)throw jointError('JOINT_POLICY_CONFLICT','다른 화면에서 피그 코인 설정이 변경됐습니다. 최신 설정을 다시 불러오세요.',409);
  if(!['TERRITORY','CLAN','CORE_RAID'].includes(body.code))throw jointError('JOINT_LOOT_CONFIG','지급 콘텐츠를 확인하세요.');
- const draft=structuredClone(before.policy);draft.rewardsEnabled=body.rewardsEnabled;draft.sources=draft.sources.map(s=>s.code===body.code?{code:s.code,enabled:body.enabled,amount:body.amount}:s);
+ const draft=structuredClone(before.policy);draft.rewardsEnabled=body.rewardsEnabled;draft.sources=draft.sources.map(s=>s.code===body.code?{...body.source,code:s.code}:s);
  const next=validateLootShopPolicy(draft);await ensureLootShopSchema(env);next.revision++;
  await saveJointPolicyDraft(env,user,LOOT_SHOP_KEY,before.raw,next);return {revision:next.revision,rewardsEnabled:next.rewardsEnabled,sources:next.sources};
 }
@@ -57,7 +57,9 @@ export async function lootShopState(env,user){
   products.push({...product,image,options,bought,remaining:product.accountLimit===null?null:Math.max(0,product.accountLimit-bought),canBuy:policy.salesEnabled&&product.enabled&&available&&bought<product.accountLimit&&balance>=product.price});
  }
  products.sort((a,b)=>a.sortOrder-b.sortOrder||a.id.localeCompare(b.id));
- return {accountId:Number(user.id),pigCoins:balance,pigCoinImage:PIG_COIN_IMAGE,salesEnabled:policy.salesEnabled,rewardsEnabled:policy.rewardsEnabled,sources:policy.sources,products,ownedPacks:packs.results.map(r=>({id:r.id,product:JSON.parse(r.product_json),createdAt:r.created_at})),revision:policy.revision};
+ const territorySetting=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v3'").first();let minimum=null;try{const v=JSON.parse(territorySetting?.value||'{}').settlementMinAttacks;if(Number.isSafeInteger(v)&&v>=0)minimum=v;}catch{}
+ const sources=policy.sources.map(s=>s.code==='TERRITORY'?{...s,participationMinimumAttacks:minimum}:s);
+ return {accountId:Number(user.id),pigCoins:balance,pigCoinImage:PIG_COIN_IMAGE,salesEnabled:policy.salesEnabled,rewardsEnabled:policy.rewardsEnabled,sources,products,ownedPacks:packs.results.map(r=>({id:r.id,product:JSON.parse(r.product_json),createdAt:r.created_at})),revision:policy.revision};
 }
 function debitPigCoins(DB,userId,price,requestId){const p=pFor(DB);return guarded(DB,'EXISTS(SELECT 1 FROM pig_coin_wallets_v1 WHERE user_id=? AND balance>=?)',[userId,price],[p('UPDATE pig_coin_wallets_v1 SET balance=balance-? WHERE user_id=?',price,userId),p("INSERT INTO pig_coin_ledger_v1(id,user_id,amount,balance_after,source,reference_id,created_at) SELECT ?,user_id,?,balance,'SHOP',?,? FROM pig_coin_wallets_v1 WHERE user_id=?",requestId,-price,requestId,new Date().toISOString(),userId)]);}
 function gearGrant(DB,userId,product,requestId){const p=pFor(DB),condition=product.type==='F_BODY'?"code='BATTLE_SUIT_02'":"rarity='MYSTIC'";return guarded(DB,`EXISTS(SELECT 1 FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1 AND ${condition})`,[product.equipmentId],[p("INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) VALUES(?,?,'LOOT_SHOP',?,?)",userId,product.equipmentId,product.id,requestId)]);}
@@ -94,16 +96,21 @@ export async function openLootPack(env,user,body,{randomInt=mercenaryRandomInt}=
 
 // Compose with the authoritative content's existing settlement transaction.
 // Callers supply a fixed internal predicate, never a browser-supplied SQL fragment.
-export async function pigCoinRewardStatements(env,{userId,source,referenceId,guardSql,guardBindings=[]}){
+export async function pigCoinRewardStatements(env,{userId,source,referenceId,guardSql,guardBindings=[],rewardSql,at=Date.now()}){
  const {policy,raw}=await readLootShopPolicy(env),rule=policy.sources.find(s=>s.code===source);if(!policy.rewardsEnabled||!rule?.enabled)return [];
  if(!Number.isSafeInteger(Number(userId))||Number(userId)<1||!referenceId||!guardSql)throw fail('피그 코인 보상 근거가 없습니다.');
- const DB=env.DB,p=pFor(DB),ref=String(referenceId),token=crypto.randomUUID(),now=new Date().toISOString(),guard=`(${guardSql}) AND NOT EXISTS(SELECT 1 FROM pig_coin_ledger_v1 WHERE user_id=? AND source=? AND reference_id=?)`,bind=[...guardBindings,userId,source,ref];
- // The unique ledger entry gates both the wallet change and repeated settlement retries.
+ if(source!=='CORE_RAID'&&typeof rewardSql!=='function')throw fail('승리·참여 보상 조건이 없습니다.');
+ const earned=source==='CORE_RAID'?{sql:'?',bindings:[rule.amount]}:rewardSql(rule);
+ const DB=env.DB,p=pFor(DB),ref=String(referenceId),token=crypto.randomUUID(),now=new Date(at).toISOString(),guard=`(${guardSql}) AND NOT EXISTS(SELECT 1 FROM pig_coin_ledger_v1 WHERE user_id=? AND source=? AND reference_id=?)`,bind=[...guardBindings,userId,source,ref];
+ const week=pigCoinRewardWeek(at),weeklySql=source==='CORE_RAID'?" AND COALESCE((SELECT SUM(amount) FROM pig_coin_ledger_v1 WHERE user_id=? AND source='CORE_RAID' AND amount>0 AND created_at>=? AND created_at<?),0)+earned<=?":'',weeklyBind=source==='CORE_RAID'?[userId,week.startsAt,week.resetsAt,rule.weeklyLimit]:[];
+ // Lock before evaluating both eligibility and the weekly sum. Different room
+ // claims cannot exceed the cap, including concurrent requests and next-week replay.
  return [...policyGuard(DB,raw),p(`INSERT INTO pig_coin_wallets_v1(user_id,balance) SELECT ?,0 WHERE ${guard} ON CONFLICT(user_id) DO NOTHING`,userId,...bind),
  ...(DB.dialect==='postgres'?[p('SELECT user_id FROM pig_coin_wallets_v1 WHERE user_id=? FOR UPDATE',userId)]:[]),
- p(`INSERT INTO pig_coin_ledger_v1(id,user_id,amount,balance_after,source,reference_id,created_at) SELECT ?,?,?,balance+?,?,?,? FROM pig_coin_wallets_v1 WHERE user_id=? AND ${guard}`,token,userId,rule.amount,rule.amount,source,ref,now,userId,...bind),
- p('UPDATE pig_coin_wallets_v1 SET balance=balance+? WHERE user_id=? AND EXISTS(SELECT 1 FROM pig_coin_ledger_v1 WHERE id=?)',rule.amount,userId,token)];
+ p(`INSERT INTO pig_coin_ledger_v1(id,user_id,amount,balance_after,source,reference_id,created_at) SELECT ?,user_id,earned,balance+earned,?,?,? FROM (SELECT user_id,balance,CAST((${earned.sql}) AS BIGINT) AS earned FROM pig_coin_wallets_v1 WHERE user_id=?) reward WHERE earned>0 AND ${guard}${weeklySql} ON CONFLICT(user_id,source,reference_id) DO NOTHING`,token,source,ref,now,...earned.bindings,userId,...bind,...weeklyBind),
+ p('UPDATE pig_coin_wallets_v1 SET balance=balance+(SELECT amount FROM pig_coin_ledger_v1 WHERE id=?) WHERE user_id=? AND EXISTS(SELECT 1 FROM pig_coin_ledger_v1 WHERE id=?)',token,userId,token)];
 }
+export async function pigCoinRewardAmount(env,userId,source,referenceId){if((await readLootShopPolicy(env)).raw===null)return 0;return Number((await env.DB.prepare('SELECT amount FROM pig_coin_ledger_v1 WHERE user_id=? AND source=? AND reference_id=?').bind(userId,source,String(referenceId)).first())?.amount||0);}
 export async function handleLootShop({path,request,env,deps}){
  if(!path.startsWith('loot-shop/')&&!['admin/loot-shop','admin/loot-shop/sources','admin/loot-shop/source'].includes(path))return null;
  try{const user=await deps.authenticate(request,env);if(!user)throw jointError('JOINT_AUTH','로그인이 필요합니다.',401);const admin=path.startsWith('admin/loot-shop');if(admin&&user.role!=='OWNER')throw jointError('JOINT_PERMISSION','OWNER만 상점을 설정할 수 있습니다.',403);
@@ -115,7 +122,7 @@ export async function handleLootShop({path,request,env,deps}){
    if(path==='loot-shop/pack')return deps.json(await lootPackOptions(env,user,new URL(request.url).searchParams.get('id')));
   }
   if(request.method!==(admin?'PATCH':'POST'))throw jointError('JOINT_METHOD','지원하지 않는 요청입니다.',405);
-  const fields=path==='admin/loot-shop/source'?['code','revision','enabled','amount','rewardsEnabled']:path==='admin/loot-shop'?['policy']:path==='loot-shop/purchase'?['requestId','productId']:path==='loot-shop/open'?['requestId','packId','cardId']:null;if(!fields)throw jointError('JOINT_NOT_FOUND','상점 경로를 찾을 수 없습니다.',404);
+  const fields=path==='admin/loot-shop/source'?['code','revision','source','rewardsEnabled']:path==='admin/loot-shop'?['policy']:path==='loot-shop/purchase'?['requestId','productId']:path==='loot-shop/open'?['requestId','packId','cardId']:null;if(!fields)throw jointError('JOINT_NOT_FOUND','상점 경로를 찾을 수 없습니다.',404);
   const body=await readJointBody(request,{fields,maxBytes:131072});return deps.json(await deps.withUserMutationLock(env,user.id,path,()=>path==='admin/loot-shop/source'?saveLootSourcePolicy(env,user,body):admin?saveLootShopPolicy(env,user,body.policy).then(policy=>({policy})):path==='loot-shop/purchase'?purchaseLootProduct(env,user,body):openLootPack(env,user,body)));
  }catch(error){return jointResponseError(error,deps.json);}
 }

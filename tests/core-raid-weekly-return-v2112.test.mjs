@@ -6,6 +6,8 @@ import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { handleRaidCoreProtocol, defaultCoreRaidSettings, cleanCoreRaidSettings,
   coreRaidRewardWeek, coreRaidWeeklyReward } from '../functions/_raid_core_protocol.js';
+import {ensureLootShopSchema,LOOT_SHOP_KEY} from '../functions/_loot_shop.js';
+import {LOOT_SHOP_DEFAULTS} from '../shared/loot-shop-policy-v1.mjs';
 
 const ROOMS = 'raid_core_rooms_v2024', MEMBERS = 'raid_core_members_v2024';
 const RECEIPTS = 'raid_core_reward_receipts_v2024', WEEKLY = 'raid_core_weekly_rewards_v2112';
@@ -19,7 +21,7 @@ const baseSchema = `
   INSERT INTO users(id,nickname,role) VALUES(1,'대장','OWNER'),(2,'대원','OWNER'),(3,'다른 계정','OWNER');
 `;
 
-async function fixture(dialect = 'sqlite') {
+async function fixture(dialect = 'sqlite',pigRewards=false) {
   let DB, close, failPattern = '', loseCommit = false;
   if (dialect === 'postgres') {
     const pg = new PGlite();
@@ -79,6 +81,7 @@ async function fixture(dialect = 'sqlite') {
     assert.equal(result.status, 200);
   };
   await configure();
+  if(pigRewards){await ensureLootShopSchema(env);const policy=structuredClone(LOOT_SHOP_DEFAULTS);policy.rewardsEnabled=true;policy.sources.forEach(s=>s.enabled=true);await run('INSERT INTO app_meta(key,value) VALUES(?,?)',LOOT_SHOP_KEY,JSON.stringify(policy));}
   let sequence = 0;
   const seedRoom = async (status = 'CLEAR', users = [1]) => {
     const id = 'QA-' + ++sequence;
@@ -107,6 +110,16 @@ test('weekly rewards reset Monday at midnight in Korea, including year boundary'
 });
 
 for (const dialect of ['sqlite', 'postgres']) {
+  test(`${dialect}: real core claim atomically grants 30 pig coins, recovers failure and stops at weekly 90`,async()=>{
+    const f=await fixture(dialect,true);try{
+      const first=await f.seedRoom();f.fail('UPDATE pig_coin_wallets_v1 SET balance=balance+');assert.equal((await f.claim(first)).status,503);
+      assert.equal((await f.row('SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=1'))?.balance,undefined);f.fail('');
+      let paid=await f.claim(first);assert.equal(paid.status,200);assert.equal(paid.body.pigCoins,30);
+      assert.equal((await f.claim(first)).body.pigCoins,30);
+      for(let n=0;n<2;n++){paid=await f.claim(await f.seedRoom());assert.equal(paid.status,200);assert.equal(paid.body.pigCoins,30);}
+      assert.equal((await f.claim(await f.seedRoom())).status,409);assert.equal(Number((await f.row('SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=1')).balance),90);
+    }finally{await f.close();}
+  });
   test(`${dialect}: acknowledged failure stays in the lobby across polls and sessions, only for that member`, async () => {
     const f = await fixture(dialect);
     try {

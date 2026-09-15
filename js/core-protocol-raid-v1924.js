@@ -469,6 +469,8 @@
       });
       if (result.user) bridge()?.saveUser?.(bridge()?.apiUserToLocal?.(result.user) || result.user);
       await load();
+      window.dispatchEvent(new Event('cnine:player-updated'));
+      const note=document.querySelector('.core-reward-note');if(note&&Number(result.pigCoins)>0)note.textContent='공대 보상과 피그 코인 '+number(result.pigCoins)+'개를 수령했습니다.';
       return result;
     } catch (error) {
       await load().catch(() => {});

@@ -1,4 +1,5 @@
-import {pigCoinRewardStatements} from './_loot_shop.js';
+import {pigCoinRewardStatements,pigCoinRewardAmount} from './_loot_shop.js';
+import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {CORE_MECHANIC_VERSION,createCoreMechanicPlans,coreMechanicPlans,coreMechanicEvents,verifyScreenMechanic,MECHANIC_NAMES} from '../shared/core-raid-mechanics-v2086.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 // 붕괴 코어 레이드는 라이브 월드 레이드와 분리된 방 기반 협동 콘텐츠다.
@@ -1216,11 +1217,7 @@ async function acknowledgeResult(env, user, cfg, body = {}) {
   return {response:await statusPayload(env, user, cfg, '', true)};
 }
 
-export function coreRaidRewardWeek(at = Date.now()) {
-  const day = 86400000, offset = 9 * 3600000, kst = new Date(at + offset);
-  const monday = Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate()) - ((kst.getUTCDay() + 6) % 7) * day;
-  return {weekKey:new Date(monday).toISOString().slice(0,10),startsAt:new Date(monday-offset).toISOString(),resetsAt:new Date(monday-offset+7*day).toISOString()};
-}
+export function coreRaidRewardWeek(at = Date.now()) { return pigCoinRewardWeek(at); }
 
 function weeklyPaidCountSql() {
   // New receipts retain their week even if profile enrichment updates them later.
@@ -1918,7 +1915,7 @@ async function resolveAttempt(env, user, cfg, body) {
 }
 
 async function coreRewardResponse(env, user, paid, profile) {
-  const response = { ...paid, weeklyReward: await coreRaidWeeklyReward(env, user.id) };
+  const response = { ...paid, pigCoins:await pigCoinRewardAmount(env,user.id,'CORE_RAID',paid.roomId||paid.instanceId), weeklyReward: await coreRaidWeeklyReward(env, user.id) };
   // Return a fresh wallet on both settlement and replay without moving the receipt's
   // payment timestamp. Profile enrichment must not turn a committed payment into a failure.
   if (typeof profile === 'function') {
@@ -1954,7 +1951,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
   if (existing?.status === 'COMPLETED' && existing.response_json) {
     return coreRewardResponse(env, user, { ...jsonSafe(existing.response_json, { ok: true }), replayed: true }, profile);
   }
-  const week = coreRaidRewardWeek();
+  const rewardAt=Date.now(),week = coreRaidRewardWeek(rewardAt);
   const weekArgs = [user.id, week.weekKey, week.startsAt.slice(0,19), week.resetsAt.slice(0,19)];
   const weeklyLimitResult = async () => ({
     error: '이번 주 붕괴 코어 보상 3회를 모두 수령했습니다. 공략에는 계속 참여할 수 있습니다.',
@@ -2051,7 +2048,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
       ).bind(rewardShards, user.id, ...guardBind)
     );
   }
-  statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind}));
+  statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind,at:rewardAt}));
   statements.push(
     env.DB.prepare(
       'UPDATE ' + REWARD_RECEIPT_TABLE +
