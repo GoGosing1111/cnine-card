@@ -10,7 +10,7 @@ import { advanceFront, deadlineWinner, rebelPenalty, coupSettings, coupRebelDefe
 import { readFileSync } from 'node:fs';
 import { createPvpBattleV2 } from '../functions/_battle_v2_preview.js';
 import { useCoupChiefSkill, COUP_SKILL_SETTINGS } from '../functions/_coup.js';
-import { coupEnergy, coupSkillCooldown, chooseNuclearTargets } from '../shared/coup-chief-skills-v2118.mjs';
+import { coupEnergy, coupSkillCooldown, chooseNuclearTargets, coupRebelCommanderId } from '../shared/coup-chief-skills-v2118.mjs';
 
 test('chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear has no deferred recovery', () => {
   assert.equal(coupEnergy(null, 0).energy, 10);
@@ -22,6 +22,9 @@ test('chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear 
   assert.equal(coupEnergy(hit,599999).energy,0);assert.equal(coupEnergy(hit,600000).energy,0);
   assert.equal(coupEnergy(hit,719999).energy,0);assert.equal(coupEnergy(hit,720000).energy,1);
   assert.equal(coupSkillCooldown('RALLY'),3600000);assert.equal(coupSkillCooldown('ARTILLERY'),1800000);
+  assert.equal(coupSkillCooldown('RALLY','REBEL'),5400000);assert.equal(coupSkillCooldown('ARTILLERY','REBEL'),2700000);
+  assert.equal(coupRebelCommanderId('new',{rebelCommand:{roundId:'old',userId:2}}),null);
+  assert.equal(coupRebelCommanderId('old',{rebelCommand:{roundId:'old',userId:-1}}),null);
   const targets=chooseNuclearTargets(Array.from({length:80},(_,i)=>i),()=>.4);
   assert.equal(targets.length,50);assert.equal(new Set(targets).size,50);
 });
@@ -92,6 +95,69 @@ test('coup matchmaking stays near power, avoids the previous opponent and rotate
 });
 for (const pg of [false, true]) {
   const label = pg ? 'PostgreSQL' : 'SQLite';
+  async function assign(f,id,userId=2) {
+    const r=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();
+    await f.p('UPDATE coup_rounds_v2115 SET settings_json=?,revision=revision+1 WHERE id=?',JSON.stringify({...JSON.parse(r.settings_json),rebelCommand:{roundId:id,userId}}),id).run();
+  }
+  test(`${label}: temporary rebel commander targets the opposite HP and own energy with independent 45/90-minute cooldowns`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();await assign(f,id);
+    const cast=(uid,code,key,now=f.now)=>useCoupChiefSkill(f.env,{id:uid},{roundId:id,skillCode:code,requestId:key,targetSide:'REBEL',commanderId:1},now);
+    const r=await cast(2,'ARTILLERY','rebel-arty-first');
+    assert.equal(r.commandSide,'REBEL');assert.equal(r.targetSide,'CHIEF');assert.equal(r.commanderName,'계정2');assert.equal(r.damage,150000);assert.equal(r.nextUseAt,f.now+2700000);
+    let round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();assert.equal(Number(round.chief_hp),350000);assert.equal(Number(round.rebel_hp),500000);
+    assert.equal((await cast(1,'ARTILLERY','chief-arty-same-time')).nextUseAt,f.now+1800000);
+    await assert.rejects(cast(2,'ARTILLERY','rebel-arty-early',f.now+2699999),e=>e.status===429);
+    assert.equal((await cast(2,'ARTILLERY','rebel-arty-ready',f.now+2700000)).nextUseAt,f.now+5400000);
+    const rally=await cast(2,'RALLY','rebel-rally-first');assert.equal(rally.nextUseAt,f.now+5400000);assert.deepEqual(rally.affectedUserIds,[2,3,4]);assert.equal(rally.targetSide,'REBEL');
+    assert.equal((await coupStatus(f.env,{id:3},f.now)).mine.energyState.energy,50);
+    assert.equal((await coupStatus(f.env,{id:1},f.now)).mine.energyState.energy,10);
+    await cast(1,'RALLY','chief-rally-same-time');
+    await assert.rejects(cast(2,'RALLY','rebel-rally-early',f.now+5399999),e=>e.status===429);
+    assert.equal((await cast(2,'RALLY','rebel-rally-ready',f.now+5400000)).nextUseAt,f.now+10800000);
+    const commander=await coupStatus(f.env,{id:2},f.now);assert.equal(commander.canUseChiefSkills,false);assert.equal(commander.canUseCommandSkills,true);assert.equal(commander.commander.temporary,true);assert.deepEqual(commander.commandSkills.map(s=>s.code),['ARTILLERY','RALLY']);
+    assert.equal(commander.commandSkills[0].nextUseAt,f.now+5400000);assert.equal(commander.chiefSkills.find(s=>s.code==='ARTILLERY').nextUseAt,f.now+1800000);
+    assert.equal((await coupStatus(f.env,{id:3},f.now)).canUseCommandSkills,false);
+    assert.equal((await coupStatus(f.env,{id:1},f.now)).canUseChiefSkills,true);
+    await f.p("UPDATE coup_rounds_v2115 SET chief_hp=1 WHERE id=?",id).run();
+    assert.equal((await cast(2,'ARTILLERY','rebel-front-advance',f.now+5400000)).frontMoved,true);
+    round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();assert.equal(Number(round.front_index),3);assert.equal(Number(round.chief_hp),500000);
+  });
+  test(`${label}: rebel authority rejects nuclear, inactive/nonmember/stale assignments and preserves cooldown after commander replacement`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();await assign(f,id);
+    const cast=(uid,code,key)=>useCoupChiefSkill(f.env,{id:uid},{roundId:id,skillCode:code,requestId:key},f.now);
+    await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',COUP_SKILL_SETTINGS,JSON.stringify({nuclearEnabled:true})).run();
+    await assert.rejects(cast(2,'NUCLEAR','rebel-nuclear-denied'),e=>e.status===403);
+    await assert.rejects(cast(3,'RALLY','rebel-other-denied'),e=>e.status===403);
+    await f.p("UPDATE users SET status='BLOCKED' WHERE id=2").run();await assert.rejects(cast(2,'RALLY','inactive-commander'),e=>e.status===403);
+    await f.p("UPDATE users SET status='ACTIVE' WHERE id=2").run();
+    await assign(f,id,5);await assert.rejects(cast(5,'RALLY','loyalist-commander'),e=>e.status===403);
+    await assign(f,id);const first=await cast(2,'RALLY','replace-before-rally');await assign(f,id,3);
+    await assert.rejects(cast(2,'ARTILLERY','revoked-commander'),e=>e.status===403);
+    await assert.rejects(cast(3,'RALLY','replacement-cooldown'),e=>e.status===429);
+    assert.equal((await cast(2,'RALLY','replace-before-rally')).replayed,true);
+    await assert.rejects(cast(3,'RALLY','replace-before-rally'),e=>e.status===403);
+    const settings={...JSON.parse((await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first()).settings_json),rebelCommand:{roundId:'another-round',userId:3}};
+    await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify(settings),id).run();
+    await assert.rejects(cast(3,'ARTILLERY','wrong-round-command'),e=>e.status===403);
+    assert.equal((await coupStatus(f.env,{id:3},f.now)).rebelCommander,null);
+    await f.p("UPDATE coup_rounds_v2115 SET status='FINISHED',winner='DRAW' WHERE id=?",id).run();
+    const next=await openCoupRound(f.env,f.now+1000);assert.equal(JSON.parse(next.settings_json).rebelCommand,undefined);assert.equal(first.energyGranted,50);
+  });
+  test(`${label}: rebel skill receipt failures and in-flight revocation roll back all effects; concurrent retry casts once`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();await assign(f,id);
+    const cast=key=>useCoupChiefSkill(f.env,{id:2},{roundId:id,skillCode:'ARTILLERY',requestId:key},f.now);
+    f.fail('INSERT INTO coup_skills_v2118');await assert.rejects(cast('rebel-write-failure'),/INJECTED_FAILURE/);f.fail('');
+    assert.equal(Number((await f.p('SELECT chief_hp FROM coup_rounds_v2115 WHERE id=?',id).first()).chief_hp),500000);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skill_cooldowns_v2118').first()).n),0);
+    const batch=f.env.DB.batch.bind(f.env.DB);let revoke=true;
+    f.env.DB.batch=async stmts=>{if(revoke){revoke=false;const r=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();const s=JSON.parse(r.settings_json);delete s.rebelCommand;await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify(s),id).run();}return batch(stmts)};
+    await assert.rejects(cast('rebel-revoked-inflight'),e=>e.status===409);f.env.DB.batch=batch;
+    assert.equal(Number((await f.p('SELECT chief_hp FROM coup_rounds_v2115 WHERE id=?',id).first()).chief_hp),500000);
+    await assign(f,id);
+    const outcomes=await Promise.allSettled([cast('rebel-concurrent-a'),cast('rebel-concurrent-b')]);assert.equal(outcomes.filter(r=>r.status==='fulfilled').length,1);
+    const key=outcomes.find(r=>r.status==='fulfilled').value.requestId;assert.equal((await cast(key)).replayed,true);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skills_v2118').first()).n),1);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_atomic_guard_v2115').first()).n),0);
+  });
   test(`${label}: trial round jails every rebel for exactly 3 hours with no coin debit, rollback and replay safe`, async t => {
     const f=await fixture(t,pg),id=await f.prepare('CHIEF');
     const round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();

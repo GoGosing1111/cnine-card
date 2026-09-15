@@ -35,16 +35,24 @@
   function trialNotice() {
     return rebelTrial() ? '<p class="coup-trial-notice"><b>이번 회차 시범 운영</b><span>반란군 패배 시 코인 차감 없이 전원 3시간 수감</span></p>' : '';
   }
+  const commandSkills = () => state?.commandSkills || state?.chiefSkills || [];
+  const canCommand = () => state?.canUseCommandSkills ?? state?.canUseChiefSkills;
+  const rebelCommand = () => state?.commandSide === 'REBEL';
+  const commandLabel = () => rebelCommand() ? '반란군 지휘관' : '족장';
+  const cooldownLabel = ms => { const m = Math.ceil(Number(ms) / 60000); return [m >= 60 ? Math.floor(m / 60) + '시간' : '', m % 60 ? m % 60 + '분' : ''].filter(Boolean).join(' '); };
   function skillConsole() {
-    if (!state?.round || !state.chiefSkills?.length) return '';
-    return `<section class="coup-chief-arsenal"><header><div><span class="coup-eyebrow">CHIEF’S SUPREME COMMAND</span><h2>족장의 결단</h2></div><p>${state.canUseChiefSkills ? '족장 전용 권한' : '족장만 발동 가능'}<b>포격 30분 · 결집 1시간</b></p></header><div class="coup-skill-grid">${state.chiefSkills.map((s,i) => `<button class="coup-skill-card ${s.code.toLowerCase()}" data-coup-skill="${s.code}" aria-label="${esc(s.name)} · ${esc(s.effect)} · 상세 보기"><img src="${esc(s.image)}" alt="" loading="lazy"><span class="coup-skill-number">0${i+1}</span><span class="coup-skill-type">${esc(s.label)}</span><span class="coup-skill-copy"><strong>${esc(s.name)}</strong><span>${esc(s.effect)}</span></span><span class="coup-skill-status" data-skill-status="${s.code}">${s.enabled === false ? '잠금 · OFF' : s.nextUseAt > now() ? countdown(s.nextUseAt) : state.canUseChiefSkills ? '발동 준비' : '스킬 정보'}<i>↗</i></span></button>`).join('')}</div></section>`;
+    const skills = commandSkills(); if (!state?.round || !skills.length) return '';
+    const commander = state.commander?.nickname || (rebelCommand() ? '지정 대기' : state.round.chiefName);
+    const timing = skills.filter(s => s.code !== 'NUCLEAR').map(s => `${s.code === 'ARTILLERY' ? '포격' : '결집'} ${cooldownLabel(s.cooldownMs)}`).join(' · ');
+    return `<section class="coup-chief-arsenal ${rebelCommand() ? 'is-rebel' : ''}"><header><div><span class="coup-eyebrow">${rebelCommand() ? 'REBEL COMMAND' : 'CHIEF’S SUPREME COMMAND'}</span><h2>${rebelCommand() ? '반란군의 결단' : '족장의 결단'}</h2><span class="coup-commander-name">${rebelCommand() ? '임시 지휘관' : '족장'} · ${esc(commander)}</span></div><p>${canCommand() ? '지휘 권한 활성' : commandLabel() + '만 발동 가능'}<b>${timing}</b></p></header><div class="coup-skill-grid">${skills.map((s,i) => `<button class="coup-skill-card ${s.code.toLowerCase()}" data-coup-skill="${s.code}" aria-label="${esc(s.name)} · ${esc(s.effect)} · 상세 보기"><img src="${esc(s.image)}" alt="" loading="lazy"><span class="coup-skill-number">0${i+1}</span><span class="coup-skill-type">${esc(s.label)}</span><span class="coup-skill-copy"><strong>${esc(s.name)}</strong><span>${esc(s.effect)}</span></span><span class="coup-skill-status" data-skill-status="${s.code}">${s.enabled === false ? '잠금 · OFF' : s.nextUseAt > now() ? countdown(s.nextUseAt) : canCommand() ? '발동 준비' : '스킬 정보'}<i>↗</i></span></button>`).join('')}</div></section>`;
   }
   function skillResult(result) {
     const skill = state?.chiefSkills?.find(s => s.code === result.skillCode); if (!skill) return;
     eventIds.add(result.requestId);
+    const side = result.commandSide || 'CHIEF', target = result.targetSide || (result.skillCode === 'RALLY' ? side : side === 'CHIEF' ? 'REBEL' : 'CHIEF');
     const mineHit = result.skillCode !== 'ARTILLERY' && result.affectedUserIds?.includes(Number(state.viewerId));
-    const message = result.skillCode === 'NUCLEAR' ? `${num(result.affectedCount)}명 행동력 0 · 10분간 회복 차단` : result.skillCode === 'ARTILLERY' ? `${esc(result.nodeName)} · 반란군 HP −${num(result.damage)}` : `족장팀 ${num(result.affectedCount)}명 · 행동력 50 충전`;
-    const d = modal(`<div class="coup-skill-popup ${result.skillCode.toLowerCase()} is-result"><img class="coup-skill-popup-art" src="${esc(skill.image)}" alt="${esc(skill.name)} 발동 일러스트"><div class="coup-skill-popup-copy"><span class="coup-eyebrow">SUPREME COMMAND · 발동 완료</span><h2>${esc(skill.name)}</h2><p class="coup-skill-result-chief">족장 ${esc(result.chiefName)}의 명령</p><div class="coup-skill-impact">${message}</div>${mineHit ? `<p class="coup-skill-personal">${result.skillCode === 'NUCLEAR' ? '내 부대가 피격되었습니다. 회복 차단 종료까지 ' : '내 행동력이 50으로 충전되었습니다.'}${result.skillCode === 'NUCLEAR' ? `<time data-coup-until="${result.blockedUntil}">${countdown(result.blockedUntil)}</time>` : ''}</p>` : ''}${result.frontMoved ? `<p>${result.winner ? '마지막 거점을 돌파했습니다.' : '반란군 방어선 돌파 · 다음 거점으로 진격합니다.'}</p>` : ''}<button class="coup-primary" data-skill-result-close>전황 확인 <span>→</span></button></div></div>`, `${skill.name} 발동`);
+    const message = result.skillCode === 'NUCLEAR' ? `${num(result.affectedCount)}명 행동력 0 · 10분간 회복 차단` : result.skillCode === 'ARTILLERY' ? `${esc(result.nodeName)} · ${sideName(target)} HP −${num(result.damage)}` : `${sideName(target)} ${num(result.affectedCount)}명 · 행동력 50 충전`;
+    const d = modal(`<div class="coup-skill-popup ${result.skillCode.toLowerCase()} is-result"><img class="coup-skill-popup-art" src="${esc(skill.image)}" alt="${esc(skill.name)} 발동 일러스트"><div class="coup-skill-popup-copy"><span class="coup-eyebrow">${side === 'REBEL' ? 'REBEL COMMAND' : 'SUPREME COMMAND'} · 발동 완료</span><h2>${esc(skill.name)}</h2><p class="coup-skill-result-chief">${side === 'REBEL' ? '반란군 지휘관' : '족장'} ${esc(result.commanderName || result.chiefName)}의 명령</p><div class="coup-skill-impact">${message}</div>${mineHit ? `<p class="coup-skill-personal">${result.skillCode === 'NUCLEAR' ? '내 부대가 피격되었습니다. 회복 차단 종료까지 ' : '내 행동력이 50으로 충전되었습니다.'}${result.skillCode === 'NUCLEAR' ? `<time data-coup-until="${result.blockedUntil}">${countdown(result.blockedUntil)}</time>` : ''}</p>` : ''}${result.frontMoved ? `<p>${result.winner ? '마지막 거점을 돌파했습니다.' : sideName(target) + ' 방어선 돌파 · 다음 거점으로 진격합니다.'}</p>` : ''}<button class="coup-primary" data-skill-result-close>전황 확인 <span>→</span></button></div></div>`, `${skill.name} 발동`);
     d.classList.add('coup-skill-dialog'); d.querySelector('[data-skill-result-close]').onclick = () => d.close();
   }
   function collectSkillEvents(next) {
@@ -53,13 +61,13 @@
     for (const e of [...events].reverse()) if (!eventIds.has(e.requestId)) { eventIds.add(e.requestId); skillQueue.push(e); }
   }
   function openSkill(code) {
-    const s = state?.chiefSkills?.find(s => s.code === code); if (!s) return;
-    const allowed = s.enabled !== false && state.canUseChiefSkills && (pendingSkill?.skillCode === code || s.nextUseAt <= now()) && !busy;
-    const d = modal(`<div class="coup-skill-popup ${code.toLowerCase()}"><img class="coup-skill-popup-art" src="${esc(s.image)}" alt="${esc(s.name)} 일러스트"><div class="coup-skill-popup-copy"><span class="coup-eyebrow">CHIEF’S SUPREME COMMAND · 0${state.chiefSkills.indexOf(s)+1}</span><h2>${esc(s.name)}</h2><div class="coup-skill-impact">${esc(s.effect)}</div><p>${esc(s.detail)}</p><dl><div><dt>적용 대상</dt><dd>${esc(s.label)}</dd></div><div><dt>재사용 대기</dt><dd>${s.cooldownMs === 3600000 ? '1시간' : '30분'} · 스킬별 적용</dd></div></dl><button class="coup-primary" data-skill-execute ${allowed ? '' : 'disabled'}>${pendingSkill?.skillCode === code ? '발동 결과 다시 확인' : s.enabled === false ? '원자폭탄 잠금 · 운영자 ON 대기' : !state.canUseChiefSkills ? '현재 족장만 발동할 수 있습니다' : s.nextUseAt > now() ? '재사용 대기 중' : '스킬 발동'} <span>→</span></button><p class="coup-skill-error" data-skill-error role="status"></p></div></div>`, s.name);
+    const skills = commandSkills(), s = skills.find(s => s.code === code); if (!s) return;
+    const allowed = s.enabled !== false && canCommand() && (pendingSkill?.skillCode === code || s.nextUseAt <= now()) && !busy;
+    const d = modal(`<div class="coup-skill-popup ${code.toLowerCase()}"><img class="coup-skill-popup-art" src="${esc(s.image)}" alt="${esc(s.name)} 일러스트"><div class="coup-skill-popup-copy"><span class="coup-eyebrow">${rebelCommand() ? 'REBEL COMMAND' : 'CHIEF’S SUPREME COMMAND'} · 0${skills.indexOf(s)+1}</span><h2>${esc(s.name)}</h2><div class="coup-skill-impact">${esc(s.effect)}</div><p>${esc(s.detail)}</p><dl><div><dt>적용 대상</dt><dd>${esc(s.label)}</dd></div><div><dt>재사용 대기</dt><dd>${cooldownLabel(s.cooldownMs)} · 스킬별 적용</dd></div></dl><button class="coup-primary" data-skill-execute ${allowed ? '' : 'disabled'}>${pendingSkill?.skillCode === code ? '발동 결과 다시 확인' : s.enabled === false ? '원자폭탄 잠금 · 운영자 ON 대기' : !canCommand() ? '현재 ' + commandLabel() + '만 발동할 수 있습니다' : s.nextUseAt > now() ? '재사용 대기 중' : '스킬 발동'} <span>→</span></button><p class="coup-skill-error" data-skill-error role="status"></p></div></div>`, s.name);
     d.classList.add('coup-skill-dialog');
     const button = d.querySelector('[data-skill-execute]');
     button.onclick = async () => {
-      if (busy || !state?.canUseChiefSkills || s.enabled === false) return;
+      if (busy || !canCommand() || s.enabled === false) return;
       if (pendingSkill && pendingSkill.skillCode !== code) { d.querySelector('[data-skill-error]').textContent = '이전에 요청한 스킬의 결과를 먼저 확인하세요.'; return; }
       const version = epoch; pendingSkill ||= { roundId: state.round.id, skillCode: code, requestId: crypto.randomUUID() };
       busy = true; clearTimeout(poll); button.disabled = true; button.textContent = '명령 전달 중…';
@@ -106,7 +114,7 @@
     document.querySelectorAll('[data-coup-until]').forEach(n => { n.textContent = countdown(n.dataset.coupUntil); });
     const b = root?.querySelector('[data-coup-attack]');
     if (b && !busy) { const e = currentEnergy(), wait = Math.ceil((Number(state?.mine?.next_attack_at || 0) - now()) / 1000), empty = !e || e.energy < 1; b.disabled = !pendingAttack && (empty || wait > 0 || now() >= Number(state?.round?.endsAt)); b.innerHTML = pendingAttack ? '전투 결과 다시 확인' : empty ? !e ? '행동력 확인 중' : e.blockedUntil > now() ? '피격 · 회복 차단 중' : '행동력 회복 대기' : wait > 0 ? `다음 출격 ${wait}초` : '전선 출격 <span>→</span>'; }
-    root?.querySelectorAll('[data-skill-status]').forEach(el => { const s = state.chiefSkills.find(s => s.code === el.dataset.skillStatus); el.innerHTML = `${s.enabled === false ? '잠금 · OFF' : s.nextUseAt > now() ? countdown(s.nextUseAt) : state.canUseChiefSkills ? '발동 준비' : '스킬 정보'}<i>↗</i>`; });
+    root?.querySelectorAll('[data-skill-status]').forEach(el => { const s = commandSkills().find(s => s.code === el.dataset.skillStatus); if (s) el.innerHTML = `${s.enabled === false ? '잠금 · OFF' : s.nextUseAt > now() ? countdown(s.nextUseAt) : canCommand() ? '발동 준비' : '스킬 정보'}<i>↗</i>`; });
     if (root?.isConnected && skillQueue.length && !busy && !document.querySelector('.coup-dialog')) skillResult(skillQueue.shift());
   }
   function modal(content, label) {
