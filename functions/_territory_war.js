@@ -1,3 +1,4 @@
+import {pigCoinRewardStatements} from './_loot_shop.js';
 import {releasedMercenarySnapshot,mercenarySnapshotPower} from './_mercenary_account.js';
 import {
   GAMST_TERRITORY_FORMATION_MARKER_KEY,
@@ -1237,6 +1238,7 @@ async function claimV3(env,deps,user){
         SELECT ?,?,'TERRITORY_WAR',?,?
         WHERE EXISTS(SELECT 1 FROM territory_war_v3_rewards WHERE round_id=? AND user_id=? AND claimed_at IS NULL AND result='WIN')`).bind(user.id,equipmentId,String(reward.round_id),`TW3-${reward.round_id}-${user.id}-${equipmentId}-${index+1}`,reward.round_id,user.id));
     }
+    statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'TERRITORY',referenceId:`${reward.version}:${reward.round_id}`,guardSql:`EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL AND result IN ('WIN','LOSE','DRAW'))`,guardBindings:[reward.round_id,user.id]}));
     statements.push(env.DB.prepare(`UPDATE ${table} SET claimed_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(reward.round_id,user.id));
     const results=await env.DB.batch(statements),claimed=results?.[results.length-1];
     if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);const [state,balance]=await Promise.all([publicState(env,user.id),env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,coin,shards,premiumCubes,scrapyardTickets,mysticEnergy,bonusEquipment,state,coinAfter:Number(balance?.coin||0),cardShardsAfter:Number(balance?.card_shards||0)});

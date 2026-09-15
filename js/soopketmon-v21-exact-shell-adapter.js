@@ -78,7 +78,7 @@
    * renderShell binders depend on them.
    */
   const MENU_GROUPS = Object.freeze({
-    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'inventory']) }),
+    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop', 'inventory']) }),
     collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic']) }),
     pve: Object.freeze({ title: 'PVE 전투', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
     pvp: Object.freeze({ title: 'PVP·경쟁', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
@@ -96,6 +96,7 @@
   });
   const ROUTE_META = Object.freeze({
     buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
+    lootShop: Object.freeze({ title: '고급 전리품 상점', group: 'store', icon: 'gift' }),
     dex: Object.freeze({ title: '도감', group: 'collection', icon: 'book', home: Object.freeze({ title: '도감·강화', meta: '카드 수집 · 상세 · 진화' }) }),
     mercenaryDex: Object.freeze({ title: '용병도감', group: 'collection', icon: 'cards' }),
     upgrade: Object.freeze({ title: '일괄 강화', group: 'collection', icon: 'upgrade' }),
@@ -228,6 +229,7 @@
         <button class="resource-chip coin ui-press" type="button" aria-label="코인 ${coin.toLocaleString()}"><i></i><span><small>코인</small><b><span class="resource-full">${coin.toLocaleString()}</span><span class="resource-short">${compact(coin)}</span></b></span></button>
         <button class="resource-chip shard ui-press" type="button" aria-label="카드 조각 ${shards.toLocaleString()}"><i></i><span><small>조각</small><b>${compact(shards)}</b></span></button>
         <button class="resource-chip master-star ui-press" type="button" aria-label="마스터의 별 ${masterStars.toLocaleString()}" title="마스터의 별 ${masterStars.toLocaleString()}"><i aria-hidden="true">★</i><span><small><span class="resource-full">마스터의 별</span><span class="resource-short">마별</span></small><b><span class="resource-full">${masterStars.toLocaleString()}</span><span class="resource-short">${compact(masterStars)}</span></b></span></button>
+        <a class="resource-chip pig-coin ui-press" href="/loot-shop/" aria-label="피그 코인 · 고급 전리품 상점"><img src="/assets/items/pig-coin-v1.png" alt=""><span><small>피그 코인</small><b data-pig-coin-balance>—</b></span></a>
       </div>
       <button class="hud-mail ui-press" type="button" data-v21-route="messages" aria-label="메시지함"><span>${svg('mail')}</span><b class="notification-dot" data-message-new-badge data-v21-message-badge hidden></b></button>`;
   }

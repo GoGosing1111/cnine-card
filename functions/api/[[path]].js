@@ -1,3 +1,4 @@
+import {handleLootShop} from '../_loot_shop.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
 import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
@@ -4677,6 +4678,7 @@ async function ensureBreakthroughAutoReceipts(env){
 function serializedGameAction(path,method){
   if(String(method).toUpperCase()!=='POST'||String(path).startsWith('admin/'))return false;
   // Joint endpoints acquire the same lock inside their authenticated handler.
+  if(String(path).startsWith('loot-shop/'))return false;
   if(isPveV3Path(String(path))||mercenaryUsesInnerLock(String(path))||(V3_JOINT_RELEASE_ENABLED&&isForgeRuntimePath(String(path))))return false;
   if(V3_JOINT_RELEASE_ENABLED&&String(path).startsWith('idle-dungeon/'))return false;
   // 영토전 공격은 자체 requestId 영수증 + 사용자 공격 락으로 원자 처리한다.
@@ -5207,6 +5209,7 @@ async function handleRequest(context){
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
+    const lootShopResponse=await handleLootShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(lootShopResponse)return lootShopResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
     const wishLampResponse=await handleWishLamp({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(wishLampResponse)return wishLampResponse;

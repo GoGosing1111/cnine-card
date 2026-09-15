@@ -43,6 +43,7 @@
   // entry, or overlay. No production view/binder is replaced by this adapter.
   const ROUTE_CONTRACT = Object.freeze({
     buy: { shell: 'buy' },
+    lootShop: Object.freeze({ href: '/loot-shop/' }),
     dex: { shell: 'dex' },
     mercenaryDex: Object.freeze({ href: '/mercenary-codex/' }),
     upgrade: { shell: 'upgrade' },

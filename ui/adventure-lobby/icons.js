@@ -2,7 +2,7 @@
 // category symbols are reserved for the lobby navigation.
 (function(global){
   'use strict';
-  global.SoopLobbyRouteIcons=Object.freeze({
+  global.SoopLobbyRouteIcons=Object.freeze({lootShop:'<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="13" rx="5" ry="4"/><path d="M7 10 6 6l4 2m7 2 1-4-4 2M10 13v1m4-1v1"/>',
     battle:'<circle cx="12" cy="12" r="9"/><path d="m15.5 5.5-2 7.5-7 4 2-7.5Z"/><circle cx="11" cy="11.5" r="1"/>',
     deck:'<rect x="7" y="3" width="10" height="15" rx="1.5"/><path d="m4 6-3 1 3 14 5-1M20 6l3 1-3 14-5-1M10 8h4m-4 4h4"/>',
     hunt:'<path d="m5 8-2-5 6 3h6l6-3-2 5 1 8-5 5H9l-5-5Z"/><path d="m7 10 3 2m7-2-3 2M9 16l3 2 3-2m-3 2v3"/>',

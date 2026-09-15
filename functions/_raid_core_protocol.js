@@ -1,3 +1,4 @@
+import {pigCoinRewardStatements} from './_loot_shop.js';
 import {CORE_MECHANIC_VERSION,createCoreMechanicPlans,coreMechanicPlans,coreMechanicEvents,verifyScreenMechanic,MECHANIC_NAMES} from '../shared/core-raid-mechanics-v2086.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 // 붕괴 코어 레이드는 라이브 월드 레이드와 분리된 방 기반 협동 콘텐츠다.
@@ -2050,6 +2051,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
       ).bind(rewardShards, user.id, ...guardBind)
     );
   }
+  statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind}));
   statements.push(
     env.DB.prepare(
       'UPDATE ' + REWARD_RECEIPT_TABLE +

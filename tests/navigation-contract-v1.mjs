@@ -56,7 +56,8 @@ assert.deepEqual(
 );
 
 assert.equal(navigation.routes.deck.title, 'PVE 덱 편성실');
-assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'inventory'], 'inventory must sit beside the card store in the first group');
+assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'lootShop', 'inventory'], 'card store, loot exchange and inventory remain together in the store group');
+assert.equal(router.routeContract.lootShop.href, '/loot-shop/', 'loot exchange opens its shared-navigation workspace');
 assert.equal(navigation.routes.inventory.group, 'store');
 assert.ok(!Array.from(navigation.groups.market.routes).includes('inventory'));
 assert.deepEqual(Array.from(navigation.groups.equipment.routes), ['character', 'avatar'], 'combined loadout entry replaces equipment/title/garage duplicates');

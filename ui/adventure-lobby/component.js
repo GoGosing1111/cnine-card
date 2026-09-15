@@ -26,6 +26,7 @@
       root.getElementById('fullscreen-button').onclick=()=>global.SoopketmonV21ExactShell.toggleFullscreen();
       this.updateUnread(Number((global.document.querySelector('[data-message-new-badge]')?.textContent||'').match(/\d+/)?.[0]||0));
       this.update({user});
+      global.dispatchEvent(new CustomEvent('cnine:pig-wallet-mounted'));
       this.setRoute(this.dataset.route||'home');
       this.layoutObserver=new ResizeObserver(()=>this.measureChrome());
       for(const el of root.querySelectorAll('.topbar,.sidebar,.mobile-dock'))this.layoutObserver.observe(el);

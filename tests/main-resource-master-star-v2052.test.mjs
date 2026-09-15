@@ -41,7 +41,9 @@ function loadHud(initialUser) {
 
 test('main HUD shows Master Stars rather than magic crystals, preserving coin/shards', () => {
   const html = loadHud({ nickname: '테스트', coin: 15340051779, cardShards: 2000000, magicCrystals: 95295, masterStars: 12345 }).render();
-  assert.equal((html.match(/class="resource-chip /g) || []).length, 3);
+  assert.equal((html.match(/class="resource-chip /g) || []).length, 4);
+  assert.match(html, /class="resource-chip pig-coin/);
+  assert.match(html, /data-pig-coin-balance/);
   assert.match(html, /aria-label="코인 15,340,051,779"/);
   assert.match(html, /aria-label="카드 조각 2,000,000"/);
   assert.match(html, /class="resource-chip master-star ui-press"/);

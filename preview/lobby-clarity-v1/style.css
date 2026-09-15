@@ -136,3 +136,8 @@ slot[name="bgm"]{display:block;min-width:1px;min-height:34px}
 
 /* Keep the all-menu control reachable even on short desktop windows. */
 @media(min-width:981px){.sidebar{display:flex;flex-direction:column;overflow:hidden}.sidebar-label{flex:none}.sidebar nav{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#3b4b66 transparent}.side-link{flex-shrink:0}.all-menu{flex:none;margin-top:12px;min-height:48px;padding:14px 12px}.sidebar-help{flex:none;min-height:36px;margin:8px 12px 0}}
+
+/* Pig coin joins the same live wallet; compact layout keeps all four balances visible. */
+.wallet-pig{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);white-space:nowrap}.wallet-pig img{width:21px;height:21px;object-fit:contain}.wallet-pig b{color:var(--lime)}
+@media(min-width:981px) and (max-width:1380px){.topbar{gap:16px}.topbar .wallet{gap:14px}.wallet b{margin-left:2px;font-size:18px}.wallet>span,.wallet-pig{font-size:10px}.header-help{padding:0 10px;font-size:11px}.profile-summary b{max-width:90px}}
+@media(max-width:650px){.topbar .wallet{gap:7px;flex-wrap:wrap;flex-basis:calc(100% - 104px)}.wallet>span,.wallet-pig{flex:1 1 calc(50% - 7px);display:flex;flex-wrap:nowrap;gap:3px;font-size:8px}.wallet b{margin-left:auto;flex-basis:auto;font-size:14px}.wallet-pig img{width:13px;height:13px}.wallet-pig span{white-space:nowrap}.wallet-pig b{color:var(--lime)}}
