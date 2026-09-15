@@ -43,10 +43,10 @@ test('공통 풀 10%·지원금·원금 포함·순이익 계산',()=>{
   const extra=model.estimate(e,1,1000000);assert.equal(extra.pool,31000000);assert.equal(extra.optionPool,11000000);assert.equal(extra.stake,2000000);assert.equal(extra.payout,Math.floor(30900000*2000000/11000000));
   assert.equal(model.estimate(e,2),null);
 });
-test('집계 전·단독 참여 0.9배·소수점·5억·OWNER 대형 금액 경계',()=>{
+test('집계 전·단독 참여 0.9배·소수점·20억·OWNER 대형 금액 경계',()=>{
   const e={total_pool:0,options:[{id:1,total_bet:0}]};assert.equal(model.estimate(e,1).payout,null);assert.equal(model.estimate(e,1).odds,null);
   assert.equal(model.estimate(e,1,100000).payout,90000);assert.equal(model.estimate(e,1,100000).profit,-10000);
-  for(const stake of [100000,500000000,125000000000]){
+  for(const stake of [100000,2000000000,125000000000]){
     const event={total_pool:stake*3+1,treasury_subsidy:333333,fee_percent:10,options:[{id:1,total_bet:stake+3}],myBet:{option_id:1,amount:stake,status:'ACTIVE'}};
     assert.equal(model.estimate(event,1).payout,Math.floor((Math.floor(event.total_pool*(100-10)/100)+333333)*stake/(stake+3)));
   }
@@ -91,7 +91,7 @@ test('필터 개편 이후 기존 배팅·같은 선택 추가·요청 재시도
   const replay=await request('coin-prediction/bet',payload,'USER');assert.equal(replay.body.replayed,true);
   assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,coinBefore-1000000);
   assert.equal((await request('coin-prediction/bet',{...payload,requestId:'different-option',optionId:12},'USER')).status,409);
-  assert.equal((await request('coin-prediction/bet',{...payload,requestId:'over-event-limit',amount:500000000},'USER')).status,400);
+  assert.equal((await request('coin-prediction/bet',{...payload,requestId:'over-event-limit',amount:2000000000},'USER')).status,400);
   assert.equal((await request('coin-prediction/bet',{...payload,requestId:'additional-ok'},'USER')).status,200);
 });
 test('기존 마감·정산식·무효 환불 경로는 새 UI와 그대로 호환',async()=>{
@@ -166,4 +166,23 @@ test('스타 경기 CMS 등록·기존 분류 변경·유저/CMS 조회가 실�
     assert.equal(listed.body.navigation.categoryCounts.STARCRAFT,listed.body.navigation.total);
     const other=await request(path+'?category=OTHER');assert.ok(other.body.events.every(e=>e.category==='OTHER'&&e.id!==id&&e.id!==3));
   }
+});
+
+
+test('경기당 누적 20억 허용, 초과 요청은 차감 없이 거부',async()=>{
+  db.prepare('UPDATE users SET coin=10000000000 WHERE id=2').run();
+  const created=await request('admin/coin-prediction/event',{title:'20억 경계 검증',closesAt:close,options:['승','패']});
+  assert.equal(created.status,200);
+  const eventId=created.body.id,optionId=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(eventId).id;
+  assert.equal(db.prepare('SELECT max_bet FROM coin_prediction_events WHERE id=?').get(eventId).max_bet,2000000000);
+  assert.equal(created.body.state.settings.maxBetPerEvent,2000000000);
+  assert.equal(created.body.state.terms.version,'2026-09-15');
+  assert.ok(created.body.state.terms.items.some(x=>x.includes('2,000,000,000코인')));
+  const submit=(amount,requestId)=>request('coin-prediction/bet',{eventId,optionId,amount,requestId},'USER');
+  assert.equal((await submit(2000000001,'twenty-over-single')).status,400);
+  assert.equal((await submit(500000000,'twenty-first-five')).status,200);
+  assert.equal((await submit(1500000000,'twenty-add-fifteen')).status,200);
+  assert.equal((await submit(100000,'twenty-over-cumulative')).status,400);
+  assert.equal(db.prepare('SELECT amount FROM coin_prediction_bets WHERE event_id=? AND user_id=2').get(eventId).amount,2000000000);
+  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,8000000000);
 });
