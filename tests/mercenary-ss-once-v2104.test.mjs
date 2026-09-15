@@ -64,3 +64,46 @@ for(const postgres of [false,true]){
   const r=await open(f);assert.equal(r.draws[9].duplicate,true);assert.equal(r.draws[9].duplicateCount,1);assert.equal(r.draws[9].totalCopies,2);
  });
 }
+
+for(const postgres of [false,true]){
+ const dialect=postgres?'PostgreSQL':'SQLite';
+ const armTarget=async f=>f.setting(mercenarySsOnceKey(7),mercenarySsOnceState({...f.state,mercenaryCode:'V-004',slotIndex:2}));
+ test(dialect+': targeted Vespera appears in third slot once, ordered receipt and other accounts remain normal',async t=>{
+  const f=await fixture(t,postgres);await armTarget(f);
+  const random=max=>max===1000000?0:max-1;
+  assert.equal(grants(await open(f,1,crypto.randomUUID(),f.user,random)).length,0);
+  assert.equal(grants(await open(f,10,crypto.randomUUID(),{...f.user,id:8},random)).length,0);
+  assert.equal((await f.once()).status,'ARMED');
+  const r=await open(f,10,crypto.randomUUID(),f.user,random);
+  assert.equal(r.coinCost,5000000000);assert.equal(grants(r).length,1);
+  assert.equal(r.draws[2].mercenaryCode,'V-004');assert.equal(r.draws[2].rank,'SS');assert.equal(r.draws[2].grantKind,'ONE_TIME_SS_GUARANTEE');
+  assert.equal(mercenaryPackResults(r)[2].mercenaryCode,'V-004');
+  assert.equal((await f.once()).acquisitionId,r.requestId+':2');
+  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?',r.requestId+':2').first()).n),1);
+  assert.deepEqual((await open(f,10,r.requestId,f.user,()=>{throw Error('No reroll')})).draws,r.draws);
+  assert.equal(grants(await open(f)).length,0);
+ });
+ test(dialect+': targeted grant rolls back on failure, competing stale request cannot grant or charge twice',async t=>{
+  const f=await fixture(t,postgres);await armTarget(f);
+  await f.p('UPDATE users SET coin=1 WHERE id=7').run();
+  await assert.rejects(()=>open(f),e=>e.code==='MERCENARY_FUNDS');assert.equal((await f.once()).status,'ARMED');
+  await f.p('UPDATE users SET coin=60000000000 WHERE id=7').run();
+  const stale=crypto.randomUUID();f.fail('INSERT INTO mercenary_card_acquisitions_v1');
+  await assert.rejects(()=>open(f,10,stale));assert.equal((await f.once()).status,'ARMED');assert.equal(await f.coin(),60000000000);f.fail('');
+  const r=await open(f);assert.equal(r.draws[2].mercenaryCode,'V-004');
+  await assert.rejects(()=>open(f,10,stale),e=>e.code==='JOINT_OPERATION_SUPERSEDED');
+  assert.equal(await f.coin(),55000000000);assert.equal((await f.once()).status,'CONSUMED');
+  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM admin_logs WHERE action_type='MERCENARY_SS_ONCE_CONSUMED'").first()).n),1);
+ });
+ test(dialect+': targeted configuration rejects non-SS card without consuming or charging',async t=>{
+  const f=await fixture(t,postgres);await armTarget(f);
+  f.document.mercenaries.find(c=>c.code==='V-004').rank='S';
+  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
+  await assert.rejects(()=>open(f),e=>e.code==='MERCENARY_SS_ONCE_TARGET');
+  assert.equal((await f.once()).status,'ARMED');assert.equal(await f.coin(),60000000000);
+ });
+}
+test('targeted one-time grant requires a complete, bounded card and slot pair',()=>{
+ const base={userId:7,actorId:7,operationId:'targeted-validation-test',reason:'test'};
+ for(const extra of [{mercenaryCode:'V-004'},{slotIndex:2},{mercenaryCode:'V-004',slotIndex:-1},{mercenaryCode:'V-004',slotIndex:10},{mercenaryCode:'V-004',slotIndex:2.5},{mercenaryCode:'bad',slotIndex:2}])assert.throws(()=>mercenarySsOnceState({...base,...extra}));
+});
