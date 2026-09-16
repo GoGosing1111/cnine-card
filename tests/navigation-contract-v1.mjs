@@ -40,6 +40,7 @@ assert.ok(navigation, 'shared navigation contract must be exported');
 assert.strictEqual(router.navigationContract, navigation, 'runtime router must consume the exact shell contract');
 
 assert.deepEqual(Array.from(navigation.menuGroupOrder), [
+  'inventory',
   'store',
   'collection',
   'pve',
@@ -52,13 +53,16 @@ assert.deepEqual(Array.from(navigation.menuGroupOrder), [
 ]);
 assert.deepEqual(
   Array.from(navigation.menuGroupOrder, id => navigation.groups[id].title),
-  ['카드·상점', '도감·강화', 'PVE 전투', 'PVP·경쟁', '장비·칭호·차고', '제작·합성', '보상', '승부·경매', '행정부']
+  ['인벤토리', '카드·상점', '도감·강화', '모험 · PVE', '대전 · PVP', '장비·칭호·차고', '제작·합성', '보상', '승부·경매', '행정부']
 );
 
 assert.equal(navigation.routes.deck.title, 'PVE 덱 편성실');
-assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'lootShop', 'inventory'], 'card store, loot exchange and inventory remain together in the store group');
+assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'lootShop'], 'stores exclude the standalone inventory');
+assert.deepEqual(Array.from(navigation.groups.inventory.routes), ['inventory']);
 assert.equal(router.routeContract.lootShop.href, '/loot-shop/', 'loot exchange opens its shared-navigation workspace');
-assert.equal(navigation.routes.inventory.group, 'store');
+assert.equal(navigation.routes.inventory.group, 'inventory');
+assert.equal(navigation.routes.territory.group, 'pvp');
+assert.ok(!Array.from(navigation.groups.pve.routes).some(id=>['pvp','rank','territory'].includes(id)));
 assert.ok(!Array.from(navigation.groups.market.routes).includes('inventory'));
 assert.deepEqual(Array.from(navigation.groups.equipment.routes), ['character', 'avatar'], 'combined loadout entry replaces equipment/title/garage duplicates');
 assert.deepEqual(Array.from(navigation.groups.crafting.routes), ['vehicle', 'fusion', 'alchemy'], 'crafting group exposes its three direct actions');

@@ -126,6 +126,8 @@ const server=http.createServer(async(req,res)=>{try{
       if(apiPath==='cards')return send(res,200,{cards:nativeCards});
       if(apiPath==='packs')return send(res,200,{packs:[hyperPackCatalogRow((await hyperOpeningFeature(f.env)).userOpeningEnabled)]});
       if(apiPath==='service/status')return send(res,200,{maintenance:{active:false}});
+      if(apiPath==='inventory')return send(res,200,{items:[],totalQuantity:0,ownedTypes:0});
+      if(apiPath==='loot-shop/balance')return send(res,200,{pigCoins:0});
       if(apiPath==='battle/fight'){const b=await request.json(),deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),monster={id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battle_power:500000};const battleV2=createPveBattleV2({cards:rankCards(deck.cards,await accountRankBenefits(f.env,7,'HUNT')),monster,seed:42});if(battleV2.result.winner==='A')await settleRankedHunt(f.env,7,'HUNT',b.requestId||crypto.randomUUID(),100,'QA HUNT');return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',cards:deck.cards,monster,playerPower:deck.power,monsterPower:500000,reward:100,user:await profile()});}
       if(apiPath==='battle/config')return send(res,200,{deck:ids,deckRules:{gradeLimits:{FUR:5}},monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000}],settings:{},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pve:0},energy:{energy:30,maxEnergy:30,costPerBattle:1}});
       if(apiPath==='pvp/match')return send(res,200,{token:'local-match',opponent:{id:8,nickname:'검수 상대',season_score:0}});

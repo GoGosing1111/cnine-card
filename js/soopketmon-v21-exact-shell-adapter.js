@@ -78,17 +78,18 @@
    * renderShell binders depend on them.
    */
   const MENU_GROUPS = Object.freeze({
-    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop', 'inventory']) }),
+    inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
+    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
     collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic']) }),
-    pve: Object.freeze({ title: 'PVE 전투', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
-    pvp: Object.freeze({ title: 'PVP·경쟁', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
+    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
+    pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'wishLamp']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
     administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'treasury', 'soopketland', 'prison', 'prisoncamp']) })
   });
-  const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market', 'administration']);
+  const MENU_GROUP_ORDER = Object.freeze(['inventory', 'store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market', 'administration']);
   const HUB_GROUPS = Object.freeze({
     cards: Object.freeze({ title: '카드', routes: Object.freeze([...MENU_GROUPS.store.routes, ...MENU_GROUPS.collection.routes]) }),
     combat: Object.freeze({ title: '전투', routes: Object.freeze([...MENU_GROUPS.pve.routes, ...MENU_GROUPS.pvp.routes]) }),
@@ -133,7 +134,7 @@
     wishLamp: Object.freeze({ title: '핑두의 소원램프', group: 'rewards', icon: 'gift' }),
     prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
-    inventory: Object.freeze({ title: '인벤토리', group: 'store', icon: 'inventory' }),
+    inventory: Object.freeze({ title: '인벤토리', group: 'inventory', icon: 'inventory' }),
     soopketland: Object.freeze({ title: '숲켓랜드', group: 'administration', icon: 'gift' }),
     treasury: Object.freeze({ title: '세금징수', group: 'administration', icon: 'treasury' }),
     prison: Object.freeze({ title: '감옥', group: 'administration', icon: 'prison' }),

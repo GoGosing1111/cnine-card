@@ -46,7 +46,7 @@ try{
    if(await lobby.locator('#menu-dialog').evaluate(e=>e.open))await lobby.locator('#close-menu').click();
    const direct=lobby.locator((viewport.width>980?'.sidebar ':'.mobile-dock ')+`[data-category="${category}"]`);
    if(await direct.count())await direct.click();
-   else{await lobby.locator('.mobile-dock [data-category="all"]').click();await lobby.locator(`.category-jump[data-category="${category}"]`).click();}
+   else{await lobby.locator((viewport.width>980?'.sidebar ':'.mobile-dock ')+'[data-category="all"]').click();await lobby.locator(`.category-jump[data-category="${category}"]`).click();}
   };
   check(await lobby.locator('dialog[open]').count()===0,size+' tutorial never opens automatically');
   check(await lobby.locator('#guide-frame').getAttribute('src')===null,size+' tutorial iframe loads only on request');
@@ -79,22 +79,25 @@ try{
   await page.evaluate(()=>loadLiveOperations(true));
   await openCategory('all');
   const allRoutes=await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>({route:e.dataset.route,icon:e.querySelector('svg').innerHTML})));
-  check(allRoutes.length===37&&new Set(allRoutes.map(e=>e.icon)).size===37,size+' all-menu entry retains every visible route with its own icon');
+  check(allRoutes.length===38&&new Set(allRoutes.map(e=>e.icon)).size===38,size+' all-menu entry retains every visible route with its own icon');
   check(await lobby.locator('[data-route="wishLamp"]').count()===0&&await lobby.locator('[data-route="alchemy"]').count()===0,size+' full directory excludes hidden features');
   await lobby.locator('#menu-search').fill('강화');
   check(await lobby.locator('.menu-result[data-route="equipmentForge"]').count()===1,size+' all-menu search still spans all categories');
-  for(const category of ['combat','shop','rewards','social','administration']){
+  for(const category of ['inventory','pve','pvp','shop','rewards','social','administration']){
    await openCategory(category);
    check(await lobby.locator('.menu-result').evaluateAll((els,category)=>els.length>0&&els.every(e=>e.dataset.menuCategory===category),category),size+' '+category+' shows only its own destinations');
    check(await lobby.locator('#category-tabs,.category-divider').count()===0,size+' '+category+' has no all-menu category list');
    check(await lobby.locator('#menu-search').inputValue()==='',size+' changing category clears earlier searches');
+   if(category==='pvp')check(JSON.stringify(await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>e.dataset.route)))===JSON.stringify(['pvp','rank','territory']),size+' duel contains ranked play, ranking and territory');
+   if(category==='pve')check(await lobby.locator('.menu-result[data-route="territory"],.menu-result[data-route="pvp"]').count()===0,size+' adventure excludes player battles');
+   if(category==='inventory')check(await lobby.locator('.menu-result[data-route="inventory"]').count()===1,size+' inventory has its own all-menu group');
    if(category==='shop'){
-    check(await lobby.locator('.menu-result').count()===5,size+' shop opens exactly its five destinations');
+    check(JSON.stringify(await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>e.dataset.route)))===JSON.stringify(['buy','lootShop','mineral','prediction','auction']),size+' shop contains its five destinations and excludes inventory');
     await page.screenshot({path:path.join(out,'live-shop-'+size+'.png')});
     await lobby.locator('#menu-search').fill('토벌');
     check(await lobby.locator('.menu-result').count()===0&&await lobby.locator('#empty-search').isVisible(),size+' category search cannot spill into combat');
    }
-   if(category==='combat')await page.screenshot({path:path.join(out,'live-combat-'+size+'.png')});
+   if(category==='pve')await page.screenshot({path:path.join(out,'live-combat-'+size+'.png')});
   }
   check(await lobby.locator('#directory-title').textContent()==='행정부',size+' administration has its own directory');
   const administration=await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>e.dataset.route));
@@ -138,7 +141,7 @@ try{
   await page.locator('.v21-route-command-head [data-v21-home]').click();
   await lobby.locator('.stage-character').waitFor();
   check(await lobby.locator('dialog[open]').count()===0,size+' returning from auction does not open guide');
-  await lobby.locator(viewport.width>980?'.sidebar [data-category="combat"]':'.mobile-dock [data-category="combat"]').click();
+  await lobby.locator(viewport.width>980?'.sidebar [data-category="pve"]':'.mobile-dock [data-category="pve"]').click();
   await lobby.locator('#menu-dialog .menu-result[data-route="deck"]').click();
   await page.locator('.v21-production-shell[data-route="battle"]').waitFor();
   check(await page.locator('soop-adventure-lobby').count()===1&&await page.locator('.v21-route-body #pveHuntView').count()===1,size+' PVE deck entry retains shared navigation and original battle surface');
