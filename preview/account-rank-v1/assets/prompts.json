@@ -1,0 +1,22 @@
+{
+  "tool": "Built-in image_gen",
+  "intent": "Account-rank concept art, preview only",
+  "references": [
+    "codex-clipboard-3e6f908a-08c9-4bc9-9d1d-e8f7a63254cd.png",
+    "codex-clipboard-0514ff58-ef50-499d-b6da-cbf52cba4ec8.png"
+  ],
+  "assets": [
+    {
+      "file": "marshal-v1.png",
+      "prompt": "Create ONE premium game rank badge, square 1024x1024 PNG, genuinely transparent background OUTSIDE the circle. Reference images are STYLE/COMPOSITION references only: round substantial glossy enamel outer ring, extremely readable cute central mascot, polished Korean game illustration. Design an ORIGINAL SOOPKETMON military mascot: adorable compact white tiger soldier, round white furry face with precisely three dark navy forehead stripes, small rounded tiger ears, teal eyes, tiny peach nose, friendly confident expression. This is the top rank FIELD MARSHAL at level 250. Bust portrait centered in a lavish but readable circular GOLD medal, dark deep emerald inner disk. The tiger wears a tailored dark navy military dress uniform with restrained golden shoulder boards and an ivory peaked officer cap, forest-leaf crest on the cap (a simple two-leaf sprig, NOT flame, triangle or play-button). One paw gives a crisp salute, other stays low. Add a prominent integrated bottom-center dark emerald rank plate with exactly FIVE clean golden stars in a shallow arc, legible at small sizes. Outer ring: sculpted rich gold bevel, restrained bilateral gold laurel leaves, warm enamel reflections. Luxurious 2D hand-painted mobile/PC game icon, high quality edge highlights, no realistic photograph or 3D plastic. Face must occupy 45% of circle diameter. No letters, no numbers, no logos, no watermark, no extra badges, no poster or contact sheet. Entire round medal fully visible with 5% transparent margin. Purpose: account level rank icon visible beside nicknames and on player identity cards."
+    },
+    {
+      "file": "private-v1.png",
+      "prompt": "Create ONE standalone SOOPKETMON game account military rank badge for PRIVATE (low enlisted rank), using the reference as the exact SAME original white tiger mascot and premium Korean 2D painted enamel game-icon style. Keep round white face, navy tiger stripes, small ears, teal eyes, peach nose, cute appealing proportions. CHANGES: a modest glossy polished STEEL/SILVER circular ring with restrained mint-blue accent, deep navy inner disk, absolutely no laurel or gold. Tiger wears a simple dark olive field jacket and dark olive helmet with a small two-leaf sprig emblem (not a flame or play logo), no officer dress uniform or shoulder boards. Friendly focused expression, both paws clutch the collar straps near lower bust. Bottom-center navy rank plate with exactly ONE clearly visible SILVER horizontal rank bar. Full circle centered, 6% margin, genuine transparent pixels outside medal, square 1024 PNG. Large easy-to-read face at 32px icon size. No text, numbers, labels, contact sheet, watermark, weapons. Different pose and uniform befitting a beginner soldier."
+    },
+    {
+      "file": "major-v1.png",
+      "prompt": "Create ONE standalone SOOPKETMON game military rank badge for MAJOR (field officer) using reference as the exact SAME original white tiger mascot and premium Korean 2D painted enamel icon art. Keep round white face, navy tiger stripes, small rounded ears, teal eyes, peach nose and lovely cute proportions. CHANGES: circular glossy RUBY RED enamel outer ring with refined narrow gold edging, rich maroon inside. Tiger wearing navy officer dress uniform with modest gold shoulder strips and a burgundy military beret bearing a small gold two-leaf sprig emblem. Confident slightly smiling face, arms folded across chest. No peaked cap, no salute. Bottom-center burgundy rank plate bears ONE large five-petal gold military flower symbol with dark center; no star, no diamond. No large laurel branches, reserve those for generals. Make uniform, pose, cap, ring differ meaningfully from the marshal. Large face clearly legible small. Center full round medal with 6% margin, genuine transparent background outside circle, square PNG 1024. No text, numbers, logos, watermark, extra badges or contact sheet."
+    }
+  ]
+}

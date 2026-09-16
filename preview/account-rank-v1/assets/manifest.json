@@ -1,0 +1,32 @@
+{
+  "createdAt": "2026-09-16",
+  "tool": "built-in image_gen",
+  "readyArtCount": 3,
+  "totalPlannedRanks": 21,
+  "files": [
+    {
+      "file": "private-v1.png",
+      "sha256": "83d8da0964bca8e04ac891f4a47b2ca367b8cfc797d2ac7dc968b8c629f4a889",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "status": "CONCEPT_REVIEW"
+    },
+    {
+      "file": "major-v1.png",
+      "sha256": "7efaf088d7dde959609ce489bac3b796fafee795694cbec601e0d3dd70436784",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "status": "CONCEPT_REVIEW"
+    },
+    {
+      "file": "marshal-v1.png",
+      "sha256": "0493bd249c583b7a229413585aa1db22a3187ebe1eb714f42ff82a164525edd3",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "status": "CONCEPT_REVIEW"
+    }
+  ]
+}

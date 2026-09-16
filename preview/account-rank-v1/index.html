@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><meta name="robots" content="noindex,nofollow">
+  <title>계급 · 성장 검수안 | 숲켓몬</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../../css/player-card-v2052.css"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#rank-select">계급 선택으로 이동</a>
+<div class="review-strip"><strong>계급 시스템 검수안</strong><span>대표 아이콘 3종 · 혜택·경험치 수치는 제안값</span></div>
+<header class="topbar"><a class="brand" href="./"><img src="../../assets/ui/cninelogo.png" alt="" width="38" height="38"><span>숲켓몬<small>SOOPKETMON</small></span></a><div class="top-location">내 정보 <span>/</span> 계급 · 성장</div><button id="header-profile" class="identity-button" aria-label="숲의지휘관 명함 미리보기"><span id="header-rank"></span><span><b>숲의지휘관</b><small id="header-level"></small></span></button></header>
+<div class="shell">
+  <aside class="navigation"><p>전체 메뉴</p><div id="shared-navigation"></div><div class="nav-divider"></div><p>내 정보</p><span class="nav-active" aria-current="page">계급 · 성장</span><button id="nav-card">내 명함 미리보기 ↗</button><small>공통 메뉴 배치 참고</small></aside>
+  <main>
+    <header class="page-heading"><div><p class="eyebrow">SERVICE RECORD</p><h1>계급 · 성장</h1><p class="subtitle">첫 발걸음부터, 숲의 원수까지.</p></div><div class="start-rule"><b>Lv.1 → 250</b><span>모든 유저 Lv.1 시작</span></div></header>
+    <div class="section-tabs" role="tablist" aria-label="계급 검수 화면"><button id="ranks-tab" role="tab" aria-selected="true" aria-controls="ranks-view">계급과 혜택</button><button id="display-tab" role="tab" aria-selected="false" aria-controls="display-view" tabindex="-1">명함 · 인게임 표시</button><button id="growth-tab" role="tab" aria-selected="false" aria-controls="growth-view" tabindex="-1">성장 방식</button></div>
+    <section id="ranks-view" role="tabpanel" aria-labelledby="ranks-tab">
+      <div class="review-controls"><label for="rank-select">계급 바로 보기 <select id="rank-select"></select></label><label for="level-input">레벨 <input id="level-input" type="number" min="1" max="250" value="250" inputmode="numeric"></label><span>1~250 모든 레벨에 계급 부여</span></div>
+      <div class="rank-workspace">
+        <section class="rank-catalog" aria-label="전체 21계급"><div class="panel-label"><h2>계급 목록</h2><span>21</span></div><div id="rank-list"></div></section>
+        <div class="rank-detail">
+          <section class="rank-stage" id="rank-stage"><div class="stage-top"><span id="stage-group"></span><span id="stage-range"></span></div><div id="large-art"></div><div class="stage-title"><span id="stage-code"></span><h2 id="stage-name"></h2><p id="stage-caption"></p></div><span class="stage-grid" aria-hidden="true"></span></section>
+          <section class="benefits" aria-labelledby="benefits-heading"><div class="panel-label"><h2 id="benefits-heading">계급 혜택</h2><span class="proposal-label">수치 제안</span></div><div class="buff-grid"><div><span>개인 PVE 공격력</span><b id="attack"></b></div><div><span>개인 PVE 체력</span><b id="hp"></b></div><div><span>대상 PVE 코인 보상</span><b id="coins"></b></div></div><div class="benefit-row"><div><b>덱 프리셋 저장</b><small>편성 기억 슬롯 · 전투 덱 장수와 별개</small></div><strong id="presets"></strong></div><div class="benefit-row"><div><b id="cosmetic"></b><small>계급 아이콘 · 명함 표식 · 진급 기록</small></div><span class="status-dot">상시 표시</span></div><p class="scope-note">개인 PVE 한정 제안 · PVP / 클랜전 / 영토전 능력치 영향 없음<br>월드 레이드·경쟁 기록형 PVE는 별도 검토</p></section>
+          <section class="promotion"><div><small>다음 목표</small><h3 id="next-rank"></h3></div><div id="next-rule"></div></section>
+        </div>
+      </div>
+    </section>
+    <section id="display-view" role="tabpanel" aria-labelledby="display-tab" hidden>
+      <div class="display-toolbar"><p>대표 아이콘으로 실제 표시 크기를 확인하세요.</p><div class="sample-actions"><button data-art="PRIVATE">이병</button><button data-art="MAJOR">소령</button><button data-art="MARSHAL">원수</button></div></div>
+      <section class="calling-card-preview"><div class="panel-label"><h2>플레이어 명함</h2><button id="full-card">기존 명함에 적용해서 보기 ↗</button></div><div class="card-identity"><div class="avatar-sample" aria-label="아바타 예시">숲</div><div class="name-stack"><small>PLAYER CARD</small><h3>숲의지휘관</h3><span>자유 소속 · 플레이어</span></div><div class="rank-identity"><div id="card-rank"></div><span id="card-rank-label"></span></div></div><div class="card-growth"><div><b id="card-service"></b><span id="card-next"></span></div><div class="xp-track"><i id="card-progress"></i></div></div><div class="card-footer"><span>아바타 · 계급 · PVP 티어는 별도 표시</span><span>계정 성장 기록</span></div></section>
+      <div class="placement-grid"><section class="placements"><div class="panel-label"><h2>게임에서 보이는 위치</h2><span>표시 예시</span></div><div class="placement-row"><small>로비 프로필 · 48px</small><button id="lobby-profile" class="inline-player"><span id="lobby-badge"></span><span><b>숲의지휘관</b><small id="lobby-label"></small></span><span class="chevron">↗</span></button></div><div class="placement-row"><small>클랜원 목록 · 32px</small><button id="clan-profile" class="inline-player compact"><span id="clan-badge"></span><span><b>숲의지휘관</b><small id="clan-label"></small></span><span class="muted">클랜원</span></button></div><div class="placement-row"><small>채팅 · 24px</small><div class="chat-example"><button id="chat-profile" class="chat-name"><span id="chat-badge"></span><b>숲의지휘관</b><small id="chat-label"></small></button><p>오늘도 출격합니다!</p></div></div><div class="placement-row"><small>전투 결과 · 36px</small><button id="result-profile" class="inline-player"><span id="result-badge"></span><span><b>숲의지휘관</b><small id="result-label"></small></span><span class="result-chip">승리</span></button></div></section><section class="size-review"><div class="panel-label"><h2>작은 크기 가독성</h2></div><div id="size-line"></div><p>24px에서는 색·제복으로 계열을 구분합니다. 정확한 계급은 닉네임 옆 계급명과 터치 상세로 확인합니다.</p><div class="placement-rule"><b>아이콘 + 계급명 + Lv.</b><span>얼굴만으로 세부 계급을 구분하지 않습니다.</span></div></section></div>
+    </section>
+    <section id="growth-view" role="tabpanel" aria-labelledby="growth-tab" hidden>
+      <header class="growth-heading"><span class="eyebrow">EVERY BATTLE COUNTS</span><h2>모든 PVE가 성장으로.</h2><p>전원 Lv.1 시작 · 경험치 일일 상한 없음 · 기준 플레이로 약 50일에 Lv.250</p></header>
+      <div class="growth-grid"><section class="growth-panel"><div class="panel-label"><h3>내 플레이로 계산하기</h3><span class="proposal-label">XP 제안값</span></div><p class="workload-note">평소 하루 플레이 횟수를 넣어보세요. 아래 횟수는 계산 예시이며 획득 제한이 아닙니다.</p><div id="xp-sources"></div><p>전체 PVE에서 경험치를 얻습니다. 반복·소탕·재등반도 정상 정산 횟수만큼 지급합니다. 신규 PVE도 출시할 때 경험치 지급을 함께 연결합니다.</p></section><section class="growth-panel growth-estimate"><div class="panel-label"><h3>250레벨 도달 예상</h3><span class="proposal-label">설계 목표</span></div><div class="days-hero"><strong id="target-days">50</strong><span>일</span><p id="pace-comparison">기준 플레이로 약 50일 달성</p></div><div class="daily-total"><b>입력한 하루 경험치</b><strong id="daily-xp">2,800 XP</strong></div><div class="milestones" id="milestones"></div><button id="reset-growth">50일 기준 예시로 되돌리기</button><p>누적 139,440 XP → Lv.250<br>하루 2,800 XP 기준 약 50일. 더 많이 플레이하면 도달 기간도 짧아집니다.</p><div class="no-cap"><b>경험치 상한 없음</b><span>첫 N회 제한 없음 · 콘텐츠별 XP 지급 횟수 제한 없음<br>기존 콘텐츠의 입장·행동력 규칙은 해당 콘텐츠 기준</span></div></section></div>
+      <section class="growth-policies"><h3>성장 규칙</h3><div><p><b>영구 계급</b><span>시즌이 바뀌어도 유지 · 강등 없음</span></p><p><b>진급은 자동</b><span>도달 즉시 적용 · 확률·승급비 없음</span></p><p><b>250레벨 상한</b><span>원수 도달 후 추가 XP 지급 중지</span></p><p><b>혜택은 현재 계급 기준</b><span>이전 계급 버프 중복 합산 없음</span></p></div></section>
+    </section>
+    <footer class="review-footer"><span>검수용 · 대표 원화 3종 / 전체 계급 설계 21종</span><span>실계정 경험치·재화·전투에는 반영되지 않습니다.</span></footer>
+  </main>
+</div>
+<dialog id="profile-dialog" aria-label="계급 적용 명함 미리보기"><div id="profile-content"></div></dialog>
+<script src="../../js/soopketmon-v21-exact-shell-adapter.js" data-enabled="false" data-default-home="false"></script><script src="../../js/player-card-v2052.js"></script><script type="module" src="app.mjs"></script>
+</body></html>
