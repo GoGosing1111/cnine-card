@@ -410,7 +410,9 @@
     const cardRewardHtml = data.cardReward ? `<div class="pvp-result-reward pve-card-result-reward"><small>CARD REWARD</small><b>${esc(data.cardReward.card.grade)} · ${esc(data.cardReward.card.title)}</b><span>${data.cardReward.duplicate ? `중복 카드 · 조각 +${number(data.cardReward.shardGained)}` : '신규 카드 획득'}</span></div>` : '';
     const battleSuitResult = authoritativeBattleSuitResult(data);
     const battleSuitResultHtml = battleSuitResult ? `<div class="pve-battle-suit-contribution" data-battle-suit-live-result="SERVER_TIMELINE"><small>BATTLE SUIT · INDEPENDENT DAMAGE</small><b>${number(battleSuitResult.damage)}</b><span>${esc(battleSuitResult.name)} · ${number(battleSuitResult.actions)}회 사격 · 서버 타임라인 판정</span></div>` : '';
-    msg.innerHTML = `<div class="pvp-v2-result pve-v2-result ${win?'is-win':'is-loss'}">
+    msg.innerHTML = window.ProjectVBattleV3Live?.resultHtml && stage.classList.contains('battle-v3-live-shell')
+      ? window.ProjectVBattleV3Live.resultHtml({data,mode:'PVE',win,playerPower,opponentPower:monsterPower,battleSuit:battleSuitResult})
+      : `<div class="pvp-v2-result pve-v2-result ${win?'is-win':'is-loss'}">
       <div class="pvp-result-glow" aria-hidden="true"></div>
       <div class="pvp-result-kicker">SOOPKETMON · PVE RESULT</div>
       <strong class="pvp-result-title">${win?'VICTORY':'DEFEAT'}</strong>
@@ -436,7 +438,10 @@
       // 새 전장을 반복 생성하지 않고 서버 소탕 API로 독립 승패/보상을 일괄 판정한다.
       await window.completePveSweepAfterAnimatedBattle({data,modal,msg,renderer});
     } else {
-      setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);
+      const close=()=>{renderer.destroy();modal.onclick=null;renderShell('battle')};
+      modal.onclick=event=>{if(!event.target.closest('.v3-battle-report'))close()};
+      const confirm=msg.querySelector('#pveResultConfirm');
+      if(confirm){confirm.onclick=event=>{event.stopPropagation();close()};confirm.focus({preventScroll:true})}
       if(data.cowPortal)await window.CowRoomPortal?.offer([data.cowPortal],{mode:data.difficulty?.isApocalypse?'APOCALYPSE':'PVE'});
     }
   }

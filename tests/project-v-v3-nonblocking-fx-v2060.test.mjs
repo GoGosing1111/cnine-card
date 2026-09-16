@@ -198,8 +198,7 @@ test('소스 계약: 반복 이벤트는 queue*, 큰 연출은 await 유지', ()
   // (카드 발동 연출이 아니라 목표물 tint 플래시를 유지해야 하는 1회성 연출)
   const playEventsOnly = playEventsSrc;
   const blockingBanners = playEventsOnly.match(/await this\.showBanner\([^\n]*/g) || [];
-  assert.equal(blockingBanners.length, 1, 'playEvents 안에서 카드 발동 배너를 기다리면 안 됩니다');
-  assert.match(blockingBanners[0], /호송차 긴급 복구/);
+  assert.equal(blockingBanners.length, 0, 'playEvents 안에서 카드 발동 배너를 기다리면 안 됩니다');
   assert.ok(!/await this\.playSupportEffect/.test(playEventsOnly), 'playEvents 안에서 지원 이펙트를 기다리면 안 됩니다');
   // 큰 연출은 그대로 차단 유지.
   assert.match(playEventsOnly, /await this\.normalAttack\(/);
@@ -215,8 +214,8 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
   const bannerSources=engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
   assert.equal((bundleSrc.match(/queueBanner\(/g) || []).length, (bannerSources.match(/queueBanner\(/g) || []).length, '공용 엔진·용병 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다');
   assert.equal((bundleSrc.match(/queueSupportEffect\(/g) || []).length, 3, '번들의 queueSupportEffect 호출 수가 소스와 다릅니다');
-  // 정의 1 + 배너펌프 1 + 호송 1 + ZENITH 궁극기 1
-  assert.equal((bundleSrc.match(/await this\.showBanner\(/g) || []).length, 3, '번들에 남은 차단 배너 수가 소스와 다릅니다');
+  // Only the independent notice pump waits for a previous notice.
+  assert.equal((bundleSrc.match(/await this\.showBanner\(/g) || []).length, 1, '번들에 남은 차단 배너 수가 소스와 다릅니다');
 });
 
 test('캐시 태그가 갱신되어 있다', () => {
@@ -255,7 +254,7 @@ function buildBannerHarness() {
   const method = extractMethod(engineSrc, '  showBanner(name,color=');
   const showBanner = new Function(`return ({${method.trim()}}).showBanner`)();
   const log = [], pending = [];
-  const banner = { nameText: { style: {} }, typeText: {}, glow: {}, scale: {}, alpha: 0 };
+  const banner = { nameText: { style: {}, scale: {set(){}}, getLocalBounds:()=>({width:140}) }, typeText: {}, accent: {}, scale: {}, alpha: 0 };
   const engine = {
     showBanner, visible: true, playbackEpoch: 0, bannerPlayback: null,
     uiLayer: { banner },
@@ -303,4 +302,12 @@ test('전투가 취소되면 아직 시작하지 않은 배너는 다음 전투�
   pending.shift()();
   await next;
   assert.deepEqual(log, ['진행 중', '새 전투']);
+});
+
+test('호송차 회복 안내 중에도 다음 공격이 진행된다',async()=>{
+ const {engine,log}=buildHarness();
+ await engine.playEvents([{type:'ESCORT_OBJECTIVE_RECOVERY',objectiveHpAfter:50,objectiveMaxHp:100},attack(30)]);
+ const banner=log.find(r=>r.op==='banner'),hit=log.find(r=>r.op==='attack');
+ assert.ok(hit.at-banner.at<BANNER_MS,'label must not delay the next hit');
+ assert.equal(engine.objectiveData.hp,50);
 });

@@ -2,8 +2,8 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.36.0-combat-flow';
-  const BATTLE_RUNTIME = '2124-sz-body-core';
+  const VERSION = '3.37.0-fluid-combat';
+  const BATTLE_RUNTIME = '2126-fluid-combat';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
@@ -77,22 +77,6 @@
     await nextPaint();
     return true;
   };
-  const acceleratedUltimate = (ultimate, fallbackDuration = 3000) => {
-    const source = ultimate && typeof ultimate === 'object' ? ultimate : {};
-    const baseRate = Math.max(.5, Math.min(3, Number(source.playbackRate || 1)));
-    const baseDuration = Math.max(500, Math.min(30000, Number(source.durationMs || fallbackDuration)));
-    return {
-      ...source,
-      playbackRate: Math.max(.5, Math.min(3, baseRate * PLAYBACK_SPEED)),
-      durationMs: Math.max(320, Math.round(baseDuration / PLAYBACK_SPEED))
-    };
-  };
-  const ultimateGuardMs = (ultimate, fallbackDuration = 3000) => {
-    void ultimate;
-    void fallbackDuration;
-    return 35000;
-  };
-
   // ---------------------------------------------------------------------
   // V1796: 출전 카드 로스터 + 판정 근거 노출
   //
@@ -777,7 +761,6 @@
     const sourceData = options.data && typeof options.data === 'object' ? options.data : {};
     const accountBattleUnitPve = accountBattleUnitPveGate(options.mode, sourceData);
     const mode = battlefieldMode(options.mode, sourceData);
-    const playUltimateCinematics = options.playUltimateCinematics !== false;
     const modal = options.modal || stage.closest?.('.modal') || null;
     let destroyed = false;
     const interactiveResults = new Map();
@@ -993,8 +976,6 @@
           // only server Battle V2 damage events (several per card action), so
           // every visible shot carries its own authoritative damage number.
           startAccountBattleUnitContinuousFire();
-          let playerUltimateShown = false;
-          let bossUltimateShown = false;
           const timedSkillChips = timeline.some(event => event.combatClock === 'V3_COMBAT_MS_V1');
           const prepareEvent = async sourceEvent => {
             if(options.continuousPlayback)await options.beforeCombatEvent?.(sourceEvent);
@@ -1030,43 +1011,14 @@
                 actorId: event.actorId || sourceCard?.id || sourceCard?.cardId || '',
                 label: payload?.activatedUltimate?.name || event.label || '궁극기'
               };
-              if (!playerUltimateShown && playUltimateCinematics && payload?.activatedUltimate && typeof root.playBattleUltimate === 'function') {
-                playerUltimateShown = true;
-                const ultimate = acceleratedUltimate(payload.activatedUltimate, 3000);
-                await withTimeout(
-                  root.playBattleUltimate(stage, ultimate, event.damage || payload?.ultimateDamage || payload?.bonusDamage || 0),
-                  ultimateGuardMs(ultimate, 3000),
-                  '유저 궁극기 연출이 지연되어 생략되었습니다.',
-                  { fallback: false, onFailure: releaseBlockingLayers }
-                );
-              }
             } else if (type === 'BOSS_ULTIMATE') {
-              const apocalypseBossUltimate = Boolean(
-                payload?.bossUltimate?.apocalypseExclusive ||
-                payload?.bossUltimateState?.apocalypseExclusive ||
-                payload?.difficulty?.isApocalypse ||
-                payload?.monster?.apocalypse ||
-                String(payload?.difficulty?.difficulty || payload?.monster?.difficulty || '').toUpperCase() === 'APOCALYPSE'
-              );
               const monsterCard = payload?.battleV2?.teams?.B?.cards?.find?.(card => /^MONSTER:/i.test(String(card?.cardId || '')) || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase()));
               event = {
                 ...event,
                 actorId: event.actorId || monsterCard?.id || monsterCard?.cardId || payload?.monster?.cardId || '',
                 label: payload?.bossUltimate?.name || event.label || '보스 궁극기'
               };
-              // Apocalypse owns an authored Pixi EffectLayer sequence. Keep its
-              // skill-name banner, but never stack the legacy full-screen media
-              // cinematic over the live battlefield.
-              if (!apocalypseBossUltimate && !bossUltimateShown && playUltimateCinematics && payload?.bossUltimate && typeof root.playBossBattleUltimate === 'function') {
-                bossUltimateShown = true;
-                const ultimate = acceleratedUltimate(payload.bossUltimate, 2400);
-                await withTimeout(
-                  root.playBossBattleUltimate(stage, phase, ultimate),
-                  ultimateGuardMs(ultimate, 2400),
-                  '보스 궁극기 연출이 지연되어 생략되었습니다.',
-                  { fallback: false, onFailure: releaseBlockingLayers }
-                );
-              }
+              // V3 keeps the authoritative in-field attack, without a blocking media prelude.
             }
             return event;
           };
@@ -1226,8 +1178,53 @@
     return renderer;
   }
 
+
+  // A shared report for PVE and PVP. All values come from the settled response;
+  // the presentation never awards currency or derives a different winner.
+  function resultHtml({data = {}, mode = 'PVE', win = false, playerPower = 0, opponentPower = 0, battleSuit = null} = {}) {
+    const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
+    const fmt = value => n(value).toLocaleString('ko-KR');
+    const signed = value => (n(value) > 0 ? '+' : '') + fmt(value);
+    const pvp = mode === 'PVP';
+    const result = data.battleV2?.result || {};
+    const draw = String(data.result || '').toUpperCase() === 'DRAW' || (!data.result && result.winner === 'DRAW');
+    const state = draw ? 'draw' : win ? 'win' : 'loss';
+    const title = pvp ? (draw ? '무승부' : win ? '랭크전 승리' : '랭크전 패배') : win ? '토벌 성공' : '토벌 실패';
+    const reason = {
+      ELIMINATION: '상대 진영 전멸', SURVIVOR_COUNT: '생존 인원으로 승부 결정',
+      HP_RATIO_TIEBREAK: '잔여 체력으로 승부 결정', POWER_TIEBREAK: '편성 전투력으로 승부 결정',
+      ACTION_LIMIT: '제한 행동 종료', TIME_LIMIT: '전투 시간 종료', MONSTER_SURVIVED: '제한 행동 안에 적을 처치하지 못했습니다.'
+    }[result.reason] || (draw ? '양 팀의 전투가 무승부로 끝났습니다.' : win ? '전투를 완료했습니다.' : '다음 전투를 준비하세요.');
+    const coins = Math.max(0, n(pvp ? data.coinReward : data.reward));
+    const magic = Math.max(0, n(data.magicReward?.amount));
+    const finalA = Array.isArray(result.final?.A) ? result.final.A : [];
+    const finalB = Array.isArray(result.final?.B) ? result.final.B : [];
+    const alive = team => team.filter(c => n(c.hp) > 0).length;
+    const hp = team => {
+      const max = team.reduce((sum,c) => sum + Math.max(0,n(c.maxHp)) + Math.max(0,n(c.maxShield)),0);
+      const remaining = team.reduce((sum,c) => sum + Math.max(0,n(c.hp)) + Math.max(0,n(c.shield)),0);
+      return (max ? Math.min(100,remaining / max * 100) : 0).toFixed(1) + '%';
+    };
+    const stat = (label, value, tone = '') => '<div class="v3-report-stat ' + tone + '"><dt>' + esc(label) + '</dt><dd>' + esc(value) + '</dd></div>';
+    const adjustment = data.scoreAdjustment;
+    const card = data.cardReward?.card;
+    const confirmId = pvp ? 'pvpResultConfirm' : 'pveResultConfirm';
+    return '<section class="v3-battle-report is-' + state + '" aria-labelledby="v3ReportTitle">' +
+      '<header class="v3-report-header"><div class="v3-report-emblem" aria-hidden="true">' + (win ? '✓' : draw ? '＝' : '×') + '</div><div><span class="v3-report-mode">' + (pvp ? 'PVP · 랭크전' : 'PVE · 전투 결과') + '</span><h2 id="v3ReportTitle">' + title + '</h2><p>' + esc(!win && result.reason === 'ELIMINATION' ? '아군 진영 전멸' : reason) + '</p></div></header>' +
+      '<div class="v3-report-body"><dl class="v3-report-rewards">' +
+        (pvp ? stat('시즌 점수',signed(data.scoreChange),'is-score') : '') + stat('획득 코인',signed(coins),'is-coin') + (magic > 0 ? stat('마력 수정','+' + fmt(magic)) : '') + '</dl>' +
+        (card ? '<div class="v3-report-drop"><span>카드 획득</span><strong>' + esc(card.grade) + ' · ' + esc(card.title) + '</strong><small>' + (data.cardReward.duplicate ? '중복 카드 · 조각 +' + fmt(data.cardReward.shardGained) : '새로운 카드') + '</small></div>' : '') +
+        (pvp && adjustment?.label && Number.isFinite(Number(adjustment.multiplier)) ? '<p class="v3-report-adjustment">' + esc(adjustment.label) + ' · ' + signed(adjustment.multiplier) + '%</p>' : '') +
+        '<details class="v3-report-details"><summary>전투 상세<span>' + (n(result.actions) > 0 ? fmt(result.actions) + '회 행동' : '기록 확인') + '</span></summary><dl>' + stat('아군 전투력',fmt(playerPower)) + stat('상대 전투력',fmt(opponentPower)) +
+        (finalA.length ? stat('아군 생존',alive(finalA) + ' / ' + finalA.length) + stat('아군 체력 · 보호막',hp(finalA)) : '') +
+        (finalB.length ? stat('상대 생존',alive(finalB) + ' / ' + finalB.length) + stat('상대 체력 · 보호막',hp(finalB)) : '') + '</dl>' +
+        (battleSuit ? '<div class="v3-report-suit" data-battle-suit-live-result="SERVER_TIMELINE"><b>' + esc(battleSuit.name) + '</b><span>피해 ' + fmt(battleSuit.damage) + ' · ' + fmt(battleSuit.actions) + '회 사격</span></div>' : '') + '</details></div>' +
+      '<footer class="v3-report-footer"><button type="button" id="' + confirmId + '" class="v3-report-confirm">' + (pvp ? '랭크전으로 돌아가기' : 'PVE로 돌아가기') + '<span aria-hidden="true">→</span></button></footer></section>';
+  }
+
   root.ProjectVBattleV3Live = Object.freeze({
     version: VERSION,
+    resultHtml,
     playbackSpeed: PLAYBACK_SPEED,
     ready: () => root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME,
     ensureRuntime: ensureCurrentBattleRuntime,

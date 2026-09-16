@@ -971,16 +971,16 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.administrationTreasuryView==='function'&&typeof window.bindAdministrationTreasuryView==='function'
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
+    styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126'],
     scripts:[
-      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114',
+      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114&flow=2126',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=2115-ayoon',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124',
-      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126',
+      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
@@ -5425,6 +5425,7 @@ async function savePvpDeck(){
 }
 function pvpResultSafeNumber(value,fallback=0){const number=Number(value);return Number.isFinite(number)?number:fallback}
 function buildPvpV2ResultHtml(d,myWin,attackerPower,defenderPower,pvpV2Detail=''){
+  if(window.ProjectVBattleV3Live?.resultHtml)return window.ProjectVBattleV3Live.resultHtml({data:d,mode:'PVP',win:myWin,playerPower:attackerPower,opponentPower:defenderPower});
   const scoreChange=pvpResultSafeNumber(d?.scoreChange,0),coinReward=Math.max(0,pvpResultSafeNumber(d?.coinReward,0)),magicReward=Math.max(0,pvpResultSafeNumber(d?.magicReward?.amount,0));
   const multiplier=Number(d?.scoreAdjustment?.multiplier),adjustmentLabel=String(d?.scoreAdjustment?.label||'').trim();
   const adjustmentHtml=adjustmentLabel&&Number.isFinite(multiplier)?`<div class="pvp-result-adjustment"><span>${escapeHtml(adjustmentLabel)}</span><b>${multiplier>0?'+':''}${multiplier.toLocaleString(undefined,{maximumFractionDigits:1})}%</b></div>`:'';
@@ -5479,7 +5480,7 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
     msg.classList.add('is-visible');
     pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser){if(d.coinAfter!=null)savedPvpUser.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)savedPvpUser.magicCrystals=Number(d.magicCrystalsAfter);if(d.weeklyPremiumCube)savedPvpUser.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(savedPvpUser)}
     pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();
-    setTimeout(()=>{modal.onclick=close;const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn)confirmBtn.onclick=e=>{e.stopPropagation();close()}},250);
+    modal.onclick=e=>{if(!e.target.closest('.v3-battle-report'))close()};const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn){confirmBtn.onclick=e=>{e.stopPropagation();close()};confirmBtn.focus({preventScroll:true})}
   }catch(e){
     if(e.energy)pvpState.energy=e.energy;
     if(msg)Object.assign(msg.style,{top:'40%',bottom:'auto'});

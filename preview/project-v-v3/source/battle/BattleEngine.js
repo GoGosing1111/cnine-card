@@ -2116,13 +2116,14 @@ class BaseBattleEngine{
     this.uiLayer.combo=combo;
 
     const banner=new Container();
-    banner.position.set(510,118);banner.alpha=0;
-    const glow=addGlow(banner,580,88,0xffd43d,.22);
-    banner.addChild(rectangle(580,88,0x05080c,.94,7,{width:1,color:0xffdb57,alpha:.7}));
-    const type=textNode('전술 스킬 발동',10,0xffdf69,'900','center');type.anchor.set(.5);type.position.set(290,23);
-    const name=textNode('',23,0xffffff,'900','center');name.anchor.set(.5);name.position.set(290,55);
+    banner.alpha=0;banner.eventMode='none';
+    banner.addChild(rectangle(320,46,0x080c17,.7,3));
+    const accent=rectangle(2,30,0xc8ff6b,1,0);accent.position.set(0,8);banner.addChild(accent);
+    const type=textNode('전술 스킬 발동',10,0xaebad0,'600');type.position.set(14,7);
+    const name=textNode('',16,0xf3f5ff,'800');name.position.set(14,22);
+    name.style.wordWrap=false;
     banner.addChild(type,name);
-    banner.typeText=type;banner.nameText=name;banner.glow=glow;
+    banner.typeText=type;banner.nameText=name;banner.accent=accent;banner.baseY=0;
     this.uiLayer.addChild(banner);
     this.uiLayer.banner=banner;
   }
@@ -2395,8 +2396,7 @@ class BaseBattleEngine{
   }
 
   showBanner(name,color=0xffd43d,label='전술 스킬 발동'){
-    // Queued support banners and blocking ultimate/escort banners share one
-    // display object. Serialize both paths and discard work from a closed battle.
+    // Presentation only: callers enqueue notices without delaying combat.
     const playbackEpoch=this.playbackEpoch;
     const play=()=>{
       if(playbackEpoch!==this.playbackEpoch||!this.visible)return false;
@@ -2404,13 +2404,12 @@ class BaseBattleEngine{
       banner.nameText.text=name;
       banner.nameText.style.fill=color;
       banner.typeText.text=label;
-      banner.glow.tint=color;
+      banner.accent.tint=color;
+      banner.nameText.scale.set(Math.min(1,290/Math.max(1,banner.nameText.getLocalBounds().width)));
       return this.timeline(timeline=>{
-        timeline.set(banner,{alpha:0,y:128});
-        timeline.set(banner.scale,{x:.84,y:.84});
-        timeline.to(banner,{alpha:1,y:118,duration:.2,ease:'power3.out'});
-        timeline.to(banner.scale,{x:1,y:1,duration:.2,ease:'back.out(1.8)'},0);
-        timeline.to(banner,{alpha:0,y:104,duration:.2,ease:'power2.in'},.72);
+        timeline.set(banner,{alpha:0,y:banner.baseY+4});
+        timeline.to(banner,{alpha:1,y:banner.baseY,duration:.12,ease:'power2.out'});
+        timeline.to(banner,{alpha:0,duration:.18,ease:'power2.in'},.82);
       },()=>{banner.alpha=0});
     };
     const playback=(this.bannerPlayback||Promise.resolve()).then(play,play);
@@ -2709,6 +2708,7 @@ class BaseBattleEngine{
     if(!victim){this.updateStatus('스킬 대상이 없습니다.');return false}
     this.settlePendingTails([actor,victim]);
     this.updateStatus(`${actor.name} · ${label}`);
+    this.queueBanner(label,actor.accent||card.data.color||0xc8ff6b,actor.name);
     const result=await this.skillTimeline.play({
       attacker:actor,
       target:victim,
@@ -2856,7 +2856,7 @@ class BaseBattleEngine{
       });
     };
     this.updateStatus(`${attacker?.name||'아포칼립스 보스'} · ${event.label||'멸절 프로토콜'}`);
-    const bannerPromise=this.showBanner(event.label||profile.name||'멸절 프로토콜',profile.color||0xff754f,'APOCALYPSE ULTIMATE');
+    this.queueBanner(event.label||profile.name||'멸절 프로토콜',profile.color||0xff754f,'궁극기 발동');
     const effectPromise=this.timeline(timeline=>{
       timeline.call(()=>this.audio?.scheduleApocalypseBossUltimate?.({impactAt,playbackSpeed}),[],0);
       effect.play(timeline,{impactAt});
@@ -2888,7 +2888,7 @@ class BaseBattleEngine{
         },[],impactAt+.005);
       }
     },cleanup,playbackSpeed);
-    await Promise.all([bannerPromise,effectPromise]);
+    await effectPromise;
     return true;
   }
 
@@ -2938,7 +2938,7 @@ class BaseBattleEngine{
       const damage=Number(event.damage||0)+Number(event.absorbed||0);
       const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
-      if(type==='DEPLOY')await this.deployCards({force:forceDeploy});
+      if(type==='DEPLOY')await this.deployCards({force:forceDeploy,instant:Boolean(this.livePayload)});
       else if(type==='START_EFFECT'||type==='GUARD_PROTECT'){
         // START_EFFECT is the authoritative opening-shield snapshot. Targeted
         // GUARD_PROTECT events can also add a barrier during combat.
@@ -2949,9 +2949,7 @@ class BaseBattleEngine{
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
         this.objectiveData={...(this.objectiveData||{}),hp,hpAfter:hp,maxHp};
         this.syncObjectiveHud({hp,maxHp,status:`RECOVERY LINK · +${Math.round(Number(event.amount||0)).toLocaleString()}`,animate:true});
-        if(this.objectiveSprite)this.objectiveSprite.tint=0xaaffcf;
-        await this.showBanner(event.label||'호송차 긴급 복구',0x5ff0ae,'ESCORT RECOVERY');
-        if(this.objectiveSprite)this.objectiveSprite.tint=0xffffff;
+        this.queueBanner(event.label||'호송차 긴급 복구',0x5ff0ae,'호송차 회복');
       }
       else if(type==='ATTACK'||type==='TURN'){
         if(this.isAccountBattleUnitDamageEvent(event)){
@@ -3070,25 +3068,8 @@ class BaseBattleEngine{
     const actor=this.allies[2];
     const victim=this.selectLiveTarget(actor,target);
     if(!victim){this.updateStatus('궁극기 대상이 없습니다.');return false}
-    this.updateStatus('ZENITH 우선 발동 · 기존 궁극기 영상과 Pixi 타격 연계');
-    await this.showBanner('천상개화 · 월하난무',0xc79aff,'궁극기 발동');
-    const overlay=document.getElementById('pvUltimateLayer');
-    const video=document.getElementById('pvUltimateVideo');
-    if(overlay&&video&&!this.reducedMotion){
-      overlay.classList.add('is-visible');
-      video.currentTime=0;
-      video.muted=true;
-      const ended=new Promise(resolve=>{
-        let done=false;
-        const finish=()=>{if(done)return;done=true;video.removeEventListener('ended',finish);resolve()};
-        video.addEventListener('ended',finish,{once:true});
-        setTimeout(finish,Math.round(2100/PLAYBACK_SPEED));
-      });
-      await video.play().catch(()=>{});
-      await ended;
-      overlay.classList.remove('is-visible');
-      video.pause();
-    }
+    this.updateStatus('천상개화 · 월하난무');
+    this.queueBanner('천상개화 · 월하난무',0xc79aff,'궁극기 발동');
     await this.skillTimeline.play({
       attacker:actor,
       target:victim,
@@ -3290,12 +3271,10 @@ class BaseBattleEngine{
     if(this.mobile){
       this.cards.forEach((card,index)=>{card.baseX=47+index*195;card.baseY=1100+[12,5,-5,5,12][index];card.position.set(card.baseX,card.baseY);card.restScale=.78;card.scale.set(card.restScale)});
       this.uiLayer.statusPanel.position.set(225,1354);this.uiLayer.status.position.set(525,1375);
-      this.uiLayer.banner.position.set(235,150);
       this.uiLayer.comboLabel.position.set(812,735);this.uiLayer.combo.position.set(812,752);
     }else{
       this.cards.forEach((card,index)=>{card.baseX=570+index*104;card.baseY=665+[8,3,-4,3,8][index];card.position.set(card.baseX,card.baseY);card.restScale=.5;card.scale.set(card.restScale)});
       this.uiLayer.statusPanel.position.set(440,758);this.uiLayer.status.position.set(740,779);
-      this.uiLayer.banner.position.set(510,118);
       this.uiLayer.comboLabel.position.set(1030,96);this.uiLayer.combo.position.set(1030,105);
     }
     this.layoutObjectiveHud();
@@ -3304,6 +3283,11 @@ class BaseBattleEngine{
     const scale=Math.min(viewportWidth/this.scene.width,viewportHeight/this.scene.height);
     this.root.scale.set(scale);
     this.root.position.set((viewportWidth-this.scene.width*scale)/2,(viewportHeight-this.scene.height*scale)/2);
+    // Keep the small notice readable in CSS pixels on both portrait and desktop.
+    const banner=this.uiLayer.banner,noticeScale=Math.min(1,(viewportWidth-24)/320)/scale;
+    banner.scale.set(noticeScale);
+    banner.position.set(((viewportWidth-320*noticeScale*scale)/2-this.root.x)/scale,((this.mobile?50:20)-this.root.y)/scale);
+    banner.baseY=banner.y;
   }
 
   async setVisible(next){

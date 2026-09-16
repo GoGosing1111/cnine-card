@@ -13,18 +13,13 @@ const battleCss=fs.readFileSync(new URL('../css/battle-v3-live.css',import.meta.
 assert.equal(bridge.includes('/assets/effects/Anime.mp4'),false,'live bridge must never load preview ultimate media');
 assert.equal(bridge.includes('pvUltimateVideo'),false,'live bridge must not render the preview ultimate player');
 assert.match(bridge,/mountForBattle\(payload, host\)[\s\S]*setBattlefield\(mode\)[\s\S]*setVisible\(true\)[\s\S]*assertFirstFrame/,'server payload, battlefield and first WebGL frame must be ready before playback');
-assert.match(bridge,/payload\?\.activatedUltimate[\s\S]*playBattleUltimate/,'player ultimate must use server CMS configuration');
-assert.match(bridge,/payload\?\.bossUltimate[\s\S]*playBossBattleUltimate/,'boss ultimate must use server CMS configuration');
 assert.match(bridge,/ultimateSourceCard[\s\S]*actorId/,'player ultimate must resolve its configured source card');
-assert.match(bridge,/playerUltimateShown = false/,'player cinematic must be protected from repeated playback');
-assert.match(bridge,/bossUltimateShown = false/,'boss cinematic must be protected from repeated playback');
 assert.doesNotMatch(bridge,/INIT_WATCHDOG_MS|EVENT_WATCHDOG_MS/,'cold mobile loading must not destroy a healthy renderer on an arbitrary deadline');
 assert.doesNotMatch(bridge,/recoverRenderer/,'renderer failure must never jump directly to the server result');
 assert.match(bridge,/const PLAYBACK_SPEED = 1\.3/,'the V3 runtime speed must be 1.3x');
 assert.match(bridge,/for \(let attempt = 0; attempt < 2;/,'WebGL initialization must retry once after an explicit failure');
 assert.match(bridge,/battle-v3-preparing/,'the battlefield shell must identify its first-frame state');
 assert.match(bridge,/stage\.classList\.add\('is-v3-ready'\);[\s\S]*revealBattle\(\)/,'the modal may reveal only after the renderer is ready');
-assert.match(bridge,/durationMs: Math\.max\(320, Math\.round\(baseDuration \/ PLAYBACK_SPEED\)\)/,'CMS cinematics must use the same 1.3x clock');
 assert.doesNotMatch(battleCss,/:has\(canvas\) \.battle-v3-loader/,'a canvas alone must never hide the loader before assets are ready');
 assert.match(battleCss,/is-v3-ready \.battle-v3-loader/,'the loader may hide only after the renderer is ready');
 assert.match(battleCss,/\.battle-v3-modal\.battle-v3-preparing\{opacity:1!important;pointer-events:auto!important/,'the selected battlefield must be visible while Pixi commits its first frame');
@@ -53,6 +48,7 @@ assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
 assert.match(index,/js\/app\.js\?v=2108-shared-navigation/);
 assert.match(serviceWorker,/soop-card-shell-v2108-shared-navigation/);
 
+assert.doesNotMatch(bridge,/root\.play(?:Boss)?BattleUltimate\(/,'V3 must not invoke legacy media cut-ins in either mode');
 const calls=[];
 const phase={textContent:''};
 const status={textContent:''};
@@ -110,18 +106,25 @@ await renderer.play();
 assert.deepEqual(calls.slice(0,4).map(call=>call[0]),['mount','payload','field','visible'],'live initialization order');
 assert.deepEqual(calls[4],['stage-add','is-v3-ready'],'ready class must be set before revealing the modal');
 assert.deepEqual(calls[5],['modal-remove','battle-v3-preparing'],'the modal must reveal only after its first authoritative frame');
-assert.equal(calls.filter(call=>call[0]==='player-cms').length,1,'CMS user ultimate must play once');
-assert.equal(calls.filter(call=>call[0]==='boss-cms').length,1,'CMS boss ultimate must play once');
-const playerUltimateCall=calls.find(call=>call[0]==='player-cms');
-const bossUltimateCall=calls.find(call=>call[0]==='boss-cms');
-assert.deepEqual(playerUltimateCall.slice(1),['CMS USER ULTIMATE',777,1.3,2308],'CMS user ultimate must use the 1.3x clock');
-assert.deepEqual(bossUltimateCall.slice(1),['CMS BOSS ULTIMATE',1.3,1846],'CMS boss ultimate must use the 1.3x clock');
+assert.equal(calls.filter(call=>call[0]==='player-cms').length,0,'PVE must not play a blocking card/movie cut-in');
+assert.equal(calls.filter(call=>call[0]==='boss-cms').length,0,'PVE must not play a blocking boss movie');
 const eventCalls=calls.filter(call=>call[0]==='events');
 assert.equal(eventCalls.length,5,'deploy plus four server timeline events');
 assert.equal(eventCalls[1][1][0].actorId,'CARD-CMS-01');
 assert.equal(eventCalls[1][1][0].label,'CMS USER ULTIMATE');
 assert.equal(eventCalls[3][1][0].actorId,'MONSTER:7');
 assert.equal(eventCalls[3][1][0].label,'CMS BOSS ULTIMATE');
+
+calls.length=0;
+const ranked=await runtime.createRenderer({stage,host,modal,mode:'PVP',data:{
+  activatedUltimate:{name:'랭크전 스킬'},ultimateSourceCard:{id:'PVP-CARD'},
+  battleV2:{result:{timeline:[{type:'PVE_ULTIMATE',targetId:'B:1',damage:456}]}}
+}});
+await ranked.play();
+assert.equal(calls.filter(c=>c[0]==='player-cms'||c[0]==='boss-cms').length,0);
+const rankedImpact=calls.filter(c=>c[0]==='events').flatMap(c=>c[1]).find(e=>e.type==='PVE_ULTIMATE');
+assert.equal(rankedImpact.damage,456);
+assert.equal(rankedImpact.actorId,'PVP-CARD');
 
 // Native Tower still supplies legacy floor/card display options. They must not
 // replace the server's continuous encounter with five locally invented strikes.

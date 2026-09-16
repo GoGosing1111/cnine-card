@@ -275,7 +275,7 @@
       options.className = 'pvev2-battle-options';
       sweepControlElement.before(options);
       options.appendChild(sweepControlElement);
-      options.insertAdjacentHTML('beforeend', `<label class="pvev2-auto pvev2-ultimate-skip"><input type="checkbox" id="battleSkipPlayerUltimate" ${localStorage.getItem('cnine_skip_player_ultimate') === 'ON' ? 'checked' : ''}><span><b>내 궁극기 연출 스킵</b><small>보스 궁극기는 정상 재생합니다.</small></span></label>`);
+      if (!battleState.battleEngine?.active) options.insertAdjacentHTML('beforeend', `<label class="pvev2-auto pvev2-ultimate-skip"><input type="checkbox" id="battleSkipPlayerUltimate" ${localStorage.getItem('cnine_skip_player_ultimate') === 'ON' ? 'checked' : ''}><span><b>내 궁극기 연출 스킵</b><small>보스 궁극기는 정상 재생합니다.</small></span></label>`);
       const skipToggle = options.querySelector('#battleSkipPlayerUltimate');
       if (skipToggle) skipToggle.onchange = () => localStorage.setItem('cnine_skip_player_ultimate', skipToggle.checked ? 'ON' : 'OFF');
     }
