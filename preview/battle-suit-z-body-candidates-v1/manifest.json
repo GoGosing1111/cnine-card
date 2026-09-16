@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "collection": "Z-BODY",
+  "title": "Z바디 후보군",
+  "candidates": [
+    {
+      "id": "Z-BODY-CANDIDATE-01",
+      "number": 1,
+      "name": "Z바디 후보1",
+      "concept": "흑백·골드 성기사 메카 — 왕관·문장·금사슬·인장·금장 부조",
+      "status": "CANDIDATE_REGISTERED",
+      "registeredOn": "2026-09-16",
+      "timezone": "Asia/Seoul",
+      "userInstruction": "좋아 후보군 Z바디 후보1로 등록해놔",
+      "approvalScope": "후보 등록",
+      "finalSelectionApproved": false,
+      "liveConnectionApproved": false,
+      "sourceArt": {
+        "path": "assets/z-body-candidate-01-gold-paladin.png",
+        "sha256": "246F6BB487D114B208D8CFB77E4F0D3F8F9422A17C395FBFE08F415549B30756",
+        "bytes": 2152889,
+        "width": 1024,
+        "height": 1536,
+        "format": "PNG",
+        "colorMode": "RGB",
+        "transparent": false,
+        "immutable": true,
+        "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a0a549-9dc6-7a82-9622-9c1e7faef2d9/exec-39fbfd49-c452-4200-98c2-4db6a4d64f20.png"
+      },
+      "generation": {
+        "mode": "built-in image_gen",
+        "promptDocument": "PROMPTS.md",
+        "editReference": "C:/Users/User/.codex/generated_images/01a0a549-9dc6-7a82-9622-9c1e7faef2d9/exec-9060a5fe-cfeb-4461-938f-631de69e0c3f.png"
+      },
+      "composition": {
+        "facing": "SCREEN_RIGHT",
+        "camera": "THREE_QUARTER",
+        "pose": "팔을 내리고 두 주먹을 허리 옆에 둔 전신 직립 자세",
+        "proportions": "길고 날씬한 사람형 배틀슈트",
+        "preserve": [
+          "오른쪽 시선",
+          "체형",
+          "카메라 구도",
+          "팔다리 위치",
+          "발 위치"
+        ]
+      },
+      "runtime": {
+        "ready": false,
+        "battleSprite": null,
+        "firingAtlas": null,
+        "equipmentCode": null
+      },
+      "notes": [
+        "직전 금장 장식 추가본만 후보1로 등록한다.",
+        "원본은 무가공·무손실 보존한다. 후속 수정은 별도 버전으로 만든다.",
+        "후보 선정과 최종 외형 확정·투명 리소스 제작·운영 연결 승인은 구분한다."
+      ]
+    }
+  ]
+}

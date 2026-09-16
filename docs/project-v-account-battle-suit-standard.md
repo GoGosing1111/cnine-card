@@ -80,3 +80,11 @@ pvp = equipmentPvp + garagePvp + titlePvp
 - V3는 최상위 `equippedBattleSuit`/`equippedWeapon`를 우선하고, 호환을 위해 `characterBonus` 내부 값을 보조 경로로 읽는다.
 - 토벌·탑·봉인전·호송·레이드는 V3 진입 payload에 같은 장착 메타데이터와 로그인 계정명을 전달한다.
 - PVE 외 모드에서는 클라이언트 값과 관계없이 모드 게이트가 계정 유닛을 생성하지 않는다.
+
+## 2026-09-16 Z바디 후보1 등록
+
+- 사용자 지시 “좋아 후보군 Z바디 후보1로 등록해놔”에 따라 흑백·골드 성기사 메카의 금장 장식 추가본을 **Z바디 후보1**로 보관한다.
+- 후보 목록과 원본의 단일 기준은 [Z바디 후보군](../preview/battle-suit-z-body-candidates-v1/README.md) 및 해당 폴더의 `manifest.json`이다.
+- 오른쪽 3/4 구도·길고 날씬한 체형·팔과 발 위치를 유지하며, 왕관·견갑 문장·가슴 금사슬·허리 인장·팔다리 금장 부조가 포함된 마지막 시안을 고정한다.
+- 원본은 `preview/battle-suit-z-body-candidates-v1/assets/z-body-candidate-01-gold-paladin.png`, SHA-256 `246F6BB487D114B208D8CFB77E4F0D3F8F9422A17C395FBFE08F415549B30756`이며 무가공 보존한다.
+- 이번 승인은 후보 등록 범위다. 최종 외형 선정, 투명 전투 리소스·사격 아틀라스 제작, 장비 등록 및 운영 연결로 자동 확대하지 않는다.
