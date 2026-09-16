@@ -20,12 +20,14 @@ test('draft benefits are bounded and monotonic; only three arts are represented 
 test('all listed PvE sources grant XP without a new daily or per-source cap',()=>{
   assert.equal(POLICY.dailyXpCap,null);assert.equal(POLICY.xpScope,'ALL_PVE');
   for(const source of XP_SOURCES){assert.ok(estimateGrowth({[source.code]:1}).dailyXp>0);assert.equal(estimateGrowth({[source.code]:100}).dailyXp,source.xp*100);}
-  assert.equal(estimateGrowth({IDLE:0.5}).dailyXp,30);
+  assert.equal(estimateGrowth({IDLE:0.5}).dailyXp,3);
 });
-test('reference mixed PvE play reaches maximum in about 50 days; extra play speeds it up',()=>{
+test('reduced payouts update duration while seal and siege retain their contribution',()=>{
   const regular=Object.fromEntries(XP_SOURCES.map(s=>[s.code,s.example]));
-  assert.deepEqual(estimateGrowth(regular),{dailyXp:2800,days:50});
+  assert.deepEqual(estimateGrowth(regular),{dailyXp:280,days:498});
+  assert.equal(POLICY.referenceDailyXp,280);
   const double=Object.fromEntries(XP_SOURCES.map(s=>[s.code,s.example*2]));
-  assert.deepEqual(estimateGrowth(double),{dailyXp:5600,days:25});
+  assert.deepEqual(estimateGrowth(double),{dailyXp:560,days:249});
+  assert.deepEqual(estimateGrowth({...regular,SIEGE:9,SEAL:9}),{dailyXp:2800,days:50});
   assert.deepEqual(estimateGrowth({}),{dailyXp:0,days:null});
 });
