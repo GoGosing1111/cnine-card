@@ -1,0 +1,201 @@
+{
+  "sourceCanvas": {
+    "width": 1280,
+    "height": 1536,
+    "scale": 0.93359375,
+    "left": -60,
+    "top": 36
+  },
+  "sourcePolicy": "APPROVED_RGB_PRESERVED_WITH_GENERATED_MATTE_ALPHA",
+  "suits": [
+    {
+      "id": "s-body",
+      "sourceSha256": "A497FBB8A4DE40B10951E08BA06120CC36295472980C12A35777DBA67886D15C",
+      "sourceRgbPreserved": true,
+      "removedPixels": 1091724,
+      "opaquePixels": 481140,
+      "entries": [
+        {
+          "index": 0,
+          "id": "m4a1",
+          "input": "s-body-m4a1-fixed-proxy-v1.png",
+          "placement": {
+            "width": 700,
+            "left": 290,
+            "top": 273,
+            "flop": true,
+            "rotationDegrees": 0
+          },
+          "grip": {
+            "x": 467.734375,
+            "y": 428.17578125
+          },
+          "support": {
+            "x": 734.3359375,
+            "y": 384.42578125
+          },
+          "muzzle": {
+            "x": 979.0625,
+            "y": 344.09375
+          },
+          "bore": {
+            "x": 836.875,
+            "y": 344.09375
+          },
+          "weaponSource": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+          "weaponSha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A"
+        },
+        {
+          "index": 1,
+          "id": "ak",
+          "input": "s-body-ak-fixed-proxy-v1.png",
+          "placement": {
+            "width": 700,
+            "left": 255,
+            "top": 278,
+            "flop": true,
+            "rotationDegrees": 0
+          },
+          "grip": {
+            "x": 467.59765625,
+            "y": 428.390625
+          },
+          "support": {
+            "x": 692.5,
+            "y": 398.99609375
+          },
+          "muzzle": {
+            "x": 890.7421875,
+            "y": 357.296875
+          },
+          "bore": {
+            "x": 774.53125,
+            "y": 357.296875
+          },
+          "weaponSource": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+          "weaponSha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329"
+        },
+        {
+          "index": 2,
+          "id": "m200",
+          "input": "s-body-m200-fixed-proxy-v1.png",
+          "placement": {
+            "width": 980,
+            "left": 267,
+            "top": 246,
+            "flop": true,
+            "rotationDegrees": 0
+          },
+          "grip": {
+            "x": 467.9765625,
+            "y": 427.8359375
+          },
+          "support": {
+            "x": 740.73046875,
+            "y": 396.25390625
+          },
+          "muzzle": {
+            "x": 1230.73046875,
+            "y": 344.57421875
+          },
+          "bore": {
+            "x": 965.6328125,
+            "y": 344.57421875
+          },
+          "weaponSource": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+          "weaponSha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213"
+        },
+        {
+          "index": 3,
+          "id": "sks",
+          "input": "s-body-sks-fixed-proxy-v1.png",
+          "placement": {
+            "width": 840,
+            "left": 244,
+            "top": 188,
+            "flop": true,
+            "rotationDegrees": 6
+          },
+          "grip": {
+            "x": 468.1000482963491,
+            "y": 427.5672309513419
+          },
+          "support": {
+            "x": 790.380239254029,
+            "y": 390.50477705339256
+          },
+          "muzzle": {
+            "x": 1086.0838591252223,
+            "y": 363.0214781341059
+          },
+          "bore": {
+            "x": 696.8158585161309,
+            "y": 362.52448213508137
+          },
+          "weaponSource": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+          "weaponSha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462"
+        },
+        {
+          "index": 4,
+          "id": "gilded-ar",
+          "input": "s-body-gilded-ar-fixed-proxy-v1.png",
+          "placement": {
+            "width": 900,
+            "left": 217,
+            "top": 228,
+            "flop": false,
+            "rotationDegrees": 0
+          },
+          "grip": {
+            "x": 468.3671875,
+            "y": 428.390625
+          },
+          "support": {
+            "x": 772.46875,
+            "y": 365.98828125
+          },
+          "muzzle": {
+            "x": 1114.36328125,
+            "y": 323.80078125
+          },
+          "bore": {
+            "x": 744.34375,
+            "y": 323.80078125
+          },
+          "weaponSource": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+          "weaponSha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2"
+        },
+        {
+          "index": 5,
+          "id": "gilded-antimateriel",
+          "input": "s-body-gilded-antimateriel-fixed-proxy-v1.png",
+          "placement": {
+            "width": 980,
+            "left": 247,
+            "top": 217,
+            "flop": false,
+            "rotationDegrees": 0
+          },
+          "grip": {
+            "x": 468.07421875,
+            "y": 427.546875
+          },
+          "support": {
+            "x": 840.359375,
+            "y": 380.65234375
+          },
+          "muzzle": {
+            "x": 1218.38671875,
+            "y": 340.45703125
+          },
+          "bore": {
+            "x": 773.3671875,
+            "y": 340.45703125
+          },
+          "weaponSource": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+          "weaponSha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0"
+        }
+      ]
+    }
+  ]
+}

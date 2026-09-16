@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>S-BODY · Z-BODY 무기 검수</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./preview.css"></head>
+<body><main>
+ <header><div class="identity"><span class="mark">V</span><div><p class="eyebrow">PROJECT V · 배틀슈트 격납고</p><h1>S-BODY <span>/</span> Z-BODY</h1></div></div><div class="progression"><span>H-BODY</span><b>›</b><strong>S-BODY</strong><b>›</b><strong class="gold">Z-BODY</strong></div></header>
+ <div class="workspace">
+  <section class="hangar" aria-label="배틀슈트 무기 착용 비교">
+   <div class="toolbar"><div><span class="status-dot"></span><b id="weapon-name">리소스 준비 중</b></div><button id="background" type="button">밝은 배경</button></div>
+   <div class="suit-headings"><button data-suit="0" aria-pressed="true"><small>02 / AEROSPACE ASSAULT</small><strong>S-BODY</strong><span>화이트 · 블루 · 레드</span></button><button data-suit="1" aria-pressed="false"><small>03 / GOLD PALADIN</small><strong>Z-BODY</strong><span>화이트 · 블랙 · 골드</span></button></div>
+   <div id="stage"><p id="loading" role="status">전투 리소스를 불러오는 중…</p></div>
+   <div class="fire-controls"><div><span class="caption">사격 검수</span><span id="shot-status" aria-live="polite">준비</span></div><button id="auto" type="button" aria-pressed="false" disabled>연속 사격 OFF</button><button id="fire" class="primary" type="button" disabled>사격 테스트 <span>→</span></button></div>
+  </section>
+  <aside class="armory" aria-label="무기 선택"><div class="panel-title"><div><p class="eyebrow">WEAPON LOADOUT</p><h2>장착 무기</h2></div><span>6종</span></div><div id="weapons"></div><div class="armory-note"><b>H-BODY 규격 계승</b><p>원본 총기 · 무기별 양손 파지<br>동일한 오른쪽 조준 방향</p></div></aside>
+ </div>
+ <section class="exports"><div class="section-heading"><h2>선택한 무기 리소스</h2><p>투명 PNG 384 × 512 · 사격 아틀라스 4열 × 2행</p></div><div id="downloads"></div></section>
+ <footer><span>외형 승인 · 무기 리소스 검수판</span><p>H-BODY와 동일하게 조준 자세 4프레임과 공용 V3 사격 연출을 사용합니다.</p><a href="./manifest.json" target="_blank" rel="noopener">리소스 명세 ↗</a></footer>
+</main><script src="./preview.bundle.js"></script></body></html>

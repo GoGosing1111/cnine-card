@@ -88,3 +88,12 @@ pvp = equipmentPvp + garagePvp + titlePvp
 - 오른쪽 3/4 구도·길고 날씬한 체형·팔과 발 위치를 유지하며, 왕관·견갑 문장·가슴 금사슬·허리 인장·팔다리 금장 부조가 포함된 마지막 시안을 고정한다.
 - 원본은 `preview/battle-suit-z-body-candidates-v1/assets/z-body-candidate-01-gold-paladin.png`, SHA-256 `246F6BB487D114B208D8CFB77E4F0D3F8F9422A17C395FBFE08F415549B30756`이며 무가공 보존한다.
 - 이번 승인은 후보 등록 범위다. 최종 외형 선정, 투명 전투 리소스·사격 아틀라스 제작, 장비 등록 및 운영 연결로 자동 확대하지 않는다.
+
+## 2026-09-16 S-BODY / Z-BODY 최종 외형 승인 및 무기 리소스
+
+- 후속 사용자 지시로 화이트·블루·레드 외형은 **S-BODY**, 최종 얼굴·헬멧·색감 고정 성기사 외형은 **Z-BODY**로 승인했다. 정확한 표기는 `S-BODY`, `Z-BODY`이며 순서는 **H-BODY → S-BODY → Z-BODY**다.
+- 단일 기준은 [S-BODY / Z-BODY 리소스](../preview/battle-suit-sz-v1/README.md), `approval.json`, `manifest.json`이다. 과거 후보1은 보존 이력이며 현 Z-BODY 원화로 되돌려 사용하지 않는다.
+- S-BODY 원본 SHA-256은 `A497FBB8A4DE40B10951E08BA06120CC36295472980C12A35777DBA67886D15C`, 최종 Z-BODY 원본은 `094A2C618F2683059FA129DE5DA2BCE558D5774748477D9AD26C3B41CE62CD6D`다. 원본을 무가공 보존하고 머리·하체 색감을 전신 수정으로 바꾸지 않는다.
+- H-BODY 방식의 기존 원본 총기 6종 × 두 바디를 제작했다. 전투 384×512 RGBA 12개, 고해상도 1280×1536 RGBA 12개, 4열×2행 사격 아틀라스 6개와 비무장 2개다. 원본 무기 균일 변환·손가락 전경·총구와 발바닥 좌표를 함께 기록했다.
+- `AccountBattleUnit`·`BallisticVFX`·PixiJS·GSAP을 사용하는 독립 검수판에서 PC·모바일 선택/사격/취소를 검증했다. 정지 조준 자세 4프레임과 공용 V3 총구·탄도 연출이며 4종 관절 포즈로 표현하지 않는다.
+- 외형 승인 및 무기 리소스 제작·기술 검수 범위다. `BATTLE_SUIT_S_BODY`, `BATTLE_SUIT_Z_BODY`의 운영 수치·획득 정책·라이브 연결은 별도 지시로 관리한다.

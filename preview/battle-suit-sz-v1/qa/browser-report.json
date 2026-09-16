@@ -1,0 +1,219 @@
+{
+  "status": "PASS",
+  "date": "2026-09-16",
+  "method": "Chrome DevTools; actual V3 AccountBattleUnit and BallisticVFX",
+  "desktop": {
+    "viewport": [
+      1440,
+      1000
+    ],
+    "overflow": false,
+    "qa": [
+      {
+        "weapon": 0,
+        "forwardGaps": [
+          135.3361844664961,
+          134.52168528334028
+        ],
+        "fired": true
+      },
+      {
+        "weapon": 1,
+        "forwardGaps": [
+          147.9279835892322,
+          161.10295884413824
+        ],
+        "fired": true
+      },
+      {
+        "weapon": 2,
+        "forwardGaps": [
+          58.323619816871314,
+          57.505444091771324
+        ],
+        "fired": true
+      },
+      {
+        "weapon": 3,
+        "forwardGaps": [
+          102.51338970518714,
+          91.14993851631345
+        ],
+        "fired": true
+      },
+      {
+        "weapon": 4,
+        "forwardGaps": [
+          93.37360282173358,
+          93.1273355902839
+        ],
+        "fired": true
+      },
+      {
+        "weapon": 5,
+        "forwardGaps": [
+          62.27780785118705,
+          61.44821574358923
+        ],
+        "fired": true
+      }
+    ],
+    "error": null
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "overflow": false,
+    "qa": [
+      {
+        "suit": 0,
+        "weapon": 0,
+        "geometry": [
+          {
+            "forwardGap": 91.557738387451,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 0,
+        "weapon": 1,
+        "geometry": [
+          {
+            "forwardGap": 101.71123510702117,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 0,
+        "weapon": 2,
+        "geometry": [
+          {
+            "forwardGap": 29.458048350008653,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 0,
+        "weapon": 3,
+        "geometry": [
+          {
+            "forwardGap": 65.09081847492479,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 0,
+        "weapon": 4,
+        "geometry": [
+          {
+            "forwardGap": 57.72087910135639,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 0,
+        "weapon": 5,
+        "geometry": [
+          {
+            "forwardGap": 32.646539116391295,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 1,
+        "weapon": 0,
+        "geometry": [
+          {
+            "forwardGap": 90.90096053516356,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 1,
+        "weapon": 1,
+        "geometry": [
+          {
+            "forwardGap": 112.33498050886479,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 1,
+        "weapon": 2,
+        "geometry": [
+          {
+            "forwardGap": 28.798305889073504,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 1,
+        "weapon": 3,
+        "geometry": [
+          {
+            "forwardGap": 55.92780981789383,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 1,
+        "weapon": 4,
+        "geometry": [
+          {
+            "forwardGap": 57.522299573340604,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      },
+      {
+        "suit": 1,
+        "weapon": 5,
+        "geometry": [
+          {
+            "forwardGap": 31.977590965219804,
+            "verticalOffset": 0
+          }
+        ],
+        "fired": true
+      }
+    ],
+    "cancellation": {
+      "selected": true,
+      "cancelled": true
+    },
+    "autoStarted": true,
+    "autoStopped": true
+  },
+  "visualInspection": [
+    "Desktop side-by-side full bodies and six weapons",
+    "390px mobile S-BODY and Z-BODY tabs",
+    "Light and dark backgrounds; original-weapon and hand contact review sheet",
+    "All full bodies and muzzles contained in the sprite canvas"
+  ],
+  "consoleErrors": 0,
+  "networkFailures": 0,
+  "apiRequests": 0
+}

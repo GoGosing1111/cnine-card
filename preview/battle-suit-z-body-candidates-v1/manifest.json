@@ -57,5 +57,14 @@
         "후보 선정과 최종 외형 확정·투명 리소스 제작·운영 연결 승인은 구분한다."
       ]
     }
-  ]
+  ],
+  "approvedRevision": {
+    "date": "2026-09-16",
+    "name": "Z-BODY",
+    "source": "../battle-suit-sz-v1/assets/sources/z-body-approved-v1.png",
+    "sha256": "094A2C618F2683059FA129DE5DA2BCE558D5774748477D9AD26C3B41CE62CD6D",
+    "approval": "../battle-suit-sz-v1/approval.json",
+    "resourceManifest": "../battle-suit-sz-v1/manifest.json",
+    "historicalCandidateSourceUnchanged": true
+  }
 }

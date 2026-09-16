@@ -1,0 +1,1929 @@
+{
+  "version": "S_Z_BODY_EXACT_WEAPONS_V1",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "scope": "PREVIEW_ONLY",
+  "liveEnabled": false,
+  "approvedOrder": [
+    "H-BODY",
+    "S-BODY",
+    "Z-BODY"
+  ],
+  "artApproval": "USER_APPROVED_20260916",
+  "generationTool": "built-in image_gen",
+  "runtimeModule": "/preview/project-v-v3/source/battle/AccountBattleUnit.js",
+  "animationContract": {
+    "format": "PNG_RGBA_GRID",
+    "grid": {
+      "columns": 4,
+      "rows": 2
+    },
+    "frameSize": {
+      "width": 384,
+      "height": 512
+    },
+    "frameOrder": [
+      "ready",
+      "fire",
+      "recoil",
+      "recover"
+    ],
+    "durationsMs": {
+      "ready": 45,
+      "fire": 45,
+      "recoil": 70,
+      "recover": 125
+    },
+    "camera": "PROJECT_V_V3_ELEVATED_ISOMETRIC",
+    "pivot": "SOLE_CENTER",
+    "movement": false,
+    "approvedWeaponScalePolicy": "PAIR_CONTENT_BOUNDS_WITH_M200_SCALE_CORRECTION",
+    "muzzleFlashSource": "RUNTIME_EFFECT_ONLY",
+    "placementTuning": "SUIT_WEAPON_PAIR_CONTENT_BOUNDS",
+    "muzzleBinding": "FIRE_FRAME_RENDERED_WEAPON_TIP",
+    "staticPosePolicy": "REPEAT_AUTHORED_READY_POSE_RUNTIME_BALLISTIC_FX",
+    "poseAnimation": false
+  },
+  "weapons": [
+    {
+      "equipmentCode": "EQ_1785427638137",
+      "name": "아발론 M4A1",
+      "sourceImage": "/assets/new myth/20.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961232958",
+      "name": "인피니티 AK",
+      "sourceImage": "/assets/items/GUN1.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961300455",
+      "name": "인피니티 M200",
+      "sourceImage": "/assets/items/GUN2.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1786966923833",
+      "name": "소버린 SKS",
+      "sourceImage": "/assets/items/41515123.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1788486929132",
+      "name": "東方軍火商(동방무기상) · 금룡 돌격소총",
+      "sourceImage": "/assets/items/gilded-dragon-ar-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+      "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+      "authoredCompositeSource": "IMAGEGEN_EXACT_WEAPON_CUTOUT_V1"
+    },
+    {
+      "equipmentCode": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상) · 금룡 대물저격총",
+      "sourceImage": "/assets/items/gilded-dragon-antimateriel-rifle-mythic-v1.png",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+      "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+      "authoredCompositeSource": "IMAGEGEN_EXACT_WEAPON_CUTOUT_V1"
+    }
+  ],
+  "suits": [
+    {
+      "id": "s-body",
+      "name": "S-BODY",
+      "code": "BATTLE_SUIT_S_BODY",
+      "order": 2,
+      "accent": "#69aaff",
+      "source": "/preview/battle-suit-sz-v1/assets/sources/s-body-approved-v1.png",
+      "matte": "s-body-matte-v1.png",
+      "sha256": "A497FBB8A4DE40B10951E08BA06120CC36295472980C12A35777DBA67886D15C",
+      "unarmed": "/preview/battle-suit-sz-v1/assets/sprites/s-body-unarmed-v1.png",
+      "entries": [
+        {
+          "weaponCode": "EQ_1785427638137",
+          "weaponName": "아발론 M4A1",
+          "weaponIndex": 0,
+          "id": "m4a1",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/s-body-m4a1-v1.png",
+          "sha256": "E9AE3FE9E4EB6DE45A7D7717550D38BD3698AB909CE6D11002836743F088C9A7",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/s-body-m4a1-full-v1.png",
+          "highResolutionSha256": "F15D56F8E7D083E582A5149CBA55B6A533CFDF007D6EDC5AB87E6CB8B5920B88",
+          "diagnostics": {
+            "bounds": {
+              "left": 48,
+              "top": 40,
+              "width": 288,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.19007240853658536,
+              "y": 0.935546875
+            },
+            "transparentPixels": 154580
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+            "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/s-body-m4a1-pose-v1.png",
+            "bodySha256": "738993E7ED0A55D6B45FF39DD53A6D1BAEFDCDF16BD7CC7952363F3911B89252",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 700,
+              "left": 290,
+              "top": 245,
+              "flop": true,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 0,
+              "dy": -28,
+              "score": 0.8802555243820975
+            },
+            "sourceMuzzle": {
+              "x": 979.0625,
+              "y": 316.09375
+            },
+            "frameTransform": {
+              "left": 48,
+              "top": 40,
+              "width": 288,
+              "height": 440,
+              "sourceBounds": {
+                "left": 68,
+                "top": 48,
+                "width": 917,
+                "height": 1399,
+                "bottom": 1446
+              }
+            },
+            "handBoxes": [
+              [
+                432,
+                348,
+                550,
+                444
+              ],
+              [
+                719,
+                315,
+                821,
+                421
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.5003573981415297
+          },
+          "atlasSha256": "0A16E8FB16F28747326E84CCAABCAF6F8324546C3033C34F3AA5571DD67A1FCE",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_S_BODY",
+            "weaponCode": "EQ_1785427638137",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/s-body-m4a1-m200-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.19007240853658536,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.19007240853658536,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.19007240853658536,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.19007240853658536,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.8701438113413303,
+              "y": 0.24280910750982845,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1785961232958",
+          "weaponName": "인피니티 AK",
+          "weaponIndex": 1,
+          "id": "ak",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/s-body-ak-v1.png",
+          "sha256": "7D78D0030D0FDD3DD1E254D5D1DE15827D90AC455550AF4A3E4748EC3CA2DE13",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/s-body-ak-full-v1.png",
+          "highResolutionSha256": "A8A914338AAB8F7315CE469C3324E9D33A07D76997B527663D9F2437CF69EF3E",
+          "diagnostics": {
+            "bounds": {
+              "left": 45,
+              "top": 40,
+              "width": 294,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.18559451219512194,
+              "y": 0.935546875
+            },
+            "transparentPixels": 154490
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+            "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/s-body-ak-pose-v1.png",
+            "bodySha256": "148F36EFFB94305FE577FE83481E324375B252D22AA72ED79FA8758D96C1ADFF",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 700,
+              "left": 302,
+              "top": 214,
+              "flop": true,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 47,
+              "dy": -64,
+              "score": 0.8369307986960065
+            },
+            "sourceMuzzle": {
+              "x": 937.7421875,
+              "y": 293.296875
+            },
+            "frameTransform": {
+              "left": 45,
+              "top": 40,
+              "width": 294,
+              "height": 440,
+              "sourceBounds": {
+                "left": 65,
+                "top": 48,
+                "width": 935,
+                "height": 1399,
+                "bottom": 1446
+              }
+            },
+            "handBoxes": [
+              [
+                446,
+                325,
+                573,
+                414
+              ],
+              [
+                755,
+                295,
+                849,
+                383
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.5003573981415297
+          },
+          "atlasSha256": "0D3E9DA56EA9785D89DC1321EDBF89308839F58DAEC24E44BE1FFE9995FD18E0",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_S_BODY",
+            "weaponCode": "EQ_1785961232958",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/s-body-ak-sks-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.18559451219512194,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.18559451219512194,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.18559451219512194,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.18559451219512194,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.831832673587901,
+              "y": 0.22880548745755896,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1785961300455",
+          "weaponName": "인피니티 M200",
+          "weaponIndex": 2,
+          "id": "m200",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/s-body-m200-v1.png",
+          "sha256": "6BC7DF729D6FF2349963B6B03A5D643E39908E9A9DEC652787A45171C54FF7FE",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/s-body-m200-full-v1.png",
+          "highResolutionSha256": "78137E91C9D0C7A8766CEBA2326FF20A727E4C3FA87B18455F58021FC0E77A63",
+          "diagnostics": {
+            "bounds": {
+              "left": 6,
+              "top": 40,
+              "width": 371,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.09291409465020577,
+              "y": 0.935546875
+            },
+            "transparentPixels": 152153
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+            "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/s-body-m200-pose-v1.png",
+            "bodySha256": "538058F2FFAB5C0C92A99B195173AA5BEE62D802E312F1630C95C3D04DC1574D",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 980,
+              "left": 267,
+              "top": 195,
+              "flop": true,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 0,
+              "dy": -51,
+              "score": 0.917092848200313
+            },
+            "sourceMuzzle": {
+              "x": 1230.73046875,
+              "y": 293.57421875
+            },
+            "frameTransform": {
+              "left": 6,
+              "top": 40,
+              "width": 371,
+              "height": 440,
+              "sourceBounds": {
+                "left": 53,
+                "top": 48,
+                "width": 1180,
+                "height": 1399,
+                "bottom": 1446
+              }
+            },
+            "handBoxes": [
+              [
+                422,
+                328,
+                540,
+                418
+              ],
+              [
+                729,
+                303,
+                832,
+                386
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.7005003573981415
+          },
+          "atlasSha256": "0A16E8FB16F28747326E84CCAABCAF6F8324546C3033C34F3AA5571DD67A1FCE",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_S_BODY",
+            "weaponCode": "EQ_1785961300455",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/s-body-m4a1-m200-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.09291409465020577,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.09291409465020577,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.09291409465020577,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.09291409465020577,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9799126145529882,
+              "y": 0.22897585363708453,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1786966923833",
+          "weaponName": "소버린 SKS",
+          "weaponIndex": 3,
+          "id": "sks",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/s-body-sks-v1.png",
+          "sha256": "FEBE5F9B920B871F5E696DBE5C994F3300855581A6B46E19E8E9F050DCA2D0A4",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/s-body-sks-full-v1.png",
+          "highResolutionSha256": "A7C9CC1180613158F905729CBE234A5A62DC71E261BD8B36E773994B5B0ACBE6",
+          "diagnostics": {
+            "bounds": {
+              "left": 31,
+              "top": 40,
+              "width": 322,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.14943788109756098,
+              "y": 0.935546875
+            },
+            "transparentPixels": 152684
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+            "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/s-body-sks-pose-v1.png",
+            "bodySha256": "C7526E31D3425EE0D95F417289ABFDA96DA6CEA646ADB602E5486EE7C19C71CE",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 840,
+              "left": 244,
+              "top": 187,
+              "flop": true,
+              "rotationDegrees": 6
+            },
+            "proxyRegistration": {
+              "dx": 0,
+              "dy": -1,
+              "score": 0.9003510560696788
+            },
+            "sourceMuzzle": {
+              "x": 1086.0838591252223,
+              "y": 362.0214781341059
+            },
+            "frameTransform": {
+              "left": 31,
+              "top": 40,
+              "width": 322,
+              "height": 440,
+              "sourceBounds": {
+                "left": 64,
+                "top": 48,
+                "width": 1024,
+                "height": 1399,
+                "bottom": 1446
+              }
+            },
+            "handBoxes": [
+              [
+                415,
+                369,
+                548,
+                458
+              ],
+              [
+                789,
+                361,
+                889,
+                440
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0.07315206403268662,
+            "weaponLengthToFigureHeight": 0.6004288777698356
+          },
+          "atlasSha256": "0D3E9DA56EA9785D89DC1321EDBF89308839F58DAEC24E44BE1FFE9995FD18E0",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_S_BODY",
+            "weaponCode": "EQ_1786966923833",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/s-body-ak-sks-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.14943788109756098,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.14943788109756098,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.14943788109756098,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.14943788109756098,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9177017279010049,
+              "y": 0.27102150305325035,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1788486929132",
+          "weaponName": "東方軍火商(동방무기상) · 금룡 돌격소총",
+          "weaponIndex": 4,
+          "id": "gilded-ar",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/s-body-gilded-ar-v1.png",
+          "sha256": "E3ABB8A7E4D8476B64D054D41921FF477AA379D65AEABA342015FD540DC4B55A",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/s-body-gilded-ar-full-v1.png",
+          "highResolutionSha256": "873FC0DB239C07990313739E6220E072D99D53EF78CCDE08610328D2C84DBE8B",
+          "diagnostics": {
+            "bounds": {
+              "left": 26,
+              "top": 40,
+              "width": 331,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.1347093621399177,
+              "y": 0.935546875
+            },
+            "transparentPixels": 150553
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+            "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/s-body-gilded-ar-pose-v1.png",
+            "bodySha256": "6E5434C447BA3116C88B767CFF15FBD0411462ACD0AACE84DA051EFC96DDC392",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 900,
+              "left": 219,
+              "top": 226,
+              "flop": false,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 2,
+              "dy": -2,
+              "score": 0.9233853843297438
+            },
+            "sourceMuzzle": {
+              "x": 1116.36328125,
+              "y": 321.80078125
+            },
+            "frameTransform": {
+              "left": 26,
+              "top": 40,
+              "width": 331,
+              "height": 440,
+              "sourceBounds": {
+                "left": 65,
+                "top": 48,
+                "width": 1054,
+                "height": 1399,
+                "bottom": 1446
+              }
+            },
+            "handBoxes": [
+              [
+                408,
+                361,
+                554,
+                450
+              ],
+              [
+                773,
+                334,
+                884,
+                425
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.6433166547533953
+          },
+          "atlasSha256": "5A4411E340069DC9B9302743C92D6D67E703F4533A7D104099ECF4D074F84EBD",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_S_BODY",
+            "weaponCode": "EQ_1788486929132",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/s-body-gilded-dragon-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.1347093621399177,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.1347093621399177,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.1347093621399177,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.1347093621399177,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9275311464602852,
+              "y": 0.2463148115702064,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1788486888336",
+          "weaponName": "東方軍火商(동방무기상) · 금룡 대물저격총",
+          "weaponIndex": 5,
+          "id": "gilded-antimateriel",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/s-body-gilded-antimateriel-v1.png",
+          "sha256": "5EC9E86254C3DE2AA5D3C1BA13DDD6A387EF5EA4388BA13ABFA7C335FC078CE1",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/s-body-gilded-antimateriel-full-v1.png",
+          "highResolutionSha256": "670CE0CABFDFC687A5926526EEE5907350C67E01B79EE306517FBDD773AB5851",
+          "diagnostics": {
+            "bounds": {
+              "left": 9,
+              "top": 40,
+              "width": 365,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.09053872699386502,
+              "y": 0.935546875
+            },
+            "transparentPixels": 149173
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+            "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/s-body-gilded-antimateriel-pose-v1.png",
+            "bodySha256": "1EE548974FA62743CDFD98D53C443C8C9CDF7083959218CB22A0528DA6F14DC0",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 980,
+              "left": 247,
+              "top": 216,
+              "flop": false,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 0,
+              "dy": -1,
+              "score": 0.8941601979876663
+            },
+            "sourceMuzzle": {
+              "x": 1218.38671875,
+              "y": 339.45703125
+            },
+            "frameTransform": {
+              "left": 9,
+              "top": 40,
+              "width": 365,
+              "height": 440,
+              "sourceBounds": {
+                "left": 65,
+                "top": 48,
+                "width": 1162,
+                "height": 1399,
+                "bottom": 1446
+              }
+            },
+            "handBoxes": [
+              [
+                429,
+                377,
+                566,
+                472
+              ],
+              [
+                778,
+                344,
+                895,
+                443
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.7005003573981415
+          },
+          "atlasSha256": "5A4411E340069DC9B9302743C92D6D67E703F4533A7D104099ECF4D074F84EBD",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_S_BODY",
+            "weaponCode": "EQ_1788486888336",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/s-body-gilded-dragon-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.09053872699386502,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.09053872699386502,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.09053872699386502,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.09053872699386502,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9669126334439321,
+              "y": 0.2571606584921149,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "z-body",
+      "name": "Z-BODY",
+      "code": "BATTLE_SUIT_Z_BODY",
+      "order": 3,
+      "accent": "#e5c27a",
+      "source": "/preview/battle-suit-sz-v1/assets/sources/z-body-approved-v1.png",
+      "matte": "z-body-matte-v2.png",
+      "sha256": "094A2C618F2683059FA129DE5DA2BCE558D5774748477D9AD26C3B41CE62CD6D",
+      "unarmed": "/preview/battle-suit-sz-v1/assets/sprites/z-body-unarmed-v1.png",
+      "entries": [
+        {
+          "weaponCode": "EQ_1785427638137",
+          "weaponName": "아발론 M4A1",
+          "weaponIndex": 0,
+          "id": "m4a1",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/z-body-m4a1-v1.png",
+          "sha256": "C5DCA6243A84368B96265A1F79548D0242298DBC4658A22EC3BD80C221659352",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/z-body-m4a1-full-v1.png",
+          "highResolutionSha256": "2CD34D762A6DBE0FF71D6138C1B89FBAF7EF6EB720C3A50CFA8B2214458E19FA",
+          "diagnostics": {
+            "bounds": {
+              "left": 47,
+              "top": 40,
+              "width": 290,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.19048087002096437,
+              "y": 0.935546875
+            },
+            "transparentPixels": 154582
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+            "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/z-body-m4a1-pose-v1.png",
+            "bodySha256": "D0799C1711F1FE5FA1731CEE624E647857EBA6026C601DDEC90546E6F159E6BF",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 700,
+              "left": 290,
+              "top": 273,
+              "flop": true,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 0,
+              "dy": 0,
+              "score": 0.8383433533734135
+            },
+            "sourceMuzzle": {
+              "x": 979.0625,
+              "y": 344.09375
+            },
+            "frameTransform": {
+              "left": 47,
+              "top": 40,
+              "width": 290,
+              "height": 440,
+              "sourceBounds": {
+                "left": 63,
+                "top": 52,
+                "width": 922,
+                "height": 1397,
+                "bottom": 1448
+              }
+            },
+            "handBoxes": [
+              [
+                415,
+                373,
+                553,
+                468
+              ],
+              [
+                700,
+                333,
+                807,
+                435
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.5010737294201861
+          },
+          "atlasSha256": "4CD863697BCCE9F61208A78FE66903ACA3BD9944ADBAB5391C5E00F13ADFBCB1",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_Z_BODY",
+            "weaponCode": "EQ_1785427638137",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/z-body-m4a1-m200-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.19048087002096437,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.19048087002096437,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.19048087002096437,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.19048087002096437,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.8727407724376356,
+              "y": 0.25780865526574803,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1785961232958",
+          "weaponName": "인피니티 AK",
+          "weaponIndex": 1,
+          "id": "ak",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/z-body-ak-v1.png",
+          "sha256": "6A35482B1EAE0E178A5A6AAFAB3D1533EA6194EE032B383A67F1284C753811A0",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/z-body-ak-full-v1.png",
+          "highResolutionSha256": "0A19002A51B002FA7661169BE943665AFFC19CD02AF9F7726D3A060B2AA7A863",
+          "diagnostics": {
+            "bounds": {
+              "left": 52,
+              "top": 40,
+              "width": 279,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.20008680555555555,
+              "y": 0.935546875
+            },
+            "transparentPixels": 155118
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+            "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/z-body-ak-pose-v1.png",
+            "bodySha256": "C775D357A9BA8E6CD478EE6F1E6E2B287154DA49881894FA636416D2B9DC75F2",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 700,
+              "left": 256,
+              "top": 278,
+              "flop": true,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 1,
+              "dy": 0,
+              "score": 0.8850555745721271
+            },
+            "sourceMuzzle": {
+              "x": 891.7421875,
+              "y": 357.296875
+            },
+            "frameTransform": {
+              "left": 52,
+              "top": 40,
+              "width": 279,
+              "height": 440,
+              "sourceBounds": {
+                "left": 68,
+                "top": 52,
+                "width": 886,
+                "height": 1397,
+                "bottom": 1448
+              }
+            },
+            "handBoxes": [
+              [
+                412,
+                379,
+                550,
+                473
+              ],
+              [
+                701,
+                357,
+                792,
+                444
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.5010737294201861
+          },
+          "atlasSha256": "908943E93C2532C2BFB8074BC9DA9B569904220D615778DC14DCACBFF00BB3BF",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_Z_BODY",
+            "weaponCode": "EQ_1785961232958",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/z-body-ak-sks-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.20008680555555555,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.20008680555555555,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.20008680555555555,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.20008680555555555,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.8109247740091822,
+              "y": 0.2659306563730315,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1785961300455",
+          "weaponName": "인피니티 M200",
+          "weaponIndex": 2,
+          "id": "m200",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/z-body-m200-v1.png",
+          "sha256": "A5E0B3C663ED851360D39A2897C1A520B09CCA4B985619C18C1C8C2969560283",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/z-body-m200-full-v1.png",
+          "highResolutionSha256": "F949FE77DEB5354CE915F546B40A66161D0CF97EB260657314AD7F43AE3B4533",
+          "diagnostics": {
+            "bounds": {
+              "left": 8,
+              "top": 40,
+              "width": 368,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.0881076388888889,
+              "y": 0.935546875
+            },
+            "transparentPixels": 151870
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+            "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/z-body-m200-pose-v1.png",
+            "bodySha256": "3BE0183260928675069456B41AEB44A9CC804303268EF9DC63D03A186BA5D5B1",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 980,
+              "left": 267,
+              "top": 246,
+              "flop": true,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 0,
+              "dy": 0,
+              "score": 0.9227960354720918
+            },
+            "sourceMuzzle": {
+              "x": 1230.73046875,
+              "y": 344.57421875
+            },
+            "frameTransform": {
+              "left": 8,
+              "top": 40,
+              "width": 368,
+              "height": 440,
+              "sourceBounds": {
+                "left": 65,
+                "top": 52,
+                "width": 1168,
+                "height": 1397,
+                "bottom": 1448
+              }
+            },
+            "handBoxes": [
+              [
+                413,
+                385,
+                561,
+                483
+              ],
+              [
+                757,
+                348,
+                855,
+                452
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.7015032211882606
+          },
+          "atlasSha256": "4CD863697BCCE9F61208A78FE66903ACA3BD9944ADBAB5391C5E00F13ADFBCB1",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_Z_BODY",
+            "weaponCode": "EQ_1785961300455",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/z-body-m4a1-m200-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.0881076388888889,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.0881076388888889,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.0881076388888889,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.0881076388888889,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9773045370023544,
+              "y": 0.2581042192113681,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1786966923833",
+          "weaponName": "소버린 SKS",
+          "weaponIndex": 3,
+          "id": "sks",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/z-body-sks-v1.png",
+          "sha256": "8B682522B948036E0DCB8C78688F6F9A109D08E27079604B322530BD8173DA8F",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/z-body-sks-full-v1.png",
+          "highResolutionSha256": "6CFB044D0F0E21A3E89EC967664164D9585718257A0BCAA4FEA66179B4CA8DC4",
+          "diagnostics": {
+            "bounds": {
+              "left": 26,
+              "top": 40,
+              "width": 332,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.13192327235772358,
+              "y": 0.935546875
+            },
+            "transparentPixels": 152975
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+            "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/z-body-sks-pose-v1.png",
+            "bodySha256": "710789AF432EBCAB7C609421F015BB08342621E014A696661C6A1C346BBE4162",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 840,
+              "left": 279,
+              "top": 143,
+              "flop": true,
+              "rotationDegrees": 6
+            },
+            "proxyRegistration": {
+              "dx": 35,
+              "dy": -45,
+              "score": 0.8500768644529124
+            },
+            "sourceMuzzle": {
+              "x": 1121.0838591252223,
+              "y": 318.0214781341059
+            },
+            "frameTransform": {
+              "left": 26,
+              "top": 40,
+              "width": 332,
+              "height": 440,
+              "sourceBounds": {
+                "left": 69,
+                "top": 52,
+                "width": 1054,
+                "height": 1397,
+                "bottom": 1448
+              }
+            },
+            "handBoxes": [
+              [
+                390,
+                330,
+                560,
+                480
+              ],
+              [
+                745,
+                315,
+                890,
+                458
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0.07315206403268662,
+            "weaponLengthToFigureHeight": 0.6012884753042234
+          },
+          "atlasSha256": "908943E93C2532C2BFB8074BC9DA9B569904220D615778DC14DCACBFF00BB3BF",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_Z_BODY",
+            "weaponCode": "EQ_1786966923833",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/z-body-ak-sks-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.13192327235772358,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.13192327235772358,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.13192327235772358,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.13192327235772358,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9307198796983065,
+              "y": 0.24177010219863798,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1788486929132",
+          "weaponName": "東方軍火商(동방무기상) · 금룡 돌격소총",
+          "weaponIndex": 4,
+          "id": "gilded-ar",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/z-body-gilded-ar-v1.png",
+          "sha256": "3A7C401D160465B126765EE459B93CD98B7CBA085308ADCA768419C6804BF3E9",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/z-body-gilded-ar-full-v1.png",
+          "highResolutionSha256": "00EB499363F564B766C56C376114A50A300902EF831C118D54FAA8BD82543538",
+          "diagnostics": {
+            "bounds": {
+              "left": 26,
+              "top": 40,
+              "width": 331,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.13404356060606062,
+              "y": 0.935546875
+            },
+            "transparentPixels": 150799
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+            "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/z-body-gilded-ar-pose-v1.png",
+            "bodySha256": "7328AF5E04549C1790EBE491706A8CBB1FA318C9D831E008D5901925BC601B2F",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 900,
+              "left": 218,
+              "top": 226,
+              "flop": false,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 1,
+              "dy": -2,
+              "score": 0.88256874489417
+            },
+            "sourceMuzzle": {
+              "x": 1115.36328125,
+              "y": 321.80078125
+            },
+            "frameTransform": {
+              "left": 26,
+              "top": 40,
+              "width": 331,
+              "height": 440,
+              "sourceBounds": {
+                "left": 66,
+                "top": 52,
+                "width": 1052,
+                "height": 1397,
+                "bottom": 1448
+              }
+            },
+            "handBoxes": [
+              [
+                390,
+                330,
+                560,
+                480
+              ],
+              [
+                720,
+                300,
+                885,
+                450
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.6442376521116678
+          },
+          "atlasSha256": "82B7F5EE43F5CAEA7E1B3A4F3BEB113BA96166CF2AC535E4BD41843150FA45CD",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_Z_BODY",
+            "weaponCode": "EQ_1788486929132",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/z-body-gilded-dragon-v1.png",
+            "row": 0,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 0
+              },
+              "fire": {
+                "column": 1,
+                "row": 0
+              },
+              "recoil": {
+                "column": 2,
+                "row": 0
+              },
+              "recover": {
+                "column": 3,
+                "row": 0
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.13404356060606062,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.13404356060606062,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.13404356060606062,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.13404356060606062,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9275270469288409,
+              "y": 0.24409496878075787,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        },
+        {
+          "weaponCode": "EQ_1788486888336",
+          "weaponName": "東方軍火商(동방무기상) · 금룡 대물저격총",
+          "weaponIndex": 5,
+          "id": "gilded-antimateriel",
+          "image": "/preview/battle-suit-sz-v1/assets/sprites/z-body-gilded-antimateriel-v1.png",
+          "sha256": "EC556B10B44B5FEA50F4C7B107E74F318EC74EEB676894347D5C8D268E1B94B8",
+          "highResolution": "/preview/battle-suit-sz-v1/assets/sprites/z-body-gilded-antimateriel-full-v1.png",
+          "highResolutionSha256": "8A15BE85EC69AB957A25164795193FE37132B09B3043C22620DD5CAFD7378611",
+          "diagnostics": {
+            "bounds": {
+              "left": 9,
+              "top": 40,
+              "width": 365,
+              "height": 440,
+              "bottom": 479
+            },
+            "pivot": {
+              "x": 0.08829752604166667,
+              "y": 0.935546875
+            },
+            "transparentPixels": 149344
+          },
+          "authored": {
+            "source": "/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+            "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+            "bodySource": "/preview/battle-suit-sz-v1/assets/sources/z-body-gilded-antimateriel-pose-v1.png",
+            "bodySha256": "DEAE6FB3176081716A1232E972732E3A3C9448E169E6DF024039B5BCA47B7B55",
+            "composition": "EXACT_WEAPON_RASTER_WITH_HAND_OCCLUSION",
+            "weaponRasterCopied": true,
+            "uniformScaleOnly": true,
+            "placement": {
+              "width": 980,
+              "left": 247,
+              "top": 217,
+              "flop": false,
+              "rotationDegrees": 0
+            },
+            "proxyRegistration": {
+              "dx": 0,
+              "dy": 0,
+              "score": 0.9091204154495294
+            },
+            "sourceMuzzle": {
+              "x": 1218.38671875,
+              "y": 340.45703125
+            },
+            "frameTransform": {
+              "left": 9,
+              "top": 40,
+              "width": 365,
+              "height": 440,
+              "sourceBounds": {
+                "left": 67,
+                "top": 52,
+                "width": 1160,
+                "height": 1397,
+                "bottom": 1448
+              }
+            },
+            "handBoxes": [
+              [
+                390,
+                330,
+                565,
+                485
+              ],
+              [
+                760,
+                310,
+                945,
+                468
+              ]
+            ],
+            "restoredOriginalPixels": 1228428,
+            "colorPolicy": "APPROVED_HEAD_LOWER_BODY_RGB_LOCK_NO_GLOBAL_RETOUCH",
+            "aimAxisDegrees": 0,
+            "weaponLengthToFigureHeight": 0.7015032211882606
+          },
+          "atlasSha256": "82B7F5EE43F5CAEA7E1B3A4F3BEB113BA96166CF2AC535E4BD41843150FA45CD",
+          "profile": {
+            "suitCode": "BATTLE_SUIT_Z_BODY",
+            "weaponCode": "EQ_1788486888336",
+            "sheetUrl": "/preview/battle-suit-sz-v1/assets/atlases/z-body-gilded-dragon-v1.png",
+            "row": 1,
+            "grid": {
+              "columns": 4,
+              "rows": 2
+            },
+            "frameOrder": [
+              "ready",
+              "fire",
+              "recoil",
+              "recover"
+            ],
+            "frames": {
+              "ready": {
+                "column": 0,
+                "row": 1
+              },
+              "fire": {
+                "column": 1,
+                "row": 1
+              },
+              "recoil": {
+                "column": 2,
+                "row": 1
+              },
+              "recover": {
+                "column": 3,
+                "row": 1
+              }
+            },
+            "durationsMs": {
+              "ready": 45,
+              "fire": 45,
+              "recoil": 70,
+              "recover": 125
+            },
+            "pivots": {
+              "ready": {
+                "x": 0.08829752604166667,
+                "y": 0.935546875
+              },
+              "fire": {
+                "x": 0.08829752604166667,
+                "y": 0.935546875
+              },
+              "recoil": {
+                "x": 0.08829752604166667,
+                "y": 0.935546875
+              },
+              "recover": {
+                "x": 0.08829752604166667,
+                "y": 0.935546875
+              }
+            },
+            "contentBottom": 0.935546875,
+            "nameHud": {
+              "contentTop": 0.078125,
+              "gap": 18
+            },
+            "muzzle": {
+              "frame": "fire",
+              "x": 0.9669004856855019,
+              "y": 0.25557150052288385,
+              "unit": "NORMALIZED_FRAME"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "qa": {
+    "assets": "qa/asset-report.json",
+    "browser": "qa/browser-report.json",
+    "date": "2026-09-16"
+  }
+}

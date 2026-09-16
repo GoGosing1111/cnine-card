@@ -1,0 +1,272 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Approved S/Z sources unchanged",
+    "Original six weapon hashes unchanged",
+    "Four locked H-BODY sprites unchanged",
+    "12 real-alpha full-body frames",
+    "Six 4x2 atlases with identical authored aiming frames",
+    "Original visible weapon pixels preserved",
+    "Lower-body original RGB preserved",
+    "Horizontal bore axes",
+    "Valid sole pivots and muzzle anchors",
+    "No saturated green proxy residue"
+  ],
+  "weapons": [
+    {
+      "name": "아발론 M4A1",
+      "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "unchanged": true
+    },
+    {
+      "name": "인피니티 AK",
+      "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "unchanged": true
+    },
+    {
+      "name": "인피니티 M200",
+      "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "unchanged": true
+    },
+    {
+      "name": "소버린 SKS",
+      "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "unchanged": true
+    },
+    {
+      "name": "東方軍火商(동방무기상) · 금룡 돌격소총",
+      "sha256": "8174EF39EE88CD3E87907D2D94CB21F0D7225C7CF7B551908C41B1CE7680ACC2",
+      "unchanged": true
+    },
+    {
+      "name": "東方軍火商(동방무기상) · 금룡 대물저격총",
+      "sha256": "6873E9B6A5560943E1C15BCC7221E7E7B2A09AA92146A562081389B2152AF6B0",
+      "unchanged": true
+    }
+  ],
+  "suits": [
+    {
+      "name": "S-BODY",
+      "sourceUnchanged": true,
+      "entries": [
+        {
+          "weapon": "아발론 M4A1",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 47576,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 16604,
+          "lockedLowerBodyPixels": 145196,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "인피니티 AK",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 37806,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 16604,
+          "lockedLowerBodyPixels": 145196,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "인피니티 M200",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 59181,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 16604,
+          "lockedLowerBodyPixels": 145196,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "소버린 SKS",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 55689,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 16604,
+          "lockedLowerBodyPixels": 145196,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0.07315206403268662,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "東方軍火商(동방무기상) · 금룡 돌격소총",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 86435,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 16604,
+          "lockedLowerBodyPixels": 145196,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "東方軍火商(동방무기상) · 금룡 대물저격총",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 98774,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 16604,
+          "lockedLowerBodyPixels": 145196,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        }
+      ]
+    },
+    {
+      "name": "Z-BODY",
+      "sourceUnchanged": true,
+      "entries": [
+        {
+          "weapon": "아발론 M4A1",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 45949,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 17595,
+          "lockedLowerBodyPixels": 137439,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "인피니티 AK",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 37557,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 17595,
+          "lockedLowerBodyPixels": 137439,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "인피니티 M200",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 59362,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 17595,
+          "lockedLowerBodyPixels": 137439,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "소버린 SKS",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 55089,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 17595,
+          "lockedLowerBodyPixels": 137439,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0.07315206403268662,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "東方軍火商(동방무기상) · 금룡 돌격소총",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 84826,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 17595,
+          "lockedLowerBodyPixels": 137439,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        },
+        {
+          "weapon": "東方軍火商(동방무기상) · 금룡 대물저격총",
+          "dimensions": [
+            384,
+            512
+          ],
+          "visibleOriginalWeaponPixels": 98143,
+          "weaponAlphaMinimum": 250,
+          "weaponColorTolerance": "256 - source alpha (alpha-composite rounding)",
+          "alteredWeaponPixels": 0,
+          "lockedHelmetPixels": 17595,
+          "lockedLowerBodyPixels": 137439,
+          "residualProxyPixels": 0,
+          "aimAxisDegrees": 0,
+          "footBaseline": 479,
+          "staticAtlasFramesEqual": true
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "fullBody": 12,
+    "atlases": 6
+  },
+  "limitations": [
+    "Static aiming frames use the existing V3 ballistic animation; no new articulated frame sequence."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-16",
+  "timezone": "Asia/Seoul",
+  "approvedOrder": ["H-BODY", "S-BODY", "Z-BODY"],
+  "instructions": {
+    "sBody": "좋다 얘를 S바디로 등록, Z바디 후보군도 승인 순서는 H>S>Z 순 무기 장착 리소스 제작해",
+    "zBodyFinal": "좋아 Z바디로 승인 둘다 무기 착용하는 리소스 H바디 참고해서 똑같이 만들어",
+    "exactNames": "S-BODY,Z-BODY"
+  },
+  "suits": [
+    {"name":"S-BODY","code":"BATTLE_SUIT_S_BODY","artApproved":true,"sourceArt":"assets/sources/s-body-approved-v1.png","sha256":"A497FBB8A4DE40B10951E08BA06120CC36295472980C12A35777DBA67886D15C"},
+    {"name":"Z-BODY","code":"BATTLE_SUIT_Z_BODY","artApproved":true,"sourceArt":"assets/sources/z-body-approved-v1.png","sha256":"094A2C618F2683059FA129DE5DA2BCE558D5774748477D9AD26C3B41CE62CD6D","revision":"FINAL_HELMET_AND_COLOR_LOCK"}
+  ],
+  "resources": {"manifest":"manifest.json","weaponCombinations":12,"fullBodyPng":12,"highResolutionPng":12,"atlases":6,"unarmedPng":2,"status":"TECH_QA_COMPLETE_USER_REVIEW_PENDING"},
+  "runtime": {"scope":"PREVIEW_ONLY","liveEnabled":false,"equipmentStats":null,"acquisitionPolicy":null}
+}
