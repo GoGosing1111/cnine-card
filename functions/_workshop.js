@@ -440,3 +440,4 @@ export async function handleWorkshop({path,request,env,deps}){
 }
 
 export const __workshopBattleSuitTest=Object.freeze({BATTLE_SUIT_CRAFT_UPGRADE_KEY,BATTLE_SUIT_RECIPES,CATEGORIES,saveRecipe,paymentFor});
+export const __workshopCraftTest=Object.freeze({craft,FOUNDATION_SQL});

@@ -246,7 +246,8 @@ function bindQuestionMarks(source) {
 // V1810: 단항 마이너스 뒤에 바인딩 파라미터가 오면 Postgres 가 타입을 못 정한다.
 //   ERROR: operator is not unique: - unknown
 //   실제 장애: 장비 보급상자 개방 (SELECT ?,?,-?,quantity,... FROM ...)
-//   SQLite 는 그냥 통과시켰다. 0 을 앞에 두면 정수로 앵커가 잡혀 해소된다.
+//   NUMERIC으로 명시해 큰 정수와 소수 모두 보존한다. 0-$n은 int4로 추론되어
+//   BIGINT 컬럼에 넣더라도 솔라리스 50억·배틀슈트 100억 차감 기록이 실패한다.
 //   이항 마이너스(a - $1)는 이미 좌변이 타입을 정해주므로 건드리지 않는다.
 function anchorUnaryMinusParams(source) {
   return rewriteOutsideLiterals(source, code => {
@@ -265,7 +266,7 @@ function anchorUnaryMinusParams(source) {
       const binaryLead = /[A-Za-z0-9_)\]"]/.test(last)
         && !['SELECT','WHEN','THEN','ELSE','AND','OR','NOT','BY','VALUES','RETURNING','SET','CASE'].includes(prevWord);
       if (binaryLead) { out += ch; i += 1; continue; }
-      out += `(0-$${param[1]})`;
+      out += `(-CAST($${param[1]} AS NUMERIC))`;
       i += 1 + param[0].length;
     }
     return out;
