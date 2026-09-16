@@ -1197,8 +1197,11 @@
     }[result.reason] || (draw ? '양 팀의 전투가 무승부로 끝났습니다.' : win ? '전투를 완료했습니다.' : '다음 전투를 준비하세요.');
     const coins = Math.max(0, n(pvp ? data.coinReward : data.reward));
     const magic = Math.max(0, n(data.magicReward?.amount));
-    const finalA = Array.isArray(result.final?.A) ? result.final.A : [];
-    const finalB = Array.isArray(result.final?.B) ? result.final.B : [];
+    const finalTeam = side => [
+      ...(Array.isArray(result.final?.[side]) ? result.final[side] : []),
+      ...(Array.isArray(result.final?.mercenaries?.[side]) ? result.final.mercenaries[side] : [])
+    ];
+    const finalA = finalTeam('A'), finalB = finalTeam('B');
     const alive = team => team.filter(c => n(c.hp) > 0).length;
     const hp = team => {
       const max = team.reduce((sum,c) => sum + Math.max(0,n(c.maxHp)) + Math.max(0,n(c.maxShield)),0);

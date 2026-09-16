@@ -31,3 +31,8 @@ test('main PVE and PVP both use the shared report with return buttons',()=>{
  assert.match(read('css/battle-v3-live.css'),/v3-report-body\{[^}]*overflow-y:auto/);
  assert.match(read('css/battle-v3-live.css'),/var\(--v3-dock-h,0px\)/);
 });
+test('survival details include the separate mercenary slot without changing the five-card roster',()=>{
+ const html=report({win:true,data:{result:'WIN',battleV2:{result:{final:{A:Array.from({length:5},()=>({hp:100,maxHp:100})),mercenaries:{A:[{hp:50,maxHp:100}]}}}}}});
+ assert.match(html,/아군 생존<\/dt><dd>6 \/ 6/);
+ assert.match(html,/91.7%/);
+});
