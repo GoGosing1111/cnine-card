@@ -20,6 +20,7 @@ const CHEON_AVATAR_KEY='safe_runtime_upgrade_v2068_cheon_avatar_v1';
 const ORIKKUNG_AVATAR_KEY='safe_runtime_upgrade_orikkung_zenith_avatar_v1';
 const SAENGBYUWANG_AVATAR_KEY='safe_runtime_upgrade_saengbyuwang_avatar_v1';
 const HANBOK_DIIM_AVATAR_KEY='safe_runtime_upgrade_hanbok_diim_avatar_v1';
+const T1_JOEUN_AVATAR_KEY='safe_runtime_upgrade_t1_joeun_avatar_v1';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -224,6 +225,7 @@ export async function ensureAvatarFoundation(env){
     await ensureOrikkungAvatar(env);
     await ensureSaengbyuwangAvatar(env);
     await ensureHanbokDiimAvatar(env);
+    await ensureT1JoeunAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -319,6 +321,25 @@ export async function ensureHanbokDiimAvatar(env){
       `${base}avatar-hanbok-diim-equipment-v1-640.webp`,'#ae343b',170
     ),
     env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(HANBOK_DIIM_AVATAR_KEY,'1')
+  ]);
+}
+
+export async function ensureT1JoeunAvatar(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(T1_JOEUN_AVATAR_KEY).first();
+  if(marker?.value==='1')return;
+  const base='preview/avatar-t1-joeun-v1/assets/';
+  // Add the approved art to CMS without inferring acquisition, effects or
+  // ownership. Replays preserve all operator-configured catalog fields.
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO avatar_catalog_v1(
+      code,serial,name,call_sign,role_label,description,lobby_image,lobby_mobile_image,equipment_image,accent,acquisition_type,coin_price,source_label,source_detail,effect_type,effect_value,is_active,is_public,sale_enabled,sort_order
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,'UNSET',NULL,'','','',0,0,0,0,?) ON CONFLICT(code) DO NOTHING`).bind(
+      'T1_JOEUN','A-18','T1 조은','T1 JOEUN','T1 클랜 유니폼',
+      'T1 클랜 문장의 검정·크림슨 유니폼과 밀착 미니스커트를 입은 조은 아바타입니다. 키 큰 슬렌더 체형과 긴 다리의 로비 일러스트·투명 장비창 전신을 함께 적용합니다.',
+      `${base}avatar-t1-joeun-lobby-v1-1024.webp`,`${base}avatar-t1-joeun-lobby-v1-640.webp`,
+      `${base}avatar-t1-joeun-equipment-v1-640.webp`,'#d32f4a',180
+    ),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(T1_JOEUN_AVATAR_KEY,'1')
   ]);
 }
 

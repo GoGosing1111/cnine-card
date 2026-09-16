@@ -1,0 +1,77 @@
+{
+  "name": "T1 조은",
+  "code": "T1_JOEUN",
+  "serial": "A-18",
+  "date": "2026-09-16",
+  "generator": "built-in image_gen",
+  "approval": "사용자: 좋아 장비창도 만들어서 추가해",
+  "identity": "승인된 경찰 조은 작화 느낌의 T1 유니폼 로비 원본",
+  "equipment": "같은 얼굴·체형·의상의 별도 장비창 자세",
+  "backgroundRemoval": "none; native generated alpha retained",
+  "alpha": {
+    "clearPixels": 1218189,
+    "solidPixels": 312140,
+    "borderNontransparentPixels": 0,
+    "crop": {
+      "left": 266,
+      "top": 10,
+      "width": 511,
+      "height": 1506
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1664,
+    "uniformScale": 1,
+    "bodyWidth": 511,
+    "bodyHeight": 1506,
+    "top": 24,
+    "bottom": 134
+  },
+  "registration": {
+    "active": false,
+    "public": false,
+    "saleEnabled": false,
+    "acquisitionType": "UNSET",
+    "coinPrice": null,
+    "effects": [],
+    "grant": false
+  },
+  "files": {
+    "avatar-t1-joeun-lobby-source-art-v1.png": {
+      "sha256": "83d1e267797a4377d00fa97ea5ae38f10572dfbbb00f07576bd6898241275ec7",
+      "bytes": 2236251,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-t1-joeun-equipment-source-art-v1.png": {
+      "sha256": "aa5c8f3154ee5705967b1c2129aa45ab275c2fae5429d0b82772510207907860",
+      "bytes": 1377342,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-t1-joeun-lobby-v1-1024.webp": {
+      "sha256": "7fc3790e816726ee57cf964be2afbdc8c9fdcdd5d84bf9adca466080da452f56",
+      "bytes": 246372,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-t1-joeun-lobby-v1-640.webp": {
+      "sha256": "2cee60b600fae83f3195e23ab0a45f321b5eef45d5219c3857f009d345fd0158",
+      "bytes": 128000,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-t1-joeun-equipment-v1-640.webp": {
+      "sha256": "5728f67ca6d1d0682414bec9ec95eef22f1b908291efccbd6bb08c5b2298c096",
+      "bytes": 132076,
+      "width": 640,
+      "height": 1664,
+      "hasAlpha": true
+    }
+  }
+}
