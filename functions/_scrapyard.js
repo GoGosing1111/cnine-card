@@ -1,3 +1,4 @@
+import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js';
 import {readJointReleaseComponent} from './_joint_release_document.js';
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureUnifiedDropPoolFoundation } from './_drop_pool.js';
@@ -183,7 +184,7 @@ async function run(env,user,body,deps){
     const effectivePower=Math.max(0,Number(uniqueRuntime?.effectivePower??deck.power??0));
     const battleDeck={...deck,power:effectivePower},battle=buildBattle({requestId,difficulty,deck:battleDeck});
     let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});dropCommitted=(drop.rewards||[]).length>0;
-    const clearCoin=battle.success?Number(difficulty.clearCoin||0):0,dropCoinBalance=Number(drop.balances?.coin),coinBeforeClear=Number.isFinite(dropCoinBalance)?dropCoinBalance:Number(user.coin||0);
+    const clearCoin=battle.success?rankCoin(Number(difficulty.clearCoin||0),await accountRankBenefits(env,user.id,'SCRAPYARD')):0,dropCoinBalance=Number(drop.balances?.coin),coinBeforeClear=Number.isFinite(dropCoinBalance)?dropCoinBalance:Number(user.coin||0);
     const guaranteed=clearCoin>0?[{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}]:[],rewards=[...guaranteed,...(drop.rewards||[])];
     const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:1,remaining:ticketRemaining},baseDeckPower:Number(deck.power||0),deckPower:effectivePower,deckCards:publicDeck(deck),uniqueAbility:typeof deps.uniqueBattleResponsePayload==='function'?deps.uniqueBattleResponsePayload(deck.unique,uniqueRuntime):null,...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(clearCoin>0?{coin:coinBeforeClear+clearCoin}:{})}};
     const statements=[
@@ -191,7 +192,7 @@ async function run(env,user,body,deps){
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json) VALUES(?,?,?,?,?,?,?,?)`).bind(requestId,user.id,difficulty.id,response.deckPower,difficulty.waves,battle.wavesCleared,battle.success?1:0,JSON.stringify(response.rewards)),
       env.DB.prepare(`UPDATE ${TICKET_RESERVATION_TABLE} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`).bind(requestId,user.id),
       env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),requestId,user.id)
-    ];await env.DB.batch(statements);
+    ];statements.push(...await accountRankAward(env,user.id,'SCRAPYARD',requestId));await env.DB.batch(statements);
     return response;
   }catch(error){
     if(!dropCommitted){const committed=await env.DB.prepare(`SELECT 1 ok FROM ${DROP_RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND status='COMPLETED'`).bind(`SCRAPYARD:${requestId}`,user.id).first().catch(()=>null);dropCommitted=Boolean(committed?.ok)}

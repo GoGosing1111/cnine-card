@@ -1,3 +1,4 @@
+import {accountRankAward,accountRankBenefits,rankCards,rankCoin} from './_account_rank.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
 const SETTINGS_KEY='escort_operation_settings_v1840';
 // V1840: 보상 구조가 '전체 클리어 일괄' → '구간별 적립' 으로 바뀌었다.
@@ -297,7 +298,7 @@ export async function handleEscortOperation({path,request,env,deps}){
     const key=weekKey(),weekly=await weeklyState(env,user.id,key);
     if(weekly.startedCount>=cfg.weeklyRunLimit)return json({error:`이번 주 출전 가능 횟수 ${cfg.weeklyRunLimit}회를 모두 사용했습니다.`},409);
     if(weekly.rewardCount>=cfg.weeklyRewardLimit)return json({error:`이번 주 보상 횟수 ${cfg.weeklyRewardLimit}회를 모두 달성했습니다.`},409);
-    const deck=await pveDeckSnapshot(env,user.id);if(deck.length!==5)return json({error:'PVE 출전 덱 5장을 먼저 저장하세요.'},400);
+    const deck=rankCards(await pveDeckSnapshot(env,user.id),await accountRankBenefits(env,user.id,'ESCORT'));if(deck.length!==5)return json({error:'PVE 출전 덱 5장을 먼저 저장하세요.'},400);
     const runId=crypto.randomUUID(),state={phase:'READY',mercenary:await releasedMercenarySnapshot(env,user),mercenaryHpPercent:100,cardHp:Object.fromEntries(deck.map(card=>[String(card.id),100])),pendingTactic:null,choices:[],history:[]};
     await env.DB.batch([
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(run_id,user_id,week_key,status,sector_index,vehicle_hp,vehicle_max_hp,deck_snapshot,state_json) VALUES(?,? ,?,'ACTIVE',0,?,?,?,?)`).bind(runId,user.id,key,cfg.vehicleMaxHp,cfg.vehicleMaxHp,JSON.stringify(deck),JSON.stringify(state)),
@@ -420,7 +421,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       const receipt=await reserveReceipt(env,{requestId,userId:user.id,runId:row.run_id,action:'CLAIM'});if(receipt.replay)return json(receipt.replay);if(receipt.error)return json({error:receipt.error},receipt.status);
       const weekly=await weeklyState(env,user.id,row.week_key);if(weekly.rewardCount>=cfg.weeklyRewardLimit)throw Object.assign(new Error('이번 주 호송작전 보상 횟수를 모두 사용했습니다.'),{status:409});
       const reserved=await env.DB.prepare(`UPDATE ${RUN_TABLE} SET status='CLAIMING',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='COMPLETED_PENDING'`).bind(row.run_id,user.id).run();if(Number(reserved?.meta?.changes||0)!==1)throw Object.assign(new Error('보상을 다른 요청에서 처리 중입니다.'),{status:409});
-      const coin=Number(row.reward_coin||0),shards=Number(row.reward_shards||0),tickets=Number(row.reward_tickets||0),vehiclePercent=Math.round(Number(row.vehicle_hp||0)/Math.max(1,Number(row.vehicle_max_hp||1))*100),claimGuard=`EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND status='CLAIMING')`;
+      const coin=rankCoin(Number(row.reward_coin||0),await accountRankBenefits(env,user.id,'ESCORT')),shards=Number(row.reward_shards||0),tickets=Number(row.reward_tickets||0),vehiclePercent=Math.round(Number(row.vehicle_hp||0)/Math.max(1,Number(row.vehicle_max_hp||1))*100),claimGuard=`EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND status='CLAIMING')`;
       // V1840 폐차장 출입 허가증 지급.
       //   중복 방지는 3중이다.
       //   ① 영수증(request_id) — 같은 요청 재전송 차단
@@ -434,6 +435,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       await env.DB.batch([
         env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND ${claimGuard}`).bind(coin,shards,user.id,row.run_id,user.id),
         ...ticketStatements,
+        ...await accountRankAward(env,user.id,'ESCORT',row.run_id,{guard:claimGuard,values:[row.run_id,user.id]}),
         env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,reward_count,best_vehicle_hp_percent,updated_at) SELECT ?,?,1,?,CURRENT_TIMESTAMP WHERE ${claimGuard} ON CONFLICT(user_id,week_key) DO UPDATE SET reward_count=${WEEKLY_TABLE}.reward_count+1,best_vehicle_hp_percent=CASE WHEN ${WEEKLY_TABLE}.best_vehicle_hp_percent>=excluded.best_vehicle_hp_percent THEN ${WEEKLY_TABLE}.best_vehicle_hp_percent ELSE excluded.best_vehicle_hp_percent END,updated_at=CURRENT_TIMESTAMP`).bind(user.id,row.week_key,vehiclePercent,row.run_id,user.id),
         env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PVE 호송작전 구간 보상' FROM users WHERE id=? AND ${claimGuard}`).bind(coin,user.id,row.run_id,user.id),
         env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT id,?,card_shards,'PVE 호송작전 구간 보상',NULL FROM users WHERE id=? AND ${claimGuard}`).bind(shards,user.id,row.run_id,user.id),

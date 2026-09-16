@@ -1,3 +1,4 @@
+import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js';
 import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {buildCowRoomBattle} from './_cow_room_v3.js';
@@ -51,6 +52,7 @@ async function settle(env,user,row,token,deps){
   await env.DB.batch([
     p(env,`INSERT INTO ${RUN}(user_id,content,request_id,selection,checkpoint_json,integrity) SELECT ?,?,?,'','',NULL WHERE NOT EXISTS(SELECT 1 FROM ${RUN} WHERE user_id=? AND content=? AND request_id=? AND state='PREPARED' AND lease_token=? AND lease_until>?) OR NOT EXISTS(SELECT 1 FROM users WHERE id=?)`,uid,content,rid,uid,content,rid,token,now,uid),
     ...grants.statements,
+    ...(saved.success?await accountRankAward(env,uid,'COW_ROOM',rid):[]),
     p(env,`UPDATE ${RUN} SET integrity=CASE WHEN ${proof} THEN 1 ELSE NULL END WHERE user_id=? AND content=? AND request_id=? AND lease_token=?`,...grants.proofs.flatMap(q=>q.values),uid,content,rid,token),
     ...(saved.success?[p(env,`INSERT INTO ${PROGRESS}(user_id,content,best_cleared) VALUES(?,?,?) ON CONFLICT(user_id,content) DO UPDATE SET best_cleared=1`,uid,content,1)]:[]),
     p(env,`UPDATE ${RUN} SET state='COMPLETED',response_json=?,lease_token=NULL,lease_until=0,last_error=NULL WHERE user_id=? AND content=? AND request_id=? AND lease_token=?`,encode(response),uid,content,rid,token)
@@ -76,7 +78,7 @@ export async function runExpeditionV3(env,user,content,body,deps={}){
     if(state.budget.remaining<=0)throw jointError('PVE_V3_DAILY_LIMIT','오늘 입장 횟수를 모두 사용했습니다.',409);
     const portal=await requireCowPortal(env,user);
     const snapshot=await (deps.loadSnapshot||loadScrapyardV3Snapshot)(env,user,deps),seed=crypto.getRandomValues(new Uint32Array(1))[0],battle=buildCowRoomBattle({snapshot,seed});
-    const success=battle.battleV2.result.winner==='A',coin=success?Math.min(policy.clearCoin[0],state.budget.coinRemaining):0;
+    const success=battle.battleV2.result.winner==='A',coin=success?Math.min(rankCoin(policy.clearCoin[0],await accountRankBenefits(env,uid,'COW_ROOM')),state.budget.coinRemaining):0;
     const plan=await planUnifiedDropRoll(env,{userId:uid,requestId:`${content}_V3:${rid}`,sourceType:content,sourceId:selection,triggerType:success?'CLEAR':'DEFEAT',role:user.role,context:{difficulty:selection}});
     // Defeats have no rewards; CMS material drops cannot circumvent the coin cap.
     plan.rewards=success?plan.rewards.filter(r=>r.rewardType!=='COIN'):[];

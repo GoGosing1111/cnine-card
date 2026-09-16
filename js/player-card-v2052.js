@@ -54,7 +54,7 @@
         <aside class="pc-identity ${avatar ? '' : 'pc-no-avatar'}">
           ${avatar ? `<img class="pc-portrait" src="${esc(avatar)}" alt="장착 아바타 ${esc(p.avatar.name)}" decoding="async">` : `<div class="pc-monogram" aria-hidden="true">${esc(p.nickname.slice(0, 1))}</div>`}
           <div class="pc-identity-shade"></div><div class="pc-id-content">
-            <span class="pc-kicker">THE PLAYER</span>${title ? `<span class="pc-equipped-title">${esc(title)}</span>` : ''}<h2 id="pc-dialog-title">${esc(p.nickname)}</h2>
+            <span class="pc-kicker">THE PLAYER</span>${title ? `<span class="pc-equipped-title">${esc(title)}</span>` : ''}<h2 id="pc-dialog-title">${esc(p.nickname)}</h2>${p.accountRank?`<div class="pc-account-rank"><img src="${asset(p.accountRank.icon)}" alt="${esc(p.accountRank.name)} 계급장"><span><small>ACCOUNT RANK</small><b>Lv.${num(p.accountRank.level)} · ${esc(p.accountRank.name)}</b></span></div>`:''}
             <p class="pc-clan">${p.clan ? `<span>${esc(p.clan.name)}</span> <small>${esc(p.clan.role)}</small>` : '<span>자유 소속</span>'}</p>
             <div class="pc-identity-line"></div><div class="pc-frame"><span><small>명함 테두리</small><b>옵시디언 <em>+0</em></b></span><button type="button" disabled>강화 준비 중</button></div>
           </div>

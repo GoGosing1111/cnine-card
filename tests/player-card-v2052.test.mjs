@@ -179,7 +179,7 @@ test('live Hi Heeya and Cheon portrait paths render without widening trophy imag
     const unequipped=await f.call();
     assert.equal(unequipped.body.player.avatar,null,'ownership alone never auto-equips an avatar');
     assert.match(ui.render(unequipped.body),/class="pc-monogram"/);
-    assert.match(read('index.html'),/player-card-v2052\.js\?v=2109-champions-trophy/,'new URL bypasses the old service-worker script cache');
+    assert.match(read('index.html'),/player-card-v2052\.js\?v=2122-account-rank/,'new URL bypasses the old service-worker script cache');
   } finally {await f.close();}
 });
 test('portrait preview exception rejects foreign origins, credentials, documents, APIs and traversal', () => {
@@ -207,7 +207,7 @@ test('live connections use exact user IDs; FX remains lazy, cancellable and non-
   assert.match(fx,/prefers-reduced-motion/); assert.match(fx,/visibilitychange/); assert.match(fx,/observer\?\.disconnect/); assert.match(fx,/app\.destroy/); assert.match(fx,/gsap/);
   assert.match(app,/playerIdentityHtml\(r.nickname,r.user_id\|\|r.id\)/); assert.match(read('js/clan-v1.js'),/nameHtml\(m.nickname,m.userId\)/); assert.match(read('js/territory-war-v1811.js'),/nameHtml\(row.nickname,row.user_id\)/);
   assert.match(index,/player-card-v2052.js/); assert.doesNotMatch(index,/<script[^>]+player-card-fx/); assert.match(app,/playerCardFx:\{/);
-  assert.match(read('functions/api/[[path]].js'),/handlePlayerCard\(\{path,request,env,deps:\{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey\}\}\)/);
+  assert.match(read('functions/api/[[path]].js'),/handlePlayerCard\(\{path,request,env,deps:\{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank\}\}\)/);
 });
 test('all trophy assets are real transparent production assets with preserved high-resolution originals', async () => {
   for(const t of TROPHY_CATALOG) {

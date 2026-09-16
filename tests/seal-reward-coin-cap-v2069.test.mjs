@@ -1,3 +1,4 @@
+import {accountRankAward} from '../functions/_account_rank.js';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
@@ -7,10 +8,10 @@ const read = path => readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const server = read('functions/_seal_battle.js');
 const admin = read('admin/seal-battle-admin.js');
 const copy = value => JSON.parse(JSON.stringify(value));
-const createModule = () => Function(server.replace(/^export /gm,'')+`;return {
+const createModule = () => Function('accountRankAward',server.replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')+`;return {
   cleanSettings,normalizeEvent,saveSettings,loadSettings,adminStart,ensureFoundation,
   participate,claimClearReward,claimRankReward,handleSealBattle,SEAL_COIN_REWARD_MAX
-};`)();
+};`)(accountRankAward);
 const mod = createModule();
 const configured = () => mod.cleanSettings({
   mode:'ON', title:'보상 검증', bossName:'테스트 봉인',

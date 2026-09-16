@@ -1,3 +1,4 @@
+import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
 import {handleLootShop} from '../_loot_shop.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
@@ -1282,7 +1283,10 @@ async function refreshRaidForOwner(env,instance,cfg){
     const snapshot=raidCombatSnapshot(rows,instance,cfg,now);
     if(snapshot.allDefeated||snapshot.cleared||now>=endMs){
       const finishedAt=new Date(startMs+snapshot.elapsedMs).toISOString();
-      const ended=await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,snapshot.bossHp,instance.id).run();
+      const rankWrites=[];
+      for(const participant of rows)if(Number(participant.totalPower)>0)rankWrites.push(...await accountRankAward(env,Number(participant.userId),'RAID',String(instance.id),{guard:"EXISTS(SELECT 1 FROM raid_instances WHERE id=? AND status='BATTLE')",values:[instance.id]}));
+      const endedBatch=await env.DB.batch([...rankWrites,env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,snapshot.bossHp,instance.id)]);
+      const ended=endedBatch[endedBatch.length-1];
       if(Number(ended?.meta?.changes||0)===1)await finalizeRaidV1293(env,instance.id,snapshot);
       instance.status='ENDED';instance.ends_at=finishedAt;instance.current_hp=snapshot.bossHp;
     }
@@ -1644,22 +1648,19 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
     const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
     const engineCards=cards.map(card=>{const uniqueCard=uniqueCardsById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
     const battleSuit=battleSuitDamage>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitDamage,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-    battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:engineCards,magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+    battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
     result=battleV2.result.winner==='A'?'WIN':'LOSE';
   }else result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
   const damageBreakdown=battleV2?.result?.damageBreakdown||{cards:cardPower,support:nonBattleSuitSupport,battleSuit:battleSuitDamage,ultimate:ultimateDamage,total:uniquePlayerPower+ultimateDamage,authority:'SERVER_SWEEP_FALLBACK'};
   const eventReward=result==='WIN'?Math.max(0,Math.floor(difficulty.effectiveRewardCoin*Number(settings.__burningRewardMultiplier||1))):0;
-  const avatarCoin=applyAvatarCoinGain(eventReward,options.avatarEffect),reward=avatarCoin.total;
+  const avatarCoin=applyAvatarCoinGain(eventReward,options.avatarEffect),reward=rankCoin(avatarCoin.total,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT'));
   // 수동 PVE와 같은 방식으로 서로 독립적인 지급을 한 파동에서 처리한다. 소탕 회차마다
   // 코인→카드→장비→큐브를 직렬 대기하면 행동력 30회 기준 응답이 과도하게 길어진다.
   const dropRequestId=requestId||`${Date.now()}-${monster.id}`,pveMagic=options.pveMagic||{};
   const cardRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0)).total;
   const cardDropHit=cardRate>0&&Math.random()*100<cardRate;
   const [,cardReward,equipmentReward,blackMiracleReward,cubeReward,magicReward]=await Promise.all([
-    reward?env.DB.batch([
-      env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
-      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 소탕 승리 보상: ${monster.name}`,user.id)
-    ]):Promise.resolve(null),
+    result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',dropRequestId,reward,`PVE 소탕 승리 보상: ${monster.name}`):Promise.resolve(null),
     cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
     result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:'PVE_AUTO',sourceId:String(monster.id),requestId:dropRequestId}):Promise.resolve(null),
     result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:'PVE_AUTO',referenceId:dropRequestId}):Promise.resolve(null),
@@ -3923,7 +3924,7 @@ async function profile(env,user){
     furMasterStarBreakthroughConfig(env),
     zenithMasterStarBreakthroughConfig(env)
   ]);
-  return {profileScope:'FULL',id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
+  return {accountRank:await readAccountRank(env,user.id),profileScope:'FULL',id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
     owned:owned.results.map(row=>String(row.card_id)),
     quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
@@ -4000,7 +4001,7 @@ async function battleResponseProfile(env,user,grantedCardIds){
   const updated=(results[0]?.results||[])[0]||user;
   const masterStarRow=(results[1]?.results||[])[0]||null;
   const ownedRows=ids.length?(results[2]?.results||[]):[];
-  return {...drawResponseProfileFromRows(updated,ownedRows,masterStarRow),profileScope:'BATTLE_PARTIAL'};
+  return {...drawResponseProfileFromRows(updated,ownedRows,masterStarRow),accountRank:await readAccountRank(env,user.id),profileScope:'BATTLE_PARTIAL'};
 }
 
 function drawResponseProfileFromRows(user,ownedRows=[],masterStarRow=null){
@@ -5185,7 +5186,7 @@ async function handleRequest(context){
         breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
       },serverNow:new Date().toISOString()});
     }
-    const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey}});if(playerCardResponse)return playerCardResponse;
+    const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
     const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,isRandomDrawExcluded,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
 
@@ -5244,6 +5245,7 @@ async function handleRequest(context){
 
     // 하위 시스템 라우터도 업그레이드 확인과 점검 차단을 통과한 뒤 실행한다.
     // 대장전·진화 요청이 점검 모드를 우회하거나 준비되지 않은 DB 구조를 먼저 참조하지 않도록 한다.
+    const accountRankResponse=await handleAccountRank({path,request,env,deps:{authenticate,readBody,json,pveDeckCards,validateDeckGradeLimits}});if(accountRankResponse)return accountRankResponse;
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
     const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,grantWeeklyPremiumCube,userEquipmentBonuses,grantEquipmentDrop,rollBlackMiracleDrop,publicEquippedTitleMap}});if(captainResponse)return captainResponse;
     const blackMiracleAdminResponse=await handleBlackMiracleAdmin({path,request,env,deps:{authenticate,readBody,json}});if(blackMiracleAdminResponse)return blackMiracleAdminResponse;
@@ -6520,7 +6522,7 @@ async function handleRequest(context){
     }
     if(path==='rift/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),runId=String(body.runId||''),requestId=String(body.requestId||''),receipt=await riftReceiptStart(env,requestId,user.id,runId,'CLAIM');if(receipt.response)return json(receipt.response);if(receipt.error)return json({error:receipt.error},409);
-      try{const reserved=await env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMING',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='COMPLETED_PENDING'").bind(runId,user.id).run();if(!reserved.meta.changes){await riftReceiptFail(env,requestId,'수령 가능한 원정 보상이 없습니다.');return json({error:'수령 가능한 원정 보상이 없습니다.'},409)}const row=await env.DB.prepare("SELECT * FROM pve_rift_runs WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id).first(),run=riftStateFromRow(row),settings=await riftSettings(env),weekly=await riftWeeklyRow(env,user.id,settings),eligible=run.rewardEligible&&weekly.rewardCount<settings.weeklyRewardLimit,rewardBonusPercent=Math.max(0,Number(run.battleRewardBonusPercent||0)),rewardMultiplier=1+rewardBonusPercent/100,coin=eligible?Math.max(0,Math.floor(Number(run.stash.coin||0)*rewardMultiplier)):0,shards=eligible?Math.max(0,Math.floor(Number(run.stash.shards||0)*rewardMultiplier)):0,magicCrystals=eligible?Math.max(0,Math.floor(Number(run.stash.crystals||0)*rewardMultiplier)):0,before=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(user.id).first(),coinAfter=Number(before?.coin||0)+coin,shardsAfter=Number(before?.card_shards||0)+shards,magicCrystalsAfter=Number(before?.magic_crystals||0)+magicCrystals,response={ok:true,rewarded:eligible,reward:{coin,shards,crystals:magicCrystals,magicCrystals,baseCoin:Math.max(0,Math.floor(Number(run.stash.coin||0))),baseShards:Math.max(0,Math.floor(Number(run.stash.shards||0))),baseMagicCrystals:Math.max(0,Math.floor(Number(run.stash.crystals||0))),battleRewardBonusPercent:rewardBonusPercent},message:eligible?(rewardBonusPercent>0?`전투 승리 보너스 +${rewardBonusPercent}%가 적용된 원정 보상을 수령했습니다.`:'원정 보상을 수령했습니다.'):'이번 주 보상 횟수를 모두 사용해 기록만 반영되었습니다.'};const statements=[env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMED',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id)];if(eligible){statements.unshift(env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin,shards,magicCrystals,user.id),env.DB.prepare("UPDATE pve_rift_weekly SET reward_count=reward_count+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND reward_count<?").bind(user.id,run.weekKey,settings.weeklyRewardLimit));if(coin>0)statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'차원의 균열 원정 보상')").bind(user.id,coin,coinAfter));if(shards>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'차원의 균열 원정 보상')").bind(user.id,shards,shardsAfter));if(magicCrystals>0)statements.push(env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'차원의 균열 원정 보상','RIFT',?)").bind(user.id,magicCrystals,magicCrystalsAfter,runId));}statements.push(env.DB.prepare("UPDATE pve_rift_action_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId));await env.DB.batch(statements);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();response.user=await profile(env,updated);response.weekly=await riftWeeklyRow(env,user.id,settings);response.magicCrystals=Number(updated?.magic_crystals||0);await env.DB.prepare("UPDATE pve_rift_action_receipts SET response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();return json(response);
+      try{const reserved=await env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMING',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='COMPLETED_PENDING'").bind(runId,user.id).run();if(!reserved.meta.changes){await riftReceiptFail(env,requestId,'수령 가능한 원정 보상이 없습니다.');return json({error:'수령 가능한 원정 보상이 없습니다.'},409)}const row=await env.DB.prepare("SELECT * FROM pve_rift_runs WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id).first(),run=riftStateFromRow(row),settings=await riftSettings(env),weekly=await riftWeeklyRow(env,user.id,settings),eligible=run.rewardEligible&&weekly.rewardCount<settings.weeklyRewardLimit,rewardBonusPercent=Math.max(0,Number(run.battleRewardBonusPercent||0)),rewardMultiplier=1+rewardBonusPercent/100,coin=eligible?rankCoin(Math.max(0,Math.floor(Number(run.stash.coin||0)*rewardMultiplier)),await accountRankBenefits(env,user.id,'RIFT')):0,shards=eligible?Math.max(0,Math.floor(Number(run.stash.shards||0)*rewardMultiplier)):0,magicCrystals=eligible?Math.max(0,Math.floor(Number(run.stash.crystals||0)*rewardMultiplier)):0,before=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(user.id).first(),coinAfter=Number(before?.coin||0)+coin,shardsAfter=Number(before?.card_shards||0)+shards,magicCrystalsAfter=Number(before?.magic_crystals||0)+magicCrystals,response={ok:true,rewarded:eligible,reward:{coin,shards,crystals:magicCrystals,magicCrystals,baseCoin:Math.max(0,Math.floor(Number(run.stash.coin||0))),baseShards:Math.max(0,Math.floor(Number(run.stash.shards||0))),baseMagicCrystals:Math.max(0,Math.floor(Number(run.stash.crystals||0))),battleRewardBonusPercent:rewardBonusPercent},message:eligible?(rewardBonusPercent>0?`전투 승리 보너스 +${rewardBonusPercent}%가 적용된 원정 보상을 수령했습니다.`:'원정 보상을 수령했습니다.'):'이번 주 보상 횟수를 모두 사용해 기록만 반영되었습니다.'};const statements=[env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMED',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id)];if(eligible){statements.unshift(env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin,shards,magicCrystals,user.id),env.DB.prepare("UPDATE pve_rift_weekly SET reward_count=reward_count+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND reward_count<?").bind(user.id,run.weekKey,settings.weeklyRewardLimit));if(coin>0)statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'차원의 균열 원정 보상')").bind(user.id,coin,coinAfter));if(shards>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'차원의 균열 원정 보상')").bind(user.id,shards,shardsAfter));if(magicCrystals>0)statements.push(env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'차원의 균열 원정 보상','RIFT',?)").bind(user.id,magicCrystals,magicCrystalsAfter,runId));}statements.push(env.DB.prepare("UPDATE pve_rift_action_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId));statements.unshift(...await accountRankAward(env,user.id,'RIFT',runId,{guard:"EXISTS(SELECT 1 FROM pve_rift_runs WHERE run_id=? AND user_id=? AND status='CLAIMING')",values:[runId,user.id]}));await env.DB.batch(statements);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();response.user=await profile(env,updated);response.weekly=await riftWeeklyRow(env,user.id,settings);response.magicCrystals=Number(updated?.magic_crystals||0);await env.DB.prepare("UPDATE pve_rift_action_receipts SET response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();return json(response);
       }catch(error){await env.DB.prepare("UPDATE pve_rift_runs SET status='COMPLETED_PENDING',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id).run();await riftReceiptFail(env,requestId,error.message);throw error}
     }
     if(path==='rift/abandon'&&request.method==='POST'){
@@ -6714,10 +6716,10 @@ async function handleRequest(context){
         const battleSuitPve=Math.max(0,Number(characterBonus.battleSuitPve||0));
         const cardSupportBonus=Math.max(0,Number(characterBonus.pve||0)-battleSuitPve);
         const battleSuit=battleSuitPve>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitPve,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-        battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:engineCards,magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
-      const eventReward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0,avatarCoin=applyAvatarCoinGain(eventReward,avatarEffect),reward=avatarCoin.total;
+      const eventReward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0,avatarCoin=applyAvatarCoinGain(eventReward,avatarEffect),reward=rankCoin(avatarCoin.total,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT'));
       // V1803: 승패는 여기서 이미 결정돼 있는데, 보상 6종을 순차로 처리하느라 응답이 그만큼 늦었다.
       //   기존: 코인 → 카드드랍 → 장비 → 블랙미라클 → 통합드랍 → 큐브 → 마력결정  (7단 직렬)
       //   각 드랍이 영수증(멱등성) 조회+쓰기를 끼고 있어 왕복 15~25회, 싱가포르 기준 1.5~3.4초.
@@ -6732,10 +6734,7 @@ async function handleRequest(context){
       const cardDropRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0)).total;
       const cardDropHit=cardDropRate>0&&Math.random()*100<cardDropRate;
       const [,cardReward,equipmentReward,blackMiracleReward,cubeReward,magicReward]=await Promise.all([
-        reward?env.DB.batch([
-          env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
-          env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id)
-        ]):Promise.resolve(null),
+        result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',requestId,reward,`PVE 승리 보상: ${monster.name}`):Promise.resolve(null),
         cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
         result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId}):Promise.resolve(null),
         result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId}):Promise.resolve(null),
@@ -6878,6 +6877,7 @@ async function handleRequest(context){
         // V1785: 코인 지급과 층 진행도 갱신은 서로 독립적인 쓰기다. D1 배치 1회로 묶는다(왕복 2회 → 1회).
         const towerClearWrites=[env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id)];
         if(reward)towerClearWrites.unshift(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id));
+        towerClearWrites.push(...await accountRankAward(env,user.id,'TOWER',`${season.id}:${floorNo}`));
         await env.DB.batch(towerClearWrites);
         const magicCfg=await magicSettings(env),towerMagic=magicCfg.acquisition?.tower||{},magicAmount=magicRewardForTowerFloor(magicCfg,floorNo);
         magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:`${season.id}:${floorNo}`,enabled:towerMagic.enabled===true,chance:100,amount:magicAmount,dailyLimit:0,reason:`무한의탑 ${floorNo}층 최초 클리어`});

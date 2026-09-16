@@ -1,3 +1,4 @@
+import {accountRankBenefits,rankCards} from './_account_rank.js';
 import {createPveBattleV2} from './_battle_v2_preview.js';
 import {SCRAPYARD_ENEMIES} from './_scrapyard.js';
 
@@ -70,7 +71,7 @@ export async function loadScrapyardV3Snapshot(env, user, deps, mode = 'PVE') {
   const ultimateDamage = ultimateSource ? Math.max(0, Math.floor(Number(ultimateSource.power || 0) * Number(ultimate.rule?.coefficientPercent || 0) / 100)) : 0;
   if (!Number.isSafeInteger(ultimateDamage)) fail('SCRAPYARD_V3_DECK', '궁극기 전투력을 확인할 수 없습니다.');
   const mercenary=deps.loadMercenaryBattleSnapshot?await deps.loadMercenaryBattleSnapshot(env,user):null;
-  const snapshot = {schemaVersion:1, userId:user.id, accountNickname:String(user.nickname || ''), cards,...(mercenary?{mercenary}:{}),
+  const snapshot = {schemaVersion:1, userId:user.id, accountNickname:String(user.nickname || ''), cards:rankCards(cards,env.DB?await accountRankBenefits(env,user.id,mode==='PVE'?'SCRAPYARD':mode):{attackBp:0,hpBp:0}),...(mercenary?{mercenary}:{}),
     cardSupportBonus, battleSuit, characterBonus:equipment, magicCards:magic?.cards || [], ultimateDamage,
     singleHealerBonus:deck.battleSettings?.engine?.singleHealerBonus || {},
     power:{...(mercenary?{mercenary:Math.round(mercenary.basePower*(1+(mercenary.combat?.powerGrowthPercentPerLevel||0)*(mercenary.level-1)/100))}:{}),cards:cards.reduce((sum, card) => sum + card.power, 0), equipment:cardSupportBonus, battleSuit:battleSuit ? suitPower : 0},

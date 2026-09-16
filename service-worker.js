@@ -4,6 +4,7 @@ const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 // Renderer contracts can change while an installed client keeps old versioned URLs.
 const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/preview/project-v-v3/project-v-pixi-battle.bundle.js','/pve-v3/battle.bundle.js']);
+const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/adventure-lobby-v2107.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs']);
 const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,
@@ -28,7 +29,7 @@ self.addEventListener('activate',event=>{
       (name.startsWith('soop-card-content-')&&name!==CONTENT_CACHE)
     ).map(name=>caches.delete(name)));
     const shell=await caches.open(SHELL_CACHE);
-    await Promise.all((await shell.keys()).filter(request=>FRESH_BATTLE_SCRIPTS.has(new URL(request.url).pathname)).map(request=>shell.delete(request)));
+    await Promise.all((await shell.keys()).filter(request=>FRESH_BATTLE_SCRIPTS.has(new URL(request.url).pathname)||FRESH_ACCOUNT_SCRIPTS.has(new URL(request.url).pathname)).map(request=>shell.delete(request)));
     await self.clients.claim();
   })());
 });
@@ -145,6 +146,7 @@ self.addEventListener('fetch',event=>{
 
   if(['script','style','worker'].includes(request.destination)){
     if(FRESH_BATTLE_SCRIPTS.has(url.pathname)){event.respondWith(networkFirst(request,SHELL_CACHE));return;}
+    if(FRESH_ACCOUNT_SCRIPTS.has(url.pathname)){event.respondWith(networkFirst(request,SHELL_CACHE));return;}
     // Only an explicit release query opts in. A legacy -vNN file name is not
     // immutable. A new shell cache per release also refreshes unchanged URLs.
     event.respondWith(url.searchParams.get('v')?cacheFirst(request,SHELL_CACHE):networkFirst(request,SHELL_CACHE));

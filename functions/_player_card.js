@@ -87,7 +87,7 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
       CLAN_CHAMPIONS_TROPHY: { count: n(champions.wins), acquiredAt: champions.first_at || null, progress: n(champions.wins), goal: 1 }
     };
     return json({ version: PLAYER_CARD_VERSION, serverNow: new Date(now).toISOString(),
-      player: { id, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,
+      player: { id, accountRank:deps.readAccountRank?await deps.readAccountRank(env,id):null, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,
         avatar: avatar ? { name: avatar.name, image: avatar.lobby_image } : null,
         clan: clan ? { id: n(clan.id), name: clan.name, markKey: clan.mark_key, role: clan.member_role === 'MASTER' ? '클랜장' : '클랜원', season: n(clan.season_no) } : null },
       ranked: { season: settings.seasonName, state: !openSeason ? 'SETTLING' : rank ? 'RANKED' : 'UNRANKED',

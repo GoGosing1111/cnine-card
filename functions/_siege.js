@@ -1,3 +1,4 @@
+import {accountRankAward} from './_account_rank.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
 const KEY = "monster_siege_settings_v1";
 const SIEGE_ENERGY_MAX = 5;
@@ -1743,6 +1744,7 @@ export async function handleSiege({ path, request, env, deps }) {
         ).bind(damage, damage, event.id),
       );
     }
+    statements.push(...await accountRankAward(env,user.id,'SIEGE',requestId));
     try {
       await env.DB.batch(statements);
     } catch (error) {

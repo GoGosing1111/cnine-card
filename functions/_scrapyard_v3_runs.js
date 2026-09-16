@@ -1,3 +1,4 @@
+import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js';
 import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {loadScrapyardV3Snapshot, buildScrapyardV3Battle, validateScrapyardV3Config} from './_scrapyard_v3.js';
 import {planUnifiedDropRoll, prepareUnifiedDropGrant} from './_drop_pool.js';
@@ -97,7 +98,7 @@ async function settle(env, user, op, token) {
   if (Number(op.user_id) !== uid || plan.userId !== uid || plan.requestId !== `SCRAPYARD:${rid}` ||
       plan.sourceType !== 'SCRAPYARD' || plan.sourceId !== saved.difficulty?.id) throw error('SCRAPYARD_V3_RECORD', '저장된 원정 기록의 소유자를 확인할 수 없습니다.');
   const grants = await prepareUnifiedDropGrant(env,plan);
-  const clearCoin = saved.success ? Number(saved.difficulty.clearCoin) : 0;
+  const clearCoin = saved.success ? rankCoin(Number(saved.difficulty.clearCoin),await accountRankBenefits(env,uid,'SCRAPYARD')) : 0;
   const rewards = [...(clearCoin > 0 ? [{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}] : []), ...grants.rewards];
   const inventory = await p(env,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',uid,ITEM).first();
   const response = {...saved, ok:true, status:'COMPLETED', requestId:rid, rewards, partDropped:grants.rewards.length>0,
@@ -112,6 +113,7 @@ async function settle(env, user, op, token) {
       SELECT ?,?,0,'','','',NULL WHERE NOT EXISTS(SELECT 1 FROM ${OPS}
         WHERE request_id=? AND user_id=? AND lease_token=? AND lease_until>? AND state='PREPARED')`,rid,uid,rid,uid,token,Date.now()),
     ...grants.statements,
+    ...await accountRankAward(env,uid,'SCRAPYARD',rid),
     p(env, `UPDATE ${OPS} SET integrity=CASE WHEN ${proofs} THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,...proofValues,rid,uid,token),
     ...(clearCoin > 0 ? [
       p(env,'UPDATE users SET coin=coin+? WHERE id=?',clearCoin,uid),

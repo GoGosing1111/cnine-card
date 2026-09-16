@@ -1,3 +1,4 @@
+import {accountRankAward} from './_account_rank.js';
 const ROLE_META = {
   ATTACK: { key: 'ATTACK', label: '파괴 봉인', shortLabel: '파괴', icon: '⚔', progressColumn: 'attack_progress', targetColumn: 'attack_target', userColumn: 'attack_contribution' },
   GUARD: { key: 'GUARD', label: '수호 봉인', shortLabel: '수호', icon: '◆', progressColumn: 'guard_progress', targetColumn: 'guard_target', userColumn: 'guard_contribution' },
@@ -929,6 +930,7 @@ async function participate(env, deps, user, settings, event, body) {
     SELECT id,?,card_shards,'SEAL_BATTLE_ATTEMPT' FROM users
     WHERE id=? AND EXISTS(SELECT 1 FROM seal_battle_action_receipts WHERE request_id=? AND status='AUTHORIZED')`)
     .bind(attemptShards, user.id, requestId));
+  statements.push(...await accountRankAward(env,user.id,'SEAL',requestId,{guard:"EXISTS(SELECT 1 FROM seal_battle_action_receipts WHERE request_id=? AND user_id=? AND status='AUTHORIZED')",values:[requestId,user.id]}));
   statements.push(env.DB.prepare(`UPDATE seal_battle_action_receipts SET status='DONE',error_text=NULL,updated_at=CURRENT_TIMESTAMP
     WHERE request_id=? AND status='AUTHORIZED'`).bind(requestId));
 

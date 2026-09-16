@@ -273,8 +273,10 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   //   HP 4.25→2.6 (×0.612) 에 맞춰 연장전 100→64, 행동상한 130→83 으로 같이 내렸다.
   //   측정 결과 연장전 발생률과 매치업 승률이 전부 그대로 유지된다.
   const hpScale = mode === 'PVE' ? 2.34 : 2.6;
-  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100)));
-  const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100)));
+  const rankHp=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.hpBp||0,0,1500):0;
+  const rankAttack=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.attackBp||0,0,1000):0;
+  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)));
+  const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
   // V1936: 기저값을 더해 행동 빈도 격차를 압축한다(속도형 1.6배 -> 1.2배).
   const speed = Math.max(35, Math.round((70 + power * S1.speedBaseK + power * profile.speed * 0.10) * (1 + speedPct / 100)));
