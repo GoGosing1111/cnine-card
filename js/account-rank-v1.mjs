@@ -4,10 +4,16 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const art=(r,size=96)=>`/assets/ui/account-ranks-v1/${r.code.toLowerCase()}-${size}.webp`;
 const fallbackBridge={loadUser:()=>{try{return JSON.parse(localStorage.getItem('cnine_card_user_v10')||'null');}catch{return null;}},saveUser:user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));dispatchEvent(new Event('cnine:player-updated'));}};
 const bridge=()=>window.AccountRankBridge||fallbackBridge;
-if(![...document.querySelectorAll('link[rel=stylesheet]')].some(l=>l.href.includes('/css/account-rank-v1.css'))){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/account-rank-v1.css?v=2122';document.head.append(link);}
+if(![...document.querySelectorAll('link[rel=stylesheet]')].some(l=>l.href.includes('/css/account-rank-v1.css'))){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/account-rank-v1.css?v=2123';document.head.append(link);}
 let me=null,accountId=0,flight=null,lastRead=0,dialog=null,selected=null,presets=[],busy=false,returnFocus=null;
 function current(){const user=bridge()?.loadUser();if(Number(user?.serverUserId)!==accountId){accountId=Number(user?.serverUserId)||0;me=null;lastRead=0;}return user?.accountRank||me;}
 function badge(r){return r?`<img src="${art(r)}" alt="${esc(r.name)} 계급장" width="36" height="36"><span><b>Lv.${Number(r.level)} · ${esc(r.name)}</b><small>계급·혜택</small></span>`:'';}
+function progressMarkup(r){
+  const p=r?.progress;if(!p)return '<section class="ar-progress" aria-label="내 경험치">경험치를 확인하는 중입니다.</section>';
+  const format=n=>Number(n||0).toLocaleString('ko-KR',{maximumFractionDigits:3}),ratio=Math.max(0,Math.min(100,Number(p.percent)||0));
+  const text=p.maxed?'최고 레벨 달성':`${format(p.current)} / ${format(p.required)} EXP`;
+  return `<section class="ar-progress" aria-label="내 경험치"><div><b>Lv.${Number(r.level)} · ${esc(r.name)}</b><span>${text}</span></div><div class="ar-progress-track" role="progressbar" aria-label="계정 경험치" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${ratio}" aria-valuetext="${text}"><span style="width:${ratio}%"></span></div><small>${p.maxed?'MAX LEVEL':`다음 레벨까지 ${format(Math.max(0,p.required-p.current))} EXP · ${format(ratio)}%`}</small></section>`;
+}
 function identityHtml(id){const r=current();return Number(id)===accountId&&r?`<span class="account-rank-inline" title="Lv.${Number(r.level)} ${esc(r.name)}"><img src="${art(r)}" alt="${esc(r.name)}" width="28" height="28"></span>`:'';}
 async function refresh(){
   if(flight)return flight;if(!bridge()?.loadUser()?.serverUserId)return;
@@ -16,9 +22,10 @@ async function refresh(){
     const user=bridge()?.loadUser();if(Number(user?.serverUserId)!==uid)return;
     accountId=uid;me=data.accountRank;
     if(JSON.stringify(user.accountRank)!==JSON.stringify(me))bridge().saveUser({...user,accountRank:me});
-    mount();
+    mount();if(dialog){if(dialog.dataset.level!==String(me.level))render();else dialog.querySelector('.ar-progress')?.replaceWith(progressElement(me));}
   }).catch(()=>{}).finally(()=>{flight=null;});return flight;
 }
+function progressElement(r){const template=document.createElement('template');template.innerHTML=progressMarkup(r);return template.content.firstElementChild;}
 function mount(){
   const r=current();
   for(const host of document.querySelectorAll('.login-summary-row,.adventure-player-identity,.adventure-lobby-player')){
@@ -52,7 +59,8 @@ function presetMarkup(){
 }
 function render(){
   if(!dialog)return;const r=current();selected=selected||rankForLevel(r?.level||1);
-  dialog.innerHTML=`<header class="ar-head"><div><small>숲켓몬 계급</small><h2 id="ar-title">계급과 혜택</h2></div><div class="ar-current">${r?badge(r):''}</div><button type="button" data-close aria-label="계급 창 닫기">×</button></header><div class="ar-body"><nav class="ar-list" aria-label="전체 계급">${RANKS.map(x=>`<button type="button" data-rank="${x.code}" aria-pressed="${x.code===selected.code}"><img src="${art(x)}" alt="" width="40" height="40" loading="lazy"><span><b>${esc(x.name)}</b><small>Lv.${x.min}${x.max!==x.min?`–${x.max}`:''}</small></span>${r?.code===x.code?'<em>현재</em>':''}</button>`).join('')}</nav><main class="ar-main"><div class="ar-detail">${detail()}</div>${presetMarkup()}</main></div><footer class="ar-footer" role="status" aria-live="polite">${r?`내 계급 · Lv.${Number(r.level)} ${esc(r.name)}`:'계급 정보를 불러오는 중입니다.'}</footer>`;
+  dialog.dataset.level=String(r?.level||1);
+  dialog.innerHTML=`<header class="ar-head"><div><small>숲켓몬 계급</small><h2 id="ar-title">계급과 혜택</h2></div><div class="ar-current">${r?badge(r):''}</div><button type="button" data-close aria-label="계급 창 닫기">×</button></header><div class="ar-body"><nav class="ar-list" aria-label="전체 계급">${RANKS.map(x=>`<button type="button" data-rank="${x.code}" aria-pressed="${x.code===selected.code}"><img src="${art(x)}" alt="" width="40" height="40" loading="lazy"><span><b>${esc(x.name)}</b><small>Lv.${x.min}${x.max!==x.min?`–${x.max}`:''}</small></span>${r?.code===x.code?'<em>현재</em>':''}</button>`).join('')}</nav><main class="ar-main">${progressMarkup(r)}<div class="ar-detail">${detail()}</div>${presetMarkup()}</main></div><footer class="ar-footer" role="status" aria-live="polite">${r?`내 계급 · Lv.${Number(r.level)} ${esc(r.name)}`:'계급 정보를 불러오는 중입니다.'}</footer>`;
 }
 async function open(showPresets=false){
   if(dialog)return;returnFocus=document.activeElement;
@@ -85,5 +93,8 @@ window.AccountRank=Object.freeze({open,identityHtml,refresh});
 let queued=false;const observer=new MutationObserver(()=>{if(queued)return;queued=true;queueMicrotask(()=>{queued=false;mount();});});
 observer.observe(document.body,{subtree:true,childList:true});mount();
 addEventListener('cnine:player-updated',mount);addEventListener('focus',()=>{if(Date.now()-lastRead>30000)void refresh();});
+// Read once after a successful account action, including responses without a profile.
+let mutationRefresh;
+addEventListener('cnine:account-mutation',()=>{clearTimeout(mutationRefresh);mutationRefresh=setTimeout(async()=>{if(flight)await flight;await refresh();},300);});
 addEventListener('pagehide',()=>observer.disconnect());
 addEventListener('pageshow',()=>{observer.observe(document.body,{subtree:true,childList:true});mount();});

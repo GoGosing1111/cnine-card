@@ -29,9 +29,12 @@ export function levelFromTicks(value){
   return Math.min(250,1+Math.floor((-62+Math.sqrt(3844+8*xp))/4));
 }
 export function publicAccountRank(ticks=0){
-  const level=levelFromTicks(ticks),r=rankForLevel(level);
+  const total=Math.max(0,Math.min(MAX_RANK_TICKS,Math.floor(Number(ticks)||0))),level=levelFromTicks(total),r=rankForLevel(level),n=level-1;
+  const currentTicks=total-(2*n*n+62*n)*600,requiredTicks=(4*n+64)*600,maxed=level===250;
+  // Only this level's progress is public; payout rules and the full curve stay server-side.
+  const progress={current:maxed?0:Math.floor(currentTicks/600*1000)/1000,required:maxed?0:requiredTicks/600,percent:maxed?100:Math.floor(currentTicks/requiredTicks*10000)/100,maxed};
   return {level,code:r.code,name:r.name,icon:`/assets/ui/account-ranks-v1/${r.code.toLowerCase()}-96.webp`,group:r.group,tone:r.tone,
-    attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp,presetSlots:r.presetSlots,maxLevel:250};
+    attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp,presetSlots:r.presetSlots,maxLevel:250,progress};
 }
 export async function readAccountRank(env,userId){
   await ensureAccountRank(env);

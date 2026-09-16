@@ -48,14 +48,20 @@
       let rankButton=root.getElementById('account-rank-button');
       if(!rankButton){
         rankButton=document.createElement('button');rankButton.id='account-rank-button';rankButton.type='button';rankButton.title='계급과 혜택';
-        rankButton.style.cssText='display:flex;align-items:center;gap:5px;margin-top:4px;width:100%;border:1px solid #455742;border-radius:5px;background:#111d28;color:#dcffad;padding:3px 5px;font:inherit;font-size:10px;min-height:30px;cursor:pointer';
+        rankButton.className='account-rank-button';
         rankButton.addEventListener('click',async()=>{if(!global.AccountRank)await import('/js/account-rank-v1.mjs?v=2122');global.AccountRank.open();});
-        const shortcut=root.getElementById('account-shortcut'),group=document.createElement('div');group.className=shortcut.className;shortcut.className='account-name-shortcut';shortcut.style.cssText='text-align:left;padding:0;min-height:0';shortcut.before(group);group.append(shortcut,rankButton);
+        const shortcut=root.getElementById('account-shortcut'),group=document.createElement('div');group.className='profile-summary account-identity';shortcut.className='account-name-shortcut';shortcut.before(group);group.append(shortcut,rankButton);
       }
       const accountRank=user.accountRank;
       if(accountRank){
-        const rankArt=document.createElement('img');rankArt.src='/assets/ui/account-ranks-v1/'+String(accountRank.code).toLowerCase().replace(/[^a-z_]/g,'')+'-96.webp';rankArt.width=26;rankArt.height=26;rankArt.alt=accountRank.name+' 계급장';
-        const rankLabel=document.createElement('span');rankLabel.style.cssText='display:grid;gap:1px;text-align:left;white-space:nowrap;line-height:1.3';const rankLevel=document.createElement('span'),rankName=document.createElement('span');rankLevel.textContent='Lv.'+Number(accountRank.level);rankLevel.style.fontSize='8px';rankName.textContent=accountRank.name;rankLabel.append(rankLevel,rankName);rankButton.replaceChildren(rankArt,rankLabel);rankButton.hidden=false;
+        const rankArt=document.createElement('img');rankArt.src='/assets/ui/account-ranks-v1/'+String(accountRank.code).toLowerCase().replace(/[^a-z_]/g,'')+'-96.webp';rankArt.width=48;rankArt.height=48;rankArt.alt=accountRank.name+' 계급장';
+        const rankLabel=document.createElement('span');rankLabel.className='account-rank-label';const rankLevel=document.createElement('span'),rankName=document.createElement('span');rankLevel.className='account-rank-level';rankName.className='account-rank-name';rankLevel.textContent='Lv.'+Number(accountRank.level);rankName.textContent=accountRank.name;rankLabel.append(rankLevel,rankName);
+        const progress=accountRank.progress,xp=document.createElement('span');xp.className='account-rank-xp';
+        const caption=document.createElement('span'),track=document.createElement('span'),fill=document.createElement('span');caption.className='account-rank-xp-caption';track.className='account-rank-xp-track';fill.className='account-rank-xp-fill';
+        const ratio=Math.max(0,Math.min(100,Number(progress?.percent)||0)),format=n=>Number(n||0).toLocaleString('ko-KR',{maximumFractionDigits:3});
+        caption.textContent=progress?.maxed?'MAX LEVEL':progress?`EXP ${format(progress.current)} / ${format(progress.required)}`:'EXP 확인 중';
+        track.setAttribute('role','progressbar');track.setAttribute('aria-label','계정 경험치');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');if(progress)track.setAttribute('aria-valuenow',String(ratio));track.setAttribute('aria-valuetext',progress?.maxed?'최고 레벨':caption.textContent);fill.style.width=ratio+'%';track.append(fill);xp.append(caption,track);
+        rankButton.title=`Lv.${Number(accountRank.level)} ${accountRank.name} · ${caption.textContent} · 계급과 혜택`;rankButton.replaceChildren(rankArt,rankLabel,xp);rankButton.hidden=false;
       }else rankButton.hidden=true;
       for(const [id,key] of [['wallet-coin','coin'],['wallet-shards','cardShards'],['wallet-stars','masterStars']]){const el=root.getElementById(id),amount=key==='coin'?(Number(user[key])||0):Math.max(0,Number(user[key])||0);el.textContent=compact(amount);el.parentElement.title=amount.toLocaleString('ko-KR');el.setAttribute('aria-label',amount.toLocaleString('ko-KR'));}
       const name=root.getElementById('chief-name');name.textContent=chief.state==='suspended'?`${chief.nickname} · 직무정지`:chief.state==='active'?chief.nickname:chief.state==='vacant'?'선출 대기':chief.state==='unavailable'?'확인 불가':'확인 중';

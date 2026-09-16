@@ -8,7 +8,9 @@ export async function jointAccountRequest(path,{method='GET',body,signal,timeout
   try{
     const response=await fetch('/api/'+path,{method,cache:'no-store',credentials:'same-origin',signal:controller.signal,
       headers:{'content-type':'application/json',authorization:token?`Bearer ${token}`:'','x-cnine-client-id':client},...(body!==undefined?{body:JSON.stringify(body)}:{})});
-    const value=await response.json();if(!response.ok)throw Object.assign(new Error(value.error||'요청을 처리하지 못했습니다.'),{...value,status:response.status});return value;
+    const value=await response.json();if(!response.ok)throw Object.assign(new Error(value.error||'요청을 처리하지 못했습니다.'),{...value,status:response.status});
+    if(String(method).toUpperCase()!=='GET')window.dispatchEvent(new Event('cnine:account-mutation'));
+    return value;
   }finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);}
 }
 export const jointAdminRequest=(path,options={})=>jointAccountRequest(path,{...options,credential:'admin'});

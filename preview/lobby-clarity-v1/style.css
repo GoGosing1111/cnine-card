@@ -141,3 +141,42 @@ slot[name="bgm"]{display:block;min-width:1px;min-height:34px}
 .wallet-pig{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);white-space:nowrap}.wallet-pig img{width:21px;height:21px;object-fit:contain}.wallet-pig b{color:var(--lime)}
 @media(min-width:981px) and (max-width:1380px){.topbar{gap:16px}.topbar .wallet{gap:14px}.wallet b{margin-left:2px;font-size:18px}.wallet>span,.wallet-pig{font-size:10px}.header-help{padding:0 10px;font-size:11px}.profile-summary b{max-width:90px}}
 @media(max-width:650px){.topbar .wallet{gap:7px;flex-wrap:wrap;flex-basis:calc(100% - 104px)}.wallet>span,.wallet-pig{flex:1 1 calc(50% - 7px);display:flex;flex-wrap:nowrap;gap:3px;font-size:8px}.wallet b{margin-left:auto;flex-basis:auto;font-size:14px}.wallet-pig img{width:13px;height:13px}.wallet-pig span{white-space:nowrap}.wallet-pig b{color:var(--lime)}}
+
+/* Account identity stays beside the brand; the wallet gets its own row when needed. */
+.topbar{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto 44px;grid-template-areas:'brand identity wallet help inbox';column-gap:22px}
+.topbar .brand{grid-area:brand;width:auto;min-width:0}
+.topbar .profile-summary{grid-area:identity;margin:0;width:auto;max-width:none}
+.topbar .wallet{grid-area:wallet;min-width:0;justify-content:flex-end}
+.topbar .header-help{grid-area:help;margin:0;white-space:nowrap}
+.topbar .inbox{grid-area:inbox}
+.account-identity{display:flex;align-items:center;gap:14px;padding:0;min-width:0}
+.account-name-shortcut{text-align:left;padding:4px 0;min-height:44px;min-width:0;flex:0 1 auto}
+.account-identity .account-name-shortcut b{font-size:14px;max-width:130px}
+.account-rank-button{display:flex;align-items:center;gap:9px;flex:none;border:1px solid #455742;border-radius:6px;background:#111d28;color:#dcffad;padding:4px 12px 4px 6px;min-height:58px;white-space:nowrap}
+.account-rank-button img{width:48px;height:48px;flex:none;object-fit:contain}
+.account-rank-label{display:flex;align-items:baseline;gap:9px;font-weight:800;line-height:1.25}
+.account-rank-level{font-size:19px;font-variant-numeric:tabular-nums;color:#efffcf}
+.account-rank-name{font-size:17px}
+@media(min-width:1200px) and (max-width:1440px){.topbar{padding-left:24px;padding-right:24px;column-gap:16px}.account-identity{gap:10px}.account-identity .account-name-shortcut b{max-width:105px}.topbar .wallet{gap:12px}}
+@media(max-width:1199px){.topbar{height:auto;min-height:82px;padding-top:10px;padding-bottom:10px;grid-template-columns:auto minmax(0,1fr) auto 44px;grid-template-areas:'brand identity help inbox' 'wallet wallet wallet wallet';gap:8px 18px}.topbar .wallet{width:100%;margin:0;justify-content:space-between}.account-identity .account-name-shortcut{flex:0 1 auto}.account-rank-button{min-height:54px}.account-rank-button img{width:44px;height:44px}}
+@media(max-width:650px){
+  .topbar{grid-template-columns:auto minmax(0,1fr) 32px;grid-template-areas:'brand identity inbox' 'wallet wallet help';gap:7px 10px;padding:calc(8px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 8px max(12px,env(safe-area-inset-left,0px))}
+  .topbar .brand{width:auto;min-width:0;gap:6px;font-size:18px}.brand svg{width:24px;height:26px}.brand small{font-size:7px;letter-spacing:1px}
+  .topbar .account-identity{width:100%;gap:8px;min-height:48px;justify-content:flex-start}
+  .account-identity .account-name-shortcut{flex:0 1 auto;max-width:100px;padding:0;min-height:40px}
+  .account-identity .account-name-shortcut small{font-size:8px;margin-bottom:3px}.account-identity .account-name-shortcut b{font-size:12px;max-width:100%}
+  .account-rank-button{gap:5px;min-height:48px;padding:3px 7px 3px 4px}.account-rank-button img{width:38px;height:38px}
+  .account-rank-label{display:grid;gap:2px;text-align:left}.account-rank-level{font-size:13px}.account-rank-name{font-size:12px}
+  .topbar .inbox{width:32px;min-height:44px;display:grid}.topbar .header-help{width:32px;min-height:32px;padding:0;justify-content:center}.header-help .help-label{display:none}.header-help .help-symbol{width:18px;height:18px;font-size:12px}
+  .topbar .wallet{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;align-items:center}.wallet>span,.wallet-pig{min-width:0;line-height:1.35}.wallet b{font-size:14px}.wallet-pig img{width:13px;height:13px}
+}
+@media(max-width:360px){.topbar{column-gap:7px}.topbar .brand{font-size:17px;gap:4px}.brand svg{width:22px}.topbar .brand small{display:block;font-size:6px}.topbar .account-identity{gap:6px}.account-rank-button{padding-right:5px;gap:4px}.account-rank-button img{width:34px;height:34px}.account-rank-level{font-size:12px}.account-rank-name{font-size:11px}.account-identity .account-name-shortcut b{font-size:11px}.topbar .wallet{column-gap:8px}.wallet>span,.wallet-pig{font-size:8px}}
+
+.account-rank-button{display:grid;grid-template-columns:auto auto;column-gap:9px;row-gap:3px;padding-top:6px;padding-bottom:6px}
+.account-rank-button img{grid-row:1/3}
+.account-rank-xp{display:grid;gap:4px;min-width:0;align-self:start}
+.account-rank-xp-caption{font-size:9px;line-height:1;color:#bfceb5;font-weight:500;font-variant-numeric:tabular-nums}
+.account-rank-xp-track{display:block;width:100%;height:5px;overflow:hidden;background:#314031;border-radius:3px}
+.account-rank-xp-fill{display:block;height:100%;background:#c8ff6b;border-radius:3px}
+@media(max-width:650px){.account-rank-button{flex:1;grid-template-columns:38px minmax(0,1fr);column-gap:7px;row-gap:4px;padding:5px 8px;min-height:54px;max-width:none;text-align:left}.account-rank-button img{grid-row:1/3;width:38px;height:38px}.account-rank-label{display:flex;align-items:baseline;gap:6px}.account-rank-level{font-size:16px}.account-rank-name{font-size:14px}.account-rank-xp{grid-column:2;gap:4px}.account-rank-xp-caption{font-size:8px}.account-rank-xp-track{height:5px}.account-identity .account-name-shortcut{min-width:36px;flex:0 1 auto}.account-identity .account-name-shortcut b{max-width:72px}}
+@media(max-width:360px){.topbar .brand{font-size:16px;gap:3px}.topbar .brand svg{width:20px}.topbar .brand small{font-size:5px}.account-identity .account-name-shortcut{min-width:32px}.account-identity .account-name-shortcut b{max-width:44px;font-size:10px}.account-rank-button{grid-template-columns:30px minmax(0,1fr);column-gap:4px;padding:5px;min-height:50px}.account-rank-button img{width:30px;height:30px}.account-rank-label{gap:4px}.account-rank-level{font-size:12px}.account-rank-name{font-size:11px}.account-rank-xp-caption{font-size:7px}}

@@ -29,6 +29,20 @@ test('all 250 levels have one rank; boundaries, max and defaults are exact',()=>
   for(const k of ['xp','totalXp','nextXp','ticks','sources','growth'])assert.equal(k in publicAccountRank(100000),false);
 });
 
+test('public EXP progress resets at level-up, preserves fractions and ends at MAX',()=>{
+  assert.deepEqual(publicAccountRank().progress,{current:0,required:64,percent:0,maxed:false});
+  assert.deepEqual(publicAccountRank(8*600).progress,{current:8,required:64,percent:12.5,maxed:false});
+  assert.deepEqual(publicAccountRank(64*600).progress,{current:0,required:68,percent:0,maxed:false});
+  assert.equal(publicAccountRank(301).progress.current,0.501);
+  for(let l=1;l<250;l++){
+    const n=l-1,start=(2*n*n+62*n)*600,end=start+(4*n+64)*600;
+    assert.equal(publicAccountRank(start).progress.percent,0);
+    assert.ok(publicAccountRank(end-1).progress.percent<100);
+    assert.equal(publicAccountRank(end).level,l+1);
+  }
+  for(const ticks of [MAX_RANK_TICKS,MAX_RANK_TICKS*2,Infinity])assert.deepEqual(publicAccountRank(ticks).progress,{current:0,required:0,percent:100,maxed:true});
+});
+
 test('combat applies attack/HP separately, preserves defense/speed and completely excludes PVP',()=>{
   const card={id:'1',power:100000,power_type:'ATTACK'};
   const [buffed]=rankCards([card],{attackBp:1000,hpBp:1500});
@@ -69,6 +83,7 @@ for(const postgres of [false,true]){
     const f=await jointFixture(t,{postgres}),before=await f.coin();
     await settleRankedHunt(f.env,7,'HUNT','hunt-one',100,'QA');
     await settleRankedHunt(f.env,7,'HUNT','hunt-one',100,'QA');
+    assert.deepEqual((await readAccountRank(f.env,7)).progress,{current:8,required:64,percent:12.5,maxed:false});
     assert.equal(await f.coin(),before+100);
     f.fail('INSERT INTO coin_logs');await assert.rejects(()=>settleRankedHunt(f.env,7,'HUNT','hunt-fail',100,'QA'));f.fail('');
     assert.equal(await f.coin(),before+100);

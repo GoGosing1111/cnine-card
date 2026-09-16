@@ -4343,6 +4343,7 @@ async function apiRequest(path, options={}, config={}) {
       PLAYER_STATE_MUTATION_EPOCH++;
       for(const path of ['me','me/summary','me/collection']){clearApiCache(path);API_INFLIGHT.delete(path)}
       if(cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
+      window.dispatchEvent(new Event('cnine:account-mutation'));
     }
     return data;
   })();
