@@ -1,25 +1,49 @@
 {
-  "status": "ART_REVIEW",
-  "identity": "강구열",
-  "clan": "DK",
+  "name": "DK 강구열",
+  "code": "KANGGUYEOL_DK",
+  "serial": "A-19",
+  "status": "USER_APPROVED_FOR_LIVE",
+  "generator": "built-in image_gen",
   "identityReference": "assets/cards/강구열/01.webp",
   "crestReference": "assets/ui/clan/marks/dk-clan-mark-v1.webp",
-  "generator": "builtin image_gen",
-  "createdAt": "2026-09-16T14:31:30.145Z",
-  "assets": [
-    {
-      "file": "assets/avatar-kangguyeol-dk-lobby-source-art-v1.png",
+  "releaseAuthorization": "그래 아바타 라이브에 배포하고 DK클랜에 11일 기간제로 지급해",
+  "durationDays": 11,
+  "effectPolicy": "APPEARANCE_ONLY",
+  "files": {
+    "avatar-kangguyeol-dk-lobby-source-art-v1.png": {
+      "sha256": "84527df89e6fe8803ac03de5ba59a81fe72641b145d9c14aca4ff73ba770653b",
+      "bytes": 2067696,
       "width": 1024,
       "height": 1536,
-      "hasAlpha": false,
-      "sha256": "84527df89e6fe8803ac03de5ba59a81fe72641b145d9c14aca4ff73ba770653b"
+      "hasAlpha": false
     },
-    {
-      "file": "assets/avatar-kangguyeol-dk-equipment-source-art-v1.png",
+    "avatar-kangguyeol-dk-equipment-source-art-v1.png": {
+      "sha256": "24ad2631fbb1f235be420b0c212c534f3fa15e5e553357e5751461eb4b3f7aa9",
+      "bytes": 1517827,
       "width": 1024,
       "height": 1536,
-      "hasAlpha": true,
-      "sha256": "24ad2631fbb1f235be420b0c212c534f3fa15e5e553357e5751461eb4b3f7aa9"
+      "hasAlpha": true
+    },
+    "avatar-kangguyeol-dk-lobby-v1-1024.webp": {
+      "sha256": "06306f330900b468e6b0ad1890e2ce00f3a640c864fec269a603c593b54e06fc",
+      "bytes": 197958,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-kangguyeol-dk-lobby-v1-640.webp": {
+      "sha256": "5a98cd3f7749576962db070d11965be22b313468bb93413e2328ae695969943e",
+      "bytes": 100992,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-kangguyeol-dk-equipment-v1-640.webp": {
+      "sha256": "2ae8bae800bc2032b79c3a486fdd6dc8aecca4093bc8a1c7ed717671668d1759",
+      "bytes": 144128,
+      "width": 640,
+      "height": 1664,
+      "hasAlpha": true
     }
-  ]
+  }
 }

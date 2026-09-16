@@ -1,0 +1,10 @@
+{
+  "code":"KANGGUYEOL_DK","serial":"A-19","name":"DK 강구열","call_sign":"DK KANGGUYEOL","role_label":"DK 클랜 유니폼",
+  "description":"현재 DK 클랜 마크가 새겨진 유니폼을 입은 강구열 아바타입니다.",
+  "lobby_image":"preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-lobby-v1-1024.webp",
+  "lobby_mobile_image":"preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-lobby-v1-640.webp",
+  "equipment_image":"preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-equipment-v1-640.webp",
+  "accent":"#2f7cff","acquisition_type":"EVENT","coin_price":null,
+  "source_label":"DK 클랜 기념 지급","source_detail":"지급 대상 DK 클랜원에게 지급 시점부터 11일간 사용 권한이 부여됩니다.",
+  "effect_type":"","effect_value":0,"is_active":1,"is_public":1,"sale_enabled":0,"sort_order":180,"version":1
+}
