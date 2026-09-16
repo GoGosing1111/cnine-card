@@ -1,10 +1,22 @@
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync,statSync} from 'node:fs';
 import {test} from 'node:test';
+import {runInNewContext} from 'node:vm';
 import {__primeDrawTest,ensurePrimeDrawFoundation} from '../functions/_prime_draw.js';
 
 const root=new URL('../',import.meta.url);
 const read=path=>readFileSync(new URL(path,root),'utf8');
+
+test('상점 안내는 실제 배정된 스킬칩과 제작 재료를 구분한다',()=>{
+  const app=read('js/app.js'),source=app.slice(app.indexOf('const PRIME_DRAW_PRODUCTS='),app.indexOf('async function loadPrimeDrawShop'));
+  const context={escapeHtml:value=>String(value)};runInNewContext(source,context);
+  const render=entries=>context.primeDrawShopMarkup('equipment',{pool:{entries},shop:{enabled:true}});
+  assert.doesNotMatch(render([]),/스킬칩 포함|배틀슈트 재료 포함/);
+  const chips=render([{rewardType:'INVENTORY_ITEM',category:'SKILL_CHIP'}]);
+  assert.match(chips,/프라임 보상 1개 확정 · 스킬칩 포함/);assert.doesNotMatch(chips,/배틀슈트 재료 포함/);
+  const both=render([{rewardType:'INVENTORY_ITEM',category:'SKILL_CHIP'},{rewardType:'INVENTORY_ITEM',category:'MATERIAL'}]);
+  assert.match(both,/배틀슈트 재료 포함 · 스킬칩 포함/);
+});
 
 test('프라임 상품은 신규 코드와 확정 가격·가격 보정 배율을 사용한다',()=>{
   const {equipment,vehicle}=__primeDrawTest.PRODUCTS;

@@ -80,7 +80,7 @@ for(const dialect of ['sqlite','postgres']){
       const opened=await f.open('chip-'+code,3);assert.equal(opened.status,200);
       assert.equal(opened.body.remainingQuantity,12-(index+1)*3);
       assert.ok(opened.body.results.every(row=>row.type==='INVENTORY_ITEM'&&row.item.code===code&&row.item.category==='SKILL_CHIP'));
-      assert.deepEqual(opened.body.aggregated.map(row=>[row.code,row.count]),[[code,3]]);
+      assert.deepEqual(opened.body.aggregated.map(row=>[row.code,row.count,row.category]),[[code,3,'SKILL_CHIP']]);
       assert.equal(await f.quantity(code),3);
       assert.equal((await f.q('SELECT unseen_quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code=?',code))[0].unseen_quantity,3);
       assert.deepEqual(await f.open('chip-'+code,3),opened,'same receipt must replay without granting twice');

@@ -164,7 +164,7 @@ function aggregateResults(kind,results){
   const grouped=new Map();
   for(const result of results){
     const item=result.item||result.vehicle||result.avatar,rewardType=String(result.type||kind).toUpperCase(),key=`${rewardType}:${item.code}`;
-    const row=grouped.get(key)||{rewardType,code:item.code,name:item.name,rarity:item.rarity,image:item.image,count:0,newCount:0,duplicateCount:0,shardsGained:0,presentation:result.presentation||{enabled:false,tier:'STANDARD',effectKey:'NONE'}};
+    const row=grouped.get(key)||{rewardType,code:item.code,name:item.name,rarity:item.rarity,image:item.image,category:item.category||'',count:0,newCount:0,duplicateCount:0,shardsGained:0,presentation:result.presentation||{enabled:false,tier:'STANDARD',effectKey:'NONE'}};
     row.count++;
     if(rewardType==='EQUIPMENT'||rewardType==='AVATAR'||!result.duplicate)row.newCount++;
     if(result.duplicate)row.duplicateCount++;
