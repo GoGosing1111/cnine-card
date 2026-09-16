@@ -6,10 +6,36 @@ import {readFileSync} from 'node:fs';
 import {__clanTest as clan,reconcileClanDraft} from '../functions/_clan.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {runDraftSchedule,nextAlarmAt,ensureDraftAlarm,handleDraftAlarm} from '../workers/clan-draft/src/schedule.js';
-import {clanRedraftKey,readClanRedraft} from '../functions/_clan_redraft.js';
+import {clanRedraftKey,readClanRedraft,parseClanRedraft,clanRedraftPublicState,applyClanRedraftQuotas,clanMemberCapacity} from '../functions/_clan_redraft.js';
 
 const iso=ms=>new Date(ms).toISOString(),base=Date.parse('2026-09-15T14:00:00Z');
 const settings={...clan.CLAN_ADMIN_SETTINGS_DEFAULTS,mode:'ON',draftPickSeconds:30};
+test('FM-only active extension leaves balanced draft quotas intact and publishes 21 / 21 after drafting',()=>{
+  const original={version:1,seasonId:5,startsAt:'2026-09-16T10:00:00.000Z',participantCount:157,
+    quotas:{1:20,2:20,3:20,4:19,5:19,6:20,7:20,8:19},
+    activeRosterOverrides:{7:{maxMembers:21,operationId:'ops:fm-orikkung-recruit-and-coin-grant:season5:100eok:20260917:v1'}}};
+  const plan=parseClanRedraft(JSON.stringify(original),5);
+  const draft=clanRedraftPublicState(plan,'DRAFT');assert.equal(draft.participantCount,157);assert.deepEqual(draft.quotas,original.quotas);
+  for(const phase of ['ACTIVE','CHAMPIONS','SETTLEMENT','COMPLETE']){
+    const state=clanRedraftPublicState(plan,phase);
+    assert.equal(state.participantCount,158);assert.deepEqual(state.quotas,{...original.quotas,7:21});
+    assert.equal(state.activeRosterOverrides,undefined);
+  }
+  assert.deepEqual(plan,original);
+  assert.equal(clanMemberCapacity({phase:'ACTIVE',max_members:20},7,plan),21);
+  assert.equal(clanMemberCapacity({phase:'ACTIVE',max_members:20},3,plan),20);
+  assert.equal(clanMemberCapacity({phase:'DRAFT',max_members:20},7,plan),20);
+  assert.equal(applyClanRedraftQuotas(Object.keys(plan.quotas).map(clan_id=>({clan_id})),plan).find(t=>t.clan_id==='7').draft_quota,20);
+  assert.throws(()=>parseClanRedraft(JSON.stringify(plan),6),/정원 설정/);
+  for(const overrides of [null,[],{}, {9:{maxMembers:21,operationId:'ops:qa-admit:v1'}},
+    {7:{maxMembers:20,operationId:'ops:qa-admit:v1'}},{7:{maxMembers:23,operationId:'ops:qa-admit:v1'}},
+    {7:{maxMembers:21.5,operationId:'ops:qa-admit:v1'}},{7:{maxMembers:'21',operationId:'ops:qa-admit:v1'}},
+    {7:{maxMembers:21}},{7:{maxMembers:21,operationId:'unaudited'}}]){
+    assert.throws(()=>parseClanRedraft(JSON.stringify({...original,activeRosterOverrides:overrides}),5),/정원 설정/);
+  }
+  // An extension record must not allow an unbalanced base draft to slip through.
+  assert.throws(()=>parseClanRedraft(JSON.stringify({...original,quotas:{...original.quotas,7:21},participantCount:158}),5),/정원 설정/);
+});
 class SQLiteDB{
   sql=new DatabaseSync(':memory:');
   prepare(source){const db=this;return{source,values:[],bind(...values){this.values=values;return this},async first(){return db.sql.prepare(source).get(...this.values)||null},async all(){return{results:db.sql.prepare(source).all(...this.values)}},async run(){const r=db.sql.prepare(source).run(...this.values);return{meta:{changes:Number(r.changes),last_row_id:Number(r.lastInsertRowid)}}}}}

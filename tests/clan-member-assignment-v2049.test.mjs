@@ -6,6 +6,7 @@ import {handleClanMemberAssignment} from '../functions/_clan_member_assignment.j
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
+import {clanRedraftKey} from '../functions/_clan_redraft.js';
 
 const NOW=Date.parse('2026-09-06T09:00:00Z');
 async function fixture({count=21}={}) {
@@ -57,6 +58,48 @@ async function fixture({count=21}={}) {
   const apply=(previewId,options)=>call({action:'apply',previewId,confirmation:'ASSIGN_UNAFFILIATED_CLAN_MEMBER'},options);
   return {pg,env,call,preview,apply,failAudit(){failAudit=true;},failOn(sql){failSql=sql;},close:()=>pg.close()};
 }
+
+const activeAdmissionPlan={version:1,seasonId:4,startsAt:'2026-09-01T10:00:00.000Z',participantCount:39,quotas:{6:20,8:19},
+  activeRosterOverrides:{6:{maxMembers:21,operationId:'ops:qa-active-admission:season4:v1'}}};
+async function setAdmissionPlan(f,plan=activeAdmissionPlan){
+  await f.pg.exec('UPDATE clan_seasons SET max_members=20 WHERE id=4');
+  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2) ON CONFLICT(key) DO UPDATE SET value=EXCLUDED.value',
+    [clanRedraftKey(4),JSON.stringify(plan)]);
+}
+test('approved active-season addition admits the 21st only; other clan and global limits stay unchanged',async()=>{
+  const f=await fixture({count:20});
+  try{
+    await f.pg.exec('UPDATE clan_seasons SET max_members=20 WHERE id=4');
+    assert.equal((await f.preview({maxMembers:21,activeRosterOverrides:activeAdmissionPlan.activeRosterOverrides})).status,409);
+    await setAdmissionPlan(f);
+    const first=await f.preview(),second=await f.preview({userId:3,nickname:'QA2'});
+    assert.equal(first.status,200,JSON.stringify(first));assert.equal(first.body.maxMembers,21);
+    assert.equal((await f.preview({clanId:8,clanName:'DC'})).body.maxMembers,20);
+    const result=await f.apply(first.body.previewId);assert.equal(result.status,200,JSON.stringify(result));
+    assert.equal(result.body.memberCount,21);assert.equal(result.body.maxMembers,21);
+    assert.equal((await f.apply(first.body.previewId)).body.replayed,true);
+    assert.equal((await f.apply(second.body.previewId)).status,409);
+    assert.equal((await f.pg.query('SELECT max_members FROM clan_seasons WHERE id=4')).rows[0].max_members,20);
+    assert.equal((await f.pg.query('SELECT * FROM admin_logs')).rows.length,1);
+  }finally{await f.close()}
+});
+test('active-season additions are revalidated at apply and reject missing or malformed authorization records',async()=>{
+  const f=await fixture({count:20});
+  try{
+    await setAdmissionPlan(f);
+    const first=await f.preview();assert.equal(first.status,200);
+    await f.pg.query('DELETE FROM app_meta WHERE key=$1',[clanRedraftKey(4)]);
+    assert.equal((await f.apply(first.body.previewId)).status,409);
+    await setAdmissionPlan(f,{...activeAdmissionPlan,activeRosterOverrides:{6:{maxMembers:23,operationId:'ops:qa-active-admission:season4:v1'}}});
+    assert.equal((await f.apply(first.body.previewId)).status,409);
+    await setAdmissionPlan(f,{...activeAdmissionPlan,seasonId:5});
+    assert.equal((await f.apply(first.body.previewId)).status,409);
+    assert.equal((await f.pg.query('SELECT * FROM clan_members WHERE season_id=4 AND user_id=2')).rows.length,0);
+    assert.equal((await f.pg.query('SELECT * FROM clan_draft_pool WHERE user_id=2')).rows.length,0);
+    await setAdmissionPlan(f);f.failAudit();assert.equal((await f.apply(first.body.previewId)).status,409);
+    assert.equal((await f.pg.query('SELECT * FROM clan_members WHERE season_id=4 AND user_id=2')).rows.length,0);
+  }finally{await f.close()}
+});
 
 test('last-slot admission is audited, exactly once, and leaves old seasons, wallet and clan scores unchanged',async()=>{
   const f=await fixture();

@@ -1,8 +1,9 @@
 import {clanAdminTransaction} from './_clan_inactivity_cleanup.js';
+import {clanRedraftKey,parseClanRedraft,clanMemberCapacity} from './_clan_redraft.js';
 import {clanGiftSpec,clanGiftRecipients,clanGiftMoneyStorage,sendClanGift} from './_clan_member_gift.js';
 
 // OWNER admission; a transfer requires exact source-clan identity and confirmation.
-// No capacity override, season reset or automatic registration job.
+// No request-supplied capacity override, season reset or automatic registration job.
 // Optional exact same-clan removals are committed atomically with the admission.
 const PREFIX = 'clan_member_assignment_v2049:';
 const CONFIRMATION = 'ASSIGN_UNAFFILIATED_CLAN_MEMBER';
@@ -68,7 +69,9 @@ async function assignmentState(q, target) {
   check(!master, '클랜 마스터 계정은 일반 편입으로 변경할 수 없습니다.');
   const removals = await removalState(q,target,clan);
   const [count] = await q('SELECT COUNT(*) n FROM clan_members WHERE season_id=$1 AND clan_id=$2', [season.id,target.clanId]);
-  const memberCount = Number(count.n), maxMembers = Math.min(22, Number(season.max_members) || 22);
+  const [redraftRow] = await q('SELECT value FROM app_meta WHERE key=$1 FOR SHARE',[clanRedraftKey(season.id)]);
+  const redraft = redraftRow ? parseClanRedraft(redraftRow.value,season.id) : null;
+  const memberCount = Number(count.n), maxMembers = clanMemberCapacity(season,target.clanId,redraft);
   check(memberCount-removals.members.length < maxMembers, `클랜 정원 ${maxMembers}명이 가득 찼습니다.`);
   const affectedIds = [target.userId,...removals.identities.map(m => m.userId)];
   const [pending] = await q(`SELECT 1 AS found FROM clan_war_battles WHERE season_id=$1
