@@ -104,8 +104,8 @@ test('상점은 원하는 수량 구매와 보유분 전체 자동 분할 일괄
 test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출을 관리한다',()=>{
   const html=read('admin/index.html'),cms=read('admin/prime-draw-admin-v1986.js');
   assert.match(html,/data-view="primedraw"/);
-  assert.match(html,/prime-draw-admin-v1986\.css\?v=2004-suit-core-catalog/);
-  assert.match(html,/prime-draw-admin-v1986\.js\?v=2004-suit-core-catalog/);
+  assert.match(html,/prime-draw-admin-v1986\.css\?v=20260917-skill-chip-catalog/);
+  assert.match(html,/prime-draw-admin-v1986\.js\?v=20260917-skill-chip-catalog/);
   assert.match(cms,/admin\/prime-draw\/status/);
   assert.match(cms,/admin\/prime-draw\/pool/);
   assert.match(cms,/data-prime-weight/);
@@ -120,13 +120,13 @@ test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출�
   assert.match(cms,/INVENTORY_ITEM/);
 });
 
-test('슈트 코어는 프라임 장비 CMS 후보로만 준비되고 선택 시 인벤토리에 원자 지급된다',()=>{
+test('슈트 코어와 스킬칩은 프라임 장비 CMS 후보로 준비되고 선택 시 인벤토리에 원자 지급된다',()=>{
   const backend=read('functions/_prime_draw.js'),cms=read('admin/prime-draw-admin-v1986.js'),catalog=read('functions/_battle_suit_materials.js');
-  assert.deepEqual(__primeDrawTest.PRIME_EQUIPMENT_ITEM_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6']);
+  assert.deepEqual(__primeDrawTest.PRIME_EQUIPMENT_ITEM_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SKILL_CHIP_ROCKET_LAUNCHER','SKILL_CHIP_HELICOPTER_AIRSTRIKE']);
   assert.match(catalog,/BATTLE_SUIT_CORE_CATALOG/);
   assert.match(backend,/x\.reward_type='INVENTORY_ITEM'/);
-  assert.match(backend,/i\.code IN \(\$\{PRIME_CORE_PLACEHOLDERS\}\)/);
-  assert.match(backend,/prepare\(inventoryItemSql\)\.bind\(\.\.\.BATTLE_SUIT_CORE_CODES\)/);
+  assert.match(backend,/i\.code IN \(\$\{PRIME_ITEM_PLACEHOLDERS\}\)/);
+  assert.match(backend,/prepare\(inventoryItemSql\)\.bind\(\.\.\.PRIME_EQUIPMENT_ITEM_CODES\)/);
   assert.match(backend,/catalog\.inventory_item/);
   assert.match(backend,/inventoryItemCounts/);
   assert.match(backend,/PRIME_EQUIPMENT_REWARD/);

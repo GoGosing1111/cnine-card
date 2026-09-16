@@ -3,3 +3,6 @@
 @media(max-width:1250px){.primeDrawCmsAddV1987{grid-template-columns:1fr 1fr 1fr}.primeDrawCmsAddV1987>div{grid-column:1/-1}.primeDrawCmsAddV1987 .wide{grid-column:span 2}}
 @media(max-width:1050px){.primeDrawCmsSummaryV1986{grid-template-columns:repeat(2,minmax(0,1fr))}.primeDrawCmsControlV1986{grid-template-columns:1fr 1fr}.primeDrawCmsControlV1986>div{grid-column:1/-1}}
 @media(max-width:720px){.primeDrawCmsHeroV1986,.primeDrawCmsPoolHeadV1986,.primeDrawCmsSaveV1986{align-items:stretch;flex-direction:column}.primeDrawCmsHeroActionsV1986{align-items:stretch;flex-direction:column}.primeDrawCmsTabsV1986,.primeDrawCmsSummaryV1986,.primeDrawCmsControlV1986,.primeDrawCmsAddV1987{grid-template-columns:1fr}.primeDrawCmsAddV1987>div,.primeDrawCmsAddV1987 .wide{grid-column:auto}.primeDrawCmsControlV1986>div{grid-column:auto}.primeDrawCmsHeroV1986{padding:20px}.primeDrawCmsHeroV1986 h2{font-size:25px}.primeDrawCmsSaveV1986{position:static}.primeDrawCmsSaveV1986 button{width:100%}}
+/* The shared desktop sidebar's 100vh must not cover the mobile Prime editor. */
+.primeDrawTypeV1987{white-space:nowrap}
+@media(max-width:800px){body:has(#view-primedraw:not([hidden])) .layout>aside{height:auto}.primeDrawCmsViewV1986 button,.primeDrawCmsViewV1986 select,.primeDrawCmsViewV1986 input{scroll-margin-top:80px}}
