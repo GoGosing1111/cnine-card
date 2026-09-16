@@ -1205,7 +1205,7 @@
     const alive = team => team.filter(c => n(c.hp) > 0).length;
     const hp = team => {
       const max = team.reduce((sum,c) => sum + Math.max(0,n(c.maxHp)) + Math.max(0,n(c.maxShield)),0);
-      const remaining = team.reduce((sum,c) => sum + Math.max(0,n(c.hp)) + Math.max(0,n(c.shield)),0);
+      const remaining = team.reduce((sum,c) => sum + (n(c.hp) > 0 ? n(c.hp) + Math.max(0,n(c.shield)) : 0),0);
       return (max ? Math.min(100,remaining / max * 100) : 0).toFixed(1) + '%';
     };
     const stat = (label, value, tone = '') => '<div class="v3-report-stat ' + tone + '"><dt>' + esc(label) + '</dt><dd>' + esc(value) + '</dd></div>';

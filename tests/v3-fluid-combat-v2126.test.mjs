@@ -35,4 +35,6 @@ test('survival details include the separate mercenary slot without changing the 
  const html=report({win:true,data:{result:'WIN',battleV2:{result:{final:{A:Array.from({length:5},()=>({hp:100,maxHp:100})),mercenaries:{A:[{hp:50,maxHp:100}]}}}}}});
  assert.match(html,/아군 생존<\/dt><dd>6 \/ 6/);
  assert.match(html,/91.7%/);
+ const defeated=report({data:{result:'LOSE',battleV2:{result:{final:{A:[{hp:0,maxHp:100,shield:50,maxShield:50}]}}}}});
+ assert.match(defeated,/아군 체력 · 보호막<\/dt><dd>0.0%/);
 });
