@@ -1,0 +1,25 @@
+{
+  "status": "ART_REVIEW",
+  "identity": "강구열",
+  "clan": "DK",
+  "identityReference": "assets/cards/강구열/01.webp",
+  "crestReference": "assets/ui/clan/marks/dk-clan-mark-v1.webp",
+  "generator": "builtin image_gen",
+  "createdAt": "2026-09-16T14:31:30.145Z",
+  "assets": [
+    {
+      "file": "assets/avatar-kangguyeol-dk-lobby-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "sha256": "84527df89e6fe8803ac03de5ba59a81fe72641b145d9c14aca4ff73ba770653b"
+    },
+    {
+      "file": "assets/avatar-kangguyeol-dk-equipment-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "sha256": "24ad2631fbb1f235be420b0c212c534f3fa15e5e553357e5751461eb4b3f7aa9"
+    }
+  ]
+}
