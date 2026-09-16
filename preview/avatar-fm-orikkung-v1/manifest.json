@@ -1,0 +1,91 @@
+{
+  "name": "FM 오리꿍",
+  "code": "FM_ORIKKUNG",
+  "serial": "A-20",
+  "date": "2026-09-17",
+  "generator": "built-in image_gen",
+  "approval": "사용자: 장비창에 넣을 리소스 만들고 추가, T1 조은 옵션 동일, FM 클랜 11일 지급",
+  "identity": "승인된 덕코프 오리 형태의 FM 유니폼 로비 원본",
+  "equipment": "같은 오리 얼굴·체형·유니폼의 별도 장비창 자세",
+  "backgroundRemoval": "none; native generated alpha retained",
+  "alpha": {
+    "clearPixels": 827433,
+    "solidPixels": 719203,
+    "borderNontransparentPixels": 0,
+    "crop": {
+      "left": 97,
+      "top": 41,
+      "width": 860,
+      "height": 1440
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1088,
+    "uniformScale": 0.7069767441860465,
+    "bodyWidth": 608,
+    "bodyHeight": 1018,
+    "top": 24,
+    "bottom": 46
+  },
+  "registration": {
+    "active": true,
+    "public": true,
+    "saleEnabled": false,
+    "acquisitionType": "EVENT",
+    "coinPrice": null,
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ],
+    "grant": {
+      "clan": "FM",
+      "durationDays": 11,
+      "sourceOptions": "T1_JOEUN",
+      "operation": "scripts/ops/avatar-fm-orikkung-release.mjs"
+    }
+  },
+  "files": {
+    "avatar-fm-orikkung-lobby-source-art-v1.png": {
+      "sha256": "62af91a108531f3ef8dfcecacb1f9f907c133759280b71e5923224b5cfab09b0",
+      "bytes": 2205881,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-fm-orikkung-equipment-source-art-v1.png": {
+      "sha256": "ec03fb1c0e6868295cf208103ed66367047e7410a52b9ec60549803663095737",
+      "bytes": 2095893,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-fm-orikkung-lobby-v1-1024.webp": {
+      "sha256": "441453dfdf22351561c02967eb6182dc10cb80a8caf0ba46f9d9c6c57a841747",
+      "bytes": 213970,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-fm-orikkung-lobby-v1-640.webp": {
+      "sha256": "c34f48f511a635cf2dd3f29996774f187f5147e88a786c53bb6a413600bcdb7a",
+      "bytes": 103108,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-fm-orikkung-equipment-v1-640.webp": {
+      "sha256": "7a0a4d916f5d676a841e339a35de3e371c5555e2405a6c2a677aa67d0b6651c5",
+      "bytes": 146354,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    }
+  }
+}
