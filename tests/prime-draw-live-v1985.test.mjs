@@ -70,9 +70,10 @@ test('운영 PostgreSQL은 고정 execSchema 경로로 프라임 relation을 실
 test('PostgreSQL foundation은 상품 DML보다 먼저 execSchema를 완료한다',async()=>{
   const calls=[];
   const statement=source=>({source,values:[],bind(...values){this.values=values;return this},async first(){calls.push(`first:${source}`);return {value:'already-seeded'}},async all(){return {results:[]}},async run(){return {success:true}}});
-  const env={DB:{dialect:'postgres',prepare:statement,async execSchema(schema){calls.push(`schema:${schema.length}`)},async batch(rows){calls.push(`batch:${rows.length}`);return []}}};
+  const env={DB:{dialect:'postgres',prepare:statement,async execSchema(schema){calls.push(`schema:${schema.length}`)},async batch(rows){calls.push(rows.some(row=>Object.values(__primeDrawTest.PRODUCTS).some(product=>row.values.includes(product.itemCode)))?'product-dml':`batch:${rows.length}`);return []}}};
   await ensurePrimeDrawFoundation(env);
-  assert.deepEqual(calls.slice(0,5),['first:SELECT value FROM app_meta WHERE key=?','batch:6','schema:7','batch:4','first:SELECT value FROM app_meta WHERE key=?']);
+  const schema=calls.indexOf('schema:7'),products=calls.indexOf('product-dml');
+  assert.ok(schema>=0&&products>schema,'product rows must follow completed PostgreSQL schema creation');
 });
 
 test('레거시 상품은 판매만 잠기고 보유분 개봉 라우트는 남는다',()=>{
@@ -121,7 +122,7 @@ test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출�
 
 test('슈트 코어는 프라임 장비 CMS 후보로만 준비되고 선택 시 인벤토리에 원자 지급된다',()=>{
   const backend=read('functions/_prime_draw.js'),cms=read('admin/prime-draw-admin-v1986.js'),catalog=read('functions/_battle_suit_materials.js');
-  assert.deepEqual(__primeDrawTest.PRIME_EQUIPMENT_ITEM_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4']);
+  assert.deepEqual(__primeDrawTest.PRIME_EQUIPMENT_ITEM_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6']);
   assert.match(catalog,/BATTLE_SUIT_CORE_CATALOG/);
   assert.match(backend,/x\.reward_type='INVENTORY_ITEM'/);
   assert.match(backend,/i\.code IN \(\$\{PRIME_CORE_PLACEHOLDERS\}\)/);

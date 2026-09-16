@@ -80,3 +80,13 @@ pvp = equipmentPvp + garagePvp + titlePvp
 - V3는 최상위 `equippedBattleSuit`/`equippedWeapon`를 우선하고, 호환을 위해 `characterBonus` 내부 값을 보조 경로로 읽는다.
 - 토벌·탑·봉인전·호송·레이드는 V3 진입 payload에 같은 장착 메타데이터와 로그인 계정명을 전달한다.
 - PVE 외 모드에서는 클라이언트 값과 관계없이 모드 게이트가 계정 유닛을 생성하지 않는다.
+
+## 2026-09-16 S-BODY · Z-BODY 운영 연결 승인
+
+- 사용자 명칭은 **S-BODY**, **Z-BODY**이며 계열 순서는 **H-BODY → S-BODY → Z-BODY**다.
+- `라이브 배포해 전체 승인`으로 H-BODY 방식의 무기 착용 6종씩, 총 12조합과 공용 V3 연결을 승인했다. `슈터코어 5 6 만들고`에 따라 **S-BODY는 슈트 코어 5**, **Z-BODY는 슈트 코어 6**을 사용한다.
+- 최종 원화·색감·머리 외형 잠금은 `preview/battle-suit-sz-v1/approval.json`과 `manifest.json`을 따른다. 과거 Z 후보를 최종 외형 대신 사용하지 않는다.
+- 운영 확장은 `assets/ui/project-v/account-battle-suits/sz-body-v2124.json`이다. 승인 전투 PNG 12개와 아틀라스 6개를 바이트 그대로 복사했으며 기존 H-BODY 리소스는 고정한다.
+- 신규 바디 역시 PVE 전용 지원 유닛이다. 기본 카드 5장과 분리하고 PVP 전투력은 0이다. 미정 전투력·제작 비용·확률·획득 경로를 자동 배정하지 않는다. 신규 장비는 전투력 0으로 등록하고 이후 CMS 설정을 보존한다.
+- 코어 5·6은 별도 이미지가 있는 `MATERIAL` 재료다. 재료 등록으로 지급·상점·드롭·블랙미라클·제작식이 자동 추가되지 않는다.
+- 재현·검증·운영 절차는 `docs/battle-suit-sz-body-v2124.md`를 따른다.

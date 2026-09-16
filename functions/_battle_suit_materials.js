@@ -1,18 +1,21 @@
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 /* V2004 BATTLE SUIT CORE INVENTORY CATALOG */
 export const BATTLE_SUIT_CORE_UPGRADE_KEY='safe_runtime_upgrade_v2066_battle_suit_core_catalog';
+export const SZ_BODY_CORE_UPGRADE_KEY='safe_runtime_upgrade_v2124_battle_suit_core_5_6';
 
 export const BATTLE_SUIT_CORE_CATALOG=Object.freeze([
   Object.freeze({code:'SUIT_CORE_1',name:'슈트 코어 1',subtitle:'BATTLE SUIT CORE I',description:'배틀슈트 01 제작에 사용하는 백금 동력 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-1-v2004.png',sortOrder:200401}),
   Object.freeze({code:'SUIT_CORE_2',name:'슈트 코어 2',subtitle:'BATTLE SUIT CORE II',description:'배틀슈트 02 제작에 사용하는 청색 전술 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-2-v2004.png',sortOrder:200402}),
   Object.freeze({code:'SUIT_CORE_3',name:'슈트 코어 3',subtitle:'BATTLE SUIT CORE III',description:'배틀슈트 03 제작에 사용하는 자수정 초월 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-3-v2004.png',sortOrder:200403}),
-  Object.freeze({code:'SUIT_CORE_4',name:'슈트 코어 4',subtitle:'BATTLE SUIT CORE IV',description:'H-BODY 제작용으로 준비된 백색·엠버 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-4-v2066.png',sortOrder:200404})
+  Object.freeze({code:'SUIT_CORE_4',name:'슈트 코어 4',subtitle:'BATTLE SUIT CORE IV',description:'H-BODY 제작용으로 준비된 백색·엠버 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-4-v2066.png',sortOrder:200404}),
+  Object.freeze({code:'SUIT_CORE_5',name:'슈트 코어 5',subtitle:'BATTLE SUIT CORE V',description:'S-BODY 제작용으로 준비된 화이트·블루·레드의 청색 동력 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-5-v2124.png',sortOrder:200405}),
+  Object.freeze({code:'SUIT_CORE_6',name:'슈트 코어 6',subtitle:'BATTLE SUIT CORE VI',description:'Z-BODY 제작용으로 준비된 흑백·골드 성기사 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-6-v2124.png',sortOrder:200406})
 ]);
 
 export const BATTLE_SUIT_CORE_CODES=Object.freeze(BATTLE_SUIT_CORE_CATALOG.map(item=>item.code));
 export const VEHICLE_WORKSHOP_PART_CODES=Object.freeze(['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE']);
 
-export async function ensureBattleSuitCoreCatalog(env){
+async function ensureLegacyBattleSuitCoreCatalog(env){
   if(readRuntimeData(env,BATTLE_SUIT_CORE_UPGRADE_KEY))return true;
   const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BATTLE_SUIT_CORE_UPGRADE_KEY).first();
   if(marker?.value==='1')return cacheRuntimeData(env,BATTLE_SUIT_CORE_UPGRADE_KEY,true,1800000);
@@ -20,7 +23,7 @@ export async function ensureBattleSuitCoreCatalog(env){
     // Adding core 4 must not replay old catalog defaults over OWNER CMS edits.
     // Existing cores keep their name/art/rarity/order and active state; only
     // material classification is canonical. Core 4 refreshes its requested art.
-    ...BATTLE_SUIT_CORE_CATALOG.map(item=>{
+    ...BATTLE_SUIT_CORE_CATALOG.slice(0,4).map(item=>{
       const updates=item.code==='SUIT_CORE_4'
         ? "name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category='MATERIAL',image_url=excluded.image_url,updated_at=CURRENT_TIMESTAMP"
         : "category='MATERIAL',updated_at=CURRENT_TIMESTAMP";
@@ -30,6 +33,25 @@ export async function ensureBattleSuitCoreCatalog(env){
     env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(BATTLE_SUIT_CORE_UPGRADE_KEY)
   ]);
   return cacheRuntimeData(env,BATTLE_SUIT_CORE_UPGRADE_KEY,true,1800000);
+}
+
+export async function ensureSzBodyCoreCatalog(env){
+  if(readRuntimeData(env,SZ_BODY_CORE_UPGRADE_KEY))return true;
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SZ_BODY_CORE_UPGRADE_KEY).first();
+  if(marker?.value==='1')return cacheRuntimeData(env,SZ_BODY_CORE_UPGRADE_KEY,true,1800000);
+  await env.DB.batch([
+    ...BATTLE_SUIT_CORE_CATALOG.slice(4).map(item=>env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+      VALUES(?,?,?,?,'MATERIAL',?,?,?,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,
+      description=excluded.description,category='MATERIAL',image_url=excluded.image_url,updated_at=CURRENT_TIMESTAMP`)
+      .bind(item.code,item.name,item.subtitle,item.description,item.rarity,item.image,item.sortOrder)),
+    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(SZ_BODY_CORE_UPGRADE_KEY)
+  ]);
+  return cacheRuntimeData(env,SZ_BODY_CORE_UPGRADE_KEY,true,1800000);
+}
+
+export async function ensureBattleSuitCoreCatalog(env){
+  await ensureLegacyBattleSuitCoreCatalog(env);
+  return ensureSzBodyCoreCatalog(env);
 }
 
 export async function ensureMysticEnergyCatalog(env){

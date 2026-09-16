@@ -71,9 +71,11 @@ const qaCardPower=Number(process.env.JOINT_QA_CARD_POWER||20000000);
 let qaCharacterBonus={pve:0};
 if(process.env.JOINT_QA_BATTLE_SUIT==='1'){
  const assets=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/manifest-v2.json'),'utf8'));
- const suit=assets.suits[2],weapon=assets.weapons[Number(process.env.JOINT_QA_WEAPON_INDEX||0)],pvePower=300000;
+ const advanced=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/sz-body-v2124.json'),'utf8'));
+ const suit=process.env.JOINT_QA_SUIT_CODE?advanced.suits.find(s=>s.code===process.env.JOINT_QA_SUIT_CODE):assets.suits[2],weapon=assets.weapons[Number(process.env.JOINT_QA_WEAPON_INDEX||0)],pvePower=300000;
+ if(!suit||!weapon)throw Error('Unknown QA battle-suit/weapon');
  const {SKILL_CHIP_CATALOG}=await import('../shared/battle-suit-skill-chips.mjs');
- qaCharacterBonus={pve:pvePower,battleSuitPve:pvePower,equippedBattleSuit:{code:suit.code,pvePower,appearance:{battleSprite:suit.image,battleHeight:278},skillChips:process.env.JOINT_QA_NO_CHIPS==='1'?[]:SKILL_CHIP_CATALOG.map(c=>c.code)},equippedWeapon:{code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}}};
+ qaCharacterBonus={pve:pvePower,battleSuitPve:pvePower,equippedBattleSuit:{code:suit.code,name:suit.name,pvePower,battleSprite:suit.battleSprite||suit.image,appearance:{battleSprite:suit.battleSprite||suit.image,battleHeight:278},skillChips:process.env.JOINT_QA_NO_CHIPS==='1'?[]:SKILL_CHIP_CATALOG.map(c=>c.code)},equippedWeapon:{code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}}};
 }
 f.deps.raidDeckPower=async(_env,uid,requested,mode)=>{if(requested!==null||!['PVE','TOWER'].includes(mode))throw Error('Saved deck required');return {ids,cards:catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],power:qaCardPower,base_power:qaCardPower,image:c.sourceArt})),power:qaCardPower*5+qaCharacterBonus.pve,characterBonus:qaCharacterBonus,battleSettings:{engine:{}}};};
 const native=process.env.JOINT_QA_NATIVE==='1';
@@ -97,6 +99,14 @@ const send=(res,status,body,type='application/json')=>{res.writeHead(status,{'co
 const server=http.createServer(async(req,res)=>{try{
   if(req.headers.host!==hostname)return send(res,403,{error:'Local QA only'});
   const url=new URL(req.url,origin);
+  if(url.pathname==='/__qa/sz-loadout'&&req.method==='POST'){
+    const assets=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/manifest-v2.json'),'utf8'));
+    const advanced=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/sz-body-v2124.json'),'utf8'));
+    const suit=advanced.suits.find(s=>s.code===url.searchParams.get('suit')),weapon=assets.weapons[Number(url.searchParams.get('weapon'))];
+    if(!suit||!weapon)return send(res,400,{error:'Unknown QA loadout'});
+    qaCharacterBonus={pve:300000,battleSuitPve:300000,equippedBattleSuit:{code:suit.code,name:suit.name,pvePower:300000,battleSprite:suit.battleSprite,appearance:{battleSprite:suit.battleSprite},skillChips:[]},equippedWeapon:{code:weapon.equipmentCode,battleSprite:weapon.battleSprite,appearance:{battleSprite:weapon.battleSprite}}};
+    return send(res,200,{code:suit.code,weapon:weapon.equipmentCode,localQa:true});
+  }
   if(url.pathname==='/__qa/connections-cms')return send(res,200,'<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>운영 연결 CMS 검수</title><link rel="stylesheet" href="/admin/admin.css"><body style="background:#111923;color:#eee;padding:24px"><header><h1 id="pageTitle">운영 연결 CMS 검수</h1><span id="roleBadge">OWNER</span></header><nav id="nav"></nav><main id="cms"></main><script type="module" src="/admin/v3-live-connections.mjs"></script></body></html>','text/html');
   if(url.pathname==='/__qa/cow-portal-result'&&req.method==='POST'){
     if(req.headers.authorization!=='Bearer local-account-7')return send(res,401,{error:'Local QA account required'});
@@ -128,8 +138,8 @@ const server=http.createServer(async(req,res)=>{try{
       if(apiPath==='service/status')return send(res,200,{maintenance:{active:false}});
       if(apiPath==='inventory')return send(res,200,{items:[],totalQuantity:0,ownedTypes:0});
       if(apiPath==='loot-shop/balance')return send(res,200,{pigCoins:0});
-      if(apiPath==='battle/fight'){const b=await request.json(),deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),monster={id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battle_power:500000};const battleV2=createPveBattleV2({cards:rankCards(deck.cards,await accountRankBenefits(f.env,7,'HUNT')),monster,seed:42});if(battleV2.result.winner==='A')await settleRankedHunt(f.env,7,'HUNT',b.requestId||crypto.randomUUID(),100,'QA HUNT');return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',cards:deck.cards,monster,playerPower:deck.power,monsterPower:500000,reward:100,user:await profile()});}
-      if(apiPath==='battle/config')return send(res,200,{deck:ids,deckRules:{gradeLimits:{FUR:5}},monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000}],settings:{},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pve:0},energy:{energy:30,maxEnergy:30,costPerBattle:1}});
+      if(apiPath==='battle/fight'){const b=await request.json(),deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),monster={id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battle_power:500000};const battleV2=createPveBattleV2({cards:rankCards(deck.cards,await accountRankBenefits(f.env,7,'HUNT')),monster,battleSuit:qaCharacterBonus.equippedBattleSuit?{...qaCharacterBonus.equippedBattleSuit,weapon:qaCharacterBonus.equippedWeapon}:null,seed:42});if(battleV2.result.winner==='A')await settleRankedHunt(f.env,7,'HUNT',b.requestId||crypto.randomUUID(),100,'QA HUNT');return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',cards:deck.cards,monster,characterBonus:qaCharacterBonus,equippedBattleSuit:qaCharacterBonus.equippedBattleSuit,equippedWeapon:qaCharacterBonus.equippedWeapon,playerPower:deck.power,monsterPower:500000,reward:100,user:await profile()});}
+      if(apiPath==='battle/config')return send(res,200,{deck:ids,deckRules:{gradeLimits:{FUR:5}},monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000}],settings:{},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:qaCharacterBonus,energy:{energy:30,maxEnergy:30,costPerBattle:1}});
       if(apiPath==='pvp/match')return send(res,200,{token:'local-match',opponent:{id:8,nickname:'검수 상대',season_score:0}});
       if(apiPath==='pvp/fight'){const deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),enemy=deck.cards.map(c=>({...c,power:100000})),battleV2=createPvpBattleV2({attackerCards:deck.cards,defenderCards:enemy,seed:42});return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',attackerDeck:deck.cards,defenderDeck:enemy,attackerPower:deck.power,defenderPower:500000,opponent:'검수 상대',scoreAfter:25,scoreChange:25,coinAfter:await f.coin(),energy:{unlimited:true,energy:30,maxEnergy:30},serverNow:new Date().toISOString()});}
       if(apiPath==='pvp/config')return send(res,200,{deck:ids,deckRules:{gradeLimits:{FUR:5}},presets:{1:ids,2:[],3:[]},activePreset:1,settings:{enabled:true,seasonName:'로컬 랭크전 검수',tiers:[]},profile:{season_score:0,tier:{id:'bronze',name:'브론즈',color:'#b87333'}},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pvp:0},energy:{energy:30,maxEnergy:30,costPerBattle:1,unlimited:true}});

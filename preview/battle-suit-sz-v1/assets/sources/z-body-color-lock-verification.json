@@ -1,0 +1,13 @@
+{
+  "output": "C:\\Users\\User\\.codex\\generated_images\\01a0a549-9dc6-7a82-9622-9c1e7faef2d9\\z-body-color-locked-v1.png",
+  "colorReference": "C:\\Users\\User\\AppData\\Local\\Temp\\codex-clipboard-b86185ec-a1ab-4839-aecc-5267d72c7109.png",
+  "generatedHead": "C:\\Users\\User\\.codex\\generated_images\\01a0a549-9dc6-7a82-9622-9c1e7faef2d9\\exec-0c10c46c-2ee0-446b-8263-6e125047ed01.png",
+  "width": 1024,
+  "height": 1536,
+  "helmetMaskPixels": 33997,
+  "unchangedOutsideMaskPixels": 1538867,
+  "outsideMaskPixelEquality": true,
+  "outsideMaskVerificationSha256": "021D5E45C276C19612F994318E2380348B4D4ACAB82A4ED838B29C1BA357B584",
+  "sourceSha256": "8925A32B05CEE60CB29DC5C4FB3ECC9FB69C24DD7788D3AF7032ED9D092C2361",
+  "outputSha256": "094A2C618F2683059FA129DE5DA2BCE558D5774748477D9AD26C3B41CE62CD6D"
+}

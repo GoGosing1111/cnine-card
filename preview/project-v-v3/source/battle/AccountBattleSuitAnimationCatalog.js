@@ -1,4 +1,5 @@
 import {H_BODY_ANIMATION_CATALOG} from './AccountBattleSuitHBodyCatalog.js';
+import {SZ_BODY_ANIMATION_CATALOG} from './AccountBattleSuitSzBodyCatalog.js';
 
 const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
 const GRID=Object.freeze({columns:4,rows:2});
@@ -137,7 +138,7 @@ export const ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG=Object.freeze({...Object.from
     const key=`${suitCode}:${weaponCode}`;
     return [key,catalogEntry(suitCode,suitSlug,weaponCode,weapon)];
   }))
-),...H_BODY_ANIMATION_CATALOG});
+),...H_BODY_ANIMATION_CATALOG,...SZ_BODY_ANIMATION_CATALOG});
 
 export function resolveAccountBattleSuitAnimation(suitCode,weaponCode){
   const suit=String(suitCode||'').trim().toUpperCase();

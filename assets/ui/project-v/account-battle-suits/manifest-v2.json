@@ -1,7 +1,10 @@
 {
   "version": "v8",
   "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1",
-  "extensions": ["/assets/ui/project-v/account-battle-suits/h-body-v2066.json"],
+  "extensions": [
+    "/assets/ui/project-v/account-battle-suits/h-body-v2066.json",
+    "/assets/ui/project-v/account-battle-suits/sz-body-v2124.json"
+  ],
   "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v5.json",
   "scope": "PVE_ONLY",
   "battleSuitSlot": "BATTLE_SUIT",

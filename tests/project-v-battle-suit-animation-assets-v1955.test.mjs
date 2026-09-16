@@ -293,8 +293,8 @@ test('catalog resolves all 18 suit/weapon pairs with measured sole, HUD and muzz
     resolveAccountBattleSuitAnimation
   }=await import(`${catalogModuleUrl.href}?v8-gilded-dragon-qc`);
   const pairs=await pairMap();
-  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,24);
-  const legacyKeys=Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).filter(key=>!key.startsWith('BATTLE_SUIT_H_BODY:'));
+  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,36);
+  const legacyKeys=Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).filter(key=>/^BATTLE_SUIT_0[123]:/.test(key));
   assert.deepEqual(sorted(legacyKeys),sorted(pairs.keys()));
   for(const [key,pair] of pairs){
     const resolved=resolveAccountBattleSuitAnimation(...key.split(':'));

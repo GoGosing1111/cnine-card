@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.36.0-combat-flow';
-  const BATTLE_RUNTIME = '2119-battlefield-contract-heeya-2118';
+  const BATTLE_RUNTIME = '2124-sz-body-core';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;

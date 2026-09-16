@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 
+const bundle=fs.readFileSync(new URL('../preview/project-v-v3/project-v-pixi-battle.bundle.js',import.meta.url),'utf8');
 const bridge=fs.readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
 const engine=fs.readFileSync(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8');
 const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
@@ -77,7 +78,7 @@ const context={
   document:{querySelectorAll:()=>[]},
   window:null,
   ProjectVPixiBattle:{
-    runtimeVersion:'2119-battlefield-contract-heeya-2118',
+    runtimeVersion:bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)[1],
     destroy:()=>calls.push(['destroy']),
     mount:async()=>calls.push(['mount']),
     setBattlePayload:async payload=>calls.push(['payload',payload.mode,payload]),

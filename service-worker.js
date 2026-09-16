@@ -1,3 +1,4 @@
+// S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 const SHELL_CACHE='soop-card-shell-v2108-shared-navigation';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';

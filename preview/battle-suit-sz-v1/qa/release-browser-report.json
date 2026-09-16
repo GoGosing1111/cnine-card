@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-16",
+  "status": "PASS",
+  "phase": "PRE_DEPLOY_ACTUAL_GAME_UI",
+  "runtimeVersion": "2124-sz-body-core",
+  "entry": "index.html, actual game navigation and battle buttons",
+  "api": "scripts/serve-joint-account-qa.mjs, isolated local accounts",
+  "productionAccountMutation": false,
+  "testOnlySuitPower": 300000,
+  "cases": [
+    {"viewport": [1440, 1000], "mode": "PVE", "suit": "BATTLE_SUIT_S_BODY", "weapon": "M4A1", "entryAndResult": "PASS", "liveAtlasLoaded": true},
+    {"viewport": [1440, 1000], "mode": "PVE", "suit": "BATTLE_SUIT_Z_BODY", "weapon": "M4A1", "entryAndResult": "PASS", "positiveAuthoritativeDamage": true, "ballisticFailures": 0},
+    {"viewport": [1440, 1000], "mode": "PVE", "suit": "BATTLE_SUIT_Z_BODY", "weapon": "GILDED_ANTIMATERIEL", "entryAndResultAndReturn": "PASS", "atlas": "/assets/ui/project-v/account-battle-suits/animations/z-body-gilded-dragon-atlas-v2124.png", "observedShots": 7, "observedAuthoritativeDamage": 510984, "serverResultShots": 13, "serverResultDamage": 1036926, "ballisticFailures": 0},
+    {"viewport": [390, 844], "mode": "PVE", "suit": "BATTLE_SUIT_S_BODY", "weapon": "M200", "entryAndResultAndReturn": "PASS", "atlas": "/assets/ui/project-v/account-battle-suits/animations/s-body-m4a1-m200-atlas-v2124.png", "positiveShots": true, "serverResultShots": 10, "serverResultDamage": 1136520, "ballisticFailures": 0},
+    {"viewport": [1440, 1000], "mode": "PVP", "entryAndResultAndReturn": "PASS", "accountUnitEnabled": false, "accountUnitActive": false, "authoritativeSuitDamage": 0},
+    {"viewport": [390, 844], "mode": "PVP", "entryAndResultAndReturn": "PASS", "afterPve": true, "accountUnitEnabled": false, "accountUnitActive": false, "authoritativeSuitDamage": 0},
+    {"viewport": [779, 878], "mode": "PVE", "injectedFailure": "renderer HTTP 503", "errorVisible": true, "returnButtonVisible": true, "returnToHunt": "PASS"},
+    {"viewport": [390, 844], "mode": "PVE", "injectedFailure": "renderer HTTP 503", "errorVisible": true, "returnButtonVisible": true, "returnButtonClicked": true}
+  ],
+  "allTwelveLoadoutVisualChecks": "browser-report.json",
+  "assetIntegrity": "asset-report.json",
+  "staleRuntimeRecovery": "tests/pve-battlefield-entry-v2117.test.mjs using actual bundle and main loader"
+}

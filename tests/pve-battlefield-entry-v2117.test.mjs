@@ -64,8 +64,9 @@ test('legacy string getter cannot mask the battlefield selector during construct
 test('already loaded obsolete runtime is replaced once before mounting; current runtime is reused',async()=>{
   const source=readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
   const chunk=source.slice(source.indexOf('  const BATTLE_RUNTIME'),source.indexOf('  const PLAYBACK_SPEED'));
+  const version=liveFeatureHarness().version;
   let destroyed=0,loads=0;const root={ProjectVPixiBattle:{destroy(){destroyed++;}},__V3_PIXI_MOUNTED:true};
-  const document={createElement(){return {remove(){}}},head:{appendChild(script){loads++;assert.match(script.src,/2119-battlefield-contract-heeya-2118/);queueMicrotask(()=>{root.ProjectVPixiBattle={runtimeVersion:'2119-battlefield-contract-heeya-2118'};script.onload();});}}};
+  const document={createElement(){return {remove(){}}},head:{appendChild(script){loads++;assert.equal(new URL(script.src,'https://test.invalid').searchParams.get('battleRuntime'),version);queueMicrotask(()=>{root.ProjectVPixiBattle={runtimeVersion:version};script.onload();});}}};
   const ensure=vm.runInNewContext(chunk+'\nensureCurrentBattleRuntime',{root,document,setTimeout,clearTimeout});
   await Promise.all([ensure(),ensure()]);assert.equal(loads,1);assert.equal(destroyed,1);assert.equal(root.__V3_PIXI_MOUNTED,false);
   await ensure();assert.equal(loads,1);
@@ -75,7 +76,7 @@ test('service worker replaces old battle scripts even when their historical URL 
   const source=readFileSync(new URL('../service-worker.js',import.meta.url),'utf8');
   const events={},deleted=[],url='https://test.invalid/js/app.js?v=old';let fetched=0;
   const cache={keys:async()=>[new Request(url),new Request('https://test.invalid/css/app.css?v=old')],delete:async r=>deleted.push(r.url),match:async()=>new Response('OLD',{headers:{'Content-Type':'text/javascript'}}),put:async()=>{}};
-  const context={self:{location:{origin:'https://test.invalid'},addEventListener:(n,f)=>events[n]=f,clients:{claim:async()=>{}}},caches:{keys:async()=>['soop-card-shell-v2108-shared-navigation'],open:async()=>cache},URL,Response,fetch:async()=>{fetched++;return new Response('CURRENT',{headers:{'Content-Type':'text/javascript'}})}};
+  const context={self:{location:{origin:'https://test.invalid'},addEventListener:(n,f)=>events[n]=f,clients:{claim:async()=>{}}},caches:{keys:async()=>[source.match(/const SHELL_CACHE='([^']+)'/)[1]],open:async()=>cache},URL,Response,fetch:async()=>{fetched++;return new Response('CURRENT',{headers:{'Content-Type':'text/javascript'}})}};
   vm.runInNewContext(source,context);let wait;events.activate({waitUntil:p=>wait=p});await wait;assert.deepEqual(deleted,[url]);
   let reply;events.fetch({request:{method:'GET',url,destination:'script',mode:'no-cors'},respondWith:p=>reply=p});
   assert.equal(await (await reply).text(),'CURRENT');assert.equal(fetched,1);

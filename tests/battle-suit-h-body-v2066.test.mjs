@@ -98,7 +98,7 @@ test('H-BODY item art and separate V3 fallback are true RGBA with clear margins'
 });
 
 test('six H-BODY profiles bind the real V3 catalog to byte-identical approved preview atlas rows',async()=>{
-  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,24);
+  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,36);
   const preview=JSON.parse(await read('preview/battle-suit-prestige-v1/manifest.json'));
   assert.equal(Object.keys(manifest.profiles).length,6);
   for(const entry of manifest.entries){
@@ -130,5 +130,5 @@ test('H-BODY preserves server PVE support damage and excludes zero-power unconfi
   assert.equal(built.weaponClass,old.weaponClass);assert.equal(built.independentFireInterval,old.independentFireInterval);
   assert.equal(built.independentAttackMultiplier,old.independentAttackMultiplier);
   assert.equal(buildBattleSuitFighter({code:H_BODY_ITEM.code,pvePower:0}),null);
-  assert.equal(BATTLE_SUIT_CORE_CATALOG.at(-1).code,'SUIT_CORE_4');
+  assert.equal(BATTLE_SUIT_CORE_CATALOG.find(item=>item.code==='SUIT_CORE_4').name,'슈트 코어 4');
 });
