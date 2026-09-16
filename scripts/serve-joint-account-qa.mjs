@@ -27,8 +27,10 @@ import {saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {V3_LIVE_CONNECTIONS} from '../shared/v3-live-connections.mjs';
 import {v3JointReleaseState} from '../shared/v3-joint-release-v1.mjs';
 import {operatingTowerFixture} from '../tests/helpers/tower-live-route.mjs';
+import {inventoryUiFixture} from '../tests/fixtures/inventory-ui-v2125.mjs';
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.JOINT_QA_PORT||8899),hostname=`127.0.0.1:${port}`,origin=`http://${hostname}`;
 const staticOrigin=process.env.JOINT_QA_STATIC_ORIGIN||'';
+const inventoryQa=process.env.JOINT_QA_INVENTORY_UI==='1'?inventoryUiFixture():null;
 if(staticOrigin&&staticOrigin!=='https://cnine-card.pages.dev')throw Error('Only the existing production site can supply QA static files');
 const dataDir=path.resolve(root,'../qa');fs.mkdirSync(dataDir,{recursive:true});
 const databaseFile=path.join(dataDir,`joint-account-${Date.now()}.sqlite`);
@@ -136,7 +138,7 @@ const server=http.createServer(async(req,res)=>{try{
       if(apiPath==='cards')return send(res,200,{cards:nativeCards});
       if(apiPath==='packs')return send(res,200,{packs:[hyperPackCatalogRow((await hyperOpeningFeature(f.env)).userOpeningEnabled)]});
       if(apiPath==='service/status')return send(res,200,{maintenance:{active:false}});
-      if(apiPath==='inventory')return send(res,200,{items:[],totalQuantity:0,ownedTypes:0});
+      if(apiPath==='inventory')return send(res,200,inventoryQa||{items:[],totalQuantity:0,ownedTypes:0});
       if(apiPath==='loot-shop/balance')return send(res,200,{pigCoins:0});
       if(apiPath==='battle/fight'){const b=await request.json(),deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),monster={id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battle_power:500000};const battleV2=createPveBattleV2({cards:rankCards(deck.cards,await accountRankBenefits(f.env,7,'HUNT')),monster,battleSuit:qaCharacterBonus.equippedBattleSuit?{...qaCharacterBonus.equippedBattleSuit,weapon:qaCharacterBonus.equippedWeapon}:null,seed:42});if(battleV2.result.winner==='A')await settleRankedHunt(f.env,7,'HUNT',b.requestId||crypto.randomUUID(),100,'QA HUNT');return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',cards:deck.cards,monster,characterBonus:qaCharacterBonus,equippedBattleSuit:qaCharacterBonus.equippedBattleSuit,equippedWeapon:qaCharacterBonus.equippedWeapon,playerPower:deck.power,monsterPower:500000,reward:100,user:await profile()});}
       if(apiPath==='battle/config')return send(res,200,{deck:ids,deckRules:{gradeLimits:{FUR:5}},monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000}],settings:{},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:qaCharacterBonus,energy:{energy:30,maxEnergy:30,costPerBattle:1}});

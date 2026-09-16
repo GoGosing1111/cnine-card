@@ -3913,38 +3913,120 @@ const RETIREMENT_REROLL_META={
   SUPERSTAR_REROLL_TICKET:{title:'슈퍼스타 재뽑기권',grade:'SUPERSTAR',theme:'superstar'}
 };
 const WORKSHOP_ONLY_ITEM_CODES=new Set(['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE']);
-function inventoryView(){return `${summaryBar(loadUser())}<section class="inventory-vault"><div class="inventory-hero"><div class="inventory-hero-copy"><h2>인벤토리</h2><p>획득한 보상 큐브와 특별 아이템을 안전하게 보관합니다.</p><div class="inventory-hero-meta"><b id="inventoryOwnedSummary">보관품 확인 중</b></div></div><div class="inventory-vault-mark" aria-hidden="true"><img src="assets/ui/cninelogo.png" alt=""></div></div><div class="inventory-toolbar" id="inventoryToolbar"><div><button type="button" class="active" data-inventory-filter="ALL">전체</button><button type="button" data-inventory-filter="MATERIAL">재료</button><button type="button" data-inventory-filter="CUBE">큐브</button><button type="button" data-inventory-filter="SUPPLY_BOX">보급상자</button><button type="button" data-inventory-filter="ENTRY_TICKET">입장권</button><button type="button" data-inventory-filter="VEHICLE_DRAW">이동수단</button><button type="button" data-inventory-filter="REROLL" id="inventoryRerollFilter" hidden>재뽑기권</button></div></div><div id="inventoryGrid" class="inventory-grid"><div class="inventory-loading"><i></i><b>보관함 확인 중</b><span>보유 정보를 확인하고 있습니다.</span></div></div></section>`}
-function inventoryItemMarkup(item){
-  const owned=Number(item.quantity)>0,isMaterial=item.category==='MATERIAL',isWorkshopOnly=WORKSHOP_ONLY_ITEM_CODES.has(String(item.code||'').toUpperCase()),usable=item.usable!==false&&!isWorkshopOnly&&!isMaterial,kind=String(item.rarity||'normal').toLowerCase(),isCube=item.category==='CUBE',isPrimeEquipment=item.code==='PRIME_EQUIPMENT_SUPPLY_BOX',isPrimeVehicle=item.code==='PRIME_VEHICLE_DRAW_TICKET',isPrimeDraw=isPrimeEquipment||isPrimeVehicle,isSupply=item.category==='SUPPLY_BOX'||item.code==='EQUIPMENT_SUPPLY_BOX'||isPrimeEquipment,isMasterStar=item.code==='MASTER_STAR',isMagicPack=item.code==='MAGIC_CARD_PACK',isReroll=item.category==='REROLL',isScrapyardTicket=item.code==='SCRAPYARD_ENTRY_TICKET';
-  const isVehicleDraw=item.code==='VEHICLE_DRAW_TICKET'||isPrimeVehicle;
-  const visual=isMasterStar?'<div class="master-star-emblem" aria-hidden="true"><span>★</span><i></i></div>':isReroll?`<div class="inventory-reroll-ticket" aria-hidden="true"><small>${escapeHtml(item.rarity)}</small><b>REROLL</b><span>SOOP</span></div>`:isPrimeEquipment?'<img src="assets/ui/packs/prime-armory-equipment-box-v1.png?v=1985-prime-live" alt="프라임 아머리 상자">':isPrimeVehicle?'<img src="assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1985-prime-live" alt="프라임 하이퍼드라이브 팩">':isVehicleDraw?'<img src="assets/items/vehicle-draw-ticket-v1391.png?v=1393" alt="이동수단 뽑기권">':isMagicPack?'<img src="assets/cards/magic-card-pack-v2-384.jpg?v=1482" srcset="assets/cards/magic-card-pack-v2-384.jpg?v=1482 384w, assets/cards/magic-card-pack-v2-768.jpg?v=1482 768w" sizes="160px" width="768" height="1376" alt="마법카드 팩">':`<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">`;
-  const actionLabel=item.code==='SOOPKETLAND_TICKET'?'숲켓랜드 입장':item.code==='SOOPKETLAND_HYPER_BURNING_TICKET'?'서버 ×15 · 60분 발동':isScrapyardTicket?'폐차장 입장':isMagicPack?'팩 개봉':isPrimeDraw?'프라임 일괄 개봉':isVehicleDraw?'이동수단 뽑기':isReroll?'재뽑기':isSupply?'보급 개방':isCube?'큐브 개봉':'아이템 사용';
-  return `<article class="inventory-item inventory-item-${kind} ${isSupply?'inventory-item-supply':''} ${isPrimeDraw?'inventory-item-prime':''} ${isMasterStar?'inventory-item-master-star':''} ${isReroll?'inventory-item-reroll':''} ${isScrapyardTicket?'inventory-item-entry-ticket':''} ${isWorkshopOnly||isMaterial?'inventory-item-workshop-material':''} ${owned?'owned':'locked'}" data-inventory-category="${escapeHtml(item.category||'ETC')}"><div class="inventory-item-glow"></div>${isPrimeDraw?'<span class="inventory-new prime">PRIME</span>':item.unseenQuantity?'<span class="inventory-new">NEW</span>':''}${isMaterial?'<span class="inventory-material-only">재료 전용</span>':''}<div class="inventory-pack-stage"><span class="inventory-pack-orbit"></span>${visual}<i></i></div><div class="inventory-item-copy"><small>${escapeHtml(item.subtitle||'SOOP INVENTORY')}</small><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description)}</p><div class="inventory-item-foot"><span>보유 수량 <b>${Number(item.quantity).toLocaleString()}</b></span>${isMasterStar?'<em class="inventory-material-label">MA 중복 보상</em>':`<button type="button" class="inventory-use" data-inventory-use="${escapeHtml(item.code)}" data-inventory-quantity="${Number(item.quantity)}" ${owned&&usable?'':'disabled'}>${!owned?'미보유':usable?actionLabel:isMaterial?'재료 전용 · 사용 불가':isWorkshopOnly?'제작소 전용':escapeHtml(item.useDisabledMessage||'사용 중지')}</button>`}</div></div></article>`;
+function inventoryView(){
+  const owner=String(loadUser()?.serverUserId||loadUser()?.id||'guest');
+  if(inventoryUiState.owner!==owner)Object.assign(inventoryUiState,{owner,items:[],filter:'ALL',query:'',sort:'DEFAULT',ownedOnly:true,newOnly:false,selectedCode:''});
+  return `${summaryBar(loadUser())}<section id="inventoryVault" class="iv25-vault" aria-label="아이템 보관함" aria-busy="true">
+    <header class="iv25-heading"><div><span class="iv25-heading-icon" aria-hidden="true">${inventoryIcon('box')}</span><div><h2>보유 아이템</h2><p id="inventoryOwnedSummary">보관함을 확인하고 있습니다.</p></div></div><button type="button" class="iv25-refresh" id="inventoryRefresh" aria-label="인벤토리 새로고침">${inventoryIcon('refresh')}<span>새로고침</span></button></header>
+    <div class="iv25-tools"><label class="iv25-search">${inventoryIcon('search')}<input id="inventorySearch" type="search" placeholder="아이템 이름으로 검색" aria-label="아이템 검색" autocomplete="off" maxlength="100" value="${escapeHtml(inventoryUiState.query)}"></label><label class="iv25-sort"><span>정렬</span><select id="inventorySort" aria-label="아이템 정렬">${[['DEFAULT','기본순'],['QUANTITY','수량 많은 순'],['RARITY','등급순'],['NAME','이름순']].map(([value,label])=>`<option value="${value}" ${value===inventoryUiState.sort?'selected':''}>${label}</option>`).join('')}</select></label><label class="iv25-owned"><input id="inventoryOwnedOnly" type="checkbox" ${inventoryUiState.ownedOnly?'checked':''}><span>보유한 아이템만</span></label></div>
+    <nav id="inventoryToolbar" class="iv25-filters" aria-label="아이템 종류">${INVENTORY_GROUPS.map(([key,label])=>`<button type="button" data-inventory-filter="${key}" ${key==='REROLL'?'id="inventoryRerollFilter"':''} aria-pressed="${inventoryUiState.filter===key}"><span>${label}</span><b data-inventory-count="${key}">0</b></button>`).join('')}</nav>
+    <div class="iv25-layout"><section class="iv25-collection" aria-label="아이템 목록"><div class="iv25-list-heading"><p id="inventoryResultsSummary" role="status">불러오는 중</p><button id="inventoryNewOnly" type="button" aria-pressed="${inventoryUiState.newOnly}"><i></i>새 아이템 <b id="inventoryNewCount">0</b></button></div><div id="inventoryGrid" class="iv25-grid">${Array.from({length:12},()=>'<div class="iv25-skeleton" aria-hidden="true"><i></i><span></span><b></b></div>').join('')}</div><p class="iv25-list-foot">${inventoryIcon('info')}아이템을 선택하면 상세 정보와 사용 방법을 확인할 수 있습니다.</p></section><aside id="inventoryDetail" class="iv25-detail" aria-label="선택한 아이템 상세">${inventoryEmptyDetail()}</aside></div>
+    <dialog id="inventoryDetailDialog" class="iv25-dialog" aria-label="아이템 상세"><div class="iv25-dialog-head"><b>아이템 상세</b><button type="button" data-inventory-close aria-label="상세 닫기">${inventoryIcon('close')}</button></div><div id="inventoryDialogContent"></div></dialog>
+  </section>`;
 }
-function renderInventoryItems(items,filter='ALL'){
+const inventoryUiState={owner:null,items:[],filter:'ALL',query:'',sort:'DEFAULT',ownedOnly:true,newOnly:false,selectedCode:'',request:0};
+const INVENTORY_GROUPS=[['ALL','전체'],['PACK','팩·상자'],['MATERIAL','재료'],['ENTRY_TICKET','입장권'],['SKILL_CHIP','스킬칩'],['REROLL','재뽑기권'],['OTHER','기타']];
+const INVENTORY_RARITIES={MAGIC:['마법',.5],HIGH:['고급',1],SPECIAL:['특수',1],PREMIUM:['프리미엄',4],PRIME:['프라임',4],NORMAL:['일반',0],COMMON:['일반',0],RARE:['희귀',1],EPIC:['영웅',2],LEGENDARY:['전설',3],MYTHIC:['신화',4],MA:['MA',5],LIMITED:['LIMITED',6],PRESTIGE:['PRESTIGE',7],SUPERSTAR:['SUPERSTAR',8],FUR:['FUR',9]};
+function inventoryIcon(name){const paths={box:'<path d="m3 7 9-4 9 4v11l-9 4-9-4Z M3 7l9 4 9-4M12 11v11M7 5l9 4"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',refresh:'<path d="M20 10a8 8 0 1 0-1 7M20 4v6h-6"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>'};return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${paths[name]||paths.box}</svg>`;}
+function inventoryItemGroup(item){
+  const category=String(item.category||'').toUpperCase(),code=String(item.code||'').toUpperCase();
+  if(category==='MATERIAL'||WORKSHOP_ONLY_ITEM_CODES.has(code))return 'MATERIAL';
+  if(category==='SKILL_CHIP')return 'SKILL_CHIP';
+  if(category==='REROLL'||RETIREMENT_REROLL_META[code]||code==='HIGH_GRADE_REROLL_TICKET')return 'REROLL';
+  if(['CUBE','SUPPLY_BOX','VEHICLE_DRAW','PACK','CARD_PACK'].includes(category)||['BLACK_MIRACLE_PACK','MAGIC_CARD_PACK','SUPERSTAR_GUARANTEED_PACK','NEW_USER_GIFT_BOX'].includes(code))return 'PACK';
+  if(code==='SOOPKETLAND_HYPER_BURNING_TICKET'||code==='PINGDU_WISH_TICKET')return 'OTHER';
+  if(category==='ENTRY_TICKET'||['SOOPKETLAND_TICKET','SCRAPYARD_ENTRY_TICKET','CORE_RAID_ENTRY_TICKET'].includes(code))return 'ENTRY_TICKET';
+  return 'OTHER';
+}
+function inventoryItemMeta(item){
+  const code=String(item.code||'').toUpperCase(),group=inventoryItemGroup(item),quantity=Math.max(0,Number(item.quantity)||0),owned=quantity>0,isMaterial=group==='MATERIAL',isWorkshopOnly=WORKSHOP_ONLY_ITEM_CODES.has(code),rarity=String(item.rarity||'NORMAL').toUpperCase();
+  const usable=item.usable!==false&&item.usable!==0&&!isMaterial&&!isWorkshopOnly&&group!=='SKILL_CHIP';
+  const action=code==='SOOPKETLAND_TICKET'?'숲켓랜드 입장':code==='SOOPKETLAND_HYPER_BURNING_TICKET'?'버닝 발동':code==='SCRAPYARD_ENTRY_TICKET'?'폐차장 입장':code==='HIGH_GRADE_REROLL_TICKET'?'재뽑기 화면 열기':group==='REROLL'?'재뽑기':code.startsWith('PRIME_')?'프라임 일괄 개봉':code==='VEHICLE_DRAW_TICKET'?'이동수단 뽑기':String(item.category||'').toUpperCase()==='CUBE'?'큐브 개봉':group==='PACK'?'아이템 개봉':'아이템 사용';
+  const reason=!owned?'보유하고 있지 않은 아이템입니다.':isWorkshopOnly?'제작소 전용':item.useDisabledMessage||(isMaterial?'제작에 사용하는 재료입니다. 인벤토리에서 직접 사용하지 않습니다.':group==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':'현재 사용이 중지된 아이템입니다.');
+  return {code,group,quantity,owned,usable,action,reason,rarity,grade:INVENTORY_RARITIES[rarity]?.[0]||rarity,rank:INVENTORY_RARITIES[rarity]?.[1]||0,kind:rarity.toLowerCase().replace(/[^a-z0-9_-]/g,''),categoryLabel:INVENTORY_GROUPS.find(x=>x[0]===group)?.[1]||'기타'};
+}
+function inventoryItemVisual(item){
+  const code=String(item.code||'').toUpperCase();
+  if(code==='MASTER_STAR')return '<span class="iv25-star-art" aria-hidden="true">★</span>';
+  if(item.category==='REROLL')return `<span class="iv25-ticket-art" aria-hidden="true"><small>${escapeHtml(item.rarity||'')}</small><b>재뽑기권</b><i></i></span>`;
+  const image=code==='PRIME_EQUIPMENT_SUPPLY_BOX'?'assets/ui/packs/prime-armory-equipment-box-v1.png?v=1985-prime-live':code==='PRIME_VEHICLE_DRAW_TICKET'?'assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1985-prime-live':code==='VEHICLE_DRAW_TICKET'?'assets/items/vehicle-draw-ticket-v1391.png?v=1393':code==='MAGIC_CARD_PACK'?'assets/cards/magic-card-pack-v2-384.jpg?v=1482':item.image;
+  return `${image?`<img src="${escapeHtml(image)}" alt="" loading="lazy" decoding="async">`:''}<span class="iv25-art-fallback" ${image?'hidden':''}>${inventoryIcon('box')}</span>`;
+}
+function inventoryCompactQuantity(quantity){return quantity>=10000?new Intl.NumberFormat('ko-KR',{notation:'compact',maximumFractionDigits:1}).format(quantity):quantity.toLocaleString();}
+function inventoryItemMarkup(item){
+  const meta=inventoryItemMeta(item),selected=inventoryUiState.selectedCode===String(item.code);
+  return `<button type="button" class="iv25-item iv25-rarity-${meta.kind} ${meta.owned?'':'iv25-unowned'}" data-inventory-select="${escapeHtml(item.code)}" aria-pressed="${selected}" aria-label="${escapeHtml(item.name)}, 보유 ${meta.quantity.toLocaleString()}개${item.unseenQuantity>0?', 새 아이템':''}"><span class="iv25-item-top"><span class="iv25-grade">${escapeHtml(meta.grade)}</span>${item.unseenQuantity>0?'<em class="iv25-new">NEW</em>':''}</span><span class="iv25-item-art">${inventoryItemVisual(item)}</span><span class="iv25-item-name">${escapeHtml(item.name)}</span><span class="iv25-item-bottom"><small>${!meta.owned?'미보유':meta.group==='MATERIAL'?'재료':meta.group==='SKILL_CHIP'?'장착용':!meta.usable?(meta.code==='BLACK_MIRACLE_PACK'?'사용 중지':'전용 아이템'):meta.categoryLabel}</small><strong title="보유 ${meta.quantity.toLocaleString()}개"><span>×</span>${inventoryCompactQuantity(meta.quantity)}</strong></span></button>`;
+}
+function inventoryEmptyDetail(){return `<div class="iv25-detail-empty">${inventoryIcon('box')}<b>아이템을 선택하세요</b><p>선택한 아이템의 정보와<br>사용 방법이 여기에 표시됩니다.</p></div>`;}
+function inventoryDetailMarkup(item){
+  const meta=inventoryItemMeta(item);
+  return `<div class="iv25-detail-inner iv25-rarity-${meta.kind}"><div class="iv25-detail-label"><span>선택한 아이템</span><b class="iv25-grade">${escapeHtml(meta.grade)}</b></div><div class="iv25-detail-art">${inventoryItemVisual(item)}</div><div class="iv25-detail-copy"><span class="iv25-category-tag">${meta.categoryLabel}</span><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description||'등록된 설명이 없습니다.')}</p></div><dl class="iv25-quantity"><dt>보유 수량</dt><dd>${meta.quantity.toLocaleString()}<span>개</span></dd></dl><div class="iv25-use-state ${meta.owned&&meta.usable?'iv25-can-use':''}"><i></i><span>${meta.owned&&meta.usable?'사용할 수 있는 아이템':escapeHtml(meta.reason)}</span></div><button type="button" class="iv25-use" data-inventory-use="${escapeHtml(item.code)}" ${meta.owned&&meta.usable?'':'disabled'}><span>${!meta.owned?'미보유':meta.usable?meta.action:meta.group==='MATERIAL'?'재료 전용':meta.group==='SKILL_CHIP'?'장비에서 장착':['CORE_RAID_ENTRY_TICKET','PINGDU_WISH_TICKET','UNIQUE_ADVANCEMENT_PASS'].includes(meta.code)?'전용 화면에서 사용':'현재 사용 불가'}</span>${inventoryIcon('arrow')}</button>${meta.owned&&meta.usable?'<p class="iv25-action-note">다음 화면에서 사용 내용을 확인할 수 있습니다.</p>':''}</div>`;
+}
+function inventoryVisibleItems(items){
+  const query=inventoryUiState.query.trim().toLocaleLowerCase('ko');
+  const list=items.filter(item=>(!inventoryUiState.ownedOnly||Number(item.quantity)>0)&&(!inventoryUiState.newOnly||Number(item.unseenQuantity)>0)&&(inventoryUiState.filter==='ALL'||inventoryItemGroup(item)===inventoryUiState.filter)&&(!query||`${item.name||''} ${item.subtitle||''} ${item.description||''} ${item.code||''}`.toLocaleLowerCase('ko').includes(query)));
+  const name=(a,b)=>String(a.name||'').localeCompare(String(b.name||''),'ko');
+  if(inventoryUiState.sort==='QUANTITY')list.sort((a,b)=>Number(b.quantity)-Number(a.quantity)||name(a,b));
+  if(inventoryUiState.sort==='RARITY')list.sort((a,b)=>inventoryItemMeta(b).rank-inventoryItemMeta(a).rank||name(a,b));
+  if(inventoryUiState.sort==='NAME')list.sort(name);
+  return list;
+}
+function inventoryBindImages(root){root?.querySelectorAll('.iv25-item-art img,.iv25-detail-art img').forEach(img=>{const fail=()=>{img.hidden=true;const fallback=img.nextElementSibling;if(fallback)fallback.hidden=false;};img.onerror=fail;if(img.complete&&!img.naturalWidth)fail();});}
+function inventoryRenderDetail(){
+  const item=inventoryUiState.items.find(x=>String(x.code)===inventoryUiState.selectedCode),markup=item?inventoryDetailMarkup(item):inventoryEmptyDetail();
+  for(const id of ['inventoryDetail','inventoryDialogContent']){const target=document.getElementById(id);if(target){target.innerHTML=markup;inventoryBindImages(target);}}
+}
+function renderInventoryItems(items,filter=inventoryUiState.filter){
   const grid=document.getElementById('inventoryGrid');if(!grid)return;
-  const visible=filter==='ALL'?items:items.filter(item=>String(item.category||'').toUpperCase()===filter);
-  grid.innerHTML=visible.map(inventoryItemMarkup).join('')||'<div class="inventory-empty"><b>표시할 보관품이 없습니다.</b><span>해당 종류의 보유 아이템이 없습니다.</span></div>';
-  grid.querySelectorAll('[data-inventory-use]').forEach(button=>button.onclick=()=>openInventoryPack(button.dataset.inventoryUse,Number(button.dataset.inventoryQuantity||0)));
+  inventoryUiState.filter=INVENTORY_GROUPS.some(x=>x[0]===filter)?filter:'ALL';
+  const visible=inventoryVisibleItems(items);
+  if(!visible.some(x=>String(x.code)===inventoryUiState.selectedCode))inventoryUiState.selectedCode=String(visible[0]?.code||'');
+  grid.innerHTML=visible.map(inventoryItemMarkup).join('')||`<div class="iv25-empty">${inventoryIcon(inventoryUiState.query?'search':'box')}<b>${inventoryUiState.query?'검색 결과가 없습니다.':'표시할 아이템이 없습니다.'}</b><p>${inventoryUiState.query?'다른 이름으로 검색하거나 필터를 변경해 보세요.':inventoryUiState.ownedOnly?'보유품 필터를 해제하면 등록된 아이템을 확인할 수 있습니다.':'선택한 종류에 등록된 아이템이 없습니다.'}</p><button type="button" data-inventory-reset>전체 아이템 보기</button></div>`;
+  inventoryBindImages(grid);inventoryRenderDetail();
+  const scope=items.filter(x=>!inventoryUiState.ownedOnly||Number(x.quantity)>0);
+  document.querySelectorAll('#inventoryToolbar [data-inventory-filter]').forEach(button=>{const key=button.dataset.inventoryFilter;button.setAttribute('aria-pressed',String(key===inventoryUiState.filter));button.querySelector('b').textContent=String(key==='ALL'?scope.length:scope.filter(x=>inventoryItemGroup(x)===key).length);});
+  const result=document.getElementById('inventoryResultsSummary');if(result)result.innerHTML=`<strong>${visible.length.toLocaleString()}</strong>종 표시${inventoryUiState.query?`<span>· “${escapeHtml(inventoryUiState.query.trim())}” 검색</span>`:''}`;
+  const newButton=document.getElementById('inventoryNewOnly');if(newButton){newButton.setAttribute('aria-pressed',String(inventoryUiState.newOnly));document.getElementById('inventoryNewCount').textContent=String(scope.filter(x=>Number(x.unseenQuantity)>0).length);}
+}
+function bindInventoryControls(vault){
+  if(vault.dataset.bound)return;vault.dataset.bound='1';
+  const render=()=>renderInventoryItems(inventoryUiState.items);
+  vault.querySelector('#inventorySearch').oninput=event=>{inventoryUiState.query=event.target.value;render();};
+  vault.querySelector('#inventorySort').onchange=event=>{inventoryUiState.sort=event.target.value;render();};
+  vault.querySelector('#inventoryOwnedOnly').onchange=event=>{inventoryUiState.ownedOnly=event.target.checked;render();};
+  vault.querySelector('#inventoryRefresh').onclick=()=>{clearApiCache('inventory');loadInventory();};
+  const dialog=vault.querySelector('#inventoryDetailDialog');
+  vault.onclick=event=>{
+    const target=event.target.closest('button');
+    if(event.target===dialog||target?.hasAttribute('data-inventory-close')){dialog.close();return;}
+    if(!target||target.disabled)return;
+    if(target.dataset.inventoryFilter){inventoryUiState.filter=target.dataset.inventoryFilter;render();}
+    else if(target.id==='inventoryNewOnly'){inventoryUiState.newOnly=!inventoryUiState.newOnly;render();}
+    else if(target.hasAttribute('data-inventory-reset')){Object.assign(inventoryUiState,{filter:'ALL',query:'',ownedOnly:false,newOnly:false});vault.querySelector('#inventorySearch').value='';vault.querySelector('#inventoryOwnedOnly').checked=false;render();}
+    else if(target.dataset.inventorySelect){inventoryUiState.selectedCode=target.dataset.inventorySelect;gridSelection();inventoryRenderDetail();if(window.matchMedia('(max-width:700px)').matches&&!dialog.open)dialog.showModal();}
+    else if(target.dataset.inventoryUse){if(vault.getAttribute('aria-busy')==='true')return;const item=inventoryUiState.items.find(x=>String(x.code)===target.dataset.inventoryUse);if(!item)return;const meta=inventoryItemMeta(item);if(!meta.owned||!meta.usable)return;if(dialog.open)dialog.close();openInventoryPack(item.code,meta.quantity);}
+  };
+  function gridSelection(){vault.querySelectorAll('[data-inventory-select]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.inventorySelect===inventoryUiState.selectedCode)));}
 }
 async function loadInventory(){
-  const grid=document.getElementById('inventoryGrid');if(!grid)return;
+  const vault=document.getElementById('inventoryVault'),grid=document.getElementById('inventoryGrid');if(!vault||!grid)return;
+  const request=++inventoryUiState.request;vault.setAttribute('aria-busy','true');bindInventoryControls(vault);vault.querySelector('#inventoryRefresh').disabled=true;
   try{
-    const d=await apiRequest('inventory'),items=Array.isArray(d.items)?d.items:[],summary=document.getElementById('inventoryOwnedSummary'),rerollFilter=document.getElementById('inventoryRerollFilter'),toolbar=document.getElementById('inventoryToolbar');
-    if(summary)summary.textContent=`보유 아이템 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`;
-    const hasReroll=items.some(item=>item.category==='REROLL'&&Number(item.quantity)>0);
-    if(rerollFilter)rerollFilter.hidden=!hasReroll;
-    renderInventoryItems(items,'ALL');
-    toolbar?.querySelectorAll('[data-inventory-filter]').forEach(button=>button.onclick=()=>{
-      toolbar.querySelectorAll('[data-inventory-filter]').forEach(x=>x.classList.toggle('active',x===button));
-      renderInventoryItems(items,button.dataset.inventoryFilter||'ALL');
-    });
+    const d=await apiRequest('inventory');if(request!==inventoryUiState.request||!vault.isConnected)return;
+    const items=Array.isArray(d.items)?d.items:[];inventoryUiState.items=items;
+    const summary=vault.querySelector('#inventoryOwnedSummary'),owned=items.filter(x=>Number(x.quantity)>0),total=owned.reduce((sum,item)=>sum+Number(item.quantity),0);
+    summary.innerHTML=`<strong>${owned.length.toLocaleString()}</strong>종 보유 <span>·</span> 총 <strong>${total.toLocaleString()}</strong>개`;
+    renderInventoryItems(items);vault.setAttribute('aria-busy','false');vault.querySelector('#inventoryRefresh').disabled=false;
     if(d.unseenTotal)apiRequest('inventory/seen',{method:'POST',body:'{}'}).then(()=>clearApiCache('inventory')).catch(()=>{});
-  }catch(e){
-    grid.innerHTML=`<div class="inventory-empty error"><b>인벤토리를 열 수 없습니다.</b><span>${escapeHtml(e.message)}</span><button type="button" class="btn secondary" id="inventoryRetry">다시 확인</button></div>`;
-    document.getElementById('inventoryRetry').onclick=loadInventory;
+  }catch(error){
+    if(request!==inventoryUiState.request||!vault.isConnected)return;
+    inventoryUiState.items=[];inventoryUiState.selectedCode='';vault.setAttribute('aria-busy','false');vault.querySelector('#inventoryRefresh').disabled=false;renderInventoryItems([]);
+    grid.innerHTML=`<div class="iv25-empty iv25-error">${inventoryIcon('info')}<b>보관함을 불러오지 못했습니다.</b><p>${escapeHtml(error.message)}</p><button type="button" id="inventoryRetry">다시 불러오기</button></div>`;
+    inventoryRenderDetail();vault.querySelector('#inventoryOwnedSummary').textContent='보유 정보를 확인할 수 없습니다.';vault.querySelector('#inventoryResultsSummary').textContent='연결 오류';
+    document.getElementById('inventoryRetry').onclick=()=>{clearApiCache('inventory');loadInventory();};
   }
 }
+
 let landSuperstarBusy=false;
 async function openGuaranteedSuperstarTicket(){
   if(landSuperstarBusy)return;
