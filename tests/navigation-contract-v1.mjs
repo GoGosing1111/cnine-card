@@ -181,4 +181,22 @@ stableContext.renderShell('buy');
 assert.deepEqual(stableRendered,['buy','buy','buy'],'returning to the lobby must block later automatic store refreshes again');
 assert.equal(stableContext.SoopketmonV21ExactShell.currentRoute,'home');
 
+for (const requestedRoute of ['inventory', 'pvp', 'hunt']) {
+  const deepRendered=[];
+  const deepContext={...stableContext,
+    document:{...stableDocument,documentElement:{dataset:{}},querySelector:selector=>selector==='#app main.page'?{}:null},
+    location:{search:'?screen='+requestedRoute,pathname:'/',hash:''},
+    performance:{getEntriesByType:()=>[{type:'navigate'}]},
+    renderShell(route){deepRendered.push(route);return route}
+  };
+  deepContext.window=deepContext;deepContext.globalThis=deepContext;
+  delete deepContext.SoopketmonV21ExactShell;
+  vm.createContext(deepContext);
+  vm.runInContext(exactSource,deepContext,{filename:'soopketmon-v21-exact-shell-adapter-fast-start.js'});
+  assert.deepEqual(deepRendered,[requestedRoute],requestedRoute+' link must open its body when native startup finishes before the adapter');
+  assert.equal(deepContext.SoopketmonV21ExactShell.currentRoute,requestedRoute);
+  await deepContext.SoopketmonV21ExactShell.navigate('buy');
+  assert.deepEqual(deepRendered,[requestedRoute,'buy'],'subsequent explicit navigation remains usable');
+}
+
 console.log('navigation contract v1: PASS');

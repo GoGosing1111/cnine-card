@@ -38,7 +38,7 @@ try{
    const dialog=await menu.locator('#menu-dialog').boundingBox();check(dialog.x>=0&&dialog.y>=0&&dialog.x+dialog.width<=viewport.width+1&&dialog.y+dialog.height<=viewport.height+1,size+' '+route+' menu dialog fits');
    await menu.locator('#menu-search').fill('토벌');check(await menu.locator('.menu-result').count()===0,size+' '+route+' search remains scoped');await menu.locator('#close-menu').click();
    await menu.locator(viewport.width>980?'.sidebar [data-category="all"]':'.mobile-dock [data-category="all"]').click();
-   check(await menu.locator('.category-divider').count()===6,size+' '+route+' bottom all-menu keeps all categories');await page.keyboard.press('Escape');
+   check(await menu.locator('.category-divider').count()===8,size+' '+route+' bottom all-menu keeps all categories');await page.keyboard.press('Escape');
    if(route==='equipmentForge'){
     await page.locator('#tab-restore').click();check(await page.locator('#restore-options').isVisible(),size+' forge native restore tab remains usable');
     await page.locator('#rules-button').click();check(await page.locator('#rules-dialog').isVisible(),size+' forge native guide remains above navigation');await page.keyboard.press('Escape');

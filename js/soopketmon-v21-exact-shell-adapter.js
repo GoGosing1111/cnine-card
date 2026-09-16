@@ -719,8 +719,17 @@
     }
     revealStandaloneScreen();
     if (document.querySelector('#app main.page')) {
-      currentRoute = requestedScreen && ROUTES[requestedScreen] ? requestedScreen : 'home';
-      scheduleEnhance(currentRoute);
+      // A cached startup can render the native store before this deferred
+      // adapter installs its wrapper. Replay the destination in that case;
+      // applying its label alone would leave the store body underneath it.
+      const initialRoute = bootRequestedPending;
+      if (initialRoute && (initialRoute === 'home' || ROUTES[initialRoute])) {
+        bootRequestedPending = '';
+        void navigate(initialRoute).catch(error => console.error('[Approved V21 deep link]', error));
+      } else {
+        currentRoute = 'home';
+        scheduleEnhance(currentRoute);
+      }
     }
     let attempts = 0;
     wrapTimer = setInterval(() => { attempts += 1; if (wrapRenderShell() || attempts > 40) { clearInterval(wrapTimer); wrapTimer = 0; } }, 100);
