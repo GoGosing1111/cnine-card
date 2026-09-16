@@ -202,14 +202,18 @@ function avatarGrantStatement(env,{requestId,userId,itemCode,avatarCodes}){
   return env.DB.prepare(`WITH receipt_guard AS (SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'),reward_rows AS (SELECT CAST(value AS TEXT) avatar_code FROM json_each(?)) INSERT OR IGNORE INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref,acquired_at,expires_at) SELECT ?,reward_rows.avatar_code,'PRIME_DRAW',?,CURRENT_TIMESTAMP,NULL FROM reward_rows CROSS JOIN receipt_guard`).bind(requestId,userId,itemCode,rewards,userId,requestId);
 }
 
-function inventoryGrantStatements(env,{requestId,userId,boxCode,itemCode,quantity}){
-  const grant=`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`;
-  const values=[userId,itemCode,quantity,quantity,requestId,userId,boxCode],guardValues=[requestId,userId,boxCode];
-  // A suppressed INSERT/UPDATE must roll back the box debit too. The receipt's
-  // NOT NULL count aborts the batch unless exactly one inventory row was granted.
+function checkedOpenMutationStatements(env,{sql,values,requestId,userId,boxCode}){
+  const guardValues=[requestId,userId,boxCode];
+  // Check the actual debit/grant, including stock lost to a concurrent opener.
+  // NOT NULL count aborts the whole batch if a pending receipt changes zero rows.
   const guard=proof=>`UPDATE ${OPEN_RECEIPTS} SET count=CASE WHEN ${proof} THEN count ELSE NULL END WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'`;
-  if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH granted AS (${grant} RETURNING item_code) ${guard('(SELECT COUNT(*) FROM granted)=1')}`).bind(...values,...guardValues)];
-  return [env.DB.prepare(grant).bind(...values),env.DB.prepare(guard('changes()=1')).bind(...guardValues)];
+  if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH changed AS (${sql} RETURNING item_code) ${guard('(SELECT COUNT(*) FROM changed)=1')}`).bind(...values,...guardValues)];
+  return [env.DB.prepare(sql).bind(...values),env.DB.prepare(guard('changes()=1')).bind(...guardValues)];
+}
+
+function inventoryGrantStatements(env,{requestId,userId,boxCode,itemCode,quantity}){
+  const sql=`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`;
+  return checkedOpenMutationStatements(env,{sql,values:[userId,itemCode,quantity,quantity,requestId,userId,boxCode],requestId,userId,boxCode});
 }
 
 async function ensureTables(env){
@@ -379,7 +383,7 @@ async function openEquipment({request,env,user,product,readBody,json}){
     :`UPDATE ${OPEN_RECEIPTS} SET status='COMPLETED',response_json=json_set(?,'$.remainingQuantity',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`;
   const statements=[
     env.DB.prepare(`INSERT INTO ${OPEN_RECEIPTS}(request_id,user_id,item_code,count,pool_version,status) SELECT ?,?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)`).bind(requestId,user.id,product.itemCode,count,product.poolVersion,user.id,product.itemCode,count),
-    env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(count,count,user.id,product.itemCode,count,requestId,user.id,product.itemCode)
+    ...checkedOpenMutationStatements(env,{sql:`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`,values:[count,count,user.id,product.itemCode,count,requestId,user.id,product.itemCode],requestId,userId:user.id,boxCode:product.itemCode})
   ];
   if(results.some(result=>result.type==='EQUIPMENT'))statements.push(env.DB.prepare(`WITH receipt_guard AS (SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'),reward_rows AS (SELECT CAST(json_extract(value,'$[0]') AS INTEGER) equipment_id,CAST(json_extract(value,'$[1]') AS INTEGER) reward_index FROM json_each(?)) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,reward_rows.equipment_id,'PRIME_EQUIPMENT_DRAW',?,?||reward_rows.reward_index FROM reward_rows CROSS JOIN receipt_guard`).bind(requestId,user.id,product.itemCode,rewardRows,user.id,requestId,`PRIME-EQ:${requestId}:`));
   for(const [itemCode,quantity] of inventoryItemCounts){

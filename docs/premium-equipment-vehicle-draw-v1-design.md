@@ -58,7 +58,7 @@
 - 저장 계약은 기존 `INVENTORY_ITEM:<code>`를 사용한다. `category=SKILL_CHIP`으로 제작 재료와 선택 목록·종류 표시를 구분한다.
 - 상점의 포함 보상 안내와 개봉 결과에도 스킬칩을 별도로 표시한다. CMS 모바일 메뉴 높이를 보정해 품목 추가·저장 버튼을 가리지 않도록 한다.
 - 개봉 결과는 인벤토리 수량과 신규 획득 수량을 누적한다. 같은 개봉 요청 ID는 기존 영수증을 반환하며, 스킬칩 장착은 기존 장비창에서 진행한다.
-- 인벤토리 지급이 0행이면 영수증의 NOT NULL 조건으로 배치를 실패시켜 상자 차감·보상 로그·영수증을 함께 롤백한다. PostgreSQL은 `INSERT ... RETURNING`, SQLite는 직전 지급의 `changes()`로 확인한다.
+- 상자 차감 또는 인벤토리 지급이 0행이면 영수증의 NOT NULL 조건으로 배치를 실패시켜 상자 차감·보상 로그·영수증을 함께 롤백한다. PostgreSQL은 `UPDATE/INSERT ... RETURNING`, SQLite는 직전 변경의 `changes()`로 확인한다.
 - 회귀 검증: `tests/prime-draw-skill-chips.test.mjs`가 SQLite와 실제 PostgreSQL 호환 어댑터/PGlite에서 CMS 저장, 실제 지급·장착, 중복 요청, 비활성·미허용·차량 풀 차단, INSERT/UPDATE 0행 롤백을 검사한다. `npm run test:prime-draw`와 전체 출시 게이트에 포함한다.
 
 ### 프라임 하이퍼드라이브 팩

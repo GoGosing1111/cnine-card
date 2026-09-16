@@ -115,6 +115,17 @@ for(const dialect of ['sqlite','postgres']){
     assert.equal((await f.open('inactive-chip')).status,503);assert.equal(await f.quantity(BOX),12);
   });
 
+  test(`${dialect}: a suppressed box debit cannot grant free chips or complete a receipt`,async t=>{
+    const f=await fixture(t,dialect);await f.save({[HELI]:100});
+    if(f.pg)await f.exec(`CREATE FUNCTION suppress_box_debit() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.item_code='${BOX}' THEN RETURN NULL; END IF; RETURN NEW; END $$;
+      CREATE TRIGGER suppress_box_debit BEFORE UPDATE ON cnine_user_inventory FOR EACH ROW EXECUTE FUNCTION suppress_box_debit();`);
+    else await f.exec(`CREATE TRIGGER suppress_box_debit BEFORE UPDATE ON cnine_user_inventory WHEN NEW.item_code='${BOX}' BEGIN SELECT RAISE(IGNORE); END;`);
+    await assert.rejects(()=>f.open('box-debit-failed',2),/not.null|null value/i);
+    assert.equal(await f.quantity(BOX),12);assert.equal(await f.quantity(HELI),0);
+    assert.deepEqual(await f.q('SELECT * FROM inventory_logs'),[]);
+    assert.deepEqual(await f.q('SELECT * FROM prime_draw_open_receipts_v1985'),[]);
+  });
+
   for(const event of ['INSERT','UPDATE'])test(`${dialect}: a zero-row chip ${event} rolls back box debit, reward logs and receipt`,async t=>{
     const f=await fixture(t,dialect);
     await f.save({[ROCKET]:100});
