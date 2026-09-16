@@ -115,6 +115,28 @@ assert.equal(eventCalls[1][1][0].label,'CMS USER ULTIMATE');
 assert.equal(eventCalls[3][1][0].actorId,'MONSTER:7');
 assert.equal(eventCalls[3][1][0].label,'CMS BOSS ULTIMATE');
 
+for (const apocalypse of [
+  {bossUltimate:{name:'종말의 포효',apocalypseExclusive:true}},
+  {bossUltimate:{name:'종말의 포효'},difficulty:{isApocalypse:true}},
+  {difficulty:{isApocalypse:true}}
+]) {
+  calls.length=0;
+  const boss=await runtime.createRenderer({stage,host,modal,mode:'PVE',data:{
+    ...apocalypse,
+    battleV2:{teams:{B:{cards:[{id:'MONSTER:71',cardId:'MONSTER:71',grade:'BOSS'}]}},result:{timeline:[
+      {type:'BOSS_ULTIMATE',label:'종말의 포효',damagePercent:28,hits:[{targetId:'A:1',damage:280,hpAfter:720}]}
+    ]}}
+  }});
+  await boss.play();
+  assert.equal(calls.filter(c=>c[0]==='player-cms'||c[0]==='boss-cms').length,0,'Apocalypse never opens media regardless of optional flags');
+  const impact=calls.filter(c=>c[0]==='events').flatMap(c=>c[1]).find(e=>e.type==='BOSS_ULTIMATE');
+  assert.equal(impact.actorId,'MONSTER:71');
+  assert.equal(impact.label,'종말의 포효');
+  assert.equal(impact.damagePercent,28);
+  assert.equal(impact.hits[0].damage,280);
+  assert.equal(impact.hits[0].hpAfter,720);
+}
+
 calls.length=0;
 const ranked=await runtime.createRenderer({stage,host,modal,mode:'PVP',data:{
   activatedUltimate:{name:'랭크전 스킬'},ultimateSourceCard:{id:'PVP-CARD'},

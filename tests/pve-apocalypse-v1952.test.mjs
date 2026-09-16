@@ -119,9 +119,9 @@ assert.equal(apocalypseManifest.fullscreenCinematic,false,'Apocalypse must never
 assert.equal(apocalypseManifest.visualPolicy.whiteEnergy,false);
 assert.equal(apocalypseManifest.visualPolicy.graySmoke,false);
 const v3BossUltimateBranch=v3LiveSource.slice(v3LiveSource.indexOf("} else if (type === 'BOSS_ULTIMATE')"),v3LiveSource.indexOf('await safePlayEvents([event]',v3LiveSource.indexOf("} else if (type === 'BOSS_ULTIMATE')")));
-assert.match(v3BossUltimateBranch,/payload\?\.bossUltimate\?\.apocalypseExclusive/);
-assert.match(v3BossUltimateBranch,/payload\?\.difficulty\?\.isApocalypse/,'the cinematic guard must survive a missing nested boss flag');
-assert.match(v3BossUltimateBranch,/if \(!apocalypseBossUltimate && !bossUltimateShown/,'V3 Apocalypse playback must skip the full-screen media cinematic and continue to the Pixi event');
+assert.doesNotMatch(v3LiveSource,/root\.play(?:Boss)?BattleUltimate\(/,'all V3 difficulties skip media, including Apocalypse with a missing nested flag');
+assert.match(v3BossUltimateBranch,/actorId: event\.actorId \|\| monsterCard\?\.id/,'the in-field boss attack must retain its authoritative actor');
+assert.match(v3BossUltimateBranch,/label: payload\?\.bossUltimate\?\.name \|\| event\.label/,'Apocalypse must retain its configured skill name without a media prelude');
 const v2BossUltimateBranch=v2LiveSource.match(/if \(event\.type === 'BOSS_ULTIMATE'\) \{[^\n]+/)?.[0]||'';
 assert.match(v2BossUltimateBranch,/const apocalypse=Boolean\(data\.bossUltimate\?\.apocalypseExclusive\|\|data\.bossUltimateState\?\.apocalypseExclusive/);
 assert.match(v2BossUltimateBranch,/if\(!apocalypse&&playUltimateCinematics/,'fallback playback must also keep Apocalypse text-only instead of opening boss media');
