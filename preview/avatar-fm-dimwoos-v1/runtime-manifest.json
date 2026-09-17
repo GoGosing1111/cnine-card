@@ -1,0 +1,58 @@
+{
+  "sourceProcessing": "Native alpha, uniform resizing and transparent padding only; approved PNGs unchanged",
+  "alpha": {
+    "clearPixels": 1200855,
+    "solidPixels": 299178,
+    "borderMax": 4,
+    "crop": {
+      "left": 287,
+      "top": 0,
+      "width": 481,
+      "height": 1530
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1088,
+    "uniformScale": 0.6797385620915033,
+    "bodyWidth": 327,
+    "bodyHeight": 1040
+  },
+  "files": {
+    "avatar-fm-dimwoos-lobby-source-art-v3.png": {
+      "sha256": "1bccb2cc6d22dbb061784e1297e740c86418af39fbcc24535ab725442ae71664",
+      "bytes": 2062284,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-fm-dimwoos-equipment-source-art-v1.png": {
+      "sha256": "53ae25adf9bc0d76936a2697d70ad3a70b43ef029d8345363b7a604868528e16",
+      "bytes": 1411305,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-fm-dimwoos-lobby-v3-1024.webp": {
+      "sha256": "b07a29b8e64d8f738babb9ee5a427722adf84ba97aa72f1fc354fc6339023f91",
+      "bytes": 214096,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-fm-dimwoos-lobby-v3-640.webp": {
+      "sha256": "4d22e5f67dfe1203a86758079ca7a295d5501820b9cbd9841c8c2778582908b9",
+      "bytes": 111814,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-fm-dimwoos-equipment-v1-640.webp": {
+      "sha256": "cb5790fd836c6d2827ba6344359cb6380bafeaa64e93fba1a2e4df9e348ef7c6",
+      "bytes": 107418,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    }
+  }
+}

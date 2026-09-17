@@ -1,0 +1,71 @@
+{
+  "id": "avatar-fm-dimwoos-v1",
+  "createdDate": "2026-09-17",
+  "name": "FM 딤우스",
+  "status": "LIVE_REGISTRATION_AND_FM_11_DAY_GRANT_AUTHORIZED",
+  "generator": "built-in image_gen",
+  "identityReference": {
+    "avatarCode": "DIMWOOS_ESPORTS_ACE",
+    "serial": "A-11",
+    "source": "assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png"
+  },
+  "finalAssets": [
+    {
+      "file": "assets/avatar-fm-dimwoos-equipment-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sha256": "53ae25adf9bc0d76936a2697d70ad3a70b43ef029d8345363b7a604868528e16",
+      "bytes": 1411305,
+      "alpha": {
+        "extrema": [
+          0,
+          254
+        ],
+        "fullyTransparentPixels": 1200855,
+        "nearOpaquePixels": 286567,
+        "totalPixels": 1572864
+      }
+    },
+    {
+      "file": "assets/avatar-fm-dimwoos-lobby-source-art-v3.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "sha256": "1bccb2cc6d22dbb061784e1297e740c86418af39fbcc24535ab725442ae71664",
+      "bytes": 2062284
+    }
+  ],
+  "generationInputs": {
+    "lobbyV1": [
+      "C:/Users/User/Downloads/upload/cnine-card/assets/ui/avatars-v1/lobby-source-drafts/avatar-f08-ember-esports-ace-lobby-v1.png",
+      "C:/Users/User/AppData/Local/Temp/cnine-fm-orikkung-release-20260917/site/preview/avatar-fm-orikkung-v1/assets/avatar-fm-orikkung-lobby-source-art-v1.png",
+      "C:/Users/User/AppData/Local/Temp/cnine-fm-orikkung-release-20260917/site/assets/ui/clan/marks/source/fm-clan-mark-source-v1.png"
+    ],
+    "lobbyV2": "C:/Users/User/.codex/generated_images/01a0a3d1-c2df-7c30-bf0e-3b272081b83e/exec-f5143c60-ba62-4374-a9cc-152ff2a12818.png",
+    "equipmentV1": "C:/Users/User/.codex/generated_images/01a0a3d1-c2df-7c30-bf0e-3b272081b83e/exec-2eee5e92-8f1f-4d24-8f75-b81a0bad9d45.png",
+    "lobbyV3": "assets/avatar-fm-dimwoos-equipment-source-art-v1.png"
+  },
+  "generatedOriginals": {
+    "lobby": "C:/Users/User/.codex/generated_images/01a0a3d1-c2df-7c30-bf0e-3b272081b83e/exec-0bf043f2-5ea0-414b-ba38-735e94e115d8.png",
+    "equipment": "C:/Users/User/.codex/generated_images/01a0a3d1-c2df-7c30-bf0e-3b272081b83e/exec-fbc52fda-0091-440b-915f-93a00fb52ca2.png"
+  },
+  "verification": {
+    "dimensions": "1024x1536, exact 2:3",
+    "equipmentAlpha": "genuine RGBA; zero-alpha background verified",
+    "visualReview": "lobby V3 console-hand contact, grounded stance, readable face, approved outfit and heels inspected; equipment source hash unchanged",
+    "sourceProcessing": "unmodified binary copies"
+  },
+  "approvals": {
+    "equipmentV1": "USER_APPROVED_KEEP_UNCHANGED",
+    "faceAndUniform": "USER_APPROVED_KEEP_UNCHANGED",
+    "lobbyV3": "FOLLOWUP_LIVE_GRANT_AUTHORIZED",
+    "equipmentLockedSha256": "53ae25adf9bc0d76936a2697d70ad3a70b43ef029d8345363b7a604868528e16"
+  },
+  "supersededLobby": {
+    "file": "assets/avatar-fm-dimwoos-lobby-source-art-v2.png",
+    "sha256": "414174b4062d610bac39c9bf880e666193dbb16aeedb4636330eb92aea593e5f",
+    "reason": "User requested a complete lobby composition redesign because the pose felt awkward."
+  },
+  "runtimeMappingChanged": false
+}

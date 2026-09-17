@@ -1,0 +1,23 @@
+{
+  "code": "FM_DIMWOOS",
+  "serial": "A-21",
+  "name": "FM 딤우스",
+  "call_sign": "FM DIMWOOS",
+  "role_label": "FM 클랜 유니폼",
+  "description": "검정·에메랄드·금색 FM 유니폼을 입은 딤우스 아바타입니다. FM 라운지 로비 일러스트와 승인된 투명 장비창 전신이 함께 적용됩니다.",
+  "lobby_image": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-lobby-v3-1024.webp",
+  "lobby_mobile_image": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-lobby-v3-640.webp",
+  "equipment_image": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-equipment-v1-640.webp",
+  "accent": "#1dad72",
+  "acquisition_type": "EVENT",
+  "coin_price": null,
+  "source_label": "FM 클랜 11일 지급",
+  "source_detail": "지급 대상 FM 클랜원에게 지급 시점부터 11일간 사용 권한이 부여됩니다.",
+  "effect_type": "COIN_GAIN_PERCENT",
+  "effect_value": 75,
+  "is_active": 1,
+  "is_public": 1,
+  "sale_enabled": 0,
+  "sort_order": 210,
+  "version": 1
+}
