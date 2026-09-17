@@ -7,7 +7,7 @@ const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 // Renderer contracts can change while an installed client keeps old versioned URLs.
 const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/preview/project-v-v3/project-v-pixi-battle.bundle.js','/pve-v3/battle.bundle.js']);
-const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs']);
+const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
 const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,

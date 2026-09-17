@@ -200,3 +200,15 @@ for (const requestedRoute of ['inventory', 'pvp', 'hunt']) {
 }
 
 console.log('navigation contract v1: PASS');
+
+// Direct shortcuts must select their destination on both cold and warm shells.
+assert.ok(Array.from(navigation.groups.pvp.routes).includes('clanWar'));
+assert.ok(Array.from(navigation.groups.pvp.routes).includes('clanFaction'));
+assert.equal(navigation.routes.clanWar.title,'클랜전');
+assert.equal(navigation.routes.clanFaction.title,'세력전');
+for(const [route,method] of [['clanWar','openWar'],['clanFaction','openFaction']]){
+  const calls=[];
+  const runtime={document,global:{ClanV1:{[method](){calls.push(method);}}},now:()=>Date.now(),setTimeout,renderShell(shell){calls.push(shell);}};
+  const result=await router.navigate(route,{runtime});
+  assert.equal(result.ok,true);assert.deepEqual(calls,['clan',method]);
+}

@@ -140,9 +140,8 @@ test('all nine served V3 bundles including the account entry share the current c
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
   assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 20);
-  for (const file of ['AccountBattleUnit.js', 'ZBodySwordAnimation.js', 'ZBodySwordModel.mjs']) {
-    assert.ok(report.sources.some(row => row.file === `preview/project-v-v3/source/battle/${file}`));
-  }
+  for(const name of ['AccountBattleUnit.js','ZBodySwordAnimation.js','ZBodySwordModel.mjs'])
+    assert.ok(report.sources.some(row=>row.file===`preview/project-v-v3/source/battle/${name}`),`${name} must participate in bundle freshness checks`);
   assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js'));
   assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/ProjectileTrail.mjs'));
   const seen = new Set();
