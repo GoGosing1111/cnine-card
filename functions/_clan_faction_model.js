@@ -3,7 +3,7 @@ import { DISTRICTS, SQUADS, FACTION_RULES as R, FACTION_TAX_CHANGE } from '../sh
 export const factionFail = (message, status = 409) => { throw Object.assign(new Error(message), {status}); };
 export function newFactionState(now) {
   return {version:1, districts:DISTRICTS.map(d => ({id:d.id,owner:0,protectedUntil:0,defense:'',taxAt:now,taxRemainder:0})),
-    formations:{}, battles:[], events:[], pools:{}, squadReady:{}, targetReady:{}, strikeReady:{}};
+    formations:{}, captains:{}, battles:[], events:[], pools:{}, squadReady:{}, targetReady:{}, strikeReady:{}};
 }
 export function factionEvent(state, event) {
   state.events.unshift(event); state.events = state.events.slice(0, 80);
@@ -37,6 +37,7 @@ export function finishFactionBattle(state, battle, winner, reason, now) {
   state.battles = state.battles.filter(b => b.status === 'ACTIVE').concat(state.battles.filter(b => b.status !== 'ACTIVE').slice(0,40));
 }
 export function advanceFactionState(state, now, endAt) {
+  state.captains ||= {};
   const cutoff = Math.min(now, endAt);
   accrueFactionTax(state, cutoff);
   for (const battle of [...state.battles]) {
@@ -56,6 +57,29 @@ export function validateFormation(formation, memberIds) {
       if (used.has(id)) factionFail('한 클랜원은 하나의 부대에만 편성할 수 있습니다.',400);
       used.add(id);
     }
+  }
+  return clean;
+}
+// Captains manage a lineup; the role does not require fielding themselves.
+// Old seasons have no assignments. Only current clan members retain the role.
+export function factionCaptains(captains, memberIds) {
+  return Object.fromEntries(SQUADS.filter(s=>s.role==='ATTACK').map(s=>{
+    const id=captains?.[s.id];
+    return [s.id,Number.isSafeInteger(id)&&id>0&&memberIds.includes(id)?id:0];
+  }));
+}
+export function validateFactionCaptains(captains, memberIds) {
+  const attacks=SQUADS.filter(s=>s.role==='ATTACK').map(s=>s.id);
+  if(!captains||typeof captains!=='object'||Array.isArray(captains)
+    ||Object.keys(captains).some(key=>!attacks.includes(key))||attacks.some(key=>!Object.hasOwn(captains,key)))
+    factionFail('제1·제2 공격대의 행동대장을 각각 선택하세요.',400);
+  const used=new Set(),clean={};
+  for(const squad of attacks){
+    const id=captains[squad]??0;
+    if(!Number.isSafeInteger(id)||id<0)factionFail('행동대장 계정을 확인하세요.',400);
+    if(id&&used.has(id))factionFail('한 사람은 하나의 공격대 행동대장만 맡을 수 있습니다.',400);
+    if(id&&!memberIds.includes(id))factionFail('현재 클랜원만 행동대장으로 지정할 수 있습니다.',403);
+    if(id)used.add(id);clean[squad]=id;
   }
   return clean;
 }

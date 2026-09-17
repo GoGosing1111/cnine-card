@@ -1,5 +1,5 @@
 import {FACTION_RULES as R,SQUADS,districtById} from '../shared/clan-faction-rules-v1.mjs';
-import {newFactionState,advanceFactionState,validateFormation,factionEvent,finishFactionBattle,factionStrikeDamage,splitFactionTax,factionFail as fail} from './_clan_faction_model.js';
+import {newFactionState,advanceFactionState,validateFormation,factionCaptains,validateFactionCaptains,factionEvent,finishFactionBattle,factionStrikeDamage,splitFactionTax,factionFail as fail} from './_clan_faction_model.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 const SCHEMA='clan_faction_schema_v1',rows=r=>r?.results||[];
 const date=v=>{const s=String(v||'');return Date.parse(/Z$|[+]\d\d:\d\d$/.test(s)?s:s.replace(' ','T')+'Z');};
@@ -68,12 +68,12 @@ export async function factionOverview(env,season,user,deps,{alertsOnly=false}={}
     return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now};
   }
   const now=nowOf(deps),[stored,ctx,wallet]=await Promise.all([readState(env,season,now),context(env,season,user),env.DB.prepare('SELECT balance,total_earned FROM clan_faction_wallets WHERE user_id=?').bind(user.id).first()]);
-  const state=stored.state,mine=ctx.mine?.clanId||0;
+  const state=stored.state,mine=ctx.mine?.clanId||0,formation=formationOf(state,ctx,mine),captains=factionCaptains(state.captains[mine],ctx.roster.filter(m=>m.clanId===mine).map(m=>m.userId));
   const battles=state.battles.map(b=>({...b,attackers:b.attackers.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.attacker)),defenders:b.defenders.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.defender))}));
   const alerts=activeSeason(season,now)?battles.filter(b=>b.status==='ACTIVE'&&battleSide(b,mine,Number(user.id))).map(b=>battleAlert(b,mine,Number(user.id))):[];
   if(alertsOnly)return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now};
   return {ok:true,serverNow:now,revision:Number(stored.revision),season:{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,endsAt:date(season.ends_at),active:activeSeason(season,now)},
-    userId:Number(user.id),mine:mine?{clanId:mine,isMaster:ctx.isMaster}:null,clans:ctx.clans,roster:ctx.roster.filter(m=>m.clanId===mine),formation:formationOf(state,ctx,mine),
+    userId:Number(user.id),mine:mine?{clanId:mine,isMaster:ctx.isMaster,canManageFormation:ctx.isMaster||Object.values(captains).includes(Number(user.id))}:null,clans:ctx.clans,roster:ctx.roster.filter(m=>m.clanId===mine),formation,captains,
     districts:state.districts.map(d=>({...d,defenders:d.owner?(formationOf(state,ctx,d.owner)[d.defense]||[]).map(id=>ctx.roster.find(m=>m.userId===id)).filter(Boolean):[]})),
     battles,events:state.events,alerts,holdings:state.districts.filter(d=>d.owner===mine&&mine).length,
     tax:{pool:state.pools[mine]||0,balance:Number(wallet?.balance||0),totalEarned:Number(wallet?.total_earned||0),perHour:R.taxPerHour,pendingSeasons:await pendingSeasons(env,season,user,now)},
@@ -90,7 +90,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
   if(!/^[A-Za-z0-9:_-]{8,120}$/.test(String(body.requestId||'')))fail('요청 키가 올바르지 않습니다.',400);
   const key=`${user.id}:${body.requestId}`,clean={...body};delete clean.requestId;
   const input=JSON.stringify(clean),old=await receipt(env,key,user,kind,input);if(old)return old;
-  if(!['formation','garrison','launch','enter','strike','collect'].includes(kind))fail('지원하지 않는 세력전 작업입니다.',404);
+  if(!['formation','captains','garrison','launch','enter','strike','collect'].includes(kind))fail('지원하지 않는 세력전 작업입니다.',404);
   let computed=null;
   for(let attempt=0;attempt<5;attempt++){
     const now=nowOf(deps),[row,ctx]=await Promise.all([readState(env,season,now),context(env,season,user)]),state=row.state;
@@ -100,9 +100,21 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
     const clanId=ctx.mine.clanId,userId=Number(user.id),memberIds=ctx.roster.filter(m=>m.clanId===clanId).map(m=>m.userId);
     const token=crypto.randomUUID(),formation=formationOf(state,ctx,clanId),payouts=[],result={ok:true,kind,seasonId:Number(season.id)};
     if(kind==='formation'){
-      if(!ctx.isMaster)fail('공격대·방어대 편성은 클랜장만 변경할 수 있습니다.',403);
+      if(!ctx.isMaster&&!Object.values(factionCaptains(state.captains[clanId],memberIds)).includes(userId))fail('공격대·방어대 편성은 클랜장 또는 행동대장만 변경할 수 있습니다.',403);
+      if(!ctx.isMaster&&body.captains!==undefined)fail('행동대장 임명·해제는 클랜장만 할 수 있습니다.',403);
+      if(body.baseFormation!==undefined&&JSON.stringify(validateFormation(body.baseFormation,memberIds))!==JSON.stringify(formation))fail('다른 편성자가 라인업을 변경했습니다. 전황을 새로고침한 뒤 다시 편성하세요.');
       if(state.battles.some(b=>b.status==='ACTIVE'&&(b.attacker===clanId||b.defender===clanId)))fail('진행 중인 교전이 끝난 뒤 부대를 변경하세요.');
-      state.formations[clanId]=validateFormation(body.formation,memberIds);factionEvent(state,{id:token,kind:'FORMATION',clanId,at:now});
+      const nextFormation=validateFormation(body.formation,memberIds);
+      const captains=body.captains===undefined?factionCaptains(state.captains[clanId],memberIds):validateFactionCaptains(body.captains,memberIds);
+      state.formations[clanId]=nextFormation;state.captains[clanId]=captains;
+      factionEvent(state,{id:token,kind:'FORMATION',clanId,captains,by:ctx.mine.nickname,at:now});
+    }
+    if(kind==='captains'){
+      if(!ctx.isMaster)fail('행동대장 임명·해제는 클랜장만 할 수 있습니다.',403);
+      const captains=validateFactionCaptains(body.captains,memberIds);
+      state.captains[clanId]=captains;result.captains=captains;
+      factionEvent(state,{id:token,kind:'CAPTAINS',clanId,captains,by:ctx.mine.nickname,
+        names:Object.fromEntries(Object.entries(captains).map(([squad,id])=>[squad,ctx.roster.find(m=>m.userId===id)?.nickname||'미지정'])),at:now});
     }
     if(kind==='garrison'){
       if(!ctx.isMaster)fail('방어대 배치는 클랜장만 변경할 수 있습니다.',403);
@@ -167,7 +179,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
     }
     // A compare-and-swap and every guarded side effect share one transaction.
     // Losing races cannot create receipts, mint tax, or advance cooldowns.
-    const master=['formation','garrison'].includes(kind);
+    const master=['captains','garrison'].includes(kind)||(kind==='formation'&&ctx.isMaster);
     const phaseGuard=kind==='collect'?'':" AND EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='ACTIVE' AND ends_at=?)";
     const masterGuard=master?' AND EXISTS(SELECT 1 FROM clan_season_teams WHERE season_id=? AND clan_id=? AND master_user_id=?)':'';
     const rosterGuard=` AND (SELECT COUNT(*) FROM clan_members WHERE season_id=? AND clan_id=?)=? AND NOT EXISTS(SELECT 1 FROM clan_members WHERE season_id=? AND clan_id=? AND user_id NOT IN (${memberIds.map(()=>'?').join(',')}))`;

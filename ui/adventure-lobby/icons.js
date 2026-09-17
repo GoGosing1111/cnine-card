@@ -15,6 +15,8 @@
     scrapyard:'<path d="M4 18V6h12M4 6l5 5M4 3v18M1 21h8M16 6v6a2 2 0 1 0 2 2M11 21v-4h9l2 4ZM13 17l1-3h4l1 3"/>',
     pvp:'<path d="M4 3h5v7l-3 3-3-3V3ZM15 3h5v7l-3 3-3-3V3ZM6 13v8m11-8v8M3 17h6m5 0h6M10 7h3m-3 3h3"/>',
     rank:'<path d="M7 3h10v6a5 5 0 0 1-10 0ZM7 5H3v3a4 4 0 0 0 5 4m9-7h4v3a4 4 0 0 1-5 4M12 14v5M8 21h8M9 19h6"/>',
+    clanWar:'<path d="M3 3h6v8l-3 4-3-4ZM15 3h6v8l-3 4-3-4M6 15v6m12-6v6M3 18h6m6 0h6M10 7h4m-2-2 2 2-2 2"/>',
+    clanFaction:'<path d="M2 3h8v8H2ZM14 3h8v8h-8ZM2 15h8v7H2ZM14 15h8v7h-8M6 11v4m12-4v4M10 7h4m-4 11h4"/>',
     dex:'<path d="M12 5C9 2 5 2 2 4v16c3-2 7-2 10 0 3-2 7-2 10 0V4c-3-2-7-2-10 1ZM12 5v15M5 7h4m-4 4h4m6-4h4m-4 4h4"/>',
     mercenaryDex:'<path d="M5 3h14v18H5ZM2 6h3M2 11h3m-3 5h3M8 18v-1a4 4 0 0 1 8 0v1"/><circle cx="12" cy="9" r="3"/>',
     upgrade:'<rect x="3" y="6" width="11" height="15" rx="1.5"/><path d="M7 10h3m-3 4h3M19 16V3m-4 4 4-4 4 4"/>',

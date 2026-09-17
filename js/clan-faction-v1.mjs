@@ -8,7 +8,7 @@ const crossedSwords='<path class="fw-clash-blade" d="M2 2 7 3 16 12 12 16 3 7Z"/
 function clashMarker(f){
   return `<g class="fw-clash-marker" data-fw-pick="${f.id}" role="button" tabindex="0" aria-label="${f.name} 교전 중 · 전투 정보 보기" transform="translate(${f.x} ${f.y+19})"><title>${f.name} 격돌 중</title><text class="fw-clash-label" x="0" y="-39">${f.name.length===2?f.name:f.name.replace(/구$/,'')}</text><g class="fw-clash-badge"><circle class="fw-clash-wave" r="25"/><circle class="fw-clash-disc" r="23"/><g class="fw-clash-swords" transform="translate(-18 -18) scale(1.5)">${crossedSwords}</g></g></g>`;
 }
-const state={data:null,map:null,tab:'map',selected:'11680',squad:'attack1',edit:null,busy:false,error:'',ctx:null,root:null,offset:0,timer:null,alertTimer:null,alertBusy:false,notice:'',zoom:1,sequence:0,room:null,roomId:'',playing:false};
+const state={data:null,map:null,tab:'map',selected:'11680',squad:'attack1',edit:null,editBase:null,editCaptains:null,busy:false,error:'',ctx:null,root:null,offset:0,timer:null,alertTimer:null,alertBusy:false,notice:'',zoom:1,sequence:0,room:null,roomId:'',playing:false};
 const now=()=>Date.now()+state.offset;
 const left=until=>{const seconds=Math.max(0,Math.ceil((until-now())/1000));return seconds>=3600?`${Math.floor(seconds/3600)}시간 ${Math.floor(seconds%3600/60)}분`:seconds>=60?`${Math.floor(seconds/60)}분 ${seconds%60}초`:`${seconds}초`;};
 const clock=until=>`<span data-fw-until="${until}">${left(until)}</span>`;
@@ -53,17 +53,28 @@ function detailView(){
     <footer class="fw-detail-rules"><span>${icon('shield')}점령 보호 <b>2시간</b></span><span>${icon('clock')}공격대 재출정 <b>10분</b></span><span>${icon('clock')}같은 지역 재공격 <b>30분</b></span></footer></aside>`;
 }
 function formationView(){
-  const d=state.data,edit=state.edit||d.formation,assigned=new Set(Object.values(edit).flat());
-  return `<section class="fw-formation"><header class="fw-page-heading"><div><span class="fw-eyebrow">SQUAD COMMAND</span><h2>공격대 · 방어대 편성</h2><p>부대당 최대 5명 · 한 사람은 한 부대에 배치됩니다.</p></div><button class="fw-primary" data-fw-save ${!d.mine?.isMaster||!d.season.active?'disabled':''}>${icon('users')}편성 저장</button></header>
-    <div class="fw-formation-layout"><div class="fw-squads">${SQUADS.map(s=>`<section class="fw-squad-card ${s.role.toLowerCase()}"><header>${icon(s.role==='ATTACK'?'sword':'shield')}<div><small>${s.role==='ATTACK'?'ASSAULT':'DEFENSE'}</small><h3>${s.name}</h3></div><b>${edit[s.id]?.length||0}<small> / 5</small></b></header>${Array.from({length:5},(_,i)=>{const member=d.roster.find(m=>m.userId===edit[s.id]?.[i]);return `<div class="fw-member-slot ${member?'filled':''}"><i>${i+1}</i><span>${member?esc(member.nickname):'빈 슬롯'}</span>${member&&d.mine?.isMaster?`<button data-fw-remove="${member.userId}" aria-label="${esc(member.nickname)} 편성 해제">×</button>`:''}</div>`;}).join('')}</section>`).join('')}</div>
-    <aside class="fw-roster-pool"><div class="fw-section-title"><h3>클랜원 배치</h3><b>${d.roster.length-assigned.size}명 대기</b></div><label>배치할 부대<select id="fw-assign-squad">${SQUADS.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select></label><div>${d.roster.map(m=>`<button data-fw-add="${m.userId}" ${assigned.has(m.userId)||!d.mine?.isMaster?'disabled':''}><span>${esc(m.nickname)}<small>${SQUADS.find(s=>edit[s.id]?.includes(m.userId))?.name||'배치 대기'}</small></span><b>${assigned.has(m.userId)?'배치됨':'+'}</b></button>`).join('')||'<p>시즌 소속 클랜원이 없습니다.</p>'}</div></aside></div>
-    <p class="fw-explanation">공격대는 한 번에 한 지역에 출정합니다. 방어대는 점령한 지역에 주둔시킬 수 있습니다. 교전 중에는 편성을 변경할 수 없습니다.</p></section>`;
+  const d=state.data,edit=state.edit||d.formation,assigned=new Set(Object.values(edit).flat()),captains=state.editCaptains||d.captains||{};
+  const editable=d.mine?.canManageFormation?SQUADS:[];
+  const inBattle=d.battles.some(b=>b.status==='ACTIVE'&&(b.attacker===mine()||b.defender===mine()));
+  const canEdit=squad=>d.season.active&&!inBattle&&editable.some(s=>s.id===squad);
+  const canSave=d.season.active&&(d.mine?.isMaster||(!inBattle&&editable.length));
+  const role=d.mine?.isMaster?'클랜장 · 모든 부대 편성 및 행동대장 임명':editable.length?'행동대장 · 공격대·방어대 전체 라인업 편성':'부대 편성 현황 · 클랜장과 담당 행동대장이 라인업을 관리합니다.';
+  return `<section class="fw-formation"><header class="fw-page-heading"><div><span class="fw-eyebrow">SQUAD COMMAND</span><h2>공격대 · 방어대 편성</h2><p>부대당 최대 5명 · 한 사람은 한 부대에 배치됩니다.</p></div><button class="fw-primary" data-fw-save ${canSave?'':'disabled'}>${icon('users')}${d.mine?.isMaster?'편성·직책 저장':'라인업 저장'}</button></header>
+    <div class="fw-command-role">${icon('users')}<span>${esc(role)}</span>${inBattle?'<strong>교전 중 · 라인업 변경 대기</strong>':''}</div>
+    <div class="fw-formation-layout"><div class="fw-squads">${SQUADS.map(s=>{
+      const captainId=captains[s.id]||0,captain=d.roster.find(m=>m.userId===captainId);
+      return `<section class="fw-squad-card ${s.role.toLowerCase()} ${canEdit(s.id)?'is-editable':''}" data-fw-formation-squad="${s.id}"><header>${icon(s.role==='ATTACK'?'sword':'shield')}<div><small>${s.role==='ATTACK'?'ASSAULT':'DEFENSE'}</small><h3>${s.name}</h3></div><b>${edit[s.id]?.length||0}<small> / 5</small></b></header>
+        ${s.role==='ATTACK'?`<div class="fw-captain"><label for="fw-captain-${s.id}">행동대장 <small>전체 부대 편성 권한 · 1명</small></label>${d.mine?.isMaster?`<select id="fw-captain-${s.id}" data-fw-captain="${s.id}" aria-label="${s.name} 행동대장" ${!d.season.active?'disabled':''}><option value="0">미지정</option>${d.roster.map(m=>`<option value="${m.userId}" ${captainId===m.userId?'selected':''} ${Object.entries(captains).some(([id,value])=>id!==s.id&&value===m.userId)?'disabled':''}>${esc(m.nickname)}</option>`).join('')}</select>`:`<strong>${esc(captain?.nickname||'미지정')}</strong>`}</div>`:''}
+        ${Array.from({length:5},(_,i)=>{const member=d.roster.find(m=>m.userId===edit[s.id]?.[i]);return `<div class="fw-member-slot ${member?'filled':''}"><i>${i+1}</i><span>${member?esc(member.nickname):'빈 슬롯'}${member&&member.userId===captainId?'<small class="fw-captain-badge">행동대장</small>':''}</span>${member&&canEdit(s.id)?`<button data-fw-remove="${member.userId}" data-fw-remove-squad="${s.id}" aria-label="${esc(member.nickname)} 편성 해제">×</button>`:''}</div>`;}).join('')}</section>`;
+    }).join('')}</div>
+    <aside class="fw-roster-pool"><div class="fw-section-title"><h3>클랜원 배치</h3><b>${d.roster.length-assigned.size}명 대기</b></div><label>배치할 부대<select id="fw-assign-squad" ${!editable.length||inBattle||!d.season.active?'disabled':''}>${editable.length?editable.map(s=>`<option value="${s.id}">${s.name}</option>`).join(''):'<option>편성 권한 없음</option>'}</select></label><div>${d.roster.map(m=>`<button data-fw-add="${m.userId}" ${assigned.has(m.userId)||!editable.length||inBattle||!d.season.active?'disabled':''}><span>${esc(m.nickname)}<small>${SQUADS.find(s=>edit[s.id]?.includes(m.userId))?.name||'배치 대기'}</small></span><b>${assigned.has(m.userId)?'배치됨':'+'}</b></button>`).join('')||'<p>시즌 소속 클랜원이 없습니다.</p>'}</div></aside></div>
+    <p class="fw-explanation">행동대장은 클랜장이 공격대마다 1명씩 임명하며, 공격대·방어대의 전체 라인업을 편성할 수 있습니다. 부대를 옮기려면 기존 편성을 해제한 뒤 새 부대에 배치하세요. 교전 중에는 라인업을 변경할 수 없습니다.</p></section>`;
 }
 function treasuryView(){
   const d=state.data,owned=d.districts.filter(z=>z.owner===mine()&&mine()),n=d.roster.length;
   return `<section class="fw-treasury"><header class="fw-page-heading"><div><span class="fw-eyebrow">CLAN REVENUE</span><h2>상권 징수세</h2><p>점령한 지역의 수익을 클랜원과 함께 나눕니다.</p></div></header><div class="fw-treasury-layout"><section class="fw-vault">${icon('coin')}<span class="fw-eyebrow">분배 대기 중인 징수코인</span><strong>${num(d.tax.pool)}</strong><div class="fw-vault-summary"><span>점령 수익 <b>${compact(owned.length*R.taxPerHour)} / 시간</b></span><span>분배 대상 <b>${n}명</b></span><span>1인당 예상 <b>${compact(Math.floor(d.tax.pool/Math.max(1,n)))} 징수코인</b></span></div><button class="fw-primary" data-fw-collect ${!mine()||d.tax.pool<=0?'disabled':''}>${icon('coin')}클랜원에게 균등 분배</button><p>누구나 정산할 수 있으며, 현재 클랜원 전원에게 함께 지급됩니다.</p><div class="fw-my-wallet"><span>내 징수코인</span><b>${num(d.tax.balance)}</b></div></section><section class="fw-revenue-list"><div class="fw-section-title"><h3>우리 클랜 상권</h3><b>${owned.length}개 지역</b></div>${owned.map(z=>`<button data-fw-pick="${z.id}"><span>${icon('map')}<strong>${districtById(z.id).name}<small>${districtById(z.id).market}</small></strong></span><b>+${compact(R.taxPerHour)}<small>시간당</small></b></button>`).join('')||'<div class="fw-empty">아직 점령한 상권이 없습니다.<br>지도에서 공격대를 출정시켜 보세요.</div>'}</section></div>${(d.tax.pendingSeasons||[]).map(p=>`<div class="fw-past-tax"><span>시즌 ${p.seasonNo} 미정산 징수세 <b>${compact(p.pool)} 코인</b></span><button data-fw-past-collect="${p.seasonId}">당시 클랜원에게 분배</button></div>`).join('')}<p class="fw-explanation">징수코인은 일반 코인과 별도로 보관됩니다. 정규 클랜전 순위에 영향을 주지 않습니다. 시즌이 끝나면 새 수익 적립은 멈추고, 적립된 수익은 정산할 수 있습니다.</p></section>`;
 }
-function logView(){return `<section class="fw-log"><header class="fw-page-heading"><div><span class="fw-eyebrow">OPERATION HISTORY</span><h2>전황 기록</h2></div></header>${state.data.events.map(e=>`<article><span class="fw-log-icon">${icon(e.kind==='TAX'?'coin':e.kind==='FORMATION'?'users':e.kind==='DEFENDED'?'shield':'sword')}</span><div><b>${esc(team(e.clanId)?.name||'클랜')} · ${{CAPTURE:'상권 점령',INVASION:'침공 시작',DEFENDED:'방어 성공',FORMATION:'부대 편성',TAX:'징수세 분배'}[e.kind]||'작전'}</b><p>${e.districtId?districtById(e.districtId)?.name+' · ':''}${e.kind==='TAX'?`${num(e.amount)} 징수코인 · ${e.members}명 분배`:e.by?esc(e.by)+' 출정':''}</p></div><time>${new Date(e.at).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</time></article>`).join('')||'<p class="fw-empty">아직 기록된 작전이 없습니다.</p>'}</section>`;}
+function logView(){return `<section class="fw-log"><header class="fw-page-heading"><div><span class="fw-eyebrow">OPERATION HISTORY</span><h2>전황 기록</h2></div></header>${state.data.events.map(e=>`<article><span class="fw-log-icon">${icon(e.kind==='TAX'?'coin':['FORMATION','CAPTAINS'].includes(e.kind)?'users':e.kind==='DEFENDED'?'shield':'sword')}</span><div><b>${esc(team(e.clanId)?.name||'클랜')} · ${{CAPTURE:'상권 점령',INVASION:'침공 시작',DEFENDED:'방어 성공',FORMATION:'부대 편성',CAPTAINS:'행동대장 임명·해제',TAX:'징수세 분배'}[e.kind]||'작전'}</b><p>${e.districtId?districtById(e.districtId)?.name+' · ':''}${e.kind==='TAX'?`${num(e.amount)} 징수코인 · ${e.members}명 분배`:e.kind==='CAPTAINS'?`제1 공격대 ${esc(e.names?.attack1||'미지정')} · 제2 공격대 ${esc(e.names?.attack2||'미지정')}`:e.kind==='FORMATION'?`${e.squad?esc(SQUADS.find(s=>s.id===e.squad)?.name||'')+' · ':''}${esc(e.by||'클랜장')} 편성 저장`:e.by?esc(e.by)+' 출정':''}</p></div><time>${new Date(e.at).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</time></article>`).join('')||'<p class="fw-empty">아직 기록된 작전이 없습니다.</p>'}</section>`;}
 function draw(){
   drawRoom();
   if(!state.root?.isConnected)return;
@@ -74,7 +85,7 @@ function draw(){
     <nav class="fw-tabs" aria-label="세력전 메뉴">${[['map','map','전황 지도'],['formation','users','부대 편성'],['treasury','coin','징수세'],['log','clock','전황 기록']].map(([id,i,label])=>`<button data-fw-tab="${id}" class="${state.tab===id?'active':''}" aria-current="${state.tab===id?'page':'false'}">${icon(i)}${label}</button>`).join('')}<button class="fw-reload" data-fw-reload aria-label="전황 새로고침">↻</button></nav>
     ${myBattles()}${state.notice?`<div class="fw-notice" role="status">${esc(state.notice)}</div>`:''}${state.error?`<div class="fw-error" role="alert">${esc(state.error)}<button data-fw-reload>다시 확인</button></div>`:''}
     ${state.tab==='map'?`<div class="fw-mobile-select"><label>지역 선택<select data-fw-district-select>${DISTRICTS.map(z=>`<option value="${z.id}" ${z.id===state.selected?'selected':''}>${z.name} · ${team(d.districts.find(t=>t.id===z.id)?.owner)?.name||'무주지'}</option>`).join('')}</select></label></div><div class="fw-battlefield">${mapView()}${detailView()}</div>`:state.tab==='formation'?formationView():state.tab==='treasury'?treasuryView():logView()}</section>`;
-  bind();state.root.querySelectorAll('button').forEach(b=>{if(state.busy)b.disabled=true;});
+  bind();state.root.querySelectorAll('button,select').forEach(b=>{if(state.busy)b.disabled=true;});
 }
 function selectDistrict(id,scroll=false){state.selected=id;state.tab='map';draw();if(scroll&&innerWidth<1000)state.root.querySelector('.fw-detail')?.scrollIntoView({behavior:'smooth',block:'start'});}
 function bind(){
@@ -83,16 +94,24 @@ function bind(){
   root.querySelectorAll('[data-fw-zone],[data-fw-pick]').forEach(b=>{b.onclick=()=>selectDistrict(b.dataset.fwZone||b.dataset.fwPick,true);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();b.onclick();}};});
   root.querySelector('[data-fw-district-select]')?.addEventListener('change',e=>selectDistrict(e.target.value,true));
   root.querySelectorAll('[data-fw-zoom]').forEach(b=>b.onclick=()=>{state.zoom=b.dataset.fwZoom==='0'?1:Math.max(1,Math.min(2.5,state.zoom+(b.dataset.fwZoom==='+'?.5:-.5)));draw();});
-  root.querySelectorAll('[data-fw-reload]').forEach(b=>b.onclick=()=>refresh());
+  root.querySelectorAll('[data-fw-reload]').forEach(b=>b.onclick=()=>{state.edit=null;state.editBase=null;state.editCaptains=null;return refresh();});
   root.querySelectorAll('[data-fw-squad]').forEach(b=>b.onclick=()=>{state.squad=b.dataset.fwSquad;draw();});
   root.querySelector('[data-fw-launch]')?.addEventListener('click',async()=>{const r=await action('launch',{districtId:state.selected,squad:state.squad});if(r?.battleId&&!r.captured&&mySide(battleAt(r.districtId)))await openBattleRoom(r.battleId);});
   root.querySelector('[data-fw-garrison]')?.addEventListener('click',()=>action('garrison',{districtId:state.selected,squad:root.querySelector('#fw-defense-select').value}));
-  root.querySelector('[data-fw-save]')?.addEventListener('click',()=>action('formation',{formation:state.edit||state.data.formation}));
+  root.querySelector('[data-fw-save]')?.addEventListener('click',()=>{
+    const d=state.data;
+    if(d.mine?.isMaster){const captains=state.editCaptains||d.captains||{attack1:0,attack2:0};return state.edit&&!d.battles.some(b=>b.status==='ACTIVE'&&(b.attacker===mine()||b.defender===mine()))?action('formation',{formation:state.edit,baseFormation:state.editBase||d.formation,...(state.editCaptains?{captains}:{})}):action('captains',{captains});}
+    if(d.mine?.canManageFormation)return action('formation',{formation:state.edit||d.formation,baseFormation:state.editBase||d.formation});
+  });
+  root.querySelectorAll('[data-fw-captain]').forEach(select=>select.onchange=()=>{
+    state.editCaptains||=structuredClone(state.data.captains||{attack1:0,attack2:0});state.editCaptains[select.dataset.fwCaptain]=Number(select.value);draw();
+    root.querySelector(`[data-fw-captain="${select.dataset.fwCaptain}"]`)?.focus();
+  });
   root.querySelector('[data-fw-collect]')?.addEventListener('click',()=>action('collect',{seasonId:state.data.season.id}));
   root.querySelectorAll('[data-fw-past-collect]').forEach(b=>b.onclick=()=>action('collect',{seasonId:Number(b.dataset.fwPastCollect)}));
   root.querySelectorAll('[data-fw-enter]').forEach(b=>b.onclick=()=>openBattleRoom(b.dataset.fwEnter));
-  root.querySelectorAll('[data-fw-add]').forEach(b=>b.onclick=()=>{const squad=root.querySelector('#fw-assign-squad').value;state.edit||=structuredClone(state.data.formation);if(state.edit[squad].length>=5){state.notice='부대당 최대 5명까지 편성할 수 있습니다.';draw();return;}state.edit[squad].push(Number(b.dataset.fwAdd));draw();root.querySelector('#fw-assign-squad').value=squad;});
-  root.querySelectorAll('[data-fw-remove]').forEach(b=>b.onclick=()=>{state.edit||=structuredClone(state.data.formation);for(const id of Object.keys(state.edit))state.edit[id]=state.edit[id].filter(v=>v!==Number(b.dataset.fwRemove));draw();});
+  root.querySelectorAll('[data-fw-add]').forEach(b=>b.onclick=()=>{const squad=root.querySelector('#fw-assign-squad').value;state.editBase||=structuredClone(state.data.formation);state.edit||=structuredClone(state.data.formation);if(state.edit[squad].length>=5){state.notice='부대당 최대 5명까지 편성할 수 있습니다.';draw();return;}state.edit[squad].push(Number(b.dataset.fwAdd));draw();root.querySelector('#fw-assign-squad').value=squad;});
+  root.querySelectorAll('[data-fw-remove]').forEach(b=>b.onclick=()=>{state.editBase||=structuredClone(state.data.formation);state.edit||=structuredClone(state.data.formation);const squad=b.dataset.fwRemoveSquad;state.edit[squad]=state.edit[squad].filter(v=>v!==Number(b.dataset.fwRemove));draw();});
 }
 async function refresh(preserveError=false){
   if(!state.ctx||state.busy)return;
@@ -117,14 +136,14 @@ async function action(kind,payload){
     const result=await api(kind,{...payload,requestId:key.id});
     try{sessionStorage.removeItem(key.scope);}catch{}
     if(kind==='enter')try{sessionStorage.setItem(`faction-alert:${state.data.userId}:${state.data.season.id}:${payload.battleId}`,'1');}catch{}
-    state.edit=null;
-    state.notice=kind==='formation'?'부대 편성을 저장했습니다.':kind==='garrison'?'방어대를 배치했습니다.':kind==='enter'?'전투실에 입장했습니다. 내 덱으로 교전에 참여하세요.':kind==='collect'?`${result.members}명에게 총 ${num(result.total)} 징수코인을 분배했습니다. 내 몫 ${num(result.myAmount)}코인`:kind==='strike'?`상대 공유 HP −${num(result.damage)}${result.battleCompleted?' · 교전 종료':''}`:result.captured?'상권을 점령했습니다. 2시간 점령 보호가 시작됩니다.':'공격대가 출정했습니다. 양쪽 편성원이 직접 전투실에 입장해 참여합니다.';
+    state.edit=null;state.editBase=null;state.editCaptains=null;
+    state.notice=kind==='captains'?'행동대장 지정을 저장했습니다.':kind==='formation'?'부대 편성을 저장했습니다.':kind==='garrison'?'방어대를 배치했습니다.':kind==='enter'?'전투실에 입장했습니다. 내 덱으로 교전에 참여하세요.':kind==='collect'?`${result.members}명에게 총 ${num(result.total)} 징수코인을 분배했습니다. 내 몫 ${num(result.myAmount)}코인`:kind==='strike'?`상대 공유 HP −${num(result.damage)}${result.battleCompleted?' · 교전 종료':''}`:result.captured?'상권을 점령했습니다. 2시간 점령 보호가 시작됩니다.':'공격대가 출정했습니다. 양쪽 편성원이 직접 전투실에 입장해 참여합니다.';
     if(kind==='strike'&&result.battleV2&&!result.replayed){
       state.playing=true;state.room?.close();
       try{await playBattle(result);}finally{state.playing=false;if(state.room?.isConnected&&!state.room.open)state.room.showModal();}
     }
     return result;
-  }catch(e){state.error=e.message||'요청을 처리하지 못했습니다. 다시 누르면 같은 요청으로 확인합니다.';}
+  }catch(e){state.notice='';state.error=e.message||'요청을 처리하지 못했습니다. 다시 누르면 같은 요청으로 확인합니다.';}
   finally{state.busy=false;await refresh(true);draw();}
 }
 async function playBattle(data){
@@ -183,7 +202,7 @@ export function view(){return '<div id="clanFactionRoot" class="fw-root"></div>'
 export function select(id){state.selected=id;state.tab='map';}
 export function connect(ctx){
   const userId=Number(ctx.userId||window.loadUser?.()?.serverUserId||window.loadUser?.()?.id||0);
-  if(userId&&state.data&&state.data.userId!==userId){closeRoom();state.data=null;state.edit=null;state.error='';state.notice='';state.sequence++;document.querySelector('.fw-invasion-alert')?.remove();}
+  if(userId&&state.data&&state.data.userId!==userId){closeRoom();state.data=null;state.edit=null;state.editBase=null;state.editCaptains=null;state.error='';state.notice='';state.sequence++;document.querySelector('.fw-invasion-alert')?.remove();}
   state.ctx=ctx;
   if(!state.timer)state.timer=setInterval(()=>{if(document.hidden)return;for(const root of [state.root,state.room])root?.querySelectorAll('[data-fw-until]').forEach(n=>n.textContent=left(Number(n.dataset.fwUntil)));updateRoomAction();},1000);
   if(!state.alertTimer){state.alertTimer=setInterval(()=>poll(),8000);void poll();}

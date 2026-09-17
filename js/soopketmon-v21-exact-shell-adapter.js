@@ -82,7 +82,7 @@
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
     collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic']) }),
     pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
-    pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
+    pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'wishLamp']) }),
@@ -116,6 +116,8 @@
     pvp: Object.freeze({ title: '랭크전', group: 'pvp', icon: 'swords' }),
     rank: Object.freeze({ title: '시즌 랭킹', group: 'pvp', icon: 'rank', home: Object.freeze({ title: 'PVP·경쟁', meta: '랭크전 · 시즌 랭킹', group: 'pvp' }) }),
     clan: Object.freeze({ title: '클랜', group: 'pvp', icon: 'clan' }),
+    clanWar: Object.freeze({ title: '클랜전', group: 'pvp', icon: 'swords' }),
+    clanFaction: Object.freeze({ title: '세력전', group: 'pvp', icon: 'clan' }),
     coup: Object.freeze({ title: '쿠데타', group: 'administration', icon: 'swords' }),
     territory: Object.freeze({ title: '영토전', group: 'pvp', icon: 'swords' }),
     character: Object.freeze({ title: '장비·칭호·차고', group: 'equipment', icon: 'forge', home: Object.freeze({ title: '장비·칭호·차고', meta: '장비 · 칭호 · 차고 · 아바타', group: 'equipment' }) }),
@@ -545,7 +547,7 @@
 
   function routeButton(route) {
     if(route==='wishLamp'&&!wishLampVisible)return '';
-    if(route==='clan'&&!clanFeatureVisible())return '';
+    if(['clan','clanWar','clanFaction'].includes(route)&&!clanFeatureVisible())return '';
     if(route==='avatar'&&global.avatarFeatureVisible?.()!==true)return '';
     if(route==='alchemy'&&global.alchemyFeatureVisible?.()!==true)return '';
     const item = ROUTES[route]; if (!item) return '';

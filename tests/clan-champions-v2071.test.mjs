@@ -296,7 +296,7 @@ test('live/CMS expose the bracket, reward editor and scoped cache versions; no r
 });
 
 test('bracket renderer handles empty, active and historical results without raw HTML/name injection',()=>{
-  const code=read('js/clan-v1.js').replace('global.ClanV1={view,bind,stop,state};','global.ClanV1={championsView};');
+  const code=read('js/clan-v1.js').replace(/global\.ClanV1=\{[^;]+\};/,'global.ClanV1={championsView};');
   const sandbox={window:{},Date,Map,Number,String};vm.runInNewContext(code,sandbox);
   const render=sandbox.window.ClanV1.championsView;
   const empty=render({champions:{status:'UPCOMING'}});assert.match(empty,/정규시즌 1위/);assert.doesNotMatch(empty,/clan-cup-team is-winner/);

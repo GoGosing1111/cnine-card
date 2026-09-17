@@ -25,6 +25,7 @@
     'soopketland',
     'treasury',
     'coup',
+    'clan',
     'prisoncamp'
   ]);
 
@@ -66,6 +67,9 @@
     soopketland: { shell: 'soopketland' },
     treasury: { shell: 'treasury' },
     coup: { shell: 'coup' },
+    clan: { shell: 'clan' },
+    clanWar: { shell: 'clan', global: 'ClanV1.openWar' },
+    clanFaction: { shell: 'clan', global: 'ClanV1.openFaction' },
     prisoncamp: { shell: 'prisoncamp' },
 
     profile: { global: 'showAccountPanel', fallbackSelector: '#playerAccountBtn' },
