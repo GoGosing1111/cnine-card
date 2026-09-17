@@ -4235,7 +4235,7 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
 }
 
 function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">SOOP MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
-const MESSAGE_REWARD_META={COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'}};
+const MESSAGE_REWARD_META={PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'}};
 function claimableMessageRewards(messages){return (Array.isArray(messages)?messages:[]).filter(message=>Boolean(MESSAGE_REWARD_META[String(message.reward_type||'').toUpperCase()])&&Number(message.reward_amount)>0&&(!message.claimed_at||message.needs_recovery))}
 function messageClaimUser(result){const nextUser=apiUserToLocal({...result.user,coin:result.coinAfter??result.user?.coin,cardShards:result.cardShardsAfter??result.user?.cardShards??result.user?.card_shards});saveUser(nextUser);return nextUser}
 async function requestMessageRewardBatch(messageIds){
@@ -4272,7 +4272,7 @@ async function claimAllMessageRewards(messages,button){
     }
   }
   if(lastResult)messageClaimUser(lastResult);
-  clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');clearApiCache('messages');
+  clearApiCache('loot-shop/balance');clearApiCache('loot-shop/state');clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');clearApiCache('messages');
   const rewardSummary=[...totals.entries()].map(([type,amount])=>{const meta=MESSAGE_REWARD_META[type]||{label:type||'보상',icon:'🎁'};return `${meta.icon} ${meta.label} ${Number(amount).toLocaleString()}개`}).join('\n');
   const status=[`보상 ${claimedCount.toLocaleString()}건을 일괄 수령했습니다.`,rewardSummary,alreadyCount?`이미 처리된 보상 ${alreadyCount.toLocaleString()}건은 중복 지급하지 않았습니다.`:'',failures.length?`일부 지급 결과는 재확인이 필요합니다. 메시지함을 새로 확인합니다. 중복 지급되지 않으니 남은 보상은 다시 수령하세요.\n${failures[0]}`:''].filter(Boolean).join('\n\n');
   alert(status);renderShell('messages');
@@ -4295,7 +4295,7 @@ async function loadMessages(){
       try{
         const d=await apiRequest('messages/claim',{method:'POST',body:JSON.stringify({messageId:Number(b.dataset.claimMessage)})});
         const nextUser=messageClaimUser(d);
-        clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');
+        clearApiCache('loot-shop/balance');clearApiCache('loot-shop/state');clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');
         const meta=MESSAGE_REWARD_META[d.rewardType]||{label:d.rewardLabel||d.rewardType,icon:'🎁'};
         let detail='';
         if(d.rewardType==='COIN')detail=`\n현재 보유 코인: ${Number(nextUser.coin||0).toLocaleString()}코인`;

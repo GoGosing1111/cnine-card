@@ -1,5 +1,6 @@
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
 import {handleLootShop} from '../_loot_shop.js';
+import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
 import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
@@ -470,6 +471,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  PIG_COIN:{label:'피그코인',icon:'🐷',inventory:false,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   COIN:{label:'코인',icon:'🪙',inventory:false,max:5000000000,messageType:'COIN_REWARD'},
   SHARDS:{label:'카드 조각',icon:'🧩',inventory:false,max:100000000,messageType:'SHARD_REWARD'},
   MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
@@ -481,7 +483,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
 };
 function verifiedMessageRewardSpec(value){const type=String(value||'').trim().toUpperCase();return VERIFIED_MESSAGE_REWARD_TYPES[type]?{type,...VERIFIED_MESSAGE_REWARD_TYPES[type]}:null}
 const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_WISH_TICKET:100000};
-function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_WISH_TICKET'?{type,label:'핑두의 소원권',inventory:true}:verifiedMessageRewardSpec(type);return spec?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
+function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_WISH_TICKET'?{type,label:'핑두의 소원권',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
   if(verifiedRewardMessageV1276ReadyPromise)return verifiedRewardMessageV1276ReadyPromise;
@@ -514,6 +516,7 @@ async function ensureVerifiedRewardMessageV1276(env){
 async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowClaimedRecovery=false}={}){
   await ensureVerifiedRewardMessageV1276(env);
   const rewardType=String(reward?.reward_type||'').toUpperCase();
+  if(rewardType==='PIG_COIN')return claimPigCoinMessageReward(env,user,reward,messageId);
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
   if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
