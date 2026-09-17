@@ -1,0 +1,1449 @@
+{
+  "version": "Z_SWORD_LIVE_20260918",
+  "suitCode": "BATTLE_SUIT_Z_BODY",
+  "status": "USER_APPROVED_LIVE",
+  "approval": "2026-09-18: Z바디 리소스 교체, 외형·공격모션·스킬모션·광역기 적용",
+  "image": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
+  "attack": {
+    "file": "assets/v2/z-sword-atlas-v2.png",
+    "columns": 4,
+    "rows": 4,
+    "frameWidth": 1024,
+    "frameHeight": 768,
+    "width": 4096,
+    "height": 3072,
+    "sha256": "b78f3f6031ee66dd1a01b5bacdc74b02ba20e97865aa3be6517e91a294a6d02e",
+    "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/attack-atlas.png",
+    "frames": [
+      {
+        "id": "01",
+        "index": 0,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 489.35602339181287,
+          "y": 82.76
+        },
+        "eye": {
+          "x": 293.63387285417843,
+          "y": 255.6290322580645
+        },
+        "bounds": {
+          "x0": 88,
+          "y0": 79,
+          "x1": 495,
+          "y1": 736,
+          "width": 408,
+          "height": 658,
+          "count": 111371
+        }
+      },
+      {
+        "id": "02",
+        "index": 1,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 360.01087999999993,
+          "y": 76.76
+        },
+        "eye": {
+          "x": 332.3642670967742,
+          "y": 279.7772580645161
+        },
+        "bounds": {
+          "x0": 97,
+          "y0": 73,
+          "x1": 505,
+          "y1": 736,
+          "width": 409,
+          "height": 664,
+          "count": 103296
+        }
+      },
+      {
+        "id": "03",
+        "index": 2,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 34.2057057057057,
+          "y": 97.76
+        },
+        "eye": {
+          "x": 348.8395611273924,
+          "y": 252.59951807228913
+        },
+        "bounds": {
+          "x0": 25,
+          "y0": 94,
+          "x1": 530,
+          "y1": 736,
+          "width": 506,
+          "height": 643,
+          "count": 110017
+        }
+      },
+      {
+        "id": "04",
+        "index": 3,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 85.13486597708821,
+          "y": 95.82630630630631
+        },
+        "eye": {
+          "x": 381.9407518629741,
+          "y": 271.72858858858854
+        },
+        "bounds": {
+          "x0": 51,
+          "y0": 90,
+          "x1": 545,
+          "y1": 736,
+          "width": 495,
+          "height": 647,
+          "count": 110917
+        }
+      },
+      {
+        "id": "05",
+        "index": 4,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 101.28199413489736,
+          "y": 108.76
+        },
+        "eye": {
+          "x": 340.1733919843597,
+          "y": 276.4438709677419
+        },
+        "bounds": {
+          "x0": 93,
+          "y0": 105,
+          "x1": 546,
+          "y1": 736,
+          "width": 454,
+          "height": 632,
+          "count": 98012
+        }
+      },
+      {
+        "id": "06",
+        "index": 5,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 593.0605142857142,
+          "y": 91.7
+        },
+        "eye": {
+          "x": 317.9699988217967,
+          "y": 298.8779381443299
+        },
+        "bounds": {
+          "x0": 111,
+          "y0": 87,
+          "x1": 596,
+          "y1": 736,
+          "width": 486,
+          "height": 650,
+          "count": 98006
+        }
+      },
+      {
+        "id": "07",
+        "index": 6,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 719.5514441416893,
+          "y": 327.02
+        },
+        "eye": {
+          "x": 334.09721337245855,
+          "y": 297.37384615384616
+        },
+        "bounds": {
+          "x0": 121,
+          "y0": 202,
+          "x1": 727,
+          "y1": 736,
+          "width": 607,
+          "height": 535,
+          "count": 97000
+        }
+      },
+      {
+        "id": "08",
+        "index": 7,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 325.7075167785235,
+          "y": 264.92
+        },
+        "eye": {
+          "x": 329.49885011185677,
+          "y": 297.8513333333333
+        },
+        "bounds": {
+          "x0": 110,
+          "y0": 201,
+          "x1": 568,
+          "y1": 736,
+          "width": 459,
+          "height": 536,
+          "count": 86713
+        }
+      },
+      {
+        "id": "09",
+        "index": 8,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 303.51640718562874,
+          "y": 238.26
+        },
+        "eye": {
+          "x": 303.5275976618192,
+          "y": 276.69369047619045
+        },
+        "bounds": {
+          "x0": 97,
+          "y0": 164,
+          "x1": 578,
+          "y1": 736,
+          "width": 482,
+          "height": 573,
+          "count": 100402
+        }
+      },
+      {
+        "id": "10",
+        "index": 9,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 602.1918965517241,
+          "y": 414.34
+        },
+        "eye": {
+          "x": 295.05959925442687,
+          "y": 276.63
+        },
+        "bounds": {
+          "x0": 105,
+          "y0": 169,
+          "x1": 603,
+          "y1": 736,
+          "width": 499,
+          "height": 568,
+          "count": 99458
+        }
+      },
+      {
+        "id": "11",
+        "index": 10,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 559.5076964769647,
+          "y": 130.82
+        },
+        "eye": {
+          "x": 285.60292035756174,
+          "y": 271.2938805970149
+        },
+        "bounds": {
+          "x0": 97,
+          "y0": 128,
+          "x1": 562,
+          "y1": 736,
+          "width": 466,
+          "height": 609,
+          "count": 104300
+        }
+      },
+      {
+        "id": "12",
+        "index": 11,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 505.0859064327485,
+          "y": 110.64
+        },
+        "eye": {
+          "x": 297.2957730994152,
+          "y": 270.47759999999994
+        },
+        "bounds": {
+          "x0": 100,
+          "y0": 105,
+          "x1": 510,
+          "y1": 736,
+          "width": 411,
+          "height": 632,
+          "count": 105690
+        }
+      },
+      {
+        "id": "D1",
+        "index": 12,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 178.47073047858942,
+          "y": 78.94
+        },
+        "eye": {
+          "x": 452.54701252987144,
+          "y": 280.47358974358974
+        },
+        "bounds": {
+          "x0": 98,
+          "y0": 78,
+          "x1": 576,
+          "y1": 736,
+          "width": 479,
+          "height": 659,
+          "count": 118093
+        }
+      },
+      {
+        "id": "D2",
+        "index": 13,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 173.59050903336802,
+          "y": 132.88
+        },
+        "eye": {
+          "x": 452.5470125298715,
+          "y": 322.4839160839161
+        },
+        "bounds": {
+          "x0": 63,
+          "y0": 131,
+          "x1": 533,
+          "y1": 736,
+          "width": 471,
+          "height": 606,
+          "count": 110227
+        }
+      },
+      {
+        "id": "D3",
+        "index": 14,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 133.65201252987146,
+          "y": 133.88
+        },
+        "eye": {
+          "x": 452.54701252987144,
+          "y": 311.4029166666666
+        },
+        "bounds": {
+          "x0": 63,
+          "y0": 132,
+          "x1": 616,
+          "y1": 736,
+          "width": 554,
+          "height": 605,
+          "count": 92382
+        }
+      },
+      {
+        "id": "D4",
+        "index": 15,
+        "pivot": {
+          "x": 151,
+          "y": 736
+        },
+        "width": 1024,
+        "height": 768,
+        "bladeTip": {
+          "x": 127.62888982308638,
+          "y": 74.84693641618497
+        },
+        "eye": {
+          "x": 437.0480571554439,
+          "y": 259.856510258255
+        },
+        "bounds": {
+          "x0": 105,
+          "y0": 71,
+          "x1": 603,
+          "y1": 736,
+          "width": 499,
+          "height": 666,
+          "count": 121928
+        }
+      }
+    ],
+    "sequences": {
+      "cut": {
+        "steps": [
+          {
+            "frame": "01",
+            "durationMs": 260,
+            "atMs": 0,
+            "phase": "준비"
+          },
+          {
+            "frame": "02",
+            "durationMs": 95,
+            "atMs": 260,
+            "phase": "준비"
+          },
+          {
+            "frame": "03",
+            "durationMs": 95,
+            "atMs": 355,
+            "phase": "준비"
+          },
+          {
+            "frame": "04",
+            "durationMs": 130,
+            "atMs": 450,
+            "phase": "준비"
+          },
+          {
+            "frame": "05",
+            "durationMs": 55,
+            "atMs": 580,
+            "phase": "베기"
+          },
+          {
+            "frame": "06",
+            "durationMs": 45,
+            "atMs": 635,
+            "phase": "베기"
+          },
+          {
+            "frame": "07",
+            "durationMs": 65,
+            "atMs": 680,
+            "phase": "베기"
+          },
+          {
+            "frame": "08",
+            "durationMs": 70,
+            "atMs": 745,
+            "phase": "베기"
+          },
+          {
+            "frame": "09",
+            "durationMs": 120,
+            "atMs": 815,
+            "phase": "자세 회복"
+          },
+          {
+            "frame": "10",
+            "durationMs": 110,
+            "atMs": 935,
+            "phase": "자세 회복"
+          },
+          {
+            "frame": "11",
+            "durationMs": 100,
+            "atMs": 1045,
+            "phase": "자세 회복"
+          },
+          {
+            "frame": "12",
+            "durationMs": 210,
+            "atMs": 1145,
+            "phase": "자세 회복"
+          }
+        ],
+        "durationMs": 1355,
+        "contactAtMs": 680,
+        "contactStep": 6
+      },
+      "dash": {
+        "steps": [
+          {
+            "frame": "01",
+            "durationMs": 240,
+            "atMs": 0,
+            "phase": "대기"
+          },
+          {
+            "frame": "D1",
+            "durationMs": 100,
+            "atMs": 240,
+            "phase": "대시 준비"
+          },
+          {
+            "frame": "D2",
+            "durationMs": 75,
+            "atMs": 340,
+            "phase": "출발"
+          },
+          {
+            "frame": "D3",
+            "durationMs": 125,
+            "atMs": 415,
+            "phase": "접근"
+          },
+          {
+            "frame": "D4",
+            "durationMs": 100,
+            "atMs": 540,
+            "phase": "감속"
+          },
+          {
+            "frame": "04",
+            "durationMs": 80,
+            "atMs": 640,
+            "phase": "베기 준비"
+          },
+          {
+            "frame": "05",
+            "durationMs": 45,
+            "atMs": 720,
+            "phase": "베기"
+          },
+          {
+            "frame": "06",
+            "durationMs": 45,
+            "atMs": 765,
+            "phase": "베기"
+          },
+          {
+            "frame": "07",
+            "durationMs": 90,
+            "atMs": 810,
+            "phase": "타격"
+          },
+          {
+            "frame": "08",
+            "durationMs": 70,
+            "atMs": 900,
+            "phase": "마무리"
+          },
+          {
+            "frame": "09",
+            "durationMs": 100,
+            "atMs": 970,
+            "phase": "마무리"
+          },
+          {
+            "frame": "10",
+            "durationMs": 90,
+            "atMs": 1070,
+            "phase": "자세 회복"
+          },
+          {
+            "frame": "D4",
+            "durationMs": 75,
+            "atMs": 1160,
+            "phase": "복귀 준비"
+          },
+          {
+            "frame": "D1",
+            "durationMs": 100,
+            "atMs": 1235,
+            "phase": "뒤로 물러나기"
+          },
+          {
+            "frame": "02",
+            "durationMs": 100,
+            "atMs": 1335,
+            "phase": "원위치 복귀"
+          },
+          {
+            "frame": "01",
+            "durationMs": 260,
+            "atMs": 1435,
+            "phase": "대기"
+          }
+        ],
+        "durationMs": 1695,
+        "contactAtMs": 810,
+        "contactStep": 8,
+        "movement": {
+          "startMs": 340,
+          "arriveMs": 640,
+          "returnMs": 1160,
+          "homeMs": 1435
+        }
+      }
+    }
+  },
+  "cast": {
+    "file": "assets/motion-v5/cast-atlas.png",
+    "columns": 3,
+    "rows": 4,
+    "frameWidth": 1280,
+    "frameHeight": 1024,
+    "sha256": "fce53b95bdb48be583cee25016336af40015faa1f454dc2c0226341b6ad1aee2",
+    "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/cast-atlas.png",
+    "frames": [
+      {
+        "id": "M01",
+        "index": 0,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 412.3552829613254,
+          "y": 499.82554947928423
+        },
+        "bounds": {
+          "x0": 192,
+          "y0": 320,
+          "x1": 616,
+          "y1": 981,
+          "width": 425,
+          "height": 662
+        }
+      },
+      {
+        "id": "M02",
+        "index": 1,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 400.43505987763535,
+          "y": 505.81629087858335
+        },
+        "bounds": {
+          "x0": 154,
+          "y0": 303,
+          "x1": 615,
+          "y1": 981,
+          "width": 462,
+          "height": 679
+        }
+      },
+      {
+        "id": "M03",
+        "index": 2,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 441.8068078496828,
+          "y": 492.03566683535644
+        },
+        "bounds": {
+          "x0": 133,
+          "y0": 315,
+          "x1": 719,
+          "y1": 981,
+          "width": 587,
+          "height": 667
+        }
+      },
+      {
+        "id": "M04",
+        "index": 3,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": null,
+        "bounds": {
+          "x0": 174,
+          "y0": 333,
+          "x1": 668,
+          "y1": 981,
+          "width": 495,
+          "height": 649
+        }
+      },
+      {
+        "id": "M05",
+        "index": 4,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 410.8342919913454,
+          "y": 499.4956581290006
+        },
+        "bounds": {
+          "x0": 168,
+          "y0": 303,
+          "x1": 658,
+          "y1": 981,
+          "width": 491,
+          "height": 679
+        }
+      },
+      {
+        "id": "M06",
+        "index": 5,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 495.72951483628805,
+          "y": 539.0812113582646
+        },
+        "bounds": {
+          "x0": 175,
+          "y0": 428,
+          "x1": 703,
+          "y1": 981,
+          "width": 529,
+          "height": 554
+        }
+      },
+      {
+        "id": "M07",
+        "index": 6,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 544.4552619512151,
+          "y": 545.4597796920215
+        },
+        "bounds": {
+          "x0": 176,
+          "y0": 421,
+          "x1": 755,
+          "y1": 981,
+          "width": 580,
+          "height": 561
+        }
+      },
+      {
+        "id": "M08",
+        "index": 7,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 560.8283631130944,
+          "y": 543.3762734114323
+        },
+        "bounds": {
+          "x0": 162,
+          "y0": 429,
+          "x1": 752,
+          "y1": 981,
+          "width": 591,
+          "height": 553
+        }
+      },
+      {
+        "id": "M09",
+        "index": 8,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 453.8163020230639,
+          "y": 500.09124465207157
+        },
+        "bounds": {
+          "x0": 193,
+          "y0": 382,
+          "x1": 659,
+          "y1": 981,
+          "width": 467,
+          "height": 600
+        }
+      },
+      {
+        "id": "M10",
+        "index": 9,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 411.019279787594,
+          "y": 484.78269896218524
+        },
+        "bounds": {
+          "x0": 188,
+          "y0": 385,
+          "x1": 616,
+          "y1": 981,
+          "width": 429,
+          "height": 597
+        }
+      },
+      {
+        "id": "M11",
+        "index": 10,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 451.9317191917547,
+          "y": 499.3846469453276
+        },
+        "bounds": {
+          "x0": 186,
+          "y0": 346,
+          "x1": 706,
+          "y1": 981,
+          "width": 521,
+          "height": 636
+        }
+      },
+      {
+        "id": "M12",
+        "index": 11,
+        "pivot": {
+          "x": 265,
+          "y": 980
+        },
+        "width": 1280,
+        "height": 1024,
+        "eye": {
+          "x": 414.5551496543495,
+          "y": 504.9035514423948
+        },
+        "bounds": {
+          "x0": 193,
+          "y0": 348,
+          "x1": 662,
+          "y1": 981,
+          "width": 470,
+          "height": 634
+        }
+      }
+    ],
+    "sequence": {
+      "durationMs": 3000,
+      "steps": [
+        {
+          "frame": "M01",
+          "durationMs": 140,
+          "phase": "대기",
+          "atMs": 0
+        },
+        {
+          "frame": "M02",
+          "durationMs": 100,
+          "phase": "검 끌어올리기",
+          "atMs": 140
+        },
+        {
+          "frame": "M03",
+          "durationMs": 120,
+          "phase": "높이 들기",
+          "atMs": 240
+        },
+        {
+          "frame": "M04",
+          "durationMs": 220,
+          "phase": "집행 준비",
+          "atMs": 360
+        },
+        {
+          "frame": "M05",
+          "durationMs": 70,
+          "phase": "힘 모으기",
+          "atMs": 580
+        },
+        {
+          "frame": "M06",
+          "durationMs": 90,
+          "phase": "내려찍기",
+          "atMs": 650
+        },
+        {
+          "frame": "M07",
+          "durationMs": 140,
+          "phase": "검 꽂기",
+          "atMs": 740
+        },
+        {
+          "frame": "M08",
+          "durationMs": 200,
+          "phase": "무게 싣기",
+          "atMs": 880
+        },
+        {
+          "frame": "M09",
+          "durationMs": 520,
+          "phase": "집행 유지",
+          "atMs": 1080
+        },
+        {
+          "frame": "M10",
+          "durationMs": 200,
+          "phase": "검 거두기",
+          "atMs": 1600
+        },
+        {
+          "frame": "M11",
+          "durationMs": 160,
+          "phase": "검 세우기",
+          "atMs": 1800
+        },
+        {
+          "frame": "M12",
+          "durationMs": 340,
+          "phase": "대기 복귀",
+          "atMs": 1960
+        },
+        {
+          "frame": "M01",
+          "durationMs": 700,
+          "phase": "대기",
+          "atMs": 2300
+        }
+      ],
+      "plantAtMs": 740,
+      "contactAtMs": 1080,
+      "contactStep": 8,
+      "releaseAtMs": 740
+    }
+  },
+  "effects": {
+    "blade": {
+      "source": {
+        "file": "assets/v3/sources/blade-descent.png",
+        "sha256": "09e568cfe0a5593555c6cebe7b42250c7d5374799c39fbf0364ca07db779c0f0"
+      },
+      "atlas": {
+        "file": "assets/v3/blade-atlas.png",
+        "sha256": "ba0c76bf9035211bc2a43acd79a48f057371e2458b2e3eb655543fb37491f887",
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 512,
+        "frameHeight": 864,
+        "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/blade-atlas.png"
+      },
+      "pivot": {
+        "x": 256,
+        "y": 760
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/v3/frames/blade-01.png",
+          "sha256": "8a5abaa056a97bcb2d08fc3b2103a3ff7578f0983246c80f2c4080b127763f2b",
+          "durationMs": 100,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 267
+          },
+          "sourceAnchor": [
+            181,
+            493
+          ]
+        },
+        {
+          "index": 1,
+          "file": "assets/v3/frames/blade-02.png",
+          "sha256": "ea64c66e574161ee0e87fdda471a00007049d4bf5c728d9663e47476fe17c4bb",
+          "durationMs": 100,
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 267
+          },
+          "sourceAnchor": [
+            181,
+            493
+          ]
+        },
+        {
+          "index": 2,
+          "file": "assets/v3/frames/blade-03.png",
+          "sha256": "63477cb72dc8b4e6d8f242b8c746e6b848bc116b6f34eb5a7be0e39971651cff",
+          "durationMs": 100,
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 267
+          },
+          "sourceAnchor": [
+            181,
+            493
+          ]
+        },
+        {
+          "index": 3,
+          "file": "assets/v3/frames/blade-04.png",
+          "sha256": "93520676b53f8ca4c2fb71f05a536b6713dc0c173c0e545cad39acd910bebb14",
+          "durationMs": 80,
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 267
+          },
+          "sourceAnchor": [
+            181,
+            493
+          ]
+        },
+        {
+          "index": 4,
+          "file": "assets/v3/frames/blade-05.png",
+          "sha256": "4400381232bfc16ff7221b833be898fb76aec42cbb84362e9cb8b27c451c65ce",
+          "durationMs": 100,
+          "sourceRect": {
+            "x": 0,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 315
+          },
+          "sourceAnchor": [
+            181,
+            445
+          ]
+        },
+        {
+          "index": 5,
+          "file": "assets/v3/frames/blade-06.png",
+          "sha256": "6bdc9b0671a3600142bd82d4f4f432e10c69d7d85e8d74fe889ca4dffd81f91d",
+          "durationMs": 140,
+          "sourceRect": {
+            "x": 362,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 315
+          },
+          "sourceAnchor": [
+            181,
+            445
+          ]
+        },
+        {
+          "index": 6,
+          "file": "assets/v3/frames/blade-07.png",
+          "sha256": "f301e56baa6a86a6d5273694ae8f7db58b072e12e788cae4cd7db70876335f11",
+          "durationMs": 160,
+          "sourceRect": {
+            "x": 724,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 312
+          },
+          "sourceAnchor": [
+            181,
+            448
+          ]
+        },
+        {
+          "index": 7,
+          "file": "assets/v3/frames/blade-08.png",
+          "sha256": "e8e19b87acc193db5242e730331438b2a211c8b37bc7f9f0fedc70c398c9abc6",
+          "durationMs": 240,
+          "sourceRect": {
+            "x": 1086,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "placement": {
+            "left": 75,
+            "top": 310
+          },
+          "sourceAnchor": [
+            181,
+            450
+          ]
+        }
+      ],
+      "durationMs": 1020,
+      "normalization": "ORIGINAL_RGBA_TRANSLATION_ONLY"
+    },
+    "ground": {
+      "source": {
+        "file": "assets/v3/sources/ground-discharge.png",
+        "sha256": "b89a3a1e3691b6c7e0491f02c92c50a7a7f24311dca922c2b0368b8599012e80"
+      },
+      "atlas": {
+        "file": "assets/v3/ground-atlas.png",
+        "sha256": "b95298899e2ec10701d6259e90885f4ea2c4436aa3e99ffd43f0e60ecf84b38f",
+        "columns": 3,
+        "rows": 3,
+        "frameWidth": 768,
+        "frameHeight": 512,
+        "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/ground-atlas.png"
+      },
+      "pivot": {
+        "x": 384,
+        "y": 350
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/v3/frames/ground-01.png",
+          "sha256": "7812be9304851a7da04a01af549844473570282f724577d0ee7d5159381ddb9b",
+          "durationMs": 90,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 483,
+            "height": 362
+          },
+          "placement": {
+            "left": 142,
+            "top": 81
+          },
+          "sourceAnchor": [
+            242,
+            269
+          ]
+        },
+        {
+          "index": 1,
+          "file": "assets/v3/frames/ground-02.png",
+          "sha256": "1f8608f66f9ada61e2d60b0591f10f96a517e2b068ffa4cbc89dfcb4f3ab791b",
+          "durationMs": 80,
+          "sourceRect": {
+            "x": 483,
+            "y": 0,
+            "width": 482,
+            "height": 362
+          },
+          "placement": {
+            "left": 139,
+            "top": 76
+          },
+          "sourceAnchor": [
+            245,
+            274
+          ]
+        },
+        {
+          "index": 2,
+          "file": "assets/v3/frames/ground-03.png",
+          "sha256": "aeb38644a65cea0ebdfdfb5efc0ce67fc203fa7edc4b4fd2c38645972bccc450",
+          "durationMs": 95,
+          "sourceRect": {
+            "x": 965,
+            "y": 0,
+            "width": 483,
+            "height": 362
+          },
+          "placement": {
+            "left": 139,
+            "top": 71
+          },
+          "sourceAnchor": [
+            245,
+            279
+          ]
+        },
+        {
+          "index": 3,
+          "file": "assets/v3/frames/ground-04.png",
+          "sha256": "10d60ad94ba725f2d54305a13f427b66fe07ef8dc549fece3be5a559ee3d636e",
+          "durationMs": 110,
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 483,
+            "height": 362
+          },
+          "placement": {
+            "left": 139,
+            "top": 81
+          },
+          "sourceAnchor": [
+            245,
+            269
+          ]
+        },
+        {
+          "index": 4,
+          "file": "assets/v3/frames/ground-05.png",
+          "sha256": "a99d94548acce481b2161e6451d6e55eca1233357e687856c44af968d13db4df",
+          "durationMs": 135,
+          "sourceRect": {
+            "x": 483,
+            "y": 362,
+            "width": 482,
+            "height": 362
+          },
+          "placement": {
+            "left": 142,
+            "top": 79
+          },
+          "sourceAnchor": [
+            242,
+            271
+          ]
+        },
+        {
+          "index": 5,
+          "file": "assets/v3/frames/ground-06.png",
+          "sha256": "2859cbf762b389066ad8644d59ad1d6087bd0cd85d05a1883cade9824c518c7e",
+          "durationMs": 160,
+          "sourceRect": {
+            "x": 965,
+            "y": 362,
+            "width": 483,
+            "height": 362
+          },
+          "placement": {
+            "left": 137,
+            "top": 82
+          },
+          "sourceAnchor": [
+            247,
+            268
+          ]
+        },
+        {
+          "index": 6,
+          "file": "assets/v3/frames/ground-07.png",
+          "sha256": "bfd48a9af2f7b21f4afb5b0071e357acd87adc08f4f856245410787a4a57f829",
+          "durationMs": 180,
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 483,
+            "height": 362
+          },
+          "placement": {
+            "left": 142,
+            "top": 100
+          },
+          "sourceAnchor": [
+            242,
+            250
+          ]
+        },
+        {
+          "index": 7,
+          "file": "assets/v3/frames/ground-08.png",
+          "sha256": "50959fe515b6fba358c848307a1c3ec8311922044f91c3bffb4683eba48c21c4",
+          "durationMs": 210,
+          "sourceRect": {
+            "x": 483,
+            "y": 724,
+            "width": 482,
+            "height": 362
+          },
+          "placement": {
+            "left": 142,
+            "top": 107
+          },
+          "sourceAnchor": [
+            242,
+            243
+          ]
+        },
+        {
+          "index": 8,
+          "file": "assets/v3/frames/ground-09.png",
+          "sha256": "cc73e1a5c2b57104bb11db22a439de7c77a0d36af463a049ef03242c488e7732",
+          "durationMs": 270,
+          "sourceRect": {
+            "x": 965,
+            "y": 724,
+            "width": 483,
+            "height": 362
+          },
+          "placement": {
+            "left": 143,
+            "top": 106
+          },
+          "sourceAnchor": [
+            241,
+            244
+          ]
+        }
+      ],
+      "durationMs": 1330,
+      "normalization": "ORIGINAL_RGBA_TRANSLATION_ONLY"
+    }
+  },
+  "impactsMs": [
+    1080,
+    1210,
+    1340,
+    1430,
+    1540
+  ],
+  "durationMs": 3000,
+  "bodyScale": 0.563696948902027,
+  "presentation": {
+    "damageAuthority": "EXISTING_SERVER_EVENTS",
+    "area": "GROUP_CONFIRMED_SUPPORT_HITS",
+    "extraDamage": false,
+    "extraTargets": false,
+    "skillChipEffects": "PRESERVED"
+  },
+  "assets": [
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
+      "sha256": "214d3dee28359192f824246c5bf6c369f16c16df4c7392e2321ff93441920890",
+      "bytes": 455152,
+      "approvedSource": "assets/v2/z-body-tall-ready.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/attack-atlas.png",
+      "sha256": "b78f3f6031ee66dd1a01b5bacdc74b02ba20e97865aa3be6517e91a294a6d02e",
+      "bytes": 6342903,
+      "approvedSource": "assets/v2/z-sword-atlas-v2.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/cast-atlas.png",
+      "sha256": "fce53b95bdb48be583cee25016336af40015faa1f454dc2c0226341b6ad1aee2",
+      "bytes": 5496827,
+      "approvedSource": "assets/motion-v5/cast-atlas.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/blade-atlas.png",
+      "sha256": "ba0c76bf9035211bc2a43acd79a48f057371e2458b2e3eb655543fb37491f887",
+      "bytes": 2151378,
+      "approvedSource": "assets/v3/blade-atlas.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/ground-atlas.png",
+      "sha256": "b95298899e2ec10701d6259e90885f4ea2c4436aa3e99ffd43f0e60ecf84b38f",
+      "bytes": 1865907,
+      "approvedSource": "assets/v3/ground-atlas.png"
+    }
+  ],
+  "sizeApproval": "2026-09-18: H바디·S바디 실제 표시 크기에 맞춤",
+  "sizeReference": {
+    "suits": [
+      "BATTLE_SUIT_H_BODY",
+      "BATTLE_SUIT_S_BODY"
+    ],
+    "bodyHeight": 333.70859375,
+    "zHelmetTop": 144,
+    "zSole": 736,
+    "zBodyHeight": 592,
+    "measurement": "Helmet-to-sole; exclude sword blade bounds"
+  }
+}

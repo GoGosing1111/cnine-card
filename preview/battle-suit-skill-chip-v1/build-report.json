@@ -29,6 +29,9 @@
     "preview/battle-suit-skill-chip-v1/source/SkillChipFX.js",
     "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
     "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+    "assets/ui/project-v/account-battle-suits/z-sword-v1/manifest.json",
+    "preview/project-v-v3/source/battle/ZBodySwordModel.mjs",
+    "preview/project-v-v3/source/battle/ZBodySwordAnimation.js",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
@@ -55,5 +58,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1097804
+  "outputBytes": 1123051
 }

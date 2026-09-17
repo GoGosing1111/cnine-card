@@ -4,6 +4,7 @@ import { burningEventIsLive } from './_burning_event_access.js';
 import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_skill_chips.js';
 import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
 import {SZ_BODY_BY_CODE,ensureSzBodyEquipment} from './_battle_suit_sz_body.js';
+import {ensureZBodySwordAppearance} from './_battle_suit_z_sword.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
 
@@ -500,6 +501,7 @@ export async function ensureEquipmentFoundation(env){
     }
     await ensureHBodyEquipment(env);
     await ensureSzBodyEquipment(env);
+    await ensureZBodySwordAppearance(env);
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;

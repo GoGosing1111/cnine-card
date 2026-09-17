@@ -1,4 +1,5 @@
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
+import {Z_SWORD_IMAGE,Z_SWORD_DESCRIPTION} from './_battle_suit_z_sword.js';
 
 export const SZ_BODY_UPGRADE_KEY='safe_runtime_upgrade_v2124_sz_body';
 export const SZ_BODY_ITEMS=Object.freeze([
@@ -6,8 +7,8 @@ export const SZ_BODY_ITEMS=Object.freeze([
     image:'/assets/items/s-body-v2124.png',battleSprite:'/assets/ui/project-v/account-battle-suits/suits/s-body-v2124.png',
     description:'화이트·블루·레드의 S-BODY. 장착한 총기에 맞춰 전용 V3 외형이 적용되는 PVE 전용 배틀슈트입니다.',sortOrder:50}),
   Object.freeze({code:'BATTLE_SUIT_Z_BODY',name:'Z-BODY',slot:'BATTLE_SUIT',coreCode:'SUIT_CORE_6',
-    image:'/assets/items/z-body-v2124.png',battleSprite:'/assets/ui/project-v/account-battle-suits/suits/z-body-v2124.png',
-    description:'흑백 장갑과 황금 성기사 장식을 갖춘 Z-BODY. 장착한 총기에 맞춰 전용 V3 외형이 적용되는 PVE 전용 배틀슈트입니다.',sortOrder:60})
+    image:Z_SWORD_IMAGE,battleSprite:Z_SWORD_IMAGE,
+    description:Z_SWORD_DESCRIPTION,sortOrder:60})
 ]);
 export const SZ_BODY_BY_CODE=Object.freeze(Object.fromEntries(SZ_BODY_ITEMS.map(item=>[item.code,item])));
 

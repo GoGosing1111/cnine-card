@@ -152,6 +152,7 @@ export class AccountBattleUnit{
   }
 
   releaseAuthoredAnimation(){
+    if(this.swordAnimation){this.swordAnimation.destroy();this.swordAnimation=null;}
     const frames=this.authoredSubtextures;
     if(frames.includes(this.bodySprite.texture))this.bodySprite.texture=Texture.EMPTY;
     frames.forEach(texture=>{
@@ -242,7 +243,7 @@ export class AccountBattleUnit{
 
   usesBodyAsset(source=''){
     const target=String(source||'');
-    return Boolean(target&&(target===this.bodySource||target===this.authoredSheetSource));
+    return Boolean(target&&(target===this.bodySource||target===this.authoredSheetSource||this.swordAnimation?.usesAsset(target)));
   }
 
   usesWeaponAsset(source=''){
@@ -335,6 +336,7 @@ export class AccountBattleUnit{
   }
 
   startIdle(){
+    if(this.swordAnimation){this.view.scale.set(1);this.swordAnimation.ready();return;}
     if(!this.active||this.idleTimeline)return;
     if(this.hasAuthoredAnimation()&&this.authoredFrame!=='ready')this.applyAuthoredFrame('ready');
     this.view.position.set(0,0);
@@ -492,8 +494,9 @@ export class AccountBattleUnit{
     return {
       active:this.active,
       id:'ACCOUNT_BATTLE_UNIT',
-      role:'PVE_AUTHORITATIVE_RANGED_SUPPORT',
-      fixedPosition:true,
+      role:this.swordAnimation?'PVE_AUTHORITATIVE_SWORD_SUPPORT':'PVE_AUTHORITATIVE_RANGED_SUPPORT',
+      fixedPosition:!this.swordAnimation,
+      sword:this.swordAnimation?.diagnostics()||null,
       bodySource:this.bodySource,
       weaponSource:this.weaponSource,
       weaponFlipX:this.attachment.flipX,

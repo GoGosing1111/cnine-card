@@ -13,6 +13,8 @@ import {ApocalypseBossUltimateFX, APOCALYPSE_BOSS_ULTIMATE_PROFILE} from './Apoc
 import {ApocalypseSignatureSkillFX} from './ApocalypseSignatureSkillFX.js';
 import {apocalypseSignatureSkill} from '../../../../shared/apocalypse-boss-skills-v2048.mjs';
 import {BattleSuitSkillChipPlayback,isSkillChipTimeline} from './BattleSuitSkillChipPlayback.js';
+import {ZBodySwordAnimation} from './ZBodySwordAnimation.js';
+import {Z_SWORD,isZBody,takeSwordBatch} from './ZBodySwordModel.mjs';
 import {withOccupiedGrid} from './OccupiedGridLayout.js';
 import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
 
@@ -1194,7 +1196,7 @@ class BaseBattleEngine{
       :null;
     const suitSource=appearanceUrl(battleSuit);
     const weaponSource=weaponAppearanceUrl(weapon);
-    const eligible=pveAllowed&&Boolean(battleSuit&&(authoredProfile||suitSource));
+    const eligible=pveAllowed&&Boolean(battleSuit&&(isZBody(equipmentCode(battleSuit))||authoredProfile||suitSource));
     this.accountBattleUnitEquipment={battleSuit,weapon};
     this.accountBattleUnitEnabled=false;
     this.syncAccountBattleUnitTile();
@@ -1207,6 +1209,20 @@ class BaseBattleEngine{
     const unit=this.ensureAccountBattleUnit();
     const suitAppearance=appearanceObject(battleSuit)||{};
     const weaponAppearance=appearanceObject(weapon)||{};
+    if(isZBody(equipmentCode(battleSuit))){
+      const epoch=this.playbackEpoch;
+      unit.clearAppearance();
+      const textures=await ZBodySwordAnimation.load();
+      if(epoch!==this.playbackEpoch||unit.root.destroyed){
+        for(const frames of Object.values(textures))for(const texture of frames)texture.destroy(false);
+        return false;
+      }
+      new ZBodySwordAnimation(this,unit,textures);
+      unit.setName(accountNickname(payload));
+      this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
+      this.syncAccountBattleUnitTile();this.layoutAccountBattleUnit();this.sortCombatDepth();
+      return this.accountBattleUnitEnabled;
+    }
     if(authoredProfile){
       try{
         const sheetTexture=await Assets.load(authoredProfile.sheetUrl);
@@ -1349,6 +1365,10 @@ class BaseBattleEngine{
   async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,targetShield=null,authoritative=false,monotonicHp=false,targetId=target?.id,authoritativeEvent=null}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
+    if(unit.swordAnimation){
+      const queue=[{target,options:{playbackRate,damage,critical,targetHp,targetShield,authoritative,monotonicHp,targetId,authoritativeEvent}}];
+      return this.playAccountBattleUnitSwordBatch(takeSwordBatch(queue,unit.swordAnimation.actionIndex));
+    }
     // Preserve the just-resolved authoritative target even when that hit set
     // its HP to zero. Retargeting here would make the cosmetic tracer fly at
     // a different enemy than the card action it visually follows.
@@ -1429,6 +1449,29 @@ class BaseBattleEngine{
     return this.playAccountBattleUnitShot(target,{playbackRate,authoritative:false});
   }
 
+  async playAccountBattleUnitSwordBatch(batch){
+    const sword=this.accountBattleUnit?.swordAnimation;
+    if(!sword||!batch)return false;
+    const played=await sword.play(batch,entries=>{
+      const victim=entries[0].target;
+      let total=0,critical=false;
+      for(const {options} of entries){
+        if(!options.authoritative)continue;
+        if(options.authoritativeEvent)this.skillChipPlayback?.remember(options.authoritativeEvent);
+        if(hasFiniteNumber(options.targetHp)&&(!options.monotonicHp||Number(options.targetHp)<Number(victim.hp)))this.syncTargetHp(victim,Number(options.targetHp));
+        if(hasFiniteNumber(options.targetShield)&&(!options.monotonicHp||Number(options.targetShield)<Number(victim.shield)))this.syncTargetShield(victim,Number(options.targetShield));
+        total+=Math.max(0,Number(options.damage)||0);critical||=Boolean(options.critical);
+        this.accountBattleUnitDamageEventCount++;
+        this.accountBattleUnitDamageTotal+=Math.max(0,Number(options.damage)||0);
+      }
+      this.triggerAccountBattleUnitBallisticHit(victim,{cameraShake:batch.mode==='area'?4:3.2},this.paceScale||1);
+      if(total)this.showAccountBattleUnitDamage(victim,{damage:total,critical,playbackRate:this.paceScale||1});
+      this.updateStatus(`Z-BODY ${batch.mode==='area'?'뇌검 집행':'돌진 검격'} · ${Math.round(total).toLocaleString()}`);
+    });
+    if(played)this.accountBattleUnitShotCount++;
+    return played;
+  }
+
   queueAccountBattleUnitDamageShot(target=null,options={}){
     const run=this.accountBattleUnitFireRun;
     if(!run?.active)return this.playAccountBattleUnitShot(target,options);
@@ -1493,6 +1536,15 @@ class BaseBattleEngine{
           const pending=this.accountBattleUnitDamageQueue?.[0]||null;
           if(!pending){
             if(!await this.waitForAccountBattleUnitFire(40,run))break;
+            continue;
+          }
+          if(unit.swordAnimation){
+            const batch=takeSwordBatch(this.accountBattleUnitDamageQueue,unit.swordAnimation.actionIndex);
+            try{
+              const played=await this.playAccountBattleUnitSwordBatch(batch);
+              batch.entries.forEach(entry=>entry.resolve?.(played));
+              if(played){run.shots++;this.accountBattleUnitSustainedShotCount++;}
+            }catch(error){batch.entries.forEach(entry=>entry.reject?.(error));throw error;}
             continue;
           }
           // Timed KO/HP updates can precede this queued shot. Keep the character,
@@ -1578,7 +1630,7 @@ class BaseBattleEngine{
     //   대기 한도는 밀린 발수에 비례(발당 ~120ms, 최대 6초).
     if(drain){
       const backlog=this.accountBattleUnitDamageQueue?.length||0;
-      const timeout=hasFiniteNumber(drainTimeoutMs)?Number(drainTimeoutMs):clamp(400+backlog*120,400,6000);
+      const timeout=hasFiniteNumber(drainTimeoutMs)?Number(drainTimeoutMs):this.accountBattleUnit?.swordAnimation?Math.max(6000,3000*Math.ceil(backlog/48)+3000):clamp(400+backlog*120,400,6000);
       await this.waitForAccountBattleUnitDamageQueueDrain(timeout);
     }
     const run=this.accountBattleUnitFireRun;
@@ -1733,8 +1785,9 @@ class BaseBattleEngine{
     const accountAnimation=accountPveAllowed
       ?resolveAccountBattleSuitAnimation(equipmentCode(battleSuit),equipmentCode(equippedWeapon))
       :null;
-    const accountSuitUrl=accountPveAllowed?(accountAnimation?.sheetUrl||appearanceUrl(battleSuit)):'';
-    const accountWeaponUrl=accountSuitUrl&&!accountAnimation?weaponAppearanceUrl(equippedWeapon):'';
+    const accountSword=accountPveAllowed&&isZBody(equipmentCode(battleSuit));
+    const accountSuitUrl=accountPveAllowed?(accountSword?Z_SWORD.image:accountAnimation?.sheetUrl||appearanceUrl(battleSuit)):'';
+    const accountWeaponUrl=accountSuitUrl&&!accountAnimation&&!accountSword?weaponAppearanceUrl(equippedWeapon):'';
     const preloadUrls=[];
     const queueCardAssets=(cards,artList)=>cards.forEach((card,index)=>{
       const art=artList[index];
@@ -1746,6 +1799,7 @@ class BaseBattleEngine{
     queueCardAssets(enemyCards,enemyArt);
     if(monsterArt?.primaryUrl)preloadUrls.push(monsterArt.primaryUrl);
     if(accountSuitUrl)preloadUrls.push(accountSuitUrl);
+    if(accountSword)preloadUrls.push(...Z_SWORD.assets.map(asset=>asset.url));
     if(accountWeaponUrl)preloadUrls.push(accountWeaponUrl);
     // Pixi Assets de-duplicates identical URLs. Starting every live texture
     // request together removes the previous card-by-card network waterfall.
@@ -2906,6 +2960,7 @@ class BaseBattleEngine{
   }
 
   async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null,afterEvent=null,sequential=false,isPaused=()=>false}={}){
+    if(!timedInternal)this.accountBattleUnitIsPaused=isPaused;
     if(!timedInternal&&isSkillChipTimeline(events)){
       this.skillChipPlayback?.cancel();
       this.skillChipPlayback=new BattleSuitSkillChipPlayback(this,events,{beforeEvent,afterEvent,sequential,isPaused});
