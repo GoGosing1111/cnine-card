@@ -7,6 +7,8 @@ import {SZ_BODY_BY_CODE,ensureSzBodyEquipment} from './_battle_suit_sz_body.js';
 import {ensureZBodySwordAppearance} from './_battle_suit_z_sword.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
+import {ensureRuntimeFoundation} from './_runtime_foundation.js';
+import {equipmentPreviewRows,equipmentQuantities} from './_equipment_inventory.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const BATTLE_SUIT_SLOT='BATTLE_SUIT';
@@ -27,13 +29,14 @@ const SUPPLY_BOX_MAX_OPEN=500;
 const LEGACY_SUPPLY_BOX_SHOP_ENABLED=false;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
+const FOUNDATION_CACHE=Symbol('equipment-foundation-20260918');
 const BATTLE_SUIT_CATALOG=[
   {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png',description:'백금 날개 여성형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:100000,sortOrder:10},
   {code:'BATTLE_SUIT_02',name:'배틀슈트 02',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',description:'주황색 전술형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:200000,sortOrder:20},
   {code:'BATTLE_SUIT_03',name:'배틀슈트 03',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png',description:'자수정 기계갑주형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:300000,sortOrder:30}
 ];
 const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1,quantity:1},PVE_AUTO:{enabled:true,rate:.05,quantity:1},TOWER:{enabled:true,rate:.2,quantity:1},RAID:{enabled:true,rate:1,quantity:1},RIFT:{enabled:true,rate:.5,quantity:1},PVP:{enabled:true,rate:.2,quantity:1},CAPTAIN:{enabled:true,rate:.3,quantity:1}}};
-let foundationPromise=null,supplySettingsCache=null,supplySettingsCacheAt=0,equipmentPromotionCache=null,equipmentPromotionCacheAt=0;
+let supplySettingsCache=null,supplySettingsCacheAt=0,equipmentPromotionCache=null,equipmentPromotionCacheAt=0;
 
 function cleanText(value,max=120){return String(value??'').trim().slice(0,max)}
 function cleanInt(value,min=0,max=100000000){const n=Math.floor(Number(value)||0);return Math.max(min,Math.min(max,n))}
@@ -94,8 +97,16 @@ export function invalidateEquipmentPromotionCache(){equipmentPromotionCache=null
 function supplyShopPricing(settings,promotion){const original=Math.max(0,cleanInt(settings.shopPrice,1,100000000)),discount=cleanPromotionDiscount(promotion?.discount||0),price=Math.max(0,Math.floor(original*(100-discount)/100));return {originalShopPrice:original,shopPrice:price,promotionDiscountPercent:discount,promotionMode:promotion?.mode||'NONE'}}
 
 export async function ensureEquipmentFoundation(env){
-  if(foundationPromise)return foundationPromise;
-  foundationPromise=(async()=>{
+  return ensureRuntimeFoundation(env,FOUNDATION_CACHE,[
+    'safe_runtime_upgrade_v1231_character_equipment_titles','safe_runtime_upgrade_v1232_character_title_styles',
+    'safe_runtime_upgrade_v1247_equipment_supply_box','safe_runtime_upgrade_v1274_supply_drop_quantity',
+    'safe_runtime_upgrade_v1473_mythic_equipment_unique','safe_runtime_upgrade_v1676_mythic_equipment_duplicates',
+    'safe_runtime_upgrade_v1488_prime_equipment_recall','safe_runtime_upgrade_v1489_infinity_weapon_recall',
+    'safe_runtime_upgrade_v1490_new_equipment_drop_quarantine','safe_runtime_upgrade_v1338_garage_system',
+    'safe_runtime_upgrade_v1533_territory_commander_title','safe_runtime_upgrade_v1953_project_v_battle_suits',
+    'safe_runtime_upgrade_v1959_battle_suit_01_female','safe_runtime_upgrade_v1969_battle_suit_power_tiers',
+    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body'
+  ],async()=>{
     const markerV1231=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
     if(markerV1231?.value!=='1'){
       await env.DB.batch([
@@ -503,8 +514,7 @@ export async function ensureEquipmentFoundation(env){
     await ensureSzBodyEquipment(env);
     await ensureZBodySwordAppearance(env);
     return true;
-  })().catch(error=>{foundationPromise=null;throw error});
-  return foundationPromise;
+  },async()=>((await env.DB.prepare('PRAGMA table_info(user_character_titles)').all()).results||[]).some(row=>row.name==='expires_at'));
 }
 
 export async function supplyBoxSettings(env,{fresh=false}={}){
@@ -587,7 +597,7 @@ export async function recordCharacterProgress(env,userId,eventType,eventKey){
   return granted;
 }
 
-export async function userEquipmentBonuses(env,userId){
+export async function userEquipmentBonuses(env,userId,{skillChips}={}){
   await ensureEquipmentFoundation(env);
   const row=await env.DB.prepare(`WITH equipment AS (
       SELECT COALESCE(SUM(i.pve_power),0) AS equipment_pve,COALESCE(SUM(i.pvp_power),0) AS equipment_pvp
@@ -638,7 +648,7 @@ export async function userEquipmentBonuses(env,userId){
   const equipmentPve=Number(row?.equipment_pve||0)+forge.pve,equipmentPvp=Number(row?.equipment_pvp||0)+forge.pvp,battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
   const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');
-  if(equippedBattleSuit&&battleSuitPve>0)equippedBattleSuit.skillChips=await equippedSkillChipCodes(env,userId);
+  if(equippedBattleSuit&&battleSuitPve>0){const chips=skillChips?await skillChips:null;equippedBattleSuit.skillChips=chips?(chips.battleEnabled?chips.loadout.filter(Boolean):[]):await equippedSkillChipCodes(env,userId);}
   return {equipmentPve,equipmentPvp,battleSuitPve,battleSuitPvp:0,garagePve,garagePvp,titlePve,titlePvp,pve:equipmentPve+battleSuitPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp+titlePvp,battleSuit:equippedBattleSuit,equippedBattleSuit,equippedWeapon,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset),fontPreset:normalizeTitleFontPreset(titleConfig.fontPreset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
 }
 
@@ -675,15 +685,16 @@ export async function grantEquipmentDrop(env,{userId,sourceType,sourceId='*',req
   return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:cleanInt(granted.quantity??configuredQuantity,1,100),balance:Number(balance?.quantity||0),sourceType:type,sourceId:key};
 }
 
-async function characterPayload(env,userId,{admin=false,syncTitles=false,role='USER'}={}){
+async function characterPayload(env,userId,{admin=false,syncTitles=false,role='USER',deferQuantities=false}={}){
   // Opening the equipment screen must stay fast. Collection-title synchronization
   // scans card ownership and is intentionally not run on every loadout request.
   if(syncTitles)await syncCollectionTitles(env,userId);
+  const skillChipsTask=skillChipPayload(env,userId);
   const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses,avatarFeature,equippedAvatar,skillChips]=await Promise.all([
     // V1992: 프라임 일괄 개봉으로 동일 장비 인스턴스가 수천 개까지 쌓여도
     // 장비창에는 장비 종류당 한 행만 보낸다. 실제 인스턴스는 삭제/병합하지 않으며,
     // 장착 중인 인스턴스가 있으면 그것을 대표 ID로 유지해 기존 장착 API 계약도 보존한다.
-    env.DB.prepare(`WITH equipment_groups AS (
+    deferQuantities?equipmentPreviewRows(env,userId,{admin}):env.DB.prepare(`WITH equipment_groups AS (
       SELECT equipment_id,COUNT(*) AS quantity,MAX(id) AS latest_instance_id,MAX(acquired_at) AS acquired_at
       FROM user_equipment_instances
       WHERE user_id=?
@@ -707,15 +718,15 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
     env.DB.prepare('SELECT l.title_id FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) WHERE l.user_id=?').bind(userId).first(),
     env.DB.prepare(`SELECT g.*,u.acquired_at,CASE WHEN u.garage_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_garage_items g LEFT JOIN user_garage_vehicles u ON u.garage_id=g.id AND u.user_id=? WHERE ${admin?'1=1':'g.is_active=1 AND g.is_public=1'} ORDER BY g.sort_order,g.id`).bind(userId).all(),
     env.DB.prepare('SELECT garage_id FROM user_garage_loadout WHERE user_id=?').bind(userId).first(),
-    userEquipmentBonuses(env,userId),
+    userEquipmentBonuses(env,userId,{skillChips:skillChipsTask}),
     avatarFeatureAccess(env,{id:userId,role}),
     equippedAvatarEffect(env,userId),
-    skillChipPayload(env,userId)
+    skillChipsTask
   ]);
   const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
-  const equipmentStacks=instances.results.map(row=>({instanceId:Number(row.instance_id),quantity:Math.max(1,Number(row.quantity||1)),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)}));
-  const equipmentTotalQuantity=equipmentStacks.reduce((sum,row)=>sum+row.quantity,0);
-  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:equipmentStacks,equipmentTypeCount:equipmentStacks.length,equipmentTotalQuantity,loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar,skillChips};
+  const equipmentStacks=instances.results.map(row=>({instanceId:Number(row.instance_id),quantity:deferQuantities?null:Math.max(1,Number(row.quantity||1)),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)}));
+  const equipmentTotalQuantity=deferQuantities?null:equipmentStacks.reduce((sum,row)=>sum+row.quantity,0);
+  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:equipmentStacks,equipmentTypeCount:equipmentStacks.length,equipmentTotalQuantity,...(deferQuantities?{equipmentQuantitiesPending:true}:{}),loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar,skillChips};
 }
 
 async function adminSystemPayload(env){
@@ -736,7 +747,12 @@ export async function handleEquipment({path,request,env,deps}){
   const {authenticate,readBody,json,writeAdminLog}=deps;
   if(path.startsWith('character/skill-chips'))return handleSkillChips({path,request,env,deps});
   if(path==='character/loadout'&&request.method==='GET'){
-    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await characterPayload(env,user.id,{role:user.role}));
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await characterPayload(env,user.id,{role:user.role,deferQuantities:new URL(request.url).searchParams.get('quantities')==='deferred'}));
+  }
+  if(path==='character/equipment/quantities'&&request.method==='GET'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const after=Number(new URL(request.url).searchParams.get('after')||0);if(!Number.isSafeInteger(after)||after<0)return json({error:'수량 조회 위치를 확인하세요.'},400);
+    return json(await equipmentQuantities(env,user.id,after));
   }
   if(path==='character/title/sync'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);

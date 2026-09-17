@@ -18,8 +18,8 @@
   function request(path, init = {}) {
     if (typeof window.apiRequest !== 'function') return Promise.reject(new Error('서버 API 연결을 찾을 수 없습니다.'));
     const isLoadout = String(path) === 'character/loadout' && String(init.method || 'GET').toUpperCase() === 'GET';
-    const pending = window.apiRequest(path, init, isLoadout
-      ? { ttl: 10000, timeoutMs: 12000 }
+    const pending = window.apiRequest(isLoadout ? 'character/loadout?quantities=deferred' : path, init, isLoadout
+      ? { ttl: 0, timeoutMs: 12000 }
       : { timeoutMs: 20000 });
     return isLoadout ? pending.then(data => { window.applyAvatarFeatureState?.(data?.avatarFeature); return data; }) : pending;
   }
@@ -41,6 +41,19 @@
       forgePublicEntry: true,
       profile: profile() || { nickname: '플레이어' },
       request,
+      onLoad() {
+        // Collection scans start after the equipment is usable, once per mount.
+        if (titleSyncTimer) return;
+        titleSyncTimer = window.setTimeout(async () => {
+          if (!controller || !root.isConnected) return;
+          const current = controller;
+          try {
+            const result = await request('character/title/sync', { method: 'POST', body: '{}' });
+            const granted = Array.isArray(result?.granted) ? result.granted.length : Number(result?.granted || 0);
+            if (granted > 0 && controller === current && root.isConnected) await current.reload();
+          } catch (_) {}
+        }, 1000);
+      },
       onOpenAvatarShop() {
         if (typeof window.renderShell === 'function') window.renderShell('avatar');
       },
@@ -53,16 +66,6 @@
       }
     });
 
-    // Preserve the existing collection-title unlock synchronization. It runs
-    // once after the first paint and never blocks the loadout screen.
-    titleSyncTimer = window.setTimeout(async () => {
-      titleSyncTimer = 0;
-      if (!controller || !root.isConnected) return;
-      try {
-        const result = await request('character/title/sync', { method: 'POST', body: '{}' });
-        if (Number(result?.granted || 0) > 0 && root.isConnected) await controller.reload();
-      } catch (_) {}
-    }, 250);
   }
 
   window.addEventListener('cnine:route-will-change', event => {

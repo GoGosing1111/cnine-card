@@ -17,7 +17,7 @@ function createMockDb(responder) {
     bindings: [],
     bind(...values) { this.bindings = values; return this; },
     async first() { log.statements.push(sql); log.roundTrips += 1; return responder(sql, this.bindings, 'first'); },
-    async all() { log.statements.push(sql); log.roundTrips += 1; return { results: responder(sql, this.bindings, 'all') ?? [] }; },
+    async all() { log.statements.push(sql); log.roundTrips += 1; return { results: /^SELECT key,value FROM app_meta WHERE key IN/.test(sql) ? this.bindings.map(key=>({key,value:'1'})) : responder(sql, this.bindings, 'all') ?? [] }; },
     async run() { log.statements.push(sql); log.roundTrips += 1; return { meta: { changes: 1 } }; }
   });
   const db = {

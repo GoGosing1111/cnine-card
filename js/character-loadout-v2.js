@@ -58,6 +58,11 @@
       notice: null,
       noticeTimer: 0
     };
+    let destroyed = false;
+    let loadGeneration = 0;
+    let quantitiesLoading = false;
+    let quantitiesFailed = false;
+    let quantitiesCursor = 0;
     if (!TAB_LABELS[state.tab]) state.tab = 'equipment';
 
     const profile = options.profile || (typeof window.loadUser === 'function' ? window.loadUser() : null) || { nickname: '플레이어' };
@@ -134,8 +139,9 @@
       host.textContent = state.notice.message;
     }
 
+    const itemImage = item => window.SoopketmonEquipmentThumbnails?.[String(item?.image || '').replace(/\\/g,'/').replace(/^\.?\//,'').split(/[?#]/)[0]] || item?.image;
     const art = (item, eager = false) => item?.image
-      ? `<img class="clv2-art-image" src="${escapeHtml(resolveAsset(item.image))}" alt="${escapeHtml(item.name || '')}" loading="${eager ? 'eager' : 'lazy'}" decoding="async">`
+      ? `<img class="clv2-art-image" src="${escapeHtml(resolveAsset(itemImage(item)))}" alt="${escapeHtml(item.name || '')}" loading="${eager ? 'eager' : 'lazy'}" decoding="async">`
       : '<span class="clv2-art-empty" aria-hidden="true"></span>';
 
     function slotCard(slot) {
@@ -173,10 +179,11 @@
     function equipmentItem(row) {
       const item = row.item || {};
       const isBattleSuit = item.slot === BATTLE_SUIT_SLOT;
-      const quantity = Math.max(1, Number(row.quantity || 1));
+      const quantityKnown = Number.isFinite(row.quantity) || !state.data.equipmentQuantitiesPending;
+      const quantity = quantityKnown ? Math.max(0, Number(row.quantity ?? 1)) : null;
       return `<button type="button" class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}${isBattleSuit ? ' is-battle-suit' : ''}" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''}>
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
-        <div class="clv2-item-art clv2-inventory-art">${art(item)}<span class="clv2-item-quantity" aria-label="보유 수량 ${formatNumber(quantity)}개">×${formatNumber(quantity)}</span></div>
+        <div class="clv2-item-art clv2-inventory-art">${art(item)}<span data-equipment-quantity="${item.id}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
         <span class="clv2-item-copy"><strong>${escapeHtml(item.name || '이름 없음')}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small></span>
       </button>`;
@@ -203,10 +210,8 @@
 
     function inventoryPanel() {
       const rows = filteredEquipment();
-      const all = state.data?.instances || [];
-      const totalQuantity = Number(state.data?.equipmentTotalQuantity || all.reduce((sum, row) => sum + Math.max(1, Number(row.quantity || 1)), 0));
       return `<aside class="clv2-inventory-panel">
-        <header class="clv2-panel-heading"><span>OWNED EQUIPMENT</span><i>${formatNumber(all.length)}종 · ${formatNumber(totalQuantity)}개</i></header>
+        <header class="clv2-panel-heading"><span>OWNED EQUIPMENT</span><i data-equipment-total>${equipmentQuantityLabel()}</i></header>
         <div class="clv2-inventory-toolbar">
           <label class="clv2-search"><span>장비 검색</span><input type="search" value="${escapeHtml(state.search)}" placeholder="장비명 검색" data-equipment-search></label>
           <label><span>등급</span><select data-equipment-rarity><option value="ALL">전체 등급</option>${RARITY_ORDER.map((rarity) => `<option value="${rarity}"${state.rarity === rarity ? ' selected' : ''}>${RARITY_LABELS[rarity]}</option>`).join('')}</select></label>
@@ -457,6 +462,8 @@
       if (!target || !root.contains(target)) return;
       if (target.hasAttribute('data-open-avatar-shop')) {
         options.onOpenAvatarShop?.();
+      } else if (target.hasAttribute('data-quantities-retry')) {
+        void loadQuantities();
       } else if (target.dataset.tab) {
         state.tab = target.dataset.tab;
         const url = new URL(window.location.href);
@@ -496,9 +503,15 @@
     }
 
     async function load() {
+      const generation = ++loadGeneration;
+      quantitiesLoading = false;
+      quantitiesFailed = false;
+      quantitiesCursor = 0;
       root.innerHTML = '<div class="clv2-loading"><i></i><strong>장비 연결 중</strong><span>보유 장비와 장착 정보를 불러옵니다.</span></div>';
       try {
-        state.data = options.data ? structuredClone(options.data) : await request('character/loadout');
+        const data = options.data ? structuredClone(options.data) : await request('character/loadout');
+        if (destroyed || generation !== loadGeneration) return;
+        state.data = data;
         state.data.loadout ||= {};
         state.data.instances ||= [];
         state.data.titles ||= [];
@@ -507,9 +520,57 @@
         if (state.tab === 'skillChips' && state.data.skillChips?.visible !== true) state.tab = 'equipment';
         recalculate();
         render();
+        options.onLoad?.(state.data);
+        if (state.data.equipmentQuantitiesPending) void loadQuantities(generation);
       } catch (error) {
+        if (destroyed || generation !== loadGeneration) return;
         root.innerHTML = `<div class="clv2-load-error"><b>장비 정보를 불러오지 못했습니다.</b><span>${escapeHtml(error?.message || '잠시 후 다시 시도해 주세요.')}</span><button type="button" data-retry>다시 시도</button></div>`;
         root.querySelector('[data-retry]')?.addEventListener('click', load, { once: true });
+      }
+    }
+
+    function equipmentQuantityLabel() {
+      const count = formatNumber(state.data?.instances?.length || 0);
+      if (quantitiesFailed) return `${count}종 · <button type="button" data-quantities-retry>수량 다시 확인</button>`;
+      if (state.data?.equipmentQuantitiesPending) return `${count}종 · 수량 확인 중`;
+      const total = state.data?.equipmentTotalQuantity ?? (state.data?.instances || []).reduce((sum,row)=>sum+Math.max(1,Number(row.quantity||1)),0);
+      return `${count}종 · ${formatNumber(total)}개`;
+    }
+
+    async function loadQuantities(generation = loadGeneration) {
+      if (quantitiesLoading || destroyed) return;
+      quantitiesLoading = true;
+      quantitiesFailed = false;
+      try {
+        do {
+          const result = await request(`character/equipment/quantities${quantitiesCursor ? `?after=${quantitiesCursor}` : ''}`);
+          if (destroyed || generation !== loadGeneration) return;
+          if (!Array.isArray(result?.quantities) || result.quantities.some(row=>!Number.isSafeInteger(row.equipmentId)||!Number.isSafeInteger(row.quantity)||row.quantity<0)) throw new Error('수량 응답을 확인하세요.');
+          const next = result.nextEquipmentId ?? null;
+          if (next !== null && (!Number.isSafeInteger(next) || next <= quantitiesCursor)) throw new Error('수량 조회 위치를 확인하세요.');
+          const byId = new Map(result.quantities.map(row => [row.equipmentId, row.quantity]));
+          for (const row of state.data.instances) if (byId.has(Number(row.item.id))) row.quantity = byId.get(Number(row.item.id));
+          // Patch just the counters, preserving focus, scrolling and mutations.
+          root.querySelectorAll('[data-equipment-quantity]').forEach(node => {
+            const quantity = byId.get(Number(node.dataset.equipmentQuantity));
+            if (quantity === undefined) return;
+            node.textContent = `×${formatNumber(quantity)}`;
+            node.setAttribute('aria-label', `보유 수량 ${formatNumber(quantity)}개`);
+          });
+          quantitiesCursor = next;
+        } while (quantitiesCursor !== null);
+        for (const row of state.data.instances) if (!Number.isFinite(row.quantity)) row.quantity = 0;
+        state.data.equipmentTotalQuantity = state.data.instances.reduce((sum, row) => sum + row.quantity, 0);
+        state.data.equipmentQuantitiesPending = false;
+      } catch (_) {
+        if (destroyed || generation !== loadGeneration) return;
+        quantitiesFailed = true;
+      } finally {
+        if (!destroyed && generation === loadGeneration) {
+          quantitiesLoading = false;
+          const total = root.querySelector('[data-equipment-total]');
+          if (total) total.innerHTML = equipmentQuantityLabel();
+        }
       }
     }
 
@@ -523,6 +584,8 @@
       setTab(tab) { if (TAB_LABELS[tab] && (tab !== 'skillChips' || state.data?.skillChips?.visible === true)) { state.tab = tab; render(); } },
       getState() { return structuredClone(state.data); },
       destroy() {
+        destroyed = true;
+        loadGeneration++;
         window.clearTimeout(state.noticeTimer);
         root.removeEventListener('click', onClick);
         root.removeEventListener('change', onChange);
