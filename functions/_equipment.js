@@ -4,7 +4,7 @@ import { burningEventIsLive } from './_burning_event_access.js';
 import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_skill_chips.js';
 import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
 import {SZ_BODY_BY_CODE,ensureSzBodyEquipment} from './_battle_suit_sz_body.js';
-import {ensureZBodySwordAppearance} from './_battle_suit_z_sword.js';
+import {ensureZBodySwordAppearance,Z_SWORD_APPEARANCE_KEY} from './_battle_suit_z_sword.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
@@ -105,7 +105,7 @@ export async function ensureEquipmentFoundation(env){
     'safe_runtime_upgrade_v1490_new_equipment_drop_quarantine','safe_runtime_upgrade_v1338_garage_system',
     'safe_runtime_upgrade_v1533_territory_commander_title','safe_runtime_upgrade_v1953_project_v_battle_suits',
     'safe_runtime_upgrade_v1959_battle_suit_01_female','safe_runtime_upgrade_v1969_battle_suit_power_tiers',
-    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body'
+    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY
   ],async()=>{
     const markerV1231=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
     if(markerV1231?.value!=='1'){

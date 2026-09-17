@@ -9,6 +9,7 @@ import {BattleEngine} from '../preview/project-v-v3/source/battle/BattleEngine.j
 import {ZBodySwordAnimation} from '../preview/project-v-v3/source/battle/ZBodySwordAnimation.js';
 import {Z_SWORD,takeSwordBatch,swordPose,swordContactStop} from '../preview/project-v-v3/source/battle/ZBodySwordModel.mjs';
 import {ensureZBodySwordAppearance,Z_SWORD_IMAGE,Z_SWORD_APPEARANCE_KEY} from '../functions/_battle_suit_z_sword.js';
+import {ensureEquipmentFoundation} from '../functions/_equipment.js';
 import {JointSQLiteDB} from './helpers/joint-db.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PGlite} from '@electric-sql/pglite';
@@ -88,6 +89,28 @@ test('appearance migration is atomic, idempotent, and leaves S/H/stats/ownership
     const z=DB.sql.prepare("SELECT * FROM character_equipment_items WHERE code='BATTLE_SUIT_Z_BODY'").get();assert.equal(z.image_url,Z_SWORD_IMAGE);assert.equal(z.pve_power,777);assert.equal(z.is_active,0);
     assert.deepEqual(DB.sql.prepare("SELECT * FROM character_equipment_items WHERE code!='BATTLE_SUIT_Z_BODY' ORDER BY code").all(),untouched);
     assert.equal(DB.sql.prepare('SELECT value FROM app_meta WHERE key=?').get(Z_SWORD_APPEARANCE_KEY).value,'1');
+  }finally{DB.sql.close();}
+});
+
+test('an already initialized equipment catalog still applies the new Z appearance before taking the fast path',async()=>{
+  const DB=new JointSQLiteDB(),env={DB};
+  try{
+    DB.sql.exec('CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT); CREATE TABLE user_character_titles(expires_at TEXT); CREATE TABLE character_equipment_items(code TEXT PRIMARY KEY,slot TEXT,image_url TEXT,description TEXT,pve_power INTEGER,updated_at TEXT)');
+    const priorMarkers=[
+      'v1231_character_equipment_titles','v1232_character_title_styles','v1247_equipment_supply_box',
+      'v1274_supply_drop_quantity','v1473_mythic_equipment_unique','v1676_mythic_equipment_duplicates',
+      'v1488_prime_equipment_recall','v1489_infinity_weapon_recall','v1490_new_equipment_drop_quarantine',
+      'v1338_garage_system','v1533_territory_commander_title','v1953_project_v_battle_suits',
+      'v1959_battle_suit_01_female','v1969_battle_suit_power_tiers','v2066_h_body','v2124_sz_body'
+    ];
+    for(const marker of priorMarkers)DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run('safe_runtime_upgrade_'+marker);
+    DB.sql.prepare("INSERT INTO character_equipment_items(code,slot,image_url,pve_power) VALUES('BATTLE_SUIT_Z_BODY','BATTLE_SUIT','prior.png',9999999999)").run();
+    let writes=0;DB.afterCommit=()=>{writes++;};
+    await ensureEquipmentFoundation(env);
+    const row=DB.sql.prepare('SELECT image_url,pve_power FROM character_equipment_items').get();
+    assert.equal(row.image_url,Z_SWORD_IMAGE);assert.equal(row.pve_power,9999999999);assert.equal(writes,1);
+    assert.equal(DB.sql.prepare('SELECT value FROM app_meta WHERE key=?').get(Z_SWORD_APPEARANCE_KEY).value,'1');
+    await ensureEquipmentFoundation(env);await ensureEquipmentFoundation({DB});assert.equal(writes,1);
   }finally{DB.sql.close();}
 });
 
