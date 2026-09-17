@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {factionFixture} from './helpers/clan-faction-fixture.mjs';
 import {mutateFaction,factionOverview,handleClanFaction} from '../functions/_clan_faction.js';
-import {factionStrikeDamage,splitFactionTax} from '../functions/_clan_faction_model.js';
-import {FACTION_RULES as R} from '../shared/clan-faction-rules-v1.mjs';
+import {factionStrikeDamage,splitFactionTax,newFactionState,accrueFactionTax} from '../functions/_clan_faction_model.js';
+import {FACTION_RULES as R,FACTION_TAX_CHANGE} from '../shared/clan-faction-rules-v1.mjs';
 const call=(f,kind,body={},user=f.user)=>mutateFaction(f.env,f.season,user,kind,{requestId:crypto.randomUUID(),...body},f.deps);
 const formation={attack1:[1,2,3],attack2:[4,5],defense1:[6,7,8],defense2:[9,10]};
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} ACTIVE faction season opens before the first regular match`,async t=>{
@@ -42,6 +42,8 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} facti
   await assert.rejects(call(f,'formation',{formation}),/교전/);
   await assert.rejects(call(f,'strike',{battleId:invasion.battleId},other),/편성된/);
   const strike={requestId:'faction-strike-same-key',battleId:invasion.battleId,damage:999999999};
+  await assert.rejects(call(f,'strike',strike,t1),/먼저 입장/);assert.equal(f.buildCalls(),0);
+  await call(f,'enter',{battleId:invasion.battleId},t1);
   const hit=await call(f,'strike',strike,t1);assert.equal(hit.damage,150000);assert.equal(hit.defenderHp,850000);assert.equal(f.buildCalls(),1);
   assert.equal((await call(f,'strike',strike,t1)).replayed,true);assert.equal(f.buildCalls(),1);
   await assert.rejects(call(f,'strike',{battleId:invasion.battleId},t1),/다음 교전/);
@@ -67,19 +69,66 @@ test('simultaneous launch and finishing hits use compare-and-swap',async t=>{
   const row=await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first(),s=JSON.parse(row.state_json);s.battles[0].defenderHp=100000;
   await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',JSON.stringify(s)).run();
   const ids=s.battles[0].attackers.slice(0,2),users=await Promise.all(ids.map(id=>f.p('SELECT * FROM users WHERE id=?',id).first()));
+  await Promise.all(users.map(u=>call(f,'enter',{battleId:battle.battleId},u)));
   const hits=await Promise.allSettled(users.map(u=>call(f,'strike',{battleId:battle.battleId},u)));
   assert.equal(hits.filter(r=>r.status==='fulfilled').length,1);
   const view=await factionOverview(f.env,f.season,f.user,f.deps);assert.equal(view.events.filter(e=>e.kind==='CAPTURE'&&e.districtId==='11680').length,1);
 });
 test('claim retry, season cutoff and real V3 normalized HP including mercenaries',async t=>{
   const f=await factionFixture({seeded:true,realBattle:true});t.after(()=>f.close());
-  const b=await call(f,'launch',{districtId:'11680',squad:'attack1'}),hit=await call(f,'strike',{battleId:b.battleId});
+  const b=await call(f,'launch',{districtId:'11680',squad:'attack1'});await call(f,'enter',{battleId:b.battleId});const hit=await call(f,'strike',{battleId:b.battleId});
   assert.equal(hit.battleV2.engine,'BATTLE_ENGINE_V2_PVP');assert.equal(hit.battleV2.teams.A.cards.length,5);assert.ok(hit.damage>=0&&hit.damage<=150000);
   const healthy={teams:{B:{cards:[{maxHp:100}],mercenaries:[{maxHp:100}]}},result:{final:{B:[{hp:100}],mercenaries:{B:[{hp:100}]}}}};
   assert.equal(factionStrikeDamage(healthy),0);healthy.result.final.B[0].hp=0;assert.equal(factionStrikeDamage(healthy),75000);
   f.clock.now=Date.parse(f.season.ends_at)+100000;const ended=await factionOverview(f.env,f.season,f.user,f.deps);assert.equal(ended.battles[0].status,'COMPLETED');
   f.clock.now+=86400000;assert.equal((await factionOverview(f.env,f.season,f.user,f.deps)).tax.pool,ended.tax.pool);
   assert.deepEqual(splitFactionTax(10,[3,1,2]),[{userId:1,amount:4},{userId:2,amount:3},{userId:3,amount:3}]);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} ordinary attackers and defenders enter and fight independently`,async t=>{
+  const f=await factionFixture({postgres,seeded:true});t.after(()=>f.close());
+  // Commander is deliberately not in the dispatched squad.
+  await call(f,'formation',{formation:{...formation,attack1:[2,3]}});
+  const b=await call(f,'launch',{districtId:'11680',squad:'attack1'});
+  const attacker=await f.p('SELECT * FROM users WHERE id=2').first(),defender=await f.p('SELECT * FROM users WHERE id=106').first();
+  for(const [user,side] of [[attacker,'ATTACK'],[defender,'DEFENSE']]){
+    const a=await factionOverview(f.env,f.season,user,f.deps,{alertsOnly:true});assert.equal(a.alerts[0].side,side);
+    assert.equal((await factionOverview(f.env,f.season,user,f.deps)).alerts[0].side,side);
+    await assert.rejects(call(f,'strike',{battleId:b.battleId},user),/먼저 입장/);
+  }
+  assert.equal((await factionOverview(f.env,f.season,f.user,f.deps,{alertsOnly:true})).alerts.length,0);
+  await assert.rejects(call(f,'enter',{battleId:b.battleId},f.user),/편성된/);
+  const entry={battleId:b.battleId,requestId:'entry-retry-once'};
+  f.setFailure('INSERT INTO clan_faction_receipts');await assert.rejects(call(f,'enter',entry,attacker),/INJECTED/);f.setFailure('');
+  assert.deepEqual((await factionOverview(f.env,f.season,attacker,f.deps)).battles[0].entries,{});
+  const entered=await call(f,'enter',entry,attacker);assert.equal(entered.side,'ATTACK');
+  assert.equal((await call(f,'enter',entry,attacker)).replayed,true);
+  f.clock.now+=1000;assert.equal((await call(f,'enter',{battleId:b.battleId},attacker)).enteredAt,entered.enteredAt);
+  let view=await factionOverview(f.env,f.season,attacker,f.deps);assert.equal(view.strikeReady,0);assert.equal(view.battles[0].defenderHp,R.sharedHp);
+  assert.equal(view.battles[0].entries[3],undefined);assert.equal(f.buildCalls(),0);
+  await call(f,'enter',{battleId:b.battleId},defender);
+  const hits=await Promise.all([call(f,'strike',{battleId:b.battleId},attacker),call(f,'strike',{battleId:b.battleId},defender)]);
+  assert.deepEqual(hits.map(h=>h.side),['ATTACK','DEFENSE']);
+  view=await factionOverview(f.env,f.season,attacker,f.deps);
+  assert.equal(view.battles[0].attackerHp,850000);assert.equal(view.battles[0].defenderHp,850000);
+  assert.equal(view.battles[0].entries[2].hits,1);assert.equal(view.battles[0].entries[106].damage,150000);assert.equal(view.battles[0].entries[3],undefined);
+  await f.p('UPDATE clan_members SET clan_id=3 WHERE user_id=2 AND season_id=7').run();
+  await assert.rejects(call(f,'enter',{battleId:b.battleId},attacker),/편성된/);
+  await assert.rejects(call(f,'strike',{battleId:b.battleId},attacker),/편성된/);
+  assert.equal((await factionOverview(f.env,f.season,attacker,f.deps,{alertsOnly:true})).alerts.length,0);
+  f.clock.now+=R.battleDurationMs;await assert.rejects(call(f,'enter',{battleId:b.battleId},defender),/종료/);
+});
+
+test('50 million hourly district tax preserves old accrual and exact millisecond remainders',()=>{
+  const cut=FACTION_TAX_CHANGE.at,hour=3600000,s=newFactionState(cut-hour);
+  s.districts[0].owner=1;s.pools[1]=17;
+  accrueFactionTax(s,cut+hour);assert.equal(s.pools[1],51000017);assert.equal(s.districts[0].taxRemainder,0);
+  const whole=newFactionState(cut),parts=newFactionState(cut);whole.districts[0].owner=parts.districts[0].owner=1;
+  const end=cut+14*86400000+12345;accrueFactionTax(whole,end);
+  for(const n of [1,123,100001,86400001,14*86400000,14*86400000+12345])accrueFactionTax(parts,cut+n);
+  assert.equal(whole.pools[1],parts.pools[1]);assert.equal(whole.districts[0].taxRemainder,parts.districts[0].taxRemainder);
+  const numerator=BigInt(end-cut)*50000000n;assert.equal(whole.pools[1],Number(numerator/3600000n));assert.equal(whole.districts[0].taxRemainder,Number(numerator%3600000n));
+  const old=newFactionState(cut-3*hour);old.districts[0].owner=1;accrueFactionTax(old,cut-hour);assert.equal(old.pools[1],2000000);
 });
 test('simultaneous identical claim pays once and archived season remains collectable',async t=>{
   const f=await factionFixture({seeded:true});t.after(()=>f.close());

@@ -23,12 +23,13 @@ try{
   await page.screenshot({path:out+'/regular-'+label+'.png'});
   await page.locator('[data-clan-tab="faction"]').first().click();await page.locator('[data-fw-tab="map"]').first().click();await page.locator('.fw-zone').first().waitFor();
   await page.locator('[data-fw-zone="11680"]').click();await page.locator('[data-fw-launch]').click();await page.locator('.fw-conflict-detail').waitFor();check(true,label+' launch opens shared HP engagement');
-  await page.locator('[data-fw-strike]').click();await page.locator('.review-battle-result').waitFor();await page.locator('.review-battle-result button').click();await page.locator('.fw-notice').filter({hasText:'공유 HP'}).waitFor();check(true,label+' server V3 result applied and returned');
+  await page.locator('[data-fw-room-strike]').click();await page.locator('.review-battle-result').waitFor();await page.locator('.review-battle-result button').click();await page.locator('.fw-notice').filter({hasText:'공유 HP'}).waitFor();check(true,label+' server V3 result applied and returned');
+  await page.locator('.fw-battle-room [data-fw-room-close]').first().click();
   await page.locator('.fw-map-panel').scrollIntoViewIfNeeded();await page.screenshot({path:out+'/map-'+label+'.png'});
   await page.locator('#review-invasion').click();await page.locator('.fw-invasion-alert[open]').waitFor({timeout:15000});
   check((await page.locator('.fw-invasion-alert').textContent()).includes('T1 지휘관'),label+' invader clan and name shown');
   const box=await page.locator('.fw-invasion-alert').boundingBox();check(box.x>=0&&box.x+box.width<=viewport.width&&box.y>=0&&box.y+box.height<=viewport.height,label+' alert fits viewport');
-  await page.screenshot({path:out+'/alert-'+label+'.png'});await page.locator('[data-fw-defend]').click();await page.locator('.fw-detail h2').filter({hasText:'마포구'}).waitFor();check(true,label+' alert enters correct district');
+  await page.screenshot({path:out+'/alert-'+label+'.png'});await page.locator('[data-fw-defend]').click();await page.locator('.fw-battle-room h2').filter({hasText:'마포구'}).waitFor();check(true,label+' alert directly enters battle room');
   await page.close();
  }
  check(errors.length===0,'No browser JS errors: '+errors.join('; '));

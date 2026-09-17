@@ -178,8 +178,8 @@ test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한�
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
   assert.match(html,/clan-v1\.css\?v=2123-draft-1h-30s/);
   assert.match(html,/clan-command-v1\.css\?v=2127/);
-  assert.match(html,/clan-faction-v1\.css\?v=2127/);
-  assert.match(html,/clan-v1\.js\?v=2127-faction/);
+  assert.match(html,/clan-faction-v1\.css\?v=2128/);
+  assert.match(html,/clan-v1\.js\?v=2128-faction/);
 });
 
 test('조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설정으로 제한한다',()=>{

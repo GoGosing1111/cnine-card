@@ -1,4 +1,4 @@
-import { DISTRICTS, SQUADS, FACTION_RULES as R } from '../shared/clan-faction-rules-v1.mjs';
+import { DISTRICTS, SQUADS, FACTION_RULES as R, FACTION_TAX_CHANGE } from '../shared/clan-faction-rules-v1.mjs';
 
 export const factionFail = (message, status = 409) => { throw Object.assign(new Error(message), {status}); };
 export function newFactionState(now) {
@@ -12,9 +12,12 @@ export function accrueFactionTax(state, now) {
   for (const d of state.districts) {
     const elapsed = Math.max(0, now - d.taxAt);
     if (d.owner && elapsed) {
-      const numerator = elapsed * R.taxPerHour + d.taxRemainder;
-      state.pools[d.owner] = (state.pools[d.owner] || 0) + Math.floor(numerator / 3600000);
-      d.taxRemainder = numerator % 3600000;
+      const oldMs = Math.max(0, Math.min(now, FACTION_TAX_CHANGE.at) - d.taxAt);
+      // Millisecond accrual can exceed Number's exact range at the new hourly rate.
+      const numerator = BigInt(oldMs) * BigInt(FACTION_TAX_CHANGE.previousPerHour)
+        + BigInt(elapsed - oldMs) * BigInt(R.taxPerHour) + BigInt(d.taxRemainder || 0);
+      state.pools[d.owner] = (state.pools[d.owner] || 0) + Number(numerator / 3600000n);
+      d.taxRemainder = Number(numerator % 3600000n);
     }
     d.taxAt = Math.max(d.taxAt, now);
   }

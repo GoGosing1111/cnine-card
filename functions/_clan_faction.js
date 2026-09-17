@@ -45,6 +45,12 @@ function formationOf(state,ctx,clanId){
 // starts_at belongs to the first scheduled regular match. The completed draft
 // opens this independent mode immediately for the ACTIVE season.
 const activeSeason=(s,now)=>s.phase==='ACTIVE'&&now<date(s.ends_at);
+function battleSide(b,clanId,userId){
+  return b.attacker===clanId&&b.attackers.includes(userId)?'ATTACK':b.defender===clanId&&b.defenders.includes(userId)?'DEFENSE':'';
+}
+function battleAlert(b,clanId,userId){
+  return {id:b.id,districtId:b.districtId,districtName:districtById(b.districtId)?.name,side:battleSide(b,clanId,userId),attackerClan:b.attackerName||'상대 클랜',attackerName:b.initiatorName,startedAt:b.startedAt,endsAt:b.endsAt,attackerHp:b.attackerHp,defenderHp:b.defenderHp};
+}
 async function pendingSeasons(env,current,user,now){
   const past=rows(await env.DB.prepare(`SELECT f.state_json,s.id,s.season_no,s.ends_at,m.clan_id FROM clan_faction_state f
     JOIN clan_seasons s ON s.id=f.season_id JOIN clan_members m ON m.season_id=s.id AND m.user_id=?
@@ -58,13 +64,13 @@ export async function factionOverview(env,season,user,deps,{alertsOnly=false}={}
       env.DB.prepare('SELECT state_json FROM clan_faction_state WHERE season_id=?').bind(season.id).first(),
       env.DB.prepare('SELECT clan_id FROM clan_members WHERE season_id=? AND user_id=?').bind(season.id,user.id).first()]);
     const battles=row?JSON.parse(row.state_json).battles:[];
-    const alerts=activeSeason(season,now)&&m?battles.filter(b=>b.status==='ACTIVE'&&b.endsAt>now&&b.defender===Number(m.clan_id)&&b.defenders.includes(Number(user.id))).map(b=>({id:b.id,districtId:b.districtId,districtName:districtById(b.districtId)?.name,attackerClan:b.attackerName||'상대 클랜',attackerName:b.initiatorName,startedAt:b.startedAt,endsAt:b.endsAt,attackerHp:b.attackerHp,defenderHp:b.defenderHp})):[];
+    const alerts=activeSeason(season,now)&&m?battles.filter(b=>b.status==='ACTIVE'&&b.endsAt>now&&battleSide(b,Number(m.clan_id),Number(user.id))).map(b=>battleAlert(b,Number(m.clan_id),Number(user.id))):[];
     return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now};
   }
   const now=nowOf(deps),[stored,ctx,wallet]=await Promise.all([readState(env,season,now),context(env,season,user),env.DB.prepare('SELECT balance,total_earned FROM clan_faction_wallets WHERE user_id=?').bind(user.id).first()]);
   const state=stored.state,mine=ctx.mine?.clanId||0;
   const battles=state.battles.map(b=>({...b,attackers:b.attackers.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.attacker)),defenders:b.defenders.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.defender))}));
-  const alerts=battles.filter(b=>b.status==='ACTIVE'&&b.defender===mine&&b.defenders.includes(Number(user.id))).map(b=>({id:b.id,districtId:b.districtId,districtName:districtById(b.districtId)?.name,attackerClan:ctx.clans.find(c=>c.clanId===b.attacker)?.name||'상대 클랜',attackerName:b.initiatorName,startedAt:b.startedAt,endsAt:b.endsAt,attackerHp:b.attackerHp,defenderHp:b.defenderHp}));
+  const alerts=activeSeason(season,now)?battles.filter(b=>b.status==='ACTIVE'&&battleSide(b,mine,Number(user.id))).map(b=>battleAlert(b,mine,Number(user.id))):[];
   if(alertsOnly)return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now};
   return {ok:true,serverNow:now,revision:Number(stored.revision),season:{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,endsAt:date(season.ends_at),active:activeSeason(season,now)},
     userId:Number(user.id),mine:mine?{clanId:mine,isMaster:ctx.isMaster}:null,clans:ctx.clans,roster:ctx.roster.filter(m=>m.clanId===mine),formation:formationOf(state,ctx,mine),
@@ -84,7 +90,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
   if(!/^[A-Za-z0-9:_-]{8,120}$/.test(String(body.requestId||'')))fail('요청 키가 올바르지 않습니다.',400);
   const key=`${user.id}:${body.requestId}`,clean={...body};delete clean.requestId;
   const input=JSON.stringify(clean),old=await receipt(env,key,user,kind,input);if(old)return old;
-  if(!['formation','garrison','launch','strike','collect'].includes(kind))fail('지원하지 않는 세력전 작업입니다.',404);
+  if(!['formation','garrison','launch','enter','strike','collect'].includes(kind))fail('지원하지 않는 세력전 작업입니다.',404);
   let computed=null;
   for(let attempt=0;attempt<5;attempt++){
     const now=nowOf(deps),[row,ctx]=await Promise.all([readState(env,season,now),context(env,season,user)]),state=row.state;
@@ -118,15 +124,22 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
       if((state.targetReady[`${clanId}:${d.id}`]||0)>now)fail('같은 지역의 재공격 대기 중입니다.');
       const defenders=formationOf(state,ctx,d.owner)[d.defense]||[];
       const b={id:token,districtId:d.id,attacker:clanId,attackerName:ctx.clans.find(c=>c.clanId===clanId)?.name,defender:d.owner,squad,defenseSquad:d.defense,attackers:[...formation[squad]],defenders:[...defenders],initiator:userId,initiatorName:ctx.mine.nickname,
-        attackerHp:R.sharedHp,defenderHp:R.sharedHp,status:'ACTIVE',startedAt:now,endsAt:Math.min(now+R.battleDurationMs,date(season.ends_at))};
+        attackerHp:R.sharedHp,defenderHp:R.sharedHp,entries:{},status:'ACTIVE',startedAt:now,endsAt:Math.min(now+R.battleDurationMs,date(season.ends_at))};
       state.battles.unshift(b);Object.assign(result,{battleId:b.id,districtId:d.id});
       if(!d.owner||!defenders.length){finishFactionBattle(state,b,clanId,'UNDEFENDED',now);result.captured=true;}
       else factionEvent(state,{id:token,kind:'INVASION',districtId:d.id,clanId,attacker:clanId,defender:d.owner,by:ctx.mine.nickname,at:now});
     }
+    if(kind==='enter'){
+      const b=state.battles.find(b=>b.id===body.battleId&&b.status==='ACTIVE');if(!b)fail('종료됐거나 찾을 수 없는 교전입니다.');
+      const side=battleSide(b,clanId,userId);if(!side)fail('이 전투에 편성된 공격대·방어대만 입장할 수 있습니다.',403);
+      b.entries||={};b.entries[userId]||={enteredAt:now,hits:0,damage:0,lastStrikeAt:0};
+      Object.assign(result,{battleId:b.id,districtId:b.districtId,side,enteredAt:b.entries[userId].enteredAt});
+    }
     if(kind==='strike'){
       const b=state.battles.find(b=>b.id===body.battleId&&b.status==='ACTIVE');if(!b)fail('종료됐거나 찾을 수 없는 교전입니다.');
-      const side=b.attacker===clanId&&b.attackers.includes(userId)?'ATTACK':b.defender===clanId&&b.defenders.includes(userId)?'DEFENSE':'';
+      const side=battleSide(b,clanId,userId);
       if(!side)fail('이 전투에 편성된 공격대·방어대만 교전할 수 있습니다.',403);
+      if(!b.entries?.[userId])fail('전투 팝업에 먼저 입장한 뒤 교전하세요.',403);
       if((state.strikeReady[userId]||0)>now)fail('다음 교전까지 잠시 기다려 주세요.');
       const enemyClan=side==='ATTACK'?b.defender:b.attacker;
       const ids=(side==='ATTACK'?b.defenders:b.attackers).filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===enemyClan));
@@ -141,8 +154,9 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
       if(computed.battleId!==b.id||!ids.includes(computed.opponent.id))fail('상대 편성이 변경됐습니다. 다시 교전하세요.');
       const field=side==='ATTACK'?'defenderHp':'attackerHp',damage=Math.min(b[field],computed.damage);
       b[field]=Math.max(0,b[field]-damage);state.strikeReady[userId]=now+R.strikeCooldownMs;
+      b.entries[userId].hits++;b.entries[userId].damage+=damage;b.entries[userId].lastStrikeAt=now;
       if(b[field]===0)finishFactionBattle(state,b,clanId,'HP_ZERO',now);
-      Object.assign(result,computed,{damage,battleId:b.id,side,attackerHp:b.attackerHp,defenderHp:b.defenderHp,captured:b.status==='COMPLETED'&&b.winner===b.attacker,battleCompleted:b.status==='COMPLETED',winner:b.winner||0,result:computed.battleV2.result.winner==='A'?'WIN':'LOSE'});
+      Object.assign(result,computed,{damage,battleId:b.id,districtId:b.districtId,side,attackerHp:b.attackerHp,defenderHp:b.defenderHp,captured:b.status==='COMPLETED'&&b.winner===b.attacker,battleCompleted:b.status==='COMPLETED',winner:b.winner||0,result:computed.battleV2.result.winner==='A'?'WIN':'LOSE'});
     }
     if(kind==='collect'){
       if(mode!=='ON')fail('TEST 모드에서는 징수코인을 지급하지 않습니다.');

@@ -2,8 +2,10 @@
 export const FACTION_RULES = Object.freeze({
   protectionMs: 2 * 3600000, squadCooldownMs: 10 * 60000, targetCooldownMs: 30 * 60000,
   strikeCooldownMs: 60000, battleDurationMs: 30 * 60000, sharedHp: 1000000,
-  taxPerHour: 1000000, squadSize: 5, strikeMaxFraction: 0.15,
+  taxPerHour: 50000000, squadSize: 5, strikeMaxFraction: 0.15,
 });
+// Request-time cutover: old, uncollected seasons must not be repriced retroactively.
+export const FACTION_TAX_CHANGE = Object.freeze({at: Date.parse('2026-09-17T12:50:00Z'), previousPerHour: 1000000});
 export const SQUADS = Object.freeze([
   { id: 'attack1', name: '제1 공격대', role: 'ATTACK' },
   { id: 'attack2', name: '제2 공격대', role: 'ATTACK' },
