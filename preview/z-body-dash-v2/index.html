@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Z-BODY · 고속 돌진 검격</title><link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#081120;color:#ecf3ff;font:14px system-ui,"Malgun Gothic",sans-serif}
+header{border-bottom:1px solid #2c3e55;background:#101d30;padding:13px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+h1{font-size:19px;margin:0;letter-spacing:-.6px}h1 span{font-size:11px;color:#b8ceea;display:block;letter-spacing:1.4px;margin-bottom:4px}
+.note{color:#a8bdd4;font-size:12px;margin:0}.note strong{color:#dbff8a}
+.controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-left:auto}
+button,select{font:inherit;color:inherit;background:#1a2b43;border:1px solid #354c67;border-radius:6px;min-height:38px;padding:8px 12px;cursor:pointer}
+button:disabled{opacity:.45;cursor:wait}button[aria-pressed=true]{color:#d0ff6c;border-color:#b8f74d;background:#273d24}
+button.primary{background:#c8f86b;color:#14230a;border-color:#c8f86b;font-weight:800}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid #d0ff6c;outline-offset:3px}
+.toolbar{padding:9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid #283b54}
+label{display:flex;align-items:center;gap:6px;color:#adc4df;font-size:12px}
+#state{color:#d7fda6;margin-left:auto;font-size:12px}
+iframe{border:0;width:100%;height:calc(100dvh - 190px);min-height:520px;display:block;background:#08111a}
+details{padding:10px 20px;border-top:1px solid #263b55;color:#a9bdd5;font-size:12px}summary{cursor:pointer}
+.checks{display:flex;gap:8px;flex-wrap:wrap;padding:12px 0}input[type=range]{width:210px}
+output{display:block;white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.5 Consolas,monospace}
+@media(max-width:600px){header{padding:11px 12px;gap:10px}.controls{margin-left:0;width:100%}.controls button{flex:1}h1{font-size:17px}.toolbar{padding:8px 12px}button{font-size:12px;padding:8px 10px}#state{width:100%;margin:0}iframe{height:calc(100dvh - 240px);min-height:495px}details{padding:10px 12px}}
+</style></head><body>
+<header><h1><span>BATTLE SUIT / Z-BODY</span>고속 돌진 검격</h1><p class="note">첫 타격 <strong>0.245초</strong> · 복귀 <strong>0.64초</strong></p>
+<div class="controls"><button id="new" aria-pressed="true" disabled>개선 모션</button><button id="old" aria-pressed="false" disabled>기존 비교</button><button class="primary" id="dash" disabled>돌진 검격</button><button id="area" disabled>광역기</button></div></header>
+<div class="toolbar"><button id="repeat" aria-pressed="false" disabled>반복 재생</button><button id="pause" disabled>일시정지</button><button id="resume" disabled>재개</button><button id="cancel" disabled>중단·복귀</button>
+<label>속도 <select id="speed"><option value=".25">0.25×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label><span id="state" aria-live="polite">전장 준비 중</span></div>
+<iframe src="battle.html" title="실제 V3 전장 · Z바디 돌진 검격"></iframe>
+<details><summary>재생·충돌 검수</summary><div class="checks"><button id="travel" disabled>돌진 순간</button><button id="contact" disabled>타격 순간</button><button id="run" disabled>서버 타임라인 검증</button><label>동작 탐색 <input id="seek" type="range" min="0" max="639" value="0"></label></div><output id="health">엔진 로딩 중</output><output id="result"></output></details>
+</body></html>

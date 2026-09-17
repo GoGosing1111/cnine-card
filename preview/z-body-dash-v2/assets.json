@@ -1,0 +1,428 @@
+{
+  "version": "Z_DASH_V2",
+  "status": "USER_REVIEW_PENDING",
+  "generator": "built-in image_gen",
+  "packaging": "Sharp 0.35.2: cell extraction, uniform resizing, transparent padding only. No repainting or alpha keying.",
+  "atlases": {
+    "wake": {
+      "url": "/preview/z-body-dash-v2/assets/wake-atlas.png",
+      "columns": 4,
+      "rows": 3,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "pivot": {
+        "x": 420,
+        "y": 256
+      },
+      "frames": [
+        {
+          "id": 0,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 303,
+            "y": 214
+          },
+          "packedOffset": {
+            "x": 111,
+            "y": 38
+          },
+          "uniformScale": 1.02,
+          "sha256": "3fe37884c2979ee06ca2a9b0c0c43ab35c09b76cb6302877cdb68680dae81d29"
+        },
+        {
+          "id": 1,
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 295,
+            "y": 220
+          },
+          "packedOffset": {
+            "x": 119,
+            "y": 32
+          },
+          "uniformScale": 1.02,
+          "sha256": "6b7685590f49b668c1aa5d7e6f72c8377bf65ec276d58de426044bb4f6588cbb"
+        },
+        {
+          "id": 2,
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 298,
+            "y": 217
+          },
+          "packedOffset": {
+            "x": 116,
+            "y": 35
+          },
+          "uniformScale": 1.02,
+          "sha256": "15adc362a21e3cc2c1705c3de5d8ec53bcb76f9c7e4b992015217429416fb0bf"
+        },
+        {
+          "id": 3,
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 309,
+            "y": 212
+          },
+          "packedOffset": {
+            "x": 105,
+            "y": 40
+          },
+          "uniformScale": 1.02,
+          "sha256": "cc2ebfe3784a2e75829d093e4ab4e42139842454fb9b9a8ea093dd8024a5931e"
+        },
+        {
+          "id": 4,
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 294,
+            "y": 189
+          },
+          "packedOffset": {
+            "x": 120,
+            "y": 63
+          },
+          "uniformScale": 1.02,
+          "sha256": "901ee1e1c2fd0fcc398ff0bf271b6c3811564ccb6be140bf6fe93268cd81c243"
+        },
+        {
+          "id": 5,
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 295,
+            "y": 184
+          },
+          "packedOffset": {
+            "x": 119,
+            "y": 68
+          },
+          "uniformScale": 1.02,
+          "sha256": "34ba8d9d6ca450ba5f5255a4e9ebf964a66e72f8883c75916d5b6878844bb6c8"
+        },
+        {
+          "id": 6,
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 303,
+            "y": 193
+          },
+          "packedOffset": {
+            "x": 111,
+            "y": 59
+          },
+          "uniformScale": 1.02,
+          "sha256": "85f32f6aaea62da3fd6f6a2f37b24a057cafb86ee4d45821d3158d8cf3d1fdc4"
+        },
+        {
+          "id": 7,
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 295,
+            "y": 193
+          },
+          "packedOffset": {
+            "x": 119,
+            "y": 59
+          },
+          "uniformScale": 1.02,
+          "sha256": "c05c59b03bb2636ebf5eb980a736709ae1ab9fba892277ea6c6a83a8eb40c4c1"
+        },
+        {
+          "id": 8,
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 302,
+            "y": 193
+          },
+          "packedOffset": {
+            "x": 112,
+            "y": 59
+          },
+          "uniformScale": 1.02,
+          "sha256": "c0171905e2543a88ab6f7ed09c191c408f449c06a032622997653ca4aa47c417"
+        },
+        {
+          "id": 9,
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 301,
+            "y": 187
+          },
+          "packedOffset": {
+            "x": 113,
+            "y": 65
+          },
+          "uniformScale": 1.02,
+          "sha256": "0985f672022faf51a776bc298bd34e3f77454dd1c4485b1e51447c182f0bbf4b"
+        },
+        {
+          "id": 10,
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 301,
+            "y": 194
+          },
+          "packedOffset": {
+            "x": 113,
+            "y": 58
+          },
+          "uniformScale": 1.02,
+          "sha256": "014d818f58b0c3692d0beb670e287d09b0dc264a672686bb38f4d37ca5d83d1d"
+        },
+        {
+          "id": 11,
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sourcePivot": {
+            "x": 295,
+            "y": 195
+          },
+          "packedOffset": {
+            "x": 119,
+            "y": 57
+          },
+          "uniformScale": 1.02,
+          "sha256": "683aff7bc98bc2bd20cf42813d11ca230017e05489e8da31952b185580611283"
+        }
+      ],
+      "sha256": "52b6bf7c64f011bd181420092a47f622ffe69ad34fbf877f08995f163f12683a",
+      "source": {
+        "file": "assets/wake-source.png",
+        "sha256": "0a0c63ae242f34d2dcccfc615dabaf85bab5b8c1161704cf5e2a1a6391ef5a62",
+        "width": 1448,
+        "height": 1086
+      }
+    },
+    "cut": {
+      "url": "/preview/z-body-dash-v2/assets/cut-atlas.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "pivot": {
+        "x": 256,
+        "y": 256
+      },
+      "frames": [
+        {
+          "id": 0,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "sourcePivot": {
+            "x": 222,
+            "y": 222
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9594594594594594,
+          "sha256": "86d029c96ed135973cf27ceea3b3175785e8f7ce08a67ed664307fb5ddf302cb"
+        },
+        {
+          "id": 1,
+          "sourceRect": {
+            "x": 444,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "sourcePivot": {
+            "x": 221.5,
+            "y": 222
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9594594594594594,
+          "sha256": "e06b23644a2af6d3f523b823d9b1be14ca83958d42bb887d3bfcb6c3284e9398"
+        },
+        {
+          "id": 2,
+          "sourceRect": {
+            "x": 887,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "sourcePivot": {
+            "x": 222,
+            "y": 222
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9594594594594594,
+          "sha256": "ed5fdda2ed79374fe03d1fd0abf84748fbbe3a204d693f6a218cba31eb1fe71f"
+        },
+        {
+          "id": 3,
+          "sourceRect": {
+            "x": 1331,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "sourcePivot": {
+            "x": 221.5,
+            "y": 222
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9594594594594594,
+          "sha256": "9c38ab8fd088983aea75a76ea6157ac00f4183a262990bd86e1db2747247f8c8"
+        },
+        {
+          "id": 4,
+          "sourceRect": {
+            "x": 0,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "sourcePivot": {
+            "x": 222,
+            "y": 221.5
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9594594594594594,
+          "sha256": "bede67cfc9fe114e5423ea41f1218005bed3ac139d809c0cc0f3b38bce12db21"
+        },
+        {
+          "id": 5,
+          "sourceRect": {
+            "x": 444,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "sourcePivot": {
+            "x": 221.5,
+            "y": 221.5
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9616252821670429,
+          "sha256": "601d9df25260bf90c1dab1dbd6654913f402fe485a3b326b8a631a07c6bc5707"
+        },
+        {
+          "id": 6,
+          "sourceRect": {
+            "x": 887,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "sourcePivot": {
+            "x": 222,
+            "y": 221.5
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9594594594594594,
+          "sha256": "8d915680efd73fa271140c8bbc4c595ebca330a4fc03019f958799505d9d175f"
+        },
+        {
+          "id": 7,
+          "sourceRect": {
+            "x": 1331,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "sourcePivot": {
+            "x": 221.5,
+            "y": 221.5
+          },
+          "packedOffset": {
+            "x": 43,
+            "y": 43
+          },
+          "uniformScale": 0.9616252821670429,
+          "sha256": "55385def3b96cd11774b11f4b667f40dc2f9e6b096735c980388ec0ae0768466"
+        }
+      ],
+      "sha256": "a7b20a3697a496a2e4df6e52ea453bbf0ef434d8017277a8805ee766591e9621",
+      "source": {
+        "file": "assets/cut-source.png",
+        "sha256": "3cd2b4ecc73582654eb614bae1c655ea2a35f28e76cdd22713cda8a034c72b2a",
+        "width": 1774,
+        "height": 887
+      }
+    }
+  }
+}
