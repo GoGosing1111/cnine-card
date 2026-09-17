@@ -1,0 +1,24 @@
+{
+  "code": "DC_HI_HEEYA",
+  "serial": "A-22",
+  "name": "DC 하이희야",
+  "call_sign": "DC HI HEEYA",
+  "role_label": "DC 클랜 테니스 유니폼",
+  "description": "DC 문장을 새긴 아이보리 테니스 유니폼과 네이비 밀착 미니스커트의 하이희야 아바타입니다. 테니스 코트 로비 일러스트와 투명 장비창 전신을 함께 적용합니다.",
+  "lobby_image": "preview/avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-lobby-v1-1024.webp",
+  "lobby_mobile_image": "preview/avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-lobby-v1-640.webp",
+  "equipment_image": "preview/avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-equipment-v1-640.webp",
+  "accent": "#9575dc",
+  "acquisition_type": "EVENT",
+  "coin_price": null,
+  "source_label": "DC 클랜 11일 지급",
+  "source_detail": "지급 대상 DC 클랜원에게 지급 시점부터 11일간 사용 권한이 부여됩니다.",
+  "effect_type": "COIN_GAIN_PERCENT",
+  "effect_value": 75,
+  "is_active": 1,
+  "is_public": 1,
+  "sale_enabled": 0,
+  "sort_order": 220,
+  "version": 1
+}
+

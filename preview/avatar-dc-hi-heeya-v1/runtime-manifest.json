@@ -1,0 +1,58 @@
+{
+  "sourceProcessing": "Native alpha, uniform resizing and transparent padding only; approved PNGs unchanged",
+  "alpha": {
+    "clearPixels": 1236809,
+    "solidPixels": 292455,
+    "borderMax": 2,
+    "crop": {
+      "left": 234,
+      "top": 1,
+      "width": 493,
+      "height": 1496
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1088,
+    "uniformScale": 0.6951871657754011,
+    "bodyWidth": 343,
+    "bodyHeight": 1040
+  },
+  "files": {
+    "avatar-dc-hi-heeya-lobby-source-art-v1.png": {
+      "sha256": "a48d273bf7a5489d62f438ef72753cac9a050407539c9291c5efd7178befe0e5",
+      "bytes": 2330247,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-dc-hi-heeya-equipment-source-art-v1.png": {
+      "sha256": "9316e7181826c76d89249595055317ecbe08dc3d1db7099552b1db454a9a3e58",
+      "bytes": 1363598,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-dc-hi-heeya-lobby-v1-1024.webp": {
+      "sha256": "1a32935c0814eed44d2c483716f68d6192c925fea7c21868c864d4c212bbf018",
+      "bytes": 247580,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-dc-hi-heeya-lobby-v1-640.webp": {
+      "sha256": "037a1871ee87aafb06aec2f04f9d53ffe4c0b6268b9dcb261bd5e4863c560b75",
+      "bytes": 126722,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-dc-hi-heeya-equipment-v1-640.webp": {
+      "sha256": "f3c3b30340c0f536de6f9d74523f70cce76ebf485a5ec5a3b76d4eea354cb6a1",
+      "bytes": 81532,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    }
+  }
+}
