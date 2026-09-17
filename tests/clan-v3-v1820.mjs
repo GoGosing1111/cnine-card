@@ -169,17 +169,17 @@ test('V21 클랜 UI와 라이브 V3 계약이 연결된다',()=>{
   assert.match(css,/@media\(max-width:760px\)/);
 });
 
-test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=>{
-  assert.match(client,/clan-hero-media/);
+test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한다',()=>{
+  assert.match(client,/clan-command-header/);
+  assert.match(client,/clan-mode-grid/);
+  assert.match(client,/\['war','정규 클랜전'\]/);
+  assert.match(client,/\['faction','세력전'\]/);
   assert.match(client,/clan-season-lock/);
-  assert.match(client,/clan-lock-radar/);
-  assert.match(client,/OWNER CLEARANCE/);
-  assert.match(css,/clan-command-room-v1\.webp/);
-  assert.match(css,/@keyframes clanRadarSweep/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
   assert.match(html,/clan-v1\.css\?v=2123-draft-1h-30s/);
-  assert.match(html,/clan-v1\.js\?v=2123-draft-1h-30s/);
-  assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
+  assert.match(html,/clan-command-v1\.css\?v=2127/);
+  assert.match(html,/clan-faction-v1\.css\?v=2127/);
+  assert.match(html,/clan-v1\.js\?v=2127-faction/);
 });
 
 test('조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설정으로 제한한다',()=>{

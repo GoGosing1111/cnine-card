@@ -283,7 +283,7 @@ for(const reason of ['disabled','fewer teams','historical'])test(`${reason}: no 
 
 test('live/CMS expose the bracket, reward editor and scoped cache versions; no replacement combat engine',()=>{
   const client=read('js/clan-v1.js'),cms=read('admin/clan-war-admin-v1943.js'),server=read('functions/_clan.js');
-  assert.match(client, /\['champions','05','챔피언스리그','CHAMPIONS'\]/);
+  assert.match(client, /\['champions','챔피언스리그'\]/);
   assert.match(client, /동점 시 정규시즌 상위 시드 진출/);
   assert.match(client, /global\.playPvpBattleV2Live/);
   assert.match(server, /championsMemberEligible\(env,season.id,user.id,mine.clan_id\)/);

@@ -1,0 +1,48 @@
+/* Clan command follows the live lobby's navy panels, lime accents and type scale. */
+#clanRoot{--clan-line:#29344c;--clan-panel:#111828;--clan-text:#f3f5ff;--clan-muted:#a7b3c9;--clan-lime:#c8ff6b;max-width:1640px;margin:0 auto;padding:22px 24px 34px;color:var(--clan-text);font-family:'Noto Sans KR','Malgun Gothic',sans-serif}
+#clanRoot{display:block;background:none;gap:0}#clanRoot::before,#clanRoot::after{display:none}
+#clanRoot *{box-sizing:border-box;text-shadow:none}
+.clan-command-header{display:flex;align-items:center;gap:18px;margin:0 0 24px;padding:0 0 22px;border-bottom:1px solid var(--clan-line)}
+.clan-command-header .clan-mark{width:74px;height:74px;flex:0 0 74px;filter:none;background:none;border:0;clip-path:none;box-shadow:none}
+.clan-command-title{flex:1;min-width:0}.clan-command-title>small{color:var(--clan-muted);letter-spacing:1.6px;font:700 11px 'Barlow Condensed',sans-serif}
+.clan-command-title h2{font-size:27px;line-height:1.35;letter-spacing:-1.2px;margin:4px 0 5px;font-weight:800}.clan-command-title h2 em{font-style:normal;color:var(--clan-lime)}
+.clan-command-title p{margin:0;color:var(--clan-muted);font-size:12px;line-height:1.6}
+.clan-command-season{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:12px}.clan-command-season strong{color:var(--clan-lime);font-weight:700}.clan-command-season span{color:var(--clan-muted)}
+#clanRoot .clan-tabs{display:flex;gap:4px;padding:0 0 14px;border:0;background:none;margin:0 0 22px;overflow-x:auto;scrollbar-width:thin;clip-path:none}
+#clanRoot .clan-tabs button{display:flex;flex:0 0 auto;gap:8px;align-items:center;justify-content:center;min-height:44px;padding:10px 20px;background:#101725;border:1px solid #29344c;border-radius:4px;clip-path:none;box-shadow:none;color:#a7b3c9;font:700 13px 'Noto Sans KR',sans-serif}
+#clanRoot .clan-tabs button:before,#clanRoot .clan-tabs button:after{display:none}#clanRoot .clan-tabs button>i,#clanRoot .clan-tabs small{display:none}
+#clanRoot .clan-tabs button{width:auto;min-width:0;max-width:none;white-space:nowrap}#clanRoot .clan-tabs button b{font:inherit;color:inherit}#clanRoot .clan-tabs button.active{background:#24321e;border-color:#c8ff6b;color:#d5ff91}#clanRoot .clan-tabs button:disabled{opacity:.4}
+#clanRoot .clan-tabs .clan-refresh{margin-left:auto;padding:10px 14px;min-width:44px}
+#clanRoot .clan-panel,#clanRoot .clan-team-card,#clanRoot .clan-war-score,#clanRoot .clan-season-lock{background:#111828;border:1px solid #29344c;border-radius:5px;clip-path:none;box-shadow:none}
+#clanRoot .clan-panel:before,#clanRoot .clan-panel:after{display:none}#clanRoot .clan-panel h3{color:#f3f5ff;font-weight:800;letter-spacing:-.7px}
+#clanRoot .clan-panel p{color:#a7b3c9}#clanRoot .clan-panel>header small,#clanRoot .clan-panel small{color:#98aac6}
+#clanRoot .clan-panel button:not([disabled]){border-radius:4px;clip-path:none}#clanRoot .clan-random-console button{background:#c8ff6b;color:#142118;border:1px solid #d2ff93;box-shadow:none}
+#clanRoot .clan-random-console{background:#0c1321;border-color:#29344c}#clanRoot .clan-random-console>i{display:none}
+#clanRoot .clan-war-score>div strong{font:800 38px 'Barlow Condensed',sans-serif;color:#71829e;text-shadow:none}
+#clanRoot .clan-war-score article>b{color:#f3f5ff;font-size:46px;text-shadow:none}#clanRoot .clan-war-score article h3{color:#fff}
+#clanRoot .clan-roster article,#clanRoot .clan-ranking article{border-color:#29344c;clip-path:none;background:#0d1523}#clanRoot .clan-roster article.master,#clanRoot .clan-ranking article.mine{border-color:#68794e;background:#1a251e}
+#clanRoot .clan-catalog-grid article{background:#0d1523;border-color:#29344c;clip-path:none;border-radius:4px}#clanRoot .clan-mark{clip-path:none}
+#clanRoot .clan-view{display:block}#clanRoot .clan-view>section+section{margin-top:18px}
+#clanRoot:has(#clanFactionRoot) .clan-command-header{margin-bottom:14px;padding-bottom:12px;min-height:61px}
+#clanRoot:has(#clanFactionRoot) .clan-command-header .clan-mark{width:48px;height:48px;flex-basis:48px}
+#clanRoot:has(#clanFactionRoot) .clan-command-title h2{font-size:22px;margin:3px 0 0}
+#clanRoot:has(#clanFactionRoot) .clan-command-title p{display:none}
+#clanRoot:has(#clanFactionRoot) .clan-tabs{padding-bottom:0;margin-bottom:20px}
+.clan-mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}.clan-mode-card{position:relative;isolation:isolate;overflow:hidden;min-height:234px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:28px;background:#111828;border:1px solid #34425b;border-radius:5px;color:#f3f5ff;font-family:inherit;cursor:pointer}
+.clan-mode-card>small{font:700 11px 'Barlow Condensed',sans-serif;letter-spacing:2px;color:#9bacca}.clan-mode-card>strong{font-size:28px;letter-spacing:-1px;margin-top:9px}.clan-mode-card>p{font-size:13px;line-height:1.8;color:#a7b3c9;max-width:70%;margin:10px 0 20px}.clan-mode-card>span{margin-top:auto;color:#c8ff6b;font-size:13px;font-weight:800}.clan-mode-card>i{position:absolute;font:900 130px 'Barlow Condensed',sans-serif;font-style:normal;right:22px;bottom:15px;line-height:1;color:#233148;z-index:-1}.clan-mode-card.faction{background:linear-gradient(115deg,#16221f,#101929)}.clan-mode-card.faction>i{color:#2c3f32}.clan-mode-card:hover{border-color:#c8ff6b;background-color:#1a2437}.clan-mode-card:focus-visible{outline:2px solid #c8ff6b;outline-offset:3px}
+#clanRoot .clan-war-score{display:grid;grid-template-columns:1fr minmax(80px,.65fr) 1fr;gap:0;padding:22px;min-height:0;overflow:hidden}
+#clanRoot .clan-war-score>div{display:contents;position:static;inset:auto;transform:none;width:auto;min-width:0;height:auto}
+#clanRoot .clan-war-score>article{position:relative;inset:auto;grid-column:1;grid-row:1/3;min-width:0;width:100%;min-height:150px;padding:14px;border:0;border-radius:4px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;clip-path:none;background:#17243b}
+#clanRoot .clan-war-score>article.enemy{grid-column:3;background:#2c2133}
+#clanRoot .clan-war-score>article>.clan-mark{width:48px;height:48px;margin:0 auto 8px}
+#clanRoot .clan-war-score>article>small{font-size:9px;letter-spacing:.6px;color:#93a7c6}
+#clanRoot .clan-war-score>article h3{margin:5px 0;font-size:18px}#clanRoot .clan-war-score>article>b{font:700 39px 'Barlow Condensed',sans-serif;line-height:1.1}
+#clanRoot .clan-war-score>div>small{grid-column:2;grid-row:1;align-self:end;text-align:center;font:600 10px 'Barlow Condensed',sans-serif;letter-spacing:1px;color:#8ba0bf;padding:0 5px}
+#clanRoot .clan-war-score>div>strong{grid-column:2;grid-row:2;align-self:start;text-align:center;font:700 34px 'Barlow Condensed',sans-serif;line-height:1.5;position:static}
+#clanRoot .clan-war-score>div>em{grid-column:1/-1;grid-row:3;display:block;position:static;inset:auto;transform:none;width:auto;min-width:0;margin:16px 0 0;padding:11px 15px;border:1px solid #3d5141;border-radius:3px;clip-path:none;background:#1b2a22;color:#d0efa5;font-size:12px;line-height:1.8;text-align:center;white-space:normal}
+#clanRoot .clan-war-score>div>span{grid-column:1/-1;grid-row:4;text-align:center;position:static;margin:9px 0 0;font-size:11px;color:#9daeca}
+#clanRoot .clan-random-match>header{display:flex;align-items:start;flex-wrap:wrap;gap:12px}#clanRoot .clan-random-match>header>div{flex:1;min-width:180px}#clanRoot .clan-random-match>header h3{font-size:22px;line-height:1.5}
+#clanRoot .clan-lock-radar{display:none}#clanRoot .clan-season-lock{grid-template-columns:1.1fr 1fr}
+@media(max-width:600px){#clanRoot .clan-season-lock{grid-template-columns:1fr}}
+@media(max-width:1050px){#clanRoot{padding:18px 16px 28px}.clan-mode-card{padding:22px}.clan-command-title h2{font-size:25px}}
+@media(max-width:600px){#clanRoot{padding:14px 10px 24px}.clan-command-header{gap:10px;margin-bottom:16px;padding-bottom:16px;flex-wrap:wrap}.clan-command-header .clan-mark{width:52px;height:52px;flex-basis:52px}.clan-command-title h2{font-size:22px}.clan-command-title p{font-size:11px}.clan-command-season{flex-direction:row;width:100%;justify-content:space-between;border-top:1px solid #1e2b40;padding-top:10px;font-size:11px}.clan-mode-grid{grid-template-columns:1fr;gap:12px}.clan-mode-card{min-height:182px;padding:20px}.clan-mode-card>strong{font-size:25px}.clan-mode-card>p{font-size:12px;margin:8px 0 16px}.clan-mode-card>i{font-size:105px}#clanRoot .clan-tabs{gap:6px;margin-bottom:16px;padding-bottom:8px}#clanRoot .clan-tabs button{min-height:42px;padding:9px 14px;font-size:12px}#clanRoot .clan-tabs .clan-refresh{margin-left:0}#clanRoot .clan-war-score article>b{font-size:32px}}

@@ -1,5 +1,6 @@
 import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete,clanRedraftPublicState} from './_clan_redraft.js';
 import {clanPigCoinStatements} from './_pig_coin_content_rewards.js';
+import {handleClanFaction} from './_clan_faction.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
 import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarParticipationSettings,clanParticipationProgress,clanParticipationReplay,settleClanParticipationBattle,validateClanParticipationSettings,prepareClanParticipationSettings} from './_clan_participation.js';
 import {handleClanInactivityCleanup} from './_clan_inactivity_cleanup.js';
@@ -1021,7 +1022,13 @@ export async function handleClan({path,request,env,deps}){
     if(!owner)return deps.json({error:'OWNER 권한이 필요합니다.'},403);const body=await deps.readBody(request),mode=String(body.mode||'').toUpperCase();if(!['OFF','TEST','ON'].includes(mode))return deps.json({error:'클랜 공개 상태는 OFF, TEST, ON 중 하나여야 합니다.'},400);const next={...settings,mode,rewardsEnabled:mode==='ON'?settings.rewardsEnabled:false};await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)).run();if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_WAR_MODE_UPDATE','APP_META',CLAN_ADMIN_SETTINGS_KEY,{mode:settings.mode,rewardsEnabled:settings.rewardsEnabled},{mode,rewardsEnabled:next.rewardsEnabled});return deps.json({ok:true,mode,rewardsEnabled:next.rewardsEnabled});
   }
   if(settings.mode==='OFF'||(settings.mode==='TEST'&&!owner))return deps.json({error:'클랜 시스템은 OWNER 사전 테스트 중입니다.',code:'CLAN_TEST_ONLY',mode:settings.mode},404);
+  if(path==='clan/faction/alerts'){
+    const current=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
+    if(!current)return deps.json({ok:true,userId:Number(user.id),seasonId:0,alerts:[]});
+    return handleClanFaction({path,request,env,user,season:current,mode:settings.mode,deps});
+  }
   let season=await createSeason(env,settings);season=await advanceLifecycle(env,season,settings);
+  if(path.startsWith('clan/faction/'))return handleClanFaction({path,request,env,user,season,mode:settings.mode,deps:{...deps,buildFactionBattle:buildClanBattle}});
   if(path==='clan/admin/test-bootstrap'&&request.method==='POST'){
     if(!owner||settings.mode!=='TEST')return deps.json({error:'TEST 상태의 OWNER만 테스트 편성을 구성할 수 있습니다.'},403);if(season.phase!=='REGISTRATION')return deps.json({error:'참가 신청 단계에서만 테스트 풀을 구성할 수 있습니다.'},409);
     const body=await deps.readBody(request),limit=clampInt(body.limit,4,CLAN_MAX_PARTICIPANTS,CLAN_MAX_PARTICIPANTS),eligible=rows(await env.DB.prepare(`SELECT u.id,u.nickname,d.card_ids FROM users u JOIN pvp_decks d ON d.user_id=u.id
