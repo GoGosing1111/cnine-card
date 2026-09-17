@@ -1,5 +1,5 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {LOOT_SOURCE_LABELS,PIG_COIN_SOURCE_FIELDS,PIG_COIN_SOURCE_NOTES} from '../shared/loot-shop-policy-v1.mjs?v=2';
+import {LOOT_SOURCE_LABELS,PIG_COIN_SOURCE_FIELDS,PIG_COIN_SOURCE_NOTES} from '../shared/loot-shop-policy-v1.mjs?v=3';
 const rules=[
  {code:'TERRITORY',view:'view-territorywar',anchor:'#tw3RoundEquipmentBonus',position:'afterPanel'},
  {code:'CLAN',view:'view-clanwar',anchor:'#cwRewardsEnabled',position:'afterPanel'},

@@ -482,6 +482,10 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮',inventory:true,max:100000,messageType:'ITEM_REWARD'}
 };
 function verifiedMessageRewardSpec(value){const type=String(value||'').trim().toUpperCase();return VERIFIED_MESSAGE_REWARD_TYPES[type]?{type,...VERIFIED_MESSAGE_REWARD_TYPES[type]}:null}
+function presentMessageReward(message){
+  const spec=verifiedMessageRewardSpec(message.reward_type),amount=Number(message.reward_amount);
+  return {...message,reward_type:spec?.type||message.reward_type,reward_label:spec?.label||'',reward_icon:spec?.icon||'🎁',reward_supported:Boolean(spec&&Number.isSafeInteger(amount)&&amount>0)};
+}
 const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_WISH_TICKET:100000};
 function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_WISH_TICKET'?{type,label:'핑두의 소원권',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
@@ -7290,7 +7294,7 @@ async function handleRequest(context){
             ORDER BY m.id DESC LIMIT 5`).bind(user.id).all();
           recoveryRows=recovery.results||[];
         }catch{}
-        const messages=[...recoveryRows,...(rows.results||[])];
+        const messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward);
         return json({messages,unread:messages.filter(x=>!x.is_read).length,recoveryCount:recoveryRows.length});
       }
       if(request.method==='PATCH'){

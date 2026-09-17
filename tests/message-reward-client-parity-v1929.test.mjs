@@ -57,8 +57,8 @@ test('mobile reward presentation keeps the generated claim control full width', 
   assert.match(mobile, /\.message-head \.message-claim-all\s*\{[\s\S]*?width:\s*100%/);
 });
 
-test('message presentation cache version includes the bulk claim styles', async () => {
+test('message presentation cache version includes the claim visibility fix', async () => {
   const [index, presentation] = await Promise.all([read('index.html'), read('js/soopketmon-v21-rewards-presentation.js')]);
-  assert.match(index, /soopketmon-v21-rewards-presentation\.js\?v=21\.4-message-bulk-claim/);
-  assert.match(presentation, /const VERSION = '21\.4\.0'/);
+  assert.match(index, /soopketmon-v21-rewards-presentation\.js\?v=21\.4\.1-message-reward-visibility/);
+  assert.match(presentation, /const VERSION = '21\.4\.1'/);
 });

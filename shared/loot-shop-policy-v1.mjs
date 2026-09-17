@@ -9,10 +9,10 @@ export const PIG_COIN_SOURCE_DEFAULTS=[
 ];
 export const PIG_COIN_SOURCE_FIELDS={
  TERRITORY:[['victoryAmount','승리 보상',1,1000000000],['participationAmount','최소 공격 조건 충족 보상',1,1000000000]],
- CLAN:[['victoryAmount','시즌 승리 보상',1,1000000000],['participationAmount','공격 참여 보상',1,1000000000],['minAttacks','참여 보상 최소 완료 공격 횟수',1,10000]],
+ CLAN:[['victoryAmount','회차 승리 보상',1,1000000000],['participationAmount','공격 참여 보상',1,1000000000],['minAttacks','회차별 최소 완료 공격 횟수',1,10000]],
  CORE_RAID:[['amount','붕괴 코어 격파 보상',1,1000000000],['weeklyLimit','계정당 주간 지급 한도',1,1000000000]]
 };
-export const PIG_COIN_SOURCE_NOTES={TERRITORY:'회차당 승리·참여 보상 합산. 참여 기준은 영토전 CMS의 보상 최소 공격 횟수를 따릅니다.',CLAN:'시즌당 승리·참여 보상 합산. 완료한 공격만 세며 방어·실패·진행 중 공격은 제외합니다.',CORE_RAID:'최종 보스 제압 후 보상 수령 시 지급. 매주 월요일 00:00(한국 시간)에 한도를 초기화합니다.'};
+export const PIG_COIN_SOURCE_NOTES={TERRITORY:'회차당 승리·참여 보상 합산. 참여 기준은 영토전 CMS의 보상 최소 공격 횟수를 따릅니다.',CLAN:'정규전 회차 종료 시 승리·참여 보상 합산 지급. 해당 회차의 완료 공격만 세며 방어·오류·진행 중 공격은 제외합니다. 전투 패배도 완료 공격에 포함합니다.',CORE_RAID:'최종 보스 제압 후 보상 수령 시 지급. 매주 월요일 00:00(한국 시간)에 한도를 초기화합니다.'};
 export const LOOT_SHOP_DEFAULTS={revision:0,salesEnabled:false,rewardsEnabled:false,sources:structuredClone(PIG_COIN_SOURCE_DEFAULTS),products:Object.entries(LOOT_PRODUCT_TYPES).map(([type,name],index)=>({id:type.toLowerCase(),type,name,enabled:false,price:null,accountLimit:null,equipmentId:null,cardIds:[],mercenaryWeights:{A:null,S:null},mercenaryCodes:[],sortOrder:index}))};
 // Old flat rewards have no victory/participation or weekly contract. Require an
 // explicit save of the new rules, preserving all products and purchase identities.
@@ -23,7 +23,7 @@ export function upgradeLootShopPolicy(raw){
 }
 export function pigCoinSourceSummary(source){
  const n=v=>v==null?'미설정':Number(v).toLocaleString('ko-KR');
- return source.code==='CORE_RAID'?`격파 ${n(source.amount)}개 · 주간 ${n(source.weeklyLimit)}개 한도`:source.code==='CLAN'?`시즌 승리 ${n(source.victoryAmount)}개 + ${n(source.minAttacks)}회 이상 공격 ${n(source.participationAmount)}개`:`승리 ${n(source.victoryAmount)}개 + ${Number.isSafeInteger(source.participationMinimumAttacks)?n(source.participationMinimumAttacks)+'회 이상 공격':'최소 공격 조건 충족'} ${n(source.participationAmount)}개`;
+ return source.code==='CORE_RAID'?`격파 ${n(source.amount)}개 · 주간 ${n(source.weeklyLimit)}개 한도`:source.code==='CLAN'?`회차 승리 ${n(source.victoryAmount)}개 + ${n(source.minAttacks)}회 이상 공격 ${n(source.participationAmount)}개`:`승리 ${n(source.victoryAmount)}개 + ${Number.isSafeInteger(source.participationMinimumAttacks)?n(source.participationMinimumAttacks)+'회 이상 공격':'최소 공격 조건 충족'} ${n(source.participationAmount)}개`;
 }
 export function pigCoinRewardWeek(at=Date.now()){
  const day=86400000,offset=9*3600000,kst=new Date(at+offset);

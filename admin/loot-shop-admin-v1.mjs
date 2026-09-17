@@ -1,5 +1,5 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {LOOT_SOURCE_LABELS,LOOT_PRODUCT_TYPES,PIG_COIN_SOURCE_FIELDS,PIG_COIN_SOURCE_NOTES} from '../shared/loot-shop-policy-v1.mjs?v=2';
+import {LOOT_SOURCE_LABELS,LOOT_PRODUCT_TYPES,PIG_COIN_SOURCE_FIELDS,PIG_COIN_SOURCE_NOTES} from '../shared/loot-shop-policy-v1.mjs?v=3';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=(name,label,value,min,max)=>`<label>${label}<input name="${name}" type="number" min="${min}" max="${max}" step="1" value="${value??''}" placeholder="미설정"></label>`;
 const check=(name,label,value)=>`<label class="loot-admin-check"><input type="checkbox" name="${name}" ${value?'checked':''}>${label}</label>`;

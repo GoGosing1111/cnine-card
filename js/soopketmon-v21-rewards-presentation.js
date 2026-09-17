@@ -1,7 +1,7 @@
 (function soopketmonV21RewardsPresentation(global) {
   'use strict';
 
-  const VERSION = '21.4.0';
+  const VERSION = '21.4.1';
   const ROOT_SELECTOR = '.v21-production-shell[data-soopketmon-v21-shell="approved-v21"]';
   const script = document.currentScript;
   let frame = 0;

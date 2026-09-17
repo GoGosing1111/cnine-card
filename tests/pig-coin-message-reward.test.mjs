@@ -95,3 +95,20 @@ test('Pig Coin appears in claim-all and invalidates the real loot-shop balances'
  assert.match(app.slice(app.indexOf('async function loadMessages'),app.indexOf('async function loadMessages')+8000),/clearApiCache\('loot-shop\/balance'\)/);
  assert.match(read('index.html'),/pigMessage=2130/);
 });
+
+test('server reward metadata keeps the real inbox claim controls visible without a local reward type',async()=>{
+ const server=vm.createContext({});vm.runInContext(specs+';this.present=presentMessageReward;',server);
+ const raw={id:7,title:'점령 보상',body:'피그코인 지급',message_type:'ITEM_REWARD',reward_type:'PIG_COIN',reward_amount:50};
+ const message=server.present(raw);assert.equal(message.reward_supported,true);assert.equal(message.reward_label,'피그코인');
+ for(const invalid of [{reward_type:'UNKNOWN',reward_amount:50},{reward_type:'PIG_COIN',reward_amount:0},{reward_type:'PIG_COIN',reward_amount:1.5}])assert.equal(server.present(invalid).reward_supported,false);
+ const box={innerHTML:'',querySelectorAll:()=>[]},all={};
+ const context=vm.createContext({document:{getElementById:id=>id==='messageList'?box:all},apiRequest:async()=>({messages:[message],unread:1}),updateMessageNewBadges:()=>{},escapeHtml:s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')});
+ const start=app.indexOf('const MESSAGE_REWARD_META='),end=app.indexOf('// V1799: 2차 인증',start);
+ vm.runInContext(app.slice(start,end)+';delete MESSAGE_REWARD_META.PIG_COIN;this.load=loadMessages;this.queue=claimableMessageRewards;',context);
+ await context.load();assert.equal(all.disabled,false);assert.match(box.innerHTML,/피그코인/);assert.match(box.innerHTML,/data-claim-message="7"[^>]*>보상 받기/);
+ assert.equal(context.queue([{...message,claimed_at:'done'}]).length,0);
+ assert.equal(context.queue([{...message,reward_supported:false}]).length,0);
+ message.reward_label='<img src=x onerror=alert(1)>';message.reward_icon='<svg onload=alert(1)>';
+ await context.load();assert.doesNotMatch(box.innerHTML,/<img|<svg/);assert.match(box.innerHTML,/&lt;img/);
+ assert.match(api,/const messages=\[\.\.\.recoveryRows,\.\.\.\(rows\.results\|\|\[\]\)\]\.map\(presentMessageReward\)/);
+});

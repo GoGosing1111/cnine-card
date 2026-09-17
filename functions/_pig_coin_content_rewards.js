@@ -1,4 +1,5 @@
 import {pigCoinRewardStatements,readLootShopPolicy} from './_loot_shop.js';
+import {readClanPigRoundRelease} from './_clan_war_pig_rewards.js';
 export const TERRITORY_PIG_COIN_RELEASE_KEY='pig_coin_territory_release_v1';
 async function territoryRelease(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(TERRITORY_PIG_COIN_RELEASE_KEY).first();
@@ -28,6 +29,8 @@ export async function territoryPigCoinStatements(env,{userId,roundId,version}){
 }
 
 export async function clanPigCoinStatements(env,{userId,seasonId}){
+ const roundRelease=await readClanPigRoundRelease(env);
+ if(roundRelease&&Number(seasonId)>=roundRelease.firstSeasonId)return [];
  return pigCoinRewardStatements(env,{userId,source:'CLAN',referenceId:String(seasonId),
   guardSql:"EXISTS(SELECT 1 FROM clan_reward_receipts WHERE season_id=? AND user_id=? AND status='PENDING')",guardBindings:[seasonId,userId],
   rewardSql:rule=>({sql:`COALESCE((SELECT CASE WHEN r.reward_tier='WINNER' THEN ? ELSE 0 END +

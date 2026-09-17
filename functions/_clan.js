@@ -1,5 +1,6 @@
 import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete,clanRedraftPublicState} from './_clan_redraft.js';
 import {clanPigCoinStatements} from './_pig_coin_content_rewards.js';
+import {settleClanWarPigCoins,settlePendingClanWarPigCoins} from './_clan_war_pig_rewards.js';
 import {handleClanFaction} from './_clan_faction.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
 import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarParticipationSettings,clanParticipationProgress,clanParticipationReplay,settleClanParticipationBattle,validateClanParticipationSettings,prepareClanParticipationSettings} from './_clan_participation.js';
@@ -528,7 +529,9 @@ async function finalizeWar(env,war,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
     env.DB.prepare("UPDATE clan_season_teams SET score=score+?,wins=wins+1,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND clan_id=? AND EXISTS(SELECT 1 FROM clan_wars WHERE id=? AND status='CLOSING')").bind(settings.seasonWinScore,war.season_id,winnerId,war.id),
     env.DB.prepare("UPDATE clan_season_teams SET score=score+?,losses=losses+1,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND clan_id=? AND EXISTS(SELECT 1 FROM clan_wars WHERE id=? AND status='CLOSING')").bind(settings.seasonLossScore,war.season_id,loserId,war.id),
     env.DB.prepare("UPDATE clan_wars SET status='COMPLETED',winner_clan_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='CLOSING'").bind(winnerId,war.id)
-  ]);return true;
+  ]);
+  if(settings.mode==='ON')await settleClanWarPigCoins(env,Number(war.id));
+  return true;
 }
 async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   if(season?.phase!=='ACTIVE')return season;const now=iso();
@@ -536,6 +539,7 @@ async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAU
   await env.DB.prepare("UPDATE clan_wars SET status='ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='CLOSING' AND updated_at<datetime('now','-60 seconds')").bind(season.id).run();
   await env.DB.prepare("UPDATE clan_wars SET status='ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='SCHEDULED' AND starts_at<=?").bind(season.id,now).run();
   const expired=rows(await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status='ACTIVE' AND ends_at<=? ORDER BY round_no,id").bind(season.id,now).all());for(const war of expired)await finalizeWar(env,war,settings);
+  await settlePendingClanWarPigCoins(env,Number(season.id),settings);
   const remaining=await env.DB.prepare("SELECT COUNT(*) count FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE','CLOSING')").bind(season.id).first(),total=await env.DB.prepare('SELECT COUNT(*) count FROM clan_wars WHERE season_id=?').bind(season.id).first();
   if(Number(total?.count||0)>0&&Number(remaining?.count||0)===0)await env.DB.prepare("UPDATE clan_seasons SET phase='SETTLEMENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='ACTIVE'").bind(season.id).run();
   return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();

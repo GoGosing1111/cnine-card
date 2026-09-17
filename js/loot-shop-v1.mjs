@@ -1,5 +1,5 @@
 import {jointAccountRequest as request} from './joint-account-transport.mjs';
-import {LOOT_SOURCE_LABELS,PIG_COIN_IMAGE,pigCoinSourceSummary} from '../shared/loot-shop-policy-v1.mjs?v=2';
+import {LOOT_SOURCE_LABELS,PIG_COIN_IMAGE,pigCoinSourceSummary} from '../shared/loot-shop-policy-v1.mjs?v=3';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=v=>{try{const url=new URL(String(v||''),'https://local.invalid');return url.origin==='https://local.invalid'&&url.pathname.startsWith('/assets/')?url.pathname:'';}catch{return '';}};
 const fmt=v=>Number(v||0).toLocaleString('ko-KR');

@@ -623,6 +623,7 @@
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-delete {
   position: absolute;
   z-index: 2;
+  top: auto;
   right: 17px;
   bottom: 15px;
   min-width: 72px;
