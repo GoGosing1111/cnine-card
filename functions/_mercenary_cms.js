@@ -8,6 +8,7 @@ import {handleMercenaryCodex} from './_mercenary_codex.js';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {MERCENARY_RANGED_BALANCE_VERSION,MERCENARY_RANGED_SUMMARY} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {MERCENARY_GUARD_BALANCE_VERSION,MERCENARY_GUARD_SUMMARY} from '../shared/mercenary-guard-balance-v1.mjs';
+import {MERCENARY_MOON_DRAW_VERSION,MERCENARY_MOON_DRAW_SUMMARY} from '../shared/mercenary-moon-draw-v1.mjs';
 
 const tables=[
   `CREATE TABLE IF NOT EXISTS mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT NOT NULL,revision INTEGER NOT NULL,last_request_id TEXT NOT NULL,updated_by BIGINT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL)`,
@@ -34,6 +35,7 @@ async function readState(env){
   return {catalog,document:expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,catalog),revision:Number(row.revision),updatedAt:row.updated_at,updatedBy:Number(row.updated_by),audit,combatLink:MERCENARY_COMBAT_LINK,
     rangedCombat:{version:MERCENARY_RANGED_BALANCE_VERSION,description:MERCENARY_RANGED_SUMMARY,attackStyles:Object.fromEntries(catalog.cards.map(c=>[c.code,mercenaryAttackStyle(c)]))},
     guardCombat:{version:MERCENARY_GUARD_BALANCE_VERSION,description:MERCENARY_GUARD_SUMMARY},
+    moonDrawCombat:{version:MERCENARY_MOON_DRAW_VERSION,description:MERCENARY_MOON_DRAW_SUMMARY},
     powerStandard:MERCENARY_POWER_STANDARD,deployment:mercenaryDeploymentState()};
 }
 async function boundedJson(request){

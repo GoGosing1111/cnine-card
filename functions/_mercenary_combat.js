@@ -4,6 +4,7 @@ import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack} from '../shared/mercenar
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {isRangedMercenarySkill,rangedMercenaryProfile,rangedMercenaryPvpScale} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE} from '../shared/mercenary-guard-balance-v1.mjs';
+import {isMercenaryMoonDrawSkill} from '../shared/mercenary-moon-draw-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
@@ -129,6 +130,13 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   finish(a,s);
  }
  function resolve(a,p){const s=p.skill,c=a.combat,st=state(a),ts=p.targets.map(id=>all().find(a=>a.id===id)).filter(living),b=table(buffs,a);
+  // A weakest-target draw frequently loses its target to an allied attack
+  // during preparation. Spend the already-paid strike on the next legal enemy
+  // within this action, without another windup turn, cost or cooldown reset.
+  if(!ts.length&&isMercenaryMoonDrawSkill(s)){
+   const replacement=targets(a,s)[0];
+   if(replacement){p.targets=[replacement.id];ts.push(replacement);send(a,s,'WINDUP',replacement,{targetIds:p.targets,continuation:true,retargeted:true});}
+  }
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){

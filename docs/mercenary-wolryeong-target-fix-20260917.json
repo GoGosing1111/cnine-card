@@ -1,0 +1,2541 @@
+{
+  "scope": "WOUNDED_MOON_DRAW target loss fix; no numeric or assignment changes",
+  "sourceCommit": "6fe830f2",
+  "cmsRevision": 55,
+  "sourceHash": "56a2d12dc3e5dd4aa7f3e35afed3c8e8f5ed40668f02d37a01024534416edf89",
+  "methodology": {
+    "regularCards": 5,
+    "mercenarySlots": 1,
+    "level": 1,
+    "powers": [
+      100000,
+      1000000,
+      20000000,
+      100000000
+    ],
+    "compositions": [
+      "mixed",
+      "attack",
+      "defense",
+      "speed"
+    ],
+    "sides": [
+      "A",
+      "B"
+    ],
+    "samplesPerSide": 128,
+    "seed": "n * 7919, n=1..128",
+    "limit": "Equal regular-card teams and current assigned skills. Synthetic combat comparisons, not user account win rates. The five compared A ranged mercenaries have no assigned offensive skills in CMS revision 55."
+  },
+  "games": 106496,
+  "byOpponent": [
+    {
+      "opponent": "V-002",
+      "name": "리시아",
+      "rank": "A",
+      "before": {
+        "games": 4096,
+        "wins": 3692,
+        "draws": 0,
+        "casts": 12474,
+        "hits": 10077,
+        "cancels": 2165,
+        "targetLost": 1982,
+        "basics": 20024,
+        "zeroDamageGames": 37,
+        "winRate": 0.9013671875,
+        "targetLostRatio": 0.15889049222382556
+      },
+      "current": {
+        "games": 4096,
+        "wins": 3739,
+        "draws": 0,
+        "casts": 12325,
+        "hits": 11975,
+        "cancels": 150,
+        "targetLost": 0,
+        "basics": 19030,
+        "zeroDamageGames": 22,
+        "winRate": 0.912841796875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 1956,
+        "draws": 0,
+        "casts": 10911,
+        "hits": 8614,
+        "cancels": 2055,
+        "targetLost": 1459,
+        "basics": 16449,
+        "zeroDamageGames": 86,
+        "winRate": 0.4775390625,
+        "targetLostRatio": 0.1337182659701219
+      },
+      "current": {
+        "games": 4096,
+        "wins": 2086,
+        "draws": 0,
+        "casts": 10762,
+        "hits": 9945,
+        "cancels": 586,
+        "targetLost": 0,
+        "basics": 16120,
+        "zeroDamageGames": 62,
+        "winRate": 0.50927734375,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-007",
+      "name": "서윤",
+      "rank": "A",
+      "before": {
+        "games": 4096,
+        "wins": 3692,
+        "draws": 0,
+        "casts": 12474,
+        "hits": 10077,
+        "cancels": 2165,
+        "targetLost": 1982,
+        "basics": 20024,
+        "zeroDamageGames": 37,
+        "winRate": 0.9013671875,
+        "targetLostRatio": 0.15889049222382556
+      },
+      "current": {
+        "games": 4096,
+        "wins": 3739,
+        "draws": 0,
+        "casts": 12325,
+        "hits": 11975,
+        "cancels": 150,
+        "targetLost": 0,
+        "basics": 19030,
+        "zeroDamageGames": 22,
+        "winRate": 0.912841796875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 1995,
+        "draws": 0,
+        "casts": 10484,
+        "hits": 8188,
+        "cancels": 2155,
+        "targetLost": 1474,
+        "basics": 15512,
+        "zeroDamageGames": 52,
+        "winRate": 0.487060546875,
+        "targetLostRatio": 0.1405951926745517
+      },
+      "current": {
+        "games": 4096,
+        "wins": 2155,
+        "draws": 0,
+        "casts": 10419,
+        "hits": 9678,
+        "cancels": 610,
+        "targetLost": 0,
+        "basics": 15242,
+        "zeroDamageGames": 31,
+        "winRate": 0.526123046875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-014",
+      "name": "엘리시아",
+      "rank": "A",
+      "before": {
+        "games": 4096,
+        "wins": 3692,
+        "draws": 0,
+        "casts": 12474,
+        "hits": 10077,
+        "cancels": 2165,
+        "targetLost": 1982,
+        "basics": 20024,
+        "zeroDamageGames": 37,
+        "winRate": 0.9013671875,
+        "targetLostRatio": 0.15889049222382556
+      },
+      "current": {
+        "games": 4096,
+        "wins": 3739,
+        "draws": 0,
+        "casts": 12325,
+        "hits": 11975,
+        "cancels": 150,
+        "targetLost": 0,
+        "basics": 19030,
+        "zeroDamageGames": 22,
+        "winRate": 0.912841796875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-027",
+      "name": "케일",
+      "rank": "A",
+      "before": {
+        "games": 4096,
+        "wins": 3692,
+        "draws": 0,
+        "casts": 12474,
+        "hits": 10077,
+        "cancels": 2165,
+        "targetLost": 1982,
+        "basics": 20024,
+        "zeroDamageGames": 37,
+        "winRate": 0.9013671875,
+        "targetLostRatio": 0.15889049222382556
+      },
+      "current": {
+        "games": 4096,
+        "wins": 3739,
+        "draws": 0,
+        "casts": 12325,
+        "hits": 11975,
+        "cancels": 150,
+        "targetLost": 0,
+        "basics": 19030,
+        "zeroDamageGames": 22,
+        "winRate": 0.912841796875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-034",
+      "name": "세이지",
+      "rank": "A",
+      "before": {
+        "games": 4096,
+        "wins": 3692,
+        "draws": 0,
+        "casts": 12474,
+        "hits": 10077,
+        "cancels": 2165,
+        "targetLost": 1982,
+        "basics": 20024,
+        "zeroDamageGames": 37,
+        "winRate": 0.9013671875,
+        "targetLostRatio": 0.15889049222382556
+      },
+      "current": {
+        "games": 4096,
+        "wins": 3739,
+        "draws": 0,
+        "casts": 12325,
+        "hits": 11975,
+        "cancels": 150,
+        "targetLost": 0,
+        "basics": 19030,
+        "zeroDamageGames": 22,
+        "winRate": 0.912841796875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 1977,
+        "draws": 0,
+        "casts": 10712,
+        "hits": 8529,
+        "cancels": 2009,
+        "targetLost": 1392,
+        "basics": 15979,
+        "zeroDamageGames": 56,
+        "winRate": 0.482666015625,
+        "targetLostRatio": 0.1299477221807319
+      },
+      "current": {
+        "games": 4096,
+        "wins": 2139,
+        "draws": 0,
+        "casts": 10598,
+        "hits": 9844,
+        "cancels": 595,
+        "targetLost": 0,
+        "basics": 15618,
+        "zeroDamageGames": 27,
+        "winRate": 0.522216796875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 1896,
+        "draws": 0,
+        "casts": 9714,
+        "hits": 7660,
+        "cancels": 1933,
+        "targetLost": 1280,
+        "basics": 14119,
+        "zeroDamageGames": 112,
+        "winRate": 0.462890625,
+        "targetLostRatio": 0.13176858142886555
+      },
+      "current": {
+        "games": 4096,
+        "wins": 2079,
+        "draws": 0,
+        "casts": 9709,
+        "hits": 8995,
+        "cancels": 581,
+        "targetLost": 0,
+        "basics": 13999,
+        "zeroDamageGames": 78,
+        "winRate": 0.507568359375,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 1842,
+        "draws": 0,
+        "casts": 10345,
+        "hits": 8139,
+        "cancels": 2071,
+        "targetLost": 1426,
+        "basics": 15424,
+        "zeroDamageGames": 66,
+        "winRate": 0.44970703125,
+        "targetLostRatio": 0.13784436926051233
+      },
+      "current": {
+        "games": 4096,
+        "wins": 2019,
+        "draws": 0,
+        "casts": 10298,
+        "hits": 9584,
+        "cancels": 572,
+        "targetLost": 0,
+        "basics": 15162,
+        "zeroDamageGames": 45,
+        "winRate": 0.492919921875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 2909,
+        "draws": 0,
+        "casts": 11811,
+        "hits": 9386,
+        "cancels": 2176,
+        "targetLost": 1696,
+        "basics": 18170,
+        "zeroDamageGames": 66,
+        "winRate": 0.710205078125,
+        "targetLostRatio": 0.1435949538565744
+      },
+      "current": {
+        "games": 4096,
+        "wins": 3029,
+        "draws": 0,
+        "casts": 11612,
+        "hits": 10974,
+        "cancels": 423,
+        "targetLost": 0,
+        "basics": 17708,
+        "zeroDamageGames": 42,
+        "winRate": 0.739501953125,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 2053,
+        "draws": 0,
+        "casts": 9919,
+        "hits": 7854,
+        "cancels": 1938,
+        "targetLost": 1356,
+        "basics": 14563,
+        "zeroDamageGames": 81,
+        "winRate": 0.501220703125,
+        "targetLostRatio": 0.13670732936787983
+      },
+      "current": {
+        "games": 4096,
+        "wins": 2170,
+        "draws": 0,
+        "casts": 9864,
+        "hits": 9185,
+        "cancels": 544,
+        "targetLost": 0,
+        "basics": 14349,
+        "zeroDamageGames": 46,
+        "winRate": 0.52978515625,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-044",
+      "name": "하이희야",
+      "rank": "SS",
+      "before": {
+        "games": 4096,
+        "wins": 2575,
+        "draws": 0,
+        "casts": 11032,
+        "hits": 8765,
+        "cancels": 2071,
+        "targetLost": 1528,
+        "basics": 16735,
+        "zeroDamageGames": 62,
+        "winRate": 0.628662109375,
+        "targetLostRatio": 0.13850616388687453
+      },
+      "current": {
+        "games": 4096,
+        "wins": 2684,
+        "draws": 0,
+        "casts": 10873,
+        "hits": 10230,
+        "cancels": 488,
+        "targetLost": 0,
+        "basics": 16354,
+        "zeroDamageGames": 37,
+        "winRate": 0.6552734375,
+        "targetLostRatio": 0
+      }
+    }
+  ],
+  "byPower": [
+    {
+      "power": 100000,
+      "opponents": [
+        {
+          "opponent": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 1017,
+            "draws": 0,
+            "casts": 3340,
+            "hits": 2814,
+            "cancels": 474,
+            "targetLost": 468,
+            "basics": 5490,
+            "zeroDamageGames": 0,
+            "winRate": 0.9931640625,
+            "targetLostRatio": 0.14011976047904193
+          },
+          "current": {
+            "games": 1024,
+            "wins": 1018,
+            "draws": 0,
+            "casts": 3321,
+            "hits": 3269,
+            "cancels": 5,
+            "targetLost": 0,
+            "basics": 5134,
+            "zeroDamageGames": 0,
+            "winRate": 0.994140625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 496,
+            "draws": 0,
+            "casts": 3072,
+            "hits": 2592,
+            "cancels": 426,
+            "targetLost": 316,
+            "basics": 4777,
+            "zeroDamageGames": 0,
+            "winRate": 0.484375,
+            "targetLostRatio": 0.10286458333333333
+          },
+          "current": {
+            "games": 1024,
+            "wins": 525,
+            "draws": 0,
+            "casts": 3004,
+            "hits": 2831,
+            "cancels": 105,
+            "targetLost": 0,
+            "basics": 4759,
+            "zeroDamageGames": 0,
+            "winRate": 0.5126953125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 1017,
+            "draws": 0,
+            "casts": 3340,
+            "hits": 2814,
+            "cancels": 474,
+            "targetLost": 468,
+            "basics": 5490,
+            "zeroDamageGames": 0,
+            "winRate": 0.9931640625,
+            "targetLostRatio": 0.14011976047904193
+          },
+          "current": {
+            "games": 1024,
+            "wins": 1018,
+            "draws": 0,
+            "casts": 3321,
+            "hits": 3269,
+            "cancels": 5,
+            "targetLost": 0,
+            "basics": 5134,
+            "zeroDamageGames": 0,
+            "winRate": 0.994140625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 586,
+            "draws": 0,
+            "casts": 3084,
+            "hits": 2548,
+            "cancels": 510,
+            "targetLost": 361,
+            "basics": 4799,
+            "zeroDamageGames": 0,
+            "winRate": 0.572265625,
+            "targetLostRatio": 0.11705577172503243
+          },
+          "current": {
+            "games": 1024,
+            "wins": 622,
+            "draws": 0,
+            "casts": 3013,
+            "hits": 2856,
+            "cancels": 140,
+            "targetLost": 0,
+            "basics": 4727,
+            "zeroDamageGames": 0,
+            "winRate": 0.607421875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 1017,
+            "draws": 0,
+            "casts": 3340,
+            "hits": 2814,
+            "cancels": 474,
+            "targetLost": 468,
+            "basics": 5490,
+            "zeroDamageGames": 0,
+            "winRate": 0.9931640625,
+            "targetLostRatio": 0.14011976047904193
+          },
+          "current": {
+            "games": 1024,
+            "wins": 1018,
+            "draws": 0,
+            "casts": 3321,
+            "hits": 3269,
+            "cancels": 5,
+            "targetLost": 0,
+            "basics": 5134,
+            "zeroDamageGames": 0,
+            "winRate": 0.994140625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 1017,
+            "draws": 0,
+            "casts": 3340,
+            "hits": 2814,
+            "cancels": 474,
+            "targetLost": 468,
+            "basics": 5490,
+            "zeroDamageGames": 0,
+            "winRate": 0.9931640625,
+            "targetLostRatio": 0.14011976047904193
+          },
+          "current": {
+            "games": 1024,
+            "wins": 1018,
+            "draws": 0,
+            "casts": 3321,
+            "hits": 3269,
+            "cancels": 5,
+            "targetLost": 0,
+            "basics": 5134,
+            "zeroDamageGames": 0,
+            "winRate": 0.994140625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 1017,
+            "draws": 0,
+            "casts": 3340,
+            "hits": 2814,
+            "cancels": 474,
+            "targetLost": 468,
+            "basics": 5490,
+            "zeroDamageGames": 0,
+            "winRate": 0.9931640625,
+            "targetLostRatio": 0.14011976047904193
+          },
+          "current": {
+            "games": 1024,
+            "wins": 1018,
+            "draws": 0,
+            "casts": 3321,
+            "hits": 3269,
+            "cancels": 5,
+            "targetLost": 0,
+            "basics": 5134,
+            "zeroDamageGames": 0,
+            "winRate": 0.994140625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 519,
+            "draws": 0,
+            "casts": 3093,
+            "hits": 2599,
+            "cancels": 473,
+            "targetLost": 283,
+            "basics": 4767,
+            "zeroDamageGames": 0,
+            "winRate": 0.5068359375,
+            "targetLostRatio": 0.09149692854833495
+          },
+          "current": {
+            "games": 1024,
+            "wins": 554,
+            "draws": 0,
+            "casts": 3023,
+            "hits": 2829,
+            "cancels": 176,
+            "targetLost": 0,
+            "basics": 4710,
+            "zeroDamageGames": 0,
+            "winRate": 0.541015625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 573,
+            "draws": 0,
+            "casts": 2894,
+            "hits": 2416,
+            "cancels": 456,
+            "targetLost": 306,
+            "basics": 4507,
+            "zeroDamageGames": 2,
+            "winRate": 0.5595703125,
+            "targetLostRatio": 0.10573600552868002
+          },
+          "current": {
+            "games": 1024,
+            "wins": 595,
+            "draws": 0,
+            "casts": 2826,
+            "hits": 2654,
+            "cancels": 138,
+            "targetLost": 0,
+            "basics": 4490,
+            "zeroDamageGames": 2,
+            "winRate": 0.5810546875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-040",
+          "name": "마리엘",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 557,
+            "draws": 0,
+            "casts": 3080,
+            "hits": 2550,
+            "cancels": 499,
+            "targetLost": 360,
+            "basics": 4828,
+            "zeroDamageGames": 0,
+            "winRate": 0.5439453125,
+            "targetLostRatio": 0.11688311688311688
+          },
+          "current": {
+            "games": 1024,
+            "wins": 598,
+            "draws": 0,
+            "casts": 3010,
+            "hits": 2845,
+            "cancels": 133,
+            "targetLost": 0,
+            "basics": 4790,
+            "zeroDamageGames": 0,
+            "winRate": 0.583984375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-042",
+          "name": "경찰 조은",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 809,
+            "draws": 0,
+            "casts": 3379,
+            "hits": 2847,
+            "cancels": 499,
+            "targetLost": 404,
+            "basics": 5346,
+            "zeroDamageGames": 0,
+            "winRate": 0.7900390625,
+            "targetLostRatio": 0.1195620005918911
+          },
+          "current": {
+            "games": 1024,
+            "wins": 830,
+            "draws": 0,
+            "casts": 3273,
+            "hits": 3138,
+            "cancels": 88,
+            "targetLost": 0,
+            "basics": 5288,
+            "zeroDamageGames": 0,
+            "winRate": 0.810546875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-043",
+          "name": "동탄 디임",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 618,
+            "draws": 0,
+            "casts": 2900,
+            "hits": 2407,
+            "cancels": 472,
+            "targetLost": 333,
+            "basics": 4479,
+            "zeroDamageGames": 0,
+            "winRate": 0.603515625,
+            "targetLostRatio": 0.11482758620689655
+          },
+          "current": {
+            "games": 1024,
+            "wins": 638,
+            "draws": 0,
+            "casts": 2829,
+            "hits": 2673,
+            "cancels": 132,
+            "targetLost": 0,
+            "basics": 4458,
+            "zeroDamageGames": 0,
+            "winRate": 0.623046875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-044",
+          "name": "하이희야",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 672,
+            "draws": 0,
+            "casts": 3044,
+            "hits": 2529,
+            "cancels": 485,
+            "targetLost": 330,
+            "basics": 4726,
+            "zeroDamageGames": 0,
+            "winRate": 0.65625,
+            "targetLostRatio": 0.10840998685939553
+          },
+          "current": {
+            "games": 1024,
+            "wins": 689,
+            "draws": 0,
+            "casts": 2951,
+            "hits": 2788,
+            "cancels": 144,
+            "targetLost": 0,
+            "basics": 4695,
+            "zeroDamageGames": 0,
+            "winRate": 0.6728515625,
+            "targetLostRatio": 0
+          }
+        }
+      ]
+    },
+    {
+      "power": 1000000,
+      "opponents": [
+        {
+          "opponent": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 804,
+            "draws": 0,
+            "casts": 2921,
+            "hits": 2319,
+            "cancels": 536,
+            "targetLost": 444,
+            "basics": 4582,
+            "zeroDamageGames": 33,
+            "winRate": 0.78515625,
+            "targetLostRatio": 0.15200273878808626
+          },
+          "current": {
+            "games": 1024,
+            "wins": 831,
+            "draws": 0,
+            "casts": 2854,
+            "hits": 2720,
+            "cancels": 86,
+            "targetLost": 0,
+            "basics": 4435,
+            "zeroDamageGames": 22,
+            "winRate": 0.8115234375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 512,
+            "draws": 0,
+            "casts": 2680,
+            "hits": 2098,
+            "cancels": 510,
+            "targetLost": 355,
+            "basics": 3958,
+            "zeroDamageGames": 70,
+            "winRate": 0.5,
+            "targetLostRatio": 0.13246268656716417
+          },
+          "current": {
+            "games": 1024,
+            "wins": 532,
+            "draws": 0,
+            "casts": 2616,
+            "hits": 2390,
+            "cancels": 147,
+            "targetLost": 0,
+            "basics": 3845,
+            "zeroDamageGames": 52,
+            "winRate": 0.51953125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 804,
+            "draws": 0,
+            "casts": 2921,
+            "hits": 2319,
+            "cancels": 536,
+            "targetLost": 444,
+            "basics": 4582,
+            "zeroDamageGames": 33,
+            "winRate": 0.78515625,
+            "targetLostRatio": 0.15200273878808626
+          },
+          "current": {
+            "games": 1024,
+            "wins": 831,
+            "draws": 0,
+            "casts": 2854,
+            "hits": 2720,
+            "cancels": 86,
+            "targetLost": 0,
+            "basics": 4435,
+            "zeroDamageGames": 22,
+            "winRate": 0.8115234375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 501,
+            "draws": 0,
+            "casts": 2509,
+            "hits": 1914,
+            "cancels": 528,
+            "targetLost": 370,
+            "basics": 3669,
+            "zeroDamageGames": 44,
+            "winRate": 0.4892578125,
+            "targetLostRatio": 0.14746911119968115
+          },
+          "current": {
+            "games": 1024,
+            "wins": 534,
+            "draws": 0,
+            "casts": 2473,
+            "hits": 2257,
+            "cancels": 150,
+            "targetLost": 0,
+            "basics": 3578,
+            "zeroDamageGames": 31,
+            "winRate": 0.521484375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 804,
+            "draws": 0,
+            "casts": 2921,
+            "hits": 2319,
+            "cancels": 536,
+            "targetLost": 444,
+            "basics": 4582,
+            "zeroDamageGames": 33,
+            "winRate": 0.78515625,
+            "targetLostRatio": 0.15200273878808626
+          },
+          "current": {
+            "games": 1024,
+            "wins": 831,
+            "draws": 0,
+            "casts": 2854,
+            "hits": 2720,
+            "cancels": 86,
+            "targetLost": 0,
+            "basics": 4435,
+            "zeroDamageGames": 22,
+            "winRate": 0.8115234375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 804,
+            "draws": 0,
+            "casts": 2921,
+            "hits": 2319,
+            "cancels": 536,
+            "targetLost": 444,
+            "basics": 4582,
+            "zeroDamageGames": 33,
+            "winRate": 0.78515625,
+            "targetLostRatio": 0.15200273878808626
+          },
+          "current": {
+            "games": 1024,
+            "wins": 831,
+            "draws": 0,
+            "casts": 2854,
+            "hits": 2720,
+            "cancels": 86,
+            "targetLost": 0,
+            "basics": 4435,
+            "zeroDamageGames": 22,
+            "winRate": 0.8115234375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 804,
+            "draws": 0,
+            "casts": 2921,
+            "hits": 2319,
+            "cancels": 536,
+            "targetLost": 444,
+            "basics": 4582,
+            "zeroDamageGames": 33,
+            "winRate": 0.78515625,
+            "targetLostRatio": 0.15200273878808626
+          },
+          "current": {
+            "games": 1024,
+            "wins": 831,
+            "draws": 0,
+            "casts": 2854,
+            "hits": 2720,
+            "cancels": 86,
+            "targetLost": 0,
+            "basics": 4435,
+            "zeroDamageGames": 22,
+            "winRate": 0.8115234375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 503,
+            "draws": 0,
+            "casts": 2548,
+            "hits": 1963,
+            "cancels": 511,
+            "targetLost": 378,
+            "basics": 3790,
+            "zeroDamageGames": 46,
+            "winRate": 0.4912109375,
+            "targetLostRatio": 0.14835164835164835
+          },
+          "current": {
+            "games": 1024,
+            "wins": 533,
+            "draws": 0,
+            "casts": 2511,
+            "hits": 2304,
+            "cancels": 134,
+            "targetLost": 0,
+            "basics": 3695,
+            "zeroDamageGames": 25,
+            "winRate": 0.5205078125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 374,
+            "draws": 0,
+            "casts": 2151,
+            "hits": 1631,
+            "cancels": 481,
+            "targetLost": 295,
+            "basics": 2916,
+            "zeroDamageGames": 80,
+            "winRate": 0.365234375,
+            "targetLostRatio": 0.13714551371455136
+          },
+          "current": {
+            "games": 1024,
+            "wins": 409,
+            "draws": 0,
+            "casts": 2153,
+            "hits": 1930,
+            "cancels": 183,
+            "targetLost": 0,
+            "basics": 2875,
+            "zeroDamageGames": 68,
+            "winRate": 0.3994140625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-040",
+          "name": "마리엘",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 466,
+            "draws": 0,
+            "casts": 2453,
+            "hits": 1881,
+            "cancels": 514,
+            "targetLost": 348,
+            "basics": 3577,
+            "zeroDamageGames": 58,
+            "winRate": 0.455078125,
+            "targetLostRatio": 0.1418671015083571
+          },
+          "current": {
+            "games": 1024,
+            "wins": 497,
+            "draws": 0,
+            "casts": 2417,
+            "hits": 2203,
+            "cancels": 160,
+            "targetLost": 0,
+            "basics": 3464,
+            "zeroDamageGames": 45,
+            "winRate": 0.4853515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-042",
+          "name": "경찰 조은",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 575,
+            "draws": 0,
+            "casts": 2640,
+            "hits": 2059,
+            "cancels": 504,
+            "targetLost": 349,
+            "basics": 3872,
+            "zeroDamageGames": 54,
+            "winRate": 0.5615234375,
+            "targetLostRatio": 0.1321969696969697
+          },
+          "current": {
+            "games": 1024,
+            "wins": 599,
+            "draws": 0,
+            "casts": 2589,
+            "hits": 2358,
+            "cancels": 154,
+            "targetLost": 0,
+            "basics": 3778,
+            "zeroDamageGames": 42,
+            "winRate": 0.5849609375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-043",
+          "name": "동탄 디임",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 445,
+            "draws": 0,
+            "casts": 2304,
+            "hits": 1776,
+            "cancels": 474,
+            "targetLost": 313,
+            "basics": 3244,
+            "zeroDamageGames": 63,
+            "winRate": 0.4345703125,
+            "targetLostRatio": 0.13585069444444445
+          },
+          "current": {
+            "games": 1024,
+            "wins": 474,
+            "draws": 0,
+            "casts": 2288,
+            "hits": 2070,
+            "cancels": 160,
+            "targetLost": 0,
+            "basics": 3186,
+            "zeroDamageGames": 46,
+            "winRate": 0.462890625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-044",
+          "name": "하이희야",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 535,
+            "draws": 0,
+            "casts": 2528,
+            "hits": 1982,
+            "cancels": 482,
+            "targetLost": 340,
+            "basics": 3682,
+            "zeroDamageGames": 52,
+            "winRate": 0.5224609375,
+            "targetLostRatio": 0.13449367088607594
+          },
+          "current": {
+            "games": 1024,
+            "wins": 559,
+            "draws": 0,
+            "casts": 2482,
+            "hits": 2281,
+            "cancels": 135,
+            "targetLost": 0,
+            "basics": 3607,
+            "zeroDamageGames": 37,
+            "winRate": 0.5458984375,
+            "targetLostRatio": 0
+          }
+        }
+      ]
+    },
+    {
+      "power": 20000000,
+      "opponents": [
+        {
+          "opponent": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 937,
+            "draws": 0,
+            "casts": 3109,
+            "hits": 2473,
+            "cancels": 577,
+            "targetLost": 535,
+            "basics": 4978,
+            "zeroDamageGames": 2,
+            "winRate": 0.9150390625,
+            "targetLostRatio": 0.17208105500160822
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 29,
+            "targetLost": 0,
+            "basics": 4732,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 476,
+            "draws": 0,
+            "casts": 2582,
+            "hits": 1964,
+            "cancels": 560,
+            "targetLost": 394,
+            "basics": 3863,
+            "zeroDamageGames": 8,
+            "winRate": 0.46484375,
+            "targetLostRatio": 0.15259488768396592
+          },
+          "current": {
+            "games": 1024,
+            "wins": 515,
+            "draws": 0,
+            "casts": 2572,
+            "hits": 2364,
+            "cancels": 167,
+            "targetLost": 0,
+            "basics": 3761,
+            "zeroDamageGames": 5,
+            "winRate": 0.5029296875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 937,
+            "draws": 0,
+            "casts": 3109,
+            "hits": 2473,
+            "cancels": 577,
+            "targetLost": 535,
+            "basics": 4978,
+            "zeroDamageGames": 2,
+            "winRate": 0.9150390625,
+            "targetLostRatio": 0.17208105500160822
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 29,
+            "targetLost": 0,
+            "basics": 4732,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 455,
+            "draws": 0,
+            "casts": 2449,
+            "hits": 1866,
+            "cancels": 559,
+            "targetLost": 372,
+            "basics": 3526,
+            "zeroDamageGames": 4,
+            "winRate": 0.4443359375,
+            "targetLostRatio": 0.1518987341772152
+          },
+          "current": {
+            "games": 1024,
+            "wins": 500,
+            "draws": 0,
+            "casts": 2468,
+            "hits": 2285,
+            "cancels": 159,
+            "targetLost": 0,
+            "basics": 3472,
+            "zeroDamageGames": 0,
+            "winRate": 0.48828125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 937,
+            "draws": 0,
+            "casts": 3109,
+            "hits": 2473,
+            "cancels": 577,
+            "targetLost": 535,
+            "basics": 4978,
+            "zeroDamageGames": 2,
+            "winRate": 0.9150390625,
+            "targetLostRatio": 0.17208105500160822
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 29,
+            "targetLost": 0,
+            "basics": 4732,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 937,
+            "draws": 0,
+            "casts": 3109,
+            "hits": 2473,
+            "cancels": 577,
+            "targetLost": 535,
+            "basics": 4978,
+            "zeroDamageGames": 2,
+            "winRate": 0.9150390625,
+            "targetLostRatio": 0.17208105500160822
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 29,
+            "targetLost": 0,
+            "basics": 4732,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 937,
+            "draws": 0,
+            "casts": 3109,
+            "hits": 2473,
+            "cancels": 577,
+            "targetLost": 535,
+            "basics": 4978,
+            "zeroDamageGames": 2,
+            "winRate": 0.9150390625,
+            "targetLostRatio": 0.17208105500160822
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 29,
+            "targetLost": 0,
+            "basics": 4732,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 478,
+            "draws": 0,
+            "casts": 2536,
+            "hits": 1987,
+            "cancels": 510,
+            "targetLost": 365,
+            "basics": 3715,
+            "zeroDamageGames": 5,
+            "winRate": 0.466796875,
+            "targetLostRatio": 0.14392744479495267
+          },
+          "current": {
+            "games": 1024,
+            "wins": 526,
+            "draws": 0,
+            "casts": 2532,
+            "hits": 2356,
+            "cancels": 142,
+            "targetLost": 0,
+            "basics": 3608,
+            "zeroDamageGames": 1,
+            "winRate": 0.513671875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 475,
+            "draws": 0,
+            "casts": 2336,
+            "hits": 1807,
+            "cancels": 499,
+            "targetLost": 340,
+            "basics": 3351,
+            "zeroDamageGames": 15,
+            "winRate": 0.4638671875,
+            "targetLostRatio": 0.14554794520547945
+          },
+          "current": {
+            "games": 1024,
+            "wins": 539,
+            "draws": 0,
+            "casts": 2366,
+            "hits": 2205,
+            "cancels": 130,
+            "targetLost": 0,
+            "basics": 3321,
+            "zeroDamageGames": 4,
+            "winRate": 0.5263671875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-040",
+          "name": "마리엘",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 411,
+            "draws": 0,
+            "casts": 2407,
+            "hits": 1856,
+            "cancels": 528,
+            "targetLost": 359,
+            "basics": 3512,
+            "zeroDamageGames": 4,
+            "winRate": 0.4013671875,
+            "targetLostRatio": 0.1491483174075613
+          },
+          "current": {
+            "games": 1024,
+            "wins": 463,
+            "draws": 0,
+            "casts": 2436,
+            "hits": 2268,
+            "cancels": 139,
+            "targetLost": 0,
+            "basics": 3455,
+            "zeroDamageGames": 0,
+            "winRate": 0.4521484375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-042",
+          "name": "경찰 조은",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 762,
+            "draws": 0,
+            "casts": 2897,
+            "hits": 2242,
+            "cancels": 586,
+            "targetLost": 471,
+            "basics": 4476,
+            "zeroDamageGames": 6,
+            "winRate": 0.744140625,
+            "targetLostRatio": 0.1625819813600276
+          },
+          "current": {
+            "games": 1024,
+            "wins": 800,
+            "draws": 0,
+            "casts": 2876,
+            "hits": 2741,
+            "cancels": 90,
+            "targetLost": 0,
+            "basics": 4322,
+            "zeroDamageGames": 0,
+            "winRate": 0.78125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-043",
+          "name": "동탄 디임",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 495,
+            "draws": 0,
+            "casts": 2358,
+            "hits": 1836,
+            "cancels": 496,
+            "targetLost": 355,
+            "basics": 3418,
+            "zeroDamageGames": 9,
+            "winRate": 0.4833984375,
+            "targetLostRatio": 0.1505513146734521
+          },
+          "current": {
+            "games": 1024,
+            "wins": 528,
+            "draws": 0,
+            "casts": 2374,
+            "hits": 2222,
+            "cancels": 125,
+            "targetLost": 0,
+            "basics": 3353,
+            "zeroDamageGames": 0,
+            "winRate": 0.515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-044",
+          "name": "하이희야",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 683,
+            "draws": 0,
+            "casts": 2731,
+            "hits": 2130,
+            "cancels": 551,
+            "targetLost": 428,
+            "basics": 4165,
+            "zeroDamageGames": 5,
+            "winRate": 0.6669921875,
+            "targetLostRatio": 0.15671915049432442
+          },
+          "current": {
+            "games": 1024,
+            "wins": 718,
+            "draws": 0,
+            "casts": 2722,
+            "hits": 2584,
+            "cancels": 104,
+            "targetLost": 0,
+            "basics": 4031,
+            "zeroDamageGames": 0,
+            "winRate": 0.701171875,
+            "targetLostRatio": 0
+          }
+        }
+      ]
+    },
+    {
+      "power": 100000000,
+      "opponents": [
+        {
+          "opponent": "V-002",
+          "name": "리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 934,
+            "draws": 0,
+            "casts": 3104,
+            "hits": 2471,
+            "cancels": 578,
+            "targetLost": 535,
+            "basics": 4974,
+            "zeroDamageGames": 2,
+            "winRate": 0.912109375,
+            "targetLostRatio": 0.1723582474226804
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 30,
+            "targetLost": 0,
+            "basics": 4729,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-004",
+          "name": "베스페라",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 472,
+            "draws": 0,
+            "casts": 2577,
+            "hits": 1960,
+            "cancels": 559,
+            "targetLost": 394,
+            "basics": 3851,
+            "zeroDamageGames": 8,
+            "winRate": 0.4609375,
+            "targetLostRatio": 0.15289095847885137
+          },
+          "current": {
+            "games": 1024,
+            "wins": 514,
+            "draws": 0,
+            "casts": 2570,
+            "hits": 2360,
+            "cancels": 167,
+            "targetLost": 0,
+            "basics": 3755,
+            "zeroDamageGames": 5,
+            "winRate": 0.501953125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-007",
+          "name": "서윤",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 934,
+            "draws": 0,
+            "casts": 3104,
+            "hits": 2471,
+            "cancels": 578,
+            "targetLost": 535,
+            "basics": 4974,
+            "zeroDamageGames": 2,
+            "winRate": 0.912109375,
+            "targetLostRatio": 0.1723582474226804
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 30,
+            "targetLost": 0,
+            "basics": 4729,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-009",
+          "name": "련화",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 453,
+            "draws": 0,
+            "casts": 2442,
+            "hits": 1860,
+            "cancels": 558,
+            "targetLost": 371,
+            "basics": 3518,
+            "zeroDamageGames": 4,
+            "winRate": 0.4423828125,
+            "targetLostRatio": 0.15192465192465193
+          },
+          "current": {
+            "games": 1024,
+            "wins": 499,
+            "draws": 0,
+            "casts": 2465,
+            "hits": 2280,
+            "cancels": 161,
+            "targetLost": 0,
+            "basics": 3465,
+            "zeroDamageGames": 0,
+            "winRate": 0.4873046875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-014",
+          "name": "엘리시아",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 934,
+            "draws": 0,
+            "casts": 3104,
+            "hits": 2471,
+            "cancels": 578,
+            "targetLost": 535,
+            "basics": 4974,
+            "zeroDamageGames": 2,
+            "winRate": 0.912109375,
+            "targetLostRatio": 0.1723582474226804
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 30,
+            "targetLost": 0,
+            "basics": 4729,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-027",
+          "name": "케일",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 934,
+            "draws": 0,
+            "casts": 3104,
+            "hits": 2471,
+            "cancels": 578,
+            "targetLost": 535,
+            "basics": 4974,
+            "zeroDamageGames": 2,
+            "winRate": 0.912109375,
+            "targetLostRatio": 0.1723582474226804
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 30,
+            "targetLost": 0,
+            "basics": 4729,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-034",
+          "name": "세이지",
+          "rank": "A",
+          "before": {
+            "games": 1024,
+            "wins": 934,
+            "draws": 0,
+            "casts": 3104,
+            "hits": 2471,
+            "cancels": 578,
+            "targetLost": 535,
+            "basics": 4974,
+            "zeroDamageGames": 2,
+            "winRate": 0.912109375,
+            "targetLostRatio": 0.1723582474226804
+          },
+          "current": {
+            "games": 1024,
+            "wins": 945,
+            "draws": 0,
+            "casts": 3075,
+            "hits": 2993,
+            "cancels": 30,
+            "targetLost": 0,
+            "basics": 4729,
+            "zeroDamageGames": 0,
+            "winRate": 0.9228515625,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-036",
+          "name": "네레이아",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 477,
+            "draws": 0,
+            "casts": 2535,
+            "hits": 1980,
+            "cancels": 515,
+            "targetLost": 366,
+            "basics": 3707,
+            "zeroDamageGames": 5,
+            "winRate": 0.4658203125,
+            "targetLostRatio": 0.14437869822485208
+          },
+          "current": {
+            "games": 1024,
+            "wins": 526,
+            "draws": 0,
+            "casts": 2532,
+            "hits": 2355,
+            "cancels": 143,
+            "targetLost": 0,
+            "basics": 3605,
+            "zeroDamageGames": 1,
+            "winRate": 0.513671875,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-037",
+          "name": "아델린",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 474,
+            "draws": 0,
+            "casts": 2333,
+            "hits": 1806,
+            "cancels": 497,
+            "targetLost": 339,
+            "basics": 3345,
+            "zeroDamageGames": 15,
+            "winRate": 0.462890625,
+            "targetLostRatio": 0.1453064723531933
+          },
+          "current": {
+            "games": 1024,
+            "wins": 536,
+            "draws": 0,
+            "casts": 2364,
+            "hits": 2206,
+            "cancels": 130,
+            "targetLost": 0,
+            "basics": 3313,
+            "zeroDamageGames": 4,
+            "winRate": 0.5234375,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-040",
+          "name": "마리엘",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 408,
+            "draws": 0,
+            "casts": 2405,
+            "hits": 1852,
+            "cancels": 530,
+            "targetLost": 359,
+            "basics": 3507,
+            "zeroDamageGames": 4,
+            "winRate": 0.3984375,
+            "targetLostRatio": 0.14927234927234928
+          },
+          "current": {
+            "games": 1024,
+            "wins": 461,
+            "draws": 0,
+            "casts": 2435,
+            "hits": 2268,
+            "cancels": 140,
+            "targetLost": 0,
+            "basics": 3453,
+            "zeroDamageGames": 0,
+            "winRate": 0.4501953125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-042",
+          "name": "경찰 조은",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 763,
+            "draws": 0,
+            "casts": 2895,
+            "hits": 2238,
+            "cancels": 587,
+            "targetLost": 472,
+            "basics": 4476,
+            "zeroDamageGames": 6,
+            "winRate": 0.7451171875,
+            "targetLostRatio": 0.1630397236614853
+          },
+          "current": {
+            "games": 1024,
+            "wins": 800,
+            "draws": 0,
+            "casts": 2874,
+            "hits": 2737,
+            "cancels": 91,
+            "targetLost": 0,
+            "basics": 4320,
+            "zeroDamageGames": 0,
+            "winRate": 0.78125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-043",
+          "name": "동탄 디임",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 495,
+            "draws": 0,
+            "casts": 2357,
+            "hits": 1835,
+            "cancels": 496,
+            "targetLost": 355,
+            "basics": 3422,
+            "zeroDamageGames": 9,
+            "winRate": 0.4833984375,
+            "targetLostRatio": 0.15061518879932118
+          },
+          "current": {
+            "games": 1024,
+            "wins": 530,
+            "draws": 0,
+            "casts": 2373,
+            "hits": 2220,
+            "cancels": 127,
+            "targetLost": 0,
+            "basics": 3352,
+            "zeroDamageGames": 0,
+            "winRate": 0.517578125,
+            "targetLostRatio": 0
+          }
+        },
+        {
+          "opponent": "V-044",
+          "name": "하이희야",
+          "rank": "SS",
+          "before": {
+            "games": 1024,
+            "wins": 685,
+            "draws": 0,
+            "casts": 2729,
+            "hits": 2124,
+            "cancels": 553,
+            "targetLost": 430,
+            "basics": 4162,
+            "zeroDamageGames": 5,
+            "winRate": 0.6689453125,
+            "targetLostRatio": 0.15756687431293515
+          },
+          "current": {
+            "games": 1024,
+            "wins": 718,
+            "draws": 0,
+            "casts": 2718,
+            "hits": 2577,
+            "cancels": 105,
+            "targetLost": 0,
+            "basics": 4021,
+            "zeroDamageGames": 0,
+            "winRate": 0.701171875,
+            "targetLostRatio": 0
+          }
+        }
+      ]
+    }
+  ],
+  "priorScaleComparison": [
+    {
+      "opponent": "V-002",
+      "name": "리시아",
+      "rank": "A",
+      "before": {
+        "games": 3072,
+        "wins": 2758,
+        "draws": 0,
+        "casts": 9370,
+        "hits": 7606,
+        "cancels": 1587,
+        "targetLost": 1447,
+        "basics": 15050,
+        "zeroDamageGames": 35,
+        "winRate": 0.8977864583333334,
+        "targetLostRatio": 0.15442902881536819
+      },
+      "current": {
+        "games": 3072,
+        "wins": 2794,
+        "draws": 0,
+        "casts": 9250,
+        "hits": 8982,
+        "cancels": 120,
+        "targetLost": 0,
+        "basics": 14301,
+        "zeroDamageGames": 22,
+        "winRate": 0.9095052083333334,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 1484,
+        "draws": 0,
+        "casts": 8334,
+        "hits": 6654,
+        "cancels": 1496,
+        "targetLost": 1065,
+        "basics": 12598,
+        "zeroDamageGames": 78,
+        "winRate": 0.4830729166666667,
+        "targetLostRatio": 0.12778977681785458
+      },
+      "current": {
+        "games": 3072,
+        "wins": 1572,
+        "draws": 0,
+        "casts": 8192,
+        "hits": 7585,
+        "cancels": 419,
+        "targetLost": 0,
+        "basics": 12365,
+        "zeroDamageGames": 57,
+        "winRate": 0.51171875,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-007",
+      "name": "서윤",
+      "rank": "A",
+      "before": {
+        "games": 3072,
+        "wins": 2758,
+        "draws": 0,
+        "casts": 9370,
+        "hits": 7606,
+        "cancels": 1587,
+        "targetLost": 1447,
+        "basics": 15050,
+        "zeroDamageGames": 35,
+        "winRate": 0.8977864583333334,
+        "targetLostRatio": 0.15442902881536819
+      },
+      "current": {
+        "games": 3072,
+        "wins": 2794,
+        "draws": 0,
+        "casts": 9250,
+        "hits": 8982,
+        "cancels": 120,
+        "targetLost": 0,
+        "basics": 14301,
+        "zeroDamageGames": 22,
+        "winRate": 0.9095052083333334,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 1542,
+        "draws": 0,
+        "casts": 8042,
+        "hits": 6328,
+        "cancels": 1597,
+        "targetLost": 1103,
+        "basics": 11994,
+        "zeroDamageGames": 48,
+        "winRate": 0.501953125,
+        "targetLostRatio": 0.13715493658293956
+      },
+      "current": {
+        "games": 3072,
+        "wins": 1656,
+        "draws": 0,
+        "casts": 7954,
+        "hits": 7398,
+        "cancels": 449,
+        "targetLost": 0,
+        "basics": 11777,
+        "zeroDamageGames": 31,
+        "winRate": 0.5390625,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-014",
+      "name": "엘리시아",
+      "rank": "A",
+      "before": {
+        "games": 3072,
+        "wins": 2758,
+        "draws": 0,
+        "casts": 9370,
+        "hits": 7606,
+        "cancels": 1587,
+        "targetLost": 1447,
+        "basics": 15050,
+        "zeroDamageGames": 35,
+        "winRate": 0.8977864583333334,
+        "targetLostRatio": 0.15442902881536819
+      },
+      "current": {
+        "games": 3072,
+        "wins": 2794,
+        "draws": 0,
+        "casts": 9250,
+        "hits": 8982,
+        "cancels": 120,
+        "targetLost": 0,
+        "basics": 14301,
+        "zeroDamageGames": 22,
+        "winRate": 0.9095052083333334,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-027",
+      "name": "케일",
+      "rank": "A",
+      "before": {
+        "games": 3072,
+        "wins": 2758,
+        "draws": 0,
+        "casts": 9370,
+        "hits": 7606,
+        "cancels": 1587,
+        "targetLost": 1447,
+        "basics": 15050,
+        "zeroDamageGames": 35,
+        "winRate": 0.8977864583333334,
+        "targetLostRatio": 0.15442902881536819
+      },
+      "current": {
+        "games": 3072,
+        "wins": 2794,
+        "draws": 0,
+        "casts": 9250,
+        "hits": 8982,
+        "cancels": 120,
+        "targetLost": 0,
+        "basics": 14301,
+        "zeroDamageGames": 22,
+        "winRate": 0.9095052083333334,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-034",
+      "name": "세이지",
+      "rank": "A",
+      "before": {
+        "games": 3072,
+        "wins": 2758,
+        "draws": 0,
+        "casts": 9370,
+        "hits": 7606,
+        "cancels": 1587,
+        "targetLost": 1447,
+        "basics": 15050,
+        "zeroDamageGames": 35,
+        "winRate": 0.8977864583333334,
+        "targetLostRatio": 0.15442902881536819
+      },
+      "current": {
+        "games": 3072,
+        "wins": 2794,
+        "draws": 0,
+        "casts": 9250,
+        "hits": 8982,
+        "cancels": 120,
+        "targetLost": 0,
+        "basics": 14301,
+        "zeroDamageGames": 22,
+        "winRate": 0.9095052083333334,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 1500,
+        "draws": 0,
+        "casts": 8177,
+        "hits": 6549,
+        "cancels": 1494,
+        "targetLost": 1026,
+        "basics": 12272,
+        "zeroDamageGames": 51,
+        "winRate": 0.48828125,
+        "targetLostRatio": 0.12547389017977253
+      },
+      "current": {
+        "games": 3072,
+        "wins": 1613,
+        "draws": 0,
+        "casts": 8066,
+        "hits": 7489,
+        "cancels": 452,
+        "targetLost": 0,
+        "basics": 12013,
+        "zeroDamageGames": 26,
+        "winRate": 0.5250651041666666,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 1422,
+        "draws": 0,
+        "casts": 7381,
+        "hits": 5854,
+        "cancels": 1436,
+        "targetLost": 941,
+        "basics": 10774,
+        "zeroDamageGames": 97,
+        "winRate": 0.462890625,
+        "targetLostRatio": 0.12748950006774148
+      },
+      "current": {
+        "games": 3072,
+        "wins": 1543,
+        "draws": 0,
+        "casts": 7345,
+        "hits": 6789,
+        "cancels": 451,
+        "targetLost": 0,
+        "basics": 10686,
+        "zeroDamageGames": 74,
+        "winRate": 0.5022786458333334,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 1434,
+        "draws": 0,
+        "casts": 7940,
+        "hits": 6287,
+        "cancels": 1541,
+        "targetLost": 1067,
+        "basics": 11917,
+        "zeroDamageGames": 62,
+        "winRate": 0.466796875,
+        "targetLostRatio": 0.13438287153652392
+      },
+      "current": {
+        "games": 3072,
+        "wins": 1558,
+        "draws": 0,
+        "casts": 7863,
+        "hits": 7316,
+        "cancels": 432,
+        "targetLost": 0,
+        "basics": 11709,
+        "zeroDamageGames": 45,
+        "winRate": 0.5071614583333334,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 2146,
+        "draws": 0,
+        "casts": 8916,
+        "hits": 7148,
+        "cancels": 1589,
+        "targetLost": 1224,
+        "basics": 13694,
+        "zeroDamageGames": 60,
+        "winRate": 0.6985677083333334,
+        "targetLostRatio": 0.13728129205921938
+      },
+      "current": {
+        "games": 3072,
+        "wins": 2229,
+        "draws": 0,
+        "casts": 8738,
+        "hits": 8237,
+        "cancels": 332,
+        "targetLost": 0,
+        "basics": 13388,
+        "zeroDamageGames": 42,
+        "winRate": 0.7255859375,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 1558,
+        "draws": 0,
+        "casts": 7562,
+        "hits": 6019,
+        "cancels": 1442,
+        "targetLost": 1001,
+        "basics": 11141,
+        "zeroDamageGames": 72,
+        "winRate": 0.5071614583333334,
+        "targetLostRatio": 0.13237238825707484
+      },
+      "current": {
+        "games": 3072,
+        "wins": 1640,
+        "draws": 0,
+        "casts": 7491,
+        "hits": 6965,
+        "cancels": 417,
+        "targetLost": 0,
+        "basics": 10997,
+        "zeroDamageGames": 46,
+        "winRate": 0.5338541666666666,
+        "targetLostRatio": 0
+      }
+    },
+    {
+      "opponent": "V-044",
+      "name": "하이희야",
+      "rank": "SS",
+      "before": {
+        "games": 3072,
+        "wins": 1890,
+        "draws": 0,
+        "casts": 8303,
+        "hits": 6641,
+        "cancels": 1518,
+        "targetLost": 1098,
+        "basics": 12573,
+        "zeroDamageGames": 57,
+        "winRate": 0.615234375,
+        "targetLostRatio": 0.1322413585451042
+      },
+      "current": {
+        "games": 3072,
+        "wins": 1966,
+        "draws": 0,
+        "casts": 8155,
+        "hits": 7653,
+        "cancels": 383,
+        "targetLost": 0,
+        "basics": 12333,
+        "zeroDamageGames": 37,
+        "winRate": 0.6399739583333334,
+        "targetLostRatio": 0
+      }
+    }
+  ],
+  "invariants": {
+    "otherMercenariesPvpIdentical": 22016,
+    "allMercenariesSingleBossPveIdentical": 8448
+  },
+  "evidence": [
+    {
+      "opponent": "V-002",
+      "power": 100000,
+      "composition": "mixed",
+      "side": "A",
+      "seed": 15838,
+      "cancel": {
+        "seq": 46,
+        "at": 0.042,
+        "type": "MERCENARY_CANCEL",
+        "actorId": "A:MERCENARY:V-010",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-010",
+        "skillName": "적월 낙형",
+        "mechanic": "WOUNDED_MOON_DRAW",
+        "skillPhaseIndex": 0,
+        "reason": "TARGET_LOST",
+        "label": "적월 낙형"
+      }
+    },
+    {
+      "opponent": "V-002",
+      "power": 100000,
+      "composition": "mixed",
+      "side": "A",
+      "seed": 39595,
+      "cancel": {
+        "seq": 68,
+        "at": 0.099,
+        "type": "MERCENARY_CANCEL",
+        "actorId": "A:MERCENARY:V-010",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-010",
+        "skillName": "적월 낙형",
+        "mechanic": "WOUNDED_MOON_DRAW",
+        "skillPhaseIndex": 0,
+        "reason": "TARGET_LOST",
+        "label": "적월 낙형"
+      }
+    },
+    {
+      "opponent": "V-002",
+      "power": 100000,
+      "composition": "mixed",
+      "side": "A",
+      "seed": 55433,
+      "cancel": {
+        "seq": 51,
+        "at": 0.056,
+        "type": "MERCENARY_CANCEL",
+        "actorId": "A:MERCENARY:V-010",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-010",
+        "skillName": "적월 낙형",
+        "mechanic": "WOUNDED_MOON_DRAW",
+        "skillPhaseIndex": 0,
+        "reason": "TARGET_LOST",
+        "label": "적월 낙형"
+      }
+    }
+  ]
+}

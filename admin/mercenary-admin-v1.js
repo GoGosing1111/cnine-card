@@ -2,6 +2,7 @@ import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms
 import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2098-cms';
 import {isRangedMercenarySkill,rangedMercenarySkillScope,rangedMercenarySkillText,rangedMercenaryPvpRule,MERCENARY_RANGED_RULES} from '../shared/mercenary-ranged-balance-v1.mjs?v=20260917-ranged-v3';
 import {isMercenaryGuardSkill,mercenaryGuardSkillText} from '../shared/mercenary-guard-balance-v1.mjs?v=20260917-guard-v1';
+import {isMercenaryMoonDrawSkill,mercenaryMoonDrawSkillText} from '../shared/mercenary-moon-draw-v1.mjs?v=20260917-moon-draw-v1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=path=>'/'+String(path||'').replace(/^\/+/, '');
@@ -30,7 +31,12 @@ function rankPowerReferences(){return data?.powerStandard?fields('등급별 기�
 function combatLinkReference(rank){const rule=data?.combatLink?.ranks?.[rank];return rule?fields('전력 연계 · 전투 적용 기준',`아군 카드 ${data.combatLink.regularActionsPerTurn}회 행동마다 용병이 추가 행동합니다.`, `<p class="mc-field mc-wide">기본 공격과 피해·회복·보호 스킬의 최소 공격력: 아군 일반 카드 5명의 평균 공격력 ${rule.attackPercent}%. 최소 최대 체력: 평균 최대 체력 ${rule.hpPercent}%. 전투 시작 전용 방벽: 평균 최대 체력 ${rule.shieldPercent}%. 피해를 받으면 체력과 방벽이 소진됩니다.</p>`):'';}
 function current(){return data.document.mercenaries.find(row=>row.code===selected);}
 const rangedActor=row=>({...row,attackStyle:data.rangedCombat?.attackStyles?.[row.code]});
-const combatSkillText=(skill,row)=>mercenaryGuardSkillText(rangedMercenarySkillText(skill,rangedActor(row)));
+const combatSkillText=(skill,row)=>mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(skill,rangedActor(row))));
+function moonDrawReference(row){
+ const assigned=data.document.assignments.find(a=>a.code===row.code)?.skillIds||[];
+ const skills=data.document.skills.filter(s=>assigned.includes(s.id)&&isMercenaryMoonDrawSkill(s));
+ return data.moonDrawCombat&&skills.length?fields('적월 낙형 적용 규칙','현재 배정한 발도 스킬의 표적 재지정',skills.map(s=>'<p class="mc-field mc-wide"><b>'+esc(s.name)+'</b><br>'+esc(mercenaryMoonDrawSkillText(s).effect)+'</p>').join('')):'';
+}
 function guardReference(row){
  const assigned=data.document.assignments.find(a=>a.code===row.code)?.skillIds||[];
  const skills=data.document.skills.filter(s=>assigned.includes(s.id)&&isMercenaryGuardSkill(s));
@@ -67,6 +73,7 @@ function rosterEditor(){
     ${combatLinkReference(r.rank)}
     ${rangedReference(r)}
     ${guardReference(r)}
+    ${moonDrawReference(r)}
     ${fields('04 / 운영 메모','출시 전 검수 사항과 변경 의도를 기록하세요.',field('메모',root+'notes',r.notes,{type:'textarea',wide:true}))}
     </div></div>`;
 }
@@ -78,6 +85,7 @@ function skillEditor(){
     <div class="mc-skill-hero"><div><small>SKILL LIBRARY / ${r.id}</small><h3>${esc(r.name)}</h3><p>${esc(r.mechanic)}</p><a href="${reviewLink}" target="_blank" rel="noopener">PixiJS · GSAP 연출 검수 열기 ↗</a></div><div class="mc-fx-contact">${fx?fx.frames.filter((_,i)=>[4,8,12].includes(i)).map(f=>`<img src="/preview/project-v-mercenary-system-v1/skill-assets-v2/${esc(f.file)}" alt="${esc(r.name)} ${f.index+1}번 프레임">`).join(''):''}<small>연속 ${fx?.frameCount||16}프레임 · ${v.duration}초</small></div></div>
     ${data.rangedCombat&&MERCENARY_RANGED_RULES[r.mechanic]?fields('저격 · 다단 사격 적용 규칙',esc(rangedMercenarySkillScope(r))+'에게 배정한 경우에만 적용합니다.',`<p class="mc-field mc-wide">${esc(MERCENARY_RANGED_RULES[r.mechanic])} ${esc(rangedMercenaryPvpRule(r))}</p>`):''}
     ${data.guardCombat&&isMercenaryGuardSkill(r)?fields('단일 피해 호위 적용 규칙',esc(mercenaryGuardSkillText(r).trigger),`<p class="mc-field mc-wide">${esc(mercenaryGuardSkillText(r).effect)}<br>${esc(mercenaryGuardSkillText(r).counterplay)}</p>`):''}
+    ${data.moonDrawCombat&&isMercenaryMoonDrawSkill(r)?fields('적월 낙형 적용 규칙',esc(mercenaryMoonDrawSkillText(r).trigger),`<p class="mc-field mc-wide">${esc(mercenaryMoonDrawSkillText(r).effect)}<br>${esc(mercenaryMoonDrawSkillText(r).procRule)}</p>`):''}
     ${fields('01 / 스킬 설계','용병 배정은 별도 탭에서 직접 선택합니다.',
       field('스킬 이름',root+'name',r.name,{max:80})+select('검수 상태',root+'review',r.review,REVIEWS)+
       ['role','target','mechanic','trigger','effect','counterplay','bossRule','procRule'].map((key,i)=>field(['역할','대상','핵심 기믹','발동 조건','효과','대응 방법','보스 적용 규칙','추가 발동 규칙'][i],root+key,r[key],{type:'textarea',wide:['effect','procRule'].includes(key)})).join(''))}
