@@ -6,6 +6,17 @@ import {factionStrikeDamage,splitFactionTax} from '../functions/_clan_faction_mo
 import {FACTION_RULES as R} from '../shared/clan-faction-rules-v1.mjs';
 const call=(f,kind,body={},user=f.user)=>mutateFaction(f.env,f.season,user,kind,{requestId:crypto.randomUUID(),...body},f.deps);
 const formation={attack1:[1,2,3],attack2:[4,5],defense1:[6,7,8],defense2:[9,10]};
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} ACTIVE faction season opens before the first regular match`,async t=>{
+  const f=await factionFixture({postgres});t.after(()=>f.close());
+  f.season.starts_at=new Date(f.clock.now+7200000).toISOString();
+  await f.p('UPDATE clan_seasons SET starts_at=? WHERE id=?',f.season.starts_at,f.season.id).run();
+  assert.equal((await factionOverview(f.env,f.season,f.user,f.deps)).season.active,true);
+  await call(f,'formation',{formation});
+  assert.equal((await call(f,'launch',{districtId:'11680',squad:'attack1'})).captured,true);
+  f.season.phase='DRAFT';await f.p("UPDATE clan_seasons SET phase='DRAFT' WHERE id=?",f.season.id).run();
+  assert.equal((await factionOverview(f.env,f.season,f.user,f.deps)).season.active,false);
+  await assert.rejects(call(f,'launch',{districtId:'11710',squad:'attack2'}),/시즌/);
+});
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} faction state, authority, HP, tax and retry invariants`,async t=>{
   const f=await factionFixture({postgres});t.after(()=>f.close());
   const before=await f.p('SELECT * FROM clan_season_teams ORDER BY clan_id').all();

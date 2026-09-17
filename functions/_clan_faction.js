@@ -42,7 +42,9 @@ function formationOf(state,ctx,clanId){
   const ids=new Set(ctx.roster.filter(m=>m.clanId===clanId).map(m=>m.userId));
   return Object.fromEntries(SQUADS.map(s=>[s.id,(state.formations[clanId]?.[s.id]||[]).filter(id=>ids.has(id))]));
 }
-const activeSeason=(s,now)=>s.phase==='ACTIVE'&&now>=date(s.starts_at)&&now<date(s.ends_at);
+// starts_at belongs to the first scheduled regular match. The completed draft
+// opens this independent mode immediately for the ACTIVE season.
+const activeSeason=(s,now)=>s.phase==='ACTIVE'&&now<date(s.ends_at);
 async function pendingSeasons(env,current,user,now){
   const past=rows(await env.DB.prepare(`SELECT f.state_json,s.id,s.season_no,s.ends_at,m.clan_id FROM clan_faction_state f
     JOIN clan_seasons s ON s.id=f.season_id JOIN clan_members m ON m.season_id=s.id AND m.user_id=?
