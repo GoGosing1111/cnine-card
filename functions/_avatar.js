@@ -1,5 +1,6 @@
 import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
 import {handleAvatarAdminGrant} from './_avatar_admin_grant.js';
+import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 
 /* SOOPKETMON AVATAR CATALOG V1
  *
@@ -28,7 +29,7 @@ const ACQUISITION_TYPES=Object.freeze(['UNSET','COIN','DROP','EVENT']);
 const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY','RAID_EXTRA_ENTRY','COIN_GAIN_PERCENT','DROP_RATE_PERCENT']);
 const MAX_SAFE_COIN=Number.MAX_SAFE_INTEGER;
 const AVATAR_EQUIP_COOLDOWN_MS=24*60*60*1000;
-let foundationPromise=null;
+const FOUNDATION_CACHE=Symbol('avatar-foundation-20260918');
 let ownershipExpiryPromise=null;
 let settingsCache=null;
 let settingsCacheAt=0;
@@ -195,8 +196,11 @@ async function ensureTerranEmpressJoeunAvatar(env){
 }
 
 export async function ensureAvatarFoundation(env){
-  if(foundationPromise)return foundationPromise;
-  foundationPromise=(async()=>{
+  return ensureRuntimeFoundation(env,FOUNDATION_CACHE,[
+    FOUNDATION_KEY,EFFECT_OPTIONS_KEY,EQUIPMENT_ALPHA_V2_KEY,EQUIPMENT_ALPHA_V3_KEY,
+    DIMWOOS_AVATAR_KEY,TERRAN_EMPRESS_JOEUN_AVATAR_KEY,HI_HEEYA_AVATAR_KEY,CHEON_AVATAR_KEY,
+    ORIKKUNG_AVATAR_KEY,SAENGBYUWANG_AVATAR_KEY,HANBOK_DIIM_AVATAR_KEY,T1_JOEUN_AVATAR_KEY,OWNERSHIP_EXPIRY_KEY
+  ],async()=>{
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FOUNDATION_KEY).first();
     if(marker?.value!=='1'){
       const schema=avatarSchemaStatements(env);
@@ -227,8 +231,7 @@ export async function ensureAvatarFoundation(env){
     await ensureHanbokDiimAvatar(env);
     await ensureT1JoeunAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
-  })().catch(error=>{foundationPromise=null;throw error});
-  return foundationPromise;
+  });
 }
 
 async function ensureHiHeeyaAvatar(env){

@@ -446,4 +446,15 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   assert.equal(publicWeapon.instanceId,weaponInstance,'an equipped instance remains the representative stack id');
   assert.equal(publicWeapon.quantity,2);
   assert.equal(publicWeapon.equipped,true);
+  const loadoutCall=(path,url,user={id:7,role:'USER'})=>handleEquipment({path,request:new Request(url),env:{DB},deps:{authenticate:async()=>user,json:(payload,status=200)=>({payload,status})}});
+  const fast=await loadoutCall('character/loadout','https://example.test/api/character/loadout?quantities=deferred');
+  assert.equal(fast.payload.equipmentQuantitiesPending,true);
+  assert.equal(fast.payload.equipmentTotalQuantity,null);
+  assert.ok(fast.payload.instances.every(row=>row.quantity===null));
+  assert.deepEqual(fast.payload.loadout,response.payload.loadout);
+  assert.deepEqual(fast.payload.bonuses,response.payload.bonuses);
+  const denied=await loadoutCall('character/equipment/quantities','https://example.test/api/character/equipment/quantities',null);
+  assert.equal(denied.status,401);
+  const invalid=await loadoutCall('character/equipment/quantities','https://example.test/api/character/equipment/quantities?after=-1');
+  assert.equal(invalid.status,400);
 });
