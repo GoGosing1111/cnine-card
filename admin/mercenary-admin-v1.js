@@ -1,5 +1,6 @@
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260913-s-skills';
 import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2098-cms';
+import {isRangedMercenarySkill,rangedMercenarySkillScope,rangedMercenarySkillText,MERCENARY_RANGED_RULES} from '../shared/mercenary-ranged-balance-v1.mjs?v=20260917-ranged-v2';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=path=>'/'+String(path||'').replace(/^\/+/, '');
@@ -27,6 +28,12 @@ function powerReference(rank){const power=data?.powerStandard?.basePowerByRank?.
 function rankPowerReferences(){return data?.powerStandard?fields('등급별 기본 전투력 · 확정','등급별 고정 전투력 · 중복 카드 + 마스터의 별 업그레이드는 차후 공개',data.catalog.ranks.map(powerReference).join('')):'';}
 function combatLinkReference(rank){const rule=data?.combatLink?.ranks?.[rank];return rule?fields('전력 연계 · 전투 적용 기준',`아군 카드 ${data.combatLink.regularActionsPerTurn}회 행동마다 용병이 추가 행동합니다.`, `<p class="mc-field mc-wide">기본 공격과 피해·회복·보호 스킬의 최소 공격력: 아군 일반 카드 5명의 평균 공격력 ${rule.attackPercent}%. 최소 최대 체력: 평균 최대 체력 ${rule.hpPercent}%. 전투 시작 전용 방벽: 평균 최대 체력 ${rule.shieldPercent}%. 피해를 받으면 체력과 방벽이 소진됩니다.</p>`):'';}
 function current(){return data.document.mercenaries.find(row=>row.code===selected);}
+const rangedActor=row=>({...row,attackStyle:data.rangedCombat?.attackStyles?.[row.code]});
+function rangedReference(row){
+ const assigned=data.document.assignments.find(a=>a.code===row.code)?.skillIds||[];
+ const skills=data.document.skills.filter(s=>assigned.includes(s.id)&&isRangedMercenarySkill(rangedActor(row),s));
+ return data.rangedCombat&&skills.length?fields('저격 · 다단 사격 전투 보정','현재 배정한 스킬별 적용 규칙',skills.map(s=>'<p class="mc-field mc-wide"><b>'+esc(s.name)+'</b><br>'+esc(rangedMercenarySkillText(s,rangedActor(row)).effect)+'</p>').join('')):'';
+}
 function list(){
   const rows=data.document.mercenaries.filter(r=>(`${r.code} ${r.name} ${r.title} ${r.rank||'미정'}`).toLowerCase().includes(query.toLowerCase()));
   return `<div class="mc-roster-list" role="list" aria-label="용병 목록">${rows.map(r=>`<button type="button" class="mc-roster-row ${r.code===selected?'is-selected':''}" data-code="${r.code}" aria-pressed="${r.code===selected}"><img src="${thumb(r.code)}" alt="" loading="lazy"><span><small>${r.code} · ${esc(data.catalog.positions[r.position].label)}</small><b>${esc(r.name)}</b></span><em>${esc(r.rank||'—')}</em></button>`).join('')||'<p class="mc-empty">검색 결과가 없습니다.</p>'}</div>`;
@@ -51,6 +58,7 @@ function rosterEditor(){
       field('설계 의도',root+'rationale',r.rationale,{type:'textarea',max:240,wide:true}))}
     ${fields('03 / 등급별 고정 전투력','등급 기준값을 공통 전투 공식으로 변환합니다. 개별 능력치·경험치 성장 초안은 적용하지 않습니다.',powerReference(r.rank))}
     ${combatLinkReference(r.rank)}
+    ${rangedReference(r)}
     ${fields('04 / 운영 메모','출시 전 검수 사항과 변경 의도를 기록하세요.',field('메모',root+'notes',r.notes,{type:'textarea',wide:true}))}
     </div></div>`;
 }
@@ -60,6 +68,7 @@ function skillEditor(){
   const reviewLink='/preview/project-v-mercenary-system-v1/skills.html';
   return `<div class="mc-workspace"><div class="mc-rail mc-skill-rail"><p class="mc-rail-caption">독립 스킬 카탈로그 <b>${data?.document?.skills?.length??0}</b></p>${data.document.skills.map(s=>`<button class="mc-skill-row ${s.id===skill?'is-selected':''}" data-skill="${s.id}"><small>${s.id}</small><b>${esc(s.name)}</b><span>${esc(s.role)}</span></button>`).join('')}</div><div class="mc-editor">
     <div class="mc-skill-hero"><div><small>SKILL LIBRARY / ${r.id}</small><h3>${esc(r.name)}</h3><p>${esc(r.mechanic)}</p><a href="${reviewLink}" target="_blank" rel="noopener">PixiJS · GSAP 연출 검수 열기 ↗</a></div><div class="mc-fx-contact">${fx?fx.frames.filter((_,i)=>[4,8,12].includes(i)).map(f=>`<img src="/preview/project-v-mercenary-system-v1/skill-assets-v2/${esc(f.file)}" alt="${esc(r.name)} ${f.index+1}번 프레임">`).join(''):''}<small>연속 ${fx?.frameCount||16}프레임 · ${v.duration}초</small></div></div>
+    ${data.rangedCombat&&MERCENARY_RANGED_RULES[r.mechanic]?fields('저격 · 다단 사격 적용 규칙',esc(rangedMercenarySkillScope(r))+'에게 배정한 경우에만 적용합니다.',`<p class="mc-field mc-wide">${esc(MERCENARY_RANGED_RULES[r.mechanic])}</p>`):''}
     ${fields('01 / 스킬 설계','용병 배정은 별도 탭에서 직접 선택합니다.',
       field('스킬 이름',root+'name',r.name,{max:80})+select('검수 상태',root+'review',r.review,REVIEWS)+
       ['role','target','mechanic','trigger','effect','counterplay','bossRule','procRule'].map((key,i)=>field(['역할','대상','핵심 기믹','발동 조건','효과','대응 방법','보스 적용 규칙','추가 발동 규칙'][i],root+key,r[key],{type:'textarea',wide:['effect','procRule'].includes(key)})).join(''))}
@@ -71,7 +80,7 @@ function skillEditor(){
 }
 function assignmentEditor(){
   const r=current(),a=data.document.assignments.find(a=>a.code===r.code);
-  return `<div class="mc-workspace">${rosterRail()}<div class="mc-editor">${identity(r)}<div class="mc-assignment-head"><h3>스킬 직접 배정</h3><p>현재 ${a.skillIds.length}개 선택 · 체크 후 저장해야 배정 초안에 반영됩니다.</p></div><div class="mc-assignment-grid">${data.document.skills.map(s=>`<label class="mc-assignment ${a.skillIds.includes(s.id)?'is-checked':''}"><input type="checkbox" data-assign="${s.id}" ${a.skillIds.includes(s.id)?'checked':''}><span><small>${s.id} · ${esc(s.role)}</small><b>${esc(s.name)}</b><p>${esc(s.effect)}</p></span></label>`).join('')}</div></div></div>`;
+  return `<div class="mc-workspace">${rosterRail()}<div class="mc-editor">${identity(r)}<div class="mc-assignment-head"><h3>스킬 직접 배정</h3><p>현재 ${a.skillIds.length}개 선택 · 체크 후 저장해야 배정 초안에 반영됩니다.</p></div><div class="mc-assignment-grid">${data.document.skills.map(s=>`<label class="mc-assignment ${a.skillIds.includes(s.id)?'is-checked':''}"><input type="checkbox" data-assign="${s.id}" ${a.skillIds.includes(s.id)?'checked':''}><span><small>${s.id} · ${esc(s.role)}</small><b>${esc(s.name)}</b><p>${esc(rangedMercenarySkillText(s,rangedActor(r)).effect)}</p></span></label>`).join('')}</div></div></div>`;
 }
 function economyEditor(){
   const r=current(),root=`mercenaries.${data.document.mercenaries.indexOf(r)}.`;

@@ -497,7 +497,8 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const capPct = clamp(baseCapPct + (!counter ? Math.max(0, Number(actorAdvancement.damageCapPoints || 0)) / 100 : 0), baseCapPct, 0.90);
   // A linked ward is finite durability. Include its original size in the hit
   // cap so a tiny fixed base HP cannot make a large ward nearly unbreakable.
-  const capped = Math.min(raw * (1 - reduction), mercenaryDamageCapHp(target) * capPct);
+  const hitCap=mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,1);
+  const capped = Math.min(raw * (1 - reduction), hitCap);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
   // V1975: 아포칼립스 몬스터는 덱 전투력 비례로 하한이 늘고 준다(위 APOCALYPSE_FLOOR_* 참고).
@@ -505,7 +506,8 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const minDamage = !counter && target.isMonster && options.minDamagePercent > 0
     ? target.maxHp * options.minDamagePercent * floorScale
     : 0;
-  const damage = Math.max(1, Math.round(Math.max(capped, minDamage)));
+  const floored=Math.max(capped,minDamage);
+  const damage = Math.max(1, Math.round(options.capMinimumDamage?Math.min(floored,hitCap):floored));
   return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null };
 }
 
@@ -999,7 +1001,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   //   호송에서는 하한을 끈다.
   const hitOptions = { minDamagePercent: escortMode ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
   mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({teams:{A:a,B:b},
-    hit:(actor,target,multiplier)=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,minDamagePercent:0}),damage:applyDamage,
+    // Selected sniper/slow-shot casts use the PVE basic floor, scaled by the
+    // actual per-impact ratio. A divided volley never repeats the full floor.
+    // Escort has no floor; apocalypse scaling and the per-hit cap still apply.
+    hit:(actor,target,multiplier,{rangedSkill=false,castShare=1}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,damageCapScale:rangedSkill&&actor.battleMode==='PVP'?castShare:1}),damage:applyDamage,
     knockout:target=>resolveKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data),clock:()=>clock}):null;
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
   {

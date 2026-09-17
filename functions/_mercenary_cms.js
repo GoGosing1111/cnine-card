@@ -5,6 +5,8 @@ import {MERCENARY_COMBAT_LINK} from '../shared/mercenary-combat-link-v2103.mjs';
 import {handleMercenaryDrawCms} from './_mercenary_draw_cms.js';
 import {mercenaryDeploymentState} from '../shared/mercenary-public-release-v2097.mjs';
 import {handleMercenaryCodex} from './_mercenary_codex.js';
+import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
+import {MERCENARY_RANGED_BALANCE_VERSION,MERCENARY_RANGED_SUMMARY} from '../shared/mercenary-ranged-balance-v1.mjs';
 
 const tables=[
   `CREATE TABLE IF NOT EXISTS mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT NOT NULL,revision INTEGER NOT NULL,last_request_id TEXT NOT NULL,updated_by BIGINT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL)`,
@@ -28,7 +30,9 @@ async function readState(env){
   const rows=(await env.DB.prepare('SELECT * FROM mercenary_cms_documents_v1 ORDER BY doc_key').all()).results;
   const row=rows.find(r=>r.doc_key==='config'), catalog=seed.catalog;
   const audit=(await env.DB.prepare('SELECT request_id,actor_id,revision,action,created_at FROM mercenary_cms_audit_v1 ORDER BY revision DESC,created_at DESC LIMIT 20').all()).results;
-  return {catalog,document:expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,catalog),revision:Number(row.revision),updatedAt:row.updated_at,updatedBy:Number(row.updated_by),audit,combatLink:MERCENARY_COMBAT_LINK,powerStandard:MERCENARY_POWER_STANDARD,deployment:mercenaryDeploymentState()};
+  return {catalog,document:expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,catalog),revision:Number(row.revision),updatedAt:row.updated_at,updatedBy:Number(row.updated_by),audit,combatLink:MERCENARY_COMBAT_LINK,
+    rangedCombat:{version:MERCENARY_RANGED_BALANCE_VERSION,description:MERCENARY_RANGED_SUMMARY,attackStyles:Object.fromEntries(catalog.cards.map(c=>[c.code,mercenaryAttackStyle(c)]))},
+    powerStandard:MERCENARY_POWER_STANDARD,deployment:mercenaryDeploymentState()};
 }
 async function boundedJson(request){
   if(Number(request.headers.get('content-length'))>CMS_MAX_BYTES)throw Error('CMS 요청은 512KB 이내여야 합니다.');

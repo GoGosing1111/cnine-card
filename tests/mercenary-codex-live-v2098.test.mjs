@@ -13,7 +13,7 @@ for(const dialect of ['sqlite','postgres'])test(`${dialect}: public codex reads 
   doc.assignments.find(a=>a.code===c.code).skillIds=[s.id];doc.settings.releaseNotes='PRIVATE_RELEASE_NOTE';
   const saved=await call('admin/mercenaries','PATCH',{document:doc,expectedRevision:state.revision,requestId:crypto.randomUUID()});assert.equal(saved.status,200,JSON.stringify(saved.body));
   const publicState=(await call('mercenary-codex')).body;validateCatalog(publicState);
-  const card=publicState.cards.find(row=>row.code===c.code);assert.equal(publicState.revision,saved.body.revision);assert.equal(card.name,c.name);assert.equal(card.rank,'SS');assert.equal(card.basePower,120000);assert.deepEqual(card.skills.map(s=>s.id),['MS-004']);assert.deepEqual(card.skills[0].balance,s.balance);assert.equal(card.skills[0].effect,s.effect);assert.equal(card.skills[0].ready,true);
+  const card=publicState.cards.find(row=>row.code===c.code);assert.equal(publicState.revision,saved.body.revision);assert.equal(card.name,c.name);assert.equal(card.rank,'SS');assert.equal(card.basePower,120000);assert.deepEqual(card.skills.map(s=>s.id),['MS-004']);assert.deepEqual(card.skills[0].balance,s.balance);assert.match(card.skills[0].effect,/현재 행동에서 조준/);assert.equal(saved.body.document.skills.find(s=>s.id==='MS-004').effect,s.effect);assert.equal(card.skills[0].ready,true);
   assert.doesNotMatch(JSON.stringify(publicState),/PRIVATE_|updatedBy|audit|coinPrice|rankGrowth/);
   doc.assignments.find(a=>a.code===c.code).skillIds=[];await call('admin/mercenaries','PATCH',{document:doc,expectedRevision:saved.body.revision,requestId:crypto.randomUUID()});
   assert.deepEqual((await call('mercenary-codex')).body.cards.find(row=>row.code===c.code).skills,[]);

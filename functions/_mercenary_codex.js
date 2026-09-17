@@ -3,25 +3,28 @@ import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs'
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {MERCENARY_COMBAT_LINK,mercenaryCombatLinkText} from '../shared/mercenary-combat-link-v2103.mjs';
 import {MERCENARY_ART_RELEASES,MERCENARY_ART_RELEASE_VERSION} from '../shared/mercenary-art-releases-v1.mjs';
+import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
+import {isRangedMercenarySkill,rangedMercenarySkillText,MERCENARY_RANGED_SUMMARY,MERCENARY_RANGED_BALANCE_VERSION} from '../shared/mercenary-ranged-balance-v1.mjs';
 
 // Public, read-only projection. Never publish operator notes, audit records,
 // account ownership, acquisition drafts, or unassigned skill associations.
 export function mercenaryCodexDocument(row){
   const document=expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,seed.catalog);
   const skills=new Map(document.skills.map(skill=>[skill.id,skill]));
-  return {version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,
+  return {version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,rangedBalanceVersion:MERCENARY_RANGED_BALANCE_VERSION,
     formation:{regularCardSlots:5,mercenarySlots:1,maxDeployedUnits:6},
     combatLink:MERCENARY_COMBAT_LINK,
     ranks:seed.catalog.ranks,positions:seed.catalog.positions,roles:Object.fromEntries(Object.entries(seed.catalog.roles).map(([key,value])=>[key,{label:value.label}])),
     cards:document.mercenaries.map(card=>{
-      const art=seed.catalog.cards.find(a=>a.code===card.code);
+      const art=seed.catalog.cards.find(a=>a.code===card.code),actor={...card,attackStyle:mercenaryAttackStyle(card)};
+      const upgraded=document.assignments.find(a=>a.code===card.code).skillIds.some(id=>isRangedMercenarySkill(actor,skills.get(id)));
       return {code:card.code,name:card.name,title:card.title,rank:card.rank,position:card.position,role:card.role,
         sourceArt:art.sourceArt,battleSprite:art.battleSprite,accent:art.accent,
         basePower:MERCENARY_POWER_STANDARD.basePowerByRank[card.rank]??null,
-        combatLinkDescription:mercenaryCombatLinkText(card.rank),
-        specialty:card.specialty,weakness:card.weakness,basicTarget:seed.catalog.targets[card.basicTarget].label,
+        combatLinkDescription:mercenaryCombatLinkText(card.rank)+(upgraded?' '+MERCENARY_RANGED_SUMMARY:''),
+        specialty:card.specialty,weakness:upgraded?'회피·피해 경감에 대응되며 자원 소모와 재사용 대기의 영향을 받습니다.':card.weakness,basicTarget:seed.catalog.targets[card.basicTarget].label,
         skills:document.assignments.find(a=>a.code===card.code).skillIds.map(id=>{
-          const s=skills.get(id),ready=s.review==='REVIEWED'&&Object.values(s.balance).every(Number.isFinite);
+          const s=rangedMercenarySkillText(skills.get(id),actor),ready=s.review==='REVIEWED'&&Object.values(s.balance).every(Number.isFinite);
           return {id:s.id,name:s.name,role:seed.catalog.roles[s.role]?.label||s.role,target:seed.catalog.targets[s.target]?.label||s.target,
             trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},ready};
         })};

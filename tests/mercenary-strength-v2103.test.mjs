@@ -70,7 +70,7 @@ test('threat-targeted skills recognize an opposing mercenary enhanced by combat 
  const a=buildMercenaryFighter(snapshot('V-004'),'A','PVP',buildFighter),enemy=buildMercenaryFighter(snapshot('V-004'),'B','PVP',buildFighter);
  enemy.mercenaryLink={attackFloor:1000000,openingShield:0};
  const card={...enemy,id:'B:1',isMercenary:false,slot:4,attack:500000,mercenaryLink:undefined};
- const events=[],runtime=mercenaryCombat({teams:{A:[a],B:[enemy,card]},hit(){},damage(){},knockout(){},emit:(type,e)=>events.push({type,...e}),clock:()=>0});
+ const events=[],runtime=mercenaryCombat({teams:{A:[a],B:[enemy,card]},hit:()=>({dodge:true,damage:0}),damage(){throw Error('No damage on the target-selection dodge fixture');},knockout(){},emit:(type,e)=>events.push({type,...e}),clock:()=>0});
  a.actions++;runtime.beforeAction(a);assert.equal(events[0].targetId,enemy.id);
 });
 
