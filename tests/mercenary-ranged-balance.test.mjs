@@ -5,7 +5,7 @@ import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_com
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
-import {MERCENARY_RANGED_RULES,rangedMercenaryProfile,isRangedMercenarySkill,rangedMercenarySkillText} from '../shared/mercenary-ranged-balance-v1.mjs';
+import {MERCENARY_RANGED_RULES,MERCENARY_SS_RANGED_PVP_SCALE,rangedMercenaryProfile,isRangedMercenarySkill,rangedMercenarySkillText,rangedMercenaryPvpScale} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {MERCENARY_SKILL_BALANCE_V2103 as balances} from '../shared/mercenary-skill-balance-v2103.mjs';
 const snapshot=(mechanic,extra={})=>({code:'V-004',rank:'SS',name:'베스페라',role:'SNIPER',position:'REAR',level:1,basePower:70000,stats:{hp:100000,attack:1000,defense:100,speed:100},combat,skills:[{...seed.document.skills.find(s=>s.mechanic===mechanic),review:'REVIEWED',balance:{damageRatio:3,cost:25,cooldownTurns:5}}],...extra});
@@ -113,19 +113,34 @@ test('PVP mirrored sides keep 5+1 slots and higher ranged grades maintain aggreg
   assert.ok(wins>24,`${row[0]} ${wins}/48`);
  }
 });
-test('PVP same-grade melee duels improve ranged viability across mixed, attack, guard and speed decks without universal wins',()=>{
+test('PVP adjusted SS ranged stays near even against same-grade melee across power, composition and both sides',()=>{
  const compositions=[['ATTACK','DEFENSE','SPEED','HP','ATTACK'],['ATTACK','ATTACK','ATTACK','ATTACK','HP'],['DEFENSE','DEFENSE','DEFENSE','HP','SPEED'],['SPEED','SPEED','SPEED','HP','ATTACK']];
  for(const row of current){let wins=0,games=0;
   const melee=row[1]==='S'?['V-001','S','MS-001']:['V-010','SS','MS-010'];
-  for(const power of [100000,1000000,20000000])for(const types of compositions)for(const side of ['A','B'])for(let i=1;i<=64;i++){
+  for(const power of [100000,1000000,20000000])for(const types of compositions)for(const side of ['A','B'])for(let i=1;i<=128;i++){
    const cards=types.map((power_type,n)=>({id:String(n+1),power,power_type}));
    const own=side==='A'?'attackerMercenary':'defenderMercenary',other=side==='A'?'defenderMercenary':'attackerMercenary';
    const battle=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[own]:released(row),[other]:released(melee),seed:i*7919});
    games++;wins+=Number(battle.result.winner===side);
   }
-  assert.ok(wins/games>=.5,`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
-  assert.ok(wins/games<.85,`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
+  assert.ok(wins/games>=(row[1]==='SS'?.45:.5),`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
+  assert.ok(wins/games<(row[1]==='SS'?.55:.85),`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
  }
+});
+
+test('SS PVP rebalance scales each chosen skill and its cap, preserving basic attacks, PVE, other ranks and unaffected weapons',()=>{
+ for(const mechanic of Object.keys(MERCENARY_SS_RANGED_PVP_SCALE)){
+  const h=harness(mechanic,{rank:'SS'}),factor=MERCENARY_SS_RANGED_PVP_SCALE[mechanic];h.turn();
+  assert.equal(rangedMercenaryPvpScale(h.a,h.a.skills[0]),factor);
+  assert.equal(h.runtime.basicMultiplier(h.a),1);assert.equal(h.runtime.state(h.a).energy,75);
+  assert.ok(h.ratios.every(r=>r.options.castShare<=factor));
+  const pve=harness(mechanic,{rank:'SS'});pve.a.battleMode='PVE';pve.turn();
+  assert.equal(rangedMercenaryPvpScale(pve.a,pve.a.skills[0]),1);
+  assert.equal(h.ratios.length,pve.ratios.length);
+  h.ratios.forEach((r,i)=>{assert.ok(Math.abs(r.scale-pve.ratios[i].scale*factor)<1e-9);assert.ok(Math.abs(r.options.castShare-pve.ratios[i].options.castShare*factor)<1e-9);});
+  for(const rank of ['C','B','A','S','SSS'])assert.equal(rangedMercenaryPvpScale({...h.a,rank},h.a.skills[0]),1);
+ }
+ for(const id of ['MS-022','MS-042','MS-044'])assert.equal(rangedMercenaryPvpScale({rank:'SS',battleMode:'PVP',attackStyle:'RANGED',role:'MARKSMAN'},seed.document.skills.find(s=>s.id===id)),1);
 });
 test('public descriptions reflect per-actor rules without changing CMS values, grades, assignments or lower ranks',()=>{
  const document=structuredClone(seed.document),card=document.mercenaries.find(c=>c.code==='V-005');card.rank='S';

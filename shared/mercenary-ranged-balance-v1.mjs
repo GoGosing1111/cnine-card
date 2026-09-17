@@ -1,6 +1,16 @@
 // Correct only sniper preparation and skills that spend multiple actor turns firing.
 // Weapon labels alone never grant a blanket attack or speed multiplier.
-export const MERCENARY_RANGED_BALANCE_VERSION='20260917-ranged-v2';
+export const MERCENARY_RANGED_BALANCE_VERSION='20260917-ranged-v3';
+// PVP-only skill budget. Basic attacks, stats, action cadence and PVE retain
+// their existing values. Each factor also scales the per-impact damage cap.
+export const MERCENARY_SS_RANGED_PVP_SCALE=Object.freeze({
+ LOCKED_THREAT_SHOT:.86,DANCING_TARGET_VOLLEY:.81,FINISHER_WITH_RELOAD:.82,
+ ABYSS_SHIELD_ECHO:.82,PLATINUM_FOCUS_LOCK:.84,DISTRIBUTED_CORAL_VOLLEY:.84,TWO_BEAT_FOLLOWUP:.77,
+});
+export function rangedMercenaryPvpScale(actor,skill){
+ return actor?.battleMode==='PVP'&&actor.rank==='SS'&&isRangedMercenarySkill(actor,skill)?MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]??1:1;
+}
+export const rangedMercenaryPvpRule=skill=>MERCENARY_SS_RANGED_PVP_SCALE[skill?.mechanic]<1?`SS등급의 해당 원거리 스킬은 PVP에서 피해량과 피해 상한에 ${Math.round(MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]*100)}%를 적용합니다. 기본 공격·PVE·비용·재사용 대기는 유지합니다.`:'';
 const SNIPER=new Set(['LOCKED_THREAT_SHOT','OBSERVED_SHIELD_BREAK','ABYSS_SHIELD_ECHO','FINISHER_WITH_RELOAD']);
 const SEQUENTIAL=new Set(['SAME_TARGET_CALIBRATION','DANCING_TARGET_VOLLEY','PLATINUM_FOCUS_LOCK','DISTRIBUTED_CORAL_VOLLEY','TWO_BEAT_FOLLOWUP']);
 export const MERCENARY_RANGED_RULES=Object.freeze({
@@ -26,7 +36,7 @@ export const isRangedMercenarySkill=(actor,skill)=>rangedMercenaryProfile(actor,
 export function rangedMercenarySkillText(skill,actor){
  const profile=rangedMercenaryProfile(actor,skill);if(!profile)return skill;
  return {...skill,trigger:profile==='SNIPER'?'자원과 재사용 대기 조건을 충족하면 현재 행동에서 바로 발사합니다.':'자원과 재사용 대기 조건을 충족하면 바로 초탄을 발사하고 이후 행동에서 후속탄을 이어갑니다.',
-  effect:MERCENARY_RANGED_RULES[skill.mechanic],
+  effect:MERCENARY_RANGED_RULES[skill.mechanic]+(actor.rank==='SS'&&rangedMercenaryPvpRule(skill)?' '+rangedMercenaryPvpRule(skill):''),
   counterplay:'회피·보호막·피해 경감은 적용됩니다. 사망·기절·침묵은 발동을 막거나 진행 중인 연사를 취소합니다.',
   bossRule:profile==='SNIPER'?'PVP에서 한 행동에 발사하는 탄들은 기존 피해 상한을 나누어 사용합니다. 보스에게도 기존 피해 상한·면역을 적용합니다.':'각 행동의 사격에 기존 피해 상한을 적용합니다. 보스 면역과 피해 경감은 유지합니다.',
   procRule:'후속탄은 추가 행동·자원 회복·추가 스킬 발동을 만들지 않습니다. 비용과 재사용 대기는 스킬 1회당 한 번 적용하며 남은 탄은 생존 표적을 다시 지정합니다.'};

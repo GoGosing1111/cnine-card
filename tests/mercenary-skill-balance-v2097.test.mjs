@@ -24,7 +24,7 @@ test('explicit balance operation preserves ranks, assignments, rules and notes; 
 });
 test('all 26 approved balances spend energy once per cast, respect cooldown and resolve real mechanics',()=>{
  for(const proposal of proposals){
-  const h=harness(proposal.id);assert.equal(h.turn(),true);assert.equal(h.runtime.state(h.a).energy,100-proposal.balance.cost,proposal.id);
+  const h=harness(proposal.id);assert.equal(h.turn(),proposal.mechanic!=='INTERCEPT_ONE_HIT');assert.equal(h.runtime.state(h.a).energy,100-proposal.balance.cost,proposal.id);
   for(let i=0;i<3;i++)h.turn();
   assert.equal(h.runtime.state(h.a).energy,100-proposal.balance.cost,proposal.id+' stages cannot charge twice');
   assert.ok(h.events.some(e=>e.type==='MERCENARY_END'),proposal.id);

@@ -2,7 +2,8 @@ import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs'
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
-import {isRangedMercenarySkill,rangedMercenaryProfile} from '../shared/mercenary-ranged-balance-v1.mjs';
+import {isRangedMercenarySkill,rangedMercenaryProfile,rangedMercenaryPvpScale} from '../shared/mercenary-ranged-balance-v1.mjs';
+import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE} from '../shared/mercenary-guard-balance-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
@@ -58,7 +59,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
  const friendly=a=>ordered(teams[a.side]),enemies=a=>ordered(teams[a.side==='A'?'B':'A']);
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
-  if(['INTERCEPT_ONE_HIT','CLEANSE_THEN_MEND'].includes(s.mechanic))return [weakest(friends)].filter(Boolean);
+  if(isMercenaryGuardSkill(s))return [weakest(friends.filter(t=>t.id!==a.id&&!activeIntercept(t)))].filter(Boolean);
+  if(s.mechanic==='CLEANSE_THEN_MEND')return [weakest(friends)].filter(Boolean);
   if(s.mechanic==='MELEE_PARRY_RIPOSTE')return [a];
   if(['FRONT_SHARED_BARRIER','FRONT_STAND_FAST'].includes(s.mechanic))return front(friends);
   if(s.mechanic==='NEXT_BASIC_ORDER')return friends.filter(t=>!t.isMonster);
@@ -71,12 +73,28 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(!living(t))return {hit:false};const st=damage(t,Math.max(0,amount));a.damageDealt+=st.hpDamage+st.absorbed;
   send(a,s,phase,t,{damage:st.hpDamage,absorbed:st.absorbed,targetHpAfter:t.hp,targetMaxHp:t.maxHp,targetShieldAfter:t.shield,dodge});knockout(t);return {hit:!dodge,damage:st.hpDamage+st.absorbed,absorbed:st.absorbed};
  }
+ function activeIntercept(t){
+  const buff=table(buffs,t),ward=buff.intercept;
+  if(ward&&(!living(t)||!living(ward.actor)||t.actions>=ward.expires)){delete buff.intercept;return null;}
+  return ward||null;
+ }
+ function interceptDamage(a,t,amount){
+  const ward=activeIntercept(t);if(!ward||amount<=0||ward.actor.id===t.id||ward.actor.stunned||ward.actor.silenced)return amount;
+  delete table(buffs,t).intercept;
+  const protector=ward.actor,share=Math.floor(amount*ward.percent/100),result=damage(protector,share),transferred=result.hpDamage+result.absorbed;
+  a.damageDealt+=transferred;
+  send(protector,ward.skill,'INTERCEPT',protector,{sourceAttackerId:a.id,protectedTargetId:t.id,damage:result.hpDamage,absorbed:result.absorbed,targetHpAfter:protector.hp,targetMaxHp:protector.maxHp,targetShieldAfter:protector.shield});
+  knockout(protector);return amount-transferred;
+ }
  function strike(a,s,t,multiplier=1,phase='HIT',opts={}){
-  if(!living(t))return {hit:false};const st=state(a),veil=table(debuffs,a).veil;let scale=Number(s.balance.damageRatio)*multiplier;
+  if(!living(t))return {hit:false};const veil=table(debuffs,a).veil,pvpScale=rangedMercenaryPvpScale(a,s);let scale=Number(s.balance.damageRatio)*multiplier*pvpScale;
   if(veil&&!opts.followup){scale*=1-veil.percent/100;delete table(debuffs,a).veil;}
   if(scale<=0)return effect(a,s,t,0,phase);
-  const h=hit(a,t,scale,{rangedSkill:isRangedMercenarySkill(a,s),castShare:opts.castShare??1});if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
-  return effect(a,s,t,h.damage,phase);
+  const h=hit(a,t,scale,{rangedSkill:isRangedMercenarySkill(a,s),castShare:(opts.castShare??1)*pvpScale});if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
+  // Only direct single-target skill impacts can consume the link. Area skills,
+  // poison, counters and fixed boss effects retain their own damage paths.
+  const single=phase==='HIT'&&!['RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','DISTRIBUTED_CORAL_VOLLEY'].includes(s.mechanic);
+  return effect(a,s,t,single?interceptDamage(a,t,h.damage):h.damage,phase);
  }
  function finish(a,s){const st=state(a);st.pending=null;if(!isRangedMercenarySkill(a,s)&&['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(s.mechanic))st.reload=true;send(a,s,'END');}
  function cancel(a,reason){const st=state(a),p=st.pending;if(!p)return;st.pending=null;if(!isRangedMercenarySkill(a,p.skill)&&['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(p.skill.mechanic))st.reload=true;send(a,p.skill,'CANCEL',null,{reason});}
@@ -134,7 +152,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'DISTRIBUTED_CORAL_VOLLEY':{
     const index=p.step||0,t=all().find(t=>t.id===p.targets[index]);if(living(t))strike(a,s,t,1/p.targets.length,'HIT',{followup:index>0});
     if(index+1>=p.targets.length)finish(a,s);else{p.step=index+1;p.due=a.actions+1;}break;}
-   case 'INTERCEPT_ONE_HIT':once(t=>{table(buffs,t).intercept={actor:a,skill:s,percent:c.interceptPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'INTERCEPT_ONE_HIT'});});break;
+   case 'INTERCEPT_ONE_HIT':once(t=>{table(buffs,t).intercept={actor:a,skill:s,percent:c.interceptPercent,expires:t.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'INTERCEPT_ONE_HIT'});});break;
    case 'MELEE_PARRY_RIPOSTE':once(t=>{b.parry={skill:s,percent:c.parryPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'MELEE_PARRY_RIPOSTE'});});break;
    case 'NEXT_BASIC_ORDER':once(t=>{table(buffs,t).order={percent:c.orderPercent,source:a.id};send(a,s,'BUFF',t,{effect:'NEXT_BASIC_ORDER'});});break;
    case 'FRONT_SHARED_BARRIER':once(t=>{const buff=table(buffs,t),old=buff.mercBarrier||0,budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),remaining=Math.min(old,t.shield);t.shield=Math.max(0,t.shield-remaining)+budget;t.maxShield=Math.max(t.maxShield,t.shield);buff.mercBarrier=budget;send(a,s,'BUFF',t,{effect:'SHIELD',amount:budget,targetShieldAfter:t.shield});});break;
@@ -173,22 +191,24 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    if(a.stunned||a.silenced){if(st.pending)cancel(a,'CONTROLLED');return Boolean(a.stunned);}
    if(st.pending){if(a.silenced||a.stunned){cancel(a,'CONTROLLED');return true;}if(a.actions>=st.pending.due){if(isRangedMercenarySkill(a,st.pending.skill))resolveRanged(a,st.pending);else resolve(a,st.pending);}return true;}
    if(st.reload){a.gauge=Math.max(0,a.gauge-a.combat.reloadGauge);st.reload=false;return false;}
-   const skills=a.skills||[];for(let i=0;i<skills.length;i++){const index=(st.nextIndex+i)%skills.length,s=skills[index],ranged=isRangedMercenarySkill(a,s);if(st.cooldown.get(s.id)>a.actions||st.energy<s.balance.cost||s.mechanic==='UNDISTURBED_FIRST_SHOT'&&st.used.has(s.id))continue;const selected=targets(a,s);if(!selected.length)continue;
+   const skills=a.skills||[];for(let i=0;i<skills.length;i++){const index=(st.nextIndex+i)%skills.length,s=skills[index],ranged=isRangedMercenarySkill(a,s);if(st.cooldown.get(s.id)>a.actions||st.energy<s.balance.cost||s.mechanic==='UNDISTURBED_FIRST_SHOT'&&st.used.has(s.id))continue;
+    if(isMercenaryGuardSkill(s)&&friendly(a).some(t=>activeIntercept(t)?.actor.id===a.id))continue;
+    const selected=targets(a,s);if(!selected.length)continue;
     st.energy-=s.balance.cost;st.cooldown.set(s.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.used.add(s.id);st.nextIndex=(index+1)%skills.length;st.pending={skill:s,targets:selected.map(t=>t.id),due:a.actions+a.combat.windupTurns,hits:st.hits,step:0};
-    send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});if(ranged)resolveRanged(a,st.pending);return true;
+    send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});if(ranged)resolveRanged(a,st.pending);else if(isMercenaryGuardSkill(s)){resolve(a,st.pending);st.guardBasicAction=a.actions;return false;}return true;
    }return false;
   },
-  basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){factor*=1-d.restraint/100;delete d.restraint;}return factor;},
-  beforeBasicDamage(a,t,amount){const buff=table(buffs,t),intercept=buff.intercept,d=table(debuffs,a);
+  basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){factor*=1-d.restraint/100;delete d.restraint;}return factor;},
+  beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}
    if(buff.standfast){const ward=buff.standfast;delete buff.standfast;if(living(ward.actor)&&ward.actor.actions<ward.expires){const saved=Math.min(ward.budget,Math.floor(amount*ward.percent/100));amount-=saved;send(ward.actor,ward.skill,'BUFF',t,{effect:'STAND_FAST_CONSUMED',amount:saved});}}
 
-   if(intercept&&living(intercept.actor)&&intercept.actor.id!==t.id&&intercept.actor.actions<intercept.expires){delete buff.intercept;const share=Math.floor(amount*intercept.percent/100),protector=intercept.actor,result=damage(protector,share);a.damageDealt+=result.hpDamage+result.absorbed;send(protector,intercept.skill,'INTERCEPT',protector,{sourceAttackerId:a.id,damage:result.hpDamage,absorbed:result.absorbed,targetHpAfter:protector.hp,targetMaxHp:protector.maxHp,targetShieldAfter:protector.shield});knockout(protector);amount-=share;}
+   amount=interceptDamage(a,t,amount);
    if(buff.parry&&a.row==='FRONT'&&a.attackStyle==='MELEE'&&!a.counterImmune){const parry=buff.parry;delete buff.parry;amount=Math.floor(amount*(1-parry.percent/100));state(t).riposte={skill:parry.skill,target:a};}
    return amount;
   },
   onDamage(t,result){if(result.hpDamage+result.absorbed>0)state(t).hits++;const b=table(buffs,t);if(b.mercBarrier)b.mercBarrier=Math.max(0,b.mercBarrier-result.absorbed);},
-  afterBasic(a,t,hit,{additional=false}={}){if(hit&&!additional){if(a.isMercenary)state(a).energy=Math.min(a.combat.energyMax,state(a).energy+a.combat.energyPerBasic);const d=table(debuffs,a);d.offender||={};for(const enemy of enemies(a).filter(e=>e.isMercenary&&e.skills?.some(s=>s.mechanic==='REPEAT_OFFENDER_RESTRAINT')))d.offender[enemy.id]=Math.min(10,(d.offender[enemy.id]||0)+1);}
+  afterBasic(a,t,hit,{additional=false}={}){if(hit&&!additional){if(a.isMercenary&&state(a).guardBasicAction!==a.actions)state(a).energy=Math.min(a.combat.energyMax,state(a).energy+a.combat.energyPerBasic);const d=table(debuffs,a);d.offender||={};for(const enemy of enemies(a).filter(e=>e.isMercenary&&e.skills?.some(s=>s.mechanic==='REPEAT_OFFENDER_RESTRAINT')))d.offender[enemy.id]=Math.min(10,(d.offender[enemy.id]||0)+1);}
    if(hit&&!additional){const d=table(debuffs,a),thorn=d.thorn;if(thorn){delete d.thorn;if(living(thorn.actor)&&living(a)&&a.actions<thorn.expires)effect(thorn.actor,thorn.skill,a,thorn.damage,'DOT');}}
    const r=state(t).riposte;delete state(t).riposte;if(r&&living(t)&&living(r.target))strike(t,r.skill,r.target,1,'RIPOSTE',{followup:true});
   },cleanse,cancel,state,buffs,debuffs,
