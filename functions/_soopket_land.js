@@ -8,7 +8,7 @@ export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
-  {key:'COIN',label:'코인',range:'1억 ~ 50억',min:1,max:50,unit:100000000,symbol:'C',color:0xffd477},
+  {key:'COIN',label:'코인',range:'1억 ~ 200억',min:1,max:200,unit:100000000,symbol:'C',color:0xffd477},
   {key:SUPERSTAR_TICKET,label:'슈퍼스타팩 확정권',range:'1개 · 슈퍼스타 100%',min:1,max:1,unit:1,symbol:'SS',color:0xffdf91},
   {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 30,000개',min:1,max:30,unit:1000,symbol:'S',color:0xffe7a6},
   {key:'BLACK_MIRACLE_PACK',label:'블랙미라클 카드',range:'10 ~ 20개',min:10,max:20,unit:1,symbol:'B',color:0xbc91ff},

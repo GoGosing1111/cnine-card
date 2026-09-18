@@ -19,14 +19,14 @@ try{
     assert.equal(await page.locator('.sl-prize').filter({hasText:/하이퍼버닝|제니스|ZENITH|FUR/}).count(),0);
     for(const key of ['SOOPKETLAND_HYPER_BURNING_TICKET','ZENITH_RANDOM_CARD','FUR_RANDOM_CARD'])assert.equal(await page.locator(`#previewPrize option[value="${key}"]`).count(),0);
     assert.doesNotMatch(await page.locator('.sl-use-note').innerText(),/하이퍼버닝/);
-    for(const label of ['1억 ~ 50억','1,000 ~ 30,000개','10 ~ 20개','1 ~ 50개'])assert.ok((await page.locator('.sl-prizes').innerText()).includes(label));
+    for(const label of ['1억 ~ 200억','1,000 ~ 30,000개','10 ~ 20개','1 ~ 50개'])assert.ok((await page.locator('.sl-prizes').innerText()).includes(label));
     assert.match(await page.locator('.sl-prize').filter({hasText:'슈퍼스타팩 확정권'}).innerText(),/5\.00%/);
     assert.match(await page.locator('.sl-prize').filter({hasText:'미스틱 에너지'}).innerText(),/10\.00%/);
     await page.locator('[data-sl-play]').click();await page.waitForTimeout(2200);
     await page.locator('[data-sl-canvas]').screenshot({path:path.join(out,`balls-${viewport.width}.png`)});
     await page.waitForTimeout(2900);await page.locator('[data-sl-canvas]').screenshot({path:path.join(out,`reels-${viewport.width}.png`)});
     await page.locator('[data-sl-result] .sl-receipt').waitFor({timeout:15000});
-    assert.match(await page.locator('[data-sl-result]').innerText(),/50억 코인/);
+    assert.match(await page.locator('[data-sl-result]').innerText(),/200억 코인/);
     assert.equal(await page.locator('[data-sl-balance]').innerText(),'11개');
     await page.screenshot({path:path.join(out,`result-${viewport.width}.png`),fullPage:true});
     await page.selectOption('#previewPrize','BLACK_MIRACLE_PACK');await page.locator('[data-sl-play]').click();await page.waitForTimeout(300);await page.locator('[data-sl-skip]').click();
@@ -53,6 +53,6 @@ try{
   const slow=await browser.newPage({viewport:{width:390,height:844}});slow.on('pageerror',e=>failures.push(e.message));
   await slow.route('**/cabinet-v1.webp',async route=>{await new Promise(resolve=>setTimeout(resolve,7000));await route.fulfill({status:503,body:'Simulated unavailable cabinet'})});
   await slow.goto(`${base}/preview/soopketland-v2039/`,{waitUntil:'domcontentloaded'});await slow.locator('[data-sl-play]').click();await slow.locator('[data-sl-result] .sl-receipt').waitFor({timeout:6000});
-  assert.match(await slow.locator('[data-sl-result]').innerText(),/50억 코인/);await slow.close();
+  assert.match(await slow.locator('[data-sl-result]').innerText(),/200억 코인/);await slow.close();
   assert.deepEqual(failures,[]);console.log(JSON.stringify({ok:true,out,viewports:[1440,390],checks:['WebGL','balls/reels/results','two consecutive spins','skip','reduced motion','no overflow','no page errors']}));
 }finally{await browser.close()}
