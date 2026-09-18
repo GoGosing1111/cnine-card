@@ -985,6 +985,7 @@ class BaseBattleEngine{
     const responsiveBase=formation.baseScale*(this.mobile ? .86 : 1);
     const scale=this.perspectiveScale(responsiveBase,point.y);
     this.accountBattleUnit.setFormation(point.x,point.y,scale);
+    this.accountBattleUnit.setNameViewportScale?.(this.root?.scale?.x||1);
     this.accountBattleUnit.root.depthSortY=point.y;
   }
 
@@ -3337,6 +3338,7 @@ class BaseBattleEngine{
     this.sortCombatDepth();
     const scale=Math.min(viewportWidth/this.scene.width,viewportHeight/this.scene.height);
     this.root.scale.set(scale);
+    this.accountBattleUnit?.setNameViewportScale?.(scale);
     this.root.position.set((viewportWidth-this.scene.width*scale)/2,(viewportHeight-this.scene.height*scale)/2);
     // Keep the small notice readable in CSS pixels on both portrait and desktop.
     const banner=this.uiLayer.banner,noticeScale=Math.min(1,(viewportWidth-24)/320)/scale;

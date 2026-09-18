@@ -20,7 +20,6 @@ const WEAPON_CODE='EQ_1785961300455'; // M200: physical row 1 exercises lower-at
 const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
 const WEAPON_CODES=Object.freeze(['EQ_1785427638137','EQ_1785961300455','EQ_1785961232958','EQ_1786966923833','EQ_1788486929132','EQ_1788486888336']);
 const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
-const NAME_PANEL_HEIGHT=36;
 const STATIC_SUIT='/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png';
 const STATIC_WEAPON='/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png';
 const DENIED_MODES=['PVP','RANKED','SIEGE','TERRITORY','CAPTAIN','CLAN'];
@@ -161,10 +160,11 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
     assert.ok(Math.abs(unit.bodySprite.anchor.y-profile.pivots.ready.y)<1e-9,'ready frame must use its measured sole pivot y');
     assert.ok(Math.abs(unit.bodySprite.height-Math.min(430,278*profile.scaleMultiplier))<1e-6,'authored row scale correction must be applied');
     const highestContentOffset=Math.min(...FRAME_ORDER.map(name=>profile.nameHud.contentTop-profile.pivots[name].y));
-    const expectedNameHudY=unit.bodySprite.height*highestContentOffset-profile.nameHud.gap-NAME_PANEL_HEIGHT;
+    const panelHeight=unit.diagnostics().nickname.panelHeight;
+    const expectedNameHudY=unit.bodySprite.height*highestContentOffset-profile.nameHud.gap-panelHeight;
     assert.ok(Math.abs(unit.nameHud.y-expectedNameHudY)<1e-6,'nickname panel must include its full height above every frame content top');
     for(const name of FRAME_ORDER){
-      assert.ok(unit.nameHud.y+NAME_PANEL_HEIGHT<=unit.bodySprite.height*(profile.nameHud.contentTop-profile.pivots[name].y)-profile.nameHud.gap+1e-6,`${name} must preserve the requested nickname gap`);
+      assert.ok(unit.nameHud.y+panelHeight<=unit.bodySprite.height*(profile.nameHud.contentTop-profile.pivots[name].y)-profile.nameHud.gap+1e-6,`${name} must preserve the requested nickname gap`);
     }
     assert.equal(unit.setWeapon(rejectedSeparateWeapon,{source:STATIC_WEAPON}),false,'authored composite must reject a separate weapon attachment');
 
@@ -264,7 +264,7 @@ test('all eighteen authored suit/weapon profiles apply frame-exact sole pivots a
 
         const highestContentOffset=Math.min(...FRAME_ORDER.map(name=>profile.nameHud.contentTop-profile.pivots[name].y));
         const conservativeTop=unit.bodySprite.height*highestContentOffset;
-        assert.ok(unit.nameHud.y+NAME_PANEL_HEIGHT<=conservativeTop-profile.nameHud.gap+1e-6,`${suitCode}:${weaponCode} nickname panel must clear every authored frame`);
+        assert.ok(unit.nameHud.y+unit.diagnostics().nickname.panelHeight<=conservativeTop-profile.nameHud.gap+1e-6,`${suitCode}:${weaponCode} nickname panel must clear every authored frame`);
       }
     }
   }finally{
@@ -292,8 +292,9 @@ test('twenty-character nicknames are ellipsized inside the fixed panel width',()
     assert.equal(diagnostics.truncated,true);
     assert.match(diagnostics.displayText,/…$/);
     assert.ok(fakeLabel.width<=diagnostics.maxTextWidth,'display text must fit inside the panel content width');
-    assert.ok(diagnostics.panelWidth<=224,'nickname panel must retain its maximum width');
-    assert.ok(fakeLabel.width+32<=diagnostics.panelWidth,'panel padding must contain the fitted label');
+    assert.ok(diagnostics.panelWidth<=192,'nickname strip must stay compact even for long names');
+    assert.ok(fakeLabel.position.x+fakeLabel.width/2<=diagnostics.panelWidth/2-8,'text must retain right padding');
+    assert.ok(fakeLabel.position.x-fakeLabel.width/2>=-diagnostics.panelWidth/2+14,'text must clear the left accent');
 
     unit.setName('테스터');
     const shortDiagnostics=unit.diagnostics().nickname;

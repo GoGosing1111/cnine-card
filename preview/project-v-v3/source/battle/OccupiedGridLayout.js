@@ -63,6 +63,7 @@ export const withOccupiedGrid = Base => class extends Base {
     }
     this.scene = this.viewportFit.scene;
     this.root.scale.set(this.viewportFit.scale); this.root.position.set(0, 0);
+    this.accountBattleUnit?.setNameViewportScale?.(this.viewportFit.scale);
     this.camera.setViewport(this.scene.width, this.scene.height);
     this.skillTimeline.width = this.scene.width; this.skillTimeline.height = this.scene.height;
     this.layoutParallax(this.scene.width, this.scene.height);

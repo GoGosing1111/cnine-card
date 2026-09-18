@@ -5,10 +5,11 @@ import {BallisticVFX} from './BallisticVFX.js';
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const finite=(value,fallback)=>Number.isFinite(Number(value))?Number(value):fallback;
 const AUTHORED_FRAME_NAMES=Object.freeze(['ready','fire','recoil','recover']);
-const NAME_PANEL_HEIGHT=36;
-const NAME_PANEL_MIN_WIDTH=108;
-const NAME_PANEL_MAX_WIDTH=224;
-const NAME_PANEL_HORIZONTAL_PADDING=32;
+const NAME_PANEL_HEIGHT=24;
+const NAME_LABEL_FONT_SIZE=14;
+const NAME_PANEL_MIN_WIDTH=80;
+const NAME_PANEL_MAX_WIDTH=192;
+const NAME_PANEL_HORIZONTAL_PADDING=28;
 const NAME_LABEL_MAX_WIDTH=NAME_PANEL_MAX_WIDTH-NAME_PANEL_HORIZONTAL_PADDING;
 const STATIC_NAME_HUD_GAP=24;
 const NAME_HUD_SCREEN_SCALE=.94;
@@ -18,13 +19,12 @@ function labelText(value){
     text:String(value||''),
     style:{
       fontFamily:'Pretendard, SUIT, Arial, sans-serif',
-      fontSize:18,
-      fill:0xf4fbff,
-      fontWeight:'900',
+      fontSize:NAME_LABEL_FONT_SIZE,
+      fill:0xecf1f7,
+      fontWeight:'600',
       align:'center',
-      letterSpacing:.5,
-      stroke:{color:0x00111c,width:4,join:'round'},
-      dropShadow:{color:0x000000,alpha:.9,blur:3,distance:2,angle:Math.PI/2}
+      letterSpacing:.2,
+      dropShadow:{color:0x000000,alpha:.5,blur:2,distance:1,angle:Math.PI/2}
     }
   });
 }
@@ -94,15 +94,25 @@ export class AccountBattleUnit{
     const rootScale=Math.max(.1,Number(scale)||.5);
     this.root.position.set(Number(x)||0,Number(y)||0);
     this.root.scale.set(rootScale);
-    // The authored suit is intentionally scaled down to fit the sixth PVE
-    // station. Compensate only the nickname HUD so it remains readable at a
-    // stable on-screen size instead of shrinking to ~8 px with the character.
-    this.nameHudScale=clamp(NAME_HUD_SCREEN_SCALE/rootScale,1.55,2.35);
-    this.nameHud.scale.set(this.nameHudScale);
+    this.setNameViewportScale(this.nameViewportScale||1);
     this.root.baseX=this.root.x;
     this.root.baseY=this.root.y;
     this.root.restScale=this.root.scale.x;
     this.root.depthSortY=this.root.y;
+    return this;
+  }
+
+  setNameViewportScale(viewportScale=1){
+    this.nameViewportScale=Math.max(.05,finite(viewportScale,1));
+    const rootScale=this.root.scale.x||1;
+    const baseScale=clamp(NAME_HUD_SCREEN_SCALE/rootScale,1.55,2.35);
+    // The portrait board fits the whole scene into a narrow viewport. Keep
+    // only the nickname at least 10 CSS px; leave the suit and grid untouched.
+    const boost=Math.max(1,10/(NAME_LABEL_FONT_SIZE*rootScale*baseScale*this.nameViewportScale));
+    this.nameHudScale=baseScale*boost;
+    this.nameHud.scale.set(this.nameHudScale);
+    // Grow upward from the existing lower edge, clear of the helmet/weapon.
+    this.nameHud.pivot.y=NAME_PANEL_HEIGHT*(1-1/boost);
     return this;
   }
 
@@ -129,13 +139,13 @@ export class AccountBattleUnit{
     this.nameTruncated=this.displayName!==name;
     const width=clamp(Math.ceil(this.nameLabel.width+NAME_PANEL_HORIZONTAL_PADDING),NAME_PANEL_MIN_WIDTH,NAME_PANEL_MAX_WIDTH);
     this.namePanelWidth=width;
-    this.namePanel.clear().roundRect(-width/2,0,width,NAME_PANEL_HEIGHT,7)
-      .fill({color:0x02070d,alpha:.96})
-      .stroke({width:2,color:0x72e2ff,alpha:.9})
-      .moveTo(-width/2+10,NAME_PANEL_HEIGHT-3)
-      .lineTo(width/2-10,NAME_PANEL_HEIGHT-3)
-      .stroke({width:2,color:0x9becff,alpha:.88});
-    this.nameLabel.position.set(0,NAME_PANEL_HEIGHT/2);
+    // A quiet identification strip, separate from the combatant HP panels.
+    // The dark fill supplies contrast without outlining every glyph or edge.
+    this.namePanel.clear().roundRect(-width/2,0,width,NAME_PANEL_HEIGHT,3)
+      .fill({color:0x0c1422,alpha:.82})
+      .roundRect(-width/2+8,8,2,8,1)
+      .fill({color:0xc8f58b,alpha:.9});
+    this.nameLabel.position.set(4,NAME_PANEL_HEIGHT/2);
     return this;
   }
 
@@ -522,7 +532,8 @@ export class AccountBattleUnit{
         maxTextWidth:NAME_LABEL_MAX_WIDTH,
         hudScale:Number(this.nameHud?.scale?.x||1),
         screenScale:Number((this.root?.scale?.x||1)*(this.nameHud?.scale?.x||1)),
-        fontSize:18
+        cssFontSize:NAME_LABEL_FONT_SIZE*(this.root.scale.x||1)*(this.nameHud.scale.x||1)*(this.nameViewportScale||1),
+        fontSize:NAME_LABEL_FONT_SIZE
       },
       affectsDeck:false,
       affectsDamage:true,
