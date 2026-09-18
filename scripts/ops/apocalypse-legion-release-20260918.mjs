@@ -18,8 +18,8 @@ export async function registerApocalypseLegion(client,{commit=false,assets=[]}={
   const before=structuredClone(settings),registered=[];
   for(const [i,boss] of APOCALYPSE_LEGION_BOSSES.entries()){
    const power=i?10000000:7500000,description='보스 + 쫄몹 6마리. 보스 1·2·3행동에 봉인·힐불가 저주·궁극기를 사용합니다.';
-   const row=(await client.query(`INSERT INTO battle_monsters(id,name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only,ultimate_enabled,ultimate_name,ultimate_description)
-    VALUES($1,$2,$3,$4,$5,1,1,$6,'APOCALYPSE',$6,1,0,0,0,$7,$8) RETURNING id,name,pve_tab,is_active,pve_enabled`,[boss.monsterId,boss.name,boss.sourceArt.slice(1),power,reference.rewardCoin,Number(anchor.pve_display_order)+i+1,boss.skills[2].name,description])).rows[0];
+   const row=(await client.query(`INSERT INTO battle_monsters(id,name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,monster_category,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only,ultimate_enabled,ultimate_name,ultimate_description)
+    VALUES($1,$2,$3,$4,$5,1,1,$6,'BOSS','APOCALYPSE',$6,1,0,0,0,$7,$8) RETURNING id,name,monster_category,pve_tab,is_active,pve_enabled`,[boss.monsterId,boss.name,boss.sourceArt.slice(1),power,reference.rewardCoin,Number(anchor.pve_display_order)+i+1,boss.skills[2].name,description])).rows[0];
    settings.monsterProfiles[String(boss.monsterId)]={...reference,battlePower:power,skillEnabled:true,skillName:'봉인 · 힐불가 저주 · 궁극기',skillDescription:description};
    registered.push({...row,battlePower:power,minions:6,rewardCoin:reference.rewardCoin,rewardPercent:reference.rewardPercent,effectiveRewardCoin:Math.floor(reference.rewardCoin*reference.rewardPercent/100)});
   }
