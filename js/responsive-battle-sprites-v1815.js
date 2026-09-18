@@ -28,3 +28,5 @@ window.CNineResponsiveBattleSprites=Object.freeze(Object.assign({},window.CNineR
 
 // V2115: Ayoon ZENITH and Aizen Joksuke FUR, battle-only delivery variants.
 window.CNineResponsiveBattleSprites=Object.freeze(Object.assign({},window.CNineResponsiveBattleSprites||{},{"assets/ui/project-v/characters/zenith/zenith-cn-ed78dcc2da3c42b5-sd-v1.png":"/assets/responsive/project-v/zenith/zenith-cn-ed78dcc2da3c42b5-sd-v1-768.webp","assets/ui/project-v/characters/fur/fur-cn-47ad4b47b6a7452c-sd-v1.png":"/assets/responsive/project-v/fur/fur-cn-47ad4b47b6a7452c-sd-v1-768.webp"}));
+
+window.CNineResponsiveBattleSprites=Object.freeze(Object.assign({},window.CNineResponsiveBattleSprites||{},{"assets/ui/project-v/characters/zenith/zenith-cn-21b307e7279a4f3d-sd-v1.png":"/assets/responsive/project-v/zenith/zenith-cn-21b307e7279a4f3d-sd-v1-768.webp"}));

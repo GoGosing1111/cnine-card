@@ -4,8 +4,8 @@
   "scope": "BATTLE_ENGINE_ONLY",
   "rarity": "ZENITH",
   "rosterSnapshot": {
-    "asOf": "2026-09-14",
-    "expectedCount": 30,
+    "asOf": "2026-09-19",
+    "expectedCount": 31,
     "identityKey": "cardId",
     "source": "live PostgreSQL read-only roster lock"
   },
@@ -2343,6 +2343,85 @@
         "safeMarginPx": 72
       },
       "order": 30
+    },
+    {
+      "cardId": "CN-21B307E7279A4F3D",
+      "rarity": "ZENITH",
+      "member": "나무늘봉순",
+      "title": "나무늘봉순",
+      "sourceArt": "assets/cards/new-card-20260919-01.png",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-21b307e7279a4f3d-sd-v1.png",
+      "sha256": "1A2F5C753C50D7EBAC98C2C608A4D5E0984BE2B8452FCCB210B5A7C7E77AE5D9",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-21b307e7279a4f3d-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-21b307e7279a4f3d-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-21b307e7279a4f3d-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-21b307e7279a4f3d-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      },
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 210,
+          "y": 73,
+          "width": 820,
+          "height": 1206
+        },
+        "margins": {
+          "left": 210,
+          "top": 73,
+          "right": 320,
+          "bottom": 71
+        },
+        "safeMarginPx": 71,
+        "alphaPixels": {
+          "transparent": 1233792,
+          "opaque": 824,
+          "partial": 587884
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": false,
+        "liveConnectionAuthorized": true,
+        "authorizationSource": "USER_CREATE_AND_CONNECT_20260919"
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.458889,
+          0.947407
+        ],
+        "safeMarginPx": 71
+      },
+      "order": 31
     }
   ],
   "technicalQaCompletedAt": "2026-09-02T09:30:00+09:00",
@@ -2362,6 +2441,11 @@
     {
       "cardId": "CN-ED78DCC2DA3C42B5",
       "requestedAt": "2026-09-14",
+      "source": "USER_CREATE_AND_CONNECT"
+    },
+    {
+      "cardId": "CN-21B307E7279A4F3D",
+      "requestedAt": "2026-09-19",
       "source": "USER_CREATE_AND_CONNECT"
     }
   ]
