@@ -487,7 +487,7 @@ function presentMessageReward(message){
   const spec=verifiedMessageRewardSpec(message.reward_type),amount=Number(message.reward_amount);
   return {...message,reward_type:spec?.type||message.reward_type,reward_label:spec?.label||'',reward_icon:spec?.icon||'🎁',reward_supported:Boolean(spec&&Number.isSafeInteger(amount)&&amount>0)};
 }
-const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000};
+const COUPON_REWARD_MAX={COIN:10000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000};
 function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
