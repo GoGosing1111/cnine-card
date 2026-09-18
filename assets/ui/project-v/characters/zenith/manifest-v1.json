@@ -2351,7 +2351,7 @@
       "title": "나무늘봉순",
       "sourceArt": "assets/cards/new-card-20260919-01.png",
       "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-21b307e7279a4f3d-sd-v1.png",
-      "sha256": "1A2F5C753C50D7EBAC98C2C608A4D5E0984BE2B8452FCCB210B5A7C7E77AE5D9",
+      "sha256": "0B27EF5AA38423D1664C6F900D37D07272C74D9B000F30056C5AD0CF5DB792A2",
       "responsive": {
         "avif": [
           {
@@ -2384,22 +2384,22 @@
         "transparentRgbaVerified": true,
         "edgeAlphaClear": true,
         "alphaBounds": {
-          "x": 210,
-          "y": 73,
-          "width": 820,
-          "height": 1206
+          "x": 82,
+          "y": 71,
+          "width": 1084,
+          "height": 1211
         },
         "margins": {
-          "left": 210,
-          "top": 73,
-          "right": 320,
-          "bottom": 71
+          "left": 82,
+          "top": 71,
+          "right": 184,
+          "bottom": 68
         },
-        "safeMarginPx": 71,
+        "safeMarginPx": 68,
         "alphaPixels": {
-          "transparent": 1233792,
-          "opaque": 824,
-          "partial": 587884
+          "transparent": 1176012,
+          "opaque": 1098,
+          "partial": 645390
         },
         "magentaStageReady": true,
         "darkStageReady": true,
@@ -2416,10 +2416,10 @@
       "placement": {
         "facing": "UP_RIGHT_3Q",
         "footAnchor": [
-          0.458889,
-          0.947407
+          0.461852,
+          0.94963
         ],
-        "safeMarginPx": 71
+        "safeMarginPx": 68
       },
       "order": 31
     }
