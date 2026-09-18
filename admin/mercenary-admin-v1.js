@@ -1,6 +1,6 @@
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260913-s-skills';
 import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2098-cms';
-import {isRangedMercenarySkill,rangedMercenarySkillScope,rangedMercenarySkillText,rangedMercenaryPvpRule,MERCENARY_RANGED_RULES} from '../shared/mercenary-ranged-balance-v1.mjs?v=20260918-cheonga-pvp-v1';
+import {isRangedMercenarySkill,rangedMercenarySkillScope,rangedMercenarySkillText,rangedMercenaryPvpRule,MERCENARY_RANGED_RULES} from '../shared/mercenary-ranged-balance-v1.mjs?v=20260918-cheonga-tier-v2';
 import {isMercenaryGuardSkill,mercenaryGuardSkillText} from '../shared/mercenary-guard-balance-v1.mjs?v=20260917-guard-v1';
 import {isMercenaryMoonDrawSkill,mercenaryMoonDrawSkillText} from '../shared/mercenary-moon-draw-v1.mjs?v=20260917-moon-draw-v1';
 

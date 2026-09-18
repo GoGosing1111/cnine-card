@@ -1,21 +1,26 @@
 // Correct only sniper preparation and skills that spend multiple actor turns firing.
 // Weapon labels alone never grant a blanket attack or speed multiplier.
-export const MERCENARY_RANGED_BALANCE_VERSION='20260918-cheonga-pvp-v1';
-// PVP-only skill budget. Basic attacks, stats, action cadence and PVE retain
-// their existing values. Each factor also scales the per-impact damage cap.
+export const MERCENARY_RANGED_BALANCE_VERSION='20260918-cheonga-tier-v2';
+// PVP-only skill budgets. Each factor also scales the per-impact damage cap.
+// Cheonga has a separate opening-lineup tier rule for basic attacks and MS-005.
 export const MERCENARY_SS_RANGED_PVP_SCALE=Object.freeze({
  LOCKED_THREAT_SHOT:.86,DANCING_TARGET_VOLLEY:.81,FINISHER_WITH_RELOAD:.82,
  ABYSS_SHIELD_ECHO:.82,PLATINUM_FOCUS_LOCK:.84,DISTRIBUTED_CORAL_VOLLEY:.84,TWO_BEAT_FOLLOWUP:.77,
 });
 export const MERCENARY_CHEONGA_PVP_SCALE=.7;
+export const MERCENARY_CHEONGA_HIGHER_TIER_SCALE=.5;
 const isCheongaCalibration=skill=>skill?.id==='MS-005'&&skill.mechanic==='SAME_TARGET_CALIBRATION';
 const isCheongaActor=actor=>actor?.code==='V-005'&&actor.rank==='S'&&actor.attackStyle==='RANGED';
-export function rangedMercenaryPvpScale(actor,skill){
- if(actor?.battleMode==='PVP'&&isCheongaActor(actor)&&isCheongaCalibration(skill))return MERCENARY_CHEONGA_PVP_SCALE;
+export function cheongaHigherTierPvpScale(actor,opponents=[]){
+ if(actor?.battleMode!=='PVP'||!actor.isMercenary||!isCheongaActor(actor)||!actor.skills?.some(isCheongaCalibration))return 1;
+ return opponents.some(other=>other?.isMercenary&&['SS','SSS'].includes(other.rank)&&other.alive!==false&&other.hp>0)?MERCENARY_CHEONGA_HIGHER_TIER_SCALE:1;
+}
+export function rangedMercenaryPvpScale(actor,skill,higherTierScale=1){
+ if(actor?.battleMode==='PVP'&&isCheongaActor(actor)&&isCheongaCalibration(skill))return MERCENARY_CHEONGA_PVP_SCALE*higherTierScale;
  return actor?.battleMode==='PVP'&&actor.rank==='SS'&&isRangedMercenarySkill(actor,skill)?MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]??1:1;
 }
 export function rangedMercenaryPvpRule(skill,actor){
- if(isCheongaCalibration(skill)&&(!actor||isCheongaActor(actor)))return `S등급 청아의 탄착 교정은 PVP에서 각 탄의 피해량과 피해 상한에 ${Math.round(MERCENARY_CHEONGA_PVP_SCALE*100)}%를 적용합니다. 기본 공격·PVE·비용·재사용 대기는 유지합니다.`;
+ if(isCheongaCalibration(skill)&&(!actor||isCheongaActor(actor)))return `S등급 청아의 탄착 교정은 PVP에서 각 탄의 피해량과 피해 상한에 ${Math.round(MERCENARY_CHEONGA_PVP_SCALE*100)}%를 적용합니다. 전투 시작 시 상대 편성에 생존한 SS·SSS 용병이 있으면, 전투 종료까지 기본 공격과 탄착 교정의 피해량·피해 상한에 추가로 ${Math.round(MERCENARY_CHEONGA_HIGHER_TIER_SCALE*100)}%를 적용합니다. 최종 적용은 기본 공격 ${Math.round(MERCENARY_CHEONGA_HIGHER_TIER_SCALE*100)}%, 탄착 교정 ${Math.round(MERCENARY_CHEONGA_PVP_SCALE*MERCENARY_CHEONGA_HIGHER_TIER_SCALE*100)}%입니다. PVE·비용·재사용 대기는 유지합니다.`;
  return (!actor||actor.rank==='SS')&&MERCENARY_SS_RANGED_PVP_SCALE[skill?.mechanic]<1?`SS등급의 해당 원거리 스킬은 PVP에서 피해량과 피해 상한에 ${Math.round(MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]*100)}%를 적용합니다. 기본 공격·PVE·비용·재사용 대기는 유지합니다.`:'';
 }
 const SNIPER=new Set(['LOCKED_THREAT_SHOT','OBSERVED_SHIELD_BREAK','ABYSS_SHIELD_ECHO','FINISHER_WITH_RELOAD']);

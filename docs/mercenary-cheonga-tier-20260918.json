@@ -1,0 +1,4154 @@
+{
+  "version": "20260918-cheonga-tier-v2",
+  "previousVersion": "20260918-cheonga-pvp-v1",
+  "baseCommit": "5e191b6a391558b5cd9cfea70960e6c141f6a523",
+  "cmsRevision": 55,
+  "policy": {
+    "code": "V-005",
+    "rank": "S",
+    "mode": "PVP",
+    "skillId": "MS-005",
+    "mechanic": "SAME_TARGET_CALIBRATION",
+    "requiredOpposingMercenaryRanks": [
+      "SS",
+      "SSS"
+    ],
+    "condition": "Living opposing mercenary in the opening formation; frozen for the entire battle",
+    "additionalDamageAndCapScale": 0.5,
+    "finalBasicDamageAndCapScale": 0.5,
+    "finalCalibrationDamageAndCapScale": 0.35,
+    "normalCalibrationScale": 0.7
+  },
+  "baseline": {
+    "version": "20260918-cheonga-tier-v2",
+    "checkedAt": "2026-09-18T11:54:25.656Z",
+    "cmsRevision": 55,
+    "method": {
+      "n": 128,
+      "start": 1,
+      "powers": [
+        100000,
+        1000000,
+        20000000
+      ],
+      "decks": {
+        "mixed": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ],
+        "attack": [
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "HP"
+        ],
+        "defense": [
+          "DEFENSE",
+          "DEFENSE",
+          "DEFENSE",
+          "HP",
+          "SPEED"
+        ],
+        "speed": [
+          "SPEED",
+          "SPEED",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ]
+      },
+      "sides": [
+        "A",
+        "B"
+      ],
+      "seedMultiplier": 7919
+    },
+    "opponents": [
+      {
+        "code": "V-001",
+        "name": "아우렌",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1575,
+        "wins": 1575,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 391
+          },
+          "attack": {
+            "games": 768,
+            "wins": 435
+          },
+          "defense": {
+            "games": 768,
+            "wins": 368
+          },
+          "speed": {
+            "games": 768,
+            "wins": 381
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 433
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 607
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 535
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 930
+          },
+          "B": {
+            "games": 1536,
+            "wins": 645
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 105
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 137
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 93
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 98
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 151
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 139
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 149
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 168
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 135
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 159
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 126
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 115
+          }
+        },
+        "beforeWinRate": 0.5126953125,
+        "winRate": 0.5126953125,
+        "maxCell": 0.65625
+      },
+      {
+        "code": "V-002",
+        "name": "리시아",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2394,
+        "wins": 2394,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 632
+          },
+          "attack": {
+            "games": 768,
+            "wins": 481
+          },
+          "defense": {
+            "games": 768,
+            "wins": 699
+          },
+          "speed": {
+            "games": 768,
+            "wins": 582
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 832
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 754
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 808
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1301
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1093
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 221
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 175
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 245
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 191
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 196
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 141
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 210
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 207
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 215
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 165
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 244
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 184
+          }
+        },
+        "beforeWinRate": 0.779296875,
+        "winRate": 0.779296875,
+        "maxCell": 0.95703125
+      },
+      {
+        "code": "V-003",
+        "name": "솔바인",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1541,
+        "wins": 1541,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 383
+          },
+          "attack": {
+            "games": 768,
+            "wins": 357
+          },
+          "defense": {
+            "games": 768,
+            "wins": 474
+          },
+          "speed": {
+            "games": 768,
+            "wins": 327
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 448
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 557
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 536
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 951
+          },
+          "B": {
+            "games": 1536,
+            "wins": 590
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 104
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 106
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 141
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 97
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 150
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 123
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 159
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 125
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 129
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 128
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 174
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 105
+          }
+        },
+        "beforeWinRate": 0.5016276041666666,
+        "winRate": 0.5016276041666666,
+        "maxCell": 0.6796875
+      },
+      {
+        "code": "V-004",
+        "name": "베스페라",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 832,
+        "wins": 218,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 49
+          },
+          "attack": {
+            "games": 768,
+            "wins": 111
+          },
+          "defense": {
+            "games": 768,
+            "wins": 1
+          },
+          "speed": {
+            "games": 768,
+            "wins": 57
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 9
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 158
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 51
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 175
+          },
+          "B": {
+            "games": 1536,
+            "wins": 43
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 3
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 6
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 38
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 78
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 1
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 41
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 8
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 33
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 10
+          }
+        },
+        "beforeWinRate": 0.2708333333333333,
+        "winRate": 0.07096354166666667,
+        "maxCell": 0.3046875
+      },
+      {
+        "code": "V-006",
+        "name": "카르시아",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2181,
+        "wins": 2181,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 545
+          },
+          "attack": {
+            "games": 768,
+            "wins": 427
+          },
+          "defense": {
+            "games": 768,
+            "wins": 674
+          },
+          "speed": {
+            "games": 768,
+            "wins": 535
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 714
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 724
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 743
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1203
+          },
+          "B": {
+            "games": 1536,
+            "wins": 978
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 172
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 144
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 231
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 167
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 185
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 135
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 204
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 200
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 188
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 148
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 239
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 168
+          }
+        },
+        "beforeWinRate": 0.7099609375,
+        "winRate": 0.7099609375,
+        "maxCell": 0.93359375
+      },
+      {
+        "code": "V-008",
+        "name": "아스텔",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1039,
+        "wins": 1039,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 313
+          },
+          "attack": {
+            "games": 768,
+            "wins": 260
+          },
+          "defense": {
+            "games": 768,
+            "wins": 170
+          },
+          "speed": {
+            "games": 768,
+            "wins": 296
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 310
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 415
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 314
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 657
+          },
+          "B": {
+            "games": 1536,
+            "wins": 382
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 101
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 87
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 37
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 85
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 117
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 85
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 89
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 124
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 95
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 88
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 44
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 87
+          }
+        },
+        "beforeWinRate": 0.3382161458333333,
+        "winRate": 0.3382161458333333,
+        "maxCell": 0.484375
+      },
+      {
+        "code": "V-009",
+        "name": "련화",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 743,
+        "wins": 171,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 35
+          },
+          "attack": {
+            "games": 768,
+            "wins": 98
+          },
+          "defense": {
+            "games": 768,
+            "wins": 6
+          },
+          "speed": {
+            "games": 768,
+            "wins": 32
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 5
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 131
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 35
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 140
+          },
+          "B": {
+            "games": 1536,
+            "wins": 31
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 4
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 32
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 63
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 6
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 30
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 2
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 31
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 2
+          }
+        },
+        "beforeWinRate": 0.24186197916666666,
+        "winRate": 0.0556640625,
+        "maxCell": 0.24609375
+      },
+      {
+        "code": "V-010",
+        "name": "월령",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 664,
+        "wins": 150,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 29
+          },
+          "attack": {
+            "games": 768,
+            "wins": 76
+          },
+          "defense": {
+            "games": 768,
+            "wins": 3
+          },
+          "speed": {
+            "games": 768,
+            "wins": 42
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 2
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 123
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 25
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 130
+          },
+          "B": {
+            "games": 1536,
+            "wins": 20
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 2
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 29
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 59
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 3
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 32
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 17
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 8
+          }
+        },
+        "beforeWinRate": 0.21614583333333334,
+        "winRate": 0.048828125,
+        "maxCell": 0.23046875
+      },
+      {
+        "code": "V-011",
+        "name": "아르카엘",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 2445,
+        "wins": 2445,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 604
+          },
+          "attack": {
+            "games": 768,
+            "wins": 497
+          },
+          "defense": {
+            "games": 768,
+            "wins": 719
+          },
+          "speed": {
+            "games": 768,
+            "wins": 625
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 791
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 823
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 831
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1305
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1140
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 190
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 162
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 245
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 194
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 209
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 161
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 227
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 226
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 205
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 174
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 247
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 205
+          }
+        },
+        "beforeWinRate": 0.7958984375,
+        "winRate": 0.7958984375,
+        "maxCell": 0.96484375
+      },
+      {
+        "code": "V-014",
+        "name": "엘리시아",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2394,
+        "wins": 2394,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 632
+          },
+          "attack": {
+            "games": 768,
+            "wins": 481
+          },
+          "defense": {
+            "games": 768,
+            "wins": 699
+          },
+          "speed": {
+            "games": 768,
+            "wins": 582
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 832
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 754
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 808
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1301
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1093
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 221
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 175
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 245
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 191
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 196
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 141
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 210
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 207
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 215
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 165
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 244
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 184
+          }
+        },
+        "beforeWinRate": 0.779296875,
+        "winRate": 0.779296875,
+        "maxCell": 0.95703125
+      },
+      {
+        "code": "V-021",
+        "name": "오메가-X",
+        "rank": "SSS",
+        "games": 3072,
+        "beforeWins": 230,
+        "wins": 37,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 0
+          },
+          "attack": {
+            "games": 768,
+            "wins": 36
+          },
+          "defense": {
+            "games": 768,
+            "wins": 0
+          },
+          "speed": {
+            "games": 768,
+            "wins": 1
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 0
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 36
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 1
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 36
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 35
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 1
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 0
+          }
+        },
+        "beforeWinRate": 0.07486979166666667,
+        "winRate": 0.012044270833333334,
+        "maxCell": 0.13671875
+      },
+      {
+        "code": "V-022",
+        "name": "엘로디",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1804,
+        "wins": 1804,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 511
+          },
+          "attack": {
+            "games": 768,
+            "wins": 489
+          },
+          "defense": {
+            "games": 768,
+            "wins": 390
+          },
+          "speed": {
+            "games": 768,
+            "wins": 414
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 603
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 597
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 604
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1062
+          },
+          "B": {
+            "games": 1536,
+            "wins": 742
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 172
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 171
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 125
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 135
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 166
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 149
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 137
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 145
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 173
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 169
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 128
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 134
+          }
+        },
+        "beforeWinRate": 0.5872395833333334,
+        "winRate": 0.5872395833333334,
+        "maxCell": 0.67578125
+      },
+      {
+        "code": "V-034",
+        "name": "세이지",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2394,
+        "wins": 2394,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 632
+          },
+          "attack": {
+            "games": 768,
+            "wins": 481
+          },
+          "defense": {
+            "games": 768,
+            "wins": 699
+          },
+          "speed": {
+            "games": 768,
+            "wins": 582
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 832
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 754
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 808
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1301
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1093
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 221
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 175
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 245
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 191
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 196
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 141
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 210
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 207
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 215
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 165
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 244
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 184
+          }
+        },
+        "beforeWinRate": 0.779296875,
+        "winRate": 0.779296875,
+        "maxCell": 0.95703125
+      },
+      {
+        "code": "V-036",
+        "name": "네레이아",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 772,
+        "wins": 183,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 37
+          },
+          "attack": {
+            "games": 768,
+            "wins": 108
+          },
+          "defense": {
+            "games": 768,
+            "wins": 1
+          },
+          "speed": {
+            "games": 768,
+            "wins": 37
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 7
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 131
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 45
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 152
+          },
+          "B": {
+            "games": 1536,
+            "wins": 31
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 6
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 34
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 63
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 1
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 33
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 2
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 39
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 4
+          }
+        },
+        "beforeWinRate": 0.2513020833333333,
+        "winRate": 0.0595703125,
+        "maxCell": 0.24609375
+      },
+      {
+        "code": "V-037",
+        "name": "아델린",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 619,
+        "wins": 132,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 40
+          },
+          "attack": {
+            "games": 768,
+            "wins": 75
+          },
+          "defense": {
+            "games": 768,
+            "wins": 4
+          },
+          "speed": {
+            "games": 768,
+            "wins": 13
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 5
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 93
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 34
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 108
+          },
+          "B": {
+            "games": 1536,
+            "wins": 24
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 3
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 35
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 53
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 4
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 1
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 4
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 21
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 9
+          }
+        },
+        "beforeWinRate": 0.20149739583333334,
+        "winRate": 0.04296875,
+        "maxCell": 0.20703125
+      },
+      {
+        "code": "V-040",
+        "name": "마리엘",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 654,
+        "wins": 135,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 34
+          },
+          "attack": {
+            "games": 768,
+            "wins": 73
+          },
+          "defense": {
+            "games": 768,
+            "wins": 4
+          },
+          "speed": {
+            "games": 768,
+            "wins": 24
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 3
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 101
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 31
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 111
+          },
+          "B": {
+            "games": 1536,
+            "wins": 24
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 2
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 32
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 47
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 4
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 18
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 2
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 25
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 4
+          }
+        },
+        "beforeWinRate": 0.212890625,
+        "winRate": 0.0439453125,
+        "maxCell": 0.18359375
+      },
+      {
+        "code": "V-042",
+        "name": "경찰 조은",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 1552,
+        "wins": 437,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 101
+          },
+          "attack": {
+            "games": 768,
+            "wins": 167
+          },
+          "defense": {
+            "games": 768,
+            "wins": 35
+          },
+          "speed": {
+            "games": 768,
+            "wins": 134
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 49
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 235
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 153
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 317
+          },
+          "B": {
+            "games": 1536,
+            "wins": 120
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 17
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 30
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 53
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 99
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 32
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 51
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 31
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 67
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 2
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 53
+          }
+        },
+        "beforeWinRate": 0.5052083333333334,
+        "winRate": 0.14225260416666666,
+        "maxCell": 0.38671875
+      },
+      {
+        "code": "V-043",
+        "name": "동탄 디임",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 883,
+        "wins": 235,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 41
+          },
+          "attack": {
+            "games": 768,
+            "wins": 105
+          },
+          "defense": {
+            "games": 768,
+            "wins": 2
+          },
+          "speed": {
+            "games": 768,
+            "wins": 87
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 22
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 135
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 78
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 179
+          },
+          "B": {
+            "games": 1536,
+            "wins": 56
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 20
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 33
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 69
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 2
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 31
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 7
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 35
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 36
+          }
+        },
+        "beforeWinRate": 0.2874348958333333,
+        "winRate": 0.07649739583333333,
+        "maxCell": 0.26953125
+      },
+      {
+        "code": "V-044",
+        "name": "하이희야",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 1194,
+        "wins": 281,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 53
+          },
+          "attack": {
+            "games": 768,
+            "wins": 138
+          },
+          "defense": {
+            "games": 768,
+            "wins": 17
+          },
+          "speed": {
+            "games": 768,
+            "wins": 73
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 27
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 162
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 92
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 210
+          },
+          "B": {
+            "games": 1536,
+            "wins": 71
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 6
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 2
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 19
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 37
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 84
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 17
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 24
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 10
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 52
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 30
+          }
+        },
+        "beforeWinRate": 0.388671875,
+        "winRate": 0.09147135416666667,
+        "maxCell": 0.328125
+      }
+    ],
+    "unchangedLowerTier": 27648
+  },
+  "holdout": {
+    "version": "20260918-cheonga-tier-v2",
+    "checkedAt": "2026-09-18T11:58:03.542Z",
+    "cmsRevision": 55,
+    "method": {
+      "n": 128,
+      "start": 1001,
+      "powers": [
+        100000,
+        1000000,
+        20000000
+      ],
+      "decks": {
+        "mixed": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ],
+        "attack": [
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "HP"
+        ],
+        "defense": [
+          "DEFENSE",
+          "DEFENSE",
+          "DEFENSE",
+          "HP",
+          "SPEED"
+        ],
+        "speed": [
+          "SPEED",
+          "SPEED",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ]
+      },
+      "sides": [
+        "A",
+        "B"
+      ],
+      "seedMultiplier": 7919
+    },
+    "opponents": [
+      {
+        "code": "V-001",
+        "name": "아우렌",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1515,
+        "wins": 1515,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 357
+          },
+          "attack": {
+            "games": 768,
+            "wins": 399
+          },
+          "defense": {
+            "games": 768,
+            "wins": 356
+          },
+          "speed": {
+            "games": 768,
+            "wins": 403
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 393
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 609
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 513
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 890
+          },
+          "B": {
+            "games": 1536,
+            "wins": 625
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 95
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 115
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 83
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 100
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 139
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 139
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 156
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 175
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 123
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 145
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 117
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 128
+          }
+        },
+        "beforeWinRate": 0.4931640625,
+        "winRate": 0.4931640625,
+        "maxCell": 0.68359375
+      },
+      {
+        "code": "V-002",
+        "name": "리시아",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2427,
+        "wins": 2427,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 608
+          },
+          "attack": {
+            "games": 768,
+            "wins": 499
+          },
+          "defense": {
+            "games": 768,
+            "wins": 711
+          },
+          "speed": {
+            "games": 768,
+            "wins": 609
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 850
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 750
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 827
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1320
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1107
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 214
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 181
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 250
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 205
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 187
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 141
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 217
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 205
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 207
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 177
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 244
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 199
+          }
+        },
+        "beforeWinRate": 0.7900390625,
+        "winRate": 0.7900390625,
+        "maxCell": 0.9765625
+      },
+      {
+        "code": "V-003",
+        "name": "솔바인",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1561,
+        "wins": 1561,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 397
+          },
+          "attack": {
+            "games": 768,
+            "wins": 346
+          },
+          "defense": {
+            "games": 768,
+            "wins": 452
+          },
+          "speed": {
+            "games": 768,
+            "wins": 366
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 464
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 552
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 545
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 944
+          },
+          "B": {
+            "games": 1536,
+            "wins": 617
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 123
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 103
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 131
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 107
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 138
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 122
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 154
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 138
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 136
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 121
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 167
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 121
+          }
+        },
+        "beforeWinRate": 0.5081380208333334,
+        "winRate": 0.5081380208333334,
+        "maxCell": 0.65234375
+      },
+      {
+        "code": "V-004",
+        "name": "베스페라",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 803,
+        "wins": 215,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 61
+          },
+          "attack": {
+            "games": 768,
+            "wins": 100
+          },
+          "defense": {
+            "games": 768,
+            "wins": 2
+          },
+          "speed": {
+            "games": 768,
+            "wins": 52
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 5
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 169
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 41
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 183
+          },
+          "B": {
+            "games": 1536,
+            "wins": 32
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 4
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 59
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 71
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 2
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 37
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 2
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 28
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 11
+          }
+        },
+        "beforeWinRate": 0.2613932291666667,
+        "winRate": 0.06998697916666667,
+        "maxCell": 0.27734375
+      },
+      {
+        "code": "V-006",
+        "name": "카르시아",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2173,
+        "wins": 2173,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 523
+          },
+          "attack": {
+            "games": 768,
+            "wins": 420
+          },
+          "defense": {
+            "games": 768,
+            "wins": 674
+          },
+          "speed": {
+            "games": 768,
+            "wins": 556
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 717
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 707
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 749
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1217
+          },
+          "B": {
+            "games": 1536,
+            "wins": 956
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 171
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 141
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 227
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 178
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 170
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 133
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 208
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 196
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 182
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 146
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 239
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 182
+          }
+        },
+        "beforeWinRate": 0.7073567708333334,
+        "winRate": 0.7073567708333334,
+        "maxCell": 0.93359375
+      },
+      {
+        "code": "V-008",
+        "name": "아스텔",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1029,
+        "wins": 1029,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 292
+          },
+          "attack": {
+            "games": 768,
+            "wins": 261
+          },
+          "defense": {
+            "games": 768,
+            "wins": 156
+          },
+          "speed": {
+            "games": 768,
+            "wins": 320
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 299
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 416
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 314
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 662
+          },
+          "B": {
+            "games": 1536,
+            "wins": 367
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 86
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 86
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 30
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 97
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 113
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 87
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 92
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 124
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 93
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 88
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 34
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 99
+          }
+        },
+        "beforeWinRate": 0.3349609375,
+        "winRate": 0.3349609375,
+        "maxCell": 0.484375
+      },
+      {
+        "code": "V-009",
+        "name": "련화",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 692,
+        "wins": 175,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 42
+          },
+          "attack": {
+            "games": 768,
+            "wins": 101
+          },
+          "defense": {
+            "games": 768,
+            "wins": 5
+          },
+          "speed": {
+            "games": 768,
+            "wins": 27
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 6
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 128
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 41
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 142
+          },
+          "B": {
+            "games": 1536,
+            "wins": 33
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 4
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 2
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 40
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 62
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 5
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 21
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 2
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 35
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 4
+          }
+        },
+        "beforeWinRate": 0.22526041666666666,
+        "winRate": 0.056966145833333336,
+        "maxCell": 0.2421875
+      },
+      {
+        "code": "V-010",
+        "name": "월령",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 704,
+        "wins": 158,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 37
+          },
+          "attack": {
+            "games": 768,
+            "wins": 74
+          },
+          "defense": {
+            "games": 768,
+            "wins": 5
+          },
+          "speed": {
+            "games": 768,
+            "wins": 42
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 1
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 128
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 29
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 142
+          },
+          "B": {
+            "games": 1536,
+            "wins": 16
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 1
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 37
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 54
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 5
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 32
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 20
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 9
+          }
+        },
+        "beforeWinRate": 0.22916666666666666,
+        "winRate": 0.051432291666666664,
+        "maxCell": 0.2109375
+      },
+      {
+        "code": "V-011",
+        "name": "아르카엘",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 2463,
+        "wins": 2463,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 614
+          },
+          "attack": {
+            "games": 768,
+            "wins": 485
+          },
+          "defense": {
+            "games": 768,
+            "wins": 719
+          },
+          "speed": {
+            "games": 768,
+            "wins": 645
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 792
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 817
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 854
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1311
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1152
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 198
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 150
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 243
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 201
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 203
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 162
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 226
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 226
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 213
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 173
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 250
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 218
+          }
+        },
+        "beforeWinRate": 0.8017578125,
+        "winRate": 0.8017578125,
+        "maxCell": 0.9765625
+      },
+      {
+        "code": "V-014",
+        "name": "엘리시아",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2427,
+        "wins": 2427,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 608
+          },
+          "attack": {
+            "games": 768,
+            "wins": 499
+          },
+          "defense": {
+            "games": 768,
+            "wins": 711
+          },
+          "speed": {
+            "games": 768,
+            "wins": 609
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 850
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 750
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 827
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1320
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1107
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 214
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 181
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 250
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 205
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 187
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 141
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 217
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 205
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 207
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 177
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 244
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 199
+          }
+        },
+        "beforeWinRate": 0.7900390625,
+        "winRate": 0.7900390625,
+        "maxCell": 0.9765625
+      },
+      {
+        "code": "V-021",
+        "name": "오메가-X",
+        "rank": "SSS",
+        "games": 3072,
+        "beforeWins": 216,
+        "wins": 36,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 0
+          },
+          "attack": {
+            "games": 768,
+            "wins": 35
+          },
+          "defense": {
+            "games": 768,
+            "wins": 0
+          },
+          "speed": {
+            "games": 768,
+            "wins": 1
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 0
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 35
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 1
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 34
+          },
+          "B": {
+            "games": 1536,
+            "wins": 2
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 34
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 1
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 0
+          }
+        },
+        "beforeWinRate": 0.0703125,
+        "winRate": 0.01171875,
+        "maxCell": 0.1328125
+      },
+      {
+        "code": "V-022",
+        "name": "엘로디",
+        "rank": "S",
+        "games": 3072,
+        "beforeWins": 1827,
+        "wins": 1827,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 489
+          },
+          "attack": {
+            "games": 768,
+            "wins": 480
+          },
+          "defense": {
+            "games": 768,
+            "wins": 390
+          },
+          "speed": {
+            "games": 768,
+            "wins": 468
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 625
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 584
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 618
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1052
+          },
+          "B": {
+            "games": 1536,
+            "wins": 775
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 166
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 169
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 130
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 160
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 157
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 147
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 132
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 148
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 166
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 164
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 128
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 160
+          }
+        },
+        "beforeWinRate": 0.5947265625,
+        "winRate": 0.5947265625,
+        "maxCell": 0.66015625
+      },
+      {
+        "code": "V-034",
+        "name": "세이지",
+        "rank": "A",
+        "games": 3072,
+        "beforeWins": 2427,
+        "wins": 2427,
+        "duelGames": 0,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 608
+          },
+          "attack": {
+            "games": 768,
+            "wins": 499
+          },
+          "defense": {
+            "games": 768,
+            "wins": 711
+          },
+          "speed": {
+            "games": 768,
+            "wins": 609
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 850
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 750
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 827
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 1320
+          },
+          "B": {
+            "games": 1536,
+            "wins": 1107
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 214
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 181
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 250
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 205
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 187
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 141
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 217
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 205
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 207
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 177
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 244
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 199
+          }
+        },
+        "beforeWinRate": 0.7900390625,
+        "winRate": 0.7900390625,
+        "maxCell": 0.9765625
+      },
+      {
+        "code": "V-036",
+        "name": "네레이아",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 772,
+        "wins": 195,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 44
+          },
+          "attack": {
+            "games": 768,
+            "wins": 111
+          },
+          "defense": {
+            "games": 768,
+            "wins": 4
+          },
+          "speed": {
+            "games": 768,
+            "wins": 36
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 9
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 141
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 45
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 150
+          },
+          "B": {
+            "games": 1536,
+            "wins": 45
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 8
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 1
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 40
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 65
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 4
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 32
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 4
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 38
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 3
+          }
+        },
+        "beforeWinRate": 0.2513020833333333,
+        "winRate": 0.0634765625,
+        "maxCell": 0.25390625
+      },
+      {
+        "code": "V-037",
+        "name": "아델린",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 648,
+        "wins": 129,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 40
+          },
+          "attack": {
+            "games": 768,
+            "wins": 70
+          },
+          "defense": {
+            "games": 768,
+            "wins": 3
+          },
+          "speed": {
+            "games": 768,
+            "wins": 16
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 4
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 87
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 38
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 106
+          },
+          "B": {
+            "games": 1536,
+            "wins": 23
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 4
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 37
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 44
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 3
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 3
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 3
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 26
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 9
+          }
+        },
+        "beforeWinRate": 0.2109375,
+        "winRate": 0.0419921875,
+        "maxCell": 0.171875
+      },
+      {
+        "code": "V-040",
+        "name": "마리엘",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 653,
+        "wins": 138,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 44
+          },
+          "attack": {
+            "games": 768,
+            "wins": 73
+          },
+          "defense": {
+            "games": 768,
+            "wins": 3
+          },
+          "speed": {
+            "games": 768,
+            "wins": 18
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 1
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 106
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 31
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 114
+          },
+          "B": {
+            "games": 1536,
+            "wins": 24
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 1
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 0
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 41
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 45
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 3
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 17
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 3
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 27
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 1
+          }
+        },
+        "beforeWinRate": 0.21256510416666666,
+        "winRate": 0.044921875,
+        "maxCell": 0.17578125
+      },
+      {
+        "code": "V-042",
+        "name": "경찰 조은",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 1530,
+        "wins": 420,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 107
+          },
+          "attack": {
+            "games": 768,
+            "wins": 178
+          },
+          "defense": {
+            "games": 768,
+            "wins": 31
+          },
+          "speed": {
+            "games": 768,
+            "wins": 104
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 37
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 240
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 143
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 312
+          },
+          "B": {
+            "games": 1536,
+            "wins": 108
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 6
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 10
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 2
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 19
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 75
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 94
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 25
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 46
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 26
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 74
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 4
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 39
+          }
+        },
+        "beforeWinRate": 0.498046875,
+        "winRate": 0.13671875,
+        "maxCell": 0.3671875
+      },
+      {
+        "code": "V-043",
+        "name": "동탄 디임",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 871,
+        "wins": 221,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 52
+          },
+          "attack": {
+            "games": 768,
+            "wins": 110
+          },
+          "defense": {
+            "games": 768,
+            "wins": 1
+          },
+          "speed": {
+            "games": 768,
+            "wins": 58
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 14
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 143
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 64
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 166
+          },
+          "B": {
+            "games": 1536,
+            "wins": 55
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 2
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 3
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 9
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 45
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 71
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 1
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 26
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 5
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 36
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 23
+          }
+        },
+        "beforeWinRate": 0.2835286458333333,
+        "winRate": 0.07194010416666667,
+        "maxCell": 0.27734375
+      },
+      {
+        "code": "V-044",
+        "name": "하이희야",
+        "rank": "SS",
+        "games": 3072,
+        "beforeWins": 1138,
+        "wins": 288,
+        "duelGames": 3072,
+        "duelWins": 0,
+        "duelDraws": 0,
+        "decks": {
+          "mixed": {
+            "games": 768,
+            "wins": 71
+          },
+          "attack": {
+            "games": 768,
+            "wins": 143
+          },
+          "defense": {
+            "games": 768,
+            "wins": 19
+          },
+          "speed": {
+            "games": 768,
+            "wins": 55
+          }
+        },
+        "powers": {
+          "100000": {
+            "games": 1024,
+            "wins": 14
+          },
+          "1000000": {
+            "games": 1024,
+            "wins": 184
+          },
+          "20000000": {
+            "games": 1024,
+            "wins": 90
+          }
+        },
+        "sides": {
+          "A": {
+            "games": 1536,
+            "wins": 217
+          },
+          "B": {
+            "games": 1536,
+            "wins": 71
+          }
+        },
+        "cells": {
+          "100000/mixed": {
+            "games": 256,
+            "wins": 3
+          },
+          "100000/attack": {
+            "games": 256,
+            "wins": 4
+          },
+          "100000/defense": {
+            "games": 256,
+            "wins": 0
+          },
+          "100000/speed": {
+            "games": 256,
+            "wins": 7
+          },
+          "1000000/mixed": {
+            "games": 256,
+            "wins": 58
+          },
+          "1000000/attack": {
+            "games": 256,
+            "wins": 84
+          },
+          "1000000/defense": {
+            "games": 256,
+            "wins": 18
+          },
+          "1000000/speed": {
+            "games": 256,
+            "wins": 24
+          },
+          "20000000/mixed": {
+            "games": 256,
+            "wins": 10
+          },
+          "20000000/attack": {
+            "games": 256,
+            "wins": 55
+          },
+          "20000000/defense": {
+            "games": 256,
+            "wins": 1
+          },
+          "20000000/speed": {
+            "games": 256,
+            "wins": 24
+          }
+        },
+        "beforeWinRate": 0.3704427083333333,
+        "winRate": 0.09375,
+        "maxCell": 0.328125
+      }
+    ],
+    "unchangedLowerTier": 27648
+  }
+}

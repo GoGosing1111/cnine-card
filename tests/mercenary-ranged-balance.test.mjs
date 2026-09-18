@@ -2,16 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
-import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
+import {buildFighter,simulateBattleV2Preview,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
+import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
-import {MERCENARY_RANGED_RULES,MERCENARY_SS_RANGED_PVP_SCALE,rangedMercenaryProfile,isRangedMercenarySkill,rangedMercenarySkillText,rangedMercenaryPvpScale,rangedMercenaryPvpRule} from '../shared/mercenary-ranged-balance-v1.mjs';
+import {MERCENARY_RANGED_RULES,MERCENARY_SS_RANGED_PVP_SCALE,rangedMercenaryProfile,isRangedMercenarySkill,rangedMercenarySkillText,rangedMercenaryPvpScale,rangedMercenaryPvpRule,cheongaHigherTierPvpScale} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {MERCENARY_SKILL_BALANCE_V2103 as balances} from '../shared/mercenary-skill-balance-v2103.mjs';
 const snapshot=(mechanic,extra={})=>({code:'V-004',rank:'SS',name:'베스페라',role:'SNIPER',position:'REAR',level:1,basePower:70000,stats:{hp:100000,attack:1000,defense:100,speed:100},combat,skills:[{...seed.document.skills.find(s=>s.mechanic===mechanic),review:'REVIEWED',balance:{damageRatio:3,cost:25,cooldownTurns:5}}],...extra});
-function harness(mechanic,{miss=[],rank='S',hp=100000,targets=1,...extra}={}){
- const a=buildMercenaryFighter(snapshot(mechanic,{rank,...extra}),'A','PVP');
- const enemies=Array.from({length:targets},(_,i)=>({id:'B:'+i,side:'B',slot:i,row:'BACK',attack:100,hp,maxHp:hp,shield:0,defense:100,gauge:80,actions:0,alive:true,attackStyle:'RANGED'}));
+function harness(mechanic,{miss=[],rank='S',hp=100000,targets=1,opponentRank,mode='PVP',...extra}={}){
+ const a=buildMercenaryFighter(snapshot(mechanic,{rank,...extra}),'A',mode);
+ const enemies=Array.from({length:targets},(_,i)=>({id:'B:'+i,side:'B',slot:i,row:'BACK',attack:100,hp,maxHp:hp,shield:0,defense:100,gauge:80,actions:0,alive:true,attackStyle:'RANGED',...(opponentRank&&i===targets-1?{isMercenary:true,rank:opponentRank}:{})}));
  const events=[],ratios=[];
  const runtime=mercenaryCombat({teams:{A:[a],B:enemies},hit:(_a,t,scale,options)=>{ratios.push({target:t.id,scale,options});return {damage:1000*scale,dodge:miss.includes(ratios.length)};},damage:(t,n)=>{const absorbed=Math.min(t.shield,n),hpDamage=Math.min(t.hp,n-absorbed);t.hp-=hpDamage;t.shield-=absorbed;return {hpDamage,absorbed};},knockout:t=>{if(t.hp<=0)t.alive=false;},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
  return {a,enemies,events,ratios,runtime,turn:()=>{a.actions++;return runtime.beforeAction(a);}};
@@ -150,21 +151,79 @@ test('public descriptions reflect per-actor rules without changing CMS values, g
  const skill=document.skills.find(s=>s.id==='MS-005');assert.equal(rangedMercenarySkillText(skill,{rank:'A',attackStyle:'RANGED'}),skill);
  assert.equal(isRangedMercenarySkill({rank:'S',attackStyle:'RANGED'},skill),true);assert.deepEqual(view.skills[0].balance,skill.balance);
  assert.match(view.skills[0].effect,/S등급 청아.*PVP.*70%/);
+ assert.match(view.skills[0].effect,/SS·SSS.*기본 공격.*추가로 50%/);
+ assert.match(view.skills[0].effect,/최종 적용은 기본 공격 50%, 탄착 교정 35%/);
  assert.equal(rangedMercenaryPvpRule(skill,{code:'V-009',rank:'S',attackStyle:'RANGED'}),'');
  assert.match(rangedMercenaryPvpRule(skill),/S등급 청아/);
 });
 
-test('S Cheonga no longer dominates the live SS roster with mirrored equal-power decks',()=>{
+test('every SS has a material advantage over S Cheonga, including each power and deck group',()=>{
  const ss=[['V-004','SS','MS-004'],['V-009','SS','MS-009'],['V-010','SS','MS-010'],['V-036','SS','MS-032','MS-036'],['V-037','SS','MS-037'],['V-040','SS','MS-040'],['V-042','SS','MS-042'],['V-043','SS','MS-043'],['V-044','SS','MS-044']];
  const types=[['ATTACK','DEFENSE','SPEED','HP','ATTACK'],['ATTACK','ATTACK','ATTACK','ATTACK','HP'],['DEFENSE','DEFENSE','DEFENSE','HP','SPEED'],['SPEED','SPEED','SPEED','HP','ATTACK']];
- for(const row of ss){let wins=0,games=0;
+ for(const row of ss){let wins=0,games=0;const groups=new Map();
   for(const power of [100000,1000000,20000000])for(const deck of types)for(const side of ['A','B'])for(let n=1001;n<=1032;n++){
    const cards=deck.map((power_type,i)=>({id:String(i+1),power,power_type}));
    const own=side==='A'?'attackerMercenary':'defenderMercenary',other=side==='A'?'defenderMercenary':'attackerMercenary';
    const b=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[own]:released(['V-005','S','MS-005']),[other]:released(row),seed:n*7919});
-   games++;wins+=Number(b.result.winner===side);
+   const won=Number(b.result.winner===side),key=power+'/'+deck.join(',');
+   if(!groups.has(key))groups.set(key,{wins:0,games:0});const group=groups.get(key);group.games++;group.wins+=won;
+   games++;wins+=won;
   }
-  assert.ok(wins/games<.55,`Cheonga vs ${row[0]}: ${wins}/${games}`);
+  assert.ok(wins/games<.25,`Cheonga vs ${row[0]}: ${wins}/${games}`);
+  for(const [key,group] of groups)assert.ok(group.wins/group.games<.45,`Cheonga vs ${row[0]} at ${key}: ${group.wins}/${group.games}`);
+ }
+});
+
+test('Cheonga cannot defeat any current SS in isolated linked PVP duels on either side',()=>{
+ const ss=[['V-004','SS','MS-004'],['V-009','SS','MS-009'],['V-010','SS','MS-010'],['V-036','SS','MS-032','MS-036'],['V-037','SS','MS-037'],['V-040','SS','MS-040'],['V-042','SS','MS-042'],['V-043','SS','MS-043'],['V-044','SS','MS-044']];
+ for(const row of ss)for(const power of [100000,1000000,20000000])for(const side of ['A','B'])for(let n=2001;n<=2032;n++){
+  const cheonga=buildMercenaryFighter(released(['V-005','S','MS-005']),side,'PVP',buildFighter),opponent=buildMercenaryFighter(released(row),side==='A'?'B':'A','PVP',buildFighter);
+  applyMercenaryCombatLink([cheonga,opponent].map(m=>[...party(power).map((c,i)=>buildFighter(c,i,m.side,null,'PVP')),m]));
+  const result=simulateBattleV2Preview({teamA:[side==='A'?cheonga:opponent],teamB:[side==='B'?cheonga:opponent],seed:n*7919,maxActions:83,suddenDeathAfter:64,healerPenalty:true});
+  assert.equal(result.winner,opponent.side,`Cheonga vs ${row[0]} at ${power} / ${side} / ${n}`);
+ }
+});
+
+test('higher-tier opposition scales basics and all three calibration shots once, frozen through enemy KO',()=>{
+ for(const opponentRank of ['SS','SSS']){
+  const h=harness('SAME_TARGET_CALIBRATION',{code:'V-005',role:'MARKSMAN',targets:2,opponentRank,miss:[1]});
+  assert.equal(h.runtime.basicMultiplier(h.a),.5);assert.equal(h.runtime.basicDamageCapScale(h.a),.5);
+  h.turn();h.enemies[1].hp=0;h.enemies[1].alive=false;h.turn();h.turn();
+  assert.equal(h.ratios.length,3);
+  h.ratios.forEach((r,i)=>{assert.ok(Math.abs(r.scale-[.35,.35,.49][i])<1e-9);assert.equal(r.options.castShare,.35);});
+  assert.equal(h.runtime.basicMultiplier(h.a),.5);assert.equal(h.runtime.basicDamageCapScale(h.a),.5);
+  assert.equal(h.runtime.state(h.a).energy,75);assert.equal(h.runtime.state(h.a).cooldown.get('MS-005'),6);
+  assert.equal(h.runtime.state(h.a).pending,null);assert.equal(h.events.filter(e=>e.type==='MERCENARY_END').length,1);
+  h.runtime.buffs.set(h.a.id,{order:{percent:15}});h.runtime.debuffs.set(h.a.id,{restraint:25});
+  assert.ok(Math.abs(h.runtime.basicMultiplier(h.a)-.5*1.15*.75)<1e-9);assert.equal(h.runtime.basicDamageCapScale(h.a),.5);
+  assert.equal(h.runtime.basicMultiplier(h.a),.5,'consumed order/restraint cannot persist or reapply the tier factor');
+ }
+});
+
+test('tier correction requires S Cheonga with calibration and a living opposing SS/SSS mercenary at entry',()=>{
+ const h=harness('SAME_TARGET_CALIBRATION',{code:'V-005',role:'MARKSMAN'}),actor=h.a,opponent={isMercenary:true,rank:'SS',hp:100,alive:true};
+ assert.equal(cheongaHigherTierPvpScale(actor,[opponent]),.5);
+ for(const change of [{battleMode:'PVE'},{battleMode:undefined},{code:'V-009'},{isMercenary:false},{attackStyle:'MELEE'},{skills:[]},...['C','B','A','SS','SSS'].map(rank=>({rank}))])assert.equal(cheongaHigherTierPvpScale({...actor,...change},[opponent]),1);
+ for(const change of [{isMercenary:false},{hp:0},{alive:false},...['C','B','A','S',undefined].map(rank=>({rank}))])assert.equal(cheongaHigherTierPvpScale(actor,[{...opponent,...change}]),1);
+ assert.equal(cheongaHigherTierPvpScale({...actor,skills:[{...actor.skills[0],id:'MS-009'}]},[opponent]),1);
+ assert.equal(cheongaHigherTierPvpScale({...actor,skills:[{...actor.skills[0],mechanic:'DANCING_TARGET_VOLLEY'}]},[opponent]),1);
+ assert.equal(h.runtime.basicMultiplier(actor),1);assert.equal(h.runtime.basicDamageCapScale(actor),1);
+ h.enemies[0]={...h.enemies[0],...opponent};assert.equal(h.runtime.basicMultiplier(actor),1,'a later rank mutation cannot change the entry rule');
+ const pve=harness('SAME_TARGET_CALIBRATION',{code:'V-005',role:'MARKSMAN',mode:'PVE',opponentRank:'SS'});
+ assert.equal(pve.runtime.basicMultiplier(pve.a),1);assert.equal(pve.runtime.basicDamageCapScale(pve.a),1);
+ pve.turn();pve.turn();pve.turn();assert.deepEqual(pve.ratios.map(r=>r.scale),[1,1,1.4]);assert.ok(pve.ratios.every(r=>r.options.castShare===1));
+});
+
+test('the real PVP damage engine applies tier caps to normal attacks and skill impacts',()=>{
+ for(const side of ['A','B']){
+  const own=side==='A'?'attackerMercenary':'defenderMercenary',other=side==='A'?'defenderMercenary':'attackerMercenary';
+  const cheonga=released(['V-005','S','MS-005']);cheonga.skills[0].balance={damageRatio:10000,cost:25,cooldownTurns:5};
+  const battle=createPvpBattleV2({attackerCards:party(20000000),defenderCards:party(20000000),[own]:cheonga,[other]:released(['V-042','SS','MS-042']),seed:7919});
+  const enemy=battle.teams[side==='A'?'B':'A'],targets=new Map([...enemy.cards,...enemy.mercenaries].map(t=>[t.id,t]));
+  const hits=battle.result.timeline.filter(e=>e.actorId===side+':MERCENARY:V-005'&&!e.dodge&&['TURN','MERCENARY_HIT'].includes(e.type));
+  for(const type of ['TURN','MERCENARY_HIT'])assert.ok(hits.some(e=>e.type===type),type);
+  for(const e of hits){const hp=e.targetMaxHp+(targets.get(e.targetId)?.mercenaryLink?.openingShield||0),scale=e.type==='TURN'?.5:.35;assert.ok(e.damage+e.absorbed<=Math.round(hp*.6*scale)+1,`${e.type}: ${e.damage+e.absorbed}`);}
+  assert.ok(hits.some(e=>e.type==='MERCENARY_HIT'&&Math.abs(e.damage+e.absorbed-Math.round(e.targetMaxHp*.6*.35))<=1));
  }
 });
 

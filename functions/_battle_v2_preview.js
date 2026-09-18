@@ -1274,7 +1274,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||lowestRatioTarget(pool, random);
-    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1), false, hitOptions);
+    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1), false, {...hitOptions,damageCapScale:mercenaryRuntime?.basicDamageCapScale(actor)??1});
     if(isBattleSuitSupport(actor)){
       // V1990: 기준 사이클(0.018) 동안의 배틀슈트 총 타격이
       //   "배틀슈트 전투력만큼의 카드 1장이 1회 공격" 과 같도록 발당 피해를 나눈다.
