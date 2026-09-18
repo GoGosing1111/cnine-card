@@ -1,3 +1,4 @@
+import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,createSkillChipSchedule,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
@@ -567,7 +568,7 @@ function spendHealPool(side, amount) {
 }
 
 function maybeEmergencyHeal(target, timeline, clock, healMultiplier = 1) {
-  if (!target.alive || target.hp <= 0 || target.type !== 'HP' || target.emergencyUsed) return;
+  if (!target.alive || target.hp <= 0 || target.type !== 'HP' || target.emergencyUsed || apocalypseCursed(target) || apocalypseSealed(target)) return;
   if (target.hp / target.maxHp > 0.30) return;
   target.emergencyUsed = true;
   const requested = Math.min(target.maxHp - target.hp, Math.max(1, Math.round(target.maxHp * S1.emergencyHealPercent * clamp(healMultiplier, 0, 1))));
@@ -761,6 +762,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const activateMagic=(fighter,effectType)=>{
     const state=magicByFighter.get(fighter?.id);
     if(!state||state.effectType!==effectType||state.activations>=state.maxActivations)return null;
+    if(apocalypseSealed(fighter)&&effectType!=='PURIFY_LIGHT')return null;
+    if(apocalypseCursed(fighter)&&effectType==='CRISIS_HEAL')return null;
     if(Number(fighter.magicSealCharges||0)>0&&effectType!=='PURIFY_LIGHT'){
       fighter.magicSealCharges=Math.max(0,Number(fighter.magicSealCharges||0)-1);
       pushEvent(timeline,clock+0.00001,'MAGIC_SEAL_BLOCK',{actorId:fighter.magicSealSourceId||'',targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,effectType:state.effectType,label:'봉인의 칙령 · 발동 봉인'});
@@ -1149,6 +1152,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(chipActor&&nextChipMs()<=nextStepMs){resolveChipStep();continue;}
     const groupFrom=timeline.length;
     if(chipActor)combatMs=nextStepMs;
+    let actionActor=null;
     try {
     const dt=Math.max(0,nextActionAt-clock);
     clock+=dt;
@@ -1200,6 +1204,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
+    actionActor=actor;
     actionRandom=actor.isMercenary?mercenaryRandom[actor.side]:cardRandom;
     if(!independentAction)mercenaryTurns.acted(actor);
     if(actor.isMercenary){mercenaryActionCount += 1;mercenaryActionsBySide[actor.side] += 1;}
@@ -1211,7 +1216,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     // V1936: 연장전에서 회복이 완전히 끊겨 생명형은 '연장전 진입 = 패배' 였다. 절반은 남긴다.
     //   대신 회복은 팀 총량에서 차감되므로 무한히 버틸 수는 없다.
-    if (actor.type === 'HP' && actor.hp < actor.maxHp) {
+    if (actor.type === 'HP' && actor.hp < actor.maxHp && !apocalypseCursed(actor) && !apocalypseSealed(actor)) {
       const sdScale = suddenDeath ? S1.regenSuddenDeathScale : 1;
       const requested = Math.min(actor.maxHp - actor.hp, Math.max(1, Math.round(actor.maxHp * S1.regenPercent * sdScale * healerRules[actor.side].multiplier)));
       const amount = spendHealPool(actor.side, requested);
@@ -1222,10 +1227,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       }
     }
 
-    if (!suddenDeath && actor.singleHealerActive && actor.singleHealerUses < actor.singleHealerMaxUses) {
+    if (!suddenDeath && !apocalypseSealed(actor) && actor.singleHealerActive && actor.singleHealerUses < actor.singleHealerMaxUses) {
       const allyTeam = actor.side === 'A' ? a : b;
       const target = alive(allyTeam)
-        .filter((card) => card.hp < card.maxHp)
+        .filter((card) => card.hp < card.maxHp && !apocalypseCursed(card))
         .sort((x, y) => x.hp / x.maxHp - y.hp / y.maxHp || x.slot - y.slot)[0];
       if (target) {
         const crisis = target.hp / Math.max(1, target.maxHp) <= singleHealer.crisisThresholdPercent / 100;
@@ -1259,6 +1264,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     const enemyTeam = actor.side === 'A' ? b : a;
+    if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,knockout:t=>resolveKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor))continue;
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
@@ -1318,7 +1324,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       }
     }
 
-    if (actor.type === 'SPEED' && !actor.speedUniqueSuppressed) {
+    if (actor.type === 'SPEED' && !actor.speedUniqueSuppressed && !apocalypseSealed(actor)) {
       target.gauge = Math.max(0, target.gauge - 18);
       if (random() < 0.28) actor.gauge = Math.min(95, actor.gauge + 35);
     }
@@ -1390,10 +1396,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const echo=target.hp>0?activateMagic(actor,'CHAIN_ECHO'):null;
       if(echo){const baseDamage=damageState.hpDamage+damageState.absorbed,echoState=applyDamage(target,Math.max(1,apocalypseMagicCap(target,Math.round(baseDamage*Math.min(200,Number(echo.effectValue||0))/100))));actor.damageDealt+=echoState.hpDamage+echoState.absorbed;pushEvent(timeline,clock+0.00009,'MAGIC_CARD',magicEvent(echo,actor,target,{damage:echoState.hpDamage,absorbed:echoState.absorbed,echoDamage:echoState.hpDamage+echoState.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));}
 
-      if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0||mercenaryRuntime?.debuffs.get(target.id)&&Object.keys(mercenaryRuntime.debuffs.get(target.id)).length)){
+      if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0||Object.keys(target.apocalypseStatus||{}).length||mercenaryRuntime?.debuffs.get(target.id)&&Object.keys(mercenaryRuntime.debuffs.get(target.id)).length)){
         const purify=activateMagic(target,'PURIFY_LIGHT');
         if(purify)mercenaryRuntime?.cleanse(target);
-        if(purify){const cleared={seal:Number(target.magicSealCharges||0),marks:Number(target.doomMarks||0),distortion:Number(target.timeDistortionStacks||0)};target.magicSealCharges=0;target.magicSealSourceId='';target.doomMarks=0;target.timeDistortionStacks=0;const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(purify.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.000095,'MAGIC_CARD',magicEvent(purify,target,target,{amount,cleared,hpAfter:target.hp,maxHp:target.maxHp}));}
+        if(purify){const apocalypseCleared=clearApocalypseStatus(target);if(Object.keys(apocalypseCleared).length)pushEvent(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{},label:'정화'});const cleared={apocalypse:apocalypseCleared,seal:Number(target.magicSealCharges||0),marks:Number(target.doomMarks||0),distortion:Number(target.timeDistortionStacks||0)};target.magicSealCharges=0;target.magicSealSourceId='';target.doomMarks=0;target.timeDistortionStacks=0;const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(purify.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.000095,'MAGIC_CARD',magicEvent(purify,target,target,{amount,cleared,hpAfter:target.hp,maxHp:target.maxHp}));}
       }
     }
 
@@ -1445,7 +1451,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // 전직이 없는 방어형은 V1936의 방벽 필요 조건과 RNG 소비 순서를 그대로 둔다.
     // 반격자만 방벽 파괴 순간 및 방벽 소진 뒤의 추가 반격 규칙을 사용한다.
     const hasRiposte=target.uniqueAdvancement?.classCode==='RIPOSTE';
-    const counterTriggered=!isBattleSuitSupport(actor)&&target.type==='DEFENSE'&&(hasRiposte
+    const counterTriggered=!apocalypseSealed(target)&&!isBattleSuitSupport(actor)&&target.type==='DEFENSE'&&(hasRiposte
       ?(barrierBroken||!S1.counterNeedsShield||target.shield>0||unshieldedCounterChance>0)
         &&(barrierBroken||random()<(target.shield>0?defenseCounterChance:unshieldedCounterChance))
       :(!S1.counterNeedsShield||target.shield>0)&&(barrierBroken||random()<defenseCounterChance));
@@ -1478,7 +1484,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
-    } finally {actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
+    } finally {const statuses=finishApocalypseAction(actionActor);if(statuses)pushEvent(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);
@@ -1711,7 +1717,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');
   const mercenaryFighter=buildMercenaryFighter(mercenary,'A','PVE',buildFighter);
   const simulationTeamA = [...teamA,...(battleSuitFighter?[battleSuitFighter]:[]),...(mercenaryFighter?[mercenaryFighter]:[])];
-  const teamB = encounterPlan ? encounterPlan.initial : [buildMonsterFighter(monster)];
+  const legion=encounterPlan?null:buildApocalypseLegion(monster,buildMonsterFighter);
+  const teamB = encounterPlan ? encounterPlan.initial : legion || [buildMonsterFighter(monster)];
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
     teamA:simulationTeamA, teamB, magicA:magicCards, seed, maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0,
@@ -1726,7 +1733,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     //   일반 몬스터는 12 로만 살짝 올린다.
     forcedMonsterEvery,
     openingPlayerUltimateDamage: ultimateDamage,
-    openingBossUltimatePercent: bossUltimatePercent,
+    openingBossUltimatePercent: legion ? 0 : bossUltimatePercent,
     bossUltimateCapPercent,
     healerPenalty: true,
     singleHealerBonus,
@@ -1780,7 +1787,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitDamageMultiplier:BATTLE_SUIT_DAMAGE_MULTIPLIER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { ...(legion?{enemyFormation:'BOSS_WITH_SIX_MINIONS',enemyCount:7,apocalypseSkillSchedule:'BOSS_ACTION_1_2_3',victoryCondition:'ALL_ENEMIES_DEFEATED'}:{}), hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitDamageMultiplier:BATTLE_SUIT_DAMAGE_MULTIPLIER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     ...(encounterPlan ? {encounter: {schemaVersion:1, initialIds:teamB.map(row => row.id), instances:[...teamB,...encounterPlan.pending].map(publicFighter),
       maxActions:encounterPlan.maxActions, maxDuration:encounterPlan.maxDuration, forcedMonsterEvery,
       stateContinuity:['HP','SHIELD','GAUGE','MAGIC_BUDGET','REVIVE_BUDGET','BATTLE_SUIT_CLOCK'], fixedEnemyStats:true}} : {}),

@@ -4,7 +4,8 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import sharp from 'sharp';
 import {build} from 'esbuild';
-import {BOSSES,REFERENCE,makeRegistrationDraft} from '../preview/apocalypse-bosses-v1/bosses.mjs';
+import {APOCALYPSE_LEGION_BOSSES as BOSSES} from '../shared/apocalypse-legion-v1.mjs';
+import {REFERENCE,makeRegistrationDraft} from '../preview/apocalypse-bosses-v1/bosses.mjs';
 import {castDraftSkill} from '../preview/apocalypse-bosses-v1/skill-contract.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),dir=path.join(root,'preview/apocalypse-bosses-v1');
@@ -34,7 +35,7 @@ const cards=ids.map((id,i)=>{const c=roster.find(c=>c.cardId===id);if(!c)throw E
 const fixtures={},drafts=makeRegistrationDraft();
 for(const [i,boss] of BOSSES.entries()){
  const profile=drafts[i].battleProfile;
- const monster={id:boss.previewId,name:boss.name,image_url:boss.sourceArt,sourceArt:boss.sourceArt,battleSprite:boss.battleSprite,is_boss:1,pve_difficulty:'APOCALYPSE',battle_power:profile.battlePower,pve_hp_percent:profile.hpPercent,pve_attack_percent:profile.attackPercent,pve_defense_percent:profile.defensePercent,pve_speed_percent:profile.speedPercent,pve_shield_percent:profile.shieldPercent,pve_attack_count:profile.attackCount,pve_forced_action_every:profile.forcedActionEvery};
+ const monster={id:boss.monsterId,name:boss.name,image_url:boss.sourceArt,sourceArt:boss.sourceArt,battleSprite:boss.battleSprite,is_boss:1,pve_difficulty:'APOCALYPSE',battle_power:profile.battlePower,pve_hp_percent:profile.hpPercent,pve_attack_percent:profile.attackPercent,pve_defense_percent:profile.defensePercent,pve_speed_percent:profile.speedPercent,pve_shield_percent:profile.shieldPercent,pve_attack_count:profile.attackCount,pve_forced_action_every:profile.forcedActionEvery};
  const battleV2=createPveBattleV2({cards,monster,seed:20260918,bossUltimatePercent:0});
  const enemy=battleV2.teams.B.cards[0];
  Object.assign(enemy,{sourceArt:boss.sourceArt,battleSprite:boss.battleSprite,projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'MONSTER_SD',name:boss.name,primaryUrl:boss.battleSprite,pngFallbackUrl:boss.battleSprite,sourceArt:boss.sourceArt,isBoss:true}});
@@ -43,8 +44,8 @@ for(const [i,boss] of BOSSES.entries()){
  const events={};for(const skill of boss.skills)events[skill.kind]=castDraftSkill(skill,sampleActor,sampleTargets);
  fixtures[boss.key]={previewOnly:true,networkPolicy:'STATIC_GET_ONLY',mode:'APOCALYPSE',battlefieldMode:'APOCALYPSE',monster,bossUltimate:{enabled:false},battleV2,draftSkillEvents:events};
 }
-await json('payloads.json',fixtures);await json('registration-draft.json',{release:{enabled:false,registered:false,visualApproval:false},reference:REFERENCE,bosses:drafts});
-const lock=await read('package-lock.json');await json('asset-manifest.json',{generator:'built-in image_gen',pixelEdits:false,scope:'PREVIEW_ONLY',visualApproval:false,pixi:lock.packages['node_modules/pixi.js'].version,gsap:lock.packages['node_modules/gsap'].version,files:qa});
+await json('payloads.json',fixtures);await json('registration-draft.json',{release:{enabled:false,registered:false,visualApproval:true,status:'APPROVED_REFERENCE_DRAFT'},reference:REFERENCE,bosses:drafts});
+const lock=await read('package-lock.json');await json('asset-manifest.json',{generator:'built-in image_gen',pixelEdits:false,scope:'APPROVED_SOURCE_ARCHIVE',visualApproval:true,pixi:lock.packages['node_modules/pixi.js'].version,gsap:lock.packages['node_modules/gsap'].version,files:qa});
 await build({entryPoints:[path.join(dir,'lab.js')],bundle:true,minify:true,format:'iife',target:'es2022',outfile:path.join(dir,'lab.bundle.js'),define:{__CNINE_NATIVE_CONTINUOUS__:'false'}});
 // Pixi's embedded shader templates retain trailing spaces; normalize those for clean generated diffs.
 const bundleFile=path.join(dir,'lab.bundle.js');await fs.writeFile(bundleFile,(await fs.readFile(bundleFile,'utf8')).replace(/[\t ]+$/gm,''));

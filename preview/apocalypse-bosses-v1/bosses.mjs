@@ -1,6 +1,6 @@
 // Registration preparation only. No production route imports this module.
 export const ROOT='/preview/apocalypse-bosses-v1/';
-export const RELEASE=Object.freeze({enabled:false,registered:false,visualApproval:false,status:'USER_REVIEW_PENDING'});
+export const RELEASE=Object.freeze({enabled:false,registered:false,visualApproval:true,status:'APPROVED_REFERENCE_DRAFT'});
 export const REFERENCE=Object.freeze({monsterId:74,name:'센쥬 하시라마',snapshotDate:'2026-09-11',battlePower:5500000,hpPercent:350,attackPercent:475,defensePercent:375,speedPercent:375,shieldPercent:70,attackCount:2,forcedActionEvery:4});
 const art=key=>({sourceArt:ROOT+'assets/'+key+'-source.jpg',battleSprite:ROOT+'assets/'+key+'-sd-v1.png'});
 const skill=(boss,kind,name,description,options={})=>Object.freeze({code:`${boss.toUpperCase()}_${kind.toUpperCase()}`,boss,kind,name,description,asset:`${boss}-${kind}`,atlas:ROOT+`assets/${boss}-${kind}-atlas.json`,frameCount:12,collisionFrame:6,impactAt:kind==='ultimate'?1.15:.8,duration:kind==='ultimate'?2.25:1.8,anchor:{x:.5,y:.90},...options});
@@ -19,7 +19,7 @@ export const BOSSES=Object.freeze([
 export function makeRegistrationDraft(reference=REFERENCE){
  if(!Number.isFinite(reference.battlePower)||reference.battlePower<=0)throw Error('HASHIRAMA_REFERENCE_REQUIRED');
  const tuning=Object.fromEntries(['hpPercent','attackPercent','defensePercent','speedPercent','shieldPercent','attackCount','forcedActionEvery'].map(key=>[key,reference[key]??REFERENCE[key]]));
- return BOSSES.map(boss=>({code:boss.code,name:boss.name,sourceArt:boss.sourceArt,battleSprite:boss.battleSprite,monsterId:null,isActive:false,pveEnabled:false,pveTab:'APOCALYPSE',rewardCoin:null,rewardConfigurationRequired:true,visualApproval:false,
+ return BOSSES.map(boss=>({code:boss.code,name:boss.name,sourceArt:boss.sourceArt,battleSprite:boss.battleSprite,monsterId:null,isActive:false,pveEnabled:false,pveTab:'APOCALYPSE',rewardCoin:null,rewardConfigurationRequired:true,visualApproval:true,
   battleProfile:{...tuning,battlePower:Math.ceil(reference.battlePower*boss.powerRatio/1000)*1000},
   skills:boss.skills,skillSchedule:{seal:{bossAction:1,maxUses:1},curse:{bossAction:2,maxUses:1},ultimate:{bossAction:3,maxUses:1}},
   reference:{monsterId:74,battlePower:reference.battlePower,powerRatio:boss.powerRatio,refreshAtRegistration:true},status:'PREPARED_OFF'}));

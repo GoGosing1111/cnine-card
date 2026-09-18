@@ -1,3 +1,6 @@
+import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
+import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
+import {playApocalypseLegionSkill,showApocalypseStatus} from './ApocalypseLegionPlayback.js';
 import {Application, Assets, BlurFilter, Container, Graphics, Sprite, Text, Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 import {CameraController} from './CameraController.js';
@@ -973,7 +976,7 @@ class BaseBattleEngine{
       character.root.depthSortY=point.y;
     };
     this.allies.forEach((character,index)=>apply(character,ISO_FORMATIONS.allies[index]));
-    this.enemies.forEach((character,index)=>apply(character,ISO_FORMATIONS.enemies[index]));
+    this.enemies.forEach((character,index)=>apply(character,ISO_FORMATIONS.enemies[index%ISO_FORMATIONS.enemies.length]));
     this.layoutAccountBattleUnit();
     this.layoutObjective();
   }
@@ -1172,6 +1175,11 @@ class BaseBattleEngine{
     });
     this.combatLayer.sortChildren();
     if(this.battleData)await this.setBattlePayload(this.battleData);
+  }
+
+  ensureEnemyCapacity(count){
+    while(this.enemies.length>count){const actor=this.enemies.pop();this.characters=this.characters.filter(c=>c!==actor);actor.destroy();}
+    while(this.enemies.length<count){const actor=new BattleCharacter({id:'ENEMY-'+this.enemies.length,name:'증원',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,accent:0xff496f,hp:100,x:0,y:0,scale:.55});actor.battleActive=false;actor.root.visible=false;actor.root.alpha=0;this.enemies.push(actor);this.characters.push(actor);this.combatLayer.addChild(actor.root);}
   }
 
   ensureAccountBattleUnit(){
@@ -1764,13 +1772,16 @@ class BaseBattleEngine{
     ].filter(Boolean));
     this.activeFallbackArt=[];
 
+    const legion=payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS';
+    this.ensureEnemyCapacity(legion?7:5);
+    for(const actor of this.characters)if(actor.apocalypseStatusLabel){actor.apocalypseStatusLabel.text='';actor.apocalypseStatusLabel.visible=false;}
     const allyCards=Array.isArray(payload?.battleV2?.teams?.A?.cards)?payload.battleV2.teams.A.cards:[];
     const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
-      ?payload.battleV2.teams.B.cards.filter(card=>!/^MONSTER:/i.test(String(card?.cardId||''))&&!['MONSTER','BOSS'].includes(String(card?.grade||'').toUpperCase()))
+      ?payload.battleV2.teams.B.cards.filter(card=>legion||!/^MONSTER:/i.test(String(card?.cardId||''))&&!['MONSTER','BOSS'].includes(String(card?.grade||'').toUpperCase()))
       :[];
     await this.prepareAdvancementRuntime(payload);
     this.prepareApocalypseBossUltimateRuntime(payload);
-    const resolveCardArt=(card,team)=>card?.projectVBattleArt
+    const resolveCardArt=(card,team)=>card?.projectVMonsterArt || (legion&&team==='ENEMY'?adapter?.resolveForV3?.(card):null) || card?.projectVBattleArt
       ||zenithAdapter?.resolveForBattle?.(card,{consumer:'BATTLE_ENGINE'})
       ||tierAdapter?.resolveForV3?.(card)
       ||fallback?.resolveForV3({kind:'CARD',team});
@@ -1864,15 +1875,16 @@ class BaseBattleEngine{
       target.name=card?.name||card?.title||target.name;
       if(target.nameLabel)target.nameLabel.text=target.name;
       target.root.projectVBattleArt=art;
-      target.isBoss=false;
+      target.isBoss=legion&&Boolean(card.isBoss);
+      if(legion){target.useFullBodySprite(texture,(target.isBoss?285:235)*(art.scaleMultiplier||1));target.root.projectVMonsterArt=art;}
       target.battleActive=true;
       target.root.visible=true;
       if(String(art.kind||'').startsWith('UNASSIGNED_'))this.activeFallbackArt.push(art);
     }
 
-    if(!monster&&enemyCards.length){
+    if((legion||!monster)&&enemyCards.length){
       this.currentEnemyTarget=this.enemies.find(character=>this.isAlive(character))||this.enemies[0]||null;
-      this.boss=this.currentEnemyTarget;
+      this.boss=legion?this.enemies.find(c=>c.isBoss)||this.currentEnemyTarget:this.currentEnemyTarget;
       this.bossHp=this.boss?.hp??0;
       return this.currentEnemyTarget?.root?.projectVBattleArt||null;
     }
@@ -1957,6 +1969,9 @@ class BaseBattleEngine{
 
   prepareApocalypseBossUltimateRuntime(payload){
     this.apocalypseMode=isApocalypsePayload(payload);
+    const legion=this.apocalypseMode&&apocalypseLegionBoss(payload?.monster||payload?.battleV2?.teams?.B?.cards?.[0]||{});
+    ApocalypseLegionFX.retain(legion?.skills||[]);
+    if(legion){this.apocalypseSignatureSkill=null;this.apocalypseBossUltimateReadyPromise=Promise.all(legion.skills.map(s=>ApocalypseLegionFX.preload(s))).catch(()=>false);return true;}
     this.apocalypseSignatureSkill=this.apocalypseMode?apocalypseSignatureSkill(payload?.monster||payload?.battleV2?.teams?.B?.cards?.[0]||{}):null;
     if(!this.apocalypseMode){
       this.apocalypseBossUltimateReadyPromise=Promise.resolve(false);
@@ -3000,6 +3015,8 @@ class BaseBattleEngine{
         // GUARD_PROTECT events can also add a barrier during combat.
         syncEventShields();
       }
+      else if(type==='APOCALYPSE_SKILL')await playApocalypseLegionSkill(this,event);
+      else if(type==='APOCALYPSE_STATUS')showApocalypseStatus(this,event);
       else if(type==='ESCORT_OBJECTIVE_ATTACK')await this.escortObjectiveAttack(event);
       else if(type==='ESCORT_OBJECTIVE_RECOVERY'){
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
@@ -3511,6 +3528,7 @@ class BaseBattleEngine{
     // textures so a completed battle does not tax the next mobile screen.
     void AdvancementEffectFX.retain([]);
     void ApocalypseBossUltimateFX.release();
+    ApocalypseLegionFX.retain([]);
     // Character idle/stance animations own GSAP timelines outside the event
     // queue. Destroy them before Pixi clears their sprite transforms.
     for(const actor of this.characters||[])actor.destroy();

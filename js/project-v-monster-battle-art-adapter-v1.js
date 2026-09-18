@@ -2,7 +2,7 @@
   'use strict';
 
   const root = typeof window !== 'undefined' ? window : globalThis;
-  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=8-apocalypse-signatures';
+  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=9-apocalypse-legion';
   const PLAY_ENTRY_POINTS = Object.freeze([
     'playPveBattleV2Live',
     'playTowerBattleV2Live',

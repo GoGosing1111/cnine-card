@@ -14,7 +14,8 @@ export const withOccupiedGrid = Base => class extends Base {
     this.formationScenario = payload?.wideGridPreview?.scenario ||
       (payload?.monster || payload?.continuousEncounter || payload?.scrapyardPreview ||
         /PVE|HUNT|TOWER|RAID|SEAL|ESCORT|DUNGEON|APOCALYPSE|IDLE/.test(String(payload?.mode || payload?.battleV2?.mode || '')) ? 'PVE' : 'PVP');
-    this.formationSingleTarget = Boolean(payload?.monster);
+    this.formationEnemySquad = payload?.battleV2?.rules?.enemyFormation === 'BOSS_WITH_SIX_MINIONS';
+    this.formationSingleTarget = Boolean(payload?.monster) && !this.formationEnemySquad;
     for (const actor of this.characters || []) if (Number.isFinite(actor.legacyGridHudY)) actor.hud.y = actor.legacyGridHudY;
     const result = await super.applyBattlePayload(payload);
     for (const actor of this.characters || []) actor.legacyGridHudY = actor.hud.y;
@@ -34,6 +35,7 @@ export const withOccupiedGrid = Base => class extends Base {
   depthForY(y) {return this.gridMode === 'wide' ? .5 : super.depthForY(y);}
   station(kind, index = 0, team = 'ALLY') {
     const scenario = this.formationScenario || 'PVP';
+    if(kind==='cards'&&team==='ENEMY'&&this.formationEnemySquad)kind='squad';
     if (kind === 'cards' && team === 'ENEMY' && this.formationSingleTarget) {kind = 'boss'; index = 0;}
     const p = this.viewportFit ? compactStation(kind, index, team, scenario) : stationPoint(kind, index, team, this.mobile);
     return {x: p.x + (this.viewportFit?.offsetX || 0), y: p.y + (this.viewportFit?.offsetY || 0)};

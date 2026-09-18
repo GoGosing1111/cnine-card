@@ -386,7 +386,10 @@
     {
       "monsterId": 67,
       "mode": "HUNT",
-      "modes": ["HUNT", "TOWER"],
+      "modes": [
+        "HUNT",
+        "TOWER"
+      ],
       "name": "나미카제 미나토",
       "sourceArt": "assets/tower/nami2.jpg",
       "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-067-yellow-flash-boss-sd-v1.png",
@@ -402,7 +405,10 @@
     {
       "monsterId": 68,
       "mode": "HUNT",
-      "modes": ["HUNT", "TOWER"],
+      "modes": [
+        "HUNT",
+        "TOWER"
+      ],
       "name": "오메가-09",
       "sourceArt": "assets/tower/badq.jpg",
       "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1.png",
@@ -418,7 +424,10 @@
     {
       "monsterId": 69,
       "mode": "HUNT",
-      "modes": ["HUNT", "TOWER"],
+      "modes": [
+        "HUNT",
+        "TOWER"
+      ],
       "name": "쿠로사키 이치고",
       "sourceArt": "assets/tower/curo.jpg",
       "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-069-masked-soul-swordsman-boss-sd-v1.png",
@@ -681,6 +690,44 @@
         "transparentRgbaVerified": true,
         "edgeAlphaClear": true,
         "safeMarginPx": 72
+      }
+    },
+    {
+      "monsterId": 75,
+      "name": "아카드",
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "sourceArt": "assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-source.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png",
+      "isBoss": true,
+      "sha256": "22B518E0648C3D755A1DD0AE709C391C344E9F38F9723506E9D11E67B9D41C17",
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "approval": "2026-09-18 사용자 전부 승인",
+        "transparentRgbaVerified": true
+      }
+    },
+    {
+      "monsterId": 76,
+      "name": "카네키 켄",
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "sourceArt": "assets/ui/project-v/monsters/apocalypse-legion-v1/kaneki-source.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/apocalypse-legion-v1/kaneki-sd-v1.png",
+      "isBoss": true,
+      "sha256": "F137BE53FDB358CD9220916B453194ECB87995A8EC908CEF370A8217B5100683",
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "approval": "2026-09-18 사용자 전부 승인",
+        "transparentRgbaVerified": true
       }
     }
   ]

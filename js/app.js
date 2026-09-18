@@ -976,11 +976,11 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114&flow=2126',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=2115-ayoon',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke',
-      'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
+      'js/project-v-monster-battle-art-adapter-v1.js?v=5.5.0-apocalypse-legion',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918',
-      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918&apocalypseLegion=2127',
+      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918&apocalypseLegion=2127'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
@@ -1894,7 +1894,7 @@ async function loadBattleView(){
 function pveMonsterFilterState(){try{return JSON.parse(localStorage.getItem('cnine_pve_monster_filter')||'{}')}catch{return {}}}
 function savePveMonsterFilterState(v){localStorage.setItem('cnine_pve_monster_filter',JSON.stringify(v))}
 function monsterCategoryLabel(v){return ({GENERAL:'일반',ELITE:'정예',BOSS:'보스',EVENT:'이벤트',NORMAL:'노말',HARD:'하드',HELL:'헬',NIGHTMARE:'나이트메어',APOCALYPSE:'아포칼립스'})[String(v||'NORMAL').toUpperCase()]||'노말'}
-function apocalypseMonsterRules(monster){const value=monster?.apocalypse||{},skill=value.skill||{};return `<div class="apocalypse-rule-board"><header><small>APOCALYPSE MONSTER RULES</small><b>${escapeHtml(skill.name||'전용 스킬')}</b><span>${escapeHtml(skill.description||'전투 개막과 동시에 아포칼립스 전용 스킬을 사용합니다.')}</span></header><div><article><small>시작 방어막</small><b>${Number(value.shieldPercent||0)}% HP</b></article><article><small>행동 속도</small><b>${Number(value.speedPercent||0)}%</b></article><article><small>연속 공격</small><b>${Number(value.attackCount||2)}회</b></article><article><small>강제 행동</small><b>${Number(value.forcedActionEvery||4)}턴마다</b></article><article><small>스킬 피해</small><b>${Number(skill.damagePercent||0)}%</b></article></div></div>`}
+function apocalypseMonsterRules(monster){const value=monster?.apocalypse||{},skill=value.skill||{};if(Array.isArray(skill.skills))return `<div class="apocalypse-rule-board"><header><small>APOCALYPSE · 군단 전투</small><b>보스 + 쫄몹 ${Number(skill.minionCount||6)}마리</b><span>전원 처치 시 승리 · 보스가 1·2·3번째 행동에 전용 스킬을 사용합니다.</span></header><div>${skill.skills.map(s=>`<article><small>${({seal:'봉인',curse:'힐불가 저주',ultimate:'궁극기'})[s.kind]}</small><b>${escapeHtml(s.name)}</b><span>${escapeHtml(s.description)}</span></article>`).join('')}</div></div>`;return `<div class="apocalypse-rule-board"><header><small>APOCALYPSE MONSTER RULES</small><b>${escapeHtml(skill.name||'전용 스킬')}</b><span>${escapeHtml(skill.description||'전투 개막과 동시에 아포칼립스 전용 스킬을 사용합니다.')}</span></header><div><article><small>시작 방어막</small><b>${Number(value.shieldPercent||0)}% HP</b></article><article><small>행동 속도</small><b>${Number(value.speedPercent||0)}%</b></article><article><small>연속 공격</small><b>${Number(value.attackCount||2)}회</b></article><article><small>강제 행동</small><b>${Number(value.forcedActionEvery||4)}턴마다</b></article><article><small>스킬 피해</small><b>${Number(skill.damagePercent||0)}%</b></article></div></div>`}
 function renderPveMonsterBrowser(){
   const root=document.getElementById('battleMonsters');if(!root)return;
   const saved=pveMonsterFilterState(),legacyTabMap={ALL:'NORMAL',GENERAL:'NORMAL',ELITE:'HARD',BOSS:'HELL',EVENT:'HELL'},state={tab:'NORMAL',sort:'POWER_ASC',query:'',...saved};

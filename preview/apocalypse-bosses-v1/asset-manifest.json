@@ -1,8 +1,8 @@
 {
   "generator": "built-in image_gen",
   "pixelEdits": false,
-  "scope": "PREVIEW_ONLY",
-  "visualApproval": false,
+  "scope": "APPROVED_SOURCE_ARCHIVE",
+  "visualApproval": true,
   "pixi": "8.20.0",
   "gsap": "3.13.0",
   "files": [

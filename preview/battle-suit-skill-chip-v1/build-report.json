@@ -2,6 +2,9 @@
   "engineSource": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
   "pixiCopies": 1,
   "inputs": [
+    "shared/apocalypse-legion-v1.mjs",
+    "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
+    "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
     "preview/project-v-v3/source/battle/CameraController.js",
     "preview/project-v-v3/source/battle/BattleAnimation.js",
     "preview/project-v-v3/source/battle/HumanoidRig.js",
@@ -61,5 +64,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1133160
+  "outputBytes": 1145133
 }

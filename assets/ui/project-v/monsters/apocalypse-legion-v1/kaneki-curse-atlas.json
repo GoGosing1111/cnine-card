@@ -1,0 +1,256 @@
+{
+  "frames": {
+    "kaneki-curse_00": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_01": {
+      "frame": {
+        "x": 362,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_02": {
+      "frame": {
+        "x": 724,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_03": {
+      "frame": {
+        "x": 1086,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_04": {
+      "frame": {
+        "x": 0,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_05": {
+      "frame": {
+        "x": 362,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_06": {
+      "frame": {
+        "x": 724,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_07": {
+      "frame": {
+        "x": 1086,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_08": {
+      "frame": {
+        "x": 0,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_09": {
+      "frame": {
+        "x": 362,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_10": {
+      "frame": {
+        "x": 724,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    },
+    "kaneki-curse_11": {
+      "frame": {
+        "x": 1086,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      }
+    }
+  },
+  "meta": {
+    "image": "kaneki-curse-sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1448,
+      "h": 1086
+    },
+    "scale": "1",
+    "collisionFrame": 6,
+    "impactAt": 0.8,
+    "sha256": "7213b804394d59f7190495260e7a16afec72f4c61c7e3549c19d70663050a320"
+  }
+}

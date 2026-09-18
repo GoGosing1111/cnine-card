@@ -1,8 +1,8 @@
 # 아카드 · 카네키 켄 아포칼립스 보스 준비
 
-2026-09-18 사용자 요청과 후속 답변에 따라 두 보스의 투명 SD와 **봉인 / 힐불가 저주 / 궁극기, 각각 3개**를 제작했다. 등록 데이터와 전용 스킬 판정 초안을 준비했으며, 운영 DB 등록·전투 API 연결·라이브 활성화는 하지 않았다.
+2026-09-18 사용자 요청과 후속 답변에 따라 두 보스의 투명 SD와 **봉인 / 힐불가 저주 / 궁극기, 각각 3개**를 제작했다. 후속 지시 `전부 승인하고 아카드부터는 쫄몹 나오게 설정해 6마리 정도`로 원화·SD·스킬을 승인받아 공용 V3에 연결한다. 운영 등록·검증 기준은 `docs/apocalypse-legion-v2127-release.md`다.
 
-- 상태: `USER_REVIEW_PENDING`, `registered:false`, `enabled:false`
+- 상태: `APPROVED`. `registration-draft.json`은 운영 등록 이전의 OFF 초안 보관 자료이고, 실제 등록은 별도 멱등 스크립트로 처리한다.
 - 검수 화면: `/preview/apocalypse-bosses-v1/`
 - 실행: `node scripts/serve-apocalypse-boss-drafts.mjs` → `http://127.0.0.1:4243/preview/apocalypse-bosses-v1/`
 - 빌드: `node scripts/build-apocalypse-boss-drafts.mjs`
@@ -16,7 +16,7 @@
 | 아카드 | 7,500,000 | 약 1.36배 |
 | 카네키 켄 | 10,000,000 | 약 1.82배 |
 
-기준은 2026-09-11 운영 스냅샷 `battle_apocalypse_settings_v1.monsterProfiles[74]`이며 원본은 기존 작업 트리의 `tmp/ronaldo-apocalypse-audit-20260911/snapshot-runtime.json`에 있다. 다른 계정 정보는 검수판에 복사하지 않았다. 몬스터 테이블의 기본 1,000 값이 아니라 **아포칼립스 개별 프로필의 550만**을 사용한다. 이 수치는 9/18 운영 DB를 새로 조회한 값이 아니다.
+기준은 `battle_apocalypse_settings_v1.monsterProfiles[74]`이며 2026-09-18 운영 DB를 읽기 전용으로 재조회해 **하시라마 550만**을 확인했다. 몬스터 테이블의 기본 1,000 값 대신 아포칼립스 개별 프로필을 사용한다.
 
 HP 350%, 공격 475%, 방어 375%, 속도 375%, 보호막 70%, 2회 공격, 강제 행동 주기 4는 하시라마 기준으로 동일하게 두고 기본 전투력만 올린다. 따라서 실제 기존 엔진 환산 HP·공격력·방어력·보호막도 하시라마 < 아카드 < 카네키 순서다. 속도·공격 횟수를 임의로 중첩 상향하지 않는다.
 
@@ -48,7 +48,7 @@ HP 350%, 공격 475%, 방어 375%, 속도 375%, 보호막 70%, 2회 공격, 강�
 ## PixiJS / GSAP 구현
 
 - 잠금 버전: PixiJS 8.20.0 / GSAP 3.13.0 (`package-lock.json`). 추가 라이브러리나 CDN 없음.
-- 엔진: `preview/project-v-v3/source/project-v-pixi-battle.src.js`, 기존 `BattleEngine`, 아트 어댑터와 `js/battle-v3-live.js`의 카드 도크를 재사용한다. 운영 전투 버전과 공용 소스·번들은 변경하지 않았다.
+- 엔진: `preview/project-v-v3/source/project-v-pixi-battle.src.js`, 기존 `BattleEngine`, 아트 어댑터와 `js/battle-v3-live.js`의 카드 도크를 재사용한다. 운영 연결 버전은 양쪽 모두 `2127-apocalypse-legion-20260918`이며 공용 번들 9개를 함께 빌드한다.
 - 신규 FX 구현: `DraftSkillFX.js`. 새 Application·렌더러·Ticker를 만들지 않고 기존 엔진의 `effectLayer`에 `AnimatedSprite(autoUpdate:false)`를 배치한다.
 - 타임라인 소유자: `BattleEngine.timeline()`. 기준 단위는 초. 같은 GSAP 커서가 실제 프레임 선택과 충돌 콜백을 제어한다.
 - 각 스킬은 독립 제작한 4열×3행 **12프레임**. 원본 1448×1086 PNG를 362×362 프레임으로 읽는 atlas JSON을 생성하며 이미지 재가공은 하지 않는다.
@@ -64,8 +64,8 @@ HP 350%, 공격 475%, 방어 375%, 속도 375%, 보호막 70%, 2회 공격, 강�
 - `node --test tests/apocalypse-boss-drafts.test.mjs`: 8개 통과. 전투력/엔진 수치 순서, 봉인 대상·만료, 회복 차단·정화, 궁극기 피해 보존, 프레임별 해시 차이, GSAP 충돌 6프레임·정지·취소, 운영 단절을 검증한다.
 - 실제 브라우저: 데스크톱과 390×844 모바일에서 양쪽 SD, 6개 스킬 충돌 프레임, 실제 카드 프레임, 가로 넘침 없음 확인. 모바일 버튼 터치 높이 44px로 보완했다.
 - 0.25배속 정지 후 2배속 이어 재생 및 프레임 탐색/초기화를 확인했다.
-- 시각 최종 승인은 사용자 검수 대기. 기술 테스트 통과로 시각 승인을 대체하지 않는다.
+- 원화·SD·6개 스킬은 2026-09-18 사용자 최종 승인 완료.
 
 ## 등록 시 남은 연결 작업
 
-사용자가 연결을 지시하면 최신 하시라마 프로필 재확인 → 보상 설정 → 새 몬스터 ID 할당 및 멱등 등록 → 봉인·회복 차단을 운영 서버 전투에 연결 → 클라이언트 이벤트 디스패치·스킬 상태 표시 → 캐시 버전·전체 회귀 검증 → `npm run release:gate` → `npm run deploy:production` 순서로 진행한다. 준비 자료만으로 보스를 자동 공개하거나 기존 V3 버전을 바꾸지 않는다.
+공용 서버 판정과 `ApocalypseLegionFX.js`·`ApocalypseLegionPlayback.js`가 승인 자산의 운영 사본을 사용한다. 보스와 쫄몹 6마리는 각각 독립 체력·행동을 가지며 모두 처치해야 승리한다. 운영 등록은 75·76번 ID의 충돌과 하시라마 기준 변경을 차단하고 로그·수령증을 남기는 `scripts/ops/apocalypse-legion-release-20260918.mjs`로만 처리한다. 보상은 기존 하시라마의 600만 코인을 승리당 한 번 지급하는 정책을 승계하며 쫄몹 수만큼 중복 지급하지 않는다.

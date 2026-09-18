@@ -1,3 +1,4 @@
+import {apocalypseLegionBoss} from '../shared/apocalypse-legion-v1.mjs';
 import {apocalypseSignatureSkill} from '../shared/apocalypse-boss-skills-v2048.mjs';
 
 const clamp=(value,min,max,fallback=min)=>{
@@ -176,7 +177,8 @@ export function pveDifficultyRuntime(settings={},monster={}){
   const storedPower=Math.max(1,Number(monster.battle_power??monster.battlePower??1)),storedReward=Math.max(0,Number(monster.reward_coin??monster.rewardCoin??0));
   const basePower=special&&profile?profile.battlePower:storedPower,baseReward=special&&profile?profile.rewardCoin:storedReward;
   const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):1,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
-  const apocalypseSkill=isApocalypse?{enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
+  const legion=isApocalypse?apocalypseLegionBoss(monster):null;
+  const apocalypseSkill=isApocalypse?{trigger:legion?'BOSS_ACTION':'OPENING',...(legion?{skills:legion.skills,minionCount:6}:{}),enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
   return {
     difficulty,isNightmare,isApocalypse,enabled:isNightmare?nightmare.enabled:isApocalypse?apocalypse.enabled:true,
     hpPercent,attackPercent,defensePercent,speedPercent,

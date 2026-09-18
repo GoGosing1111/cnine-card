@@ -1541,7 +1541,7 @@ const apocalypseRecommendedPowerCache=new Map();
 function apocalypseRecommendedPower(profile){
   if(!profile?.isApocalypse||!profile.engineMonster)return null;
   const skill=profile.apocalypseSkill,cast=skill?.enabled===true,percent=cast?Math.min(Number(profile.bossUltimateCapPercent||500),Math.max(0,Number(skill.damagePercent||0))):0;
-  const m=profile.engineMonster,key=JSON.stringify([m.battle_power,m.pve_hp_percent,m.pve_attack_percent,m.pve_defense_percent,m.pve_speed_percent,m.pve_shield_percent,m.pve_attack_count,m.pve_forced_action_every,percent,profile.bossUltimateCapPercent,Number(m.is_boss||0)]);
+  const m=profile.engineMonster,key=JSON.stringify([m.id,skill?.enabled,skill?.trigger,m.battle_power,m.pve_hp_percent,m.pve_attack_percent,m.pve_defense_percent,m.pve_speed_percent,m.pve_shield_percent,m.pve_attack_count,m.pve_forced_action_every,percent,profile.bossUltimateCapPercent,Number(m.is_boss||0)]);
   if(apocalypseRecommendedPowerCache.has(key))return apocalypseRecommendedPowerCache.get(key);
   let value=null;
   try{value=estimateApocalypseRecommendedPower({...m,pve_difficulty:'APOCALYPSE'},{bossUltimatePercent:percent,bossUltimateCapPercent:Number(profile.bossUltimateCapPercent||500)})}
@@ -1639,7 +1639,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const preliminaryResult=uniquePlayerPower+ultimateDamage>=monsterPower?'WIN':'LOSE';
   const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true,bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true,bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
   const bossTrigger=String(monster.ultimate_trigger||'ON_LOSS').toUpperCase(),bossChance=Math.max(0,Math.min(100,Number(monster.ultimate_chance??100))),bossForceCast=Number(monster.ultimate_force_cast||0)===1||monster.ultimate_force_cast===true,bossChanceHit=bossChance>=100||Math.random()*100<bossChance;
-  const apocalypseSkill=difficulty.apocalypseSkill,apocalypseSkillCast=difficulty.isApocalypse&&apocalypseSkill?.enabled===true;
+  const apocalypseSkill=difficulty.apocalypseSkill,apocalypseSkillCast=difficulty.isApocalypse&&apocalypseSkill?.enabled===true&&apocalypseSkill?.trigger!=='BOSS_ACTION';
   const bossShouldCast=apocalypseSkillCast||bossUltimateConfigured&&(bossForceCast||bossTrigger==='ALWAYS'||(bossTrigger==='ON_LOSS'&&preliminaryResult==='LOSE')||(bossTrigger==='CHANCE'&&bossChanceHit));
   // V1802-fix: bossUltimateCapPercent 는 이름 그대로 "상한" 인데, 나이트메어에서만 값 자체로 쓰이고 있었다.
   // 그래서 몬스터에 15% 로 설정해 둬도 나이트메어에서는 120% 가 적용됐고,
@@ -6698,7 +6698,7 @@ async function handleRequest(context){
       const totalBattleDamage=playerPower+ultimateDamage,preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
       const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true,bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true,bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
       const bossTrigger=String(monster.ultimate_trigger||'ON_LOSS').toUpperCase(),bossChance=Math.max(0,Math.min(100,Number(monster.ultimate_chance??100))),bossForceCast=Number(monster.ultimate_force_cast||0)===1||monster.ultimate_force_cast===true,bossChanceHit=bossChance>=100||Math.random()*100<bossChance;
-      const apocalypseSkill=difficulty.apocalypseSkill,apocalypseSkillCast=difficulty.isApocalypse&&apocalypseSkill?.enabled===true;
+      const apocalypseSkill=difficulty.apocalypseSkill,apocalypseSkillCast=difficulty.isApocalypse&&apocalypseSkill?.enabled===true&&apocalypseSkill?.trigger!=='BOSS_ACTION';
       const bossShouldCast=apocalypseSkillCast||bossUltimateConfigured&&(bossForceCast||bossTrigger==='ALWAYS'||(bossTrigger==='ON_LOSS'&&preliminaryResult==='LOSE')||(bossTrigger==='CHANCE'&&bossChanceHit));
       // V1803-fix: 수동 전투(대부분의 유저가 쓰는 경로)에도 V1802 자동사냥과 같은 수정을 넣는다.
       //   기존: 나이트메어면 몬스터 설정을 무시하고 상한(150%) 을 "값" 으로 썼다.

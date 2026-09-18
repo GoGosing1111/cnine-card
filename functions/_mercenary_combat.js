@@ -1,3 +1,4 @@
+import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
@@ -99,7 +100,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
  }
  function finish(a,s){const st=state(a);st.pending=null;if(!isRangedMercenarySkill(a,s)&&['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(s.mechanic))st.reload=true;send(a,s,'END');}
  function cancel(a,reason){const st=state(a),p=st.pending;if(!p)return;st.pending=null;if(!isRangedMercenarySkill(a,p.skill)&&['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(p.skill.mechanic))st.reload=true;send(a,p.skill,'CANCEL',null,{reason});}
- function cleanse(target,onlyDot=false){const d=table(debuffs,target);for(const key of onlyDot?['poison','rift']:['poison','rift','thorn','oath','armor','veil','restraint','offender'])if(d[key]){if(key==='armor')target.defense=d[key].original;delete d[key];return key;}return null;}
+ function cleanse(target,onlyDot=false){if(!onlyDot&&Object.keys(target.apocalypseStatus||{}).length){clearApocalypseStatus(target);emit('APOCALYPSE_STATUS',{targetId:target.id,statuses:{},label:'정화'});return 'apocalypse';}const d=table(debuffs,target);for(const key of onlyDot?['poison','rift']:['poison','rift','thorn','oath','armor','veil','restraint','offender'])if(d[key]){if(key==='armor')target.defense=d[key].original;delete d[key];return key;}return null;}
  // Snipers fire within one action. Slow volleys start immediately but keep
  // one projectile per actor action, so they cannot burst three full hit caps.
  function resolveRanged(a,p){
@@ -167,7 +168,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'FRONT_OFFENSE_VEIL':once(t=>{table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});});break;
    case 'CLEANSE_THEN_MEND':
     if(!p.step){const removed=cleanse(ts[0],true);send(a,s,'CLEANSE',ts[0],{removed});p.step=1;p.due=a.actions+1;break;}
-    once(t=>{const amount=Math.min(t.maxHp-t.hp,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100)));t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
+    once(t=>{const amount=apocalypseHealing(t,Math.min(t.maxHp-t.hp,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100))));t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
    case 'BREAK_ARMOR_WINDOW':once(t=>{const hadShield=t.shield>0;strike(a,s,t);if(hadShield&&living(t)){const d=table(debuffs,t),original=d.armor?.original??t.defense;d.armor={original,expires:t.actions+c.statusTurns};t.defense=original*(1-c.armorReductionPercent/100);send(a,s,'DEBUFF',t,{effect:'ARMOR_WINDOW',defenseAfter:t.defense});}});break;
    case 'ADVANCE_SUPPRESSION':once(t=>{strike(a,s,t,1/p.targets.length);if(living(t)&&!t.controlImmune&&!t.isBoss&&t.row==='FRONT'&&t.attackStyle==='MELEE'){t.gauge=Math.max(0,t.gauge-c.suppressGauge);send(a,s,'DEBUFF',t,{effect:'APPROACH_DELAY',targetGaugeAfter:t.gauge});}});break;
    case 'LOCKED_THREAT_SHOT':once(t=>strike(a,s,t));break;
@@ -196,6 +197,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    if(b.parry&&a.actions>=b.parry.expires)delete b.parry;
    if(!a.isMercenary)return false;
    if(!living(a))return true;
+   if(apocalypseSealed(a)){if(st.pending)cancel(a,'APOCALYPSE_SEALED');return false;}
    if(a.stunned||a.silenced){if(st.pending)cancel(a,'CONTROLLED');return Boolean(a.stunned);}
    if(st.pending){if(a.silenced||a.stunned){cancel(a,'CONTROLLED');return true;}if(a.actions>=st.pending.due){if(isRangedMercenarySkill(a,st.pending.skill))resolveRanged(a,st.pending);else resolve(a,st.pending);}return true;}
    if(st.reload){a.gauge=Math.max(0,a.gauge-a.combat.reloadGauge);st.reload=false;return false;}

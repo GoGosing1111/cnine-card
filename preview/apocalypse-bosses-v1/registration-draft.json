@@ -2,7 +2,8 @@
   "release": {
     "enabled": false,
     "registered": false,
-    "visualApproval": false
+    "visualApproval": true,
+    "status": "APPROVED_REFERENCE_DRAFT"
   },
   "reference": {
     "monsterId": 74,
@@ -29,7 +30,7 @@
       "pveTab": "APOCALYPSE",
       "rewardCoin": null,
       "rewardConfigurationRequired": true,
-      "visualApproval": false,
+      "visualApproval": true,
       "battleProfile": {
         "hpPercent": 350,
         "attackPercent": 475,
@@ -136,7 +137,7 @@
       "pveTab": "APOCALYPSE",
       "rewardCoin": null,
       "rewardConfigurationRequired": true,
-      "visualApproval": false,
+      "visualApproval": true,
       "battleProfile": {
         "hpPercent": 350,
         "attackPercent": 475,

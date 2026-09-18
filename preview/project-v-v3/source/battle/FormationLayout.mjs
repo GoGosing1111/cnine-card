@@ -16,8 +16,8 @@ export const FORMATION_LATTICES = Object.freeze({
     columnPitch: 216, rowPitch: 300, tileWidth: 190, tileHeight: 64, actorScale: 1.3})
 });
 const CELLS = {
-  desktop: {cards: [[0, 0], [2, 0], [0, 1], [2, 1], [1, 2]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[4, 1]], objective: [[3, 2]]},
-  compact: {cards: [[0, 0], [0, 1], [0, 2], [1, 2], [0, 3]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[3, 1]], objective: [[2, 2]]}
+  desktop: {squad: [[1,1],[0,0],[2,0],[0,1],[2,1],[1,2],[1,0]], cards: [[0, 0], [2, 0], [0, 1], [2, 1], [1, 2]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[4, 1]], objective: [[3, 2]]},
+  compact: {squad: [[1,1],[0,0],[0,1],[0,2],[1,2],[0,3],[1,0]], cards: [[0, 0], [0, 1], [0, 2], [1, 2], [0, 3]], mercenaries: [[1, 0]], support: [[1, 1]], boss: [[3, 1]], objective: [[2, 2]]}
 };
 export function latticeStation(kind, index = 0, team = 'ALLY', profile = 'desktop') {
   const layout = FORMATION_LATTICES[profile], cell = CELLS[profile]?.[kind]?.[index];

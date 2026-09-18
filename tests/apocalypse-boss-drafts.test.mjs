@@ -6,6 +6,7 @@ import sharp from 'sharp';
 import {Container,Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 import {BOSSES,REFERENCE,RELEASE,makeRegistrationDraft} from '../preview/apocalypse-bosses-v1/bosses.mjs';
+import {APOCALYPSE_LEGION_BOSSES} from '../shared/apocalypse-legion-v1.mjs';
 import {canUseSkill,resolveHealing,finishAction,cleanse,castDraftSkill} from '../preview/apocalypse-bosses-v1/skill-contract.mjs';
 import {DraftSkillFX} from '../preview/apocalypse-bosses-v1/DraftSkillFX.js';
 import {buildMonsterFighter} from '../functions/_battle_v2_preview.js';
@@ -14,7 +15,7 @@ const json=async p=>JSON.parse(await fs.readFile(new URL('../preview/apocalypse-
 const squad=()=>Array.from({length:5},(_,i)=>({id:'A:'+i,hp:10000000,maxHp:10000000,shield:1000000,defense:150000,attack:100000+i*10000,alive:true}));
 const actor={id:'B:0',hp:100000000,attack:3000000,alive:true};
 test('draft stays OFF, has no live IDs or rewards, and has exactly three skills per boss',()=>{
- assert.equal(RELEASE.enabled,false);assert.equal(RELEASE.registered,false);assert.equal(RELEASE.visualApproval,false);
+ assert.equal(RELEASE.enabled,false);assert.equal(RELEASE.registered,false);assert.equal(RELEASE.visualApproval,true);
  const rows=makeRegistrationDraft();assert.equal(rows.length,2);
  for(const b of rows){assert.equal(b.monsterId,null);assert.equal(b.isActive,false);assert.equal(b.pveEnabled,false);assert.equal(b.rewardCoin,null);assert.deepEqual(b.skills.map(s=>s.kind),['seal','curse','ultimate']);assert.notEqual(b.sourceArt,b.battleSprite);}
 });
@@ -47,6 +48,6 @@ test('Pixi frames and GSAP impact share one clock; pause, slow playback, seek an
  for(const boss of BOSSES)for(const s of boss.skills){const layer=new Container(),fx=new DraftSkillFX(s,Array(12).fill(Texture.EMPTY),[{x:500,y:500}]).attach(layer);let hits=0;const tl=gsap.timeline({paused:true});fx.play(tl,{onImpact:()=>hits++});tl.time(s.impactAt,false);assert.equal(fx.sprites[0].currentFrame,6);assert.equal(hits,1);assert.equal(fx.sprites[0].autoUpdate,false);tl.timeScale(.25);tl.pause();assert.equal(tl.paused(),true);tl.time(s.duration-.001,false);assert.equal(fx.sprites[0].currentFrame,11);assert.equal(hits,1);tl.kill();fx.release();fx.release();assert.equal(layer.children.length,0);layer.destroy();}
 });
 test('fixtures preserve actual card art, separate new SD, and no production route imports draft code',async()=>{
- const fixtures=await json('payloads.json');for(const b of BOSSES){const p=fixtures[b.key];assert.equal(p.battleV2.teams.A.cards.length,5);assert(p.battleV2.teams.A.cards.every(c=>c.image.startsWith('assets/')&&!c.image.includes('-sd-')));assert.equal(p.monster.image_url,b.sourceArt);assert.equal(p.monster.projectVMonsterArt.primaryUrl,b.battleSprite);assert.equal(p.monster.isBoss,true);assert.deepEqual(Object.keys(p.draftSkillEvents),['seal','curse','ultimate']);}
+ const fixtures=await json('payloads.json');for(const b of APOCALYPSE_LEGION_BOSSES){const p=fixtures[b.key];assert.equal(p.battleV2.teams.A.cards.length,5);assert(p.battleV2.teams.A.cards.every(c=>c.image.startsWith('assets/')&&!c.image.includes('-sd-')));assert.equal(p.monster.image_url,b.sourceArt);assert.equal(p.monster.projectVMonsterArt.primaryUrl,b.battleSprite);assert.equal(p.monster.isBoss,true);assert.deepEqual(Object.keys(p.draftSkillEvents),['seal','curse','ultimate']);}
  for(const file of ['index.html','js/app.js','js/battle-v3-live.js','functions/api/[[path]].js','preview/project-v-v3/source/battle/BattleEngine.js']){const body=await fs.readFile(new URL('../'+file,import.meta.url),'utf8');assert(!body.includes('apocalypse-bosses-v1'),file);}
 });
