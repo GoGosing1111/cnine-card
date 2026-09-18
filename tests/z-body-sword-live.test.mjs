@@ -47,7 +47,7 @@ function rig(){
   Object.assign(engine,{backgroundLayer:new Container(),effectLayer:new Container(),simpleTimelines:new Set(),pendingTails:new Map(),visible:true,playbackEpoch:1,paceScale:1,app:{ticker:{add:f=>ticks.add(f),remove:f=>ticks.delete(f)}}});
   const root=new Container();root.position.set(100,600);root.baseX=100;root.baseY=600;root.scale.set(.5);
   const unit={root,bodySprite:new Sprite(),weaponSprite:new Sprite(),nameHud:new Container(),view:new Container(),stopIdle(){}};
-  const textures=Object.fromEntries([['attack',16],['cast',12],['blade',8],['ground',9]].map(([key,n])=>[key,Array.from({length:n},()=>new Texture({source:Texture.WHITE.source,frame:new Rectangle(0,0,1,1)}))]));
+  const textures=Object.fromEntries([['attack',16],['cast',12],['blade',8],['ground',9],['dashwake',12],['dashcut',8]].map(([key,n])=>[key,Array.from({length:n},()=>new Texture({source:Texture.WHITE.source,frame:new Rectangle(0,0,1,1)}))]));
   const sword=new ZBodySwordAnimation(engine,unit,textures);
   const target={id:'enemy-1',root:new Container()};target.root.position.set(900,500);target.root.baseX=900;target.root.baseY=500;
   return{engine,unit,sword,target,ticks,close(){sword.destroy();gsap.ticker.sleep();}};
@@ -56,9 +56,9 @@ test('real GSAP/Pixi action keeps contacts, pause/speed, final pose and engine c
   const r=rig(),receipt={target:r.target,options:{authoritative:true,damage:100}},hits=[];
   try{
     const batch=takeSwordBatch([receipt],0),done=r.sword.play(batch,entries=>hits.push(...entries));
-    const tl=r.sword.timeline;tl.pause();tl.totalTime(.80);assert.equal(hits.length,0);tl.totalTime(.81);assert.deepEqual(hits,[receipt]);
+    const tl=r.sword.timeline;tl.pause();tl.totalTime(.244);assert.equal(hits.length,0);tl.totalTime(.245);assert.deepEqual(hits,[receipt]);
     assert.notEqual(r.unit.root.x,100);assert.equal(r.unit.bodySprite.scale.x,r.unit.bodySprite.scale.y);
-    tl.totalTime(1.695);assert.equal(await done,true);assert.equal(r.unit.root.x,100);assert.equal(r.sword.frame,'01');assert.equal(r.engine.simpleTimelines.size,0);
+    tl.totalTime(.64);assert.equal(await done,true);assert.equal(r.unit.root.x,100);assert.equal(r.sword.frame,'01');assert.equal(r.engine.simpleTimelines.size,0);
     const area=r.sword.play(takeSwordBatch([receipt,receipt],1),entries=>hits.push(...entries));
     r.engine.accountBattleUnitIsPaused=()=>true;for(const tick of r.ticks)tick();assert.equal(r.sword.timeline.paused(),true);
     r.engine.paceScale=2;for(const tick of r.ticks)tick();assert.equal(r.sword.timeline.timeScale(),2);

@@ -1,8 +1,9 @@
 import {Assets,Container,Graphics,Rectangle,Sprite,Texture} from 'pixi.js';
-import manifest from '../assets.json' with {type:'json'};
-import {DASH_V2_SEQUENCE,DASH_V2_FX,effectSample} from './DashProfile.mjs';
-import {Z_SWORD,swordPose} from '../../project-v-v3/source/battle/ZBodySwordModel.mjs';
+import manifest from '../../../../assets/ui/project-v/account-battle-suits/z-dash-v2/manifest.json' with {type:'json'};
+import {DASH_V2_SEQUENCE,DASH_V2_FX,effectSample} from './ZBodyDashProfile.mjs';
+import {Z_SWORD,swordPose} from './ZBodySwordModel.mjs';
 export class ZBodyDashFX{
+  static usesAsset(url){return Object.values(manifest.atlases).some(spec=>spec.url===url);}
   static async load(){
     const textures={};
     await Promise.all(Object.entries(manifest.atlases).map(async([key,spec])=>{

@@ -1,24 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile,mkdir} from 'node:fs/promises';
+import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {fileURLToPath,pathToFileURL} from 'node:url';
+import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import sharp from 'sharp';
-import {build} from 'esbuild';
 import {Container,Sprite,Texture,Rectangle} from 'pixi.js';
 import {gsap} from 'gsap';
-import {BattleEngine} from '../project-v-v3/source/battle/BattleEngine.js';
-import {Z_SWORD,takeSwordBatch,swordPose,swordContactStop} from '../project-v-v3/source/battle/ZBodySwordModel.mjs';
-import {DASH_V2_SEQUENCE,fastDashBatch} from './source/DashProfile.mjs';
-import assets from './assets.json' with {type:'json'};
-import {previewExtension} from './preview-extension.mjs';
-const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..'),qa=path.resolve(root,'../qa/z-dash-v2');
-await mkdir(qa,{recursive:true});
-const runtime=path.join(qa,'controller.mjs');
-await build({absWorkingDir:root,entryPoints:['preview/project-v-v3/source/battle/ZBodySwordAnimation.js'],outfile:runtime,
-  bundle:true,platform:'node',format:'esm',packages:'external',plugins:[previewExtension]});
-const {ZBodySwordAnimation}=await import(pathToFileURL(runtime));
+import {BattleEngine} from '../preview/project-v-v3/source/battle/BattleEngine.js';
+import {Z_SWORD,takeSwordBatch,swordPose,swordContactStop} from '../preview/project-v-v3/source/battle/ZBodySwordModel.mjs';
+import {DASH_V2_SEQUENCE,fastDashBatch} from '../preview/project-v-v3/source/battle/ZBodyDashProfile.mjs';
+import assets from '../assets/ui/project-v/account-battle-suits/z-dash-v2/manifest.json' with {type:'json'};
+import {ZBodySwordAnimation} from '../preview/project-v-v3/source/battle/ZBodySwordAnimation.js';
+const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'..');
 const sha=data=>createHash('sha256').update(data).digest('hex');
 function rig(){
   const engine=Object.create(BattleEngine.prototype),ticks=new Set();
@@ -35,7 +29,7 @@ test('20 genuine-alpha authored frames are distinct, padded, and preserve genera
   for(const [key,spec] of Object.entries(assets.atlases)){
     const data=await readFile(path.join(root,spec.url)),meta=await sharp(data).metadata();
     assert.equal(meta.width,2048);assert.equal(meta.height,spec.rows*512);assert.ok(meta.hasAlpha);assert.equal(sha(data),spec.sha256);
-    assert.equal(sha(await readFile(path.join(here,spec.source.file))),spec.source.sha256);
+    assert.equal(sha(await readFile(path.join(root,spec.source.file))),spec.source.sha256);
     const hashes=[];
     for(let i=0;i<spec.frames.length;i++){
       const pixels=await sharp(data).extract({left:i%4*512,top:Math.floor(i/4)*512,width:512,height:512}).raw().toBuffer();
@@ -57,7 +51,7 @@ test('dash accelerates to 245 ms contact and returns at 640 ms, without changing
   assert.equal(DASH_V2_SEQUENCE.durationMs,640);
   assert.ok(Math.abs(Z_SWORD.bodyScale*592-278*1.4*(479-40)/512)<.001);
   const entries=[{target:{id:'x'},options:{damage:91}}],batch=takeSwordBatch([...entries],0),fast=fastDashBatch(batch);
-  assert.equal(fast.entries,batch.entries);assert.equal(fast.impacts[0].entry,entries[0]);assert.equal(batch.impacts[0].atMs,810);
+  assert.equal(fast.entries,batch.entries);assert.equal(fast.impacts[0].entry,entries[0]);assert.equal(batch.impacts[0].atMs,245);
 });
 test('actual GSAP controller synchronizes dash frame, cut frame, contact and final cleanup',async()=>{
   const r=rig(),rows=Array.from({length:3},(_,i)=>({target:r.target,options:{damage:100+i}})),hits=[];

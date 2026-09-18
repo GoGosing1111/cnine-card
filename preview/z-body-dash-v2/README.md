@@ -1,6 +1,8 @@
 # Z-BODY 고속 돌진 검격 V2
 
-2026-09-18. **TECH_QA_COMPLETE / USER_REVIEW_PENDING / PREVIEW_ONLY**
+2026-09-18. **USER_APPROVED / SHARED_LIVE_RUNTIME**
+
+사용자 후속 지시 `승인`으로 대시 V2의 운영 연결을 승인받았다. 승인 프리뷰 커밋은 `03c80c2e`이며, 이 화면도 이제 운영과 같은 공용 Z 컨트롤러를 사용한다.
 
 요청: Z바디의 대시에 전용 화려한 이펙트를 추가하고 느리게 보이는 공격 동작을 개선한다.
 
@@ -53,10 +55,11 @@ PixiJS **8.20.0**, GSAP **3.13.0**. 기존 V3 엔진·카드 도크·아트 어�
 
 - 공용 엔진: preview/project-v-v3/source/battle/BattleEngine.js
 - 공용 Z 컨트롤러: preview/project-v-v3/source/battle/ZBodySwordAnimation.js
-- 모션 시간: source/DashProfile.mjs
-- Pixi 프레임·잔상·잔광: source/ZBodyDashFX.mjs
-- 상속 연결 및 공용 GSAP onUpdate: source/withDashV2.mjs
-- preview-extension.mjs: 프리뷰 빌드 시 컨트롤러의 대시 시퀀스 선택 한 곳과 클래스 내보내기만 확장한다. 운영 소스와 번들을 덮어쓰지 않는다.
+- 모션 시간: preview/project-v-v3/source/battle/ZBodyDashProfile.mjs
+- Pixi 프레임·잔상·잔광: preview/project-v-v3/source/battle/ZBodyDashFX.mjs
+- 공용 GSAP onUpdate 연결: preview/project-v-v3/source/battle/ZBodySwordAnimation.js
+- 운영 리소스·승인 기록: assets/ui/project-v/account-battle-suits/z-dash-v2/manifest.json. 승인된 두 아틀라스를 해시가 같은 원본 그대로 복사했다.
+- 별도 프리뷰 확장·컨트롤러 복제는 제거했다. 기존 비교 버튼만 공용 컨트롤러의 legacy 프로필을 선택하며, 정상 운영 인스턴스는 V2를 기본 사용한다.
 - build-report.json: Pixi 1개·GSAP 1개, 실제 입력 파일·운영 기반 해시·번들 해시 기록.
 
 캐릭터 모션과 효과는 같은 engine.timeline의 시간에 맞춰 샘플링한다. 별도 FX 타이머나 두 번째 렌더러는 없다. 취소 시 이펙트·틱 핸들러를 정리하고 원위치·대기 자세로 돌아간다.
@@ -65,8 +68,10 @@ PixiJS **8.20.0**, GSAP **3.13.0**. 기존 V3 엔진·카드 도크·아트 어�
 
 ```powershell
 node preview/z-body-dash-v2/pack-assets.mjs
+node scripts/promote-z-body-dash-v2.mjs
+npm run build:v3-grid
 node preview/z-body-dash-v2/build.mjs
-node --test preview/z-body-dash-v2/runtime.test.mjs tests/z-body-sword-live.test.mjs
+node --test tests/z-body-dash-v2.test.mjs tests/z-body-sword-live.test.mjs
 ```
 
 리소스 패킹은 저장된 원본을 우선 사용하므로 내장 도구의 외부 캐시가 없어도 재현할 수 있다.
@@ -83,6 +88,6 @@ node --test preview/z-body-dash-v2/runtime.test.mjs tests/z-body-sword-live.test
 
 ## 승인 범위
 
-새 VFX는 사용자 시각 검수 대기다. AGENTS.md의 “승인 전 신규 이펙트와 사운드는 독립 프리뷰에서만 검증하며 사용자가 연결을 지시하기 전에는 게임 런타임에 연결하지 않는다” 및 docs/project-v-skill-effects-standard.md의 사용자 검수 규칙을 따른다.
+승인된 범위는 대시 전용 연속 VFX와 245 ms 접촉 / 640 ms 동작을 공용 운영 전투에 연결하는 것이다. 원본 5개, H/S 기준 기체 크기, 기존 광역기, 서버 공격 주기·피해·대상, PVP의 배틀슈트 제외 규칙은 유지한다. DB·재화·기능 플래그 변경은 없다.
 
-이번 범위는 이 폴더뿐이며 운영 파일·DB·기능 플래그를 변경하지 않았다. 운영 승인이 오면 위 타임라인/효과를 공용 Z 컨트롤러에 반영하고 V3 소비 번들을 재빌드한 후 release:gate와 deploy:production을 수행한다.
+운영 연결 검증: `npm run test:battle-suit` 103/103, `npm run test:skill-chips` 50/50, `npm run test:v3-grid` 25/25. 운영 런타임 버전은 `2126-fluid-combat-z-dash-v2-20260918`이다. 모든 공용 V3 소비 번들을 재빌드했으며, 배포는 깨끗한 커밋에서 `npm run deploy:production`의 전체 `release:gate`를 통과한 뒤 수행한다.

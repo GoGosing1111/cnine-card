@@ -24,7 +24,7 @@ try{
   $('dash').onclick=()=>void play('dash');$('area').onclick=()=>void play('area');
   $('pause').onclick=()=>{paused=true;update();};$('resume').onclick=()=>{paused=false;update();};
   $('cancel').onclick=()=>{engine.cancelTimelines();paused=false;update();};
-  $('contact').onclick=()=>{paused=true;const t=engine.accountBattleUnit.swordAnimation?.timeline;t?.pause();t?.totalTime(mode==='area'?1.21:.81);update();};
+  $('contact').onclick=()=>{paused=true;const t=engine.accountBattleUnit.swordAnimation?.timeline;t?.pause();t?.totalTime(mode==='area'?1.21:.245);update();};
   $('speed').onchange=()=>{engine.paceScale=Number($('speed').value);};
   $('run').onclick=async()=>{
     $('run').disabled=true;paused=false;$('result').textContent='서버 영수증 전체 재생 중';

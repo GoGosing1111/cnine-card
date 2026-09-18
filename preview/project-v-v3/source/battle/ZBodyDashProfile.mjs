@@ -28,6 +28,6 @@ export function effectSample(durations,age){
   return null;
 }
 // Re-time the supplied receipts only. Never manufacture another hit or target.
-export function fastDashBatch(batch){
-  return batch.mode==='dash'?{...batch,impacts:batch.impacts.map(hit=>({...hit,atMs:DASH_V2_SEQUENCE.contactAtMs}))}:batch;
+export function fastDashBatch(batch,sequence=DASH_V2_SEQUENCE){
+  return batch.mode==='dash'?{...batch,impacts:batch.impacts.map(hit=>({...hit,atMs:sequence.contactAtMs}))}:batch;
 }

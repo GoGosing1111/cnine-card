@@ -1,5 +1,5 @@
 {
-  "status": "PREVIEW_ONLY",
+  "status": "USER_APPROVED_SHARED_LIVE_RUNTIME",
   "runtime": {
     "pixiCopies": 1,
     "gsapCopies": 1
@@ -8,9 +8,9 @@
   "gsapVersion": "3.13.0",
   "baseController": {
     "file": "preview/project-v-v3/source/battle/ZBodySwordAnimation.js",
-    "sha256": "4c0f9df845b0104999fdb3d29ff53664128ed146a2c99f790323d7a61a246402"
+    "sha256": "da1361008f31a4016e11939cd9f1a36375bf1d218e3352b83474f40f81eb9163"
   },
-  "bundleSha256": "988822601d4a24d5392a0ae3af2d6aac89da38a3446eb36b76778bd682c4f213",
+  "bundleSha256": "ae91728d011918968d981ec4ff785db803e38e7c29ad048ca2220d9d0888310e",
   "inputs": [
     "preview/project-v-v3/source/battle/CameraController.js",
     "preview/project-v-v3/source/battle/BattleAnimation.js",
@@ -40,11 +40,10 @@
     "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
     "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
     "assets/ui/project-v/account-battle-suits/z-sword-v1/manifest.json",
+    "preview/project-v-v3/source/battle/ZBodyDashProfile.mjs",
     "preview/project-v-v3/source/battle/ZBodySwordModel.mjs",
-    "preview/z-body-dash-v2/source/DashProfile.mjs",
-    "preview/z-body-dash-v2/assets.json",
-    "preview/z-body-dash-v2/source/ZBodyDashFX.mjs",
-    "preview/z-body-dash-v2/source/withDashV2.mjs",
+    "assets/ui/project-v/account-battle-suits/z-dash-v2/manifest.json",
+    "preview/project-v-v3/source/battle/ZBodyDashFX.mjs",
     "preview/project-v-v3/source/battle/ZBodySwordAnimation.js",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",

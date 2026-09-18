@@ -1,4 +1,5 @@
 import manifest from '../../../../assets/ui/project-v/account-battle-suits/z-sword-v1/manifest.json' with {type:'json'};
+import {DASH_V2_SEQUENCE} from './ZBodyDashProfile.mjs';
 
 export const Z_SWORD=manifest;
 export const isZBody=code=>String(code||'').trim().toUpperCase()===manifest.suitCode;
@@ -29,7 +30,7 @@ export function takeSwordBatch(queue,actionIndex){
   if(!queue.length)return null;
   const mode=actionIndex%3===1?'area':'dash',entries=[queue.shift()];
   while(queue.length&&entries.length<48&&(mode==='area'||queue[0].target===entries[0].target))entries.push(queue.shift());
-  const impacts=mode==='area'?manifest.impactsMs:[manifest.attack.sequences.dash.contactAtMs];
+  const impacts=mode==='area'?manifest.impactsMs:[DASH_V2_SEQUENCE.contactAtMs];
   return{mode,entries,impacts:entries.map((entry,i)=>({entry,atMs:impacts[Math.min(impacts.length-1,Math.floor(i*impacts.length/entries.length))]}))};
 }
 export function swordContactStop(target,scale){

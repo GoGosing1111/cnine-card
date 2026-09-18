@@ -1,4 +1,4 @@
-import {DASH_V2_SEQUENCE} from './source/DashProfile.mjs';
+import {DASH_V2_SEQUENCE} from '../project-v-v3/source/battle/ZBodyDashProfile.mjs';
 const controls=parent.document,$=id=>controls.getElementById(id);
 let engine,paused=false,mode='dash',profile='v2',loop=false,playing=false,replay=false,playGeneration=0;
 const manifest=await(await fetch('/assets/ui/project-v/account-battle-suits/z-sword-v1/manifest.json')).json();

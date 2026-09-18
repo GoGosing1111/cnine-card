@@ -1,18 +1,20 @@
 import {Assets,Container,Graphics,Rectangle,Sprite,Texture} from 'pixi.js';
 import {Z_SWORD,swordPose,swordEffectFrame,swordContactStop} from './ZBodySwordModel.mjs';
+import {DASH_V2_SEQUENCE,fastDashBatch} from './ZBodyDashProfile.mjs';
+import {ZBodyDashFX} from './ZBodyDashFX.mjs';
 
 // Uses the live engine's layers and registered GSAP timelines. The approved
 // atlases are sampled verbatim; no fake targets, renderer, timers or damage.
 export class ZBodySwordAnimation{
   static async load(){
     const specs={attack:Z_SWORD.attack,cast:Z_SWORD.cast,...Object.fromEntries(Object.entries(Z_SWORD.effects).map(([key,e])=>[key,{...e.atlas,frames:e.frames}]))};
-    const sheets=await Promise.all(Object.values(specs).map(spec=>Assets.load(spec.url)));
+    const [sheets,dashTextures]=await Promise.all([Promise.all(Object.values(specs).map(spec=>Assets.load(spec.url))),ZBodyDashFX.load()]);
     const textures={};
     Object.entries(specs).forEach(([key,spec],n)=>{textures[key]=spec.frames.map((_,i)=>new Texture({source:sheets[n].source,frame:new Rectangle(i%spec.columns*spec.frameWidth,Math.floor(i/spec.columns)*spec.frameHeight,spec.frameWidth,spec.frameHeight)}));});
-    return textures;
+    return{...textures,...dashTextures};
   }
   constructor(engine,unit,textures){
-    Object.assign(this,{engine,unit,textures,actionIndex:0,completed:0,mode:'ready',frame:'01',timeMs:0});
+    Object.assign(this,{engine,unit,textures,actionIndex:0,completed:0,mode:'ready',frame:'01',timeMs:0,dashProfile:'v2'});
     this.ground=new Container({label:'ZBodyApprovedGroundV3'});
     this.front=new Container({label:'ZBodyApprovedBladesV3'});
     engine.backgroundLayer.addChild(this.ground);engine.effectLayer.addChild(this.front);
@@ -21,6 +23,7 @@ export class ZBodySwordAnimation{
     this.fields=[pair('ground',this.ground),pair('ground',this.ground)];
     this.blades=Array.from({length:5},()=>pair('blade',this.front));
     this.spark=new Graphics();this.front.addChild(this.spark);
+    this.dashFX=new ZBodyDashFX(engine,unit,textures);
     unit.swordAnimation=this;unit.bodySource=Z_SWORD.image;unit.weaponSprite.visible=false;unit.weaponSource='';
     this.ready();this.hideEffects();
   }
@@ -35,8 +38,8 @@ export class ZBodySwordAnimation{
     this.unit.nameHud.position.set(145*Z_SWORD.bodyScale,-592*Z_SWORD.bodyScale-54);
   }
   ready(){if(!this.timeline)this.pose('01');}
-  usesAsset(url){return Z_SWORD.assets.some(asset=>asset.url===url);}
-  hideEffects(){this.ground.visible=this.front.visible=false;}
+  usesAsset(url){return Z_SWORD.assets.some(asset=>asset.url===url)||ZBodyDashFX.usesAsset(url);}
+  hideEffects(){this.ground.visible=this.front.visible=false;this.dashFX?.hide();}
   paint(pair,key,ms,x,y,scale,opacity=1){
     const sample=swordEffectFrame(Z_SWORD.effects[key],ms);
     pair.forEach((sprite,i)=>{sprite.visible=Boolean(sample);if(!sample)return;sprite.texture=this.textures[key][i?sample.next:sample.index];sprite.scale.set(scale);sprite.position.set(x,y);sprite.alpha=opacity*sample.alpha*(i?sample.blend:1);});
@@ -66,7 +69,11 @@ export class ZBodySwordAnimation{
     if(!targets.length)return false;
     const ids=new Map(targets.map(t=>[t,t.id]));
     const validTarget=t=>engine.visible&&engine.playbackEpoch===epoch&&t.id===ids.get(t)&&t.root.visible!==false;
-    const sequence=batch.mode==='area'?Z_SWORD.cast.sequence:Z_SWORD.attack.sequences.dash,clock={ms:0};
+    // The legacy selector is used only by the approval comparison page.
+    // All normal Z instances default to the approved V2 profile.
+    const dashSequence=this.dashProfile==='legacy'?Z_SWORD.attack.sequences.dash:DASH_V2_SEQUENCE;
+    const sequence=batch.mode==='area'?Z_SWORD.cast.sequence:dashSequence,clock={ms:0};
+    const impacts=fastDashBatch(batch,dashSequence).impacts;
     this.mode=batch.mode;this.actionIndex++;unit.stopIdle();
     const origin=()=>({x:unit.root.baseX,y:unit.root.baseY});
     const sample=()=>{
@@ -77,6 +84,7 @@ export class ZBodySwordAnimation{
         const stop=swordContactStop({x:feet.x,y:feet.y-100},Z_SWORD.bodyScale*unit.root.scale.x);
         unit.root.position.set(start.x+(stop.x-start.x)*state.travel,start.y+(stop.y-start.y)*state.travel+state.hop);
         unit.root.depthSortY=unit.root.y;
+        if(this.dashProfile!=='legacy')this.dashFX.render(clock.ms,{start,stop,target:{x:feet.x,y:feet.y-100}});
       }else{unit.root.position.set(start.x,start.y);this.area(clock.ms,targets);}
     };
     const sync=()=>{
@@ -92,7 +100,7 @@ export class ZBodySwordAnimation{
       this.timeline=unit.fireTimeline=timeline;
       timeline.to(clock,{ms:sequence.durationMs,duration:sequence.durationMs/1000,ease:'none',onUpdate:sample},0);
       const groups=[];
-      for(const {entry,atMs} of batch.impacts){
+      for(const {entry,atMs} of impacts){
         let group=groups.find(g=>g.atMs===atMs&&g.target===entry.target);
         if(!group){group={atMs,target:entry.target,entries:[]};groups.push(group);}
         group.entries.push(entry);
@@ -104,6 +112,8 @@ export class ZBodySwordAnimation{
     return result;
   }
   cancel(){this.timeline?.kill();this.timeline=null;this.hideEffects();}
-  diagnostics(){return{version:Z_SWORD.version,mode:this.mode,frame:this.frame,timeMs:Math.round(this.timeMs),completed:this.completed,bodyScale:Z_SWORD.bodyScale,effectsVisible:this.front.visible,damagePolicy:Z_SWORD.presentation};}
-  destroy(){this.cancel();this.unit.bodySprite.texture=Texture.EMPTY;this.ground.destroy({children:true});this.front.destroy({children:true});for(const frames of Object.values(this.textures))for(const texture of frames)texture.destroy(false);}
+  diagnostics(){return{version:Z_SWORD.version,mode:this.mode,frame:this.frame,timeMs:Math.round(this.timeMs),completed:this.completed,bodyScale:Z_SWORD.bodyScale,effectsVisible:this.front.visible,damagePolicy:Z_SWORD.presentation,
+    dashVersion:'Z_DASH_LIVE_20260918',dashProfile:this.dashProfile,contactMs:this.dashProfile==='legacy'?810:DASH_V2_SEQUENCE.contactAtMs,
+    dashDurationMs:this.dashProfile==='legacy'?1695:DASH_V2_SEQUENCE.durationMs,dashEffectsVisible:this.dashFX.front.visible,dashEffectMs:Math.round(this.dashFX.lastMs||0)};}
+  destroy(){this.cancel();this.dashFX.destroy();this.unit.bodySprite.texture=Texture.EMPTY;this.ground.destroy({children:true});this.front.destroy({children:true});for(const frames of Object.values(this.textures))for(const texture of frames)texture.destroy(false);}
 }
