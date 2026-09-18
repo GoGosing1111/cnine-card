@@ -1,6 +1,6 @@
 import {build} from 'esbuild';
 const targets={
-  wish:'js/wish-lamp-fx-v2077',
+  axe:'js/golden-axe-fx-v1',
   hyper:'js/hyper-pack-fx-v2076',
   prime:'js/prime-draw-live-v1985',
   soopketland:'js/soopketland-v2039',
@@ -10,7 +10,8 @@ const targets={
 const selected=process.argv[2]||'all';
 if(selected!=='all'&&!targets[selected])throw new Error(`Unknown UI renderer: ${selected}`);
 const options={bundle:true,minify:true,format:'iife',logLevel:'info'};
-await build({...options,entryPoints:['js/ui-fx-vendor-v2045.src.js'],outfile:'js/ui-fx-vendor-v2045.bundle.js'});
+// A single event build must preserve the reviewed shared runtime used by other screens.
+if(selected!=='axe')await build({...options,entryPoints:['js/ui-fx-vendor-v2045.src.js'],outfile:'js/ui-fx-vendor-v2045.bundle.js'});
 const globals={name:'shared-ui-fx-runtime',setup(builder){
   builder.onResolve({filter:/^(pixi\.js|gsap)$/},args=>({path:args.path,namespace:'ui-fx-global'}));
   builder.onLoad({filter:/.*/,namespace:'ui-fx-global'},args=>({contents:args.path==='pixi.js'

@@ -85,7 +85,7 @@
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
-    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'wishLamp']) }),
+    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'goldenAxe']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
     administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'treasury', 'soopketland', 'prison', 'prisoncamp']) })
   });
@@ -133,7 +133,7 @@
     dailyquest: Object.freeze({ title: '일일 퀘스트', group: 'rewards', icon: 'gift' }),
     messages: Object.freeze({ title: '메시지함', group: 'rewards', icon: 'mail' }),
     mineral: Object.freeze({ title: '교환소', group: 'rewards', icon: 'inventory' }),
-    wishLamp: Object.freeze({ title: '핑두의 소원램프', group: 'rewards', icon: 'gift' }),
+    goldenAxe: Object.freeze({ title: '핑두의 금도끼 은도끼', group: 'rewards', icon: 'gift' }),
     prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
     inventory: Object.freeze({ title: '인벤토리', group: 'inventory', icon: 'inventory' }),
@@ -440,7 +440,7 @@
     }
     lobby.setRoute(route);
     lobby.update({ user: userModel(), chief: chiefView() });
-    void refreshWishLamp().then(changed => { if (changed && lobby.isConnected) lobby.refreshMenus(); });
+    void refreshGoldenAxe().then(changed => { if (changed && lobby.isConnected) lobby.refreshMenus(); });
     return lobby;
   }
 
@@ -523,21 +523,21 @@
     return document.getElementById('modal');
   }
 
-  let wishLampVisible=false,wishLampCheckedAt=0,wishLampPromise=null;
-  function refreshWishLamp(force=false){
-    if(wishLampPromise)return wishLampPromise;
-    if(!force&&Date.now()-wishLampCheckedAt<15000)return Promise.resolve(false);
-    wishLampCheckedAt=Date.now();
-    wishLampPromise=(async()=>{
-      const before=wishLampVisible;
+  let goldenAxeVisible=false,goldenAxeCheckedAt=0,goldenAxePromise=null;
+  function refreshGoldenAxe(force=false){
+    if(goldenAxePromise)return goldenAxePromise;
+    if(!force&&Date.now()-goldenAxeCheckedAt<15000)return Promise.resolve(false);
+    goldenAxeCheckedAt=Date.now();
+    goldenAxePromise=(async()=>{
+      const before=goldenAxeVisible;
       try{
         const token=global.localStorage?.getItem('cnine_card_api_token')||global.sessionStorage?.getItem('cnine_card_api_token')||'';
-        const response=await global.fetch('/api/events/wish-lamp/feature',{cache:'no-store',headers:token?{authorization:'Bearer '+token}:{},signal:AbortSignal.timeout(8000)});
-        if(!response.ok)throw new Error('wish feature unavailable');
-        const data=await response.json();wishLampVisible=data.visible===true&&data.phase!=='ENDED';
-      }catch{wishLampVisible=false}
-      return before!==wishLampVisible;
-    })().finally(()=>{wishLampPromise=null});return wishLampPromise;
+        const response=await global.fetch('/api/events/golden-axe/feature',{cache:'no-store',headers:token?{authorization:'Bearer '+token}:{},signal:AbortSignal.timeout(8000)});
+        if(!response.ok)throw new Error('golden axe feature unavailable');
+        const data=await response.json();goldenAxeVisible=data.visible===true&&data.phase!=='ENDED';
+      }catch{goldenAxeVisible=false}
+      return before!==goldenAxeVisible;
+    })().finally(()=>{goldenAxePromise=null});return goldenAxePromise;
   }
 
   function closeOverlay() {
@@ -546,7 +546,7 @@
   }
 
   function routeButton(route) {
-    if(route==='wishLamp'&&!wishLampVisible)return '';
+    if(route==='goldenAxe'&&!goldenAxeVisible)return '';
     if(['clan','clanWar','clanFaction'].includes(route)&&!clanFeatureVisible())return '';
     if(route==='avatar'&&global.avatarFeatureVisible?.()!==true)return '';
     if(route==='alchemy'&&global.alchemyFeatureVisible?.()!==true)return '';
@@ -558,7 +558,7 @@
     const shared = document.querySelector('soop-adventure-lobby[data-shared-navigation]');
     if (shared) { shared.openRoutes(routes); return; }
     const modal = modalRoot(); if (!modal) return;
-    if(routes.includes('wishLamp'))void refreshWishLamp().then(changed=>{if(changed&&modal.querySelector('.v21-command-grid')&&modal.querySelector('h2')?.textContent===title)openRouteOverlay(title,routes)});
+    if(routes.includes('goldenAxe'))void refreshGoldenAxe().then(changed=>{if(changed&&modal.querySelector('.v21-command-grid')&&modal.querySelector('h2')?.textContent===title)openRouteOverlay(title,routes)});
     modal.className = 'modal v21-command-overlay open';
     modal.innerHTML = `<section class="v21-command-dialog" role="dialog" aria-modal="true" aria-label="${esc(title)}"><header><div><small>SOOPKETMON / COMMAND</small><h2>${esc(title)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-grid">${routes.map(routeButton).join('')}</div></section>`;
   }
@@ -567,7 +567,7 @@
     const shared = document.querySelector('soop-adventure-lobby[data-shared-navigation]');
     if (shared) { shared.openMenu('all'); return; }
     const modal = modalRoot(); if (!modal) return;
-    void refreshWishLamp().then(changed=>{if(changed&&modal.querySelector('.v21-command-dialog-all'))openAllOverlay()});
+    void refreshGoldenAxe().then(changed=>{if(changed&&modal.querySelector('.v21-command-dialog-all'))openAllOverlay()});
     modal.className = 'modal v21-command-overlay open';
     modal.innerHTML = `<section class="v21-command-dialog v21-command-dialog-all" role="dialog" aria-modal="true" aria-label="전체 메뉴"><header><div><small>SOOPKETMON / ALL CONTENTS</small><h2>전체 메뉴</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-groups">${MENU_GROUP_ORDER.map(id => MENU_GROUPS[id]).map(group => `<section><h3>${esc(group.title)}</h3><div>${group.routes.map(routeButton).join('')}</div></section>`).join('')}</div></section>`;
   }
@@ -580,7 +580,7 @@
   }
 
   function navigate(route) {
-    if(route==='wishLamp')return refreshWishLamp(true).then(()=>{if(!wishLampVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/wish-lamp/');return {ok:true,externalPage:true}});
+    if(route==='goldenAxe')return refreshGoldenAxe(true).then(()=>{if(!goldenAxeVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/golden-axe/');return {ok:true,externalPage:true}});
     if (route === 'home') {
       homeRouteGuard = true;
       explicitNavigation = true; try { global.renderShell('home'); } finally { explicitNavigation = false; }

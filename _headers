@@ -64,3 +64,8 @@
 
 /shared/*
   Cache-Control: public, max-age=0, must-revalidate
+
+/events/golden-axe/*
+  Cache-Control: no-cache, must-revalidate, max-age=0
+/events/wish-lamp/*
+  Cache-Control: no-cache, must-revalidate, max-age=0

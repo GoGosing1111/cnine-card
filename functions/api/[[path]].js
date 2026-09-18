@@ -13,8 +13,9 @@ import { handleEvolution } from '../_evolution.js';
 import { handleStreamerLounge } from '../_streamer_lounge.js';
 import { handlePlayerCard } from '../_player_card.js';
 import { handleSoopketLand, redeemLandCoupon } from '../_soopket_land.js';
-import { ensureWishLamp } from '../_wish_lamp.js';
+import { ensureGoldenAxe, handleGoldenAxe } from '../_golden_axe.js';
 import { redeemWishTicketCoupon } from '../_wish_lamp_coupon.js';
+import { redeemOldAxeCoupon } from '../_golden_axe_coupon.js';
 import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
 import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2,estimateApocalypseRecommendedPower } from '../_battle_v2_preview.js';
@@ -486,8 +487,8 @@ function presentMessageReward(message){
   const spec=verifiedMessageRewardSpec(message.reward_type),amount=Number(message.reward_amount);
   return {...message,reward_type:spec?.type||message.reward_type,reward_label:spec?.label||'',reward_icon:spec?.icon||'🎁',reward_supported:Boolean(spec&&Number.isSafeInteger(amount)&&amount>0)};
 }
-const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_WISH_TICKET:100000};
-function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_WISH_TICKET'?{type,label:'핑두의 소원권',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
+const COUPON_REWARD_MAX={COIN:1000000000,MASTER_STAR:1000000,PREMIUM_CUBE:100000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000};
+function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
   if(verifiedRewardMessageV1276ReadyPromise)return verifiedRewardMessageV1276ReadyPromise;
@@ -5220,6 +5221,7 @@ async function handleRequest(context){
     const lootShopResponse=await handleLootShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(lootShopResponse)return lootShopResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
+    const goldenAxeResponse=await handleGoldenAxe({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(goldenAxeResponse)return goldenAxeResponse;
     const wishLampResponse=await handleWishLamp({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(wishLampResponse)return wishLampResponse;
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
@@ -5401,12 +5403,12 @@ async function handleRequest(context){
       const blackMiracleUseEnabled=(await blackMiracleSettings(env)).enabled===true;
       await ensureMysticEnergyCatalog(env);
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
-          CASE WHEN i.category='SKILL_CHIP' THEN 0 WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code IN ('CORE_RAID_ENTRY_TICKET','PINGDU_WISH_TICKET') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
+          CASE WHEN i.category='SKILL_CHIP' THEN 0 WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code IN ('CORE_RAID_ENTRY_TICKET','PINGDU_WISH_TICKET','PINGDU_OLD_AXE') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
-        WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
-          AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','PINGDU_WISH_TICKET') OR COALESCE(ui.quantity,0)>0)
+        WHERE i.is_active=1 AND i.code<>'PINGDU_WISH_TICKET' AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
+          AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','PINGDU_WISH_TICKET','PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
-      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code==='PINGDU_WISH_TICKET'?'핑두의 소원램프에서 사용':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
+      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code==='PINGDU_OLD_AXE'?'핑두의 금도끼 은도끼에서 사용':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
@@ -7619,6 +7621,7 @@ async function handleRequest(context){
       const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
       const wishCoupon=await redeemWishTicketCoupon({env,user,coupon,body:payload,deps:{json,profile}});if(wishCoupon)return wishCoupon;
+      const axeCoupon=await redeemOldAxeCoupon({env,user,coupon,body:payload,deps:{json,profile}});if(axeCoupon)return axeCoupon;
       const requestedKey=String(payload.operationKey||'').trim(),operationKey=/^[A-Za-z0-9:_-]{8,120}$/.test(requestedKey)?requestedKey:`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;
       const priorReceipt=await env.DB.prepare('SELECT reward_type,reward_amount FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?').bind(coupon.id,user.id,operationKey).first();
       if(priorReceipt){const priorType=String(priorReceipt.reward_type||'COIN').toUpperCase(),priorAmount=Number(priorReceipt.reward_amount||0),priorSpec=verifiedMessageRewardSpec(priorType),updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,replayed:true,rewardType:priorType,rewardAmount:priorAmount,rewardLabel:priorSpec?.label||'쿠폰 보상',rewardCoin:priorType==='COIN'?priorAmount:0,message:`${priorSpec?.label||'쿠폰 보상'} ${priorAmount.toLocaleString()}개를 받았습니다.`,user:await profile(env,updated)})}
@@ -8044,7 +8047,7 @@ async function handleRequest(context){
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
       if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
       if(!Number.isInteger(maxUses)||maxUses<1||maxUses>1000000)return json({error:'전체 최대 사용 횟수를 확인하세요.'},400);
-      if(rewardType==='PINGDU_WISH_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureWishLamp(env)}
+      if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
       await releaseDeletedCouponCode(env,code,admin.id);
       const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
       if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
@@ -8071,10 +8074,10 @@ async function handleRequest(context){
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=couponRewardSpec(rewardType);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
-        if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_WISH_TICKET'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
+        if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_OLD_AXE'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
-        if(rewardType==='PINGDU_WISH_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureWishLamp(env)}
+        if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
         await releaseDeletedCouponCode(env,code,admin.id);
         const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
         if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
@@ -8271,6 +8274,8 @@ async function handleRequest(context){
       else if(action==='SHARDS'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경할 카드 조각 수량을 입력하세요.'},400);const current=Number(before.card_shards||0);if(current+amount<0)return json({error:'보유 카드 조각보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(amount,userId).run();const balance=current+amount;await env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId,amount,balance,String(p.reason||'관리자 조정').slice(0,100)).run();}
       else if(action==='INVENTORY'){
         const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);
+        if(itemCode==='PINGDU_WISH_TICKET')return json({error:'종료된 소원램프 아이템은 지급할 수 없습니다.'},410);
+        if(['PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode))await ensureGoldenAxe(env);
         if(itemCode===NEW_USER_GIFT_CODE)return json({error:'신규유저 기프트 박스는 유저관리의 전용 지급 기능에서만 지급할 수 있습니다.'},400);
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
         if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)await ensureUniqueAdvancementPassCatalog(env);

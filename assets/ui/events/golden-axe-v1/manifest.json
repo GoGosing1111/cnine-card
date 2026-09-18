@@ -1,0 +1,125 @@
+{
+  "version": "golden-axe-v1",
+  "createdAt": "2026-09-18",
+  "character": "Cute pink masked rider / 2.3-head chibi mascot",
+  "generator": "image_gen.imagegen",
+  "editing": "Generated PNGs copied unchanged; no raster postprocessing",
+  "resources": [
+    {
+      "file": "moonlit-pond.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": false,
+      "bytes": 3031649,
+      "sha256": "3330123e8855f958022aa0ae95cdb18c06bf3638e68cbff31a23f13a28196941"
+    },
+    {
+      "file": "pink-rider.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true,
+      "bytes": 1223358,
+      "sha256": "692daa6d4a444be750ca74709fd74a5f32b31b24e90cf7180b261afc9da2bdf2"
+    },
+    {
+      "file": "axes.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": true,
+      "bytes": 2159902,
+      "sha256": "c3e4498a0747800cd90425e2cd404ea2ffa1a499f880042fe744c48c7e9a94cf"
+    }
+  ],
+  "renderer": {
+    "source": "js/golden-axe-fx-v1.src.js",
+    "bundle": "js/golden-axe-fx-v1.bundle.js",
+    "vendor": "js/ui-fx-vendor-v2045.bundle.js",
+    "vendorChanged": false,
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "canvas": [
+      1024,
+      760
+    ],
+    "vendorSha256": "b1513d66770dad5f3c9a08e2bc8eb79ec7a2c6321c4387d22dc1500b6179b02c"
+  },
+  "audio": {
+    "file": "assets/sfx/v3-role-impact-v2/heal.mp3",
+    "license": "Mixkit Sound Effects Free License",
+    "provenance": "assets/sfx/v3-role-impact-v2/PROVENANCE.md",
+    "modified": false,
+    "default": "OFF",
+    "cuesSeconds": [
+      0.92,
+      4.42
+    ],
+    "sha256": "38789689a58b83bfbf4eafbd26ed49f4622e909940c7b1eba2d64b56dc937720"
+  },
+  "timelineSeconds": {
+    "throw": [
+      0,
+      0.95
+    ],
+    "pondImpact": 0.94,
+    "riderEmerges": [
+      1.7,
+      2.65
+    ],
+    "axesReveal": [
+      2.5,
+      3.4
+    ],
+    "outcome": 4.42,
+    "finished": 6.3
+  },
+  "anchor": {
+    "pond": [
+      512,
+      607
+    ],
+    "riderFeet": [
+      550,
+      650
+    ],
+    "goldAxeCenter": [
+      445,
+      320
+    ]
+  },
+  "behavior": {
+    "serverReceiptBeforeAnimation": true,
+    "skip": true,
+    "reducedMotion": true,
+    "visibilityFinish": true,
+    "pagehidePreservesPendingReceipt": true,
+    "initialResourceTimeoutMs": 12000,
+    "playSafetyTimeoutMs": 10000
+  },
+  "qa": {
+    "desktop": [
+      1440,
+      1000
+    ],
+    "phone": [
+      390,
+      844
+    ],
+    "cases": [
+      "win",
+      "miss",
+      "skip",
+      "refresh-recovery-no-second-charge",
+      "SS13-ticket",
+      "parts-150-choice",
+      "CMS-total-validation",
+      "CMS-OFF-save"
+    ],
+    "productionEconomics": "OFF; null periods, costs, caps and rates"
+  }
+}

@@ -4,18 +4,18 @@ import path from 'node:path';
 import os from 'node:os';
 import assert from 'node:assert/strict';
 import {pathToFileURL} from 'node:url';
-import {WISH_CHOICES,cleanWishSettings,wishChoicePool} from '../js/wish-lamp-model-v2077.js';
+import {AXE_REWARDS,cleanAxeSettings} from '../js/golden-axe-model-v1.js';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
 const base=process.env.LOBBY_QA_ORIGIN||'http://127.0.0.1:4197',out=process.env.LOBBY_QA_DIR||fs.mkdtempSync(path.join(os.tmpdir(),'standalone-navigation-'));
 fs.mkdirSync(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true}),checks=[],errors=[],writes=[];
 const check=(value,label)=>{assert.ok(value,label);checks.push(label);};
 const card={code:'V-004',name:'베스페라',title:'붉은 저격수',position:'REAR',role:'SNIPER',rank:'SS',level:1,duplicates:0,basePower:120000,sourceArt:'assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png',skills:[],specialty:'후열 표적 타격',weakness:'근접 전투',basicTarget:'후열 단일 대상'};
-const settings=cleanWishSettings({visible:true,enabled:false,coinCost:500000000,ticketCost:1});
+const settings=cleanAxeSettings({visible:true,enabled:false});
 const endpoints={
  'shell/summary':{avatarFeature:{visible:true},alchemyFeature:{visible:false}},
- 'events/wish-lamp/feature':{visible:true,phase:'PAUSED'},
- 'events/wish-lamp/state':{phase:'PAUSED',coin:1000000000,tickets:0,coinCost:500000000,ticketCost:1,choices:WISH_CHOICES.map(c=>wishChoicePool(settings,c.id)),startsAt:null,endsAt:null,serverNow:new Date().toISOString(),history:[]},
+ 'events/golden-axe/feature':{visible:true,phase:'PAUSED'},
+ 'events/golden-axe/state':{...settings,userId:4242,phase:'UNCONFIGURED',coin:'1000000000',axes:0,dailyUsed:0,rewards:AXE_REWARDS.map(r=>({...r,rate:null})),serverNow:new Date().toISOString(),history:[]},
  'mercenary-codex':{version:'mercenary-codex-2098',revision:1,roles:{SNIPER:{label:'저격수'}},cards:[card]},
  'mercenaries/v3/state':{accountId:4242,coin:1000000000,available:true,loadout:{mercenaryCode:null,revision:1},cards:[card]},
  'character/equipment/forge/status':{publicVisible:true,notice:'보유 장비를 선택해 주세요.'},
@@ -27,7 +27,7 @@ try{
   page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','navigation-qa');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:4242,nickname:'검수 계정'}));});
   await page.route('**/api/**',r=>{const key=new URL(r.request().url()).pathname.slice(5);if(!['GET','HEAD'].includes(r.request().method()))writes.push(key);return r.fulfill({json:endpoints[key]||{enabled:false,visible:false,items:[]}});});
-  for(const [url,route,ready] of [['/equipment-forge/','equipmentForge','#inventory-note'],['/mercenary-codex/','mercenaryDex','.roster-row'],['/mercenary-hangar/','mercenaryHangar','#roster [data-code]'],['/events/wish-lamp/','wishLamp','#wishStatus']]){
+  for(const [url,route,ready] of [['/equipment-forge/','equipmentForge','#inventory-note'],['/mercenary-codex/','mercenaryDex','.roster-row'],['/mercenary-hangar/','mercenaryHangar','#roster [data-code]'],['/events/golden-axe/','goldenAxe','#axeStatus']]){
    await page.goto(base+url,{waitUntil:'domcontentloaded'});await page.locator(ready).first().waitFor();
    const menu=page.locator('soop-adventure-lobby');await menu.waitFor();await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(400);
    check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),size+' '+route+' no horizontal page clipping');

@@ -8,7 +8,7 @@
     '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'
   })[ch]);
   const number=value=>Number(value||0).toLocaleString('ko-KR');
-  const rewardLabels={COIN:'코인',MASTER_STAR:'마스터의 별',PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',HIGH_GRADE_REROLL_TICKET:'고등급 재뽑기권',PINGDU_WISH_TICKET:'핑두의 소원권'};
+  const rewardLabels={COIN:'코인',MASTER_STAR:'마스터의 별',PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',HIGH_GRADE_REROLL_TICKET:'고등급 재뽑기권',PINGDU_OLD_AXE:'낡은도끼'};
   const shortDate=value=>value?String(value).replace('T',' ').replace(/\.000Z$/,'').slice(0,16):'제한 없음';
 
   function statusOf(coupon){
