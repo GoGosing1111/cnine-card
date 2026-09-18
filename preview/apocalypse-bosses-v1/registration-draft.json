@@ -1,0 +1,236 @@
+{
+  "release": {
+    "enabled": false,
+    "registered": false,
+    "visualApproval": false
+  },
+  "reference": {
+    "monsterId": 74,
+    "name": "센쥬 하시라마",
+    "snapshotDate": "2026-09-11",
+    "battlePower": 5500000,
+    "hpPercent": 350,
+    "attackPercent": 475,
+    "defensePercent": 375,
+    "speedPercent": 375,
+    "shieldPercent": 70,
+    "attackCount": 2,
+    "forcedActionEvery": 4
+  },
+  "bosses": [
+    {
+      "code": "APOCALYPSE_ALUCARD",
+      "name": "아카드",
+      "sourceArt": "/preview/apocalypse-bosses-v1/assets/alucard-source.jpg",
+      "battleSprite": "/preview/apocalypse-bosses-v1/assets/alucard-sd-v1.png",
+      "monsterId": null,
+      "isActive": false,
+      "pveEnabled": false,
+      "pveTab": "APOCALYPSE",
+      "rewardCoin": null,
+      "rewardConfigurationRequired": true,
+      "visualApproval": false,
+      "battleProfile": {
+        "hpPercent": 350,
+        "attackPercent": 475,
+        "defensePercent": 375,
+        "speedPercent": 375,
+        "shieldPercent": 70,
+        "attackCount": 2,
+        "forcedActionEvery": 4,
+        "battlePower": 7500000
+      },
+      "skills": [
+        {
+          "code": "ALUCARD_SEAL",
+          "boss": "alucard",
+          "kind": "seal",
+          "name": "혈계 · 구속의 사슬",
+          "description": "공격력이 높은 적 2명의 스킬을 각자 2행동 동안 봉인합니다. 일반 공격은 유지됩니다.",
+          "asset": "alucard-seal",
+          "atlas": "/preview/apocalypse-bosses-v1/assets/alucard-seal-atlas.json",
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAt": 0.8,
+          "duration": 1.8,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "targetCount": 2,
+          "statusActions": 2,
+          "dispel": true
+        },
+        {
+          "code": "ALUCARD_CURSE",
+          "boss": "alucard",
+          "kind": "curse",
+          "name": "불사의 저주 · 메마른 성혈",
+          "description": "적 전체의 회복을 각자 2행동 동안 100% 차단합니다. 재생·흡혈도 차단하며 정화로 해제할 수 있습니다.",
+          "asset": "alucard-curse",
+          "atlas": "/preview/apocalypse-bosses-v1/assets/alucard-curse-atlas.json",
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAt": 0.8,
+          "duration": 1.8,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "targetCount": "ALL",
+          "statusActions": 2,
+          "healReductionPercent": 100,
+          "dispel": true
+        },
+        {
+          "code": "ALUCARD_ULTIMATE",
+          "boss": "alucard",
+          "kind": "ultimate",
+          "name": "구속 해제 · 불사군단",
+          "description": "불사군단의 마수가 적 전체를 덮칩니다. 공격력 190% 피해를 가하며 피해의 40%가 보호막을 관통합니다.",
+          "asset": "alucard-ultimate",
+          "atlas": "/preview/apocalypse-bosses-v1/assets/alucard-ultimate-atlas.json",
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAt": 1.15,
+          "duration": 2.25,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "targetCount": "ALL",
+          "attackPercent": 190,
+          "shieldPiercePercent": 40
+        }
+      ],
+      "skillSchedule": {
+        "seal": {
+          "bossAction": 1,
+          "maxUses": 1
+        },
+        "curse": {
+          "bossAction": 2,
+          "maxUses": 1
+        },
+        "ultimate": {
+          "bossAction": 3,
+          "maxUses": 1
+        }
+      },
+      "reference": {
+        "monsterId": 74,
+        "battlePower": 5500000,
+        "powerRatio": 1.3636363636363635,
+        "refreshAtRegistration": true
+      },
+      "status": "PREPARED_OFF"
+    },
+    {
+      "code": "APOCALYPSE_KANEKI_KEN",
+      "name": "카네키 켄",
+      "sourceArt": "/preview/apocalypse-bosses-v1/assets/kaneki-source.jpg",
+      "battleSprite": "/preview/apocalypse-bosses-v1/assets/kaneki-sd-v1.png",
+      "monsterId": null,
+      "isActive": false,
+      "pveEnabled": false,
+      "pveTab": "APOCALYPSE",
+      "rewardCoin": null,
+      "rewardConfigurationRequired": true,
+      "visualApproval": false,
+      "battleProfile": {
+        "hpPercent": 350,
+        "attackPercent": 475,
+        "defensePercent": 375,
+        "speedPercent": 375,
+        "shieldPercent": 70,
+        "attackCount": 2,
+        "forcedActionEvery": 4,
+        "battlePower": 10000000
+      },
+      "skills": [
+        {
+          "code": "KANEKI_SEAL",
+          "boss": "kaneki",
+          "kind": "seal",
+          "name": "린카쿠 · 가시 감옥",
+          "description": "공격력이 높은 적 3명의 스킬을 각자 3행동 동안 봉인합니다. 일반 공격은 유지됩니다.",
+          "asset": "kaneki-seal",
+          "atlas": "/preview/apocalypse-bosses-v1/assets/kaneki-seal-atlas.json",
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAt": 0.8,
+          "duration": 1.8,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "targetCount": 3,
+          "statusActions": 3,
+          "dispel": true
+        },
+        {
+          "code": "KANEKI_CURSE",
+          "boss": "kaneki",
+          "kind": "curse",
+          "name": "구울의 허기 · 회복 포식",
+          "description": "적 전체의 회복을 각자 3행동 동안 100% 차단합니다. 재생·흡혈도 차단하며 정화로 해제할 수 있습니다.",
+          "asset": "kaneki-curse",
+          "atlas": "/preview/apocalypse-bosses-v1/assets/kaneki-curse-atlas.json",
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAt": 0.8,
+          "duration": 1.8,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "targetCount": "ALL",
+          "statusActions": 3,
+          "healReductionPercent": 100,
+          "dispel": true
+        },
+        {
+          "code": "KANEKI_ULTIMATE",
+          "boss": "kaneki",
+          "kind": "ultimate",
+          "name": "카쿠자 · 백족의 종언",
+          "description": "거대한 백족 카쿠자가 적 전체를 내려칩니다. 공격력 225% 피해를 가하며 피해의 60%가 보호막을 관통합니다.",
+          "asset": "kaneki-ultimate",
+          "atlas": "/preview/apocalypse-bosses-v1/assets/kaneki-ultimate-atlas.json",
+          "frameCount": 12,
+          "collisionFrame": 6,
+          "impactAt": 1.15,
+          "duration": 2.25,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "targetCount": "ALL",
+          "attackPercent": 225,
+          "shieldPiercePercent": 60
+        }
+      ],
+      "skillSchedule": {
+        "seal": {
+          "bossAction": 1,
+          "maxUses": 1
+        },
+        "curse": {
+          "bossAction": 2,
+          "maxUses": 1
+        },
+        "ultimate": {
+          "bossAction": 3,
+          "maxUses": 1
+        }
+      },
+      "reference": {
+        "monsterId": 74,
+        "battlePower": 5500000,
+        "powerRatio": 1.8181818181818181,
+        "refreshAtRegistration": true
+      },
+      "status": "PREPARED_OFF"
+    }
+  ]
+}

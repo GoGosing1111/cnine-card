@@ -1,0 +1,82 @@
+{
+  "generator": "built-in image_gen",
+  "pixelEdits": false,
+  "scope": "PREVIEW_ONLY",
+  "visualApproval": false,
+  "pixi": "8.20.0",
+  "gsap": "3.13.0",
+  "files": [
+    {
+      "file": "assets/alucard-sd-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "22b518e0648c3d755a1dd0ae709c391c344e9f38f9723506e9d11e67b9d41c17",
+      "alpha": true,
+      "transparentRatio": 0.5217600329662783,
+      "opaqueRatio": 0.43332722846699173
+    },
+    {
+      "file": "assets/alucard-seal-sheet.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "17af0929d93f2fa995efbf692d42e289c157d6c6fcc55dbbf5c51837825e0b45",
+      "alpha": true,
+      "transparentRatio": 0.4408913545577567,
+      "opaqueRatio": 0.07490105104646785
+    },
+    {
+      "file": "assets/alucard-curse-sheet.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "5edc8fec5bc9184b3e7a413c851dc2a597cc5d8a1e9bc76a15421a5a72b2b838",
+      "alpha": true,
+      "transparentRatio": 0.4295045938768658,
+      "opaqueRatio": 0.07960112633924483
+    },
+    {
+      "file": "assets/alucard-ultimate-sheet.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "61752e2bac93b2e174e3c1c71a551383bcdc8aff0ad0de4acb4185f30e90f4c5",
+      "alpha": true,
+      "transparentRatio": 0.42039187855478566,
+      "opaqueRatio": 0.1992594090534477
+    },
+    {
+      "file": "assets/kaneki-sd-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f137be53fdb358cd9220916b453194ecb87995a8ec908cef370a8217b5100683",
+      "alpha": true,
+      "transparentRatio": 0.5269478975094689,
+      "opaqueRatio": 0.42313655314158966
+    },
+    {
+      "file": "assets/kaneki-seal-sheet.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "431ed857d88fc503165b74db6b925fc3caa2b3aebfa03a9b962650681298a4e8",
+      "alpha": true,
+      "transparentRatio": 0.4554716990730849,
+      "opaqueRatio": 0.18846214503016798
+    },
+    {
+      "file": "assets/kaneki-curse-sheet.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "7213b804394d59f7190495260e7a16afec72f4c61c7e3549c19d70663050a320",
+      "alpha": true,
+      "transparentRatio": 0.4772442843625042,
+      "opaqueRatio": 0.14190971480317044
+    },
+    {
+      "file": "assets/kaneki-ultimate-sheet.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "c8675236525c16b56ab1a9e8557a0bdfab7503b05a41be710cc62312772430c1",
+      "alpha": true,
+      "transparentRatio": 0.3376633039284515,
+      "opaqueRatio": 0.17907089730675702
+    }
+  ]
+}
