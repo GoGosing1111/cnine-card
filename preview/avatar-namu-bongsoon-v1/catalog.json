@@ -1,0 +1,22 @@
+{
+  "code": "NAMU_BONGSOON",
+  "serial": "A-23",
+  "name": "나무늘봉순",
+  "call_sign": "NAMU BONGSOON",
+  "role_label": "화이트 미니 원피스",
+  "description": "부드러운 볼선과 긴 검은 머리, 화이트 미니 원피스의 나무늘봉순 아바타.",
+  "lobby_image": "preview/avatar-namu-bongsoon-v1/assets/avatar-namu-bongsoon-lobby-v1-1024.webp",
+  "lobby_mobile_image": "preview/avatar-namu-bongsoon-v1/assets/avatar-namu-bongsoon-lobby-v1-640.webp",
+  "equipment_image": "preview/avatar-namu-bongsoon-v1/assets/avatar-namu-bongsoon-equipment-v1-640.webp",
+  "accent": "#e8dfd4",
+  "acquisition_type": "UNSET",
+  "coin_price": null,
+  "source_label": "",
+  "source_detail": "",
+  "effect_type": "",
+  "effect_value": 0,
+  "is_active": 0,
+  "is_public": 0,
+  "sale_enabled": 0,
+  "sort_order": 230
+}

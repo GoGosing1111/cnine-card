@@ -1,0 +1,66 @@
+{
+  "name": "나무늘봉순",
+  "code": "NAMU_BONGSOON",
+  "serial": "A-23",
+  "approval": "아니야 됐어 그대로 승인하고 나무늘봉순 아바타로 등록해",
+  "approvedLobby": "avatar-white-mini-dress-source-art-v3.png",
+  "generator": "built-in image_gen",
+  "backgroundRemoval": "none; native generated alpha retained",
+  "equipmentLayout": {
+    "crop": {
+      "left": 300,
+      "top": 0,
+      "width": 408,
+      "height": 1481
+    },
+    "scale": 1,
+    "width": 408,
+    "height": 1481,
+    "canvasWidth": 640,
+    "canvasHeight": 1664
+  },
+  "registration": {
+    "active": false,
+    "public": false,
+    "sale": false,
+    "effects": [],
+    "ownershipGranted": false
+  },
+  "files": {
+    "avatar-namu-bongsoon-equipment-source-art-v1.png": {
+      "bytes": 1224218,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "sha256": "63b3d238c247bee8ddc61221f613a34c2194f1ea5ed108834396c75da6f7e0e5"
+    },
+    "avatar-namu-bongsoon-equipment-v1-640.webp": {
+      "bytes": 90188,
+      "width": 640,
+      "height": 1664,
+      "hasAlpha": true,
+      "sha256": "2877fd2cc4b6dd4bc263e3234a30af13ff1cc8cd7fc563113eaa657fa227a390"
+    },
+    "avatar-namu-bongsoon-lobby-source-art-v1.png": {
+      "bytes": 2214123,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "sha256": "c05f7e73ed588dd38b7ac7cc3cf311c5b139e52817073583822526a20d9e6728"
+    },
+    "avatar-namu-bongsoon-lobby-v1-1024.webp": {
+      "bytes": 244956,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "sha256": "f5b16a45e0201f7371be20d77f76a7a1d6fa928e3f689f95e6aa16ad76eed8fb"
+    },
+    "avatar-namu-bongsoon-lobby-v1-640.webp": {
+      "bytes": 129290,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false,
+      "sha256": "25f6f16a7af618816d45f8520b4a60acb5175b4f05e600a49d1fee06fca999da"
+    }
+  }
+}
