@@ -97,8 +97,8 @@ test('아포칼립스 보스 71/72는 승인된 투명 SD로 전투에만 연결
   const appSource=await text('js/app.js');
   const indexSource=await text('index.html');
   const responsiveMap=await text('js/responsive-battle-sprites-v1815.js');
-  assert.match(adapterSource,/manifest-v1\.json\?v=8-apocalypse-signatures/);
-  assert.match(appSource,/project-v-monster-battle-art-adapter-v1\.js\?v=5\.4\.0-apocalypse-signatures/);
+  assert.match(adapterSource,/manifest-v1\.json\?v=9-apocalypse-legion/);
+  assert.match(appSource,/project-v-monster-battle-art-adapter-v1\.js\?v=5\.5\.0-apocalypse-legion/);
   assert.match(indexSource,/responsive-battle-sprites-v1815\.js\?v=2060-nonblocking-fx/);
   for(const item of expected){
     assert(responsiveMap.includes(`"${item.sprite}":"/${item.responsive}"`));

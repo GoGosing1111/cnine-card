@@ -18,7 +18,7 @@ for(const token of [
   'css/battle-v3-live.css?v=1930-mobile-context-recovery',
   'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
   'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale',
-  'js/project-v-monster-battle-art-adapter-v1.js?v=5.4.0-apocalypse-signatures',
+  'js/project-v-monster-battle-art-adapter-v1.js?v=5.5.0-apocalypse-legion',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
   'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
   'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow',
