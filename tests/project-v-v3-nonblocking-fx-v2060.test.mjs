@@ -211,8 +211,8 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
   assert.ok(bundleSrc.includes('queueSupportEffect('), '번들에 queueSupportEffect 가 없습니다');
   assert.ok(bundleSrc.includes('this.bannerQueue=[],this.bannerPump=null'), '번들 생성자에 배너 큐 초기화가 없습니다');
   assert.ok(bundleSrc.includes('this.playbackEpoch+=1,this.bannerQueue.length=0'), '번들 cancelTimelines 에 큐 비우기가 없습니다');
-  const bannerSources=engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
-  assert.equal((bundleSrc.match(/queueBanner\(/g) || []).length, (bannerSources.match(/queueBanner\(/g) || []).length, '공용 엔진·용병 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다');
+  const bannerSources=engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
+  assert.equal((bundleSrc.match(/queueBanner\(/g) || []).length, (bannerSources.match(/queueBanner\(/g) || []).length, '공용 엔진·용병·아포칼립스 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다');
   assert.equal((bundleSrc.match(/queueSupportEffect\(/g) || []).length, 3, '번들의 queueSupportEffect 호출 수가 소스와 다릅니다');
   // Only the independent notice pump waits for a previous notice.
   assert.equal((bundleSrc.match(/await this\.showBanner\(/g) || []).length, 1, '번들에 남은 차단 배너 수가 소스와 다릅니다');
