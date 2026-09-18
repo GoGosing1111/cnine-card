@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
 import {buildFighter,simulateBattleV2Preview,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
@@ -124,8 +125,8 @@ test('PVP adjusted ranged stays within its same-grade melee range across power, 
    const battle=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[own]:released(row),[other]:released(melee),seed:i*7919});
    games++;wins+=Number(battle.result.winner===side);
   }
-  assert.ok(wins/games>=(row[1]==='SS'||row[0]==='V-005'?.45:.5),`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
-  assert.ok(wins/games<(row[1]==='SS'?.55:row[0]==='V-005'?.58:.85),`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
+  assert.ok(wins/games>=(row[0]==='V-005'?.6:row[1]==='SS'?.45:.5),`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
+  assert.ok(wins/games<(row[1]==='SS'?.55:row[0]==='V-005'?.8:.85),`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
  }
 });
 
@@ -150,8 +151,8 @@ test('public descriptions reflect per-actor rules without changing CMS values, g
  assert.match(view.skills[0].effect,/다음 두 행동/);assert.match(view.combatLinkDescription,/다단 사격/);assert.equal(JSON.stringify(document),before);
  const skill=document.skills.find(s=>s.id==='MS-005');assert.equal(rangedMercenarySkillText(skill,{rank:'A',attackStyle:'RANGED'}),skill);
  assert.equal(isRangedMercenarySkill({rank:'S',attackStyle:'RANGED'},skill),true);assert.deepEqual(view.skills[0].balance,skill.balance);
- assert.match(view.skills[0].effect,/S등급 청아.*PVP.*70%/);
- assert.match(view.skills[0].effect,/SS·SSS.*기본 공격.*추가로 50%/);
+ assert.match(view.skills[0].effect,/S등급 청아.*PVP.*100%/);
+ assert.match(view.skills[0].effect,/SS·SSS.*전투 종료까지.*기본 공격 50%/);
  assert.match(view.skills[0].effect,/최종 적용은 기본 공격 50%, 탄착 교정 35%/);
  assert.equal(rangedMercenaryPvpRule(skill,{code:'V-009',rank:'S',attackStyle:'RANGED'}),'');
  assert.match(rangedMercenaryPvpRule(skill),/S등급 청아/);
@@ -227,27 +228,59 @@ test('the real PVP damage engine applies tier caps to normal attacks and skill i
  }
 });
 
-test('S Cheonga PVP nerf applies to all three shots and caps while retaining immediate fire, final bonus and one resource charge',()=>{
+test('S Cheonga restores full same/lower-tier PVP calibration without changing cadence, cost or cooldown',()=>{
  const h=harness('SAME_TARGET_CALIBRATION',{code:'V-005',role:'MARKSMAN',miss:[1]});
  for(let i=0;i<3;i++){h.turn();assert.equal(h.ratios.length,i+1);assert.equal(h.runtime.state(h.a).energy,75);}
- h.ratios.forEach((r,i)=>{assert.ok(Math.abs(r.scale-[.7,.7,.98][i])<1e-9);assert.equal(r.options.castShare,.7);});
+ h.ratios.forEach((r,i)=>{assert.ok(Math.abs(r.scale-[1,1,1.4][i])<1e-9);assert.equal(r.options.castShare,1);});
  assert.equal(h.runtime.state(h.a).pending,null);assert.equal(h.runtime.state(h.a).reload,undefined);
  assert.equal(h.events.filter(e=>e.type==='MERCENARY_WINDUP').length,1);assert.equal(h.events.filter(e=>e.type==='MERCENARY_END').length,1);
  assert.equal(h.runtime.state(h.a).cooldown.get('MS-005'),6);assert.equal(h.runtime.basicMultiplier(h.a),1);
  assert.equal(h.turn(),false);assert.equal(h.runtime.state(h.a).energy,75);
 });
 
-test('Cheonga nerf is limited to her S-rank PVP calibration and cannot affect PVE, other owners, skills, weapons or grades',()=>{
+test('Cheonga upper-tier skill budget cannot leak to PVE, other owners, skills, weapons or grades',()=>{
  const h=harness('SAME_TARGET_CALIBRATION',{code:'V-005',role:'MARKSMAN'}),skill=h.a.skills[0];
- for(const extra of [{battleMode:'PVE'},{code:'V-002'},{code:'V-009'},{attackStyle:'MELEE'},...['C','B','A','SS','SSS'].map(rank=>({rank}))])assert.equal(rangedMercenaryPvpScale({...h.a,...extra},skill),1);
- assert.equal(rangedMercenaryPvpScale(h.a,{...skill,id:'MS-009'}),1);
- assert.equal(rangedMercenaryPvpScale(h.a,{...skill,mechanic:'DANCING_TARGET_VOLLEY'}),1);
+ for(const extra of [{battleMode:'PVE'},{code:'V-002'},{code:'V-009'},{attackStyle:'MELEE'},...['C','B','A','SS','SSS'].map(rank=>({rank}))])assert.equal(rangedMercenaryPvpScale({...h.a,...extra},skill,.5),1);
+ assert.equal(rangedMercenaryPvpScale(h.a,{...skill,id:'MS-009'},.5),1);
+ assert.equal(rangedMercenaryPvpScale(h.a,{...skill,mechanic:'DANCING_TARGET_VOLLEY'},.5),1);
  h.a.battleMode='PVE';h.turn();h.turn();h.turn();assert.deepEqual(h.ratios.map(r=>r.scale),[1,1,1.4]);assert.ok(h.ratios.every(r=>r.options.castShare===1));
  const capped=released(['V-005','S','MS-005']);capped.skills[0].balance={damageRatio:10000,cost:25,cooldownTurns:5};
  const battle=createPvpBattleV2({attackerCards:party(20000000),defenderCards:party(1000000),attackerMercenary:capped,seed:7919});
  const hits=battle.result.timeline.filter(e=>e.type==='MERCENARY_HIT'&&e.actorId==='A:MERCENARY:V-005'&&!e.dodge);
- assert.ok(hits.length>=3);assert.ok(hits.some(e=>Math.abs(e.damage+e.absorbed-Math.round(e.targetMaxHp*.6*.7))<=1));
- for(const e of hits)assert.ok(e.damage+e.absorbed<=Math.round(e.targetMaxHp*.6*.7)+1);
+ assert.ok(hits.length>=3);assert.ok(hits.some(e=>Math.abs(e.damage+e.absorbed-Math.round(e.targetMaxHp*.6))<=1));
+ for(const e of hits)assert.ok(e.damage+e.absorbed<=Math.round(e.targetMaxHp*.6)+1);
+});
+
+// Frozen operating roster (CMS revision 55), including every A and S assignment.
+const operating=JSON.parse(readFileSync(new URL('../docs/mercenary-cheonga-pvp-nerf-20260918.json',import.meta.url),'utf8'));
+const operatingSnapshot=row=>({...seed.catalog.cards.find(c=>c.code===row.code),...row,level:1,statMode:'RANK_FIXED',combat:operating.combat,skills:row.skills.map(s=>({...seed.document.skills.find(d=>d.id===s.id),...s,review:'REVIEWED'}))});
+const tierDecks=[['ATTACK','DEFENSE','SPEED','HP','ATTACK'],['ATTACK','ATTACK','ATTACK','ATTACK','HP'],['DEFENSE','DEFENSE','DEFENSE','HP','SPEED'],['SPEED','SPEED','SPEED','HP','ATTACK']];
+
+test('Cheonga stays in the upper S tier against every current peer with equal five-card support',()=>{
+ const opponents=operating.roster.filter(c=>c.rank==='S'&&c.code!=='V-005');assert.equal(opponents.length,5);
+ const cheonga=operatingSnapshot(operating.roster.find(c=>c.code==='V-005'));
+ for(const row of opponents){let wins=0,games=0;
+  for(const power of [100000,1000000,20000000])for(const types of tierDecks)for(const side of ['A','B'])for(let n=1001;n<=1032;n++){
+   const cards=types.map((power_type,i)=>({id:String(i+1),power,power_type}));
+   const own=side==='A'?'attackerMercenary':'defenderMercenary',other=side==='A'?'defenderMercenary':'attackerMercenary';
+   const b=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[own]:cheonga,[other]:operatingSnapshot(row),seed:n*7919});
+   wins+=Number(b.result.winner===side);games++;
+  }
+  assert.ok(wins/games>=.54,`Cheonga vs S ${row.name}: ${wins}/${games}`);
+  assert.ok(wins/games<.95,`S peers must retain counterplay: ${row.name} ${wins}/${games}`);
+ }
+});
+
+test('every current A mercenary loses isolated linked PVP duels to Cheonga across all power/deck groups and sides',()=>{
+ const opponents=operating.roster.filter(c=>c.rank==='A');assert.equal(opponents.length,10);
+ const cheongaSnapshot=operatingSnapshot(operating.roster.find(c=>c.code==='V-005'));
+ for(const row of opponents)for(const power of [100000,1000000,20000000])for(const types of tierDecks)for(const side of ['A','B'])for(let n=2001;n<=2032;n++){
+  const cards=types.map((power_type,i)=>({id:String(i+1),power,power_type}));
+  const cheonga=buildMercenaryFighter(cheongaSnapshot,side,'PVP',buildFighter),opponent=buildMercenaryFighter(operatingSnapshot(row),side==='A'?'B':'A','PVP',buildFighter);
+  applyMercenaryCombatLink([cheonga,opponent].map(m=>[...cards.map((c,i)=>buildFighter(c,i,m.side,null,'PVP')),m]));
+  const result=simulateBattleV2Preview({teamA:[side==='A'?cheonga:opponent],teamB:[side==='B'?cheonga:opponent],seed:n*7919,maxActions:83,suddenDeathAfter:64,healerPenalty:true});
+  assert.equal(result.winner,side,`Cheonga vs A ${row.name}: ${power}/${types}/${side}/${n}`);
+ }
 });
 test('PVE skill floors share the actual ratio, inherit apocalypse scaling and obey the existing per-hit cap',()=>{
  for(const apocalypse of [false,true])for(const id of ['MS-004','MS-005']){

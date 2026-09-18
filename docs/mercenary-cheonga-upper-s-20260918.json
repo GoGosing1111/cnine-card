@@ -1,0 +1,3852 @@
+{
+  "version": "20260918-cheonga-upper-s-v3",
+  "baselineCommit": "cfde5a21d58d6592cc326c8818487447c8f00b4f",
+  "cmsRevision": 55,
+  "policy": {
+    "code": "V-005",
+    "rank": "S",
+    "skill": "MS-005",
+    "sameOrLowerTierSkillScale": {
+      "before": 0.7,
+      "after": 1
+    },
+    "higherTierBasicScale": 0.5,
+    "higherTierSkillScale": 0.35
+  },
+  "calibration": {
+    "factor": 1,
+    "cmsRevision": 55,
+    "checkedAt": "2026-09-18T12:54:31.179Z",
+    "method": {
+      "n": 128,
+      "start": 1,
+      "powers": [
+        100000,
+        1000000,
+        20000000
+      ],
+      "compositions": {
+        "mixed": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ],
+        "attack": [
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "HP"
+        ],
+        "defense": [
+          "DEFENSE",
+          "DEFENSE",
+          "DEFENSE",
+          "HP",
+          "SPEED"
+        ],
+        "speed": [
+          "SPEED",
+          "SPEED",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ]
+      },
+      "sides": [
+        "A",
+        "B"
+      ],
+      "seedMultiplier": 7919
+    },
+    "rows": [
+      {
+        "code": "V-001",
+        "name": "아우렌",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2232
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 187,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 202,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 166,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 131,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 196,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 193,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 196,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 208,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 188,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 148,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-002",
+        "name": "리시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2752
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 228,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-003",
+        "name": "솔바인",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2066
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 163,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 152,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 115,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 174,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 145,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 164,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 177,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 165,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 134,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-006",
+        "name": "카르시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2671
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 217,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 189,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 219,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 202,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 224,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 231,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 187,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-007",
+        "name": "서윤",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2752
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 228,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-008",
+        "name": "아스텔",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 1759
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 175,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 167,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 107,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 123,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 165,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 157,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 142,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 146,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 178,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 165,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 111,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 123,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-011",
+        "name": "아르카엘",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2789
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 233,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 207,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 255,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 224,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 199,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 215,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 231,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-014",
+        "name": "엘리시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2752
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 228,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-015",
+        "name": "녹시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2671
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 217,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 189,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 219,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 202,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 224,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 231,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 187,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-016",
+        "name": "솔레아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2752
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 228,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-019",
+        "name": "아우렐리온",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2671
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 217,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 189,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 219,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 202,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 224,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 231,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 187,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-022",
+        "name": "엘로디",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2454
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 178,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 209,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 208,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 185,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 176,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 224,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 179,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-027",
+        "name": "케일",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2752
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 228,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-034",
+        "name": "세이지",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2752
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 228,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 243,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-041",
+        "name": "레니아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2671
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 217,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 189,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 219,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 202,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 224,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 231,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 187,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      }
+    ],
+    "version": "20260918-cheonga-upper-s-v3"
+  },
+  "holdout": {
+    "factor": 1,
+    "cmsRevision": 55,
+    "checkedAt": "2026-09-18T12:54:57.666Z",
+    "method": {
+      "n": 128,
+      "start": 1001,
+      "powers": [
+        100000,
+        1000000,
+        20000000
+      ],
+      "compositions": {
+        "mixed": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ],
+        "attack": [
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "ATTACK",
+          "HP"
+        ],
+        "defense": [
+          "DEFENSE",
+          "DEFENSE",
+          "DEFENSE",
+          "HP",
+          "SPEED"
+        ],
+        "speed": [
+          "SPEED",
+          "SPEED",
+          "SPEED",
+          "HP",
+          "ATTACK"
+        ]
+      },
+      "sides": [
+        "A",
+        "B"
+      ],
+      "seedMultiplier": 7919
+    },
+    "rows": [
+      {
+        "code": "V-001",
+        "name": "아우렌",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2251
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 196,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 200,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 169,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 132,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 189,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 195,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 195,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 191,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 217,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 211,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 203,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 153,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-002",
+        "name": "리시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2778
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 248,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 201,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 223,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 245,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 221,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-003",
+        "name": "솔바인",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2086
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 173,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 157,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 118,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 166,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 145,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 206,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 182,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 194,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 165,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 236,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 130,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-006",
+        "name": "카르시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2656
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 215,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 194,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 213,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 192,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 234,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 197,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-007",
+        "name": "서윤",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2778
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 248,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 201,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 223,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 245,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 221,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-008",
+        "name": "아스텔",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 1719
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 161,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 162,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 100,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 125,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 169,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 149,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 145,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 145,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 167,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 167,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 101,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 128,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-011",
+        "name": "아르카엘",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2777
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 236,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 199,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 255,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 238,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 199,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 250,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 244,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 240,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 233,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-014",
+        "name": "엘리시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2778
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 248,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 201,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 223,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 245,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 221,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-015",
+        "name": "녹시아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2656
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 215,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 194,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 213,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 192,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 234,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 197,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-016",
+        "name": "솔레아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2778
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 248,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 201,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 223,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 245,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 221,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-019",
+        "name": "아우렐리온",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2656
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 215,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 194,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 213,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 192,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 234,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 197,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-022",
+        "name": "엘로디",
+        "rank": "S",
+        "team": {
+          "games": 3072,
+          "wins": 2449
+        },
+        "duel": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 225,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 226,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 208,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 186,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 200,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 205,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 183,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 173,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 223,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 204,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 187,
+            "duelGames": 0,
+            "duelWins": 0,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-027",
+        "name": "케일",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2778
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 248,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 201,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 223,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 245,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 221,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-034",
+        "name": "세이지",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2778
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 248,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 222,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 256,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 218,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 229,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 201,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 247,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 223,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 245,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 221,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 214,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      },
+      {
+        "code": "V-041",
+        "name": "레니아",
+        "rank": "A",
+        "team": {
+          "games": 3072,
+          "wins": 2656
+        },
+        "duel": {
+          "games": 3072,
+          "wins": 3072,
+          "draws": 0
+        },
+        "groups": [
+          {
+            "power": 100000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 230,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 215,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 100000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 194,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 213,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 192,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 241,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 1000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "mixed",
+            "games": 256,
+            "wins": 234,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "attack",
+            "games": 256,
+            "wins": 216,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "defense",
+            "games": 256,
+            "wins": 254,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          },
+          {
+            "power": 20000000,
+            "composition": "speed",
+            "games": 256,
+            "wins": 197,
+            "duelGames": 256,
+            "duelWins": 256,
+            "duelDraws": 0
+          }
+        ]
+      }
+    ],
+    "version": "20260918-cheonga-upper-s-v3"
+  },
+  "isolation": {
+    "ok": true,
+    "baselineCommit": "cfde5a21d58d6592cc326c8818487447c8f00b4f",
+    "cmsRevision": 55,
+    "checkedAt": "2026-09-18T12:58:19.642Z",
+    "counts": {
+      "otherPvp": 8256,
+      "allPve": 8448,
+      "higherTierPvp": 1920
+    },
+    "comparison": "Complete battle payload equality"
+  }
+}
