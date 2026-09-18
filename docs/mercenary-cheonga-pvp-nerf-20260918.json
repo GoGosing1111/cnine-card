@@ -1,0 +1,1703 @@
+{
+  "version": "20260918-cheonga-pvp",
+  "baselineCommit": "26fff6c8b825cf9f19b2548c060e845d7e7d8856",
+  "cmsRevision": 55,
+  "cmsSha256": "f75ba8ea1233ac7fd2c12058bff8d0c5ee8d06373d463f470c16b558e53a73df",
+  "checkedAt": "2026-09-18T09:50:09.945Z",
+  "change": {
+    "code": "V-005",
+    "rank": "S",
+    "skillId": "MS-005",
+    "mechanic": "SAME_TARGET_CALIBRATION",
+    "mode": "PVP",
+    "damageAndCapScale": 0.7,
+    "unchanged": [
+      "basic attacks",
+      "PVE",
+      "three-action firing cadence",
+      "final-shot calibration bonus",
+      "cost 25",
+      "cooldown 5"
+    ]
+  },
+  "method": {
+    "powers": [
+      100000,
+      1000000,
+      20000000
+    ],
+    "decks": {
+      "mixed": [
+        "ATTACK",
+        "DEFENSE",
+        "SPEED",
+        "HP",
+        "ATTACK"
+      ],
+      "attack": [
+        "ATTACK",
+        "ATTACK",
+        "ATTACK",
+        "ATTACK",
+        "HP"
+      ],
+      "defense": [
+        "DEFENSE",
+        "DEFENSE",
+        "DEFENSE",
+        "HP",
+        "SPEED"
+      ],
+      "speed": [
+        "SPEED",
+        "SPEED",
+        "SPEED",
+        "HP",
+        "ATTACK"
+      ]
+    },
+    "seeds": "n * 7919, n=1..128",
+    "sides": [
+      "A",
+      "B"
+    ],
+    "cardsPerSide": 5,
+    "calibrationN": [
+      1,
+      128
+    ],
+    "holdoutN": [
+      1001,
+      1128
+    ],
+    "comparisonGames": 233472,
+    "notes": "Equal five-card decks plus one mercenary on each side. This is deterministic simulation, not player match telemetry. No winner, random seed or rank-based hit manipulation."
+  },
+  "combat": {
+    "energyMax": 100,
+    "energyPerBasic": 10,
+    "windupTurns": 1,
+    "statusTurns": 2,
+    "armorReductionPercent": 20,
+    "interceptPercent": 40,
+    "parryPercent": 40,
+    "orderPercent": 15,
+    "veilPercent": 25,
+    "finisherHpPercent": 30,
+    "finisherBonusPercent": 50,
+    "focusBonusPercent": 40,
+    "poisonPercent": 40,
+    "restraintHits": 2,
+    "restraintPercent": 25,
+    "suppressGauge": 20,
+    "reloadGauge": 20,
+    "powerGrowthPercentPerLevel": 0
+  },
+  "roster": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "rank": "S",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-001",
+          "mechanic": "DUEL_OATH",
+          "balance": {
+            "damageRatio": 2.2,
+            "cooldownTurns": 4,
+            "cost": 20
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-002",
+      "name": "리시아",
+      "rank": "A",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-003",
+      "name": "솔바인",
+      "rank": "S",
+      "role": "GUARDIAN",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_LOW_HP",
+      "skills": [
+        {
+          "id": "MS-003",
+          "mechanic": "INTERCEPT_ONE_HIT",
+          "balance": {
+            "damageRatio": 0,
+            "cooldownTurns": 3,
+            "cost": 15
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "role": "SNIPER",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "skills": [
+        {
+          "id": "MS-004",
+          "mechanic": "LOCKED_THREAT_SHOT",
+          "balance": {
+            "damageRatio": 3.8,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-005",
+      "name": "청아",
+      "rank": "S",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-005",
+          "mechanic": "SAME_TARGET_CALIBRATION",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-006",
+      "name": "카르시아",
+      "rank": "A",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-007",
+      "name": "서윤",
+      "rank": "A",
+      "role": "ASSASSIN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "rank": "S",
+      "role": "SNIPER",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-008",
+          "mechanic": "OBSERVED_SHIELD_BREAK",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "skills": [
+        {
+          "id": "MS-009",
+          "mechanic": "DANCING_TARGET_VOLLEY",
+          "balance": {
+            "damageRatio": 4.5,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-010",
+      "name": "월령",
+      "rank": "SS",
+      "role": "ASSASSIN",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "skills": [
+        {
+          "id": "MS-010",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-011",
+      "name": "아르카엘",
+      "rank": "S",
+      "role": "GUARDIAN",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_FRONT",
+      "skills": [
+        {
+          "id": "MS-011",
+          "mechanic": "FRONT_STAND_FAST",
+          "balance": {
+            "damageRatio": 3,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-012",
+      "name": "세리온",
+      "rank": "B",
+      "role": "CONTROLLER",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-013",
+      "name": "라비에나",
+      "rank": "B",
+      "role": "SUPPORT",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "skills": []
+    },
+    {
+      "code": "V-014",
+      "name": "엘리시아",
+      "rank": "A",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-015",
+      "name": "녹시아",
+      "rank": "A",
+      "role": "ASSASSIN",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "skills": []
+    },
+    {
+      "code": "V-016",
+      "name": "솔레아",
+      "rank": "A",
+      "role": "CONTROLLER",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "skills": []
+    },
+    {
+      "code": "V-017",
+      "name": "마레나",
+      "rank": "C",
+      "role": "GUARDIAN",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_LOW_HP",
+      "skills": []
+    },
+    {
+      "code": "V-018",
+      "name": "미레시아",
+      "rank": "C",
+      "role": "SUPPORT",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_LOW_HP",
+      "skills": []
+    },
+    {
+      "code": "V-019",
+      "name": "아우렐리온",
+      "rank": "A",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-020",
+      "name": "사요",
+      "rank": "C",
+      "role": "ASSASSIN",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "skills": []
+    },
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "rank": "SSS",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "skills": [
+        {
+          "id": "MS-021",
+          "mechanic": "RIFT_MARK_DETONATION",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "rank": "S",
+      "role": "MARKSMAN",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-022",
+          "mechanic": "THORN_RECOIL_SEAL",
+          "balance": {
+            "damageRatio": 3.2,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-023",
+      "name": "이안",
+      "rank": "C",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-024",
+      "name": "벨루아",
+      "rank": "B",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-025",
+      "name": "에이라",
+      "rank": "C",
+      "role": "SNIPER",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "skills": []
+    },
+    {
+      "code": "V-026",
+      "name": "루카스",
+      "rank": "C",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-027",
+      "name": "케일",
+      "rank": "A",
+      "role": "CONTROLLER",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "skills": []
+    },
+    {
+      "code": "V-028",
+      "name": "연휘",
+      "rank": "C",
+      "role": "SUPPORT",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_FRONT",
+      "skills": []
+    },
+    {
+      "code": "V-029",
+      "name": "레오나",
+      "rank": "B",
+      "role": "GUARDIAN",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_FRONT",
+      "skills": []
+    },
+    {
+      "code": "V-030",
+      "name": "홍련",
+      "rank": "C",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "skills": []
+    },
+    {
+      "code": "V-031",
+      "name": "루시안",
+      "rank": "C",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-032",
+      "name": "셀레네",
+      "rank": "C",
+      "role": "ASSASSIN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-033",
+      "name": "로젤",
+      "rank": "C",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-034",
+      "name": "세이지",
+      "rank": "A",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-035",
+      "name": "세라",
+      "rank": "C",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "skills": []
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "role": "SNIPER",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "skills": [
+        {
+          "id": "MS-032",
+          "mechanic": "FINISHER_WITH_RELOAD",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        },
+        {
+          "id": "MS-036",
+          "mechanic": "ABYSS_SHIELD_ECHO",
+          "balance": {
+            "damageRatio": 3.6,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "role": "CONTROLLER",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-037",
+          "mechanic": "PLATINUM_FOCUS_LOCK",
+          "balance": {
+            "damageRatio": 3.8,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-038",
+      "name": "세실리아",
+      "rank": "B",
+      "role": "CONTROLLER",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-039",
+      "name": "로제타",
+      "rank": "C",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": []
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "role": "MARKSMAN",
+      "position": "REAR",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "skills": [
+        {
+          "id": "MS-040",
+          "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-041",
+      "name": "레니아",
+      "rank": "A",
+      "role": "VANGUARD",
+      "position": "FRONT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "skills": []
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "role": "CONTROLLER",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-042",
+          "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+          "balance": {
+            "damageRatio": 2.4,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-043",
+          "mechanic": "TWO_BEAT_FOLLOWUP",
+          "balance": {
+            "damageRatio": 3.6,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-044",
+      "name": "하이희야",
+      "rank": "SS",
+      "role": "MARKSMAN",
+      "position": "MIDDLE",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "skills": [
+        {
+          "id": "MS-044",
+          "mechanic": "TIDAL_BARRAGE",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "rank": "S",
+      "gamesPerVersion": 3072,
+      "before": 0.7265625,
+      "after": 0.5126953125,
+      "holdoutBefore": 0.7327473958333334,
+      "holdoutAfter": 0.4931640625,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 391
+        },
+        "attack": {
+          "games": 768,
+          "wins": 435
+        },
+        "defense": {
+          "games": 768,
+          "wins": 368
+        },
+        "speed": {
+          "games": 768,
+          "wins": 381
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 433
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 607
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 535
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 930
+        },
+        "B": {
+          "games": 1536,
+          "wins": 645
+        }
+      }
+    },
+    {
+      "code": "V-002",
+      "name": "리시아",
+      "rank": "A",
+      "gamesPerVersion": 3072,
+      "before": 0.8958333333333334,
+      "after": 0.779296875,
+      "holdoutBefore": 0.904296875,
+      "holdoutAfter": 0.7900390625,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 632
+        },
+        "attack": {
+          "games": 768,
+          "wins": 481
+        },
+        "defense": {
+          "games": 768,
+          "wins": 699
+        },
+        "speed": {
+          "games": 768,
+          "wins": 582
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 832
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 754
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 808
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 1301
+        },
+        "B": {
+          "games": 1536,
+          "wins": 1093
+        }
+      }
+    },
+    {
+      "code": "V-003",
+      "name": "솔바인",
+      "rank": "S",
+      "gamesPerVersion": 3072,
+      "before": 0.6725260416666666,
+      "after": 0.5016276041666666,
+      "holdoutBefore": 0.6790364583333334,
+      "holdoutAfter": 0.5081380208333334,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 383
+        },
+        "attack": {
+          "games": 768,
+          "wins": 357
+        },
+        "defense": {
+          "games": 768,
+          "wins": 474
+        },
+        "speed": {
+          "games": 768,
+          "wins": 327
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 448
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 557
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 536
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 951
+        },
+        "B": {
+          "games": 1536,
+          "wins": 590
+        }
+      }
+    },
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.4488932291666667,
+      "after": 0.2708333333333333,
+      "holdoutBefore": 0.4508463541666667,
+      "holdoutAfter": 0.2613932291666667,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 325
+        },
+        "attack": {
+          "games": 768,
+          "wins": 207
+        },
+        "defense": {
+          "games": 768,
+          "wins": 72
+        },
+        "speed": {
+          "games": 768,
+          "wins": 228
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 136
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 431
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 265
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 558
+        },
+        "B": {
+          "games": 1536,
+          "wins": 274
+        }
+      }
+    },
+    {
+      "code": "V-006",
+      "name": "카르시아",
+      "rank": "A",
+      "gamesPerVersion": 3072,
+      "before": 0.8694661458333334,
+      "after": 0.7099609375,
+      "holdoutBefore": 0.8645833333333334,
+      "holdoutAfter": 0.7073567708333334,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 545
+        },
+        "attack": {
+          "games": 768,
+          "wins": 427
+        },
+        "defense": {
+          "games": 768,
+          "wins": 674
+        },
+        "speed": {
+          "games": 768,
+          "wins": 535
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 714
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 724
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 743
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 1203
+        },
+        "B": {
+          "games": 1536,
+          "wins": 978
+        }
+      }
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "rank": "S",
+      "gamesPerVersion": 3072,
+      "before": 0.5725911458333334,
+      "after": 0.3382161458333333,
+      "holdoutBefore": 0.5595703125,
+      "holdoutAfter": 0.3349609375,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 313
+        },
+        "attack": {
+          "games": 768,
+          "wins": 260
+        },
+        "defense": {
+          "games": 768,
+          "wins": 170
+        },
+        "speed": {
+          "games": 768,
+          "wins": 296
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 310
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 415
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 314
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 657
+        },
+        "B": {
+          "games": 1536,
+          "wins": 382
+        }
+      }
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.4163411458333333,
+      "after": 0.24186197916666666,
+      "holdoutBefore": 0.4098307291666667,
+      "holdoutAfter": 0.22526041666666666,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 210
+        },
+        "attack": {
+          "games": 768,
+          "wins": 283
+        },
+        "defense": {
+          "games": 768,
+          "wins": 74
+        },
+        "speed": {
+          "games": 768,
+          "wins": 176
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 113
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 418
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 212
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 527
+        },
+        "B": {
+          "games": 1536,
+          "wins": 216
+        }
+      }
+    },
+    {
+      "code": "V-010",
+      "name": "월령",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.388671875,
+      "after": 0.21614583333333334,
+      "holdoutBefore": 0.3909505208333333,
+      "holdoutAfter": 0.22916666666666666,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 132
+        },
+        "attack": {
+          "games": 768,
+          "wins": 196
+        },
+        "defense": {
+          "games": 768,
+          "wins": 126
+        },
+        "speed": {
+          "games": 768,
+          "wins": 210
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 45
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 422
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 197
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 506
+        },
+        "B": {
+          "games": 1536,
+          "wins": 158
+        }
+      }
+    },
+    {
+      "code": "V-011",
+      "name": "아르카엘",
+      "rank": "S",
+      "gamesPerVersion": 3072,
+      "before": 0.9078776041666666,
+      "after": 0.7958984375,
+      "holdoutBefore": 0.9039713541666666,
+      "holdoutAfter": 0.8017578125,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 604
+        },
+        "attack": {
+          "games": 768,
+          "wins": 497
+        },
+        "defense": {
+          "games": 768,
+          "wins": 719
+        },
+        "speed": {
+          "games": 768,
+          "wins": 625
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 791
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 823
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 831
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 1305
+        },
+        "B": {
+          "games": 1536,
+          "wins": 1140
+        }
+      }
+    },
+    {
+      "code": "V-014",
+      "name": "엘리시아",
+      "rank": "A",
+      "gamesPerVersion": 3072,
+      "before": 0.8958333333333334,
+      "after": 0.779296875,
+      "holdoutBefore": 0.904296875,
+      "holdoutAfter": 0.7900390625,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 632
+        },
+        "attack": {
+          "games": 768,
+          "wins": 481
+        },
+        "defense": {
+          "games": 768,
+          "wins": 699
+        },
+        "speed": {
+          "games": 768,
+          "wins": 582
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 832
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 754
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 808
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 1301
+        },
+        "B": {
+          "games": 1536,
+          "wins": 1093
+        }
+      }
+    },
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "rank": "SSS",
+      "gamesPerVersion": 3072,
+      "before": 0.14680989583333334,
+      "after": 0.07486979166666667,
+      "holdoutBefore": 0.15104166666666666,
+      "holdoutAfter": 0.0703125,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 14
+        },
+        "attack": {
+          "games": 768,
+          "wins": 126
+        },
+        "defense": {
+          "games": 768,
+          "wins": 17
+        },
+        "speed": {
+          "games": 768,
+          "wins": 73
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 0
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 178
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 52
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 195
+        },
+        "B": {
+          "games": 1536,
+          "wins": 35
+        }
+      }
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "rank": "S",
+      "gamesPerVersion": 3072,
+      "before": 0.798828125,
+      "after": 0.5872395833333334,
+      "holdoutBefore": 0.7972005208333334,
+      "holdoutAfter": 0.5947265625,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 511
+        },
+        "attack": {
+          "games": 768,
+          "wins": 489
+        },
+        "defense": {
+          "games": 768,
+          "wins": 390
+        },
+        "speed": {
+          "games": 768,
+          "wins": 414
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 603
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 597
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 604
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 1062
+        },
+        "B": {
+          "games": 1536,
+          "wins": 742
+        }
+      }
+    },
+    {
+      "code": "V-034",
+      "name": "세이지",
+      "rank": "A",
+      "gamesPerVersion": 3072,
+      "before": 0.8958333333333334,
+      "after": 0.779296875,
+      "holdoutBefore": 0.904296875,
+      "holdoutAfter": 0.7900390625,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 632
+        },
+        "attack": {
+          "games": 768,
+          "wins": 481
+        },
+        "defense": {
+          "games": 768,
+          "wins": 699
+        },
+        "speed": {
+          "games": 768,
+          "wins": 582
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 832
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 754
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 808
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 1301
+        },
+        "B": {
+          "games": 1536,
+          "wins": 1093
+        }
+      }
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.4248046875,
+      "after": 0.2513020833333333,
+      "holdoutBefore": 0.4303385416666667,
+      "holdoutAfter": 0.2513020833333333,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 253
+        },
+        "attack": {
+          "games": 768,
+          "wins": 236
+        },
+        "defense": {
+          "games": 768,
+          "wins": 79
+        },
+        "speed": {
+          "games": 768,
+          "wins": 204
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 134
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 409
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 229
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 546
+        },
+        "B": {
+          "games": 1536,
+          "wins": 226
+        }
+      }
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.412109375,
+      "after": 0.20149739583333334,
+      "holdoutBefore": 0.3955078125,
+      "holdoutAfter": 0.2109375,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 233
+        },
+        "attack": {
+          "games": 768,
+          "wins": 187
+        },
+        "defense": {
+          "games": 768,
+          "wins": 99
+        },
+        "speed": {
+          "games": 768,
+          "wins": 100
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 85
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 316
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 218
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 428
+        },
+        "B": {
+          "games": 1536,
+          "wins": 191
+        }
+      }
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.3880208333333333,
+      "after": 0.212890625,
+      "holdoutBefore": 0.3971354166666667,
+      "holdoutAfter": 0.21256510416666666,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 206
+        },
+        "attack": {
+          "games": 768,
+          "wins": 197
+        },
+        "defense": {
+          "games": 768,
+          "wins": 97
+        },
+        "speed": {
+          "games": 768,
+          "wins": 154
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 85
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 378
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 191
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 475
+        },
+        "B": {
+          "games": 1536,
+          "wins": 179
+        }
+      }
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.7233072916666666,
+      "after": 0.5052083333333334,
+      "holdoutBefore": 0.7180989583333334,
+      "holdoutAfter": 0.498046875,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 422
+        },
+        "attack": {
+          "games": 768,
+          "wins": 376
+        },
+        "defense": {
+          "games": 768,
+          "wins": 388
+        },
+        "speed": {
+          "games": 768,
+          "wins": 366
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 406
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 571
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 575
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 945
+        },
+        "B": {
+          "games": 1536,
+          "wins": 607
+        }
+      }
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.4918619791666667,
+      "after": 0.2874348958333333,
+      "holdoutBefore": 0.4827473958333333,
+      "holdoutAfter": 0.2835286458333333,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 259
+        },
+        "attack": {
+          "games": 768,
+          "wins": 257
+        },
+        "defense": {
+          "games": 768,
+          "wins": 77
+        },
+        "speed": {
+          "games": 768,
+          "wins": 290
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 184
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 404
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 295
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 579
+        },
+        "B": {
+          "games": 1536,
+          "wins": 304
+        }
+      }
+    },
+    {
+      "code": "V-044",
+      "name": "하이희야",
+      "rank": "SS",
+      "gamesPerVersion": 3072,
+      "before": 0.619140625,
+      "after": 0.388671875,
+      "holdoutBefore": 0.6149088541666666,
+      "holdoutAfter": 0.3704427083333333,
+      "afterByDeck": {
+        "mixed": {
+          "games": 768,
+          "wins": 326
+        },
+        "attack": {
+          "games": 768,
+          "wins": 313
+        },
+        "defense": {
+          "games": 768,
+          "wins": 277
+        },
+        "speed": {
+          "games": 768,
+          "wins": 278
+        }
+      },
+      "afterByPower": {
+        "100000": {
+          "games": 1024,
+          "wins": 281
+        },
+        "1000000": {
+          "games": 1024,
+          "wins": 486
+        },
+        "20000000": {
+          "games": 1024,
+          "wins": 427
+        }
+      },
+      "afterBySide": {
+        "A": {
+          "games": 1536,
+          "wins": 765
+        },
+        "B": {
+          "games": 1536,
+          "wins": 429
+        }
+      }
+    }
+  ],
+  "isolation": {
+    "checkedAt": "2026-09-18T09:56:47.105Z",
+    "unaffectedPvp": 8256,
+    "unchangedPve": 8448,
+    "actualMatchesCandidate": 8448
+  }
+}

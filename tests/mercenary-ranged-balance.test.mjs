@@ -5,7 +5,7 @@ import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_com
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
-import {MERCENARY_RANGED_RULES,MERCENARY_SS_RANGED_PVP_SCALE,rangedMercenaryProfile,isRangedMercenarySkill,rangedMercenarySkillText,rangedMercenaryPvpScale} from '../shared/mercenary-ranged-balance-v1.mjs';
+import {MERCENARY_RANGED_RULES,MERCENARY_SS_RANGED_PVP_SCALE,rangedMercenaryProfile,isRangedMercenarySkill,rangedMercenarySkillText,rangedMercenaryPvpScale,rangedMercenaryPvpRule} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {MERCENARY_SKILL_BALANCE_V2103 as balances} from '../shared/mercenary-skill-balance-v2103.mjs';
 const snapshot=(mechanic,extra={})=>({code:'V-004',rank:'SS',name:'베스페라',role:'SNIPER',position:'REAR',level:1,basePower:70000,stats:{hp:100000,attack:1000,defense:100,speed:100},combat,skills:[{...seed.document.skills.find(s=>s.mechanic===mechanic),review:'REVIEWED',balance:{damageRatio:3,cost:25,cooldownTurns:5}}],...extra});
@@ -31,7 +31,7 @@ test('sniper skills spend one action, cost and cast cap; shots do not create ext
 });
 test('slow multi-shot weapons fire once per actor action and retain their distinct two/three-shot sequences',()=>{
  for(const mechanic of sequential){
-  const h=harness(mechanic,{code:'V-005',role:'MARKSMAN',targets:3}),count=mechanic==='TWO_BEAT_FOLLOWUP'?2:3;
+  const h=harness(mechanic,{code:'V-009',role:'MARKSMAN',targets:3}),count=mechanic==='TWO_BEAT_FOLLOWUP'?2:3;
   for(let i=0;i<count;i++){h.turn();assert.equal(h.ratios.length,i+1);assert.equal(h.a.actions,i+1);assert.equal(h.runtime.state(h.a).energy,75);}
   assert.equal(h.runtime.state(h.a).pending,null);assert.equal(h.runtime.state(h.a).reload,undefined);
   assert.ok(h.ratios.every(r=>r.options.castShare===1));assert.equal(h.events.filter(e=>e.type==='MERCENARY_END').length,1);
@@ -113,7 +113,7 @@ test('PVP mirrored sides keep 5+1 slots and higher ranged grades maintain aggreg
   assert.ok(wins>24,`${row[0]} ${wins}/48`);
  }
 });
-test('PVP adjusted SS ranged stays near even against same-grade melee across power, composition and both sides',()=>{
+test('PVP adjusted ranged stays within its same-grade melee range across power, composition and both sides',()=>{
  const compositions=[['ATTACK','DEFENSE','SPEED','HP','ATTACK'],['ATTACK','ATTACK','ATTACK','ATTACK','HP'],['DEFENSE','DEFENSE','DEFENSE','HP','SPEED'],['SPEED','SPEED','SPEED','HP','ATTACK']];
  for(const row of current){let wins=0,games=0;
   const melee=row[1]==='S'?['V-001','S','MS-001']:['V-010','SS','MS-010'];
@@ -123,8 +123,8 @@ test('PVP adjusted SS ranged stays near even against same-grade melee across pow
    const battle=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[own]:released(row),[other]:released(melee),seed:i*7919});
    games++;wins+=Number(battle.result.winner===side);
   }
-  assert.ok(wins/games>=(row[1]==='SS'?.45:.5),`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
-  assert.ok(wins/games<(row[1]==='SS'?.55:.85),`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
+  assert.ok(wins/games>=(row[1]==='SS'||row[0]==='V-005'?.45:.5),`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
+  assert.ok(wins/games<(row[1]==='SS'?.55:row[0]==='V-005'?.58:.85),`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
  }
 });
 
@@ -149,6 +149,46 @@ test('public descriptions reflect per-actor rules without changing CMS values, g
  assert.match(view.skills[0].effect,/다음 두 행동/);assert.match(view.combatLinkDescription,/다단 사격/);assert.equal(JSON.stringify(document),before);
  const skill=document.skills.find(s=>s.id==='MS-005');assert.equal(rangedMercenarySkillText(skill,{rank:'A',attackStyle:'RANGED'}),skill);
  assert.equal(isRangedMercenarySkill({rank:'S',attackStyle:'RANGED'},skill),true);assert.deepEqual(view.skills[0].balance,skill.balance);
+ assert.match(view.skills[0].effect,/S등급 청아.*PVP.*70%/);
+ assert.equal(rangedMercenaryPvpRule(skill,{code:'V-009',rank:'S',attackStyle:'RANGED'}),'');
+ assert.match(rangedMercenaryPvpRule(skill),/S등급 청아/);
+});
+
+test('S Cheonga no longer dominates the live SS roster with mirrored equal-power decks',()=>{
+ const ss=[['V-004','SS','MS-004'],['V-009','SS','MS-009'],['V-010','SS','MS-010'],['V-036','SS','MS-032','MS-036'],['V-037','SS','MS-037'],['V-040','SS','MS-040'],['V-042','SS','MS-042'],['V-043','SS','MS-043'],['V-044','SS','MS-044']];
+ const types=[['ATTACK','DEFENSE','SPEED','HP','ATTACK'],['ATTACK','ATTACK','ATTACK','ATTACK','HP'],['DEFENSE','DEFENSE','DEFENSE','HP','SPEED'],['SPEED','SPEED','SPEED','HP','ATTACK']];
+ for(const row of ss){let wins=0,games=0;
+  for(const power of [100000,1000000,20000000])for(const deck of types)for(const side of ['A','B'])for(let n=1001;n<=1032;n++){
+   const cards=deck.map((power_type,i)=>({id:String(i+1),power,power_type}));
+   const own=side==='A'?'attackerMercenary':'defenderMercenary',other=side==='A'?'defenderMercenary':'attackerMercenary';
+   const b=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[own]:released(['V-005','S','MS-005']),[other]:released(row),seed:n*7919});
+   games++;wins+=Number(b.result.winner===side);
+  }
+  assert.ok(wins/games<.55,`Cheonga vs ${row[0]}: ${wins}/${games}`);
+ }
+});
+
+test('S Cheonga PVP nerf applies to all three shots and caps while retaining immediate fire, final bonus and one resource charge',()=>{
+ const h=harness('SAME_TARGET_CALIBRATION',{code:'V-005',role:'MARKSMAN',miss:[1]});
+ for(let i=0;i<3;i++){h.turn();assert.equal(h.ratios.length,i+1);assert.equal(h.runtime.state(h.a).energy,75);}
+ h.ratios.forEach((r,i)=>{assert.ok(Math.abs(r.scale-[.7,.7,.98][i])<1e-9);assert.equal(r.options.castShare,.7);});
+ assert.equal(h.runtime.state(h.a).pending,null);assert.equal(h.runtime.state(h.a).reload,undefined);
+ assert.equal(h.events.filter(e=>e.type==='MERCENARY_WINDUP').length,1);assert.equal(h.events.filter(e=>e.type==='MERCENARY_END').length,1);
+ assert.equal(h.runtime.state(h.a).cooldown.get('MS-005'),6);assert.equal(h.runtime.basicMultiplier(h.a),1);
+ assert.equal(h.turn(),false);assert.equal(h.runtime.state(h.a).energy,75);
+});
+
+test('Cheonga nerf is limited to her S-rank PVP calibration and cannot affect PVE, other owners, skills, weapons or grades',()=>{
+ const h=harness('SAME_TARGET_CALIBRATION',{code:'V-005',role:'MARKSMAN'}),skill=h.a.skills[0];
+ for(const extra of [{battleMode:'PVE'},{code:'V-002'},{code:'V-009'},{attackStyle:'MELEE'},...['C','B','A','SS','SSS'].map(rank=>({rank}))])assert.equal(rangedMercenaryPvpScale({...h.a,...extra},skill),1);
+ assert.equal(rangedMercenaryPvpScale(h.a,{...skill,id:'MS-009'}),1);
+ assert.equal(rangedMercenaryPvpScale(h.a,{...skill,mechanic:'DANCING_TARGET_VOLLEY'}),1);
+ h.a.battleMode='PVE';h.turn();h.turn();h.turn();assert.deepEqual(h.ratios.map(r=>r.scale),[1,1,1.4]);assert.ok(h.ratios.every(r=>r.options.castShare===1));
+ const capped=released(['V-005','S','MS-005']);capped.skills[0].balance={damageRatio:10000,cost:25,cooldownTurns:5};
+ const battle=createPvpBattleV2({attackerCards:party(20000000),defenderCards:party(1000000),attackerMercenary:capped,seed:7919});
+ const hits=battle.result.timeline.filter(e=>e.type==='MERCENARY_HIT'&&e.actorId==='A:MERCENARY:V-005'&&!e.dodge);
+ assert.ok(hits.length>=3);assert.ok(hits.some(e=>Math.abs(e.damage+e.absorbed-Math.round(e.targetMaxHp*.6*.7))<=1));
+ for(const e of hits)assert.ok(e.damage+e.absorbed<=Math.round(e.targetMaxHp*.6*.7)+1);
 });
 test('PVE skill floors share the actual ratio, inherit apocalypse scaling and obey the existing per-hit cap',()=>{
  for(const apocalypse of [false,true])for(const id of ['MS-004','MS-005']){
