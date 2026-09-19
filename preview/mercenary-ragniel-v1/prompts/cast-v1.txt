@@ -1,0 +1,14 @@
+Use case: stylized-concept. A real hand-painted 2D game ANIMATION SPRITE SHEET of the referenced RAGNIEL SD performing his ultimate greatsword invocation.
+EXACTLY SIX full-character authored poses in a 3-column by 2-row grid, left-to-right then next row. Prefer 2048x1365 RGBA PNG. Make every character RELATIVELY SMALL INSIDE ITS CELL: at least 15 percent TRANSPARENT PADDING on all four sides of EVERY cell. Large transparent gutters. All wing feathers, full sword pommel-to-tip and boots fit inside each cell. No dividers, labels, numbers, background, floor, shadow disk or checkerboard. Genuine transparent alpha.
+
+Strictly preserve the reference character: red hair, handsome adult SD proportions, angular pearl-white/gold battle visor, completely white connected neck armor, white/gold armor, identical enormous ornate greatsword with winged guard and radiant circular hub, two white-gold crystal wings with circular cores. Maintain consistent head size and the same three-quarter RIGHT-FACING camera. Never replace the sword or show extra weapons.
+
+Action, six distinct consecutive poses:
+1. Both boots planted, knees soften, sword held upright in front of chest as concentration begins; wings tucked behind.
+2. Start raising the sword with both hands, elbows lift and shoulders rotate; wings partially spread.
+3. Arms extend to raise the sword HIGH above the head, tip upward, torso straight; wings fully spread in a majestic fan. Fit the FULL sword in the cell.
+4. Powerful forward movement from the raised pose, hips and elbows engage, blade starts an overhead downward strike; wings begin to sweep backward.
+5. Full committed downward plunge, one knee flexes deeply, both hands drive the sword point down in front of the planted boot, wing feathers flare.
+6. Low grounded finishing stance with the sword tip touching the conceptual floor just in front of him, both hands on the hilt, head raised looking right, wings settling.
+
+Separate real shoulder, elbow, wrist, torso, hip and leg articulation. These are continuous motion keyframes, not six copied illustrations. Rigid sword geometry and natural connected hands. No giant energy effect painted over the character; the ultimate effects are separate. Retain sharp polished 2D detail and opaque armor with subtle edge glow.

@@ -1,0 +1,7 @@
+Edit this VFX animation sheet for safe game-atlas packing. Preserve its sixteen chronological white/gold heavenly-sword impact stages and painterly design, but CORRECT THE SPACING AND EDGE CLIPPING.
+
+Return the same exact 4x4 frame grid with 16 effects, reading left to right and down. Each frame is a SQUARE CELL. Each entire effect must be only 55–60% as wide and tall as its cell: make the effects SMALLER and surround EVERY effect with a LARGE completely transparent gutter on all four sides. Absolutely no content touching another cell or the overall canvas edge. The top tips and crowns of the swords must be complete, with generous clear space ABOVE them. Finish any previously cut-off sword tips, rays or wing edges. Keep glow tightly contained around its own effect, never crossing the transparent gutters.
+
+Keep the impact foot of each effect at the same registered point: x=50%, y=78% of its cell. Preserve the sequence: spectral sword forms, descends, hits, white/gold wing-shaped crown bursts, crystalline energy breaks apart, smoke and embers dissipate. No character. No new scene or floor. Keep sharp white-hot cores, gold metallic feather fragments and flowing luminous volume.
+
+This is a transparent game asset sheet. Output true RGBA alpha. Outside the 16 isolated effects is EMPTY TRANSPARENT SPACE, not black, gray, beige, checkerboard or any other painted background. No labels, borders, lettering or watermark. Prefer native 2048x2048 square PNG. Treat the extra empty margin as a hard requirement.

@@ -1,0 +1,22 @@
+Use case: stylized-concept. A polished 2D hand-painted combat VFX sprite atlas for a colossal WHITE/GOLD greatsword's HEAVY DIAGONAL SLASH.
+EXACTLY 12 consecutive frames, 4 columns by 3 rows, one continuous evolving slash. Native 2048x1536 RGBA PNG if possible.
+CRITICAL PACKING: every effect must stay SMALL and centered inside its cell, occupying only the central 60 percent of width AND height, with at least 20 percent truly TRANSPARENT EMPTY SPACE around all sides of EVERY cell. NEVER let a trail, spark or feather touch a cell edge. No drawn grid, no frame outline, no letters. Genuine alpha, not painted black or checkerboard.
+No character and no weapon prop. Only animated energy, suitable for compositing onto a moving greatsword.
+
+Design: a sharp ivory-white cutting edge surrounded by layered gold energy ribbons and short crystalline feather shards. Powerful sword-swing crescent sweeping from upper left through the center toward lower right. Ivory core, champagne gold and deep amber trailing edge. Refined high-end fantasy VFX, directional sharpness and three-dimensional curved blade-trail volume. Not a generic round fireball, not a thin diagram line, not a rainbow.
+
+Chronological action:
+1. tiny short ignition at upper left of the effect's local area.
+2. a short tapered hooked trail grows along the diagonal.
+3. sharp lengthening ribbon, separate layers begin peeling off the spine.
+4. accelerating sweep, trail opens into a broad diagonal crescent.
+5. CONTACT: concentrated white cut at the CENTER of the cell, with a fine four-point directional impact sparkle.
+6. maximum heavy arc, bright double-edged curved sweep, a dense fan of pointed gold fragments thrown forward to lower right.
+7. after-contact follow-through, leading edge separates into sharp streaks and central arc begins breaking.
+8. the curve visibly fractures into several differently shaped gold ribbons and small crystalline flakes.
+9. the detached pieces travel outward and curl, strong shape change.
+10. sparse smaller pale-gold streaks, almost no intact arc.
+11. only several thin drifting feather sparks.
+12. two or three very faint final flecks, otherwise transparent.
+
+All frames register to the same center point and same virtual size; do not shift or enlarge the same static picture. Draw a genuinely changing formation, slash, fragmentation and extinction. Keep every particle safely inside each cell with the generous margins specified above.

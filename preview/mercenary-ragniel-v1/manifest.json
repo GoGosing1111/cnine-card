@@ -1,0 +1,1269 @@
+{
+  "version": 1,
+  "name": "라그니엘",
+  "rank": "SSS",
+  "code": "V-046",
+  "codeStatus": "PREVIEW_LOCAL_IDENTIFIER",
+  "nameStatus": "USER_ASSIGNED_NAME",
+  "rankStatus": "USER_ASSIGNED_RANK",
+  "sourceArtStatus": "USER_SELECTED_DESIGN",
+  "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "sourceArt": "preview/mercenary-ragniel-v1/assets/source-art.png",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "hasAlpha": false,
+    "clear": 0,
+    "solid": 1,
+    "border": 20416,
+    "bounds": [
+      0,
+      0,
+      1023,
+      1535
+    ],
+    "sha256": "B6EC66166A3AF153A9A6BAB827C0FE998E94855B16F67E0683BBFF4B0CCD0F89"
+  },
+  "battleSprite": "preview/mercenary-ragniel-v1/assets/ragniel-sd-v1.png",
+  "battleSpriteInfo": {
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "clear": 0.5515555962546645,
+    "solid": 0.42111050062447697,
+    "border": 0,
+    "bounds": [
+      33,
+      34,
+      1245,
+      1234
+    ],
+    "sha256": "5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194"
+  },
+  "battleSpriteSha256": "5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194",
+  "battleSpriteFootAnchor": {
+    "x": 0.49,
+    "y": 0.9840510366826156
+  },
+  "bodyPixels": 964,
+  "battleSpriteFacing": "RIGHT",
+  "motion": {
+    "dash": {
+      "source": "assets/source/dash-v1.png",
+      "sourceInfo": {
+        "width": 1774,
+        "height": 887,
+        "hasAlpha": true,
+        "clear": 0.6251148685319325,
+        "solid": 0.3431884072707491,
+        "border": 0,
+        "bounds": [
+          8,
+          41,
+          1767,
+          856
+        ],
+        "sha256": "920901C59030008B76A26E886FC12DFA89CFF31438ACED594872D8E334A67864"
+      },
+      "atlas": "assets/dash-atlas.webp",
+      "atlasSha256": "18AA2CB21DA83873A18FFB376D74235749E6D4E6490B111A3A351800B440EC4A",
+      "cellSize": 768,
+      "columns": 4,
+      "rows": 2,
+      "frameCount": 8,
+      "bodyPixels": 299,
+      "frames": [
+        {
+          "file": "assets/frames/dash/00.png",
+          "sha256": "169F56D27AE28572C059DAC2CCC8F0189D62884B2FB7305D3F8FE7CD87EE26A1",
+          "index": 0,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            233,
+            433
+          ],
+          "sourceBounds": [
+            16,
+            41,
+            400,
+            433
+          ],
+          "headTop": 180,
+          "bodyPixels": 253,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/dash/01.png",
+          "sha256": "2B08640D3524E28183FFD289112B796EC966AD555D35ED14CF71769A542587F3",
+          "index": 1,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            677,
+            432
+          ],
+          "sourceBounds": [
+            430,
+            167,
+            858,
+            432
+          ],
+          "headTop": 191,
+          "bodyPixels": 241,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/dash/02.png",
+          "sha256": "E9992C6BBD8DAF3F04D3AFAAEFDE0672C33F3B8C0EDA6C5727E8D803614D58D1",
+          "index": 2,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1133,
+            432
+          ],
+          "sourceBounds": [
+            885,
+            150,
+            1311,
+            432
+          ],
+          "headTop": 192,
+          "bodyPixels": 240,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/dash/03.png",
+          "sha256": "59FCDDDB49063AE2114AF4B2AD230DA6D13BA86AFA6359E752335C14E6721D9B",
+          "index": 3,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1575,
+            431
+          ],
+          "sourceBounds": [
+            1319,
+            146,
+            1763,
+            431
+          ],
+          "headTop": 197,
+          "bodyPixels": 234,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/dash/04.png",
+          "sha256": "90C82964F3F628AE516C8A7979AE7350B8407AC5F438AB21E784958C19957742",
+          "index": 4,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            273,
+            853
+          ],
+          "sourceBounds": [
+            8,
+            538,
+            439,
+            853
+          ],
+          "headTop": 598,
+          "bodyPixels": 255,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/dash/05.png",
+          "sha256": "6210D68E343641C408D3360DEDB1D07C2017A226886AD0CA06093AB31DE457B2",
+          "index": 5,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            732,
+            852
+          ],
+          "sourceBounds": [
+            466,
+            491,
+            920,
+            852
+          ],
+          "headTop": 605,
+          "bodyPixels": 247,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/dash/06.png",
+          "sha256": "522EE411795EE459A8623FF7FE4823E10B9AE3EE6F4188D4A778A4A0CC0BB98D",
+          "index": 6,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1181,
+            852
+          ],
+          "sourceBounds": [
+            897,
+            489,
+            1344,
+            852
+          ],
+          "headTop": 608,
+          "bodyPixels": 244,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/dash/07.png",
+          "sha256": "14CBBC5956CF2D5804F21146B9344C988FCA46B3BB74AA3AD30E4E16C2B42AEC",
+          "index": 7,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1569,
+            856
+          ],
+          "sourceBounds": [
+            1370,
+            465,
+            1767,
+            856
+          ],
+          "headTop": 557,
+          "bodyPixels": 299,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        }
+      ]
+    },
+    "slash": {
+      "source": "assets/source/slash-v1.png",
+      "sourceInfo": {
+        "width": 1448,
+        "height": 1086,
+        "hasAlpha": true,
+        "clear": 0.5658824516956137,
+        "solid": 0.3643216527782017,
+        "border": 2,
+        "bounds": [
+          12,
+          9,
+          1444,
+          1064
+        ],
+        "sha256": "CE5F2FEE4B64B7291667F5C580B7626054A046D0A06D2B5C5C9B74C81C9BDFCF"
+      },
+      "atlas": "assets/slash-atlas.webp",
+      "atlasSha256": "7022761597CB740388EB1C2FEEFE967AC4243758BC0A289BA948E62ABDF1882A",
+      "cellSize": 768,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "bodyPixels": 272,
+      "frames": [
+        {
+          "file": "assets/frames/slash/00.png",
+          "sha256": "3EA080D36A09BD143AE1F37C39206AF2AAA581B1D96046ACD4BA71A4B8489060",
+          "index": 0,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            151,
+            369
+          ],
+          "sourceBounds": [
+            13,
+            15,
+            287,
+            369
+          ],
+          "headTop": 140,
+          "bodyPixels": 229,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/01.png",
+          "sha256": "57484741379BFE50239D74A19D4DF278A651721F11A1F80D484C036755EEC789",
+          "index": 1,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            549,
+            374
+          ],
+          "sourceBounds": [
+            358,
+            40,
+            685,
+            374
+          ],
+          "headTop": 131,
+          "bodyPixels": 243,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/02.png",
+          "sha256": "279C59BDB74D2B06489801599FE6C4299D6BE1E8494AF5C1012F97B5F65EC25D",
+          "index": 2,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            887,
+            374
+          ],
+          "sourceBounds": [
+            696,
+            11,
+            1028,
+            374
+          ],
+          "headTop": 88,
+          "bodyPixels": 286,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/03.png",
+          "sha256": "E203372C48DCF22684BE79EEA73741576FA87157EC7B3364714DE88906E39E9E",
+          "index": 3,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1230,
+            374
+          ],
+          "sourceBounds": [
+            1054,
+            9,
+            1358,
+            374
+          ],
+          "headTop": 145,
+          "bodyPixels": 229,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/04.png",
+          "sha256": "25C8BB37A24C8C1B92C6A6C81EDD53F7FA8F777D4186E1ECCCF2DB4AE3ECA600",
+          "index": 4,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            183,
+            712
+          ],
+          "sourceBounds": [
+            23,
+            370,
+            342,
+            716
+          ],
+          "headTop": 480,
+          "bodyPixels": 232,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/05.png",
+          "sha256": "25EBF891AB5CFCAC25031F627D0307B90BC0981758023ED728BD806709A9C687",
+          "index": 5,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            545,
+            712
+          ],
+          "sourceBounds": [
+            346,
+            390,
+            704,
+            714
+          ],
+          "headTop": 471,
+          "bodyPixels": 241,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/06.png",
+          "sha256": "442BFE09577CD7B52DE0F4C11A9136E668491ACC14226C7AFD9E6DAE488E53AB",
+          "index": 6,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            887,
+            711
+          ],
+          "sourceBounds": [
+            732,
+            415,
+            1094,
+            713
+          ],
+          "headTop": 501,
+          "bodyPixels": 210,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/07.png",
+          "sha256": "98D9C9D939A281E5464D3B3B59C183BC67E753B040E9D37F7F5562F62D4D8C24",
+          "index": 7,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1243,
+            705
+          ],
+          "sourceBounds": [
+            1077,
+            435,
+            1444,
+            712
+          ],
+          "headTop": 522,
+          "bodyPixels": 183,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/08.png",
+          "sha256": "7B75E6C36946599B3C13BC644BEA015626210DB76934E59FA97E990687C2EFF7",
+          "index": 8,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            181,
+            1045
+          ],
+          "sourceBounds": [
+            26,
+            786,
+            428,
+            1062
+          ],
+          "headTop": 867,
+          "bodyPixels": 178,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/09.png",
+          "sha256": "03945192642CA12FB254C2A0A7F8D04BAE3FA671E3E8693AAD229CC06BF351DF",
+          "index": 9,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            512,
+            1048
+          ],
+          "sourceBounds": [
+            369,
+            762,
+            736,
+            1058
+          ],
+          "headTop": 825,
+          "bodyPixels": 223,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/10.png",
+          "sha256": "8B7642460CDEA2CDA81B4C40C28F21434389706BF8181BF14DC3C6BE57DAFC2B",
+          "index": 10,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            902,
+            1056
+          ],
+          "sourceBounds": [
+            722,
+            740,
+            1058,
+            1056
+          ],
+          "headTop": 825,
+          "bodyPixels": 231,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/slash/11.png",
+          "sha256": "DB38E52B4B8E8824AA45E18848CE07A83459B1DAD95400A11FC4AEADC81DC3B2",
+          "index": 11,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1254,
+            1063
+          ],
+          "sourceBounds": [
+            1078,
+            736,
+            1425,
+            1063
+          ],
+          "headTop": 791,
+          "bodyPixels": 272,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        }
+      ],
+      "contactRegistration": {
+        "frame": 6,
+        "sourcePoint": [
+          1054,
+          690
+        ],
+        "sourceFoot": [
+          887,
+          711
+        ],
+        "targetHeightFraction": 0.46
+      }
+    },
+    "cast": {
+      "source": "assets/source/cast-v1.png",
+      "sourceInfo": {
+        "width": 1536,
+        "height": 1024,
+        "hasAlpha": true,
+        "clear": 0.6666240692138672,
+        "solid": 0.29303868611653644,
+        "border": 0,
+        "bounds": [
+          50,
+          7,
+          1471,
+          998
+        ],
+        "sha256": "3FE6611FE43F48D1DBE4444E6DF70B13F09606E49C5946B1C3B16C2468B69281"
+      },
+      "atlas": "assets/cast-atlas.webp",
+      "atlasSha256": "4B5DEF04C24E315535E8369383356C23334F8F26922113C67622AE8A6D93B81C",
+      "cellSize": 768,
+      "columns": 3,
+      "rows": 2,
+      "frameCount": 6,
+      "bodyPixels": 300,
+      "frames": [
+        {
+          "file": "assets/frames/cast/00.png",
+          "sha256": "5DD5BC3C2FDC87E7B86987BAE6D475B917AA5ACACE9363DBD702E1D21C7692EB",
+          "index": 0,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            285,
+            516
+          ],
+          "sourceBounds": [
+            123,
+            22,
+            410,
+            516
+          ],
+          "headTop": 216,
+          "bodyPixels": 300,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/cast/01.png",
+          "sha256": "75AC18B66B57FD279DF865878F9979E20E26E45F4D8D37D11E35AA99B14CC2BD",
+          "index": 1,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            788,
+            517
+          ],
+          "sourceBounds": [
+            594,
+            8,
+            929,
+            517
+          ],
+          "headTop": 207,
+          "bodyPixels": 310,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/cast/02.png",
+          "sha256": "AF578E4FFD218269AE943FC12F8CF56961F5B524C0AD44F9FD252DBAC060996E",
+          "index": 2,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1292,
+            523
+          ],
+          "sourceBounds": [
+            1064,
+            9,
+            1460,
+            523
+          ],
+          "headTop": 247,
+          "bodyPixels": 276,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/cast/03.png",
+          "sha256": "70A3ED6835024CEE9112CA1F533306F242C74A76D64923B1940889D62A2963A8",
+          "index": 3,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            289,
+            992
+          ],
+          "sourceBounds": [
+            50,
+            543,
+            442,
+            998
+          ],
+          "headTop": 687,
+          "bodyPixels": 305,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/cast/04.png",
+          "sha256": "B9E7637482534015FCD6E6A9BAEFFB1C1D1389E0D5BC4340913C5D17216E2423",
+          "index": 4,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            782,
+            973
+          ],
+          "sourceBounds": [
+            549,
+            553,
+            967,
+            991
+          ],
+          "headTop": 688,
+          "bodyPixels": 285,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        },
+        {
+          "file": "assets/frames/cast/05.png",
+          "sha256": "7EE4909BF9387879E3DC65EEFBFB2F690657FC475A049DD54F7045CB921AB7F6",
+          "index": 5,
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.9
+          },
+          "sourceFeet": [
+            1326,
+            973
+          ],
+          "sourceBounds": [
+            1058,
+            640,
+            1471,
+            986
+          ],
+          "headTop": 667,
+          "bodyPixels": 306,
+          "registration": "AUTHORED_SHEET_FOOT_AND_HAIRLINE"
+        }
+      ]
+    }
+  },
+  "effects": {
+    "slash": {
+      "source": "assets/source/slash-trail-v1.png",
+      "sourceInfo": {
+        "width": 1448,
+        "height": 1086,
+        "hasAlpha": true,
+        "clear": 0.83398578594467,
+        "solid": 0.03373167282235992,
+        "border": 0,
+        "bounds": [
+          63,
+          76,
+          1403,
+          993
+        ],
+        "sha256": "A474D2B48CBF28AC2208E233A4B47201F6116C842D17BEB9449929AE9498D9C4"
+      },
+      "atlas": "assets/slash-trail-atlas.webp",
+      "atlasSha256": "EFB677A769F6F12947268651878913900A9C56D8146BB931D5FF575827E59458",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "collisionFrame": 4,
+      "frames": [
+        {
+          "file": "assets/frames/slash-trail/00.png",
+          "sha256": "729949B830201724922F45ADE1D69ED24542AD32178AE3C37330C9D3565CF470",
+          "index": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            0,
+            0,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/01.png",
+          "sha256": "BE28DCA2B84E658C0E25C027DD0058FCE9164C9849F06DBEB48A93D718C7353F",
+          "index": 1,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            362,
+            0,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/02.png",
+          "sha256": "9260D9D80F1D1E643D1CC760F0FF4526362AEF159F35C20084227DAD254E7CEF",
+          "index": 2,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            724,
+            0,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/03.png",
+          "sha256": "80193AA5EAE3F176074CFB411C2D6862215A08F3199EC0215675D8E386882925",
+          "index": 3,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            1086,
+            0,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/04.png",
+          "sha256": "FFAF1388C28D62FD7AEC3A8B6B3DE95575EE7DF9A5DC38CDE3BAB0A2E2AF8DD8",
+          "index": 4,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            0,
+            362,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/05.png",
+          "sha256": "EF443FD3E9C1E66318022FF6046C553DBEB9521CA9B699FCFA2DD64104460CD0",
+          "index": 5,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            362,
+            362,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/06.png",
+          "sha256": "2E4968DE5B35AEB71415CDEB0AE712EA0482E1CB0BE8615400CD7B6118BD6975",
+          "index": 6,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            724,
+            362,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/07.png",
+          "sha256": "7C4523314BA3581E2A72472A8DBFE8D849EE7EF56550B3D030CAB8F5B0E2CE55",
+          "index": 7,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            1086,
+            362,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/08.png",
+          "sha256": "6FCD0498A41362DBE2FF73B9A25ED5829813544B6A005A33BF8A904C41279604",
+          "index": 8,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            0,
+            724,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/09.png",
+          "sha256": "8E2AB4C0A141A62C26F093D82D0F70E4DBDDA9932500B8B263E3778F463296C9",
+          "index": 9,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            362,
+            724,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/10.png",
+          "sha256": "BDCC417834EEE72635F10EB69BB997B95C67B3D2E71DD23B3231180C4D1522A8",
+          "index": 10,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            724,
+            724,
+            362,
+            362
+          ]
+        },
+        {
+          "file": "assets/frames/slash-trail/11.png",
+          "sha256": "C7D3C7E2E307B7E29074A19A3A48A8982D1A0AF1AABE0B4B96F51F22D649930F",
+          "index": 11,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": [
+            1086,
+            724,
+            362,
+            362
+          ]
+        }
+      ]
+    },
+    "judgment": {
+      "source": "assets/source/judgment-v2.png",
+      "sourceInfo": {
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": true,
+        "clear": 0.7641753724604392,
+        "solid": 0.12471033681056345,
+        "border": 0,
+        "bounds": [
+          63,
+          50,
+          1211,
+          1213
+        ],
+        "sha256": "72D8166E66884835FC1C276F4B05D80E89167556E4D840AEFB963CC5DEB2FC89"
+      },
+      "atlas": "assets/judgment-atlas.webp",
+      "atlasSha256": "99E359652297496185255AC1FC6AD6ED09451B1147AEB91B4A8F176B38124988",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 5,
+      "frames": [
+        {
+          "file": "assets/frames/judgment/00.png",
+          "sha256": "F2332934BCDFDCFCAF264FF84BCB75778545F6B2A311CDEB2A80A60A0DC5A2FF",
+          "index": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.728515625
+          },
+          "sourceRect": [
+            0,
+            0,
+            314,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/01.png",
+          "sha256": "5F543A637681DA158E148ADC481EF349C2300425778927A533172951DC3A94A0",
+          "index": 1,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.728515625
+          },
+          "sourceRect": [
+            314,
+            0,
+            313,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/02.png",
+          "sha256": "C102653E09FC4EA826BDA4CD1F6822301A776803F804A0B8B2C7E9B811C711DA",
+          "index": 2,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.728515625
+          },
+          "sourceRect": [
+            627,
+            0,
+            314,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/03.png",
+          "sha256": "B59983C2E47AEC70C3015C5BE63ECC193839A7084038462ECF187C808D6EA8B6",
+          "index": 3,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.728515625
+          },
+          "sourceRect": [
+            941,
+            0,
+            313,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/04.png",
+          "sha256": "A73BF669E97BD2CDBF91ED8413D0B53EF9C504AC1CA68DA36E82B9C874609965",
+          "index": 4,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.716796875
+          },
+          "sourceRect": [
+            0,
+            314,
+            314,
+            313
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/05.png",
+          "sha256": "B52CDF49D52E776C3A4AF6ECF18101FA8C7A6418506845E7F71418596F17E1E7",
+          "index": 5,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.70703125
+          },
+          "sourceRect": [
+            314,
+            314,
+            313,
+            313
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/06.png",
+          "sha256": "99D2115E5ED786E14FAAC6DFC8A562FADC9A2277609333FAF9ABD69A153681B7",
+          "index": 6,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.70703125
+          },
+          "sourceRect": [
+            627,
+            314,
+            314,
+            313
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/07.png",
+          "sha256": "5C1219DF1387AB9CD27543FC9866C73B7F6028A61D06702C6E80EE7936B817AC",
+          "index": 7,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.708984375
+          },
+          "sourceRect": [
+            941,
+            314,
+            313,
+            313
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/08.png",
+          "sha256": "C73EF25B3AF50C740C28C23077C842124310F8083039DF1A170A2E45964E1EF9",
+          "index": 8,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.6953125
+          },
+          "sourceRect": [
+            0,
+            627,
+            314,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/09.png",
+          "sha256": "7961C729538479F5DF8957204AEB76614178A29DF7D8AD1B2384B14A5DDAD600",
+          "index": 9,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.6953125
+          },
+          "sourceRect": [
+            314,
+            627,
+            313,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/10.png",
+          "sha256": "8E96EE4F057BEFAF985EDE2B556FB0E2667871B7910EEBDC15F18572387D3269",
+          "index": 10,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.6953125
+          },
+          "sourceRect": [
+            627,
+            627,
+            314,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/11.png",
+          "sha256": "09A2312F49F47E9FE0DCB198BCE34CA45DADA05FB6FDE7BD78074BDD8A255DA9",
+          "index": 11,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.6953125
+          },
+          "sourceRect": [
+            941,
+            627,
+            313,
+            314
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/12.png",
+          "sha256": "61D226E129439094562631D5F274FA0541E278926E82B5513E91687EE311FCBC",
+          "index": 12,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.693359375
+          },
+          "sourceRect": [
+            0,
+            941,
+            314,
+            313
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/13.png",
+          "sha256": "3B87DE533A20518E36167073F525CAA73FDE5F1C1C91C0A260E497CA673BD141",
+          "index": 13,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.693359375
+          },
+          "sourceRect": [
+            314,
+            941,
+            313,
+            313
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/14.png",
+          "sha256": "9BF0551C901C675CFCA60935755CEBC71B14A5A3A57C84C1D90AF6646C319DBB",
+          "index": 14,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.693359375
+          },
+          "sourceRect": [
+            627,
+            941,
+            314,
+            313
+          ]
+        },
+        {
+          "file": "assets/frames/judgment/15.png",
+          "sha256": "6D0D68B578A7FEF7745FF005ED5563AAF075150D469166F117168E8CE50978E9",
+          "index": 15,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.693359375
+          },
+          "sourceRect": [
+            941,
+            941,
+            313,
+            313
+          ]
+        }
+      ]
+    }
+  },
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "implementation": "source/RagnielSkillFX.js"
+  },
+  "audio": {
+    "optional": true,
+    "defaultEnabled": false,
+    "sourceManifest": "preview/project-v-v3-event-fx-v1/assets/audio/manifest.json",
+    "license": "Mixkit Free License",
+    "licenseUrl": "https://mixkit.co/license/#sfxFree",
+    "proceduralSynthesis": false,
+    "runtimeSynthesis": false,
+    "assets": {
+      "dash": {
+        "file": "preview/project-v-v3-event-fx-v1/assets/audio/dodge-combat-v2.mp3",
+        "sha256": "171123e14ba469cd58efdbc63c4a11b80d6e8e1a94821a3d26562454bc9d7b41",
+        "sourceIds": [
+          2792,
+          1487,
+          1508,
+          772
+        ],
+        "syncPointMs": 178,
+        "design": "초고속 검풍 · 공기 절단 · 잔상 이탈"
+      },
+      "slash": {
+        "file": "preview/project-v-v3-event-fx-v1/assets/audio/critical-combat-v4.mp3",
+        "sha256": "e70e49a84da87a0e1f52a366e339b21724b7708811c06046da02a439570e8c6b",
+        "sourceIds": [
+          2793,
+          2655,
+          1487,
+          781
+        ],
+        "syncPointMs": 250,
+        "design": "절제된 검풍 · 둔중 충격 · 부드러운 저역 감쇠"
+      },
+      "ultimate": {
+        "file": "preview/project-v-v3-event-fx-v1/assets/audio/ultimate-combat-v2.mp3",
+        "sha256": "5abf5c9e590662b52b2c2561cb51cc70861cd47ae527b32aaaf13d7a24c2f2b3",
+        "sourceIds": [
+          1085,
+          874,
+          2793,
+          1685,
+          2601
+        ],
+        "syncPointMs": 333,
+        "design": "마력 흡입 · 마검 절단 · 폭발성 에너지 방출"
+      }
+    }
+  },
+  "processing": "Unmodified generated RGBA masters. Disconnected authored character poses partitioned by native alpha and packed without redrawing, recoloring, alpha replacement or invented interpolation frames. VFX cells extracted at original resolution and transparently padded.",
+  "generation": {
+    "mode": "BUILT_IN_IMAGEGEN",
+    "prompts": [
+      "prompts/sd-v1.txt",
+      "prompts/dash-v1.txt",
+      "prompts/slash-v1.txt",
+      "prompts/cast-v1.txt",
+      "prompts/judgment-v1.txt",
+      "prompts/judgment-v2.txt",
+      "prompts/slash-trail-v1.txt"
+    ]
+  },
+  "rejected": [
+    {
+      "file": "assets/source/judgment-v1.png",
+      "reason": "Original atlas margins too narrow; corrected by ImageGen V2"
+    }
+  ],
+  "technicalQaReport": "qa-report.json"
+}
