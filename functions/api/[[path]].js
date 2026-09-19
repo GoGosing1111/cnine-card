@@ -83,7 +83,7 @@ import { ensureTargetedInventoryGrantV2027 } from '../_targeted_inventory_grant_
 import { ensureTargetedSkillChipGrantV2055 } from '../_targeted_skill_chip_grant_v2055.js';
 import { ensureBattleSuitEbodyPityV2059 } from '../_battle_suit_ebody_pity_v2059.js';
 import { ensureIyejunFurRerollRecoveryV2023 } from '../_iyejun_fur_reroll_recovery_v2023.js';
-import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
+import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,preserveApocalypseUltimateSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
 import { handleNewUserGift,NEW_USER_GIFT_CODE } from '../_new_user_gift.js';
@@ -7943,6 +7943,7 @@ async function handleRequest(context){
         else if(!Object.prototype.hasOwnProperty.call(payload.settings.nightmare,'bossProfiles'))payload.settings.nightmare={...payload.settings.nightmare,bossProfiles:currentBattle.nightmare?.bossProfiles||{}};
         if(!payload.settings.apocalypse)payload.settings.apocalypse=currentBattle.apocalypse;
         else if(!Object.prototype.hasOwnProperty.call(payload.settings.apocalypse,'monsterProfiles'))payload.settings.apocalypse={...payload.settings.apocalypse,monsterProfiles:currentBattle.apocalypse?.monsterProfiles||{}};
+        payload.settings.apocalypse=preserveApocalypseUltimateSettings(payload.settings.apocalypse,currentBattle.apocalypse);
       }
       if(request.method==='PATCH'&&payload.nightmare){
         const before=await battleSettings(env),nightmarePayload=Object.prototype.hasOwnProperty.call(payload.nightmare,'bossProfiles')?payload.nightmare:{...payload.nightmare,bossProfiles:before.nightmare?.bossProfiles||{}},nightmare=normalizeNightmareSettings(nightmarePayload);
@@ -7954,7 +7955,7 @@ async function handleRequest(context){
         return json({ok:true,settings:saved,nightmare:saved.nightmare});
       }
       if(request.method==='PATCH'&&payload.apocalypse){
-        const before=await battleSettings(env),apocalypsePayload=Object.prototype.hasOwnProperty.call(payload.apocalypse,'monsterProfiles')?payload.apocalypse:{...payload.apocalypse,monsterProfiles:before.apocalypse?.monsterProfiles||{}},apocalypse=normalizeApocalypseSettings(apocalypsePayload);
+        const before=await battleSettings(env),apocalypsePayload=Object.prototype.hasOwnProperty.call(payload.apocalypse,'monsterProfiles')?payload.apocalypse:{...payload.apocalypse,monsterProfiles:before.apocalypse?.monsterProfiles||{}},apocalypse=normalizeApocalypseSettings(preserveApocalypseUltimateSettings(apocalypsePayload,before.apocalypse));
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_apocalypse_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(apocalypse)).run();
         invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');
         const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});

@@ -205,3 +205,17 @@ export function apocalypseLegionBoss(monster={}){
  return null;
 }
 export const apocalypseLegionSkill=code=>APOCALYPSE_LEGION_BOSSES.flatMap(b=>b.skills).find(s=>s.code===code)||null;
+
+// Saved per-monster CMS settings. Missing values preserve the approved balance.
+export function apocalypseLegionUltimate(monster,raw={}){
+ const skill=apocalypseLegionBoss(monster)?.skills.find(s=>s.kind==='ultimate');
+ if(!skill)return null;
+ const value=raw&&typeof raw==='object'&&!Array.isArray(raw)?raw:{};
+ const percent=(input,max,fallback)=>input==null||input===''||!Number.isFinite(Number(input))?fallback:Math.max(0,Math.min(max,Number(input)));
+ return {enabled:value.enabled!==false,attackPercent:percent(value.attackPercent,1000,skill.attackPercent),shieldPiercePercent:percent(value.shieldPiercePercent,100,skill.shieldPiercePercent)};
+}
+
+export function configuredApocalypseLegionSkills(monster,raw){
+ const boss=apocalypseLegionBoss(monster),ultimate=apocalypseLegionUltimate(monster,raw);
+ return boss?.skills.map(skill=>skill.kind==='ultimate'?{...skill,...ultimate,description:ultimate.enabled?`적 전체에 공격력 ${ultimate.attackPercent}% 피해를 가하며 피해의 ${ultimate.shieldPiercePercent}%가 보호막을 관통합니다.`:'궁극기 사용이 중지되어 일반 공격으로 대체됩니다.'}:{...skill})||[];
+}

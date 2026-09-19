@@ -1,4 +1,4 @@
-import {apocalypseLegionBoss} from '../shared/apocalypse-legion-v1.mjs';
+import {apocalypseLegionBoss,apocalypseLegionUltimate,configuredApocalypseLegionSkills} from '../shared/apocalypse-legion-v1.mjs';
 import {apocalypseSignatureSkill} from '../shared/apocalypse-boss-skills-v2048.mjs';
 
 const clamp=(value,min,max,fallback=min)=>{
@@ -53,7 +53,8 @@ function normalizeApocalypseMonsterProfiles(raw={}){
       skillEnabled:value.skillEnabled!==false,
       skillName:text(value.skillName,apocalypseSignatureSkill(id)?.name||'종말 집행',60),
       skillDescription:text(value.skillDescription,apocalypseSignatureSkill(id)?.description||'전투 개시와 동시에 모든 출전 카드에 종말 피해를 가합니다.',300),
-      skillDamagePercent:clamp(value.skillDamagePercent,20,100,apocalypseSignatureSkill(id)?.defaultDamagePercent||28)
+      skillDamagePercent:clamp(value.skillDamagePercent,20,100,apocalypseSignatureSkill(id)?.defaultDamagePercent||28),
+      ...(apocalypseLegionBoss(id)?{legionUltimate:apocalypseLegionUltimate(id,value.legionUltimate)}:{})
     };
   }
   return profiles;
@@ -106,6 +107,15 @@ export function normalizeApocalypseSettings(raw={}){
     energy:{...APOCALYPSE_ENERGY_CONFIG},
     monsterProfiles:normalizeApocalypseMonsterProfiles(raw)
   };
+}
+
+// Older CMS tabs do not send these fields; unrelated saves must retain tuning.
+export function preserveApocalypseUltimateSettings(raw={},previous={}){
+ const profiles=raw.monsterProfiles??previous.monsterProfiles??{};
+ return {...raw,monsterProfiles:Object.fromEntries(Object.entries(profiles).map(([id,profile])=>{
+  if(!apocalypseLegionBoss(id)||!profile||typeof profile!=='object')return [id,profile];
+  return [id,{...profile,legionUltimate:{...previous.monsterProfiles?.[id]?.legionUltimate,...profile.legionUltimate}}];
+ }))};
 }
 
 export function nightmareChallengeMultiplier(raw={}){
@@ -178,7 +188,7 @@ export function pveDifficultyRuntime(settings={},monster={}){
   const basePower=special&&profile?profile.battlePower:storedPower,baseReward=special&&profile?profile.rewardCoin:storedReward;
   const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):1,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
   const legion=isApocalypse?apocalypseLegionBoss(monster):null;
-  const apocalypseSkill=isApocalypse?{trigger:legion?'BOSS_ACTION':'OPENING',...(legion?{skills:legion.skills,minionCount:6}:{}),enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
+  const apocalypseSkill=isApocalypse?{trigger:legion?'BOSS_ACTION':'OPENING',...(legion?{skills:configuredApocalypseLegionSkills(monster,tuning.legionUltimate),ultimate:apocalypseLegionUltimate(monster,tuning.legionUltimate),minionCount:6}:{}),enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
   return {
     difficulty,isNightmare,isApocalypse,enabled:isNightmare?nightmare.enabled:isApocalypse?apocalypse.enabled:true,
     hpPercent,attackPercent,defensePercent,speedPercent,
