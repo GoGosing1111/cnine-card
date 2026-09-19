@@ -71,7 +71,7 @@
 
   function commandView(d){const catalog=catalogPanel(d);if(d.season?.phase==='REDRAFT_WAIT')return `${redraftWaitPanel(d)}${catalog}`;if(!d.membership)return `${testControl(d)}${draftPanel(d)}${registrationPanel(d)}${catalog}`;return `${testControl(d)}${draftPanel(d)}<section class="clan-mode-grid"><button class="clan-mode-card" data-clan-tab="war"><small>REGULAR CLAN WAR</small><strong>정규 클랜전</strong><p>시즌 대진에 맞서 승점을 쌓고<br>챔피언스리그에 도전하세요.</p><span>우리 대진 확인 →</span><i>VS</i></button><button class="clan-mode-card faction" data-clan-tab="faction"><small>SEOUL / FACTION WAR</small><strong>서울 세력전</strong><p>25개 자치구의 상권을 점령하고<br>징수세를 클랜원과 나누세요.</p><span>서울 전황으로 진입 →</span><i>25</i></button></section>${identityPanel(d)}${catalog}`;}
 
-  function rosterView(d){const mine=d.membership;return `<section class="clan-roster-layout"><aside class="clan-panel clan-team-card">${mark(mine,'large')}<small>SEASON ${number(d.season?.seasonNo)} CLAN</small><h3>${esc(mine?.name||'클랜')}</h3><p>${esc(mine?.slogan||'')}</p><dl><div><dt>시즌 점수</dt><dd>${number(mine?.score)}</dd></div><div><dt>전적</dt><dd>${number(mine?.wins)}W ${number(mine?.losses)}L</dd></div><div><dt>정원</dt><dd>${number(mine?.memberCount)} / ${number(rosterLimit(d))}</dd></div></dl></aside><section class="clan-panel clan-roster"><header><small>SEASON ROSTER</small><h3>이번 시즌 편성</h3><p>참여·획득 점수는 참여형 규칙 적용 이후 기록입니다. 기존 전적은 상세에 보존됩니다.</p></header><div>${(d.roster||[]).map((m,index)=>`<article class="${m.memberRole==='MASTER'?'master':''}"><span>${String(index+1).padStart(2,'0')}</span><div><b>${global.PlayerCallingCard?.nameHtml(m.nickname,m.userId)||esc(m.nickname)}</b><small>${m.memberRole==='MASTER'?'CLAN MASTER':esc(ROLE_LABEL[m.preferredRole]||'균형형')}</small></div><dl><dt>참여</dt><dd>${number(m.participationAttacks)}회</dd><dt>획득 점수</dt><dd>+${number(m.participationPoints)}</dd></dl><details class="clan-record-detail"><summary>전적 상세</summary><span>${number(m.battleWins)}승 ${number(m.battleLosses)}패 · 기존 기여 ${number(m.contributionScore)}</span></details></article>`).join('')||'<p class="clan-empty">드래프트 로스터를 구성 중입니다.</p>'}</div></section></section>`}
+  function rosterView(d){const mine=d.membership;return `<section class="clan-roster-layout"><aside class="clan-panel clan-team-card">${mark(mine,'large')}<small>SEASON ${number(d.season?.seasonNo)} CLAN</small><h3>${esc(mine?.name||'클랜')}</h3><p>${esc(mine?.slogan||'')}</p><dl><div><dt>시즌 점수</dt><dd>${number(mine?.score)}</dd></div><div><dt>전적</dt><dd>${number(mine?.wins)}W ${number(mine?.losses)}L</dd></div><div><dt>정원</dt><dd>${number(mine?.memberCount)} / ${number(rosterLimit(d))}</dd></div></dl></aside><section class="clan-panel clan-roster"><header><small>SEASON ROSTER</small><h3>이번 시즌 편성</h3>${mine?.isMaster?`<p class="clan-manage-hint">클랜원 추방은 정규 시즌의 경기·교전이 끝난 뒤 가능합니다.</p>`:''}<p>참여·획득 점수는 참여형 규칙 적용 이후 기록입니다. 기존 전적은 상세에 보존됩니다.</p></header><div>${(d.roster||[]).map((m,index)=>`<article class="${m.memberRole==='MASTER'?'master':''}"><span>${String(index+1).padStart(2,'0')}</span><div><b>${global.PlayerCallingCard?.nameHtml(m.nickname,m.userId)||esc(m.nickname)}</b><small>${m.memberRole==='MASTER'?'CLAN MASTER':esc(ROLE_LABEL[m.preferredRole]||'균형형')}</small></div><dl><dt>참여</dt><dd>${number(m.participationAttacks)}회</dd><dt>획득 점수</dt><dd>+${number(m.participationPoints)}</dd></dl><details class="clan-record-detail"><summary>전적 상세</summary><span>${number(m.battleWins)}승 ${number(m.battleLosses)}패 · 기존 기여 ${number(m.contributionScore)}</span></details>${mine?.isMaster&&d.season?.phase==='ACTIVE'&&m.memberRole==='MEMBER'&&m.userId!==mine.userId?`<button type="button" class="clan-kick-button" data-clan-kick="${m.userId}" aria-label="${esc(m.nickname)} 추방">추방</button>`:''}</article>`).join('')||'<p class="clan-empty">드래프트 로스터를 구성 중입니다.</p>'}</div></section></section>`}
 
   function warView(d){
     if(!['ACTIVE','CHAMPIONS'].includes(d.season?.phase))return `<section class="clan-panel clan-gate"><small>CLAN WAR STANDBY</small><h3>클랜전 개막 준비 중</h3><p>블라인드 드래프트가 끝나면 V3 클랜전 전장이 열립니다.</p></section>`;
@@ -164,7 +164,30 @@
     }finally{state.fighting=false}
   }
 
+  function openKickDialog(userId,trigger){
+    const d=state.data,member=d?.roster?.find(m=>m.userId===userId);
+    if(!d?.membership?.isMaster||!member||member.memberRole!=='MEMBER'||document.querySelector('.clan-kick-dialog'))return;
+    const dialog=document.createElement('dialog'),requestId=global.crypto.randomUUID();
+    dialog.className='clan-kick-dialog';dialog.setAttribute('aria-labelledby','clanKickTitle');
+    dialog.innerHTML=`<small>CLAN / MEMBER MANAGEMENT</small><h2 id="clanKickTitle">클랜원을 추방할까요?</h2><div class="clan-kick-target">${mark(d.membership)}<div><strong>${esc(member.nickname)}</strong><span>${esc(d.membership.name)} · 클랜원</span></div></div><p>클랜 소속과 세력전 편성·행동대장 지정이 해제됩니다. 이미 획득한 재화와 전투 기록은 유지됩니다.</p><p class="clan-kick-error" role="alert"></p><footer><button type="button" data-kick-cancel autofocus>취소</button><button type="button" data-kick-confirm>추방하기</button></footer>`;
+    let busy=false;const close=()=>{if(busy)return;dialog.close();dialog.remove();trigger?.focus();};
+    dialog.addEventListener('cancel',event=>{event.preventDefault();close();});dialog.querySelector('[data-kick-cancel]').onclick=close;
+    const confirmButton=dialog.querySelector('[data-kick-confirm]');
+    confirmButton.onclick=async()=>{
+      if(busy)return;busy=true;confirmButton.disabled=true;confirmButton.textContent='처리 중';dialog.querySelector('.clan-kick-error').textContent='';
+      try{
+        await state.ctx.apiRequest('clan/member/kick',{method:'POST',body:JSON.stringify({seasonId:d.season.id,targetUserId:userId,joinedAt:member.joinedAt,requestId,confirmation:'KICK_CLAN_MEMBER'})},{timeoutMs:20000});
+        state.ctx.clearApiCache?.('clan/overview');state.ctx.clearApiCache?.('clan/faction');
+        state.data.roster=state.data.roster.filter(m=>m.userId!==userId);state.data.membership.memberCount=state.data.roster.length;
+        busy=false;close();render();await load(true);
+      }catch(error){dialog.querySelector('.clan-kick-error').textContent=error.message||'추방하지 못했습니다. 다시 시도하세요.';}
+      finally{busy=false;confirmButton.disabled=false;confirmButton.textContent='추방하기';}
+    };
+    document.body.append(dialog);dialog.showModal();
+  }
+
   function bindDom(){
+    document.querySelectorAll('[data-clan-kick]').forEach(button=>button.onclick=()=>openKickDialog(Number(button.dataset.clanKick),button));
     document.querySelectorAll('[data-clan-tab]').forEach(button=>button.onclick=()=>{state.tab=button.dataset.clanTab;render()});document.querySelectorAll('[data-clan-refresh]').forEach(button=>button.onclick=()=>load(true));document.querySelectorAll('[data-clan-route]').forEach(button=>button.onclick=()=>state.ctx.renderShell(button.dataset.clanRoute));
     document.querySelector('[data-clan-register-form]')?.addEventListener('submit',event=>{event.preventDefault();const form=event.currentTarget;void mutate('clan/register',{preferredRole:form.preferredRole.value,activityWindow:form.activityWindow.value},form.querySelector('button[type=submit]'))});
     document.querySelector('[data-clan-identity-form]')?.addEventListener('submit',event=>{event.preventDefault();const form=event.currentTarget;void mutate('clan/identity',{slogan:form.slogan.value},form.querySelector('button[type=submit]'))});

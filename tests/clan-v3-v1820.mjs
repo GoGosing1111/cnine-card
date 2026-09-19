@@ -176,10 +176,10 @@ test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한�
   assert.match(client,/\['faction','세력전'\]/);
   assert.match(client,/clan-season-lock/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
-  assert.match(html,/clan-v1\.css\?v=2123-draft-1h-30s/);
+  assert.match(html,/clan-v1\.css\?v=20260919-master-kick/);
   assert.match(html,/clan-command-v1\.css\?v=2127/);
   assert.match(html,/clan-faction-v1\.css\?v=2131-lineup/);
-  assert.match(html,/clan-v1\.js\?v=2131-lineup/);
+  assert.match(html,/clan-v1\.js\?v=20260919-master-kick/);
 });
 
 test('조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설정으로 제한한다',()=>{
@@ -203,7 +203,10 @@ test('클랜 V3 전투는 유저·상대 단위 예약 락과 재시도 가능�
   assert.match(server,/SELECT p\.card_ids FROM pvp_active_presets/);
   assert.match(server,/currentRankedDeckIds\(env,attackerUser\.id\)/);
   assert.match(server,/currentRankedDeckIds\(env,defenderUser\.id\)/);
-  assert.doesNotMatch(client,/targetUserId/);
+  // Matchmaking cannot choose an opponent; member management can name its target.
+  const clientFight=client.slice(client.indexOf('async function fight('),client.indexOf('function openKickDialog('));
+  assert.ok(clientFight.includes("apiRequest('clan/war/fight'"));
+  assert.doesNotMatch(clientFight,/targetUserId/);
   assert.match(server,/safe_runtime_upgrade_v1999_clan_concurrent_war_reservations_v1/);
   assert.match(server,/CREATE TABLE IF NOT EXISTS clan_war_reservation_locks/);
   assert.match(server,/reservationScope:'PER_WAR_USER_AND_TARGET'/);
