@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {factionFixture} from './helpers/clan-faction-fixture.mjs';
 import {mutateFaction,factionOverview,handleClanFaction} from '../functions/_clan_faction.js';
 import {factionStrikeDamage,splitFactionTax,newFactionState,accrueFactionTax} from '../functions/_clan_faction_model.js';
-import {FACTION_RULES as R,FACTION_TAX_CHANGE} from '../shared/clan-faction-rules-v1.mjs';
+import {FACTION_RULES as R,FACTION_TAX_CHANGE,FACTION_TAX_CHANGES} from '../shared/clan-faction-rules-v1.mjs';
 const call=(f,kind,body={},user=f.user)=>mutateFaction(f.env,f.season,user,kind,{requestId:crypto.randomUUID(),...body},f.deps);
 const formation={attack1:[1,2,3],attack2:[4,5],defense1:[6,7,8],defense2:[9,10]};
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} ACTIVE faction season opens before the first regular match`,async t=>{
@@ -119,7 +119,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} ordin
   f.clock.now+=R.battleDurationMs;await assert.rejects(call(f,'enter',{battleId:b.battleId},defender),/종료/);
 });
 
-test('50 million hourly district tax preserves old accrual and exact millisecond remainders',()=>{
+test('one billion hourly district tax preserves both previous rates and exact millisecond remainders',()=>{
   const cut=FACTION_TAX_CHANGE.at,hour=3600000,s=newFactionState(cut-hour);
   s.districts[0].owner=1;s.pools[1]=17;
   accrueFactionTax(s,cut+hour);assert.equal(s.pools[1],51000017);assert.equal(s.districts[0].taxRemainder,0);
@@ -127,8 +127,14 @@ test('50 million hourly district tax preserves old accrual and exact millisecond
   const end=cut+14*86400000+12345;accrueFactionTax(whole,end);
   for(const n of [1,123,100001,86400001,14*86400000,14*86400000+12345])accrueFactionTax(parts,cut+n);
   assert.equal(whole.pools[1],parts.pools[1]);assert.equal(whole.districts[0].taxRemainder,parts.districts[0].taxRemainder);
-  const numerator=BigInt(end-cut)*50000000n;assert.equal(whole.pools[1],Number(numerator/3600000n));assert.equal(whole.districts[0].taxRemainder,Number(numerator%3600000n));
+  const latest=FACTION_TAX_CHANGES.at(-1).at;
+  const numerator=BigInt(latest-cut)*50000000n+BigInt(end-latest)*1000000000n;assert.equal(whole.pools[1],Number(numerator/3600000n));assert.equal(whole.districts[0].taxRemainder,Number(numerator%3600000n));
   const old=newFactionState(cut-3*hour);old.districts[0].owner=1;accrueFactionTax(old,cut-hour);assert.equal(old.pools[1],2000000);
+  const crossing=newFactionState(latest-hour);crossing.districts[0].owner=1;crossing.pools[1]=17;
+  accrueFactionTax(crossing,latest+hour);assert.equal(crossing.pools[1],1050000017);
+  const fresh=newFactionState(latest);fresh.districts[0].owner=1;fresh.districts[1].owner=1;fresh.districts[2].owner=2;
+  accrueFactionTax(fresh,latest+hour);assert.equal(fresh.pools[1],2000000000);assert.equal(fresh.pools[2],1000000000);
+  accrueFactionTax(fresh,latest+hour);assert.equal(fresh.pools[1],2000000000);
 });
 test('simultaneous identical claim pays once and archived season remains collectable',async t=>{
   const f=await factionFixture({seeded:true});t.after(()=>f.close());
