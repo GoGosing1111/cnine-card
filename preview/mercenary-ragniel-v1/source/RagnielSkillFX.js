@@ -11,8 +11,8 @@ export async function loadRagnielAssets(manifest){
  result.smoke=await Assets.load('/preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp');return result;
 }
 export class RagnielSkillFX{
- constructor(engine,merc,targets,assets,manifest,plan,onUpdate){
-  Object.assign(this,{engine,merc,targets,assets,manifest,plan,onUpdate});merc.animationController.kill();
+ constructor(engine,merc,targets,assets,manifest,plan,onUpdate,{authoritative=false,useAuthoredPose=true}={}){
+  Object.assign(this,{engine,merc,targets,assets,manifest,plan,onUpdate,authoritative,useAuthoredPose});merc.animationController.kill();
   this.clock={time:0};this.speed=1;this.destroyed=false;this.timeline=null;this.registration=null;this.audio=new CueAudio();
   this.layer=new Container({label:'RagnielSkillFX'});this.layer.eventMode='none';engine.effectLayer.addChild(this.layer);
   this.dim=new Graphics();this.ground=new Graphics();this.trails=new Graphics();this.screenFlash=new Graphics();this.layer.addChild(this.dim,this.ground,this.trails);
@@ -41,6 +41,7 @@ export class RagnielSkillFX{
  cancel(){this.audio.stop();this.removeTimeline();this.clock.time=0;this.render(0);}
  positionAt(state){return {x:mix(this.start.x,this.destination.x,state.travel),y:mix(this.start.y,this.destination.y,state.travel)};}
  applyPose(pose){
+  if(!this.useAuthoredPose)return;
   const s=this.merc.fullBodySprite;if(!pose){s.texture=this.idle.texture;s.anchor.set(this.idle.anchorX,this.idle.anchorY);s.width=this.idle.width;s.height=this.idle.height;}
   else{const spec=this.manifest.motion[pose.key],f=spec.frames[pose.frame];s.texture=this.assets.motion[pose.key][pose.frame];s.anchor.set(f.footAnchor.x,f.footAnchor.y);s.height=this.bodyHeight*spec.cellSize/spec.bodyPixels;s.width=s.height;}
   const neutral=this.merc.neutralAvatarPose?.mainSprite;if(neutral){neutral.scaleX=s.scale.x;neutral.scaleY=s.scale.y;}
@@ -56,7 +57,7 @@ export class RagnielSkillFX{
   if(q>.001)this.draw(this.assets.effects[key][j],p,size,{alpha:state.alpha*q,anchor:spec.frames[j].anchor});
  }
  render(time){
-  if(this.destroyed)return;for(const s of this.pool)s.visible=false;this.used=0;this.activeFrames=[];this.dim.clear();this.ground.clear();this.trails.clear();this.screenFlash.clear();
+  if(this.destroyed||this.merc.root.destroyed||this.targets.some(t=>t.root.destroyed))return;for(const s of this.pool)s.visible=false;this.used=0;this.activeFrames=[];this.dim.clear();this.ground.clear();this.trails.clear();this.screenFlash.clear();
   const state=sample(this.plan,time);this.sample=state;this.applyPose(state.pose);const position=this.positionAt(state);this.merc.root.position.set(position.x,position.y);
   this.targets.forEach((target,i)=>{target.view.x=this.targetDefaults[i].viewX+(i===0?state.recoil:state.recoil*.55);target.fullBodySprite.tint=state.flash>.01?0xffefc6:this.targetDefaults[i].tint;});this.engine.sortCombatDepth();
   if(time<=0||state.done||state.cancelled){if(state.cancelled)this.audio.stop();this.onUpdate(this);return;}

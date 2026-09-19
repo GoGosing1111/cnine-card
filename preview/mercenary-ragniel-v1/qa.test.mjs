@@ -42,7 +42,7 @@ test('contact cues select the actual authored sword and ultimate collision frame
 });
 
 test('user-selected source and separate native-alpha SD are immutable',async()=>{
- assert.equal(manifest.name,'라그니엘');assert.equal(manifest.rank,'SSS');assert.equal(manifest.runtimeEnabled,false);assert.notEqual(manifest.sourceArt,manifest.battleSprite);
+ assert.equal(manifest.name,'라그니엘');assert.equal(manifest.rank,'SSS');assert.equal(manifest.runtimeEnabled,true);assert.equal(manifest.liveApprovalRequest,'반영해 SSS로');assert.notEqual(manifest.sourceArt,manifest.battleSprite);
  assert.equal(hash(await fs.readFile(new URL(manifest.sourceArt,project))),'B6EC66166A3AF153A9A6BAB827C0FE998E94855B16F67E0683BBFF4B0CCD0F89');
  const bytes=await fs.readFile(new URL(manifest.battleSprite,project));assert.equal(hash(bytes),'5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194');
  const m=await sharp(bytes).metadata();assert.equal(m.hasAlpha,true);assert.equal(manifest.battleSpriteInfo.border,0);assert.ok(manifest.battleSpriteInfo.clear>.5);assert.ok(manifest.battleSpriteInfo.solid>.4);

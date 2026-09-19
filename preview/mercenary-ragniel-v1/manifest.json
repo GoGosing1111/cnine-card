@@ -3,12 +3,12 @@
   "name": "라그니엘",
   "rank": "SSS",
   "code": "V-046",
-  "codeStatus": "PREVIEW_LOCAL_IDENTIFIER",
+  "codeStatus": "LIVE_REGISTERED",
   "nameStatus": "USER_ASSIGNED_NAME",
   "rankStatus": "USER_ASSIGNED_RANK",
-  "sourceArtStatus": "USER_SELECTED_DESIGN",
-  "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
-  "runtimeEnabled": false,
+  "sourceArtStatus": "USER_APPROVED_LIVE",
+  "battleSpriteStatus": "USER_APPROVED_LIVE",
+  "runtimeEnabled": true,
   "sourceArt": "preview/mercenary-ragniel-v1/assets/source-art.png",
   "sourceArtInfo": {
     "width": 1024,
@@ -1265,5 +1265,9 @@
       "reason": "Original atlas margins too narrow; corrected by ImageGen V2"
     }
   ],
-  "technicalQaReport": "qa-report.json"
+  "technicalQaReport": "qa-report.json",
+  "liveApprovedAt": "2026-09-19",
+  "liveApprovalRequest": "반영해 SSS로",
+  "liveCode": "V-046",
+  "liveSkillId": "MS-046"
 }

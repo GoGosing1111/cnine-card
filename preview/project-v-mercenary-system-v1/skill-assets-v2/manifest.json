@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 448,
+  "frameCount": 464,
   "images": [
     {
       "id": "closing-punch",
@@ -9749,6 +9749,339 @@
             384
           ],
           "nonempty": 5419
+        }
+      ]
+    },
+    {
+      "id": "platinum-sanctuary",
+      "skillId": "MS-046",
+      "name": "종언의 백금성역",
+      "source": "platinum-sanctuary/sequence-source-v1.png",
+      "runtime": "platinum-sanctuary/atlas-v1.webp",
+      "sourceSha256": "72D8166E66884835FC1C276F4B05D80E89167556E4D840AEFB963CC5DEB2FC89",
+      "runtimeSha256": "99E359652297496185255AC1FC6AD6ED09451B1147AEB91B4A8F176B38124988",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Edit this VFX animation sheet for safe game-atlas packing. Preserve its sixteen chronological white/gold heavenly-sword impact stages and painterly design, but CORRECT THE SPACING AND EDGE CLIPPING.\r\n\r\nReturn the same exact 4x4 frame grid with 16 effects, reading left to right and down. Each frame is a SQUARE CELL. Each entire effect must be only 55–60% as wide and tall as its cell: make the effects SMALLER and surround EVERY effect with a LARGE completely transparent gutter on all four sides. Absolutely no content touching another cell or the overall canvas edge. The top tips and crowns of the swords must be complete, with generous clear space ABOVE them. Finish any previously cut-off sword tips, rays or wing edges. Keep glow tightly contained around its own effect, never crossing the transparent gutters.\r\n\r\nKeep the impact foot of each effect at the same registered point: x=50%, y=78% of its cell. Preserve the sequence: spectral sword forms, descends, hits, white/gold wing-shaped crown bursts, crystalline energy breaks apart, smoke and embers dissipate. No character. No new scene or floor. Keep sharp white-hot cores, gold metallic feather fragments and flowing luminous volume.\r\n\r\nThis is a transparent game asset sheet. Output true RGBA alpha. Outside the 16 isolated effects is EMPTY TRANSPARENT SPACE, not black, gray, beige, checkerboard or any other painted background. No labels, borders, lettering or watermark. Prefer native 2048x2048 square PNG. Treat the extra empty margin as a hard requirement.\r\n",
+      "sourceFilename": "sequence-source-v1.png",
+      "visualReview": "2026-09-19 사용자: 반영해 SSS로",
+      "runtimeBytes": 1045992,
+      "creationReferenceCode": "V-046",
+      "frames": [
+        {
+          "index": 0,
+          "file": "platinum-sanctuary/frames/01.png",
+          "bounds": [
+            180,
+            168,
+            333,
+            397
+          ],
+          "alphaPixels": 14464,
+          "sha256": "F2332934BCDFDCFCAF264FF84BCB75778545F6B2A311CDEB2A80A60A0DC5A2FF",
+          "rawSha256": "FC3567D16CA764EDE53C1FB10FFCB79387FA4D4B8427E991D6FE9362208614F7",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 28416
+        },
+        {
+          "index": 1,
+          "file": "platinum-sanctuary/frames/02.png",
+          "bounds": [
+            178,
+            157,
+            332,
+            397
+          ],
+          "alphaPixels": 15450,
+          "sha256": "5F543A637681DA158E148ADC481EF349C2300425778927A533172951DC3A94A0",
+          "rawSha256": "C04A56880C30C59C4FE036CBA982A3CA1EE351A8AA63AFCE9883A1AC89915A23",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 36635
+        },
+        {
+          "index": 2,
+          "file": "platinum-sanctuary/frames/03.png",
+          "bounds": [
+            179,
+            149,
+            331,
+            397
+          ],
+          "alphaPixels": 17881,
+          "sha256": "C102653E09FC4EA826BDA4CD1F6822301A776803F804A0B8B2C7E9B811C711DA",
+          "rawSha256": "FEF6BFA8B3B2B42DA48E34A4DDEDA2F9EA6B962A9139AD34857065C88768D365",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 40721
+        },
+        {
+          "index": 3,
+          "file": "platinum-sanctuary/frames/04.png",
+          "bounds": [
+            179,
+            169,
+            331,
+            398
+          ],
+          "alphaPixels": 20790,
+          "sha256": "B59983C2E47AEC70C3015C5BE63ECC193839A7084038462ECF187C808D6EA8B6",
+          "rawSha256": "5E6B12A202F78845B792E970DFBCF5BED99A936B8AC160255B8B43ED8E52818F",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 39005
+        },
+        {
+          "index": 4,
+          "file": "platinum-sanctuary/frames/05.png",
+          "bounds": [
+            181,
+            138,
+            332,
+            392
+          ],
+          "alphaPixels": 22369,
+          "sha256": "A73BF669E97BD2CDBF91ED8413D0B53EF9C504AC1CA68DA36E82B9C874609965",
+          "rawSha256": "D7D8094A8044B661838ED2507D37C3DDC22D5F7073044D39663B260966518848",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 44422
+        },
+        {
+          "index": 5,
+          "file": "platinum-sanctuary/frames/06.png",
+          "bounds": [
+            170,
+            141,
+            341,
+            393
+          ],
+          "alphaPixels": 28622,
+          "sha256": "B52CDF49D52E776C3A4AF6ECF18101FA8C7A6418506845E7F71418596F17E1E7",
+          "rawSha256": "FA56845901D473D594CB88432A16947B8AFA6F2FAD71DBA717CB3CB47D79C3FD",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 67597
+        },
+        {
+          "index": 6,
+          "file": "platinum-sanctuary/frames/07.png",
+          "bounds": [
+            147,
+            146,
+            363,
+            394
+          ],
+          "alphaPixels": 33822,
+          "sha256": "99D2115E5ED786E14FAAC6DFC8A562FADC9A2277609333FAF9ABD69A153681B7",
+          "rawSha256": "094C8F10E4217FC47650A0B76FCA9ACA5B39D406879B53FE2E7336E247F2A625",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 67143
+        },
+        {
+          "index": 7,
+          "file": "platinum-sanctuary/frames/08.png",
+          "bounds": [
+            143,
+            139,
+            369,
+            394
+          ],
+          "alphaPixels": 37955,
+          "sha256": "5C1219DF1387AB9CD27543FC9866C73B7F6028A61D06702C6E80EE7936B817AC",
+          "rawSha256": "4151AAA331C68A03302F7BD93798AE2295C763C92B7C425A11AAB03120875774",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 70129
+        },
+        {
+          "index": 8,
+          "file": "platinum-sanctuary/frames/09.png",
+          "bounds": [
+            162,
+            173,
+            353,
+            384
+          ],
+          "alphaPixels": 28604,
+          "sha256": "C73EF25B3AF50C740C28C23077C842124310F8083039DF1A170A2E45964E1EF9",
+          "rawSha256": "A044148FC9916F4EF15E3F3748C0901AA6B5B9FE2D3419CB11631ABAB531A16B",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 63912
+        },
+        {
+          "index": 9,
+          "file": "platinum-sanctuary/frames/10.png",
+          "bounds": [
+            171,
+            169,
+            350,
+            384
+          ],
+          "alphaPixels": 27391,
+          "sha256": "7961C729538479F5DF8957204AEB76614178A29DF7D8AD1B2384B14A5DDAD600",
+          "rawSha256": "C6AAE6F70138A918C28B72CF4D5D8B3EE6C782A83AAD6E669F4EC1091DDC2618",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 64277
+        },
+        {
+          "index": 10,
+          "file": "platinum-sanctuary/frames/11.png",
+          "bounds": [
+            174,
+            139,
+            338,
+            383
+          ],
+          "alphaPixels": 25780,
+          "sha256": "8E96EE4F057BEFAF985EDE2B556FB0E2667871B7910EEBDC15F18572387D3269",
+          "rawSha256": "CDD6AD06CA0EE2D0B891FB0FD182B9B110E5475949C7C2C5D48A0611136F2C2C",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 63248
+        },
+        {
+          "index": 11,
+          "file": "platinum-sanctuary/frames/12.png",
+          "bounds": [
+            182,
+            162,
+            330,
+            382
+          ],
+          "alphaPixels": 18195,
+          "sha256": "09A2312F49F47E9FE0DCB198BCE34CA45DADA05FB6FDE7BD78074BDD8A255DA9",
+          "rawSha256": "763AFBEC398D327930DDD2E635B5EB8CA49ADBA1BBD12DD15A9C30055D1C5E8B",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 52123
+        },
+        {
+          "index": 12,
+          "file": "platinum-sanctuary/frames/13.png",
+          "bounds": [
+            181,
+            131,
+            333,
+            370
+          ],
+          "alphaPixels": 18549,
+          "sha256": "61D226E129439094562631D5F274FA0541E278926E82B5513E91687EE311FCBC",
+          "rawSha256": "A257A6F52B2C059EA2D034E2AAB0625CF1F1DF2BCB4524365FEF6940449D1713",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 44572
+        },
+        {
+          "index": 13,
+          "file": "platinum-sanctuary/frames/14.png",
+          "bounds": [
+            181,
+            152,
+            331,
+            371
+          ],
+          "alphaPixels": 15152,
+          "sha256": "3B87DE533A20518E36167073F525CAA73FDE5F1C1C91C0A260E497CA673BD141",
+          "rawSha256": "0F07570D2A92899B8408131A8960AC8B70FE068EF0FB14BC4092C4488D37AF7A",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 43194
+        },
+        {
+          "index": 14,
+          "file": "platinum-sanctuary/frames/15.png",
+          "bounds": [
+            184,
+            190,
+            326,
+            368
+          ],
+          "alphaPixels": 9993,
+          "sha256": "9BF0551C901C675CFCA60935755CEBC71B14A5A3A57C84C1D90AF6646C319DBB",
+          "rawSha256": "4449FE524185D59F9865B97293F12306BD9EFEB281B2AD6E12A6E7DB072DCCA0",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 41282
+        },
+        {
+          "index": 15,
+          "file": "platinum-sanctuary/frames/16.png",
+          "bounds": [
+            194,
+            278,
+            316,
+            364
+          ],
+          "alphaPixels": 5280,
+          "sha256": "6D0D68B578A7FEF7745FF005ED5563AAF075150D469166F117168E8CE50978E9",
+          "rawSha256": "63F9BD3562F4876836E4C131ED2B82C1EC49A26A42F93C887C013A55708D8259",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 21915
         }
       ]
     }

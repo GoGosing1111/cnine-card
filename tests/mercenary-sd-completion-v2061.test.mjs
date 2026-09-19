@@ -51,8 +51,8 @@ test('six new SDs complete the roster while preserving every original card field
   assert.equal(hash(beforeSdCompletion(roster.cards.slice(0,43))), record.previousRosterCardsSha256);
   assert.equal(hash(beforeOmegaRankAssignment(roster.cards.slice(0, 37))), record.previousExistingCardsSha256);
   assert.equal(record.userRequest, '용병 SD이미지 안만든애들 다 제작해서 연결해');
-  assert.deepEqual(roster.summary, { total:45, sourceArtReady:45, battleSpriteReady:45, battleSpritePending: 0, rankPending: 42 });
-  assert.equal(new Set(roster.cards.map(card => card.battleSprite)).size,45);
+  assert.deepEqual(roster.summary, { total:46, sourceArtReady:46, battleSpriteReady:46, battleSpritePending: 0, rankPending: 42 });
+  assert.equal(new Set(roster.cards.map(card => card.battleSprite)).size,46);
   assert.ok(roster.cards.every(card => card.battleSprite));
 });
 

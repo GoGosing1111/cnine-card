@@ -1,6 +1,7 @@
 import {S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
 import {HEEYA_CODE,HEEYA_SKILL_ID} from './mercenary-hi-heeya-v2118.mjs';
 import {MANGISA_CODE,MANGISA_SKILL_ID} from './mercenary-mangisa-v1.mjs';
+import {RAGNIEL_CODE,RAGNIEL_SKILL_ID} from './mercenary-ragniel-v1.mjs';
 export const CMS_MAX_BYTES = 512 * 1024;
 export const ACQUISITIONS = {UNSET:'미설정',COIN:'코인 구매',DROP:'콘텐츠 획득',EVENT:'이벤트',CRAFT:'제작',QUEST:'퀘스트'};
 export const REVIEWS = {PENDING:'검수 대기',REVIEWED:'CMS 검수 완료'};
@@ -76,6 +77,14 @@ export function validateMercenaryCms(d, catalog) {
 // without rewriting stored ranks, names, costs, reviews or explicit assignments.
 // Only the exact previous complete catalog is eligible, never a partial draft.
 export function expandMercenarySkillCatalog(document, defaults, catalog) {
+  if(catalog.cards.some(c=>c.code===RAGNIEL_CODE)&&!document?.mercenaries?.some(c=>c.code===RAGNIEL_CODE)){
+    const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!==RAGNIEL_CODE),skills:catalog.skills.filter(s=>s.id!==RAGNIEL_SKILL_ID)};
+    const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);
+    return validateMercenaryCms({...previous,
+      mercenaries:[...previous.mercenaries,structuredClone(defaults.mercenaries.find(c=>c.code===RAGNIEL_CODE))],
+      skills:[...previous.skills,structuredClone(defaults.skills.find(s=>s.id===RAGNIEL_SKILL_ID))],
+      assignments:[...previous.assignments,structuredClone(defaults.assignments.find(c=>c.code===RAGNIEL_CODE))]},catalog);
+  }
   if(catalog.cards.some(c=>c.code===MANGISA_CODE)&&!document?.mercenaries?.some(c=>c.code===MANGISA_CODE)){
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!==MANGISA_CODE),skills:catalog.skills.filter(s=>s.id!==MANGISA_SKILL_ID)};
     const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);

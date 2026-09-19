@@ -42,12 +42,12 @@ test('known v1 draft migration preserves prior notes, assignments and revision',
 test('43 approved roster codes each have a distinct, complete proposed assignment', () => {
   assert.deepEqual(validatePositionDraft(seed, roster), { ok: true, errors: [] });
   assert.deepEqual(seed.assignments.map(entry => entry.code).sort(), roster.cards.map(card => card.code).sort());
-  assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size,45);
-  assert.equal(roster.cards.every(card => card.code === 'V-021' ? card.rank === 'SSS' : ['V-044','V-045'].includes(card.code) ? card.rank === 'SS' : card.rank === null), true);
+  assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size,46);
+  assert.equal(roster.cards.every(card => ['V-021','V-046'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045'].includes(card.code) ? card.rank === 'SS' : card.rank === null), true);
   assert.deepEqual(summarizePositions(seed), {
-    total:45,
-    positions: { FRONT: 20, MIDDLE: 17, REAR: 8 },
-    roles: { GUARDIAN: 4, VANGUARD: 10, ASSASSIN: 5, MARKSMAN: 13, SNIPER: 4, CONTROLLER: 6, SUPPORT: 3 }
+    total:46,
+    positions: { FRONT: 21, MIDDLE: 17, REAR: 8 },
+    roles: { GUARDIAN: 4, VANGUARD: 11, ASSASSIN: 5, MARKSMAN: 13, SNIPER: 4, CONTROLLER: 6, SUPPORT: 3 }
   });
 });
 

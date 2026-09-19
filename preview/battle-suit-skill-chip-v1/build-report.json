@@ -45,6 +45,7 @@
     "shared/mercenary-s-skills-v2.mjs",
     "shared/mercenary-hi-heeya-v2118.mjs",
     "shared/mercenary-mangisa-v1.mjs",
+    "shared/mercenary-ragniel-v1.mjs",
     "shared/mercenary-skills-v1.mjs",
     "preview/project-v-v3/source/battle/ProjectileTrail.mjs",
     "preview/project-v-mercenary-system-v1/source/RenderSSkill.js",
@@ -61,6 +62,10 @@
     "preview/mercenary-mangisa-v1/skill.mjs",
     "preview/mercenary-mangisa-v1/source/MangisaSkillFX.js",
     "preview/project-v-v3/source/battle/MangisaCombatPlayback.js",
+    "preview/mercenary-ragniel-v1/skill.mjs",
+    "preview/mercenary-ragniel-v1/source/CueAudio.js",
+    "preview/mercenary-ragniel-v1/source/RagnielSkillFX.js",
+    "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
     "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js",
@@ -68,5 +73,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1159247
+  "outputBytes": 1179939
 }

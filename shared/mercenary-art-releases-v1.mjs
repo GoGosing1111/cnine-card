@@ -1,6 +1,6 @@
 // Approved artwork announcements are independent of the acquisition/CMS roster.
 // Promotion into gameplay requires its own reviewed roster and skill assignment.
-export const MERCENARY_ART_RELEASE_VERSION='20260919-mangisa-live-v1';
+export const MERCENARY_ART_RELEASE_VERSION='20260919-ragniel-live-v1';
 export const MERCENARY_ART_RELEASES=Object.freeze([
   Object.freeze({code:'V-044',name:'하이희야',title:'백색의 기관총 사수',rank:'SS',
     artOnly:true,releaseStatus:'ART_RELEASED',position:null,role:'MARKSMAN',

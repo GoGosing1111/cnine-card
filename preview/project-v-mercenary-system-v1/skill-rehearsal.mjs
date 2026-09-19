@@ -75,6 +75,10 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'PLATINUM_SANCTUARY':
+      if(counter){mark(.72,'제압 상태: 성역 심판 취소',['M'],'CANCEL');break;}
+      for(const [phase,at]of skill.visual.impacts.entries())for(const id of targets)hit(at,id,(phase===0?22.4:33.6)/targets.length,phase===0?'성검 단죄':'백금성역 심판',{phaseIndex:phase});
+      break;
     case 'GOLDEN_ORCHID_VOLLEY':
       if(counter){mark(.35,'제압 상태: 금란 연사 취소',['M'],'CANCEL');break;}
       for(const [i,at] of MANGISA_IMPACTS.entries()){

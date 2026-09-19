@@ -1487,6 +1487,39 @@
       "source": "assets/ui/project-v/characters/mercenary/mercenary-v045-mangisa-sd-v2.png",
       "sourceSha256": "1445CDE43CCC0E88A050A891BFA799C229310124070732FFDCFB459E24F6060A",
       "sha256": "BAC6A4C42ADC8B2A7D3839F5A07A3ACF52F90371B74EF0E601F67161CA5BF6D4"
+    },
+    {
+      "code": "V-046",
+      "kind": "art",
+      "file": "v-046-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 72950,
+      "source": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png",
+      "sourceSha256": "B6EC66166A3AF153A9A6BAB827C0FE998E94855B16F67E0683BBFF4B0CCD0F89",
+      "sha256": "1734514F9F315DB837818610E3D709714D183D2AE24DC5E31DB74E97DF0563B7"
+    },
+    {
+      "code": "V-046",
+      "kind": "art",
+      "file": "v-046-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 230454,
+      "source": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png",
+      "sourceSha256": "B6EC66166A3AF153A9A6BAB827C0FE998E94855B16F67E0683BBFF4B0CCD0F89",
+      "sha256": "69E60FB2725E9320289E5AED20CF4820E0EC6CC879DCAC5A3A84979DCE2B8639"
+    },
+    {
+      "code": "V-046",
+      "kind": "sd",
+      "file": "v-046-sd-640.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 179210,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v046-ragniel-sd-v1.png",
+      "sourceSha256": "5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194",
+      "sha256": "55DD6A7E8AE8316C55034DCE00563FCD333507307C5B171726667842E101E0B9"
     }
   ]
 }

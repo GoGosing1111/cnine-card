@@ -7,6 +7,7 @@ import {isRangedMercenarySkill,rangedMercenaryProfile,rangedMercenaryPvpScale,ch
 import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE} from '../shared/mercenary-guard-balance-v1.mjs';
 import {isMercenaryMoonDrawSkill} from '../shared/mercenary-moon-draw-v1.mjs';
 import {resolveMangisaVolley} from './_mercenary_mangisa.js';
+import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
@@ -66,6 +67,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
  const friendly=a=>ordered(teams[a.side]),enemies=a=>ordered(teams[a.side==='A'?'B':'A']);
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
+  if(s.mechanic==='PLATINUM_SANCTUARY')return fr.slice(0,2);
   if(s.mechanic==='GOLDEN_ORCHID_VOLLEY'){const primary=fr[0];return primary?[primary,...en.filter(t=>t!==primary).slice(0,2)]:[];}
   if(isMercenaryGuardSkill(s))return [weakest(friends.filter(t=>t.id!==a.id&&!activeIntercept(t)))].filter(Boolean);
   if(s.mechanic==='CLEANSE_THEN_MEND')return [weakest(friends)].filter(Boolean);
@@ -147,6 +149,10 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   case 'PLATINUM_SANCTUARY':{
+    const veil=table(debuffs,a).veil;delete table(debuffs,a).veil;
+    resolveRagnielJudgment({actor:a,skill:s,targets:p.targets.map(id=>all().find(t=>t.id===id)),hit,damage,knockout,emit,damageScale:veil?1-veil.percent/100:1});
+    finish(a,s);break;}
    case 'GOLDEN_ORCHID_VOLLEY':{
     const primary=all().find(t=>t.id===p.targets[0]);if(!living(primary)){cancel(a,'TARGET_LOST');break;}
     const veil=table(debuffs,a).veil;delete table(debuffs,a).veil;
@@ -216,7 +222,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
     if(isMercenaryGuardSkill(s)&&friendly(a).some(t=>activeIntercept(t)?.actor.id===a.id))continue;
     const selected=targets(a,s);if(!selected.length)continue;
     st.energy-=s.balance.cost;st.cooldown.set(s.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.used.add(s.id);st.nextIndex=(index+1)%skills.length;st.pending={skill:s,targets:selected.map(t=>t.id),due:a.actions+a.combat.windupTurns,hits:st.hits,step:0};
-    send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});if(ranged)resolveRanged(a,st.pending);else if(s.mechanic==='GOLDEN_ORCHID_VOLLEY')resolve(a,st.pending);else if(isMercenaryGuardSkill(s)){resolve(a,st.pending);st.guardBasicAction=a.actions;return false;}return true;
+    send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});if(ranged)resolveRanged(a,st.pending);else if(['GOLDEN_ORCHID_VOLLEY','PLATINUM_SANCTUARY'].includes(s.mechanic))resolve(a,st.pending);else if(isMercenaryGuardSkill(s)){resolve(a,st.pending);st.guardBasicAction=a.actions;return false;}return true;
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){factor*=1-d.restraint/100;delete d.restraint;}return factor*tierScale(a);},

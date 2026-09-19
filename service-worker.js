@@ -1,3 +1,4 @@
+// Ragniel SSS: approved SD, dash, sword contact and platinum sanctuary.
 // Mangisa SS: approved horizontal AK sprite and authoritative six-shot timeline.
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
