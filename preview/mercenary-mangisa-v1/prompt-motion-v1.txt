@@ -1,0 +1,16 @@
+Use case: stylized-concept, production battle animation sprite sheet.
+Use the supplied image as the EXACT adult character, outfit, white/gold AK and horizontal SCREEN-RIGHT aiming reference.
+Create ONE 6-FRAME CHARACTER SHOOTING MOTION SHEET, 1536x1024 RGBA PNG, exactly 3 columns x 2 rows of 512x512 square cells. Genuine transparent alpha background. Reading order left to right, top then bottom. No labels, borders, numbers, text, scenery, floor shadows or painted checkerboard.
+Same adult female semi-deformed battle sprite as reference in EVERY frame. Same face, black long hair and bangs, gold hairpin, red/gold short qipao, red high heels, adult build and long legs. No face or costume redesign. Complete head, feet AND entire gun inside every cell. Same camera, character size, grounded foot baseline, facing right and pivot. Each character occupies about 430px in height, head around y=44, soles near y=474, body pelvis near x=208. Gun barrel and muzzle stay inside x=478. At least 20px transparent safety margin around every cell. Never allow the character to overlap another cell.
+Important: the rifle always aims horizontally RIGHT from the shoulder; no diagonal-down barrel. Natural real pistol-grip trigger hand and under-barrel supporting hand.
+
+Six DISTINCT real anatomically continuous shooting poses:
+0: poised steady aiming pose, knees softly bent, stock seated at shoulder, horizontal muzzle.
+1: controlled initial shot recoil; stock presses 8px deeper into shoulder, right elbow folds slightly, shoulder shifts backward, front knee flexes, hair reacts backward.
+2: return from initial recoil to forward aim, supporting left arm extends, hips settle, hair still trailing.
+3: stronger braced finishing-shot preparation; torso leans slightly forward from hips, both arms lock the long rifle horizontally, knees bend a little further, determined face.
+4: finishing-shot recoil; shoulders driven backward, right elbow folding, weight visibly transferred to rear leg, front knee extends, long hair and dress hem react. Feet remain in the same world anchor; no jumping.
+5: settle back to ready aim, shoulder and forearms relax slightly, hair and cloth settle.
+
+These must be actually redrawn sequential arm, shoulder, torso, leg and hair poses, not six identical cutouts translated/rotated. Maintain high-fidelity weapon design and body volume across poses. Keep mature adult appearance, polished painted RPG SD finish and consistent light. No muzzle flashes, bullets or other VFX baked in; those are separate layers.
+True alpha everywhere outside the character. Opaque character and rifle. EXACT 3x2 equal grid.

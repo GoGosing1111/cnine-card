@@ -1,0 +1,25 @@
+Use case: stylized-concept, production sprite animation sheet.
+Create a REAL CONTINUOUS 16-FRAME GAME VFX SPRITE SHEET for ONE original skill impact called Golden Orchid Burst (금란 연사). Native 1024x1024 RGBA PNG with genuine transparent alpha. EXACT uniform 4 columns x 4 rows grid; each cell 256x256. Frames in chronological reading order, left to right then top to bottom. No cell borders, no labels, no text, no numbers, no character, no weapon, no background.
+
+The same sophisticated impact evolves across all 16 cells: a pinpoint ivory-gold rifle impact turns into a tightly layered crimson-and-gold orchid-like energy blossom, then sharply shatters into outward golden needles and red silk-like energy petals, then fine embers and a delicate wisp of smoke. This is a kinetic rifle skill explosion from an ornate white-and-gold AK, not a floating flower icon or magic circle. Refined Korean high-end 2D fantasy game VFX: strong readable silhouette, rich red translucent petal lobes, sharp elegant gold rims, ivory hot center, sparse sparks, restrained smoke. Gorgeous energetic burst with a tangible contact point. Mostly side-view with slight three-quarter depth. No giant beams or messy opaque cloud. Do not make 16 unrelated icons or reuse the same image with only scale/rotation changes.
+
+FRAMES:
+0: two short golden streaks converge near the center.
+1: convergence strikes a tiny bright diamond-free round spark.
+2: a compressed white-gold molten core with two curled crimson energy lobes opens.
+3: tension builds as four gold-rimmed red folds flare around the core.
+4: EXACT CONTACT / main detonation frame, bright core punches outward and red-gold petals break open.
+5: bloom spreads asymmetrically with sharply torn petal forms and bright flying metal-like sparks.
+6: largest layered blossom, energetic jagged gold ribs with red translucent lobes, clearly distinct from frame 5.
+7: blossom tears into separating ribbon-shaped shards.
+8: separated curved red fragments fly outward, core diminishes.
+9: fragments bend and split into smaller gold-edged wisps.
+10: sparse red wisps and amber sparks drifting out.
+11: only a few slender fading petals with tiny embers.
+12: short faint amber sparks and slight warm smoke curl.
+13: thinning discontinuous dust and a small red wisp.
+14: a few almost dissolved ember specks.
+15: near-empty final faint drifting ember traces.
+
+TECHNICAL:
+Every frame centered at the SAME collision anchor (128,142) within its own 256x256 cell. All painted pixels must stay at least 18 pixels inside EACH cell boundary, even at maximum expansion. Preserve clean alpha gutters around every frame. Uniform camera, scale and origin; no overlap across cells. Alpha transparency outside effects, never painted checkerboard or solid black. Do not fill empty space with stars or particles. Use genuinely differing shapes and material evolution in each consecutive frame. ONE precisely aligned 4x4 sheet.
