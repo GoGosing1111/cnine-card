@@ -5,13 +5,18 @@ let manifestPromise;
 const loadManifest=()=>manifestPromise||=(fetch('/preview/mercenary-ragniel-v1/manifest.json?v=ragniel-live-1').then(r=>{if(!r.ok)throw Error('RAGNIEL_MANIFEST');return r.json()}).catch(error=>{manifestPromise=null;throw error}));
 const release=assets=>{for(const frames of [...Object.values(assets.motion),...Object.values(assets.effects)])for(const texture of frames)texture.destroy(false);};
 export async function preloadRagniel(){release(await loadRagnielAssets(await loadManifest()));}
+export function ragnielPlaybackPlan(mode,contacts){
+ const cancelled=mode==='ultimate'&&!contacts.some(c=>c.at===2.42);
+ const plan=makePlan({mode,cancelAt:cancelled?1.78:null});
+ return {...plan,duration:plan.stop??plan.duration,contacts:[...new Set(contacts.filter(c=>!c.dodge).map(c=>c.at))],damageAuthority:'SERVER_ONLY'};
+}
 async function playback(engine,actor,targets,mode,contacts){
  const epoch=engine.mercenaryEpoch,playbackEpoch=engine.playbackEpoch;
  const valid=()=>actor&&!actor.root.destroyed&&engine.visible&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&targets.every(t=>t&&!t.root.destroyed);
  if(!valid())return false;
  const manifest=await loadManifest(),assets=await loadRagnielAssets(manifest);
  if(!valid()){release(assets);return false;}
- const plan={...makePlan({mode}),damageAuthority:'SERVER_ONLY'},clock={time:0};
+ const plan=ragnielPlaybackPlan(mode,contacts),clock={time:0};
  engine.settlePendingTails?.([actor,...targets]);
  const fx=new RagnielSkillFX(engine,actor,targets,assets,manifest,plan,()=>{},{authoritative:true,useAuthoredPose:actor.cardId===RAGNIEL_CODE});
  fx.removeTimeline();engine.mercenaryFx=fx;
@@ -31,7 +36,7 @@ export async function playRagnielJudgment(engine,event){
  const actor=engine.combatantById(event.actorId),targets=(event.targetIds||[]).map(id=>engine.combatantById(id)).filter(Boolean);
  if(!actor||!targets.length)return true;
  engine.queueBanner(event.skillName,0xf5d582,actor.name||'종언의 백금성역');
- const contacts=(event.impacts||[]).map(impact=>({at:impact.at,apply(){
+ const contacts=(event.impacts||[]).map(impact=>({at:impact.at,dodge:impact.dodge,apply(){
   const target=engine.combatantById(impact.targetId);if(!target)return;
   engine.syncTargetHp(target,engine.eventHpPercent(target,impact.targetHpAfter));
   engine.syncTargetShield(target,impact.targetShieldAfter,impact.targetMaxShield);

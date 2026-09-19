@@ -11,6 +11,8 @@ import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-polic
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {openMercenaryCards,saveMercenaryLoadout,loadMercenaryBattleSnapshot} from '../functions/_mercenary_account.js';
+import {ragnielPlaybackPlan} from '../preview/project-v-v3/source/battle/RagnielCombatPlayback.js';
+import {sample} from '../preview/mercenary-ragniel-v1/skill.mjs';
 const art=seed.catalog.cards.find(c=>c.code==='V-046'),skill=seed.document.skills.find(s=>s.id==='MS-046');
 const snapshot={code:'V-046',name:'라그니엘',rank:'SSS',role:'VANGUARD',position:'FRONT',level:1,basePower:180000,stats:{hp:100000,attack:1000,defense:100,speed:100},skills:[skill],combat,sourceArt:art.sourceArt,battleSprite:art.battleSprite};
 test('approved originals and SSS defaults register once while prior CMS edits survive',()=>{
@@ -51,6 +53,16 @@ test('dodged or killed targets receive no spare second strike, redistribution or
  }
  const h=harness({controlled:true});h.actor.actions++;h.runtime.beforeAction(h.actor);assert.equal(h.rolls.length,0);assert.equal(h.runtime.state(h.actor).energy,100);
  const lost=harness();lost.targets[0].hp=0;resolveRagnielJudgment({...lost,skill});assert.ok(lost.rolls.every(r=>r.id==='B:1'));assert.ok(Math.abs(lost.rolls.reduce((s,r)=>s+r.ratio,0)-2.8)<1e-10);
+});
+test('server cancellation suppresses the unearned falling sword and releases its visual clock early',()=>{
+ for(const options of [{hp:1},{dodge:true}]){
+  const h=harness({...options,count:1});h.actor.actions++;h.runtime.beforeAction(h.actor);
+  const event=h.events.find(e=>e.type==='MERCENARY_JUDGMENT'),plan=ragnielPlaybackPlan('ultimate',event.impacts);
+  assert.equal(plan.duration,1.78);assert.equal(plan.contacts.includes(2.42),false);
+  assert.equal(sample(plan,2.42).judgment,null);assert.equal(sample(plan,2.42).travel,0);
+  if(options.dodge)assert.deepEqual(plan.contacts,[]);
+ }
+ const full=ragnielPlaybackPlan('ultimate',[{at:1.58},{at:2.42}]);assert.equal(full.duration,5.8);assert.ok(sample(full,2.42).judgment);
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SSS acquisition is uniform, repeat-safe and deploys through the separate mercenary slot`,async t=>{
  const f=await mercenaryFixture(t,{postgres});for(const o of f.draw.outcomes)o.chancePpm=o.id==='CARD_SSS'?1000000:0;await f.setDraw(f.draw);
