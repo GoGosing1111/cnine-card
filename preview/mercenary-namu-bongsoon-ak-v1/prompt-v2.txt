@@ -1,0 +1,18 @@
+EDIT the supplied approved adult female mercenary illustration. The user likes the character's face, body, legs, pose and especially the rifle. Change ONLY the CLOTHING CONCEPT and make a SMALL HAIRSTYLE CHANGE.
+
+ABSOLUTE APPROVED WEAPON LOCK:
+The white / black / gold AK in this exact image is explicitly APPROVED by the user. Preserve the existing rifle image as closely as possible, with NO design changes: same exact stock outline, gold openwork, receiver plates, round golden medallion, curved white magazine with gold border, handguard, barrel, front sight, proportions, scale, angle and location. Preserve BOTH hands and their grip, fingers and wrists. Do not reinterpret the original weapon skin again. Do not shift, resize, restyle, simplify, add accessories, crop or repaint the rifle. It must be the SAME weapon the user has just approved.
+
+CLOTHING CHANGE:
+Replace the plain white western mini dress with a luxurious contemporary SHORT, TIGHT CHEONGSAM / QIPAO, in rich deep emerald-jade satin with refined warm-gold piping and sparse elegant gold botanical embroidery. It is a sophisticated adult fantasy mercenary costume, tailored to the SAME body: full bust, slim fitted waist, curving hips and long shapely legs. Do not flatten, enlarge or reshape her figure.
+Make the cheongsam unmistakable through a short mandarin collar, diagonal Chinese-style overlap seam, elegant gold frog closures and a body-hugging pencil silhouette.
+The UPPER BODICE is deliberately a little UNFASTENED: the top two frog closures are undone, the collar opens naturally and the overlapping fabric relaxes into an attractive open V neckline that shows her collarbones, upper chest and some cleavage. The opening must look like physically loosened qipao fastenings, not a random hole cut into the garment. Opaque fabric still covers her chest. Sleeveless or very short elegant capped sleeves keep her arms clear.
+The skirt MUST be very short, fitted tightly through the hips, ending on the upper/mid thigh, with a small fitted side slit that reveals the long leg line. No long skirt panels, no flared fabric, no trousers, no leggings, no stockings, no big belt, no tactical vest, no bulky armor. Show the SAME exposed long legs and full skirt hem clearly. Natural satin tension and folds, sleek high-quality tailoring. Keep gold embroidery fine and thoughtfully placed; do not cover every inch with busy patterns.
+
+HAIR CHANGE:
+Keep her long black hair, original wispy fringe and face-framing strands. Make a subtle elegant HALF-UP hairstyle, secured behind the crown with one small gold hair clasp. The lower hair remains long and flowing behind her shoulders. Clear more of the neckline without changing her head silhouette drastically. No short haircut, no two buns, no dramatic color change. Keep her exact gently full cheeks, soft jaw, eyes, nose, lips and calm expression; preserve the identity of the illustrated ADULT woman, mid-20s or older.
+
+PRESERVE EVERYTHING ELSE:
+Exactly the same tall mature body proportions, pose and crossed-leg stance, camera, crop, hands, gun, face and facial expression, sunlight direction, clean 2D semi-real fantasy illustration finish, palace balcony, architecture and background. Do not globally retouch or recolor the scene. The deep jade dress contrasts beautifully with the already-approved white-and-gold rifle. Prioritize recognizability, attractive polished character art and naturally believable garment construction.
+
+Output ONE native 1024x1536 RGB PNG, exact 2:3 portrait. No text, rank, logos, watermark, frame or UI.
