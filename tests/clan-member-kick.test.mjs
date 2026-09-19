@@ -66,6 +66,10 @@ test('audit failure rolls back member, draft, faction and receipt together',asyn
  const f=await fixture();try{f.failAudit();await assert.rejects(f.call(),/injected audit/);assert.equal((await f.pg.query('SELECT * FROM clan_members')).rows.length,3);assert.equal((await f.pg.query('SELECT status FROM clan_draft_pool')).rows[0].status,'DRAFTED');assert.equal((await f.pg.query('SELECT revision FROM clan_faction_state')).rows[0].revision,4);assert.equal((await f.pg.query('SELECT * FROM app_meta')).rows.length,0);}finally{await f.close();}
 });
 
+test('expired faction battle waiting for lazy reconciliation no longer blocks removal',async()=>{
+ const f=await fixture();try{await f.pg.query('UPDATE clan_faction_state SET state_json=$1',[JSON.stringify({...f.faction,battles:[{status:'ACTIVE',endsAt:1,attackers:[2],defenders:[3]}]})]);assert.equal((await f.call()).ok,true);}finally{await f.close();}
+});
+
 test('an old dialog cannot kick a user who left and rejoined; old successful replay does not kick them again',async()=>{
  const f=await fixture();try{await f.call();await f.pg.exec("INSERT INTO clan_members VALUES(5,8,2,'MEMBER','2026-09-19');UPDATE clan_draft_pool SET status='DRAFTED',drafted_clan_id=8");assert.equal((await f.call()).replayed,true);await assert.rejects(f.call({requestId:'another-request-0001'}),/가입 정보/);assert.equal((await f.pg.query('SELECT * FROM clan_members WHERE user_id=2')).rows.length,1);}finally{await f.close();}
 });

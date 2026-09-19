@@ -33,7 +33,7 @@ export async function kickClanMember(env,user,body){
     let nextFaction=null;
     if(faction){
       const state=JSON.parse(faction.state_json);
-      check(!(state.battles||[]).some(b=>b.status==='ACTIVE'&&[...(b.attackers||[]),...(b.defenders||[])].some(id=>Number(id)===targetUserId)),'세력전 교전 중인 클랜원은 교전 종료 후 추방할 수 있습니다.');
+      check(!(state.battles||[]).some(b=>b.status==='ACTIVE'&&(!Number.isFinite(Number(b.endsAt))||Number(b.endsAt)>Date.now())&&[...(b.attackers||[]),...(b.defenders||[])].some(id=>Number(id)===targetUserId)),'세력전 교전 중인 클랜원은 교전 종료 후 추방할 수 있습니다.');
       nextFaction=structuredClone(state);
       for(const [squad,ids] of Object.entries(nextFaction.formations?.[team.clan_id]||{}))nextFaction.formations[team.clan_id][squad]=ids.filter(id=>Number(id)!==targetUserId);
       for(const [squad,id] of Object.entries(nextFaction.captains?.[team.clan_id]||{}))if(Number(id)===targetUserId)delete nextFaction.captains[team.clan_id][squad];
