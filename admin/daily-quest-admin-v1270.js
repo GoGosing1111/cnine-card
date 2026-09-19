@@ -14,7 +14,7 @@
     const btn=byIds('saveDailyQuestBtn','saveDailyQuestSettingsBtn');
     if(btn?.disabled)return;
     try{
-      const reward=readNumber('dqPostRewardCoin','게시글 보상 코인',0,1000000000);
+      const reward=readNumber('dqPostRewardCoin','게시글 보상 코인',0,10000000000);
       const settings={
         enabled:document.getElementById('dqEnabled')?.value==='1',
         postEnabled:document.getElementById('dqPostEnabled')?.value==='1',

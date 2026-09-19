@@ -3408,6 +3408,7 @@ async function inspectWagoComment(settings,verification){
 }
 
 
+const DAILY_QUEST_MAX_REWARD_COIN=10_000_000_000;
 function normalizePlaydkDailyBoardSlugs(value,fallback=['skm']){
   const source=Array.isArray(value)?value:String(value||'').split(',');
   const normalized=[...new Set(source.map(item=>String(item||'').trim().toLowerCase()).filter(slug=>/^[a-z0-9_-]{1,80}$/.test(slug)))].slice(0,10);
@@ -7682,7 +7683,9 @@ async function handleRequest(context){
       if(request.method==='PATCH'){
         if(admin.role!=='OWNER')return json({error:'일일퀘스트 설정 변경은 OWNER만 가능합니다.'},403);
         const body=await readBody(request),before=await playdkDailyQuestSettings(env),v=body.settings||{};
-        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardSlugs:normalizePlaydkDailyBoardSlugs(before.boardSlugs),requiredPosts:Math.max(1,Math.min(200,Number(v.requiredPosts)||15)),postRewardCoin:Math.max(0,Math.floor(Number(v.postRewardCoin??v.rewardCoin)||1200)),checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
+        const postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??before.postRewardCoin);
+        if(!Number.isSafeInteger(postRewardCoin)||postRewardCoin<0||postRewardCoin>DAILY_QUEST_MAX_REWARD_COIN)return json({error:'일일퀘스트 보상 코인은 0~100억 사이의 정수로 입력하세요.'},400);
+        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardSlugs:normalizePlaydkDailyBoardSlugs(before.boardSlugs),requiredPosts:Math.max(1,Math.min(200,Number(v.requiredPosts)||15)),postRewardCoin,checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
         next.rewardCoin=next.postRewardCoin;
         await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('playdk_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();
         await writeAdminLog(env,admin,'DAILY_QUEST_SETTINGS','APP_META','playdk_daily_quest_settings_v1',before,next);
