@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 import {__clanTest as clan,reconcileClanDraft} from '../functions/_clan.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {runDraftSchedule,nextAlarmAt,ensureDraftAlarm,handleDraftAlarm} from '../workers/clan-draft/src/schedule.js';
@@ -194,7 +195,26 @@ test('30s defaults, public countdown and scheduled deployment are included in th
   assert.deepEqual(config.durable_objects.bindings,[{name:'CLAN_DRAFT_ALARM',class_name:'ClanDraftAlarm'}]);
   assert.deepEqual(config.migrations[0].new_sqlite_classes,['ClanDraftAlarm']);
   const scripts=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8')).scripts;
-  assert.match(scripts['deploy:production'],/^npm run release:gate && .*workers\/clan-draft\/wrangler.jsonc/);
+  assert.equal(scripts['deploy:production'],'node scripts/deploy-production.mjs');
+  const deployUrl=new URL('../scripts/deploy-production.mjs',import.meta.url);
+  const deploySource=readFileSync(deployUrl,'utf8').replace(/^import .*;\r?$/gm,'').replaceAll('import.meta.url',JSON.stringify(deployUrl.href));
+  const runDeployment=(platform,gateStatus=0)=>{
+    const calls=[];
+    const context={console,process:{argv:['node','deploy-production.mjs'],platform,execPath:'node',env:{},exit:status=>{throw Error('exit '+status)}},
+      execFileSync:()=>{throw Error('normal release must not enter the asset-only shortcut')},
+      spawnSync:(command,args)=>{calls.push([command,...args]);return {status:calls.length===1?gateStatus:0}},
+      createRequire:()=>({resolve:()=>'/tools/wrangler/package.json'}),dirname:()=>'/tools/wrangler',join:(...parts)=>parts.join('/'),readFileSync};
+    if(gateStatus)assert.throws(()=>runInNewContext(deploySource,context),/exit 1/);
+    else runInNewContext(deploySource,context);
+    return calls;
+  };
+  for(const platform of ['win32','linux']){
+    const calls=runDeployment(platform);assert.equal(calls.length,3);
+    assert.match(calls[0].join(' '),/npm(?: run)? release:gate|npm run release:gate/);
+    assert.deepEqual(calls[1],['node','/tools/wrangler/bin/wrangler.js','pages','deploy','.','--project-name','cnine-card','--branch','main']);
+    assert.deepEqual(calls[2],['node','/tools/wrangler/bin/wrangler.js','deploy','--config','workers/clan-draft/wrangler.jsonc']);
+    assert.equal(runDeployment(platform,1).length,1,'failed release gate must stop both deployments');
+  }
 });
 
 async function scheduledRedraftFixture(t,postgres=false){
