@@ -1,5 +1,6 @@
 import {rehearseSSkill} from './skill-rehearsal-s-v2.mjs';
 import {skillById, SCENARIOS} from '../../shared/mercenary-skills-v1.mjs';
+import {MANGISA_IMPACTS} from '../../shared/mercenary-mangisa-v1.mjs';
 
 // All numbers below are deliberately confined to this offline, 100-HP rehearsal.
 // Production balance remains null. The renderer consumes this resolved log only.
@@ -51,7 +52,8 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   if (!Object.hasOwn(SCENARIOS, scenario)) throw new Error('알 수 없는 검수 상황입니다.');
   validateSnapshot(snapshot);
   const skill = skillById(id), initial = clone(snapshot), work = clone(initial), events = [];
-  const targets = (skill.mechanic==='DISTRIBUTED_CORAL_VOLLEY'?work.filter(a=>a.team==='ENEMY'&&a.hp>0).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id)).slice(0,3):selectSkillTargets(skill.target, work)).map(a=>a.id),t=targets[0];
+  const selected = selectSkillTargets(skill.target, work);
+  const targets = (skill.mechanic==='DISTRIBUTED_CORAL_VOLLEY'?work.filter(a=>a.team==='ENEMY'&&a.hp>0).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id)).slice(0,3):skill.mechanic==='GOLDEN_ORCHID_VOLLEY'?[...selected,...work.filter(a=>a.team==='ENEMY'&&a.hp>0&&!selected.includes(a)).slice(0,2)]:selected).map(a=>a.id),t=targets[0];
   const source = work.find(a => a.id === 'M');
   const get = id => work.find(a => a.id === id);
   const counter = scenario === 'counter', boss = scenario === 'boss';
@@ -73,6 +75,14 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'GOLDEN_ORCHID_VOLLEY':
+      if(counter){mark(.35,'제압 상태: 금란 연사 취소',['M'],'CANCEL');break;}
+      for(const [i,at] of MANGISA_IMPACTS.entries()){
+        if(get(t).hp<=0)break;
+        hit(at,t,i===5?10:4.4,i===5?'금란 개화탄':'금란 연사',{phaseIndex:i});
+        if(i===5)for(const id of targets.slice(1))hit(at,id,4,'개화탄 확산',{phaseIndex:i});
+      }
+      break;
     case 'TIDAL_BARRAGE':
       if(counter){mark(.4,'준비 중 제압: 집중 사격 취소',['M'],'CANCEL');break;}
       skill.visual.impacts.forEach((at,i)=>i===8?hit(at,t,42,'집중 탄막 확정 피해'):mark(at,'백청색 연사 궤적',[t],'HIT'));

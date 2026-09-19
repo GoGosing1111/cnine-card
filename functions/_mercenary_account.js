@@ -52,7 +52,7 @@ export async function saveMercenaryRuntime(env,user,raw){
   return saveJointPolicyDraft(env,user,MERCENARY_RUNTIME_KEY,before?.value??null,next);
 }
 export async function readMercenaryDocument(env){
-  const release=await readJointReleaseComponent(env,'MERCENARY');if(release)return {revision:release.cmsRevision,document:validateMercenaryCms(release.document,MERCENARY_CMS_SEED.catalog)};
+  const release=await readJointReleaseComponent(env,'MERCENARY');if(release)return {revision:release.cmsRevision,document:expandMercenarySkillCatalog(release.document,MERCENARY_CMS_SEED.document,MERCENARY_CMS_SEED.catalog)};
   const row=await env.DB.prepare("SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first();
   if(!row)throw jointError('MERCENARY_CONFIG','용병 CMS를 먼저 등록하세요.',409);
   return {revision:Number(row.revision),document:expandMercenarySkillCatalog(JSON.parse(row.payload_json),MERCENARY_CMS_SEED.document,MERCENARY_CMS_SEED.catalog)};

@@ -1,0 +1,414 @@
+{
+  "version": 1,
+  "code": "V-045",
+  "name": "망이사",
+  "rank": "SS",
+  "nameStatus": "USER_ASSIGNED_NAME",
+  "rankStatus": "USER_ASSIGNED_RANK",
+  "sourceArtStatus": "APPROVED_SOURCE_ART",
+  "approvedAt": "2026-09-19",
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "hasAlpha": false,
+    "sha256": "4203D153549D0C5D13F6712BD6ABA3424A4866C12963BE823154A78F09DF6313",
+    "transparentFraction": 0,
+    "opaqueFraction": 1,
+    "borderPixels": 20416,
+    "bounds": [
+      0,
+      0,
+      1023,
+      1535
+    ]
+  },
+  "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v045-mangisa-sd-v2.png",
+  "battleSpriteInfo": {
+    "width": 1024,
+    "height": 1536,
+    "hasAlpha": true,
+    "sha256": "1445CDE43CCC0E88A050A891BFA799C229310124070732FFDCFB459E24F6060A",
+    "transparentFraction": 0.6913096110026041,
+    "opaqueFraction": 0.2900409698486328,
+    "borderPixels": 0,
+    "bounds": [
+      41,
+      19,
+      1011,
+      1493
+    ]
+  },
+  "battleSpriteFootAnchor": {
+    "x": 0.502,
+    "y": 0.973
+  },
+  "battleSpriteFacing": "RIGHT",
+  "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "skillStatus": "IMPLEMENTED_PREVIEW_USER_REVIEW_PENDING",
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "audio": "SILENT_VISUAL_REVIEW"
+  },
+  "impact": {
+    "source": "assets/source/golden-orchid-impact-v1.png",
+    "sourceInfo": {
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "806528DE6BAEABEE6076D21A8EE7AA95AD0BE0B8A2ACB81B43171FBF5F2A1978",
+      "transparentFraction": 0.7472369120568566,
+      "opaqueFraction": 0.07337159049574059,
+      "borderPixels": 0,
+      "bounds": [
+        30,
+        65,
+        1221,
+        1161
+      ]
+    },
+    "atlas": "assets/impact-atlas.webp",
+    "cellSize": 384,
+    "columns": 4,
+    "rows": 4,
+    "frameCount": 16,
+    "collisionFrame": 4,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/impact/frame-00.png",
+        "sha256": "B3E167B7E5E6454EADCECD52CFC9695F31056CFD73F321B5D70F0F536BF8A05D",
+        "sourceRect": [
+          0,
+          0,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 1,
+        "file": "assets/impact/frame-01.png",
+        "sha256": "13DCEB3E655C5970708FC335099B7AF34BE60144E7054EFF86DBC57F3F742540",
+        "sourceRect": [
+          314,
+          0,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 2,
+        "file": "assets/impact/frame-02.png",
+        "sha256": "BF80B28F68406BBFE054DC5ABCBC7B7CE32F73ED2B80A8B032427DB8DB009CB5",
+        "sourceRect": [
+          627,
+          0,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 3,
+        "file": "assets/impact/frame-03.png",
+        "sha256": "6101E87B9953CC6F5C9FCADCB9760A9650258C329742EC81819AFB50D00D6EAC",
+        "sourceRect": [
+          941,
+          0,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 4,
+        "file": "assets/impact/frame-04.png",
+        "sha256": "FEB944178218A24A2AEF20990DC6A2952C0699E2AB7A7D7861E01FA396B084F3",
+        "sourceRect": [
+          0,
+          314,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 5,
+        "file": "assets/impact/frame-05.png",
+        "sha256": "813A19C3D7E8BEB5EDCA051FD42E7128D3D0E37B2C3B38DBE35BE653EBC37A09",
+        "sourceRect": [
+          314,
+          314,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 6,
+        "file": "assets/impact/frame-06.png",
+        "sha256": "404097740769E4F53FEA0EBDDBC12B7BDB90AC6B860DBD85C077AEBA337137DA",
+        "sourceRect": [
+          627,
+          314,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 7,
+        "file": "assets/impact/frame-07.png",
+        "sha256": "C8C62134BD29F3A90542F7769A53C623B97A973A080842BA5DD040135E114973",
+        "sourceRect": [
+          941,
+          314,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 8,
+        "file": "assets/impact/frame-08.png",
+        "sha256": "349781169C0EBEACEB3BC9B94F79294A9714EAF238E8AFC8202E4F2E59BB77E1",
+        "sourceRect": [
+          0,
+          627,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 9,
+        "file": "assets/impact/frame-09.png",
+        "sha256": "72118E46729B6BCBA888024B5D33768C61B1B468788757556554D571D326DAEA",
+        "sourceRect": [
+          314,
+          627,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 10,
+        "file": "assets/impact/frame-10.png",
+        "sha256": "3255AEAB1731C19D54DEA0F95DB581B57CE304D77B7AE290CCA8CE00EC1500B6",
+        "sourceRect": [
+          627,
+          627,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 11,
+        "file": "assets/impact/frame-11.png",
+        "sha256": "D6C095C5D4B24E349918E9AA0A3615C44F3AF5A5961C4ABDBC1B082567F8B24F",
+        "sourceRect": [
+          941,
+          627,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 12,
+        "file": "assets/impact/frame-12.png",
+        "sha256": "A1C89F3CE50F63C37941C502E81169475A539372C64EC85918DDBB7EF8A48F1B",
+        "sourceRect": [
+          0,
+          941,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 13,
+        "file": "assets/impact/frame-13.png",
+        "sha256": "4169BBA3EED79C5AEF07D7232F19FAC3C1C1955D524344B4A00987C5616B16D0",
+        "sourceRect": [
+          314,
+          941,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 14,
+        "file": "assets/impact/frame-14.png",
+        "sha256": "3EB1B7F562BE9E6FCD8DCC29159A36772BCB32B29489E3168B3050D360CE0127",
+        "sourceRect": [
+          627,
+          941,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 15,
+        "file": "assets/impact/frame-15.png",
+        "sha256": "2B9D44E818A85DB470DC210C28999BBAB725122364AE2EC012B38845172FF335",
+        "sourceRect": [
+          941,
+          941,
+          313,
+          313
+        ]
+      }
+    ]
+  },
+  "motion": {
+    "source": "assets/source/mangisa-fire-motion-v1.png",
+    "sourceInfo": {
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "sha256": "AAA198CE763E76B9EA0F3B90EE800D1B41916BAFF1B5ACD1AE0558B8B47C4D38",
+      "transparentFraction": 0.6896006266276041,
+      "opaqueFraction": 0.2647209167480469,
+      "borderPixels": 0,
+      "bounds": [
+        29,
+        9,
+        1513,
+        1007
+      ]
+    },
+    "atlas": "assets/motion-atlas.webp",
+    "cellSize": 640,
+    "columns": 3,
+    "rows": 2,
+    "frameCount": 6,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/motion/frame-0.png",
+        "sha256": "0E5BB92CBE2DB273CA40804488B3E6876254457726C2410734D7D93DB62F9AFC",
+        "sourceRect": [
+          72,
+          5,
+          412,
+          511
+        ],
+        "footAnchor": {
+          "x": 0.4375,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.8015625,
+          "y": 0.32421875
+        },
+        "bodyPixels": 503
+      },
+      {
+        "index": 1,
+        "file": "assets/motion/frame-1.png",
+        "sha256": "DB5154B562FFC6F29C279DB7EF2F90B29B9915AA4B4EFF1F49F4A42190E1271C",
+        "sourceRect": [
+          518,
+          5,
+          495,
+          512
+        ],
+        "footAnchor": {
+          "x": 0.4375,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.7796875,
+          "y": 0.32109375
+        },
+        "bodyPixels": 504
+      },
+      {
+        "index": 2,
+        "file": "assets/motion/frame-2.png",
+        "sha256": "2800084F44CA6B7C15D33F5C49ADF1ADDCFAA0AC60F55CD1444846A2597C2ADD",
+        "sourceRect": [
+          1049,
+          7,
+          460,
+          510
+        ],
+        "footAnchor": {
+          "x": 0.4375,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.803125,
+          "y": 0.321875
+        },
+        "bodyPixels": 502
+      },
+      {
+        "index": 3,
+        "file": "assets/motion/frame-3.png",
+        "sha256": "24EFD79B5ED6773AE9969E4C0844AA6970698B983B37C7C03FA0CFE9D87820E0",
+        "sourceRect": [
+          25,
+          514,
+          503,
+          496
+        ],
+        "footAnchor": {
+          "x": 0.4375,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.8640625,
+          "y": 0.35390625
+        },
+        "bodyPixels": 488
+      },
+      {
+        "index": 4,
+        "file": "assets/motion/frame-4.png",
+        "sha256": "A532D5F8FC318E5B013B18C9922D04CA1A18B5D14C7F17F7446F4008C67DA6DF",
+        "sourceRect": [
+          523,
+          512,
+          490,
+          499
+        ],
+        "footAnchor": {
+          "x": 0.4375,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.759375,
+          "y": 0.31484375
+        },
+        "bodyPixels": 491
+      },
+      {
+        "index": 5,
+        "file": "assets/motion/frame-5.png",
+        "sha256": "1A61D6465C943BEEEFAA1B887CA13776412487A59A27AA3D443C3BEC1FF4757C",
+        "sourceRect": [
+          1071,
+          515,
+          447,
+          497
+        ],
+        "footAnchor": {
+          "x": 0.4375,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.8015625,
+          "y": 0.34453125
+        },
+        "bodyPixels": 489
+      }
+    ]
+  },
+  "processing": "Unmodified native masters; exact native alpha frame extraction and transparent atlas padding. No generated intermediate frames, no recolor, no keying.",
+  "generation": {
+    "mode": "BUILT_IN_IMAGEGEN",
+    "prompts": [
+      "prompt-sd-v1.txt",
+      "prompt-sd-v2.txt",
+      "prompt-impact-v1.txt",
+      "prompt-motion-v1.txt"
+    ]
+  }
+}

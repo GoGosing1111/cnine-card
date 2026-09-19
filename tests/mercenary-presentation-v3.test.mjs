@@ -34,6 +34,7 @@ test('26 profiles use preserved recordings and align their measured principal pe
  assert.equal(audio.proceduralSynthesis,false);assert.equal(audio.runtimeEnabled,false);assert.equal(Object.keys(audio.profiles).length,27);
  for(const row of Object.values(audio.assets)){assert.equal(createHash('sha256').update(read(row.url.slice(1))).digest('hex'),row.sha256);assert.ok(row.licenseUrl&&row.sources&&row.peakAmplitude>0);}
  for(const skill of MERCENARY_SKILLS){const events=mercenaryAudioEvents(skill,compileRehearsal(skill.id));
+  if(skill.id==='MS-045'){assert.deepEqual(events,[],'Approved Mangisa preview is silent; do not invent an audio profile');continue;}
   for(const layer of ['NOTICE','IMPACT','TAIL'])assert.ok(events.some(e=>e.layer===layer),skill.id+layer);
   for(const e of events){assert.ok(e.offset>=0&&e.duration>0&&e.offset+e.duration<=audio.assets[e.asset].duration+.001);if(e.impact!==undefined)for(const rate of [.5,1,2,8])assert.ok(Math.abs((e.at+audio.assets[e.asset].peak-e.offset-e.impact)/rate*1000)<.01);}
  }

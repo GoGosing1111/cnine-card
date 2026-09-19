@@ -86,6 +86,8 @@ export function renderAuthored(fx,time){
   const phase=(e,i)=>e.phaseIndex??i;
   const atPhase=index=>!fx.authoritative||plan.effectPhase===index;
   switch(mode){
+    case 'GOLDEN_ORCHID_VOLLEY':
+      hits.forEach(e=>{const final=(e.phaseIndex??0)===5;trace(muzzle(),point(e.targets[0]),e.at,{travel:.075,width:2.2});for(const id of e.targets)impact(id,e.at,{size:final?300:100,lead:final?.14:0,life:final?1.3:.11,particles:final?12:2});});break;
     case 'HOLY_CLEAVE':case 'SHIELD_LANCE':case 'PETAL_VOLLEY':case 'MOON_DRAW':case 'IRON_FRONT':case 'THORN_BLOOM':case 'ABYSS_ECHO':case 'PLATINUM_BARRAGE':case 'CORAL_ARCS':
       renderSSkill({fx,time,mode,plan,target,hits,point,material,impact,trace,muzzle,aim,approach,light,debris,dust,flash,phase,atPhase,color});break;
     case 'EVENT_HORIZON': {

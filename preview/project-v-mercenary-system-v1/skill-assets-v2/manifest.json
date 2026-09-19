@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 432,
+  "frameCount": 448,
   "images": [
     {
       "id": "closing-punch",
@@ -9416,6 +9416,339 @@
           ],
           "rawSha256": "AED168468C61947E8E3F2183422BB7A52ECFBD7E44365999C7B5E140B519B4C7",
           "nonempty": 16290
+        }
+      ]
+    },
+    {
+      "id": "golden-orchid-volley",
+      "skillId": "MS-045",
+      "name": "금란 연사",
+      "source": "golden-orchid-volley/sequence-source-v1.png",
+      "runtime": "golden-orchid-volley/atlas-v1.webp",
+      "sourceSha256": "806528DE6BAEABEE6076D21A8EE7AA95AD0BE0B8A2ACB81B43171FBF5F2A1978",
+      "runtimeSha256": "35574060B441CA55AA6BF9B6E4678B9A91FD185390DDB532FF6978C08AD9AF7D",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1536,
+        1536
+      ],
+      "cellSize": 384,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Use case: stylized-concept, production sprite animation sheet.\r\nCreate a REAL CONTINUOUS 16-FRAME GAME VFX SPRITE SHEET for ONE original skill impact called Golden Orchid Burst (금란 연사). Native 1024x1024 RGBA PNG with genuine transparent alpha. EXACT uniform 4 columns x 4 rows grid; each cell 256x256. Frames in chronological reading order, left to right then top to bottom. No cell borders, no labels, no text, no numbers, no character, no weapon, no background.\r\n\r\nThe same sophisticated impact evolves across all 16 cells: a pinpoint ivory-gold rifle impact turns into a tightly layered crimson-and-gold orchid-like energy blossom, then sharply shatters into outward golden needles and red silk-like energy petals, then fine embers and a delicate wisp of smoke. This is a kinetic rifle skill explosion from an ornate white-and-gold AK, not a floating flower icon or magic circle. Refined Korean high-end 2D fantasy game VFX: strong readable silhouette, rich red translucent petal lobes, sharp elegant gold rims, ivory hot center, sparse sparks, restrained smoke. Gorgeous energetic burst with a tangible contact point. Mostly side-view with slight three-quarter depth. No giant beams or messy opaque cloud. Do not make 16 unrelated icons or reuse the same image with only scale/rotation changes.\r\n\r\nFRAMES:\r\n0: two short golden streaks converge near the center.\r\n1: convergence strikes a tiny bright diamond-free round spark.\r\n2: a compressed white-gold molten core with two curled crimson energy lobes opens.\r\n3: tension builds as four gold-rimmed red folds flare around the core.\r\n4: EXACT CONTACT / main detonation frame, bright core punches outward and red-gold petals break open.\r\n5: bloom spreads asymmetrically with sharply torn petal forms and bright flying metal-like sparks.\r\n6: largest layered blossom, energetic jagged gold ribs with red translucent lobes, clearly distinct from frame 5.\r\n7: blossom tears into separating ribbon-shaped shards.\r\n8: separated curved red fragments fly outward, core diminishes.\r\n9: fragments bend and split into smaller gold-edged wisps.\r\n10: sparse red wisps and amber sparks drifting out.\r\n11: only a few slender fading petals with tiny embers.\r\n12: short faint amber sparks and slight warm smoke curl.\r\n13: thinning discontinuous dust and a small red wisp.\r\n14: a few almost dissolved ember specks.\r\n15: near-empty final faint drifting ember traces.\r\n\r\nTECHNICAL:\r\nEvery frame centered at the SAME collision anchor (128,142) within its own 256x256 cell. All painted pixels must stay at least 18 pixels inside EACH cell boundary, even at maximum expansion. Preserve clean alpha gutters around every frame. Uniform camera, scale and origin; no overlap across cells. Alpha transparency outside effects, never painted checkerboard or solid black. Do not fill empty space with stars or particles. Use genuinely differing shapes and material evolution in each consecutive frame. ONE precisely aligned 4x4 sheet.\r\n",
+      "sourceFilename": "sequence-source-v1.png",
+      "visualReview": "2026-09-19 사용자 승인 용병 등록 지시",
+      "runtimeBytes": 1174958,
+      "creationReferenceCode": "V-045",
+      "frames": [
+        {
+          "index": 0,
+          "file": "golden-orchid-volley/frames/01.png",
+          "bounds": [
+            86,
+            139,
+            306,
+            256
+          ],
+          "alphaPixels": 4440,
+          "sha256": "B3E167B7E5E6454EADCECD52CFC9695F31056CFD73F321B5D70F0F536BF8A05D",
+          "rawSha256": "BD84B852C12111DC6D22CEDF0798F5B83B6FE27F3591D177498E0CBBC14C5DEF",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 25823
+        },
+        {
+          "index": 1,
+          "file": "golden-orchid-volley/frames/02.png",
+          "bounds": [
+            150,
+            162,
+            242,
+            257
+          ],
+          "alphaPixels": 3548,
+          "sha256": "13DCEB3E655C5970708FC335099B7AF34BE60144E7054EFF86DBC57F3F742540",
+          "rawSha256": "031987D0C5D91D7EA95F85B1439CD795D1D2C1D6DCD4A1AD4AD4AD1233FE9330",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 22401
+        },
+        {
+          "index": 2,
+          "file": "golden-orchid-volley/frames/03.png",
+          "bounds": [
+            123,
+            114,
+            262,
+            277
+          ],
+          "alphaPixels": 12557,
+          "sha256": "BF80B28F68406BBFE054DC5ABCBC7B7CE32F73ED2B80A8B032427DB8DB009CB5",
+          "rawSha256": "793031FA8182916B1870B8519FC839DA8915B828856A2F44EB0A49545E7BBB7F",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 31115
+        },
+        {
+          "index": 3,
+          "file": "golden-orchid-volley/frames/04.png",
+          "bounds": [
+            125,
+            100,
+            279,
+            281
+          ],
+          "alphaPixels": 15444,
+          "sha256": "6101E87B9953CC6F5C9FCADCB9760A9650258C329742EC81819AFB50D00D6EAC",
+          "rawSha256": "191202B5B143F8BBC65E52A8FA77474399BED79805E763490BE6F185FA4B71A7",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 31976
+        },
+        {
+          "index": 4,
+          "file": "golden-orchid-volley/frames/05.png",
+          "bounds": [
+            65,
+            71,
+            330,
+            320
+          ],
+          "alphaPixels": 35313,
+          "sha256": "FEB944178218A24A2AEF20990DC6A2952C0699E2AB7A7D7861E01FA396B084F3",
+          "rawSha256": "C624AFB12F2DAC2556FA3CFD0FAFD2CA7432CBAF3B33387987D31D7FE8E58F7F",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 59855
+        },
+        {
+          "index": 5,
+          "file": "golden-orchid-volley/frames/06.png",
+          "bounds": [
+            50,
+            57,
+            335,
+            323
+          ],
+          "alphaPixels": 42570,
+          "sha256": "813A19C3D7E8BEB5EDCA051FD42E7128D3D0E37B2C3B38DBE35BE653EBC37A09",
+          "rawSha256": "95DA9E4C08D7F44902C0C988925F81CA657460835C70DCDE6F85A8ECD32003A9",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 69016
+        },
+        {
+          "index": 6,
+          "file": "golden-orchid-volley/frames/07.png",
+          "bounds": [
+            52,
+            53,
+            334,
+            343
+          ],
+          "alphaPixels": 50305,
+          "sha256": "404097740769E4F53FEA0EBDDBC12B7BDB90AC6B860DBD85C077AEBA337137DA",
+          "rawSha256": "84359256BCD68D1D4924E9333291AFF7355B4BF3D32C886F8178C1CAAE0EE200",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 73822
+        },
+        {
+          "index": 7,
+          "file": "golden-orchid-volley/frames/08.png",
+          "bounds": [
+            61,
+            71,
+            315,
+            330
+          ],
+          "alphaPixels": 40319,
+          "sha256": "C8C62134BD29F3A90542F7769A53C623B97A973A080842BA5DD040135E114973",
+          "rawSha256": "6B15E5FFFCAC958C9B149D9A46FE45D2CE0798BD3FC8D604CC10114E6E625215",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 66264
+        },
+        {
+          "index": 8,
+          "file": "golden-orchid-volley/frames/09.png",
+          "bounds": [
+            67,
+            56,
+            348,
+            332
+          ],
+          "alphaPixels": 38931,
+          "sha256": "349781169C0EBEACEB3BC9B94F79294A9714EAF238E8AFC8202E4F2E59BB77E1",
+          "rawSha256": "7487F6381F2A3BDD2AA57B8D8B5E69E908A8B48411C2BAEEC7E4AB92B1272CF1",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 71001
+        },
+        {
+          "index": 9,
+          "file": "golden-orchid-volley/frames/10.png",
+          "bounds": [
+            66,
+            78,
+            338,
+            307
+          ],
+          "alphaPixels": 28423,
+          "sha256": "72118E46729B6BCBA888024B5D33768C61B1B468788757556554D571D326DAEA",
+          "rawSha256": "69CB916105E810EFC6E61856776897405584BC6E540562A33DE69A266F412644",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 60691
+        },
+        {
+          "index": 10,
+          "file": "golden-orchid-volley/frames/11.png",
+          "bounds": [
+            74,
+            85,
+            315,
+            311
+          ],
+          "alphaPixels": 21893,
+          "sha256": "3255AEAB1731C19D54DEA0F95DB581B57CE304D77B7AE290CCA8CE00EC1500B6",
+          "rawSha256": "C31E3DEE23E5FCEBA2067CDDA549198B64457CC01D759C03F9DBDA0859986E93",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 54908
+        },
+        {
+          "index": 11,
+          "file": "golden-orchid-volley/frames/12.png",
+          "bounds": [
+            68,
+            105,
+            301,
+            295
+          ],
+          "alphaPixels": 13907,
+          "sha256": "D6C095C5D4B24E349918E9AA0A3615C44F3AF5A5961C4ABDBC1B082567F8B24F",
+          "rawSha256": "5F7A1CA2ABEE5BFF8C7A83AD467DEB24753CB4629D7830FD5DD2B2B285A90AD6",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 48231
+        },
+        {
+          "index": 12,
+          "file": "golden-orchid-volley/frames/13.png",
+          "bounds": [
+            106,
+            115,
+            268,
+            255
+          ],
+          "alphaPixels": 6797,
+          "sha256": "A1C89F3CE50F63C37941C502E81169475A539372C64EC85918DDBB7EF8A48F1B",
+          "rawSha256": "762BD7A7AC4A01AF74479503DBCBCA23288FCC949297DF6B80D33B6F4FD64F64",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 28582
+        },
+        {
+          "index": 13,
+          "file": "golden-orchid-volley/frames/14.png",
+          "bounds": [
+            132,
+            112,
+            253,
+            247
+          ],
+          "alphaPixels": 4934,
+          "sha256": "4169BBA3EED79C5AEF07D7232F19FAC3C1C1955D524344B4A00987C5616B16D0",
+          "rawSha256": "C36751B58E2E36C1925CDE25CB6CB80EBA7038A5A0F8C96EBEDE1D78E14D2ECD",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 25872
+        },
+        {
+          "index": 14,
+          "file": "golden-orchid-volley/frames/15.png",
+          "bounds": [
+            137,
+            130,
+            247,
+            234
+          ],
+          "alphaPixels": 3192,
+          "sha256": "3EB1B7F562BE9E6FCD8DCC29159A36772BCB32B29489E3168B3050D360CE0127",
+          "rawSha256": "E4D164C749440F69C5577D5E4AC3C9A929DB4247370223728A8DAB234E13EA9B",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 21029
+        },
+        {
+          "index": 15,
+          "file": "golden-orchid-volley/frames/16.png",
+          "bounds": [
+            160,
+            147,
+            236,
+            218
+          ],
+          "alphaPixels": 275,
+          "sha256": "2B9D44E818A85DB470DC210C28999BBAB725122364AE2EC012B38845172FF335",
+          "rawSha256": "920AFA99DA5A2F825950F04B71202B14C281B5A6D3459598F9C98D9832D078DD",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 5419
         }
       ]
     }

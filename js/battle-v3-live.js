@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '2127-apocalypse-legion-20260918';
+  const BATTLE_RUNTIME = '20260919-mangisa-ss-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
@@ -846,7 +846,7 @@
     };
     const safePlayEvents = (events, message) => withTimeout(
       Promise.resolve(root.ProjectVPixiBattle.playEvents(events)).then(() => true),
-      2000,
+      events.some(event => event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY') ? 6000 : 2000,
       message,
       { fallback: false, onFailure: () => recoverPlayback(message) }
     );

@@ -1,0 +1,9 @@
+Use case: precise-object-edit, adult game battle sprite.
+Edit the provided ADULT female battle sprite. User correction: "SD이미지 총구 앞으로 정렬해서" — align the muzzle forward for combat.
+
+Change ONLY the weapon aiming angle and the arms/hands/shoulders needed for a correct firing stance.
+The rifle muzzle must point horizontally to SCREEN RIGHT, parallel to the ground, not diagonally downward. Place the stock firmly against her right shoulder. Her right hand must hold the actual pistol grip at the trigger, left hand naturally support the underside of the fore-end ahead of the magazine. Both hands believable. Her torso faces three-quarter right; face looks right along the firing direction, eyes unobstructed above the weapon. Keep complete stock, barrel and muzzle inside the canvas with at least 4 percent transparent margin on the right. Maintain the original weapon length relative to her body; reposition the upper arms and rifle rather than shrinking or distorting the gun.
+
+INVARIANTS: the same recognizable face and warm brown eyes, black half-up long hair with wispy bangs, gold floral hairpin, white bracelet, red fitted short qipao with gold floral embroidery, existing body and long leg proportions, standing feet-apart stance, red/gold heels. Preserve white/gold AK receiver, angular white magazine, black frame, gold details, long barrel, front sight and stock exactly in design. Do not repaint colors, change outfit, change face, add extra equipment, or turn it into a different gun. Same premium painted 2D battle SD rendering, visibly adult anatomy.
+One complete full-body character with all head, shoes and weapon visible, centered with transparent margins, native 1024x1536 RGBA.
+Background must be true fully transparent alpha; no scenery, no gray/black fill, no gradient, no halo, no ground shadow, no checkerboard painted into pixels. Character and rifle opaque. No firing effects in the base sprite. No labels, text, logo or UI.

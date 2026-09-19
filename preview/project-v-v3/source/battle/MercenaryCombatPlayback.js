@@ -8,6 +8,7 @@ import {attachMercenaryArt} from '../../../project-v-mercenary-system-v1/source/
 import {getMercenaryAudio} from '../../../project-v-mercenary-system-v1/source/MercenarySkillAudio.js';
 import {MERCENARY_ROLE_ATTACKS,preloadMercenaryRole,playMercenaryRoleAttack} from './MercenaryRoleAttackFX.js';
 import {SKILL_CHIP_CLOCK} from '../../../../shared/battle-suit-skill-chips.mjs';
+import {playMangisaVolley,preloadMangisaVolley} from './MangisaCombatPlayback.js';
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`MERCENARY_ASSET:${r.status}`);return r.json();};
 let rosterPromise,atlasPromise;
 export const withMercenaryBattle=Base=>class extends Base{
@@ -21,7 +22,9 @@ export const withMercenaryBattle=Base=>class extends Base{
  async applyBattlePayload(payload){
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>1||entries.filter(e=>e.side==='B').length>1)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
-  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?heeya=2118')),adapter=createMercenaryBattleArtAdapter(roster);
+  if(entries.some(({card})=>card.skills?.some(s=>s.mechanic==='GOLDEN_ORCHID_VOLLEY')))await preloadMangisaVolley();
+  if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
+  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?mangisa=20260919')),adapter=createMercenaryBattleArtAdapter(roster);
   for(const {side,card}of entries){const art=adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
@@ -35,13 +38,15 @@ export const withMercenaryBattle=Base=>class extends Base{
  async sequenceFor(skillId){
   if(this.mercenarySequences.has(skillId))return this.mercenarySequences.get(skillId);
   if(!this.mercenaryLoads.has(skillId))this.mercenaryLoads.set(skillId,(async()=>{
-   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260915-hi-heeya')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
+   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260919-mangisa')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
    const sequence=await loadSequence(row);if(this.mercenaryDisposed){releaseFrameViews(sequence);return null;}
    this.mercenarySequences.set(skillId,sequence);return sequence;
   })().finally(()=>this.mercenaryLoads.delete(skillId)));
   return this.mercenaryLoads.get(skillId);
  }
  async playMercenaryEvent(event){
+  if(event.type==='MERCENARY_VOLLEY'&&event.mechanic==='GOLDEN_ORCHID_VOLLEY')return playMangisaVolley(this,event);
+  if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='GOLDEN_ORCHID_VOLLEY')return true;
   const epoch=this.mercenaryEpoch,playbackEpoch=this.playbackEpoch,actor=this.combatantById(event.actorId),target=this.combatantById(event.targetId),type=event.type;if(!actor)return true;
   const valid=()=>epoch===this.mercenaryEpoch&&playbackEpoch===this.playbackEpoch&&!actor.root.destroyed&&this.visible;
   const sync=()=>{if(target&&Number.isFinite(event.targetHpAfter))this.syncTargetHp(target,this.eventHpPercent(target,event.targetHpAfter));if(target&&Number.isFinite(event.targetShieldAfter))this.syncTargetShield(target,event.targetShieldAfter,event.targetMaxShield);};

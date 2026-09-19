@@ -87,8 +87,8 @@ test('native desktop, mobile and old subtab fallbacks redirect without mounting 
 test('public information remains read-only with separate local favorites and no guessed ranks', () => {
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length, 44);
-  assert.ok(roster.cards.filter(c=>c.code!=='V-044').every(card => card.code === 'V-021' ? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
+  assert.equal(roster.cards.length,45);
+  assert.ok(roster.cards.filter(c=>!['V-044','V-045'].includes(c.code)).every(card => card.code === 'V-021' ? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.doesNotMatch(html, /src="[^"]*(?:runtime-router|battle-engine|loadout|gsap|pixi)/i);
   assert.doesNotMatch(client, /method:\s*['"](?:POST|PATCH|PUT|DELETE)|new Audio|AudioContext/);
   assert.match(client, /storageKey='cnine\.mercenaryCodex\.public\.v1'/);

@@ -1,0 +1,30 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-09-19",
+  "status": "USER_APPROVED_LIVE",
+  "userRequest": "나무늘봉순 용병 승인 SS등급으로 SD이미지와 스킬 만들것. 용병이름은 망이사",
+  "followUpRequest": "SD이미지 총구 앞으로 정렬해서",
+  "scope": "CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT",
+  "rankAssigned": true,
+  "runtimeConnected": true,
+  "originalsModified": false,
+  "entries": [
+    {
+      "code": "V-045",
+      "conceptId": "mangisa",
+      "name": "망이사",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png",
+      "sha256": "4203D153549D0C5D13F6712BD6ABA3424A4866C12963BE823154A78F09DF6313",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v045-mangisa-sd-v2.png",
+      "battleSpriteStatus": "USER_APPROVED_LIVE",
+      "preparedEntry": "preview/mercenary-mangisa-v1/catalog-entry.json",
+      "preview": "preview/mercenary-mangisa-v1/"
+    }
+  ],
+  "liveApprovalRequest": "승인 용병등록해라",
+  "skillId": "MS-045",
+  "basePower": 120000
+}

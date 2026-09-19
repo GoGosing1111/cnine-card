@@ -1,0 +1,46 @@
+{
+  "format": "PROJECT_V_MERCENARY_PREPARED_ENTRY_V1",
+  "date": "2026-09-19",
+  "status": "USER_APPROVED_LIVE",
+  "runtimeConnected": true,
+  "card": {
+    "code": "V-045",
+    "conceptId": "mangisa",
+    "name": "망이사",
+    "nameStatus": "USER_ASSIGNED_NAME",
+    "rank": "SS",
+    "rankStatus": "USER_ASSIGNED_RANK",
+    "role": "MARKSMAN",
+    "weapon": "화이트 골드 판타지 AK",
+    "outfit": "금색 자수의 붉은 치파오",
+    "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png",
+    "sourceArtSha256": "4203D153549D0C5D13F6712BD6ABA3424A4866C12963BE823154A78F09DF6313",
+    "sourceArtStatus": "APPROVED_SOURCE_ART",
+    "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v045-mangisa-sd-v2.png",
+    "battleSpriteSha256": "1445CDE43CCC0E88A050A891BFA799C229310124070732FFDCFB459E24F6060A",
+    "battleSpriteStatus": "USER_APPROVED_LIVE",
+    "battleSpriteFootAnchor": {
+      "x": 0.502,
+      "y": 0.973
+    },
+    "battleSpriteFacing": "RIGHT",
+    "approvedAt": "2026-09-19"
+  },
+  "skillDraft": {
+    "id": "MS-045",
+    "name": "금란 연사",
+    "definition": "preview/mercenary-mangisa-v1/skill.mjs",
+    "status": "USER_APPROVED_LIVE",
+    "previewAssociationOnly": false,
+    "runtimeEnabled": true,
+    "runtimeDefinition": "shared/mercenary-mangisa-v1.mjs"
+  },
+  "approvalRecord": "assets/ui/project-v/mercenaries/mercenary-mangisa-approval-20260919.json",
+  "preview": "preview/mercenary-mangisa-v1/",
+  "codeReservationBasis": {
+    "checkedCommit": "f3caf3c4384e8c360243e3afbb8d3abfb36ab46f",
+    "latestExistingCode": "V-044",
+    "latestExistingName": "하이희야",
+    "mergeRule": "Recheck the destination roster before runtime integration; this entry does not rewrite the older 43-card roster in this checkout."
+  }
+}

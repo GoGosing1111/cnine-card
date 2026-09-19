@@ -1,5 +1,6 @@
 import {createSSkillDefinitions, S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
 import {createHeeyaSkill} from './mercenary-hi-heeya-v2118.mjs';
+import {createMangisaSkill} from './mercenary-mangisa-v1.mjs';
 // Authored skill proposals and offline rehearsal only. Never imported by live battle routes.
 export const SKILL_VERSION = 3;
 export const SKILL_CATALOG_VERSION = 2;
@@ -117,6 +118,7 @@ export const MERCENARY_SKILLS = [
     '단일 보스에도 같은 명중·중단 조건을 쓴다. 추가타 자체로 다른 스킬을 연쇄 발동하지 않는다.',
     art('evening-encore', 'DOUBLE_BEAT', .45, [.8, 1.55], 2.7, '#ed9aba'), ['첫 박자 사격', '명중 확인과 빈틈', '같은 표적 앙코르', '재장전']),
   createHeeyaSkill(definition,art),
+  createMangisaSkill(definition,art),
 ];
 
 export const SCENARIOS = {normal: '유효한 상황', counter: '약점 공략', boss: '보스 상대'};
@@ -161,7 +163,7 @@ export function parseSkillDraft(text) {
   const legacy = exact(draft, legacyRootKeys) && draft.format === 'PROJECT_V_MERCENARY_SKILL_DRAFT_V1' &&
     ((draft.version === 1 && draft.rosterVersion === 10) || (draft.version === 2 && draft.rosterVersion === 11));
   if (legacy) {
-    const expected = MERCENARY_SKILLS.filter(skill => skill.id!=='MS-044' && !S_SKILL_IDS.includes(skill.id) && (draft.version !== 1 || skill.id !== 'MS-021'));
+    const expected = MERCENARY_SKILLS.filter(skill => !['MS-044','MS-045'].includes(skill.id) && !S_SKILL_IDS.includes(skill.id) && (draft.version !== 1 || skill.id !== 'MS-021'));
     if (!Array.isArray(draft.skills) || draft.skills.length !== expected.length ||
         new Set(draft.skills.map(row => row?.id)).size !== expected.length ||
         draft.skills.some(row => !exact(row, ['id', 'code', 'name', 'review', 'note']) ||
@@ -175,12 +177,15 @@ export function parseSkillDraft(text) {
       catalogVersion: SKILL_CATALOG_VERSION, status: draft.status, runtimeEnabled: draft.runtimeEnabled, skills: [...reviews, ...createSkillDraft().skills.filter(row => S_SKILL_IDS.includes(row.id))]};
   }
   if (draft.version === SKILL_VERSION && draft.catalogVersion === 1) {
-    const legacySkills = MERCENARY_SKILLS.filter(s => s.id!=='MS-044' && !S_SKILL_IDS.includes(s.id));
+    const legacySkills = MERCENARY_SKILLS.filter(s => !['MS-044','MS-045'].includes(s.id) && !S_SKILL_IDS.includes(s.id));
     if (!Array.isArray(draft.skills) || draft.skills.length !== legacySkills.length || new Set(draft.skills.map(s=>s?.id)).size !== legacySkills.length || draft.skills.some(s=>!legacySkills.some(old=>old.id===s.id))) throw Error('기존 스킬 목록이 누락되었거나 손상되었습니다.');
     draft = {...draft, catalogVersion: SKILL_CATALOG_VERSION, skills:[...draft.skills,...createSkillDraft().skills.filter(s=>S_SKILL_IDS.includes(s.id))]};
   }
-  const priorIds=MERCENARY_SKILLS.filter(s=>s.id!=='MS-044').map(s=>s.id);
+  const priorIds=MERCENARY_SKILLS.filter(s=>!['MS-044','MS-045'].includes(s.id)).map(s=>s.id);
   if(Array.isArray(draft.skills)&&draft.skills.length===priorIds.length&&new Set(draft.skills.map(s=>s?.id)).size===priorIds.length&&draft.skills.every(s=>priorIds.includes(s?.id)))
     draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-044')]};
+  const beforeMangisa=MERCENARY_SKILLS.filter(s=>s.id!=='MS-045').map(s=>s.id);
+  if(Array.isArray(draft.skills)&&draft.skills.length===beforeMangisa.length&&new Set(draft.skills.map(s=>s?.id)).size===beforeMangisa.length&&draft.skills.every(s=>beforeMangisa.includes(s?.id)))
+    draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-045')]};
   return validateSkillDraft(draft);
 }

@@ -49,6 +49,7 @@
     {"code":"V-041","position":"FRONT","role":"VANGUARD","basicTarget":"FRONT_ENEMY","skillTarget":"FRONT_GROUP","specialty":"철로 횡단참 · 적 전열을 넓게 베는 대검 공격","weakness":"단일 대상과 공격 후 빈틈에 취약","rationale":"레니아는 넓은 한 번의 횡베기를 맡는다. 홍련의 연속 검무·오메가-X의 강습과 동작 콘셉트를 분리한다.","rank":null},
     {"code":"V-042","position":"MIDDLE","role":"CONTROLLER","basicTarget":"FRONT_ENEMY","skillTarget":"FRONT_ENEMY","specialty":"경찰 제압 · 권총 사격으로 적의 공세를 늦춤","weakness":"제어 저항이 있는 적에게 처치력이 부족","rationale":"사용자 지정 이름은 보존한다. 경찰 콘셉트를 단일 제압 역할로 제안하며 권총 용병 간 임무를 나눈다.","rank":null},
     {"code":"V-043","position":"MIDDLE","role":"MARKSMAN","basicTarget":"FRONT_ENEMY","skillTarget":"FRONT_ENEMY","specialty":"거리 속사 · 빠른 권총 사격으로 피해를 누적","weakness":"긴 사거리의 저격과 무거운 방호에 취약","rationale":"사용자 지정 이름은 보존한다. 동탄 디임은 지속 사격, 경찰 조은은 제압, 서윤·셀레네는 마무리로 구분한다.","rank":null},
-    {"code":"V-044","position":"MIDDLE","role":"MARKSMAN","basicTarget":"FRONT_ENEMY","skillTarget":"FRONT_ENEMY","specialty":"백청색 탄막 · 전열 단일 표적 집중 사격","weakness":"준비 중 제압과 집중 공격에 취약","rationale":"승인된 경기관총 SD와 해일 탄막을 중열 사격 역할로 연결한다.","rank":"SS"}
+    {"code":"V-044","position":"MIDDLE","role":"MARKSMAN","basicTarget":"FRONT_ENEMY","skillTarget":"FRONT_ENEMY","specialty":"백청색 탄막 · 전열 단일 표적 집중 사격","weakness":"준비 중 제압과 집중 공격에 취약","rationale":"승인된 경기관총 SD와 해일 탄막을 중열 사격 역할로 연결한다.","rank":"SS"},
+    {"code":"V-045","position":"MIDDLE","role":"MARKSMAN","basicTarget":"FRONT_ENEMY","skillTarget":"FRONT_ENEMY","specialty":"빠른 6연사 · 마지막 탄 주변 2명 확산","weakness":"주 대상 소멸 시 후속탄 취소 · 기습과 제압에 취약","rationale":"승인된 수평 조준 AK와 금란 연사를 중열 사격 역할로 연결한다.","rank":"SS"}
   ]
 }

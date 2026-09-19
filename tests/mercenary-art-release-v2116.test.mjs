@@ -11,10 +11,10 @@ test('approved Hi Heeya artwork is promoted once into the SS gameplay catalog wi
   const saved=structuredClone(seed.document);saved.mercenaries[0].name='운영 저장 이름';saved.mercenaries[0].rank='SS';
   const before=structuredClone(saved),row={payload_json:JSON.stringify(saved),revision:54,updated_at:'2026-09-13'};
   const result=validateCatalog(mercenaryCodexDocument(row)),heeya=result.cards.find(c=>c.code==='V-044');
-  assert.equal(result.cards.length,44);assert.equal(result.revision,54);assert.equal(result.artReleaseVersion,'20260915-hi-heeya-live-v1');
+  assert.equal(result.cards.length,45);assert.equal(result.revision,54);assert.equal(result.artReleaseVersion,'20260919-mangisa-live-v1');
   assert.equal(heeya.name,'하이희야');assert.equal(heeya.rank,'SS');assert.notEqual(heeya.artOnly,true);
   assert.equal(heeya.basePower,120000);assert.ok(heeya.battleSprite.endsWith('mercenary-v044-hi-heeya-sd-v1.png'));assert.deepEqual(heeya.skills.map(s=>s.id),['MS-044']);
-  assert.equal(result.cards[0].name,'운영 저장 이름');assert.deepEqual(saved,before);assert.equal(seed.catalog.cards.length,44);
+  assert.equal(result.cards[0].name,'운영 저장 이름');assert.deepEqual(saved,before);assert.equal(seed.catalog.cards.length,45);
   const pools=mercenaryGradePools(saved.mercenaries,seed.catalog.cards.map(c=>c.code));
   assert.ok(JSON.stringify(pools).includes('V-044'));
   assert.equal(filterCatalog(result.cards,{q:'하이희야',rank:'SS'},new Set())[0].code,'V-044');
