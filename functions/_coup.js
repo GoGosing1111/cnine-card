@@ -303,7 +303,7 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
   if (next.winner) await settleCoupRound(env, id, now);
   return result;
 }
-export async function coupStatus(env, user, now = Date.now()) {
+export async function coupStatus(env, user, now = Date.now(), adminView = false) {
   await pulseCoup(env, now);
   const settings = await readCoupSettings(env);
   const round = await p(env, 'SELECT * FROM coup_rounds_v2115 ORDER BY created_at DESC,id DESC LIMIT 1').first();
@@ -336,7 +336,7 @@ export async function coupStatus(env, user, now = Date.now()) {
     canUseCommandSkills: !!canUseCommandSkills, commandSkills: commandSide === 'REBEL' ? rebelSkills : chiefSkills, skillEvents,
     round: round ? { id: round.id, status: round.status, chiefId: Number(round.chief_user_id), chiefName: round.chief_name,
       createdAt: Number(round.created_at), startsAt: Number(round.starts_at), endsAt: Number(round.ends_at), finishedAt: Number(round.finished_at), front: Number(round.front_index), chiefHp: Number(round.chief_hp), rebelHp: Number(round.rebel_hp), maxHp: Number(round.max_hp), winner: round.winner, settings: parse(round.settings_json), rebelDefeat: coupRebelDefeatPolicy(round.id, parse(round.settings_json)) } : null,
-    members, mine: mine || null, penalty, events,
+    members: round?.status === 'RECRUITING' && !adminView ? [] : members, mine: mine || null, penalty, events,
     trial: trial ? { id: trial.id, defendantId: Number(trial.defendant_id), defendantName: trial.defendant_name, status: trial.status,
       endsAt: Number(trial.ends_at), reinstate: Number(trial.reinstate_count), remove: Number(trial.remove_count), electorate,
       eligible: !!votes, myVote: votes?.choice || null } : null };
@@ -365,7 +365,7 @@ export async function handleCoup({ path, request, env, deps }) {
     if (path === 'coup/attack' && request.method === 'POST') return deps.json(await attackCoup(env, deps, user, await deps.readBody(request)));
     if (adminPath) {
       const admin = await deps.requirePermission(request, env, 'SETTINGS'); if (!admin) return deps.json({ error: '운영 설정 권한이 필요합니다.' }, 403);
-      if (path === 'admin/coup' && request.method === 'GET') return deps.json(await coupStatus(env, user));
+      if (path === 'admin/coup' && request.method === 'GET') return deps.json(await coupStatus(env, user, Date.now(), true));
       if (request.method !== 'POST') return deps.json({ error: '지원하지 않는 요청입니다.' }, 405);
       const body = await deps.readBody(request);
       let result;
@@ -392,7 +392,7 @@ export async function handleCoup({ path, request, env, deps }) {
         if (!Number(r.meta?.changes)) fail('모집 중인 쿠데타만 취소할 수 있습니다.'); result = { cancelled: true };
       } else return deps.json({ error: '지원하지 않는 요청입니다.' }, 404);
       await deps.writeAdminLog(env, admin, 'COUP_' + path.split('/').at(-1).toUpperCase(), 'COUP', String(body.roundId || result?.id || SETTINGS), null, result);
-      return deps.json(await coupStatus(env, user));
+      return deps.json(await coupStatus(env, user, Date.now(), true));
     }
     return deps.json({ error: '지원하지 않는 요청입니다.' }, 405);
   } catch (e) { if (!e.status) throw e; return deps.json({ error: e.message, code: 'COUP_CONFLICT' }, e.status); }

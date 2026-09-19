@@ -439,3 +439,20 @@ test('live wiring preserves V3 engine, scoped prison exemptions and chief author
   assert.match(read('functions/_chief.js'), /authority\.before/);
   assert.match(read('functions/_coup.js'), /simulateTerritoryDuel\(env, combatDeps/);
 });
+
+for (const pg of [false, true]) test('recruitment roster stays private until combat starts: ' + (pg ? 'postgres' : 'sqlite'), async t => {
+  const f = await fixture(t, pg), id = await f.prepare();
+  await f.p("UPDATE coup_rounds_v2115 SET status='RECRUITING',starts_at=NULL,ends_at=NULL WHERE id=?", id).run();
+  for (const viewer of [1, 2, 99]) {
+    const s = await coupStatus(f.env, { id: viewer }, f.now);
+    assert.deepEqual(s.members, []);
+    assert.equal(s.mine?.side || null, viewer === 1 ? 'CHIEF' : viewer === 2 ? 'REBEL' : null);
+  }
+  assert.equal((await coupStatus(f.env, { id: 1 }, f.now, true)).members.length, 5);
+  await startCoupRound(f.env, id, f.now);
+  const active = await coupStatus(f.env, { id: 2 }, f.now);
+  assert.equal(active.round.status, 'ACTIVE');
+  assert.equal(active.members.filter(m => m.side === 'CHIEF').length, 2);
+  assert.equal(active.members.filter(m => m.side === 'REBEL').length, 3);
+  assert.equal(active.mine.side, 'REBEL');
+});
