@@ -1,3 +1,4 @@
+import {coupLiveOperation} from '../_coup_live_operation.js';
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
 import {handleLootShop} from '../_loot_shop.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
@@ -4034,7 +4035,7 @@ async function liveOperationAlerts(env){
   // 공개 콘텐츠 상태 다섯 건만 단일 UNION 조회로 읽는다. 남은 시간은 클라이언트가
   // 서버 시각을 기준으로 계산하므로 DB는 상태가 바뀔 때만 다시 확인하면 된다.
   try{
-    const result=await env.DB.prepare(`WITH
+    const [result,coup]=await Promise.all([env.DB.prepare(`WITH
     territory AS (
       SELECT 'TERRITORY' kind,
         CASE r.status WHEN 'RECRUITING' THEN 'FORMATION' WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE' END phase,
@@ -4102,12 +4103,13 @@ async function liveOperationAlerts(env){
       ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
     )
     SELECT * FROM territory UNION ALL SELECT * FROM siege UNION ALL SELECT * FROM seal
-    UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all();
+    UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;})]);
     const value=(result.results||[]).map(row=>({
       kind:String(row.kind||''),phase:String(row.phase||''),entityId:Number(row.entity_id||0),
       title:String(row.title||''),detail:String(row.detail||''),deadlineAt:row.deadline_at||null,
       sortOrder:Number(row.sort_order||0)
     }));
+    if(coup)value.push(coup);
     liveOperationsCache={value,expiresAt:now+LIVE_OPERATIONS_CACHE_MS};
     return value;
   }catch(error){
