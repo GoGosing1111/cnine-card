@@ -1,0 +1,24 @@
+Use case: stylized-concept.
+Create ONE finished Korean collectible-game mercenary source illustration, native 1024 x 1536 pixels, exact 2:3 portrait RGB PNG.
+
+User request: 이예준 카드들의 얼굴을 그대로 알아볼 수 있는 용병. 흰 런닝구를 입고 간장을 무기로 든 모습. 가장 중요한 것은 이예준 카드 속 실제 얼굴의 특징이 용병 일러스트에 강하게 살아 있는 것.
+
+REFERENCE ROLES, STRICT PRIORITY:
+Image 1 (casual black shirt, hand near mouth): PRIMARY FACIAL IDENTITY ONLY. Capture this adult Korean man's actual facial proportions, eye shape, nose, cheeks, mouth and short black hairstyle.
+Image 2 (black-and-white suit portrait): SECONDARY FACIAL IDENTITY, clear frontal eyes, nose and mouth. Use it to resolve facial features obscured in Image 1. Do not copy the suit or its photographic rendering.
+Image 3 (saluting in camouflage shirt): additional identity and natural adult human body proportions, not an outfit or pose reference.
+These are the same requested card character. Render that specific person, NOT a generic handsome anime man. Likeness outranks idealization: retain his moderately broad oval-to-square facial outline, fairly full cheeks and solid chin, narrow slightly hooded eyes with distinct straight dark eyebrows, characteristic nose bridge and rounded nose tip, naturally defined closed lips. Short slightly messy black hair with forehead mostly visible. No beard, no glasses. Face visible in an almost frontal angle with a small cocky closed-mouth smile, self-assured concentrated gaze. Do not narrow his jaw into a V-line, enlarge eyes, sharpen his nose, or change him into a different young idol.
+
+SUBJECT / CLOTHING:
+A single adult male mercenary wearing a clearly recognizable everyday white ribbed cotton sleeveless undershirt (Korean 런닝구), with dark practical trousers and a simple belt. Natural sturdy, slightly athletic adult build, realistic shoulder and arm proportions; not a massively muscled bodybuilder. Undershirt is the main costume, not hidden under armor, a jacket or a harness.
+
+WEAPON:
+A large unmistakable Korean soy sauce jug used as his weapon. Dark brown translucent ribbed plastic, a strong integrated loop handle, red screw-neck opening, a restrained cream/yellow label with a small soybean illustration but NO lettering or brand. His right hand convincingly grips the jug handle; he has just swung the heavy jug out to the side at waist/chest level. Readable complete jug silhouette, plausible fingers and thumb wrapped through and around its handle. Dark glossy soy sauce pours and lashes from the open mouth in one powerful, elegant sweeping arc through the LOWER foreground, with translucent amber edges and a few droplets. It should clearly read as soy sauce as a ridiculous but formidable game weapon, not a sword, gun, fuel can, potion or alcoholic drink. Keep the sauce and jug away from the face. His other hand counterbalances the stance naturally.
+
+COMPOSITION:
+Character-dominant dynamic three-quarter-body portrait from hair to lower shins, grounded braced stance, torso slightly twisted by the swing but face almost toward the viewer. Keep head large and readable (roughly 15 percent of image height, centered around the upper quarter). The face and recognizable soy sauce weapon are the two focal points; hands and undershirt clearly visible. No foreshortening that makes the face tiny. Do not copy any reference image composition.
+A moody Korean market back-alley courtyard at dusk behind him, warm amber practical light and cool teal ambient shadow, subtle worn stone, soft depth and atmospheric haze, no readable shop signage or other people. Background subordinate to the face, white undershirt and dark sauce silhouette.
+
+STYLE:
+하이엔드 캐릭터 중심 세미리얼 판타지 스플래시 아트. Premium polished 2D painterly game illustration with expressive, carefully painted face, clean material rendering, controlled cinematic lighting, convincing cotton folds, translucent plastic and glossy liquid. Witty subject treated with serious mercenary splash-art craft. Stylize and paint all photographed facial features into the same cohesive illustration; no pasted photo head, no photographic skin pores, no live-action cosplay, no 3D-render look, no chibi, no grotesque caricature. Preserve facial specificity instead of beautifying it away.
+No text, name, ranking, card border, logo, watermark, UI, speech balloons or collage. ONE illustration.
