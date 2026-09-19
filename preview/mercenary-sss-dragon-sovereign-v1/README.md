@@ -1,8 +1,21 @@
-# 흑룡황 카르베인 · SSS 용병 원화 후보 V1
+# 카르베인 · SSS 용병 원화 후보
+
+## 최신 후보: 황금룡황 V2
+
+- 사용자 교정: 오메가 참조의 화려한 황금색과 위압감을 맞추고 대검 구도를 다시 구성한다.
+- 상태: `SOURCE_ART_CONCEPT_USER_REVIEW_PENDING`. V1은 사용자 반려본으로 보존한다.
+- 원화: [assets/karvein-source-art-v2.png](assets/karvein-source-art-v2.png)
+- 생성 방식: 내장 `image_gen.imagegen`, V1 및 사용자가 첨부한 오메가 이미지로 재구성. [프롬프트 전문](prompt-v2.txt)
+- 규격: 네이티브 1024×1536, 정확한 2:3, 24비트 RGB PNG. 원본 무가공 복사.
+- SHA-256: `83183D29032803849E8D0704A0ABC8244E2E51A05C7CD38D54140BCDFCAAD413`
+- 변화: 황금 갑주·적색 눈·황금 용익·광륜과 우주 배경. 길고 날씬한 전신 구도로 전환하고 검을 오른쪽 허리에서 왼쪽 아래로 길게 펼쳐 검끝까지 보이게 구성했다.
+- 원본에서 양쪽 발, 투구, 검 손잡이와 검끝의 가시성을 확인했다. 이름은 가칭이며 원화 시안만 준비한 상태다.
+
+## V1 보존 기록 · 사용자 반려
 
 - 요청: 오메가와 동급인 SSS 용병 1종. 리니지M 할파스 변신 또는 MU 계열의 고급스럽고 강력한 갑주 분위기.
 - 가칭: 흑룡황 카르베인 / Black Dragon Sovereign Karvein
-- 상태: `SOURCE_ART_CONCEPT_USER_REVIEW_PENDING`
+- 상태: `USER_REJECTED_SOURCE_ART_CONCEPT`
 - 생성 방식: 내장 `image_gen.imagegen`. 프롬프트 전문: [prompt-v1.txt](prompt-v1.txt)
 - 원화: [assets/karvein-source-art-v1.png](assets/karvein-source-art-v1.png)
 - 규격: 네이티브 1024×1536, 정확한 2:3, 24비트 RGB PNG. 생성 원본을 재가공하지 않고 복사했다.
