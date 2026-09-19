@@ -6,3 +6,6 @@
 
 .clan-camp .camp-actions [data-camp-trial]{font-size:11px;min-height:36px;padding:8px 10px;line-height:1.3}
 @media(max-width:600px){.coup-node-detail{bottom:12px;flex-wrap:nowrap}.coup-node-detail p{display:none}.coup-heading>div:last-child{flex-shrink:0}.coup-heading button{white-space:nowrap}}
+
+/* Keep the recruitment disclosure readable beside both faction names. */
+.coup-faction-info>div:first-child{flex-wrap:wrap;row-gap:3px}.coup-faction-info>div:first-child>strong{white-space:nowrap}.coup-faction-info>div:first-child>span{display:flex;flex-wrap:wrap;gap:3px 6px;white-space:nowrap}.coup-faction-info .coup-my-side{font-size:9px;color:#d4f693}
