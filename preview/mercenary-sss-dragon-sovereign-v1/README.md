@@ -1,6 +1,19 @@
 # 카르베인 · SSS 용병 원화 후보
 
-## 최신 후보: 황금룡황 V2
+## 최신 후보: 황금 기사 군주 V4 · 눈 발광 강화
+
+- 사용자 교정: V2의 포즈·황금색은 승인. 용 갑주를 끝판왕 기사로 바꾸고, 얼굴을 마스크형 면갑으로 가린 뒤 근엄하고 강한 눈빛을 요청했다. 이어서 눈 발광을 더 강하게 요청했다.
+- 상태: `SOURCE_ART_CONCEPT_USER_REVIEW_PENDING`
+- 최신 원화: [assets/karvein-source-art-v4.png](assets/karvein-source-art-v4.png)
+- 중간 원화: [assets/karvein-source-art-v3.png](assets/karvein-source-art-v3.png)
+- V3: 황금 판금·왕실 망토·폐쇄 마스크형 투구로 재설계. [프롬프트](prompt-v3.txt)
+- V4: 눈 안쪽의 백금빛 발광, 호박색 테두리와 면갑 근처의 광원을 강화하는 국소 편집. [프롬프트](prompt-v4.txt)
+- 생성 방식: 내장 `image_gen.imagegen`. 두 원본 모두 네이티브 1024×1536, 정확한 2:3, 24비트 RGB PNG로 무가공 복사했다.
+- V3 SHA-256: `542FC220AE9EB5A27FF31E906902B22061BD3806B377E587B89A5924F9708107`
+- V4 SHA-256: `0A80F69DAE2DDCED0D3898AA787FA207F89666DC35FAC433BA8FB8D6D0E80E45`
+- 원본에서 두 눈의 발광, 마스크, 양쪽 발, 손과 검끝을 확인했다. 원화 시안이며 로스터·스킬·전투 SD와 라이브 등록은 별도다.
+
+## V2 보존 기록: 포즈·황금색 승인, 갑주 수정 요청
 
 - 사용자 교정: 오메가 참조의 화려한 황금색과 위압감을 맞추고 대검 구도를 다시 구성한다.
 - 상태: `SOURCE_ART_CONCEPT_USER_REVIEW_PENDING`. V1은 사용자 반려본으로 보존한다.

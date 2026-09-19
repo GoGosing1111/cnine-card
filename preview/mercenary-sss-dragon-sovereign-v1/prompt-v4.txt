@@ -1,0 +1,9 @@
+LOCALIZED EYES-ONLY EDIT of the supplied golden emperor knight illustration. User request: "눈빛을 빛나게" — make the eyes visibly SHINE.
+
+Change ONLY the emitted light in and immediately around the two eye slits of the mask helmet.
+Make BOTH eyes conspicuously brilliant, luminous WHITE-HOT GOLD cores with fiery amber-gold edges. The eyes must look like powerful supernatural LIGHT SOURCES behind the closed faceplate, not merely colored orange paint. Increase their apparent light intensity strongly. Two clearly distinct narrow severe eye shapes under the heavy brow; dignified, stern, intimidating. Add a compact brilliant golden bloom around each eye, a thin short horizontal light streak from each slit, and a soft cast of golden light onto the nearby visor edges and upper cheekplates. The eyes should be immediately recognizable as glowing even when the whole illustration is a small card. Maintain two separate eyes and the sharp stern shape. Do not turn the eyes into giant flares, circular balls, lasers across the scene, or an overexposed blob that erases the helmet.
+
+STRICT PRESERVATION:
+Keep exactly the same helmet design and enclosed mask shape, crown, head position, expression, armor, gold color palette, pose, proportions, hand positions, sword design and diagonal angle, cape, halo, solar orb, architecture, background and composition. Keep the existing image's brightness, shading and all its other effects unchanged. NO global relighting, NO recoloring, NO redesign, NO change in crop, NO added ornaments. Only the eye glow and its very local reflection should change. Preserve sharp ornate details everywhere else.
+
+Output ONE 1024x1536 RGB PNG, exact 2:3, no text or logos.
