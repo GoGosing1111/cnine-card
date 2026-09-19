@@ -1,0 +1,78 @@
+{
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "verifiedAt": "2026-09-19T13:49:41.710Z",
+  "runtimeEnabled": false,
+  "automated": {
+    "ragniel": 9,
+    "existingMercenaryAndCommonGrid": 82,
+    "failed": 0
+  },
+  "authoredFrames": {
+    "motion": 26,
+    "effects": 28
+  },
+  "browser": {
+    "desktop": {
+      "viewport": [
+        1440,
+        1000
+      ],
+      "passed": true
+    },
+    "mobile": {
+      "viewport": [
+        390,
+        844
+      ],
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "passed": true
+    },
+    "singleCanvas": true,
+    "regularAllies": 5,
+    "mercenaryInRegularArray": false,
+    "checks": [
+      "real alpha and unmodified source hashes",
+      "actual sword contact alignment",
+      "mobile corona silhouette bounds",
+      "0.25x pause at 1.3605s",
+      "4.70s to 2.42s reverse seek",
+      "2x completion restores pose and removes registration",
+      "cast interruption and target loss remove effects",
+      "stop removes owned timeline",
+      "desktop and mobile visible inspection"
+    ]
+  },
+  "audio": {
+    "recordedSamplesReused": true,
+    "syntheticSound": false,
+    "softwareSyncErrorMs": "<1 in scheduling tests",
+    "physicalOutputLatencyMeasured": false
+  },
+  "observations": [
+    "Browser logged an unlocated MutationObserver.observe exception; no preview interaction failed.",
+    "Shared V3 logged an Apocalypse atlas cache warning; Ragniel frame loading and playback completed."
+  ],
+  "visualApproval": "USER_REVIEW_PENDING",
+  "fileHashes": {
+    "manifest.json": "F17DC7ECB1DD90A29E95B933B91B0D2B9E27F0CB2471A1B099CB72EF3BEC2F88",
+    "skill.mjs": "834706FC90F19435A0E8EA8B792E0E8F56FD30870E121A1474146444A8F39D2E",
+    "source/RagnielSkillFX.js": "062F8358862121D71B5888C80E14227037E1EC7EEEC2BE6B9B428103B2B64103",
+    "source/CueAudio.js": "8C36AEFA32DB44B3907A95A4DF6AD43B981F3F5B01B0778B34A4791158FF0A26",
+    "source/preview.js": "BF767C7D086AA6605DA695C2263B6E49A3A52A93EBAB0B629873E77BA6EC2D76",
+    "preview.bundle.js": "9672CEB87AE2D7C3294EF5EC8B71FA604A2ECFEAC18450232B7974F51CF4D63D",
+    "build-assets.mjs": "8C7FA332DC43B21759B9BC55264EFA3BCA122DE12ADA41B0FDCC481C6054D3DC",
+    "index.html": "68EA79DFA9706296F6A1458B0F96091A297A9C01D07F77EF0EC65A2970BAD31B",
+    "preview.css": "5470A7BFADDEDE89C82BE5F93B100D179D636EC095A36221D0082487CDA5E746",
+    "battle.html": "BF2B1F0E36623C4A14CF8DC841DFFFBCBE7AC134CF8524D95B4E11051025062D",
+    "assets/dash-atlas.webp": "18AA2CB21DA83873A18FFB376D74235749E6D4E6490B111A3A351800B440EC4A",
+    "assets/slash-atlas.webp": "7022761597CB740388EB1C2FEEFE967AC4243758BC0A289BA948E62ABDF1882A",
+    "assets/cast-atlas.webp": "4B5DEF04C24E315535E8369383356C23334F8F26922113C67622AE8A6D93B81C",
+    "assets/slash-trail-atlas.webp": "EFB677A769F6F12947268651878913900A9C56D8146BB931D5FF575827E59458",
+    "assets/judgment-atlas.webp": "99E359652297496185255AC1FC6AD6ED09451B1147AEB91B4A8F176B38124988",
+    "assets/ragniel-sd-v1.png": "5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194",
+    "assets/source-art.png": "B6EC66166A3AF153A9A6BAB827C0FE998E94855B16F67E0683BBFF4B0CCD0F89",
+    "build.mjs": "DD1F107920A55701E9F783390EA7C1C8DCD0F2ADB076574BF52BE6D7A9FA6831",
+    "serve.mjs": "CBF68D7F8BF88A3F3FB49C4F6FCE0D9EABD4A27BCB4330620CE2C994D16D5D09"
+  }
+}

@@ -1,0 +1,12 @@
+Use case: stylized-concept. Production game animation sprite sheet for RAGNIEL, using the supplied transparent SD as the STRICT model sheet. Exact same handsome adult SD proportions, crimson hair, gold eyes, sharp white/gold armored face visor, completely WHITE connected neck armor (no black neck), white/gold plate, wing-core hubs and crystalline ivory feather blades, mantle and unmistakable enormous ornate greatsword. Premium crisp 2D painted RPG sprites. Every cell is a newly drawn body pose with anatomically correct arms/hands gripping the same rigid sword. Exactly one character per cell, facing SCREEN RIGHT, consistent scale and camera, head size and body length. Actual transparent RGBA throughout all empty space. No background, no floor, no shadow disks, no labels, no text, no dividers. Clearly separated cells with at least 10 percent clear margin inside EACH cell. No overlaps or cropped weapon/wing/feet. Not a contact sheet of identical idle copies.
+Generate EXACTLY 8 different consecutive motion frames in a precise 4-column by 2-row grid, reading left-to-right top row then bottom row. Requested native 3072x1536 landscape, 2:1.
+Action: a powerful low grounded dash to the RIGHT with his greatsword carried behind and beside him; wings tuck backward in aerodynamic layers then open for braking. Both hands keep the ornate sword secure, and its full rigid shape and tip remain visible in every cell.
+Frame 1: ready stance compresses, both knees bend.
+Frame 2: deep preload, torso inclines, lead foot anchors and wings fold.
+Frame 3: explosive push-off, rear leg straightens, lead knee advances.
+Frame 4: fast low stride, torso leans 35 degrees forward, trailing leg stretches behind.
+Frame 5: second distinct stride, legs exchange, sword and mantle lag behind.
+Frame 6: braking lunge, front boot reaches the landing plane, wing feathers start to flare.
+Frame 7: low planted deceleration, weight transfers into bent front knee, sword recovers forward.
+Frame 8: rises back to the same armed ready stance as reference.
+Keep feet at a consistent conceptual floor height inside each cell while depicting a natural short dash. Do NOT translate one static picture eight times: spine, shoulder, hip, knee, elbow and wings physically articulate from pose to pose. No effects painted over his body; motion trails will be separate runtime layers.

@@ -1,0 +1,17 @@
+Use case: stylized-concept. Create a premium hand-painted GAME VFX ANIMATION ATLAS for RAGNIEL's SSS ultimate: "종언의 백금성역" / PLATINUM LAST JUDGMENT.
+EXACTLY 16 consecutively evolving effect frames, perfectly aligned in a 4x4 grid, chronological left-to-right then next row. Prefer native 2048x2048 PNG. Real TRANSPARENT RGBA background, no black rectangle, no floor painting, no checkerboard, no labels or cell borders. Keep every effect inside its own cell with ample transparent margins and no overlap into adjacent cells.
+This is one SINGLE evolving ultimate strike, not sixteen unrelated icons and not a static effect resized sixteen times.
+
+Reference is the character's WHITE/GOLD greatsword and crystalline angel-wing design ONLY. Do not draw any character. Design a colossal summoned sword of pearl-white light encased in sculpted gold celestial ribs and a wing-shaped guard, materializing above a target and plunging down, causing an immense winged crown of explosive white-gold force. Deep amber edges and physically layered bright white cores, intricate gold streaks, sharp crystalline fragments and beautifully drawn energy flow; dark-background readability without a solid background.
+
+REGISTRATION: In each square cell the same impact point is fixed at exactly horizontal center, 77 percent of cell height. All phases stay registered to that point. Keep the entire effect within the cell, especially sword tip and shock crown.
+
+Frames 1–3: thin broken elliptical golden seal appears at the ground anchor; fine upward converging rays form an elongated luminous blade high above it. Draw different actual shapes each frame.
+Frames 4–5: the enormous ivory/gold spectral greatsword fully coalesces then accelerates vertically downward; lengthwise light splits, feather-shaped guard opens, directional molten-gold streaks flow upward.
+Frame 6: the first razor-sharp contact at the fixed ground point; a tight white-hot compression flash and initial split ring.
+Frames 7–8: sword discharges into a huge unmistakable ANGEL-WING / CROWN silhouette, two opposing fans of serrated light rising outward, a broad horizontal shock front and angular crystalline shards. This is the largest impact.
+Frames 9–11: the wing-shaped corona ruptures into distinct gold-white fragments, expanding jagged arc fragments, upward torn sheets of energy and curling luminous smoke; actual disintegration and changing topology.
+Frames 12–14: the sword collapses into falling narrow feather-like embers, broken halo pieces fade and low ivory dust curls drift away.
+Frames 15–16: sparse thin wisps and a few dim gold flecks extinguish at the SAME impact anchor; final frame almost empty.
+
+Show a clear progression: formation -> fast fall -> violent impact -> break-up -> extinction. Detailed polished combat VFX, dramatic weight and crisp luminous edges. Avoid ordinary orange fireballs, identical stars, rainbow colors, giant opaque white blobs, text/runes, or any character body.
