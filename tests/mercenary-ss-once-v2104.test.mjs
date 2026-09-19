@@ -102,8 +102,44 @@ for(const postgres of [false,true]){
   await assert.rejects(()=>open(f),e=>e.code==='MERCENARY_SS_ONCE_TARGET');
   assert.equal((await f.once()).status,'ARMED');assert.equal(await f.coin(),60000000000);
  });
+ test(dialect+': third completed ten-pack grants once; single opens, other accounts and receipt replays do not advance',async t=>{
+  const f=await fixture(t,postgres);
+  await f.setting(mercenarySsOnceKey(7),mercenarySsOnceState({...f.state,mercenaryCode:'V-004',slotIndex:9,batchesRemaining:3}));
+  const policyBefore=await f.p('SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1').first();
+  await open(f,1);await open(f,10,crypto.randomUUID(),{...f.user,id:8});assert.equal((await f.once()).batchesRemaining,3);
+  const first=await open(f);assert.equal(grants(first).length,0);assert.equal((await f.once()).batchesRemaining,2);
+  await open(f,10,first.requestId,f.user,()=>{throw Error('Do not reroll');});assert.equal((await f.once()).batchesRemaining,2);
+  const second=await open(f);assert.equal(grants(second).length,0);assert.equal((await f.once()).batchesRemaining,1);
+  const third=await open(f);assert.equal(grants(third).length,1);assert.equal(third.draws[9].mercenaryCode,'V-004');assert.equal((await f.once()).status,'CONSUMED');
+  assert.equal(grants(await open(f)).length,0);
+  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM admin_logs WHERE action_type='MERCENARY_SS_ONCE_ADVANCED'").first()).n),2);
+  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM admin_logs WHERE action_type='MERCENARY_SS_ONCE_CONSUMED'").first()).n),1);
+  assert.deepEqual(await f.p('SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1').first(),policyBefore);
+ });
+ test(dialect+': deferred countdown rolls back with failed rewards and rejects stale saved batches without debit',async t=>{
+  const f=await fixture(t,postgres);
+  await f.setting(mercenarySsOnceKey(7),mercenarySsOnceState({...f.state,mercenaryCode:'V-004',slotIndex:9,batchesRemaining:3}));
+  await f.p('UPDATE users SET coin=1 WHERE id=7').run();await assert.rejects(()=>open(f),e=>e.code==='MERCENARY_FUNDS');assert.equal((await f.once()).batchesRemaining,3);
+  await f.p('UPDATE users SET coin=60000000000 WHERE id=7').run();
+  const stale=crypto.randomUUID();f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(()=>open(f,10,stale));
+  assert.equal((await f.once()).batchesRemaining,3);assert.equal(await f.coin(),60000000000);f.fail('');
+  await open(f);assert.equal((await f.once()).batchesRemaining,2);
+  await assert.rejects(()=>open(f,10,stale),e=>e.code==='JOINT_OPERATION_SUPERSEDED');assert.equal((await f.once()).batchesRemaining,2);assert.equal(await f.coin(),55000000000);
+  const retry=crypto.randomUUID();f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(()=>open(f,10,retry));f.fail('');
+  await open(f,10,retry,f.user,()=>{throw Error('Reuse saved rolls');});assert.equal((await f.once()).batchesRemaining,1);
+  assert.equal(grants(await open(f)).length,1);
+ });
+ test(dialect+': concurrent public ten-pack requests advance the countdown serially and grant only once',async t=>{
+  const f=await fixture(t,postgres);await f.setting(mercenarySsOnceKey(7),mercenarySsOnceState({...f.state,mercenaryCode:'V-004',slotIndex:9,batchesRemaining:3}));
+  const origin='https://game.test',receipts=await Promise.all(Array.from({length:3},async()=>{
+   const r=await handleMercenaryAccount({env:f.env,path:'hyper-pack/open',deps:{...f.deps,authenticate:async()=>({...f.user,role:'USER'})},request:new Request(origin+'/api/hyper-pack/open',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify({count:10,requestId:crypto.randomUUID()})})});
+   assert.equal(r.status,200,await r.clone().text());return r.json();
+  }));
+  assert.equal(receipts.flatMap(grants).length,1);assert.equal((await f.once()).status,'CONSUMED');assert.equal(await f.coin(),45000000000);
+ });
 }
 test('targeted one-time grant requires a complete, bounded card and slot pair',()=>{
  const base={userId:7,actorId:7,operationId:'targeted-validation-test',reason:'test'};
  for(const extra of [{mercenaryCode:'V-004'},{slotIndex:2},{mercenaryCode:'V-004',slotIndex:-1},{mercenaryCode:'V-004',slotIndex:10},{mercenaryCode:'V-004',slotIndex:2.5},{mercenaryCode:'bad',slotIndex:2}])assert.throws(()=>mercenarySsOnceState({...base,...extra}));
+ for(const batchesRemaining of [0,-1,101,1.5,'3',null,NaN])assert.throws(()=>mercenarySsOnceState({...base,batchesRemaining}));
 });
