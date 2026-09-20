@@ -33,13 +33,13 @@ mode = "smart"
 [[d1_databases]]
 binding = "DB"
 database_name = "cnine-card-db"
-database_id = "104552d7-33b6-4ddb-b2ed-36f37db95a72"
+database_id = "cdbb411c-f9c5-47fa-8194-9f28d5905aa3"
 
 # Neon PostgreSQL production pool. The application keeps using D1 until
 # DB_BACKEND=postgres is explicitly enabled after the deployment smoke test.
 [[hyperdrive]]
 binding = "HYPERDRIVE"
-id = "6286c0411e9e465b93dfe21ad3f55720"
+id = "12ed48b0fb374f82a610cc1daba92e95"
 
 # V1786: 유저별 게임 액션 직렬화 락(Durable Object).
 # functions/api/[[path]].js 가 env.USER_LOCK 이 있으면 DO 락을,
