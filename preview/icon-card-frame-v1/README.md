@@ -5,6 +5,8 @@
 ## 결과물
 
 - 프레임: `../../assets/ui/card-frames/icon-streamer-frame-v1.png`
+- 디임 ZENITH 합성 프리뷰: `assets/diim-zenith-icon-card-preview-v1.png`
+- 디임 원화: `../../assets/cards/ZENITH/20.jpg`를 무변형 중앙 크롭으로 사용
 - 규격: 1024 × 1536 PNG, RGBA
 - 중앙 인물 창과 프레임 외곽은 투명
 - 승인 원본 SHA-256: `1368693F6861B7ABDCC8601CBF7EB5DAA13B5063B579DB3A8A38285CDCD0CA6F`
@@ -39,6 +41,7 @@ Avoid: dragons, serpents, phoenixes, wings, animals, creatures, horns, crowns, t
 
 ```powershell
 node preview/icon-card-frame-v1/qa-frame.mjs
+node preview/icon-card-frame-v1/build-diim-preview.mjs
 ```
 
 - 1024 × 1536 확인
