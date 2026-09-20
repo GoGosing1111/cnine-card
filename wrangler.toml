@@ -10,9 +10,11 @@ DB_BACKEND = "postgres"
 
 # Neon은 싱가포르. 2026-09-20 region 힌트는 실제 remote-HKG로 측정됐다.
 # 캐시 OFF 직후 raid/status 1178ms/27q, pvp/config 1636ms/24q.
-# DB TCP 호스트 힌트로 재측정한다. 정적 Pages 자산은 엣지 제공을 유지한다.
+# 22:15 host 힌트도 remote-HKG: raid 1477ms/32q, pvp 1887ms/41q,
+# me 43728ms/17q. host/region 목표 미달로 smart 복원 후 15분 이상 재측정.
+# 정적 Pages 자산은 엣지 제공을 유지한다.
 [placement]
-host = "ep-summer-fog-az8wqbii.c-3.ap-southeast-1.aws.neon.tech:5432"
+mode = "smart"
 
 # Git 연동 Pages에서는 Cloudflare 대시보드의 Bindings에서 DB를 연결합니다.
 # 로컬 wrangler 사용 시 아래 database_id를 실제 값으로 바꾸세요.

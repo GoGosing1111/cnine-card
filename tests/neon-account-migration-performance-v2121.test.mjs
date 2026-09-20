@@ -22,8 +22,9 @@ test('clan reads skip the historical foundation chain only after its durable mar
   assert.ok(read>=0&&participation>read&&write>participation,'clan fast marker must cover every subordinate foundation');
 });
 
-test('Cloudflare execution probes the existing Singapore Neon database host',()=>{
+test('Cloudflare execution returns to smart placement after region and host remained HKG',()=>{
   assert.match(wrangler,/DB_BACKEND\s*=\s*"postgres"/);
-  assert.match(wrangler,/host\s*=\s*"ep-summer-fog-az8wqbii\.c-3\.ap-southeast-1\.aws\.neon\.tech:5432"/);
+  assert.match(wrangler,/\[placement\]\s+mode\s*=\s*"smart"/);
+  assert.doesNotMatch(wrangler,/^(?:host|region)\s*=/m);
   assert.match(wrangler,/id\s*=\s*"12ed48b0fb374f82a610cc1daba92e95"/);
 });
