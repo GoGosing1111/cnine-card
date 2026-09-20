@@ -1123,10 +1123,8 @@ function kstTodaySql(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Se
 async function pvpDeckSnapshot(env,userId,defense=false){
   const load=async ids=>{if(!ids.length)return [];const marks=ids.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all(),map=new Map(rows.results.map(x=>[String(x.id),x])),deck=ids.map(id=>map.get(String(id))).filter(Boolean);return superstarDeckCount(deck)>SUPERSTAR_DECK_LIMIT?[]:deck};
   const ids=await pvpDeckCards(env,userId,defense),deck=await load(ids);
-  // A stale active-preset pointer or a retired card must not hide the intact
-  // preset-1/defence deck. This also restores territory registration after the
-  // account migration without inventing a deck or changing a valid selection.
-  if(!defense&&deck.length!==5){const fallbackIds=await pvpDeckCards(env,userId,true);if(JSON.stringify(fallbackIds)!==JSON.stringify(ids))return load(fallbackIds)}
+  // An invalid attack selection must require editing the attack deck. Never
+  // substitute the defence deck; callers reject non-five-card snapshots.
   return deck;
 }
 async function pvpDeckSnapshotByIds(env,userId,requestedIds=[]){const ids=(Array.isArray(requestedIds)?requestedIds:[]).map(String).filter(Boolean).slice(0,5);if(ids.length!==5)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map((rows.results||[]).map(card=>[String(card.id),card]));const deck=ids.map(id=>map.get(String(id))).filter(Boolean);return superstarDeckCount(deck)>SUPERSTAR_DECK_LIMIT?[]:deck}

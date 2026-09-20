@@ -178,12 +178,18 @@ test('legacy PVE/PVP/clan/territory snapshots cannot reuse two SUPERSTAR cards; 
   }finally{db.close()}
 });
 
-test('invalid active ranked preset falls back to an intact preset-1 defence deck',async()=>{
-  const {db,env,good}=database();
+test('invalid active ranked preset never substitutes an intact defence deck',async()=>{
+  const {db,env,good,bad}=database();
   try{
-    const s=server({async pvpDeckCards(_env,_id,defense){return defense?good:['retired-card',...good.slice(1)]}});
-    assert.deepEqual(plain(await s.pvpDeckSnapshot(env,1)).map(card=>card.id),good);
-    assert.deepEqual(plain(await s.pvpDeckSnapshot(env,1,true)).map(card=>card.id),good);
+    for(const attack of [[],good.slice(1),['retired-card',...good.slice(1)],bad]){
+      const calls=[],s=server({async pvpDeckCards(_env,_id,defense){calls.push(defense);return defense?good:attack}});
+      const snapshot=plain(await s.pvpDeckSnapshot(env,1));
+      assert.notEqual(snapshot.length,5,'invalid attacker must be rejected by callers');
+      assert.deepEqual(calls,[false],'attack snapshot must not read the defence selection');
+      assert.deepEqual(plain(await s.pvpDeckSnapshot(env,1,true)).map(card=>card.id),good);
+    }
+    const fight=api.slice(api.indexOf("if(path==='pvp/fight'&&request.method==='POST')"));
+    assert.match(fight,/if\(aDeck.length!==5\)return json\(\{error:'랭크전 덱을 다시 저장해주세요\./);
   }finally{db.close()}
 });
 
