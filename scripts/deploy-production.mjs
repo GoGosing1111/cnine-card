@@ -6,7 +6,8 @@ import {readFileSync} from 'node:fs';
 const args=process.argv.slice(2),assetsOnly=args.length===1&&args[0]==='--assets-only';
 if(args.length&&!assetsOnly)throw Error('Supported option: --assets-only');
 const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
-const run=(command,a)=>{const r=spawnSync(command,a,{stdio:'inherit',env:process.env});if(r.error)throw r.error;if(r.status!==0)process.exit(r.status||1);};
+const run=(command,a,env=process.env)=>{const r=spawnSync(command,a,{stdio:'inherit',env});if(r.error)throw r.error;if(r.status!==0)process.exit(r.status||1);};
+const productionEnv={...process.env,CLOUDFLARE_ACCOUNT_ID:'1e7c59450a8b6e34a9d87f92ca02aeaa'};
 const assetConnectionOnly=(path,base)=>{
   const cacheFiles=new Set(['index.html','js/app.js','js/project-v-battle-art-adapter-v1.js']);
   if(!cacheFiles.has(path)&&path!=='js/responsive-battle-sprites-v1815.js')return false;
@@ -50,5 +51,5 @@ if(assetsOnly){
 }else if(process.platform==='win32')run(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run release:gate']);
 else run('npm',['run','release:gate']);
 const wrangler=join(dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
-run(process.execPath,[wrangler,'pages','deploy','.','--project-name','cnine-card','--branch','main']);
-if(!assetsOnly)run(process.execPath,[wrangler,'deploy','--config','workers/clan-draft/wrangler.jsonc']);
+run(process.execPath,[wrangler,'pages','deploy','.','--project-name','cnine-card','--branch','main'],productionEnv);
+if(!assetsOnly)run(process.execPath,[wrangler,'deploy','--config','workers/clan-draft/wrangler.jsonc'],productionEnv);
