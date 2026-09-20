@@ -13,6 +13,7 @@ import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {CHAMPIONS_DEFAULTS,cleanChampionsSettings,validateChampionsSettings,ensureChampionsSchema,startChampions,advanceChampions,championsBattleSettings,championsMemberEligible,championsPublicState,deliverChampionsRewards} from './_clan_champions.js';
 
 const CLAN_FOUNDATION_VERSION='safe_runtime_upgrade_v1820_clan_v1';
+const CLAN_FOUNDATION_FAST_MARKER='safe_runtime_upgrade_v2121_clan_foundation_fast_gate';
 const CLAN_OFFICIAL_CATALOG_VERSION='safe_runtime_upgrade_v1882_clan_official_catalog_v1';
 const CLAN_COMPETITION_UPGRADE_VERSION='safe_runtime_upgrade_v1883_clan_competition_safety_v1';
 const CLAN_RELEASE_RUNTIME_VERSION='safe_runtime_upgrade_v1946_clan_release_runtime_v1';
@@ -55,7 +56,7 @@ const CLAN_ADMIN_SETTINGS_DEFAULTS=Object.freeze({
   warWinScore:1,seasonWinScore:3,seasonLossScore:0,playbackSpeed:1.3,battleReceiptRetentionDays:30,
   rewardsEnabled:false,winnerCoin:0,runnerUpCoin:0,participationCoin:0,participationShards:0
 });
-let foundationReady=false,officialCatalogReady=false,competitionUpgradeReady=false,releaseRuntimeReady=false,capacityRuntimeReady=false,lateDraftRuntimeReady=false,randomScoreRuntimeReady=false,concurrentReservationRuntimeReady=false;
+let foundationReady=false,foundationFastReady=false,officialCatalogReady=false,competitionUpgradeReady=false,releaseRuntimeReady=false,capacityRuntimeReady=false,lateDraftRuntimeReady=false,randomScoreRuntimeReady=false,concurrentReservationRuntimeReady=false;
 
 function iso(ms=Date.now()){return new Date(ms).toISOString()}
 function safeJson(value,fallback={}){try{return JSON.parse(value||'')}catch{return fallback}}
@@ -304,8 +305,19 @@ async function ensureClanConcurrentReservationRuntimeUpgrade(env){
 }
 
 async function ensureFoundation(env){
+  if(foundationFastReady)return;
   if(!foundationReady){
     await env.DB.prepare('CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)').run();
+    // The production schema is durable, while Worker module state is not. After
+    // an account migration, checking every historical clan marker on every cold
+    // isolate generated 40-80 PostgreSQL operations for a single faction read.
+    // A completed master marker collapses that audit to one indexed lookup.
+    const fastGate=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_FAST_MARKER).first();
+    if(fastGate?.value==='1'){
+      foundationReady=true;
+      foundationFastReady=true;
+      return;
+    }
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
     if(!marker){
       await batchChunks(env,FOUNDATION_SQL,25);
@@ -323,6 +335,9 @@ async function ensureFoundation(env){
   await ensureClanConcurrentReservationRuntimeUpgrade(env);
   await ensureClanParticipationSchema(env);
   await ensureChampionsSchema(env);
+  await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP`).bind(CLAN_FOUNDATION_FAST_MARKER).run();
+  foundationFastReady=true;
 }
 
 function cleanClock(value,fallback='21:00'){const match=String(value||'').trim().match(/^(\d{1,2}):(\d{2})$/);if(!match)return fallback;const hour=Number(match[1]),minute=Number(match[2]);return hour>=0&&hour<=23&&minute>=0&&minute<=59?`${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`:fallback}

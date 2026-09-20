@@ -2290,9 +2290,18 @@ async function deleteBattleMonster(env,id){
   return Number(results.at(-1)?.meta?.changes||0);
 }
 let runtimeUpgradeGatePromise=null;
+const RUNTIME_UPGRADE_FAST_MARKER='safe_runtime_upgrade_v2121_runtime_foundation_fast_gate';
 async function ensureRuntimeUpgrades(env){
   if(runtimeUpgradeGatePromise)return runtimeUpgradeGatePromise;
   runtimeUpgradeGatePromise=(async()=>{
+    // Cloudflare account migration creates a new Hyperdrive pool and new Worker
+    // isolates. Replaying every historical foundation marker on each cold isolate
+    // creates dozens of serial PostgreSQL round trips before unrelated gameplay
+    // requests can settle. This durable marker is written only after every legacy
+    // guard below has completed, so established production databases need one
+    // indexed lookup instead of the full migration audit.
+    const fastGate=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(RUNTIME_UPGRADE_FAST_MARKER).first();
+    if(fastGate?.value==='1')return true;
     // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
     await ensureD1HotpathIndexes(env);
     await ensureApocalypseEnergyFoundation(env);
@@ -2304,8 +2313,13 @@ async function ensureRuntimeUpgrades(env){
     if(markerMap.safe_runtime_upgrade_v1694_nightmare_pair_dedup!=='1')await ensureNightmarePairDedupUpgrade(env);
     if(markerMap.safe_runtime_upgrade_v1695_purge_inactive_monsters!=='1')await ensureInactiveMonsterPurgeUpgrade(env);
     if(markerMap.safe_runtime_upgrade_v1696_nightmare_after_hell_nika!=='1')await ensureNightmareProgressionUpgrade(env);
-    if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1')return true;
-    await ensureUpgrades(env);
+    const legacyComplete=markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'
+      &&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'
+      &&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'
+      &&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1';
+    if(!legacyComplete)await ensureUpgrades(env);
+    await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)
+      ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP`).bind(RUNTIME_UPGRADE_FAST_MARKER).run();
     return true;
   })().catch(error=>{runtimeUpgradeGatePromise=null;throw error});
   return runtimeUpgradeGatePromise;
