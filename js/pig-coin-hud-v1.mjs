@@ -4,5 +4,5 @@ function paint(){for(const node of [document,...Array.from(document.querySelecto
 async function refresh(){let token='';try{token=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{}if(token!==lastToken){value=null;lastRead=0;lastToken=token;paint();}if(!token||inFlight||Date.now()-lastRead<15000)return;inFlight=true;const expected=token;try{const data=await jointAccountRequest('loot-shop/balance');if(expected===lastToken){value=data.pigCoins;lastRead=Date.now();paint();}}catch{}finally{inFlight=false;}}
 let scheduled=false;new MutationObserver(()=>{if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;paint();void refresh();});}).observe(document.documentElement,{childList:true,subtree:true});
 window.addEventListener('cnine:pig-wallet-mounted',()=>{paint();void refresh();});
-window.addEventListener('cnine:player-updated',()=>{lastRead=0;void refresh();});
+window.addEventListener('cnine:player-updated',event=>{if(event?.detail?.source!=='draw')lastRead=0;void refresh();});
 window.addEventListener('storage',()=>void refresh());window.addEventListener('pageshow',()=>{lastRead=0;void refresh();});document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastRead=0;void refresh();}});setInterval(()=>{if(!document.hidden)void refresh();},30000);void refresh();

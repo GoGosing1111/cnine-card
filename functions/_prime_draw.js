@@ -211,6 +211,21 @@ function checkedOpenMutationStatements(env,{sql,values,requestId,userId,boxCode}
   return [env.DB.prepare(sql).bind(...values),env.DB.prepare(guard('changes()=1')).bind(...guardValues)];
 }
 
+// PERF-0919: 프라임 구매의 코인 차감도 같은 방식으로 확인한다. 구매는 사용자 락 대상이 아니라서
+//   PostgreSQL 에서 다른 코인 사용과 겹치면 차감 0행 + 상자 지급이 가능했다.
+function checkedPurchaseDebitStatements(env,{sql,values,requestId,userId,itemCode}){
+  const guardValues=[requestId,userId,itemCode];
+  const guard=proof=>`UPDATE ${PURCHASE_RECEIPTS} SET count=CASE WHEN ${proof} THEN count ELSE NULL END WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'`;
+  if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH changed AS (${sql} RETURNING id) ${guard('(SELECT COUNT(*) FROM changed)=1')}`).bind(...values,...guardValues)];
+  return [env.DB.prepare(sql).bind(...values),env.DB.prepare(guard('changes()=1')).bind(...guardValues)];
+}
+// PERF-0919: 완료 UPDATE 의 RETURNING 결과를 쓰고, 0행일 때만(동일 요청 경쟁·재고 부족) 영수증을 다시 읽는다.
+async function completedReceipt(env,batched,table,requestId,userId){
+  const row=batched?.at?.(-1)?.results?.[0];
+  if(row?.status)return row;
+  return env.DB.prepare(`SELECT status,response_json FROM ${table} WHERE request_id=? AND user_id=?`).bind(requestId,userId).first();
+}
+
 function inventoryGrantStatements(env,{requestId,userId,boxCode,itemCode,quantity}){
   const sql=`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`;
   return checkedOpenMutationStatements(env,{sql,values:[userId,itemCode,quantity,quantity,requestId,userId,boxCode],requestId,userId,boxCode});
@@ -294,6 +309,26 @@ async function loadPool(env,product,{includeZero=false,fresh=true}={}){
   return includeZero?built:cacheRuntimeData(env,primePoolCacheKey(product),built,PRIME_CACHE_TTL_MS);
 }
 
+// PERF-0919: 개봉·구매용 풀 조회. loadPool 의 4문장(기본·자체 추가·아바타·아이템)을 UNION ALL 한 문장으로
+//   읽는다. PostgreSQL 어댑터는 Promise.all 이어도 문장마다 순차 왕복하므로 개봉당 2~3왕복이 줄어든다.
+//   운영 변경(비활성·비공개·확률 0)을 바로 반영하도록 여전히 매번 새로 읽으며, 공개 설정 화면용
+//   캐시(loadPool)에는 쓰지 않는다. 각 구간의 정렬·중복 제거 순서는 loadPool 과 같다.
+async function loadDrawPool(env,product){
+  const equipment=product.kind==='equipment',nativeType=equipment?'EQUIPMENT':'VEHICLE',nativeTable=equipment?'character_equipment_items':'character_garage_items';
+  const baseSql=equipment
+    ?`SELECT 1 pool_part,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.slot,NULL category,NULL role_label,NULL accent,i.total_power,i.pve_power,i.pvp_power,0 duplicate_shards,p.draw_weight,p.presentation_enabled,p.presentation_tier,p.effect_key,i.id pool_sort_number,'' pool_sort_text FROM ${EQUIPMENT_POOL_TABLE} p JOIN character_equipment_items i ON i.id=p.equipment_id WHERE i.is_active=1 AND i.is_public=1 AND p.draw_weight>0`
+    :`SELECT 1 pool_part,i.id,i.code,i.name,i.rarity,i.image_url,i.description,NULL slot,NULL category,NULL role_label,NULL accent,i.total_power,i.pve_power,i.pvp_power,p.duplicate_shards,p.draw_weight,p.presentation_enabled,p.presentation_tier,p.effect_key,i.id pool_sort_number,'' pool_sort_text FROM ${VEHICLE_POOL_TABLE} p JOIN character_garage_items i ON i.id=p.garage_id WHERE i.is_active=1 AND i.is_public=1 AND p.draw_weight>0`;
+  const nativeExtraSql=`SELECT 2 pool_part,i.id,i.code,i.name,i.rarity,i.image_url,i.description,${equipment?'i.slot':'NULL'} slot,NULL category,NULL role_label,NULL accent,i.total_power,i.pve_power,i.pvp_power,0 duplicate_shards,x.draw_weight,x.presentation_enabled,x.presentation_tier,x.effect_key,i.id pool_sort_number,'' pool_sort_text FROM ${EXTRA_POOL_TABLE} x JOIN ${nativeTable} i ON i.code=x.reward_ref WHERE x.product_kind=? AND x.reward_type=? AND i.is_active=1 AND i.is_public=1 AND x.draw_weight>0`;
+  const avatarSql=`SELECT 3 pool_part,NULL id,a.code,a.name,'AVATAR' rarity,a.lobby_image image_url,a.description,NULL slot,NULL category,a.role_label,a.accent,0 total_power,0 pve_power,0 pvp_power,0 duplicate_shards,x.draw_weight,x.presentation_enabled,x.presentation_tier,x.effect_key,a.sort_order pool_sort_number,a.code pool_sort_text FROM ${EXTRA_POOL_TABLE} x JOIN avatar_catalog_v1 a ON a.code=x.reward_ref WHERE x.product_kind=? AND x.reward_type='AVATAR' AND a.is_active=1 AND a.is_public=1 AND x.draw_weight>0`;
+  const inventoryItemSql=`SELECT 4 pool_part,NULL id,i.code,i.name,i.rarity,i.image_url,i.description,NULL slot,i.category,NULL role_label,NULL accent,0 total_power,0 pve_power,0 pvp_power,0 duplicate_shards,x.draw_weight,x.presentation_enabled,x.presentation_tier,x.effect_key,i.sort_order pool_sort_number,i.code pool_sort_text FROM ${EXTRA_POOL_TABLE} x JOIN inventory_items i ON i.code=x.reward_ref WHERE x.product_kind='equipment' AND x.reward_type='INVENTORY_ITEM' AND i.is_active=1 AND i.code IN (${PRIME_ITEM_PLACEHOLDERS}) AND x.draw_weight>0`;
+  const parts=[baseSql,nativeExtraSql,avatarSql],bindings=[product.kind,nativeType,product.kind];
+  if(equipment){parts.push(inventoryItemSql);bindings.push(...PRIME_EQUIPMENT_ITEM_CODES)}
+  const result=await env.DB.prepare(`SELECT * FROM (${parts.join(' UNION ALL ')}) prime_pool ORDER BY pool_part,draw_weight DESC,pool_sort_number,pool_sort_text`).bind(...bindings).all();
+  const types={1:[nativeType,false],2:[nativeType,true],3:['AVATAR',true],4:['INVENTORY_ITEM',true]},seen=new Set();
+  return (result.results||[]).map(row=>{const [type,isExtra]=types[Number(row.pool_part)]||[nativeType,false];const {pool_part:_part,pool_sort_number:_sortNumber,pool_sort_text:_sortText,...rest}=row;return poolRow(rest,type,isExtra)})
+    .filter(row=>row.code&&!seen.has(row.poolKey)&&(seen.add(row.poolKey)||true));
+}
+
 async function loadAdminCatalog(env){
   const [equipment,vehicle,avatar,inventoryItem]=await Promise.all([
     env.DB.prepare('SELECT id,code,name,rarity,image_url,description,total_power,pve_power,pvp_power,slot FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY sort_order,id').all(),
@@ -322,7 +357,7 @@ async function purchase({request,env,user,product,readBody,json}){
   if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
   if(!Number.isInteger(expected)||expected!==product.unitPrice)return json({error:'상품 가격이 변경되었습니다. 새 가격을 확인한 뒤 다시 주문해 주세요.',code:'PRICE_CHANGED',currentUnitPrice:product.unitPrice},409);
   if(!(await loadProductSettings(env,product)).shopEnabled)return json({error:'현재 프라임 상품 판매가 중지되어 있습니다.'},423);
-  if(!(await loadPool(env,product)).length)return json({error:'프라임 전용 드랍풀이 비어 있어 현재 구매할 수 없습니다.'},503);
+  if(!(await loadDrawPool(env,product)).length)return json({error:'프라임 전용 드랍풀이 비어 있어 현재 구매할 수 없습니다.'},503);
   const prior=await env.DB.prepare(`SELECT status,response_json,item_code FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
   if(prior&&prior.item_code!==product.itemCode)return json({error:'같은 요청 ID를 다른 프라임 상품에 재사용할 수 없습니다.'},409);
   if(prior?.status==='COMPLETED'&&prior.response_json)return json(parse(prior.response_json,{}));
@@ -335,7 +370,7 @@ async function purchase({request,env,user,product,readBody,json}){
   await ensureAdministrationTreasuryFoundation(env);
   const statements=[
     env.DB.prepare(`INSERT INTO ${PURCHASE_RECEIPTS}(request_id,user_id,item_code,count,unit_price,total_price,status) SELECT ?,?,?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)`).bind(requestId,user.id,product.itemCode,count,product.unitPrice,totalPrice,user.id,totalPrice),
-    env.DB.prepare(`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(totalPrice,user.id,totalPrice,requestId,user.id,product.itemCode),
+    ...checkedPurchaseDebitStatements(env,{sql:`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`,values:[totalPrice,user.id,totalPrice,requestId,user.id,product.itemCode],requestId,userId:user.id,itemCode:product.itemCode}),
     env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,product.itemCode,count,count,requestId,user.id,product.itemCode),
     env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,-?,coin,? FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,totalPrice,product.purchaseReason,user.id,requestId,user.id,product.itemCode),
     env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'SHOP_PURCHASE',?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,product.itemCode,count,product.referenceType,requestId,user.id,product.itemCode,requestId,user.id,product.itemCode)
@@ -344,9 +379,9 @@ async function purchase({request,env,user,product,readBody,json}){
     sourceType:product.kind==='equipment'?'PRIME_EQUIPMENT':'PRIME_VEHICLE',sourceRequestId:requestId,userId:user.id,grossCoin:totalPrice,label:product.name,
     guardSql:`EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`,guardBindings:[requestId,user.id,product.itemCode]
   }));
-  statements.push(env.DB.prepare(completeSql).bind(JSON.stringify(response),user.id,user.id,product.itemCode,requestId,user.id));
-  await env.DB.batch(statements);
-  const receipt=await env.DB.prepare(`SELECT status,response_json FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
+  statements.push(env.DB.prepare(`${completeSql} RETURNING status,response_json`).bind(JSON.stringify(response),user.id,user.id,product.itemCode,requestId,user.id));
+  const batched=await env.DB.batch(statements);
+  const receipt=await completedReceipt(env,batched,PURCHASE_RECEIPTS,requestId,user.id);
   if(!receipt)return json({error:'코인이 부족합니다.'},409);
   if(receipt.status!=='COMPLETED'||!receipt.response_json)return json({error:'상품 구매 처리에 실패했습니다.'},500);
   return json(parse(receipt.response_json,{}));
@@ -361,7 +396,7 @@ async function openEquipment({request,env,user,product,readBody,json}){
   if(prior&&prior.item_code!==product.itemCode)return json({error:'같은 요청 ID를 다른 프라임 상품에 재사용할 수 없습니다.'},409);
   if(prior?.status==='COMPLETED'&&prior.response_json)return json(parse(prior.response_json,{}));
   if(prior)return json({error:'같은 개봉 요청을 처리 중입니다.'},409);
-  const [poolRows,stock,ownedAvatarRows]=await Promise.all([loadPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT avatar_code FROM avatar_user_ownership_v1 WHERE user_id=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id).all()]);
+  const [poolRows,stock,ownedAvatarRows]=await Promise.all([loadDrawPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT avatar_code FROM avatar_user_ownership_v1 WHERE user_id=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id).all()]);
   if(!poolRows.length)return json({error:'프라임 장비 전용 드랍풀이 비어 있습니다.'},503);
   if(Number(stock?.quantity||0)<count)return json({error:`프라임 아머리 상자가 ${count}개 필요합니다.`},409);
   const ownedAvatarCodes=new Set((ownedAvatarRows.results||[]).map(row=>String(row.avatar_code))),newAvatarCodes=new Set(),inventoryItemCounts=new Map(),results=[];
@@ -395,10 +430,10 @@ async function openEquipment({request,env,user,product,readBody,json}){
   if(newAvatarCodes.size)statements.push(avatarGrantStatement(env,{requestId,userId:user.id,itemCode:product.itemCode,avatarCodes:newAvatarCodes}));
   statements.push(
     env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-?,quantity,'프라임 아머리 상자 개봉','PRIME_EQUIPMENT_OPEN',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,product.itemCode,count,requestId,user.id,product.itemCode,requestId,user.id,product.itemCode),
-    env.DB.prepare(completeSql).bind(JSON.stringify(response),user.id,product.itemCode,requestId,user.id)
+    env.DB.prepare(`${completeSql} RETURNING status,response_json`).bind(JSON.stringify(response),user.id,product.itemCode,requestId,user.id)
   );
-  await env.DB.batch(statements);
-  const receipt=await env.DB.prepare(`SELECT status,response_json FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
+  const batched=await env.DB.batch(statements);
+  const receipt=await completedReceipt(env,batched,OPEN_RECEIPTS,requestId,user.id);
   if(!receipt)return json({error:`프라임 아머리 상자가 ${count}개 필요합니다.`},409);
   if(receipt.status!=='COMPLETED'||!receipt.response_json)return json({error:'프라임 장비 개봉 처리에 실패했습니다.'},500);
   return json(parse(receipt.response_json,{}));
@@ -413,7 +448,7 @@ async function openVehicle({request,env,user,product,readBody,json}){
   if(prior&&prior.item_code!==product.itemCode)return json({error:'같은 요청 ID를 다른 프라임 상품에 재사용할 수 없습니다.'},409);
   if(prior?.status==='COMPLETED'&&prior.response_json){const cached=parse(prior.response_json,{}),balances=await env.DB.prepare(`SELECT COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0) remainingQuantity,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0) masterStarQuantity,COALESCE((SELECT card_shards FROM users WHERE id=?),0) cardShards`).bind(user.id,product.itemCode,user.id,user.id).first();return json({...cached,...balances})}
   if(prior)return json({error:'같은 개봉 요청을 처리 중입니다.'},409);
-  const [poolRows,stock,ownedRows,ownedAvatarRows]=await Promise.all([loadPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT garage_id FROM user_garage_vehicles WHERE user_id=?').bind(user.id).all(),env.DB.prepare('SELECT avatar_code FROM avatar_user_ownership_v1 WHERE user_id=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id).all()]);
+  const [poolRows,stock,ownedRows,ownedAvatarRows]=await Promise.all([loadDrawPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT garage_id FROM user_garage_vehicles WHERE user_id=?').bind(user.id).all(),env.DB.prepare('SELECT avatar_code FROM avatar_user_ownership_v1 WHERE user_id=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id).all()]);
   if(!poolRows.length)return json({error:'프라임 이동수단 전용 드랍풀이 비어 있습니다.'},503);
   if(Number(stock?.quantity||0)<count)return json({error:`프라임 하이퍼드라이브 팩이 ${count}개 필요합니다.`},409);
   const ownedIds=new Set((ownedRows.results||[]).map(row=>Number(row.garage_id))),newIds=new Set(),ownedAvatarCodes=new Set((ownedAvatarRows.results||[]).map(row=>String(row.avatar_code))),newAvatarCodes=new Set(),results=[];let totalShards=0,totalStars=0;
@@ -429,7 +464,8 @@ async function openVehicle({request,env,user,product,readBody,json}){
   const response={ok:true,kind:'vehicle',itemCode:product.itemCode,count,poolVersion:product.poolVersion,receiptId:requestId,requestId,results,aggregated,specialQueue,shardsGained:totalShards,masterStarsGained:totalStars,remainingQuantity:0,masterStarQuantity:0,cardShards:0};
   const statements=[
     env.DB.prepare(`INSERT INTO ${OPEN_RECEIPTS}(request_id,user_id,item_code,count,pool_version,status) SELECT ?,?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)`).bind(requestId,user.id,product.itemCode,count,product.poolVersion,user.id,product.itemCode,count),
-    env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(count,count,user.id,product.itemCode,count,requestId,user.id,product.itemCode)
+    // PERF-0919: 장비 개봉과 같은 차감 확인(PostgreSQL 동시 개봉 시 0행 차감 + 보상 지급 차단).
+    ...checkedOpenMutationStatements(env,{sql:`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=? AND EXISTS(SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`,values:[count,count,user.id,product.itemCode,count,requestId,user.id,product.itemCode],requestId,userId:user.id,boxCode:product.itemCode})
   ];
   if(newIds.size)statements.push(env.DB.prepare(`WITH receipt_guard AS (SELECT 1 FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,CAST(value AS INTEGER),'PRIME_VEHICLE_DRAW',?||CAST(value AS INTEGER) FROM json_each(?) CROSS JOIN receipt_guard`).bind(requestId,user.id,product.itemCode,user.id,`${requestId}:`,JSON.stringify([...newIds])));
   if(newAvatarCodes.size)statements.push(avatarGrantStatement(env,{requestId,userId:user.id,itemCode:product.itemCode,avatarCodes:newAvatarCodes}));
@@ -443,9 +479,9 @@ async function openVehicle({request,env,user,product,readBody,json}){
   const completeSql=env.DB?.dialect==='postgres'
     ?`UPDATE ${OPEN_RECEIPTS} SET status='COMPLETED',response_json=(jsonb_set(jsonb_set(jsonb_set(?::jsonb,'{remainingQuantity}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),true),'{masterStarQuantity}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0)),true),'{cardShards}',to_jsonb(COALESCE((SELECT card_shards FROM users WHERE id=?),0)),true))::text,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`
     :`UPDATE ${OPEN_RECEIPTS} SET status='COMPLETED',response_json=json_set(?,'$.remainingQuantity',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),'$.masterStarQuantity',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0),'$.cardShards',COALESCE((SELECT card_shards FROM users WHERE id=?),0)),updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`;
-  statements.push(env.DB.prepare(completeSql).bind(JSON.stringify(response),user.id,product.itemCode,user.id,user.id,requestId,user.id));
-  await env.DB.batch(statements);
-  const receipt=await env.DB.prepare(`SELECT status,response_json FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
+  statements.push(env.DB.prepare(`${completeSql} RETURNING status,response_json`).bind(JSON.stringify(response),user.id,product.itemCode,user.id,user.id,requestId,user.id));
+  const batched=await env.DB.batch(statements);
+  const receipt=await completedReceipt(env,batched,OPEN_RECEIPTS,requestId,user.id);
   if(!receipt)return json({error:`프라임 하이퍼드라이브 팩이 ${count}개 필요합니다.`},409);
   if(receipt.status!=='COMPLETED'||!receipt.response_json)return json({error:'프라임 이동수단 개봉 처리에 실패했습니다.'},500);
   return json(parse(receipt.response_json,{}));

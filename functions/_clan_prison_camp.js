@@ -80,6 +80,12 @@ export async function clanCampSettlementStatements(env, season, settings, ranked
 
 const ACTIVE = `FROM prison_camp_entries_v2115 c WHERE c.released_at IS NULL AND c.jailed_until>?`;
 
+// PERF-0919: 모든 로그인 요청의 감옥 게이트가 개인 감옥 행과 같은 한 문장에서 읽는 수용소 존재 여부.
+//   대부분의 유저는 수용 중이 아니므로 상세 조회(clanCampStatusForUser)는 이 값이 1일 때만 한다.
+//   바인딩: [clanCampProbeTime(now), userId]
+export const clanCampActiveProbeSql = () => `CASE WHEN EXISTS(SELECT 1 ${ACTIVE} AND c.user_id=?) THEN 1 ELSE 0 END`;
+export const clanCampProbeTime = now => sqlTime(now);
+
 export async function clanCampStatusForUser(env, userId, now = Date.now()) {
   await ensureClanCampSchema(env);
   const camp = await env.DB.prepare(`SELECT c.* ${ACTIVE} AND c.user_id=? ORDER BY c.jailed_until DESC LIMIT 1`)

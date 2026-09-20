@@ -8,6 +8,83 @@ types.setTypeParser(1700, value => Number(value));
 const SCHEMA_SQL = /^(?:CREATE\s+(?:TABLE|INDEX|UNIQUE\s+INDEX|TRIGGER|VIEW)|DROP\s+(?:TRIGGER|VIEW|INDEX|TABLE)|ALTER\s+TABLE|PRAGMA\s+(?:foreign_keys|journal_mode|synchronous|optimize)|VACUUM\b|REINDEX\b)/i;
 const INSERT_SQL = /^(?:INSERT\b|WITH\b[\s\S]*\bINSERT\s+(?:OR\s+\w+\s+)?INTO\b)/i;
 
+// PERF-0919: 카탈로그(유니크 키·컬럼 목록) 조회 결과를 isolate 단위로 재사용한다.
+//   이 어댑터는 요청마다 새 연결(PostgresD1Database)을 만든다. 캐시가 인스턴스에
+//   붙어 있으면 요청마다 upsert 대상 테이블 수만큼 pg_catalog 조회가 추가로 나간다
+//   (카드뽑기 커밋 1회에 약 5~8회). 스키마는 배포 마이그레이션이나 execSchema()로만
+//   바뀌므로 execSchema() 에서 비우고, 혹시 모를 수동 변경에 대비해 10분 뒤 만료한다.
+//   값은 완료된 순수 데이터(배열/Set)만 저장한다. 연결·promise 는 보관하지 않는다.
+const CATALOG_CACHE_TTL_MS = 10 * 60 * 1000;
+const CATALOG_CACHE_MAX = 512;
+const sharedUniqueTargets = new Map();
+const sharedTableColumns = new Map();
+function catalogCacheGet(store, key, now = Date.now()) {
+  const row = store.get(key);
+  if (!row) return undefined;
+  if (row.expiresAt <= now) { store.delete(key); return undefined; }
+  return row.value;
+}
+function catalogCacheSet(store, key, value, now = Date.now()) {
+  if (store.size >= CATALOG_CACHE_MAX && !store.has(key)) store.delete(store.keys().next().value);
+  store.set(key, { value, expiresAt: now + CATALOG_CACHE_TTL_MS });
+  return value;
+}
+export function clearPostgresCatalogCache() {
+  sharedUniqueTargets.clear();
+  sharedTableColumns.clear();
+}
+
+// PERF-0919: 읽기 전용 batch 판정. READ COMMITTED 에서는 트랜잭션 안에서도 문장마다
+//   새 스냅샷을 보므로, 잠금 없는 SELECT 만 모인 batch 를 BEGIN/COMMIT 으로 감싸도
+//   일관성 이득이 없고 왕복만 2회 늘어난다. 잠금(FOR UPDATE/SHARE)·시퀀스·
+//   advisory lock 처럼 부수효과가 있는 SELECT 는 기존대로 트랜잭션을 유지한다.
+const READ_ONLY_SELECT = /^\s*(?:\(\s*)*SELECT\b/i;
+const SIDE_EFFECT_SELECT = /\bFOR\s+(?:UPDATE|SHARE|NO\s+KEY\s+UPDATE|KEY\s+SHARE)\b|\bpg_advisory|\bnextval\s*\(|\bsetval\s*\(|\bpg_sleep|\bINTO\s+(?:TEMP|TEMPORARY|UNLOGGED|TABLE)\b|\bset_config\s*\(/i;
+function isReadOnlyStatement(statement) {
+  const source = String(statement?.source || '').replace(/^\s*(?:--[^\n]*\n\s*)*/, '');
+  return READ_ONLY_SELECT.test(source) && !SIDE_EFFECT_SELECT.test(source);
+}
+function batchNeedsTransaction(list) {
+  if (list.length <= 1) return false;          // 단일 문장은 autocommit 자체가 원자적이다.
+  return !list.every(isReadOnlyStatement);
+}
+
+// PIPE-0920: batch 를 한 메시지로 보낼 때 트랜잭션 머리. Hyperdrive 는 연결 단위 SET 을
+//   유지하지 않으므로(트랜잭션 풀링) 기존 연결 시 SET 과 같은 값을 SET LOCAL 로 싣는다.
+const PIPELINE_TRANSACTION_HEAD = Object.freeze([
+  'BEGIN',
+  "SET LOCAL statement_timeout='20s'",
+  "SET LOCAL lock_timeout='4s'",
+  "SET LOCAL idle_in_transaction_session_timeout='20s'",
+]);
+
+// PIPE-0920: node-postgres 가 파라미터를 텍스트로 바꾸는 규칙과 같은 값만 리터럴로 옮긴다.
+//   옮길 수 없는 값이면 null 을 돌려 호출부가 기존 경로로 실행하게 한다.
+function parameterLiteral(value, escapeLiteral) {
+  if (value === null || value === undefined) return 'NULL';
+  if (typeof value === 'string') return escapeLiteral(value);
+  if (typeof value === 'number') return Number.isFinite(value) ? `'${String(value)}'` : null;
+  if (typeof value === 'bigint') return `'${value.toString()}'`;
+  if (typeof value === 'boolean') return value ? "'true'" : "'false'";
+  return null;
+}
+
+function inlineParameters(text, values, escapeLiteral) {
+  const literals = [];
+  for (const value of values) {
+    const literal = parameterLiteral(value, escapeLiteral);
+    if (literal === null) return null;
+    literals.push(literal);
+  }
+  let missing = false;
+  const inlined = rewriteOutsideLiterals(text, code => code.replace(/(?<![0-9A-Za-z_$])\$(\d+)(?![0-9A-Za-z_$])/g, (match, ordinal) => {
+    const literal = literals[Number(ordinal) - 1];
+    if (literal === undefined) { missing = true; return match; }
+    return literal;
+  }));
+  return missing ? null : inlined;
+}
+
 function emptyResult() {
   return {
     success: true,
@@ -448,11 +525,19 @@ class PostgresD1Database {
     // 않는다. 기존 D1 코드의 Promise.all 패턴을 그대로 허용하되 실제
     // PostgreSQL 작업은 요청 단위 FIFO로 직렬화한다.
     this.operationTail = Promise.resolve();
+    this.readGroup = null;
     this.closed = false;
   }
 
   enqueue(operation) {
     if (this.closed) return Promise.reject(new Error('PostgreSQL 연결이 이미 종료되었습니다.'));
+    // PIPE-0920: 쓰기·batch 가 줄에 서면 열린 읽기 묶음을 닫는다. 그 뒤에 온 읽기는
+    //   새 묶음으로 이 작업 "뒤"에 실행되므로 FIFO 순서가 기존과 같다.
+    this.readGroup = null;
+    return this.enqueueRaw(operation);
+  }
+
+  enqueueRaw(operation) {
     const result = this.operationTail.then(operation);
     // 한 작업의 실패가 뒤 작업까지 영구적으로 막지 않도록 tail만 복구한다.
     this.operationTail = result.catch(() => undefined);
@@ -465,7 +550,7 @@ class PostgresD1Database {
 
   async tableUniqueTarget(table, insertedColumns) {
     const cacheKey = table;
-    let indexes = this.uniqueTargets.get(cacheKey);
+    let indexes = this.uniqueTargets.get(cacheKey) || catalogCacheGet(sharedUniqueTargets, cacheKey);
     if (!indexes) {
       const result = await this.client.query({
         text: `SELECT i.indisprimary,
@@ -480,8 +565,10 @@ class PostgresD1Database {
         values: [table],
       });
       indexes = result.rows.map(row => ({ primary: row.indisprimary, columns: row.columns }));
-      this.uniqueTargets.set(cacheKey, indexes);
+      // 아직 없는 relation(빈 결과)은 공유하지 않는다. 뒤이은 execSchema 로 생길 수 있다.
+      if (indexes.length) catalogCacheSet(sharedUniqueTargets, cacheKey, indexes);
     }
+    this.uniqueTargets.set(cacheKey, indexes);
     const inserted = new Set(insertedColumns);
     return indexes.find(index => index.columns.every(column => inserted.has(column)))?.columns || [];
   }
@@ -494,7 +581,7 @@ class PostgresD1Database {
   //   또 빠뜨리므로 여기서 일괄 처리한다.
   //   ⚠ 대입 대상(좌변)은 한정하면 안 된다. Postgres 가 거부한다.
   async tableColumns(table) {
-    let columns = this.tableColumnCache.get(table);
+    let columns = this.tableColumnCache.get(table) || catalogCacheGet(sharedTableColumns, table);
     if (!columns) {
       const result = await this.client.query({
         text: `SELECT a.attname::text AS name FROM pg_catalog.pg_attribute a
@@ -502,8 +589,9 @@ class PostgresD1Database {
         values: [table],
       });
       columns = new Set(result.rows.map(row => String(row.name).toLowerCase()));
-      this.tableColumnCache.set(table, columns);
+      if (columns.size) catalogCacheSet(sharedTableColumns, table, columns);
     }
+    this.tableColumnCache.set(table, columns);
     return columns;
   }
 
@@ -639,9 +727,101 @@ class PostgresD1Database {
   }
 
   execute(statement) {
-    return this.enqueue(() => this.executeDirect(statement));
+    if (this.closed) return Promise.reject(new Error('PostgreSQL 연결이 이미 종료되었습니다.'));
+    if (typeof this.client.escapeLiteral !== 'function' || !isReadOnlyStatement(statement)) {
+      return this.enqueue(() => this.executeDirect(statement));
+    }
+    // PIPE-0920: 같은 틱에 연달아 들어온 읽기(Promise.all 패턴)를 한 메시지로 묶는다.
+    //   이 연결은 원래 FIFO 로 한 줄씩 보냈다. 예) /api/me 의 profile() 은 읽기 12개를
+    //   Promise.all 로 던지지만 실제로는 12왕복(HKG↔싱가포르 50~70ms 씩)이었다.
+    let group = this.readGroup;
+    if (!group) {
+      group = { items: [] };
+      this.readGroup = group;
+      this.enqueueRaw(() => this.flushReadGroup(group));
+    }
+    return new Promise((resolve, reject) => group.items.push({ statement, resolve, reject }));
   }
 
+  async flushReadGroup(group) {
+    if (this.readGroup === group) this.readGroup = null;
+    const items = group.items;
+    const runEach = async list => {
+      for (const item of list) {
+        try { item.resolve(await this.executeDirect(item.statement)); } catch (error) { item.reject(error); }
+      }
+    };
+    if (items.length < 2) return runEach(items);
+    let prepared;
+    try {
+      prepared = [];
+      for (const item of items) prepared.push(await this.prepareForExecution(item.statement));
+    } catch {
+      return runEach(items);
+    }
+    const remote = [];
+    for (let index = 0; index < items.length; index += 1) {
+      const entry = prepared[index];
+      if (entry.local) { items[index].resolve(entry.local); continue; }
+      const text = inlineParameters(entry.text, entry.values, value => this.client.escapeLiteral(value));
+      if (text === null) { remote.push({ item: items[index], text: null, entry }); continue; }
+      remote.push({ item: items[index], text, entry });
+    }
+    const inlined = remote.filter(row => row.text !== null);
+    const leftovers = remote.filter(row => row.text === null).map(row => row.item);
+    if (inlined.length < 2) {
+      await runEach([...inlined.map(row => row.item), ...leftovers]);
+      return;
+    }
+    const startedAt = Date.now();
+    let raw;
+    try {
+      raw = await this.client.query(inlined.map(row => row.text).join('\n;\n'));
+    } catch {
+      // 한 문장이 실패하면 서버가 나머지를 건너뛴다. 읽기뿐이므로 하나씩 다시 실행해
+      // 각 호출자가 자기 결과·자기 오류를 기존과 똑같이 받게 한다.
+      await runEach([...inlined.map(row => row.item), ...leftovers]);
+      return;
+    }
+    const duration = Date.now() - startedAt;
+    const results = Array.isArray(raw) ? raw : [raw];
+    if (results.length !== inlined.length) {
+      await runEach([...inlined.map(row => row.item), ...leftovers]);
+      return;
+    }
+    inlined.forEach((row, index) => {
+      const result = results[index];
+      row.item.resolve(this.result(result.rows, result.rowCount, duration, row.entry.aliases));
+    });
+    await runEach(leftovers);
+  }
+
+  // PIPE-0920: 번역된 SQL 에 바인딩 값·별칭을 붙여 PostgreSQL 로 보낼 형태를 만든다(동기).
+  bindPrepared(source, sql, statement) {
+    const translated = translateDialect(sql);
+    const bound = bindQuestionMarks(translated);
+    const values = statement.values.map(value => value === undefined ? null : value);
+    if (bound.count !== values.length) {
+      throw new Error(`PostgreSQL 바인딩 개수 불일치: SQL ${bound.count}개 / 값 ${values.length}개`);
+    }
+    let queryText = typeJsonBuilderParams(bound.text, values);
+    if (/^\s*INSERT\b/i.test(queryText) && !/\bRETURNING\b/i.test(queryText)) queryText += ' RETURNING *';
+    return { text: queryText, values, aliases: camelAliases(source) };
+  }
+
+  // PIPE-0920: 서버로 보내지 않는 문장(PRAGMA·스키마)은 { local } 로 돌려준다.
+  async prepareForExecution(statement) {
+    if (!(statement instanceof PostgresD1Statement)) throw new TypeError('Postgres D1 statement가 아닙니다.');
+    const source = stripTrailingSemicolon(statement.source);
+    if (!source) return { local: emptyResult() };
+    const pragma = await this.pragmaResult(source);
+    if (pragma) return { local: pragma };
+    if (SCHEMA_SQL.test(source)) return { local: emptyResult() };
+    const sql = INSERT_SQL.test(source.replace(/^\s+/, '')) ? await this.translateInsert(source) : source;
+    return this.bindPrepared(source, sql, statement);
+  }
+
+  // 단일 문장 경로. await 횟수를 기존과 같게 유지한다(호출 순서·타이밍 보존).
   async executeDirect(statement) {
     if (!(statement instanceof PostgresD1Statement)) throw new TypeError('Postgres D1 statement가 아닙니다.');
     const source = stripTrailingSemicolon(statement.source);
@@ -651,34 +831,102 @@ class PostgresD1Database {
     if (SCHEMA_SQL.test(source)) return emptyResult();
 
     const startedAt = Date.now();
-    let sql = INSERT_SQL.test(source.replace(/^\s+/, '')) ? await this.translateInsert(source) : source;
-    sql = translateDialect(sql);
-    const bound = bindQuestionMarks(sql);
-    const values = statement.values.map(value => value === undefined ? null : value);
-    if (bound.count !== values.length) {
-      throw new Error(`PostgreSQL 바인딩 개수 불일치: SQL ${bound.count}개 / 값 ${values.length}개`);
+    const sql = INSERT_SQL.test(source.replace(/^\s+/, '')) ? await this.translateInsert(source) : source;
+    const prepared = this.bindPrepared(source, sql, statement);
+    const result = await this.client.query({ text: prepared.text, values: prepared.values });
+    return this.result(result.rows, result.rowCount, Date.now() - startedAt, prepared.aliases);
+  }
+
+  // PIPE-0920: batch 전체를 "한 번의 왕복"으로 보낸다.
+  //
+  //   기존: BEGIN → 문장 n개 → COMMIT 을 하나씩 보냈다(n+2 왕복).
+  //   Pages 가 HKG 에, Neon 이 싱가포르에 있어 왕복 1회가 50~70ms 다. 그래서
+  //     · 문장 15개짜리 batch 는 네트워크 대기만 1초가 넘었고,
+  //     · 그 1초 내내 앞에서 UPDATE 한 행의 잠금을 쥐고 있었다.
+  //   영토전 공격은 모두 같은 라운드 행(territory_war_v3_rounds)을, 상점 구매는 모두
+  //   재정금고 행(id=1)을 갱신한다. 잠금을 1초씩 쥐면 전 유저가 한 줄로 서게 된다.
+  //   Neon pg_stat_statements 실측: 라운드 UPDATE 평균 171ms·최대 81초,
+  //   재정금고 UPDATE 평균 210ms(1,730만 회).
+  //
+  //   이제 문장을 값까지 리터럴로 채워 한 메시지(simple query)로 보낸다.
+  //   서버가 연속으로 실행하므로 잠금은 "서버 실행 시간"만큼만 잡힌다.
+  //
+  //   의미가 같은 이유
+  //     · node-postgres 는 파라미터를 전부 타입 미지정(unknown) 텍스트로 보낸다.
+  //       따옴표 리터럴 '123' 도 unknown 이므로 타입 추론 결과가 같다(숫자도 반드시 따옴표).
+  //     · 문자열은 client.escapeLiteral 로 이스케이프한다(드라이버 공식 함수).
+  //     · 쓰기 batch 는 BEGIN ... COMMIT 으로 감싸 원자성이 그대로다. 중간 문장이 실패하면
+  //       서버가 나머지를 건너뛰고, 여기서 ROLLBACK 을 보낸 뒤 같은 예외를 던진다.
+  //     · Hyperdrive 는 트랜잭션 단위 풀링이라 연결 시점의 SET 은 다음 쿼리에 남지 않는다
+  //       (Cloudflare 문서). 그래서 쓰기 batch 에는 SET LOCAL 로 같은 메시지 안에 싣는다.
+  //   바이너리·배열·객체 값처럼 텍스트 리터럴로 옮기기 애매한 값이 하나라도 있으면
+  //   기존 방식(문장별 왕복)으로 실행한다. 결과 형식은 두 경로가 같다.
+  async batchPipelined(list, transactional) {
+    if (typeof this.client.escapeLiteral !== 'function') return null;
+    const prepared = [];
+    for (const statement of list) prepared.push(await this.prepareForExecution(statement));
+    const remote = prepared.filter(item => !item.local);
+    if (!remote.length) return prepared.map(item => item.local);
+    const texts = [];
+    for (const item of remote) {
+      const text = inlineParameters(item.text, item.values, value => this.client.escapeLiteral(value));
+      if (text === null) return null;
+      texts.push(text);
     }
-    let queryText = typeJsonBuilderParams(bound.text, values);
-    if (/^\s*INSERT\b/i.test(queryText) && !/\bRETURNING\b/i.test(queryText)) queryText += ' RETURNING *';
-    const aliases = camelAliases(source);
-    const result = await this.client.query({ text: queryText, values });
-    return this.result(result.rows, result.rowCount, Date.now() - startedAt, aliases);
+    const head = transactional ? PIPELINE_TRANSACTION_HEAD : [];
+    const tail = transactional ? ['COMMIT'] : [];
+    const message = [...head, ...texts, ...tail].join('\n;\n');
+    const startedAt = Date.now();
+    let raw;
+    try {
+      raw = await this.client.query(message);
+    } catch (error) {
+      if (transactional) { try { await this.client.query('ROLLBACK'); } catch {} }
+      throw error;
+    }
+    const duration = Date.now() - startedAt;
+    const results = Array.isArray(raw) ? raw : [raw];
+    if (results.length !== head.length + texts.length + tail.length) {
+      throw new Error(`PostgreSQL batch 결과 개수 불일치: 기대 ${head.length + texts.length + tail.length}개 / 실제 ${results.length}개`);
+    }
+    let cursor = head.length;
+    return prepared.map(item => {
+      if (item.local) return item.local;
+      const result = results[cursor++];
+      return this.result(result.rows, result.rowCount, duration, item.aliases);
+    });
   }
 
   batch(statements) {
     const list = Array.isArray(statements) ? statements : [];
-    return this.enqueue(async () => {
-      await this.client.query('BEGIN');
-      try {
-        const results = [];
-        for (const statement of list) results.push(await this.executeDirect(statement));
-        await this.client.query('COMMIT');
-        return results;
-      } catch (error) {
-        try { await this.client.query('ROLLBACK'); } catch {}
-        throw error;
-      }
-    });
+    const transactional = batchNeedsTransaction(list);
+    if (list.length > 1) {
+      return this.enqueue(async () => {
+        const pipelined = await this.batchPipelined(list, transactional);
+        if (pipelined) return pipelined;
+        return this.batchSequential(list, transactional);
+      });
+    }
+    return this.enqueue(() => this.batchSequential(list, transactional));
+  }
+
+  async batchSequential(list, transactional) {
+    if (!transactional) {
+      // 결과 형식(문장별 결과 배열)과 실패 시 예외 전파는 트랜잭션 경로와 같다.
+      const results = [];
+      for (const statement of list) results.push(await this.executeDirect(statement));
+      return results;
+    }
+    await this.client.query('BEGIN');
+    try {
+      const results = [];
+      for (const statement of list) results.push(await this.executeDirect(statement));
+      await this.client.query('COMMIT');
+      return results;
+    } catch (error) {
+      try { await this.client.query('ROLLBACK'); } catch {}
+      throw error;
+    }
   }
 
   // 이관 후 누락된 relation을 복구하는 제한된 런타임 스키마 경로다.
@@ -694,6 +942,7 @@ class PostgresD1Database {
         await this.client.query('COMMIT');
         this.tableColumnCache.clear();
         this.uniqueTargets.clear();
+        clearPostgresCatalogCache();
         return emptyResult();
       } catch (error) {
         try { await this.client.query('ROLLBACK'); } catch {}
@@ -714,22 +963,28 @@ export async function createPostgresD1Compat(connectionString) {
   if (!connectionString) throw new Error('Hyperdrive PostgreSQL 연결 문자열이 없습니다.');
   const client = new Client({ connectionString, application_name: 'cnine-card-pages' });
   await client.connect();
-  // V1809: 세션 설정을 각각 보내면 요청마다 왕복이 3번 더 생긴다.
-  //   이 런타임은 요청 1건당 새로 연결하므로 그 비용이 매 요청에 그대로 붙는다.
-  //   실측: /api/health 는 쿼리가 0개인데도 264ms (정적 파일은 29ms).
-  //   ※ 더 좋은 건 Neon 쪽 기본값으로 박고 이 줄을 지우는 것이다.
-  //        ALTER DATABASE <db> SET statement_timeout='20s'; (외 2개)
-  await client.query(
-    "SET statement_timeout='20s'; " +
-    "SET lock_timeout='4s'; " +
-    "SET idle_in_transaction_session_timeout='20s'");
+  // PIPE-0920: 연결 직후 보내던 SET statement_timeout/lock_timeout/idle... 을 뺐다.
+  //   Hyperdrive 는 트랜잭션 단위 풀링이라, 트랜잭션이 끝나면 풀 연결을 RESET 한다
+  //   (Cloudflare 문서 "Hyperdrive supports SET statements for the duration of a
+  //   transaction or a query"). 즉 이 SET 은 바로 다음 쿼리에도 적용되지 않으면서
+  //   모든 API 요청에 왕복 1회(50~70ms)를 더하고 있었다.
+  //   · 쓰기 batch 는 batchPipelined() 가 같은 값을 SET LOCAL 로 함께 보낸다.
+  //   · 단일 문장까지 적용하려면 Neon 에서 역할 기본값으로 설정한다(운영 작업):
+  //       ALTER ROLE cnine_migrator SET statement_timeout='20s';
+  //       ALTER ROLE cnine_migrator SET lock_timeout='4s';
+  //       ALTER ROLE cnine_migrator SET idle_in_transaction_session_timeout='20s';
   const db = new PostgresD1Database(client);
   return { db, close: () => db.close() };
 }
 
 export const __postgresCompatTest = {
   PostgresD1Database,
+  isReadOnlyStatement,
+  batchNeedsTransaction,
+  clearPostgresCatalogCache,
   INSERT_SQL,
+  inlineParameters,
+  PIPELINE_TRANSACTION_HEAD,
   bindQuestionMarks,
   typeJsonBuilderParams,
   translateBlobCasts,

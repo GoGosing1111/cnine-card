@@ -43,10 +43,14 @@ export async function discoverCowPortalReady(env,user,event,{randomInt=randomPpm
   const rate=cowPortalRate(event),roll=randomInt();
   if(!Number.isSafeInteger(roll)||roll<0||roll>=1000000)throw jointError('PVE_V3_PORTAL_RANDOM','포탈 판정을 확인할 수 없습니다.',503);
   const difficulty=event.isApocalypse===true?'APOCALYPSE':'STANDARD';
-  await p(env,`INSERT INTO ${COW_PORTAL_TABLE}(id,user_id,source_type,source_ref,difficulty,result,rate_percent,roll_ppm,state,created_at)
+  // PIPE-0920: INSERT 와 확인 SELECT 를 한 batch 로 보낸다(PostgreSQL 어댑터가 한 왕복으로 묶는다). 결과는 같다.
+  const [,confirmed]=await env.DB.batch([
+    p(env,`INSERT INTO ${COW_PORTAL_TABLE}(id,user_id,source_type,source_ref,difficulty,result,rate_percent,roll_ppm,state,created_at)
     VALUES(?,?,?,?,?,?,?,?,?,?) ON CONFLICT(user_id,source_type,source_ref) DO NOTHING`,
-    crypto.randomUUID(),...values,difficulty,event.result,rate,roll,roll<rate*10000?'OPEN':'MISSED',new Date(now()).toISOString()).run();
-  return visible(await p(env,`SELECT * FROM ${COW_PORTAL_TABLE} WHERE user_id=? AND source_type=? AND source_ref=?`,...values).first());
+    crypto.randomUUID(),...values,difficulty,event.result,rate,roll,roll<rate*10000?'OPEN':'MISSED',new Date(now()).toISOString()),
+    p(env,`SELECT * FROM ${COW_PORTAL_TABLE} WHERE user_id=? AND source_type=? AND source_ref=?`,...values)
+  ]);
+  return visible((confirmed?.results||[])[0]||null);
 }
 export async function cowPortalStatus(env,user){
   const userId=uid(user);

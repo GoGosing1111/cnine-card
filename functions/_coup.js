@@ -151,9 +151,12 @@ export async function closeCoupTrial(env, id, now = Date.now()) {
 export async function pulseCoup(env, now = Date.now(), cached = false) {
   if (cached && readRuntimeData(env, 'coup_pulse_v2115')) return;
   await ensureCoupSchema(env);
-  const rounds = all(await p(env, "SELECT id FROM coup_rounds_v2115 WHERE status='SETTLING' OR (status='ACTIVE' AND ends_at<=?)", now).all());
+  // PERF-0919: 정산 대상 라운드·재판을 한 문장으로 읽는다. 로그인한 모든 요청의 감옥 게이트가
+  //   isolate 당 1초마다 이 경로를 타므로 PostgreSQL 에서 1왕복이 줄어든다.
+  //   라운드 정산이 새로 여는 재판은 마감이 미래라 같은 펄스에서 닫힐 대상이 아니다.
+  const due = all(await p(env, "SELECT 'ROUND' due_kind,id FROM coup_rounds_v2115 WHERE status='SETTLING' OR (status='ACTIVE' AND ends_at<=?) UNION ALL SELECT 'TRIAL' due_kind,id FROM coup_trials_v2115 WHERE status='OPEN' AND ends_at<=?", now, now).all());
+  const rounds = due.filter(row => row.due_kind === 'ROUND'), trials = due.filter(row => row.due_kind === 'TRIAL');
   for (const r of rounds) { try { await settleCoupRound(env, r.id, now); } catch (e) { if (e.status !== 409) throw e; } }
-  const trials = all(await p(env, "SELECT id FROM coup_trials_v2115 WHERE status='OPEN' AND ends_at<=?", now).all());
   for (const t of trials) { try { await closeCoupTrial(env, t.id, now); } catch (e) { if (e.status !== 409) throw e; } }
   cacheRuntimeData(env, 'coup_pulse_v2115', true, 1000);
 }

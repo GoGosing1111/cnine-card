@@ -408,9 +408,10 @@ function loadUser() {
     return user;
   } catch { return null; }
 }
-function saveUser(user) {
+function saveUser(user, detail) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-  try { window.dispatchEvent(new CustomEvent('cnine:player-updated')); } catch (_) {}
+  // PERF-0919: detail.source 로 뽑기 저장을 구분한다. 돼지코인 HUD 는 뽑기 뒤에는 잔액을 강제로 다시 읽지 않는다.
+  try { window.dispatchEvent(new CustomEvent('cnine:player-updated', detail ? { detail } : undefined)); } catch (_) {}
 }
 function ownedIds(user) { return new Set((user?.owned || []).map(id=>String(id))); }
 function normalizeClientCard(card={}){return {...card,id:String(card.id??card.card_id??''),grade:String(card.grade||card.rarity||'C').toUpperCase(),focusX:Number(card.focusX??card.focus_x??50),focusY:Number(card.focusY??card.focus_y??50)};}
@@ -3773,6 +3774,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
+const ACCOUNT_RANK_QUIET_MUTATIONS=/^(?:draw|draw\/ack|superstar-pack\/draw|equipment\/supply-box\/(?:open|purchase)|equipment\/prime-supply-box\/(?:open|purchase)|vehicle-draw\/(?:open|purchase)|vehicle-draw\/prime\/(?:open|purchase))(?:\?|$)/;
 let MULTI_CLIENT_TERMINATING=false,MULTI_CLIENT_LAST_TOKEN='',MULTI_CLIENT_LAST_AT=0,MULTI_CLIENT_STRIKES=0;
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // The Cloudflare account migration creates a brand-new Hyperdrive pool. Letting a
@@ -4243,7 +4245,7 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
       button.textContent='개봉 연출 준비 중';
       await ensureFeatureResources('primeDraw');
       const result=await requestPrimeDrawChunks(definition,config,selected,(completed,total,next)=>{button.textContent=`보상 확정 중 ${completed.toLocaleString()} / ${total.toLocaleString()} · 다음 ${next.toLocaleString()}개`});
-      if(kind==='vehicle'){const user=loadUser();user.cardShards=Number(result.cardShards??user.cardShards);saveUser(user)}
+      if(kind==='vehicle'){const user=loadUser();user.cardShards=Number(result.cardShards??user.cardShards);saveUser(user,{source:'draw'})}
       clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('avatar/catalog');clearApiCache(definition.configPath);
       // A presentation failure must never hide an already committed reward.
       try{await window.PrimeDrawLiveV1985.play({modal,kind,product:{...definition,...config},result})}catch(error){console.warn('프라임 연출 생략:',error);try{window.PrimeDrawLiveV1985?.destroy?.()}catch(_){}}
@@ -4458,7 +4460,9 @@ async function apiRequest(path, options={}, config={}) {
       PLAYER_STATE_MUTATION_EPOCH++;
       for(const path of ['me','me/summary','me/collection']){clearApiCache(path);API_INFLIGHT.delete(path)}
       if(cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
-      window.dispatchEvent(new Event('cnine:account-mutation'));
+      // PERF-0919: 계정 경험치를 주지 않는 뽑기 계열 요청 뒤에는 account-rank/status 재조회를 부르지 않는다.
+      //   자동뽑기 회차마다 요청 1~2건이 줄어든다. 경험치 지급 경로(전투·토벌 등)는 그대로 갱신한다.
+      if(!ACCOUNT_RANK_QUIET_MUTATIONS.test(cleanPath))window.dispatchEvent(new Event('cnine:account-mutation'));
     }
     return data;
   })();
@@ -5199,9 +5203,11 @@ openPack=async function(packId,count,cost,options={}){
     const next=mergeDrawUserSnapshot(d.user,verifiedResults);
     const obtainedAt=new Date().toISOString();
     next.history=[...(next.history||[]),...verifiedResults.map(item=>({cardId:String(item.card.id),at:obtainedAt,duplicate:Boolean(item.duplicate),title:item.card.title,grade:item.card.grade}))].slice(-30);
-    saveUser(next);
+    saveUser(next,{source:'draw'});
     await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical,{autoRun});
-    void acknowledgeDrawReceipt(requestId);
+    // PERF-0919: 자동뽑기는 다음 회차 요청의 acknowledgedRequestIds 로 서버가 같은 batch 안에서 보관 처리한다.
+    //   회차마다 따로 보내던 draw/ack 요청(요청 1건 + 쓰기 1회)을 생략한다. 수동뽑기는 기존대로 확인한다.
+    if(!autoRun)void acknowledgeDrawReceipt(requestId);
     return true;
   }catch(e){
     resetDrawPresentationState();

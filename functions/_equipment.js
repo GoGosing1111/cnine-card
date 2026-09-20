@@ -9,6 +9,7 @@ import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 import {equipmentPreviewRows,equipmentQuantities} from './_equipment_inventory.js';
+import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v1.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const BATTLE_SUIT_SLOT='BATTLE_SUIT';
@@ -690,15 +691,22 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
   // scans card ownership and is intentionally not run on every loadout request.
   if(syncTitles)await syncCollectionTitles(env,userId);
   const skillChipsTask=skillChipPayload(env,userId);
+  // PIPE-0920: 집계 테이블이 준비된 운영 DB 에서는 수량을 집계 테이블에서, 대표 인스턴스는
+  //   (user_id,equipment_id,id) 인덱스 끝에서 읽는다. 870만 개를 가진 계정도 장비 종류 수만큼만 읽는다.
+  const useCounts=!deferQuantities&&await equipmentCountsReady(env);
   const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses,avatarFeature,equippedAvatar,skillChips]=await Promise.all([
     // V1992: 프라임 일괄 개봉으로 동일 장비 인스턴스가 수천 개까지 쌓여도
     // 장비창에는 장비 종류당 한 행만 보낸다. 실제 인스턴스는 삭제/병합하지 않으며,
     // 장착 중인 인스턴스가 있으면 그것을 대표 ID로 유지해 기존 장착 API 계약도 보존한다.
     deferQuantities?equipmentPreviewRows(env,userId,{admin}):env.DB.prepare(`WITH equipment_groups AS (
-      SELECT equipment_id,COUNT(*) AS quantity,MAX(id) AS latest_instance_id,MAX(acquired_at) AS acquired_at
+      ${useCounts?`SELECT c.equipment_id,c.quantity,
+        (SELECT x.id FROM user_equipment_instances x WHERE x.user_id=c.user_id AND x.equipment_id=c.equipment_id ORDER BY x.id DESC LIMIT 1) AS latest_instance_id,
+        (SELECT x.acquired_at FROM user_equipment_instances x WHERE x.user_id=c.user_id AND x.equipment_id=c.equipment_id ORDER BY x.id DESC LIMIT 1) AS acquired_at
+      FROM ${EQUIPMENT_COUNTS_TABLE} c
+      WHERE c.user_id=? AND c.quantity>0`:`SELECT equipment_id,COUNT(*) AS quantity,MAX(id) AS latest_instance_id,MAX(acquired_at) AS acquired_at
       FROM user_equipment_instances
       WHERE user_id=?
-      GROUP BY equipment_id
+      GROUP BY equipment_id`}
     ),equipped_groups AS (
       SELECT x.equipment_id,l.instance_id
       FROM user_equipment_loadout l
@@ -740,6 +748,23 @@ async function adminSystemPayload(env){
 }
 
 export const __equipmentTest=Object.freeze({BATTLE_SUIT_SLOT,BATTLE_SUIT_CATALOG,equipmentPowerForSlot,publicEquippedItem});
+
+// PERF-0919: 보급상자 차감 가드. 영수증 INSERT 의 재고 확인과 차감 UPDATE 사이에 같은 계정의 다른
+//   개방이 끼어들면(PostgreSQL READ COMMITTED) 차감은 0행인데 보상 문장은 영수증 PENDING 만 보고
+//   그대로 지급된다. 차감이 정확히 1행이 아니면 영수증 NOT NULL 컬럼을 NULL 로 만들어 batch 를 되돌린다.
+export function supplyBoxDebitStatements(env,{count,userId,requestId}){
+  const debit=`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP
+          WHERE user_id=? AND item_code=? AND quantity>=?
+            AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`;
+  const values=[count,count,userId,SUPPLY_BOX_CODE,count,requestId,userId];
+  const guard=proof=>`UPDATE inventory_use_receipts SET item_code=CASE WHEN ${proof} THEN item_code ELSE NULL END WHERE request_id=? AND user_id=? AND status='PENDING'`;
+  if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH changed AS (${debit} RETURNING item_code) ${guard('(SELECT COUNT(*) FROM changed)=1')}`).bind(...values,requestId,userId)];
+  return [env.DB.prepare(debit).bind(...values),env.DB.prepare(guard('changes()=1')).bind(requestId,userId)];
+}
+function isSupplyBoxDebitGuardError(error){
+  const message=String(error?.message||error||'').toLowerCase();
+  return message.includes('item_code')&&(message.includes('not null')||message.includes('null value'));
+}
 
 export async function handleEquipment({path,request,env,deps}){
   if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')||path.startsWith('admin/garage')))return null;
@@ -866,7 +891,10 @@ export async function handleEquipment({path,request,env,deps}){
       const [pool,stockRow,ownedRows]=await Promise.all([
         env.DB.prepare('SELECT * FROM character_equipment_items WHERE is_active=1 AND is_public=1 AND supply_enabled=1 AND supply_weight>0 ORDER BY sort_order,id').all(),
         env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first(),
-        env.DB.prepare('SELECT DISTINCT equipment_id FROM user_equipment_instances WHERE user_id=?').bind(user.id).all()
+        // PIPE-0920: 보유 여부는 보급 풀에 든 장비에 대해서만 쓴다. 예전 DISTINCT 는 그 계정의 인스턴스 전체
+        //   (보유 10만 개인 계정도 있다)를 인덱스로 훑었다(Neon 실측 평균 36ms, 최대 60초). 풀 항목마다
+        //   (user_id,equipment_id) 인덱스를 한 번씩 찍는 EXISTS 로 바꿔 인스턴스 수와 무관하게 만든다.
+        env.DB.prepare('SELECT e.id AS equipment_id FROM character_equipment_items e WHERE e.is_active=1 AND e.is_public=1 AND e.supply_enabled=1 AND e.supply_weight>0 AND EXISTS(SELECT 1 FROM user_equipment_instances x WHERE x.user_id=? AND x.equipment_id=e.id)').bind(user.id).all()
       ]);
       if(Number(stockRow?.quantity||0)<count)return json({error:`보급상자가 ${count}개 이상 필요합니다.`},400);
       const ownedEquipmentIds=new Set((ownedRows.results||[]).map(row=>Number(row.equipment_id)));
@@ -893,9 +921,7 @@ export async function handleEquipment({path,request,env,deps}){
       const statements=[
         env.DB.prepare(`INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status)
           SELECT ?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)`).bind(requestId,user.id,SUPPLY_BOX_CODE,user.id,SUPPLY_BOX_CODE,count),
-        env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP
-          WHERE user_id=? AND item_code=? AND quantity>=?
-            AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(count,count,user.id,SUPPLY_BOX_CODE,count,requestId,user.id),
+        ...supplyBoxDebitStatements(env,{count,userId:user.id,requestId}),
         env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?
           AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(coinGained,shardGained,user.id,requestId,user.id)
       ];
@@ -919,17 +945,21 @@ export async function handleEquipment({path,request,env,deps}){
           jsonb_set(jsonb_set(jsonb_set(?::jsonb,'{remaining}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),true),
           '{coin}',to_jsonb(COALESCE((SELECT coin FROM users WHERE id=?),0)),true),
           '{cardShards}',to_jsonb(COALESCE((SELECT card_shards FROM users WHERE id=?),0)),true))::text,updated_at=CURRENT_TIMESTAMP
-          WHERE request_id=? AND user_id=? AND status='PENDING'`:`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_set(?,
+          WHERE request_id=? AND user_id=? AND status='PENDING' RETURNING status,response_json`:`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_set(?,
           '$.remaining',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),
           '$.coin',COALESCE((SELECT coin FROM users WHERE id=?),0),
           '$.cardShards',COALESCE((SELECT card_shards FROM users WHERE id=?),0)),updated_at=CURRENT_TIMESTAMP
-          WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),user.id,SUPPLY_BOX_CODE,user.id,user.id,requestId,user.id)
+          WHERE request_id=? AND user_id=? AND status='PENDING' RETURNING status,response_json`).bind(JSON.stringify(response),user.id,SUPPLY_BOX_CODE,user.id,user.id,requestId,user.id)
       );
-      await env.DB.batch(statements);
-      const receipt=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      // PERF-0919: 완료 UPDATE 의 RETURNING 으로 최종 영수증을 받아 batch 뒤 재조회(1왕복)를 없앴다.
+      //   0행이면(동일 요청 경쟁 등) 기존처럼 영수증을 다시 읽어 판단한다.
+      const batched=await env.DB.batch(statements);
+      const completed=batched.at(-1)?.results?.[0];
+      const receipt=completed?.response_json?completed:await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(receipt?.status==='COMPLETED'&&receipt.response_json)return json(JSON.parse(receipt.response_json));
       return json({error:`보급상자가 ${count}개 이상 필요합니다.`},400);
     }catch(error){
+      if(isSupplyBoxDebitGuardError(error))return json({error:`보급상자가 ${count}개 이상 필요합니다.`,code:'SUPPLY_BOX_STOCK_CHANGED'},400);
       return json({error:error.message||'보급상자 개방에 실패했습니다.'},500);
     }
   }

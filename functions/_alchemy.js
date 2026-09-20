@@ -1,5 +1,6 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
+import { equipmentCountsReady, EQUIPMENT_COUNTS_TABLE } from './_equipment_counts_v1.js';
 
 /* SOOPKETMON ALCHEMY V3
  *
@@ -346,10 +347,12 @@ async function rewardPool(env,{admin=false,fresh=false,bounds:injectedBounds=nul
 
 async function userState(env,user,settings,{fresh=false}={}){
   // V2062: bounds 를 먼저 확정해 rewardPool 이 같은 풀스캔 집계를 다시 돌리지 않게 한다.
-  const bounds=await catalogStrengthBounds(env,{fresh});
+  // PIPE-0920: 집계 테이블이 준비된 운영 DB 에서는 장비별 수량을 인스턴스 스캔 없이 읽는다(_equipment_counts_v1.js).
+  //   장착 중인 인스턴스(계정당 최대 슬롯 수)만 빼면 기존 "장착·잠금 제외 COUNT" 와 같은 값이다.
+  const [bounds,useCounts]=await Promise.all([catalogStrengthBounds(env,{fresh}),equipmentCountsReady(env)]);
   const [cards,equipment,current,pool,ownedVehicles]=await Promise.all([
     env.DB.prepare(`SELECT c.id,c.title name,m.name member,c.rarity,c.image_url image,COALESCE(uc.quantity,0)-1 available FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN members m ON m.id=c.member_id LEFT JOIN ${TABLES.locks} l ON l.user_id=uc.user_id AND l.asset_type='CARD' AND l.asset_ref=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>1 AND c.is_active=1 AND UPPER(c.rarity) IN ('LIMITED','PRESTIGE','FUR','ZENITH') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') AND l.asset_ref IS NULL ORDER BY CASE UPPER(c.rarity) WHEN 'ZENITH' THEN 4 WHEN 'FUR' THEN 3 WHEN 'PRESTIGE' THEN 2 ELSE 1 END DESC,uc.quantity DESC,c.updated_at DESC`).bind(user.id).all(),
-    env.DB.prepare(`SELECT CAST(e.id AS TEXT) id,e.name,e.rarity,e.image_url image,e.total_power,COUNT(x.id) available FROM user_equipment_instances x JOIN character_equipment_items e ON e.id=x.equipment_id LEFT JOIN user_equipment_loadout lo ON lo.instance_id=x.id LEFT JOIN ${TABLES.locks} l ON l.user_id=x.user_id AND l.asset_type='EQUIPMENT' AND l.asset_ref=CAST(e.id AS TEXT) WHERE x.user_id=? AND lo.instance_id IS NULL AND l.asset_ref IS NULL AND e.is_active=1 AND e.is_public=1 AND UPPER(e.slot)<>'BATTLE_SUIT' GROUP BY e.id,e.name,e.rarity,e.image_url,e.total_power HAVING COUNT(x.id)>0 ORDER BY e.total_power DESC,COUNT(x.id) DESC,e.sort_order,e.id`).bind(user.id).all(),
+    useCounts?env.DB.prepare(`SELECT CAST(e.id AS TEXT) id,e.name,e.rarity,e.image_url image,e.total_power,g.quantity-COALESCE(eq.cnt,0) available FROM ${EQUIPMENT_COUNTS_TABLE} g JOIN character_equipment_items e ON e.id=g.equipment_id LEFT JOIN (SELECT x.equipment_id,COUNT(*) cnt FROM user_equipment_loadout lo JOIN user_equipment_instances x ON x.id=lo.instance_id WHERE lo.user_id=? GROUP BY x.equipment_id) eq ON eq.equipment_id=e.id LEFT JOIN ${TABLES.locks} l ON l.user_id=g.user_id AND l.asset_type='EQUIPMENT' AND l.asset_ref=CAST(e.id AS TEXT) WHERE g.user_id=? AND g.quantity-COALESCE(eq.cnt,0)>0 AND l.asset_ref IS NULL AND e.is_active=1 AND e.is_public=1 AND UPPER(e.slot)<>'BATTLE_SUIT' ORDER BY e.total_power DESC,g.quantity-COALESCE(eq.cnt,0) DESC,e.sort_order,e.id`).bind(user.id,user.id).all():    env.DB.prepare(`SELECT CAST(e.id AS TEXT) id,e.name,e.rarity,e.image_url image,e.total_power,COUNT(x.id) available FROM user_equipment_instances x JOIN character_equipment_items e ON e.id=x.equipment_id LEFT JOIN user_equipment_loadout lo ON lo.instance_id=x.id LEFT JOIN ${TABLES.locks} l ON l.user_id=x.user_id AND l.asset_type='EQUIPMENT' AND l.asset_ref=CAST(e.id AS TEXT) WHERE x.user_id=? AND lo.instance_id IS NULL AND l.asset_ref IS NULL AND e.is_active=1 AND e.is_public=1 AND UPPER(e.slot)<>'BATTLE_SUIT' GROUP BY e.id,e.name,e.rarity,e.image_url,e.total_power HAVING COUNT(x.id)>0 ORDER BY e.total_power DESC,COUNT(x.id) DESC,e.sort_order,e.id`).bind(user.id).all(),
     env.DB.prepare(`SELECT total_runs,stability FROM ${TABLES.state} WHERE user_id=?`).bind(user.id).first(),
     rewardPool(env,{bounds,fresh}),
     env.DB.prepare(`SELECT garage_id FROM user_garage_vehicles WHERE user_id=?`).bind(user.id).all()

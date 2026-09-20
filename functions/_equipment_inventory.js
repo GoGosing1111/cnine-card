@@ -1,3 +1,5 @@
+import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v1.js';
+
 // The first paint needs one real instance per item, not a scan of millions of
 // copies. Both subqueries use the existing (user_id,equipment_id,id) index.
 export async function equipmentPreviewRows(env,userId,{admin=false}={}){
@@ -15,6 +17,13 @@ export async function equipmentPreviewRows(env,userId,{admin=false}={}){
 }
 
 export async function equipmentQuantities(env,userId,afterEquipmentId=0){
+  // PIPE-0920: 집계 테이블이 준비된 운영 DB 에서는 한 번에 전부 돌려준다(4개씩 나눌 이유가 없어진다).
+  if(await equipmentCountsReady(env)){
+    const result=await env.DB.prepare(`SELECT i.id AS equipment_id,COALESCE(c.quantity,0) AS quantity
+      FROM character_equipment_items i LEFT JOIN ${EQUIPMENT_COUNTS_TABLE} c ON c.user_id=? AND c.equipment_id=i.id
+      WHERE i.is_active=1 AND i.is_public=1 AND i.id>? ORDER BY i.id`).bind(userId,afterEquipmentId).all();
+    return {quantities:result.results.map(row=>({equipmentId:Number(row.equipment_id),quantity:Number(row.quantity)})),nextEquipmentId:null};
+  }
   // Keep acquired_at/source columns out of this aggregate so PostgreSQL can
   // count the covering index instead of scanning the 160M+ row heap.
   // Correlate by catalog item as well as user: a global GROUP BY can still

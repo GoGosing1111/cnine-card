@@ -1,0 +1,61 @@
+TEST REPORT — pipe-20260920 (기준 9bce048)
+생성: 2026-09-20 15:36 UTC / 컨테이너 Node v22.22.2, PostgreSQL 16.13 로컬
+
+[1] tests/ 전체 대조 (9bce048 원본 트리 vs 수정 트리, 각 파일 개별 실행)
+  원본 실패: 83개 / 수정 실패: 60개
+  신규 실패: 0건
+  (원본 실패 대부분은 이 컨테이너 환경 문제로 원래부터 실패하는 테스트다. 두 목록의 차집합으로 판정했다.)
+  ※ 원본 쪽 실패가 더 많은 것은 두 트리를 동시에 돌린 첫 회차의 부하 때문이며, 개별 재실행으로 확인했다.
+
+[2] 핵심 테스트
+  npm run test:postgres-compat
+    # tests 18
+    # pass 12
+    # fail 0
+    # skipped 6
+  npm run test:performance
+    # tests 52
+    # pass 52
+    # fail 0
+    # skipped 0
+  CNINE_TEST_PG_URL=... npm run test:postgres-pipeline (실제 PostgreSQL 16)
+    # \# lock hold: sequential 3789ms, pipelined 72ms
+    # tests 8
+    # pass 8
+    # fail 0
+    # skipped 0
+
+[3] 운영 Neon 실측 (EXPLAIN ANALYZE, 읽기 전용)
+    /api/me 뽑기기록 30건    6,358ms -> 1.89ms   (draw_logs_pkey 역주행 -> idx_draw_logs_user)
+    영토전 상대 매칭 후보      144ms -> 43ms      (후보별 전체 카드 해시 -> 덱 5장 PK 조회)
+
+[4] 잠금 유지 시간 (로컬 PostgreSQL 16, 왕복 60ms 모사, 같은 행 동시 5명 x 문장 12개 batch)
+    문장별 왕복 3,785ms -> 한 메시지 69ms
+
+===== 2차 (2026-09-21 새벽, 기준 동일 9bce048) =====
+[5] tests/ 전체 재대조 (2차 변경 포함): 원본 실패 83개 / 수정 실패 60개 / 신규 실패 0건
+[6] 2차 핵심 테스트
+  npm run test:postgres-compat
+    # tests 20
+    # pass 13
+    # fail 0
+    # skipped 7
+  npm run test:performance
+    # tests 52
+    # pass 52
+    # fail 0
+    # skipped 0
+  CNINE_TEST_PG_URL=... npm run test:postgres-pipeline (실제 PostgreSQL 16, 집계 표 트리거 포함)
+    # tests 10
+    # pass 10
+    # fail 0
+    # skipped 0
+  tests/equipment-forge-public-v2084.test.mjs: # pass 9 # fail 0 
+  tests/cow-room-portal-v1.test.mjs: # pass 10 # fail 0 
+  tests/pve-sweep-v1989.test.mjs: # pass 16 # fail 0 
+  tests/superstar-power-deck-v2034.test.mjs: # pass 13 # fail 0 
+  tests/gamst-territory-deck-repair-v2005.test.mjs: # pass 3 # fail 0 
+[7] 운영 Neon 실측 (EXPLAIN ANALYZE)
+    장비 강화 준비 목록(계정 1, 보유 1,575개)   80초+ (취소) -> 8.7ms   (PK 역주행 -> idx_user_equipment_instances_user)
+    연금술 장비 목록(계정 4774, 보유 약 870만개) 인덱스만 훑어도 48.7초 -> 집계 표 도입(마커 ON 뒤 장비 종류 수만큼만 읽음)
+[8] Hyperdrive 풀 (대시보드 24h): 상한 60 / 열린 연결 평균 53 / 대기 평균 620·최대 1,500 → 상한 300 으로 상향(09-21 01:35 KST)

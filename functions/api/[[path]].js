@@ -41,7 +41,7 @@ import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,shopTaxStatements } from '../_administration_treasury.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
-import { clanCampStatusForUser,handleClanPrisonCamp } from '../_clan_prison_camp.js';
+import { clanCampStatusForUser,handleClanPrisonCamp,ensureClanCampSchema,clanCampActiveProbeSql,clanCampProbeTime } from '../_clan_prison_camp.js';
 import { reconcileClanCampSeason } from '../_clan.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
@@ -768,7 +768,30 @@ async function burningEventPair(env,{fresh=false}={}){
     throw error;
   }
 }
+// PERF-0919: 카드뽑기 코인 차감 가드.
+//   뽑기는 사용자 뮤테이션 락을 쓰지 않으므로 같은 계정의 다른 코인 사용(경매·구매 등)이
+//   잔액 확인과 커밋 사이에 끼어들 수 있다. D1 은 단일 writer 라 사실상 막혔지만
+//   PostgreSQL(READ COMMITTED)에서는 차감 UPDATE 가 0행이어도 batch 가 그대로 커밋되어
+//   카드만 지급되고 코인은 빠지지 않는다. 차감이 정확히 1행이 아니면 영수증의 NOT NULL
+//   컬럼을 NULL 로 만들어 batch 전체를 되돌린다(프라임 개봉 checkedOpenMutationStatements 와 같은 방식).
+const DRAW_COIN_GUARD_ERROR='DRAW_COIN_DEBIT_NOT_APPLIED';
+function drawCoinDebitStatements(env,{cost,userId,requestId,receiptTable}){
+  const debit='UPDATE users SET coin=coin-? WHERE id=? AND coin>=?';
+  const guard=proof=>`UPDATE ${receiptTable} SET draw_count=CASE WHEN ${proof} THEN draw_count ELSE NULL END WHERE request_id=? AND user_id=? AND status='PENDING'`;
+  if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH changed AS (${debit} RETURNING id) ${guard('(SELECT COUNT(*) FROM changed)=1')}`).bind(cost,userId,cost,requestId,userId)];
+  return [env.DB.prepare(debit).bind(cost,userId,cost),env.DB.prepare(guard('changes()=1')).bind(requestId,userId)];
+}
+function isDrawCoinGuardError(error){
+  const message=String(error?.message||error||'').toLowerCase();
+  return message.includes('draw_count')&&(message.includes('not null')||message.includes('null value'));
+}
 async function burningEventSettings(env,{fresh=false}={}){return (await burningEventPair(env,{fresh})).active;}
+// PERF-0919: 카드뽑기 응답의 burningEvent 는 표시용이며 클라이언트 뽑기 흐름이 읽지 않는다(가격·지급 무관).
+//   이 isolate 에 이미 읽어 둔 값이 있을 때만 싣고, 뽑기 때문에 app_meta 를 다시 읽지 않는다.
+function cachedBurningEventSettings(){
+  if(!burningEventCache||Date.now()-burningEventCache.at>=BURNING_EVENT_CACHE_MS)return null;
+  return cleanBurningEventPair(burningEventCache.value).active;
+}
 function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,endsAt:settings.endsAt||null,durationMinutes:runtimeBurningDurationMinutes(settings.durationMinutes),title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier};}
 function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
 function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pvpMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
@@ -3944,7 +3967,11 @@ async function profile(env,user){
     env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
     env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first(),
     env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first(),
-    env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards_effective_v1210 c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all(),
+    // PIPE-0920: ORDER BY d.id 만 쓰면 PostgreSQL 이 draw_logs(906만 행) PK 를 뒤에서부터 훑으며
+    //   user_id 를 거른다. 최근에 안 뽑은 유저는 수백만 행을 읽는다(Neon EXPLAIN: 6.3초, /api/me 7~27초).
+    //   정렬을 idx_draw_logs_user(user_id,created_at) 순서에 맞추면 인덱스 끝에서 30행만 읽는다.
+    //   created_at 은 INSERT 시각이라 id 순서와 같고, 같은 초 안에서는 id 로 이어 정렬한다.
+    env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards_effective_v1210 c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.created_at DESC,d.id DESC LIMIT 30`).bind(user.id).all(),
     attendanceSettings(env),
     breakthroughConfig(env),
     premiumCubeWeeklyStatus(env,user.id),
@@ -4746,14 +4773,14 @@ const DURABLE_LOCK_TIMEOUT_MS=1200;
 // 연속 2회 실패하면 이 워커 인스턴스에서는 더 시도하지 않고 바로 D1 락으로 간다.
 // 60초 뒤 한 번 다시 떠보고, 살아나면 정상 경로로 복귀한다.
 let durableLockFailures=0,durableLockDisabledUntil=0;
-async function durableUserLock(env,userId,action,body){
+async function durableUserLock(env,userId,action,body,{waitUntil=null}={}){
   const namespace=env.USER_LOCK;
   if(!namespace)return null;
   if(durableLockDisabledUntil>Date.now())return null;
-  let timer=null;
+  let timer=null,stub=null,call=null;
   try{
-    const stub=namespace.get(namespace.idFromName(`user:${userId}`));
-    const call=stub.fetch(`https://user-lock/${action}`,{
+    stub=namespace.get(namespace.idFromName(`user:${userId}`));
+    call=stub.fetch(`https://user-lock/${action}`,{
       method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)
     });
     const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('USER_LOCK_TIMEOUT')),DURABLE_LOCK_TIMEOUT_MS)});
@@ -4770,14 +4797,27 @@ async function durableUserLock(env,userId,action,body){
       durableLockFailures=0;
       console.warn('USER_LOCK disabled for 60s after repeated failures — using D1 lock');
     }
-    if(String(error?.message||'')==='USER_LOCK_TIMEOUT')console.warn('USER_LOCK durable object timed out, falling back to D1',{userId,action});
+    if(String(error?.message||'')==='USER_LOCK_TIMEOUT'){
+      console.warn('USER_LOCK durable object timed out, falling back to D1',{userId,action});
+      // PERF-0919: 타임아웃은 "늦었다"일 뿐 DO 가 락을 잡았을 수 있다. 그대로 두면 이 유저의
+      //   직렬화 액션 전부가 lease(최대 60초) 동안 USER_ACTION_IN_PROGRESS 로 막힌다.
+      //   늦게 도착한 획득 응답이면 같은 토큰으로 즉시 해제한다(토큰이 다르면 DO 가 무시).
+      if(action==='acquire'&&call&&stub&&body?.token){
+        const lateRelease=call.then(response=>response?.ok?response.json():null).then(result=>{
+          if(!result?.acquired)return null;
+          console.warn('USER_LOCK late grant released',{userId});
+          return stub.fetch('https://user-lock/release',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({token:body.token})});
+        }).catch(()=>null);
+        if(typeof waitUntil==='function')waitUntil(lateRelease);
+      }
+    }
     else console.warn('USER_LOCK durable object unavailable, falling back to D1',error);
     return null;
   }finally{ if(timer)clearTimeout(timer) }
 }
-async function acquireUserMutationLock(env,userId,path){
+async function acquireUserMutationLock(env,userId,path,{waitUntil=null}={}){
   const token=crypto.randomUUID(),actionPath=String(path).slice(0,100),leaseMs=userMutationLeaseMs(String(path));
-  const durable=await durableUserLock(env,userId,'acquire',{token,actionPath,leaseMs});
+  const durable=await durableUserLock(env,userId,'acquire',{token,actionPath,leaseMs},{waitUntil});
   if(durable)return durable.acquired?{userId,token,durable:true}:null;
   await ensureUserMutationLock(env);
   const now=Date.now(),leaseUntil=now+leaseMs;
@@ -4862,8 +4902,12 @@ async function prisonStatusForUser(env,userId){
   await pulseCoup(env,Date.now(),true);
   await ensurePrisonFoundation(env);
   await reconcileClanCampSeason(env);
-  const row=await env.DB.prepare(`SELECT p.*,a.nickname AS jailed_by_nickname
-    FROM user_prison_status p LEFT JOIN users a ON a.id=p.jailed_by WHERE p.user_id=?`).bind(userId).first();
+  await ensureClanCampSchema(env);
+  // PERF-0919: 개인 감옥 행과 클랜 수용소 존재 여부를 한 문장으로 읽는다(요청마다 1왕복 절감).
+  //   PostgreSQL 어댑터는 문장마다 왕복하므로 로그인한 모든 API 요청에 그대로 이득이 된다.
+  const probe=await env.DB.prepare(`SELECT p.*,a.nickname AS jailed_by_nickname,${clanCampActiveProbeSql()} AS clan_camp_active_p0919
+    FROM users base LEFT JOIN user_prison_status p ON p.user_id=base.id LEFT JOIN users a ON a.id=p.jailed_by WHERE base.id=?`).bind(clanCampProbeTime(Date.now()),userId,userId).first();
+  const row=probe&&probe.user_id!==null&&probe.user_id!==undefined?probe:null;
   const status=prisonPublicStatus(row);
   if(row&&Number(row.active||0)===1&&!status.incarcerated){
     await env.DB.batch([
@@ -4873,6 +4917,8 @@ async function prisonStatusForUser(env,userId){
       closePrisonReleaseCaseStatement(env,{inmateUserId:userId,status:'SENTENCE_EXPIRED'})
     ]);
   }
+  // 수용소 행이 없다고 방금 확인됐으면 상세 조회를 생략한다(대부분의 요청).
+  if(!status.incarcerated&&Number(probe?.clan_camp_active_p0919||0)!==1)return {incarcerated:false};
   return status.incarcerated?status:await clanCampStatusForUser(env,userId);
 }
 async function clearPrisonChatIfEmpty(env){
@@ -5711,8 +5757,9 @@ async function handleRequest(context){
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
-        const [criticalConfig,burning,baseRows]=await Promise.all([
-          criticalSettings(env),burningEventSettings(env),
+        const burning=cachedBurningEventSettings();
+        const [criticalConfig,baseRows]=await Promise.all([
+          criticalSettings(env),
           env.DB.batch([
             env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId),
             env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id),
@@ -5927,11 +5974,11 @@ async function handleRequest(context){
           pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,
           furFirstAssist:FUR_FIRST_PITY_PACKS.has(pack.id)?{sharedAcrossPacks:true,eligibleAtStart:furFirstEligibleAtStart,completed:furFirstCompleted||furFirstStateStart.completed,ownedCount:furFirstOwnedCount,targetCount:FUR_FIRST_PITY_TARGET_COUNT,missCount:furFirstMissCount,nextDraw:furFirstMissCount+1,start:liveFurFirstSettings.start,hard:liveFurFirstSettings.hard}:null,
           critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},
-          requestId,grantProof,burningEvent:burningPublicState(burning),
+          requestId,grantProof,...(burning?{burningEvent:burningPublicState(burning)}:{}),
           drawProtocol:{version:3,status:'APPLIED',grantVerified:false,packId:String(pack.id),count:Number(count),integrity:''}
         };
 
-        statements.unshift(env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost));
+        statements.unshift(...drawCoinDebitStatements(env,{cost,userId:user.id,requestId,receiptTable:drawReceiptTable}));
         if(PITY_PACKS.has(pack.id))statements.unshift(env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP)
           ON CONFLICT(user_id,pack_id) DO UPDATE SET miss_count=excluded.miss_count,updated_at=CURRENT_TIMESTAMP`).bind(user.id,pack.id,Math.max(0,Math.floor(pityCount))));
         if(furFirstEligibleAtStart){
@@ -5977,8 +6024,9 @@ async function handleRequest(context){
         scheduleDrawReceiptCleanup(context,env,requestId);
         return json(response);
       }catch(error){
-        const transient=isTransientD1Error(error);
-        const rawMessage=String(error?.message||'카드 지급 검증에 실패했습니다. 코인과 카드 지급은 처리되지 않았습니다.').slice(0,300);
+        const coinGuardRejected=!grantsCommitted&&isDrawCoinGuardError(error);
+        const transient=!coinGuardRejected&&isTransientD1Error(error);
+        const rawMessage=coinGuardRejected?'코인이 부족합니다.':String(error?.message||'카드 지급 검증에 실패했습니다. 코인과 카드 지급은 처리되지 않았습니다.').slice(0,300);
         const message=transient?'D1_BUSY_RETRYABLE':rawMessage;
 
         // 응답 직전에 일시 오류가 난 경우 이미 원자 batch가 완료됐을 수 있으므로 영수증을 먼저 확인한다.
@@ -6016,6 +6064,8 @@ async function handleRequest(context){
             },503);
           }
           await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',cost=?,response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,message,requestId,user.id).run();
+          // 동시에 진행된 다른 코인 사용으로 잔액이 모자라 batch 전체가 되돌려진 경우다. 카드·코인 모두 변동 없음.
+          if(coinGuardRejected)return json({error:'코인이 부족합니다.',code:DRAW_COIN_GUARD_ERROR,requestId,status:'FAILED'},400);
         }else{
           try{if(limitedAuditEvents.length)await env.DB.batch(limitedAuditEvents.map(event=>limitedAuditFinishStatement(env,event.eventKey,{status:'COMPLETED_WITH_WARNING',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,stockReserved:true,cardGranted:true,errorMessage:message})))}catch(auditError){console.error('limited draw completion warning audit batch failed',auditError)}
         }
@@ -6699,19 +6749,27 @@ async function handleRequest(context){
     }
     if(path==='battle/fight'&&request.method==='POST'){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
-      const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning); if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
+      // PIPE-0920: V3 전투 진입이 느린 이유는 서버 쪽 "순차 왕복" 이다(HKG↔싱가포르 왕복 1회 50~70ms).
+      //   서로 의존하지 않는 조회(버닝 설정·전투 설정·요청 본문, 등급 제한·몬스터·보유 카드)를 한 번에 던진다.
+      //   PostgreSQL 어댑터가 같은 틱의 읽기를 한 메시지로 묶으므로 실제 왕복도 그만큼 줄어든다.
+      //   행동력 차감은 예전처럼 검증(몬스터·난이도·보유 카드)이 모두 끝난 뒤에 한다.
+      //   (예전에는 보유 카드 확인이 차감 뒤에 있어 400 응답에도 행동력이 빠졌다. 이제는 빠지지 않는다.)
+      const [burning,baseSettings,payload]=await Promise.all([burningEventSettings(env),battleSettings(env),readBody(request)]);
+      const settings=applyBurningPveSettings(baseSettings,burning); if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
       let engineState=battleEngineState(settings,user);
-      const payload=await readBody(request),requestId=String(payload.requestId||crypto.randomUUID()),monsterId=Number(payload.monsterId),ids=[...new Set((payload.cardIds||[]).map(String))];
+      const requestId=String(payload.requestId||crypto.randomUUID()),monsterId=Number(payload.monsterId),ids=[...new Set((payload.cardIds||[]).map(String))];
       if(ids.length!==5)return json({error:'보유 카드 5장을 편성해야 합니다.'},400);
+      const marks=ids.map(()=>'?').join(',');
+      const monsterTask=env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();
+      const ownedTask=env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,COALESCE(m.name,'') AS name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all().then(rows=>rows.results||[]);
+      monsterTask.catch(()=>{});ownedTask.catch(()=>{});
       try{await validateDeckGradeLimits(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
-      const monster=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();
+      const [monster,ownedRows]=await Promise.all([monsterTask,ownedTask]);
       if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
       const difficulty=pveDifficultyRuntime(settings,monster);
       if(!difficulty.enabled)return json({error:difficulty.isApocalypse?'현재 아포칼립스 토벌은 중지되어 있습니다.':'현재 나이트메어 토벌은 중지되어 있습니다.',code:difficulty.isApocalypse?'APOCALYPSE_DISABLED':'NIGHTMARE_DISABLED'},503);
-      let energyAfter;try{energyAfter=await consumePveEnergyForDifficulty(env,user,settings,difficulty)}catch(e){if(e.code==='NO_BATTLE_ENERGY'||e.code==='NO_APOCALYPSE_ENERGY')return json({error:e.message,code:e.code,energy:e.energy,energyKind:difficulty.isApocalypse?'APOCALYPSE':'STANDARD'},429);throw e}
-      const marks=ids.map(()=>'?').join(',');
-      const ownedRows=(await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,COALESCE(m.name,'') AS name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all()).results||[];
       if(ownedRows.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
+      let energyAfter;try{energyAfter=await consumePveEnergyForDifficulty(env,user,settings,difficulty)}catch(e){if(e.code==='NO_BATTLE_ENERGY'||e.code==='NO_APOCALYPSE_ENERGY')return json({error:e.message,code:e.code,energy:e.energy,energyKind:difficulty.isApocalypse?'APOCALYPSE':'STANDARD'},429);throw e}
       const ownedById=new Map(ownedRows.map(card=>[String(card.id),card]));
       const cards=ids.map(id=>ownedById.get(String(id))).filter(Boolean).map(c=>({...c,id:String(c.id),power:cardBattlePower(c,c.breakthrough_level,settings)}));
       const uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),uniqueCardsById=new Map((uniqueBattle.cards||[]).map(card=>[String(card.id),card]));
@@ -6723,7 +6781,9 @@ async function handleRequest(context){
       const ultimateDamage=activatedUltimate&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedUltimate.coefficientPercent||0)/100)):0;
       // V1785: magicSettings 는 뒤쪽에서 직렬로 await 되던 런타임 설정 조회다.
       // 어차피 이 시점에 필요한 다른 조회들과 독립적이므로 같은 Promise.all 에 합친다.
-      const [synergy,characterBonus,magicLoadout,pveMagicSettings,avatarEffect]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env),equippedAvatarEffect(env,user.id)]);
+      // PIPE-0920: 뒤에서 순차로 기다리던 용병 스냅샷·계정 랭크 혜택(2번 호출되던 것)도 같은 묶음으로 미리 읽는다.
+      const rankScope=difficulty.isApocalypse?'APOCALYPSE':'HUNT';
+      const [synergy,characterBonus,magicLoadout,pveMagicSettings,avatarEffect,mercenarySnapshot,rankBenefits]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env),equippedAvatarEffect(env,user.id),releasedMercenarySnapshot(env,user),accountRankBenefits(env,user.id,rankScope)]);
       engineState=pveBattleEngineState(settings,user,characterBonus);
       const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),cardPower=Math.max(0,Math.floor(uniqueEffectivePower*synergyMultiplier)),playerPower=cardPower+Number(characterBonus.pve||0);
       const totalBattleDamage=playerPower+ultimateDamage,preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
@@ -6756,10 +6816,10 @@ async function handleRequest(context){
         const battleSuitPve=Math.max(0,Number(characterBonus.battleSuitPve||0));
         const cardSupportBonus=Math.max(0,Number(characterBonus.pve||0)-battleSuitPve);
         const battleSuit=battleSuitPve>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitPve,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-        battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPveBattleV2({mercenary:mercenarySnapshot,cards:rankCards(engineCards,rankBenefits),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
-      const eventReward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0,avatarCoin=applyAvatarCoinGain(eventReward,avatarEffect),reward=rankCoin(avatarCoin.total,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT'));
+      const eventReward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0,avatarCoin=applyAvatarCoinGain(eventReward,avatarEffect),reward=rankCoin(avatarCoin.total,rankBenefits);
       // V1803: 승패는 여기서 이미 결정돼 있는데, 보상 6종을 순차로 처리하느라 응답이 그만큼 늦었다.
       //   기존: 코인 → 카드드랍 → 장비 → 블랙미라클 → 통합드랍 → 큐브 → 마력결정  (7단 직렬)
       //   각 드랍이 영수증(멱등성) 조회+쓰기를 끼고 있어 왕복 15~25회, 싱가포르 기준 1.5~3.4초.
@@ -6791,12 +6851,15 @@ async function handleRequest(context){
 
       // V1791: 전투가 바꾼 것만 배치 1회로 읽어 경량 프로필로 응답한다.
       // (기존: users 조회 1회 + profile() 10개 조회 + 보유 카드 전체 스캔)
-      const battleProfile=await battleResponseProfile(env,user,grantedCardIdsFromBattle({
-        cardRewards:cardReward?[cardReward]:[],
-        unifiedDrops:unifiedDrop?[unifiedDrop]:[]
-      }));
+      // PIPE-0920: 경량 프로필(읽기)과 소 포탈 판정(포탈 테이블만 씀)은 서로 독립이라 같이 기다린다.
+      const [battleProfile,cowPortal]=await Promise.all([
+        battleResponseProfile(env,user,grantedCardIdsFromBattle({
+          cardRewards:cardReward?[cardReward]:[],
+          unifiedDrops:unifiedDrop?[unifiedDrop]:[]
+        })),
+        discoverCowPortal(env,user,{battleMode:difficulty.isApocalypse?'APOCALYPSE':'PVE',sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result})
+      ]);
       const battleSuitSupport=(battleV2?.result?.supports?.A||battleV2?.teams?.A?.supports||[]).find(item=>String(item?.actorKind||'').toUpperCase()==='BATTLE_SUIT')||null;
-      const cowPortal=await discoverCowPortal(env,user,{battleMode:difficulty.isApocalypse?'APOCALYPSE':'PVE',sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result});
       const battleSuitRuntime={...engineState.battleSuitLive,actorId:String(battleSuitSupport?.id||''),actions:Math.max(0,Number(battleSuitSupport?.actions||0)),damageDealt:Math.max(0,Number(battleSuitSupport?.damageDealt??battleV2?.result?.damageBreakdown?.battleSuit??0)),authoritative:Boolean(battleSuitSupport?.authoritative&&battleV2?.rules?.battleSuitDamageAuthority==='SERVER_TIMELINE')};
       return json({result,reward,rewardBeforeAvatar:avatarCoin.base,avatarCoinBonus:avatarCoin.bonus,avatarCoinGainPercent:avatarCoin.percent,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,battleSuitRuntime,equippedBattleSuit:characterBonus.equippedBattleSuit||null,equippedWeapon:characterBonus.equippedWeapon||null,battleSuitDamage:Number(battleV2?.result?.damageBreakdown?.battleSuit||characterBonus.battleSuitPve||0),damageBreakdown:battleV2?.result?.damageBreakdown||{cards:cardPower,support:Math.max(0,Number(characterBonus.pve||0)-Number(characterBonus.battleSuitPve||0)),battleSuit:Math.max(0,Number(characterBonus.battleSuitPve||0)),ultimate:ultimateDamage,total:totalBattleDamage,authority:'SERVER_POWER_FALLBACK'},cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,cowPortal,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured||apocalypseSkillCast,enabled:bossUltimateEnabled||apocalypseSkillCast,isBoss:bossIsBoss,forceCast:apocalypseSkillCast||bossForceCast,trigger:apocalypseSkillCast?'ALWAYS':bossTrigger,chance:apocalypseSkillCast?100:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked,apocalypseExclusive:apocalypseSkillCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare,apocalypse:difficulty.isApocalypse},cards:battleCards,energy:energyAfter,energyKind:difficulty.isApocalypse?'APOCALYPSE':'STANDARD',serverNow:new Date().toISOString(),user:battleProfile});
     }
@@ -9292,7 +9355,7 @@ async function handleRequestWithDatabase(context){
       // V1803: 일반 액션은 지연 시 fail-open 하되, 강화 재화 경로는 CAS 원복과
       // 영수증 확정이 같은 사용자 락 안에 있어야 하므로 아래에서 fail-closed 한다.
       let lockTimedOut=false,lockGuardTimer=null;
-      const lockAttempt=acquireUserMutationLock(context.env,user.id,actionPath).catch(error=>{console.warn('user mutation lock acquire failed',error);return 'LOCK_ERROR'});
+      const lockAttempt=acquireUserMutationLock(context.env,user.id,actionPath,{waitUntil:typeof context.waitUntil==='function'?context.waitUntil.bind(context):null}).catch(error=>{console.warn('user mutation lock acquire failed',error);return 'LOCK_ERROR'});
       const lockGuard=new Promise(resolve=>{lockGuardTimer=setTimeout(()=>{lockTimedOut=true;resolve('LOCK_GUARD_TIMEOUT')},2500)});
       const acquired=await Promise.race([lockAttempt,lockGuard]);
       if(lockGuardTimer)clearTimeout(lockGuardTimer);
