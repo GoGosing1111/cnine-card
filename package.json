@@ -61,7 +61,7 @@
     "test:idle-dungeon": "node tests/idle-dungeon-daily-cap-v1732.mjs && node --test tests/idle-v3-preview-v1.test.mjs",
     "test:treasury": "node --test tests/administration-treasury-v2030.test.mjs",
     "test:streamer-lounge": "node --test tests/streamer-lounge-v2036.test.mjs",
-    "test:performance": "node --test tests/equipment-loading.test.mjs tests/performance-v2045.test.mjs tests/treasury-draw-alchemy-perf-v2062.test.mjs tests/api-read-flow-v2122.test.mjs",
+    "test:performance": "node --test tests/equipment-loading.test.mjs tests/performance-v2045.test.mjs tests/treasury-draw-alchemy-perf-v2062.test.mjs tests/api-read-flow-v2122.test.mjs tests/neon-account-migration-performance-v2121.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs",
     "test:avatar": "node --test tests/avatar-dc-hi-heeya-clan-11days.test.mjs tests/avatar-fm-dimwoos-clan-11days.test.mjs tests/avatar-fm-orikkung-clan-11days.test.mjs tests/avatar-kangguyeol-dk-11days.test.mjs tests/avatar-admin-grant-v2079.test.mjs tests/avatar-v1863.mjs tests/avatar-expiry-v1917.test.mjs tests/avatar-hi-heeya-cms-v2064.test.mjs tests/avatar-cheon-cms-v2068.test.mjs tests/avatar-orikkung-cms.test.mjs preview/avatar-hi-heeya-v1/qa-assets.test.cjs preview/avatar-cheon-v1/qa-assets.test.cjs tests/avatar-saengbyuwang-cms.test.mjs preview/avatar-saengbyuwang-v1/qa-assets.test.mjs tests/avatar-hanbok-diim-cms.test.mjs tests/avatar-t1-joeun-cms.test.mjs tests/avatar-drop-rate.test.mjs preview/avatar-hanbok-diim-v1/qa-assets.test.mjs",
     "test:new-user-gift": "node --test tests/new-user-gift-v2075.test.mjs",
     "test:black-miracle": "node --test tests/black-miracle-v1926.test.mjs tests/black-miracle-manual-selection.test.mjs tests/black-miracle-manual-pool-ops.test.mjs",

@@ -2,6 +2,7 @@ import {execFileSync,spawnSync} from 'node:child_process';
 import {createRequire} from 'node:module';
 import {dirname,join} from 'node:path';
 import {readFileSync} from 'node:fs';
+import {verifyProductionHyperdriveCache} from './verify-hyperdrive-cache.mjs';
 
 const args=process.argv.slice(2),assetsOnly=args.length===1&&args[0]==='--assets-only';
 if(args.length&&!assetsOnly)throw Error('Supported option: --assets-only');
@@ -51,5 +52,6 @@ if(assetsOnly){
 }else if(process.platform==='win32')run(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run release:gate']);
 else run('npm',['run','release:gate']);
 const wrangler=join(dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
+verifyProductionHyperdriveCache({wrangler,env:productionEnv,message:'Hyperdrive query cache must be disabled for cnine-card (stale reads break draw/raid/energy).'});
 run(process.execPath,[wrangler,'pages','deploy','.','--project-name','cnine-card','--branch','main'],productionEnv);
 if(!assetsOnly)run(process.execPath,[wrangler,'deploy','--config','workers/clan-draft/wrangler.jsonc'],productionEnv);
