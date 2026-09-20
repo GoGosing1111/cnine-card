@@ -17,6 +17,12 @@ function section(source,startNeedle,endNeedle){
   return source.slice(start,end);
 }
 
+test('PVE와 PVP 핵심 경로는 전투 요청마다 전체 레거시 마이그레이션을 시작하지 않는다',()=>{
+  const gate=section(api,'const hotPathWithoutGlobalUpgrade=',"if(path==='raid/status')");
+  assert.match(gate,/path\.startsWith\('battle\/'\)/);
+  assert.match(gate,/path\.startsWith\('pvp\/'\)/);
+});
+
 test('소탕은 첫 1회 V3 전투 뒤 잔여 횟수를 짧은 서버 묶음으로 이어서 처리한다',()=>{
   const startAuto=section(app,'async function startAutoBattle()','const battleAutoUiObserver');
   const startBattle=section(app,'async function startBattle()','function magicView');

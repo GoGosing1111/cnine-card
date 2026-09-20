@@ -7,6 +7,7 @@ const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'
 const client = read('js/territory-war-v1811.js');
 const css = read('css/territory-war-v1824.css');
 const index = read('index.html');
+const server = read('functions/_territory_war.js');
 
 function renderer(mine, settings = {}) {
   const sandbox = {};
@@ -103,4 +104,10 @@ test('강조는 저속 테두리 광원이며 모션 줄이기 설정에서는 �
 test('배포 HTML이 새 팀 강조 CSS/JS 버전을 함께 요청한다', () => {
   assert.match(index, /css\/territory-war-v1824\.css\?v=2062-my-team-emphasis/);
   assert.match(index, /js\/territory-war-v1811\.js\?v=2062-my-team-emphasis/);
+});
+
+test('참가 신청과 관리자 수동 편성은 동시 중복 요청에도 기본키 오류를 노출하지 않는다', () => {
+  assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO NOTHING/);
+  assert.match(server, /const alreadyRegistered=!Number\(registered\?\.meta\?\.changes\|\|0\)/);
+  assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO UPDATE SET side=excluded\.side,status='ACTIVE'/);
 });

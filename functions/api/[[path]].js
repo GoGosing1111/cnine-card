@@ -5240,6 +5240,13 @@ async function handleRequest(context){
     const hotPathWithoutGlobalUpgrade=(path==='cards'&&request.method==='GET')
       ||(path==='packs'&&request.method==='GET')
       ||path==='burning-event/status'
+      // PVE/PVP 상태·전투·정산은 사용자 조작의 핵심 경로다. 새 isolate가 뜰 때마다
+      // 전체 레거시 마이그레이션을 waitUntil으로 시작하면 Hyperdrive 연결이 그 작업에
+      // 장시간 묶여 실제 전투 응답보다 늦게 반환되고, 클라이언트에는 행동력/점수가
+      // 그대로인 것처럼 보인다. 운영 스키마는 배포 게이트와 health 초기화에서 보장하며
+      // 이 경로들은 각 라우트의 소형 foundation/검증만 사용한다.
+      ||path.startsWith('battle/')
+      ||path.startsWith('pvp/')
       ||path==='draw/status'
       ||path==='draw/ack'
       ||(path==='superstar-pack/draw'&&request.method==='POST')
