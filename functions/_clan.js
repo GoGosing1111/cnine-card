@@ -1,7 +1,7 @@
 import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete,clanRedraftPublicState} from './_clan_redraft.js';
 import {clanPigCoinStatements} from './_pig_coin_content_rewards.js';
 import {settleClanWarPigCoins,settlePendingClanWarPigCoins} from './_clan_war_pig_rewards.js';
-import {ensureClanRematch20260920,clanRematch20260920State} from './_clan_rematch_20260920.js';
+import {ensureClanRematch20260920} from './_clan_rematch_20260920.js';
 import {handleClanFaction,ensureFactionSchema} from './_clan_faction.js';
 import {kickClanMember} from './_clan_member_kick.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
@@ -1003,7 +1003,7 @@ export async function handleClan({path,request,env,deps}){
     return handleClanInactivityCleanup({request,env,user,deps});
   }
   if(!String(path).startsWith('clan')&&!String(path).startsWith('admin/clan-war'))return null;await ensureFoundation(env);
-  if(path==='clan/rematch-20260920/status'&&request.method==='GET')return deps.json({ok:true,...await clanRematch20260920State(env)});
+  if(path==='clan/rematch-20260920/status'&&request.method==='GET')return deps.json({ok:true,...await ensureClanRematch20260920(env)});
   const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const settings=await clanSettings(env),owner=String(user.role||'').toUpperCase()==='OWNER',admin=typeof deps.isAdminRole==='function'?deps.isAdminRole(user):owner;
   if(path==='admin/clan-war/settings'){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);

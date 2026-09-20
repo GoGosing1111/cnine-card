@@ -1,9 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {CLAN_REMATCH_20260920_KEY,ensureClanRematch20260920} from '../functions/_clan_rematch_20260920.js';
+
+test('운영 상태 경로는 빠른 foundation 이후에도 일회성 적용 함수를 직접 실행한다',()=>{
+  const source=requireText('../functions/_clan.js');
+  assert.match(source,/path==='clan\/rematch-20260920\/status'[\s\S]{0,180}ensureClanRematch20260920\(env\)/);
+});
+
+function requireText(relative){return readFileSync(new URL(relative,import.meta.url),'utf8')}
 
 async function fixture(t,postgres){
   const schema=`
