@@ -1,12 +1,18 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import sharp from 'sharp';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const framePath = path.resolve(here, '../../assets/ui/card-frames/icon-streamer-frame-v1.png');
+const approvedSha256 = '1368693F6861B7ABDCC8601CBF7EB5DAA13B5063B579DB3A8A38285CDCD0CA6F';
 const image = sharp(framePath);
 const metadata = await image.metadata();
+
+const digest = createHash('sha256').update(await readFile(framePath)).digest('hex').toUpperCase();
+assert.equal(digest, approvedSha256, 'approved ICON frame bytes must not change');
 
 assert.equal(metadata.width, 1024, 'frame width must be 1024px');
 assert.equal(metadata.height, 1536, 'frame height must be 1536px');
@@ -32,6 +38,7 @@ assert.ok(transparent / samples > 0.995, 'central portrait window must remain tr
 console.log(JSON.stringify({
   file: framePath,
   dimensions: `${metadata.width}x${metadata.height}`,
+  sha256: digest,
   alpha: metadata.hasAlpha,
   centralTransparency: transparent / samples
 }, null, 2));
