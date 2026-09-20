@@ -107,8 +107,11 @@ test('배포 HTML이 새 팀 강조 CSS/JS 버전을 함께 요청한다', () =>
 });
 
 test('참가 신청과 관리자 수동 편성은 동시 중복 요청에도 기본키 오류를 노출하지 않는다', () => {
-  assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO UPDATE SET deck_power=excluded\.deck_power[^`]+RETURNING round_id,user_id/);
+  assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO NOTHING[^;]+\.run\(\)/);
+  assert.match(server, /SELECT round_id,user_id FROM territory_war_v3_users WHERE round_id=\? AND user_id=\?/);
   assert.match(server, /TERRITORY_REGISTER_VERIFY_FAILED/);
   assert.match(server, /TERRITORY_REGISTER_STATE_MISSING/);
+  assert.match(server, /TERRITORY_FOUNDATION_FAST_MARKER='safe_runtime_upgrade_v2120_territory_foundation_fast_gate'/);
+  assert.match(server, /SELECT value FROM app_meta WHERE key=\?/);
   assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO UPDATE SET side=excluded\.side,status='ACTIVE'/);
 });

@@ -24,7 +24,7 @@ test('v1956 bonus is one-shot and per-user idempotent',()=>{
 });
 
 test('v1956 bonus runs before territory foundation is marked ready',()=>{
-  assert.match(source,/await recoverWrongWinnerOverpaymentV1444\(env\);\s*await grantLatestWinnerMasterStarsV1956\(env\);\s*foundationReady=true/);
+  assert.match(source,/await recoverWrongWinnerOverpaymentV1444\(env\);\s*await grantLatestWinnerMasterStarsV1956\(env\);\s*await env\.DB\.prepare\([^\n]+TERRITORY_FOUNDATION_FAST_MARKER[^\n]+\.run\(\);\s*foundationReady=true/);
 });
 
 class TestStatement{

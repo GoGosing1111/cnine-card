@@ -178,6 +178,15 @@ test('legacy PVE/PVP/clan/territory snapshots cannot reuse two SUPERSTAR cards; 
   }finally{db.close()}
 });
 
+test('invalid active ranked preset falls back to an intact preset-1 defence deck',async()=>{
+  const {db,env,good}=database();
+  try{
+    const s=server({async pvpDeckCards(_env,_id,defense){return defense?good:['retired-card',...good.slice(1)]}});
+    assert.deepEqual(plain(await s.pvpDeckSnapshot(env,1)).map(card=>card.id),good);
+    assert.deepEqual(plain(await s.pvpDeckSnapshot(env,1,true)).map(card=>card.id),good);
+  }finally{db.close()}
+});
+
 test('ranked matchmaking batch excludes invalid defenders before creating a match ticket',async()=>{
   const s=server(),{db,env}=database();
   try{

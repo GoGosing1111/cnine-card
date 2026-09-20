@@ -1120,7 +1120,15 @@ function defaultMineralExchangeSettings(){return {enabled:true,baseMineral:10000
 function cleanMineralExchangeSettings(raw={}){const b=defaultMineralExchangeSettings();return {enabled:raw.enabled!==false,baseMineral:Math.max(1,Math.floor(Number(raw.baseMineral||b.baseMineral))),payoutCoin:Math.max(1,Math.floor(Number(raw.payoutCoin||b.payoutCoin))),dailyLimitCoin:Math.max(1000,Math.floor(Number(raw.dailyLimitCoin||b.dailyLimitCoin)/1000)*1000),coinUnit:1000}}
 async function mineralExchangeSettings(env){const row=await metaValue(env,'mineral_exchange_settings_v1');if(!row?.value)return defaultMineralExchangeSettings();try{return cleanMineralExchangeSettings(JSON.parse(row.value))}catch{return defaultMineralExchangeSettings()}}
 function kstTodaySql(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
-async function pvpDeckSnapshot(env,userId,defense=false){const ids=await pvpDeckCards(env,userId,defense);if(!ids.length)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map(rows.results.map(x=>[String(x.id),x]));const deck=ids.map(id=>map.get(String(id))).filter(Boolean);return superstarDeckCount(deck)>SUPERSTAR_DECK_LIMIT?[]:deck}
+async function pvpDeckSnapshot(env,userId,defense=false){
+  const load=async ids=>{if(!ids.length)return [];const marks=ids.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all(),map=new Map(rows.results.map(x=>[String(x.id),x])),deck=ids.map(id=>map.get(String(id))).filter(Boolean);return superstarDeckCount(deck)>SUPERSTAR_DECK_LIMIT?[]:deck};
+  const ids=await pvpDeckCards(env,userId,defense),deck=await load(ids);
+  // A stale active-preset pointer or a retired card must not hide the intact
+  // preset-1/defence deck. This also restores territory registration after the
+  // account migration without inventing a deck or changing a valid selection.
+  if(!defense&&deck.length!==5){const fallbackIds=await pvpDeckCards(env,userId,true);if(JSON.stringify(fallbackIds)!==JSON.stringify(ids))return load(fallbackIds)}
+  return deck;
+}
 async function pvpDeckSnapshotByIds(env,userId,requestedIds=[]){const ids=(Array.isArray(requestedIds)?requestedIds:[]).map(String).filter(Boolean).slice(0,5);if(ids.length!==5)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map((rows.results||[]).map(card=>[String(card.id),card]));const deck=ids.map(id=>map.get(String(id))).filter(Boolean);return superstarDeckCount(deck)>SUPERSTAR_DECK_LIMIT?[]:deck}
 async function pveDeckSnapshot(env,userId){return pvpDeckSnapshotByIds(env,userId,await pveDeckCards(env,userId))}
 
@@ -9337,7 +9345,7 @@ async function handleRequestWithDatabase(context){
   if(durationMs>=1000||d1Total>=20||stableSmallHash(`${request.method}:${url.pathname}:${request.headers.get('cf-ray')||''}`)%128===0){
     console.log(JSON.stringify({type:'api_timing',method:request.method,path:url.pathname,status:response.status,durationMs,
       d1Queries:d1Stats.queries,d1Batches:d1Stats.batches,d1BatchStatements:d1Stats.statements,d1Total,d1Ms:d1Stats.ms,
-      ray:request.headers.get('cf-ray')||''}));
+      placement:request.headers.get('cf-placement')||'',ray:request.headers.get('cf-ray')||''}));
   }
   return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
 }

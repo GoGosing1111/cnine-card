@@ -53,6 +53,7 @@ const PARTICIPATION_MYSTIC_ENERGY=1;
 const WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS=80;
 const WINNER_MASTER_STAR_BONUS_AMOUNT=7_000;
 const WINNER_MASTER_STAR_BONUS_MARKER='safe_runtime_reward_v1956_latest_finished_winner_gt80_master_star_7000';
+const TERRITORY_FOUNDATION_FAST_MARKER='safe_runtime_upgrade_v2120_territory_foundation_fast_gate';
 const LEGACY_BALANCE=Object.freeze({fatiguePerCapturePercent:10,fatigueMaxPercent:30,fatigueDamageRatio:.4,comebackDamagePerTierPercent:8,defeatSiegeDamagePercent:20,antiPingPongRevisitThreshold:Number.MAX_SAFE_INTEGER});
 function balanceRules(round,cfg){return Number(round?.id||0)>=BALANCE_REWORK_FROM_ROUND_ID?cfg:LEGACY_BALANCE}
 
@@ -190,6 +191,15 @@ async function grantLatestWinnerMasterStarsV1956(env){
 
 async function ensureFoundation(env){
   if(foundationReady)return;
+  // Cloudflare isolates do not share module memory. Without a durable completion
+  // marker every cold isolate repeats dozens of legacy schema/repair probes over
+  // Hyperdrive before serving one state/register request. The versioned marker
+  // turns that cold path into one indexed app_meta lookup after the full gate has
+  // succeeded once on the authoritative Neon database.
+  try{
+    const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(TERRITORY_FOUNDATION_FAST_MARKER).first();
+    if(ready?.value==='1'){foundationReady=true;return}
+  }catch(_){ /* fresh installs create app_meta immediately below */ }
   await env.DB.prepare(`CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
   const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1402_territory_frontline_v3'").first();
   if(!marker){
@@ -525,6 +535,7 @@ async function ensureFoundation(env){
   await repairWaterBuffaloSettlementV1443(env);
   await recoverWrongWinnerOverpaymentV1444(env);
   await grantLatestWinnerMasterStarsV1956(env);
+  await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP").bind(TERRITORY_FOUNDATION_FAST_MARKER).run();
   foundationReady=true;
 }
 
@@ -1282,16 +1293,22 @@ export async function handleTerritoryWar({path,request,env,deps}){
     const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg),canJoin=round&&round.status==='RECRUITING';if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
     const existing=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(existing)return deps.json({ok:true,alreadyRegistered:true,state:await publicState(env,user.id)});
     const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),snapshot=await singleFormationSnapshot(env,deps,user,deck,bs),power=snapshot.formationPower;
-    // A double tap or a retried response can race after the read above. Return the
-    // authoritative participant row from one UPSERT instead of surfacing the PK
-    // violation or guessing success from adapter-specific `meta.changes` values.
-    const registered=await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,formation_power,formation_breakdown_json,deck_snapshot,loadout_bonus_json,side,status,energy,last_recharged_at) VALUES(?,?,?,?,?,?,?,NULL,'WAITING',?,CURRENT_TIMESTAMP)
-      ON CONFLICT(round_id,user_id) DO UPDATE SET deck_power=excluded.deck_power,formation_power=excluded.formation_power,formation_breakdown_json=excluded.formation_breakdown_json,deck_snapshot=excluded.deck_snapshot,loadout_bonus_json=excluded.loadout_bonus_json,updated_at=CURRENT_TIMESTAMP
-      RETURNING round_id,user_id`).bind(round.id,user.id,power,power,JSON.stringify(snapshot.breakdown),JSON.stringify(deck.map(card=>String(card.id))),JSON.stringify(snapshot.loadoutBonus),Number(cfg.energyMax||10)).first();
-    if(Number(registered?.round_id)!==Number(round.id)||Number(registered?.user_id)!==Number(user.id))return deps.json({error:'참가 신청 저장 결과를 확인하지 못했습니다. 다시 시도해 주세요.',code:'TERRITORY_REGISTER_VERIFY_FAILED'},503);
+    // A double tap or a retried response can race after the read above. Keep the
+    // write idempotent, then verify it with a separate primary read. Do not infer
+    // success from adapter-specific mutation metadata or an INSERT RETURNING row.
+    await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,formation_power,formation_breakdown_json,deck_snapshot,loadout_bonus_json,side,status,energy,last_recharged_at) VALUES(?,?,?,?,?,?,?,NULL,'WAITING',?,CURRENT_TIMESTAMP)
+      ON CONFLICT(round_id,user_id) DO NOTHING`).bind(round.id,user.id,power,power,JSON.stringify(snapshot.breakdown),JSON.stringify(deck.map(card=>String(card.id))),JSON.stringify(snapshot.loadoutBonus),Number(cfg.energyMax||10)).run();
+    const registered=await env.DB.prepare('SELECT round_id,user_id FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
+    if(Number(registered?.round_id)!==Number(round.id)||Number(registered?.user_id)!==Number(user.id)){
+      console.warn('TERRITORY_REGISTER_VERIFY_FAILED',{roundId:Number(round.id),userId:Number(user.id)});
+      return deps.json({error:'참가 신청 저장 결과를 확인하지 못했습니다. 다시 시도해 주세요.',code:'TERRITORY_REGISTER_VERIFY_FAILED'},503);
+    }
     publicStateSharedCache=null;
     const state=await publicState(env,user.id);
-    if(Number(state?.mine?.round_id)!==Number(round.id))return deps.json({error:'참가 신청 저장 후 참가 상태를 확인하지 못했습니다. 다시 시도해 주세요.',code:'TERRITORY_REGISTER_STATE_MISSING'},503);
+    if(Number(state?.mine?.round_id)!==Number(round.id)){
+      console.warn('TERRITORY_REGISTER_STATE_MISSING',{roundId:Number(round.id),userId:Number(user.id),stateRoundId:Number(state?.round?.id||0),mineRoundId:Number(state?.mine?.round_id||0)});
+      return deps.json({error:'참가 신청 저장 후 참가 상태를 확인하지 못했습니다. 다시 시도해 주세요.',code:'TERRITORY_REGISTER_STATE_MISSING'},503);
+    }
     return deps.json({ok:true,alreadyRegistered:false,lateJoined:false,side:null,state});
   }
   if(path==='territory-war/unregister'&&request.method==='POST'){const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 중에만 참가 신청을 취소할 수 있습니다.'},409);await env.DB.prepare('DELETE FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).run();return deps.json({ok:true,state:await publicState(env,user.id)})}
