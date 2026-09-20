@@ -1282,9 +1282,17 @@ export async function handleTerritoryWar({path,request,env,deps}){
     const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg),canJoin=round&&round.status==='RECRUITING';if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
     const existing=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(existing)return deps.json({ok:true,alreadyRegistered:true,state:await publicState(env,user.id)});
     const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),snapshot=await singleFormationSnapshot(env,deps,user,deck,bs),power=snapshot.formationPower;
-    const registered=await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,formation_power,formation_breakdown_json,deck_snapshot,loadout_bonus_json,side,status,energy,last_recharged_at) VALUES(?,?,?,?,?,?,?,NULL,'WAITING',?,CURRENT_TIMESTAMP) ON CONFLICT(round_id,user_id) DO NOTHING`).bind(round.id,user.id,power,power,JSON.stringify(snapshot.breakdown),JSON.stringify(deck.map(card=>String(card.id))),JSON.stringify(snapshot.loadoutBonus),Number(cfg.energyMax||10)).run();
-    const alreadyRegistered=!Number(registered?.meta?.changes||0);
-    return deps.json({ok:true,alreadyRegistered,lateJoined:false,side:null,state:await publicState(env,user.id)});
+    // A double tap or a retried response can race after the read above. Return the
+    // authoritative participant row from one UPSERT instead of surfacing the PK
+    // violation or guessing success from adapter-specific `meta.changes` values.
+    const registered=await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,formation_power,formation_breakdown_json,deck_snapshot,loadout_bonus_json,side,status,energy,last_recharged_at) VALUES(?,?,?,?,?,?,?,NULL,'WAITING',?,CURRENT_TIMESTAMP)
+      ON CONFLICT(round_id,user_id) DO UPDATE SET deck_power=excluded.deck_power,formation_power=excluded.formation_power,formation_breakdown_json=excluded.formation_breakdown_json,deck_snapshot=excluded.deck_snapshot,loadout_bonus_json=excluded.loadout_bonus_json,updated_at=CURRENT_TIMESTAMP
+      RETURNING round_id,user_id`).bind(round.id,user.id,power,power,JSON.stringify(snapshot.breakdown),JSON.stringify(deck.map(card=>String(card.id))),JSON.stringify(snapshot.loadoutBonus),Number(cfg.energyMax||10)).first();
+    if(Number(registered?.round_id)!==Number(round.id)||Number(registered?.user_id)!==Number(user.id))return deps.json({error:'참가 신청 저장 결과를 확인하지 못했습니다. 다시 시도해 주세요.',code:'TERRITORY_REGISTER_VERIFY_FAILED'},503);
+    publicStateSharedCache=null;
+    const state=await publicState(env,user.id);
+    if(Number(state?.mine?.round_id)!==Number(round.id))return deps.json({error:'참가 신청 저장 후 참가 상태를 확인하지 못했습니다. 다시 시도해 주세요.',code:'TERRITORY_REGISTER_STATE_MISSING'},503);
+    return deps.json({ok:true,alreadyRegistered:false,lateJoined:false,side:null,state});
   }
   if(path==='territory-war/unregister'&&request.method==='POST'){const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 중에만 참가 신청을 취소할 수 있습니다.'},409);await env.DB.prepare('DELETE FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).run();return deps.json({ok:true,state:await publicState(env,user.id)})}
   if(path==='territory-war/refresh-loadout'&&request.method==='POST'){

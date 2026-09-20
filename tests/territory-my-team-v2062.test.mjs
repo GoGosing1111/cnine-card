@@ -107,7 +107,8 @@ test('배포 HTML이 새 팀 강조 CSS/JS 버전을 함께 요청한다', () =>
 });
 
 test('참가 신청과 관리자 수동 편성은 동시 중복 요청에도 기본키 오류를 노출하지 않는다', () => {
-  assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO NOTHING/);
-  assert.match(server, /const alreadyRegistered=!Number\(registered\?\.meta\?\.changes\|\|0\)/);
+  assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO UPDATE SET deck_power=excluded\.deck_power[^`]+RETURNING round_id,user_id/);
+  assert.match(server, /TERRITORY_REGISTER_VERIFY_FAILED/);
+  assert.match(server, /TERRITORY_REGISTER_STATE_MISSING/);
   assert.match(server, /INSERT INTO territory_war_v3_users\(round_id,user_id,[^`]+ON CONFLICT\(round_id,user_id\) DO UPDATE SET side=excluded\.side,status='ACTIVE'/);
 });

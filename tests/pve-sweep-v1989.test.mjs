@@ -21,6 +21,13 @@ test('PVE와 PVP 핵심 경로는 전투 요청마다 전체 레거시 마이그
   const gate=section(api,'const hotPathWithoutGlobalUpgrade=',"if(path==='raid/status')");
   assert.match(gate,/path\.startsWith\('battle\/'\)/);
   assert.match(gate,/path\.startsWith\('pvp\/'\)/);
+  assert.match(gate,/path\.startsWith\('territory-war\/'\)/);
+});
+
+test('OWNER·점검 테스트 계정의 PVE·PVP 무제한은 실제 점검 중에만 허용한다',()=>{
+  assert.match(api,/function canUseTestAccess\(user,maintenance\)\{return Boolean\(user&&!isDedicatedPredictionAdmin\(user\)&&maintenance\?\.active===true&&maintenance\?\.testUsers\?\.includes\(user\.nickname\)\)\}/);
+  assert.equal((api.match(/const unlimited=!cfg\.enabled\|\|\(maintenance\?\.active===true&&\(\(cfg\.adminUnlimited&&isAdminRole\(user\)\)\|\|\(cfg\.testUnlimited&&canUseTestAccess\(user,maintenance\)\)\)\)/g)||[]).length,3);
+  assert.equal((api.match(/cfg\.testUnlimited&&canUseTestAccess\(user,maintenance\)/g)||[]).length,3);
 });
 
 test('소탕은 첫 1회 V3 전투 뒤 잔여 횟수를 짧은 서버 묶음으로 이어서 처리한다',()=>{
