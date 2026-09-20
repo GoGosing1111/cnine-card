@@ -198,13 +198,15 @@ test('30s defaults, public countdown and scheduled deployment are included in th
   assert.equal(scripts['deploy:production'],'node scripts/deploy-production.mjs');
   const deployUrl=new URL('../scripts/deploy-production.mjs',import.meta.url);
   const deploySource=readFileSync(deployUrl,'utf8').replace(/^import .*;\r?$/gm,'').replaceAll('import.meta.url',JSON.stringify(deployUrl.href));
-  const runDeployment=(platform,gateStatus=0)=>{
+  const runDeployment=(platform,gateStatus=0,cacheError=false)=>{
     const calls=[];
     const context={console,process:{argv:['node','deploy-production.mjs'],platform,execPath:'node',env:{},exit:status=>{throw Error('exit '+status)}},
       execFileSync:()=>{throw Error('normal release must not enter the asset-only shortcut')},
+      verifyProductionHyperdriveCache:()=>{assert.equal(calls.length,1,'cache check follows the release gate and precedes deployments');if(cacheError)throw Error('cache enabled')},
       spawnSync:(command,args)=>{calls.push([command,...args]);return {status:calls.length===1?gateStatus:0}},
       createRequire:()=>({resolve:()=>'/tools/wrangler/package.json'}),dirname:()=>'/tools/wrangler',join:(...parts)=>parts.join('/'),readFileSync};
     if(gateStatus)assert.throws(()=>runInNewContext(deploySource,context),/exit 1/);
+    else if(cacheError)assert.throws(()=>runInNewContext(deploySource,context),/cache enabled/);
     else runInNewContext(deploySource,context);
     return calls;
   };
@@ -214,6 +216,7 @@ test('30s defaults, public countdown and scheduled deployment are included in th
     assert.deepEqual(calls[1],['node','/tools/wrangler/bin/wrangler.js','pages','deploy','.','--project-name','cnine-card','--branch','main']);
     assert.deepEqual(calls[2],['node','/tools/wrangler/bin/wrangler.js','deploy','--config','workers/clan-draft/wrangler.jsonc']);
     assert.equal(runDeployment(platform,1).length,1,'failed release gate must stop both deployments');
+    assert.equal(runDeployment(platform,0,true).length,1,'failed cache check must stop both deployments');
   }
 });
 
