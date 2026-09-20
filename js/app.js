@@ -3775,6 +3775,25 @@ let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sess
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 let MULTI_CLIENT_TERMINATING=false,MULTI_CLIENT_LAST_TOKEN='',MULTI_CLIENT_LAST_AT=0,MULTI_CLIENT_STRIKES=0;
 let PLAYER_STATE_MUTATION_EPOCH=0;
+// The Cloudflare account migration creates a brand-new Hyperdrive pool. Letting a
+// lobby render fire dozens of reads at once makes every request wait for a new
+// origin connection even though each individual query is healthy. Keep writes
+// (battle results, energy and rewards) unqueued, while bounding background reads
+// per tab so one client cannot stampede the shared Neon origin.
+const API_READ_CONCURRENCY_LIMIT=6,API_GET_MICROCACHE_TTL=1000;
+let API_READ_ACTIVE=0;
+const API_READ_WAITERS=[];
+function apiReadRequest(input,options={}){
+  const method=String(options.method||((typeof Request!=='undefined'&&input instanceof Request)?input.method:'GET')||'GET').toUpperCase();
+  if(method!=='GET')return false;
+  try{const url=new URL(typeof input==='string'?input:input.url,location.origin);return url.origin===location.origin&&url.pathname.startsWith('/api/')}catch(_){return false}
+}
+function acquireApiReadSlot(){
+  return new Promise(resolve=>{
+    const enter=()=>{API_READ_ACTIVE++;let released=false;resolve(()=>{if(released)return;released=true;API_READ_ACTIVE=Math.max(0,API_READ_ACTIVE-1);API_READ_WAITERS.shift()?.()})};
+    if(API_READ_ACTIVE<API_READ_CONCURRENCY_LIMIT)enter();else API_READ_WAITERS.push(enter);
+  });
+}
 // Player-owned state must not be cached. Mutation responses are authoritative and
 // a later read must never resurrect an older balance or inventory summary.
 // Collapse rapid view re-entry without serving pre-mutation player state.
@@ -3876,13 +3895,14 @@ async function loadStartupOptionalFeatures(runId){
 }
 function requestTimeoutError(label='서버 요청',timeoutMs=10000){const error=new Error(`${label} 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.`);error.code='REQUEST_TIMEOUT';error.timeout=true;error.timeoutMs=timeoutMs;return error}
 async function fetchWithTimeout(input,options={},timeoutMs=15000,label='서버 요청'){
+  const releaseReadSlot=apiReadRequest(input,options)?await acquireApiReadSlot():null;
   const controller=new AbortController(),externalSignal=options.signal;let timedOut=false;
   const forwardAbort=()=>controller.abort();
   if(externalSignal){if(externalSignal.aborted)controller.abort();else externalSignal.addEventListener('abort',forwardAbort,{once:true})}
   const timer=setTimeout(()=>{timedOut=true;controller.abort()},Math.max(1000,Number(timeoutMs)||15000));
   try{return await fetch(input,{...options,signal:controller.signal})}
   catch(error){if(timedOut)throw requestTimeoutError(label,timeoutMs);throw error}
-  finally{clearTimeout(timer);if(externalSignal)externalSignal.removeEventListener('abort',forwardAbort)}
+  finally{clearTimeout(timer);if(externalSignal)externalSignal.removeEventListener('abort',forwardAbort);releaseReadSlot?.()}
 }
 async function loadStaticCardsFallback(){
   try{const response=await fetchWithTimeout('data/cards.json',{cache:'default'},7000,'기본 카드 데이터 확인');if(!response.ok)throw new Error('기본 카드 데이터를 불러오지 못했습니다.');const data=await response.json();return Array.isArray(data)?data:[]}
@@ -4379,7 +4399,11 @@ window.__cnineD1Bookmark=()=>D1_BOOKMARK;
 
 async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
-  const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now(),requestEpoch=PLAYER_STATE_MUTATION_EPOCH;
+  const requestedTtl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0;
+  // A one-second, mutation-aware cache only collapses duplicate render/poller
+  // reads. `fresh=1` and explicit `microcache:false` remain truly uncached.
+  const microcacheAllowed=isGet&&config.microcache!==false&&!/[?&]fresh=1(?:&|$)/.test(cleanPath);
+  const ttl=microcacheAllowed?Math.max(API_GET_MICROCACHE_TTL,requestedTtl):requestedTtl,now=Date.now(),requestEpoch=PLAYER_STATE_MUTATION_EPOCH;
   if(isGet&&ttl>0){const cached=API_GET_CACHE.get(cleanPath);if(cached&&cached.epoch===requestEpoch&&cached.expiresAt>now)return cached.data;}
   if(isGet&&config.replaceInflight===true)API_INFLIGHT.delete(cleanPath);
   else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
