@@ -35,6 +35,7 @@ const int=(v,min,max,label)=>{if(!Number.isSafeInteger(v)||v<min||v>max)throw er
 const nullable=(v,min,max,label)=>v===null?null:int(v,min,max,label);
 const bool=(v,label)=>{if(typeof v!=='boolean')throw error(`${label} 설정을 확인하세요.`);return v;};
 const ids=(v,pattern,label)=>{if(!Array.isArray(v)||v.length>500||new Set(v).size!==v.length||v.some(id=>typeof id!=='string'||!pattern.test(id)))throw error(`${label} 목록을 확인하세요.`);return [...v];};
+export const lootProductMaxAccountLimit=type=>type==='FUR_CHOICE'?10:3;
 export function validateLootShopPolicy(raw){
  if(!raw||!Array.isArray(raw.products)||raw.products.length>100||!Array.isArray(raw.sources))throw error('상점 설정을 확인하세요.');
  const next={revision:int(raw.revision,0,2147483646,'수정 버전'),salesEnabled:bool(raw.salesEnabled,'판매'),rewardsEnabled:bool(raw.rewardsEnabled,'재화 지급'),sources:[],products:[]};
@@ -47,7 +48,7 @@ export function validateLootShopPolicy(raw){
  if(raw.sources.length!==3)throw error('허용되지 않은 지급 콘텐츠입니다.');
  for(const p of raw.products){
   if(typeof p.id!=='string'||!/^[a-z0-9_-]{3,70}$/.test(p.id)||!LOOT_PRODUCT_TYPES[p.type]||typeof p.name!=='string'||!p.name.trim()||p.name.length>80)throw error('상품 코드·종류·이름을 확인하세요.');
-  const r={id:p.id,type:p.type,name:p.name.trim(),enabled:bool(p.enabled,'상품 판매'),price:nullable(p.price,1,1000000000,'가격'),accountLimit:nullable(p.accountLimit,1,3,'계정당 구매 횟수'),equipmentId:nullable(p.equipmentId,1,2147483647,'장비'),cardIds:ids(p.cardIds,/^[A-Za-z0-9_-]{1,100}$/,'선택 카드'),mercenaryCodes:ids(p.mercenaryCodes,/^V-\d{3}$/,'용병'),mercenaryWeights:{A:nullable(p.mercenaryWeights?.A,0,10000,'A 가중치'),S:nullable(p.mercenaryWeights?.S,0,10000,'S 가중치')},sortOrder:int(p.sortOrder,0,10000,'정렬')};
+  const r={id:p.id,type:p.type,name:p.name.trim(),enabled:bool(p.enabled,'상품 판매'),price:nullable(p.price,1,1000000000,'가격'),accountLimit:nullable(p.accountLimit,1,lootProductMaxAccountLimit(p.type),'계정당 구매 횟수'),equipmentId:nullable(p.equipmentId,1,2147483647,'장비'),cardIds:ids(p.cardIds,/^[A-Za-z0-9_-]{1,100}$/,'선택 카드'),mercenaryCodes:ids(p.mercenaryCodes,/^V-\d{3}$/,'용병'),mercenaryWeights:{A:nullable(p.mercenaryWeights?.A,0,10000,'A 가중치'),S:nullable(p.mercenaryWeights?.S,0,10000,'S 가중치')},sortOrder:int(p.sortOrder,0,10000,'정렬')};
   if(r.enabled){
    if(r.price===null||r.accountLimit===null)throw error(`${r.name}의 가격과 구매 횟수를 입력하세요.`);
    if(r.type.endsWith('_CHOICE')&&!r.cardIds.length)throw error(`${r.name}의 선택 카드를 등록하세요.`);

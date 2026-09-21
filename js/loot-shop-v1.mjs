@@ -1,7 +1,19 @@
 import {jointAccountRequest as request} from './joint-account-transport.mjs';
-import {LOOT_SOURCE_LABELS,PIG_COIN_IMAGE,pigCoinSourceSummary} from '../shared/loot-shop-policy-v1.mjs?v=3';
+import {LOOT_SOURCE_LABELS,PIG_COIN_IMAGE,pigCoinSourceSummary} from '../shared/loot-shop-policy-v1.mjs?v=4';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const asset=v=>{try{const url=new URL(String(v||''),'https://local.invalid');return url.origin==='https://local.invalid'&&url.pathname.startsWith('/assets/')?url.pathname:'';}catch{return '';}};
+// Historical card rows may reference this repository's raw GitHub assets.
+// Serve those originals locally; never admit arbitrary external image URLs.
+export function lootShopAsset(value){
+ try{
+  const url=new URL(String(value||''),'https://local.invalid');
+  if(url.origin==='https://raw.githubusercontent.com'){
+   const match=url.pathname.match(/^\/GoGosing1111\/cnine-card\/[A-Za-z0-9._-]+(\/assets\/.+)$/);
+   return match?match[1]:'';
+  }
+  return url.origin==='https://local.invalid'&&url.pathname.startsWith('/assets/')?url.pathname:'';
+ }catch{return '';}
+}
+const asset=lootShopAsset;
 const fmt=v=>Number(v||0).toLocaleString('ko-KR');
 const descriptions={SUPERSTAR_CHOICE:'등록된 SUPERSTAR 카드 중 원하는 카드 1장 선택',FUR_CHOICE:'등록된 FUR 카드 중 원하는 카드 1장 선택',F_BODY:'F바디 장비 1개 확정 지급',MYSTIC_EQUIPMENT:'지정된 미스틱 장비 1개 확정 지급',MERCENARY_PACK:'등록된 A·S등급 용병 중 카드 1장 획득'};
 const categoryArt={SUPERSTAR_CHOICE:'assets/ui/packs/superstar-card-pack-v1.png',FUR_CHOICE:'assets/ui/packs/limited-pack.png',F_BODY:'assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',MYSTIC_EQUIPMENT:'assets/ui/packs/prime-armory-equipment-box-v1.png',MERCENARY_PACK:'assets/ui/packs/hyper-pack-v2076.png'};
