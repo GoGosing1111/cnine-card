@@ -140,6 +140,8 @@ test('all nine served V3 bundles including the account entry share the current c
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
   assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 33);
+  for(const file of ['preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js','preview/mercenary-bikini-joeun-v1/source/BikiniJoeunSkillFX.js','shared/mercenary-bikini-joeun-v1.mjs'])
+    assert.ok(report.sources.some(row=>row.file===file),`${file} must participate in bundle freshness checks`);
   for(const name of ['AccountBattleUnit.js','ZBodySwordAnimation.js','ZBodySwordModel.mjs','ZBodyDashProfile.mjs','ZBodyDashFX.mjs'])
     assert.ok(report.sources.some(row=>row.file===`preview/project-v-v3/source/battle/${name}`),`${name} must participate in bundle freshness checks`);
   assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js'));
