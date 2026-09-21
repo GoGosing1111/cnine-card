@@ -1,5 +1,6 @@
 import {jointAccountRequest as api} from './joint-account-transport.mjs';
 import {MERCENARY_PACK,mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs?v=2134-receipt-art-v2';
+import {MercenaryAcquisitionVideo,withPresentationDeadline} from './mercenary-acquisition-video.mjs?v=2145';
 
 let busy=false,access={connected:true,userOpeningEnabled:null},statusText='개봉 상태를 확인하고 있습니다.';
 const fmt=n=>Number(n||0).toLocaleString('ko-KR');
@@ -33,9 +34,20 @@ let syncQueued=false;
 const frame=typeof requestAnimationFrame==='function'?requestAnimationFrame:fn=>{void Promise.resolve().then(fn);};
 function requestSync(){if(syncQueued)return;syncQueued=true;frame(()=>{syncQueued=false;syncButtons();});}
 async function feature(){const before=access.userOpeningEnabled;access=await api(MERCENARY_PACK.featurePath);syncButtons();if(before!==access.userOpeningEnabled){notice(access.userOpeningEnabled?'1회 5억 코인 · 같은 등급의 용병은 균등 추첨합니다.':'하이퍼팩 개봉은 현재 OFF입니다.');window.dispatchEvent(new CustomEvent('mercenary-pack:availability',{detail:access}));}return access;}
-function stylesheet(){if(document.querySelector('[data-mercenary-pack-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-pack-live.css?v=2098';link.dataset.mercenaryPackStyle='';document.head.append(link);}
+function stylesheet(){if(document.querySelector('[data-mercenary-pack-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-pack-live.css?v=2145';link.dataset.mercenaryPackStyle='';document.head.append(link);}
 const scripts=new Map();
-function script(path,ready){if(ready())return Promise.resolve();if(scripts.has(path))return scripts.get(path);const promise=new Promise((resolve,reject)=>{let el=[...document.scripts].find(s=>new URL(s.src||location.href).pathname===path.split('?')[0]);const existing=Boolean(el);el||=document.createElement('script');const timer=setTimeout(()=>reject(Error('개봉 연출을 불러오지 못했습니다.')),15000);el.addEventListener('load',()=>{clearTimeout(timer);ready()?resolve():reject(Error('개봉 모듈을 확인하세요.'));},{once:true});el.addEventListener('error',()=>{clearTimeout(timer);reject(Error('개봉 연출을 불러오지 못했습니다.'));},{once:true});if(!existing){el.src=path;document.head.append(el);}});scripts.set(path,promise);promise.catch(()=>scripts.delete(path));return promise;}
+function script(path,ready){
+  if(ready())return Promise.resolve();if(scripts.has(path))return scripts.get(path);
+  const promise=new Promise((resolve,reject)=>{
+    // Do not wait on the already-fired load event of an older FX version.
+    const el=document.createElement('script');el.src=path;
+    const fail=message=>{clearTimeout(timer);el.remove();reject(Error(message));};
+    const timer=setTimeout(()=>fail('개봉 연출을 불러오지 못했습니다.'),15000);
+    el.addEventListener('load',()=>{clearTimeout(timer);ready()?resolve():fail('개봉 모듈을 확인하세요.');},{once:true});
+    el.addEventListener('error',()=>fail('개봉 연출을 불러오지 못했습니다.'),{once:true});document.head.append(el);
+  });
+  scripts.set(path,promise);promise.catch(()=>scripts.delete(path));return promise;
+}
 // 연출 단계는 어떤 이유로도 무한 대기하면 안 된다. 대기가 끝나지 않으면 오류를 그대로 올려
 // 저장된 결과 목록으로 떨어뜨린다. 결과는 이미 계정에 지급된 뒤다.
 function withDeadline(promise,ms,message){
@@ -46,6 +58,7 @@ function withDeadline(promise,ms,message){
 export async function showMercenaryReceipt(receipt,{onClose,onRepeat}={}){
   const results=mercenaryPackResults(receipt);stylesheet();
   const dialog=document.createElement('dialog');dialog.className='mercenary-pack-dialog';dialog.classList.toggle('batch',results.length>1);
+  if(results.some(result=>result.kind==='MERCENARY'&&['SS','SSS'].includes(result.rank)))dialog.dataset.cinematics='true';
   dialog.innerHTML='<header><div><span>HYPER PACK · CONTRACT</span><h2>계약 결과</h2></div><button type="button" data-close aria-label="개봉 결과 닫기">닫기</button></header><p class="mercenary-pack-receipt" role="status"></p><div class="mercenary-pack-stage" aria-hidden="true"></div><div class="mercenary-pack-controls"><button type="button" data-pause disabled>일시정지</button><button type="button" data-skip disabled>결과 바로 보기</button></div><ol class="mercenary-pack-results"></ol><footer><a href="/mercenary-codex/?view=owned">내 용병 확인·편성</a><span>획득 결과는 계정에 저장됐습니다.</span></footer>';
   const status=dialog.querySelector('[role="status"]');status.textContent=`${receipt.replayed?'저장된 결과 복구 · ':''}${results.length}회 개봉${receipt.coinCost?` · ${fmt(receipt.coinCost)} 코인`:''}`;
   const repeat=document.createElement('button');repeat.type='button';repeat.className='mercenary-pack-repeat';repeat.dataset.mercenaryRepeat=String(results.length);repeat.disabled=true;
@@ -69,7 +82,8 @@ export async function showMercenaryReceipt(receipt,{onClose,onRepeat}={}){
     li.append(title,detail);list.append(li);
   }
   let fx,closed=false;const pause=dialog.querySelector('[data-pause]'),skip=dialog.querySelector('[data-skip]');
-  const leave=()=>close(false);const close=(acknowledge=true)=>{if(closed)return;closed=true;fx?.destroy();window.removeEventListener('pagehide',leave);document.removeEventListener('visibilitychange',visibility);dialog.close();dialog.remove();if(acknowledge)onClose?.();};
+  const cinematic=new MercenaryAcquisitionVideo(dialog.querySelector('.mercenary-pack-stage'));
+  const leave=()=>close(false);const close=(acknowledge=true)=>{if(closed)return;closed=true;fx?.destroy();cinematic.destroy();window.removeEventListener('pagehide',leave);document.removeEventListener('visibilitychange',visibility);dialog.close();dialog.remove();if(acknowledge)onClose?.();};
   dialog.querySelector('[data-close]').onclick=close;dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
   // 결제는 이미 확정된 뒤다. 닫고 나서 다음 개봉을 시작해야 잠금과 겹치지 않는다.
   repeat.onclick=()=>{if(closed||repeat.disabled)return;repeat.disabled=true;close();void Promise.resolve().then(onRepeat);};
@@ -79,12 +93,12 @@ export async function showMercenaryReceipt(receipt,{onClose,onRepeat}={}){
   window.addEventListener('pagehide',leave,{once:true});document.body.append(dialog);dialog.showModal();
   try{
     await script('/js/ui-fx-vendor-v2045.bundle.js',()=>Boolean(globalThis.CNineUiFxVendor));
-    await script('/js/hyper-pack-fx-v2076.bundle.js?v=2134',()=>globalThis.HyperPackFX?.version>=2134);
+    await script('/js/hyper-pack-fx-v2076.bundle.js?v=2145',()=>globalThis.HyperPackFX?.version>=2145);
     if(closed)return;
-    fx=globalThis.HyperPackFX.create(dialog.querySelector('.mercenary-pack-stage'),event=>{if(closed)return;dialog.dataset.phase=event.state;pause.disabled=skip.disabled=!fx?.running;pause.textContent=event.state==='paused'?'계속 재생':'일시정지';},{live:true});
+    fx=globalThis.HyperPackFX.create(dialog.querySelector('.mercenary-pack-stage'),event=>{if(closed)return;dialog.dataset.phase=event.state;pause.disabled=!fx?.running||fx.loading;skip.disabled=!fx?.running;pause.textContent=event.state==='paused'?'계속 재생':'일시정지';},{live:true,cinematic});
     await withDeadline(fx.init(),20000,'개봉 연출 자원을 불러오지 못했습니다.');if(closed){fx.destroy();return;}
-    await withDeadline(fx.play(results),20000+results.length*12000,'개봉 연출이 응답하지 않습니다.');
-  }catch(error){console.warn('MERCENARY_PACK_FX_FAILED',error?.message||error);fx?.destroy();if(!closed){pause.disabled=skip.disabled=true;status.textContent+=` · ${error?.message||'연출을 불러오지 못했습니다.'} 저장된 결과를 표시합니다.`;dialog.querySelector('.mercenary-pack-stage').hidden=true;}}
+    await withPresentationDeadline(fx.play(results),()=>fx.paused||document.hidden,45000+results.length*20000);
+  }catch(error){console.warn('MERCENARY_PACK_FX_FAILED',error?.message||error);fx?.destroy();cinematic.destroy();if(!closed){dialog.dataset.phase='complete';pause.disabled=skip.disabled=true;status.textContent+=` · ${error?.message||'연출을 불러오지 못했습니다.'} 저장된 결과를 표시합니다.`;dialog.querySelector('.mercenary-pack-stage').hidden=true;}}
   finally{if(!closed){repeat.dataset.ready='true';syncButtons();}}
 }
 

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "purpose": "SS / SSS mercenary acquisition only; no combat or reward-policy changes",
+  "encoding": "FFmpeg 7.1, libx264, preset slow, CRF 23, High 3.1, yuv420p, avc1, +faststart; AAC stream copied unchanged",
+  "videos": [
+    {
+      "rank": "SS",
+      "sourceFile": "Card_animation_sequence_events_20260920181159.mp4",
+      "sourceBytes": 5507719,
+      "sourceSha256": "210c111ea44fe72bc9637f92f258cea06a316a89e94245f987218eaa89db3a9b",
+      "file": "ss-contract-v1.mp4",
+      "bytes": 3137541,
+      "sha256": "11975fa4d6f160b8f8f31b9dfdcd3d80b3c1760877b5b57637f6dee69dd00bd6",
+      "width": 1280,
+      "height": 720,
+      "fps": 24,
+      "frames": 192,
+      "duration": 8,
+      "ssim": 0.989767
+    },
+    {
+      "rank": "SSS",
+      "sourceFile": "Generating_cosmic_celestial_card…_20260920182633.mp4",
+      "sourceBytes": 7771216,
+      "sourceSha256": "640018e07291c04d38ed2097fa98dec62ee254e4d7134956fb63999d02303740",
+      "file": "sss-contract-v1.mp4",
+      "bytes": 4462564,
+      "sha256": "f11af5a4f124e07c81bb8e42a1b9f2fd1008ca23340903406548b8a5e767ff0f",
+      "width": 1280,
+      "height": 720,
+      "fps": 24,
+      "frames": 240,
+      "duration": 10.006,
+      "ssim": 0.986607
+    }
+  ]
+}

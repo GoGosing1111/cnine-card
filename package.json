@@ -7,7 +7,7 @@
     "test:lobby": "node scripts/build-adventure-lobby-v2107.mjs --check && node --test tests/adventure-lobby-menu-separation.test.mjs",
     "test:wish-lamp": "node --test tests/wish-lamp-v2077.test.mjs",
     "build:hyper-pack": "node scripts/build-ui-fx.mjs hyper",
-    "test:hyper-pack": "node --test tests/hyper-pack-v2076.test.mjs",
+    "test:hyper-pack": "node --test tests/hyper-pack-v2076.test.mjs tests/mercenary-acquisition-video-v2145.test.mjs",
     "build:workshop-assembly": "node scripts/build-workshop-assembly.mjs",
     "build:player-card": "node scripts/build-ui-fx.mjs playerCard",
     "test:player-card": "node --test tests/player-card-v2052.test.mjs",

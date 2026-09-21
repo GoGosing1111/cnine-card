@@ -22,7 +22,7 @@ function star(radius,color) {
 }
 
 class HyperPackPresentation {
-  constructor(host, onState, {live=false}={}) { this.live=live; this.host=host; this.onState=onState; this.generation=0; this.speed=1; this.running=false; this.retired=[]; this.disposed=false; this.initialized=false; this.artUrl=new Map(); }
+  constructor(host, onState, {live=false,cinematic=null}={}) { this.live=live; this.cinematic=cinematic; this.host=host; this.onState=onState; this.generation=0; this.speed=1; this.running=false; this.retired=[]; this.disposed=false; this.initialized=false; this.artUrl=new Map(); }
   async init() {
     const generation=this.generation;
     this.app=new Application();
@@ -110,7 +110,7 @@ class HyperPackPresentation {
     }
     return group;
   }
-  segment(result,index) {
+  segment(result,index,cinematic=false) {
     this.clear();const color=TONES[result.kind],timeline=gsap.timeline({paused:true});this.timeline=timeline;
     this.ambience(timeline);
     const pack=fit(new Sprite(Assets.get(ART.pack)),245,400);pack.x=index?this.width*.7:0;this.root.addChild(pack);
@@ -130,7 +130,7 @@ class HyperPackPresentation {
     return new Promise(resolve=>{
       this.resolveSegment=resolve;
       timeline.eventCallback('onComplete',()=>{this.resolveSegment=null;resolve();});
-      timeline.timeScale(this.speed).play();
+      timeline.timeScale(this.speed).play(cinematic?1.12:0);
     });
   }
   // 경량 webp 를 먼저 쓰고, 없을 때만 원본으로 내려간다. 실패 사실은 콘솔에 남긴다.
@@ -145,18 +145,32 @@ class HyperPackPresentation {
     if(this.running||this.disposed) return false;
     if(!Array.isArray(results)||results.length<1||results.length>10||results.some(row=>!TONES[row.kind]||(this.live?row.preview!==false||row.granted!==true||!row.receiptId:row.preview!==true||row.granted!==false)))throw new Error('확정 결과와 검수 결과를 구분해야 합니다.');
     this.running=true;this.loading=true;this.skipRequested=false;this.results=results;this.paused=false;const generation=++this.generation;
+    if(this.live)this.cinematic?.prepare(results);
+    this.emit('loading',{count:results.length});
     try{if(this.live)await Promise.all(results.filter(r=>r.kind==='MERCENARY').map(r=>this.loadMercenaryArt(r)));}
     catch(error){if(generation===this.generation){this.running=false;this.loading=false;}throw error;}
     if(generation!==this.generation||this.disposed)return false;
     this.loading=false;if(this.skipRequested){this.complete();return true;}this.emit('playing',{count:results.length});
     for(let index=0;index<results.length;index++){
-      await this.segment(results[index],index);
+      let cinematic=false;
+      if(this.live&&this.cinematic&&results[index].kind==='MERCENARY'&&['SS','SSS'].includes(results[index].rank)){
+        this.clear();this.app.stop();this.inCinematic=true;
+        cinematic=await this.cinematic.play(results[index],state=>{
+          if(generation!==this.generation)return;
+          this.paused=state==='paused';this.emit(this.paused?'paused':'playing',{index,cinematic:state});
+          if(document.hidden&&!this.paused)this.pause();
+        });
+        this.inCinematic=false;
+        if(generation!==this.generation||this.disposed)return false;
+        this.paused=false;this.app.start();this.emit('playing',{index});
+      }
+      await this.segment(results[index],index,cinematic);
       if(generation!==this.generation)return false;
     }
     this.complete();return true;
   }
   complete() {
-    this.running=false;this.paused=false;this.clear();
+    this.running=false;this.paused=false;this.app?.start();this.clear();
     if(this.results.length===1){
       const result=this.results[0],reward=this.reward(result);reward.y=-40;this.root.addChild(reward);
       const label=text(this.live&&result.kind==='MERCENARY'?`${result.rank} · ${result.name}`:LABELS[result.kind],30,TONES[result.kind]);label.anchor.set(.5);label.y=220;
@@ -167,13 +181,14 @@ class HyperPackPresentation {
     const heading=text('개봉 연출 완료',34);heading.anchor.set(.5);heading.y=-15;const sub=text('아래에서 전체 결과를 확인하세요',16,0xb9a9cd);sub.anchor.set(.5);sub.y=40;this.root.addChild(heading,sub);
     this.emit('complete',{results:this.results});
   }
-  skip() { if(!this.running)return;if(this.loading){this.skipRequested=true;return;}this.generation++;this.timeline?.kill();this.resolveSegment?.();this.resolveSegment=null;this.complete(); }
-  pause() { if(!this.running||this.loading)return;this.paused=!this.paused;this.timeline?.paused(this.paused);this.emit(this.paused?'paused':'playing'); }
+  skip() { if(!this.running)return;this.cinematic?.destroy();if(this.loading){this.skipRequested=true;return;}this.generation++;this.timeline?.kill();this.resolveSegment?.();this.resolveSegment=null;this.complete(); }
+  pause() { if(!this.running||this.loading)return;this.paused=!this.paused;if(this.inCinematic)this.cinematic?.setPaused(this.paused);else this.timeline?.paused(this.paused);this.emit(this.paused?'paused':'playing'); }
   setSpeed(speed) { this.speed=speed===2?2:1;if(this.running)this.timeline?.timeScale(this.speed); }
   destroy() {
     if(this.disposed)return;this.disposed=true;
+    this.cinematic?.destroy();
     this.generation++;this.timeline?.kill();this.resolveSegment?.();this.resolveSegment=null;this.observer?.disconnect();this.running=false;this.artUrl.clear();
     if(this.initialized){this.app?.destroy(true,{children:true,texture:false,textureSource:false});this.app=null;}this.root=null;this.emit('destroyed');
   }
 }
-globalThis.HyperPackFX=Object.freeze({version:2134,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});
+globalThis.HyperPackFX=Object.freeze({version:2145,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});
