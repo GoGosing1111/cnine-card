@@ -87,6 +87,10 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
         if(i===5)for(const id of targets.slice(1))hit(at,id,4,'개화탄 확산',{phaseIndex:i});
       }
       break;
+    case 'LAVENDER_RICOCHET':
+      if(counter){mark(.35,'제압 상태: 사격 취소',['M'],'CANCEL');break;}
+      skill.visual.impacts.forEach((at,i)=>i===skill.visual.impacts.length-1?hit(at,t,42,'라벤더 집중 사격'):mark(at,'연사 궤적',[t],'HIT'));
+      break;
     case 'TIDAL_BARRAGE':
       if(counter){mark(.4,'준비 중 제압: 집중 사격 취소',['M'],'CANCEL');break;}
       skill.visual.impacts.forEach((at,i)=>i===8?hit(at,t,42,'집중 탄막 확정 피해'):mark(at,'백청색 연사 궤적',[t],'HIT'));

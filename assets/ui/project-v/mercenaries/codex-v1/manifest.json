@@ -1520,6 +1520,39 @@
       "source": "assets/ui/project-v/characters/mercenary/mercenary-v046-ragniel-sd-v1.png",
       "sourceSha256": "5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194",
       "sha256": "55DD6A7E8AE8316C55034DCE00563FCD333507307C5B171726667842E101E0B9"
+    },
+    {
+      "code": "V-047",
+      "kind": "art",
+      "file": "v-047-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 50676,
+      "source": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+      "sourceSha256": "1D33DB1C01D4AA7A7EE53EAE746C1D5ACDE01DBAA097EC6EC698870B5EE5555F",
+      "sha256": "369921E07FEF3FAB59F6DF96518CAEF722F7ECE4A6E1FEC3C1F50B9A2AFFA661"
+    },
+    {
+      "code": "V-047",
+      "kind": "art",
+      "file": "v-047-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 146358,
+      "source": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+      "sourceSha256": "1D33DB1C01D4AA7A7EE53EAE746C1D5ACDE01DBAA097EC6EC698870B5EE5555F",
+      "sha256": "0230D23622AF784A48B777AE030A95957D48A059DDBFDE9C550952A10419131F"
+    },
+    {
+      "code": "V-047",
+      "kind": "sd",
+      "file": "v-047-sd-640.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 54002,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v047-bikini-joeun-sd-v1.png",
+      "sourceSha256": "1768F35DD053E652910281E20DC2D2B882C09D526490098D86768DEE58379340",
+      "sha256": "3E80B358128DD8AA07499AD9A4F45F498A8EA3456000B9E551BD80E09621266F"
     }
   ]
 }

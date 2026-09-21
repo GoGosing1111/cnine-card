@@ -145,7 +145,7 @@ export function renderAuthored(fx,time){
     case 'STILLNESS':
       aim(point(target),2.05,50);if(time<1.92){light(point('M',true),time-.2,220,1.65);draw(aux.flash,muzzle(),18+time*13,{alpha:.18,add:true,tint:color});}
       hits.forEach(e=>{trace(muzzle(),point(e.targets[0]),e.at,{travel:.09,width:6,smoke:true});impact(e.targets[0],e.at,{size:plan.scenario==='counter'?290:415,lead:.04,life:1.2,particles:22});});break;
-    case 'TIDAL_BARRAGE':case 'BARRAGE':
+    case 'LAVENDER_RICOCHET':case 'TIDAL_BARRAGE':case 'BARRAGE':
       hits.forEach((e,i)=>{trace(muzzle(),point(e.targets[0]),e.at,{travel:.11,width:2.2});impact(e.targets[0],e.at,{size:225+(i%2)*30,lead:.045,life:.73,particles:8,grounded:true});});break;
     case 'BLOOM':
       plan.targets.forEach(id=>{const p=point(id,true);material({x:p.x,y:p.y-14},time-1,{size:245,lead:.55,life:plan.scenario==='counter'?.45:1.6,alpha:.78});light(p,time-1,270,.9);});break;

@@ -45,7 +45,7 @@ export function mercenaryTurnCadence(teams){
 const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
 export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
  'MS-021':.82,'MS-046':1,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,
- 'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.45,'MS-044':1.2,
+ 'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.45,'MS-044':1.2,'MS-047':1.2,
 });
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
@@ -181,8 +181,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
     const veil=table(debuffs,a).veil;delete table(debuffs,a).veil;
     resolveMangisaVolley({actor:a,skill:s,targets:[primary,...ts.filter(t=>t!==primary)],hit,damage,knockout,emit,damageScale:veil?1-veil.percent/100:1});
     finish(a,s);break;}
-   // The nine authored tracers share one canonical hit, never nine full damage rolls.
-   case 'TIDAL_BARRAGE':once(t=>strike(a,s,t));break;
+   // Authored barrage tracers share one canonical hit, never one damage roll per visual shot.
+   case 'LAVENDER_RICOCHET':case 'TIDAL_BARRAGE':once(t=>strike(a,s,t));break;
    case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
    case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget);a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
    case 'WOUNDED_MOON_DRAW':once(t=>strike(a,s,t,1+(1-t.hp/t.maxHp)*c.finisherBonusPercent/100));break;

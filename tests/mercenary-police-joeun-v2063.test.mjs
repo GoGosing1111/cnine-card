@@ -31,7 +31,7 @@ test('Police Joeun is the user-assigned name and the previous 41 mercenaries are
   assert.equal(card.sourceArtStatus, 'APPROVED_SOURCE_ART');
   assert.equal(roster.cards.some(entry => entry.name === '킬러 조은'), false);
   for (const q of ['경찰 조은', '경찰조은', '조은', 'ㄱㅊㅈㅇ', 'V042', '하늘색 경찰 제복']) {
-    assert.deepEqual(filterCards(roster.cards, { q }).map(entry => entry.code), ['V-042'], q);
+    assert.deepEqual(filterCards(roster.cards, { q }).map(entry => entry.code), q==='조은'?['V-042','V-047']:['V-042'], q);
   }
   assert.equal(filterCards(roster.cards, { q: '경찰 조은', sort: 'newest' })[0].code, card.code);
 });
@@ -54,7 +54,7 @@ test('renaming preserves the approved face and full 1024x1536 RGB original byte-
 
 test('Joeun art approval stays unranked and the CMS codex publishes separate approved art and SD', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
-  assert.deepEqual(roster.summary, { total:46, sourceArtReady:46, battleSpriteReady:46, battleSpritePending: 0, rankPending: 42 });
+  assert.deepEqual(roster.summary, { total:47, sourceArtReady:47, battleSpriteReady:47, battleSpritePending: 0, rankPending: 42 });
   assert.equal(approval.runtimeConnected, false);
   assert.equal(approval.rankAssigned, false);
   assert.equal(card.rank, null);

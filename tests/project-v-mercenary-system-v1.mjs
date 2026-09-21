@@ -66,11 +66,11 @@ test('mercenary slot remains optional and does not change the existing five-card
 
 test('review roster has forty-three unique cards and no inherited rank', () => {
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length,46);
-  assert.equal(new Set(roster.cards.map((card) => card.code)).size,46);
-  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length:46 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
-  assert.ok(roster.cards.every((card) => ['V-021','V-046'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045'].includes(card.code) ? card.rank === 'SS' : card.rank === null));
-  assert.ok(roster.cards.every((card) => card.rankStatus === (['V-021','V-044','V-045','V-046'].includes(card.code) ? 'USER_ASSIGNED_RANK' : 'PENDING_USER_ASSIGNMENT')));
+  assert.equal(roster.cards.length,47);
+  assert.equal(new Set(roster.cards.map((card) => card.code)).size,47);
+  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length:47 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
+  assert.ok(roster.cards.every((card) => ['V-021','V-046'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047'].includes(card.code) ? card.rank === 'SS' : card.rank === null));
+  assert.ok(roster.cards.every((card) => card.rankStatus === (['V-021','V-044','V-045','V-046','V-047'].includes(card.code) ? 'USER_ASSIGNED_RANK' : 'PENDING_USER_ASSIGNMENT')));
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
   assert.equal(roster.formationRule.regularCardSlots, 5);
   assert.equal(roster.formationRule.mercenarySlots, 1);
@@ -80,9 +80,9 @@ test('review roster has forty-three unique cards and no inherited rank', () => {
 test('all source art and all declared battle sprites exist with recorded hashes', () => {
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
-  assert.equal(sprites.length,46);
+  assert.equal(sprites.length,47);
   assert.equal(pending.length, 0);
-  assert.equal(roster.summary.battleSpriteReady,46);
+  assert.equal(roster.summary.battleSpriteReady,47);
   assert.equal(roster.summary.battleSpritePending, 0);
 
   for (const card of roster.cards) {
@@ -93,8 +93,11 @@ test('all source art and all declared battle sprites exist with recorded hashes'
       assert.equal(sha256(card.battleSprite), card.battleSpriteSha256, `${card.code} battle sprite hash mismatch`);
       const png = fs.readFileSync(path.join(root, card.battleSprite));
       assert.equal(png.subarray(1, 4).toString('ascii'), 'PNG', `${card.code} battle sprite is not PNG`);
-      assert.ok(png.readUInt32BE(16) >= 1024, `${card.code} battle sprite width is too small`);
-      assert.ok(png.readUInt32BE(20) >= 1024, `${card.code} battle sprite height is too small`);
+      // V-047 idles on its native 640px shooting-atlas pose. Do not upscale it
+      // merely to match the older standalone-SD canvas; its six poses are tested separately.
+      const minimum=card.code==='V-047'?640:1024;
+      assert.ok(png.readUInt32BE(16) >= minimum, `${card.code} battle sprite width is too small`);
+      assert.ok(png.readUInt32BE(20) >= minimum, `${card.code} battle sprite height is too small`);
       assert.equal(png[25], 6, `${card.code} battle sprite must be RGBA PNG`);
     } else {
       assert.equal(card.battleSpriteStatus, 'NOT_YET_PRODUCED');

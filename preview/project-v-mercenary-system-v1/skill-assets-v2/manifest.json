@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 464,
+  "frameCount": 480,
   "images": [
     {
       "id": "closing-punch",
@@ -10082,6 +10082,339 @@
             512
           ],
           "nonempty": 21915
+        }
+      ]
+    },
+    {
+      "id": "lavender-ricochet",
+      "skillId": "MS-047",
+      "name": "라벤더 리코셰",
+      "source": "lavender-ricochet/sequence-source-v1.png",
+      "runtime": "lavender-ricochet/atlas-v1.webp",
+      "sourceSha256": "7ADA1DD9A2BD50170F89C9066B81CEE25CE0F8CF5FB20EF70746D6F5D59F135C",
+      "runtimeSha256": "7711388B74D2862EAF56F868B2A32574C1777D479CC0B3A348EE4186D5C8BFEE",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1536,
+        1536
+      ],
+      "cellSize": 384,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Production 2D fantasy game VFX sprite sheet, one original skill 'Lavender Ricochet' for a lavender futuristic machine gun. Output exactly 1536x1536, a PERFECT 4 columns by 4 rows grid of 16 equal 384x384 cells. No visible grid lines. Each cell is an individual chronological animation frame of ONE lavender and pale-cyan ballistic impact, advancing left to right then top to bottom. Frame 1 a tiny sharp white-lavender contact spark; frames 2-3 an asymmetric angular starburst with violet energy needles; frames 4-6 a bright cyan central impact ring breaks into lavender prismatic slivers and curling smoke jets; frames 7-9 expanding shattered half-rings, brass flecks and violet ricochet trails; frames 10-12 dissipating translucent lilac smoke with fewer falling particles; frames 13-16 dwindling embers and isolated tiny fading sparks. The silhouette, material shape and fragment positions MUST evolve in all 16 frames, not repeated images, not recolored or scaled duplicates. Stylized high-end hand-painted game effects, crisp silhouette, brilliant center, subtle wispy tail. Keep each effect centered inside its own cell, maximum diameter 290px, leave 40px completely empty on every cell edge, NO elements crossing cells. True transparent alpha background, no backdrop, no checkerboard, no floor, no characters, no weapon, no numbers or lettering. Each cell is designed to overlay a target in a game scene. Distinct purple shattering streaks and turquoise electric arcs, no gore.\n",
+      "sourceFilename": "sequence-source-v1.png",
+      "visualReview": "2026-09-21 사용자 승인 용병 등록 지시",
+      "runtimeBytes": 1056350,
+      "creationReferenceCode": "V-047",
+      "frames": [
+        {
+          "index": 0,
+          "file": "lavender-ricochet/frames/01.png",
+          "bounds": [
+            156,
+            161,
+            244,
+            247
+          ],
+          "alphaPixels": 3088,
+          "sha256": "259C020C55A4BAA327F8B6D9B75973744A6E9AFA52D43DEC47135ED367F68E40",
+          "rawSha256": "F33620E8823FBD610B5D1CADC3F8CB1151258019568A125319B787A124C95CB4",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 16585
+        },
+        {
+          "index": 1,
+          "file": "lavender-ricochet/frames/02.png",
+          "bounds": [
+            124,
+            123,
+            280,
+            281
+          ],
+          "alphaPixels": 7773,
+          "sha256": "534DA6F2480FC084D44ECE4A7F592B7CB862ABEED2B8A73ADE34E7923CC4D4A1",
+          "rawSha256": "C275157BFD29F5FF2F602CFA4D548B14822EBDC8C27281253D628C46B5652669",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 32987
+        },
+        {
+          "index": 2,
+          "file": "lavender-ricochet/frames/03.png",
+          "bounds": [
+            97,
+            88,
+            292,
+            305
+          ],
+          "alphaPixels": 18719,
+          "sha256": "E225B0D0F0C41543CFCC4566DBCDDA6377F11CF2FC9A5B2B4DA74B2DFAF2D5ED",
+          "rawSha256": "B1E69E8CFF0F8274183CE95C62D72712869E95E429C5FB7B2B100E8C516D3A92",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 50498
+        },
+        {
+          "index": 3,
+          "file": "lavender-ricochet/frames/04.png",
+          "bounds": [
+            82,
+            67,
+            311,
+            320
+          ],
+          "alphaPixels": 29946,
+          "sha256": "0ACA75E2F9F5A0DD62BA8CE4DE6FF8203A30C70051FF417597C39B8E934E1988",
+          "rawSha256": "4866F42C927FB59012A2BF3E89231DB978C69D4277178477C9614BD0F5DBF833",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 56445
+        },
+        {
+          "index": 4,
+          "file": "lavender-ricochet/frames/05.png",
+          "bounds": [
+            77,
+            89,
+            314,
+            304
+          ],
+          "alphaPixels": 28460,
+          "sha256": "6E1ED2C0686F60DFEBBA040B675C8BE217323174527302A8F4D82BF287CE5682",
+          "rawSha256": "8000B035E775F5C9BFDDAB4DF25C0420A28E810742A2B24BAB0B93823F4D4B14",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 49137
+        },
+        {
+          "index": 5,
+          "file": "lavender-ricochet/frames/06.png",
+          "bounds": [
+            74,
+            54,
+            321,
+            331
+          ],
+          "alphaPixels": 38801,
+          "sha256": "5DE059D90D49A7DCF05CEAD706E3FB24A110EC6452D10FD9F66835457F6AF95D",
+          "rawSha256": "AAB8E518E5F0AC532DF8037E0884266825BFD33C5AFB2A3096A34D66359BB683",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 68516
+        },
+        {
+          "index": 6,
+          "file": "lavender-ricochet/frames/07.png",
+          "bounds": [
+            62,
+            61,
+            321,
+            318
+          ],
+          "alphaPixels": 35739,
+          "sha256": "1C3BF1E774BF787FF6606D2773C057A092708524502D2130EA2C4AA40F6EB269",
+          "rawSha256": "9BB55A49DE6EBBD9DA0347BCC6FFF6B91612BA2074A6FD9F1B8F42A78202A43C",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 62379
+        },
+        {
+          "index": 7,
+          "file": "lavender-ricochet/frames/08.png",
+          "bounds": [
+            45,
+            62,
+            303,
+            314
+          ],
+          "alphaPixels": 27369,
+          "sha256": "EEDE2B53FAB966ADF9BD6682E1168D33C891BDF744EDC4D7AC0CE726997FBE33",
+          "rawSha256": "1C06304A72EBED4F39CEC3F52C5813512B627465457757B289E59326AA82ED65",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 63614
+        },
+        {
+          "index": 8,
+          "file": "lavender-ricochet/frames/09.png",
+          "bounds": [
+            62,
+            68,
+            325,
+            308
+          ],
+          "alphaPixels": 25922,
+          "sha256": "4BE380EFE79FC4A7DFB733FDF08F027D72CDCBC12F75C095798FFD1A16CD94DE",
+          "rawSha256": "C816365DD6443E4366763A579C45C9977F7A6B4E967E7197DCC437C41A30BE53",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 62632
+        },
+        {
+          "index": 9,
+          "file": "lavender-ricochet/frames/10.png",
+          "bounds": [
+            77,
+            85,
+            313,
+            304
+          ],
+          "alphaPixels": 22063,
+          "sha256": "7D78D79FA131F903BBA304704B96428DF1A7BC1300DE363E51E42F2078BF1E67",
+          "rawSha256": "B0CA5B682B85B0E005937FFF6C545011757C98F242115B4006B78A7F296F3EE7",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 54508
+        },
+        {
+          "index": 10,
+          "file": "lavender-ricochet/frames/11.png",
+          "bounds": [
+            73,
+            104,
+            298,
+            303
+          ],
+          "alphaPixels": 18381,
+          "sha256": "99E0093F334142C94063FE0B3465A8123FC16B326EC6C45033A1ED25A2F9BE4D",
+          "rawSha256": "AA9F1B58037FC1A375D9DC304FF78FF46DF3AFD12086BE06C52151E59E61E657",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 51056
+        },
+        {
+          "index": 11,
+          "file": "lavender-ricochet/frames/12.png",
+          "bounds": [
+            92,
+            132,
+            298,
+            292
+          ],
+          "alphaPixels": 10766,
+          "sha256": "50DA1E859613DCD05B2D8E3DD5E1BC31E1BC2D4E653CE65EF3DAD326C0D8FB81",
+          "rawSha256": "BC95CD90459C72401540F6E1EA21C54DEBBC9EB3CF63F3C090D22AA13B01CF91",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 45884
+        },
+        {
+          "index": 12,
+          "file": "lavender-ricochet/frames/13.png",
+          "bounds": [
+            116,
+            114,
+            271,
+            269
+          ],
+          "alphaPixels": 6817,
+          "sha256": "DDFBF4559F04C6425221B00189314387D0B26214350AA1699EACBD448940A2B1",
+          "rawSha256": "3A0A1DA292BA3C5F84759EE65DE4AD797E88B93FDB40101C6722AE66C047859A",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 37006
+        },
+        {
+          "index": 13,
+          "file": "lavender-ricochet/frames/14.png",
+          "bounds": [
+            133,
+            136,
+            270,
+            246
+          ],
+          "alphaPixels": 1033,
+          "sha256": "19E3D4069C3FF79420D8F23B1592C0D8AC0F5795CDAEA4AF3C8B35AE4510D202",
+          "rawSha256": "DFE5CA8069166D70197FD93968A7BC18BBFA91017C7F43C24E3E68AFE827786F",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 17122
+        },
+        {
+          "index": 14,
+          "file": "lavender-ricochet/frames/15.png",
+          "bounds": [
+            169,
+            141,
+            245,
+            220
+          ],
+          "alphaPixels": 354,
+          "sha256": "ECE64FCFE440D1BBFD703E25E2D088F300FBAB2BAFB3943C546432E832B01ED3",
+          "rawSha256": "6BE771ED712EEC989DB061B6CD0D6D8D2EBFCE76286C0AC97D42C04A7E13E2FC",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 10038
+        },
+        {
+          "index": 15,
+          "file": "lavender-ricochet/frames/16.png",
+          "bounds": [
+            164,
+            172,
+            221,
+            214
+          ],
+          "alphaPixels": 168,
+          "sha256": "ABD9AB7A5E9EEC5E5369D03DF865417B727A8240FD2ED33640FBBFD8F3B57624",
+          "rawSha256": "6C7ABE0B2C4CB3DFA3296E37EBDA15C7ADE27746EFC9D291A4A502A791FF5474",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 5560
         }
       ]
     }

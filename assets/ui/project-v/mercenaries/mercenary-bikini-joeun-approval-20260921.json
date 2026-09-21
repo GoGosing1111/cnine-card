@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-21",
+  "code": "V-047",
+  "name": "비키니 조은",
+  "rank": "SS",
+  "status": "USER_REQUESTED_LIVE",
+  "request": "비키니 조은으로 SS용병 처리, SD 리소스 전용스킬 만들어서 추가해",
+  "motionRequest": "망이사처럼 사격 모션 스프라이트",
+  "scope": "CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT",
+  "runtimeConnected": true,
+  "skillId": "MS-047",
+  "basePower": 120000,
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+  "sourceArtSha256": "1D33DB1C01D4AA7A7EE53EAE746C1D5ACDE01DBAA097EC6EC698870B5EE5555F",
+  "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v047-bikini-joeun-sd-v1.png",
+  "battleSpriteSha256": "1768F35DD053E652910281E20DC2D2B882C09D526490098D86768DEE58379340",
+  "motionFrames": 6,
+  "effectFrames": 16,
+  "sourceArtUnchanged": true,
+  "sdCoverage": "노출을 줄인 스포츠 상의와 불투명 랩 스커트",
+  "manifest": "preview/mercenary-bikini-joeun-v1/manifest.json"
+}

@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260919-ragniel-sss-v1';
+  const BATTLE_RUNTIME = '20260921-bikini-joeun-ss-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
@@ -847,7 +847,7 @@
     const safePlayEvents = (events, message) => withTimeout(
       Promise.resolve(root.ProjectVPixiBattle.playEvents(events)).then(() => true),
       events.some(event => event.type === 'MERCENARY_JUDGMENT' && event.mechanic === 'PLATINUM_SANCTUARY') ? 9000 :
-      events.some(event => event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY') ? 6000 : 2000,
+      events.some(event => event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000,
       message,
       { fallback: false, onFailure: () => recoverPlayback(message) }
     );

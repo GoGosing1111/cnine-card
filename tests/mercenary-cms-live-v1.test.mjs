@@ -20,7 +20,7 @@ async function fixture(){
 const payload=(document=clone(seed.document),expectedRevision=1,requestId=crypto.randomUUID())=>({document,expectedRevision,requestId});
 test('canonical registration contains every mercenary, independent skill and original/SD reference',()=>{
   validateMercenaryCms(seed.document,seed.catalog);
-  assert.equal(seed.catalog.cards.length,46);assert.equal(seed.document.skills.length,29);assert.equal(seed.catalog.effects.frameCount,464);
+  assert.equal(seed.catalog.cards.length,47);assert.equal(seed.document.skills.length,30);assert.equal(seed.catalog.effects.frameCount,480);
   assert.equal(seed.document.mercenaries.filter(r=>r.rank===null).length,42);
   assert.equal(seed.document.mercenaries.find(r=>r.code==='V-021').rank,'SSS');
   assert.ok(seed.document.assignments.every(r=>['V-044','V-045','V-046'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
@@ -40,7 +40,7 @@ test('PostgreSQL registers once, persists complete configuration and never chang
     const d=first.body.document;d.mercenaries[0].rank='A';d.mercenaries[0].stats.attack=700;d.mercenaries[0].acquisition={type:'QUEST',source:'최종 검수 퀘스트',coinPrice:null,dropRate:12.5};
     d.assignments[0].skillIds=['MS-021','MS-003'];d.assignments[1].skillIds=['MS-021'];d.skills[0].balance.damageRatio=2.5;d.settings.rankGrowth[0].maxLevel=30;
     const saved=await f.call(payload(d));assert.equal(saved.status,200,JSON.stringify(saved));assert.equal(saved.body.revision,2);
-    const read=await f.call();assert.deepEqual(read.body.document,d);assert.equal(read.body.audit.length,2);assert.equal(read.body.catalog.cards.length,46);
+    const read=await f.call();assert.deepEqual(read.body.document,d);assert.equal(read.body.audit.length,2);assert.equal(read.body.catalog.cards.length,47);
     assert.deepEqual(read.body.powerStandard,MERCENARY_POWER_STANDARD);assert.equal(read.body.powerStandard.basePowerByRank.SS,120000);assert.equal(read.body.document.runtimeEnabled,false);
     assert.equal((await f.rows('SELECT * FROM mercenary_cms_documents_v1')).length,2);
     assert.deepEqual(await f.rows('SELECT * FROM users'),[{id:1,coin:12345}]);assert.deepEqual(await f.rows('SELECT * FROM decks'),[{user_id:1,card_ids:'[1,2,3,4,5]',mercenary_code:null}]);

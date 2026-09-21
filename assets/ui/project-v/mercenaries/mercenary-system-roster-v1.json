@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
   "version": 11,
-  "updatedAt": "2026-09-19",
+  "updatedAt": "2026-09-21",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
@@ -44,9 +44,9 @@
     ]
   },
   "summary": {
-    "total": 46,
-    "sourceArtReady": 46,
-    "battleSpriteReady": 46,
+    "total": 47,
+    "sourceArtReady": 47,
+    "battleSpriteReady": 47,
     "battleSpritePending": 0,
     "rankPending": 42
   },
@@ -997,6 +997,31 @@
         "y": 0.9840510366826156
       },
       "accent": "#f5d582"
+    },
+    {
+      "code": "V-047",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "비키니 조은",
+      "title": "라벤더의 사수",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "중거리 사격",
+      "weapon": "라벤더 스킨 경기관총",
+      "outfit": "라벤더 비키니 · 불투명 랩 스커트",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+      "sourceArtSha256": "1D33DB1C01D4AA7A7EE53EAE746C1D5ACDE01DBAA097EC6EC698870B5EE5555F",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-21",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-21-bikini-joeun-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v047-bikini-joeun-sd-v1.png",
+      "battleSpriteSha256": "1768F35DD053E652910281E20DC2D2B882C09D526490098D86768DEE58379340",
+      "battleSpriteStatus": "USER_APPROVED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.40625,
+        "y": 0.9375
+      },
+      "accent": "#c4a5ef"
     }
   ]
 }

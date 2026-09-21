@@ -1,0 +1,11 @@
+Use case: stylized-concept. Create a nonsexual production 2D game combat animation of the ADULT fictional character in the reference. Focus is weapon operation and animation quality.
+Retain her face, long black hair, lavender/ivory/cyan palette, boots and exact lavender belt-fed scoped machine gun. For these battle sprites use a MODEST athletic variation: opaque HIGH-NECK sleeveless lavender swim sport crop top fully covering the chest, and opaque high-waisted lavender wrap swim skirt over fitted shorts. No deep neckline, no exposed cleavage, no underwear emphasis or body outlines. Neutral athletic adult build, no exaggerated anatomy.
+ONE transparent RGBA sprite sheet, 1536x1024, exactly 3 columns x 2 rows = 6 equal square cells. Each cell contains one complete head-to-toe character aiming horizontally SCREEN RIGHT. Same camera/scale, soles at y474, head y44, at least20px margin; complete weapon inside each cell. No background, glow, shadows, text, labels, grid, other people or muzzle flashes.
+Six genuinely distinct anatomical poses:
+0 steady aiming, stock touching shoulder and correct two-hand grip.
+1 light recoil, elbow folds and shoulder pushes back, knees flex, hair follows.
+2 recovery, support arm extends, torso settles forward.
+3 brace for final burst, forward lean and firmer bent-knee stance.
+4 stronger recoil with torso back, elbow folding, hair and skirt reacting; grounded feet.
+5 recovery to neutral aiming, arms and hair settling.
+Actual joint and torso motion between drawings, not shifted identical cutouts. Mature adult painted 2D battle sprite, consistent identity, opaque materials and genuine transparent alpha outside figures. Six full-body frames,3x2.

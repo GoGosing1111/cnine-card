@@ -511,6 +511,17 @@
       "weakness": "첫 검격 회피 시 해당 대상 후속 낙하 취소 · 제압에 취약",
       "rationale": "승인된 성검과 광익 연출을 전열 돌격 역할로 연결한다.",
       "rank": "SSS"
+    },
+    {
+      "code": "V-047",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "specialty": "빠른 6연사 · 마지막 탄 집중 타격",
+      "weakness": "단일 표적 집중 · 기습과 제압에 취약",
+      "rationale": "수평 조준 경기관총과 라벤더 리코셰를 중열 사격 역할로 연결한다.",
+      "rank": "SS"
     }
   ]
 }

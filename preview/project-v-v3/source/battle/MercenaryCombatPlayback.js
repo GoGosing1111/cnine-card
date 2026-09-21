@@ -1,3 +1,4 @@
+import {preloadBikiniJoeun,playBikiniJoeunSkill,playBikiniJoeunBasic} from './BikiniJoeunCombatPlayback.js';
 import {Assets} from 'pixi.js';
 import {BattleCharacter,TEAM,CHARACTER_STATE} from './BattleCharacter.js';
 import {createMercenaryBattleArtAdapter} from '../../../../js/project-v-mercenary-battle-art-adapter-v1.js';
@@ -16,6 +17,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  constructor(options){super(options);this.mercenaries=[];this.mercenarySequences=new Map();this.mercenaryLoads=new Map();this.mercenaryHitIndices=new Map();this.mercenaryFx=null;}
  cancelTimelines(){this.mercenaryAudio?.stop();super.cancelTimelines();}
  normalAttack(index,options){
+  if(options?.attacker?.isMercenary&&options.attacker.cardId==='V-047')return playBikiniJoeunBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId==='V-046')return playRagnielBasic(this,options);
   if(options?.attacker?.isMercenary&&MERCENARY_ROLE_ATTACKS[options.attacker.role])return playMercenaryRoleAttack(this,options);
   return super.normalAttack(index,options);
@@ -24,14 +26,15 @@ export const withMercenaryBattle=Base=>class extends Base{
  async applyBattlePayload(payload){
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>1||entries.filter(e=>e.side==='B').length>1)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
+  if(entries.some(({card})=>card.cardId==='V-047'||card.code==='V-047'||card.skills?.some(s=>s.mechanic==='LAVENDER_RICOCHET')))await preloadBikiniJoeun();
   if(entries.some(({card})=>card.skills?.some(s=>s.mechanic==='GOLDEN_ORCHID_VOLLEY')))await preloadMangisaVolley();
   if(entries.some(({card})=>card.cardId==='V-046'||card.code==='V-046'||card.skills?.some(s=>s.mechanic==='PLATINUM_SANCTUARY')))await preloadRagniel();
   if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
-  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?ragniel=20260919')),adapter=createMercenaryBattleArtAdapter(roster);
+  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?bikiniJoeun=20260921')),adapter=createMercenaryBattleArtAdapter(roster);
   for(const {side,card}of entries){const art=adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
-   const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:card.cardId==='V-046'?380:260,x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
+   const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:card.cardId==='V-046'?380:card.cardId==='V-047'?320:260,x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
    Object.assign(a,{cardId:card.cardId,art,actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:card.maxHp,serverMaxShield:card.maxShield||0,startingShield:card.shield||0,startingMaxShield:card.maxShield||0,mercenaryRow:card,role:card.role});
    a.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);attachMercenaryArt(a,art);a.setShield(card.shield||0,card.maxShield||0);a.root.alpha=1;a.root.visible=card.hp>0;this.combatLayer.addChild(a.root);this.characters.push(a);this.mercenaries.push(a);
   }
@@ -41,13 +44,15 @@ export const withMercenaryBattle=Base=>class extends Base{
  async sequenceFor(skillId){
   if(this.mercenarySequences.has(skillId))return this.mercenarySequences.get(skillId);
   if(!this.mercenaryLoads.has(skillId))this.mercenaryLoads.set(skillId,(async()=>{
-   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260919-ragniel')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
+   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260921-bikini-joeun')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
    const sequence=await loadSequence(row);if(this.mercenaryDisposed){releaseFrameViews(sequence);return null;}
    this.mercenarySequences.set(skillId,sequence);return sequence;
   })().finally(()=>this.mercenaryLoads.delete(skillId)));
   return this.mercenaryLoads.get(skillId);
  }
  async playMercenaryEvent(event){
+  if(event.type==='MERCENARY_HIT'&&event.mechanic==='LAVENDER_RICOCHET')return playBikiniJoeunSkill(this,event);
+  if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='LAVENDER_RICOCHET')return true;
   if(event.type==='MERCENARY_JUDGMENT'&&event.mechanic==='PLATINUM_SANCTUARY')return playRagnielJudgment(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='PLATINUM_SANCTUARY')return true;
   if(event.type==='MERCENARY_VOLLEY'&&event.mechanic==='GOLDEN_ORCHID_VOLLEY')return playMangisaVolley(this,event);

@@ -1,0 +1,413 @@
+{
+  "version": 1,
+  "code": "V-047",
+  "name": "비키니 조은",
+  "rank": "SS",
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "hasAlpha": false,
+    "sha256": "1D33DB1C01D4AA7A7EE53EAE746C1D5ACDE01DBAA097EC6EC698870B5EE5555F",
+    "transparentFraction": 0,
+    "opaqueFraction": 1,
+    "borderPixels": 20416,
+    "bounds": [
+      0,
+      0,
+      1023,
+      1535
+    ]
+  },
+  "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v047-bikini-joeun-sd-v1.png",
+  "battleSpriteInfo": {
+    "width": 640,
+    "height": 640,
+    "hasAlpha": true,
+    "sha256": "1768F35DD053E652910281E20DC2D2B882C09D526490098D86768DEE58379340",
+    "transparentFraction": 0.82425537109375,
+    "opaqueFraction": 0.15324951171875,
+    "borderPixels": 0,
+    "bounds": [
+      85,
+      125,
+      510,
+      600
+    ]
+  },
+  "battleSpriteFootAnchor": {
+    "x": 0.40625,
+    "y": 0.9375
+  },
+  "battleSpriteFacing": "RIGHT",
+  "battleSpriteMuzzle": {
+    "x": 0.796875,
+    "y": 0.3109375
+  },
+  "status": "USER_REQUESTED_LIVE",
+  "runtimeEnabled": true,
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "audio": "EXISTING_LICENSED_MARKSMAN_PROFILE"
+  },
+  "impact": {
+    "source": "assets/source/lavender-ricochet-impact-v1.png",
+    "sourceInfo": {
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "7ADA1DD9A2BD50170F89C9066B81CEE25CE0F8CF5FB20EF70746D6F5D59F135C",
+      "transparentFraction": 0.7859201432608635,
+      "opaqueFraction": 0.038624090311322745,
+      "borderPixels": 0,
+      "bounds": [
+        27,
+        32,
+        1217,
+        1175
+      ]
+    },
+    "atlas": "assets/impact-atlas.webp",
+    "cellSize": 384,
+    "columns": 4,
+    "rows": 4,
+    "frameCount": 16,
+    "collisionFrame": 4,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/impact/frame-00.png",
+        "sha256": "259C020C55A4BAA327F8B6D9B75973744A6E9AFA52D43DEC47135ED367F68E40",
+        "sourceRect": [
+          0,
+          0,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 1,
+        "file": "assets/impact/frame-01.png",
+        "sha256": "534DA6F2480FC084D44ECE4A7F592B7CB862ABEED2B8A73ADE34E7923CC4D4A1",
+        "sourceRect": [
+          314,
+          0,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 2,
+        "file": "assets/impact/frame-02.png",
+        "sha256": "E225B0D0F0C41543CFCC4566DBCDDA6377F11CF2FC9A5B2B4DA74B2DFAF2D5ED",
+        "sourceRect": [
+          627,
+          0,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 3,
+        "file": "assets/impact/frame-03.png",
+        "sha256": "0ACA75E2F9F5A0DD62BA8CE4DE6FF8203A30C70051FF417597C39B8E934E1988",
+        "sourceRect": [
+          941,
+          0,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 4,
+        "file": "assets/impact/frame-04.png",
+        "sha256": "6E1ED2C0686F60DFEBBA040B675C8BE217323174527302A8F4D82BF287CE5682",
+        "sourceRect": [
+          0,
+          314,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 5,
+        "file": "assets/impact/frame-05.png",
+        "sha256": "5DE059D90D49A7DCF05CEAD706E3FB24A110EC6452D10FD9F66835457F6AF95D",
+        "sourceRect": [
+          314,
+          314,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 6,
+        "file": "assets/impact/frame-06.png",
+        "sha256": "1C3BF1E774BF787FF6606D2773C057A092708524502D2130EA2C4AA40F6EB269",
+        "sourceRect": [
+          627,
+          314,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 7,
+        "file": "assets/impact/frame-07.png",
+        "sha256": "EEDE2B53FAB966ADF9BD6682E1168D33C891BDF744EDC4D7AC0CE726997FBE33",
+        "sourceRect": [
+          941,
+          314,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 8,
+        "file": "assets/impact/frame-08.png",
+        "sha256": "4BE380EFE79FC4A7DFB733FDF08F027D72CDCBC12F75C095798FFD1A16CD94DE",
+        "sourceRect": [
+          0,
+          627,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 9,
+        "file": "assets/impact/frame-09.png",
+        "sha256": "7D78D79FA131F903BBA304704B96428DF1A7BC1300DE363E51E42F2078BF1E67",
+        "sourceRect": [
+          314,
+          627,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 10,
+        "file": "assets/impact/frame-10.png",
+        "sha256": "99E0093F334142C94063FE0B3465A8123FC16B326EC6C45033A1ED25A2F9BE4D",
+        "sourceRect": [
+          627,
+          627,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 11,
+        "file": "assets/impact/frame-11.png",
+        "sha256": "50DA1E859613DCD05B2D8E3DD5E1BC31E1BC2D4E653CE65EF3DAD326C0D8FB81",
+        "sourceRect": [
+          941,
+          627,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 12,
+        "file": "assets/impact/frame-12.png",
+        "sha256": "DDFBF4559F04C6425221B00189314387D0B26214350AA1699EACBD448940A2B1",
+        "sourceRect": [
+          0,
+          941,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 13,
+        "file": "assets/impact/frame-13.png",
+        "sha256": "19E3D4069C3FF79420D8F23B1592C0D8AC0F5795CDAEA4AF3C8B35AE4510D202",
+        "sourceRect": [
+          314,
+          941,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 14,
+        "file": "assets/impact/frame-14.png",
+        "sha256": "ECE64FCFE440D1BBFD703E25E2D088F300FBAB2BAFB3943C546432E832B01ED3",
+        "sourceRect": [
+          627,
+          941,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 15,
+        "file": "assets/impact/frame-15.png",
+        "sha256": "ABD9AB7A5E9EEC5E5369D03DF865417B727A8240FD2ED33640FBBFD8F3B57624",
+        "sourceRect": [
+          941,
+          941,
+          313,
+          313
+        ]
+      }
+    ]
+  },
+  "motion": {
+    "source": "assets/source/bikini-joeun-fire-motion-v1.png",
+    "sourceInfo": {
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "sha256": "F50971862A367938DCBD6F7A34EF62E5953498C21611D7B7A085770DEFFBC025",
+      "transparentFraction": 0.7268492380777994,
+      "opaqueFraction": 0.23712285359700522,
+      "borderPixels": 0,
+      "bounds": [
+        43,
+        26,
+        1519,
+        987
+      ]
+    },
+    "atlas": "assets/motion-atlas.webp",
+    "cellSize": 640,
+    "columns": 3,
+    "rows": 2,
+    "frameCount": 6,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/motion/frame-0.png",
+        "sha256": "1768F35DD053E652910281E20DC2D2B882C09D526490098D86768DEE58379340",
+        "sourceRect": [
+          70,
+          22,
+          434,
+          484
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.796875,
+          "y": 0.3109375
+        },
+        "bodyPixels": 476
+      },
+      {
+        "index": 1,
+        "file": "assets/motion/frame-1.png",
+        "sha256": "F185D05AF16DAAE3FBCECF7265A2991AFBA9D079700635050DAFC0269DF7D00E",
+        "sourceRect": [
+          577,
+          38,
+          437,
+          468
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.771875,
+          "y": 0.3296875
+        },
+        "bodyPixels": 460
+      },
+      {
+        "index": 2,
+        "file": "assets/motion/frame-2.png",
+        "sha256": "279A0E6E24D786F0F5C5CEF0B8FB8B71FBBA16BAD7EF096B2354F39AB57F898A",
+        "sourceRect": [
+          1092,
+          32,
+          432,
+          474
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.8015625,
+          "y": 0.32890625
+        },
+        "bodyPixels": 466
+      },
+      {
+        "index": 3,
+        "file": "assets/motion/frame-3.png",
+        "sha256": "1F0CFF2D7D72AC9331C0773C44F19E34C4BA961313E64753386A0B00343312F1",
+        "sourceRect": [
+          39,
+          562,
+          498,
+          425
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.86875,
+          "y": 0.41328125
+        },
+        "bodyPixels": 417
+      },
+      {
+        "index": 4,
+        "file": "assets/motion/frame-4.png",
+        "sha256": "B03548CCD5F9AA4FF30A83727C1D82DC9B8931E6E6EC49A53F88DC7B26CB41D9",
+        "sourceRect": [
+          568,
+          543,
+          440,
+          449
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.734375,
+          "y": 0.340625
+        },
+        "bodyPixels": 441
+      },
+      {
+        "index": 5,
+        "file": "assets/motion/frame-5.png",
+        "sha256": "1AD9533507B38B15FEAFCDAF5AB02F352DB309BB4E0A086057B665DD0BDD289B",
+        "sourceRect": [
+          1104,
+          542,
+          420,
+          448
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.7546875,
+          "y": 0.36953125
+        },
+        "bodyPixels": 440
+      }
+    ]
+  },
+  "processing": "Approved illustration unchanged. Native-alpha motion components extracted and transparently padded, no retouching or synthetic intermediate poses. Idle uses pose 0. SD sports top has more coverage; opaque wrap skirt retained.",
+  "generation": {
+    "mode": "BUILT_IN_IMAGEGEN",
+    "prompts": [
+      "prompt-sd-v1.txt",
+      "prompt-impact-v1.txt",
+      "prompt-motion-v1.txt",
+      "prompt-motion-v2.txt"
+    ]
+  }
+}
