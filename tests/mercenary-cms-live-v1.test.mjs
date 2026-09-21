@@ -23,7 +23,7 @@ test('canonical registration contains every mercenary, independent skill and ori
   assert.equal(seed.catalog.cards.length,47);assert.equal(seed.document.skills.length,30);assert.equal(seed.catalog.effects.frameCount,480);
   assert.equal(seed.document.mercenaries.filter(r=>r.rank===null).length,42);
   assert.equal(seed.document.mercenaries.find(r=>r.code==='V-021').rank,'SSS');
-  assert.ok(seed.document.assignments.every(r=>['V-044','V-045','V-046'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
+  assert.ok(seed.document.assignments.every(r=>['V-044','V-045','V-046','V-047'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
   for(const c of seed.catalog.cards){assert.notEqual(c.sourceArt,c.battleSprite);assert.ok(existsSync(new URL('../'+c.sourceArt,import.meta.url)));assert.ok(existsSync(new URL('../'+c.battleSprite,import.meta.url)));}
   assert.equal(seed.catalog.formation.regularCardSlots,5);assert.equal(seed.catalog.formation.mercenarySlots,1);
   assert.deepEqual(seed.catalog.release,{group:'V3_MERCENARY_EQUIPMENT',acquisitionEnabled:false,formationEnabled:false,battleEnabled:false});
