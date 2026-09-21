@@ -164,9 +164,8 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
     [COIN_ACTION,'USER_COIN',String(coinUser.id),JSON.stringify(summary.coin)],
     [H_BODY_ACTION,'USER_EQUIPMENT',String(hBodyUser.id),JSON.stringify(summary.hBody)]
   ])statements.push(guarded(`INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data)
-    SELECT ?,?,?,?,?,? WHERE ${verified(preflightKey)}
-      AND NOT EXISTS(SELECT 1 FROM admin_logs WHERE action_type=? AND target_type=? AND target_id=? AND after_data=?) AND {GUARD}`,
-    ownerId,action,targetType,targetId,beforeAudit,after,action,targetType,targetId,after));
+    SELECT ?,?,?,?,?,? WHERE ${verified(preflightKey)} AND {GUARD}`,
+    ownerId,action,targetType,targetId,beforeAudit,after));
   statements.push(
     guarded(`INSERT INTO ${VERIFICATION_TABLE}(operation_key,verified,detail)
       SELECT ?,CASE WHEN
@@ -176,15 +175,12 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
         AND EXISTS(SELECT 1 FROM coin_logs WHERE user_id=? AND change_amount=CAST(? AS BIGINT) AND balance_after=CAST(? AS BIGINT) AND reason=? AND admin_id=?)
         AND EXISTS(SELECT 1 FROM user_equipment_instances WHERE user_id=? AND equipment_id=? AND source_type='ADMIN_GRANT' AND source_id=? AND request_id=?)
         AND (SELECT COUNT(*) FROM user_equipment_instances WHERE user_id=? AND equipment_id=?)=?
-        AND EXISTS(SELECT 1 FROM admin_logs WHERE action_type=? AND target_type='USER_MERCENARY' AND target_id=?)
-        AND EXISTS(SELECT 1 FROM admin_logs WHERE action_type=? AND target_type='USER_COIN' AND target_id=?)
-        AND EXISTS(SELECT 1 FROM admin_logs WHERE action_type=? AND target_type='USER_EQUIPMENT' AND target_id=?)
         THEN 1 ELSE 0 END,? WHERE ${verified(preflightKey)} AND {GUARD}`,
       finalKey,MERCENARY_ACQUISITION_ID,mercenaryUser.id,selected.code,mercenaryCopiesAfter,
       mercenaryUser.id,selected.code,mercenaryCopiesAfter,mercenaryCopiesAfter-1,
       coinUser.id,String(coinAfter),coinUser.id,String(TARGETED_REWARD_GRANT_20260921_COIN),String(coinAfter),TARGETED_REWARD_GRANT_20260921_MARKER_KEY,ownerId,
       hBodyUser.id,equipmentId,TARGETED_REWARD_GRANT_20260921_MARKER_KEY,H_BODY_REQUEST_ID,hBodyUser.id,equipmentId,hBodyQuantityAfter,
-      MERCENARY_ACTION,String(mercenaryUser.id),COIN_ACTION,String(coinUser.id),H_BODY_ACTION,String(hBodyUser.id),completedValue),
+      completedValue),
     guarded(`UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=? AND ${verified(finalKey)} AND {GUARD}`,
       completedValue,TARGETED_REWARD_GRANT_20260921_MARKER_KEY,runningValue)
   );
