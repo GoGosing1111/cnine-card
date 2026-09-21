@@ -3,21 +3,21 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
-import {WEEKLY_RAID_BOSSES_V1,weeklyRaidBossForKst,weeklyRaidBossSettings} from '../functions/_raid_weekly_bosses_v1.js';
+import {WEEKLY_RAID_BOSSES_V1,WEEKLY_RAID_ROTATION_V1,weeklyRaidBossForKst,weeklyRaidBossSettings} from '../functions/_raid_weekly_bosses_v1.js';
 import {RAID_COIN_REWARD_CAP_V2140,cleanRaidSettingsV1293,defaultRaidSettingsV1293,raidCombatSnapshotV1293,raidRewardPlanV1293} from '../functions/_raid_overhaul.js';
 
 const root=path.resolve('.');
 const local=webPath=>path.join(root,String(webPath).replace(/^\//,''));
 const text=file=>fs.readFile(path.join(root,file),'utf8');
 
-test('요일별 보스는 7일을 정확히 한 번씩 사용하고 하시라마급 전투력을 넘긴다',()=>{
-  assert.equal(WEEKLY_RAID_BOSSES_V1.length,7);
-  assert.deepEqual(WEEKLY_RAID_BOSSES_V1.map(x=>x.weekday).sort(),[0,1,2,3,4,5,6]);
-  assert.equal(new Set(WEEKLY_RAID_BOSSES_V1.map(x=>x.code)).size,7);
-  assert.equal(new Set(WEEKLY_RAID_BOSSES_V1.map(x=>x.ultimate.code)).size,7);
+test('사용자가 지정한 나가토·요리이치·이치고 3종만 KST 7일을 반복한다',()=>{
+  assert.deepEqual(WEEKLY_RAID_BOSSES_V1.map(x=>x.code),['NAGATO','YORIICHI','ICHIGO']);
+  assert.equal(WEEKLY_RAID_ROTATION_V1.length,7);
+  assert.equal(new Set(WEEKLY_RAID_BOSSES_V1.map(x=>x.ultimate.code)).size,3);
   for(const boss of WEEKLY_RAID_BOSSES_V1){assert.ok(boss.powerRating>=5_500_000,boss.name);assert.equal(boss.minions.length,2,boss.name);assert.ok(boss.rewards.clear.some(x=>x.type==='CORE_RAID_ENTRY_TICKET'),boss.name);}
   assert.equal(weeklyRaidBossForKst(Date.parse('2026-09-21T12:00:00+09:00')).name,'나가토');
-  assert.equal(weeklyRaidBossForKst(Date.parse('2026-09-25T12:00:00+09:00')).name,'이치고');
+  assert.equal(weeklyRaidBossForKst(Date.parse('2026-09-25T12:00:00+09:00')).name,'요리이치');
+  for(let day=0;day<21;day++){const date=Date.parse('2026-09-20T00:00:00+09:00')+day*86400000;assert.equal(weeklyRaidBossForKst(date).code,WEEKLY_RAID_ROTATION_V1[day%7]);assert.equal(weeklyRaidBossForKst(date-1).code,WEEKLY_RAID_ROTATION_V1[(day+6)%7]);}
 });
 
 test('신규 보스 SD는 투명 RGBA와 경량 768 WebP를 함께 제공하고 나가토 V2만 연결한다',async()=>{
@@ -41,13 +41,13 @@ test('쫄몹은 서버 타임라인에서 보스 피해를 차단하고 궁극�
 });
 
 test('보스별 보상 스냅샷은 분리되고 코인 항목은 100억까지 허용한다',()=>{
-  const boss=WEEKLY_RAID_BOSSES_V1.find(x=>x.code==='GILGAMESH'),cfg=weeklyRaidBossSettings(defaultRaidSettingsV1293(),boss),plan=raidRewardPlanV1293({cfg,instanceId:77,userId:9,totalDamage:40_000_000,finalRank:1,cleared:true,minionsDefeated:2});
+  const boss=WEEKLY_RAID_BOSSES_V1.find(x=>x.code==='ICHIGO'),cfg=weeklyRaidBossSettings(defaultRaidSettingsV1293(),boss),plan=raidRewardPlanV1293({cfg,instanceId:77,userId:9,totalDamage:40_000_000,finalRank:1,cleared:true,minionsDefeated:2});
   assert.ok(plan.inventoryRewards.some(x=>x.itemCode==='CORE_RAID_ENTRY_TICKET'));assert.ok(plan.entries.some(x=>x.source.includes('쫄몹 2기')));
   const capped=cleanRaidSettingsV1293({rewards:{participation:[{type:'COIN',amount:RAID_COIN_REWARD_CAP_V2140+1}],clear:[],minionClear:[],damageMilestones:[],rankRewards:[],rareDrops:[]}});assert.equal(capped.rewards.participation[0].amount,RAID_COIN_REWARD_CAP_V2140);
 });
 
 test('요일 로스터 조회와 라이브 패치는 N+1 재조회·전체 리렌더를 피한다',async()=>{
   const [api,app,css]=await Promise.all([text('functions/api/[[path]].js'),text('js/app.js'),text('css/raid-weekly-bosses-v2140.css')]);
-  assert.match(api,/name IN \(\$\{marks\}\)/);assert.match(api,/raidMemo\('weekly-bosses-v2140',30000/);assert.match(app,/function patchRaidLiveView/);assert.match(app,/data-raid-minion/);assert.match(app,/replayRaidUltimate/);assert.match(css,/@media\(max-width:520px\)/);
-  assert.match(api,/weeklyProfile=weeklyRaidBossByName\(boss\.name\),roomCfg=weeklyProfile\?weeklyRaidBossSettings\(cfg,weeklyProfile\):cfg/);
+  assert.match(await text('functions/_raid_weekly_cms_v2141.js'),/name IN \(\$\{marks\}\)/);assert.match(api,/raidMemo\('weekly-bosses-v2141',30000/);assert.match(app,/function patchRaidLiveView/);assert.match(app,/data-raid-minion/);assert.match(app,/replayRaidUltimate/);assert.match(css,/@media\(max-width:520px\)/);
+  assert.match(api,/weeklyProfile=\(await readWeeklyRaidCms\(env\)\)\.bosses\.find/);
 });

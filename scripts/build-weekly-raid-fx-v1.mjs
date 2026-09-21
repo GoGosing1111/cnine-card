@@ -3,7 +3,7 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const root=path.resolve('assets/ui/project-v/fx/weekly-raid-v1');
-const ids=['nagato','obito','yoriichi','gilgamesh','ichigo'];
+const ids=['nagato','yoriichi','ichigo'];
 const manifest={format:'PROJECT_V_WEEKLY_RAID_ULTIMATE_FX_V1',renderer:'PixiJS 8.20.0 Sprite texture sequence',timeline:'GSAP 3.13.0',framesPerSkill:12,layout:{columns:4,rows:3},collisionFrame:7,skills:[]};
 
 for(const id of ids){

@@ -224,7 +224,7 @@ export async function raidSlotEntryCountsV1296(env,userId,dateKey,slots=[]){
 }
 
 export function raidCombatSnapshotV1293(participants,instance,cfg,nowMs=Date.now()){
-  const startMs=Date.parse(instance.starts_at||0),storedEndMs=Date.parse(instance.ends_at||0),durationMs=Math.max(1,Number(cfg.battleSeconds||120)*1000),effectiveNowMs=instance.status==='ENDED'&&storedEndMs?storedEndMs:nowMs,elapsedMs=Math.max(0,Math.min(durationMs,effectiveNowMs-startMs)),bossMaxHp=Math.max(0,Number(instance.max_hp||0)),bossInterval=Math.max(500,Number(cfg.bossAttackIntervalMs||5000));
+  const startMs=Date.parse(instance.starts_at||0),storedEndMs=Date.parse(instance.ends_at||0),durationMs=Math.max(1,Number(cfg.battleSeconds||120)*1000),effectiveNowMs=instance.status==='ENDED'&&storedEndMs?storedEndMs:nowMs,elapsedMs=Math.max(0,Math.min(durationMs,effectiveNowMs-startMs)),bossMaxHp=Math.max(0,Number(cfg?.bossProfile?.maxHp??instance.max_hp??0)),bossInterval=Math.max(500,Number(cfg.bossAttackIntervalMs||5000));
   const states=participants.map(row=>{const maxHp=Math.max(1,Math.floor(Number(row.totalPower??row.total_power??0)*Number(cfg.deckHpMultiplier||12))),variance=1+(((Number(row.userId??row.user_id??0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);return {row,maxHp,currentHp:maxHp,variance,shownDamage:0,isDefeated:false,defeatedAtMs:null};});
   const phase2Start=Math.max(0,Math.min(1,Number(cfg.phase2StartHpPercent||70)/100)),phase2End=Math.max(0,Math.min(phase2Start-.01,Number(cfg.phase2EndHpPercent||30)/100)),shieldMax=cfg.phase2Enabled===false?0:Math.max(0,bossMaxHp*Number(cfg.phase2ShieldPercent||0)/100);
   const profile=cfg?.bossProfile||null,guardRatio=Math.max(0,Math.min(.95,Number(profile?.minionGuardRatio||0))),ultimate=profile?.ultimate||null;
@@ -235,7 +235,7 @@ export function raidCombatSnapshotV1293(participants,instance,cfg,nowMs=Date.now
   const applyPartyDamage=segmentMs=>{
     if(segmentMs<=0||bossHp<=0)return;
     const alive=states.filter(x=>!x.isDefeated);if(!alive.length){if(wipedAtMs===null)wipedAtMs=processedMs;return;}
-    const rawTotal=alive.reduce((sum,x)=>sum+(Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs),0);if(rawTotal<=0){processedMs+=segmentMs;return;}
+    const unmitigatedTotal=alive.reduce((sum,x)=>sum+(Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs),0),rawTotal=unmitigatedTotal*(1-Math.max(0,Math.min(99,Number(profile?.defenseRate||0)))/100);if(rawTotal<=0){processedMs+=segmentMs;return;}
     spawnMinions();const activeAdd=minions.find(add=>add.spawned&&!add.defeated&&add.currentHp>0)||null;
     let addConsumed=0;if(activeAdd&&guardRatio>0){const directed=rawTotal*guardRatio;addConsumed=Math.min(directed,activeAdd.currentHp);activeAdd.currentHp=Math.max(0,activeAdd.currentHp-addConsumed);if(activeAdd.currentHp<=1e-6){activeAdd.currentHp=0;activeAdd.defeated=true;activeAdd.defeatedAtMs=processedMs+segmentMs*(addConsumed/Math.max(rawTotal,1));}}
     let rawLeft=Math.max(0,rawTotal-addConsumed),bossConsumed=0,guard=0;
@@ -253,7 +253,7 @@ export function raidCombatSnapshotV1293(participants,instance,cfg,nowMs=Date.now
       if(rawLeft<=1e-9)break;
     }
     const totalConsumed=addConsumed+bossConsumed,ratio=Math.max(0,Math.min(1,totalConsumed/Math.max(rawTotal,1e-9)));
-    for(const x of alive){const share=Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs/Math.max(rawTotal,1e-9);x.shownDamage+=totalConsumed*share;}
+    for(const x of alive){const share=Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs/Math.max(unmitigatedTotal,1e-9);x.shownDamage+=totalConsumed*share;}
     processedMs+=segmentMs*(bossHp<=0?ratio:1);
   };
   let nextBossTick=bossInterval;
