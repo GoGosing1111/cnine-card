@@ -45,7 +45,7 @@ export function mercenaryTurnCadence(teams){
 const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
 export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
  'MS-021':.82,'MS-046':1,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,
- 'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.2,'MS-044':1.2,
+ 'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.45,'MS-044':1.2,
 });
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
@@ -215,7 +215,12 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'UNDISTURBED_FIRST_SHOT':once(t=>{const focused=state(a).hits===p.hits;send(a,s,'FOCUS',t,{focused});strike(a,s,t,focused?1+c.focusBonusPercent/100:1);});break;
    case 'FINISHER_WITH_RELOAD':once(t=>{strike(a,s,t,t.hp/t.maxHp<=c.finisherHpPercent/100?1+c.finisherBonusPercent/100:1);});break;
    case 'INTERRUPT_WINDUP':once(t=>{const h=strike(a,s,t);if(h.hit&&!t.controlImmune&&!t.isBoss&&state(t).pending)cancel(t,'INTERRUPTED');});break;
-   case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0;const h=strike(a,s,t);if(h.hit&&marked>=c.restraintHits){d.restraint=c.restraintPercent;if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'NEXT_BASIC_WEAKENED'});}});break;
+   // v2119: 제압이 기본 공격 한 번만 약화하고 끝나 제어형의 값어치가 거의 없었다.
+   // 표식이 찼으면 지속 시간 동안 그 적의 기본 공격을 계속 약화하고,
+   // 아직 안 찼으면 이번 사격으로 표식을 하나 쌓아 다음 시전이 헛돌지 않게 한다.
+   case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0,h=strike(a,s,t);if(!h.hit)return;
+    if(marked>=c.restraintHits){d.restraint={percent:c.restraintPercent,expires:t.actions+c.statusTurns};if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'BASIC_WEAKENED'});}
+    else{(d.offender||={})[a.id]=marked+1;send(a,s,'DEBUFF',t,{effect:'OFFENDER_MARK'});}});break;
    case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
    case 'RIFT_MARK_DETONATION':
     if(!p.step){for(const t of ts){const h=strike(a,s,t,.5/p.targets.length,'HIT',{capShare:.5});if(h.hit&&living(t))table(debuffs,t).rift={actorId:a.id};}p.step=1;p.due=a.actions+1;}
@@ -260,7 +265,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
     return !st.cancelled;
    }return false;
   },
-  basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){factor*=1-d.restraint/100;delete d.restraint;}return factor*tierScale(a);},
+  basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
   basicDamageCapScale(a){return tierScale(a);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}

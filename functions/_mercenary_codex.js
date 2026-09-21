@@ -23,7 +23,7 @@ export function mercenaryCodexDocument(row){
       return {code:card.code,name:card.name,title:card.title,rank:card.rank,position:card.position,role:card.role,
         sourceArt:art.sourceArt,battleSprite:art.battleSprite,accent:art.accent,
         basePower:MERCENARY_POWER_STANDARD.basePowerByRank[card.rank]??null,
-        combatLinkDescription:mercenaryCombatLinkText(card.rank)+(upgraded?' '+MERCENARY_RANGED_SUMMARY:''),
+        combatLinkDescription:mercenaryCombatLinkText(card.rank,card.position)+(upgraded?' '+MERCENARY_RANGED_SUMMARY:''),
         specialty:card.specialty,weakness:upgraded?'회피·피해 경감에 대응되며 자원 소모와 재사용 대기의 영향을 받습니다.':card.weakness,basicTarget:seed.catalog.targets[card.basicTarget].label,
         skills:document.assignments.find(a=>a.code===card.code).skillIds.map(id=>{
           const s=mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(skills.get(id),actor))),ready=s.review==='REVIEWED'&&Object.values(s.balance).every(Number.isFinite);
