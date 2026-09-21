@@ -1,0 +1,283 @@
+{
+  "frames": {
+    "obito_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_01.png": {
+      "frame": {
+        "x": 362,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_02.png": {
+      "frame": {
+        "x": 724,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_03.png": {
+      "frame": {
+        "x": 1086,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_05.png": {
+      "frame": {
+        "x": 362,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_06.png": {
+      "frame": {
+        "x": 724,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_07.png": {
+      "frame": {
+        "x": 1086,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 92
+    },
+    "obito_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_09.png": {
+      "frame": {
+        "x": 362,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_10.png": {
+      "frame": {
+        "x": 724,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "obito_11.png": {
+      "frame": {
+        "x": 1086,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    }
+  },
+  "animations": {
+    "obito": [
+      "obito_00.png",
+      "obito_01.png",
+      "obito_02.png",
+      "obito_03.png",
+      "obito_04.png",
+      "obito_05.png",
+      "obito_06.png",
+      "obito_07.png",
+      "obito_08.png",
+      "obito_09.png",
+      "obito_10.png",
+      "obito_11.png"
+    ]
+  },
+  "meta": {
+    "app": "cnine-card weekly raid v1",
+    "version": "1.0",
+    "image": "obito-impact-sheet-v1.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1448,
+      "h": 1086
+    },
+    "scale": "1"
+  }
+}

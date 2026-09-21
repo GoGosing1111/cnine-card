@@ -1,0 +1,283 @@
+{
+  "frames": {
+    "nagato_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_01.png": {
+      "frame": {
+        "x": 362,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_02.png": {
+      "frame": {
+        "x": 724,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_03.png": {
+      "frame": {
+        "x": 1086,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_05.png": {
+      "frame": {
+        "x": 362,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_06.png": {
+      "frame": {
+        "x": 724,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_07.png": {
+      "frame": {
+        "x": 1086,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 92
+    },
+    "nagato_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_09.png": {
+      "frame": {
+        "x": 362,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_10.png": {
+      "frame": {
+        "x": 724,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "nagato_11.png": {
+      "frame": {
+        "x": 1086,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    }
+  },
+  "animations": {
+    "nagato": [
+      "nagato_00.png",
+      "nagato_01.png",
+      "nagato_02.png",
+      "nagato_03.png",
+      "nagato_04.png",
+      "nagato_05.png",
+      "nagato_06.png",
+      "nagato_07.png",
+      "nagato_08.png",
+      "nagato_09.png",
+      "nagato_10.png",
+      "nagato_11.png"
+    ]
+  },
+  "meta": {
+    "app": "cnine-card weekly raid v1",
+    "version": "1.0",
+    "image": "nagato-impact-sheet-v1.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1448,
+      "h": 1086
+    },
+    "scale": "1"
+  }
+}

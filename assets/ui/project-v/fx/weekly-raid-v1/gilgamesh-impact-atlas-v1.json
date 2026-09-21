@@ -1,0 +1,283 @@
+{
+  "frames": {
+    "gilgamesh_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_01.png": {
+      "frame": {
+        "x": 362,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_02.png": {
+      "frame": {
+        "x": 724,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_03.png": {
+      "frame": {
+        "x": 1086,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_05.png": {
+      "frame": {
+        "x": 362,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_06.png": {
+      "frame": {
+        "x": 724,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_07.png": {
+      "frame": {
+        "x": 1086,
+        "y": 362,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 92
+    },
+    "gilgamesh_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_09.png": {
+      "frame": {
+        "x": 362,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_10.png": {
+      "frame": {
+        "x": 724,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    },
+    "gilgamesh_11.png": {
+      "frame": {
+        "x": 1086,
+        "y": 724,
+        "w": 362,
+        "h": 362
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 362,
+        "h": 362
+      },
+      "sourceSize": {
+        "w": 362,
+        "h": 362
+      },
+      "duration": 58
+    }
+  },
+  "animations": {
+    "gilgamesh": [
+      "gilgamesh_00.png",
+      "gilgamesh_01.png",
+      "gilgamesh_02.png",
+      "gilgamesh_03.png",
+      "gilgamesh_04.png",
+      "gilgamesh_05.png",
+      "gilgamesh_06.png",
+      "gilgamesh_07.png",
+      "gilgamesh_08.png",
+      "gilgamesh_09.png",
+      "gilgamesh_10.png",
+      "gilgamesh_11.png"
+    ]
+  },
+  "meta": {
+    "app": "cnine-card weekly raid v1",
+    "version": "1.0",
+    "image": "gilgamesh-impact-sheet-v1.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1448,
+      "h": 1086
+    },
+    "scale": "1"
+  }
+}

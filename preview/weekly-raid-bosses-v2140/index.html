@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>요일별 레이드 보스 V2140</title>
+  <link rel="stylesheet" href="../../css/raid-weekly-bosses-v2140.css">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#050913;color:#dceafa;font-family:Pretendard,"Noto Sans KR",sans-serif}.page{max-width:1240px;margin:auto;padding:28px}.eyebrow{color:#80a7d0;font-size:11px;font-weight:900;letter-spacing:.18em}.title{margin:7px 0 24px;font-size:32px}.raid-battle-stage{position:relative;display:grid;grid-template-columns:1.15fr .85fr;min-height:570px;overflow:hidden;border:1px solid #26374c;background:radial-gradient(circle at 75% 28%,rgba(183,124,255,.19),transparent 32%),linear-gradient(140deg,#0c1625,#050913 70%)}.party{padding:34px}.party h3{font-size:12px;color:#8aa1bb;letter-spacing:.14em}.party-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:20px}.unit{height:130px;padding:12px;border:1px solid #25374c;background:#0b1422}.unit b,.unit small{display:block}.unit small{margin-top:64px;color:#7288a0}.raid-boss-side{position:relative;min-height:570px}.raid-stage-boss{position:absolute;inset:26px 20px 80px;width:calc(100% - 40px);height:calc(100% - 106px);object-fit:contain;filter:drop-shadow(0 24px 30px #000)}.raid-stage-hp{position:absolute;top:18px;left:10%;right:10%;z-index:6;height:7px;background:#192539}.raid-stage-hp i{display:block;width:72%;height:100%;background:linear-gradient(90deg,#8b4cec,#dca2ff)}.raid-stage-name{position:absolute;z-index:7;top:32px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:900;white-space:nowrap}.raid-ultimate-cast-banner{top:60px}.preview-note{margin-top:14px;color:#70859d;font-size:11px}@media(max-width:760px){.page{padding:16px 12px}.title{font-size:23px}.raid-battle-stage{grid-template-columns:1fr;min-height:590px}.party{display:none}.raid-boss-side{min-height:590px}.raid-stage-boss{inset:42px 10px 72px;width:calc(100% - 20px);height:calc(100% - 114px)}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <div class="eyebrow">PROJECT V · RAID OPERATIONS</div>
+  <h1 class="title">요일별 레이드 작전실</h1>
+  <section class="raid-weekly-roster">
+    <header><div><small>WEEKLY BOSS ROTATION</small><h2>요일별 레이드 작전표</h2></div><span>전투력 580만 이상 · 전용 궁극기 · 쫄몹 2종</span></header>
+    <div class="raid-weekly-days" id="days"></div>
+  </section>
+  <section class="raid-battle-stage">
+    <div class="party"><h3>PROJECT V STRIKE TEAM</h3><div class="party-grid"><div class="unit"><b>FRONT</b><small>V3 편성 유지</small></div><div class="unit"><b>ASSAULT</b><small>카드 도크 유지</small></div><div class="unit"><b>SUPPORT</b><small>실계정 스냅샷</small></div></div></div>
+    <div class="raid-boss-side">
+      <div class="raid-stage-hp"><i></i></div><div class="raid-stage-name">천도의 지배자 · 나가토</div>
+      <img class="raid-stage-boss" src="../../assets/ui/project-v/monsters/weekly-raid-v1/nagato-sd-v2-768.webp" alt="나가토 전투 SD">
+      <div class="raid-boss-identity"><small>천도의 지배자 · POWER 5,800,000</small><b>초신성 천도</b><span>쫄몹 방벽 · 보스 피해 65% 차단</span></div>
+      <div class="raid-minion-squad">
+        <article class="spawned"><img src="../../assets/responsive/project-v/monsters/hunt-030-black-ops-boss-sd-v1-768.webp" alt=""><div><small>보스 피해 65% 차단</small><b>축생도 소환체</b><i><u style="width:72%"></u></i><span>15,840,000 / 22,000,000</span></div></article>
+        <article class="waiting"><img src="../../assets/responsive/project-v/monsters/hunt-015-crimson-eye-boss-sd-v1-768.webp" alt=""><div><small>2페이즈 증원</small><b>수라도 기갑체</b><i><u style="width:100%"></u></i><span>26,000,000 / 26,000,000</span></div></article>
+      </div>
+    </div>
+    <div class="raid-ultimate-cast-banner"><small>ULTIMATE 2</small><b>초신성 천도</b></div>
+  </section>
+  <p class="preview-note">정적 검수판 · 운영에서는 서버 전투 상태와 PixiJS 궁극기 아틀라스가 실시간 연결됩니다.</p>
+</main>
+<script>
+const bosses=[['일','센쥬 하시라마','6,100,000','../../assets/responsive/project-v/monsters/hunt-074-wood-dragon-boss-sd-v1-768.webp','#6de0a2'],['월','나가토','5,800,000','../../assets/ui/project-v/monsters/weekly-raid-v1/nagato-sd-v2-768.webp','#b77cff'],['화','오비토','6,000,000','../../assets/responsive/project-v/monsters/hunt-062-obito-boss-sd-v1-768.webp','#6dc8ff'],['수','요리이치','6,200,000','../../assets/ui/project-v/monsters/weekly-raid-v1/yoriichi-sd-v1-768.webp','#ff9d4c'],['목','길가메시','6,400,000','../../assets/responsive/project-v/monsters/hunt-061-golden-king-boss-sd-v1-768.webp','#ffd56a'],['금','이치고','6,500,000','../../assets/ui/project-v/monsters/weekly-raid-v1/ichigo-sd-v1-768.webp','#ff596f'],['토','마이트 가이','7,000,000','../../assets/responsive/project-v/monsters/hunt-073-night-guy-boss-sd-v1-768.webp','#ff5b4d']];document.querySelector('#days').innerHTML=bosses.map((x,i)=>`<article class="${i===1?'today':''}" style="--raid-accent:${x[4]}"><span>${x[0]}요일</span><img src="${x[3]}" alt=""><div><b>${x[1]}</b><small>${x[2]} 전투력</small></div>${i===1?'<em>TODAY</em>':''}</article>`).join('');
+</script>
+</body></html>
