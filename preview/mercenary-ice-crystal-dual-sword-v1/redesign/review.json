@@ -1,0 +1,34 @@
+{
+  "status": "USER_REVIEW_PENDING",
+  "date": "2026-09-22",
+  "userRequest": "아니면 일러스트를 새로 만들어 서있는 자세로 디자인만 참고해서 너만의 그림을 만들어",
+  "scope": "NEW_ORIGINAL_STANDING_SOURCE_ART_ONLY",
+  "sourceArt": "redesign/standing-original-source-art-v1.png",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "channels": 3,
+    "colorSpace": "srgb",
+    "sha256": "56D8C666B1D4F38833EEA68DF98B889E98ECA2011AEC6A83594068D2B492E05E"
+  },
+  "prompt": "redesign/prompt-standing-original-v1.txt",
+  "generation": "BUILT_IN_IMAGEGEN",
+  "styleReference": "preview/mercenary-ragniel-v1/assets/source-art.png",
+  "designReference": "C:/Users/User/Downloads/1ab9c49544525ae8e1e6f4efc6c196df.jpg",
+  "preservedApprovedArt": "assets/source-art.png",
+  "preservedApprovedArtSha256": "B2BA5DA055E1629D895B11ACF6EC8EFB87996CFA688F1B0C504563AB7D559A2E",
+  "replacesPreviouslyApprovedArt": false,
+  "sourceArtModified": false,
+  "visualReview": {
+    "standingBothFeet": true,
+    "twoDistinctSwords": true,
+    "rightFacingHelmet": true,
+    "newArmorAndBackground": true,
+    "textOrFrame": false
+  },
+  "nativeSizeVerified": true,
+  "frameCompositionQa": "PENDING",
+  "battleSpriteCreatedFromThisArt": false,
+  "motionCreatedFromThisArt": false,
+  "runtimeEnabled": false
+}
