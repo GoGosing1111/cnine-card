@@ -1,0 +1,12 @@
+Use case: precise-object-edit.
+Asset type: full-height 2:3 fantasy mercenary card source illustration, 1024x1536 RGB PNG.
+
+Image 1 is the EDIT TARGET: preserve its entire standing full-body composition. Image 2 is a cropped close-up of that SAME helmet, supplied only to identify the blue icy projections that need correction, NOT an output framing reference.
+
+Make ONLY TWO localized changes to the head in Image 1:
+1. Shorten the long bright-blue crystal/ice fins projecting backward from the helmet by approximately 50–60%, creating a compact, sharp, elegant swept-back crown close to the skull. Keep their icy blue material and clean pointed tips. Preserve the character's recognizable silver armored helmet design; do not replace it with a different helmet. Do not increase the helmet size or add spikes.
+2. Rotate ONLY the helmet/head naturally at the neck to face directly toward the viewer. Both luminous blue eyes/visor slits should be visible, the pointed faceplate centered and frontal. Keep the face fully enclosed by its original silver metal mask; NO exposed human face. Maintain a menacing, refined high-end knight presence, with anatomically plausible connection to the unchanged three-quarter torso.
+
+Critical distinction: the long blue sword blade crossing diagonally BEHIND the head from upper-left toward the raised hand on screen-right is a WEAPON, NOT a helmet projection. Preserve BOTH complete swords exactly, including their length, geometry, crystalline details, location, grips and orientation. Only the blue fins attached directly to the helmet are shortened.
+
+Everything outside the immediate helmet/neck area must remain unchanged: standing body pose, natural tall adult proportions, silver-white layered armor, shoulder crystals, chest core, hands, fingers, both sword grips, both long blades, dark navy cloth tails, legs, feet, snowy stone platform, distant icy gothic castle, lighting, color palette, framing and original refined 2D semi-realistic painterly finish. Keep the exact original canvas and full figure; do not crop, zoom, reframe or redesign the body/background. Seamlessly fill any sky exposed by shortened fins. No text, symbols, frame, logos or watermarks. Return ONE completed full-body portrait image, not a collage, not a close-up.
