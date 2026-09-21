@@ -20,7 +20,9 @@ export async function hyperOpeningFeature(env){
  const setting=await readHyperOpening(env);
  return {connected:true,cmsControlled:true,openingVersion:2104,mode:setting.mode,revision:setting.revision,userOpeningEnabled:setting.mode==='ON',packId:MERCENARY_PACK.id,price:MERCENARY_PACK.price,maxCount:MERCENARY_PACK.maxCount,openPath:MERCENARY_PACK.openPath,batchPath:MERCENARY_PACK.batchPath,receiptPath:MERCENARY_PACK.receiptPath,accountUrl:MERCENARY_PACK.accountUrl};
 }
-export async function hyperOpeningReadiness(env){
+// probeTables 는 운영 콘솔이 스키마 존재까지 확인할 때만 쓴다. 실제 뽑기 경로에서는
+// 같은 요청 안에서 진짜 문장들이 곧바로 실행되므로, 존재 확인 6쿼리를 또 돌리지 않는다.
+export async function hyperOpeningReadiness(env,{probeTables=true}={}){
  const blockers=[];let cmsRevision=null,drawRevision=null,rankCounts={},outcomes=[];
  try{
   const [{document,revision},policy,row,items]=await Promise.all([
@@ -37,14 +39,18 @@ export async function hyperOpeningReadiness(env){
   }
   if(document.mercenaries.some(c=>!c.rank))blockers.push('등급이 미정인 용병이 있습니다.');
   if(policy.opening.paymentKind!=='COIN'||policy.opening.coinPerOpen!==MERCENARY_PACK.price||policy.opening.maxBatch!==MERCENARY_PACK.maxCount)blockers.push('개봉 비용을 1회 5억 코인·최대 10회로 설정하세요.');
-  await Promise.all(['SELECT request_id FROM joint_operations_v1 WHERE 1=0','SELECT token FROM joint_atomic_guards_v1 WHERE 1=0','SELECT user_id FROM user_mercenary_cards_v1 WHERE 1=0','SELECT acquisition_id FROM mercenary_card_acquisitions_v1 WHERE 1=0','SELECT user_id FROM user_mercenary_loadout_v1 WHERE 1=0','SELECT user_id FROM user_mercenary_growth_v1 WHERE 1=0'].map(sql=>env.DB.prepare(sql).all()));
+  if(probeTables)await Promise.all(['SELECT request_id FROM joint_operations_v1 WHERE 1=0','SELECT token FROM joint_atomic_guards_v1 WHERE 1=0','SELECT user_id FROM user_mercenary_cards_v1 WHERE 1=0','SELECT acquisition_id FROM mercenary_card_acquisitions_v1 WHERE 1=0','SELECT user_id FROM user_mercenary_loadout_v1 WHERE 1=0','SELECT user_id FROM user_mercenary_growth_v1 WHERE 1=0'].map(sql=>env.DB.prepare(sql).all()));
  }catch(error){blockers.push(error.code?.startsWith('MERCENARY_')?error.message:'확률·용병·지급 데이터 준비 상태를 확인하세요.');}
  return {ready:blockers.length===0,blockers,cmsRevision,drawRevision,rankCounts,outcomes,price:MERCENARY_PACK.price,maxCount:MERCENARY_PACK.maxCount};
 }
 export async function hyperOpeningState(env){return {...await readHyperOpening(env),...await hyperOpeningReadiness(env)};}
-export async function hyperOpeningRuntime(env){
+// recheck=true 는 같은 요청의 커밋 직전 재확인이다. 준비도(CMS·확률·지급 항목)는 이미 prepare 에서
+// 확인했고 그 사이의 ON/OFF 전환은 hyperOpeningGuards 의 원자적 가드가 같은 트랜잭션에서 막는다.
+// 그래서 여기서는 ON 여부만 다시 읽는다. 준비도 재조회(요청당 ~12쿼리)를 없애려는 것이지
+// 검사를 없애는 것이 아니다.
+export async function hyperOpeningRuntime(env,{recheck=false}={}){
  const setting=await readHyperOpening(env);if(setting.mode!=='ON')throw jointError('MERCENARY_OPENING_DISABLED','하이퍼팩 개봉은 현재 OFF입니다.',409);
- const ready=await hyperOpeningReadiness(env);if(!ready.ready)throw jointError('HYPER_NOT_READY',ready.blockers.join(' '),409);
+ if(!recheck){const ready=await hyperOpeningReadiness(env,{probeTables:false});if(!ready.ready)throw jointError('HYPER_NOT_READY',ready.blockers.join(' '),409);}
  return {mode:'ON',approved:true,version:`hyper-opening-2093-r${setting.revision}`,opening:{paymentKind:'COIN',coinPerOpen:MERCENARY_PACK.price,itemCode:null,itemsPerOpen:null,maxBatch:MERCENARY_PACK.maxCount}};
 }
 export async function hyperOpeningGuards(env){

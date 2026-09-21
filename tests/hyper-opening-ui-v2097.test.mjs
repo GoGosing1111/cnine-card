@@ -11,18 +11,19 @@ test('ON survives a store rerender; OFF and back navigation refresh the same sta
  const context={document,MERCENARY_PACK,api:async()=>({connected:true,userOpeningEnabled:enabled}),console,localStorage:{getItem:()=>null},setInterval:()=>1,clearInterval(){},addEventListener:(name,fn)=>listeners.set(name,fn),dispatchEvent(){},CustomEvent:class{constructor(type,options){this.type=type;this.detail=options?.detail;}},MutationObserver:class{constructor(fn){observer=fn;}observe(){observations++;}disconnect(){}}};context.window=context;
  const source=fs.readFileSync('js/mercenary-pack-live.mjs','utf8').replace(/^import .+;\r?\n/gm,'').replace(/^export /gm,'');vm.runInNewContext(source,context);
  const settle=()=>new Promise(resolve=>setImmediate(resolve));await settle();assert.equal(replaceable.buttons[0].disabled,false);assert.match(replaceable.statuses[0].textContent,/균등 추첨/);
- replaceable.buttons=[{disabled:true}];replaceable.labels=[{textContent:'개봉 준비 중'}];replaceable.statuses=[{textContent:'용병카드 개봉은 현재 OFF입니다.'}];observer();assert.equal(replaceable.buttons[0].disabled,false);assert.equal(replaceable.labels[0].textContent,'용병 계약 개봉 가능');assert.doesNotMatch(replaceable.statuses[0].textContent,/OFF/);
+ // syncButtons 는 DOM 변경마다 동기로 돌지 않고 프레임당 1회로 합쳐진다. 관찰자 호출 뒤 한 틱을 기다린다.
+ replaceable.buttons=[{disabled:true}];replaceable.labels=[{textContent:'개봉 준비 중'}];replaceable.statuses=[{textContent:'용병카드 개봉은 현재 OFF입니다.'}];observer();await settle();assert.equal(replaceable.buttons[0].disabled,false);assert.equal(replaceable.labels[0].textContent,'용병 계약 개봉 가능');assert.doesNotMatch(replaceable.statuses[0].textContent,/OFF/);
  enabled=false;listeners.get('focus')();await settle();assert.equal(replaceable.buttons[0].disabled,true);assert.match(replaceable.statuses[0].textContent,/OFF/);
  listeners.get('pagehide')();enabled=true;listeners.get('pageshow')({persisted:true});await settle();assert.equal(observations,2);assert.equal(replaceable.buttons[0].disabled,false);assert.doesNotMatch(replaceable.statuses[0].textContent,/OFF/);
 });
 
-function openingHarness({storage=new Map(),receipts=new Map(),onPost}={}){
+function openingHarness({storage=new Map(),receipts=new Map(),onPost,onShow}={}){
  const pendingKey='cnine.mercenary.pack.pending:7',receiptKey='cnine.mercenary.pack.receipt:7',posts=[],shown=[],statuses=[{textContent:''}];let coin=10000000000;
  const context={MERCENARY_PACK,mercenaryPackResults,crypto:{randomUUID},console,
   localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},
   document:{hidden:false,body:{},addEventListener(){},querySelector(){return null;},querySelectorAll:s=>s==='[data-mercenary-open-status]'?statuses:[]},
   setInterval:()=>1,clearInterval(){},addEventListener(){},dispatchEvent(){},CustomEvent:class{},MutationObserver:class{observe(){}disconnect(){}},
-  showMercenaryReceipt:async(receipt,options)=>{shown.push({receipt,options});},
+  showMercenaryReceipt:async(receipt,options)=>{shown.push({receipt,options});await onShow?.(receipt,options);},
   api:async(path,options={})=>{
    if(path===MERCENARY_PACK.featurePath)return {connected:true,userOpeningEnabled:true};
    if(path===MERCENARY_PACK.statePath)return {accountId:7,available:true,openingAvailable:true};
@@ -72,7 +73,38 @@ test('lost response recovers the completed receipt without paying twice; complet
 
 test('rapid duplicate clicks send one request; an inconsistent receipt never clears a pending transaction',async()=>{
  let release;const h=openingHarness({onPost:()=>new Promise(resolve=>{release=resolve;})});
- const first=h.pack.open(1);assert.equal(await h.pack.open(10),false);while(!release)await new Promise(resolve=>setImmediate(resolve));release();assert.equal(await first,true);assert.equal(h.posts.length,1);
+ const first=h.pack.open(1),duplicate=h.pack.open(10);assert.match(h.status,/이전 개봉 요청을 처리/);assert.equal(await duplicate,false);while(!release)await new Promise(resolve=>setImmediate(resolve));release();assert.equal(await first,true);assert.equal(h.posts.length,1);
  const bad=openingHarness(),pending={requestId:'bad-receipt',count:1};bad.storage.set(bad.pendingKey,JSON.stringify(pending));bad.receipts.set(pending.requestId,{requestId:pending.requestId,status:'COMPLETED',draws:Array.from({length:10},()=>({outcomeId:'NONE'}))});
  assert.equal(await bad.pack.open(1),false);assert.equal(bad.posts.length,0);assert.equal(bad.storage.has(bad.pendingKey),true);assert.match(bad.status,/횟수와 개봉 결과가 다릅니다/);
+});
+
+test('a stalled presentation releases the transaction lock and its late completion cannot unlock a later request',async()=>{
+ let finishPresentation,finishPost,shown=0,posted=0;
+ const h=openingHarness({onShow:()=>++shown===1?new Promise(resolve=>{finishPresentation=resolve;}):undefined,
+  onPost:()=>++posted===2?new Promise(resolve=>{finishPost=resolve;}):undefined});
+ const first=h.pack.open(10);
+ while(!finishPresentation)await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(h.storage.has(h.pendingKey),false);
+ const second=h.shown[0].options.onRepeat();
+ while(!finishPost)await new Promise(resolve=>setImmediate(resolve));
+ finishPresentation();assert.equal(await first,true);
+ assert.equal(await h.pack.open(1),false);assert.equal(h.posts.length,2);
+ finishPost();assert.equal(await second,true);assert.equal(h.posts.length,2);
+});
+
+test('DOM churn coalesces without account reparsing; account and storage updates refresh the recovery button',async()=>{
+ let observer,reads=0,accountId=7;const frames=[],listeners=new Map(),storage=new Map(),recover={textContent:'',setAttribute(){}};
+ const context={MERCENARY_PACK,console,document:{hidden:false,body:{},addEventListener(){},querySelector(){return null;},
+  querySelectorAll:s=>s==='[data-mercenary-recover]'?[recover]:[]},loadUser:()=>{reads++;return {serverUserId:accountId};},
+  localStorage:{getItem:k=>storage.get(k)||null},api:async()=>({connected:true,userOpeningEnabled:true}),
+  requestAnimationFrame:fn=>frames.push(fn),setInterval:()=>1,clearInterval(){},addEventListener:(name,fn)=>listeners.set(name,fn),
+  dispatchEvent(){},CustomEvent:class{},MutationObserver:class{constructor(fn){observer=fn;}observe(){}disconnect(){}}};
+ context.window=context;vm.runInNewContext(fs.readFileSync('js/mercenary-pack-live.mjs','utf8').replace(/^import .+;\r?\n/gm,'').replace(/^export /gm,''),context);
+ await new Promise(resolve=>setImmediate(resolve));const initialReads=reads;
+ for(let i=0;i<100;i++)observer();assert.equal(frames.length,1);frames.shift()();assert.equal(reads,initialReads);assert.equal(recover.hidden,true);
+ storage.set('cnine.mercenary.pack.pending:7','pending');listeners.get('cnine:account-mutation')();frames.shift()();
+ assert.equal(reads,initialReads+1);assert.equal(recover.hidden,false);assert.equal(recover.textContent,'이전 개봉 처리 확인');
+ accountId=8;listeners.get('cnine:player-updated')();frames.shift()();assert.equal(recover.hidden,true);
+ storage.set('cnine.mercenary.pack.receipt:8','receipt');listeners.get('storage')({key:'cnine.mercenary.pack.receipt:8'});frames.shift()();
+ assert.equal(recover.hidden,false);assert.equal(recover.textContent,'최근 개봉 결과');
 });

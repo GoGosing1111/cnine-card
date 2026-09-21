@@ -17,3 +17,9 @@
 #hyperPackAdmin button,#hyperPackAdmin a{background:#3b2555;color:#fff;border:1px solid #755398;border-radius:6px;padding:11px 14px;cursor:pointer;text-decoration:none}
 #hyperPackAdmin button:disabled{opacity:.4;cursor:wait}#hyperPackAdmin output{display:block;min-height:20px;margin-top:12px;color:#d6baff}#hyperPackAdmin .hyper-admin-error{color:#ffb2bf}
 @media(max-width:600px){.pack-theme-hyper .hero-pack-zone{min-height:320px}.pack-theme-hyper .pack-image-envelope{max-width:170px}.hyper-prices .btn{font-size:17px}#hyperPackAdmin{padding:14px}#hyperPackAdmin .hyper-admin-row{grid-template-columns:1fr 80px 80px;gap:8px}#hyperPackAdmin .hyper-admin-top img{width:65px}}
+
+/* v2134 — 복구 버튼은 클래스가 없어 비활성 상태가 보이지 않았다. 잠금 중임을 눈으로 알린다. */
+[data-mercenary-recover]{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;margin:0 0 10px;padding:10px 16px;border:1px solid #76518e;border-radius:10px;background:#1c1229;color:#e4cef5;font-size:14px;cursor:pointer}
+[data-mercenary-recover]:disabled,[data-mercenary-recover][aria-busy="true"]{opacity:.45;cursor:progress}
+[data-mercenary-recover][hidden]{display:none}
+.hyper-prices .btn:disabled{opacity:.32;cursor:not-allowed}

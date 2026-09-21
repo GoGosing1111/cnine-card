@@ -1,4 +1,4 @@
-import {showMercenaryReceipt} from '/js/mercenary-pack-live.mjs?v=2102-open-count';
+import {showMercenaryReceipt} from '/js/mercenary-pack-live.mjs?v=2134-open-lock';
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=n=>Number(n||0).toLocaleString('ko-KR');
 let state,selected,busy=false;const pendingKey=()=>`cnine.mercenary.pending:${state?.accountId||''}`;const message=text=>$('message').textContent=text;

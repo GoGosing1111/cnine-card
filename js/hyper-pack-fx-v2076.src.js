@@ -7,6 +7,10 @@ const ART = {
   mercenary:'/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png',
   frame:'/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png',
 };
+// 라이브 개봉은 ART.mercenary(예시 원화 2.4MB)를 쓰지 않는다. 미리보기 전용이다.
+const LIVE_ART = ['pack','energy','frame'];
+// 용병도감이 이미 쓰는 640 webp(평균 129KB). 원본 PNG 평균 2.37MB 를 대신한다.
+const codexArt = code => `/assets/ui/project-v/mercenaries/codex-v1/${String(code||'').toLowerCase()}-art-640.webp`;
 const TONES = {MISS:0x83909f,MASTER_STAR:0xffd17b,MYSTIC_ENERGY:0xaa7bff,MERCENARY:0xf2c9ff};
 const LABELS = {MISS:'꽝',MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지',MERCENARY:'용병카드'};
 const text = (value,size=20,color=0xf5eeff) => new Text({text:value,style:{fontFamily:'Pretendard, Arial, sans-serif',fontSize:size,fill:color,fontWeight:'600',letterSpacing:2}});
@@ -18,7 +22,7 @@ function star(radius,color) {
 }
 
 class HyperPackPresentation {
-  constructor(host, onState, {live=false}={}) { this.live=live; this.host=host; this.onState=onState; this.generation=0; this.speed=1; this.running=false; this.retired=[]; this.disposed=false; this.initialized=false; }
+  constructor(host, onState, {live=false}={}) { this.live=live; this.host=host; this.onState=onState; this.generation=0; this.speed=1; this.running=false; this.retired=[]; this.disposed=false; this.initialized=false; this.artUrl=new Map(); }
   async init() {
     const generation=this.generation;
     this.app=new Application();
@@ -30,7 +34,7 @@ class HyperPackPresentation {
     this.root=new Container(); this.app.stage.addChild(this.root);
     this.resize=()=>{const scale=Math.min(this.host.clientWidth/this.width,this.host.clientHeight/this.height);this.root.scale.set(scale);this.root.position.set(this.host.clientWidth/2,this.host.clientHeight/2);};
     this.observer=new ResizeObserver(this.resize); this.observer.observe(this.host); this.resize();
-    await Promise.all(Object.values(ART).map(url=>Assets.load(url)));
+    await Promise.all((this.live?LIVE_ART.map(key=>ART[key]):Object.values(ART)).map(url=>Assets.load(url)));
     if(generation!==this.generation)return;
     this.idle(); this.emit('ready');
   }
@@ -98,7 +102,7 @@ class HyperPackPresentation {
       group.addChild(new Graphics().circle(0,0,72).stroke({color:0x677086,width:1,alpha:.65}));
       const dash=text('—',74,0x8f96a4);dash.anchor.set(.5);group.addChild(dash);
     }else{
-      const card=fit(new Sprite(Assets.get(kind==='MERCENARY'?(this.live?'/'+result.sourceArt.replace(/^\//,''):ART.mercenary):ART.energy)),kind==='MERCENARY'?260:210,kind==='MERCENARY'?390:240);
+      const card=fit(new Sprite(Assets.get(kind==='MERCENARY'?(this.live?this.mercenaryTexture(result):ART.mercenary):ART.energy)),kind==='MERCENARY'?260:210,kind==='MERCENARY'?390:240);
       group.addChild(card);
       if(kind==='MERCENARY'){
         const frame=fit(new Sprite(Assets.get(ART.frame)),card.width+30,card.height+30);group.addChild(frame);
@@ -129,11 +133,19 @@ class HyperPackPresentation {
       timeline.timeScale(this.speed).play();
     });
   }
+  // 경량 webp 를 먼저 쓰고, 없을 때만 원본으로 내려간다. 실패 사실은 콘솔에 남긴다.
+  async loadMercenaryArt(result) {
+    const code=result.mercenaryCode,original='/'+String(result.sourceArt||'').replace(/^\//,'');
+    if(this.artUrl.has(code))return;
+    try{const light=codexArt(code);await Assets.load(light);this.artUrl.set(code,light);}
+    catch(error){console.warn('MERCENARY_CODEX_ART_UNAVAILABLE',code,error?.message||error);await Assets.load(original);this.artUrl.set(code,original);}
+  }
+  mercenaryTexture(result) { return this.artUrl.get(result.mercenaryCode)||'/'+String(result.sourceArt||'').replace(/^\//,''); }
   async play(results) {
     if(this.running||this.disposed) return false;
     if(!Array.isArray(results)||results.length<1||results.length>10||results.some(row=>!TONES[row.kind]||(this.live?row.preview!==false||row.granted!==true||!row.receiptId:row.preview!==true||row.granted!==false)))throw new Error('확정 결과와 검수 결과를 구분해야 합니다.');
     this.running=true;this.loading=true;this.skipRequested=false;this.results=results;this.paused=false;const generation=++this.generation;
-    try{if(this.live)await Promise.all(results.filter(r=>r.kind==='MERCENARY').map(r=>Assets.load('/'+r.sourceArt.replace(/^\//,''))));}
+    try{if(this.live)await Promise.all(results.filter(r=>r.kind==='MERCENARY').map(r=>this.loadMercenaryArt(r)));}
     catch(error){if(generation===this.generation){this.running=false;this.loading=false;}throw error;}
     if(generation!==this.generation||this.disposed)return false;
     this.loading=false;if(this.skipRequested){this.complete();return true;}this.emit('playing',{count:results.length});
@@ -160,8 +172,8 @@ class HyperPackPresentation {
   setSpeed(speed) { this.speed=speed===2?2:1;if(this.running)this.timeline?.timeScale(this.speed); }
   destroy() {
     if(this.disposed)return;this.disposed=true;
-    this.generation++;this.timeline?.kill();this.resolveSegment?.();this.resolveSegment=null;this.observer?.disconnect();this.running=false;
+    this.generation++;this.timeline?.kill();this.resolveSegment?.();this.resolveSegment=null;this.observer?.disconnect();this.running=false;this.artUrl.clear();
     if(this.initialized){this.app?.destroy(true,{children:true,texture:false,textureSource:false});this.app=null;}this.root=null;this.emit('destroyed');
   }
 }
-globalThis.HyperPackFX=Object.freeze({version:2091,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});
+globalThis.HyperPackFX=Object.freeze({version:2134,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});

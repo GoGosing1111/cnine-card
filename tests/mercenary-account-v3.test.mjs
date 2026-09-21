@@ -9,6 +9,17 @@ test('mercenary public release hold never touches accounts or DB',async()=>{
  for(const path of ['mercenaries/v3/open','mercenaries/v3/loadout','mercenaries/v3/train','mercenary-cards/open']){const r=await handleMercenaryAccount({path,request:new Request(`https://game.test/api/${path}`,{method:'POST'}),env:new Proxy({},{get(){throw Error('DB touched');}}),deps});assert.ok(r.status>=400);}
 });
 for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
+ test(`${label}: ten-card receipts use one acquisition query and never fabricate missing acquisition metadata`,async t=>{
+  const f=await mercenaryFixture(t,{postgres}),requestId=rid();
+  await openMercenaryCards(f.env,f.user,{requestId,count:10},{randomInt:zero});
+  await f.p('DELETE FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?',`${requestId}:3`).run();
+  const queries=[],prepare=f.env.DB.prepare.bind(f.env.DB);
+  f.env.DB.prepare=sql=>{queries.push(sql);return prepare(sql);};
+  const result=await mercenaryOpeningReceipt(f.env,f.user,requestId);
+  assert.equal(result.draws.length,10);assert.equal(queries.filter(sql=>sql.includes('FROM mercenary_card_acquisitions_v1')).length,1);
+  assert.equal('duplicate' in result.draws[3],false);assert.equal('totalCopies' in result.draws[3],false);
+  assert.equal(result.draws[2].duplicateCount,2);assert.equal(result.draws[9].duplicateCount,9);
+ });
  test(`${label}: uniform opening counts every duplicate once and replays a durable receipt`,async t=>{
   const f=await mercenaryFixture(t,{postgres}),requestId=rid(),body={requestId,count:3};
   const first=await openMercenaryCards(f.env,f.user,body,{randomInt:zero});assert.deepEqual(first.draws.map(d=>[d.mercenaryCode,d.duplicate,d.duplicateCount]),[['V-001',false,0],['V-001',true,1],['V-001',true,2]]);assert.equal(await f.coin(),9997000);

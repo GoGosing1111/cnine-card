@@ -96,7 +96,9 @@ export async function openMercenaryCards(env,user,body,{randomInt,readOpeningPol
     if(coinCost>Number((await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()).coin))throw jointError('MERCENARY_FUNDS','코인이 부족합니다.',409);
     return {count,draws,coinCost,payment:policy.opening,cmsRevision:config.revision,drawRevision:Number(row.revision),policyVersion:policy.version,...(ssOnce?{ssOnce}:{})};
   },statements:async plan=>{
-    allowRuntime(await readOpeningPolicy(env),user);
+    // 커밋 직전 재확인. 준비도는 prepare 에서 끝났고 ON/OFF 전환은 openingGuards 가
+    // 같은 배치 안에서 원자적으로 막는다. recheck 는 모드만 다시 읽는다.
+    allowRuntime(await readOpeningPolicy(env,{recheck:true}),user);
     const list=[...(openingGuards?await openingGuards(env):[]),...await consumeMercenarySsOnce(env,user,requestId,plan.ssOnce,plan.draws[plan.ssOnce?.index]),...jointCoinDebit(env.DB,user.id,plan.coinCost,`용병 개봉 ${requestId}`)];
     if(plan.payment.paymentKind==='ITEM')list.push(...jointInventoryChange(env.DB,user.id,plan.payment.itemCode,-plan.payment.itemsPerOpen*plan.count,'용병 개봉',requestId));
     plan.draws.forEach((draw,i)=>{if(draw.mercenaryCode)list.push(...mercenaryCardAcquisitionStatements(env.DB,{userId:Number(user.id),mercenaryCode:draw.mercenaryCode,acquisitionId:`${requestId}:${i}`}));else if(draw.quantity)list.push(...jointInventoryChange(env.DB,user.id,draw.outcomeId==='MASTER_STAR'?'MASTER_STAR':'STARLIGHT_ARMOR_CORE',draw.quantity,'용병 개봉 보상',`${requestId}:${i}`));});return list;
@@ -105,7 +107,15 @@ export async function openMercenaryCards(env,user,body,{randomInt,readOpeningPol
 export async function mercenaryOpeningReceipt(env,user,requestId,replayed=true){
   const row=await readJointOperation(env,user.id,requestId,'MERCENARY_OPEN');
   if(row.status!=='COMPLETED')return {requestId,status:'PENDING',retryable:true};
-  const draws=[];for(let i=0;i<row.plan.draws.length;i++){const draw=row.plan.draws[i];const acquired=draw.mercenaryCode?await env.DB.prepare('SELECT is_duplicate,total_copies_after,duplicate_count_after FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=? AND user_id=?').bind(`${requestId}:${i}`,user.id).first():null;const art=draw.mercenaryCode?MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===draw.mercenaryCode):null;draws.push({...draw,...(art?{sourceArt:art.sourceArt}:{}),...(acquired?{duplicate:Boolean(Number(acquired.is_duplicate)),totalCopies:Number(acquired.total_copies_after),duplicateCount:Number(acquired.duplicate_count_after)}:{})});}
+  // 뽑기 수만큼 순차 조회하면 10연에 왕복이 10회 늘어난다(원격 DB 기준 수백 ms).
+  // 최대 10건이므로 한 번에 읽는다. 없는 행은 이전과 똑같이 그냥 비어 있는 채로 둔다.
+  const plan=row.plan.draws,acquired=new Map();
+  const ids=plan.map((draw,i)=>draw.mercenaryCode?`${requestId}:${i}`:null).filter(Boolean);
+  if(ids.length){
+    const rows=(await env.DB.prepare(`SELECT acquisition_id,is_duplicate,total_copies_after,duplicate_count_after FROM mercenary_card_acquisitions_v1 WHERE user_id=? AND acquisition_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all()).results;
+    for(const found of rows)acquired.set(String(found.acquisition_id),found);
+  }
+  const draws=plan.map((draw,i)=>{const found=draw.mercenaryCode?acquired.get(`${requestId}:${i}`)||null:null;const art=draw.mercenaryCode?MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===draw.mercenaryCode):null;return {...draw,...(art?{sourceArt:art.sourceArt}:{}),...(found?{duplicate:Boolean(Number(found.is_duplicate)),totalCopies:Number(found.total_copies_after),duplicateCount:Number(found.duplicate_count_after)}:{})};});
   return {requestId,accountId:Number(user.id),count:row.plan.count,status:'COMPLETED',replayed,draws,payment:row.plan.payment,coinCost:row.plan.coinCost,policyVersion:row.plan.policyVersion,drawRevision:row.plan.drawRevision};
 }
 
