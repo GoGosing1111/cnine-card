@@ -77,6 +77,7 @@ import { ensureTargetedAvatarGrantV2014 } from '../_targeted_avatar_grant_v2014.
 import { ensureTargetedAvatarGrantDeodeumiguV1 } from '../_targeted_avatar_grant_deodeumigu_v1.js';
 import { ensureTargetedAvatarGrantSaitamaV1 } from '../_targeted_avatar_grant_saitama_v1.js';
 import { ensureTargetedAvatarGrantRedcloudDcHiHeeyaV1 } from '../_targeted_avatar_grant_redcloud_dc_hi_heeya_v1.js';
+import { ensureTargetedRewardGrant20260921V1 } from '../_targeted_reward_grant_20260921_v1.js';
 import { ensureTargetedCardGrantV2015 } from '../_targeted_card_grant_v2015.js';
 import { ensureTargetedCardGrantV2016 } from '../_targeted_card_grant_v2016.js';
 import { ensureTargetedInventoryGrantV2025 } from '../_targeted_inventory_grant_v2025.js';
@@ -4988,6 +4989,7 @@ async function handleRequest(context){
       let targetedAvatarGrantDeodeumiguV1=null;
       let targetedAvatarGrantSaitamaV1=null;
       let targetedAvatarGrantRedcloudDcHiHeeyaV1=null;
+      let targetedRewardGrant20260921V1=null;
       let targetedCardGrantV2015=null;
       let targetedCardGrantV2016=null;
       let targetedInventoryGrantV2025=null;
@@ -5046,6 +5048,12 @@ async function handleRequest(context){
           seasonId:Number(redcloudAvatarGrant.seasonId||0),seasonNo:Number(redcloudAvatarGrant.seasonNo||0),
           expiresAt:redcloudAvatarGrant.expiresAt||null,remainingSeconds:Number(redcloudAvatarGrant.remainingSeconds||0),
           ownershipVerified:Boolean(redcloudAvatarGrant.ownershipVerified)
+        }:null;
+        const multiRewardGrant=await ensureTargetedRewardGrant20260921V1(env);
+        targetedRewardGrant20260921V1=multiRewardGrant?{
+          status:multiRewardGrant.status,version:multiRewardGrant.version,replayed:Boolean(multiRewardGrant.replayed),
+          mercenary:multiRewardGrant.mercenary||null,coin:multiRewardGrant.coin||null,hBody:multiRewardGrant.hBody||null,
+          verification:multiRewardGrant.verification||null
         }:null;
         const joeunZenithGrant=await ensureTargetedCardGrantV2015(env);
         targetedCardGrantV2015=joeunZenithGrant?{
@@ -5121,7 +5129,7 @@ async function handleRequest(context){
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedAvatarGrantDeodeumiguV1,targetedAvatarGrantSaitamaV1,targetedAvatarGrantRedcloudDcHiHeeyaV1,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,targetedEquipmentRevokeV2132,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
+      return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedAvatarGrantDeodeumiguV1,targetedAvatarGrantSaitamaV1,targetedAvatarGrantRedcloudDcHiHeeyaV1,targetedRewardGrant20260921V1,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,targetedEquipmentRevokeV2132,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
