@@ -1,0 +1,15 @@
+{
+  "sourceArtApprovalUnchanged": true,
+  "rejected": [
+    {
+      "asset": "assets/rejected/ice-dual-sword-sd-v1.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "sd이미지 탈락",
+      "reason": "원화의 위압감 부족. 과대한 투구, 짧은 팔다리, 뭉툭하고 짧아진 검, 장난감 같은 비율.",
+      "allowedAsGenerationReference": false,
+      "allowedInRuntime": false,
+      "derivedMotionCreated": false
+    }
+  ],
+  "nextStep": "새 SD V2부터 사용자 시각 검수. 반려된 SD 기반 동작 제작 중단."
+}

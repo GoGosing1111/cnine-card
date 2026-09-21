@@ -20,3 +20,10 @@
 
 기계 판독용 기록은 `approval.json`. 생성 당시 프롬프트와 미선택 원본은 `output/imagegen/ice-crystal-dual-sword-20260922/`에 보존되어 있다.
 
+## 전투 SD 후속 검수
+
+- 2026-09-22 전투 SD·대시·공격·스킬 제작 요청을 받았으나 첫 SD V1이 사용자에게 반려됐다.
+- 반려 SD는 `assets/rejected/ice-dual-sword-sd-v1.png`로 보관하며 생성 입력·동작·프리뷰·라이브에 사용하지 않는다.
+- 대시·공격·스킬 프롬프트만 준비된 상태이며 반려 SD 파생 동작 이미지는 생성하지 않았다.
+- `prompts/sd-v2.txt`로 승인 원화와 라그니엘 SD에서 다시 제작하고 새 SD 시각 검수를 우선한다. 원화 V1 및 SSS 등급 승인은 그대로 유지한다.
+- 새 후보 `assets/ice-dual-sword-sd-v2.png` 생성 완료. 원화의 긴 검과 공격 자세를 복원한 성인형 전투 캐릭터로 수정했으며 사용자 시각 검수 대기다. 상세 상태는 `sd-review.json`.

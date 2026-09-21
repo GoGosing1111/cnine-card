@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "status": "USER_REVIEW_PENDING",
+  "candidate": "assets/ice-dual-sword-sd-v2.png",
+  "prompt": "prompts/sd-v2.txt",
+  "generation": "BUILT_IN_IMAGEGEN",
+  "inputReferences": ["assets/source-art.png", "../mercenary-ragniel-v1/assets/ragniel-sd-v1.png"],
+  "rejectedCandidateUsedAsInput": false,
+  "designIntent": "원화의 긴 쌍검, 작아진 투구 비율, 긴 팔다리와 낮은 공격 자세를 살린 성인형 전투 캐릭터",
+  "motionGenerationStatus": "WAITING_FOR_SD_VISUAL_REVIEW",
+  "runtimeEnabled": false,
+  "battleSpriteApproved": false
+}
