@@ -1,7 +1,7 @@
-// Preparation only. No production switch or date is inferred from a deployment.
+// User approved live activation on 2026-09-22; keep the cutover immutable on redeploy.
 export const FACTION_SESSION_RELEASE = Object.freeze({
-  enabled: false,
-  effectiveAt: null,
+  enabled: true,
+  effectiveAt: '2026-09-22T01:15:00+09:00',
   recipients: 'PARTICIPANTS', // User confirmed: participating members each receive 300억.
   interruption: 'PAUSE', // Freeze remaining play time and resume after territory war.
   overlap: 'DEFER', // User confirmed: the following round gets a full three hours afterward.

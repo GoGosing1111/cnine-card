@@ -71,7 +71,7 @@ export async function factionOverview(env,season,user,deps,{alertsOnly=false}={}
     const alerts=activeSeason(season,now)&&(!sessions||sessions.view.active)&&m?battles.filter(b=>b.status==='ACTIVE'&&b.endsAt>now&&battleSide(b,Number(m.clan_id),Number(user.id))&&(!sessions||b.sessionKey===sessions.view.current?.key)).map(b=>battleAlert(b,Number(m.clan_id),Number(user.id))):[];
     return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now,...(sessions?{sessions:sessions.view}:{})};
   }
-  const now=nowOf(deps),[stored,ctx,wallet]=await Promise.all([sessions?sessions.row:readState(env,season,now),context(env,season,user),env.DB.prepare('SELECT balance,total_earned FROM clan_faction_wallets WHERE user_id=?').bind(user.id).first()]);
+  const now=nowOf(deps),[stored,ctx,wallet]=await Promise.all([sessions?sessions.row:readState(env,season,now,deps),context(env,season,user),env.DB.prepare('SELECT balance,total_earned FROM clan_faction_wallets WHERE user_id=?').bind(user.id).first()]);
   const state=stored.state,mine=ctx.mine?.clanId||0,formation=formationOf(state,ctx,mine),captains=factionCaptains(state.captains[mine],ctx.roster.filter(m=>m.clanId===mine).map(m=>m.userId));
   const battles=state.battles.map(b=>({...b,attackers:b.attackers.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.attacker)),defenders:b.defenders.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.defender))}));
   const alerts=activeSeason(season,now)&&(!sessions||sessions.view.active)?battles.filter(b=>b.status==='ACTIVE'&&battleSide(b,mine,Number(user.id))).map(b=>battleAlert(b,mine,Number(user.id))):[];

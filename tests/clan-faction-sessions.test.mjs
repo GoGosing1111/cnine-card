@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import {factionFixture} from './helpers/clan-faction-fixture.mjs';
 import {factionOverview, mutateFaction} from '../functions/_clan_faction.js';
 import {syncFactionSessions,reconcileFactionSessions} from '../functions/_clan_faction_sessions.js';
-import {factionDayStart} from '../shared/clan-faction-sessions-v1.mjs';
+import {FACTION_SESSION_RELEASE,factionDayStart,factionTime} from '../shared/clan-faction-sessions-v1.mjs';
 import {runDraftSchedule} from '../workers/clan-draft/src/schedule.js';
 
 const beginning=factionDayStart('2026-09-22');
@@ -35,6 +35,25 @@ async function own(f,count=4){
  s.districts.forEach((d,i)=>{d.owner=i<count?1:0;});
  await f.p('UPDATE clan_faction_state SET state_json=?,revision=revision+1 WHERE season_id=7',JSON.stringify(s)).run();
 }
+test('live default activates approved KEEP/PARTICIPANTS/PAUSE/DEFER policy after the immutable cutover',async t=>{
+ const f=await fixture(t,true);
+ delete f.deps.factionSessionPolicy;
+ const before=JSON.parse((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json);
+ assert.equal(FACTION_SESSION_RELEASE.enabled,true);
+ assert.equal(factionTime(FACTION_SESSION_RELEASE.effectiveAt),Date.parse('2026-09-22T01:15:00+09:00'));
+ f.clock.now=beginning+3*3600000;
+ const result=await factionOverview(f.env,f.season,f.user,f.deps);
+ assert.equal(result.sessions.active,true);
+ assert.equal(result.sessions.current.ordinal,2);
+ assert.equal(result.sessions.schedule[0].status,'SKIPPED','pre-cutover slots do not pay retroactively');
+ assert.equal(result.sessions.recipientPolicy,'PARTICIPANTS');
+ assert.equal(result.sessions.mapPolicy,'KEEP');
+ assert.deepEqual(result.districts.map(d=>[d.id,d.owner]),before.districts.map(d=>[d.id,d.owner]),'existing territory ownership survives activation');
+ assert.deepEqual(result.formation.attack1,formation.attack1);
+ assert.equal(result.tax.abolished,true);
+ assert.equal(result.tax.perHour,0);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),0);
+});
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} complete session, 300억 mail, reset, immutable schedule and exactly-once retry`,async t=>{
  const f=await fixture(t,postgres),first=await factionOverview(f.env,f.season,f.user,f.deps);
  assert.equal(first.sessions.active,true);assert.equal(first.holdings,0);assert.equal(first.tax.perHour,0);
@@ -112,7 +131,7 @@ test('time boundary after combat calculation rejects a late strike',async t=>{
 test('OFF and TEST cannot create schedules or rewards; formation still works outside open hours',async t=>{
  const f=await fixture(t);const off={...f.deps,factionSessionPolicy:{enabled:false}};
  assert.equal(await syncFactionSessions(f.env,f.season,off),null);
- assert.deepEqual(await reconcileFactionSessions(f.env),{enabled:false});
+ assert.deepEqual(await reconcileFactionSessions(f.env,off),{enabled:false});
  await f.p("UPDATE app_meta SET value=? WHERE key='clan_settings_v1'",JSON.stringify({mode:'TEST'})).run();
  await assert.rejects(syncFactionSessions(f.env,f.season,f.deps),/공개 모드/);
  await f.p("UPDATE app_meta SET value=? WHERE key='clan_settings_v1'",JSON.stringify({mode:'ON'})).run();

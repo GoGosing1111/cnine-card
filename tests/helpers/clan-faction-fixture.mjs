@@ -47,7 +47,8 @@ export async function factionFixture({postgres=false,seeded=false,realBattle=fal
     await p('INSERT INTO clan_faction_state(season_id,state_json) VALUES(7,?)',JSON.stringify(s)).run();
   }
   let buildCalls=0;
-  const deps={now:()=>clock.now,async buildFactionBattle(env,deps,user,opponent,seed){buildCalls++;
+  // Legacy combat/tax tests opt out explicitly; session fixtures replace this with the policy under test.
+  const deps={factionSessionPolicy:{enabled:false},now:()=>clock.now,async buildFactionBattle(env,deps,user,opponent,seed){buildCalls++;
     if(!realBattle)return {battleV2:{teams:{B:{cards:[{maxHp:100}]}},result:{winner:'A',final:{B:[{hp:0}]}}},attackerPower:1000,defenderPower:1000};
     const cards=factionReviewCards;
     const a=cards.map(c=>({...c,power:90000})),b=cards.map(c=>({...c,power:85000}));

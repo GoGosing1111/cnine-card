@@ -43,7 +43,8 @@ try{
   await page.locator('.fw-session-strip').scrollIntoViewIfNeeded();
   await page.screenshot({path:path.join(output,`paused-${viewport.width}.png`)});
   await fetch(base+'/api/preview/session?phase=resume',{method:'POST'});await page.locator('[data-fw-reload]').first().click();
-  await page.locator('.fw-session-strip h3').filter({hasText:'진행 중'}).waitFor();
+  // Do not match the old "영토전 진행 중" paused heading before the refresh arrives.
+  await page.locator('.fw-session-strip h3').filter({hasText:/^세력전 .*진행 중$/}).waitFor();
   check((await page.locator('.fw-session-pause').textContent()).includes('종료 후 재개'),`${viewport.width}: resumed schedule is visible`);
   check(await page.locator('[data-fw-launch]').isEnabled(),`${viewport.width}: resumed session reopens combat`);
   await fetch(base+'/api/preview/session?phase=deferred',{method:'POST'});await page.locator('[data-fw-reload]').first().click();

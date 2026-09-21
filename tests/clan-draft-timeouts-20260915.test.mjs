@@ -164,7 +164,7 @@ test('viewer-independent lifecycle starts after registration closes; ON gate and
 test('alarm scheduler closes DB connections on success and failure and records actual alarm execution',async()=>{
   let closed=0,opened=0,heartbeat;
   const openDatabase=async()=>{opened++;return{db:{prepare:()=>({bind:value=>({run:async()=>{heartbeat=JSON.parse(value)}})})},close:async()=>{closed++}}};
-  const result=await runDraftSchedule({HYPERDRIVE:{connectionString:'synthetic'}},{openDatabase,now:()=>base,reconcile:async()=>({phase:'DRAFT',nextCheckAt:iso(base+30000)})});
+  const result=await runDraftSchedule({HYPERDRIVE:{connectionString:'synthetic'}},{openDatabase,now:()=>base,reconcile:async()=>({phase:'DRAFT',nextCheckAt:iso(base+30000)}),reconcileSessions:async()=>({enabled:false})});
   assert.equal(opened,1);assert.equal(opened,closed);assert.equal(heartbeat.source,'DURABLE_ALARM');assert.equal(heartbeat.checkedAt,iso(base));assert.equal(result.phase,'DRAFT');
   await assert.rejects(runDraftSchedule({HYPERDRIVE:{}},{openDatabase,reconcile:async()=>{throw Error('synthetic failure')}}),/synthetic failure/);assert.equal(opened,closed);
 });
