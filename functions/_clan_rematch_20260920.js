@@ -1,7 +1,7 @@
 // One-time live operation: void the 2026-09-20 21:00 KST clan-war window and
 // replay it on 2026-09-21 21:00 KST. Later regular-season windows move by one day.
 // Credited currencies are retained as compensation; competitive records are reset.
-export const CLAN_REMATCH_20260920_KEY='ops_clan_rematch_20260920_v1';
+export const CLAN_REMATCH_20260920_KEY='ops_clan_rematch_20260920_v2';
 export const CLAN_REMATCH_TARGET_START='2026-09-20T12:00:00.000Z';
 export const CLAN_REMATCH_REPLAY_START='2026-09-21T12:00:00.000Z';
 export const CLAN_REMATCH_SHIFT_MS=24*60*60*1000;
@@ -70,21 +70,13 @@ export async function ensureClanRematch20260920(env){
     const battleRows=resultRows(await env.DB.prepare(`SELECT b.*,pr.points participation_points,pr.base_coin,pr.win_bonus_coin,pr.milestone_coin
       FROM clan_war_battles b LEFT JOIN clan_participation_receipts pr ON pr.battle_id=b.id AND pr.status='COMPLETED'
       WHERE b.war_id IN (${marks}) ORDER BY b.id`).bind(...warIds).all());
-    const completed=battleRows.filter(b=>String(b.status)==='COMPLETED'),teamDelta=new Map(),memberDelta=new Map();
+    const completed=battleRows.filter(b=>String(b.status)==='COMPLETED'),teamDelta=new Map();
     for(const war of targetWars.filter(w=>String(w.status)==='COMPLETED')){
       const winner=derivedWinner(war),loser=otherClan(war,winner);add(teamDelta,winner,'wins',1);add(teamDelta,winner,'score',seasonWinScore);add(teamDelta,loser,'losses',1);add(teamDelta,loser,'score',seasonLossScore);
     }
-    for(const battle of completed){
-      const attackerWon=num(battle.winner_clan_id)===num(battle.attacker_clan_id),participation=battle.participation_points!==null&&battle.participation_points!==undefined;
-      add(memberDelta,battle.attacker_user_id,attackerWon?'wins':'losses',1);add(memberDelta,battle.attacker_user_id,'contribution',participation?num(battle.participation_points):1);
-      add(memberDelta,battle.defender_user_id,attackerWon?'losses':'wins',1);if(!participation)add(memberDelta,battle.defender_user_id,'contribution',1);
-    }
-    const teams=resultRows(await env.DB.prepare('SELECT * FROM clan_season_teams WHERE season_id=? ORDER BY clan_id').bind(seasonId).all()),members=resultRows(await env.DB.prepare('SELECT * FROM clan_members WHERE season_id=? ORDER BY user_id').bind(seasonId).all()),teamById=new Map(teams.map(r=>[num(r.clan_id),r])),memberById=new Map(members.map(r=>[num(r.user_id),r]));
+    const teams=resultRows(await env.DB.prepare('SELECT * FROM clan_season_teams WHERE season_id=? ORDER BY clan_id').bind(seasonId).all()),teamById=new Map(teams.map(r=>[num(r.clan_id),r]));
     for(const delta of teamDelta.values()){
       const row=teamById.get(delta.id);if(!row||num(row.wins)<delta.wins||num(row.losses)<delta.losses||num(row.score)<delta.score){const state={...pending,status:'BLOCKED',reason:`TEAM_ROLLBACK_MISMATCH_${delta.id}`,seasonId,roundNo,warIds,blockedAt:iso(Date.now())};return storeState(env,state,pendingValue)}
-    }
-    for(const delta of memberDelta.values()){
-      const row=memberById.get(delta.id);if(!row||num(row.battle_wins)<delta.wins||num(row.battle_losses)<delta.losses||num(row.contribution_score)<delta.contribution){const state={...pending,status:'BLOCKED',reason:`MEMBER_ROLLBACK_MISMATCH_${delta.id}`,seasonId,roundNo,warIds,blockedAt:iso(Date.now())};return storeState(env,state,pendingValue)}
     }
     const pigKeys=warIds.map(id=>`clan_war_pig_coin_v1:${id}`),pigMarks=pigKeys.map(()=>'?').join(','),pigRows=pigKeys.length?resultRows(await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${pigMarks})`).bind(...pigKeys).all()):[];
     const retainedPigCoin=pigRows.reduce((sum,row)=>sum+num(parse(row.value,{}).totalAmount),0),retainedParticipationCoin=completed.reduce((sum,row)=>sum+num(row.base_coin)+num(row.win_bonus_coin)+num(row.milestone_coin),0);
@@ -101,12 +93,16 @@ export async function ensureClanRematch20260920(env){
       losses=losses-(SELECT COUNT(*) FROM clan_wars WHERE id IN (${marks}) AND status='COMPLETED' AND winner_clan_id<>? AND (clan_a_id=? OR clan_b_id=?)),updated_at=CURRENT_TIMESTAMP
       WHERE season_id=? AND clan_id=?`,clanId,seasonWinScore,seasonLossScore,...warIds,clanId,clanId,...warIds,clanId,...warIds,clanId,clanId,clanId,seasonId,clanId));
     const involvedUserIds=[...new Set(battleRows.flatMap(b=>[num(b.attacker_user_id),num(b.defender_user_id)]).filter(Boolean))];
+    // Membership replacement/re-admission can leave a current counter below the
+    // target round's raw battle count. Rebuild affected counters from the remaining
+    // authoritative completed season battles instead of subtracting into negatives.
     for(const userId of involvedUserIds)writes.push(p(`UPDATE clan_members SET
-      battle_wins=battle_wins-(SELECT COUNT(*) FROM clan_war_battles b WHERE b.war_id IN (${marks}) AND b.status='COMPLETED' AND ((b.attacker_user_id=? AND b.winner_clan_id=b.attacker_clan_id) OR (b.defender_user_id=? AND b.winner_clan_id=b.defender_clan_id))),
-      battle_losses=battle_losses-(SELECT COUNT(*) FROM clan_war_battles b WHERE b.war_id IN (${marks}) AND b.status='COMPLETED' AND ((b.attacker_user_id=? AND b.winner_clan_id=b.defender_clan_id) OR (b.defender_user_id=? AND b.winner_clan_id=b.attacker_clan_id))),
-      contribution_score=contribution_score-COALESCE((SELECT SUM(CASE WHEN b.attacker_user_id=? THEN COALESCE(pr.points,1) WHEN b.defender_user_id=? AND pr.battle_id IS NULL THEN 1 ELSE 0 END)
-        FROM clan_war_battles b LEFT JOIN clan_participation_receipts pr ON pr.battle_id=b.id AND pr.status='COMPLETED' WHERE b.war_id IN (${marks}) AND b.status='COMPLETED'),0),updated_at=CURRENT_TIMESTAMP
-      WHERE season_id=? AND user_id=?`,...warIds,userId,userId,...warIds,userId,userId,userId,userId,...warIds,seasonId,userId));
+      battle_wins=(SELECT COUNT(*) FROM clan_war_battles b JOIN clan_wars w ON w.id=b.war_id WHERE w.season_id=? AND b.war_id NOT IN (${marks}) AND b.status='COMPLETED' AND ((b.attacker_user_id=? AND b.winner_clan_id=b.attacker_clan_id) OR (b.defender_user_id=? AND b.winner_clan_id=b.defender_clan_id))),
+      battle_losses=(SELECT COUNT(*) FROM clan_war_battles b JOIN clan_wars w ON w.id=b.war_id WHERE w.season_id=? AND b.war_id NOT IN (${marks}) AND b.status='COMPLETED' AND ((b.attacker_user_id=? AND b.winner_clan_id=b.defender_clan_id) OR (b.defender_user_id=? AND b.winner_clan_id=b.attacker_clan_id))),
+      contribution_score=COALESCE((SELECT SUM(CASE WHEN b.attacker_user_id=? THEN COALESCE(pr.points,1) WHEN b.defender_user_id=? AND pr.battle_id IS NULL THEN 1 ELSE 0 END)
+        FROM clan_war_battles b JOIN clan_wars w ON w.id=b.war_id LEFT JOIN clan_participation_receipts pr ON pr.battle_id=b.id AND pr.status='COMPLETED'
+        WHERE w.season_id=? AND b.war_id NOT IN (${marks}) AND b.status='COMPLETED'),0),updated_at=CURRENT_TIMESTAMP
+      WHERE season_id=? AND user_id=?`,seasonId,...warIds,userId,userId,seasonId,...warIds,userId,userId,userId,userId,seasonId,...warIds,seasonId,userId));
     writes.push(p(`UPDATE clan_war_battles SET status='VOIDED',error_message='VOID_20260920_REPLAY_20260921_2100',updated_at=CURRENT_TIMESTAMP WHERE war_id IN (${marks})`,...warIds));
     writes.push(p(`DELETE FROM clan_participation_progress WHERE war_id IN (${marks})`,...warIds));
     writes.push(p(`DELETE FROM clan_war_reservation_locks WHERE war_id IN (${marks})`,...warIds));
