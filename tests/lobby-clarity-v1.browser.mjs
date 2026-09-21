@@ -28,8 +28,8 @@ try{
     await page.locator('#category-tabs [data-category="all"]').click();
     check(await page.locator('.menu-result').count()===expected,size+' all existing menu routes retained');
     const ids=await page.locator('.menu-result').evaluateAll(els=>els.map(e=>e.dataset.route));check(new Set(ids).size===ids.length,size+' menu entries are unique');
-    await page.locator('#category-tabs [data-category="growth"]').click();
-    check(await page.locator('.menu-result').filter({hasText:'장비 강화'}).count()===1,size+' growth category contains forge');
+    await page.locator('#category-tabs [data-category="equipment"]').click();
+    check(await page.locator('.menu-result').filter({hasText:'장비 강화'}).count()===1,size+' equipment category contains forge');
     await page.locator('#menu-search').fill('출석');
     check(await page.locator('.menu-result b').allTextContents().then(t=>t.includes('접속 보상')),size+' search understands attendance synonym');
     await page.locator('#menu-search').fill('강화');

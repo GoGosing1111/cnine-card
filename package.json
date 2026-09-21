@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build:lobby": "node scripts/build-adventure-lobby-v2107.mjs",
-    "test:lobby": "node scripts/build-adventure-lobby-v2107.mjs --check",
+    "test:lobby": "node scripts/build-adventure-lobby-v2107.mjs --check && node --test tests/adventure-lobby-menu-separation.test.mjs",
     "test:wish-lamp": "node --test tests/wish-lamp-v2077.test.mjs",
     "build:hyper-pack": "node scripts/build-ui-fx.mjs hyper",
     "test:hyper-pack": "node --test tests/hyper-pack-v2076.test.mjs",

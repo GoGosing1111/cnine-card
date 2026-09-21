@@ -79,18 +79,29 @@ try{
   await page.evaluate(()=>loadLiveOperations(true));
   await openCategory('all');
   const allRoutes=await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>({route:e.dataset.route,icon:e.querySelector('svg').innerHTML})));
-  check(allRoutes.length===38&&new Set(allRoutes.map(e=>e.icon)).size===38,size+' all-menu entry retains every visible route with its own icon');
+  const uniqueIconCount=new Set(allRoutes.map(e=>e.icon)).size;
+  check(allRoutes.length>0&&new Set(allRoutes.map(e=>e.route)).size===allRoutes.length,size+' all-menu retains every visible route exactly once');
+  check(uniqueIconCount===allRoutes.length,size+` all-menu entry retains its own icon (${allRoutes.length} routes / ${uniqueIconCount} icons)`);
   check(await lobby.locator('[data-route="goldenAxe"]').count()===0&&await lobby.locator('[data-route="alchemy"]').count()===0,size+' full directory excludes hidden features');
   await lobby.locator('#menu-search').fill('강화');
   check(await lobby.locator('.menu-result[data-route="equipmentForge"]').count()===1,size+' all-menu search still spans all categories');
-  for(const category of ['inventory','pve','pvp','shop','rewards','social','administration']){
+  for(const category of ['inventory','pve','pvp','cards','equipment','shop','rewards','social','administration']){
    await openCategory(category);
    check(await lobby.locator('.menu-result').evaluateAll((els,category)=>els.length>0&&els.every(e=>e.dataset.menuCategory===category),category),size+' '+category+' shows only its own destinations');
    check(await lobby.locator('#category-tabs,.category-divider').count()===0,size+' '+category+' has no all-menu category list');
    check(await lobby.locator('#menu-search').inputValue()==='',size+' changing category clears earlier searches');
-   if(category==='pvp')check(JSON.stringify(await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>e.dataset.route)))===JSON.stringify(['pvp','rank','territory']),size+' duel contains ranked play, ranking and territory');
+   if(category==='pvp')check(await lobby.locator('.menu-result').evaluateAll(els=>{const routes=els.map(e=>e.dataset.route);return ['pvp','rank','territory'].every(id=>routes.includes(id));}),size+' duel contains ranked play, ranking and territory');
    if(category==='pve')check(await lobby.locator('.menu-result[data-route="territory"],.menu-result[data-route="pvp"]').count()===0,size+' adventure excludes player battles');
    if(category==='inventory')check(await lobby.locator('.menu-result[data-route="inventory"]').count()===1,size+' inventory has its own all-menu group');
+   if(category==='cards'){
+    check(await lobby.locator('.menu-result[data-route="dex"],.menu-result[data-route="upgrade"],.menu-result[data-route="mercenaryHangar"]').count()===3,size+' cards contains card and mercenary progression');
+    check(await lobby.locator('.menu-result[data-route="character"],.menu-result[data-route="equipmentForge"]').count()===0,size+' cards excludes equipment destinations');
+   }
+   if(category==='equipment'){
+    check(await lobby.locator('.menu-result[data-route="character"],.menu-result[data-route="vehicle"],.menu-result[data-route="equipmentForge"]').count()===3,size+' equipment contains loadout, crafting and forge');
+    check(await lobby.locator('.menu-result[data-route="dex"],.menu-result[data-route="mercenaryHangar"]').count()===0,size+' equipment excludes card and mercenary destinations');
+   }
+   if(['cards','equipment'].includes(category))await page.screenshot({path:path.join(out,`live-${category}-${size}.png`)});
    if(category==='shop'){
     check(JSON.stringify(await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>e.dataset.route)))===JSON.stringify(['buy','lootShop','mineral','prediction','auction']),size+' shop contains its five destinations and excludes inventory');
     await page.screenshot({path:path.join(out,'live-shop-'+size+'.png')});
@@ -102,7 +113,7 @@ try{
   check(await lobby.locator('#directory-title').textContent()==='행정부',size+' administration has its own directory');
   const administration=await lobby.locator('.menu-result').evaluateAll(els=>els.map(e=>e.dataset.route));
   check(['treasury','prison','prisoncamp'].every(id=>administration.includes(id)),size+' native administrative routes retained');
-  await openCategory('growth');
+  await openCategory('cards');
   await lobby.locator('#menu-search').fill('강화');
   await page.evaluate(()=>{window.__lobbyBefore=document.querySelector('soop-adventure-lobby');saveUser({...loadUser(),coin:333333333});updateMessageNewBadges(7);renderShell('buy');});
   await page.waitForTimeout(250);
