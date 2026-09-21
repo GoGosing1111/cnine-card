@@ -1,7 +1,7 @@
 import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
-import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
+import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack,mercenaryPvpTierOffense} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {isRangedMercenarySkill,rangedMercenaryProfile,rangedMercenaryPvpScale,cheongaHigherTierPvpScale} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE,mercenaryWardPercent} from '../shared/mercenary-guard-balance-v1.mjs';
@@ -31,7 +31,15 @@ export function mercenaryTurnCadence(teams){
   },
   acted(actor){
    if(actor.isMercenary)debt[actor.side]=0;
-   else if(regular(actor))debt[actor.side]=Math.min(interval(actor.side),debt[actor.side]+1);
+   else if(regular(actor)){
+    debt[actor.side]=Math.min(interval(actor.side),debt[actor.side]+1);
+    // Once its five allies fall, a PVP mercenary must still get its reserved
+    // response. Fixed base speed cannot compete with equipment-scaled cards.
+    // Use the surviving regular-card clock; never recurse from mercenary/suit
+    // actions or change the normal/PVE cadence while allied cards are alive.
+    const other=actor.side==='A'?'B':'A',team=teams[other]||[];
+    if(!team.some(regular)&&team.some(m=>m.isMercenary&&m.statMode==='RANK_FIXED'&&m.battleMode==='PVP'&&living(m)))debt[other]=Math.min(interval(other),debt[other]+1);
+   }
   }
  };
 }
@@ -44,12 +52,12 @@ export function mercenaryTurnCadence(teams){
 // PVE 는 상한 자체가 거의 걸리지 않아 이 값의 영향을 받지 않는다.
 const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
 export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
- 'MS-021':.82,'MS-046':1,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,
+ 'MS-021':.82,'MS-046':1.04,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,
  'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.45,'MS-044':1.2,'MS-047':1.2,
 });
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
- return actions*(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
+ return actions*(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1)*mercenaryPvpTierOffense(actor);
 }
 // 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
 // 그 행동이 통째로 손해가 되어, 스킬을 쓸수록 약해지는 역전이 생긴다.
@@ -116,12 +124,22 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   send(protector,ward.skill,'INTERCEPT',protector,{sourceAttackerId:a.id,protectedTargetId:t.id,damage:result.hpDamage,absorbed:result.absorbed,targetHpAfter:protector.hp,targetMaxHp:protector.maxHp,targetShieldAfter:protector.shield});
   knockout(protector);return amount-transferred;
  }
+ function offensiveSkillScale(a,s,followup=false){
+  const p=state(a).pending;
+  // A PVP suppression is one offensive cast, including its remaining impacts.
+  // Basic/support actions and unrelated ripostes cannot spend the debuff.
+  if(a.battleMode==='PVP'&&p?.skill===s&&Number.isFinite(p.offensiveScale))return p.offensiveScale;
+  const veil=table(debuffs,a).veil;if(!veil||followup)return 1;
+  delete table(debuffs,a).veil;const scale=Math.max(0,1-veil.percent/100);
+  if(a.battleMode==='PVP'&&p?.skill===s)p.offensiveScale=scale;
+  return scale;
+ }
  function strike(a,s,t,multiplier=1,phase='HIT',opts={}){
-  if(!living(t))return {hit:false};const veil=table(debuffs,a).veil,pvpScale=rangedMercenaryPvpScale(a,s,tierScale(a));let scale=Number(s.balance.damageRatio)*multiplier*pvpScale;
-  if(veil&&!opts.followup){scale*=1-veil.percent/100;delete table(debuffs,a).veil;}
+  if(!living(t))return {hit:false};const pvpScale=rangedMercenaryPvpScale(a,s,tierScale(a)),offensiveScale=offensiveSkillScale(a,s,opts.followup),capWeaken=a.battleMode==='PVP'?offensiveScale:1;
+  const scale=Number(s.balance.damageRatio)*multiplier*pvpScale*offensiveScale;
   if(scale<=0)return effect(a,s,t,0,phase);
   const ranged=isRangedMercenarySkill(a,s);
-  const h=hit(a,t,scale,{rangedSkill:ranged,castShare:(opts.castShare??1)*pvpScale,capScale:mercenarySkillCapActions(a,s,ranged,opts.capCount)*(opts.capShare??1)*pvpScale});if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
+  const h=hit(a,t,scale,{rangedSkill:ranged,castShare:(opts.castShare??1)*pvpScale,capScale:mercenarySkillCapActions(a,s,ranged,opts.capCount)*(opts.capShare??1)*pvpScale*capWeaken});if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
   // Only direct single-target skill impacts can consume the link. Area skills,
   // poison, counters and fixed boss effects retain their own damage paths.
   const single=phase==='HIT'&&!['RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','DISTRIBUTED_CORAL_VOLLEY'].includes(s.mechanic);
@@ -173,13 +191,13 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
    case 'PLATINUM_SANCTUARY':{
-    const veil=table(debuffs,a).veil;delete table(debuffs,a).veil;
-    resolveRagnielJudgment({actor:a,skill:s,targets:p.targets.map(id=>all().find(t=>t.id===id)),hit,damage,knockout,emit,damageScale:veil?1-veil.percent/100:1,capActions:mercenarySkillCapActions(a,s,false)});
+    const damageScale=offensiveSkillScale(a,s);
+    resolveRagnielJudgment({actor:a,skill:s,targets:p.targets.map(id=>all().find(t=>t.id===id)),hit,damage,knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
     finish(a,s);break;}
    case 'GOLDEN_ORCHID_VOLLEY':{
     const primary=all().find(t=>t.id===p.targets[0]);if(!living(primary)){cancel(a,'TARGET_LOST');break;}
-    const veil=table(debuffs,a).veil;delete table(debuffs,a).veil;
-    resolveMangisaVolley({actor:a,skill:s,targets:[primary,...ts.filter(t=>t!==primary)],hit,damage,knockout,emit,damageScale:veil?1-veil.percent/100:1});
+    const damageScale=offensiveSkillScale(a,s);
+    resolveMangisaVolley({actor:a,skill:s,targets:[primary,...ts.filter(t=>t!==primary)],hit,damage,knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
     finish(a,s);break;}
    // Authored barrage tracers share one canonical hit, never one damage roll per visual shot.
    case 'LAVENDER_RICOCHET':case 'TIDAL_BARRAGE':once(t=>strike(a,s,t));break;
@@ -266,7 +284,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
-  basicDamageCapScale(a){return tierScale(a);},
+  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}
    if(buff.standfast){const ward=buff.standfast;delete buff.standfast;if(living(ward.actor)&&ward.actor.actions<ward.expires){const saved=Math.min(ward.budget,Math.floor(amount*ward.percent/100));amount-=saved;send(ward.actor,ward.skill,'BUFF',t,{effect:'STAND_FAST_CONSUMED',amount:saved});}}

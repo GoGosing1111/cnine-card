@@ -1,0 +1,366 @@
+{
+  "checkedAt": "2026-09-21T18:01:44.765Z",
+  "cmsRevision": 57,
+  "combat": {
+    "energyMax": 100,
+    "energyPerBasic": 10,
+    "windupTurns": 1,
+    "statusTurns": 2,
+    "armorReductionPercent": 20,
+    "interceptPercent": 40,
+    "parryPercent": 40,
+    "orderPercent": 15,
+    "veilPercent": 25,
+    "finisherHpPercent": 30,
+    "finisherBonusPercent": 50,
+    "focusBonusPercent": 40,
+    "poisonPercent": 40,
+    "restraintHits": 2,
+    "restraintPercent": 25,
+    "suppressGauge": 20,
+    "reloadGauge": 20,
+    "powerGrowthPercentPerLevel": 0
+  },
+  "singleHealerBonus": {
+    "enabled": true,
+    "teamHpPercent": 8,
+    "healPercent": 10,
+    "crisisThresholdPercent": 40,
+    "crisisHealPercent": 16,
+    "pvpMaxActivations": 4,
+    "pveMaxActivations": 6
+  },
+  "roster": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "skills": [
+        {
+          "id": "MS-001",
+          "balance": {
+            "damageRatio": 2.2,
+            "cooldownTurns": 4,
+            "cost": 20
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-003",
+      "name": "솔바인",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "skills": [
+        {
+          "id": "MS-003",
+          "balance": {
+            "damageRatio": 0,
+            "cooldownTurns": 3,
+            "cost": 15
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "skills": [
+        {
+          "id": "MS-004",
+          "balance": {
+            "damageRatio": 3.8,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-005",
+      "name": "청아",
+      "rank": "S",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-005",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "rank": "S",
+      "position": "REAR",
+      "role": "SNIPER",
+      "skills": [
+        {
+          "id": "MS-008",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-009",
+          "balance": {
+            "damageRatio": 4.5,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-010",
+      "name": "월령",
+      "rank": "SS",
+      "position": "FRONT",
+      "role": "ASSASSIN",
+      "skills": [
+        {
+          "id": "MS-010",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-011",
+      "name": "아르카엘",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "skills": [
+        {
+          "id": "MS-011",
+          "balance": {
+            "damageRatio": 3,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "rank": "SSS",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "skills": [
+        {
+          "id": "MS-021",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "rank": "S",
+      "position": "REAR",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-022",
+          "balance": {
+            "damageRatio": 3.2,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "skills": [
+        {
+          "id": "MS-032",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        },
+        {
+          "id": "MS-036",
+          "balance": {
+            "damageRatio": 3.6,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "skills": [
+        {
+          "id": "MS-037",
+          "balance": {
+            "damageRatio": 3.8,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-040",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "skills": [
+        {
+          "id": "MS-042",
+          "balance": {
+            "damageRatio": 2.4,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-043",
+          "balance": {
+            "damageRatio": 3.6,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-044",
+      "name": "하이희야",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-044",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-045",
+      "name": "망이사",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-045",
+          "balance": {
+            "damageRatio": 4,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "rank": "SSS",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "skills": [
+        {
+          "id": "MS-046",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-047",
+      "name": "비키니 조은",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "skills": [
+        {
+          "id": "MS-047",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ]
+    }
+  ]
+}

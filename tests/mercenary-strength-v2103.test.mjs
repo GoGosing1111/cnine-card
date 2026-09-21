@@ -45,7 +45,7 @@ test('PVE and both PVP sides publish the authoritative linked starting HP and fi
  const pve=createPveBattleV2({cards,mercenary:m,monster:{id:1,battle_power:1e9},seed:12});
  for(const [battle,side]of [[pvp,'A'],[pvp,'B'],[pve,'A']]){
   const initial=battle.teams[side].mercenaries[0],final=battle.result.final.mercenaries[side][0];
-  assert.equal(initial.mercenaryLink.version,2106);assert.equal(initial.maxHp,final.maxHp);assert.equal(initial.hp,initial.maxHp);
+  assert.equal(initial.mercenaryLink.version,2144);assert.equal(initial.maxHp,final.maxHp);assert.equal(initial.hp,initial.maxHp);
   assert.equal(initial.maxHp,initial.mercenaryLink.hpFloor);assert.equal(initial.shield,initial.mercenaryLink.openingShield);
   assert.ok(battle.result.timeline.some(e=>e.actorId===initial.id&&(e.type==='TURN'||e.type==='MERCENARY_HIT')));
  }

@@ -2,12 +2,12 @@ import {MANGISA_IMPACTS,MANGISA_PRIMARY_SHARES,MANGISA_SPLASH_SHARE,MANGISA_PVP_
 const living=t=>t?.alive!==false&&t?.hp>0&&!t?.untargetable&&!t?.isBattleSuit;
 // One atomic actor action. Eight bounded outcomes at most; no client RNG,
 // retarget, per-hit resource gain, recursive proc or repeated full damage cap.
-export function resolveMangisaVolley({actor,skill,targets,hit,damage,knockout,emit,damageScale=1}){
+export function resolveMangisaVolley({actor,skill,targets,hit,damage,knockout,emit,damageScale=1,capActions=1}){
  const [primary,...nearby]=targets,pvpScale=actor.battleMode==='PVP'&&actor.rank==='SS'?MANGISA_PVP_SCALE:1;
  const impacts=[],touched=new Set();
  const strike=(target,share,shotIndex,kind)=>{
   if(!living(target))return;
-  const result=hit(actor,target,skill.balance.damageRatio*share*pvpScale*damageScale,{rangedSkill:true,castShare:share*pvpScale});
+  const result=hit(actor,target,skill.balance.damageRatio*share*pvpScale*damageScale,{rangedSkill:true,castShare:share*pvpScale,capScale:capActions*share*pvpScale});
   const outcome=result.dodge?{hpDamage:0,absorbed:0}:damage(target,Math.max(0,result.damage));
   actor.damageDealt+=outcome.hpDamage+outcome.absorbed;touched.add(target);
   impacts.push({targetId:target.id,shotIndex,kind,at:MANGISA_IMPACTS[shotIndex],damage:outcome.hpDamage,absorbed:outcome.absorbed,dodge:!!result.dodge,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield||0,targetMaxShield:target.maxShield||0});

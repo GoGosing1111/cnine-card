@@ -230,7 +230,9 @@ test('the real PVP damage engine applies tier caps to normal attacks and skill i
  for(const side of ['A','B']){
   const own=side==='A'?'attackerMercenary':'defenderMercenary',other=side==='A'?'defenderMercenary':'attackerMercenary';
   const cheonga=released(['V-005','S','MS-005']);cheonga.skills[0].balance={damageRatio:10000,cost:25,cooldownTurns:5};
-  const battle=createPvpBattleV2({attackerCards:party(20000000),defenderCards:party(20000000),[own]:cheonga,[other]:released(['V-042','SS','MS-042']),seed:7919});
+  // Keep both basic and skill impacts observable after the upper-tier survival
+  // correction. The old seed ends before Cheonga's first basic attack.
+  const battle=createPvpBattleV2({attackerCards:party(20000000),defenderCards:party(20000000),[own]:cheonga,[other]:released(['V-042','SS','MS-042']),seed:55433});
   const enemy=battle.teams[side==='A'?'B':'A'],targets=new Map([...enemy.cards,...enemy.mercenaries].map(t=>[t.id,t]));
   const hits=battle.result.timeline.filter(e=>e.actorId===side+':MERCENARY:V-005'&&!e.dodge&&['TURN','MERCENARY_HIT'].includes(e.type));
   for(const type of ['TURN','MERCENARY_HIT'])assert.ok(hits.some(e=>e.type===type),type);
