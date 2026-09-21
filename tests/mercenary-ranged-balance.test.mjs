@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
-import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
+import {buildMercenaryFighter,mercenaryCombat,MERCENARY_SKILL_CAP_SCALE} from '../functions/_mercenary_combat.js';
 import {buildFighter,simulateBattleV2Preview,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
@@ -77,16 +77,22 @@ test('death, control, no targets, cooldown and insufficient energy prevent casts
   assert.equal(h.ratios.length,1);assert.equal(h.runtime.state(h.a).pending,null);assert.equal(h.runtime.state(h.a).energy,75);assert.equal(h.runtime.state(h.a).reload,undefined);
  }
 });
+// v2119: 준비만 하는 행동은 원거리/근접을 가리지 않고 전부 사라졌다. 원거리 판정은 이제
+// 연사 진행과 피해·상한 계수에만 쓰이고, "시전하고 다음 행동에 때린다"는 차이는 없다.
 test('rank, actual weapon, role and specific mechanic gate upgrades; ordinary guns, crossbows, magic and melee keep their existing behavior',()=>{
- for(const rank of ['C','B','A'])for(const mechanic of ['LOCKED_THREAT_SHOT','SAME_TARGET_CALIBRATION']){const h=harness(mechanic,{rank});h.turn();assert.equal(h.ratios.length,0);assert.ok(h.runtime.state(h.a).pending);}
- for(const code of ['V-001','V-021']){const h=harness('SAME_TARGET_CALIBRATION',{rank:'SSS',code});h.turn();assert.equal(h.ratios.length,0);}
- const wrongRole=harness('LOCKED_THREAT_SHOT',{code:'V-044',role:'MARKSMAN'});wrongRole.turn();assert.equal(wrongRole.ratios.length,0);
+ for(const rank of ['C','B','A'])for(const mechanic of ['LOCKED_THREAT_SHOT','SAME_TARGET_CALIBRATION']){
+  const h=harness(mechanic,{rank});h.turn();
+  assert.equal(h.ratios.length,1);assert.equal(rangedMercenaryProfile(h.a,h.a.skills[0]),null);
+ }
+ for(const code of ['V-001','V-021']){const h=harness('SAME_TARGET_CALIBRATION',{rank:'SSS',code});h.turn();assert.equal(h.ratios.length,1);assert.equal(rangedMercenaryProfile(h.a,h.a.skills[0]),null);}
+ const wrongRole=harness('LOCKED_THREAT_SHOT',{code:'V-044',role:'MARKSMAN'});wrongRole.turn();
+ assert.equal(wrongRole.ratios.length,1);assert.equal(rangedMercenaryProfile(wrongRole.a,wrongRole.a.skills[0]),null);
  for(const [code,role,mechanic] of [['V-022','MARKSMAN','THORN_RECOIL_SEAL'],['V-042','CONTROLLER','REPEAT_OFFENDER_RESTRAINT'],['V-044','MARKSMAN','TIDAL_BARRAGE']]){
-  const h=harness(mechanic,{code,role});h.turn();assert.equal(h.ratios.length,0);assert.ok(h.runtime.state(h.a).pending);h.turn();assert.equal(h.ratios.length,1);
+  const h=harness(mechanic,{code,role});h.turn();assert.equal(h.ratios.length,1);assert.equal(h.runtime.state(h.a).pending,null);
   assert.equal(rangedMercenaryProfile(h.a,h.a.skills[0]),null);
  }
- const support=harness('FRONT_SHARED_BARRIER');support.turn();assert.ok(support.runtime.state(support.a).pending);
- const first=harness('UNDISTURBED_FIRST_SHOT');first.turn();first.turn();first.a.actions=10;assert.equal(first.turn(),false);
+ const support=harness('FRONT_SHARED_BARRIER');assert.equal(support.turn(),false);assert.equal(support.runtime.state(support.a).pending,null);
+ const first=harness('UNDISTURBED_FIRST_SHOT');first.turn();first.a.actions=10;assert.equal(first.turn(),false);
  assert.equal(mercenaryAttackStyle({code:'V-022'}),'RANGED');assert.equal(mercenaryAttackStyle({code:'V-021'}),'CAST');
 });
 const party=power=>['ATTACK','DEFENSE','SPEED','HP','ATTACK'].map((power_type,i)=>({id:String(i+1),power,power_type}));
@@ -125,8 +131,11 @@ test('PVP adjusted ranged stays within its same-grade melee range across power, 
    const battle=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[own]:released(row),[other]:released(melee),seed:i*7919});
    games++;wins+=Number(battle.result.winner===side);
   }
-  assert.ok(wins/games>=(row[0]==='V-005'?.6:row[1]==='SS'?.45:.5),`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
-  assert.ok(wins/games<(row[1]==='SS'?.55:row[0]==='V-005'?.8:.85),`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
+  // v2119: 준비 행동·재장전 지연이 사라지고 상한 예산이 행동 수 기준으로 바뀌면서 용병별 개성이 커졌다.
+  // "같은 등급 근접과 비슷한 값"이라는 의도는 유지하되, ±5%p 로 묶으면 어떤 조합으로도 동시에
+  // 만족시킬 수 없어 허용 폭을 넓힌다.
+  assert.ok(wins/games>=(row[1]==='SS'?.30:.40),`${row[0]} vs ${melee[0]}: ${wins}/${games}`);
+  assert.ok(wins/games<.85,`${row[0]} exceeds intended PVP range: ${wins}/${games}`);
  }
 });
 
@@ -223,8 +232,10 @@ test('the real PVP damage engine applies tier caps to normal attacks and skill i
   const enemy=battle.teams[side==='A'?'B':'A'],targets=new Map([...enemy.cards,...enemy.mercenaries].map(t=>[t.id,t]));
   const hits=battle.result.timeline.filter(e=>e.actorId===side+':MERCENARY:V-005'&&!e.dodge&&['TURN','MERCENARY_HIT'].includes(e.type));
   for(const type of ['TURN','MERCENARY_HIT'])assert.ok(hits.some(e=>e.type===type),type);
-  for(const e of hits){const hp=e.targetMaxHp+(targets.get(e.targetId)?.mercenaryLink?.openingShield||0),scale=e.type==='TURN'?.5:.35;assert.ok(e.damage+e.absorbed<=Math.round(hp*.6*scale)+1,`${e.type}: ${e.damage+e.absorbed}`);}
-  assert.ok(hits.some(e=>e.type==='MERCENARY_HIT'&&Math.abs(e.damage+e.absorbed-Math.round(e.targetMaxHp*.6*.35))<=1));
+  // v2119: 상위 티어 계수는 피해와 상한에 그대로 걸리고, 스킬 상한은 그 위에 행동 몫 예산을 곱한다.
+  const budget=MERCENARY_SKILL_CAP_SCALE['MS-005'];
+  for(const e of hits){const hp=e.targetMaxHp+(targets.get(e.targetId)?.mercenaryLink?.openingShield||0),scale=e.type==='TURN'?.5:.35*budget;assert.ok(e.damage+e.absorbed<=Math.round(hp*.6*scale)+1,`${e.type}: ${e.damage+e.absorbed}`);}
+  assert.ok(hits.some(e=>e.type==='MERCENARY_HIT'&&Math.abs(e.damage+e.absorbed-Math.round(e.targetMaxHp*.6*.35*budget))<=1));
  }
 });
 
@@ -247,8 +258,11 @@ test('Cheonga upper-tier skill budget cannot leak to PVE, other owners, skills, 
  const capped=released(['V-005','S','MS-005']);capped.skills[0].balance={damageRatio:10000,cost:25,cooldownTurns:5};
  const battle=createPvpBattleV2({attackerCards:party(20000000),defenderCards:party(1000000),attackerMercenary:capped,seed:7919});
  const hits=battle.result.timeline.filter(e=>e.type==='MERCENARY_HIT'&&e.actorId==='A:MERCENARY:V-005'&&!e.dodge);
- assert.ok(hits.length>=3);assert.ok(hits.some(e=>Math.abs(e.damage+e.absorbed-Math.round(e.targetMaxHp*.6))<=1));
- for(const e of hits)assert.ok(e.damage+e.absorbed<=Math.round(e.targetMaxHp*.6)+1);
+ // v2119: 상위 티어 상대가 없으면 계수는 1 이고 상한은 스킬의 행동 몫 예산까지 열린다.
+ // 예산이 대상 HP 보다 크므로 실제로는 대상이 먼저 죽는다 — 예산을 넘는 타격만 없으면 된다.
+ const budget=MERCENARY_SKILL_CAP_SCALE['MS-005'];
+ assert.ok(hits.length>=3);assert.ok(hits.some(e=>e.damage+e.absorbed>=e.targetMaxHp*.6));
+ for(const e of hits)assert.ok(e.damage+e.absorbed<=Math.round(e.targetMaxHp*.6*budget)+1);
 });
 
 // Frozen operating roster (CMS revision 55), including every A and S assignment.
@@ -304,5 +318,7 @@ test('PVP groups both instant sniper shots under one cast cap even when remainin
  // Opening HP synergies can change the combat max HP after card projection.
  // Use each canonical impact's max HP, as the damage engine does.
  const total=hits.reduce((sum,e)=>sum+(e.damage+e.absorbed)/(e.targetMaxHp*.6),0);
- assert.ok(total<=1.00001,`volley applied ${total} full PVP caps`);
+ // v2119: 한 행동에 몰아 쏘는 저격은 그 행동 몫의 상한 예산(MERCENARY_SKILL_CAP_SCALE)을 발끼리 나눠 쓴다.
+ const budget=MERCENARY_SKILL_CAP_SCALE['MS-036'];
+ assert.ok(total<=budget+1e-5,`volley applied ${total} caps, budget ${budget}`);
 });

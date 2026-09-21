@@ -20,11 +20,11 @@ function harness({mechanic='LOCKED_THREAT_SHOT',miss=false}={}){
 }
 const intercepts=h=>h.events.filter(e=>e.type==='MERCENARY_INTERCEPT');
 
-test('guard installs immediately on another ally and shares its action with one half-strength basic',()=>{
+test('guard installs immediately on another ally and shares its action with one 85% basic',()=>{
  const h=harness();h.guard.hp=100;
  assert.equal(h.turn(),false);assert.equal(h.runtime.state(h.guard).pending,null);
  assert.equal(h.events.find(e=>e.type==='MERCENARY_BUFF').targetId,h.ally.id);
- assert.equal(h.runtime.state(h.guard).energy,85);assert.equal(h.runtime.basicMultiplier(h.guard),.5);
+ assert.equal(h.runtime.state(h.guard).energy,85);assert.equal(h.runtime.basicMultiplier(h.guard),.85);
  h.runtime.afterBasic(h.guard,h.enemy,true);assert.equal(h.runtime.state(h.guard).energy,85,'installation attack cannot refund its cost');
  assert.equal(h.turn(),false);assert.equal(h.runtime.basicMultiplier(h.guard),1);
  h.runtime.afterBasic(h.guard,h.enemy,true);assert.equal(h.runtime.state(h.guard).energy,95);
@@ -33,7 +33,7 @@ test('guard installs immediately on another ally and shares its action with one 
 test('a living guard link prevents repeated resource spending and uses protected ally actions for expiry',()=>{
  const h=harness();h.turn();for(let i=0;i<9;i++)h.turn();
  assert.equal(h.ally.actions,0);assert.equal(h.events.filter(e=>e.type==='MERCENARY_WINDUP').length,1);assert.equal(h.runtime.state(h.guard).energy,85);
- h.ally.actions=1;assert.equal(h.runtime.beforeBasicDamage(h.enemy,h.ally,1000),600);
+ h.ally.actions=1;assert.equal(h.runtime.beforeBasicDamage(h.enemy,h.ally,1000),300);
  const expired=harness();expired.turn();expired.ally.actions=2;
  assert.equal(expired.runtime.beforeBasicDamage(expired.enemy,expired.ally,1000),1000);assert.equal(intercepts(expired).length,0);
 });
@@ -41,10 +41,10 @@ test('single skill damage and ordinary attacks each transfer one hit without rec
  for(const kind of ['basic','skill']){
   const h=harness();h.turn();
   if(kind==='basic')h.damage(h.ally,h.runtime.beforeBasicDamage(h.enemy,h.ally,1000));else h.turn(h.enemy);
-  assert.equal(h.ally.hp,4400);assert.equal(h.guard.hp,9600);assert.equal(intercepts(h).length,1);
+  assert.equal(h.ally.hp,4700);assert.equal(h.guard.hp,9300);assert.equal(intercepts(h).length,1);
   assert.equal(h.runtime.beforeBasicDamage(h.enemy,h.ally,1000),1000);
   const event=intercepts(h)[0];assert.equal(event.actorId,h.guard.id);assert.equal(event.sourceAttackerId,h.enemy.id);assert.equal(event.protectedTargetId,h.ally.id);
-  assert.equal(h.guard.damageDealt,0);assert.equal(h.enemy.damageDealt,kind==='basic'?400:1000);
+  assert.equal(h.guard.damageDealt,0);assert.equal(h.enemy.damageDealt,kind==='basic'?700:1000);
  }
 });
 test('only the damage actually taken by a dying protector is removed from the original hit',()=>{
@@ -67,7 +67,7 @@ test('misses and zero damage preserve the ward; area, poison and counter paths b
 });
 test('a two-shot sniper spends one protection charge; its second impact hits the original ally',()=>{
  const h=harness({mechanic:'ABYSS_SHIELD_ECHO'});h.turn();h.turn(h.enemy);
- assert.equal(intercepts(h).length,1);assert.equal(h.guard.hp,9600);assert.equal(h.ally.hp,3400);
+ assert.equal(intercepts(h).length,1);assert.equal(h.guard.hp,9300);assert.equal(h.ally.hp,3700);
 });
 test('death, stun and silence cannot provide active protection and cannot start a new link',()=>{
  for(const control of ['dead','stunned','silenced']){
@@ -89,7 +89,7 @@ test('no valid ally means a full basic with no cost; a lost target allows the ne
 test('guardian cycles do not chain damage transfers or overwrite another source link',()=>{
  const h=harness();h.turn();
  h.runtime.buffs.set(h.guard.id,{intercept:{actor:h.ally,skill:skill('INTERCEPT_ONE_HIT'),percent:40,expires:20}});
- const rest=h.runtime.beforeBasicDamage(h.enemy,h.ally,1000);assert.equal(rest,600);assert.equal(intercepts(h).length,1);assert.equal(h.ally.hp,5000);
+ const rest=h.runtime.beforeBasicDamage(h.enemy,h.ally,1000);assert.equal(rest,300);assert.equal(intercepts(h).length,1);assert.equal(h.ally.hp,5000);
  h.turn();assert.equal(h.events.filter(e=>e.type==='MERCENARY_BUFF').length,1);
 });
 const released=(code,rank,ids)=>({...seed.catalog.cards.find(c=>c.code===code),...seed.document.mercenaries.find(c=>c.code===code),rank,level:1,statMode:'RANK_FIXED',combat,skills:ids.map(id=>({...seed.document.skills.find(s=>s.id===id),review:'REVIEWED',balance:balances.find(s=>s.id===id).balance}))});
@@ -104,7 +104,7 @@ test('canonical PvP keeps 5+1, one actor action and a real basic on the immediat
 test('public guard rules describe the actual mechanic without changing CMS ranks, assignments or balances',()=>{
  const doc=structuredClone(seed.document);doc.assignments.find(a=>a.code==='V-003').skillIds=['MS-003'];
  const original=JSON.stringify(doc),view=mercenaryCodexDocument({payload_json:original,revision:55,updated_at:'2026-09-17'}).cards.find(c=>c.code==='V-003');
- assert.match(view.skills[0].trigger,/자신을 제외/);assert.match(view.skills[0].effect,/단일 용병 공격 스킬/);assert.match(view.skills[0].procRule,/50%/);
+ assert.match(view.skills[0].trigger,/자신을 제외/);assert.match(view.skills[0].effect,/단일 용병 공격 스킬/);assert.match(view.skills[0].procRule,/85%/);
  assert.deepEqual(view.skills[0].balance,doc.skills.find(s=>s.id==='MS-003').balance);assert.equal(JSON.stringify(doc),original);
  const unrelated=doc.skills.find(s=>s.id==='MS-004');assert.equal(mercenaryGuardSkillText(unrelated),unrelated);
 });

@@ -498,7 +498,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const capPct = clamp(baseCapPct + (!counter ? Math.max(0, Number(actorAdvancement.damageCapPoints || 0)) / 100 : 0), baseCapPct, 0.90);
   // A linked ward is finite durability. Include its original size in the hit
   // cap so a tiny fixed base HP cannot make a large ward nearly unbreakable.
-  const hitCap=mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,1);
+  const hitCap=mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4);
   const capped = Math.min(raw * (1 - reduction), hitCap);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
@@ -1007,7 +1007,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Selected sniper/slow-shot casts use the PVE basic floor, scaled by the
     // actual per-impact ratio. A divided volley never repeats the full floor.
     // Escort has no floor; apocalypse scaling and the per-hit cap still apply.
-    hit:(actor,target,multiplier,{rangedSkill=false,castShare=1}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,damageCapScale:rangedSkill&&actor.battleMode==='PVP'?castShare:1}),damage:applyDamage,
+    hit:(actor,target,multiplier,{rangedSkill=false,castShare=1,capScale=null}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,damageCapScale:actor.battleMode==='PVP'?(Number.isFinite(capScale)?capScale:(rangedSkill?castShare:1)):1}),damage:applyDamage,
     knockout:target=>resolveKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data),clock:()=>clock}):null;
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
   {

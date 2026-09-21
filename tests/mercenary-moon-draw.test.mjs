@@ -21,69 +21,76 @@ function harness({miss=false}={}){
  return {actor,original,replacement,healthy,teams,runtime,events,rolls,turn:()=>{actor.actions++;return runtime.beforeAction(actor);},kill:target=>{target.hp=0;target.alive=false;}};
 }
 
-test('moon draw retargets in the paid impact action instead of losing the cast and another turn',()=>{
- const h=harness();assert.equal(h.turn(),true);assert.equal(h.rolls.length,0);h.kill(h.original);
- assert.equal(h.turn(),true);assert.equal(h.rolls.length,1);assert.equal(h.rolls[0].targetId,h.replacement.id);
- assert.ok(Math.abs(h.rolls[0].multiplier-3.36)<1e-10);
- const retarget=h.events.find(e=>e.retargeted);assert.equal(retarget.type,'MERCENARY_WINDUP');assert.equal(retarget.continuation,true);assert.deepEqual(retarget.targetIds,[h.replacement.id]);
+// v2119: 준비만 하는 행동이 사라져 발도는 시전한 그 행동에서 끝난다.
+// 준비 중 표적을 잃어 검격이 통째로 없어지는 경우가 더는 없고, 발도 뒤 재장전 지연도 없다.
+test('moon draw strikes in the casting action and never loses the cast to a preparation turn',()=>{
+ const h=harness();assert.equal(h.turn(),true);
+ assert.equal(h.rolls.length,1);assert.equal(h.rolls[0].targetId,h.original.id);
+ assert.ok(Math.abs(h.rolls[0].multiplier-4.06)<1e-10);
  assert.equal(h.events.filter(e=>e.type==='MERCENARY_HIT').length,1);assert.equal(h.events.filter(e=>e.type==='MERCENARY_CANCEL').length,0);
- const state=h.runtime.state(h.actor);assert.equal(state.energy,75);assert.equal(state.cooldown.get('MS-010'),5);assert.equal(state.pending,null);assert.equal(state.reload,true);
- h.actor.gauge=60;assert.equal(h.turn(),false);assert.equal(h.actor.gauge,40);assert.equal(h.runtime.basicMultiplier(h.actor),1);
+ const state=h.runtime.state(h.actor);assert.equal(state.energy,75);assert.equal(state.cooldown.get('MS-010'),5);assert.equal(state.pending,null);
+ // 발도 다음 행동은 게이지 손실 없이 평범한 기본 공격이다.
+ h.actor.gauge=60;assert.equal(h.turn(),false);assert.equal(h.actor.gauge,60);assert.equal(h.runtime.basicMultiplier(h.actor),1);
  assert.equal(state.cooldown.get('MS-010'),5);assert.equal(h.healthy.hp,10000);
 });
 
-test('a full-health replacement is attacked without waiting for allied damage',()=>{
- const h=harness();h.replacement.hp=10000;h.turn();h.kill(h.original);h.turn();
- assert.equal(h.rolls.length,1);assert.equal(h.rolls[0].multiplier,2.8);assert.equal(h.replacement.hp,7200);
+test('a full-health enemy is struck for the base ratio without waiting for allied damage',()=>{
+ const h=harness();for(const t of h.teams.B)t.hp=10000;h.turn();
+ assert.equal(h.rolls.length,1);assert.equal(h.rolls[0].multiplier,2.8);assert.equal(h.rolls[0].targetId,h.original.id);
 });
 
-test('a monster wave replacement receives the prepared draw without retaining a removed actor or executing the boss',()=>{
- const h=harness();h.actor.battleMode='PVE';h.teams.B=[h.original];h.original.isMonster=true;h.turn();h.kill(h.original);
+test('a monster boss receives the draw in the casting action without execution or a removed actor',()=>{
+ const h=harness();h.actor.battleMode='PVE';
  const boss={...h.healthy,id:'B:WAVE:2',isMonster:true,isBoss:true,hp:10000000,maxHp:10000000};
- h.teams.B.splice(0,1,boss);h.turn();
+ h.teams.B=[boss];h.turn();
  assert.equal(h.rolls.length,1);assert.equal(h.rolls[0].targetId,boss.id);assert.equal(h.rolls[0].multiplier,2.8);
  assert.equal(boss.hp,9997200);assert.equal(h.runtime.state(h.actor).energy,75);
- assert.equal(h.events.filter(e=>e.retargeted).length,1);assert.equal(h.events.some(e=>e.type==='MERCENARY_CANCEL'),false);
+ assert.equal(h.events.some(e=>e.type==='MERCENARY_CANCEL'),false);
 });
 
-test('reselection ignores untargetable/dead/support entities and uses current HP ratio and stable slot ordering',()=>{
- const h=harness();h.turn();h.original.untargetable=true;
+test('selection ignores untargetable/dead/support entities and uses current HP ratio and stable slot ordering',()=>{
+ const h=harness();h.original.untargetable=true;
  h.teams.B.push({...h.healthy,id:'B:SUIT',slot:-3,hp:1,isBattleSuit:true},{...h.healthy,id:'B:DEAD',slot:-2,hp:0,alive:false},{...h.healthy,id:'B:HIDDEN',slot:-1,hp:1,untargetable:true});
  h.replacement.hp=8000;h.healthy.hp=4000;h.healthy.maxHp=10000;h.turn();
  assert.equal(h.rolls[0].targetId,h.healthy.id);assert.equal(h.original.hp,1000);
- const tie=harness();tie.turn();tie.kill(tie.original);tie.replacement.hp=5000;tie.healthy.hp=5000;tie.turn();assert.equal(tie.rolls[0].targetId,tie.replacement.id);
+ const tie=harness();tie.kill(tie.original);tie.replacement.hp=5000;tie.healthy.hp=5000;tie.turn();assert.equal(tie.rolls[0].targetId,tie.replacement.id);
 });
 
-test('a living original target remains locked and uses missing health at impact',()=>{
- const h=harness();h.turn();h.original.hp=9000;h.replacement.hp=100;h.turn();
- assert.equal(h.rolls[0].targetId,h.original.id);assert.ok(Math.abs(h.rolls[0].multiplier-2.94)<1e-10);
- assert.equal(h.events.some(e=>e.retargeted),false);assert.equal(h.replacement.hp,100);
+test('the weakest living enemy is measured at the moment of the strike',()=>{
+ const h=harness();h.original.hp=9000;h.replacement.hp=100;h.turn();
+ assert.equal(h.rolls[0].targetId,h.replacement.id);assert.ok(Math.abs(h.rolls[0].multiplier-4.186)<1e-10);
+ assert.equal(h.events.some(e=>e.retargeted),false);assert.equal(h.original.hp,9000);
 });
 
-test('no legal enemy cancels once; death, stun and silence cannot create a replacement attack',()=>{
- const empty=harness();empty.turn();for(const t of empty.teams.B)empty.kill(t);empty.turn();
- assert.equal(empty.rolls.length,0);assert.equal(empty.events.filter(e=>e.type==='MERCENARY_CANCEL').length,1);assert.equal(empty.runtime.state(empty.actor).energy,75);
+test('no legal enemy spends nothing; death, stun and silence cannot produce a strike',()=>{
+ const empty=harness();for(const t of empty.teams.B)empty.kill(t);empty.turn();
+ assert.equal(empty.rolls.length,0);assert.equal(empty.events.filter(e=>e.type==='MERCENARY_CANCEL').length,0);
+ assert.equal(empty.runtime.state(empty.actor).energy,100);
  for(const reason of ['death','stunned','silenced']){
-  const h=harness();h.turn();h.kill(h.original);if(reason==='death')h.kill(h.actor);else h.actor[reason]=true;h.turn();
+  const h=harness();if(reason==='death')h.kill(h.actor);else h.actor[reason]=true;h.turn();
   assert.equal(h.rolls.length,0,reason);assert.equal(h.runtime.state(h.actor).pending,null,reason);
-  assert.equal(h.events.some(e=>e.retargeted),false,reason);assert.equal(h.runtime.state(h.actor).energy,75,reason);
+  assert.equal(h.runtime.state(h.actor).energy,100,reason);
  }
 });
 
-test('a replacement can dodge or absorb the strike; it never causes a third target, refund or kill reset',()=>{
- const miss=harness({miss:true});miss.turn();miss.kill(miss.original);miss.turn();assert.equal(miss.replacement.hp,6000);assert.equal(miss.rolls.length,1);assert.equal(miss.runtime.state(miss.actor).energy,75);
- const shield=harness();shield.turn();shield.kill(shield.original);shield.replacement.shield=5000;shield.turn();assert.equal(shield.replacement.hp,6000);assert.ok(shield.replacement.shield>0&&shield.replacement.shield<5000);
- const kill=harness();kill.turn();kill.kill(kill.original);kill.replacement.hp=1;kill.turn();assert.equal(kill.replacement.alive,false);assert.equal(kill.rolls.length,1);assert.equal(kill.healthy.hp,10000);assert.equal(kill.runtime.state(kill.actor).cooldown.get('MS-010'),5);
+test('the target can dodge or absorb the strike; it never causes a second target, refund or kill reset',()=>{
+ const miss=harness({miss:true});miss.turn();assert.equal(miss.original.hp,1000);assert.equal(miss.rolls.length,1);assert.equal(miss.runtime.state(miss.actor).energy,75);
+ const shield=harness();shield.original.shield=5000;shield.turn();assert.equal(shield.original.hp,1000);assert.ok(shield.original.shield>0&&shield.original.shield<5000);
+ const kill=harness();kill.turn();assert.equal(kill.original.alive,false);assert.equal(kill.rolls.length,1);
+ assert.equal(kill.replacement.hp,6000);assert.equal(kill.healthy.hp,10000);assert.equal(kill.runtime.state(kill.actor).cooldown.get('MS-010'),5);
 });
 
 const released=(code,rank,skills)=>({...seed.catalog.cards.find(c=>c.code===code),...seed.document.mercenaries.find(c=>c.code===code),rank,level:1,statMode:'RANK_FIXED',combat,skills});
-test('canonical 5+1 PVP reproducer resolves the lost-target draw into a real hit in the same timeline action',()=>{
+// v2119: 이 시드는 예전에 "준비 중 표적 상실"이 나오던 재현 케이스다. 준비 행동이 없어진 뒤로는
+// 시전과 타격이 같은 행동에서 끝나므로 상실 자체가 생기지 않는다.
+test('canonical 5+1 PVP reproducer lands the draw in the casting action with no lost-target cancel',()=>{
  const cards=['ATTACK','DEFENSE','SPEED','HP','ATTACK'].map((power_type,i)=>({id:String(i+1),power:100000,power_type}));
  const b=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:released('V-010','SS',[skill]),defenderMercenary:released('V-002','A',[]),seed:15838});
- const timeline=b.result.timeline,id='A:MERCENARY:V-010',retarget=timeline.find(e=>e.actorId===id&&e.retargeted);
- assert.ok(retarget);const impact=timeline.find(e=>e.seq>retarget.seq&&e.actorId===id&&e.type==='MERCENARY_HIT');
- assert.ok(impact);assert.equal(impact.at,retarget.at);assert.equal(impact.targetId,retarget.targetId);
- assert.ok(!timeline.some(e=>e.actorId===id&&e.type==='MERCENARY_CANCEL'&&e.reason==='TARGET_LOST'));
+ const timeline=b.result.timeline,id='A:MERCENARY:V-010';
+ const cast=timeline.find(e=>e.actorId===id&&e.type==='MERCENARY_WINDUP'&&!e.continuation);
+ assert.ok(cast);const impact=timeline.find(e=>e.seq>cast.seq&&e.actorId===id&&e.type==='MERCENARY_HIT');
+ assert.ok(impact);assert.equal(impact.at,cast.at);
+ assert.ok(!timeline.some(e=>e.actorId===id&&e.type==='MERCENARY_CANCEL'));
  assert.equal(b.teams.A.cards.length,5);assert.equal(b.teams.A.mercenaries.length,1);
 });
 

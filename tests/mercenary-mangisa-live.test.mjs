@@ -38,24 +38,33 @@ function harness({mode='PVE',count=3,firstDodge=false,hp=100000,controlled=false
 test('six shots and two splash outcomes spend one cast, one bounded PVP cap and one cooldown in the first action',()=>{
  for(const mode of ['PVE','PVP'])for(const count of [1,2,3]){
   const h=harness({mode,count});h.actor.actions++;assert.equal(h.runtime.beforeAction(h.actor),true);
-  const volley=h.events.find(e=>e.type==='MERCENARY_VOLLEY'),scale=mode==='PVP'?.82:1;
+  const volley=h.events.find(e=>e.type==='MERCENARY_VOLLEY'),scale=1;
   assert.ok(volley);assert.equal(volley.impacts.length,5+count);assert.equal(h.runtime.state(h.actor).pending,null);
   assert.equal(h.runtime.state(h.actor).energy,75);assert.equal(h.runtime.state(h.actor).cooldown.get('MS-045'),6);
-  assert.ok(Math.abs(h.rolls.reduce((s,r)=>s+r.ratio,0)-(3.2+.4*(count-1))*scale)<1e-10);
-  assert.ok(h.rolls.reduce((s,r)=>s+r.castShare,0)<=scale+1e-10);
+  assert.ok(Math.abs(h.rolls.reduce((s,r)=>s+r.ratio,0)-(3.2+1*Math.min(2,count-1))*scale)<1e-10);
+  // 대상별로 상한 예산이 따로 있으므로 한 대상에 들어간 몫이 1을 넘지 않으면 된다.
+  const perTarget=new Map();for(const r of h.rolls)perTarget.set(r.id,(perTarget.get(r.id)||0)+r.castShare);
+  for(const share of perTarget.values())assert.ok(share<=scale+1e-10);
   assert.ok(volley.impacts.every(i=>i.damage>=0&&i.absorbed>=0));assert.equal(volley.impacts[0].absorbed,100);
   h.actor.actions++;assert.equal(h.runtime.beforeAction(h.actor),false);assert.equal(h.runtime.state(h.actor).energy,75);
   const plan=mangisaVisualPlan(volley);assert.equal(plan.events.filter(e=>e.kind==='SHOT').length,6);assert.ok(plan.events.every(e=>!e.ratio));
  }
 });
-test('first dodge does not cancel followups; early primary death drops spare bullets and splash even when revived',()=>{
+// v2119: 사격이 중간에 멈추면 그 행동이 통째로 사라져 용병이 손을 놓은 것처럼 보인다.
+// 주 대상이 먼저 쓰러지면 남은 탄을 같은 행동에서 다음 적에게 이어 쏜다. 예산·비용·재사용 대기는 그대로다.
+test('first dodge does not cancel followups; a fallen primary hands the remaining bullets to the next enemy',()=>{
  const dodge=harness({firstDodge:true});dodge.actor.actions++;dodge.runtime.beforeAction(dodge.actor);
  assert.equal(dodge.rolls.length,8);assert.equal(dodge.events.find(e=>e.type==='MERCENARY_VOLLEY').impacts[0].dodge,true);
  const death=harness({hp:1,revive:true});death.actor.actions++;death.runtime.beforeAction(death.actor);
- assert.equal(death.rolls.length,1);assert.equal(death.targets[1].hp,100000);
+ // 주 대상 자리를 넘겨받은 적은 확산 대상에서 빠지므로 6발 + 확산 1발이다.
+ assert.equal(death.rolls.length,7);assert.equal(death.rolls[0].id,'B:0');assert.ok(death.rolls.slice(1).every(r=>r.id!=='B:0'));
+ assert.ok(Math.abs(death.rolls.reduce((s,r)=>s+r.ratio,0)-4.2)<1e-10);
+ assert.equal(death.runtime.state(death.actor).energy,75);assert.equal(death.runtime.state(death.actor).cooldown.get('MS-045'),6);
  assert.deepEqual(death.events.filter(e=>['MERCENARY_VOLLEY','KNOCKOUT','REVIVE'].includes(e.type)).map(e=>e.type),['MERCENARY_VOLLEY','KNOCKOUT','REVIVE']);
  const disabled=harness({controlled:true});disabled.actor.actions++;disabled.runtime.beforeAction(disabled.actor);assert.equal(disabled.rolls.length,0);assert.equal(disabled.runtime.state(disabled.actor).energy,100);
- const lost=harness();lost.targets[0].hp=0;resolveMangisaVolley({...lost,skill});assert.equal(lost.rolls.length,0);
+ const lost=harness();lost.targets[0].hp=0;resolveMangisaVolley({...lost,skill});
+ assert.ok(lost.rolls.length>0);assert.ok(lost.rolls.every(r=>r.id!=='B:0'));
+ const none=harness({count:1});none.targets[0].hp=0;resolveMangisaVolley({...none,skill});assert.equal(none.rolls.length,0);
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SS opening, idempotent replay, separate loadout and approved skill`,async t=>{
  const f=await mercenaryFixture(t,{postgres});for(const o of f.draw.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(f.draw);

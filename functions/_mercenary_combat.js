@@ -4,7 +4,7 @@ import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.m
 import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {isRangedMercenarySkill,rangedMercenaryProfile,rangedMercenaryPvpScale,cheongaHigherTierPvpScale} from '../shared/mercenary-ranged-balance-v1.mjs';
-import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE} from '../shared/mercenary-guard-balance-v1.mjs';
+import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE,mercenaryWardPercent} from '../shared/mercenary-guard-balance-v1.mjs';
 import {isMercenaryMoonDrawSkill} from '../shared/mercenary-moon-draw-v1.mjs';
 import {resolveMangisaVolley} from './_mercenary_mangisa.js';
 import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
@@ -35,6 +35,26 @@ export function mercenaryTurnCadence(teams){
   }
  };
 }
+// v2119 · 용병 스킬 피해 상한 예산
+// PVP 피해 상한은 한 타격당 대상 최대 HP 의 60% 다. 지금까지는 시전이 몇 행동을 쓰든
+// 타격마다 상한 하나를 통째로 썼다. 그래서 한 행동에 네 번 때리는 스킬만 압도적으로 세고,
+// 준비 행동을 쓰는 스킬은 "2행동에 상한 1개"가 되어 평타보다 손해였다(18명 중 16명).
+// 시전이 실제로 소모하는 행동 수만큼 상한 예산을 주고, 한 대상 안에서 나눠 때리면
+// 그 몫만큼만 쓰게 한다. 스킬별 조정치는 MERCENARY_SKILL_CAP_SCALE 하나로 모은다.
+// PVE 는 상한 자체가 거의 걸리지 않아 이 값의 영향을 받지 않는다.
+const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
+export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
+ 'MS-021':.82,'MS-046':1,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,
+ 'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.2,'MS-044':1.2,
+});
+export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
+ const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
+ return actions*(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
+}
+// 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
+// 그 행동이 통째로 손해가 되어, 스킬을 쓸수록 약해지는 역전이 생긴다.
+const MERCENARY_SUPPORT_MECHANICS=new Set(['INTERCEPT_ONE_HIT','FRONT_STAND_FAST','MELEE_PARRY_RIPOSTE','NEXT_BASIC_ORDER','FRONT_SHARED_BARRIER','FRONT_OFFENSE_VEIL','CLEANSE_THEN_MEND']);
+export const isMercenarySupportSkill=skill=>MERCENARY_SUPPORT_MECHANICS.has(skill?.mechanic);
 export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(!snapshot)return null;
  if(snapshot.statMode==='RANK_FIXED'){
@@ -100,14 +120,16 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(!living(t))return {hit:false};const veil=table(debuffs,a).veil,pvpScale=rangedMercenaryPvpScale(a,s,tierScale(a));let scale=Number(s.balance.damageRatio)*multiplier*pvpScale;
   if(veil&&!opts.followup){scale*=1-veil.percent/100;delete table(debuffs,a).veil;}
   if(scale<=0)return effect(a,s,t,0,phase);
-  const h=hit(a,t,scale,{rangedSkill:isRangedMercenarySkill(a,s),castShare:(opts.castShare??1)*pvpScale});if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
+  const ranged=isRangedMercenarySkill(a,s);
+  const h=hit(a,t,scale,{rangedSkill:ranged,castShare:(opts.castShare??1)*pvpScale,capScale:mercenarySkillCapActions(a,s,ranged,opts.capCount)*(opts.capShare??1)*pvpScale});if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
   // Only direct single-target skill impacts can consume the link. Area skills,
   // poison, counters and fixed boss effects retain their own damage paths.
   const single=phase==='HIT'&&!['RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','DISTRIBUTED_CORAL_VOLLEY'].includes(s.mechanic);
   return effect(a,s,t,single?interceptDamage(a,t,h.damage):h.damage,phase);
  }
- function finish(a,s){const st=state(a);st.pending=null;if(!isRangedMercenarySkill(a,s)&&['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(s.mechanic))st.reload=true;send(a,s,'END');}
- function cancel(a,reason){const st=state(a),p=st.pending;if(!p)return;st.pending=null;if(!isRangedMercenarySkill(a,p.skill)&&['RIFT_MARK_DETONATION','TWO_BEAT_FOLLOWUP','WOUNDED_MOON_DRAW'].includes(p.skill.mechanic))st.reload=true;send(a,p.skill,'CANCEL',null,{reason});}
+ // v2119: 시전 뒤 재장전 게이지 지연을 없앤다. 용병의 다음 행동이 늦어지면 안 된다.
+ function finish(a,s){const st=state(a);st.pending=null;send(a,s,'END');}
+ function cancel(a,reason){const st=state(a),p=st.pending;if(!p)return;st.pending=null;st.cancelled=true;send(a,p.skill,'CANCEL',null,{reason});}
  function cleanse(target,onlyDot=false){if(!onlyDot&&Object.keys(target.apocalypseStatus||{}).length){clearApocalypseStatus(target);emit('APOCALYPSE_STATUS',{targetId:target.id,statuses:{},label:'정화'});return 'apocalypse';}const d=table(debuffs,target);for(const key of onlyDot?['poison','rift']:['poison','rift','thorn','oath','armor','veil','restraint','offender'])if(d[key]){if(key==='armor')target.defense=d[key].original;delete d[key];return key;}return null;}
  // Snipers fire within one action. Slow volleys start immediately but keep
  // one projectile per actor action, so they cannot burst three full hit caps.
@@ -132,7 +154,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    if(mechanic==='ABYSS_SHIELD_ECHO'&&index===1)scale+=c.focusBonusPercent/100;
    if(mechanic==='OBSERVED_SHIELD_BREAK')scale=1+c.armorReductionPercent/100;
    if(mechanic==='FINISHER_WITH_RELOAD')scale=1+c.finisherBonusPercent/100;
-   const h=strike(a,s,t,scale,'HIT',{followup:index>0,castShare:sequential?1:scale/totalScale});
+   // 순차 사격은 한 행동에 한 발이라 발마다 상한 1개, 동시 사격은 한 행동 예산을 발끼리 나눈다.
+   const h=strike(a,s,t,scale,'HIT',{followup:index>0,castShare:sequential?1:scale/totalScale,capShare:sequential?1/count:scale/totalScale,capCount:sequential?count:1});
    if(h.hit&&living(t)&&mechanic==='PLATINUM_FOCUS_LOCK'&&!(p.weakened?.has(t.id))){(p.weakened||=new Set()).add(t.id);table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});}
   }
   if(sequential&&end<count&&enemies(a).length){p.step=end;p.due=a.actions+1;return;}
@@ -142,7 +165,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   // A weakest-target draw frequently loses its target to an allied attack
   // during preparation. Spend the already-paid strike on the next legal enemy
   // within this action, without another windup turn, cost or cooldown reset.
-  if(!ts.length&&isMercenaryMoonDrawSkill(s)){
+  if(!ts.length&&(isMercenaryMoonDrawSkill(s)||s.mechanic==='RIFT_MARK_DETONATION'&&p.step)){
    const replacement=targets(a,s)[0];
    if(replacement){p.targets=[replacement.id];ts.push(replacement);send(a,s,'WINDUP',replacement,{targetIds:p.targets,continuation:true,retargeted:true});}
   }
@@ -151,7 +174,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   switch(s.mechanic){
    case 'PLATINUM_SANCTUARY':{
     const veil=table(debuffs,a).veil;delete table(debuffs,a).veil;
-    resolveRagnielJudgment({actor:a,skill:s,targets:p.targets.map(id=>all().find(t=>t.id===id)),hit,damage,knockout,emit,damageScale:veil?1-veil.percent/100:1});
+    resolveRagnielJudgment({actor:a,skill:s,targets:p.targets.map(id=>all().find(t=>t.id===id)),hit,damage,knockout,emit,damageScale:veil?1-veil.percent/100:1,capActions:mercenarySkillCapActions(a,s,false)});
     finish(a,s);break;}
    case 'GOLDEN_ORCHID_VOLLEY':{
     const primary=all().find(t=>t.id===p.targets[0]);if(!living(primary)){cancel(a,'TARGET_LOST');break;}
@@ -163,8 +186,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
    case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget);a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
    case 'WOUNDED_MOON_DRAW':once(t=>strike(a,s,t,1+(1-t.hp/t.maxHp)*c.finisherBonusPercent/100));break;
-   case 'FRONT_STAND_FAST':once(t=>{table(buffs,t).standfast={actor:a,skill:s,percent:c.interceptPercent,budget:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'FRONT_STAND_FAST'});});break;
-   case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100);if(h.hit&&living(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;
+   case 'FRONT_STAND_FAST':once(t=>{table(buffs,t).standfast={actor:a,skill:s,percent:mercenaryWardPercent(c.interceptPercent),budget:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'FRONT_STAND_FAST'});});break;
+   case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;
    case 'ABYSS_SHIELD_ECHO':{
     const t=ts[0];if(!p.step){const h=strike(a,s,t,.5);if(!h.hit||!living(t)){finish(a,s);break;}p.absorbed=Math.min(h.absorbed||0,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.focusBonusPercent/100));p.step=1;p.due=a.actions+1;}
     else{const base=mercenaryEffectiveAttack(a)*s.balance.damageRatio;strike(a,s,t,.5+(base>0?p.absorbed/base:0),'HIT',{followup:true});finish(a,s);}break;}
@@ -178,7 +201,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'DISTRIBUTED_CORAL_VOLLEY':{
     const index=p.step||0,t=all().find(t=>t.id===p.targets[index]);if(living(t))strike(a,s,t,1/p.targets.length,'HIT',{followup:index>0});
     if(index+1>=p.targets.length)finish(a,s);else{p.step=index+1;p.due=a.actions+1;}break;}
-   case 'INTERCEPT_ONE_HIT':once(t=>{table(buffs,t).intercept={actor:a,skill:s,percent:c.interceptPercent,expires:t.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'INTERCEPT_ONE_HIT'});});break;
+   case 'INTERCEPT_ONE_HIT':once(t=>{table(buffs,t).intercept={actor:a,skill:s,percent:mercenaryWardPercent(c.interceptPercent),expires:t.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'INTERCEPT_ONE_HIT'});});break;
    case 'MELEE_PARRY_RIPOSTE':once(t=>{b.parry={skill:s,percent:c.parryPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'MELEE_PARRY_RIPOSTE'});});break;
    case 'NEXT_BASIC_ORDER':once(t=>{table(buffs,t).order={percent:c.orderPercent,source:a.id};send(a,s,'BUFF',t,{effect:'NEXT_BASIC_ORDER'});});break;
    case 'FRONT_SHARED_BARRIER':once(t=>{const buff=table(buffs,t),old=buff.mercBarrier||0,budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),remaining=Math.min(old,t.shield);t.shield=Math.max(0,t.shield-remaining)+budget;t.maxShield=Math.max(t.maxShield,t.shield);buff.mercBarrier=budget;send(a,s,'BUFF',t,{effect:'SHIELD',amount:budget,targetShieldAfter:t.shield});});break;
@@ -190,13 +213,21 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'ADVANCE_SUPPRESSION':once(t=>{strike(a,s,t,1/p.targets.length);if(living(t)&&!t.controlImmune&&!t.isBoss&&t.row==='FRONT'&&t.attackStyle==='MELEE'){t.gauge=Math.max(0,t.gauge-c.suppressGauge);send(a,s,'DEBUFF',t,{effect:'APPROACH_DELAY',targetGaugeAfter:t.gauge});}});break;
    case 'LOCKED_THREAT_SHOT':once(t=>strike(a,s,t));break;
    case 'UNDISTURBED_FIRST_SHOT':once(t=>{const focused=state(a).hits===p.hits;send(a,s,'FOCUS',t,{focused});strike(a,s,t,focused?1+c.focusBonusPercent/100:1);});break;
-   case 'FINISHER_WITH_RELOAD':once(t=>{strike(a,s,t,t.hp/t.maxHp<=c.finisherHpPercent/100?1+c.finisherBonusPercent/100:1);if(living(t))st.reload=true;});break;
+   case 'FINISHER_WITH_RELOAD':once(t=>{strike(a,s,t,t.hp/t.maxHp<=c.finisherHpPercent/100?1+c.finisherBonusPercent/100:1);});break;
    case 'INTERRUPT_WINDUP':once(t=>{const h=strike(a,s,t);if(h.hit&&!t.controlImmune&&!t.isBoss&&state(t).pending)cancel(t,'INTERRUPTED');});break;
    case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0;const h=strike(a,s,t);if(h.hit&&marked>=c.restraintHits){d.restraint=c.restraintPercent;if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'NEXT_BASIC_WEAKENED'});}});break;
-   case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100);if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
+   case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
    case 'RIFT_MARK_DETONATION':
-    if(!p.step){for(const t of ts){const h=strike(a,s,t,.5/p.targets.length);if(h.hit&&living(t))table(debuffs,t).rift={actorId:a.id};}p.step=1;p.due=a.actions+1;}
-    else{once(t=>{if(table(debuffs,t).rift?.actorId===a.id){delete table(debuffs,t).rift;strike(a,s,t,.5/p.targets.length,'HIT',{followup:true});}});}break;
+    if(!p.step){for(const t of ts){const h=strike(a,s,t,.5/p.targets.length,'HIT',{capShare:.5});if(h.hit&&living(t))table(debuffs,t).rift={actorId:a.id};}p.step=1;p.due=a.actions+1;}
+    else{const share=.5/p.targets.length,used=new Set(),ours=x=>table(debuffs,x).rift?.actorId===a.id;
+     // v2119: 표식을 정화당한 대상의 몫은 그대로 사라진다(정화는 유효한 대응이다).
+     // 표식을 단 채 먼저 쓰러진 대상의 몫만 남은 전열 적에게 옮겨 터뜨린다.
+     for(const id of p.targets){let t=all().find(x=>x.id===id);
+      if(living(t)){if(!ours(t))continue;delete table(debuffs,t).rift;}
+      else{const rest=targets(a,s).filter(x=>living(x)&&!used.has(x.id));t=rest.find(ours)||rest[0];}
+      if(!living(t)||used.has(t.id))continue;used.add(t.id);if(ours(t))delete table(debuffs,t).rift;
+      strike(a,s,t,share,'HIT',{followup:true,capShare:.5});}
+     finish(a,s);}break;
    case 'TWO_BEAT_FOLLOWUP':case 'SAME_TARGET_CALIBRATION':{
     const total=s.mechanic==='SAME_TARGET_CALIBRATION'?3:2,index=p.step||0,t=ts[0];const h=strike(a,s,t,(total===3&&index===2?1.4:1)/total,'HIT',{followup:index>0});
     if(!h.hit||!living(t)||index+1>=total)finish(a,s);else{p.step=index+1;p.due=a.actions+1;}break;}
@@ -216,13 +247,17 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    if(!living(a))return true;
    if(apocalypseSealed(a)){if(st.pending)cancel(a,'APOCALYPSE_SEALED');return false;}
    if(a.stunned||a.silenced){if(st.pending)cancel(a,'CONTROLLED');return Boolean(a.stunned);}
-   if(st.pending){if(a.silenced||a.stunned){cancel(a,'CONTROLLED');return true;}if(a.actions>=st.pending.due){if(isRangedMercenarySkill(a,st.pending.skill))resolveRanged(a,st.pending);else resolve(a,st.pending);}return true;}
-   if(st.reload){a.gauge=Math.max(0,a.gauge-a.combat.reloadGauge);st.reload=false;return false;}
+   if(st.pending){if(a.silenced||a.stunned){cancel(a,'CONTROLLED');return true;}st.cancelled=false;if(a.actions>=st.pending.due){if(isRangedMercenarySkill(a,st.pending.skill))resolveRanged(a,st.pending);else resolve(a,st.pending);}return !st.cancelled;}
    const skills=a.skills||[];for(let i=0;i<skills.length;i++){const index=(st.nextIndex+i)%skills.length,s=skills[index],ranged=isRangedMercenarySkill(a,s);if(st.cooldown.get(s.id)>a.actions||st.energy<s.balance.cost||s.mechanic==='UNDISTURBED_FIRST_SHOT'&&st.used.has(s.id))continue;
     if(isMercenaryGuardSkill(s)&&friendly(a).some(t=>activeIntercept(t)?.actor.id===a.id))continue;
     const selected=targets(a,s);if(!selected.length)continue;
     st.energy-=s.balance.cost;st.cooldown.set(s.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.used.add(s.id);st.nextIndex=(index+1)%skills.length;st.pending={skill:s,targets:selected.map(t=>t.id),due:a.actions+a.combat.windupTurns,hits:st.hits,step:0};
-    send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});if(ranged)resolveRanged(a,st.pending);else if(['GOLDEN_ORCHID_VOLLEY','PLATINUM_SANCTUARY'].includes(s.mechanic))resolve(a,st.pending);else if(isMercenaryGuardSkill(s)){resolve(a,st.pending);st.guardBasicAction=a.actions;return false;}return true;
+    // v2119: 모든 용병 스킬은 시전한 그 행동에서 해결한다(준비만 하는 행동 없음).
+    st.cancelled=false;send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});
+    if(ranged)resolveRanged(a,st.pending);
+    else if(isMercenarySupportSkill(s)){resolve(a,st.pending);st.guardBasicAction=a.actions;return false;}
+    else resolve(a,st.pending);
+    return !st.cancelled;
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){factor*=1-d.restraint/100;delete d.restraint;}return factor*tierScale(a);},

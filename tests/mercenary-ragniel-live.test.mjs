@@ -45,14 +45,24 @@ test('two contacts share one SSS action/cap/budget, preserve shield results and 
   h.actor.actions++;assert.equal(h.runtime.beforeAction(h.actor),false);
  }
 });
-test('dodged or killed targets receive no spare second strike, redistribution or strike after revival',()=>{
- for(const options of [{dodge:true},{hp:1,revive:true}]){
-  const h=harness(options);h.actor.actions++;h.runtime.beforeAction(h.actor);assert.deepEqual(h.rolls.map(r=>r.id),['B:0','B:1','B:1']);
-  assert.ok(Math.abs(h.rolls.at(-1).ratio-1.68)<1e-10);assert.ok(h.rolls.reduce((s,r)=>s+r.castShare,0)<1);
-  if(options.revive)assert.deepEqual(h.events.filter(e=>['MERCENARY_JUDGMENT','KNOCKOUT','REVIVE'].includes(e.type)).map(e=>e.type),['MERCENARY_JUDGMENT','KNOCKOUT','REVIVE']);
- }
- const h=harness({controlled:true});h.actor.actions++;h.runtime.beforeAction(h.actor);assert.equal(h.rolls.length,0);assert.equal(h.runtime.state(h.actor).energy,100);
- const lost=harness();lost.targets[0].hp=0;resolveRagnielJudgment({...lost,skill});assert.ok(lost.rolls.every(r=>r.id==='B:1'));assert.ok(Math.abs(lost.rolls.reduce((s,r)=>s+r.ratio,0)-2.8)<1e-10);
+// v2119: 회피로 표식이 남지 않은 대상은 그대로 낙하 피해가 취소된다.
+// 표식이 남은 채 먼저 쓰러진 대상의 몫만 남은 지정 대상에게 옮기며, 전체 예산은 늘지 않는다.
+test('a dodged first strike still cancels its falling sword and never creates a spare strike',()=>{
+ const h=harness({dodge:true});h.actor.actions++;h.runtime.beforeAction(h.actor);
+ assert.deepEqual(h.rolls.map(r=>r.id),['B:0','B:1','B:1']);
+ assert.ok(Math.abs(h.rolls.at(-1).ratio-1.68)<1e-10);assert.ok(h.rolls.reduce((s,r)=>s+r.castShare,0)<1);
+ const controlled=harness({controlled:true});controlled.actor.actions++;controlled.runtime.beforeAction(controlled.actor);
+ assert.equal(controlled.rolls.length,0);assert.equal(controlled.runtime.state(controlled.actor).energy,100);
+});
+test('a marked target that falls first hands its falling sword to the other marked target within the same budget',()=>{
+ const h=harness({hp:1,revive:true});h.actor.actions++;h.runtime.beforeAction(h.actor);
+ assert.deepEqual(h.rolls.map(r=>r.id),['B:0','B:1','B:1','B:1']);
+ assert.ok(Math.abs(h.rolls.at(-1).ratio-1.68)<1e-10);
+ assert.ok(Math.abs(h.rolls.reduce((s,r)=>s+r.castShare,0)-1)<1e-10);
+ assert.ok(Math.abs(h.rolls.reduce((s,r)=>s+r.ratio,0)-5.6)<1e-10);
+ assert.deepEqual(h.events.filter(e=>['MERCENARY_JUDGMENT','KNOCKOUT','REVIVE'].includes(e.type)).map(e=>e.type),['MERCENARY_JUDGMENT','KNOCKOUT','REVIVE']);
+ const lost=harness();lost.targets[0].hp=0;resolveRagnielJudgment({...lost,skill});
+ assert.ok(lost.rolls.every(r=>r.id==='B:1'));assert.ok(Math.abs(lost.rolls.reduce((s,r)=>s+r.ratio,0)-2.8)<1e-10);
 });
 test('server cancellation suppresses the unearned falling sword and releases its visual clock early',()=>{
  for(const options of [{hp:1},{dodge:true}]){

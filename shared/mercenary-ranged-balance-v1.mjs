@@ -38,7 +38,7 @@ export const MERCENARY_RANGED_RULES=Object.freeze({
  DISTRIBUTED_CORAL_VOLLEY:'준비만 하는 행동 없이 최대 세 적에게 한 행동에 한 발씩 화살을 나눕니다. 단일 적에는 한 발로 전체 피해를 전달합니다.',
  TWO_BEAT_FOLLOWUP:'현재 행동에서 초탄, 다음 행동에서 후속탄을 발사합니다. 초탄이 빗나가도 후속탄이 나가며 사격 뒤 재장전 행동 지연이 없습니다.',
 });
-export const MERCENARY_RANGED_SUMMARY='S등급 이상 저격수의 준비·재장전 지연과 다단 사격의 빈 준비 행동·후속탄 취소를 스킬별로 보정합니다. 다단 사격은 한 행동에 한 발씩 진행하며 피해 배율·비용·재사용 대기는 기존 설정을 사용합니다.';
+export const MERCENARY_RANGED_SUMMARY='모든 용병 스킬은 시전한 행동에서 바로 발사하며 준비만 하는 행동과 사격 뒤 재장전 지연이 없습니다. 다단 사격은 한 행동에 한 발씩 진행하며 피해 배율·비용·재사용 대기는 기존 설정을 사용합니다.';
 export function rangedMercenaryProfile(actor,skill){
  if(!['S','SS','SSS'].includes(actor?.rank)||actor?.attackStyle!=='RANGED')return null;
  if(actor.role==='SNIPER'&&SNIPER.has(skill?.mechanic))return 'SNIPER';

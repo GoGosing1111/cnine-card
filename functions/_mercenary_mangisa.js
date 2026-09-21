@@ -12,10 +12,15 @@ export function resolveMangisaVolley({actor,skill,targets,hit,damage,knockout,em
   actor.damageDealt+=outcome.hpDamage+outcome.absorbed;touched.add(target);
   impacts.push({targetId:target.id,shotIndex,kind,at:MANGISA_IMPACTS[shotIndex],damage:outcome.hpDamage,absorbed:outcome.absorbed,dodge:!!result.dodge,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield||0,targetMaxShield:target.maxShield||0});
  };
+ // v2119: 주 대상이 먼저 쓰러져도 남은 탄을 버리지 않고 다음 적으로 옮겨 쏜다.
+ // 사격이 중간에 멈추면 그 행동이 통째로 사라져 용병이 손을 놓은 것처럼 보인다.
+ let focus=primary;
  for(let i=0;i<6;i++){
-  if(!living(actor)||actor.stunned||actor.silenced||!living(primary))break;
-  strike(primary,MANGISA_PRIMARY_SHARES[i],i,'PRIMARY');
-  if(i===5)for(const target of nearby.slice(0,2))strike(target,MANGISA_SPLASH_SHARE,i,'SPLASH');
+  if(!living(actor)||actor.stunned||actor.silenced)break;
+  if(!living(focus))focus=[primary,...nearby].find(living)||null;
+  if(!focus)break;
+  strike(focus,MANGISA_PRIMARY_SHARES[i],i,'PRIMARY');
+  if(i===5)for(const target of nearby.filter(t=>t!==focus).slice(0,2))strike(target,MANGISA_SPLASH_SHARE,i,'SPLASH');
  }
  if(impacts.length)emit('MERCENARY_VOLLEY',{actorId:actor.id,actorKind:'MERCENARY',skillId:skill.id,skillName:skill.name,mechanic:skill.mechanic,targetId:primary.id,targetIds:targets.map(t=>t.id),battleMode:actor.battleMode,impacts,label:skill.name});
  // Death/revival records follow the atomic skill record, so the renderer first

@@ -40,17 +40,22 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: SS d
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-044',revision:0});
  const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-044']);
 });
-test('nine tracer visuals consume one damage budget, one energy cost and one cooldown; no retarget after loss',()=>{
+// v2119: 스킬은 시전한 그 행동에서 타격한다. 준비만 하는 행동이 없으므로 준비 중 표적을
+// 잃어 시전이 통째로 날아가는 경우도 없다. 표적이 아예 없으면 시전하지 않고 평타를 친다.
+test('nine tracer visuals consume one damage budget, one energy cost and one cooldown in the casting action',()=>{
  for(const outcome of ['hit','dodge','lost']){
   const actor=buildMercenaryFighter(snapshot,'A','PVP'),enemy={...actor,id:'B:TARGET',side:'B',slot:0,isMercenary:false,hp:100000},other={...enemy,id:'B:OTHER',slot:1},events=[];let rolls=0;
   const runtime=mercenaryCombat({teams:{A:[actor],B:[enemy,other]},hit:(_a,_t,r)=>{rolls++;return {damage:1000*r,dodge:outcome==='dodge'};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout:()=>{},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
-  actor.actions++;runtime.beforeAction(actor);assert.equal(runtime.state(actor).energy,75);
-  if(outcome==='lost'){enemy.hp=0;enemy.alive=false;}
-  actor.actions++;runtime.beforeAction(actor);
-  assert.equal(rolls,outcome==='lost'?0:1);assert.equal(other.hp,100000);
+  if(outcome==='lost')for(const t of [enemy,other]){t.hp=0;t.alive=false;}
+  actor.actions++;const cast=runtime.beforeAction(actor);
+  assert.equal(cast,outcome!=='lost');
+  assert.equal(rolls,outcome==='lost'?0:1);
   assert.equal(events.filter(e=>e.type==='MERCENARY_HIT').length,outcome==='lost'?0:1);
-  if(outcome!=='lost')assert.equal(enemy.hp,outcome==='hit'?95800:100000);
-  assert.equal(runtime.state(actor).energy,75);assert.equal(runtime.state(actor).cooldown.get('MS-044'),6);
+  if(outcome!=='lost'){assert.equal(enemy.hp,outcome==='hit'?95800:100000);assert.equal(other.hp,100000);}
+  assert.equal(runtime.state(actor).energy,outcome==='lost'?100:75);
+  assert.equal(runtime.state(actor).cooldown.get('MS-044'),outcome==='lost'?undefined:6);
+  assert.equal(runtime.state(actor).pending,null);
+  actor.actions++;assert.equal(runtime.beforeAction(actor),false);assert.equal(rolls,outcome==='lost'?0:1);
  }
 });
 test('real PVE and PVP snapshots use separate optional SS slot and server skill events',()=>{

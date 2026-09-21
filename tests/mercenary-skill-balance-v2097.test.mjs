@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {applyMercenaryBalanceV2097,MERCENARY_SKILL_BALANCE_V2097 as proposals} from '../shared/mercenary-skill-balance-v2097.mjs';
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
-import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
+import {buildMercenaryFighter,mercenaryCombat,isMercenarySupportSkill} from '../functions/_mercenary_combat.js';
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 const document=applyMercenaryBalanceV2097(seed.document,seed.catalog);
 const snapshot=skills=>({code:'V-001',rank:'S',name:'검수 용병',role:'VANGUARD',position:'FRONT',level:1,basePower:10000,stats:{hp:10000000,attack:1000,defense:100,speed:1000},skills,combat,sourceArt:'/art.png',battleSprite:'/sprite.png'});
@@ -24,7 +24,8 @@ test('explicit balance operation preserves ranks, assignments, rules and notes; 
 });
 test('all 26 approved balances spend energy once per cast, respect cooldown and resolve real mechanics',()=>{
  for(const proposal of proposals){
-  const h=harness(proposal.id);assert.equal(h.turn(),proposal.mechanic!=='INTERCEPT_ONE_HIT');assert.equal(h.runtime.state(h.a).energy,100-proposal.balance.cost,proposal.id);
+  // v2119: 피해가 없는 보조 스킬은 행동을 소모하지 않고 기본 공격을 함께 한다.
+  const h=harness(proposal.id);assert.equal(h.turn(),!isMercenarySupportSkill(proposal));assert.equal(h.runtime.state(h.a).energy,100-proposal.balance.cost,proposal.id);
   for(let i=0;i<3;i++)h.turn();
   assert.equal(h.runtime.state(h.a).energy,100-proposal.balance.cost,proposal.id+' stages cannot charge twice');
   assert.ok(h.events.some(e=>e.type==='MERCENARY_END'),proposal.id);
@@ -39,13 +40,17 @@ test('authored multihit and area budgets are totals, including target loss and o
   const h=harness(id,count);for(let i=0;i<4;i++)h.turn();const sum=h.events.filter(e=>e.type==='MERCENARY_HIT').reduce((n,e)=>n+e.damage+e.absorbed,0);assert.ok(Math.abs(sum-total)<.001,`${id}: ${sum}`);
  }
  const h=harness('MS-040',3);h.turn();h.targets[1].hp=0;h.targets[1].alive=false;for(let i=0;i<3;i++)h.turn();assert.equal(h.events.filter(e=>e.type==='MERCENARY_HIT').reduce((n,e)=>n+e.damage,0),1400);
- const k=harness('MS-004',2);k.turn();const selected=k.events[0].targetId,killed=k.targets.find(t=>t.id===selected);killed.hp=0;killed.alive=false;k.turn();assert.ok(k.events.some(e=>e.type==='MERCENARY_CANCEL'));assert.equal(k.targets.find(t=>t.id!==selected).hp,10000000);
+ // v2119: 저격은 시전한 그 행동에서 발사되므로 시전과 타격 사이에 표적을 잃는 구간이 없다.
+ const k=harness('MS-004',2);k.turn();const selected=k.events[0].targetId,killed=k.targets.find(t=>t.id===selected);
+ assert.ok(killed.hp<10000000);assert.equal(k.targets.find(t=>t.id!==selected).hp,10000000);
+ killed.hp=0;killed.alive=false;k.turn();assert.ok(!k.events.some(e=>e.type==='MERCENARY_CANCEL'));
 });
 test('support balance fields mean healing or finite protection; pure support never deals invented damage',()=>{
  for(const id of ['MS-003','MS-013','MS-016']){const h=harness(id);for(let i=0;i<3;i++)h.turn();assert.equal(h.targets[0].hp,10000000);assert.ok(h.events.some(e=>['MERCENARY_BUFF','MERCENARY_DEBUFF'].includes(e.type)));}
- const heal=harness('MS-018');heal.turn();heal.turn();assert.equal(heal.ally.hp,100);heal.turn();assert.equal(heal.ally.hp,1900);
- const barrier=harness('MS-028');barrier.turn();barrier.turn();assert.equal(barrier.a.shield+barrier.ally.shield,1400);
- const guard=harness('MS-011');guard.turn();guard.turn();assert.equal(guard.runtime.beforeBasicDamage(guard.targets[0],guard.ally,10000),9250);assert.equal(guard.runtime.beforeBasicDamage(guard.targets[0],guard.ally,10000),10000);
+ // 정화는 시전 행동에서, 회복은 그다음 행동에서 온다(둘 다 행동을 소모하지 않는다).
+ const heal=harness('MS-018');heal.turn();assert.equal(heal.ally.hp,100);heal.turn();assert.equal(heal.ally.hp,1900);
+ const barrier=harness('MS-028');barrier.turn();assert.equal(barrier.a.shield+barrier.ally.shield,1400);
+ const guard=harness('MS-011');guard.turn();assert.equal(guard.runtime.beforeBasicDamage(guard.targets[0],guard.ally,10000),9250);assert.equal(guard.runtime.beforeBasicDamage(guard.targets[0],guard.ally,10000),10000);
 });
 test('configured skills execute in PVE and PVP without entering the five-card array',()=>{
  const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'기본 카드',rarity:'FUR',power:10000,power_type:'ATTACK'}));
