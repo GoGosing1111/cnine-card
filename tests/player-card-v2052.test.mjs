@@ -49,7 +49,7 @@ async function fixture() {
   const settings = { seasonName: '시즌 4', startsAt: '2026-07-16T00:00:00Z', endsAt: '2099-01-01T00:00:00Z' };
   const call = (query = 'userId=2', options = {}) => handlePlayerCard({ path: options.path || 'player-card', request: new Request('https://game.test/api/player-card?' + query, { method: options.method || 'GET' }), env: { DB: db }, now: Date.parse('2026-09-06T11:00:00Z'), deps: {
     authenticate: async () => options.anonymous ? null : { id: 1 }, json: (body, status = 200) => ({ body, status }), pvpSettings: async () => settings, pvpSeasonKey: () => 's4',
-    resolvePvpTier: (score, _, rank) => rank >= 1 && rank <= 10 ? { id: 'challenger', name: '챌린저', color: '#79c8ef' } : { id: 'bronze', name: '브론즈' }
+    resolvePvpTier: (score, _, rank) => rank >= 1 && rank <= 20 ? { id: 'challenger', name: '챌린저', color: '#79c8ef' } : { id: 'bronze', name: '브론즈' }
   } });
   return { pg, sql, call, settings, close: () => pg.close() };
 }
@@ -70,13 +70,13 @@ test('official records: historical clan affiliation, all three trophies, public-
     assert.equal(trophy(await f.call(),'CLAN_CHAMPION').owned,false,'mixed timestamp formats cannot count a member admitted after settlement');
   } finally { await f.close(); }
 });
-test('missing participation, non-challenger final tier and rank 11 all break consecutive official seasons', async () => {
+test('missing participation, non-challenger final tier and rank 21 all break consecutive official seasons', async () => {
   const f = await fixture(); try {
     await f.pg.exec('DELETE FROM pvp_season_settlement_ranks WHERE settlement_id=2');
     let r = await f.call(); assert.equal(trophy(r, 'CHALLENGER_STREAK_3').owned, false); assert.equal(r.body.ranked.longestStreak, 1);
     await f.pg.exec("INSERT INTO pvp_season_settlement_ranks VALUES(2,2,1,'grandmaster','그랜드마스터',3200,11,1)");
     assert.equal(trophy(await f.call(), 'CHALLENGER_STREAK_3').owned, false);
-    await f.pg.exec("UPDATE pvp_season_settlement_ranks SET tier_id='challenger',final_rank=11 WHERE settlement_id=2");
+    await f.pg.exec("UPDATE pvp_season_settlement_ranks SET tier_id='challenger',final_rank=21 WHERE settlement_id=2");
     assert.equal(trophy(await f.call(), 'CHALLENGER_STREAK_3').owned, false);
     await f.pg.exec("UPDATE pvp_season_settlement_ranks SET final_rank=1 WHERE settlement_id=2;INSERT INTO pvp_season_settlements VALUES(4,'old4','시즌 4','COMPLETED','2026-07-16','2026-07-20')");
     r = await f.call(); assert.equal(trophy(r, 'CHALLENGER_STREAK_3').owned, true); assert.equal(r.body.ranked.currentStreak, 0); assert.equal(r.body.ranked.longestStreak, 3);

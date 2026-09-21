@@ -13,16 +13,16 @@ const rewardCode=server.split('\n').find(line=>line.startsWith('function pvpSett
 const roleCode=server.split('\n').find(line=>line.startsWith('const PVP_RANKED_ROLE_SQL='));
 const {clean,resolve,rank,reward}=Function('readRuntimeData','cacheRuntimeData',`${resolveTier}\n${roleCode}\n${settingsCode}\n${rewardCode}\nreturn {clean:cleanPvpSettings,resolve:resolvePvpTier,rank:pvpChallengerRank,reward:pvpSettlementRewardFor};`)(readRuntimeData,cacheRuntimeData);
 
-test('챌린저는 점수 절대값이 아닌 정확히 1~10위만 해당한다',()=>{
+test('챌린저는 현 시즌부터 점수 절대값이 아닌 정확히 1~20위만 해당한다',()=>{
   const settings=clean();
-  for(const score of [0,1000,2500,1e9])for(let place=1;place<=10;place++)assert.equal(resolve(score,settings,place).id,'challenger');
-  for(const place of [0,11,100,-1,1.5,NaN,Infinity])assert.notEqual(resolve(1e9,settings,place).id,'challenger');
-  assert.equal(resolve(1100,settings,11).id,'silver');
+  for(const score of [0,1000,2500,1e9])for(let place=1;place<=20;place++)assert.equal(resolve(score,settings,place).id,'challenger');
+  for(const place of [0,21,100,-1,1.5,NaN,Infinity])assert.notEqual(resolve(1e9,settings,place).id,'challenger');
+  assert.equal(resolve(1100,settings,21).id,'silver');
 });
 test('설정으로 인원·점수 조건을 바꿀 수 없고 기존 최상위 보상을 안전하게 이어받는다',()=>{
   const tiers=[{id:'grandmaster',min:2500,rewardCoin:3e9,rewardShards:870},{id:'challenger',min:9999}];
   const settings=clean({tiers,challengerTier:{rankLimit:99,min:1}});
-  assert.equal(settings.challengerTier.rankLimit,10);
+  assert.equal(settings.challengerTier.rankLimit,20);
   assert.equal(settings.challengerTier.rewardCoin,3e9);
   assert.equal(settings.challengerTier.rewardShards,870);
   assert.equal(settings.challengerTier.min,undefined);
@@ -31,27 +31,27 @@ test('설정으로 인원·점수 조건을 바꿀 수 없고 기존 최상위 �
   assert.equal(custom.challengerTier.rewardCoin,1_500_000_000);
   assert.equal(custom.challengerTier.rewardShards,900);
 });
-test('실제 SQL: 동점이어도 10명만, OWNER·정지·밴 유저 제외 및 순위 교체',async()=>{
+test('실제 SQL: 동점이어도 20명만, OWNER·정지·밴 유저 제외 및 순위 교체',async()=>{
   const db=new DatabaseSync(':memory:');
   try{
     db.exec('CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,status TEXT,banned_until TEXT); CREATE TABLE pvp_profiles(user_id INTEGER PRIMARY KEY,season_score INTEGER,highest_score INTEGER,wins INTEGER,losses INTEGER);');
-    for(let id=1;id<=14;id++){
+    for(let id=1;id<=24;id++){
       db.prepare('INSERT INTO users VALUES(?,?,?,?,?)').run(id,'동점',id===1?'OWNER':'USER',id===2?'BLOCKED':'ACTIVE',id===3?'2999-01-01':null);
       db.prepare('INSERT INTO pvp_profiles VALUES(?,?,?,?,?)').run(id,1000,10000,1,0);
     }
     const env={DB:{prepare:sql=>({all:async()=>({results:db.prepare(sql).all()})})}};
     assert.equal(await rank(env,1),0);assert.equal(await rank(env,2),0);assert.equal(await rank(env,3),0);
-    assert.equal(await rank(env,4),1);assert.equal(await rank(env,13),10);assert.equal(await rank(env,14),0);
-    db.prepare('UPDATE pvp_profiles SET season_score=2000 WHERE user_id=14').run();
-    assert.equal(await rank(env,14),0,'display cache is bounded and stable within 10 seconds');
-    assert.equal(await rank(env,14,{fresh:true}),1);assert.equal(await rank(env,13,{fresh:true}),0);
+    assert.equal(await rank(env,4),1);assert.equal(await rank(env,23),20);assert.equal(await rank(env,24),0);
+    db.prepare('UPDATE pvp_profiles SET season_score=2000 WHERE user_id=24').run();
+    assert.equal(await rank(env,24),0,'display cache is bounded and stable within 10 seconds');
+    assert.equal(await rank(env,24,{fresh:true}),1);assert.equal(await rank(env,23,{fresh:true}),0);
   }finally{db.close();}
 });
 test('정산은 최종 순위로 챌린저 티어 1개만 지급하고 순위 보상을 합산한다',()=>{
   const settings=clean({challengerTier:{rewardCoin:8e8,rewardShards:800}});
-  const top=reward({highest_score:1,final_rank:10},settings,false,false);
-  assert.equal(top.tier.id,'challenger');assert.equal(top.tierCoin,8e8);assert.equal(top.rankCoin,12000);
-  const outside=reward({highest_score:3000,final_rank:11},settings,false,false);
+  const top=reward({highest_score:1,final_rank:20},settings,false,false);
+  assert.equal(top.tier.id,'challenger');assert.equal(top.tierCoin,8e8);assert.equal(top.rankCoin,5000);
+  const outside=reward({highest_score:3000,final_rank:21},settings,false,false);
   assert.equal(outside.tier.id,'grandmaster');assert.equal(outside.tierCoin,20000);
   const claimed=reward({highest_score:3000,final_rank:1},settings,true,true);
   assert.equal(claimed.tierCoin+claimed.rankCoin+claimed.tierShards+claimed.rankShards,0);
@@ -66,7 +66,8 @@ test('시즌 정산 칭호 SQL은 챌린저★★★★를 1회 지급하며 다
     stmt.run(...args);stmt.run(...args);
     const rows=db.prepare('SELECT * FROM pvp_season_title_grants_v1671 ORDER BY user_id').all();
     assert.equal(rows.length,3);assert.equal(rows[0].title_id,1);assert.equal(rows[0].expires_at,args[1]);
-    assert.match(server,/VALUES\('TITLE_RANKED_CHALLENGER','챌린저★★★★'/);
+    assert.match(server,/VALUES\('TITLE_RANKED_CHALLENGER','챌린저★★★★','랭크전 시즌 최종 1~20위/);
+    assert.match(server,/ORDER BY p\.season_score DESC,p\.wins DESC,u\.nickname,u\.id LIMIT 20/);
     assert.match(server,/DELETE FROM user_character_titles WHERE source_type='PVP_SEASON_RANKED'/);
   }finally{db.close();}
 });
@@ -87,6 +88,6 @@ test('실제 보상 화면은 챌린저 점수를 NaN으로 표시하지 않고 
   const settings=clean(),html=render({highestTier:settings.challengerTier},settings);
   assert.doesNotMatch(html,/NaN|undefined/);
   assert.match(html,/class="challenger-reward-row"/);
-  assert.match(html,/시즌 최종 1~10위/);
+  assert.match(html,/시즌 최종 1~20위/);
   assert.match(html,/challenger-title-stars/);
 });

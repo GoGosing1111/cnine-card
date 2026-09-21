@@ -3,7 +3,7 @@ export const PLAYER_CARD_VERSION = 2052;
 import { TROPHY_CATALOG } from '../js/player-card-model-v2052.js';
 export { TROPHY_CATALOG };
 
-const QUALIFIED = "tier_id='challenger' AND final_rank BETWEEN 1 AND 10";
+const QUALIFIED = "tier_id='challenger' AND final_rank BETWEEN 1 AND 20";
 // Include EVERY completed season before marking streaks. An absent player breaks the chain.
 const OFFICIAL = `WITH official AS (
   SELECT s.id,s.season_name,s.completed_at,r.tier_id,r.tier_name,r.final_rank,r.season_score,r.wins,r.losses,
