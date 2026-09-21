@@ -129,4 +129,5 @@ test('live wiring is receipt-only, cache versions match, no eager video download
   assert.doesNotMatch(helper,/\/api\/|localStorage|requestId\s*=/);assert.doesNotMatch(read('index.html'),/\.mp4|<script[^>]+hyper-pack-fx/);
   for(const path of ['index.html','js/app.js'])assert.match(read(path),/mercenary-pack-live\.mjs\?v=2145-acquisition-video/);
   assert.match(read('css/mercenary-pack-live.css'),/object-fit:contain/);assert.match(read('css/mercenary-pack-live.css'),/aspect-ratio:16\/9/);
+  assert.match(read('css/mercenary-pack-live.css'),/@media\(max-height:500px\)/);assert.match(read('css/mercenary-pack-live.css'),/100dvh - 200px/);
 });

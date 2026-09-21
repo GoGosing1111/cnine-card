@@ -19,3 +19,12 @@
 .mercenary-cinematic-progress{position:absolute;inset:auto 0 0;height:2px;background:#28324a}
 .mercenary-cinematic-progress>span{display:block;height:100%;background:#c8ff6b;transform:scaleX(0);transform-origin:left}
 @media(max-width:600px){.mercenary-cinematic-badge{top:7px;left:7px;font-size:8px}.mercenary-pack-dialog .mercenary-cinematic-sound{right:7px;bottom:8px;min-height:36px;padding:6px 9px;font-size:11px}}
+@media(max-height:500px){
+  .mercenary-pack-dialog[data-cinematics="true"]:not([data-phase="complete"]):not([data-phase="destroyed"]){padding:12px;max-height:calc(100dvh - 16px)}
+  .mercenary-pack-dialog[data-cinematics="true"]:not([data-phase="complete"]):not([data-phase="destroyed"]) footer{display:none}
+  .mercenary-pack-dialog[data-cinematics="true"] header span{font-size:9px}
+  .mercenary-pack-dialog[data-cinematics="true"] h2{font-size:22px;margin:2px 0}
+  .mercenary-pack-dialog[data-cinematics="true"] .mercenary-pack-receipt{margin:4px 0 8px}
+  .mercenary-pack-stage[data-cinematic]{width:min(100%,calc((100dvh - 200px)*16/9));margin-inline:auto}
+  .mercenary-pack-dialog[data-cinematics="true"] .mercenary-pack-controls{margin-bottom:0}
+}
