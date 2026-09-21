@@ -6,7 +6,7 @@ import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
 import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
 import {extendFurHighBreakthrough,furExtendedReady,furExtendedStepAvailable,FUR_MAX_ENHANCEMENT} from '../_fur_enhancement_v2114.js';
-import {forgeEquipmentBonuses} from '../_equipment_forge_transactions.js';
+import {forgeEquipmentBonuses,ensureForgeTransactionSchema} from '../_equipment_forge_transactions.js';
 import { resolveAvatarDropRate,withAvatarDropScope } from '../_avatar_drop.js';
 import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
@@ -82,6 +82,7 @@ import { ensureTargetedInventoryGrantV2025 } from '../_targeted_inventory_grant_
 import { ensureTargetedInventoryGrantV2026 } from '../_targeted_inventory_grant_v2026.js';
 import { ensureTargetedInventoryGrantV2027 } from '../_targeted_inventory_grant_v2027.js';
 import { ensureTargetedSkillChipGrantV2055 } from '../_targeted_skill_chip_grant_v2055.js';
+import { ensureTargetedEquipmentRevokeV2132 } from '../_targeted_equipment_revoke_v2132.js';
 import { ensureBattleSuitEbodyPityV2059 } from '../_battle_suit_ebody_pity_v2059.js';
 import { ensureIyejunFurRerollRecoveryV2023 } from '../_iyejun_fur_reroll_recovery_v2023.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,preserveApocalypseUltimateSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
@@ -4991,6 +4992,7 @@ async function handleRequest(context){
       let targetedInventoryGrantV2026=null;
       let targetedInventoryGrantV2027=null;
       let targetedSkillChipGrantV2055=null;
+      let targetedEquipmentRevokeV2132=null;
       let battleSuitEbodyPityV2059=null;
       let iyejunFurRerollRecovery=null;
       if(databaseInitialized){
@@ -5075,6 +5077,15 @@ async function handleRequest(context){
           itemCount:Number(skillChipGrant.itemCount||0),verifiedPairs:Number(skillChipGrant.verifiedPairs||0),
           quantityGranted:Number(skillChipGrant.quantityGranted||0),alreadyOwned:Number(skillChipGrant.alreadyOwned||0)
         }:null;
+        await ensureEquipmentFoundation(env);
+        await ensureForgeTransactionSchema(env);
+        const equipmentRevoke=await ensureTargetedEquipmentRevokeV2132(env);
+        targetedEquipmentRevokeV2132=equipmentRevoke?{
+          status:equipmentRevoke.status,version:equipmentRevoke.version,replayed:Boolean(equipmentRevoke.replayed),
+          equipmentCode:equipmentRevoke.equipmentCode||null,removedQuantity:Number(equipmentRevoke.removedQuantity||0),
+          unequippedQuantity:Number(equipmentRevoke.unequippedQuantity||0),forgedQuantity:Number(equipmentRevoke.forgedQuantity||0),
+          alreadyAbsent:Boolean(equipmentRevoke.alreadyAbsent),ownershipVerified:Boolean(equipmentRevoke.ownershipVerified)
+        }:null;
         await ensureWorkshopFoundation(env);
         const ebodyPity=await ensureBattleSuitEbodyPityV2059(env);
         battleSuitEbodyPityV2059=ebodyPity?{
@@ -5100,7 +5111,7 @@ async function handleRequest(context){
           invalidateCatalogCaches();
         }
       }
-      return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedAvatarGrantDeodeumiguV1,targetedAvatarGrantSaitamaV1,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
+      return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedAvatarGrantDeodeumiguV1,targetedAvatarGrantSaitamaV1,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,targetedEquipmentRevokeV2132,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
