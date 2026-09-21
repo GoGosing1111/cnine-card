@@ -33,6 +33,23 @@ test('presentation accepts only completed server receipts with real card art and
  assert.match(read('admin/hyper-pack-v2076.js'),/#mercenaries\/draw/);assert.doesNotMatch(read('admin/hyper-pack-v2076.js'),/data-hyper-rate/);
 });
 
+test('every released mercenary source art can be displayed in a completed pack receipt, including Omega-X JPEG',()=>{
+ for(const card of seed.catalog.cards){
+  const draw={mercenaryCode:card.code,name:card.name||card.code,rank:card.code==='V-021'?'SSS':'S',sourceArt:card.sourceArt,duplicate:false,duplicateCount:0};
+  const receipt={requestId:crypto.randomUUID(),status:'COMPLETED',draws:[draw]};
+  const [result]=mercenaryPackResults(receipt);
+  assert.equal(result.sourceArt,card.sourceArt,card.code);assert.equal(result.mercenaryCode,card.code);
+ }
+ const omega=seed.catalog.cards.find(card=>card.code==='V-021');assert.match(omega.sourceArt,/\.jpg$/);
+ const draw={mercenaryCode:omega.code,name:'오메가-X',rank:'SSS',sourceArt:omega.sourceArt,duplicate:false,duplicateCount:0};
+ const receipt={requestId:crypto.randomUUID(),status:'COMPLETED',draws:[draw]};
+ assert.equal(mercenaryPackResults({...receipt,draws:[{...draw,sourceArt:omega.sourceArt.replace(/\.jpg$/,'.jpeg')}]}).length,1);
+ for(const sourceArt of ['https://external.invalid/omega.jpg','//external.invalid/omega.jpg','assets/ui/project-v/mercenaries/../outside.jpg','assets/ui/project-v/mercenaries/%2e%2e/outside.jpg','assets/ui/project-v/mercenaries/omega.svg','assets/cards/omega.jpg']){
+  assert.throws(()=>mercenaryPackResults({...receipt,draws:[{...draw,sourceArt}]}),sourceArt);
+ }
+ assert.throws(()=>mercenaryPackResults({...receipt,draws:[{...draw,rank:'INVALID'}]}));
+});
+
 for(const postgres of [false,true]){
  const label=postgres?'PostgreSQL':'SQLite';
  test(`${label}: shop and account aliases share payment, receipt, art and duplicate accounting`,async t=>{

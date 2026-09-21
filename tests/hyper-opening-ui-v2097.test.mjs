@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {MERCENARY_PACK,mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs';
 import {randomUUID} from 'node:crypto';
+import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 
 test('ON survives a store rerender; OFF and back navigation refresh the same status and buttons',async()=>{
  let enabled=true,observer,observations=0;const listeners=new Map(),replaceable={buttons:[{disabled:true}],labels:[{textContent:'개봉 준비 중'}],statuses:[{textContent:'용병카드 개봉은 현재 OFF입니다.'}]};
@@ -76,6 +77,19 @@ test('rapid duplicate clicks send one request; an inconsistent receipt never cle
  const first=h.pack.open(1),duplicate=h.pack.open(10);assert.match(h.status,/이전 개봉 요청을 처리/);assert.equal(await duplicate,false);while(!release)await new Promise(resolve=>setImmediate(resolve));release();assert.equal(await first,true);assert.equal(h.posts.length,1);
  const bad=openingHarness(),pending={requestId:'bad-receipt',count:1};bad.storage.set(bad.pendingKey,JSON.stringify(pending));bad.receipts.set(pending.requestId,{requestId:pending.requestId,status:'COMPLETED',draws:Array.from({length:10},()=>({outcomeId:'NONE'}))});
  assert.equal(await bad.pack.open(1),false);assert.equal(bad.posts.length,0);assert.equal(bad.storage.has(bad.pendingKey),true);assert.match(bad.status,/횟수와 개봉 결과가 다릅니다/);
+});
+
+test('a saved Omega-X JPEG receipt recovers without another debit and unlocks the next opening',async()=>{
+ const h=openingHarness(),old={requestId:'completed-omega-ten',count:10};
+ const omega=MERCENARY_CMS_SEED.catalog.cards.find(card=>card.code==='V-021');
+ const draws=Array.from({length:10},()=>({outcomeId:'NONE'}));
+ draws[2]={mercenaryCode:omega.code,name:'오메가-X',rank:'SSS',sourceArt:omega.sourceArt,duplicate:false,duplicateCount:0};
+ h.storage.set(h.pendingKey,JSON.stringify(old));h.receipts.set(old.requestId,{requestId:old.requestId,status:'COMPLETED',draws});
+ assert.equal(await h.pack.recover(),true);assert.equal(h.posts.length,0);assert.equal(h.coin,10000000000);
+ assert.equal(h.storage.has(h.pendingKey),false);assert.equal(JSON.parse(h.storage.get(h.receiptKey)).requestId,old.requestId);
+ assert.equal(h.shown[0].receipt.draws[2].sourceArt,omega.sourceArt);
+ assert.equal(await h.pack.open(10),true);assert.equal(h.posts.length,1);assert.notEqual(h.posts[0].requestId,old.requestId);
+ assert.equal(h.coin,5000000000);
 });
 
 test('a stalled presentation releases the transaction lock and its late completion cannot unlock a later request',async()=>{

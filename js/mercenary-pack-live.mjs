@@ -1,5 +1,5 @@
 import {jointAccountRequest as api} from './joint-account-transport.mjs';
-import {MERCENARY_PACK,mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs';
+import {MERCENARY_PACK,mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs?v=2134-receipt-art-v2';
 
 let busy=false,access={connected:true,userOpeningEnabled:null},statusText='개봉 상태를 확인하고 있습니다.';
 const fmt=n=>Number(n||0).toLocaleString('ko-KR');
