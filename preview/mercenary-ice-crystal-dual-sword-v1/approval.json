@@ -1,0 +1,50 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-09-22",
+  "status": "USER_APPROVED_SOURCE_ART_AND_RANK",
+  "userRequest": "그냥 첫번째 사진으로하자.. 다음 SSS 일러스트로 승인",
+  "scope": "FIRST_GENERATED_SOURCE_ART_AND_SSS_RANK_ONLY",
+  "conceptId": "ice-crystal-dual-sword",
+  "releaseIntent": "NEXT_SSS_MERCENARY",
+  "code": null,
+  "name": null,
+  "nameStatus": "UNASSIGNED",
+  "rank": "SSS",
+  "rankStatus": "USER_ASSIGNED_RANK",
+  "sourceArt": "preview/mercenary-ice-crystal-dual-sword-v1/assets/source-art.png",
+  "sourceArtStatus": "USER_APPROVED_SOURCE_ART",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "format": "png",
+    "colorSpace": "srgb",
+    "channels": 3,
+    "hasAlpha": false,
+    "sha256": "B2BA5DA055E1629D895B11ACF6EC8EFB87996CFA688F1B0C504563AB7D559A2E"
+  },
+  "selectedVariant": "V1_CROUCHING_DUAL_SWORD",
+  "selectedFrom": "output/imagegen/ice-crystal-dual-sword-20260922/ice-crystal-dual-sword-source-art-v1.png",
+  "alternateVariant": {
+    "path": "output/imagegen/ice-crystal-dual-sword-20260922/ice-crystal-dual-sword-source-art-v2-standing.png",
+    "status": "NOT_SELECTED_PRESERVED",
+    "sha256": "4FFC5B11FAF70FA179AEF797D4C084317F8B3844233DEB59337D7AA85D0543D8"
+  },
+  "designDescription": "은백색 결정 갑옷, 전면 투구, 청색 코어·발광, 웅크린 이도류 자세",
+  "styleReference": "preview/mercenary-ragniel-v1/assets/source-art.png",
+  "designReference": "C:/Users/User/Downloads/1ab9c49544525ae8e1e6f4efc6c196df.jpg",
+  "originalsModified": false,
+  "technicalQa": {
+    "sourceIntegrity": "VERIFIED",
+    "nativeSize": "VERIFIED",
+    "cardFrameComposition": "PENDING",
+    "thumbnail160": "PENDING"
+  },
+  "battleSprite": null,
+  "battleSpriteStatus": "NOT_YET_PRODUCED",
+  "skillsAssigned": false,
+  "statsAssigned": false,
+  "runtimeEnabled": false,
+  "runtimeConnected": false,
+  "catalogConnected": false,
+  "releaseAuthorization": "NOT_GRANTED_ART_APPROVAL_ONLY"
+}
