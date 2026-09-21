@@ -163,6 +163,8 @@
     const bossImage = SEAL_ORB_IMAGE;
     const progress = data.progress || {};
     const clear = data.clearReward || {};
+    const minimumAttempts = Math.max(1, Number(event.minRewardAttempts || 1));
+    const rewardAttemptsRemaining = Math.max(0, minimumAttempts - Number(progress.totalAttempts || 0));
     const canClaim = clear.eligible && !clear.claimed && !clear.processing;
     const rankReward = data.rankReward || null;
     const pendingRankReward = data.pendingRankReward || null;
@@ -186,7 +188,7 @@
       <section class="seal-personal-bar">
         <article><small>내 PvE 전투 덱</small><b>${data.deck?.ready ? number(data.deck.power) : '편성 필요'}</b><span>${data.deck?.ready ? '카드 5장 · 장비·시너지 포함' : esc(data.deck?.error || 'PvE 덱 5장을 저장해주세요.')}</span></article>
         <article><small>보유 도전 횟수</small><b>${Number(progress.availableAttempts ?? progress.remainingAttempts ?? 0)}<em>/ ${Number(progress.maxAttempts || event.maxAttempts || event.dailyAttempts || 5)}</em></b><span id="sealRechargeTimer">${Number(progress.rechargeMinutes || event.rechargeMinutes || 60)}분마다 1회 충전</span></article>
-        <article><small>내 누적 공헌도</small><b>${number(progress.totalContribution)}</b><span>총 ${number(progress.totalAttempts)}회 참여</span></article>
+        <article><small>내 누적 공헌도</small><b>${number(progress.totalContribution)}</b><span>보상 공격 횟수 ${number(progress.totalAttempts)} / ${number(minimumAttempts)}회 · ${rewardAttemptsRemaining ? `${number(rewardAttemptsRemaining)}회 남음` : '조건 충족'}</span></article>
         <article><small>참여 보상</small><b>코인 ${number(event.attemptReward?.coin)}</b><span>카드 조각 ${number(event.attemptReward?.shards)}개</span></article>
       </section>
 
@@ -203,9 +205,9 @@
       </section>
 
       ${event.status === 'FAILED' ? `<section class="seal-failure-panel"><div><small>SEAL BREACH</small><h2>봉인 실패 · 보스 탈출</h2><p>제한 시간 안에 ${event.failureRoleKeys.map(key => ROLE[key]?.label).filter(Boolean).join(' · ') || '미완성 봉인'}을 완성하지 못했습니다. 진행도는 동결되며 완료 보상은 지급되지 않습니다.</p></div><div class="seal-failure-runes">${event.failureRoleKeys.map(key => `<span class="role-${key.toLowerCase()}">${ROLE[key]?.icon}<b>${ROLE[key]?.label}</b><em>${Number(event.roles[key]?.percent || 0).toFixed(1)}%</em></span>`).join('')}</div></section>` : `<section class="seal-clear-panel ${event.status === 'CLEARED' ? 'ready' : ''}">
-        <div><small>SERVER CLEAR REWARD</small><h2>${event.status === 'CLEARED' ? '봉인 완료 보상' : '세 개의 봉인을 모두 완성하세요'}</h2><p>이번 봉인전에 1회 이상 참여한 유저만 완료 보상을 받을 수 있습니다.</p></div>
+        <div><small>SERVER CLEAR REWARD</small><h2>${event.status === 'CLEARED' ? '봉인 완료 보상' : '세 개의 봉인을 모두 완성하세요'}</h2><p>이번 봉인전에 ${number(minimumAttempts)}회 이상 공격한 유저만 완료·순위 보상을 받을 수 있습니다. 파괴·수호·정화 전투를 승패와 관계없이 합산합니다.</p><p>내 공격 ${number(progress.totalAttempts)} / ${number(minimumAttempts)}회 · ${rewardAttemptsRemaining ? `${number(rewardAttemptsRemaining)}회 부족` : '보상 횟수 조건 충족'}</p></div>
         <div class="seal-clear-reward"><span>코인 <b>${number(event.clearReward?.coin)}</b></span><span>카드 조각 <b>${number(event.clearReward?.shards)}</b></span></div>
-        <button type="button" id="sealClearClaim" ${canClaim ? '' : 'disabled'}>${clear.claimed ? '보상 수령 완료' : clear.processing ? '보상 처리 중' : event.status === 'CLEARED' ? (clear.eligible ? '봉인 완료 보상 받기' : '참여 기록 없음') : '봉인 완료 후 수령'}</button>
+        <button type="button" id="sealClearClaim" ${canClaim ? '' : 'disabled'}>${clear.claimed ? '보상 수령 완료' : clear.processing ? '보상 처리 중' : event.status === 'CLEARED' ? (clear.eligible ? '봉인 완료 보상 받기' : `최소 ${number(minimumAttempts)}회 공격 필요`) : '봉인 완료 후 수령'}</button>
       </section>`}
 
       <section class="seal-guide">
@@ -525,7 +527,7 @@ ${rankRewardSummary(result.reward)}`);
       const data = await api('seal-battle/rankings');
       const panel = modal.querySelector('.seal-ranking-panel');
       const tiers = data.rankRewards?.enabled ? (data.rankRewards.tiers || []).filter(tier => rankRewardParts(tier).length) : [];
-      panel.innerHTML = `<header><div><small>COOPERATIVE CONTRIBUTION</small><h2>봉인전 공헌도 현황</h2><p>${tiers.length ? `봉인전 종료 시 확정된 전체 공헌도 순위에 따라 차등 보상이 지급됩니다. · ${data.rankRewards?.rewardOnFailure !== false ? '봉인 실패 시에도 지급' : '봉인 성공 시에만 지급'}` : '현재 봉인전에는 공헌도 순위 보상이 설정되지 않았습니다.'}</p></div><button type="button" id="sealRankingClose">×</button></header>
+      panel.innerHTML = `<header><div><small>COOPERATIVE CONTRIBUTION</small><h2>봉인전 공헌도 현황</h2><p>${tiers.length ? `이번 회차 ${number(data.event?.minRewardAttempts || 1)}회 이상 공격한 유저만 최종 공헌도 순위에 따른 보상을 받습니다. · ${data.rankRewards?.rewardOnFailure !== false ? '봉인 실패 시에도 지급' : '봉인 성공 시에만 지급'}` : '현재 봉인전에는 공헌도 순위 보상이 설정되지 않았습니다.'}</p></div><button type="button" id="sealRankingClose">×</button></header>
         ${data.myRank ? `<section class="seal-my-rank"><small>MY CURRENT RANK</small><b>${number(data.myRank.rank)}위</b><span>공헌도 ${number(data.myRank.totalContribution)} · ${number(data.myRank.totalAttempts)}회 참여</span></section>` : ''}
         ${tiers.length ? `<section class="seal-ranking-reward-tiers">${tiers.map(tier => `<article><b>${esc(rankTierLabel(tier))}</b><span>${esc(rankRewardSummary(tier))}</span></article>`).join('')}</section>` : ''}
         <nav class="seal-ranking-tabs"><button class="active" data-rank-tab="overall">전체</button><button data-rank-tab="ATTACK">파괴</button><button data-rank-tab="GUARD">수호</button><button data-rank-tab="PURIFY">정화</button></nav>

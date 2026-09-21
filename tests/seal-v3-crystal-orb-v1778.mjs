@@ -33,7 +33,7 @@ assert.match(seal, /const raidHub = document\.getElementById\('pveRaidHubView'\)
 assert.match(seal, /if \(raidHub\) raidHub\.hidden = true;\s*else if \(raid\) raid\.hidden = true;/);
 assert.match(seal, /const placementAnchor = document\.getElementById\('pveRaidHubView'\) \|\| raidView;/);
 assert.match(seal, /placementAnchor\.insertAdjacentElement\('afterend', view\)/);
-assert.match(index, /js\/seal-battle\.js\?v=2022-seal-navigation-host/);
+assert.match(index, /js\/seal-battle\.js\?v=20260922-reward-attempts/);
 assert.doesNotMatch(seal, /const bossImage = source\(event\.bossImage/);
 
 console.log('seal V3 crystal orb contract: OK');

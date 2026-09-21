@@ -13,7 +13,7 @@
   const defaults = {
     mode: 'OFF', title: '봉인전', bossName: '심연에 봉인된 군주', bossImage: '',
     description: '저장된 PvE 덱으로 역할별 봉인 보스와 전투하고, 서버 전체가 파괴·수호·정화 세 봉인을 완성하는 공동 보스 콘텐츠입니다.',
-    startsAt: null, endsAt: null, dailyAttempts: 5, rechargeMinutes: 60,
+    startsAt: null, endsAt: null, dailyAttempts: 5, rechargeMinutes: 60, minRewardAttempts: 25,
     targets: { attack: 20000000, guard: 16000000, purify: 14000000 },
     multipliers: { attack: 100, guard: 90, purify: 85 },
     battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
@@ -97,7 +97,7 @@
       </section>
 
       <section class="seal-admin-settings">
-        <header><div><small>봉인전 기본 설정</small><h3>운영 및 목표 설정</h3><p>보스 이미지는 설정 저장 즉시 현재 진행 중인 봉인전에도 반영됩니다.</p></div><button type="button" id="sealAdminSave" class="primary">설정 저장</button></header>
+        <header><div><small>봉인전 기본 설정</small><h3>운영 및 목표 설정</h3><p>보스 이미지는 즉시 반영됩니다. 보상 금액과 최소 공격 횟수는 새 봉인전 시작 시 회차에 고정됩니다.</p></div><button type="button" id="sealAdminSave" class="primary">설정 저장</button></header>
         <div class="seal-admin-form-grid">
           <label><span>운영 모드</span><select id="sealMode"><option value="OFF">OFF · 중지</option><option value="TEST">TEST · 관리자만 참여</option><option value="ON">ON · 전체 공개</option></select></label>
           <label><span>콘텐츠명</span><input id="sealTitle" maxlength="60"></label>
@@ -108,6 +108,7 @@
           <label><span>종료 시각 · KST</span><input id="sealEndsAt" type="datetime-local"></label>
           <label><span>최대 보유 도전 횟수</span><input id="sealDailyAttempts" type="number" min="1" max="30"></label>
           <label><span>1회 충전 시간</span><div class="input-unit"><input id="sealRechargeMinutes" type="number" min="1" max="1440"><em>분</em></div></label>
+          <label><span>보상 최소 공격 횟수</span><div class="input-unit"><input id="sealMinRewardAttempts" type="number" min="1" max="1000000" step="1"><em>회</em></div></label>
           <label><span>패배 공헌 반영</span><div class="input-unit"><input id="sealDefeatContribution" type="number" min="0" max="100"><em>%</em></div></label>
           <label><span>부족 역할 지원 보너스</span><div class="input-unit"><input id="sealLowestBonus" type="number" min="0" max="500"><em>%</em></div></label>
           <div class="seal-admin-combat-rule"><b>전투 고정 규칙</b><span>최대 횟수까지 자동 충전 · 승리 100% 공헌 · 패배 설정 비율 공헌 · 유저/보스 궁극기 사용 불가</span></div>
@@ -125,6 +126,7 @@
           <article><header><small>SERVER CLEAR</small><h4>봉인 완료 참여자 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealClearCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealClearShards" type="number" min="0"></label></article>
           <article><header><small>STORAGE LIMIT</small><h4>소형 기록 보존</h4></header><label><span>요청 영수증</span><div class="input-unit"><input id="sealReceiptDays" type="number" min="1" max="90"><em>일</em></div></label><label><span>종료 이벤트 개인 집계</span><div class="input-unit"><input id="sealProgressDays" type="number" min="7" max="365"><em>일</em></div></label></article>
         </div>
+        <div class="seal-rank-reward-note"><b>보상 지급 조건</b><span>이번 회차의 파괴·수호·정화 전투를 합산해 최소 공격 횟수 이상이어야 완료·순위 보상을 받습니다. 승패와 관계없이 처리 완료된 전투만 집계하며, 참여 1회 보상은 그대로 지급됩니다. 클리어 코인 100억(10,000,000,000) 설정·지급을 지원합니다.</span></div>
 
         <section class="seal-admin-rank-rewards">
           <header><div><small>CONTRIBUTION RANK REWARD</small><h3>공헌도 순위 차등 보상</h3><p>봉인전 종료 시 확정된 전체 공헌도 순위에 따라 큐브·장비 보급상자·코인을 조합해 지급합니다.</p></div><button type="button" id="sealAddRankTier" class="ghost">+ 순위 구간 추가</button></header>
@@ -169,7 +171,7 @@
       badge.textContent = settings.mode === 'ON' ? '전체 운영' : settings.mode === 'TEST' ? '테스트 운영' : '운영 중지';
       badge.className = settings.mode.toLowerCase();
     }
-    $('#sealAdminEventSummary').innerHTML = event ? `<div><small>현재 이벤트 #${event.id}</small><h3>${esc(event.title)} · ${esc(event.bossName)}</h3><p>${esc(event.description || '')}</p></div><div><span class="status-${String(event.status).toLowerCase()}">${esc(statusText(event.status))}</span><b>${formatDate(event.startsAt)} ~ ${formatDate(event.endsAt)}</b></div>` : '<div><small>NO ACTIVE EVENT</small><h3>시작된 봉인전이 없습니다.</h3><p>아래 설정을 저장한 뒤 새 봉인전을 시작하세요.</p></div>';
+    $('#sealAdminEventSummary').innerHTML = event ? `<div><small>현재 이벤트 #${event.id}</small><h3>${esc(event.title)} · ${esc(event.bossName)}</h3><p>${esc(event.description || '')}</p><p>현재 회차 보상 조건 · ${num(event.minRewardAttempts || 1)}회 이상 공격 / 완료 코인 ${num(event.clearReward?.coin)}</p></div><div><span class="status-${String(event.status).toLowerCase()}">${esc(statusText(event.status))}</span><b>${formatDate(event.startsAt)} ~ ${formatDate(event.endsAt)}</b></div>` : '<div><small>NO ACTIVE EVENT</small><h3>시작된 봉인전이 없습니다.</h3><p>아래 설정을 저장한 뒤 새 봉인전을 시작하세요.</p></div>';
     const stats = data.stats || {};
     $('#sealAdminStats').innerHTML = [
       ['참여 유저', num(stats.participants), '명'], ['총 참여', num(stats.attempts), '회'],
@@ -264,6 +266,7 @@
     $('#sealEndsAt').value = toInputDate(settings.endsAt);
     $('#sealDailyAttempts').value = Number(settings.dailyAttempts || 5);
     $('#sealRechargeMinutes').value = Number(settings.rechargeMinutes || 60);
+    $('#sealMinRewardAttempts').value = Number(settings.minRewardAttempts ?? defaults.minRewardAttempts);
     $('#sealLowestBonus').value = Number(settings.lowestRoleBonusPercent || 0);
     if ($('#sealDefeatContribution')) $('#sealDefeatContribution').value = Number(settings.defeatContributionPercent ?? 10);
     $('#sealAttackBattlePower').value = Number(settings.battlePowers?.attack || 1);
@@ -303,6 +306,7 @@
       endsAt: fromInputDate($('#sealEndsAt').value),
       dailyAttempts: integer('#sealDailyAttempts', 5),
       rechargeMinutes: integer('#sealRechargeMinutes', 60),
+      minRewardAttempts: Number($('#sealMinRewardAttempts').value),
       targets: {
         attack: integer('#sealAttackTarget', 1), guard: integer('#sealGuardTarget', 1), purify: integer('#sealPurifyTarget', 1)
       },
@@ -331,6 +335,7 @@
     if (settings.endsAt && settings.startsAt && Date.parse(settings.endsAt) <= Date.parse(settings.startsAt)) return '종료 시각은 시작 시각보다 뒤여야 합니다.';
     if (settings.dailyAttempts < 1 || settings.dailyAttempts > 30) return '최대 보유 도전 횟수는 1~30회로 입력하세요.';
     if (settings.rechargeMinutes < 1 || settings.rechargeMinutes > 1440) return '충전 시간은 1~1,440분으로 입력하세요.';
+    if (!Number.isSafeInteger(settings.minRewardAttempts) || settings.minRewardAttempts < 1 || settings.minRewardAttempts > 1000000) return '보상 최소 공격 횟수는 1~1,000,000회 정수로 입력하세요.';
     if (settings.defeatContributionPercent < 0 || settings.defeatContributionPercent > 100) return '패배 공헌 반영률은 0~100%로 입력하세요.';
     if (Object.values(settings.targets).some(value => value < 1)) return '역할별 목표 공헌도는 1 이상이어야 합니다.';
     if (Object.values(settings.multipliers).some(value => value < 1 || value > 1000)) return '역할 배율은 1~1,000%로 입력하세요.';

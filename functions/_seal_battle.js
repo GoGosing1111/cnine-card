@@ -15,6 +15,7 @@ const DEFAULT_SETTINGS = {
   endsAt: null,
   dailyAttempts: 5,
   rechargeMinutes: 60,
+  minRewardAttempts: 25,
   targets: { attack: 20000000, guard: 16000000, purify: 14000000 },
   multipliers: { attack: 100, guard: 90, purify: 85 },
   battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
@@ -125,6 +126,7 @@ function cleanSettings(raw = {}) {
     endsAt: cleanDate(raw.endsAt),
     dailyAttempts: clampInt(raw.dailyAttempts, base.dailyAttempts, 1, 30),
     rechargeMinutes: clampInt(raw.rechargeMinutes, base.rechargeMinutes, 1, 1440),
+    minRewardAttempts: clampInt(raw.minRewardAttempts, base.minRewardAttempts, 1, 1000000),
     targets: {
       attack: clampInt(targets.attack, base.targets.attack, 1, 2000000000),
       guard: clampInt(targets.guard, base.targets.guard, 1, 2000000000),
@@ -172,6 +174,24 @@ function requestIdValid(value) {
   return /^[a-zA-Z0-9:_-]{12,160}$/.test(String(value || '').trim());
 }
 
+async function ensureRewardAttemptsSchema(env, deps) {
+  const marker = 'seal_reward_attempts_schema_20260922_v1';
+  const applied = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(marker).first();
+  if (applied?.value === '1') return;
+  if (env.DB.dialect === 'postgres') {
+    // The PostgreSQL adapter intentionally ignores DDL passed through prepare().
+    await env.DB.execSchema(['ALTER TABLE seal_battle_events ADD COLUMN IF NOT EXISTS min_reward_attempts BIGINT NOT NULL DEFAULT 1']);
+  } else {
+    const exists = typeof deps.columnExists === 'function' && await deps.columnExists(env, 'seal_battle_events', 'min_reward_attempts');
+    if (!exists) {
+      try { await env.DB.prepare('ALTER TABLE seal_battle_events ADD COLUMN min_reward_attempts INTEGER NOT NULL DEFAULT 1').run(); }
+      catch (error) { if (!/duplicate column|already exists/i.test(String(error?.message || error))) throw error; }
+    }
+  }
+  // Schema only: never rewrite operator settings or past rounds during initialization.
+  await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(marker, '1').run();
+}
+
 async function ensureFoundation(env, deps = {}) {
   if (foundationPromise) return foundationPromise;
   foundationPromise = (async () => {
@@ -188,6 +208,7 @@ async function ensureFoundation(env, deps = {}) {
         ends_at TEXT,
         daily_attempts INTEGER NOT NULL DEFAULT 5,
         recharge_minutes INTEGER NOT NULL DEFAULT 60,
+        min_reward_attempts INTEGER NOT NULL DEFAULT 1,
         attack_target INTEGER NOT NULL DEFAULT 1,
         guard_target INTEGER NOT NULL DEFAULT 1,
         purify_target INTEGER NOT NULL DEFAULT 1,
@@ -279,6 +300,7 @@ async function ensureFoundation(env, deps = {}) {
       env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(DEFAULT_SETTINGS)),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1283_seal_battle','1',CURRENT_TIMESTAMP)")
     ]);
+    await ensureRewardAttemptsSchema(env, deps);
 
     const additions = [
       ['seal_battle_events','attack_battle_power','INTEGER NOT NULL DEFAULT 12000'],
@@ -352,6 +374,9 @@ async function loadSettings(env) {
 }
 
 async function saveSettings(env, value) {
+  if (value.minRewardAttempts !== undefined && (!Number.isSafeInteger(Number(value.minRewardAttempts)) || Number(value.minRewardAttempts) < 1 || Number(value.minRewardAttempts) > 1000000)) {
+    throw new Error('보상 최소 공격 횟수는 1~1,000,000회 정수로 입력하세요.');
+  }
   const clean = cleanSettings(value);
   validateRankRewards(clean.rankRewards);
   const serialized = JSON.stringify(clean);
@@ -398,6 +423,7 @@ function normalizeEvent(row) {
     dailyAttempts: Number(row.daily_attempts || 5),
     maxAttempts: Number(row.daily_attempts || 5),
     rechargeMinutes: Number(row.recharge_minutes || 60),
+    minRewardAttempts: clampInt(row.min_reward_attempts, 1, 1, 1000000),
     lowestRoleBonusPercent: Number(row.lowest_bonus_percent || 0),
     defeatContributionPercent: Number(row.defeat_contribution_percent ?? 10),
     attemptReward: { coin: Number(row.attempt_coin || 0), shards: Number(row.attempt_shards || 0) },
@@ -550,7 +576,7 @@ async function finalRankForProgress(env, eventId, progress) {
 async function rankRewardPreview(env, event, userId) {
   if (!rankRewardEventEligible(event)) return null;
   const progress = await userProgress(env, event.id, userId);
-  if (!progress || Number(progress.total_attempts || 0) < 1) return null;
+  if (!rewardEligibility(event, progress?.total_attempts).eligible) return null;
   const finalRank = await finalRankForProgress(env, event.id, progress);
   const tier = rankRewardTierForRank(event, finalRank);
   if (!tier) return null;
@@ -575,7 +601,7 @@ async function rankRewardPreview(env, event, userId) {
 
 async function pendingRankReward(env, userId, excludeEventId = 0) {
   const rows = (await env.DB.prepare(`SELECT e.* FROM seal_battle_events e
-    JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>0
+    JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>=e.min_reward_attempts
     LEFT JOIN seal_battle_rank_claims c ON c.event_id=e.id AND c.user_id=?
     WHERE e.id<>? AND e.status IN ('CLEARED','FAILED','ENDED') AND COALESCE(c.status,'')<>'COMPLETED'
     ORDER BY e.id DESC LIMIT 12`).bind(userId, userId, Number(excludeEventId || 0)).all()).results;
@@ -714,6 +740,17 @@ async function releaseAttempt(env, event, userId, dayKey) {
   } catch {}
 }
 
+function rewardEligibility(event, totalAttempts) {
+  const minimumAttempts = clampInt(event?.minRewardAttempts, 1, 1, 1000000);
+  const completedAttempts = Math.max(0, Math.floor(Number(totalAttempts) || 0));
+  return {
+    minimumAttempts,
+    completedAttempts,
+    remainingAttempts: Math.max(0, minimumAttempts - completedAttempts),
+    eligible: completedAttempts >= minimumAttempts
+  };
+}
+
 async function statusPayload(env, deps, user, settings = null, eventRow = null) {
   settings ||= await loadSettings(env);
   eventRow ||= await currentEventRow(env);
@@ -728,12 +765,13 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
     env.DB.prepare('SELECT status FROM seal_battle_clear_claims WHERE event_id=? AND user_id=?').bind(event.id, user.id).first(),
     env.DB.prepare(`SELECT e.id,e.event_key,e.title,e.boss_name,e.clear_coin,e.clear_shards,c.status AS claim_status
       FROM seal_battle_events e
-      JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>0
+      JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>=e.min_reward_attempts
       LEFT JOIN seal_battle_clear_claims c ON c.event_id=e.id AND c.user_id=?
       WHERE e.status='CLEARED' AND COALESCE(c.status,'')<>'COMPLETED'
       ORDER BY e.id DESC LIMIT 1`).bind(user.id, user.id).first()
   ]);
   const progress = publicProgress(progressRow, dayKey, event);
+  const eligibility = rewardEligibility(event, progress.totalAttempts);
   const availability = eventAvailability(event, settings, user);
   const [rankReward, previousRankReward] = await Promise.all([
     rankRewardPreview(env, event, user.id),
@@ -744,11 +782,12 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
     event,
     availability,
     progress,
+    rewardEligibility: eligibility,
     stats,
     deck,
     lowestRoleKeys: lowestRoleKeys(event),
     clearReward: {
-      eligible: event.status === 'CLEARED' && progress.totalAttempts > 0,
+      eligible: event.status === 'CLEARED' && eligibility.eligible,
       claimed: String(claim?.status || '') === 'COMPLETED',
       processing: ['PENDING', 'CLAIMING'].includes(String(claim?.status || '')),
       reward: event.clearReward
@@ -1000,7 +1039,8 @@ async function participate(env, deps, user, settings, event, body) {
 async function claimClearReward(env, deps, user, event) {
   if (!event || event.status !== 'CLEARED') return deps.json({ error: '아직 봉인 완료 보상을 받을 수 없습니다.' }, 409);
   const progress = await userProgress(env, event.id, user.id);
-  if (!progress || Number(progress.total_attempts || 0) < 1) return deps.json({ error: '이번 봉인전 참여 기록이 없습니다.' }, 403);
+  const eligibility = rewardEligibility(event, progress?.total_attempts);
+  if (!eligibility.eligible) return deps.json({ error: `보상을 받으려면 이번 봉인전에서 ${eligibility.minimumAttempts}회 이상 공격해야 합니다. (현재 ${eligibility.completedAttempts}회)`, code: 'SEAL_REWARD_MIN_ATTEMPTS', rewardEligibility: eligibility }, 403);
 
   await env.DB.prepare(`INSERT OR IGNORE INTO seal_battle_clear_claims(event_id,user_id,status,reward_coin,reward_shards)
     VALUES(?,?,'PENDING',?,?)`).bind(event.id, user.id, event.clearReward.coin, event.clearReward.shards).run();
@@ -1064,7 +1104,8 @@ async function claimClearReward(env, deps, user, event) {
 async function claimRankReward(env, deps, user, event) {
   if (!rankRewardEventEligible(event)) return deps.json({ error: '아직 공헌도 순위 보상을 받을 수 없습니다.' }, 409);
   const progress = await userProgress(env, event.id, user.id);
-  if (!progress || Number(progress.total_attempts || 0) < 1) return deps.json({ error: '이번 봉인전 참여 기록이 없습니다.' }, 403);
+  const eligibility = rewardEligibility(event, progress?.total_attempts);
+  if (!eligibility.eligible) return deps.json({ error: `보상을 받으려면 이번 봉인전에서 ${eligibility.minimumAttempts}회 이상 공격해야 합니다. (현재 ${eligibility.completedAttempts}회)`, code: 'SEAL_REWARD_MIN_ATTEMPTS', rewardEligibility: eligibility }, 403);
   const finalRank = await finalRankForProgress(env, event.id, progress);
   const tier = rankRewardTierForRank(event, finalRank);
   if (!tier) return deps.json({ error: '해당 순위에 설정된 공헌도 보상이 없습니다.' }, 403);
@@ -1196,13 +1237,14 @@ async function adminStart(env, settings, admin) {
       ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP
       WHERE status='ACTIVE'`),
     env.DB.prepare(`INSERT INTO seal_battle_events(
-      event_key,title,boss_name,boss_image,description,status,starts_at,ends_at,daily_attempts,recharge_minutes,
+      event_key,title,boss_name,boss_image,description,status,starts_at,ends_at,daily_attempts,recharge_minutes,min_reward_attempts,
       attack_target,guard_target,purify_target,attack_multiplier,guard_multiplier,purify_multiplier,
       attack_battle_power,guard_battle_power,purify_battle_power,defeat_contribution_percent,
       lowest_bonus_percent,attempt_coin,attempt_shards,clear_coin,clear_shards,rank_rewards_json,created_by
-    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
+    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
       key, settings.title, settings.bossName, settings.bossImage, settings.description,
       settings.startsAt, settings.endsAt, settings.dailyAttempts, settings.rechargeMinutes,
+      settings.minRewardAttempts ?? 1,
       settings.targets.attack, settings.targets.guard, settings.targets.purify,
       settings.multipliers.attack, settings.multipliers.guard, settings.multipliers.purify,
       settings.battlePowers.attack, settings.battlePowers.guard, settings.battlePowers.purify,
@@ -1248,7 +1290,7 @@ export async function handleSealBattle({ path, request, env, deps }) {
       : await currentEventRow(env);
     if (!requestedEventId && eventRow && String(eventRow.status || '').toUpperCase() !== 'CLEARED') {
       eventRow = await env.DB.prepare(`SELECT e.* FROM seal_battle_events e
-        JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>0
+        JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>=e.min_reward_attempts
         LEFT JOIN seal_battle_clear_claims c ON c.event_id=e.id AND c.user_id=?
         WHERE e.status='CLEARED' AND COALESCE(c.status,'')<>'COMPLETED'
         ORDER BY e.id DESC LIMIT 1`).bind(user.id, user.id).first();
@@ -1277,7 +1319,13 @@ export async function handleSealBattle({ path, request, env, deps }) {
 
   if (path === 'admin/seal-battle/settings' && request.method === 'PATCH') {
     const body = await deps.readBody(request);
-    const next = await saveSettings(env, body.settings || body);
+    let next;
+    try {
+      next = await saveSettings(env, { ...settings, ...(body.settings || body) });
+    } catch (error) {
+      if (/보상 최소 공격 횟수/.test(String(error?.message))) return deps.json({ error: error.message }, 400);
+      throw error;
+    }
     await env.DB.prepare("UPDATE seal_battle_events SET boss_image=?,updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'")
       .bind(next.bossImage).run();
     if (typeof deps.writeAdminLog === 'function') {
