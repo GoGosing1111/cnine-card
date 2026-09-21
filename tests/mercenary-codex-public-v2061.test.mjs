@@ -32,13 +32,15 @@ function navigationRuntime() {
 test('public document uses the native forge-inspired archive with game links and CMS information', () => {
   assert.equal(html.replaceAll('\r\n', '\n'), publicCodexHtml());
   assert.match(html, /data-codex-mode="public"/);
-  assert.match(html, /도감 공개 중/);
+  assert.match(html, /내 용병 확인 중/);
   assert.doesNotMatch(html, /검수용 프리뷰|유저 미공개|메뉴 배치입니다|target="_blank"/);
   assert.match(html, /class="brand" href="\/\?screen=home" aria-label="숲켓몬 로비로 돌아가기"/);
   assert.match(html, /id="lobbyReturn" class="lobby-return" href="\/\?screen=home">/);
   assert.match(html, /로비로 돌아가기 ↗/);
   assert.match(html, /archive-workspace/);
-  assert.match(html, /href="\/mercenary-hangar\/"/);
+  assert.match(html, /id="ownedView"[^>]*data-view="owned"/);
+  assert.match(html, /id="allView"[^>]*data-view="all"/);
+  assert.doesNotMatch(html, /href="\/mercenary-hangar\/"/);
   assert.doesNotMatch(html, /획득 \/ 편성 \/ 전투 기능 준비 중|preview\/mercenary-codex/);
   for (const match of html.matchAll(/(?:src|href)="(\.\.[^"?]+)(?:\?[^" ]+)?"/g)) {
     assert.ok(fs.existsSync(path.resolve(root, 'mercenary-codex', match[1])), match[1]);
@@ -84,13 +86,17 @@ test('native desktop, mobile and old subtab fallbacks redirect without mounting 
   assert.ok(app.indexOf(branch) < app.indexOf('const views =', app.indexOf('function renderShell(')));
 });
 
-test('public information remains read-only with separate local favorites and no guessed ranks', () => {
+test('codex keeps public catalog browsing while account writes are limited to the existing loadout route', () => {
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.cards.length,47);
   assert.ok(roster.cards.filter(c=>!['V-044','V-045','V-047'].includes(c.code)).every(card => ['V-021','V-046'].includes(card.code)? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.doesNotMatch(html, /src="[^"]*(?:runtime-router|battle-engine|loadout|gsap|pixi)/i);
-  assert.doesNotMatch(client, /method:\s*['"](?:POST|PATCH|PUT|DELETE)|new Audio|AudioContext/);
+  assert.match(client, /api\('mercenaries\/v3\/state'/);
+  assert.match(client, /api\(`mercenaries\/v3\/\$\{pending\.action\}`/);
+  assert.match(client, /method:'POST'/);
+  assert.match(client, /pending\.body\.mercenaryCode/);
+  assert.doesNotMatch(client, /mercenaries\/v3\/(?:open|draw|train)|new Audio|AudioContext/);
   assert.match(client, /storageKey='cnine\.mercenaryCodex\.public\.v1'/);
   assert.match(client, /api\('mercenary-codex'/);
   assert.match(client, /c\.skills\.map\(skillHtml\)/);
@@ -102,8 +108,8 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.match(index, /exact-shell-adapter\.js\?v=2108-shared-navigation/);
   assert.match(index, /runtime-router\.js\?v=2083-clan-prison-camp/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
-  assert.match(html, /mercenary-codex\/app\.mjs\?v=2098/);
-  assert.match(html, /mercenary-codex\/style\.css\?v=2098/);
+  assert.match(html, /mercenary-codex\/app\.mjs\?v=2133/);
+  assert.match(html, /mercenary-codex\/style\.css\?v=2133/);
   assert.match(read('mercenary-codex/style.css'), /search-field input\{height:44px/);
   assert.match(client, /model\.mjs\?v=2098/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);

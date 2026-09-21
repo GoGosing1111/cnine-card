@@ -69,7 +69,7 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
 test('catalog release uses current CMS data and preserves all 43 separate art and SD resources', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /mercenary-codex\/app\.mjs\?v=2098/);
+  assert.match(html, /mercenary-codex\/app\.mjs\?v=2133/);
   const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards;
   assert.equal(published.filter(card=>!card.artOnly).length,47);
   assert.equal(published.filter(card=>card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,47);

@@ -9,7 +9,7 @@ function render(){
     const label=card?card.name:state?'용병을 선택하세요':'용병 편성 확인 중';
     const signature=JSON.stringify([state?.accountId,code,card?.name,card?.rank,card?.basePower,card?.pendingSkillCount,error,state?.available]);
     if(host.dataset.signature===signature)continue;host.dataset.signature=signature;
-    host.innerHTML=`${card?`<img src="/assets/ui/project-v/mercenaries/codex-v1/${esc(card.code.toLowerCase())}-art-320.webp" alt="${esc(card.name)} 카드 원화">`:'<span class="mercenary-slot-emblem" aria-hidden="true">V</span>'}<div><small>용병 전용 슬롯 · ${card?'1':'0'}/1</small><strong>${esc(label)}</strong><p>${esc(error||('PVE·PVP 공통 · 일반 카드 5장과 별도로 출전'+(card?.pendingSkillCount?' · 스킬 수치 설정 대기':'')))}</p></div><a href="/mercenary-hangar/">${card?'용병 변경':'용병 편성'} <span aria-hidden="true">→</span></a>`;
+    host.innerHTML=`${card?`<img src="/assets/ui/project-v/mercenaries/codex-v1/${esc(card.code.toLowerCase())}-art-320.webp" alt="${esc(card.name)} 카드 원화">`:'<span class="mercenary-slot-emblem" aria-hidden="true">V</span>'}<div><small>용병 전용 슬롯 · ${card?'1':'0'}/1</small><strong>${esc(label)}</strong><p>${esc(error||('PVE·PVP 공통 · 일반 카드 5장과 별도로 출전'+(card?.pendingSkillCount?' · 스킬 수치 설정 대기':'')))}</p></div><a href="/mercenary-codex/?view=owned">${card?'용병 변경':'용병 편성'} <span aria-hidden="true">→</span></a>`;
   }
 }
 function refresh(){

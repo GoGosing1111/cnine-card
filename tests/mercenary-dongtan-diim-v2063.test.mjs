@@ -67,7 +67,7 @@ test('Diim art approval stays unranked and the CMS codex publishes separate appr
   assert.equal(sdStatus(card),'기술검수 완료 · 시각검수 대기');
   assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD',card.code).battleSprite,card.battleSprite);
   const html=read('mercenary-codex/index.html').toString();
-  assert.match(html,/mercenary-codex\/app\.mjs\?v=2098/);
+  assert.match(html,/mercenary-codex\/app\.mjs\?v=2133/);
   assert.match(html,/로비로 돌아가기/);
   const published=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards.find(entry=>entry.code===card.code);
   assert.equal(published.name,'동탄 디임');

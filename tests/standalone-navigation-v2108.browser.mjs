@@ -27,7 +27,7 @@ try{
   page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','navigation-qa');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:4242,nickname:'검수 계정'}));});
   await page.route('**/api/**',r=>{const key=new URL(r.request().url()).pathname.slice(5);if(!['GET','HEAD'].includes(r.request().method()))writes.push(key);return r.fulfill({json:endpoints[key]||{enabled:false,visible:false,items:[]}});});
-  for(const [url,route,ready] of [['/equipment-forge/','equipmentForge','#inventory-note'],['/mercenary-codex/','mercenaryDex','.roster-row'],['/mercenary-hangar/','mercenaryHangar','#roster [data-code]'],['/events/golden-axe/','goldenAxe','#axeStatus']]){
+  for(const [url,route,ready] of [['/equipment-forge/','equipmentForge','#inventory-note'],['/mercenary-codex/','mercenaryDex','.roster-row'],['/events/golden-axe/','goldenAxe','#axeStatus']]){
    await page.goto(base+url,{waitUntil:'domcontentloaded'});await page.locator(ready).first().waitFor();
    const menu=page.locator('soop-adventure-lobby');await menu.waitFor();await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(400);
    check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),size+' '+route+' no horizontal page clipping');
@@ -38,15 +38,16 @@ try{
    const dialog=await menu.locator('#menu-dialog').boundingBox();check(dialog.x>=0&&dialog.y>=0&&dialog.x+dialog.width<=viewport.width+1&&dialog.y+dialog.height<=viewport.height+1,size+' '+route+' menu dialog fits');
    await menu.locator('#menu-search').fill('토벌');check(await menu.locator('.menu-result').count()===0,size+' '+route+' search remains scoped');await menu.locator('#close-menu').click();
    await menu.locator(viewport.width>980?'.sidebar [data-category="all"]':'.mobile-dock [data-category="all"]').click();
-   check(await menu.locator('.category-divider').count()===8,size+' '+route+' bottom all-menu keeps all categories');await page.keyboard.press('Escape');
+   check(await menu.locator('.category-divider').count()===9,size+' '+route+' bottom all-menu keeps all categories');await page.keyboard.press('Escape');
    if(route==='equipmentForge'){
     await page.locator('#tab-restore').click();check(await page.locator('#restore-options').isVisible(),size+' forge native restore tab remains usable');
     await page.locator('#rules-button').click();check(await page.locator('#rules-dialog').isVisible(),size+' forge native guide remains above navigation');await page.keyboard.press('Escape');
     await page.locator('#tab-enhance').click();
    }
-   if(route==='mercenaryDex'){await page.locator('.roster-row').click();check(await page.locator('.stage-heading h2').textContent()===card.name,size+' codex selection still works');}
+   if(route==='mercenaryDex'){check(await page.locator('#ownedView').getAttribute('aria-selected')==='true',size+' codex opens owned roster first');await page.locator('.roster-row').click();check(await page.locator('.stage-heading h2').textContent()===card.name,size+' codex selection still works');}
    await page.screenshot({path:path.join(out,route+'-'+size+'.png'),fullPage:true});
   }
+  if(viewport.width===390){await page.goto(base+'/mercenary-hangar/',{waitUntil:'domcontentloaded'});await page.waitForURL('**/mercenary-codex/?view=owned');check(new URL(page.url()).pathname==='/mercenary-codex/',size+' legacy hangar redirects to integrated codex');}
   await page.close();
  }
  check(!errors.length,'no standalone JavaScript errors: '+errors.join(' | '));check(!writes.length,'navigation never sends a purchase, draw or equipment write');

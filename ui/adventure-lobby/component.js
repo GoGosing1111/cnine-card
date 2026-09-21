@@ -13,7 +13,7 @@
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
-        isRouteVisible:id=>['equipmentForge','mercenaryHangar'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
+        isRouteVisible:id=>id==='equipmentForge'||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
         openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings
       });

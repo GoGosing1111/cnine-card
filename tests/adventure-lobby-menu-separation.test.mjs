@@ -29,7 +29,8 @@ test('card and equipment destinations use separate top-level categories',async()
   assert.match(app,/equipment:\{title:'장비·제작',icon:'forge'/);
   assert.match(app,/group==='equipment'\|\|group==='crafting'\|\|id==='equipmentForge'\)return 'equipment'/);
   assert.match(app,/equipmentForge',title:'장비 강화',category:'equipment'/);
-  assert.match(app,/mercenaryHangar',title:'용병 지휘소',category:'cards'/);
+  assert.match(app,/mercenaryDex:'보유 용병 확인·편성과 전체 용병 정보'/);
+  assert.doesNotMatch(app,/mercenaryHangar',title:'용병 지휘소',category:'cards'/);
 });
 
 test('optional tutorial mirrors the same card and equipment split',async()=>{

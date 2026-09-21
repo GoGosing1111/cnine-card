@@ -44,7 +44,8 @@ test('deployment exposes 5+1 independently and both real deck builders provide t
  assert.equal(V3_JOINT_RELEASE_ENABLED,false);assert.equal(v3JointReleaseState().publicContent.MERCENARY.enabled,true);
  const module=fs.readFileSync('js/mercenary-deck-slot.mjs','utf8'),draw=fs.readFileSync('admin/mercenary-draw-admin-v1.js','utf8');
  assert.match(module,/\['battleDeck','PVE'\]/);assert.match(module,/\['pvpDeckSlots','PVP'\]/);assert.match(module,/deck\.after\(host\)/);assert.match(module,/mercenaries\/v3\/state/);assert.match(draw,/data-hyper-opening/);
- assert.match(fs.readFileSync('index.html','utf8'),/mercenary-deck-slot\.mjs\?v=2097/);
+ assert.match(module,/href="\/mercenary-codex\/\?view=owned"/);
+ assert.match(fs.readFileSync('index.html','utf8'),/mercenary-deck-slot\.mjs\?v=2133/);
 });
 test('displayed PVP power adds the separately deployed mercenary once without counting it as a card',()=>{
  const app=fs.readFileSync('js/app.js','utf8'),source=app.slice(app.indexOf('function pvpDeckStats('),app.indexOf("addEventListener('mercenary-deployment:changed'"));

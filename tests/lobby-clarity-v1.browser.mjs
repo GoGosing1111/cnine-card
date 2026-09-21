@@ -58,20 +58,20 @@ try{
   // loadout response must still recover the same request after removing draws.
   for(const width of [1440,390]){
     const page=await browser.newPage({viewport:{width,height:900}});page.on('pageerror',e=>errors.push(e.message));
-    const state={accountId:42,coin:1000000000,available:true,loadout:{mercenaryCode:null,revision:1},cards:[{code:'V-004',name:'베스페라',rank:'SS',level:1,duplicates:0,basePower:120000,sourceArt:'assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png',skills:[]},{code:'V-013',name:'라비에나',rank:'S',level:1,duplicates:2,basePower:70000,sourceArt:'assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png',skills:[]}]};
+    const state={accountId:42,coin:1000000000,available:true,loadout:{mercenaryCode:null,revision:1},cards:[{code:'V-004',name:'베스페라',title:'붉은 저격수',rank:'SS',position:'REAR',role:'SNIPER',level:1,duplicates:0,basePower:120000,sourceArt:'assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png',battleSprite:null,skills:[],specialty:'정밀 사격',weakness:'근접전',basicTarget:'적 후열',canDeploy:true},{code:'V-013',name:'라비에나',title:'자수정 지휘관',rank:'S',position:'FRONT',role:'VANGUARD',level:1,duplicates:2,basePower:70000,sourceArt:'assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png',battleSprite:null,skills:[],specialty:'전열 돌파',weakness:'집중 사격',basicTarget:'적 전열',canDeploy:true}]};
     let lost=true,effects=0;const posts=[],receipts=new Map();
-    await page.route('**/api/**',async route=>{const req=route.request(),pathname=new URL(req.url()).pathname;if(req.method()==='POST'){const data=req.postDataJSON();posts.push({path:pathname,...data});check(pathname==='/api/mercenaries/v3/loadout','hangar only sends loadout writes');if(!receipts.has(data.requestId)){state.loadout={mercenaryCode:data.mercenaryCode,revision:state.loadout.revision+1};receipts.set(data.requestId,{replayed:false});effects++;}else receipts.set(data.requestId,{replayed:true});if(lost){lost=false;return route.abort('failed');}return route.fulfill({json:receipts.get(data.requestId)});}return route.fulfill({json:pathname.endsWith('/state')?state:{connected:true,userOpeningEnabled:true}});});
-    await page.goto(base+'/mercenary-hangar/');await page.locator('#roster [data-code]').first().waitFor();
+    await page.route('**/api/**',async route=>{const req=route.request(),pathname=new URL(req.url()).pathname;if(req.method()==='POST'){const data=req.postDataJSON();posts.push({path:pathname,...data});check(pathname==='/api/mercenaries/v3/loadout','codex only sends loadout writes');if(!receipts.has(data.requestId)){state.loadout={mercenaryCode:data.mercenaryCode,revision:state.loadout.revision+1};receipts.set(data.requestId,{replayed:false});effects++;}else receipts.set(data.requestId,{replayed:true});if(lost){lost=false;return route.abort('failed');}return route.fulfill({json:receipts.get(data.requestId)});}if(pathname.endsWith('/mercenary-codex'))return route.fulfill({json:{version:'mercenary-codex-2098',revision:1,roles:{SNIPER:{label:'저격'},VANGUARD:{label:'돌격'}},cards:state.cards}});return route.fulfill({json:pathname.endsWith('/state')?state:{connected:true,userOpeningEnabled:true}});});
+    await page.goto(base+'/mercenary-codex/');await page.locator('.roster-row').first().waitFor();
     check(await page.locator('#open,#draw-count,#draw-cost,.contract').count()===0,`${width} opening panel absent`);
-    check(!(await page.locator('#message').textContent()).includes('5억'),`${width} opening feature polling does not advertise draws`);
-    await page.locator('[data-code="V-013"]').click();check(await page.locator('#name').textContent()==='라비에나',`${width} selecting a mercenary still updates detail`);
-    await page.locator('#equip').click();await page.locator('#recover').waitFor({state:'visible'});await page.locator('#recover').click();
-    await page.waitForFunction(()=>document.getElementById('slot').textContent.includes('라비에나 · 편성 중'));
+    check(!(await page.locator('#catalogStatus').textContent()).includes('5억'),`${width} opening feature polling does not advertise draws`);
+    await page.locator('[data-code="V-013"]').click();check(await page.locator('.stage-heading h2').textContent()==='라비에나',`${width} selecting a mercenary still updates detail`);
+    await page.locator('[data-equip="V-013"]').click();await page.locator('[data-recover-loadout]').waitFor({state:'visible'});await page.locator('[data-recover-loadout]').click();
+    await page.waitForFunction(()=>document.getElementById('loadoutName').textContent==='라비에나');
     check(posts.length===2&&posts[0].requestId===posts[1].requestId&&effects===1,`${width} lost loadout response recovers once`);
-    await page.locator('#unequip').click();await page.waitForFunction(()=>document.getElementById('slot').textContent.includes('비어'));
+    await page.locator('[data-unequip]').click();await page.waitForFunction(()=>document.getElementById('loadoutName').textContent==='미편성');
     check(effects===2,`${width} unequip works without a paid draw`);
-    await noOverflow(page,`${width} hangar width`);
-    await page.screenshot({path:path.join(out,`hangar-${width}.png`),fullPage:true});
+    await noOverflow(page,`${width} integrated codex width`);
+    await page.screenshot({path:path.join(out,`mercenary-codex-${width}.png`),fullPage:true});
     check(state.coin===1000000000,`${width} selection does not spend coins`);
     await page.close();
   }

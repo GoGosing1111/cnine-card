@@ -65,7 +65,7 @@ test('Joeun art approval stays unranked and the CMS codex publishes separate app
   assert.equal(sdStatus(card), '기술검수 완료 · 시각검수 대기');
   assert.equal(createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD', card.code).battleSprite, card.battleSprite);
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /mercenary-codex\/app\.mjs\?v=2098/);
+  assert.match(html, /mercenary-codex\/app\.mjs\?v=2133/);
   const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards.find(entry=>entry.code===card.code);
   assert.equal(published.name, '경찰 조은');
   assert.equal(published.sourceArt, card.sourceArt);

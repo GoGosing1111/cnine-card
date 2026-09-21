@@ -94,12 +94,12 @@ try{
    if(category==='pve')check(await lobby.locator('.menu-result[data-route="territory"],.menu-result[data-route="pvp"]').count()===0,size+' adventure excludes player battles');
    if(category==='inventory')check(await lobby.locator('.menu-result[data-route="inventory"]').count()===1,size+' inventory has its own all-menu group');
    if(category==='cards'){
-    check(await lobby.locator('.menu-result[data-route="dex"],.menu-result[data-route="upgrade"],.menu-result[data-route="mercenaryHangar"]').count()===3,size+' cards contains card and mercenary progression');
+    check(await lobby.locator('.menu-result[data-route="dex"],.menu-result[data-route="upgrade"],.menu-result[data-route="mercenaryDex"]').count()===3,size+' cards contains card and integrated mercenary progression');
     check(await lobby.locator('.menu-result[data-route="character"],.menu-result[data-route="equipmentForge"]').count()===0,size+' cards excludes equipment destinations');
    }
    if(category==='equipment'){
     check(await lobby.locator('.menu-result[data-route="character"],.menu-result[data-route="vehicle"],.menu-result[data-route="equipmentForge"]').count()===3,size+' equipment contains loadout, crafting and forge');
-    check(await lobby.locator('.menu-result[data-route="dex"],.menu-result[data-route="mercenaryHangar"]').count()===0,size+' equipment excludes card and mercenary destinations');
+    check(await lobby.locator('.menu-result[data-route="dex"],.menu-result[data-route="mercenaryDex"]').count()===0,size+' equipment excludes card and mercenary destinations');
    }
    if(['cards','equipment'].includes(category))await page.screenshot({path:path.join(out,`live-${category}-${size}.png`)});
    if(category==='shop'){
