@@ -6,7 +6,15 @@
 - 후속 작업 기준: `redesign/standing-original-source-art-v3-short-crest.png`. 선택 이미지의 얼굴 방향·몸 자세·쌍검·배경을 유지하며 머리 뒤 파란 얼음 돌출부만 짧게 줄였다.
 - 사용자 선택 원본은 `redesign/user-selected-standing-source-art.png`에 무변형 보존했다. 내장 ImageGen 편집 결과는 1024×1536 sRGB RGB PNG이며 SHA-256은 `321600E04E4CDB3ABD9D35CCEEFCF4AFBD9F34AED73ABD5A8AD038123A999535`다.
 - 선택 및 국소 수정 기록: `redesign/review-v3.json`. 정확한 편집 프롬프트: `redesign/prompt-standing-crest-v3.txt`.
-- 기존 SSS 등급 지시는 유지한다. 사용자 기준 이미지 선택과 새 편집 결과에 대한 후속 시각 확인을 구분하며, 과거 승인 원화·정면 V2는 덮어쓰지 않는다. SD·모션·카드 프레임 검수·라이브 연결은 이번 수정에 포함하지 않는다.
+- 후속 `승인하고 아까 하던 리소스 다시 진행해`로 서 있는 짧은 얼음 장식 V3 원화의 사용자 승인이 확정됐다. 기존 SSS 등급을 유지한다. 과거 원화와 정면 V2는 보존하며 신규 SD·모션 승인 및 라이브 연결은 별도다.
+
+## 재개된 전투 리소스 · 팔 수정 검수
+
+- 승인 원화 V3에서 오른쪽을 향한 성인형 전투 SD를 새로 제작했다. 새 SD V3은 `팔 이상해 다시`, V4는 `왼쪽 팔 이상함`으로 반려되어 `assets/rejected/`에 보존했다.
+- 최신 수정본: `assets/ice-dual-sword-sd-v5-left-arm-corrected.png`. 화면 왼쪽 팔의 어깨 아래부터 팔꿈치·손목·손잡이 연결을 다시 그리고 손을 허벅지 앞쪽으로 옮겼다. 해당 검은 파지에 맞게 이동했다.
+- 내장 ImageGen 사용. 프롬프트는 `prompts/sd-v3-side.txt`, `sd-v4-arms.txt`, `sd-v5-left-arm.txt`다. V4를 V5 국소 수정 대상으로만 사용했으며 반려본으로 연속 모션을 만들지 않았다.
+- V5는 1254×1254 실제 RGBA, 투명 비율 73.70%, 외곽 4px 가시 픽셀 0개다. PNG 생성 원본을 그대로 저장했다. 해시와 현재 상태는 `sd-review.json`.
+- 현재 팔 수정본의 사용자 시각 확인 대기다. **연속 모션 생성 0프레임**이며, 기존 대시·공격·스킬 문구는 제작 준비 프롬프트일 뿐 완성 리소스가 아니다. 승인 원화를 SD나 미완성 모션으로 대체하지 않는다.
 
 ## 최초 승인 기록 (보존)
 

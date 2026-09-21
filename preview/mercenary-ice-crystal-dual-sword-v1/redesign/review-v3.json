@@ -1,5 +1,6 @@
 {
-  "status": "USER_SELECTED_BASE_REQUESTED_EDIT_DELIVERED",
+  "status": "USER_APPROVED_SOURCE_ART",
+  "approvalRequest": "승인하고 아까 하던 리소스 다시 진행해",
   "date": "2026-09-22",
   "userRequest": "이거로 하고 뒤에 얼음 줄여 이거 쓸게",
   "scope": "SHORTEN_REAR_HELMET_ICE_ONLY_KEEP_SELECTED_RIGHT_FACING_POSE",
@@ -20,7 +21,7 @@
   "selection": {
     "baseSelectedByUser": true,
     "requestedEditDelivered": true,
-    "editResultSeparatelyApprovedByUser": false,
+    "editResultSeparatelyApprovedByUser": true,
     "frontFacingV2Selected": false,
     "workingSourceArt": "redesign/standing-original-source-art-v3-short-crest.png"
   },

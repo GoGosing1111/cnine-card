@@ -1,9 +1,9 @@
 {
   "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
   "date": "2026-09-22",
-  "status": "USER_SELECTED_STANDING_ART_REQUESTED_EDIT_DELIVERED",
-  "userRequest": "이거로 하고 뒤에 얼음 줄여 이거 쓸게",
-  "scope": "SELECTED_STANDING_ART_LOCAL_CREST_EDIT_AND_EXISTING_SSS_RANK_ONLY",
+  "status": "USER_APPROVED_SOURCE_ART_AND_RANK",
+  "userRequest": "승인하고 아까 하던 리소스 다시 진행해",
+  "scope": "STANDING_SHORT_CREST_SOURCE_ART_APPROVED_BATTLE_RESOURCES_PREVIEW_ONLY",
   "conceptId": "ice-crystal-dual-sword",
   "releaseIntent": "NEXT_SSS_MERCENARY",
   "code": null,
@@ -12,7 +12,7 @@
   "rank": "SSS",
   "rankStatus": "USER_ASSIGNED_RANK",
   "sourceArt": "preview/mercenary-ice-crystal-dual-sword-v1/redesign/standing-original-source-art-v3-short-crest.png",
-  "sourceArtStatus": "USER_SELECTED_BASE_REQUESTED_EDIT_DELIVERED",
+  "sourceArtStatus": "USER_APPROVED_SOURCE_ART",
   "sourceArtInfo": {
     "width": 1024,
     "height": 1536,
@@ -25,7 +25,7 @@
   "selectedVariant": "STANDING_ORIGINAL_V3_SHORT_CREST_RIGHT_FACING",
   "selectedFrom": "preview/mercenary-ice-crystal-dual-sword-v1/redesign/user-selected-standing-source-art.png",
   "currentEditRecord": "preview/mercenary-ice-crystal-dual-sword-v1/redesign/review-v3.json",
-  "editResultSeparatelyApprovedByUser": false,
+  "editResultSeparatelyApprovedByUser": true,
   "previousSelection": {
     "sourceArt": "preview/mercenary-ice-crystal-dual-sword-v1/assets/source-art.png",
     "selectedVariant": "V1_CROUCHING_DUAL_SWORD",

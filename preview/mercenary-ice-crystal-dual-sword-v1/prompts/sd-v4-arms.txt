@@ -1,0 +1,18 @@
+Use case: precise-object-edit / character anatomy correction.
+Asset type: one full-body transparent RGBA battle sprite.
+
+Image 1 is the battle sprite to CORRECT. Image 2 is the approved character DESIGN reference. The user rejected the ARM ANATOMY of image 1. Rebuild BOTH ARMS, hands and sword-holding poses into a clearly believable relaxed combat guard. This is the key correction, not a cosmetic change.
+
+Keep the same adult silver-white/black/blue ice knight, small pointed fully enclosed helmet, SHORT blue rear crest, tall athletic proportions, long legs, armor design, two navy cloth tails, side-dominant three-quarter body facing SCREEN RIGHT. Do not turn toward the camera. Preserve the polished 2D hand-painted finish.
+
+ANATOMY AND POSE:
+- Exactly TWO arms, one from each correct shoulder socket. Both upper arms hang naturally downward beside the ribcage, NOT lifted behind or over the head. No over-rotated shoulder, no arm crossing behind the neck.
+- Each arm must have a clear separate upper arm, one elbow, one forearm, one wrist and one hand. Natural human humerus/forearm proportions under the armor. Show each elbow joint clearly below its shoulder plate.
+- The NEAR arm, on the visible/front side, has its upper arm sloping downward, elbow beside the lower ribs, forearm extended forward toward screen right, wrist straight. That hand holds one sword at roughly waist height, blade aimed diagonally up-right. Leave open negative space between forearm and torso so its entire shoulder-to-hand chain can be followed.
+- The FAR arm is in a low rear guard, upper arm downward, elbow naturally bent alongside the rear hip, hand visible just behind the hip on screen left. It holds the second sword downward/backward toward lower-left. Keep this hand outside the body silhouette. No overhead sword, no arm extended backward at shoulder height.
+- Each hand wraps naturally around one grip, thumb opposing fingers, straight wrists, sword guard immediately beyond the hand. Separate both arm silhouettes; no merged elbow, extra joint, detached gauntlet or hidden impossible connection.
+- Shoulder pauldrons sit ON TOP of the shoulder joints, not where an elbow should be. Do not use armor decoration to hide incorrect limb geometry.
+
+Two matching long, straight, SLENDER sharp crystalline blue swords consistent with Image 2. Narrow steel/crystal edges, long lethal tips, angular silver guards with blue cores. Do not make leaf/paddle-shaped blades. Both entire blades and tips must be visible, separate from the face, and not cropped.
+
+Frame the complete character and swords at a slightly smaller scale than Image 1, centered on a square canvas with generous 10% transparent margin on all four edges. Keep boots grounded in a balanced forward combat stance, no floor, shadow disc, background, particles, trails, text or UI. Genuine transparent RGBA including all gaps. Return one polished corrected character, no annotations or comparison panels.

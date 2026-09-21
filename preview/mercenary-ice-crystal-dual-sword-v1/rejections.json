@@ -1,5 +1,5 @@
 {
-  "sourceArtApprovalUnchanged": true,
+  "sourceArtApprovalRecord": "approval.json",
   "rejected": [
     {
       "asset": "assets/rejected/ice-dual-sword-sd-v1.png",
@@ -9,7 +9,26 @@
       "allowedAsGenerationReference": false,
       "allowedInRuntime": false,
       "derivedMotionCreated": false
+    },
+    {
+      "asset": "assets/rejected/ice-dual-sword-sd-v3-arms.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "팔 이상해 다시",
+      "reason": "어깨 위로 들어 올린 팔의 해부학적 연결과 파지.",
+      "allowedInRuntime": false,
+      "allowedAsMotionReference": false,
+      "derivedMotionCreated": false
+    },
+    {
+      "asset": "assets/rejected/ice-dual-sword-sd-v4-left-arm.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "왼쪽 팔 이상함",
+      "reason": "화면 왼쪽 어깨·팔꿈치·손목 연결.",
+      "usedForRequestedLocalCorrectionOnly": true,
+      "allowedInRuntime": false,
+      "allowedAsMotionReference": false,
+      "derivedMotionCreated": false
     }
   ],
-  "nextStep": "새 SD V2부터 사용자 시각 검수. 반려된 SD 기반 동작 제작 중단."
+  "nextStep": "왼쪽 팔 수정 SD V5 시각 확인 후 연속 모션 제작. 반려 V1·V3·V4는 동작 및 라이브에 사용하지 않음."
 }

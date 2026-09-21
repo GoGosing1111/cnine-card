@@ -1,13 +1,26 @@
 {
-  "version": 2,
+  "version": 5,
   "status": "USER_REVIEW_PENDING",
-  "candidate": "assets/ice-dual-sword-sd-v2.png",
-  "prompt": "prompts/sd-v2.txt",
+  "candidate": "assets/ice-dual-sword-sd-v5-left-arm-corrected.png",
+  "sha256": "8D9C4E7DDAAFA0DFF5A7FCE4742AD4E5D1BB21FAAF471A2AEED8C49B747B68F5",
+  "prompt": "prompts/sd-v5-left-arm.txt",
   "generation": "BUILT_IN_IMAGEGEN",
-  "inputReferences": ["assets/source-art.png", "../mercenary-ragniel-v1/assets/ragniel-sd-v1.png"],
-  "rejectedCandidateUsedAsInput": false,
-  "designIntent": "원화의 긴 쌍검, 작아진 투구 비율, 긴 팔다리와 낮은 공격 자세를 살린 성인형 전투 캐릭터",
-  "motionGenerationStatus": "WAITING_FOR_SD_VISUAL_REVIEW",
+  "inputReferences": ["assets/rejected/ice-dual-sword-sd-v4-left-arm.png"],
+  "referenceUse": "USER_REQUESTED_LOCAL_ANATOMY_CORRECTION_ONLY_NOT_MOTION_GENERATION",
+  "approvedSourceArt": "redesign/standing-original-source-art-v3-short-crest.png",
+  "rejectedV1UsedAsInput": false,
+  "designIntent": "서 있는 승인 원화 기반의 성인형 전투 캐릭터. 화면 왼쪽 팔꿈치와 손목 연결을 다시 그리고 손을 허벅지 앞쪽으로 이동.",
+  "technicalChecks": {
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "transparentFraction": 0.7369979065395837,
+    "visibleBorderPixels": 0,
+    "visibleBounds": [49, 147, 1239, 1169],
+    "armAnatomyUserApproval": "PENDING"
+  },
+  "motionGenerationStatus": "WAITING_FOR_ARM_CORRECTION_VISUAL_REVIEW",
+  "motionFramesProduced": 0,
   "runtimeEnabled": false,
   "battleSpriteApproved": false
 }
