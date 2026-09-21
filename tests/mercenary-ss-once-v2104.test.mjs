@@ -143,3 +143,31 @@ test('targeted one-time grant requires a complete, bounded card and slot pair',(
  for(const extra of [{mercenaryCode:'V-004'},{slotIndex:2},{mercenaryCode:'V-004',slotIndex:-1},{mercenaryCode:'V-004',slotIndex:10},{mercenaryCode:'V-004',slotIndex:2.5},{mercenaryCode:'bad',slotIndex:2}])assert.throws(()=>mercenarySsOnceState({...base,...extra}));
  for(const batchesRemaining of [0,-1,101,1.5,'3',null,NaN])assert.throws(()=>mercenarySsOnceState({...base,batchesRemaining}));
 });
+
+// RAGNIEL-0921: SSS 지정 1회 보장 (족게이다 · 라그니엘 V-046 · 두 번째 칸)
+for(const postgres of [false,true]){
+ const dialect=postgres?'PostgreSQL':'SQLite';
+ test(dialect+': targeted SSS Ragniel appears in the second slot once; SS states and odds untouched',async t=>{
+  const f=await fixture(t,postgres);
+  assert.equal(f.document.mercenaries.find(c=>c.code==='V-046').rank,'SSS');
+  await f.setting(mercenarySsOnceKey(7),mercenarySsOnceState({...f.state,rank:'SSS',mercenaryCode:'V-046',slotIndex:1}));
+  const random=max=>max===1000000?0:max-1;
+  assert.equal(grants(await open(f,1,crypto.randomUUID(),f.user,random)).length,0);
+  assert.equal(grants(await open(f,10,crypto.randomUUID(),{...f.user,id:8},random)).length,0);
+  assert.equal((await f.once()).status,'ARMED');
+  const r=await open(f,10,crypto.randomUUID(),f.user,random);
+  assert.equal(r.coinCost,5000000000);assert.equal(grants(r).length,1);
+  assert.equal(r.draws[1].mercenaryCode,'V-046');assert.equal(r.draws[1].rank,'SSS');assert.equal(r.draws[1].grantKind,'ONE_TIME_SS_GUARANTEE');
+  assert.equal(mercenaryPackResults(r)[1].mercenaryCode,'V-046');
+  assert.equal((await f.once()).status,'CONSUMED');assert.equal((await f.once()).acquisitionId,r.requestId+':1');
+  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?',r.requestId+':1').first()).n),1);
+  assert.equal(grants(await open(f,10,crypto.randomUUID(),f.user,random)).length,0);
+ });
+ test(dialect+': SSS grant rejects an SS card and unknown ranks',async t=>{
+  const f=await fixture(t,postgres);
+  assert.throws(()=>mercenarySsOnceState({...f.state,rank:'S',mercenaryCode:'V-004',slotIndex:1}),/rank/);
+  await f.setting(mercenarySsOnceKey(7),mercenarySsOnceState({...f.state,rank:'SSS',mercenaryCode:'V-004',slotIndex:1}));
+  await assert.rejects(open(f),/SSS 용병/);
+  assert.equal((await f.once()).status,'ARMED');
+ });
+}
