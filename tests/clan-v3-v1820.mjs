@@ -180,6 +180,7 @@ test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한�
   assert.match(html,/clan-command-v1\.css\?v=2127/);
   assert.match(html,/clan-faction-v1\.css\?v=20260922-sessions-live/);
   assert.match(html,/clan-v1\.js\?v=20260922-sessions-live/);
+  assert.match(html,/js\/app\.js\?[^"\n]+clanFaction=20260922-sessions-live/);
 });
 
 test('조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설정으로 제한한다',()=>{
