@@ -40,7 +40,7 @@ test('live default activates approved KEEP/PARTICIPANTS/PAUSE/DEFER policy after
  delete f.deps.factionSessionPolicy;
  const before=JSON.parse((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json);
  assert.equal(FACTION_SESSION_RELEASE.enabled,true);
- assert.equal(factionTime(FACTION_SESSION_RELEASE.effectiveAt),Date.parse('2026-09-22T01:15:00+09:00'));
+ assert.equal(factionTime(FACTION_SESSION_RELEASE.effectiveAt),Date.parse('2026-09-22T01:25:00+09:00'));
  f.clock.now=beginning+3*3600000;
  const result=await factionOverview(f.env,f.season,f.user,f.deps);
  assert.equal(result.sessions.active,true);

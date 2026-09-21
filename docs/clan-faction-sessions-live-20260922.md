@@ -2,7 +2,7 @@
 
 - 사용자 후속 `반영하고 유저 공지용 설명본도 작성`에 따른 준비 보류 해제.
 - 준비 커밋 `936305b8`과 현재 운영의 주간 레이드 커밋 `71779f40`을 통합했다. 기존 Downloads dirty 작업은 수정하지 않았다.
-- 전환 기준 `2026-09-22T01:15:00+09:00`. `enabled:true`, `PARTICIPANTS / PAUSE / DEFER / KEEP` 유지. 전환 이전 시작 슬롯은 소급 개방·보상하지 않는다.
+- 전환 기준 `2026-09-22T01:25:00+09:00`. `enabled:true`, `PARTICIPANTS / PAUSE / DEFER / KEEP` 유지. 전환 이전 시작 슬롯은 소급 개방·보상하지 않는다.
 - `20260922-sessions-live`로 화면/CSS/동적 import 캐시 키를 함께 갱신했다.
 - 기존 OFF 회귀 fixture는 OFF를 명시한다. 활성화 기본 정책은 별도 PostgreSQL 테스트로 검증한다. overview의 fallback도 호출자가 제공한 정책을 유지하도록 수정했다.
 
