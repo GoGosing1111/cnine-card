@@ -100,6 +100,6 @@ test('라이브 health는 제작소 기반을 먼저 보장하고 식별자 없�
   assert.match(api,/await ensureWorkshopFoundation\(env\);\s*const ebodyPity=await ensureBattleSuitEbodyPityV2059\(env\)/);
   assert.match(api,/battleSuitEbodyPityV2059=ebodyPity\?\{/);
   assert.match(api,/eligibleAccounts:Number\(ebodyPity\.eligibleAccounts\|\|0\)/);
-  assert.match(api,/targetedSkillChipGrantV2055,battleSuitEbodyPityV2059,iyejunFurRerollRecovery/);
+  assert.match(api,/targetedSkillChipGrantV2055,targetedEquipmentRevokeV2132,battleSuitEbodyPityV2059,iyejunFurRerollRecovery/);
   assert.doesNotMatch(api,/battleSuitEbodyPityV2059=ebodyPity;/);
 });
