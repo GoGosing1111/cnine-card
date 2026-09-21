@@ -69,7 +69,8 @@ test('first dodge does not cancel followups; a fallen primary hands the remainin
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SS opening, idempotent replay, separate loadout and approved skill`,async t=>{
  const f=await mercenaryFixture(t,{postgres});for(const o of f.draw.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(f.draw);
  const before=await f.coin(),request={requestId:crypto.randomUUID(),count:2};
- const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===2?1:0});
+ const ssCodes=f.document.mercenaries.filter(c=>c.rank==='SS').map(c=>c.code);
+ const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===ssCodes.length?ssCodes.indexOf('V-045'):0});
  assert.ok(result.draws.every(d=>d.mercenaryCode==='V-045'));assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);assert.equal(await f.coin(),before-2000);
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Repeated draw')}});assert.equal(await f.coin(),before-2000);
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-045',revision:0});
