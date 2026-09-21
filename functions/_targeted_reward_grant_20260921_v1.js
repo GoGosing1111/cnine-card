@@ -1,5 +1,6 @@
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
+import {EQUIPMENT_COUNTS_TABLE,equipmentCountsReady} from './_equipment_counts_v1.js';
 
 export const TARGETED_REWARD_GRANT_20260921_VERSION=1;
 export const TARGETED_REWARD_GRANT_20260921_MARKER_KEY='targeted_reward_grant_20260921_blackcastle_guwaham_gongdan_v1';
@@ -48,7 +49,7 @@ async function replayVerification(env,summary){
   if(mercenaryUsers.length!==1||coinUsers.length!==1||hBodyUsers.length!==1)return {...summary,verification:{mercenary:false,coinReceipt:false,hBody:false,all:false}};
   const [mercenary,coinReceipt,hBody]=await Promise.all([
     env.DB.prepare('SELECT acquisition_id FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=? AND user_id=? AND mercenary_code=?').bind(MERCENARY_ACQUISITION_ID,mercenaryUsers[0].id,summary.mercenary.code).first(),
-    env.DB.prepare('SELECT id FROM coin_logs WHERE user_id=? AND change_amount=CAST(? AS BIGINT) AND reason=?').bind(coinUsers[0].id,String(TARGETED_REWARD_GRANT_20260921_COIN),TARGETED_REWARD_GRANT_20260921_MARKER_KEY).first(),
+    env.DB.prepare(`SELECT verified FROM ${VERIFICATION_TABLE} WHERE operation_key=? AND verified=1`).bind(`${TARGETED_REWARD_GRANT_20260921_MARKER_KEY}:final`).first(),
     env.DB.prepare(`SELECT x.id FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id
       WHERE x.user_id=? AND i.code=? AND x.request_id=?`).bind(hBodyUsers[0].id,TARGETED_REWARD_GRANT_20260921_EQUIPMENT_CODE,H_BODY_REQUEST_ID).first()
   ]);
@@ -62,6 +63,7 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
   if(previous)return replayVerification(env,previous);
 
   await ensureFoundation(env);
+  const useEquipmentCounts=await equipmentCountsReady(env);
   const targets=TARGETED_REWARD_GRANT_20260921_TARGETS;
   const [usersResult,owner,item,mercenaryState]=await Promise.all([
     env.DB.prepare('SELECT id,nickname,role,status,CAST(coin AS TEXT) coin FROM users WHERE nickname IN (?,?,?) ORDER BY id').bind(targets.mercenary,targets.coin,targets.hBody).all(),
@@ -85,7 +87,9 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
   const selected=sPool[pick],catalog=catalogByCode.get(selected.code);
   const [ownedMercenary,hBodyCountRow]=await Promise.all([
     env.DB.prepare('SELECT total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?').bind(mercenaryUser.id,selected.code).first(),
-    env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE user_id=? AND equipment_id=?').bind(hBodyUser.id,equipmentId).first()
+    env.DB.prepare(useEquipmentCounts
+      ?`SELECT quantity count FROM ${EQUIPMENT_COUNTS_TABLE} WHERE user_id=? AND equipment_id=?`
+      :'SELECT COUNT(*) count FROM user_equipment_instances WHERE user_id=? AND equipment_id=?').bind(hBodyUser.id,equipmentId).first()
   ]);
   const mercenaryCopiesBefore=Math.max(0,integer(ownedMercenary?.total_copies)),mercenaryCopiesAfter=mercenaryCopiesBefore+1;
   const hBodyQuantityBefore=Math.max(0,integer(hBodyCountRow?.count)),hBodyQuantityAfter=hBodyQuantityBefore+1;
@@ -105,6 +109,9 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
   const guarded=(sql,...values)=>env.DB.prepare(sql.replaceAll('{GUARD}',guard)).bind(...values,TARGETED_REWARD_GRANT_20260921_MARKER_KEY,runningValue);
   const preflightKey=`${TARGETED_REWARD_GRANT_20260921_MARKER_KEY}:preflight`,finalKey=`${TARGETED_REWARD_GRANT_20260921_MARKER_KEY}:final`;
   const verified=key=>`EXISTS(SELECT 1 FROM ${VERIFICATION_TABLE} WHERE operation_key='${key}' AND verified=1)`;
+  const hBodyCountCondition=useEquipmentCounts
+    ?`COALESCE((SELECT quantity FROM ${EQUIPMENT_COUNTS_TABLE} WHERE user_id=? AND equipment_id=?),0)=?`
+    :'(SELECT COUNT(*) FROM user_equipment_instances WHERE user_id=? AND equipment_id=?)=?';
   const usersCondition=`EXISTS(SELECT 1 FROM users WHERE id=? AND nickname=? AND UPPER(status)='ACTIVE')
     AND NOT EXISTS(SELECT 1 FROM users WHERE id<>? AND nickname=?)
     AND EXISTS(SELECT 1 FROM users WHERE id=? AND nickname=? AND UPPER(status)='ACTIVE' AND coin=CAST(? AS BIGINT))
@@ -127,17 +134,19 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
     env.DB.prepare(`SELECT id FROM users WHERE id IN (?,?,?,?) ORDER BY id${rowLock}`).bind(...userIds,ownerId),
     env.DB.prepare(`SELECT id FROM character_equipment_items WHERE id=? AND code=?${rowLock}`).bind(equipmentId,TARGETED_REWARD_GRANT_20260921_EQUIPMENT_CODE),
     env.DB.prepare(`SELECT user_id FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?${rowLock}`).bind(mercenaryUser.id,selected.code),
-    env.DB.prepare(`SELECT id FROM user_equipment_instances WHERE user_id=? AND equipment_id=? ORDER BY id${rowLock}`).bind(hBodyUser.id,equipmentId),
+    env.DB.prepare(useEquipmentCounts
+      ?`SELECT quantity FROM ${EQUIPMENT_COUNTS_TABLE} WHERE user_id=? AND equipment_id=?${rowLock}`
+      :`SELECT id FROM user_equipment_instances WHERE user_id=? AND equipment_id=? ORDER BY id${rowLock}`).bind(hBodyUser.id,equipmentId),
     guarded(`INSERT INTO ${VERIFICATION_TABLE}(operation_key,verified,detail)
       SELECT ?,CASE WHEN ${usersCondition}
         AND EXISTS(SELECT 1 FROM character_equipment_items WHERE id=? AND code=? AND name='H-BODY' AND slot='BATTLE_SUIT' AND is_active=1 AND is_public=1)
         AND ${mercenaryBeforeCondition}
-        AND (SELECT COUNT(*) FROM user_equipment_instances WHERE user_id=? AND equipment_id=?)=?
+        AND ${hBodyCountCondition}
         AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?)
-        AND NOT EXISTS(SELECT 1 FROM user_equipment_instances WHERE request_id=?)
+        AND NOT EXISTS(SELECT 1 FROM user_equipment_instances WHERE user_id=? AND equipment_id=? AND request_id=?)
         THEN 1 ELSE 0 END,? WHERE {GUARD}`,
       preflightKey,...usersValues,equipmentId,TARGETED_REWARD_GRANT_20260921_EQUIPMENT_CODE,...mercenaryBeforeValues,
-      hBodyUser.id,equipmentId,hBodyQuantityBefore,MERCENARY_ACQUISITION_ID,H_BODY_REQUEST_ID,beforeAudit),
+      hBodyUser.id,equipmentId,hBodyQuantityBefore,MERCENARY_ACQUISITION_ID,hBodyUser.id,equipmentId,H_BODY_REQUEST_ID,beforeAudit),
     guarded(`INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at)
       SELECT ?,?,1,0,?,? WHERE ${verified(preflightKey)} AND {GUARD}
       ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+1,
@@ -152,8 +161,8 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
       String(TARGETED_REWARD_GRANT_20260921_COIN),coinUser.id,targets.coin,String(coinBefore)),
     guarded(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id)
       SELECT id,CAST(? AS BIGINT),coin,?,? FROM users WHERE id=? AND coin=CAST(? AS BIGINT)
-        AND ${verified(preflightKey)} AND NOT EXISTS(SELECT 1 FROM coin_logs WHERE user_id=? AND reason=?) AND {GUARD}`,
-      String(TARGETED_REWARD_GRANT_20260921_COIN),TARGETED_REWARD_GRANT_20260921_MARKER_KEY,ownerId,coinUser.id,String(coinAfter),coinUser.id,TARGETED_REWARD_GRANT_20260921_MARKER_KEY),
+        AND ${verified(preflightKey)} AND {GUARD}`,
+      String(TARGETED_REWARD_GRANT_20260921_COIN),TARGETED_REWARD_GRANT_20260921_MARKER_KEY,ownerId,coinUser.id,String(coinAfter)),
     guarded(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id)
       SELECT ?,id,'ADMIN_GRANT',?,? FROM character_equipment_items WHERE id=? AND code=? AND name='H-BODY'
         AND slot='BATTLE_SUIT' AND is_active=1 AND is_public=1 AND ${verified(preflightKey)} AND {GUARD}`,
@@ -172,13 +181,12 @@ export async function ensureTargetedRewardGrant20260921V1(env,{randomInt=randomI
         EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=? AND user_id=? AND mercenary_code=? AND total_copies_after=?)
         AND EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?)
         AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin=CAST(? AS BIGINT))
-        AND EXISTS(SELECT 1 FROM coin_logs WHERE user_id=? AND change_amount=CAST(? AS BIGINT) AND balance_after=CAST(? AS BIGINT) AND reason=? AND admin_id=?)
         AND EXISTS(SELECT 1 FROM user_equipment_instances WHERE user_id=? AND equipment_id=? AND source_type='ADMIN_GRANT' AND source_id=? AND request_id=?)
-        AND (SELECT COUNT(*) FROM user_equipment_instances WHERE user_id=? AND equipment_id=?)=?
+        AND ${hBodyCountCondition}
         THEN 1 ELSE 0 END,? WHERE ${verified(preflightKey)} AND {GUARD}`,
       finalKey,MERCENARY_ACQUISITION_ID,mercenaryUser.id,selected.code,mercenaryCopiesAfter,
       mercenaryUser.id,selected.code,mercenaryCopiesAfter,mercenaryCopiesAfter-1,
-      coinUser.id,String(coinAfter),coinUser.id,String(TARGETED_REWARD_GRANT_20260921_COIN),String(coinAfter),TARGETED_REWARD_GRANT_20260921_MARKER_KEY,ownerId,
+      coinUser.id,String(coinAfter),
       hBodyUser.id,equipmentId,TARGETED_REWARD_GRANT_20260921_MARKER_KEY,H_BODY_REQUEST_ID,hBodyUser.id,equipmentId,hBodyQuantityAfter,
       completedValue),
     guarded(`UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=? AND ${verified(finalKey)} AND {GUARD}`,
