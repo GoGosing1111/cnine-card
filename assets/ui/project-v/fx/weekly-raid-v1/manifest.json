@@ -1,0 +1,53 @@
+{
+  "format": "PROJECT_V_WEEKLY_RAID_ULTIMATE_FX_V1",
+  "renderer": "PixiJS 8.20.0 Sprite texture sequence",
+  "timeline": "GSAP 3.13.0",
+  "framesPerSkill": 12,
+  "layout": {
+    "columns": 4,
+    "rows": 3
+  },
+  "collisionFrame": 7,
+  "skills": [
+    {
+      "id": "nagato",
+      "image": "nagato-impact-sheet-v1.webp",
+      "atlas": "nagato-impact-atlas-v1.json",
+      "framePrefix": "nagato_",
+      "frameCount": 12,
+      "collisionFrame": 7
+    },
+    {
+      "id": "obito",
+      "image": "obito-impact-sheet-v1.webp",
+      "atlas": "obito-impact-atlas-v1.json",
+      "framePrefix": "obito_",
+      "frameCount": 12,
+      "collisionFrame": 7
+    },
+    {
+      "id": "yoriichi",
+      "image": "yoriichi-impact-sheet-v1.webp",
+      "atlas": "yoriichi-impact-atlas-v1.json",
+      "framePrefix": "yoriichi_",
+      "frameCount": 12,
+      "collisionFrame": 7
+    },
+    {
+      "id": "gilgamesh",
+      "image": "gilgamesh-impact-sheet-v1.webp",
+      "atlas": "gilgamesh-impact-atlas-v1.json",
+      "framePrefix": "gilgamesh_",
+      "frameCount": 12,
+      "collisionFrame": 7
+    },
+    {
+      "id": "ichigo",
+      "image": "ichigo-impact-sheet-v1.webp",
+      "atlas": "ichigo-impact-atlas-v1.json",
+      "framePrefix": "ichigo_",
+      "frameCount": 12,
+      "collisionFrame": 7
+    }
+  ]
+}

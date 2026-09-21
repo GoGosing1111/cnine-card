@@ -1,11 +1,13 @@
-const ITEM_TYPES=['PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR'];
+const ITEM_TYPES=['PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR','CORE_RAID_ENTRY_TICKET'];
 const CLEAR_MYSTIC_ENERGY_CODE='STARLIGHT_ARMOR_CORE';
 const DEFAULT_CLEAR_MYSTIC_ENERGY=3;
+export const RAID_COIN_REWARD_CAP_V2140=10_000_000_000;
 const ALL_REWARD_TYPES=['COIN','CARD_SHARD',...ITEM_TYPES];
-const ITEM_LABELS={PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',MAGIC_CARD_PACK:'마법카드 팩',MASTER_STAR:'마스터의 별',[CLEAR_MYSTIC_ENERGY_CODE]:'미스틱 에너지'};
+const ITEM_LABELS={PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',MAGIC_CARD_PACK:'마법카드 팩',MASTER_STAR:'마스터의 별',CORE_RAID_ENTRY_TICKET:'붕괴 코어 입장권',[CLEAR_MYSTIC_ENERGY_CODE]:'미스틱 에너지'};
 const DEFAULT_REWARDS={
   participation:[{type:'COIN',amount:100}],
   clear:[{type:'COIN',amount:300},{type:'CARD_SHARD',amount:20}],
+  minionClear:[],
   damageMilestones:[
     {damage:100000,rewards:[{type:'MAGIC_CARD_PACK',amount:1}]},
     {damage:500000,rewards:[{type:'EQUIPMENT_SUPPLY_BOX',amount:1}]},
@@ -32,7 +34,7 @@ function cleanRewardItems(rows,allowChance=false){
   for(const raw of Array.isArray(rows)?rows:[]){
     const type=String(raw?.type||'').toUpperCase();
     if(!ALL_REWARD_TYPES.includes(type))continue;
-    const amount=integer(raw?.amount,0,0,type==='COIN'?100000000:1000000);
+    const amount=integer(raw?.amount,0,0,type==='COIN'?RAID_COIN_REWARD_CAP_V2140:1000000);
     if(amount<=0)continue;
     const item={type,amount};
     if(allowChance)item.chance=num(raw?.chance,0,0,100);
@@ -82,6 +84,18 @@ function cleanTimeSlots(rawSlots,legacy={}){
   while(result.length<2){const i=result.length;result.push({id:i===0?'A':'B',label:i===0?'1부':'2부',enabled:true,openTime:i===0?'20:00':'23:00',closeTime:i===0?'21:00':'23:30',entriesPerSlot:3,bossId:0});}
   return result;
 }
+function cleanBossProfile(raw){
+  if(!raw||typeof raw!=='object')return null;
+  const text=(value,max=100)=>String(value||'').trim().slice(0,max),asset=value=>{const path=text(value,500);return path.startsWith('/')&&!path.includes('..')?path:''};
+  const minions=(Array.isArray(raw.minions)?raw.minions:[]).slice(0,2).map((row,index)=>({
+    code:text(row?.code||`MINION_${index+1}`,40).toUpperCase().replace(/[^A-Z0-9_-]/g,''),name:text(row?.name||`쫄몹 ${index+1}`,40),sprite:asset(row?.sprite),
+    maxHp:integer(row?.maxHp,1,1,2_000_000_000),spawnAtHpPct:num(row?.spawnAtHpPct,index?0.55:1,0.05,1),hpPercent:num(row?.hpPercent,.12,.01,.5),rewardType:text(row?.rewardType,40).toUpperCase()
+  }));
+  const ultimateRaw=raw.ultimate&&typeof raw.ultimate==='object'?raw.ultimate:{};
+  return {weekday:integer(raw.weekday,0,0,6),dayLabel:text(raw.dayLabel,4),code:text(raw.code,40).toUpperCase().replace(/[^A-Z0-9_-]/g,''),name:text(raw.name,40),title:text(raw.title,60),accent:/^#[0-9a-f]{6}$/i.test(String(raw.accent||''))?String(raw.accent):'#b7c8ff',powerRating:integer(raw.powerRating,5_500_000,1,2_000_000_000),maxHp:integer(raw.maxHp,1,1,2_000_000_000),defenseRate:num(raw.defenseRate,0,0,99),sourceArt:asset(raw.sourceArt),battleSprite:asset(raw.battleSprite),minionGuardRatio:num(raw.minionGuardRatio,.65,0,.95),minions,
+    ultimate:{code:text(ultimateRaw.code,50).toUpperCase().replace(/[^A-Z0-9_-]/g,''),name:text(ultimateRaw.name,60),everyAttacks:integer(ultimateRaw.everyAttacks,5,2,20),multiplier:num(ultimateRaw.multiplier,1.5,1,10),atlas:asset(ultimateRaw.atlas),framePrefix:text(ultimateRaw.framePrefix,50)}
+  };
+}
 export function defaultRaidSettingsV1293(){
   return {enabled:false,ownerOnlyTest:false,userOpenEnabled:true,title:'월드 레이드',maxParticipants:30,minParticipants:5,lobbySeconds:60,battleSeconds:120,dailyEntries:6,autoStartOnFull:true,showNicknames:true,showRepresentativeCard:true,showDamageLog:true,showPersonalDamage:true,showLiveRanking:true,rankingSize:10,attackIntervalMs:800,damageMultiplier:1,criticalEnabled:true,criticalChance:10,criticalMultiplier:1.5,participationCoin:100,clearCoin:300,rewardShards:20,deckHpMultiplier:12,bossAttackPower:850,bossAttackIntervalMs:5000,bossAttackVariance:15,enrageEnabled:true,enrageHpPercent:30,enrageMultiplier:1.6,showBattleStage:true,showParticipantHp:true,scheduleMode:'SCHEDULED',openDays:[0,1,2,3,4,5,6],openTime:'20:00',closeTime:'21:00',entryCloseMinutes:0,showOpenCountdown:true,ownerScheduleBypass:true,
     timeSlots:cleanTimeSlots(null,{openTime:'20:00',closeTime:'21:00'}),
@@ -93,9 +107,9 @@ export function defaultRaidSettingsV1293(){
 export function cleanRaidSettingsV1293(raw={}){
   const base=defaultRaidSettingsV1293(),days=[...new Set((Array.isArray(raw.openDays)?raw.openDays:base.openDays).map(Number).filter(x=>Number.isInteger(x)&&x>=0&&x<=6))];
   const legacyRewards={
-    participation:[{type:'COIN',amount:integer(raw.participationCoin,base.participationCoin,0,100000000)}],
-    clear:[{type:'COIN',amount:integer(raw.clearCoin,base.clearCoin,0,100000000)},{type:'CARD_SHARD',amount:integer(raw.rewardShards,base.rewardShards,0,1000000)}].filter(x=>x.amount>0),
-    damageMilestones:base.rewards.damageMilestones,rankRewards:base.rewards.rankRewards,rareDrops:base.rewards.rareDrops
+    participation:[{type:'COIN',amount:integer(raw.participationCoin,base.participationCoin,0,RAID_COIN_REWARD_CAP_V2140)}],
+    clear:[{type:'COIN',amount:integer(raw.clearCoin,base.clearCoin,0,RAID_COIN_REWARD_CAP_V2140)},{type:'CARD_SHARD',amount:integer(raw.rewardShards,base.rewardShards,0,1000000)}].filter(x=>x.amount>0),
+    minionClear:base.rewards.minionClear,damageMilestones:base.rewards.damageMilestones,rankRewards:base.rewards.rankRewards,rareDrops:base.rewards.rareDrops
   };
   const rewardRaw=raw.rewards&&typeof raw.rewards==='object'?raw.rewards:legacyRewards;
   const rewards={
@@ -105,6 +119,7 @@ export function cleanRaidSettingsV1293(raw={}){
     rankRewards:cleanRankRewards(rewardRaw.rankRewards),
     rareDrops:cleanRewardItems(rewardRaw.rareDrops,true)
   };
+  if(Array.isArray(rewardRaw.minionClear))rewards.minionClear=cleanRewardItems(rewardRaw.minionClear);
   const timeSlots=cleanTimeSlots(raw.timeSlots,{openTime:raw.openTime||base.openTime,closeTime:raw.closeTime||base.closeTime});
   const first=timeSlots.find(x=>x.enabled)||timeSlots[0],scheduleMode=String(raw.scheduleMode||base.scheduleMode).toUpperCase()==='ALWAYS'?'ALWAYS':'SCHEDULED';
   const scheduledDailyEntries=Math.max(1,timeSlots.filter(x=>x.enabled!==false).reduce((sum,slot)=>sum+Math.max(1,Number(slot.entriesPerSlot||0)),0));
@@ -113,10 +128,10 @@ export function cleanRaidSettingsV1293(raw={}){
     enabled:raw.enabled===true,ownerOnlyTest:raw.ownerOnlyTest===true,userOpenEnabled:raw.userOpenEnabled!==false,title:String(raw.title||base.title).trim().slice(0,40),
     maxParticipants:integer(raw.maxParticipants,base.maxParticipants,1,200),minParticipants:integer(raw.minParticipants,base.minParticipants,1,200),lobbySeconds:integer(raw.lobbySeconds,base.lobbySeconds,5,3600),battleSeconds:integer(raw.battleSeconds,base.battleSeconds,10,3600),dailyEntries:scheduleMode==='SCHEDULED'?scheduledDailyEntries:integer(raw.dailyEntries,base.dailyEntries,1,99),autoStartOnFull:raw.autoStartOnFull!==false,
     showNicknames:raw.showNicknames!==false,showRepresentativeCard:raw.showRepresentativeCard!==false,showDamageLog:raw.showDamageLog!==false,showPersonalDamage:raw.showPersonalDamage!==false,showLiveRanking:raw.showLiveRanking!==false,rankingSize:integer(raw.rankingSize,base.rankingSize,1,100),attackIntervalMs:integer(raw.attackIntervalMs,base.attackIntervalMs,200,5000),damageMultiplier:num(raw.damageMultiplier,base.damageMultiplier,.01,100),criticalEnabled:raw.criticalEnabled!==false,criticalChance:num(raw.criticalChance,base.criticalChance,0,100),criticalMultiplier:num(raw.criticalMultiplier,base.criticalMultiplier,1,10),
-    participationCoin:integer(raw.participationCoin,base.participationCoin,0,100000000),clearCoin:integer(raw.clearCoin,base.clearCoin,0,100000000),rewardShards:integer(raw.rewardShards,base.rewardShards,0,1000000),deckHpMultiplier:num(raw.deckHpMultiplier,base.deckHpMultiplier,1,1000),bossAttackPower:integer(raw.bossAttackPower,base.bossAttackPower,1,100000000),bossAttackIntervalMs:integer(raw.bossAttackIntervalMs,base.bossAttackIntervalMs,500,60000),bossAttackVariance:num(raw.bossAttackVariance,base.bossAttackVariance,0,90),enrageEnabled:raw.enrageEnabled!==false,enrageHpPercent:num(raw.enrageHpPercent,base.enrageHpPercent,1,99),enrageMultiplier:num(raw.enrageMultiplier,base.enrageMultiplier,1,10),showBattleStage:raw.showBattleStage!==false,showParticipantHp:raw.showParticipantHp!==false,
+    participationCoin:integer(raw.participationCoin,base.participationCoin,0,RAID_COIN_REWARD_CAP_V2140),clearCoin:integer(raw.clearCoin,base.clearCoin,0,RAID_COIN_REWARD_CAP_V2140),rewardShards:integer(raw.rewardShards,base.rewardShards,0,1000000),deckHpMultiplier:num(raw.deckHpMultiplier,base.deckHpMultiplier,1,1000),bossAttackPower:integer(raw.bossAttackPower,base.bossAttackPower,1,100000000),bossAttackIntervalMs:integer(raw.bossAttackIntervalMs,base.bossAttackIntervalMs,500,60000),bossAttackVariance:num(raw.bossAttackVariance,base.bossAttackVariance,0,90),enrageEnabled:raw.enrageEnabled!==false,enrageHpPercent:num(raw.enrageHpPercent,base.enrageHpPercent,1,99),enrageMultiplier:num(raw.enrageMultiplier,base.enrageMultiplier,1,10),showBattleStage:raw.showBattleStage!==false,showParticipantHp:raw.showParticipantHp!==false,
     scheduleMode,openDays:days.length?days:base.openDays,openTime:first.openTime,closeTime:first.closeTime,entryCloseMinutes:integer(raw.entryCloseMinutes,base.entryCloseMinutes,0,1440),showOpenCountdown:raw.showOpenCountdown!==false,ownerScheduleBypass:raw.ownerScheduleBypass!==false,
     timeSlots,
-    phase2Enabled:raw.phase2Enabled!==false,phase2StartHpPercent:num(raw.phase2StartHpPercent,base.phase2StartHpPercent,31,95),phase2EndHpPercent:num(raw.phase2EndHpPercent,base.phase2EndHpPercent,5,69),phase2ShieldPercent:num(raw.phase2ShieldPercent,base.phase2ShieldPercent,0,100),phase2BreakDamageMultiplier:num(raw.phase2BreakDamageMultiplier,base.phase2BreakDamageMultiplier,1,5),phase3EnrageEnabled:raw.phase3EnrageEnabled!==false,phase3EnrageMultiplier:num(raw.phase3EnrageMultiplier,base.phase3EnrageMultiplier,1,10),rewards
+    phase2Enabled:raw.phase2Enabled!==false,phase2StartHpPercent:num(raw.phase2StartHpPercent,base.phase2StartHpPercent,31,95),phase2EndHpPercent:num(raw.phase2EndHpPercent,base.phase2EndHpPercent,5,69),phase2ShieldPercent:num(raw.phase2ShieldPercent,base.phase2ShieldPercent,0,100),phase2BreakDamageMultiplier:num(raw.phase2BreakDamageMultiplier,base.phase2BreakDamageMultiplier,1,5),phase3EnrageEnabled:raw.phase3EnrageEnabled!==false,phase3EnrageMultiplier:num(raw.phase3EnrageMultiplier,base.phase3EnrageMultiplier,1,10),rewards,bossProfile:cleanBossProfile(raw.bossProfile)
   };
   if(out.phase2EndHpPercent>=out.phase2StartHpPercent)out.phase2EndHpPercent=Math.max(5,out.phase2StartHpPercent-10);
   return out;
@@ -212,37 +227,42 @@ export function raidCombatSnapshotV1293(participants,instance,cfg,nowMs=Date.now
   const startMs=Date.parse(instance.starts_at||0),storedEndMs=Date.parse(instance.ends_at||0),durationMs=Math.max(1,Number(cfg.battleSeconds||120)*1000),effectiveNowMs=instance.status==='ENDED'&&storedEndMs?storedEndMs:nowMs,elapsedMs=Math.max(0,Math.min(durationMs,effectiveNowMs-startMs)),bossMaxHp=Math.max(0,Number(instance.max_hp||0)),bossInterval=Math.max(500,Number(cfg.bossAttackIntervalMs||5000));
   const states=participants.map(row=>{const maxHp=Math.max(1,Math.floor(Number(row.totalPower??row.total_power??0)*Number(cfg.deckHpMultiplier||12))),variance=1+(((Number(row.userId??row.user_id??0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);return {row,maxHp,currentHp:maxHp,variance,shownDamage:0,isDefeated:false,defeatedAtMs:null};});
   const phase2Start=Math.max(0,Math.min(1,Number(cfg.phase2StartHpPercent||70)/100)),phase2End=Math.max(0,Math.min(phase2Start-.01,Number(cfg.phase2EndHpPercent||30)/100)),shieldMax=cfg.phase2Enabled===false?0:Math.max(0,bossMaxHp*Number(cfg.phase2ShieldPercent||0)/100);
-  let bossHp=bossMaxHp,shieldHp=shieldMax,shieldActivated=false,shieldBroken=shieldMax<=0,processedMs=0,attackTicks=0,clearedAtMs=null,wipedAtMs=null;
+  const profile=cfg?.bossProfile||null,guardRatio=Math.max(0,Math.min(.95,Number(profile?.minionGuardRatio||0))),ultimate=profile?.ultimate||null;
+  const minions=(Array.isArray(profile?.minions)?profile.minions:[]).slice(0,2).map((row,index)=>{const maxHp=Math.max(1,Math.floor(Number(row.maxHp)||bossMaxHp*Number(row.hpPercent||.12)));return {...row,index,maxHp,currentHp:maxHp,spawned:false,defeated:false,defeatedAtMs:null};});
+  let bossHp=bossMaxHp,shieldHp=shieldMax,shieldActivated=false,shieldBroken=shieldMax<=0,processedMs=0,attackTicks=0,ultimateCasts=0,clearedAtMs=null,wipedAtMs=null;
   const currentPhase=()=>{const pct=bossMaxHp>0?bossHp/bossMaxHp:0;if(pct>phase2Start)return 1;if(pct>phase2End)return 2;return 3;};
+  const spawnMinions=()=>{const pct=bossMaxHp>0?bossHp/bossMaxHp:0;for(const add of minions)if(!add.spawned&&pct<=Number(add.spawnAtHpPct||1)+1e-9)add.spawned=true;};
   const applyPartyDamage=segmentMs=>{
     if(segmentMs<=0||bossHp<=0)return;
     const alive=states.filter(x=>!x.isDefeated);if(!alive.length){if(wipedAtMs===null)wipedAtMs=processedMs;return;}
     const rawTotal=alive.reduce((sum,x)=>sum+(Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs),0);if(rawTotal<=0){processedMs+=segmentMs;return;}
-    let rawLeft=rawTotal,rawConsumed=0,guard=0;
+    spawnMinions();const activeAdd=minions.find(add=>add.spawned&&!add.defeated&&add.currentHp>0)||null;
+    let addConsumed=0;if(activeAdd&&guardRatio>0){const directed=rawTotal*guardRatio;addConsumed=Math.min(directed,activeAdd.currentHp);activeAdd.currentHp=Math.max(0,activeAdd.currentHp-addConsumed);if(activeAdd.currentHp<=1e-6){activeAdd.currentHp=0;activeAdd.defeated=true;activeAdd.defeatedAtMs=processedMs+segmentMs*(addConsumed/Math.max(rawTotal,1));}}
+    let rawLeft=Math.max(0,rawTotal-addConsumed),bossConsumed=0,guard=0;
     while(rawLeft>1e-9&&bossHp>0&&guard++<8){
       const phase=currentPhase();
       if(phase===1){
-        const threshold=bossMaxHp*phase2Start,needed=Math.max(0,bossHp-threshold),used=Math.min(rawLeft,needed||rawLeft);bossHp=Math.max(threshold,bossHp-used);rawLeft-=used;rawConsumed+=used;if(needed<=0||bossHp<=threshold+1e-6)continue;
+        const threshold=bossMaxHp*phase2Start,needed=Math.max(0,bossHp-threshold),used=Math.min(rawLeft,needed||rawLeft);bossHp=Math.max(threshold,bossHp-used);rawLeft-=used;bossConsumed+=used;if(needed<=0||bossHp<=threshold+1e-6)continue;
       }else if(phase===2){
         if(!shieldActivated){shieldActivated=true;shieldHp=shieldMax;shieldBroken=shieldMax<=0;}
-        if(shieldHp>0){const used=Math.min(rawLeft,shieldHp);shieldHp-=used;rawLeft-=used;rawConsumed+=used;if(shieldHp<=1e-6){shieldHp=0;shieldBroken=true;}if(rawLeft<=1e-9)break;}
-        const threshold=bossMaxHp*phase2End,bonus=shieldBroken?Math.max(1,Number(cfg.phase2BreakDamageMultiplier||1)):1,neededBoss=Math.max(0,bossHp-threshold),neededRaw=neededBoss/bonus,used=Math.min(rawLeft,neededRaw||rawLeft);bossHp=Math.max(threshold,bossHp-used*bonus);rawLeft-=used;rawConsumed+=used;if(neededBoss<=0||bossHp<=threshold+1e-6)continue;
+        if(shieldHp>0){const used=Math.min(rawLeft,shieldHp);shieldHp-=used;rawLeft-=used;bossConsumed+=used;if(shieldHp<=1e-6){shieldHp=0;shieldBroken=true;}if(rawLeft<=1e-9)break;}
+        const threshold=bossMaxHp*phase2End,bonus=shieldBroken?Math.max(1,Number(cfg.phase2BreakDamageMultiplier||1)):1,neededBoss=Math.max(0,bossHp-threshold),neededRaw=neededBoss/bonus,used=Math.min(rawLeft,neededRaw||rawLeft);bossHp=Math.max(threshold,bossHp-used*bonus);rawLeft-=used;bossConsumed+=used;if(neededBoss<=0||bossHp<=threshold+1e-6)continue;
       }else{
-        const used=Math.min(rawLeft,bossHp);bossHp=Math.max(0,bossHp-used);rawLeft-=used;rawConsumed+=used;if(bossHp<=0){clearedAtMs=processedMs+segmentMs*(rawConsumed/rawTotal);break;}
+        const used=Math.min(rawLeft,bossHp);bossHp=Math.max(0,bossHp-used);rawLeft-=used;bossConsumed+=used;if(bossHp<=0){clearedAtMs=processedMs+segmentMs*((addConsumed+bossConsumed)/rawTotal);break;}
       }
       if(rawLeft<=1e-9)break;
     }
-    const ratio=Math.max(0,Math.min(1,rawConsumed/Math.max(rawTotal,1e-9)));
-    for(const x of alive){const share=Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs/Math.max(rawTotal,1e-9);x.shownDamage+=rawConsumed*share;}
+    const totalConsumed=addConsumed+bossConsumed,ratio=Math.max(0,Math.min(1,totalConsumed/Math.max(rawTotal,1e-9)));
+    for(const x of alive){const share=Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs/Math.max(rawTotal,1e-9);x.shownDamage+=totalConsumed*share;}
     processedMs+=segmentMs*(bossHp<=0?ratio:1);
   };
   let nextBossTick=bossInterval;
   while(processedMs<elapsedMs&&bossHp>0&&states.some(x=>!x.isDefeated)){
     const segmentEnd=Math.min(elapsedMs,nextBossTick);applyPartyDamage(segmentEnd-processedMs);if(bossHp<=0||processedMs>=elapsedMs)break;
-    if(segmentEnd===nextBossTick){attackTicks++;const phase=currentPhase();let rage=1;if(phase===3&&cfg.phase3EnrageEnabled!==false)rage=Math.max(rage,Number(cfg.phase3EnrageMultiplier||1.75));for(const x of states){if(x.isDefeated)continue;const hit=Math.max(0,Math.floor(Number(cfg.bossAttackPower||850)*x.variance*rage));x.currentHp=Math.max(0,x.currentHp-hit);if(x.currentHp<=0){x.isDefeated=true;x.defeatedAtMs=processedMs;}}if(states.length&&states.every(x=>x.isDefeated)&&bossHp>0)wipedAtMs=processedMs;nextBossTick+=bossInterval;}
+    if(segmentEnd===nextBossTick){attackTicks++;const phase=currentPhase(),isUltimate=Boolean(ultimate&&attackTicks%Math.max(2,Number(ultimate.everyAttacks||5))===0);if(isUltimate)ultimateCasts++;let rage=1;if(phase===3&&cfg.phase3EnrageEnabled!==false)rage=Math.max(rage,Number(cfg.phase3EnrageMultiplier||1.75));if(isUltimate)rage*=Math.max(1,Number(ultimate.multiplier||1.5));for(const x of states){if(x.isDefeated)continue;const hit=Math.max(0,Math.floor(Number(cfg.bossAttackPower||850)*x.variance*rage));x.currentHp=Math.max(0,x.currentHp-hit);if(x.currentHp<=0){x.isDefeated=true;x.defeatedAtMs=processedMs;}}if(states.length&&states.every(x=>x.isDefeated)&&bossHp>0)wipedAtMs=processedMs;nextBossTick+=bossInterval;}
   }
-  const allDefeated=states.length>0&&states.every(x=>x.isDefeated),cleared=bossHp<=0&&!allDefeated,phase=currentPhase();
-  return {durationMs,elapsedMs,bossHp:bossHp<=0?0:Math.max(1,Math.ceil(bossHp)),bossHpPct:bossMaxHp>0?bossHp/bossMaxHp:0,attackTicks,allDefeated,cleared,clearedAtMs,wipedAtMs,states,phase,phaseLabel:phase===1?'돌입':phase===2?'브레이크':phase===3?'광폭화':'돌입',shieldMaxHp:Math.ceil(shieldMax),shieldHp:Math.max(0,Math.ceil(shieldHp)),shieldBroken,breakProgress:shieldMax>0?Math.max(0,Math.min(1,(shieldMax-shieldHp)/shieldMax)):1};
+  spawnMinions();const allDefeated=states.length>0&&states.every(x=>x.isDefeated),cleared=bossHp<=0&&!allDefeated,phase=currentPhase(),minionsDefeated=minions.filter(x=>x.defeated).length,activeMinion=minions.find(x=>x.spawned&&!x.defeated)||null;
+  return {durationMs,elapsedMs,bossHp:bossHp<=0?0:Math.max(1,Math.ceil(bossHp)),bossHpPct:bossMaxHp>0?bossHp/bossMaxHp:0,attackTicks,ultimateCasts,lastUltimate:ultimateCasts?{...ultimate,castNo:ultimateCasts,attackTick:ultimateCasts*Math.max(2,Number(ultimate?.everyAttacks||5))}:null,allDefeated,cleared,clearedAtMs,wipedAtMs,states,minions:minions.map(x=>({...x,currentHp:Math.max(0,Math.ceil(x.currentHp))})),minionsDefeated,bossDamageReduction:activeMinion?guardRatio:0,phase,phaseLabel:phase===1?'돌입':phase===2?'브레이크':phase===3?'광폭화':'돌입',shieldMaxHp:Math.ceil(shieldMax),shieldHp:Math.max(0,Math.ceil(shieldHp)),shieldBroken,breakProgress:shieldMax>0?Math.max(0,Math.min(1,(shieldMax-shieldHp)/shieldMax)):1};
 }
 export async function finalizeRaidV1293(env,instanceId,snapshot){
   await ensureRaidOverhaulV1293(env);const ranked=(snapshot?.states||[]).map(x=>({userId:Number(x.row.userId??x.row.user_id),damage:Math.max(0,Math.floor(Number(x.shownDamage||0)))})).filter(x=>x.userId).sort((a,b)=>b.damage-a.damage||a.userId-b.userId),statements=[];
@@ -253,9 +273,10 @@ export async function raidFinalParticipantV1293(env,instanceId,userId){await ens
 
 function hash01(text){let hash=2166136261;for(const ch of String(text)){hash^=ch.charCodeAt(0);hash=Math.imul(hash,16777619)>>>0;}return hash/4294967296;}
 function addReward(target,item,source){if(!item||Number(item.amount)<=0)return;const type=String(item.type).toUpperCase(),amount=Math.floor(Number(item.amount));target.push({type,amount,source,label:type==='COIN'?'코인':type==='CARD_SHARD'?'카드 조각':ITEM_LABELS[type]||type});}
-export function raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared}){
+export function raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared,minionsDefeated=0}){
   const rewards=cfg?.rewards||DEFAULT_REWARDS,entries=[];
   for(const item of rewards.participation||[])addReward(entries,item,'참여');
+  if(Number(minionsDefeated)>0)for(const item of rewards.minionClear||[])addReward(entries,{...item,amount:Number(item.amount||0)*Math.min(2,Math.floor(Number(minionsDefeated)))},`쫄몹 ${Math.min(2,Math.floor(Number(minionsDefeated)))}기 처치`);
   if(cleared){
     for(const item of rewards.clear||[])addReward(entries,item,'처치');
     addReward(entries,{type:CLEAR_MYSTIC_ENERGY_CODE,amount:integer(cfg?.clearMysticEnergy??DEFAULT_CLEAR_MYSTIC_ENERGY,DEFAULT_CLEAR_MYSTIC_ENERGY,0,1000000)},'처치');
@@ -265,12 +286,12 @@ export function raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank
   const rare=[];for(let i=0;i<(rewards.rareDrops||[]).length;i++){const item=rewards.rareDrops[i],roll=hash01(`${instanceId}:${userId}:${item.type}:${i}`)*100,won=roll<Number(item.chance||0);rare.push({...item,roll:Number(roll.toFixed(4)),won});if(won)addReward(entries,item,`희귀 드롭 ${Number(item.chance||0)}%`);}
   const aggregate={coin:0,shards:0,inventory:{}};for(const entry of entries){if(entry.type==='COIN')aggregate.coin+=entry.amount;else if(entry.type==='CARD_SHARD')aggregate.shards+=entry.amount;else aggregate.inventory[entry.type]=(aggregate.inventory[entry.type]||0)+entry.amount;}
   const inventoryRewards=Object.entries(aggregate.inventory).map(([type,amount])=>({type,itemCode:type,amount,label:ITEM_LABELS[type]||type}));
-  return {coin:aggregate.coin,shards:aggregate.shards,inventoryRewards,entries,rareDrops:rare,totalDamage:Number(totalDamage||0),finalRank:Number(finalRank||0),cleared:Boolean(cleared)};
+  return {coin:aggregate.coin,shards:aggregate.shards,inventoryRewards,entries,rareDrops:rare,totalDamage:Number(totalDamage||0),finalRank:Number(finalRank||0),cleared:Boolean(cleared),minionsDefeated:Math.max(0,Math.floor(Number(minionsDefeated)||0))};
 }
-export async function ensureRaidUserRewardPlanV1293(env,{instanceId,userId,cfg,totalDamage,finalRank,cleared}){
+export async function ensureRaidUserRewardPlanV1293(env,{instanceId,userId,cfg,totalDamage,finalRank,cleared,minionsDefeated=0}){
   await ensureRaidOverhaulV1293(env);let row=await env.DB.prepare('SELECT status,reward_json AS rewardJson FROM raid_user_reward_v1293 WHERE instance_id=? AND user_id=?').bind(Number(instanceId),Number(userId)).first();
   if(row?.rewardJson){try{return {status:String(row.status||'READY'),plan:JSON.parse(row.rewardJson)}}catch{}}
-  const plan=raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared});await env.DB.prepare(`INSERT OR IGNORE INTO raid_user_reward_v1293(instance_id,user_id,status,reward_json,created_at,updated_at) VALUES(?,?,'READY',?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(Number(instanceId),Number(userId),JSON.stringify(plan)).run();
+  const plan=raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared,minionsDefeated});await env.DB.prepare(`INSERT OR IGNORE INTO raid_user_reward_v1293(instance_id,user_id,status,reward_json,created_at,updated_at) VALUES(?,?,'READY',?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(Number(instanceId),Number(userId),JSON.stringify(plan)).run();
   row=await env.DB.prepare('SELECT status,reward_json AS rewardJson FROM raid_user_reward_v1293 WHERE instance_id=? AND user_id=?').bind(Number(instanceId),Number(userId)).first();try{return {status:String(row?.status||'READY'),plan:JSON.parse(row?.rewardJson||JSON.stringify(plan))}}catch{return {status:'READY',plan};}
 }
 export async function raidInventoryGrantStatementsV1293(env,{userId,instanceId,inventoryRewards}){
@@ -279,4 +300,4 @@ export async function raidInventoryGrantStatementsV1293(env,{userId,instanceId,i
   for(const reward of rewards){const code=String(reward.itemCode||reward.type),amount=Math.floor(Number(reward.amount)),after=Number(balanceMap[code]||0)+amount;balanceMap[code]=after;statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?, ?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(Number(userId),code,amount,amount));statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,'RAID_V1293_REWARD','RAID',?)").bind(Number(userId),code,amount,after,String(instanceId)));balances.push({itemCode:code,amount,balanceAfter:after,label:ITEM_LABELS[code]||code});}
   return {statements,balances};
 }
-export function raidRewardDisplayV1293(plan){return {coin:Number(plan?.coin||0),shards:Number(plan?.shards||0),inventoryRewards:Array.isArray(plan?.inventoryRewards)?plan.inventoryRewards:[],entries:Array.isArray(plan?.entries)?plan.entries:[],rareDrops:Array.isArray(plan?.rareDrops)?plan.rareDrops:[],totalDamage:Number(plan?.totalDamage||0),finalRank:Number(plan?.finalRank||0)};}
+export function raidRewardDisplayV1293(plan){return {coin:Number(plan?.coin||0),shards:Number(plan?.shards||0),inventoryRewards:Array.isArray(plan?.inventoryRewards)?plan.inventoryRewards:[],entries:Array.isArray(plan?.entries)?plan.entries:[],rareDrops:Array.isArray(plan?.rareDrops)?plan.rareDrops:[],totalDamage:Number(plan?.totalDamage||0),finalRank:Number(plan?.finalRank||0),minionsDefeated:Number(plan?.minionsDefeated||0)};}
