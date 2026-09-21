@@ -30,5 +30,24 @@
       "derivedMotionCreated": false
     }
   ],
-  "nextStep": "왼쪽 팔 수정 SD V5 시각 확인 후 연속 모션 제작. 반려 V1·V3·V4는 동작 및 라이브에 사용하지 않음."
+  "subsequentRejections": [
+    {
+      "asset": "assets/ice-dual-sword-sd-v5-left-arm-corrected.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "더 이상해 새끼야",
+      "followUpDirection": "왼손 칼날을 왼쪽으로 내리지말고 오른쪽으로 자연스럽게 잡게해",
+      "usedForRequestedLocalCorrectionOnly": true,
+      "allowedAsMotionReference": false,
+      "allowedInRuntime": false
+    },
+    {
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0be02-977f-7261-8629-93a51f40c5bf/exec-c70cc41d-79f5-4096-9bdf-9e2c5a4d0776.png",
+      "prompt": "prompts/sd-v6-original-extraction.txt",
+      "status": "TECHNICALLY_REJECTED_NOT_SELECTED",
+      "reason": "원화 자세 추출 시안. 투명 알파는 있으나 외곽 가시 픽셀 1692개로 옷자락 경계가 잘렸으며, 후속 사용자는 SD의 왼손 검 방향 수정을 구체적으로 지정함.",
+      "allowedAsMotionReference": false,
+      "allowedInRuntime": false
+    }
+  ],
+  "nextStep": "오른쪽 아래 검 방향으로 수정한 SD V7 시각 확인 후 연속 모션 제작. 반려본은 동작 및 라이브에 사용하지 않음."
 }
