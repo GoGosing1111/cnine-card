@@ -1,0 +1,22 @@
+# Obsolete, locally preserved outputs from the first packing pass.
+# Current FX files use fx- prefixes. Generated masters are NOT ignored.
+/assets/aura-atlas.webp
+/assets/slash-atlas.webp
+/assets/ultimate-atlas.webp
+/assets/frames/aura/
+/assets/frames/slash/
+/assets/frames/ultimate/
+/assets/frames/cross/08.png
+/assets/frames/cross/09.png
+/assets/frames/cross/10.png
+/assets/frames/cross/11.png
+/assets/frames/cyclone/12.png
+/assets/frames/cyclone/13.png
+/assets/frames/cyclone/14.png
+/assets/frames/cyclone/15.png
+/assets/frames/guard/06.png
+/assets/frames/guard/07.png
+/assets/frames/guard/08.png
+/assets/frames/guard/09.png
+/assets/frames/guard/10.png
+/assets/frames/guard/11.png

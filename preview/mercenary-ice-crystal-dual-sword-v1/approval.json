@@ -48,8 +48,10 @@
     "cardFrameComposition": "PENDING",
     "thumbnail160": "PENDING"
   },
-  "battleSprite": null,
-  "battleSpriteStatus": "NO_APPROVED_BATTLE_SPRITE",
+  "battleSprite": "preview/mercenary-ice-crystal-dual-sword-v1/assets/ice-dual-sword-sd-v7-forward-blade.png",
+  "battleSpriteStatus": "USER_APPROVED_BATTLE_SPRITE",
+  "battleSpriteSha256": "DAE9EAA500E924E8561D6823D1A89C90F63A77EF5C8727A835E196C6F98016BD",
+  "battleSpriteApprovalRequest": "그래 맨 마지막꺼 승인하고 다음꺼 만들으라고 스킬하고 모션들 라그니엘 리소스 퀄리티랑 똑같이",
   "skillsAssigned": false,
   "statsAssigned": false,
   "runtimeEnabled": false,
