@@ -41,7 +41,7 @@ export function finishFactionBattle(state, battle, winner, reason, now) {
 }
 export function advanceFactionState(state, now, endAt) {
   state.captains ||= {};
-  const cutoff = Math.min(now, endAt);
+  const cutoff = Math.min(now, endAt, state.taxDisabledAt ?? Infinity);
   accrueFactionTax(state, cutoff);
   for (const battle of [...state.battles]) {
     if (battle.status === 'ACTIVE' && Math.min(battle.endsAt,endAt) <= now)

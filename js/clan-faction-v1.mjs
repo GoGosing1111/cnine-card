@@ -1,4 +1,5 @@
 import {DISTRICTS,SQUADS,FACTION_RULES as R,districtById} from '../shared/clan-faction-rules-v1.mjs?v=20260920-tax-1b';
+import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20260921-preparation';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Math.max(0,Number(n)||0).toLocaleString('ko-KR');
 const compact=n=>n>=1e8?(n/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':n>=1e4?(n/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':num(n);
@@ -40,10 +41,10 @@ function detailView(){
   const squad=state.squad,cooldown=Math.max(data.squadReady[squad]||0,data.targetReady[z.id]||0);
   const squadBusy=data.battles.some(b=>b.status==='ACTIVE'&&b.attacker===mine()&&b.squad===squad);
   const permitted=data.mine?.isMaster||data.formation[squad]?.includes(data.userId);
-  const launchable=data.season.active&&mine()&&!own&&!b&&!protectedNow&&cooldown<=now()&&!squadBusy&&permitted&&data.formation[squad]?.length;
+  const launchable=factionCombatOpen(data)&&mine()&&!own&&!b&&!protectedNow&&cooldown<=now()&&!squadBusy&&permitted&&data.formation[squad]?.length;
   return `<aside class="fw-detail" aria-label="선택한 지역 작전"><div class="fw-detail-top"><span class="fw-eyebrow">DISTRICT ${String(DISTRICTS.findIndex(d=>d.id===z.id)+1).padStart(2,'0')} / SEOUL</span><span class="fw-status ${b?'danger':own?'lime':''}">${status(z)}</span></div><h2>${meta.name}</h2><p class="fw-market">${meta.market} 상권</p>
     <div class="fw-owner">${mark(z.owner)}<div><small>현재 점령 클랜</small><strong>${esc(team(z.owner)?.name||'점령 클랜 없음')}</strong></div></div>
-    <div class="fw-local-income">${icon('coin')}<span>상권 징수세 <small>점령 클랜 공동 수익</small></span><strong>${compact(R.taxPerHour)}<small> / 시간</small></strong></div>
+    <div class="fw-local-income">${icon('coin')}<span>${data.sessions?'종료 보상 조건 <small>회차 종료 시점에 집계</small>':'상권 징수세 <small>점령 클랜 공동 수익</small>'}</span><strong>${data.sessions?'4개 이상':compact(R.taxPerHour)}<small>${data.sessions?' 점령':' / 시간'}</small></strong></div>
     ${b?`<section class="fw-conflict-detail"><div class="fw-section-title"><h3>공유 HP 교전</h3><em>${clock(b.endsAt)} 남음</em></div>${hp(`${esc(team(b.attacker)?.name)} 공격대`,b.attackerHp,'attack')}${hp(`${esc(team(b.defender)?.name)} 방어대`,b.defenderHp,'defense')}<p>상대 공유 HP가 먼저 0이 되면 승리</p><button class="fw-primary" data-fw-enter="${b.id}" ${!canStrike||!data.season.active?'disabled':''}>${icon('sword')}${!canStrike?'교전 부대원만 참여 가능':b.defender===mine()?'방어 전투 입장':'공격 전투 입장'}</button><small>최신 랭크전 덱으로 교전 · 개인 재교전 1분</small></section>`:
     `<section class="fw-defense-info"><div class="fw-section-title"><h3>${icon('shield')}주둔 방어대</h3><b>${z.defenders.length}명</b></div><div class="fw-defenders">${z.defenders.map((m,i)=>`<span><i>${String(i+1).padStart(2,'0')}</i>${esc(m.nickname)}</span>`).join('')||'<p>배치된 방어대가 없습니다.</p>'}</div>${own&&data.mine.isMaster?`<div class="fw-garrison"><select id="fw-defense-select" aria-label="주둔 방어대 선택">${SQUADS.filter(s=>s.role==='DEFENSE').map(s=>`<option value="${s.id}" ${z.defense===s.id?'selected':''}>${s.name} · ${data.formation[s.id]?.length||0}명</option>`).join('')}</select><button data-fw-garrison ${!data.season.active?'disabled':''}>배치</button></div>`:''}</section>
     ${own?`<div class="fw-protection">${icon('shield')}<div><strong>${protectedNow?'점령 보호 중':'우리 클랜의 상권'}</strong><span>${protectedNow?clock(z.protectedUntil)+' 뒤 공격 가능':'방어대를 배치해 상권을 지키세요.'}</span></div></div>`:
@@ -71,6 +72,7 @@ function formationView(){
     <p class="fw-explanation">행동대장은 클랜장이 공격대마다 1명씩 임명하며, 공격대·방어대의 전체 라인업을 편성할 수 있습니다. 부대를 옮기려면 기존 편성을 해제한 뒤 새 부대에 배치하세요. 교전 중에는 라인업을 변경할 수 없습니다.</p></section>`;
 }
 function treasuryView(){
+  if(state.data.sessions)return factionRewardView(state.data);
   const d=state.data,owned=d.districts.filter(z=>z.owner===mine()&&mine()),n=d.roster.length;
   return `<section class="fw-treasury"><header class="fw-page-heading"><div><span class="fw-eyebrow">CLAN REVENUE</span><h2>상권 징수세</h2><p>점령한 지역의 수익을 클랜원과 함께 나눕니다.</p></div></header><div class="fw-treasury-layout"><section class="fw-vault">${icon('coin')}<span class="fw-eyebrow">분배 대기 중인 징수코인</span><strong>${num(d.tax.pool)}</strong><div class="fw-vault-summary"><span>점령 수익 <b>${compact(owned.length*R.taxPerHour)} / 시간</b></span><span>분배 대상 <b>${n}명</b></span><span>1인당 예상 <b>${compact(Math.floor(d.tax.pool/Math.max(1,n)))} 징수코인</b></span></div><button class="fw-primary" data-fw-collect ${!mine()||d.tax.pool<=0?'disabled':''}>${icon('coin')}클랜원에게 균등 분배</button><p>누구나 정산할 수 있으며, 현재 클랜원 전원에게 함께 지급됩니다.</p><div class="fw-my-wallet"><span>내 징수코인</span><b>${num(d.tax.balance)}</b></div></section><section class="fw-revenue-list"><div class="fw-section-title"><h3>우리 클랜 상권</h3><b>${owned.length}개 지역</b></div>${owned.map(z=>`<button data-fw-pick="${z.id}"><span>${icon('map')}<strong>${districtById(z.id).name}<small>${districtById(z.id).market}</small></strong></span><b>+${compact(R.taxPerHour)}<small>시간당</small></b></button>`).join('')||'<div class="fw-empty">아직 점령한 상권이 없습니다.<br>지도에서 공격대를 출정시켜 보세요.</div>'}</section></div>${(d.tax.pendingSeasons||[]).map(p=>`<div class="fw-past-tax"><span>시즌 ${p.seasonNo} 미정산 징수세 <b>${compact(p.pool)} 코인</b></span><button data-fw-past-collect="${p.seasonId}">당시 클랜원에게 분배</button></div>`).join('')}<p class="fw-explanation">징수코인은 일반 코인과 별도로 보관됩니다. 정규 클랜전 순위에 영향을 주지 않습니다. 시즌이 끝나면 새 수익 적립은 멈추고, 적립된 수익은 정산할 수 있습니다.</p></section>`;
 }
@@ -81,11 +83,12 @@ function draw(){
   if(!state.data||!state.map){state.root.innerHTML=`<div class="fw-loading">${state.error?esc(state.error):'서울 전황을 불러오는 중입니다.'}<button data-fw-reload>다시 불러오기</button></div>`;bind();return;}
   const d=state.data,active=d.battles.filter(b=>b.status==='ACTIVE');
   state.root.innerHTML=`<section class="faction-war"><header class="fw-heading"><div><span class="fw-eyebrow">CLAN FACTION WAR</span><h2>세력전 <span>서울</span></h2><p>상권을 점령하고, 우리 클랜의 영역을 넓히세요.</p></div><span class="fw-season ${d.season.active?'active':''}"><i></i>${d.season.active?'시즌 진행 중':'시즌 대기 · 종료'}<small>정규 순위와 별도 운영</small></span></header>
-    <div class="fw-stats"><div>${icon('map')}<span>우리 상권<b>${d.holdings}<small> / 25</small></b></span></div><div>${icon('sword')}<span>진행 중 교전<b>${active.length}<small>곳</small></b></span></div><div>${icon('coin')}<span>시간당 징수세<b>${compact(d.holdings*R.taxPerHour)}<small>징수코인</small></b></span></div><div>${icon('coin')}<span>내 징수코인<b>${compact(d.tax.balance)}</b></span></div></div>
-    <nav class="fw-tabs" aria-label="세력전 메뉴">${[['map','map','전황 지도'],['formation','users','부대 편성'],['treasury','coin','징수세'],['log','clock','전황 기록']].map(([id,i,label])=>`<button data-fw-tab="${id}" class="${state.tab===id?'active':''}" aria-current="${state.tab===id?'page':'false'}">${icon(i)}${label}</button>`).join('')}<button class="fw-reload" data-fw-reload aria-label="전황 새로고침">↻</button></nav>
+    ${factionSessionStrip(d)}<div class="fw-stats"><div>${icon('map')}<span>우리 상권<b>${d.holdings}<small> / 25</small></b></span></div><div>${icon('sword')}<span>진행 중 교전<b>${active.length}<small>곳</small></b></span></div><div>${icon('coin')}<span>${d.sessions?'종료 보상':'시간당 징수세'}<b>${d.sessions?'300억':compact(d.holdings*R.taxPerHour)}<small>${d.sessions?'4개 이상 점령':'징수코인'}</small></b></span></div><div>${icon('coin')}<span>${d.sessions?'보상 전달':'내 징수코인'}<b>${d.sessions?'메시지함':compact(d.tax.balance)}</b></span></div></div>
+    <nav class="fw-tabs" aria-label="세력전 메뉴">${[['map','map','전황 지도'],['formation','users','부대 편성'],['treasury','coin',d.sessions?'종료 보상':'징수세'],['log','clock','전황 기록']].map(([id,i,label])=>`<button data-fw-tab="${id}" class="${state.tab===id?'active':''}" aria-current="${state.tab===id?'page':'false'}">${icon(i)}${label}</button>`).join('')}<button class="fw-reload" data-fw-reload aria-label="전황 새로고침">↻</button></nav>
     ${myBattles()}${state.notice?`<div class="fw-notice" role="status">${esc(state.notice)}</div>`:''}${state.error?`<div class="fw-error" role="alert">${esc(state.error)}<button data-fw-reload>다시 확인</button></div>`:''}
     ${state.tab==='map'?`<div class="fw-mobile-select"><label>지역 선택<select data-fw-district-select>${DISTRICTS.map(z=>`<option value="${z.id}" ${z.id===state.selected?'selected':''}>${z.name} · ${team(d.districts.find(t=>t.id===z.id)?.owner)?.name||'무주지'}</option>`).join('')}</select></label></div><div class="fw-battlefield">${mapView()}${detailView()}</div>`:state.tab==='formation'?formationView():state.tab==='treasury'?treasuryView():logView()}</section>`;
   bind();state.root.querySelectorAll('button,select').forEach(b=>{if(state.busy)b.disabled=true;});
+  if(!factionCombatOpen(d))state.root.querySelectorAll('[data-fw-launch],[data-fw-enter]').forEach(b=>{b.disabled=true;});
 }
 function selectDistrict(id,scroll=false){state.selected=id;state.tab='map';draw();if(scroll&&innerWidth<1000)state.root.querySelector('.fw-detail')?.scrollIntoView({behavior:'smooth',block:'start'});}
 function bind(){
@@ -116,7 +119,7 @@ function bind(){
 async function refresh(preserveError=false){
   if(!state.ctx||state.busy)return;
   const sequence=++state.sequence;
-  try{const [data,map]=await Promise.all([api('overview'),state.map||fetch('/assets/ui/clan/seoul/districts-v1.json').then(r=>{if(!r.ok)throw Error('지도를 불러오지 못했습니다.');return r.json();})]);if(sequence!==state.sequence)return;state.data=data;state.map=map;state.offset=data.serverNow-Date.now();if(!preserveError)state.error='';draw();}
+  try{const [data,map]=await Promise.all([api('overview'),state.map||fetch('/assets/ui/clan/seoul/districts-v1.json').then(r=>{if(!r.ok)throw Error('지도를 불러오지 못했습니다.');return r.json();})]);if(sequence!==state.sequence)return;state.data=data;state.map=map;state.offset=data.serverNow-Date.now();if(!preserveError)state.error='';draw();return data;}
   catch(e){if(sequence!==state.sequence)return;state.error=e.message;draw();}
 }
 function pending(kind,payload){
@@ -165,14 +168,14 @@ function closeRoom(){
 function updateRoomAction(){
   const button=state.room?.querySelector('[data-fw-room-strike]');if(!button)return;
   const b=state.data?.battles.find(b=>b.id===state.roomId),ready=state.data?.strikeReady||0;
-  button.disabled=state.busy||!b||b.status!=='ACTIVE'||b.endsAt<=now()||!state.data.season.active||!mySide(b)||!b.entries?.[state.data.userId]||ready>now();
+  button.disabled=state.busy||!b||b.status!=='ACTIVE'||b.endsAt<=now()||!factionCombatOpen(state.data)||!mySide(b)||!b.entries?.[state.data.userId]||ready>now();
   button.innerHTML=`${icon('sword')}${state.busy?'교전 준비 중':ready>now()?`다음 교전 ${clock(ready)}`:'내 덱으로 교전 참여'}`;
 }
 function drawRoom(){
   const room=state.room;if(!room||state.playing)return;
   const focused=document.activeElement?.getAttribute('data-fw-room-action');
   const b=state.data?.battles.find(b=>b.id===state.roomId),side=mySide(b),entry=b?.entries?.[state.data?.userId];
-  const active=b?.status==='ACTIVE'&&b.endsAt>now()&&state.data.season.active;
+  const active=b?.status==='ACTIVE'&&b.endsAt>now()&&factionCombatOpen(state.data);
   const ids=b?(side==='ATTACK'?b.attackers:side==='DEFENSE'?b.defenders:[]):[];
   room.innerHTML=`<header class="fw-room-header"><div><span class="fw-eyebrow">FACTION WAR / ${side==='ATTACK'?'ASSAULT':'DEFENSE'}</span><h2 id="fw-room-title">${b?districtById(b.districtId)?.name:'세력전'} <span>전투실</span></h2></div><button data-fw-room-close data-fw-room-action="close" aria-label="전투실 닫기">×</button></header>
     ${b?`<div class="fw-room-status"><span class="fw-status ${active?'lime':''}">${active?side==='ATTACK'?'공격 작전 진행 중':'방어 작전 진행 중':'교전 종료'}</span><span>${active?clock(b.endsAt)+' 남음':`${esc(team(b.winner)?.name||'상대 클랜')} ${b.winner===b.attacker?'점령 성공':'방어 성공'}`}</span></div>
@@ -194,7 +197,7 @@ async function openBattleRoom(battleId){
   state.room=room;document.body.append(room);room.addEventListener('cancel',e=>{e.preventDefault();closeRoom();});drawRoom();room.showModal();
   await refresh();if(state.room!==room)return;
   const b=state.data?.battles.find(b=>b.id===battleId);
-  if(b&&mySide(b)&&b.status==='ACTIVE'&&state.data.season.active)await action('enter',{battleId});
+  if(b&&mySide(b)&&b.status==='ACTIVE'&&factionCombatOpen(state.data))await action('enter',{battleId});
   drawRoom();
 }
 export function mount(root,ctx){state.root=root;connect(ctx);draw();void refresh();}
@@ -210,8 +213,13 @@ export function connect(ctx){
 async function poll(){
   if(document.hidden||state.alertBusy||state.busy||!state.ctx)return;state.alertBusy=true;
   try{
-    if(state.room||(state.root?.isConnected&&state.tab!=='formation'))await refresh();
-    const data=await api('alerts');
+    let data;
+    if(state.room||(state.root?.isConnected&&state.tab!=='formation')){
+      const overview=await refresh();
+      // Session overview already contains alerts. Do not repeat its DB lifecycle work.
+      if(overview?.sessions)data={...overview,seasonId:overview.season.id};
+    }
+    data ||= await api('alerts');
     for(const a of data.alerts||[]){
       const key=`faction-alert:${data.userId}:${data.seasonId}:${a.id}`;
       if(sessionStorage.getItem(key)||state.room||document.querySelector('.fw-invasion-alert')||document.querySelector('#modal.show'))continue;

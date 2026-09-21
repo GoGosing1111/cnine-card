@@ -1,0 +1,19 @@
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const time=value=>new Date(value).toLocaleTimeString('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',hour12:false});
+const endTime=value=>time(value)==='00:00'?'24:00':time(value);
+const money=value=>(Number(value)/1e8).toLocaleString('ko-KR',{maximumFractionDigits:2})+'억';
+const duration=value=>{const minutes=Math.ceil(Math.max(0,value)/60000);return `${Math.floor(minutes/60)}시간 ${minutes%60}분`;};
+export const factionCombatOpen=data=>Boolean(data.sessions?data.sessions.active:data.season.active);
+export function factionSessionStrip(data){
+ const session=data.sessions;if(!session)return '';
+ const paused=session.current?.status==='PAUSED';
+ const round=session.current?`${session.current.deferred||session.current.dayKey!==session.schedule[0]?.dayKey?esc(session.current.dayKey)+' · ':''}${session.current.ordinal}회차`:'';
+ const label=paused?'영토전 진행 중 · 세력전 일시중단':session.blockedByTerritory?'영토전 진행 중 · 세력전 미진행':session.active?`세력전 ${round} 진행 중`:session.nextStartsAt||session.queue?.length?'다음 세력전 대기 중':'오늘 세력전 종료';
+ const notice=paused?`${esc(session.current.dayKey)} ${session.current.ordinal}회차 · 재개 후 ${duration(session.current.remainingMs)} 진행`:session.active&&session.current.pausedTotalMs?`영토전 종료 후 재개 · ${time(session.current.endsAt)} 종료 예정`:'';
+ return `<section class="fw-session-strip" aria-label="세력전 개방 일정"><div><span class="fw-eyebrow">DAILY OPERATIONS · KST</span><h3>${label}</h3><p>하루 랜덤 2회 · 회차당 3시간 · 영토전 중에는 시간을 멈추고 종료 후 재개합니다.</p>${notice?`<p class="fw-session-pause" role="status">${notice}</p>`:''}${session.queue?.length?`<p class="fw-session-queue">순연 대기 ${session.queue.length}회 · 앞 회차 종료 후 각각 3시간 진행</p>`:''}</div><div class="fw-session-times">${session.schedule.map(s=>`<div class="${s.status==='ACTIVE'?'active':''}"><b>${s.ordinal}회차</b><span>${s.status==='QUEUED'?'앞 회차 종료 후 3시간':`${time(s.startsAt)} — ${s.status==='PAUSED'?'재개 후 종료':endTime(s.endsAt)}`}</span><small>${({SCHEDULED:'예정',ACTIVE:'진행 중',PAUSED:'일시중단',QUEUED:'순연',SETTLED:'정산 완료',CANCELLED:'중단',SKIPPED:'미진행'})[s.status]||''}</small></div>`).join('')}</div></section>`;
+}
+export function factionRewardView(data){
+ const session=data.sessions;if(!session)return '';
+ const total=session.recipientPolicy==='CLAN_TOTAL',who=session.recipientPolicy==='PARTICIPANTS'?'해당 회차 참여 클랜원':total?'클랜원 균등 분배':'종료 시 소속 클랜원 전원';
+ return `<section class="fw-treasury"><header class="fw-page-heading"><div><span class="fw-eyebrow">SESSION REWARD</span><h2>회차 종료 보상</h2><p>3시간 종료 시점의 점령지를 집계해 메시지함으로 보냅니다.</p></div></header><div class="fw-treasury-layout"><section class="fw-vault"><span class="fw-eyebrow">영토 ${session.rules.requiredTerritories}개 이상 점령</span><strong>${money(session.rules.coinPerRecipient)}</strong><div class="fw-vault-summary"><span>보상 대상 <b>${who}</b></span><span>보상 기준 <b>${total?'클랜당 총액':'1인당'} · 회차당 1회</b></span><span>우리 클랜 점령 <b>${data.holdings} / 25개</b></span></div><p>현재 점령 수는 예상 현황입니다. 4개 이상이어도 종료 전에 빼앗기면 보상 조건을 충족하지 못할 수 있습니다.</p><p>영토 개수에 비례해 중복 지급되지 않으며, 코인은 메시지함에서 수령합니다.</p></section><section class="fw-revenue-list"><div class="fw-section-title"><h3>최근 회차 결과</h3></div>${session.history.map(h=>`<article class="fw-session-result"><b>${esc(h.dayKey)} · ${h.ordinal}회차</b><span>${h.status==='CANCELLED'?'회차 중단 · 보상 없음':h.myReward?`${money(h.myReward)} 코인 · 메시지함 지급`:'보상 조건 미충족'}</span><small>우리 클랜 ${h.holdings?.[data.mine?.clanId]||0}개 점령</small></article>`).join('')||'<p class="fw-empty">아직 종료된 회차가 없습니다.</p>'}</section></div><p class="fw-explanation">시간당 징수세와 수동 분배는 폐지되었습니다. 기존 징수코인 ${Number(data.tax.balance).toLocaleString('ko-KR')}개는 보존되며 일반 코인으로 자동 전환되지 않습니다. ${session.mapPolicy==='RESET'?'각 회차는 무주지에서 시작하며 부대 편성은 유지됩니다.':'이전 회차의 점령지와 부대 편성을 유지합니다.'}</p></section>`;
+}

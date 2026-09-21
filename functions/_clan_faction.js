@@ -1,6 +1,7 @@
 import {FACTION_RULES as R,SQUADS,districtById} from '../shared/clan-faction-rules-v1.mjs';
 import {newFactionState,advanceFactionState,validateFormation,factionCaptains,validateFactionCaptains,factionEvent,finishFactionBattle,factionStrikeDamage,splitFactionTax,factionFail as fail} from './_clan_faction_model.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
+import {syncFactionSessions,factionTerritoryBlockSql} from './_clan_faction_sessions.js';
 const SCHEMA='clan_faction_schema_v1',rows=r=>r?.results||[];
 const date=v=>{const s=String(v||'');return Date.parse(/Z$|[+]\d\d:\d\d$/.test(s)?s:s.replace(' ','T')+'Z');};
 const nowOf=deps=>deps.now?deps.now():Date.now();
@@ -33,7 +34,9 @@ async function context(env,season,user){
   const mine=roster.find(m=>m.userId===Number(user.id));
   return {roster,clans,mine,isMaster:Boolean(mine)&&clans.some(t=>t.clanId===mine.clanId&&t.masterUserId===Number(user.id))};
 }
-async function readState(env,season,now){
+async function readState(env,season,now,deps={}){
+  const sessions=await syncFactionSessions(env,season,deps);
+  if(sessions)return {...sessions.row,sessions:sessions.view};
   await env.DB.prepare('INSERT INTO clan_faction_state(season_id,state_json) VALUES(?,?) ON CONFLICT(season_id) DO NOTHING').bind(season.id,JSON.stringify(newFactionState(Math.min(now,date(season.ends_at))))).run();
   const row=await env.DB.prepare('SELECT * FROM clan_faction_state WHERE season_id=?').bind(season.id).first();
   return {...row,state:advanceFactionState(JSON.parse(row.state_json),now,date(season.ends_at))};
@@ -59,24 +62,26 @@ async function pendingSeasons(env,current,user,now){
 }
 export async function factionOverview(env,season,user,deps,{alertsOnly=false}={}){
   await ensureFactionSchema(env);
+  const sessions=await syncFactionSessions(env,season,deps);
   if(alertsOnly){
     const now=nowOf(deps),[row,m]=await Promise.all([
-      env.DB.prepare('SELECT state_json FROM clan_faction_state WHERE season_id=?').bind(season.id).first(),
+      sessions?{state_json:JSON.stringify(sessions.row.state)}:env.DB.prepare('SELECT state_json FROM clan_faction_state WHERE season_id=?').bind(season.id).first(),
       env.DB.prepare('SELECT clan_id FROM clan_members WHERE season_id=? AND user_id=?').bind(season.id,user.id).first()]);
     const battles=row?JSON.parse(row.state_json).battles:[];
-    const alerts=activeSeason(season,now)&&m?battles.filter(b=>b.status==='ACTIVE'&&b.endsAt>now&&battleSide(b,Number(m.clan_id),Number(user.id))).map(b=>battleAlert(b,Number(m.clan_id),Number(user.id))):[];
-    return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now};
+    const alerts=activeSeason(season,now)&&(!sessions||sessions.view.active)&&m?battles.filter(b=>b.status==='ACTIVE'&&b.endsAt>now&&battleSide(b,Number(m.clan_id),Number(user.id))&&(!sessions||b.sessionKey===sessions.view.current?.key)).map(b=>battleAlert(b,Number(m.clan_id),Number(user.id))):[];
+    return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now,...(sessions?{sessions:sessions.view}:{})};
   }
-  const now=nowOf(deps),[stored,ctx,wallet]=await Promise.all([readState(env,season,now),context(env,season,user),env.DB.prepare('SELECT balance,total_earned FROM clan_faction_wallets WHERE user_id=?').bind(user.id).first()]);
+  const now=nowOf(deps),[stored,ctx,wallet]=await Promise.all([sessions?sessions.row:readState(env,season,now),context(env,season,user),env.DB.prepare('SELECT balance,total_earned FROM clan_faction_wallets WHERE user_id=?').bind(user.id).first()]);
   const state=stored.state,mine=ctx.mine?.clanId||0,formation=formationOf(state,ctx,mine),captains=factionCaptains(state.captains[mine],ctx.roster.filter(m=>m.clanId===mine).map(m=>m.userId));
   const battles=state.battles.map(b=>({...b,attackers:b.attackers.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.attacker)),defenders:b.defenders.filter(id=>ctx.roster.some(m=>m.userId===id&&m.clanId===b.defender))}));
-  const alerts=activeSeason(season,now)?battles.filter(b=>b.status==='ACTIVE'&&battleSide(b,mine,Number(user.id))).map(b=>battleAlert(b,mine,Number(user.id))):[];
+  const alerts=activeSeason(season,now)&&(!sessions||sessions.view.active)?battles.filter(b=>b.status==='ACTIVE'&&battleSide(b,mine,Number(user.id))).map(b=>battleAlert(b,mine,Number(user.id))):[];
   if(alertsOnly)return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now};
   return {ok:true,serverNow:now,revision:Number(stored.revision),season:{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,endsAt:date(season.ends_at),active:activeSeason(season,now)},
     userId:Number(user.id),mine:mine?{clanId:mine,isMaster:ctx.isMaster,canManageFormation:ctx.isMaster||Object.values(captains).includes(Number(user.id))}:null,clans:ctx.clans,roster:ctx.roster.filter(m=>m.clanId===mine),formation,captains,
     districts:state.districts.map(d=>({...d,defenders:d.owner?(formationOf(state,ctx,d.owner)[d.defense]||[]).map(id=>ctx.roster.find(m=>m.userId===id)).filter(Boolean):[]})),
     battles,events:state.events,alerts,holdings:state.districts.filter(d=>d.owner===mine&&mine).length,
-    tax:{pool:state.pools[mine]||0,balance:Number(wallet?.balance||0),totalEarned:Number(wallet?.total_earned||0),perHour:R.taxPerHour,pendingSeasons:await pendingSeasons(env,season,user,now)},
+    ...(sessions?{sessions:{...sessions.view,recipientPolicy:sessions.policy.recipients,mapPolicy:sessions.policy.mapPolicy,history:sessions.view.history.map(h=>({...h,myReward:state.sessionHistory?.find(s=>s.key===h.key)?.recipients?.find(r=>r.userId===Number(user.id))?.amount||0}))}}:{}),
+    tax:{pool:state.pools[mine]||0,balance:Number(wallet?.balance||0),totalEarned:Number(wallet?.total_earned||0),perHour:sessions?0:R.taxPerHour,abolished:Boolean(sessions),pendingSeasons:sessions?[]:await pendingSeasons(env,season,user,now)},
     squadReady:Object.fromEntries(SQUADS.map(s=>[s.id,state.squadReady[`${mine}:${s.id}`]||0])),targetReady:Object.fromEntries(state.districts.map(d=>[d.id,state.targetReady[`${mine}:${d.id}`]||0])),strikeReady:state.strikeReady[user.id]||0,rules:R};
 }
 async function receipt(env,key,user,kind,input){
@@ -93,9 +98,11 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
   if(!['formation','captains','garrison','launch','enter','strike','collect'].includes(kind))fail('지원하지 않는 세력전 작업입니다.',404);
   let computed=null;
   for(let attempt=0;attempt<5;attempt++){
-    const now=nowOf(deps),[row,ctx]=await Promise.all([readState(env,season,now),context(env,season,user)]),state=row.state;
+    const now=nowOf(deps),[row,ctx]=await Promise.all([readState(env,season,now,deps),context(env,season,user)]),state=row.state;
     const replay=await receipt(env,key,user,kind,input);if(replay)return replay;
     if(!ctx.mine)fail('이번 시즌 클랜 소속이 필요합니다.',403);
+    if(row.sessions&&kind==='collect')fail('징수세가 폐지되었습니다. 회차 종료 보상은 메시지함으로 지급됩니다.');
+    if(row.sessions&&['launch','enter','strike'].includes(kind)&&!row.sessions.active)fail(row.sessions.blockedByTerritory?'영토전 진행 중에는 세력전에 참여할 수 없습니다.':'현재 세력전 개방 시간이 아닙니다.');
     if(kind!=='collect'&&!activeSeason(season,now))fail('세력전은 정규 클랜 시즌 진행 중에 참여할 수 있습니다.');
     const clanId=ctx.mine.clanId,userId=Number(user.id),memberIds=ctx.roster.filter(m=>m.clanId===clanId).map(m=>m.userId);
     const token=crypto.randomUUID(),formation=formationOf(state,ctx,clanId),payouts=[],result={ok:true,kind,seasonId:Number(season.id)};
@@ -137,6 +144,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
       const defenders=formationOf(state,ctx,d.owner)[d.defense]||[];
       const b={id:token,districtId:d.id,attacker:clanId,attackerName:ctx.clans.find(c=>c.clanId===clanId)?.name,defender:d.owner,squad,defenseSquad:d.defense,attackers:[...formation[squad]],defenders:[...defenders],initiator:userId,initiatorName:ctx.mine.nickname,
         attackerHp:R.sharedHp,defenderHp:R.sharedHp,entries:{},status:'ACTIVE',startedAt:now,endsAt:Math.min(now+R.battleDurationMs,date(season.ends_at))};
+      if(row.sessions){b.sessionKey=state.session.key;b.endsAt=Math.min(b.endsAt,state.session.endsAt);state.session.participants=[...new Set([...state.session.participants,userId])];state.session.participantClans[userId]=clanId;}
       state.battles.unshift(b);Object.assign(result,{battleId:b.id,districtId:d.id});
       if(!d.owner||!defenders.length){finishFactionBattle(state,b,clanId,'UNDEFENDED',now);result.captured=true;}
       else factionEvent(state,{id:token,kind:'INVASION',districtId:d.id,clanId,attacker:clanId,defender:d.owner,by:ctx.mine.nickname,at:now});
@@ -145,6 +153,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
       const b=state.battles.find(b=>b.id===body.battleId&&b.status==='ACTIVE');if(!b)fail('종료됐거나 찾을 수 없는 교전입니다.');
       const side=battleSide(b,clanId,userId);if(!side)fail('이 전투에 편성된 공격대·방어대만 입장할 수 있습니다.',403);
       b.entries||={};b.entries[userId]||={enteredAt:now,hits:0,damage:0,lastStrikeAt:0};
+      if(row.sessions){state.session.participants=[...new Set([...state.session.participants,userId])];state.session.participantClans[userId]=clanId;}
       Object.assign(result,{battleId:b.id,districtId:b.districtId,side,enteredAt:b.entries[userId].enteredAt});
     }
     if(kind==='strike'){
@@ -180,12 +189,14 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
     // A compare-and-swap and every guarded side effect share one transaction.
     // Losing races cannot create receipts, mint tax, or advance cooldowns.
     const master=['captains','garrison'].includes(kind)||(kind==='formation'&&ctx.isMaster);
-    const phaseGuard=kind==='collect'?'':" AND EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='ACTIVE' AND ends_at=?)";
+    const sessionCombat=Boolean(row.sessions&&['launch','enter','strike'].includes(kind));
+    if(sessionCombat&&nowOf(deps)>=state.session.endsAt)continue;
+    const phaseGuard=(kind==='collect'?'':" AND EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='ACTIVE' AND ends_at=?)")+(sessionCombat?` AND NOT EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE ${factionTerritoryBlockSql(env)})`:'');
     const masterGuard=master?' AND EXISTS(SELECT 1 FROM clan_season_teams WHERE season_id=? AND clan_id=? AND master_user_id=?)':'';
     const rosterGuard=` AND (SELECT COUNT(*) FROM clan_members WHERE season_id=? AND clan_id=?)=? AND NOT EXISTS(SELECT 1 FROM clan_members WHERE season_id=? AND clan_id=? AND user_id NOT IN (${memberIds.map(()=>'?').join(',')}))`;
     const targetMember=kind==='strike'?ctx.roster.find(m=>m.userId===computed.opponent.id):null;
     const enemyGuard=targetMember?' AND EXISTS(SELECT 1 FROM clan_members WHERE season_id=? AND user_id=? AND clan_id=?)':'';
-    const bindings=[JSON.stringify(state),token,season.id,row.revision,key,season.id,userId,clanId,...(kind==='collect'?[]:[season.id,season.ends_at]),...(master?[season.id,clanId,userId]:[]),season.id,clanId,memberIds.length,season.id,clanId,...memberIds,...(targetMember?[season.id,targetMember.userId,targetMember.clanId]:[])];
+    const bindings=[JSON.stringify(state),token,season.id,row.revision,key,season.id,userId,clanId,...(kind==='collect'?[]:[season.id,season.ends_at]),...(sessionCombat?[new Date(nowOf(deps)).toISOString()]:[]),...(master?[season.id,clanId,userId]:[]),season.id,clanId,memberIds.length,season.id,clanId,...memberIds,...(targetMember?[season.id,targetMember.userId,targetMember.clanId]:[])];
     // Keep permanent settlement receipts compact. Reconnection recovers the award,
     // while the initial response carries the existing V3 timeline for playback.
     const durable={...result};delete durable.battleV2;delete durable.attackerDeck;delete durable.defenderDeck;

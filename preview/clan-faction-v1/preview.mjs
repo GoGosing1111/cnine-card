@@ -1,4 +1,4 @@
-import {connect} from '/js/clan-faction-v1.mjs?v=2129';
+import {connect} from '/js/clan-faction-v1.mjs?v=20260922-sessions-prep';
 async function boot(){
 if(!['127.0.0.1','localhost'].includes(location.hostname)){document.querySelector('#review-mount').textContent='로컬 전용 검수 화면입니다. 게임의 클랜 본부에서 세력전을 이용하세요.';return;}
 await customElements.whenDefined('soop-adventure-lobby');

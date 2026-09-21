@@ -1,14 +1,18 @@
 import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js';
 import {reconcileClanDraft} from '../../../functions/_clan.js';
+import {reconcileFactionSessions} from '../../../functions/_clan_faction_sessions.js';
 
 const CHECK_INTERVAL_MS=60000;
 
 // One DB visit per alarm. The connection is closed before the object sleeps.
-export async function runDraftSchedule(env,{openDatabase=createPostgresD1Compat,now=Date.now,reconcile=reconcileClanDraft}={}){
+export async function runDraftSchedule(env,{openDatabase=createPostgresD1Compat,now=Date.now,reconcile=reconcileClanDraft,reconcileSessions=reconcileFactionSessions}={}){
   let connection;
   try{
     connection=await openDatabase(env.HYPERDRIVE?.connectionString);
     const result=await reconcile({...env,DB:connection.db});
+    // Disabled release policy returns without a DB read or write. Enabled sessions
+    // close and enqueue rewards even when no player has the game open.
+    await reconcileSessions({...env,DB:connection.db},{now});
     await connection.db.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('clan_draft_scheduler_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify({version:'20260915-alarm-1h-30s',source:'DURABLE_ALARM',checkedAt:new Date(now()).toISOString(),...result})).run();
     return result;
   }finally{await connection?.close()}
