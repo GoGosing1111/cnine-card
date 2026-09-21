@@ -1,0 +1,120 @@
+{
+  "generator": "built-in image_gen",
+  "processing": "Native alpha retained. Uniform resize, transparent padding and WebP encoding only. Source PNGs unchanged.",
+  "avatars": {
+    "avatar-dk-bongsoon": {
+      "alpha": {
+        "clearPixels": 1223025,
+        "solidPixels": 303119,
+        "borderMax": 1,
+        "crop": {
+          "left": 254,
+          "top": 1,
+          "width": 611,
+          "height": 1485
+        }
+      },
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "uniformScale": 0.7003367003367004,
+        "bodyWidth": 428,
+        "bodyHeight": 1040
+      },
+      "files": {
+        "avatar-dk-bongsoon-lobby-source-art-v1.png": {
+          "sha256": "ee5181acf8ddee98e4f6f202ecd7807cf1c4ed7b38a94f38a2baa0602d38e336",
+          "bytes": 2179440,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-dk-bongsoon-equipment-source-art-v1.png": {
+          "sha256": "872d253cdd97d0f1e971f09a2b116d5733ad8cba439e170ff3c726f283e03677",
+          "bytes": 1351140,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": true
+        },
+        "avatar-dk-bongsoon-lobby-v1-1024.webp": {
+          "sha256": "4d9a4d7145f516faf1569b720b843f701b7dcbcb285ce3c2c5137df19455a21f",
+          "bytes": 231886,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-dk-bongsoon-lobby-v1-640.webp": {
+          "sha256": "47964d803aabbc8e3e6341405f97d77bfd6b02909ffd14fb31f703732fa177c8",
+          "bytes": 127850,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "avatar-dk-bongsoon-equipment-v1-640.webp": {
+          "sha256": "df63a70436d4aae5274da9853613ab5355e1e55b96fd475e58e26ad97c9f6eb4",
+          "bytes": 88290,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    },
+    "avatar-lg-juseong": {
+      "alpha": {
+        "clearPixels": 1146345,
+        "solidPixels": 391619,
+        "borderMax": 1,
+        "crop": {
+          "left": 228,
+          "top": 4,
+          "width": 615,
+          "height": 1492
+        }
+      },
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "uniformScale": 0.6970509383378016,
+        "bodyWidth": 429,
+        "bodyHeight": 1040
+      },
+      "files": {
+        "avatar-lg-juseong-lobby-source-art-v1.png": {
+          "sha256": "d45b886f67c301b476511645089cbf13326f24a54f5bedf7cca17644d3c87a4e",
+          "bytes": 2412044,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-lg-juseong-equipment-source-art-v1.png": {
+          "sha256": "eec42e0e7ce1552b672e17cbc42fb6035afe7b531f66566189bb875c259282a4",
+          "bytes": 1547069,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": true
+        },
+        "avatar-lg-juseong-lobby-v1-1024.webp": {
+          "sha256": "e4b319a9f8a85f8ffa9b4dfa94a63f902e8ade58e44ed3c8d0bed5e94c8ce4a1",
+          "bytes": 263614,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-lg-juseong-lobby-v1-640.webp": {
+          "sha256": "58a63b10102deefb97258d0d412453289d70be8e492a7f52be20cdbdeec6e475",
+          "bytes": 141056,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "avatar-lg-juseong-equipment-v1-640.webp": {
+          "sha256": "8a07f41c9013912e539d4725574ca76d69a47e99b69bf37d9d62975aed7e9581",
+          "bytes": 104562,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    }
+  }
+}
