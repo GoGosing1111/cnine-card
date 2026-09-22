@@ -38,6 +38,8 @@ const DEFAULT_SETTINGS = {
 
 // No gameplay coin-reward cap; retain only JavaScript's exact-integer boundary.
 const SEAL_COIN_REWARD_MAX = Number.MAX_SAFE_INTEGER;
+// Seal health is the role target; keep only the exact-integer storage boundary.
+const SEAL_HEALTH_MAX = Number.MAX_SAFE_INTEGER;
 
 let foundationPromise = null;
 
@@ -128,9 +130,9 @@ function cleanSettings(raw = {}) {
     rechargeMinutes: clampInt(raw.rechargeMinutes, base.rechargeMinutes, 1, 1440),
     minRewardAttempts: clampInt(raw.minRewardAttempts, base.minRewardAttempts, 1, 1000000),
     targets: {
-      attack: clampInt(targets.attack, base.targets.attack, 1, 2000000000),
-      guard: clampInt(targets.guard, base.targets.guard, 1, 2000000000),
-      purify: clampInt(targets.purify, base.targets.purify, 1, 2000000000)
+      attack: clampInt(targets.attack, base.targets.attack, 1, SEAL_HEALTH_MAX),
+      guard: clampInt(targets.guard, base.targets.guard, 1, SEAL_HEALTH_MAX),
+      purify: clampInt(targets.purify, base.targets.purify, 1, SEAL_HEALTH_MAX)
     },
     multipliers: {
       attack: clampInt(multipliers.attack, base.multipliers.attack, 1, 1000),
@@ -374,6 +376,9 @@ async function loadSettings(env) {
 }
 
 async function saveSettings(env, value) {
+  if (Object.values(value.targets || {}).some(target => !Number.isSafeInteger(Number(target)) || Number(target) < 1)) {
+    throw new Error('역할별 봉인 체력(목표 공헌도)은 1 이상의 안전한 정수로 입력하세요.');
+  }
   if (value.minRewardAttempts !== undefined && (!Number.isSafeInteger(Number(value.minRewardAttempts)) || Number(value.minRewardAttempts) < 1 || Number(value.minRewardAttempts) > 1000000)) {
     throw new Error('보상 최소 공격 횟수는 1~1,000,000회 정수로 입력하세요.');
   }
@@ -1323,7 +1328,7 @@ export async function handleSealBattle({ path, request, env, deps }) {
     try {
       next = await saveSettings(env, { ...settings, ...(body.settings || body) });
     } catch (error) {
-      if (/보상 최소 공격 횟수/.test(String(error?.message))) return deps.json({ error: error.message }, 400);
+      if (/보상 최소 공격 횟수|봉인 체력/.test(String(error?.message))) return deps.json({ error: error.message }, 400);
       throw error;
     }
     await env.DB.prepare("UPDATE seal_battle_events SET boss_image=?,updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'")

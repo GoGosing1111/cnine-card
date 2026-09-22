@@ -187,7 +187,7 @@ test('구형 초기화 마커가 있어도 최소 횟수 컬럼을 추가하며 
 });
 
 test('PostgreSQL 실제 어댑터: 독립 DDL 게이트, 24회 거부·25회 100억 지급·중복 방지',async()=>{
-  const f=await fixture({minRewardAttempts:25}),pg=new PGlite();
+  const f=await fixture({minRewardAttempts:25,targets:{attack:10_000_000_000,guard:20_000_000_000,purify:30_000_000_000}}),pg=new PGlite();
   try{
     const schema=f.db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name<>'sqlite_sequence'").all();
     await pg.exec(read('scripts/postgres-runtime-compat.sql'));
@@ -198,6 +198,9 @@ test('PostgreSQL 실제 어댑터: 독립 DDL 게이트, 24회 거부·25회 100
     const env={DB:new __postgresCompatTest.PostgresD1Database(client)},api=createModule();
     await api.ensureRewardAttemptsSchema(env,f.deps);await api.ensureRewardAttemptsSchema(env,f.deps);
     const event=await api.adminStart(env,f.settings,{id:1});assert.equal(event.minRewardAttempts,25);
+    assert.deepEqual(Object.values(event.roles).map(role=>role.target),[10_000_000_000,20_000_000_000,30_000_000_000]);
+    await api.saveSettings(env,f.settings);
+    assert.deepEqual((await api.loadSettings(env)).targets,f.settings.targets,'PostgreSQL settings retain large health');
     await pg.exec("INSERT INTO users(id,nickname,coin) VALUES(2,'QA',1000)");
     await pg.query("INSERT INTO seal_battle_user_progress(event_id,user_id,day_key,total_attempts) VALUES($1,2,'2026-09-22',24)",[event.id]);
     await pg.query("UPDATE seal_battle_events SET status='CLEARED' WHERE id=$1",[event.id]);event.status='CLEARED';
@@ -209,6 +212,43 @@ test('PostgreSQL 실제 어댑터: 독립 DDL 게이트, 24회 거부·25회 100
     assert.equal(Number((await pg.query('SELECT change_amount FROM coin_logs')).rows[0].change_amount),10_000_000_000);
     assert.equal((await api.statusPayload(env,f.deps,f.user)).clearReward.claimed,true);
   }finally{f.db.close();await pg.close()}
+});
+
+test('봉인 체력 20억 상한 해제: CMS API 저장·재조회·회차 스냅샷·실제 진행과 클리어',async()=>{
+  const f=await fixture();
+  try{
+    for(const health of [2_000_000_001,10_000_000_000,1_000_000_000_000,Number.MAX_SAFE_INTEGER]){
+      const targets={attack:health,guard:health,purify:health};
+      const saved=await f.api.handleSealBattle({path:'admin/seal-battle/settings',env:f.env,deps:f.deps,
+        request:new Request('https://example.test/api/admin/seal-battle/settings',{method:'PATCH',body:JSON.stringify({settings:{targets}})})});
+      assert.equal(saved.status,200);assert.deepEqual(saved.body.settings.targets,targets);
+      assert.deepEqual((await f.api.loadSettings(f.env)).targets,targets);
+    }
+    const targets={attack:10_000_000_000,guard:20_000_000_000,purify:30_000_000_000};
+    const settings={...f.settings,targets},event=await f.api.adminStart(f.env,settings,{id:1});
+    assert.deepEqual(Object.values(event.roles).map(role=>role.target),Object.values(targets));
+    assert.equal(f.db.prepare('SELECT attack_target FROM seal_battle_events WHERE id=?').get(f.event.id).attack_target,2_000_000_000,'previous round unchanged');
+    f.db.prepare('UPDATE seal_battle_events SET attack_progress=1999999999 WHERE id=?').run(event.id);
+    const crossing=await f.api.participate(f.env,f.deps,f.user,settings,event,{requestId:'seal-large-health-crossing-0001',role:'ATTACK'});
+    assert.equal(crossing.status,200);
+    assert.ok(crossing.body.state.event.roles.ATTACK.progress>2_000_000_000);
+    assert.equal(crossing.body.state.event.roles.ATTACK.completed,false);
+    assert.equal(crossing.body.state.event.status,'ACTIVE');
+    f.db.prepare('UPDATE seal_battle_events SET attack_progress=attack_target-1,guard_progress=guard_target-1,purify_progress=purify_target-1 WHERE id=?').run(event.id);
+    for(const role of ['ATTACK','GUARD','PURIFY']){
+      const next=f.api.normalizeEvent(f.db.prepare('SELECT * FROM seal_battle_events WHERE id=?').get(event.id));
+      const result=await f.api.participate(f.env,f.deps,f.user,settings,next,{requestId:'seal-large-health-complete-'+role,role});
+      assert.equal(result.status,200);assert.equal(result.body.state.event.roles[role].progress,targets[role.toLowerCase()]);
+      assert.equal(result.body.state.event.status,role==='PURIFY'?'CLEARED':'ACTIVE');
+    }
+    const validateStart=admin.indexOf('  function validate('),validateEnd=admin.indexOf('  async function saveSettings(',validateStart);
+    const validate=Function(admin.slice(validateStart,validateEnd)+';return validate;')();
+    assert.equal(validate({...settings,rankRewards:{enabled:false}}),'');
+    for(const invalid of [0,-1,1.5,NaN,Infinity,Number.MAX_SAFE_INTEGER+1]){
+      assert.match(validate({...settings,targets:{...targets,attack:invalid}}),/봉인 체력/);
+      await assert.rejects(f.api.saveSettings(f.env,{...settings,targets:{...targets,attack:invalid}}),/봉인 체력/);
+    }
+  }finally{f.db.close()}
 });
 
 test('코인은 음수·잘못된 수·정밀도 초과만 안전하게 정리하고 다른 보상 한도는 유지한다',()=>{

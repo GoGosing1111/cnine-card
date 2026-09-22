@@ -116,9 +116,9 @@
 
         <div class="seal-admin-section-title"><div><small>GLOBAL TARGETS</small><h4>역할별 공동 목표</h4></div></div>
         <div class="seal-admin-role-settings">
-          <article class="attack"><header><i>⚔</i><b>파괴 봉인</b></header><label><span>보스 전투력</span><input id="sealAttackBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealAttackTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealAttackMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
-          <article class="guard"><header><i>◆</i><b>수호 봉인</b></header><label><span>보스 전투력</span><input id="sealGuardBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealGuardTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealGuardMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
-          <article class="purify"><header><i>✦</i><b>정화 봉인</b></header><label><span>보스 전투력</span><input id="sealPurifyBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealPurifyTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealPurifyMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
+          <article class="attack"><header><i>⚔</i><b>파괴 봉인</b></header><label><span>보스 전투력</span><input id="sealAttackBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealAttackTarget" type="number" min="1" step="1" title="봉인 체력 설정 상한 없음"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealAttackMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
+          <article class="guard"><header><i>◆</i><b>수호 봉인</b></header><label><span>보스 전투력</span><input id="sealGuardBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealGuardTarget" type="number" min="1" step="1" title="봉인 체력 설정 상한 없음"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealGuardMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
+          <article class="purify"><header><i>✦</i><b>정화 봉인</b></header><label><span>보스 전투력</span><input id="sealPurifyBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealPurifyTarget" type="number" min="1" step="1" title="봉인 체력 설정 상한 없음"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealPurifyMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
         </div>
 
         <div class="seal-admin-reward-grid">
@@ -308,7 +308,7 @@
       rechargeMinutes: integer('#sealRechargeMinutes', 60),
       minRewardAttempts: Number($('#sealMinRewardAttempts').value),
       targets: {
-        attack: integer('#sealAttackTarget', 1), guard: integer('#sealGuardTarget', 1), purify: integer('#sealPurifyTarget', 1)
+        attack: Number($('#sealAttackTarget').value), guard: Number($('#sealGuardTarget').value), purify: Number($('#sealPurifyTarget').value)
       },
       multipliers: {
         attack: integer('#sealAttackMultiplier', 100), guard: integer('#sealGuardMultiplier', 90), purify: integer('#sealPurifyMultiplier', 85)
@@ -337,7 +337,7 @@
     if (settings.rechargeMinutes < 1 || settings.rechargeMinutes > 1440) return '충전 시간은 1~1,440분으로 입력하세요.';
     if (!Number.isSafeInteger(settings.minRewardAttempts) || settings.minRewardAttempts < 1 || settings.minRewardAttempts > 1000000) return '보상 최소 공격 횟수는 1~1,000,000회 정수로 입력하세요.';
     if (settings.defeatContributionPercent < 0 || settings.defeatContributionPercent > 100) return '패배 공헌 반영률은 0~100%로 입력하세요.';
-    if (Object.values(settings.targets).some(value => value < 1)) return '역할별 목표 공헌도는 1 이상이어야 합니다.';
+    if (Object.values(settings.targets).some(value => !Number.isSafeInteger(value) || value < 1)) return '역할별 봉인 체력(목표 공헌도)은 1 이상의 안전한 정수로 입력하세요.';
     if (Object.values(settings.multipliers).some(value => value < 1 || value > 1000)) return '역할 배율은 1~1,000%로 입력하세요.';
     if (Object.values(settings.battlePowers).some(value => value < 1)) return '역할별 보스 전투력은 1 이상이어야 합니다.';
     const coinRewards = [settings.attemptReward.coin, settings.clearReward.coin, ...(settings.rankRewards?.tiers || []).map(tier => tier.coin)];
