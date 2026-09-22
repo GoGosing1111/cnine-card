@@ -18,16 +18,23 @@ class EquipmentPresentation extends ForgeFX{
 async function api(path,signal,body){const response=await fetch('/api/character/equipment/forge/'+path,{signal,cache:'no-store',method:body?'POST':'GET',headers:{...(activeToken?{authorization:`Bearer ${activeToken}`} :{}),...(body?{'content-type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const result=await response.json();if(!response.ok){const e=Error(result.error||'장비 정보를 불러오지 못했습니다.');e.status=response.status;e.code=result.code;throw e;}return result;}
 function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,3500);}
 function renderList(){
+  const list=$('inventory-list'),viewport=$('inventory-scroll'),scrollTop=viewport.scrollTop;
+  const focusedId=list.contains(document.activeElement)?document.activeElement.closest('[data-id]')?.dataset.id:null;
   $('inventory-count').textContent=String(visibleItems().length).padStart(2,'0')+(mode==='enhance'&&cursor?'+':'');
   $('inventory-more').hidden=!cursor||mode==='restore';$('inventory-more').disabled=loading;
-  $('inventory-list').innerHTML=visibleItems().map(item=>`<button class="equipment-row" data-id="${esc(item.selectionId)}" data-grade="${esc(item.grade)}" aria-pressed="${item.selectionId===selected}" aria-label="${esc(item.name)}, ${slots[item.slot]}" ${executing?'disabled':''}><span class="equipment-thumb"><img src="${esc(imageUrl(item.image))}" alt="" loading="lazy"></span><span class="equipment-copy"><small>${esc(item.grade)} · ${slots[item.slot]}</small><b>${esc(item.name)}</b><em>${mode==='restore'?'파괴 기록':item.equipped?'장착 중':'보유 장비'} · #${esc(item.instanceId)}</em></span><span class="equipment-level">${item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`+${item.level}`:'—'}</span></button>`).join('')||`<div class="empty-inventory">${loading?'장비를 불러오는 중…':!activeToken?'로그인하면 보유한 무기와 방어구를 확인할 수 있습니다.':data?.publicVisible===false?'강화 센터를 준비하고 있습니다.':mode==='restore'?'복구할 파괴 기록이 없습니다.':'이 종류의 보유 장비가 없습니다.'}${!activeToken?'<a class="public-login" href="/">게임 로그인 ↗</a>':''}</div>`;
-  $('inventory-list').querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;});
+  list.innerHTML=visibleItems().map(item=>{
+    const equipped=mode==='enhance'&&item.equipped===true;
+    return `<button class="equipment-row" data-id="${esc(item.selectionId)}" data-grade="${esc(item.grade)}" data-equipped="${equipped}" aria-pressed="${item.selectionId===selected}" aria-label="${esc(item.name)}, ${slots[item.slot]}, ${mode==='restore'?'파괴 기록':equipped?'장착 중':'보유 장비'}, #${esc(item.instanceId)}" ${executing?'disabled':''}><span class="equipment-thumb"><img src="${esc(imageUrl(item.image))}" alt="" loading="lazy">${equipped?'<span class="equipment-equipped-badge"><svg aria-hidden="true"><use href="#i-shield"/></svg>장착 중</span>':''}</span><span class="equipment-copy"><small>${esc(item.grade)} · ${slots[item.slot]}</small><b>${esc(item.name)}</b><em>${mode==='restore'?'파괴 기록':equipped?'장착 중':'보유 장비'} · #${esc(item.instanceId)}</em></span><span class="equipment-level">${item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`+${item.level}`:'—'}</span></button>`;
+  }).join('')||`<div class="empty-inventory">${loading?'장비를 불러오는 중…':!activeToken?'로그인하면 보유한 무기와 방어구를 확인할 수 있습니다.':data?.publicVisible===false?'강화 센터를 준비하고 있습니다.':mode==='restore'?'복구할 파괴 기록이 없습니다.':'이 종류의 보유 장비가 없습니다.'}${!activeToken?'<a class="public-login" href="/">게임 로그인 ↗</a>':''}</div>`;
+  list.querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;});
+  viewport.scrollTop=scrollTop;
+  if(focusedId)Array.from(list.querySelectorAll('[data-id]')).find(row=>row.dataset.id===focusedId)?.focus({preventScroll:true});
 }
 async function select(id){
   if(executing)return;selected=id;quote=null;renderList();void updateQuote();const item=visibleItems().find(r=>r.selectionId===selected),stamp=generation;
   $('stage-empty').hidden=!!item;$('weapon-fallback').hidden=true;
-  if(!item){$('stage-item-name').textContent=mode==='restore'?'파괴 기록 보관소':'장비를 선택하세요';$('stage-item-sub').textContent='무기 · 상의 · 하의 · 신발 · 장신구';$('stage-grade').textContent='EQUIPMENT ARCHIVE';$('power-before').textContent='—';$('stage-code').textContent='EQUIPMENT ARCHIVE';$('stage-rule').textContent='무기 · 방어구 · 장신구';if(fx?.weapon){fx.loadGeneration++;fx.weapon.visible=false;fx.texture=null;}return;}
-  $('stage-item-name').textContent=item.name;$('stage-grade').textContent=item.grade+' EQUIPMENT';$('stage-item-sub').textContent=slots[item.slot]+(item.equipped?' · 장착 중':' · 보유 장비');$('stage-code').textContent='EQUIPMENT / #'+item.instanceId;
+  if(!item){$('stage-item-sub').dataset.equipped='false';$('stage-item-name').textContent=mode==='restore'?'파괴 기록 보관소':'장비를 선택하세요';$('stage-item-sub').textContent='무기 · 상의 · 하의 · 신발 · 장신구';$('stage-grade').textContent='EQUIPMENT ARCHIVE';$('power-before').textContent='—';$('stage-code').textContent='EQUIPMENT ARCHIVE';$('stage-rule').textContent='무기 · 방어구 · 장신구';if(fx?.weapon){fx.loadGeneration++;fx.weapon.visible=false;fx.texture=null;}return;}
+  $('stage-item-sub').dataset.equipped=String(mode==='enhance'&&item.equipped===true);$('stage-item-name').textContent=item.name;$('stage-grade').textContent=item.grade+' EQUIPMENT';$('stage-item-sub').textContent=slots[item.slot]+(mode==='restore'?' · 파괴 기록':item.equipped===true?' · 장착 중':' · 보유 장비');$('stage-code').textContent='EQUIPMENT / #'+item.instanceId;
   const currentPower=item.enhancement?.power||(mode==='restore'?forgePower(item.basePower.total,item.level):item.basePower);$('power-before').textContent=number(Math.max(0,Math.trunc(currentPower.total)));$('stage-rule').textContent=`PVE ${number(currentPower.pve)} · PVP ${number(currentPower.pvp)}`;$('stage-level').textContent=item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`파괴 당시 +${item.level}`:'강화 대기';
   const image=imageUrl(item.image);$('weapon-fallback').src=image;$('weapon-fallback').classList.toggle('is-armor',item.slot!=='WEAPON');
   if(fx){try{await fx.setItem({...item,image});if(stamp!==generation||selected!==id)return;fx.weapon.visible=true;$('weapon-fallback').hidden=true;return;}catch{}}
@@ -35,7 +42,7 @@ async function select(id){
 }
 async function load(more=false){
   if(executing)return;controller?.abort();controller=new AbortController();const current=++generation;activeToken=token();loading=true;
-  if(!more){items=[];cursor=null;selected=null;await select(null);}renderList();
+  if(!more){items=[];cursor=null;selected=null;$('inventory-scroll').scrollTop=0;await select(null);}renderList();
   const timeout=setTimeout(()=>controller?.abort(),25000);
   try{
     if(!more){data=await api('status',controller.signal);if(current!==generation)return;$('opening-notice').textContent=data.notice;$('opening-title').textContent=data.publicVisible?'강화 오픈 준비 중':'강화 센터 준비 중';}
@@ -52,7 +59,7 @@ async function load(more=false){
   }catch(e){if(current!==generation)return;if(e.status===401){items=[];activeToken='';$('wallet-coins').textContent='—';await select(null);}if(e.name!=='AbortError'){$('inventory-note').textContent=e.message;toast(e.message);}else $('inventory-note').textContent='연결이 지연됩니다. 다시 불러오기를 눌러 주세요.';}
   finally{clearTimeout(timeout);if(current===generation){loading=false;renderList();}}
 }
-async function switchMode(next){if(executing)return;mode=next;for(const b of document.querySelectorAll('[data-mode]')){const active=b.dataset.mode===mode;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;}$('workspace').setAttribute('aria-labelledby','tab-'+mode);$('inventory-heading').textContent=mode==='enhance'?'보유 장비':'파괴 기록';$('inventory-filters').hidden=mode==='restore';$('enhance-options').hidden=mode==='restore';$('restore-options').hidden=mode==='enhance';renderList();await select(visibleItems()[0]?.selectionId||null);}
+async function switchMode(next){if(executing)return;mode=next;$('inventory-scroll').scrollTop=0;for(const b of document.querySelectorAll('[data-mode]')){const active=b.dataset.mode===mode;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;}$('workspace').setAttribute('aria-labelledby','tab-'+mode);$('inventory-heading').textContent=mode==='enhance'?'보유 장비':'파괴 기록';$('inventory-filters').hidden=mode==='restore';$('enhance-options').hidden=mode==='restore';$('restore-options').hidden=mode==='enhance';renderList();await select(visibleItems()[0]?.selectionId||null);}
 $('inventory-list').addEventListener('click',e=>{const row=e.target.closest('[data-id]');if(row)void select(row.dataset.id);});
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{group=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));void load();});
 document.querySelectorAll('[data-mode]').forEach(b=>{b.onclick=()=>void switchMode(b.dataset.mode);b.onkeydown=e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const next=mode==='enhance'?'restore':'enhance';void switchMode(next);$('tab-'+next).focus();}};});

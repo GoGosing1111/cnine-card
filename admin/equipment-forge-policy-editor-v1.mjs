@@ -27,7 +27,7 @@ export function mountForgePolicyEditor(host, {request=jointAdminRequest}={}) {
     const selected=at(draft,path), items=data.catalog.filter(item=>!protection||item.code!=='MASTER_STAR');
     const options=[['',protection?'미설정 · 보호권 선택':'재료 없음 · 코인만 사용'], ...items.map(item=>[item.code,`${item.name} · ${item.code}${item.is_active?'':' (비활성)'}`])];
     if(selected&&!items.some(item=>item.code===selected))options.push([selected,`${selected} (미등록)`]);
-    return select(path,label,options);
+    return `<div class="forge-material-choice">${select(path,label,options)}<div class="forge-material-preview" data-item-preview="${path}" aria-live="polite"></div></div>`;
   }
   function stepsMarkup() {
     return `<div class="forge-section-heading"><div><h3>단계별 확률과 소모 재료</h3><p>강화 재료는 확정 규칙인 <b>코인 + 마스터의 별</b>을 사용합니다. 빈칸은 0이 아닌 미설정입니다.</p></div><span class="forge-tag">+0 → +10</span></div>
@@ -82,6 +82,16 @@ export function mountForgePolicyEditor(host, {request=jointAdminRequest}={}) {
   }
   function updateDirty(){const el=host.querySelector('[data-policy-dirty]');if(el)el.textContent=dirty?'저장하지 않은 변경 있음':`저장 버전 r${data.policy.revision} · 변경 없음`;}
   function refresh() {
+    for(const preview of host.querySelectorAll('[data-item-preview]')){
+      const item=data.catalog.find(item=>item.code===at(draft,preview.dataset.itemPreview));
+      let image='';
+      try{const url=new URL(item?.image||'',location.origin+'/');if(item?.image&&((url.origin===location.origin&&url.pathname.startsWith('/assets/'))||url.protocol==='https:')&&!url.username&&!url.password)image=url.href;}catch{}
+      const signature=JSON.stringify([item?.code,item?.name,image]);
+      if(preview.dataset.itemSignature===signature)continue;
+      preview.dataset.itemSignature=signature;
+      preview.innerHTML=item?`${image?`<img src="${esc(image)}" alt="${esc(item.name)}" loading="lazy">`:''}<div><b>${esc(item.name)}</b><small>${esc(item.code)}</small></div>`:'<span>아이템을 선택하면 이름과 이미지를 확인할 수 있습니다.</span>';
+      const img=preview.querySelector('img');if(img)img.onerror=()=>{img.hidden=true;};
+    }
     let valid, error;
     try{valid=validateForgePolicy(draft);}catch(e){error=e.message;}
     const readiness=valid?forgePolicyReadiness(valid,data.catalog):null;

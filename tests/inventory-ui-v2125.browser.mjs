@@ -15,6 +15,17 @@ const check=(value,label)=>{assert.ok(value,label);checks.push(label);};
 const tiles=page=>page.locator('#inventoryGrid [data-inventory-select]');
 const ready=page=>page.locator('#inventoryVault[aria-busy="false"]').waitFor();
 const tile=(page,code)=>page.locator('#inventoryGrid [data-inventory-select="'+code+'"]');
+async function protectionTicket(page,size){
+  await tile(page,'EQUIPMENT_PROTECTION_TICKET').click();
+  const mobile=page.viewportSize().width<=700,detail=page.locator(mobile?'#inventoryDetailDialog':'#inventoryDetail');
+  await detail.locator('img[src*="equipment-protection-ticket-v1.webp"]').waitFor();
+  await page.waitForFunction(selector=>{const img=document.querySelector(selector+' img');return img?.complete&&img.naturalWidth>0;},mobile?'#inventoryDetailDialog':'#inventoryDetail');
+  check((await detail.locator('.iv25-quantity').innerText()).includes('3'),size+' protection ticket shows owned quantity');
+  check((await detail.innerText()).includes('장비 강화에서 보호권 사용'),size+' protection ticket explains its dedicated use');
+  check(await detail.locator('.iv25-use').isDisabled(),size+' protection ticket cannot be opened or consumed in inventory');
+  await page.screenshot({path:path.join(out,'protection-'+size+'.png')});
+  if(mobile)await page.keyboard.press('Escape');
+}
 async function launch(viewport){
   const page=await browser.newPage({viewport,deviceScaleFactor:1,serviceWorkers:'block'});
   const state={inventory:inventoryUiFixture(),writes:[],reads:0,fail:false,hold:false,release:null};
@@ -57,6 +68,7 @@ try{
   const {page,state}=await launch({width:1440,height:900});
   const owned=state.inventory.items.filter(x=>x.quantity>0).length;
   check(await tiles(page).count()===owned,'initial view shows owned inventory only');
+  await protectionTicket(page,'1440x900');
   await page.locator('#inventorySearch').fill('슈트 코어');
   check(await tiles(page).count()===6,'search finds all six released suit cores');
   check(await page.locator('#inventorySearch').evaluate(e=>e===document.activeElement),'typing preserves input focus');
@@ -113,6 +125,7 @@ try{
   for(const viewport of [{width:1024,height:768},{width:390,height:844},{width:320,height:740},{width:1440,height:560}]){
     const {page,state}=await launch(viewport),size=viewport.width+'x'+viewport.height;
     await bounds(page,size);await page.screenshot({path:path.join(out,'inventory-'+size+'.png')});
+    await protectionTicket(page,size);
     await page.locator('[data-inventory-filter="MATERIAL"]').click();await tile(page,'SUIT_CORE_6').click();
     const mobile=viewport.width<=700,detail=page.locator(mobile?'#inventoryDetailDialog':'#inventoryDetail');
     check(await detail.isVisible(),size+' selection opens readable detail');

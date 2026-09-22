@@ -1,5 +1,6 @@
 import {BATTLE_SUIT_CORE_CATALOG} from '../../functions/_battle_suit_materials.js';
 import {SKILL_CHIP_CATALOG} from '../../shared/battle-suit-skill-chips.mjs';
+import {FORGE_PROTECTION_ITEM} from '../../functions/_forge_protection_catalog.js';
 
 // Local UI fixtures only. Quantities and ownership never reach production APIs.
 export function inventoryUiFixture(){
@@ -12,6 +13,7 @@ export function inventoryUiFixture(){
     make('MAGIC_CARD_PACK','마법카드 팩','PACK','EPIC','assets/cards/magic-card-pack-v2-384.jpg',8,'마법카드 1장을 획득합니다.'),
     make('VEHICLE_DRAW_TICKET','이동수단 뽑기권','VEHICLE_DRAW','RARE','assets/items/vehicle-draw-ticket-v1391.png',2,'이동수단 뽑기에 사용하는 티켓입니다.'),
     make('MASTER_STAR','마스터의 별','MATERIAL','MA','',1234567890,'카드 성장과 장비 강화에 사용하는 재료입니다.'),
+    {...FORGE_PROTECTION_ITEM,quantity:3,unseenQuantity:1,usable:false,useDisabledMessage:'장비 강화에서 보호권 사용을 선택하세요.'},
     ...BATTLE_SUIT_CORE_CATALOG.map((core,i)=>make(core.code,core.name,'MATERIAL',core.rarity,core.image,[24,18,8,3,2,1][i],core.description,{unseenQuantity:i>=4?1:0})),
     make('SCRAPYARD_ENTRY_TICKET','폐차장 출입증','ENTRY_TICKET','RARE','assets/ui/scrapyard/scrapyard-entry-ticket-v1680.png',11,'폐차장 원정을 시작할 때 사용하는 출입증입니다.'),
     make('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','ENTRY_TICKET','EPIC','assets/items/core-raid-entry-ticket-v1.png',3,'붕괴 코어 레이드 입장에 필요한 아이템입니다.',{usable:false,useDisabledMessage:'붕괴 코어 공대 생성 시 사용'}),

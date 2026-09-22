@@ -1,5 +1,5 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {mountForgePolicyEditor} from './equipment-forge-policy-editor-v1.mjs?v=20260922-forge-cms1';
+import {mountForgePolicyEditor} from './equipment-forge-policy-editor-v1.mjs?v=20260922-protection1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let panel, navButton, publicHost, policyHost, editor, data, busy=false, dirty=false, notice='', generation=0;
 function powerTable(){

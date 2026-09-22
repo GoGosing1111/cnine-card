@@ -54,7 +54,9 @@ try{
   await field('steps.0.successPpm').fill('70');await field('steps.0.maintainPpm').fill('20');await field('steps.0.destroyPpm').fill('20');
   const count=writes;await save();await status.filter({hasText:'합계'}).waitFor();assert.equal(writes,count);
   await field('steps.0.destroyPpm').fill('10');await field('steps.0.coinCost').fill('10000000000');await field('steps.0.itemQuantity').fill('3');await field('steps.0.protectionQuantity').fill('1');
-  await tab('protection');await field('protection.itemCode').selectOption('FORGE_TEST_PROTECTION');await field('protection.consume').selectOption('ON_DESTROY');
+  await tab('protection');await field('protection.itemCode').selectOption('EQUIPMENT_PROTECTION_TICKET');await field('protection.consume').selectOption('ON_DESTROY');
+  await page.waitForFunction(()=>{const image=document.querySelector('[data-item-preview="protection.itemCode"] img');return image?.complete&&image.naturalWidth>0;});
+  assert.match(await page.locator('[data-item-preview="protection.itemCode"] img').getAttribute('src'),/equipment-protection-ticket-v1.webp/);
   await field('protection.sources.0.enabled').check();await field('protection.sources.0.chancePpm').fill('0.0001');await field('protection.sources.0.quantity').fill('1');
   await overflow();await page.screenshot({path:path.join(out,`protection-${width}.png`)});
   await tab('restoration');await field('restoration.enabled').check();await field('restoration.coinCost').fill('0');await field('restoration.expiresHours').fill('0');
@@ -64,6 +66,7 @@ try{
   let saved=await readForgeRuntime(fixture.env,{draft:true});
   assert.equal(saved.revision,1);assert.equal(saved.steps[0].coinCost,10000000000);assert.equal(saved.steps[0].itemQuantity,3);assert.equal(saved.steps[1].coinCost,null);
   assert.equal(saved.protection.sources[0].chancePpm,1);assert.equal(saved.restoration.expiresHours,0);assert.equal(saved.restoration.itemQuantity,2);assert.equal(saved.mode,'OFF');
+  assert.equal(saved.protection.itemCode,'EQUIPMENT_PROTECTION_TICKET');
   await tab('readiness');await field('quoteSeconds').fill('182');
   await saveForgeRuntime(fixture.env,fixture.user,{...saved,quoteSeconds:181});
   await save();await status.filter({hasText:'입력은 보존'}).waitFor();assert.equal(await field('quoteSeconds').inputValue(),'182');

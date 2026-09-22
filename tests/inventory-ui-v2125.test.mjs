@@ -13,6 +13,14 @@ function model(){
 }
 const codes=items=>Array.from(items,item=>item.code);
 
+test('owned equipment protection tickets show their art and exact count, remain materials and cannot open as packs',()=>{
+  const m=model(),item=inventoryUiFixture().items.find(item=>item.code==='EQUIPMENT_PROTECTION_TICKET');
+  assert.equal(m.group(item),'MATERIAL');assert.equal(m.meta(item).usable,false);
+  assert.match(m.tile(item),/equipment-protection-ticket-v1\.webp/);assert.match(m.tile(item),/보유 3개/);
+  assert.match(m.detail(item),/장비 강화에서 보호권 사용/);assert.match(m.detail(item),/data-inventory-use="EQUIPMENT_PROTECTION_TICKET" disabled/);
+  assert.deepEqual(codes(m.visible([item])),[item.code]);assert.equal(m.visible([{...item,quantity:0}]).length,0);
+});
+
 test('owned filter hides zero counts while preserving server catalog order',()=>{
   const m=model(),items=inventoryUiFixture().items;
   assert.deepEqual(codes(m.visible(items)),codes(items.filter(x=>x.quantity>0)));
