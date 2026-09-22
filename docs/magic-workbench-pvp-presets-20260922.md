@@ -38,6 +38,7 @@ Neon 호환 어댑터는 일반 SQLite CREATE 문을 건너뛰므로 고정 Post
 - `scripts/qa-magic-workbench.mjs`: 실제 index/app/공통 셸 + 로컬 전용 계정 API. 1440×1000, 390×844, 320×844.
 - 검색/빈 결과/미보유/최대 강화/모드 제한, 실제 강화, 저장 실패 후 재시도, 프리셋 단독·통합 저장, 새로고침 후 복원, 이동 취소, 상세 닫기/Escape, 1회·10회 소환, 가로 넘침을 검수했다. 브라우저 pageerror 0.
 - 스크린샷/로컬 SQLite 검수 자료는 배포 경로 밖 `../qa/magic-workbench/`에 둔다.
+- 추가 공통 메뉴 브라우저 검사의 `320×740 prisoncamp no clipped native columns`는 실패했다. 개편 전 기준 `88d65d89`의 index/app/셸/라우터로 교체한 독립 재현에서도 동일하게 실패했다. 마법카드/PVP 범위에서는 재현되지 않으며, 이번 작업에서 무관한 포로수용소 레이아웃을 변경하지 않는다. 이 추가 검사 전체를 통과했다고 보고하지 않는다.
 - 신규 검사 항목은 `release:gate`에 편입한다. 운영 반영은 최신 main 기준 깨끗한 커밋에서 전체 gate 통과 후 `npm run deploy:production`만 사용한다.
 
 ## 운영 확인과 롤백
