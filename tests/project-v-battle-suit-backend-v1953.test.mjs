@@ -11,6 +11,7 @@ import {
   userEquipmentBonuses,
 } from '../functions/_equipment.js';
 import {APOCALYPSE_RULES,battleSuitLiveRuntime,buildBattleSuitFighter,createPveBattleV2} from '../functions/_battle_v2_preview.js';
+import {ensureForgeTransactionSchema} from '../functions/_equipment_forge_transactions.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
@@ -347,6 +348,7 @@ test('live activation is scoped to an equipped positive-power PVE Battle Suit',(
 test('loadout reports render-ready suit/weapon metadata and isolates suit power from PVP',async()=>{
   const DB=new SqliteD1();
   createEquipmentSchema(DB.db);
+  await ensureForgeTransactionSchema({DB});
   DB.db.exec(`
     CREATE TABLE user_equipment_instances(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,equipment_id INTEGER NOT NULL,source_type TEXT NOT NULL DEFAULT 'ADMIN',source_id TEXT NOT NULL DEFAULT '',request_id TEXT,acquired_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
     CREATE TABLE user_equipment_loadout(user_id INTEGER NOT NULL,slot TEXT NOT NULL,instance_id INTEGER NOT NULL UNIQUE,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,slot));
