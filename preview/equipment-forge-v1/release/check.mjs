@@ -5,6 +5,8 @@ import { resolve } from 'node:path';
 import { assessLaunch } from './policy.mjs';
 import {FORGE_EXECUTION_IMPLEMENTED} from '../../../functions/_equipment_forge_public.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../../../shared/equipment-forge-release-v1.mjs';
+import {V3_JOINT_RELEASE_ENABLED} from '../../../shared/v3-joint-release-v1.mjs';
+import {validateEquipmentForgeRelease} from '../../../functions/_equipment_forge_release.js';
 
 const root = new URL('../../../', import.meta.url);
 const read = path => readFileSync(new URL(path, root));
@@ -26,14 +28,18 @@ export function checkPreparation() {
   for (const path of ['index.html', 'js/app.js', 'js/equipment-v1274.js', 'functions/api/[[path]].js', 'functions/_equipment.js', 'service-worker.js']) {
     if (/equipment-forge-v1\/source\/(app|model)\.mjs|ForgeSimulation/.test(read(path).toString())) errors.push(`운영 호스트에 시연 로직이 추가됨: ${path}`);
   }
-  if(FORGE_EXECUTION_IMPLEMENTED!==false||FORGE_RUNTIME_RELEASE_ENABLED!==false) errors.push('공개 전용 배포의 실행 잠금 누락');
+  if(FORGE_RUNTIME_RELEASE_ENABLED){
+    try{validateEquipmentForgeRelease(JSON.parse(read('docs/releases/equipment-forge-approved-20260922.json')));}
+    catch(error){errors.push(`운영 출시 승인본 검증 실패: ${error.message}`);}
+    if(!FORGE_EXECUTION_IMPLEMENTED||V3_JOINT_RELEASE_ENABLED)errors.push('장비 전용 출시 범위 불일치');
+  }
   const launch = assessLaunch(draft);
   if (draft.liveEnabled !== false) errors.push('현재 준비 패키지는 liveEnabled=false를 유지해야 함');
-  // A configuration checklist cannot certify an unimplemented server mutation path.
-  // Replace this hard stop with actual integration evidence when the live implementation is completed.
+  // The approved presentation simulator remains frozen/OFF. Live execution
+  // is independently covered by real-route SQLite/PostgreSQL regression tests.
   return { preparationReady: errors.length === 0 && launch.errors.length === 0, visualApproved: approval.status === 'UI_AND_EFFECTS_FINAL_APPROVED',
     verifiedFiles: approval.files?.length || 0, errors: [...errors, ...launch.errors], launchReady: false,
-    mutationRuntimeImplemented: false, liveEnabled: draft.liveEnabled, pending: launch.pending };
+    mutationRuntimeImplemented: FORGE_EXECUTION_IMPLEMENTED, liveEnabled: draft.liveEnabled, pending: launch.pending };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

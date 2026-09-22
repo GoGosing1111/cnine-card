@@ -5,7 +5,12 @@ import {fileURLToPath} from 'node:url';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {execFileSync} from 'node:child_process';
-import {build} from 'esbuild';
+import * as held from './helpers/forge-held-runtime.mjs';
+import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {handleForgeRuntime} from '../functions/_equipment_forge_routes.js';
+import {handleEquipmentForgePublic} from '../functions/_equipment_forge_public.js';
+import {readActiveForgeProtectionPolicy,planForgeProtectionDrop} from '../functions/_forge_protection_drop.js';
+import release from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
 import cms from './fixtures/equipment-forge-cms-20260922.json' with {type:'json'};
 import {forgeFixture} from './helpers/forge-db.mjs';
 import {jointHash} from '../functions/_joint_transactions.js';
@@ -13,14 +18,14 @@ import {readReleasedForgePolicy,validateEquipmentForgeRelease} from '../function
 import {prepareTowerForgeProtectionClear,prepareTowerForgeProtectionClearReady} from '../functions/_forge_tower_protection.js';
 import {EQUIPMENT_FORGE_RELEASE_KEY,EQUIPMENT_FORGE_RELEASE_ENABLED,FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
-const completePolicy=()=>{const p=structuredClone(cms);for(const s of p.steps){s.destroyPpm??=0;s.protectionQuantity??=0;}return p;}; // Synthetic QA completion, not operating approval.
+const completePolicy=()=>structuredClone(release.policy);
 const document=()=>({schemaVersion:1,approved:true,approvedBy:7,approvedAt:'2026-09-22T00:00:00Z',approvalReference:'ISOLATED TEST ONLY — never a production approval',policy:completePolicy()});
-// Enable only the in-memory QA bundle. The checked-in/production gate stays false.
-const enabledRuntime=build({stdin:{contents:"export {handleForgeRuntime} from './functions/_equipment_forge_routes.js';export {handleEquipmentForgePublic} from './functions/_equipment_forge_public.js';export {readActiveForgeProtectionPolicy,planForgeProtectionDrop} from './functions/_forge_protection_drop.js';",resolveDir:fileURLToPath(new URL('../',import.meta.url))},bundle:true,write:false,format:'esm',platform:'node',plugins:[{name:'isolated-forge-gate',setup(b){b.onLoad({filter:/equipment-forge-release-v1\.mjs$/},args=>({contents:readFileSync(args.path,'utf8').replace('EQUIPMENT_FORGE_RELEASE_ENABLED=false','EQUIPMENT_FORGE_RELEASE_ENABLED=true'),loader:'js'}));}}]}).then(result=>import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64')));
-test('equipment-only release remains held and OFF performs no DB work in battle/drop hooks',async()=>{
- assert.equal(EQUIPMENT_FORGE_RELEASE_ENABLED,false);assert.equal(FORGE_RUNTIME_RELEASE_ENABLED,false);
+const enabledRuntime={handleForgeRuntime,handleEquipmentForgePublic,readActiveForgeProtectionPolicy,planForgeProtectionDrop};
+test('explicit equipment release is enabled, global V3 stays held, and rollback still performs no DB work',async()=>{
+ assert.equal(EQUIPMENT_FORGE_RELEASE_ENABLED,true);assert.equal(FORGE_RUNTIME_RELEASE_ENABLED,true);assert.equal(V3_JOINT_RELEASE_ENABLED,false);
+ assert.equal(validateEquipmentForgeRelease(release).revision,6);
  const env={get DB(){throw Error('DB touched while held');}};
- assert.equal(await readReleasedForgePolicy(env),null);assert.deepEqual(await prepareTowerForgeProtectionClear(env,{}),{statements:[],reward:null});
+ assert.equal(await held.readReleasedForgePolicy(env),null);assert.deepEqual(await held.prepareTowerForgeProtectionClear(env,{}),{statements:[],reward:null});
  for(const edit of [{approved:false},{policy:cms},{approvedBy:0},{approvalReference:'missing'}])assert.throws(()=>validateEquipmentForgeRelease({...document(),...edit}),{code:'FORGE_RELEASE_PENDING'});
 });
 test('actual live hooks use equipment-only readiness, not a global tower/re-ascent release',()=>{
@@ -35,6 +40,7 @@ for(const postgres of [false,true]){
  const name=postgres?'PostgreSQL':'SQLite';
  test(`${name}: release requires an explicit immutable complete snapshot and valid hash`,async t=>{
   const f=await forgeFixture(t,{postgres}),doc=document();
+  await f.p('DELETE FROM app_meta WHERE key=?',EQUIPMENT_FORGE_RELEASE_KEY).run();
   await assert.rejects(()=>readReleasedForgePolicy(f.env,{enabled:true}),{code:'FORGE_RELEASE_PENDING'});
   await f.setting(EQUIPMENT_FORGE_RELEASE_KEY,{document:doc,sha256:await jointHash(doc)});
   assert.equal((await readReleasedForgePolicy(f.env,{enabled:true})).restoration.coinCost,100000000000);
@@ -51,9 +57,14 @@ for(const postgres of [false,true]){
   assert.equal(await runtime.readActiveForgeProtectionPolicy(f.env),null);
   assert.equal((await call('admin/equipment-forge','PATCH',{expectedRevision:1,settings:{publicVisible:true,executionMode:'ON',notice:'TEST'}})).status,200);
   assert.equal((await call('character/equipment/forge/state')).body.canEnhance,true);
+  const statusResponse=await runtime.handleForgeRuntime({path:'character/equipment/forge/status',request:new Request('https://game.test/api/character/equipment/forge/status'),env:f.env,deps:{...f.deps,authenticate:()=>{throw Error('public status must not authenticate');}}});
+  const status=await statusResponse.json();assert.equal(statusResponse.status,200);assert.equal(status.canEnhance,true);assert.equal(status.canRestore,true);assert.equal(status.wallet,undefined);assert.equal(status.items,undefined);assert.equal(status.policy.steps[0].destroyPpm,0);
+  // Ordinary CMS draft edits cannot change the released costs.
+  await f.setting(FORGE_RUNTIME_KEY,{...doc.policy,steps:doc.policy.steps.map(s=>({...s,coinCost:1}))});
   for(const content of ['TOWER','SCRAPYARD','COW_ROOM'])assert.equal((await runtime.planForgeProtectionDrop(f.env,content,{cleared:true,randomInt:()=>0}))[0].quantity,1);
   await f.p('UPDATE users SET coin=1000000000 WHERE id=7').run();await f.p("UPDATE cnine_user_inventory SET quantity=100000 WHERE user_id=7 AND item_code='MASTER_STAR'").run();
   const q=await call('character/equipment/forge/quote','POST',{requestId:crypto.randomUUID(),kind:'ENHANCE',instanceId:f.instanceId});assert.equal(q.status,200);
+  assert.equal(q.body.cost.coinCost,100000000);
   const body={requestId:crypto.randomUUID(),quoteId:q.body.quoteId},r=await call('character/equipment/forge/enhance','POST',body);assert.equal(r.body.outcome,'SUCCESS');assert.equal(await f.coin(),900000000);
   await call('admin/equipment-forge','PATCH',{expectedRevision:2,settings:{publicVisible:true,executionMode:'OFF',notice:'TEST'}});
   assert.equal(await runtime.readActiveForgeProtectionPolicy(f.env),null);
@@ -80,6 +91,7 @@ for(const postgres of [false,true]){
 }
 test('offline release SQL checks the exact CMS snapshot, stays OFF and is repeat-safe in PostgreSQL',async t=>{
  const f=await forgeFixture(t,{postgres:true}),doc=document(),directory=mkdtempSync(join(tmpdir(),'cnine-forge-release-test-'));
+ await f.p('DELETE FROM app_meta WHERE key=?',EQUIPMENT_FORGE_RELEASE_KEY).run();
  // This path is the exact disposable directory returned by mkdtempSync.
  t.after(()=>rmSync(directory,{recursive:true,force:true}));
  const input=join(directory,'isolated-approval.json'),output=join(directory,'candidate.sql');

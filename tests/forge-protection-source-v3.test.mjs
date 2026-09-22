@@ -1,5 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {protectionDrop,assertProtectionGrant,planForgeProtectionDrop} from '../functions/_forge_protection_drop.js';
+import {protectionDrop,assertProtectionGrant} from '../functions/_forge_protection_drop.js';
+import {planForgeProtectionDrop} from './helpers/forge-held-runtime.mjs';
 import {forgeRuntimeDraft,validateForgePolicy} from '../shared/equipment-forge-policy-v1.mjs';
 test('protection sources are explicit gameplay-only drafts, with no default operating rate',async()=>{
  const draft=forgeRuntimeDraft();assert.ok(draft.protection.sources.every(s=>!s.enabled&&s.chancePpm===null));

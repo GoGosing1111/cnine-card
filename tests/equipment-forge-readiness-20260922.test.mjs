@@ -6,10 +6,17 @@ import {FORGE_RUNTIME_KEY,validateForgePolicy,forgePower} from '../shared/equipm
 import {forgePolicyReadiness} from '../shared/equipment-forge-cms-v1.mjs';
 import {forgeQuote,executeForge,forgeAccountState,forgeEquipmentBonus,forgeEquipmentBonuses} from '../functions/_equipment_forge_transactions.js';
 import {protectionDrop,assertProtectionGrant} from '../functions/_forge_protection_drop.js';
+import release from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
+import {EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.mjs';
+import {FORGE_SETTINGS_KEY} from '../functions/_equipment_forge_public.js';
+import {jointHash} from '../functions/_joint_transactions.js';
 const rid=()=>crypto.randomUUID(),startCoins=9000000000000;
 export function confirmedForgeDraft(){const p=structuredClone(cms);for(const s of p.steps)if(s.level<8)s.protectionQuantity=0;return p;}
 async function fixture(t,postgres){
- const f=await forgeFixture(t,{postgres,productionEquipmentRequests:true}),policy=confirmedForgeDraft();policy.mode='TEST';await f.setting(FORGE_RUNTIME_KEY,policy);
+ const f=await forgeFixture(t,{postgres,productionEquipmentRequests:true}),document=structuredClone(release),policy=document.policy;
+ await f.setting(FORGE_RUNTIME_KEY,policy);
+ await f.setting(EQUIPMENT_FORGE_RELEASE_KEY,{document,sha256:await jointHash(document)});
+ await f.setting(FORGE_SETTINGS_KEY,{schemaVersion:1,revision:1,publicVisible:true,executionMode:'ON',notice:'ISOLATED QA'});
  await f.p('UPDATE users SET coin=? WHERE id=7',startCoins).run();
  await f.p("UPDATE cnine_user_inventory SET quantity=10000000 WHERE user_id=7 AND item_code='MASTER_STAR'").run();
  for(const code of ['EQUIPMENT_PROTECTION_TICKET','PINGDU_REPAIR_COUPON']){
@@ -40,9 +47,9 @@ test('CMS protection source rates are exact (including scrapyard 0.9998%) and cl
  assert.throws(()=>assertProtectionGrant({sourceType:'BOX',triggerType:'OPEN',rewards:protectionDrop(cms,'TOWER',{cleared:true,randomInt:()=>0})},cms),{code:'FORGE_PROTECTION_SOURCE'});
 });
 for(const postgres of [false,true]){const db=postgres?'PostgreSQL':'SQLite';
- test(`${db}: +1..+8 protection unavailable; unset destruction is blocked without charges`,async t=>{
+ test(`${db}: released +1..+8 protection unavailable without charges`,async t=>{
   const f=await fixture(t,postgres);
-  for(let n=0;n<8;n++){await level(f,n);await assert.rejects(()=>quote(f,true),{code:n<6?'FORGE_POLICY_PENDING':'FORGE_PROTECTION_UNAVAILABLE'});}
+  for(let n=0;n<8;n++){await level(f,n);await assert.rejects(()=>quote(f,true),{code:'FORGE_PROTECTION_UNAVAILABLE'});}
   assert.equal(await f.coin(),startCoins);assert.equal(await f.qty('MASTER_STAR'),10000000);assert.equal(await f.qty('EQUIPMENT_PROTECTION_TICKET'),100);
  });
  test(`${db}: +7..+10 unprotected boundaries and exact large costs on every normal slot`,async t=>{
@@ -59,8 +66,8 @@ for(const postgres of [false,true]){const db=postgres?'PostgreSQL':'SQLite';
   }
   await level(f,10);await assert.rejects(()=>quote(f),{code:'FORGE_MAX_LEVEL'});
  });
- test(`${db}: conditional QA only — explicit 0% destruction at +1..+6 charges configured costs`,async t=>{
-  const f=await fixture(t,postgres);for(const s of f.policy.steps)if(s.level<6)s.destroyPpm=0;await f.setting(FORGE_RUNTIME_KEY,f.policy);
+ test(`${db}: released 0% destruction at +1..+6 charges configured costs`,async t=>{
+  const f=await fixture(t,postgres);
   for(let n=0;n<6;n++)for(const [roll,outcome] of [[0,'SUCCESS'],[999999,'MAINTAIN']]){await level(f,n);const coins=await f.coin(),stars=await f.qty('MASTER_STAR'),r=await run(f,await quote(f),roll);assert.equal(r.outcome,outcome);assert.equal(await f.coin(),coins-f.policy.steps[n].coinCost);assert.equal(await f.qty('MASTER_STAR'),stars-f.policy.steps[n].itemQuantity);await assert.rejects(()=>quote(f,true),{code:'FORGE_PROTECTION_UNAVAILABLE'});}
  });
  test(`${db}: protected +9/+10 consumes 1/3 on SUCCESS, MAINTAIN and PROTECTED once`,async t=>{
@@ -96,7 +103,7 @@ for(const postgres of [false,true]){const db=postgres?'PostgreSQL':'SQLite';
   await f.p('UPDATE users SET coin=14999999999 WHERE id=7').run();await assert.rejects(()=>run(f,q,0),{code:'FORGE_FUNDS'});
   await f.p('UPDATE users SET coin=? WHERE id=7',startCoins).run();await f.p("UPDATE cnine_user_inventory SET quantity=149999 WHERE user_id=7 AND item_code='MASTER_STAR'").run();await assert.rejects(()=>run(f,q,0),{code:'FORGE_MATERIAL'});
   await f.p("UPDATE cnine_user_inventory SET quantity=10000000 WHERE user_id=7 AND item_code='MASTER_STAR'").run();await f.p("UPDATE cnine_user_inventory SET quantity=2 WHERE user_id=7 AND item_code='EQUIPMENT_PROTECTION_TICKET'").run();await assert.rejects(()=>run(f,q,0),{code:'FORGE_MATERIAL'});
-  await f.setting(FORGE_RUNTIME_KEY,{...f.policy,mode:'OFF'});await assert.rejects(()=>run(f,q,0),{code:'FORGE_OFF'});assert.equal(await f.coin(),startCoins);
+  await f.setting(FORGE_SETTINGS_KEY,{schemaVersion:1,revision:2,publicVisible:true,executionMode:'OFF',notice:'ISOLATED QA'});await assert.rejects(()=>run(f,q,0),{code:'FORGE_OFF'});assert.equal(await f.coin(),startCoins);
  });
  test(`${db}: +9/+10 power is identical in batch and single-user reads, SUIT excluded`,async t=>{
   const f=await fixture(t,postgres);for(const n of [8,9,10]){await level(f,n);const expected=forgePower(10000,n);assert.deepEqual(await forgeEquipmentBonus(f.env,7),{pve:expected.pve-9000,pvp:expected.pvp-1000});assert.deepEqual((await forgeEquipmentBonuses(f.env,[7,8])).get(7),await forgeEquipmentBonus(f.env,7));}

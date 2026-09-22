@@ -5,9 +5,8 @@ import {jointError} from './_joint_request.js';
 import {EQUIPMENT_FORGE_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {readForgeSettings} from './_equipment_forge_public.js';
 export async function readActiveForgeProtectionPolicy(env){
- const policy=await readReleasedForgePolicy(env);if(!policy)return null;
  if(EQUIPMENT_FORGE_RELEASE_ENABLED){const {settings}=await readForgeSettings(env);if(!settings.publicVisible||settings.executionMode!=='ON')return null;}
- return policy;
+ return readReleasedForgePolicy(env);
 }
 export function protectionDrop(policy,sourceType,{cleared,eligible=true,randomInt=mercenaryRandomInt}={}){
  if(!cleared||!eligible||!FORGE_PROTECTION_SOURCES.includes(sourceType))return [];
@@ -23,4 +22,7 @@ export function assertProtectionGrant(plan,policy){
   if(!rule||plan.triggerType!=='CLEAR'||r.protectionAuthority!=='JOINT_APPROVED_GAMEPLAY'||r.quantity!==rule.quantity||r.poolId!=null||r.entryId!=null)throw jointError('FORGE_PROTECTION_SOURCE','장비보호권은 승인한 게임 내 희귀 드롭으로만 획득합니다.',409);
  }
 }
-export async function guardForgeProtectionGrant(env,plan){assertProtectionGrant(plan,await readReleasedForgePolicy(env));}
+export async function guardForgeProtectionGrant(env,plan){
+ if(!(plan.rewards||[]).some(reward=>reward.rewardType==='INVENTORY_ITEM'))return;
+ assertProtectionGrant(plan,await readReleasedForgePolicy(env));
+}

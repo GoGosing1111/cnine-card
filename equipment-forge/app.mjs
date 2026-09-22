@@ -46,7 +46,7 @@ async function load(more=false){
   if(!more){items=[];cursor=null;selected=null;$('inventory-scroll').scrollTop=0;await select(null);}renderList();
   const timeout=setTimeout(()=>controller?.abort(),25000);
   try{
-    if(!more){data=await api('status',controller.signal);if(current!==generation)return;$('opening-notice').textContent=data.notice;$('opening-title').textContent=data.publicVisible?'강화 오픈 준비 중':'강화 센터 준비 중';}
+    if(!more){data=await api('status',controller.signal);if(current!==generation)return;$('opening-notice').textContent=data.notice;$('opening-title').textContent=data.canEnhance?'장비 강화 센터':data.publicVisible?'강화 오픈 준비 중':'강화 센터 준비 중';document.querySelector('.forge-opening > strong').textContent=data.canEnhance?'강화 OPEN':'강화 OFF';}
     if(!activeToken||!data?.publicVisible){$('wallet-coins').textContent='—';return;}
     const result=await api('state?group='+group+(more&&cursor?'&beforeId='+encodeURIComponent(cursor):''),controller.signal);
     if(current!==generation||activeToken!==token())return;data=result;items=more?[...items,...result.items]:result.items;cursor=result.nextCursor;

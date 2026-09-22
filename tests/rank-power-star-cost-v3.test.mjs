@@ -6,7 +6,7 @@ import {mercenarySnapshotPower,growMercenary} from '../functions/_mercenary_acco
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {forgeRuntimeDraft,validateForgePolicy,FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
 import {forgeFixture} from './helpers/forge-db.mjs';
-import {forgeQuote,executeForge} from '../functions/_equipment_forge_transactions.js';
+import {forgeQuote,executeForge} from './helpers/forge-held-runtime.mjs';
 
 test('all six ranks use approved fixed power and canonical mode stats, ignoring obsolete growth',()=>{
  for(const [rank,power]of Object.entries(MERCENARY_POWER_STANDARD.basePowerByRank))for(const mode of ['PVP','PVE']){

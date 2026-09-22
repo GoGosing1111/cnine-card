@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {forgeFixture} from './helpers/forge-db.mjs';
 import {forgeRuntimeDraft, validateForgePolicy, FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
 import {forgeInputNumber, forgePolicyReadiness} from '../shared/equipment-forge-cms-v1.mjs';
-import {handleForgeRuntime} from '../functions/_equipment_forge_routes.js';
-import {readForgeRuntime, saveForgeRuntime, forgeQuote, executeForge} from '../functions/_equipment_forge_transactions.js';
+import {handleForgeRuntime} from './helpers/forge-held-runtime.mjs';
+import {readForgeRuntime, saveForgeRuntime, forgeQuote, executeForge} from './helpers/forge-held-runtime.mjs';
 
 const request=(f,{method='GET',policy,anonymous=false,role='OWNER',origin='https://game.test'}={})=>handleForgeRuntime({
   path:'admin/equipment-forge/runtime',env:f.env,

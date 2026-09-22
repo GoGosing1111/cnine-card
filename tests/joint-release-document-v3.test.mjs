@@ -7,7 +7,7 @@ import {readJointReleaseComponent,JOINT_APPROVALS,JOINT_RELEASE_DOCUMENT_KEY} fr
 import {readTowerV3Settings} from '../functions/_tower_v3_settings.js';
 import {readExpeditionPolicy} from '../functions/_expedition_v3_settings.js';
 import {readScrapyardSettings} from '../functions/_scrapyard.js';
-import {readForgeRuntime} from '../functions/_equipment_forge_transactions.js';
+import {readForgeRuntime} from './helpers/forge-held-runtime.mjs';
 import {V3_JOINT_RELEASE_VERSION} from '../shared/v3-joint-release-v1.mjs';
 test('hard release hold never reads storage or accepts a CMS ON override',async()=>{const env={get DB(){throw Error('unexpected DB read');}};assert.equal(await readJointReleaseComponent(env,'MERCENARY'),null);});
 test('offline schema candidates include acquisition receipts and never seed or alter operating CMS/account rows',async()=>{

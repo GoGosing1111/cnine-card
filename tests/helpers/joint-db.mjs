@@ -12,6 +12,9 @@ import {EXPEDITION_V3_DRAFTS} from '../../functions/_expedition_v3_settings.js';
 import {__idleDungeonTest} from '../../functions/_idle_dungeon.js';
 import {ensureJointAtomicSchema} from '../../functions/_joint_atomic.js';
 import {discoverCowPortalReady} from '../../functions/_cow_room_portal.js';
+import forgeRelease from '../../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
+import {jointHash} from '../../functions/_joint_transactions.js';
+import {EQUIPMENT_FORGE_RELEASE_KEY} from '../../shared/equipment-forge-release-v1.mjs';
 
 export class JointSQLiteDB{
   constructor(filename=':memory:'){this.sql=new DatabaseSync(filename);this.failAt='';this.afterCommit=null;}
@@ -68,6 +71,11 @@ export async function jointFixture(t,{postgres=false,filename,productionEquipmen
   for(const code of ['SCRAPYARD_ENTRY_TICKET','VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'])await p('INSERT INTO inventory_items(code,name,rarity,image_url) VALUES(?,?,?,?)',code,code,'SPECIAL','/test.png').run();
   await p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,'SCRAPYARD_ENTRY_TICKET',5)").run();
   const setting=async(key,value)=>p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',key,JSON.stringify(value)).run();
+  // Released code, isolated approved document, execution paused by default.
+  // Content tests opt in explicitly; no random forge drops in unrelated tests.
+  const document={...structuredClone(forgeRelease),approvedBy:7,approvalReference:'ISOLATED TEST ONLY - released equipment policy fixture'};
+  await setting(EQUIPMENT_FORGE_RELEASE_KEY,{document,sha256:await jointHash(document)});
+  await setting('equipment_forge_public_settings_v1',{schemaVersion:1,revision:1,publicVisible:true,executionMode:'OFF',notice:'ISOLATED QA'});
   await setting('tower_v3_settings_v1',{revision:0,config:{...TOWER_V3_DRAFT,mode:'TEST'},economy:{...TOWER_V3_ECONOMY_DRAFT}});
   await setting('expedition_v3_cow_room',{...EXPEDITION_V3_DRAFTS.COW_ROOM,mode:'TEST'});
   await setting('scrapyard_settings_v1676',{...__scrapyardTest.DEFAULT_SETTINGS,mode:'ON'});

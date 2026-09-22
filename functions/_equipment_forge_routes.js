@@ -1,5 +1,5 @@
 import {FORGE_RUNTIME_RELEASE_ENABLED,EQUIPMENT_FORGE_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
-import {readForgeSettings} from './_equipment_forge_public.js';
+import {readForgeSettings,readForgePublicStatus} from './_equipment_forge_public.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {readForgeRuntime,saveForgeRuntime,forgeAccountState,forgeQuote,executeForge,forgeReceipt} from './_equipment_forge_transactions.js';
 import {forgeAdminState} from './_equipment_forge_cms.js';
@@ -12,13 +12,18 @@ export async function handleForgeRuntime({path,request,env,deps}){
 }
 export async function handleForgeRuntimeReady({path,request,env,deps}){
  const {authenticate,json,withUserMutationLock}=deps;
- try{const user=await authenticate(request,env);if(!user)throw jointError('FORGE_AUTH','로그인이 필요합니다.',401);const admin=path==='admin/equipment-forge/runtime';
+ try{
+  if(path==='character/equipment/forge/status'){
+   if(request.method!=='GET')throw jointError('FORGE_METHOD','지원하지 않는 요청입니다.',405);
+   return json(await readForgePublicStatus(env));
+  }
+  const user=await authenticate(request,env);if(!user)throw jointError('FORGE_AUTH','로그인이 필요합니다.',401);const admin=path==='admin/equipment-forge/runtime';
   if(admin&&user.role!=='OWNER')throw jointError('FORGE_PERMISSION','OWNER만 정책을 관리할 수 있습니다.',403);
   if(!admin&&EQUIPMENT_FORGE_RELEASE_ENABLED&&!(await readForgeSettings(env)).settings.publicVisible)throw jointError('FORGE_NOT_PUBLIC','강화 센터를 준비하고 있습니다.',403);
   const action=path.split('/').at(-1),url=new URL(request.url);
   if(request.method==='GET'){
    if(admin)return json(await forgeAdminState(env,await readForgeRuntime(env,{draft:true})));
-   if(action==='state'||action==='status')return json(await forgeAccountState(env,user,{group:url.searchParams.get('group')||'all',beforeId:url.searchParams.get('beforeId'),limit:40}));
+   if(action==='state')return json(await forgeAccountState(env,user,{group:url.searchParams.get('group')||'all',beforeId:url.searchParams.get('beforeId'),limit:40}));
    if(action==='receipt')return json(await forgeReceipt(env,user,url.searchParams.get('requestId'),url.searchParams.get('kind')));
   }
   if(request.method!==(admin?'PATCH':'POST'))throw jointError('FORGE_METHOD','지원하지 않는 요청입니다.',405);

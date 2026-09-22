@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import {forgeFixture} from './helpers/forge-db.mjs';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,FORGE_PROTECTION_CATALOG_MARKER} from '../functions/_forge_protection_catalog.js';
 import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM} from '../functions/_forge_repair_catalog.js';
-import {forgeAdminState} from '../functions/_equipment_forge_cms.js';
-import {saveForgeRuntime,readForgeRuntime} from '../functions/_equipment_forge_transactions.js';
+import {forgeAdminState} from './helpers/forge-held-runtime.mjs';
+import {saveForgeRuntime,readForgeRuntime} from './helpers/forge-held-runtime.mjs';
 
 const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 // Exercise the actual inventory route SQL and response mapping, not a copied query.

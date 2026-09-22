@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import {forgeFixture} from './helpers/forge-db.mjs';
 import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM as item,FORGE_REPAIR_CATALOG_MARKER as marker} from '../functions/_forge_repair_catalog.js';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../functions/_forge_protection_catalog.js';
-import {forgeAdminState} from '../functions/_equipment_forge_cms.js';
-import {forgeQuote,executeForge,readForgeRuntime,saveForgeRuntime,forgeAccountState} from '../functions/_equipment_forge_transactions.js';
+import {forgeAdminState} from './helpers/forge-held-runtime.mjs';
+import {forgeQuote,executeForge,readForgeRuntime,saveForgeRuntime,forgeAccountState} from './helpers/forge-held-runtime.mjs';
 import {FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
 
 const rid=()=>crypto.randomUUID();

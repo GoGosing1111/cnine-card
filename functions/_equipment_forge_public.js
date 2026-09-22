@@ -7,7 +7,7 @@ import {assertForgeMaterials} from './_equipment_forge_cms.js';
 export const FORGE_SETTINGS_KEY='equipment_forge_public_settings_v1';
 export const FORGE_EXECUTION_IMPLEMENTED=EQUIPMENT_FORGE_RELEASE_ENABLED;
 const defaults=()=>({schemaVersion:1,revision:0,publicVisible:true,executionMode:'OFF',notice:'무기와 방어구의 강화 센터가 공개되었습니다. 강화 오픈 일정은 추후 안내됩니다.'});
-const pending=['단계별 운영 확률·비용 확정','보호권·복구 정책 확정','강화·파괴·복구 원자 처리 및 전투력 연결 검수','V3·용병·장비 공동 활성화'];
+const pending=FORGE_EXECUTION_IMPLEMENTED?[]:['단계별 운영 확률·비용 확정','보호권·복구 정책 확정','강화·파괴·복구 원자 처리 및 전투력 연결 검수','V3·용병·장비 공동 활성화'];
 export async function readForgeSettings(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FORGE_SETTINGS_KEY).first();
   if(!row)return {settings:defaults(),raw:null};
@@ -46,6 +46,19 @@ export async function saveForgeSettings(env,admin,body){
   if(current.raw!==raw)return {error:'다른 창의 설정이 먼저 저장됐습니다. 다시 불러오세요.',status:409};
   return {settings,executionReady:FORGE_EXECUTION_IMPLEMENTED,pending,powerStandard:EQUIPMENT_POWER_STANDARD};
 }
+// Anonymous status never loads account inventory, balances or mutation tables.
+export async function readForgePublicStatus(env){
+  const {settings}=await readForgeSettings(env),state=publicState(settings);
+  if(!FORGE_EXECUTION_IMPLEMENTED||!settings.publicVisible||settings.executionMode!=='ON')return state;
+  try{
+    const policy=await readReleasedForgePolicy(env);
+    return {...state,status:'ON',canEnhance:true,canRestore:policy.restoration.enabled,
+      policy:{...state.policy,steps:policy.steps,protection:policy.protection,restoration:policy.restoration}};
+  }catch(error){
+    if(!['FORGE_RELEASE_PENDING','FORGE_RELEASE_DOCUMENT','FORGE_POLICY'].includes(error.code))throw error;
+    return {...state,executionMode:'OFF',status:'UNAVAILABLE',code:error.code};
+  }
+}
 export async function handleEquipmentForgePublic({path,request,env,deps}){
   const prefix='character/equipment/forge/';
   if(path!=='admin/equipment-forge'&&!path.startsWith(prefix))return null;
@@ -62,7 +75,7 @@ export async function handleEquipmentForgePublic({path,request,env,deps}){
   if(!['status','state','quote','enhance','restore','receipt'].includes(action))return json({error:'강화 경로를 찾을 수 없습니다.'},404);
   if(action==='status'){
     if(request.method!=='GET')return json({error:'지원하지 않는 요청입니다.'},405);
-    return json(publicState((await readForgeSettings(env)).settings));
+    return json(await readForgePublicStatus(env));
   }
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
   const settings=(await readForgeSettings(env)).settings,release=publicState(settings);

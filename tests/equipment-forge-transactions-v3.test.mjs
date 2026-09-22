@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {forgeFixture} from './helpers/forge-db.mjs';
-import {forgeQuote,executeForge,forgeReceipt,forgeEquipmentBonus,forgeEquipmentBonuses,forgeAccountState,saveForgeRuntime} from '../functions/_equipment_forge_transactions.js';
+import {forgeQuote,executeForge,forgeReceipt,forgeEquipmentBonus,forgeEquipmentBonuses,forgeAccountState,saveForgeRuntime} from './helpers/forge-held-runtime.mjs';
 import {forgePower,FORGE_RUNTIME_KEY,validateForgePolicy} from '../shared/equipment-forge-policy-v1.mjs';
-import {handleForgeRuntime,handleForgeRuntimeReady} from '../functions/_equipment_forge_routes.js';
+import {handleForgeRuntime,handleForgeRuntimeReady} from './helpers/forge-held-runtime.mjs';
 const rid=()=>crypto.randomUUID(),quote=async(f,extra={})=>forgeQuote(f.env,f.user,{requestId:rid(),kind:'ENHANCE',instanceId:f.instanceId,...extra});
 test('approved +10 power and 10% minimum cannot drift',()=>{assert.deepEqual(forgePower(580000,10),{total:1276000,pve:1148400,pvp:127600});});
 test('joint hold falls through to the existing read-only forge without DB access',async()=>{assert.equal(await handleForgeRuntime({path:'character/equipment/forge/enhance',request:new Request('https://game.test'),env:new Proxy({},{get(){throw Error('DB touched');}}),deps:{}}),null);});

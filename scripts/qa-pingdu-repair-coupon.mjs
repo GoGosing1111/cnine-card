@@ -7,15 +7,24 @@ import {forgeFixture} from '../tests/helpers/forge-db.mjs';
 import {FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
 import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM} from '../functions/_forge_repair_catalog.js';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../functions/_forge_protection_catalog.js';
-import {forgeQuote,executeForge} from '../functions/_equipment_forge_transactions.js';
-import {handleForgeRuntimeReady} from '../functions/_equipment_forge_routes.js';
+import * as liveForge from '../functions/_equipment_forge_transactions.js';
+import * as liveRoutes from '../functions/_equipment_forge_routes.js';
 import {handleEquipmentForgePublic} from '../functions/_equipment_forge_public.js';
-import readinessPolicy from '../tests/fixtures/equipment-forge-cms-20260922.json' with {type:'json'};
+import release from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
+import {jointHash} from '../functions/_joint_transactions.js';
+import {EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.mjs';
 const readiness=process.env.FORGE_READINESS_QA==='1';let loseNextResponse=false;
+const runtime=readiness?{...liveForge,...liveRoutes}:await import('../tests/helpers/forge-held-runtime.mjs');
+const {forgeQuote,executeForge,handleForgeRuntimeReady}=runtime;
 const root=fileURLToPath(new URL('../',import.meta.url)),port=Number(process.env.REPAIR_QA_PORT||8963),host=`127.0.0.1:${port}`,origin=`http://${host}`;
 const f=await forgeFixture(null);await ensureForgeRepairCatalog(f.env);await ensureForgeProtectionCatalog(f.env);
-const qaPolicy=readiness?structuredClone(readinessPolicy):{...f.policy,restoration:{enabled:true,coinCost:0,itemCode:FORGE_REPAIR_ITEM.code,itemQuantity:1,levelMode:'PREVIOUS',expiresHours:0}};
-if(readiness){qaPolicy.mode='TEST';for(const s of qaPolicy.steps)if(s.level<8)s.protectionQuantity=0;await f.p('UPDATE users SET coin=9000000000000 WHERE id=7').run();await f.p("UPDATE cnine_user_inventory SET quantity=5000000 WHERE user_id=7 AND item_code='MASTER_STAR'").run();await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,?,10)',FORGE_PROTECTION_ITEM.code).run();f.deps.forgeRandomInt=()=>999999;}
+const qaPolicy=readiness?structuredClone(release.policy):{...f.policy,restoration:{enabled:true,coinCost:0,itemCode:FORGE_REPAIR_ITEM.code,itemQuantity:1,levelMode:'PREVIOUS',expiresHours:0}};
+if(readiness){
+ const document={...release,approvedBy:7,approvalReference:'ISOLATED LOCAL QA ONLY - not a production account',policy:qaPolicy};
+ await f.setting(EQUIPMENT_FORGE_RELEASE_KEY,{document,sha256:await jointHash(document)});
+ await f.setting('equipment_forge_public_settings_v1',{schemaVersion:1,revision:1,publicVisible:true,executionMode:'ON',notice:'로컬 격리 검수'});
+ await f.p('UPDATE users SET coin=9000000000000 WHERE id=7').run();await f.p("UPDATE cnine_user_inventory SET quantity=5000000 WHERE user_id=7 AND item_code='MASTER_STAR'").run();await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,?,10)',FORGE_PROTECTION_ITEM.code).run();f.deps.forgeRandomInt=()=>999999;
+}
 await f.setting(FORGE_RUNTIME_KEY,qaPolicy);
 await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,2,1)',FORGE_REPAIR_ITEM.code).run();
 await f.p("UPDATE character_equipment_items SET image_url='assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png' WHERE id=1").run();

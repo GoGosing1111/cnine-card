@@ -26,7 +26,7 @@ test('final approved presentation stays byte-identical and the release draft can
   assert.deepEqual(result.errors, []); assert.equal(result.preparationReady, true);
   assert.equal(result.visualApproved, true); assert.ok(result.verifiedFiles >= 20);
   assert.equal(result.launchReady, false); assert.equal(result.liveEnabled, false);
-  assert.equal(result.mutationRuntimeImplemented, false);
+  assert.equal(result.mutationRuntimeImplemented, true);
   for (const field of ['stages', 'costs', 'restorationLevel']) assert.equal(draft().policy[field], null);
   assert.deepEqual(draft().policy.powerScaling, EQUIPMENT_POWER_STANDARD);
   assert.equal(draft().policyApproved, false); assert.equal(draft().activationRequested, false);
