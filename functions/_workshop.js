@@ -1,6 +1,7 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {WORKSHOP_EXTENSION_CATEGORIES, validateWorkshopExtension} from '../shared/workshop-extension-contract-v1.mjs';
 const forgeSynthesisFilter=V3_JOINT_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
 
 const RECIPE_TABLE='workshop_recipes_v1668';
@@ -12,7 +13,7 @@ const SYNTH_RECEIPT_TABLE='equipment_synthesis_receipts_v1676';
 const SYNTH_LOG_TABLE='equipment_synthesis_logs_v1676';
 const SYNTH_RECIPE_TABLE='equipment_synthesis_recipes_v1677';
 const SYNTH_MATERIAL_META_PREFIX='SYNTHMAT2008:';
-const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS','MATERIAL_CRAFT','BATTLE_SUIT_CRAFT']);
+const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS','MATERIAL_CRAFT','BATTLE_SUIT_CRAFT',...WORKSHOP_EXTENSION_CATEGORIES]);
 const OUTPUT_TYPES=new Set(['VEHICLE','EQUIPMENT','INVENTORY_ITEM']);
 const PAYMENT_MODES=new Set(['COIN_OR_MASTER_STAR','COIN_ONLY','MASTER_STAR_ONLY','BOTH','COIN_AND_CARD_SHARD']);
 const MATERIAL_CRAFT_UPGRADE_KEY='safe_runtime_upgrade_v1933_workshop_material_craft_no_schema_change';
@@ -229,7 +230,7 @@ async function userWorkshopState(env,user,{admin=false}={}){
   ]);
   const inventory=Object.fromEntries((items.results||[]).map(row=>[row.code,{...row,quantity:Number(row.quantity||0)}]));
   const owned=new Set((ownedVehicles.results||[]).map(row=>String(row.garage_id)));
-  return {serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),cardShards:Number(wallet?.card_shards||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true},{id:'MATERIAL_CRAFT',name:'재료 제작',enabled:true},{id:'BATTLE_SUIT_CRAFT',name:'배틀슈트 제작',enabled:true}]};
+  return {serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),cardShards:Number(wallet?.card_shards||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true},{id:'MATERIAL_CRAFT',name:'재료 제작',enabled:true},{id:'BATTLE_SUIT_CRAFT',name:'배틀슈트 제작',enabled:true},{id:'SUIT_CORE_SYNTHESIS',name:'슈트코어 합성',enabled:recipes.some(row=>row.category==='SUIT_CORE_SYNTHESIS'&&Number(row.is_active)===1&&Number(row.is_public)===1&&(Number(row.owner_test_only)===0||isOwner(user)))},{id:'ITEM_SYNTHESIS',name:'기타 합성',enabled:recipes.some(row=>row.category==='ITEM_SYNTHESIS'&&Number(row.is_active)===1&&Number(row.is_public)===1&&(Number(row.owner_test_only)===0||isOwner(user)))}]};
 }
 
 function paymentFor(recipe,requested){
@@ -253,6 +254,7 @@ async function craft(env,user,body){
   if(prior?.status==='FAILED')throw new Error(prior.error_message||'이 제작 요청은 취소되었습니다. 새로 시도하세요.');
   const recipe=(await recipeRows(env,{admin:isOwner(user)})).find(row=>Number(row.id)===recipeId);
   if(!recipe||Number(recipe.is_active)===0||Number(recipe.is_public)===0||Number(recipe.owner_test_only)!==0&&!isOwner(user))throw new Error('현재 제작할 수 없는 레시피입니다.');
+  validateWorkshopExtension(recipe);
   if(recipe.output_type==='VEHICLE'&&await env.DB.prepare('SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?').bind(user.id,int(recipe.output_ref,1)).first())throw new Error('이미 보유한 차량입니다.');
   const payment=paymentFor(recipe,body.paymentType),state=await userWorkshopState(env,user),missing=recipe.materials.filter(material=>Number(state.inventory[material.item_code]?.quantity||0)<Number(material.quantity||0));
   if(missing.length)throw new Error(`제작 재료가 부족합니다: ${missing.map(material=>material.item_name||material.item_code).join(', ')}`);
@@ -368,6 +370,7 @@ async function adminSnapshot(env,user){
 function cleanMaterial(raw,index){const itemCode=code(raw.itemCode||raw.item_code,100),quantity=int(raw.quantity,1,100000000,1);if(!itemCode)throw new Error(`${index+1}번째 재료 코드를 입력하세요.`);return {itemCode,quantity,sortOrder:int(raw.sortOrder??raw.sort_order,-100000,100000,(index+1)*10)}}
 
 async function saveRecipe(env,admin,raw,deps){
+  validateWorkshopExtension(raw);
   const id=int(raw.id,0,2147483647),requestedRecipeCode=code(raw.code),name=clean(raw.name,80);
   let before=null;
   if(id){before=await env.DB.prepare(`SELECT * FROM ${RECIPE_TABLE} WHERE id=?`).bind(id).first();if(!before)throw new Error('수정할 레시피를 찾을 수 없습니다.')}

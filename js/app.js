@@ -763,7 +763,7 @@ function renderMainNavigation(tab){
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
   if(group==='dex')return `${primaryHtml}<nav class="sub-tabs" aria-label="도감과 강화 메뉴"><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">카드 도감</button><button class="tab" data-tab="mercenaryDex">용병도감</button><button class="tab ${tab==='upgrade'?'active':''}" data-tab="upgrade">일괄 강화</button><button class="tab ${tab==='evolution'?'active':''}" data-tab="evolution">카드 진화</button>${magicSystemState.visible?`<button class="tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}</nav>`;
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜</button>`:''}</nav>`;
-  if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작·합성</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
+  if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
   if(group==='administration')return `${primaryHtml}<nav class="sub-tabs" aria-label="행정부 메뉴"><button class="tab ${tab==='treasury'?'active':''}" data-tab="treasury">세금징수</button><button class="tab ${tab==='soopketland'?'active':''}" data-tab="soopketland">숲켓랜드</button><button class="tab ${tab==='prison'?'active':''}" data-tab="prison">감옥</button><button class="tab ${tab==='prisoncamp'?'active':''}" data-tab="prisoncamp">포로수용소</button></nav>`;
@@ -822,7 +822,7 @@ function mobileNavigationHtml(tab){
       <header><div><small>GEAR & WORKSHOP</small><h2>성장·제작</h2><p>장비·칭호·차고를 관리하거나 제작과 합성을 진행하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="character"><i>G</i><span><b>장비·칭호·차고</b><small>착용 장비와 이동수단 관리</small></span><em>입장</em></button>
-        <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작·합성</b><small>차량 제작 · 장비 합성</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작소</b><small>차량 제작 · 장비 합성</small></span><em>입장</em></button>
         ${alchemyFeatureVisible()?'<button type="button" data-mobile-tab="alchemy"><i>◉</i><span><b>연금술</b><small>중복 카드 · 미장착 장비 · 허용 아이템 연성</small></span><em>입장</em></button>':''}
         ${avatarFeatureVisible()?'<button type="button" data-mobile-tab="avatar"><i>♙</i><span><b>아바타</b><small>아바타 아카이브 · 적용</small></span><em>입장</em></button>':''}
       </div>
@@ -916,9 +916,9 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090'],
-    ready:()=>Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-workbench-v1.css?v=20260922','css/workshop-assembly-live-v2073.css?v=2073.1'],
+    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922'],
+    ready:()=>Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
     scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=2120-solaris'],
@@ -931,7 +931,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
+    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -1282,7 +1282,7 @@ function renderShell(tab) {
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚙</span><b>성장·제작</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="character"><span>착용 장비와 이동수단 관리</span><b>장비·칭호·차고</b></button>
-        <button type="button" data-tab="workshop"><span>차량 제작과 장비 합성</span><b>제작·합성</b></button>
+        <button type="button" data-tab="workshop"><span>차량 제작과 장비 합성</span><b>제작소</b></button>
         ${alchemyFeatureVisible()?'<button type="button" data-tab="alchemy"><span>중복 자산을 새 보상으로 연성</span><b>연금술</b></button>':''}
         ${avatarFeatureVisible()?'<button type="button" data-tab="avatar"><span>아바타 아카이브·외형 적용</span><b>아바타</b></button>':''}
       </div>

@@ -12,6 +12,8 @@ const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/previ
 const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/adventure-navigation-standalone.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
 FRESH_ACCOUNT_SCRIPTS.add('/js/clan-faction-sessions-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/magic-workbench-v1.js');
+FRESH_ACCOUNT_SCRIPTS.add('/js/workshop-v1881.js');
+FRESH_ACCOUNT_SCRIPTS.add('/js/workshop-recipes-v1.js');
 const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,

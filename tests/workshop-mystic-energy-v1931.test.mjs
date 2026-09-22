@@ -234,13 +234,13 @@ test('CMS locks the canonical recipe and reports shard spend without schema DDL'
   assert.equal((stats.match(/<article>/g) || []).length, 6, 'battle-suit craft must add a sixth metric without replacing existing facilities');
 });
 
-test('client keeps material craft and adds battle-suit craft as the fourth facility', () => {
+test('client keeps all four existing facilities and appends two inventory synthesis extensions', () => {
   const nav = section(client, 'function workshopNav()', 'function vehiclePartsBank()');
   const render = section(client, 'function renderWorkshop()', 'function renderScrapyard()');
 
   assert.deepEqual(
     [...nav.matchAll(/data-ws-section="([^"]+)"/g)].map(match => match[1]),
-    ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT', 'BATTLE_SUIT_CRAFT'],
+    ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT', 'BATTLE_SUIT_CRAFT', 'SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS'],
   );
   assert.match(nav, /data-ws-section="MATERIAL_CRAFT"[\s\S]*?<i>03<\/i>/);
   assert.match(nav, /data-ws-section="BATTLE_SUIT_CRAFT"[\s\S]*?<i>04<\/i>/);
