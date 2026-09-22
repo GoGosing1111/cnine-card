@@ -907,7 +907,7 @@ function bindFullscreenPlayLink(header){
 const FEATURE_RESOURCE_MANIFEST={
   character:{
     styles:['css/equipment-forge-entry-v1.css?v=2084&loading=20260918','css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=8-skill-chip-slots','css/character-skill-chips-v2046.css?v=1'],
-    scripts:['js/equipment-thumbnails-v1.js?v=20260918','js/equipment-v1274.js?v=2032-challenger-title','js/character-loadout-v2.js?v=2084-forge-public&loading=20260918','js/character-loadout-v2-live.js?v=2084-forge-public&loading=20260918'],
+    scripts:['js/equipment-thumbnails-v1.js?v=20260918','js/equipment-v1274.js?v=2032-challenger-title','js/character-loadout-v2.js?v=2084-forge-public&loading=20260923-forge','js/character-loadout-v2-live.js?v=2084-forge-public&loading=20260923-forge'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{

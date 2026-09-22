@@ -13,6 +13,8 @@ import {handleEquipmentForgePublic} from '../functions/_equipment_forge_public.j
 import release from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
 import {jointHash} from '../functions/_joint_transactions.js';
 import {EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.mjs';
+import {equipmentPreviewRows,equipmentEnhancementRows,equipmentQuantities} from '../functions/_equipment_inventory.js';
+const inventoryQa=process.env.FORGE_INVENTORY_QA==='1';
 const readiness=process.env.FORGE_READINESS_QA==='1';let loseNextResponse=false;
 const runtime=readiness?{...liveForge,...liveRoutes}:await import('../tests/helpers/forge-held-runtime.mjs');
 const {forgeQuote,executeForge,handleForgeRuntimeReady}=runtime;
@@ -37,6 +39,22 @@ if(readiness)for(const [index,slot,n] of [[2,'WEAPON',8],[3,'TOP',6],[4,'BOTTOM'
  await f.p('INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) SELECT id,7,?,1 FROM user_equipment_instances WHERE request_id=?',n,`forge-ready-${index}`).run();
 }
 const api=fs.readFileSync(path.join(root,'functions/api/[[path]].js'),'utf8');
+if(inventoryQa){
+ f.DB.sql.exec('ALTER TABLE character_equipment_items ADD COLUMN sort_order INTEGER DEFAULT 0');
+ for(const [id,name,slot,total,image]of [[31,'소버린 SKS','WEAPON',115000,'assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'],[32,'미스틱 슈트','TOP',50000,'assets/items/sovereign-top-v1.webp'],[33,'미스틱 레깅스','BOTTOM',50000,'assets/items/sovereign-bottom-v1.webp'],[34,'미스틱 슈즈','SHOES',50000,'assets/items/sovereign-shoes-v1.webp']]){
+  await f.p("INSERT INTO character_equipment_items(id,code,name,slot,subtype,rarity,image_url,total_power,pve_power,pvp_power) VALUES(?,?,?,?,'TEST','MYTHIC',?,?,?,?)",id,'SORT_QA_'+id,name,slot,total?image:'',total,total*.9,total*.1).run();
+  await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,request_id) VALUES(?,7,?,?)",id*10,id,'sort-qa-'+id).run();
+ }
+ await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,request_id) VALUES(311,7,31,'sort-qa-stronger')").run();
+ await f.p('INSERT INTO equipment_forge_states_v1 VALUES(311,7,9,1)').run();
+ await f.p("INSERT INTO user_equipment_loadout VALUES(7,'WEAPON',310) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=310").run();
+ for(let id=400;id<485;id++)await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,request_id) VALUES(?,7,1,?)",id,'sort-qa-recent-'+id).run();
+}
+async function qaLoadout(){
+ const rows=await equipmentEnhancementRows(f.env,7,(await equipmentPreviewRows(f.env,7)).results);
+ const loadout=Object.fromEntries((await f.p('SELECT slot,instance_id FROM user_equipment_loadout WHERE user_id=7').all()).results.map(r=>[r.slot,Number(r.instance_id)]));
+ return {instances:rows.map(r=>({instanceId:Number(r.instance_id),quantity:r.quantity,quantityFixed:r.quantityFixed,quantityOffset:r.quantityOffset,enhancement:r.enhancement,item:{id:Number(r.id),name:r.name,slot:r.slot,rarity:r.rarity,image:r.image_url,totalPower:Number(r.total_power),pvePower:Number(r.pve_power),pvpPower:Number(r.pvp_power)}})),loadout,titles:[],vehicles:[],equipmentTypeCount:new Set(rows.map(r=>r.id)).size,equipmentQuantitiesPending:true};
+}
 const inventoryBody=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("    if(path==='inventory/seen'"));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const inventory=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM}=deps;const path='inventory',ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${inventoryBody}`);
@@ -47,6 +65,7 @@ const send=(res,status,body,type='application/json')=>{res.writeHead(status,{'co
 const server=http.createServer(async(req,res)=>{try{
   if(req.headers.host!==host)return send(res,403,{});
   const url=new URL(req.url,origin);
+  if(inventoryQa&&url.pathname==='/__qa/loadout')return send(res,200,`<!doctype html><html lang="ko"><meta charset="utf-8"><base href="/"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/character-loadout-v2.css"><link rel="stylesheet" href="/css/equipment-forge-entry-v1.css"><style>*{box-sizing:border-box}body{margin:0;background:#02050a}</style><div id="loadout" class="character-loadout-v2-root"></div><script src="/js/character-loadout-v2.js"></script><script>window.SoopketmonCharacterLoadoutV2.create(document.querySelector('#loadout'),{profile:{nickname:'격리 검수 계정'},forgePublicEntry:true,request:async(p,o={})=>{const r=await fetch('/api/'+p,{...o,headers:{authorization:'Bearer local-account-7'}});if(!r.ok)throw Error('QA API failed');return r.json();}});</script></html>`,'text/html');
   if(readiness&&url.pathname==='/__qa/controls'){
     if(req.method==='POST'){let body='';for await(const chunk of req)body+=chunk;const params=new URLSearchParams(body);f.deps.forgeRandomInt=()=>Number(params.get('roll')||0);loseNextResponse=params.get('lost')==='on';res.writeHead(303,{location:'/equipment-forge/'});return res.end();}
     return send(res,200,'<!doctype html><html lang="ko"><meta name="viewport" content="width=device-width"><h1>로컬 전용 강화 검수</h1><form method="POST"><label>다음 결과 <select name="roll"><option value="999999">파괴 / 보호</option><option value="0">성공</option><option value="500000">유지</option></select></label><label><input type="checkbox" name="lost">커밋 후 응답 손실 1회</label><button>검수 화면 열기</button></form><a href="/__qa/state">격리 DB 결과</a></html>','text/html');
@@ -57,6 +76,15 @@ const server=http.createServer(async(req,res)=>{try{
   if(url.pathname.startsWith('/api/')){
     let body='';for await(const chunk of req){body+=chunk;if(body.length>24000)return send(res,413,{});}
     const request=new Request(url,{method:req.method,headers:req.headers,...(body?{body}:{})}),key=url.pathname.slice(5);
+    if(inventoryQa&&key==='character/loadout')return send(res,200,await qaLoadout());
+    if(inventoryQa&&key==='character/equipment/quantities')return send(res,200,await equipmentQuantities(f.env,7,Number(url.searchParams.get('after')||0)));
+    // Isolated component adapter; actual USER equip endpoint is covered by the
+    // backend regression test, while this lets the real UI exercise instance IDs.
+    if(inventoryQa&&key==='character/equipment/equip'){
+     const instanceId=Number(JSON.parse(body).instanceId),owned=await f.p('SELECT x.id,i.slot FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=7',instanceId).first();
+     if(!owned)return send(res,404,{error:'not owned'});
+     await f.p('INSERT INTO user_equipment_loadout(user_id,slot,instance_id) VALUES(7,?,?) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=excluded.instance_id',owned.slot,instanceId).run();return send(res,200,{ok:true,instanceId,slot:owned.slot});
+    }
     if(key==='inventory/seen')return send(res,200,{ok:true});
     if(key==='inventory'){const response=await inventory({env:f.env,request,...f.deps,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM});return send(res,response.status,await response.json());}
     if(!key.startsWith('character/equipment/forge/')&&!key.startsWith('admin/equipment-forge'))return send(res,200,{items:[],ok:true});

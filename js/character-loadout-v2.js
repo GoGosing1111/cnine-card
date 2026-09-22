@@ -144,6 +144,7 @@
       ? `<img class="clv2-art-image" src="${escapeHtml(resolveAsset(itemImage(item)))}" alt="${escapeHtml(item.name || '')}" loading="${eager ? 'eager' : 'lazy'}" decoding="async">`
       : '<span class="clv2-art-empty" aria-hidden="true"></span>';
 
+    const equipmentName = row => `${row?.item?.name || '미장착'}${row?.enhancement ? ` +${Number(row.enhancement.level || 0)}` : ''}`;
     function slotCard(slot) {
       const row = equippedInstance(slot);
       const item = row?.item;
@@ -153,7 +154,7 @@
         <span class="clv2-slot-label">${SLOT_LABELS[slot]}</span>
         <button class="clv2-slot-hit" type="button" data-slot-filter="${slot}" aria-label="${SLOT_LABELS[slot]} 장비 보기"></button>
         <div class="clv2-item-art clv2-slot-art">${item ? art(item, true) : `<span class="clv2-slot-ghost">${icon(slot === 'ACCESSORY' || isBattleSuit ? 'shield' : 'equipment')}</span>`}</div>
-        <div class="clv2-slot-caption"><strong>${escapeHtml(item?.name || '미장착')}</strong><small>${item ? `${RARITY_LABELS[normalizeRarity(item.rarity)]} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}` : isBattleSuit ? 'PVE 전용 외형 슬롯' : '슬롯을 선택해 장착'}</small></div>
+        <div class="clv2-slot-caption"><strong>${escapeHtml(equipmentName(row))}</strong><small>${item ? `${RARITY_LABELS[normalizeRarity(item.rarity)]} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}` : isBattleSuit ? 'PVE 전용 외형 슬롯' : '슬롯을 선택해 장착'}</small></div>
         ${item ? `<button class="clv2-slot-remove" type="button" data-unequip="${slot}" aria-label="${SLOT_LABELS[slot]} 장착 해제">${icon('close')}</button>` : ''}
       </article>`;
     }
@@ -183,9 +184,9 @@
       const quantity = quantityKnown ? Math.max(0, Number(row.quantity ?? 1)) : null;
       return `<button type="button" class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}${isBattleSuit ? ' is-battle-suit' : ''}" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''}>
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
-        <div class="clv2-item-art clv2-inventory-art">${art(item)}<span data-equipment-quantity="${item.id}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
+        <div class="clv2-item-art clv2-inventory-art">${art(item)}<span data-equipment-quantity="${item.id}" data-equipment-instance="${row.instanceId}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
-        <span class="clv2-item-copy"><strong>${escapeHtml(item.name || '이름 없음')}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small></span>
+        <span class="clv2-item-copy"><strong>${escapeHtml(equipmentName(row))}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small></span>
       </button>`;
     }
 
@@ -354,7 +355,7 @@
           <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
           <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small class="${titleStyleClass(activeTitle?.stylePreset)}">[${escapeHtml(activeTitle?.badgeText || activeTitle?.name || '칭호 없음')}]</small></div>
         </header>
-        ${options.forgePublicEntry === true ? `<a class="clv2-forge-entry" href="/equipment-forge/" aria-label="무기와 방어구 장비 강화 센터 열기">${icon('equipment')}<div><small>UPGRADE LAB</small><b>장비 강화 센터</b><p>무기·방어구·장신구의 다음 강화를 준비하세요.</p></div><span>강화 오픈 준비</span><i>↗</i></a>` : ''}
+        ${options.forgePublicEntry === true ? `<a class="clv2-forge-entry" href="/equipment-forge/" aria-label="무기와 방어구 장비 강화 센터 열기">${icon('equipment')}<div><small>UPGRADE LAB</small><b>장비 강화 센터</b><p>무기·방어구·장신구의 다음 강화를 준비하세요.</p></div><span>강화 · 보호 · 복구</span><i>↗</i></a>` : ''}
         <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : state.tab === 'skillChips' ? skillChipView() : garageView()}</main>
         <div class="clv2-notice" data-loadout-notice role="status" aria-live="polite"></div>
       </div>`;
@@ -530,7 +531,7 @@
     }
 
     function equipmentQuantityLabel() {
-      const count = formatNumber(state.data?.instances?.length || 0);
+      const count = formatNumber(state.data?.equipmentTypeCount ?? new Set((state.data?.instances || []).map(row=>row.item.id)).size);
       if (quantitiesFailed) return `${count}종 · <button type="button" data-quantities-retry>수량 다시 확인</button>`;
       if (state.data?.equipmentQuantitiesPending) return `${count}종 · 수량 확인 중`;
       const total = state.data?.equipmentTotalQuantity ?? (state.data?.instances || []).reduce((sum,row)=>sum+Math.max(1,Number(row.quantity||1)),0);
@@ -549,10 +550,11 @@
           const next = result.nextEquipmentId ?? null;
           if (next !== null && (!Number.isSafeInteger(next) || next <= quantitiesCursor)) throw new Error('수량 조회 위치를 확인하세요.');
           const byId = new Map(result.quantities.map(row => [row.equipmentId, row.quantity]));
-          for (const row of state.data.instances) if (byId.has(Number(row.item.id))) row.quantity = byId.get(Number(row.item.id));
+          for (const row of state.data.instances) if (!row.quantityFixed && byId.has(Number(row.item.id))) row.quantity = Math.max(0, byId.get(Number(row.item.id)) - Number(row.quantityOffset || 0));
+          const byInstance = new Map(state.data.instances.map(row=>[Number(row.instanceId), row.quantity]));
           // Patch just the counters, preserving focus, scrolling and mutations.
           root.querySelectorAll('[data-equipment-quantity]').forEach(node => {
-            const quantity = byId.get(Number(node.dataset.equipmentQuantity));
+            const quantity = node.dataset.equipmentInstance ? byInstance.get(Number(node.dataset.equipmentInstance)) : byId.get(Number(node.dataset.equipmentQuantity));
             if (quantity === undefined) return;
             node.textContent = `×${formatNumber(quantity)}`;
             node.setAttribute('aria-label', `보유 수량 ${formatNumber(quantity)}개`);

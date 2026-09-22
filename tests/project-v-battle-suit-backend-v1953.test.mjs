@@ -459,4 +459,25 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   assert.equal(denied.status,401);
   const invalid=await loadoutCall('character/equipment/quantities','https://example.test/api/character/equipment/quantities?after=-1');
   assert.equal(invalid.status,400);
+  // Same item, different instances: upgrading the unequipped duplicate must
+  // expose it as a selectable stack and its power must survive reload/equip.
+  const stronger=DB.db.prepare('SELECT MAX(id) AS id FROM user_equipment_instances WHERE user_id=7 AND equipment_id=?').get(weaponId).id;
+  DB.db.prepare('INSERT INTO equipment_forge_states_v1 VALUES(?,7,9,1)').run(stronger);
+  for(const query of ['', '?quantities=deferred']){
+    const r=await loadoutCall('character/loadout','https://example.test/api/character/loadout'+query);
+    const copies=r.payload.instances.filter(row=>row.item.id===weaponId);
+    assert.equal(copies.length,2);assert.equal(r.payload.equipmentTypeCount,2);
+    assert.equal(copies.find(row=>row.instanceId===weaponInstance).equipped,true);
+    const upgraded=copies.find(row=>row.instanceId===stronger);
+    assert.equal(upgraded.equipped,false);assert.equal(upgraded.enhancement.level,9);
+    assert.deepEqual([upgraded.item.totalPower,upgraded.item.pvePower,upgraded.item.pvpPower],[234,210,24]);
+  }
+  const equip=await handleEquipment({path:'character/equipment/equip',request:new Request('https://example.test/api/character/equipment/equip',{method:'POST',body:JSON.stringify({instanceId:stronger})}),env:{DB},deps:{authenticate:async()=>({id:7,role:'USER'}),readBody:r=>r.json(),json:(payload,status=200)=>({payload,status})}});
+  assert.equal(equip.status,200);assert.equal(equip.payload.instanceId,stronger);
+  assert.equal(equip.payload.bonuses.equipmentPve,210);assert.equal(equip.payload.bonuses.equipmentPvp,24);
+  const reloaded=await loadoutCall('character/loadout','https://example.test/api/character/loadout?quantities=deferred');
+  assert.equal(reloaded.payload.loadout.WEAPON,stronger);
+  assert.equal(reloaded.payload.instances.find(row=>row.instanceId===stronger).equipped,true);
+  assert.equal(reloaded.payload.instances.find(row=>row.instanceId===weaponInstance).equipped,false);
+  assert.equal(reloaded.payload.bonuses.battleSuitPve,250);
 });

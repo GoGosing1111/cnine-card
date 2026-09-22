@@ -8,7 +8,7 @@ import {ensureZBodySwordAppearance,Z_SWORD_APPEARANCE_KEY} from './_battle_suit_
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
-import {equipmentPreviewRows,equipmentQuantities} from './_equipment_inventory.js';
+import {equipmentPreviewRows,equipmentQuantities,equipmentEnhancementRows} from './_equipment_inventory.js';
 import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v1.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
@@ -732,9 +732,12 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
     skillChipsTask
   ]);
   const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
-  const equipmentStacks=instances.results.map(row=>({instanceId:Number(row.instance_id),quantity:deferQuantities?null:Math.max(1,Number(row.quantity||1)),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)}));
+  const expanded=await equipmentEnhancementRows(env,userId,instances.results,{admin});
+  const equipmentStacks=expanded.map(row=>({instanceId:Number(row.instance_id),quantity:row.quantityFixed?Number(row.quantity):deferQuantities?null:Math.max(1,Number(row.quantity||1)),
+    ...(row.quantityFixed?{quantityFixed:true}:{}),...(row.quantityOffset?{quantityOffset:row.quantityOffset}:{}),...(row.enhancement?{enhancement:row.enhancement}:{}),
+    item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)}));
   const equipmentTotalQuantity=deferQuantities?null:equipmentStacks.reduce((sum,row)=>sum+row.quantity,0);
-  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:equipmentStacks,equipmentTypeCount:equipmentStacks.length,equipmentTotalQuantity,...(deferQuantities?{equipmentQuantitiesPending:true}:{}),loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar,skillChips};
+  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:equipmentStacks,equipmentTypeCount:new Set(equipmentStacks.map(row=>row.item.id)).size,equipmentTotalQuantity,...(deferQuantities?{equipmentQuantitiesPending:true}:{}),loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar,skillChips};
 }
 
 async function adminSystemPayload(env){
