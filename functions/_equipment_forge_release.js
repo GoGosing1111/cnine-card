@@ -1,4 +1,4 @@
-import {EQUIPMENT_FORGE_RELEASE_ENABLED,EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.mjs';
+import {EQUIPMENT_FORGE_RELEASE_ENABLED,EQUIPMENT_FORGE_RELEASE_KEY,EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
 import {validateForgePolicy} from '../shared/equipment-forge-policy-v1.mjs';
 import {forgePolicyReadiness} from '../shared/equipment-forge-cms-v1.mjs';
 import {readJointReleaseComponent} from './_joint_release_document.js';
@@ -9,7 +9,7 @@ export function validateEquipmentForgeRelease(document){
  if(document?.schemaVersion!==1||document.approved!==true||!Number.isSafeInteger(document.approvedBy)||document.approvedBy<1||!Number.isFinite(Date.parse(document.approvedAt))||typeof document.approvalReference!=='string'||document.approvalReference.trim().length<20)
   throw jointError('FORGE_RELEASE_PENDING','장비 강화 최종 출시 승인이 필요합니다.',423);
  const policy=validateForgePolicy(document.policy);
- if(policy.mode!=='OFF'||!forgePolicyReadiness(policy).ready)throw jointError('FORGE_RELEASE_PENDING','단계별 확률·보호·복구 설정을 모두 확정해야 합니다.',423);
+ if(policy.mode!=='OFF'||!forgePolicyReadiness(policy).ready||policy.protection.itemCode!==EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE)throw jointError('FORGE_RELEASE_PENDING','단계별 확률·보호·복구 설정을 모두 확정해야 합니다.',423);
  return policy;
 }
 // No HTTP/body/environment switch can bypass the checked-in release hold.

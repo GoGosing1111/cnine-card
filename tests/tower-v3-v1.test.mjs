@@ -57,6 +57,7 @@ class SQLiteDB{
 }
 async function fixture(t,postgres=false){
   const schema=[...__dropPoolTest.FOUNDATION_SQL,
+    'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP)',
     'CREATE TABLE users(id INTEGER PRIMARY KEY,coin INTEGER DEFAULT 10,card_shards INTEGER DEFAULT 0,magic_crystals INTEGER DEFAULT 0)',
     'CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER DEFAULT 1)',
     'CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER DEFAULT 0,unseen_quantity INTEGER DEFAULT 0,created_at TEXT DEFAULT CURRENT_TIMESTAMP,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code))',
@@ -112,7 +113,7 @@ test('extended tower runs and re-ascent economy remain gated while native single
   for(const file of ['index.html','js/app.js','functions/api/[[path]].js'])assert.doesNotMatch(fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),/_tower_v3_(?:routes|runs|economy)|tower\/v3\//);
 });
 test('CMS draft CAS, owner-only editing and no approval/ON through submitted fields',async t=>{
-  const f=await fixture(t);f.DB.sql.exec('CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP)');
+  const f=await fixture(t);
   const first=await readTowerV3Settings(f.env);assert.equal(first.config.mode,'OFF');
   await assert.rejects(()=>saveTowerV3Draft(f.env,{id:8,role:'USER'},first),{code:'TOWER_V3_PERMISSION'});
   const saved=await saveTowerV3Draft(f.env,user,{...first,config:{...first.config,mode:'TEST'},economy:{...first.economy,approved:true}});assert.equal(saved.economy.approved,false);
@@ -123,7 +124,7 @@ test('CMS draft CAS, owner-only editing and no approval/ON through submitted fie
   await assert.rejects(()=>saveTowerV3Draft(f.env,user,{...updated,config:{...updated.config,mode:'ON'}}),{code:'TOWER_V3_RELEASE_HELD'});
 });
 test('read-only legacy adapter preserves cross-season best, range priority and existing magic amounts',async t=>{
-  const f=await fixture(t);f.DB.sql.exec(`CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT);
+  const f=await fixture(t);f.DB.sql.exec(`
     CREATE TABLE tower_user_progress(user_id INTEGER,highest_floor INTEGER);
     CREATE TABLE tower_seasons(id INTEGER,status TEXT);
     CREATE TABLE battle_monsters(id INTEGER,is_active INTEGER,tower_enabled INTEGER);
@@ -134,7 +135,7 @@ test('read-only legacy adapter preserves cross-season best, range priority and e
     INSERT INTO battle_monsters VALUES(18,1,1);
     INSERT INTO tower_floor_ranges VALUES(1,2,1,10,1000000,18,1),(2,2,10,10,5000000,18,1);
     INSERT INTO tower_floors VALUES(2,10,1000,1),(2,11,2000000,1);`);
-  await f.p('INSERT INTO app_meta VALUES(?,?)','magic_card_settings_v1',JSON.stringify({acquisition:{tower:{enabled:true,floorRewards:[{floor:10,amount:3}]}}})).run();
+  await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)','magic_card_settings_v1',JSON.stringify({acquisition:{tower:{enabled:true,floorRewards:[{floor:10,amount:3}]}}})).run();
   const state=await loadTowerV3Legacy(f.env,user);assert.equal(state.highestFloor,59);assert.equal(state.currentFloor,60);assert.equal(state.firstRewards.find(r=>r.start===10).coin,5000000);assert.equal(state.firstRewards.find(r=>r.start===10).magicCrystals,3);assert.equal(state.firstRewards.find(r=>r.start===11).coin,2000000);
   assert.equal(await f.count('tower_v3_progress_v1'),0);
 });

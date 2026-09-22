@@ -9,7 +9,7 @@ import * as held from './helpers/forge-held-runtime.mjs';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {handleForgeRuntime} from '../functions/_equipment_forge_routes.js';
 import {handleEquipmentForgePublic} from '../functions/_equipment_forge_public.js';
-import {readActiveForgeProtectionPolicy,planForgeProtectionDrop} from '../functions/_forge_protection_drop.js';
+import {readActiveForgeProtectionPolicy,planForgeProtectionDrop,guardForgeProtectionGrant} from '../functions/_forge_protection_drop.js';
 import release from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
 import cms from './fixtures/equipment-forge-cms-20260922.json' with {type:'json'};
 import {forgeFixture} from './helpers/forge-db.mjs';
@@ -35,6 +35,13 @@ test('actual live hooks use equipment-only readiness, not a global tower/re-asce
  assert.match(tower,/if\(result==='WIN'\)[\s\S]*prepareTowerForgeProtectionClear[\s\S]*towerClearWrites.push\(\.\.\.forgeProtection.statements\)[\s\S]*await env.DB.batch\(towerClearWrites\)/);
  assert.match(tower,/forgeProtectionReward/);
  assert.match(readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8'),/d.forgeProtectionReward.quantity/);
+});
+test('unrelated rewards incur no forge lookup, but protected-item grants still fail closed',async()=>{
+ const noDb={get DB(){throw Error('unrelated reward touched forge DB');}};
+ await guardForgeProtectionGrant(noDb,{rewards:[{rewardType:'INVENTORY_ITEM',rewardRef:'VEHICLE_PART_TIRE',quantity:1}]});
+ await assert.rejects(()=>guardForgeProtectionGrant(noDb,{rewards:[{rewardType:'INVENTORY_ITEM',rewardRef:'EQUIPMENT_PROTECTION_TICKET',quantity:1}]}),/touched forge DB/);
+ const changed=document();changed.policy.protection.itemCode='UNAPPROVED_PROTECTION';
+ assert.throws(()=>validateEquipmentForgeRelease(changed),{code:'FORGE_RELEASE_PENDING'});
 });
 for(const postgres of [false,true]){
  const name=postgres?'PostgreSQL':'SQLite';

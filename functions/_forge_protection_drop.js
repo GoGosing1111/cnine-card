@@ -2,7 +2,7 @@ import {readReleasedForgePolicy} from './_equipment_forge_release.js';
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 import {FORGE_PROTECTION_SOURCES} from '../shared/equipment-forge-policy-v1.mjs';
 import {jointError} from './_joint_request.js';
-import {EQUIPMENT_FORGE_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
+import {EQUIPMENT_FORGE_RELEASE_ENABLED,EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
 import {readForgeSettings} from './_equipment_forge_public.js';
 export async function readActiveForgeProtectionPolicy(env){
  if(EQUIPMENT_FORGE_RELEASE_ENABLED){const {settings}=await readForgeSettings(env);if(!settings.publicVisible||settings.executionMode!=='ON')return null;}
@@ -23,6 +23,8 @@ export function assertProtectionGrant(plan,policy){
  }
 }
 export async function guardForgeProtectionGrant(env,plan){
- if(!(plan.rewards||[]).some(reward=>reward.rewardType==='INVENTORY_ITEM'))return;
+ // The immutable launch pins the protected item. Unrelated coin/card/material
+ // rewards must not add a settings round trip to every battle settlement.
+ if(EQUIPMENT_FORGE_RELEASE_ENABLED&&!(plan.rewards||[]).some(reward=>reward.rewardType==='INVENTORY_ITEM'&&reward.rewardRef===EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE))return;
  assertProtectionGrant(plan,await readReleasedForgePolicy(env));
 }
