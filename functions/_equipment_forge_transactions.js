@@ -5,6 +5,7 @@ import {jointError} from './_joint_request.js';import {jointGuard,jointGuardEnd}
 import {ensureJointTransactionSchema,saveJointPolicyDraft,jointRequestId,jointHash,runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 import {readForgePreparationInventory} from './_equipment_forge_preparation.js';
+import {assertForgeMaterials} from './_equipment_forge_cms.js';
 export const FORGE_TRANSACTION_SCHEMA=[
  `CREATE TABLE IF NOT EXISTS equipment_forge_states_v1(instance_id BIGINT PRIMARY KEY,user_id BIGINT NOT NULL,level INTEGER NOT NULL CHECK(level BETWEEN 0 AND 10),revision INTEGER NOT NULL)`,
  `CREATE TABLE IF NOT EXISTS equipment_forge_quotes_v1(quote_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,input_hash TEXT NOT NULL,kind TEXT NOT NULL,plan_json TEXT NOT NULL,expires_at TEXT NOT NULL,consumed_by TEXT)`,
@@ -16,6 +17,7 @@ export async function readForgeRuntime(env,{draft=false}={}){const release=draft
 export async function saveForgeRuntime(env,user,policy){
  if(user.role!=='OWNER')throw jointError('FORGE_PERMISSION','OWNER만 정책을 저장할 수 있습니다.',403);
  const next=validateForgePolicy(policy),row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FORGE_RUNTIME_KEY).first(),before=row?JSON.parse(row.value):forgeRuntimeDraft();if(next.revision!==before.revision)throw jointError('FORGE_POLICY_CONFLICT','다른 창에서 정책을 변경했습니다.',409);next.revision++;
+ await assertForgeMaterials(env,next);
  return saveJointPolicyDraft(env,user,FORGE_RUNTIME_KEY,row?.value??null,next);
 }
 const allow=(policy,user)=>{if(policy.mode==='OFF'||policy.mode==='TEST'&&user.role!=='OWNER')throw jointError('FORGE_OFF','장비 강화·복구를 준비 중입니다.',423);};
@@ -32,11 +34,12 @@ export async function forgeQuote(env,user,body,{now=Date.now()}={}){
  const key=kind==='ENHANCE'?id(body.instanceId):jointRequestId(body.recordId),input={kind,key,protectedAttempt},hash=await jointHash(input),DB=env.DB;
  const prior=await DB.prepare('SELECT * FROM equipment_forge_quotes_v1 WHERE quote_id=?').bind(quoteId).first();
  if(prior){if(Number(prior.user_id)!==Number(user.id)||prior.input_hash!==hash)throw jointError('FORGE_QUOTE_CONFLICT','같은 견적 번호에 다른 내용이 있습니다.',409);return {...JSON.parse(prior.plan_json),quoteId,expiresAt:prior.expires_at,consumed:Boolean(prior.consumed_by)};}
- const policy=await readForgeRuntime(env);allow(policy,user);let item,cost,recordId=null;
+ const policy=await readForgeRuntime(env);allow(policy,user);let item,cost,recordId=null,restoreDeadline=null;
  if(kind==='ENHANCE'){item=await owned(env,user,key);if(item.level>=10)throw jointError('FORGE_MAX_LEVEL','최대 +10 장비입니다.',409);cost=policy.steps[item.level];requireEnhancementCost(cost);if([cost.successPpm,cost.maintainPpm,cost.destroyPpm,cost.coinCost].some(v=>v===null))throw jointError('FORGE_POLICY_PENDING','해당 단계의 확률·비용이 미설정입니다.',409);if(protectedAttempt&&(!policy.protection.itemCode||policy.protection.consume==='UNSET'||cost.protectionQuantity===null))throw jointError('FORGE_PROTECTION_PENDING','보호권 소모 정책이 미설정입니다.',409);}
- else{const record=await destroyed(env,user,key);recordId=key;item=record.item;cost=policy.restoration;if(!cost.enabled)throw jointError('FORGE_RESTORE_OFF','복구 정책을 준비 중입니다.',423);if(cost.expiresHours>0&&now>Date.parse(record.destroyed_at)+cost.expiresHours*3600000)throw jointError('FORGE_RESTORE_EXPIRED','복구 가능 기간이 지났습니다.',409);if(protectedAttempt)throw jointError('FORGE_QUOTE','복구에는 강화 보호권을 사용하지 않습니다.');}
+ else{const record=await destroyed(env,user,key);recordId=key;item=record.item;cost=policy.restoration;if(!cost.enabled)throw jointError('FORGE_RESTORE_OFF','복구 정책을 준비 중입니다.',423);if(cost.expiresHours>0){restoreDeadline=Date.parse(record.destroyed_at)+cost.expiresHours*3600000;if(now>restoreDeadline)throw jointError('FORGE_RESTORE_EXPIRED','복구 가능 기간이 지났습니다.',409);}if(protectedAttempt)throw jointError('FORGE_QUOTE','복구에는 강화 보호권을 사용하지 않습니다.');}
  if(cost.itemCode){const material=await DB.prepare('SELECT name FROM inventory_items WHERE code=? AND is_active=1').bind(cost.itemCode).first();if(!material)throw jointError('FORGE_MATERIAL_CONFIG','사용 가능한 재료를 설정하세요.',409);cost={...cost,itemName:material.name};}
- const expiresAt=new Date(now+policy.quoteSeconds*1000).toISOString(),plan={kind,item,recordId,cost,protectedAttempt,protection:policy.protection,policyVersion:policy.version,policyRevision:policy.revision};
+ if(protectedAttempt&&!await DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(policy.protection.itemCode).first())throw jointError('FORGE_MATERIAL_CONFIG','보호권이 미등록 또는 비활성 상태입니다.',409);
+ const expiresAt=new Date(Math.min(now+policy.quoteSeconds*1000,restoreDeadline??Infinity)).toISOString(),plan={kind,item,recordId,cost,protectedAttempt,protection:policy.protection,policyVersion:policy.version,policyRevision:policy.revision};
  await DB.prepare('INSERT INTO equipment_forge_quotes_v1(quote_id,user_id,input_hash,kind,plan_json,expires_at) VALUES(?,?,?,?,?,?)').bind(quoteId,user.id,hash,kind,JSON.stringify(plan),expiresAt).run();
  return {...plan,quoteId,expiresAt,consumed:false};
 }
