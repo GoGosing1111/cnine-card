@@ -143,7 +143,9 @@ test('PostgreSQL inventory pages keep duplicates separate, isolate owners and pr
     assert.deepEqual((await readForgePreparationInventory(db, '21')).items.map(row => row.instanceId), ['104']);
     await assert.rejects(readForgePreparationInventory(db, '20 OR 1=1'));
     await assert.rejects(readForgePreparationInventory(db, 20, { limit: 0 }));
-    assert.ok(queries.every(sql => /^SELECT\b/i.test(sql.trim())));
+    // Bounded power sorting uses read-only CTEs. Still reject every mutation,
+    // including a data-modifying CTE, rather than only checking the first word.
+    assert.ok(queries.every(sql => /^(?:SELECT|WITH)\b/i.test(sql.trim()) && !/\b(?:INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|TRUNCATE|MERGE)\b/i.test(sql)));
     assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM user_equipment_instances')).rows[0].n), 6);
     assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM user_equipment_loadout')).rows[0].n), 2);
     assert.equal(Number((await pg.query('SELECT coin FROM users WHERE id=20')).rows[0].coin), 5000000000);
