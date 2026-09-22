@@ -1,0 +1,9 @@
+Create a PRODUCTION VFX sprite sheet of a premium gold-and-obsidian triple sword cut. EXACTLY 16 frames in a fixed 4x4 grid on a 1254x1254 TRANSPARENT PNG. No drawn grid, no background, no characters, no text, no runes. Genuine zero-alpha outside VFX. Palette: warm silver-gold slicing lines, a few dark violet-black pressure ribbons, bright pale sparks.
+CRITICAL COMPOSITION: Render every frame SMALL and CENTERED inside its cell. The whole effect must fit in the CENTRAL 62% of each cell. Leave 19% width/height of each cell fully empty on each side. The OUTER canvas edges are fully transparent. Absolutely NO effect crosses a cell edge; no cropping. Keep all 16 effect pivot centers precisely fixed at the CENTER of each cell. This means smaller effects with wide transparent spacing between them, NOT a collage of huge cut marks.
+This is ONE animation read left-to-right top-to-bottom, all frames with different evolving geometry:
+1 small gathering sparks, 2 thin curved pressure thread, 3 sharpening small crescent.
+4 descending diagonal cut first contact, 5 complete first golden cut with small dark torn-space trail, 6 first cut fragments.
+7 ascending countercut starts, 8 crosses original at center with a bright pinpoint second contact, 9 two decaying crossed traces.
+10 third horizontal cleave appears, 11 bright three-way final contact with needle-like sparks, 12 golden impact breaks into black-violet fragments.
+13 separated drifting fragments, 14 fewer thin shreds and gold motes, 15 only scattered fine sparks, 16 nearly empty tiny motes.
+No giant cloud of brown smoke, no stones, no opaque blobs. Fine hand-painted slash ribbons and precise sharp lines. Smooth visual temporal progression. Preserve extensive transparent margins in every cell.

@@ -1,0 +1,448 @@
+[
+  {
+    "name": "desktop",
+    "overflow": {
+      "client": 1440,
+      "scroll": 1440
+    },
+    "errors": [],
+    "failed": [],
+    "contacts": [
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.72,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "descending",
+          "frame": 2
+        },
+        "effect": {
+          "frame": 4,
+          "alpha": 1
+        },
+        "cancelled": false,
+        "visibleSprites": 2,
+        "registeredTimelines": 1,
+        "ownedTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 12,
+        "effectFrames": 16,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1232.9706539074955,
+          "y": 564.9352822966505
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 1.24,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "rising",
+          "frame": 2
+        },
+        "effect": {
+          "frame": 7,
+          "alpha": 1
+        },
+        "cancelled": false,
+        "visibleSprites": 2,
+        "registeredTimelines": 1,
+        "ownedTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 12,
+        "effectFrames": 16,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1271.7621052631575,
+          "y": 557.0235396491228
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 1.92,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "finisher",
+          "frame": 2
+        },
+        "effect": {
+          "frame": 10,
+          "alpha": 1
+        },
+        "cancelled": false,
+        "visibleSprites": 2,
+        "registeredTimelines": 1,
+        "ownedTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 12,
+        "effectFrames": 16,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1209.7381077326743,
+          "y": 553.494567927149
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "effectLayers": 1
+      }
+    ],
+    "interruption": {
+      "ready": true,
+      "mode": "skill",
+      "time": 1.3,
+      "playing": false,
+      "speed": 1,
+      "pose": null,
+      "effect": null,
+      "cancelled": true,
+      "visibleSprites": 0,
+      "registeredTimelines": 0,
+      "ownedTimelines": 1,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 12,
+      "effectFrames": 16,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "effectLayers": 1
+    },
+    "targetLost": {
+      "ready": true,
+      "mode": "skill",
+      "time": 1.92,
+      "playing": false,
+      "speed": 1,
+      "pose": null,
+      "effect": null,
+      "cancelled": true,
+      "visibleSprites": 0,
+      "registeredTimelines": 0,
+      "ownedTimelines": 1,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 12,
+      "effectFrames": 16,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "effectLayers": 1
+    },
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.126,
+        "wall": 0.5017999999821187,
+        "pauseStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.252,
+        "wall": 0.5015,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.504,
+        "wall": 0.5019000000059605,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 1.008,
+        "wall": 0.5022000000178813,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "skill",
+      "time": 0,
+      "playing": false,
+      "speed": 2,
+      "pose": null,
+      "effect": null,
+      "cancelled": false,
+      "visibleSprites": 0,
+      "registeredTimelines": 0,
+      "ownedTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 12,
+      "effectFrames": 16,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "effectLayers": 1
+    }
+  },
+  {
+    "name": "mobile",
+    "overflow": {
+      "client": 390,
+      "scroll": 390
+    },
+    "errors": [],
+    "failed": [],
+    "contacts": [
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.72,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "descending",
+          "frame": 2
+        },
+        "effect": {
+          "frame": 4,
+          "alpha": 1
+        },
+        "cancelled": false,
+        "visibleSprites": 2,
+        "registeredTimelines": 1,
+        "ownedTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 12,
+        "effectFrames": 16,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 587.1985801316056,
+          "y": 991.1457008907893
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 1.24,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "rising",
+          "frame": 2
+        },
+        "effect": {
+          "frame": 7,
+          "alpha": 1
+        },
+        "cancelled": false,
+        "visibleSprites": 2,
+        "registeredTimelines": 1,
+        "ownedTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 12,
+        "effectFrames": 16,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 637.627466893966,
+          "y": 999.3807881347174
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 1.92,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "finisher",
+          "frame": 2
+        },
+        "effect": {
+          "frame": 10,
+          "alpha": 1
+        },
+        "cancelled": false,
+        "visibleSprites": 2,
+        "registeredTimelines": 1,
+        "ownedTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 12,
+        "effectFrames": 16,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 556.996270104338,
+          "y": 990.0645242104376
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "effectLayers": 1
+      }
+    ],
+    "interruption": {
+      "ready": true,
+      "mode": "skill",
+      "time": 1.3,
+      "playing": false,
+      "speed": 1,
+      "pose": null,
+      "effect": null,
+      "cancelled": true,
+      "visibleSprites": 0,
+      "registeredTimelines": 0,
+      "ownedTimelines": 1,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 12,
+      "effectFrames": 16,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.33673005186057,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "effectLayers": 1
+    },
+    "targetLost": {
+      "ready": true,
+      "mode": "skill",
+      "time": 1.92,
+      "playing": false,
+      "speed": 1,
+      "pose": null,
+      "effect": null,
+      "cancelled": true,
+      "visibleSprites": 0,
+      "registeredTimelines": 0,
+      "ownedTimelines": 1,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 12,
+      "effectFrames": 16,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.33673005186057,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "effectLayers": 1
+    },
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.126,
+        "wall": 0.501,
+        "pauseStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.252,
+        "wall": 0.5018000000119209,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.504,
+        "wall": 0.5029000000059605,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 1.008,
+        "wall": 0.5022000000178813,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "skill",
+      "time": 0,
+      "playing": false,
+      "speed": 2,
+      "pose": null,
+      "effect": null,
+      "cancelled": false,
+      "visibleSprites": 0,
+      "registeredTimelines": 0,
+      "ownedTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 12,
+      "effectFrames": 16,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.33673005186057,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "effectLayers": 1
+    }
+  }
+]
