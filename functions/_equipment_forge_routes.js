@@ -29,7 +29,11 @@ export async function handleForgeRuntimeReady({path,request,env,deps}){
   if(request.method!==(admin?'PATCH':'POST'))throw jointError('FORGE_METHOD','지원하지 않는 요청입니다.',405);
   if(!admin&&!['quote','enhance','restore'].includes(action))throw jointError('FORGE_PATH','강화 경로를 찾을 수 없습니다.',404);
   const fields=admin?['policy']:action==='quote'?['requestId','kind','instanceId','recordId','useProtection']:['requestId','quoteId'],body=await readJointBody(request,{fields,maxBytes:24000});
+  // A quote is only an expiring snapshot. It never charges or changes equipment.
+  // Do not contend with enhancement / other game actions for the account lock.
+  // Execution still owns the shared mutation lock and revalidates the snapshot.
+  if(!admin&&action==='quote')return json(await forgeQuote(env,user,body));
   if(typeof withUserMutationLock!=='function')throw jointError('FORGE_LOCK','계정 잠금 서비스를 확인하세요.',503);
-  return json(await withUserMutationLock(env,user.id,path,async()=>admin?forgeAdminState(env,await saveForgeRuntime(env,user,body.policy)):action==='quote'?forgeQuote(env,user,body):executeForge(env,user,body,action==='enhance'?'ENHANCE':'RESTORE',{randomInt:deps.forgeRandomInt})));
+  return json(await withUserMutationLock(env,user.id,path,async()=>admin?forgeAdminState(env,await saveForgeRuntime(env,user,body.policy)):executeForge(env,user,body,action==='enhance'?'ENHANCE':'RESTORE',{randomInt:deps.forgeRandomInt})));
  }catch(error){return jointResponseError(error,json);}
 }

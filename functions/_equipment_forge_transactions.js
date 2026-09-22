@@ -47,8 +47,12 @@ export async function forgeQuote(env,user,body,{now=Date.now()}={}){
  if(cost.itemCode){const material=await DB.prepare('SELECT name,image_url FROM inventory_items WHERE code=? AND is_active=1').bind(cost.itemCode).first();if(!material)throw jointError('FORGE_MATERIAL_CONFIG','사용 가능한 재료를 설정하세요.',409);cost={...cost,itemName:material.name,itemImage:material.image_url||''};}
  if(protectedAttempt&&!await DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(policy.protection.itemCode).first())throw jointError('FORGE_MATERIAL_CONFIG','보호권이 미등록 또는 비활성 상태입니다.',409);
  const expiresAt=new Date(Math.min(now+policy.quoteSeconds*1000,restoreDeadline??Infinity)).toISOString(),plan={kind,item,recordId,cost,protectedAttempt,protection:policy.protection,policyVersion:policy.version,policyRevision:policy.revision};
- await DB.prepare('INSERT INTO equipment_forge_quotes_v1(quote_id,user_id,input_hash,kind,plan_json,expires_at) VALUES(?,?,?,?,?,?)').bind(quoteId,user.id,hash,kind,JSON.stringify(plan),expiresAt).run();
- return {...plan,quoteId,expiresAt,consumed:false};
+ // Retries of a timed-out quote use the SAME ID; concurrent tabs must receive
+ // the single stored snapshot, not a unique-key failure or a different plan.
+ await DB.prepare('INSERT INTO equipment_forge_quotes_v1(quote_id,user_id,input_hash,kind,plan_json,expires_at) VALUES(?,?,?,?,?,?) ON CONFLICT(quote_id) DO NOTHING').bind(quoteId,user.id,hash,kind,JSON.stringify(plan),expiresAt).run();
+ const stored=await DB.prepare('SELECT * FROM equipment_forge_quotes_v1 WHERE quote_id=?').bind(quoteId).first();
+ if(!stored||Number(stored.user_id)!==Number(user.id)||stored.input_hash!==hash)throw jointError('FORGE_QUOTE_CONFLICT','같은 견적 번호에 다른 내용이 있습니다.',409);
+ return {...JSON.parse(stored.plan_json),quoteId,expiresAt:stored.expires_at,consumed:Boolean(stored.consumed_by)};
 }
 async function quotePlan(env,user,quoteId,kind,now){
  const row=await env.DB.prepare('SELECT * FROM equipment_forge_quotes_v1 WHERE quote_id=? AND user_id=? AND kind=?').bind(jointRequestId(quoteId),user.id,kind).first();if(!row)throw jointError('FORGE_QUOTE','내 견적을 다시 받아 주세요.',404);if(row.consumed_by)throw jointError('FORGE_QUOTE_CONFLICT','이미 사용한 견적입니다.',409);if(Date.parse(row.expires_at)<now)throw jointError('FORGE_QUOTE_EXPIRED','견적이 만료됐습니다. 다시 확인하세요.',409);return JSON.parse(row.plan_json);
