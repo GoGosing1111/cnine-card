@@ -1,0 +1,32 @@
+{
+  "version": "mercenary-fusion-eight-20260922",
+  "status": "PREPARED_FOR_VISUAL_REVIEW",
+  "generator": "built-in image_gen",
+  "renderer": "js/ui-fx-vendor-v2045.bundle.js",
+  "libraries": {"pixi.js": "8.20.0", "gsap": "3.13.0"},
+  "clockOwner": "mercenary-codex/fusion/fx.mjs FusionFX.clock.time (GSAP)",
+  "timelineSeconds": {"gather":1.6,"converge":3.7,"silence":4.65,"impact":5.05,"reveal":5.8,"settle":7.6,"end":8.4},
+  "assets": [
+    {"file":"sanctum-v1.png","width":1536,"height":1024,"bytes":2449634,"sha256":"301b53a5fad34e2c580ca003650515150abdabe80128ee1bb665e41ec8bd86ae"},
+    {"file":"sealed-contract-v1.png","width":1024,"height":1536,"bytes":3415117,"sha256":"ad0777617b9cb6ce3c6825249e13d4a3f61e7bece720e4168a76f26dbcd521ba"},
+    {"file":"seal-bloom-atlas-v1.png","width":1254,"height":1254,"columns":4,"rows":4,"frames":16,"cellSize":313.5,"bytes":2535946,"sha256":"cd5b380a115b267a6c044e457bad8530731170455cee67720df78f5221ec6643","processing":"none; fractional Pixi UV boundaries; additive blend"}
+  ],
+  "sound": {
+    "kind":"existing licensed recorded-source mixes; no synthesized audio",
+    "sourceManifest":"assets/sfx/v3-advancement-awakening-v1/manifest.json",
+    "sourceProvenance":"preview/project-v-advancement-fx-v1/assets/audio/PROVENANCE.md",
+    "license":"Mixkit Sound Effects Free License",
+    "licenseUrl":"https://mixkit.co/license/#sfxFree",
+    "files":["afterimage-advancement-v1.mp3","immortal-advancement-v1.mp3","shatter-advancement-v1.mp3","riposte-advancement-v1.mp3"],
+    "scheduling":"Recorded source peaks align to the GSAP impact/reveal seconds. Charge sound fades before the dark hold. Pause/seek/close stops scheduled sources. Device output latency not measured.",
+    "default":"muted; explicit user toggle resumes AudioContext"
+  },
+  "fonts":[
+    {"family":"Noto Serif KR","license":"SIL OFL 1.1","source":"https://github.com/google/fonts/tree/main/ofl/notoserifkr","licenseUrl":"https://raw.githubusercontent.com/google/fonts/main/ofl/notoserifkr/OFL.txt"},
+    {"family":"Cormorant Garamond","license":"SIL OFL 1.1","source":"https://github.com/google/fonts/tree/main/ofl/cormorantgaramond","licenseUrl":"https://raw.githubusercontent.com/google/fonts/main/ofl/cormorantgaramond/OFL.txt"}
+  ],
+  "reference":"Lineage M-inspired anticipation, seal rupture and delayed reveal; no third-party game assets or marks used.",
+  "referenceUrl":"https://lineagem.plaync.com/conts/260225_update",
+  "policy":"shared/mercenary-fusion-policy-v1.mjs",
+  "liveConsumptionEnabled":false
+}

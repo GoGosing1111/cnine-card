@@ -1,4 +1,5 @@
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {handleMercenaryFusion} from './_mercenary_fusion.js';
 import {MERCENARY_DEPLOYMENT_RELEASE_ENABLED} from '../shared/mercenary-public-release-v2097.mjs';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {mercenaryAccountState,readMercenaryRuntime,saveMercenaryRuntime,openMercenaryCards,mercenaryOpeningReceipt,saveMercenaryLoadout,growMercenary} from './_mercenary_account.js';
@@ -6,6 +7,7 @@ import {handleHyperOpening,hyperOpeningFeature,hyperOpeningRuntime,hyperOpeningG
 export const isMercenaryAccountPath=path=>path.startsWith('mercenaries/v3/')||['mercenary-cards/open','mercenary-cards/open-batch','mercenary-cards/feature','hyper-pack/open'].includes(path);
 export const mercenaryUsesInnerLock=path=>isMercenaryAccountPath(path);
 export async function handleMercenaryAccount({path,request,env,deps}){
+  const fusion=await handleMercenaryFusion({path,request,env,deps});if(fusion)return fusion;
   if(path==='admin/mercenaries/opening')return handleHyperOpening({path,request,env,deps});
   if(!isMercenaryAccountPath(path)&&path!=='admin/mercenaries/runtime')return null;
   if(path==='mercenary-cards/feature'){
