@@ -94,11 +94,11 @@ test('CMS assets are connected and user gameplay has no draw implementation',()=
   for(const path of ['index.html','js/app.js','js/battle-v3-live.js'])assert.doesNotMatch(read(path),/mercenary-draw-policy|mercenary-cards\/open/);
 });
 
-test('legacy CMS edits survive fixed rule adoption; weighting, rerolls and duplicate conversion cannot be configured',()=>{
+test('legacy CMS edits keep equal default weights; per-card weights are allowed without ownership bias or rerolls',()=>{
   const legacy=suggestedMercenaryDraw();delete legacy.cardRules;legacy.outcomes[0].chancePpm=90000;legacy.outcomes[8].chancePpm=598889;legacy.notes='운영자가 조정한 확률';
   const checked=validateMercenaryDraw(legacy);assert.deepEqual(checked.outcomes,legacy.outcomes);assert.equal(checked.notes,legacy.notes);assert.deepEqual(checked.cardRules,MERCENARY_CARD_RULES);
   for(const field of Object.keys(MERCENARY_CARD_RULES)){const policy=suggestedMercenaryDraw();policy.cardRules[field]='PREFER_UNOWNED';assert.throws(()=>validateMercenaryDraw(policy),/규칙/);}
-  const extra=suggestedMercenaryDraw();extra.cardRules.cardWeights={'V-001':2};assert.throws(()=>validateMercenaryDraw(extra));
+  const extra=suggestedMercenaryDraw();extra.cardRules.cardWeights={'V-001':2};assert.equal(validateMercenaryDraw(extra).cardRules.cardWeights['V-001'],2);
   const exact=equalMercenaryCardChance(1,3);assert.equal(exact.numerator,1);assert.equal(exact.denominator,3000000);assert.ok(exact.percent>0);assert.equal(equalMercenaryCardChance(100000,2).percent,5);assert.equal(equalMercenaryCardChance(1,0),null);
 });
 

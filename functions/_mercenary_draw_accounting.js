@@ -1,4 +1,4 @@
-import {DRAW_TOTAL,validateMercenaryDraw,mercenaryGradePools} from '../shared/mercenary-draw-policy-v1.mjs';
+import {DRAW_TOTAL,validateMercenaryDraw,mercenaryGradePools,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 
 const catalogCodes=MERCENARY_CMS_SEED.catalog.cards.map(card=>card.code);
@@ -14,10 +14,9 @@ export function mercenaryRandomInt(max){
   do{crypto.getRandomValues(data);}while(data[0]>=limit);
   return data[0]%max;
 }
-// Preparation only. Public open/open-batch remain blocked before DB access.
-// Repeated calls draw with replacement: every card keeps exactly one pool entry.
+// Draw with replacement. Grade odds are independent of the configured card weights.
 export function pickMercenaryDraw({policy,mercenaries,randomInt=mercenaryRandomInt}){
-  const checked=validateMercenaryDraw(policy),pools=mercenaryGradePools(mercenaries,catalogCodes);
+  const checked=validateMercenaryDraw(policy,{catalogCodes}),pools=mercenaryGradePools(mercenaries,catalogCodes);
   for(const row of checked.outcomes)if(row.id.startsWith('CARD_')&&row.chancePpm>0&&!pools[row.id.slice(5)].length)
     throw Object.assign(Error(`${row.id.slice(5)} 등급의 용병이 없습니다.`),{code:'MERCENARY_RANK_POOL_EMPTY'});
   const sample=max=>{const n=randomInt(max);if(!Number.isSafeInteger(n)||n<0||n>=max)throw Error('Invalid mercenary random result');return n;};
@@ -25,7 +24,11 @@ export function pickMercenaryDraw({policy,mercenaries,randomInt=mercenaryRandomI
   const selected=checked.outcomes.find(row=>{n-=row.chancePpm;return n<0;});
   if(!selected.id.startsWith('CARD_'))return {outcomeId:selected.id,quantity:selected.quantity};
   const rank=selected.id.slice(5),pool=pools[rank];
-  return {outcomeId:selected.id,rank,mercenaryCode:pool[sample(pool.length)],quantity:1};
+  const choices=mercenaryCardChances(selected.chancePpm,pool,checked.cardRules);
+  let code;
+  if(choices.every(c=>c.weight===choices[0].weight))code=pool[sample(pool.length)];
+  else{let ticket=sample(choices[0].totalWeight);code=choices.find(c=>{ticket-=c.weight;return ticket<0;}).code;}
+  return {outcomeId:selected.id,rank,mercenaryCode:code,quantity:1};
 }
 // Compose these statements into the future opening transaction alongside pack
 // consumption and its durable receipt. Never grant separately from that transaction.

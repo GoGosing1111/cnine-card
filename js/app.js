@@ -1565,7 +1565,7 @@ function buyView(user) {
 }
 
 function hyperPackHero() {
-  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status" data-hyper-opening-label>개봉 준비 중</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>같은 등급의 용병은 균등 추첨 · 중복 카드는 수량으로 보관</p><div class="hyper-prices"><button class="btn" type="button" data-mercenary-open="1" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" data-mercenary-open="10" disabled><small>10회 개봉</small>50억 코인</button></div><button type="button" data-mercenary-recover hidden>이전 개봉 결과 확인</button><small class="hyper-safe-notice" data-mercenary-open-status>용병카드 개봉은 현재 OFF입니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
+  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status" data-hyper-opening-label>개봉 준비 중</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>등급별 확률·용병별 가중치로 추첨 · 중복 카드는 수량으로 보관</p><div class="hyper-prices"><button class="btn" type="button" data-mercenary-open="1" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" data-mercenary-open="10" disabled><small>10회 개봉</small>50억 코인</button></div><button type="button" data-mercenary-recover hidden>이전 개봉 결과 확인</button><small class="hyper-safe-notice" data-mercenary-open-status>용병카드 개봉은 현재 OFF입니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
 }
 
 function recentCards(user) {

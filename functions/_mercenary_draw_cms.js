@@ -1,6 +1,8 @@
 import {readHyperOpening} from './_hyper_pack_opening.js';
 import {DRAW_MAX_BYTES,suggestedMercenaryDraw,validateMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs';
 import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
+import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
+const catalogCodes=MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code);
 
 // Explicit user hold. Accounting schema and policy are ready; opening remains blocked.
 export const MERCENARY_CARD_OPENING_RELEASE_ENABLED=false;
@@ -50,7 +52,7 @@ export async function handleMercenaryDrawCms({path,request,env,deps}){
         !Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1||body.expectedRevision>=2147483646||
         typeof body.requestId!=='string'||!/^[a-zA-Z0-9-]{16,100}$/.test(body.requestId)||
         typeof body.reason!=='string'||body.reason.trim().length<4||body.reason.length>500||/[\u0000-\u001f]/.test(body.reason))throw Error('저장 사유 4~500자, 요청 ID와 현재 버전을 확인하세요.');
-      body.policy=validateMercenaryDraw(body.policy);body.reason=body.reason.trim();
+      body.policy=validateMercenaryDraw(body.policy,{catalogCodes});body.reason=body.reason.trim();
     }catch(error){return json({error:error instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':error.message},400);}
   }
   await ensureMercenaryDrawCms(env,admin.id);

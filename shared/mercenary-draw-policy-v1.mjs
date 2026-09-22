@@ -2,7 +2,8 @@ import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
 export const DRAW_TOTAL = 1_000_000;
 export const DRAW_MAX_BYTES = 24 * 1024;
-export const MERCENARY_CARD_RULES=Object.freeze({sameRankSelection:'UNIFORM',ownershipWeighting:'NONE',duplicateHandling:'COUNT_EXTRA_COPIES'});
+export const MERCENARY_CARD_RULES=Object.freeze({sameRankSelection:'WEIGHTED',ownershipWeighting:'NONE',duplicateHandling:'COUNT_EXTRA_COPIES',cardWeights:Object.freeze({})});
+export const MAX_MERCENARY_CARD_WEIGHT=1_000_000;
 export const DRAW_OUTCOMES = Object.freeze([
   ...MERCENARY_RANKS.map(rank=>Object.freeze({id:`CARD_${rank}`,type:'MERCENARY_CARD',rank,label:`${rank} 용병카드`})),
   Object.freeze({id:'MASTER_STAR',type:'MASTER_STAR',rank:null,label:'마스터의 별'}),
@@ -12,20 +13,17 @@ export const DRAW_OUTCOMES = Object.freeze([
 export function suggestedMercenaryDraw(){
   const chances=[100000,10000,1000,100,10,1,100000,200000,588889];
   return {format:'MERCENARY_DRAW_DRAFT_V1',status:'DRAFT',openingEnabled:false,
-    cardRules:{...MERCENARY_CARD_RULES},
+    cardRules:{...MERCENARY_CARD_RULES,cardWeights:{}},
     outcomes:DRAW_OUTCOMES.map((row,i)=>({id:row.id,chancePpm:chances[i],quantity:row.id==='NONE'?0:1})),
-    notes:'SSS 0.0001%를 기준으로 한 단계 낮아질 때마다 10배로 설정한 확률·수량 제안 초안. 같은 등급의 카드는 보유 여부와 무관하게 균등 추첨하며 중복 당첨은 중복 수량으로 집계. 개봉 비용·공급·획득 대상과 공동 출시 조건은 별도 확정 필요.'};
+    notes:'SSS 0.0001%를 기준으로 한 단계 낮아질 때마다 10배로 설정한 확률·수량 제안 초안. 등급 안에서는 용병별 가중치로 추첨하며 미설정 가중치는 1입니다. 보유 여부는 반영하지 않고 중복 당첨은 수량으로 집계합니다.'};
 }
 function exactKeys(value,keys,label){
   if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))throw Error(`${label}: 누락되거나 허용되지 않은 항목이 있습니다.`);
 }
-export function validateMercenaryDraw(policy){
+export function validateMercenaryDraw(policy,{catalogCodes}={}){
   const fields=['format','status','openingEnabled','outcomes','notes'];
   exactKeys(policy,Object.hasOwn(policy||{},'cardRules')?[...fields,'cardRules']:fields,'개봉 확률');
-  if(Object.hasOwn(policy,'cardRules')){
-    exactKeys(policy.cardRules,Object.keys(MERCENARY_CARD_RULES),'카드 추첨 규칙');
-    if(Object.entries(MERCENARY_CARD_RULES).some(([key,value])=>policy.cardRules[key]!==value))throw Error('같은 등급 균등 추첨·보유 여부 미반영·중복 수량 집계 규칙을 유지하세요.');
-  }
+  const cardRules=validateMercenaryCardRules(policy.cardRules,catalogCodes);
   if(policy.format!=='MERCENARY_DRAW_DRAFT_V1'||policy.status!=='DRAFT'||policy.openingEnabled!==false)throw Error('유저 개봉 OFF 상태의 초안만 저장할 수 있습니다.');
   if(!Array.isArray(policy.outcomes)||policy.outcomes.length!==9||new Set(policy.outcomes.map(row=>row?.id)).size!==9)throw Error('용병 6등급·마스터의 별·미스틱에너지·꽝을 각각 한 번씩 설정하세요.');
   let total=0;
@@ -40,7 +38,27 @@ export function validateMercenaryDraw(policy){
   });
   if(total!==DRAW_TOTAL)throw Error(`전체 확률 합계를 100%로 맞추세요. 현재 ${formatDrawPercent(total)}%입니다.`);
   if(typeof policy.notes!=='string'||policy.notes.length>2000||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(policy.notes))throw Error('확률 메모는 2,000자 이내로 입력하세요.');
-  return {...policy,cardRules:{...MERCENARY_CARD_RULES},outcomes:ordered};
+  return {...policy,cardRules,outcomes:ordered};
+}
+export function validateMercenaryCardRules(rules,catalogCodes){
+  if(rules===undefined)return {...MERCENARY_CARD_RULES,cardWeights:{}};
+  const legacy=rules?.sameRankSelection==='UNIFORM';
+  exactKeys(rules,legacy?['sameRankSelection','ownershipWeighting','duplicateHandling']:Object.keys(MERCENARY_CARD_RULES),'카드 추첨 규칙');
+  if(!['UNIFORM','WEIGHTED'].includes(rules.sameRankSelection)||rules.ownershipWeighting!=='NONE'||rules.duplicateHandling!=='COUNT_EXTRA_COPIES')throw Error('카드 추첨 규칙: 용병별 가중치·보유 여부 미반영·중복 수량 집계를 사용하세요.');
+  const weights=legacy?{}:rules.cardWeights;
+  if(!weights||typeof weights!=='object'||Array.isArray(weights)||Object.keys(weights).length>1000)throw Error('카드 추첨 규칙: 용병별 가중치를 확인하세요.');
+  const cardWeights={};
+  for(const code of Object.keys(weights).sort()){
+    const weight=weights[code];
+    if(!/^V-\d{3}$/.test(code)||(catalogCodes&&!catalogCodes.includes(code))||!Number.isSafeInteger(weight)||weight<1||weight>MAX_MERCENARY_CARD_WEIGHT)throw Error('카드 추첨 규칙: 등록된 용병의 가중치를 1~1,000,000 정수로 입력하세요.');
+    cardWeights[code]=weight;
+  }
+  return {...MERCENARY_CARD_RULES,cardWeights};
+}
+export function mercenaryCardChances(chancePpm,codes,rules){
+  const weights=codes.map(code=>rules?.cardWeights?.[code]??1),totalWeight=weights.reduce((a,b)=>a+b,0);
+  return codes.map((code,i)=>({code,weight:weights[i],totalWeight,withinRankPercent:weights[i]/totalWeight*100,
+    percent:Number.isSafeInteger(chancePpm)?chancePpm*weights[i]/(10000*totalWeight):null}));
 }
 // The catalog is the pool authority. Ownership and per-card dropRate are not inputs.
 export function mercenaryGradePools(mercenaries,catalogCodes){

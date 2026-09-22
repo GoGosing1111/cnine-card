@@ -33,7 +33,7 @@ function syncButtons(){
 let syncQueued=false;
 const frame=typeof requestAnimationFrame==='function'?requestAnimationFrame:fn=>{void Promise.resolve().then(fn);};
 function requestSync(){if(syncQueued)return;syncQueued=true;frame(()=>{syncQueued=false;syncButtons();});}
-async function feature(){const before=access.userOpeningEnabled;access=await api(MERCENARY_PACK.featurePath);syncButtons();if(before!==access.userOpeningEnabled){notice(access.userOpeningEnabled?'1회 5억 코인 · 같은 등급의 용병은 균등 추첨합니다.':'하이퍼팩 개봉은 현재 OFF입니다.');window.dispatchEvent(new CustomEvent('mercenary-pack:availability',{detail:access}));}return access;}
+async function feature(){const before=access.userOpeningEnabled;access=await api(MERCENARY_PACK.featurePath);syncButtons();if(before!==access.userOpeningEnabled){notice(access.userOpeningEnabled?'1회 5억 코인 · 등급별 확률·용병별 가중치로 추첨합니다.':'하이퍼팩 개봉은 현재 OFF입니다.');window.dispatchEvent(new CustomEvent('mercenary-pack:availability',{detail:access}));}return access;}
 function stylesheet(){if(document.querySelector('[data-mercenary-pack-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-pack-live.css?v=2145';link.dataset.mercenaryPackStyle='';document.head.append(link);}
 const scripts=new Map();
 function script(path,ready){
