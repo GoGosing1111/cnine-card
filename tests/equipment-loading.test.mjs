@@ -98,14 +98,14 @@ test('enhanced duplicate is sorted first, selectable, keeps enhanced power and d
   const counts=deferred(),calls=[];
   const data=fixture();data.equipmentTypeCount=1;data.loadout.WEAPON=11;
   data.instances[0].quantityOffset=2;data.instances[0].enhancement={level:0};data.instances[0].item.totalPower=100;
-  data.instances.push({instanceId:12,quantity:2,quantityFixed:true,enhancement:{level:9},item:{...data.instances[0].item,totalPower:180,pvePower:162,pvpPower:18}});
+  for(const instanceId of [12,13])data.instances.push({instanceId,quantity:1,quantityFixed:true,enhancement:{level:9},item:{...data.instances[0].item,totalPower:180,pvePower:162,pvpPower:18}});
   const m=mount(async(path,init)=>{calls.push({path,init});if(path==='character/loadout')return data;if(path==='character/equipment/quantities')return counts.promise;return {ok:true,bonuses:{equipmentPve:162,equipmentPvp:18}};});
   await tick();assert.ok(m.root.innerHTML.indexOf('data-equip="12"')<m.root.innerHTML.indexOf('data-equip="11"'));
   assert.match(m.root.innerHTML,/테스트 무기 \+9/);
   m.click({equip:'12'});await tick();assert.equal(m.controller.getState().loadout.WEAPON,12);
   assert.equal(m.controller.getState().bonuses.equipmentPve,162);assert.equal(m.controller.getState().bonuses.equipmentPvp,18);
   counts.resolve({quantities:[{equipmentId:1,quantity:5}]});await tick();
-  assert.deepEqual(Array.from(m.controller.getState().instances,r=>r.quantity),[3,2]);
+  assert.deepEqual(Array.from(m.controller.getState().instances,r=>r.quantity),[3,1,1]);
   assert.equal(m.controller.getState().equipmentTotalQuantity,5);assert.match(m.total.innerHTML,/1종 · 5개/);
   assert.equal(calls.filter(c=>c.path==='character/equipment/equip').length,1);
 });

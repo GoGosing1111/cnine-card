@@ -3,24 +3,18 @@ import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v
 import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 
-// Keep duplicate copies stacked, but never combine different enhancement levels.
-// Each stack carries a REAL owned instance ID; prefer the equipped copy within
-// that level so changing the display never changes a player's loadout.
+// Only unenhanced duplicates may stack. Every enhanced copy is an individual
+// row with its REAL owned instance ID, even when two copies have the same level.
+// Merely opening the inventory must never change a player's loadout.
 export async function equipmentEnhancementRows(env,userId,rows,{admin=false}={}){
   if(!FORGE_RUNTIME_RELEASE_ENABLED||!rows.length)return rows;
   const enhanced=(await env.DB.prepare(`WITH growth AS MATERIALIZED (
       SELECT instance_id,level FROM equipment_forge_states_v1 WHERE user_id=? AND level>0
-    ),groups AS (
-      SELECT x.equipment_id,s.level,COUNT(*) AS quantity,
-        COALESCE(MAX(CASE WHEN l.instance_id=x.id THEN x.id END),MAX(x.id)) AS instance_id
+    ) SELECT x.id AS instance_id,s.level AS enhancement_level,1 AS quantity,x.source_type,x.source_id,x.acquired_at,i.*
       FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=?
       JOIN character_equipment_items i ON i.id=x.equipment_id
-      LEFT JOIN user_equipment_loadout l ON l.user_id=x.user_id AND l.slot=i.slot AND l.instance_id=x.id
       WHERE i.slot IN (${EQUIPMENT_POWER_STANDARD.supportedSlots.map(()=>'?').join(',')}) ${admin?'':'AND i.is_active=1 AND i.is_public=1'}
-      GROUP BY x.equipment_id,s.level
-    ) SELECT g.instance_id,g.level AS enhancement_level,g.quantity,x.source_type,x.source_id,x.acquired_at,i.*
-      FROM groups g JOIN user_equipment_instances x ON x.id=g.instance_id
-      JOIN character_equipment_items i ON i.id=g.equipment_id`).bind(userId,userId,...EQUIPMENT_POWER_STANDARD.supportedSlots).all()).results;
+      ORDER BY x.id DESC`).bind(userId,userId,...EQUIPMENT_POWER_STANDARD.supportedSlots).all()).results;
   if(!enhanced.length)return rows;
   const counts=new Map();for(const row of enhanced)counts.set(Number(row.id),(counts.get(Number(row.id))||0)+Number(row.quantity));
   const ids=[...counts.keys()];
@@ -33,14 +27,14 @@ export async function equipmentEnhancementRows(env,userId,rows,{admin=false}={})
       ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT 1
     ) WHERE i.id IN (${ids.map(()=>'?').join(',')})`).bind(userId,...ids).all()).results;
   const baseById=new Map(base.map(row=>[Number(row.equipment_id),row]));
-  const equippedLevels=new Set(enhanced.map(row=>String(row.instance_id)));
+  const enhancedIds=new Set(enhanced.map(row=>String(row.instance_id)));
   const output=[];
   for(const row of rows){
     const offset=counts.get(Number(row.id));if(!offset){output.push(row);continue;}
     const plain=baseById.get(Number(row.id));if(!plain)continue;
     // If the original representative is enhanced, use the unenhanced copy;
     // otherwise retain it (notably a currently equipped level-zero copy).
-    const representative=equippedLevels.has(String(row.instance_id))?plain:row;
+    const representative=enhancedIds.has(String(row.instance_id))?plain:row;
     output.push({...row,instance_id:representative.instance_id,source_type:representative.source_type,source_id:representative.source_id,
       acquired_at:representative.acquired_at,quantity:row.quantity==null?null:Math.max(0,Number(row.quantity)-offset),quantityOffset:offset,enhancement:{level:0}});
   }

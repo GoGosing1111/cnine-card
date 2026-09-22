@@ -47,6 +47,8 @@ if(inventoryQa){
  }
  await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,request_id) VALUES(311,7,31,'sort-qa-stronger')").run();
  await f.p('INSERT INTO equipment_forge_states_v1 VALUES(311,7,9,1)').run();
+ await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,request_id) VALUES(312,7,31,'sort-qa-same-level')").run();
+ await f.p('INSERT INTO equipment_forge_states_v1 VALUES(312,7,9,1)').run();
  await f.p("INSERT INTO user_equipment_loadout VALUES(7,'WEAPON',310) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=310").run();
  for(let id=400;id<485;id++)await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,request_id) VALUES(?,7,1,?)",id,'sort-qa-recent-'+id).run();
 }

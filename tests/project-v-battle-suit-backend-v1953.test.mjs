@@ -472,7 +472,8 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     assert.equal(upgraded.equipped,false);assert.equal(upgraded.enhancement.level,9);
     assert.deepEqual([upgraded.item.totalPower,upgraded.item.pvePower,upgraded.item.pvpPower],[234,210,24]);
   }
-  const equip=await handleEquipment({path:'character/equipment/equip',request:new Request('https://example.test/api/character/equipment/equip',{method:'POST',body:JSON.stringify({instanceId:stronger})}),env:{DB},deps:{authenticate:async()=>({id:7,role:'USER'}),readBody:r=>r.json(),json:(payload,status=200)=>({payload,status})}});
+  const equipCall=instanceId=>handleEquipment({path:'character/equipment/equip',request:new Request('https://example.test/api/character/equipment/equip',{method:'POST',body:JSON.stringify({instanceId})}),env:{DB},deps:{authenticate:async()=>({id:7,role:'USER'}),readBody:r=>r.json(),json:(payload,status=200)=>({payload,status})}});
+  const equip=await equipCall(stronger);
   assert.equal(equip.status,200);assert.equal(equip.payload.instanceId,stronger);
   assert.equal(equip.payload.bonuses.equipmentPve,210);assert.equal(equip.payload.bonuses.equipmentPvp,24);
   const reloaded=await loadoutCall('character/loadout','https://example.test/api/character/loadout?quantities=deferred');
@@ -480,4 +481,15 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   assert.equal(reloaded.payload.instances.find(row=>row.instanceId===stronger).equipped,true);
   assert.equal(reloaded.payload.instances.find(row=>row.instanceId===weaponInstance).equipped,false);
   assert.equal(reloaded.payload.bonuses.battleSuitPve,250);
+  const sameLevel=Number(DB.db.prepare('INSERT INTO user_equipment_instances(user_id,equipment_id) VALUES(7,?)').run(weaponId).lastInsertRowid);
+  DB.db.prepare('INSERT INTO equipment_forge_states_v1 VALUES(?,7,9,1)').run(sameLevel);
+  const separate=await loadoutCall('character/loadout','https://example.test/api/character/loadout');
+  const enhancedCopies=separate.payload.instances.filter(row=>row.item.id===weaponId&&row.enhancement.level===9);
+  assert.equal(enhancedCopies.length,2);assert.ok(enhancedCopies.every(row=>row.quantity===1&&row.quantityFixed));
+  assert.equal(separate.payload.equipmentTotalQuantity,4);
+  const switched=await equipCall(sameLevel);assert.equal(switched.status,200);assert.equal(switched.payload.instanceId,sameLevel);
+  const final=await loadoutCall('character/loadout','https://example.test/api/character/loadout?quantities=deferred');
+  assert.equal(final.payload.instances.find(row=>row.instanceId===sameLevel).equipped,true);
+  assert.equal(final.payload.instances.find(row=>row.instanceId===stronger).equipped,false);
+  assert.equal(final.payload.bonuses.equipmentPve,210);
 });

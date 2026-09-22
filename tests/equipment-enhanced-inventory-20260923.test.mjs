@@ -41,7 +41,7 @@ for(const postgres of [false,true]){
   }
   assert.equal(await f.coin(),10000000);assert.equal(await f.qty('MASTER_STAR'),100);
  });
- test(`${db}: duplicate stacks preserve equipped copies and expose every stronger enhancement level without double counting`,async t=>{
+ test(`${db}: every enhanced copy is separate even at the same level, preserving equipped IDs and exact counts`,async t=>{
   const f=await forgeFixture(t,{postgres});
   const alter='ALTER TABLE character_equipment_items ADD COLUMN sort_order INTEGER DEFAULT 0';
   if(postgres)await f.pg.exec(alter);else f.DB.sql.exec(alter);
@@ -51,16 +51,16 @@ for(const postgres of [false,true]){
    const raw=(await equipmentPreviewRows(f.env,7)).results;if(!deferred)raw[0].quantity=5;
    return equipmentEnhancementRows(f.env,7,raw);
   };
-  let rows=await read(false);assert.equal(rows.length,3);
-  assert.deepEqual(rows.map(r=>[Number(r.instance_id),r.enhancement?.level,Number(r.quantity)]),[[Number(f.instanceId),0,2],[11,9,2],[12,10,1]]);
+  let rows=await read(false);assert.equal(rows.length,4);
+  assert.deepEqual(rows.map(r=>[Number(r.instance_id),r.enhancement?.level,Number(r.quantity)]),[[Number(f.instanceId),0,2],[12,10,1],[11,9,1],[10,9,1]]);
   assert.equal(rows.reduce((sum,r)=>sum+Number(r.quantity),0),5);
   for(const r of rows.filter(r=>r.enhancement.level>0))assert.equal(r.total_power,forgePower(10000,r.enhancement.level).total);
   rows=await read();assert.equal(rows[0].quantity,null);assert.equal(rows[0].quantityOffset,3);assert.ok(rows.slice(1).every(r=>r.quantityFixed));
   await f.p("UPDATE user_equipment_loadout SET instance_id=10 WHERE user_id=7 AND slot='WEAPON'").run();
-  rows=await read();assert.deepEqual(rows.map(r=>Number(r.instance_id)),[13,10,12]);
+  rows=await read();assert.deepEqual(rows.map(r=>Number(r.instance_id)),[13,12,11,10]);
   await f.p('INSERT INTO equipment_forge_states_v1 VALUES(?,7,10,2)',f.instanceId).run();await f.p('INSERT INTO equipment_forge_states_v1 VALUES(13,7,10,1)').run();
-  rows=await read(false);assert.equal(rows.length,2);assert.equal(rows.reduce((n,r)=>n+r.quantity,0),5);
-  assert.ok(rows.every(r=>r.quantityFixed));
+  rows=await read(false);assert.equal(rows.length,5);assert.equal(rows.reduce((n,r)=>n+r.quantity,0),5);
+  assert.ok(rows.every(r=>r.quantityFixed&&r.quantity===1));
   assert.equal((await f.p("SELECT instance_id FROM user_equipment_loadout WHERE user_id=7 AND slot='WEAPON'").first()).instance_id,10);
  });
 }

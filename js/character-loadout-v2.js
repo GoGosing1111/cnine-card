@@ -186,7 +186,7 @@
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
         <div class="clv2-item-art clv2-inventory-art">${art(item)}<span data-equipment-quantity="${item.id}" data-equipment-instance="${row.instanceId}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
-        <span class="clv2-item-copy"><strong>${escapeHtml(equipmentName(row))}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small></span>
+        <span class="clv2-item-copy"><strong>${escapeHtml(equipmentName(row))}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small>${Number(row.enhancement?.level)>0?`<small>개별 장비 · #${escapeHtml(row.instanceId)}</small>`:''}</span>
       </button>`;
     }
 
