@@ -583,7 +583,7 @@
     if(route==='goldenAxe')return refreshGoldenAxe(true).then(()=>{if(!goldenAxeVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/golden-axe/');return {ok:true,externalPage:true}});
     if (route === 'home') {
       homeRouteGuard = true;
-      explicitNavigation = true; try { global.renderShell('home'); } finally { explicitNavigation = false; }
+      explicitNavigation = true; try { if(global.renderShell('home')===false)return Promise.resolve({ok:false,cancelled:true,shell:''}); } finally { explicitNavigation = false; }
       return Promise.resolve({ ok: true, shell: 'home' });
     }
     if (!ROUTES[route]) return Promise.reject(new Error('연결되지 않은 메뉴입니다.'));
@@ -604,7 +604,7 @@
       });
     }
     explicitNavigation = true;
-    try { global.renderShell(route); } finally { explicitNavigation = false; }
+    try { if(global.renderShell(route)===false)return Promise.resolve({ok:false,cancelled:true,shell:''}); } finally { explicitNavigation = false; }
     return Promise.resolve({ ok: true, shell: route });
   }
 
@@ -676,6 +676,7 @@
       if (bootRoute && bootRoute !== 'buy') {
         bootHomePending = false;
         const result = nativeRenderShell.call(this, 'buy');
+        if(result===false){homeRouteGuard=currentRoute==='home';return false;}
         currentRoute = 'buy';
         scheduleEnhance('buy');
         queueMicrotask(() => navigate(bootRoute).catch(error => console.error('[Approved V21 deep link]', error)));
@@ -685,6 +686,7 @@
         homeRouteGuard = true;
         bootHomePending = false;
         const result = nativeRenderShell.call(this, 'buy');
+        if(result===false){homeRouteGuard=currentRoute==='home';return false;}
         currentRoute = 'home'; scheduleEnhance('home'); return result;
       }
       const guardedHomeRefresh = requested === 'buy' && homeRouteGuard && !explicitNavigation;
@@ -697,6 +699,7 @@
       const useBootHome = requested === 'buy' && (bootHomePending || guardedHomeRefresh);
       bootHomePending = false;
       const result = nativeRenderShell.apply(this, arguments);
+      if(result===false){homeRouteGuard=currentRoute==='home';return false;}
       currentRoute = useBootHome ? 'home' : requested;
       scheduleEnhance(currentRoute);
       return result;

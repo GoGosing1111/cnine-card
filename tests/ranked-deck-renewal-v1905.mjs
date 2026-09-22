@@ -248,10 +248,11 @@ test('V1907 ranked deck CSS keeps a rectangular, responsive command-console cont
   assert.doesNotMatch(v1907, /[◆◇★☆✦✧]/, 'V1907 must not add diamond or star ornaments');
 });
 
-test('ranked V1907 assets share one cache-bust version', () => {
-  const cssVersion = index.match(/css\/ranked-v2-v1827\.css\?v=(1908-[^"']+)/)?.[1];
-  const appVersion = index.match(/js\/app\.js\?v=(1908-[^"']+)/)?.[1];
+test('ranked assets are versioned and the current app shell shares its cache version', () => {
+  const cssVersion = index.match(/css\/ranked-v2-v1827\.css\?v=([^"'&]+)/)?.[1];
+  const appVersion = index.match(/js\/app\.js\?v=([^"'&]+)/)?.[1];
   assert.ok(cssVersion, 'ranked V1907 stylesheet must be cache-busted');
-  assert.equal(appVersion, cssVersion, 'ranked CSS and application bundle must share one V1907 cache version');
-  assert.ok(serviceWorker.includes(`soop-card-shell-v${cssVersion}`), 'service worker shell cache must advance with the V1907 renewal');
+  assert.ok(appVersion, 'the application must carry the current release version');
+  assert.ok(serviceWorker.includes(`soop-card-shell-v${appVersion}`), 'service worker shell cache must match the current application release');
+  assert.ok(index.includes('magicPresets=20260922'), 'preset API/UI changes must refresh the app resource');
 });

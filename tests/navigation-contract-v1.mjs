@@ -93,6 +93,9 @@ assert.strictEqual(
   'legacy workshop subtab labels must redirect to the independent scrapyard shell'
 );
 const renderedShells = [];
+const cancelled=await router.navigate('pvp',{runtime:{document,global:context,now:()=>Date.now(),setTimeout,renderShell:()=>false}});
+assert.equal(cancelled.cancelled,true,'declined unsaved-deck navigation must not report a new shell');
+assert.equal(cancelled.shell,'');
 await router.navigate('scrapyard', {
   runtime: {
     document,

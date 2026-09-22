@@ -254,7 +254,7 @@
     if (contract.shell) {
       if (!SHELL_ROUTE_SET.has(contract.shell)) throw new Error(`허용되지 않은 운영 화면: ${contract.shell}`);
       const render = await waitFor(runtime, () => typeof runtime.renderShell === 'function' && runtime.renderShell, timeoutMs);
-      render(contract.shell);
+      if(render(contract.shell)===false)return {ok:false,cancelled:true,shell:''};
     }
 
     if (contract.global) {

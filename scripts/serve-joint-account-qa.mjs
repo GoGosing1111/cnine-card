@@ -29,6 +29,8 @@ import {V3_LIVE_CONNECTIONS} from '../shared/v3-live-connections.mjs';
 import {v3JointReleaseState} from '../shared/v3-joint-release-v1.mjs';
 import {operatingTowerFixture} from '../tests/helpers/tower-live-route.mjs';
 import {inventoryUiFixture} from '../tests/fixtures/inventory-ui-v2125.mjs';
+import {magicFixture} from '../tests/helpers/magic-presets-fixture.mjs';
+const magicQa=process.env.JOINT_QA_MAGIC_UI==='1'?await magicFixture():null;
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.JOINT_QA_PORT||8899),hostname=`127.0.0.1:${port}`,origin=`http://${hostname}`;
 const staticOrigin=process.env.JOINT_QA_STATIC_ORIGIN||'';
 const inventoryQa=process.env.JOINT_QA_INVENTORY_UI==='1'?inventoryUiFixture():null;
@@ -129,6 +131,9 @@ const server=http.createServer(async(req,res)=>{try{
     if(url.pathname==='/api/mercenary-cards/feature'&&req.method==='GET')return send(res,200,native?await hyperOpeningFeature(f.env):{connected:true,userOpeningEnabled:true,localQa:true});
     if(url.pathname==='/api/pve/v3/feature'&&req.method==='GET')return send(res,200,{...v3JointReleaseState(),localQa:true});
     const apiPath=url.pathname.slice(5);
+    if(magicQa&&apiPath.startsWith('magic/')){const response=await magicQa.call(apiPath,req.method==='POST'?await request.json():undefined);return send(res,response?.status||404,response?await response.json():{error:'QA route not configured'});}
+    if(magicQa&&apiPath==='pvp/config'){const config=await magicQa.pvpConfig();for(const no of [1,2,3])config.presets[no]=ids;return send(res,200,{...config,deck:ids,deckRules:{gradeLimits:{FUR:5}}});}
+    if(magicQa&&apiPath==='pvp/deck'){const b=await request.json(),magicCardIds=await magicQa.saveDeck(b);return send(res,200,{ok:true,deck:b.cardIds,presetNo:b.presetNo,magicCardIds});}
     if(native&&apiPath.startsWith('account-rank/')){
       const response=await handleAccountRank({path:apiPath,request,env:f.env,deps:{...f.deps,readBody:r=>r.json(),pveDeckCards:async()=>ids,validateDeckGradeLimits:async()=>{}}});
       return send(res,response.status,await response.json());

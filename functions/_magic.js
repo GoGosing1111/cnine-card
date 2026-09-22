@@ -2,6 +2,7 @@ import { resolveAvatarDropRate } from './_avatar_drop.js';
 const MAGIC_DECK_TYPES=['PVE','PVP'];
 import {loadUniqueAdvancementsForCards,uniqueAdvancementSettings} from './_unique_advancement.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
+import { ensurePvpMagicPresets, readPvpMagicPresets, magicPresetNo, normalizeMagicSlots, storedMagicSlots, validateMagicSlots, magicLoadoutWrites, pvpMagicPresetWrites } from './_magic_presets.js';
 
 export const MAGIC_BATTLE_EFFECTS=['OPENING_ATTACK','GUARD_BARRIER','LIFE_AMPLIFY','CRISIS_HEAL','PUNISH_TRAP','ARCANE_COUNTER','FOLLOWUP_HASTE','ARCANE_SEAL','DOOM_MARK','SHIELD_SIPHON','TIME_DISTORTION','PHOENIX_REVIVE','PURIFY_LIGHT','CHAIN_ECHO'];
 const MAGIC_EFFECT_IMAGES={
@@ -126,7 +127,7 @@ export async function magicBattleLoadouts(env,users=[],deckType='PVE'){
   const scope=type==='PVP'?'scope_pvp':'scope_pve',rows=[];
   for(let offset=0;offset<visible.length;offset+=75){
     const chunk=visible.slice(offset,offset+75),marks=chunk.map(()=>'?').join(',');
-    const result=await env.DB.prepare(`SELECT l.user_id,l.slot_no,mc.id,mc.code,mc.name,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id JOIN user_magic_cards umc ON umc.user_id=l.user_id AND umc.magic_card_id=mc.id WHERE l.user_id IN (${marks}) AND l.deck_type=? AND l.magic_card_id>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.user_id,l.slot_no`).bind(...chunk.map(user=>user.id),type).all();
+    const result=await env.DB.prepare(`SELECT l.user_id,l.slot_no,mc.id,mc.code,mc.name,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id JOIN user_magic_cards umc ON umc.user_id=l.user_id AND umc.magic_card_id=mc.id WHERE l.user_id IN (${marks}) AND l.deck_type=? AND l.magic_card_id>0 AND umc.quantity>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.user_id,l.slot_no`).bind(...chunk.map(user=>user.id),type).all();
     rows.push(...(result.results||[]));
   }
   const triggerRates=cfg.enhancement.triggerRates,byUser=new Map();
@@ -134,8 +135,20 @@ export async function magicBattleLoadouts(env,users=[],deckType='PVE'){
   return list.map(user=>{const enabled=cfg.enabled===true||(cfg.ownerTestEnabled!==false&&isOwner(user));return {enabled,ownerTest:enabled&&cfg.enabled!==true&&isOwner(user),deckType:type,cards:enabled?(byUser.get(Number(user.id))||[]):[]}});
 }
 
-export async function magicBattleLoadout(env,user,deckType='PVE'){
+export async function magicBattleLoadout(env,user,deckType='PVE',options={}){
   if(!user)return {enabled:false,ownerTest:false,deckType:String(deckType||'PVE').trim().toUpperCase(),cards:[]};
+  if(deckType==='PVP'&&options.presetNo!=null){
+    await ensurePvpMagicPresets(env);
+    const presetNo=magicPresetNo(options.presetNo),saved=await env.DB.prepare('SELECT magic_card_ids FROM pvp_magic_presets WHERE user_id=? AND preset_no=?').bind(user.id,presetNo).first();
+    if(saved){
+      const cfg=await magicSettings(env),enabled=visibleTo(user,cfg),slots=storedMagicSlots(saved.magic_card_ids),ids=slots.filter(Boolean);
+      const result={enabled,ownerTest:enabled&&!cfg.enabled&&isOwner(user),deckType:'PVP',presetNo,cards:[]};
+      if(!enabled||!ids.length)return result;
+      const rows=await env.DB.prepare(`SELECT mc.*,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_cards mc JOIN user_magic_cards umc ON umc.magic_card_id=mc.id WHERE umc.user_id=? AND umc.quantity>0 AND mc.is_active=1 AND mc.scope_pvp=1 AND mc.id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all();
+      result.cards=rows.results.map(row=>normalizeMagicBattleEffect({...row,slot_no:slots.indexOf(Number(row.id))+1,effective_trigger_chance:cfg.enhancement.triggerRates[integer(row.enhancement_level,0,0,9)]||0})).filter(Boolean).sort((a,b)=>a.slotNo-b.slotNo);
+      return result;
+    }
+  }
   return (await magicBattleLoadouts(env,[user],deckType))[0];
 }
 
@@ -570,14 +583,15 @@ async function userStatus(env,user,cfg){
   const accessible=visibleTo(user,cfg);
   const balance=Number(user.magic_crystals||0);
   if(!accessible)return {visible:false,enabled:false,ownerTest:false,magicCrystals:balance,settings:{enabled:false,drawEnabled:false}};
-  const [cards,loadouts]=await Promise.all([
+  const [cards,loadouts,pvp]=await Promise.all([
     env.DB.prepare(`SELECT mc.*,COALESCE(umc.quantity,0) quantity,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_cards mc LEFT JOIN user_magic_cards umc ON umc.magic_card_id=mc.id AND umc.user_id=? WHERE mc.is_active=1 ORDER BY mc.sort_order,mc.id`).bind(user.id).all(),
-    env.DB.prepare(`SELECT deck_type,slot_no,magic_card_id FROM magic_card_loadouts WHERE user_id=? AND magic_card_id>0 ORDER BY deck_type,slot_no`).bind(user.id).all()
+    env.DB.prepare(`SELECT deck_type,slot_no,magic_card_id FROM magic_card_loadouts WHERE user_id=? AND magic_card_id>0 ORDER BY deck_type,slot_no`).bind(user.id).all(),
+    readPvpMagicPresets(env,user.id)
   ]);
   return {
     visible:true,enabled:cfg.enabled,ownerTest:!cfg.enabled&&cfg.ownerTestEnabled&&isOwner(user),magicCrystals:balance,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),
     settings:{drawEnabled:cfg.drawEnabled,drawCost:cfg.drawCost,drawCoinCost:cfg.drawCoinCost,duplicateRefund:cfg.duplicateRefund,packRewards:cfg.packRewards,enhancement:cfg.enhancement,acquisitionNotice:cfg.acquisitionNotice},
-    cards:cards.results.map(row=>cardPayload(row,cfg)),
+    cards:cards.results.map(row=>cardPayload(row,cfg)),pvp,
     loadouts:loadouts.results.map(x=>({deckType:String(x.deck_type),slotNo:Number(x.slot_no),magicCardId:Number(x.magic_card_id)}))
   };
 }
@@ -617,18 +631,24 @@ export async function handleMagic({path,request,env,deps}){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     return json(await userStatus(env,user,await magicSettings(env,{fresh:false})));
   }
-  if(path==='magic/equip'&&request.method==='POST'){
+  if((path==='magic/equip'||path==='magic/loadout')&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);
-    const body=await readBody(request),deckType=String(body.deckType||'').toUpperCase(),slotNo=integer(body.slotNo,0,1,5),magicCardId=body.magicCardId==null?null:integer(body.magicCardId,0,1,2147483647);
-    if(!MAGIC_DECK_TYPES.includes(deckType)||!slotNo)return json({error:'장착 위치가 올바르지 않습니다.'},400);
-    if(magicCardId===null){await env.DB.prepare(`INSERT INTO magic_card_loadouts(user_id,deck_type,slot_no,magic_card_id,updated_at) VALUES(?,?,?,0,CURRENT_TIMESTAMP) ON CONFLICT(user_id,deck_type,slot_no) DO UPDATE SET magic_card_id=0,updated_at=CURRENT_TIMESTAMP`).bind(user.id,deckType,slotNo).run();return json({ok:true,status:await userStatus(env,await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),cfg)});}
-    const owned=await env.DB.prepare(`SELECT umc.quantity,mc.is_active,mc.scope_pve,mc.scope_pvp FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id=? AND umc.magic_card_id=?`).bind(user.id,magicCardId).first();
-    if(!owned||Number(owned.quantity||0)<=0||Number(owned.is_active||0)!==1)return json({error:'보유하지 않았거나 비활성화된 마법카드입니다.'},400);
-    if((deckType==='PVE'&&Number(owned.scope_pve||0)!==1)||(deckType==='PVP'&&Number(owned.scope_pvp||0)!==1))return json({error:`${deckType}에 적용할 수 없는 마법카드입니다.`},400);
-    const used=await env.DB.prepare(`SELECT COUNT(*) count FROM magic_card_loadouts WHERE user_id=? AND deck_type=? AND magic_card_id=? AND slot_no<>?`).bind(user.id,deckType,magicCardId,slotNo).first();
-    if(Number(used?.count||0)>0)return json({error:'같은 마법카드는 한 덱에 한 장만 장착할 수 있습니다.'},409);
-    await env.DB.prepare(`INSERT INTO magic_card_loadouts(user_id,deck_type,slot_no,magic_card_id,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,deck_type,slot_no) DO UPDATE SET magic_card_id=excluded.magic_card_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,deckType,slotNo,magicCardId).run();
+    const body=await readBody(request),deckType=String(body.deckType||'').toUpperCase();
+    if(!MAGIC_DECK_TYPES.includes(deckType))return json({error:'장착 덱이 올바르지 않습니다.'},400);
+    try{
+      const pvp=deckType==='PVP'?await readPvpMagicPresets(env,user.id):null,presetNo=pvp?magicPresetNo(body.presetNo??pvp.activePreset):null;
+      let slots=body.magicCardIds;
+      if(path==='magic/equip'){
+        const slotNo=Number(body.slotNo),id=body.magicCardId==null?0:body.magicCardId;
+        if(!Number.isInteger(slotNo)||slotNo<1||slotNo>5)throw Object.assign(new Error('장착 위치가 올바르지 않습니다.'),{status:400});
+        if(pvp)slots=[...pvp.magicPresets[presetNo]];
+        else{slots=[0,0,0,0,0];const rows=await env.DB.prepare("SELECT slot_no,magic_card_id FROM magic_card_loadouts WHERE user_id=? AND deck_type='PVE'").bind(user.id).all();for(const row of rows.results)if(Number(row.slot_no)>=1&&Number(row.slot_no)<=5)slots[Number(row.slot_no)-1]=Number(row.magic_card_id||0);}
+        slots[slotNo-1]=id;
+      }
+      slots=normalizeMagicSlots(slots);await validateMagicSlots(env,user.id,slots,deckType);
+      await env.DB.batch(pvp?pvpMagicPresetWrites(env,user.id,presetNo,slots,pvp.magicPresets):magicLoadoutWrites(env,user.id,'PVE',slots));
+    }catch(error){if(error.status)return json({error:error.message},error.status);throw error;}
     const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
     return json({ok:true,status:await userStatus(env,fresh,cfg)});
   }

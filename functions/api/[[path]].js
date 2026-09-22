@@ -21,6 +21,7 @@ import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
 import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2,estimateApocalypseRecommendedPower } from '../_battle_v2_preview.js';
 import { invalidateHighUniqueBoostCache,handleMagic,magicSettings,magicBattleLoadout,magicBattleLoadouts,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
+import { ensurePvpMagicPresets, readPvpMagicPresets, magicPresetNo, savePvpDeckWithMagic } from '../_magic_presets.js';
 import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_storage_cleanup.js';
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
 import { ensureSkillChipFoundation } from '../_skill_chips.js';
@@ -2122,14 +2123,8 @@ let d1HotpathUpgradePromise=null;
 let d1StabilityUpgradePromise=null;
 // V1802-perf: pvp/config 는 요청마다 CREATE TABLE 두 개를 실행하고 있었다.
 // 한 번 만들어지면 다시 만들 필요가 없으므로 다른 ensure* 들과 같은 방식으로 1회만 돌린다.
-let pvpPresetTablesPromise=null;
 function ensurePvpPresetTables(env){
-  if(pvpPresetTablesPromise)return pvpPresetTablesPromise;
-  pvpPresetTablesPromise=env.DB.batch([
-    env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_deck_presets (user_id INTEGER NOT NULL,preset_no INTEGER NOT NULL,card_ids TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,preset_no))'),
-    env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_active_presets (user_id INTEGER PRIMARY KEY,preset_no INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)')
-  ]).catch(error=>{pvpPresetTablesPromise=null;throw error});
-  return pvpPresetTablesPromise;
+  return ensurePvpMagicPresets(env);
 }
 async function ensureD1HotpathIndexes(env){
   if(d1HotpathUpgradePromise)return d1HotpathUpgradePromise;
@@ -7129,17 +7124,19 @@ async function handleRequest(context){
         env.DB.prepare('UPDATE pvp_decks SET card_ids=(SELECT card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no=1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM pvp_deck_presets WHERE user_id=? AND preset_no=1)').bind(user.id,user.id,user.id)
       ]);
       const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning),[profile,deck,titleMap,characterBonus,energy,battle]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env)]);
-      const [presetRows,activeRow,challengerRank]=await Promise.all([env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first(),pvpChallengerRank(env,user.id)]);
+      const [presetRows,activeRow,challengerRank,pvpMagic]=await Promise.all([env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first(),pvpChallengerRank(env,user.id),readPvpMagicPresets(env,user.id)]);
       const presets={1:[],2:[],3:[]};for(const row of presetRows.results||[]){try{presets[Number(row.preset_no)]=JSON.parse(row.card_ids||'[]')}catch{presets[Number(row.preset_no)]=[]}}
-      return json({settings,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,rank:challengerRank,tier:resolvePvpTier(Number(profile.season_score),settings,challengerRank),highestTier:resolvePvpTier(Number(profile.highest_score),settings,challengerRank)},title:titleMap[String(user.id)]||null,deck,presets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),deckRules:deckRulesContract('PVP'),characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
+      return json({settings,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,rank:challengerRank,tier:resolvePvpTier(Number(profile.season_score),settings,challengerRank),highestTier:resolvePvpTier(Number(profile.highest_score),settings,challengerRank)},title:titleMap[String(user.id)]||null,deck,presets,magicPresets:pvpMagic.magicPresets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),deckRules:deckRulesContract('PVP'),characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
     }
     if(path==='pvp/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const body=await readBody(request),presetNo=Math.max(1,Math.min(3,Number(body.presetNo||1))),ids=[...new Set((body.cardIds||[]).map(String))];if(ids.length!==5)return json({error:'랭크전 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
+      const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const body=await readBody(request);let presetNo;try{presetNo=magicPresetNo(body.presetNo??1)}catch(error){return json({error:error.message},400)}
+      if(!Array.isArray(body.cardIds)||body.cardIds.length!==5)return json({error:'랭크전 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
+      const ids=[...new Set(body.cardIds.map(String))];if(ids.length!==5)return json({error:'랭크전 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT card_id FROM user_cards WHERE user_id=? AND COALESCE(quantity,0)>0 AND card_id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
       try{await validateDeckGradeLimits(env,ids,'랭크전 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
-      await env.DB.batch([env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_deck_presets (user_id INTEGER NOT NULL,preset_no INTEGER NOT NULL,card_ids TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,preset_no))'),env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_active_presets (user_id INTEGER PRIMARY KEY,preset_no INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)')]);
-      const writes=[env.DB.prepare('INSERT INTO pvp_deck_presets(user_id,preset_no,card_ids,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,preset_no) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,presetNo,JSON.stringify(ids)),env.DB.prepare('INSERT INTO pvp_active_presets(user_id,preset_no,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET preset_no=excluded.preset_no,updated_at=CURRENT_TIMESTAMP').bind(user.id,presetNo)];if(presetNo===1)writes.push(env.DB.prepare('INSERT INTO pvp_decks(user_id,card_ids,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,JSON.stringify(ids)));await env.DB.batch(writes);return json({ok:true,deck:ids,presetNo,defensePreset:1,prestigeLimit:PRESTIGE_DECK_LIMIT,furLimit:FUR_DECK_LIMIT,zenithLimit:ZENITH_DECK_LIMIT,superstarLimit:SUPERSTAR_DECK_LIMIT});
+      let magicCardIds;try{magicCardIds=await savePvpDeckWithMagic(env,user.id,presetNo,ids,body.magicCardIds)}catch(error){if(error.status)return json({error:error.message},error.status);throw error;}
+      return json({ok:true,deck:ids,magicCardIds,presetNo,defensePreset:1,prestigeLimit:PRESTIGE_DECK_LIMIT,furLimit:FUR_DECK_LIMIT,zenithLimit:ZENITH_DECK_LIMIT,superstarLimit:SUPERSTAR_DECK_LIMIT});
     }
     if(path==='pvp/opponents'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -7180,7 +7177,7 @@ async function handleRequest(context){
         userEquipmentBonuses(env,user.id),
         userEquipmentBonuses(env,defenderId),
         magicBattleLoadout(env,user,'PVP'),
-        magicBattleLoadout(env,defUserRole,'PVP'),
+        magicBattleLoadout(env,defUserRole,'PVP',{presetNo:1}),
         equippedAvatarEffect(env,user.id)
       ]);
       const [aUnique,dUnique]=uniqueStates;
