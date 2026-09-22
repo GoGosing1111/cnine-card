@@ -24,7 +24,7 @@ for (const resource of [
   'js/project-v-raid-qte-v1924.js?v=2086-random-two',
   'css/raid-qte-mobile-v2085.css?v=2085',
   'css/core-raid-screen-qte-v2086.css?v=2086',
-  'js/core-protocol-raid-v1924.js?v=2086-random-two',
+  'js/core-protocol-raid-v1924.js?v=20260922-abandon-defeat',
 ]) {
   if (!index.includes(resource)) fail(`index.html is missing the reviewed Core test resource: ${resource}`);
 }

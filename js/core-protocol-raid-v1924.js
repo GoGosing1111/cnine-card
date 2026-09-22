@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.6.0-weekly-return';
+  const VERSION = '3.7.0-abandon-defeat';
   const TAB_KEY = 'cnine:raid-content-v1924';
   const OP_NAMES = { BREAK: '파쇄', BLOCK: '차단', STABILIZE: '안정화', FINAL: '최종 보스' };
   const esc = value => String(value ?? '').replace(
@@ -11,6 +11,8 @@
   const number = value => Math.max(0, Number(value) || 0);
   const percent = (value, max) => Math.max(0, Math.min(100, number(value) / Math.max(1, number(max)) * 100));
   const requestId = () => globalThis.crypto?.randomUUID?.() || Date.now() + '-' + Math.random().toString(36).slice(2);
+  // Deliberately not persisted: refresh/back navigation cannot resume this page's battle.
+  let CLIENT_SESSION_ID = requestId();
   const wait = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms) || 0)));
   const bridge = () => globalThis.CNineCoreRaidBridge || null;
   const combatPowerReady = settings => [settings?.coreCombatPower, settings?.bossCombatPower]
@@ -28,10 +30,12 @@
   let pollTimer = null;
   let lastError = null;
   let clanOnly = false;
+  let activeAttempt = null;
 
   async function api(path, options = {}) {
     if (!bridge()?.apiRequest) throw new Error('붕괴 코어 레이드 연결 모듈을 불러오지 못했습니다.');
-    return bridge().apiRequest(path, options, { ttl: 0, replaceInflight: true });
+    return bridge().apiRequest(path, {...options,headers:{...options.headers,'x-core-raid-session':CLIENT_SESSION_ID}},
+      {ttl:0,microcache:false,replaceInflight:true});
   }
 
   async function loadFeature() {
@@ -211,9 +215,9 @@
     const risk = (balance.riskOperations || []).includes(selectedOperation);
     if (pending) {
       return '<section class="core-action"><div><small>PENDING ATTEMPT</small><b>' +
-        esc(OP_NAMES[pending.operation] || '공략') + ' 전투 재개</b>' +
-        '<span>서버에 보존된 미완료 전투를 이어서 진행합니다.</span></div>' +
-        '<button type="button" data-core-action="battle">전투 재개</button></section>';
+        esc(OP_NAMES[pending.operation] || '공략') + ' 전투 확인</b>' +
+        '<span>이탈한 미완료 전투는 패배 처리됩니다.</span></div>' +
+        '<button type="button" data-core-action="reload">전황 확인</button></section>';
     }
     return '<section class="core-action' + (risk ? ' is-risk' : '') + '"><div><small>' +
       (risk ? 'RESONANCE OVERLOAD WARNING' : 'REPEATED CORE ASSAULT') + '</small><b>' +
@@ -229,10 +233,10 @@
     const current = state.current;
     const pending = state.pendingAttempt;
     return '<section class="core-action is-final"><div><small>FINAL BOSS ASSAULT</small><b>' +
-      (pending ? '최종 보스 전투 재개' : esc(current.bossName || state.settings?.bossName || '유하바하') + ' 반복 공략') + '</b><span>남은 시간 ' +
+      (pending ? '최종 보스 전투 확인' : esc(current.bossName || state.settings?.bossName || '유하바하') + ' 반복 공략') + '</b><span>남은 시간 ' +
       remainingText(current.endsAt) + ' · 전투와 두 입력 기믹을 모두 성공해야 피해가 누적됩니다.</span></div>' +
-      '<button type="button" data-core-action="battle" ' +
-      (!pending && !combatPowerReady(state.settings) ? 'data-core-locked="1" disabled' : '') + '>' + (pending ? '전투 재개' : '최종 보스 출전') +
+      '<button type="button" data-core-action="' + (pending ? 'reload' : 'battle') + '" ' +
+      (!pending && !combatPowerReady(state.settings) ? 'data-core-locked="1" disabled' : '') + '>' + (pending ? '전황 확인' : '최종 보스 출전') +
       '</button></section>';
   }
 
@@ -303,7 +307,7 @@
       '<li>공대장은 입장권 1장으로 방을 생성합니다.</li>' +
       '<li>모든 공대원은 제한 시간 동안 횟수 제한 없이 코어와 보스를 반복 공략합니다.</li>' +
       '<li>매 공략마다 방향 신호·구속 파쇄·코어 동조·회로 복원·차폐 구역 중 서로 다른 2종이 등장합니다.</li>' +
-      '<li>전투와 선택된 두 기믹을 모두 성공해야 진척도가 반영됩니다. 전투 재개 시 기믹은 유지됩니다.</li>' +
+      '<li>전투와 선택된 두 기믹을 모두 성공해야 진척도가 반영됩니다. 새로고침·화면 닫기·기믹 중단 시 해당 전투는 패배하며 공대 HP가 감소합니다.</li>' +
       '<li>세 코어의 편차가 허용 범위를 넘지 않게 낮은 코어부터 교대로 공략해야 합니다.</li>' +
       '<li>앞선 코어를 과충전하면 해당 진척도는 무효이며 공대 HP가 ' + number(state.settings?.coreImbalanceDamage) + ' 감소합니다.</li>' +
       '<li>실패할 때마다 공대 HP가 ' + number(state.settings?.mechanicFailureDamage) + ' 감소합니다.</li>' +
@@ -358,8 +362,10 @@
       '" alt="' + esc(settings.bossName) + '"><div class="core-raid-boss-label"><small>CORE ENTITY / RAID BOSS</small><b>' +
       esc(settings.bossName) + '</b></div></div></section>' + weeklyRewardMarkup(data) +
       (!combatPowerReady(settings)
-        ? '<p class="core-room-empty">고정 전투력 설정 대기 중입니다. OWNER가 CMS에서 설정하면 공대 생성·새 출전이 가능합니다. 이미 시작한 전투는 재개할 수 있습니다.</p>'
+        ? '<p class="core-room-empty">고정 전투력 설정 대기 중입니다. OWNER가 CMS에서 설정하면 공대 생성·새 출전이 가능합니다.</p>'
         : '') +
+      (data.me?.lastResult?.failureReason === 'CORE_BATTLE_ABANDONED'
+        ? '<p class="core-room-empty" role="status">직전 전투 패배: 새로고침·전투 이탈 또는 기믹 미완료로 공대 HP ' + number(data.me.lastResult.partyHpDamage) + ' 감소. 코어 진척·보스 피해는 반영되지 않았습니다.</p>' : '') +
       (current ? battleStageMarkup(data) : roomListMarkup(data)) + '</main>';
     bindActions();
     setBusy(busy);
@@ -484,6 +490,7 @@
     stage.querySelector('.core-v3-mechanic-result')?.remove();
     const success = resolved.personalResult === 'SUCCESS';
     const overload = resolved.outcome?.failureReason === 'CORE_OVERLOAD';
+    const abandoned = resolved.outcome?.failureReason === 'CORE_BATTLE_ABANDONED';
     const verified = resolved.verified || {};
     const node = document.createElement('section');
     node.className = 'core-v3-mechanic-result ' + (success ? 'is-success' : 'is-failure');
@@ -494,13 +501,13 @@
     const detail = rows.map(row => esc(names[row.kind] || row.kind) + ' ' + (row.success ? '성공' : '실패')).join(' · ');
     const balance = resolved.outcome?.projectedBalance || resolved.outcome?.balance || {};
     const recommended = (balance.recommendedOperations || []).map(key => OP_NAMES[key]).filter(Boolean).join(' · ');
-    const reason = overload
+    const reason = abandoned ? '새로고침·전투 이탈 또는 기믹 미완료로 패배 처리되었습니다. 코어 진척과 보스 피해는 0입니다.' : overload
       ? '코어 편차 ' + number(balance.spread) + ' / 허용 ' + number(balance.tolerance) + ' · 다음 공략: ' + esc(recommended || '뒤처진 코어')
       : resolved.outcome?.engineSuccess === false ? '전투에서 패배했습니다. 덱 전투력과 편성을 확인하세요.'
       : !success ? '선택된 기믹을 모두 해제하지 못했습니다.' : '';
     node.innerHTML = '<small>CORE PROTOCOL / VERIFIED RESULT</small><strong>' +
-      (success ? '공략 진척도 전송 완료' : overload ? '코어 공명 과부하' : resolved.outcome?.engineSuccess === false ? '전투 패배' : '기믹 해제 실패') +
-      '</strong><span>전투 ' + (resolved.outcome?.engineSuccess ? '승리' : '패배') + ' · ' + detail +
+      (success ? '공략 진척도 전송 완료' : abandoned ? '전투 이탈 · 패배' : overload ? '코어 공명 과부하' : resolved.outcome?.engineSuccess === false ? '전투 패배' : '기믹 해제 실패') +
+      '</strong><span>전투 ' + (!abandoned && resolved.outcome?.engineSuccess ? '승리' : '패배') + ' · ' + detail +
       (success ? resolved.outcome?.stage === 'BOSS' ? ' · 보스 피해 ' + number(resolved.outcome?.bossDamage).toLocaleString()
         : ' · 코어 진척 +' + number(resolved.outcome?.coreProgress).toLocaleString()
         : ' · 공대 HP -' + number(resolved.outcome?.partyHpDamage).toLocaleString()) +
@@ -553,79 +560,161 @@
     return true;
   }
 
+  function stopAttemptWatch(attempt) {
+    clearTimeout(attempt?.timer);
+    attempt?.observer?.disconnect();
+  }
+
+  function abandonActive(keepalive = false) {
+    const attempt = activeAttempt;
+    if (!attempt || attempt.completed || attempt.submitted) return Promise.resolve(null);
+    attempt.left = true;
+    stopAttemptWatch(attempt);
+    globalThis.ProjectVRaidQteV1924?.cancel?.();
+    document.getElementById('modal')?.__battleV2Renderer?.destroy?.();
+    if (!attempt.attemptId) return Promise.resolve(null);
+    if (!attempt.abandonPromise) {
+      attempt.abandonPromise = api('raid/core/abandon', {
+        method:'POST', keepalive,
+        body:JSON.stringify({roomId:attempt.roomId,attemptId:attempt.attemptId})
+      }).catch(error => { attempt.abandonPromise = null; throw error; });
+    }
+    return attempt.abandonPromise;
+  }
+
+  function watchAttempt(attempt, modal) {
+    const heartbeat = async () => {
+      if (attempt.completed || attempt.left || activeAttempt !== attempt) return;
+      try {
+        const result = await api('raid/core/heartbeat', {
+          method:'POST', body:JSON.stringify({roomId:attempt.roomId,attemptId:attempt.attemptId})
+        });
+        if (result.personalResult) {
+          attempt.serverResult = result;
+          attempt.left = true;
+          globalThis.ProjectVRaidQteV1924?.cancel?.();
+          modal?.__battleV2Renderer?.destroy?.();
+          return;
+        }
+      } catch (error) {
+        // A brief lost packet is not a verdict. The server's 120-second lease
+        // decides expiry; retrying a heartbeat cannot revive an expired attempt.
+        console.warn('[CORE RAID] connection check failed', error);
+      }
+      if (!attempt.completed && !attempt.left) attempt.timer = setTimeout(heartbeat, 20000);
+    };
+    attempt.timer = setTimeout(heartbeat, 20000);
+    attempt.observer = new MutationObserver(() => {
+      if (attempt.stage && (!attempt.stage.isConnected || !modal.contains(attempt.stage) || !modal.classList.contains('show'))) {
+        void abandonActive().catch(() => {});
+      }
+    });
+    attempt.observer.observe(modal, {childList:true,attributes:true,attributeFilter:['class']});
+  }
+
   async function battle() {
     const roomId = data?.current?.id;
     if (!roomId) throw new Error('진행 중인 붕괴 코어 공대가 없습니다.');
     setBusy(true);
-    let renderer = null;
+    let renderer = null, live = null;
     const modal = document.getElementById('modal');
-    try {
-      const response = await api('raid/core/battle', {
-        method: 'POST',
-        body: JSON.stringify({ roomId, operation: selectedOperation, clientMechanicVersion: 2086 })
-      });
-      await bridge()?.ensureFeatureResources?.('battleV2');
-      if (!globalThis.ProjectVRaidQteV1924?.prepare) throw new Error('기믹 파일을 새로 불러와야 합니다. 새로고침 후 같은 공략을 재개하세요.');
-      await globalThis.ProjectVRaidQteV1924.prepare();
-      const live = globalThis.ProjectVBattleV3Live?.prepareLoading?.({
-        modal,
-        mode: 'RAID',
-        playerName: bridge()?.loadUser?.()?.nickname || 'CORE MEMBER',
-        opponentName: response.monster?.name || data.settings?.bossName || 'CORE ENTITY',
-        autoText: '서버 공략 시드와 V3 입력 타임라인을 동기화합니다.'
-      });
-      if (!live) throw new Error('V3 붕괴 코어 전장을 준비하지 못했습니다.');
-      renderer = await globalThis.playRaidBattleV3Live({
-        ...live,
-        modal,
-        data: response,
-        preserveServerTimeline: true,
-        onRaidEvent: showRaidEvent,
-        onInteractiveEvent: (event, context) => globalThis.ProjectVRaidQteV1924?.run?.(event, context)
-      });
-      const qte = renderer.getInteractiveResults?.() || {};
-      const expected = response.challenge?.mechanics?.map(plan => plan.kind) || ['SEQUENCE','MASH'];
-      if (expected.length !== 2 || expected.some(kind => !qte[kind] || qte[kind].cancelled)) {
-        throw new Error('기믹 입력이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.');
-      }
-      const results = response.challenge?.mechanicVersion
-        ? {mechanics: Object.fromEntries(expected.map(kind => [kind, qte[kind]]))}
-        : {sequence: qte.SEQUENCE, mash: qte.MASH};
-      const status = live.stage.querySelector('#pvBattleStatus');
-      if (status) status.textContent = '입력 기록 검증 및 공대 전황 반영 중';
-      const resolved = await api('raid/core/resolve', {
-        method: 'POST',
-        body: JSON.stringify({
-          roomId,
-          attemptId: response.attemptId,
-          requestId: requestId(),
-          results
-        })
-      });
-      renderer.showResult(resolved);
-      if (status) status.textContent = '입력 검증 완료 · 공대 전황 반영 완료';
-      mountMechanicResult(live.stage, resolved);
-      const close = () => {
-        try { renderer?.destroy?.(); } catch {}
+    const attempt = {roomId,completed:false,left:false,submitted:false};
+    activeAttempt = attempt;
+    const close = () => {
+      stopAttemptWatch(attempt);
+      try { (renderer || modal?.__battleV2Renderer)?.destroy?.(); } catch {}
+      if (modal) {
         modal.__battleV2Renderer = null;
         modal.onclick = null;
         modal.className = 'modal';
         modal.innerHTML = '';
-        void load();
-      };
+      }
+      void load().catch(() => {});
+    };
+    const show = resolved => {
+      attempt.completed = true;
+      stopAttemptWatch(attempt);
+      if (!live?.stage?.isConnected) return;
+      (renderer || modal?.__battleV2Renderer)?.showResult?.(resolved);
+      modal?.classList.remove('battle-v3-preparing');
+      live.stage.querySelectorAll('.battle-v3-loader').forEach(node => node.remove());
+      const status = live.stage.querySelector('#pvBattleStatus');
+      if (status) status.textContent = resolved.personalResult === 'SUCCESS' ? '공략 성공 · 전황 반영 완료' : '공략 패배 · 실패 기록 반영 완료';
+      mountMechanicResult(live.stage, resolved);
       live.stage.querySelector('.core-v3-return')?.addEventListener('click', event => {
         event.stopPropagation();
         close();
       });
-    } catch (error) {
-      try { (renderer || modal?.__battleV2Renderer)?.destroy?.(); } catch {}
-      if (modal) {
-        modal.__battleV2Renderer = null;
-        modal.className = 'modal';
-        modal.innerHTML = '';
+    };
+    try {
+      // Load resources before creating a chargeable attempt.
+      await bridge()?.ensureFeatureResources?.('battleV2');
+      if (!globalThis.ProjectVRaidQteV1924?.prepare) throw new Error('기믹 파일을 불러오지 못했습니다. 새로고침 후 다시 출전하세요.');
+      await globalThis.ProjectVRaidQteV1924.prepare();
+      if (attempt.left) return;
+      const response = await api('raid/core/battle', {
+        method:'POST',
+        body:JSON.stringify({roomId,operation:selectedOperation,clientMechanicVersion:2086,clientAttemptVersion:1,requestId:requestId()})
+      });
+      if (response.personalResult) {
+        attempt.completed = true;
+        await load();
+        throw new Error('이전 미완료 전투가 패배 처리되었습니다. 전황을 확인한 뒤 새 공략을 시작하세요.');
       }
+      attempt.attemptId = response.attemptId;
+      if (attempt.left) { await abandonActive(); return; }
+      watchAttempt(attempt, modal);
+      live = globalThis.ProjectVBattleV3Live?.prepareLoading?.({
+        modal,mode:'RAID',
+        playerName:bridge()?.loadUser?.()?.nickname || 'CORE MEMBER',
+        opponentName:response.monster?.name || data.settings?.bossName || 'CORE ENTITY',
+        autoText:'새로고침·전투 이탈 시 패배 처리됩니다. 기믹을 끝까지 수행하세요.'
+      });
+      if (!live) throw new Error('V3 붕괴 코어 전장을 준비하지 못했습니다.');
+      attempt.stage = live.stage;
+      renderer = await globalThis.playRaidBattleV3Live({
+        ...live,modal,data:response,preserveServerTimeline:true,onRaidEvent:showRaidEvent,
+        onInteractiveEvent:(event,context) => globalThis.ProjectVRaidQteV1924?.run?.(event,context)
+      });
+      const qte = renderer.getInteractiveResults?.() || {};
+      const expected = response.challenge?.mechanics?.map(plan => plan.kind) || ['SEQUENCE','MASH'];
+      if (attempt.left || expected.length !== 2 || expected.some(kind => !qte[kind] || qte[kind].cancelled)) {
+        throw new Error('기믹 수행 전 전투가 중단되었습니다.');
+      }
+      const results = response.challenge?.mechanicVersion
+        ? {mechanics:Object.fromEntries(expected.map(kind => [kind,qte[kind]]))}
+        : {sequence:qte.SEQUENCE,mash:qte.MASH};
+      const status = live.stage.querySelector('#pvBattleStatus');
+      if (status) status.textContent = '입력 기록 검증 및 공대 전황 반영 중';
+      attempt.submitted = true;
+      const resolveBody = JSON.stringify({roomId,attemptId:response.attemptId,requestId:requestId(),results});
+      // Retry the identical submission after a lost response, never submit a
+      // replacement success or overwrite an already committed result.
+      let resolved;
+      try { resolved = await api('raid/core/resolve',{method:'POST',body:resolveBody,keepalive:true}); }
+      catch { resolved = await api('raid/core/resolve',{method:'POST',body:resolveBody,keepalive:true}); }
+      show(resolved);
+    } catch (error) {
+      if (attempt.attemptId && !attempt.completed) {
+        try {
+          const resolved = attempt.serverResult || await api('raid/core/abandon',{
+            method:'POST',body:JSON.stringify({roomId,attemptId:attempt.attemptId})
+          });
+          globalThis.ProjectVRaidQteV1924?.cancel?.();
+          show(resolved);
+          if (!live?.stage?.isConnected) await load().catch(() => {});
+          return;
+        } catch {
+          close();
+          throw new Error('전투가 중단되어 결과를 확인 중입니다. 재접속 시 미완료 전투는 패배 처리되며, 이미 확정된 결과는 유지됩니다.');
+        }
+      }
+      if (!attempt.completed && !attempt.attemptId) CLIENT_SESSION_ID = requestId();
+      close();
       throw error;
     } finally {
+      stopAttemptWatch(attempt);
+      if (activeAttempt === attempt) activeAttempt = null;
       setBusy(false);
     }
   }
@@ -718,6 +807,7 @@
 
   function deactivate() {
     stopPoll();
+    void abandonActive().catch(() => {});
     globalThis.ProjectVRaidQteV1924?.cancel?.();
   }
 
@@ -730,6 +820,10 @@
   const appRoot = document.getElementById('app');
   if (appRoot) observer.observe(appRoot, { subtree: true, childList: true });
   addEventListener('load', wire);
+  addEventListener('pagehide', () => { void abandonActive(true).catch(() => {}); });
+  addEventListener('pageshow', event => {
+    if (event.persisted && activeTab === 'core') void load().catch(() => {});
+  });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopPoll();
     else if (activeTab === 'core' && !busy) void load().catch(() => {});

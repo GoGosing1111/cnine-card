@@ -27,6 +27,9 @@ async function sameCurrentClan(env, hostId, userId) {
 const MEMBER_TABLE = 'raid_core_members_v2024';
 const ACTIVE_MEMBER_TABLE = 'raid_core_active_members_v2024';
 const ATTEMPT_TABLE = 'raid_core_attempts_v2024';
+const FLIGHT_TABLE = 'raid_core_attempt_flights_v20260922';
+export const CORE_RAID_ATTEMPT_VERSION = 1;
+export const CORE_RAID_ATTEMPT_LEASE_MS = 120000;
 const RECEIPT_TABLE = 'raid_core_receipts_v2024';
 const REWARD_RECEIPT_TABLE = 'raid_core_reward_receipts_v2024';
 const WEEKLY_REWARD_TABLE = 'raid_core_weekly_rewards_v2112';
@@ -388,7 +391,7 @@ function evaluateLegacyCoreRaidQte(challenge = {}, rawResults = {}) {
   };
 }
 
-// Missing/cancelled input is an interrupted attempt, never a combat loss.
+// Missing/cancelled/malformed input must never qualify for successful settlement.
 function legacyInputValid(kind, plan, result, verdict) {
   if (!result || result.cancelled || !Number.isSafeInteger(result.durationMs) || result.durationMs < 0 || result.durationMs > plan.windowMs) return false;
   const rows = kind === 'SEQUENCE' ? result.inputs : result.presses;
@@ -1064,6 +1067,14 @@ async function ensureWeeklyRewardSchema(env) {
 }
 
 async function ensure(env) {
+  // Independent of the existing foundation marker; do not reset CMS or raid data.
+  if (!readRuntimeData(env, FLIGHT_TABLE)) {
+    const sql = 'CREATE TABLE IF NOT EXISTS ' + FLIGHT_TABLE +
+      '(attempt_id TEXT PRIMARY KEY,client_session_id TEXT NOT NULL,start_request_id TEXT NOT NULL,lease_expires_at BIGINT NOT NULL)';
+    if (env.DB?.dialect === 'postgres' && typeof env.DB.execSchema === 'function') await env.DB.execSchema([sql]);
+    else await env.DB.prepare(sql).run();
+    cacheRuntimeData(env, FLIGHT_TABLE, true, 1800000);
+  }
   // Independent additive schema: existing foundation markers must also receive this table.
   if (!readRuntimeData(env, CLAN_ROOM_TABLE)) {
     const sql = 'CREATE TABLE IF NOT EXISTS ' + CLAN_ROOM_TABLE + '(room_id TEXT PRIMARY KEY)';
@@ -1156,6 +1167,12 @@ async function releaseTerminalMemberships(env, roomId = '', userId = 0) {
 
 async function refreshRoom(env, row, cfg) {
   if (!row) return null;
+  const expired = (await env.DB.prepare('SELECT a.* FROM ' + ATTEMPT_TABLE +
+    ' a LEFT JOIN ' + FLIGHT_TABLE + " f ON f.attempt_id=a.attempt_id WHERE a.room_id=? AND a.status='PENDING' " +
+    'AND (f.lease_expires_at<=? OR ?=1)').bind(row.room_id, Date.now(),
+      TERMINAL_ROOM_STATUSES.has(row.status) || Date.parse(row.ends_at || '') <= Date.now() ? 1 : 0).all()).results || [];
+  for (const attempt of expired) await failAbandonedAttempt(env, attempt, cfg, 'CONNECTION_EXPIRED');
+  if (expired.length) row = await env.DB.prepare('SELECT * FROM ' + ROOM_TABLE + ' WHERE room_id=?').bind(row.room_id).first();
   const countRow = await env.DB.prepare(
     'SELECT COUNT(*) count FROM ' + MEMBER_TABLE + ' WHERE room_id=?'
   ).bind(row.room_id).first();
@@ -1284,6 +1301,7 @@ function publicMember(row, userId) {
     attemptCount: Number(row.attempt_count || 0),
     successCount: Number(row.success_count || 0),
     failureCount: Number(row.failure_count || 0),
+    lastResult: jsonSafe(row.last_result_json, null)?.outcome || null,
     mechanicScore: Number(row.mechanic_score || 0),
     totalDamage: Number(row.total_damage || 0),
     totalCoreProgress: Number(row.total_core_progress || 0),
@@ -1643,7 +1661,7 @@ function battleResponseFromAttempt(attempt, cfg, createPveBattleV2, nickname) {
   };
 }
 
-async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
+async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false, sessionId = '') {
   const roomId = cleanText(body.roomId || body.instanceId, 100);
   if (!roomId) return { error: '붕괴 코어 공대 ID가 필요합니다.', status: 400 };
   const existing = await env.DB.prepare(
@@ -1651,14 +1669,21 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
     " WHERE room_id=? AND user_id=? AND status='PENDING' ORDER BY created_at DESC LIMIT 1"
   ).bind(roomId, user.id).first();
   const clientReady = Number(body.clientMechanicVersion) >= CORE_MECHANIC_VERSION;
-  const needsUpdate = { error: '새 기믹이 추가되었습니다. 화면을 새로고침한 뒤 공략을 재개하세요.', status: 426 };
+  const needsUpdate = { error: '전투 이탈 판정이 변경되었습니다. 새로고침 후 새 공략을 시작하세요.', status: 426 };
   if (existing) {
-    if (jsonSafe(existing.challenge_json, {}).mechanicVersion && !clientReady) return needsUpdate;
-    return { response: battleResponseFromAttempt(existing, cfg, deps.createPveBattleV2, user.nickname) };
+    const flight = await env.DB.prepare('SELECT * FROM ' + FLIGHT_TABLE + ' WHERE attempt_id=?').bind(existing.attempt_id).first();
+    // Only a retry of the same start request in the same live page can replay.
+    if (!resumeOnly && clientReady && sessionId && flight?.client_session_id === sessionId &&
+        flight.start_request_id === cleanText(body.requestId,120) && Number(flight.lease_expires_at) > Date.now()) {
+      return { response: battleResponseFromAttempt(existing, cfg, deps.createPveBattleV2, user.nickname) };
+    }
+    const result = await failAbandonedAttempt(env, existing, cfg, 'REPLAY_BLOCKED');
+    return { response: await attemptResponse(env, existing, cfg, result) };
   }
-  if (resumeOnly) return { error: '재개할 공략 전투가 없습니다.', status: 404 };
+  if (resumeOnly) return { error: '이탈한 전투는 재개할 수 없습니다. 새 공략을 시작하세요.', status: 409 };
   if (!coreRaidCombatReady(cfg)) return { error: CORE_RAID_POWER_NOT_CONFIGURED, status: 503 };
-  if (!clientReady) return needsUpdate;
+  if (!clientReady || Number(body.clientAttemptVersion) !== CORE_RAID_ATTEMPT_VERSION || !sessionId) return needsUpdate;
+  if (!cleanText(body.requestId,120)) return {error:'전투 시작 요청 ID가 필요합니다.',status:400};
 
   const room = await roomById(env, roomId, cfg);
   if (!room || !['CORE', 'BOSS'].includes(room.status)) {
@@ -1719,7 +1744,7 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
   });
   const serverWinner = String(payload.coreRaid.serverWinner || 'B').toUpperCase();
   try {
-    await env.DB.prepare(
+    await env.DB.batch([env.DB.prepare(
       'INSERT INTO ' + ATTEMPT_TABLE +
       '(attempt_id,room_id,user_id,stage,operation,deck_snapshot,role_counts_json,challenge_json,total_power,server_winner) ' +
       'VALUES(?,?,?,?,?,?,?,?,?,?)'
@@ -1734,13 +1759,14 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
       attempt.challenge_json,
       totalPower,
       serverWinner
-    ).run();
+    ), env.DB.prepare('INSERT INTO ' + FLIGHT_TABLE + '(attempt_id,client_session_id,start_request_id,lease_expires_at) VALUES(?,?,?,?)')
+      .bind(attemptId, sessionId, cleanText(body.requestId,120), Date.now() + CORE_RAID_ATTEMPT_LEASE_MS)]);
   } catch (error) {
     const raced = await env.DB.prepare(
       "SELECT * FROM " + ATTEMPT_TABLE +
       " WHERE room_id=? AND user_id=? AND status='PENDING' ORDER BY created_at DESC LIMIT 1"
     ).bind(roomId, user.id).first();
-    if (raced) return { response: battleResponseFromAttempt(raced, cfg, deps.createPveBattleV2, user.nickname) };
+    if (raced) return { error:'공략이 이미 시작되었습니다. 전황을 확인하세요.',status:409 };
     throw error;
   }
   return {
@@ -1756,7 +1782,100 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false) {
   };
 }
 
-async function resolveAttempt(env, user, cfg, body) {
+
+function clientSession(request) {
+  const id = cleanText(request.headers.get('x-core-raid-session'), 120);
+  return /^[A-Za-z0-9-]{16,120}$/.test(id) ? id : '';
+}
+
+// A unique per-transaction claim guards every side effect. A receipt retry,
+// heartbeat, pagehide and late resolve can race, but only one may charge HP.
+async function commitAttemptResult(env, attempt, result) {
+  const {qte, contribution, outcome} = result;
+  const {attempt_id: attemptId, room_id: roomId, user_id: userId} = attempt;
+  const claim = randomToken('CORE-SETTLED');
+  const resultJson = JSON.stringify(result);
+  const guard = 'EXISTS(SELECT 1 FROM ' + ATTEMPT_TABLE +
+    " a WHERE a.attempt_id=? AND a.status='COMPLETED' AND a.resolve_request_id=?)";
+  const progress = key => attempt.operation === key ? outcome.coreProgress : 0;
+  await env.DB.batch([
+    env.DB.prepare('UPDATE ' + ATTEMPT_TABLE +
+      " SET status='COMPLETED',qte_result_json=?,result_json=?,resolve_request_id=?,resolved_at=CURRENT_TIMESTAMP," +
+      "updated_at=CURRENT_TIMESTAMP WHERE attempt_id=? AND room_id=? AND user_id=? AND status='PENDING'")
+      .bind(JSON.stringify(qte), resultJson, claim, attemptId, roomId, userId),
+    env.DB.prepare('UPDATE ' + MEMBER_TABLE + ' SET last_operation=?,attempt_count=attempt_count+1,' +
+      'success_count=success_count+?,failure_count=failure_count+?,mechanic_score=mechanic_score+?,' +
+      'total_damage=total_damage+?,total_core_progress=total_core_progress+?,total_boss_damage=total_boss_damage+?,' +
+      'last_result_json=?,updated_at=CURRENT_TIMESTAMP WHERE room_id=? AND user_id=? AND ' + guard)
+      .bind(attempt.operation, outcome.success ? 1 : 0, outcome.success ? 0 : 1,
+        contribution.mechanicScore, outcome.bossDamage, outcome.coreProgress, outcome.bossDamage,
+        resultJson, roomId, userId, attemptId, claim),
+    env.DB.prepare('UPDATE ' + ROOM_TABLE + ' SET ' +
+      'party_hp=MAX(0,party_hp-?),break_score=MIN(core_target,break_score+?),' +
+      'block_score=MIN(core_target,block_score+?),stabilize_score=MIN(core_target,stabilize_score+?),' +
+      "boss_hp=MAX(0,boss_hp-?),updated_at=CURRENT_TIMESTAMP WHERE room_id=? AND status IN ('CORE','BOSS') AND " + guard)
+      .bind(outcome.partyHpDamage, progress('BREAK'), progress('BLOCK'), progress('STABILIZE'),
+        outcome.bossDamage, roomId, attemptId, claim)
+  ]);
+  const stored = await env.DB.prepare('SELECT * FROM ' + ATTEMPT_TABLE + ' WHERE attempt_id=?').bind(attemptId).first();
+  if (stored?.status !== 'COMPLETED') throw new Error('공략 결과를 저장하지 못했습니다. 다시 확인해 주세요.');
+  return jsonSafe(stored.result_json, {});
+}
+
+async function failAbandonedAttempt(env, attempt, cfg, reason = 'BATTLE_LEFT') {
+  const settings = cleanCoreRaidSettings(participantDeckSnapshot(attempt).coreRaidCombatSettings || cfg);
+  const qte = evaluateCoreRaidQte(jsonSafe(attempt.challenge_json, {}), {});
+  const contribution = {analysisScore:0, coreScore:0, coreProgress:0, suppressionScore:0, mechanicScore:0, totalDamage:0};
+  const outcome = {...coreRaidAttemptOutcome({serverWinner:attempt.server_winner, qte, contribution, stage:attempt.stage, settings}),
+    success:false, failureReason:'CORE_BATTLE_ABANDONED', abandonReason:reason};
+  return commitAttemptResult(env, attempt, {qte, contribution, outcome});
+}
+
+async function recoverAbandonedAttempts(env, user, cfg, sessionId) {
+  const pending = (await env.DB.prepare('SELECT a.*,f.client_session_id,f.lease_expires_at FROM ' + ATTEMPT_TABLE +
+    ' a LEFT JOIN ' + FLIGHT_TABLE + " f ON f.attempt_id=a.attempt_id WHERE a.user_id=? AND a.status='PENDING'")
+    .bind(user.id).all()).results || [];
+  for (const attempt of pending) {
+    if (!sessionId || attempt.client_session_id !== sessionId || Number(attempt.lease_expires_at) <= Date.now()) {
+      await failAbandonedAttempt(env, attempt, cfg, 'PAGE_RELOADED');
+    }
+  }
+}
+
+async function attemptResponse(env, attempt, cfg, result) {
+  return {ok:true, roomId:attempt.room_id, instanceId:attempt.room_id, attemptId:attempt.attempt_id,
+    verified:result.qte, contribution:result.contribution, outcome:result.outcome,
+    personalResult:result.outcome?.success ? 'SUCCESS' : 'FAILED',
+    current:publicRoom(await roomById(env, attempt.room_id, cfg), cfg)};
+}
+
+async function abandonAttempt(env, user, cfg, body) {
+  const attempt = await env.DB.prepare('SELECT * FROM ' + ATTEMPT_TABLE +
+    ' WHERE attempt_id=? AND room_id=? AND user_id=?')
+    .bind(cleanText(body.attemptId,120), cleanText(body.roomId,100), user.id).first();
+  if (!attempt) return {error:'공략 전투를 찾을 수 없습니다.',status:404};
+  const result = attempt.status === 'PENDING'
+    ? await failAbandonedAttempt(env, attempt, cfg)
+    : jsonSafe(attempt.result_json, {});
+  return {response:await attemptResponse(env, attempt, cfg, result)};
+}
+
+async function heartbeatAttempt(env, user, cfg, body, sessionId) {
+  const attempt = await env.DB.prepare('SELECT a.*,f.client_session_id,f.lease_expires_at FROM ' + ATTEMPT_TABLE +
+    ' a JOIN ' + FLIGHT_TABLE + ' f ON f.attempt_id=a.attempt_id WHERE a.attempt_id=? AND a.room_id=? AND a.user_id=?')
+    .bind(cleanText(body.attemptId,120), cleanText(body.roomId,100), user.id).first();
+  if (!attempt) return {error:'진행 중인 공략을 찾을 수 없습니다.',status:404};
+  if (attempt.status !== 'PENDING') return {response:await attemptResponse(env, attempt, cfg, jsonSafe(attempt.result_json,{}))};
+  if (!sessionId || attempt.client_session_id !== sessionId || Number(attempt.lease_expires_at) <= Date.now()) {
+    return {response:await attemptResponse(env, attempt, cfg, await failAbandonedAttempt(env, attempt, cfg, 'CONNECTION_EXPIRED'))};
+  }
+  const expiresAt = Date.now() + CORE_RAID_ATTEMPT_LEASE_MS;
+  await env.DB.prepare('UPDATE ' + FLIGHT_TABLE + ' SET lease_expires_at=? WHERE attempt_id=? AND client_session_id=? AND lease_expires_at>?')
+    .bind(expiresAt, attempt.attempt_id, sessionId, Date.now()).run();
+  return {response:{ok:true,attemptId:attempt.attempt_id,leaseExpiresAt:expiresAt}};
+}
+
+async function resolveAttempt(env, user, cfg, body, sessionId) {
   const roomId = cleanText(body.roomId || body.instanceId, 100);
   const attemptId = cleanText(body.attemptId, 120);
   const requestId = cleanText(body.requestId, 120);
@@ -1780,8 +1899,11 @@ async function resolveAttempt(env, user, cfg, body) {
         'SELECT * FROM ' + MEMBER_TABLE + ' WHERE room_id=? AND user_id=?'
       ).bind(roomId, user.id).first()
     ]);
-    if (!attempt || attempt.status !== 'PENDING') {
-      throw Object.assign(new Error('처리할 공략 전투가 없습니다.'), { status: 409 });
+    if (!attempt) throw Object.assign(new Error('처리할 공략 전투가 없습니다.'), {status:404});
+    if (attempt.status === 'COMPLETED') {
+      const response = await attemptResponse(env, attempt, cfg, jsonSafe(attempt.result_json,{}));
+      await completeReceipt(env, requestId, user.id, response);
+      return {response};
     }
     if (!member) throw Object.assign(new Error('공대 참가 정보를 찾을 수 없습니다.'), { status: 403 });
     const room = await roomById(env, roomId, cfg);
@@ -1799,8 +1921,13 @@ async function resolveAttempt(env, user, cfg, body) {
     ) {
       throw Object.assign(new Error('기믹 시드 검증에 실패했습니다.'), { status: 409 });
     }
-    if (!validCoreRaidSubmission(challenge, body.results || {})) {
-      throw Object.assign(new Error('기믹 입력이 중단되었거나 기록을 읽을 수 없습니다. HP 차감 없이 같은 공략을 재개하세요.'), {status: 422});
+    const flight = await env.DB.prepare('SELECT * FROM ' + FLIGHT_TABLE + ' WHERE attempt_id=?').bind(attemptId).first();
+    if (!validCoreRaidSubmission(challenge, body.results || {}) ||
+        (flight && (!sessionId || flight.client_session_id !== sessionId || Number(flight.lease_expires_at) <= Date.now()))) {
+      const settled = await failAbandonedAttempt(env, attempt, cfg, 'INCOMPLETE_OR_INTERRUPTED');
+      const response = await attemptResponse(env, attempt, cfg, settled);
+      await completeReceipt(env, requestId, user.id, response);
+      return {response};
     }
     const qte = evaluateCoreRaidQte(challenge, body.results || {});
     const attemptSnapshot = participantDeckSnapshot(attempt);
@@ -1827,85 +1954,8 @@ async function resolveAttempt(env, user, cfg, body) {
       outcome: baseOutcome,
       settings: cfg
     });
-    const breakProgress = attempt.operation === 'BREAK' ? outcome.coreProgress : 0;
-    const blockProgress = attempt.operation === 'BLOCK' ? outcome.coreProgress : 0;
-    const stabilizeProgress = attempt.operation === 'STABILIZE' ? outcome.coreProgress : 0;
-    const resultJson = JSON.stringify({ qte, contribution, outcome });
-    await env.DB.batch([
-      env.DB.prepare(
-        'UPDATE ' + ATTEMPT_TABLE +
-        " SET status='COMPLETED',qte_result_json=?,result_json=?,resolve_request_id=?,resolved_at=CURRENT_TIMESTAMP," +
-        "updated_at=CURRENT_TIMESTAMP WHERE attempt_id=? AND room_id=? AND user_id=? AND status='PENDING'"
-      ).bind(JSON.stringify(qte), resultJson, requestId, attemptId, roomId, user.id),
-      env.DB.prepare(
-        'UPDATE ' + MEMBER_TABLE + ' SET last_operation=?,attempt_count=attempt_count+1,' +
-        'success_count=success_count+?,failure_count=failure_count+?,mechanic_score=mechanic_score+?,' +
-        'total_damage=total_damage+?,total_core_progress=total_core_progress+?,total_boss_damage=total_boss_damage+?,' +
-        'last_result_json=?,updated_at=CURRENT_TIMESTAMP WHERE room_id=? AND user_id=? AND EXISTS(' +
-        'SELECT 1 FROM ' + ATTEMPT_TABLE +
-        " a WHERE a.attempt_id=? AND a.room_id=? AND a.user_id=? AND a.status='COMPLETED' AND a.resolve_request_id=?)"
-      ).bind(
-        attempt.operation,
-        outcome.success ? 1 : 0,
-        outcome.success ? 0 : 1,
-        contribution.mechanicScore,
-        outcome.bossDamage,
-        outcome.coreProgress,
-        outcome.bossDamage,
-        resultJson,
-        roomId,
-        user.id,
-        attemptId,
-        roomId,
-        user.id,
-        requestId
-      ),
-      env.DB.prepare(
-        'UPDATE ' + ROOM_TABLE + ' SET ' +
-        'party_hp=CASE WHEN party_hp-? < 0 THEN 0 ELSE party_hp-? END,' +
-        'break_score=CASE WHEN break_score+? > core_target THEN core_target ELSE break_score+? END,' +
-        'block_score=CASE WHEN block_score+? > core_target THEN core_target ELSE block_score+? END,' +
-        'stabilize_score=CASE WHEN stabilize_score+? > core_target THEN core_target ELSE stabilize_score+? END,' +
-        'boss_hp=CASE WHEN boss_hp-? < 0 THEN 0 ELSE boss_hp-? END,updated_at=CURRENT_TIMESTAMP ' +
-        "WHERE room_id=? AND status IN ('CORE','BOSS') AND EXISTS(" +
-        'SELECT 1 FROM ' + ATTEMPT_TABLE +
-        " a WHERE a.attempt_id=? AND a.room_id=? AND a.user_id=? AND a.status='COMPLETED' AND a.resolve_request_id=?)"
-      ).bind(
-        outcome.partyHpDamage,
-        outcome.partyHpDamage,
-        breakProgress,
-        breakProgress,
-        blockProgress,
-        blockProgress,
-        stabilizeProgress,
-        stabilizeProgress,
-        outcome.bossDamage,
-        outcome.bossDamage,
-        roomId,
-        attemptId,
-        roomId,
-        user.id,
-        requestId
-      )
-    ]);
-    const completed = await env.DB.prepare(
-      'SELECT status,resolve_request_id FROM ' + ATTEMPT_TABLE + ' WHERE attempt_id=?'
-    ).bind(attemptId).first();
-    if (completed?.status !== 'COMPLETED' || completed?.resolve_request_id !== requestId) {
-      throw Object.assign(new Error('공략 결과가 이미 처리되었습니다.'), { status: 409 });
-    }
-    const fresh = await roomById(env, roomId, cfg);
-    const response = {
-      ok: true,
-      roomId,
-      instanceId: roomId,
-      attemptId,
-      verified: qte,
-      contribution,
-      outcome,
-      personalResult: outcome.success ? 'SUCCESS' : 'FAILED',
-      current: publicRoom(fresh, cfg)
-    };
+    const settled = await commitAttemptResult(env, attempt, {qte, contribution, outcome});
+    const response = await attemptResponse(env, attempt, cfg, settled);
     await completeReceipt(env, requestId, user.id, response);
     return { response };
   } catch (error) {
@@ -2124,7 +2174,9 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
   }
 
   const feature = coreRaidFeatureAccess(user, cfg);
+  const sessionId = clientSession(request);
   if (path === 'raid/core/feature' && request.method === 'GET') {
+    if (feature.accessible && sessionId) await recoverAbandonedAttempts(env, user, cfg, sessionId);
     return json({ ok: true, ...feature, title: cfg.title, subtitle: cfg.subtitle });
   }
   if (cfg.mode === 'OFF') {
@@ -2137,6 +2189,7 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
   const url = new URL(request.url);
   const requestedId = cleanText(url.searchParams.get('roomId') || url.searchParams.get('instanceId') || '', 100);
   if (path === 'raid/core/status' && request.method === 'GET') {
+    await recoverAbandonedAttempts(env, user, cfg, sessionId);
     return json(await statusPayload(env, user, cfg, requestedId, url.searchParams.get('browse') === '1'));
   }
   if (path === 'raid/core/acknowledge' && request.method === 'POST') {
@@ -2165,13 +2218,21 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
       cfg,
       body,
       { raidDeckPower, createPveBattleV2 },
-      request.method === 'GET'
+      request.method === 'GET',
+      sessionId
     );
     return result.response ? json(result.response) : json({ error: result.error }, result.status || 500);
   }
   if (path === 'raid/core/resolve' && request.method === 'POST') {
-    const result = await resolveAttempt(env, user, cfg, await readBody(request));
+    const result = await resolveAttempt(env, user, cfg, await readBody(request), sessionId);
     return result.response ? json(result.response) : json({ error: result.error }, result.status || 500);
+  }
+  if ((path === 'raid/core/abandon' || path === 'raid/core/heartbeat') && request.method === 'POST') {
+    const body = await readBody(request);
+    const result = path === 'raid/core/abandon'
+      ? await abandonAttempt(env, user, cfg, body)
+      : await heartbeatAttempt(env, user, cfg, body, sessionId);
+    return result.response ? json(result.response) : json({error:result.error}, result.status || 500);
   }
   if (path === 'raid/core/claim' && request.method === 'POST') {
     const result = await claimCoreReward(env, user, cfg, await readBody(request), profile);

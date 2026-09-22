@@ -267,9 +267,9 @@ test('server implements ticketed rooms, repeat attempts and terminal reward rece
   assert.match(server, /deps\.raidDeckPower\(env, user\.id, body\.cardIds, 'RAID'\)/);
   assert.match(server, /\{ raidDeckPower, createPveBattleV2 \}/);
   assert.match(server, /status IN \('CORE','BOSS'\)/);
-  assert.match(server, /party_hp=CASE WHEN party_hp-\?/);
-  assert.match(server, /break_score=CASE WHEN break_score\+\?/);
-  assert.match(server, /boss_hp=CASE WHEN boss_hp-\?/);
+  assert.match(server, /party_hp=MAX\(0,party_hp-\?\)/);
+  assert.match(server, /break_score=MIN\(core_target,break_score\+\?\)/);
+  assert.match(server, /boss_hp=MAX\(0,boss_hp-\?\)/);
   assert.doesNotMatch(server, /pveDeckSnapshot/);
   assert.doesNotMatch(server, /dailyEntries/);
   assert.doesNotMatch(server, /cycleIdentity/);
@@ -319,7 +319,7 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
   const deps = {
     authenticate: async () => activeUser,
     readBody: request => request.json(),
-    json: (value, status = 200) => new Response(JSON.stringify(value), { status, headers: { 'content-type': 'application/json' } }),
+    json: (value, status = 200) => new Response(JSON.stringify(value), { status, headers: { 'content-type': 'application/json','x-core-raid-session':'test-live-page-123456789' } }),
     raidDeckPower: async () => ({ ids: cards.map(card => card.id), cards, power: 250000, basePower: 250000, cardPower: 250000, characterBonus: { pve: 0 }, synergy: {} }),
     createPveBattleV2: ({ cards: battleCards, monster }) => ({
       engine: 'BATTLE_ENGINE_V2',
@@ -330,11 +330,11 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
     writeAdminLog: async () => {}
   };
   const call = async (pathWithQuery, method = 'GET', body = null) => {
-    if (pathWithQuery.startsWith('raid/core/battle')) { if(method==='GET')pathWithQuery += '&clientMechanicVersion=2086'; else body={clientMechanicVersion:2086,...body}; }
+    if (pathWithQuery.startsWith('raid/core/battle')) { if(method==='GET')pathWithQuery += '&clientMechanicVersion=2086'; else body={clientMechanicVersion:2086,clientAttemptVersion:1,requestId:'START-'+body?.roomId,...body}; }
     const path = pathWithQuery.split('?')[0];
     const request = new Request('https://example.test/api/' + pathWithQuery, {
       method,
-      headers: body ? { 'content-type': 'application/json' } : undefined,
+      headers: {'content-type':'application/json','x-core-raid-session':'test-live-page-123456789'},
       body: body ? JSON.stringify(body) : undefined
     });
     const response = await handleRaidCoreProtocol({ path, request, env, deps });
@@ -344,7 +344,7 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
   const fight = async (roomId, operation, requestSuffix, success = true) => {
     const started = await call('raid/core/battle', 'POST', { roomId, operation });
     assert.equal(started.status, 200);
-    const resumed = await call('raid/core/battle?roomId=' + encodeURIComponent(roomId));
+    const resumed = await call('raid/core/battle', 'POST', {roomId,operation});
     assert.equal(resumed.body.attemptId, started.body.attemptId, 'resume must return the same pending attempt');
     const results = coreTraces(started.body.challenge, success);
     const resolved = await call('raid/core/resolve', 'POST', { roomId, attemptId: started.body.attemptId, requestId: 'RESOLVE-' + requestSuffix, results });
@@ -384,7 +384,8 @@ test('SQLite route flow consumes one host ticket, repeats attempts, damages part
     assert.equal(failed.current.partyHp, configured.body.settings.partyMaxHp - configured.body.settings.mechanicFailureDamage);
     assert.equal(failed.current.status, 'CORE');
     const duplicate = await call('raid/core/resolve', 'POST', { roomId, attemptId: failed.attemptId, requestId: 'RESOLVE-FAIL-DUPLICATE', results: {} });
-    assert.equal(duplicate.status, 409);
+    assert.equal(duplicate.status, 200);
+    assert.equal(duplicate.body.personalResult, 'FAILED');
     const afterDuplicate = (await call('raid/core/status?roomId=' + encodeURIComponent(roomId))).body;
     assert.equal(afterDuplicate.current.partyHp, failed.current.partyHp, 'a second receipt must not apply party damage twice');
 
@@ -520,7 +521,7 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   assert.match(index, /core-protocol-raid-v1924\.css\?v=2074-clan-only/);
   assert.match(index, /project-v-raid-qte-v1924\.js\?v=2086-random-two/);
   assert.match(index, /raid-qte-mobile-v2085\.css\?v=2085/);
-  assert.match(index, /core-protocol-raid-v1924\.js\?v=2086-random-two/);
+  assert.match(index, /core-protocol-raid-v1924\.js\?v=20260922-abandon-defeat/);
   assert.match(adminIndex, /admin-v1276\.js\?v=2050-verified-coin-50eok/);
   assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=2070-fixed-power/);
   assert.match(coreAdmin, /coreRaidBalanceTolerance/);
