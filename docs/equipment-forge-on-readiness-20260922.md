@@ -2,7 +2,7 @@
 
 ## 범위와 보류
 
-사용자 요청은 CMS에 저장한 장비 강화·보호·복구를 검증하고 ON을 준비하는 것이다. **실제 ON 지시는 아니다.** 운영 계정 재화·장비로 시험하지 않는다. 격리 SQLite/PostgreSQL에서 거래를 실행하고 운영 Neon은 읽기 전용으로 확인했다.
+사용자 요청은 CMS에 저장한 장비 강화·보호·복구를 검증하고 ON을 준비하는 것이다. **실제 ON 지시는 아니다.** 운영 계정 재화·장비로 시험하지 않는다. 격리 SQLite/PostgreSQL에서 거래를 실행하고 운영 Neon SQL은 읽기 전용으로 확인했다. 배포 후 OWNER CMS에서 승인된 보호권 제한만 초안 r5로 저장했다.
 
 - 복구는 최신 CMS대로 **핑두 리페어 쿠폰 1장 + 1,000억 코인**, 파괴 직전 단계, 기한 없음. 이전 추가 코인 0 승인보다 이번 명시적 답변을 우선한다.
 - 보호권은 **+9 도전 1장 / +10 도전 3장**, 강화 시도마다 소모(`ON_ATTEMPT`). +1~+8 도전은 사용 불가.
@@ -12,7 +12,7 @@
 ## 운영 조회 결과
 
 - Neon 프로젝트 `purple-king-54735192`, 운영 브랜치 `br-misty-hat-az5in4f4`, DB `cnine`, 런타임 역할 `cnine_migrator` 유지.
-- `equipment_forge_runtime_policy_v1`: revision 4, mode OFF, approved false. 원문은 `tests/fixtures/equipment-forge-cms-20260922.json`에 보존했다.
+- 최초 `equipment_forge_runtime_policy_v1` 조회: revision 4, mode OFF, approved false. 원문은 `tests/fixtures/equipment-forge-cms-20260922.json`에 보존했다. 후속 r5 저장은 아래에 별도 기록한다.
 - 공개 설정 revision 1, 공개 true, 실행 OFF. 공동 승인 문서 `v3_joint_release_20260913-joint1` 없음.
 - 강화 상태·견적·파괴 기록 각각 0행. 운영 계정에 검수 데이터를 만들지 않았다.
 - 관련 11개 테이블 SELECT/INSERT/UPDATE/DELETE 및 장비 인스턴스 시퀀스 USAGE 권한 확인. 코인 및 로그 금액은 bigint.
@@ -57,7 +57,7 @@
 
 ## 최종 ON 순서 (아직 실행하지 않음)
 
-1. +1~+6 파괴확률의 명시적 확정, +1~+8 보호권 0 저장. 최신 CMS를 다시 읽고 revision 충돌 없이 준비한다. 1,000억과 나머지 운영값을 유지한다.
+1. +1~+6 파괴확률을 명시적으로 확정한다. +1~+8 보호권 0은 r5에서 저장 완료다. 최신 CMS를 다시 읽고 revision 충돌 없이 준비한다. 1,000억과 나머지 운영값을 유지한다.
 2. 모든 필드·활성 재료·경제 검수를 다시 확인하고 사용자 **최종 ON 지시**를 받는다.
 3. 최신 정책과 실제 승인 기록을 포함한 문서를 `scripts/prepare-equipment-forge-release.mjs APPROVED_DOCUMENT.json OUTPUT.sql`로 오프라인 컴파일한다. 미완성/미승인 문서는 생성 거절. 생성 SQL은 현재 CMS 일치·기존 승인 문서 보존·감사 기록을 검증하며 계정 재화, 실행 스위치, V3 스위치를 변경하지 않는다.
 4. 검토한 문서를 저장하고 강화 전용 코드 게이트를 최종 승인 범위에서 연다. 현재 준비 전용 테스트의 OFF 고정 검사를 최종 출시 승인·문서 검증 검사로 전환하는 것도 이 승인 작업에 포함한다. 기존 V3 전역 게이트는 바꾸지 않는다. 깨끗한 최신 후보의 `npm run release:gate` 후 **`npm run deploy:production`만** 사용한다. 운영 Hyperdrive SQL 캐시 OFF 검사 유지.
@@ -65,3 +65,14 @@
 6. 긴급 중지는 OWNER 실행 OFF. 완료 영수증·장비 상태·감사 기록은 삭제하거나 초기화하지 않는다. 승인 문서는 기존 것을 덮어쓰지 않으며 정책 변경은 새 버전과 별도 검수로 한다.
 
 현재 이 문서는 준비/검증 기록이며 미설정 확률 확정, 최종 ON 승인, 실제 활성화 완료를 대신하지 않는다.
+
+## OFF 준비 코드 배포 및 저장 결과
+
+- 구현 커밋 `412b89a9`. 다른 작업의 최신 용병 합성 준비 코드를 보존한 깨끗한 후보를 사용했다.
+- `npm run deploy:production` 안의 전체 `npm run release:gate` 통과: 테스트 2,320개 중 2,313개 통과, 실서버 연결형 7개 스킵, 실패 0. 장비 강화 묶음은 100/100 통과했다. 실서버에서 재화가 소모되는 강화·복구 거래는 실행하지 않았다.
+- Pages 배포: `https://24a7af31.cnine-card.pages.dev`. 기존 운영 주소 `https://cnine-card.pages.dev/`는 그대로다.
+- clan-draft 버전: `19dda1fd-1dd6-4e95-9310-f48b65c9acc4`. Hyperdrive `12ed48b0fb374f82a610cc1daba92e95`의 쿼리 캐시 OFF 및 Pages/워커 바인딩 일치 검사를 통과했다.
+- 배포 후 로그인된 OWNER CMS에서 **+1~+8 보호권만 빈칸 → 0**으로 저장했다. r5이며 수량 배열은 `[0,0,0,0,0,0,0,0,1,3]`이다. +1~+6 파괴확률은 계속 null이다.
+- Neon 읽기 전용 재조회에서 r5의 mode OFF, approved false, 공개 설정 executionMode OFF, 복구 쿠폰 1장·100,000,000,000 코인·PREVIOUS·기한 0을 확인했다. 강화 상태와 파괴 기록은 각각 0행이다.
+- 운영 공개 화면은 로그인 안내 및 강화 OFF를 표시하고 실행 버튼이 비활성이다. 실계정 강화·복구 완료 검증으로 오인하지 않는다. 인증된 거래·모바일 결과 복구 검수는 위의 격리 환경에서 수행했다.
+- 남은 사용자 확정: **+1~+6 파괴확률 0% 여부**. 최종 출시 문서 생성과 ON 활성화는 보류했다.
