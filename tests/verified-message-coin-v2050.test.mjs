@@ -32,16 +32,18 @@ async function fixture(t){
     CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id bigint PRIMARY KEY,message_id bigint UNIQUE,user_id bigint,
       reward_type text,reward_amount bigint,claim_token text UNIQUE,balance_before bigint,balance_after bigint,source text,credited_at text);
     CREATE TABLE coin_logs(user_id bigint,change_amount bigint,balance_after bigint,reason text);
+    CREATE TABLE cnine_user_inventory(user_id bigint,item_code text,quantity bigint,unseen_quantity bigint,created_at text,updated_at text,PRIMARY KEY(user_id,item_code));
+    CREATE TABLE inventory_logs(user_id bigint,item_code text,change_amount bigint,balance_after bigint,reason text,reference_type text,reference_id text);
   `);
   let fail=false;
   const client={async query(input){
     const text=typeof input==='string'?input:input.text,values=typeof input==='string'?[]:input.values||[];
-    if(fail&&text.includes('INSERT INTO user_message_rewards'))throw new Error('injected reward failure');
+    if(fail&&text.includes(typeof fail==='string'?fail:'INSERT INTO user_message_rewards'))throw new Error('injected reward failure');
     const r=await pg.query(text,values);return {...r,rowCount:r.affectedRows??r.rows.length};
   }};
   const env={DB:new __postgresCompatTest.PostgresD1Database(client)},logs=[];
   const context=vm.createContext({crypto:webcrypto,
-    ensureVerifiedRewardMessageV1276:async()=>{},ensureSecondVerificationFoundation:async()=>{},
+    ensureVerifiedRewardMessageV1276:async()=>{},ensureSecondVerificationFoundation:async()=>{},ensureForgeRepairCatalog:async()=>{},
     requirePermission:async request=>request.allowed===false?null:{id:99,role:'OWNER'},readBody:async request=>request.body,
     json:(body,status=200)=>({body,status}),writeAdminLog:async(...args)=>logs.push(args),messageRewardClaimToken:()=>webcrypto.randomUUID()});
   vm.runInContext(`${specs}\n${claim}\nthis.send=async function(request,env,path){${route}};this.claim=claimMessageRewardDirectV1222;`,context);
@@ -117,4 +119,70 @@ test('CMS and API expose the same 50-eok coin limit with a fresh admin script ca
   assert.match(read('admin/index.html'),/id="verifiedRewardAmount"[^>]+max="5000000000"/);
   assert.match(read('admin/index.html'),/admin-v1276\.js\?v=2050-verified-coin-50eok/);
   assert.match(read('package.json'),/verified-message-coin-v2050\.test\.mjs/);
+});
+
+const repairGift={...gift,requestId:'qa-pingdu-repair-message-20260923',rewardType:'PINGDU_REPAIR_COUPON',rewardAmount:1,
+  title:'핑두 리페어 쿠폰 지급',body:'2차 인증 완료 유저에게 핑두 리페어 쿠폰 1개를 지급합니다. 메시지함에서 수령해 주세요.'};
+
+test('repair coupon messages reach every active verified role exactly once without directly changing inventory',async t=>{
+  const f=await fixture(t);
+  const preview=await f.send({...repairGift,preview:true});
+  assert.equal(preview.body.eligible,3);assert.equal(preview.body.totalAmount,3);
+  assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,0);
+  const sent=await f.send(repairGift);
+  assert.equal(sent.status,200);assert.equal(sent.body.sent,3);assert.equal(sent.body.rewardCount,3);
+  assert.equal(sent.body.rewardAmount,1);assert.equal(sent.body.rewardLabel,'핑두 리페어 쿠폰');
+  const rows=(await f.pg.query('SELECT * FROM user_message_rewards ORDER BY user_id')).rows;
+  assert.deepEqual(rows.map(r=>Number(r.user_id)),[1,2,3]);
+  assert.ok(rows.every(r=>r.reward_type==='PINGDU_REPAIR_COUPON'&&Number(r.reward_amount)===1&&!r.claimed_at));
+  assert.equal((await f.pg.query('SELECT * FROM cnine_user_inventory')).rows.length,0);
+  assert.equal((await f.send(repairGift)).body.replayed,true);
+  assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,3);
+  assert.equal(f.logs.length,1);
+});
+
+test('PostgreSQL repair coupon claim increments stock and unseen count once, preserving coins and other items',async t=>{
+  const f=await fixture(t);await f.send(repairGift);
+  await f.pg.exec("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'PINGDU_REPAIR_COUPON',4,2),(1,'MASTER_STAR',100,0)");
+  const reward=(await f.pg.query('SELECT * FROM user_message_rewards WHERE user_id=1')).rows[0];
+  const first=await f.claim(reward);
+  assert.equal(first.credited,true);assert.equal(first.itemCode,'PINGDU_REPAIR_COUPON');assert.equal(first.balanceAfter,5);
+  assert.equal((await f.claim(reward)).duplicate,true);
+  const item=(await f.pg.query("SELECT * FROM cnine_user_inventory WHERE user_id=1 AND item_code='PINGDU_REPAIR_COUPON'")).rows[0];
+  assert.equal(Number(item.quantity),5);assert.equal(Number(item.unseen_quantity),3);
+  assert.equal(Number((await f.pg.query("SELECT quantity FROM cnine_user_inventory WHERE item_code='MASTER_STAR'")).rows[0].quantity),100);
+  assert.equal(Number((await f.pg.query('SELECT coin FROM users WHERE id=1')).rows[0].coin),9000000000);
+  assert.equal((await f.pg.query('SELECT * FROM inventory_logs')).rows.length,1);
+  assert.equal((await f.pg.query('SELECT * FROM user_message_reward_claim_receipts_v1222')).rows.length,1);
+});
+
+test('repair coupon message failure is atomic and the identical campaign can resume without duplicates',async t=>{
+  const f=await fixture(t);f.fail(true);
+  await assert.rejects(()=>f.send(repairGift),/injected reward failure/);
+  assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,0);
+  assert.equal((await f.pg.query('SELECT * FROM user_message_rewards')).rows.length,0);
+  f.fail(false);assert.equal((await f.send(repairGift)).body.sent,3);
+  assert.equal((await f.send({...repairGift,rewardAmount:2})).status,409);
+  assert.equal((await f.send({...repairGift,requestId:'invalid-repair',rewardAmount:0})).status,400);
+  assert.equal((await f.send(repairGift,{allowed:false})).status,403);
+});
+
+test('repair coupon claim failure rolls back inventory, receipt and message and permits a safe retry',async t=>{
+  const f=await fixture(t);await f.send(repairGift);
+  const reward=(await f.pg.query('SELECT * FROM user_message_rewards WHERE user_id=1')).rows[0];
+  f.fail('INSERT INTO inventory_logs');await assert.rejects(()=>f.claim(reward),/injected reward failure/);
+  assert.equal((await f.pg.query('SELECT * FROM cnine_user_inventory')).rows.length,0);
+  assert.equal((await f.pg.query('SELECT * FROM user_message_reward_claim_receipts_v1222')).rows.length,0);
+  assert.equal((await f.pg.query('SELECT claimed_at FROM user_message_rewards WHERE user_id=1')).rows[0].claimed_at,null);
+  assert.equal((await f.pg.query('SELECT hidden_at FROM user_messages WHERE user_id=1')).rows[0].hidden_at,null);
+  f.fail(false);assert.equal((await f.claim(reward)).balanceAfter,1);
+});
+
+test('repair coupon has matching CMS selection, client claim presentation and fresh script queries; redeem-code coupons stay excluded',()=>{
+  assert.match(specs,/PINGDU_REPAIR_COUPON:\{[^\n]+inventory:true,messageOnly:true/);
+  assert.match(read('admin/index.html'),/<option value="PINGDU_REPAIR_COUPON">핑두 리페어 쿠폰<\/option>/);
+  assert.match(read('admin/admin-v1276.js'),/PINGDU_REPAIR_COUPON:\{label:'핑두 리페어 쿠폰',defaultAmount:1,max:100000\}/);
+  assert.match(read('js/app.js'),/PINGDU_REPAIR_COUPON:\{label:'핑두 리페어 쿠폰',icon:/);
+  assert.match(read('admin/index.html'),/repairMessage=20260923/);
+  assert.match(read('index.html'),/rewardMeta=20260923-repair/);
 });

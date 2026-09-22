@@ -497,6 +497,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'},
+  PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮',inventory:true,max:100000,messageType:'ITEM_REWARD'}
@@ -544,6 +545,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
   if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
+  if(rewardType==='PINGDU_REPAIR_COUPON')await ensureForgeRepairCatalog(env);
   const current=await env.DB.prepare('SELECT id,coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(!current)throw new Error('보상을 받을 계정을 찾을 수 없습니다.');
   let balanceBefore=0;
@@ -7688,7 +7690,7 @@ async function handleRequest(context){
       const body=await readBody(request);
       const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
       const spec=verifiedMessageRewardSpec(requestedType);
-      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
+      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','PINGDU_REPAIR_COUPON','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
       if(!Number.isSafeInteger(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위의 정수로 입력하세요.`},400);
       const rewardAmount=rawAmount;
@@ -7709,6 +7711,7 @@ async function handleRequest(context){
         return json({ok:true,preview:true,eligible:recipients.length,recipients,rewardType:requestedType,rewardAmount,
           totalAmount:rewardAmount*recipients.length,title,body:messageBody,includeOwner,includeAdmin,campaignKey,delivery:'MESSAGE'});
       }
+      if(requestedType==='PINGDU_REPAIR_COUPON')await ensureForgeRepairCatalog(env);
       const existingCampaign=await env.DB.prepare('SELECT id FROM user_messages WHERE campaign_key=? LIMIT 1').bind(campaignKey).first();
       if(!existingCampaign)await env.DB.batch([
         env.DB.prepare(`INSERT OR IGNORE INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
