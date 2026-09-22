@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 480,
+  "frameCount": 496,
   "images": [
     {
       "id": "closing-punch",
@@ -10415,6 +10415,498 @@
             384
           ],
           "nonempty": 5560
+        }
+      ]
+    },
+    {
+      "id": "black-moon-triple-sever",
+      "skillId": "MS-048",
+      "name": "흑월 삼연참",
+      "source": "black-moon-triple-sever/sequence-source-v1.png",
+      "runtime": "black-moon-triple-sever/sequence-source-v1.png",
+      "sourceSha256": "57ACE4510BCD1C58EE4D68FE55DE1FD5BBA3910ECBAF93258CF00E1F070DD8B5",
+      "runtimeSha256": "57ACE4510BCD1C58EE4D68FE55DE1FD5BBA3910ECBAF93258CF00E1F070DD8B5",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "cellSize": 313.5,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Create a PRODUCTION VFX sprite sheet of a premium gold-and-obsidian triple sword cut. EXACTLY 16 frames in a fixed 4x4 grid on a 1254x1254 TRANSPARENT PNG. No drawn grid, no background, no characters, no text, no runes. Genuine zero-alpha outside VFX. Palette: warm silver-gold slicing lines, a few dark violet-black pressure ribbons, bright pale sparks.\r\nCRITICAL COMPOSITION: Render every frame SMALL and CENTERED inside its cell. The whole effect must fit in the CENTRAL 62% of each cell. Leave 19% width/height of each cell fully empty on each side. The OUTER canvas edges are fully transparent. Absolutely NO effect crosses a cell edge; no cropping. Keep all 16 effect pivot centers precisely fixed at the CENTER of each cell. This means smaller effects with wide transparent spacing between them, NOT a collage of huge cut marks.\r\nThis is ONE animation read left-to-right top-to-bottom, all frames with different evolving geometry:\r\n1 small gathering sparks, 2 thin curved pressure thread, 3 sharpening small crescent.\r\n4 descending diagonal cut first contact, 5 complete first golden cut with small dark torn-space trail, 6 first cut fragments.\r\n7 ascending countercut starts, 8 crosses original at center with a bright pinpoint second contact, 9 two decaying crossed traces.\r\n10 third horizontal cleave appears, 11 bright three-way final contact with needle-like sparks, 12 golden impact breaks into black-violet fragments.\r\n13 separated drifting fragments, 14 fewer thin shreds and gold motes, 15 only scattered fine sparks, 16 nearly empty tiny motes.\r\nNo giant cloud of brown smoke, no stones, no opaque blobs. Fine hand-painted slash ribbons and precise sharp lines. Smooth visual temporal progression. Preserve extensive transparent margins in every cell.\r\n",
+      "visualReview": "2026-09-22 사용자: 용병 이름 흑월로 승인 라이브 배포해",
+      "runtimeBytes": 670875,
+      "creationReferenceCode": "V-048",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 313,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/01.png",
+          "bounds": [
+            132,
+            144,
+            199,
+            205
+          ],
+          "alphaPixels": 2239,
+          "sha256": "B13AABB5EB0F850C3915712BD8725E0CD584904AF9D3E06009C651E0FA06A745",
+          "rawSha256": "19FEC197A9DDEAB5AD7325FA940D4C0A5502E8D9985DBCA993F284E4DF660FD0",
+          "edgeMax": 1,
+          "size": [
+            313,
+            313
+          ],
+          "nonempty": 9194
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 313,
+            "y": 0,
+            "width": 314,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/02.png",
+          "bounds": [
+            107,
+            132,
+            204,
+            218
+          ],
+          "alphaPixels": 1500,
+          "sha256": "57C0BE989F2071E063B753C5F8FED1FF8A443821622F17C614C62C8AA03CF2CE",
+          "rawSha256": "D70DFC199B8F20296611ACE47A16FC2FC8E3FFF11CC2D13F28FEC1E074A1AA07",
+          "edgeMax": 1,
+          "size": [
+            314,
+            313
+          ],
+          "nonempty": 8766
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 313,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/03.png",
+          "bounds": [
+            94,
+            112,
+            218,
+            223
+          ],
+          "alphaPixels": 3512,
+          "sha256": "357EF211C8E7366D22692CB8136A900BB1300726D6D9036A01A437ADDB0FD5FC",
+          "rawSha256": "CF26BBDC33C5B66E57EA57897DA845D53CCD1012CC98332A6E86BB6E1AE81EAA",
+          "edgeMax": 1,
+          "size": [
+            313,
+            313
+          ],
+          "nonempty": 12780
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 940,
+            "y": 0,
+            "width": 314,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/04.png",
+          "bounds": [
+            94,
+            89,
+            250,
+            269
+          ],
+          "alphaPixels": 6709,
+          "sha256": "A7196C905DC93358472DDC2A8DE3B3C4DC6EBDBE17BFDD6E3CBC2A8F81FD0779",
+          "rawSha256": "0DE82B42028DF26D6FD2F427E9D08B973E24B0BE527390FD9C26BA742DD4F19D",
+          "edgeMax": 0,
+          "size": [
+            314,
+            313
+          ],
+          "nonempty": 19670
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 313,
+            "width": 313,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/05.png",
+          "bounds": [
+            78,
+            53,
+            244,
+            261
+          ],
+          "alphaPixels": 10139,
+          "sha256": "1493984ED77C63DC09CB4DA8476945D5778505B347A4BE7957B6B361F3C34EC3",
+          "rawSha256": "A577280F2084CDA8E3CBC6563344F914989EC734EADCE6645FC4B20E10A81C80",
+          "edgeMax": 1,
+          "size": [
+            313,
+            314
+          ],
+          "nonempty": 23484
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 313,
+            "y": 313,
+            "width": 314,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/06.png",
+          "bounds": [
+            75,
+            60,
+            261,
+            266
+          ],
+          "alphaPixels": 9914,
+          "sha256": "6148F65458A7C9192F37F25E14FF47AE725DD4176A4794F6D2DE7E0C8B172344",
+          "rawSha256": "3ACB0BF67D1FBB7889A55B61FC03C22DF14AB22EBD650A40B94680190E9AA5CB",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 24055
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 313,
+            "width": 313,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/07.png",
+          "bounds": [
+            77,
+            76,
+            239,
+            231
+          ],
+          "alphaPixels": 5360,
+          "sha256": "D3CDD78316DC39ACBDE96F394E8C5FDE3AAC61BE01920EF88DCF5A885F9B849A",
+          "rawSha256": "8FF4AFC18CB6D55B8EE879BE89BA1F3AF91CE8229C6434CCBE5082742A4D2B95",
+          "edgeMax": 1,
+          "size": [
+            313,
+            314
+          ],
+          "nonempty": 15640
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 940,
+            "y": 313,
+            "width": 314,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/08.png",
+          "bounds": [
+            73,
+            71,
+            264,
+            242
+          ],
+          "alphaPixels": 12179,
+          "sha256": "92036173945E6457BA0EC254E7CC60ACB3F01F73722FB1F787391CE43A0FF773",
+          "rawSha256": "ACE978E2C60C4D40D222D98AB942C5F60F94BE055D3A84B20324FDBB69C06DDE",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 28203
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 627,
+            "width": 313,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/09.png",
+          "bounds": [
+            79,
+            71,
+            242,
+            236
+          ],
+          "alphaPixels": 9403,
+          "sha256": "4DAE46B603C70562EF8DE82081AC3FAAA0E3E8E06DE5F617CDDDF98E58798AD4",
+          "rawSha256": "667A7A84BC775B8808A569638AAB9D0CC984D17ACB22942BFD436407FF93B301",
+          "edgeMax": 1,
+          "size": [
+            313,
+            313
+          ],
+          "nonempty": 25417
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 313,
+            "y": 627,
+            "width": 314,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/10.png",
+          "bounds": [
+            50,
+            72,
+            277,
+            232
+          ],
+          "alphaPixels": 11815,
+          "sha256": "CEE9BCBE9E6DF24BE862603A3BA757089874254513C219426C89DF2E233F4BC2",
+          "rawSha256": "CF401305906C31442827B03A0FA57BB20A8ADCF237B50B2FE9E203748A70F7A9",
+          "edgeMax": 1,
+          "size": [
+            314,
+            313
+          ],
+          "nonempty": 28443
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 627,
+            "width": 313,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/11.png",
+          "bounds": [
+            48,
+            49,
+            267,
+            250
+          ],
+          "alphaPixels": 14711,
+          "sha256": "E1429E470008E057BD06713F6240FC7930EA9D9CC9414B630A4E28F9A7D96005",
+          "rawSha256": "5605FF6BE0A1817839DF72D4BD085B670651770B773BE83E3C31AEED3F8CA2D8",
+          "edgeMax": 1,
+          "size": [
+            313,
+            313
+          ],
+          "nonempty": 33688
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 940,
+            "y": 627,
+            "width": 314,
+            "height": 313
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/12.png",
+          "bounds": [
+            62,
+            66,
+            261,
+            233
+          ],
+          "alphaPixels": 9598,
+          "sha256": "50F65243033A12A5F74473F90A8975ED9E05C33766CB5798ADEE6C06A7CF357F",
+          "rawSha256": "51A9F74BAC493020E2D1584DC324F7C8595C4E67E8275F10A381F1F76A016B73",
+          "edgeMax": 1,
+          "size": [
+            314,
+            313
+          ],
+          "nonempty": 32670
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 940,
+            "width": 313,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/13.png",
+          "bounds": [
+            75,
+            58,
+            244,
+            222
+          ],
+          "alphaPixels": 3845,
+          "sha256": "DDC928C3EAA5176A8D5FE3037B909EBD25B7995C86B06EFA31AA10D6DAB0E92A",
+          "rawSha256": "773F4575ED62C23FDE91689CEB9C253E4F125C7A0A36AB9FB7AD196F792983C5",
+          "edgeMax": 1,
+          "size": [
+            313,
+            314
+          ],
+          "nonempty": 22888
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 313,
+            "y": 940,
+            "width": 314,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/14.png",
+          "bounds": [
+            98,
+            71,
+            233,
+            228
+          ],
+          "alphaPixels": 1560,
+          "sha256": "AB9B516F7B9EC4D394ED449F254FC6BE0B9D58C363640D21AA97570FFDC296B0",
+          "rawSha256": "366A6D0F1BC01547C853BFB317B5B690BA52F8A4C81106CEF26A8CC067340B40",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 20382
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 627,
+            "y": 940,
+            "width": 313,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/15.png",
+          "bounds": [
+            95,
+            99,
+            220,
+            208
+          ],
+          "alphaPixels": 485,
+          "sha256": "FF53D99F31B8148B864C6D671771DB58FDAE1F8127396BB82D24854F16036684",
+          "rawSha256": "A66E8A5640F9C41AE4896D8EA23F19518E9749EF6D31CADD7E07F880225C5D92",
+          "edgeMax": 1,
+          "size": [
+            313,
+            314
+          ],
+          "nonempty": 15717
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 940,
+            "y": 940,
+            "width": 314,
+            "height": 314
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "file": "black-moon-triple-sever/frames/16.png",
+          "bounds": [
+            123,
+            116,
+            196,
+            192
+          ],
+          "alphaPixels": 73,
+          "sha256": "446851D214CC5FA711EA7ADCF3997EAE86F6192AACC1F774FABAE426A9077FA3",
+          "rawSha256": "802C2FFB3454F1CAF93AA8DA80BABD8138C73BB2AE0ACD204BE8C6819ECF56B4",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 6683
         }
       ]
     }

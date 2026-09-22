@@ -8,7 +8,7 @@ export async function loadSequence(row){
   const url=ROOT+row.runtime,atlas=await Assets.load(url);
   if(atlas.width!==row.cellSize*4||atlas.height!==row.cellSize*4)throw new Error('스프라이트 시트 크기가 제작 기록과 다릅니다.');
   const frames=Array.from({length:16},(_,i)=>new Texture({source:atlas.source,
-    frame:new Rectangle(i%4*row.cellSize,Math.floor(i/4)*row.cellSize,row.cellSize,row.cellSize)}));
+    frame:row.frames[i].rect?new Rectangle(row.frames[i].rect.x,row.frames[i].rect.y,row.frames[i].rect.width,row.frames[i].rect.height):new Rectangle(i%4*row.cellSize,Math.floor(i/4)*row.cellSize,row.cellSize,row.cellSize)}));
   const boxes=row.frames.map(f=>f.bounds).filter(Boolean),cell=row.cellSize;
   const extent={x:Math.max(...boxes.flatMap(b=>[Math.abs(b[0]/cell-.5),Math.abs(b[2]/cell-.5)])),
     y:Math.max(...boxes.flatMap(b=>[Math.abs(b[1]/cell-.55),Math.abs(b[3]/cell-.55)]))};

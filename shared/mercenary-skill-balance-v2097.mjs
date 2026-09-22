@@ -33,7 +33,7 @@ export const MERCENARY_SKILL_BALANCE_V2097 = Object.freeze([
 
 export function applyMercenaryBalanceV2097(document,catalog) {
   const result=structuredClone(document);
-  if(result.skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047'].includes(s.id)).length!==MERCENARY_SKILL_BALANCE_V2097.length)throw Error('스킬 목록 변경: 초안을 다시 검수하세요.');
+  if(result.skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048'].includes(s.id)).length!==MERCENARY_SKILL_BALANCE_V2097.length)throw Error('스킬 목록 변경: 초안을 다시 검수하세요.');
   for(const proposal of MERCENARY_SKILL_BALANCE_V2097){
     const skill=result.skills.find(s=>s.id===proposal.id);
     if(!skill||skill.mechanic!==proposal.mechanic)throw Error(`${proposal.id}: 기존 스킬 기믹을 확인하세요.`);

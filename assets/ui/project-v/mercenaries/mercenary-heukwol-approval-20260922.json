@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "status": "USER_APPROVED_LIVE",
+  "approvedAt": "2026-09-22",
+  "liveApprovalRequest": "용병 이름 흑월로 승인 라이브 배포해",
+  "scope": "CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT",
+  "runtimeConnected": true,
+  "code": "V-048",
+  "name": "흑월",
+  "rank": "SS",
+  "skillId": "MS-048",
+  "basePower": 120000,
+  "entries": [
+    {
+      "code": "V-048",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "흑월",
+      "title": "고요를 가르는 검",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "전위 돌격",
+      "weapon": "흑월 사검",
+      "outfit": "흑철 갑주 · 금은 장식 · 삿갓과 면갑",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260922/mercenary-v048-heukwol-source-art-v1.png",
+      "sourceArtSha256": "42853BDCB6C1843832C7050F5B0FB64D008F60372C90C5397D208D72E82D3230",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-22",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-22-heukwol-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v048-heukwol-sd-v1.png",
+      "battleSpriteSha256": "8855D70472C08A154A956D32549BE53E34E72C2183D0460D4B9BA8726C0593F8",
+      "battleSpriteStatus": "USER_APPROVED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.5303030303030303,
+        "y": 0.9330143540669856
+      },
+      "accent": "#e9c681"
+    }
+  ],
+  "motionFrames": 12,
+  "effectFrames": 16,
+  "previewManifest": "preview/mercenary-black-moon-swordsman-ss-v1/manifest.json"
+}

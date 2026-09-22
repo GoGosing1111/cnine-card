@@ -1,3 +1,4 @@
+import {resolveHeukwolCombo} from './_mercenary_heukwol.js';
 import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
@@ -190,6 +191,10 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   case 'BLACK_MOON_TRIPLE_SEVER':{
+    const damageScale=offensiveSkillScale(a,s);
+    resolveHeukwolCombo({actor:a,skill:s,target:ts[0],hit,damage:(t,n)=>damage(t,interceptDamage(a,t,n)),knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
+    finish(a,s);break;}
    case 'PLATINUM_SANCTUARY':{
     const damageScale=offensiveSkillScale(a,s);
     resolveRagnielJudgment({actor:a,skill:s,targets:p.targets.map(id=>all().find(t=>t.id===id)),hit,damage,knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});

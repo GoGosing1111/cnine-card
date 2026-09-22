@@ -1,4 +1,4 @@
-import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260913-s-skills';
+import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260922-heukwol';
 import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=2098-cms';
 import {isRangedMercenarySkill,rangedMercenarySkillScope,rangedMercenarySkillText,rangedMercenaryPvpRule,MERCENARY_RANGED_RULES} from '../shared/mercenary-ranged-balance-v1.mjs?v=20260918-cheonga-upper-s-v3';
 import {isMercenaryGuardSkill,mercenaryGuardSkillText} from '../shared/mercenary-guard-balance-v1.mjs?v=20260917-guard-v1';
@@ -80,7 +80,7 @@ function rosterEditor(){
 function skillEditor(){
   const r=data.document.skills.find(s=>s.id===skill),index=data.document.skills.indexOf(r),root=`skills.${index}.`;
   const fx=data.catalog.effects.images.find(x=>x.skillId===r.id),v=data.catalog.skills.find(x=>x.id===r.id).visual;
-  const reviewLink='/preview/project-v-mercenary-system-v1/skills.html';
+  const reviewLink=r.id==='MS-048'?'/preview/mercenary-black-moon-swordsman-ss-v1/#rehearsal':'/preview/project-v-mercenary-system-v1/skills.html';
   return `<div class="mc-workspace"><div class="mc-rail mc-skill-rail"><p class="mc-rail-caption">독립 스킬 카탈로그 <b>${data?.document?.skills?.length??0}</b></p>${data.document.skills.map(s=>`<button class="mc-skill-row ${s.id===skill?'is-selected':''}" data-skill="${s.id}"><small>${s.id}</small><b>${esc(s.name)}</b><span>${esc(s.role)}</span></button>`).join('')}</div><div class="mc-editor">
     <div class="mc-skill-hero"><div><small>SKILL LIBRARY / ${r.id}</small><h3>${esc(r.name)}</h3><p>${esc(r.mechanic)}</p><a href="${reviewLink}" target="_blank" rel="noopener">PixiJS · GSAP 연출 검수 열기 ↗</a></div><div class="mc-fx-contact">${fx?fx.frames.filter((_,i)=>[4,8,12].includes(i)).map(f=>`<img src="/preview/project-v-mercenary-system-v1/skill-assets-v2/${esc(f.file)}" alt="${esc(r.name)} ${f.index+1}번 프레임">`).join(''):''}<small>연속 ${fx?.frameCount||16}프레임 · ${v.duration}초</small></div></div>
     ${data.rangedCombat&&MERCENARY_RANGED_RULES[r.mechanic]?fields('저격 · 다단 사격 적용 규칙',esc(rangedMercenarySkillScope(r))+'에게 배정한 경우에만 적용합니다.',`<p class="mc-field mc-wide">${esc(MERCENARY_RANGED_RULES[r.mechanic])} ${esc(rangedMercenaryPvpRule(r))}</p>`):''}

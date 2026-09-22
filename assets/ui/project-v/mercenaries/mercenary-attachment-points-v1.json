@@ -803,6 +803,23 @@
         "x": 0.42,
         "y": 0.43
       }
+    },
+    "V-048": {
+      "battleSpriteSha256": "8855D70472C08A154A956D32549BE53E34E72C2183D0460D4B9BA8726C0593F8",
+      "weaponKind": "SWORD",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.91,
+        "y": 0.67
+      },
+      "cast": {
+        "x": 0.53,
+        "y": 0.41
+      },
+      "contact": {
+        "x": 0.53,
+        "y": 0.52
+      }
     }
   }
 }

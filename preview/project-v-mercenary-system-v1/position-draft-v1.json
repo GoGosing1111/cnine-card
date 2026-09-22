@@ -522,6 +522,17 @@
       "weakness": "단일 표적 집중 · 기습과 제압에 취약",
       "rationale": "수평 조준 경기관총과 라벤더 리코셰를 중열 사격 역할로 연결한다.",
       "rank": "SS"
+    },
+    {
+      "code": "V-048",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "specialty": "전열 접근 · 내려베기 · 올려베기 · 횡베기",
+      "weakness": "제압과 단일 표적 소멸에 취약 · 방어 무시 없음",
+      "rationale": "승인한 다검 검객의 연속 베기를 SS 전열 역할로 연결한다.",
+      "rank": "SS"
     }
   ]
 }

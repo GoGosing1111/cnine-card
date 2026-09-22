@@ -2,10 +2,10 @@
   "format": "PROJECT_V_MERCENARY_PREVIEW_RESOURCES_V1",
   "version": 1,
   "date": "2026-09-22",
-  "code": "V-998",
-  "codeStatus": "PREVIEW_LOCAL_IDENTIFIER_NOT_ASSIGNED",
-  "name": "흑월 검객",
-  "nameStatus": "WORKING_LABEL",
+  "code": "V-048",
+  "codeStatus": "LIVE_REGISTERED",
+  "name": "흑월",
+  "nameStatus": "USER_ASSIGNED_NAME",
   "rank": "SS",
   "rankStatus": "USER_ASSIGNED_RANK",
   "sourceArt": "preview/mercenary-black-moon-swordsman-ss-v1/assets/source-art-v1.png",
@@ -19,7 +19,7 @@
   },
   "battleSprite": "preview/mercenary-black-moon-swordsman-ss-v1/assets/battle-sprite-v2.png",
   "battleSpriteSha256": "8855D70472C08A154A956D32549BE53E34E72C2183D0460D4B9BA8726C0593F8",
-  "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "battleSpriteStatus": "USER_APPROVED_LIVE",
   "battleSpriteInfo": {
     "sha256": "8855D70472C08A154A956D32549BE53E34E72C2183D0460D4B9BA8726C0593F8",
     "width": 1254,
@@ -1348,16 +1348,16 @@
     }
   },
   "skill": {
-    "id": "PREVIEW_BLACK_MOON_TRIPLE_SEVER",
+    "id": "MS-048",
     "name": "흑월 삼연참",
-    "nameStatus": "WORKING_LABEL",
-    "status": "VISUAL_REVIEW_PENDING",
+    "nameStatus": "USER_APPROVED",
+    "status": "USER_APPROVED_LIVE",
     "mechanic": "전진 후 내려베기·올려베기·횡베기를 연속 재생하는 다검 검객의 3연격",
-    "balanceStatus": "NOT_ASSIGNED",
-    "runtimeEnabled": false
+    "balanceStatus": "SS_SHARED_BASELINE_CMS_EDITABLE",
+    "runtimeEnabled": true
   },
-  "runtimeEnabled": false,
-  "skillsAssigned": false,
+  "runtimeEnabled": true,
+  "skillsAssigned": true,
   "generation": {
     "tool": "built-in image_gen",
     "rasterEditing": false,
@@ -1391,5 +1391,9 @@
       "asset": "combo-motion-v1",
       "reason": "12칸 시트의 이웃 동작과 검끝이 겹쳐 4프레임씩 재제작"
     }
-  ]
+  ],
+  "liveApprovedAt": "2026-09-22",
+  "liveApprovalRequest": "용병 이름 흑월로 승인 라이브 배포해",
+  "liveCode": "V-048",
+  "liveSkillId": "MS-048"
 }

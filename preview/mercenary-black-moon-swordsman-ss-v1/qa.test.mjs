@@ -13,7 +13,7 @@ const manifest=JSON.parse(await fs.readFile(new URL('manifest.json',root),'utf8'
 const hash=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 function inside(x,y,polygon){let yes=false;for(let i=0,j=polygon.length-2;i<polygon.length;j=i,i+=2){const xi=polygon[i],yi=polygon[i+1],xj=polygon[j],yj=polygon[j+1];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))yes=!yes;}return yes;}
 test('approved source pixels remain exact and SD is separate transparent artwork',async()=>{
- assert.equal(manifest.rank,'SS');assert.equal(manifest.sourceArtStatus,'APPROVED_SOURCE_ART');assert.equal(manifest.runtimeEnabled,false);assert.equal(manifest.skillsAssigned,false);
+ assert.equal(manifest.rank,'SS');assert.equal(manifest.sourceArtStatus,'APPROVED_SOURCE_ART');assert.equal(manifest.runtimeEnabled,true);assert.equal(manifest.skillsAssigned,true);
  assert.equal(hash(await fs.readFile(new URL(manifest.sourceArt,project))),'42853BDCB6C1843832C7050F5B0FB64D008F60372C90C5397D208D72E82D3230');
  const sd=await fs.readFile(new URL(manifest.battleSprite,project));assert.equal(hash(sd),manifest.battleSpriteInfo.sha256);assert.equal(manifest.battleSpriteInfo.hasAlpha,true);assert.ok(manifest.battleSpriteInfo.clear>.6);assert.ok(manifest.battleSpriteInfo.solid>.3);assert.equal(manifest.battleSpriteInfo.border,0);
  const adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:1,battleSpritePending:0},cards:[manifest]});assert.ok(adapter.resolveForConsumer('BATTLE_FIELD',manifest.code));assert.equal(adapter.resolveForConsumer('CARD_DOCK',manifest.code),null);

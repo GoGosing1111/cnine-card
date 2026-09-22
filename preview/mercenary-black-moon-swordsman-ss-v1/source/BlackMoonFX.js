@@ -9,8 +9,9 @@ export async function loadBlackMoonAssets(manifest){
  assets.flash=await Assets.load('/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp');return assets;
 }
 export class BlackMoonFX{
- constructor(engine,merc,target,assets,manifest,plan,onUpdate=()=>{}){
+ constructor(engine,merc,target,assets,manifest,plan,onUpdate=()=>{},{useAuthoredPose=true}={}){
   Object.assign(this,{engine,merc,target,assets,manifest,plan,onUpdate});
+  this.useAuthoredPose=useAuthoredPose;
   merc.animationController.kill();this.clock={time:0};this.speed=1;this.destroyed=false;this.registration=null;this.timeline=null;
   const s=merc.fullBodySprite;this.idle={texture:s.texture,width:s.width,height:s.height,anchorX:s.anchor.x,anchorY:s.anchor.y,mask:s.mask};
   this.bodyHeight=this.idle.height*manifest.bodyPixels/manifest.battleSpriteInfo.height;
@@ -42,6 +43,7 @@ export class BlackMoonFX{
  cancel(){this.removeTimeline();this.clock.time=0;this.render(0);}
  point(actor,fraction=0){return this.engine.effectLayer.toLocal(actor.root.toGlobal({x:0,y:-actor.fullBodyHeight*fraction}));}
  applyPose(pose){
+  if(!this.useAuthoredPose)return;
   const s=this.merc.fullBodySprite;this.poseMask.clear();
   if(!pose){s.texture=this.idle.texture;s.anchor.set(this.idle.anchorX,this.idle.anchorY);s.width=this.idle.width;s.height=this.idle.height;s.mask=this.idle.mask;this.poseMask.visible=false;}
   else{
@@ -58,7 +60,7 @@ export class BlackMoonFX{
   const s=this.pool[this.used++];if(!s)throw Error('Effect sprite pool exhausted');s.texture=texture;s.position.set(p.x,p.y);s.anchor.set(anchor.x,anchor.y);s.width=width;s.height=height;s.alpha=alpha;s.tint=tint;s.blendMode=blend;s.visible=alpha>0;return s;
  }
  render(time){
-  if(this.destroyed)return;this.pool.forEach(s=>s.visible=false);this.used=0;this.ground.clear();const state=sample(this.plan,time);this.sample=state;
+  if(this.destroyed)return;if(this.merc.root.destroyed||this.target.root.destroyed){this.removeTimeline();return;}this.pool.forEach(s=>s.visible=false);this.used=0;this.ground.clear();const state=sample(this.plan,time);this.sample=state;
   this.applyPose(state.pose);const p=this.positionFor(state);this.merc.root.position.set(p.x,p.y);
   this.target.view.x=this.targetDefault.x+state.recoil;this.target.fullBodySprite.tint=state.flash>0?0xffebba:this.targetDefault.tint;this.engine.sortCombatDepth();
   if(state.cancelled||state.done||time<=0){this.onUpdate(this);return;}

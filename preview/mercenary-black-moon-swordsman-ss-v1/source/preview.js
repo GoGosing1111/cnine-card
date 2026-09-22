@@ -24,8 +24,8 @@ async function boot(){
   const deck=IDS.map((id,i)=>{const c=available.find(c=>c.cardId===id);if(!c)throw Error('기준 카드 누락');return{...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
   window.cnineCardCatalog=()=>deck;const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};
   const api=window.ProjectVPixiBattle;api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine;};
-  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:$('lab-modal'),mode:'PVP',playerName:'흑월 검객 · SS',opponentName:'검격 연출 검수',autoText:'전장 준비 중'});
-  renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:$('lab-modal'),data:payload,mode:'PVP',playerName:'흑월 검객 · SS'});api.mountForBattle=mountForBattle;
+  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:$('lab-modal'),mode:'PVP',playerName:'흑월 · SS',opponentName:'검격 연출 검수',autoText:'전장 준비 중'});
+  renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:$('lab-modal'),data:payload,mode:'PVP',playerName:'흑월 · SS'});api.mountForBattle=mountForBattle;
   await engine.deployCards({instant:true,force:true});
   const adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:1,battleSpritePending:0},cards:[manifest]});
   const art=adapter.resolveForConsumer('BATTLE_FIELD',manifest.code);if(!art)throw Error('전투 SD를 읽을 수 없습니다.');
@@ -39,7 +39,7 @@ async function boot(){
   const change=()=>fx.setPlan(plan());$('mode').onchange=change;$('scenario').onchange=change;
   for(const button of parentDoc.querySelectorAll('[data-mode]'))button.onclick=()=>{$('mode').value=button.dataset.mode;change();fx.play();};
   for(const el of parentDoc.querySelectorAll('.controls button,.controls select,.mode-tabs button,.scrubber input'))el.disabled=false;
-  $('health').textContent='재생 준비 완료';engine.app.renderer.on('resize',resize);prepared.phase.textContent='SS · 흑월 삼연참';prepared.stage.querySelector('#pvBattleStatus').textContent='흑월 검객 · SD / 3연격 연출';
+  $('health').textContent='재생 준비 완료';engine.app.renderer.on('resize',resize);prepared.phase.textContent='SS · 흑월 삼연참';prepared.stage.querySelector('#pvBattleStatus').textContent='흑월 · SD / 3연격 연출';
   const review={get fx(){return fx;},get engine(){return engine;},get merc(){return merc;},manifest,diagnostics:()=>fx.diagnostics(),dispose};window.BlackMoonPreview=review;window.parent.BlackMoonPreview=review;
   window.addEventListener('pagehide',dispose,{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)fx.cancel();});engine.app.canvas.addEventListener('webglcontextlost',()=>{fx.cancel();$('health').textContent='그래픽 연결이 끊겼습니다. 새로고침해 주세요.';});fx.play();
  }catch(e){$('health').textContent='시연 준비 실패: '+e.message;console.error('[BlackMoon]',e);}

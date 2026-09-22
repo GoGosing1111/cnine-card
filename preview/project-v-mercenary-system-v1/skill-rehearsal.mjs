@@ -75,6 +75,9 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'BLACK_MOON_TRIPLE_SEVER':
+      if(counter){mark(.4,'제압 상태: 삼연참 취소',['M'],'CANCEL');break;}
+      [.72,1.24,1.92].forEach((at,index)=>{if(get(t).hp>0)hit(at,t,[12,12,16][index],['내려베기','올려베기','횡베기'][index],{phaseIndex:index,procEligible:false});});break;
     case 'PLATINUM_SANCTUARY':
       if(counter){mark(.72,'제압 상태: 성역 심판 취소',['M'],'CANCEL');break;}
       for(const [phase,at]of skill.visual.impacts.entries())for(const id of targets)hit(at,id,(phase===0?22.4:33.6)/targets.length,phase===0?'성검 단죄':'백금성역 심판',{phaseIndex:phase});

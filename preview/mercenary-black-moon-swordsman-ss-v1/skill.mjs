@@ -1,4 +1,4 @@
-export const CHARACTER=Object.freeze({name:'흑월 검객',rank:'SS',code:'V-998',nameStatus:'WORKING_LABEL',runtimeEnabled:false});
+export const CHARACTER=Object.freeze({name:'흑월',rank:'SS',code:'V-048',nameStatus:'USER_ASSIGNED_NAME',runtimeEnabled:true});
 export const MODES=Object.freeze({
  idle:{label:'대기 자세',duration:4,contacts:[],events:[[0,'흑철 갑주 · 준비 자세']]},
  attack:{label:'기본 베기',duration:2.1,contacts:[.72],events:[[0,'검격 거리 진입'],[.4,'검 들어 올리기'],[.72,'내려베기 접촉'],[1.25,'자세 회복']]},

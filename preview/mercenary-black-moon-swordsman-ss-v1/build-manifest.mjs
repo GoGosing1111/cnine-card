@@ -49,12 +49,12 @@ for(const [key,def]of Object.entries(definitions)){
 const fxFile='assets/triple-sever-fx-v2.png',fxInfo=await info(fxFile);
 const effects={triple:{source:fxFile,sourceInfo:fxInfo,frameCount:16,columns:4,rows:4,frames:Array.from({length:16},(_,i)=>{const col=i%4,row=Math.floor(i/4),x=Math.floor(col*fxInfo.width/4),y=Math.floor(row*fxInfo.height/4),width=Math.floor((col+1)*fxInfo.width/4)-x,height=Math.floor((row+1)*fxInfo.height/4)-y;return {index:i,rect:{x,y,width,height},anchor:{x:.5,y:.5}};})}};
 const manifest={
- format:'PROJECT_V_MERCENARY_PREVIEW_RESOURCES_V1',version:1,date:'2026-09-22',code:'V-998',codeStatus:'PREVIEW_LOCAL_IDENTIFIER_NOT_ASSIGNED',name:'흑월 검객',nameStatus:'WORKING_LABEL',rank:'SS',rankStatus:'USER_ASSIGNED_RANK',
+ format:'PROJECT_V_MERCENARY_PREVIEW_RESOURCES_V1',version:1,date:'2026-09-22',code:'V-048',codeStatus:'LIVE_REGISTERED',name:'흑월',nameStatus:'USER_ASSIGNED_NAME',rank:'SS',rankStatus:'USER_ASSIGNED_RANK',
  sourceArt:prefix+'assets/source-art-v1.png',sourceArtStatus:'APPROVED_SOURCE_ART',sourceArtInfo:await info('assets/source-art-v1.png'),
- battleSprite:prefix+'assets/battle-sprite-v2.png',battleSpriteSha256:(await info('assets/battle-sprite-v2.png')).sha256,battleSpriteStatus:'TECH_QA_COMPLETE_USER_REVIEW_PENDING',battleSpriteInfo:{...await info('assets/battle-sprite-v2.png'),...await inspect('battle-sprite-v2.png')},
+ battleSprite:prefix+'assets/battle-sprite-v2.png',battleSpriteSha256:(await info('assets/battle-sprite-v2.png')).sha256,battleSpriteStatus:'USER_APPROVED_LIVE',battleSpriteInfo:{...await info('assets/battle-sprite-v2.png'),...await inspect('battle-sprite-v2.png')},
  battleSpriteFootAnchor:{x:665/1254,y:1170/1254},bodyPixels:1052,motion,effects,
- skill:{id:'PREVIEW_BLACK_MOON_TRIPLE_SEVER',name:'흑월 삼연참',nameStatus:'WORKING_LABEL',status:'VISUAL_REVIEW_PENDING',mechanic:'전진 후 내려베기·올려베기·횡베기를 연속 재생하는 다검 검객의 3연격',balanceStatus:'NOT_ASSIGNED',runtimeEnabled:false},
- runtimeEnabled:false,skillsAssigned:false,generation:{tool:'built-in image_gen',rasterEditing:false,originalPixelsPreserved:true,sourcePrompt:'prompt-v1.txt',prompts:'prompts/'},
+ skill:{id:'MS-048',name:'흑월 삼연참',nameStatus:'USER_APPROVED',status:'USER_APPROVED_LIVE',mechanic:'전진 후 내려베기·올려베기·횡베기를 연속 재생하는 다검 검객의 3연격',balanceStatus:'SS_SHARED_BASELINE_CMS_EDITABLE',runtimeEnabled:true},
+ runtimeEnabled:true,skillsAssigned:true,generation:{tool:'built-in image_gen',rasterEditing:false,originalPixelsPreserved:true,sourcePrompt:'prompt-v1.txt',prompts:'prompts/'},
  runtime:{pixi:'8.20.0',gsap:'3.13.0',renderer:'preview/project-v-v3/source/battle/BattleEngine.js',implementation:'source/BlackMoonFX.js',clock:'V3_REGISTERED_GSAP',frameExtraction:'Pixi texture rectangles and runtime vector masks; original PNGs unchanged'},
  audio:{enabled:false,status:'NO_NEW_AUDIO',note:'연출 검수는 무음이며 임의 합성음 없음'},
  rejected:[{asset:'sd-v1',reason:'보통 체형으로 생성되어 SD 비율을 재제작'},{asset:'triple-fx-v1',reason:'외곽 프레임 여백 부족'},{asset:'combo-motion-v1',reason:'12칸 시트의 이웃 동작과 검끝이 겹쳐 4프레임씩 재제작'}]
