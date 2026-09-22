@@ -41,6 +41,7 @@
 
 ## 배포
 
-- 로비 번들은 `node scripts/build-adventure-lobby-v2107.mjs`로 재생성한다. 다른 생성 번들은 변경하지 않는다.
+- 로비 번들은 `node scripts/build-adventure-lobby-v2107.mjs`로 재생성한다. 용병도감 공통 메뉴 캐시는 `mercenary-codex/shell.mjs` 원본에서 변경하고 생성 HTML과 일치시킨다.
+- 용병 생성물 검증 순서는 `build:mercenary-cms → build:mercenary-skills → build:mercenary-codex → build:v3-grid`를 지킨다. 테스트 단언이나 전투 코드는 변경하지 않는다.
 - 제작소 공용 스크립트/스타일 및 공통 메뉴 캐시 키를 갱신한다.
 - 신규 경제 설정 없이, 깨끗한 커밋과 `HEAD == origin/main`에서 `npm run deploy:production`의 전체 `release:gate`를 통과한 뒤 배포한다.
