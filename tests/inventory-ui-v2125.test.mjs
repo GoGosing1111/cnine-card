@@ -13,6 +13,16 @@ function model(){
 }
 const codes=items=>Array.from(items,item=>item.code);
 
+test('repair coupons display the approved item artwork and recovery destination without direct consumption',()=>{
+  const m=model(),item=inventoryUiFixture().items.find(item=>item.code==='PINGDU_REPAIR_COUPON');
+  assert.equal(m.group(item),'MATERIAL');assert.equal(m.meta(item).usable,false);
+  assert.match(m.tile(item),/pingdu-repair-coupon-v1\.webp/);assert.match(m.tile(item),/보유 2개/);
+  assert.match(m.detail(item),/파괴 기록에서 복구할 장비/);
+  assert.match(m.detail(item),/data-inventory-use="PINGDU_REPAIR_COUPON" disabled/);
+  m.state.query='핑두 리페어';assert.deepEqual(codes(m.visible(inventoryUiFixture().items)),[item.code]);
+  assert.equal(m.visible([{...item,quantity:0}]).length,0);
+});
+
 test('owned equipment protection tickets show their art and exact count, remain materials and cannot open as packs',()=>{
   const m=model(),item=inventoryUiFixture().items.find(item=>item.code==='EQUIPMENT_PROTECTION_TICKET');
   assert.equal(m.group(item),'MATERIAL');assert.equal(m.meta(item).usable,false);

@@ -32,6 +32,7 @@ import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.
 import {releasedMercenarySnapshot,releasedMercenarySnapshots,mercenarySnapshotPower} from '../_mercenary_account.js';
 import {handleEquipmentForgePublic} from '../_equipment_forge_public.js';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../_forge_protection_catalog.js';
+import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM} from '../_forge_repair_catalog.js';
 import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,applyAvatarRaidEntryBonus,ensureAvatarFoundation } from '../_avatar.js';
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
 import { handlePrimeDraw } from '../_prime_draw.js';
@@ -5510,6 +5511,7 @@ async function handleRequest(context){
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       await ensureForgeProtectionCatalog(env);
+      await ensureForgeRepairCatalog(env);
       await ensureSkillChipFoundation(env);
       await ensureBattleSuitCoreCatalog(env);
       await ensureUniqueAdvancementPassCatalog(env);
@@ -5521,7 +5523,7 @@ async function handleRequest(context){
         WHERE i.is_active=1 AND i.code<>'PINGDU_WISH_TICKET' AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
           AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','PINGDU_WISH_TICKET','PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
-      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_OLD_AXE'?'핑두의 금도끼 은도끼에서 사용':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
+      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code===FORGE_REPAIR_ITEM.code?'장비 강화 센터 → 파괴 기록에서 복구할 장비를 선택하세요.':x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_OLD_AXE'?'핑두의 금도끼 은도끼에서 사용':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
@@ -5533,6 +5535,7 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
       if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)return json({error:'전직 패스권은 카드 상세 > 고유효과 전직에서 자동 사용됩니다.'},400);
+      if(itemCode===FORGE_REPAIR_ITEM.code)return json({error:'핑두 리페어 쿠폰은 장비 강화 센터 → 파괴 기록에서 사용하세요.'},400);
       if(itemCode==='BLACK_MIRACLE_PACK'){try{return json({...await openBlackMiraclePack(env,{userId:user.id,requestId}),user:await profile(env,await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first())})}catch(error){return json({error:String(error?.message||'블랙 미라클 팩 개봉에 실패했습니다.')},409)}}
       const usableCodes=[...CUBE_CODES,'GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK',...RETIREMENT_REROLL_CODES];
       if(!usableCodes.includes(itemCode))return json({error:'현재 사용할 수 없는 인벤토리 아이템입니다.'},400);

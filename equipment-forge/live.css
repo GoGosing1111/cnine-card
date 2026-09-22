@@ -7,6 +7,9 @@
 @media(max-width:700px){.forge-public .inventory-panel{grid-template-columns:minmax(0,1fr)}.forge-public .inventory-panel .filters{grid-column:1/-1;width:100%}.forge-public .filters button{white-space:nowrap;min-width:0;padding:8px 6px}.forge-public .inventory-footer{grid-column:1/-1}}
 
 /* The inventory never supplies the workspace's height. Only its contents scroll. */
+.forge-public .restore-coupon>img{width:64px;height:64px;object-fit:contain;flex-shrink:0}
+.forge-public .restore-coupon>div{min-width:0}
+.forge-public .restore-coupon b{overflow-wrap:anywhere}
 .forge-public .inventory-panel{min-height:0}
 .forge-public .inventory-scroll{
   flex:1 1 0;
