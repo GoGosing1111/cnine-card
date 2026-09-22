@@ -6,7 +6,7 @@ export const FORGE_STEP_FIELDS = Object.freeze([
   ['destroyPpm', '파괴', 0, 100, 'percent'],
   ['coinCost', '코인', 1, 1e12, 'integer'],
   ['itemQuantity', '마스터의 별', 1, 1e8, 'integer'],
-  ['protectionQuantity', '보호권', 1, 10000, 'integer'],
+  ['protectionQuantity', '보호권', 0, 10000, 'integer'],
 ]);
 export const FORGE_SOURCE_NAMES = Object.freeze({TOWER:'무한의탑', SCRAPYARD:'폐차장', COW_ROOM:'카우방'});
 

@@ -317,6 +317,7 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
   else reserved=await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,source_type,source_id,trigger_type,status) VALUES(?,?,?,?,?,'PENDING')`).bind(rid,uid,source,sid,trigger).run();
   if(!reserved.meta?.changes)throw new Error('같은 드랍 요청을 처리 중입니다.');
   try{
+    await guardForgeProtectionGrant(env,{sourceType:source,triggerType:trigger,rewards});
     const grant=await grantRewards(env,{userId:uid,requestId:rid,sourceType:source,sourceId:sid,rewards});
     const presentedRewards=await rewardPresentation(env,rewards,grant.balances);
     const response={ok:true,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards:presentedRewards,balances:grant.balances};

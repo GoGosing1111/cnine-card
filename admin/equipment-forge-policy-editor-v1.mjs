@@ -37,7 +37,7 @@ export function mountForgePolicyEditor(host, {request=jointAdminRequest}={}) {
   function protectionMarkup() {
     return `<div class="forge-section-heading"><div><h3>장비보호권</h3><p>파괴 판정을 유지로 바꿉니다. 별도의 성공 확률을 더하거나 성공률을 높이지 않습니다.</p></div><span class="forge-tag">GAMEPLAY ONLY</span></div>
       <div class="forge-policy-grid">${itemSelect('protection.itemCode','보호권 아이템',true)}${select('protection.consume','보호권 소모 시점',[['UNSET','미설정'],['ON_DESTROY','파괴 판정일 때만 소모'],['ON_ATTEMPT','강화 시도마다 소모']])}</div>
-      <p class="forge-inline-rule">소모 수량은 ‘강화 단계’에서 각 단계별로 설정합니다. 선택한 아이템은 등록·활성 상태여야 합니다.</p>
+      <p class="forge-inline-rule">소모 수량은 ‘강화 단계’에서 각 단계별로 설정합니다. 0은 해당 단계 보호권 사용 불가, 빈칸은 미설정입니다. 선택한 아이템은 등록·활성 상태여야 합니다.</p>
       <h4 class="forge-subheading">게임 내 획득처</h4><p>보상 대상 클리어·완주 시만 판정합니다. 상자·뽑기 보상풀에는 자동 편입하지 않습니다.</p>
       <div class="forge-source-list">${draft.protection.sources.map((source,index)=>`<section class="forge-source"><label class="forge-check"><input type="checkbox" data-policy-path="protection.sources.${index}.enabled" ${source.enabled?'checked':''}><span>${FORGE_SOURCE_NAMES[source.content]}</span></label>${numberInput(`protection.sources.${index}.chancePpm`,'획득 확률',0.0001,100,'percent',FORGE_SOURCE_NAMES[source.content]+' ')}${numberInput(`protection.sources.${index}.quantity`,'획득 수량',1,100,'integer',FORGE_SOURCE_NAMES[source.content]+' ')}</section>`).join('')}</div>
       <p class="forge-inline-rule">0.0001% = 백만 번당 평균 1회. 극희귀 획득 정책을 고려해 설정하세요. 저장만으로 드롭이 시작되지는 않습니다.</p>`;

@@ -1,6 +1,6 @@
 import {FORGE_ENHANCEMENT_MATERIAL} from '../shared/equipment-forge-policy-v1.mjs';
 import {forgePolicyReadiness} from '../shared/equipment-forge-cms-v1.mjs';
-import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {jointError} from './_joint_request.js';
 import {ensureForgeProtectionCatalog} from './_forge_protection_catalog.js';
 import {ensureForgeRepairCatalog} from './_forge_repair_catalog.js';
@@ -20,6 +20,6 @@ export async function forgeAdminState(env, policy) {
   const rows = (await env.DB.prepare('SELECT code,name,image_url AS image,is_active FROM inventory_items ORDER BY name,code LIMIT 1001').all()).results;
   if (rows.length > 1000) throw jointError('FORGE_CATALOG_LIMIT', '재료 목록이 너무 큽니다. 카탈로그 범위를 점검하세요.', 409);
   const catalog = rows.map(row => ({code:row.code, name:row.name, image:row.image||'', is_active:Number(row.is_active)}));
-  return {policy, catalog, readiness:forgePolicyReadiness(policy, catalog), releaseEnabled:V3_JOINT_RELEASE_ENABLED,
-    saveScope:'DRAFT_ONLY', executionMode:V3_JOINT_RELEASE_ENABLED ? 'RELEASE_DOCUMENT' : 'OFF'};
+  return {policy, catalog, readiness:forgePolicyReadiness(policy, catalog), releaseEnabled:FORGE_RUNTIME_RELEASE_ENABLED,
+    saveScope:'DRAFT_ONLY', executionMode:FORGE_RUNTIME_RELEASE_ENABLED ? 'RELEASE_DOCUMENT' : 'OFF'};
 }

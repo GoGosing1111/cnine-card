@@ -5,7 +5,7 @@ import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_ski
 import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
 import {SZ_BODY_BY_CODE,ensureSzBodyEquipment} from './_battle_suit_sz_body.js';
 import {ensureZBodySwordAppearance,Z_SWORD_APPEARANCE_KEY} from './_battle_suit_z_sword.js';
-import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 import {equipmentPreviewRows,equipmentQuantities} from './_equipment_inventory.js';
@@ -645,7 +645,7 @@ export async function userEquipmentBonuses(env,userId,{skillChips}={}){
     LEFT JOIN equipped_weapon ON 1=1
     LEFT JOIN garage ON 1=1
     LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId,userId,userId).first();
-  const forge=V3_JOINT_RELEASE_ENABLED?await forgeEquipmentBonus(env,userId):{pve:0,pvp:0};
+  const forge=FORGE_RUNTIME_RELEASE_ENABLED?await forgeEquipmentBonus(env,userId):{pve:0,pvp:0};
   const equipmentPve=Number(row?.equipment_pve||0)+forge.pve,equipmentPvp=Number(row?.equipment_pvp||0)+forge.pvp,battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
   const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');

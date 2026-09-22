@@ -1,4 +1,6 @@
-import {readJointReleaseComponent} from './_joint_release_document.js';
+import {readReleasedForgePolicy} from './_equipment_forge_release.js';
+import {EQUIPMENT_FORGE_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
+import {readForgeSettings} from './_equipment_forge_public.js';
 import {forgeRuntimeDraft,validateForgePolicy,FORGE_RUNTIME_KEY,forgePower,FORGE_ENHANCEMENT_MATERIAL} from '../shared/equipment-forge-policy-v1.mjs';
 import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {jointError} from './_joint_request.js';import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -13,7 +15,11 @@ export const FORGE_TRANSACTION_SCHEMA=[
  `CREATE INDEX IF NOT EXISTS equipment_forge_destroyed_user_v1 ON equipment_forge_destroyed_v1(user_id,destroyed_at)`
 ];
 export async function ensureForgeTransactionSchema(env){await ensureJointTransactionSchema(env);if(env.DB.execSchema)await env.DB.execSchema(FORGE_TRANSACTION_SCHEMA);else for(const s of FORGE_TRANSACTION_SCHEMA)await env.DB.prepare(s).run();}
-export async function readForgeRuntime(env,{draft=false}={}){const release=draft?null:await readJointReleaseComponent(env,'EQUIPMENT_FORGE');if(release)return {...validateForgePolicy({...release,mode:'TEST'}),mode:'ON',approved:true};const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FORGE_RUNTIME_KEY).first();return row?validateForgePolicy(JSON.parse(row.value)):forgeRuntimeDraft();}
+export async function readForgeRuntime(env,{draft=false}={}){
+ const release=draft?null:await readReleasedForgePolicy(env);
+ if(release){const settings=EQUIPMENT_FORGE_RELEASE_ENABLED?(await readForgeSettings(env)).settings:null;return {...validateForgePolicy({...release,mode:'TEST'}),mode:settings&&(!settings.publicVisible||settings.executionMode!=='ON')?'OFF':'ON',approved:true};}
+ const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FORGE_RUNTIME_KEY).first();return row?validateForgePolicy(JSON.parse(row.value)):forgeRuntimeDraft();
+}
 export async function saveForgeRuntime(env,user,policy){
  if(user.role!=='OWNER')throw jointError('FORGE_PERMISSION','OWNER만 정책을 저장할 수 있습니다.',403);
  const next=validateForgePolicy(policy),row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FORGE_RUNTIME_KEY).first(),before=row?JSON.parse(row.value):forgeRuntimeDraft();if(next.revision!==before.revision)throw jointError('FORGE_POLICY_CONFLICT','다른 창에서 정책을 변경했습니다.',409);next.revision++;
@@ -37,6 +43,7 @@ export async function forgeQuote(env,user,body,{now=Date.now()}={}){
  const policy=await readForgeRuntime(env);allow(policy,user);let item,cost,recordId=null,restoreDeadline=null;
  if(kind==='ENHANCE'){item=await owned(env,user,key);if(item.level>=10)throw jointError('FORGE_MAX_LEVEL','최대 +10 장비입니다.',409);cost=policy.steps[item.level];requireEnhancementCost(cost);if([cost.successPpm,cost.maintainPpm,cost.destroyPpm,cost.coinCost].some(v=>v===null))throw jointError('FORGE_POLICY_PENDING','해당 단계의 확률·비용이 미설정입니다.',409);if(protectedAttempt&&(!policy.protection.itemCode||policy.protection.consume==='UNSET'||cost.protectionQuantity===null))throw jointError('FORGE_PROTECTION_PENDING','보호권 소모 정책이 미설정입니다.',409);}
  else{const record=await destroyed(env,user,key);recordId=key;item=record.item;cost=policy.restoration;if(!cost.enabled)throw jointError('FORGE_RESTORE_OFF','복구 정책을 준비 중입니다.',423);if(cost.expiresHours>0){restoreDeadline=Date.parse(record.destroyed_at)+cost.expiresHours*3600000;if(now>restoreDeadline)throw jointError('FORGE_RESTORE_EXPIRED','복구 가능 기간이 지났습니다.',409);}if(protectedAttempt)throw jointError('FORGE_QUOTE','복구에는 강화 보호권을 사용하지 않습니다.');}
+ if(protectedAttempt&&cost.protectionQuantity===0)throw jointError('FORGE_PROTECTION_UNAVAILABLE','이 단계에서는 보호권을 사용할 수 없습니다.',409);
  if(cost.itemCode){const material=await DB.prepare('SELECT name,image_url FROM inventory_items WHERE code=? AND is_active=1').bind(cost.itemCode).first();if(!material)throw jointError('FORGE_MATERIAL_CONFIG','사용 가능한 재료를 설정하세요.',409);cost={...cost,itemName:material.name,itemImage:material.image_url||''};}
  if(protectedAttempt&&!await DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(policy.protection.itemCode).first())throw jointError('FORGE_MATERIAL_CONFIG','보호권이 미등록 또는 비활성 상태입니다.',409);
  const expiresAt=new Date(Math.min(now+policy.quoteSeconds*1000,restoreDeadline??Infinity)).toISOString(),plan={kind,item,recordId,cost,protectedAttempt,protection:policy.protection,policyVersion:policy.version,policyRevision:policy.revision};
@@ -72,11 +79,23 @@ export async function executeForge(env,user,body,kind,{randomInt=mercenaryRandom
         p('DELETE FROM user_equipment_loadout WHERE user_id=? AND instance_id=?',user.id,plan.item.instanceId),p('DELETE FROM equipment_forge_states_v1 WHERE user_id=? AND instance_id=?',user.id,plan.item.instanceId),p('DELETE FROM user_equipment_instances WHERE id=? AND user_id=?',plan.item.instanceId,user.id));
      }else list.push(p('INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) VALUES(?,?,?,?) ON CONFLICT(instance_id) DO UPDATE SET level=excluded.level,revision=excluded.revision',plan.item.instanceId,user.id,plan.nextLevel,plan.item.revision+1));
    }else{
-     list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM equipment_forge_destroyed_v1 d JOIN character_equipment_items i ON i.id=d.equipment_id WHERE d.record_id=? AND d.user_id=? AND d.restored_instance_id IS NULL AND i.is_active=1 AND i.is_public=1) THEN 1 ELSE 0 END WHERE token=?',plan.recordId,user.id,token),
+     list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM equipment_forge_destroyed_v1 d JOIN character_equipment_items i ON i.id=d.equipment_id WHERE d.record_id=? AND d.user_id=? AND d.restored_instance_id IS NULL AND i.is_active=1 AND i.is_public=1) THEN 1 ELSE 0 END WHERE token=?',plan.recordId,user.id,token));
+     // Production instances are very large and request_id is NOT globally
+     // unique/indexed. Carry the inserted ID through RETURNING, never search
+     // millions of owned rows or build a new full-table index during release.
+     if(DB.dialect==='postgres')list.push(p(`WITH restored AS (
+       INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id)
+       SELECT user_id,equipment_id,'FORGE_RESTORE',record_id,? FROM equipment_forge_destroyed_v1
+       WHERE record_id=? AND user_id=? AND restored_instance_id IS NULL RETURNING id,user_id
+     ), restored_state AS (
+       INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) SELECT id,user_id,?,1 FROM restored RETURNING instance_id
+     ) UPDATE equipment_forge_destroyed_v1 SET restored_instance_id=CAST(restored_state.instance_id AS TEXT),restore_request_id=?
+       FROM restored_state WHERE record_id=? AND user_id=? AND restored_instance_id IS NULL`,requestId,plan.recordId,user.id,plan.nextLevel,requestId,plan.recordId,user.id));
+     else list.push(
        p("INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT user_id,equipment_id,'FORGE_RESTORE',record_id,? FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=? AND restored_instance_id IS NULL",requestId,plan.recordId,user.id),
-       p('INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) SELECT id,user_id,?,1 FROM user_equipment_instances WHERE request_id=? AND user_id=?',plan.nextLevel,requestId,user.id),
-       p('UPDATE equipment_forge_destroyed_v1 SET restored_instance_id=(SELECT CAST(id AS TEXT) FROM user_equipment_instances WHERE request_id=? AND user_id=?),restore_request_id=? WHERE record_id=? AND user_id=? AND restored_instance_id IS NULL',requestId,user.id,requestId,plan.recordId,user.id),
-       p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=? AND restore_request_id=? AND restored_instance_id IS NOT NULL) THEN 1 ELSE 0 END WHERE token=?',plan.recordId,user.id,requestId,token));
+       p("INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) SELECT id,user_id,?,1 FROM user_equipment_instances WHERE request_id=? AND user_id=? AND source_type='FORGE_RESTORE' AND source_id=?",plan.nextLevel,requestId,user.id,plan.recordId),
+       p("UPDATE equipment_forge_destroyed_v1 SET restored_instance_id=(SELECT CAST(id AS TEXT) FROM user_equipment_instances WHERE request_id=? AND user_id=? AND source_type='FORGE_RESTORE' AND source_id=?),restore_request_id=? WHERE record_id=? AND user_id=? AND restored_instance_id IS NULL",requestId,user.id,plan.recordId,requestId,plan.recordId,user.id));
+     list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=? AND restore_request_id=? AND restored_instance_id IS NOT NULL) THEN 1 ELSE 0 END WHERE token=?',plan.recordId,user.id,requestId,token));
    }
    list.push(p('UPDATE equipment_forge_quotes_v1 SET consumed_by=? WHERE quote_id=? AND user_id=? AND consumed_by IS NULL',requestId,quoteId,user.id),jointGuardEnd(DB,token));return list;
  }});return forgeReceipt(env,user,requestId,kind,r.replayed);
@@ -84,7 +103,7 @@ export async function executeForge(env,user,body,kind,{randomInt=mercenaryRandom
 export async function forgeReceipt(env,user,requestId,kind,replayed=true){
  if(!['ENHANCE','RESTORE'].includes(kind))throw jointError('FORGE_KIND','기록 종류를 확인하세요.');const op=await readJointOperation(env,user.id,requestId,`FORGE_${kind}`);if(op.status!=='COMPLETED')return {requestId,status:'PENDING',retryable:true};
  let instanceId=op.plan.item.instanceId;if(kind==='RESTORE')instanceId=(await env.DB.prepare('SELECT restored_instance_id FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=?').bind(op.plan.recordId,user.id).first()).restored_instance_id;
- return {requestId,status:'COMPLETED',kind,replayed,instanceId,recordId:op.plan.outcome==='DESTROY'?requestId:op.plan.recordId,outcome:op.plan.outcome,rolled:op.plan.rolled,level:op.plan.nextLevel,coinCost:op.plan.cost.coinCost,itemCode:op.plan.cost.itemCode,itemQuantity:op.plan.cost.itemQuantity,policyVersion:op.plan.policyVersion,power:forgePower(op.plan.item.basePower.total,op.plan.nextLevel)};
+ return {requestId,status:'COMPLETED',kind,replayed,instanceId,item:op.plan.item,recordId:op.plan.outcome==='DESTROY'?requestId:op.plan.recordId,outcome:op.plan.outcome,rolled:op.plan.rolled,level:op.plan.nextLevel,coinCost:op.plan.cost.coinCost,itemCode:op.plan.cost.itemCode,itemQuantity:op.plan.cost.itemQuantity,policyVersion:op.plan.policyVersion,power:forgePower(op.plan.item.basePower.total,op.plan.nextLevel)};
 }
 export async function forgeAccountState(env,user,options){
  const [inventory,policy,wallet,growth,records,history]=await Promise.all([readForgePreparationInventory(env.DB,user.id,options),readForgeRuntime(env),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first(),env.DB.prepare('SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=?').bind(user.id).all(),env.DB.prepare('SELECT * FROM equipment_forge_destroyed_v1 WHERE user_id=? ORDER BY destroyed_at DESC LIMIT 60').bind(user.id).all(),env.DB.prepare("SELECT request_id,kind,status,plan_json,created_at FROM joint_operations_v1 WHERE user_id=? AND kind IN('FORGE_ENHANCE','FORGE_RESTORE') ORDER BY created_at DESC LIMIT 30").bind(user.id).all()]);

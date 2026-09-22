@@ -159,7 +159,7 @@
       if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('무한의탑 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
       if(d.weeklyPremiumError)console.warn('무한의탑 프리미엄 큐브 처리 경고:',d.weeklyPremiumError);
       if(d.magicReward?.amount>0||d.weeklyPremiumCube){const current=loadUser();if(current){if(d.magicReward?.amount>0)current.magicCrystals=Number(d.magicReward.balance||current.magicCrystals||0);if(d.weeklyPremiumCube)current.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(current)}}
-      const magicRewardText=d.magicReward?.amount>0?` · 마법 결정 ✦ ${Number(d.magicReward.amount).toLocaleString()}`:'';
+      const magicRewardText=(d.magicReward?.amount>0?` · 마법 결정 ✦ ${Number(d.magicReward.amount).toLocaleString()}`:'')+(d.forgeProtectionReward?` · 장비 보호권 ${Number(d.forgeProtectionReward.quantity).toLocaleString()}개 획득`:'');
       if(!v3View){
       const teamPowerLabel=stage.querySelector('.battle-hp-team small'),enemyPowerLabel=stage.querySelector('.battle-hp-enemy small');if(teamPowerLabel)teamPowerLabel.textContent=`전투력 ${Number(d.playerPower||0).toLocaleString()}`;if(enemyPowerLabel)enemyPowerLabel.textContent=`${f.isBoss?'BOSS · ':''}전투력 ${Number(d.monsterPower||0).toLocaleString()}`;
       if(Array.isArray(d.cards)&&d.cards.length===5){const team=document.getElementById('towerBattleTeam');if(team)team.innerHTML=d.cards.map((c,i)=>battleFighterHtml(c,i)).join('')}

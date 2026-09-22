@@ -1,0 +1,29 @@
+{
+  "revision": 4,
+  "version": "forge-runtime-draft-20260913",
+  "mode": "OFF",
+  "approved": false,
+  "quoteSeconds": 120,
+  "steps": [
+    {"level":0,"successPpm":700000,"maintainPpm":300000,"destroyPpm":null,"coinCost":100000000,"itemCode":"MASTER_STAR","itemQuantity":10000,"protectionQuantity":null},
+    {"level":1,"successPpm":600000,"maintainPpm":400000,"destroyPpm":null,"coinCost":500000000,"itemCode":"MASTER_STAR","itemQuantity":30000,"protectionQuantity":null},
+    {"level":2,"successPpm":500000,"maintainPpm":500000,"destroyPpm":null,"coinCost":1000000000,"itemCode":"MASTER_STAR","itemQuantity":50000,"protectionQuantity":null},
+    {"level":3,"successPpm":500000,"maintainPpm":500000,"destroyPpm":null,"coinCost":1000000000,"itemCode":"MASTER_STAR","itemQuantity":50000,"protectionQuantity":null},
+    {"level":4,"successPpm":400000,"maintainPpm":600000,"destroyPpm":null,"coinCost":3000000000,"itemCode":"MASTER_STAR","itemQuantity":70000,"protectionQuantity":null},
+    {"level":5,"successPpm":300000,"maintainPpm":700000,"destroyPpm":null,"coinCost":3000000000,"itemCode":"MASTER_STAR","itemQuantity":70000,"protectionQuantity":null},
+    {"level":6,"successPpm":300000,"maintainPpm":650000,"destroyPpm":50000,"coinCost":5000000000,"itemCode":"MASTER_STAR","itemQuantity":90000,"protectionQuantity":null},
+    {"level":7,"successPpm":200000,"maintainPpm":750000,"destroyPpm":50000,"coinCost":7000000000,"itemCode":"MASTER_STAR","itemQuantity":90000,"protectionQuantity":null},
+    {"level":8,"successPpm":150000,"maintainPpm":700000,"destroyPpm":150000,"coinCost":9000000000,"itemCode":"MASTER_STAR","itemQuantity":110000,"protectionQuantity":1},
+    {"level":9,"successPpm":100000,"maintainPpm":750000,"destroyPpm":150000,"coinCost":15000000000,"itemCode":"MASTER_STAR","itemQuantity":150000,"protectionQuantity":3}
+  ],
+  "protection": {
+    "itemCode":"EQUIPMENT_PROTECTION_TICKET",
+    "consume":"ON_ATTEMPT",
+    "sources":[
+      {"content":"TOWER","enabled":true,"chancePpm":10000,"quantity":1},
+      {"content":"SCRAPYARD","enabled":true,"chancePpm":9998,"quantity":1},
+      {"content":"COW_ROOM","enabled":true,"chancePpm":10000,"quantity":1}
+    ]
+  },
+  "restoration":{"enabled":true,"coinCost":100000000000,"itemCode":"PINGDU_REPAIR_COUPON","itemQuantity":1,"levelMode":"PREVIOUS","expiresHours":0}
+}

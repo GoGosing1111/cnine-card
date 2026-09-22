@@ -1,8 +1,11 @@
 import {readForgePreparationInventory} from './_equipment_forge_preparation.js';
 import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
+import {EQUIPMENT_FORGE_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
+import {readReleasedForgePolicy} from './_equipment_forge_release.js';
+import {assertForgeMaterials} from './_equipment_forge_cms.js';
 
 export const FORGE_SETTINGS_KEY='equipment_forge_public_settings_v1';
-export const FORGE_EXECUTION_IMPLEMENTED=false;
+export const FORGE_EXECUTION_IMPLEMENTED=EQUIPMENT_FORGE_RELEASE_ENABLED;
 const defaults=()=>({schemaVersion:1,revision:0,publicVisible:true,executionMode:'OFF',notice:'무기와 방어구의 강화 센터가 공개되었습니다. 강화 오픈 일정은 추후 안내됩니다.'});
 const pending=['단계별 운영 확률·비용 확정','보호권·복구 정책 확정','강화·파괴·복구 원자 처리 및 전투력 연결 검수','V3·용병·장비 공동 활성화'];
 export async function readForgeSettings(env){
@@ -26,7 +29,10 @@ export async function saveForgeSettings(env,admin,body){
   const s=body.settings;
   if(!s||Object.keys(s).sort().join(',')!=='executionMode,notice,publicVisible'||typeof s.publicVisible!=='boolean'||!['OFF','ON'].includes(s.executionMode)||typeof s.notice!=='string'||s.notice.length>500)return {error:'공개·실행 설정과 500자 이내 안내를 확인하세요.',status:400};
   // This public-only release must not mistake a saved ON flag for a working mutation engine.
-  if(s.executionMode==='ON')return {error:'운영 정책 확정과 강화·복구 서버 연결 검수, 공동 출시 준비가 끝난 뒤 ON으로 전환할 수 있습니다.',code:'FORGE_NOT_READY',status:409};
+  if(s.executionMode==='ON'){
+    if(!FORGE_EXECUTION_IMPLEMENTED)return {error:'운영 정책 확정과 강화·복구 서버 연결 검수, 최종 출시 승인 후 ON으로 전환할 수 있습니다.',code:'FORGE_NOT_READY',status:409};
+    try{await assertForgeMaterials(env,await readReleasedForgePolicy(env));}catch(error){return {error:error.message,code:error.code||'FORGE_NOT_READY',status:error.status||409};}
+  }
   const previous=await readForgeSettings(env);
   if(previous.invalid)return {error:'운영 설정이 손상되어 복구가 필요합니다.',status:409};
   if(previous.settings.revision!==body.expectedRevision)return {error:'다른 창에서 설정이 변경되었습니다. 다시 불러오세요.',status:409};

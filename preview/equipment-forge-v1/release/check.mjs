@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { assessLaunch } from './policy.mjs';
+import {FORGE_EXECUTION_IMPLEMENTED} from '../../../functions/_equipment_forge_public.js';
+import {FORGE_RUNTIME_RELEASE_ENABLED} from '../../../shared/equipment-forge-release-v1.mjs';
 
 const root = new URL('../../../', import.meta.url);
 const read = path => readFileSync(new URL(path, root));
@@ -24,7 +26,7 @@ export function checkPreparation() {
   for (const path of ['index.html', 'js/app.js', 'js/equipment-v1274.js', 'functions/api/[[path]].js', 'functions/_equipment.js', 'service-worker.js']) {
     if (/equipment-forge-v1\/source\/(app|model)\.mjs|ForgeSimulation/.test(read(path).toString())) errors.push(`운영 호스트에 시연 로직이 추가됨: ${path}`);
   }
-  if(!/FORGE_EXECUTION_IMPLEMENTED=false/.test(read('functions/_equipment_forge_public.js').toString())) errors.push('공개 전용 배포의 실행 잠금 누락');
+  if(FORGE_EXECUTION_IMPLEMENTED!==false||FORGE_RUNTIME_RELEASE_ENABLED!==false) errors.push('공개 전용 배포의 실행 잠금 누락');
   const launch = assessLaunch(draft);
   if (draft.liveEnabled !== false) errors.push('현재 준비 패키지는 liveEnabled=false를 유지해야 함');
   // A configuration checklist cannot certify an unimplemented server mutation path.

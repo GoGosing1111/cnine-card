@@ -66,6 +66,8 @@ import {loadScrapyardV3Snapshot} from '../_scrapyard_v3.js';
 import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../_tower_v3.js';
 import {discoverCowPortal} from '../_cow_room_portal.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
+import {FORGE_RUNTIME_RELEASE_ENABLED} from '../../shared/equipment-forge-release-v1.mjs';
+import {prepareTowerForgeProtectionClear} from '../_forge_tower_protection.js';
 import {jointError} from '../_joint_request.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
@@ -1048,7 +1050,7 @@ async function pvpFormationPower(env,userId,battle,{defense=false}={}){
 async function pvpDefenseFormationPowers(env,userIds,battle){
   const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
   const [mercenaries,forgeBonuses,cardRows,equipmentRows,garageRows,titleRows]=await Promise.all([
-    releasedMercenarySnapshots(env,ids),V3_JOINT_RELEASE_ENABLED?forgeEquipmentBonuses(env,ids):Promise.resolve(new Map()),
+    releasedMercenarySnapshots(env,ids),FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonuses(env,ids):Promise.resolve(new Map()),
     // Keep the five JSON deck ids as the outer loop. The previous implicit JOIN
     // order scanned every owned card (and, in practice, the effective card view)
     // for every candidate, producing tens of millions of reads per matchmaking
@@ -4748,7 +4750,7 @@ function serializedGameAction(path,method){
   if(String(method).toUpperCase()!=='POST'||String(path).startsWith('admin/'))return false;
   // Joint endpoints acquire the same lock inside their authenticated handler.
   if(String(path).startsWith('loot-shop/'))return false;
-  if(isPveV3Path(String(path))||mercenaryUsesInnerLock(String(path))||(V3_JOINT_RELEASE_ENABLED&&isForgeRuntimePath(String(path))))return false;
+  if(isPveV3Path(String(path))||mercenaryUsesInnerLock(String(path))||(FORGE_RUNTIME_RELEASE_ENABLED&&isForgeRuntimePath(String(path))))return false;
   if(V3_JOINT_RELEASE_ENABLED&&String(path).startsWith('idle-dungeon/'))return false;
   // 영토전 공격은 자체 requestId 영수증 + 사용자 공격 락으로 원자 처리한다.
   // 전역 사용자 락을 한 겹 더 씌우면 정상 재시도가 USER_ACTION_IN_PROGRESS로 먼저 차단된다.
@@ -7014,14 +7016,17 @@ async function handleRequest(context){
         bossUltimatePercent:Number(towerBossUltimate?.damagePercent||0)});
       const result=towerBattle.success?'WIN':'LOSE';let reward=0;
       let completed=false,nextFloor=floorNo;
-      let magicReward=null,equipmentReward=null,blackMiracleReward=null;
+      let magicReward=null,equipmentReward=null,blackMiracleReward=null,forgeProtectionReward=null;
       if(result==='WIN'){
         reward=Number(floor.reward_coin||Math.max(100,floorNo*100));completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;
         // V1785: 코인 지급과 층 진행도 갱신은 서로 독립적인 쓰기다. D1 배치 1회로 묶는다(왕복 2회 → 1회).
         const towerClearWrites=[env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id)];
         if(reward)towerClearWrites.unshift(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id));
         towerClearWrites.push(...await accountRankAward(env,user.id,'TOWER',`${season.id}:${floorNo}`));
+        const forgeProtection=await prepareTowerForgeProtectionClear(env,{userId:Number(user.id),seasonId:Number(season.id),floorNo});
+        towerClearWrites.push(...forgeProtection.statements);
         await env.DB.batch(towerClearWrites);
+        forgeProtectionReward=forgeProtection.reward;
         const magicCfg=await magicSettings(env),towerMagic=magicCfg.acquisition?.tower||{},magicAmount=magicRewardForTowerFloor(magicCfg,floorNo);
         magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:`${season.id}:${floorNo}`,enabled:towerMagic.enabled===true,chance:100,amount:magicAmount,dailyLimit:0,reason:`무한의탑 ${floorNo}층 최초 클리어`});
         equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:'TOWER',sourceId:String(floorNo),requestId:towerRequestId});
@@ -7035,7 +7040,7 @@ async function handleRequest(context){
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));
       const towerBattleCards=owned.results.map(c=>{const uniqueCard=towerUniqueCardMap.get(String(c.id))||{};return {...c,...uniqueCard,id:String(c.id),title:c.title,image:c.image,grade:c.rarity,rarity:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)};});
       if(result==='WIN')await grantHighGradeRerollDrop(env,{userId:user.id,content:'TOWER',referenceId:towerRequestId});
-      return json({...towerBattle,requestId:towerRequestId,result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,equipmentReward,blackMiracleReward,characterBonus:deckInfo.characterBonus,towerCardPower,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards});
+      return json({...towerBattle,requestId:towerRequestId,result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,equipmentReward,blackMiracleReward,forgeProtectionReward,characterBonus:deckInfo.characterBonus,towerCardPower,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});
