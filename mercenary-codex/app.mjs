@@ -134,7 +134,7 @@ $('openFusion').onclick=async()=>{
   if(fusionOpening)return;
   if(!catalog){note('용병 정보를 불러온 뒤 다시 시도하세요.');return;}
   fusionOpening=true;
-  try{const {openFusion}=await import('/mercenary-codex/fusion/app.mjs?v=20260922');await openFusion({catalog,account});}
+  try{const {openFusion}=await import('/mercenary-codex/fusion/app.mjs?v=20260922-ui2');await openFusion({catalog,account});}
   catch(error){note(error.message||'합성 화면을 불러오지 못했습니다.');}
   finally{fusionOpening=false;}
 };
