@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 import {webcrypto} from 'node:crypto';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
+import {FORGE_REPAIR_ITEM} from '../functions/_forge_repair_catalog.js';
 
 const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const app=read('js/app.js'),api=read('functions/api/[[path]].js');
@@ -68,7 +69,7 @@ async function fixture(t,{quantity=1,owned=0,eligible=true}={}){
   if(!eligible)await pg.exec("UPDATE cards SET is_active=0 WHERE id='valid-superstar'");
   const db=new __postgresCompatTest.PostgresD1Database({async query(input){const r=await pg.query(typeof input==='string'?input:input.text,typeof input==='string'?[]:input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length}}});
   const c=vm.createContext({crypto:webcrypto,authenticate:async request=>request.userId===0?null:{id:request.userId||1,nickname:'synthetic'},readBody:async request=>request.body,
-    json:(body,status=200)=>({body,status}),UNIQUE_ADVANCEMENT_PASS_CODE:'UNIQUE_ADVANCEMENT_PASS',PREMIUM_CUBE_OPEN_COUNTS:new Set([1,10,100]),
+    json:(body,status=200)=>({body,status}),UNIQUE_ADVANCEMENT_PASS_CODE:'UNIQUE_ADVANCEMENT_PASS',FORGE_REPAIR_ITEM,PREMIUM_CUBE_OPEN_COUNTS:new Set([1,10,100]),
     cubeSettings:async()=>({PREMIUM_CUBE:{MA:100}}),ensureHighGradeRerollFoundation:async()=>{},weightedPick:rows=>rows[0],
     cardAcquisitionEffectsByGrade:async()=>({}),cardWithAcquisitionEffect:card=>card,profile:async(_env,user)=>user});
   vm.runInContext(serverMeta+'\n'+api.match(/^const SHARD_REWARD=.*$/m)[0]+'\nthis.use=async function(request,env,path){'+route+'};',c);
