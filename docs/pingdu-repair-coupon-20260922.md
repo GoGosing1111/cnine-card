@@ -26,6 +26,17 @@
 - 로컬 검수 서버: `node scripts/qa-pingdu-repair-coupon.mjs`, 127.0.0.1:8963 전용. 운영 SQL/계정과 연결되지 않는다.
 - 전체 출시 검사는 `npm run deploy:production` 내부의 `npm run release:gate`로 실행한다. 운영 등록은 배포 완료 후 위 원자적 SQL로 수행하고 별도 조회로 확인한다.
 
+## 운영 반영 완료
+
+- 구현 커밋 `4cda2def`는 동시 작업의 봉인전 수정 `3d5404fa`와 함께 통합했다. 기존 재뽑기 테스트의 분리 실행 컨텍스트에 실제 `FORGE_REPAIR_ITEM`을 제공하는 보완 `7adfb26a`도 포함한다. 테스트 기대값이나 운영 API 동작을 완화하지 않았다.
+- 최종 배포 소스: `7adfb26a52e127a7210912cfa5e8eb02ea2bb12d`. 깨끗한 통합 후보에서 `npm run deploy:production`이 전체 `release:gate`와 Hyperdrive 캐시 OFF 검사를 통과하고 종료 코드 0으로 완료됐다. 중복 배포를 피하기 위해 같은 소스의 봉인전 작업 배포를 공유했으며, 이 작업에서도 실제 로그와 Pages 운영 배포 목록을 확인했다.
+- Pages 운영 배포: `f224cb66-7975-413e-bbea-2934ed854b37`, https://f224cb66.cnine-card.pages.dev. 함께 배포한 clan-draft 버전: `8529e1df-70a7-4bbb-bcdf-e4ae66f18160`.
+- 운영 자산은 HTTP 200 / `image/webp` / 35,836 bytes이며 아래 서비스 이미지 SHA-256과 일치한다. 실제 `/equipment-forge/` HTML의 `20260922-repair`와 새 쿠폰 자산 참조도 확인했다.
+- 배포 후 Neon `cnine` 운영 DB에서 위 일회성 SQL을 실행했다. `ops:pingdu-repair-policy:20260922:v1` 상태 `COMPLETED`, 관리자 감사 ID `34718`, 정책 r1 → r2.
+- 별도 조회로 `itemCode: PINGDU_REPAIR_COUPON`, `itemQuantity: 1`, `levelMode: PREVIOUS`, `coinCost: 0`, `expiresHours: 0`, `enabled: false`를 확인했다. 공개 설정 전체와 복구·리비전 이외의 정책 필드는 적용 전과 동일하다.
+- 쿠폰 재고 행 0 / 총 보유 수량 0 / 지급 0. 강화 실행 `OFF`, 복구 `false`를 유지했다. 운영 공개 상태 API도 `canEnhance: false`, `canRestore: false`, `OPENING_SOON`을 반환한다.
+- 운영 CMS → 장비 강화 → 파괴 복구에서 r2, 쿠폰 선택, 실제 384×384 이미지, 1장·0코인·무기한·직전 단계 및 미체크 복구 정책을 확인했다. 검증 중 저장 버튼이나 운영 복구 실행은 누르지 않았다.
+
 ## 이미지
 
 내장 imagegen으로 전용 네이비·로즈골드 쿠폰을 제작했다. 기존 장비 보호권 이미지는 유지했다.
