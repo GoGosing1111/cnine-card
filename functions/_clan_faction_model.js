@@ -1,8 +1,20 @@
 import { DISTRICTS, SQUADS, FACTION_RULES as R, FACTION_TAX_CHANGES } from '../shared/clan-faction-rules-v1.mjs';
 
 export const factionFail = (message, status = 409) => { throw Object.assign(new Error(message), {status}); };
+const COOLDOWN_VERSION = 2;
+// One-time 2026-09-22 cutover, including saved PAUSED sessions. Shift deadlines
+// rather than rebuilding from wall time, preserving already-applied pause extensions.
+export function upgradeFactionCooldowns(state) {
+  if ((state.cooldownVersion || 1) >= COOLDOWN_VERSION) return state;
+  for (const district of state.districts)
+    if (district.protectedUntil > 0) district.protectedUntil = Math.max(0, district.protectedUntil - (120 - 20) * 60000);
+  for (const key of Object.keys(state.targetReady))
+    if (state.targetReady[key] > 0) state.targetReady[key] = Math.max(0, state.targetReady[key] - (30 - 15) * 60000);
+  state.cooldownVersion = COOLDOWN_VERSION;
+  return state;
+}
 export function newFactionState(now) {
-  return {version:1, districts:DISTRICTS.map(d => ({id:d.id,owner:0,protectedUntil:0,defense:'',taxAt:now,taxRemainder:0})),
+  return {version:1, cooldownVersion:COOLDOWN_VERSION, districts:DISTRICTS.map(d => ({id:d.id,owner:0,protectedUntil:0,defense:'',taxAt:now,taxRemainder:0})),
     formations:{}, captains:{}, battles:[], events:[], pools:{}, squadReady:{}, targetReady:{}, strikeReady:{}};
 }
 export function factionEvent(state, event) {
@@ -26,6 +38,7 @@ export function accrueFactionTax(state, now) {
   }
 }
 export function finishFactionBattle(state, battle, winner, reason, now) {
+  upgradeFactionCooldowns(state);
   if (battle.status !== 'ACTIVE') return;
   battle.status = 'COMPLETED'; battle.winner = winner; battle.reason = reason; battle.endedAt = now;
   state.squadReady[`${battle.attacker}:${battle.squad}`] = now + R.squadCooldownMs;
@@ -40,6 +53,7 @@ export function finishFactionBattle(state, battle, winner, reason, now) {
   state.battles = state.battles.filter(b => b.status === 'ACTIVE').concat(state.battles.filter(b => b.status !== 'ACTIVE').slice(0,40));
 }
 export function advanceFactionState(state, now, endAt) {
+  upgradeFactionCooldowns(state);
   state.captains ||= {};
   const cutoff = Math.min(now, endAt, state.taxDisabledAt ?? Infinity);
   accrueFactionTax(state, cutoff);

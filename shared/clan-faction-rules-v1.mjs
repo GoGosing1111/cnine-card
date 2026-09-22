@@ -1,6 +1,6 @@
 // Shared display rules. Mutations and the combat result remain server-owned.
 export const FACTION_RULES = Object.freeze({
-  protectionMs: 2 * 3600000, squadCooldownMs: 10 * 60000, targetCooldownMs: 30 * 60000,
+  protectionMs: 20 * 60000, squadCooldownMs: 10 * 60000, targetCooldownMs: 15 * 60000,
   strikeCooldownMs: 60000, battleDurationMs: 30 * 60000, sharedHp: 1000000,
   taxPerHour: 1000000000, squadSize: 5, strikeMaxFraction: 0.15,
 });

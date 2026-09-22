@@ -10,6 +10,7 @@ try{
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'/preview/clan-faction-v1/');await page.locator('.fw-zone').first().waitFor();await page.evaluate(()=>document.fonts.ready);
   const label=viewport.width+'x'+viewport.height;
+  check(JSON.stringify(await page.locator('.fw-detail-rules b').allTextContents())===JSON.stringify(['20분','10분','15분']),label+' approved cooldown labels');
   check(await page.locator('.fw-zone').count()===25,label+' all 25 districts');
   check(await page.evaluate(()=>document.body.scrollWidth===innerWidth&&document.querySelector('#clanRoot').scrollWidth<=document.querySelector('#clanRoot').clientWidth+1),label+' no page overflow');
   check(await page.locator('#clanRoot img').evaluateAll(images=>images.every(i=>i.complete&&i.naturalWidth>0)),label+' clan marks loaded');

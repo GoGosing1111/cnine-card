@@ -1,5 +1,5 @@
 import {FACTION_SESSION_RULES as R, factionPolicy, factionTime as time, factionDayKey, createFactionDay, factionSessionRewards} from '../shared/clan-faction-sessions-v1.mjs';
-import {newFactionState, advanceFactionState, finishFactionBattle, factionEvent} from './_clan_faction_model.js';
+import {newFactionState, advanceFactionState, finishFactionBattle, factionEvent, upgradeFactionCooldowns} from './_clan_faction_model.js';
 import {readRuntimeData, cacheRuntimeData} from './_runtime_data_cache.js';
 
 const SCHEMA = 'clan_faction_sessions_schema_20260921_v1';
@@ -186,7 +186,7 @@ export async function syncFactionSessions(env, season, deps = {}) {
     }
     const wars = rows(warsResult), activeWars = wars.filter(w => w.status === 'ACTIVE' || (w.status === 'PREPARING' && time(w.starts_at) <= now)).length;
     const roster = rows(rosterResult).map(m => ({userId:Number(m.user_id),clanId:Number(m.clan_id)}));
-    const state = JSON.parse(row.state_json), settlements = [], opened = [], owners = rows(ownersResult);
+    const state = upgradeFactionCooldowns(JSON.parse(row.state_json)), settlements = [], opened = [], owners = rows(ownersResult);
     if (!state.taxDisabledAt) {
       advanceFactionState(state, Math.min(now,policy.effectiveAt), endAt);
       state.taxDisabledAt = policy.effectiveAt;

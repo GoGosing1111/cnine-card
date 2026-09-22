@@ -31,6 +31,7 @@ try{
   else{await lobby.locator('.mobile-dock [data-category="all"]').click();}
   await lobby.locator('.menu-result[data-route="clan"]').click();await page.locator('.clan-tabs [data-clan-tab="faction"]').click();await page.locator('.fw-zone').first().waitFor();checks.push(viewport.width+' live menu → faction');
   assert.ok(await page.evaluate(()=>document.body.scrollWidth<=innerWidth+1));
+  assert.deepEqual(await page.locator('.fw-detail-rules b').allTextContents(),['20분','10분','15분']);checks.push(viewport.width+' live cooldown guidance');
   await page.locator('[data-fw-zone="11680"]').click();await page.locator('[data-fw-launch]').click();await page.locator('[data-fw-room-strike]').waitFor();await page.locator('[data-fw-room-strike]').click();
   await page.locator('#modal canvas').first().waitFor({timeout:60000});checks.push(viewport.width+' shared V3 canvas');
   await page.waitForFunction(()=>!document.querySelector('#modal.battle-v3-preparing'),{},{timeout:60000});

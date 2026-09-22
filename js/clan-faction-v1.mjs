@@ -1,4 +1,4 @@
-import {DISTRICTS,SQUADS,FACTION_RULES as R,districtById} from '../shared/clan-faction-rules-v1.mjs?v=20260920-tax-1b';
+import {DISTRICTS,SQUADS,FACTION_RULES as R,districtById} from '../shared/clan-faction-rules-v1.mjs?v=20260922-cooldowns';
 import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20260922-sessions-live';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Math.max(0,Number(n)||0).toLocaleString('ko-KR');
@@ -11,6 +11,7 @@ function clashMarker(f){
 }
 const state={data:null,map:null,tab:'map',selected:'11680',squad:'attack1',edit:null,editBase:null,editCaptains:null,busy:false,error:'',ctx:null,root:null,offset:0,timer:null,alertTimer:null,alertBusy:false,notice:'',zoom:1,sequence:0,room:null,roomId:'',playing:false};
 const now=()=>Date.now()+state.offset;
+const ruleMinutes=key=>`${num((state.data?.rules?.[key]??R[key])/60000)}분`;
 const left=until=>{const seconds=Math.max(0,Math.ceil((until-now())/1000));return seconds>=3600?`${Math.floor(seconds/3600)}시간 ${Math.floor(seconds%3600/60)}분`:seconds>=60?`${Math.floor(seconds/60)}분 ${seconds%60}초`:`${seconds}초`;};
 const clock=until=>`<span data-fw-until="${until}">${left(until)}</span>`;
 const team=id=>state.data?.clans.find(c=>c.clanId===id);
@@ -51,7 +52,7 @@ function detailView(){
     `<section class="fw-dispatch"><div class="fw-section-title"><h3>출정할 공격대</h3><button class="fw-text-btn" data-fw-tab="formation">편성 관리 ↗</button></div><div class="fw-squad-options">${SQUADS.filter(s=>s.role==='ATTACK').map(s=>`<button data-fw-squad="${s.id}" class="${squad===s.id?'active':''}"><b>${s.name}</b><span>${data.formation[s.id]?.length||0} / 5명</span></button>`).join('')}</div>
     <div class="fw-launch-note">${protectedNow?`${icon('shield')}점령 보호 · ${clock(z.protectedUntil)} 남음`:cooldown>now()?`${icon('clock')}재공격까지 ${clock(cooldown)}`:squadBusy?'선택한 공격대가 다른 지역에서 교전 중입니다.':!data.formation[squad]?.length?'클랜장이 공격대를 편성하면 출정할 수 있습니다.':!z.defenders.length?'방어대가 없는 지역은 출정 즉시 점령합니다.':'출정하면 공격대·방어대 편성원에게 전투 입장 알림이 전송됩니다.'}</div>
     <button class="fw-primary" data-fw-launch ${launchable?'':'disabled'}>${icon('sword')}${protectedNow?'점령 보호 중':!z.owner?'무주지 점령':`${meta.name} 공격 시작`}${icon('arrow')}</button></section>`}`}
-    <footer class="fw-detail-rules"><span>${icon('shield')}점령 보호 <b>2시간</b></span><span>${icon('clock')}공격대 재출정 <b>10분</b></span><span>${icon('clock')}같은 지역 재공격 <b>30분</b></span></footer></aside>`;
+    <footer class="fw-detail-rules"><span>${icon('shield')}점령 보호 <b>${ruleMinutes('protectionMs')}</b></span><span>${icon('clock')}공격대 재출정 <b>${ruleMinutes('squadCooldownMs')}</b></span><span>${icon('clock')}같은 지역 재공격 <b>${ruleMinutes('targetCooldownMs')}</b></span></footer></aside>`;
 }
 function formationView(){
   const d=state.data,edit=state.edit||d.formation,assigned=new Set(Object.values(edit).flat()),captains=state.editCaptains||d.captains||{};
@@ -140,7 +141,7 @@ async function action(kind,payload){
     try{sessionStorage.removeItem(key.scope);}catch{}
     if(kind==='enter')try{sessionStorage.setItem(`faction-alert:${state.data.userId}:${state.data.season.id}:${payload.battleId}`,'1');}catch{}
     state.edit=null;state.editBase=null;state.editCaptains=null;
-    state.notice=kind==='captains'?'행동대장 지정을 저장했습니다.':kind==='formation'?'부대 편성을 저장했습니다.':kind==='garrison'?'방어대를 배치했습니다.':kind==='enter'?'전투실에 입장했습니다. 내 덱으로 교전에 참여하세요.':kind==='collect'?`${result.members}명에게 총 ${num(result.total)} 징수코인을 분배했습니다. 내 몫 ${num(result.myAmount)}코인`:kind==='strike'?`상대 공유 HP −${num(result.damage)}${result.battleCompleted?' · 교전 종료':''}`:result.captured?'상권을 점령했습니다. 2시간 점령 보호가 시작됩니다.':'공격대가 출정했습니다. 양쪽 편성원이 직접 전투실에 입장해 참여합니다.';
+    state.notice=kind==='captains'?'행동대장 지정을 저장했습니다.':kind==='formation'?'부대 편성을 저장했습니다.':kind==='garrison'?'방어대를 배치했습니다.':kind==='enter'?'전투실에 입장했습니다. 내 덱으로 교전에 참여하세요.':kind==='collect'?`${result.members}명에게 총 ${num(result.total)} 징수코인을 분배했습니다. 내 몫 ${num(result.myAmount)}코인`:kind==='strike'?`상대 공유 HP −${num(result.damage)}${result.battleCompleted?' · 교전 종료':''}`:result.captured?`상권을 점령했습니다. ${ruleMinutes('protectionMs')} 점령 보호가 시작됩니다.`:'공격대가 출정했습니다. 양쪽 편성원이 직접 전투실에 입장해 참여합니다.';
     if(kind==='strike'&&result.battleV2&&!result.replayed){
       state.playing=true;state.room?.close();
       try{await playBattle(result);}finally{state.playing=false;if(state.room?.isConnected&&!state.room.open)state.room.showModal();}

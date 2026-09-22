@@ -274,6 +274,41 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} a sil
 });
 
 const approvedPolicy={recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP'};
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} saved PAUSED cooldown cutover persists once, rolls back on failure and retains remaining time on resume`,async t=>{
+ const f=await fixture(t,postgres,approvedPolicy),minute=60000;
+ await syncFactionSessions(f.env,f.season,f.deps);
+ f.clock.now=beginning+10*minute;
+ await f.p("INSERT INTO territory_war_v3_rounds VALUES(1,'ACTIVE',?,?,NULL)",new Date(f.clock.now).toISOString(),new Date(beginning+65*minute).toISOString()).run();
+ await syncFactionSessions(f.env,f.season,f.deps);
+ const s=JSON.parse((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json);
+ delete s.cooldownVersion;
+ s.districts[0].protectedUntil=beginning+120*minute;
+ s.districts[1].protectedUntil=beginning+100*minute; // new 20-minute protection already expired before pause
+ s.targetReady={'1:11110':beginning+30*minute};s.squadReady={'1:attack1':beginning+10*minute};
+ const original=JSON.stringify(s);
+ await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',original).run();
+ f.clock.now=beginning+60*minute;f.setFailure('UPDATE clan_faction_state');
+ await assert.rejects(syncFactionSessions(f.env,f.season,f.deps),/INJECTED/);
+ assert.equal((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json,original);
+ f.setFailure('');
+ const upgraded=await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal(upgraded.view.current.status,'PAUSED');assert.equal(upgraded.row.state.cooldownVersion,2);
+ assert.equal(upgraded.row.state.districts[0].protectedUntil,beginning+20*minute);
+ assert.equal(upgraded.row.state.targetReady['1:11110'],beginning+15*minute);
+ const stored=(await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json;
+ await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json,stored);
+ f.clock.now=beginning+65*minute;
+ await f.p("UPDATE territory_war_v3_rounds SET status='FINISHED',settled_at=? WHERE id=1",new Date(f.clock.now).toISOString()).run();
+ const resumed=await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal(resumed.row.state.districts[0].protectedUntil,f.clock.now+10*minute);
+ assert.equal(resumed.row.state.targetReady['1:11110'],f.clock.now+5*minute);
+ assert.equal(resumed.row.state.districts[1].protectedUntil,beginning,'expired protection does not revive on resume');
+ assert.equal(resumed.row.state.squadReady['1:attack1'],beginning+10*minute);
+ assert.deepEqual(resumed.row.state.formations,s.formations);
+ assert.deepEqual(resumed.row.state.districts.map(d=>d.owner),s.districts.map(d=>d.owner));
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),0);
+});
 async function participatingFixture(t,postgres=false){
  const f=await fixture(t,postgres,approvedPolicy);await syncFactionSessions(f.env,f.season,f.deps);await own(f,4);
  const row=await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first(),state=JSON.parse(row.state_json);

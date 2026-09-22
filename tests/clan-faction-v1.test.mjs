@@ -2,10 +2,92 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {factionFixture} from './helpers/clan-faction-fixture.mjs';
 import {mutateFaction,factionOverview,handleClanFaction} from '../functions/_clan_faction.js';
-import {factionStrikeDamage,splitFactionTax,newFactionState,accrueFactionTax} from '../functions/_clan_faction_model.js';
+import {factionStrikeDamage,splitFactionTax,newFactionState,accrueFactionTax,upgradeFactionCooldowns,finishFactionBattle,advanceFactionState} from '../functions/_clan_faction_model.js';
 import {FACTION_RULES as R,FACTION_TAX_CHANGE,FACTION_TAX_CHANGES} from '../shared/clan-faction-rules-v1.mjs';
 const call=(f,kind,body={},user=f.user)=>mutateFaction(f.env,f.season,user,kind,{requestId:crypto.randomUUID(),...body},f.deps);
 const formation={attack1:[1,2,3],attack2:[4,5],defense1:[6,7,8],defense2:[9,10]};
+
+test('20260922 cooldown cutover is once-only, preserves pause extensions and leaves other state intact',()=>{
+  const at=Date.parse('2026-09-22T10:00:00+09:00'),minute=60000,s=newFactionState(at);
+  delete s.cooldownVersion;
+  Object.assign(s.districts[0],{owner:1,protectedUntil:at+120*minute+45*minute,defense:'defense1'});
+  s.districts[1].protectedUntil=at-120*minute;
+  s.targetReady={'1:11110':at+30*minute+45*minute,'2:11110':at-minute,'3:11110':0};
+  s.squadReady={'1:attack1':at+10*minute};s.strikeReady={1:at+minute};
+  s.formations={1:formation};s.pools={1:123};s.captains={1:{attack1:2}};
+  s.battles=[{id:'historic',status:'COMPLETED',endedAt:at-minute}];
+  const before=structuredClone(s);
+  upgradeFactionCooldowns(s);
+  assert.equal(s.cooldownVersion,2);
+  assert.equal(s.districts[0].protectedUntil,at+20*minute+45*minute);
+  assert.equal(s.targetReady['1:11110'],at+15*minute+45*minute);
+  assert.ok(s.districts[1].protectedUntil<at&&s.targetReady['2:11110']<at,'expired timers never revive');
+  assert.equal(s.districts[2].protectedUntil,0);assert.equal(s.targetReady['3:11110'],0);
+  for(const key of ['squadReady','strikeReady','formations','pools','captains','battles'])assert.deepEqual(s[key],before[key],key);
+  assert.equal(s.districts[0].owner,1);assert.equal(s.districts[0].defense,'defense1');
+  const upgraded=structuredClone(s);
+  for(let i=0;i<5;i++)upgradeFactionCooldowns(s);
+  assert.deepEqual(s,upgraded);
+  const fresh=newFactionState(at);fresh.districts[0].protectedUntil=at+20*minute;fresh.targetReady={'1:11110':at+15*minute};
+  const unchanged=structuredClone(fresh);upgradeFactionCooldowns(fresh);assert.deepEqual(fresh,unchanged);
+});
+
+test('capture, defeat and timeout assign 20/15 minute rules without changing 10 minute redeployment',()=>{
+  const at=Date.now(),minute=60000;
+  for(const outcome of ['CAPTURE','UNDEFENDED','DEFENDED','TIMEOUT']){
+    const s=newFactionState(at);delete s.cooldownVersion;
+    const district=s.districts[0];district.owner=2;
+    const battle={id:outcome,districtId:district.id,attacker:1,defender:2,squad:'attack1',status:'ACTIVE',endsAt:at};s.battles=[battle];
+    const captured=outcome==='CAPTURE'||outcome==='UNDEFENDED';
+    if(outcome==='TIMEOUT')advanceFactionState(s,at,at+86400000);
+    else finishFactionBattle(s,battle,captured?1:2,outcome,at);
+    assert.equal(s.squadReady['1:attack1'],at+10*minute);
+    assert.equal(s.targetReady[`1:${district.id}`],at+15*minute);
+    assert.equal(district.protectedUntil,captured?at+20*minute:0);
+    const snapshot=structuredClone(s);finishFactionBattle(s,battle,1,outcome,at+minute);assert.deepEqual(s,snapshot);
+  }
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} faction attack boundaries are exactly 20 minutes protection and 15 minutes same-target cooldown`,async t=>{
+  const f=await factionFixture({postgres,seeded:true});t.after(()=>f.close());
+  const minute=60000,capturedAt=f.clock.now;
+  const neutral=(await factionOverview(f.env,f.season,f.user,f.deps)).districts.find(d=>!d.owner).id;
+  assert.equal((await call(f,'launch',{districtId:neutral,squad:'attack2'})).captured,true);
+  const t1=await f.p('SELECT * FROM users WHERE id=101').first();
+  f.clock.now=capturedAt+20*minute-1;
+  await assert.rejects(call(f,'launch',{districtId:neutral,squad:'attack2'},t1),/점령 보호/);
+  f.clock.now++;
+  assert.equal((await call(f,'launch',{districtId:neutral,squad:'attack2'},t1)).captured,true);
+  const attack=await call(f,'launch',{districtId:'11680',squad:'attack1'});
+  f.clock.now+=R.battleDurationMs;
+  const ended=await factionOverview(f.env,f.season,f.user,f.deps);
+  assert.equal(ended.battles.find(b=>b.id===attack.battleId).reason,'TIMEOUT');
+  assert.equal(ended.rules.protectionMs,20*minute);assert.equal(ended.rules.targetCooldownMs,15*minute);
+  assert.equal(ended.rules.squadCooldownMs,10*minute);assert.equal(ended.rules.battleDurationMs,30*minute);
+  f.clock.now+=15*minute-1;
+  await assert.rejects(call(f,'launch',{districtId:'11680',squad:'attack1'}),/같은 지역/);
+  f.clock.now++;
+  assert.ok((await call(f,'launch',{districtId:'11680',squad:'attack1'})).battleId);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} old persisted deadlines shorten on overview and mutation and are not shortened again on retry`,async t=>{
+  const f=await factionFixture({postgres,seeded:true});t.after(()=>f.close());
+  const minute=60000,at=f.clock.now;
+  const row=await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first(),s=JSON.parse(row.state_json);
+  delete s.cooldownVersion;
+  Object.assign(s.districts.find(d=>d.id==='11680'),{protectedUntil:at+100*minute}); // captured 20 minutes ago
+  s.targetReady['1:11680']=at+15*minute; // last attack ended 15 minutes ago
+  await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',JSON.stringify(s)).run();
+  const view=await factionOverview(f.env,f.season,f.user,f.deps);
+  assert.equal(view.districts.find(d=>d.id==='11680').protectedUntil,at);
+  assert.equal(view.targetReady['11680'],at);
+  const request={requestId:'cooldown-cutover-launch',districtId:'11680',squad:'attack1'};
+  const battle=await call(f,'launch',request);assert.ok(battle.battleId);
+  const persisted=(await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json;
+  assert.equal(JSON.parse(persisted).cooldownVersion,2);
+  assert.equal((await call(f,'launch',request)).replayed,true);
+  assert.equal((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json,persisted);
+});
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} ACTIVE faction season opens before the first regular match`,async t=>{
   const f=await factionFixture({postgres});t.after(()=>f.close());
   f.season.starts_at=new Date(f.clock.now+7200000).toISOString();

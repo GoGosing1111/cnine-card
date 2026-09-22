@@ -3384,7 +3384,7 @@ function bindView(tab) {
   if(tab==='rank'){document.querySelectorAll('[data-rank-mode]').forEach(b=>b.onclick=()=>loadRankHub(b.dataset.rankMode));loadRankHub('pvp');}
   if(tab==='battle'){document.querySelectorAll('.pve-mode-btn[data-pve-mode]').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
   if(tab==='pvp') loadPvpView();
-  void import('./clan-faction-v1.mjs?v=20260922-sessions-live').then(m=>m.connect({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx})).catch(()=>{});
+  void import('./clan-faction-v1.mjs?v=20260922-cooldowns').then(m=>m.connect({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx})).catch(()=>{});
   if(tab==='clan'&&typeof window.ClanV1?.bind==='function')window.ClanV1.bind({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx});
   if(tab==='mineral') loadMineralExchange();
   if(tab==='auction'&&typeof window.bindAuctionHouseView==='function')window.bindAuctionHouseView();
