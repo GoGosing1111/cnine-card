@@ -1,10 +1,9 @@
 // One-time live operation: void the 2026-09-20 21:00 KST clan-war window and
-// replay it on 2026-09-21 21:00 KST. Later regular-season windows move by one day.
+// replay it on 2026-09-21 21:00 KST. Regular-season windows keep their dates.
 // Credited currencies are retained as compensation; competitive records are reset.
 export const CLAN_REMATCH_20260920_KEY='ops_clan_rematch_20260920_v2';
 export const CLAN_REMATCH_TARGET_START='2026-09-20T12:00:00.000Z';
 export const CLAN_REMATCH_REPLAY_START='2026-09-21T12:00:00.000Z';
-export const CLAN_REMATCH_SHIFT_MS=24*60*60*1000;
 
 const parse=(value,fallback={})=>{try{return JSON.parse(value||'')}catch{return fallback}};
 const iso=value=>new Date(value).toISOString();
@@ -66,6 +65,9 @@ export async function ensureClanRematch20260920(env){
     const warIds=targetWars.map(w=>num(w.id)),marks=warIds.map(()=>'?').join(','),laterWars=resultRows(await env.DB.prepare(`SELECT * FROM clan_wars WHERE season_id=? AND round_no<1000 AND id NOT IN (${marks}) AND starts_at>=? ORDER BY starts_at,id`).bind(seasonId,...warIds,CLAN_REMATCH_REPLAY_START).all());
     const unsafeLater=laterWars.find(w=>String(w.status)!=='SCHEDULED');
     if(unsafeLater){const state={...pending,status:'BLOCKED',reason:`LATER_WAR_${unsafeLater.id}_${unsafeLater.status}`,seasonId,roundNo,warIds,blockedAt:iso(Date.now())};return storeState(env,state,pendingValue)}
+    const replayEnd=Math.max(...targetWars.map(w=>ms(CLAN_REMATCH_REPLAY_START)+Math.max(60000,ms(w.ends_at)-ms(w.starts_at))));
+    const conflict=laterWars.find(w=>ms(w.starts_at)<replayEnd);
+    if(conflict){const state={...pending,status:'BLOCKED',reason:`REPLAY_WINDOW_CONFLICT_${conflict.id}`,seasonId,roundNo,warIds,blockedAt:iso(Date.now())};return storeState(env,state,pendingValue)}
     const settingsRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='clan_settings_v1'").first(),settings=parse(settingsRow?.value,{}),seasonWinScore=num(settings.seasonWinScore??3),seasonLossScore=num(settings.seasonLossScore??0);
     const battleRows=resultRows(await env.DB.prepare(`SELECT b.*,pr.points participation_points,pr.base_coin,pr.win_bonus_coin,pr.milestone_coin
       FROM clan_war_battles b LEFT JOIN clan_participation_receipts pr ON pr.battle_id=b.id AND pr.status='COMPLETED'
@@ -106,11 +108,10 @@ export async function ensureClanRematch20260920(env){
     writes.push(p(`UPDATE clan_war_battles SET status='VOIDED',error_message='VOID_20260920_REPLAY_20260921_2100',updated_at=CURRENT_TIMESTAMP WHERE war_id IN (${marks})`,...warIds));
     writes.push(p(`DELETE FROM clan_participation_progress WHERE war_id IN (${marks})`,...warIds));
     writes.push(p(`DELETE FROM clan_war_reservation_locks WHERE war_id IN (${marks})`,...warIds));
-    for(const war of laterWars)writes.push(p("UPDATE clan_wars SET starts_at=?,ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='SCHEDULED'",iso(ms(war.starts_at)+CLAN_REMATCH_SHIFT_MS),iso(ms(war.ends_at)+CLAN_REMATCH_SHIFT_MS),war.id));
     for(const war of targetWars){const duration=Math.max(60000,ms(war.ends_at)-ms(war.starts_at));writes.push(p("UPDATE clan_wars SET status='SCHEDULED',score_a=0,score_b=0,battle_count=0,winner_clan_id=NULL,starts_at=?,ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE id=?",CLAN_REMATCH_REPLAY_START,iso(ms(CLAN_REMATCH_REPLAY_START)+duration),war.id))}
-    const projectedEnds=[...laterWars.map(w=>ms(w.ends_at)+CLAN_REMATCH_SHIFT_MS),...targetWars.map(w=>ms(CLAN_REMATCH_REPLAY_START)+Math.max(60000,ms(w.ends_at)-ms(w.starts_at)))],seasonEndsAt=iso(Math.max(...projectedEnds));
+    const projectedEnds=[...laterWars.map(w=>ms(w.ends_at)),replayEnd],seasonEndsAt=iso(Math.max(...projectedEnds));
     writes.push(p("UPDATE clan_seasons SET phase='ACTIVE',ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE id=?",seasonEndsAt,seasonId));
-    const shiftedRounds=new Set(laterWars.map(w=>num(w.round_no))).size,state={status:'COMPLETED',token,seasonId,roundNo,warIds,voidedBattles:battleRows.length,voidedCompletedBattles:completed.length,shiftedRounds,retainedParticipationCoin,retainedPigCoin,rewardPolicy:'RETAINED_COMPENSATION_NO_PIG_REPAY_FOR_SAME_WAR_IDS',targetAtKst:'2026-09-20 21:00',replayAtKst:'2026-09-21 21:00',seasonEndsAt,completedAt:iso(Date.now())},packed=JSON.stringify(state);
+    const state={status:'COMPLETED',token,seasonId,roundNo,warIds,voidedBattles:battleRows.length,voidedCompletedBattles:completed.length,shiftedRounds:0,retainedParticipationCoin,retainedPigCoin,rewardPolicy:'RETAINED_COMPENSATION_NO_PIG_REPAY_FOR_SAME_WAR_IDS',targetAtKst:'2026-09-20 21:00',replayAtKst:'2026-09-21 21:00',seasonEndsAt,completedAt:iso(Date.now())},packed=JSON.stringify(state);
     writes.push(p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',packed,CLAN_REMATCH_20260920_KEY,pendingValue));
     await env.DB.batch(writes);
     const saved=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_REMATCH_20260920_KEY).first(),savedState=parse(saved?.value,{});
