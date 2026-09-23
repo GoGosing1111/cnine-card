@@ -9,7 +9,7 @@ const root=path.resolve(import.meta.dirname,'..'),out=fs.mkdtempSync(path.join(o
 const app=fs.readFileSync(path.join(root,'js/app.js'),'utf8');
 const hero=app.slice(app.indexOf('function hyperPackHero()'),app.indexOf('function recentCards('));
 const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>개봉 UI 로컬 검수</title><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/hyper-pack-v2076.css"><link rel="stylesheet" href="/css/black-miracle-v1485.css"><body><main id="shop" style="max-width:1100px;margin:24px auto"></main><div id="modal" class="modal"></div><script>
-window.qa={accountId:7,enabled:true,coin:1000000000000,posts:[],receipts:{},fxMs:70,fxCalls:0,delay:0,fail:false,draw:null};
+window.qa={accountId:7,enabled:true,coin:1000000000000,posts:[],receipts:{},fxMs:70,fxCalls:0,delay:0,fail:false,draw:null,emptyState:0,emptyPost:0,emptyReceipt:0,receiptGets:0};
 window.loadUser=()=>({serverUserId:qa.accountId});
 window.getPack=()=>({});window.packArt=()=>'<img style="max-width:220px;width:80%" src="/assets/ui/packs/hyper-pack-v2076.png" alt="하이퍼팩">';
 ${hero}
@@ -18,13 +18,14 @@ const realFetch=window.fetch.bind(window);window.fetch=async(input,options={})=>
  const url=String(input);if(!url.startsWith('/api/'))return realFetch(input,options);
  const key=url.slice(5);let value={};
  if(key==='mercenary-cards/feature')value={userOpeningEnabled:qa.enabled};
- else if(key==='mercenaries/v3/state')value={accountId:qa.accountId,openingAvailable:qa.enabled};
- else if(key.startsWith('mercenaries/v3/receipt?')){value=qa.receipts[new URLSearchParams(key.split('?')[1]).get('requestId')];if(!value)return new Response('{}',{status:404});}
+ else if(key==='mercenaries/v3/state'){if(qa.emptyState-->0)return new Response('');value={accountId:qa.accountId,openingAvailable:qa.enabled};}
+ else if(key.startsWith('mercenaries/v3/receipt?')){qa.receiptGets++;if(qa.emptyReceipt-->0)return new Response('');value=qa.receipts[new URLSearchParams(key.split('?')[1]).get('requestId')];if(!value)return new Response('{}',{status:404});}
  else if(options.method==='POST'){
   const body=JSON.parse(options.body);qa.posts.push(body);await new Promise(r=>setTimeout(r,qa.delay));
   if(qa.fail)return new Response(JSON.stringify({error:'잔액 부족',code:'MERCENARY_FUNDS'}),{status:400});
   if(!qa.receipts[body.requestId]){qa.coin-=body.count*500000000;qa.receipts[body.requestId]={requestId:body.requestId,status:'COMPLETED',coinCost:body.count*500000000,draws:Array.from({length:body.count},()=>qa.draw||({outcomeId:'MASTER_STAR',quantity:3}))};}
   value=qa.receipts[body.requestId];
+  if(qa.emptyPost-->0)return new Response('');
  }
  return new Response(JSON.stringify(value),{headers:{'content-type':'application/json'}});
 };
@@ -58,6 +59,15 @@ if(process.argv.includes('--serve')){console.log(JSON.stringify({base,out}));}el
    await reset();await page.evaluate(()=>qa.delay=300);await start(10,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.locator('.mercenary-auto-dialog [data-auto-stop]').click();await page.waitForTimeout(600);
    check(await page.evaluate(()=>qa.posts.length)===1,'stop prevents next purchase '+viewport.width);
    await reset();await page.evaluate(()=>qa.fail=true);await start(10,'1');await page.waitForFunction(()=>document.querySelector('.mercenary-auto-status').textContent.includes('잔액 부족'));check(await page.evaluate(()=>qa.posts.length)===1,'funds/error stops without retry');
+   await reset();await page.evaluate(()=>{qa.emptyState=1;qa.emptyPost=1;});await start(12);await page.waitForFunction(()=>document.querySelector('.mercenary-auto-status').textContent.includes('개봉 완료'));
+   check(await page.evaluate(()=>qa.posts.length===2&&qa.coin===994000000000&&qa.receiptGets===1),'empty read and committed response recover without duplicate debit '+viewport.width);
+   check(await page.locator('.mercenary-auto-results li').count()===12,'recovered auto results count once');
+   await reset();await page.evaluate(()=>{qa.emptyPost=1;qa.emptyReceipt=10;});await start(3,'1');await page.waitForFunction(()=>document.querySelector('.mercenary-auto-status').textContent.includes('이전 개봉 처리 확인'));
+   check(await page.evaluate(()=>qa.posts.length===1&&Boolean(localStorage.getItem('cnine.mercenary.pack.pending:7'))),'unknown response stops with pending receipt intact');
+   check(!/Unexpected|JSON input/.test(await page.locator('.mercenary-auto-status').textContent()),'raw JSON error is replaced by recovery guidance');
+   await page.screenshot({path:path.join(out,'hyper-response-error-'+viewport.width+'.png'),fullPage:true});
+   await page.evaluate(()=>qa.emptyReceipt=0);await page.locator('[data-auto-close]').click();await page.locator('[data-mercenary-recover]').click();await page.waitForFunction(()=>!localStorage.getItem('cnine.mercenary.pack.pending:7'));
+   check(await page.evaluate(()=>qa.posts.length===1&&qa.coin===999500000000),'recovery button retrieves committed result without another charge');
    if(viewport.width===1440){
     await reset();await page.evaluate(()=>{qa.delay=300;});await start(3,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.evaluate(()=>{qa.accountId=8;});await page.waitForTimeout(700);check(await page.evaluate(()=>qa.posts.length)===1,'account switch stops later purchases');
     await reset();await page.evaluate(()=>{qa.delay=300;});await start(3,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.evaluate(()=>window.dispatchEvent(new Event('cnine:route-will-change')));await page.waitForTimeout(700);check(await page.evaluate(()=>qa.posts.length)===1,'route change stops later purchases');
