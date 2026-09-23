@@ -444,3 +444,21 @@
 @media(prefers-reduced-motion:reduce){
   .black-miracle-experience *,.black-miracle-experience *::before,.black-miracle-experience *::after{scroll-behavior:auto!important;animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
 }
+.black-miracle-experience.is-auto-results{grid-template-rows:auto minmax(0,1fr) auto auto;background:#080c17}
+.is-auto-results .black-miracle-atmosphere,.black-miracle-experience.is-auto-results::before,.black-miracle-experience.is-auto-results::after{display:none}
+.is-auto-results *,.is-auto-results *::before,.is-auto-results *::after{animation:none!important;transition:none!important}
+.is-auto-results .black-miracle-heading{padding:12px 0 20px}
+.is-auto-results .black-miracle-heading h2{font-size:28px;line-height:1.3;text-shadow:none}
+.is-auto-results .black-miracle-heading small{color:#c8ff6b}
+.is-auto-results .black-miracle-body{justify-content:flex-start;overflow:hidden;width:min(720px,100%);margin:0 auto;padding:0}
+.black-miracle-auto-empty{margin:auto;color:#8b97b0;font-size:14px}
+.black-miracle-auto-results{list-style:none;box-sizing:border-box;width:100%;min-height:0;overflow:auto;margin:0;padding:0;border:1px solid #28324a;border-radius:8px;background:#111828;scrollbar-color:#42516d #111828}
+.black-miracle-auto-results li{display:grid;grid-template-columns:100px minmax(0,1fr) auto;align-items:center;gap:12px;padding:16px;border-bottom:1px solid #28324a;font-size:14px}
+.black-miracle-auto-results li:last-child{border-bottom:0}
+.black-miracle-auto-results small{color:#8b97b0;font-size:11px}
+.black-miracle-auto-results b{color:#f3f5ff;overflow-wrap:anywhere}
+.black-miracle-auto-results span{color:#c8ff6b;font-size:13px}
+.is-auto-results .black-miracle-status{width:min(720px,100%);margin:0 auto;background:#111828;border-color:#28324a}
+.is-auto-results .black-miracle-result-copy>small,.is-auto-results .black-miracle-result-copy h3,.is-auto-results .black-miracle-result-copy>p,.is-auto-results .black-miracle-result-copy>.black-miracle-power{display:none}
+.is-auto-results .black-miracle-result-copy>span{font-size:12px}
+@media(max-width:760px){.is-auto-results .black-miracle-heading{width:calc(100% - 56px);padding:10px 0 18px}.is-auto-results .black-miracle-heading h2{font-size:24px}.is-auto-results .black-miracle-heading p{font-size:11px}.black-miracle-auto-results li{grid-template-columns:minmax(0,1fr) auto;gap:6px;padding:12px}.black-miracle-auto-results small{grid-column:1/-1}.black-miracle-auto-results b{font-size:14px}.is-auto-results .black-miracle-auto-progress{padding:14px 0;font-size:12px}.is-auto-results .black-miracle-status{padding:12px}.is-auto-results .black-miracle-result-actions button{font-size:11px;min-height:40px}}

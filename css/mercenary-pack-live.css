@@ -10,6 +10,15 @@
 .mercenary-auto-dialog [data-auto-start]{background:#c8ff6b;color:#080c17;font-weight:700}
 .mercenary-pack-dialog [data-auto-stop]{border-color:#c8ff6b;color:#c8ff6b}
 .mercenary-pack-dialog [hidden]{display:none!important}
+.mercenary-auto-results{list-style:none;padding:0;margin:16px 0 0;max-height:min(360px,45dvh);overflow:auto;border:1px solid #28324a;border-radius:8px;background:#080c17;scrollbar-color:#42516d #080c17}
+.mercenary-auto-results li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:8px;padding:12px;border-bottom:1px solid #28324a;font-size:13px}
+.mercenary-auto-results li:last-child{border-bottom:0}
+.mercenary-auto-results small{color:#8b97b0;font-size:11px}
+.mercenary-auto-results b{overflow-wrap:anywhere}
+.mercenary-auto-results span{color:#b8c2d8;font-size:11px;text-align:right}
+.mercenary-auto-results [data-rank="SS"] b,.mercenary-auto-results [data-rank="SSS"] b{color:#c8ff6b}
+.mercenary-auto-dialog[data-auto-phase] footer{margin-top:12px;padding-bottom:0}
+@media(max-width:600px){.mercenary-auto-results li{grid-template-columns:36px minmax(0,1fr);padding:10px}.mercenary-auto-results span{grid-column:2;text-align:left}.mercenary-auto-results{max-height:40dvh}.mercenary-auto-dialog [data-auto-stop]{width:100%}}
 .mercenary-pack-dialog header{flex-wrap:wrap;gap:10px}
 @media(max-width:600px){.mercenary-auto-fields{gap:10px}.mercenary-auto-dialog footer button{flex:1}.mercenary-pack-dialog header [data-auto-stop]{width:100%}}
 .mercenary-pack-dialog footer{flex-wrap:wrap;position:sticky;bottom:-24px;padding:16px 0;background:#15121df5;border-top:1px solid #aa80b545}.mercenary-pack-dialog footer>span{flex:1;min-width:150px}.mercenary-pack-dialog .mercenary-pack-repeat{display:grid;gap:4px;min-width:190px;min-height:58px;text-align:center;border-color:#e8c589;background:linear-gradient(120deg,#f0d5a3,#cba461);color:#241825;box-shadow:0 4px 20px #d5ab5b20}.mercenary-pack-repeat strong{font-size:15px}.mercenary-pack-repeat span{font-size:11px}.mercenary-pack-dialog .mercenary-pack-repeat:not(:disabled):hover{filter:brightness(1.1)}

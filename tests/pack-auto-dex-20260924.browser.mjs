@@ -9,7 +9,7 @@ const root=path.resolve(import.meta.dirname,'..'),out=fs.mkdtempSync(path.join(o
 const app=fs.readFileSync(path.join(root,'js/app.js'),'utf8');
 const hero=app.slice(app.indexOf('function hyperPackHero()'),app.indexOf('function recentCards('));
 const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>개봉 UI 로컬 검수</title><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/hyper-pack-v2076.css"><link rel="stylesheet" href="/css/black-miracle-v1485.css"><body><main id="shop" style="max-width:1100px;margin:24px auto"></main><div id="modal" class="modal"></div><script>
-window.qa={accountId:7,enabled:true,coin:1000000000000,posts:[],receipts:{},fxMs:70,delay:0,fail:false};
+window.qa={accountId:7,enabled:true,coin:1000000000000,posts:[],receipts:{},fxMs:70,fxCalls:0,delay:0,fail:false,draw:null};
 window.loadUser=()=>({serverUserId:qa.accountId});
 window.getPack=()=>({});window.packArt=()=>'<img style="max-width:220px;width:80%" src="/assets/ui/packs/hyper-pack-v2076.png" alt="하이퍼팩">';
 ${hero}
@@ -23,13 +23,13 @@ const realFetch=window.fetch.bind(window);window.fetch=async(input,options={})=>
  else if(options.method==='POST'){
   const body=JSON.parse(options.body);qa.posts.push(body);await new Promise(r=>setTimeout(r,qa.delay));
   if(qa.fail)return new Response(JSON.stringify({error:'잔액 부족',code:'MERCENARY_FUNDS'}),{status:400});
-  if(!qa.receipts[body.requestId]){qa.coin-=body.count*500000000;qa.receipts[body.requestId]={requestId:body.requestId,status:'COMPLETED',coinCost:body.count*500000000,draws:Array.from({length:body.count},()=>({outcomeId:'MASTER_STAR',quantity:3}))};}
+  if(!qa.receipts[body.requestId]){qa.coin-=body.count*500000000;qa.receipts[body.requestId]={requestId:body.requestId,status:'COMPLETED',coinCost:body.count*500000000,draws:Array.from({length:body.count},()=>qa.draw||({outcomeId:'MASTER_STAR',quantity:3}))};}
   value=qa.receipts[body.requestId];
  }
  return new Response(JSON.stringify(value),{headers:{'content-type':'application/json'}});
 };
-window.CNineUiFxVendor={};window.HyperPackFX={version:2145,create:(host,emit)=>{let finish;const fx={running:false,paused:false,init:async()=>{},play:()=>{fx.running=true;emit({state:'playing'});return new Promise(r=>{finish=()=>{fx.running=false;emit({state:'complete'});r();};setTimeout(()=>finish?.(),qa.fxMs);});},pause:()=>{fx.paused=!fx.paused;emit({state:fx.paused?'paused':'playing'});},skip:()=>finish?.(),destroy:()=>finish?.()};return fx;}};
-window.blackTest=(overrides={})=>{window.blackCalls=[];window.blackRemaining=5;window.blackReceipts={};window.blackSaved=0;return window.blackController=BlackMiracleOpeningV1926.open({ownedQuantity:5,loadUser,reducedMotion:true,saveUser:()=>blackSaved++,apiUserToLocal:user=>user,...overrides,apiRequest:async(path,options)=>{const body=JSON.parse(options.body);blackCalls.push(body);await new Promise(r=>setTimeout(r,qa.delay));if(qa.fail)throw Error('network interrupted');return blackReceipts[body.requestId]||(blackReceipts[body.requestId]={user:{serverUserId:7},reward:{type:'COIN',amount:1000000,label:'코인'},remaining:--blackRemaining});}});};
+window.CNineUiFxVendor={};window.HyperPackFX={version:2145,create:(host,emit)=>{qa.fxCalls++;let finish;const fx={running:false,paused:false,init:async()=>{},play:()=>{fx.running=true;emit({state:'playing'});return new Promise(r=>{finish=()=>{fx.running=false;emit({state:'complete'});r();};setTimeout(()=>finish?.(),qa.fxMs);});},pause:()=>{fx.paused=!fx.paused;emit({state:fx.paused?'paused':'playing'});},skip:()=>finish?.(),destroy:()=>finish?.()};return fx;}};
+window.blackTest=(overrides={})=>{window.blackCalls=[];window.blackRemaining=5;window.blackReceipts={};window.blackSaved=0;return window.blackController=BlackMiracleOpeningV1926.open({ownedQuantity:5,loadUser,reducedMotion:false,saveUser:()=>blackSaved++,apiUserToLocal:user=>user,...overrides,apiRequest:async(path,options)=>{const body=JSON.parse(options.body);blackCalls.push(body);await new Promise(r=>setTimeout(r,qa.delay));if(qa.fail)throw Error('network interrupted');return blackReceipts[body.requestId]||(blackReceipts[body.requestId]={user:{serverUserId:7},reward:{type:'COIN',amount:1000000,label:'코인'},remaining:--blackRemaining});}});};
 </script><script src="/js/black-miracle-opening-v1926.js"></script><script type="module" src="/js/mercenary-pack-live.mjs"></script></body></html>`;
 const mime={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.woff2':'font/woff2'};
 const server=http.createServer((req,res)=>{const url=new URL(req.url,'http://localhost');if(url.pathname==='/qa.html'){res.setHeader('content-type','text/html;charset=utf-8');res.end(html);return;}const file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end();return;}res.setHeader('content-type',mime[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);});
@@ -40,7 +40,7 @@ if(process.argv.includes('--serve')){console.log(JSON.stringify({base,out}));}el
  const check=(value,label)=>{assert.ok(value,label);checks.push(label);};
  try{
   for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
-   const page=await browser.newPage({viewport,serviceWorkers:'block',reducedMotion:'reduce'});page.on('pageerror',error=>errors.push(error.message));
+   const page=await browser.newPage({viewport,serviceWorkers:'block',reducedMotion:'no-preference'});page.on('pageerror',error=>errors.push(error.message));
    const reset=async()=>{await page.goto(base+'/qa.html');await page.locator('[data-mercenary-auto]:not([disabled])').waitFor();};
    const start=async(count,batch='10')=>{await page.locator('[data-mercenary-auto]').click();await page.locator('[data-auto-total]').fill(String(count));await page.locator('[data-auto-batch]').selectOption(batch);await page.locator('[data-auto-start]').click();};
    await reset();check(await page.evaluate(()=>qa.posts.length)===0,'entering shop never spends');
@@ -51,20 +51,29 @@ if(process.argv.includes('--serve')){console.log(JSON.stringify({base,out}));}el
    check(JSON.stringify(await page.evaluate(()=>qa.posts.map(p=>p.count)))==='[10,2]','exact total with remainder '+viewport.width);
    check(await page.evaluate(()=>new Set(qa.posts.map(p=>p.requestId)).size)===2,'unique receipt for each batch');
    check(await page.evaluate(()=>qa.coin)===994000000000,'charges only selected 12 draws');
-   await reset();await page.evaluate(()=>qa.fxMs=800);await start(10,'1');await page.locator('.mercenary-pack-dialog:not(.mercenary-auto-dialog) [data-auto-stop]').click();await page.waitForTimeout(1200);
+   check(await page.evaluate(()=>qa.fxCalls)===0,'automatic hyper never starts FX '+viewport.width);
+   check(await page.locator('.mercenary-auto-results li').count()===12,'hyper shows result values together');
+   check(await page.locator('.mercenary-auto-dialog img,.mercenary-auto-dialog canvas,.mercenary-auto-dialog video').count()===0,'automatic hyper has no card art/video/canvas');
+   await page.screenshot({path:path.join(out,'hyper-results-'+viewport.width+'.png'),fullPage:true});
+   await reset();await page.evaluate(()=>qa.delay=300);await start(10,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.locator('.mercenary-auto-dialog [data-auto-stop]').click();await page.waitForTimeout(600);
    check(await page.evaluate(()=>qa.posts.length)===1,'stop prevents next purchase '+viewport.width);
    await reset();await page.evaluate(()=>qa.fail=true);await start(10,'1');await page.waitForFunction(()=>document.querySelector('.mercenary-auto-status').textContent.includes('잔액 부족'));check(await page.evaluate(()=>qa.posts.length)===1,'funds/error stops without retry');
    if(viewport.width===1440){
-    await reset();await page.evaluate(()=>{qa.fxMs=300;});await start(3,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.evaluate(()=>{qa.accountId=8;});await page.waitForTimeout(1300);check(await page.evaluate(()=>qa.posts.length)===1,'account switch stops later purchases');
-    await reset();await page.evaluate(()=>{qa.fxMs=300;});await start(3,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.evaluate(()=>window.dispatchEvent(new Event('cnine:route-will-change')));await page.waitForTimeout(700);check(await page.evaluate(()=>qa.posts.length)===1,'route change stops later purchases');
+    await reset();await page.evaluate(()=>{qa.delay=300;});await start(3,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.evaluate(()=>{qa.accountId=8;});await page.waitForTimeout(700);check(await page.evaluate(()=>qa.posts.length)===1,'account switch stops later purchases');
+    await reset();await page.evaluate(()=>{qa.delay=300;});await start(3,'1');await page.waitForFunction(()=>qa.posts.length===1);await page.evaluate(()=>window.dispatchEvent(new Event('cnine:route-will-change')));await page.waitForTimeout(700);check(await page.evaluate(()=>qa.posts.length)===1,'route change stops later purchases');
     await reset();await page.locator('[data-mercenary-auto]').click();await page.locator('[data-auto-total]').fill('0');check(await page.locator('[data-auto-start]').isDisabled(),'invalid count cannot start');await page.locator('[data-auto-close]').click();check(await page.evaluate(()=>qa.posts.length)===0,'cancel configuration never spends');
+    await reset();await page.evaluate(()=>qa.draw={mercenaryCode:'V-021',rank:'SSS',name:'오메가-X',sourceArt:'assets/ui/project-v/mercenaries/omega.jpg',duplicate:false,duplicateCount:0});await start(21);await page.waitForFunction(()=>document.querySelector('.mercenary-auto-status').textContent.includes('개봉 완료'));
+    check(await page.evaluate(()=>qa.fxCalls)===0,'SSS auto result also skips cinematic');check(await page.locator('.mercenary-auto-results li').count()===20,'recent results stay bounded at 20');check(await page.locator('.mercenary-auto-results').textContent().then(text=>text.includes('SSS · 오메가-X')),'SSS name and rank stay visible');
+    await reset();await page.locator('[data-mercenary-open="1"]').click();await page.waitForFunction(()=>qa.fxCalls===1);check(await page.locator('.mercenary-pack-stage').count()===1,'manual hyper still runs existing presentation');
    }
    await reset();await page.evaluate(()=>blackTest());await page.screenshot({path:path.join(out,'black-intro-'+viewport.width+'.png'),fullPage:true});
    check(await page.evaluate(()=>blackCalls.length)===0,'black intro does not consume');
    await page.locator('[data-black-miracle-auto-count]').fill('2');await page.locator('[data-black-miracle-auto-start]').click();
    await page.waitForFunction(()=>document.querySelector('.black-miracle-auto-progress span').textContent.includes('개봉 완료'));
    check(await page.evaluate(()=>blackCalls.length)===2,'black opens exact selected total '+viewport.width);
-   check(await page.locator('[data-black-miracle-choice="0"]').getAttribute('aria-pressed')==='true','black always reveals first slot');
+   check(await page.locator('[data-black-miracle-auto-choice="0"]').count()===2,'black always shows first-slot result');
+   check(await page.locator('.black-miracle-body img,.black-miracle-choice,.black-miracle-body canvas,.black-miracle-body video').count()===0,'black auto skips sealing, choice and flip visuals');
+   check(await page.locator('.black-miracle-auto-results').textContent().then(text=>text.includes('+1,000,000')),'black shows exact reward amount');
    check(await page.evaluate(()=>new Set(blackCalls.map(p=>p.requestId)).size)===2,'black new receipt only after completion');
    await page.screenshot({path:path.join(out,'black-result-'+viewport.width+'.png'),fullPage:true});
    check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'black fits '+viewport.width);
@@ -75,7 +84,7 @@ if(process.argv.includes('--serve')){console.log(JSON.stringify({base,out}));}el
     await reset();await page.evaluate(()=>blackTest());await page.locator('[data-black-miracle-open]').click();await page.waitForFunction(()=>blackController.phase==='choice');await page.locator('[data-black-miracle-choice="3"]').click();await page.waitForFunction(()=>blackController.phase==='revealed');check(await page.locator('[data-black-miracle-choice="3"]').getAttribute('aria-pressed')==='true','manual choice remains available');
    }
    await reset();await page.evaluate(()=>{qa.fail=true;blackTest();});await page.locator('[data-black-miracle-auto-start]').click();await page.waitForFunction(()=>blackController.phase==='error');
-   const retryId=await page.evaluate(()=>blackCalls[0].requestId);await page.evaluate(()=>qa.fail=false);await page.locator('[data-black-miracle-open]').click();await page.waitForFunction(()=>blackController.phase==='choice');await page.locator('[data-black-miracle-choice="0"]').click();await page.waitForFunction(()=>blackController.phase==='revealed');check(await page.evaluate(()=>blackCalls[1].requestId)===retryId,'black uncertain retry reuses receipt');
+   const retryId=await page.evaluate(()=>blackCalls[0].requestId);await page.evaluate(()=>qa.fail=false);await page.locator('[data-black-miracle-open]').click();await page.waitForFunction(()=>blackController.phase==='revealed');check(await page.evaluate(()=>blackCalls[1].requestId)===retryId,'black uncertain retry reuses receipt');await page.waitForTimeout(250);check(await page.evaluate(()=>blackCalls.length)===2,'explicit retry does not resume auto spending');
    await page.close();
   }
   check(!errors.length,'no browser errors: '+errors.join(' | '));

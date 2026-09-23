@@ -35,7 +35,11 @@ test('auto opening keeps existing authenticated receipt APIs and explicitly choo
   assert.match(hyper,/Math\.min\(chunk,n-session\.completed\)/);
   assert.match(hyper,/state\.accountId\)!==autoSession\.accountId/);
   assert.match(hyper,/if\(autoSession&&pending\)/);
-  assert.match(black,/revealChoice\(choices\[0\],choices,fan\)/);
+  assert.match(black,/data-black-miracle-auto-choice="0"/);
+  assert.match(black,/if\(state\.fastMode\)\{renderFastResult\(\);return;\}/);
+  const fastBranch=hyper.slice(hyper.indexOf('if(autoSession){'),hyper.indexOf('const dialog=document.createElement'));
+  assert.match(fastBranch,/autoSession\.showResults\(results\)/);
+  assert.doesNotMatch(fastBranch,/HyperPackFX|MercenaryAcquisitionVideo|new Image|script\(/);
   assert.match(black,/JSON\.stringify\(\{itemCode:'BLACK_MIRACLE_PACK',requestId:state\.requestId\}\)/);
   assert.match(black,/if\(state\.closed\)return/);
   assert.match(app,/loadUser,\s*saveUser,\s*apiUserToLocal/);

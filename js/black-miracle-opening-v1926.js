@@ -123,7 +123,7 @@
     modal.className='modal show black-miracle-modal black-miracle-v1926';
     modal.innerHTML=shellMarkup(options.ownedQuantity||0);
     const stage=modal.querySelector('.black-miracle-experience'),body=stage.querySelector('.black-miracle-body'),heading=stage.querySelector('.black-miracle-heading'),status=stage.querySelector('.black-miracle-status'),closeButton=stage.querySelector('[data-black-miracle-close]');
-    const state={phase:'intro',granted:false,reward:null,response:null,cardCount:BLACK_MIRACLE_CHOICE_COUNT,requestId:requestId(),stage,body,status,closeButton,preview,options,closed:false,auto:false,autoPick:false,autoTotal:0,autoDone:0,autoTimer:0,remaining:Math.max(0,Number(options.ownedQuantity)||0),accountId:Number(options.loadUser?.()?.serverUserId)||0};
+    const state={phase:'intro',granted:false,reward:null,response:null,cardCount:BLACK_MIRACLE_CHOICE_COUNT,requestId:requestId(),stage,body,status,closeButton,preview,options,closed:false,auto:false,autoPick:false,fastMode:false,autoResults:[],autoTotal:0,autoDone:0,autoTimer:0,remaining:Math.max(0,Number(options.ownedQuantity)||0),accountId:Number(options.loadUser?.()?.serverUserId)||0};
     const autoBar=document.createElement('div');autoBar.className='black-miracle-auto-progress';autoBar.hidden=true;
     autoBar.innerHTML='<span role="status"></span><button type="button" class="black-miracle-secondary">자동 개봉 중지</button>';status.before(autoBar);
     const updateAuto=message=>{autoBar.hidden=false;autoBar.querySelector('span').textContent=`자동 ${state.autoDone} / ${state.autoTotal}개 · ${message}`;autoBar.querySelector('button').disabled=!state.auto;};
@@ -185,7 +185,6 @@
       const choices=[...stage.querySelectorAll('[data-black-miracle-choice]')],fan=stage.querySelector('.black-miracle-card-fan');
       choices.forEach(choice=>choice.onclick=()=>revealChoice(choice,choices,fan));
       requestAnimationFrame(()=>{stage.classList.add('choices-ready');choices[Math.floor(choices.length/2)]?.focus({preventScroll:true})});
-      if(state.autoPick)state.autoTimer=setTimeout(()=>{if(!state.closed)revealChoice(choices[0],choices,fan);},reducedMotion?20:650);
     }
 
     async function revealChoice(choice,choices,fan){
@@ -201,9 +200,21 @@
       await sleep(reducedMotion?20:230);choice.classList.add('is-flipped');
       await sleep(reducedMotion?30:780);
       if(state.closed)return;
+      finishReveal();
+    }
+
+    function renderFastResult(){
+      // 첫 카드에 공개될 동일한 서버 결과다. 선택/뒤집기/이미지 로딩을 거치지 않는다.
+      state.autoResults.unshift({sequence:state.autoDone,reward:state.reward});
+      state.autoResults.length=Math.min(state.autoResults.length,20);
+      body.innerHTML=`<ol class="black-miracle-auto-results" aria-label="최근 개봉 결과 20개">${state.autoResults.map(({sequence,reward})=>`<li data-black-miracle-auto-choice="0"><small>${sequence}회 · 1번 카드</small><b>${escapeHtml(reward.name)}</b><span>${reward.amount!==null?`+${reward.amount.toLocaleString()}`:escapeHtml(reward.rarity||reward.typeLabel)}</span></li>`).join('')}</ol>`;
+      finishReveal();
+    }
+
+    function finishReveal(){
       setPhase('revealed');stage.classList.add('result-revealed');
       heading.querySelector('small').textContent='JACKPOT RESULT / INVENTORY SECURED';
-      heading.querySelector('h2').textContent='운명이 응답했습니다';
+      heading.querySelector('h2').textContent=state.fastMode?'자동 개봉 결과':'운명이 응답했습니다';
       heading.querySelector('p').textContent='획득 보상은 인벤토리에 안전하게 반영되었습니다.';
       status.className='black-miracle-status black-miracle-result-status black-miracle-live';status.innerHTML=resultStatusMarkup(state.reward);
       status.querySelector('[data-black-miracle-done]').onclick=()=>destroy({navigate:true});
@@ -221,18 +232,20 @@
             if(!canAuto()){stopAuto('자동 개봉 중지');return;}
             state.remaining=state.reward.remaining;state.granted=false;state.reward=null;state.response=null;state.requestId=requestId();
             stage.classList.remove('choices-ready','result-revealed');setPhase('intro');
-            body.innerHTML=introMarkup(state.remaining);bindIntro();void requestOpening();
-          },reducedMotion?80:1100);
+            void requestOpening();
+          },120);
         }else if(state.auto)stopAuto('계정 또는 화면 상태 변경으로 중지');
       }
-      if(navigator.vibrate&&!preview&&!reducedMotion)navigator.vibrate([70,35,110,35,180]);
-      status.querySelector('[data-black-miracle-done]')?.focus({preventScroll:true});
+      if(!state.fastMode){
+        if(navigator.vibrate&&!preview&&!reducedMotion)navigator.vibrate([70,35,110,35,180]);
+        status.querySelector('[data-black-miracle-done]')?.focus({preventScroll:true});
+      }
     }
 
     async function requestOpening(){
       if(state.closed||!['intro','error'].includes(state.phase))return;
       if(state.auto&&!canAuto()){stopAuto('로그인 또는 화면 상태 변경으로 중지');return;}
-      state.autoPick=state.auto;
+      state.autoPick=state.fastMode;
       if(typeof dependencies.apiRequest!=='function'){
         stopAuto('연결 오류로 중지');announce('개봉 모듈 연결 오류','보상 요청 함수를 찾을 수 없습니다.');setPhase('error');return;
       }
@@ -240,7 +253,7 @@
       const openButton=stage.querySelector('[data-black-miracle-open]');if(openButton){openButton.disabled=true;openButton.textContent='운명의 봉인 해제 중'}
       announce('서버 보상 판정 중','팩 차감과 보상을 하나의 영수증으로 확정하고 있습니다.');
       try{
-        const minimumMotion=sleep(reducedMotion?40:920);
+        const minimumMotion=state.fastMode?null:sleep(reducedMotion?40:920);
         const response=await dependencies.apiRequest('inventory/use',{method:'POST',body:JSON.stringify({itemCode:'BLACK_MIRACLE_PACK',requestId:state.requestId})});
         await minimumMotion;
         if(state.closed)return;
@@ -251,6 +264,7 @@
         const sameAccount=preview||!state.accountId||Number(options.loadUser?.()?.serverUserId)===state.accountId;
         if(!sameAccount)stopAuto('계정 변경으로 중지');
         if(sameAccount&&response.user&&typeof dependencies.saveUser==='function'&&typeof dependencies.apiUserToLocal==='function')dependencies.saveUser(dependencies.apiUserToLocal(response.user));
+        if(state.fastMode){renderFastResult();return;}
         await preloadRewardImage(state.reward,reducedMotion);
         if(state.closed)return;
         renderChoices();
@@ -261,6 +275,9 @@
         setPhase('error');stage.classList.add('opening-error');
         const retry=stage.querySelector('[data-black-miracle-open]');if(retry){retry.disabled=false;retry.textContent='다시 개봉 시도'}
         announce('봉인 해제 중단',error?.message||'보상 결과를 확인하지 못했습니다. 다시 시도해주세요.');
+        if(state.fastMode){
+          const retryButton=document.createElement('button');retryButton.type='button';retryButton.className='black-miracle-secondary';retryButton.dataset.blackMiracleOpen='';retryButton.textContent='이번 개봉 다시 확인';retryButton.onclick=requestOpening;status.append(retryButton);
+        }
       }
     }
 
@@ -270,7 +287,10 @@
         if(state.phase!=='intro'||state.auto)return;
         const count=Number(stage.querySelector('[data-black-miracle-auto-count]').value);
         if(!Number.isInteger(count)||count<1||count>Math.min(1000,state.remaining)){announce('수량 확인','보유 수량 이내의 정수를 입력해 주세요.');return;}
-        state.auto=true;state.autoTotal=count;state.autoDone=0;updateAuto('개봉 시작');void requestOpening();
+        state.auto=true;state.fastMode=true;state.autoTotal=count;state.autoDone=0;
+        stage.classList.add('is-auto-results');heading.querySelector('h2').textContent='자동 개봉 결과';heading.querySelector('p').textContent='첫 번째 카드의 결과만 빠르게 확인합니다. 연출은 재생하지 않습니다.';
+        body.innerHTML='<p class="black-miracle-auto-empty">첫 개봉 결과를 확인하고 있습니다.</p>';
+        updateAuto('개봉 시작');autoBar.querySelector('button').focus({preventScroll:true});void requestOpening();
       };
     }
     closeButton.onclick=()=>destroy({navigate:state.granted});
