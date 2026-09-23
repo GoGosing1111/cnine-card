@@ -101,6 +101,17 @@ for(const pg of [false,true]){
     await f.p('UPDATE territory_war_v3_rounds SET truce_ends_at=NULL').run();
     const before=await f.round();await f.p("INSERT INTO territory_war_skill_receipts VALUES('SKILL:request:0001',1,999,'B','ASSAULT','{}',1)").run();await assert.rejects(applyTerritorySkill(f.env,await b.args()));assert.deepEqual(await f.round(),before);assert.equal((await f.p('SELECT b_hp FROM territory_war_v3_fronts').first()).b_hp,500000);
   });
+  test(`${dialect}: defense activated between round/front reads is rechecked without charging cooldown`,async t=>{
+    const f=await fixture(t,pg),b=await battle(f),before=await b.args('CARPET_BOMBING','SKILL:opposing-race');
+    await f.p("UPDATE territory_war_v3_rounds SET b_operation='AIR_DEFENSE',b_operation_ends_at='2026-09-24T11:00:00Z',skill_action_token='OTHER:COMMITTED',version=version+1").run();
+    await f.p('UPDATE territory_war_v3_fronts SET version=version+1').run();
+    before.front=await f.p('SELECT * FROM territory_war_v3_fronts WHERE id=1').first();
+    await assert.rejects(applyTerritorySkill(f.env,before));
+    assert.equal((await f.p('SELECT COUNT(*) n FROM territory_war_skill_cooldowns').first()).n,0);
+    const result=await applyTerritorySkill(f.env,await b.args('CARPET_BOMBING','SKILL:opposing-race'));
+    assert.equal(result.intercepted,true);assert.equal(result.damage,25000);
+    assert.equal((await f.p('SELECT b_hp FROM territory_war_v3_fronts').first()).b_hp,475000);
+  });
 }
 test('skill effects reuse siege power formula, interception, healing bounds and last HP floor',()=>{
   const input={round:{b_operation:'AIR_DEFENSE',b_operation_ends_at:'2026-09-24T11:00:00Z'},front:{id:1,b_hp:500000,b_max_hp:1000000,a_hp:990000,a_max_hp:1000000},mine:{side:'A',deck_power:1000000},cfg,requestId:'SKILL:formula',damageFor:territorySiegeDamage,now:NOW};
