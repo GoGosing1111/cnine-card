@@ -1,5 +1,6 @@
 import {handleAccountRank,readAccountRank,rankCards,accountRankBenefits,settleRankedHunt} from '../functions/_account_rank.js';
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
+import {operatingMercenaries} from '../tests/helpers/mercenary-operating-roster-v2144.mjs';
 import {apocalypseQaSettings,apocalypseQaDifficulty,apocalypseQaPublic} from '../tests/helpers/apocalypse-legion-qa.mjs';
 import {TROPHY_CATALOG} from '../functions/_player_card.js';
 import {handleMercenaryAccount} from '../functions/_mercenary_account_routes.js';
@@ -37,6 +38,7 @@ const magicQa=process.env.JOINT_QA_MAGIC_UI==='1'?await magicFixture():null;
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.JOINT_QA_PORT||8899),hostname=`127.0.0.1:${port}`,origin=`http://${hostname}`;
 const staticOrigin=process.env.JOINT_QA_STATIC_ORIGIN||'';
 const inventoryQa=process.env.JOINT_QA_INVENTORY_UI==='1'?inventoryUiFixture():null;
+const policeQa=process.env.JOINT_QA_POLICE_RESTRAINT==='1';
 if(staticOrigin&&staticOrigin!=='https://cnine-card.pages.dev')throw Error('Only the existing production site can supply QA static files');
 const dataDir=path.resolve(root,'../qa');fs.mkdirSync(dataDir,{recursive:true});
 const databaseFile=path.join(dataDir,`joint-account-${Date.now()}.sqlite`);
@@ -63,6 +65,14 @@ if(process.env.JOINT_QA_SKILL_CONNECTIONS==='1'){
  await mercenary.setDraw(mercenary.draw);
 }
 f.deps.loadMercenaryBattleSnapshot=loadMercenaryBattleSnapshot;
+if(policeQa){
+ if(process.env.JOINT_QA_NATIVE!=='1'||process.env.JOINT_QA_MERCENARY_CODE!=='V-042')throw Error('Police QA requires the isolated native V-042 account');
+ const snapshot=operatingMercenaries.find(m=>m.code==='V-042'),document=structuredClone(mercenary.document);
+ Object.assign(document.mercenaries.find(m=>m.code==='V-042'),{rank:snapshot.rank,role:snapshot.role,position:snapshot.position});
+ document.assignments.find(a=>a.code==='V-042').skillIds=['MS-042'];
+ Object.assign(document.skills.find(s=>s.id==='MS-042'),snapshot.skills[0]);
+ await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(document)).run();
+}
 f.deps.requirePermission=(request,env)=>f.deps.authenticate(request,env);
 let forgeRoll=0;f.deps.forgeRandomInt=()=>[0,999999,600000,999999][forgeRoll++%4];
 await f.p("UPDATE character_equipment_items SET image_url='assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png' WHERE id=1").run();
@@ -163,10 +173,10 @@ const server=http.createServer(async(req,res)=>{try{
       if(apiPath==='service/status')return send(res,200,{maintenance:{active:false}});
       if(apiPath==='inventory')return send(res,200,inventoryQa||{items:[],totalQuantity:0,ownedTypes:0});
       if(apiPath==='loot-shop/balance')return send(res,200,{pigCoins:0});
-      if(apiPath==='battle/fight'){const b=await request.json(),deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),difficulty=legionQa?apocalypseQaDifficulty(b.monsterId):null,monster=difficulty?.engineMonster||{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battle_power:500000};const battleV2=createPveBattleV2({cards:rankCards(deck.cards,await accountRankBenefits(f.env,7,'HUNT')),monster,mercenary:await loadMercenaryBattleSnapshot(f.env,f.user),battleSuit:qaCharacterBonus.equippedBattleSuit?{...qaCharacterBonus.equippedBattleSuit,weapon:qaCharacterBonus.equippedWeapon}:null,seed:42});if(battleV2.result.winner==='A')await settleRankedHunt(f.env,7,'HUNT',b.requestId||crypto.randomUUID(),100,'QA HUNT');return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',cards:deck.cards,monster,difficulty,characterBonus:qaCharacterBonus,equippedBattleSuit:qaCharacterBonus.equippedBattleSuit,equippedWeapon:qaCharacterBonus.equippedWeapon,playerPower:deck.power,monsterPower:500000,reward:100,user:await profile()});}
+      if(apiPath==='battle/fight'){const b=await request.json(),deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),difficulty=legionQa?apocalypseQaDifficulty(b.monsterId):null,monster=difficulty?.engineMonster||{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battle_power:policeQa?qaCardPower*5:500000};const battleV2=createPveBattleV2({cards:rankCards(deck.cards,await accountRankBenefits(f.env,7,'HUNT')),monster,mercenary:await loadMercenaryBattleSnapshot(f.env,f.user),battleSuit:qaCharacterBonus.equippedBattleSuit?{...qaCharacterBonus.equippedBattleSuit,weapon:qaCharacterBonus.equippedWeapon}:null,seed:42});if(battleV2.result.winner==='A')await settleRankedHunt(f.env,7,'HUNT',b.requestId||crypto.randomUUID(),100,'QA HUNT');return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',cards:deck.cards,monster,difficulty,characterBonus:qaCharacterBonus,equippedBattleSuit:qaCharacterBonus.equippedBattleSuit,equippedWeapon:qaCharacterBonus.equippedWeapon,playerPower:deck.power,monsterPower:500000,reward:100,user:await profile()});}
       if(apiPath==='battle/config')return send(res,200,{deck:ids,deckRules:{gradeLimits:{FUR:5}},monsters:[{id:1,name:'목초지 입장 검수',image:'assets/cards/monster/sla2.jfif',battlePower:500000},...(legionQa?apocalypseQaPublic():[])],settings:legionQa?{apocalypse:apocalypseQaSettings}:{},apocalypseEnergy:{energy:5,maxEnergy:5,costPerBattle:1},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:qaCharacterBonus,energy:{energy:30,maxEnergy:30,costPerBattle:1}});
       if(apiPath==='pvp/match')return send(res,200,{token:'local-match',opponent:{id:8,nickname:'검수 상대',season_score:0}});
-      if(apiPath==='pvp/fight'){const deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),enemy=deck.cards.map(c=>({...c,power:100000})),battleV2=createPvpBattleV2({attackerCards:deck.cards,defenderCards:enemy,attackerMercenary:await loadMercenaryBattleSnapshot(f.env,f.user),defenderMercenary:await loadMercenaryBattleSnapshot(f.env,f.user),seed:42});return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',attackerDeck:deck.cards,defenderDeck:enemy,attackerPower:deck.power,defenderPower:500000,opponent:'검수 상대',scoreAfter:25,scoreChange:25,coinAfter:await f.coin(),energy:{unlimited:true,energy:30,maxEnergy:30},serverNow:new Date().toISOString()});}
+      if(apiPath==='pvp/fight'){const deck=await f.deps.raidDeckPower(f.env,7,null,'PVE'),enemy=deck.cards.map(c=>({...c,power:policeQa?qaCardPower:100000})),battleV2=createPvpBattleV2({attackerCards:deck.cards,defenderCards:enemy,attackerMercenary:await loadMercenaryBattleSnapshot(f.env,f.user),defenderMercenary:await loadMercenaryBattleSnapshot(f.env,f.user),seed:42});return send(res,200,{ok:true,battleV2,battleEngine:{active:true},result:battleV2.result.winner==='A'?'WIN':'LOSE',attackerDeck:deck.cards,defenderDeck:enemy,attackerPower:deck.power,defenderPower:500000,opponent:'검수 상대',scoreAfter:25,scoreChange:25,coinAfter:await f.coin(),energy:{unlimited:true,energy:30,maxEnergy:30},serverNow:new Date().toISOString()});}
       if(apiPath==='pvp/config')return send(res,200,{deck:ids,deckRules:{gradeLimits:{FUR:5}},presets:{1:ids,2:[],3:[]},activePreset:1,settings:{enabled:true,seasonName:'로컬 랭크전 검수',tiers:[]},profile:{season_score:0,tier:{id:'bronze',name:'브론즈',color:'#b87333'}},battleEngine:{active:true,mode:'V3',version:'V3'},characterBonus:{pvp:0},energy:{energy:30,maxEnergy:30,costPerBattle:1,unlimited:true}});
       if(apiPath==='scrapyard/status')return send(res,200,await readScrapyardStatus(f.env,f.user,f.deps.raidDeckPower));
       if(apiPath.startsWith('tower/')){const response=await nativeTower.handle(apiPath,request);return send(res,response.status,await response.json());}

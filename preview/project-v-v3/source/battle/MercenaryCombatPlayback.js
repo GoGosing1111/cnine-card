@@ -70,11 +70,20 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(type==='MERCENARY_FOCUS'||event.dodge){this.queueBanner(event.dodge?'빗나감':event.focused?'조준 완료':'집중 해제',0xc49cff,event.skillName);sync();return;}
   const skill=skillById(event.skillId);if(!skill){sync();return;}
   if(type==='MERCENARY_WINDUP')this.mercenaryHitIndices.set(key,0);
+  // Police fires once. Its mark is informational; restraint uses only the
+  // binding phase, never the preceding shot. Old receipts can contain a status
+  // after KO while the fading corpse is still visible, so reject it by HP.
+  const restraintStatus=type==='MERCENARY_DEBUFF'&&skill.mechanic==='REPEAT_OFFENDER_RESTRAINT';
+  const restraintTargetAlive=()=>target?.hp>0&&target.battleActive!==false&&target.root?.visible;
+  if(restraintStatus){
+   if(!restraintTargetAlive())return true;
+   if(event.effect==='OFFENDER_MARK'){this.queueBanner(event.skillName,0xc49cff,'위반 표식');sync();return true;}
+  }
   // Secondary status records must not replay the direct hit which preceded them.
   if(type==='MERCENARY_DEBUFF'&&(['POISON','APPROACH_DELAY','DUEL_OATH','SHIELD_ONLY_BREAK','THORN_RECOIL_SEAL'].includes(event.effect)||event.effect==='OFFENSIVE_SKILL_ONLY'&&skill.mechanic==='PLATINUM_FOCUS_LOCK')){this.queueBanner(event.skillName,0xc49cff,({POISON:'독 표식',APPROACH_DELAY:'진입 지연',DUEL_OATH:'결투 맹세',SHIELD_ONLY_BREAK:'보호막 파쇄',THORN_RECOIL_SEAL:'가시 봉인',OFFENSIVE_SKILL_ONLY:'공격술 약화'})[event.effect]);sync();return true;}
   if(type==='MERCENARY_BUFF'&&event.effect==='STAND_FAST_CONSUMED'){this.queueBanner(event.skillName,0xc49cff,'백철 방호 소모');sync();return true;}
   const barrage=skill.mechanic==='TIDAL_BARRAGE';
-  const hitIndex=type==='MERCENARY_DEBUFF'&&['ARMOR_WINDOW','NEXT_BASIC_WEAKENED'].includes(event.effect)?1:event.skillPhaseIndex??(this.mercenaryHitIndices.get(key)||0),impact=barrage&&type==='MERCENARY_HIT'?skill.visual.impacts.at(-1):skill.visual.impacts[Math.min(hitIndex,skill.visual.impacts.length-1)];
+  const hitIndex=restraintStatus||type==='MERCENARY_DEBUFF'&&['ARMOR_WINDOW','NEXT_BASIC_WEAKENED'].includes(event.effect)?1:event.skillPhaseIndex??(this.mercenaryHitIndices.get(key)||0),impact=barrage&&type==='MERCENARY_HIT'?skill.visual.impacts.at(-1):skill.visual.impacts[Math.min(hitIndex,skill.visual.impacts.length-1)];
   if(['MERCENARY_HIT','MERCENARY_HEAL','MERCENARY_DOT','MERCENARY_RIPOSTE'].includes(type))this.mercenaryHitIndices.set(key,hitIndex+1);
   const ids=event.targetIds?.length?event.targetIds:[event.targetId].filter(Boolean),actors=new Map([['M',actor]]),targets=[];
   for(const id of ids){const a=this.combatantById(id);if(!a?.root?.visible||a.battleActive===false)continue;const alias=a===actor?'M':`${a.team===actor.team?'A':'E'}${targets.length+1}`;actors.set(alias,a);targets.push(alias);}
@@ -89,6 +98,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   const audio=this.audio?.enabled?.()!==false?getMercenaryAudio(this):null;
   if(audio){let timer;const ready=await Promise.race([audio.unlock().catch(()=>false),new Promise(resolve=>{timer=setTimeout(()=>resolve(false),2500);})]).finally(()=>clearTimeout(timer));audio.setEnabled(ready);}
   if(!valid())return false;
+  if(restraintStatus&&!restraintTargetAlive())return true;
   this.settlePendingTails?.([...actors.values()]);
   const fx=new MercenarySkillFX(this,actors,skill,plan,sequence,this.mercenaryAuxiliary,()=>{},{authoritative:true});fx.removeTimeline();this.mercenaryFx=fx;
   const flightLead=skill.visual.motion==='CORAL_ARCS'?.42:.26;

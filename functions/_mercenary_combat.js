@@ -241,7 +241,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    // v2119: 제압이 기본 공격 한 번만 약화하고 끝나 제어형의 값어치가 거의 없었다.
    // 표식이 찼으면 지속 시간 동안 그 적의 기본 공격을 계속 약화하고,
    // 아직 안 찼으면 이번 사격으로 표식을 하나 쌓아 다음 시전이 헛돌지 않게 한다.
-   case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0,h=strike(a,s,t);if(!h.hit)return;
+   case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0,h=strike(a,s,t);if(!h.hit||!living(t))return;
     if(marked>=c.restraintHits){d.restraint={percent:c.restraintPercent,expires:t.actions+c.statusTurns};if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'BASIC_WEAKENED'});}
     else{(d.offender||={})[a.id]=marked+1;send(a,s,'DEBUFF',t,{effect:'OFFENDER_MARK'});}});break;
    case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
