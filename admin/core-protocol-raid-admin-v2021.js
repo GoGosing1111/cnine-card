@@ -1,5 +1,6 @@
 (() => {
   'use strict';
+  const CORE_RAID_MAX_REWARD_COIN = 30000000000;
   const $ = selector => document.querySelector(selector);
   if (!document.getElementById('coreRaidAdminStyleV2021')) {
     const style = document.createElement('link');
@@ -82,7 +83,7 @@
       input('coreRaidSequenceWindow', '방향 신호 제한', 3000, 15000, 'ms'),
       input('coreRaidMashTarget', '연타 목표', 10, 80, '회'),
       input('coreRaidMashWindow', '연타 제한', 3000, 15000, 'ms'),
-      input('coreRaidRewardCoin', '클리어 보상 코인', 0, 2000000000, ''),
+      input('coreRaidRewardCoin', '클리어 보상 코인 · 최대 300억', 0, CORE_RAID_MAX_REWARD_COIN, ''),
       input('coreRaidRewardShards', '클리어 보상 카드조각', 0, 1000000, ''),
       '</div>',
       '<footer><button type="button" class="ghost" id="refreshCoreRaidSettings">새로고침</button>',
@@ -218,6 +219,10 @@
 
   async function save() {
     const settings = collect();
+    if (!Number.isSafeInteger(settings.rewardCoin) || settings.rewardCoin < 0 || settings.rewardCoin > CORE_RAID_MAX_REWARD_COIN) {
+      alert('클리어 보상 코인은 0~300억(30,000,000,000) 사이의 정수로 입력하세요.');
+      return;
+    }
     if (![settings.coreCombatPower, settings.bossCombatPower].every(value =>
       Number.isSafeInteger(value) && (value === 0 || (value >= 1000 && value <= 2000000000)))) {
       alert('고정 전투력은 1,000~2,000,000,000 사이의 정수로 입력하세요. 0은 미설정입니다.');

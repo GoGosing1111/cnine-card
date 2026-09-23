@@ -5,7 +5,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { handleRaidCoreProtocol, defaultCoreRaidSettings, cleanCoreRaidSettings,
-  coreRaidRewardWeek, coreRaidWeeklyReward } from '../functions/_raid_core_protocol.js';
+  coreRaidRewardWeek, coreRaidWeeklyReward, CORE_RAID_MAX_REWARD_COIN } from '../functions/_raid_core_protocol.js';
 import {ensureLootShopSchema,LOOT_SHOP_KEY} from '../functions/_loot_shop.js';
 import {LOOT_SHOP_DEFAULTS} from '../shared/loot-shop-policy-v1.mjs';
 
@@ -98,6 +98,19 @@ async function fixture(dialect = 'sqlite',pigRewards=false) {
     fail: pattern => { failPattern = pattern; }, loseCommit: () => { loseCommit = true; } };
 }
 
+test('core coin cap is 300 eok without changing default rewards or other limits', () => {
+  assert.equal(CORE_RAID_MAX_REWARD_COIN, 30000000000);
+  assert.equal(defaultCoreRaidSettings().rewardCoin, 0);
+  for (const rewardCoin of [0, 2000000000, 2000000001, 10000000000, 30000000000]) {
+    assert.equal(cleanCoreRaidSettings({ rewardCoin }).rewardCoin, rewardCoin);
+  }
+  assert.equal(cleanCoreRaidSettings({ rewardCoin: 30000000001 }).rewardCoin, 30000000000);
+  assert.equal(cleanCoreRaidSettings({ rewardCoin: -1 }).rewardCoin, 0);
+  assert.equal(cleanCoreRaidSettings({ rewardCoin: 'bad' }).rewardCoin, 0);
+  assert.equal(cleanCoreRaidSettings({ bossMaxHp: 30000000000 }).bossMaxHp, 2000000000);
+  assert.equal(cleanCoreRaidSettings({ rewardShards: 30000000000 }).rewardShards, 1000000);
+});
+
 test('weekly rewards reset Monday at midnight in Korea, including year boundary', () => {
   assert.equal(cleanCoreRaidSettings({ weeklyRewardLimit: 999 }).weeklyRewardLimit, 3);
   const before = coreRaidRewardWeek(Date.parse('2026-09-13T14:59:59.999Z'));
@@ -110,6 +123,80 @@ test('weekly rewards reset Monday at midnight in Korea, including year boundary'
 });
 
 for (const dialect of ['sqlite', 'postgres']) {
+  test(`${dialect}: CMS persists 100/300 eok and rejects invalid coins without overwriting settings`, async () => {
+    const f = await fixture(dialect);
+    try {
+      const before = (await f.call('admin/raid/core/settings')).body.settings;
+      for (const rewardCoin of [10000000000, 30000000000]) {
+        const saved = await f.call('admin/raid/core/settings', { ...before, rewardCoin });
+        assert.equal(saved.status, 200);
+        assert.deepEqual((await f.call('admin/raid/core/settings')).body.settings, { ...before, rewardCoin });
+        assert.equal(JSON.parse((await f.row('SELECT value FROM app_meta WHERE key=?', 'raid_core_protocol_settings_v2024')).value).rewardCoin, rewardCoin);
+      }
+      for (const rewardCoin of [30000000001, -1, 1.5, '10000000000', null, true, Number.MAX_SAFE_INTEGER]) {
+        const denied = await f.call('admin/raid/core/settings', { ...before, rewardCoin });
+        assert.equal(denied.status, 400, JSON.stringify(rewardCoin));
+        assert.match(denied.body.error, /300억/);
+        assert.deepEqual((await f.call('admin/raid/core/settings')).body.settings, { ...before, rewardCoin: 30000000000 });
+      }
+    } finally { await f.close(); }
+  });
+
+  for (const rewardCoin of [10000000000, 30000000000]) {
+    test(`${dialect}: ${rewardCoin} coins settle exactly, retain weekly 3 and replay stored rewards`, async () => {
+      const f = await fixture(dialect);
+      try {
+        await f.configure({ rewardCoin });
+        const ids = [];
+        for (let n = 1; n <= 3; n++) {
+          ids.push(await f.seedRoom());
+          const visible = await f.call('raid/core/status?roomId=' + ids.at(-1));
+          assert.equal(visible.body.settings.rewardCoin, rewardCoin);
+          assert.equal(visible.body.current.reward.coin, rewardCoin);
+          const paid = await f.claim(ids.at(-1));
+          assert.equal(paid.status, 200, JSON.stringify(paid.body));
+          assert.equal(paid.body.reward.coin, rewardCoin);
+          assert.equal(Number(paid.body.user.coin), rewardCoin * n);
+          assert.equal(paid.body.weeklyReward.used, n);
+          assert.equal(Number((await f.row(`SELECT reward_coin FROM ${RECEIPTS} WHERE room_id=?`, ids.at(-1))).reward_coin), rewardCoin);
+        }
+        assert.equal((await f.claim(await f.seedRoom())).body.code, 'CORE_RAID_WEEKLY_LIMIT');
+        await f.configure({ rewardCoin: 1 });
+        const replay = await f.claim(ids[0]);
+        assert.equal(replay.status, 200);
+        assert.equal(replay.body.replayed, true);
+        assert.equal(replay.body.reward.coin, rewardCoin, 'already paid receipt must keep its original reward');
+        assert.equal(Number(replay.body.user.coin), rewardCoin * 3);
+        const logs = await f.row('SELECT COUNT(*) n,SUM(change_amount) total,MAX(balance_after) balance FROM coin_logs');
+        assert.equal(Number(logs.n), 3);
+        assert.equal(Number(logs.total), rewardCoin * 3);
+        assert.equal(Number(logs.balance), rewardCoin * 3);
+        assert.equal(Number((await f.row('SELECT card_shards FROM users WHERE id=1')).card_shards), 36);
+      } finally { await f.close(); }
+    });
+  }
+
+  test(`${dialect}: 300 eok rollback and uncertain commit never lose or duplicate coins`, async () => {
+    const f = await fixture(dialect);
+    try {
+      await f.configure({ rewardCoin: CORE_RAID_MAX_REWARD_COIN });
+      const room = await f.seedRoom();
+      for (const pattern of ['INSERT INTO coin_logs', 'INSERT INTO shard_logs', `UPDATE ${RECEIPTS} SET status='COMPLETED'`]) {
+        f.fail(pattern);
+        assert.equal((await f.claim(room)).status, 503);
+        assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin), 0);
+        assert.equal((await coreRaidWeeklyReward(f.env, 1)).used, 0);
+      }
+      f.fail('');
+      f.loseCommit();
+      assert.equal((await f.claim(room)).status, 200);
+      assert.equal((await f.claim(room)).body.replayed, true);
+      assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin), CORE_RAID_MAX_REWARD_COIN);
+      assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n), 1);
+      assert.equal((await coreRaidWeeklyReward(f.env, 1)).used, 1);
+    } finally { await f.close(); }
+  });
+
   test(`${dialect}: real core claim atomically grants 30 pig coins, recovers failure and stops at weekly 90`,async()=>{
     const f=await fixture(dialect,true);try{
       const first=await f.seedRoom();f.fail('UPDATE pig_coin_wallets_v1 SET balance=balance+');assert.equal((await f.claim(first)).status,503);
