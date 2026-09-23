@@ -37,4 +37,3 @@ Use case: precise-object-edit. Input image is the EDIT TARGET, an existing 6x4 2
 - chip-source.png ← exec-db758347-8ca4-4584-9f68-0e71437ad6ed.png
 - SHA-256, 프레임 수, 런타임 무손실 WebP 경로는 build-report.json에 기록한다.
 - 기계적 처리만: 아틀라스는 원본 RGBA → 무손실 WebP, 프레임마다 알파 경계/탄두 끝/폭발 바닥 기준점을 측정. 칩은 균일 비율 512×512 PNG/WebP. 재채색·총기/슈트 변형 없음.
-
