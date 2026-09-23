@@ -20,35 +20,32 @@ test('choice art resolves trusted repository originals locally and rejects forei
  for(const value of ['',null,'javascript:alert(1)','data:image/png;base64,abc','https://example.com'+original,'//example.com'+original,'https://raw.githubusercontent.com/other/cnine-card/main'+original,'https://raw.githubusercontent.com/GoGosing1111/other/main'+original,'https://raw.githubusercontent.com/GoGosing1111/cnine-card/main/private.png'])assert.equal(lootShopAsset(value),'');
 });
 for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
- test(`${label}: CMS lists actual MYTHIC Mystic equipment and preserves explicit selection on save`,async t=>{
+ test(`${label}: CMS lists only the four approved MYTHIC Mystic items and no longer requires a fixed selection`,async t=>{
   const f=await lootFixture(t,{postgres});
   for(const [itemId,name,rarity,active,publicFlag] of [
-   [901,'미스틱 레깅스','MYTHIC',1,1],[902,'미스틱 슈즈','MYTHIC',1,1],
-   [903,'미스틱 슈트','MYTHIC',1,1],[904,'미스틱 듀얼디스크','MYTHIC',1,1],
+   [904,'미스틱 신규 장비','MYTHIC',1,1],
    [905,'엠퍼러 슈트','MYTHIC',1,1],[906,'소버린 SKS','MYTHIC',1,1],
    [907,'미스틱 비공개','MYTHIC',1,0],[908,'미스틱 비활성','MYTHIC',0,1],
    [909,'미스틱 잘못된 등급','MYSTIC',1,1]
   ])await f.p('INSERT INTO character_equipment_items(id,code,name,rarity,is_active,is_public) VALUES(?,?,?,?,?,?)',itemId,'EQ_'+itemId,name,rarity,active,publicFlag).run();
   const catalog=await lootShopCatalog(f.env);
-  assert.deepEqual(catalog.equipment.map(g=>Number(g.id)).sort((a,b)=>a-b),[37,900,901,902,903,904]);
-  assert.deepEqual(catalog.equipment.filter(g=>lootEquipmentMatchesProduct(g,'MYSTIC_EQUIPMENT')).map(g=>Number(g.id)).sort((a,b)=>a-b),[900,901,902,903,904]);
+  assert.deepEqual(catalog.equipment.map(g=>Number(g.id)).sort((a,b)=>a-b),[37,900,901,902,903]);
+  assert.deepEqual(catalog.equipment.filter(g=>lootEquipmentMatchesProduct(g,'MYSTIC_EQUIPMENT')).map(g=>Number(g.id)).sort((a,b)=>a-b),[900,901,902,903]);
   assert.deepEqual(catalog.equipment.filter(g=>lootEquipmentMatchesProduct(g,'F_BODY')).map(g=>Number(g.id)),[37]);
   const before=structuredClone(f.shopPolicy),draft=structuredClone(before);
-  draft.products.find(p=>p.type==='MYSTIC_EQUIPMENT').equipmentId=904;
+  draft.products.find(p=>p.type==='MYSTIC_EQUIPMENT').equipmentId=null;
   await saveLootShopPolicy(f.env,f.user,draft);
   const saved=(await readLootShopPolicy(f.env)).policy;
   assert.deepEqual(saved,{...draft,revision:before.revision+1});
   assert.equal((await lootShopState(f.env,f.user)).products.find(p=>p.type==='MYSTIC_EQUIPMENT').canBuy,true);
-  for(const equipmentId of [37,905,906,907,908,909]){
-   const invalid=structuredClone(saved);invalid.products.find(p=>p.type==='MYSTIC_EQUIPMENT').equipmentId=equipmentId;
-   await assert.rejects(()=>saveLootShopPolicy(f.env,f.user,invalid),{code:'JOINT_LOOT_UNAVAILABLE'});
-  }
+  await f.p('UPDATE character_equipment_items SET is_public=0 WHERE id=903').run();
+  await assert.rejects(()=>saveLootShopPolicy(f.env,f.user,saved),{code:'JOINT_LOOT_UNAVAILABLE'});
   assert.deepEqual((await readLootShopPolicy(f.env)).policy,saved);
  });
  test(`${label}: Mystic purchase grants MYTHIC gear atomically and blocks unavailable gear`,async t=>{
   const f=await lootFixture(t,{postgres}),body={productId:'mystic_equipment',requestId:id()};
   f.fail('INSERT INTO user_equipment_instances');
-  await assert.rejects(()=>purchaseLootProduct(f.env,f.user,body));
+  await assert.rejects(()=>purchaseLootProduct(f.env,f.user,body,{randomInt:()=>0}));
   assert.equal(await pigCoinBalance(f.env,7),500);
   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM loot_shop_purchases_v1').first()).n),0);
   f.fail('');

@@ -21,3 +21,5 @@ dialog{background:#111a2b;color:var(--text);border:1px solid #425674;border-top:
 
 .loot-source span{line-height:1.8;word-break:keep-all;overflow-wrap:break-word}
 @media(max-width:700px){.loot-sources{grid-template-columns:1fr;gap:0}.loot-source,.loot-source:first-child{display:grid;grid-template-columns:65px minmax(0,1fr);align-items:start;gap:10px;padding:12px 0;border:0;border-top:1px solid #30415b}.loot-source:first-child{border-top:0}.loot-source b{margin:2px 0;font-size:11px}.loot-source span{font-size:11px}}
+/* Square gear originals stay uncropped in the four-item probability disclosure. */
+.loot-choice-grid.loot-equipment-pool{grid-template-columns:repeat(2,minmax(0,1fr))}.loot-equipment-pool .loot-choice{cursor:default;display:flex;align-items:center;gap:10px}.loot-equipment-pool .loot-choice img{width:72px;height:72px;flex-shrink:0;aspect-ratio:1;object-fit:contain}.loot-equipment-pool .loot-choice span{color:var(--lime);padding:0}@media(max-width:520px){.loot-choice-grid.loot-equipment-pool{grid-template-columns:1fr;max-height:50dvh}.loot-equipment-pool .loot-choice img{width:56px;height:56px}}

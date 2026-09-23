@@ -1,10 +1,14 @@
 // Mystic is an equipment family stored with the canonical MYTHIC rarity.
 export const LOOT_MYSTIC_RARITY='MYTHIC';
 export const LOOT_MYSTIC_NAME_PREFIX='미스틱 ';
+// User-approved fixed pool: adding other MYTHIC/Mystic gear never changes these odds.
+export const LOOT_MYSTIC_NAMES=Object.freeze(['미스틱 슈트','미스틱 레깅스','미스틱 슈즈','미스틱 듀얼디스크']);
+export const LOOT_MYSTIC_CHANCE_PERCENT=25;
 export function lootEquipmentMatchesProduct(item,type){
  if(type==='F_BODY')return item?.code==='BATTLE_SUIT_02';
- return type==='MYSTIC_EQUIPMENT'&&item?.rarity===LOOT_MYSTIC_RARITY&&String(item.name||'').startsWith(LOOT_MYSTIC_NAME_PREFIX);
+ return type==='MYSTIC_EQUIPMENT'&&item?.rarity===LOOT_MYSTIC_RARITY&&LOOT_MYSTIC_NAMES.includes(item.name);
 }
+export const lootMysticPoolComplete=pool=>pool.length===LOOT_MYSTIC_NAMES.length&&LOOT_MYSTIC_NAMES.every(name=>pool.filter(item=>item.name===name&&lootEquipmentMatchesProduct(item,'MYSTIC_EQUIPMENT')).length===1);
 export const PIG_COIN_IMAGE='assets/items/pig-coin-v1.png';
 export const LOOT_SOURCE_LABELS={TERRITORY:'영토전',CLAN:'클랜전',CORE_RAID:'신규 레이드'};
 export const LOOT_PRODUCT_TYPES={SUPERSTAR_CHOICE:'슈퍼스타 선택팩',FUR_CHOICE:'FUR 선택팩',F_BODY:'F바디',MYSTIC_EQUIPMENT:'미스틱 장비',MERCENARY_PACK:'용병 A~S등급 카드팩'};
@@ -59,7 +63,7 @@ export function validateLootShopPolicy(raw){
   if(r.enabled){
    if(r.price===null||r.accountLimit===null)throw error(`${r.name}의 가격과 구매 횟수를 입력하세요.`);
    if(r.type.endsWith('_CHOICE')&&!r.cardIds.length)throw error(`${r.name}의 선택 카드를 등록하세요.`);
-   if(['F_BODY','MYSTIC_EQUIPMENT'].includes(r.type)&&!r.equipmentId)throw error(`${r.name}의 지급 장비를 선택하세요.`);
+   if(r.type==='F_BODY'&&!r.equipmentId)throw error(`${r.name}의 지급 장비를 선택하세요.`);
    if(r.type==='MERCENARY_PACK'&&(!r.mercenaryCodes.length||r.mercenaryWeights.A===null||r.mercenaryWeights.S===null||r.mercenaryWeights.A+r.mercenaryWeights.S<=0))throw error('용병 목록과 A/S 등급 가중치를 설정하세요.');
   }
   next.products.push(r);

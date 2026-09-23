@@ -11,3 +11,6 @@
 - `node scripts/qa-loot-shop-mystic-cms.mjs`: 격리 SQLite DB와 실제 CMS 모듈/API로 검수한다. 검수용 계정·가격·ON 저장은 로컬에만 적용된다.
 - 데스크톱과 390px 모바일에서 4종 선택 목록, 미스틱 슈트 선택·판매 ON 저장·재조회, 듀얼디스크 변경 저장·브라우저 새로고침 후 유지, 가로 넘침 없음을 확인했다.
 - 운영 배포는 깨끗한 범위 커밋에서 `npm run deploy:production`을 사용하며 내부 `npm run release:gate`와 Hyperdrive 캐시 OFF 검사를 통과해야 한다.
+# 후속 변경
+
+같은 날 사용자 승인으로 미스틱 확정 장비 선택은 4종 각 25% 랜덤 지급으로 대체됐다. 아래는 당시 수정 기록이며, 최신 동작·호환성·검증 기준은 `loot-shop-mystic-random-20260923.md`를 따른다.
