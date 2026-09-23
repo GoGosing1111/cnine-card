@@ -2,7 +2,7 @@ import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {Container,Texture} from 'pixi.js';
+import {Container,Texture,path as pixiPath} from 'pixi.js';
 import {gsap} from 'gsap';
 import sharp from 'sharp';
 import {CHIP_DRAFT,SEQUENCE,ARRIVAL_ORDER,direction,flightPoint,rocketState,launchTime,impactTime,impactFrame,cueAt} from '../preview/battle-suit-octaseeker-v1/source/sequence.mjs';
@@ -146,6 +146,19 @@ test('existing engine, source-art adapters and grade frames are reused; live cod
   assert.doesNotMatch(await read('preview.css'),/\.battle-v3-roster|\.card-frame|\.battle-v3-dock/);
   for(const file of ['index.html','js/app.js','js/character-loadout-v2.js','functions/api/[[path]].js','shared/battle-suit-skill-chips.mjs']){
     assert.doesNotMatch(await readFile(new URL('../'+file,import.meta.url),'utf8'),/octaseeker|OCTA_SEEKER/);
+  }
+});
+test('Pages extensionless battle URL resolves existing engine assets from the site root',async()=>{
+  const html=await read('battle.html'),href=html.match(/<base href="([^"]+)">/)?.[1];
+  assert.equal(href,'/preview/battle-suit-octaseeker-v1/');
+  const relative='../../assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png';
+  const page='https://cnine-card.pages.dev/preview/battle-suit-octaseeker-v1/battle';
+  // Reproduce the original deployed-only error in the real Pixi path resolver.
+  assert.ok(pixiPath.toAbsolute(relative,page).includes('/preview/assets/'));
+  for(const route of ['battle','battle.html','battle?review=1']){
+    const baseUrl=new URL(href,new URL(route,page)).href;
+    assert.equal(pixiPath.toAbsolute(relative,baseUrl),'https://cnine-card.pages.dev/assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png');
+    assert.equal(new URL('./lab.bundle.js',baseUrl).pathname,'/preview/battle-suit-octaseeker-v1/lab.bundle.js');
   }
 });
 test('recorded audio uses one launch, eight measured impact peaks and one shared tail',()=>{
