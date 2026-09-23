@@ -31,3 +31,14 @@
 - 캐시 갱신: 플레이어 JS/CSS `20260923.1`, CMS JS/shared `v6`, CMS CSS `v2`.
 
 운영 배포는 깨끗한 범위 커밋을 origin/main에 반영한 후 `npm run deploy:production`을 사용한다. 이 명령의 전체 `release:gate`와 Hyperdrive 캐시 OFF 검사 통과 후 배포하며, 배포 후 CMS 설정 보존과 실제 카탈로그 연결을 읽기 전용으로 확인한다.
+
+## 운영 반영 결과
+
+- 운영 코드 커밋: `642ec6219dec876d0a544ec73b588a66d977a518`.
+- `npm run deploy:production` 정상 종료. 전체 gate 2,372개 중 2,365개 통과, 기존 skip 7개, 실패 0.
+- Pages 배포: `https://80f0bf64.cnine-card.pages.dev` / 기존 운영 주소 유지.
+- clan-draft Worker 버전: `b921415d-d777-4aaa-b6b5-f98f3b10b664`.
+- Hyperdrive query cache OFF 및 Pages/clan-draft 동일 바인딩 검사 통과.
+- 배포 전후 운영 CMS 입력값 비교: 삭제된 미스틱 확정 장비 선택 필드를 제외한 40개 필드가 모두 동일. 정책 r9, 가격 50, 한도 3, 미스틱 판매 OFF 유지. 운영 설정 저장·유저 구매·보상 지급 없음.
+- 운영 플레이어 화면에서 랜덤 4종·각 25%·장비 1개·꽝 없음 표시, 기존 남은 한도 3회와 가격 50, 판매 OFF 버튼을 확인했다.
+- 운영 구성 팝업에 실제 슈트·레깅스·슈즈·듀얼디스크 이미지 4개가 모두 로드됨을 확인했다. 로컬 fixture 이미지가 운영에 연결되지 않음을 확인했다.
