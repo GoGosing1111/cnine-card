@@ -47,8 +47,9 @@ export class SkillChipAudio{
     return (Math.max(0,now-output)+.025)*clamp(speed,.25,this.maxPlaybackRate);
   }
   stop(){this.epoch++;for(const entry of this.sources){entry.source.onended=null;try{entry.source.stop()}catch{}entry.source.disconnect();entry.gain.disconnect();entry.pan.disconnect();}this.sources.clear()}
+  sequence(key){return SEQUENCES[key]}
   events(key){
-    const seq=SEQUENCES[key],events=[];
+    const seq=this.sequence(key),events=[];
     if(key==='airstrike')events.push({asset:'rotor',at:0,offset:0,duration:1.9,gain:.24,fadeIn:.24,fadeOut:.48,pan:-.2});
     else events.push({asset:'launch',at:seq.release-.02,offset:.04323,duration:.24,gain:.28,fadeIn:.003,fadeOut:.10,pan:-.35});
     seq.impacts.forEach((impact,i)=>{
@@ -72,10 +73,10 @@ export class SkillChipAudio{
       const event={...original},isImpact=event.asset==='explosion';
       if(phase==='launch'&&isImpact||phase==='impact'&&!isImpact)continue;
       if(isImpact){
-        const index=SEQUENCES[key].impacts.findIndex(at=>Math.abs((event.impact??event.at-.16)-at)<.001);
+        const index=this.sequence(key).impacts.findIndex(at=>Math.abs((event.impact??event.at-.16)-at)<.001);
         if(indices&&!indices.includes(index))continue;
         if(impactTimes?.has(index)){
-          const delta=impactTimes.get(index)-SEQUENCES[key].impacts[index];
+          const delta=impactTimes.get(index)-this.sequence(key).impacts[index];
           event.at+=delta;if(event.impact!==undefined)event.impact+=delta;
         }
       }

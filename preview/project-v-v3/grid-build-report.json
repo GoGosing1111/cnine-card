@@ -146,7 +146,7 @@
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
-      "sha256": "f655d4efe0527407a4e74a6a8fd142a6833809df07a377bbc322e6ff8a978471"
+      "sha256": "6a950b3232980ed393863a18e97a441ed197519af84f2ce5f8fbe3d6a5a4b6be"
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skill-audio-v1.json",
@@ -155,59 +155,79 @@
     {
       "file": "assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json",
       "sha256": "46c25e7560545146230cf43fbe9febfc5a00b96d4215e8db253c15ae020dd144"
+    },
+    {
+      "file": "shared/battle-suit-skill-chips.mjs",
+      "sha256": "ae4020451e8f21b91ac18a340c5b93cbd1b90c82b43342c9ea9f0529ad2725ba"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+      "sha256": "0319dc734c32f00f7e3fd21ced2f51084cdc0d83431562cdfe830428f67fd3b2"
+    },
+    {
+      "file": "preview/battle-suit-octaseeker-v1/source/sequence.mjs",
+      "sha256": "0c542ff1eb447078cf67b660fae67c1e108596de51400862369ce608edfaab97"
+    },
+    {
+      "file": "preview/battle-suit-octaseeker-v1/source/OctaSeekerFX.js",
+      "sha256": "9f6043936e6dee7e73e5dc0c799f48afbbc23c88ff54f955c54db338551c6289"
+    },
+    {
+      "file": "preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js",
+      "sha256": "eabe0218abbd7d89c33cc64ac6afad3cc0f82ca5b53586cb2e8cfc3a59e50ec9"
     }
   ],
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "ae608de9180836e2e18f3bb43aea14b8e6d1d06c91495c0ab81b8e0bbc43dce1",
+      "sha256": "0b368d49509f6367fbebc55923406c69d27875ce92839108f72bfefb2c5108f7",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "cea117fcf5405b5d58295c942bcda405bd3fd877f0422119e7e7abfafd63ef42",
+      "sha256": "6fb6357dab110518bd809ce23da35cd9d01513ee48c94340e12893fbd6cb553e",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "b151a5436d477d70e329fd4272b65dd78c6ece2aecf53a5eff9234be4593a7a6",
+      "sha256": "514636f72bc11ae2b248c66c6092c61d4ad186aa06da4b06f95798e1a0705840",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "12987539f0623864c42363799f0f82a72732c687f2f7e07626624b461ef68dde",
+      "sha256": "8614ceef18eb8e4fdd093b7fca462367d53d8f2c98aae181df488459062406f5",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "97a5470682a090567c42e600d960e065b23220dc185c690409f8b69f468857c8",
+      "sha256": "ce9d264231a4b925a48aaad2f16533b8a92099afc9c6a883f7e941efd698dacc",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "3ef4983138a0b5cf96d9d9375fcdca28905a9165ff6a31ebc29489254654a6c8",
+      "sha256": "56356ef34ccb99b1bd3f3343bb33a67368ced0642c2f85cb36c3463bb9392742",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "aa80177bc2ad60846b4e6b87e55556c395ec5df99b05c9797c1934548e7fb0fd",
+      "sha256": "a16830e90d43109582c61ff8b26e21b5a8257f01530369c3ffe620ecc4fe45b9",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "5ef626bb2b8d9a0fecc7aa09e9ed4a990c19f4e85c75014515a723b64d4c0652",
+      "sha256": "f3fb5f099d8d13034a3658b735568f3129e465cf261ffd12bbefa3ee4c63e801",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "9602c18022ed1c94623c95d42d902e57c62facb6ff3bae9582952675ea9d8b0a",
+      "sha256": "3801bfb81b6fa1006a8da4de462f55784868546c64f1604db2af22ad8a68bac4",
       "commonGrid": true
     }
   ],
   "layoutClients": [
     {
       "file": "preview/v3-wide-grid-v1/app.bundle.js",
-      "sha256": "00bb7115494d3e179a678bcc98b54bffaf7148c9aaeecc779904ed67eb52a495"
+      "sha256": "7bb4ce365627c7ff16caef17ea150ef10a87d30e3549bcbb7a2bc764cc6e2157"
     }
   ]
 }

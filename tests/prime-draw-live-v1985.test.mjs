@@ -134,7 +134,7 @@ test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출�
 
 test('슈트 코어와 스킬칩은 프라임 장비 CMS 후보로 준비되고 선택 시 인벤토리에 원자 지급된다',()=>{
   const backend=read('functions/_prime_draw.js'),cms=read('admin/prime-draw-admin-v1986.js'),catalog=read('functions/_battle_suit_materials.js');
-  assert.deepEqual(__primeDrawTest.PRIME_EQUIPMENT_ITEM_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SKILL_CHIP_ROCKET_LAUNCHER','SKILL_CHIP_HELICOPTER_AIRSTRIKE']);
+  assert.deepEqual(__primeDrawTest.PRIME_EQUIPMENT_ITEM_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SKILL_CHIP_ROCKET_LAUNCHER','SKILL_CHIP_HELICOPTER_AIRSTRIKE','SKILL_CHIP_OCTA_SEEKER']);
   assert.match(catalog,/BATTLE_SUIT_CORE_CATALOG/);
   assert.match(backend,/x\.reward_type='INVENTORY_ITEM'/);
   assert.match(backend,/i\.code IN \(\$\{PRIME_ITEM_PLACEHOLDERS\}\)/);

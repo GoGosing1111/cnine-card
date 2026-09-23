@@ -94,7 +94,7 @@ test('after ordinary rollback, legacy no-chip winners, RNG stream, cadence and e
 test('PVP does not enable the PVE chip clock even if a support object contains chips',()=>{
   const normal=createPveBattleV2(options);
   const fighter=normal.teams.A.cards[0];
-  const support=buildBattleSuitFighter({...suit,skillChips:[ROCKET]},1);
+  const support=buildBattleSuitFighter({...suit,skillChips:SKILL_CHIP_CATALOG.map(chip=>chip.code)},1);
   const result=simulateBattleV2Preview({teamA:[{...fighter,alive:true},support],teamB:[{...fighter,id:'B:0:PVP',side:'B',alive:true}],maxActions:20,seed:1});
   assert.ok(!result.timeline.some(e=>e.combatClock||e.type.startsWith('SKILL_CHIP')));
 });

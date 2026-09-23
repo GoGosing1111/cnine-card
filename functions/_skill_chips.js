@@ -1,6 +1,7 @@
 import {SKILL_CHIP_CATALOG,SKILL_CHIP_MAX_SLOTS,SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_BALANCE_STATUS,skillChipByCode} from '../shared/battle-suit-skill-chips.mjs';
 
-const MIGRATION_KEY='safe_runtime_upgrade_v2046_skill_chip_loadout';
+// Catalog-only revision: existing schema, holdings, loadouts and CMS edits stay intact.
+const MIGRATION_KEY='safe_runtime_upgrade_skill_chip_catalog_octaseeker_20260924';
 const LOADOUT_SCHEMA=`CREATE TABLE IF NOT EXISTS user_skill_chip_loadout_v2046 (
   user_id INTEGER NOT NULL,slot_no INTEGER NOT NULL CHECK(slot_no BETWEEN 1 AND 3),item_code TEXT NOT NULL,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,slot_no),UNIQUE(user_id,item_code)

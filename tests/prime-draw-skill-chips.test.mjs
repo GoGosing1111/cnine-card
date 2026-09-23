@@ -5,7 +5,7 @@ import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {handleSkillChips} from '../functions/_skill_chips.js';
 
-const ROCKET='SKILL_CHIP_ROCKET_LAUNCHER',HELI='SKILL_CHIP_HELICOPTER_AIRSTRIKE',BOX='PRIME_EQUIPMENT_SUPPLY_BOX';
+const ROCKET='SKILL_CHIP_ROCKET_LAUNCHER',HELI='SKILL_CHIP_HELICOPTER_AIRSTRIKE',OCTA='SKILL_CHIP_OCTA_SEEKER',BOX='PRIME_EQUIPMENT_SUPPLY_BOX';
 let fixtureId=0;
 class SqliteD1 {
   constructor(){this.db=new DatabaseSync(':memory:');}
@@ -54,17 +54,17 @@ async function fixture(t,dialect){
 }
 
 for(const dialect of ['sqlite','postgres']){
-  test(`${dialect}: CMS exposes the two chip candidates without assigning rewards or changing probabilities`,async t=>{
+  test(`${dialect}: CMS exposes the three chip candidates without assigning rewards or changing probabilities`,async t=>{
     const f=await fixture(t,dialect),before=await f.q('SELECT * FROM prime_equipment_draw_pool_v1985');
     const {body,status}=await f.call('admin/prime-draw/status');assert.equal(status,200);
     const chips=body.catalog.inventory_item.filter(row=>row.category==='SKILL_CHIP');
-    assert.deepEqual(chips.map(row=>[row.code,row.name,row.rewardType]),[[ROCKET,'로켓런처 스킬칩','INVENTORY_ITEM'],[HELI,'헬기폭격 스킬칩','INVENTORY_ITEM']]);
+    assert.deepEqual(chips.map(row=>[row.code,row.name,row.rewardType]),[[ROCKET,'로켓런처 스킬칩','INVENTORY_ITEM'],[HELI,'헬기폭격 스킬칩','INVENTORY_ITEM'],[OCTA,'8방향 유도탄 스킬칩','INVENTORY_ITEM']]);
     assert.ok(chips.every(row=>row.image.endsWith('.webp')));
     assert.equal(body.catalog.inventory_item.filter(row=>row.category==='MATERIAL').length,6);
     assert.deepEqual(body.equipment.pool.entries.map(row=>[row.code,row.drawWeight]),[['EQUIP_1',100]]);
     assert.deepEqual(await f.q('SELECT * FROM prime_equipment_draw_pool_v1985'),before);
     assert.deepEqual(await f.q('SELECT * FROM prime_draw_extra_pool_v1987'),[]);
-    assert.equal(await f.quantity(ROCKET),0);assert.equal(await f.quantity(HELI),0);
+    assert.equal(await f.quantity(ROCKET),0);assert.equal(await f.quantity(HELI),0);assert.equal(await f.quantity(OCTA),0);
     await f.call('admin/prime-draw/status');
     assert.deepEqual(await f.q('SELECT * FROM prime_draw_extra_pool_v1987'),[]);
   });
@@ -109,7 +109,7 @@ for(const dialect of ['sqlite','postgres']){
     assert.deepEqual(await f.q('SELECT * FROM prime_equipment_draw_pool_v1985'),before);
     assert.deepEqual(await f.q('SELECT * FROM prime_draw_extra_pool_v1987'),[]);
     const status=await f.call('admin/prime-draw/status');
-    assert.deepEqual(status.body.catalog.inventory_item.filter(row=>row.category==='SKILL_CHIP').map(row=>row.code),[HELI]);
+    assert.deepEqual(status.body.catalog.inventory_item.filter(row=>row.category==='SKILL_CHIP').map(row=>row.code),[HELI,OCTA]);
     assert.equal((await f.save({[HELI]:100})).status,200);
     await f.db.prepare('UPDATE inventory_items SET is_active=0 WHERE code=?').bind(HELI).run();
     assert.equal((await f.open('inactive-chip')).status,503);assert.equal(await f.quantity(BOX),12);

@@ -984,8 +984,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.5.0-apocalypse-legion',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923',
-      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260924',
+      'js/battle-v3-live.js?v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260924'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'

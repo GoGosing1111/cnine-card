@@ -33,6 +33,10 @@
     "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
     "preview/battle-suit-skill-chip-v1/source/SkillChipFX.js",
     "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
+    "preview/battle-suit-octaseeker-v1/source/sequence.mjs",
+    "preview/battle-suit-octaseeker-v1/assets/textures/frame-origins.json",
+    "preview/battle-suit-octaseeker-v1/source/OctaSeekerFX.js",
+    "preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js",
     "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
     "assets/ui/project-v/account-battle-suits/z-sword-v1/manifest.json",
     "preview/project-v-v3/source/battle/ZBodyDashProfile.mjs",
@@ -80,10 +84,6 @@
     "preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js",
     "pve-v3/BattleEngine.js",
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
-    "preview/battle-suit-octaseeker-v1/source/sequence.mjs",
-    "preview/battle-suit-octaseeker-v1/assets/textures/frame-origins.json",
-    "preview/battle-suit-octaseeker-v1/source/OctaSeekerFX.js",
-    "preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js",
     "preview/battle-suit-octaseeker-v1/source/lab.src.js"
   ],
   "assets": [
@@ -115,5 +115,5 @@
       "runtime": "assets/textures/chip.webp"
     }
   ],
-  "outputBytes": 1226945
+  "outputBytes": 1229112
 }

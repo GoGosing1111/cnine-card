@@ -1,7 +1,7 @@
 {
   "generator": "BUILT_IN_IMAGEGEN",
   "processing": "RESIZE_AND_LOSSLESS_ENCODE_ONLY",
-  "status": "RESOURCE_READY_RUNTIME_CONFIGURATION_PENDING",
+  "status": "USER_APPROVED_LIVE_CATALOG_20260924",
   "assets": [
     {
       "name": "rocket-launcher",
@@ -30,6 +30,18 @@
       "pngSha256": "43ff3b5057e7b18eef04017c518cce4076a9e6eaec0d7938eef740b55fc117d6",
       "webpSha256": "0c14031e42074babc22339bae070c02370bbf6835e043dd8c0308dda331876ed",
       "bytes": 317156
+    },
+    {
+      "name": "octa-seeker",
+      "source": "/preview/battle-suit-octaseeker-v1/assets/generated/chip-source.png",
+      "sourceSha256": "78905e45d69c1e744ce6fe3818e18e3abbefc62b54101093d55fdd7264733c06",
+      "image": "octa-seeker-v1.webp",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "pngSha256": "47cd5be8737d5807356aa57de591aae4269c0f0301222a14c851d8b738858b7c",
+      "webpSha256": "c6f7ab16b0a14fb94aefe146702cd7ebb9d49405b357503eb2a670dc2358845c",
+      "bytes": 325752
     }
   ]
 }

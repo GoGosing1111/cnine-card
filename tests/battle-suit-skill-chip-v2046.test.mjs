@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import {ensureSkillChipFoundation,handleSkillChips,skillChipPayload} from '../functions/_skill_chips.js';
 import {SKILL_CHIP_CATALOG,SKILL_CHIP_MAX_SLOTS,SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_BALANCE_STATUS,skillChipByCode,skillChipDamage} from '../shared/battle-suit-skill-chips.mjs';
 
-const ROCKET='SKILL_CHIP_ROCKET_LAUNCHER',HELI='SKILL_CHIP_HELICOPTER_AIRSTRIKE';
+const ROCKET='SKILL_CHIP_ROCKET_LAUNCHER',HELI='SKILL_CHIP_HELICOPTER_AIRSTRIKE',OCTA='SKILL_CHIP_OCTA_SEEKER';
 class Statement {
   constructor(owner,sql,values=[]){Object.assign(this,{owner,sql,values});}
   bind(...values){return new Statement(this.owner,this.sql,values);}
@@ -51,14 +51,14 @@ async function call(env,path,body,{userId=7,method='POST'}={}){
   return {status:response.status,...await response.json()};
 }
 
-test('catalog fixes the approved multipliers and independent 3s / 15s intervals',()=>{
+test('catalog fixes the approved multipliers and independent 3s / 15s / 17s intervals',()=>{
   assert.equal(SKILL_CHIP_MAX_SLOTS,3);
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5]]);
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5],[OCTA,10]]);
   assert.ok(Object.isFrozen(SKILL_CHIP_CATALOG)&&SKILL_CHIP_CATALOG.every(Object.isFrozen));
   assert.equal(skillChipByCode('unknown'),null);
   assert.equal(SKILL_CHIP_RUNTIME_ENABLED,true);
   assert.equal(SKILL_CHIP_BALANCE_STATUS,null);
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>chip.intervalMs),[3000,15000]);
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>chip.intervalMs),[3000,15000,17000]);
 });
 test('independent formula rounds once and rejects unsafe or invalid amounts',()=>{
   assert.equal(skillChipDamage(100,ROCKET),250);
@@ -70,7 +70,7 @@ test('independent formula rounds once and rejects unsafe or invalid amounts',()=
 });
 test('foundation creates only catalog entries and never grants or consumes a chip',async t=>{
   const env=await setup(t);
-  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,2);
+  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,3);
   assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM cnine_user_inventory').get().n,0);
   const payload=await skillChipPayload(env,7);
   assert.deepEqual(payload.loadout,[null,null,null]);
@@ -84,7 +84,22 @@ test('foundation is idempotent and does not overwrite CMS state or existing inve
   await ensureSkillChipFoundation(env);await ensureSkillChipFoundation(env);
   assert.deepEqual({...env.DB.db.prepare('SELECT is_active,name FROM inventory_items WHERE code=?').get(ROCKET)},{is_active:0,name:'관리자 이름'});
   assert.equal(env.DB.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code=?').get(ROCKET).quantity,10);
-  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,2);
+  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,3);
+});
+test('existing catalog marker gains only the new chip and all three slots retain ownership guards',async t=>{
+  const env=await setup(t);
+  env.DB.db.exec("DELETE FROM app_meta; INSERT INTO app_meta(key,value) VALUES('safe_runtime_upgrade_v2046_skill_chip_loadout','1'); DELETE FROM inventory_items WHERE code='SKILL_CHIP_OCTA_SEEKER'");
+  own(env,7,ROCKET,4);own(env,7,HELI,2);
+  await call(env,'/equip',{slot:1,code:ROCKET});await call(env,'/equip',{slot:2,code:HELI});
+  assert.equal((await call(env,'/equip',{slot:3,code:OCTA})).status,403);
+  own(env,7,OCTA,1);
+  assert.equal((await call(env,'/equip',{slot:3,code:OCTA})).status,200);
+  assert.equal((await call(env,'/equip',{slot:1,code:OCTA})).status,409);
+  await ensureSkillChipFoundation(env);
+  assert.deepEqual((await skillChipPayload(env,7)).loadout,[ROCKET,HELI,OCTA]);
+  assert.equal(env.DB.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code=?').get(OCTA).quantity,1);
+  own(env,7,OCTA,0);
+  assert.deepEqual((await skillChipPayload(env,7)).loadout,[ROCKET,HELI,null]);
 });
 test('PostgreSQL uses the adapter schema escape hatch, not ignored prepared DDL',async t=>{
   const env=await setup(t,'postgres');
@@ -174,7 +189,7 @@ test('inventory seeds the chip catalog but chips are equipped, never consumed th
 });
 test('each registry icon has 512px transparent PNG and lossless WebP with recorded provenance',async()=>{
   const manifest=JSON.parse(await readFile(new URL('../assets/ui/project-v/skill-chips/manifest-v1.json',import.meta.url),'utf8'));
-  assert.equal(manifest.assets.length,2);
+  assert.equal(manifest.assets.length,3);
   for(const chip of SKILL_CHIP_CATALOG){
     const path=new URL(`..${chip.image}`,import.meta.url),bytes=await readFile(path),metadata=await sharp(bytes).metadata();
     assert.equal(metadata.width,512);assert.equal(metadata.height,512);assert.equal(metadata.hasAlpha,true);

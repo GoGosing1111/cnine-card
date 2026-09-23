@@ -25,10 +25,10 @@ const textures=()=>({flight:Array(24).fill(Texture.EMPTY),impact:Array(24).fill(
   smoke:Texture.EMPTY,dust:Texture.EMPTY,flash:Texture.EMPTY,cinder:Texture.EMPTY});
 const snapshot=fx=>fx.sprites.map(s=>s.visible?[s.x,s.y,s.width,s.height,s.rotation,s.alpha,s.anchor.x,s.anchor.y]:null);
 
-test('new chip is a disabled independent draft without invented balance or acquisition',()=>{
-  assert.equal(CHIP_DRAFT.liveEnabled,false);assert.equal(CHIP_DRAFT.status,'USER_REVIEW_PENDING');
-  for(const key of ['damageMultiplier','intervalMs','acquisition'])assert.equal(CHIP_DRAFT[key],null);
-  assert.ok(!SKILL_CHIP_CATALOG.some(c=>c.code===CHIP_DRAFT.code));
+test('approved chip reads x10 / 17s from the shared catalog without inventing acquisition',()=>{
+  assert.equal(CHIP_DRAFT.liveEnabled,true);assert.equal(CHIP_DRAFT.status,'USER_APPROVED_20260924');
+  assert.equal(CHIP_DRAFT.damageMultiplier,10);assert.equal(CHIP_DRAFT.intervalMs,17000);assert.equal(CHIP_DRAFT.acquisition,null);
+  assert.equal(SKILL_CHIP_CATALOG.find(c=>c.code===CHIP_DRAFT.code).damageMultiplier,10);
   assert.deepEqual([...ARRIVAL_ORDER].sort((a,b)=>a-b),[0,1,2,3,4,5,6,7]);
 });
 test('exactly eight distinct 45-degree launch directions, followed by one common endpoint',()=>{
@@ -136,7 +136,7 @@ test('generated atlases have 24 distinct RGBA frames, transparent gutters and lo
   const icon=await sharp(await readFile(new URL('assets/textures/chip.webp',base))).metadata();
   assert.equal(icon.width,512);assert.equal(icon.height,512);assert.ok(icon.hasAlpha);
 });
-test('existing engine, source-art adapters and grade frames are reused; live code has no new connection',async()=>{
+test('existing engine, source-art adapters and grade frames are reused; preview never mutates accounts',async()=>{
   const html=await read('battle.html'),source=await read('source/lab.src.js'),report=JSON.parse(await read('build-report.json'));
   assert.equal(report.pixiCopies,1);assert.equal(report.pixi,'8.20.0');assert.equal(report.gsap,'3.13.0');
   assert.match(source,/ProjectVBattleV3Live\.createRenderer/);
@@ -144,7 +144,7 @@ test('existing engine, source-art adapters and grade frames are reused; live cod
   for(const name of ['card','battle-v3-live','zenith-v1','superstar-v1','faker-card-v1'])assert.ok(html.includes(`/css/${name}.css`));
   assert.doesNotMatch(source,/\/api\/|localStorage\.setItem|sessionStorage\.setItem|\.setHp\(/);
   assert.doesNotMatch(await read('preview.css'),/\.battle-v3-roster|\.card-frame|\.battle-v3-dock/);
-  for(const file of ['index.html','js/app.js','js/character-loadout-v2.js','functions/api/[[path]].js','shared/battle-suit-skill-chips.mjs']){
+  for(const file of ['index.html','js/character-loadout-v2.js','functions/api/[[path]].js']){
     assert.doesNotMatch(await readFile(new URL('../'+file,import.meta.url),'utf8'),/octaseeker|OCTA_SEEKER/);
   }
 });

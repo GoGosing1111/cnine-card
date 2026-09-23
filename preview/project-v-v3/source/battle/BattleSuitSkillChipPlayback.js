@@ -1,7 +1,9 @@
 import {gsap} from 'gsap';
 import {SKILL_CHIP_CLOCK,skillChipByCode} from '../../../../shared/battle-suit-skill-chips.mjs';
 import {SkillChipFX} from '../../../battle-suit-skill-chip-v1/source/SkillChipFX.js';
-import {SkillChipAudio} from '../../../battle-suit-skill-chip-v1/source/SkillChipAudio.js';
+import {AUDIO_FILES} from '../../../battle-suit-skill-chip-v1/source/SkillChipAudio.js';
+import {OctaSeekerFX} from '../../../battle-suit-octaseeker-v1/source/OctaSeekerFX.js';
+import {OctaSeekerAudio} from '../../../battle-suit-octaseeker-v1/source/OctaSeekerAudio.js';
 
 const finite=value=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value));
 export const isSkillChipTimeline=events=>events.some(event=>event.combatClock===SKILL_CHIP_CLOCK);
@@ -10,7 +12,7 @@ const deadline=(promise,ms,fallback)=>{
   return Promise.race([promise,new Promise(resolve=>{timer=setTimeout(()=>resolve(fallback),ms);})]).finally(()=>clearTimeout(timer));
 };
 
-// One pausable game clock owns both chips. Ordinary V3 animations remain on the
+// One pausable game clock owns all chips. Ordinary V3 animations remain on the
 // existing engine; no timer computes damage, invents casts, or changes a roster.
 export class BattleSuitSkillChipPlayback{
   constructor(engine,events,{beforeEvent=null,afterEvent=null,sequential=false,isPaused=()=>false}={}){
@@ -32,7 +34,7 @@ export class BattleSuitSkillChipPlayback{
       else this.groups.push({key,at:lastAt,external,blocking:external||Number(event.combatGroupDurationMs)>0,events:[event]});
     }
     this.endMs=Math.max(1,...events.map(event=>Number(event.combatAtMs)||0),...events.filter(event=>event.type==='SKILL_CHIP_CAST').map(event=>(Number(event.combatAtMs)||0)+(skillChipByCode(event.chipCode)?.effectDurationMs||0)));
-    this.audio=new SkillChipAudio({sharedContext:globalThis.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT||null});
+    this.audio=new OctaSeekerAudio({sharedContext:globalThis.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT||null,files:AUDIO_FILES});
   }
   valid(){return this.active&&this.engine.visible&&this.engine.playbackEpoch===this.epoch;}
   play(){
@@ -44,13 +46,19 @@ export class BattleSuitSkillChipPlayback{
       // Load once before starting the battle clock. Optional sound failures do
       // not discard server events; there is no synthetic replacement sound.
       const hasCasts=this.events.some(event=>event.type==='SKILL_CHIP_CAST');
+      const hasOcta=this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&skillChipByCode(event.chipCode)?.effectKey==='octaseeker');
+      const hasLegacy=this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&skillChipByCode(event.chipCode)?.effectKey!=='octaseeker');
       const sound=hasCasts&&this.engine.audio?.enabled?.()!==false;
       const [,audioReady]=await Promise.all([
-        hasCasts?SkillChipFX.preload().then(textures=>{
+        hasLegacy?SkillChipFX.preload().then(textures=>{
           if(this.valid())this.textures=textures;
           else textures.frames.forEach(frame=>frame.destroy(false));
         }):null,
-        sound?deadline(this.audio.unlock().catch(()=>false),2500,false):false
+        sound?deadline(this.audio.unlock().catch(()=>false),2500,false):false,
+        hasOcta?OctaSeekerFX.preload().then(textures=>{
+          if(this.valid())this.octaTextures=textures;
+          else [...textures.flight,...textures.impact].forEach(frame=>frame.destroy(false));
+        }):null
       ]);
       if(!this.valid()){this.cancel();return;}
       this.audio.setEnabled(Boolean(audioReady&&sound));
@@ -92,7 +100,8 @@ export class BattleSuitSkillChipPlayback{
     // The server omits impacts when this target died during anticipation. Do
     // not launch a cosmetic missile into that empty slot or a replacement mob.
     if(!hits.length||!target?.root?.visible||target.id!==event.targetId||target.battleActive===false){this.suppressedCasts++;return;}
-    const fx=new SkillChipFX(this.engine,this.textures);fx.shake=false;fx.target=target;
+    const fx=chip.effectKey==='octaseeker'?new OctaSeekerFX(this.engine,this.octaTextures,()=>{},{serverDriven:true}):new SkillChipFX(this.engine,this.textures);
+    fx.shake=false;fx.target=target;
     fx.select(chip.effectKey);fx.bindTarget(event.targetId);fx.timeline.pause();
     const at=Math.max(Number(event.combatAtMs)/1000||0,this.clock.time);
     this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started:!this.sequential,targetId:event.targetId,impacts:new Map(),scheduledImpacts:new Map()});
@@ -206,6 +215,7 @@ export class BattleSuitSkillChipPlayback{
         const index=Number(event.hitIndex)||0,from=this.clock.time-entry.at;
         if(!entry.scheduledImpacts.has(index)){
           entry.scheduledImpacts.set(index,Math.max(entry.chip.impactOffsetsMs[index]/1000,from+this.audio.presentationLead(this.rate)));
+          entry.fx.scheduleImpact?.(index,entry.scheduledImpacts.get(index));
           this.audio.schedule(entry.chip.effectKey,from,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[index]});
         }
         return from+.001<entry.scheduledImpacts.get(index);
@@ -266,6 +276,7 @@ export class BattleSuitSkillChipPlayback{
     if(this.renderTick)this.engine.app?.ticker?.remove(this.renderTick);this.renderTick=null;
     for(const {fx} of this.fx.values())fx.destroy();this.fx.clear();
     this.textures?.frames.forEach(frame=>frame.destroy(false));this.textures=null;
+    if(this.octaTextures)[...this.octaTextures.flight,...this.octaTextures.impact].forEach(frame=>frame.destroy(false));this.octaTextures=null;
     void this.audio.destroy();
   }
   cancel(){if(!this.active)return;this.dispose();this.resolve?.(false);}

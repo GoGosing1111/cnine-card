@@ -7,6 +7,9 @@ import {fileURLToPath} from 'node:url';
 const dir=path.dirname(fileURLToPath(import.meta.url));
 const out=path.join(dir,'assets/textures');await mkdir(out,{recursive:true});
 const origins={},assets=[];
+const codeOnly=process.argv.includes('--code-only');
+if(codeOnly)assets.push(...JSON.parse(await readFile(path.join(dir,'build-report.json'),'utf8')).assets);
+if(!codeOnly){
 for(const key of ['flight','impact']){
   const input=path.join(dir,`assets/generated/${key}-atlas.png`),bytes=await readFile(input);
   const {data,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});
@@ -33,6 +36,7 @@ const icon=await readFile(path.join(dir,'assets/generated/chip-source.png'));
 await sharp(icon).resize(512,512,{fit:'contain',background:{r:0,g:0,b:0,alpha:0}}).png().toFile(path.join(out,'chip.png'));
 await sharp(icon).resize(512,512,{fit:'contain',background:{r:0,g:0,b:0,alpha:0}}).webp({lossless:true,effort:6}).toFile(path.join(out,'chip.webp'));
 assets.push({path:'assets/generated/chip-source.png',sha256:createHash('sha256').update(icon).digest('hex'),runtime:'assets/textures/chip.webp'});
+}
 const result=await build({entryPoints:[path.join(dir,'source/lab.src.js')],bundle:true,minify:true,format:'iife',
   outfile:path.join(dir,'lab.bundle.js'),legalComments:'eof',metafile:true});
 const bundlePath=path.join(dir,'lab.bundle.js');
@@ -41,4 +45,4 @@ const inputs=Object.keys(result.metafile.inputs).map(p=>p.replaceAll('\\','/'));
 await writeFile(path.join(dir,'build-report.json'),JSON.stringify({engineSource:'preview/project-v-v3/source/project-v-pixi-battle.src.js',
   pixi:'8.20.0',gsap:'3.13.0',pixiCopies:inputs.filter(p=>p.endsWith('/pixi.js/lib/index.mjs')).length,
   inputs:inputs.filter(p=>!p.includes('node_modules')),assets,outputBytes:Buffer.byteLength(bundle)},null,2)+'\n');
-console.log('8-way homing preview built. Live catalog, balance, bundle and APIs unchanged.');
+console.log('8-way homing preview built'+(codeOnly?' (code only; approved asset bytes preserved).':'.'));

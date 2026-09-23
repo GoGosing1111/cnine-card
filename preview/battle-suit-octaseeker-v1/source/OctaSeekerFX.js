@@ -1,6 +1,6 @@
 import {Assets,Container,Sprite,Graphics,Texture,Rectangle} from 'pixi.js';
 import {gsap} from 'gsap';
-import {SEQUENCE,clamp,smooth,flightPoint,rocketState,impactTime,launchTime,impactFrame} from './sequence.mjs';
+import {SEQUENCE,ARRIVAL_ORDER,clamp,smooth,flightPoint,rocketState,impactTime,launchTime,impactFrame} from './sequence.mjs';
 import origins from '../assets/textures/frame-origins.json' with {type:'json'};
 
 const BASE='/preview/battle-suit-octaseeker-v1/assets/textures/';
@@ -20,8 +20,9 @@ export class OctaSeekerFX {
     return {flight:frames(flight),impact:frames(impact),
       ...Object.fromEntries(['smoke','dust','flash','cinder'].map((name,i)=>[name,parts[i]]))};
   }
-  constructor(engine,textures,onUpdate=()=>{}) {
+  constructor(engine,textures,onUpdate=()=>{},{serverDriven=false}={}) {
     this.engine=engine;this.textures=textures;this.onUpdate=onUpdate;
+    this.serverDriven=serverDriven;this.confirmedImpacts=new Map();this.scheduledImpacts=new Map();
     this.clock={time:0};this.speed=1;this.shake=true;this.destroyed=false;this.key='octaseeker';
     this.ground=new Container({label:'OctaSeekerPreviewGround'});this.ground.depthSortY=-90000;
     this.front=new Container({label:'OctaSeekerPreviewFX'});
@@ -49,10 +50,19 @@ export class OctaSeekerFX {
   bindTarget(id) {
     const target=this.engine.enemies.find(e=>(id?e.id===id:true)&&e.battleActive!==false&&e.root.visible);
     this.target=target||null;this.targetId=target?.id;this.castPoints=this.readPoints();this.collisionPoints.clear();
+    this.confirmedImpacts.clear();this.scheduledImpacts.clear();
+  }
+  scheduleImpact(index,time){const rocket=ARRIVAL_ORDER.indexOf(index);if(rocket>=0)this.scheduledImpacts.set(rocket,time)}
+  confirmImpact(index,time){
+    const rocket=ARRIVAL_ORDER.indexOf(index),target=this.target;
+    if(rocket<0||this.confirmedImpacts.has(rocket)||target?.id!==this.targetId||!target?.root.visible)return false;
+    const points=this.readPoints()||this.castPoints;if(!points)return false;
+    this.collisionPoints.set(rocket,structuredClone(points));this.confirmedImpacts.set(rocket,time);return true;
   }
   readPoints() {
     const target=this.target,unit=this.engine.accountBattleUnit;
     if(!unit||!target||target.id!==this.targetId||target.battleActive===false||!target.root.visible)return null;
+    if(this.serverDriven&&Number.isFinite(target.hp)&&target.hp<=0)return null;
     const {x,y}=target.root;
     return {source:{...unit.muzzlePoint()},hit:{x,y:y-62},blast:{x,y}};
   }
@@ -61,7 +71,7 @@ export class OctaSeekerFX {
   seek(time){
     if(this.destroyed)return;
     const next=clamp(time,0,SEQUENCE.duration);
-    if(next<this.time)this.collisionPoints.clear();
+    if(next<this.time){this.collisionPoints.clear();this.confirmedImpacts.clear();this.scheduledImpacts.clear();}
     if(next===0)this.castPoints=this.readPoints();
     this.timeline.pause().time(next,true);this.render(this.clock.time);this.onUpdate(this.time);
   }
@@ -89,7 +99,12 @@ export class OctaSeekerFX {
     }
     let shake=0;
     this.rockets.forEach((rocket,i)=>{
-      const end=impactTime(i),start=launchTime(i),state=live?rocketState(i,time,points):null;
+      const end=impactTime(i),start=launchTime(i),confirmed=this.confirmedImpacts.get(i);
+      const scheduled=this.scheduledImpacts.get(i)??end;
+      // The server's collision lane may wait for a card/QTE. Stretch flight to
+      // that presentation time; only confirmImpact can ignite a live explosion.
+      const flightTime=this.serverDriven?Math.min(end-.0001,start+Math.max(0,time-start)*(end-start)/Math.max(.001,scheduled-start)):time;
+      const state=live&&confirmed===undefined&&time>=start?rocketState(i,flightTime,points):null;
       if(state){
         const s=rocket.body;s.visible=true;s.texture=this.textures.flight[state.frame];
         const pivot=origins.flight[state.frame];s.anchor.set(pivot.x,pivot.y);
@@ -98,23 +113,24 @@ export class OctaSeekerFX {
       // Deterministic birth times make pause/reverse seek reconstruct identical trails.
       const frozen=this.collisionPoints.get(i)||points;
       for(let n=0;n<rocket.smoke.length;n++){
-        const birth=start+(end-start)*n/(rocket.smoke.length-1),age=time-birth;
+        const birth=start+(end-start)*n/(rocket.smoke.length-1),age=(this.serverDriven&&confirmed===undefined?flightTime:time)-birth;
         if(age<0||age>.52||(!live&&!this.collisionPoints.has(i)))continue;
         const p=flightPoint(i,birth,frozen.source,frozen.hit),s=rocket.smoke[n];
         s.visible=true;s.position.set(p.x,p.y-age*22);s.rotation=n*.91+i;
         this.sized(s,(12+age*45)*scale,(10+age*32)*scale);s.alpha=(1-age/.52)*.31;
       }
       // Thin hot core, smoky body supplied by evolving raster frames and trail pool.
-      if(live&&time>=start&&time<end+.18){
-        const tailStart=Math.max(start,time-.16),tailEnd=Math.min(time,end);
+      if(live&&time>=start&&confirmed===undefined&&flightTime<end+.18){
+        const tailStart=Math.max(start,flightTime-.16),tailEnd=Math.min(flightTime,end);
         for(let n=1;n<=12;n++){
           const a=flightPoint(i,tailStart+(tailEnd-tailStart)*(n-1)/12,points.source,points.hit);
           const b=flightPoint(i,tailStart+(tailEnd-tailStart)*n/12,points.source,points.hit);
-          const alpha=(n/12)*.6*(1-clamp((time-end)/.18));
+          const alpha=(n/12)*.6*(1-clamp((flightTime-end)/.18));
           this.trails.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({width:(2+n*.3)*scale,color:0xff8229,alpha});
         }
       }
-      const age=time-end,frame=impactFrame(age);
+      if(this.serverDriven&&confirmed===undefined)return;
+      const age=time-(confirmed??end),frame=impactFrame(age);
       if(!frame)return;
       if(!this.collisionPoints.has(i)&&live)this.collisionPoints.set(i,structuredClone(points));
       const collision=this.collisionPoints.get(i);if(!collision)return;

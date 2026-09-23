@@ -1,8 +1,8 @@
-// Presentation only. No damage, cooldown, inventory or acquisition policy.
+import {skillChipByCode} from '../../../shared/battle-suit-skill-chips.mjs';
+// Approved 2026-09-24. Combat balance has one server/client catalog authority.
 export const CHIP_DRAFT = Object.freeze({
-  code: 'SKILL_CHIP_OCTA_SEEKER', name: '8방향 유도탄', effectKey: 'octaseeker',
-  status: 'USER_REVIEW_PENDING', liveEnabled: false,
-  damageMultiplier: null, intervalMs: null, acquisition: null,
+  ...skillChipByCode('SKILL_CHIP_OCTA_SEEKER'),
+  status: 'USER_APPROVED_20260924', liveEnabled: true, acquisition: null,
 });
 export const SEQUENCE = Object.freeze({
   key: 'octaseeker', duration: 3.2, release: .12, spreadDuration: .26,

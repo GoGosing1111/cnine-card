@@ -1,6 +1,6 @@
 # 배틀슈트 스킬칩 · 8방향 유도탄
 
-상태: **USER_REVIEW_PENDING / 독립 연출 프리뷰**. 운영 스킬칩 카탈로그·장비 탭·서버 피해·획득에 연결하지 않았다. 피해 배율, 발동 주기, 등급과 획득 방식은 미정이다.
+상태: **USER_APPROVED_20260924 / PVE 스킬칩 연결**. 사용자 승인으로 헬기폭격 총 피해의 2배(스킬 기준 피해 ×10), 후속 지정 **17초** 주기로 설정했다. 8발은 같은 적 1명에게 총 피해를 나눠 적용한다. 운영 카탈로그·장착·서버 전투에 연결하되 획득처·자동 지급·보상 풀은 추가하지 않는다. 이 독립 시연 화면은 실제 계정·재화·피해를 변경하지 않는다.
 
 ## 확인
 
@@ -20,7 +20,8 @@
 ## 구현과 자산
 
 - `source/OctaSeekerFX.js`: PixiJS의 기존 V3 `combatLayer`·`effectLayer`. 로켓 8발, 고정 개수 연기 풀, 8개 폭발 풀.
-- `source/sequence.mjs`: 결정적인 궤적·프레임·타이밍과 OFF 초안. 피해 계산 없음.
+- `source/sequence.mjs`: 결정적인 궤적·프레임·타이밍. 승인 수치는 공용 서버 카탈로그에서 읽으며 시각 코드에 피해 계산은 없다.
+- `../project-v-v3/source/battle/BattleSuitSkillChipPlayback.js`: 기존 GSAP 전투 시계가 서버 CAST/HIT를 재생한다. 독립 FX 시계는 정지하고 서버가 확정한 충돌 순서(8개 방향과 명중 순서는 별도 매핑)만 폭발·녹음 피크를 재생한다. 지연 충돌, 처치·재바인딩, 정지·배속·QTE·취소는 기존 수명주기를 따른다.
 - GSAP 단일 시간축이 탄체 위치·각도·연속 아틀라스·충돌·소멸을 함께 제어한다. 별도 Ticker/AnimatedSprite 시계 없음.
 - PixiJS **8.20.0**, GSAP **3.13.0**, 한 번들에 각 한 벌. 기존 V3 엔진·5장 카드 진형·등급 프레임·도크·아트 어댑터를 그대로 재사용한다. H-BODY 및 총기 승인 원본은 무변경이다.
 - 내장 ImageGen으로 전용 **추진 24프레임 + 폭발 24프레임 + 칩 아이콘**을 제작했다. 정지 이미지 이동만으로 만든 연출이 아니다. 원본 PNG, 무손실 WebP, 프롬프트, 해시는 [PROMPTS.md](./PROMPTS.md), [build-report.json](./build-report.json)에 보존한다.
@@ -34,6 +35,6 @@
 
 `node --test tests/battle-suit-octaseeker-preview-v1.test.mjs`
 
-검수 내역: [QA.md](./QA.md). 프리뷰 정적 파일 공개는 실전 기능 활성화가 아니다. 시각·음원 승인 및 별도 연결 지시, 실전 정책 확정 전에는 라이브 연결/자동 지급/마이그레이션을 추가하지 않는다.
+검수 내역: [QA.md](./QA.md). 2026-09-24 승인으로 라이브 연결 범위가 열렸다. 기존 보유 검증·3슬롯·중복 금지·PVE 전용 정책은 유지하며, 일반 사격/헬기폭격/로켓런처 수치와 사용자 재화는 바꾸지 않는다. 운영 반영 기록은 `docs/battle-suit-octaseeker-live-20260924.md`를 따른다.
 
 최상위 기준: `docs/project-v-skill-effects-standard.md`, `docs/battle-suit-skill-chip-v2046.md`.

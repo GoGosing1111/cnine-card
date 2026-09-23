@@ -14,7 +14,10 @@ const boostedSource=execFileSync('git',['show','9896118b99fedf29371a8ae08b9e62cf
 assert.match(boostedSource,/const BATTLE_SUIT_DAMAGE_MULTIPLIER = 12;/);
 const boostedResolvableSource=boostedSource.replace("'../shared/battle-suit-skill-chips.mjs'",JSON.stringify(new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href));
 const boosted=await import(`data:text/javascript;base64,${Buffer.from(boostedResolvableSource).toString('base64')}`);
-const chips=SKILL_CHIP_CATALOG.map(chip=>chip.code);
+// Historical rollback matrix covers the two chips released in V2063; the new
+// approved x10/17s chip has its own server/rounding matrix.
+const legacyChips=SKILL_CHIP_CATALOG.filter(chip=>chip.code!=='SKILL_CHIP_OCTA_SEEKER');
+const chips=legacyChips.map(chip=>chip.code);
 const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:`BUFF-${i}`,title:`BUFF ${i}`,rarity:'FUR',power_type,power:400000}));
 const weapons=['','EQ_1785427638137','EQ_1785961232958','EQ_1785961300455','EQ_1786966923833','EQ_1788486929132','EQ_1788486888336'];
 const monster={id:2063,name:'Damage regression target',battle_power:10000000,is_boss:1,pve_hp_percent:1200,pve_attack_percent:1,pve_shield_percent:10000,pve_speed_percent:1};
@@ -23,7 +26,7 @@ const suitShots=b=>b.result.timeline.filter(e=>e.type==='TURN'&&e.actorKind==='B
 
 test('all suits and weapon cadences restore pre-buff ordinary damage while retaining x3 skills and skill pierce',()=>{
   let checkedShots=0,checkedChipHits=0,checkedCasts=0,checkedCriticals=0,checkedPierces=0;
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>[chip.damageMultiplier,chip.intervalMs]),[[2.5,3000],[5,15000]],'chip coefficients and cooldowns must not receive a second x3');
+  assert.deepEqual(legacyChips.map(chip=>[chip.damageMultiplier,chip.intervalMs]),[[2.5,3000],[5,15000]],'chip coefficients and cooldowns must not receive a second x3');
   for(const apocalypse of [false,true])for(const [i,pvePower] of [100000,200000,300000].entries())for(const weaponCode of weapons)for(const seed of [1,2011]){
     const input={cards,battleSuit:{code:`BATTLE_SUIT_0${i+1}`,pvePower,weapon:{code:weaponCode},skillChips:chips},monster:{...monster,...(apocalypse?{pve_difficulty:'APOCALYPSE'}:{})},seed};
     const before=previous.createPveBattleV2(input),boostedBattle=boosted.createPveBattleV2(input),after=createPveBattleV2(input);

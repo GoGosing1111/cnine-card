@@ -1,15 +1,15 @@
 {
   "id": "battle-suit-octaseeker-v1",
-  "status": "USER_REVIEW_PENDING",
-  "scope": "INDEPENDENT_PREVIEW_ONLY",
-  "liveEnabled": false,
-  "serverDamageConnected": false,
-  "liveEquipmentTabConnected": false,
+  "status": "USER_APPROVED_20260924",
+  "scope": "PVE_BATTLE_SUIT_ONLY",
+  "liveEnabled": true,
+  "serverDamageConnected": true,
+  "liveEquipmentTabConnected": true,
   "chip": {
     "code": "SKILL_CHIP_OCTA_SEEKER",
     "name": "8방향 유도탄",
-    "damageMultiplier": null,
-    "intervalMs": null,
+    "damageMultiplier": 10,
+    "intervalMs": 17000,
     "acquisition": null
   },
   "referenceMotion": {
@@ -62,7 +62,7 @@
       1.44
     ],
     "impactLifeSeconds": 1.68,
-    "serverDamage": null
+    "serverDamage": "Helicopter total x2, split across 8 hits; existing skill damage basis unchanged"
   },
   "anchors": {
     "source": "Existing AccountBattleUnit.muzzlePoint(), frozen per cast",
@@ -127,5 +127,5 @@
     "automatedPeakErrorMsLessThan": 1,
     "physicalDeviceLoopbackVerified": false
   },
-  "approvalGate": "Visual/audio review followed by explicit live connection instruction and approved damage/cadence/acquisition settings"
+  "approvalGate": "User approved effect and helicopter total x2; follow-up specifies 17 seconds. No automatic grants, shop or reward-pool entries. Independent preview remains non-mutating."
 }
