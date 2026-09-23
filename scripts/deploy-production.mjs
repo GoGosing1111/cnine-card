@@ -3,9 +3,11 @@ import {createRequire} from 'node:module';
 import {dirname,join} from 'node:path';
 import {readFileSync} from 'node:fs';
 import {verifyProductionHyperdriveCache} from './verify-hyperdrive-cache.mjs';
+import {runScopedReleaseChecks} from './scoped-release-checks.mjs';
 
 const args=process.argv.slice(2),assetsOnly=args.length===1&&args[0]==='--assets-only';
-if(args.length&&!assetsOnly)throw Error('Supported option: --assets-only');
+const scoped=args.length===1&&args[0]==='--scoped';
+if(args.length&&!assetsOnly&&!scoped)throw Error('Supported options: --assets-only or --scoped');
 const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
 const run=(command,a,env=process.env)=>{const r=spawnSync(command,a,{stdio:'inherit',env});if(r.error)throw r.error;if(r.status!==0)process.exit(r.status||1);};
 const productionEnv={...process.env,CLOUDFLARE_ACCOUNT_ID:'1e7c59450a8b6e34a9d87f92ca02aeaa'};
@@ -41,14 +43,17 @@ if(assetsOnly){
   if(git('rev-parse','HEAD')!==git('rev-parse','origin/main'))throw Error('Push the release to origin/main first.');
   git('merge-base','--is-ancestor',base,'HEAD');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean);
-  const controls=new Set(['AGENTS.md','package.json','scripts/deploy-production.mjs','tests/project-v-zenith-sd-assets-v1.mjs']);
+  const controls=new Set(['AGENTS.md','package.json','scripts/deploy-production.mjs','scripts/scoped-release-checks.mjs','tests/scoped-release-policy-20260923.test.mjs','tests/project-v-zenith-sd-assets-v1.mjs']);
   if(changed.some(p=>!controls.has(p)&&! /^(assets|preview|docs)\//.test(p)&&!assetConnectionOnly(p,base)))throw Error('Runtime changes require the normal production release gate.');
   if(changed.includes('package.json')){
     const previous=JSON.parse(git('show',`${base}:package.json`)),current=JSON.parse(readFileSync('package.json','utf8'));
-    delete previous.scripts['deploy:production'];delete current.scripts['deploy:production'];
-    if(JSON.stringify(previous)!==JSON.stringify(current))throw Error('Only the deployment entry point may change in an asset-only release.');
+    for(const pkg of [previous,current])for(const name of Object.keys(pkg.scripts||{}))
+      if(name==='deploy:production'||name==='release:gate'||name.startsWith('test:'))delete pkg.scripts[name];
+    if(JSON.stringify(previous)!==JSON.stringify(current))throw Error('Only deployment/test scripts may change in an asset-only package update.');
   }
   console.log('Asset-only release: full game tests skipped by explicit user instruction.');
+}else if(scoped){
+  runScopedReleaseChecks({env:process.env,git,run,scripts:JSON.parse(readFileSync('package.json','utf8')).scripts});
 }else if(process.platform==='win32')run(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run release:gate']);
 else run('npm',['run','release:gate']);
 const wrangler=join(dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
