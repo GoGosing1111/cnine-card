@@ -6,6 +6,9 @@ import {handleMercenaryAccount} from '../functions/_mercenary_account_routes.js'
 import {hyperOpeningFeature} from '../functions/_hyper_pack_opening.js';
 import {hyperPackCatalogRow} from '../functions/_hyper_pack.js';
 import {readScrapyardStatus} from '../functions/_scrapyard.js';
+import forgeRelease from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
+import {jointHash} from '../functions/_joint_transactions.js';
+import {EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.mjs';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -84,6 +87,15 @@ if(process.env.JOINT_QA_BATTLE_SUIT==='1'){
 }
 f.deps.raidDeckPower=async(_env,uid,requested,mode)=>{if(requested!==null||!['PVE','TOWER'].includes(mode))throw Error('Saved deck required');return {ids,cards:catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],power:qaCardPower,base_power:qaCardPower,image:c.sourceArt})),power:qaCardPower*5+qaCharacterBonus.pve,characterBonus:qaCharacterBonus,battleSettings:{engine:{}}};};
 const native=process.env.JOINT_QA_NATIVE==='1';
+const scrapyardRecoveryQa=process.env.JOINT_QA_SCRAPYARD_RECOVERY==='1'?{loseNextResponse:true,runPosts:0,resultReads:0}:null;
+if(scrapyardRecoveryQa){
+ if(!native)throw Error('Scrapyard recovery QA requires the native isolated account');
+ await f.setting(EQUIPMENT_FORGE_RELEASE_KEY,{document:forgeRelease,sha256:await jointHash(forgeRelease)});
+ await f.setting('equipment_forge_public_settings_v1',{schemaVersion:1,revision:1,publicVisible:true,executionMode:'ON',notice:'ISOLATED QA'});
+ await f.p("INSERT INTO inventory_items(code,name,rarity,image_url) VALUES('EQUIPMENT_PROTECTION_TICKET','장비 보호권','SPECIAL','assets/items/equipment-protection-ticket-v1.webp') ON CONFLICT(code) DO NOTHING").run();
+ // Deterministic rare-drop hit only in this disposable local process.
+ crypto.getRandomValues=array=>array.fill(0);
+}
 const legionQa=process.env.JOINT_QA_APOCALYPSE==='1';
 if(native){
  await f.setting('mercenary_runtime_policy_v1',{...mercenary.policy,mode:process.env.JOINT_QA_MERCENARY_CODE?'TEST':'OFF',opening:{...mercenary.policy.opening,coinPerOpen:500000000}});
@@ -105,6 +117,10 @@ const send=(res,status,body,type='application/json')=>{res.writeHead(status,{'co
 const server=http.createServer(async(req,res)=>{try{
   if(req.headers.host!==hostname)return send(res,403,{error:'Local QA only'});
   const url=new URL(req.url,origin);
+  if(scrapyardRecoveryQa&&url.pathname==='/__qa/scrapyard-recovery'){
+   if(req.method==='POST'){let raw='';for await(const chunk of req)raw+=chunk;const controls=JSON.parse(raw||'{}');scrapyardRecoveryQa.loseNextResponse=controls.loseNextResponse===true;f.fail(controls.failSettlement?'INSERT INTO scrapyard_runs_v1676':'');}
+   return send(res,200,{...scrapyardRecoveryQa,items:(await f.p('SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=7').all()).results,receipts:(await f.p('SELECT request_id,status FROM scrapyard_run_receipts_v1676 WHERE user_id=7').all()).results,coin:await f.coin()});
+  }
   if(url.pathname==='/__qa/sz-loadout'&&req.method==='POST'){
     const assets=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/manifest-v2.json'),'utf8'));
     const advanced=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/sz-body-v2124.json'),'utf8'));
@@ -157,7 +173,12 @@ const server=http.createServer(async(req,res)=>{try{
       if(!['cow-room/v3/','scrapyard/v3/','admin/mercenaries','mercenar','hyper-pack','pve/v3/'].some(prefix=>apiPath.startsWith(prefix)))return send(res,200,{ok:true,enabled:false,items:[],commands:[],maintenance:{active:false}});
     }
     const handler=native&&(isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/opening')?handleMercenaryAccount:apiPath==='mercenary-codex'||apiPath==='admin/mercenaries'||apiPath.startsWith('admin/mercenaries/draw')?handleMercenaryCms:isForgeRuntimePath(apiPath)?handleForgeRuntimeReady:isMercenaryAccountPath(apiPath)||apiPath==='admin/mercenaries/runtime'?handleMercenaryAccountReady:handlePveV3Ready;
-    const response=await handler({path:apiPath,request,env:f.env,deps:f.deps});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;}
+    if(scrapyardRecoveryQa){if(apiPath==='scrapyard/v3/run')scrapyardRecoveryQa.runPosts++;if(apiPath==='scrapyard/v3/result')scrapyardRecoveryQa.resultReads++;}
+    const response=await handler({path:apiPath,request,env:f.env,deps:f.deps});
+    if(scrapyardRecoveryQa?.loseNextResponse&&apiPath==='scrapyard/v3/run'&&response.ok&&(await response.clone().json()).status==='COMPLETED'){
+      scrapyardRecoveryQa.loseNextResponse=false;return send(res,503,{error:'ISOLATED QA: response lost after commit'});
+    }
+    res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;}
   if(!['GET','HEAD'].includes(req.method))return send(res,405,{});
   if(process.env.JOINT_QA_FAIL_BATTLE==='1'&&url.pathname==='/preview/project-v-v3/project-v-pixi-battle.bundle.js')return send(res,503,'QA injected renderer load failure','text/plain');
   const rel=decodeURIComponent(url.pathname).replace(/^\/+/, '')||(native?'index.html':''),target=path.resolve(root,rel);

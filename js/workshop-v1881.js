@@ -136,6 +136,44 @@
   const mutationStillProcessing = error => /같은 .*처리 중|처리 중입니다/i.test(String(error?.message || ''));
   const mutationTransportUncertain = error => !Number(error?.status) || mutationStillProcessing(error);
   const mutationRetryMessage = label => `${label} 결과 응답을 아직 확인하지 못했습니다.\n재료·재화가 다시 소모되지 않도록 요청번호를 보존했습니다. 잠시 후 같은 버튼을 누르면 동일 요청을 안전하게 재확인합니다.`;
+  const scrapyardTransportUncertain = error => mutationTransportUncertain(error) || error?.retryable === true || error?.code === 'USER_ACTION_IN_PROGRESS' || [408, 425, 429].includes(Number(error?.status)) || Number(error?.status) >= 500;
+
+  async function requestScrapyardResult(ticket, isActive) {
+    // A lost POST response may already have committed. Read its receipt before
+    // resuming the same request, and let a live 120-second server lease finish.
+    const deadline = Date.now() + 150000;
+    let readResult = Boolean(ticket.reused), transportFailures = 0;
+    for (let attempt = 0; attempt < 100 && Date.now() < deadline; attempt += 1) {
+      if (!isActive()) return null;
+      let retryAfterMs = 1500;
+      try {
+        const result = readResult
+          ? await api(`scrapyard/v3/result?requestId=${encodeURIComponent(ticket.requestId)}`)
+          : await api('scrapyard/v3/run', { method: 'POST', body: JSON.stringify({ difficulty: ticket.target, requestId: ticket.requestId }) });
+        if (!isActive()) return null;
+        if (result.status === 'COMPLETED') return result;
+        if (result.status === 'NOT_FOUND') readResult = false;
+        else if (result.status === 'RUNNING') {
+          if (result.requestId && result.requestId !== ticket.requestId) {
+            ticket.requestId = result.requestId;
+            ticket.target = String(result.difficulty || ticket.target);
+            mutationSlot('scrapyard', { ...ticket });
+            persistPendingRequests();
+          }
+          readResult = result.canResume !== true && result.code !== 'SCRAPYARD_V3_SETTLEMENT_PENDING';
+          retryAfterMs = Math.max(1000, Math.min(5000, Number(result.retryAfterMs) || 1500));
+        } else throw Object.assign(new Error('원정 결과를 확인하고 있습니다.'), { status: 502 });
+        transportFailures = 0;
+      } catch (error) {
+        if (!scrapyardTransportUncertain(error) || ++transportFailures >= 6) throw error;
+        readResult = true;
+        retryAfterMs = Math.min(5000, 1000 * transportFailures);
+      }
+      if (!isActive()) return null;
+      await wait(retryAfterMs);
+    }
+    throw new Error('같은 폐차장 원정의 결과를 확인 중입니다. 요청번호는 보존됩니다.');
+  }
 
   const workshopMounted = () => Boolean(document.getElementById('workshopRootV1881'));
   const scrapyardMounted = () => Boolean(document.getElementById('scrapyardRootV1881'));
@@ -549,11 +587,28 @@
       if (loadVersion !== scrapyardLoadVersion || syncVersion !== scrapyardSyncVersion || epoch !== routeEpoch || !scrapyardMounted()) return;
       scrapyardState = nextState;
       renderScrapyard();
+      void resumeScrapyardOnEntry(loadVersion, syncVersion, epoch);
     } catch (error) {
       if (loadVersion !== scrapyardLoadVersion || syncVersion !== scrapyardSyncVersion || epoch !== routeEpoch || !scrapyardMounted()) return;
       root.innerHTML = `<div class="ws76-error"><b>폐차장 연결 실패</b><span>${esc(error.message)}</span><button type="button">다시 시도</button></div>`;
       root.querySelector('button')?.addEventListener('click', bindScrapyardView);
     }
+  }
+
+  async function resumeScrapyardOnEntry(loadVersion, syncVersion, epoch) {
+    const session = sessionIdentity();
+    const active = () => session === sessionIdentity() && loadVersion === scrapyardLoadVersion && syncVersion === scrapyardSyncVersion && epoch === routeEpoch && scrapyardMounted() && !scrapyardBusy;
+    try {
+      let pending = currentMutationRequest('scrapyard');
+      if (!pending) {
+        const recovery = await api('scrapyard/v3/status');
+        if (!active() || recovery.status !== 'RUNNING') return;
+        pending = { requestId: recovery.requestId, target: String(recovery.difficulty), session: mutationSession(), createdAt: Date.now() };
+        mutationSlot('scrapyard', pending);
+        persistPendingRequests();
+      }
+      if (active()) await runScrapyard(pending.target);
+    } catch (error) { console.warn('[scrapyard] recovery lookup failed', error); }
   }
 
   async function craftVehicle() {
@@ -1125,16 +1180,12 @@
     scrapyardBusy = true;
     activeScrapRun = difficulty;
     renderScrapyard();
-    let reconcile = false,resultHasBeenReceived=false;
+    let reconcile = false,resultHasBeenReceived=false,receivedResult=null;
     try {
       if(!await showScrapyardConnecting(difficulty,canPresent))return;
-      let result = await api('scrapyard/v3/run', { method: 'POST', body: JSON.stringify({ difficulty, requestId: ticket.requestId }) });
-      for(let attempt=0;result.status==='RUNNING'&&attempt<6;attempt++){
-        if(result.requestId!==ticket.requestId){ticket.requestId=result.requestId;ticket.target=String(result.difficulty||difficulty);mutationSlot('scrapyard',{...ticket});persistPendingRequests();}
-        await wait(Math.max(1000,Math.min(3000,Number(result.retryAfterMs)||1500)));
-        result=await api('scrapyard/v3/run',{method:'POST',body:JSON.stringify({difficulty:ticket.target,requestId:ticket.requestId})});
-      }
-      if(result.status==='RUNNING')throw new Error('같은 폐차장 원정이 처리 중입니다. 잠시 후 다시 확인해 주세요.');
+      const result = await requestScrapyardResult(ticket, canPresent);
+      if (!result) return;
+      receivedResult = result;
       resultHasBeenReceived=true;
       if (!ownsAction()) return;
       if (canPresent()) {
@@ -1153,20 +1204,24 @@
         void refreshPromise;
       }
     } catch (error) {
-      const uncertain = mutationTransportUncertain(error);
+      const uncertain = scrapyardTransportUncertain(error);
       if (uncertain) reconcile = true;
       else if(!resultHasBeenReceived)clearMutationRequest('scrapyard', ticket.requestId);
       if (canPresent()) {
         closeScrapyardConnecting();
-        if(resultHasBeenReceived){const modal=document.getElementById('modal');modal.__battleV2Renderer?.destroy();modal.className='modal';modal.innerHTML='';}
-        alert(uncertain ? mutationRetryMessage('폐차장 원정') : error.message);
+        if(resultHasBeenReceived){
+          const modal=document.getElementById('modal');
+          try { modal.__battleV2Renderer?.destroy(); } catch (_) {}
+          modal.className='modal';modal.innerHTML='';
+          showScrapResult(modal, receivedResult);
+        } else alert(uncertain ? mutationRetryMessage('폐차장 원정') : error.message);
       }
     } finally {
       if (ownsAction()) {
         scrapyardBusy = false;
         activeScrapRun = '';
         if (scrapyardMounted()) {
-          if (reconcile) void bindScrapyardView();
+          if (reconcile) void refreshScrapyard(++scrapyardSyncVersion);
           else if (canPresent()) renderScrapyard();
           else void bindScrapyardView();
         }

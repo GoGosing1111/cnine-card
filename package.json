@@ -22,7 +22,7 @@
     "test:cow-room-v3": "node --test tests/cow-room-v3-v1.test.mjs tests/cow-room-portal-v1.test.mjs tests/cow-room-economy-v2.test.mjs",
     "build:v3-wide-grid-preview": "node scripts/build-v3-wide-grid-preview-v1.mjs",
     "test:v3-wide-grid": "node --test tests/v3-wide-grid-preview-v1.test.mjs",
-    "test:scrapyard-v3": "node --test tests/scrapyard-v3-preview-v1.test.mjs tests/scrapyard-v3-server-v1.test.mjs tests/pve-continuous-session-v1.test.mjs",
+    "test:scrapyard-v3": "node --test tests/scrapyard-v3-preview-v1.test.mjs tests/scrapyard-v3-server-v1.test.mjs tests/pve-continuous-session-v1.test.mjs tests/scrapyard-result-recovery-20260923.test.mjs",
     "test:scrapyard-v3-server": "node --test tests/scrapyard-v3-server-v1.test.mjs",
     "build:mercenary-codex": "node scripts/build-mercenary-codex-public-v1.mjs",
     "test:mercenary-codex": "node --test tests/mercenary-fusion-eight.test.mjs tests/mercenary-fusion-transactions.test.mjs tests/mercenary-codex-public-v2061.test.mjs tests/mercenary-codex-owned-roster-v2133.test.mjs tests/mercenary-codex-live-v2098.test.mjs tests/mercenary-codex-preview-v1.test.mjs tests/project-v-mercenary-system-v1.mjs tests/project-v-approved-mercenary-cards-v1.mjs tests/mercenary-vespera-beauty-v1.test.mjs tests/mercenary-weapons-beauty-v1.test.mjs tests/mercenary-sd-completion-v2061.test.mjs tests/mercenary-four-looks-v1.test.mjs tests/mercenary-four-looks-catalog-v2062.test.mjs tests/mercenary-police-joeun-v2063.test.mjs tests/mercenary-dongtan-diim-v2063.test.mjs tests/mercenary-position-cms-v1.test.mjs tests/mercenary-skills-v1.test.mjs tests/mercenary-art-release-v2116.test.mjs",

@@ -11,6 +11,9 @@ import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED,loadScrapyardV3Snapshot,buildScrapyardV3Battle,validateScrapyardV3Config} from '../functions/_scrapyard_v3.js';
 import {ensureScrapyardV3Schema,runScrapyardV3,scrapyardV3RecoveryStatus} from '../functions/_scrapyard_v3_runs.js';
 import {isPvePublicPath} from '../shared/pve-public-release-v2092.mjs';
+import forgeRelease from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
+import {EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.mjs';
+import {jointHash} from '../functions/_joint_transactions.js';
 
 const read=path=>fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const user={id:7,nickname:'LOCAL QA',role:'USER'};
@@ -162,6 +165,39 @@ test('one magic activation budget and one opening ultimate span all enemy genera
 
 for(const postgres of [false,true]){
   const backend=postgres?'PostgreSQL compatibility':'SQLite';
+  async function enableProtection(f,t){
+    await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',EQUIPMENT_FORGE_RELEASE_KEY,JSON.stringify({document:forgeRelease,sha256:await jointHash(forgeRelease)})).run();
+    await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)','equipment_forge_public_settings_v1',JSON.stringify({schemaVersion:1,revision:1,publicVisible:true,executionMode:'ON',notice:'LOCAL QA'})).run();
+    await f.p("INSERT INTO inventory_items(code,name,rarity,image_url) VALUES('EQUIPMENT_PROTECTION_TICKET','장비 보호권','SPECIAL','/test.png')").run();
+    t.mock.method(crypto,'getRandomValues',array=>array.fill(0));
+  }
+  test(`${backend}: approved protection drop and pooled parts settle atomically with their own ledgers`,async t=>{
+    const f=await fixture(t,postgres);await enableProtection(f,t);
+    const result=await f.run('qa-protection-mixed');
+    assert.equal(result.status,'COMPLETED');assert.equal(await f.ticket(),4);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);
+    assert.equal(result.rewards.find(r=>r.rewardRef==='EQUIPMENT_PROTECTION_TICKET').quantity,1);
+    assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='EQUIPMENT_PROTECTION_TICKET'").first()).quantity),1);
+    assert.equal(await f.count('unified_drop_ledger_v1667'),1,'pooled parts retain their ledger; direct protection has no invented pool ID');
+    assert.equal(Number((await f.p("SELECT COUNT(*) n FROM inventory_logs WHERE item_code='EQUIPMENT_PROTECTION_TICKET' AND reference_id='SCRAPYARD:qa-protection-mixed'").first()).n),1);
+    assert.equal((await f.run('qa-protection-mixed')).replayed,true);
+    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);assert.equal(await f.count('inventory_logs'),3);
+  });
+  test(`${backend}: frozen pending protection result recovers after rollback without another entry or roll`,async t=>{
+    const f=await fixture(t,postgres);await enableProtection(f,t);f.fail('INSERT INTO scrapyard_runs_v1676');
+    assert.equal((await f.run('qa-protection-resume')).code,'SCRAPYARD_V3_SETTLEMENT_PENDING');
+    const saved=await f.p('SELECT battle_json,drop_plan_json FROM scrapyard_v3_operations_v1').first();
+    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);
+    assert.equal(await f.count('unified_drop_ledger_v1667'),0);assert.equal(await f.count('unified_drop_receipts_v1667'),0);
+    assert.equal(await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='EQUIPMENT_PROTECTION_TICKET'").first(),null);
+    await f.p("UPDATE app_meta SET value=? WHERE key='equipment_forge_public_settings_v1'",JSON.stringify({schemaVersion:1,revision:2,publicVisible:true,executionMode:'OFF',notice:'LOCAL QA'})).run();
+    f.setDeck(deck(100));f.fail('');const reads=f.reads;
+    const recovered=await f.run('qa-protection-resume');assert.equal(recovered.status,'COMPLETED');assert.equal(f.reads,reads);
+    assert.deepEqual(recovered.battleV2,JSON.parse(saved.battle_json).battleV2);
+    assert.deepEqual((await f.p('SELECT battle_json,drop_plan_json FROM scrapyard_v3_operations_v1').first()),saved);
+    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);
+    assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='EQUIPMENT_PROTECTION_TICKET'").first()).quantity),1);
+    await f.run('qa-protection-resume');assert.equal(await f.count('scrapyard_runs_v1676'),1);assert.equal(await f.count('inventory_logs'),3);
+  });
   test(`${backend}: avatar bonus is frozen with the expedition and survives expiry/CMS changes without reroll`,async t=>{
     const f=await fixture(t,postgres);
     await f.p("INSERT INTO app_meta(key,value) VALUES('avatar_settings_v1',?)",JSON.stringify({mode:'OFF'})).run();

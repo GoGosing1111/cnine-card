@@ -1,5 +1,6 @@
 import { applyAvatarDropRate,avatarDropIncreasePercent } from './_avatar_drop.js';
 import {guardForgeProtectionGrant} from './_forge_protection_drop.js';
+import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
 
 const POOL_TABLE='unified_drop_pools_v1667';
 const ENTRY_TABLE='unified_drop_entries_v1667';
@@ -203,7 +204,15 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards},w
     if(item.type==='EQUIPMENT'){const ref=Number(item.ref),before=Number(equipmentBalances.get(ref)||0);for(let index=0;index<item.quantity;index++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'UNIFIED_DROP',?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,`${requestId}:EQ:${ref}:${index}`,ref));equipmentBalances.set(ref,before+item.quantity)}
     if(item.type==='VEHICLE')statements.push(env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,id,'UNIFIED_DROP',? FROM character_garage_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,Number(item.ref)));
   }
-  if(writePoolLedger)for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:type==='CARD'?cardBalances.get(String(ref)):type==='EQUIPMENT'?equipmentBalances.get(Number(ref)):inventoryBalances.get(ref);statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null))}
+  if(writePoolLedger)for(const reward of rewards){
+    // guardForgeProtectionGrant has already validated this direct gameplay
+    // reward. It has no pool/entry IDs: inventory_logs and the caller's atomic
+    // receipt record its grant. Keep the normal ledger for every pooled reward.
+    if(reward.rewardType==='INVENTORY_ITEM'&&reward.rewardRef===EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE
+      &&reward.protectionAuthority==='JOINT_APPROVED_GAMEPLAY'&&reward.poolId==null&&reward.entryId==null)continue;
+    const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:type==='CARD'?cardBalances.get(String(ref)):type==='EQUIPMENT'?equipmentBalances.get(Number(ref)):inventoryBalances.get(ref);
+    statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null));
+  }
   return {statements,balances:{coin,cardShards:shards,magicCrystals:crystals,inventory:Object.fromEntries(inventoryBalances),cards:Object.fromEntries(cardBalances),equipment:Object.fromEntries(equipmentBalances)}};
 }
 

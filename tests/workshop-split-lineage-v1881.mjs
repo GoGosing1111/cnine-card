@@ -86,7 +86,7 @@ const craftVehicle = between(client, 'async function craftVehicle()', 'function 
 const runScrapyard = between(client, 'async function runScrapyard(', 'function showScrapResult');
 assert.match(craftVehicle, /prepareMutationRequest\('vehicle'[\s\S]*?requestId:\s*ticket\.requestId/);
 assert.match(synthesize, /prepareMutationRequest\('synthesis'[\s\S]*?requestId:\s*ticket\.requestId/);
-assert.match(runScrapyard, /prepareMutationRequest\('scrapyard'[\s\S]*?requestId:\s*ticket\.requestId/);
+assert.match(runScrapyard, /prepareMutationRequest\('scrapyard'[\s\S]*?requestScrapyardResult\(ticket, canPresent\)/);
 assert.doesNotMatch(craftVehicle, /requestId:\s*rid\(/);
 assert.doesNotMatch(synthesize, /requestId:\s*rid\(/);
 assert.doesNotMatch(runScrapyard, /requestId:\s*rid\(/);

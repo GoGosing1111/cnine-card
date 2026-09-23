@@ -187,5 +187,5 @@ export async function scrapyardV3Result(env,user,requestId){
   const {uid,rid}=key(user,{requestId,difficulty:'OUTER'}),row=await receipt(env,uid,rid);
   if(row?.status==='COMPLETED')return {...parse(row.response_json),replayed:true};
   const op=await operation(env,uid,rid);
-  return op?pending(rid,'SCRAPYARD_V3_RUNNING',parse(op.battle_json).difficulty.id):{ok:true,status:'NOT_FOUND'};
+  return op?{...pending(rid,'SCRAPYARD_V3_RUNNING',parse(op.battle_json).difficulty.id),canResume:Number(op.lease_until)<=Date.now()}:{ok:true,status:'NOT_FOUND'};
 }
