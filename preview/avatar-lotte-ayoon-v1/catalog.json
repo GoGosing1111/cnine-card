@@ -1,0 +1,23 @@
+{
+  "code": "LOTTE_AYOON",
+  "serial": "A-26",
+  "name": "롯데 아윤",
+  "call_sign": "LOTTE AYOON",
+  "role_label": "롯데 클랜 유니폼",
+  "description": "크림·버건디 유니폼과 갈매기 문장의 롯데 아윤 아바타입니다. 승인 로비 일러스트와 별도 투명 장비창 전신을 함께 적용합니다.",
+  "lobby_image": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-lobby-v1-1024.webp",
+  "lobby_mobile_image": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-lobby-v1-640.webp",
+  "equipment_image": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-equipment-v1-640.webp",
+  "accent": "#7b2445",
+  "acquisition_type": "EVENT",
+  "coin_price": null,
+  "source_label": "롯데 클랜 시즌 기간제 지급",
+  "source_detail": "김아윤 편입 후 현재 롯데 클랜 전원에게 시즌 종료까지 지급합니다. 만료: 2026-09-27 22:00 KST.",
+  "effect_type": "COIN_GAIN_PERCENT",
+  "effect_value": 75,
+  "is_active": 1,
+  "is_public": 1,
+  "sale_enabled": 0,
+  "sort_order": 260,
+  "version": 1
+}

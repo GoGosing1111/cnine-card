@@ -1,0 +1,81 @@
+{
+  "name": "롯데 아윤",
+  "code": "LOTTE_AYOON",
+  "serial": "A-26",
+  "date": "2026-09-24",
+  "generator": "built-in image_gen",
+  "approval": "사용자: 롯데 아바타로 등록 롯데 아윤 / 장비창 리소스 만들어야함",
+  "identity": "사용자가 첨부한 롯데 아윤 크림·버건디 유니폼 로비 원본",
+  "equipment": "같은 얼굴·체형·의상의 별도 장비창 자세",
+  "backgroundRemoval": "none; native generated alpha retained",
+  "alpha": {
+    "clearPixels": 1229340,
+    "solidPixels": 306574,
+    "borderNontransparentPixels": 0,
+    "crop": {
+      "left": 315,
+      "top": 2,
+      "width": 431,
+      "height": 1506
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1664,
+    "uniformScale": 1,
+    "bodyWidth": 431,
+    "bodyHeight": 1506,
+    "top": 24,
+    "bottom": 134
+  },
+  "registration": {
+    "active": true,
+    "public": true,
+    "saleEnabled": false,
+    "acquisitionType": "EVENT",
+    "coinPrice": null,
+    "sourceOptions": "T1_JOEUN",
+    "grant": {
+      "clan": "롯데",
+      "expires": "current clan season ends_at",
+      "operation": "scripts/ops/avatar-lotte-ayoon-release-20260924.mjs"
+    }
+  },
+  "files": {
+    "avatar-lotte-ayoon-lobby-source-art-v1.png": {
+      "sha256": "0e6f04d91511f570a87d1f121326aa460c916056af725930c88d16e7eb2a2df9",
+      "bytes": 2809123,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lotte-ayoon-equipment-source-art-v1.png": {
+      "sha256": "31f995a5f5b6652efadebd072c1c0e2c151516e2ba53f21dc56bdde52eefd5fd",
+      "bytes": 1342268,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-lotte-ayoon-lobby-v1-1024.webp": {
+      "sha256": "7559d5a39e089b986186a9abea6161ef4874af706c582160964ef06cb80b6e43",
+      "bytes": 269268,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lotte-ayoon-lobby-v1-640.webp": {
+      "sha256": "8de356ab4ddf2c93550b578873fc79c1c9d75b8fd877fb4e3571e55dc3db56fb",
+      "bytes": 143976,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-lotte-ayoon-equipment-v1-640.webp": {
+      "sha256": "693470e5b34b5cdee4cd608089c1cba136ea5e31b5f660b66868f1186457fe1c",
+      "bytes": 110106,
+      "width": 640,
+      "height": 1664,
+      "hasAlpha": true
+    }
+  }
+}
