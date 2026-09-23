@@ -2,7 +2,7 @@
 
 ## 관련 회귀
 
-`tests/battle-suit-octaseeker-preview-v1.test.mjs`: 최초 12개 통과. 공개 주소 경로 회귀 1개를 추가해 최종 배포에서는 13개를 확인한다.
+`tests/battle-suit-octaseeker-preview-v1.test.mjs`: 공개 주소 경로 회귀를 포함해 **최종 13개 통과**.
 
 - 서로 다른 45도 출발 방향 8개, 동일 도착점 1개, 방사/선회 접점 위치·속도 연속성.
 - 모든 시간/각도/프레임 유한값, 추진·폭발 각각 24개 실제 다른 프레임, 실제 RGBA·경계 알파·무손실 가시 픽셀·512px 칩.
@@ -36,3 +36,13 @@ Codex 브라우저에서 데스크톱 1440×1000과 모바일 390×844를 확인
 첫 게시 `7a9953c08dcf4c0a049cd137f0f499f247189f0d` / `a4caf726.cnine-card.pages.dev`에서 파일 해시는 일치했으나 Pages가 `battle.html`을 `battle`로 리다이렉트했다. Pixi 경로 결합이 확장자 없는 페이지를 디렉터리로 판단해 공용 상대 배경이 `/preview/assets/`로 요청되어 프리뷰 준비가 실패했다.
 
 공용 엔진은 변경하지 않고 새 프리뷰의 `<base href="/preview/battle-suit-octaseeker-v1/">`를 고정했다. 실제 Pixi 경로 결합으로 기존 오류와 정상 사이트 루트 해석을 함께 회귀 검사한다. 복구 배포의 직전 실제 운영 SHA는 위 `7a9953c08dcf4c0a049cd137f0f499f247189f0d`, 선택 검사는 동일 파일의 13개이며 원인과 인접 프리뷰 준비 경로만 확인한다.
+
+## 최종 게시 확인
+
+- 최종 게시 커밋: `defbc26e136401b9be78b38f225cb39650f86ce8`.
+- 고정 검수 주소: https://b699d86a.cnine-card.pages.dev/preview/battle-suit-octaseeker-v1/
+- 기본 주소: https://cnine-card.pages.dev/preview/battle-suit-octaseeker-v1/
+- 두 호스트에서 프리뷰 `battle` HTTP 200 및 고정 base를 확인했다. 기본 호스트의 번들·추진/폭발 WebP·칩·manifest는 로컬 SHA-256과 일치했다.
+- 공개 고정 주소에서 원본 V3 전장/카드 5장/슈트가 준비되고, 0.72초 유도 선회 조작에 8개 로켓과 정상 안내가 표시되는 것을 직접 확인했다.
+- 지정 배포 명령 완료. Hyperdrive query cache OFF/바인딩 일치. Clan Worker 버전 `bbc17b83-7d7d-4ada-a88a-dfe46247ec84`.
+- 신규 칩은 계속 OFF/사용자 검수 대기. 계정/재화/보상/실전 피해/발동 주기 변경 없음.
