@@ -4,7 +4,7 @@ import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {readFileSync} from 'node:fs';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {ensureTerritoryClanSchema,openClanWarfare,randomClanSides,territoryClanView,territorySkillState,territorySkillEffect,territorySkillReceipt,applyTerritorySkill,TERRITORY_SKILL_COOLDOWN_MS} from '../functions/_territory_clan_warfare.js';
+import {ensureTerritoryClanSchema,openClanWarfare,randomClanSides,rankedClanSides,territoryClanView,territorySkillState,territorySkillEffect,territorySkillReceipt,applyTerritorySkill,TERRITORY_SKILL_COOLDOWN_MS} from '../functions/_territory_clan_warfare.js';
 import {__territoryClanTest,territorySiegeDamage} from '../functions/_territory_war.js';
 
 const NOW=Date.parse('2026-09-24T10:00:00Z');
@@ -18,10 +18,11 @@ CREATE TABLE territory_war_v3_fronts(id INTEGER PRIMARY KEY,round_id INTEGER,sta
 CREATE TABLE territory_war_v3_commander_overrides(round_id INTEGER,side TEXT,user_id INTEGER,PRIMARY KEY(round_id,side));
 CREATE TABLE territory_war_v3_notices(round_id INTEGER,type TEXT,side TEXT,title TEXT,message TEXT,payload_json TEXT);
 CREATE TABLE clan_seasons(id INTEGER PRIMARY KEY,season_no INTEGER,phase TEXT);
-CREATE TABLE clan_organizations(id INTEGER PRIMARY KEY,name TEXT,mark_key TEXT,primary_color TEXT);
-CREATE TABLE clan_season_teams(season_id INTEGER,clan_id INTEGER,PRIMARY KEY(season_id,clan_id));
+CREATE TABLE clan_organizations(id INTEGER PRIMARY KEY,name TEXT,mark_key TEXT,primary_color TEXT,accent_color TEXT,slogan TEXT);
+CREATE TABLE clan_season_teams(season_id INTEGER,clan_id INTEGER,master_user_id INTEGER,score INTEGER DEFAULT 0,wins INTEGER DEFAULT 0,losses INTEGER DEFAULT 0,draft_position INTEGER DEFAULT 0,PRIMARY KEY(season_id,clan_id));
+CREATE TABLE clan_wars(season_id INTEGER,clan_a_id INTEGER,clan_b_id INTEGER,score_a INTEGER,score_b INTEGER,status TEXT,round_no INTEGER);
 CREATE TABLE clan_members(season_id INTEGER,clan_id INTEGER,user_id INTEGER,PRIMARY KEY(season_id,user_id));
-CREATE TABLE users(id INTEGER PRIMARY KEY);
+CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT);
 CREATE TABLE pvp_decks(user_id INTEGER PRIMARY KEY,card_ids TEXT);
 CREATE TABLE pvp_active_presets(user_id INTEGER PRIMARY KEY,preset_no INTEGER);
 CREATE TABLE pvp_deck_presets(user_id INTEGER,preset_no INTEGER,card_ids TEXT,PRIMARY KEY(user_id,preset_no));
@@ -37,8 +38,8 @@ async function fixture(t,postgres){
   await p("INSERT INTO territory_war_v3_rounds(id,status,recruitment_ends_at) VALUES(1,'RECRUITING','2099-01-01T00:00:00Z')").run();
   await p("INSERT INTO clan_seasons VALUES(2,2,'ACTIVE')").run();
   for(let clan=1;clan<=8;clan++){
-    await p('INSERT INTO clan_organizations VALUES(?,?,?,?)',clan,'CLAN '+clan,'DK','#123456').run();await p('INSERT INTO clan_season_teams VALUES(2,?)',clan).run();
-    for(let i=0;i<clan;i++){const user=clan*100+i;await p('INSERT INTO users VALUES(?)',user).run();await p('INSERT INTO clan_members VALUES(2,?,?)',clan,user).run();await p('INSERT INTO pvp_decks VALUES(?,?)',user,i===0?'[]':'["a","b","c","d","e"]').run()}
+    await p('INSERT INTO clan_organizations(id,name,mark_key,primary_color) VALUES(?,?,?,?)',clan,'CLAN '+clan,'DK','#123456').run();await p('INSERT INTO clan_season_teams(season_id,clan_id) VALUES(2,?)',clan).run();
+    for(let i=0;i<clan;i++){const user=clan*100+i;await p('INSERT INTO users(id) VALUES(?)',user).run();await p('INSERT INTO clan_members VALUES(2,?,?)',clan,user).run();await p('INSERT INTO pvp_decks VALUES(?,?)',user,i===0?'[]':'["a","b","c","d","e"]').run()}
   }
   return {env,p,round:()=>p('SELECT * FROM territory_war_v3_rounds WHERE id=1').first()};
 }
@@ -63,15 +64,40 @@ test('clanless balancing preserves all clan sides even with uneven rosters',()=>
   assert.equal(result.assignments.length,34);for(const before of fixed)assert.equal(result.assignments.find(e=>e.item.user_id===before.item.user_id).side,before.side);assert.equal(result.aCount,17);assert.equal(result.bCount,17);
 });
 
+test('rank balance separates leaders and balances actual season points before tie-breakers',()=>{
+  const names=['DK','FM','T1','DC','롯데','한화','삼성','LG'],scores=[12,9,9,9,3,3,3,0],combat=[6476,6691,6690,6665,5791,5716,5466,4851];
+  const clans=names.map((name,i)=>({clan_id:i+1,name,score:scores[i],combat_points:combat[i],member_count:20}));
+  const result=rankedClanSides(clans);
+  assert.notEqual(result[0].side,result[1].side);
+  assert.deepEqual(result.filter(c=>c.side==='A').map(c=>c.name),['DK','DC','롯데','LG']);
+  for(const side of ['A','B']){
+    const team=result.filter(c=>c.side===side);
+    assert.equal(team.length,4);assert.deepEqual(team.map(c=>c.position),[0,1,2,3]);
+    assert.equal(team.reduce((n,c)=>n+c.score,0),24);
+    assert.equal(team.reduce((n,c)=>n+clans.indexOf(clans.find(x=>x.clan_id===c.clan_id))+1,0),18);
+  }
+  assert.deepEqual(rankedClanSides(clans),result);
+  assert.throws(()=>rankedClanSides(clans.slice(1)));
+  assert.throws(()=>rankedClanSides(Array(8).fill(clans[0])));
+});
+
 for(const pg of [false,true]){
   const dialect=pg?'PostgreSQL':'SQLite';
+  test(`${dialect}: opening follows league standings rather than clan id`,async t=>{
+    const f=await fixture(t,pg);
+    await f.p('UPDATE clan_season_teams SET score=CASE clan_id WHEN 7 THEN 12 WHEN 4 THEN 9 ELSE 0 END').run();
+    await openClanWarfare(f.env,await f.round(),cfg);
+    const teams=(await f.p('SELECT * FROM territory_war_clans').all()).results;
+    assert.equal(teams.find(c=>Number(c.clan_id)===7).side,'A');
+    assert.equal(teams.find(c=>Number(c.clan_id)===4).side,'B');
+  });
   test(`${dialect}: old foundation marker still receives schema; full roster and marks are frozen`,async t=>{
     const f=await fixture(t,pg);await f.p("INSERT INTO pvp_active_presets VALUES(101,2)").run();await f.p('INSERT INTO pvp_deck_presets VALUES(101,2,?)','["v","w","x","y","z"]').run();
     // Use a real roster member with an active preset, not its fallback deck.
     await f.p('UPDATE pvp_active_presets SET user_id=201').run();await f.p('UPDATE pvp_deck_presets SET user_id=201').run();
     const opened=await openClanWarfare(f.env,await f.round(),cfg),members=(await f.p('SELECT * FROM territory_war_v3_users ORDER BY user_id').all()).results;
     assert.equal(opened.warfare_version,4);assert.equal(members.length,36);assert.ok(members.every(m=>Number(m.mandatory_clan)===1));assert.equal(members.find(m=>Number(m.user_id)===100).deck_snapshot,'[]');assert.equal(members.find(m=>Number(m.user_id)===201).deck_snapshot,'["v","w","x","y","z"]');
-    const teams=(await f.p('SELECT * FROM territory_war_clans').all()).results;assert.equal(teams.filter(c=>c.side==='A').length,4);for(const member of members)assert.equal(member.side,teams.find(c=>Number(c.clan_id)===Number(member.clan_id)).side);
+    const teams=(await f.p('SELECT * FROM territory_war_clans').all()).results;assert.equal(teams.filter(c=>c.side==='A').length,4);assert.notEqual(teams.find(c=>Number(c.clan_id)===1).side,teams.find(c=>Number(c.clan_id)===2).side);for(const member of members)assert.equal(member.side,teams.find(c=>Number(c.clan_id)===Number(member.clan_id)).side);
     await f.p('DELETE FROM clan_members WHERE user_id=100').run();await openClanWarfare(f.env,await f.round(),cfg);assert.equal((await f.p('SELECT COUNT(*) n FROM territory_war_v3_users').first()).n,36);assert.deepEqual((await f.p('SELECT * FROM territory_war_clans').all()).results,teams);
     const view=await territoryClanView(f.env,await f.round());assert.equal(view.teams.length,8);assert.equal(view.teams.reduce((n,c)=>n+c.memberCount,0),36);
   });

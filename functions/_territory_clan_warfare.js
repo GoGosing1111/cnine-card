@@ -1,4 +1,5 @@
 import {readRuntimeData,cacheRuntimeData,invalidateRuntimeData} from './_runtime_data_cache.js';
+import {CLAN_RANKED_TEAMS_SQL} from './_clan_ranking.js';
 
 const SCHEMA='territory_clan_warfare_20260923_v1';
 export const TERRITORY_SKILL_COOLDOWN_MS=45*60*1000;
@@ -39,15 +40,31 @@ export function randomClanSides(clans,random=()=>crypto.getRandomValues(new Uint
   return shuffled.map((clan,index)=>({...clan,side:index<4?'A':'B',position:index%4}));
 }
 
+// Input order is the same canonical standing used by the clan board/settlement.
+// Enumerate all 20 eligible 4v4 splits: #1 and #2 can never share a side.
+export function rankedClanSides(clans){
+  if(clans.length!==8||new Set(clans.map(c=>Number(c.clan_id))).size!==8)fail('공식 클랜 8개가 준비되어야 영토전을 개막할 수 있습니다.');
+  let best=null;
+  const compare=(left,right)=>{for(let i=0;i<left.length;i++){if(left[i]!==right[i])return left[i]-right[i]}return 0};
+  for(let mask=1;mask<256;mask+=4){
+    if(clans.filter((_,index)=>mask&(1<<index)).length!==4)continue;
+    const gap=value=>Math.abs(clans.reduce((sum,clan,index)=>sum+(mask&(1<<index)?1:-1)*value(clan,index),0));
+    const cost=[gap(c=>Number(c.score||0)),gap((_,i)=>i+1),gap(c=>Number(c.combat_points||0)),gap(c=>Number(c.member_count||0)),mask];
+    if(!best||compare(cost,best.cost)<0)best={mask,cost};
+  }
+  const positions={A:0,B:0};
+  return clans.map((clan,index)=>{const side=best.mask&(1<<index)?'A':'B';return {...clan,side,position:positions[side]++}});
+}
+
 // Called under the round creation/formation lock. One transaction freezes the
 // eight identities, every roster member and their current attack-deck ids.
 export async function openClanWarfare(env,round,cfg){
   if(round?.status!=='RECRUITING'||round.formed_at||round.clan_opened_at)return round;
   const season=await env.DB.prepare("SELECT id FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC LIMIT 1").first();
   if(!season)return {...round,clanOpeningPending:true};
-  const clans=rows(await env.DB.prepare('SELECT t.clan_id,o.name,o.mark_key,o.primary_color FROM clan_season_teams t JOIN clan_organizations o ON o.id=t.clan_id WHERE t.season_id=? ORDER BY t.clan_id').bind(season.id).all());
+  const clans=rows(await env.DB.prepare(CLAN_RANKED_TEAMS_SQL).bind(season.id).all());
   if(clans.length!==8)return {...round,clanOpeningPending:true};
-  const assignments=randomClanSides(clans),opened=new Date().toISOString(),guard=`OPEN:${round.id}:${crypto.randomUUID()}`;
+  const assignments=rankedClanSides(clans),opened=new Date().toISOString(),guard=`OPEN:${round.id}:${crypto.randomUUID()}`;
   const recruitmentEndsAt=ms(round.recruitment_ends_at)>Date.now()?round.recruitment_ends_at:new Date(Date.now()+Number(cfg.recruitmentHours||3)*3600000).toISOString();
   const statements=[env.DB.prepare("UPDATE territory_war_v3_rounds SET warfare_version=4,clan_season_id=?,clan_opened_at=?,recruitment_ends_at=?,version=version+1 WHERE id=? AND status='RECRUITING' AND formed_at IS NULL AND clan_opened_at IS NULL").bind(season.id,opened,recruitmentEndsAt,round.id),
     env.DB.prepare('INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE id=? AND clan_opened_at=?) THEN 1 ELSE 0 END').bind(guard,round.id,opened)];
