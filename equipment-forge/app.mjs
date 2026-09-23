@@ -1,5 +1,6 @@
 import {ForgeFX} from '/preview/equipment-forge-v1/source/fx.mjs';
 import {forgePower} from '/shared/equipment-forge-policy-v1.mjs';
+import {forgeQuoteShortages} from '/shared/equipment-forge-resources-v1.mjs?v=20260924-shortage';
 import {createForgeTransport,createForgeQuoteQueue,readForgePending,terminalForgeErrors} from './requests.mjs?v=20260923-recovery';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slots={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'};
@@ -72,7 +73,7 @@ async function load(more=false){
     if(result.canEnhance){document.querySelector('.success-label p').textContent='장비를 선택하면 현재 단계의 확률을 확인합니다.';document.querySelector('.risk-note p').textContent='확률·비용 확인 후 강화할 수 있습니다. 견적 조회만으로는 재료가 소모되지 않습니다.';}
     document.querySelector('.history-list').innerHTML=(result.history||[]).map(r=>`<p>${esc(outcomeNames[r.outcome]||'결과 확인 중')} · ${esc(new Date(r.createdAt).toLocaleString('ko-KR'))}</p>`).join('')||'<p class="empty-history">아직 강화 기록이 없습니다.</p>';
     $('protection-toggle').disabled=!result.canEnhance||!result.policy.protection?.itemCode||executing;$('protection-toggle').setAttribute('aria-label','장비보호권 사용');
-    document.querySelector('.protection-card small').textContent=result.wallet.protection===null?'출시 예정':`보유 ${number(result.wallet.protection)}개`;
+    document.querySelector('.protection-card small').textContent=result.wallet.protection===null?'출시 예정':`보유 ${number(result.wallet.protection)}장`;
     const rows=visibleItems();void select(rows.some(r=>r.selectionId===selected)?selected:mode==='enhance'?items.find(r=>r.equipped)?.instanceId||items[0]?.instanceId||null:rows[0]?.selectionId||null);lastLoad=Date.now();
     const pending=safePending();recover.hidden=!pending;if(pending&&!pending.invalid&&checkedPending!==pending.requestId){checkedPending=pending.requestId;void recoverPending(false);}
   }catch(e){if(current!==generation)return;if(e.status===401){data=null;items=[];activeToken='';$('wallet-coins').textContent='—';void select(null);}if(e.name!=='AbortError'){$('inventory-note').textContent=e.message;connectionNotice(e.message,()=>void load(),'목록 다시 불러오기');toast(e.message);}}
@@ -108,10 +109,12 @@ async function updateQuote(){
    const success=q.cost.successPpm/10000,maintain=(q.cost.successPpm+q.cost.maintainPpm)/10000;document.querySelector('.probability-bar').style.background=`linear-gradient(to right,#cbff66 0 ${success}%,#8499b4 ${success}% ${maintain}%,#fc7382 ${maintain}% 100%)`;
    for(const [key,label]of[['success','successPpm'],['maintain','maintainPpm'],['destroy','destroyPpm']])document.querySelector(`.rate-legend .${key} b`).textContent=`${q.cost[label]/10000}%`;
    document.querySelector('.material-heading span').textContent=`마스터의 별 보유 ${number(data.wallet.masterStars)}개`;document.querySelector('.success-label p').textContent='현재 장비 단계의 확정된 견적입니다.';document.querySelector('.material-list').textContent=`${coin(q.cost.coinCost)} 코인${q.cost.itemCode?` · ${q.cost.itemCode==='MASTER_STAR'?'마스터의 별':q.cost.itemName||q.cost.itemCode} ${number(q.cost.itemQuantity)}개`:''}`;
-   document.querySelector('.consumption-note').textContent=q.protectedAttempt?`보호권 ${q.cost.protectionQuantity}개 · ${q.protection.consume==='ON_DESTROY'?'파괴 결과일 때만 소모':'강화 시도 시 소모'}`:'보호권 미사용';
+   document.querySelector('.consumption-note').textContent=q.protectedAttempt?`+${q.item.level+1} 도전 · 보호권 ${q.cost.protectionQuantity}장 필요 · ${q.protection.consume==='ON_DESTROY'?'파괴 결과일 때만 소모':'강화 시도 시 소모'}`:'보호권 미사용';
    document.querySelector('.risk-note p').textContent=q.protectedAttempt?'파괴 결과가 나오면 보호권으로 장비를 보존합니다.':'파괴 시 장착이 해제되며 장비는 파괴 기록에 보관됩니다.';
   }else{document.querySelector('.restore-coupon').hidden=!q.cost.itemCode;const couponImage=document.querySelector('.restore-coupon img'),source=q.cost.itemImage?imageUrl(q.cost.itemImage):'';couponImage.hidden=!source;if(source)couponImage.src=source;document.querySelector('.restore-coupon b').textContent=q.cost.itemName||'복구 재료';document.querySelector('.restore-coupon div span').textContent=`${q.cost.itemQuantity||0}개 사용`;document.querySelector('.restore-snapshot').textContent=`${q.item.name} · +${q.cost.levelMode==='PREVIOUS'?q.item.level:0} 복구`;document.querySelector('.restore-policy').textContent=`${coin(q.cost.coinCost)} 코인${q.cost.itemCode?` · ${q.cost.itemCode==='MASTER_STAR'?'마스터의 별':q.cost.itemName||q.cost.itemCode} ${q.cost.itemQuantity}개`:''} · ${q.cost.expiresHours?`${q.cost.expiresHours}시간 이내`:'기간 제한 없음'}`;}
-  button.querySelector('span').textContent=mode==='enhance'?`+${q.item.level+1} 강화 시도`:'선택 장비 복구';button.disabled=executing;
+  const shortages=forgeQuoteShortages(q,data.wallet);
+  if(shortages.length)connectionNotice(shortages.join('\n'),()=>void load(),'보유 수량 새로고침');
+  button.querySelector('span').textContent=shortages.length?'재료 수량 확인 필요':mode==='enhance'?`+${q.item.level+1} 강화 시도`:'선택 장비 복구';button.disabled=executing||shortages.length>0;
  }catch(e){if(stamp===quoteGeneration&&e.name!=='AbortError'){quoteRetry=()=>void updateQuote();button.querySelector('span').textContent='견적 다시 확인';button.disabled=false;connectionNotice(e.message,quoteRetry,'견적 다시 확인');toast(e.message);}}
 }
 async function showReceipt(receipt,{animate=true}={}){
@@ -145,6 +148,7 @@ async function submitPending(pending,key,auth){
 }
 async function execute(){
  if(executing||recovering)return;if(safePending())return recoverPending(true);if(quoteRetry)return quoteRetry();if(!quote)return;
+ if(forgeQuoteShortages(quote,data?.wallet).length)return;
  if(Date.parse(quote.expiresAt)<=Date.now()+1000){quoteQueue.invalidate();return updateQuote();}
  const pending={requestId:crypto.randomUUID(),quoteId:quote.quoteId,kind:quote.kind},key=pendingKey();
  try{localStorage.setItem(key,JSON.stringify(pending));}catch{return connectionNotice('요청 기록을 저장할 수 없어 강화를 시작하지 않았습니다. 브라우저 저장 공간을 확인하세요.');}

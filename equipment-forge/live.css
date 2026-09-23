@@ -11,7 +11,7 @@
 .forge-public .restore-coupon>div{min-width:0}
 .forge-public .forge-connection{border:1px solid #768947;border-radius:8px;background:#182321;color:#e0efc8;padding:14px 16px;margin-bottom:16px;overflow-wrap:anywhere}
 .forge-public .forge-connection[hidden]{display:none}
-.forge-public .forge-connection p{font:500 12px/1.8 "Noto Sans KR",sans-serif;margin:0}
+.forge-public .forge-connection p{font:500 12px/1.8 "Noto Sans KR",sans-serif;margin:0;white-space:pre-line}
 .forge-public .forge-connection .text-button{margin-top:8px;min-height:38px;color:#d7ff83;border:1px solid #697e3e;border-radius:5px;padding:7px 12px;white-space:normal}
 .forge-public .forge-connection .text-button[hidden]{display:none}
 .forge-public .forge-connection .text-button:disabled{opacity:.55;cursor:wait}

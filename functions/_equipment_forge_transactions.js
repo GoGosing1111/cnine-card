@@ -8,6 +8,7 @@ import {ensureJointTransactionSchema,saveJointPolicyDraft,jointRequestId,jointHa
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 import {readForgePreparationInventory} from './_equipment_forge_preparation.js';
 import {assertForgeMaterials} from './_equipment_forge_cms.js';
+import {forgeResourceShortage} from '../shared/equipment-forge-resources-v1.mjs';
 export const FORGE_TRANSACTION_SCHEMA=[
  `CREATE TABLE IF NOT EXISTS equipment_forge_states_v1(instance_id BIGINT PRIMARY KEY,user_id BIGINT NOT NULL,level INTEGER NOT NULL CHECK(level BETWEEN 0 AND 10),revision INTEGER NOT NULL)`,
  `CREATE TABLE IF NOT EXISTS equipment_forge_quotes_v1(quote_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,input_hash TEXT NOT NULL,kind TEXT NOT NULL,plan_json TEXT NOT NULL,expires_at TEXT NOT NULL,consumed_by TEXT)`,
@@ -61,8 +62,12 @@ export async function executeForge(env,user,body,kind,{randomInt=mercenaryRandom
  const quoteId=jointRequestId(body.quoteId),requestId=jointRequestId(body.requestId);
  const r=await runJointOperation(env,user,{requestId,kind:`FORGE_${kind}`,input:{quoteId},prepare:async()=>{
    allow(await readForgeRuntime(env),user);const plan=await quotePlan(env,user,quoteId,kind,now);if(kind==='ENHANCE')requireEnhancementCost(plan.cost);
-   if(Number((await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()).coin)<plan.cost.coinCost)throw jointError('FORGE_FUNDS','코인이 부족합니다.',409);
-   for(const [code,quantity]of[[plan.cost.itemCode,plan.cost.itemQuantity],...(plan.protectedAttempt?[[plan.protection.itemCode,plan.cost.protectionQuantity]]:[])])if(code){const row=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,code).first();if(Number(row?.quantity||0)<quantity)throw jointError('FORGE_MATERIAL',kind==='RESTORE'?`${plan.cost.itemName||'복구 재료'}가 부족합니다.`:'강화 재료 또는 보호권이 부족합니다.',409);}
+   const coins=Number((await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()).coin);
+   if(coins<plan.cost.coinCost)throw jointError('FORGE_FUNDS',forgeResourceShortage('코인',plan.cost.coinCost,coins,'코인'),409);
+   for(const [code,quantity,name,unit]of[
+    [plan.cost.itemCode,plan.cost.itemQuantity,plan.cost.itemCode===FORGE_ENHANCEMENT_MATERIAL?'마스터의 별':plan.cost.itemName||'복구 재료','개'],
+    ...(plan.protectedAttempt?[[plan.protection.itemCode,plan.cost.protectionQuantity,'장비 보호권','장']]:[])
+   ])if(code){const row=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,code).first(),owned=Number(row?.quantity||0);if(owned<quantity)throw jointError('FORGE_MATERIAL',forgeResourceShortage(name,quantity,owned,unit),409);}
    let rolled='RESTORED',outcome=rolled;if(kind==='ENHANCE'){const current=await owned(env,user,plan.item.instanceId);if(current.revision!==plan.item.revision||current.level!==plan.item.level)throw jointError('FORGE_STALE','장비가 변경됐습니다. 견적을 다시 받으세요.',409);
      const n=randomInt(1000000);if(!Number.isSafeInteger(n)||n<0||n>=1000000)throw Error('INVALID_FORGE_RANDOM');rolled=n<plan.cost.successPpm?'SUCCESS':n<plan.cost.successPpm+plan.cost.maintainPpm?'MAINTAIN':'DESTROY';outcome=rolled==='DESTROY'&&plan.protectedAttempt?'PROTECTED':rolled;
    }else await destroyed(env,user,plan.recordId);

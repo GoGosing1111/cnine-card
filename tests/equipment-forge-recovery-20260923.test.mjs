@@ -6,6 +6,7 @@ import {forgeFixture} from './helpers/forge-db.mjs';
 import {handleForgeRuntimeReady} from '../functions/_equipment_forge_routes.js';
 import {forgeQuote,executeForge,forgeReceipt} from '../functions/_equipment_forge_transactions.js';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
+import {forgeQuoteShortages} from '../shared/equipment-forge-resources-v1.mjs';
 import {terminalForgeErrors} from '../equipment-forge/requests.mjs';
 const rid=()=>crypto.randomUUID();
 const tick=()=>new Promise(resolve=>setTimeout(resolve,5));
@@ -104,7 +105,7 @@ async function appFixture(t,handle,{pending=null}={}){
  const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
  class NoFX{async init(){throw Error('canvas intentionally absent in unit test');}destroy(){}}
  const timer=(fn,ms)=>{const id=setTimeout(fn,ms);id.unref();return id;};
- const api=await new AsyncFunction('ForgeFX','forgePower','createForgeTransport','createForgeQuoteQueue','readForgePending','terminalForgeErrors','document','window','localStorage','sessionStorage','location','matchMedia','setTimeout',source+'\nreturn {execute,recoverPending,load,select,state:()=>({executing,recovering,quote})};')(NoFX,forgePower,()=>transport,(fn)=>createForgeQuoteQueue(fn,{debounceMs:0}),readForgePending,terminalForgeErrors,document,window,storage,{getItem:()=>null},{origin:'https://game.test'},()=>({matches:true}),timer);
+ const api=await new AsyncFunction('ForgeFX','forgePower','forgeQuoteShortages','createForgeTransport','createForgeQuoteQueue','readForgePending','terminalForgeErrors','document','window','localStorage','sessionStorage','location','matchMedia','setTimeout',source+'\nreturn {execute,recoverPending,load,select,state:()=>({executing,recovering,quote})};')(NoFX,forgePower,forgeQuoteShortages,()=>transport,(fn)=>createForgeQuoteQueue(fn,{debounceMs:0}),readForgePending,terminalForgeErrors,document,window,storage,{getItem:()=>null},{origin:'https://game.test'},()=>({matches:true}),timer);
  t.after(()=>events.pagehide?.());return {api,calls,get,storage,values,pendingKey:'cnine.forge.pending:7'};
 }
 test('real app: failed quote offers enabled retry, and retry never executes enhancement',async t=>{
@@ -112,6 +113,30 @@ test('real app: failed quote offers enabled retry, and retry never executes enha
  await until(()=>f.get('enhance-button').querySelector('span').textContent==='견적 다시 확인');
  assert.equal(f.get('enhance-button').disabled,false);await f.api.execute();await until(()=>!!f.api.state().quote);
  assert.equal(f.calls.filter(c=>c.path==='quote').length,4);assert.equal(f.calls.filter(c=>c.path==='enhance').length,0);assert.equal(f.storage.getItem(f.pendingKey),null);
+});
+test('real app: shortage keeps the quote visible, blocks submission, and refresh unlocks without disabling protection',async t=>{
+ let tickets=1;const f=await appFixture(t,({path,body,state,snapshot})=>{
+  if(path.startsWith('state?')){
+   state.wallet.protection=tickets;state.wallet.masterStars=184958;
+   state.items[0].enhancement.level=9;state.policy.steps=Array.from({length:10},()=>({protectionQuantity:3}));
+  }
+  if(path==='quote'){
+   snapshot.item.level=9;snapshot.protectedAttempt=body.useProtection;snapshot.protection={consume:'ON_ATTEMPT'};
+   Object.assign(snapshot.cost,{successPpm:100000,maintainPpm:750000,destroyPpm:150000,coinCost:15000000000,itemQuantity:150000,protectionQuantity:3});
+  }
+ });
+ f.get('protection-toggle').checked=true;
+ await f.api.select('310');await until(()=>!!f.api.state().quote);
+ assert.equal(f.get('enhance-button').disabled,true);
+ assert.equal(f.get('forge-retry').textContent,'보유 수량 새로고침');
+ assert.equal(f.get('success-rate').textContent,'10%');assert.equal(f.get('rate-level').textContent,'+9 → +10');
+ assert.match(f.get('.material-list').textContent,/150,000개/);
+ assert.match(f.get('.consumption-note').textContent,/\+10 도전 · 보호권 3장 필요/);
+ assert.equal(f.get('.protection-card small').textContent,'보유 1장');
+ await f.api.execute();assert.equal(f.calls.filter(c=>c.path==='enhance').length,0);assert.equal(f.storage.getItem(f.pendingKey),null);
+ tickets=3;f.get('forge-retry').onclick();await until(()=>f.get('enhance-button').disabled===false);
+ assert.equal(f.get('protection-toggle').checked,true);assert.equal(f.get('.protection-card small').textContent,'보유 3장');
+ assert.equal(f.calls.filter(c=>c.path==='enhance').length,0);
 });
 test('real app: completed pending request auto-recovers using receipt GET only',async t=>{
  const pending={requestId:rid(),quoteId:rid(),kind:'ENHANCE'},f=await appFixture(t,null,{pending});

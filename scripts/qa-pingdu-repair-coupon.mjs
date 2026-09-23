@@ -54,6 +54,11 @@ if(inventoryQa){
  await f.p("INSERT INTO user_equipment_loadout VALUES(7,'WEAPON',310) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=310").run();
  for(let id=400;id<485;id++)await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,request_id) VALUES(?,7,1,?)",id,'sort-qa-recent-'+id).run();
 }
+// Reproduce the reported +10 shortage without touching any live account.
+if(readiness&&process.env.FORGE_SHORTAGE_QA==='1'){
+ await f.p("UPDATE cnine_user_inventory SET quantity=184958 WHERE user_id=7 AND item_code='MASTER_STAR'").run();
+ await f.p('UPDATE cnine_user_inventory SET quantity=1 WHERE user_id=7 AND item_code=?',FORGE_PROTECTION_ITEM.code).run();
+}
 async function qaLoadout(){
  const rows=await equipmentEnhancementRows(f.env,7,(await equipmentPreviewRows(f.env,7)).results);
  const loadout=Object.fromEntries((await f.p('SELECT slot,instance_id FROM user_equipment_loadout WHERE user_id=7').all()).results.map(r=>[r.slot,Number(r.instance_id)]));
