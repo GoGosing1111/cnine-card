@@ -1,7 +1,7 @@
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../../functions/_postgres_d1_compat.js';
 import {AXE_KEY,AXE_REWARDS,AXE_PARTS,OLD_AXE,SUPERSTAR_13,PARTS_CHOICE,cleanAxeSettings,axeSettingsComplete,axePhase,pickAxeReward} from '../../js/golden-axe-model-v1.js';
-import {goldenAxeAdmin,goldenAxeState,drawGoldenAxe,useGoldenAxeItem,goldenAxeItemOptions,handleGoldenAxe} from '../../functions/_golden_axe.js';
+import {ensureGoldenAxe,goldenAxeAdmin,goldenAxeState,drawGoldenAxe,useGoldenAxeItem,goldenAxeItemOptions,handleGoldenAxe} from '../../functions/_golden_axe.js';
 import {MERCENARY_CMS_SEED} from '../../functions/_mercenary_cms_seed.js';
 const admin={id:99};
 const settings=(key='COIN_500',extra={})=>({visible:true,enabled:true,startsAt:new Date(Date.now()-3600000).toISOString(),endsAt:new Date(Date.now()+86400000).toISOString(),axeCost:1,dailyLimit:0,rates:Object.fromEntries(AXE_REWARDS.map(r=>[r.key,r.key===key?100:0])),...extra});
@@ -27,11 +27,11 @@ export async function fixture(){
  const doc=structuredClone(MERCENARY_CMS_SEED.document);doc.mercenaries.forEach((m,i)=>m.rank=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===m.code).rank||(i<2?'S':'C'));await pg.query("INSERT INTO mercenary_cms_documents_v1 VALUES('config',$1,1)",[JSON.stringify(doc)]);
  for(const [i,r] of AXE_REWARDS.filter(r=>r.kind==='EQUIPMENT').entries())await pg.query('INSERT INTO character_equipment_items VALUES($1,$2,$3,$4,$5,1,1)',[i+1,r.code,r.name,'BATTLE_SUIT',r.image]);
  for(const code of ['UNIQUE_ADVANCEMENT_PASS',...AXE_PARTS.map(p=>p.code)])await pg.query('INSERT INTO inventory_items(code,name,is_active) VALUES($1,$1,1)',[code]);
- let fault=null,clockReads=0,expire=false;
- const client={async query(input){const sql=typeof input==='string'?input:input.text,values=typeof input==='string'?[]:input.values||[];if(fault&&sql.includes(fault))throw Error('injected transaction failure');if(sql==='SELECT clock_timestamp() AS now'&&expire&&++clockReads===2)return {rows:[{now:new Date(Date.now()+3*86400000)}],rowCount:1};const r=await pg.query(sql,values);return {...r,rowCount:r.affectedRows??r.rows.length};}};
+ let fault=null,zero=null,clockReads=0,expire=false;
+ const client={async query(input){const sql=typeof input==='string'?input:input.text,values=typeof input==='string'?[]:input.values||[];if(fault&&sql.includes(fault))throw Error('injected transaction failure');if(zero&&sql.startsWith(zero))return {rows:[],rowCount:0};if(sql==='SELECT clock_timestamp() AS now'&&expire&&++clockReads===2)return {rows:[{now:new Date(Date.now()+3*86400000)}],rowCount:1};const r=await pg.query(sql,values);return {...r,rowCount:r.affectedRows??r.rows.length};}};
  const env={DB:new __postgresCompatTest.PostgresD1Database(client)},row=async(sql,args=[])=>(await pg.query(sql,args)).rows[0];
- await goldenAxeAdmin(env,admin);await pg.query('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,$1,10,10),(2,$1,10,10)',[OLD_AXE]);
+ await ensureGoldenAxe(env);await pg.query('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,$1,10,10),(2,$1,10,10)',[OLD_AXE]);
  const configure=async(key='COIN_500',extra={})=>{const c=await goldenAxeAdmin(env,admin);return goldenAxeAdmin(env,admin,{...settings(key,extra),revision:c.revision});};
  const body=async(id=1)=>{const s=await goldenAxeState(env,id);return {requestId:crypto.randomUUID(),revision:s.revision,quote:s.quote};};
- return {pg,env,doc,row,configure,body,state:(id=1)=>goldenAxeState(env,id),draw:(body,id=1,n=0)=>drawGoldenAxe(env,id,body,{randomInt:max=>n%max}),use:body=>useGoldenAxeItem(env,1,body),fault:value=>{fault=value;},expire:()=>{expire=true;clockReads=0;},close:()=>pg.close()};
+ return {pg,env,doc,row,configure,body,state:(id=1)=>goldenAxeState(env,id),draw:(body,id=1,n=0)=>drawGoldenAxe(env,id,body,{randomInt:max=>n%max}),use:body=>useGoldenAxeItem(env,1,body),fault:value=>{fault=value;},zero:value=>{zero=value;},expire:()=>{expire=true;clockReads=0;},close:()=>pg.close()};
 }

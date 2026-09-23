@@ -37,7 +37,7 @@
     attendance:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M7 2v5m10-5v5M3 10h18M8 15l3 3 5-5"/>',
     dailyquest:'<path d="M8 4H4v18h16V4h-4M8 2h8v5H8ZM7 11l1 1 2-2m3 1h4M7 17l1 1 2-2m3 1h4"/>',
     messages:'<rect x="2" y="5" width="20" height="15" rx="2"/><path d="m2 6 10 8L22 6M2 19l7-7m13 7-7-7"/>',
-    goldenAxe:'<path d="m14 8-5 14-3-1L11 6M12 4c-3 1-6 0-7-2-2 5-1 8 1 10 2-3 5-3 8-2l3-5Z"/>',
+    chuseok:'<path d="M17 3a8 8 0 1 0 4 13A9 9 0 0 1 17 3Z"/><path d="M5 5v4M3 7h4"/>',
     clan:'<circle cx="12" cy="6" r="3"/><circle cx="4" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><path d="M7 22v-7a5 5 0 0 1 10 0v7M1 20v-5a3 3 0 0 1 6 0m10 0a3 3 0 0 1 6 0v5"/>',
     coup:'<path d="M3 11l4 3 5-7 5 7 4-3-2 9H5ZM7 23h10M12 1v4m-8 0 2 3m14-3-2 3"/>',
     territory:'<path d="m2 6 6-3 8 3 6-3v16l-6 3-8-3-6 3ZM8 3v16m8-13v16M11 9v7m0-7h4l-1 2 1 2h-4"/>',

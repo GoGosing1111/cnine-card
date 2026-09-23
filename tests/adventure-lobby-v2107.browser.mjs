@@ -82,7 +82,7 @@ try{
   const uniqueIconCount=new Set(allRoutes.map(e=>e.icon)).size;
   check(allRoutes.length>0&&new Set(allRoutes.map(e=>e.route)).size===allRoutes.length,size+' all-menu retains every visible route exactly once');
   check(uniqueIconCount===allRoutes.length,size+` all-menu entry retains its own icon (${allRoutes.length} routes / ${uniqueIconCount} icons)`);
-  check(await lobby.locator('[data-route="goldenAxe"]').count()===0&&await lobby.locator('[data-route="alchemy"]').count()===0,size+' full directory excludes hidden features');
+  check(await lobby.locator('[data-route="chuseok"]').count()===0&&await lobby.locator('[data-route="alchemy"]').count()===0,size+' full directory excludes hidden features');
   await lobby.locator('#menu-search').fill('강화');
   check(await lobby.locator('.menu-result[data-route="equipmentForge"]').count()===1,size+' all-menu search still spans all categories');
   for(const category of ['inventory','pve','pvp','cards','equipment','shop','rewards','social','administration']){
@@ -122,7 +122,7 @@ try{
   await page.evaluate(()=>updateMessageNewBadges(7));
   check(await lobby.locator('#inbox-count').textContent()==='7',size+' native unread count reaches lobby');
   await lobby.locator('#clear-search').click();
-  check(await lobby.locator('[data-route="goldenAxe"]').count()===0&&await lobby.locator('[data-route="alchemy"]').count()===0,size+' hidden feature routes remain hidden');
+  check(await lobby.locator('[data-route="chuseok"]').count()===0&&await lobby.locator('[data-route="alchemy"]').count()===0,size+' hidden feature routes remain hidden');
   await lobby.locator('#close-menu').click();
   await lobby.locator('#chief-shortcut').click();
   check(await page.locator('.v21-chief-dialog').isVisible(),size+' compact chief name opens original details');

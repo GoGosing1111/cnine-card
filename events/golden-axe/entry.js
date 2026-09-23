@@ -1,2 +1,2 @@
-import {startGoldenAxe} from '/js/golden-axe-page-v1.js?v=axe1';
-window.addEventListener('DOMContentLoaded',()=>startGoldenAxe(),{once:true});
+// Preserve voucher deep links, but never render the retired axe event.
+location.replace('/events/chuseok/'+location.search);

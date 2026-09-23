@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
+import {redeemChuseokCoinCoupon} from '../functions/_chuseok_coupon.js';
 
 const server=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const admin=readFileSync(new URL('../admin/admin-v1276.js',import.meta.url),'utf8');
@@ -70,7 +71,7 @@ test('PostgreSQL에서 모든 발급 경로의 100억 저장·수령·재시도�
   const createSource=server.slice(server.indexOf("    if(path==='admin/coupon-create-permanent-v3')"),server.indexOf("    if(path==='admin/users/card-grant')"));
   const create=new AsyncFunction('path','request','env','requirePermission','readBody','releaseDeletedCouponCode','ensureGoldenAxe','json',server.slice(start,end)+createSource);
   const redeemSource=server.slice(server.indexOf("    if(path==='coupon/redeem'"),server.indexOf("    if(path==='admin/daily-quests')"));
-  const redeem=new AsyncFunction('path','request','env','authenticate','readBody','redeemLandCoupon','redeemWishTicketCoupon','redeemOldAxeCoupon','profile','isRandomDrawExcluded','json',server.slice(start,end)+redeemSource);
+  const redeem=new AsyncFunction('path','request','env','authenticate','readBody','redeemLandCoupon','redeemWishTicketCoupon','redeemOldAxeCoupon','redeemChuseokCoinCoupon','profile','isRandomDrawExcluded','json',server.slice(start,end)+redeemSource);
   const request=body=>new Request('https://qa.test/api/coupon',{method:'POST',body:JSON.stringify(body)});
   let count=0;
   for(const path of ['admin/coupon-create-permanent-v3','admin/coupons','admin/coupons-v2']){
@@ -78,7 +79,7 @@ test('PostgreSQL에서 모든 발급 경로의 100억 저장·수령·재시도�
     const call=payload=>create(path,request(payload),env,async()=>({id:99}),r=>r.json(),async()=>{},async()=>{},json);
     const made=await call(body);assert.equal(made.status,201);const {coupon}=await made.json();assert.equal(Number(coupon.reward_coin),10000000000);assert.equal(Number(coupon.reward_amount),10000000000);
     for(const amount of [10000000001,0,-1,1.5])assert.equal((await call({...body,code:'INVALID-'+count,rewardAmount:amount})).status,400);
-    const claim=operationKey=>redeem('coupon/redeem',request({code,operationKey}),env,async()=>({id:1}),r=>r.json(),async()=>null,async()=>null,async()=>null,async(_env,user)=>user,()=>false,json);
+    const claim=operationKey=>redeem('coupon/redeem',request({code,operationKey}),env,async()=>({id:1}),r=>r.json(),async()=>null,async()=>null,async()=>null,redeemChuseokCoinCoupon,async(_env,user)=>user,()=>false,json);
     const first=await claim('CAP100-QA-KEY-'+count);assert.equal(first.status,200);const result=await first.json();assert.equal(result.rewardCoin,10000000000);assert.equal(Number(result.user.coin),9000000000+(++count)*10000000000);
     const replay=await claim('CAP100-QA-KEY-'+(count-1));assert.equal((await replay.json()).replayed,true);
     assert.equal((await claim('DIFFERENT-OPERATION-KEY')).status,409);

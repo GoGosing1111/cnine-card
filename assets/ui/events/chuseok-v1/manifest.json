@@ -1,0 +1,44 @@
+{
+  "version": "chuseok-assets-20260923-v1",
+  "provenance": "generation.json",
+  "runtime": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "sharedVendor": "js/ui-fx-vendor-v2045.bundle.js",
+    "source": "js/chuseok-fx-v1.src.js"
+  },
+  "files": [
+    {
+      "file": "envelopes-atlas.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "bytes": 2455808,
+      "sha256": "483afb5d7d91f508a4eee1dd9e6754b70928174b23e26f415c0266738f5a5388"
+    },
+    {
+      "file": "knead-atlas.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": true,
+      "bytes": 1519644,
+      "sha256": "abc51806ec62ee3a785abd7b400620a2aec5b5f0609dae9ded5c04ee3364cd6c"
+    },
+    {
+      "file": "moonlit-hanok.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha": false,
+      "bytes": 2502374,
+      "sha256": "776526f8cfdb7d7e482034408f02eb53be6c215976b6748f6b7a735808cba9b0"
+    },
+    {
+      "file": "songpyeon-atlas.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "bytes": 2270602,
+      "sha256": "8e3e87cc7a22545b9ccac721c1ec1e614899687074cc1b75b85fa863f98d3094"
+    }
+  ]
+}

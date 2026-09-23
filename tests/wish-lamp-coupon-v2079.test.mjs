@@ -9,5 +9,5 @@ test('retired coupons, including retries of previously redeemed tickets, never i
 });
 test('CMS cannot create another wish ticket coupon',()=>{
  const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),specs=api.slice(api.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),api.indexOf('let verifiedRewardMessageV1276ReadyPromise'));
- const spec=Function(specs+';return couponRewardSpec')();assert.equal(spec('PINGDU_WISH_TICKET'),null);assert.equal(spec('PINGDU_OLD_AXE').label,'낡은도끼');
+ const spec=Function(specs+';return couponRewardSpec')();assert.equal(spec('PINGDU_WISH_TICKET'),null);assert.equal(spec('PINGDU_OLD_AXE'),null);assert.equal(spec('CHUSEOK_COIN').label,'추석 코인');
 });

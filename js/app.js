@@ -3988,7 +3988,7 @@ function inventoryItemGroup(item){
   if(category==='SKILL_CHIP')return 'SKILL_CHIP';
   if(category==='REROLL'||RETIREMENT_REROLL_META[code]||code==='HIGH_GRADE_REROLL_TICKET')return 'REROLL';
   if(['CUBE','SUPPLY_BOX','VEHICLE_DRAW','PACK','CARD_PACK'].includes(category)||['BLACK_MIRACLE_PACK','MAGIC_CARD_PACK','SUPERSTAR_GUARANTEED_PACK','NEW_USER_GIFT_BOX'].includes(code))return 'PACK';
-  if(code==='SOOPKETLAND_HYPER_BURNING_TICKET'||code==='PINGDU_OLD_AXE')return 'OTHER';
+  if(code==='SOOPKETLAND_HYPER_BURNING_TICKET'||code==='CHUSEOK_COIN')return 'OTHER';
   if(category==='ENTRY_TICKET'||['SOOPKETLAND_TICKET','SCRAPYARD_ENTRY_TICKET','CORE_RAID_ENTRY_TICKET'].includes(code))return 'ENTRY_TICKET';
   return 'OTHER';
 }
@@ -4014,7 +4014,7 @@ function inventoryItemMarkup(item){
 function inventoryEmptyDetail(){return `<div class="iv25-detail-empty">${inventoryIcon('box')}<b>아이템을 선택하세요</b><p>선택한 아이템의 정보와<br>사용 방법이 여기에 표시됩니다.</p></div>`;}
 function inventoryDetailMarkup(item){
   const meta=inventoryItemMeta(item);
-  return `<div class="iv25-detail-inner iv25-rarity-${meta.kind}"><div class="iv25-detail-label"><span>선택한 아이템</span><b class="iv25-grade">${escapeHtml(meta.grade)}</b></div><div class="iv25-detail-art">${inventoryItemVisual(item)}</div><div class="iv25-detail-copy"><span class="iv25-category-tag">${meta.categoryLabel}</span><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description||'등록된 설명이 없습니다.')}</p></div><dl class="iv25-quantity"><dt>보유 수량</dt><dd>${meta.quantity.toLocaleString()}<span>개</span></dd></dl><div class="iv25-use-state ${meta.owned&&meta.usable?'iv25-can-use':''}"><i></i><span>${meta.owned&&meta.usable?'사용할 수 있는 아이템':escapeHtml(meta.reason)}</span></div><button type="button" class="iv25-use" data-inventory-use="${escapeHtml(item.code)}" ${meta.owned&&meta.usable?'':'disabled'}><span>${!meta.owned?'미보유':meta.usable?meta.action:meta.group==='MATERIAL'?'재료 전용':meta.group==='SKILL_CHIP'?'장비에서 장착':['CORE_RAID_ENTRY_TICKET','PINGDU_OLD_AXE','UNIQUE_ADVANCEMENT_PASS'].includes(meta.code)?'전용 화면에서 사용':'현재 사용 불가'}</span>${inventoryIcon('arrow')}</button>${meta.owned&&meta.usable?'<p class="iv25-action-note">다음 화면에서 사용 내용을 확인할 수 있습니다.</p>':''}</div>`;
+  return `<div class="iv25-detail-inner iv25-rarity-${meta.kind}"><div class="iv25-detail-label"><span>선택한 아이템</span><b class="iv25-grade">${escapeHtml(meta.grade)}</b></div><div class="iv25-detail-art">${inventoryItemVisual(item)}</div><div class="iv25-detail-copy"><span class="iv25-category-tag">${meta.categoryLabel}</span><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description||'등록된 설명이 없습니다.')}</p></div><dl class="iv25-quantity"><dt>보유 수량</dt><dd>${meta.quantity.toLocaleString()}<span>개</span></dd></dl><div class="iv25-use-state ${meta.owned&&meta.usable?'iv25-can-use':''}"><i></i><span>${meta.owned&&meta.usable?'사용할 수 있는 아이템':escapeHtml(meta.reason)}</span></div><button type="button" class="iv25-use" data-inventory-use="${escapeHtml(item.code)}" ${meta.owned&&meta.usable?'':'disabled'}><span>${!meta.owned?'미보유':meta.usable?meta.action:meta.group==='MATERIAL'?'재료 전용':meta.group==='SKILL_CHIP'?'장비에서 장착':['CORE_RAID_ENTRY_TICKET','CHUSEOK_COIN','UNIQUE_ADVANCEMENT_PASS'].includes(meta.code)?'전용 화면에서 사용':'현재 사용 불가'}</span>${inventoryIcon('arrow')}</button>${meta.owned&&meta.usable?'<p class="iv25-action-note">다음 화면에서 사용 내용을 확인할 수 있습니다.</p>':''}</div>`;
 }
 function inventoryVisibleItems(items){
   const query=inventoryUiState.query.trim().toLocaleLowerCase('ko');
@@ -4106,7 +4106,7 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
-  if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){location.assign('/events/golden-axe/?use='+encodeURIComponent(itemCode));return;}
+  if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){location.assign('/events/chuseok/?use='+encodeURIComponent(itemCode));return;}
   if(itemCode==='NEW_USER_GIFT_BOX')return window.NewUserGiftV2075.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell});
   if(itemCode==='SUPERSTAR_GUARANTEED_PACK')return openGuaranteedSuperstarTicket();
   if(WORKSHOP_ONLY_ITEM_CODES.has(String(itemCode||'').toUpperCase()))return showSupplyNotice('차량 부품은 제작소에서만 사용할 수 있습니다.',true);
