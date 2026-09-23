@@ -47,6 +47,10 @@
     bonuses: {}
   };
 
+  // Opt-in visual QA only. The production API and owned equipment are untouched.
+  if (new URLSearchParams(window.location.search).get('enhancementGlow') === '1') {
+    fixture.instances.forEach((row, index) => { row.enhancement = { level: [8, 9, 10, 7, 0][index % 5] }; });
+  }
   const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
   const previewRequest = async (path) => {
     await wait(140);

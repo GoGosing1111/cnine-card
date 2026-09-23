@@ -145,6 +145,10 @@
       : '<span class="clv2-art-empty" aria-hidden="true"></span>';
 
     const equipmentName = row => `${row?.item?.name || '미장착'}${row?.enhancement ? ` +${Number(row.enhancement.level || 0)}` : ''}`;
+    // Decoration belongs only to this equipment view, never rarity/card frames.
+    const glowLevel = row => STANDARD_SLOT_ORDER.includes(row?.item?.slot) && [8, 9, 10].includes(Number(row?.enhancement?.level)) ? Number(row.enhancement.level) : 0;
+    const glowAttribute = row => glowLevel(row) ? `data-enhancement-glow="${glowLevel(row)}"` : '';
+    const glowArt = row => glowLevel(row) ? `<span class="clv2-enhancement-light" aria-hidden="true"></span><b class="clv2-enhancement-level" aria-hidden="true">+${glowLevel(row)}</b>` : '';
     function slotCard(slot) {
       const row = equippedInstance(slot);
       const item = row?.item;
@@ -153,7 +157,7 @@
         <span class="clv2-slot-index">${SLOT_CODES[slot]}</span>
         <span class="clv2-slot-label">${SLOT_LABELS[slot]}</span>
         <button class="clv2-slot-hit" type="button" data-slot-filter="${slot}" aria-label="${SLOT_LABELS[slot]} 장비 보기"></button>
-        <div class="clv2-item-art clv2-slot-art">${item ? art(item, true) : `<span class="clv2-slot-ghost">${icon(slot === 'ACCESSORY' || isBattleSuit ? 'shield' : 'equipment')}</span>`}</div>
+        <div class="clv2-item-art clv2-slot-art" ${glowAttribute(row)}>${item ? art(item, true) : `<span class="clv2-slot-ghost">${icon(slot === 'ACCESSORY' || isBattleSuit ? 'shield' : 'equipment')}</span>`}${glowArt(row)}</div>
         <div class="clv2-slot-caption"><strong>${escapeHtml(equipmentName(row))}</strong><small>${item ? `${RARITY_LABELS[normalizeRarity(item.rarity)]} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}` : isBattleSuit ? 'PVE 전용 외형 슬롯' : '슬롯을 선택해 장착'}</small></div>
         ${item ? `<button class="clv2-slot-remove" type="button" data-unequip="${slot}" aria-label="${SLOT_LABELS[slot]} 장착 해제">${icon('close')}</button>` : ''}
       </article>`;
@@ -184,7 +188,7 @@
       const quantity = quantityKnown ? Math.max(0, Number(row.quantity ?? 1)) : null;
       return `<button type="button" class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}${isBattleSuit ? ' is-battle-suit' : ''}" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''}>
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
-        <div class="clv2-item-art clv2-inventory-art">${art(item)}<span data-equipment-quantity="${item.id}" data-equipment-instance="${row.instanceId}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
+        <div class="clv2-item-art clv2-inventory-art" ${glowAttribute(row)}>${art(item)}${glowArt(row)}<span data-equipment-quantity="${item.id}" data-equipment-instance="${row.instanceId}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
         <span class="clv2-item-copy"><strong>${escapeHtml(equipmentName(row))}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small>${Number(row.enhancement?.level)>0?`<small>개별 장비 · #${escapeHtml(row.instanceId)}</small>`:''}</span>
       </button>`;

@@ -528,6 +528,87 @@
 }
 .clv2-inventory-art { width: 100%; aspect-ratio: 1; flex: 0 0 auto; border: 1px solid rgba(133, 171, 197, .12); }
 .clv2-inventory-art .clv2-art-image { padding: 3%; }
+
+/* Equipment-window enhancement light: exactly +8, +9 and +10.
+   Keep the artwork clean; the masked light lives on its rectangular rim. */
+@property --clv2-rim-angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow] {
+  --rim: #6eeaff;
+  --rim-soft: #48cded55;
+  isolation: isolate;
+  border-color: var(--rim);
+  box-shadow: 0 0 8px var(--rim-soft), inset 0 0 9px var(--rim-soft);
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="9"] {
+  --rim: #d7a1ff;
+  --rim-soft: #b573ff77;
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="10"] {
+  --rim: #ffe4a2;
+  --rim-soft: #ffba5088;
+  box-shadow: 0 0 11px var(--rim-soft), inset 0 0 14px #ffbf4938;
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid var(--rim);
+  box-shadow: inset 0 0 8px var(--rim-soft), 0 0 7px var(--rim-soft);
+  animation: clv2-rim-breathe 4.4s ease-in-out infinite;
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 2px;
+  background: conic-gradient(from var(--clv2-rim-angle), transparent 0deg 225deg, var(--rim) 270deg, #fff 291deg, transparent 315deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: .8;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="9"] .clv2-enhancement-light::before {
+  padding: 2px;
+  animation: clv2-rim-orbit 5s linear infinite;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::before {
+  padding: 3px;
+  background: conic-gradient(from var(--clv2-rim-angle), #fbb34033, #ffcc64 55deg, #fff8de 82deg, transparent 105deg 180deg, #ffcc64 235deg, #fff 262deg, transparent 285deg);
+  animation: clv2-rim-orbit 3.8s linear infinite;
+}
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top left, #fff7d8 0, #ffca68aa 2px, transparent 11px), radial-gradient(ellipse at bottom right, #fff7d8 0, #ffca68aa 2px, transparent 11px);
+  animation: clv2-rim-breathe 2.6s ease-in-out infinite reverse;
+}
+.clv2-shell[data-active-tab="equipment"] .clv2-enhancement-level {
+  position: absolute;
+  z-index: 3;
+  left: 4px;
+  bottom: 4px;
+  min-width: 26px;
+  padding: 3px 5px;
+  border: 1px solid var(--rim);
+  border-radius: 2px;
+  color: var(--rim);
+  background: #070d18ed;
+  box-shadow: 0 0 8px var(--rim-soft);
+  font: 800 11px/1.1 "Barlow Condensed", sans-serif;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  pointer-events: none;
+}
+@keyframes clv2-rim-breathe { 0%, 100% { opacity: .52; } 50% { opacity: 1; } }
+@keyframes clv2-rim-orbit { to { --clv2-rim-angle: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light,
+  .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light::before,
+  .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light::after { animation: none; opacity: 1; }
+}
 .clv2-item-quantity {
   position: absolute;
   z-index: 3;
