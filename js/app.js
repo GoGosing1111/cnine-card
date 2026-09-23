@@ -951,7 +951,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=2098-hyper-codex'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20260918-coin-200eok'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20260924-land-rewards'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
