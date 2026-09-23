@@ -2,7 +2,7 @@ import {jointAccountRequest as api} from './joint-account-transport.mjs';
 import {MERCENARY_PACK,mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs?v=2134-receipt-art-v2';
 import {MercenaryAcquisitionVideo,withPresentationDeadline} from './mercenary-acquisition-video.mjs?v=2145';
 
-let busy=false,access={connected:true,userOpeningEnabled:null},statusText='개봉 상태를 확인하고 있습니다.';
+let busy=false,activeAuto=null,access={connected:true,userOpeningEnabled:null},statusText='개봉 상태를 확인하고 있습니다.';
 const fmt=n=>Number(n||0).toLocaleString('ko-KR');
 const notice=text=>{statusText=text;for(const node of document.querySelectorAll('[data-mercenary-open-status]'))if(node.textContent!==text)node.textContent=text;};
 // 결과 목록은 원본 PNG(평균 2.37MB)가 아니라 용병도감이 이미 쓰는 640 webp(평균 129KB)를 읽는다.
@@ -22,7 +22,8 @@ function accountFlags(){
   accountCache={accountId,hasPending,hasReceipt};return accountCache;
 }
 function syncButtons(){
-  for(const button of document.querySelectorAll('[data-mercenary-open]'))button.disabled=busy||access.userOpeningEnabled!==true;
+  for(const button of document.querySelectorAll('[data-mercenary-open]'))button.disabled=busy||Boolean(activeAuto)||access.userOpeningEnabled!==true;
+  for(const button of document.querySelectorAll('[data-mercenary-auto]'))button.disabled=busy||Boolean(activeAuto)||access.userOpeningEnabled!==true;
   for(const button of document.querySelectorAll('[data-mercenary-repeat]'))button.disabled=busy||button.dataset.ready!=='true'||access.userOpeningEnabled!==true;
   for(const label of document.querySelectorAll('[data-hyper-opening-label]')){const value=access.userOpeningEnabled?'용병 계약 개봉 가능':'현재 개봉 준비 중';if(label.textContent!==value)label.textContent=value;}
   const {hasPending,hasReceipt}=accountFlags();
@@ -34,7 +35,7 @@ let syncQueued=false;
 const frame=typeof requestAnimationFrame==='function'?requestAnimationFrame:fn=>{void Promise.resolve().then(fn);};
 function requestSync(){if(syncQueued)return;syncQueued=true;frame(()=>{syncQueued=false;syncButtons();});}
 async function feature(){const before=access.userOpeningEnabled;access=await api(MERCENARY_PACK.featurePath);syncButtons();if(before!==access.userOpeningEnabled){notice(access.userOpeningEnabled?'1회 5억 코인 · 등급별 확률·용병별 가중치로 추첨합니다.':'하이퍼팩 개봉은 현재 OFF입니다.');window.dispatchEvent(new CustomEvent('mercenary-pack:availability',{detail:access}));}return access;}
-function stylesheet(){if(document.querySelector('[data-mercenary-pack-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-pack-live.css?v=2145';link.dataset.mercenaryPackStyle='';document.head.append(link);}
+function stylesheet(){if(document.querySelector('[data-mercenary-pack-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-pack-live.css?v=20260924-auto';link.dataset.mercenaryPackStyle='';document.head.append(link);}
 const scripts=new Map();
 function script(path,ready){
   if(ready())return Promise.resolve();if(scripts.has(path))return scripts.get(path);
@@ -55,12 +56,18 @@ function withDeadline(promise,ms,message){
   return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error(message)),ms);})]).finally(()=>clearTimeout(timer));
 }
 
-export async function showMercenaryReceipt(receipt,{onClose,onRepeat}={}){
+export async function showMercenaryReceipt(receipt,{onClose,onRepeat,autoSession}={}){
   const results=mercenaryPackResults(receipt);stylesheet();
   const dialog=document.createElement('dialog');dialog.className='mercenary-pack-dialog';dialog.classList.toggle('batch',results.length>1);
   if(results.some(result=>result.kind==='MERCENARY'&&['SS','SSS'].includes(result.rank)))dialog.dataset.cinematics='true';
   dialog.innerHTML='<header><div><span>HYPER PACK · CONTRACT</span><h2>계약 결과</h2></div><button type="button" data-close aria-label="개봉 결과 닫기">닫기</button></header><p class="mercenary-pack-receipt" role="status"></p><div class="mercenary-pack-stage" aria-hidden="true"></div><div class="mercenary-pack-controls"><button type="button" data-pause disabled>일시정지</button><button type="button" data-skip disabled>결과 바로 보기</button></div><ol class="mercenary-pack-results"></ol><footer><a href="/mercenary-codex/?view=owned">내 용병 확인·편성</a><span>획득 결과는 계정에 저장됐습니다.</span></footer>';
   const status=dialog.querySelector('[role="status"]');status.textContent=`${receipt.replayed?'저장된 결과 복구 · ':''}${results.length}회 개봉${receipt.coinCost?` · ${fmt(receipt.coinCost)} 코인`:''}`;
+  if(autoSession){
+    const stop=document.createElement('button');stop.type='button';stop.dataset.autoStop='';stop.textContent='자동 개봉 중지';
+    stop.onclick=()=>{autoSession.stop();stop.disabled=true;stop.textContent='중지됨 · 현재 결과 확인';};
+    dialog.querySelector('header').append(stop);
+    status.textContent+=` · 자동 ${autoSession.completed} / ${autoSession.total}회`;
+  }
   const repeat=document.createElement('button');repeat.type='button';repeat.className='mercenary-pack-repeat';repeat.dataset.mercenaryRepeat=String(results.length);repeat.disabled=true;
   repeat.innerHTML=`<strong>${results.length}회 더 개봉</strong><span>${fmt(MERCENARY_PACK.price*results.length)} 코인</span>`;
   if(onRepeat)dialog.querySelector('footer').append(repeat);
@@ -83,12 +90,12 @@ export async function showMercenaryReceipt(receipt,{onClose,onRepeat}={}){
   }
   let fx,closed=false;const pause=dialog.querySelector('[data-pause]'),skip=dialog.querySelector('[data-skip]');
   const cinematic=new MercenaryAcquisitionVideo(dialog.querySelector('.mercenary-pack-stage'));
-  const leave=()=>close(false);const close=(acknowledge=true)=>{if(closed)return;closed=true;fx?.destroy();cinematic.destroy();window.removeEventListener('pagehide',leave);document.removeEventListener('visibilitychange',visibility);dialog.close();dialog.remove();if(acknowledge)onClose?.();};
+  const leave=()=>{autoSession?.stop();close(false);};const close=(acknowledge=true)=>{if(closed)return;closed=true;if(acknowledge)autoSession?.stop();fx?.destroy();cinematic.destroy();window.removeEventListener('pagehide',leave);document.removeEventListener('visibilitychange',visibility);dialog.close();dialog.remove();if(acknowledge)onClose?.();};
   dialog.querySelector('[data-close]').onclick=close;dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
   // 결제는 이미 확정된 뒤다. 닫고 나서 다음 개봉을 시작해야 잠금과 겹치지 않는다.
   repeat.onclick=()=>{if(closed||repeat.disabled)return;repeat.disabled=true;close();void Promise.resolve().then(onRepeat);};
   pause.onclick=()=>fx?.pause();skip.onclick=()=>fx?.skip();
-  const visibility=()=>{if(document.hidden&&fx?.running&&!fx.paused)fx.pause();};document.addEventListener('visibilitychange',visibility);
+  const visibility=()=>{if(document.hidden){autoSession?.stop();if(fx?.running&&!fx.paused)fx.pause();}};document.addEventListener('visibilitychange',visibility);
   dialog.addEventListener('close',()=>document.removeEventListener('visibilitychange',visibility),{once:true});
   window.addEventListener('pagehide',leave,{once:true});document.body.append(dialog);dialog.showModal();
   try{
@@ -98,11 +105,16 @@ export async function showMercenaryReceipt(receipt,{onClose,onRepeat}={}){
     fx=globalThis.HyperPackFX.create(dialog.querySelector('.mercenary-pack-stage'),event=>{if(closed)return;dialog.dataset.phase=event.state;pause.disabled=!fx?.running||fx.loading;skip.disabled=!fx?.running;pause.textContent=event.state==='paused'?'계속 재생':'일시정지';},{live:true,cinematic});
     await withDeadline(fx.init(),20000,'개봉 연출 자원을 불러오지 못했습니다.');if(closed){fx.destroy();return;}
     await withPresentationDeadline(fx.play(results),()=>fx.paused||document.hidden,45000+results.length*20000);
-  }catch(error){console.warn('MERCENARY_PACK_FX_FAILED',error?.message||error);fx?.destroy();cinematic.destroy();if(!closed){dialog.dataset.phase='complete';pause.disabled=skip.disabled=true;status.textContent+=` · ${error?.message||'연출을 불러오지 못했습니다.'} 저장된 결과를 표시합니다.`;dialog.querySelector('.mercenary-pack-stage').hidden=true;}}
+  }catch(error){autoSession?.stop('연출 오류로 자동 개봉을 중지했습니다.');console.warn('MERCENARY_PACK_FX_FAILED',error?.message||error);fx?.destroy();cinematic.destroy();if(!closed){dialog.dataset.phase='complete';pause.disabled=skip.disabled=true;status.textContent+=` · ${error?.message||'연출을 불러오지 못했습니다.'} 저장된 결과를 표시합니다.`;dialog.querySelector('.mercenary-pack-stage').hidden=true;}}
   finally{if(!closed){repeat.dataset.ready='true';syncButtons();}}
+  if(autoSession&&!closed&&autoSession.canContinue()&&autoSession.completed<autoSession.total){
+    await new Promise(resolve=>setTimeout(resolve,800));
+    if(autoSession.canContinue())close(false);
+  }
 }
 
-async function open(count=1,{recoverOnly=false}={}){
+async function open(count=1,{recoverOnly=false,autoSession=null}={}){
+  if(activeAuto&&autoSession!==activeAuto){notice('자동 개봉을 먼저 중지해 주세요.');return false;}
   // 잠겨 있을 때 조용히 끝내면 버튼이 고장난 것처럼 보인다. 이유를 반드시 남긴다.
   if(busy){notice('이전 개봉 요청을 처리하고 있습니다. 잠시 후 다시 확인해 주세요.');return false;}
   if(!Number.isInteger(count)||count<1||count>MERCENARY_PACK.maxCount)throw Error('개봉 횟수를 확인하세요.');
@@ -111,8 +123,10 @@ async function open(count=1,{recoverOnly=false}={}){
   try{
     await feature();
     const state=await api(MERCENARY_PACK.statePath);
+    if(autoSession&&(!autoSession.canContinue()||Number(state.accountId)!==autoSession.accountId))return false;
     key=`cnine.mercenary.pack.pending:${state.accountId}`;
     try{pending=JSON.parse(localStorage.getItem(key)||'null');}catch{}
+    if(autoSession&&pending){notice('이전 개봉 처리 확인 후 자동 개봉을 시작해 주세요.');return false;}
     const receiptKey=`cnine.mercenary.pack.receipt:${state.accountId}`;
     const validatePending=value=>{if(typeof value?.requestId!=='string'||!Number.isInteger(value.count)||value.count<1||value.count>MERCENARY_PACK.maxCount)throw Error('이전 개봉 요청 정보를 확인하세요.');};
     const readReceipt=async value=>{try{return await api(MERCENARY_PACK.receiptPath+'?requestId='+encodeURIComponent(value.requestId));}catch(error){if(error.status!==404)throw error;return null;}};
@@ -147,15 +161,17 @@ async function open(count=1,{recoverOnly=false}={}){
       }
     }
     if(result?.status!=='COMPLETED'){
+      if(autoSession&&!autoSession.canContinue())return false;
       if(access.userOpeningEnabled!==true){notice('개봉은 OFF입니다. 아직 완료되지 않은 요청은 보관합니다.');return false;}
       result=await api(pending.count>1?MERCENARY_PACK.batchPath:MERCENARY_PACK.openPath,{method:'POST',body:pending});
     }
     completeReceipt(result);notice(`${result.draws.length}회 개봉 결과를 계정에 저장했습니다.`);
+    if(autoSession){autoSession.completed+=result.draws.length;autoSession.update();}
     window.dispatchEvent(new CustomEvent('mercenary-pack:complete',{detail:{accountId:state.accountId,requestId:result.requestId}}));
     // 결제와 지급은 여기서 끝났다. 연출이 끝날 때까지 잠금을 쥐고 있으면 연출 자원이
     // 지연되는 동안 개봉·복구 버튼이 전부 눌리지 않는다.
     release();
-    await showMercenaryReceipt(result,{onRepeat:()=>open(result.draws.length)});return true;
+    await showMercenaryReceipt(result,{onRepeat:autoSession?undefined:()=>open(result.draws.length),autoSession});return true;
   }catch(error){
     // These responses precede a saved transaction, or explicitly cancel it.
     // Keep uncertain/in-flight requests so retries cannot charge twice.
@@ -164,8 +180,45 @@ async function open(count=1,{recoverOnly=false}={}){
   }
   finally{release();}
 }
+
+function configureAutoOpening(){
+  if(busy||activeAuto||document.querySelector('.mercenary-auto-dialog'))return;
+  stylesheet();
+  const dialog=document.createElement('dialog');dialog.className='mercenary-pack-dialog mercenary-auto-dialog';
+  dialog.innerHTML='<header><div><span>HYPER PACK</span><h2>자동 개봉</h2></div><button type="button" data-auto-close>닫기</button></header><p>정한 수량만 순서대로 개봉합니다. 진행 중 언제든 중지할 수 있습니다.</p><div class="mercenary-auto-fields"><label>총 개봉 횟수<input data-auto-total type="number" min="1" max="1000" step="1" value="10" inputmode="numeric"></label><label>한 번에 개봉<select data-auto-batch><option value="10">10회씩</option><option value="1">1회씩</option></select></label></div><p class="mercenary-auto-cost" data-auto-cost></p><p class="mercenary-auto-status" role="status">잔액 부족·오류·화면 이탈 시 자동 중지됩니다.</p><footer><button type="button" data-auto-start>자동 개봉 시작</button><button type="button" data-auto-stop hidden>자동 개봉 중지</button></footer>';
+  const total=dialog.querySelector('[data-auto-total]'),batch=dialog.querySelector('[data-auto-batch]'),start=dialog.querySelector('[data-auto-start]'),stop=dialog.querySelector('[data-auto-stop]'),status=dialog.querySelector('[role="status"]');
+  const quote=()=>{const n=Number(total.value),valid=Number.isInteger(n)&&n>=1&&n<=1000;start.disabled=!valid;dialog.querySelector('[data-auto-cost]').textContent=valid?`총 ${fmt(n)}회 · 최대 ${fmt(n*MERCENARY_PACK.price)} 코인 사용`:'1~1,000 사이의 정수로 입력해 주세요.';};total.oninput=quote;quote();
+  let session=null;
+  const close=()=>{session?.stop();dialog.close();dialog.remove();};dialog.querySelector('[data-auto-close]').onclick=close;dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
+  start.onclick=async()=>{
+    const n=Number(total.value),chunk=Number(batch.value);if(busy||activeAuto||!Number.isInteger(n)||n<1||n>1000||![1,10].includes(chunk))return;
+    invalidateAccount();const {accountId,hasPending}=accountFlags();
+    if(!accountId||hasPending){status.textContent=hasPending?'이전 개봉 처리를 먼저 확인해 주세요.':'로그인 상태를 확인해 주세요.';return;}
+    session={accountId,total:n,completed:0,stopped:false,reason:'',
+      stop(reason='자동 개봉을 중지했습니다. 처리 중인 요청은 결과까지 확인합니다.'){this.stopped=true;this.reason=reason;this.update();},
+      canContinue(){invalidateAccount();return !this.stopped&&!document.hidden&&dialog.isConnected&&accountFlags().accountId===this.accountId;},
+      update(){status.textContent=`${this.completed} / ${this.total}회 완료 · ${this.reason||'자동 개봉 진행 중'}`;}
+    };
+    activeAuto=session;total.disabled=batch.disabled=start.disabled=true;stop.hidden=false;stop.onclick=()=>session.stop();syncButtons();session.update();
+    const leave=()=>session.stop('화면 이탈로 자동 개봉을 중지했습니다.');
+    const hidden=()=>{if(document.hidden)leave();};
+    document.addEventListener('visibilitychange',hidden);window.addEventListener('pagehide',leave);window.addEventListener('cnine:route-will-change',leave);
+    try{
+      while(session.completed<n&&session.canContinue()){
+        const ok=await open(Math.min(chunk,n-session.completed),{autoSession:session});
+        if(!ok){session.stop(statusText);break;}
+      }
+      if(!session.reason)session.reason=session.completed===n?'자동 개봉 완료':'자동 개봉 중지';
+    }finally{
+      document.removeEventListener('visibilitychange',hidden);window.removeEventListener('pagehide',leave);window.removeEventListener('cnine:route-will-change',leave);
+      activeAuto=null;stop.hidden=true;start.hidden=true;session.update();syncButtons();
+    }
+  };
+  document.body.append(dialog);dialog.showModal();
+}
 globalThis.MercenaryPack=Object.freeze({open,recover:()=>open(1,{recoverOnly:true}),showReceipt:showMercenaryReceipt,feature:()=>({...access})});
 document.addEventListener('click',event=>{const button=event.target.closest?.('[data-mercenary-open],[data-mercenary-recover]');if(button&&!button.disabled){event.preventDefault();void open(Number(button.dataset.mercenaryOpen||1),{recoverOnly:button.hasAttribute('data-mercenary-recover')});}});
+document.addEventListener('click',event=>{const button=event.target.closest?.('[data-mercenary-auto]');if(button&&!button.disabled){event.preventDefault();configureAutoOpening();}});
 const observer=new MutationObserver(requestSync);observer.observe(document.body,{childList:true,subtree:true});
 let featureFlight;const refreshFeature=()=>{if(document.hidden||featureFlight)return;invalidateAccount();featureFlight=feature().catch(()=>{access={...access,userOpeningEnabled:false};notice('개봉 상태를 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.');syncButtons();}).finally(()=>featureFlight=null);};
 const pollFeature=()=>{if(document.querySelector('[data-mercenary-open]'))refreshFeature();};let timer=setInterval(pollFeature,15000);

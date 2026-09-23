@@ -23,3 +23,5 @@
 [data-mercenary-recover]:disabled,[data-mercenary-recover][aria-busy="true"]{opacity:.45;cursor:progress}
 [data-mercenary-recover][hidden]{display:none}
 .hyper-prices .btn:disabled{opacity:.32;cursor:not-allowed}
+.hyper-auto-button{display:block;width:100%;min-height:44px;margin:0 0 12px;padding:10px 16px;border:1px solid #c8ff6b;border-radius:8px;background:#1e2b22;color:#c8ff6b;font:inherit;font-weight:700;cursor:pointer}
+.hyper-auto-button:disabled{opacity:.4;cursor:not-allowed}

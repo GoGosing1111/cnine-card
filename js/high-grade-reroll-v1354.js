@@ -11,6 +11,26 @@
   function showPicker(state,eligible){const root=modal(`<div class="modal-panel reroll-panel-v1354"><button class="icon-close" data-reroll-close>×</button><header><small>HIGH GRADE REROLL TICKET</small><h2>고등급 카드 재뽑기</h2><p>PRESTIGE·LIMITED·FUR·ZENITH 카드의 현재 고유효과 특성을 제외하고 같은 등급 카드로 다시 뽑습니다.</p></header><div class="reroll-ticket-summary-v1354"><span>재뽑기권 <b>${Number(state.ticketQuantity||0)}개</b><small>실행할 때마다 1개 소모</small></span></div><div class="reroll-source-grid-v1354">${eligible.length?eligible.map(cardTile).join(''):'<div class="reroll-empty-v1354">재뽑기 가능한 보유 카드가 없습니다.</div>'}</div></div>`);root.querySelector('[data-reroll-close]').onclick=close;root.querySelectorAll('[data-reroll-source]').forEach(button=>button.onclick=()=>preview(button.dataset.rerollSource,eligible.find(card=>String(card.id)===String(button.dataset.rerollSource))))}
   async function preview(id,card){try{const data=await apiCall(`high-grade-reroll/candidates?sourceCardId=${encodeURIComponent(id)}`),level=Number(data.source?.breakthroughLevel||0),duplicateCopy=Number(data.source?.quantity||1)>1,transferRule=duplicateCopy?`선택 강화 +${level} 결과 카드로 이전 · 남은 중복은 +0`:`강화 +${level} 결과 카드로 이전`,root=modal(`<div class="modal-panel reroll-panel-v1354"><button class="icon-close" data-reroll-close>×</button><header><small>REROLL PREVIEW</small><h2>${esc(card?.title||'선택 카드')} +${level}</h2><p>현재 특성 <b>${esc(data.source?.roleLabel||'')}</b> 제외 · 결과 후보 ${data.candidates?.length||0}장</p></header><div class="reroll-rule-v1354"><span>재뽑기권 1개 소모</span><span>현재 고유효과 특성 제외</span><span>이미 보유한 카드 제외</span><span>${transferRule}</span></div><button class="btn reroll-execute-v1354" ${data.candidates?.length?'':'disabled'}>재뽑기 실행</button></div>`);root.querySelector('[data-reroll-close]').onclick=close;root.querySelector('.reroll-execute-v1354').onclick=()=>execute(id,data)}catch(error){alert(error.message)}}
   async function execute(id,previewData){const grade=previewData.grade,level=Number(previewData.source?.breakthroughLevel||0),duplicateCopy=Number(previewData.source?.quantity||1)>1,notice=duplicateCopy?`선택한 강화 +${level}은 결과 카드로 이전되고 남은 중복 카드는 +0이 됩니다.`:`강화 +${level}은 결과 카드로 이전됩니다.`;if(!confirm(`${grade} 카드를 재뽑고 재뽑기권 1개를 사용합니다. ${notice} 진행할까요?`))return;const button=document.querySelector('.reroll-execute-v1354');button.disabled=true;button.textContent='재뽑기 처리 중...';try{const data=await apiCall('high-grade-reroll/execute',{method:'POST',body:JSON.stringify({sourceCardId:id,requestId:`HGR-${Date.now()}-${Math.random().toString(36).slice(2)}`})}),transferText=`강화 +${Number(data.breakthroughLevel||0)} 이전`;modal(`<div class="modal-panel reroll-panel-v1354 result"><header><small>REROLL COMPLETE</small><h2>${esc(data.grade)} 재뽑기 완료</h2><p>${esc(data.excludedRoleLabel)} 특성 제외 · ${transferText} · 재뽑기권 ${Number(data.remaining||0)}개</p></header><div class="reroll-result-v1354"><img src="${esc(data.card?.image||'')}" alt=""><b>${esc(data.card?.title||'')}</b><span>${esc(data.card?.grade||'')} · +${Number(data.breakthroughLevel||0)}</span></div><button class="btn" data-reroll-finish>확인</button></div>`).querySelector('[data-reroll-finish]').onclick=async()=>{close();if(typeof clearApiCache==='function'){clearApiCache('inventory');clearApiCache('cards')}if(typeof syncCollectionFromServer==='function')await syncCollectionFromServer({force:true,rerender:true});else location.reload()}}catch(error){alert(error.message);button.disabled=false;button.textContent='재뽑기 다시 시도'}}
-  function injectButton(){const button=document.getElementById('highGradeRerollBtn');if(!button)return;loadState().then(state=>{const visible=Boolean(state.visible);button.hidden=!visible;button.disabled=!visible;button.onclick=visible?open:null;const small=button.querySelector('small');if(small)small.textContent=`재뽑기권 ${Number(state.ticketQuantity||0)}개`}).catch(()=>{button.hidden=true})}
-  window.HighGradeReroll={open,injectButton};const observer=new MutationObserver(()=>{if(document.querySelector('.dex-toolbar'))injectButton()});observer.observe(document.documentElement,{childList:true,subtree:true});window.addEventListener('load',injectButton);
+  let mountedButton=null,stateFlight=null,revision=0;
+  function injectButton(){
+    const button=document.getElementById('highGradeRerollBtn');
+    // The old observer rewrote this label on every mutation, including its own
+    // rewrite. Cached promises then kept the entire page in a microtask loop.
+    if(!button||button===mountedButton)return;
+    mountedButton=button;const currentRevision=revision;
+    const flight=stateFlight||(stateFlight=loadState());
+    flight.then(state=>{
+      if(currentRevision!==revision||button!==document.getElementById('highGradeRerollBtn'))return;
+      const visible=Boolean(state.visible);button.hidden=!visible;button.disabled=!visible;button.onclick=visible?open:null;
+      const small=button.querySelector('small'),label=`재뽑기권 ${Number(state.ticketQuantity||0)}개`;
+      if(small&&small.textContent!==label)small.textContent=label;
+    }).catch(()=>{if(currentRevision===revision&&button===mountedButton)button.hidden=true;})
+      .finally(()=>{if(stateFlight===flight)stateFlight=null;});
+  }
+  const invalidateButton=()=>{revision++;mountedButton=null;stateFlight=null;injectButton();};
+  window.HighGradeReroll={open,injectButton};
+  const observer=new MutationObserver(injectButton);observer.observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('load',injectButton);
+  window.addEventListener('cnine:player-updated',invalidateButton);
+  window.addEventListener('cnine:account-mutation',invalidateButton);
 })();

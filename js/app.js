@@ -936,7 +936,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   dexTools:{
     styles:['css/high-grade-reroll-v1354.css?v=1433-ticket-cache-reset'],
-    scripts:['js/high-grade-reroll-v1354.js?v=1923-enhancement-transfer'],
+    scripts:['js/high-grade-reroll-v1354.js?v=1923-enhancement-transfer&dexPerf=20260924'],
     ready:()=>typeof window.HighGradeReroll?.injectButton==='function'
   },
   auction:{
@@ -1565,7 +1565,7 @@ function buyView(user) {
 }
 
 function hyperPackHero() {
-  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status" data-hyper-opening-label>개봉 준비 중</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>등급별 확률·용병별 가중치로 추첨 · 중복 카드는 수량으로 보관</p><div class="hyper-prices"><button class="btn" type="button" data-mercenary-open="1" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" data-mercenary-open="10" disabled><small>10회 개봉</small>50억 코인</button></div><button type="button" data-mercenary-recover hidden>이전 개봉 결과 확인</button><small class="hyper-safe-notice" data-mercenary-open-status>용병카드 개봉은 현재 OFF입니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
+  return `<section class="game-hero pack-theme-hyper"><div class="hero-copy"><p class="eyebrow">EXTREME HYPER PACK</p><span class="hyper-status" data-hyper-opening-label>개봉 준비 중</span><h2>다음 계약의<br><em>시작, 하이퍼팩</em></h2><p>꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드<br>등급별 확률·용병별 가중치로 추첨 · 중복 카드는 수량으로 보관</p><div class="hyper-prices"><button class="btn" type="button" data-mercenary-open="1" disabled><small>1회 개봉</small>5억 코인</button><button class="btn" type="button" data-mercenary-open="10" disabled><small>10회 개봉</small>50억 코인</button></div><button type="button" class="hyper-auto-button" data-mercenary-auto disabled>자동 개봉 설정</button><button type="button" data-mercenary-recover hidden>이전 개봉 결과 확인</button><small class="hyper-safe-notice" data-mercenary-open-status>용병카드 개봉은 현재 OFF입니다.</small></div><div class="hero-pack-zone">${packArt(getPack('hyper'))}</div></section>`;
 }
 
 function recentCards(user) {
@@ -4195,6 +4195,7 @@ async function openBlackMiraclePack(ownedQuantity=0){
     ownedQuantity,
     apiRequest,
     clearApiCache,
+    loadUser,
     saveUser,
     apiUserToLocal,
     renderShell
@@ -5183,7 +5184,7 @@ window.SuperstarPackV1894=Object.freeze({
 });
 
 openPack=async function(packId,count,cost,options={}){
-  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2145-acquisition-video');return globalThis.MercenaryPack.open(Number(count));}
+  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2145-acquisition-video&draw=20260922-weighted&auto=20260924');return globalThis.MercenaryPack.open(Number(count));}
   if(String(packId)==='premium'&&!readPendingDraw())return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';
