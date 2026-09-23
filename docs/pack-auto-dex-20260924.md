@@ -52,3 +52,5 @@
 - 로컬 실제 UI 검수 **52개 통과**: PC 1440×1000 / 모바일 390×844, reduced motion OFF. 자동 FX 호출 0회, SSS 결과도 영상 생략, 수동 FX/카드 선택 유지, 정확한 수량·중지·오류·계정 전환·동일 영수증 재확인. 운영 재화를 사용하지 않았다.
 - 스크린샷/검수 결과: `C:/Users/User/AppData/Local/Temp/pack-auto-dex-HBEy32/`. PC·모바일 양쪽의 하이퍼팩/블랙미라클 결과 화면을 직접 확인했다.
 - 배포 선택 검사: `pack-auto-dex-20260924`, `hyper-opening-ui-v2097`, `hyper-opening-cms-v2093`, `mercenary-acquisition-video-v2145`, `black-miracle-v1926`, `black-miracle-manual-selection` 테스트 파일. 도감 전체/무관한 콘텐츠 검사는 반복하지 않는다.
+- 후속 운영 배포: `8ea97bff` / `https://2f7688c0.cnine-card.pages.dev`. 관련 회귀 **46개 통과**, 출시·캐시·Hyperdrive 검사 통과. clan-draft 동반 배포 버전 `2bc6ee18-644c-48f4-9d79-641250a6c8f3` (소스 변경 없음).
+- 운영 `index.html`, 두 개봉 모듈, 두 결과 CSS의 SHA-256이 로컬과 일치한다. 실제 상점에서도 `auto=20260924-fast` / `packAuto=20260924-fast` 연결과 자동 개봉 설정 진입을 확인했다. CMS 개방 상태를 변경하거나 운영 코인/팩을 소비하지 않았다.
