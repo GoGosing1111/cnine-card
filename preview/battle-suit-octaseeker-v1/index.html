@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark">
+  <title>배틀슈트 · 8방향 유도탄</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../battle-suit-skill-chip-v1/preview.css">
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body class="chip-lab octa-lab">
+  <main class="lab-wrap">
+    <header class="octa-heading">
+      <img src="./assets/textures/chip.webp" alt="8방향 유도탄 스킬칩" width="82" height="82">
+      <div><p>PROJECT V · BATTLE SUIT / CHIP 03</p><h1>8방향 유도탄</h1><span>여덟 갈래로 발사. 하나의 타깃으로 집중.</span></div>
+      <div class="lab-scope"><i></i>연출 검수 <small>운영 미연결</small></div>
+    </header>
+    <section class="stage-viewport" aria-label="라이브 V3 엔진 기반 단일 대상 유도탄 미리보기">
+      <iframe id="battle-frame" src="./battle.html" title="배틀슈트 8방향 유도탄 V3 전장" allow="autoplay"></iframe>
+      <div id="lab-boot" role="status">승인된 V3 전장과 유도탄 프레임을 준비합니다.</div>
+    </section>
+    <section class="lab-controls" aria-label="유도탄 연출 조작">
+      <div class="octa-stages" role="group" aria-label="연출 구간 바로 보기">
+        <button id="spread" disabled><b>01</b><span>8방향 방출<small>서로 다른 방향으로 출발</small></span></button>
+        <button id="turn" disabled><b>02</b><span>유도 선회<small>8개 궤적 · 한 명의 적</small></span></button>
+        <button id="impact" disabled><b>03</b><span>집중 명중<small>8연속 폭발 · 잔불과 연기</small></span></button>
+      </div>
+      <div class="lab-transport">
+        <div class="lab-play-row">
+          <button type="button" id="play" class="primary" disabled>재생</button>
+          <button type="button" id="replay" disabled>처음부터</button>
+          <button type="button" id="cancel" disabled>중지</button>
+          <label class="lab-speed">속도 <select id="speed" disabled><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+        </div>
+        <div class="lab-timeline"><label for="scrub" class="sr-only">연출 시간</label><input type="range" id="scrub" min="0" max="3.2" step="0.001" value="0" disabled><output id="time">0.00 / 3.20</output></div>
+        <p class="lab-caption" id="cue">발사 대기</p>
+      </div>
+      <div class="lab-settings">
+        <label>배틀슈트 <select id="suit" disabled><option value="BATTLE_SUIT_H_BODY" selected>H-BODY</option><option value="BATTLE_SUIT_03">아메시스트</option><option value="BATTLE_SUIT_02">오렌지 택티컬</option><option value="BATTLE_SUIT_01">메카니컬</option></select></label>
+        <label>무기 <select id="weapon" disabled><option value="EQ_1788486929132">황금용 AR</option><option value="EQ_1788486888336">황금용 저격총</option></select></label>
+        <label class="lab-check"><input id="audio" type="checkbox" checked disabled>녹음 효과음</label>
+        <label class="lab-check"><input id="gunfire" type="checkbox" disabled>일반 사격 병행</label>
+        <label class="lab-check"><input id="shake" type="checkbox" checked disabled>충돌 흔들림</label>
+      </div>
+    </section>
+    <footer class="lab-footer"><span id="health" role="status">자산 확인 중…</span><span>실제 피해·보유·재화 변경 없음 · 피해량/주기/획득은 미설정</span><a href="./README.md" target="_blank" rel="noopener">제작·검수 기록</a></footer>
+  </main>
+</body>
+</html>

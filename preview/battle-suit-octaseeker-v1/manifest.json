@@ -1,0 +1,132 @@
+{
+  "id": "battle-suit-octaseeker-v1",
+  "status": "USER_REVIEW_PENDING",
+  "scope": "INDEPENDENT_PREVIEW_ONLY",
+  "liveEnabled": false,
+  "serverDamageConnected": false,
+  "liveEquipmentTabConnected": false,
+  "chip": {
+    "code": "SKILL_CHIP_OCTA_SEEKER",
+    "name": "8방향 유도탄",
+    "damageMultiplier": null,
+    "intervalMs": null,
+    "acquisition": null
+  },
+  "referenceMotion": {
+    "url": "https://www.youtube.com/shorts/HBJg05Gz_Ds",
+    "startSeconds": 8,
+    "observed": "Browser UI stepped through 8–10 seconds: outward launch, smoke/fire trails, curved return and one-target impacts",
+    "pixelsReused": false
+  },
+  "renderer": {
+    "engine": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+    "wrapper": "js/battle-v3-live.js",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "pixiCopies": 1,
+    "formationChanged": false,
+    "cardDockChanged": false
+  },
+  "implementation": {
+    "visual": "source/OctaSeekerFX.js",
+    "clockAndPaths": "source/sequence.mjs",
+    "audio": "source/OctaSeekerAudio.js",
+    "preview": "source/lab.src.js"
+  },
+  "timeline": {
+    "authority": "ONE_GSAP_TIMELINE",
+    "durationSeconds": 3.2,
+    "rocketCount": 8,
+    "targetCount": 1,
+    "launchAnglesDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "releaseSeconds": 0.12,
+    "launchStaggerSeconds": 0.006,
+    "spreadDurationSeconds": 0.26,
+    "visualImpactsSeconds": [
+      1.02,
+      1.08,
+      1.14,
+      1.2,
+      1.26,
+      1.32,
+      1.38,
+      1.44
+    ],
+    "impactLifeSeconds": 1.68,
+    "serverDamage": null
+  },
+  "anchors": {
+    "source": "Existing AccountBattleUnit.muzzlePoint(), frozen per cast",
+    "flightEnd": "Bound enemy sole x, sole y minus 62 world units",
+    "blast": "Original target SOLE_CENTER, frozen separately per confirmed visual impact",
+    "retargeting": false
+  },
+  "visualAssets": [
+    {
+      "path": "assets/generated/flight-atlas.png",
+      "sha256": "dbf2c46c930f1462707f3a50b9da69ee1f642b8ef410df1df325a96f686dfc91",
+      "grid": [
+        6,
+        4
+      ],
+      "frames": 24,
+      "runtime": "assets/textures/flight-atlas.webp",
+      "runtimeSha256": "307158d696e42c791bd892d9565f8312bbc249d775ce19cbee41f3f70d5e70a5"
+    },
+    {
+      "path": "assets/generated/impact-atlas.png",
+      "sha256": "5510254caf9179308d7c48551ace07a24f775d350958ed72db29b9233517d3ba",
+      "grid": [
+        6,
+        4
+      ],
+      "frames": 24,
+      "runtime": "assets/textures/impact-atlas.webp",
+      "runtimeSha256": "78186e55c6cf41e95b5e57057243a226507d155531aafc64af81aa9024c4a61b"
+    },
+    {
+      "path": "assets/generated/chip-source.png",
+      "sha256": "78905e45d69c1e744ce6fe3818e18e3abbefc62b54101093d55fdd7264733c06",
+      "runtime": "assets/textures/chip.webp"
+    }
+  ],
+  "audioPolicy": "EXISTING_REAL_RECORDED_CC0_BYTES_UNCHANGED",
+  "audioSources": [
+    {
+      "id": "freesound:182797",
+      "author": "qubodup",
+      "url": "https://freesound.org/people/qubodup/sounds/182797/",
+      "license": "CC0-1.0",
+      "path": "../battle-suit-skill-chip-v1/assets/audio/explosion-182797-cc0.mp3",
+      "sha256": "7c5c8204d55d9127c19b389cdee2ae415cd78523eb132883497d2d5d0c5cd890",
+      "measuredFirstMainPeakSeconds": 0.5826875,
+      "processing": "Eight .31s slices from .5626875; .12 gain except final .22; one shared 1.5s tail .13 gain; original bytes not modified"
+    },
+    {
+      "id": "freesound:737569",
+      "author": "areniporgen",
+      "url": "https://freesound.org/people/areniporgen/sounds/737569/",
+      "license": "CC0-1.0",
+      "path": "../project-v-v3/assets/audio/firearm-qc-v1/m4a1-colt-socom-cc0-freesound-737569.mp3",
+      "sha256": "1735b196b5db6369d734ee5731834e35c9ad17a2a32353e9d809b6c6c2ecb6f2",
+      "processing": "Approved firearm recording as launch acoustic proxy; .04323s offset, .24s duration, .24 gain; not claimed to be a recorded rocket"
+    }
+  ],
+  "audioSync": {
+    "clock": "GSAP presentation clock with existing Web Audio output timestamp compensation",
+    "peakLeadSeconds": 0.02,
+    "automatedPeakErrorMsLessThan": 1,
+    "physicalDeviceLoopbackVerified": false
+  },
+  "approvalGate": "Visual/audio review followed by explicit live connection instruction and approved damage/cadence/acquisition settings"
+}
+
