@@ -3,7 +3,7 @@
 - 제작일: 2026-09-23
 - 요청 범위: 동방무기상 무기설계도 아이템 이미지 제작.
 - 파일: `assets/items/eastern-arms-weapon-blueprint-v1.png`
-- 상태: 아이템 리소스 시안. 상품·재료·보상 등록 및 게임 내 사용 기능은 별도 범위다.
+- 상태: 후속 사용자 지시로 2026-09-23 재료 아이템 `EASTERN_ARMS_WEAPON_BLUEPRINT` 등록 완료. 분류 `MATERIAL`, 직접 사용 불가. [등록 기록](blueprint-material-registration-20260923.md)을 따른다.
 - 제작 도구: Codex 내장 `image_gen`. CLI/API 대체 경로 미사용.
 - 원본: `exec-31234270-aa58-47de-80c2-be7a531e33a9.png`; 생성 PNG를 변환·재압축하지 않고 복사했다.
 - 실제 규격: 1254 × 1254 PNG, RGBA. 요청 프롬프트는 1024 × 1024였으나 생성 도구의 원본 크기를 보존했다.

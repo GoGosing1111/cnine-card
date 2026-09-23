@@ -3,7 +3,7 @@
 - 제작일: 2026-09-23
 - 요청: 마이바흐 비전6 차량설계도 리소스 제작.
 - 파일: `assets/items/maybach-vision6-blueprint-v1.png`
-- 용도: 차량설계도 아이템 이미지 시안. 차량 카탈로그·제작 비용·획득처·사용 기능은 이번 리소스 제작 범위에 포함하지 않는다.
+- 용도: 후속 사용자 지시로 2026-09-23 재료 아이템 `MAYBACH_VISION6_BLUEPRINT` 등록 완료. 분류 `MATERIAL`, 직접 사용 불가. 제작 비용·획득처·제조법은 추후 설정하며 [등록 기록](blueprint-material-registration-20260923.md)을 따른다.
 - 디자인: 네이비 도면 두루마리, 붉은 비전 6 쿠페 도안, 금색 도면 선, 금·백금 장식과 붉은 봉인.
 - 차량 기준: [Mercedes-Benz 공식 Vision Mercedes-Maybach 6 쿠페 소개](https://www.mercedes-benz.com/en/design/concept-cars/ultimate-in-luxury-vision-mercedes-maybach-6/).
 - 제작 도구: Codex 내장 `image_gen`, 최초 생성 후 같은 도구로 가장자리 여백 보정. CLI/API 대체 경로 미사용.
