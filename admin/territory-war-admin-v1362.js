@@ -8,6 +8,7 @@
     const root=document.getElementById('territoryWarAdminRoot');if(!root||document.getElementById('territoryWarAdminV1402'))return;
     root.innerHTML='';const box=document.createElement('section');box.id='territoryWarAdminV1402';box.className='panel';box.innerHTML=`
       <div class="maintenanceHead"><div><small>TERRITORY WAR V3 · BATTLE ENGINE V2</small><h2>영토전 전선 공성 관리</h2><p>A·B 진영 참가자를 매칭해 V2 전투를 실행하고, 승리 진영이 상대 공성 HP를 감소시킵니다.</p></div><button id="tw3Reload" class="ghost">새로고침</button></div>
+      <div class="inlineNotice"><b>클랜 4 vs 4 개편</b><p>새 모집 개막 시 공식 8개 클랜을 무작위로 4개씩 배치하고 로스터 전원을 자동 등록합니다. 클랜 미가입자는 남은 모집 시간에 신청합니다. 클랜 진영은 개인 수동 배치로 변경할 수 없습니다.</p><p>새 회차의 지휘관 스킬은 각각 45분 쿨타임입니다. 공격 6종·방어 2종이며, 기존 작전 게이지와 회차당 1회 제한을 사용하지 않습니다. 개편 배포는 운영 OFF를 자동으로 켜지 않습니다.</p></div>
       <div class="formgrid">
         <label class="field"><span>운영 모드</span><select id="tw3Mode"><option>OFF</option><option>TEST</option><option>ON</option></select></label>
         <label class="field"><span>영토전 이름</span><input id="tw3BattleName" type="text" maxlength="40" placeholder="예: 오렌성 전투"></label>
