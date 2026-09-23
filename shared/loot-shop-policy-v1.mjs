@@ -1,3 +1,10 @@
+// Mystic is an equipment family stored with the canonical MYTHIC rarity.
+export const LOOT_MYSTIC_RARITY='MYTHIC';
+export const LOOT_MYSTIC_NAME_PREFIX='미스틱 ';
+export function lootEquipmentMatchesProduct(item,type){
+ if(type==='F_BODY')return item?.code==='BATTLE_SUIT_02';
+ return type==='MYSTIC_EQUIPMENT'&&item?.rarity===LOOT_MYSTIC_RARITY&&String(item.name||'').startsWith(LOOT_MYSTIC_NAME_PREFIX);
+}
 export const PIG_COIN_IMAGE='assets/items/pig-coin-v1.png';
 export const LOOT_SOURCE_LABELS={TERRITORY:'영토전',CLAN:'클랜전',CORE_RAID:'신규 레이드'};
 export const LOOT_PRODUCT_TYPES={SUPERSTAR_CHOICE:'슈퍼스타 선택팩',FUR_CHOICE:'FUR 선택팩',F_BODY:'F바디',MYSTIC_EQUIPMENT:'미스틱 장비',MERCENARY_PACK:'용병 A~S등급 카드팩'};
