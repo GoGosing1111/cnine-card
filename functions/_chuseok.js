@@ -94,7 +94,7 @@ export async function drawChuseok(env,userId,body,{randomInt=mercenaryRandomInt}
   await inventoryChange(q,id,CHUSEOK_COIN,-s.coinCost,requestId);
   const [completed]=await q('SELECT clock_timestamp() AS now');if(chuseokPhase(s,config.settings.visible,Date.parse(completed.now))!=='OPEN')fail('EVENT_CLOSED','이벤트가 종료되어 차감과 지급을 모두 취소했습니다.');
   const result={ok:true,requestId,userId:id,event,choice,revision:config.revision,kind:reward.kind,reward:reward.kind==='MISS'?null:reward,coinCost:s.coinCost,...await balance(q,id),completedAt:new Date(completed.now).toISOString(),replayed:false};
-  const rows=await q(`INSERT INTO ${TABLE}(request_id,user_id,event,choice,result_json) VALUES($1,$2,$3,$4,$5) RETURNING request_id`,[requestId,id,event,choice,JSON.stringify(result)]);if(rows.length!==1)fail('RECEIPT_FAILED','결과 저장 실패로 차감과 지급을 취소했습니다.');return result;
+  const rows=await q(`INSERT INTO ${TABLE}(request_id,user_id,event,choice,result_json,created_at) VALUES($1,$2,$3,$4,$5,$6) RETURNING request_id`,[requestId,id,event,choice,JSON.stringify(result),result.completedAt]);if(rows.length!==1)fail('RECEIPT_FAILED','결과 저장 실패로 차감과 지급을 취소했습니다.');return result;
  });
 }
 export async function chuseokAdmin(env,admin,body=null){return transaction(env,async q=>{

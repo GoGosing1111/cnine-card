@@ -46,6 +46,14 @@ test('MISS is explicit; daily caps serialize simultaneous requests, are event-sp
  await f.pg.query("UPDATE chuseok_receipts_v1 SET created_at=date_trunc('day',CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul') AT TIME ZONE 'Asia/Seoul' - INTERVAL '1 second'");assert.equal((await f.state()).events.songpyeon.dailyUsed,0);
  }finally{await f.close();}
 });
+test('receipt dates and daily quota use completion time when a request crosses KST midnight',async()=>{
+ const f=await fixture();try{const day=new Date();day.setUTCHours(15,0,0,0);if(day.getTime()<=Date.now())day.setUTCDate(day.getUTCDate()+1);const completeAt=day.toISOString();
+ await f.configure(undefined,'songpyeon',{dailyLimit:1});const b=await f.body();f.clock(completeAt);
+ const result=await f.draw(b),stored=await f.row('SELECT created_at FROM chuseok_receipts_v1 WHERE request_id=$1',[b.requestId]);
+ assert.equal(new Date(stored.created_at).toISOString(),result.completedAt);assert.equal(result.completedAt,completeAt);assert.equal((await f.state()).events.songpyeon.dailyUsed,1);
+ await assert.rejects(f.draw(await f.body()),e=>e.code==='DAILY_LIMIT');assert.equal((await f.state()).chuseokCoins,18);
+ }finally{await f.close();}
+});
 test('invalid choice, stale catalog, retired item, insufficient coins and suspended account never spend',async()=>{
  const f=await fixture();try{await f.configure();for(const extra of [{event:'axe'},{choice:-1},{choice:3},{choice:1.2},{choice:'1'},{requestId:'bad'}])await assert.rejects(f.draw({...await f.body(),...extra}));
  await f.configure([reward('EQUIPMENT','BATTLE_SUIT_02')]);const stale=await f.body();await f.pg.exec("UPDATE character_equipment_items SET is_public=0 WHERE code='BATTLE_SUIT_02'");await assert.rejects(f.draw(stale),e=>e.code==='REWARD_UNAVAILABLE');assert.equal((await f.state()).chuseokCoins,20);
