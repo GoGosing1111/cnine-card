@@ -21,4 +21,12 @@
 - UI 재현: `FORGE_READINESS_QA=1`, `FORGE_INVENTORY_QA=1`, `FORGE_SHORTAGE_QA=1`, `REPAIR_QA_PORT=8966`으로 `scripts/qa-pingdu-repair-coupon.mjs` 실행 후 `tests/equipment-forge-shortage-20260924.browser.mjs`. 격리 SQLite만 사용하며 운영 계정 재화는 사용하지 않는다.
 - 화면 산출물: `C:/Users/User/AppData/Local/Temp/forge-shortage-LDOtRf/shortage-1440.png`, `shortage-390.png`.
 
-배포 회귀 검사와 운영 반영 결과는 완료 후 기록한다. 원복 시 코드만 되돌리고 운영 견적·영수증·재화·CMS 정책은 삭제하거나 초기화하지 않는다.
+## 운영 반영 완료
+
+- 코드 `0d03ec4a9f19e638fae218b3aa46503cec5037b1`, 지정 scoped 배포 종료 코드 0. 관련 회귀 37/37 통과, Worker 컴파일·출시 게이트·Hyperdrive 캐시 OFF·Pages/클랜 Worker 바인딩 일치 통과.
+- Pages: `https://1051e9e1.cnine-card.pages.dev`. 클랜 Worker: `f94e0844-e532-4c1b-a71a-342c787de3f4`.
+- 운영 도메인의 장비 강화 HTML·앱·CSS·공통 안내 모듈이 배포 원본과 일치한다. 배포 직후 구 HTML이 잠시 반환됐지만 전파 후 버전 없는 `/equipment-forge/`도 새 HTML과 일치했다.
+- 운영 모듈에서 신고 수량을 대입한 결과는 `장비 보호권 부족: 3장 필요 / 보유 1장 / 2장 부족`. 공개 상태 API HTTP 200, 강화 ON과 기존 +9/+10 보호권 1/3장·확률·비용 유지 확인.
+- 운영 강화/복구 실행 및 계정 재화 변경은 없었다. 로컬 QA 서버는 종료했다. 이 완료 기록은 문서만 반영하므로 게임을 다시 배포하지 않는다.
+
+원복 시 코드만 되돌리고 운영 견적·영수증·재화·CMS 정책은 삭제하거나 초기화하지 않는다.
