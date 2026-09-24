@@ -139,7 +139,10 @@ test('all nine served V3 bundles including the account entry share the current c
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 38);
+  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 43);
+  // The already released OctaSeeker adds five inputs to the same nine bundles.
+  for(const file of ['shared/battle-suit-skill-chips.mjs','preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js','preview/battle-suit-octaseeker-v1/source/sequence.mjs','preview/battle-suit-octaseeker-v1/source/OctaSeekerFX.js','preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js'])
+    assert.ok(report.sources.some(row=>row.file===file),`${file} must participate in bundle freshness checks`);
   for(const file of ['preview/project-v-v3/source/battle/HeukwolCombatPlayback.js','preview/mercenary-black-moon-swordsman-ss-v1/source/BlackMoonFX.js','preview/mercenary-black-moon-swordsman-ss-v1/skill.mjs','shared/mercenary-heukwol-v1.mjs','preview/project-v-mercenary-system-v1/source/MercenarySpriteSequence.js'])
     assert.ok(report.sources.some(row=>row.file===file),`${file} must participate in bundle freshness checks`);
   for(const file of ['preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js','preview/mercenary-bikini-joeun-v1/source/BikiniJoeunSkillFX.js','shared/mercenary-bikini-joeun-v1.mjs'])
