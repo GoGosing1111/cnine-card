@@ -22,3 +22,10 @@
 - 배포 선택 검사: 위 신규 단위 회귀, `tests/hyper-opening-ui-v2097.test.mjs`, `tests/mercenary-response-recovery-20260924.test.mjs`. 같은 요청 복구·정확한 비용·이중 클릭·미확정 결과 보존·수동 개봉 계약을 함께 확인한다. 도감·다른 상점·전투 전체 검사는 반복하지 않는다.
 - Windows Node 테스트 자식 프로세스 정지 이력을 고려하여 `NODE_OPTIONS=--test-isolation=none`으로 동일 검사를 실행한다. 지정 `npm run deploy:production -- --scoped`의 출시·캐시·Hyperdrive 검사는 우회하지 않는다.
 - 배포 후에는 변경 앱 파일과 캐시 반영, 공개 개봉 상태만 확인한다. 실제 운영 개봉 POST를 테스트로 보내지 않는다.
+
+## 운영 반영 완료
+
+- 수정 커밋 `425b58f8`, 지정 scoped 배포의 관련 회귀 **19개 통과**, 출시·캐시·Hyperdrive 검사 통과.
+- Pages `https://70c885b6.cnine-card.pages.dev`, 동반 clan-draft 버전 `28fd4c11-767d-49e3-9ebb-5f9baef120a5` (Worker 로직 변경 없음).
+- 운영 `index.html`·`js/app.js`의 SHA-256이 로컬 배포본과 일치하고 새 `hyperAuto=20260924-store-refresh` 연결을 확인했다. 공개 개봉 상태 HTTP 200, ON, 1회 5억, 요청당 최대 10회가 유지된다.
+- 운영 개봉·차감 시험은 하지 않았다. 이 완료 기록은 문서 전용 후속 커밋이며 재배포하지 않는다.
