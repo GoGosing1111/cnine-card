@@ -86,7 +86,13 @@ export class IceDualSwordFX{
  }
  applyPose(pose){
   if(this.options.useAuthoredPose===false)return;
-  const s=this.merc.fullBodySprite;if(!pose){s.texture=this.idle.texture;s.anchor.set(this.idle.anchorX,this.idle.anchorY);s.width=this.idle.width;s.height=this.idle.height;}
+  const s=this.merc.fullBodySprite;
+  // A concurrent hit/idle tween captures the authored atlas scale. Stop that
+  // competing writer before restoring the larger idle texture, or its cached
+  // scale enlarges the body again after this render. Normal idle stays active
+  // outside authored poses; no per-frame tween teardown when none exists.
+  if(this.merc.animationController.timeline&&(pose||s.texture!==this.idle.texture))this.merc.animationController.kill();
+  if(!pose){s.texture=this.idle.texture;s.anchor.set(this.idle.anchorX,this.idle.anchorY);s.width=this.idle.width;s.height=this.idle.height;}
   else{const spec=this.manifest.motion[pose.key],f=spec.frames[pose.frame];s.texture=this.assets.motion[pose.key][pose.frame];s.anchor.set(f.footAnchor.x,f.footAnchor.y);s.height=this.bodyHeight*spec.cellSize/spec.bodyPixels;s.width=s.height;}
   const neutral=this.merc.neutralAvatarPose?.mainSprite;if(neutral){neutral.scaleX=s.scale.x;neutral.scaleY=s.scale.y;}
  }

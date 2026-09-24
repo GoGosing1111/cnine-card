@@ -79,3 +79,8 @@ node preview/mercenary-ice-crystal-dual-sword-v1/serve.mjs
 - 브라우저 비활성 탭은 requestAnimationFrame을 제한하므로 실재생 검수는 전경 탭에서 수행했다.
 - 수정 이력: 모션/FX 경로 충돌 분리, 방어벽 상단 잘림 보정, 대시 선택 HTML 오타 수정, 사용자 피드백에 따른 광원 V2 강화.
 - 기술 테스트 통과를 사용자 시각 승인으로 취급하지 않는다. 운영 연결은 계속 보류한다.
+
+## 2026-09-25 운영 버그 수정: 방어 후 본체 크기
+
+2026-09-24 별도 출시 승인(V-049/MS-049) 후 발견된 본체 배율 충돌만 수정한다. PixiJS 8.20.0·GSAP 3.13.0, 승인 원화/SD·모션·충돌 시점·방어 이펙트·광원은 유지한다.
+`source/IceDualSwordFX.js`의 `applyPose()`가 개별 연속 모션 및 기본 SD 복귀 동안 공용 `BattleAnimation.js`의 경쟁 HIT/IDLE 타임라인을 정리한다. 실제 Pixi/GSAP 배율 재현·취소 복구·일반 idle 유지 3개 회귀를 추가했다. 상세 원인, 관련 검사 및 배포 기준은 `docs/cryvern-defense-scale-20260925.md`를 따른다.

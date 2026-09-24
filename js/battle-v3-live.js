@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260924-cryvern-sss-v1';
+  const BATTLE_RUNTIME = '20260925-cryvern-pose-scale-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
