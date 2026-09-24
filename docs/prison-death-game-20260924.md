@@ -57,3 +57,5 @@ Use case: stylized-concept. Asset type: a single production sprite atlas for a d
 ### 출시 검사 중 발견한 테스트 격리 문제
 
 첫 전체 게이트는 기존 `avatar-v1863.mjs`의 초기 스키마 17문 검사가 16문으로 나와 배포 전에 중단됐다. 운영 아바타 코드와 이 테스트는 직전 배포 이후 변경되지 않았다. Windows에서 사용하는 `--test-isolation=none` 실행 시 앞선 드롭률 테스트의 완료된 migration promise가 초기 상태 검사에 공유되는 것을 두 파일만으로 재현했다. 초기화 테스트만 고유 모듈 URL로 불러오도록 격리했고, 운영 아바타 동작과 검증 조건은 바꾸지 않았다.
+
+재실행에서 기존 전직 검사도 동일한 공유 프로세스 간섭이 확인돼 `--test-isolation=none` 우회를 제거했다. 기본 프로세스 격리 + 동시 실행 1개로 전직 37건과 신규 게임 13건이 통과했다. 최종 배포는 `NODE_OPTIONS`를 비우고 배포용 PowerShell 프로세스의 CPU affinity만 `0x3`으로 제한한다. 자식 Node의 `os.availableParallelism()`이 2가 되므로 기본 테스트 동시 실행은 1개이며, 검사 생략·격리 해제·전역 PC 설정 변경은 없다. 지정 명령 `npm run deploy:production` 및 전체 게이트는 그대로 사용한다.
