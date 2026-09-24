@@ -130,7 +130,7 @@
     fusion: Object.freeze({ title: '제작소', group: 'crafting', icon: 'forge' }),
     alchemy: Object.freeze({ title: '연금술', group: 'crafting', icon: 'alchemy' }),
     attendance: Object.freeze({ title: '접속 보상', group: 'rewards', icon: 'gift', home: Object.freeze({ title: '보상', meta: '출석 · 퀘스트 · 메시지' }) }),
-    dailyquest: Object.freeze({ title: '일일 퀘스트', group: 'rewards', icon: 'gift' }),
+    dailyquest: Object.freeze({ title: '일일·주간 퀘스트', group: 'rewards', icon: 'gift' }),
     messages: Object.freeze({ title: '메시지함', group: 'rewards', icon: 'mail' }),
     mineral: Object.freeze({ title: '교환소', group: 'rewards', icon: 'inventory' }),
     chuseok: Object.freeze({ title: '추석 달빛 잔치', group: 'rewards', icon: 'gift' }),
@@ -391,7 +391,7 @@
       ['dex', '#dexSections, .dex-cover'], ['upgrade', '#bulkEnhancementRoot, .bulk-enhancement-root'], ['evolution', '#evolutionRoot, .evolution-system'],
       ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'], ['alchemy', '#alchemyLiveV1, .alchemy-v1-root'],
       ['scrapyard', '#scrapyardRootV1881, .ws81-scrapyard'], ['workshop', '#workshopRootV1881, .ws81-workshop, #workshopRootV1676, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
-      ['dailyquest', '#dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
+      ['dailyquest', '#questHubRoot, #dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
       ['rank', '#rankHubRoot, #serverRanking'], ['prediction', '#coinPredictionRoot, .coin-prediction-v1'],
       ['auction', '#auctionHouseRoot, .auction-house-v1553'], ['mineral', '#mineralMyRequests, .mineral-exchange'],
       ['inventory', '#inventoryGrid, .inventory-vault'], ['buy', '.pack-selector, .game-hero']

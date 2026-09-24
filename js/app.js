@@ -765,7 +765,7 @@ function renderMainNavigation(tab){
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜</button>`:''}</nav>`;
   if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
-  if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
+  if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일·주간 퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
   if(group==='administration')return `${primaryHtml}<nav class="sub-tabs" aria-label="행정부 메뉴"><button class="tab ${tab==='treasury'?'active':''}" data-tab="treasury">세금징수</button><button class="tab ${tab==='soopketland'?'active':''}" data-tab="soopketland">숲켓랜드</button><button class="tab ${tab==='prison'?'active':''}" data-tab="prison">감옥</button><button class="tab ${tab==='prisoncamp'?'active':''}" data-tab="prisoncamp">포로수용소</button></nav>`;
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
 }
@@ -840,7 +840,7 @@ function mobileNavigationHtml(tab){
       <header><div><small>REWARD HUB</small><h2>보상 허브</h2><p>받을 수 있는 보상을 확인하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="attendance"><i>✓</i><span><b>접속 보상</b><small>매일 접속하고 보상 받기</small></span><em>확인</em></button>
-        <button type="button" data-mobile-tab="dailyquest"><i>✓</i><span><b>일일 퀘스트</b><small>오늘의 플레이 목표</small></span><em>확인</em></button>
+        <button type="button" data-mobile-tab="dailyquest"><i>✓</i><span><b>일일·주간 퀘스트</b><small>매일·매주 달성하는 목표</small></span><em>확인</em></button>
         <button type="button" data-mobile-tab="messages"><i>✉</i><span><b>메시지함</b><small>운영 메시지와 지급 내역</small></span><em>확인</em>${messageBadgeMarkup()}</button>
         <button type="button" data-mobile-tab="mineral"><i>E</i><span><b>교환소</b><small>미네랄 기부 교환 신청</small></span><em>열기</em></button>
       </div>
@@ -1291,7 +1291,7 @@ function renderShell(tab) {
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">R</span><b>보상</b><i>⌄</i>${messageBadgeMarkup()}</button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="attendance"><span>접속 보상·쿠폰 입력</span><b>접속 보상</b></button>
-        <button type="button" data-tab="dailyquest"><span>오늘의 플레이 목표</span><b>일일 퀘스트</b></button>
+        <button type="button" data-tab="dailyquest"><span>매일·매주 달성하는 목표</span><b>일일·주간 퀘스트</b></button>
         <button type="button" data-tab="messages"><span>운영 메시지</span><b>메시지함</b>${messageBadgeMarkup()}</button>
         <button type="button" data-tab="mineral"><span>미네랄 기부 교환 신청</span><b>교환소</b></button>
       </div>
@@ -2676,55 +2676,16 @@ function pvpTierGuideHtml(tiers=[],currentTier=null,challenger=null){const road=
 let rankHubMode='pvp';
 
 function dailyQuestView(user){
-  return `${summaryBar(user)}<section class="daily-quest-hub daily-quest-v1072">
-    <header class="daily-quest-head">
-      <div class="daily-head-copy"><p class="eyebrow">PLAY DK DAILY QUEST</p><h2>PLAY DK 게시판 일일퀘스트</h2><p>오늘 PLAY DK에 작성한 게시글을 확인하고 일일 보상을 획득하세요.</p></div>
-      <div class="daily-reset-chip"><span>DAILY RESET</span><strong>00:00 KST</strong></div>
-    </header>
-    <div class="daily-quest-grid daily-quest-grid-single">
-      <article class="daily-quest-panel quest-post">
-        <div class="daily-quest-copy">
-          <div class="daily-mission-top"><span class="quest-kind"><i>✦</i> POST MISSION</span><span id="dailyQuestStateBadge" class="daily-state-badge is-loading">확인 중</span></div>
-          <h3 id="dailyQuestPostTitle">PLAY DK 게시글 설정 불러오는 중</h3>
-          <p class="daily-mission-desc">PLAY DK 2단계 인증 계정의 게시글 API 집계를 기준으로 하며 삭제·블라인드 처리된 글은 자동 제외됩니다.</p>
-          <div id="dailyQuestPostStatus" class="daily-quest-status"><span>작성글 확인 중...</span></div>
-          <div class="daily-progress-wrap" aria-label="일일 퀘스트 진행률"><div class="daily-progress-meta"><span>오늘의 진행도</span><b id="dailyQuestProgressText">0%</b></div><div class="daily-progress-track"><span id="dailyQuestProgressFill"></span></div></div>
-          <div class="daily-quest-actions"><button class="btn secondary daily-check-btn" id="dailyQuestPostCheck"><span>↻</span> 작성글 새로 확인</button><button class="btn daily-claim-btn" id="dailyQuestPostClaim" disabled>보상 정보 불러오는 중</button></div>
-        </div>
-        <aside class="daily-quest-reward" aria-live="polite">
-          <span class="daily-reward-label">MISSION REWARD</span>
-          <div class="daily-reward-icon"><span>◆</span></div>
-          <div class="daily-reward-coin"><b id="dailyQuestRewardCoin">--</b><small>COINS</small></div>
-          <div class="daily-reward-goal"><span>목표</span><strong id="dailyQuestRewardRequired">--</strong><small>POSTS</small></div>
-          <em>하루 1회 · 인벤토리가 아닌 코인으로 즉시 지급</em>
-        </aside>
-      </article>
-    </div>
-    <footer class="daily-quest-note"><span>i</span><p>매일 00:00 KST 초기화 · PLAY DK 계정 UUID 기준 · 삭제·블라인드 글 제외</p></footer>
-  </section>`;
+  return `${summaryBar(user)}<div id="questHubRoot" aria-live="polite"></div>`;
 }
 async function loadDailyQuest(){
-  const postBox=document.getElementById('dailyQuestPostStatus');if(!postBox)return;
-  const postCheck=document.getElementById('dailyQuestPostCheck'),postClaim=document.getElementById('dailyQuestPostClaim');
+  const root=document.getElementById('questHubRoot');if(!root)return;
+  root.textContent='퀘스트 기록을 불러오는 중…';
   try{
-    const d=await apiRequest('playdk-daily-quest/status'),s=d.settings||{};
-    const postRequired=Number(s.requiredPosts||15),postReward=Number(s.postRewardCoin||s.rewardCoin||1200),postCount=Number(d.postCount||0);
-    const postTitle=document.getElementById('dailyQuestPostTitle'),rewardRequired=document.getElementById('dailyQuestRewardRequired'),rewardCoin=document.getElementById('dailyQuestRewardCoin'),progressFill=document.getElementById('dailyQuestProgressFill'),progressText=document.getElementById('dailyQuestProgressText'),stateBadge=document.getElementById('dailyQuestStateBadge');
-    if(postTitle)postTitle.textContent=`PLAY DK 게시글 ${postRequired.toLocaleString()}개 작성`;
-    if(rewardRequired)rewardRequired.textContent=postRequired.toLocaleString();
-    if(rewardCoin)rewardCoin.textContent=postReward.toLocaleString();
-    const blocked=!d.verified||d.excluded;
-    const disabledByAdmin=s.postEnabled===false;
-    const progress=Math.max(0,Math.min(100,Math.round((postCount/Math.max(1,postRequired))*100)));
-    if(progressFill)progressFill.style.width=`${progress}%`;
-    if(progressText)progressText.textContent=`${progress}%`;
-    const blockText=!d.verified?'메시지함에서 PLAY DK 2단계 인증을 먼저 완료하세요.':'현재 일일 퀘스트를 이용할 수 없습니다.';
-    postBox.className=`daily-quest-status ${blocked||disabledByAdmin?'is-blocked':d.postClaimed?'is-claimed':postCount>=postRequired?'is-complete':'is-progress'}`;
-    postBox.innerHTML=disabledByAdmin?`<b>현재 게시글 퀘스트가 비활성화되어 있습니다.</b><span>운영 설정이 변경되면 다시 이용할 수 있습니다.</span>`:blocked?`<b>${blockText}</b>`:d.postClaimed?`<b>오늘 보상 수령 완료</b><span>${postCount.toLocaleString()} / ${postRequired.toLocaleString()}개 확인</span>`:`<b>오늘 작성글 ${postCount.toLocaleString()} / ${postRequired.toLocaleString()}개</b><span>${postCount>=postRequired?'목표 달성! 지금 보상을 수령할 수 있습니다.':`${(postRequired-postCount).toLocaleString()}개 더 작성하면 달성됩니다.`}</span>`;
-    if(stateBadge){stateBadge.className=`daily-state-badge ${blocked||disabledByAdmin?'is-blocked':d.postClaimed?'is-claimed':postCount>=postRequired?'is-complete':'is-progress'}`;stateBadge.textContent=blocked||disabledByAdmin?'이용 불가':d.postClaimed?'수령 완료':postCount>=postRequired?'달성 완료':'진행 중';}
-    if(postCheck)postCheck.disabled=blocked||disabledByAdmin;
-    if(postClaim){postClaim.disabled=blocked||d.postClaimed||postCount<postRequired||disabledByAdmin;postClaim.textContent=d.postClaimed?'오늘 보상 수령 완료':postCount>=postRequired?`${postReward.toLocaleString()}코인 수령`:`${postReward.toLocaleString()}코인 보상`;}
-  }catch(e){postBox.innerHTML=`<b>${escapeHtml(e.message)}</b>`;}
+    const {mountQuestHub}=await import('./quest-hub-live.mjs?v=20260924-1');
+    if(!root.isConnected)return;
+    await mountQuestHub({root,api:(path,options)=>apiRequest(path,options,{timeoutMs:40000,microcache:false}),onUser:user=>saveUser(apiUserToLocal(user)),navigate:tab=>renderShell(tab)});
+  }catch(error){if(root.isConnected)root.textContent=error.message||'퀘스트 화면을 불러오지 못했습니다. 다시 진입해 주세요.'}
 }
 async function checkDailyQuest(){
   const b=document.getElementById('dailyQuestPostCheck');if(b)b.disabled=true;
@@ -3369,7 +3330,7 @@ function bindView(tab) {
   if(tab==='upgrade'&&typeof window.bindBulkEnhancementView==='function')window.bindBulkEnhancementView();
   if(tab==='magic')loadMagicView();
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);loadMessages();}
-  if(tab==='dailyquest'){document.getElementById('dailyQuestPostCheck')?.addEventListener('click',()=>checkDailyQuest());document.getElementById('dailyQuestPostClaim')?.addEventListener('click',()=>claimDailyQuest());loadDailyQuest();}
+  if(tab==='dailyquest')loadDailyQuest();
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));

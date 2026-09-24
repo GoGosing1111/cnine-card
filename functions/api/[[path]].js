@@ -1,4 +1,5 @@
 import {coupLiveOperation} from '../_coup_live_operation.js';
+import {handleQuestHub} from '../_quest_hub.js';
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
 import {handleLootShop} from '../_loot_shop.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
@@ -3482,6 +3483,7 @@ async function playdkDailyQuestSettings(env){
     const v={...base,...JSON.parse(row?.value||'{}')};
     v.postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??1200);
     v.rewardCoin=v.postRewardCoin;
+    v.requiredPosts=15;
     v.commentEnabled=false;
     v.boardSlugs=normalizePlaydkDailyBoardSlugs(v.boardSlugs,configuredSlugs);
     delete v.boardUrl;delete v.maxPages;delete v.commentMaxPosts;delete v.requiredComments;delete v.commentRewardCoin;
@@ -4737,7 +4739,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
 // 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
 const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund','messages/claim-batch']);
-const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/','idle-dungeon/'];
+const SERIALIZED_GAME_PREFIXES=['quests/','evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/','idle-dungeon/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
 async function ensureBreakthroughAutoReceipts(env){
@@ -5305,6 +5307,7 @@ async function handleRequest(context){
         breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
       },serverNow:new Date().toISOString()});
     }
+    const questHubResponse=await handleQuestHub({path,request,env,deps:{authenticate,requirePermission,readBody,json,dailySettings:playdkDailyQuestSettings,playdkClient:playdkIdentityClient,excluded:dailyQuestAdminExcluded,ensureDaily:async env=>{await ensureWagoDailyPostProgressTable(env);await ensureSecondVerificationFoundation(env)},ensureMessages:ensureVerifiedRewardMessageV1276}});if(questHubResponse)return questHubResponse;
     const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
     const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,isRandomDrawExcluded,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
@@ -7832,7 +7835,7 @@ async function handleRequest(context){
         const body=await readBody(request),before=await playdkDailyQuestSettings(env),v=body.settings||{};
         const postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??before.postRewardCoin);
         if(!Number.isSafeInteger(postRewardCoin)||postRewardCoin<0||postRewardCoin>DAILY_QUEST_MAX_REWARD_COIN)return json({error:'일일퀘스트 보상 코인은 0~100억 사이의 정수로 입력하세요.'},400);
-        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardSlugs:normalizePlaydkDailyBoardSlugs(before.boardSlugs),requiredPosts:Math.max(1,Math.min(200,Number(v.requiredPosts)||15)),postRewardCoin,checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
+        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardSlugs:normalizePlaydkDailyBoardSlugs(before.boardSlugs),requiredPosts:15,postRewardCoin,checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
         next.rewardCoin=next.postRewardCoin;
         await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('playdk_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();
         await writeAdminLog(env,admin,'DAILY_QUEST_SETTINGS','APP_META','playdk_daily_quest_settings_v1',before,next);
