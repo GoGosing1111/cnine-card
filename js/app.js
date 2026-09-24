@@ -4551,7 +4551,9 @@ window.addEventListener('mercenary-pack:complete',async event=>{
   for(const path of ['me','me/summary','shell/summary','inventory']){clearApiCache(path);API_INFLIGHT.delete(path);}
   try{const fresh=await apiRequest('me/summary',{}, {ttl:0,timeoutMs:12000});
     if(epoch!==PLAYER_STATE_MUTATION_EPOCH||Number(loadUser()?.serverUserId)!==accountId||Number(fresh.user?.id)!==accountId)return;
-    saveUser(mergeApiUserSummary(fresh.user));if(runtimeCommandContext==='buy')renderShell('buy');
+    // The shared HUD already updates on cnine:player-updated. Re-rendering
+    // the shop emits route-will-change and incorrectly stops automatic opens.
+    saveUser(mergeApiUserSummary(fresh.user),{source:'draw'});
   }catch(error){console.warn('용병 개봉 후 계정 정보 갱신 지연:',error);}
 });
 function mergeDrawUserSnapshot(snapshot={},results=[]){
