@@ -111,7 +111,7 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.match(html, /mercenary-codex\/app\.mjs\?v=2133/);
   assert.match(html, /mercenary-codex\/style\.css\?v=2133/);
   assert.match(read('mercenary-codex/style.css'), /search-field input\{height:44px/);
-  assert.match(client, /model\.mjs\?v=2098/);
+  assert.match(client, /model\.mjs\?v=20260924-cryvern/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);
 });
 

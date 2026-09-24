@@ -74,10 +74,11 @@ test('server cancellation suppresses the unearned falling sword and releases its
  }
  const full=ragnielPlaybackPlan('ultimate',[{at:1.58},{at:2.42}]);assert.equal(full.duration,5.8);assert.ok(sample(full,2.42).judgment);
 });
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SSS acquisition is uniform, repeat-safe and deploys through the separate mercenary slot`,async t=>{
- const f=await mercenaryFixture(t,{postgres});for(const o of f.draw.outcomes)o.chancePpm=o.id==='CARD_SSS'?1000000:0;await f.setDraw(f.draw);
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} weighted SSS acquisition is repeat-safe and deploys through the separate mercenary slot`,async t=>{
+ const f=await mercenaryFixture(t,{postgres});for(const o of f.draw.outcomes)o.chancePpm=o.id==='CARD_SSS'?1000000:0;
+ f.draw.cardRules.cardWeights={'V-021':8991,'V-046':999,'V-049':10};await f.setDraw(f.draw);
  const before=await f.coin(),request={requestId:crypto.randomUUID(),count:2};
- const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===2?1:0});assert.ok(result.draws.every(d=>d.mercenaryCode==='V-046'));assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);
+ const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===10000?8991:0});assert.ok(result.draws.every(d=>d.mercenaryCode==='V-046'));assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Repeated draw')}});assert.equal(await f.coin(),before-2000);
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-046',revision:0});
  const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(deployed.basePower,180000);assert.equal(deployed.rank,'SSS');assert.equal(deployed.sourceArt,art.sourceArt);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-046']);

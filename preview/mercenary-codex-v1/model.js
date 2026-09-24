@@ -50,7 +50,7 @@ export function validateRoster(roster) {
   if (roster?.format !== 'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1' || !Array.isArray(roster.cards) || !roster.cards.length) throw new Error('용병 명단 형식을 확인해 주세요.');
   const seen = new Set();
   for (const card of roster.cards) {
-    if (!/^V-\d{3}$/.test(card.code) || seen.has(card.code) || !card.name || !card.title || !POSITIONS.includes(positionOf(card))) throw new Error('용병 기본 정보가 올바르지 않습니다.');
+    if (!/^V-\d{3}$/.test(card.code) || seen.has(card.code) || !card.name || (card.code==='V-049'?card.title!=='':!card.title) || !POSITIONS.includes(positionOf(card))) throw new Error('용병 기본 정보가 올바르지 않습니다.');
     assetUrl(card.sourceArt);
     if (card.battleSprite) assetUrl(card.battleSprite);
     seen.add(card.code);
