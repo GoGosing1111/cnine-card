@@ -2,7 +2,7 @@ import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 import { ensureClanCampSchema } from './_clan_prison_camp.js';
 
 export const DEATH_GAME_RULES = Object.freeze({ title: '죽음의 눈치게임', durationMs: 90000, countdownMs: 3000,
-  biteIntervalMs: 700, targetBites: 24, warningMs: 1800, networkGraceMs: 350, deathLockMs: 300000, maxPlayers: 100 });
+  biteIntervalMs: 700, targetBites: 24, warningMs: 650, networkGraceMs: 100, deathLockMs: 300000, maxPlayers: 4 });
 const SCHEMA_KEY = 'safe_runtime_upgrade_prison_death_game_20260924_v1';
 const ROUND = 'prison_death_rounds_v1', PLAYER = 'prison_death_players_v1', CONTROL = 'prison_death_control_v1', AUDIT = 'prison_death_operator_log_v1';
 const rows = r => r?.results || [], changes = r => Number(r?.meta?.changes || 0);
@@ -47,7 +47,7 @@ export async function ensureDeathGameSchema(env) {
 export function createDeathGameTimeline(startsAt, random = () => crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296) {
   const timeline = []; let at = startsAt;
   while (at < startsAt + DEATH_GAME_RULES.durationMs) {
-    for (const [type, duration] of [['READING', 2800 + Math.floor(random() * 3400)], ['WARNING', DEATH_GAME_RULES.warningMs], ['WATCHING', 1800 + Math.floor(random() * 2300)]]) {
+    for (const [type, duration] of [['READING', 1000 + Math.floor(random() * 1800)], ['WARNING', DEATH_GAME_RULES.warningMs], ['WATCHING', 1100 + Math.floor(random() * 1700)]]) {
       timeline.push({ type, startsAt: at, endsAt: at + duration }); at += duration;
     }
   }
@@ -79,6 +79,7 @@ export async function deathGameState(env, user, now = Date.now()) {
     ORDER BY CASE WHEN p.status='FINISHED' THEN 0 WHEN p.status='DEAD' THEN 2 ELSE 1 END,p.finished_at_ms,p.bites DESC,p.joined_at_ms,p.user_id`).bind(round.id).all());
   const phase = deathGamePhase(round, now);
   const publicPlayers = participants.map(p => ({ userId: Number(p.user_id), nickname: p.nickname, status: p.status, bites: Number(p.bites),
+    lastBiteAt: Number(p.last_bite_at_ms), lastSeq: Number(p.last_seq),
     finishedAt: Number(p.finished_at_ms), diedAt: Number(p.died_at_ms), blockedUntil: Number(p.blocked_until_ms) }));
   const mine = participants.find(p => Number(p.user_id) === Number(user.id));
   return { round: { id: round.id, status: phase.type === 'FINISHED' ? 'FINISHED' : round.status, startsAt: Number(round.starts_at_ms), endsAt: Number(round.ends_at_ms), phase },

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="connect-src 'none'">
+  <title>죽음의 눈치게임 · 4인 식탁 프리뷰</title>
+  <link rel="stylesheet" href="/css/clan-prison-camp-v2083.css">
+  <link rel="stylesheet" href="/css/prison-death-game-20260924.css?v=20260924-2">
+  <link rel="stylesheet" href="./preview.css?v=1">
+</head>
+<body class="death-preview">
+  <header class="preview-bar">
+    <div><small>INTERACTIVE PREVIEW · 4인 식탁</small><h1>죽음의 눈치게임</h1><p>가상 참가자 체험 · 실제 계정 / 재화 / 5분 제재에 영향 없음</p></div>
+    <nav aria-label="프리뷰 조작">
+      <button type="button" data-preview="play">4인 식사 체험</button>
+      <button type="button" data-preview="watch">관전자 시점</button>
+      <button type="button" data-preview="lobby">운영자 시작 대기</button>
+      <button type="button" data-preview="death">사망 연출</button>
+    </nav>
+  </header>
+  <div class="preview-guide"><b>빠른 순찰</b> 스페이스 · 식탁 화면 클릭/터치로 한 입씩 먹습니다. 시선 예고 0.65초, 감시할 때 입력하면 사망합니다. <span>상대 3명은 체험용 NPC이며, 라이브에서는 실제 참가자의 서버 기록으로 움직입니다.</span></div>
+  <div id="clanCampView"></div>
+  <script src="./preview.js?v=1"></script>
+  <script src="/js/prison-death-game-20260924.js?v=20260924-2"></script>
+  <script>DeathGamePreview.reset('lobby');</script>
+</body>
+</html>

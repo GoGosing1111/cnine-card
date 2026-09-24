@@ -11,11 +11,17 @@ const fixture = await deathGameFixture();
 const app = await readFile(new URL('../js/app.js',import.meta.url),'utf8');
 const applySource=app.slice(app.indexOf('const prisonUiState='),app.indexOf('function isPrisonLocked'));
 const renderSource=app.slice(app.indexOf('function renderLockedPrison'),app.indexOf('window.PrisonV1='));
-const users = {101:{id:101,serverUserId:101,nickname:'참가자 하나',role:'USER'},102:{id:102,serverUserId:102,nickname:'참가자 둘',role:'USER'},999:{id:999,serverUserId:999,nickname:'운영자',role:'OWNER'}};
+await fixture.p("UPDATE users SET nickname='참가자 셋' WHERE id=103").run();
+await fixture.p("INSERT INTO users(id,nickname,role) VALUES(104,'참가자 넷','USER')").run();
+const users = Object.fromEntries((await fixture.p('SELECT id,nickname,role FROM users').all()).results.map(user=>[user.id,{...user,serverUserId:user.id}]));
 const server = createServer(async (incoming, outgoing) => {
   try {
     const url = new URL(incoming.url,'http://127.0.0.1:8857');
     outgoing.setHeader('Cache-Control','no-store');
+    if(url.pathname==='/mobile'){
+      outgoing.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});
+      outgoing.end('<!doctype html><meta charset="utf-8"><title>390 × 844 모바일 검수</title><style>body{margin:16px;background:#080c12}iframe{display:block;width:390px;height:844px;border:0;margin:auto}</style><iframe title="390px 모바일 체험" src="/preview/prison-death-game-v2/"></iframe>');return;
+    }
     if (url.pathname.startsWith('/api/')) {
       const chunks=[];for await(const chunk of incoming)chunks.push(chunk);
       const user=users[Number(incoming.headers['x-qa-user'])];
@@ -45,9 +51,9 @@ const server = createServer(async (incoming, outgoing) => {
       async function apiRequest(path,options={}){const r=await fetch('/api/'+path,{...options,headers:{'Content-Type':'application/json','x-qa-user':qaUser.id}});const d=await r.json();if(!r.ok){if(d.code==='USER_INCARCERATED')renderLockedPrison(d.prison);throw Error(d.error)}return d}
       </script><script src="/js/clan-prison-camp-v2083.js"></script><script src="/js/prison-death-game-20260924.js"></script><script>apiRequest('prison/status').then(d=>d.prison.incarcerated?renderLockedPrison(d.prison):renderShell());</script></body></html>`);return;
     }
-    const path=resolve(workspace,'.'+decodeURIComponent(url.pathname));
+    const path=resolve(workspace,'.'+decodeURIComponent(url.pathname)+(url.pathname.endsWith('/')?'index.html':''));
     if(!path.startsWith(resolve(workspace)+sep))throw Error('outside workspace');
-    const types={'.js':'text/javascript','.css':'text/css','.png':'image/png','.ttf':'font/ttf','.woff2':'font/woff2'};
+    const types={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.png':'image/png','.ttf':'font/ttf','.woff2':'font/woff2'};
     const file=await readFile(path);outgoing.writeHead(200,{'Content-Type':types[extname(path)]||'application/octet-stream'});outgoing.end(file);
   }catch(error){if(!outgoing.headersSent)outgoing.writeHead(error.code==='ENOENT'?404:500,{'Content-Type':'text/plain'});outgoing.end(error.message);}
 });

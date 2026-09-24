@@ -7,3 +7,61 @@
 @media(prefers-reduced-motion:reduce){.death-game-overlay *,.death-game-lock{animation:none!important;transition:none!important}.death-game-overlay[data-phase="WARNING"] .death-overseer{background-position:100% 0}}
 .death-game-overlay.is-shooting .death-overseer{animation:death-shot 1s steps(1) forwards!important}@keyframes death-shot{0%{background-position:33.3333% 100%}22%,60%,100%{background-position:66.6667% 100%}40%{background-position:100% 100%}}@media(prefers-reduced-motion:reduce){.death-game-overlay.is-shooting .death-overseer{animation:none!important;background-position:66.6667% 100%}}
 body.death-game-open{overflow:hidden!important}
+
+/* One shared table: four server-owned seats, with independent eating poses. */
+.death-game-overlay[data-phase="WARNING"] .death-overseer{animation-duration:var(--death-warning-duration,650ms)}
+.death-stage{height:510px;touch-action:pan-y;cursor:pointer;outline-offset:-3px}
+.death-stage:focus-visible{outline:2px solid #c4dc91}
+.death-overseer{width:190px;height:190px;top:12px}
+.death-table{left:22%;right:22%;top:260px;height:132px;transform:none;border:3px solid #929581;border-radius:35% 35% 14% 14% / 26% 26% 14% 14%;z-index:2;background:repeating-linear-gradient(8deg,#ffffff05 0 1px,transparent 1px 7px),linear-gradient(155deg,#85897a,#495645 48%,#58644e);box-shadow:0 12px 0 #202d23,0 17px 0 #4d5644,0 29px 25px #000b,inset 0 0 22px #293726}
+.death-table:before,.death-table:after{content:'';position:absolute;top:100%;height:63px;width:8px;background:linear-gradient(90deg,#171f19,#81856c,#263022);z-index:-1}
+.death-table:before{left:16%}.death-table:after{right:16%}
+.death-table>span{position:absolute;inset:39% 0 auto;text-align:center;color:#c7c9ab88;font:10px CampMono,monospace;letter-spacing:2px}
+.death-seat{position:absolute;width:210px;height:210px;transform:translateX(-50%);z-index:3;pointer-events:none}
+.death-seat-0{left:31%;top:128px}.death-seat-1{left:69%;top:128px}
+.death-seat-2{left:31%;top:270px;z-index:5}.death-seat-3{left:69%;top:270px;z-index:5}
+.death-diner-sprite{position:absolute;inset:0;background:url('../assets/ui/prison/death-game-diners-table-atlas-20260924.png') 0 var(--diner-row)/400% 400% no-repeat;filter:brightness(.88) saturate(.72) drop-shadow(0 6px 6px #0007)}
+.death-seat-0 .death-diner-sprite,.death-seat-1 .death-diner-sprite{clip-path:inset(0 0 35% 0)}
+.death-seat-1 .death-diner-sprite,.death-seat-3 .death-diner-sprite{transform:scaleX(-1)}
+.death-seat-label{position:absolute;z-index:6;top:-12px;left:50%;transform:translateX(-50%);min-width:94px;max-width:160px;text-align:center;padding:5px 9px;background:linear-gradient(90deg,#0a160900,#0a1609ef 15%,#0a1609ef 85%,#0a160900);border-top:1px solid #85926980}
+.death-seat-label b{display:block;color:#d9dfc5;font:11px 'Malgun Gothic',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:142px}
+.death-seat-label small{display:block;font:9px CampMono,monospace;color:#acba91;margin-top:4px}
+.death-seat-2 .death-seat-label,.death-seat-3 .death-seat-label{top:auto;bottom:7px}
+.death-seat.is-self .death-seat-label{border-color:#d1ee8a;background:#283822e6;box-shadow:0 0 14px #adc67622}
+.death-seat.is-self .death-seat-label b{color:#dcf3b3}
+.death-seat-plate{position:absolute;left:58%;top:125px;width:76px;height:34px;transform:translateX(-50%) rotate(-6deg);border:3px solid #a0a58c;border-radius:50%;background:radial-gradient(ellipse,#425037 55%,#8d9677 61%,#32422d 68%);box-shadow:0 4px 5px #102010aa;z-index:5}
+.death-seat-1 .death-seat-plate,.death-seat-3 .death-seat-plate{left:42%;transform:translateX(-50%) rotate(6deg)}
+.death-seat-2 .death-seat-plate,.death-seat-3 .death-seat-plate{top:70px;z-index:0}
+.death-seat-plate .death-peas{inset:6px 14px 5px;gap:1px}
+.death-seat-plate .death-pea{width:5px;height:4px;box-shadow:0 1px 1px #17201488}
+.death-seat[data-status="EMPTY"] .death-diner-sprite{opacity:.1;filter:grayscale(1)}
+.death-seat[data-status="EMPTY"] .death-seat-plate{opacity:.35}
+.death-seat[data-status="EMPTY"] .death-seat-label{border-style:dashed;opacity:.7}
+.death-seat[data-status="DEAD"] .death-diner-sprite{opacity:.35;filter:grayscale(1) brightness(.5)}
+.death-seat[data-status="DEAD"] .death-seat-label{border-color:#a66451}
+.death-seat[data-status="DEAD"] .death-seat-label small{color:#e9987d}
+.death-seat[data-status="FINISHED"] .death-seat-label small{color:#d9f598}
+.death-table{top:233px;height:136px}
+.death-seat-plate{left:84%;top:112px}
+.death-seat-1 .death-seat-plate{left:16%}
+.death-seat-2 .death-seat-plate{left:100%;top:76px}
+.death-seat-3 .death-seat-plate{left:0;top:76px}
+.death-eat{touch-action:manipulation}.death-eat>span{font-size:12px;border:1px solid #55713177;padding:5px 7px;border-radius:3px}
+.is-eating .death-eat{background:#a9bd7c!important;box-shadow:inset 0 2px 6px #37462288}
+@media(max-width:760px){
+  .death-stage{height:440px}.death-overseer{width:160px;height:160px;top:15px}
+  .death-table{left:16%;right:16%;top:203px;height:113px;border-width:2px}
+  .death-table>span{font-size:8px;letter-spacing:1px}
+  .death-seat{width:160px;height:160px}.death-seat-0,.death-seat-2{left:27%}.death-seat-1,.death-seat-3{left:73%}
+  .death-seat-2{left:20%}.death-seat-3{left:80%}
+  .death-seat-0,.death-seat-1{top:114px}.death-seat-2,.death-seat-3{top:236px}
+  .death-seat-label{top:-8px;min-width:78px;max-width:110px;padding:4px 6px}
+  .death-seat-label b{font-size:10px;max-width:102px}.death-seat-label small{font-size:8px}
+  .death-seat-2 .death-seat-label,.death-seat-3 .death-seat-label{bottom:2px}
+  .death-seat-plate{width:59px;height:28px;top:83px;border-width:2px}
+  .death-seat-2 .death-seat-plate,.death-seat-3 .death-seat-plate{top:57px}
+  .death-seat-plate .death-peas{inset:5px 10px 4px;gap:0}.death-seat-plate .death-pea{width:4px;height:3px}
+  .death-eat>span{font-size:10px}.death-help{font-size:10px}
+}
+@media(max-width:360px){.death-seat{width:140px;height:140px}.death-seat-plate{width:52px}.death-seat-2,.death-seat-3{top:230px}}
+@media(prefers-reduced-motion:reduce){.death-diner-sprite{background-position-x:0!important}}
