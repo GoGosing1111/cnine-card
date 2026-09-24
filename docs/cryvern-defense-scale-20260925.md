@@ -32,3 +32,11 @@
 - 실제 직전 운영 배포: Pages `2675adba-3735-414b-9800-db26a3baba16`, 소스 `323ad4e942fe06021ed49643b130ce8cb3347ff5`(Wrangler 운영 배포 목록으로 확인).
 - 직전 배포 이후 main에 있는 별도 작업은 운영 기록·일회성 지급 스크립트/검사·독립 한복 아바타 시안이다. 실행·획득 연결 또는 지급 스크립트 재실행 없이 보존한다.
 - 명령: `npm run deploy:production -- --scoped`, 위 기준 SHA와 선택 검사, `SCOPED_DEPLOY_CHECKS=[]`. 깨끗한 범위 커밋·origin/main 일치·출시 플래그·캐시 호환·Hyperdrive query cache OFF 검사는 유지한다.
+
+## 배포 결과
+
+- 운영 소스: `7f9bac82252a0ddd021679a868882fd6be4db28a`.
+- 선택 검사 38개 중 37개 통과, 1개는 이미 출시된 용병의 OFF 상태 전용 검사이므로 기존 조건에 따라 skip, 실패 0개. 소요 9.0초.
+- 출시 게이트 및 Pages/clan-draft Hyperdrive 일치·query cache OFF 검사 통과.
+- Pages: `https://d9a29ce4.cnine-card.pages.dev`, 지정 배포 경로의 clan-draft 버전 `bcd9115f-64fa-4185-b4b5-7b0070f8edb0`.
+- 운영 `cnine-card.pages.dev`에서 index·app·V3 래퍼·공용 엔진·PVE 번들의 HTTP 200 및 배포 소스 SHA-256 일치를 확인했다. 배포 후 전체 검사를 반복하지 않았다.
