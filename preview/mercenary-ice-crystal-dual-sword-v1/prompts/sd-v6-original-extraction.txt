@@ -1,0 +1,16 @@
+Use case: background-extraction.
+Asset type: an isolated transparent full-body game character master, NOT a redesigned SD or chibi character.
+
+The supplied image is the USER-APPROVED ARTWORK. Extract exactly THIS knight and BOTH swords from the illustration onto genuine transparent RGBA. Preserve the character as closely as possible, with its original normal adult proportions, original pose, original head/body direction and original limb anatomy. This is background removal and clean silhouette isolation, NOT a new character pose.
+
+CRITICAL ARM LOCK:
+Preserve BOTH ORIGINAL ARMS exactly as in the supplied artwork, from the shoulder through upper arm, elbow, forearm, wrist, fingers and sword grip.
+- Screen-left arm remains lowered with exactly its original length, angle and original hand gripping the lower sword.
+- Screen-right arm remains bent with exactly its original elbow position, wrist and hand, holding the other sword across the shoulder.
+Do not move the elbows, alter arm length, change wrists, rotate palms, redraw a new guard stance or reinterpret armor joints. Do not make arms short, bulky, bent twice or childlike. Preserve every original hand/weapon contact.
+
+Preserve the original sleek fully enclosed helmet facing screen right, SHORT blue rear ice crest, silver-white armor plates, navy-black joint fabric, blue cores, tall long-legged silhouette, small adult-size head, navy cloth tails, both original long narrow crystalline blue swords, original sword designs/lengths/orientations, both boots and all visible armor. No chibi proportions, no enlarged head, no reduced legs, no new muscle/armor masses, no new glowing effects.
+
+Remove ONLY the entire castle/sky/mountains/stone platform/snow/background. All spaces around and BETWEEN the character, arms, swords, cloth and legs must be truly transparent alpha, not painted checkerboard or black. Retain the detailed painterly edges and original material shading of the character. No floor, cast-shadow disk, scenery fragments or floating scenery particles.
+
+Full figure, both complete blades and sword tips entirely visible. Preserve the original 2:3 portrait framing with a little transparent safety margin around the entire silhouette; do not crop any weapon or foot. Native high-resolution transparent PNG, preferably 1024x1536. One character only, no labels, no text, no UI, no watermark.

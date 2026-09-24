@@ -1,0 +1,13 @@
+Use case: precise-object-edit.
+Image 1 is the EDIT TARGET, the transparent full-body battle character. Image 2 is only a reference for the natural lowered-arm sword grip and sword direction, not for changing body proportions or adding scenery.
+
+The user's specific correction: the sword held in the hand on the LEFT SIDE OF THE IMAGE must NOT point down-left. Change that sword so its blade points naturally toward SCREEN RIGHT, diagonally down-right across the FRONT of the lower body, like the lower sword direction in Image 2.
+
+Edit only that screen-left arm, wrist, hand and its sword as needed:
+Keep the shoulder in place; let the upper arm descend naturally, with one normal elbow and a relaxed forearm leading to a hand slightly forward of the left hip. Turn the hand into a natural forward sword grip, fingers wrapped around the grip with the thumb correctly opposing the fingers. Keep the wrist straight and continuous with the forearm. The hilt is in front of the near hip; the guard sits to its lower-right; the long blue blade extends from the guard to the LOWER RIGHT of the canvas. The pommel extends to the upper-left behind the gripping hand. This is a normal forward grip, NOT a reverse grip. No bent-back wrist, backwards elbow, duplicated joint, merged hands or detached gauntlet. Only one sword in this hand.
+
+The complete lower blade should pass clearly in FRONT of the upper legs without appearing to penetrate them, and its tip should end to screen right with comfortable transparent margins. Preserve its original long, narrow crystalline blue blade and silver guard design. Remove the old down-left sword completely; there must be exactly TWO swords total.
+
+Keep the OTHER arm and its up-right sword unchanged. Keep the original Image 1 adult proportions, battle stance, feet, right-facing helmet, short rear crest, shoulders, torso, navy cloth tails, colors, armor detail and painterly finish. Do not use Image 2's background or replace the sprite with the taller portrait character.
+
+Genuine transparent RGBA background everywhere around and between shapes. No solid black/gray/gradient backdrop, checkerboard, floor, shadow, particles or text. Full-body square PNG. Both full blades, helmet and boots entirely visible; no cropping. Return one completed corrected sprite.

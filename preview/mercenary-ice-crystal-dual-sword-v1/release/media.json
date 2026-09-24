@@ -1,0 +1,35 @@
+[
+  {
+    "code": "V-049",
+    "kind": "art",
+    "file": "v-049-art-320.webp",
+    "width": 320,
+    "height": 480,
+    "bytes": 75872,
+    "source": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+    "sourceSha256": "321600E04E4CDB3ABD9D35CCEEFCF4AFBD9F34AED73ABD5A8AD038123A999535",
+    "sha256": "7533C22906DD06E7409A928FA3522A26656B6DED11861365AE5BB47D519F7171"
+  },
+  {
+    "code": "V-049",
+    "kind": "art",
+    "file": "v-049-art-640.webp",
+    "width": 640,
+    "height": 960,
+    "bytes": 241508,
+    "source": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+    "sourceSha256": "321600E04E4CDB3ABD9D35CCEEFCF4AFBD9F34AED73ABD5A8AD038123A999535",
+    "sha256": "C5DD6F3F4E7CEE00B05D187067D93C9181EC386D8361102B8A133D8A6AB3461D"
+  },
+  {
+    "code": "V-049",
+    "kind": "sd",
+    "file": "v-049-sd-640.webp",
+    "width": 640,
+    "height": 640,
+    "bytes": 109864,
+    "source": "assets/ui/project-v/characters/mercenary/mercenary-v049-cryvern-sd-v1.png",
+    "sourceSha256": "DAE9EAA500E924E8561D6823D1A89C90F63A77EF5C8727A835E196C6F98016BD",
+    "sha256": "FAF53FCAC68E16C824E5D8BDDC3D30D57750D0FF64927E9C351A06E65074223C"
+  }
+]

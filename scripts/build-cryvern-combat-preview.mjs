@@ -1,0 +1,13 @@
+import fs from 'node:fs/promises';
+import {createPvpBattleV2,createPveBattleV2} from '../functions/_battle_v2_preview.js';
+import {cryvern,ragniel} from './measure-cryvern-balance.mjs';
+import {fixture} from '../tests/helpers/mercenary-operating-roster-v2144.mjs';
+const root=new URL('../',import.meta.url),read=async p=>JSON.parse(await fs.readFile(new URL(p,root),'utf8'));
+const ids=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
+const manifests=await Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>read('assets/ui/project-v/characters/'+p)));
+const all=manifests.flatMap(m=>m.characters.map(c=>({...c,rarity:m.rarity})));
+const cards=ids.map((id,i)=>{const c=all.find(c=>c.cardId===id);if(!c)throw Error('CANONICAL_ART_MISSING');return {id,cardId:id,title:c.title,name:c.member,image:c.sourceArt,sourceArt:c.sourceArt,rarity:c.rarity,power:2e7,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i]};});
+const pvp=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:cryvern,defenderMercenary:ragniel,seed:7919,singleHealerBonus:fixture.singleHealerBonus});
+const pve=createPveBattleV2({cards,mercenary:cryvern,monster:{id:1,name:'로컬 전투 판정 검수',battle_power:4e8},seed:7919});
+await fs.writeFile(new URL('preview/mercenary-ice-crystal-dual-sword-v1/release/combat-payloads.json',root),JSON.stringify({scope:'OFFLINE_ONLY_NO_ACCOUNT_MUTATIONS',cards,pvp,pve},null,2)+'\n');
+console.log('Canonical local PVP/PVE payloads generated. No live API or account accessed.');

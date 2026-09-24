@@ -1,5 +1,7 @@
 import {mountHyperOpening} from './hyper-pack-opening.mjs?v=2097';
-import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs?v=20260922-weighted';
+import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs?v=20260924-cryvern';
+
+import {cryvernSelectionWeights} from '../shared/mercenary-cryvern-v1.mjs?v=20260924-cryvern';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={MERCENARY_CARD:'용병카드',MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱에너지',NONE:'꽝'};
@@ -45,6 +47,10 @@ export function createMercenaryDrawEditor({request,onRender}){
     if(!state)return `<section class="md-editor" data-draw-root><p class="md-message" role="status">${esc(notice||'운영 확률·수량을 불러옵니다.')}</p>${failure?'<button data-draw-reload>다시 불러오기</button>':''}</section>`;
     const counts=Object.fromEntries(['C','B','A','S','SS','SSS'].map(rank=>[rank,cmsDocument.mercenaries.filter(row=>row.rank===rank).length]));
     rankCards=Object.fromEntries(Object.keys(counts).map(rank=>[rank,cmsDocument.mercenaries.filter(c=>c.rank===rank)]));
+    // Display and edit the same transition weights used by authoritative draws.
+    // This is an unsaved draft; persistence still requires the audited save.
+    const weights=cryvernSelectionWeights(rankCards.SSS.map(c=>c.code),state.policy.cardRules.cardWeights);
+    if(weights!==state.policy.cardRules.cardWeights){state.policy.cardRules.cardWeights=weights;dirty=true;}
     const unset=cmsDocument.mercenaries.filter(row=>row.rank===null).length;
     return `<section class="md-editor" data-draw-root>
       <div data-hyper-opening></div>

@@ -1,3 +1,5 @@
+import {resolveCryvernCrown} from './_mercenary_cryvern.js';
+import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE} from '../shared/mercenary-cryvern-v1.mjs';
 import {resolveHeukwolCombo} from './_mercenary_heukwol.js';
 import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
@@ -53,6 +55,7 @@ export function mercenaryTurnCadence(teams){
 // PVE 는 상한 자체가 거의 걸리지 않아 이 값의 영향을 받지 않는다.
 const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
 export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
+ [CRYVERN_SKILL_ID]:CRYVERN_CAP_SCALE,
  'MS-021':.82,'MS-046':1.04,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,
  'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.45,'MS-044':1.2,'MS-047':1.2,
 });
@@ -96,7 +99,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
  const friendly=a=>ordered(teams[a.side]),enemies=a=>ordered(teams[a.side==='A'?'B':'A']);
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
-  if(s.mechanic==='PLATINUM_SANCTUARY')return fr.slice(0,2);
+  if(s.mechanic==='PLATINUM_SANCTUARY'||s.mechanic==='CRYSTAL_CROWN')return fr.slice(0,2);
   if(s.mechanic==='GOLDEN_ORCHID_VOLLEY'){const primary=fr[0];return primary?[primary,...en.filter(t=>t!==primary).slice(0,2)]:[];}
   if(isMercenaryGuardSkill(s))return [weakest(friends.filter(t=>t.id!==a.id&&!activeIntercept(t)))].filter(Boolean);
   if(s.mechanic==='CLEANSE_THEN_MEND')return [weakest(friends)].filter(Boolean);
@@ -194,6 +197,10 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case 'BLACK_MOON_TRIPLE_SEVER':{
     const damageScale=offensiveSkillScale(a,s);
     resolveHeukwolCombo({actor:a,skill:s,target:ts[0],hit,damage:(t,n)=>damage(t,interceptDamage(a,t,n)),knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
+    finish(a,s);break;}
+   case 'CRYSTAL_CROWN':{
+    const damageScale=offensiveSkillScale(a,s);
+    resolveCryvernCrown({actor:a,skill:s,targets:p.targets.map(id=>all().find(t=>t.id===id)),hit,damage,knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
     finish(a,s);break;}
    case 'PLATINUM_SANCTUARY':{
     const damageScale=offensiveSkillScale(a,s);

@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 496,
+  "frameCount": 512,
   "images": [
     {
       "id": "closing-punch",
@@ -10907,6 +10907,496 @@
             314
           ],
           "nonempty": 6683
+        }
+      ]
+    },
+    {
+      "id": "crystal-crown",
+      "skillId": "MS-049",
+      "name": "극빙 왕관",
+      "source": "../../mercenary-ice-crystal-dual-sword-v1/assets/source/ultimate-fx-v1.png",
+      "runtime": "../../mercenary-ice-crystal-dual-sword-v1/assets/fx-ultimate-atlas.webp",
+      "sourceSha256": "EDBF636BCC00AE8D97AF66A67EFA1E90C0ACE8BC3A1E98F03CBCCA09A49BB66A",
+      "runtimeSha256": "BA791BD72499759B40222D6E93E4128D8A4A0AB50AC2149A9B8BF5105198D527",
+      "sourceSize": [
+        1402,
+        1122
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "visualReview": "2026-09-22 연출 승인 · 2026-09-24 라이브 승인",
+      "creationReferenceCode": "V-049",
+      "frames": [
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/00.png",
+          "sha256": "511BF873A282BB36FDECCDD2A64EA071DE3DDCA1B6F3AC19BE9F8C1929545FDD",
+          "index": 0,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.673828125
+          },
+          "sourceRect": [
+            0,
+            0,
+            351,
+            281
+          ],
+          "bounds": [
+            128,
+            299,
+            387,
+            370
+          ],
+          "alphaPixels": 14859,
+          "nonempty": 44556,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "C50EA408AA8C46C7708462CEDDF5788C22ECBD0FC6BAAA65599E8A4069B75519"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/01.png",
+          "sha256": "EC5CF945ED9A4E21C1E070C24A404DBD923D35BF06B86771FB96672030D0A649",
+          "index": 1,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.673828125
+          },
+          "sourceRect": [
+            351,
+            0,
+            350,
+            281
+          ],
+          "bounds": [
+            123,
+            248,
+            392,
+            375
+          ],
+          "alphaPixels": 19139,
+          "nonempty": 51519,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "75587D927EB9725D72C8A2D724F9E29AD3801E4B65A4A3D6138D65000620F264"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/02.png",
+          "sha256": "F5A216A9C777DFE656E045AC834C5ADBB48341A7A7CF9BA614FEF19A6ACED3A9",
+          "index": 2,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.673828125
+          },
+          "sourceRect": [
+            701,
+            0,
+            351,
+            281
+          ],
+          "bounds": [
+            127,
+            159,
+            383,
+            371
+          ],
+          "alphaPixels": 24594,
+          "nonempty": 64148,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "18E1190E35E2E376FFA2C67EF24F53B097F642E320F30C91C8B0D39DFC4A8864"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/03.png",
+          "sha256": "A345E5A1B65F958E82294DD3BC94B863E823652F0AD1F1B0C151654FB2DF01B4",
+          "index": 3,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.673828125
+          },
+          "sourceRect": [
+            1052,
+            0,
+            350,
+            281
+          ],
+          "bounds": [
+            120,
+            125,
+            401,
+            374
+          ],
+          "alphaPixels": 34178,
+          "nonempty": 69725,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "6326BD209CA5ABEE4DFC123233DAD2F3A082957C17DCD7E5168CCF2729AC7848"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/04.png",
+          "sha256": "3E956463C79B258D74531693AD3BECC06F201805770F2A8D139EE71BBA9FFB93",
+          "index": 4,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.7109375
+          },
+          "sourceRect": [
+            0,
+            281,
+            351,
+            280
+          ],
+          "bounds": [
+            89,
+            123,
+            428,
+            385
+          ],
+          "alphaPixels": 48787,
+          "nonempty": 91791,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "DC3F95E02BA352FCB489538C11CCFC2CFFCACDFBBE897335F2BF16E7BF9D91E0"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/05.png",
+          "sha256": "E19A41464824F3AD2E70284CE5BCDF232A70CED9E81A3F9E8D21F3B1EC19C1B2",
+          "index": 5,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.73828125
+          },
+          "sourceRect": [
+            351,
+            281,
+            350,
+            280
+          ],
+          "bounds": [
+            86,
+            125,
+            430,
+            391
+          ],
+          "alphaPixels": 59000,
+          "nonempty": 95289,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "3093735A1C35C34B44DA3758BC5F8BEC3FF200E6D23C1432B6B930928D7A1473"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/06.png",
+          "sha256": "62ED55E1E48FF1F3B6E78F397823A54B6B2CB92B223C095F7E32E900C24624E7",
+          "index": 6,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.673828125
+          },
+          "sourceRect": [
+            701,
+            281,
+            351,
+            280
+          ],
+          "bounds": [
+            100,
+            137,
+            422,
+            385
+          ],
+          "alphaPixels": 49456,
+          "nonempty": 95064,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "B2381ADC1DD753F78CE5DB141096787675694BE56457DEF9AC7122FDC3579B0D"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/07.png",
+          "sha256": "B173A92C864874331E580511F7AAE79E0610DBF551BF363C53172942125B6A2A",
+          "index": 7,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.70703125
+          },
+          "sourceRect": [
+            1052,
+            281,
+            350,
+            280
+          ],
+          "bounds": [
+            101,
+            120,
+            406,
+            389
+          ],
+          "alphaPixels": 44095,
+          "nonempty": 94136,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "A5BB901D8B25EB3F3EDD61C514D248C4808517379AB18DD23026C8B588C29F52"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/08.png",
+          "sha256": "3C03FBECC8101DDAB1F0BA305869C194AE78BE455D77535151FBFB97720987CB",
+          "index": 8,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.724609375
+          },
+          "sourceRect": [
+            0,
+            561,
+            351,
+            281
+          ],
+          "bounds": [
+            88,
+            162,
+            430,
+            389
+          ],
+          "alphaPixels": 42933,
+          "nonempty": 96406,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "13A7E0A1EEE6969D95DC4E4B8DA9424E157B0552B5CC9CB31D5CB68D7FF3D5C4"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/09.png",
+          "sha256": "41A4B2D49BA58EAEE2D0596664285F2D57C37E113067E42A68C904E7D8F86483",
+          "index": 9,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.697265625
+          },
+          "sourceRect": [
+            351,
+            561,
+            350,
+            281
+          ],
+          "bounds": [
+            81,
+            126,
+            415,
+            389
+          ],
+          "alphaPixels": 34308,
+          "nonempty": 95484,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "64A3C229280D25EFCF9349B979679D208330CCF235229A5F200F660B62013844"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/10.png",
+          "sha256": "DE36D5D224FD468E0A82647AA3398F6483F87BD7B52FCE6666750816659FB919",
+          "index": 10,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.677734375
+          },
+          "sourceRect": [
+            701,
+            561,
+            351,
+            281
+          ],
+          "bounds": [
+            95,
+            128,
+            416,
+            389
+          ],
+          "alphaPixels": 46346,
+          "nonempty": 93715,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "10AAFAB6D566A2307698CD61BDD6217125055368834033D21CB4E2599EDC7A35"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/11.png",
+          "sha256": "9F4F5EE7730DC601C35E941D08A769405CDC77C7AA6CA8B5FDE8488760028CB6",
+          "index": 11,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.68359375
+          },
+          "sourceRect": [
+            1052,
+            561,
+            350,
+            281
+          ],
+          "bounds": [
+            100,
+            182,
+            404,
+            387
+          ],
+          "alphaPixels": 36880,
+          "nonempty": 87767,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "72C1631EFC299482E924B0586160CCE19E53EB23067582AE51B86807C9034CDF"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/12.png",
+          "sha256": "2E5835EBC1584D9BC8BE98C4A69ED109FDF266E886926C31A6D7FA7E8A610BAF",
+          "index": 12,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.69921875
+          },
+          "sourceRect": [
+            0,
+            842,
+            351,
+            280
+          ],
+          "bounds": [
+            115,
+            161,
+            400,
+            388
+          ],
+          "alphaPixels": 32836,
+          "nonempty": 91153,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "3DAC547FDE48C793AB70431BF67A418488DC5B7A48B5E49A172198BE55BE309A"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/13.png",
+          "sha256": "7906A17DF3FCD59597B317D68F368A2AEE403A208449E370364A94A9C09DD4D9",
+          "index": 13,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.705078125
+          },
+          "sourceRect": [
+            351,
+            842,
+            350,
+            280
+          ],
+          "bounds": [
+            136,
+            231,
+            381,
+            382
+          ],
+          "alphaPixels": 19469,
+          "nonempty": 85112,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "59AE3C4069DE84F622EBBA881192A753EA2CFF4742DF3098784C6CFADB9BAF04"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/14.png",
+          "sha256": "DBBBB3D9D1664840C66DEB5717C8E889630F65B8E27B1D9080C77C0761D7A928",
+          "index": 14,
+          "anchor": {
+            "x": 0.4990234375,
+            "y": 0.705078125
+          },
+          "sourceRect": [
+            701,
+            842,
+            351,
+            280
+          ],
+          "bounds": [
+            144,
+            203,
+            365,
+            381
+          ],
+          "alphaPixels": 16839,
+          "nonempty": 78872,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "FC26D142897F54C69A610C1FF7BCA1A6A9AF7BDF9F4988EA64E28A7FEC5DCA98"
+        },
+        {
+          "file": "../../mercenary-ice-crystal-dual-sword-v1/assets/frames/fx-ultimate/15.png",
+          "sha256": "EF1704850FA8D002F7D3BBFC74805FC1B2998785BE8CCA982ECCD081118B8E8D",
+          "index": 15,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.705078125
+          },
+          "sourceRect": [
+            1052,
+            842,
+            350,
+            280
+          ],
+          "bounds": [
+            179,
+            291,
+            334,
+            378
+          ],
+          "alphaPixels": 6953,
+          "nonempty": 54673,
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "rawSha256": "75A874CA31E6FE4D6517CFA902CFFE3C7F811BD33E8DCD67C2B101FD3E50B598"
         }
       ]
     }

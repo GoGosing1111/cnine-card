@@ -1,0 +1,46 @@
+{
+  "status": "USER_APPROVED_SOURCE_ART",
+  "approvalRequest": "승인하고 아까 하던 리소스 다시 진행해",
+  "date": "2026-09-22",
+  "userRequest": "이거로 하고 뒤에 얼음 줄여 이거 쓸게",
+  "scope": "SHORTEN_REAR_HELMET_ICE_ONLY_KEEP_SELECTED_RIGHT_FACING_POSE",
+  "sourceArt": "redesign/standing-original-source-art-v3-short-crest.png",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "channels": 3,
+    "colorSpace": "srgb",
+    "sha256": "321600E04E4CDB3ABD9D35CCEEFCF4AFBD9F34AED73ABD5A8AD038123A999535"
+  },
+  "prompt": "redesign/prompt-standing-crest-v3.txt",
+  "generation": "BUILT_IN_IMAGEGEN_EDIT",
+  "editTarget": "redesign/user-selected-standing-source-art.png",
+  "editTargetSha256": "693F6340A6EE4A3C9CB583AF0C916E312D40276C674EC6CA3CF28F7ECF766EC6",
+  "userAttachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-f925b88f-8180-4c27-b170-5433577f550b.png",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0be02-977f-7261-8629-93a51f40c5bf/exec-0258d1b4-40d6-4b30-a120-3a32deb37e85.png",
+  "selection": {
+    "baseSelectedByUser": true,
+    "requestedEditDelivered": true,
+    "editResultSeparatelyApprovedByUser": true,
+    "frontFacingV2Selected": false,
+    "workingSourceArt": "redesign/standing-original-source-art-v3-short-crest.png"
+  },
+  "visualReview": {
+    "blueRearHelmetFinsShorter": true,
+    "originalRightFacingHelmetRetained": true,
+    "standingPoseAndBodyCompositionRetained": true,
+    "bothSwordsAndGripsRetained": true,
+    "originalCastleBackgroundRetained": true,
+    "noAddedTextOrFrame": true,
+    "reviewType": "ASSISTANT_VISUAL_CHECK"
+  },
+  "generatedFileCopiedWithoutReencoding": true,
+  "nativeSizeVerified": true,
+  "frameCompositionQa": "PENDING",
+  "previousSourceImagesOverwritten": false,
+  "battleSpriteCreatedFromThisArt": false,
+  "motionCreatedFromThisArt": false,
+  "runtimeEnabled": false,
+  "runtimeConnected": false,
+  "catalogConnected": false
+}

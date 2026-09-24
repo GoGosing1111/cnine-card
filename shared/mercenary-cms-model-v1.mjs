@@ -1,3 +1,4 @@
+import {CRYVERN_CODE,CRYVERN_SKILL_ID} from './mercenary-cryvern-v1.mjs';
 import {S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
 import {HEEYA_CODE,HEEYA_SKILL_ID} from './mercenary-hi-heeya-v2118.mjs';
 import {MANGISA_CODE,MANGISA_SKILL_ID} from './mercenary-mangisa-v1.mjs';
@@ -37,7 +38,8 @@ export function validateMercenaryCms(d, catalog) {
     const role=catalog.roles[row.role];
     if(!Object.hasOwn(catalog.roles,row.role)||!role.positions.includes(row.position)||!role.targets.includes(row.skillTarget)||row.basicTarget!=='FRONT_ENEMY')
       throw Error(`${label}: 역할에 맞는 포지션·대상을 선택하세요.`);
-    text(row.name,60,`${label} 이름`,true);text(row.title,100,`${label} 칭호`,true);
+    text(row.name,60,`${label} 이름`,true);text(row.title,100,`${label} 칭호`,row.code!==CRYVERN_CODE);
+    if(row.code===CRYVERN_CODE&&row.title!=='')throw Error('크라이베른은 사용자 지시에 따라 칭호를 붙이지 않습니다.');
     for(const key of ['specialty','weakness','rationale'])text(row[key],240,`${label} ${key}`,true);
     keys(row.stats,['hp','attack','defense','speed'],`${label} 능력치`);
     for(const key of Object.keys(row.stats))number(row.stats[key],1000000000,`${label} ${key}`);
@@ -77,6 +79,14 @@ export function validateMercenaryCms(d, catalog) {
 // without rewriting stored ranks, names, costs, reviews or explicit assignments.
 // Only the exact previous complete catalog is eligible, never a partial draft.
 export function expandMercenarySkillCatalog(document, defaults, catalog) {
+  if(catalog.cards.some(c=>c.code===CRYVERN_CODE)&&!document?.mercenaries?.some(c=>c.code===CRYVERN_CODE)){
+    const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!==CRYVERN_CODE),skills:catalog.skills.filter(s=>s.id!==CRYVERN_SKILL_ID)};
+    const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);
+    return validateMercenaryCms({...previous,
+      mercenaries:[...previous.mercenaries,structuredClone(defaults.mercenaries.find(c=>c.code===CRYVERN_CODE))],
+      skills:[...previous.skills,structuredClone(defaults.skills.find(s=>s.id===CRYVERN_SKILL_ID))],
+      assignments:[...previous.assignments,structuredClone(defaults.assignments.find(c=>c.code===CRYVERN_CODE))]},catalog);
+  }
   if(catalog.cards.some(c=>c.code==='V-048')&&!document?.mercenaries?.some(c=>c.code==='V-048')){
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!=='V-048'),skills:catalog.skills.filter(s=>s.id!=='MS-048')};
     const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);

@@ -1,0 +1,53 @@
+{
+  "sourceArtApprovalRecord": "approval.json",
+  "rejected": [
+    {
+      "asset": "assets/rejected/ice-dual-sword-sd-v1.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "sd이미지 탈락",
+      "reason": "원화의 위압감 부족. 과대한 투구, 짧은 팔다리, 뭉툭하고 짧아진 검, 장난감 같은 비율.",
+      "allowedAsGenerationReference": false,
+      "allowedInRuntime": false,
+      "derivedMotionCreated": false
+    },
+    {
+      "asset": "assets/rejected/ice-dual-sword-sd-v3-arms.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "팔 이상해 다시",
+      "reason": "어깨 위로 들어 올린 팔의 해부학적 연결과 파지.",
+      "allowedInRuntime": false,
+      "allowedAsMotionReference": false,
+      "derivedMotionCreated": false
+    },
+    {
+      "asset": "assets/rejected/ice-dual-sword-sd-v4-left-arm.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "왼쪽 팔 이상함",
+      "reason": "화면 왼쪽 어깨·팔꿈치·손목 연결.",
+      "usedForRequestedLocalCorrectionOnly": true,
+      "allowedInRuntime": false,
+      "allowedAsMotionReference": false,
+      "derivedMotionCreated": false
+    }
+  ],
+  "subsequentRejections": [
+    {
+      "asset": "assets/ice-dual-sword-sd-v5-left-arm-corrected.png",
+      "status": "USER_REJECTED",
+      "userFeedback": "더 이상해 새끼야",
+      "followUpDirection": "왼손 칼날을 왼쪽으로 내리지말고 오른쪽으로 자연스럽게 잡게해",
+      "usedForRequestedLocalCorrectionOnly": true,
+      "allowedAsMotionReference": false,
+      "allowedInRuntime": false
+    },
+    {
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0be02-977f-7261-8629-93a51f40c5bf/exec-c70cc41d-79f5-4096-9bdf-9e2c5a4d0776.png",
+      "prompt": "prompts/sd-v6-original-extraction.txt",
+      "status": "TECHNICALLY_REJECTED_NOT_SELECTED",
+      "reason": "원화 자세 추출 시안. 투명 알파는 있으나 외곽 가시 픽셀 1692개로 옷자락 경계가 잘렸으며, 후속 사용자는 SD의 왼손 검 방향 수정을 구체적으로 지정함.",
+      "allowedAsMotionReference": false,
+      "allowedInRuntime": false
+    }
+  ],
+  "nextStep": "오른쪽 아래 검 방향으로 수정한 SD V7 시각 확인 후 연속 모션 제작. 반려본은 동작 및 라이브에 사용하지 않음."
+}

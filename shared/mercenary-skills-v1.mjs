@@ -1,3 +1,4 @@
+import {CRYVERN_RELEASE_ENABLED,createCryvernSkill} from './mercenary-cryvern-v1.mjs';
 import {createHeukwolSkill} from './mercenary-heukwol-v1.mjs';
 import {createSSkillDefinitions, S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
 import {createHeeyaSkill} from './mercenary-hi-heeya-v2118.mjs';
@@ -125,6 +126,7 @@ export const MERCENARY_SKILLS = [
   createRagnielSkill(definition,art),
   createBikiniJoeunSkill(definition,art),
   createHeukwolSkill(definition,art),
+  ...(CRYVERN_RELEASE_ENABLED?[createCryvernSkill(definition,art)]:[]),
 ];
 
 export const SCENARIOS = {normal: '유효한 상황', counter: '약점 공략', boss: '보스 상대'};
@@ -169,7 +171,7 @@ export function parseSkillDraft(text) {
   const legacy = exact(draft, legacyRootKeys) && draft.format === 'PROJECT_V_MERCENARY_SKILL_DRAFT_V1' &&
     ((draft.version === 1 && draft.rosterVersion === 10) || (draft.version === 2 && draft.rosterVersion === 11));
   if (legacy) {
-    const expected = MERCENARY_SKILLS.filter(skill => !['MS-044','MS-045','MS-046','MS-047','MS-048'].includes(skill.id) && !S_SKILL_IDS.includes(skill.id) && (draft.version !== 1 || skill.id !== 'MS-021'));
+    const expected = MERCENARY_SKILLS.filter(skill => !['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049'].includes(skill.id) && !S_SKILL_IDS.includes(skill.id) && (draft.version !== 1 || skill.id !== 'MS-021'));
     if (!Array.isArray(draft.skills) || draft.skills.length !== expected.length ||
         new Set(draft.skills.map(row => row?.id)).size !== expected.length ||
         draft.skills.some(row => !exact(row, ['id', 'code', 'name', 'review', 'note']) ||
@@ -183,24 +185,27 @@ export function parseSkillDraft(text) {
       catalogVersion: SKILL_CATALOG_VERSION, status: draft.status, runtimeEnabled: draft.runtimeEnabled, skills: [...reviews, ...createSkillDraft().skills.filter(row => S_SKILL_IDS.includes(row.id))]};
   }
   if (draft.version === SKILL_VERSION && draft.catalogVersion === 1) {
-    const legacySkills = MERCENARY_SKILLS.filter(s => !['MS-044','MS-045','MS-046','MS-047','MS-048'].includes(s.id) && !S_SKILL_IDS.includes(s.id));
+    const legacySkills = MERCENARY_SKILLS.filter(s => !['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049'].includes(s.id) && !S_SKILL_IDS.includes(s.id));
     if (!Array.isArray(draft.skills) || draft.skills.length !== legacySkills.length || new Set(draft.skills.map(s=>s?.id)).size !== legacySkills.length || draft.skills.some(s=>!legacySkills.some(old=>old.id===s.id))) throw Error('기존 스킬 목록이 누락되었거나 손상되었습니다.');
     draft = {...draft, catalogVersion: SKILL_CATALOG_VERSION, skills:[...draft.skills,...createSkillDraft().skills.filter(s=>S_SKILL_IDS.includes(s.id))]};
   }
-  const priorIds=MERCENARY_SKILLS.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048'].includes(s.id)).map(s=>s.id);
+  const priorIds=MERCENARY_SKILLS.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049'].includes(s.id)).map(s=>s.id);
   if(Array.isArray(draft.skills)&&draft.skills.length===priorIds.length&&new Set(draft.skills.map(s=>s?.id)).size===priorIds.length&&draft.skills.every(s=>priorIds.includes(s?.id)))
     draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-044')]};
-  const beforeMangisa=MERCENARY_SKILLS.filter(s=>!['MS-045','MS-046','MS-047','MS-048'].includes(s.id)).map(s=>s.id);
+  const beforeMangisa=MERCENARY_SKILLS.filter(s=>!['MS-045','MS-046','MS-047','MS-048','MS-049'].includes(s.id)).map(s=>s.id);
   if(Array.isArray(draft.skills)&&draft.skills.length===beforeMangisa.length&&new Set(draft.skills.map(s=>s?.id)).size===beforeMangisa.length&&draft.skills.every(s=>beforeMangisa.includes(s?.id)))
     draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-045')]};
-  const beforeRagniel=MERCENARY_SKILLS.filter(s=>!['MS-046','MS-047','MS-048'].includes(s.id)).map(s=>s.id);
+  const beforeRagniel=MERCENARY_SKILLS.filter(s=>!['MS-046','MS-047','MS-048','MS-049'].includes(s.id)).map(s=>s.id);
   if(Array.isArray(draft.skills)&&draft.skills.length===beforeRagniel.length&&new Set(draft.skills.map(s=>s?.id)).size===beforeRagniel.length&&draft.skills.every(s=>beforeRagniel.includes(s?.id)))
     draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-046')]};
-  const beforeJoeun=MERCENARY_SKILLS.filter(s=>!['MS-047','MS-048'].includes(s.id)).map(s=>s.id);
+  const beforeJoeun=MERCENARY_SKILLS.filter(s=>!['MS-047','MS-048','MS-049'].includes(s.id)).map(s=>s.id);
   if(Array.isArray(draft.skills)&&draft.skills.length===beforeJoeun.length&&new Set(draft.skills.map(s=>s?.id)).size===beforeJoeun.length&&draft.skills.every(s=>beforeJoeun.includes(s?.id)))
     draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-047')]};
-  const beforeHeukwol=MERCENARY_SKILLS.filter(s=>s.id!=='MS-048').map(s=>s.id);
+  const beforeHeukwol=MERCENARY_SKILLS.filter(s=>!['MS-048','MS-049'].includes(s.id)).map(s=>s.id);
   if(Array.isArray(draft.skills)&&draft.skills.length===beforeHeukwol.length&&new Set(draft.skills.map(s=>s?.id)).size===beforeHeukwol.length&&draft.skills.every(s=>beforeHeukwol.includes(s?.id)))
     draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-048')]};
+  const beforeCryvern=MERCENARY_SKILLS.filter(s=>s.id!=='MS-049').map(s=>s.id);
+  if(CRYVERN_RELEASE_ENABLED&&Array.isArray(draft.skills)&&draft.skills.length===beforeCryvern.length&&new Set(draft.skills.map(s=>s?.id)).size===beforeCryvern.length&&draft.skills.every(s=>beforeCryvern.includes(s?.id)))
+    draft={...draft,skills:[...draft.skills,createSkillDraft().skills.find(s=>s.id==='MS-049')]};
   return validateSkillDraft(draft);
 }

@@ -1,0 +1,10 @@
+Use case: precise-object-edit.
+Asset type: full-body fantasy mercenary source illustration, 1024x1536 RGB PNG, exact 2:3 portrait.
+
+The attached image is the ONLY EDIT TARGET and the user's selected design. Make a single tiny local design correction: shorten the elongated blue icy crystal fins extending backward/up-left directly from the BACK OF THE HELMET by about 55–60%, so the rear ice crest is compact and sits close to the head. Retain some short sharp blue crystal points; do not remove the icy motif altogether. Preserve their material, blue color, facets and glow, and preserve the existing silver helmet structure. Do not make the head bigger, add horns or redesign the helmet.
+
+IMPORTANT: Keep the face/helmet turned toward SCREEN RIGHT EXACTLY AS IN THIS INPUT. Do not turn the face toward the viewer. Preserve its current angle, blue visor, fully enclosed pointed faceplate, neck and proportions.
+
+Only the small blue crystal projections ATTACHED TO THE BACK OF THE HELMET are being shortened. The long blue diagonal form passing BEHIND the head from the upper-left corner toward the right raised hand is the shoulder-rested SWORD BLADE, NOT a helmet fin. Do NOT shorten or alter that sword. Do NOT modify any shoulder armor spikes, shoulder crystals, other armor, or the second sword.
+
+Keep everything else unchanged: entire standing pose and tall adult body proportions, face direction, hands and both grips, both full-length swords and blade patterns, shoulders and chest core, silver-white armor and black joints, flowing navy cloth, legs and feet, snowy stone rampart, distant glacial gothic castle, sky, light, refined semi-realistic 2D painterly finish, framing and colors. Seamlessly restore only the tiny sky area exposed by the shortened helmet fins. Do not crop or zoom. No text, frame, logo, or watermark. Output one complete full-body portrait, not a head crop and not a comparison.

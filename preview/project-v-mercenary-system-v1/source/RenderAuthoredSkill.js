@@ -89,6 +89,8 @@ export function renderAuthored(fx,time){
     case 'BLACK_MOON_TRIPLE_SEVER':
       if(hits.length){approach(.72,target,{returnAt:2.6});material(point(target),time-.72,{size:280,lead:.3,life:2.53,keys:[[-.3,0],[0,4],[.52,7],[1.2,10],[1.88,13],[2.53,15]]});}
       hits.forEach(e=>{flash(point(e.targets[0]),time-e.at,65);});break;
+    case 'CRYSTAL_CROWN':
+      hits.forEach(e=>{for(const id of e.targets)impact(id,e.at,{size:e.phaseIndex===1?500:180,lead:.16,life:e.phaseIndex===1?2.9:.5,particles:e.phaseIndex===1?24:5,grounded:true});});break;
     case 'PLATINUM_SANCTUARY':
       hits.forEach(e=>{for(const id of e.targets)impact(id,e.at,{size:e.phaseIndex===1?500:180,lead:.16,life:e.phaseIndex===1?3.0:.5,particles:e.phaseIndex===1?24:5,grounded:true});});break;
     case 'GOLDEN_ORCHID_VOLLEY':

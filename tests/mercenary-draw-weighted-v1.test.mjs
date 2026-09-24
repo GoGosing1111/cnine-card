@@ -71,7 +71,7 @@ for(const postgres of [false,true]){
  test(`${name}: weighted ten-pack grants 9:1, duplicate counts and payment once; later weights cannot reroll receipts`,async t=>{
   const f=await mercenaryFixture(t,{postgres});await f.setDraw(policy(1000000));
   const request={requestId:crypto.randomUUID(),count:10};let ticket=0;
-  const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===1000000?0:ticket++});
+  const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===1000000?0:ticket++*999});
   assert.deepEqual(result.draws.map(r=>r.mercenaryCode),[...Array(9).fill('V-021'),'V-046']);
   assert.equal(result.draws[8].duplicateCount,8);assert.equal(result.draws[9].duplicate,false);assert.equal(await f.coin(),9990000);
   const changed=policy(1000000);changed.cardRules.cardWeights={'V-021':1,'V-046':99};await f.setDraw(changed);
@@ -82,7 +82,7 @@ for(const postgres of [false,true]){
  test(`${name}: a failed weighted grant leaves coins and ownership unchanged and recovers its stored result after policy change`,async t=>{
   const f=await mercenaryFixture(t,{postgres});await f.setDraw(policy(1000000));
   const request={requestId:crypto.randomUUID(),count:1};f.fail('INSERT INTO mercenary_card_acquisitions_v1');
-  await assert.rejects(()=>openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===1000000?0:9}));
+  await assert.rejects(()=>openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===1000000?0:8991}));
   assert.equal(await f.coin(),10000000);assert.equal((await f.p('SELECT * FROM user_mercenary_cards_v1').all()).results.length,0);
   await f.setDraw(policy(0));f.fail('');
   const recovered=await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Must not reroll stored draw');}});

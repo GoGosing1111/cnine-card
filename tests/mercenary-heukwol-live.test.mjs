@@ -17,13 +17,16 @@ import {mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs';
 const art=seed.catalog.cards.find(c=>c.code==='V-048'),skill=seed.document.skills.find(s=>s.id==='MS-048');
 const snapshot={code:art.code,name:art.name,rank:'SS',role:'VANGUARD',position:'FRONT',level:1,basePower:120000,stats:{hp:100000,attack:1000,defense:100,speed:100},skills:[skill],combat,sourceArt:art.sourceArt,battleSprite:art.battleSprite};
 test('previous complete CMS expands once, preserving every prior operator edit and later unassignment',()=>{
- const old=structuredClone(seed.document);old.mercenaries.pop();old.assignments.pop();old.skills.pop();
+ // Freeze this migration fixture at Heukwol's catalog generation.
+ const catalog={...seed.catalog,cards:seed.catalog.cards.filter(c=>c.code!=='V-049'),skills:seed.catalog.skills.filter(s=>s.id!=='MS-049')};
+ const defaults={...seed.document,mercenaries:seed.document.mercenaries.filter(c=>c.code!=='V-049'),assignments:seed.document.assignments.filter(c=>c.code!=='V-049'),skills:seed.document.skills.filter(s=>s.id!=='MS-049')};
+ const old=structuredClone(defaults);old.mercenaries.pop();old.assignments.pop();old.skills.pop();
  old.mercenaries[0].name='운영 이름';old.skills[0].balance.cost=37;old.assignments[0].skillIds=['MS-004'];
- const before=structuredClone(old),next=expandMercenarySkillCatalog(old,seed.document,seed.catalog);
+ const before=structuredClone(old),next=expandMercenarySkillCatalog(old,defaults,catalog);
  for(const key of ['mercenaries','skills','assignments'])assert.deepEqual(next[key].slice(0,-1),before[key]);
  assert.deepEqual(old,before);assert.deepEqual(next.settings,old.settings);assert.deepEqual(next.skills.at(-1).balance,HEUKWOL_BALANCE);assert.deepEqual(next.assignments.at(-1).skillIds,['MS-048']);
- next.skills.at(-1).balance.cost=31;next.assignments.at(-1).skillIds=[];assert.deepEqual(expandMercenarySkillCatalog(next,seed.document,seed.catalog),next);
- old.mercenaries.pop();assert.throws(()=>expandMercenarySkillCatalog(old,seed.document,seed.catalog));
+ next.skills.at(-1).balance.cost=31;next.assignments.at(-1).skillIds=[];assert.deepEqual(expandMercenarySkillCatalog(next,defaults,catalog),next);
+ old.mercenaries.pop();assert.throws(()=>expandMercenarySkillCatalog(old,defaults,catalog));
 });
 test('live originals match approval and card art never becomes the SD',()=>{
  const m=JSON.parse(fs.readFileSync(new URL('../preview/mercenary-black-moon-swordsman-ss-v1/manifest.json',import.meta.url)));

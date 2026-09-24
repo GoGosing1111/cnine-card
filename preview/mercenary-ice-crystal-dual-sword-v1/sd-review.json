@@ -1,0 +1,30 @@
+{
+  "version": 7,
+  "status": "USER_APPROVED_BATTLE_SPRITE",
+  "approvalRequest": "그래 맨 마지막꺼 승인하고 다음꺼 만들으라고 스킬하고 모션들 라그니엘 리소스 퀄리티랑 똑같이",
+  "candidate": "assets/ice-dual-sword-sd-v7-forward-blade.png",
+  "sha256": "DAE9EAA500E924E8561D6823D1A89C90F63A77EF5C8727A835E196C6F98016BD",
+  "prompt": "prompts/sd-v7-forward-blade.txt",
+  "userRequest": "왼손 칼날을 왼쪽으로 내리지말고 오른쪽으로 자연스럽게 잡게해",
+  "generation": "BUILT_IN_IMAGEGEN",
+  "inputReferences": ["assets/ice-dual-sword-sd-v5-left-arm-corrected.png", "redesign/standing-original-source-art-v3-short-crest.png"],
+  "referenceUse": "USER_REQUESTED_LOCAL_ANATOMY_CORRECTION_ONLY_NOT_MOTION_GENERATION",
+  "approvedSourceArt": "redesign/standing-original-source-art-v3-short-crest.png",
+  "rejectedV1UsedAsInput": false,
+  "designIntent": "사용자 지정에 따라 화면 왼쪽 손의 검날을 몸 앞 오른쪽 아래로 향하게 변경하고 손목·파지를 그 방향으로 교정. 반대편 팔과 검, 체형·갑옷·투구 방향은 유지.",
+  "technicalChecks": {
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "transparentFraction": 0.7275538054938709,
+    "visibleBorderPixels": 0,
+    "visibleBounds": [51, 120, 1240, 1150],
+    "armAnatomyUserApproval": "USER_APPROVED"
+  },
+  "motionGenerationStatus": "54_MOTION_AND_80_EFFECT_FRAMES_PREVIEW_READY_USER_REVIEW_PENDING",
+  "motionFramesProduced": 54,
+  "effectFramesProduced": 80,
+  "auraVersion": "DENSE_COBALT_SILHOUETTE_V2",
+  "runtimeEnabled": false,
+  "battleSpriteApproved": true
+}

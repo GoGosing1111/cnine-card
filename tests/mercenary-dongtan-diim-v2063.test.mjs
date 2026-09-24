@@ -56,7 +56,7 @@ test('the final game-illustration V4 is connected byte-for-byte with only separa
 
 test('Diim art approval stays unranked and the CMS codex publishes separate approved art and SD',()=>{
   assert.equal(ROSTER_URL.searchParams.get('v'),'20260911-omega-ranks');
-  assert.deepEqual(roster.summary,{total:48,sourceArtReady:48,battleSpriteReady:48,battleSpritePending:0,rankPending:42});
+  assert.deepEqual(roster.summary,{total:49,sourceArtReady:49,battleSpriteReady:49,battleSpritePending:0,rankPending:42});
   assert.equal(approval.runtimeConnected,false);
   assert.equal(approval.rankAssigned,false);
   assert.equal(card.rank,null);

@@ -46,6 +46,7 @@ for (const [entryPoint, outfile, constructor] of jobs) {
   outputs.push({file: outfile, sha256: hash(bundle), commonGrid: true});
 }
 const sources = [];
+for(const file of ['preview/project-v-v3/source/battle/CryvernCombatPlayback.js','preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js','preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs','shared/mercenary-cryvern-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 const layoutClient = 'preview/v3-wide-grid-v1/app.bundle.js';
 await build({entryPoints: ['preview/v3-wide-grid-v1/source/app.mjs'], outfile: layoutClient,
   bundle: true, minify: true, format: 'iife', target: ['es2022'], legalComments: 'none'});

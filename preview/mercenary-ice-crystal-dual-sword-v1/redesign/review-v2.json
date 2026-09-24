@@ -1,0 +1,43 @@
+{
+  "status": "USER_REVIEW_PENDING",
+  "date": "2026-09-22",
+  "userRequest": "머리에 얼음 느낌의 파란색 너무 길게 튀어나와있어 좀 줄여봐 얼굴은 정면을 바라보면 좋고",
+  "scope": "HELMET_CREST_LENGTH_AND_FRONT_FACING_HEAD_EDIT_ONLY",
+  "sourceArt": "redesign/standing-original-source-art-v2-short-crest-front.png",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "channels": 3,
+    "colorSpace": "srgb",
+    "sha256": "A9963360C91BB4C9BF30B336E34143F662712D91608204A0B34C09E6BD4CF269"
+  },
+  "prompt": "redesign/prompt-standing-head-v2.txt",
+  "generation": "BUILT_IN_IMAGEGEN_EDIT",
+  "editTarget": "redesign/standing-original-source-art-v1.png",
+  "editTargetSha256": "56D8C666B1D4F38833EEA68DF98B889E98ECA2011AEC6A83594068D2B492E05E",
+  "detailReference": "C:/Users/User/AppData/Local/Temp/codex-clipboard-1e25a45c-bac4-4c16-98fc-a27a1b2fd6b4.png",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0be02-977f-7261-8629-93a51f40c5bf/exec-386945f5-a04f-4e34-86a1-740d5cedf7e1.png",
+  "visualReview": {
+    "blueHelmetProjectionsVisiblyShorter": true,
+    "helmetFacesViewer": true,
+    "bothBlueEyesVisible": true,
+    "faceRemainsFullyMasked": true,
+    "standingPoseAndBodyCompositionRetained": true,
+    "bothSwordsAndGripsRetained": true,
+    "originalCastleBackgroundRetained": true,
+    "noAddedTextOrFrame": true,
+    "reviewType": "ASSISTANT_VISUAL_CHECK_NOT_USER_APPROVAL"
+  },
+  "nativeSizeVerified": true,
+  "generatedFileCopiedWithoutReencoding": true,
+  "frameCompositionQa": "PENDING",
+  "preservedApprovedArt": "assets/source-art.png",
+  "preservedApprovedArtSha256": "B2BA5DA055E1629D895B11ACF6EC8EFB87996CFA688F1B0C504563AB7D559A2E",
+  "replacesPreviouslyApprovedArt": false,
+  "previousStandingCandidateOverwritten": false,
+  "battleSpriteCreatedFromThisArt": false,
+  "motionCreatedFromThisArt": false,
+  "runtimeEnabled": false,
+  "runtimeConnected": false,
+  "catalogConnected": false
+}

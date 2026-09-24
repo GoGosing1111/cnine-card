@@ -533,6 +533,17 @@
       "weakness": "제압과 단일 표적 소멸에 취약 · 방어 무시 없음",
       "rationale": "승인한 다검 검객의 연속 베기를 SS 전열 역할로 연결한다.",
       "rank": "SS"
+    },
+    {
+      "code": "V-049",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "specialty": "쌍검 연격 · 결정 왕관 파열",
+      "weakness": "첫 검격 회피 시 해당 대상의 후속 파열 취소",
+      "rationale": "승인된 쌍검·광원과 한 행동 피해 예산을 사용하는 전열 SSS 용병",
+      "rank": "SSS"
     }
   ]
 }

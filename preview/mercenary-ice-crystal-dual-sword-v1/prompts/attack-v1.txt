@@ -1,0 +1,13 @@
+Use case: stylized-concept. Production transparent game animation sprite sheet for the APPROVED ice-crystal dual-sword mercenary. The provided transparent SD is the STRICT character model sheet. Preserve its exact fully enclosed crystal-crown helmet, cyan narrow eye slits, white/silver crystalline armor, blue shoulder reactor, indigo joints, navy cloth tails, adult SD proportions around 4.5 heads tall, and TWO identical blue crystal longswords with silver structural edges, ornate crossguards and wrapped grips. No exposed hair/face, no gold, no feather wings. A separate sword is held naturally in each hand throughout every frame. Exactly two arms and two legs. No detached handles, fused hands, extra swords or bending blades.
+Premium Ragniel-quality crisp hand-painted 2D RPG sprites. Every frame is a genuinely new anatomically articulated pose, consistent character/head/body scale and side-view camera, attack direction SCREEN RIGHT. Pose and weapon silhouettes must actually change, not merely translate or rotate one static cutout. Draw head, torso, elbows, wrists, hips, knees and ankles coherently.
+TRUE transparent RGBA, empty transparent space around and between poses. No background, floor, contact shadow, checkerboard, labels, numbers, grid lines, UI or watermark. At least 10% CLEAR GUTTER INSIDE EACH CELL on all four sides. Entire character including both sword tips, crest, feet and cloth remains within its own cell. No overlaps or edge clipping. Effects will be separate; no giant trails or sparks painted across neighboring cells. Read left-to-right then next row. Maintain a shared conceptual foot baseline inside each row.
+
+Generate EXACTLY 12 chronological frames in a 4-column by 3-row grid. Native 2048x1536 landscape, 4:3.
+Action: a precise TWO-HIT BASIC DUAL-SWORD COMBO aimed screen right, with genuine whole-body rotation.
+Frames 1-2: guarded preload; lead sword lifts back over shoulder and off-hand sword stays low.
+Frames 3-4: first diagonal cut drives down/right; front leg braces, shoulder and hips rotate. Frame 4 is first contact with the lead blade extended toward screen-right chest height.
+Frames 5-6: first blade follows through low while the second arm draws its blade back; feet pivot and torso winds the opposite way.
+Frames 7-8: off-hand blade cuts up/right across target; frame 8 is the second distinct contact at screen-right chest height. The two blades never merge.
+Frames 9-10: follow-through from the second cut, knees absorb momentum.
+Frames 11-12: return to armed ready guard.
+Keep the rigid metal sword structure and both physical grips visible in every pose. No drawn enemy, blood, huge light arc or effect overlay.
