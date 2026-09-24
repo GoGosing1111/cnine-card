@@ -25,7 +25,7 @@ export function validateQuestSettings(input,before){
  for(const q of WEEKLY_QUESTS){
   const value=input.quests[q.id];if(!value||typeof value.enabled!=='boolean')fail('각 퀘스트의 지급 ON/OFF를 선택하세요.',400);
   const rewardAmount=Number(value.rewardAmount),rewardType=String(value.rewardType||'');
-  if(!QUEST_REWARDS[rewardType]||value.rewardAmount===''||value.rewardAmount===null||!Number.isSafeInteger(rewardAmount)||rewardAmount<0)fail('지원되는 보상과 0 이상의 안전한 정수를 입력하세요.',400);
+  if(!Object.hasOwn(QUEST_REWARDS,rewardType)||value.rewardAmount===''||value.rewardAmount===null||!Number.isSafeInteger(rewardAmount)||rewardAmount<0)fail('지원되는 보상과 0 이상의 안전한 정수를 입력하세요.',400);
   if(value.enabled&&rewardAmount<=0)fail('보상을 1개 이상 설정한 뒤 지급을 켜세요.',400);
   next.quests[q.id]={enabled:value.enabled,rewardType,rewardAmount};
  }
@@ -39,12 +39,18 @@ export async function ensureQuestHub(env){
    `CREATE TABLE IF NOT EXISTS quest_weekly_posts_v1(user_id BIGINT NOT NULL,week_key TEXT NOT NULL,provider_user_id TEXT NOT NULL,board_slugs_json TEXT NOT NULL,post_count BIGINT NOT NULL,days_json TEXT NOT NULL,checked_at TEXT NOT NULL,PRIMARY KEY(user_id,week_key))`,
    `CREATE TABLE IF NOT EXISTS quest_weekly_claims_v1(user_id BIGINT NOT NULL,week_key TEXT NOT NULL,quest_id TEXT NOT NULL,claim_token TEXT NOT NULL UNIQUE,status TEXT NOT NULL CHECK(status IN ('PENDING','COMPLETED')),progress BIGINT NOT NULL,reward_type TEXT NOT NULL,reward_amount BIGINT NOT NULL,message_id BIGINT,created_at TEXT NOT NULL DEFAULT ${env.DB.dialect==='postgres'?'sqlite_now()':'CURRENT_TIMESTAMP'},PRIMARY KEY(user_id,week_key,quest_id))`
   ];
-  const tables=new Set((await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table'").all()).results.map(row=>row.name));
+  const indexes=[],tables=new Set((await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table'").all()).results.map(row=>row.name));
   for(const [table,userColumn,dateColumn] of [['raid_core_attempts_v2024','user_id','resolved_at'],['territory_war_v3_actions','user_id','updated_at'],['clan_war_battles','attacker_user_id','updated_at']]){
-   if(tables.has(table))schema.push(`CREATE INDEX IF NOT EXISTS idx_quest_weekly_${table} ON ${table}(${userColumn},status,${dateColumn})`);
+   if(tables.has(table))indexes.push(`CREATE INDEX IF NOT EXISTS idx_quest_weekly_${table} ON ${table}(${userColumn},status,${dateColumn})`);
   }
   if(env.DB.dialect==='postgres')await env.DB.execSchema(schema);
   else await env.DB.batch(schema.map(sql=>env.DB.prepare(sql)));
+  // Some legacy activity tables have another owner. Optional lookup indexes
+  // must not prevent our own tables/settings from becoming usable.
+  for(const sql of indexes){
+   try{if(env.DB.dialect==='postgres')await env.DB.execSchema([sql]);else await env.DB.prepare(sql).run()}
+   catch(error){if(error?.code!=='42501'&&!/must be owner of table|permission denied for table/i.test(String(error?.message)))throw error}
+  }
   await env.DB.batch([
   env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(QUEST_SETTINGS_KEY,JSON.stringify(defaultQuestSettings())),
   env.DB.prepare('INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(SCHEMA,'1')
@@ -116,7 +122,7 @@ export async function claimWeeklyQuest(env,user,questId,deps){
  const period=questPeriod(deps.now?.()),cfg=await settings(env),reward=cfg.value.quests[quest.id];
  const existing=await env.DB.prepare("SELECT message_id FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND quest_id=? AND status='COMPLETED'").bind(user.id,period.weekKey,quest.id).first();
  if(existing)return {ok:true,replayed:true,messageId:existing.message_id,delivery:'MESSAGE'};
- if(!reward?.enabled||!QUEST_REWARDS[reward.rewardType]||!Number.isSafeInteger(reward.rewardAmount)||reward.rewardAmount<=0)fail('보상 설정 후 운영자가 지급을 시작할 예정입니다.');
+ if(!reward?.enabled||!Object.hasOwn(QUEST_REWARDS,reward.rewardType)||!Number.isSafeInteger(reward.rewardAmount)||reward.rewardAmount<=0)fail('보상 설정 후 운영자가 지급을 시작할 예정입니다.');
  if(quest.id==='POST')await checkWeeklyPosts(env,user,deps,{force:true});
  const status=await questHubStatus(env,user,deps),progress=status.weekly.find(q=>q.id===quest.id);
  if(status.period.weekKey!==period.weekKey)fail('새 주간이 시작되었습니다. 다시 확인해 주세요.');

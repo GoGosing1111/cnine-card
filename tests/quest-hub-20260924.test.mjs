@@ -14,11 +14,12 @@ test('KST Monday 00:00 inclusive / next Monday exclusive, including year crossov
 test('new weekly rewards are all OFF, unset; unsafe/zero-enabled values are rejected',()=>{
  const original=defaultQuestSettings();assert.ok(Object.values(original.quests).every(q=>!q.enabled&&q.rewardAmount===0));
  for(const value of ['',null,-1,1.5,Number.MAX_SAFE_INTEGER+1]){const next=structuredClone(original);next.quests.POST.rewardAmount=value;assert.throws(()=>validateQuestSettings(next,original))}
+ for(const rewardType of ['UNKNOWN','constructor','__proto__']){const next=structuredClone(original);next.quests.POST.rewardType=rewardType;assert.throws(()=>validateQuestSettings(next,original))}
  const zero=structuredClone(original);zero.quests.POST.enabled=true;assert.throws(()=>validateQuestSettings(zero,original),/1개 이상/);
  zero.quests.POST.rewardAmount=100_000_000_000;assert.equal(validateQuestSettings(zero,original).quests.POST.rewardAmount,100_000_000_000);
 });
 
-async function fixture(){
+async function fixture({denyLegacyIndexes=false}={}){
  const pg=new PGlite();await pg.exec(`
  CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;
  CREATE FUNCTION sqlite_datetime(text,text) RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP)+$2::interval,'YYYY-MM-DD HH24:MI:SS')$$;
@@ -35,6 +36,7 @@ async function fixture(){
  CREATE TABLE admin_logs(id BIGSERIAL PRIMARY KEY,admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);`);
  const client={async query(input){const result=await pg.query(typeof input==='string'?input:input.text,typeof input==='string'?[]:input.values||[]);return {...result,rowCount:result.affectedRows??result.rows.length}}};
  const env={DB:new __postgresCompatTest.PostgresD1Database(client)},user={id:1,role:'USER'},calls=[];
+ if(denyLegacyIndexes){const execSchema=env.DB.execSchema.bind(env.DB);env.DB.execSchema=sql=>{if(sql.some(statement=>/^CREATE INDEX/.test(statement)))throw Object.assign(Error('must be owner of table territory_war_v3_actions'),{code:'42501'});return execSchema(sql)}}
  const deps={dailySettings:async()=>({enabled:true,postEnabled:true,postRewardCoin:10000000000,boardSlugs:['skm'],checkCooldownSeconds:20}),excluded:()=>false,ensureDaily:async()=>{},ensureMessages:async()=>{},
   authenticate:async()=>user,requirePermission:async()=>({...user,role:'OWNER'}),json:(body,status=200)=>Response.json(body,{status}),readBody:r=>r.json(),
   playdkClient:()=>({async getDailyPostCount(args){calls.push(args);return {userUuid:args.userUuid,questDate:args.questDate,timezone:'Asia/Seoul',boardSlugs:args.boardSlugs,count:50,posts:[],postsTruncated:true}}})};
@@ -52,6 +54,14 @@ test('status preserves daily reward and counts actual completed attacker partici
   assert.ok(status.weekly.every(q=>!q.enabled));assert.equal(status.weekly[0].available,false);
   await assert.rejects(()=>claimWeeklyQuest(f.env,f.user,'TERRITORY',f.deps),/보상 설정/);
   assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,0);
+ }finally{await f.pg.close()}
+});
+test('legacy index ownership cannot block additive quest tables or OFF defaults',async()=>{
+ const f=await fixture({denyLegacyIndexes:true});try{
+  const status=await questHubStatus(f.env,f.user,f.deps);assert.equal(status.weekly.length,4);assert.ok(status.weekly.every(q=>!q.enabled&&q.rewardAmount===0));
+  assert.equal((await f.pg.query('SELECT * FROM quest_weekly_claims_v1')).rows.length,0);
+  assert.equal((await f.pg.query("SELECT * FROM app_meta WHERE key='quest_hub_foundation_20260924_v1'")).rows.length,1);
+  await f.enable('TERRITORY');assert.equal((await claimWeeklyQuest(f.env,f.user,'TERRITORY',f.deps)).ok,true);
  }finally{await f.pg.close()}
 });
 test('weekly DK check queries elapsed KST dates, uses total count rather than truncated posts and caches only complete result',async()=>{
