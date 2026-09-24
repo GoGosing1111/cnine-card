@@ -25,3 +25,10 @@
 - 선택 회귀: 신규 입장 안전 회귀, `tests/core-protocol-raid-v1924.test.mjs`, `tests/core-raid-random-two-v2086.test.mjs`, `tests/core-raid-fixed-power-v2070.test.mjs`, `tests/core-raid-abandon-20260922.test.mjs`. 레이드 공명·서버 승패·기믹·고정 설정·이탈/재시도만 확인하고 다른 콘텐츠 전체 검사는 반복하지 않는다.
 - 배포 필수 Worker 검사·출시 게이트·캐시·Hyperdrive OFF 확인은 지정 도구로 유지한다. Windows 테스트는 `NODE_OPTIONS=--test-isolation=none`으로 실행한다.
 - 배포 후 확인은 운영 소스 커밋과 관련 읽기 전용 API 응답으로 한정한다. 실제 계정 공략 POST를 검수 목적으로 보내지 않는다.
+
+## 운영 반영 완료
+
+- 운영 수정 커밋 `481b3c1eda82368ebac97772985ddf4952cb0862`. 지정 scoped 배포의 관련 회귀 **60개 통과**, Worker 검사·출시 게이트·Hyperdrive 캐시 OFF 확인 통과.
+- Pages `https://ef2cbf83.cnine-card.pages.dev`, 동반 clan-draft `fe9c9830-a8a0-4345-b287-6c2a19955b4f` (클랜 로직 변경 없음).
+- 운영 배포 목록의 소스가 `481b3c1`과 일치함을 확인했다. 고유 배포 주소와 정식 `cnine-card.pages.dev` 모두 메인 HTTP 200, `/api/raid/core/feature` 비로그인 HTTP 401 및 정상 인증 안내를 확인했다. 운영 계정 공략·보상 시험은 하지 않았다.
+- 서버 판정만 변경되어 게임 새로고침은 필요 없으며, 배포 후 시작한 새 개인 공략부터 적용한다. 이 완료 기록은 문서 전용 후속 커밋이며 게임을 다시 배포하지 않는다.
