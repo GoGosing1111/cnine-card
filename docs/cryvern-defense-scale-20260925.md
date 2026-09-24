@@ -40,3 +40,4 @@
 - 출시 게이트 및 Pages/clan-draft Hyperdrive 일치·query cache OFF 검사 통과.
 - Pages: `https://d9a29ce4.cnine-card.pages.dev`, 지정 배포 경로의 clan-draft 버전 `bcd9115f-64fa-4185-b4b5-7b0070f8edb0`.
 - 운영 `cnine-card.pages.dev`에서 index·app·V3 래퍼·공용 엔진·PVE 번들의 HTTP 200 및 배포 소스 SHA-256 일치를 확인했다. 배포 후 전체 검사를 반복하지 않았다.
+- 운영의 독립 프리뷰 추가 재생은 확장자 없는 `/combat`, `/battle` 경로에서 기존 상대 배경 경로가 `/preview/assets/...`로 해석되어 404로 중단됐다. 이번 수정은 해당 경로나 배경 로더를 변경하지 않는다. 따라서 시각 검수 통과는 로컬 PC/PVE·PVP 실행 결과이며, 운영 프리뷰 재생 통과로 기록하지 않는다. 실제 게임 파일/로더 연결 검사는 통과했고 이 별도 프리뷰 경로 문제로 추가 게임 배포를 하지 않는다.
