@@ -636,6 +636,11 @@ function renderLockedPrison(prison=null){
   try{invalidateRaidUiState({clearSelection:true,stopClaimRetry:true})}catch(_){}
   try{stopBattleEnergyTimer()}catch(_){}try{stopPvpEnergyTimer()}catch(_){}try{window.stopAuctionHouseView?.()}catch(_){}try{window.stopCoinPredictionView?.()}catch(_){}try{window.lobbyBgm?.stop()}catch(_){}
   stopRuntimeCommandPoll();runtimeCommandContext='prison';document.body.classList.remove('battle-running','raid-running','modal-open','mobile-menu-open');document.body.classList.add('prison-locked','v21-ui-ready');document.documentElement.dataset.v21UiReady='1';document.body.dataset.contentScope='system';
+  if(prisonUiState.facility==='DEATH_GAME'&&window.PrisonDeathGame){
+    window.ClanPrisonCamp?.stop();
+    app.innerHTML=`<main data-cnine-prison-lock="1">${window.PrisonDeathGame.lockView()}</main><div id="modal" class="modal"></div>`;
+    window.PrisonDeathGame.bindLock(prisonUiState);return;
+  }
   const camp=prisonUiState.facility==='CLAN_CAMP'&&window.ClanPrisonCamp;
   app.innerHTML=`<main class="prison-lock-shell" data-cnine-prison-lock="1">${camp?camp.view(user,true):prisonView(user,true)}</main><div id="modal" class="modal"></div>`;
   if(camp)camp.bind(user,true);else bindPrisonView();

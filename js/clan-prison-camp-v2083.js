@@ -20,6 +20,7 @@
       <header class="camp-header"><div class="camp-authority"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V3h16v18M8 3v18m4-18v18m4-18v18M4 8h16M4 17h16"/></svg><span>행정부 <i>/</i> 포로 관리국</span><b>외부 출입 통제</b></div>
         <div class="camp-actions">${isLocked ? '' : '<button type="button" data-camp-exit><span aria-hidden="true">←</span> 로비로 돌아가기</button>'}<button type="button" data-camp-trial>족장 재판 투표</button><button type="button" data-camp-logout>로그아웃</button></div></header>
       <div class="camp-layout"><div class="camp-main">
+        <section class="camp-death-entry"><div><small>운영자가 시작하는 다인 경기</small><h2>죽음의 눈치게임</h2><p>감시자의 눈을 피해 식사를 끝내세요.<br>사망 시 숲켓몬 전체 플레이 5분 제한</p></div><button type="button" data-camp-death-game>경기장 입장 ↗</button></section>
         <section class="camp-scene" aria-label="철창으로 봉쇄된 수용동">
           <div class="camp-scene-top"><span><i></i> DETENTION CAMP</span><span class="camp-seal">격리 시설</span></div>
           <div class="camp-title"><span class="camp-eyebrow">패전의 끝. 철문이 닫힌다.</span><h1>포로수용소</h1><p>패전 인원 격리 구역</p></div>
@@ -29,7 +30,7 @@
             <div class="camp-scene-stats"><div><small>현재 수감 인원</small><strong><span id="campOccupancy">—</span><em>명</em></strong></div><div class="camp-timer"><small id="campTimerLabel">남은 형기</small><strong id="campCountdown">--:--:--</strong><span>형기 조회 중</span></div></div></div>
         </section>
         <section class="camp-roster"><header><div><span class="camp-roster-mark" aria-hidden="true">≡</span><h2>수감자 명부</h2><small>INMATE REGISTER</small></div><span>정산 당시 전원</span></header><div id="campReleaseAll" class="camp-release-all"></div><div class="camp-inmates" id="campInmates"><p class="camp-empty">수용 기록을 불러오는 중입니다.</p></div></section>
-        <div class="camp-warning"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/></svg><p>수감 중에는 <b>수용소 채팅과 재판 투표</b> 이용할 수 있습니다.<span>형기 종료 또는 운영자 석방 후 모든 콘텐츠가 다시 열립니다.</span></p></div>
+        <div class="camp-warning"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/></svg><p>수감 중에는 <b>수용소 채팅·재판 투표·운영자 경기</b>를 이용할 수 있습니다.<span>형기 종료 또는 운영자 석방 후 모든 콘텐츠가 다시 열립니다. 사망 제한 중에는 이용할 수 없습니다.</span></p></div>
       </div><aside class="camp-chat"><header><div class="camp-chat-heading"><span class="camp-intercom" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div><small>VISITATION ROOM</small><h2>면회 통신</h2></div></div><span class="camp-channel"><i></i> 공개 채팅</span></header>
         <div class="camp-chat-notice"><span>수용소 공개 채팅</span><b>포로 · 방문객</b></div>
         <div class="camp-chat-log" id="campChatLog" role="log" aria-label="수용소 채팅" aria-live="polite" aria-relevant="additions"><div class="camp-chat-empty"><span>···</span><p>채널 연결 중</p></div></div>
@@ -129,6 +130,7 @@
   }
 
   function stop() {
+    window.PrisonDeathGame?.stop();
     epoch++; clearTimeout(poll); clearInterval(clock); poll = clock = null; root = null;
     pending = sending = releasing = false;releaseTarget = null;
   }
@@ -143,6 +145,7 @@
       else if (button.hasAttribute('data-camp-trial')) void window.CoupPalace?.openTrial();
       else if (button.hasAttribute('data-camp-logout')) void prisonLogout();
       else if (button.hasAttribute('data-camp-refresh')) void refresh();
+      else if (button.hasAttribute('data-camp-death-game')) window.PrisonDeathGame?.open();
       else if (button.hasAttribute('data-camp-cancel')) closeReleaseDialog();
       else if (button.hasAttribute('data-camp-confirm') && releaseTarget) void release(releaseTarget.seasonId, releaseTarget.userId, true, releaseTarget.eventId);
       else if (button.hasAttribute('data-camp-release-all')) void release(Number(button.dataset.campReleaseAll), null, false, button.dataset.event||'');

@@ -48,6 +48,7 @@ import { handleChief } from '../_chief.js';
 import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,shopTaxStatements } from '../_administration_treasury.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
 import { clanCampStatusForUser,handleClanPrisonCamp,ensureClanCampSchema,clanCampActiveProbeSql,clanCampProbeTime } from '../_clan_prison_camp.js';
+import { handlePrisonDeathGame,deathGameBlockedPath } from '../_prison_death_game.js';
 import { reconcileClanCampSeason } from '../_clan.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
@@ -4937,7 +4938,9 @@ async function prisonStatusForUser(env,userId){
   }
   // 수용소 행이 없다고 방금 확인됐으면 상세 조회를 생략한다(대부분의 요청).
   if(!status.incarcerated&&Number(probe?.clan_camp_active_p0919||0)!==1)return {incarcerated:false};
-  return status.incarcerated?status:await clanCampStatusForUser(env,userId);
+  const camp=Number(probe?.clan_camp_active_p0919||0)===1?await clanCampStatusForUser(env,userId):null;
+  // Death has its own five-minute screen; expiry reveals (never erases) an older sentence.
+  return camp?.facility==='DEATH_GAME'?camp:status.incarcerated?status:camp||{incarcerated:false};
 }
 async function clearPrisonChatIfEmpty(env){
   return env.DB.prepare(`DELETE FROM prison_chat_messages WHERE NOT EXISTS (
@@ -5221,6 +5224,12 @@ async function handleRequest(context){
       if(!restrictedAdminPathAllowed(path,access))return json({error:'ADMIN 계정은 승부예측 관리만 사용할 수 있습니다.',code:'ADMIN_PERMISSION_RESTRICTED'},403);
     }
 
+    const deathGameResponse=await handlePrisonDeathGame({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser}});if(deathGameResponse)return deathGameResponse;
+    // Unlike detention, death also closes prison chat, trial voting and other prison exemptions.
+    if(deathGameBlockedPath(path)&&path!=='prison/status'){
+      const current=await authenticate(request,env);
+      if(current){const prison=await prisonStatusForUser(env,current.id);if(prison.facility==='DEATH_GAME'&&prison.incarcerated)return json({error:prison.reason,code:'USER_INCARCERATED',prison},423);}
+    }
     const clanCampResponse=await handleClanPrisonCamp({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser}});if(clanCampResponse)return clanCampResponse;
 
     // The disciplinary prison has its own chat, bail and combat exemptions. Camp captives stay in their facility.
@@ -5290,6 +5299,7 @@ async function handleRequest(context){
       const current=await authenticate(request,env);
       if(current){
         const prison=await prisonStatusForUser(env,current.id);
+        if(prison.incarcerated&&prison.facility==='DEATH_GAME')return json({error:prison.reason,code:'USER_INCARCERATED',prison},423);
         if(prison.incarcerated)return json({error:'수감 중에는 감옥을 벗어날 수 없습니다.',code:'USER_INCARCERATED',prison},423);
       }
     }

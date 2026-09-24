@@ -144,7 +144,7 @@ test('live menu, lock screen, common API guard and release gate include the camp
   assert.match(app,/prisoncamp:\(user\)=>window.ClanPrisonCamp.view\(user\)/);
   assert.match(app,/if\(tab==='prisoncamp'\)window.ClanPrisonCamp\?\.bind\(loadUser\(\)\)/);
   assert.match(app,/facility==='CLAN_CAMP'&&window.ClanPrisonCamp/);
-  assert.match(api,/return status.incarcerated\?status:await clanCampStatusForUser\(env,userId\)/);
+  assert.match(api,/return camp\?\.facility==='DEATH_GAME'\?camp:status.incarcerated\?status:camp\|\|\{incarcerated:false\}/);
   assert.ok(api.indexOf('handleClanPrisonCamp({path')<api.indexOf('const prisonExempt='));
   assert.match(api,/await reconcileClanCampSeason\(env\)/);
   const navigation=app.match(/function navGroupForTab\(tab\)\{[\s\S]*?\n\}/)[0];

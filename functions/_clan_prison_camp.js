@@ -84,14 +84,14 @@ const ACTIVE = `FROM prison_camp_entries_v2115 c WHERE c.released_at IS NULL AND
 //   대부분의 유저는 수용 중이 아니므로 상세 조회(clanCampStatusForUser)는 이 값이 1일 때만 한다.
 //   바인딩: [clanCampProbeTime(now), userId]
 export const clanCampActiveProbeSql = () => `CASE WHEN EXISTS(SELECT 1 ${ACTIVE} AND c.user_id=?) THEN 1 ELSE 0 END`;
-export const clanCampProbeTime = now => sqlTime(now);
+export const clanCampProbeTime = now => new Date(now).toISOString().replace('T', ' ').replace('Z', '');
 
 export async function clanCampStatusForUser(env, userId, now = Date.now()) {
   await ensureClanCampSchema(env);
-  const camp = await env.DB.prepare(`SELECT c.* ${ACTIVE} AND c.user_id=? ORDER BY c.jailed_until DESC LIMIT 1`)
-    .bind(sqlTime(now), userId).first();
+  const camp = await env.DB.prepare(`SELECT c.* ${ACTIVE} AND c.user_id=? ORDER BY CASE WHEN c.source_type='DEATH_GAME' THEN 0 ELSE 1 END,c.jailed_until DESC LIMIT 1`)
+    .bind(clanCampProbeTime(now), userId).first();
   if (!camp) return { incarcerated: false };
-  return { incarcerated: true, facility: 'CLAN_CAMP', reason: camp.reason, sourceType: camp.source_type, eventId: camp.event_id, title: camp.title,
+  return { incarcerated: true, facility: camp.source_type === 'DEATH_GAME' ? 'DEATH_GAME' : 'CLAN_CAMP', reason: camp.reason, sourceType: camp.source_type, eventId: camp.event_id, title: camp.title,
     seasonId: Number(camp.season_id), seasonNo: Number(camp.season_no), clanName: camp.clan_name,
     jailedAt: camp.jailed_at, jailedUntil: camp.jailed_until, jailedByNickname: '행정부',
     remainingSeconds: Math.max(0, Math.ceil((Date.parse(camp.jailed_until.replace(' ', 'T') + 'Z') - now) / 1000)) };
@@ -100,7 +100,7 @@ export async function clanCampStatusForUser(env, userId, now = Date.now()) {
 export async function clanCampRoomState(env, user, prison, now = Date.now()) {
   await ensureClanCampSchema(env);
   const [inmates, messages] = await Promise.all([
-    env.DB.prepare(`SELECT c.*,u.nickname FROM prison_camp_entries_v2115 c JOIN users u ON u.id=c.user_id WHERE c.released_at IS NULL AND c.jailed_until>? ORDER BY c.jailed_at DESC,c.member_role,c.user_id`)
+    env.DB.prepare(`SELECT c.*,u.nickname FROM prison_camp_entries_v2115 c JOIN users u ON u.id=c.user_id WHERE c.released_at IS NULL AND c.jailed_until>? AND c.source_type<>'DEATH_GAME' ORDER BY c.jailed_at DESC,c.member_role,c.user_id`)
       .bind(sqlTime(now)).all(),
     env.DB.prepare(`SELECT q.*,u.nickname FROM (SELECT * FROM clan_prison_chat ORDER BY id DESC LIMIT 80) q
       JOIN users u ON u.id=q.user_id ORDER BY q.id`).all()
@@ -149,7 +149,7 @@ export async function releaseClanCaptives(env, user, payload, now = Date.now()) 
   if (eventId) {
     const result = await env.DB.prepare(`UPDATE event_prison_captives SET released_at=?,released_by=?,release_reason='운영자 석방'
       WHERE event_id=? AND released_at IS NULL ${userId === null ? '' : 'AND user_id=?'}
-      AND EXISTS(SELECT 1 FROM event_prison_camps c WHERE c.event_id=event_prison_captives.event_id AND c.jailed_until>?)`)
+      AND EXISTS(SELECT 1 FROM event_prison_camps c WHERE c.event_id=event_prison_captives.event_id AND c.jailed_until>? AND c.source_type<>'DEATH_GAME')`)
       .bind(sqlTime(now), user.id, eventId, ...(userId === null ? [] : [userId]), sqlTime(now)).run();
     return { ok: true, releasedCount: changes(result) };
   }
