@@ -37,6 +37,18 @@
 
 ## 전용 먹기 자산
 
+### 운영 반영 결과
+
+- 운영 소스: `15d5fe2625517325f7b6dcd3bda01c688b8c4c8f`, 깨끗한 범위 커밋과 `origin/main` 일치 후 지정 scoped 배포 종료 코드 0.
+- 관련 **21/21 통과**, Worker 구문/컴파일·출시 플래그/캐시·Hyperdrive query cache OFF 확인. 전체 게임 게이트 반복 없음.
+- Pages: https://d593081c.cnine-card.pages.dev . 공유 프리뷰: https://cnine-card.pages.dev/preview/prison-death-game-v2/ . 배포 URL과 운영 별칭에 반영 완료.
+- clan-draft Worker 버전: `1a75437b-2cc1-45fb-ac2d-9c7cd1ce4653`, 기존 Hyperdrive 바인딩 유지.
+- 운영 별칭에서 CSS/실제 게임 JS/체험 JS/먹기 아틀라스 총 4개 SHA-256이 소스와 일치. 운영 HTML의 CSS·JS `20260924-2` 링크 확인, 비로그인 게임 상태 API 401 확인.
+- 브라우저에서 공유 프리뷰 개방 확인. 라이브 모집/시작/계정 변경 없음. 임시 검수 탭/로컬 서버 정리.
+- 작업 중 병합한 `02c430ed`/`d9977386`는 별도 운영 지급 스크립트/검사/기록만 포함하고 게임 런타임 변경·추가 배포는 없었다. 해당 지급을 이 작업에서 재실행하지 않았다.
+
+### 제작 방식
+
 내장 **image_gen** generate → targeted edit 방식. 기존 수용소 배경/감시자 원본은 수정하지 않았다. 귀여운 SD 대신 삭막한 수용소에 맞춘 성인 수감자 네 명의 실제 4단계 포즈를 제작했다. 우측 좌석은 코드에서 좌우 반전한다.
 
 - 최종: `assets/ui/prison/death-game-diners-table-atlas-20260924.png`
