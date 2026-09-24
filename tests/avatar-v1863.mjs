@@ -4,9 +4,11 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
+import { applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
 test('avatar foundation seeds eighteen hidden unsold records including Hi Heeya, Cheon and Orikkung without overwriting settings', async () => {
+  // This cold-start fixture must not inherit another suite's completed migration promise.
+  const {ensureAvatarFoundation,avatarFeatureAccess}=await import('../functions/_avatar.js?avatar-foundation-v1863-cold-start');
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
