@@ -48,7 +48,7 @@ Use case: stylized-concept. Asset type: a single production sprite atlas for a d
 
 - 기준 운영 커밋: `481b3c1eda82368ebac97772985ddf4952cb0862` (Pages `ef2cbf83-8c0a-46a7-8cc3-baf2e5962fd6`).
 - 분류: **큰 변경** — 신규 다인 콘텐츠·영속 스키마·전체 플레이 제한 분기. 단순 공용 파일 수정이 아니라 공통 접근 제한 변경이므로 전체 게이트 선택.
-- 배포 명령: `npm run deploy:production` 한 번. 배포 내 전체 게이트를 별도 사전 실행하지 않음.
+- 배포 명령: `npm run deploy:production`. 배포 내 전체 게이트를 별도 사전 실행하지 않음. 아래 테스트 실행 문제로 두 차례 업로드 전에 중단했고, 최종 운영 업로드는 한 회차만 수행.
 - 신규 검사: SQLite·PostgreSQL 실제 SQL/HTTP 경로, OWNER 권한, 수동 시작, 최소 인원, 동의, 지연·중복 요청, 속도/진행 조작, 사망 저장 rollback/응답 소실, 정확한 5분 경계, 기존 형기 보존, 정상 완주·순위, 초기 null 상태·느린 폴링 역행 방지.
 - 로컬 UI: `node scripts/qa-prison-death-game-20260924.mjs`. 운영 DB·계정 미사용. 운영자 `?user=999`, 참가자 `?user=101`, `?user=102`.
 - 실제 브라우저: PC 1366×900, 모바일 390×844. 두 계정 모집/참가/수동 시작, 감시 중 입력 → 사망, 05:00 → 새로고침 후 04:52 유지, 모바일 식사 1입/손 해제, 참가자 동기화와 사망 표식 확인. 첫 방문 null 초기화와 모바일 배경 스크롤 개선 포함.
@@ -59,3 +59,13 @@ Use case: stylized-concept. Asset type: a single production sprite atlas for a d
 첫 전체 게이트는 기존 `avatar-v1863.mjs`의 초기 스키마 17문 검사가 16문으로 나와 배포 전에 중단됐다. 운영 아바타 코드와 이 테스트는 직전 배포 이후 변경되지 않았다. Windows에서 사용하는 `--test-isolation=none` 실행 시 앞선 드롭률 테스트의 완료된 migration promise가 초기 상태 검사에 공유되는 것을 두 파일만으로 재현했다. 초기화 테스트만 고유 모듈 URL로 불러오도록 격리했고, 운영 아바타 동작과 검증 조건은 바꾸지 않았다.
 
 재실행에서 기존 전직 검사도 동일한 공유 프로세스 간섭이 확인돼 `--test-isolation=none` 우회를 제거했다. 기본 프로세스 격리 + 동시 실행 1개로 전직 37건과 신규 게임 13건이 통과했다. 최종 배포는 `NODE_OPTIONS`를 비우고 배포용 PowerShell 프로세스의 CPU affinity만 `0x3`으로 제한한다. 자식 Node의 `os.availableParallelism()`이 2가 되므로 기본 테스트 동시 실행은 1개이며, 검사 생략·격리 해제·전역 PC 설정 변경은 없다. 지정 명령 `npm run deploy:production` 및 전체 게이트는 그대로 사용한다.
+
+## 운영 반영 결과
+
+- 운영 소스: `7184b8b19a03b59fa859f1f550cabb8bb2f3a69b` (`origin/main` 일치, 깨끗한 범위 커밋). 게임 구현 커밋은 `ca1c3511`.
+- 최종 전체 `release:gate` 통과, `npm run deploy:production` 종료 코드 0. 신규 게임 포함 감옥·수용소 통합 37건 통과. 기존 PostgreSQL 실접속 환경 전용 7건은 설정 부재로 스킵이며, 신규 SQLite/PGlite 검사는 모두 실행·통과.
+- Pages: https://4d3d073d.cnine-card.pages.dev . 운영 별칭 https://cnine-card.pages.dev 반영 확인.
+- clan-draft Worker: `29624286-a3e2-4089-81e6-80681d770f60`. 동일 Hyperdrive 바인딩, query cache OFF 확인 후 배포.
+- 운영 HTML의 새 버전 링크 4개 확인. CSS·신규 JS·기존 수용소 JS·app.js·감시자 PNG 총 5개 파일의 SHA-256이 배포 후보와 일치. 신규 상태 API의 비로그인 요청은 401.
+- 라이브 모집·경기 시작·계정 사망·재화 변경을 실행하지 않음. 운영자가 직접 모집·시작하기 전에는 열린 경기가 없음.
+- 배포 후 전체 검사를 반복하지 않았으며, 검수용 로컬 서버와 임시 PC/모바일 탭은 종료.
