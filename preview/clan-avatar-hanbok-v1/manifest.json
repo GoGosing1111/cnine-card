@@ -1,0 +1,122 @@
+{
+  "id": "clan-avatar-hanbok-v1",
+  "createdAt": "2026-09-25",
+  "status": "COSTUME_DESIGN_REVIEW",
+  "generator": "built-in image_gen",
+  "assetFormat": {"width": 1024, "height": 1536, "format": "PNG", "alpha": true, "postProcessing": "none"},
+  "qa": {"assets": "asset-qa.json", "browser": "gallery-qa.json", "desktop": "qa/gallery-desktop.png", "mobile": "qa/gallery-mobile.png"},
+  "scope": "Eight clan-exclusive avatar costume variants; full-body transparent equipment artwork; existing lobby images, live avatar mappings, effects and ownership unchanged.",
+  "requirements": {
+    "clanMarks": false,
+    "clanNamesInArt": false,
+    "logos": false,
+    "femaleCostume": "short chima hanbok",
+    "reference": "preview/avatar-hanbok-diim-v1/assets/avatar-hanbok-diim-lobby-source-art-v1.png"
+  },
+  "entries": [
+    {
+      "id": "joeun",
+      "name": "조은",
+      "avatarCode": "T1_JOEUN",
+      "category": "female",
+      "caption": "먹빛 저고리 · 붉은 비단",
+      "accent": "#8e2835",
+      "image": "assets/joeun-hanbok-v1.png",
+      "original": "../avatar-t1-joeun-v1/assets/avatar-t1-joeun-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-t1-joeun-v1/assets/avatar-t1-joeun-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    },
+    {
+      "id": "kangguyeol",
+      "name": "강구열",
+      "avatarCode": "KANGGUYEOL_DK",
+      "category": "male",
+      "caption": "옥빛 배자 · 먹색 바지",
+      "accent": "#9bb4a9",
+      "image": "assets/kangguyeol-hanbok-v1.png",
+      "original": "../avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    },
+    {
+      "id": "orikkung",
+      "name": "오리꿍",
+      "avatarCode": "FM_ORIKKUNG",
+      "category": "duck",
+      "caption": "초록 배자 · 전통 복건",
+      "accent": "#296551",
+      "image": "assets/orikkung-hanbok-v1.png",
+      "original": "../avatar-fm-orikkung-v1/assets/avatar-fm-orikkung-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-fm-orikkung-v1/assets/avatar-fm-orikkung-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    },
+    {
+      "id": "dimwoos",
+      "name": "딤우스",
+      "avatarCode": "FM_DIMWOOS",
+      "category": "female",
+      "caption": "아이보리 저고리 · 비취 치마",
+      "accent": "#146653",
+      "image": "assets/dimwoos-hanbok-v1.png",
+      "original": "../avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    },
+    {
+      "id": "hi-heeya",
+      "name": "하이희야",
+      "avatarCode": "DC_HI_HEEYA",
+      "category": "female",
+      "caption": "연보라 고름 · 남색 치마",
+      "accent": "#6b6792",
+      "image": "assets/hi-heeya-hanbok-v1.png",
+      "original": "../avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    },
+    {
+      "id": "bongsoon",
+      "name": "나무늘봉순",
+      "avatarCode": "DK_NAMU_BONGSOON",
+      "category": "female",
+      "caption": "백색 저고리 · 민트 치마",
+      "accent": "#8abbba",
+      "image": "assets/bongsoon-hanbok-v1.png",
+      "original": "../avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-dk-bongsoon-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-dk-bongsoon-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    },
+    {
+      "id": "juseong",
+      "name": "주성",
+      "avatarCode": "LG_JUSEONG",
+      "category": "male",
+      "caption": "자주빛 겉옷 · 먹색 바지",
+      "accent": "#703851",
+      "image": "assets/juseong-hanbok-v1.png",
+      "original": "../avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-lg-juseong-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-lg-juseong-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    },
+    {
+      "id": "ayoon",
+      "name": "아윤",
+      "avatarCode": "LOTTE_AYOON",
+      "category": "female",
+      "caption": "크림 저고리 · 포도빛 치마",
+      "accent": "#8f3f53",
+      "image": "assets/ayoon-hanbok-v1.png",
+      "original": "../avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-equipment-source-art-v1.png",
+      "identitySource": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-equipment-source-art-v1.png",
+      "promptFile": "prompts.md",
+      "status": "COSTUME_DESIGN_REVIEW"
+    }
+  ]
+}

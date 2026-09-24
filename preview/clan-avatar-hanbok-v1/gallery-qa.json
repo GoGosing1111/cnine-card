@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "images": 8,
+      "comparison": true,
+      "filters": true,
+      "theme": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "images": 8,
+      "comparison": true,
+      "filters": true,
+      "theme": true,
+      "overflow": false,
+      "pageErrors": []
+    }
+  ]
+}

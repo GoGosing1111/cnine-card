@@ -1,0 +1,160 @@
+{
+  "checkedAt": "2026-09-24T18:14:56.096Z",
+  "count": 8,
+  "allPassed": true,
+  "scope": "Dimensions, real alpha, opaque figure, frame margin and source/output hashes only. Visual costume and identity review is separate.",
+  "files": [
+    {
+      "id": "joeun",
+      "name": "조은",
+      "image": "assets/joeun-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1501755,
+      "sha256": "41ad9b80ab58a9d1af1131cf9076bf23458cc8b13d5ade2242a7878caf1f7d99",
+      "sourceSha256": "aa5c8f3154ee5705967b1c2129aa45ab275c2fae5429d0b82772510207907860",
+      "transparentPixels": 1185159,
+      "nearOpaquePixels": 348668,
+      "bounds": [
+        271,
+        9,
+        774,
+        1512
+      ],
+      "edgePixels": 0
+    },
+    {
+      "id": "kangguyeol",
+      "name": "강구열",
+      "image": "assets/kangguyeol-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1705634,
+      "sha256": "bb0a0d87f782b8e6e7ded1415d15f3828d0686dc1e5990c4bb475ce2ce42a269",
+      "sourceSha256": "24ad2631fbb1f235be420b0c212c534f3fa15e5e553357e5751461eb4b3f7aa9",
+      "transparentPixels": 1045928,
+      "nearOpaquePixels": 500163,
+      "bounds": [
+        187,
+        31,
+        833,
+        1502
+      ],
+      "edgePixels": 0
+    },
+    {
+      "id": "orikkung",
+      "name": "오리꿍",
+      "image": "assets/orikkung-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2145076,
+      "sha256": "6ad54a0ef0368047ece273a8fb947d62e52701cd178db03c1c12b676233b73d4",
+      "sourceSha256": "ec03fb1c0e6868295cf208103ed66367047e7410a52b9ec60549803663095737",
+      "transparentPixels": 805587,
+      "nearOpaquePixels": 740889,
+      "bounds": [
+        92,
+        17,
+        968,
+        1473
+      ],
+      "edgePixels": 0
+    },
+    {
+      "id": "dimwoos",
+      "name": "딤우스",
+      "image": "assets/dimwoos-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1548901,
+      "sha256": "1c068796b2646d6fe503c6f77e4fe52bfaa68d93dfc954b36fe57d62867946fd",
+      "sourceSha256": "53ae25adf9bc0d76936a2697d70ad3a70b43ef029d8345363b7a604868528e16",
+      "transparentPixels": 1174327,
+      "nearOpaquePixels": 331804,
+      "bounds": [
+        253,
+        10,
+        778,
+        1510
+      ],
+      "edgePixels": 0
+    },
+    {
+      "id": "hi-heeya",
+      "name": "하이희야",
+      "image": "assets/hi-heeya-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1496078,
+      "sha256": "591cca6c41366119e2bf55d7e3fad3325387aed60e1fc4210a665f4f35b6ec9b",
+      "sourceSha256": "9316e7181826c76d89249595055317ecbe08dc3d1db7099552b1db454a9a3e58",
+      "transparentPixels": 1186823,
+      "nearOpaquePixels": 342766,
+      "bounds": [
+        220,
+        10,
+        799,
+        1490
+      ],
+      "edgePixels": 0
+    },
+    {
+      "id": "bongsoon",
+      "name": "나무늘봉순",
+      "image": "assets/bongsoon-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1509311,
+      "sha256": "66e7e6362bd40522ce3226cd51e9bcb6fc86a69e77c7d01d128f092985167bf7",
+      "sourceSha256": "872d253cdd97d0f1e971f09a2b116d5733ad8cba439e170ff3c726f283e03677",
+      "transparentPixels": 1183349,
+      "nearOpaquePixels": 341999,
+      "bounds": [
+        265,
+        12,
+        863,
+        1454
+      ],
+      "edgePixels": 0
+    },
+    {
+      "id": "juseong",
+      "name": "주성",
+      "image": "assets/juseong-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1719534,
+      "sha256": "fa70f549645ba4d75b413af69aeb19f8e649ec0a52967fd7cf25d02cce98b204",
+      "sourceSha256": "eec42e0e7ce1552b672e17cbc42fb6035afe7b531f66566189bb875c259282a4",
+      "transparentPixels": 1045596,
+      "nearOpaquePixels": 496841,
+      "bounds": [
+        219,
+        13,
+        843,
+        1497
+      ],
+      "edgePixels": 0
+    },
+    {
+      "id": "ayoon",
+      "name": "아윤",
+      "image": "assets/ayoon-hanbok-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1482038,
+      "sha256": "0313a01f6659bc080241a63e4c665566b82c718d53192962e5d5e68c458e1519",
+      "sourceSha256": "31f995a5f5b6652efadebd072c1c0e2c151516e2ba53f21dc56bdde52eefd5fd",
+      "transparentPixels": 1182635,
+      "nearOpaquePixels": 356519,
+      "bounds": [
+        248,
+        12,
+        778,
+        1498
+      ],
+      "edgePixels": 0
+    }
+  ]
+}
