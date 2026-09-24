@@ -564,13 +564,14 @@
     if (!root) return;
     const loadVersion = ++workshopLoadVersion;
     const epoch = routeEpoch;
+    const session = sessionIdentity();
     try {
-      const nextState = await api('workshop');
-      if (loadVersion !== workshopLoadVersion || epoch !== routeEpoch || !workshopMounted()) return;
+      const nextState = await (window.consumeWorkshopEntryRead ? window.consumeWorkshopEntryRead() : api('workshop'));
+      if (loadVersion !== workshopLoadVersion || epoch !== routeEpoch || session !== sessionIdentity() || !workshopMounted()) return;
       workshopState = nextState;
       renderWorkshop();
     } catch (error) {
-      if (loadVersion !== workshopLoadVersion || epoch !== routeEpoch || !workshopMounted()) return;
+      if (loadVersion !== workshopLoadVersion || epoch !== routeEpoch || session !== sessionIdentity() || !workshopMounted()) return;
       root.innerHTML = `<div class="ws76-error"><b>제작소 연결 실패</b><span>${esc(error.message)}</span><button type="button">다시 시도</button></div>`;
       root.querySelector('button')?.addEventListener('click', bindWorkshopView);
     }

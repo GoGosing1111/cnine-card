@@ -921,8 +921,10 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
+    parallelStyles:true,
+    prepare:()=>prepareWorkshopEntryRead(),
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-workbench-v1.css?v=20260922','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923'],
+    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260925'],
     ready:()=>Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
@@ -936,7 +938,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
+    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260925&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -997,10 +999,41 @@ const FEATURE_RESOURCE_MANIFEST={
   }
 };
 const featureResourcePromises=new Map();
+const featureStylesReady=new Set();
+function featureResourcesReady(key){
+  const manifest=FEATURE_RESOURCE_MANIFEST[key];
+  return Boolean(manifest?.ready()&&(!manifest.parallelStyles||featureStylesReady.has(key)));
+}
+// One entry-only read overlaps the workshop assets; never persist player balances.
+const WORKSHOP_ENTRY_MAX_AGE_MS=1000;
+let workshopEntryRead=null;
+function prepareWorkshopEntryRead(){
+  if(!API_TOKEN)return;
+  const read={token:API_TOKEN,epoch:PLAYER_STATE_MUTATION_EPOCH,completedAt:null};
+  read.result=apiRequest('workshop',{}, {ttl:0,microcache:false,replaceInflight:true,timeoutMs:45000}).then(data=>{
+    read.completedAt=Date.now();return {data};
+  },error=>({error})); // Asset failure/navigation must not leave an unhandled rejection.
+  workshopEntryRead=read;
+}
+async function consumeWorkshopEntryRead(){
+  const read=workshopEntryRead;workshopEntryRead=null;
+  const current=()=>read.token===API_TOKEN&&read.epoch===PLAYER_STATE_MUTATION_EPOCH;
+  if(read&&current()){
+    const result=await read.result;
+    if(current()&&(read.completedAt===null||Date.now()-read.completedAt<=WORKSHOP_ENTRY_MAX_AGE_MS)){
+      if(result.error)throw result.error;
+      return result.data;
+    }
+  }
+  // A changed account, mutation, expired read or manual refresh needs current state.
+  return apiRequest('workshop',{}, {ttl:0,microcache:false,replaceInflight:true,timeoutMs:45000});
+}
+window.consumeWorkshopEntryRead=consumeWorkshopEntryRead;
 function loadFeatureStyle(href){
   const existing=[...document.querySelectorAll('link[rel="stylesheet"]')].find(link=>link.getAttribute('href')===href);
+  if(existing?.dataset.cnineFeatureStyle==='1'&&existing.dataset.loaded!=='1')return new Promise((resolve,reject)=>{existing.addEventListener('load',()=>resolve(),{once:true});existing.addEventListener('error',()=>reject(new Error(`스타일 리소스를 불러오지 못했습니다: ${href}`)),{once:true})});
   if(existing)return Promise.resolve();
-  return new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href=href;link.dataset.cnineFeatureStyle='1';link.onload=()=>resolve();link.onerror=()=>{link.remove();reject(new Error(`스타일 리소스를 불러오지 못했습니다: ${href}`))};document.head.appendChild(link)});
+  return new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href=href;link.dataset.cnineFeatureStyle='1';link.onload=()=>{link.dataset.loaded='1';resolve()};link.onerror=()=>{link.remove();reject(new Error(`스타일 리소스를 불러오지 못했습니다: ${href}`))};document.head.appendChild(link)});
 }
 function loadFeatureScript(src){
   const existing=[...document.scripts].find(script=>script.getAttribute('src')===src);
@@ -1010,11 +1043,17 @@ function loadFeatureScript(src){
 }
 function ensureFeatureResources(key){
   const manifest=FEATURE_RESOURCE_MANIFEST[key];if(!manifest)return Promise.reject(new Error(`알 수 없는 기능 리소스입니다: ${key}`));
-  if(manifest.ready())return Promise.resolve();
+  if(featureResourcesReady(key))return Promise.resolve();
   if(featureResourcePromises.has(key))return featureResourcePromises.get(key);
+  manifest.prepare?.();
   // async=false keeps dependency execution order while every request starts
   // together, removing the old seven-file V3 download waterfall.
-  const request=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(async()=>{await Promise.all((manifest.scripts||[]).map(loadFeatureScript));await manifest.initialize?.();if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
+  const styles=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(()=>{featureStylesReady.add(key)});
+  const scripts=()=>Promise.all((manifest.scripts||[]).map(loadFeatureScript));
+  // Workshop scripts only define views; mounting still waits for both asset groups.
+  // Keep the existing CSS-first contract for every other feature.
+  const assets=manifest.parallelStyles?Promise.all([styles,scripts()]):styles.then(scripts);
+  const request=assets.then(async()=>{await manifest.initialize?.();if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
   featureResourcePromises.set(key,request);return request;
 }
 function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='alchemy'?'alchemy':tab==='scrapyard'?'scrapyard':['dex','inventory'].includes(tab)?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':tab==='soopketland'?'soopketland':tab==='treasury'?'treasury':['battle','pvp'].includes(tab)?'battleV2':''}
@@ -1258,7 +1297,8 @@ function renderShell(tab) {
   // 그래서 tab 값으로 판단하지 않고, 어댑터가 화면을 다 그린 다음 프레임에
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
-  const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
+  const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?featureResourcesReady(routeFeatureKey):true;
+  if(tab!=='workshop')workshopEntryRead=null;
   const views = { buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), treasury:(...args)=>(routeFeatureReady&&typeof window.administrationTreasuryView==='function'?window.administrationTreasuryView(...args):featureRouteLoadingHtml('treasury')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, coup:()=>window.CoupPalace.view(), prisoncamp:(user)=>window.ClanPrisonCamp.view(user) };
   const battleActive=['battle','scrapyard','pvp','rank','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab),administrationActive=['treasury','prison','prisoncamp','soopketland','coup'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
