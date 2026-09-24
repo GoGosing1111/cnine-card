@@ -562,7 +562,9 @@ export function coreRaidBalanceState(coreScores = {}, coreTarget = 1, settings =
   };
 }
 
-export function applyCoreRaidBalanceGate({ room = {}, operation = '', outcome = {}, settings = {} } = {}) {
+export function applyCoreRaidBalanceGate({
+  room = {}, operation = '', outcome = {}, settings = {}, entryBalance = null, entrySettings = settings
+} = {}) {
   const cfg = cleanCoreRaidSettings(settings);
   const op = normalizeOperation(operation);
   const coreTarget = Math.max(1, Number(room.coreTarget ?? room.core_target ?? cfg.coreRequired));
@@ -583,13 +585,24 @@ export function applyCoreRaidBalanceGate({ room = {}, operation = '', outcome = 
   const projectedBalance = coreRaidBalanceState(projectedScores, coreTarget, cfg);
   const selectedLowestCore = Number(currentBalance.scores[op] || 0) === currentBalance.minScore;
   const overload = !projectedBalance.balanced && !selectedLowestCore;
-  if (!overload) {
+  // Only the persisted server entry snapshot can protect a successful attempt.
+  // Keep the live gate for legacy attempts and for a room that recovered meanwhile.
+  const validEntry = entryBalance?.version === 1 && Number.isSafeInteger(entryBalance.coreTarget) &&
+    entryBalance.coreTarget > 0 && Object.keys(OPERATIONS).every(key =>
+      Number.isSafeInteger(entryBalance.coreScores?.[key]) && entryBalance.coreScores[key] >= 0 &&
+      entryBalance.coreScores[key] <= entryBalance.coreTarget);
+  const entryOutcome = overload && validEntry
+    ? applyCoreRaidBalanceGate({ room: entryBalance, operation: op, outcome, settings: entrySettings })
+    : null;
+  const protectedAtEntry = entryOutcome?.balanceSuccess === true;
+  if (!overload || protectedAtEntry) {
     return {
       ...outcome,
       balanceSuccess: true,
       failureReason: '',
       attemptedCoreProgress,
-      balance: projectedBalance
+      balance: projectedBalance,
+      ...(protectedAtEntry ? { balanceProtectedAtEntry: true, entryProjectedBalance: entryOutcome.balance } : {})
     };
   }
   return {
@@ -1731,7 +1744,15 @@ async function battleAttempt(env, user, cfg, body, deps, resumeOnly = false, ses
     user_id: user.id,
     stage,
     operation,
-    deck_snapshot: JSON.stringify({ ...deckSnapshot(deckInfo, cards), coreRaidCombatSettings: cfg }),
+    deck_snapshot: JSON.stringify({
+      ...deckSnapshot(deckInfo, cards),
+      coreRaidCombatSettings: cfg,
+      coreRaidEntryBalance: stage === 'CORE' ? {
+        version: 1,
+        coreTarget: room.aggregate.coreTarget,
+        coreScores: { ...room.aggregate.coreScores }
+      } : null
+    }),
     role_counts_json: JSON.stringify(coreRaidRoleCounts(cards)),
     challenge_json: JSON.stringify(challenge),
     total_power: totalPower
@@ -1953,7 +1974,9 @@ async function resolveAttempt(env, user, cfg, body, sessionId) {
       room: room.aggregate || room,
       operation: attempt.operation,
       outcome: baseOutcome,
-      settings: cfg
+      settings: cfg,
+      entryBalance: attemptSnapshot.coreRaidEntryBalance,
+      entrySettings: attemptSettings
     });
     const settled = await commitAttemptResult(env, attempt, {qte, contribution, outcome});
     const response = await attemptResponse(env, attempt, cfg, settled);
