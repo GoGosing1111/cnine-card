@@ -2,27 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { deathGameFixture } from './helpers/prison-death-game-fixture.mjs';
+import { deathGameFixture, seedDeathGameCaptives } from './helpers/prison-death-game-fixture.mjs';
 import { DEATH_GAME_RULES, createDeathGameTimeline, deathGameState, operateDeathGame, joinDeathGame, biteDeathGame } from '../functions/_prison_death_game.js';
 
 const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const owner={id:999,role:'OWNER'}, people=[101,102,103,104].map(id=>({id,role:'USER'}));
 const source=read('js/prison-death-game-20260924.js');
 for(const postgres of [false,true]) {
-  test(`${postgres?'PostgreSQL':'SQLite'}: four seats, concurrent last slot, leave/rejoin and spectator event timestamps`,async t=>{
+  test(`${postgres?'PostgreSQL':'SQLite'}: four assigned seats, replay, no voluntary leave and spectator event timestamps`,async t=>{
     const f=await deathGameFixture(postgres);t.after(f.close);
     await f.p("INSERT INTO users(id,nickname,role) VALUES(104,'참가자 넷','USER')").run();
-    const roundId='four_seats_round_001',join=user=>joinDeathGame(f.env,user,{roundId,acceptDeathPenalty:true},false,f.now);
+    const roundId='four_seats_round_001';
     await operateDeathGame(f.env,owner,'open',{requestId:roundId},f.now);
     assert.equal(DEATH_GAME_RULES.maxPlayers,4);
-    for(const user of people.slice(0,3))await join(user);
-    const attempts=await Promise.allSettled([join(people[3]),join(owner)]);
-    assert.equal(attempts.filter(r=>r.status==='fulfilled').length,1);
-    assert.equal(attempts.filter(r=>r.status==='rejected')[0].reason.status,409);
-    assert.equal((await join(people[0])).players.length,4,'same-player retry never claims a second seat');
-    await joinDeathGame(f.env,people[0],{roundId},true,f.now);
-    assert.equal((await join(people[0])).players.length,4);
-    const spectator=attempts[0].status==='rejected'?people[3]:owner;
+    await seedDeathGameCaptives(f,people.map(p=>p.id));
+    const assignment={roundId,requestId:'four_seats_assign_001',userIds:people.map(p=>p.id)};
+    const attempts=await Promise.all([operateDeathGame(f.env,owner,'assign',assignment,f.now),operateDeathGame(f.env,owner,'assign',assignment,f.now)]);
+    assert.ok(attempts.every(r=>r.players.length===4));
+    await assert.rejects(operateDeathGame(f.env,owner,'assign',{...assignment,requestId:'four_seats_overflow_001',userIds:[101,102,103,104,999]},f.now),e=>e.status===400);
+    await assert.rejects(joinDeathGame(f.env,people[0],{roundId},true,f.now),e=>e.status===403);
+    const spectator=owner;
     const s=await operateDeathGame(f.env,owner,'start',{roundId,requestId:'four_seats_start_001'},f.now);
     const at=s.round.startsAt+100;
     const receipt=await biteDeathGame(f.env,people[0],{roundId,seq:1,lastBiteAt:1,bites:24},at);
@@ -128,9 +127,9 @@ test('space works without eat-button focus, ignores repeats and form controls, a
 test('standalone preview uses the live runtime and never connects to account APIs; asset and cache links exist',()=>{
   const html=read('preview/prison-death-game-v2/index.html'),preview=read('preview/prison-death-game-v2/preview.js'),index=read('index.html');
   assert.match(html,/connect-src 'none'/);assert.match(html,/실제 계정/);
-  assert.match(html,/prison-death-game-20260924\.js\?v=20260924-2/);
+  assert.match(html,/prison-death-game-20260924\.js\?v=20260924-3/);
   assert.doesNotMatch(preview,/fetch\(|XMLHttpRequest|localStorage|sessionStorage/);
-  assert.match(index,/prison-death-game-20260924\.(?:js|css)\?v=20260924-2/);
+  assert.match(index,/prison-death-game-20260924\.(?:js|css)\?v=20260924-3/);
   const atlas=readFileSync(new URL('../assets/ui/prison/death-game-diners-table-atlas-20260924.png',import.meta.url));
   assert.equal(atlas[25],6,'sprites retain actual RGBA transparency');
   assert.match(source,/lastBiteAt > \(seatEvents\.get/);

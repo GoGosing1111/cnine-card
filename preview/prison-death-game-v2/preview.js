@@ -22,8 +22,8 @@
     if(model.status==='RUNNING'&&p.type==='READING')for(const player of model.players){
       if((mode==='watch'||player.userId!==101)&&at>=player.nextAuto){oneBite(player,at);player.nextAuto=at+950+(player.userId%3)*140;}
     }
-    const me=mode==='watch'?null:model.players.find(p=>p.userId===101);
-    return clone({rules,serverNow:at,canOperate:mode==='lobby',round:{id:'preview_round_001',status:p.type==='FINISHED'?'FINISHED':model.status,phase:p,startsAt:model.startsAt,endsAt:model.endsAt},
+    const me=mode==='watch'||mode==='lobby'?null:model.players.find(p=>p.userId===101);
+    return clone({rules,serverNow:at,canOperate:mode==='lobby',eligibleInmates:model.candidates,round:{id:'preview_round_001',status:p.type==='FINISHED'?'FINISHED':model.status,phase:p,startsAt:model.startsAt,endsAt:model.endsAt},
       players:[...model.players].sort((a,b)=>(a.finishedAt||Infinity)-(b.finishedAt||Infinity)||b.bites-a.bites),me:me?{...me,nextBiteAt:me.lastBiteAt+700}:null});
   }
   function begin() {
@@ -45,16 +45,19 @@
     if(action==='bite'){
       const me=model.players.find(p=>p.userId===101);if(mode==='watch')throw Error('관전자는 식사할 수 없습니다.');
       if(body.seq>me.lastSeq)oneBite(me,Date.now());
-    }else if(action==='start'){begin();}
+    }else if(action==='assign'){model.players=model.candidates.filter(p=>body.userIds.includes(p.userId)).map(p=>({...p,status:'WAITING',bites:0,lastSeq:0,lastBiteAt:0,finishedAt:0,diedAt:0,blockedUntil:0,nextAuto:0}));}
+    else if(action==='start'){if(model.players.length<2)throw Error('2명 이상 지정하세요.');begin();}
     else if(action==='cancel'){model.status='CANCELLED';}
     else if(action==='open'){reset('lobby');}
-    else if(!['status','join','leave'].includes(action))throw Error('체험용 경로가 아닙니다.');
+    else if(action!=='status')throw Error('체험용 경로가 아닙니다.');
     return snapshot();
   };
   function reset(next='lobby') {
     cycle++;mode=next;window.PrisonDeathGame?.stop();
     document.getElementById('clanCampView').innerHTML='';
     model={status:'LOBBY',startsAt:0,endsAt:0,players:['참가자 하나','참가자 둘','참가자 셋','참가자 넷'].map((nickname,i)=>({userId:101+i,nickname,status:'WAITING',bites:0,lastSeq:0,lastBiteAt:0,finishedAt:0,diedAt:0,blockedUntil:0,nextAuto:0}))};
+    model.candidates=model.players.map(({userId,nickname})=>({userId,nickname}));
+    if(next==='lobby')model.players=[];
     if(next==='death'){
       const me=model.players[0];me.status='DEAD';me.diedAt=Date.now();me.blockedUntil=Date.now()+300000;
       window.PrisonV1.renderLocked(prison());return;

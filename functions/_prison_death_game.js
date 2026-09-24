@@ -71,10 +71,27 @@ const roundLock = (env, id, exclusive = false) => env.DB.prepare(`SELECT id FROM
 const controlLock = env => env.DB.prepare(`UPDATE ${CONTROL} SET round_id=round_id WHERE slot=1`);
 const isOpen = (r, now) => r && (r.status === 'LOBBY' || (r.status === 'RUNNING' && Number(r.ends_at_ms) > now));
 
+// Only actual camp captives can be selected. A concurrent disciplinary/death lock is not bypassed.
+const eligibleCaptive = `EXISTS(SELECT 1 FROM prison_camp_entries_v2115 c WHERE c.user_id=u.id AND c.released_at IS NULL AND c.jailed_until>? AND c.source_type<>'DEATH_GAME')
+  AND NOT EXISTS(SELECT 1 FROM prison_camp_entries_v2115 d WHERE d.user_id=u.id AND d.released_at IS NULL AND d.jailed_until>? AND d.source_type='DEATH_GAME')
+  AND NOT EXISTS(SELECT 1 FROM user_prison_status p WHERE p.user_id=u.id AND p.active=1 AND p.jailed_until>?)`;
+const captiveArgs = now => Array(3).fill(sqlTime(now));
+
+export async function deathGameAssignmentForUser(env, userId, now = Date.now()) {
+  await ensureDeathGameSchema(env);
+  const row = await env.DB.prepare(`SELECT r.id,r.status,p.status AS player_status FROM ${CONTROL} c JOIN ${ROUND} r ON r.id=c.round_id
+    JOIN ${PLAYER} p ON p.round_id=r.id WHERE c.slot=1 AND p.user_id=? AND p.status IN ('WAITING','ALIVE')
+    AND (r.status='LOBBY' OR (r.status='RUNNING' AND r.ends_at_ms>?))`).bind(userId, now).first();
+  return row ? { roundId: row.id, status: row.status, playerStatus: row.player_status } : null;
+}
+
 export async function deathGameState(env, user, now = Date.now()) {
   await ensureDeathGameSchema(env);
   const round = await activeRound(env);
-  if (!round) return { round: null, players: [], me: null, canOperate: canOperateDeathGame(user), serverNow: now, rules: DEATH_GAME_RULES };
+  const eligibleInmates = canOperateDeathGame(user) && (!round || round.status === 'LOBBY' || !isOpen(round, now))
+    ? rows(await env.DB.prepare(`SELECT u.id,u.nickname FROM users u WHERE ${eligibleCaptive} ORDER BY u.nickname,u.id`).bind(...captiveArgs(now)).all())
+      .map(u => ({ userId: Number(u.id), nickname: u.nickname })) : [];
+  if (!round) return { round: null, players: [], me: null, eligibleInmates, canOperate: canOperateDeathGame(user), serverNow: now, rules: DEATH_GAME_RULES };
   const participants = rows(await env.DB.prepare(`SELECT p.*,u.nickname FROM ${PLAYER} p JOIN users u ON u.id=p.user_id WHERE p.round_id=? AND p.status<>'LEFT'
     ORDER BY CASE WHEN p.status='FINISHED' THEN 0 WHEN p.status='DEAD' THEN 2 ELSE 1 END,p.finished_at_ms,p.bites DESC,p.joined_at_ms,p.user_id`).bind(round.id).all());
   const phase = deathGamePhase(round, now);
@@ -84,22 +101,28 @@ export async function deathGameState(env, user, now = Date.now()) {
   const mine = participants.find(p => Number(p.user_id) === Number(user.id));
   return { round: { id: round.id, status: phase.type === 'FINISHED' ? 'FINISHED' : round.status, startsAt: Number(round.starts_at_ms), endsAt: Number(round.ends_at_ms), phase },
     players: publicPlayers, me: mine ? { ...publicPlayers.find(p => p.userId === Number(user.id)), lastSeq: Number(mine.last_seq), nextBiteAt: Number(mine.last_bite_at_ms) + DEATH_GAME_RULES.biteIntervalMs } : null,
-    canOperate: canOperateDeathGame(user), serverNow: now, rules: DEATH_GAME_RULES };
+    eligibleInmates, canOperate: canOperateDeathGame(user), serverNow: now, rules: DEATH_GAME_RULES };
 }
 
 export async function operateDeathGame(env, user, action, body, now = Date.now()) {
   if (!canOperateDeathGame(user)) fail('OWNER 운영자만 경기를 열거나 시작할 수 있습니다.', 403);
-  if (!['open', 'start', 'cancel'].includes(action) || !validId(body.requestId)) fail('운영 요청을 다시 확인하세요.');
+  if (!['open', 'assign', 'start', 'cancel'].includes(action) || !validId(body.requestId)) fail('운영 요청을 다시 확인하세요.');
+  let selected = [];
+  if (action === 'assign') {
+    if (!Array.isArray(body.userIds) || !body.userIds.length || body.userIds.length > DEATH_GAME_RULES.maxPlayers || body.userIds.some(id => !Number.isSafeInteger(id) || id < 1) || new Set(body.userIds).size !== body.userIds.length) fail('수용소 안의 참가자 1~4명을 중복 없이 선택하세요.');
+    selected = [...body.userIds].sort((a,b) => a-b);
+  }
+  const actionIdentity = action === 'assign' ? `assign:${selected.join(',')}` : action;
   await ensureDeathGameSchema(env);
   const prior = await env.DB.prepare(`SELECT * FROM ${AUDIT} WHERE request_id=?`).bind(body.requestId).first();
   if (prior) {
-    if (Number(prior.operator_id) !== Number(user.id) || prior.action !== action || (action !== 'open' && prior.round_id !== body.roundId)) fail('다른 명령에 사용한 요청 번호입니다.', 409);
+    if (Number(prior.operator_id) !== Number(user.id) || (action === 'assign' ? !prior.action.startsWith(actionIdentity + ':') : prior.action !== action) || (action !== 'open' && prior.round_id !== body.roundId)) fail('다른 명령에 사용한 요청 번호입니다.', 409);
     return deathGameState(env, user, now);
   }
   const round = await activeRound(env), id = action === 'open' ? body.requestId : body.roundId;
   if (!validId(id)) fail('경기를 다시 선택하세요.');
   if (action === 'open') {
-    if (isOpen(round, now)) fail('기존 경기가 열려 있습니다. 종료 후 새 모집을 열어 주세요.', 409);
+    if (isOpen(round, now)) fail('기존 경기가 열려 있습니다. 종료 후 새 경기를 준비하세요.', 409);
     await env.DB.batch([
       controlLock(env),
       env.DB.prepare(`INSERT OR IGNORE INTO ${ROUND}(id,status,created_by,created_at_ms)
@@ -107,6 +130,23 @@ export async function operateDeathGame(env, user, action, body, now = Date.now()
       env.DB.prepare(`UPDATE ${CONTROL} SET round_id=? WHERE slot=1 AND EXISTS(SELECT 1 FROM ${ROUND} WHERE id=? AND created_by=? AND status='LOBBY')`).bind(id, id, user.id),
       env.DB.prepare(`INSERT OR IGNORE INTO ${AUDIT}(request_id,round_id,operator_id,action,at_ms) SELECT ?,?,?,'open',? WHERE EXISTS(SELECT 1 FROM ${CONTROL} WHERE slot=1 AND round_id=?)`).bind(body.requestId, id, user.id, now, id)
     ]);
+  } else if (action === 'assign') {
+    if (!round || round.id !== id || round.status !== 'LOBBY') fail('참가자 지정은 경기 준비 중에만 가능합니다.', 409);
+    const auditAction = `${actionIdentity}:${crypto.randomUUID()}`;
+    const receipt = `EXISTS(SELECT 1 FROM ${AUDIT} WHERE request_id=? AND action=?)`;
+    await env.DB.batch([
+      roundLock(env, id, true),
+      env.DB.prepare(`INSERT OR IGNORE INTO ${AUDIT}(request_id,round_id,operator_id,action,at_ms)
+        SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM ${ROUND} WHERE id=? AND status='LOBBY')
+        AND (SELECT COUNT(*) FROM users u WHERE u.id IN (${selected.map(() => '?').join(',')}) AND ${eligibleCaptive})=?`)
+        .bind(body.requestId, id, user.id, auditAction, now, id, ...selected, ...captiveArgs(now), selected.length),
+      env.DB.prepare(`UPDATE ${PLAYER} SET status='LEFT' WHERE round_id=? AND status='WAITING' AND ${receipt}`).bind(id, body.requestId, auditAction),
+      ...selected.map(userId => env.DB.prepare(`INSERT INTO ${PLAYER}(round_id,user_id,status,joined_at_ms)
+        SELECT ?,?,'WAITING',? WHERE ${receipt} ON CONFLICT(round_id,user_id) DO UPDATE SET status='WAITING',joined_at_ms=excluded.joined_at_ms`)
+        .bind(id, userId, now, body.requestId, auditAction))
+    ]);
+    const saved = await env.DB.prepare(`SELECT * FROM ${AUDIT} WHERE request_id=?`).bind(body.requestId).first();
+    if (saved && (!saved.action.startsWith(actionIdentity + ':') || saved.round_id !== id || Number(saved.operator_id) !== Number(user.id))) fail('다른 참가자 지정에 사용한 요청 번호입니다.', 409);
   } else {
     if (!round || round.id !== id) fail('현재 경기가 변경되었습니다.', 409);
     const startsAt = now + DEATH_GAME_RULES.countdownMs;
@@ -114,8 +154,11 @@ export async function operateDeathGame(env, user, action, body, now = Date.now()
       roundLock(env, id, true),
       action === 'start'
         ? env.DB.prepare(`UPDATE ${ROUND} SET status='RUNNING',starts_at_ms=?,ends_at_ms=?,timeline_json=?,start_request_id=?
-            WHERE id=? AND status='LOBBY' AND (SELECT COUNT(*) FROM ${PLAYER} WHERE round_id=? AND status='WAITING')>=2`)
-          .bind(startsAt, startsAt + DEATH_GAME_RULES.durationMs, JSON.stringify(createDeathGameTimeline(startsAt)), body.requestId, id, id)
+            WHERE id=? AND status='LOBBY' AND (SELECT COUNT(*) FROM ${PLAYER} WHERE round_id=? AND status='WAITING') BETWEEN 2 AND 4
+            AND EXISTS(SELECT 1 FROM ${AUDIT} WHERE round_id=? AND action LIKE 'assign:%')
+            AND NOT EXISTS(SELECT 1 FROM ${PLAYER} p WHERE p.round_id=? AND p.status='WAITING'
+              AND NOT EXISTS(SELECT 1 FROM users u WHERE u.id=p.user_id AND ${eligibleCaptive}))`)
+          .bind(startsAt, startsAt + DEATH_GAME_RULES.durationMs, JSON.stringify(createDeathGameTimeline(startsAt)), body.requestId, id, id, id, id, ...captiveArgs(now))
         : env.DB.prepare(`UPDATE ${ROUND} SET status='CANCELLED',ends_at_ms=?,start_request_id=? WHERE id=? AND status IN ('LOBBY','RUNNING')`).bind(now, body.requestId, id),
       env.DB.prepare(`UPDATE ${PLAYER} SET status=? WHERE round_id=? AND status='WAITING' AND EXISTS(SELECT 1 FROM ${ROUND} WHERE id=? AND start_request_id=?)`)
         .bind(action === 'start' ? 'ALIVE' : 'LEFT', id, id, body.requestId),
@@ -123,27 +166,12 @@ export async function operateDeathGame(env, user, action, body, now = Date.now()
         .bind(body.requestId, id, user.id, action, now, id, body.requestId)
     ]);
   }
-  if (!await env.DB.prepare(`SELECT 1 FROM ${AUDIT} WHERE request_id=?`).bind(body.requestId).first()) fail(action === 'start' ? '대기 중인 참가자가 2명 이상일 때 시작할 수 있습니다.' : '경기 상태가 바뀌었습니다. 다시 확인하세요.', 409);
+  if (!await env.DB.prepare(`SELECT 1 FROM ${AUDIT} WHERE request_id=?`).bind(body.requestId).first()) fail(action === 'start' ? '현재 수용소에 있는 지정 참가자 2명 이상(최대 4명)이 필요합니다. 석방·사망 제한을 확인하세요.' : action === 'assign' ? '선택한 유저 중 수용소 밖이거나 사망·감옥 제한 중인 사람이 있습니다. 명단을 다시 확인하세요.' : '경기 상태가 바뀌었습니다. 다시 확인하세요.', 409);
   return deathGameState(env, user, now);
 }
 
 export async function joinDeathGame(env, user, body, leave = false, now = Date.now()) {
-  await ensureDeathGameSchema(env);
-  if (!validId(body.roundId)) fail('경기를 다시 선택하세요.');
-  const round = await activeRound(env);
-  if (!round || round.id !== body.roundId || round.status !== 'LOBBY') fail('운영자가 참가 모집을 열었을 때만 입장할 수 있습니다.', 409);
-  if (!leave && body.acceptDeathPenalty !== true) fail('사망 시 숲켓몬 전체 플레이 5분 제한에 동의한 후 참가하세요.');
-  const result = await env.DB.batch([
-    roundLock(env, round.id, true),
-    leave ? env.DB.prepare(`UPDATE ${PLAYER} SET status='LEFT' WHERE round_id=? AND user_id=? AND status='WAITING' AND EXISTS(SELECT 1 FROM ${ROUND} WHERE id=? AND status='LOBBY')`).bind(round.id, user.id, round.id)
-      : env.DB.prepare(`INSERT INTO ${PLAYER}(round_id,user_id,status,joined_at_ms)
-        SELECT ?,?,'WAITING',? WHERE EXISTS(SELECT 1 FROM ${ROUND} WHERE id=? AND status='LOBBY')
-        AND (SELECT COUNT(*) FROM ${PLAYER} WHERE round_id=? AND status='WAITING')<?
-        ON CONFLICT(round_id,user_id) DO UPDATE SET status='WAITING',joined_at_ms=excluded.joined_at_ms WHERE ${PLAYER}.status='LEFT'`)
-        .bind(round.id, user.id, now, round.id, round.id, DEATH_GAME_RULES.maxPlayers)
-  ]);
-  if (!leave && !changes(result[1]) && !await env.DB.prepare(`SELECT 1 FROM ${PLAYER} WHERE round_id=? AND user_id=? AND status='WAITING'`).bind(round.id, user.id).first()) fail('참가 정원이 찼거나 경기가 시작되었습니다.', 409);
-  return deathGameState(env, user, now);
+  fail('운영자가 수용소 참가자를 지정합니다. 직접 참가하거나 취소할 수 없습니다.', 403, 'DEATH_GAME_OPERATOR_ASSIGNMENT');
 }
 
 export async function biteDeathGame(env, user, body, now = Date.now()) {

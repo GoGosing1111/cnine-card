@@ -48,7 +48,8 @@ import { handleChief } from '../_chief.js';
 import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,shopTaxStatements } from '../_administration_treasury.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
 import { clanCampStatusForUser,handleClanPrisonCamp,ensureClanCampSchema,clanCampActiveProbeSql,clanCampProbeTime } from '../_clan_prison_camp.js';
-import { handlePrisonDeathGame,deathGameBlockedPath } from '../_prison_death_game.js';
+import { handlePrisonDeathGame,deathGameBlockedPath,deathGameAssignmentForUser } from '../_prison_death_game.js';
+import { handlePrisonCampAdmin } from '../_prison_camp_admin.js';
 import { reconcileClanCampSeason } from '../_clan.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
@@ -5224,13 +5225,14 @@ async function handleRequest(context){
       if(!restrictedAdminPathAllowed(path,access))return json({error:'ADMIN 계정은 승부예측 관리만 사용할 수 있습니다.',code:'ADMIN_PERMISSION_RESTRICTED'},403);
     }
 
+    const campAdminResponse=await handlePrisonCampAdmin({path,request,env,deps:{requirePermission,readBody,json}});if(campAdminResponse)return campAdminResponse;
     const deathGameResponse=await handlePrisonDeathGame({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser}});if(deathGameResponse)return deathGameResponse;
     // Unlike detention, death also closes prison chat, trial voting and other prison exemptions.
     if(deathGameBlockedPath(path)&&path!=='prison/status'){
       const current=await authenticate(request,env);
       if(current){const prison=await prisonStatusForUser(env,current.id);if(prison.facility==='DEATH_GAME'&&prison.incarcerated)return json({error:prison.reason,code:'USER_INCARCERATED',prison},423);}
     }
-    const clanCampResponse=await handleClanPrisonCamp({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser}});if(clanCampResponse)return clanCampResponse;
+    const clanCampResponse=await handleClanPrisonCamp({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser,deathGameAssignmentForUser}});if(clanCampResponse)return clanCampResponse;
 
     // The disciplinary prison has its own chat, bail and combat exemptions. Camp captives stay in their facility.
     if(['prison/chat','prison/release-price','prison/fund','prison/hit'].includes(path)){

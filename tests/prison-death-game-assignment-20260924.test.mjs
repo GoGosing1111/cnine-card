@@ -1,0 +1,76 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
+import { deathGameFixture, seedDeathGameCaptives } from './helpers/prison-death-game-fixture.mjs';
+import { operateDeathGame, deathGameState, deathGameAssignmentForUser, joinDeathGame } from '../functions/_prison_death_game.js';
+import { handleClanPrisonCamp } from '../functions/_clan_prison_camp.js';
+const owner = { id:999, role:'OWNER' }, player = { id:101, role:'USER' };
+const roundId = 'forced_captive_round_001';
+const body = (ids = [101,102]) => ({ roundId, requestId:crypto.randomUUID(), userIds:ids });
+for (const pg of [false, true]) {
+  test(`${pg?'PostgreSQL':'SQLite'}: only OWNER selects current captives; exact roster replaces atomically and retry cannot undo a later assignment`, async t => {
+    const f = await deathGameFixture(pg); t.after(f.close);
+    await seedDeathGameCaptives(f); await operateDeathGame(f.env, owner, 'open', {requestId:roundId}, f.now);
+    assert.deepEqual((await deathGameState(f.env, owner, f.now)).eligibleInmates.map(p=>p.userId).sort(),[101,102]);
+    assert.deepEqual((await deathGameState(f.env, player, f.now)).eligibleInmates,[]);
+    await assert.rejects(operateDeathGame(f.env, player, 'assign', body(), f.now), {status:403});
+    for (const ids of [[],[101,101],[101,102,103,104,999],['101']]) await assert.rejects(operateDeathGame(f.env,owner,'assign',body(ids),f.now), {status:400});
+    await assert.rejects(operateDeathGame(f.env,owner,'assign',body([101,103]),f.now), {status:409});
+    assert.equal((await deathGameState(f.env,owner,f.now)).players.length,0,'outside visitor is never enrolled');
+    const first = body(); f.fail('INSERT INTO prison_death_players_v1');
+    await assert.rejects(operateDeathGame(f.env,owner,'assign',first,f.now),/INJECTED/); f.fail('');
+    assert.equal((await deathGameState(f.env,owner,f.now)).players.length,0);
+    assert.equal(await f.p('SELECT 1 FROM prison_death_operator_log_v1 WHERE request_id=?',first.requestId).first(),null);
+    f.loseCommit(); await assert.rejects(operateDeathGame(f.env,owner,'assign',first,f.now),/LOST_COMMIT/);
+    assert.equal((await operateDeathGame(f.env,owner,'assign',first,f.now+100)).players.length,2);
+    await assert.rejects(operateDeathGame(f.env,owner,'assign',{...first,userIds:[101]},f.now),{status:409});
+    await operateDeathGame(f.env,owner,'assign',body([102]),f.now+200);
+    assert.equal((await operateDeathGame(f.env,owner,'assign',first,f.now+300)).players.length,1,'replay never restores old selection');
+    assert.equal(await deathGameAssignmentForUser(f.env,101,f.now+300),null);
+    assert.equal((await deathGameAssignmentForUser(f.env,102,f.now+300)).playerStatus,'WAITING');
+    await assert.rejects(joinDeathGame(f.env,player,{roundId},true,f.now),{status:403});
+  });
+  test(`${pg?'PostgreSQL':'SQLite'}: release/death/disciplinary locks are rechecked before start and selection`, async t => {
+    const f = await deathGameFixture(pg);t.after(f.close);
+    await seedDeathGameCaptives(f);await operateDeathGame(f.env,owner,'open',{requestId:roundId},f.now);
+    await operateDeathGame(f.env,owner,'assign',body(),f.now);
+    const start={roundId,requestId:crypto.randomUUID()};
+    await f.p("UPDATE clan_prison_captives SET released_at='2026-01-01 00:00:00' WHERE user_id=102").run();
+    await assert.rejects(operateDeathGame(f.env,owner,'start',start,f.now),{status:409});
+    await f.p('UPDATE clan_prison_captives SET released_at=NULL WHERE user_id=102').run();
+    await f.p("INSERT INTO user_prison_status(user_id,active,jailed_until) VALUES(102,1,'9999-01-01 00:00:00')").run();
+    await assert.rejects(operateDeathGame(f.env,owner,'assign',body(),f.now),{status:409});
+    await assert.rejects(operateDeathGame(f.env,owner,'start',start,f.now),{status:409});
+    await f.p('UPDATE user_prison_status SET active=0 WHERE user_id=102').run();
+    await f.p("INSERT INTO event_prison_camps VALUES('death_test','DEATH_GAME','사망','사망','2026-01-01 00:00:00','9999-01-01 00:00:00')").run();
+    await f.p("INSERT INTO event_prison_captives(event_id,user_id,member_role) VALUES('death_test',102,'PLAYER')").run();
+    await assert.rejects(operateDeathGame(f.env,owner,'start',start,f.now),{status:409});
+    await f.p("UPDATE event_prison_captives SET released_at='2026-01-01 00:00:00' WHERE event_id='death_test'").run();
+    const running=await operateDeathGame(f.env,owner,'start',start,f.now);
+    assert.equal(running.round.status,'RUNNING');
+    await assert.rejects(operateDeathGame(f.env,owner,'assign',body(),f.now),{status:409});
+    assert.equal((await deathGameAssignmentForUser(f.env,101,f.now)).playerStatus,'ALIVE');
+    assert.equal(await deathGameAssignmentForUser(f.env,103,f.now),null);
+    assert.equal(await deathGameAssignmentForUser(f.env,101,running.round.endsAt),null);
+    await operateDeathGame(f.env,owner,'cancel',{roundId,requestId:crypto.randomUUID()},f.now);
+    assert.equal(await deathGameAssignmentForUser(f.env,101,f.now),null);
+  });
+}
+test('existing camp poll delivers forced assignment; reconnect auto-opens once and no voluntary enrollment remains', async t => {
+  const f=await deathGameFixture();t.after(f.close);await seedDeathGameCaptives(f);
+  await operateDeathGame(f.env,owner,'open',{requestId:roundId},f.now);await operateDeathGame(f.env,owner,'assign',body(),f.now);
+  const response=await handleClanPrisonCamp({path:'prison-camp/status',request:new Request('https://example.test/api/prison-camp/status'),env:f.env,
+    deps:{authenticate:async()=>player,prisonStatusForUser:async()=>({incarcerated:true,facility:'CLAN_CAMP'}),deathGameAssignmentForUser,json:Response.json}});
+  assert.equal((await response.json()).deathGame.roundId,roundId);
+  const source=readFileSync(new URL('../js/prison-death-game-20260924.js',import.meta.url),'utf8');
+  let opened=0;const context={root:null,open:()=>{opened++;context.root={isConnected:true,classList:{contains:()=>true}};}};
+  vm.createContext(context);vm.runInContext(source.slice(source.indexOf('  function enforceAssignment('),source.indexOf('  window.PrisonDeathGame =')),context);
+  context.enforceAssignment(null);assert.equal(opened,0);
+  context.enforceAssignment({playerStatus:'WAITING'});context.enforceAssignment({playerStatus:'ALIVE'});assert.equal(opened,1);
+  context.root=null;context.enforceAssignment({playerStatus:'ALIVE'});assert.equal(opened,2,'reconnect restores forced screen');
+  const lock={state:{me:{status:'WAITING'},round:{status:'LOBBY'}}};vm.createContext(lock);
+  vm.runInContext(source.slice(source.indexOf('  function mustParticipate()'),source.indexOf('  function paintAssignment()')),lock);
+  assert.equal(lock.mustParticipate(),true);lock.state.round.status='FINISHED';assert.equal(lock.mustParticipate(),false);
+  assert.doesNotMatch(source,/data-death-join|data-death-leave|acceptDeathPenalty/);
+});

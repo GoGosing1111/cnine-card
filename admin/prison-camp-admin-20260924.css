@@ -1,0 +1,16 @@
+.campAdminBlock{border:1px solid #66694a!important;background:linear-gradient(135deg,#25291fe6,#111820)!important;padding:18px!important}
+.campAdminBlock[hidden]{display:none!important}
+.campAdminHeading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.campAdminHeading h3{margin:3px 0 0;font-size:20px;color:#e4e7cb}
+.campAdminHeading small{color:#a4ad7b;font-size:10px;letter-spacing:2px}
+.campAdminHeading>span{color:#c9cfaa;border:1px solid #5b6445;padding:4px 8px;font-size:11px;white-space:nowrap}
+.campAdminBlock .muted{line-height:1.6;font-size:12px;color:#acb5b3}
+.campAdminState{display:grid;gap:6px;padding:13px;margin:14px 0;border:1px solid #43505b;background:#0b141bd9;color:#c8d5db;overflow-wrap:anywhere}
+.campAdminState>b{color:#e3e9eb;font-size:14px}.campAdminState b small{color:#91a4ab;font-weight:400}
+.campAdminState>span,.campAdminEntry span,.campAdminEntry small{font-size:12px;line-height:1.6;color:#a8b8bb}
+.campAdminState.is-active{border-color:#8c7148}.campAdminEntry{display:grid;gap:4px;padding-top:10px;margin-top:4px;border-top:1px solid #384149}
+.campAdminEntry strong{color:#e2c998;font-size:13px}.campAdminEntry button{justify-self:start;margin-top:6px}
+.campAdminBlock .field{min-width:0}.campAdminBlock input{box-sizing:border-box;width:100%;min-width:0}
+.campAdminMessage{font-size:12px;color:#dce6ad;line-height:1.7;overflow-wrap:anywhere;margin-bottom:0}
+.campAdminMessage:empty{display:none}.campAdminBlock .two{gap:12px}
+@media(max-width:600px){.campAdminBlock{padding:14px!important}.campAdminBlock .two{display:grid;grid-template-columns:1fr}.campAdminHeading h3{font-size:18px}.campAdminBlock button{min-height:42px}}

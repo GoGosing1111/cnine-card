@@ -3,6 +3,7 @@
   let root = null, state = null, generation = 0, poll = null, clock = null;
   let offset = 0, reading = false, acting = false, requestKey = null, previousFocus = null, cleanup = [], shotUntil = 0;
   let seatRound = null, seatEvents = new Map(), meals = new Map(), pointer = null, lastReadAt = 0, retryDelay = 0;
+  let selectionRound = null, selectedInmates = new Set(), selectionDirty = false;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[c]));
   const now = () => Date.now() + offset;
   const time = ms => { const seconds = Math.max(0, Math.ceil(ms / 1000)); return `${String(Math.floor(seconds / 60)).padStart(2,'0')}:${String(seconds % 60).padStart(2,'0')}`; };
@@ -15,7 +16,7 @@
   };
   const on = (target, type, fn) => { target.addEventListener(type, fn); cleanup.push(() => target.removeEventListener(type, fn)); };
   const notice = message => { const node = root?.querySelector('[data-death-notice]'); if (node) node.textContent = message; };
-  const titleFor = phase => ({ CLOSED:'운영자가 모집을 열 때까지 대기', LOBBY:'참가자를 모집하고 있습니다', COUNTDOWN:'경기가 곧 시작됩니다', READING:'감시자가 신문을 읽고 있습니다', WARNING:'시선을 들고 있습니다. 손을 떼세요!', WATCHING:'감시 중 · 움직이지 마세요', FINISHED:'경기가 종료되었습니다', CANCELLED:'운영자가 경기를 종료했습니다' })[phase] || '서버 연결 중';
+  const titleFor = phase => ({ CLOSED:'운영자가 경기를 준비할 때까지 대기', LOBBY:'운영자가 수감자를 지정합니다', COUNTDOWN:'경기가 곧 시작됩니다', READING:'감시자가 신문을 읽고 있습니다', WARNING:'시선을 들고 있습니다. 손을 떼세요!', WATCHING:'감시 중 · 움직이지 마세요', FINISHED:'경기가 종료되었습니다', CANCELLED:'운영자가 경기를 종료했습니다' })[phase] || '서버 연결 중';
 
   function stopEating() {
     pointer = null;
@@ -28,6 +29,7 @@
     if (root?.classList.contains('death-game-overlay')) root.remove();
     root = null; state = null; reading = acting = false; requestKey = null; shotUntil = 0;
     seatRound = null; seatEvents.clear(); meals.clear(); lastReadAt = retryDelay = 0;
+    selectionRound = null; selectedInmates.clear(); selectionDirty = false;
   }
   function deathStatus(data) {
     return { incarcerated:true, facility:'DEATH_GAME', reason:'사망하였습니다. 숲켓몬 전체 플레이가 5분간 제한됩니다.',
@@ -62,16 +64,14 @@
     const canEat = me?.status === 'ALIVE' && ['READING','WARNING','WATCHING'].includes(phase);
     const eat = root.querySelector('[data-death-eat]'); eat.disabled = !canEat;
     eat.querySelector('b').textContent = me?.status === 'FINISHED' ? '식사 완료 · 생존' : '한 입 먹기';
-    root.querySelector('[data-death-help]').textContent = me?.status === 'FINISHED' ? '식사를 마쳤습니다. 다른 참가자의 경기가 끝날 때까지 관전할 수 있습니다.' : !me ? '한 식탁 최대 4명 · 참가 신청 후 운영자 시작을 기다립니다.' : '스페이스 또는 식탁 화면 클릭·터치 = 한 입 · 길게 눌러도 자동으로 먹지 않음';
+    root.querySelector('[data-death-help]').textContent = me?.status === 'FINISHED' ? '식사를 마쳤습니다. 다른 참가자의 경기가 끝날 때까지 관전할 수 있습니다.' : !me ? '관전 중 · 참가자는 운영자가 수용소 인원 중 최대 4명을 지정합니다.' : me.status === 'WAITING' ? '운영자가 당신을 참가자로 지정했습니다. 취소할 수 없으며 운영자가 시작하면 경기가 진행됩니다.' : '스페이스 또는 식탁 화면 클릭·터치 = 한 입 · 길게 눌러도 자동으로 먹지 않음';
     if (!canEat) stopEating();
-    root.querySelector('[data-death-join]').hidden = phase !== 'LOBBY' || Boolean(me);
-    root.querySelector('[data-death-leave]').hidden = phase !== 'LOBBY' || !me;
-    root.querySelector('[data-death-consent]').hidden = phase !== 'LOBBY' || Boolean(me);
     root.querySelector('[data-death-operator]').hidden = !state.canOperate;
     root.querySelector('[data-death-command="open"]').disabled = ['LOBBY','RUNNING'].includes(state.round?.status);
-    root.querySelector('[data-death-command="start"]').disabled = phase !== 'LOBBY' || state.players.length < 2;
+    root.querySelector('[data-death-command="start"]').disabled = phase !== 'LOBBY' || state.players.length < 2 || selectionDirty;
     root.querySelector('[data-death-command="cancel"]').disabled = !['LOBBY','RUNNING'].includes(state.round?.status);
-    root.querySelector('[data-death-close]').disabled = Boolean(me && state.round?.status === 'RUNNING' && me.status === 'ALIVE');
+    root.querySelector('[data-death-close]').disabled = mustParticipate();
+    paintAssignment();
     const roster = root.querySelector('[data-death-roster]'), signature = JSON.stringify(state.players);
     if (roster.dataset.signature !== signature) {
       roster.dataset.signature = signature;
@@ -80,9 +80,31 @@
         const rank = p.status === 'FINISHED' ? ++finishRank : 0;
         const label = p.status === 'DEAD' ? '사망' : rank ? `${rank}위 완주` : p.status === 'WAITING' ? '시작 대기' : '생존';
         return `<li class="death-player ${p.status === 'DEAD' ? 'is-dead' : rank ? 'is-finished' : ''} ${p.userId === me?.userId ? 'is-self' : ''}"><span class="death-player-no">${rank ? String(rank).padStart(2,'0') : '·'}</span><div><b>${esc(p.nickname)}${p.userId === me?.userId ? '<em>나</em>' : ''}</b><span class="death-player-track"><i style="width:${p.bites / target * 100}%"></i></span></div><span class="death-player-result">${label}<small>${p.bites} / ${target}</small></span></li>`;
-      }).join('') : '<li class="death-empty">빈 의자가 당신을 기다립니다.<br><span>운영자가 모집을 열면 참가할 수 있습니다.</span></li>';
+      }).join('') : '<li class="death-empty">운영자의 지정을 기다립니다.<br><span>수용소 인원 중 최대 4명이 함께 식사합니다.</span></li>';
     }
     tick();
+  }
+  function mustParticipate() {
+    return Boolean(state?.me && ['WAITING','ALIVE'].includes(state.me.status) && ['LOBBY','RUNNING'].includes(state.round?.status));
+  }
+  function paintAssignment() {
+    const panel = root.querySelector('[data-death-assignment]');
+    panel.hidden = !state.canOperate || state.round?.status !== 'LOBBY';
+    if (panel.hidden) return;
+    if (selectionRound !== state.round.id || !selectionDirty) {
+      selectionRound = state.round.id; selectedInmates = new Set(state.players.filter(p => p.status === 'WAITING').map(p => p.userId));
+    }
+    const list = root.querySelector('[data-death-candidates]'), candidates = state.eligibleInmates || [];
+    for (const id of selectedInmates) if (!candidates.some(p => p.userId === id)) { selectedInmates.delete(id); selectionDirty = true; }
+    root.querySelector('[data-death-command="start"]').disabled = state.players.length < 2 || selectionDirty;
+    const signature = JSON.stringify(candidates);
+    if (list.dataset.signature !== signature) {
+      list.dataset.signature = signature;
+      list.innerHTML = candidates.length ? candidates.map(p => `<label><input type="checkbox" data-death-select="${p.userId}"><span>${esc(p.nickname)}<small>#${p.userId}</small></span></label>`).join('') : '<p>지정 가능한 수감자가 없습니다.</p>';
+    }
+    list.querySelectorAll('[data-death-select]').forEach(input => { input.checked = selectedInmates.has(Number(input.dataset.deathSelect)); input.disabled = acting; });
+    root.querySelector('[data-death-selected-count]').textContent = `${selectedInmates.size} / 4명 선택`;
+    root.querySelector('[data-death-command="assign"]').disabled = acting || !selectedInmates.size || selectedInmates.size > 4;
   }
   function paintSeats() {
     if (seatRound !== state.round?.id) { seatEvents.clear(); meals.clear(); seatRound = state.round?.id; }
@@ -173,22 +195,24 @@
   }
   async function command(action, admin = false) {
     if (acting) return;
-    if (action === 'join' && !root.querySelector('[data-death-consent] input').checked) return notice('전체 플레이 5분 제한 안내에 동의한 후 참가하세요.');
-    if (action === 'cancel' && !confirm('현재 모집/경기를 종료합니까? 이미 발생한 사망 제한은 유지됩니다.')) return;
+    if (action === 'assign' && (!selectedInmates.size || selectedInmates.size > 4)) return notice('수용소 인원 중 1~4명을 지정하세요. 경기 시작은 2명 이상 필요합니다.');
+    if (action === 'start' && selectionDirty) return notice('변경한 참가자를 먼저 지정하세요.');
+    if (action === 'cancel' && !confirm('현재 준비/경기를 종료합니까? 이미 발생한 사망 제한은 유지됩니다.')) return;
     const version = generation; acting = true;
-    const key = `${action}:${state?.round?.id || ''}`;
+    const userIds = [...selectedInmates].sort((a,b) => a-b);
+    const key = `${action}:${state?.round?.id || ''}:${action === 'assign' ? userIds.join(',') : ''}`;
     if (!requestKey || requestKey.key !== key) requestKey = { key, value:crypto.randomUUID() };
     try {
-      const data = await request(action, { roundId:state?.round?.id, requestId:requestKey.value, acceptDeathPenalty:action === 'join' }, admin);
+      const data = await request(action, { roundId:state?.round?.id, requestId:requestKey.value, ...(action === 'assign' ? {userIds} : {}) }, admin);
       if (version !== generation) return;
-      requestKey = null; apply(data);
-      if (action === 'start' || action === 'join') root?.querySelector('[data-death-playfield]')?.focus({preventScroll:true});
-      notice(action === 'start' ? '운영자가 경기를 시작했습니다.' : action === 'join' ? '참가 신청 완료 · 운영자 시작을 기다립니다.' : '경기 상태가 반영되었습니다.');
+      requestKey = null; selectionDirty = false; apply(data);
+      if (action === 'start') root?.querySelector('[data-death-playfield]')?.focus({preventScroll:true});
+      notice(action === 'start' ? '운영자가 경기를 시작했습니다.' : action === 'assign' ? '참가자 지정 완료 · 지정된 수감자의 경기 화면이 자동으로 열립니다.' : '경기 상태가 반영되었습니다.');
     } catch (error) { if (version === generation) notice(error.message); }
-    finally { if (version === generation) { acting = false; schedule(); } }
+    finally { if (version === generation) { acting = false; if (root?.isConnected) paint(); schedule(); } }
   }
   function close() {
-    if (state?.me?.status === 'ALIVE' && state.round?.status === 'RUNNING') return notice('진행 중에는 경기 화면을 닫을 수 없습니다. 클릭·스페이스 입력을 멈추면 먹지 않습니다.');
+    if (mustParticipate()) return notice('운영자가 지정한 참가자는 대기·진행 중 경기 화면을 닫을 수 없습니다. 클릭·스페이스 입력은 직접 조작합니다.');
     stop(); previousFocus?.focus();
   }
   function open() {
@@ -203,12 +227,13 @@
         <div class="death-countdown" data-death-countdown hidden></div>
         <div class="death-phase"><i></i><strong data-death-heading>서버 연결 중</strong></div>
       </div><div class="death-control"><div class="death-progress-label"><span>내 식사 진행</span><b data-death-progress>0 / 24</b></div><div class="death-progress"><i data-death-fill></i></div>
-        <label class="death-consent" data-death-consent hidden><input type="checkbox">사망하면 <b>숲켓몬 전체 플레이가 5분간 제한</b>되는 것에 동의합니다.</label>
-        <div class="death-join-actions"><button type="button" data-death-join hidden>경기 참가 신청</button><button type="button" data-death-leave hidden>참가 취소</button></div>
+        <p class="death-forced-notice">운영자 지정 강제 참가 · 사망하면 숲켓몬 전체 플레이가 5분간 제한됩니다.</p>
         <button type="button" class="death-eat" data-death-eat disabled><span aria-hidden="true">SPACE</span><b>한 입 먹기</b><small>화면 클릭 · 터치</small></button>
         <p class="death-help" data-death-help>운영자가 시작할 때만 진행됩니다.</p></div></main>
       <aside class="death-roster"><header><h3>참가자</h3><span data-death-count>0명</span></header><ol data-death-roster></ol><div class="death-rules"><b>감시자의 눈을 피하세요.</b><p>신문을 읽는 동안 한 입씩 먹고,<br>시선을 들면 클릭·스페이스를 멈추세요.</p><p>한 식탁 최대 4명. 먼저 식사를 마친 순서로 순위가 정해집니다. 사망자는 탈락합니다.</p><strong>사망 → 전체 플레이 5분 제한</strong></div></aside></div>
-      <footer class="death-game-footer"><p data-death-notice role="status">경기 기록을 불러오고 있습니다.</p><div class="death-operator" data-death-operator hidden><span>OWNER 운영</span><button type="button" data-death-command="open">참가 모집 열기</button><button type="button" data-death-command="start">경기 시작</button><button type="button" data-death-command="cancel">모집/경기 종료</button></div></footer></div></section>`);
+      <footer class="death-game-footer"><p data-death-notice role="status">경기 기록을 불러오고 있습니다.</p>
+      <section class="death-assignment" data-death-assignment hidden><header><b>수용소 참가자 지정</b><span data-death-selected-count>0 / 4명 선택</span></header><p>선택한 수감자는 강제 참가합니다. 지정 후 2~4명이면 경기를 시작할 수 있습니다.</p><div class="death-candidates" data-death-candidates></div><button type="button" data-death-command="assign">선택 인원 강제 참가 지정</button></section>
+      <div class="death-operator" data-death-operator hidden><span>OWNER 운영</span><button type="button" data-death-command="open">새 경기 준비</button><button type="button" data-death-command="start">경기 시작</button><button type="button" data-death-command="cancel">준비/경기 종료</button></div></footer></div></section>`);
     root = host.querySelector('.death-game-overlay');
     document.body.classList.add('death-game-open');
     const eat = root.querySelector('[data-death-eat]'), playfield = root.querySelector('[data-death-playfield]');
@@ -239,10 +264,15 @@
     on(window, 'keyup', event => { if (event.code === 'Space' && (event.target === eat || event.target === playfield)) event.preventDefault(); });
     on(root, 'click', event => {
       if (event.target.closest('[data-death-close]')) close();
-      if (event.target.closest('[data-death-join]')) void command('join');
-      if (event.target.closest('[data-death-leave]')) void command('leave');
       if (event.target.closest('[data-death-eat]')) void bite();
       const operator = event.target.closest('[data-death-command]'); if (operator) void command(operator.dataset.deathCommand, true);
+    });
+    on(root, 'change', event => {
+      const input = event.target.closest('[data-death-select]'); if (!input) return;
+      const id = Number(input.dataset.deathSelect);
+      if (input.checked && selectedInmates.size >= 4) { input.checked = false; return notice('최대 4명까지 지정할 수 있습니다.'); }
+      if (input.checked) selectedInmates.add(id); else selectedInmates.delete(id);
+      selectionDirty = true; paint();
     });
     playfield.focus({preventScroll:true}); clock = setInterval(tick, 40); void refresh();
   }
@@ -274,5 +304,9 @@
     on(root.querySelector('[data-death-lock-logout]'), 'click', () => { stop(); void prisonLogout(); });
     clock = setInterval(update, 1000); update(); void check();
   }
-  window.PrisonDeathGame = Object.freeze({ open, stop, lockView, bindLock });
+  function enforceAssignment(assignment) {
+    if (!assignment || !['WAITING','ALIVE'].includes(assignment.playerStatus)) return;
+    if (!root?.isConnected || !root.classList.contains('death-game-overlay')) open();
+  }
+  window.PrisonDeathGame = Object.freeze({ open, stop, lockView, bindLock, enforceAssignment });
 })();

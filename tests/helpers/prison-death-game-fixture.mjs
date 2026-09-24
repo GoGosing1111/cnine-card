@@ -3,6 +3,12 @@ import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../../functions/_postgres_d1_compat.js';
 import { ensureDeathGameSchema } from '../../functions/_prison_death_game.js';
 
+export async function seedDeathGameCaptives(f, ids = [101, 102]) {
+  const date = ms => new Date(ms).toISOString().slice(0,19).replace('T',' ');
+  await f.p("INSERT OR IGNORE INTO clan_prison_camps VALUES(9001,1,1,'검수 수용소',2,'fixture',?,?)", date(f.now), date(f.now + 28800000)).run();
+  for (const id of ids) await f.p("INSERT OR IGNORE INTO clan_prison_captives(season_id,user_id,member_role) VALUES(9001,?,'MEMBER')", id).run();
+}
+
 export async function deathGameFixture(postgres = false) {
   let sql, DB, failure = '', loseCommit = false, queue = Promise.resolve();
   const schema = [

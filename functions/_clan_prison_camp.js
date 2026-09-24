@@ -166,15 +166,17 @@ export async function handleClanPrisonCamp({ path, request, env, deps }) {
   if (!user) return deps.json({ error: '로그인이 필요합니다.' }, 401);
   try {
     const prison = await deps.prisonStatusForUser(env, user.id);
+    const state = async currentPrison => ({ ...await clanCampRoomState(env, user, currentPrison),
+      deathGame: await deps.deathGameAssignmentForUser?.(env, user.id) || null });
     if (prison.incarcerated && prison.facility !== 'CLAN_CAMP') return deps.json({ error: '수감 중에는 감옥을 벗어날 수 없습니다.', code: 'USER_INCARCERATED', prison }, 423);
-    if (path === 'prison-camp/status' && request.method === 'GET') return deps.json(await clanCampRoomState(env, user, prison));
+    if (path === 'prison-camp/status' && request.method === 'GET') return deps.json(await state(prison));
     if (path === 'prison-camp/chat' && request.method === 'POST') {
       await sendClanCampChat(env, user, await deps.readBody(request));
-      return deps.json(await clanCampRoomState(env, user, await deps.prisonStatusForUser(env, user.id)), 201);
+      return deps.json(await state(await deps.prisonStatusForUser(env, user.id)), 201);
     }
     if (path === 'prison-camp/release' && request.method === 'POST') {
       const result = await releaseClanCaptives(env, user, await deps.readBody(request));
-      return deps.json({ ...result, state: await clanCampRoomState(env, user, await deps.prisonStatusForUser(env, user.id)) });
+      return deps.json({ ...result, state: await state(await deps.prisonStatusForUser(env, user.id)) });
     }
     return deps.json({ error: '지원하지 않는 요청입니다.' }, 405);
   } catch (error) {

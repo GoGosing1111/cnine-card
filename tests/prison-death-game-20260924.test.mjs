@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { deathGameFixture } from './helpers/prison-death-game-fixture.mjs';
+import { deathGameFixture, seedDeathGameCaptives } from './helpers/prison-death-game-fixture.mjs';
 import { DEATH_GAME_RULES, ensureDeathGameSchema, createDeathGameTimeline, deathGamePhase, deathGameState,
   operateDeathGame, joinDeathGame, biteDeathGame, handlePrisonDeathGame, deathGameBlockedPath } from '../functions/_prison_death_game.js';
 import { clanCampStatusForUser, clanCampActiveProbeSql, clanCampProbeTime, releaseClanCaptives } from '../functions/_clan_prison_camp.js';
@@ -12,7 +12,8 @@ const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8'
 async function started(f) {
   const roundId = 'open_round_request_001';
   await operateDeathGame(f.env, owner, 'open', { requestId:roundId }, f.now);
-  for (const user of [a,b]) await joinDeathGame(f.env, user, { roundId, acceptDeathPenalty:true }, false, f.now);
+  await seedDeathGameCaptives(f);
+  await operateDeathGame(f.env, owner, 'assign', { roundId, requestId:'assign_round_request_001', userIds:[101,102] }, f.now);
   await operateDeathGame(f.env, owner, 'start', { roundId, requestId:'start_round_request_001' }, f.now);
   const round = await f.p('SELECT * FROM prison_death_rounds_v1 WHERE id=?', roundId).first();
   return { roundId, round, watching:JSON.parse(round.timeline_json).find(p => p.type === 'WATCHING') };
@@ -25,18 +26,19 @@ for (const postgres of [false,true]) {
     assert.equal((await deathGameState(f.env,a,f.now)).round,null);
     await assert.rejects(operateDeathGame(f.env,a,'open',{requestId:'open_round_request_001'},f.now),e=>e.status===403);
     const s = await operateDeathGame(f.env,owner,'open',{requestId:'open_round_request_001'},f.now), roundId=s.round.id;
-    await assert.rejects(joinDeathGame(f.env,a,{roundId},false,f.now),/동의/);
-    await joinDeathGame(f.env,a,{roundId,acceptDeathPenalty:true},false,f.now);
+    await assert.rejects(joinDeathGame(f.env,a,{roundId},false,f.now),/직접 참가/);
+    await seedDeathGameCaptives(f);
+    await operateDeathGame(f.env,owner,'assign',{roundId,requestId:'assign_single_request_001',userIds:[101]},f.now);
     await assert.rejects(operateDeathGame(f.env,owner,'start',{roundId,requestId:'start_round_request_001'},f.now),/2명/);
     assert.equal((await deathGameState(f.env,a,f.now+86400000)).round.status,'LOBBY');
-    await joinDeathGame(f.env,b,{roundId,acceptDeathPenalty:true},false,f.now);
+    await operateDeathGame(f.env,owner,'assign',{roundId,requestId:'assign_both_request_001',userIds:[101,102]},f.now);
     const start = await operateDeathGame(f.env,owner,'start',{roundId,requestId:'start_round_request_001'},f.now);
     assert.equal(start.round.phase.type,'COUNTDOWN'); assert.equal(start.players.length,2);
     const replay = await operateDeathGame(f.env,owner,'start',{roundId,requestId:'start_round_request_001'},f.now+1000);
     assert.equal(replay.round.startsAt,start.round.startsAt);
     assert.equal((await deathGameState(f.env,a,start.round.endsAt+1)).round.status,'FINISHED');
-    await assert.rejects(joinDeathGame(f.env,{id:103},{roundId,acceptDeathPenalty:true},false,f.now),/모집/);
-    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM prison_death_operator_log_v1').first()).n),2);
+    await assert.rejects(joinDeathGame(f.env,{id:103},{roundId,acceptDeathPenalty:true},false,f.now),/직접 참가/);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM prison_death_operator_log_v1').first()).n),4);
   });
   test(`${label}: server timing, action sequence and rate limits; no client progress or forged victory`, async t => {
     const f=await deathGameFixture(postgres);t.after(f.close);const s=await started(f),when=Number(s.round.starts_at_ms)+100;
@@ -65,8 +67,8 @@ for (const postgres of [false,true]) {
     const prison=await clanCampStatusForUser(f.env,a.id,when+1);
     assert.equal(prison.facility,'DEATH_GAME');assert.equal(prison.incarcerated,true);
     assert.equal((await clanCampStatusForUser(f.env,a.id,when+299999)).incarcerated,true);
-    assert.equal((await clanCampStatusForUser(f.env,a.id,when+300000)).incarcerated,false);
-    assert.equal((await clanCampStatusForUser(f.env,b.id,when+1)).incarcerated,false);
+    assert.equal((await clanCampStatusForUser(f.env,a.id,when+300000)).facility,'CLAN_CAMP');
+    assert.equal((await clanCampStatusForUser(f.env,b.id,when+1)).facility,'CLAN_CAMP');
     const eventId=`DEATH_GAME:${s.roundId}:${a.id}`;
     assert.equal((await releaseClanCaptives(f.env,owner,{eventId,userId:a.id},when+1000)).releasedCount,0);
     await operateDeathGame(f.env,owner,'cancel',{roundId:s.roundId,requestId:'cancel_round_request_001'},when+3000);
