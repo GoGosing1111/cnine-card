@@ -21,6 +21,7 @@ function fixture(t){
     CREATE TABLE user_message_rewards(id INTEGER PRIMARY KEY,message_id INTEGER UNIQUE,user_id INTEGER,reward_type TEXT,reward_amount INTEGER,claimed_at TEXT);
     CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,unseen_quantity INTEGER,created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code));
     CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT);
+    CREATE TABLE coin_logs(user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT);
     CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id INTEGER PRIMARY KEY,message_id INTEGER UNIQUE,user_id INTEGER,reward_type TEXT,reward_amount INTEGER,claim_token TEXT UNIQUE,balance_before INTEGER,balance_after INTEGER,source TEXT,credited_at TEXT);
   `);
   function prepare(sql,values=[]){return {sql,values,bind(...v){return prepare(sql,v)},async first(){return sqlite.prepare(sql).get(...values)||null},async all(){return {results:sqlite.prepare(sql).all(...values)}},async run(){return execute(this)}}}
@@ -38,6 +39,27 @@ function fixture(t){
   }
   return {sqlite,DB,reward,context,claim:r=>context.claim({DB},{id:1},r,r.message_id)};
 }
+
+test('1500억 COIN: claim and concurrent retry credit the full amount exactly once',async t=>{
+  const f=fixture(t),r=f.reward('COIN',150_000_000_000);
+  const results=await Promise.all([f.claim(r),f.claim(r)]);
+  assert.equal(results.filter(result=>result.credited).length,1);
+  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=1').get().coin,160_000_000_000);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_message_reward_claim_receipts_v1222').get().n,1);
+  assert.ok(f.sqlite.prepare('SELECT claimed_at FROM user_message_rewards').get().claimed_at);
+  assert.equal((await f.claim(r)).duplicate,true);
+});
+
+test('1500억 COIN: failed wallet write rolls back the claim and can retry',async t=>{
+  const f=fixture(t),r=f.reward('COIN',150_000_000_000);
+  f.DB.fail=sql=>sql.includes('UPDATE users');
+  await assert.rejects(f.claim(r),/injected/);
+  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=1').get().coin,10_000_000_000);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_message_reward_claim_receipts_v1222').get().n,0);
+  assert.equal(f.sqlite.prepare('SELECT claimed_at FROM user_message_rewards').get().claimed_at,null);
+  f.DB.fail=null;assert.equal((await f.claim(r)).credited,true);
+  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=1').get().coin,160_000_000_000);
+});
 
 for(const [code,amount,label] of gifts){
   test(`${code}: supported inventory reward credits exactly once and never spends it`,async t=>{
