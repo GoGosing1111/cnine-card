@@ -30,3 +30,9 @@
 - 그 이후 기존 커밋은 운영 지급/관리 작업 기록·실행용 스크립트·검사뿐이고 게임 런타임 변경은 없다. 이번 런타임 차이는 제작소 초기 조회 및 로더의 선택적 동시 로딩과 캐시 URL에 한정한다.
 - 작은 수정: `npm run deploy:production -- --scoped`. `SCOPED_DEPLOY_TESTS`는 위 3개 파일, `SCOPED_DEPLOY_CHECKS=[]`. 깨끗한 범위 커밋·origin/main 일치·승인 플래그·캐시·Hyperdrive query cache OFF 검사는 유지한다.
 - 배포 후에는 앱/제작소 파일 반영과 운영 제작소의 단일 읽기 진입만 짧게 확인한다.
+
+## 운영 반영 완료
+
+- 런타임 커밋 `323ad4e942fe06021ed49643b130ce8cb3347ff5`, Pages `https://2675adba.cnine-card.pages.dev`. 지정 scoped 배포 완료, 관련 회귀 16개 통과. 운영 플래그·캐시 호환 및 Hyperdrive query cache OFF 검사 통과.
+- 운영 `/?screen=fusion` 재진입: 앱/제작소 새 캐시 URL 확인, 화면 정상, 오류 없음, 상태 GET 1회. 자산 시작 710ms / API 시작 714ms / 자산 완료 756ms / API 277ms / 메뉴 표시 1081ms. 자산과 API의 실제 동시 시작 확인. 운영 제작·차감은 실행하지 않았다.
+- 이 완료 기록은 문서만 후속 커밋하며 운영 재배포하지 않는다.
