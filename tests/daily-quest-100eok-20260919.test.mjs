@@ -12,6 +12,14 @@ const adminRoute=server.slice(server.indexOf("    if(path==='admin/daily-quests'
 const claimRoute=server.slice(server.indexOf("    if((path==='playdk-daily-quest/claim'"),server.indexOf("    if(path==='messages')"));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 
+test('CMS daily reward display preserves an explicitly saved zero',()=>{
+  const assignment=read('admin/admin-v1276.js').split('\n').find(line=>line.includes("$('#dqPostRewardCoin').value="));
+  assert.ok(assignment);
+  for(const [settings,expected] of [[{postRewardCoin:0,rewardCoin:1200},0],[{postRewardCoin:10000000000},10000000000],[{},1200]]){
+    const field={};vm.runInNewContext(assignment,{$:()=>field,s:settings});assert.equal(field.value,expected);
+  }
+});
+
 test('CMS saves 100억 and blocks 100억+1 before a request',async()=>{
   const fields={saveDailyQuestBtn:{dataset:{}},refreshDailyQuestBtn:{dataset:{}},dqPostRewardCoin:{value:'10000000000'},dqEnabled:{value:'1'},dqPostEnabled:{value:'1'},dqRequiredPosts:{value:'15'},dqCooldown:{value:'20'},dqAdminTestAllowed:{value:'1'}};
   const requests=[],alerts=[],context={document:{readyState:'complete',getElementById:id=>fields[id]},api:async(path,options)=>requests.push({path,body:JSON.parse(options.body)}),alert:m=>alerts.push(m),setBusy:(button,busy)=>button.disabled=busy,loadDailyQuestAdmin:async()=>{}};context.window=context;

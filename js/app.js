@@ -2682,7 +2682,7 @@ async function loadDailyQuest(){
   const root=document.getElementById('questHubRoot');if(!root)return;
   root.textContent='퀘스트 기록을 불러오는 중…';
   try{
-    const {mountQuestHub}=await import('./quest-hub-live.mjs?v=20260924-1');
+    const {mountQuestHub}=await import('./quest-hub-live.mjs?v=20260924-2');
     if(!root.isConnected)return;
     await mountQuestHub({root,api:(path,options)=>apiRequest(path,options,{timeoutMs:40000,microcache:false}),onUser:user=>saveUser(apiUserToLocal(user)),navigate:tab=>renderShell(tab)});
   }catch(error){if(root.isConnected)root.textContent=error.message||'퀘스트 화면을 불러오지 못했습니다. 다시 진입해 주세요.'}

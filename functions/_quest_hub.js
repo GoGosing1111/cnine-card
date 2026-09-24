@@ -65,8 +65,9 @@ async function settings(env){
 const identity=(env,user)=>env.DB.prepare("SELECT provider_user_id,provider_name FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();
 const boards=daily=>JSON.stringify([...daily.boardSlugs].sort());
 async function savedPosts(env,user,period,verification,daily){
+ if(!verification?.provider_user_id)return null;
  const row=await env.DB.prepare('SELECT * FROM quest_weekly_posts_v1 WHERE user_id=? AND week_key=?').bind(user.id,period.weekKey).first();
- return row?.provider_user_id===verification?.provider_user_id&&row.board_slugs_json===boards(daily)?row:null;
+ return row&&row.provider_user_id===verification.provider_user_id&&row.board_slugs_json===boards(daily)?row:null;
 }
 async function activityCounts(env,user,period){
  const range=column=>`REPLACE(SUBSTR(${column},1,19),'T',' ')>=? AND REPLACE(SUBSTR(${column},1,19),'T',' ')<?`;

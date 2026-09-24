@@ -240,12 +240,12 @@ async function reviewWago(id,action){const note=action==='REJECT'?prompt('거절
 
 async function loadDailyQuestAdmin(){
   const panel=document.getElementById('view-dailyquests');
-  if(panel)import('./weekly-quest-admin.mjs?v=20260924-1').then(m=>m.mountWeeklyQuestAdmin({panel,api})).catch(error=>{let warning=panel.querySelector('[data-weekly-load-error]');if(!warning){warning=document.createElement('p');warning.dataset.weeklyLoadError='1';panel.append(warning)}warning.textContent=error.message});
+  if(panel)import('./weekly-quest-admin.mjs?v=20260924-2').then(m=>m.mountWeeklyQuestAdmin({panel,api})).catch(error=>{let warning=panel.querySelector('[data-weekly-load-error]');if(!warning){warning=document.createElement('p');warning.dataset.weeklyLoadError='1';panel.append(warning)}warning.textContent=error.message});
   const d=await api('admin/daily-quests'),s=d.settings||{},stats=d.stats||{},users=d.users||[],logs=d.claims||[];
   $('#dqEnabled').value=s.enabled===false?'0':'1';
   $('#dqPostEnabled').value=s.postEnabled===false?'0':'1';
   $('#dqRequiredPosts').value=Number(s.requiredPosts||15);
-  $('#dqPostRewardCoin').value=Number(s.postRewardCoin||s.rewardCoin||1200);
+  $('#dqPostRewardCoin').value=Number(s.postRewardCoin??s.rewardCoin??1200);
   if($('#dqBoardSlug'))$('#dqBoardSlug').value=(Array.isArray(s.boardSlugs)?s.boardSlugs:['skm']).join(', ');
   $('#dqCooldown').value=Number(s.checkCooldownSeconds||20);
   $('#dqAdminTestAllowed').value=s.adminTestAllowed===false?'0':'1';

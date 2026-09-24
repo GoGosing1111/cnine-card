@@ -41,6 +41,9 @@ try{
   const size=viewport.width+'x'+viewport.height;
   check(await page.locator('.qh-progress-number').innerText()==='9\n/ 15개',size+' actual lobby route mounts daily target');
   check(await page.locator('.qh-claim').isDisabled(),size+' incomplete daily claim disabled');
+  check(await page.locator('.qh-week>div').count()===7,size+' daily shares the weekly calendar layout');
+  check((await page.locator('.qh-week .is-today span').innerText())==='9개',size+' daily calendar shows only today count');
+  check((await page.locator('.qh-record-note').innerText()).includes('오늘 작성한 글만'),size+' daily and weekly reset rules remain distinct');
   await page.screenshot({path:path.join(out,'daily-'+size+'.png'),fullPage:true});
   failCheck=true;await page.locator('.qh-refresh').click();await page.locator('.qh-notice.is-error').waitFor();check((await page.locator('.qh-notice').innerText()).includes('DK'),size+' DK error displayed without changing progress');
   failCheck=false;await page.locator('.qh-refresh').click();await page.waitForFunction(()=>!document.querySelector('.qh-claim').disabled);
@@ -60,10 +63,14 @@ try{
   await page.locator('.qh-claim').click();await page.waitForFunction(()=>document.querySelector('.qh-claim').textContent==='수령 완료');
   check((await page.locator('.qh-notice').innerText()).includes('메시지함'),size+' configured weekly reward goes to inbox');
   check(writes.filter(key=>key==='quests/weekly/claim').length===1,size+' weekly single-claim interaction');
+  data.verified=false;data.daily.blocked=true;data.weekly.forEach(q=>q.blocked=true);
+  await page.locator('.qh-refresh').click();await page.locator('.qh-verify').waitFor();
+  check(await page.locator('.qh-claim').isDisabled(),size+' unverified account sees guidance without claim access');
+  await page.locator('[data-qh-tab=daily]').click();check(await page.locator('.qh-detail').isVisible(),size+' unverified account can still open daily UI');
   await page.close();
  }
  for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
-  const page=await browser.newPage({viewport,serviceWorkers:'block'});let config=defaultQuestSettings(),saves=[];
+  const page=await browser.newPage({viewport,serviceWorkers:'block'});let config=defaultQuestSettings(),saves=[],dailySaves=[];
   page.on('pageerror',error=>errors.push(error.stack));page.on('dialog',dialog=>dialog.dismiss());
   await page.addInitScript(()=>localStorage.setItem('cnine_admin_token','quest-cms-local-qa'));
   await page.route('**/api/**',r=>{
@@ -73,6 +80,7 @@ try{
     if(r.request().method()==='PATCH'){const body=r.request().postDataJSON();saves.push(body);config={revision:config.revision+1,...body.settings};return r.fulfill({json:{ok:true,settings:config}})}
     return r.fulfill({json:{settings:config,definitions:WEEKLY_QUESTS,rewardTypes:QUEST_REWARDS,period:questPeriod(),canEdit:true}});
    }
+   if(key==='admin/daily-quests'&&r.request().method()==='PATCH'){dailySaves.push(r.request().postDataJSON());return r.fulfill({json:{ok:true}})}
    const fixture={'admin/dashboard':{role:'OWNER',admin:{id:1,nickname:'검수 운영자',role:'OWNER'},stats:{users:1,usersToday:0,draws24h:0,cards:0,totalCoin:0,banned:0,coupons:0,urOwned:0,ssrOwned:0}},'admin/daily-quests':{settings:{requiredPosts:15,postRewardCoin:10000000000,postEnabled:true,enabled:true,boardSlugs:['skm'],checkCooldownSeconds:20,adminTestAllowed:true},stats:{},users:[],claims:[]}};
    return r.fulfill({json:fixture[key]||{settings:{},stats:{},items:[],users:[],claims:[],cards:[],packs:[],members:[]}});
   });
@@ -80,9 +88,16 @@ try{
   await page.locator('#nav [data-view=dailyquests]').click();await page.locator('#weeklyQuestSettings fieldset').first().waitFor();
   check(await page.locator('#weeklyQuestSettings fieldset').count()===4,'CMS '+viewport.width+' four separate reward settings');
   check(await page.locator('#dqRequiredPosts').getAttribute('readonly')!==null,'CMS fixed daily target');
+  check(await page.locator('.dailyQuestAdminPanel.qw-admin [data-quest=DAILY_POST]').count()===1,'CMS '+viewport.width+' daily uses the weekly reward-card layout');
+  check(await page.locator('#dqPostRewardCoin').inputValue()==='10000000000','CMS existing daily reward preserved');
   await page.locator('[data-quest=POST] [name=rewardType]').selectOption('MASTER_STAR');await page.locator('[data-quest=POST] [name=rewardAmount]').fill('50000');
   await page.locator('#weeklyQuestSettings button[type=submit]').click();await page.waitForFunction(()=>document.querySelector('[data-qw-status]').textContent.includes('저장했습니다'));
   check(saves.length===1&&saves[0].settings.quests.POST.rewardAmount===50000&&!saves[0].settings.quests.POST.enabled,'CMS saves reward without automatically enabling');
+  await page.locator('#saveDailyQuestBtn').click();await page.waitForFunction(()=>!document.querySelector('#saveDailyQuestBtn').disabled);
+  check(dailySaves.length===1&&dailySaves[0].settings.postRewardCoin===10000000000&&dailySaves[0].settings.requiredPosts===15,'CMS daily save keeps reward and fixed target');
+  check(config.quests.POST.rewardAmount===50000&&!config.quests.POST.enabled,'CMS daily save does not alter weekly rewards');
+  check(await page.locator('.dailyQuestAdminPanel').evaluate(el=>el.scrollWidth<=el.clientWidth+1),'CMS '+viewport.width+' daily panel no overflow');
+  await page.locator('.dailyQuestAdminPanel').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'cms-daily-'+viewport.width+'.png'),fullPage:true});
   check(await page.locator('#weeklyQuestSettings').evaluate(el=>el.scrollWidth<=el.clientWidth+1),'CMS '+viewport.width+' reward panel no overflow');
   await page.locator('#weeklyQuestSettings').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'cms-'+viewport.width+'.png'),fullPage:true});await page.close();
  }

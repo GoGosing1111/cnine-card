@@ -64,6 +64,24 @@ test('legacy index ownership cannot block additive quest tables or OFF defaults'
   await f.enable('TERRITORY');assert.equal((await claimWeeklyQuest(f.env,f.user,'TERRITORY',f.deps)).ok,true);
  }finally{await f.pg.close()}
 });
+test('quest status route remains available without PLAY DK identity or cached weekly posts',async()=>{
+ const f=await fixture();try{
+  await f.enable('POST',50000000000);
+  const before=(await f.pg.query('SELECT value FROM app_meta WHERE key=$1',[QUEST_SETTINGS_KEY])).rows[0].value;
+  for(const provider of [null,'WAGO','PLAYDK']){
+   await f.pg.exec('DELETE FROM user_second_verifications');
+   if(provider)await f.pg.query('INSERT INTO user_second_verifications VALUES(1,$1,$2,$3)',[provider,'uuid-a','tester']);
+   const response=await handleQuestHub({path:'quests/status',request:new Request('https://qa.invalid/api/quests/status'),env:f.env,deps:f.deps});
+   assert.equal(response.status,200,`${provider||'unverified'} account can open the quest screen`);
+   const status=await response.json();assert.equal(status.verified,provider==='PLAYDK');
+   assert.equal(status.daily.blocked,provider!=='PLAYDK');assert.equal(status.daily.rewardAmount,10000000000);
+   assert.equal(status.weekly[0].count,0);assert.equal(status.weekly[0].available,false);
+   assert.equal(status.weekly[0].enabled,true);assert.equal(status.weekly[0].rewardAmount,50000000000);
+  }
+  assert.equal((await f.pg.query('SELECT value FROM app_meta WHERE key=$1',[QUEST_SETTINGS_KEY])).rows[0].value,before);
+  assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,0);
+ }finally{await f.pg.close()}
+});
 test('weekly DK check queries elapsed KST dates, uses total count rather than truncated posts and caches only complete result',async()=>{
  const f=await fixture();try{
   const result=await checkWeeklyPosts(f.env,f.user,f.deps);assert.equal(result.postCount,f.period.days.length*50);assert.deepEqual(f.calls.map(c=>c.questDate).sort(),f.period.days);
