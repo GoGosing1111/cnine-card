@@ -30,3 +30,12 @@
 - 실제 직전 운영 배포: Pages `1148ef1c-37f0-4eb2-89de-548abe063dd5`, 소스 `c736bd8dc63c51e0416ef541ef770428bd2b3276` (원격 목록 확인).
 - 배포 시 `SCOPED_DEPLOY_BASE`는 위 소스, `SCOPED_DEPLOY_TESTS`는 `tests/core-raid-rewards-20260925.test.mjs`, `tests/core-raid-weekly-return-v2112.test.mjs`, `tests/pig-coin-content-rewards-v2.test.mjs`, `SCOPED_DEPLOY_CHECKS`는 `check:worker`로 정한다. 새 초기화 회귀 및 PC·모바일 검수는 이미 통과한 동일 코드 결과를 사용해 중복 실행하지 않는다.
 - `npm run deploy:production -- --scoped`로 관련 검사·출시/캐시/Hyperdrive·깨끗한 후보와 원격 일치 검사를 통과한 뒤 배포한다. 새 파일 운영 반영을 확인한 다음 실제 초기화를 적용하고 설정 보존·완료 영수증을 다시 조회한다. 운영 결과는 완료 후 이 문서에 추가한다.
+
+## 운영 반영 결과
+
+- 구현 커밋 `26f7629573583f7f50393a84ddc36abe8773fab4`를 `origin/main`에 반영하고 scoped 배포했다. 선택 회귀 53개, 서버 문법 검사·Worker 컴파일, 출시 플래그/캐시 검사, Hyperdrive 쿼리 캐시 OFF 및 Pages/clan-draft 바인딩 일치가 통과했다. 초기화 신규 회귀 4개와 PC·모바일 검수는 위의 통과 결과를 사용했다.
+- Pages 운영 배포는 `https://e81eee04.cnine-card.pages.dev`, clan-draft 버전은 `518fa516-d693-4e1c-83e5-844276532bd6`이다. 대표 운영 주소 `https://cnine-card.pages.dev`의 HTML·로더·V2 JS/CSS·자산 13개가 HTTP 200 및 로컬 파일 SHA-256 일치를 통과했다. `.mjs` JavaScript MIME과 익명 보상 열기 API의 401 인증 거부도 확인했다.
+- **실제 초기화 완료: 2026-09-25 18:04:56 KST** (`2026-09-25T09:04:56.362Z`). 적용 시 전체 계정 3,518개, 이번 주 수령 이력이 있던 유저 94명, 완료 영수증 209개, 주간 카운터 94개였다. 감사 로그 ID `35907`, `committed:true`, `replayed:false`로 완료했다. 사전 확인 이후 들어온 정상 수령도 실제 적용 시점에 포함됐다.
+- 적용 직후 별도 재조회에서 미초기화 영수증 **0개**, 양수 주간 카운터 **0개**, 주간 사용 합계 **0회**를 확인했다. 기존 완료 영수증 209개는 모두 유지됐다. 새 클리어부터 기본·선택 보상 함께 최대 3회 받을 수 있으며 이미 지급된 공대 재개봉은 추가 지급하지 않는다.
+- CMS 해시는 사전 확인과 동일하다. 선택 보상 ON, 리비전 2, 최소 마스터의 별 50,000개(가중치 100), 사용 후보 3개를 그대로 보존했다. 기존 잔액·인벤토리·피그 코인 원장 및 다른 콘텐츠 한도는 수정하지 않았다.
+- 운영 결과는 배포 루트 밖 `../ops-core-weekly-v2/apply.json`, `verify.json`, `../core-reward-v2-production-smoke.json`, `../core-reward-v2-deploy.log`에 보존한다. 이 결과 기록만의 후속 커밋은 게임 실행 파일이 같으므로 운영 재배포하지 않는다.
