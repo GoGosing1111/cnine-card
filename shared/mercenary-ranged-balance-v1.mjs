@@ -50,6 +50,9 @@ export const rangedMercenarySkillScope=skill=>SNIPER.has(skill?.mechanic)?'S등�
 export const isRangedMercenarySkill=(actor,skill)=>rangedMercenaryProfile(actor,skill)!==null;
 export function rangedMercenarySkillText(skill,actor){
  const profile=rangedMercenaryProfile(actor,skill);if(!profile)return skill;
+ if(skill.mechanic==='EMERALD_ANTIMATERIEL')return {...skill,
+  effect:MERCENARY_RANGED_RULES[skill.mechanic],
+  procRule:'한 발의 단일 피해만 적용하며 비용과 재사용 대기는 한 번 적용합니다. 탄착 파편은 추가 피해·추가 행동·자원 회복을 만들지 않습니다.'};
  return {...skill,trigger:profile==='SNIPER'?'자원과 재사용 대기 조건을 충족하면 현재 행동에서 바로 발사합니다.':'자원과 재사용 대기 조건을 충족하면 바로 초탄을 발사하고 이후 행동에서 후속탄을 이어갑니다.',
   effect:MERCENARY_RANGED_RULES[skill.mechanic]+(rangedMercenaryPvpRule(skill,actor)?' '+rangedMercenaryPvpRule(skill,actor):''),
   counterplay:'회피·보호막·피해 경감은 적용됩니다. 사망·기절·침묵은 발동을 막거나 진행 중인 연사를 취소합니다.',
