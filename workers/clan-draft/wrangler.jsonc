@@ -9,8 +9,8 @@
   "preview_urls": false,
   "placement": {"mode": "smart"},
   "observability": {"enabled": true},
-  "durable_objects": {"bindings": [{"name": "CLAN_DRAFT_ALARM", "class_name": "ClanDraftAlarm"}]},
-  "migrations": [{"tag": "clan-draft-alarm-v1", "new_sqlite_classes": ["ClanDraftAlarm"]}],
+  "durable_objects": {"bindings": [{"name": "CLAN_DRAFT_ALARM", "class_name": "ClanDraftAlarm"}, {"name": "RANKED_DUO_ALARM", "class_name": "RankedDuoAlarm"}]},
+  "migrations": [{"tag": "clan-draft-alarm-v1", "new_sqlite_classes": ["ClanDraftAlarm"]}, {"tag": "ranked-duo-alarm-v2", "new_sqlite_classes": ["RankedDuoAlarm"]}],
   "triggers": {"crons": ["* * * * *"]},
   "hyperdrive": [{"binding": "HYPERDRIVE", "id": "12ed48b0fb374f82a610cc1daba92e95"}]
 }

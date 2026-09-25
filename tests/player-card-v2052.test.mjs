@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { handlePlayerCard, TROPHY_CATALOG } from '../functions/_player_card.js';
+import {readDuoHonors} from '../functions/_ranked_duo_seasons.js';
 import { championsSchema } from '../functions/_clan_champions.js';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
@@ -16,6 +17,8 @@ async function fixture() {
     CREATE TABLE users(id bigint PRIMARY KEY,nickname text,status text,role text,banned_until text,coin bigint,password_hash text);
     INSERT INTO users VALUES(1,'OWNER','ACTIVE','OWNER',NULL,999,'secret'),(2,'기록유저','ACTIVE','USER',NULL,555,'secret'),(3,'다른유저','ACTIVE','USER',NULL,666,'secret'),(4,'정지유저','ACTIVE','USER','2099-01-01',777,'secret');
     CREATE TABLE pvp_profiles(user_id bigint,season_score int,wins int,losses int);
+    CREATE TABLE app_meta(key text PRIMARY KEY,value text);
+    CREATE TABLE ranked_duo_trophies_v2(season_id text,user_id bigint,acquired_at text,PRIMARY KEY(season_id,user_id));
     INSERT INTO pvp_profiles VALUES(1,99999,999,0),(2,100,10,3),(3,100,9,2),(4,99998,998,0);
     CREATE TABLE pvp_season_settlements(id bigint PRIMARY KEY,season_key text,season_name text,status text,started_at text,completed_at text);
     CREATE TABLE pvp_season_settlement_ranks(settlement_id bigint,user_id bigint,final_rank int,tier_id text,tier_name text,season_score int,wins int,losses int);
@@ -48,12 +51,22 @@ async function fixture() {
   } });
   const settings = { seasonName: '시즌 4', startsAt: '2026-07-16T00:00:00Z', endsAt: '2099-01-01T00:00:00Z' };
   const call = (query = 'userId=2', options = {}) => handlePlayerCard({ path: options.path || 'player-card', request: new Request('https://game.test/api/player-card?' + query, { method: options.method || 'GET' }), env: { DB: db }, now: Date.parse('2026-09-06T11:00:00Z'), deps: {
-    authenticate: async () => options.anonymous ? null : { id: 1 }, json: (body, status = 200) => ({ body, status }), pvpSettings: async () => settings, pvpSeasonKey: () => 's4',
+    authenticate: async () => options.anonymous ? null : { id: 1 }, json: (body, status = 200) => ({ body, status }), pvpSettings: async () => settings, pvpSeasonKey: () => 's4',readDuoHonors,
     resolvePvpTier: (score, _, rank) => rank >= 1 && rank <= 20 ? { id: 'challenger', name: '챌린저', color: '#79c8ef' } : { id: 'bronze', name: '브론즈' }
   } });
   return { pg, sql, call, settings, close: () => pg.close() };
 }
 const trophy = (r, code) => r.body.trophies.find(t => t.code === code);
+
+test('duo challenger trophy is projected only from each owner’s permanent season receipts',async()=>{
+ const f=await fixture();try{
+  assert.equal(trophy(await f.call(),'DUO_CHALLENGER').owned,false);
+  await f.pg.exec("INSERT INTO app_meta VALUES('ranked_duo_auto_schema_v2','20260925-24h'); INSERT INTO ranked_duo_trophies_v2 VALUES('s1',2,'2026-09-25'),('s1',3,'2026-09-25'),('s2',2,'2026-09-30')");
+  const result=await f.call(),award=trophy(result,'DUO_CHALLENGER');
+  assert.equal(award.owned,true);assert.equal(award.count,2);assert.equal(award.acquiredAt,'2026-09-25');assert.equal(award.effect.enabled,false);
+  assert.equal(trophy(await f.call('userId=3'),'DUO_CHALLENGER').count,1);
+ }finally{await f.close();}
+});
 
 test('official records: historical clan affiliation, all three trophies, public-only read with no side effects', async () => {
   const f = await fixture(); try {
@@ -207,7 +220,7 @@ test('live connections use exact user IDs; FX remains lazy, cancellable and non-
   assert.match(fx,/prefers-reduced-motion/); assert.match(fx,/visibilitychange/); assert.match(fx,/observer\?\.disconnect/); assert.match(fx,/app\.destroy/); assert.match(fx,/gsap/);
   assert.match(app,/playerIdentityHtml\(r.nickname,r.user_id\|\|r.id\)/); assert.match(read('js/clan-v1.js'),/nameHtml\(m.nickname,m.userId\)/); assert.match(read('js/territory-war-v1811.js'),/nameHtml\(row.nickname,row.user_id\)/);
   assert.match(index,/player-card-v2052.js/); assert.doesNotMatch(index,/<script[^>]+player-card-fx/); assert.match(app,/playerCardFx:\{/);
-  assert.match(read('functions/api/[[path]].js'),/handlePlayerCard\(\{path,request,env,deps:\{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank\}\}\)/);
+  assert.match(read('functions/api/[[path]].js'),/handlePlayerCard\(\{path,request,env,deps:\{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank,readDuoHonors\}\}\)/);
 });
 test('all trophy assets are real transparent production assets with preserved high-resolution originals', async () => {
   for(const t of TROPHY_CATALOG) {

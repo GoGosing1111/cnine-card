@@ -37,7 +37,7 @@ test('failed settlement keeps one durable paid match and retries without losing 
  const retry=await f.call('ranked-duo/fight',{user:2,method:'POST',body});assert.equal(retry.status,200,JSON.stringify(retry));assert.equal(retry.data.status,'COMPLETED');assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,9);
  const teams=(await f.p('SELECT wins,losses FROM ranked_duo_teams_v1').all()).results;assert.equal(teams.reduce((s,t)=>s+Number(t.wins),0),1);assert.equal(teams.reduce((s,t)=>s+Number(t.losses),0),1);
 });
-test('unconfigured energy never grants free fights, recruitment respects 72 hours, and owner operations are protected',async t=>{
+test('unconfigured energy never grants free fights, recruitment respects 24 hours, and owner operations are protected',async t=>{
  const f=await duoFixture(t);assert.equal(duoEnergy(null,DUO_DEFAULTS,f.clock()).current,0);
  assert.equal((await f.call('admin/ranked-duo/create',{method:'POST',body:{config:f.config}})).status,200);
  await f.call('admin/ranked-duo/recruit',{method:'POST'});

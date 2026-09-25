@@ -192,7 +192,7 @@ test('30s defaults, public countdown and scheduled deployment are included in th
   assert.match(client,/data-clan-deadline/);assert.match(client,/pickNo:state.data.draft\?\.pickNo/);assert.doesNotMatch(client,/5분을 넘기면|시스템이 균형 후보를 자동 지명/);
   const config=JSON.parse(readFileSync(new URL('../workers/clan-draft/wrangler.jsonc',import.meta.url),'utf8'));
   assert.deepEqual(config.triggers.crons,['* * * * *']);assert.equal(config.workers_dev,false);
-  assert.deepEqual(config.durable_objects.bindings,[{name:'CLAN_DRAFT_ALARM',class_name:'ClanDraftAlarm'}]);
+  assert.deepEqual(config.durable_objects.bindings,[{name:'CLAN_DRAFT_ALARM',class_name:'ClanDraftAlarm'},{name:'RANKED_DUO_ALARM',class_name:'RankedDuoAlarm'}]);
   assert.deepEqual(config.migrations[0].new_sqlite_classes,['ClanDraftAlarm']);
   const scripts=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8')).scripts;
   assert.equal(scripts['deploy:production'],'node scripts/deploy-production.mjs');

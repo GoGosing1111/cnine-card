@@ -1,0 +1,130 @@
+{
+  "generator": "built-in image_gen",
+  "generatedAt": "2026-09-25",
+  "license": "Original AI-generated game assets for this project.",
+  "assets": [
+    {
+      "id": "bronze",
+      "name": "브론즈",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Entry rank: compact robust copper and dark bronze dual shield, two warm amber inset cores, short sturdy bronze side fins, one small bronze crest point. Honest elegant forged metal, no crown or large wings.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-dd0c3bc1-e3c6-45ff-8693-97caf1dbb1de.png",
+      "edit": null,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/bronze-v1.png",
+      "art": "/assets/ui/ranked-duo/bronze-v1.webp",
+      "sha256": "bc3ebda2ad0b7a804a90a8464ef64b70d4f6657f0063703083e27776bacd9067",
+      "webpBytes": 28364
+    },
+    {
+      "id": "silver",
+      "name": "실버",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Silver rank: bright brushed silver two-part shield with two soft icy-blue inset cores, two distinct swept polished-silver wing blades on each side, clean narrow crest. Sleek elegant upward silhouette, richer than a starter badge, no crown.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-5bfaecf6-3edc-46d6-8559-d6050fbdb311.png",
+      "edit": null,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/silver-v1.png",
+      "art": "/assets/ui/ranked-duo/silver-v1.webp",
+      "sha256": "7574b709e34baae66a6eace36f62f435aa5ba838ad4a71aa4af7bcf18bd6bbc9",
+      "webpBytes": 35514
+    },
+    {
+      "id": "gold",
+      "name": "골드",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Gold rank: radiant warm gold paired shields with two amber-gold inset cores, sculpted gold laurel-like side wings, a confident three-prong crest. Refined strong silhouette with deep blue enamel recesses.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-5c22c3c0-f26b-41f7-a91c-bb4ba6009d11.png",
+      "edit": null,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/gold-v1.png",
+      "art": "/assets/ui/ranked-duo/gold-v1.webp",
+      "sha256": "6056de275e892e232c0cf40aa8735876f510a2c2e0bd541d72bc1e4723139607",
+      "webpBytes": 47010
+    },
+    {
+      "id": "platinum",
+      "name": "플래티넘",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Platinum rank: luminous platinum metal paired shield, two emerald-turquoise core gemstones, layered crystalline teal wing plates with precise silver rims, elegant tall crest. A wider striking silhouette with visible negative space between wing plates.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-f1018fc3-fdc3-4bbd-8ad3-fe0aae493292.png",
+      "edit": null,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/platinum-v1.png",
+      "art": "/assets/ui/ranked-duo/platinum-v1.webp",
+      "sha256": "0ce6afaca9ac482700577a982b46af55e8159dc165fcd0fdb91c3b33c0076ba6",
+      "webpBytes": 50764
+    },
+    {
+      "id": "diamond",
+      "name": "다이아",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Diamond rank: two blue diamond crystal spearhead shields as the central pair, framed by silver and cobalt enamel, broad faceted ice-crystal wings, small radiant blue central crest. Crisp geometric gems and clean heroic silhouette, controlled blue radiance.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-f6e77993-4334-4304-bfb7-965689f25a8a.png",
+      "edit": null,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/diamond-v1.png",
+      "art": "/assets/ui/ranked-duo/diamond-v1.webp",
+      "sha256": "600180eea55b09919929c37114f2481f4eb19583db64f6c341fc233a84cb2c32",
+      "webpBytes": 48900
+    },
+    {
+      "id": "master",
+      "name": "마스터",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Master rank: regal violet paired shield cores in dark gunmetal and bright platinum, elaborate curved upward blade wings, violet crystal crown with three long prongs, subtle violet inner glow. Powerful aristocratic silhouette.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-de22157b-ed1b-4abe-a479-f555b4ea5677.png",
+      "edit": null,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/master-v1.png",
+      "art": "/assets/ui/ranked-duo/master-v1.webp",
+      "sha256": "aab00a1ebb07641506b65f09ef04b1320a50d4f5e45ab5982ac3e2e63fd695d9",
+      "webpBytes": 49250
+    },
+    {
+      "id": "grandmaster",
+      "name": "그랜드마스터",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Grandmaster rank: crimson ruby twin shield cores with rose-gold and deep blackened metal, layered sharp sweeping phoenix-feather wings, high five-point crown. Vivid crimson accents, prestigious imposing badge, contained glow, no flames outside the silhouette.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-976b03d0-d69f-4d0c-8fd5-16ccd970881b.png",
+      "edit": null,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/grandmaster-v1.png",
+      "art": "/assets/ui/ranked-duo/grandmaster-v1.webp",
+      "sha256": "12ac6068514649ab84925321b126dc01514b7d2ebdfa801db52b891556453e91",
+      "webpBytes": 50168
+    },
+    {
+      "id": "challenger",
+      "name": "챌린저",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. Highest Challenger rank: magnificent matched azure crystal shields enclosed in brilliant champagne gold, majestic long gold wings and a radiant tall golden crown set with blue crystals. The most prestigious badge in the set. Two unmistakable equal blue hearts joined in the center, refined regal silhouette with luminous sky blue highlights.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-45377f87-1bb7-41b0-9e27-a436a34bb866.png",
+      "edit": {
+        "prompt": "Edit this existing game asset. Preserve its exact design, materials, blue gemstones, gold metal, perspective and transparent alpha background. Change only the framing: make the entire object smaller within the square canvas so that all of its wing tips, crown, side edges and base are fully visible, with at least 12% empty transparent padding on every side. Reconstruct any tip cut at the canvas edge. Do not crop any part. Do not add any text, scenery, glow outside the object, or extra ornaments. The whole finished object must float centered on genuinely transparent background. Export a square PNG.",
+        "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-0cc425e0-1e67-4174-b41a-493d067027ce.png"
+      },
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/challenger-v1.png",
+      "art": "/assets/ui/ranked-duo/challenger-v1.webp",
+      "sha256": "bf06cbaeb34a2f764ab59a175b235a6db54c1a0ee089e1fed0b048e38977c1c2",
+      "webpBytes": 42162
+    },
+    {
+      "id": "challenger-trophy",
+      "name": "듀오 챌린저 트로피",
+      "prompt": "Use case: premium fantasy competitive game UI rank emblem for a TWO-PLAYER DUO league. Create ONE finished square 1024 x 1024 PNG asset, genuinely transparent background with alpha, no scene, no text, no letters, no numbers, no labels, no watermark. A sculpted front-facing symmetrical heraldic badge with a distinct twin-heart / two-part central shield, communicating two teammates standing together. High-end hand-painted game icon, clean bevels, rich metal and jewel materials, restrained light, extremely readable at 64px and beautiful at 160px. Isolated centered full silhouette with 12% transparent padding, avoid cropped edges, avoid photographic reflections, tiny filigree clutter, particles filling the background. Cohesive collection: elongated central dual shield, two matching vertical inset cores, ornamental symmetrical side wings. The rank's silhouette and materials must express its progression. TROPHY instead of flat badge: a free-standing prestigious fantasy championship sculpture in three-quarter front view. Two tall graceful champagne-gold sculpted wings rise together from a substantial dark navy hexagonal pedestal with a polished gold rim, cradling two matched luminous sky-blue faceted shield crystals side by side. A small gold crown bridges the pair at the very top. Two teammates, one achievement. Monumental elegant premium esports trophy, full pedestal and sculpture visible, perfectly crafted valuable collectible. No engraving, text, letters or plaque writing. Genuine transparent alpha background. Rich clean game illustration materials, balanced floor-independent object, no environmental scene.",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-ad80edf3-2cce-490a-82c9-4c3444a7fb16.png",
+      "edit": {
+        "prompt": "Edit this existing game asset. Preserve its exact design, materials, blue gemstones, gold metal, perspective and transparent alpha background. Change only the framing: make the entire object smaller within the square canvas so that all of its wing tips, crown, side edges and base are fully visible, with at least 12% empty transparent padding on every side. Reconstruct any tip cut at the canvas edge. Do not crop any part. Do not add any text, scenery, glow outside the object, or extra ornaments. The whole finished object must float centered on genuinely transparent background. Export a square PNG.",
+        "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-32f53123-519a-4159-9b49-b18be5845b1f.png"
+      },
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "png": "/assets/ui/ranked-duo/challenger-trophy-v1.png",
+      "art": "/assets/ui/ranked-duo/challenger-trophy-v1.webp",
+      "sha256": "0ffb7f223f0166ee8775c424dea051d5466da8c07d0ebaa97fb73460a9d20c2b",
+      "webpBytes": 62934
+    }
+  ]
+}

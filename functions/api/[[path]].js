@@ -1,6 +1,7 @@
 import {coupLiveOperation} from '../_coup_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
 import {handleRankedDuo} from '../_ranked_duo.js';
+import {reconcileDuoSeason,readDuoHonors} from '../_ranked_duo_seasons.js';
 import {duoMagicLoadouts} from '../_magic.js';
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
 import {handleLootShop} from '../_loot_shop.js';
@@ -5322,7 +5323,7 @@ async function handleRequest(context){
       },serverNow:new Date().toISOString()});
     }
     const questHubResponse=await handleQuestHub({path,request,env,deps:{authenticate,requirePermission,readBody,json,dailySettings:playdkDailyQuestSettings,playdkClient:playdkIdentityClient,excluded:dailyQuestAdminExcluded,ensureDaily:async env=>{await ensureWagoDailyPostProgressTable(env);await ensureSecondVerificationFoundation(env)},ensureMessages:ensureVerifiedRewardMessageV1276}});if(questHubResponse)return questHubResponse;
-    const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank}});if(playerCardResponse)return playerCardResponse;
+    const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank,readDuoHonors}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
     const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,isRandomDrawExcluded,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
 
@@ -9552,4 +9553,11 @@ export async function onRequest(context){
     await runtime.close().catch(()=>{});
     throw error;
   }
+}
+
+// Only the private scheduler invokes this; no public request can drive lifecycle work.
+export async function runRankedDuoMaintenance(env,{now=Date.now()}={}){
+ const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();
+ const settings=row?.value?cleanPvpSettings(JSON.parse(row.value)):defaultPvpSettings();
+ return reconcileDuoSeason(env,{now,settings,deps:{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});
 }

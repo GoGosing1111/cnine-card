@@ -76,11 +76,13 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
           AND c.status='COMPLETED' AND c.completed_at IS NOT NULL AND c.reward_status<>'DISABLED_TEST'`).bind(id).first()
     ]);
     const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}] = result;
+    const duo=deps.readDuoHonors?await deps.readDuoHonors(env,id):{count:0,acquiredAt:null};
     const endAt = settings.endsAt && Date.parse(settings.endsAt);
     const startAt = settings.startsAt && Date.parse(settings.startsAt);
     const openSeason = !settlement && (!endAt || endAt > now) && (!startAt || startAt <= now);
     const tier = rank && openSeason ? resolvePvpTier(n(rank.season_score), settings, n(rank.position)) : null;
     const earned = {
+      DUO_CHALLENGER: { count: n(duo.count), acquiredAt: duo.acquiredAt, progress: n(duo.count), goal: 1 },
       CLAN_CHAMPION: { count: n(clanStats.wins), acquiredAt: clanStats.first_at || null, progress: n(clanStats.wins), goal: 1 },
       CHALLENGER_STREAK_3: { count: n(stats.longest_streak) >= 3 ? 1 : 0, acquiredAt: stats.streak_at || null, progress: n(stats.current_streak), goal: 3 },
       RANKED_CHAMPION: { count: n(stats.champion_count), acquiredAt: stats.champion_at || null, progress: n(stats.champion_count), goal: 1 },

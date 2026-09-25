@@ -1,4 +1,48 @@
 /* Duo lobby: existing arena art, compact controls and paired player standards. */
+.duo-tier-art{object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 12px #0007)}
+.duo-team-tier{display:flex;align-items:center;gap:8px;margin-left:auto}
+.duo-team-tier .duo-tier-art{width:76px;height:76px}
+.duo-team-tier>div{display:grid;gap:4px}
+.duo-team-tier span{font:600 9px "Barlow Condensed",sans-serif;letter-spacing:1.4px;color:#8496b6}
+.duo-team-tier b{font-size:15px;color:#c4eaff}
+.duo-team-tier small{font-size:10px;color:#94a7c8}
+.duo-hub .duo-podium-entry>.duo-tier-art{width:76px;height:76px;display:block;margin:0 auto 8px}
+.duo-hub .duo-rank-row>div>small{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.duo-rank-row .duo-tier-art{width:30px;height:30px}
+.duo-honors{padding:0 26px 30px}
+.duo-honors-hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;min-height:390px;background:radial-gradient(ellipse at 24% 60%,#28517360,transparent 55%);border-bottom:1px solid #2d3a53}
+.duo-trophy-stage{display:grid;place-items:center;position:relative;padding:25px 0 32px;isolation:isolate}
+.duo-trophy-stage>div{position:absolute;bottom:54px;width:67%;height:26px;border:1px solid #739fc570;border-radius:50%;background:#65c9ed13;box-shadow:0 0 45px #5dabdd40;z-index:-1}
+.duo-trophy-stage img{width:min(100%,340px);height:auto;filter:drop-shadow(0 10px 26px #35678f50)}
+.duo-trophy-stage>span{color:#d8c498;font:600 12px "Barlow Condensed",sans-serif;letter-spacing:5px;margin-top:-10px}
+.duo-honors-copy{padding:30px 20px 30px 0}
+.duo-honors-copy h2{font-size:30px;line-height:1.5;letter-spacing:-1.2px;margin:14px 0}
+.duo-honors-copy h2 em{font-style:normal;color:#a1dbff}
+.duo-honors-copy>p:not(.duo-kicker){color:#a5b4cd;line-height:1.9;font-size:13px}
+.duo-trophy-rule{display:flex;align-items:center;gap:20px;padding:18px 0;margin:8px 0}
+.duo-trophy-rule strong{font-size:16px;color:#e6d3a8}
+.duo-trophy-rule span{font-size:11px;line-height:1.8;color:#c2cde0;border-left:1px solid #435170;padding-left:20px}
+.duo-honors-copy>small{font-size:10px;line-height:1.9;color:#91a0bb}
+.duo-tier-road-heading{display:flex;justify-content:space-between;align-items:end;gap:12px;padding:27px 0 14px}
+.duo-tier-road-heading h3{font-size:19px;margin-top:6px}
+.duo-tier-road-heading>span{color:#91a0b9;font-size:10px}
+.duo-tier-road{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;padding:0;margin:0;gap:1px;background:#2a3448;border:1px solid #2a3448}
+.duo-tier-road li{position:relative;display:flex;align-items:center;flex-direction:column;padding:22px 10px 25px;background:radial-gradient(ellipse at 50% 35%,#24334d,#101725 72%);min-width:0}
+.duo-tier-road .duo-tier-art{width:112px;height:112px;max-width:100%}
+.duo-tier-number{position:absolute;left:13px;top:11px;color:#647791;font:600 13px "Barlow Condensed",sans-serif}
+.duo-tier-road h4{font-size:14px;margin:13px 0 5px;color:#e9efff}
+.duo-tier-road p{font-size:10px;color:#a2b1cb}
+.duo-tier-road li.is-current{background:radial-gradient(ellipse at 50% 35%,#315467,#14252f 80%);box-shadow:inset 0 0 0 1px #80c9e7}
+.duo-tier-road li>b{position:absolute;right:8px;top:8px;color:#bce9ff;font-size:9px;font-weight:500}
+@container duo-lobby (max-width:700px){
+ .duo-team-tier{gap:3px}.duo-team-tier .duo-tier-art{width:52px;height:52px}.duo-team-tier b{font-size:12px}.duo-team-tier span{font-size:8px}.duo-team-tier small{font-size:9px}
+ .duo-honors{padding:0 15px 20px}.duo-honors-hero{grid-template-columns:1fr;gap:0;background:radial-gradient(ellipse at 50% 30%,#28517360,transparent 65%)}
+ .duo-trophy-stage{padding:12px 0 20px}.duo-trophy-stage img{width:245px}.duo-trophy-stage>span{font-size:10px;letter-spacing:4px}
+ .duo-honors-copy{text-align:center;padding:10px 7px 28px}.duo-honors-copy h2{font-size:27px;margin:10px 0}
+ .duo-trophy-rule{justify-content:center;gap:12px}.duo-trophy-rule span{text-align:left;padding-left:12px}.duo-trophy-rule strong{font-size:14px}
+ .duo-tier-road-heading{display:block}.duo-tier-road-heading>span{display:block;margin-top:9px}
+ .duo-tier-road{grid-template-columns:repeat(2,minmax(0,1fr))}.duo-tier-road .duo-tier-art{width:105px;height:105px}
+}
 .duo-hub{
  --duo-bg:#080c17;--duo-panel:#111828;--duo-line:#28324a;--duo-text:#f3f5ff;--duo-muted:#9aa8bf;--duo-lime:#c8ff6b;
  container:duo-lobby / inline-size;isolation:isolate;width:100%;max-width:1240px;margin:0 auto;
@@ -27,7 +71,7 @@
 .duo-hub .duo-icon-button{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--duo-line);color:var(--duo-muted);background:#131b2a;border-radius:4px;margin-left:5px}
 .duo-hub .duo-icon-button:hover{color:var(--duo-lime);border-color:#72884a}
 .duo-nav{display:flex;align-items:stretch;gap:6px;padding:0 22px;background:#0c1220;border-bottom:1px solid var(--duo-line)}
-.duo-nav button{display:flex;align-items:center;gap:9px;min-height:58px;padding:0 18px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--duo-muted);font-size:12px;font-weight:600;position:relative}
+.duo-nav button{display:flex;align-items:center;gap:9px;min-height:58px;padding:0 18px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--duo-muted);font-size:12px;font-weight:600;position:relative;white-space:nowrap}
 .duo-nav button:hover{color:var(--duo-text);background:#ffffff03}
 .duo-nav button[aria-current=page]{color:var(--duo-lime);border-bottom-color:var(--duo-lime);background:linear-gradient(0deg,#c8ff6b0c,transparent)}
 .duo-nav .duo-icon{width:17px;height:17px}
@@ -381,8 +425,8 @@
  .duo-heading .duo-kicker{font-size:8px;letter-spacing:1.5px}
  .duo-phase{font-size:9px;padding:5px 6px}
  .duo-nav{padding:0 8px}
- .duo-nav button{padding:0 10px;gap:6px}
- .duo-nav .duo-icon{width:15px;height:15px}
+ .duo-nav button{flex:1;justify-content:center;padding:0 3px;gap:3px;font-size:10px}
+ .duo-nav .duo-icon{display:none}
  .duo-nav-format{display:none}
  .duo-schedule{padding:15px 16px}
  .duo-schedule li:not(:last-child)::after{right:-17px;width:10px}

@@ -1,0 +1,116 @@
+{
+  "environment": "Node v24.18.0 / Windows / PGlite pipeline / zero network latency",
+  "participants": 10000,
+  "teams": 5000,
+  "samples": {
+    "idleScheduler10000Participants": {
+      "n": 30,
+      "ms": {
+        "p50": 2.35,
+        "p95": 3.1,
+        "max": 3.26
+      },
+      "dbRoundtrips": {
+        "p50": 5,
+        "p95": 5,
+        "max": 5
+      },
+      "processCpuMs": {
+        "p50": 0,
+        "p95": 31,
+        "max": 31
+      }
+    },
+    "lobbyWith5000Teams": {
+      "n": 30,
+      "ms": {
+        "p50": 3.89,
+        "p95": 5.17,
+        "max": 26.44
+      },
+      "dbRoundtrips": {
+        "p50": 5,
+        "p95": 5,
+        "max": 5
+      },
+      "processCpuMs": {
+        "p50": 0,
+        "p95": 32,
+        "max": 47
+      }
+    },
+    "top100Of5000Teams": {
+      "n": 30,
+      "ms": {
+        "p50": 5.06,
+        "p95": 5.79,
+        "max": 5.84
+      },
+      "dbRoundtrips": {
+        "p50": 4,
+        "p95": 4,
+        "max": 4
+      },
+      "processCpuMs": {
+        "p50": 0,
+        "p95": 32,
+        "max": 32
+      }
+    },
+    "finalize5000Teams20Trophies": {
+      "n": 1,
+      "ms": {
+        "p50": 171.49,
+        "p95": 171.49,
+        "max": 171.49
+      },
+      "dbRoundtrips": {
+        "p50": 10,
+        "p95": 10,
+        "max": 10
+      },
+      "processCpuMs": {
+        "p50": 312,
+        "p95": 312,
+        "max": 312
+      }
+    }
+  },
+  "finalRows": 5000,
+  "trophyRows": 20,
+  "rankPlan": [
+    {
+      "QUERY PLAN": "Limit  (cost=0.28..1.30 rows=10 width=19) (actual time=0.085..0.108 rows=10.00 loops=1)"
+    },
+    {
+      "QUERY PLAN": "  Buffers: shared hit=3"
+    },
+    {
+      "QUERY PLAN": "  ->  Index Only Scan Backward using ranked_duo_rank_v1 on ranked_duo_teams_v1  (cost=0.28..506.66 rows=5000 width=19) (actual time=0.073..0.082 rows=10.00 loops=1)"
+    },
+    {
+      "QUERY PLAN": "        Index Cond: (season_id = 'f6adcc80-61aa-4df4-862a-3c3d22526de0'::text)"
+    },
+    {
+      "QUERY PLAN": "        Heap Fetches: 10"
+    },
+    {
+      "QUERY PLAN": "        Index Searches: 1"
+    },
+    {
+      "QUERY PLAN": "        Buffers: shared hit=3"
+    },
+    {
+      "QUERY PLAN": "Planning Time: 0.102 ms"
+    },
+    {
+      "QUERY PLAN": "Execution Time: 0.243 ms"
+    }
+  ],
+  "notes": [
+    "scheduler numbers exclude connection open/close, source settings read and heartbeat (2 indexed queries)",
+    "lobby includes fixture authentication",
+    "serialized embedded DB: production lock wait and network latency are not represented",
+    "CPU is the whole Node process including embedded PostgreSQL"
+  ]
+}

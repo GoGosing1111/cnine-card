@@ -1,6 +1,7 @@
+import {DUO_RECRUIT_HOURS,duoTiers} from './ranked-duo-season-v2.mjs';
 export const DUO_VERSION='duo-20260925-v1';
 export const DUO_LIMITS=Object.freeze({participants:10000,refreshBatch:12,candidates:24,history:30,logBytes:1500000,grade:{PRESTIGE:2,FUR:2,ZENITH:2,SUPERSTAR:1}});
-export const DUO_DEFAULTS=Object.freeze({revision:0,name:'랭크 듀오 시즌 1',visible:false,recruitHours:72,startsAt:null,endsAt:null,energy:{maximum:null,dailyGrant:null,cost:null},score:{initial:1000,win:24,loss:16},mercenaryWeights:{}});
+export const DUO_DEFAULTS=Object.freeze({revision:0,name:'랭크 듀오 시즌 1',visible:false,recruitHours:DUO_RECRUIT_HOURS,startsAt:null,endsAt:null,energy:{maximum:null,dailyGrant:null,cost:null},score:{initial:1000,win:24,loss:16},mercenaryWeights:{}});
 export const duoError=(code,message,status=409)=>Object.assign(new Error(message),{code:`DUO_${code}`,status});
 const integer=(n,min,max,label)=>{if(!Number.isSafeInteger(n)||n<min||n>max)throw duoError('CONFIG',`${label} 설정을 확인하세요.`,400);return n;};
 export function validateDuoConfig(raw){
@@ -8,9 +9,15 @@ export function validateDuoConfig(raw){
  const date=value=>value===null?null:Number.isFinite(Date.parse(value))?new Date(value).toISOString():(()=>{throw duoError('CONFIG','날짜를 확인하세요.',400);})();
  const energy={};for(const [k,label]of [['maximum','행동력 최대치'],['dailyGrant','일일 행동력'],['cost','공격 비용']])energy[k]=raw.energy?.[k]===null?null:integer(raw.energy?.[k],1,1000,label);
  if(energy.maximum!==null&&(energy.dailyGrant>energy.maximum||energy.cost>energy.maximum))throw duoError('CONFIG','지급량과 비용은 행동력 최대치를 넘을 수 없습니다.',400);
+ if(raw.energy?.mode==='RANKED'){energy.mode='RANKED';energy.rechargeMinutes=integer(raw.energy.rechargeMinutes,1,1440,'행동력 충전 간격');}
  const weights={};for(const [code,value]of Object.entries(raw.mercenaryWeights||{})){if(!/^V-\d{3}$/.test(code)||!Number.isFinite(value)||value<.1||value>10)throw duoError('CONFIG','용병 평가 배율을 확인하세요.',400);weights[code]=value;}
- const result={revision:integer(raw.revision??0,0,2147483646,'설정 버전'),name:raw.name.trim(),visible:raw.visible===true,recruitHours:integer(raw.recruitHours??72,1,720,'모집 시간'),startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),energy,score:{initial:integer(raw.score?.initial??1000,0,100000,'시작 점수'),win:integer(raw.score?.win??24,1,1000,'승리 점수'),loss:integer(raw.score?.loss??16,0,1000,'패배 점수')},mercenaryWeights:weights};
+ const result={revision:integer(raw.revision??0,0,2147483646,'설정 버전'),name:raw.name.trim(),visible:raw.visible===true,recruitHours:integer(raw.recruitHours??DUO_RECRUIT_HOURS,1,720,'모집 시간'),startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),energy,score:{initial:integer(raw.score?.initial??1000,0,raw.automatic?1000000:100000,'시작 점수'),win:integer(raw.score?.win??24,raw.automatic?0:1,raw.automatic?100000:1000,'승리 점수'),loss:integer(raw.score?.loss??16,0,raw.automatic?100000:1000,'패배 점수')},mercenaryWeights:weights};
  if(result.startsAt&&result.endsAt&&result.endsAt<=result.startsAt)throw duoError('CONFIG','종료일은 시작일 이후여야 합니다.',400);
+ if(raw.automatic===true){
+  if(!raw.rankedSeason?.key||!raw.rankedSeason.name)throw duoError('CONFIG','연동한 랭크전 시즌을 확인하세요.',400);
+  result.automatic=true;result.rankedSeason={key:String(raw.rankedSeason.key).slice(0,220),name:String(raw.rankedSeason.name).slice(0,40),startsAt:date(raw.rankedSeason.startsAt),endsAt:date(raw.rankedSeason.endsAt),recruitStartsAt:date(raw.rankedSeason.recruitStartsAt)};
+  result.competitionStartedAt=date(raw.competitionStartedAt??null);result.tiers=duoTiers(raw).tiers;
+ }
  return result;
 }
 export function validateDuoDeck(cards){
@@ -37,6 +44,14 @@ export function pairDuoParticipants(entries){
 }
 export const duoDay=now=>new Date(Number(now)+9*3600000).toISOString().slice(0,10);
 export function duoEnergy(participant,config,now=Date.now()){
+ if(config.energy.mode==='RANKED'){
+  const maximum=config.energy.maximum||0,cost=config.energy.cost||0,interval=config.energy.rechargeMinutes*60000;
+  const saved=Date.parse(participant?.energy_day),initial=!Number.isFinite(saved);
+  const stored=initial?maximum:Math.min(maximum,Math.max(0,Number(participant.energy)||0));
+  const ticks=initial?0:Math.max(0,Math.floor((now-saved)/interval)),current=Math.min(maximum,stored+ticks);
+  const anchor=initial||current>=maximum?now:Math.min(now,saved+ticks*interval);
+  return {current,maximum,cost,day:new Date(anchor).toISOString(),mode:'RANKED',rechargeMinutes:config.energy.rechargeMinutes,nextResetAt:current<maximum?new Date(anchor+interval).toISOString():null};
+ }
  const maximum=config.energy.maximum||0,day=duoDay(now),stored=Math.max(0,Number(participant?.energy||0));
  const current=participant?.energy_day===day?Math.min(maximum,stored):Math.min(maximum,stored+(config.energy.dailyGrant||0));
  return {current,maximum,cost:config.energy.cost||0,day,nextResetAt:new Date(Date.parse(`${day}T00:00:00+09:00`)+86400000).toISOString()};
