@@ -1,12 +1,10 @@
 import '../../project-v-v3/source/project-v-pixi-battle.src.js';
 import {BattleSuitSkillChipPlayback} from '../../project-v-v3/source/battle/BattleSuitSkillChipPlayback.js';
-import {ZBodyThunderFX} from './ZBodyThunderFX.js';
-import {ZBodyNormalFX} from './ZBodyNormalFX.js';
 import {ZBodyDashFX} from '../../project-v-v3/source/battle/ZBodyDashFX.mjs';
 import {Z_BODY_AREA_SKILL as SKILL} from '../../../shared/z-body-area-skill.mjs';
 
 const doc=parent.document,$=id=>doc.getElementById(id);
-let engine,fixtures,textures,normalTextures,playback,paused=false,generation=0,kind='multi',legacy=false,legacyTimeline=null,actualHits=0,actualDamage=0,fullRun=false,action='normal';
+let engine,fixtures,playback,paused=false,generation=0,kind='multi',legacy=false,legacyTimeline=null,actualHits=0,actualDamage=0,fullRun=false,action='normal';
 const ordinary=()=>fixtures[kind].battleV2.result.timeline.filter(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT'&&!e.dodge).slice(0,1);
 const expected=()=>{
   if(fullRun){const hits=fixtures[kind].battleV2.result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT');return{expectedHits:hits.length,expectedDamage:hits.reduce((n,e)=>n+e.damage+e.absorbed,0)};}
@@ -24,12 +22,9 @@ function update(){
   $('health').textContent=JSON.stringify(state,null,2);
 }
 function install(){
-  engine.battleSuitSkillEffectFactories=new Map([[SKILL.code,{create:(e,event,hits)=>new ZBodyThunderFX(e,textures,event,hits)}]]);
   const sword=engine.accountBattleUnit?.swordAnimation;
-  if(sword){
-    sword.intrinsicArea=true;sword.dashFX.destroy();
-    sword.dashFX=legacy&&!fullRun?new ZBodyDashFX(engine,sword.unit,sword.textures):new ZBodyNormalFX(engine,sword.unit,normalTextures,sword.textures);
-  }
+  if(!sword?.intrinsicArea||!engine.battleSuitSkillEffectFactories?.has(SKILL.code))throw Error('운영 Z바디 고유 스킬 연결이 없습니다.');
+  if(legacy&&!fullRun){sword.dashFX.destroy();sword.dashFX=new ZBodyDashFX(engine,sword.unit,sword.textures);}
 }
 function stop(){
   generation++;playback?.cancel();playback=null;void engine?.stopAccountBattleUnitSustainedFire();engine?.cancelTimelines();legacyTimeline=null;paused=false;
@@ -101,7 +96,6 @@ async function main(){
     const loading=window.ProjectVBattleV3Live.prepareLoading({modal:document.getElementById('modal'),mode:'HUNT',playerName:'Z-BODY',opponentName:'뇌검 집행 · 광역 검수'});
     await window.ProjectVBattleV3Live.createRenderer({...loading,modal:document.getElementById('modal'),data:fixtures[kind],mode:'HUNT',playerName:'Z-BODY'});
   }finally{api.mountForBattle=mount;}
-  [textures,normalTextures]=await Promise.all([ZBodyThunderFX.preload(),ZBodyNormalFX.preload()]);
   engine.accountBattleUnitIsPaused=()=>paused;
   install();
   $('play').onclick=()=>void play();
@@ -122,7 +116,7 @@ async function main(){
   for(const button of doc.querySelectorAll('button'))button.disabled=false;
   engine.app.ticker.add(update);
   window.addEventListener('pagehide',()=>{
-    stop();engine.destroy();for(const pool of [textures,normalTextures])for(const rows of Object.values(pool))rows.forEach(t=>t.destroy(false));
+    stop();engine.destroy();
   },{once:true});
   // Expose read-only visible diagnostic state for the embedded review panel.
   window.zThunderReview={snapshot:diagnostics};

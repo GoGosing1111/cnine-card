@@ -2,6 +2,9 @@ import {Assets,Container,Graphics,Rectangle,Sprite,Texture} from 'pixi.js';
 import {Z_SWORD,swordPose,swordEffectFrame,swordContactStop} from './ZBodySwordModel.mjs';
 import {DASH_V2_SEQUENCE,fastDashBatch} from './ZBodyDashProfile.mjs';
 import {ZBodyDashFX} from './ZBodyDashFX.mjs';
+import {ZBodyNormalFX} from './ZBodyNormalFX.js';
+import {ZBodyThunderFX} from './ZBodyThunderFX.js';
+import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_SKILL} from '../../../../shared/z-body-area-skill.mjs';
 
 // Uses the live engine's layers and registered GSAP timelines. The approved
 // atlases are sampled verbatim; no fake targets, renderer, timers or damage.
@@ -11,6 +14,11 @@ export class ZBodySwordAnimation{
     const [sheets,dashTextures]=await Promise.all([Promise.all(Object.values(specs).map(spec=>Assets.load(spec.url))),ZBodyDashFX.load()]);
     const textures={};
     Object.entries(specs).forEach(([key,spec],n)=>{textures[key]=spec.frames.map((_,i)=>new Texture({source:sheets[n].source,frame:new Rectangle(i%spec.columns*spec.frameWidth,Math.floor(i/spec.columns)*spec.frameHeight,spec.frameWidth,spec.frameHeight)}));});
+    if(Z_BODY_AREA_RELEASE_ENABLED){
+      const [normal,thunder]=await Promise.all([ZBodyNormalFX.preload(),ZBodyThunderFX.preload()]);
+      for(const [key,frames] of Object.entries(normal))textures['normal'+key]=frames;
+      for(const [key,frames] of Object.entries(thunder))textures['thunder'+key]=frames;
+    }
     return{...textures,...dashTextures};
   }
   constructor(engine,unit,textures){
@@ -23,7 +31,14 @@ export class ZBodySwordAnimation{
     this.fields=[pair('ground',this.ground),pair('ground',this.ground)];
     this.blades=Array.from({length:5},()=>pair('blade',this.front));
     this.spark=new Graphics();this.front.addChild(this.spark);
-    this.dashFX=new ZBodyDashFX(engine,unit,textures);
+    this.dashFX=textures.normalsurge?new ZBodyNormalFX(engine,unit,Object.fromEntries(['wake','slash','impact','surge'].map(key=>[key,textures['normal'+key]])),textures):new ZBodyDashFX(engine,unit,textures);
+    this.intrinsicArea=Boolean(textures.thunderblade);
+    if(this.intrinsicArea){
+      const thunder={blade:textures.thunderblade,ground:textures.thunderground};
+      this.skillFactory={create:(e,event,hits)=>new ZBodyThunderFX(e,thunder,event,hits)};
+      engine.battleSuitSkillEffectFactories??=new Map();
+      engine.battleSuitSkillEffectFactories.set(Z_BODY_AREA_SKILL.code,this.skillFactory);
+    }
     unit.swordAnimation=this;unit.bodySource=Z_SWORD.image;unit.weaponSprite.visible=false;unit.weaponSource='';
     this.ready();this.hideEffects();
   }
@@ -112,8 +127,8 @@ export class ZBodySwordAnimation{
     return result;
   }
   cancel(){this.timeline?.kill();this.timeline=null;this.hideEffects();}
-  diagnostics(){return{version:Z_SWORD.version,mode:this.mode,frame:this.frame,timeMs:Math.round(this.timeMs),completed:this.completed,bodyScale:Z_SWORD.bodyScale,effectsVisible:this.front.visible,damagePolicy:Z_SWORD.presentation,
-    dashVersion:'Z_DASH_LIVE_20260918',dashProfile:this.dashProfile,contactMs:this.dashProfile==='legacy'?810:DASH_V2_SEQUENCE.contactAtMs,
+  diagnostics(){return{version:Z_SWORD.version,mode:this.mode,frame:this.frame,timeMs:Math.round(this.timeMs),completed:this.completed,bodyScale:Z_SWORD.bodyScale,effectsVisible:this.front.visible,damagePolicy:this.intrinsicArea?{damageAuthority:'SERVER_TIMELINE',area:Z_BODY_AREA_SKILL.targeting,damageReference:Z_BODY_AREA_SKILL.damageReference}:Z_SWORD.presentation,
+    dashVersion:this.intrinsicArea?'Z_NORMAL_LIGHTNING_V3_20260926':'Z_DASH_LIVE_20260918',dashProfile:this.dashProfile,contactMs:this.dashProfile==='legacy'?810:DASH_V2_SEQUENCE.contactAtMs,
     dashDurationMs:this.dashProfile==='legacy'?1695:DASH_V2_SEQUENCE.durationMs,dashEffectsVisible:this.dashFX.front.visible,dashEffectMs:Math.round(this.dashFX.lastMs||0)};}
-  destroy(){this.cancel();this.dashFX.destroy();this.unit.bodySprite.texture=Texture.EMPTY;this.ground.destroy({children:true});this.front.destroy({children:true});for(const frames of Object.values(this.textures))for(const texture of frames)texture.destroy(false);}
+  destroy(){this.cancel();if(this.skillFactory&&this.engine.battleSuitSkillEffectFactories?.get(Z_BODY_AREA_SKILL.code)===this.skillFactory)this.engine.battleSuitSkillEffectFactories.delete(Z_BODY_AREA_SKILL.code);this.dashFX.destroy();this.unit.bodySprite.texture=Texture.EMPTY;this.ground.destroy({children:true});this.front.destroy({children:true});for(const frames of Object.values(this.textures))for(const texture of frames)texture.destroy(false);}
 }

@@ -19,10 +19,12 @@ function rig(){
   const root=new Container();root.position.set(100,600);root.baseX=100;root.baseY=600;root.scale.set(.5);
   const unit={root,bodySprite:new Sprite(),weaponSprite:new Sprite(),nameHud:new Container(),view:new Container(),stopIdle(){}};
   const textures=Object.fromEntries([['attack',16],['cast',12],['blade',8],['ground',9],['dashwake',12],['dashcut',8]].map(([key,n])=>[key,Array.from({length:n},()=>new Texture({source:Texture.WHITE.source,frame:new Rectangle(0,0,1,1)}))]));
-  const sword=new ZBodySwordAnimation(engine,unit,textures),fxTextures=Object.fromEntries(['wake','slash','impact','surge'].map(key=>[key,Array.from({length:12},()=>new Texture({source:Texture.WHITE.source,frame:new Rectangle(0,0,1,1)}))]));
-  sword.dashFX.destroy();sword.dashFX=new ZBodyNormalFX(engine,unit,fxTextures,textures);sword.intrinsicArea=true;
+  const fxTextures=Object.fromEntries(['wake','slash','impact','surge'].map(key=>[key,Array.from({length:12},()=>new Texture({source:Texture.WHITE.source,frame:new Rectangle(0,0,1,1)}))]));
+  for(const [key,frames] of Object.entries(fxTextures))textures['normal'+key]=frames;
+  for(const key of ['blade','ground'])textures['thunder'+key]=Array.from({length:12},()=>new Texture({source:Texture.WHITE.source,frame:new Rectangle(0,0,1,1)}));
+  const sword=new ZBodySwordAnimation(engine,unit,textures);
   const target={id:'enemy-1',root:new Container()};target.root.position.set(900,500);target.root.baseX=900;target.root.baseY=500;
-  return {engine,unit,sword,target,ticks,fxTextures,close(){sword.destroy();Object.values(fxTextures).flat().forEach(t=>t.destroy(false));}};
+  return {engine,unit,sword,target,ticks,fxTextures,close(){sword.destroy();assert.equal(engine.battleSuitSkillEffectFactories.size,0);}};
 }
 test('48 normal frames preserve generated alpha, original hashes and non-bleeding atlas cells',async()=>{
   for(const spec of Object.values(assets.atlases)){
@@ -47,6 +49,7 @@ test('authored slash peak and impact peak coincide with the unchanged 245 ms rec
   assert.equal(normalFrame('impact',244).index,1);assert.equal(normalFrame('impact',245).index,2);
   const r=rig(),hits=[],rows=[{target:r.target,options:{damage:123}},{target:r.target,options:{damage:456}}];
   try{
+    assert.ok(r.sword.dashFX instanceof ZBodyNormalFX);assert.equal(r.sword.intrinsicArea,true);assert.equal(r.engine.battleSuitSkillEffectFactories.size,1);
     const done=r.sword.play(takeSwordBatch([...rows],1,true),e=>hits.push(...e)),tl=r.sword.timeline;tl.pause();
     tl.totalTime(.13);assert.ok(r.sword.dashFX.pairs.wake[0].visible);assert.equal(r.sword.dashFX.pairs.slash[0].visible,false);
     assert.ok(r.sword.dashFX.pairs.surge[0].visible);assert.equal(r.sword.dashFX.ghosts.length,5);

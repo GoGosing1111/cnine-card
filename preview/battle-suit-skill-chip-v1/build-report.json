@@ -42,6 +42,10 @@
     "preview/project-v-v3/source/battle/ZBodySwordModel.mjs",
     "assets/ui/project-v/account-battle-suits/z-dash-v2/manifest.json",
     "preview/project-v-v3/source/battle/ZBodyDashFX.mjs",
+    "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/manifest.json",
+    "preview/project-v-v3/source/battle/ZBodyNormalFX.js",
+    "assets/ui/project-v/account-battle-suits/z-thunder-v3/manifest.json",
+    "preview/project-v-v3/source/battle/ZBodyThunderFX.js",
     "preview/project-v-v3/source/battle/ZBodySwordAnimation.js",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
@@ -90,5 +94,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1253962
+  "outputBytes": 1278139
 }

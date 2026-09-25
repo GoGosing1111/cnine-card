@@ -1,13 +1,13 @@
 {
-  "status": "USER_REVIEW_PENDING",
-  "liveEnabled": false,
+  "status": "USER_APPROVED_LIVE",
+  "liveEnabled": true,
   "runtime": {
     "pixiCopies": 1,
     "gsapCopies": 1
   },
   "pixiVersion": "8.20.0",
   "gsapVersion": "3.13.0",
-  "bundleSha256": "5951e61f6b2525e90e3a3a65a977519f7cf2f52f59b60fac4539e4673587231f",
+  "bundleSha256": "5abcdc4dfd3e9b73ab8bfe3f4c13676ef1f2905b64895625e96a3d0d04e9f413",
   "inputs": [
     "shared/apocalypse-legion-v1.mjs",
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
@@ -49,6 +49,10 @@
     "preview/project-v-v3/source/battle/ZBodySwordModel.mjs",
     "assets/ui/project-v/account-battle-suits/z-dash-v2/manifest.json",
     "preview/project-v-v3/source/battle/ZBodyDashFX.mjs",
+    "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/manifest.json",
+    "preview/project-v-v3/source/battle/ZBodyNormalFX.js",
+    "assets/ui/project-v/account-battle-suits/z-thunder-v3/manifest.json",
+    "preview/project-v-v3/source/battle/ZBodyThunderFX.js",
     "preview/project-v-v3/source/battle/ZBodySwordAnimation.js",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
@@ -95,10 +99,6 @@
     "preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js",
     "pve-v3/BattleEngine.js",
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
-    "preview/z-body-thunder-v3/assets.json",
-    "preview/z-body-thunder-v3/source/ZBodyThunderFX.js",
-    "preview/z-body-thunder-v3/normal-assets.json",
-    "preview/z-body-thunder-v3/source/ZBodyNormalFX.js",
     "preview/z-body-thunder-v3/source/review-entry.js"
   ]
 }

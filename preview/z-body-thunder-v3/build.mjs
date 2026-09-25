@@ -9,5 +9,5 @@ const inputs=Object.keys(result.metafile.inputs).map(p=>p.replaceAll('\\','/'));
 const runtime={pixiCopies:inputs.filter(p=>p.endsWith('/pixi.js/lib/index.mjs')).length,gsapCopies:inputs.filter(p=>p.endsWith('/gsap/index.js')).length};
 if(runtime.pixiCopies!==1||runtime.gsapCopies!==1)throw Error('Duplicate rendering runtime');
 const lock=JSON.parse(await readFile(path.join(root,'package-lock.json')));
-await writeFile(path.join(here,'build-report.json'),JSON.stringify({status:'USER_REVIEW_PENDING',liveEnabled:false,runtime,pixiVersion:lock.packages['node_modules/pixi.js'].version,gsapVersion:lock.packages['node_modules/gsap'].version,bundleSha256:createHash('sha256').update(await readFile(path.join(here,'battle.bundle.js'))).digest('hex'),inputs:inputs.filter(p=>!p.includes('node_modules'))},null,2)+'\n');
+await writeFile(path.join(here,'build-report.json'),JSON.stringify({status:'USER_APPROVED_LIVE',liveEnabled:true,runtime,pixiVersion:lock.packages['node_modules/pixi.js'].version,gsapVersion:lock.packages['node_modules/gsap'].version,bundleSha256:createHash('sha256').update(await readFile(path.join(here,'battle.bundle.js'))).digest('hex'),inputs:inputs.filter(p=>!p.includes('node_modules'))},null,2)+'\n');
 console.log('Built shared V3 review: one Pixi renderer and one GSAP clock.');

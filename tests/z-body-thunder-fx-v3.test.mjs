@@ -82,5 +82,5 @@ test('pause and rate changes follow one clock; cancel and slot reuse never confi
 test('ordinary Z receipts use only dash while an intrinsic area skill is installed',()=>{
   const t={id:'target'},entries=[{target:t,options:{damage:12}},{target:t,options:{damage:34}}];
   assert.equal(takeSwordBatch([...entries],1,true).mode,'dash');
-  assert.equal(takeSwordBatch([...entries],1).mode,'area','production presentation unchanged until approval');
+  assert.equal(takeSwordBatch([...entries],1).mode,'area','old comparison presentation is still available');
 });

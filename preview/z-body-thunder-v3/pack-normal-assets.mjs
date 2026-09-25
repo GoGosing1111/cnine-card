@@ -7,7 +7,7 @@ const here=path.dirname(fileURLToPath(import.meta.url));
 const prompts=JSON.parse(await readFile(path.join(here,'normal-lightning-prompts.json')));
 prompts.assets.surge=JSON.parse(await readFile(path.join(here,'dash-surge-prompt.json'))).asset;
 const hash=data=>createHash('sha256').update(data).digest('hex');
-const manifest={version:'Z_NORMAL_LIGHTNING_V3_20260926',status:'USER_REVIEW_PENDING',liveEnabled:false,
+const manifest={version:'Z_NORMAL_LIGHTNING_V3_20260926',status:'USER_APPROVED_PREVIEW',liveEnabled:false,
   generation:'built-in image_gen',packaging:'Sharp '+sharp.versions.sharp+'; cell extraction, uniform resize and transparent padding only. Original alpha preserved.',atlases:{}};
 for(const key of ['wake','slash','impact','surge']){
   const sourceFile='assets/normal-lightning-'+key+'-source.png',file=path.join(here,sourceFile);

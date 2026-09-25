@@ -1,0 +1,414 @@
+{
+  "version": "Z_THUNDER_V3_20260926",
+  "status": "USER_APPROVED_LIVE",
+  "liveEnabled": true,
+  "generation": "built-in image_gen",
+  "packaging": "Sharp 0.35.2; authored cell extraction, uniform resizing, transparent padding. Original RGBA unchanged.",
+  "atlases": {
+    "blade": {
+      "url": "/assets/ui/project-v/account-battle-suits/z-thunder-v3/blade-atlas.png",
+      "columns": 4,
+      "rows": 3,
+      "frameWidth": 384,
+      "frameHeight": 640,
+      "pivot": {
+        "x": 192,
+        "y": 550
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 296,
+            "height": 443
+          },
+          "placement": {
+            "left": 20,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "8dd4dd0bc0d342a950d0a10098cbb826878faa2338a309012aac81437ab7d524"
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "x": 296,
+            "y": 0,
+            "width": 295,
+            "height": 443
+          },
+          "placement": {
+            "left": 21,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "79ca9485591105315814a45f422c4e9712dd02104e7a83c60d72af38badd1f9e"
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "x": 591,
+            "y": 0,
+            "width": 296,
+            "height": 443
+          },
+          "placement": {
+            "left": 20,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "d9e14b106e2518a6d2a7dd7772e5e73f9e9fe87af9e8d01a3929b2c8791dedde"
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "x": 887,
+            "y": 0,
+            "width": 295,
+            "height": 443
+          },
+          "placement": {
+            "left": 21,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "184234a050fe54370a8d9b4ffa4a102c893a7f8457183fe1b95988dccae61874"
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "x": 0,
+            "y": 443,
+            "width": 296,
+            "height": 444
+          },
+          "placement": {
+            "left": 20,
+            "top": 105
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "8e7d182b718acb7a5257203c8be5222405384d9f63c4a5e383c0fd1255fa3258"
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "x": 296,
+            "y": 443,
+            "width": 295,
+            "height": 444
+          },
+          "placement": {
+            "left": 21,
+            "top": 105
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "ba7acadf36c3fc0a3301d7f5a5eaecc31da439b00ab7f52cc6d7c204a95b84c3"
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "x": 591,
+            "y": 443,
+            "width": 296,
+            "height": 444
+          },
+          "placement": {
+            "left": 20,
+            "top": 105
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "1469f8b136922af6f52516a74f673cdd58d9ec6b2a1916b8bdbb801c601353e8"
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "x": 887,
+            "y": 443,
+            "width": 295,
+            "height": 444
+          },
+          "placement": {
+            "left": 21,
+            "top": 105
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "a4e8f0c24d2231bfcce61b8646ea4e9f53ae8c2f48d099593c1086b15ac704c5"
+        },
+        {
+          "index": 8,
+          "sourceRect": {
+            "x": 0,
+            "y": 887,
+            "width": 296,
+            "height": 443
+          },
+          "placement": {
+            "left": 20,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "8b7dce6ad0012166d283c09678173b14901cadbed37a0887cc8f5102e983039c"
+        },
+        {
+          "index": 9,
+          "sourceRect": {
+            "x": 296,
+            "y": 887,
+            "width": 295,
+            "height": 443
+          },
+          "placement": {
+            "left": 21,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "0380f3bf6a7d1a2accad87bc6371725e75b3e29da051ef6aca293276d19a7f1d"
+        },
+        {
+          "index": 10,
+          "sourceRect": {
+            "x": 591,
+            "y": 887,
+            "width": 296,
+            "height": 443
+          },
+          "placement": {
+            "left": 20,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "48b25437e6753be7cc4433b1f4adf874453c12dde8237be98c979c1a6dd64249"
+        },
+        {
+          "index": 11,
+          "sourceRect": {
+            "x": 887,
+            "y": 887,
+            "width": 295,
+            "height": 443
+          },
+          "placement": {
+            "left": 21,
+            "top": 106
+          },
+          "uniformScale": 1.1641285956006768,
+          "sha256": "a8ec420ac7fdc3152a6bcc66c6795b862fb7438e8158f86a859f936b824f9b85"
+        }
+      ],
+      "sha256": "31a5635e141f99906c630ee5cdbe018b8c1727d72801f629e571faeb51db387e",
+      "source": {
+        "file": "preview/z-body-thunder-v3/assets/blade-source.png",
+        "sha256": "3c4e688545390542357361d92623b29bdde172451390e8087db31b4df54b1fc0",
+        "width": 1182,
+        "height": 1330
+      }
+    },
+    "ground": {
+      "url": "/assets/ui/project-v/account-battle-suits/z-thunder-v3/ground-atlas.png",
+      "columns": 4,
+      "rows": 3,
+      "frameWidth": 512,
+      "frameHeight": 384,
+      "pivot": {
+        "x": 256,
+        "y": 270
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "4be6bdbcac74f705e7f1e9eb9bd454efeab5621d78b9d7122910e0bfd35b48cc"
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "5096cd18b9a44d03d6c6205b7519432af700ae77a261c323e86a1caad10aa9ed"
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "dca1a155849845cca9843b4a0e187ce49d24051f80964244b5dd1ceb10b46450"
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "8a223b639430c885d5094f2384e67c0de42e5f9575bdd3183023c6ae033ea7b2"
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "b44e3004a7bc6cfc8c5237b061b3c727493107be75443e14fa14e85593ffab58"
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "74bce24624e84d3c34efa422844fd9caf7654313b39cd4d512bf5610d3c59f8a"
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "1064a4622bf1d47104dbe08e5942425e1bd296d48d9061efb17b416cee1c55b0"
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "8c9567526c97d2868a2bb0fec28376cb30a43f52d6e10bd6136865563b823a12"
+        },
+        {
+          "index": 8,
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "e0f49339113ab27b1c40328bbac43d09a4c14b5cab3f8071fee90b170dbc6c1d"
+        },
+        {
+          "index": 9,
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "31be45abcf987732f0e670bd45fcc3c7a417882ee0435244f430c1a4561b1979"
+        },
+        {
+          "index": 10,
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "19624cc839298e7769a97b83f932c4702f970fb74ccf0e608e0d2cb9e821aa31"
+        },
+        {
+          "index": 11,
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 84,
+            "top": 19
+          },
+          "uniformScale": 0.9502762430939227,
+          "sha256": "cc2ea418d8de4363803f8fe85b2c67dc3084776aa26ed2269471866c9c1f4d14"
+        }
+      ],
+      "sha256": "156f1ce5f1fb497f557c9aaf449a73f729ac742f8892599922eb6ddaf6a94095",
+      "source": {
+        "file": "preview/z-body-thunder-v3/assets/ground-source.png",
+        "sha256": "16da699047ce3698696e863e582e02ff3b00701eece1add76dd0f181f8c79bda",
+        "width": 1448,
+        "height": 1086
+      }
+    }
+  },
+  "approval": {
+    "date": "2026-09-26",
+    "userMessage": "ㅇㅋ 전체 승인"
+  },
+  "runtime": "preview/project-v-v3/source/battle/ZBodyThunderFX.js"
+}

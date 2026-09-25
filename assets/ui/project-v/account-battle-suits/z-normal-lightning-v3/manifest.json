@@ -1,12 +1,12 @@
 {
   "version": "Z_NORMAL_LIGHTNING_V3_20260926",
-  "status": "USER_APPROVED_PREVIEW",
-  "liveEnabled": false,
+  "status": "USER_APPROVED_LIVE",
+  "liveEnabled": true,
   "generation": "built-in image_gen",
   "packaging": "Sharp 0.35.2; cell extraction, uniform resize and transparent padding only. Original alpha preserved.",
   "atlases": {
     "wake": {
-      "url": "/preview/z-body-thunder-v3/assets/normal-lightning-wake-atlas.png",
+      "url": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-wake-atlas.png",
       "columns": 4,
       "rows": 3,
       "frameWidth": 512,
@@ -199,14 +199,14 @@
       ],
       "sha256": "f1af7e72acdbcf8ca82ae277d32b9181d816c4f0f00cb8974860ab5d9a83ba14",
       "source": {
-        "file": "assets/normal-lightning-wake-source.png",
+        "file": "preview/z-body-thunder-v3/assets/normal-lightning-wake-source.png",
         "sha256": "901947979abf9962a1df5537d30e33377efe46aedce717daa5a5c1b49a2b6197",
         "width": 1448,
         "height": 1086
       }
     },
     "slash": {
-      "url": "/preview/z-body-thunder-v3/assets/normal-lightning-slash-atlas.png",
+      "url": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-slash-atlas.png",
       "columns": 4,
       "rows": 3,
       "frameWidth": 512,
@@ -399,14 +399,14 @@
       ],
       "sha256": "e2c5d63729c286821b09449cfd041274d8cf806672247859620b66c8b25b3640",
       "source": {
-        "file": "assets/normal-lightning-slash-source.png",
+        "file": "preview/z-body-thunder-v3/assets/normal-lightning-slash-source.png",
         "sha256": "04fdd4c52fb351b6e40f69667563c11249cd95120ca71bb0ea78827561a5882d",
         "width": 1448,
         "height": 1086
       }
     },
     "impact": {
-      "url": "/preview/z-body-thunder-v3/assets/normal-lightning-impact-atlas.png",
+      "url": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-impact-atlas.png",
       "columns": 4,
       "rows": 3,
       "frameWidth": 512,
@@ -599,14 +599,14 @@
       ],
       "sha256": "890a00bbd6f46cab9df51f1573d5cf5df964ad51acacb5fe57e6cd4b03526ae0",
       "source": {
-        "file": "assets/normal-lightning-impact-source.png",
+        "file": "preview/z-body-thunder-v3/assets/normal-lightning-impact-source.png",
         "sha256": "ef7a78d4eca6b9a3e3d73a55fca921c030b804be13b9305edb5043b16bd21e81",
         "width": 1448,
         "height": 1086
       }
     },
     "surge": {
-      "url": "/preview/z-body-thunder-v3/assets/normal-lightning-surge-atlas.png",
+      "url": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-surge-atlas.png",
       "columns": 4,
       "rows": 3,
       "frameWidth": 512,
@@ -799,11 +799,16 @@
       ],
       "sha256": "de25c703304f75f9448bab46c9ded29b8bae6e651120256211884785908b48a8",
       "source": {
-        "file": "assets/normal-lightning-surge-source.png",
+        "file": "preview/z-body-thunder-v3/assets/normal-lightning-surge-source.png",
         "sha256": "145835eb6e4c3870da4303dd342ed16ac777ac9590a1e11363f7f28fbcf698e8",
         "width": 1448,
         "height": 1086
       }
     }
-  }
+  },
+  "approval": {
+    "date": "2026-09-26",
+    "userMessage": "ㅇㅋ 전체 승인"
+  },
+  "runtime": "preview/project-v-v3/source/battle/ZBodyNormalFX.js"
 }

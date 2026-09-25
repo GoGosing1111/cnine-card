@@ -1,7 +1,7 @@
 import {skillChipByCode,createSkillChipSchedule} from './battle-suit-skill-chips.mjs';
 
-// The replacement art must be reviewed before this gate is enabled.
-export const Z_BODY_AREA_RELEASE_ENABLED=false;
+// 2026-09-26: user approved the complete Z-body lightning effect package.
+export const Z_BODY_AREA_RELEASE_ENABLED=true;
 // JSON/API payloads cannot opt into a review build using this process-local key.
 export const Z_BODY_AREA_REVIEW=Symbol('Z_BODY_AREA_REVIEW_20260926');
 const helicopter=skillChipByCode('SKILL_CHIP_HELICOPTER_AIRSTRIKE');

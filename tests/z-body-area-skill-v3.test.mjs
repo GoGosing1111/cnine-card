@@ -10,10 +10,10 @@ const monster={id:68,battle_power:300000,is_boss:1,pve_hp_percent:1200,pve_attac
 const run=(options={})=>createPveBattleV2({cards,battleSuit:suit,monster,seed:2011,...options});
 const cast=result=>result.timeline.find(e=>e.chipCode===SKILL.code&&e.type==='SKILL_CHIP_CAST');
 
-test('review is inaccessible through JSON and the production gate remains off',()=>{
-  assert.equal(Z_BODY_AREA_RELEASE_ENABLED,false);
-  assert.equal(cast(run().result),undefined);
-  assert.equal(cast(run({zAreaReview:true}).result),undefined);
+test('approved production gate enables Z intrinsically without a chip or JSON opt-in',()=>{
+  assert.equal(Z_BODY_AREA_RELEASE_ENABLED,true);
+  assert.ok(cast(run().result));
+  assert.deepEqual(run({zAreaReview:false}),run());
   assert.deepEqual(normalizeSkillChipCodes([SKILL.code]),[]);
   for(const code of ['BATTLE_SUIT_H_BODY','BATTLE_SUIT_S_BODY']){
     assert.equal(cast(run({[REVIEW]:true,battleSuit:{...suit,code}}).result),undefined);
