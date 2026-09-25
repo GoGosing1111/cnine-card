@@ -31,3 +31,11 @@
 - 직전 운영 배포는 Cloudflare 목록의 `3e94b425-7071-400d-9c02-8e761a35a250`, 소스 `abf8d0898e9e4af04c8562387ac3ab0d8bf38a0c`로 확인했다.
 - 변경 영향은 붕괴 코어 보상/CMS/결과 UI로 한정된다. 기존 공통 DB·트랜잭션·인증 기반, 스키마, 의존성, 전투는 변경하지 않는다. `docs/scoped-release-policy-20260923.md`에 따라 scoped 배포에서 `test:core-raid`와 `check:worker`, 출시/캐시/Hyperdrive 검사를 수행한다. 신규 보상 검사는 `test:core-raid`에 포함했다.
 - 지정 배포 명령: `npm run deploy:production -- --scoped`. 배포 후에는 변경 파일과 새 API 권한 경로만 짧게 확인한다. 운영 보상 지급 테스트는 수행하지 않는다.
+
+## 운영 반영 결과
+
+- 구현 커밋 `c736bd8dc63c51e0416ef541ef770428bd2b3276`을 `origin/main`에 반영했다. 관련 검사 96개, Worker 컴파일, 출시 검증, Hyperdrive 캐시 OFF 및 Pages/clan-draft 바인딩 일치를 통과했다.
+- Pages 운영 배포 `https://1148ef1c.cnine-card.pages.dev`, clan-draft 버전 `73fff33d-9d0f-46eb-9a17-2c4d195e3a52`로 배포를 완료했다.
+- 운영 대표 주소 `https://cnine-card.pages.dev`에서 메인/CMS HTML·로더·선택 UI/CMS 모듈·CSS·정책 등 변경 파일 10개의 HTTP 200과 로컬 배포 파일의 SHA-256 일치를 확인했다. `.mjs`는 JavaScript MIME으로 제공된다.
+- 새 `/api/admin/raid/core/rewards`의 비로그인 요청은 관리자 로그인 필요(401)로 차단됨을 확인했다. 실제 관리자 저장과 계정 보상 지급 검수는 격리 DB에서 완료했으며 운영 계정에 검수 보상을 지급하지 않았다.
+- 운영 설정을 쓰지 않았으므로 추가 보상은 최초 OFF/최소 수량 미입력이다. 사용자가 레이드 CMS에서 최소량·후보를 설정하고 ON으로 저장하면 새 봉인부터 활성화된다.
