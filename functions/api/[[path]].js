@@ -66,6 +66,7 @@ import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop,ensureWorkshopFoundation } from '../_workshop.js';
 import { BATTLE_SUIT_CORE_CODES, ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
+import { EMPEROR_ENERGY_ITEM, ensureEmperorEnergyCatalog } from '../_emperor_energy.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
 import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_reward_batch.js';
 import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
@@ -5545,6 +5546,7 @@ async function handleRequest(context){
       await ensureUniqueAdvancementPassCatalog(env);
       const blackMiracleUseEnabled=(await blackMiracleSettings(env)).enabled===true;
       await ensureMysticEnergyCatalog(env);
+      await ensureEmperorEnergyCatalog(env);
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
           CASE WHEN i.category='SKILL_CHIP' THEN 0 WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code IN ('CORE_RAID_ENTRY_TICKET','PINGDU_WISH_TICKET','PINGDU_OLD_AXE','CHUSEOK_COIN') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
@@ -8458,6 +8460,7 @@ async function handleRequest(context){
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
         if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)await ensureUniqueAdvancementPassCatalog(env);
         if(BATTLE_SUIT_CORE_CODES.includes(itemCode))await ensureBattleSuitCoreCatalog(env);
+        if(itemCode===EMPEROR_ENERGY_ITEM.code)await ensureEmperorEnergyCatalog(env);
         if(itemCode==='CORE_RAID_ENTRY_TICKET'){
           await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
             VALUES('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','CORE PROTOCOL ENTRY','붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.','ENTRY_TICKET','ZENITH','assets/items/core-raid-entry-ticket-v1.png',126,1)

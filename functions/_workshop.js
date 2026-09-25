@@ -1,5 +1,6 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
+import { ensureEmperorEnergyCatalog } from './_emperor_energy.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {WORKSHOP_EXTENSION_CATEGORIES, validateWorkshopExtension} from '../shared/workshop-extension-contract-v1.mjs';
 const forgeSynthesisFilter=V3_JOINT_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
@@ -354,6 +355,7 @@ async function synthesizeEquipment(env,user,body){
 }
 
 async function adminSnapshot(env,user){
+  await ensureEmperorEnergyCatalog(env);
   const [recipes,vehicles,equipment,items,logs,synthesisRecipes,synthesisLogs]=await Promise.all([
     recipeRows(env,{admin:true}),
     env.DB.prepare('SELECT id,code,name,rarity,image_url FROM character_garage_items WHERE is_active=1 ORDER BY sort_order,id').all(),

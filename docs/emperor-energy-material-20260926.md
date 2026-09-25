@@ -1,0 +1,36 @@
+# 엠퍼러 에너지 재료 — 2026-09-26
+
+사용자 요청: 미스틱 에너지의 상위 엠퍼러 에너지 리소스를 만들고 재료 아이템으로 추가한다.
+
+## 등록 내용
+
+- 코드 `EMPEROR_ENERGY`, 이름 `엠퍼러 에너지`, 부제 `EMPEROR ENERGY`.
+- 분류 `MATERIAL`, 등급 `EMPEROR`, 활성 재료 목록 등록. 정렬 174901로 미스틱 에너지(174900) 다음에 배치한다.
+- 인벤토리 API와 제작소 CMS 조회, 해당 아이템 관리자 지급 요청에서 동일한 등록 함수를 사용한다.
+- 기존 재료와 같이 직접 사용은 불가하다. 미보유 상태에서는 `보유한 아이템만` 필터를 해제해 확인한다.
+- 이번 요청은 재료 등록이다. 제작 레시피·비용·성공 확률·드롭·상점·보상 풀·유저 지급은 추가하지 않는다.
+- 기존 행이 있으면 CMS 설정을 보존한다. 등록과 완료 표식을 하나의 트랜잭션으로 저장하며, 실패한 등록은 다시 시도할 수 있다. 완료 표식은 DB별 30분 캐시로 반복 조회를 줄인다.
+- 인벤토리 등급순에서 `EMPEROR`는 `MYTHIC` 바로 위다. 엠퍼러 표기는 황금색이다.
+
+## 리소스
+
+내장 imagegen으로 생성. [실제 프롬프트](art-prompts/emperor-energy-v1.txt).
+
+- 원본: `assets/items/emperor-energy-v1.png`, 1254×1254 RGBA, 1,533,273 bytes. 생성 원본을 그대로 보존한다.
+- 런타임: `assets/items/emperor-energy-v1.webp`, 512×512 RGBA, 79,484 bytes. Sharp 균일 축소 + WebP quality 90, alpha quality 100.
+- PNG SHA-256: `C82868130E7C3129BC0DEFDD89716921341D336A02B6FD0E65E8A90976374818`.
+- WebP SHA-256: `3054E7C2DB08E637EABBC1B4049CFE2BBD57F4FC6B1A26B8C41D3F00C6E78658`.
+
+## 범위 검수·배포
+
+- 분류: 작은 변경. 아이템 한 종의 등록·표시이며 DB 스키마, 인증, 거래 공통 기반, 의존성 변경이 없다.
+- 작업 기준: `2c1e95bb13d87f559ee5c3e4950ca35c9da2b0bf` (`origin/main`).
+- 직전 운영 배포: `830ce03a-7a86-41b7-9619-15514d52ff68`, 커밋 `20142a8ade5953ab04b81715e97925c676785fdb`. Cloudflare production deployment 목록에서 확인했다.
+- 직전 운영 이후 이미 main에 있던 변경은 원화·독립 프리뷰·문서이며 게임 실행 코드 변경은 없다. 이번 배포에 포함되지만 신규 용병 연결·활성화는 추가하지 않는다.
+- 로컬 실제 게임 인벤토리 UI: 1440×1000, 390×844에서 재료 필터, 등급 표시, 이미지, 상세, 검색, 미보유 표시와 사용 비활성 확인. 가로 넘침·깨진 이미지·브라우저 예외 0. 캡처와 보고서는 작업 트리 바깥 `../qa-emperor-energy/`에 보관한다.
+- 배포 명령: `npm run deploy:production -- --scoped`.
+- `SCOPED_DEPLOY_BASE`: 위의 직전 운영 커밋 전체 SHA.
+- `SCOPED_DEPLOY_TESTS`: `["tests/emperor-energy-20260926.test.mjs","tests/inventory-ui-v2125.test.mjs","tests/workshop-mystic-energy-v1931.test.mjs","tests/equipment-synthesis-material-v2008.test.mjs"]`.
+- `SCOPED_DEPLOY_CHECKS`: `["check:worker"]`.
+- 선정 이유: 새 재료의 중복·재시도 등록, 원본 및 런타임 알파, 인벤토리 분류·사용 제한·등급순, 기존 미스틱 제작과 추가 합성 재료 회귀를 확인한다. 최종 테스트는 배포 과정에서 한 번 실행한다.
+- 인벤토리 CSS 및 app 로더의 `inventory` 캐시 키를 `20260926-emperor-energy`로 갱신한다. 기존 앱/서비스 워커 공통 버전은 유지한다.

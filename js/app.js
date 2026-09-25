@@ -3990,7 +3990,7 @@ function inventoryView(){
 }
 const inventoryUiState={owner:null,items:[],filter:'ALL',query:'',sort:'DEFAULT',ownedOnly:true,newOnly:false,selectedCode:'',request:0};
 const INVENTORY_GROUPS=[['ALL','전체'],['PACK','팩·상자'],['MATERIAL','재료'],['ENTRY_TICKET','입장권'],['SKILL_CHIP','스킬칩'],['REROLL','재뽑기권'],['OTHER','기타']];
-const INVENTORY_RARITIES={MAGIC:['마법',.5],HIGH:['고급',1],SPECIAL:['특수',1],PREMIUM:['프리미엄',4],PRIME:['프라임',4],NORMAL:['일반',0],COMMON:['일반',0],RARE:['희귀',1],EPIC:['영웅',2],LEGENDARY:['전설',3],MYTHIC:['신화',4],MA:['MA',5],LIMITED:['LIMITED',6],PRESTIGE:['PRESTIGE',7],SUPERSTAR:['SUPERSTAR',8],FUR:['FUR',9]};
+const INVENTORY_RARITIES={MAGIC:['마법',.5],HIGH:['고급',1],SPECIAL:['특수',1],PREMIUM:['프리미엄',4],PRIME:['프라임',4],NORMAL:['일반',0],COMMON:['일반',0],RARE:['희귀',1],EPIC:['영웅',2],LEGENDARY:['전설',3],MYTHIC:['신화',4],EMPEROR:['엠퍼러',4.5],MA:['MA',5],LIMITED:['LIMITED',6],PRESTIGE:['PRESTIGE',7],SUPERSTAR:['SUPERSTAR',8],FUR:['FUR',9]};
 function inventoryIcon(name){const paths={box:'<path d="m3 7 9-4 9 4v11l-9 4-9-4Z M3 7l9 4 9-4M12 11v11M7 5l9 4"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',refresh:'<path d="M20 10a8 8 0 1 0-1 7M20 4v6h-6"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>'};return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${paths[name]||paths.box}</svg>`;}
 function inventoryItemGroup(item){
   const category=String(item.category||'').toUpperCase(),code=String(item.code||'').toUpperCase();
