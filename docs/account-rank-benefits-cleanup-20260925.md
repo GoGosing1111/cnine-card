@@ -7,3 +7,5 @@
 - 검수 화면과 보고서: 배포 루트 밖 `../qa-account-rank-benefits/`. 모듈 문법과 생성 로비 소스 일치 검사 통과.
 - 직전 실제 운영 배포는 Wrangler에서 확인한 `5c9642d6-f33b-457a-816e-18bb44ea8ede`, 소스 `7d0ec46837d6ee86143f8f641c5285fdef12c5c7`이다.
 - 작은 UI 수정이므로 `npm run deploy:production -- --scoped`. 최종 PC/모바일 검수를 반복하지 않고 게이트는 `tests/adventure-lobby-menu-separation.test.mjs`로 공용 로비 연결을 확인한다. 서버/DB/인증/의존성 변경이 없어 전체 게임 검사와 별도 서버 거래 검사를 추가하지 않는다. 기존 clean/main·출시·캐시·Hyperdrive 검사 유지.
+
+운영 완료: 소스 `5e39f657`, Pages `38c5dfa4` (https://38c5dfa4.cnine-card.pages.dev), clan-draft `79a6aef0-fa47-4d92-b5c6-bdf227e6cc9f`. 관련 회귀 3개와 지정 배포 검사를 통과했다. 운영 기본 주소의 메인 HTML·계급 모듈·로비 번들 3개가 로컬과 SHA-256 일치한다. 완료 기록만 후속 커밋하며 게임 재배포하지 않는다.
