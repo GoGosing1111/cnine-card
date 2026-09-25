@@ -40,7 +40,9 @@ test('PostgreSQL registers once, persists complete configuration and never chang
     const d=first.body.document;d.mercenaries[0].rank='A';d.mercenaries[0].stats.attack=700;d.mercenaries[0].acquisition={type:'QUEST',source:'최종 검수 퀘스트',coinPrice:null,dropRate:12.5};
     d.assignments[0].skillIds=['MS-021','MS-003'];d.assignments[1].skillIds=['MS-021'];d.skills[0].balance.damageRatio=2.5;d.settings.rankGrowth[0].maxLevel=30;
     const saved=await f.call(payload(d));assert.equal(saved.status,200,JSON.stringify(saved));assert.equal(saved.body.revision,2);
-    const read=await f.call();assert.deepEqual(read.body.document,d);assert.equal(read.body.audit.length,2);assert.equal(read.body.catalog.cards.length,49);
+    const queriesBefore=f.queryCount();
+    const read=await f.call();assert.equal(f.queryCount()-queriesBefore,2,'warm CMS read is config + audit only; no DDL, seed writes or catalog JSON read');
+    assert.deepEqual(read.body.document,d);assert.equal(read.body.audit.length,2);assert.equal(read.body.catalog.cards.length,49);
     assert.deepEqual(read.body.powerStandard,MERCENARY_POWER_STANDARD);assert.equal(read.body.powerStandard.basePowerByRank.SS,120000);assert.equal(read.body.document.runtimeEnabled,false);
     assert.equal((await f.rows('SELECT * FROM mercenary_cms_documents_v1')).length,2);
     assert.deepEqual(await f.rows('SELECT * FROM users'),[{id:1,coin:12345}]);assert.deepEqual(await f.rows('SELECT * FROM decks'),[{user_id:1,card_ids:'[1,2,3,4,5]',mercenary_code:null}]);

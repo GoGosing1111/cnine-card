@@ -1,4 +1,6 @@
 import { TIMING, clamp, atlasFrame, phaseAt } from './model.mjs?v=20260922';
+import { withMercenaryDeadline } from '../../shared/mercenary-loading-v1.mjs?v=20260925';
+import { FusionTextures } from './textures.mjs?v=20260925';
 
 const TAU = Math.PI * 2, GOLD = 0xe8bb72, IVORY = 0xffefc7;
 const rand = n => { const x = Math.sin(n * 72.971 + 4.127) * 43758.5453; return x - Math.floor(x); };
@@ -14,21 +16,23 @@ export const SOUND_CUES = Object.freeze([
 ]);
 
 class RecordedSound {
-  constructor() { this.enabled = false; this.buffers = new Map(); this.sources = []; this.generation = 0; this.promoted = true; }
+  constructor() { this.enabled = false; this.buffers = new Map(); this.sources = []; this.generation = 0; this.promoted = true; this.controller = new AbortController(); }
   async enable(enabled) {
     this.enabled = enabled;
     if (!enabled) { this.stop(); return false; }
     try {
       this.context ||= new (window.AudioContext || window.webkitAudioContext)();
+      await withMercenaryDeadline(async () => {
       await this.context.resume();
       await Promise.all([...new Set(SOUND_CUES.map(c => c.file))].map(async file => {
         if (this.buffers.has(file)) return;
-        const response = await fetch(AUDIO + file);
+        const response = await fetch(AUDIO + file, {signal:this.controller.signal});
         if (!response.ok) throw Error('sound');
         this.buffers.set(file, await this.context.decodeAudioData(await response.arrayBuffer()));
       }));
+      }, {timeoutMs:8000,signal:this.controller.signal});
       return this.context.state === 'running';
-    } catch { this.enabled = false; return false; }
+    } catch { this.enabled = false; this.controller.abort(); if (!this.destroyed) this.controller = new AbortController(); return false; }
   }
   stop() {
     this.generation++;
@@ -66,7 +70,7 @@ class RecordedSound {
     const projected = this.reference.time + (this.context.currentTime - this.reference.audio) * this.reference.speed;
     if (Math.abs(projected - clock.time) > .02) this.schedule(clock);
   }
-  destroy() { this.stop(); this.context?.close().catch(() => {}); }
+  destroy() { this.destroyed = true; this.enabled = false; this.controller.abort(); this.stop(); this.context?.close().catch(() => {}); }
 }
 
 export class FusionFX {
@@ -74,16 +78,19 @@ export class FusionFX {
     this.host = host; this.callbacks = callbacks; this.clock = { time: 0 }; this.ambient = { time: 0 };
     this.sound = new RecordedSound(); this.speed = 1; this.paused = false; this.active = false;
     this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.materials = []; this.generation = 0; this.rank = 'SSS';
+    this.materials = []; this.generation = 0; this.rank = 'SSS'; this.controller = new AbortController();
   }
   async init() {
     const { pixi, gsap } = globalThis.CNineUiFxVendor;
     this.pixi = pixi; this.gsap = gsap;
-    const { Application, Assets, Container, Graphics, Sprite, Rectangle } = pixi;
+    const { Application, Container, Graphics, Sprite, Rectangle } = pixi;
+    this.textures = new FusionTextures(pixi);
     this.app = new Application();
-    await this.app.init({ resizeTo: this.host, antialias: true, backgroundAlpha: 1, background: 0x080807,
-      resolution: Math.min(devicePixelRatio || 1, 1.75), autoDensity: true, preference: 'webgl', powerPreference: 'low-power' });
-    if (this.destroyed) { this.app.destroy(true, { children: true }); return this; }
+    await withMercenaryDeadline(this.app.init({ resizeTo: this.host, antialias: true, backgroundAlpha: 1, background: 0x080807,
+      resolution: Math.min(devicePixelRatio || 1, 1.75), autoDensity: true, preference: 'webgl', powerPreference: 'low-power' })
+      .then(() => { if (this.destroyed) this.disposeApp(); }), {signal:this.controller.signal});
+    if (this.destroyed) return this;
+    this.initialized = true;
     this.host.append(this.app.canvas); this.app.canvas.setAttribute('aria-hidden', 'true');
     this.app.ticker.maxFPS = this.host.clientWidth < 600 ? 45 : 60;
     this.room = new Sprite(); this.room.anchor.set(.5);
@@ -99,8 +106,8 @@ export class FusionFX {
     this.world.addChild(this.floor, this.aura, this.orbit, this.cardsLayer, this.seal, this.result, this.atlas, this.energy, this.dust);
     this.app.stage.addChild(this.room, this.shade, this.dark, this.world, this.flash);
     const [room, back, atlas, frame] = await Promise.all([
-      Assets.load(ROOT + 'sanctum-v1.png'), Assets.load(ROOT + 'sealed-contract-v1.png'),
-      Assets.load(ROOT + 'seal-bloom-atlas-v1.png'), Assets.load('/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png'),
+      this.textures.load(ROOT + 'sanctum-v1.png'), this.textures.load(ROOT + 'sealed-contract-v1.png'),
+      this.textures.load(ROOT + 'seal-bloom-atlas-v1.png'), this.textures.load('/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png'),
     ]);
     if (this.destroyed) return this;
     this.room.texture = room; this.roomTexture = room; this.seal.texture = back; this.backTexture = back; this.frame.texture = frame;
@@ -128,9 +135,15 @@ export class FusionFX {
   }
   async setCards(cards, result, {promoted = true} = {}) {
     const generation = ++this.generation;
-    const { Assets, Container, Sprite } = this.pixi;
-    const textures = await Promise.all(cards.map(c => Assets.load('/assets/ui/project-v/mercenaries/codex-v1/'+c.code.toLowerCase()+'-art-320.webp').catch(()=>Assets.load('/'+c.sourceArt))));
-    const resultTexture = result ? await Assets.load('/' + result.sourceArt) : null;
+    const { Container, Sprite } = this.pixi;
+    const art = (card,size) => this.textures.load('/assets/ui/project-v/mercenaries/codex-v1/'+card.code.toLowerCase()+'-art-'+size+'.webp')
+      .catch(error => { if (this.destroyed) throw error; return this.textures.load('/'+card.sourceArt); });
+    let textures,resultTexture;
+    try {
+      [textures,resultTexture] = await withMercenaryDeadline(Promise.all([
+        Promise.all(cards.map(c => art(c,320))), result ? art(result,640) : null,
+      ]), {signal:this.controller.signal});
+    } catch (error) { if (generation === this.generation) this.generation++; throw error; }
     if (generation !== this.generation || this.destroyed) return;
     this.cardsLayer.removeChildren().forEach(c => c.destroy({ children: true }));
     this.materials = cards.map((card, i) => {
@@ -322,8 +335,14 @@ export class FusionFX {
     if (playing) this.sound.reconcile(this.getClock());
   }
   destroy() {
+    if (this.destroyed) return;
     this.destroyed = true; this.generation++; this.timeline?.kill(); this.ambientTimeline?.kill();
-    this.resizeObserver?.disconnect(); this.sound.destroy();
+    this.controller.abort(); this.resizeObserver?.disconnect(); this.sound.destroy();
+    if (this.initialized) this.disposeApp();
+    this.frames?.forEach(frame => frame.destroy(false));
+    this.textures?.destroy();
+  }
+  disposeApp() {
     if (this.app?.renderer) this.app.destroy(true, { children: true, texture: false, textureSource: false });
   }
 }

@@ -2,6 +2,7 @@ import {readHyperOpening} from './_hyper_pack_opening.js';
 import {DRAW_MAX_BYTES,suggestedMercenaryDraw,validateMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs';
 import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
+import {readRegisteredMercenaryCms} from './_mercenary_cms_read.js';
 const catalogCodes=MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code);
 
 // Explicit user hold. Accounting schema and policy are ready; opening remains blocked.
@@ -25,6 +26,7 @@ export async function ensureMercenaryDrawCms(env,adminId){
 }
 async function readState(env){
   const row=await env.DB.prepare('SELECT * FROM mercenary_draw_config_v1 WHERE id=1').first();
+  if(!row)return null;
   const audit=(await env.DB.prepare('SELECT request_id,actor_id,revision,reason,created_at FROM mercenary_draw_audit_v1 ORDER BY revision DESC,created_at DESC LIMIT 10').all()).results;
   return {policy:validateMercenaryDraw(JSON.parse(row.payload_json)),revision:Number(row.revision),updatedBy:Number(row.updated_by),updatedAt:row.updated_at,audit,userOpeningEnabled:(await readHyperOpening(env)).mode==='ON'};
 }
@@ -55,8 +57,8 @@ export async function handleMercenaryDrawCms({path,request,env,deps}){
       body.policy=validateMercenaryDraw(body.policy,{catalogCodes});body.reason=body.reason.trim();
     }catch(error){return json({error:error instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':error.message},400);}
   }
-  await ensureMercenaryDrawCms(env,admin.id);
-  if(request.method==='GET')return json(await readState(env));
+  const state=await readRegisteredMercenaryCms(()=>readState(env),()=>ensureMercenaryDrawCms(env,admin.id),['mercenary_draw_config_v1','mercenary_draw_audit_v1']);
+  if(request.method==='GET')return json(state);
   const payload=JSON.stringify(body.policy),payloadHash=await hash(`${admin.id}:${body.expectedRevision}:${body.reason}:${payload}`);
   const prior=await env.DB.prepare('SELECT * FROM mercenary_draw_audit_v1 WHERE request_id=?').bind(body.requestId).first();
   if(prior){

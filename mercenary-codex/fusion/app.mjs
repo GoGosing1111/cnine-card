@@ -1,20 +1,25 @@
 import { escapeHtml as esc, asset, thumb, FRAME } from '../model.mjs?v=2098&art=20260915';
 import { MATERIAL_COUNT, RANKS, TIMING, nextRank, materialRows, addMaterial, autoMaterials, demoMaterials, demoResult, phaseAt } from './model.mjs?v=20260922';
-import { FusionFX } from './fx.mjs?v=20260922';
+import { FusionFX } from './fx.mjs?v=20260925-loading';
+import { withMercenaryDeadline } from '../../shared/mercenary-loading-v1.mjs?v=20260925';
 
-let vendorPromise;
+let vendorPromise,vendorAttempt=0;
 function loadVendor() {
-  if (globalThis.CNineUiFxVendor) return Promise.resolve();
-  return vendorPromise ||= new Promise((resolve, reject) => {
-    const script = document.createElement('script'); script.src = '/js/ui-fx-vendor-v2045.bundle.js?v=2045';
-    script.onload = () => resolve(); script.onerror = () => { vendorPromise = null; script.remove(); reject(Error('연출 엔진을 불러오지 못했습니다. 다시 열어 주세요.')); };
+  if (globalThis.CNineUiFxVendor?.pixi && globalThis.CNineUiFxVendor?.gsap) return Promise.resolve();
+  if (vendorPromise) return vendorPromise;
+  const script = document.createElement('script'); script.src = '/js/ui-fx-vendor-v2045.bundle.js?v=2045'+(vendorAttempt?'&fusionRetry='+vendorAttempt:'');
+  vendorPromise = withMercenaryDeadline(() => new Promise((resolve, reject) => {
+    script.onload = () => globalThis.CNineUiFxVendor?.pixi && globalThis.CNineUiFxVendor?.gsap ? resolve() : reject(Error('연출 엔진을 확인하지 못했습니다. 다시 시도해 주세요.'));
+    script.onerror = () => reject(Error('연출 엔진을 불러오지 못했습니다. 다시 시도해 주세요.'));
     document.head.append(script);
-  });
+  })).catch(error => { vendorPromise = null; vendorAttempt++; script.remove(); throw error; })
+    .finally(() => { script.onload = null; script.onerror = null; });
+  return vendorPromise;
 }
 function loadStyles() {
   if (document.getElementById('mercenaryFusionStyles')) return;
   const link = document.createElement('link'); link.id = 'mercenaryFusionStyles'; link.rel = 'stylesheet';
-  link.href = '/mercenary-codex/fusion/style.css?v=20260922-ui2'; document.head.append(link);
+  link.href = '/mercenary-codex/fusion/style.css?v=20260925-loading'; document.head.append(link);
 }
 
 const html = `<header class="fusion-head"><div class="fusion-head-main"><span class="fusion-section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="8" y="5" width="12" height="16" rx="1.5"/><path d="M5 18H4V2h12v1M11 10h6m-6 4h6m-6 4h3"/></svg></span><div><p class="fusion-kicker">용병도감<span>/</span>카드 합성</p><h2 id="fusionTitle">용병 중복 합성</h2></div></div><div class="fusion-head-actions"><span class="fusion-status-tag"><i></i>합성 준비</span><button type="button" data-action="sound" aria-pressed="false">소리 켜기</button><button type="button" data-action="close" class="fusion-close" aria-label="중복 합성 닫기">×</button></div></header>
@@ -35,10 +40,12 @@ export async function openFusion({ catalog, account, onClose } = {}) {
   let rank = rows.find(c => c.rank === 'SS')?.rank || rows[0]?.rank || 'SS';
   let resultRank = nextRank(rank);
   const stage = $('.fusion-stage'), result = $('.fusion-result'), loading = $('.fusion-loading');
-  const error = message => { const el = $('.fusion-error'); el.textContent = message || ''; el.hidden = !message; };
+  const retry = document.createElement('button'); retry.type = 'button'; retry.dataset.action = 'retry'; retry.textContent = '다시 불러오기'; retry.hidden = true;
+  $('.fusion-error').after(retry);
+  const error = (message,retryable=false) => { const el = $('.fusion-error'); el.textContent = message || ''; el.hidden = !message; retry.hidden = !message || !retryable; };
   const chosenCards = () => mode === 'demo' ? sampleCards : selection.map(code => rows.find(c => c.code === code)).filter(Boolean);
   const currentResult = () => demoResult(catalog, outcome === 'success' ? resultRank : rank);
-  const fx = new FusionFX($('.fusion-renderer'), {
+  let fx = new FusionFX($('.fusion-renderer'), {
     progress(time) {
       const title = outcome === 'failure' && time >= TIMING.impact ? time < TIMING.reveal ? '봉인의 힘이 잦아듭니다' : '계약이 다시 맺어집니다' : phaseAt(time);
       if ($('[data-stage-title]').textContent !== title) $('[data-stage-title]').textContent = title;
@@ -92,7 +99,7 @@ export async function openFusion({ catalog, account, onClose } = {}) {
     if (!fx.ready || closed) return;
     const generation = ++refreshId; loaded = false; busy = false; played = false; fx.reset();
     dialog.classList.remove('is-cinematic'); stage.classList.remove('is-playing','has-result'); result.classList.remove('is-visible'); result.setAttribute('aria-hidden','true');
-    $('.fusion-playback').hidden = true; error(''); updateControls();
+    $('.fusion-playback').hidden = true; loading.hidden = false; error(''); updateControls();
     $('[data-stage-title]').textContent = '봉인 너머, 새로운 운명이 기다립니다';
     $('[data-stage-subtitle]').textContent = '중복 카드 8장으로 완성하는 하나의 계약';
     try {
@@ -104,7 +111,7 @@ export async function openFusion({ catalog, account, onClose } = {}) {
       $('.fusion-result h3').textContent = card?.name || '';
       $('.fusion-result p').textContent = card?.title || '';
       loaded = true; loading.hidden = true; updateControls();
-    } catch { if (closed || generation !== refreshId) return; loading.hidden = true; error('카드 원화를 불러오지 못했습니다. 닫은 뒤 다시 열어 주세요.'); }
+    } catch { if (closed || generation !== refreshId) return; loading.hidden = true; error('카드 원화를 불러오지 못했습니다. 다시 불러오기를 눌러 주세요.',true); }
   }
   function selectionChanged() { renderPool(); renderTray(); void syncScene(); }
   function play() {
@@ -125,6 +132,7 @@ export async function openFusion({ catalog, account, onClose } = {}) {
   dialog.addEventListener('click', async event => {
     const b = event.target.closest('button'); if (!b) return;
     if (b.dataset.action === 'close') { close(); return; }
+    if (b.dataset.action === 'retry') { if (fx.ready && !fx.destroyed) void syncScene(); else void initialize(); return; }
     if (b.dataset.action === 'sound') {
       b.disabled = true; const enabled = await fx.sound.enable(!fx.sound.enabled);
       if (closed) return; b.disabled = false; b.setAttribute('aria-pressed', String(enabled)); b.textContent = enabled ? '소리 끄기' : '소리 켜기';
@@ -170,8 +178,17 @@ export async function openFusion({ catalog, account, onClose } = {}) {
   window.addEventListener('pagehide', close, { signal });
   document.body.style.overflow = 'hidden'; dialog.showModal();
   renderPool(); renderTray();
-  try {
-    await loadVendor(); if (closed) return; await fx.init(); if (closed) return;
-    await syncScene();
-  } catch (e) { if (!closed) { loading.hidden = true; error(e.message || '연출을 불러오지 못했습니다. 다시 열어 주세요.'); } }
+  let initializing = false;
+  async function initialize() {
+    if (initializing || closed) return;
+    initializing = true; loading.hidden = false; error('');
+    if (fx.destroyed) fx = new FusionFX($('.fusion-renderer'),fx.callbacks);
+    try {
+      await withMercenaryDeadline(loadVendor(),{signal}); if (closed) return;
+      await fx.init(); if (closed) return;
+      await syncScene();
+    } catch (e) { if (!closed) { fx.destroy(); loading.hidden = true; error(e.name === 'TimeoutError' ? e.message : '연출을 불러오지 못했습니다. 다시 불러오기를 눌러 주세요.',true); } }
+    finally { initializing = false; }
+  }
+  await initialize();
 }

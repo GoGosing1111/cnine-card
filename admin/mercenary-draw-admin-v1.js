@@ -87,7 +87,7 @@ export function createMercenaryDrawEditor({request,onRender}){
     pending??={requestId:crypto.randomUUID(),expectedRevision:state.revision,policy:structuredClone(state.policy),reason:mercenaryDrawSaveReason(state.policy,savedPolicy,reason)};
     const token=generation;busy=true;failure=false;notice='확률·수량을 운영 DB에 저장하고 있습니다.';onRender();
     try{const received=await request({method:'PATCH',body:JSON.stringify(pending)});if(token!==generation)return;state=received;savedPolicy=structuredClone(state.policy);dirty=false;pending=null;reason='';notice=`운영 확률·수량 저장 완료 · r${state.revision} · 유저 개봉 ${state.userOpeningEnabled?'ON':'OFF'}`;}
-    catch(error){if(token!==generation)return;failure=true;notice=error.name==='AbortError'?'응답 확인이 지연됩니다. 저장 결과 재확인으로 같은 요청을 확인하세요.':error.message;if(error.status&&error.status<500)pending=null;}
+    catch(error){if(token!==generation)return;failure=true;notice=error.name==='AbortError'?'응답 확인이 지연됩니다. 저장 결과 재확인으로 같은 요청을 확인하세요.':error.message;if(error.status>=400&&error.status<500)pending=null;}
     finally{if(token===generation){busy=false;onRender();}}
   }
   function mount(element){

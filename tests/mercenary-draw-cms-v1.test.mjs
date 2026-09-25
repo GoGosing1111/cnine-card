@@ -58,7 +58,9 @@ for(const mode of ['postgres','sqlite']){
       const first=await f.call();assert.equal(first.body.revision,1);assert.equal(first.body.audit.length,1);
       const policy=first.body.policy;policy.outcomes[0].chancePpm=90000;policy.outcomes[8].chancePpm=598889;policy.outcomes[6].quantity=2;
       const saved=await f.call(payload(policy));assert.equal(saved.status,200,JSON.stringify(saved));assert.equal(saved.body.revision,2);
-      const read=await f.call();assert.deepEqual(read.body.policy,policy);assert.equal(read.body.userOpeningEnabled,false);
+      const queriesBefore=f.queryCount();
+      const read=await f.call();assert.equal(f.queryCount()-queriesBefore,3,'warm draw CMS is config + audit + opening reads only');
+      assert.deepEqual(read.body.policy,policy);assert.equal(read.body.userOpeningEnabled,false);
       const audit=await f.rows('SELECT * FROM mercenary_draw_audit_v1 ORDER BY revision');assert.equal(audit.length,2);assert.deepEqual(JSON.parse(audit[1].before_json),suggestedMercenaryDraw());assert.deepEqual(JSON.parse(audit[1].after_json),policy);
       assert.equal(Number((await f.rows('SELECT coin FROM users'))[0].coin),12345);assert.equal((await f.rows('SELECT quantity FROM inventory'))[0].quantity,3);
       assert.equal((await f.rows('SELECT payload_json FROM mercenary_cms_documents_v1'))[0].payload_json,'{"rank":"user-edited"}');

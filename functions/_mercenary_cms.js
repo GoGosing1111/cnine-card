@@ -9,6 +9,7 @@ import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {MERCENARY_RANGED_BALANCE_VERSION,MERCENARY_RANGED_SUMMARY} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {MERCENARY_GUARD_BALANCE_VERSION,MERCENARY_GUARD_SUMMARY} from '../shared/mercenary-guard-balance-v1.mjs';
 import {MERCENARY_MOON_DRAW_VERSION,MERCENARY_MOON_DRAW_SUMMARY} from '../shared/mercenary-moon-draw-v1.mjs';
+import {readRegisteredMercenaryCms} from './_mercenary_cms_read.js';
 
 const tables=[
   `CREATE TABLE IF NOT EXISTS mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT NOT NULL,revision INTEGER NOT NULL,last_request_id TEXT NOT NULL,updated_by BIGINT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL)`,
@@ -29,8 +30,8 @@ export async function ensureMercenaryCms(env,adminId){
   ]);
 }
 async function readState(env){
-  const rows=(await env.DB.prepare('SELECT * FROM mercenary_cms_documents_v1 ORDER BY doc_key').all()).results;
-  const row=rows.find(r=>r.doc_key==='config'), catalog=seed.catalog;
+  const row=await env.DB.prepare("SELECT payload_json,revision,updated_at,updated_by FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first(), catalog=seed.catalog;
+  if(!row)return null;
   const audit=(await env.DB.prepare('SELECT request_id,actor_id,revision,action,created_at FROM mercenary_cms_audit_v1 ORDER BY revision DESC,created_at DESC LIMIT 20').all()).results;
   return {catalog,document:expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,catalog),revision:Number(row.revision),updatedAt:row.updated_at,updatedBy:Number(row.updated_by),audit,combatLink:MERCENARY_COMBAT_LINK,
     rangedCombat:{version:MERCENARY_RANGED_BALANCE_VERSION,description:MERCENARY_RANGED_SUMMARY,attackStyles:Object.fromEntries(catalog.cards.map(c=>[c.code,mercenaryAttackStyle(c)]))},
@@ -64,8 +65,8 @@ export async function handleMercenaryCms({path,request,env,deps}){
       body.document=validateMercenaryCms(body.document,seed.catalog);
     }catch(error){return json({error:error instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':error.message},400);}
   }
-  await ensureMercenaryCms(env,admin.id);
-  if(request.method==='GET')return json(await readState(env));
+  const state=await readRegisteredMercenaryCms(()=>readState(env),()=>ensureMercenaryCms(env,admin.id),['mercenary_cms_documents_v1','mercenary_cms_audit_v1']);
+  if(request.method==='GET')return json(state);
   const payload=JSON.stringify(body.document), payloadHash=await hash(`${admin.id}:${body.expectedRevision}:${payload}`);
   const prior=await env.DB.prepare('SELECT * FROM mercenary_cms_audit_v1 WHERE request_id=?').bind(body.requestId).first();
   if(prior){
