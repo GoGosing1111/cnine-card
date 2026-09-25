@@ -68,15 +68,28 @@ function interruptionAt(wars, session, now) {
   }
   return cutoff;
 }
-function territoryIntervals(wars, now) {
+const pauseHistoryError = () => Object.assign(Error('중단된 세력전의 영토전 종료 기록을 확인하지 못했습니다.'),{status:409});
+function pausedTerritoryIds(session) {
+  if (session?.status !== 'PAUSED') return [];
+  return [...new Set((session.pauses?.at(-1)?.territoryRoundIds || []).map(Number).filter(id => Number.isSafeInteger(id) && id > 0))];
+}
+function territoryIntervals(wars, now, session) {
+  const pausedIds = pausedTerritoryIds(session);
+  // A restart can move starts_at forward. The saved pause records which round
+  // actually interrupted play, so its original pause boundary stays immutable.
+  if (pausedIds.some(id => !wars.some(w => Number(w.id) === id && (['ACTIVE','PREPARING'].includes(w.status) || (w.status === 'FINISHED' && time(w.settled_at || w.ends_at) > session.pausedAt))))) throw pauseHistoryError();
   const intervals = wars.map(w => ({
-    start:Number.isFinite(time(w.starts_at)) ? time(w.starts_at) : now,
+    start:Math.min(Number.isFinite(time(w.starts_at)) ? time(w.starts_at) : now, pausedIds.includes(Number(w.id)) ? session.pausedAt : Infinity),
     end:['ACTIVE','PREPARING'].includes(w.status) ? Infinity : time(w.settled_at || w.ends_at),
+    territoryRoundIds:[Number(w.id)],
   })).filter(w => w.start <= now && w.end > w.start).sort((a,b) => a.start-b.start);
   const merged = [];
   for (const interval of intervals) {
     const last = merged.at(-1);
-    if (last && interval.start <= last.end) last.end = Math.max(last.end,interval.end);
+    if (last && interval.start <= last.end) {
+      last.end = Math.max(last.end,interval.end);
+      last.territoryRoundIds.push(...interval.territoryRoundIds);
+    }
     else merged.push({...interval});
   }
   return merged;
@@ -90,11 +103,11 @@ function freezeFactionTimers(state, pauseAt, duration) {
 function reconcilePauses(state, wars, now, endAt) {
   const session = state.session;
   let cursor = session.lastResumedAt ?? session.startsAt;
-  const intervals = territoryIntervals(wars,now);
+  const intervals = territoryIntervals(wars,now,session);
   if (session.status === 'PAUSED' && !intervals.some(w => w.start <= session.pausedAt && w.end > session.pausedAt))
-    throw Object.assign(Error('중단된 세력전의 영토전 종료 기록을 확인하지 못했습니다.'),{status:409});
+    throw pauseHistoryError();
   for (const war of intervals) {
-    if (war.end <= cursor) continue;
+    if (war.end <= cursor || (session.status === 'PAUSED' && war.end <= session.pausedAt)) continue;
     const pauseAt = session.status === 'PAUSED' ? session.pausedAt : Math.max(war.start,cursor);
     if (pauseAt >= session.endsAt || pauseAt >= endAt) break;
     if (session.status !== 'PAUSED') {
@@ -103,6 +116,9 @@ function reconcilePauses(state, wars, now, endAt) {
       session.pauses ||= []; session.pauses.push({startsAt:pauseAt,endsAt:null});
       factionEvent(state,{id:`pause:${session.key}:${pauseAt}`,kind:'SESSION_PAUSED',at:pauseAt});
     }
+    // Also backfill intact legacy pauses and remember overlapping rounds before
+    // any of their mutable start timestamps can be changed by an operator.
+    session.pauses.at(-1).territoryRoundIds = [...new Set(war.territoryRoundIds)].sort((a,b)=>a-b);
     if (war.end > now || war.end >= endAt) break;
     const duration = war.end-session.pausedAt;
     freezeFactionTimers(state,session.pausedAt,duration);
@@ -187,6 +203,8 @@ export async function syncFactionSessions(env, season, deps = {}) {
     const wars = rows(warsResult), activeWars = wars.filter(w => w.status === 'ACTIVE' || (w.status === 'PREPARING' && time(w.starts_at) <= now)).length;
     const roster = rows(rosterResult).map(m => ({userId:Number(m.user_id),clanId:Number(m.clan_id)}));
     const state = upgradeFactionCooldowns(JSON.parse(row.state_json)), settlements = [], opened = [], owners = rows(ownersResult);
+    const missingWars = pausedTerritoryIds(state.session).filter(id => !wars.some(w => Number(w.id) === id));
+    if (missingWars.length) wars.push(...rows(await p(env,`SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE id IN (${missingWars.map(()=>'?').join(',')})`,...missingWars).all()));
     if (!state.taxDisabledAt) {
       advanceFactionState(state, Math.min(now,policy.effectiveAt), endAt);
       state.taxDisabledAt = policy.effectiveAt;
@@ -259,7 +277,7 @@ export async function syncFactionSessions(env, season, deps = {}) {
       // Deferred windows start only after the preceding close, and always receive a fresh full 3h.
       openSlot({...queued,startsAt:now,endsAt:now+R.durationMs,deferred:true});
     }
-    const view = sessionView(state,schedule,now,season,activeWars > 0);
+    const view = sessionView(state,schedule,now,season,activeWars > 0 || state.session?.status === 'PAUSED');
     if (JSON.stringify(state) === row.state_json) return {row:{...row,state},view,policy};
     const token = crypto.randomUUID();
     // Roster fingerprint and state revision protect a delayed close against transfers and combat races.

@@ -355,6 +355,73 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} appro
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages WHERE user_id=2').first()).count),1,'participation does not carry into the deferred next round');
 });
 
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} restarted territory round resumes the original pause exactly once`,async t=>{
+ const f=await participatingFixture(t,postgres),minute=60000,pausedAt=beginning+10*minute,resumedAt=beginning+65*minute;
+ f.clock.now=pausedAt;
+ await f.p("INSERT INTO territory_war_v3_rounds VALUES(1,'ACTIVE',?,?,NULL)",new Date(pausedAt).toISOString(),new Date(resumedAt).toISOString()).run();
+ const paused=await syncFactionSessions(f.env,f.season,f.deps),before=paused.row.state;
+ // An operator restarts the SAME war with a later start while faction play is frozen.
+ await f.p("UPDATE territory_war_v3_rounds SET status='PREPARING',starts_at=? WHERE id=1",new Date(beginning+40*minute).toISOString()).run();
+ f.clock.now=beginning+30*minute;
+ const waiting=await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal(waiting.view.current.status,'PAUSED');assert.equal(waiting.view.current.remainingMs,170*minute);
+ assert.equal(waiting.view.state,'TERRITORY_WAR');
+ await f.p("UPDATE territory_war_v3_rounds SET status='FINISHED',settled_at=? WHERE id=1",new Date(resumedAt).toISOString()).run();
+ // Keep the referenced round reachable even after it falls outside the recent-32 query.
+ for(let id=2;id<=34;id++)await f.p("INSERT INTO territory_war_v3_rounds VALUES(?,'FINISHED',?,?,?)",id,new Date(beginning-2*minute).toISOString(),new Date(beginning-minute).toISOString(),new Date(beginning-minute).toISOString()).run();
+ f.clock.now=resumedAt;f.setFailure('UPDATE clan_faction_state');
+ const stored=(await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json;
+ await assert.rejects(syncFactionSessions(f.env,f.season,f.deps),/INJECTED/);
+ assert.equal((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json,stored);
+ f.setFailure('');
+ const resumed=await syncFactionSessions(f.env,f.season,f.deps),duration=resumedAt-pausedAt;
+ assert.equal(resumed.view.active,true);assert.equal(resumed.view.current.endsAt,beginning+180*minute+duration);
+ assert.equal(resumed.row.state.battles.find(b=>b.id===f.battleId).endsAt,before.battles.find(b=>b.id===f.battleId).endsAt+duration);
+ assert.deepEqual(resumed.row.state.districts.map(d=>d.owner),before.districts.map(d=>d.owner));
+ assert.deepEqual(resumed.row.state.session.participants,before.session.participants);
+ assert.deepEqual(resumed.row.state.session.pauses[0].territoryRoundIds,[1]);
+ assert.equal((await syncFactionSessions(f.env,f.season,f.deps)).view.current.endsAt,resumed.view.current.endsAt);
+ f.clock.now=resumed.view.current.endsAt;
+ await syncFactionSessions(f.env,f.season,f.deps);await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),2);
+});
+
+test('overlapping territory rounds retain their identities and wait for the final settlement',async t=>{
+ const f=await participatingFixture(t),minute=60000;
+ f.clock.now=beginning+10*minute;
+ await f.p("INSERT INTO territory_war_v3_rounds VALUES(1,'ACTIVE',?,?,NULL)",new Date(f.clock.now).toISOString(),new Date(beginning+120*minute).toISOString()).run();
+ const paused=await syncFactionSessions(f.env,f.season,f.deps);
+ // An intact legacy pause acquires evidence before any restart.
+ delete paused.row.state.session.pauses[0].territoryRoundIds;
+ await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',JSON.stringify(paused.row.state)).run();
+ f.clock.now=beginning+20*minute;
+ await f.p("INSERT INTO territory_war_v3_rounds VALUES(2,'ACTIVE',?,?,NULL)",new Date(f.clock.now).toISOString(),new Date(beginning+180*minute).toISOString()).run();
+ assert.deepEqual((await syncFactionSessions(f.env,f.season,f.deps)).row.state.session.pauses[0].territoryRoundIds,[1,2]);
+ await f.p("UPDATE territory_war_v3_rounds SET status='FINISHED',settled_at=?,starts_at=? WHERE id=1",new Date(beginning+60*minute).toISOString(),new Date(beginning+30*minute).toISOString()).run();
+ await f.p('UPDATE territory_war_v3_rounds SET starts_at=? WHERE id=2',new Date(beginning+90*minute).toISOString()).run();
+ f.clock.now=beginning+100*minute;
+ assert.equal((await syncFactionSessions(f.env,f.season,f.deps)).view.current.status,'PAUSED');
+ await f.p("UPDATE territory_war_v3_rounds SET status='FINISHED',settled_at=? WHERE id=2",new Date(f.clock.now).toISOString()).run();
+ const resumed=await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal(resumed.view.current.pausedTotalMs,90*minute);
+ assert.equal(resumed.view.current.remainingMs,170*minute);
+});
+
+test('an unrelated finished war cannot silently resume a legacy pause without its original history',async t=>{
+ const f=await participatingFixture(t),pausedAt=beginning+10*60000;
+ f.clock.now=pausedAt;
+ await f.p("INSERT INTO territory_war_v3_rounds VALUES(1,'ACTIVE',?,?,NULL)",new Date(pausedAt).toISOString(),new Date(beginning+120*60000).toISOString()).run();
+ const paused=await syncFactionSessions(f.env,f.season,f.deps);
+ delete paused.row.state.session.pauses[0].territoryRoundIds;
+ const legacy=JSON.stringify(paused.row.state);
+ await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',legacy).run();
+ await f.p("UPDATE territory_war_v3_rounds SET status='FINISHED',starts_at=?,settled_at=? WHERE id=1",new Date(beginning+40*60000).toISOString(),new Date(beginning+60*60000).toISOString()).run();
+ f.clock.now=beginning+90*60000;
+ await assert.rejects(syncFactionSessions(f.env,f.season,f.deps),/종료 기록/);
+ assert.equal((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json,legacy);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),0);
+});
+
 test('an outage spanning two completed territory wars preserves exactly three hours of play',async t=>{
  const f=await participatingFixture(t);
  for(const [id,start,end] of [[1,10,20],[2,30,60]])await f.p("INSERT INTO territory_war_v3_rounds VALUES(?,'FINISHED',?,?,?)",id,new Date(beginning+start*60000).toISOString(),new Date(beginning+end*60000).toISOString(),new Date(beginning+end*60000).toISOString()).run();

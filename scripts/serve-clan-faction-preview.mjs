@@ -24,6 +24,7 @@ const server=http.createServer(async(req,res)=>{try{
         sessionQA.now=JSON.parse(row.state_json).session.endsAt;
       }
       else if(phase==='territory')await f.p("INSERT INTO territory_war_v3_rounds VALUES(1,'ACTIVE',?,?,NULL)",new Date(sessionQA.now).toISOString(),new Date(sessionQA.now+86400000).toISOString()).run();
+      else if(phase==='territory-restart')await f.p('UPDATE territory_war_v3_rounds SET starts_at=? WHERE id=1',new Date(sessionQA.now+30*60000).toISOString()).run();
       else if(phase==='resume'){
         sessionQA.now+=3600000;
         await f.p("UPDATE territory_war_v3_rounds SET status='FINISHED',settled_at=? WHERE status='ACTIVE'",new Date(sessionQA.now).toISOString()).run();
