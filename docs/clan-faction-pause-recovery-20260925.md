@@ -26,4 +26,11 @@
 - 직전 실제 운영 기준: `05ff3a511093ac7b6642a05ab104c645800235a3` / Pages `537a8ea3-0a9a-423f-83da-d9daa1e90188`. Wrangler 운영 배포 목록으로 확인. 그 이후 기존 커밋은 개별 운영 도구·검사·기록으로 게임 실행 코드 변경 없음.
 - 작은 수정: `npm run deploy:production -- --scoped`. 선정 검사: `tests/clan-faction-sessions.test.mjs`, `tests/clan-faction-sessions-policy.test.mjs`, `tests/clan-faction-v1.test.mjs`, `tests/faction-pause-repair-20260925.test.mjs`. 선택 이유: 회차 복구와 해당 거래의 원자성·재시도, 연결된 세력전 경로에 한정된 수정. Worker·출시 플래그·캐시·Hyperdrive 검사는 지정 배포 도구에서 유지.
 
-운영 반영 결과는 배포 및 실제 복구 확인 후 이 문서에 추가한다.
+## 운영 완료
+
+- 코드 커밋 `c6433236`을 원격 main에 반영. 지정 scoped 배포에서 관련 57개 검사 통과, Worker 문법·출시 조건·Hyperdrive 캐시 OFF 검사 통과.
+- Pages: `https://206d57ab.cnine-card.pages.dev` / Clan Worker: `6fe01561-bc59-46a7-b6e3-4bc6a4bdc1ad`.
+- 복구 적용: `2026-09-25T14:23:41.614Z`, 관리자 감사 **35964**, revision `38908 → 38909`에 근거 회차 참조만 보완.
+- 이후 정상 회차 정산으로 revision **38910**, `2026-09-23:2` **SETTLED** 확인. 점령 25개 원본과 일치. 정산 영수증 1건, 보상 메시지 **62명 × 300억 코인**, 보상 행 62·서로 다른 수신자 62로 중복 없음.
+- 운영 DB에서 실제 `factionOverview` 경로를 연속 두 번 실행해 `ok:true`, 지도 25개·클랜 8개 확인. 서버 함수 시간 417ms / 203ms, 재호출 후 revision·정산 행수 동일. HTTP 네트워크 전체 지연 측정은 아님.
+- 확인 시각에는 9월 25일 두 예약 창이 이미 끝나 `CLOSED`로 정상 응답함. 임의 신규 회차 생성이나 일정 연장은 하지 않음.
