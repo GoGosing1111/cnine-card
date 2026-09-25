@@ -1,6 +1,9 @@
 {
   "checkedAt": "2026-09-25T09:09:42.894Z",
   "generator": "built-in image_gen",
+  "status": "SUPERSEDED_AFTER_USER_REPORTED_DEFECTS",
+  "userReportedDefects": ["Unnatural female arm anatomy", "Upward protruding stroke in the vowel of 숲"],
+  "supersededBy": "qa-v2.json",
   "artifact": {
     "file": "soopketmon-ranked-duo-season1-poster-v1.png",
     "bytes": 3091797,

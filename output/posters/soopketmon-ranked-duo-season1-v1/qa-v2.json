@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-09-25T09:17:09.331Z",
+  "generator": "built-in image_gen",
+  "status": "REJECTED_FIST_BUMP_POSE",
+  "userFeedback": "User rejected the fist-bump angles and requested a hand-holding pose instead.",
+  "supersededBy": "qa-v3.json",
+  "editTarget": "soopketmon-ranked-duo-season1-poster-v1.png",
+  "artifact": {
+    "file": "soopketmon-ranked-duo-season1-poster-v2.png",
+    "bytes": 2755524,
+    "width": 1024,
+    "height": 1536,
+    "sha256": "e0170cbc56432e12cc6aa85090f9e5e12b49bc89b2f3770640e6b491b3dd5f81"
+  },
+  "requestedCorrections": [
+    "Female fist-bump arm anatomy",
+    "Remove upward protrusion from ㅜ in 숲"
+  ],
+  "visualReview": {
+    "method": "Full poster plus side-by-side browser zoom inspection of original and edited regions.",
+    "logoZoom": 1.9,
+    "armZoom": 1.6,
+    "femaleArm": "Upper arm, elbow, forearm and wrist have a clearer continuous connection; the cuff and fist are aligned rather than sharply folded at the wrist.",
+    "logo": "The upward protruding stroke above the vowel bar of 숲 was removed; the glyph is separated from the nearby decorative edge.",
+    "slogan": "우리가 남이가",
+    "title": "숲켓몬 랭크전(듀오)",
+    "season": "시즌1",
+    "footer": "개막 예고",
+    "charactersAndArenaPreserved": true
+  },
+  "approval": "Assistant visual review recorded; no user approval is claimed.",
+  "handling": "Corrected native PNG copied unchanged from the built-in generator. Original V1 preserved as the edit source."
+}
