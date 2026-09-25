@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-09-25T09:21:31.504Z",
+  "generator": "built-in image_gen",
+  "editTarget": "soopketmon-ranked-duo-season1-poster-v2.png",
+  "artifact": {
+    "file": "soopketmon-ranked-duo-season1-poster-v3.png",
+    "bytes": 2692129,
+    "width": 1024,
+    "height": 1536,
+    "sha256": "8228553a94f4e04666c5f4be60ee6ea6aa4cbd908a7d61c7558370897c7307e0"
+  },
+  "userDirection": "Replace the rejected fist bump with hand holding and change the arm poses.",
+  "visualReview": {
+    "method": "Full poster inspection plus a browser zoom of both shoulder-to-hand chains and the clasp at 1.5x.",
+    "bothConnectingArmsLowered": true,
+    "manLeftHandAndWomanRightHandJoined": true,
+    "shoulderElbowForearmWristContinuityVisible": true,
+    "oldRaisedFistsRemoved": true,
+    "claspVisibleAboveSlogan": true,
+    "correctedSupVowelWithoutUpwardProtrusion": true,
+    "requestedText": [
+      "숲켓몬",
+      "랭크전(듀오)",
+      "시즌1",
+      "우리가 남이가",
+      "개막 예고"
+    ],
+    "originalCharactersCostumesAndArenaRetained": true
+  },
+  "approval": "Assistant visual review only; no user approval is claimed.",
+  "handling": "Native generated PNG copied unchanged. Earlier versions are retained as revision inputs and are not final assets."
+}
