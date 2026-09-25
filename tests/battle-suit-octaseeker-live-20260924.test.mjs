@@ -116,9 +116,14 @@ test('shared audio preserves launch/impact phases, shifted server timings and si
 });
 test('shipped consumers and lobby loader contain the new approved runtime',async()=>{
   const read=p=>readFile(new URL('../'+p,import.meta.url),'utf8');
+  const entry=await read('preview/project-v-v3/source/project-v-pixi-battle.src.js');
+  const runtime=entry.match(/runtimeVersion\s*:\s*'([^']+)'/)?.[1];
+  assert.ok(runtime,'the authored entry must expose its runtime version');
   for(const path of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','pve-v3/battle.bundle.js','preview/scrapyard-v3-v1/battle.bundle.js','preview/cow-room-v3-v1/battle.bundle.js','preview/infinite-tower-v3-v1/battle.bundle.js']){
-    const source=await read(path);assert.match(source,/SKILL_CHIP_OCTA_SEEKER/);assert.match(source,/20260924-octaseeker-v1/);
+    const source=await read(path);assert.match(source,/SKILL_CHIP_OCTA_SEEKER/);
+    assert.ok(source.includes('/preview/battle-suit-octaseeker-v1/assets/textures/'),path+' must include the approved octa effect');
+    assert.ok(source.includes(runtime),path+' must match the authored runtime');
   }
   assert.match(await read('js/app.js'),/octaseeker=20260924/);
-  assert.match(await read('js/battle-v3-live.js'),/20260924-octaseeker-v1/);
+  assert.equal((await read('js/battle-v3-live.js')).match(/const BATTLE_RUNTIME\s*=\s*'([^']+)'/)?.[1],runtime);
 });
