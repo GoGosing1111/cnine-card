@@ -62,6 +62,8 @@ test('a large linked ward is depleted in combat instead of becoming invincible b
 test('CMS tuning preserves all assignments, grades, skill rules and probabilities and refuses mechanic drift',()=>{
  const before=structuredClone(seed.document),after=applyMercenaryBalanceV2103(before,seed.catalog);
  assert.deepEqual({...after,skills:before.skills},before);assert.deepEqual(before,seed.document);
+ assert.deepEqual(after.skills.find(s=>s.id==='MS-049'),before.skills.find(s=>s.id==='MS-049'),'Cryvern keeps its separately approved tuning');
+ const unknown=structuredClone(before);unknown.skills.push({...unknown.skills[0],id:'MS-UNKNOWN'});assert.throws(()=>applyMercenaryBalanceV2103(unknown,seed.catalog),/스킬 목록/);
  for(const s of after.skills){const original=before.skills.find(x=>x.id===s.id);assert.deepEqual({...s,balance:original.balance,review:original.review},original);}
  const changed=structuredClone(before);changed.skills[0].mechanic='OTHER';assert.throws(()=>applyMercenaryBalanceV2103(changed,seed.catalog));
 });
