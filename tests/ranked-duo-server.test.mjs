@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {duoFixture} from './helpers/ranked-duo-db.mjs';
-import {pairDuoParticipants,strongestDuoCards,DUO_DEFAULTS,duoEnergy} from '../shared/ranked-duo-v1.mjs';
+import {pairDuoParticipants,strongestDuoCards,DUO_DEFAULTS,duoEnergy,duoDay} from '../shared/ranked-duo-v1.mjs';
 import {loadDuoProfiles} from '../functions/_ranked_duo_profiles.js';
 test('balanced strong+weak pairs are deterministic and respect an odd waiting participant',()=>{
  const entries=[100,90,60,10,5].map((power,i)=>({userId:i+1,power})),result=pairDuoParticipants(entries);
@@ -114,7 +114,7 @@ test('global policy revisions rebuild cached data and recent history uses two bo
 });
 
 test('last-energy pending match is discoverable and recoverable from a fresh device',async t=>{
- const f=await duoFixture(t);await f.ready();await f.p("UPDATE ranked_duo_entries_v1 SET energy=1,energy_day='2026-09-28' WHERE user_id=2").run();
+ const f=await duoFixture(t);await f.ready();await f.p('UPDATE ranked_duo_entries_v1 SET energy=1,energy_day=? WHERE user_id=2',duoDay(f.clock())).run();
  const ticket=await f.call('ranked-duo/match',{user:2,method:'POST'});f.fail('UPDATE ranked_duo_teams_v1 SET score=');
  assert.equal((await f.call('ranked-duo/fight',{user:2,method:'POST',body:{requestId:'duo-last-energy-recovery',matchToken:ticket.data.token}})).status,500);f.fail('');
  const status=await f.call('ranked-duo/status',{user:2});assert.equal(status.data.energy.current,0);assert.ok(status.data.pendingMatchId);
