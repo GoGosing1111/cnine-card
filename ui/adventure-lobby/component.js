@@ -49,7 +49,7 @@
       if(!rankButton){
         rankButton=document.createElement('button');rankButton.id='account-rank-button';rankButton.type='button';rankButton.title='계급과 혜택';
         rankButton.className='account-rank-button';
-        rankButton.addEventListener('click',async()=>{if(!global.AccountRank)await import('/js/account-rank-v1.mjs?v=2122');global.AccountRank.open();});
+        rankButton.addEventListener('click',async()=>{if(!global.AccountRank)await import('/js/account-rank-v1.mjs?v=2122&benefits=20260925');global.AccountRank.open();});
         const shortcut=root.getElementById('account-shortcut'),group=document.createElement('div');group.className='profile-summary account-identity';shortcut.className='account-name-shortcut';shortcut.before(group);group.append(shortcut,rankButton);
       }
       const accountRank=user.accountRank;

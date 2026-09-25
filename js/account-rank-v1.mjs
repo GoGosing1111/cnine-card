@@ -60,11 +60,11 @@ function presetMarkup(){
 function render(){
   if(!dialog)return;const r=current();selected=selected||rankForLevel(r?.level||1);
   dialog.dataset.level=String(r?.level||1);
-  dialog.innerHTML=`<header class="ar-head"><div><small>숲켓몬 계급</small><h2 id="ar-title">계급과 혜택</h2></div><div class="ar-current">${r?badge(r):''}</div><button type="button" data-close aria-label="계급 창 닫기">×</button></header><div class="ar-body"><nav class="ar-list" aria-label="전체 계급">${RANKS.map(x=>`<button type="button" data-rank="${x.code}" aria-pressed="${x.code===selected.code}"><img src="${art(x)}" alt="" width="40" height="40" loading="lazy"><span><b>${esc(x.name)}</b><small>Lv.${x.min}${x.max!==x.min?`–${x.max}`:''}</small></span>${r?.code===x.code?'<em>현재</em>':''}</button>`).join('')}</nav><main class="ar-main">${progressMarkup(r)}<div class="ar-detail">${detail()}</div>${presetMarkup()}</main></div><footer class="ar-footer" role="status" aria-live="polite">${r?`내 계급 · Lv.${Number(r.level)} ${esc(r.name)}`:'계급 정보를 불러오는 중입니다.'}</footer>`;
+  dialog.innerHTML=`<header class="ar-head"><div><small>숲켓몬 계급</small><h2 id="ar-title">계급과 혜택</h2></div><div class="ar-current">${r?badge(r):''}</div><button type="button" data-close aria-label="계급 창 닫기">×</button></header><div class="ar-body"><nav class="ar-list" aria-label="전체 계급">${RANKS.map(x=>`<button type="button" data-rank="${x.code}" aria-pressed="${x.code===selected.code}"><img src="${art(x)}" alt="" width="40" height="40" loading="lazy"><span><b>${esc(x.name)}</b><small>Lv.${x.min}${x.max!==x.min?`–${x.max}`:''}</small></span>${r?.code===x.code?'<em>현재</em>':''}</button>`).join('')}</nav><main class="ar-main">${progressMarkup(r)}<div class="ar-detail">${detail()}</div>${dialog.dataset.showPresets==='true'?presetMarkup():''}</main></div><footer class="ar-footer" role="status" aria-live="polite">${r?`내 계급 · Lv.${Number(r.level)} ${esc(r.name)}`:'계급 정보를 불러오는 중입니다.'}</footer>`;
 }
 async function open(showPresets=false){
   if(dialog)return;returnFocus=document.activeElement;
-  dialog=document.createElement('dialog');dialog.className='account-rank-dialog';dialog.setAttribute('aria-labelledby','ar-title');document.body.append(dialog);
+  dialog=document.createElement('dialog');dialog.className='account-rank-dialog';dialog.dataset.showPresets=String(showPresets);dialog.setAttribute('aria-labelledby','ar-title');document.body.append(dialog);
   selected=rankForLevel(current()?.level||1);render();dialog.showModal();
   dialog.addEventListener('close',()=>{dialog.remove();dialog=null;returnFocus?.focus();});
   dialog.addEventListener('click',async e=>{
@@ -85,7 +85,7 @@ async function open(showPresets=false){
   try{
     const data=await request('account-rank/status'),user=bridge()?.loadUser();if(dialog!==opened||Number(user?.serverUserId)!==uid)return;me=data.accountRank;
     if(user)bridge().saveUser({...user,accountRank:me});
-    presets=(await request('account-rank/presets')).presets;
+    if(showPresets)presets=(await request('account-rank/presets')).presets;
     if(dialog!==opened)return;selected=rankForLevel(me.level);render();if(showPresets)dialog.querySelector('.ar-presets').scrollIntoView({block:'start'});
   }catch(error){if(dialog)dialog.querySelector('.ar-footer').textContent=error.message;}
 }
