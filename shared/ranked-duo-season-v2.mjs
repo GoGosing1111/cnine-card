@@ -15,8 +15,9 @@ export const DUO_CHALLENGER={id:'challenger',name:'챌린저',rankLimit:10,color
 export const duoTierArt=id=>DUO_TIER_ART+(DUO_SCORE_TIERS.some(t=>t.id===id)||id==='challenger'?id:'bronze')+'-v2.webp';
 export function duoTiers(settings={}){
  const tiers=(settings.tiers?.length?settings.tiers:DUO_SCORE_TIERS).filter(t=>t.id!=='challenger').slice(0,20)
-  .map(t=>({id:String(t.id),name:String(t.name),min:Math.max(0,Number(t.min)||0),color:/^#[a-f0-9]{6}$/i.test(t.color)?t.color:'#c9d4e3',art:duoTierArt(t.id)})).sort((a,b)=>a.min-b.min);
- return {tiers,challenger:{...DUO_CHALLENGER,art:duoTierArt('challenger')}};
+  .map(t=>({id:String(t.id),name:String(t.name),min:Math.max(0,Number(t.min)||0),color:/^#[a-f0-9]{6}$/i.test(t.color)?t.color:'#c9d4e3',art:duoTierArt(t.id),...(t.rewardCoin!==undefined?{rewardCoin:t.rewardCoin,rewardShards:t.rewardShards??0}:{})})).sort((a,b)=>a.min-b.min);
+ const rewards=settings.challenger||settings.challengerTier;
+ return {tiers,challenger:{...DUO_CHALLENGER,art:duoTierArt('challenger'),...(rewards?.rewardCoin!==undefined?{rewardCoin:rewards.rewardCoin,rewardShards:rewards.rewardShards??0}:{})}};
 }
 export function resolveDuoTier(score,config={},rank=0){
  const {tiers,challenger}=duoTiers(config);

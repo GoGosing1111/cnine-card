@@ -5,6 +5,8 @@ import {createDuoBattleV2} from './_battle_v2_preview.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointRequestId} from './_joint_transactions.js';
 import {DUO_RECRUIT_HOURS,DUO_CHALLENGER,duoTiers,resolveDuoTier,duoUtcMs} from '../shared/ranked-duo-season-v2.mjs';
+import {DUO_WEEKLY_POLICY_KEY,DUO_BATTLE_DAYS,validateDuoPolicy} from '../shared/ranked-duo-weekly-v3.mjs';
+import {readDuoPolicy,duoVictoryWrites,DUO_WEEKLY_SCHEMA_KEY} from './_ranked_duo_economy.js';
 
 const iso=now=>new Date(now).toISOString();
 const statement=env=>(sql,...args)=>env.DB.prepare(sql).bind(...args);
@@ -14,7 +16,7 @@ const seasonGuard=(env,s,body)=>guard(env,'EXISTS(SELECT 1 FROM ranked_duo_seaso
 const seasonWrite=(env,s,body)=>[...lock(env,'SELECT id FROM ranked_duo_seasons_v1 WHERE id=? FOR UPDATE',s.id),...seasonGuard(env,s,body)];
 const fields='id,status,revision,participant_count,config_json,recruit_until,pair_cursor,pair_policy_revision,created_at';
 async function currentSeason(env){const row=await statement(env)('SELECT value FROM app_meta WHERE key=?',DUO_CURRENT_KEY).first();if(!row)return null;const s=await statement(env)(`SELECT ${fields} FROM ranked_duo_seasons_v1 WHERE id=?`,row.value).first();return s?{...s,revision:Number(s.revision),config:validateDuoConfig(JSON.parse(s.config_json))}:null;}
-const publicSeason=s=>s?{id:s.id,status:s.status,name:s.config.name,visible:s.config.visible,revision:s.revision,recruitUntil:s.recruit_until,startsAt:s.config.startsAt,endsAt:s.config.endsAt,energy:s.config.energy,score:s.config.score,automatic:s.config.automatic===true,rankedSeason:s.config.rankedSeason||null,...duoTiers(s.config),version:DUO_VERSION}:null;
+const publicSeason=s=>s?{id:s.id,status:s.status,name:s.config.name,visible:s.config.visible,revision:s.revision,recruitUntil:s.recruit_until,startsAt:s.config.startsAt,endsAt:s.config.endsAt,energy:s.config.energy,score:s.config.score,automatic:s.config.automatic===true,rankedSeason:s.config.rankedSeason||null,weekly:s.config.weekly||null,rewards:s.config.rewards||null,...duoTiers(s.config),version:DUO_VERSION}:null;
 const requireSeason=s=>{if(!s)throw duoError('NOT_CONFIGURED','듀오 시즌을 준비 중입니다.',404);return s;};
 function active(s,now){requireSeason(s);if(s.status!=='ACTIVE'||!s.config.visible||!s.config.startsAt||now<Date.parse(s.config.startsAt)||!s.config.endsAt||now>=Date.parse(s.config.endsAt))throw duoError('NOT_ACTIVE','현재 듀오 대전 기간이 아닙니다.');}
 function recruiting(s,now){requireSeason(s);if(s.status!=='RECRUITING'||!s.config.visible||now>=Date.parse(s.recruit_until))throw duoError('RECRUIT_CLOSED','현재 참가 모집 기간이 아닙니다.');}
@@ -35,7 +37,7 @@ export async function duoStatus(env,user,s,now){
  if(!s||!s.config.visible&&user.role!=='OWNER')return {season:null,notice:'듀오 시즌을 준비 중입니다.'};
  const [mine,pending,leaders]=await Promise.all([entry(env,s,user.id),statement(env)("SELECT id FROM ranked_duo_matches_v1 WHERE user_id=? AND status='PENDING'",user.id).first(),standings(env,s,DUO_CHALLENGER.rankLimit,now)]);
  const ownTeam=mine?.team_id&&!['PAIRING','PUBLISHING'].includes(s.status)?await team(env,mine.team_id):null;
- return {season:publicSeason(s),participants:Number(s.participant_count),pendingMatchId:pending?.id||null,joined:Boolean(mine),waiting:Boolean(mine&&!ownTeam),team:publicTeam(ownTeam,s.config,leaders.findIndex(t=>t.id===ownTeam?.id)+1),energy:mine?duoEnergy(mine,s.config,now):null,seed:mine?.seed_json?JSON.parse(mine.seed_json):null,serverNow:iso(now)};
+ return {season:publicSeason(s),participants:Number(s.participant_count),pendingMatchId:pending?.id||null,joined:Boolean(mine),waiting:Boolean(mine&&!ownTeam),team:publicTeam(ownTeam,s.config,leaders.findIndex(t=>t.id===ownTeam?.id)+1),energy:mine?duoEnergy(mine,s.config,now):null,seed:mine?.seed_json?JSON.parse(mine.seed_json):null,wallet:{userId:Number(user.id),coin:Number(user.coin),cardShards:Number(user.card_shards)},serverNow:iso(now)};
 }
 async function join(env,user,s,deps,now){
  recruiting(s,now);if(['OWNER','ADMIN'].includes(user.role))throw duoError('ROLE','운영 계정은 시즌 참가 대상이 아닙니다.',403);
@@ -81,9 +83,10 @@ async function adminChange(env,user,s,body,action,now){
   if(!['DRAFT','RECRUITING','READY','PAIRING'].includes(status))throw duoError('RECRUIT_STATE','경기 시작 전 추가모집만 가능합니다.');
   const hours=body.hours??DUO_RECRUIT_HOURS;if(!Number.isSafeInteger(hours)||hours<1||hours>720)throw duoError('HOURS','모집 시간을 확인하세요.',400);
   if(status==='DRAFT'&&hours!==DUO_RECRUIT_HOURS)throw duoError('HOURS','첫 참가 모집은 24시간입니다.',400);
-  if(config.automatic&&now+hours*3600000>=Date.parse(config.endsAt))throw duoError('HOURS','추가모집은 랭크전 시즌 종료 전에 마쳐야 합니다.',400);
+  if(config.automatic&&!config.weekly&&now+hours*3600000>=Date.parse(config.endsAt))throw duoError('HOURS','추가모집은 랭크전 시즌 종료 전에 마쳐야 합니다.',400);
   status='RECRUITING';until=iso(now+hours*3600000);config={...config,visible:true};cursor=0;
   if(config.automatic)config={...config,startsAt:until};
+  if(config.weekly)config={...config,startsAt:until,endsAt:iso(Date.parse(until)+DUO_BATTLE_DAYS*86400000)};
  }else if(action==='pair'){
   if(status!=='RECRUITING'||now<Date.parse(until))throw duoError('RECRUIT_OPEN','모집 종료 후 팀을 편성할 수 있습니다.');
   status='PAIRING';cursor=0;
@@ -95,6 +98,26 @@ async function adminChange(env,user,s,body,action,now){
  else throw duoError('ACTION','운영 작업을 확인하세요.',400);
  await env.DB.batch([...lock(env,'SELECT id FROM ranked_duo_seasons_v1 WHERE id=? FOR UPDATE',s.id),...seasonGuard(env,s,[p('UPDATE ranked_duo_seasons_v1 SET status=?,config_json=?,recruit_until=?,pair_cursor=?,pairing_json=?,pair_policy_revision=(SELECT revision FROM ranked_duo_policy_version_v1 WHERE id=1),revision=revision+1 WHERE id=?',status,JSON.stringify(config),until,cursor,plan,s.id),audit(env,user,`DUO_${action.toUpperCase()}`,s,{status,config,recruitUntil:until})])]);
  return {ok:true,season:publicSeason(await currentSeason(env))};
+}
+async function saveDuoPolicy(env,user,s,body){
+ const p=statement(env),row=await p('SELECT value FROM app_meta WHERE key=?',DUO_WEEKLY_POLICY_KEY).first();
+ if(!row)throw duoError('NOT_CONFIGURED','독립 자동 시즌 설정을 먼저 준비하세요.');
+ const previous=validateDuoPolicy(JSON.parse(row.value)),raw=body.policy;
+ if(!raw||raw.revision!==previous.revision)throw duoError('CONFIG_CONFLICT','운영 설정이 변경됐습니다. 새로 불러오세요.');
+ if(typeof raw.enabled!=='boolean'||typeof raw.rewards?.tierEnabled!=='boolean'||!Array.isArray(raw.tiers)||raw.tiers.length!==7||previous.tiers.some(t=>!raw.tiers.some(r=>r.id===t.id&&r.rewardCoin!==undefined&&r.rewardShards!==undefined))||raw.challenger?.rewardCoin===undefined||raw.challenger?.rewardShards===undefined)throw duoError('CONFIG','행동력·보상 설정을 모두 입력하세요.',400);
+ const next=validateDuoPolicy({...previous,revision:previous.revision+1,enabled:raw.enabled,energy:raw.energy,rewards:raw.rewards,
+  tiers:previous.tiers.map(t=>({...t,rewardCoin:raw.tiers?.find(r=>r.id===t.id)?.rewardCoin,rewardShards:raw.tiers?.find(r=>r.id===t.id)?.rewardShards})),challenger:raw.challenger});
+ const current=body.applyToCurrent===true;
+ if(current&&(!s?.config.weekly||!['RECRUITING','READY'].includes(s.status)||s.config.competitionStartedAt))throw duoError('CONFIG_LOCKED','대전 시작 후에는 다음 시즌 설정만 저장할 수 있습니다.');
+ const writes=[p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?',JSON.stringify(next),DUO_WEEKLY_POLICY_KEY),
+  audit(env,user,'DUO_WEEKLY_POLICY',s,{before:previous,after:next,applyToCurrent:current})];
+ if(current){
+  const config=validateDuoConfig({...s.config,revision:s.config.revision+1,energy:next.energy,rewards:next.rewards,tiers:next.tiers,challenger:next.challenger,weekly:{...s.config.weekly,policyRevision:next.revision}});
+  writes.push(p('UPDATE ranked_duo_seasons_v1 SET config_json=?,revision=revision+1 WHERE id=?',JSON.stringify(config),s.id));
+ }
+ const guarded=guard(env,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[DUO_WEEKLY_POLICY_KEY,row.value],writes);
+ await env.DB.batch([...lock(env,'SELECT key FROM app_meta WHERE key=? FOR UPDATE',DUO_WEEKLY_POLICY_KEY),...(current?seasonWrite(env,s,guarded):guarded)]);
+ return {ok:true,policy:next,appliedToCurrent:current};
 }
 async function pairStep(env,user,s,deps,now){
  const p=statement(env);if(!['PAIRING','PUBLISHING'].includes(s.status))throw duoError('PAIR_STATE','팀 편성 작업이 진행 중이 아닙니다.');
@@ -164,12 +187,14 @@ async function settle(env,row,lease,deps,now){
  catch(error){await refundFailedMatch(env,row,lease,now);console.error('[ranked-duo simulation cancelled]',row.id,error.message);throw duoError('CANCELLED','전투를 완료하지 못해 행동력을 돌려드렸습니다. 다시 매칭하세요.',503);}
  const win=battleV2.result.winner==='A';
  const aDelta=win?input.score.win:-input.score.loss,dDelta=win?-input.score.loss:input.score.win;
- const result={matchId:row.id,battleV2,result:win?'WIN':'LOSE',scoreChange:aDelta,attackerNames:input.battle.attackerSquads.map(s=>s.ownerName),defenderNames:input.battle.defenderSquads.map(s=>s.ownerName),createdAt:row.created_at};
+ const rewardCoin=win?Number(input.rewards?.winCoin||0):0;
+ const result={matchId:row.id,battleV2,result:win?'WIN':'LOSE',scoreChange:aDelta,rewardCoin,rewardUserId:Number(row.user_id),attackerNames:input.battle.attackerSquads.map(s=>s.ownerName),defenderNames:input.battle.defenderSquads.map(s=>s.ownerName),createdAt:row.created_at};
  const encoded=JSON.stringify(result);if(new TextEncoder().encode(encoded).length>DUO_LIMITS.logBytes)throw duoError('LOG_SIZE','전투 기록의 크기 제한을 초과했습니다.',503);
  const teams=[row.attacker_id,row.defender_id].sort();
  const writes=[...lock(env,'SELECT id FROM ranked_duo_matches_v1 WHERE id=? FOR UPDATE',row.id),...lock(env,'SELECT id FROM ranked_duo_teams_v1 WHERE id IN(?,?) ORDER BY id FOR UPDATE',...teams),...guard(env,"EXISTS(SELECT 1 FROM ranked_duo_matches_v1 WHERE id=? AND status='PENDING' AND lease_token=?)",[row.id,lease],[
   p('UPDATE ranked_duo_teams_v1 SET score=MAX(0,score+?),wins=wins+?,losses=losses+? WHERE id=?',aDelta,win?1:0,win?0:1,row.attacker_id),
   p('UPDATE ranked_duo_teams_v1 SET score=MAX(0,score+?),wins=wins+?,losses=losses+? WHERE id=?',dDelta,win?0:1,win?1:0,row.defender_id),
+  ...duoVictoryWrites(env,Number(row.user_id),rewardCoin,row.id),
   p("UPDATE ranked_duo_matches_v1 SET status='COMPLETED',response_json=?,winner=?,attacker_score_after=(SELECT score FROM ranked_duo_teams_v1 WHERE id=?),defender_score_after=(SELECT score FROM ranked_duo_teams_v1 WHERE id=?),completed_at=? WHERE id=?",encoded,battleV2.result.winner,row.attacker_id,row.defender_id,iso(now),row.id)
  ])];
  try{await env.DB.batch(writes);}catch(error){const latest=await p('SELECT status FROM ranked_duo_matches_v1 WHERE id=?',row.id).first();if(latest?.status!=='COMPLETED')throw error;}
@@ -197,7 +222,7 @@ async function fight(env,user,s,body,deps,now){
  const [a,b]=await Promise.all([team(env,ticket.team_id),team(env,ticket.opponent_id)]);if(!a||!b||a.id===b.id)throw duoError('TEAM','참가 팀을 확인하세요.');
  const profiles=await loadDuoProfiles(env,[a.user_a,a.user_b,b.user_a,b.user_b],s.config,deps,{now});
  if(profiles.some((profile,i)=>!(i<2?profile.attackReady:profile.defenseReady)))throw duoError('DECK','출전 덱이 변경됐습니다. 편성을 확인하세요.');
- const seed=crypto.getRandomValues(new Uint32Array(1))[0],input={version:DUO_VERSION,score:s.config.score,battle:{seed,singleHealerBonus:profiles[0].singleHealerBonus,attackerSquads:profiles.slice(0,2).map(p=>p.attack),defenderSquads:profiles.slice(2).map(p=>p.defense)}},id=crypto.randomUUID(),lease=crypto.randomUUID(),energy=duoEnergy(mine,s.config,now);
+ const seed=crypto.getRandomValues(new Uint32Array(1))[0],input={version:DUO_VERSION,score:s.config.score,rewards:s.config.rewards||null,battle:{seed,singleHealerBonus:profiles[0].singleHealerBonus,attackerSquads:profiles.slice(0,2).map(p=>p.attack),defenderSquads:profiles.slice(2).map(p=>p.defense)}},id=crypto.randomUUID(),lease=crypto.randomUUID(),energy=duoEnergy(mine,s.config,now);
  if(energy.current<energy.cost)throw duoError('ENERGY','듀오 행동력이 부족합니다.');
  const ids=profiles.map(p=>p.userId).sort((a,b)=>a-b),inputJson=JSON.stringify(input),conds=profiles.map(()=>'(user_id=? AND source_version=?)').join(' OR '),args=profiles.flatMap(p=>[p.userId,p.sourceVersion]);
  const newEnergy=Math.max(0,energy.current-energy.cost);
@@ -213,7 +238,7 @@ async function fight(env,user,s,body,deps,now){
    p("INSERT INTO ranked_duo_matches_v1(id,request_id,user_id,season_id,attacker_id,defender_id,status,input_json,energy_cost,lease_until,lease_token,created_at) VALUES(?,?,?,?,?,?,'PENDING',?,?,?,?,?)",id,requestId,user.id,s.id,a.id,b.id,inputJson,energy.cost,iso(now+30000),lease,iso(now))
   ]))
  ]);}catch(error){const existing=await p('SELECT * FROM ranked_duo_matches_v1 WHERE user_id=? AND request_id=?',user.id,requestId).first();if(existing)return recover(env,existing,deps,now);throw duoError('CONFLICT','다른 요청 또는 덱 변경이 감지됐습니다. 최신 상태로 다시 시도하세요.');}
- return settle(env,{id,input_json:inputJson,attacker_id:a.id,defender_id:b.id,created_at:iso(now)},lease,deps,now);
+ return settle(env,{id,user_id:user.id,input_json:inputJson,attacker_id:a.id,defender_id:b.id,created_at:iso(now)},lease,deps,now);
 }
 
 export async function handleRankedDuo({path,request,env,deps}){
@@ -225,12 +250,17 @@ export async function handleRankedDuo({path,request,env,deps}){
   let data;
   if(admin){
    const action=path.slice('admin/ranked-duo'.length).replace(/^\//,'');
-   if(request.method==='GET'&&!action){const counts=s?await p('SELECT COUNT(*) AS n,SUM(CASE WHEN team_id IS NULL THEN 1 ELSE 0 END) AS waiting FROM ranked_duo_entries_v1 WHERE season_id=?',s.id).first():null;data={season:publicSeason(s),config:s?.config||structuredClone(DUO_DEFAULTS),participants:Number(counts?.n||0),waiting:Number(counts?.waiting||0)};}
+   if(request.method==='GET'&&!action){const counts=s?await p('SELECT COUNT(*) AS n,SUM(CASE WHEN team_id IS NULL THEN 1 ELSE 0 END) AS waiting FROM ranked_duo_entries_v1 WHERE season_id=?',s.id).first():null;data={season:publicSeason(s),config:s?.config||structuredClone(DUO_DEFAULTS),policy:await readDuoPolicy(env),participants:Number(counts?.n||0),waiting:Number(counts?.waiting||0)};}
+   else if(request.method==='PATCH'&&action==='policy')data=await saveDuoPolicy(env,user,s,body);
    else if(request.method==='POST'&&action==='create')data=await adminCreate(env,user,body,s,now);
    else if(request.method==='POST'&&action==='pair-step')data=await pairStep(env,user,requireSeason(s),deps,now);
    else if(request.method==='POST'&&['recruit','pair','start','close'].includes(action)||request.method==='PATCH'&&!action)data=await adminChange(env,user,requireSeason(s),body,action||'config',now);
    else throw duoError('ROUTE','지원하지 않는 요청입니다.',405);
   }else if(path==='ranked-duo/status'&&request.method==='GET')data=await duoStatus(env,user,s,now);
+  else if(path==='ranked-duo/rewards'&&request.method==='GET'){
+   const ready=await p('SELECT value FROM app_meta WHERE key=?',DUO_WEEKLY_SCHEMA_KEY).first();
+   data={rewards:ready?(await p('SELECT r.*,s.config_json FROM ranked_duo_rewards_v3 r JOIN ranked_duo_seasons_v1 s ON s.id=r.season_id WHERE r.user_id=? ORDER BY r.credited_at DESC LIMIT 6',user.id).all()).results.map(r=>({seasonName:JSON.parse(r.config_json).name,tierName:r.tier_name,rank:Number(r.final_rank),coin:Number(r.reward_coin),shards:Number(r.reward_shards),creditedAt:r.credited_at})):[]};
+  }
   else if(path==='ranked-duo/join'&&request.method==='POST')data=await join(env,user,s,deps,now);
   else if(path==='ranked-duo/join'&&request.method==='DELETE')data=await cancel(env,user,s,now);
   else if(path==='ranked-duo/match'&&request.method==='POST')data=await match(env,user,s,deps,now);

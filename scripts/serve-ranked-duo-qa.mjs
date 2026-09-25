@@ -1,3 +1,5 @@
+import {copyRankedDuoPolicy,DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
+import {duoTiers} from '../shared/ranked-duo-season-v2.mjs';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -23,8 +25,9 @@ for(const id of [2,3,4,5,6,7]){await f.p('INSERT INTO user_mercenary_cards_v1 VA
 // All scenarios use separate in-memory databases, never an operational account.
 const scenarios={active:f,empty:await duoFixture({after(){}}),recruit:await duoFixture({after(){}})};
 for(const [id,nickname]of [[2,'별의수호자'],[3,'붉은달'],[4,'새벽을걷는여행자'],[5,'밤하늘'],[6,'은빛유성'],[7,'달빛기사']])await f.p('UPDATE users SET nickname=? WHERE id=?',nickname,id).run();
-const qaSettings=local=>({enabled:true,seasonName:'시즌 99',startsAt:new Date(local.clock()).toISOString(),endsAt:new Date(local.clock()+5*86400000).toISOString(),energy:{maxEnergy:5,rechargeMinutes:30,costPerBattle:1}});
+const qaSettings=local=>({enabled:true,seasonName:'시즌 99',startsAt:new Date(local.clock()).toISOString(),endsAt:new Date(local.clock()+5*86400000).toISOString(),energy:{maxEnergy:10,rechargeMinutes:5,costPerBattle:1},winCoin:250000,initialScore:1000,winScore:24,loseScore:16,tiers:duoTiers().tiers.map((t,i)=>({...t,rewardCoin:[100,3009,5009,10000000,750000000,1000000000,3000000000][i],rewardShards:0})),challengerTier:{rewardCoin:5000000000,rewardShards:0}});
 const settings=qaSettings(f);
+for(const local of [f,scenarios.recruit])await local.p('INSERT INTO app_meta(key,value) VALUES(?,?)',DUO_WEEKLY_POLICY_KEY,JSON.stringify(copyRankedDuoPolicy(qaSettings(local),new Date(local.clock()).toISOString()))).run();
 await reconcileDuoSeason(f.env,{settings,deps:f.deps,now:f.clock()});
 await reconcileDuoSeason(scenarios.recruit.env,{settings:qaSettings(scenarios.recruit),deps:scenarios.recruit.deps,now:scenarios.recruit.clock()});
 for(const user of [2,3,4,5,6,7])await f.call('ranked-duo/join',{user,method:'POST'});
@@ -51,7 +54,7 @@ http.createServer(async(req,res)=>{
   if(url.pathname.startsWith('/api/')){const pathname=url.pathname.slice(5);let result;if(pathname.startsWith('qa/')){
    const merc=operatingMercenaries.find(m=>m.code==='V-004'),squad=id=>({ownerId:id,ownerName:'참가자 '+id,cards:cards.map(c=>({...c,power:20000000})),mercenary:merc});
    result={status:200,data:{battleV2:pathname==='qa/pve'?createPveBattleV2({cards,mercenary:merc,monster:{id:1,name:'초원 슬라임',battle_power:20000000},seed:17}):pathname==='qa/legacy'?createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:merc,defenderMercenary:merc}):createDuoBattleV2({attackerSquads:[squad(2),squad(5)],defenderSquads:[squad(3),squad(4)],seed:42})}};
-  }else if(!pathname.startsWith('ranked-duo/')&&!pathname.startsWith('admin/ranked-duo/')&&pathname!=='admin/ranked-duo'){result={status:404,data:{error:'Local QA route only'}};}else{let body='';for await(const chunk of req)body+=chunk;result=await (scenarios[req.headers['x-duo-qa-scenario']]||f).call(pathname+url.search,{user:pathname.startsWith('admin/')?1:2,method:req.method,body:body?JSON.parse(body):{}});}
+  }else if(!pathname.startsWith('ranked-duo/')&&!pathname.startsWith('admin/ranked-duo/')&&pathname!=='admin/ranked-duo'){result={status:404,data:{error:'Local QA route only'}};}else{let body='';for await(const chunk of req)body+=chunk;result=await (scenarios[req.headers['x-duo-qa-scenario']||new URL(req.headers.referer||'http://local').searchParams.get('scenario')]||f).call(pathname+url.search,{user:pathname.startsWith('admin/')?1:2,method:req.method,body:body?JSON.parse(body):{}});}
    result??={status:404,data:{error:'Local QA route only'}};res.writeHead(result.status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(result.data));return;
   }
   const file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||fs.statSync(file).isDirectory()){res.writeHead(404);res.end('not found');return;}

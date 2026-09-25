@@ -1,0 +1,121 @@
+{
+  "environment": "Node v24.18.0 / Windows / PGlite pipeline / zero network latency",
+  "participants": 10000,
+  "teams": 5000,
+  "samples": {
+    "idle10000Participants": {
+      "n": 20,
+      "ms": {
+        "p50": 3.89,
+        "p95": 5.37,
+        "max": 5.37
+      },
+      "dbRoundtrips": {
+        "p50": 7,
+        "p95": 7,
+        "max": 7
+      },
+      "processCpuMs": {
+        "p50": 0,
+        "p95": 78,
+        "max": 78
+      }
+    },
+    "lobby5000Teams": {
+      "n": 20,
+      "ms": {
+        "p50": 5.2,
+        "p95": 36.02,
+        "max": 36.02
+      },
+      "dbRoundtrips": {
+        "p50": 5,
+        "p95": 5,
+        "max": 5
+      },
+      "processCpuMs": {
+        "p50": 0,
+        "p95": 93,
+        "max": 93
+      }
+    },
+    "freeze5000Teams": {
+      "n": 1,
+      "ms": {
+        "p50": 212.36,
+        "p95": 212.36,
+        "max": 212.36
+      },
+      "dbRoundtrips": {
+        "p50": 13,
+        "p95": 13,
+        "max": 13
+      },
+      "processCpuMs": {
+        "p50": 298,
+        "p95": 298,
+        "max": 298
+      }
+    },
+    "pay40RecipientsPerTick": {
+      "n": 250,
+      "ms": {
+        "p50": 14.76,
+        "p95": 30.81,
+        "max": 52.33
+      },
+      "dbRoundtrips": {
+        "p50": 11,
+        "p95": 11,
+        "max": 11
+      },
+      "processCpuMs": {
+        "p50": 16,
+        "p95": 32,
+        "max": 62
+      }
+    }
+  },
+  "paid": {
+    "n": 10000,
+    "coins": "100006176000",
+    "shards": "52380"
+  },
+  "chunkPlan": [
+    {
+      "QUERY PLAN": "Limit  (cost=0.28..8.30 rows=1 width=208) (actual time=0.046..0.082 rows=20.00 loops=1)"
+    },
+    {
+      "QUERY PLAN": "  Buffers: shared hit=3"
+    },
+    {
+      "QUERY PLAN": "  ->  Index Scan using ranked_duo_final_v2_season_id_final_rank_key on ranked_duo_final_v2  (cost=0.28..8.30 rows=1 width=208) (actual time=0.034..0.050 rows=20.00 loops=1)"
+    },
+    {
+      "QUERY PLAN": "        Index Cond: ((season_id = '383a2a2b-be71-46bb-8b7c-51d1639f1895'::text) AND (final_rank > 4000) AND (final_rank <= 4020))"
+    },
+    {
+      "QUERY PLAN": "        Index Searches: 1"
+    },
+    {
+      "QUERY PLAN": "        Buffers: shared hit=3"
+    },
+    {
+      "QUERY PLAN": "Planning:"
+    },
+    {
+      "QUERY PLAN": "  Buffers: shared hit=6"
+    },
+    {
+      "QUERY PLAN": "Planning Time: 0.097 ms"
+    },
+    {
+      "QUERY PLAN": "Execution Time: 0.169 ms"
+    }
+  ],
+  "notes": [
+    "Worker connection open/close, ranked settings read and heartbeat are excluded.",
+    "Embedded PostgreSQL serializes connections; production network latency and lock waits are not represented.",
+    "Each settlement transaction locks at most 40 recipient rows. CPU is the entire Node process."
+  ]
+}

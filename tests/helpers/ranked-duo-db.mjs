@@ -7,7 +7,9 @@ import {DUO_DEFAULTS} from '../../shared/ranked-duo-v1.mjs';
 import {handleRankedDuo} from '../../functions/_ranked_duo.js';
 const schema=[
  'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)',
- "CREATE TABLE users(id BIGINT PRIMARY KEY,nickname TEXT,role TEXT,status TEXT DEFAULT 'ACTIVE',banned_until TEXT)",
+ "CREATE TABLE users(id BIGINT PRIMARY KEY,nickname TEXT,role TEXT,status TEXT DEFAULT 'ACTIVE',banned_until TEXT,coin BIGINT NOT NULL DEFAULT 0,card_shards BIGINT NOT NULL DEFAULT 0)",
+ 'CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT)',
+ 'CREATE TABLE shard_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT)',
  'CREATE TABLE admin_logs(admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT)',
  'CREATE TABLE members(id BIGINT PRIMARY KEY,name TEXT)',
  'CREATE TABLE cards(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,power_type TEXT,base_power BIGINT,image_url TEXT,focus_x INTEGER,focus_y INTEGER,member_id BIGINT)',

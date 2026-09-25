@@ -2,6 +2,8 @@ import {duoLifecycle as core} from './_ranked_duo.js';
 import {prepareDuoSchema,DUO_CURRENT_KEY} from './_ranked_duo_schema.js';
 import {duoAutomaticConfig,duoSourceKey,duoUtcMs,DUO_CHALLENGER} from '../shared/ranked-duo-season-v2.mjs';
 import {validateDuoConfig} from '../shared/ranked-duo-v1.mjs';
+import {duoWeeklyConfig,DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
+import {readDuoPolicy,prepareDuoEconomy,deliverDuoTierRewards} from './_ranked_duo_economy.js';
 
 export const DUO_AUTO_SCHEMA_KEY='ranked_duo_auto_schema_v2';
 export const DUO_AUTO_SCHEMA=[
@@ -36,6 +38,10 @@ async function finish(env,s,deps,now){
   try{await core.recover(env,match,deps,now);}catch(error){if(error.code!=='DUO_CANCELLED')throw error;}
  }
  if(pending.length)return {phase:'SETTLING',nextCheckAt:iso(now+5000)};
+ if(s.config.weekly&&s.config.competitionStartedAt){
+  const progress=await p(env)('SELECT last_rank FROM ranked_duo_settlement_v3 WHERE season_id=?',s.id).first();
+  if(progress)return deliverDuoTierRewards(env,s,core,progress,now);
+ }
  // Admission is already closed. The guard also protects an in-flight reservation.
  // One indexed season snapshot, bounded by the 10,000 participant / 5,000 team cap.
  const writes=s.config.competitionStartedAt?[
@@ -50,8 +56,13 @@ async function finish(env,s,deps,now){
     ON CONFLICT(season_id,user_id) DO NOTHING`,s.id,DUO_CHALLENGER.rankLimit))
  ]:[];
  await env.DB.batch(core.seasonWrite(env,s,core.guard(env,"NOT EXISTS(SELECT 1 FROM ranked_duo_matches_v1 WHERE season_id=? AND status='PENDING')",[s.id],[
-  ...writes,p(env)("UPDATE ranked_duo_seasons_v1 SET status='CLOSED',revision=revision+1 WHERE id=?",s.id)
+  ...writes,
+  ...(s.config.weekly&&s.config.competitionStartedAt?[
+   p(env)('INSERT INTO ranked_duo_settlement_v3(season_id,last_rank) VALUES(?,0)',s.id),
+   p(env)('UPDATE ranked_duo_seasons_v1 SET revision=revision+1 WHERE id=?',s.id)
+  ]:[p(env)("UPDATE ranked_duo_seasons_v1 SET status='CLOSED',revision=revision+1 WHERE id=?",s.id)])
  ])));
+ if(s.config.weekly&&s.config.competitionStartedAt)return {phase:'SETTLING',seasonId:s.id,snapshotFrozen:true,nextCheckAt:iso(now+1000)};
  return {phase:'CLOSED',seasonId:s.id,changed:true,nextCheckAt:iso(now+1000)};
 }
 
@@ -59,13 +70,21 @@ async function finish(env,s,deps,now){
 // Each tick does at most one 12-player evaluation or one 40-team publication.
 export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
  await prepareDuoAutomation(env);
+ const policySnapshot=await readDuoPolicy(env,{snapshot:true}),policy=policySnapshot?.policy;
+ if(policy)await prepareDuoEconomy(env);
  const token=crypto.randomUUID(),claimed=await p(env)("INSERT INTO ranked_duo_scheduler_v2(id,token,lease_until) VALUES(1,?,?) ON CONFLICT(id) DO UPDATE SET token=excluded.token,lease_until=excluded.lease_until WHERE ranked_duo_scheduler_v2.lease_until<=?",token,iso(now+60000),iso(now)).run();
  if(!Number(claimed.meta?.changes))return {phase:'BUSY',nextCheckAt:iso(now+5000)};
  try{
   let s=await core.currentSeason(env);
+  if(s?.config.weekly&&!s.config.automatic&&policy&&s.status==='RECRUITING'){
+   await change(env,s,s.status,{...s.config,automatic:true},[
+    p(env)('INSERT INTO ranked_duo_auto_v2(source_key,season_id,created_at) VALUES(?,?,?) ON CONFLICT(source_key) DO NOTHING',s.config.rankedSeason.key,s.id,iso(now))
+   ]);
+   s=await core.currentSeason(env);
+  }
   if(s?.config.automatic&&s.status!=='CLOSED'){
-   const sameSource=s.config.rankedSeason.name===settings.seasonName&&duoUtcMs(settings.startsAt)===duoUtcMs(s.config.rankedSeason.startsAt);
-   if(sameSource&&Number.isFinite(duoUtcMs(settings.endsAt))&&s.config.endsAt!==iso(duoUtcMs(settings.endsAt))&&s.status!=='SETTLING'){
+   const weekly=Boolean(s.config.weekly),sameSource=weekly||s.config.rankedSeason.name===settings.seasonName&&duoUtcMs(settings.startsAt)===duoUtcMs(s.config.rankedSeason.startsAt);
+   if(!weekly&&sameSource&&Number.isFinite(duoUtcMs(settings.endsAt))&&s.config.endsAt!==iso(duoUtcMs(settings.endsAt))&&s.status!=='SETTLING'){
     const endsAt=iso(duoUtcMs(settings.endsAt)),noCompetitionWindow=endsAt<=s.config.startsAt;
     const config={...s.config,startsAt:noCompetitionWindow?null:s.config.startsAt,endsAt,rankedSeason:{...s.config.rankedSeason,key:duoSourceKey(settings),endsAt}};
     await change(env,s,noCompetitionWindow?'SETTLING':s.status,config,[p(env)('UPDATE ranked_duo_auto_v2 SET source_key=? WHERE season_id=?',duoSourceKey(settings),s.id)]);
@@ -82,7 +101,7 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
     const result=await core.pairStep(env,actor,s,deps,now);
     return {phase:result.phase,nextCheckAt:iso(now+1000)};
    }
-   if(s.status==='READY'&&now>=Date.parse(s.config.startsAt)&&settings.enabled!==false){
+   if(s.status==='READY'&&now>=Date.parse(s.config.startsAt)&&(weekly||settings.enabled!==false)){
     const teams=(await p(env)('SELECT id FROM ranked_duo_teams_v1 WHERE season_id=? LIMIT 2',s.id).all()).results;
     if(teams.length<2)return {phase:'INSUFFICIENT_TEAMS',nextCheckAt:iso(now+60000)};
     await change(env,s,'ACTIVE',{...s.config,competitionStartedAt:iso(now)});
@@ -92,11 +111,13 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
   }
   // Never replace a manually started competition while its participants play.
   if(s&&s.status!=='CLOSED')return {phase:'MANUAL',nextCheckAt:iso(now+60000)};
-  const config=duoAutomaticConfig(settings,now,s?.config);
-  if(!config)return {phase:'WAITING_RANKED_SEASON',nextCheckAt:iso(now+60000)};
+  const config=policy?(policy.enabled?duoWeeklyConfig(policy,s?now:Date.parse(policy.anchor),Number(s?.config.weekly?.sequence||0)+1):null):duoAutomaticConfig(settings,now,s?.config);
+  if(!config)return {phase:policy?'WAITING_DUO_POLICY':'WAITING_RANKED_SEASON',nextCheckAt:iso(now+60000)};
   if(await p(env)('SELECT season_id FROM ranked_duo_auto_v2 WHERE source_key=?',config.rankedSeason.key).first())return {phase:'CLOSED',nextCheckAt:iso(now+60000)};
   const id=crypto.randomUUID(),valid=validateDuoConfig(config);
   await env.DB.batch(core.guard(env,s?'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)':'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',s?[DUO_CURRENT_KEY,s.id]:[DUO_CURRENT_KEY],[
+   ...(policy&&env.DB.dialect==='postgres'?[p(env)('SELECT key FROM app_meta WHERE key=? FOR SHARE',DUO_WEEKLY_POLICY_KEY)]:[]),
+   ...(policy?core.guard(env,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[DUO_WEEKLY_POLICY_KEY,policySnapshot.value],[]):[]),
    p(env)("INSERT INTO ranked_duo_seasons_v1(id,status,config_json,recruit_until,created_at) VALUES(?,'RECRUITING',?,?,?)",id,JSON.stringify(valid),valid.startsAt,iso(now)),
    p(env)('INSERT INTO ranked_duo_auto_v2(source_key,season_id,created_at) VALUES(?,?,?)',valid.rankedSeason.key,id,iso(now)),
    p(env)('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',DUO_CURRENT_KEY,id)

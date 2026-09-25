@@ -19,10 +19,10 @@ const icon=name=>'<svg class="duo-icon" viewBox="0 0 24 24" aria-hidden="true" f
 const insignia='<svg viewBox="0 0 120 130" aria-hidden="true" fill="none"><path class="duo-shield-fill" d="m60 4 43 18v54L60 121 17 76V22L60 4Z"/><path d="m60 12 35 15v46l-35 37-35-37V27l35-15Z"/><path class="duo-shield-wing" d="M10 35v43l33 35M4 51v30l22 24m84-70v43l-33 35m39-62v30l-22 24M38 26l22-9 22 9M46 93l14 15 14-15"/><path class="duo-shield-detail" d="M28 39h15m34 0h15M28 72h13m38 0h13"/></svg>';
 function style(){
  if(document.querySelector('[data-duo-style]'))return;
- const link=document.createElement('link');link.rel='stylesheet';link.href='/css/ranked-duo-v1.css?v=20260925-4';link.dataset.duoStyle='1';document.head.append(link);
+ const link=document.createElement('link');link.rel='stylesheet';link.href='/css/ranked-duo-v1.css?v=20260925-5';link.dataset.duoStyle='1';document.head.append(link);
 }
 const tierArt=(tier,size=64)=>tier?.art?'<img class="duo-tier-art" src="'+esc(tier.art)+'" alt="'+esc(tier.name)+' 듀오 문장" width="'+size+'" height="'+size+'" decoding="async">':'';
-export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
+export async function mountRankedDuo({root,api,navigate,ensureBattle,userId,onWallet=()=>{}}){
  style();let state=null,busy=false,tab='home',opponent=null,renderer=null;
  const key='ranked-duo-pending:'+userId;
  const pending=()=>{try{return JSON.parse(sessionStorage.getItem(key)||'null');}catch{return null;}};
@@ -63,7 +63,7 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
   const teamTitle=t?'함께, 더 높은 곳으로':waiting?'당신의 동료를 기다리는 중':'두 사람이 만드는 새로운 승부';
   const teamText=!s?'시즌 일정이 공개되면 참가 신청이 열립니다.':waiting?'참가 신청 완료! 모집 후 함께할 팀원이 정해집니다.':t?'팀원이 접속하지 않아도 두 덱이 함께 출전합니다.':'개별 참가 신청 후, 서로 다른 전력의 두 사람을 한 팀으로 편성합니다.';
   const waitTitle=s?.status==='SETTLING'?'최종 순위를 확정하고 있습니다':s?.status==='CLOSED'?'시즌이 종료되었습니다':waiting?'참가 신청 완료':t?'팀 편성 완료':'시즌 준비 중';
-  const waitHint=state?.seed?.ineligible?'참가 계정과 공격·방어 덱을 확인해 주세요.':s?.status==='SETTLING'?'접수된 경기를 확정하고 최종 순위를 정산 중입니다.':s?.status==='CLOSED'?'팀 랭킹과 전투 기록을 확인하세요.':waiting?'팀 편성 결과를 기다려 주세요.':t?'대전 시작 후 출전할 수 있습니다.':recruiting?'참가 현황을 확인해 주세요.':'랭크전 새 시즌에 맞춰 24시간 모집합니다.';
+  const waitHint=state?.seed?.ineligible?'참가 계정과 공격·방어 덱을 확인해 주세요.':s?.status==='SETTLING'?'접수된 경기를 확정하고 최종 순위를 정산 중입니다.':s?.status==='CLOSED'?'팀 랭킹과 전투 기록을 확인하세요.':waiting?'팀 편성 결과를 기다려 주세요.':t?'대전 시작 후 출전할 수 있습니다.':recruiting?'참가 현황을 확인해 주세요.':'24시간 모집 후 7일 동안 전투합니다.';
   const action=pending()?'<button class="duo-primary" data-duo="recover">'+icon('history')+'진행 중인 경기 확인'+icon('arrow')+'</button>':
    recruiting&&!state.joined?'<button class="duo-primary" data-duo="join">'+icon('duo')+'시즌 참가 신청'+icon('arrow')+'</button>':
    active&&t?'<button class="duo-primary" data-duo="match" '+(Number(e?.current)<Number(e?.cost)?'disabled':'')+'>'+icon('sword')+'듀오 상대 찾기'+icon('arrow')+'</button>':
@@ -71,6 +71,7 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
   const fraction=e?.maximum>0?Math.min(100,Math.max(0,Number(e.current)/Number(e.maximum)*100)):0;
   root.querySelector('[data-duo-content]').innerHTML=
    '<div class="duo-schedule"><ol aria-label="시즌 진행 단계">'+['참가 모집','팀 편성','시즌 대전'].map((label,i)=>'<li class="'+(i===step?'current':i<step?'complete':'')+'" '+(i===step?'aria-current="step"':'')+'><span>'+ (i<step?icon('check'):'0'+(i+1))+'</span>'+label+'</li>').join('')+'</ol><div class="duo-season-date">'+schedule(s,recruiting)+'</div></div>'+
+   (s?.weekly?'<div class="duo-reward-strip"><div><small>시즌 운영</small><b>24시간 모집 <i>→</i> 7일 전투</b></div><div><small>공격 승리 보상</small><b>'+fmt(s.rewards.winCoin)+' 코인</b></div><button data-duo="tiers">시즌 티어 보상 보기 '+icon('arrow')+'</button></div>':'')+
    '<div class="duo-deployment"><section class="duo-arena">'+
     '<header class="duo-arena-heading"><div><p class="duo-kicker">OUR TEAM</p><h2>우리 팀</h2></div>'+ (t?.tier?'<div class="duo-team-tier">'+tierArt(t.tier,88)+'<div><span>TEAM TIER</span><b>'+esc(t.tier.name)+'</b><small>'+ (t.rank?'시즌 '+fmt(t.rank)+'위':'팀 점수 기준')+'</small></div></div>':'')+'<div class="duo-team-score"><span>팀 점수</span><strong>'+ (t?fmt(t.score):'—')+'</strong><small>PT</small></div></header>'+
     '<div class="duo-team-pair">'+members(t,'ally')+'</div>'+
@@ -89,15 +90,15 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
     (recruiting&&waiting?'<button class="duo-text-button" data-duo="cancel">참가 신청 취소</button>':'')+'</div>'+
     '<div class="duo-combat-note">'+icon('sword')+'<p>네 사람의 모든 덱이<br><b>하나의 전장</b>에서 맞붙습니다.</p><strong>2<span>VS</span>2</strong></div></aside></div>'+
    '<details class="duo-guide"><summary>'+icon('duo')+'<span>듀오 시즌 가이드<small>모집 · 팀 편성 · 덱 최신화</small></span><b>+</b></summary>'+
-    '<div class="duo-rules"><section><span>01</span><div><h3>다른 전력, 균형 있는 한 팀</h3><p>랭크전 시즌이 열리면 24시간 동안 자동 모집합니다. 보유 카드·용병, SUPERSTAR와 FUR +13 기준, 장비의 PVP 전력을 함께 평가해 강한 전력과 성장 중인 전력을 조합합니다.</p></div></section>'+
+    '<div class="duo-rules"><section><span>01</span><div><h3>다른 전력, 균형 있는 한 팀</h3><p>각 시즌은 24시간 참가 모집 뒤 7일 동안 전투합니다. 보유 카드·용병, SUPERSTAR와 FUR +13 기준, 장비의 PVP 전력을 함께 평가해 강한 전력과 성장 중인 전력을 조합합니다.</p></div></section>'+
     '<section><span>02</span><div><h3>전투마다 최신 덱으로</h3><p>선택한 랭크전 공격 프리셋과 방어 프리셋 1을 사용합니다. 카드 강화와 장비 변경이 반영되며, 각자 일반 카드 5장과 용병 최대 1장이 함께 출전합니다.</p></div></section>'+
     '<section><span>03</span><div><h3>혼자 접속해도, 함께 출전</h3><p>팀원과 동시에 접속할 필요가 없습니다. 공격한 사람의 행동력만 사용하고 경기 결과는 두 사람의 팀 점수에 반영됩니다.</p></div></section></div>'+
-    '<p class="duo-footnote">랭크전 시즌 종료와 함께 듀오도 마감합니다. 최종 상위 10팀은 두 사람 모두 전용 트로피를 받습니다. 추가모집은 대전 시작 전에만 가능하며 미편성자는 대기합니다.</p></details>';
+    '<p class="duo-footnote">7일 전투가 끝나면 자동 정산하고 다음 시즌의 24시간 모집을 시작합니다. 최종 상위 10팀은 두 사람 모두 전용 트로피를 받습니다. 추가모집은 대전 시작 전에만 가능하며 미편성자는 대기합니다.</p></details>';
  }
- async function load(){state=await call('status');if(state.pendingMatchId)save({matchId:state.pendingMatchId});draw();if(tab!=='home')await loadTab();}
+ async function load(){state=await call('status');if(state.wallet)onWallet(state.wallet);if(state.pendingMatchId)save({matchId:state.pendingMatchId});draw();if(tab!=='home')await loadTab();}
  const empty=(glyph,title,description)=>'<div class="duo-empty">'+icon(glyph)+'<h2>'+title+'</h2><p>'+description+'</p><button class="duo-secondary" data-duo="home">시즌 로비로</button></div>';
  async function loadTab(){
-  if(tab==='tiers'){renderTiers();return;}
+  if(tab==='tiers'){await renderTiers();return;}
   const data=await call(tab);if(!root.isConnected)return;const content=root.querySelector('[data-duo-content]');
   if(tab==='ranking'){
    const ranking=data.ranking||[];
@@ -115,9 +116,10 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
     }).join('')+'</div>':empty('history','첫 경기를 기다리는 중','두 사람이 함께한 승부를 이곳에서 다시 볼 수 있습니다.'))+'</section>';
   }
  }
- function renderTiers(){
+ async function renderTiers(){
   const s=state?.season||duoTiers(),road=[...(s?.tiers||[]),...(s?.challenger?[s.challenger]:[])];
-  root.querySelector('[data-duo-content]').innerHTML='<section class="duo-honors"><div class="duo-honors-hero"><div class="duo-trophy-stage"><div></div><img src="/assets/ui/ranked-duo/challenger-trophy-v2.webp" width="512" height="512" alt="듀오 챌린저 전용 트로피"><span>DUO CHALLENGER</span></div><div class="duo-honors-copy"><p class="duo-kicker">TWO PLAYERS. ONE LEGACY.</p><h2>함께 오른 정상,<br><em>두 사람의 영예.</em></h2><p>시즌의 마지막 순간까지<br>챌린저의 자리를 지켜낸 듀오에게.</p><div class="duo-trophy-rule"><strong>최종 1–10위 팀</strong><span>팀원 두 사람에게 각각 1개<br>시즌 종료 정산 후 명함에 영구 기록</span></div><small>랭크전과 같은 티어 명칭 · 듀오 전용 문장<br>트로피는 기념 수집품이며 전투 능력치를 올리지 않습니다.</small></div></div><div class="duo-tier-road-heading"><div><p class="duo-kicker">THE ASCENT</p><h3>우리 둘의 다음 티어</h3></div><span>팀 점수 기준 · 챌린저는 상위 10팀</span></div><ol class="duo-tier-road">'+road.map((tier,i)=>'<li class="'+(tier.id===state?.team?.tier?.id?'is-current':'')+'"><span class="duo-tier-number">0'+(i+1)+'</span>'+tierArt(tier,144)+'<h4>'+esc(tier.name)+'</h4><p>'+(tier.id==='challenger'?'시즌 상위 10팀':fmt(tier.min)+' PT 이상')+'</p>'+(tier.id===state?.team?.tier?.id?'<b>우리 팀</b>':'')+'</li>').join('')+'</ol></section>';
+  root.querySelector('[data-duo-content]').innerHTML='<section class="duo-honors"><div class="duo-honors-hero"><div class="duo-trophy-stage"><div></div><img src="/assets/ui/ranked-duo/challenger-trophy-v2.webp" width="512" height="512" alt="듀오 챌린저 전용 트로피"><span>DUO CHALLENGER</span></div><div class="duo-honors-copy"><p class="duo-kicker">TWO PLAYERS. ONE LEGACY.</p><h2>함께 오른 정상,<br><em>두 사람의 영예.</em></h2><p>시즌의 마지막 순간까지<br>챌린저의 자리를 지켜낸 듀오에게.</p><div class="duo-trophy-rule"><strong>최종 1–10위 팀</strong><span>팀원 두 사람에게 각각 1개<br>시즌 종료 정산 후 명함에 영구 기록</span></div><small>랭크전과 같은 티어 명칭 · 듀오 전용 문장<br>트로피는 기념 수집품이며 전투 능력치를 올리지 않습니다.</small></div></div><div class="duo-tier-road-heading"><div><p class="duo-kicker">THE ASCENT</p><h3>우리 둘의 다음 티어</h3></div><span>팀 점수 기준 · 챌린저는 상위 10팀</span></div><ol class="duo-tier-road">'+road.map((tier,i)=>'<li class="'+(tier.id===state?.team?.tier?.id?'is-current':'')+'"><span class="duo-tier-number">0'+(i+1)+'</span>'+tierArt(tier,144)+'<h4>'+esc(tier.name)+'</h4><p>'+(tier.id==='challenger'?'시즌 상위 10팀':fmt(tier.min)+' PT 이상')+'</p>'+(s.rewards?'<div class="duo-tier-reward"><small>팀원 각각 · 시즌 정산</small><strong>'+ (s.rewards.tierEnabled?fmt(tier.rewardCoin)+' 코인':'보상 중지')+'</strong>'+(s.rewards.tierEnabled&&tier.rewardShards?'<span>카드조각 '+fmt(tier.rewardShards)+'개</span>':'')+'</div>':'')+(tier.id===state?.team?.tier?.id?'<b>우리 팀</b>':'')+'</li>').join('')+'</ol><div data-duo-reward-history></div></section>';
+  if(s.weekly){const data=await call('rewards');if(tab!=='tiers'||!root.isConnected)return;const el=root.querySelector('[data-duo-reward-history]');if(el)el.innerHTML='<div class="duo-reward-history"><h3>내 시즌 보상 기록</h3>'+(data.rewards.length?data.rewards.map(r=>'<article><div><b>'+esc(r.seasonName)+' · '+esc(r.tierName)+'</b><small>최종 '+fmt(r.rank)+'위 · '+esc(date(r.creditedAt))+' 지급</small></div><strong>'+fmt(r.coin)+' 코인'+(r.shards?'<small>카드조각 '+fmt(r.shards)+'개</small>':'')+'</strong></article>').join(''):'<p>시즌 정산이 끝나면 지급 기록이 표시됩니다. 보상은 계정에 자동으로 들어옵니다.</p>')+'</div>';}
  }
  function renderMatch(d){
   const content=root.querySelector('[data-duo-content]');
@@ -153,7 +155,7 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
    const created=await window.ProjectVBattleV3Live.createRenderer({...live,modal,data,mode:'PVP'});if(closed){created.destroy();return;}renderer=created;modal.__battleV2Renderer=renderer;
    await renderer.play();if(closed||!renderer)return;renderer.showResult();
    const ownSide=data.battleV2.teams.B.members.some(m=>state?.team?.members.some(own=>own.userId===m.ownerId))?'B':'A',win=data.battleV2.result.winner===ownSide;
-   live.msg.innerHTML='<div class="duo-result '+(win?'is-win':'is-loss')+'">'+icon(win?'trophy':'sword')+'<small>'+ (win?'VICTORY':'DEFEAT')+'</small><strong>'+ (win?'우리 팀 승리':'우리 팀 패배')+'</strong><div class="duo-result-score"><span>경기 종료 시 팀 점수</span><b>'+fmt(ownSide==='A'?data.scoreAfter:data.opponentScoreAfter)+'<small>PT</small></b></div><button class="duo-primary" data-duo-close>전투 닫기'+icon('arrow')+'</button></div>';
+   live.msg.innerHTML='<div class="duo-result '+(win?'is-win':'is-loss')+'">'+icon(win?'trophy':'sword')+'<small>'+ (win?'VICTORY':'DEFEAT')+'</small><strong>'+ (win?'우리 팀 승리':'우리 팀 패배')+'</strong><div class="duo-result-score"><span>경기 종료 시 팀 점수</span><b>'+fmt(ownSide==='A'?data.scoreAfter:data.opponentScoreAfter)+'<small>PT</small></b></div>'+(data.rewardCoin>0&&Number(data.rewardUserId)===Number(userId)?'<p class="duo-victory-reward">공격 승리 보상 <b>'+fmt(data.rewardCoin)+' 코인</b> 지급 완료</p>':'')+'<button class="duo-primary" data-duo-close>전투 닫기'+icon('arrow')+'</button></div>';
    live.msg.querySelector('button').onclick=close;
   }catch(error){
    if(closed)return;renderer?.destroy();renderer=null;live.stage.classList.add('is-result-visible');modal.classList.remove('battle-v3-preparing');live.stage.querySelector('.battle-v3-loader')?.remove();
