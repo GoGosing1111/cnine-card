@@ -23,10 +23,10 @@ test('card and equipment destinations use separate top-level categories',async()
     read('preview/lobby-clarity-v1/app.js')
   ]);
   assert.match(html,/data-category="cards"[^>]*>[\s\S]*?<b>카드·용병<\/b><small>도감 · 강화 · 편성<\/small>/);
-  assert.match(html,/data-category="equipment"[^>]*>[\s\S]*?<b>제작소<\/b><small>장비 · 제작 · 합성<\/small>/);
+  assert.match(html,/data-category="equipment"[^>]*>[\s\S]*?<b>장비 - 제작<\/b><small>장비 · 제작 · 합성<\/small>/);
   assert.doesNotMatch(html,/data-category="growth"|카드와 장비/);
   assert.match(app,/cards:\{title:'카드·용병',icon:'cards'/);
-  assert.match(app,/equipment:\{title:'제작소',icon:'forge'/);
+  assert.match(app,/equipment:\{title:'장비 - 제작',icon:'forge'/);
   assert.match(app,/group==='equipment'\|\|group==='crafting'\|\|id==='equipmentForge'\)return 'equipment'/);
   assert.match(app,/equipmentForge',title:'장비 강화',category:'equipment'/);
   assert.match(app,/mercenaryDex:'보유 용병 확인·편성과 전체 용병 정보'/);

@@ -32,15 +32,15 @@ test('demo copies do not alter ownership and results are explicit catalog choice
   const samples = demoMaterials(catalog, 'SS'); assert.equal(samples.length, 8); assert.ok(samples.every(c => c.rank === 'SS'));
   assert.equal(demoResult(catalog, 'SSS').code, 'V-021'); assert.equal(demoResult(catalog, 'B'), null);
   assert.equal(JSON.stringify({ catalog, account }), before);
-  assert.equal(FUSION_PREPARATION.enabled, false); assert.equal(FUSION_PREPARATION.materialRule, 'SAME_RANK');
+  assert.equal(FUSION_PREPARATION.enabled, true); assert.equal(FUSION_PREPARATION.materialRule, 'SAME_RANK');
   assert.equal(FUSION_PREPARATION.successOutcome, 'NEXT_RANK');
   assert.equal(FUSION_PREPARATION.successChance,10);assert.equal(FUSION_PREPARATION.coinCost,0);
   assert.equal(FUSION_PREPARATION.failureOutcome,'SAME_RANK_RANDOM');
 });
-test('the prepared feature cannot debit or grant, and all art is separate from battle sprites', () => {
+test('released synthesis uses a server receipt and explicit demo preserves original art', () => {
   const app = fs.readFileSync('mercenary-codex/fusion/app.mjs','utf8');
-  assert.doesNotMatch(app, /method\s*:\s*['"](?:POST|PATCH|DELETE)|jointAccountRequest|\.battleSprite|Math\.random|localStorage/);
-  assert.match(app, /실제 합성 준비 중/); assert.match(app, /실제 지급 없음/);
+  assert.doesNotMatch(app, /\.battleSprite|Math\.random/);
+  assert.match(app, /receipt.result/); assert.match(app, /실제 지급 없음/);
   const fx = fs.readFileSync('mercenary-codex/fusion/fx.mjs','utf8');
   assert.match(fx, /CNineUiFxVendor/); assert.doesNotMatch(fx, /createOscillator|Math\.random|AnimatedSprite/);
   assert.match(fx, /resizeObserver\?\.disconnect/); assert.match(fx, /textureSource: false/);

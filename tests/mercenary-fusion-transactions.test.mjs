@@ -88,10 +88,36 @@ for(const postgres of [false,true]) {
     assert.equal(replay.replayed,true);assert.deepEqual(replay.result,completed.result);
   });
 }
-test('public feature publishes approved rules but preparation POST is hard-OFF even for OWNER',async()=>{
-  let calls=0;const env={DB:new Proxy({},{get(){calls++;throw Error('DB touched');}})},deps={json:(body,status=200)=>({body,status}),authenticate:async()=>({id:1,role:'OWNER'})};
+test('release feature is ON without DB access; anonymous mutation remains unauthorized',async()=>{
+  let calls=0;const env={DB:new Proxy({},{get(){calls++;throw Error('DB touched');}})},deps={json:(body,status=200)=>({body,status}),authenticate:async()=>null};
   const feature=await handleMercenaryFusion({path:'mercenaries/v3/fusion/feature',request:new Request('https://qa.test/api/mercenaries/v3/fusion/feature'),env,deps});
-  assert.equal(feature.body.enabled,false);assert.deepEqual(feature.body.policy,POLICY);
+  assert.equal(feature.body.enabled,true);assert.deepEqual(feature.body.policy,POLICY);
   const closed=await handleMercenaryAccount({path:'mercenaries/v3/fusion',request:new Request('https://qa.test/api/mercenaries/v3/fusion',{method:'POST',body:JSON.stringify({requestId:crypto.randomUUID(),materials})}),env,deps});
-  assert.equal(closed.status,423);assert.equal(closed.body.code,'MERCENARY_FUSION_PREPARATION');assert.equal(calls,0);
+  assert.equal(closed.status,401);assert.equal(closed.body.code,'MERCENARY_FUSION_AUTH');assert.equal(calls,0);
+});
+test('saved 8991:100:10 SSS weights select exact intervals without changing 10% promotion',()=>{
+  const base={rank:'SS',pools:{SS:['V-004'],SSS:['V-021','V-046','V-049']},rules:{cardWeights:{'V-021':8991,'V-046':100,'V-049':10}}};
+  for(const [ticket,code] of [[0,'V-021'],[8990,'V-021'],[8991,'V-046'],[9090,'V-046'],[9091,'V-049'],[9100,'V-049']]){
+    assert.equal(pickFusionResult({...base,randomInt:random(99999,ticket)}).mercenaryCode,code);
+  }
+  assert.equal(pickFusionResult({...base,randomInt:random(100000,0)}).resultRank,'SS');
+});
+test('Postgres: normal player uses locked route and replay; no schema work on synthesis',async t=>{
+  const f=await fixture(t,true),body={requestId:crypto.randomUUID(),materials},queries=[],prepare=f.DB.prepare.bind(f.DB);let locks=0;
+  f.DB.prepare=sql=>{queries.push(sql);return prepare(sql);};
+  const deps={...f.deps,authenticate:async()=>({...f.user,role:'USER'}),withUserMutationLock:async(...args)=>{locks++;return f.deps.withUserMutationLock(...args);}};
+  const send=()=>handleMercenaryAccount({path:'mercenaries/v3/fusion',request:new Request('https://qa.test/api/mercenaries/v3/fusion',{method:'POST',headers:{origin:'https://qa.test','content-type':'application/json'},body:JSON.stringify(body)}),env:f.env,deps});
+  const first=await send(),result=await first.json();assert.equal(first.status,200);assert.equal(result.status,'COMPLETED');
+  const beforeReplay=await snapshot(f),again=await (await send()).json();assert.equal(again.replayed,true);assert.equal(locks,2);assert.deepEqual(again.result,result.result);assert.deepEqual(await snapshot(f),beforeReplay);
+  assert.ok(queries.every(q=>!/^\s*(CREATE|ALTER|PRAGMA)/i.test(q)));
+  assert.equal(queries.filter(q=>q.startsWith('SELECT * FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND kind=?')).length,0,'POST reuses its committed operation without redundant receipt lookup');
+});
+test('Postgres: eight distinct materials preserve every original with one atomic grant',async t=>{
+  const f=await fixture(t,true),codes=['V-001','V-002','V-003','V-005','V-006','V-007','V-008','V-010'];
+  f.document.mercenaries.find(c=>c.code==='V-011').rank='B';await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
+  for(const code of codes)await f.p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(7,?,2,1,?,?)',code,'2026-09-25','2026-09-25').run();
+  const result=await runPreparedMercenaryFusion(f.env,f.user,{requestId:crypto.randomUUID(),materials:codes},{randomInt:random(0,0)});
+  assert.equal(result.consumed.length,8);assert.equal(result.result.mercenaryCode,'V-011');
+  const rows=await snapshot(f);for(const code of codes){const row=rows.find(c=>c.mercenary_code===code);assert.equal(row.total_copies,1);assert.equal(row.duplicate_count,0);}
+  assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM mercenary_card_acquisitions_v1 WHERE user_id=7').first()).n),1);
 });

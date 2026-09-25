@@ -1,5 +1,5 @@
-import {MERCENARY_FUSION_POLICY, MERCENARY_FUSION_RELEASE_ENABLED} from '../../shared/mercenary-fusion-policy-v1.mjs';
-// The UI samples outcomes explicitly; the future transaction owns randomness.
+import {MERCENARY_FUSION_POLICY, MERCENARY_FUSION_RELEASE_ENABLED} from '../../shared/mercenary-fusion-policy-v1.mjs?v=20260925-on';
+// Actual outcomes come from the server receipt; samples are only for the explicit demo.
 export const MATERIAL_COUNT = 8;
 export const FUSION_PREPARATION = Object.freeze({
   ...MERCENARY_FUSION_POLICY, enabled: MERCENARY_FUSION_RELEASE_ENABLED,

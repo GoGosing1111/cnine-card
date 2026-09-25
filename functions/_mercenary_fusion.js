@@ -76,11 +76,17 @@ export async function runPreparedMercenaryFusion(env, user, body, { randomInt = 
       return list;
     },
   });
-  return fusionReceipt(env, user, operation.requestId, operation.replayed);
+  // The committed operation already has the persisted plan. Avoid another
+  // sequential DB round trip on every synthesis and retry.
+  return completedFusionReceipt(env, user, operation, operation.replayed);
 }
 export async function fusionReceipt(env, user, requestId, replayed = true) {
   const operation = await readJointOperation(env, user.id, requestId, KIND);
   if (operation.status !== 'COMPLETED') return {requestId,status:operation.status};
+  return completedFusionReceipt(env, user, {...operation,requestId}, replayed);
+}
+async function completedFusionReceipt(env, user, operation, replayed) {
+  const {requestId}=operation;
   const acquired = await env.DB.prepare('SELECT is_duplicate,total_copies_after,duplicate_count_after FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=? AND user_id=? AND mercenary_code=?').bind(requestId+':fusion',user.id,operation.plan.result.mercenaryCode).first();
   if (!acquired) throw fail('MERCENARY_FUSION_RECEIPT', '지급 기록을 확인하고 있습니다.', 503);
   return {requestId,status:'COMPLETED',replayed,policy:operation.plan.policy,consumed:operation.plan.consumed,

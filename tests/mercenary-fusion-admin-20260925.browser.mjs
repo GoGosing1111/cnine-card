@@ -59,7 +59,7 @@ try{
     const login=async()=>page.evaluate(()=>{document.body.classList.replace('auth-guest','auth-active');document.getElementById('cms').hidden=false;document.getElementById('roleBadge').textContent='OWNER';});
     await page.goto(origin+'/admin/#mercenaries/fusion');await login();
     if(width===1440){await page.locator('.mc-notice.is-error').waitFor();assert.equal(await page.locator('[data-reload]').isVisible(),true);await page.locator('[data-reload]').click();}
-    await page.waitForFunction(()=>document.querySelector('[data-fusion-status]')?.textContent==='OFF');
+    await page.waitForFunction(()=>document.querySelector('[data-fusion-status]')?.textContent==='ON');
     assert.equal(await page.getByRole('tab',{name:'합성 관리'}).getAttribute('aria-selected'),'true');
     assert.equal(await page.locator('[data-hyper-opening]').count(),0);
     assert.equal(await page.locator('.mf-transition:not(.mf-transition-head)').count(),5);
@@ -92,7 +92,7 @@ try{
       hangFeature=true;await page.locator('[data-fusion-reload]').click();await page.waitForFunction(()=>document.querySelector('[data-fusion-status]').textContent==='확인 실패');hangFeature=false;
       invalidFeature=true;await page.locator('[data-fusion-reload]').click();await page.waitForFunction(()=>document.querySelector('[data-fusion-status]').textContent==='확인 실패');
       assert.equal(await page.locator('.mf-rules').count(),0);
-      invalidFeature=false;await page.locator('[data-fusion-reload]').click();await page.waitForFunction(()=>document.querySelector('[data-fusion-status]').textContent==='OFF');
+      invalidFeature=false;await page.locator('[data-fusion-reload]').click();await page.waitForFunction(()=>document.querySelector('[data-fusion-status]').textContent==='ON');
       await page.getByRole('tab',{name:'용병 도감',exact:true}).click();await page.locator('[data-code="V-001"]').click();
       await page.locator('[data-field="mercenaries.0.rank"]').selectOption('SSS');
       await page.getByRole('tab',{name:'합성 관리'}).click();
@@ -105,7 +105,7 @@ try{
     await page.locator('#view-mercenaries').waitFor({state:'hidden'});
     assert.equal(await page.locator('#nav [data-view="mercenaries"]').isVisible(),false);
     await page.locator('#roleBadge').evaluate(el=>el.textContent='OWNER');
-    await page.waitForFunction(()=>document.querySelector('[data-fusion-status]')?.textContent==='OFF');
+    await page.waitForFunction(()=>document.querySelector('[data-fusion-status]')?.textContent==='ON');
     assert.equal(await input.inputValue(),String(width===1440?20:30));assert.deepEqual(errors,[]);
     report.push({width,height,directLink:true,savedWeights:true,outcomesPreserved:true,retryOnce:width===1440,draftGuard:true,roleReset:true,noOverflow:true,pageErrors:errors});
     console.log('Fusion CMS flow passed '+width);await context.close();
