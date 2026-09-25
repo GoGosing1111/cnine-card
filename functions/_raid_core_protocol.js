@@ -2,6 +2,9 @@ import {pigCoinRewardStatements,pigCoinRewardAmount} from './_loot_shop.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {CORE_MECHANIC_VERSION,createCoreMechanicPlans,coreMechanicPlans,coreMechanicEvents,verifyScreenMechanic,MECHANIC_NAMES} from '../shared/core-raid-mechanics-v2086.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
+import {readCoreRewardPolicy,coreRewardCatalog,saveCoreRewardPolicy,openCoreRewardOffer,selectCoreReward,prepareCoreChoiceGrant} from './_core_raid_rewards.js';
+import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {readJointBody} from './_joint_request.js';
 // 붕괴 코어 레이드는 라이브 월드 레이드와 분리된 방 기반 협동 콘텐츠다.
 // PROJECT V V3는 전투 표현만 담당하며 방 상태, 기믹 판정과 보상은 서버가 확정한다.
 const SETTINGS_KEY = 'raid_core_protocol_settings_v2024';
@@ -1429,6 +1432,8 @@ async function statusPayload(env, user, cfg, requestedId = '', browseOnly = fals
 }
 
 async function reserveReceipt(env, { requestId, roomId, userId, action }) {
+  // These private receipts contain sealed rewards or OWNER audit snapshots.
+  if (/^CORE-(?:CHOICE|CONFIG)-/.test(requestId)) return {error:'예약된 요청 ID입니다.',status:409};
   let prior = await env.DB.prepare(
     'SELECT * FROM ' + RECEIPT_TABLE + ' WHERE request_id=?'
   ).bind(requestId).first();
@@ -2032,6 +2037,13 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     code: 'CORE_RAID_WEEKLY_LIMIT', status: 409, weeklyReward: await coreRaidWeeklyReward(env, user.id)
   });
   if (!(await coreRaidWeeklyReward(env, user.id)).remaining) return weeklyLimitResult();
+  let choice = null;
+  try {
+    const selected = await selectCoreReward(env, user, roomId, body);
+    if (selected) choice = await prepareCoreChoiceGrant(env, user, selected);
+  } catch (error) {
+    return {error:error.status?error.message:'선택 보상을 준비하지 못했습니다. 다시 확인해 주세요.',code:error.code||'CORE_REWARD_RETRYABLE',status:error.status||503};
+  }
   if (existing?.status === 'PENDING') {
     const age = Math.max(0, Date.now() - Date.parse(existing.updated_at || existing.created_at || 0));
     if (age < 15000) {
@@ -2056,6 +2068,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     instanceId: roomId,
     rewardClaimed: true,
     reward: { coin: rewardCoin, shards: rewardShards },
+    ...(choice ? {choiceReward:choice.reward,offerId:choice.offerId,selectedIndex:choice.selectedIndex} : {}),
     rewardWeekKey: week.weekKey,
     replayed: false
   };
@@ -2123,6 +2136,10 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     );
   }
   statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind,at:rewardAt}));
+  if (choice) {
+    const choiceGuard=crypto.randomUUID();
+    statements.push(jointGuard(env.DB,choiceGuard,guard,guardBind),...choice.statements,jointGuardEnd(env.DB,choiceGuard));
+  }
   statements.push(
     env.DB.prepare(
       'UPDATE ' + REWARD_RECEIPT_TABLE +
@@ -2161,6 +2178,18 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
   const user = await authenticate(request, env);
   if (!user) return json({ error: '로그인이 필요합니다.' }, 401);
   let cfg = await readSettings(env);
+
+  if (path === 'admin/raid/core/rewards') {
+    if (!isOwner(user)) return json({error:'OWNER 권한이 필요합니다.'},403);
+    try {
+      if (request.method === 'GET') {
+        const [policy,catalog]=await Promise.all([readCoreRewardPolicy(env),coreRewardCatalog(env)]);
+        return json({policy,catalog});
+      }
+      if (request.method === 'POST') return json(await saveCoreRewardPolicy(env,user,await readJointBody(request,{maxBytes:65536,fields:['requestId','policy']})));
+      return json({error:'지원하지 않는 요청입니다.'},405);
+    } catch (error) {return json({error:error.status?error.message:'보상 설정을 처리하지 못했습니다. 다시 확인해 주세요.',code:error.code||'CORE_REWARD_RETRYABLE'},error.status||503);}
+  }
 
   if (path === 'admin/raid/core/settings') {
     if (!isOwner(user)) return json({ error: 'OWNER 권한이 필요합니다.' }, 403);
@@ -2223,6 +2252,21 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
   if (path === 'raid/core/acknowledge' && request.method === 'POST') {
     const result = await acknowledgeResult(env, user, cfg, await readBody(request));
     return result.response ? json(result.response) : json({error:result.error}, result.status);
+  }
+  if (path === 'raid/core/rewards/open' && request.method === 'POST') {
+    try {
+      const body=await readBody(request),roomId=cleanText(body.roomId,100);
+      const [member,room,paid]=await Promise.all([
+        env.DB.prepare('SELECT status FROM '+MEMBER_TABLE+' WHERE room_id=? AND user_id=?').bind(roomId,user.id).first(),
+        env.DB.prepare('SELECT status FROM '+ROOM_TABLE+' WHERE room_id=?').bind(roomId).first(),
+        env.DB.prepare('SELECT response_json FROM '+REWARD_RECEIPT_TABLE+" WHERE room_id=? AND user_id=? AND status='COMPLETED'").bind(roomId,user.id).first()
+      ]);
+      if (!member||room?.status!=='CLEAR') return json({error:'참여한 공대를 클리어한 뒤 보상을 선택하세요.'},409);
+      if (paid) return json({completed:true,result:(await coreRewardResponse(env,user,{...jsonSafe(paid.response_json,{}),replayed:true},profile)).response});
+      if (cfg.rewardLocked) return json({error:'붕괴 코어 보상이 잠겨 있습니다.',code:'CORE_RAID_REWARD_LOCKED'},423);
+      if (!(await coreRaidWeeklyReward(env,user.id)).remaining) return json({error:'이번 주 보상 3회를 모두 수령했습니다.',code:'CORE_RAID_WEEKLY_LIMIT'},409);
+      return json({ok:true,roomId,baseReward:{coin:cfg.rewardCoin,shards:cfg.rewardShards},...await openCoreRewardOffer(env,user,roomId)});
+    } catch(error){return json({error:error.status?error.message:'봉인된 보상을 불러오지 못했습니다. 다시 시도하세요.',code:error.code||'CORE_REWARD_RETRYABLE'},error.status||503);}
   }
   if (path === 'raid/core/open' && request.method === 'POST') {
     const result = await openRoom(env, user, cfg, await readBody(request));

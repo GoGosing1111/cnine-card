@@ -245,7 +245,7 @@
     const clear = current.status === 'CLEAR';
     let reward = '';
     if (clear && state.me?.rewardStatus === 'COMPLETED') {
-      reward = '<p class="core-reward-note">공대 보상을 수령했습니다.</p><button type="button" data-core-action="browse">대기실로 돌아가기</button>';
+      reward = '<p class="core-reward-note">공대 보상을 수령했습니다.</p><button type="button" data-core-action="claim">받은 보상 확인</button><button type="button" data-core-action="browse">대기실로 돌아가기</button>';
     } else if (clear && current.rewardLocked) {
       reward = '<p class="core-reward-note">테스트 보상이 잠겨 있습니다.</p><button type="button" data-core-action="browse">대기실로 돌아가기</button>';
     } else if (clear && state.weeklyReward?.remaining === 0) {
@@ -467,19 +467,29 @@
   async function claim() {
     const roomId = data?.current?.id;
     if (!roomId) throw new Error('수령할 붕괴 코어 공대를 찾지 못했습니다.');
+    const bounded = async work => { let timer;try{return await Promise.race([work,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('보상 확인이 늦어지고 있습니다. 다시 확인해 주세요.')),15000);})]);}finally{clearTimeout(timer);} };
     setBusy(true);
     try {
-      const result = await api('raid/core/claim', {
-        method: 'POST',
-        body: JSON.stringify({ roomId, requestId: requestId() })
-      });
+      const offer = await bounded(api('raid/core/rewards/open',{method:'POST',body:JSON.stringify({roomId})}));
+      const settle = async selection => {
+        const paid = await bounded(api('raid/core/claim',{method:'POST',body:JSON.stringify({roomId,requestId:requestId(),...selection})}));
+        if(paid.user)bridge()?.saveUser?.(bridge()?.apiUserToLocal?.(paid.user)||paid.user);
+        window.dispatchEvent(new Event('cnine:player-updated'));
+        return paid;
+      };
+      let result;
+      if(offer.enabled||offer.result?.choiceReward){
+        const {showCoreRewardPicker}=await bounded(import('./core-raid-reward-picker-v1.mjs?v=20260925'));
+        result=await showCoreRewardPicker({offer,claim:settle});
+      }else result=offer.completed?offer.result:await settle({});
+      if(!result){await bounded(load());return null;}
       if (result.user) bridge()?.saveUser?.(bridge()?.apiUserToLocal?.(result.user) || result.user);
-      await load();
+      await bounded(load());
       window.dispatchEvent(new Event('cnine:player-updated'));
       const note=document.querySelector('.core-reward-note');if(note&&Number(result.pigCoins)>0)note.textContent='공대 보상과 피그 코인 '+number(result.pigCoins)+'개를 수령했습니다.';
       return result;
     } catch (error) {
-      await load().catch(() => {});
+      await bounded(load()).catch(() => {});
       throw error;
     } finally {
       setBusy(false);
