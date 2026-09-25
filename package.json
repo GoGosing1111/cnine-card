@@ -52,7 +52,7 @@
     "test:skill-chips": "node --test tests/battle-suit-skill-chip-v2046.test.mjs tests/battle-suit-skill-chip-preview-v1.test.mjs tests/battle-suit-skill-chip-runtime-v2046.test.mjs tests/battle-suit-octaseeker-preview-v1.test.mjs tests/battle-suit-octaseeker-live-20260924.test.mjs",
     "test:territory-reward": "node --test tests/territory-clan-warfare-20260923.test.mjs tests/territory-winner-master-star-v1956.test.mjs tests/territory-commander-live-status-v1994.test.mjs tests/territory-coin-sync-v1995.mjs tests/territory-my-team-v2062.test.mjs",
     "test:alchemy": "node --test tests/alchemy-system-v1973.test.mjs",
-    "test:ranked-duo": "node --test tests/ranked-duo-seasons.test.mjs tests/ranked-duo-battle.test.mjs tests/ranked-duo-server.test.mjs tests/ranked-duo-batch.test.mjs",
+    "test:ranked-duo": "node --test tests/ranked-duo-schema-owners-20260925.test.mjs tests/ranked-duo-seasons.test.mjs tests/ranked-duo-battle.test.mjs tests/ranked-duo-server.test.mjs tests/ranked-duo-batch.test.mjs",
     "test:ranked-reward": "node --test tests/ranked-reward-cap-v1980.test.mjs tests/ranked-challenger-v2032.test.mjs",
     "build:challenger": "node scripts/build-ui-fx.mjs challenger",
     "test:coupon": "node --test tests/coupon-reward-cap-v1997.test.mjs tests/wish-lamp-coupon-v2079.test.mjs",
