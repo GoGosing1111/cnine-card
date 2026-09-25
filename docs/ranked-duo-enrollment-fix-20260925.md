@@ -15,3 +15,10 @@
 - 직전 운영 기준: `d3f81144bd4d9401868bced68c3bcb2bcff20aaf`, Pages `7ba5ba6b`, Worker `9184ad8d-c3b9-4c55-94bb-2a9fb8d0cedb`. 이후 `68782418`은 결과 기록 문서만 추가했다.
 - 국소 수정: 듀오 전력 조회·공개 현황 조회와 해당 버튼 표시만 변경한다. 공통 DB 기반·마이그레이션·전투 엔진·경제 거래는 바꾸지 않아 범위 배포를 사용한다.
 - 지정 검사: `tests/ranked-duo-enrollment-summary.test.mjs`, `tests/ranked-duo-live-operation.test.mjs`, `tests/ranked-duo-server.test.mjs`, `tests/ranked-duo-batch.test.mjs`, `tests/coup-live-operation.test.mjs`, `tests/live-operations-v1868.mjs`, `check:worker`. 최종 범위 커밋에서 `npm run deploy:production -- --scoped`로 관련 회귀·출시 플래그·캐시·Hyperdrive 확인을 한 번 실행한다.
+
+## 운영 결과
+
+- 게임 커밋 `20142a8ade5953ab04b81715e97925c676785fdb`, 관련 40개 통과·실패 0개, Worker 구문·출시 게이트·Hyperdrive 캐시 OFF 확인 완료.
+- 첫 배포는 Cloudflare 함수 게시의 `Unknown internal error occurred`로 실패했다. 코드를 바꾸지 않고 지정 범위 배포 명령을 재시도해 성공했다. 이 외부 실패 재시도 때문에 동일 40개 검사가 한 번 더 실행됐다.
+- Pages `https://830ce03a.cnine-card.pages.dev`, Worker `c0b9e1b5-2cd1-4bc0-bb71-749384a2435a`.
+- 2026-09-25 23:56:35 KST 운영 `live-operations`에서 첫 시즌 `RECRUITING`, 기존 모집 마감 `2026-09-26T13:48:25.000Z`를 확인했다. 운영 HTML·앱 파일은 배포 커밋과 SHA-256이 일치했다. 실계정 대리 신청은 하지 않았다.
