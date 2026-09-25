@@ -1,0 +1,104 @@
+{
+  "title": "추석기념 포트리스 토너먼트",
+  "startsAt": "2026-09-26T20:00:00+09:00",
+  "timeZone": "Asia/Seoul",
+  "format": "All six entrants play three first-round matches; after three winners are known, draw one finalist by bye; the other two play for the second final place. All matches best of three.",
+  "drawMethod": "One Fisher-Yates shuffle using node:crypto.randomInt with unbiased indices. Existing pairings are retained and the two remaining entrants form match three. No reroll.",
+  "drawnAt": "2026-09-25T02:41:47.708Z",
+  "entrants": [
+    "나무늘봉순",
+    "주성",
+    "강구열",
+    "하이희야",
+    "오리꿍",
+    "디임"
+  ],
+  "shuffled": [
+    "강구열",
+    "오리꿍",
+    "나무늘봉순",
+    "주성",
+    "디임",
+    "하이희야"
+  ],
+  "swaps": [
+    {
+      "i": 5,
+      "j": 3
+    },
+    {
+      "i": 4,
+      "j": 3
+    },
+    {
+      "i": 3,
+      "j": 1
+    },
+    {
+      "i": 2,
+      "j": 0
+    },
+    {
+      "i": 1,
+      "j": 1
+    }
+  ],
+  "firstRound": [
+    {
+      "id": "M1",
+      "label": "1경기",
+      "players": [
+        "강구열",
+        "오리꿍"
+      ]
+    },
+    {
+      "id": "M2",
+      "label": "2경기",
+      "players": [
+        "주성",
+        "디임"
+      ]
+    },
+    {
+      "id": "M3",
+      "label": "3경기",
+      "players": [
+        "나무늘봉순",
+        "하이희야"
+      ]
+    }
+  ],
+  "final": {
+    "id": "F",
+    "label": "결승",
+    "players": [
+      "부전승 진출자",
+      "3강전 승자"
+    ]
+  },
+  "revision": 2,
+  "revisedAt": "2026-09-25T02:50:13.813Z",
+  "revisionReason": "User specified three first-round matches, then one randomly selected final bye among the three winners and a match between the other two.",
+  "firstRoundByes": [],
+  "threeWinnerStage": {
+    "entrants": [
+      "1경기 승자",
+      "2경기 승자",
+      "3경기 승자"
+    ],
+    "draw": {
+      "count": 1,
+      "among": 3,
+      "when": "After the first round",
+      "status": "PENDING_FIRST_ROUND_RESULTS"
+    },
+    "byeDestination": "결승",
+    "match": {
+      "id": "R3",
+      "label": "3강전",
+      "players": "추첨 부전승자를 제외한 남은 2명",
+      "winnerDestination": "결승"
+    }
+  }
+}

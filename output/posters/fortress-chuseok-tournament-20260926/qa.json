@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-09-25T02:52:44.514Z",
+  "generator": "built-in image_gen",
+  "generationAttempts": 1,
+  "targetedFormatEdits": 1,
+  "image": {
+    "file": "fortress-chuseok-tournament-20260926-v2.png",
+    "bytes": 2576966,
+    "width": 1122,
+    "height": 1402,
+    "sha256": "bbf1ed481f420c25ab7d298d3b696fb4994c2581bd44ce738c4121b59d1459ba"
+  },
+  "draw": {
+    "uniqueEntrants": 6,
+    "firstRoundMatches": 3,
+    "firstRoundByes": 0,
+    "threeWinnerStage": 3,
+    "finalByeDrawCount": 1,
+    "finalByeDrawStatus": "PENDING_FIRST_ROUND_RESULTS",
+    "remainingThreeWinnerMatches": 1,
+    "finals": 1,
+    "recordedShuffleReplayed": true,
+    "entrantShuffleCount": 1
+  },
+  "visualReview": {
+    "title": true,
+    "dateTime": "2026. 09. 26 (토) 20:00",
+    "rule": "전 라운드 3판 2선승제",
+    "firstRound": [
+      {
+        "id": "M1",
+        "label": "1경기",
+        "players": [
+          "강구열",
+          "오리꿍"
+        ]
+      },
+      {
+        "id": "M2",
+        "label": "2경기",
+        "players": [
+          "주성",
+          "디임"
+        ]
+      },
+      {
+        "id": "M3",
+        "label": "3경기",
+        "players": [
+          "나무늘봉순",
+          "하이희야"
+        ]
+      }
+    ],
+    "allNamesCorrect": true,
+    "allSixPlayersInFirstRound": true,
+    "noInitialBye": true,
+    "threeWinnersFeedDraw": true,
+    "drawSplitsToByeAndMatch": true,
+    "bothBranchesFeedFinal": true,
+    "noPredictedWinners": true,
+    "noPreassignedFinalBye": true,
+    "noEntryFeeOrSpectatorCount": true,
+    "noClippedText": true
+  },
+  "fileHandling": "Selected corrected PNG copied without resizing, recompression or pixel editing. Original generated files retained."
+}
