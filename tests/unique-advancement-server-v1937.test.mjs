@@ -123,11 +123,13 @@ test('POST is receipt-idempotent, DB-authoritative and guarded by the strict use
 });
 
 test('battle preparation discards client advancement data and injects only DB-owned state',()=>{
-  assert.match(magicSource,/import \{loadUniqueAdvancementsForCards,uniqueAdvancementSettings\} from '\.\/_unique_advancement\.js'/);
+  const advancementImports=magicSource.match(/import \{([^}]+)\} from '\.\/_unique_advancement\.js'/)?.[1].split(',').map(s=>s.trim())||[];
+  for(const name of ['loadUniqueAdvancementsForCards','loadUniqueAdvancementsForDecks','uniqueAdvancementSettings'])assert.ok(advancementImports.includes(name),name);
   assert.match(magicSource,/uniqueAbility:null,uniqueAdvancement:null/);
   assert.match(magicSource,/const uniqueAdvancement=advancementMap\.get\(String\(card\.id\)\)\|\|null/);
   assert.match(magicSource,/return \{\.\.\.card,power:attack,maxHp:hp,uniqueAbility:effect,uniqueAdvancement,/);
-  assert.match(magicSource,/const advancementSettings=await uniqueAdvancementSettings\(env,\{ensure:false\}\)/);
+  assert.match(magicSource,/const advancementSettings=await uniqueAdvancementSettings\(env,\{ensure:false,fresh\}\)/);
+  assert.match(magicSource,/loadUniqueAdvancementsForDecks\(env,list\.map\(e=>advancementAllowed\(e\)\?e:\{\.\.\.e,cards:\[\]\}\)\)/);
   assert.match(serverSource,/if\(ensure\)await ensureUniqueAdvancementFoundation\(env\)/);
   assert.match(magicSource,/mode==='ON'\|\|\(mode==='TEST'&&isOwner\(entry\.user\)\)/);
   assert.match(magicSource,/if\(!enabled\|\|!entry\.user\?\.id\)return new Map\(\)/);
