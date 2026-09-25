@@ -2,6 +2,7 @@ import {mountHyperOpening} from './hyper-pack-opening.mjs?v=2097';
 import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs?v=20260924-cryvern';
 
 import {cryvernSelectionWeights} from '../shared/mercenary-cryvern-v1.mjs?v=20260924-cryvern';
+import {fusionManagementHtml,fusionCardRate,readMercenaryFusionFeature} from './mercenary-fusion-admin-v1.mjs?v=20260925-cms1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={MERCENARY_CARD:'용병카드',MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱에너지',NONE:'꽝'};
@@ -23,15 +24,20 @@ export function mercenaryDrawSaveReason(policy,before,reason=''){
 
 export function createMercenaryDrawEditor({request,onRender}){
   let state=null,root=null,busy=false,dirty=false,pending=null,notice='',failure=false,reason='',generation=0,savedPolicy=null,rankCards={};
+  let view='draw',feature=null,featureBusy=false,featureError=false;
   const $=selector=>root?.querySelector(selector);
+  const fusion=()=>view==='fusion';
+  const saveLabel=()=>fusion()?'공유 가중치 저장':'운영 확률·수량 저장';
+  const drawChanges=()=>state&&savedPolicy&&(JSON.stringify(state.policy.outcomes)!==JSON.stringify(savedPolicy.outcomes)||state.policy.notes!==savedPolicy.notes);
+  const saveBlocked=()=>busy||!dirty||(fusion()&&drawChanges());
   const outcome=id=>state.policy.outcomes.find(row=>row.id===id);
   const cardChance=(rank,count)=>{
     const rows=chances(rank);
     return !count?'등급 내 카드 미설정':rows.some(r=>r.percent===null||!Number.isFinite(r.percent))?'확률 입력 확인':rows.every(r=>r.weight===rows[0].weight)?`카드당 ${rate(rows[0].percent)}% · 등급 내 1/${count}`:'용병별 가중치 적용 · 아래에서 개별 확률을 확인하세요.';
   };
   const rate=value=>Number.isFinite(value)?value.toLocaleString('ko-KR',{maximumFractionDigits:10}):'미설정';
-  const chances=rank=>mercenaryCardChances(outcome(`CARD_${rank}`).chancePpm,(rankCards[rank]||[]).map(c=>c.code),state.policy.cardRules);
-  const cardRate=row=>`등급 내 ${rate(row.withinRankPercent)}% · 전체 개봉 ${rate(row.percent)}%`;
+  const chances=rank=>mercenaryCardChances(outcome(`CARD_${rank}`).chancePpm,(rankCards[rank]||[]).map(c=>c.code),state.policy.cardRules).map(row=>({...row,rank}));
+  const cardRate=row=>fusion()?fusionCardRate(row,row.rank,feature?.policy):`등급 내 ${rate(row.withinRankPercent)}% · 전체 개봉 ${rate(row.percent)}%`;
   const weightEditor=rank=>`<details class="md-card-weights" ${rank==='SSS'?'open':''}><summary>용병별 가중치와 최종 확률 · ${rankCards[rank].length}종</summary><div>${chances(rank).map(row=>{const c=rankCards[rank].find(c=>c.code===row.code);return `<label class="md-weight-row"><span><b>${esc(c.name)}</b><small>${c.code}</small></span><span class="md-weight-input"><small>가중치</small><input type="number" min="1" max="1000000" step="1" inputmode="numeric" data-draw-weight="${c.code}" aria-label="${esc(c.name)} 추첨 가중치" value="${row.weight}"></span><span class="md-weight-rate" data-draw-weight-rate="${c.code}">${cardRate(row)}</span></label>`;}).join('')}</div></details>`;
   function summary(){
     const s=summarizeMercenaryDraw(state.policy),valid=!s.missing&&s.total===DRAW_TOTAL;
@@ -42,8 +48,9 @@ export function createMercenaryDrawEditor({request,onRender}){
       <p class="md-expectation">100회 개봉 기댓값 <b>카드 ${number(s.groups.MERCENARY_CARD/10000)}장</b><b>별 ${expected('MASTER_STAR')}개</b><b>미스틱 ${expected('MYSTIC_ENERGY')}개</b><small>확률 계산값이며 실제 획득을 보장하지 않습니다.</small></p>`;
   }
   function probability(meta){const row=outcome(meta.id);return `<label class="md-probability"><span class="md-label">개봉 확률</span><span class="md-unit-input"><input data-draw-chance="${meta.id}" aria-label="${meta.label} 확률" type="number" min="0" max="100" step="0.0001" inputmode="decimal" value="${row.chancePpm===null?'':percent(row.chancePpm)}"><span>%</span></span></label>`;}
-  function html(cmsDocument){
-    queueMicrotask(mountHyperOpening);
+  function html(cmsDocument,mode='draw'){
+    view=mode;
+    if(!fusion())queueMicrotask(mountHyperOpening);
     if(!state)return `<section class="md-editor" data-draw-root><p class="md-message" role="status">${esc(notice||'운영 확률·수량을 불러옵니다.')}</p>${failure?'<button data-draw-reload>다시 불러오기</button>':''}</section>`;
     const counts=Object.fromEntries(['C','B','A','S','SS','SSS'].map(rank=>[rank,cmsDocument.mercenaries.filter(row=>row.rank===rank).length]));
     rankCards=Object.fromEntries(Object.keys(counts).map(rank=>[rank,cmsDocument.mercenaries.filter(c=>c.rank===rank)]));
@@ -51,6 +58,13 @@ export function createMercenaryDrawEditor({request,onRender}){
     // This is an unsaved draft; persistence still requires the audited save.
     const weights=cryvernSelectionWeights(rankCards.SSS.map(c=>c.code),state.policy.cardRules.cardWeights);
     if(weights!==state.policy.cardRules.cardWeights){state.policy.cardRules.cardWeights=weights;dirty=true;}
+    if(fusion())return `<section class="md-editor mf-editor" data-draw-root>
+      ${fusionManagementHtml({feature,featureBusy,featureError,rankCards,weightEditor,dirty,drawChanges:drawChanges()})}
+      <p class="md-message ${failure?'is-error':''}" role="status" aria-live="polite" data-draw-message>${esc(notice||'합성·하이퍼팩 공용 가중치를 불러왔습니다.')}</p>
+      <div class="md-notes"><label><span>저장 사유 · 선택</span><input data-draw-reason maxlength="480" placeholder="비워 두면 가중치 변경 사유를 자동 기록합니다." value="${esc(reason)}"></label></div>
+      <footer class="md-savebar"><span data-draw-save-label>${dirty?'● 저장하지 않은 가중치 변경':`✓ 공용 가중치 r${state.revision} · ${date(state.updatedAt)}`}</span><div><button data-draw-reload ${busy?'disabled':''}>다시 불러오기</button><button class="md-primary" data-draw-save ${saveBlocked()?'disabled':''}>${busy?'저장 중…':pending?'저장 결과 재확인':saveLabel()}</button></div><p class="md-save-feedback ${failure?'is-error':''}" data-draw-save-feedback role="status" aria-live="polite">${esc(notice)}</p></footer>
+      <details class="md-history"><summary>최근 공용 추첨 설정 이력 · ${state.audit.length}건</summary>${state.audit.map(row=>`<p><b>r${row.revision}</b><span>${esc(row.reason)}</span><small>${date(row.created_at)} · 관리자 #${row.actor_id}</small></p>`).join('')}</details>
+    </section>`;
     const unset=cmsDocument.mercenaries.filter(row=>row.rank===null).length;
     return `<section class="md-editor" data-draw-root>
       <div data-hyper-opening></div>
@@ -72,26 +86,34 @@ export function createMercenaryDrawEditor({request,onRender}){
       <details class="md-history"><summary>최근 확률 변경 이력 · ${state.audit.length}건</summary>${state.audit.map(row=>`<p><b>r${row.revision}</b><span>${esc(row.reason)}</span><small>${date(row.created_at)} · 관리자 #${row.actor_id}</small></p>`).join('')}</details>
     </section>`;
   }
-  function markDirty(){dirty=true;pending=null;failure=false;notice='변경한 확률·수량을 저장하면 다음 개봉부터 적용됩니다.';root?.querySelectorAll('[data-draw-message],[data-draw-save-feedback]').forEach(el=>{el.textContent=notice;el.classList.remove('is-error');});if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent='● 저장하지 않은 확률·수량 변경';const button=$('[data-draw-save]');if(button){button.disabled=false;button.textContent='운영 확률·수량 저장';}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();for(const rank of Object.keys(rankCards))for(const row of chances(rank)){const el=root?.querySelector(`[data-draw-weight-rate="${row.code}"]`);if(el)el.textContent=cardRate(row);}root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
+  function markDirty(){dirty=true;pending=null;failure=false;notice=fusion()?'저장하면 합성과 하이퍼팩의 용병별 가중치에 함께 적용됩니다.':'변경한 확률·수량을 저장하면 다음 개봉부터 적용됩니다.';root?.querySelectorAll('[data-draw-message],[data-draw-save-feedback]').forEach(el=>{el.textContent=notice;el.classList.remove('is-error');});if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent=fusion()?'● 저장하지 않은 가중치 변경':'● 저장하지 않은 확률·수량 변경';if($('[data-fusion-draft]'))$('[data-fusion-draft]').textContent='미저장 변경 포함';const button=$('[data-draw-save]');if(button){button.disabled=saveBlocked();button.textContent=saveLabel();}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();for(const rank of Object.keys(rankCards))for(const row of chances(rank)){const el=root?.querySelector(`[data-draw-weight-rate="${row.code}"]`);if(el)el.textContent=cardRate(row);}root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
+  async function loadFeature(){
+    if(featureBusy)return;const token=generation;featureBusy=true;featureError=false;feature=null;onRender();
+    try{const received=await readMercenaryFusionFeature();if(token===generation)feature=received;}
+    catch{if(token===generation)featureError=true;}
+    finally{if(token===generation){featureBusy=false;onRender();}}
+  }
   async function load(){
-    if(busy)return;const token=generation;busy=true;failure=false;notice='운영 확률·수량을 불러오는 중입니다.';onRender();
-    try{const received=await request();if(token!==generation)return;state=received;savedPolicy=structuredClone(state.policy);dirty=false;pending=null;reason='';notice='저장한 확률·수량은 다음 개봉부터 적용됩니다. 개봉 ON/OFF는 별도 설정입니다.';}
+    if(busy)return;const token=generation;busy=true;failure=false;notice=fusion()?'합성·하이퍼팩 공용 가중치를 불러오는 중입니다.':'운영 확률·수량을 불러오는 중입니다.';onRender();
+    try{const received=await request();if(token!==generation)return;state=received;savedPolicy=structuredClone(state.policy);dirty=false;pending=null;reason='';notice=fusion()?'합성·하이퍼팩 공용 가중치를 불러왔습니다.':'저장한 확률·수량은 다음 개봉부터 적용됩니다. 개봉 ON/OFF는 별도 설정입니다.';}
     catch(error){if(token!==generation)return;failure=true;notice=error.message;}
     finally{if(token===generation){busy=false;onRender();}}
   }
   async function save(){
-    if(!state||busy||!dirty)return;
+    if(!state||saveBlocked())return;
     const invalid=[...root.querySelectorAll('input,textarea')].find(input=>!input.checkValidity());
     if(invalid){failure=true;notice=`${invalid.getAttribute('aria-label')||'입력값'}: ${invalid.validationMessage}`;onRender();return;}
     try{validateMercenaryDraw(state.policy);}catch(error){failure=true;notice=error.message;onRender();return;}
-    pending??={requestId:crypto.randomUUID(),expectedRevision:state.revision,policy:structuredClone(state.policy),reason:mercenaryDrawSaveReason(state.policy,savedPolicy,reason)};
-    const token=generation;busy=true;failure=false;notice='확률·수량을 운영 DB에 저장하고 있습니다.';onRender();
-    try{const received=await request({method:'PATCH',body:JSON.stringify(pending)});if(token!==generation)return;state=received;savedPolicy=structuredClone(state.policy);dirty=false;pending=null;reason='';notice=`운영 확률·수량 저장 완료 · r${state.revision} · 유저 개봉 ${state.userOpeningEnabled?'ON':'OFF'}`;}
+    pending??={requestId:crypto.randomUUID(),expectedRevision:state.revision,policy:structuredClone(state.policy),reason:fusion()?`합성·하이퍼팩 공용 가중치: ${reason.trim()||'용병별 추첨 가중치 변경'}`.slice(0,500):mercenaryDrawSaveReason(state.policy,savedPolicy,reason)};
+    const token=generation;busy=true;failure=false;notice=fusion()?'공유 가중치를 운영 DB에 저장하고 있습니다.':'확률·수량을 운영 DB에 저장하고 있습니다.';onRender();
+    try{const received=await request({method:'PATCH',body:JSON.stringify(pending)});if(token!==generation)return;state=received;savedPolicy=structuredClone(state.policy);dirty=false;pending=null;reason='';notice=fusion()?`공유 가중치 저장 완료 · r${state.revision} · 합성과 하이퍼팩에 함께 적용됩니다.`:`운영 확률·수량 저장 완료 · r${state.revision} · 유저 개봉 ${state.userOpeningEnabled?'ON':'OFF'}`;}
     catch(error){if(token!==generation)return;failure=true;notice=error.name==='AbortError'?'응답 확인이 지연됩니다. 저장 결과 재확인으로 같은 요청을 확인하세요.':error.message;if(error.status>=400&&error.status<500)pending=null;}
     finally{if(token===generation){busy=false;onRender();}}
   }
   function mount(element){
     root=element;if(!root)return;
+    root.querySelectorAll('input,textarea').forEach(input=>input.disabled=busy);
+    if($('[data-fusion-reload]'))$('[data-fusion-reload]').onclick=()=>void loadFeature();
     root.querySelectorAll('[data-draw-weight]').forEach(input=>input.oninput=()=>{state.policy.cardRules.cardWeights[input.dataset.drawWeight]=input.value===''?null:Number(input.value);markDirty();});
     root.querySelectorAll('[data-draw-chance]').forEach(input=>input.oninput=()=>{outcome(input.dataset.drawChance).chancePpm=parseDrawPercent(input.value);markDirty();});
     root.querySelectorAll('[data-draw-quantity]').forEach(input=>input.oninput=()=>{outcome(input.dataset.drawQuantity).quantity=input.value===''?null:Number(input.value);markDirty();});
@@ -106,7 +128,8 @@ export function createMercenaryDrawEditor({request,onRender}){
     };
     if($('[data-draw-export]'))$('[data-draw-export]').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({revision:state.revision,policy:state.policy},null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`mercenary-draw-r${state.revision}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
     if(!state&&!busy&&!failure)void load();
+    if(fusion()&&state&&!feature&&!featureBusy&&!featureError)void loadFeature();
   }
   window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
-  return {html,mount,reset(){generation++;state=null;root=null;dirty=false;pending=null;busy=false;notice='';failure=false;reason='';}};
+  return {html,mount,reset(){generation++;state=null;root=null;dirty=false;pending=null;busy=false;notice='';failure=false;reason='';feature=null;featureBusy=false;featureError=false;}};
 }
