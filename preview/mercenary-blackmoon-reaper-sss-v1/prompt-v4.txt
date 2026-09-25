@@ -1,0 +1,9 @@
+Use case: precise-object-edit.
+Edit this image locally. Preserve the exact tall framing, original reference composition, gray clouds, BLACK CRESCENT, hooded costume, entire sword including its blade/guard/angle/location, both arms, hands and red-orange light trails.
+
+Only remove the long leg-like black appendage at the bottom center of the floating character.
+The unwanted area is the solid narrow shape projecting vertically downward from the central cloak hem into/below the lower crescent, approximately x=44–57 percent and y=74–88 percent of the full image. It currently resembles a hanging shin/boot even though the face and outfit are a reaper. ERASE THE ENTIRE SOLID PROJECTION, not just its tip.
+
+The robe should END around the current wide tattered hem at about 74–76 percent of image height, with a short, irregular, airy fringe. Below this hem, show the unobstructed black crescent where appropriate and the gray cloud background. A very small amount of diffuse, semi-transparent smoke is allowed, but no opaque long vertical strip, no tapering black limb, no leg-shaped cloth tail, no boots, feet, shins or paired leg silhouettes. Do not replace a leg with another leg-shaped shadow. Leave a clear atmospheric gap below the robe and restore the visible underlying crescent curve.
+
+Keep all other areas as unchanged as possible. Do not enlarge or move the character, alter the clothing above the hem, alter the weapon, shift the crescent, add ornament or change the light effects. Maintain the exact source aspect ratio. No text, watermark or frame.

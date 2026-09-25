@@ -1,0 +1,24 @@
+Use case: compositing / tightly constrained reference edit.
+
+IMAGE 1 IS THE BASE CANVAS TO EDIT: the user's original narrow portrait with a small shadow swordsman floating inside a black crescent. IMAGE 2 is ONLY a wardrobe reference for the previously approved hooded black costume. Do not use Image 2 as the base composition.
+
+The user rejected the previous version because both the sword and the entire composition differed from Image 1. Correct this by preserving IMAGE 1's actual layout and weapon, while dressing its existing figure in IMAGE 2's costume.
+
+LOCK IMAGE 1:
+- Preserve its original tall portrait aspect ratio, camera distance, framing and negative space. Output approximately 9:16, preferably 1152x2048; do NOT reframe to 2:3.
+- Keep the character at the SAME small scale and SAME exact position as Image 1. The head is near 38 percent of image height, with ample gray sky and crescent above him; the lower hem is near 86 percent. Do not make the figure fill the frame.
+- Preserve the black crescent's EXACT silhouette, size, curvature, both tips, orientation and position. It begins around one fifth of the image height and curls down behind the small floating figure. Preserve the same gray storm-cloud composition and empty spaces.
+- MOST IMPORTANT: KEEP THE ACTUAL SWORD FROM IMAGE 1 UNCHANGED. Preserve its exact outer contour, blade width and length, taper, bevel geometry, tip shape, plain broad blade surface, short curved crossguard, grip and pommel. Preserve its exact angle, perspective and location in the lower-left part of the image. This is retention of the reference weapon, NOT an opportunity to invent another similar sword. No redesigned chisel tip, no faceted replacement blade, no extra ridges, no decorative parts, no new guard. The reference blade must still look like the very same blade, with the same visible edges.
+- Preserve Image 1's one-handed grip, arms, hands, body pose and vertical floating posture. Keep the original relation of wrist to grip and blade. Keep the figure suspended with gray mist below and no ground. Apply the user's additional lower-body instruction below, even wherever Image 1 has a leg-like shape.
+- Preserve the original red-orange light trails and their wrapping paths around the body.
+
+CHANGE ONLY THE COSTUME AND HEAD COVERING OF IMAGE 1'S EXISTING FIGURE:
+Transfer the approved black hood, face hidden in shadow with tiny pale eyes, black shoulder armor, diagonal chest fastenings, layered funerary coat, gauntlets, waist and tattered cloak design from Image 2. Fit this wardrobe to the original figure's exact scale, position and pose. Keep the costume's dark palette and structure. At most two main cloak flows; match the old cloak's overall occupied area. The hood fits into Image 1's original head region. Do not move the head upward or enlarge it.
+Use the polished semi-real painterly 2D Korean fantasy RPG rendering of the approved outfit. The character remains almost entirely a BLACK SILHOUETTE, with limited edge lighting.
+
+Image 2's sword, moon, framing, body scale, ground and composition are explicitly rejected and must not appear. Only its costume is approved.
+The finished picture should read at first glance as the SAME COMPOSITION AND SAME SWORD AS IMAGE 1, now wearing the approved reaper costume.
+No text, rank label, frame, logo, UI, watermark, collage or multiple views.
+
+ADDITIONAL LATEST USER REQUIREMENT, MANDATORY: REMOVE ANYTHING THAT LOOKS LIKE LEGS.
+There must be NO VISIBLE LEGS, knees, shins, boots, shoes or feet, including dark silhouettes suggesting a pair of legs. Under the waist, retain the approved long black coat as one flowing shroud. Its lower hem dissolves asymmetrically into ragged cloak fibers and diffuse black smoke, fading in midair. Do not split the lower silhouette into two long leg-like projections or two boot-shaped tails. The lower body feels spectral, a floating reaper made of shadow. Keep the overall scale and placement of Image 1; do not crop to a bust. The sword remains exactly the original sword from Image 1.
