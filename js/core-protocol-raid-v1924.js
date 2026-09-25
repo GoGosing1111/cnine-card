@@ -479,7 +479,7 @@
       };
       let result;
       if(offer.enabled||offer.result?.choiceReward){
-        const {showCoreRewardPicker}=await bounded(import('./core-raid-reward-picker-v1.mjs?v=20260925'));
+        const {showCoreRewardPicker}=await bounded(import('./core-raid-reward-picker-v2.mjs?v=20260925-live'));
         result=await showCoreRewardPicker({offer,claim:settle});
       }else result=offer.completed?offer.result:await settle({});
       if(!result){await bounded(load());return null;}

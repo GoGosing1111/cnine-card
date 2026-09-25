@@ -105,7 +105,7 @@
     else view.prepend(panel);
     $('#refreshCoreRaidSettings').onclick = () => load(true);
     $('#saveCoreRaidSettings').onclick = save;
-    void import('./core-raid-rewards-v1.mjs?v=20260925').then(module=>module.mountCoreRewardAdmin(panel)).catch(error=>console.error('[CORE REWARDS CMS]',error));
+    void import('./core-raid-rewards-v1.mjs?v=20260925-live').then(module=>module.mountCoreRewardAdmin(panel)).catch(error=>console.error('[CORE REWARDS CMS]',error));
     return panel;
   }
 

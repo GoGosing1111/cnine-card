@@ -112,13 +112,15 @@ export async function openLootPack(env,user,body,{randomInt=mercenaryRandomInt}=
 
 // Compose with the authoritative content's existing settlement transaction.
 // Callers supply a fixed internal predicate, never a browser-supplied SQL fragment.
-export async function pigCoinRewardStatements(env,{userId,source,referenceId,guardSql,guardBindings=[],rewardSql,at=Date.now()}){
+export async function pigCoinRewardStatements(env,{userId,source,referenceId,guardSql,guardBindings=[],rewardSql,weeklyLedgerFilter='',at=Date.now()}){
  const {policy,raw}=await readLootShopPolicy(env),rule=policy.sources.find(s=>s.code===source);if(!policy.rewardsEnabled||!rule?.enabled)return [];
  if(!Number.isSafeInteger(Number(userId))||Number(userId)<1||!referenceId||!guardSql)throw fail('피그 코인 보상 근거가 없습니다.');
  if(source!=='CORE_RAID'&&typeof rewardSql!=='function')throw fail('승리·참여 보상 조건이 없습니다.');
  const earned=source==='CORE_RAID'?{sql:'?',bindings:[rule.amount]}:rewardSql(rule);
  const DB=env.DB,p=pFor(DB),ref=String(referenceId),token=crypto.randomUUID(),now=new Date(at).toISOString(),guard=`(${guardSql}) AND NOT EXISTS(SELECT 1 FROM pig_coin_ledger_v1 WHERE user_id=? AND source=? AND reference_id=?)`,bind=[...guardBindings,userId,source,ref];
- const week=pigCoinRewardWeek(at),weeklySql=source==='CORE_RAID'?" AND COALESCE((SELECT SUM(amount) FROM pig_coin_ledger_v1 WHERE user_id=? AND source='CORE_RAID' AND amount>0 AND created_at>=? AND created_at<?),0)+earned<=?":'',weeklyBind=source==='CORE_RAID'?[userId,week.startsAt,week.resetsAt,rule.weeklyLimit]:[];
+ // Only the authoritative core settlement supplies this fixed internal filter
+ // for an audited quota reset. Ledger rows and replay identities stay intact.
+ const week=pigCoinRewardWeek(at),weeklySql=source==='CORE_RAID'?" AND COALESCE((SELECT SUM(amount) FROM pig_coin_ledger_v1 WHERE user_id=? AND source='CORE_RAID' AND amount>0 AND created_at>=? AND created_at<?"+(weeklyLedgerFilter?' AND ('+weeklyLedgerFilter+')':'')+"),0)+earned<=?":'',weeklyBind=source==='CORE_RAID'?[userId,week.startsAt,week.resetsAt,rule.weeklyLimit]:[];
  // Lock before evaluating both eligibility and the weekly sum. Different room
  // claims cannot exceed the cap, including concurrent requests and next-week replay.
  return [...policyGuard(DB,raw),p(`INSERT INTO pig_coin_wallets_v1(user_id,balance) SELECT ?,0 WHERE ${guard} ON CONFLICT(user_id) DO NOTHING`,userId,...bind),

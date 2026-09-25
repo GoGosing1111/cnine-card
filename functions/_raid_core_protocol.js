@@ -1256,7 +1256,10 @@ export function coreRaidRewardWeek(at = Date.now()) { return pigCoinRewardWeek(a
 function weeklyPaidCountSql() {
   // New receipts retain their week even if profile enrichment updates them later.
   // Existing completed receipts count in the week of their recorded payment.
-  return '(SELECT COUNT(*) FROM ' + REWARD_RECEIPT_TABLE + " WHERE user_id=? AND status='COMPLETED' AND (" +
+  // Explicit audited resets exclude old grants from the quota, never erase the
+  // completed receipt that prevents paying the same cleared room twice.
+  return '(SELECT COUNT(*) FROM ' + REWARD_RECEIPT_TABLE + " WHERE user_id=? AND status='COMPLETED' AND " +
+    "json_extract(response_json,'$.weeklyRewardReset') IS NULL AND (" +
     "json_extract(response_json,'$.rewardWeekKey')=? OR (json_extract(response_json,'$.rewardWeekKey') IS NULL AND " +
     "REPLACE(updated_at,' ','T')>=? AND REPLACE(updated_at,' ','T')<?)))";
 }
@@ -2135,7 +2138,10 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
       ).bind(rewardShards, user.id, ...guardBind)
     );
   }
-  statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind,at:rewardAt}));
+  const weeklyLedgerFilter = 'NOT EXISTS(SELECT 1 FROM ' + REWARD_RECEIPT_TABLE +
+    " reset_receipt WHERE reset_receipt.user_id=pig_coin_ledger_v1.user_id AND reset_receipt.room_id=pig_coin_ledger_v1.reference_id AND " +
+    "json_extract(reset_receipt.response_json,'$.weeklyRewardReset') IS NOT NULL)";
+  statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind,weeklyLedgerFilter,at:rewardAt}));
   if (choice) {
     const choiceGuard=crypto.randomUUID();
     statements.push(jointGuard(env.DB,choiceGuard,guard,guardBind),...choice.statements,jointGuardEnd(env.DB,choiceGuard));
@@ -2264,8 +2270,9 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
       if (!member||room?.status!=='CLEAR') return json({error:'참여한 공대를 클리어한 뒤 보상을 선택하세요.'},409);
       if (paid) return json({completed:true,result:(await coreRewardResponse(env,user,{...jsonSafe(paid.response_json,{}),replayed:true},profile)).response});
       if (cfg.rewardLocked) return json({error:'붕괴 코어 보상이 잠겨 있습니다.',code:'CORE_RAID_REWARD_LOCKED'},423);
-      if (!(await coreRaidWeeklyReward(env,user.id)).remaining) return json({error:'이번 주 보상 3회를 모두 수령했습니다.',code:'CORE_RAID_WEEKLY_LIMIT'},409);
-      return json({ok:true,roomId,baseReward:{coin:cfg.rewardCoin,shards:cfg.rewardShards},...await openCoreRewardOffer(env,user,roomId)});
+      const weeklyReward=await coreRaidWeeklyReward(env,user.id);
+      if (!weeklyReward.remaining) return json({error:'이번 주 보상 3회를 모두 수령했습니다.',code:'CORE_RAID_WEEKLY_LIMIT',weeklyReward},409);
+      return json({ok:true,roomId,weeklyReward,baseReward:{coin:cfg.rewardCoin,shards:cfg.rewardShards},...await openCoreRewardOffer(env,user,roomId)});
     } catch(error){return json({error:error.status?error.message:'봉인된 보상을 불러오지 못했습니다. 다시 시도하세요.',code:error.code||'CORE_REWARD_RETRYABLE'},error.status||503);}
   }
   if (path === 'raid/core/open' && request.method === 'POST') {
