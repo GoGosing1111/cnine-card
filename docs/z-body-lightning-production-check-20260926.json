@@ -1,0 +1,51 @@
+{
+  "origin": "https://cnine-card.pages.dev",
+  "checkedAt": "2026-09-25T18:21:09.059Z",
+  "commit": "972976dc44a4a56c1be2f332cfc9c426f4389d79",
+  "assets": [
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-wake-atlas.png",
+      "sha256": "f1af7e72acdbcf8ca82ae277d32b9181d816c4f0f00cb8974860ab5d9a83ba14",
+      "bytes": 1229940,
+      "pass": true
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-slash-atlas.png",
+      "sha256": "e2c5d63729c286821b09449cfd041274d8cf806672247859620b66c8b25b3640",
+      "bytes": 1729736,
+      "pass": true
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-impact-atlas.png",
+      "sha256": "890a00bbd6f46cab9df51f1573d5cf5df964ad51acacb5fe57e6cd4b03526ae0",
+      "bytes": 1675542,
+      "pass": true
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-surge-atlas.png",
+      "sha256": "de25c703304f75f9448bab46c9ded29b8bae6e651120256211884785908b48a8",
+      "bytes": 3034386,
+      "pass": true
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/z-thunder-v3/blade-atlas.png",
+      "sha256": "31a5635e141f99906c630ee5cdbe018b8c1727d72801f629e571faeb51db387e",
+      "bytes": 1332531,
+      "pass": true
+    },
+    {
+      "path": "/assets/ui/project-v/account-battle-suits/z-thunder-v3/ground-atlas.png",
+      "sha256": "156f1ce5f1fb497f557c9aaf449a73f729ac742f8892599922eb6ddaf6a94095",
+      "bytes": 1291008,
+      "pass": true
+    }
+  ],
+  "checks": {
+    "mainCache": true,
+    "wrapper": true,
+    "runtime": true,
+    "newSkill": true,
+    "gate": true
+  },
+  "pass": true
+}

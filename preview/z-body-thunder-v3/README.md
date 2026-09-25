@@ -56,7 +56,7 @@ node preview/z-body-thunder-v3/serve.mjs
 | `npm run test:battle-suit` | 103 통과 |
 | `npm run test:skill-chips` | 71 통과 |
 | `npm run build:v3-grid` 후 `npm run test:v3-grid` | 25 통과, 9개 소비자 번들과 메인 로더 연결 확인 |
-| `npm run test:z-body-effects` | 13 통과: 서버 피해·광역, 72프레임 알파·해시, 접촉 시점, 일시정지·배속·취소·슬롯 교체 |
+| `npm run test:z-body-effects` | 16 통과(새 효과 13 + 운영 연결 3): 서버 피해·광역, 72프레임 알파·해시, 접촉 시점, 일시정지·배속·취소·슬롯 교체 |
 | 공용 재생·메인 연결 3개 파일 | 19 통과: `project-v-v3-nonblocking-fx-v2060`, `v3-fluid-combat-v2126`, `project-v-v3-live-payload-v1` |
 | `npm run check:worker`, `node --check functions/_battle_v2_preview.js` | 통과 |
 
@@ -71,3 +71,5 @@ node preview/z-body-thunder-v3/serve.mjs
 기준 체크아웃: `2c1e95bb13d87f559ee5c3e4950ca35c9da2b0bf` (작업 시작 시 origin/main). 이 값을 직전 운영 배포 SHA로 간주하지 않는다.
 
 서버 Z-BODY 스킬 계산, 해당 공용 스킬 재생·몸체 충돌 방지, 검수 자산과 페이지만 변경했다. DB·권한·의존성·다른 콘텐츠 정책 변경은 없다. 운영 배포 시 `docs/scoped-release-policy-20260923.md`에 따라 실제 직전 배포 SHA·캐시·출시 플래그·원격 main 일치를 확인하고 `npm run deploy:production -- --scoped`를 사용한다. 이미 통과한 동일 빌드 검사를 불필요하게 반복하지 않는다.
+
+운영 배포 완료: `972976dc` / `https://5e280386.cnine-card.pages.dev`. 최종 범위 게이트 228개와 개발 중 Z바디 검사 13개가 통과했으며, 운영 승인 이미지 6장의 해시와 신규 런타임을 확인했다.
