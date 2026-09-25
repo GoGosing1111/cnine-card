@@ -4,6 +4,7 @@ import { mercenaryFixture } from './helpers/mercenary-db.mjs';
 import { MERCENARY_FUSION_POLICY as POLICY } from '../shared/mercenary-fusion-policy-v1.mjs';
 import { pickFusionResult, runPreparedMercenaryFusion, fusionReceipt, handleMercenaryFusion } from '../functions/_mercenary_fusion.js';
 import { handleMercenaryAccount } from '../functions/_mercenary_account_routes.js';
+import { mercenaryCardChances, mercenaryGradePools } from '../shared/mercenary-draw-policy-v1.mjs';
 
 const materials = [...Array(5).fill('V-004'),...Array(3).fill('V-009')];
 const random = (...values) => max => { const n = values.shift(); assert.ok(n>=0&&n<max, `invalid fixture roll ${n}/${max}`); return n; };
@@ -44,7 +45,10 @@ for(const postgres of [false,true]) {
   });
   test(`${name}: failure returns one random same-rank card, including a consumed code`,async t=>{
     const f=await fixture(t,postgres),body={requestId:crypto.randomUUID(),materials};
-    const result=await runPreparedMercenaryFusion(f.env,f.user,body,{randomInt:random(100000,1)});
+    const pool=mercenaryGradePools(f.document.mercenaries,f.document.mercenaries.map(c=>c.code)).SS;
+    const choices=mercenaryCardChances(1000000,pool,f.draw.cardRules),ticket=choices.slice(0,pool.indexOf('V-009')).reduce((n,row)=>n+row.weight,0);
+    assert.equal(choices.find(c=>c.code==='V-050').withinRankPercent,1);
+    const result=await runPreparedMercenaryFusion(f.env,f.user,body,{randomInt:random(100000,ticket)});
     assert.equal(result.result.promoted,false);assert.equal(result.result.resultRank,'SS');assert.equal(result.result.mercenaryCode,'V-009');
     assert.equal(result.result.totalCopiesAfter,2);assert.equal(result.result.duplicatesAfter,1);assert.equal(result.result.isDuplicate,true);
     assert.equal((await snapshot(f)).reduce((n,c)=>n+Number(c.total_copies),0),3);assert.equal(await f.coin(),0);

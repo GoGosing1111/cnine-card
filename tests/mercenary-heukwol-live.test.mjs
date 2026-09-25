@@ -18,8 +18,8 @@ const art=seed.catalog.cards.find(c=>c.code==='V-048'),skill=seed.document.skill
 const snapshot={code:art.code,name:art.name,rank:'SS',role:'VANGUARD',position:'FRONT',level:1,basePower:120000,stats:{hp:100000,attack:1000,defense:100,speed:100},skills:[skill],combat,sourceArt:art.sourceArt,battleSprite:art.battleSprite};
 test('previous complete CMS expands once, preserving every prior operator edit and later unassignment',()=>{
  // Freeze this migration fixture at Heukwol's catalog generation.
- const catalog={...seed.catalog,cards:seed.catalog.cards.filter(c=>c.code!=='V-049'),skills:seed.catalog.skills.filter(s=>s.id!=='MS-049')};
- const defaults={...seed.document,mercenaries:seed.document.mercenaries.filter(c=>c.code!=='V-049'),assignments:seed.document.assignments.filter(c=>c.code!=='V-049'),skills:seed.document.skills.filter(s=>s.id!=='MS-049')};
+ const catalog={...seed.catalog,cards:seed.catalog.cards.filter(c=>c.code<='V-048'),skills:seed.catalog.skills.filter(s=>s.id<='MS-048')};
+ const defaults={...seed.document,mercenaries:seed.document.mercenaries.filter(c=>c.code<='V-048'),assignments:seed.document.assignments.filter(c=>c.code<='V-048'),skills:seed.document.skills.filter(s=>s.id<='MS-048')};
  const old=structuredClone(defaults);old.mercenaries.pop();old.assignments.pop();old.skills.pop();
  old.mercenaries[0].name='운영 이름';old.skills[0].balance.cost=37;old.assignments[0].skillIds=['MS-004'];
  const before=structuredClone(old),next=expandMercenarySkillCatalog(old,defaults,catalog);
