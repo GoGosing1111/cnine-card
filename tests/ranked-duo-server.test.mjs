@@ -9,7 +9,7 @@ test('balanced strong+weak pairs are deterministic and respect an odd waiting pa
  assert.deepEqual(pairDuoParticipants(entries.reverse()),result);
  const cards=Array.from({length:8},(_,i)=>({id:String(i),rarity:i<4?'SUPERSTAR':'FUR',power:100-i}));assert.equal(strongestDuoCards(cards).length,3);
 });
-for(const postgres of [false,true])test(`${postgres?'Postgres':'SQLite'} recruitment, four-deck battle and exact-once personal energy`,async t=>{
+for(const postgres of [false,true,'pipeline'])test(`${postgres==='pipeline'?'Postgres pipeline':postgres?'Postgres':'SQLite'} recruitment, four-deck battle and exact-once personal energy`,async t=>{
  const f=await duoFixture(t,{postgres});assert.equal((await f.call('ranked-duo/status',{user:2})).data.season,null);await f.ready();
  const before=await f.call('ranked-duo/status',{user:2});assert.equal(before.data.energy.current,10);assert.equal(before.data.team.members.length,2);
  const match=await f.call('ranked-duo/match',{user:2,method:'POST'});assert.equal(match.status,200,JSON.stringify(match));
@@ -20,7 +20,7 @@ for(const postgres of [false,true])test(`${postgres?'Postgres':'SQLite'} recruit
  assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,9);
  for(const user of [3,4,5])assert.equal((await f.call('ranked-duo/status',{user})).data.energy.current,10);
  assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM ranked_duo_matches_v1').first()).n),1);
- assert.equal((await f.call(`ranked-duo/replay?id=${fight.data.matchId}`,{user:6})).status,405);
+ assert.equal((await f.call(`ranked-duo/replay?id=${fight.data.matchId}`,{user:6})).status,403);
  const unauth=await f.call('ranked-duo/replay',{user:6,method:'POST',body:{matchId:fight.data.matchId}});assert.equal(unauth.status,403);
 });
 test('latest offline teammate upgrades invalidate only that account, not every inventory',async t=>{
@@ -111,4 +111,13 @@ test('global policy revisions rebuild cached data and recent history uses two bo
  const f=await duoFixture(t);await f.ready();const a=(await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()}))[0];
  await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)','zenith_master_star_breakthrough_v1802','{}').run();const b=(await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()}))[0];assert.equal(b.sourceVersion,a.sourceVersion);assert.equal(b.policyRevision,a.policyRevision+1);
  f.resetQueries();await f.call('ranked-duo/history',{user:2});const reads=f.queries().filter(q=>q.includes('FROM ranked_duo_matches_v1'));assert.equal(reads.length,2);assert.ok(reads.every(q=>q.includes('LIMIT ?')&&!q.includes(' OR ')));
+});
+
+test('last-energy pending match is discoverable and recoverable from a fresh device',async t=>{
+ const f=await duoFixture(t);await f.ready();await f.p("UPDATE ranked_duo_entries_v1 SET energy=1,energy_day='2026-09-28' WHERE user_id=2").run();
+ const ticket=await f.call('ranked-duo/match',{user:2,method:'POST'});f.fail('UPDATE ranked_duo_teams_v1 SET score=');
+ assert.equal((await f.call('ranked-duo/fight',{user:2,method:'POST',body:{requestId:'duo-last-energy-recovery',matchToken:ticket.data.token}})).status,500);f.fail('');
+ const status=await f.call('ranked-duo/status',{user:2});assert.equal(status.data.energy.current,0);assert.ok(status.data.pendingMatchId);
+ assert.equal((await f.call('ranked-duo/match',{user:2,method:'POST'})).data.pendingMatchId,status.data.pendingMatchId);
+ f.advance(31000);const result=await f.call('ranked-duo/replay',{user:2,method:'POST',body:{matchId:status.data.pendingMatchId}});assert.equal(result.data.status,'COMPLETED');assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,0);
 });

@@ -1,5 +1,6 @@
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
+import nodePg from 'pg';
 import {__postgresCompatTest} from '../../functions/_postgres_d1_compat.js';
 import {MERCENARY_CMS_SEED} from '../../functions/_mercenary_cms_seed.js';
 import {DUO_DEFAULTS} from '../../shared/ranked-duo-v1.mjs';
@@ -35,7 +36,7 @@ export async function duoFixture(t,{postgres=false}={}){
  let native,pg,DB,queries=[],failAt='';
  if(postgres){
   pg=new PGlite();await pg.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS') $$;");await pg.exec(schema.join(';'));
-  DB=new __postgresCompatTest.PostgresD1Database({async query(input){const sql=typeof input==='string'?input:input.text;queries.push(sql);if(failAt&&sql.includes(failAt))throw Error('INJECTED_DUO_FAILURE');const r=await pg.query(sql,typeof input==='string'?[]:input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length};}});
+  DB=new __postgresCompatTest.PostgresD1Database({async query(input){const sql=typeof input==='string'?input:input.text;queries.push(sql);if(failAt&&sql.includes(failAt))throw Error('INJECTED_DUO_FAILURE');if(postgres==='pipeline'&&typeof input==='string'){const rows=(await pg.exec(sql)).map(r=>({...r,rowCount:r.affectedRows??r.rows.length}));return rows.length===1?rows[0]:rows;}const r=await pg.query(sql,typeof input==='string'?[]:input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length};},...(postgres==='pipeline'?{escapeLiteral:value=>nodePg.Client.prototype.escapeLiteral.call(null,value)}:{})});
  }else{
   native=new DatabaseSync(':memory:');native.exec(schema.join(';'));
   const execute=s=>{queries.push(s.source);if(failAt&&s.source.includes(failAt))throw Error('INJECTED_DUO_FAILURE');const q=native.prepare(s.source);if(q.columns().length)return {results:q.all(...s.values),meta:{changes:0}};const r=q.run(...s.values);return {results:[],meta:{changes:Number(r.changes)}};};
@@ -53,7 +54,7 @@ export async function duoFixture(t,{postgres=false}={}){
  }
  const deps={now:()=>now,authenticate:async request=>p('SELECT * FROM users WHERE id=?',Number(request.headers.get('x-test-user'))).first(),readBody:request=>request.json(),json:(data,status=200)=>Response.json(data,{status}),
   readBattleSettings:async()=>({}),cardBattlePower:(card,level)=>Number(card.base_power||3200)*(1+level),cardUniqueDeckStates:async(_env,entries)=>entries.map(e=>({cards:e.cards})),evaluateDeckSynergiesBatch:async(_env,entries)=>entries.map(()=>({totals:{attackPercent:0}})),magicBattleLoadout:async()=>({cards:[]})};
- async function call(path,{user=1,method='GET',body={}}={}){const response=await handleRankedDuo({path,request:new Request(`https://test/api/${path}`,{method,headers:{'x-test-user':String(user),'Content-Type':'application/json'},...(['GET','HEAD'].includes(method)?{}:{body:JSON.stringify(body)})}),env,deps});return {status:response.status,data:await response.json()};}
+ async function call(path,{user=1,method='GET',body={}}={}){const response=await handleRankedDuo({path:path.split('?')[0],request:new Request(`https://test/api/${path}`,{method,headers:{'x-test-user':String(user),'Content-Type':'application/json'},...(['GET','HEAD'].includes(method)?{}:{body:JSON.stringify(body)})}),env,deps});return {status:response.status,data:await response.json()};}
  const config={...structuredClone(DUO_DEFAULTS),visible:true,startsAt:new Date(now+72*3600000).toISOString(),endsAt:new Date(now+14*86400000).toISOString(),energy:{maximum:10,dailyGrant:10,cost:1}};
  return {env,DB,p,pg,native,deps,call,config,advance:ms=>now+=ms,clock:()=>now,queries:()=>queries,resetQueries:()=>queries=[],fail:value=>failAt=value,
   async ready(){for(const path of ['create','recruit']){const r=await call('admin/ranked-duo/'+path,{method:'POST',body:path==='create'?{config}:{}});if(r.status!==200)throw Error(JSON.stringify(r));}for(const user of [2,3,4,5]){const r=await call('ranked-duo/join',{user,method:'POST'});if(r.status!==200)throw Error(JSON.stringify(r));}now+=72*3600000;await call('admin/ranked-duo/pair',{method:'POST'});for(let i=0;i<8;i++){const r=await call('admin/ranked-duo/pair-step',{method:'POST'});if(r.status!==200)throw Error(JSON.stringify(r));if(r.data.done)break;}const r=await call('admin/ranked-duo/start',{method:'POST'});if(r.status!==200)throw Error(JSON.stringify(r));return r;}

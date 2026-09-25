@@ -28,7 +28,7 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
    '<div class="duo-rules"><div><b>01</b><h3>성장을 반영하는 전력</h3><p>보유 카드·용병과 장비의 PVP 전력을 함께 평가합니다. FUR +13을 비교 기준으로 사용합니다.</p></div><div><b>02</b><h3>전투마다 최신 편성</h3><p>선택한 랭크전 공격 프리셋과 방어 프리셋 1을 사용합니다. 카드 강화와 장비 변경도 반영됩니다.</p></div><div><b>03</b><h3>네 덱의 하나 된 전투</h3><p>각자 일반 카드 5장과 용병 최대 1장. 우리 팀 전체가 싸우며 결과는 팀 점수에 반영됩니다.</p></div></div>'+
    '<footer class="duo-footnote">추가모집은 경기 시작 전 별도 안내합니다. 홀수 인원 중 미편성자는 대기하며, 시즌 보상은 별도 공지합니다.</footer>';
  }
- async function load(){state=await call('status');draw();if(tab!=='home')await loadTab();}
+ async function load(){state=await call('status');if(state.pendingMatchId)save({matchId:state.pendingMatchId});draw();if(tab!=='home')await loadTab();}
  async function loadTab(){
   const data=await call(tab);if(!root.isConnected)return;const content=root.querySelector('[data-duo-content]');
   if(tab==='ranking')content.innerHTML='<section class="duo-table"><header><h2>시즌 팀 랭킹</h2><span>상위 100팀 · 팀 점수순</span></header>'+ (data.ranking?.map(t=>'<div class="duo-rank-row"><b>'+t.rank+'</b><div><strong>'+t.members.map(m=>esc(m.nickname)).join(' <em>+</em> ')+'</strong><small>'+fmt(t.wins)+'승 '+fmt(t.losses)+'패</small></div><strong>'+fmt(t.score)+'</strong></div>').join('')||'<p class="duo-empty">팀 편성이 끝나면 랭킹이 공개됩니다.</p>')+'</section>';
@@ -50,19 +50,19 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
  async function playback(data){
   await ensureBattle();if(!root.isConnected)return;
   const modal=document.getElementById('modal');if(!modal)throw new Error('전투 화면을 열 수 없습니다.');
-  const previousOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
-  const close=()=>{renderer?.destroy();renderer=null;modal.__battleV2Renderer=null;modal.className='modal';modal.innerHTML='';document.body.style.overflow=previousOverflow;void load();};
+  let closed=false;const previousOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
+  const close=()=>{if(closed)return;closed=true;renderer?.destroy();renderer=null;modal.__battleV2Renderer=null;modal.className='modal';modal.innerHTML='';document.body.style.overflow=previousOverflow;void load().catch(error=>message(error.message));};
   const live=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'PVP',playerName:data.attackerNames.join(' + '),opponentName:data.defenderNames.join(' + ')});
   live.stage.querySelector('.battle-v3-header strong').textContent='랭크 듀오 · 2 대 2';
   const exit=document.createElement('button');exit.className='duo-battle-exit';exit.textContent='기록 닫기';exit.onclick=close;live.stage.append(exit);
   try{
-   renderer=await window.ProjectVBattleV3Live.createRenderer({...live,modal,data,mode:'PVP'});modal.__battleV2Renderer=renderer;
-   await renderer.play();if(!renderer)return;renderer.showResult();
+   const created=await window.ProjectVBattleV3Live.createRenderer({...live,modal,data,mode:'PVP'});if(closed){created.destroy();return;}renderer=created;modal.__battleV2Renderer=renderer;
+   await renderer.play();if(closed||!renderer)return;renderer.showResult();
    const ownSide=data.battleV2.teams.B.members.some(m=>state?.team?.members.some(own=>own.userId===m.ownerId))?'B':'A',win=data.battleV2.result.winner===ownSide;
    live.msg.innerHTML='<div class="duo-result"><small>DUO RANKED · RESULT</small><strong>'+ (win?'우리 팀 승리':'우리 팀 패배')+'</strong><p>경기 종료 시 팀 점수 '+fmt(ownSide==='A'?data.scoreAfter:data.opponentScoreAfter)+'</p><button class="duo-primary" data-duo-close>시즌 로비로 돌아가기 →</button></div>';
    live.msg.querySelector('button').onclick=close;
   }catch(error){
-   renderer?.destroy();renderer=null;live.stage.classList.add('is-result-visible');modal.classList.remove('battle-v3-preparing');live.stage.querySelector('.battle-v3-loader')?.remove();
+   if(closed)return;renderer?.destroy();renderer=null;live.stage.classList.add('is-result-visible');modal.classList.remove('battle-v3-preparing');live.stage.querySelector('.battle-v3-loader')?.remove();
    live.msg.innerHTML='<div class="duo-result"><strong>전투 기록이 저장되었습니다</strong><p>'+esc(error.message)+'</p><button class="duo-primary">돌아가기</button></div>';live.msg.querySelector('button').onclick=close;
   }
  }

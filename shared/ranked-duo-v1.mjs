@@ -28,12 +28,12 @@ export function strongestDuoCards(cards){
 }
 export function pairDuoParticipants(entries){
  if(entries.length>DUO_LIMITS.participants||new Set(entries.map(e=>e.userId)).size!==entries.length||entries.some(e=>!Number.isSafeInteger(e.userId)||e.userId<1||!Number.isFinite(e.power)||e.power<=0))throw duoError('PAIR_INPUT','편성 대상 전력을 확인하세요.');
- const sorted=[...entries].sort((a,b)=>b.power-a.power||a.userId-b.userId),n=Math.floor(sorted.length/2),teams=[];
+ const byArrival=[...entries].sort((a,b)=>String(a.joinedAt||'').localeCompare(String(b.joinedAt||''))||a.userId-b.userId),waiting=byArrival.length%2?[byArrival.pop()]:[],sorted=byArrival.sort((a,b)=>b.power-a.power||a.userId-b.userId),n=sorted.length/2,teams=[];
  // Opposite sorting minimises squared team sums for an additive score with
  // one member from each half. No all-pairs search or database work is needed.
  for(let i=0;i<n;i++){const strong=sorted[i],weak=sorted[n*2-1-i];teams.push({members:[strong,weak],power:strong.power+weak.power});}
  const powers=teams.map(t=>t.power),average=powers.length?powers.reduce((a,b)=>a+b,0)/powers.length:0;
- return {teams,waiting:sorted.slice(n*2),spreadPercent:average?(Math.max(...powers)-Math.min(...powers))/average*100:0};
+ return {teams,waiting,spreadPercent:average?(Math.max(...powers)-Math.min(...powers))/average*100:0};
 }
 export const duoDay=now=>new Date(Number(now)+9*3600000).toISOString().slice(0,10);
 export function duoEnergy(participant,config,now=Date.now()){
