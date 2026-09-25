@@ -37,3 +37,12 @@
 - 변경 범위는 용병 합성의 기존 거래 연결/복구와 메뉴 표시다. 공통 인프라 변경이 없으므로 `npm run deploy:production -- --scoped`를 사용한다.
 - 이미 통과한 거래·브라우저 검수를 반복하지 않고, 배포 게이트에서 `tests/mercenary-loading-20260925.test.mjs`, `tests/mercenary-codex-owned-roster-v2133.test.mjs`, `tests/adventure-lobby-menu-separation.test.mjs`와 `check:worker`를 실행한다. 로딩/텍스처 복구, 보유·편성의 연결, 메뉴 회귀와 Worker 컴파일이 대상이다.
 - 생성 로비 번들의 원본 일치, 범위 커밋·최신 origin/main 일치, 출시 플래그·캐시·Hyperdrive 캐시 OFF 검사를 유지한다. 배포 후에는 ON·확정 정책 및 변경된 운영 자산만 확인한다.
+
+## 운영 반영 완료
+
+- 소스 `7d0ec46837d6ee86143f8f641c5285fdef12c5c7`, Pages `5c9642d6` (https://5c9642d6.cnine-card.pages.dev). 지정 배포 명령의 clan-draft 버전은 `a450bbf8-0ca1-4a4f-81bb-9aa80be44553`다.
+- 선행 회귀 30개와 범위 게이트 18개, Worker 컴파일, clean/main·출시·캐시 및 Hyperdrive query cache OFF/바인딩 일치 검사 통과. 최신 main의 추석 포스터 자산 커밋을 rebase로 보존했다.
+- 2026-09-25 12:17 KST 운영 기본 주소에서 feature `enabled:true`, 중복 8장·승급 10%·추가 비용 0·기본 보유 보존을 확인했다. 보호된 영수증 GET은 비로그인 401이다.
+- 메인·도감 HTML, 도감/합성 진입 모듈, 합성 거래 클라이언트·스타일·정책, 생성 로비 번들 8개가 로컬과 SHA-256 일치한다. 준비 배지와 장비 강화 진입 링크가 제거됐고 새 메뉴 캐시가 참조된다.
+- 운영 확인은 읽기 전용으로 끝냈다. 실제 차감·지급·장애 검수는 앞의 격리 PostgreSQL에서 수행했으며 운영 설정을 재저장하거나 유저 보유량을 시험 변경하지 않았다.
+- 완료 기록만 후속 커밋하므로 게임 재배포하지 않는다.
