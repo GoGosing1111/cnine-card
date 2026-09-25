@@ -265,7 +265,7 @@ test('코인은 음수·잘못된 수·정밀도 초과만 안전하게 정리�
 test('CMS API 저장·재조회와 새 회차 스냅샷에 큰 금액을 그대로 보존한다',async()=>{
   const f=await fixture();
   try{
-    const next={...f.settings,attemptReward:{coin:8_000_000_000,shards:7},clearReward:{coin:15_000_000_000,shards:11}};
+    const next={...f.settings,attemptReward:{coin:8_000_000_000,shards:7},clearReward:{...f.settings.clearReward,coin:15_000_000_000,shards:11}};
     const saved=await f.api.handleSealBattle({path:'admin/seal-battle/settings',env:f.env,deps:f.deps,request:new Request('https://example.test/api/admin/seal-battle/settings',{method:'PATCH',body:JSON.stringify({settings:next})})});
     assert.equal(saved.status,200);assert.deepEqual(saved.body.settings,next);
     assert.deepEqual(await f.api.loadSettings(f.env),next);
