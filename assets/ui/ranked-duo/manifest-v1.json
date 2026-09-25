@@ -126,5 +126,7 @@
       "sha256": "0ffb7f223f0166ee8775c424dea051d5466da8c07d0ebaa97fb73460a9d20c2b",
       "webpBytes": 62934
     }
-  ]
+  ],
+  "status": "REJECTED_HEART_DESIGN",
+  "supersededReason": "사용자 2026-09-25: 양쪽 하트 디자인 반려, 양쪽 검투사 투구로 재제작"
 }

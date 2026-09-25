@@ -12,7 +12,7 @@ export const DUO_SCORE_TIERS=Object.freeze([
  {id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91'}
 ]);
 export const DUO_CHALLENGER={id:'challenger',name:'챌린저',rankLimit:10,color:'#79c8ef'};
-export const duoTierArt=id=>DUO_TIER_ART+(DUO_SCORE_TIERS.some(t=>t.id===id)||id==='challenger'?id:'bronze')+'-v1.webp';
+export const duoTierArt=id=>DUO_TIER_ART+(DUO_SCORE_TIERS.some(t=>t.id===id)||id==='challenger'?id:'bronze')+'-v2.webp';
 export function duoTiers(settings={}){
  const tiers=(settings.tiers?.length?settings.tiers:DUO_SCORE_TIERS).filter(t=>t.id!=='challenger').slice(0,20)
   .map(t=>({id:String(t.id),name:String(t.name),min:Math.max(0,Number(t.min)||0),color:/^#[a-f0-9]{6}$/i.test(t.color)?t.color:'#c9d4e3',art:duoTierArt(t.id)})).sort((a,b)=>a.min-b.min);
