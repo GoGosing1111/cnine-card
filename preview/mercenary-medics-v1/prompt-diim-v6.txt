@@ -1,0 +1,20 @@
+Revise the adult medic Diim illustration in reference image 1 according to the user's new direction. Her FACE IN IMAGE 1 is the accepted likeness direction: preserve its soft oval face, dark eye shape and spacing, small rounded nose, small closed lips, gentle fringe, low ponytail and restrained expression. Keep her natural smaller head size. Repaint the head-to-neck transition coherently as needed for the new standing pose, without changing her identity or pasting a face.
+
+Reference image 2 is ONLY the nurse CLOTHING DESIGN to restore: ivory short fitted nurse dress with sage-green piping, a shallow open square neckline framed by small lapels, short sleeves, central silver zipper, small silver necklace and ivory/sage hip medical pouch. Do not use image 2's face, head size or body proportions. The white/sage design should belong to the same elegant fantasy-nurse costume collection as the other approved medic characters.
+
+CHANGES:
+- Change the seated pose into a relaxed STANDING pose beside the workbench. Remove the stool entirely.
+- Correct body proportions into a graceful natural adult standing figure: normal shoulders, balanced torso and hips, a gently defined waist, proportional arms, natural thighs and longer clean leg lines. No oversized head, stretched neck, pinched waist or inflated hips.
+- Use the short, tailored above-mid-thigh dress design of reference 2, with believable cloth fit and restrained satin sheen.
+- BARE LEGS: remove the white tights/stockings completely. The legs are normal bare skin from dress hem down to simple white ankle boots.
+- Restore the open square nurse neckline and small lapels; remove the tall closed stand collar from reference 1.
+- Keep the white/sage nurse cap, medicine pouch, and gauze roll.
+
+POSE AND COMPOSITION:
+Stand with weight comfortably on one leg and the other foot half a step forward, body only slightly angled, head nearly facing the viewer with gentle eye contact. Both shoulders relaxed. One hand holds a small gauze roll at waist level; the other rests lightly on the workbench. Exactly two anatomically connected arms and hands. Use a neutral eye-level character-card view, framed from cap to shins, figure prominent and face readable. Calm professional healing scene, fully clothed uniform, no dramatic back arch.
+
+MATCH THE SKIN:
+Use the warm ivory skin color of image 1's face for ALL exposed skin: neck, upper chest, arms, hands and bare legs. A single broad soft daylight source from upper left illuminates her entire body. Same shadow temperature, painterly texture and highlight intensity on face and legs. The face must not look like a bright mask on a darker body. Anatomically attach the jaw to the neck and shoulders, with soft continuous cast shadows.
+
+Preserve the botanical infirmary atmosphere from image 1: ivory stone arches, green medicine bottles, white flowers, leafy vines and warm morning light. Coherent high-end semi-realistic 2D fantasy game painting throughout. Natural soft hair clumps and fine wispy bangs, not stiff metallic strands. Preserve the now-recognizable Diim face while changing only requested pose, body proportions and uniform treatment.
+One finished portrait illustration, 1024x1536 RGB PNG, exact 2:3. No text, border, watermark, card frame or UI.

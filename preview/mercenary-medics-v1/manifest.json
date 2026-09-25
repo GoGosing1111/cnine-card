@@ -1,0 +1,168 @@
+{
+  "format": "PROJECT_V_MEDIC_ART_PREVIEW_V1",
+  "date": "2026-09-26",
+  "status": "APPROVED_SOURCE_ART",
+  "runtimeConnected": false,
+  "approvalRecord": "../../assets/ui/project-v/mercenaries/mercenary-medics-art-approval-20260926.json",
+  "entries": [
+    {
+      "key": "mangsoon",
+      "name": "메딕 망순",
+      "characterAlias": "봉순",
+      "code": null,
+      "rank": null,
+      "battleSprite": null,
+      "status": "APPROVED_SOURCE_ART",
+      "version": 1,
+      "description": "의료 가방·앰풀을 든 원화 · 코랄",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-mangsoon-source-art-v1.png",
+      "reviewSource": "preview/mercenary-medics-v1/assets/medic-mangsoon-source-art-v1.png",
+      "prompt": "prompt-mangsoon-v1.txt",
+      "sha256": "C066EB2E4D7F85D55C2A3F52E9EB3E48822E3777B63F371C08759D17418D0CE9",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "approval": {
+        "date": "2026-09-26",
+        "userMessage": "봉순",
+        "attachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-e1bb3752-c593-4625-b0ad-4b0cca324c5e.png",
+        "attachmentSha256": "3969303830FCA578714DB6F47839FEE789BC0E64926F97BB20B56F8959D56CF5",
+        "decodedPixelsIdentical": true,
+        "decodedBgra32Sha256": "C0E291EB86E27DE36A944757A7656BB346FA157F34D864BAB382700AE6F97971"
+      },
+      "file": "../../assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-mangsoon-source-art-v1.png"
+    },
+    {
+      "key": "joeun",
+      "name": "메딕 조은",
+      "characterAlias": "조은",
+      "code": null,
+      "rank": null,
+      "battleSprite": null,
+      "status": "APPROVED_SOURCE_ART",
+      "version": 4,
+      "description": "정면 시선 · 무릎 자세 · 블루",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-joeun-source-art-v1.png",
+      "reviewSource": "preview/mercenary-medics-v1/assets/medic-joeun-source-art-v4.png",
+      "prompt": "prompt-joeun-v4.txt",
+      "sha256": "08A94AA965852545A7AC5F110FB8A4D102D19DDE6A409F780029295A52A40124",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "approval": {
+        "date": "2026-09-26",
+        "userMessage": "조은",
+        "attachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-931fc6a6-e022-4f8f-b2f8-4ef6708f4c82.png",
+        "attachmentSha256": "1A62F03FBB7C0C28E2E41725066DD6BF8C9D10F302F9F841A99EE68CEBCB1307",
+        "decodedPixelsIdentical": true,
+        "decodedBgra32Sha256": "E4E197A67D1F5FBE86D06CB578021A8910E56522984775D856CE87C80EA53064"
+      },
+      "file": "../../assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-joeun-source-art-v1.png"
+    },
+    {
+      "key": "diim",
+      "name": "메딕 디임",
+      "characterAlias": "디임",
+      "code": null,
+      "rank": null,
+      "battleSprite": null,
+      "status": "APPROVED_SOURCE_ART",
+      "version": 6,
+      "description": "서 있는 자세 · 맨다리 · 세이지",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-diim-source-art-v1.png",
+      "reviewSource": "preview/mercenary-medics-v1/assets/medic-diim-source-art-v6.png",
+      "prompt": "prompt-diim-v6-standing.txt",
+      "sha256": "C314ADD00694B03A12640D80108FB45521B3EB1FA053181B0D7469B742C3FC0F",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "approval": {
+        "date": "2026-09-26",
+        "userMessage": "이거로 확정하자.. 디임",
+        "attachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-54accbf0-46c1-4380-9180-9d793ffc329a.png",
+        "attachmentSha256": "E71F2341E03911F9633A958EA0AFB2110EB1AF961840256440CEC6162F0361F3",
+        "decodedPixelsIdentical": true,
+        "decodedBgra32Sha256": "C62B88D9F1ACD7C4E74510C1F92355EB147208E7EB3AB205BDBC7588BB29560B"
+      },
+      "file": "../../assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-diim-source-art-v1.png"
+    },
+    {
+      "key": "heeya",
+      "name": "메딕 희야",
+      "characterAlias": "희야",
+      "code": null,
+      "rank": null,
+      "battleSprite": null,
+      "status": "APPROVED_SOURCE_ART",
+      "version": 4,
+      "description": "어깨 길이 머리 · 의료 가방·치유광 · 라일락",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-heeya-source-art-v1.png",
+      "reviewSource": "preview/mercenary-medics-v1/assets/medic-heeya-source-art-v4.png",
+      "prompt": "prompt-heeya-v4.txt",
+      "sha256": "349FA436F93780CF4268C662974CDDF673A6656776D24444552975C80348A6DD",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "approval": {
+        "date": "2026-09-26",
+        "userMessage": "희야",
+        "attachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-87ddbeb9-012a-4bcf-87f2-42a62472101b.png",
+        "attachmentSha256": "67BC6A9961423BE7A379AC46BFD4AC004B53503C238A6D345E60AE58D327171B",
+        "decodedPixelsIdentical": true,
+        "decodedBgra32Sha256": "DDB3FAD3B361795EC4011713085310EF8735BF9599D3114E9AF6580A6E604680"
+      },
+      "file": "../../assets/ui/project-v/mercenaries/approved-20260926/mercenary-medic-heeya-source-art-v1.png"
+    }
+  ],
+  "excludedFromFinal": [
+    {
+      "file": "assets/medic-mangsoon-source-art-v4.png",
+      "reason": "User finally selected the V1 image holding the case."
+    },
+    {
+      "file": "assets/medic-joeun-source-art-v3.png",
+      "reason": "Replaced with direct front gaze in V4."
+    },
+    {
+      "file": "assets/medic-diim-source-art-v3.png",
+      "reason": "User rejected face integration."
+    },
+    {
+      "file": "assets/medic-diim-source-art-v4.png",
+      "reason": "User rejected facial likeness, oversized head and inconsistent skin tone."
+    },
+    {
+      "file": "assets/medic-diim-source-art-v5.png",
+      "reason": "Facial direction accepted, then standing pose, bare legs and outfit changes requested."
+    },
+    {
+      "file": "assets/medic-heeya-source-art-v2.png",
+      "reason": "User rejected additional arm; do not use as input."
+    },
+    {
+      "file": "assets/medic-heeya-source-art-v3.png",
+      "reason": "Replaced by full redraw V4."
+    }
+  ],
+  "blockedAttemptsWithoutImage": [
+    "prompt-diim-v3.txt",
+    "prompt-diim-v5.txt",
+    "prompt-diim-v6.txt"
+  ],
+  "validation": {
+    "size": "1024x1536",
+    "color": "8-bit RGB PNG",
+    "unchangedOriginalFileHashes": true,
+    "approvalAttachmentsDecodedPixelsIdentical": true,
+    "decodedPixelHashFormat": "System.Drawing bitmap read-only Format32bppArgb bytes, stride 4096, SHA-256",
+    "previewViewports": [
+      1440,
+      390
+    ],
+    "cardWidth": 160
+  }
+}

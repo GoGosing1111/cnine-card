@@ -1,0 +1,15 @@
+Draw a completely new full-figure illustration of the adult woman in the first two reference photographs as a calm fantasy clinic medic. Those photographs are her facial likeness references. Reference 3 provides only the polished semi-realistic 2D painting style, not its character, clothing, face or composition.
+
+Her likeness is the primary requirement: gently rounded dark eyes, softly straight eyebrows, low gentle nose bridge, small rounded nose tip, understated small closed lips, compact soft oval jaw and rounded chin, airy straight black bangs. Keep the proportions of these features from the photographs, translated into painterly forms. Do not substitute a generic sharp-jawed, high-nosed glamour face.
+
+Natural adult body anatomy and a proportionate head are crucial. Head including hair should be about 44 percent of shoulder width. Use comfortable adult proportions and normal shoulder width, with head and neck firmly integrated into the torso. Full seated figure in frame, from small nurse cap to feet; the head is not a large close-up. A natural view with a longer portrait-lens feel, without perspective enlargement of the head.
+
+She is seated upright on a padded sage clinic stool, both feet on the floor, knees together, preparing a clean gauze roll with both hands at her lap. Torso turns slightly toward the right of the canvas; head follows the torso with a small natural turn to the viewer. Kind restrained expression and attentive near-front gaze. Hair is straight black, gathered in a simple low ponytail behind the shoulder, with delicate see-through bangs and little volume at the crown. Exactly two arms, clear hands and practical gauze grip.
+
+Clothing: a clean, opaque ivory tailored nurse uniform with short sleeves, narrow sage-green piping, a closed square collar, central silver zipper, slim belt and small hip medicine pouch. The neat fitted skirt reaches just above her knees, with opaque white tights and white low-heeled calf boots. Small white nurse cap with a sage medic emblem. Restrained satin cloth finish with believable seams and folds. Calm everyday clinical action.
+
+Paint her skin consistently across forehead, cheeks, jaw, neck and arms using one warm ivory palette. The same gentle warm daylight and neutral soft shadows must fall across face and body. No pale pink mask on a golden torso. A continuous soft under-jaw shadow models the neck, with light reflected from the collar. Use the SAME brushwork, surface finish and level of stylization on the face, hands and all exposed skin, with painterly planes rather than copied photographic pixels.
+
+Elegant sunlit botanical stone infirmary, tall ivory arches, sage upholstery, leafy vines, a few white flowers and green medicine bottles on the workbench. Broad soft morning light from upper left, low contrast atmosphere. Background recedes behind the clearly readable character. Premium character-focused semi-realistic PAINTED 2D fantasy splash art, cohesive from face through costume to scenery. No photograph compositing, no glossy 3D doll appearance.
+
+Deliver a single vertical 1024x1536 RGB PNG, exact 2:3. No text, signatures, watermarks, borders or UI.
