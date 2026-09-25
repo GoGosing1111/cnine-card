@@ -18,7 +18,7 @@ function between(source, start, end) {
 // initial status request. Mutations remain on their dedicated endpoints.
 const bindWorkshop = between(client, 'async function bindWorkshopView()', 'async function bindScrapyardView()');
 const bindScrapyard = between(client, 'async function bindScrapyardView()', 'async function craftVehicle()');
-assert.match(bindWorkshop, /nextState\s*=\s*await api\('workshop'\)[\s\S]*?workshopState\s*=\s*nextState/);
+assert.match(bindWorkshop, /nextState\s*=\s*await\s*\(window\.consumeWorkshopEntryRead\s*\?\s*window\.consumeWorkshopEntryRead\(\)\s*:\s*api\('workshop'\)\)[\s\S]*?workshopState\s*=\s*nextState/);
 assert.doesNotMatch(bindWorkshop, /scrapyard\/status|Promise\.all/);
 assert.match(bindScrapyard, /nextState\s*=\s*await api\('scrapyard\/status'\)[\s\S]*?scrapyardState\s*=\s*nextState/);
 assert.doesNotMatch(bindScrapyard, /api\('workshop'\)|Promise\.all/);
