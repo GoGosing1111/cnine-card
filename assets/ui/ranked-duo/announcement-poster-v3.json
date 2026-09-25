@@ -1,0 +1,22 @@
+{
+  "generator": "built-in image_gen",
+  "generatedAt": "2026-09-25",
+  "prompt": "Edit image 1, the existing finished Korean game announcement poster, preserving its portrait 2:3 composition, all readable Korean text, arena background, dark navy/gold lighting and typographic hierarchy.\nReplace the central old heart-shaped trophy completely with the exact paired gladiator helmet trophy from image 2. Preserve the full pedestal and two outward-facing helmets. Keep it large and heroic with realistic integration into the same arena lighting.\nReplace the small old heart emblem row with THREE well-spaced representative gladiator helmet emblems from images 3, 4, 5, respectively BRONZE / GRANDMASTER / CHALLENGER. Labels directly below the three should be 브론즈 / 그랜드마스터 / 챌린저. These are representative examples among eight tiers. Keep the sentence 새롭게 탄생한 8종의 듀오 티어. All heart shapes and romantic motifs must be removed. Do not redraw generic jewel logos; preserve the helmet art subjects and distinctive tier colors. No new figures or fake gameplay.\nPreserve all other copy verbatim, including:\n숲켓몬\n랭크 듀오\n혼자 접속해도, 함께 싸운다\n2인 1팀 · 비동기 랭크전\n24시간 참가 모집\n강자 + 성장 중인 유저 자동 팀 편성\n네 사람의 덱, 하나의 전장\n덱·장비는 매 경기 최신 반영\n행동력은 각자 사용\n일반 랭크전과 같은 충전 규칙 · 별도 차감\n랭크전 시즌 연동 · 자동 모집·종료\n브론즈부터 챌린저까지\n새롭게 탄생한 8종의 듀오 티어\n최종 상위 10팀, 두 사람 모두\n듀오 챌린저 트로피 지급\nCritical typography: the top brand 숲켓몬 uses clean balanced bold Korean sans serif. The first syllable 숲 has normal ㅅ / ㅜ / ㅍ construction, no extra detached/protruding stroke, no leaf decorations touching the glyphs. Reward is TEN teams, never twenty. No dates, URLs, watermark, new text, or invented rewards. Preserve exact aspect ratio and crisp Korean legibility.",
+  "references": [
+    "C:\\Users\\User\\.codex\\worktrees\\duo-season-design-20260925\\cnine-card\\assets\\ui\\ranked-duo\\announcement-poster-v2.png",
+    "C:\\Users\\User\\.codex\\worktrees\\duo-season-design-20260925\\cnine-card\\assets\\ui\\ranked-duo\\challenger-trophy-v2.png",
+    "C:\\Users\\User\\.codex\\worktrees\\duo-season-design-20260925\\cnine-card\\assets\\ui\\ranked-duo\\bronze-v2.png",
+    "C:\\Users\\User\\.codex\\worktrees\\duo-season-design-20260925\\cnine-card\\assets\\ui\\ranked-duo\\grandmaster-v2.png",
+    "C:\\Users\\User\\.codex\\worktrees\\duo-season-design-20260925\\cnine-card\\assets\\ui\\ranked-duo\\challenger-v2.png"
+  ],
+  "approvedPolicy": {
+    "recruitHours": 24,
+    "challengerTeams": 10
+  },
+  "file": "announcement-poster-v3.png",
+  "source": "C:\\Users\\User\\.codex\\generated_images\\01a0d4d4-783a-7e00-b2be-643fd0991bc0\\exec-cc6cef61-11b0-49dd-a0ab-3ff52ba148f2.png",
+  "review": "양쪽 검투사 투구 트로피·대표 티어 3종, 24시간 모집, 상위 10팀과 숲켓몬 한글 획 확인. 전체 8종 티어 중 브론즈·그랜드마스터·챌린저를 대표로 표시.",
+  "width": 1024,
+  "height": 1536,
+  "sha256": "0ec26a90a8882ee6806a09aac303c791e39d9b6f76a9cfb514cee5b257fcbdba"
+}
