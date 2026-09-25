@@ -11,7 +11,8 @@ export function lootEquipmentMatchesProduct(item,type){
 export const lootMysticPoolComplete=pool=>pool.length===LOOT_MYSTIC_NAMES.length&&LOOT_MYSTIC_NAMES.every(name=>pool.filter(item=>item.name===name&&lootEquipmentMatchesProduct(item,'MYSTIC_EQUIPMENT')).length===1);
 export const PIG_COIN_IMAGE='assets/items/pig-coin-v1.png';
 export const LOOT_SOURCE_LABELS={TERRITORY:'영토전',CLAN:'클랜전',CORE_RAID:'신규 레이드'};
-export const LOOT_PRODUCT_TYPES={SUPERSTAR_CHOICE:'슈퍼스타 선택팩',FUR_CHOICE:'FUR 선택팩',F_BODY:'F바디',MYSTIC_EQUIPMENT:'미스틱 장비',MERCENARY_PACK:'용병 A~S등급 카드팩'};
+export const LOOT_PRODUCT_TYPES={SUPERSTAR_CHOICE:'슈퍼스타 선택팩',FUR_CHOICE:'FUR 선택팩',F_BODY:'F바디',MYSTIC_EQUIPMENT:'미스틱 장비',MERCENARY_PACK:'용병 A~S등급 카드팩',MERCENARY_SS_PACK:'SS 용병 카드팩'};
+export const lootMercenaryRanks=type=>type==='MERCENARY_SS_PACK'?['SS']:type==='MERCENARY_PACK'?['A','S']:[];
 // User-approved 2026-09-15. Values are prepared; explicit CMS saving enables payment.
 export const PIG_COIN_SOURCE_DEFAULTS=[
  {code:'TERRITORY',enabled:false,victoryAmount:100,participationAmount:50},
@@ -28,7 +29,11 @@ export const LOOT_SHOP_DEFAULTS={revision:0,salesEnabled:false,rewardsEnabled:fa
 // Old flat rewards have no victory/participation or weekly contract. Require an
 // explicit save of the new rules, preserving all products and purchase identities.
 export function upgradeLootShopPolicy(raw){
- const next=structuredClone(raw);if(!Array.isArray(next?.sources))return next;
+ const next=structuredClone(raw);
+ // Expose the new draft on existing installations without rewriting saved settings.
+ // Price, lifetime cap and candidates remain unset until the OWNER saves them.
+ if(Array.isArray(next?.products)&&!next.products.some(p=>p.type==='MERCENARY_SS_PACK'))next.products.push(structuredClone(LOOT_SHOP_DEFAULTS.products.find(p=>p.type==='MERCENARY_SS_PACK')));
+ if(!Array.isArray(next?.sources))return next;
  next.sources=next.sources.map(s=>PIG_COIN_SOURCE_FIELDS[s.code]?.some(([key])=>!Object.hasOwn(s,key))?structuredClone(PIG_COIN_SOURCE_DEFAULTS.find(d=>d.code===s.code)):s);
  if(!next.sources.some(s=>s.enabled))next.rewardsEnabled=false;return next;
 }
@@ -46,7 +51,8 @@ const int=(v,min,max,label)=>{if(!Number.isSafeInteger(v)||v<min||v>max)throw er
 const nullable=(v,min,max,label)=>v===null?null:int(v,min,max,label);
 const bool=(v,label)=>{if(typeof v!=='boolean')throw error(`${label} 설정을 확인하세요.`);return v;};
 const ids=(v,pattern,label)=>{if(!Array.isArray(v)||v.length>500||new Set(v).size!==v.length||v.some(id=>typeof id!=='string'||!pattern.test(id)))throw error(`${label} 목록을 확인하세요.`);return [...v];};
-export const lootProductMaxAccountLimit=type=>type==='FUR_CHOICE'?10:3;
+// SS has an owner-defined cap; the ceiling is an integer storage bound, not a sales policy.
+export const lootProductMaxAccountLimit=type=>type==='MERCENARY_SS_PACK'?2147483647:type==='FUR_CHOICE'?10:3;
 export function validateLootShopPolicy(raw){
  if(!raw||!Array.isArray(raw.products)||raw.products.length>100||!Array.isArray(raw.sources))throw error('상점 설정을 확인하세요.');
  const next={revision:int(raw.revision,0,2147483646,'수정 버전'),salesEnabled:bool(raw.salesEnabled,'판매'),rewardsEnabled:bool(raw.rewardsEnabled,'재화 지급'),sources:[],products:[]};
@@ -65,6 +71,7 @@ export function validateLootShopPolicy(raw){
    if(r.type.endsWith('_CHOICE')&&!r.cardIds.length)throw error(`${r.name}의 선택 카드를 등록하세요.`);
    if(r.type==='F_BODY'&&!r.equipmentId)throw error(`${r.name}의 지급 장비를 선택하세요.`);
    if(r.type==='MERCENARY_PACK'&&(!r.mercenaryCodes.length||r.mercenaryWeights.A===null||r.mercenaryWeights.S===null||r.mercenaryWeights.A+r.mercenaryWeights.S<=0))throw error('용병 목록과 A/S 등급 가중치를 설정하세요.');
+   if(r.type==='MERCENARY_SS_PACK'&&!r.mercenaryCodes.length)throw error('SS등급 용병 후보를 선택하세요.');
   }
   next.products.push(r);
  }

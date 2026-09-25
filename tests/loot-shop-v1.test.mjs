@@ -5,8 +5,8 @@ import {lootShopAsset,inspectionMarkup} from '../js/loot-shop-v1.mjs';
 import {pigCoinBalance,purchaseLootProduct,openLootPack,pigCoinRewardStatements,lootShopState,lootShopCatalog,saveLootShopPolicy,readLootShopPolicy,handleLootShop,LOOT_SHOP_KEY} from '../functions/_loot_shop.js';
 const id=()=>crypto.randomUUID();
 test('unconfigured economy stays OFF; prices, caps and weights must be explicit',()=>{assert.equal(validateLootShopPolicy(LOOT_SHOP_DEFAULTS).salesEnabled,false);for(const value of [0,-1,4,1.5,'2']){const p=structuredClone(LOOT_SHOP_DEFAULTS);p.products[0].accountLimit=value;assert.throws(()=>validateLootShopPolicy(p));}const p=structuredClone(LOOT_SHOP_DEFAULTS);p.products[0].enabled=true;assert.throws(()=>validateLootShopPolicy(p));});
-test('only FUR choice permits a lifetime cap of ten; other products retain three',()=>{
- for(const product of LOOT_SHOP_DEFAULTS.products){
+test('FUR permits ten, legacy products retain three, and SS is configured separately',()=>{
+ for(const product of LOOT_SHOP_DEFAULTS.products.filter(p=>p.type!=='MERCENARY_SS_PACK')){
   const max=product.type==='FUR_CHOICE'?10:3;
   for(let limit=1;limit<=max;limit++){const policy=structuredClone(LOOT_SHOP_DEFAULTS);policy.products.find(p=>p.id===product.id).accountLimit=limit;assert.equal(validateLootShopPolicy(policy).products.find(p=>p.id===product.id).accountLimit,limit);}
   for(const value of [0,-1,max+1,1.5,'10']){const policy=structuredClone(LOOT_SHOP_DEFAULTS);policy.products.find(p=>p.id===product.id).accountLimit=value;assert.throws(()=>validateLootShopPolicy(policy),{code:'JOINT_LOOT_CONFIG'});}
