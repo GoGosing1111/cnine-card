@@ -948,7 +948,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   auction:{
     styles:['css/auction-house-v1553.css?v=1592-responsive-stage','css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0'],
-    scripts:['js/auction-house-v1553.js?v=1674-load-shed'],
+    scripts:['js/auction-house-v1553.js?v=20260926-bgm-bids'],
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },
   prediction:{
