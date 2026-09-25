@@ -1,6 +1,6 @@
 import { resolveAvatarDropRate } from './_avatar_drop.js';
 const MAGIC_DECK_TYPES=['PVE','PVP'];
-import {loadUniqueAdvancementsForCards,uniqueAdvancementSettings} from './_unique_advancement.js';
+import {loadUniqueAdvancementsForCards,loadUniqueAdvancementsForDecks,uniqueAdvancementSettings} from './_unique_advancement.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 import { ensurePvpMagicPresets, readPvpMagicPresets, magicPresetNo, normalizeMagicSlots, storedMagicSlots, validateMagicSlots, magicLoadoutWrites, pvpMagicPresetWrites } from './_magic_presets.js';
 
@@ -152,6 +152,23 @@ export async function magicBattleLoadout(env,user,deckType='PVE',options={}){
   return (await magicBattleLoadouts(env,[user],deckType))[0];
 }
 
+// Duo projections rebuild at most twelve accounts together. Read both attack
+// and defense presets once, including the legacy unsaved-preset fallback.
+export async function duoMagicLoadouts(env,entries=[]){
+  if(entries.length>24)throw new Error('DUO_MAGIC_BATCH_LIMIT');
+  const empty=entries.map(()=>({cards:[]}));if(!entries.length)return empty;
+  const cfg=await magicSettings(env);if(!cfg.enabled)return empty;
+  const users=[...new Set(entries.map(e=>Number(e.userId)))],marks=users.map(()=>'?').join(',');
+  const [presets,legacy]=await Promise.all([
+    env.DB.prepare(`SELECT user_id,preset_no,magic_card_ids FROM pvp_magic_presets WHERE user_id IN (${marks})`).bind(...users).all(),
+    env.DB.prepare(`SELECT user_id,slot_no,magic_card_id FROM magic_card_loadouts WHERE user_id IN (${marks}) AND deck_type='PVP'`).bind(...users).all()
+  ]);
+  const slots=entries.map(e=>{const saved=presets.results.find(p=>Number(p.user_id)===Number(e.userId)&&Number(p.preset_no)===Number(e.presetNo));if(saved)return storedMagicSlots(saved.magic_card_ids);const list=[0,0,0,0,0];for(const row of legacy.results)if(Number(row.user_id)===Number(e.userId)&&Number(row.slot_no)>=1&&Number(row.slot_no)<=5)list[Number(row.slot_no)-1]=Number(row.magic_card_id);return list;});
+  const ids=[...new Set(slots.flat().filter(Boolean))];if(!ids.length)return empty;
+  const rows=(await env.DB.prepare(`SELECT umc.user_id,mc.*,COALESCE(umc.enhancement_level,0) enhancement_level FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id IN (${marks}) AND mc.id IN (${ids.map(()=>'?').join(',')}) AND umc.quantity>0 AND mc.is_active=1 AND mc.scope_pvp=1`).bind(...users,...ids).all()).results;
+  return entries.map((e,i)=>({cards:slots[i].map((id,index)=>{const row=rows.find(r=>Number(r.user_id)===Number(e.userId)&&Number(r.id)===id);return row?normalizeMagicBattleEffect({...row,slot_no:index+1,effective_trigger_chance:cfg.enhancement.triggerRates[integer(row.enhancement_level,0,0,9)]||0}):null;}).filter(Boolean)}));
+}
+
 
 let cardUniqueSettingsCache={at:0,value:null};
 export function defaultCardUniqueSettings(){
@@ -220,9 +237,9 @@ function normalizeUniqueCards(cards=[]){
 const HIGH_UNIQUE_BOOST_FALLBACK={FUR:[30,60,100],ZENITH:[20,40,60]};
 let highUniqueBoostCache=null;
 export function invalidateHighUniqueBoostCache(){highUniqueBoostCache=null}
-async function highUniqueBoostTable(env){
+async function highUniqueBoostTable(env,{fresh=false}={}){
   const now=Date.now();
-  if(highUniqueBoostCache&&highUniqueBoostCache.expiresAt>now)return highUniqueBoostCache.value;
+  if(!fresh&&highUniqueBoostCache&&highUniqueBoostCache.expiresAt>now)return highUniqueBoostCache.value;
   const value={FUR:[0,0,0,0,0],ZENITH:[0,0,0],SUPERSTAR:[0,0,0]};
   try{
     const rows=(await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802')").all()).results||[];
@@ -238,7 +255,7 @@ async function highUniqueBoostTable(env){
     }
     // SUPERSTAR 고급 강화는 ZENITH 운영 설정과 고유효과 증폭을 항상 공유한다.
     value.SUPERSTAR=[...value.ZENITH];
-  }catch{}
+  }catch(error){if(fresh)throw error;}
   highUniqueBoostCache={value,expiresAt:now+60000};
   return value;
 }
@@ -297,8 +314,8 @@ function buildCardUniqueDeckState(user,cards,cfg,effectMap,boostTable=null,advan
   const power=Math.max(0,Math.floor(Math.sqrt(Math.max(0,attackPower)*Math.max(0,durabilityPower))*(1+speedPercent/200)));
   return {enabled:visible||hasAdvancement,ownerTest,settings:cfg,basePower,power,attackPower:Math.round(attackPower),durabilityPower:Math.round(durabilityPower),speedPercent:Number(speedPercent.toFixed(3)),cards:appliedCards,effects:appliedEffects};
 }
-export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
-  const cfg=await cardUniqueSettings(env),list=(Array.isArray(entries)?entries:[]).map(entry=>({user:entry?.user||null,cards:Array.isArray(entry?.cards)?entry.cards:[]}));
+export async function cardUniqueDeckStates(env,entries=[],scope='PVE',{fresh=false,batched=false}={}){
+  const cfg=await cardUniqueSettings(env,{fresh}),list=(Array.isArray(entries)?entries:[]).map(entry=>({user:entry?.user||null,cards:Array.isArray(entry?.cards)?entry.cards:[]}));
   const visibleEntries=list.filter(entry=>cardUniqueVisibleTo(entry.user,cfg));
   const ids=[...new Set(visibleEntries.flatMap(entry=>entry.cards.map(card=>String(card?.id??card?.card_id??'')).filter(Boolean)))];
   const effectMap=new Map();
@@ -314,9 +331,10 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
   }
   // V1802/V1940: 고유효과 강화 배율은 11강 이상 FUR/ZENITH/SUPERSTAR 편성에만 의미가 있다.
   // 무조건 조회하면 모든 전투(PVE·PVP·무한의탑·레이드·봉인전·점령전)마다 D1 왕복이 한 번씩 더 붙는다.
-  const boostTable=hasHighTierCard(visibleEntries)?await highUniqueBoostTable(env):null;
-  const advancementSettings=await uniqueAdvancementSettings(env,{ensure:false});
-  const advancementMaps=await Promise.all(list.map(async entry=>{
+  const boostTable=hasHighTierCard(visibleEntries)?await highUniqueBoostTable(env,{fresh}):null;
+  const advancementSettings=await uniqueAdvancementSettings(env,{ensure:false,fresh});
+  const advancementAllowed=entry=>advancementSettings.mode==='ON'||advancementSettings.mode==='TEST'&&isOwner(entry.user);
+  const advancementMaps=batched?await loadUniqueAdvancementsForDecks(env,list.map(e=>advancementAllowed(e)?e:{...e,cards:[]})):await Promise.all(list.map(async entry=>{
     const mode=String(advancementSettings?.mode||'OFF').toUpperCase();
     const enabled=mode==='ON'||(mode==='TEST'&&isOwner(entry.user));
     if(!enabled||!entry.user?.id)return new Map();

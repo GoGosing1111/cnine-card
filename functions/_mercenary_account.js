@@ -64,7 +64,7 @@ async function growthRow(env,user,code){return await env.DB.prepare('SELECT * FR
 async function requireOwned(env,user,code){knownCode(code);const row=await env.DB.prepare('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?').bind(user.id,code).first();if(!row)throw jointError('MERCENARY_NOT_OWNED','보유한 용병만 사용할 수 있습니다.',403);return row;}
 function assignedSkills(document,code){return (document.assignments.find(a=>a.code===code)?.skillIds||[]).map(id=>document.skills.find(s=>s.id===id));}
 function skillsReady(skills){return skills.every(s=>s&&s.review==='REVIEWED'&&Object.values(s.balance||{}).length===3&&Object.values(s.balance).every(n=>Number.isFinite(n)));}
-function battleConfig(document,code,level){
+export function battleConfig(document,code,level){
   const c=document.mercenaries.find(c=>c.code===code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===code);
   if(!mercenaryBasePower(c?.rank))throw jointError('MERCENARY_STATS_PENDING','용병 등급을 확정하세요.',409);
   const assigned=assignedSkills(document,code),skills=assigned.filter(s=>skillsReady([s]));

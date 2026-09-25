@@ -975,7 +975,7 @@ class BaseBattleEngine{
       character.updatePerspective(this.depthForY(point.y));
       character.root.depthSortY=point.y;
     };
-    this.allies.forEach((character,index)=>apply(character,ISO_FORMATIONS.allies[index]));
+    this.allies.forEach((character,index)=>apply(character,ISO_FORMATIONS.allies[index%ISO_FORMATIONS.allies.length]));
     this.enemies.forEach((character,index)=>apply(character,ISO_FORMATIONS.enemies[index%ISO_FORMATIONS.enemies.length]));
     this.layoutAccountBattleUnit();
     this.layoutObjective();
@@ -1180,6 +1180,11 @@ class BaseBattleEngine{
   ensureEnemyCapacity(count){
     while(this.enemies.length>count){const actor=this.enemies.pop();this.characters=this.characters.filter(c=>c!==actor);actor.destroy();}
     while(this.enemies.length<count){const actor=new BattleCharacter({id:'ENEMY-'+this.enemies.length,name:'증원',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,accent:0xff496f,hp:100,x:0,y:0,scale:.55});actor.battleActive=false;actor.root.visible=false;actor.root.alpha=0;this.enemies.push(actor);this.characters.push(actor);this.combatLayer.addChild(actor.root);}
+  }
+
+  ensureAllyCapacity(count){
+    while(this.allies.length>count){const actor=this.allies.pop();this.characters=this.characters.filter(c=>c!==actor);actor.destroy();}
+    while(this.allies.length<count){const actor=new BattleCharacter({id:'ALLY-'+this.allies.length,name:'팀원',team:TEAM.ALLY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,accent:0x40cfff,hp:100,x:0,y:0,scale:.5});actor.battleActive=false;actor.root.visible=false;this.allies.push(actor);this.characters.push(actor);this.combatLayer.addChild(actor.root);}
   }
 
   ensureAccountBattleUnit(){
@@ -1773,7 +1778,8 @@ class BaseBattleEngine{
     this.activeFallbackArt=[];
 
     const legion=payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS';
-    this.ensureEnemyCapacity(legion?7:5);
+    const duo=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS';
+    this.ensureAllyCapacity(duo?10:5);this.ensureEnemyCapacity(duo?10:legion?7:5);
     for(const actor of this.characters)if(actor.apocalypseStatusLabel){actor.apocalypseStatusLabel.text='';actor.apocalypseStatusLabel.visible=false;}
     const allyCards=Array.isArray(payload?.battleV2?.teams?.A?.cards)?payload.battleV2.teams.A.cards:[];
     const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
@@ -1825,6 +1831,7 @@ class BaseBattleEngine{
       const card=allyCards[index];
       const art=allyArt[index];
       const target=this.allies[index];
+      Object.assign(target,{ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex});
       assignCombatRole(target,card);
       const shield=openingShieldState(payload,card);
       target.startingShield=shield.current;
@@ -1854,6 +1861,7 @@ class BaseBattleEngine{
       const card=enemyCards[index];
       const art=enemyArt[index];
       const target=this.enemies[index];
+      Object.assign(target,{ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex});
       assignCombatRole(target,card);
       const shield=openingShieldState(payload,card);
       target.startingShield=shield.current;

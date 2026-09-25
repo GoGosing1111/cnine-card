@@ -31,7 +31,8 @@ export const withMercenaryBattle=Base=>class extends Base{
  clearMercenaryActors(){this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
  async applyBattlePayload(payload){
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
-  if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>1||entries.filter(e=>e.side==='B').length>1)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
+  const limit=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS'?2:1;
+  if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
   if(entries.some(({card})=>card.cardId===CRYVERN_CODE||card.code===CRYVERN_CODE||card.skills?.some(s=>s.mechanic==='CRYSTAL_CROWN')))await preloadCryvern();
   if(entries.some(({card})=>card.cardId==='V-048'||card.code==='V-048'||card.skills?.some(s=>s.mechanic==='BLACK_MOON_TRIPLE_SEVER')))await preloadHeukwol();
   if(entries.some(({card})=>card.cardId==='V-047'||card.code==='V-047'||card.skills?.some(s=>s.mechanic==='LAVENDER_RICOCHET')))await preloadBikiniJoeun();
@@ -43,7 +44,7 @@ export const withMercenaryBattle=Base=>class extends Base{
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
    const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:card.cardId==='V-048'?300:['V-046',CRYVERN_CODE].includes(card.cardId)?380:card.cardId==='V-047'?320:260,x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
-   Object.assign(a,{cardId:card.cardId,art,actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:card.maxHp,serverMaxShield:card.maxShield||0,startingShield:card.shield||0,startingMaxShield:card.maxShield||0,mercenaryRow:card,role:card.role});
+   Object.assign(a,{cardId:card.cardId,ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex,art,actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:card.maxHp,serverMaxShield:card.maxShield||0,startingShield:card.shield||0,startingMaxShield:card.maxShield||0,mercenaryRow:card,role:card.role});
    a.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);attachMercenaryArt(a,art);a.setShield(card.shield||0,card.maxShield||0);a.root.alpha=1;a.root.visible=card.hp>0;this.combatLayer.addChild(a.root);this.characters.push(a);this.mercenaries.push(a);
   }
   this.setFormationMercenaries(this.mercenaries);for(const a of this.mercenaries){a.formationHudY=-(a.fullBodyHeight*.98+88);a.hud.y=a.formationHudY;}this.sortCombatDepth();

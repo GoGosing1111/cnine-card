@@ -298,6 +298,15 @@ export async function loadUniqueAdvancementsForCards(env,userId,cardIds=[]){
   return output;
 }
 
+export async function loadUniqueAdvancementsForDecks(env,entries=[]){
+  const out=entries.map(()=>new Map()),users=[...new Set(entries.map(e=>Number(e.user?.id)).filter(Boolean))],ids=[...new Set(entries.flatMap(e=>e.cards.map(c=>String(c.id))))];
+  if(!users.length||!ids.length)return out;
+  if(users.length>12||ids.length>120)throw new Error('DUO_ADVANCEMENT_BATCH_LIMIT');
+  const found=await env.DB.prepare(`SELECT a.user_id,a.card_id,a.class_code,a.dominant_type,a.config_version,a.modifiers_json,a.activated_at,cue.is_active AS unique_is_active,cue.attack_percent,cue.defense_percent,cue.speed_percent,cue.hp_percent FROM ${ADVANCEMENT_TABLE} a LEFT JOIN card_unique_effects cue ON cue.card_id=a.card_id AND cue.is_active=1 WHERE a.user_id IN (${users.map(()=>'?').join(',')}) AND a.card_id IN (${ids.map(()=>'?').join(',')})`).bind(...users,...ids).all();
+  for(const row of rows(found)){const advancement=advancementFromRow(row,row);if(advancement)entries.forEach((e,i)=>{if(Number(e.user?.id)===Number(row.user_id)&&e.cards.some(c=>String(c.id)===String(row.card_id)))out[i].set(String(row.card_id),advancement);});}
+  return out;
+}
+
 async function stateRows(env,userId,cardId){
   const results=await env.DB.batch([
     env.DB.prepare(`SELECT uc.card_id,COALESCE(uc.quantity,0) AS quantity,COALESCE(uc.breakthrough_level,0) AS breakthrough_level,

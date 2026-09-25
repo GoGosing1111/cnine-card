@@ -21,6 +21,7 @@ const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-
 // advancing its gauge, or consuming the five-card battle's action budget.
 // Natural mercenary turns clear the debt; suit shots and enemy turns cannot.
 export function mercenaryTurnCadence(teams){
+ if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>teams[side]?.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
@@ -42,6 +43,26 @@ export function mercenaryTurnCadence(teams){
     // actions or change the normal/PVE cadence while allied cards are alive.
     const other=actor.side==='A'?'B':'A',team=teams[other]||[];
     if(!team.some(regular)&&team.some(m=>m.isMercenary&&m.statMode==='RANK_FIXED'&&m.battleMode==='PVP'&&living(m)))debt[other]=Math.min(interval(other),debt[other]+1);
+   }
+  }
+ };
+}
+// A teammate's card action cannot grant both mercenaries an extra turn. Each
+// owner's five cards drive their own mercenary, including last-stand responses.
+function duoMercenaryTurnCadence(teams){
+ const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
+ const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
+ const interval=g=>g.actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
+ const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
+ return {
+  pending(eligible=()=>true){return groups.map(g=>pending(g,eligible)).find(Boolean)||null;},
+  select(actor){const g=groups.find(g=>g.side===actor.side&&g.ownerId===actor.ownerId);return g&&regular(actor)?pending(g,()=>true)||actor:actor;},
+  acted(actor){
+   const own=groups.find(g=>g.side===actor.side&&g.ownerId===actor.ownerId);if(!own)return;
+   if(actor.isMercenary)own.debt=0;
+   else if(regular(actor)){
+    own.debt=Math.min(interval(own),own.debt+1);
+    for(const g of groups)if(g.side!==actor.side&&!g.actors.some(regular)&&g.actors.some(m=>m.isMercenary&&m.statMode==='RANK_FIXED'&&living(m)))g.debt=Math.min(interval(g),g.debt+1);
    }
   }
  };

@@ -1,5 +1,5 @@
 import {Container, Graphics} from 'pixi.js';
-import {GRID, FORMATION_LAYOUT_VERSION, configuration, formationActorScale, stationPoint} from './FormationLayout.mjs';
+import {GRID, FORMATION_LAYOUT_VERSION, configuration, formationActorScale, stationPoint, DUO_BOARDS, duoStation} from './FormationLayout.mjs';
 import {compactStation, fitCompactViewport, usesCompactViewport} from './ViewportLayout.mjs';
 
 // Shared presentation policy. The base engine still owns combatants, attacks,
@@ -11,6 +11,8 @@ export const withOccupiedGrid = Base => class extends Base {
     this.formationMercenaries = [];
   }
   async applyBattlePayload(payload) {
+    this.formationDuo = payload?.battleV2?.rules?.formation === 'DUO_TWO_SQUADS';
+    if(!this.formationDuo&&this.allies?.length>5){this.ensureAllyCapacity(5);this.ensureEnemyCapacity(payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS'?7:5);}
     this.formationScenario = payload?.wideGridPreview?.scenario ||
       (payload?.monster || payload?.continuousEncounter || payload?.scrapyardPreview ||
         /PVE|HUNT|TOWER|RAID|SEAL|ESCORT|DUNGEON|APOCALYPSE|IDLE/.test(String(payload?.mode || payload?.battleV2?.mode || '')) ? 'PVE' : 'PVP');
@@ -22,7 +24,7 @@ export const withOccupiedGrid = Base => class extends Base {
     return result;
   }
   setFormationMercenaries(items = []) {
-    for (const team of ['ALLY', 'ENEMY']) if (items.filter(item => item.team === team).length > 1) throw new Error('MAX_ONE_MERCENARY_PER_TEAM');
+    for (const team of ['ALLY', 'ENEMY']) if (items.filter(item => item.team === team).length > (this.formationDuo?2:1)) throw new Error('MAX_ONE_MERCENARY_PER_TEAM');
     if (items.some(item => !['ALLY', 'ENEMY'].includes(item.team) || !item.root)) throw new Error('INVALID_MERCENARY_STATION');
     // Registration is layout-only. It does not add a unit to any combat/API array.
     this.formationMercenaries = items;
@@ -34,6 +36,7 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   depthForY(y) {return this.gridMode === 'wide' ? .5 : super.depthForY(y);}
   station(kind, index = 0, team = 'ALLY') {
+    if(this.formationDuo&&['cards','mercenaries'].includes(kind)){const p=duoStation(kind,index,team,this.mobile);return {x:p.x+(this.viewportFit?.offsetX||0),y:p.y+(this.viewportFit?.offsetY||0)};}
     const scenario = this.formationScenario || 'PVP';
     if(kind==='cards'&&team==='ENEMY'&&this.formationEnemySquad)kind='squad';
     if (kind === 'cards' && team === 'ENEMY' && this.formationSingleTarget) {kind = 'boss'; index = 0;}
@@ -43,7 +46,7 @@ export const withOccupiedGrid = Base => class extends Base {
   resize() {
     this.viewportFit = null;
     super.resize();
-    if (!this.root || this.gridMode !== 'wide' || !usesCompactViewport(this.app.screen.width)) return;
+    if (!this.root || this.gridMode !== 'wide' || !this.formationDuo&&!usesCompactViewport(this.app.screen.width)) return;
     const hostRect = this.host.getBoundingClientRect(), shell = this.host.closest('.battle-v3-live-shell');
     const dock = shell?.querySelector('.battle-v3-dock')?.getBoundingClientRect();
     const status = shell?.querySelector('.battle-v3-status');
@@ -56,7 +59,7 @@ export const withOccupiedGrid = Base => class extends Base {
       objectiveHudFit = {x: 12, y: top + 8, scale, height: b.height * scale + 8};
       top += objectiveHudFit.height;
     }
-    this.viewportFit = fitCompactViewport({width: this.app.screen.width, height: this.app.screen.height, top, bottom});
+    this.viewportFit = fitCompactViewport({width: this.app.screen.width, height: this.app.screen.height, top, bottom,board:this.formationDuo?DUO_BOARDS[this.mobile?'compact':'desktop']:undefined});
     this.viewportFit.objectiveHud = objectiveHudFit;
     const extraTop = String(objectiveHudFit?.height || 0);
     if (this.host.dataset.v3FormationExtraTop !== extraTop) {
@@ -88,7 +91,7 @@ export const withOccupiedGrid = Base => class extends Base {
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) {
       (actors || []).forEach((actor, index) => {if (actor.battleActive !== false && actor.hp > 0) add('cards', index, team, actor);});
     }
-    for (const item of this.formationMercenaries || []) if (item.root.visible) add('mercenaries', 0, item.team, item);
+    for (const item of this.formationMercenaries || []) if (item.root.visible) add('mercenaries', this.formationDuo?Number(item.squadIndex):0, item.team, item);
     if (this.accountBattleUnitEnabled && this.accountBattleUnit) add('support', 0, 'ALLY', this.accountBattleUnit);
     if (this.objectiveData && this.objectiveSprite?.visible) add('objective', 0, 'ALLY', this.objectiveSprite);
     return rows;
@@ -139,7 +142,7 @@ export const withOccupiedGrid = Base => class extends Base {
     if (this.viewportFit) this.mobile = false;
     try {super.layoutCharacterGrid();} finally {this.baselineLayout = false; this.isoConfig = wide; this.mobile = mobile;}
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) for (const [index, actor] of actors.entries()) {
-      const scale = formationActorScale(Boolean(this.viewportFit), mobile), next = this.station('cards', index, team);
+      const scale = this.formationDuo?DUO_BOARDS[mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), mobile), next = this.station('cards', index, team);
       const p = this.screenToGrid(next.x, next.y); actor.gridPosition = {x: p.gridX, y: p.gridY};
       actor.designScale = scale;
       actor.setFormation(next.x, next.y, scale); actor.setCompactHud?.(mobile);
@@ -191,8 +194,8 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   layoutFormationMercenaries() {
     for (const item of this.formationMercenaries || []) {
-      const p = this.station('mercenaries', 0, item.team);
-      const scale = formationActorScale(Boolean(this.viewportFit), this.mobile);
+      const p = this.station('mercenaries', this.formationDuo?Number(item.squadIndex):0, item.team);
+      const scale = this.formationDuo?DUO_BOARDS[this.mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), this.mobile);
       if (typeof item.setFormation === 'function') {
         item.setFormation(p.x, p.y, scale); item.setCompactHud?.(this.mobile);
         item.perspectiveResolver = () => scale;

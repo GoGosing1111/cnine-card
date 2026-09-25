@@ -9,6 +9,20 @@ export const FORMATIONS = Object.freeze({
 // occupancy, never pitch, team separation or individual station coordinates.
 // Portrait reflows the same seven roles into two columns to keep SDs readable.
 export const FORMATION_LAYOUT_VERSION = 'UNIFORM_LATTICE_V2';
+// Duo owns four five-card squads. Only this payload opts into the larger board;
+// every existing PVE/PVP station stays unchanged.
+export const DUO_BOARDS = Object.freeze({
+ desktop: Object.freeze({width:1800,height:970,left:100,top:260,columnPitch:200,rowPitch:260,columns:9,actorScale:.5}),
+ compact: Object.freeze({width:1200,height:1690,left:120,top:260,columnPitch:240,rowPitch:260,columns:5,actorScale:.64})
+});
+export function duoStation(kind,index,team,compact=false){
+ const b=DUO_BOARDS[compact?'compact':'desktop'],merc=kind==='mercenaries';
+ if(!['ALLY','ENEMY'].includes(team)||!['cards','mercenaries'].includes(kind)||!Number.isInteger(index)||index<0||index>=(merc?2:10))throw new Error('INVALID_DUO_STATION');
+ const owner=merc?index:Math.floor(index/5),local=merc?5:index%5;
+ const cells=[[0,0],[1,0],[0,1],[1,1],[0,2],[1,2]];
+ const [col,row]=cells[local],ownColumn=col+(compact?0:owner*2),column=team==='ENEMY'?b.columns-1-ownColumn:ownColumn;
+ return {x:b.left+column*b.columnPitch,y:b.top+(row+(compact?owner*3:0))*b.rowPitch};
+}
 export const FORMATION_LATTICES = Object.freeze({
   desktop: Object.freeze({width: 1600, height: 820, columns: 7, left: 170, top: 240,
     columnPitch: 210, rowPitch: 176, tileWidth: 190, tileHeight: 64, actorScale: 1}),

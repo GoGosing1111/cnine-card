@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260925-cryvern-pose-scale-v1';
+  const BATTLE_RUNTIME = '20260925-cryvern-pose-scale-v1-duo';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
@@ -365,6 +365,20 @@
     const catalog = cardCatalogMap();
     const owners = [...stage.querySelectorAll('.battle-v3-versus span')].map(node => String(node.textContent || '').trim());
     let shown = 0;
+    const duo=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS';
+    roster.querySelectorAll('[data-v3-duo-extra]').forEach(node=>node.remove());
+    roster.classList.toggle('is-duo',duo);stage.classList.toggle('is-duo-battle',duo);
+    if(duo){
+      const originals=['A','B'].map(side=>roster.querySelector(`[data-v3-roster-side="${side}"]`));
+      for(let squad=0;squad<2;squad++)for(const [i,side]of ['A','B'].entries()){
+        const section=squad===0?originals[i]:originals[i].cloneNode(true);if(squad){section.dataset.v3DuoExtra='1';roster.append(section);}
+        const member=teams[side].members?.[squad],cards=(teams[side].cards||[]).filter(c=>Number(c.squadIndex)===squad);
+        section.hidden=false;section.querySelector('[data-v3-roster-label]').textContent=`${side==='A'?'우리 팀':'상대 팀'} · ${squad+1}`;
+        section.querySelector('[data-v3-roster-owner]').textContent=member?.ownerName||'';
+        section.querySelector('[data-v3-roster-list]').innerHTML=cards.map((card,j)=>rosterCardHtml(card,j,catalog)).join('');
+      }
+      roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return 4;
+    }
     ['A', 'B'].forEach((side, index) => {
       const section = roster.querySelector(`[data-v3-roster-side="${side}"]`);
       if (!section) return;

@@ -1,5 +1,7 @@
 import {coupLiveOperation} from '../_coup_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
+import {handleRankedDuo} from '../_ranked_duo.js';
+import {duoMagicLoadouts} from '../_magic.js';
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
 import {handleLootShop} from '../_loot_shop.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
@@ -5416,6 +5418,7 @@ async function handleRequest(context){
     if(V3_JOINT_RELEASE_ENABLED&&request.method==='POST'&&path==='scrapyard/run')return json({error:'개편 전투 화면에서 다시 입장하세요.',code:'PVE_V3_CLIENT_REQUIRED'},409);
     const scrapyardResponse=await handleScrapyard({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,raidDeckPower,resolveUnifiedDrops,resolveUniqueBattleRuntime,uniqueBattleResponsePayload}});if(scrapyardResponse)return scrapyardResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
+    const duoResponse=await handleRankedDuo({path,request,env,deps:{authenticate,readBody,json,readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});if(duoResponse)return duoResponse;
     const coupResponse=await handleCoup({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(coupResponse)return coupResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;

@@ -2,6 +2,7 @@ import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCu
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,createSkillChipSchedule,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
+import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -1907,6 +1908,41 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
     },
     result
   };
+}
+
+// Each owner keeps the existing five-card contract and their own equipment
+// distribution. Only the transient battlefield joins the two squads.
+export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,singleHealerBonus={}}={}) {
+  const owners=new Set();
+  const build=(squads,side)=>{
+    if(!Array.isArray(squads)||squads.length!==2)throw Error('DUO_REQUIRES_TWO_SQUADS');
+    const cards=[],mercenaries=[],magic=[],members=[];
+    squads.forEach((squad,squadIndex)=>{
+      const ownerId=Number(squad.ownerId),deck=squad.cards;
+      if(!Number.isSafeInteger(ownerId)||ownerId<=0||owners.has(ownerId))throw Error('INVALID_DUO_OWNER');
+      owners.add(ownerId);
+      validateDuoDeck(deck);
+      if(!Array.isArray(deck)||deck.length!==5||new Set(deck.map(c=>String(c.id))).size!==5||deck.some(c=>!c.id||c.isMercenary)||deck.filter(c=>String(c.rarity||c.grade).toUpperCase()==='SUPERSTAR').length>1)throw Error('INVALID_DUO_DECK');
+      const ownerName=String(squad.ownerName||'').slice(0,80),ownCards=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0)).map((card,localSlot)=>({
+        ...buildFighter(card,localSlot,side,card.uniqueAbility||null,'PVP'),
+        id:`${side}:OWNER:${ownerId}:CARD:${card.id}`,ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*5+localSlot
+      }));
+      cards.push(...ownCards);
+      const merc=buildMercenaryFighter(squad.mercenary,side,'PVP',buildFighter);
+      if(merc)mercenaries.push({...merc,id:`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:5,slot:10+squadIndex});
+      for(const item of squad.magicCards||[]){if(Number.isInteger(item.slotNo)&&item.slotNo>=1&&item.slotNo<=5)magic.push({...item,slotNo:squadIndex*5+item.slotNo});}
+      members.push({ownerId,ownerName,squadIndex,cardIds:ownCards.map(c=>c.id),mercenaryId:merc?`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`:null});
+    });
+    return {cards,mercenaries,magic,members,simulation:[...cards,...mercenaries]};
+  };
+  const a=build(attackerSquads,'A'),b=build(defenderSquads,'B');
+  const simulated=simulateBattleV2Preview({teamA:a.simulation,teamB:b.simulation,magicA:a.magic,magicB:b.magic,seed,maxActions:166,suddenDeathAfter:128,healerPenalty:true,singleHealerBonus});
+  const result=resolvePvpOutcome(simulated,a.simulation,b.simulation);
+  result.final={...result.final,mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:result.final.B.filter(c=>c.isMercenary)},A:result.final.A.filter(c=>!c.isMercenary),B:result.final.B.filter(c=>!c.isMercenary)};
+  return {schemaVersion:2,engine:'BATTLE_ENGINE_V2_DUO',mode:'PVP',playbackSpeed:1.3,seed:Number(seed)>>>0,
+    rules:{formation:'DUO_TWO_SQUADS',ownersPerSide:2,cardsPerOwner:5,mercenariesPerOwner:1,maxActions:166,suddenDeathAfter:128,
+      timeoutRule:'SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER',drawRule:'POWER_THEN_ATTACKER',mercenaryLinkScope:'OWNER',supportScope:'TEAM',dbTimelineWrites:0},
+    teams:Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,{members:team.members,cards:team.cards.map(publicFighter),mercenaries:simulated.openingMercenaries?.[side]||[],summary:teamSummary([...team.cards,...(simulated.openingMercenaries?.[side]||[])])}])),result};
 }
 
 async function selectOpponent(env, user, requestedId = 0) {

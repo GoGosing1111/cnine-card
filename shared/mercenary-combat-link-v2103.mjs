@@ -26,8 +26,9 @@ export function mercenaryPvpTierGuard(actor,teams){
  const ranks=['S','SS','SSS'],rank=ranks.indexOf(actor.rank);
  if(actor.battleMode!=='PVP'||!actor.isMercenary||actor.statMode!=='RANK_FIXED'||rank<0)return 1;
  const opponents=teams.flat().filter(other=>other.side!==actor.side&&other.isMercenary&&other.statMode==='RANK_FIXED'&&other.battleMode==='PVP'&&other.alive!==false&&other.hp>0&&ranks.includes(other.rank));
- if(opponents.length!==1)return 1;
- const gap=Math.max(0,rank-ranks.indexOf(opponents[0].rank));
+ if(opponents.length!==1&&!actor.ownerId)return 1;
+ if(!opponents.length)return 1;
+ const gap=Math.max(0,rank-Math.max(...opponents.map(other=>ranks.indexOf(other.rank))));
  return 1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
 }
 
@@ -38,7 +39,8 @@ export const mercenaryPvpTierOffense=actor=>actor.isMercenary&&actor.battleMode=
 export const mercenaryDamageCapHp=target=>(target.maxHp+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1):1);
 
 export function applyMercenaryCombatLink(teams){
- for(const team of teams){
+ const formations=teams.flatMap(team=>team.some(c=>c.ownerId)?[...new Set(team.map(c=>c.ownerId))].map(ownerId=>team.filter(c=>c.ownerId===ownerId)):[team]);
+ for(const team of formations){
   const cards=team.filter(c=>!c.isMercenary&&!c.isMonster&&!c.isBattleSuit&&c.actorKind!=='BATTLE_SUIT');
   if(cards.length!==5)continue;
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/5,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/5;
