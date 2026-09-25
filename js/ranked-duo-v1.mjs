@@ -2,7 +2,24 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=v=>Number(v||0).toLocaleString('ko-KR');
 const date=v=>v?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(v)):'추후 안내';
 const PHASE={DRAFT:'시즌 준비',RECRUITING:'참가 모집',PAIRING:'팀 편성 중',PUBLISHING:'팀 공개 준비',READY:'대전 준비',ACTIVE:'시즌 진행',CLOSED:'시즌 종료'};
-function style(){if(document.querySelector('[data-duo-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/ranked-duo-v1.css?v=20260925-1';link.dataset.duoStyle='1';document.head.append(link);}
+const ICONS={
+ duo:'<path d="m6 4 6 3 6-3v10l-6 6-6-6V4Z"/><path d="M10 9v6m4-6v6M3 8v7l5 5m13-12v7l-5 5"/>',
+ sword:'<path d="m4 3 4 1 11 12-3 3L4 7 4 3Zm16 0-4 1-4 4m-3 4-4 4m-2-2 6 6m6-6 6 6m-5-1 4 3M8 19l-4 3"/>',
+ trophy:'<path d="M7 3h10v7a5 5 0 0 1-10 0V3Zm5 12v5m-4 1h8M7 5H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4"/>',
+ history:'<path d="M4 6V2m0 4h4M4 6a9 9 0 1 1-1 9m9-9v6l4 2"/>',
+ energy:'<path d="M14 2 5 14h6l-1 8 9-12h-6l1-8Z"/>',
+ refresh:'<path d="M20 8a8 8 0 0 0-14-3L3 8m0-5v5h5m-4 8a8 8 0 0 0 14 3l3-3m0 5v-5h-5"/>',
+ arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',
+ deck:'<rect x="7" y="5" width="12" height="16" rx="1"/><path d="M4 18H3V2h12v1m-4 9 2-3 2 3-2 3-2-3Z"/>',
+ check:'<path d="m5 12 4 4L19 6"/>',
+ link:'<path d="m10 7 2-2a5 5 0 0 1 7 7l-2 2m-3 3-2 2a5 5 0 0 1-7-7l2-2m1 6 8-8"/>'
+};
+const icon=name=>'<svg class="duo-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+ICONS[name]+'</svg>';
+const insignia='<svg viewBox="0 0 120 130" aria-hidden="true" fill="none"><path class="duo-shield-fill" d="m60 4 43 18v54L60 121 17 76V22L60 4Z"/><path d="m60 12 35 15v46l-35 37-35-37V27l35-15Z"/><path class="duo-shield-wing" d="M10 35v43l33 35M4 51v30l22 24m84-70v43l-33 35m39-62v30l-22 24M38 26l22-9 22 9M46 93l14 15 14-15"/><path class="duo-shield-detail" d="M28 39h15m34 0h15M28 72h13m38 0h13"/></svg>';
+function style(){
+ if(document.querySelector('[data-duo-style]'))return;
+ const link=document.createElement('link');link.rel='stylesheet';link.href='/css/ranked-duo-v1.css?v=20260925-2';link.dataset.duoStyle='1';document.head.append(link);
+}
 export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
  style();let state=null,busy=false,tab='home',opponent=null,renderer=null;
  const key='ranked-duo-pending:'+userId;
@@ -11,28 +28,98 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
  const call=(path,options={})=>api('ranked-duo/'+path,options);
  const message=text=>{const node=root.querySelector('[data-duo-message]');if(node)node.textContent=text;};
  const setBusy=value=>{busy=value;root.setAttribute('aria-busy',String(value));root.querySelectorAll('button').forEach(b=>{if(value){b.dataset.wasDisabled=String(b.disabled);b.disabled=true;}else if(b.dataset.wasDisabled){b.disabled=b.dataset.wasDisabled==='true';delete b.dataset.wasDisabled;}});};
- const members=(team,side)=>[0,1].map(i=>{const member=team?.members?.[i];return '<div class="duo-member '+side+'"><span class="duo-owner-index">0'+(i+1)+'</span><div><small>'+ (side==='ally'?'OUR TEAM':'OPPONENT')+'</small><strong>'+esc(member?.nickname||(side==='ally'?'함께할 팀원':'매칭 대기'))+'</strong><p>'+ (member?'카드 5장 + 선택 용병 1장':'시즌 참가자를 기준으로 자동 편성')+'</p></div></div>';}).join('');
+ const members=(team,side)=>[0,1].map(i=>{
+  const member=team?.members?.[i],self=member&&String(member.userId)===String(userId),initial=Array.from(member?.nickname||'')[0]||'+';
+  return '<article class="duo-banner '+side+(member?'':' is-vacant')+(self?' is-self':'')+'">'+
+   '<div class="duo-banner-top"><span>PLAYER <b>0'+(i+1)+'</b></span><small>'+ (self?'나':member?(side==='ally'?'팀원':'상대'):'배정 대기')+'</small></div>'+
+   '<div class="duo-insignia">'+insignia+'<span>'+esc(initial)+'</span></div>'+
+   '<div class="duo-banner-identity"><h3>'+esc(member?.nickname||'팀원 배정 대기')+'</h3><p>'+ (member?'함께 출전하는 하나의 덱':'모집 후 자동으로 팀 편성')+'</p></div>'+
+   '<div class="duo-deck-glyph" aria-hidden="true">'+[0,1,2,3,4].map(()=>'<i></i>').join('')+'<span>+</span><i class="mercenary"></i></div>'+
+   '<small class="duo-banner-foot">일반 5장 · 용병 최대 1장</small></article>';
+ }).join('');
+ function schedule(s,recruiting){
+  if(!s?.startsAt&&!s?.recruitUntil)return '<span>시즌 일정 공개 예정</span><b>곧 새로운 동료를 만납니다</b>';
+  if(recruiting)return '<span>참가 신청 마감</span><b>'+esc(date(s.recruitUntil))+'</b>';
+  return '<span>대전 기간</span><b>'+esc(date(s.startsAt))+'<i> — </i>'+esc(date(s.endsAt))+'</b>';
+ }
  function draw(){
   if(!root.isConnected)return;
   const s=state?.season,e=state?.energy,t=state?.team,phase=PHASE[s?.status]||'시즌 준비';
   const recruiting=s?.status==='RECRUITING'&&Date.parse(s.recruitUntil)>Date.parse(state.serverNow),active=s?.status==='ACTIVE'&&Date.parse(s.startsAt)<=Date.parse(state.serverNow)&&Date.parse(s.endsAt)>Date.parse(state.serverNow);
-  root.innerHTML='<section class="duo-hub"><header class="duo-masthead"><a href="#duo-home" data-duo="home" class="duo-wordmark">DUO<span>RANKED SERIES</span></a><div class="duo-phase"><i></i>'+esc(phase)+'</div><button data-duo="refresh" class="duo-text-button">새로고침 ↻</button></header>'+
-   '<div class="duo-hero"><div class="duo-hero-copy"><p class="duo-kicker">TWO PLAYERS. ONE TEAM.</p><h1>'+esc(s?.name||'랭크 듀오')+'</h1><p>다른 강점, 하나의 팀.<br>네 개의 덱이 한 전장에서 맞붙습니다.</p><div class="duo-season-date"><span>'+ (recruiting?'참가 마감':'대전 기간')+'</span><b>'+esc(recruiting?date(s.recruitUntil):date(s?.startsAt)+' — '+date(s?.endsAt))+'</b></div></div><div class="duo-hero-number" aria-hidden="true"><span>2</span><i>VS</i><span>2</span><small>FOUR DECKS · ONE BATTLEFIELD</small></div></div>'+
-   '<nav class="duo-nav" aria-label="듀오 메뉴">'+[['home','시즌 로비'],['ranking','팀 랭킹'],['history','전투 기록']].map(([id,label])=>'<button data-duo="'+id+'" aria-current="'+(tab===id?'page':'false')+'" '+(!s&&id!=='home'?'disabled':'')+'>'+label+'</button>').join('')+'<span>'+fmt(state?.participants)+'명 참가</span></nav>'+
+  const step=!s||['DRAFT','RECRUITING'].includes(s.status)?0:['PAIRING','PUBLISHING','READY'].includes(s.status)?1:2;
+  root.innerHTML='<section class="duo-hub">'+
+   '<header class="duo-masthead"><div class="duo-brand-mark">'+icon('duo')+'</div><div class="duo-heading"><p class="duo-kicker">DUO RANKED</p><h1>랭크 듀오</h1><p>'+esc(s?.name||'두 명의 플레이어, 하나의 팀')+'</p></div>'+
+    '<div class="duo-season-status"><span class="duo-phase"><i></i>'+esc(phase)+'</span><span class="duo-participants">참가자 <b>'+fmt(state?.participants)+'</b>명</span></div>'+
+    '<button data-duo="refresh" class="duo-icon-button" aria-label="듀오 시즌 새로고침">'+icon('refresh')+'</button></header>'+
+   '<nav class="duo-nav" aria-label="듀오 메뉴">'+[['home','시즌 로비','duo'],['ranking','팀 랭킹','trophy'],['history','전투 기록','history']].map(([id,label,glyph])=>'<button data-duo="'+id+'" aria-current="'+(tab===id?'page':'false')+'" '+(!s&&id!=='home'?'disabled':'')+'>'+icon(glyph)+label+'</button>').join('')+'<span class="duo-nav-format">2 <i>VS</i> 2</span></nav>'+
    '<p class="duo-message" data-duo-message role="status"></p><div data-duo-content></div></section>';
-  if(tab!=='home')return;
-  const waiting=state?.waiting,text=!s?'시즌 일정이 정해지면 참가 모집을 시작합니다.':waiting?'참가 신청 완료. 모집 종료 후 팀이 자동으로 편성됩니다.':t?'팀원의 접속 여부와 관계없이 함께 출전합니다.':'72시간 동안 참가자를 모집한 뒤, 강한 전력과 성장 중인 전력을 조합합니다.';
-  const action=pending()?'<button class="duo-primary" data-duo="recover">진행 중인 경기 확인 →</button>':recruiting&&!state.joined?'<button class="duo-primary" data-duo="join">시즌 참가 신청 →</button>':active&&t?'<button class="duo-primary" data-duo="match" '+(Number(e?.current)<Number(e?.cost)?'disabled':'')+'>듀오 상대 찾기 →</button>':'<div class="duo-wait">'+esc(waiting?'팀 편성을 기다리고 있어요':t?'팀 편성 완료 · 대전 대기':s?.status==='CLOSED'?'이번 시즌이 종료되었습니다':'다음 시즌을 준비하고 있어요')+'</div>';
-  root.querySelector('[data-duo-content]').innerHTML='<div class="duo-command"><section class="duo-lineup"><header><p class="duo-kicker">TEAM COMPOSITION</p><h2>'+ (t?'우리의 두 덱':'당신의 다음 팀')+'</h2><p>'+esc(text)+'</p></header><div class="duo-team-pair">'+members(t,'ally')+'</div><div class="duo-team-footer"><span>팀 점수 <strong>'+ (t?fmt(t.score):'—')+'</strong></span><span>'+ (t?fmt(t.wins)+'승 · '+fmt(t.losses)+'패':'개별 신청 · 자동 팀 편성')+'</span></div></section>'+
-   '<aside class="duo-control"><p class="duo-kicker">PERSONAL ENERGY</p><div class="duo-energy"><strong>'+ (e?fmt(e.current):'—')+'</strong><span>/ '+(e?fmt(e.maximum):'—')+'</span></div><p>내가 시작한 경기만 내 행동력을 사용합니다.<br>팀원의 행동력은 차감되지 않습니다.</p><div class="duo-energy-meta"><span>공격 1회</span><b>'+ (e?.cost?fmt(e.cost)+' 행동력':'추후 안내')+'</b></div>'+action+(recruiting&&waiting?'<button class="duo-text-button" data-duo="cancel">참가 신청 취소</button>':'')+'<button class="duo-secondary" data-duo="deck">공격·방어 덱 확인</button></aside></div>'+
-   '<div class="duo-rules"><div><b>01</b><h3>성장을 반영하는 전력</h3><p>보유 카드·용병과 장비의 PVP 전력을 함께 평가합니다. FUR +13을 비교 기준으로 사용합니다.</p></div><div><b>02</b><h3>전투마다 최신 편성</h3><p>선택한 랭크전 공격 프리셋과 방어 프리셋 1을 사용합니다. 카드 강화와 장비 변경도 반영됩니다.</p></div><div><b>03</b><h3>네 덱의 하나 된 전투</h3><p>각자 일반 카드 5장과 용병 최대 1장. 우리 팀 전체가 싸우며 결과는 팀 점수에 반영됩니다.</p></div></div>'+
-   '<footer class="duo-footnote">추가모집은 경기 시작 전 별도 안내합니다. 홀수 인원 중 미편성자는 대기하며, 시즌 보상은 별도 공지합니다.</footer>';
+  if(tab!=='home'){
+   root.querySelector('[data-duo-content]').innerHTML='<div class="duo-empty" role="status">'+icon(tab==='ranking'?'trophy':'history')+'<h2>기록을 불러오는 중</h2><p>잠시만 기다려 주세요.</p></div>';
+   return;
+  }
+  const waiting=state?.waiting;
+  const teamTitle=t?'함께, 더 높은 곳으로':waiting?'당신의 동료를 기다리는 중':'두 사람이 만드는 새로운 승부';
+  const teamText=!s?'시즌 일정이 공개되면 참가 신청이 열립니다.':waiting?'참가 신청 완료! 모집 후 함께할 팀원이 정해집니다.':t?'팀원이 접속하지 않아도 두 덱이 함께 출전합니다.':'개별 참가 신청 후, 서로 다른 전력의 두 사람을 한 팀으로 편성합니다.';
+  const waitTitle=s?.status==='CLOSED'?'시즌이 종료되었습니다':waiting?'참가 신청 완료':t?'팀 편성 완료':'시즌 준비 중';
+  const waitHint=s?.status==='CLOSED'?'팀 랭킹과 전투 기록을 확인하세요.':waiting?'팀 편성 결과를 기다려 주세요.':t?'대전 시작 후 출전할 수 있습니다.':recruiting?'참가 현황을 확인해 주세요.':'모집 일정은 별도로 안내됩니다.';
+  const action=pending()?'<button class="duo-primary" data-duo="recover">'+icon('history')+'진행 중인 경기 확인'+icon('arrow')+'</button>':
+   recruiting&&!state.joined?'<button class="duo-primary" data-duo="join">'+icon('duo')+'시즌 참가 신청'+icon('arrow')+'</button>':
+   active&&t?'<button class="duo-primary" data-duo="match" '+(Number(e?.current)<Number(e?.cost)?'disabled':'')+'>'+icon('sword')+'듀오 상대 찾기'+icon('arrow')+'</button>':
+   '<div class="duo-wait">'+icon(waiting||t?'check':'duo')+'<div><b>'+waitTitle+'</b><span>'+waitHint+'</span></div></div>';
+  const fraction=e?.maximum>0?Math.min(100,Math.max(0,Number(e.current)/Number(e.maximum)*100)):0;
+  root.querySelector('[data-duo-content]').innerHTML=
+   '<div class="duo-schedule"><ol aria-label="시즌 진행 단계">'+['참가 모집','팀 편성','시즌 대전'].map((label,i)=>'<li class="'+(i===step?'current':i<step?'complete':'')+'" '+(i===step?'aria-current="step"':'')+'><span>'+ (i<step?icon('check'):'0'+(i+1))+'</span>'+label+'</li>').join('')+'</ol><div class="duo-season-date">'+schedule(s,recruiting)+'</div></div>'+
+   '<div class="duo-deployment"><section class="duo-arena">'+
+    '<header class="duo-arena-heading"><div><p class="duo-kicker">OUR TEAM</p><h2>우리 팀</h2></div><div class="duo-team-score"><span>팀 점수</span><strong>'+ (t?fmt(t.score):'—')+'</strong><small>PT</small></div></header>'+
+    '<div class="duo-team-pair">'+members(t,'ally')+'</div>'+
+    '<div class="duo-team-link"><span></span>'+icon(t?'link':'duo')+'<b>'+ (t?'두 덱, 하나의 팀':waiting?'참가 신청 완료':'함께할 동료를 찾아서')+'</b><span></span></div>'+
+    '<div class="duo-arena-caption"><h3>'+teamTitle+'</h3><p>'+teamText+'</p></div>'+
+    '<footer class="duo-arena-footer"><span>'+icon('duo')+'2인 팀 · 비동기 대전</span><b>'+ (t?'<em>'+fmt(t.wins)+'</em>승 <i>/</i> '+fmt(t.losses)+'패':'개별 신청 · 자동 편성')+'</b></footer></section>'+
+   '<aside class="duo-control"><header><p class="duo-kicker">DEPLOYMENT</p><h2>출전 준비</h2><span>'+ (active&&t?'우리 팀 출전 가능':'다음 승부를 준비하세요')+'</span></header>'+
+    '<div class="duo-energy-label">'+icon('energy')+'<h3>내 행동력</h3><small>개인별 사용</small></div>'+
+    '<div class="duo-energy"><strong>'+ (e?fmt(e.current):'—')+'</strong><span>/ '+(e?fmt(e.maximum):'—')+'</span><small>AP</small></div>'+
+    '<div class="duo-energy-bar" aria-hidden="true"><span style="width:'+fraction+'%"></span></div>'+
+    '<div class="duo-energy-meta"><span>공격 1회</span><b>'+ (e?.cost?fmt(e.cost)+' AP':'추후 안내')+'</b></div>'+
+    (e?.nextResetAt?'<p class="duo-reset">다음 충전 <b>'+esc(date(e.nextResetAt))+'</b></p>':'')+
+    '<p class="duo-control-note">내가 시작한 경기만 내 행동력을 사용합니다.<br>팀원의 행동력은 그대로 유지됩니다.</p>'+
+    '<div class="duo-actions">'+action+(active&&t&&Number(e?.current)<Number(e?.cost)&&!pending()?'<p class="duo-low-energy">행동력이 부족합니다. 다음 충전을 기다려 주세요.</p>':'')+
+    '<button class="duo-secondary" data-duo="deck">'+icon('deck')+'공격·방어 덱 확인'+icon('arrow')+'</button>'+
+    (recruiting&&waiting?'<button class="duo-text-button" data-duo="cancel">참가 신청 취소</button>':'')+'</div>'+
+    '<div class="duo-combat-note">'+icon('sword')+'<p>네 사람의 모든 덱이<br><b>하나의 전장</b>에서 맞붙습니다.</p><strong>2<span>VS</span>2</strong></div></aside></div>'+
+   '<details class="duo-guide"><summary>'+icon('duo')+'<span>듀오 시즌 가이드<small>모집 · 팀 편성 · 덱 최신화</small></span><b>+</b></summary>'+
+    '<div class="duo-rules"><section><span>01</span><div><h3>다른 전력, 균형 있는 한 팀</h3><p>기본 모집 기간은 72시간입니다. 보유 카드·용병, SUPERSTAR와 FUR +13 기준, 장비의 PVP 전력을 함께 평가해 강한 전력과 성장 중인 전력을 조합합니다.</p></div></section>'+
+    '<section><span>02</span><div><h3>전투마다 최신 덱으로</h3><p>선택한 랭크전 공격 프리셋과 방어 프리셋 1을 사용합니다. 카드 강화와 장비 변경이 반영되며, 각자 일반 카드 5장과 용병 최대 1장이 함께 출전합니다.</p></div></section>'+
+    '<section><span>03</span><div><h3>혼자 접속해도, 함께 출전</h3><p>팀원과 동시에 접속할 필요가 없습니다. 공격한 사람의 행동력만 사용하고 경기 결과는 두 사람의 팀 점수에 반영됩니다.</p></div></section></div>'+
+    '<p class="duo-footnote">추가모집은 경기 시작 전 별도 안내합니다. 홀수 인원 중 미편성자는 대기하며, 시즌 보상은 별도 공지합니다.</p></details>';
  }
  async function load(){state=await call('status');if(state.pendingMatchId)save({matchId:state.pendingMatchId});draw();if(tab!=='home')await loadTab();}
+ const empty=(glyph,title,description)=>'<div class="duo-empty">'+icon(glyph)+'<h2>'+title+'</h2><p>'+description+'</p><button class="duo-secondary" data-duo="home">시즌 로비로</button></div>';
  async function loadTab(){
   const data=await call(tab);if(!root.isConnected)return;const content=root.querySelector('[data-duo-content]');
-  if(tab==='ranking')content.innerHTML='<section class="duo-table"><header><h2>시즌 팀 랭킹</h2><span>상위 100팀 · 팀 점수순</span></header>'+ (data.ranking?.map(t=>'<div class="duo-rank-row"><b>'+t.rank+'</b><div><strong>'+t.members.map(m=>esc(m.nickname)).join(' <em>+</em> ')+'</strong><small>'+fmt(t.wins)+'승 '+fmt(t.losses)+'패</small></div><strong>'+fmt(t.score)+'</strong></div>').join('')||'<p class="duo-empty">팀 편성이 끝나면 랭킹이 공개됩니다.</p>')+'</section>';
-  else content.innerHTML='<section class="duo-table"><header><h2>우리 팀 전투 기록</h2><span>최근 30경기</span></header>'+ (data.history?.map(h=>'<div class="duo-history-row"><b class="'+(h.winner===h.side?'win':'')+'">'+(h.status==='COMPLETED'?(h.winner===h.side?'승리':'패배'):h.status==='CANCELLED'?'취소':'처리 중')+'</b><div><strong>'+ (h.side==='A'?'우리 팀의 도전':'상대 팀의 도전')+'</strong><small>'+esc(date(h.created_at))+'</small></div><button class="duo-secondary" data-duo="replay" data-match="'+esc(h.id)+'">전투 보기</button></div>').join('')||'<p class="duo-empty">아직 전투 기록이 없습니다.</p>')+'</section>';
+  if(tab==='ranking'){
+   const ranking=data.ranking||[];
+   content.innerHTML='<section class="duo-records"><header class="duo-record-heading"><div><p class="duo-kicker">SEASON LEADERBOARD</p><h2>정상을 향한 두 사람</h2></div><span>상위 100팀 · 팀 점수순</span></header>'+
+    (ranking.length?'<div class="duo-podium">'+ranking.slice(0,3).map(t=>'<article class="duo-podium-entry rank-'+Number(t.rank)+'">'+icon('trophy')+'<span class="duo-podium-rank">'+fmt(t.rank)+'<small>위</small></span><h3>'+t.members.map(m=>'<span>'+esc(m.nickname)+'</span>').join('<i>×</i>')+'</h3><strong>'+fmt(t.score)+'<small>PT</small></strong><p>'+fmt(t.wins)+'승 · '+fmt(t.losses)+'패</p></article>').join('')+'</div>'+
+     '<div class="duo-table"><div class="duo-table-label"><span>순위</span><span>팀 / 전적</span><span>팀 점수</span></div>'+ranking.map(t=>{
+      const mine=t.members.some(m=>String(m.userId)===String(userId));
+      return '<div class="duo-rank-row '+(mine?'is-mine':'')+'"><b>'+fmt(t.rank)+'</b><div><strong>'+t.members.map(m=>esc(m.nickname)).join(' <em>×</em> ')+'</strong><small>'+(mine?'<mark>우리 팀</mark>':'')+fmt(t.wins)+'승 · '+fmt(t.losses)+'패</small></div><span>'+fmt(t.score)+'<small>PT</small></span></div>';
+     }).join('')+'</div>':empty('trophy','새로운 시즌, 첫 번째 정상','팀 편성이 끝나면 시즌 랭킹이 공개됩니다.'))+'</section>';
+  }else{
+   content.innerHTML='<section class="duo-records"><header class="duo-record-heading"><div><p class="duo-kicker">BATTLE RECORDS</p><h2>함께 써 내려간 승부</h2></div><span>우리 팀 최근 30경기</span></header>'+
+    (data.history?.length?'<div class="duo-history">'+data.history.map(h=>{
+     const completed=h.status==='COMPLETED',win=completed&&h.winner===h.side;
+     return '<article class="duo-history-row '+(completed?(win?'is-win':'is-loss'):'is-pending')+'"><div class="duo-outcome">'+icon(completed?(win?'trophy':'sword'):'history')+'<b>'+ (completed?(win?'승리':'패배'):h.status==='CANCELLED'?'취소':'처리 중')+'</b></div><div class="duo-history-info"><strong>'+ (h.side==='A'?'우리 팀의 도전':'상대 팀의 도전')+'</strong><small>'+esc(date(h.created_at))+'</small></div><button class="duo-secondary" data-duo="replay" data-match="'+esc(h.id)+'" '+(completed?'':'disabled')+'>'+icon('history')+'전투 보기</button></article>';
+    }).join('')+'</div>':empty('history','첫 경기를 기다리는 중','두 사람이 함께한 승부를 이곳에서 다시 볼 수 있습니다.'))+'</section>';
+  }
+ }
+ function renderMatch(d){
+  const content=root.querySelector('[data-duo-content]');
+  content.innerHTML='<section class="duo-match-preview"><header><p class="duo-kicker">OPPONENT FOUND</p><h2>두 팀의 승부가 시작됩니다</h2><p>네 사람의 모든 덱이 하나의 전장으로.</p></header>'+
+   '<div class="duo-versus-stage"><div class="duo-match-team"><h3>우리 팀 <span>'+fmt(state.team?.score)+' PT</span></h3><div class="duo-team-pair">'+members(state.team,'ally')+'</div></div>'+
+   '<div class="duo-versus-mark" aria-hidden="true"><img src="/assets/ui/ranked/ranked-match-scanner-v1826.webp" alt="" width="160" height="160"><b>VS</b></div>'+
+   '<div class="duo-match-team enemy"><h3>상대 팀 <span>'+fmt(d.opponent?.score)+' PT</span></h3><div class="duo-team-pair">'+members(d.opponent,'enemy')+'</div></div></div>'+
+   '<div class="duo-match-confirm"><p>'+icon('energy')+'내 행동력 <b>'+fmt(state.energy.cost)+' AP</b> 사용<span>전투 시작 시 최신 덱이 반영됩니다.</span></p><div><button class="duo-secondary" data-duo="home">로비로</button><button class="duo-primary" data-duo="fight">'+icon('sword')+'네 덱으로 전투 시작'+icon('arrow')+'</button></div></div></section>';
+  if(content.getBoundingClientRect().top<0)content.scrollIntoView({block:'start',behavior:'instant'});
  }
  async function acceptFight(body){
   save(body);const data=await call('fight',{method:'POST',body});
@@ -59,7 +146,7 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
    const created=await window.ProjectVBattleV3Live.createRenderer({...live,modal,data,mode:'PVP'});if(closed){created.destroy();return;}renderer=created;modal.__battleV2Renderer=renderer;
    await renderer.play();if(closed||!renderer)return;renderer.showResult();
    const ownSide=data.battleV2.teams.B.members.some(m=>state?.team?.members.some(own=>own.userId===m.ownerId))?'B':'A',win=data.battleV2.result.winner===ownSide;
-   live.msg.innerHTML='<div class="duo-result"><small>DUO RANKED · RESULT</small><strong>'+ (win?'우리 팀 승리':'우리 팀 패배')+'</strong><p>경기 종료 시 팀 점수 '+fmt(ownSide==='A'?data.scoreAfter:data.opponentScoreAfter)+'</p><button class="duo-primary" data-duo-close>시즌 로비로 돌아가기 →</button></div>';
+   live.msg.innerHTML='<div class="duo-result '+(win?'is-win':'is-loss')+'">'+icon(win?'trophy':'sword')+'<small>'+ (win?'VICTORY':'DEFEAT')+'</small><strong>'+ (win?'우리 팀 승리':'우리 팀 패배')+'</strong><div class="duo-result-score"><span>경기 종료 시 팀 점수</span><b>'+fmt(ownSide==='A'?data.scoreAfter:data.opponentScoreAfter)+'<small>PT</small></b></div><button class="duo-primary" data-duo-close>시즌 로비로 돌아가기'+icon('arrow')+'</button></div>';
    live.msg.querySelector('button').onclick=close;
   }catch(error){
    if(closed)return;renderer?.destroy();renderer=null;live.stage.classList.add('is-result-visible');modal.classList.remove('battle-v3-preparing');live.stage.querySelector('.battle-v3-loader')?.remove();
@@ -76,11 +163,11 @@ export async function mountRankedDuo({root,api,navigate,ensureBattle,userId}){
    else if(action==='recover')await recoverFight();
    else if(action==='match'){
     const d=await call('match',{method:'POST',body:{}});if(d.pendingMatchId){save({matchId:d.pendingMatchId});await recoverFight();}
-    else{opponent=d;root.querySelector('[data-duo-content]').innerHTML='<section class="duo-match-preview"><p class="duo-kicker">OPPONENT FOUND</p><h2>이번 상대가 정해졌습니다</h2><div class="duo-team-pair">'+members(d.opponent,'enemy')+'</div><p>공격 시작 시 최신 덱을 확정하고 내 행동력 '+fmt(state.energy.cost)+'을 사용합니다.</p><button class="duo-primary" data-duo="fight">네 덱으로 전투 시작 →</button><button class="duo-secondary" data-duo="home">로비로</button></section>';}
+    else{opponent=d;renderMatch(d);}
    }else if(action==='fight'&&opponent)await acceptFight({requestId:crypto.randomUUID(),matchToken:opponent.token});
    else if(action==='replay'){const d=await call('replay?id='+encodeURIComponent(button.dataset.match));if(d.status==='COMPLETED')await playback(d);else message('아직 전투 처리가 완료되지 않았습니다.');}
   }catch(error){if(['DUO_CANCELLED','DUO_TICKET'].includes(error.code))save(null);message(error.message);}
   finally{setBusy(false);}
  };
- try{await load();}catch(error){root.innerHTML='<section class="duo-hub"><h1>랭크 듀오</h1><p data-duo-message role="alert">'+esc(error.message)+'</p><button class="duo-primary" data-duo="refresh">다시 불러오기</button></section>';}
+ try{await load();}catch(error){root.innerHTML='<section class="duo-hub duo-load-error"><h1>랭크 듀오</h1><p data-duo-message role="alert">'+esc(error.message)+'</p><button class="duo-primary" data-duo="refresh">다시 불러오기</button></section>';}
 }
