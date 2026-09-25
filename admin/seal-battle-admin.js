@@ -19,7 +19,7 @@
     battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
     lowestRoleBonusPercent: 20, defeatContributionPercent: 10,
     attemptReward: { coin: 100, shards: 1 },
-    clearReward: { coin: 2000, shards: 50 },
+    clearReward: { coin: 2000, shards: 50, masterStar: 0 },
     rankRewards: {
       enabled: false, rewardOnFailure: true,
       tiers: [
@@ -123,7 +123,7 @@
 
         <div class="seal-admin-reward-grid">
           <article><header><small>PER ATTEMPT</small><h4>참여 1회 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealAttemptCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealAttemptShards" type="number" min="0"></label></article>
-          <article><header><small>SERVER CLEAR</small><h4>봉인 완료 참여자 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealClearCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealClearShards" type="number" min="0"></label></article>
+          <article><header><small>SERVER CLEAR</small><h4>봉인 완료 참여자 보상</h4></header><label><span>코인 · 한도 없음</span><input id="sealClearCoin" type="number" min="0" step="1"></label><label><span>카드 조각</span><input id="sealClearShards" type="number" min="0"></label><label><span>마스터의 별 · 봉인 성공 시</span><div class="input-unit"><input id="sealClearMasterStar" type="number" min="0" max="1000000" step="1"><em>개</em></div></label></article>
           <article><header><small>STORAGE LIMIT</small><h4>소형 기록 보존</h4></header><label><span>요청 영수증</span><div class="input-unit"><input id="sealReceiptDays" type="number" min="1" max="90"><em>일</em></div></label><label><span>종료 이벤트 개인 집계</span><div class="input-unit"><input id="sealProgressDays" type="number" min="7" max="365"><em>일</em></div></label></article>
         </div>
         <div class="seal-rank-reward-note"><b>보상 지급 조건</b><span>이번 회차의 파괴·수호·정화 전투를 합산해 최소 공격 횟수 이상이어야 완료·순위 보상을 받습니다. 승패와 관계없이 처리 완료된 전투만 집계하며, 참여 1회 보상은 그대로 지급됩니다. 클리어 코인 100억(10,000,000,000) 설정·지급을 지원합니다.</span></div>
@@ -171,7 +171,7 @@
       badge.textContent = settings.mode === 'ON' ? '전체 운영' : settings.mode === 'TEST' ? '테스트 운영' : '운영 중지';
       badge.className = settings.mode.toLowerCase();
     }
-    $('#sealAdminEventSummary').innerHTML = event ? `<div><small>현재 이벤트 #${event.id}</small><h3>${esc(event.title)} · ${esc(event.bossName)}</h3><p>${esc(event.description || '')}</p><p>현재 회차 보상 조건 · ${num(event.minRewardAttempts || 1)}회 이상 공격 / 완료 코인 ${num(event.clearReward?.coin)}</p></div><div><span class="status-${String(event.status).toLowerCase()}">${esc(statusText(event.status))}</span><b>${formatDate(event.startsAt)} ~ ${formatDate(event.endsAt)}</b></div>` : '<div><small>NO ACTIVE EVENT</small><h3>시작된 봉인전이 없습니다.</h3><p>아래 설정을 저장한 뒤 새 봉인전을 시작하세요.</p></div>';
+    $('#sealAdminEventSummary').innerHTML = event ? `<div><small>현재 이벤트 #${event.id}</small><h3>${esc(event.title)} · ${esc(event.bossName)}</h3><p>${esc(event.description || '')}</p><p>현재 회차 보상 조건 · ${num(event.minRewardAttempts || 1)}회 이상 공격 / 완료 코인 ${num(event.clearReward?.coin)}${Number(event.clearReward?.masterStar)>0?` · 마스터의 별 ${num(event.clearReward.masterStar)}개`:""}</p></div><div><span class="status-${String(event.status).toLowerCase()}">${esc(statusText(event.status))}</span><b>${formatDate(event.startsAt)} ~ ${formatDate(event.endsAt)}</b></div>` : '<div><small>NO ACTIVE EVENT</small><h3>시작된 봉인전이 없습니다.</h3><p>아래 설정을 저장한 뒤 새 봉인전을 시작하세요.</p></div>';
     const stats = data.stats || {};
     $('#sealAdminStats').innerHTML = [
       ['참여 유저', num(stats.participants), '명'], ['총 참여', num(stats.attempts), '회'],
@@ -282,6 +282,7 @@
     $('#sealAttemptShards').value = Number(settings.attemptReward?.shards || 0);
     $('#sealClearCoin').value = Number(settings.clearReward?.coin || 0);
     $('#sealClearShards').value = Number(settings.clearReward?.shards || 0);
+    $('#sealClearMasterStar').value = Number(settings.clearReward?.masterStar || 0);
     $('#sealReceiptDays').value = Number(settings.receiptRetentionDays || 14);
     $('#sealProgressDays').value = Number(settings.progressRetentionDays || 90);
     const rankRewards = settings.rankRewards || defaults.rankRewards;
@@ -319,7 +320,7 @@
       lowestRoleBonusPercent: integer('#sealLowestBonus', 20),
       defeatContributionPercent: integer('#sealDefeatContribution', 10),
       attemptReward: { coin: integer('#sealAttemptCoin'), shards: integer('#sealAttemptShards') },
-      clearReward: { coin: integer('#sealClearCoin'), shards: integer('#sealClearShards') },
+      clearReward: { coin: integer('#sealClearCoin'), shards: integer('#sealClearShards'), masterStar: Number($('#sealClearMasterStar').value) },
       rankRewards: {
         enabled: $('#sealRankRewardsEnabled')?.checked === true,
         rewardOnFailure: $('#sealRankRewardsOnFailure')?.checked !== false,
@@ -342,6 +343,8 @@
     if (Object.values(settings.battlePowers).some(value => value < 1)) return '역할별 보스 전투력은 1 이상이어야 합니다.';
     const coinRewards = [settings.attemptReward.coin, settings.clearReward.coin, ...(settings.rankRewards?.tiers || []).map(tier => tier.coin)];
     if (coinRewards.some(value => !Number.isSafeInteger(value) || value < 0)) return '코인 보상은 0 이상의 안전한 정수로 입력하세요.';
+    const masterStar = settings.clearReward.masterStar ?? 0;
+    if (!Number.isSafeInteger(masterStar) || masterStar < 0 || masterStar > 1000000) return '완료 보상 마스터의 별은 0~1,000,000개 정수로 입력하세요.';
     if (settings.rankRewards?.enabled) {
       if (!settings.rankRewards.tiers.length) return '공헌도 순위 보상 구간을 하나 이상 추가하세요.';
       let previousEnd = 0;

@@ -192,7 +192,7 @@
         <article><small>참여 보상</small><b>코인 ${number(event.attemptReward?.coin)}</b><span>카드 조각 ${number(event.attemptReward?.shards)}개</span></article>
       </section>
 
-      ${data.pendingClearReward ? `<section class="seal-pending-reward"><div><small>PREVIOUS CLEAR REWARD</small><h3>${esc(data.pendingClearReward.title)} 완료 보상 미수령</h3><p>${esc(data.pendingClearReward.bossName || '')} 봉인 완료 보상을 지금 받을 수 있습니다.</p></div><div><span>코인 <b>${number(data.pendingClearReward.reward?.coin)}</b></span><span>카드 조각 <b>${number(data.pendingClearReward.reward?.shards)}</b></span><button type="button" data-seal-pending-claim="${Number(data.pendingClearReward.eventId)}" ${data.pendingClearReward.processing ? 'disabled' : ''}>${data.pendingClearReward.processing ? '처리 중' : '지난 봉인전 보상 받기'}</button></div></section>` : ''}
+      ${data.pendingClearReward ? `<section class="seal-pending-reward"><div><small>PREVIOUS CLEAR REWARD</small><h3>${esc(data.pendingClearReward.title)} 완료 보상 미수령</h3><p>${esc(data.pendingClearReward.bossName || '')} 봉인 완료 보상을 지금 받을 수 있습니다.</p></div><div><span>코인 <b>${number(data.pendingClearReward.reward?.coin)}</b></span><span>카드 조각 <b>${number(data.pendingClearReward.reward?.shards)}</b></span>${Number(data.pendingClearReward.reward?.masterStar)>0?`<span>마스터의 별 <b>${number(data.pendingClearReward.reward.masterStar)}개</b></span>`:""}<button type="button" data-seal-pending-claim="${Number(data.pendingClearReward.eventId)}" ${data.pendingClearReward.processing ? 'disabled' : ''}>${data.pendingClearReward.processing ? '처리 중' : '지난 봉인전 보상 받기'}</button></div></section>` : ''}
 
       ${pendingRankReward ? `<section class="seal-rank-reward-panel previous"><div class="seal-rank-reward-copy"><small>PREVIOUS CONTRIBUTION REWARD</small><h3>${esc(pendingRankReward.title)} · 최종 ${number(pendingRankReward.finalRank)}위</h3><p>누적 공헌도 ${number(pendingRankReward.totalContribution)} · ${esc(rankTierLabel(pendingRankReward.tier))} 보상</p></div><div class="seal-rank-reward-items">${rankRewardItemsHtml(pendingRankReward.reward)}</div><button type="button" data-seal-rank-claim="${Number(pendingRankReward.eventId)}" ${pendingRankReward.processing ? 'disabled' : ''}>${pendingRankReward.processing ? '보상 처리 중' : pendingRankReward.claimed ? '수령 완료' : '지난 순위 보상 받기'}</button></section>` : ''}
 
@@ -206,7 +206,7 @@
 
       ${event.status === 'FAILED' ? `<section class="seal-failure-panel"><div><small>SEAL BREACH</small><h2>봉인 실패 · 보스 탈출</h2><p>제한 시간 안에 ${event.failureRoleKeys.map(key => ROLE[key]?.label).filter(Boolean).join(' · ') || '미완성 봉인'}을 완성하지 못했습니다. 진행도는 동결되며 완료 보상은 지급되지 않습니다.</p></div><div class="seal-failure-runes">${event.failureRoleKeys.map(key => `<span class="role-${key.toLowerCase()}">${ROLE[key]?.icon}<b>${ROLE[key]?.label}</b><em>${Number(event.roles[key]?.percent || 0).toFixed(1)}%</em></span>`).join('')}</div></section>` : `<section class="seal-clear-panel ${event.status === 'CLEARED' ? 'ready' : ''}">
         <div><small>SERVER CLEAR REWARD</small><h2>${event.status === 'CLEARED' ? '봉인 완료 보상' : '세 개의 봉인을 모두 완성하세요'}</h2><p>이번 봉인전에 ${number(minimumAttempts)}회 이상 공격한 유저만 완료·순위 보상을 받을 수 있습니다. 파괴·수호·정화 전투를 승패와 관계없이 합산합니다.</p><p>내 공격 ${number(progress.totalAttempts)} / ${number(minimumAttempts)}회 · ${rewardAttemptsRemaining ? `${number(rewardAttemptsRemaining)}회 부족` : '보상 횟수 조건 충족'}</p></div>
-        <div class="seal-clear-reward"><span>코인 <b>${number(event.clearReward?.coin)}</b></span><span>카드 조각 <b>${number(event.clearReward?.shards)}</b></span></div>
+        <div class="seal-clear-reward"><span>코인 <b>${number(event.clearReward?.coin)}</b></span><span>카드 조각 <b>${number(event.clearReward?.shards)}</b></span>${Number(event.clearReward?.masterStar)>0?`<span>마스터의 별 <b>${number(event.clearReward.masterStar)}개</b></span>`:''}</div>
         <button type="button" id="sealClearClaim" ${canClaim ? '' : 'disabled'}>${clear.claimed ? '보상 수령 완료' : clear.processing ? '보상 처리 중' : event.status === 'CLEARED' ? (clear.eligible ? '봉인 완료 보상 받기' : `최소 ${number(minimumAttempts)}회 공격 필요`) : '봉인 완료 후 수령'}</button>
       </section>`}
 
@@ -473,7 +473,7 @@
       const eventId = Number(button.dataset.sealPendingClaim || 0);
       const result = await api('seal-battle/clear-reward', { method: 'POST', body: JSON.stringify(eventId ? { eventId } : {}) });
       updateBalances(result.balances);
-      alert(`봉인 완료 보상을 수령했습니다.\n코인 ${number(result.reward?.coin)} · 카드 조각 ${number(result.reward?.shards)}`);
+      alert(`봉인 완료 보상을 수령했습니다.\n코인 ${number(result.reward?.coin)} · 카드 조각 ${number(result.reward?.shards)}${Number(result.reward?.masterStar)>0?`\n마스터의 별 ${number(result.reward.masterStar)}개`:''}`);
       await load();
     } catch (error) {
       alert(error.message);

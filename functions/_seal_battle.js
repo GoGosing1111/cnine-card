@@ -22,7 +22,7 @@ const DEFAULT_SETTINGS = {
   lowestRoleBonusPercent: 20,
   defeatContributionPercent: 10,
   attemptReward: { coin: 100, shards: 1 },
-  clearReward: { coin: 2000, shards: 50 },
+  clearReward: { coin: 2000, shards: 50, masterStar: 0 },
   rankRewards: {
     enabled: false,
     rewardOnFailure: true,
@@ -152,7 +152,8 @@ function cleanSettings(raw = {}) {
     },
     clearReward: {
       coin: clampInt(clearReward.coin, base.clearReward.coin, 0, SEAL_COIN_REWARD_MAX),
-      shards: clampInt(clearReward.shards, base.clearReward.shards, 0, 1000000)
+      shards: clampInt(clearReward.shards, base.clearReward.shards, 0, 1000000),
+      masterStar: clampInt(clearReward.masterStar, 0, 0, 1000000)
     },
     rankRewards: cleanRankRewards(raw.rankRewards || base.rankRewards),
     receiptRetentionDays: clampInt(raw.receiptRetentionDays, base.receiptRetentionDays, 1, 90),
@@ -192,6 +193,20 @@ async function ensureRewardAttemptsSchema(env, deps) {
   }
   // Schema only: never rewrite operator settings or past rounds during initialization.
   await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(marker, '1').run();
+}
+
+async function ensureMasterStarSchema(env, deps = {}) {
+  const marker = 'seal_master_star_schema_20260925_v1';
+  if ((await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(marker).first())?.value === '1') return;
+  const ddl = 'CREATE TABLE IF NOT EXISTS seal_battle_clear_rewards_v20260925(event_id BIGINT PRIMARY KEY,master_star BIGINT NOT NULL DEFAULT 0 CHECK(master_star>=0 AND master_star<=1000000))';
+  if (env.DB.dialect === 'postgres') await env.DB.execSchema([ddl]);
+  else await env.DB.prepare(ddl).run();
+  // Old rounds keep zero. Activating the current round is an explicit audited operation.
+  await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(marker, '1').run();
+}
+
+function eventStarColumn(alias = 'seal_battle_events') {
+  return `COALESCE((SELECT master_star FROM seal_battle_clear_rewards_v20260925 WHERE event_id=${alias}.id),0) AS clear_master_star`;
 }
 
 async function ensureFoundation(env, deps = {}) {
@@ -303,6 +318,7 @@ async function ensureFoundation(env, deps = {}) {
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1283_seal_battle','1',CURRENT_TIMESTAMP)")
     ]);
     await ensureRewardAttemptsSchema(env, deps);
+    await ensureMasterStarSchema(env, deps);
 
     const additions = [
       ['seal_battle_events','attack_battle_power','INTEGER NOT NULL DEFAULT 12000'],
@@ -376,6 +392,9 @@ async function loadSettings(env) {
 }
 
 async function saveSettings(env, value) {
+  if (value.clearReward?.masterStar !== undefined && (!Number.isSafeInteger(Number(value.clearReward.masterStar)) || Number(value.clearReward.masterStar) < 0 || Number(value.clearReward.masterStar) > 1000000)) {
+    throw new Error('완료 보상 마스터의 별은 0~1,000,000개 정수로 입력하세요.');
+  }
   if (Object.values(value.targets || {}).some(target => !Number.isSafeInteger(Number(target)) || Number(target) < 1)) {
     throw new Error('역할별 봉인 체력(목표 공헌도)은 1 이상의 안전한 정수로 입력하세요.');
   }
@@ -432,7 +451,7 @@ function normalizeEvent(row) {
     lowestRoleBonusPercent: Number(row.lowest_bonus_percent || 0),
     defeatContributionPercent: Number(row.defeat_contribution_percent ?? 10),
     attemptReward: { coin: Number(row.attempt_coin || 0), shards: Number(row.attempt_shards || 0) },
-    clearReward: { coin: Number(row.clear_coin || 0), shards: Number(row.clear_shards || 0) },
+    clearReward: { coin: Number(row.clear_coin || 0), shards: Number(row.clear_shards || 0), masterStar: Number(row.clear_master_star || 0) },
     rankRewards: cleanRankRewards(safeJson(row.rank_rewards_json, {})),
     roles,
     createdAt: row.created_at,
@@ -459,7 +478,7 @@ async function refreshExpiredEvent(env) {
 
 async function currentEventRow(env) {
   await refreshExpiredEvent(env);
-  return env.DB.prepare(`SELECT * FROM seal_battle_events
+  return env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events
     ORDER BY CASE WHEN status='ACTIVE' THEN 0 ELSE 1 END,id DESC
     LIMIT 1`).first();
 }
@@ -605,7 +624,7 @@ async function rankRewardPreview(env, event, userId) {
 }
 
 async function pendingRankReward(env, userId, excludeEventId = 0) {
-  const rows = (await env.DB.prepare(`SELECT e.* FROM seal_battle_events e
+  const rows = (await env.DB.prepare(`SELECT e.*,${eventStarColumn("e")} FROM seal_battle_events e
     JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>=e.min_reward_attempts
     LEFT JOIN seal_battle_rank_claims c ON c.event_id=e.id AND c.user_id=?
     WHERE e.id<>? AND e.status IN ('CLEARED','FAILED','ENDED') AND COALESCE(c.status,'')<>'COMPLETED'
@@ -768,7 +787,7 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
     eventStats(env, event.id),
     deckState(deps, env, user.id),
     env.DB.prepare('SELECT status FROM seal_battle_clear_claims WHERE event_id=? AND user_id=?').bind(event.id, user.id).first(),
-    env.DB.prepare(`SELECT e.id,e.event_key,e.title,e.boss_name,e.clear_coin,e.clear_shards,c.status AS claim_status
+    env.DB.prepare(`SELECT e.id,e.event_key,e.title,e.boss_name,e.clear_coin,e.clear_shards,${eventStarColumn('e')},c.status AS claim_status
       FROM seal_battle_events e
       JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>=e.min_reward_attempts
       LEFT JOIN seal_battle_clear_claims c ON c.event_id=e.id AND c.user_id=?
@@ -802,7 +821,7 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
       eventKey: pendingClaim.event_key,
       title: pendingClaim.title,
       bossName: pendingClaim.boss_name,
-      reward: { coin: Number(pendingClaim.clear_coin || 0), shards: Number(pendingClaim.clear_shards || 0) },
+      reward: { coin: Number(pendingClaim.clear_coin || 0), shards: Number(pendingClaim.clear_shards || 0), masterStar: Number(pendingClaim.clear_master_star || 0) },
       processing: ['PENDING', 'CLAIMING'].includes(String(pendingClaim.claim_status || ''))
     } : null,
     rankReward,
@@ -1059,6 +1078,7 @@ async function claimClearReward(env, deps, user, event) {
 
   const coin = Number(event.clearReward.coin || 0);
   const shards = Number(event.clearReward.shards || 0);
+  const masterStar = Number(event.clearReward.masterStar || 0);
   const statements = [env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+?
     WHERE id=? AND EXISTS(
       SELECT 1 FROM seal_battle_clear_claims WHERE event_id=? AND user_id=? AND status='CLAIMING'
@@ -1073,6 +1093,17 @@ async function claimClearReward(env, deps, user, event) {
     WHERE id=? AND EXISTS(
       SELECT 1 FROM seal_battle_clear_claims WHERE event_id=? AND user_id=? AND status='CLAIMING'
     )`).bind(shards, user.id, event.id, user.id));
+  if (masterStar > 0) {
+    const gate = "EXISTS(SELECT 1 FROM seal_battle_clear_claims WHERE event_id=? AND user_id=? AND status='CLAIMING')";
+    statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+      SELECT ?,'MASTER_STAR',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${gate}
+      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,
+        unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`)
+      .bind(user.id, masterStar, masterStar, event.id, user.id));
+    statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      SELECT user_id,item_code,?,quantity,'SEAL_BATTLE_CLEAR','SEAL_BATTLE',? FROM cnine_user_inventory
+      WHERE user_id=? AND item_code='MASTER_STAR' AND ${gate}`).bind(masterStar, event.eventKey, user.id, event.id, user.id));
+  }
   statements.push(env.DB.prepare("UPDATE seal_battle_clear_claims SET status='COMPLETED',claimed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND status='CLAIMING'").bind(event.id, user.id));
 
   let rewardResults;
@@ -1101,7 +1132,7 @@ async function claimClearReward(env, deps, user, event) {
   }
   return deps.json({
     ok: true,
-    reward: { coin, shards },
+    reward: { coin, shards, masterStar },
     balances: balance ? { coin: Number(balance.coin || 0), cardShards: Number(balance.card_shards || 0) } : null
   });
 }
@@ -1187,7 +1218,7 @@ async function claimRankReward(env, deps, user, event) {
 }
 
 async function rankings(env, eventId, userId = 0) {
-  const event = normalizeEvent(await env.DB.prepare('SELECT * FROM seal_battle_events WHERE id=?').bind(eventId).first());
+  const event = normalizeEvent(await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE id=?`).bind(eventId).first());
   const overall = (await env.DB.prepare(`SELECT p.user_id,u.nickname,p.total_attempts,
     p.attack_contribution,p.guard_contribution,p.purify_contribution,p.total_contribution,p.last_contribution_at
     FROM seal_battle_user_progress p JOIN users u ON u.id=p.user_id
@@ -1256,9 +1287,11 @@ async function adminStart(env, settings, admin) {
       settings.defeatContributionPercent,
       settings.lowestRoleBonusPercent, settings.attemptReward.coin, settings.attemptReward.shards,
       settings.clearReward.coin, settings.clearReward.shards, JSON.stringify(settings.rankRewards), admin.id
-    )
+    ),
+    env.DB.prepare('INSERT INTO seal_battle_clear_rewards_v20260925(event_id,master_star) SELECT id,? FROM seal_battle_events WHERE event_key=?')
+      .bind(settings.clearReward.masterStar || 0, key)
   ]);
-  return normalizeEvent(await env.DB.prepare('SELECT * FROM seal_battle_events WHERE event_key=?').bind(key).first());
+  return normalizeEvent(await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE event_key=?`).bind(key).first());
 }
 
 export async function handleSealBattle({ path, request, env, deps }) {
@@ -1291,10 +1324,10 @@ export async function handleSealBattle({ path, request, env, deps }) {
     const body = await deps.readBody(request);
     const requestedEventId = Math.max(0, Math.floor(Number(body.eventId || 0)));
     let eventRow = requestedEventId
-      ? await env.DB.prepare('SELECT * FROM seal_battle_events WHERE id=?').bind(requestedEventId).first()
+      ? await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE id=?`).bind(requestedEventId).first()
       : await currentEventRow(env);
     if (!requestedEventId && eventRow && String(eventRow.status || '').toUpperCase() !== 'CLEARED') {
-      eventRow = await env.DB.prepare(`SELECT e.* FROM seal_battle_events e
+      eventRow = await env.DB.prepare(`SELECT e.*,${eventStarColumn("e")} FROM seal_battle_events e
         JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>=e.min_reward_attempts
         LEFT JOIN seal_battle_clear_claims c ON c.event_id=e.id AND c.user_id=?
         WHERE e.status='CLEARED' AND COALESCE(c.status,'')<>'COMPLETED'
@@ -1307,7 +1340,7 @@ export async function handleSealBattle({ path, request, env, deps }) {
     const body = await deps.readBody(request);
     const requestedEventId = Math.max(0, Math.floor(Number(body.eventId || 0)));
     const eventRow = requestedEventId
-      ? await env.DB.prepare('SELECT * FROM seal_battle_events WHERE id=?').bind(requestedEventId).first()
+      ? await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE id=?`).bind(requestedEventId).first()
       : await currentEventRow(env);
     return claimRankReward(env, deps, user, normalizeEvent(eventRow));
   }
@@ -1326,9 +1359,11 @@ export async function handleSealBattle({ path, request, env, deps }) {
     const body = await deps.readBody(request);
     let next;
     try {
-      next = await saveSettings(env, { ...settings, ...(body.settings || body) });
+      const incoming = body.settings || body;
+      // A previously opened CMS may omit the newly added field.
+      next = await saveSettings(env, { ...settings, ...incoming, clearReward: { ...settings.clearReward, ...incoming.clearReward } });
     } catch (error) {
-      if (/보상 최소 공격 횟수|봉인 체력/.test(String(error?.message))) return deps.json({ error: error.message }, 400);
+      if (/보상 최소 공격 횟수|봉인 체력|완료 보상 마스터의 별/.test(String(error?.message))) return deps.json({ error: error.message }, 400);
       throw error;
     }
     await env.DB.prepare("UPDATE seal_battle_events SET boss_image=?,updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'")
@@ -1348,7 +1383,7 @@ export async function handleSealBattle({ path, request, env, deps }) {
       return deps.json({ ok: true, event, overview: await adminOverview(env, settings) });
     }
     if (action === 'END') {
-      const active = await env.DB.prepare("SELECT * FROM seal_battle_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
+      const active = await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1`).first();
       if (!active) return deps.json({ error: '종료할 활성 봉인전이 없습니다.' }, 409);
       await env.DB.prepare(`UPDATE seal_battle_events SET status=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN 'CLEARED' ELSE 'FAILED' END,cleared_at=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,ended_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'`).bind(active.id).run();
       if (typeof deps.writeAdminLog === 'function') await deps.writeAdminLog(env, admin, 'SEAL_BATTLE_END', 'SEAL_BATTLE', active.event_key, normalizeEvent(active), null);
