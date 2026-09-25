@@ -6,6 +6,7 @@ import {buildFighter,distributeEquipment} from './_battle_v2_preview.js';
 import {buildMercenaryFighter,MERCENARY_SKILL_CAP_SCALE} from './_mercenary_combat.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
 import {jointHash} from './_joint_transactions.js';
+import {readDuoEquipment} from './_ranked_duo_equipment.js';
 
 const parsed=(text,fallback=[])=>{try{return JSON.parse(text);}catch{return fallback;}};
 const marks=ids=>ids.map(()=>'?').join(',');
@@ -30,7 +31,7 @@ async function rebuild(env,versions,config,deps,hash,now){
  const [owned,decks,gear,vehicles,titles,mercRows,battle,mercDocument,mercRuntime]=await Promise.all([
   p(`SELECT uc.user_id,c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,mb.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN members mb ON mb.id=c.member_id WHERE uc.user_id IN (${m}) AND uc.quantity>0 LIMIT 65537`),
   p(`SELECT d.user_id,d.card_ids AS defense_ids,CASE WHEN COALESCE(a.preset_no,1)=1 THEN COALESCE(pr.card_ids,d.card_ids) ELSE pr.card_ids END AS attack_ids,COALESCE(a.preset_no,1) AS preset_no FROM pvp_decks d LEFT JOIN pvp_active_presets a ON a.user_id=d.user_id LEFT JOIN pvp_deck_presets pr ON pr.user_id=a.user_id AND pr.preset_no=a.preset_no WHERE d.user_id IN (${m})`),
-  p(`SELECT x.user_id,x.id,i.slot,i.total_power,i.pvp_power,COALESCE(s.level,0) AS level,l.instance_id AS equipped FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN user_equipment_loadout l ON l.user_id=x.user_id AND l.instance_id=x.id WHERE x.user_id IN (${m}) AND i.is_active=1 AND i.slot IN('WEAPON','TOP','BOTTOM','SHOES','ACCESSORY') LIMIT 65537`),
+  readDuoEquipment(env,ids),
   p(`SELECT v.user_id,g.id,g.pvp_power,l.garage_id AS equipped FROM user_garage_vehicles v JOIN character_garage_items g ON g.id=v.garage_id LEFT JOIN user_garage_loadout l ON l.user_id=v.user_id AND l.garage_id=v.garage_id WHERE v.user_id IN (${m}) AND g.is_active=1 LIMIT 65537`),
   p(`SELECT u.user_id,t.id,t.pve_power AS pvp_power,u.expires_at,l.title_id AS equipped FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id LEFT JOIN user_title_loadout l ON l.user_id=u.user_id AND l.title_id=u.title_id WHERE u.user_id IN (${m}) AND t.is_active=1 AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) LIMIT 65537`),
   p(`SELECT c.user_id,c.mercenary_code,l.mercenary_code AS equipped FROM user_mercenary_cards_v1 c LEFT JOIN user_mercenary_loadout_v1 l ON l.user_id=c.user_id AND l.mercenary_code=c.mercenary_code WHERE c.user_id IN (${m}) AND c.total_copies>0 LIMIT 2001`),
@@ -44,7 +45,7 @@ async function rebuild(env,versions,config,deps,hash,now){
   const userId=Number(version.user_id),user={id:userId,role:version.role,nickname:version.nickname},cards=byUser(owned,userId).map(c=>({...c,id:String(c.id),power:deps.cardBattlePower(c,Number(c.breakthrough_level||0),battle)})),cardMap=new Map(cards.map(c=>[c.id,c])),best=strongestDuoCards(cards);
   const saved=decks.results.find(d=>Number(d.user_id)===userId),select=raw=>{const value=parsed(raw);return Array.isArray(value)?value.map(id=>cardMap.get(String(id))).filter(Boolean):[];};
   const attack=select(saved?.attack_ids),defense=select(saved?.defense_ids),slotBest=new Map();let equipment=0;
-  for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level)).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));if(item.equipped)equipment+=power;}
+  for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level)).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
   let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
   const mercs=byUser(mercRows,userId).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),combat:mercRuntime.combat,equipped:Boolean(r.equipped),cmsRevision:mercDocument.revision}));

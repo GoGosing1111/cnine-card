@@ -24,7 +24,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: coup
 test('coup summary failure cannot suppress existing live operations',async()=>{
  const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
  const source=api.slice(api.indexOf('async function liveOperationAlerts(env){'),api.indexOf('let cardAcquisitionGradeFxCache'));
- const ctx=vm.createContext({Date,console:{error(){}},liveOperationsCache:null,LIVE_OPERATIONS_CACHE_MS:15000,coupLiveOperation:async()=>{throw Error('Missing coup table');}});
+ const ctx=vm.createContext({Date,console:{error(){}},liveOperationsCache:null,LIVE_OPERATIONS_CACHE_MS:15000,rankedDuoLiveOperation:async()=>null,coupLiveOperation:async()=>{throw Error('Missing coup table');}});
  vm.runInContext(source,ctx);
  const items=await ctx.liveOperationAlerts({DB:{prepare:()=>({all:async()=>({results:[{kind:'AUCTION',phase:'ACTIVE',entity_id:1,title:'경매'}]})})}});
  assert.equal(items.length,1);assert.equal(items[0].kind,'AUCTION');

@@ -1427,6 +1427,7 @@ async function loadShellSummary(){
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
 
 const LIVE_OPERATION_META=Object.freeze({
+  RANKED_DUO:{label:'랭크 듀오',state:'대전중',deadline:'종료까지'},
   TERRITORY:{label:'영토전',state:'작전 진행',deadline:'다음 단계'},
   SIEGE:{label:'몬스터 공성',state:'편성 대기',deadline:'편성 마감'},
   SEAL:{label:'봉인전',state:'진행 중',deadline:'종료까지'},
@@ -1439,6 +1440,7 @@ let liveOperationsItems=[],liveOperationsFailed=false;
 function liveOperationTimestamp(value){const raw=String(value||'').trim();if(!raw)return NaN;return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw)?`${raw.replace(' ','T')}Z`:raw)}
 function liveOperationClock(value){const ms=liveOperationTimestamp(value)-(Date.now()+liveOperationsServerOffset);if(!Number.isFinite(ms))return '진행 중';if(ms<=0)return '상태 갱신 중';const seconds=Math.ceil(ms/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;if(hours>=24)return `${Math.floor(hours/24)}일 ${String(hours%24).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`}
 function liveOperationIcon(kind){return ({
+  RANKED_DUO:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6C5 3 2 7 3 12l3 2v5h4V9H6m8-3c5-3 8 1 7 6l-3 2v5h-4V9h4M6 3l4 1m8-1-4 1"/></svg>',
   COUP:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10h14v11M3 10h18L12 3ZM9 21v-6h6v6M8 10V7m8 3V7"/></svg>',
   TERRITORY:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M8 4l12 12M5 3l4 1-5 5-1-4Zm14 12 2 2-4 4-2-2Z"/></svg>',
   SIEGE:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l4-3v3l4-3v3l4-3v3l4-3v15ZM8 21v-5h8v5M7 12h2m3 0h2m3 0h2"/></svg>',
@@ -1447,7 +1449,7 @@ function liveOperationIcon(kind){return ({
   RAID:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9l8-6 8 6v10M8 19v-6h8v6M6 21h12M9 8h6"/></svg>'
 }[kind]||'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg>')}
 function liveOperationCardHtml(item){
-  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,coupRecruiting=kind==='COUP'&&phase==='RECRUITING',state=coupRecruiting?'참가 모집':raidLobby?'참가 대기':territoryPhase?.state||base.state,deadline=coupRecruiting?'모집 상태':raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline,title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
+  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,coupRecruiting=kind==='COUP'&&phase==='RECRUITING',duoRecruiting=kind==='RANKED_DUO'&&phase==='RECRUITING',state=duoRecruiting?'모집중':coupRecruiting?'참가 모집':raidLobby?'참가 대기':territoryPhase?.state||base.state,deadline=duoRecruiting?'모집 마감':coupRecruiting?'모집 상태':raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline,title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
   return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i>${escapeHtml(base.label)}<em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b ${coupRecruiting?'':`data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}"`}>${coupRecruiting?'개전 대기':liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
 }
 function updateLiveOperationClocks(){const nodes=document.querySelectorAll('[data-live-operation-deadline]');if(!nodes.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return}nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)})}
@@ -1455,6 +1457,7 @@ function openLiveOperation(kind){
   const key=String(kind||'').toUpperCase();
   if(key==='AUCTION'){renderShell('auction');return}
   if(key==='COUP'){renderShell('coup');return}
+  if(key==='RANKED_DUO'){renderShell('duo');return}
   renderShell('battle');let attempts=0;
   const enter=()=>{attempts++;if(key==='TERRITORY'&&typeof window.openTerritoryWar==='function'){window.openTerritoryWar();return}if(key==='SIEGE'&&typeof window.openMonsterSiege==='function'){window.openMonsterSiege();return}if(key==='SEAL'){const button=document.querySelector('[data-seal-battle-mode]');if(button){button.click();return}}if(key==='RAID'){const button=document.querySelector('[data-pve-mode="raid"]');if(button){button.click();return}}if(attempts<20)setTimeout(enter,80)};
   setTimeout(enter,60);
