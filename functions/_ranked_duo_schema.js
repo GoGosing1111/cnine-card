@@ -1,7 +1,7 @@
 import {ensureJointAtomicSchema} from './_joint_atomic.js';
 export const DUO_CURRENT_KEY='ranked_duo_current_v1';
 export const DUO_SCHEMA=[
- `CREATE TABLE IF NOT EXISTS ranked_duo_seasons_v1(id TEXT PRIMARY KEY,status TEXT NOT NULL,revision BIGINT NOT NULL DEFAULT 0,config_json TEXT NOT NULL,recruit_until TEXT,pair_cursor BIGINT NOT NULL DEFAULT 0,pair_policy_revision BIGINT,pairing_json TEXT,created_at TEXT NOT NULL)`,
+ `CREATE TABLE IF NOT EXISTS ranked_duo_seasons_v1(id TEXT PRIMARY KEY,status TEXT NOT NULL,revision BIGINT NOT NULL DEFAULT 0,participant_count BIGINT NOT NULL DEFAULT 0 CHECK(participant_count>=0),config_json TEXT NOT NULL,recruit_until TEXT,pair_cursor BIGINT NOT NULL DEFAULT 0,pair_policy_revision BIGINT,pairing_json TEXT,created_at TEXT NOT NULL)`,
  `CREATE TABLE IF NOT EXISTS ranked_duo_accounts_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT NOT NULL DEFAULT 1)`,
  `CREATE TABLE IF NOT EXISTS ranked_duo_policy_version_v1(id BIGINT PRIMARY KEY,revision BIGINT NOT NULL DEFAULT 1)`,
  `INSERT INTO ranked_duo_policy_version_v1(id,revision) VALUES(1,1) ON CONFLICT(id) DO NOTHING`,
@@ -31,12 +31,17 @@ export async function prepareDuoSchema(env){
  if(DB.dialect==='postgres'){
   ddl.push(`CREATE OR REPLACE FUNCTION ranked_duo_touch_account_v1() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF TG_OP='DELETE' THEN UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=OLD.user_id; ELSE UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=NEW.user_id; IF TG_OP='UPDATE' AND OLD.user_id<>NEW.user_id THEN UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=OLD.user_id; END IF; END IF; RETURN NULL; END $$`);
   ddl.push(`CREATE OR REPLACE FUNCTION ranked_duo_touch_policy_v1() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1; RETURN NULL; END $$`);
+  ddl.push(`CREATE OR REPLACE FUNCTION ranked_duo_touch_catalog_v1() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF EXISTS(SELECT 1 FROM ranked_duo_changed_v1) THEN UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1; END IF; RETURN NULL; END $$`);
  }
  for(const [kind,sources]of [['account',DUO_ACCOUNT_SOURCES],['policy',DUO_POLICY_SOURCES]])for(const table of sources){
   if(!tables.has(table))continue;
   if(DB.dialect==='postgres'){
    ddl.push(`DROP TRIGGER IF EXISTS ranked_duo_touch_v1 ON ${table}`);
-   ddl.push(`CREATE TRIGGER ranked_duo_touch_v1 AFTER INSERT OR UPDATE OR DELETE ON ${table} FOR EACH ${kind==='policy'?'STATEMENT':'ROW'} EXECUTE FUNCTION ranked_duo_touch_${kind}_v1()`);
+   if(kind==='policy')for(const event of ['INSERT','UPDATE','DELETE']){
+    const name=`ranked_duo_catalog_${event.toLowerCase()}_v1`;
+    ddl.push(`DROP TRIGGER IF EXISTS ${name} ON ${table}`);
+    ddl.push(`CREATE TRIGGER ${name} AFTER ${event} ON ${table} REFERENCING ${event==='DELETE'?'OLD':'NEW'} TABLE AS ranked_duo_changed_v1 FOR EACH STATEMENT EXECUTE FUNCTION ranked_duo_touch_catalog_v1()`);
+   }else ddl.push(`CREATE TRIGGER ranked_duo_touch_v1 AFTER INSERT OR UPDATE OR DELETE ON ${table} FOR EACH ROW EXECUTE FUNCTION ranked_duo_touch_account_v1()`);
   }else for(const event of ['INSERT','UPDATE','DELETE']){
    const row=event==='DELETE'?'OLD':'NEW',body=kind==='account'?`UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=${row}.user_id;${event==='UPDATE'?' UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=OLD.user_id AND OLD.user_id<>NEW.user_id;':''}`:`UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1;`;
    ddl.push(`CREATE TRIGGER IF NOT EXISTS ranked_duo_${table}_${event}_v1 AFTER ${event} ON ${table} BEGIN ${body} END`);

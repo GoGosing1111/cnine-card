@@ -121,3 +121,23 @@ test('last-energy pending match is discoverable and recoverable from a fresh dev
  assert.equal((await f.call('ranked-duo/match',{user:2,method:'POST'})).data.pendingMatchId,status.data.pendingMatchId);
  f.advance(31000);const result=await f.call('ranked-duo/replay',{user:2,method:'POST',body:{matchId:status.data.pendingMatchId}});assert.equal(result.data.status,'COMPLETED');assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,0);
 });
+
+for(const postgres of [false,'pipeline'])test('lobby never recounts participants; atomic membership counter survives duplicates and rollback '+postgres,async t=>{
+ const f=await duoFixture(t,{postgres});await f.call('admin/ranked-duo/create',{method:'POST',body:{config:f.config}});await f.call('admin/ranked-duo/recruit',{method:'POST'});
+ const [a,b]=await Promise.all([2,3].map(user=>f.call('ranked-duo/join',{user,method:'POST'})));assert.equal(a.status,200);assert.equal(b.status,200);
+ assert.equal((await f.call('ranked-duo/join',{user:2,method:'POST'})).status,200);
+ f.resetQueries();let status=await f.call('ranked-duo/status',{user:2});assert.equal(status.data.participants,2);assert.ok(!f.queries().some(q=>/COUNT\(|SUM\(/i.test(q)));
+ for(const user of [2,2])assert.equal((await f.call('ranked-duo/join',{user,method:'DELETE'})).status,200);
+ assert.equal((await f.call('ranked-duo/status',{user:3})).data.participants,1);
+ f.fail('INSERT INTO ranked_duo_entries_v1');assert.equal((await f.call('ranked-duo/join',{user:4,method:'POST'})).status,500);f.fail('');
+ assert.equal((await f.call('ranked-duo/status',{user:3})).data.participants,1);
+ assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM ranked_duo_entries_v1').first()).n),1);
+});
+
+test('Postgres no-op catalog writes do not invalidate every participant profile',async t=>{
+ const f=await duoFixture(t,{postgres:'pipeline'});await f.ready();
+ const revision=async()=>Number((await f.p('SELECT revision FROM ranked_duo_policy_version_v1 WHERE id=1').first()).revision),before=await revision();
+ await f.p("UPDATE cards SET base_power=base_power+1 WHERE id='not-a-card'").run();
+ await f.p("INSERT INTO cards(id) VALUES('C-0') ON CONFLICT(id) DO NOTHING").run();assert.equal(await revision(),before);
+ await f.p("UPDATE cards SET base_power=base_power+1 WHERE id IN('C-0','C-1')").run();assert.equal(await revision(),before+1);
+});

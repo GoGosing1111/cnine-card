@@ -11,7 +11,7 @@ const guard=(env,predicate,args,body)=>{const token=crypto.randomUUID();return [
 const lock=(env,sql,...args)=>env.DB.dialect==='postgres'?[statement(env)(sql,...args)]:[];
 const seasonGuard=(env,s,body)=>guard(env,'EXISTS(SELECT 1 FROM ranked_duo_seasons_v1 WHERE id=? AND revision=? AND status=?)',[s.id,s.revision,s.status],body);
 const seasonWrite=(env,s,body)=>[...lock(env,'SELECT id FROM ranked_duo_seasons_v1 WHERE id=? FOR UPDATE',s.id),...seasonGuard(env,s,body)];
-const fields='id,status,revision,config_json,recruit_until,pair_cursor,pair_policy_revision,created_at';
+const fields='id,status,revision,participant_count,config_json,recruit_until,pair_cursor,pair_policy_revision,created_at';
 async function currentSeason(env){const row=await statement(env)('SELECT value FROM app_meta WHERE key=?',DUO_CURRENT_KEY).first();if(!row)return null;const s=await statement(env)(`SELECT ${fields} FROM ranked_duo_seasons_v1 WHERE id=?`,row.value).first();return s?{...s,revision:Number(s.revision),config:validateDuoConfig(JSON.parse(s.config_json))}:null;}
 const publicSeason=s=>s?{id:s.id,status:s.status,name:s.config.name,visible:s.config.visible,revision:s.revision,recruitUntil:s.recruit_until,startsAt:s.config.startsAt,endsAt:s.config.endsAt,energy:s.config.energy,score:s.config.score,version:DUO_VERSION}:null;
 const requireSeason=s=>{if(!s)throw duoError('NOT_CONFIGURED','듀오 시즌을 준비 중입니다.',404);return s;};
@@ -24,9 +24,9 @@ const audit=(env,user,action,s,data)=>statement(env)('INSERT INTO admin_logs(adm
 
 export async function duoStatus(env,user,s,now){
  if(!s||!s.config.visible&&user.role!=='OWNER')return {season:null,notice:'듀오 시즌을 준비 중입니다.'};
- const [mine,count,pending]=await Promise.all([entry(env,s,user.id),statement(env)('SELECT COUNT(*) AS n FROM ranked_duo_entries_v1 WHERE season_id=?',s.id).first(),statement(env)("SELECT id FROM ranked_duo_matches_v1 WHERE user_id=? AND status='PENDING'",user.id).first()]);
+ const [mine,pending]=await Promise.all([entry(env,s,user.id),statement(env)("SELECT id FROM ranked_duo_matches_v1 WHERE user_id=? AND status='PENDING'",user.id).first()]);
  const ownTeam=mine?.team_id&&!['PAIRING','PUBLISHING'].includes(s.status)?await team(env,mine.team_id):null;
- return {season:publicSeason(s),participants:Number(count.n),pendingMatchId:pending?.id||null,joined:Boolean(mine),waiting:Boolean(mine&&!ownTeam),team:publicTeam(ownTeam),energy:mine?duoEnergy(mine,s.config,now):null,seed:mine?.seed_json?JSON.parse(mine.seed_json):null,serverNow:iso(now)};
+ return {season:publicSeason(s),participants:Number(s.participant_count),pendingMatchId:pending?.id||null,joined:Boolean(mine),waiting:Boolean(mine&&!ownTeam),team:publicTeam(ownTeam),energy:mine?duoEnergy(mine,s.config,now):null,seed:mine?.seed_json?JSON.parse(mine.seed_json):null,serverNow:iso(now)};
 }
 async function join(env,user,s,deps,now){
  recruiting(s,now);if(['OWNER','ADMIN'].includes(user.role))throw duoError('ROLE','운영 계정은 시즌 참가 대상이 아닙니다.',403);
@@ -34,13 +34,23 @@ async function join(env,user,s,deps,now){
  const p=statement(env);await p('INSERT INTO ranked_duo_accounts_v1(user_id) VALUES(?) ON CONFLICT(user_id) DO NOTHING',user.id).run();
  const [profile]=await loadDuoProfiles(env,[user.id],s.config,deps,{now});
  if(!profile.attackReady||!profile.defenseReady)throw duoError('DECK','랭크전 공격 덱과 방어 프리셋 1을 각각 유효하게 저장하세요.');
- const count=Number((await p('SELECT COUNT(*) AS n FROM ranked_duo_entries_v1 WHERE season_id=?',s.id).first()).n);if(count>=DUO_LIMITS.participants)throw duoError('FULL','이번 모집 정원이 찼습니다.');
+ if(Number(s.participant_count)>=DUO_LIMITS.participants)throw duoError('FULL','이번 모집 정원이 찼습니다.');
  // Enrollment alone takes a short season lock to enforce capacity. Battles
  // use shared admission locks and never update this season row.
- await env.DB.batch(seasonWrite(env,s,guard(env,'(SELECT COUNT(*) FROM ranked_duo_entries_v1 WHERE season_id=?)<?',[s.id,DUO_LIMITS.participants],[p('INSERT INTO ranked_duo_entries_v1(season_id,user_id,seed_power,seed_json,joined_at) VALUES(?,?,?,?,?) ON CONFLICT(season_id,user_id) DO NOTHING',s.id,user.id,profile.power,JSON.stringify(profile.breakdown),iso(now))])));
- return duoStatus(env,user,s,now);
+ await env.DB.batch(seasonWrite(env,s,guard(env,'EXISTS(SELECT 1 FROM ranked_duo_seasons_v1 WHERE id=? AND participant_count<?) OR EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=?)',[s.id,DUO_LIMITS.participants,s.id,user.id],[
+  p('UPDATE ranked_duo_seasons_v1 SET participant_count=participant_count+1 WHERE id=? AND NOT EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=?)',s.id,s.id,user.id),
+  p('INSERT INTO ranked_duo_entries_v1(season_id,user_id,seed_power,seed_json,joined_at) VALUES(?,?,?,?,?) ON CONFLICT(season_id,user_id) DO NOTHING',s.id,user.id,profile.power,JSON.stringify(profile.breakdown),iso(now))
+ ])));
+ return duoStatus(env,user,await currentSeason(env),now);
 }
-async function cancel(env,user,s,now){recruiting(s,now);const p=statement(env);await env.DB.batch([...lock(env,'SELECT id FROM ranked_duo_seasons_v1 WHERE id=? FOR SHARE',s.id),...seasonGuard(env,s,guard(env,'NOT EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NOT NULL)',[s.id,user.id],[p('DELETE FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NULL',s.id,user.id)]))]);return {ok:true};}
+async function cancel(env,user,s,now){
+ recruiting(s,now);const p=statement(env);
+ await env.DB.batch(seasonWrite(env,s,guard(env,'NOT EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NOT NULL)',[s.id,user.id],[
+  p('UPDATE ranked_duo_seasons_v1 SET participant_count=participant_count-1 WHERE id=? AND EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NULL)',s.id,s.id,user.id),
+  p('DELETE FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NULL',s.id,user.id)
+ ])));
+ return {ok:true};
+}
 
 async function adminCreate(env,user,body,s,now){
  if(s&&s.status!=='CLOSED')throw duoError('SEASON_EXISTS','진행 중인 시즌을 먼저 종료하세요.');
