@@ -26,9 +26,9 @@ export function swordEffectFrame(effect,age){
 }
 // A presentation batch contains only existing server receipts. No damage,
 // target, cadence, equipment bonus or skill-chip entitlement is synthesized.
-export function takeSwordBatch(queue,actionIndex){
+export function takeSwordBatch(queue,actionIndex,intrinsicArea=false){
   if(!queue.length)return null;
-  const mode=actionIndex%3===1?'area':'dash',entries=[queue.shift()];
+  const mode=!intrinsicArea&&actionIndex%3===1?'area':'dash',entries=[queue.shift()];
   while(queue.length&&entries.length<48&&(mode==='area'||queue[0].target===entries[0].target))entries.push(queue.shift());
   const impacts=mode==='area'?manifest.impactsMs:[DASH_V2_SEQUENCE.contactAtMs];
   return{mode,entries,impacts:entries.map((entry,i)=>({entry,atMs:impacts[Math.min(impacts.length-1,Math.floor(i*impacts.length/entries.length))]}))};

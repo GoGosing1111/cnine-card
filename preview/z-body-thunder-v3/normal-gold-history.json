@@ -1,0 +1,609 @@
+{
+  "version": "Z_NORMAL_V3_20260926",
+  "status": "USER_REVIEW_PENDING",
+  "liveEnabled": false,
+  "generation": "built-in image_gen",
+  "packaging": "Sharp 0.35.2; cell extraction, uniform resize and transparent padding only. Original alpha preserved.",
+  "atlases": {
+    "wake": {
+      "url": "/preview/z-body-thunder-v3/assets/normal-wake-atlas.png",
+      "columns": 4,
+      "rows": 3,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "pivot": {
+        "x": 435,
+        "y": 270
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "d70a00959f9313b1980656564f4f679b5b5e11978865345fa7494a7bca17a704"
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "616142e5279aa30297a25aaed4da125f78b5523f7d720341a9fbbcae9d963434"
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "39440352fb776156df37fb6137959a2403e73f5b7e3d9488e454453f8b6800f2"
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "bf5120cb2ff231c3b9adb0d5b69549d70a4a070363b21ed336d4ecd078f1c433"
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "a2a1f4de260ea4771a62e6ede54b5dd9f3297b6bf46055ad7784dce378a46d6d"
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "b59a285d0eee095657198ce12f2347b239c89fc15c12c0d522659590457d0bfa"
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "dc77e638d28a75661eb0103bc759a741862c56fe57a8a9e93532196a4bd7c219"
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "45266083a25edb609ef7a7a329bfadc08fd59d876d6fc53577652a9050c31b4d"
+        },
+        {
+          "index": 8,
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "349bd7afebf710c0dd8320d0b277c5104a1465918ee120bf0ab45373d378b0e9"
+        },
+        {
+          "index": 9,
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "2d204b31f5aecf14c37c7491148126d6c046ac52e46e582dba0062e73ae1eae0"
+        },
+        {
+          "index": 10,
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "3d1f15eed4299daf5e80462e46ca419256d10c8c572985233ff7ef835e27dc29"
+        },
+        {
+          "index": 11,
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "96b72504d89e1e269478f9237079cfc1514dd451fd6db296f94f98051b014cba"
+        }
+      ],
+      "sha256": "d1d21b8450864e19b23c98c896210a8654989555b9d164aeda96ff27be737d34",
+      "source": {
+        "file": "assets/normal-wake-source.png",
+        "sha256": "e8eb9651dab46133b9ad021f466c4f19a390e9b4511b908518a8e03ce1980395",
+        "width": 1448,
+        "height": 1086
+      }
+    },
+    "slash": {
+      "url": "/preview/z-body-thunder-v3/assets/normal-slash-atlas.png",
+      "columns": 4,
+      "rows": 3,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "pivot": {
+        "x": 256,
+        "y": 256
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "630c9d58e38f51f6a5df3e4a7abd7dd58fed17e6a1acdb3f7d9039c8cfb5e310"
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "f93de4797972b19f713ef89ea3a991659e729db5e4bd5389ae2560f6b27d6a8c"
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "4e254737b9a59a61349ff4f084645d06da228f8c673dbcd0580f3b4f82b63159"
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "5ddd85c8fbf6169a38d6cab25cf216110f3defda850dc99509dc062adf1cb2fa"
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "78825fad18c944a43531b98d0460da7e60641a129b31aa9f5d6abcef0baf0955"
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "33d18e61d448e7f89cfb46fa2de286f4b32d945486b0bd6a105b5a6862522168"
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "1d545ccacfa56f6b3810f368c471d263a067b7675fe3d930342b4fe9c4f519a9"
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "3c64af2bcf1f2a58e6f66aa1f0ea18f52978553a4c0f2a8ec791464823f2dc5d"
+        },
+        {
+          "index": 8,
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "a265fe839563fc72cd3bec89df7b63122c1c4aca7948dc7fa50579b52590b4f2"
+        },
+        {
+          "index": 9,
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "866171d510b371e1057d5c54ebcd0b491ab8a8db7773f004bd7e999b48c920f3"
+        },
+        {
+          "index": 10,
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "2083cc69239d190aaeb6e983253c95e4e5ab29d13a55ac2b4609e50268e5d0c6"
+        },
+        {
+          "index": 11,
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "916f1947d235c5f629613f65e3f6225dc5b71ed4057089fb821a6d5e25d482ac"
+        }
+      ],
+      "sha256": "1906322a5f7dae22ea52f661fb7324b680197e085473a76c5c5a45752d94663a",
+      "source": {
+        "file": "assets/normal-slash-source.png",
+        "sha256": "95b17b990288e7e4588ad59d5c7b08bd14c922fa42bbaa9ad5fe6c29ee6b161d",
+        "width": 1448,
+        "height": 1086
+      }
+    },
+    "impact": {
+      "url": "/preview/z-body-thunder-v3/assets/normal-impact-atlas.png",
+      "columns": 4,
+      "rows": 3,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "pivot": {
+        "x": 256,
+        "y": 256
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "af0136d4da5c1f3ee3bc9ccafc647ea5f19eb801113620fe53de8a3370e82977"
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "91e5c3e9d0ecc15037019ef66e9ed98e281e4f2fe05511ed6828c81bc23d9e8e"
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "5d9c7369c411253e3089b2a911d6e10aa56ef5acfb1978c512804b5713cf578d"
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "f3973952615155c5ff18522e4ab6f6e2b94f8e825b7d5eecce6b2c759f904788"
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "50a967f08b881ce489faff3917206ccbf88a6b9d9e58c69836062aeb626706f2"
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "71482d37dc8c2aeb28832c36ec5a1dda0a922cfb423a1f3686ae3284c0be6687"
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "51cc1532e79c88642233c0a88d13dda2275ae2edf267ce1ac64c6e13d02100a8"
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "0b80014191525e88ff6d5ef4b4c410b02a1e3a0684470e390f7ab6a79628ef69"
+        },
+        {
+          "index": 8,
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "31ac302deb12adf30ea693d4fb9709962b3bc35f05bcedd18711ae8129763969"
+        },
+        {
+          "index": 9,
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "0d97171636d1e820131ff0bb9e7b90961de25fe1d6b2caa196fa7d0a4b31aa0a"
+        },
+        {
+          "index": 10,
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "b959189acc294148cbd9e0cb5e74faf95ce92ec9be80afbafa6f97199621bbee"
+        },
+        {
+          "index": 11,
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "placement": {
+            "left": 24,
+            "top": 24
+          },
+          "uniformScale": 1.281767955801105,
+          "sha256": "7cf57ff6d7bf3abd5e454a8bda7bc6d2c347d8d0f1409634987983b748e666d6"
+        }
+      ],
+      "sha256": "6a67bf40ca279037d2fd1cb64125bbdd07a174981fedfa4933941bf352417866",
+      "source": {
+        "file": "assets/normal-impact-source.png",
+        "sha256": "957ffb8ec6cda47372e59b7dfffe3c18f85f87ee0a634f411205bec08261da5f",
+        "width": 1448,
+        "height": 1086
+      }
+    }
+  }
+}

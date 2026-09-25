@@ -1381,7 +1381,7 @@ class BaseBattleEngine{
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
     if(unit.swordAnimation){
       const queue=[{target,options:{playbackRate,damage,critical,targetHp,targetShield,authoritative,monotonicHp,targetId,authoritativeEvent}}];
-      return this.playAccountBattleUnitSwordBatch(takeSwordBatch(queue,unit.swordAnimation.actionIndex));
+      return this.playAccountBattleUnitSwordBatch(takeSwordBatch(queue,unit.swordAnimation.actionIndex,unit.swordAnimation.intrinsicArea));
     }
     // Preserve the just-resolved authoritative target even when that hit set
     // its HP to zero. Retargeting here would make the cosmetic tracer fly at
@@ -1466,6 +1466,9 @@ class BaseBattleEngine{
   async playAccountBattleUnitSwordBatch(batch){
     const sword=this.accountBattleUnit?.swordAnimation;
     if(!sword||!batch)return false;
+    const epoch=this.playbackEpoch;
+    if(sword.externalCast)await sword.externalCast.done;
+    if(!this.visible||this.playbackEpoch!==epoch||this.accountBattleUnit?.swordAnimation!==sword)return false;
     const played=await sword.play(batch,entries=>{
       const victim=entries[0].target;
       let total=0,critical=false;
@@ -1552,8 +1555,12 @@ class BaseBattleEngine{
             if(!await this.waitForAccountBattleUnitFire(40,run))break;
             continue;
           }
+          if(unit.swordAnimation?.externalCast){
+            if(!await this.waitForAccountBattleUnitFire(40,run))break;
+            continue;
+          }
           if(unit.swordAnimation){
-            const batch=takeSwordBatch(this.accountBattleUnitDamageQueue,unit.swordAnimation.actionIndex);
+            const batch=takeSwordBatch(this.accountBattleUnitDamageQueue,unit.swordAnimation.actionIndex,unit.swordAnimation.intrinsicArea);
             try{
               const played=await this.playAccountBattleUnitSwordBatch(batch);
               batch.entries.forEach(entry=>entry.resolve?.(played));

@@ -1,3 +1,4 @@
+import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,createSkillChipSchedule,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
@@ -683,7 +684,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [] } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
   let mercenaryRuntime=null;
   const applyDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);return result;};
   const cardRandom = seededRandom(seed);
@@ -1054,9 +1055,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
-  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length):null;
-  const chipSchedule=createSkillChipSchedule(chipActor?.skillChips);
+  const zAreaEnabled=Z_BODY_AREA_RELEASE_ENABLED||zAreaReview===true;
+  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))):null;
+  const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor));
   const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
+  const zAreaRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const pendingChipHits=[];
   const chipClockOptions={apocalypseBoss:b.some(actor=>actor.isMonster&&actor.isApocalypse)};
   let combatMs=0,nextCombatMs=0,lastCardCombatMs=0,lastCardGaugeClock=0,combatGroup=0;
@@ -1080,19 +1083,31 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         const state=applyDamage(target,pending.damage),pierce=applyDamage(target,pending.pierce,{ignoreShield:true});
         const damage=state.hpDamage+pierce.hpDamage;
         chipActor.damageDealt+=damage+state.absorbed;
-        pushEvent(timeline,clock,'SKILL_CHIP_HIT',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_SKILL_CHIP',targetId:target.id,chipCode:pending.chipCode,castId:pending.castId,hitIndex:pending.hitIndex,hitCount:pending.hitCount,damage,absorbed:state.absorbed,apocalypsePierce:pierce.hpDamage||undefined,critical:pending.critical,baseDamage:pending.baseDamage,damageMultiplier:pending.multiplier,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
+        pushEvent(timeline,clock,'SKILL_CHIP_HIT',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:pending.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targeting:pending.targeting,targetId:target.id,chipCode:pending.chipCode,castId:pending.castId,hitIndex:pending.hitIndex,hitCount:pending.hitCount,damage,absorbed:state.absorbed,apocalypsePierce:pierce.hpDamage||undefined,critical:pending.critical,baseDamage:pending.baseDamage,damageMultiplier:pending.multiplier,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
         resolveKnockout(target,timeline,clock,reviveFromMagic);
       }
     }else if(nextCast){
       const cast=chipSchedule.take(),chip=cast.chip;combatMs=cast.atMs;
-      const pool=targetPool(chipActor.side==='A'?b:a);if(!pool.length)return;
-      const target=lowestRatioTarget(pool,chipRandom),hit=hitResult(chipActor,target,chipRandom,Math.max(.1,Number(chipActor.independentAttackMultiplier||1)),false,hitOptions);
-      const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER;
-      const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target,BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER);
-      const count=chip.impactOffsetsMs.length,total=skillChipDamage(basePrimary+basePierce,chip.code),pierceTotal=skillChipDamage(basePierce,chip.code);
-      const parts=splitSkillChipDamage(total-pierceTotal,count),pierceParts=splitSkillChipDamage(pierceTotal,count),castId=`${chip.code}:${cast.activation}`;
-      pushEvent(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_SKILL_CHIP',targetId:target.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:basePrimary+basePierce,damageMultiplier:chip.damageMultiplier,calculatedDamage:total,dodge:hit.dodge,critical:hit.critical,label:chip.name});
-      for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier});
+      const enemies=chipActor.side==='A'?b:a;
+      const pool=chip.intrinsic?targetableAlive(enemies):targetPool(enemies);if(!pool.length)return;
+      const rng=chip.intrinsic?zAreaRandom:chipRandom;
+      const primary=lowestRatioTarget(pool,rng);
+      const targets=chip.intrinsic?[primary,...pool.filter(target=>target!==primary)]:[primary];
+      const count=chip.impactOffsetsMs.length,castId=`${chip.code}:${cast.activation}`,calculations=[];
+      for(const target of targets){
+        const hit=hitResult(chipActor,target,rng,Math.max(.1,Number(chipActor.independentAttackMultiplier||1)),false,hitOptions);
+        const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER;
+        const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target,BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER);
+        // Each enemy gets one helicopter-equivalent total, divided over five
+        // confirmed contacts. Never divide that total by the enemy count.
+        const reference=chip.damageReference||chip.code;
+        const total=skillChipDamage(basePrimary+basePierce,reference),pierceTotal=skillChipDamage(basePierce,reference);
+        const parts=splitSkillChipDamage(total-pierceTotal,count),pierceParts=splitSkillChipDamage(pierceTotal,count);
+        calculations.push({targetId:target.id,baseDamage:basePrimary+basePierce,calculatedDamage:total,dodge:hit.dodge,critical:hit.critical});
+        for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier,...(chip.intrinsic?{intrinsic:true,targeting:chip.targeting}:{})});
+      }
+      const first=calculations[0];
+      pushEvent(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:chip.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targetId:primary.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:first.baseDamage,damageMultiplier:chip.damageMultiplier,calculatedDamage:calculations.reduce((sum,row)=>sum+row.calculatedDamage,0),dodge:first.dodge,critical:first.critical,label:chip.name,...(chip.intrinsic?{targeting:chip.targeting,targetIds:targets.map(target=>target.id),targets:calculations}:{})});
       pendingChipHits.sort((a,b)=>a.atMs-b.atMs||a.castId.localeCompare(b.castId)||a.hitIndex-b.hitIndex);
     }
     stampCombatGroup(from,combatMs,false);
@@ -1709,7 +1724,7 @@ function preparePveEncounter(encounter) {
   return {initial, pending:fighters.slice(initialCount), maxActions, maxDuration, forcedMonsterEvery};
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
   const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
   if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
   const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
@@ -1722,6 +1737,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const teamB = encounterPlan ? encounterPlan.initial : legion || [buildMonsterFighter(monster)];
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
+    [Z_BODY_AREA_REVIEW]:zAreaReview,
     teamA:simulationTeamA, teamB, magicA:magicCards, seed, maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0,
     reinforcements: encounterPlan ? encounterPlan.pending : [],
     // V1813: 플레이어 15회마다 몬스터 1회를 보장한다. PVP 는 끈 채로 둔다.
@@ -1748,7 +1764,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     : [];
   const battleSuitDamage = battleSuitEvents.reduce((sum, event) => sum + appliedDamage(event), 0);
   const chipEvents=simulated.timeline.filter(event=>event.type==='SKILL_CHIP_HIT'&&event.actorId===battleSuitActorId);
-  const skillChipAppliedDamage=chipEvents.reduce((sum,event)=>sum+appliedDamage(event),0);
+  const intrinsicDamage=chipEvents.filter(event=>event.damageSource==='BATTLE_SUIT_INTRINSIC_SKILL').reduce((sum,event)=>sum+appliedDamage(event),0);
+  const skillChipAppliedDamage=chipEvents.reduce((sum,event)=>sum+appliedDamage(event),0)-intrinsicDamage;
   const cardDamage = simulated.timeline.reduce((sum, event) => {
     const actorId = String(event?.sourceAttackerId || event?.actorId || '');
     return actorId.startsWith('A:') && actorId !== battleSuitActorId && actorId!==mercenaryFighter?.id ? sum + appliedDamage(event) : sum;
@@ -1764,7 +1781,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     supports: {
       A: battleSuitFighter ? [{
         ...publicFighter(battleSuitFighter),
-        damageDealt: battleSuitDamage+skillChipAppliedDamage,
+        damageDealt: battleSuitDamage+skillChipAppliedDamage+intrinsicDamage,
+        ...(intrinsicDamage?{intrinsicSkillDamage:intrinsicDamage}:{}),
         skillChipDamage:skillChipAppliedDamage,
         actions: battleSuitEvents.length,
         authoritative: true,
@@ -1777,8 +1795,9 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
       ...(mercenaryFighter?{mercenary:simulated.timeline.filter(e=>(e.sourceAttackerId||e.actorId)===mercenaryFighter.id).reduce((s,e)=>s+appliedDamage(e),0)}:{}),
       battleSuit: battleSuitDamage,
       skillChips:skillChipAppliedDamage,
+      ...(intrinsicDamage?{battleSuitSkills:intrinsicDamage}:{}),
       ultimate: ultimateAppliedDamage,
-      total: cardDamage + battleSuitDamage + skillChipAppliedDamage + ultimateAppliedDamage+(mercenaryFighter?simulated.timeline.filter(e=>(e.sourceAttackerId||e.actorId)===mercenaryFighter.id).reduce((s,e)=>s+appliedDamage(e),0):0),
+      total: cardDamage + battleSuitDamage + skillChipAppliedDamage + intrinsicDamage + ultimateAppliedDamage+(mercenaryFighter?simulated.timeline.filter(e=>(e.sourceAttackerId||e.actorId)===mercenaryFighter.id).reduce((s,e)=>s+appliedDamage(e),0):0),
       authority: 'SERVER_TIMELINE'
     }
   };

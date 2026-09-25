@@ -1,5 +1,6 @@
 import {gsap} from 'gsap';
-import {SKILL_CHIP_CLOCK,skillChipByCode} from '../../../../shared/battle-suit-skill-chips.mjs';
+import {SKILL_CHIP_CLOCK} from '../../../../shared/battle-suit-skill-chips.mjs';
+import {battleSuitCombatSkillByCode as skillChipByCode} from '../../../../shared/z-body-area-skill.mjs';
 import {SkillChipFX} from '../../../battle-suit-skill-chip-v1/source/SkillChipFX.js';
 import {AUDIO_FILES} from '../../../battle-suit-skill-chip-v1/source/SkillChipAudio.js';
 import {OctaSeekerFX} from '../../../battle-suit-octaseeker-v1/source/OctaSeekerFX.js';
@@ -39,7 +40,7 @@ export class BattleSuitSkillChipPlayback{
   valid(){return this.active&&this.engine.visible&&this.engine.playbackEpoch===this.epoch;}
   play(){
     this.done=new Promise((resolve,reject)=>{this.resolve=resolve;this.reject=reject;});
-    void this.start();return this.done;
+    this.ready=this.start();return this.done;
   }
   async start(){
     try{
@@ -47,8 +48,8 @@ export class BattleSuitSkillChipPlayback{
       // not discard server events; there is no synthetic replacement sound.
       const hasCasts=this.events.some(event=>event.type==='SKILL_CHIP_CAST');
       const hasOcta=this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&skillChipByCode(event.chipCode)?.effectKey==='octaseeker');
-      const hasLegacy=this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&skillChipByCode(event.chipCode)?.effectKey!=='octaseeker');
-      const sound=hasCasts&&this.engine.audio?.enabled?.()!==false;
+      const hasLegacy=this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&!skillChipByCode(event.chipCode)?.intrinsic&&skillChipByCode(event.chipCode)?.effectKey!=='octaseeker');
+      const sound=hasCasts&&this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&!skillChipByCode(event.chipCode)?.silent)&&this.engine.audio?.enabled?.()!==false;
       const [,audioReady]=await Promise.all([
         hasLegacy?SkillChipFX.preload().then(textures=>{
           if(this.valid())this.textures=textures;
@@ -95,24 +96,27 @@ export class BattleSuitSkillChipPlayback{
   cast(event){
     const chip=skillChipByCode(event.chipCode);if(!chip)return;
     this.casts++;
-    const castId=event.castId||chip.code,target=this.engine.combatantById(event.targetId);
-    const hits=(this.castHits.get(castId)||[]).filter(hit=>hit.targetId===event.targetId);
+    const castId=event.castId||chip.code,targetIds=event.targetIds||[event.targetId];
+    const hits=(this.castHits.get(castId)||[]).filter(hit=>targetIds.includes(hit.targetId));
+    const target=targetIds.map(id=>this.engine.combatantById(id)).find(t=>t?.root?.visible&&t.battleActive!==false&&targetIds.includes(t.id));
     // The server omits impacts when this target died during anticipation. Do
     // not launch a cosmetic missile into that empty slot or a replacement mob.
-    if(!hits.length||!target?.root?.visible||target.id!==event.targetId||target.battleActive===false){this.suppressedCasts++;return;}
-    const fx=chip.effectKey==='octaseeker'?new OctaSeekerFX(this.engine,this.octaTextures,()=>{},{serverDriven:true}):new SkillChipFX(this.engine,this.textures);
+    if(!hits.length||!target?.root?.visible||!targetIds.includes(target.id)||target.battleActive===false){this.suppressedCasts++;return;}
+    const factory=this.engine.battleSuitSkillEffectFactories?.get(chip.code);
+    if(chip.intrinsic&&!factory)throw Error('Missing approved intrinsic battle-suit effect: '+chip.code);
+    const fx=factory?factory.create(this.engine,event,hits):chip.effectKey==='octaseeker'?new OctaSeekerFX(this.engine,this.octaTextures,()=>{},{serverDriven:true}):new SkillChipFX(this.engine,this.textures);
     fx.shake=false;fx.target=target;
-    fx.select(chip.effectKey);fx.bindTarget(event.targetId);fx.timeline.pause();
+    fx.select?.(chip.effectKey);fx.bindTarget?.(event.targetId,event,hits);fx.timeline?.pause();
     const at=Math.max(Number(event.combatAtMs)/1000||0,this.clock.time);
-    this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started:!this.sequential,targetId:event.targetId,impacts:new Map(),scheduledImpacts:new Map()});
-    if(!this.sequential)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
+    this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started:!this.sequential,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()});
+    if(!this.sequential&&!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
   }
   hit(event){
     const target=this.engine.combatantById(event.targetId);if(!target)return;
     const entry=this.fx.get(event.castId||event.chipCode);
-    if(entry&&target.id===entry.targetId&&target.root.visible){
+    if(entry&&entry.targetIds.includes(target.id)&&target.root.visible){
       const index=Number(event.hitIndex)||0,age=this.clock.time-entry.at;
-      entry.fx.confirmImpact(index,age);entry.impacts.set(index,age);
+      entry.fx.confirmImpact(index,age,event);entry.impacts.set(index,age);
     }
     const hp=this.engine.eventHpPercent(target,event.targetHpAfter);
     if(finite(hp))this.engine.syncTargetHp(target,hp);
@@ -127,7 +131,7 @@ export class BattleSuitSkillChipPlayback{
     for(const {fx,at,chip,scheduledImpacts,started} of this.fx.values()){
       if(!started)continue;
       const from=this.clock.time-at;
-      if(from>=0)this.audio.schedule(fx.key,from,this.rate,{append:true,impactTimes:scheduledImpacts,indices:[...scheduledImpacts.keys()]});
+      if(from>=0&&!chip.silent)this.audio.schedule(fx.key,from,this.rate,{append:true,impactTimes:scheduledImpacts,indices:[...scheduledImpacts.keys()]});
     }
   }
   render(){
@@ -187,7 +191,8 @@ export class BattleSuitSkillChipPlayback{
         return;
       }
       const lethalChip=group.events.some(event=>event.type==='SKILL_CHIP_HIT'&&finite(event.targetHpAfter)&&Number(event.targetHpAfter)<=0);
-      if(lethalChip&&(this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)){
+      const intrinsicCast=group.events.some(event=>event.type==='SKILL_CHIP_CAST'&&skillChipByCode(event.chipCode)?.intrinsic);
+      if((lethalChip||intrinsicCast)&&(this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)){
         this.waiting=true;
         this.engine.waitForAccountBattleUnitDamageQueueDrain(6000).then(drained=>{
           if(!this.valid())return;
@@ -209,14 +214,14 @@ export class BattleSuitSkillChipPlayback{
           // waiting for a delayed impact. Simultaneous chips share the launch.
           for(const other of this.fx.values())if(!other.started&&other.castAtMs===entry.castAtMs){
             other.started=true;other.at=this.clock.time;
-            this.audio.schedule(other.chip.effectKey,0,this.rate,{append:true,phase:'launch'});
+            if(!other.chip.silent)this.audio.schedule(other.chip.effectKey,0,this.rate,{append:true,phase:'launch'});
           }
         }
         const index=Number(event.hitIndex)||0,from=this.clock.time-entry.at;
         if(!entry.scheduledImpacts.has(index)){
-          entry.scheduledImpacts.set(index,Math.max(entry.chip.impactOffsetsMs[index]/1000,from+this.audio.presentationLead(this.rate)));
+          entry.scheduledImpacts.set(index,Math.max(entry.chip.impactOffsetsMs[index]/1000,from+(entry.chip.silent?0:this.audio.presentationLead(this.rate))));
           entry.fx.scheduleImpact?.(index,entry.scheduledImpacts.get(index));
-          this.audio.schedule(entry.chip.effectKey,from,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[index]});
+          if(!entry.chip.silent)this.audio.schedule(entry.chip.effectKey,from,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[index]});
         }
         return from+.001<entry.scheduledImpacts.get(index);
       });

@@ -1,0 +1,13 @@
+import {build} from 'esbuild';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..');
+const result=await build({absWorkingDir:root,entryPoints:['preview/z-body-thunder-v3/source/review-entry.js'],outfile:path.join(here,'battle.bundle.js'),bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',metafile:true,define:{__CNINE_NATIVE_CONTINUOUS__:'true'}});
+const inputs=Object.keys(result.metafile.inputs).map(p=>p.replaceAll('\\','/'));
+const runtime={pixiCopies:inputs.filter(p=>p.endsWith('/pixi.js/lib/index.mjs')).length,gsapCopies:inputs.filter(p=>p.endsWith('/gsap/index.js')).length};
+if(runtime.pixiCopies!==1||runtime.gsapCopies!==1)throw Error('Duplicate rendering runtime');
+const lock=JSON.parse(await readFile(path.join(root,'package-lock.json')));
+await writeFile(path.join(here,'build-report.json'),JSON.stringify({status:'USER_REVIEW_PENDING',liveEnabled:false,runtime,pixiVersion:lock.packages['node_modules/pixi.js'].version,gsapVersion:lock.packages['node_modules/gsap'].version,bundleSha256:createHash('sha256').update(await readFile(path.join(here,'battle.bundle.js'))).digest('hex'),inputs:inputs.filter(p=>!p.includes('node_modules'))},null,2)+'\n');
+console.log('Built shared V3 review: one Pixi renderer and one GSAP clock.');
