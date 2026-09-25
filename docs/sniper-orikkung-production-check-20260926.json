@@ -1,0 +1,131 @@
+{
+  "status": "PRODUCTION_VERIFIED",
+  "verifiedAt": "2026-09-25T18:54:55.046Z",
+  "production": "https://cnine-card.pages.dev",
+  "deployment": {
+    "id": "058a3107-9d31-4302-a83a-8bc03d6463ae",
+    "url": "https://058a3107.cnine-card.pages.dev",
+    "commit": "60acb717dd501240937faad54b4c2f36a9e288fe"
+  },
+  "contentDeployment": {
+    "id": "972287d4-4bc9-4bec-b6ad-5cfe8e3d98be",
+    "commit": "b50c6f8033dd5de843c1d297c307eaa0b844e021"
+  },
+  "card": {
+    "code": "V-050",
+    "name": "저격 오리꿍",
+    "rank": "SS",
+    "role": "SNIPER",
+    "position": "REAR",
+    "skill": {
+      "id": "MS-050",
+      "name": "에메랄드 대물저격",
+      "role": "저격",
+      "target": "적 후열 핵심 위협",
+      "trigger": "자원과 재사용 대기 조건을 충족하면 현재 행동에서 조준과 사격을 완료합니다.",
+      "effect": "현재 행동에서 적 후열 중 전투 시작 공격력이 가장 높은 대상을 대물탄 한 발로 저격합니다. 후열이 없으면 전열을 노립니다.",
+      "counterplay": "회피·방어·보호막·호위·피해 경감이 적용됩니다. 사망·기절·침묵은 발동을 막고 대상이 없으면 자원을 소모하지 않습니다.",
+      "bossRule": "보스에게도 같은 단일 피해 예산입니다. 방어 무시·즉사·최대 HP 비례·추가 행동은 없으며 파편 연출은 추가 피해를 만들지 않습니다.",
+      "procRule": "한 발의 단일 피해만 적용하며 비용과 재사용 대기는 한 번 적용합니다. 탄착 파편은 추가 피해·추가 행동·자원 회복을 만들지 않습니다.",
+      "balance": {
+        "damageRatio": 7.2,
+        "cooldownTurns": 2,
+        "cost": 25
+      },
+      "ready": true
+    }
+  },
+  "assets": [
+    {
+      "path": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+      "bytes": 2510980,
+      "sha256": "6d5a5d58f2a85e1bca8269508f6e69bab56d3ad7f318ff471054b98df3e3ef01"
+    },
+    {
+      "path": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
+      "bytes": 346080,
+      "sha256": "0d2e682ced33b5d4c951e42e7d0e9d04f7bea04bc66bbab6ada10cf8bb4eb266"
+    },
+    {
+      "path": "preview/mercenary-sniper-orikkung-v1/manifest.json",
+      "bytes": 10351,
+      "sha256": "f9ddc9f9ac05e1d1af560c24926a99094441ba6ee053671ef8dd4f7f48dde6ed"
+    },
+    {
+      "path": "preview/mercenary-sniper-orikkung-v1/assets/motion-atlas.webp",
+      "bytes": 1106320,
+      "sha256": "971a1fdfecb379d58cbbdde1bce926fcd381f53871012a4bf397d95754990726"
+    },
+    {
+      "path": "preview/mercenary-sniper-orikkung-v1/assets/impact-atlas.webp",
+      "bytes": 1099794,
+      "sha256": "0a3e15096da3d1a2083d8fb1e486af455c09b062454186042b5e90407c5a5cec"
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 1290385,
+      "sha256": "97576f538e9acb05d120dab3ac76ef95d3a210dac1595be7cf32923123117c8b"
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "bytes": 71647,
+      "sha256": "2c49e5846e0afb18fbadf391415cae7c31c30cdce0f8e915017f83312e9ca945"
+    },
+    {
+      "path": "js/app.js",
+      "bytes": 719954,
+      "sha256": "756f0a2813ec87243511e3989cd45223b9fa86152563631596395609d2729b04"
+    }
+  ],
+  "database": {
+    "cmsRevision": 58,
+    "drawRevision": 18,
+    "chance": {
+      "code": "V-050",
+      "weight": 41,
+      "totalWeight": 4100,
+      "withinRankPercent": 1,
+      "percent": 0.0005
+    },
+    "audits": [
+      {
+        "request_id": "sniper-orikkung-release-20260926-cms-v1",
+        "revision": 58
+      },
+      {
+        "request_id": "sniper-orikkung-release-20260926-draw-v1",
+        "revision": 18
+      }
+    ],
+    "adminAudit": {
+      "id": "35994",
+      "action_type": "MERCENARY_RELEASE",
+      "target_id": "V-050"
+    },
+    "operationKey": "ops:sniper-orikkung-release:20260926:v1",
+    "completedAt": "2026-09-25T18:52:33.683Z"
+  },
+  "validation": {
+    "selectedRegressionTests": 258,
+    "initialPassed": 253,
+    "legacyFixtureFailures": 5,
+    "adjacentRetestPassed": 33,
+    "codexTextFollowupPassed": 3,
+    "workerCompiled": true,
+    "hyperdriveQueryCacheDisabled": true,
+    "liveAssetHashesMatched": 8,
+    "browserViewports": [
+      1440,
+      390
+    ],
+    "battleFlows": [
+      "PVE",
+      "PVP"
+    ],
+    "consoleErrors": 0,
+    "regularCards": 5,
+    "mercenarySlots": 1,
+    "comparisonBattles": 9984
+  },
+  "note": "The follow-up deployment changes codex text only; verified art and runtime assets are unchanged. Real account paid draws were not executed."
+}
