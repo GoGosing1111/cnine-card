@@ -86,6 +86,9 @@ export function renderAuthored(fx,time){
   const phase=(e,i)=>e.phaseIndex??i;
   const atPhase=index=>!fx.authoritative||plan.effectPhase===index;
   switch(mode){
+    case 'EMERALD_ANTIMATERIEL':
+      aim(point(target),.52,42);
+      hits.forEach(e=>{trace(muzzle(),point(e.targets[0]),e.at,{travel:.08,width:3.4});impact(e.targets[0],e.at,{size:330,lead:.08,life:1.5,particles:14});});break;
     case 'BLACK_MOON_TRIPLE_SEVER':
       if(hits.length){approach(.72,target,{returnAt:2.6});material(point(target),time-.72,{size:280,lead:.3,life:2.53,keys:[[-.3,0],[0,4],[.52,7],[1.2,10],[1.88,13],[2.53,15]]});}
       hits.forEach(e=>{flash(point(e.targets[0]),time-e.at,65);});break;

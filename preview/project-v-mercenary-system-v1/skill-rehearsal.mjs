@@ -75,6 +75,9 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'EMERALD_ANTIMATERIEL':
+      if(counter){mark(.35,'제압 상태: 대물 저격 취소',['M'],'CANCEL');break;}
+      hit(skill.visual.impacts[0],t,48,'에메랄드 대물탄 단일 충돌',{phaseIndex:0});break;
     case 'BLACK_MOON_TRIPLE_SEVER':
       if(counter){mark(.4,'제압 상태: 삼연참 취소',['M'],'CANCEL');break;}
       [.72,1.24,1.92].forEach((at,index)=>{if(get(t).hp>0)hit(at,t,[12,12,16][index],['내려베기','올려베기','횡베기'][index],{phaseIndex:index,procEligible:false});});break;

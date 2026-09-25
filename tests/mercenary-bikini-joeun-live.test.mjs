@@ -13,7 +13,7 @@ import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-polic
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {openMercenaryCards,saveMercenaryLoadout,loadMercenaryBattleSnapshot} from '../functions/_mercenary_account.js';
-import {mercenaryGradePools} from '../shared/mercenary-draw-policy-v1.mjs';
+import {mercenaryCardChances,mercenaryGradePools} from '../shared/mercenary-draw-policy-v1.mjs';
 const art=seed.catalog.cards.find(c=>c.code==='V-047'),skill=seed.document.skills.find(s=>s.id==='MS-047');
 const snapshot={code:art.code,name:art.name,rank:'SS',role:'MARKSMAN',position:'MIDDLE',level:1,basePower:120000,stats:{hp:100000,attack:1000,defense:100,speed:100},skills:[skill],combat,sourceArt:art.sourceArt,battleSprite:art.battleSprite};
 test('previous complete CMS adds only Bikini Joeun while preserving live edits and assignments',()=>{
@@ -71,7 +71,8 @@ test('six visual shots spend one server hit budget, one cost and one cooldown, r
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SS acquisition is repeat-safe and deploys the assigned skill in a separate slot`,async t=>{
  const f=await mercenaryFixture(t,{postgres});for(const o of f.draw.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(f.draw);
  const pools=mercenaryGradePools(f.document.mercenaries,seed.catalog.cards.map(c=>c.code)),index=pools.SS.indexOf('V-047');assert.ok(index>=0);
- const before=await f.coin(),request={requestId:crypto.randomUUID(),count:1};const result=await openMercenaryCards(f.env,f.user,request,{randomInt:n=>n===pools.SS.length?index:0});assert.equal(result.draws[0].mercenaryCode,'V-047');
+ const choices=mercenaryCardChances(1000000,pools.SS,f.draw.cardRules),ticket=choices.slice(0,index).reduce((n,r)=>n+r.weight,0);
+ const before=await f.coin(),request={requestId:crypto.randomUUID(),count:1};const result=await openMercenaryCards(f.env,f.user,request,{randomInt:n=>n===1000000?0:ticket});assert.equal(result.draws[0].mercenaryCode,'V-047');
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Duplicate reroll')}});assert.equal(await f.coin(),before-1000);
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-047',revision:0});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
  assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.equal(deployed.sourceArt,art.sourceArt);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-047']);
