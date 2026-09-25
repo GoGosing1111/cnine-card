@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-26",
+  "code": "V-050",
+  "name": "저격 오리꿍",
+  "rank": "SS",
+  "status": "USER_REQUESTED_LIVE",
+  "request": "승인 SS용병으로 올리고 잘안나오게 처리해 스킬 SD이미지 다 만들어서 적용해라 원거리에서는 가장 강한 포지션으로 이름은 저격 오리꿍",
+  "scope": "CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT",
+  "runtimeConnected": true,
+  "skillId": "MS-050",
+  "basePower": 120000,
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+  "sourceArtSha256": "6D5A5D58F2A85E1BCA8269508F6E69BAB56D3AD7F318FF471054B98DF3E3EF01",
+  "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
+  "battleSpriteSha256": "0D2E682CED33B5D4C951E42E7D0E9D04F7BEA04BC66BBAB6ADA10CF8BB4EB266",
+  "motionFrames": 6,
+  "effectFrames": 16,
+  "sourceArtUnchanged": true,
+  "userVisualApproval": "SOURCE_ART_V3",
+  "newAssetAuthorization": "CREATE_AND_APPLY",
+  "manifest": "preview/mercenary-sniper-orikkung-v1/manifest.json"
+}

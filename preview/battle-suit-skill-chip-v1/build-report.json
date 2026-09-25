@@ -50,6 +50,13 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json",
+    "preview/project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js",
+    "shared/mercenary-sniper-orikkung-v1.mjs",
+    "preview/mercenary-sniper-orikkung-v1/source/SniperOrikkungSkillFX.js",
+    "preview/project-v-mercenary-system-v1/skill-audio-v1.json",
+    "preview/project-v-mercenary-system-v1/source/MercenarySkillAudio.js",
+    "preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js",
     "shared/mercenary-cryvern-v1.mjs",
     "preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs",
     "preview/mercenary-ice-crystal-dual-sword-v1/source/CueAudio.js",
@@ -59,12 +66,8 @@
     "preview/mercenary-black-moon-swordsman-ss-v1/source/BlackMoonFX.js",
     "shared/mercenary-heukwol-v1.mjs",
     "preview/project-v-v3/source/battle/HeukwolCombatPlayback.js",
-    "assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json",
-    "preview/project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js",
     "shared/mercenary-bikini-joeun-v1.mjs",
     "preview/mercenary-bikini-joeun-v1/source/BikiniJoeunSkillFX.js",
-    "preview/project-v-mercenary-system-v1/skill-audio-v1.json",
-    "preview/project-v-mercenary-system-v1/source/MercenarySkillAudio.js",
     "preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js",
     "js/project-v-mercenary-battle-art-adapter-v1.js",
     "shared/mercenary-s-skills-v2.mjs",
@@ -94,5 +97,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1278139
+  "outputBytes": 1291613
 }

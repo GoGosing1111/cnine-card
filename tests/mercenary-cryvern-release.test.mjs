@@ -10,8 +10,8 @@ const mercenaries=seed.document.mercenaries.map((c,i)=>({...c,rank:c.rank||['C',
 const sss=mercenaryGradePools(mercenaries,codes).SSS;
 const weights={'V-021':8991,'V-046':999,'V-049':10};
 test('approved Cryvern uses a new code; Heukwol and every previous character survive',()=>{
- assert.equal(seed.catalog.cards.length,49);
- assert.equal(seed.catalog.skills.length,32);
+ assert.equal(seed.catalog.cards.filter(c=>c.code<='V-049').length,49);
+ assert.equal(seed.catalog.skills.filter(s=>s.id<='MS-049').length,32);
  assert.equal(seed.catalog.cards.find(c=>c.code==='V-048').name,'흑월');
  const card=mercenaries.find(c=>c.code===CRYVERN_CODE);
  assert.equal(card.name,'크라이베른');assert.equal(card.title,'');assert.equal(card.rank,'SSS');

@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 512,
+  "frameCount": 528,
   "images": [
     {
       "id": "closing-punch",
@@ -11397,6 +11397,339 @@
             512
           ],
           "rawSha256": "75A874CA31E6FE4D6517CFA902CFFE3C7F811BD33E8DCD67C2B101FD3E50B598"
+        }
+      ]
+    },
+    {
+      "id": "emerald-antimateriel",
+      "skillId": "MS-050",
+      "name": "에메랄드 대물저격",
+      "source": "emerald-antimateriel/sequence-source-v1.png",
+      "runtime": "emerald-antimateriel/atlas-v1.webp",
+      "sourceSha256": "720537378F0D3DF89E1E39D924B5137AF29E72498B01461E6BE55F17BAA911C7",
+      "runtimeSha256": "0A3E15096DA3D1A2083D8FB1E486AF455C09B062454186042B5E90407C5A5CEC",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1536,
+        1536
+      ],
+      "cellSize": 384,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Use case: stylized-concept. Production battle VFX sprite atlas with TRUE TRANSPARENT ALPHA background. A cinematic emerald-gold anti-materiel sniper round armor-piercing impact, painted 2D fantasy game effect, visually readable at small scale. This is an animated sequence of ONE heavy bullet impact, not sixteen separate icons.\nSquare canvas 1536x1536. Exact grid 4 columns x 4 rows. 16 equal square cells, no visible grid, generous transparent margins around each effect, nothing crosses any cell edge, no text or labels. Center of impact identical in each cell. Screen-facing impact with diagonal ballistic streak arriving from left.\nRead chronological frames across rows left to right:\nframes1-3: tiny thin emerald tracer core converges, gold sparks gather, a narrow piercing streak brightens;\nframe4: focused white-gold penetration flash;\nframe5: peak explosive armor-breaking white/gold starburst with emerald shock ring and angular dark metal chips;\nframes6-8: ring expands and breaks, heavy copper shards fly outward, clear jagged streaks bend outward;\nframes9-12: shattered arc dissipates into muted emerald wisps, brown-gray impact dust billows, sparks drift down;\nframes13-16: fragments fall, dust thins, progressively very faint residual wisps and last two sparks, near-empty ending.\nEvery frame has genuinely different painted morphology and debris locations, not a scaled copy. High dynamic range highlights inside effect, naturally transparent smoke; preserve clean actual alpha. Rich painterly particle detail, limited tasteful particles, sharp heavy physical impact rather than laser magic flower.\nNo character, no target body, no weapon, no ground, no ground shadow, no backdrop, no rectangle, no checkerboard pattern, no typography. Empty space must be actual transparency.\n",
+      "sourceFilename": "sequence-source-v1.png",
+      "visualReview": "2026-09-26 사용자 제작·적용 지시, 신규 SD/FX는 구현 후 기술·시각 검수",
+      "runtimeBytes": 1099794,
+      "creationReferenceCode": "V-050",
+      "frames": [
+        {
+          "index": 0,
+          "file": "emerald-antimateriel/frames/01.png",
+          "bounds": [
+            86,
+            149,
+            272,
+            237
+          ],
+          "alphaPixels": 4865,
+          "sha256": "9968D545744327DA5B5F69A96AFAD6E61D9D77CA56F56AF44727C39F5245C1A9",
+          "rawSha256": "781C812F23ACED9D58F6D76452A1DC40AA847332921C8CE85711D5683DA5B769",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 17698
+        },
+        {
+          "index": 1,
+          "file": "emerald-antimateriel/frames/02.png",
+          "bounds": [
+            82,
+            126,
+            297,
+            263
+          ],
+          "alphaPixels": 7697,
+          "sha256": "C59097CC6A2FB191E35542CEF59C645A673B13784C0EFB55605C1FB4D70AB9A6",
+          "rawSha256": "57B5946F0F9308DEB05E240603DED888227E5C89F8C0956C8796E8D91148B194",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 24405
+        },
+        {
+          "index": 2,
+          "file": "emerald-antimateriel/frames/03.png",
+          "bounds": [
+            83,
+            113,
+            307,
+            274
+          ],
+          "alphaPixels": 10925,
+          "sha256": "577D02FA1DA1D99393A22622516F33C39F8017FF0C9770BCB44430DC63F0E756",
+          "rawSha256": "10F7F648B60380F236814AB50B1B8354DD2010E19D409349839849F66C07460C",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 28903
+        },
+        {
+          "index": 3,
+          "file": "emerald-antimateriel/frames/04.png",
+          "bounds": [
+            84,
+            101,
+            298,
+            293
+          ],
+          "alphaPixels": 17318,
+          "sha256": "A82ACED380056A658929921CC06F1A7F43BEC03443A51AC163C59FF3D565D40A",
+          "rawSha256": "3E63A90748F1172818D50DEC594385263F163A5BEB44E16596EFCBE6136A0F0C",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 37666
+        },
+        {
+          "index": 4,
+          "file": "emerald-antimateriel/frames/05.png",
+          "bounds": [
+            68,
+            50,
+            310,
+            323
+          ],
+          "alphaPixels": 32837,
+          "sha256": "AF348AFD2FE37EE5A11A7C00527A221E2A2DBB540AA3B787011EE8876CA4E011",
+          "rawSha256": "2FF47D90FB340A36B07571F6CC27359309A0747CC9FC809683FCA2807A1B7755",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 53741
+        },
+        {
+          "index": 5,
+          "file": "emerald-antimateriel/frames/06.png",
+          "bounds": [
+            78,
+            59,
+            317,
+            303
+          ],
+          "alphaPixels": 33558,
+          "sha256": "6891831144B04A48792E76E6A233B66F68EF2903E1008C177837BC97F2177AC3",
+          "rawSha256": "E8574C36F93C83A6F90546FB7F697C3B469C7D70BB7E260306EEBB06A11AB97A",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 57538
+        },
+        {
+          "index": 6,
+          "file": "emerald-antimateriel/frames/07.png",
+          "bounds": [
+            71,
+            54,
+            330,
+            318
+          ],
+          "alphaPixels": 36497,
+          "sha256": "1043577FF03AB1F72F3EA84FB4749B94F06FB7F09CD64861162A7AB040C45A95",
+          "rawSha256": "B7C56078669B56834BF32B12E01EB5C03599447AA0B0FC05F48C1DBB980AF1D0",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 63745
+        },
+        {
+          "index": 7,
+          "file": "emerald-antimateriel/frames/08.png",
+          "bounds": [
+            74,
+            56,
+            319,
+            333
+          ],
+          "alphaPixels": 32376,
+          "sha256": "B3A2EC746B4F64A65A07C9C48A3AD02129951205C67F9EFB8608DB4E0A560886",
+          "rawSha256": "23B4C7E5D72051820F720767E6630ED73D4AA92EAD361A592EB680AE15ACD4E3",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 62145
+        },
+        {
+          "index": 8,
+          "file": "emerald-antimateriel/frames/09.png",
+          "bounds": [
+            66,
+            59,
+            332,
+            332
+          ],
+          "alphaPixels": 32830,
+          "sha256": "5EE15F0B3D5C6953AC55D98D3911B86810F16E6ADF5086CF5759E229FE51E820",
+          "rawSha256": "C86239A86269BE5A51C0D8619FC1F9B03AC57AE32D4FD13ABD8E1F9346A4E54A",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 60417
+        },
+        {
+          "index": 9,
+          "file": "emerald-antimateriel/frames/10.png",
+          "bounds": [
+            107,
+            84,
+            317,
+            325
+          ],
+          "alphaPixels": 26633,
+          "sha256": "D108A7D5F2715952FBA00F17170E2E708D534970C2F6642ED7B6212B86EC548C",
+          "rawSha256": "CE9DA8112C1D2FF1EE5C15F4380293446D148116AAFD0F9F18120FFF03AF4C83",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 52571
+        },
+        {
+          "index": 10,
+          "file": "emerald-antimateriel/frames/11.png",
+          "bounds": [
+            92,
+            77,
+            316,
+            312
+          ],
+          "alphaPixels": 27255,
+          "sha256": "2268547F54C3C906185ED0BB3389035325CE708F8975080062CA368AC0250850",
+          "rawSha256": "D4634437798AA4C0D8487139B7FD0C9F383DCE51B31326364E78E991273041F6",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 54374
+        },
+        {
+          "index": 11,
+          "file": "emerald-antimateriel/frames/12.png",
+          "bounds": [
+            97,
+            79,
+            295,
+            323
+          ],
+          "alphaPixels": 23190,
+          "sha256": "7285CF4855C8D3CD573DB12A5CCA59A320EC47076656FCA60ADB548DC11BC300",
+          "rawSha256": "5554EE448C3C917885FD02B6E5D8BB40973B0536B9D3DE7C1744B56B1F4BE03F",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 52917
+        },
+        {
+          "index": 12,
+          "file": "emerald-antimateriel/frames/13.png",
+          "bounds": [
+            98,
+            78,
+            295,
+            304
+          ],
+          "alphaPixels": 16689,
+          "sha256": "499480A3C9578FA07E096C4E576D864ADA4D75E7C3816B9005A99B0BC183D733",
+          "rawSha256": "8ED77528C702E7237CE3B861C871B3E483BC1B59B15D6C91E9AE98C3C509367A",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 45666
+        },
+        {
+          "index": 13,
+          "file": "emerald-antimateriel/frames/14.png",
+          "bounds": [
+            126,
+            88,
+            303,
+            305
+          ],
+          "alphaPixels": 9205,
+          "sha256": "71B89957546B886326E2D8D24DD1EED767D33AE43DA872580EB80151CAB7DACB",
+          "rawSha256": "AF3EC303F581BAC460B02695939D917131DB38532A303E124BF4958A5F95B15D",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 39767
+        },
+        {
+          "index": 14,
+          "file": "emerald-antimateriel/frames/15.png",
+          "bounds": [
+            141,
+            125,
+            263,
+            284
+          ],
+          "alphaPixels": 2619,
+          "sha256": "C3AF4A357CEA1178C046B2BFC37E67F31A70994F91A16D9793C62F5CA705507E",
+          "rawSha256": "DDE6E517A4CA09F675F3A97F8C3AAECB718A79E71648AADA6C811DB836C40F2C",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 27290
+        },
+        {
+          "index": 15,
+          "file": "emerald-antimateriel/frames/16.png",
+          "bounds": [
+            217,
+            172,
+            262,
+            261
+          ],
+          "alphaPixels": 963,
+          "sha256": "18C4E264ECD040C505835C573C7D9E4044877713F576D34F3AE756B898B02A3F",
+          "rawSha256": "CA0281754B083BBDC111F9ED3DB713FC69241541EBBD9AFA4C0D74802AED10D4",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 15904
         }
       ]
     }

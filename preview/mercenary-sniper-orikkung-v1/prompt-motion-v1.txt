@@ -1,0 +1,12 @@
+Use case: stylized-concept. Production asset: six-frame full-body battle character motion sprite sheet, TRUE TRANSPARENT RGBA background.
+Reference image 1 is the approved character identity, clothing and weapon. Create an elegant hand-painted 2D game SD adaptation of that exact yellow duck sniper: round yellow duck head, black glossy bead eyes, orange bill, dark headgear with smoky goggles UP ON THE FOREHEAD, headset, sand/khaki field jacket, brown tactical vest, khaki cargo trousers, orange webbed feet. Preserve all those features. No FM uniform, no insignias.
+Weapon: the exact long straight black/emerald muted-gold anti-materiel rifle from reference. Barrel, receiver, stock and scope remain mechanically rigid, straight and aligned horizontally toward screen right in EVERY frame. Orange wing-hand grips trigger grip, other wing supports fore-end. Do not bend gun or show it diagonally.
+Layout: landscape 1536x1024, exactly 3 equal columns by 2 equal rows, exactly one whole duck per cell, generous completely transparent gaps. No cell borders or text. All six poses same character size and side-facing three-quarter orientation toward RIGHT, complete head, rifle, feet entirely inside their cell. Cute compact 2.5-head SD proportions, large readable head and weapon, detailed painterly edges, no photorealistic 3D texture. Rifle full width comfortably fits the cell.
+Six genuinely distinct sequential poses, left to right top then bottom:
+1 standing ready with rifle at chest height, both feet firmly planted; this is the idle battle sprite.
+2 leans forward and braces stock into shoulder, wing elbows lowered, eye concentrating near scope, rifle horizontal.
+3 powerful recoil: upper body and shoulders pushed backward slightly, wings flex, feet anchored; rifle still straight and horizontal. No muzzle effect.
+4 bolt cycling and reloading: right trigger wing reaches bolt, left wing supports rifle, body lower, rifle horizontal.
+5 recovered stance, feet spread a little, trigger wing returns to grip, head rises, rifle horizontal.
+6 settles into ready posture, relaxed shoulders, slight head tilt, rifle horizontal.
+Each frame must redraw articulated wings/head/torso, not six copies with translation. No smoke, bullets, effects, ground, shadows, environment, gradients, background, card frame, name or labels. Actual alpha transparency throughout empty spaces, never a checkerboard pattern.

@@ -1,3 +1,4 @@
+import {preloadSniperOrikkung,playSniperOrikkungSkill,playSniperOrikkungBasic} from './SniperOrikkungCombatPlayback.js';
 import {CRYVERN_CODE} from '../../../../shared/mercenary-cryvern-v1.mjs';
 import {preloadCryvern,setupCryvernActor,clearCryvernActors,cancelCryvernPlayback,playCryvernCrown,playCryvernBasic,showCryvernShieldImpact} from './CryvernCombatPlayback.js';
 import {preloadHeukwol,playHeukwolCombo,playHeukwolBasic} from './HeukwolCombatPlayback.js';
@@ -21,6 +22,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  cancelTimelines(){this.mercenaryAudio?.stop();cancelCryvernPlayback(this);super.cancelTimelines();}
  syncTargetShield(target,value,maxValue=null){const before=target?.shield,result=super.syncTargetShield(target,value,maxValue);showCryvernShieldImpact(this,target,before,target?.shield);return result;}
  normalAttack(index,options){
+  if(options?.attacker?.isMercenary&&options.attacker.cardId==='V-050')return playSniperOrikkungBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===CRYVERN_CODE)return playCryvernBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId==='V-048')return playHeukwolBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId==='V-047')return playBikiniJoeunBasic(this,options);
@@ -33,13 +35,14 @@ export const withMercenaryBattle=Base=>class extends Base{
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   const limit=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS'?2:1;
   if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
+  if(entries.some(({card})=>card.cardId==='V-050'||card.code==='V-050'||card.skills?.some(s=>s.mechanic==='EMERALD_ANTIMATERIEL')))await preloadSniperOrikkung();
   if(entries.some(({card})=>card.cardId===CRYVERN_CODE||card.code===CRYVERN_CODE||card.skills?.some(s=>s.mechanic==='CRYSTAL_CROWN')))await preloadCryvern();
   if(entries.some(({card})=>card.cardId==='V-048'||card.code==='V-048'||card.skills?.some(s=>s.mechanic==='BLACK_MOON_TRIPLE_SEVER')))await preloadHeukwol();
   if(entries.some(({card})=>card.cardId==='V-047'||card.code==='V-047'||card.skills?.some(s=>s.mechanic==='LAVENDER_RICOCHET')))await preloadBikiniJoeun();
   if(entries.some(({card})=>card.skills?.some(s=>s.mechanic==='GOLDEN_ORCHID_VOLLEY')))await preloadMangisaVolley();
   if(entries.some(({card})=>card.cardId==='V-046'||card.code==='V-046'||card.skills?.some(s=>s.mechanic==='PLATINUM_SANCTUARY')))await preloadRagniel();
   if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
-  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?cryvern=20260924')),adapter=createMercenaryBattleArtAdapter(roster);
+  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?sniperOrikkung=20260926')),adapter=createMercenaryBattleArtAdapter(roster);
   for(const {side,card}of entries){const art=adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
@@ -54,13 +57,15 @@ export const withMercenaryBattle=Base=>class extends Base{
  async sequenceFor(skillId){
   if(this.mercenarySequences.has(skillId))return this.mercenarySequences.get(skillId);
   if(!this.mercenaryLoads.has(skillId))this.mercenaryLoads.set(skillId,(async()=>{
-   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260924-cryvern')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
+   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260926-sniper-orikkung')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
    const sequence=await loadSequence(row);if(this.mercenaryDisposed){releaseFrameViews(sequence);return null;}
    this.mercenarySequences.set(skillId,sequence);return sequence;
   })().finally(()=>this.mercenaryLoads.delete(skillId)));
   return this.mercenaryLoads.get(skillId);
  }
  async playMercenaryEvent(event){
+  if(event.type==='MERCENARY_HIT'&&event.mechanic==='EMERALD_ANTIMATERIEL')return playSniperOrikkungSkill(this,event);
+  if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='EMERALD_ANTIMATERIEL')return true;
   if(event.type==='MERCENARY_CRYSTAL_CROWN'&&event.mechanic==='CRYSTAL_CROWN')return playCryvernCrown(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='CRYSTAL_CROWN')return true;
   if(event.type==='MERCENARY_COMBO'&&event.mechanic==='BLACK_MOON_TRIPLE_SEVER')return playHeukwolCombo(this,event);

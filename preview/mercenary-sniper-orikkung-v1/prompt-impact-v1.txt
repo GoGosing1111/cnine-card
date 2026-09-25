@@ -1,0 +1,11 @@
+Use case: stylized-concept. Production battle VFX sprite atlas with TRUE TRANSPARENT ALPHA background. A cinematic emerald-gold anti-materiel sniper round armor-piercing impact, painted 2D fantasy game effect, visually readable at small scale. This is an animated sequence of ONE heavy bullet impact, not sixteen separate icons.
+Square canvas 1536x1536. Exact grid 4 columns x 4 rows. 16 equal square cells, no visible grid, generous transparent margins around each effect, nothing crosses any cell edge, no text or labels. Center of impact identical in each cell. Screen-facing impact with diagonal ballistic streak arriving from left.
+Read chronological frames across rows left to right:
+frames1-3: tiny thin emerald tracer core converges, gold sparks gather, a narrow piercing streak brightens;
+frame4: focused white-gold penetration flash;
+frame5: peak explosive armor-breaking white/gold starburst with emerald shock ring and angular dark metal chips;
+frames6-8: ring expands and breaks, heavy copper shards fly outward, clear jagged streaks bend outward;
+frames9-12: shattered arc dissipates into muted emerald wisps, brown-gray impact dust billows, sparks drift down;
+frames13-16: fragments fall, dust thins, progressively very faint residual wisps and last two sparks, near-empty ending.
+Every frame has genuinely different painted morphology and debris locations, not a scaled copy. High dynamic range highlights inside effect, naturally transparent smoke; preserve clean actual alpha. Rich painterly particle detail, limited tasteful particles, sharp heavy physical impact rather than laser magic flower.
+No character, no target body, no weapon, no ground, no ground shadow, no backdrop, no rectangle, no checkerboard pattern, no typography. Empty space must be actual transparency.

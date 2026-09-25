@@ -1,3 +1,4 @@
+import {sniperOrikkungSelectionWeights} from './mercenary-sniper-orikkung-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {cryvernSelectionWeights} from './mercenary-cryvern-v1.mjs';
 
@@ -57,7 +58,7 @@ export function validateMercenaryCardRules(rules,catalogCodes){
   return {...MERCENARY_CARD_RULES,cardWeights};
 }
 export function mercenaryCardChances(chancePpm,codes,rules){
-  const effective=cryvernSelectionWeights(codes,rules?.cardWeights||{});
+  const effective=sniperOrikkungSelectionWeights(codes,cryvernSelectionWeights(codes,rules?.cardWeights||{}));
   const weights=codes.map(code=>effective[code]??1),totalWeight=weights.reduce((a,b)=>a+b,0);
   return codes.map((code,i)=>({code,weight:weights[i],totalWeight,withinRankPercent:weights[i]/totalWeight*100,
     percent:Number.isSafeInteger(chancePpm)?chancePpm*weights[i]/(10000*totalWeight):null}));

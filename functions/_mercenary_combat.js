@@ -1,3 +1,4 @@
+import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
 import {resolveCryvernCrown} from './_mercenary_cryvern.js';
 import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE} from '../shared/mercenary-cryvern-v1.mjs';
 import {resolveHeukwolCombo} from './_mercenary_heukwol.js';
@@ -76,6 +77,7 @@ function duoMercenaryTurnCadence(teams){
 // PVE 는 상한 자체가 거의 걸리지 않아 이 값의 영향을 받지 않는다.
 const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
 export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
+ [SNIPER_ORIKKUNG_SKILL_ID]:SNIPER_ORIKKUNG_CAP_SCALE,
  [CRYVERN_SKILL_ID]:CRYVERN_CAP_SCALE,
  'MS-021':.82,'MS-046':1.04,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,
  'MS-004':1.5,'MS-040':1.6,'MS-037':1.6,'MS-008':1.1,'MS-022':1.35,'MS-001':.8,'MS-005':3.4,'MS-042':1.45,'MS-044':1.2,'MS-047':1.2,
@@ -127,7 +129,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(s.mechanic==='MELEE_PARRY_RIPOSTE')return [a];
   if(['FRONT_SHARED_BARRIER','FRONT_STAND_FAST'].includes(s.mechanic))return front(friends);
   if(s.mechanic==='NEXT_BASIC_ORDER')return friends.filter(t=>!t.isMonster);
-  if(['LOCKED_THREAT_SHOT','INFILTRATE_DELAYED_VENOM','UNDISTURBED_FIRST_SHOT','ABYSS_SHIELD_ECHO'].includes(s.mechanic)){const back=en.filter(t=>t.row==='BACK');return [...(back.length?back:fr)].sort((a,b)=>(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot).slice(0,1);}
+  if(['EMERALD_ANTIMATERIEL','LOCKED_THREAT_SHOT','INFILTRATE_DELAYED_VENOM','UNDISTURBED_FIRST_SHOT','ABYSS_SHIELD_ECHO'].includes(s.mechanic)){const back=en.filter(t=>t.row==='BACK');return [...(back.length?back:fr)].sort((a,b)=>(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot).slice(0,1);}
   if(['FINISHER_WITH_RELOAD','WOUNDED_MOON_DRAW','DANCING_TARGET_VOLLEY'].includes(s.mechanic))return [weakest(en)].filter(Boolean);
   if(s.mechanic==='DISTRIBUTED_CORAL_VOLLEY')return [...en].sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot).slice(0,3);
   return fr.slice(0,['RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','FRONT_OFFENSE_VEIL'].includes(s.mechanic)?2:1);
@@ -262,7 +264,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
     once(t=>{const amount=apocalypseHealing(t,Math.min(t.maxHp-t.hp,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100))));t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
    case 'BREAK_ARMOR_WINDOW':once(t=>{const hadShield=t.shield>0;strike(a,s,t);if(hadShield&&living(t)){const d=table(debuffs,t),original=d.armor?.original??t.defense;d.armor={original,expires:t.actions+c.statusTurns};t.defense=original*(1-c.armorReductionPercent/100);send(a,s,'DEBUFF',t,{effect:'ARMOR_WINDOW',defenseAfter:t.defense});}});break;
    case 'ADVANCE_SUPPRESSION':once(t=>{strike(a,s,t,1/p.targets.length);if(living(t)&&!t.controlImmune&&!t.isBoss&&t.row==='FRONT'&&t.attackStyle==='MELEE'){t.gauge=Math.max(0,t.gauge-c.suppressGauge);send(a,s,'DEBUFF',t,{effect:'APPROACH_DELAY',targetGaugeAfter:t.gauge});}});break;
-   case 'LOCKED_THREAT_SHOT':once(t=>strike(a,s,t));break;
+   case 'EMERALD_ANTIMATERIEL':case 'LOCKED_THREAT_SHOT':once(t=>strike(a,s,t));break;
    case 'UNDISTURBED_FIRST_SHOT':once(t=>{const focused=state(a).hits===p.hits;send(a,s,'FOCUS',t,{focused});strike(a,s,t,focused?1+c.focusBonusPercent/100:1);});break;
    case 'FINISHER_WITH_RELOAD':once(t=>{strike(a,s,t,t.hp/t.maxHp<=c.finisherHpPercent/100?1+c.finisherBonusPercent/100:1);});break;
    case 'INTERRUPT_WINDUP':once(t=>{const h=strike(a,s,t);if(h.hit&&!t.controlImmune&&!t.isBoss&&state(t).pending)cancel(t,'INTERRUPTED');});break;

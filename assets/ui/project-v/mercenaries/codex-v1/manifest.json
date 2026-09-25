@@ -1619,6 +1619,39 @@
       "source": "assets/ui/project-v/characters/mercenary/mercenary-v049-cryvern-sd-v1.png",
       "sourceSha256": "DAE9EAA500E924E8561D6823D1A89C90F63A77EF5C8727A835E196C6F98016BD",
       "sha256": "FAF53FCAC68E16C824E5D8BDDC3D30D57750D0FF64927E9C351A06E65074223C"
+    },
+    {
+      "code": "V-050",
+      "kind": "art",
+      "file": "v-050-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 55268,
+      "source": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+      "sourceSha256": "6D5A5D58F2A85E1BCA8269508F6E69BAB56D3AD7F318FF471054B98DF3E3EF01",
+      "sha256": "28F227EB8E2916C2E91EBA3FC6AA690139FD24E7604F041DA989DD48F79ACF77"
+    },
+    {
+      "code": "V-050",
+      "kind": "art",
+      "file": "v-050-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 158264,
+      "source": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+      "sourceSha256": "6D5A5D58F2A85E1BCA8269508F6E69BAB56D3AD7F318FF471054B98DF3E3EF01",
+      "sha256": "B63312E8DD8B34787EF00D0A20E862A5E09154162786B86F2C3469624C86729B"
+    },
+    {
+      "code": "V-050",
+      "kind": "sd",
+      "file": "v-050-sd-640.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 57696,
+      "source": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
+      "sourceSha256": "0D2E682CED33B5D4C951E42E7D0E9D04F7BEA04BC66BBAB6ADA10CF8BB4EB266",
+      "sha256": "2E5B9635BA874E074E7AFDAC81F681AC967AC1EAAC0F4AFD45E52CEDF244F83B"
     }
   ]
 }

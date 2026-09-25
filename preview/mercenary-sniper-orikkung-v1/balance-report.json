@@ -1,0 +1,1821 @@
+{
+  "date": "2026-09-26",
+  "cmsRevision": 57,
+  "scope": "LOCAL_CANONICAL_PVE_PVP_ENGINE",
+  "policy": {
+    "balance": {
+      "damageRatio": 7.2,
+      "cooldownTurns": 2,
+      "cost": 25
+    },
+    "capScale": 1.65
+  },
+  "count": 32,
+  "results": [
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "wins": 583,
+      "total": 768,
+      "rate": 0.7591145833333334,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 43,
+          "losses": 21,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.671875
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 34,
+          "losses": 30,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.53125
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 49,
+          "losses": 15,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.765625
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 48,
+          "losses": 16,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.75
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 39,
+          "losses": 25,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.609375
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 52,
+          "losses": 12,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.8125
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 62,
+          "losses": 2,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.96875
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 48,
+          "losses": 16,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.75
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 39,
+          "losses": 25,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.609375
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 52,
+          "losses": 12,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.8125
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 62,
+          "losses": 2,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.96875
+        }
+      ]
+    },
+    {
+      "code": "V-005",
+      "name": "청아",
+      "rank": "S",
+      "wins": 768,
+      "total": 768,
+      "rate": 1,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        }
+      ]
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "rank": "S",
+      "wins": 768,
+      "total": 768,
+      "rate": 1,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        }
+      ]
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "rank": "SS",
+      "wins": 587,
+      "total": 768,
+      "rate": 0.7643229166666666,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 51,
+          "losses": 13,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.796875
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 22,
+          "losses": 42,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.34375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 61,
+          "losses": 3,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.953125
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 39,
+          "losses": 25,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.609375
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 56,
+          "losses": 8,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.875
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 35,
+          "losses": 29,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.546875
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 52,
+          "losses": 12,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.8125
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 56,
+          "losses": 8,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.875
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 35,
+          "losses": 29,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.546875
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 52,
+          "losses": 12,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.8125
+        }
+      ]
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "rank": "S",
+      "wins": 768,
+      "total": 768,
+      "rate": 1,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        }
+      ]
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "rank": "SS",
+      "wins": 536,
+      "total": 768,
+      "rate": 0.6979166666666666,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 44,
+          "losses": 20,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.6875
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 24,
+          "losses": 40,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 38,
+          "losses": 26,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.59375
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 44,
+          "losses": 20,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.6875
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 31,
+          "losses": 33,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.484375
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 48,
+          "losses": 16,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.75
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 45,
+          "losses": 19,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.703125
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 31,
+          "losses": 33,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.484375
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 48,
+          "losses": 16,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.75
+        }
+      ]
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "rank": "SS",
+      "wins": 568,
+      "total": 768,
+      "rate": 0.7395833333333334,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 49,
+          "losses": 15,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.765625
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 23,
+          "losses": 41,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.359375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 63,
+          "losses": 1,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.984375
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 31,
+          "losses": 33,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.484375
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 46,
+          "losses": 18,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.71875
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 36,
+          "losses": 28,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.5625
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 46,
+          "losses": 18,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.71875
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 36,
+          "losses": 28,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.5625
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        }
+      ]
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "rank": "SS",
+      "wins": 576,
+      "total": 768,
+      "rate": 0.75,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 50,
+          "losses": 14,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.78125
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 22,
+          "losses": 42,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.34375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 62,
+          "losses": 2,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.96875
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 42,
+          "losses": 22,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.65625
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 48,
+          "losses": 16,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.75
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 37,
+          "losses": 27,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.578125
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 51,
+          "losses": 13,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.796875
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 48,
+          "losses": 16,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.75
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 37,
+          "losses": 27,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.578125
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 51,
+          "losses": 13,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.796875
+        }
+      ]
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "rank": "SS",
+      "wins": 548,
+      "total": 768,
+      "rate": 0.7135416666666666,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 45,
+          "losses": 19,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.703125
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 22,
+          "losses": 42,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.34375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 56,
+          "losses": 8,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.875
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 33,
+          "losses": 31,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.515625
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 44,
+          "losses": 20,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.6875
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 34,
+          "losses": 30,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.53125
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 63,
+          "losses": 1,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.984375
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 44,
+          "losses": 20,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.6875
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 34,
+          "losses": 30,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.53125
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 63,
+          "losses": 1,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.984375
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        }
+      ]
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "rank": "SS",
+      "wins": 566,
+      "total": 768,
+      "rate": 0.7369791666666666,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 46,
+          "losses": 18,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.71875
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 23,
+          "losses": 41,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.359375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 59,
+          "losses": 5,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.921875
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 33,
+          "losses": 31,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.515625
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 45,
+          "losses": 19,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.703125
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 36,
+          "losses": 28,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.5625
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 57,
+          "losses": 7,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.890625
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 45,
+          "losses": 19,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.703125
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 37,
+          "losses": 27,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.578125
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 57,
+          "losses": 7,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.890625
+        }
+      ]
+    },
+    {
+      "code": "V-044",
+      "name": "하이희야",
+      "rank": "SS",
+      "wins": 579,
+      "total": 768,
+      "rate": 0.75390625,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 49,
+          "losses": 15,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.765625
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 23,
+          "losses": 41,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.359375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 61,
+          "losses": 3,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.953125
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 35,
+          "losses": 29,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.546875
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 50,
+          "losses": 14,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.78125
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 36,
+          "losses": 28,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.5625
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 50,
+          "losses": 14,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.78125
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 37,
+          "losses": 27,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.578125
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        }
+      ]
+    },
+    {
+      "code": "V-045",
+      "name": "망이사",
+      "rank": "SS",
+      "wins": 536,
+      "total": 768,
+      "rate": 0.6979166666666666,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 42,
+          "losses": 22,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.65625
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 24,
+          "losses": 40,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 56,
+          "losses": 8,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.875
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 32,
+          "losses": 32,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.5
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 44,
+          "losses": 20,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.6875
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 35,
+          "losses": 29,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.546875
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 63,
+          "losses": 1,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.984375
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 49,
+          "losses": 15,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.765625
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 44,
+          "losses": 20,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.6875
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 35,
+          "losses": 29,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.546875
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 63,
+          "losses": 1,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.984375
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 49,
+          "losses": 15,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.765625
+        }
+      ]
+    },
+    {
+      "code": "V-047",
+      "name": "비키니 조은",
+      "rank": "SS",
+      "wins": 579,
+      "total": 768,
+      "rate": 0.75390625,
+      "cells": [
+        {
+          "power": 1000000,
+          "deck": "balanced",
+          "wins": 49,
+          "losses": 15,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.765625
+        },
+        {
+          "power": 1000000,
+          "deck": "attack",
+          "wins": 23,
+          "losses": 41,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.359375
+        },
+        {
+          "power": 1000000,
+          "deck": "defense",
+          "wins": 61,
+          "losses": 3,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.953125
+        },
+        {
+          "power": 1000000,
+          "deck": "speed",
+          "wins": 35,
+          "losses": 29,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.546875
+        },
+        {
+          "power": 20000000,
+          "deck": "balanced",
+          "wins": 50,
+          "losses": 14,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.78125
+        },
+        {
+          "power": 20000000,
+          "deck": "attack",
+          "wins": 36,
+          "losses": 28,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.5625
+        },
+        {
+          "power": 20000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 20000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        },
+        {
+          "power": 2000000000,
+          "deck": "balanced",
+          "wins": 50,
+          "losses": 14,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.78125
+        },
+        {
+          "power": 2000000000,
+          "deck": "attack",
+          "wins": 37,
+          "losses": 27,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.578125
+        },
+        {
+          "power": 2000000000,
+          "deck": "defense",
+          "wins": 64,
+          "losses": 0,
+          "draws": 0,
+          "total": 64,
+          "rate": 1
+        },
+        {
+          "power": 2000000000,
+          "deck": "speed",
+          "wins": 55,
+          "losses": 9,
+          "draws": 0,
+          "total": 64,
+          "rate": 0.859375
+        }
+      ]
+    }
+  ],
+  "pve": [
+    {
+      "power": 1000000,
+      "rows": [
+        {
+          "code": "V-050",
+          "name": "저격 오리꿍",
+          "damage": 54816300,
+          "skillDamage": 47643750
+        },
+        {
+          "code": "V-036",
+          "name": "네레이아",
+          "damage": 48106674,
+          "skillDamage": 35216181
+        },
+        {
+          "code": "V-004",
+          "name": "베스페라",
+          "damage": 45308340,
+          "skillDamage": 30031155
+        },
+        {
+          "code": "V-040",
+          "name": "마리엘",
+          "damage": 43295175,
+          "skillDamage": 23284800
+        },
+        {
+          "code": "V-008",
+          "name": "아스텔",
+          "damage": 42351309,
+          "skillDamage": 22762278
+        },
+        {
+          "code": "V-045",
+          "name": "망이사",
+          "damage": 40980555,
+          "skillDamage": 0
+        },
+        {
+          "code": "V-043",
+          "name": "동탄 디임",
+          "damage": 40457340,
+          "skillDamage": 27051255
+        },
+        {
+          "code": "V-005",
+          "name": "청아",
+          "damage": 39647916,
+          "skillDamage": 28906416
+        },
+        {
+          "code": "V-009",
+          "name": "련화",
+          "damage": 39171825,
+          "skillDamage": 28430325
+        },
+        {
+          "code": "V-037",
+          "name": "아델린",
+          "damage": 37017750,
+          "skillDamage": 25105080
+        },
+        {
+          "code": "V-044",
+          "name": "하이희야",
+          "damage": 35345924,
+          "skillDamage": 9238164.84375
+        },
+        {
+          "code": "V-047",
+          "name": "비키니 조은",
+          "damage": 35345924,
+          "skillDamage": 9238164.84375
+        },
+        {
+          "code": "V-042",
+          "name": "경찰 조은",
+          "damage": 32632171.84375,
+          "skillDamage": 8741207.0625
+        },
+        {
+          "code": "V-022",
+          "name": "엘로디",
+          "damage": 32277246.8125,
+          "skillDamage": 4224412.21875
+        }
+      ]
+    },
+    {
+      "power": 20000000,
+      "rows": [
+        {
+          "code": "V-050",
+          "name": "저격 오리꿍",
+          "damage": 1095147900,
+          "skillDamage": 952875000
+        },
+        {
+          "code": "V-036",
+          "name": "네레이아",
+          "damage": 961731540,
+          "skillDamage": 704323620
+        },
+        {
+          "code": "V-004",
+          "name": "베스페라",
+          "damage": 904780800,
+          "skillDamage": 599860800
+        },
+        {
+          "code": "V-040",
+          "name": "마리엘",
+          "damage": 863824500,
+          "skillDamage": 465696000
+        },
+        {
+          "code": "V-008",
+          "name": "아스텔",
+          "damage": 844462080,
+          "skillDamage": 452224080
+        },
+        {
+          "code": "V-045",
+          "name": "망이사",
+          "damage": 816409440,
+          "skillDamage": 0
+        },
+        {
+          "code": "V-043",
+          "name": "동탄 디임",
+          "damage": 806998500,
+          "skillDamage": 539084700
+        },
+        {
+          "code": "V-005",
+          "name": "청아",
+          "damage": 790186320,
+          "skillDamage": 575356320
+        },
+        {
+          "code": "V-009",
+          "name": "련화",
+          "damage": 782743500,
+          "skillDamage": 567567000
+        },
+        {
+          "code": "V-037",
+          "name": "아델린",
+          "damage": 740008500,
+          "skillDamage": 502101600
+        },
+        {
+          "code": "V-044",
+          "name": "하이희야",
+          "damage": 705881061.3125,
+          "skillDamage": 182859976.875
+        },
+        {
+          "code": "V-047",
+          "name": "비키니 조은",
+          "damage": 705881061.3125,
+          "skillDamage": 182859976.875
+        },
+        {
+          "code": "V-042",
+          "name": "경찰 조은",
+          "damage": 652924948.59375,
+          "skillDamage": 174977213.84375
+        },
+        {
+          "code": "V-022",
+          "name": "엘로디",
+          "damage": 645431903.90625,
+          "skillDamage": 84488226.28125
+        }
+      ]
+    },
+    {
+      "power": 2000000000,
+      "rows": [
+        {
+          "code": "V-050",
+          "name": "저격 오리꿍",
+          "damage": 109514790000,
+          "skillDamage": 95287500000
+        },
+        {
+          "code": "V-036",
+          "name": "네레이아",
+          "damage": 96173154000,
+          "skillDamage": 70432362000
+        },
+        {
+          "code": "V-004",
+          "name": "베스페라",
+          "damage": 90478080000,
+          "skillDamage": 59986080000
+        },
+        {
+          "code": "V-040",
+          "name": "마리엘",
+          "damage": 86382450000,
+          "skillDamage": 46569600000
+        },
+        {
+          "code": "V-008",
+          "name": "아스텔",
+          "damage": 84446208000,
+          "skillDamage": 45222408000
+        },
+        {
+          "code": "V-045",
+          "name": "망이사",
+          "damage": 81640944000,
+          "skillDamage": 0
+        },
+        {
+          "code": "V-043",
+          "name": "동탄 디임",
+          "damage": 80699850000,
+          "skillDamage": 53908470000
+        },
+        {
+          "code": "V-005",
+          "name": "청아",
+          "damage": 79018632000,
+          "skillDamage": 57535632000
+        },
+        {
+          "code": "V-009",
+          "name": "련화",
+          "damage": 78274350000,
+          "skillDamage": 56756700000
+        },
+        {
+          "code": "V-037",
+          "name": "아델린",
+          "damage": 74000850000,
+          "skillDamage": 50210160000
+        },
+        {
+          "code": "V-044",
+          "name": "하이희야",
+          "damage": 70588106302.96875,
+          "skillDamage": 18285997897.5
+        },
+        {
+          "code": "V-047",
+          "name": "비키니 조은",
+          "damage": 70588106302.96875,
+          "skillDamage": 18285997897.5
+        },
+        {
+          "code": "V-042",
+          "name": "경찰 조은",
+          "damage": 65292495013.1875,
+          "skillDamage": 17497721671.5625
+        },
+        {
+          "code": "V-022",
+          "name": "엘로디",
+          "damage": 64543190814.53125,
+          "skillDamage": 8448823028.9375
+        }
+      ]
+    }
+  ],
+  "total": 9984,
+  "topRanged": true
+}

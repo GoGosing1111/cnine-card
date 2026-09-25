@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "code": "V-050",
+  "name": "저격 오리꿍",
+  "rank": "SS",
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "hasAlpha": false,
+    "sha256": "6D5A5D58F2A85E1BCA8269508F6E69BAB56D3AD7F318FF471054B98DF3E3EF01",
+    "transparentFraction": 0,
+    "opaqueFraction": 1,
+    "borderPixels": 20416,
+    "bounds": [
+      0,
+      0,
+      1023,
+      1535
+    ]
+  },
+  "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
+  "battleSpriteInfo": {
+    "width": 640,
+    "height": 640,
+    "hasAlpha": true,
+    "sha256": "0D2E682CED33B5D4C951E42E7D0E9D04F7BEA04BC66BBAB6ADA10CF8BB4EB266",
+    "transparentFraction": 0.7496240234375,
+    "opaqueFraction": 0.2391845703125,
+    "borderPixels": 0,
+    "bounds": [
+      88,
+      140,
+      574,
+      600
+    ]
+  },
+  "battleSpriteFootAnchor": {
+    "x": 0.40625,
+    "y": 0.9375
+  },
+  "battleSpriteFacing": "RIGHT",
+  "battleSpriteMuzzle": {
+    "x": 0.896875,
+    "y": 0.59453125
+  },
+  "status": "USER_REQUESTED_LIVE",
+  "runtimeEnabled": true,
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "audio": "EXISTING_LICENSED_SNIPER_AND_IMPACT_PROFILES"
+  },
+  "impact": {
+    "source": "assets/source/emerald-antimateriel-impact-v1.png",
+    "sourceInfo": {
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "720537378F0D3DF89E1E39D924B5137AF29E72498B01461E6BE55F17BAA911C7",
+      "transparentFraction": 0.7597563395221416,
+      "opaqueFraction": 0.07647171793482546,
+      "borderPixels": 0,
+      "bounds": [
+        31,
+        66,
+        1225,
+        1211
+      ]
+    },
+    "atlas": "assets/impact-atlas.webp",
+    "cellSize": 384,
+    "columns": 4,
+    "rows": 4,
+    "frameCount": 16,
+    "collisionFrame": 4,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/impact/frame-00.png",
+        "sha256": "9968D545744327DA5B5F69A96AFAD6E61D9D77CA56F56AF44727C39F5245C1A9",
+        "sourceRect": [
+          0,
+          0,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 1,
+        "file": "assets/impact/frame-01.png",
+        "sha256": "C59097CC6A2FB191E35542CEF59C645A673B13784C0EFB55605C1FB4D70AB9A6",
+        "sourceRect": [
+          314,
+          0,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 2,
+        "file": "assets/impact/frame-02.png",
+        "sha256": "577D02FA1DA1D99393A22622516F33C39F8017FF0C9770BCB44430DC63F0E756",
+        "sourceRect": [
+          627,
+          0,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 3,
+        "file": "assets/impact/frame-03.png",
+        "sha256": "A82ACED380056A658929921CC06F1A7F43BEC03443A51AC163C59FF3D565D40A",
+        "sourceRect": [
+          941,
+          0,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 4,
+        "file": "assets/impact/frame-04.png",
+        "sha256": "AF348AFD2FE37EE5A11A7C00527A221E2A2DBB540AA3B787011EE8876CA4E011",
+        "sourceRect": [
+          0,
+          314,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 5,
+        "file": "assets/impact/frame-05.png",
+        "sha256": "6891831144B04A48792E76E6A233B66F68EF2903E1008C177837BC97F2177AC3",
+        "sourceRect": [
+          314,
+          314,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 6,
+        "file": "assets/impact/frame-06.png",
+        "sha256": "1043577FF03AB1F72F3EA84FB4749B94F06FB7F09CD64861162A7AB040C45A95",
+        "sourceRect": [
+          627,
+          314,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 7,
+        "file": "assets/impact/frame-07.png",
+        "sha256": "B3A2EC746B4F64A65A07C9C48A3AD02129951205C67F9EFB8608DB4E0A560886",
+        "sourceRect": [
+          941,
+          314,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 8,
+        "file": "assets/impact/frame-08.png",
+        "sha256": "5EE15F0B3D5C6953AC55D98D3911B86810F16E6ADF5086CF5759E229FE51E820",
+        "sourceRect": [
+          0,
+          627,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 9,
+        "file": "assets/impact/frame-09.png",
+        "sha256": "D108A7D5F2715952FBA00F17170E2E708D534970C2F6642ED7B6212B86EC548C",
+        "sourceRect": [
+          314,
+          627,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 10,
+        "file": "assets/impact/frame-10.png",
+        "sha256": "2268547F54C3C906185ED0BB3389035325CE708F8975080062CA368AC0250850",
+        "sourceRect": [
+          627,
+          627,
+          314,
+          314
+        ]
+      },
+      {
+        "index": 11,
+        "file": "assets/impact/frame-11.png",
+        "sha256": "7285CF4855C8D3CD573DB12A5CCA59A320EC47076656FCA60ADB548DC11BC300",
+        "sourceRect": [
+          941,
+          627,
+          313,
+          314
+        ]
+      },
+      {
+        "index": 12,
+        "file": "assets/impact/frame-12.png",
+        "sha256": "499480A3C9578FA07E096C4E576D864ADA4D75E7C3816B9005A99B0BC183D733",
+        "sourceRect": [
+          0,
+          941,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 13,
+        "file": "assets/impact/frame-13.png",
+        "sha256": "71B89957546B886326E2D8D24DD1EED767D33AE43DA872580EB80151CAB7DACB",
+        "sourceRect": [
+          314,
+          941,
+          313,
+          313
+        ]
+      },
+      {
+        "index": 14,
+        "file": "assets/impact/frame-14.png",
+        "sha256": "C3AF4A357CEA1178C046B2BFC37E67F31A70994F91A16D9793C62F5CA705507E",
+        "sourceRect": [
+          627,
+          941,
+          314,
+          313
+        ]
+      },
+      {
+        "index": 15,
+        "file": "assets/impact/frame-15.png",
+        "sha256": "18C4E264ECD040C505835C573C7D9E4044877713F576D34F3AE756B898B02A3F",
+        "sourceRect": [
+          941,
+          941,
+          313,
+          313
+        ]
+      }
+    ]
+  },
+  "motion": {
+    "source": "assets/source/sniper-orikkung-fire-motion-v1.png",
+    "sourceInfo": {
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "sha256": "EDFB8537D5A47212DA9C2CEF9FBC74220146276A828D98ED7630E40D048410F9",
+      "transparentFraction": 0.6261704762776693,
+      "opaqueFraction": 0.35586293538411456,
+      "borderPixels": 0,
+      "bounds": [
+        23,
+        34,
+        1524,
+        997
+      ]
+    },
+    "atlas": "assets/motion-atlas.webp",
+    "cellSize": 640,
+    "columns": 3,
+    "rows": 2,
+    "frameCount": 6,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/motion/frame-0.png",
+        "sha256": "0D2E682CED33B5D4C951E42E7D0E9D04F7BEA04BC66BBAB6ADA10CF8BB4EB266",
+        "sourceRect": [
+          19,
+          30,
+          495,
+          469
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.896875,
+          "y": 0.59453125
+        },
+        "bodyPixels": 461
+      },
+      {
+        "index": 1,
+        "file": "assets/motion/frame-1.png",
+        "sha256": "AE9F40C9C075124D981D17E8A28115BE86F153C22571C835C81B4049116964A0",
+        "sourceRect": [
+          533,
+          92,
+          490,
+          406
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.9171875,
+          "y": 0.59296875
+        },
+        "bodyPixels": 398
+      },
+      {
+        "index": 2,
+        "file": "assets/motion/frame-2.png",
+        "sha256": "AE1A2EF264AE09F9D63CCA64FE5043A8B2A6CC172AC7E9BA6E32CF6B0C14F16F",
+        "sourceRect": [
+          1039,
+          66,
+          486,
+          433
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.828125,
+          "y": 0.59140625
+        },
+        "bodyPixels": 425
+      },
+      {
+        "index": 3,
+        "file": "assets/motion/frame-3.png",
+        "sha256": "EE07FE5BE6BBA50DA205D68D45305475EF6DA2942ADF566D2FA076697E8BD3E8",
+        "sourceRect": [
+          28,
+          565,
+          487,
+          431
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.878125,
+          "y": 0.6296875
+        },
+        "bodyPixels": 423
+      },
+      {
+        "index": 4,
+        "file": "assets/motion/frame-4.png",
+        "sha256": "657C03C50B2D56BC4CA15B854433467C99D54A6BCE7630FAEEED778433A8A88F",
+        "sourceRect": [
+          543,
+          539,
+          484,
+          461
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.86875,
+          "y": 0.59921875
+        },
+        "bodyPixels": 453
+      },
+      {
+        "index": 5,
+        "file": "assets/motion/frame-5.png",
+        "sha256": "453533652018BD763007A494435242A36AE314A8527ED48988C0AC30F9F81EBC",
+        "sourceRect": [
+          1054,
+          534,
+          475,
+          468
+        ],
+        "footAnchor": {
+          "x": 0.40625,
+          "y": 0.9375
+        },
+        "muzzle": {
+          "x": 0.8609375,
+          "y": 0.6046875
+        },
+        "bodyPixels": 460
+      }
+    ]
+  },
+  "processing": "Approved illustration unchanged. Native-alpha motion components extracted and transparently padded, no retouching or synthetic intermediate poses. Idle uses pose 0. Approved goggles, khaki outfit, yellow duck anatomy and straight horizontal rifle retained.",
+  "generation": {
+    "mode": "BUILT_IN_IMAGEGEN",
+    "prompts": [
+      "prompt-impact-v1.txt",
+      "prompt-motion-v1.txt"
+    ]
+  }
+}

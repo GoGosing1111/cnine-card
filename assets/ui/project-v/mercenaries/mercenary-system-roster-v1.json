@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
   "version": 11,
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-09-26",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
@@ -44,9 +44,9 @@
     ]
   },
   "summary": {
-    "total": 49,
-    "sourceArtReady": 49,
-    "battleSpriteReady": 49,
+    "total": 50,
+    "sourceArtReady": 50,
+    "battleSpriteReady": 50,
     "battleSpritePending": 0,
     "rankPending": 42
   },
@@ -1072,6 +1072,31 @@
         "y": 0.9170653907496013
       },
       "accent": "#75dcff"
+    },
+    {
+      "code": "V-050",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "저격 오리꿍",
+      "title": "후열의 명사수",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "최상위 원거리 저격",
+      "weapon": "에메랄드 대물저격총",
+      "outfit": "고글 헤드기어 · 사막색 전술복",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+      "sourceArtSha256": "6D5A5D58F2A85E1BCA8269508F6E69BAB56D3AD7F318FF471054B98DF3E3EF01",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-26",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-26-sniper-orikkung-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
+      "battleSpriteSha256": "0D2E682CED33B5D4C951E42E7D0E9D04F7BEA04BC66BBAB6ADA10CF8BB4EB266",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.40625,
+        "y": 0.9375
+      },
+      "accent": "#8ce5ba"
     }
   ]
 }

@@ -544,6 +544,17 @@
       "weakness": "첫 검격 회피 시 해당 대상의 후속 파열 취소",
       "rationale": "승인된 쌍검·광원과 한 행동 피해 예산을 사용하는 전열 SSS 용병",
       "rank": "SSS"
+    },
+    {
+      "code": "V-050",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "specialty": "원거리 최상위 단일 화력 · 적 후열 핵심 저격",
+      "weakness": "회피·보호막·호위에 대응되며 근접 기습과 제압에 취약",
+      "rationale": "사용자 지정 최강 원거리 포지션. 한 행동 대물 저격과 짧은 재사용 주기로 후열 위협을 제거한다."
     }
   ]
 }
