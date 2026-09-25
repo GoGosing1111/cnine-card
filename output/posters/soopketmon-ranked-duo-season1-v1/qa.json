@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-09-25T09:09:42.894Z",
+  "generator": "built-in image_gen",
+  "artifact": {
+    "file": "soopketmon-ranked-duo-season1-poster-v1.png",
+    "bytes": 3091797,
+    "width": 1024,
+    "height": 1536,
+    "sha256": "20f44833a28a3d2d88c4449e748d8c0a3ece664e8a50391b2a88ea51f49bff43"
+  },
+  "requestedCopy": [
+    "숲켓몬",
+    "랭크전(듀오)",
+    "시즌1",
+    "우리가 남이가",
+    "개막 예고"
+  ],
+  "visualReview": {
+    "koreanCopyCorrect": true,
+    "sloganProminent": true,
+    "twoAlliedAdults": true,
+    "cooperativeFistBump": true,
+    "facesAndHandsReadable": true,
+    "noClippedCopy": true,
+    "noInventedOpeningDate": true,
+    "noImportedFortressOrChuseokEventDetails": true
+  },
+  "references": [
+    {
+      "file": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "role": "painting quality reference only",
+      "sha256": "629564d768a4bcefcd0be746e744da49a64f1cf2be7d048e7485fc6cb14ff874"
+    },
+    {
+      "file": "assets/ui/ranked/ranked-arena-v1825.webp",
+      "role": "ranked arena atmosphere reference",
+      "sha256": "26498e201a221a855398cd9c3893b8cabe1d212558d6a6f4f33a5ad9a0b5ba53"
+    }
+  ],
+  "handling": "Native generated PNG copied without pixel editing, resizing or recompression."
+}
