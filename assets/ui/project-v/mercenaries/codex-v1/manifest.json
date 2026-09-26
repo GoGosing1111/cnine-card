@@ -1652,6 +1652,138 @@
       "source": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
       "sourceSha256": "0D2E682CED33B5D4C951E42E7D0E9D04F7BEA04BC66BBAB6ADA10CF8BB4EB266",
       "sha256": "2E5B9635BA874E074E7AFDAC81F681AC967AC1EAAC0F4AFD45E52CEDF244F83B"
+    },
+    {
+      "code": "V-051",
+      "kind": "art",
+      "file": "v-051-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 52034,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+      "sourceSha256": "E71F2341E03911F9633A958EA0AFB2110EB1AF961840256440CEC6162F0361F3",
+      "sha256": "EDD203B06E6E8CBF34166DCE3826DABD717F1D6DFA7930B476727CB406939687"
+    },
+    {
+      "code": "V-051",
+      "kind": "art",
+      "file": "v-051-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 139350,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+      "sourceSha256": "E71F2341E03911F9633A958EA0AFB2110EB1AF961840256440CEC6162F0361F3",
+      "sha256": "4A3AD4FD6280E4C65EFD737F9C24A45359C9470839F75414EB9C81DDB5577C47"
+    },
+    {
+      "code": "V-051",
+      "kind": "sd",
+      "file": "v-051-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 102760,
+      "source": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/diim-nurse-sd-v1.png",
+      "sourceSha256": "6F7E1361B343AF9F8D6A64A71888B5ED73F02A13A6E750BA060155B59B3E5F49",
+      "sha256": "A6F66C7A69FA464C24C90BD90773278C31ED724A035FF9C7C8E335DC9FB51D2C"
+    },
+    {
+      "code": "V-052",
+      "kind": "art",
+      "file": "v-052-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 54200,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png",
+      "sourceSha256": "67BC6A9961423BE7A379AC46BFD4AC004B53503C238A6D345E60AE58D327171B",
+      "sha256": "6E44E13C1365269F24E41574328AC4B44AF82588AFC7FABFA955EEDC2EC2F3FD"
+    },
+    {
+      "code": "V-052",
+      "kind": "art",
+      "file": "v-052-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 152338,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png",
+      "sourceSha256": "67BC6A9961423BE7A379AC46BFD4AC004B53503C238A6D345E60AE58D327171B",
+      "sha256": "616A1AD4F482EAA79F1FFE045120D3C04CA2D7311D67847E3447C6EA25F51084"
+    },
+    {
+      "code": "V-052",
+      "kind": "sd",
+      "file": "v-052-sd-640.webp",
+      "width": 640,
+      "height": 854,
+      "bytes": 136314,
+      "source": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/heeya-nurse-sd-v1.png",
+      "sourceSha256": "E5F147859B397239168285C720896FC43CFA1644FCC7D2F3BDAEC0C0325EC94B",
+      "sha256": "F22948F9F35FDF3040EC1D2D3F7292CBFA5919CBC86B5BEF8ACE4DBA1C5974D1"
+    },
+    {
+      "code": "V-053",
+      "kind": "art",
+      "file": "v-053-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 50552,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png",
+      "sourceSha256": "1A62F03FBB7C0C28E2E41725066DD6BF8C9D10F302F9F841A99EE68CEBCB1307",
+      "sha256": "567FD1BD3238A0388C4626E1F57C3462750B747ACF15C0B1933CC4D1341E078B"
+    },
+    {
+      "code": "V-053",
+      "kind": "art",
+      "file": "v-053-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 138094,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png",
+      "sourceSha256": "1A62F03FBB7C0C28E2E41725066DD6BF8C9D10F302F9F841A99EE68CEBCB1307",
+      "sha256": "E6DA23F8927884AEE7C718439D0B61FB44AE96780335C97EC381107921CC4283"
+    },
+    {
+      "code": "V-053",
+      "kind": "sd",
+      "file": "v-053-sd-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 82574,
+      "source": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/joeun-nurse-sd-v1.png",
+      "sourceSha256": "23921CF5969DF96C470C6B0EFCE24F6B10C3DA1DFD3957A14D3A4A016D47A826",
+      "sha256": "08D1A6FB676BF7E2F57C8EF0820203F7BBB681CA4B1E213B61D05BD93193E7DD"
+    },
+    {
+      "code": "V-054",
+      "kind": "art",
+      "file": "v-054-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 48850,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png",
+      "sourceSha256": "3969303830FCA578714DB6F47839FEE789BC0E64926F97BB20B56F8959D56CF5",
+      "sha256": "254767B19F7379FC056EF8793A7973BE2F8186A1B251D4F1A6C96384799028F0"
+    },
+    {
+      "code": "V-054",
+      "kind": "art",
+      "file": "v-054-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 133526,
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png",
+      "sourceSha256": "3969303830FCA578714DB6F47839FEE789BC0E64926F97BB20B56F8959D56CF5",
+      "sha256": "CFDA305EC8D9731FB260B496044F446649C4FD4832A266C21EECCD55A7DE6F9F"
+    },
+    {
+      "code": "V-054",
+      "kind": "sd",
+      "file": "v-054-sd-640.webp",
+      "width": 640,
+      "height": 849,
+      "bytes": 114720,
+      "source": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/bongsun-nurse-sd-v1.png",
+      "sourceSha256": "107189244DDD6EE368AA75B15459CAD9CD3FB6D68382863C59E9A984BABD0A5D",
+      "sha256": "0A05DB4E0F663C1C9D21B9372396789DCD955D66918E67B1CB4CA24D98EEC7A4"
     }
   ]
 }

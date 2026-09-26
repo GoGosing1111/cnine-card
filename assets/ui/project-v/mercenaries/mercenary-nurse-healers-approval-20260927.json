@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-27",
+  "status": "USER_APPROVED_LIVE",
+  "codes": [
+    "V-051",
+    "V-052",
+    "V-053",
+    "V-054"
+  ],
+  "names": [
+    "디임간호사",
+    "희야 간호사",
+    "조은 간호사",
+    "봉순 간호사"
+  ],
+  "rank": "SS",
+  "scope": "CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT",
+  "runtimeConnected": true,
+  "skillId": "MS-051",
+  "balance": {
+    "damageRatio": 3.2,
+    "cooldownTurns": 4,
+    "cost": 25
+  },
+  "basePower": 120000,
+  "sourceArtUnchanged": true,
+  "skillCount": 1,
+  "effectFrames": 16,
+  "request": "간호사 4명 일러스트 ss용병 힐러로 sd이미지랑 스킬 리소스 만들어 스킬은 한개만 만들어서 통일시켜 / 배포해",
+  "numericApproval": "공격력 320% 분배 · 4턴 · 자원 25",
+  "manifest": "preview/mercenary-nurse-healers-ss-v1/manifest.json",
+  "drawWeightPerNurse": 3,
+  "drawApproval": "간호사 4종은 균등 한 3정도로 놔 좀 덜나오게"
+}

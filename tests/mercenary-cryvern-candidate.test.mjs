@@ -42,10 +42,10 @@ test('offline public codex accepts exactly the untitled Cryvern and valid immuta
  invalid.cards.find(c=>c.code===CRYVERN_CODE).title='';invalid.cards[0].title='';assert.throws(()=>validateCatalog(invalid));
 });
 test('historical pre-Cryvern draft appends released skills without losing existing review edits',()=>{
- assert.equal(MERCENARY_SKILLS.length,33);
- const old=createSkillDraft();old.skills=old.skills.filter(s=>!['MS-049','MS-050'].includes(s.id));old.skills[0].note='기존 운영자 의견';
+ assert.equal(MERCENARY_SKILLS.length,34);
+ const old=createSkillDraft();old.skills=old.skills.filter(s=>!['MS-049','MS-050','MS-051'].includes(s.id));old.skills[0].note='기존 운영자 의견';
  const before=structuredClone(old),next=parseSkillDraft(JSON.stringify(old));
- assert.deepEqual(old,before);assert.deepEqual(next.skills.slice(0,-2),before.skills);assert.deepEqual(next.skills.slice(-2).map(s=>s.id),['MS-049','MS-050']);
+ assert.deepEqual(old,before);assert.deepEqual(next.skills.slice(0,-3),before.skills);assert.deepEqual(next.skills.slice(-3).map(s=>s.id),['MS-049','MS-050','MS-051']);
  assert.deepEqual(parseSkillDraft(JSON.stringify(next)),next);
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} activation: rare weighted SSS, idempotent receipt, ownership and separate mercenary slot`,async t=>{

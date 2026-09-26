@@ -1,4 +1,5 @@
 import {renderSSkill} from './RenderSSkill.js';
+import {sampleNurseSkill} from '../../mercenary-nurse-healers-ss-v1/skill.mjs';
 import {sampleRehearsal} from '../skill-rehearsal.mjs';
 import {sampleSequence} from './MercenarySpriteSequence.js';
 import {drawProjectileTrail,projectilePixelScale,projectileTrailGeometry} from '../../project-v-v3/source/battle/ProjectileTrail.mjs';
@@ -86,6 +87,13 @@ export function renderAuthored(fx,time){
   const phase=(e,i)=>e.phaseIndex??i;
   const atPhase=index=>!fx.authoritative||plan.effectPhase===index;
   switch(mode){
+    case 'WHITE_OATH_GROUP_HEAL':{
+      const frame=sampleNurseSkill(time);if(!frame.visible)break;
+      fx.activeFrames.push({index:frame.index,next:frame.next,blend:frame.blend});
+      for(const id of plan.targets){const a=actors.get(id);if(!a||states.get(id)?.hp<=0)continue;const foot=point(id,true),size=engine.mobile?145:180,p={x:foot.x,y:foot.y-(a.fullBodyHeight||260)*a.root.scale.y*.2};
+        draw(sequence.frames[frame.index],p,size,{alpha:frame.alpha,anchorY:.62});
+        draw(sequence.frames[frame.next],p,size,{alpha:frame.alpha*frame.blend,anchorY:.62});
+      }break;}
     case 'EMERALD_ANTIMATERIEL':
       aim(point(target),.52,42);
       hits.forEach(e=>{trace(muzzle(),point(e.targets[0]),e.at,{travel:.08,width:3.4});impact(e.targets[0],e.at,{size:330,lead:.08,life:1.5,particles:14});});break;

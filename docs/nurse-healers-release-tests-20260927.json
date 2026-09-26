@@ -1,0 +1,23 @@
+[
+  "tests/mercenary-nurse-healers-live.test.mjs",
+  "preview/mercenary-nurse-healers-ss-v1/qa.test.mjs",
+  "tests/mercenary-cms-live-v1.test.mjs",
+  "tests/mercenary-skills-v1.test.mjs",
+  "tests/mercenary-s-skills-v3.test.mjs",
+  "tests/mercenary-draw-weighted-v1.test.mjs",
+  "tests/mercenary-draw-cms-v1.test.mjs",
+  "tests/mercenary-combat-v3.test.mjs",
+  "tests/mercenary-account-v3.test.mjs",
+  "tests/mercenary-skill-balance-v2097.test.mjs",
+  "tests/mercenary-sniper-orikkung-live.test.mjs",
+  "tests/mercenary-sniper-orikkung-rarity.test.mjs",
+  "tests/mercenary-art-release-v2116.test.mjs",
+  "tests/mercenary-codex-preview-v1.test.mjs",
+  "tests/mercenary-codex-public-v2061.test.mjs",
+  "tests/mercenary-codex-live-v2098.test.mjs",
+  "tests/mercenary-four-looks-catalog-v2062.test.mjs",
+  "tests/project-v-mercenary-system-v1.mjs",
+  "tests/mercenary-cryvern-candidate.test.mjs",
+  "tests/pve-battlefield-entry-v2117.test.mjs",
+  "tests/project-v-v3-live-payload-v1.mjs"
+]

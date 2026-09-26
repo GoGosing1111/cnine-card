@@ -1,4 +1,5 @@
 import {CRYVERN_CODE,CRYVERN_SKILL_ID} from './mercenary-cryvern-v1.mjs';
+import {NURSE_CODES,NURSE_SKILL_ID} from './mercenary-nurse-healers-v1.mjs';
 import {S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
 import {HEEYA_CODE,HEEYA_SKILL_ID} from './mercenary-hi-heeya-v2118.mjs';
 import {MANGISA_CODE,MANGISA_SKILL_ID} from './mercenary-mangisa-v1.mjs';
@@ -79,6 +80,14 @@ export function validateMercenaryCms(d, catalog) {
 // without rewriting stored ranks, names, costs, reviews or explicit assignments.
 // Only the exact previous complete catalog is eligible, never a partial draft.
 export function expandMercenarySkillCatalog(document, defaults, catalog) {
+  if(catalog.cards.some(c=>NURSE_CODES.includes(c.code))&&!document?.mercenaries?.some(c=>NURSE_CODES.includes(c.code))){
+    const previousCatalog={...catalog,cards:catalog.cards.filter(c=>!NURSE_CODES.includes(c.code)),skills:catalog.skills.filter(s=>s.id!==NURSE_SKILL_ID)};
+    const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);
+    return validateMercenaryCms({...previous,
+      mercenaries:[...previous.mercenaries,...structuredClone(defaults.mercenaries.filter(c=>NURSE_CODES.includes(c.code)))],
+      skills:[...previous.skills,structuredClone(defaults.skills.find(s=>s.id===NURSE_SKILL_ID))],
+      assignments:[...previous.assignments,...structuredClone(defaults.assignments.filter(c=>NURSE_CODES.includes(c.code)))]},catalog);
+  }
   if(catalog.cards.some(c=>c.code==='V-050')&&!document?.mercenaries?.some(c=>c.code==='V-050')){
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!=='V-050'),skills:catalog.skills.filter(s=>s.id!=='MS-050')};
     const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);

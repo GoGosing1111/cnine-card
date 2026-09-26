@@ -40,9 +40,9 @@ for(const c of concepts){
  assert.ok(sd.meta.hasAlpha);assert.ok(alpha.clear>.4&&alpha.solid>.2,'SD must have clear background and opaque body');assert.ok(alpha.edgeMax<=5,'SD touches the canvas boundary');
  const preview='assets/'+c.id+'-preview.webp';await sharp(art.bytes).resize({width:720,withoutEnlargement:true}).webp({quality:90,effort:5}).toFile(root+preview);
  cards.push({...c,rank:'SS',rankStatus:'USER_ASSIGNED_RANK',nameStatus:'USER_ASSIGNED_NAME',role:'HEALER',roleLabel:'힐러',roleStatus:'USER_ASSIGNED_ROLE',
-  codeStatus:'PREVIEW_ONLY_PROVISIONAL',runtimeEnabled:false,skillIds:[NURSE_SKILL.id],
+  codeStatus:'REGISTERED_LIVE',runtimeEnabled:true,skillIds:[NURSE_SKILL.id],
   sourceArt:prefix+artFile,sourceArtSha256:art.sha256,sourceArtSize:[art.meta.width,art.meta.height],sourceArtStatus:'USER_SUPPLIED_SOURCE_ART',previewArt:prefix+preview,
-  battleSprite:prefix+sdFile,battleSpriteSha256:sd.sha256,battleSpriteStatus:'TECH_QA_COMPLETE_USER_REVIEW_PENDING',battleSpriteFootAnchor:alpha.footAnchor,battleSpriteInfo:alpha});
+  battleSprite:prefix+sdFile,battleSpriteSha256:sd.sha256,battleSpriteStatus:'TECH_QA_COMPLETE_USER_REQUESTED_LIVE',battleSpriteFootAnchor:alpha.footAnchor,battleSpriteInfo:alpha});
 }
 const source='assets/white-oath-sequence-v1.png',sheet=await readImage(source);
 assert.ok(sheet.meta.hasAlpha&&sheet.meta.width===sheet.meta.height&&sheet.meta.width>=1024);
@@ -64,12 +64,12 @@ const packed=Buffer.alloc(cell*4*cell*4*4);
 for(const tile of tiles)for(let y=0;y<cell;y++)tile.data.copy(packed,((tile.top+y)*cell*4+tile.left)*4,y*cell*4,(y+1)*cell*4);
 const atlas=await sharp(packed,{raw:{width:cell*4,height:cell*4,channels:4}}).webp({lossless:true,effort:6}).toBuffer();
 await fs.writeFile(root+'assets/skill/atlas-v1.webp',atlas);
-const manifest={format:'PROJECT_V_NURSE_HEALERS_RESOURCE_PACK_V1',version:1,date:'2026-09-27',status:'TECH_QA_COMPLETE_USER_REVIEW_PENDING',runtimeEnabled:false,
+const manifest={format:'PROJECT_V_NURSE_HEALERS_RESOURCE_PACK_V1',version:1,date:'2026-09-27',status:'TECH_QA_COMPLETE_USER_REQUESTED_LIVE',runtimeEnabled:true,
  authorization:'간호사 4명 · SS 용병 힐러 · 원화/SD · 네 명에 동일 스킬 1종 제작',cards,
  skill:{...NURSE_SKILL,source:prefix+source,sourceSha256:sheet.sha256,sourceSize:[sheet.meta.width,sheet.meta.height],atlas:prefix+'assets/skill/atlas-v1.webp',atlasSha256:hash(atlas),cellSize:cell,frameCount:16,columns:4,rows:4,frames,
-  approval:'USER_REVIEW_PENDING',assignment:{authority:'USER_REQUEST',cards:cards.map(c=>c.code)},audio:'SILENT_VISUAL_RESOURCE_PREVIEW'},
+  approval:'USER_APPROVED_LIVE',assignment:{authority:'USER_REQUEST',cards:cards.map(c=>c.code)},audio:'SILENT_VISUAL_RESOURCE_PREVIEW'},
  renderer:{pixi:'8.20.0',gsap:'3.13.0',sharedEngine:'preview/project-v-v3/source/project-v-pixi-battle.src.js',implementation:prefix+'source/NurseHealFX.js',clock:'V3_REGISTERED_GSAP',layers:['EXISTING_V3_EFFECT_LAYER','EXISTING_V3_COMBAT_GROUND_LAYER'],automaticSpritePlayback:false},
  processing:'User-supplied source art and native generated SD/sequence PNG bytes preserved. SD alpha preserved. Exact grid extraction with <=1px transparent padding and lossless WebP atlas encoding. No synthetic intermediate frames.',
- balance:{healCoefficient:null,cooldown:null,acquisition:null},liveCatalogChanged:false};
+ balance:{healCoefficient:3.2,cooldown:4,cost:25,acquisition:"HYPER_PACK_SS"},liveCatalogChanged:true};
 await fs.writeFile(root+'manifest.json',JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify({cards:cards.map(c=>({name:c.name,rank:c.rank,alpha:c.battleSpriteInfo.clear,anchor:c.battleSpriteFootAnchor})),skills:1,frames:16,cell},null,2));

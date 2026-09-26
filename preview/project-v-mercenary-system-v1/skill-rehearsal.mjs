@@ -75,6 +75,11 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   }
   mark(0, skill.steps[0], targets, 'WINDUP');
   switch (skill.mechanic) {
+    case 'WHITE_OATH_GROUP_HEAL':{
+      if(counter){mark(.4,'침묵 상태: 백의의 맹세 취소',['M'],'CANCEL');break;}
+      const share=Math.floor(source.attack*3.2/targets.length);
+      for(const id of targets){const a=get(id),amount=Math.min(a.maxHp-a.hp,share);add(.88,'HEAL','백의의 맹세: 총 회복량 균등 분배',[id],{[id]:{hp:a.hp+amount}},{amount});}
+      break;}
     case 'EMERALD_ANTIMATERIEL':
       if(counter){mark(.35,'제압 상태: 대물 저격 취소',['M'],'CANCEL');break;}
       hit(skill.visual.impacts[0],t,48,'에메랄드 대물탄 단일 충돌',{phaseIndex:0});break;

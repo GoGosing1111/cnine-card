@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
   "version": 11,
-  "updatedAt": "2026-09-26",
+  "updatedAt": "2026-09-27",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
@@ -44,9 +44,9 @@
     ]
   },
   "summary": {
-    "total": 50,
-    "sourceArtReady": 50,
-    "battleSpriteReady": 50,
+    "total": 54,
+    "sourceArtReady": 54,
+    "battleSpriteReady": 54,
     "battleSpritePending": 0,
     "rankPending": 42
   },
@@ -1097,6 +1097,106 @@
         "y": 0.9375
       },
       "accent": "#8ce5ba"
+    },
+    {
+      "code": "V-051",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "디임간호사",
+      "title": "백의의 치유사",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "후열 힐러",
+      "weapon": "치유 도구",
+      "outfit": "검은 긴 머리와 올리브색 장식의 백색 간호복. 붕대를 준비하며 동료의 회복을 돕습니다.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+      "sourceArtSha256": "E71F2341E03911F9633A958EA0AFB2110EB1AF961840256440CEC6162F0361F3",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-27",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-27-nurse-healers-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/diim-nurse-sd-v1.png",
+      "battleSpriteSha256": "6F7E1361B343AF9F8D6A64A71888B5ED73F02A13A6E750BA060155B59B3E5F49",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.57763671875,
+        "y": 0.982421875
+      },
+      "accent": "#bacda4"
+    },
+    {
+      "code": "V-052",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "희야 간호사",
+      "title": "백의의 치유사",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "후열 힐러",
+      "weapon": "치유 도구",
+      "outfit": "라벤더색 간호복과 치료 가방. 손끝에 치유의 빛을 모아 동료에게 전합니다.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png",
+      "sourceArtSha256": "67BC6A9961423BE7A379AC46BFD4AC004B53503C238A6D345E60AE58D327171B",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-27",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-27-nurse-healers-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/heeya-nurse-sd-v1.png",
+      "battleSpriteSha256": "E5F147859B397239168285C720896FC43CFA1644FCC7D2F3BDAEC0C0325EC94B",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.5317679558011049,
+        "y": 0.9848171152518979
+      },
+      "accent": "#c4b3e4"
+    },
+    {
+      "code": "V-053",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "조은 간호사",
+      "title": "백의의 치유사",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "후열 힐러",
+      "weapon": "치유 도구",
+      "outfit": "푸른 청진기와 휴대 치료 코어. 차분하게 상태를 살피고 회복을 지원합니다.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png",
+      "sourceArtSha256": "1A62F03FBB7C0C28E2E41725066DD6BF8C9D10F302F9F841A99EE68CEBCB1307",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-27",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-27-nurse-healers-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/joeun-nurse-sd-v1.png",
+      "battleSpriteSha256": "23921CF5969DF96C470C6B0EFCE24F6B10C3DA1DFD3957A14D3A4A016D47A826",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.509765625,
+        "y": 0.95703125
+      },
+      "accent": "#91b6eb"
+    },
+    {
+      "code": "V-054",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "봉순 간호사",
+      "title": "백의의 치유사",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "후열 힐러",
+      "weapon": "치유 도구",
+      "outfit": "붉은 장식의 간호복과 약병, 치료 가방. 따뜻한 치유의 빛으로 동료를 돌봅니다.",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png",
+      "sourceArtSha256": "3969303830FCA578714DB6F47839FEE789BC0E64926F97BB20B56F8959D56CF5",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-09-27",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-09-27-nurse-healers-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/bongsun-nurse-sd-v1.png",
+      "battleSpriteSha256": "107189244DDD6EE368AA75B15459CAD9CD3FB6D68382863C59E9A984BABD0A5D",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.5422405876951332,
+        "y": 0.9695501730103806
+      },
+      "accent": "#e4a798"
     }
   ]
 }

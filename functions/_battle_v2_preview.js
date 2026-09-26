@@ -1311,7 +1311,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     const enemyTeam = actor.side === 'A' ? b : a;
     if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,knockout:t=>resolveKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data)}))continue;
-    if(!independentAction&&mercenaryRuntime?.beforeAction(actor))continue;
+    if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
     const healerTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'

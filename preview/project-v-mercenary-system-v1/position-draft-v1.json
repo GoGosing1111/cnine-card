@@ -555,6 +555,50 @@
       "specialty": "원거리 최상위 단일 화력 · 적 후열 핵심 저격",
       "weakness": "회피·보호막·호위에 대응되며 근접 기습과 제압에 취약",
       "rationale": "사용자 지정 최강 원거리 포지션. 한 행동 대물 저격과 짧은 재사용 주기로 후열 위협을 제거한다."
+    },
+    {
+      "code": "V-051",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "specialty": "생존 아군 전체 회복",
+      "weakness": "회복 억제와 기절·침묵에 취약",
+      "rationale": "후열에서 백의의 맹세로 총 회복량을 생존 아군에게 균등 분배한다."
+    },
+    {
+      "code": "V-052",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "specialty": "생존 아군 전체 회복",
+      "weakness": "회복 억제와 기절·침묵에 취약",
+      "rationale": "후열에서 백의의 맹세로 총 회복량을 생존 아군에게 균등 분배한다."
+    },
+    {
+      "code": "V-053",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "specialty": "생존 아군 전체 회복",
+      "weakness": "회복 억제와 기절·침묵에 취약",
+      "rationale": "후열에서 백의의 맹세로 총 회복량을 생존 아군에게 균등 분배한다."
+    },
+    {
+      "code": "V-054",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "specialty": "생존 아군 전체 회복",
+      "weakness": "회복 억제와 기절·침묵에 취약",
+      "rationale": "후열에서 백의의 맹세로 총 회복량을 생존 아군에게 균등 분배한다."
     }
   ]
 }

@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260926-z-lightning-area-v3-sniper-orikkung-hunt15m-fx20260927';
+  const BATTLE_RUNTIME = '20260927-nurse-healers-white-oath';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
@@ -861,7 +861,7 @@
     const safePlayEvents = (events, message) => withTimeout(
       Promise.resolve(root.ProjectVPixiBattle.playEvents(events)).then(() => true),
       events.some(event => event.type === 'MERCENARY_JUDGMENT' && event.mechanic === 'PLATINUM_SANCTUARY' || event.type === 'MERCENARY_CRYSTAL_CROWN' && event.mechanic === 'CRYSTAL_CROWN') ? 9000 :
-      events.some(event => event.type === 'MERCENARY_COMBO' && event.mechanic === 'BLACK_MOON_TRIPLE_SEVER' || event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000,
+      events.some(event => event.type === 'MERCENARY_GROUP_HEAL' && event.mechanic === 'WHITE_OATH_GROUP_HEAL' || event.type === 'MERCENARY_COMBO' && event.mechanic === 'BLACK_MOON_TRIPLE_SEVER' || event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000,
       message,
       { fallback: false, onFailure: () => recoverPlayback(message) }
     );

@@ -1,7 +1,7 @@
 export const NURSE_SKILL=Object.freeze({
- id:'NURSE_WHITE_OATH',name:'백의의 맹세',role:'HEALER',runtimeEnabled:false,
+ id:'MS-051',name:'백의의 맹세',role:'HEALER',runtimeEnabled:true,
  description:'치유의 빛을 모아 아군에게 펼치는 공통 회복 스킬.',
- targetConcept:'ALL_ALLIES',healCoefficient:null,cooldown:null,
+ targetConcept:'ALL_ALLIES',healCoefficient:3.2,cooldown:4,cost:25,
  duration:2.6,contactAt:.88,contactFrame:7,
  frameKeys:Object.freeze([[.14,0],[.48,3],[.72,5],[.88,7],[1.16,9],[1.52,11],[1.94,13],[2.4,15]])
 });

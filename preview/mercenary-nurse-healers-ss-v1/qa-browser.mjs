@@ -49,7 +49,7 @@ try{
   const disposed=await page.evaluate(()=>{const p=window.NurseHealerPreview;p.dispose();return p.diagnostics()});
   results.push({name,frameUrl,overflow,errors,failed,selected,frames,speeds,restarted,stopped,disposed});
   assert.equal(errors.length,0);assert.equal(failed.length,0);assert.equal(overflow.scroll,overflow.client);
-  assert.ok(selected.every(s=>s.skillId==='NURSE_WHITE_OATH'&&s.regularCards===5&&!s.mercenaryInRegularArray&&s.canvasCount===1));
+  assert.ok(selected.every(s=>s.skillId==='MS-051'&&s.regularCards===5&&!s.mercenaryInRegularArray&&s.canvasCount===1));
   assert.equal(frames.find(s=>s.time===.88).activeFrame,7);assert.equal(frames.at(-1).visibleSprites,0);
   assert.ok(speeds.every(s=>s.pauseStable&&s.elapsed>0&&Math.abs(s.elapsed-s.wall*s.speed)<.18));
   assert.ok(restarted.playing);assert.equal(stopped.visibleSprites,0);assert.equal(stopped.ownedTimelines,0);assert.equal(stopped.registeredTimelines,0);

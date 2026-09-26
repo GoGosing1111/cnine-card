@@ -57,6 +57,9 @@
     "preview/project-v-mercenary-system-v1/skill-audio-v1.json",
     "preview/project-v-mercenary-system-v1/source/MercenarySkillAudio.js",
     "preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js",
+    "preview/mercenary-nurse-healers-ss-v1/skill.mjs",
+    "preview/mercenary-nurse-healers-ss-v1/source/NurseHealFX.js",
+    "preview/project-v-v3/source/battle/NurseHealCombatPlayback.js",
     "shared/mercenary-cryvern-v1.mjs",
     "preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs",
     "preview/mercenary-ice-crystal-dual-sword-v1/source/CueAudio.js",
@@ -70,6 +73,7 @@
     "preview/mercenary-bikini-joeun-v1/source/BikiniJoeunSkillFX.js",
     "preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js",
     "js/project-v-mercenary-battle-art-adapter-v1.js",
+    "shared/mercenary-nurse-healers-v1.mjs",
     "shared/mercenary-s-skills-v2.mjs",
     "shared/mercenary-hi-heeya-v2118.mjs",
     "shared/mercenary-mangisa-v1.mjs",
@@ -97,5 +101,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1295034
+  "outputBytes": 1303684
 }

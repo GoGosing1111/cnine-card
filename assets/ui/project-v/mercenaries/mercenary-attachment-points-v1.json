@@ -854,6 +854,74 @@
         "x": 0.45,
         "y": 0.53
       }
+    },
+    "V-051": {
+      "battleSpriteSha256": "6F7E1361B343AF9F8D6A64A71888B5ED73F02A13A6E750BA060155B59B3E5F49",
+      "weaponKind": "STAFF",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "cast": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.62
+      }
+    },
+    "V-052": {
+      "battleSpriteSha256": "E5F147859B397239168285C720896FC43CFA1644FCC7D2F3BDAEC0C0325EC94B",
+      "weaponKind": "STAFF",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "cast": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.62
+      }
+    },
+    "V-053": {
+      "battleSpriteSha256": "23921CF5969DF96C470C6B0EFCE24F6B10C3DA1DFD3957A14D3A4A016D47A826",
+      "weaponKind": "STAFF",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "cast": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.62
+      }
+    },
+    "V-054": {
+      "battleSpriteSha256": "107189244DDD6EE368AA75B15459CAD9CD3FB6D68382863C59E9A984BABD0A5D",
+      "weaponKind": "STAFF",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "cast": {
+        "x": 0.56,
+        "y": 0.6
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.62
+      }
     }
   }
 }

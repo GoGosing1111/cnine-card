@@ -8,10 +8,10 @@ import {createMercenaryBattleArtAdapter} from '../../js/project-v-mercenary-batt
 const manifest=JSON.parse(await fs.readFile(new URL('manifest.json',import.meta.url),'utf8'));
 const userSources=JSON.parse(await fs.readFile(new URL('user-sources.json',import.meta.url),'utf8'));
 const project=new URL('../../',import.meta.url),hash=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
-test('four user-assigned SS healers reference exactly one shared skill and remain outside live gameplay',()=>{
- assert.equal(manifest.cards.length,4);assert.equal(new Set(manifest.cards.map(c=>c.code)).size,4);assert.equal(manifest.runtimeEnabled,false);assert.equal(manifest.liveCatalogChanged,false);
- for(const c of manifest.cards){assert.equal(c.rank,'SS');assert.equal(c.role,'HEALER');assert.equal(c.rankStatus,'USER_ASSIGNED_RANK');assert.deepEqual(c.skillIds,[NURSE_SKILL.id]);assert.equal(c.runtimeEnabled,false);assert.equal(c.sourceArtStatus,'USER_SUPPLIED_SOURCE_ART');assert.equal(c.nameStatus,'USER_ASSIGNED_NAME');}
- assert.equal(manifest.skill.healCoefficient,null);assert.equal(manifest.skill.cooldown,null);assert.deepEqual(manifest.skill.assignment.cards,manifest.cards.map(c=>c.code));
+test('four user-assigned SS healers reference exactly one shared skill with approved live balance',()=>{
+ assert.equal(manifest.cards.length,4);assert.equal(new Set(manifest.cards.map(c=>c.code)).size,4);assert.equal(manifest.runtimeEnabled,true);assert.equal(manifest.liveCatalogChanged,true);
+ for(const c of manifest.cards){assert.equal(c.rank,'SS');assert.equal(c.role,'HEALER');assert.equal(c.rankStatus,'USER_ASSIGNED_RANK');assert.deepEqual(c.skillIds,[NURSE_SKILL.id]);assert.equal(c.runtimeEnabled,true);assert.equal(c.sourceArtStatus,'USER_SUPPLIED_SOURCE_ART');assert.equal(c.nameStatus,'USER_ASSIGNED_NAME');}
+ assert.equal(manifest.skill.healCoefficient,3.2);assert.equal(manifest.skill.cooldown,4);assert.deepEqual(manifest.skill.assignment.cards,manifest.cards.map(c=>c.code));
 });
 test('native RGB portraits, real transparent SD and consumer separation are preserved',async()=>{
  const adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:4,battleSpritePending:0},cards:manifest.cards});

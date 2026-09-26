@@ -2,9 +2,9 @@
   "format": "PROJECT_V_NURSE_HEALERS_RESOURCE_PACK_V1",
   "version": 1,
   "date": "2026-09-27",
-  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
-  "runtimeEnabled": false,
-  "authorization": "간호사 4명 · SS 용병 힐러 · 원화/SD · 네 명에 동일 스킬 1종 제작",
+  "status": "USER_APPROVED_LIVE",
+  "runtimeEnabled": true,
+  "authorization": "SS 힐러 4명 · 단일 공통 스킬 · 배포 지시 및 320% 분배·4턴·자원25 승인",
   "cards": [
     {
       "id": "diim-nurse",
@@ -18,10 +18,10 @@
       "role": "HEALER",
       "roleLabel": "힐러",
       "roleStatus": "USER_ASSIGNED_ROLE",
-      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
-      "runtimeEnabled": false,
+      "codeStatus": "REGISTERED_LIVE",
+      "runtimeEnabled": true,
       "skillIds": [
-        "NURSE_WHITE_OATH"
+        "MS-051"
       ],
       "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/diim-nurse-source-art-v1.png",
       "sourceArtSha256": "E71F2341E03911F9633A958EA0AFB2110EB1AF961840256440CEC6162F0361F3",
@@ -33,7 +33,7 @@
       "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/diim-nurse-preview.webp",
       "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/diim-nurse-sd-v1.png",
       "battleSpriteSha256": "6F7E1361B343AF9F8D6A64A71888B5ED73F02A13A6E750BA060155B59B3E5F49",
-      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
       "battleSpriteFootAnchor": {
         "x": 0.57763671875,
         "y": 0.982421875
@@ -68,10 +68,10 @@
       "role": "HEALER",
       "roleLabel": "힐러",
       "roleStatus": "USER_ASSIGNED_ROLE",
-      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
-      "runtimeEnabled": false,
+      "codeStatus": "REGISTERED_LIVE",
+      "runtimeEnabled": true,
       "skillIds": [
-        "NURSE_WHITE_OATH"
+        "MS-051"
       ],
       "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/heeya-nurse-source-art-v1.png",
       "sourceArtSha256": "67BC6A9961423BE7A379AC46BFD4AC004B53503C238A6D345E60AE58D327171B",
@@ -83,7 +83,7 @@
       "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/heeya-nurse-preview.webp",
       "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/heeya-nurse-sd-v1.png",
       "battleSpriteSha256": "E5F147859B397239168285C720896FC43CFA1644FCC7D2F3BDAEC0C0325EC94B",
-      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
       "battleSpriteFootAnchor": {
         "x": 0.5317679558011049,
         "y": 0.9848171152518979
@@ -118,10 +118,10 @@
       "role": "HEALER",
       "roleLabel": "힐러",
       "roleStatus": "USER_ASSIGNED_ROLE",
-      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
-      "runtimeEnabled": false,
+      "codeStatus": "REGISTERED_LIVE",
+      "runtimeEnabled": true,
       "skillIds": [
-        "NURSE_WHITE_OATH"
+        "MS-051"
       ],
       "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/joeun-nurse-source-art-v1.png",
       "sourceArtSha256": "1A62F03FBB7C0C28E2E41725066DD6BF8C9D10F302F9F841A99EE68CEBCB1307",
@@ -133,7 +133,7 @@
       "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/joeun-nurse-preview.webp",
       "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/joeun-nurse-sd-v1.png",
       "battleSpriteSha256": "23921CF5969DF96C470C6B0EFCE24F6B10C3DA1DFD3957A14D3A4A016D47A826",
-      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
       "battleSpriteFootAnchor": {
         "x": 0.509765625,
         "y": 0.95703125
@@ -168,10 +168,10 @@
       "role": "HEALER",
       "roleLabel": "힐러",
       "roleStatus": "USER_ASSIGNED_ROLE",
-      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
-      "runtimeEnabled": false,
+      "codeStatus": "REGISTERED_LIVE",
+      "runtimeEnabled": true,
       "skillIds": [
-        "NURSE_WHITE_OATH"
+        "MS-051"
       ],
       "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/bongsun-nurse-source-art-v1.png",
       "sourceArtSha256": "3969303830FCA578714DB6F47839FEE789BC0E64926F97BB20B56F8959D56CF5",
@@ -183,7 +183,7 @@
       "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/bongsun-nurse-preview.webp",
       "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/bongsun-nurse-sd-v1.png",
       "battleSpriteSha256": "107189244DDD6EE368AA75B15459CAD9CD3FB6D68382863C59E9A984BABD0A5D",
-      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
       "battleSpriteFootAnchor": {
         "x": 0.5422405876951332,
         "y": 0.9695501730103806
@@ -208,14 +208,14 @@
     }
   ],
   "skill": {
-    "id": "NURSE_WHITE_OATH",
+    "id": "MS-051",
     "name": "백의의 맹세",
     "role": "HEALER",
-    "runtimeEnabled": false,
+    "runtimeEnabled": true,
     "description": "치유의 빛을 모아 아군에게 펼치는 공통 회복 스킬.",
     "targetConcept": "ALL_ALLIES",
-    "healCoefficient": null,
-    "cooldown": null,
+    "healCoefficient": 3.2,
+    "cooldown": 4,
     "duration": 2.6,
     "contactAt": 0.88,
     "contactFrame": 7,
@@ -587,7 +587,7 @@
         }
       }
     ],
-    "approval": "USER_REVIEW_PENDING",
+    "approval": "USER_APPROVED_LIVE",
     "assignment": {
       "authority": "USER_REQUEST",
       "cards": [
@@ -597,7 +597,8 @@
         "V-054"
       ]
     },
-    "audio": "SILENT_VISUAL_RESOURCE_PREVIEW"
+    "audio": "SILENT_VISUAL_RESOURCE_PREVIEW",
+    "cost": 25
   },
   "renderer": {
     "pixi": "8.20.0",
@@ -613,9 +614,10 @@
   },
   "processing": "User-supplied source art and native generated SD/sequence PNG bytes preserved. SD alpha preserved. Exact grid extraction with <=1px transparent padding and lossless WebP atlas encoding. No synthetic intermediate frames.",
   "balance": {
-    "healCoefficient": null,
-    "cooldown": null,
-    "acquisition": null
+    "healCoefficient": 3.2,
+    "cooldown": 4,
+    "cost": 25,
+    "acquisition": "HYPER_PACK_SS"
   },
-  "liveCatalogChanged": false
+  "liveCatalogChanged": true
 }

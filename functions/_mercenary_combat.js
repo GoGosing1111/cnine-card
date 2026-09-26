@@ -88,7 +88,7 @@ export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
 }
 // 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
 // 그 행동이 통째로 손해가 되어, 스킬을 쓸수록 약해지는 역전이 생긴다.
-const MERCENARY_SUPPORT_MECHANICS=new Set(['INTERCEPT_ONE_HIT','FRONT_STAND_FAST','MELEE_PARRY_RIPOSTE','NEXT_BASIC_ORDER','FRONT_SHARED_BARRIER','FRONT_OFFENSE_VEIL','CLEANSE_THEN_MEND']);
+const MERCENARY_SUPPORT_MECHANICS=new Set(['INTERCEPT_ONE_HIT','FRONT_STAND_FAST','MELEE_PARRY_RIPOSTE','NEXT_BASIC_ORDER','FRONT_SHARED_BARRIER','FRONT_OFFENSE_VEIL','CLEANSE_THEN_MEND','WHITE_OATH_GROUP_HEAL']);
 export const isMercenarySupportSkill=skill=>MERCENARY_SUPPORT_MECHANICS.has(skill?.mechanic);
 export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(!snapshot)return null;
@@ -126,6 +126,10 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(s.mechanic==='GOLDEN_ORCHID_VOLLEY'){const primary=fr[0];return primary?[primary,...en.filter(t=>t!==primary).slice(0,2)]:[];}
   if(isMercenaryGuardSkill(s))return [weakest(friends.filter(t=>t.id!==a.id&&!activeIntercept(t)))].filter(Boolean);
   if(s.mechanic==='CLEANSE_THEN_MEND')return [weakest(friends)].filter(Boolean);
+  if(s.mechanic==='WHITE_OATH_GROUP_HEAL'){
+   const allies=friends.filter(t=>!t.isMonster&&t.actorKind!=='BATTLE_SUIT'&&t.id!=='ESCORT_OBJECTIVE'&&!t.isEscortObjective);
+   return allies.some(t=>t.hp<t.maxHp)?allies:[];
+  }
   if(s.mechanic==='MELEE_PARRY_RIPOSTE')return [a];
   if(['FRONT_SHARED_BARRIER','FRONT_STAND_FAST'].includes(s.mechanic))return front(friends);
   if(s.mechanic==='NEXT_BASIC_ORDER')return friends.filter(t=>!t.isMonster);
@@ -217,6 +221,18 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   case 'WHITE_OATH_GROUP_HEAL':{
+    // A single cast owns one budget, including full-HP allies. Lost/overheal
+    // shares are discarded, never copied or redistributed to another actor.
+    const budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio),share=Math.floor(budget/p.targets.length);
+    const heals=ts.map(t=>{
+     const reduction=Math.max(0,Math.min(100,Number(t.healingReductionPercent)||0));
+     const amount=Math.max(0,Math.min(t.maxHp-t.hp,apocalypseHealing(t,Math.floor(share*(1-reduction/100)))));
+     t.hp+=amount;a.healingDone+=amount;
+     return {targetId:t.id,amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp};
+    });
+    send(a,s,'GROUP_HEAL',null,{targetIds:heals.map(h=>h.targetId),heals,budget,amount:heals.reduce((n,h)=>n+h.amount,0)});
+    finish(a,s);break;}
    case 'BLACK_MOON_TRIPLE_SEVER':{
     const damageScale=offensiveSkillScale(a,s);
     resolveHeukwolCombo({actor:a,skill:s,target:ts[0],hit,damage:(t,n)=>damage(t,interceptDamage(a,t,n)),knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
@@ -294,7 +310,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
  }
  for(const a of all()){a.openingAttack=mercenaryEffectiveAttack(a);if(a.isMercenary)state(a);}
  return {
-  beforeAction(a){
+  beforeAction(a,{healingAllowed=true}={}){
    for(const actor of all())if(!living(actor)&&state(actor).pending)cancel(actor,'CASTER_LOST');
    const d=table(debuffs,a),st=state(a),b=table(buffs,a);
    for(const key of ['thorn','oath'])if(d[key]&&a.actions>=d[key].expires)delete d[key];
@@ -307,6 +323,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    if(a.stunned||a.silenced){if(st.pending)cancel(a,'CONTROLLED');return Boolean(a.stunned);}
    if(st.pending){if(a.silenced||a.stunned){cancel(a,'CONTROLLED');return true;}st.cancelled=false;if(a.actions>=st.pending.due){if(isRangedMercenarySkill(a,st.pending.skill))resolveRanged(a,st.pending);else resolve(a,st.pending);}return !st.cancelled;}
    const skills=a.skills||[];for(let i=0;i<skills.length;i++){const index=(st.nextIndex+i)%skills.length,s=skills[index],ranged=isRangedMercenarySkill(a,s);if(st.cooldown.get(s.id)>a.actions||st.energy<s.balance.cost||s.mechanic==='UNDISTURBED_FIRST_SHOT'&&st.used.has(s.id))continue;
+    if(s.mechanic==='WHITE_OATH_GROUP_HEAL'&&!healingAllowed)continue;
     if(isMercenaryGuardSkill(s)&&friendly(a).some(t=>activeIntercept(t)?.actor.id===a.id))continue;
     const selected=targets(a,s);if(!selected.length)continue;
     st.energy-=s.balance.cost;st.cooldown.set(s.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.used.add(s.id);st.nextIndex=(index+1)%skills.length;st.pending={skill:s,targets:selected.map(t=>t.id),due:a.actions+a.combat.windupTurns,hits:st.hits,step:0};

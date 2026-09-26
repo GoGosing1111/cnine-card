@@ -1,4 +1,5 @@
 import {preloadSniperOrikkung,playSniperOrikkungSkill,playSniperOrikkungBasic} from './SniperOrikkungCombatPlayback.js';
+import {playNurseHeal} from './NurseHealCombatPlayback.js';
 import {CRYVERN_CODE} from '../../../../shared/mercenary-cryvern-v1.mjs';
 import {preloadCryvern,setupCryvernActor,clearCryvernActors,cancelCryvernPlayback,playCryvernCrown,playCryvernBasic,showCryvernShieldImpact} from './CryvernCombatPlayback.js';
 import {preloadHeukwol,playHeukwolCombo,playHeukwolBasic} from './HeukwolCombatPlayback.js';
@@ -42,7 +43,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(entries.some(({card})=>card.skills?.some(s=>s.mechanic==='GOLDEN_ORCHID_VOLLEY')))await preloadMangisaVolley();
   if(entries.some(({card})=>card.cardId==='V-046'||card.code==='V-046'||card.skills?.some(s=>s.mechanic==='PLATINUM_SANCTUARY')))await preloadRagniel();
   if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
-  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?sniperOrikkung=20260926')),adapter=createMercenaryBattleArtAdapter(roster);
+  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?nurseHealers=20260927')),adapter=createMercenaryBattleArtAdapter(roster);
   for(const {side,card}of entries){const art=adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
@@ -57,13 +58,15 @@ export const withMercenaryBattle=Base=>class extends Base{
  async sequenceFor(skillId){
   if(this.mercenarySequences.has(skillId))return this.mercenarySequences.get(skillId);
   if(!this.mercenaryLoads.has(skillId))this.mercenaryLoads.set(skillId,(async()=>{
-   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260926-sniper-orikkung')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
+   const manifest=await (atlasPromise||=json('/preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json?v=20260927-nurse-healers')),row=manifest.images.find(r=>r.skillId===skillId);if(!row)throw Error('MERCENARY_SEQUENCE_NOT_READY');
    const sequence=await loadSequence(row);if(this.mercenaryDisposed){releaseFrameViews(sequence);return null;}
    this.mercenarySequences.set(skillId,sequence);return sequence;
   })().finally(()=>this.mercenaryLoads.delete(skillId)));
   return this.mercenaryLoads.get(skillId);
  }
  async playMercenaryEvent(event){
+  if(event.type==='MERCENARY_GROUP_HEAL'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return playNurseHeal(this,event);
+  if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return true;
   if(event.type==='MERCENARY_HIT'&&event.mechanic==='EMERALD_ANTIMATERIEL')return playSniperOrikkungSkill(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='EMERALD_ANTIMATERIEL')return true;
   if(event.type==='MERCENARY_CRYSTAL_CROWN'&&event.mechanic==='CRYSTAL_CROWN')return playCryvernCrown(this,event);

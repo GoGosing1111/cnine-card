@@ -32,7 +32,7 @@ export class NurseHealFX{
  setSpeed(speed){this.speed=Math.max(.25,Math.min(2,Number(speed)||1));this.timeline?.timeScale(this.speed);this.onUpdate(this);}
  cancel(){if(this.destroyed)return;this.removeTimeline();this.clock.time=0;this.render(0);}
  render(time){
-  if(this.destroyed)return;this.sample=sampleNurseSkill(time);this.groundLight.clear();this.contacts=[];
+  if(this.destroyed)return;this.clock.time=time;this.sample=sampleNurseSkill(time);this.groundLight.clear();this.contacts=[];
   for(const [i,actor]of [this.merc,...this.targets].entries()){
    const pair=this.pairs[i],height=actor.fullBodyHeight||260;
    const p=this.layer.toLocal(actor.root.toGlobal({x:0,y:-height*.2}));

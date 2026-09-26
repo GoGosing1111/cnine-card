@@ -15,12 +15,12 @@ const client = read('preview/mercenary-codex-v1/codex.js');
 const css = read('preview/mercenary-codex-v1/codex.css');
 const media = JSON.parse(read('assets/ui/project-v/mercenaries/codex-v1/manifest.json'));
 
-test('reads the canonical 50-card preview roster and never inherits historic ranks', () => {
+test('reads the canonical 54-card preview roster and never inherits historic ranks', () => {
   assert.equal(validateRoster(roster), roster);
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
-  assert.ok(roster.cards.every(card => ['V-021','V-046','V-049'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047','V-048','V-050'].includes(card.code) ? card.rank === 'SS' : card.rank === null));
-  assert.deepEqual(summarize(roster.cards), { total:50, sourceReady:50, spriteReady:50, rankPending: 42, positions: { 전위: 23, 중거리: 17, 후열: 10 } });
+  assert.ok(roster.cards.every(card => ['V-021','V-046','V-049'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(card.code) ? card.rank === 'SS' : card.rank === null));
+  assert.deepEqual(summarize(roster.cards), { total:54, sourceReady:54, spriteReady:54, rankPending: 42, positions: { 전위: 23, 중거리: 17, 후열: 14 } });
 });
 test('current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft', async () => {
   assert.equal(roster.cardComposition.frame, 'assets/ui/card-frames/mercenary-contract-frame-slim-v3.png');
@@ -100,12 +100,12 @@ test('search supports Korean names, titles, whitespace, code normalization and i
 });
 test('combined position/role/search filters do not mutate or omit roster records', () => {
   const before = roster.cards.map(card => card.code);
-  assert.equal(filterCards(roster.cards).length,50);
+  assert.equal(filterCards(roster.cards).length,54);
   assert.deepEqual(filterCards(roster.cards, { position: '후열', role: '저격' }).map(card => card.code), ['V-004', 'V-008', 'V-025', 'V-036', 'V-050']);
   assert.deepEqual(filterCards(roster.cards, { position: '중거리', q: '라비에나' }).map(card => card.code), ['V-013']);
   assert.equal(filterCards(roster.cards, { position: '후열', q: '라비에나' }).length, 0);
   assert.equal(filterCards(roster.cards, { sort: 'name' })[0].name, '경찰 조은');
-  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-050');
+  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-054');
   assert.deepEqual(filterCards(roster.cards, { q: 'SKS' }).map(card => card.code), ['V-024']);
   assert.equal(filterCards(roster.cards, { sort: 'position' })[0].role.split(' ')[0], '전위');
   assert.deepEqual(roster.cards.map(card => card.code), before);
@@ -145,7 +145,7 @@ test('resource states preserve approval differences, including the supplied Omeg
 });
 test('responsive WebP derivatives are complete, traceable, transparent for SD and keep every source hash', async () => {
   assert.equal(media.originalsModified, false);
-  assert.equal(media.entries.length, 150);
+  assert.equal(media.entries.length, 162);
   let listBytes = 0;
   const seen = new Set();
   for (const entry of media.entries) {

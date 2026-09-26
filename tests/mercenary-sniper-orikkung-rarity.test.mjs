@@ -25,7 +25,7 @@ test('audited release plan preserves prior operators settings and only allocates
  old.mercenaries[0].name='운영 지정 이름';old.assignments[0].skillIds=['MS-004'];
  const before=structuredClone(old),draw=suggestedMercenaryDraw(),result=planSniperOrikkungRelease(old,draw);
  assert.deepEqual(old,before);assert.deepEqual(result.policy.outcomes,draw.outcomes);
- assert.equal(result.document.mercenaries.length,50);assert.equal(result.document.mercenaries[0].name,'운영 지정 이름');assert.deepEqual(result.document.assignments[0].skillIds,['MS-004']);
+ assert.equal(result.document.mercenaries.length,54);assert.equal(result.document.mercenaries[0].name,'운영 지정 이름');assert.deepEqual(result.document.assignments[0].skillIds,['MS-004']);
  assert.equal(result.odds.withinRankPercent,1);
 });
 for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' rare SS grant failure rolls back payment and retry uses the stored result after policy changes',async t=>{

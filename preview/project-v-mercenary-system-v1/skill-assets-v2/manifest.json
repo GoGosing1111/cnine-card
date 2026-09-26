@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 528,
+  "frameCount": 544,
   "images": [
     {
       "id": "closing-punch",
@@ -11730,6 +11730,339 @@
             384
           ],
           "nonempty": 15904
+        }
+      ]
+    },
+    {
+      "id": "white-oath",
+      "skillId": "MS-051",
+      "name": "백의의 맹세",
+      "source": "white-oath/sequence-source-v1.png",
+      "runtime": "white-oath/atlas-v1.webp",
+      "sourceSha256": "5615934BA16D0C63CF7736012633BDE692E81C87A8C723AD0DC16E40F1C1A416",
+      "runtimeSha256": "54512623718DDA48220D86B37FE54C01014F3AF729A503C39B7D9B8EA5E37FBC",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1256,
+        1256
+      ],
+      "cellSize": 314,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Four nurses share one mint and ivory healing sequence; preparation, release, recovery and dissipation, 16 distinct continuous transparent frames.",
+      "sourceFilename": "sequence-source-v1.png",
+      "visualReview": "2026-09-27 사용자 프리뷰 확인 후 배포 지시",
+      "runtimeBytes": 1038718,
+      "creationReferenceCode": "V-051",
+      "frames": [
+        {
+          "index": 0,
+          "file": "white-oath/frames/01.webp",
+          "bounds": [
+            119,
+            131,
+            223,
+            272
+          ],
+          "alphaPixels": 6032,
+          "sha256": "8D4347C250006DE4ECEE6BE580DB9510F127F22AE8C5BE3BF54FA01BFB247A2D",
+          "rawSha256": "3B088FAF2A0CBEAF022CBEE78D04F997B5DC2E3DE457F83C00316E503BDA6E3F",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 21641
+        },
+        {
+          "index": 1,
+          "file": "white-oath/frames/02.webp",
+          "bounds": [
+            122,
+            61,
+            207,
+            283
+          ],
+          "alphaPixels": 9053,
+          "sha256": "24A7A8BC18C3C6702372191DA9D560A5A45AA3685882CF237BC1828744FE220B",
+          "rawSha256": "14B721E7201A65C673947C1AE7F60EA8AB1FC44D02EC147E036AB9C8F69790E5",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 31098
+        },
+        {
+          "index": 2,
+          "file": "white-oath/frames/03.webp",
+          "bounds": [
+            62,
+            50,
+            254,
+            287
+          ],
+          "alphaPixels": 18327,
+          "sha256": "E558D2E2826F7CDFA063B9DF2E569EC7E8EB591AF7B3D9F12D26D4E0B7C542F0",
+          "rawSha256": "A7E7A5E23484AF2E6303A55D3C844A90BA4BD2142BF5DA1C1468E1AB056EEB8E",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 54295
+        },
+        {
+          "index": 3,
+          "file": "white-oath/frames/04.webp",
+          "bounds": [
+            55,
+            42,
+            258,
+            288
+          ],
+          "alphaPixels": 23938,
+          "sha256": "F5217B1F0AF4FA970CFEDB04EE95315C219288CC8898B9830A3E67E770860541",
+          "rawSha256": "0393D50D79C5BDD7CE49F6C2A877F48916802A65A42A75BB105D690CFB545CAB",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 54736
+        },
+        {
+          "index": 4,
+          "file": "white-oath/frames/05.webp",
+          "bounds": [
+            58,
+            47,
+            262,
+            292
+          ],
+          "alphaPixels": 27248,
+          "sha256": "3E2CB826B52D4681A8E06A288B707CD6D3B2BC0A69ECBB8A183DD4ED73914DE1",
+          "rawSha256": "B1AE2531C9EAEDFBA2CFCDE43F593D20FB1C4022F1E412508D6E366D88A19B1F",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 65354
+        },
+        {
+          "index": 5,
+          "file": "white-oath/frames/06.webp",
+          "bounds": [
+            43,
+            40,
+            278,
+            280
+          ],
+          "alphaPixels": 32970,
+          "sha256": "D5BD64858AC9E7EA8EA940AD951326D1BD51B33EC7AA50DDA670766037BD0801",
+          "rawSha256": "81115E59F8FC6ECD24962127F35101A7A53CAED1261BA7D59131357402E8C067",
+          "edgeMax": 2,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 73878
+        },
+        {
+          "index": 6,
+          "file": "white-oath/frames/07.webp",
+          "bounds": [
+            54,
+            66,
+            271,
+            282
+          ],
+          "alphaPixels": 31010,
+          "sha256": "3E3579DE1A29F996F43745CAD68BF5A3B3C291F050036A6B6A0D5439C9D8338B",
+          "rawSha256": "29D2CC88C25F12349E3029507F8E11BD261079AFEF1782D8A9DDFAB059BF3AD8",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 75014
+        },
+        {
+          "index": 7,
+          "file": "white-oath/frames/08.webp",
+          "bounds": [
+            24,
+            25,
+            287,
+            285
+          ],
+          "alphaPixels": 46740,
+          "sha256": "DC16BAB522529E8D7681BEF169B272F98F61848358973CE39018993A97C5ADFB",
+          "rawSha256": "EB195094549D879B176B24FD8B86FE866DDEFDDF8FDEB758DB5AE922C1DD4314",
+          "edgeMax": 2,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 75948
+        },
+        {
+          "index": 8,
+          "file": "white-oath/frames/09.webp",
+          "bounds": [
+            35,
+            12,
+            287,
+            299
+          ],
+          "alphaPixels": 39003,
+          "sha256": "FF1CF3DCC305A8872B3500759A7024580C6D024BDB3C3456911F37DBCB92B5AA",
+          "rawSha256": "B086A8BDB3CAD8AA80420EA84CA08C618BA04096485318F5551A4441E7E1D2F8",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 82070
+        },
+        {
+          "index": 9,
+          "file": "white-oath/frames/10.webp",
+          "bounds": [
+            42,
+            33,
+            277,
+            283
+          ],
+          "alphaPixels": 24306,
+          "sha256": "1487AF2B3425154BBEE133F14F03C4C8F6CF3D4E4FE47E8106429B72B70412A4",
+          "rawSha256": "C3663296C24770A1BDF44EA959A1BC8418C755CBFD5FAE16A54FB26B59506AE9",
+          "edgeMax": 2,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 74208
+        },
+        {
+          "index": 10,
+          "file": "white-oath/frames/11.webp",
+          "bounds": [
+            66,
+            18,
+            255,
+            285
+          ],
+          "alphaPixels": 17310,
+          "sha256": "D24AB7A08FE068345847A7E7413E55767E23F125C20685B403FAE34FAC7810E5",
+          "rawSha256": "175E5D3C2F7E75C7C4CA109E4D7A4158941CDCB843D3B3A1AC686B965F3D8EB0",
+          "edgeMax": 2,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 64359
+        },
+        {
+          "index": 11,
+          "file": "white-oath/frames/12.webp",
+          "bounds": [
+            67,
+            42,
+            244,
+            280
+          ],
+          "alphaPixels": 7974,
+          "sha256": "DF550AEF4F8DD58E50C5B3FF15748F7FE6E29CEEA610F9E32E0453C2899C5EA1",
+          "rawSha256": "FDD64ED4105C6106F5D6EBB5644080508201D71398C1992D89B4AACD94A89C26",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 58516
+        },
+        {
+          "index": 12,
+          "file": "white-oath/frames/13.webp",
+          "bounds": [
+            80,
+            42,
+            238,
+            268
+          ],
+          "alphaPixels": 4009,
+          "sha256": "4AD52A32829A401747C995B44F39A903E28F468DECC6235B7E504D374E99F544",
+          "rawSha256": "ECBFE63A83E627219E0B524FF9DF9173D6D614B8D1379A834EF55E4B7F8333B6",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 42231
+        },
+        {
+          "index": 13,
+          "file": "white-oath/frames/14.webp",
+          "bounds": [
+            120,
+            60,
+            230,
+            262
+          ],
+          "alphaPixels": 2262,
+          "sha256": "9023524B24AAEE486D16DB24C313D1BA614F7A9B172E7F03CF0F13976330AC79",
+          "rawSha256": "8E7B3673A2E572E9CE38247F79C0280F602BA4E0E66E5D5E42C0ED5BC5A261C7",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 32655
+        },
+        {
+          "index": 14,
+          "file": "white-oath/frames/15.webp",
+          "bounds": [
+            121,
+            119,
+            231,
+            234
+          ],
+          "alphaPixels": 2617,
+          "sha256": "74364297A405D387DAC075407D6380CC91F13786C011D685D3B0F514BAD2324B",
+          "rawSha256": "2F0FE46129287B46D2ED453B3521E871E1461E1F7479B25318DB987942532726",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 30636
+        },
+        {
+          "index": 15,
+          "file": "white-oath/frames/16.webp",
+          "bounds": [
+            147,
+            197,
+            167,
+            216
+          ],
+          "alphaPixels": 328,
+          "sha256": "0D3ACC525ACA6027D5A534E8A7D532C813326729A73420E886D29E6FDDE36C1F",
+          "rawSha256": "E58C5563603B6D17D141B7AA627DFABC2293D8768D496C0FD2780DA78E89DD2D",
+          "edgeMax": 1,
+          "size": [
+            314,
+            314
+          ],
+          "nonempty": 9120
         }
       ]
     }
