@@ -90,7 +90,9 @@ export function renderAuthored(fx,time){
     case 'WHITE_OATH_GROUP_HEAL':{
       const frame=sampleNurseSkill(time);if(!frame.visible)break;
       fx.activeFrames.push({index:frame.index,next:frame.next,blend:frame.blend});
-      for(const id of plan.targets){const a=actors.get(id);if(!a||states.get(id)?.hp<=0)continue;const foot=point(id,true),size=engine.mobile?145:180,p={x:foot.x,y:foot.y-(a.fullBodyHeight||260)*a.root.scale.y*.2};
+      for(const id of plan.targets){const a=actors.get(id);if(!a||states.get(id)?.hp<=0)continue;const foot=point(id,true),p={x:foot.x,y:foot.y-(a.fullBodyHeight||260)*a.root.scale.y*.2};
+        const room=engine.mobile&&engine.scene?.width?Math.max(0,Math.min(p.x-18,engine.scene.width-p.x-18)):Infinity;
+        const size=Math.min(engine.mobile?145:180,room/((sequence.extent?.x||.5)*.88));
         draw(sequence.frames[frame.index],p,size,{alpha:frame.alpha,anchorY:.62});
         draw(sequence.frames[frame.next],p,size,{alpha:frame.alpha*frame.blend,anchorY:.62});
       }break;}

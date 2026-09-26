@@ -27,7 +27,7 @@ test('explicit approval adds exactly four originals without changing the previou
   assert.equal(approval.originalsModified, false);
   assert.equal(hash(JSON.stringify(beforeOmegaRankAssignment(roster.cards.slice(0, 37)))), approval.previousRosterCardsSha256);
   assert.deepEqual(roster.cards.slice(37, 41).map(card => card.code), codes);
-  assert.equal(new Set(roster.cards.map(card => card.name)).size,50);
+  assert.equal(new Set(roster.cards.map(card => card.name)).size,54);
   for (const entry of approval.entries) {
     const card = roster.cards.find(card => card.code === entry.code);
     assert.equal(card.sourceArt, entry.sourceArt);
@@ -44,7 +44,7 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
   const outfits = ['오피스룩', '가터벨트 치마', '비키니룩', '핫팬츠룩'];
   const weapons = ['건틀릿', '체인소드', '활', '대검'];
   const adapter = createMercenaryBattleArtAdapter(roster);
-  assert.deepEqual(roster.summary, { total:50, sourceArtReady:50, battleSpriteReady:50, battleSpritePending: 0, rankPending: 42 });
+  assert.deepEqual(roster.summary, { total:54, sourceArtReady:54, battleSpriteReady:54, battleSpritePending: 0, rankPending: 42 });
   for (const [i, code] of codes.entries()) {
     const card = roster.cards.find(card => card.code === code);
     assert.equal(card.outfit, outfits[i]);
