@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" fill="none">
+<defs>
+ <linearGradient id="gold" x1="0" y1="0" x2="970" y2="1536" gradientUnits="userSpaceOnUse"><stop stop-color="#fff1b2"/><stop offset=".16" stop-color="#b98238"/><stop offset=".34" stop-color="#fff0ac"/><stop offset=".55" stop-color="#75502c"/><stop offset=".76" stop-color="#d8b769"/><stop offset="1" stop-color="#fff1c5"/></linearGradient>
+ <linearGradient id="panel" x2="0" y2="1"><stop stop-color="#101b2b" stop-opacity=".94"/><stop offset="1" stop-color="#040912" stop-opacity=".98"/></linearGradient>
+ <linearGradient id="blue" x2="1" y2="1"><stop stop-color="#6ccedc" stop-opacity=".8"/><stop offset=".5" stop-color="#346477" stop-opacity=".15"/><stop offset="1" stop-color="#b0eaff" stop-opacity=".75"/></linearGradient>
+</defs>
+<path d="M65 17H959L1007 65V1471L959 1519H65L17 1471V65Z" fill="#050912" fill-opacity=".14" stroke="url(#gold)" stroke-width="11"/>
+<path d="M75 35H949L990 76V1460L949 1501H75L34 1460V76Z" stroke="#fce9a3" stroke-opacity=".5" stroke-width="2"/>
+<path d="M98 65H926L966 105V1430L926 1471H98L57 1430V105Z" stroke="url(#blue)" stroke-width="3"/>
+<path d="M173 65H851L893 106V208L856 243H168L132 208V106Z" fill="url(#panel)" stroke="url(#gold)" stroke-width="5"/>
+<path d="M183 81H841L874 114V199L848 227H177L150 199V114Z" stroke="#8c774b" stroke-width="2"/>
+<path d="M108 1135H916L945 1165V1439L916 1470H108L79 1439V1165Z" fill="url(#panel)" stroke="url(#gold)" stroke-width="4"/>
+<path d="M111 1197H913" stroke="#837047" stroke-width="2"/>
+<path d="M72 294V158L103 126H123M952 294V158L921 126H901M63 1225V1340M961 1225V1340" stroke="url(#gold)" stroke-width="4"/>
+<path d="M68 80H123M956 80H901M91 1456L114 1433M933 1456L910 1433" stroke="#dfc481" stroke-width="4"/>
+<path d="M482 29H542M512 12V45M491 19L534 40M534 19L491 40" stroke="#f5d58e" stroke-width="3"/>
+<path d="M460 1505H493L512 1486L531 1505H564M512 1487V1516" stroke="#f5d58e" stroke-width="4"/>
+<circle cx="70" cy="304" r="5" fill="#79c9db"/><circle cx="954" cy="304" r="5" fill="#79c9db"/>
+</svg>

@@ -1,0 +1,88 @@
+{
+  "generatedWith": "built-in image_gen",
+  "approval": "2026-09-26: 이미지 다 마음에 드는데",
+  "sourceArtPreserved": true,
+  "frameLayer": "magic-frame.svg",
+  "entries": [
+    {
+      "slug": "eclipse-prophecy",
+      "file": "assets/ui/magic-cards/season2/eclipse-prophecy-source-v1.png",
+      "sourceFile": "exec-8a815ced-8a87-4956-b324-0af7969ba44a.png",
+      "sha256": "35446b689fbe27b88e72fbfea0708ba8d9c247b9eff9a75d76e77a31ec1478ce",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2414837,
+      "approvedArtwork": true
+    },
+    {
+      "slug": "causal-sever",
+      "file": "assets/ui/magic-cards/season2/causal-sever-source-v1.png",
+      "sourceFile": "exec-5ff71754-2a5f-48bc-a878-7bd6edd20bb6.png",
+      "sha256": "7c3ecd424658182b2cbc9e9788e3614df840497ca36c4a80e884c6d316dcee1d",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2651213,
+      "approvedArtwork": true
+    },
+    {
+      "slug": "fate-intercept",
+      "file": "assets/ui/magic-cards/season2/fate-intercept-source-v1.png",
+      "sourceFile": "exec-0d6e46ae-b9c9-422b-9994-ac147b8b7f02.png",
+      "sha256": "d6cdf9b68f955c6e51da0e4e06bfd69e68d3599eaf85cf8cd1418dce9da4386e",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2165188,
+      "approvedArtwork": true
+    },
+    {
+      "slug": "overheal-forge",
+      "file": "assets/ui/magic-cards/season2/overheal-forge-source-v1.png",
+      "sourceFile": "exec-1e8eeb74-bf80-42f1-b16f-1e56ddbd63f5.png",
+      "sha256": "0e685a67bebd5674cbe77bde0465030ff061198b70b5de9fe0adaf157d2dee58",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2541193,
+      "approvedArtwork": true
+    },
+    {
+      "slug": "constellation-shift",
+      "file": "assets/ui/magic-cards/season2/constellation-shift-source-v1.png",
+      "sourceFile": "exec-366c9baf-855f-4e81-a2b5-f710acf9ebd6.png",
+      "sha256": "c8c6eb6ac5ffc09527ccd5d4ca456561462a2759cfaee27ee256792328cb787a",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2607265,
+      "approvedArtwork": true
+    },
+    {
+      "slug": "shield-ledger",
+      "file": "assets/ui/magic-cards/season2/shield-ledger-source-v1.png",
+      "sourceFile": "exec-86f3e373-0911-4927-9ada-e1fb32a1668c.png",
+      "sha256": "b058a5298fea62fa22f00491ad38f307bc8303e57b036a239a0ab7ec121f72b0",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2784913,
+      "approvedArtwork": true
+    },
+    {
+      "slug": "fallen-star",
+      "file": "assets/ui/magic-cards/season2/fallen-star-source-v1.png",
+      "sourceFile": "exec-516aa3f8-06a1-410a-a50b-b6dfb2dca974.png",
+      "sha256": "ee246f0d627d4e59af88412d536466b053222a1c5b4c4c983ea1cc3cfe900387",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2491914,
+      "approvedArtwork": true
+    },
+    {
+      "slug": "arcane-mirror",
+      "file": "assets/ui/magic-cards/season2/arcane-mirror-source-v1.png",
+      "sourceFile": "exec-abeafac3-d00d-4008-a73f-9e33fa6c92da.png",
+      "sha256": "5105dda1e0a0ee4a1c0b320d292cd21a490f5090d76509236146b2c86bcf7bf8",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2532146,
+      "approvedArtwork": true
+    }
+  ]
+}

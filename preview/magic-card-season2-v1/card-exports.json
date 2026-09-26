@@ -1,0 +1,70 @@
+{
+  "method": "Browser-rendered card UI; source art preserved; independent SVG frame and HTML text",
+  "level": 0,
+  "entries": [
+    {
+      "slug": "eclipse-prophecy",
+      "path": "cards/eclipse-prophecy-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "ee9ae7ca4a35ab60b28cd944094b8904dba036e9d88472659ba945760deb6739",
+      "bytes": 2028223
+    },
+    {
+      "slug": "causal-sever",
+      "path": "cards/causal-sever-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "bb1bb648bf2bcb834b1fa2b00b8e9663d6a92e90923b5d2eee86fa0f13f03c23",
+      "bytes": 2216771
+    },
+    {
+      "slug": "fate-intercept",
+      "path": "cards/fate-intercept-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "573a3aebfd8dca9a0df198b5a5bd8dbbbf30ffbd72c2109ab3667322a3633e26",
+      "bytes": 1922736
+    },
+    {
+      "slug": "overheal-forge",
+      "path": "cards/overheal-forge-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "61ec126d65a21ae7cdb0048675cc0d360cdefdf9ce8060424be98e44996e52d5",
+      "bytes": 2163502
+    },
+    {
+      "slug": "constellation-shift",
+      "path": "cards/constellation-shift-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "cfa7846df5ba99a4e7a3b1327931bcae3aaf5b3f8e26c18bd88db07a231152e9",
+      "bytes": 2266288
+    },
+    {
+      "slug": "shield-ledger",
+      "path": "cards/shield-ledger-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "7d052fd2b69a199798a52b076ff22ca6ad990691e42693c6eb774092d5b014a4",
+      "bytes": 2363224
+    },
+    {
+      "slug": "fallen-star",
+      "path": "cards/fallen-star-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "ee4c63480d087b1cd85e9f1d76e0670668b328406eaf46dd7ce7a161f505f5f7",
+      "bytes": 2111314
+    },
+    {
+      "slug": "arcane-mirror",
+      "path": "cards/arcane-mirror-card-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "62a5a42fab1472ee24772714cfcb2c0aaf89c52f6ecf475f70ae7c42deaf6b3b",
+      "bytes": 2153819
+    }
+  ]
+}
