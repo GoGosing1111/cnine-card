@@ -4,10 +4,12 @@
 
 - 공개 검수 페이지: https://cnine-card.pages.dev/preview/mercenary-nurse-healers-ss-v1/
 - 리소스 커밋: `d2be276318262e44ba616acc7ffb56c1fbffbc32`
-- Pages 배포: `2190da38-b362-4adf-b63a-e8de27b98b82`
-- 배포 고정 주소: https://2190da38.cnine-card.pages.dev
-- 직전 운영 커밋: `62a05edee5aa61165ba448d5a2740d361ee99fc4`
-- 직전 Pages 배포: `c05d81e7-851a-49a1-ba88-ec6350c2e30d`
+- 경로 보정 / 최신 공용 코드 빌드: `180b5e22`, `06828006`
+- 최종 운영 소스: `4bfcc25848a659861b9f42747f2995a7b6a79d93`
+- 최종 Pages 배포: `2a7ad976-077d-4086-9fd2-078fd2f1d45e`
+- 배포 고정 주소: https://2a7ad976.cnine-card.pages.dev
+- 직전 운영 커밋: `9a4969e76526ce491ceb0b5b6660f2bfa646132c`
+- 직전 Pages 배포: `d1c24e0e-bf0d-45e4-8b84-083ff324c4f5`
 
 ## 범위와 검사
 
@@ -17,7 +19,7 @@
 
 원화 4장과 밝은 배경 SD 4장, 카드 프레임·전신 가장자리, PC·모바일 실제 V3 회복 접점을 직접 확인했다. 제작 프롬프트, 선택된 생성 파일, 해시와 스크린샷은 [제작 기록](../preview/mercenary-nurse-healers-ss-v1/README.md), [브라우저 검사](../preview/mercenary-nurse-healers-ss-v1/qa/browser-report.json)에 남겼다.
 
-깨끗한 범위 커밋과 origin/main 일치 상태에서 `ASSET_DEPLOY_BASE=62a05edee5aa61165ba448d5a2740d361ee99fc4 npm run deploy:production -- --assets-only`를 사용했다. 지정 래퍼의 Hyperdrive 캐시 OFF와 Pages/clan-draft 바인딩 일치 검사를 통과했다.
+깨끗한 범위 커밋과 origin/main 일치 상태에서 `npm run deploy:production -- --assets-only`를 사용했다. 최초 배포의 ASSET_DEPLOY_BASE는 62a05edee5aa61165ba448d5a2740d361ee99fc4, 최종 수정 배포는 9a4969e76526ce491ceb0b5b6660f2bfa646132c이다. 지정 래퍼의 Hyperdrive 캐시 OFF와 Pages/clan-draft 바인딩 일치 검사를 통과했다.
 
 ## 배포 후 확인
 
@@ -26,6 +28,8 @@
 독립 검수 화면의 초기화에 기존 skillAssetBaseUrl 보정 함수를 재사용했다. 공용 V3 원본은 변경하지 않았다. 로컬 서버도 동일한 확장자 제거를 재현하도록 바꾸고 브라우저 검사가 실제 /battle 주소에서 실행되는지 확인한다.
 
 경로 수정 중 공용 전투 업데이트가 운영에 배포되어, 최신 9a4969e76526ce491ceb0b5b6660f2bfa646132c 원본을 재사용해 검수 번들을 다시 빌드했다. 수정 배포 직전 운영 기준은 Pages d1c24e0e-bf0d-45e4-8b84-083ff324c4f5 / 커밋 9a4969e76526ce491ceb0b5b6660f2bfa646132c이다. 이 기준부터 변경 범위는 간호사 독립 검수 리소스와 문서뿐이며, 동일한 자산 전용 배포 명령을 사용한다.
+
+최종 배포 2a7ad976에서는 명세와 새 JS 번들의 바이트 일치, 원화·SD·아틀라스 해시 일치를 확인했다. 공개 페이지의 /battle 주소에서 봉순 선택과 0.88초의 회복 프레임 index 7이 정상 표시됐다. 별도 Chrome 공개 페이지 재생 검사에서 실제 타임라인이 0.583초까지 진행했고, 정지 후 효과와 등록 타임라인은 0이었다. JS 예외 0, 캔버스 1개, 일반 카드 5장과 별도 용병 상태를 확인했다.
 
 SS 힐러 역할과 네 명의 동일 스킬 사용은 사용자 지시에 따른다. 시각 검수 대기 상태를 유지하며, 회복 계수·재사용 시간·획득 정책은 미정이다. 검수용 V-051~V-054는 임시 식별자이며 라이브 도감·획득·편성·전투 활성화는 이번 리소스 배포에 포함하지 않았다.
 
