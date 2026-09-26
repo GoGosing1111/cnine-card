@@ -1,0 +1,23 @@
+.tournament-gift-modal{z-index:10050;padding:16px;background:rgba(3,7,15,.84);backdrop-filter:blur(8px)}
+.tournament-gift-panel{position:relative;width:min(460px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:28px 28px 20px!important;box-sizing:border-box;text-align:center;color:#f4eddc;background:linear-gradient(160deg,#1e2940,#0a101d 65%)!important;border:1px solid #a38b57!important;border-radius:22px!important;box-shadow:0 28px 100px #000b}
+.tournament-gift-close{position:absolute;right:12px;top:8px;min-width:40px;min-height:40px;background:none;border:0;color:#d8cab0;font-size:27px;cursor:pointer}
+.tournament-gift-kicker{margin:0 0 6px!important;color:#cfb679;font-size:11px;letter-spacing:.19em;font-weight:800}
+.tournament-gift-panel h2{margin:0!important;font-size:29px!important;letter-spacing:-.04em;color:#fff4d7!important}
+.tournament-gift-caption{margin:8px 0 0!important;font-size:13px;color:#aeb6c8}
+.tournament-gift-art{width:min(255px,72%);margin:10px auto 4px;overflow:hidden;border-radius:20px;box-shadow:0 10px 45px #0004}
+.tournament-gift-art img{display:block;width:100%;height:auto}
+.tournament-gift-label{margin:14px 0 10px!important;color:#dfc990;font-size:12px;font-weight:700}
+.tournament-gift-rewards{border-top:1px solid #a38b5750;border-bottom:1px solid #a38b5750;padding:2px 0}
+.tournament-gift-rewards>div{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 4px}
+.tournament-gift-rewards>div+div{border-top:1px solid #ffffff0d}
+.tournament-gift-rewards span{font-size:14px;color:#cbd0db}
+.tournament-gift-rewards strong{font-size:27px;font-variant-numeric:tabular-nums;color:#ffe3a0;line-height:1.2;white-space:nowrap}
+.tournament-gift-rewards small{font-size:12px;margin-left:6px;font-weight:500;color:#cbbb98}
+.tournament-gift-status{min-height:18px;margin:10px 0!important;color:#efd7a4;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.tournament-gift-confirm{width:100%;min-height:49px;padding:12px;border:1px solid #f5d285;border-radius:11px;background:linear-gradient(110deg,#f1d698,#c9a458);color:#241b0b;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 5px 18px #d1b06c18}
+.tournament-gift-confirm:hover{filter:brightness(1.08)}
+.tournament-gift-panel button:focus-visible{outline:3px solid #fff4c9;outline-offset:3px}
+.tournament-gift-panel button:disabled{opacity:.55;cursor:wait}
+.tournament-gift-balance{margin:10px 0 0!important;font-size:11px;color:#9ea6b8}
+@media(max-width:480px){.tournament-gift-panel{padding:25px 19px 18px!important}.tournament-gift-art{width:205px}.tournament-gift-panel h2{font-size:27px!important}.tournament-gift-rewards strong{font-size:25px}}
+@media(max-height:720px){.tournament-gift-art{width:155px}.tournament-gift-panel{padding-top:22px!important}.tournament-gift-caption{margin-top:5px!important}.tournament-gift-rewards>div{padding:10px 3px}}

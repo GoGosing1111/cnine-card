@@ -4004,7 +4004,7 @@ function inventoryItemGroup(item){
   if(category==='MATERIAL'||WORKSHOP_ONLY_ITEM_CODES.has(code))return 'MATERIAL';
   if(category==='SKILL_CHIP')return 'SKILL_CHIP';
   if(category==='REROLL'||RETIREMENT_REROLL_META[code]||code==='HIGH_GRADE_REROLL_TICKET')return 'REROLL';
-  if(['CUBE','SUPPLY_BOX','VEHICLE_DRAW','PACK','CARD_PACK'].includes(category)||['BLACK_MIRACLE_PACK','MAGIC_CARD_PACK','SUPERSTAR_GUARANTEED_PACK','NEW_USER_GIFT_BOX'].includes(code))return 'PACK';
+  if(['CUBE','SUPPLY_BOX','VEHICLE_DRAW','PACK','CARD_PACK','GIFT_BOX'].includes(category)||['BLACK_MIRACLE_PACK','MAGIC_CARD_PACK','SUPERSTAR_GUARANTEED_PACK','NEW_USER_GIFT_BOX'].includes(code))return 'PACK';
   if(code==='SOOPKETLAND_HYPER_BURNING_TICKET'||code==='CHUSEOK_COIN')return 'OTHER';
   if(category==='ENTRY_TICKET'||['SOOPKETLAND_TICKET','SCRAPYARD_ENTRY_TICKET','CORE_RAID_ENTRY_TICKET'].includes(code))return 'ENTRY_TICKET';
   return 'OTHER';
@@ -4088,6 +4088,7 @@ async function loadInventory(){
     const summary=vault.querySelector('#inventoryOwnedSummary'),owned=items.filter(x=>Number(x.quantity)>0),total=owned.reduce((sum,item)=>sum+Number(item.quantity),0);
     summary.innerHTML=`<strong>${owned.length.toLocaleString()}</strong>종 보유 <span>·</span> 총 <strong>${total.toLocaleString()}</strong>개`;
     renderInventoryItems(items);vault.setAttribute('aria-busy','false');vault.querySelector('#inventoryRefresh').disabled=false;
+    try{if(localStorage.getItem(`cnine:tournament-gift:${loadUser()?.serverUserId}:pending`))openInventoryPack('TOURNAMENT_GIFT_BOX',items.find(x=>x.code==='TOURNAMENT_GIFT_BOX')?.quantity||0);}catch{}
     if(d.unseenTotal)apiRequest('inventory/seen',{method:'POST',body:'{}'}).then(()=>clearApiCache('inventory')).catch(()=>{});
   }catch(error){
     if(request!==inventoryUiState.request||!vault.isConnected)return;
@@ -4124,6 +4125,7 @@ async function activateLandHyperTicket(){
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
   if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){location.assign('/events/chuseok/?use='+encodeURIComponent(itemCode));return;}
+  if(itemCode==='TOURNAMENT_GIFT_BOX')return window.TournamentGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
   if(itemCode==='NEW_USER_GIFT_BOX')return window.NewUserGiftV2075.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell});
   if(itemCode==='SUPERSTAR_GUARANTEED_PACK')return openGuaranteedSuperstarTicket();
   if(WORKSHOP_ONLY_ITEM_CODES.has(String(itemCode||'').toUpperCase()))return showSupplyNotice('차량 부품은 제작소에서만 사용할 수 있습니다.',true);

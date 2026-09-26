@@ -67,6 +67,7 @@ import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop,ensureWorkshopFoundation } from '../_workshop.js';
 import { BATTLE_SUIT_CORE_CODES, ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
+import {TOURNAMENT_GIFT,ensureTournamentGiftCatalog,openTournamentGift,grantTournamentGift} from '../_tournament_gift.js';
 import { EMPEROR_ENERGY_ITEM, ensureEmperorEnergyCatalog } from '../_emperor_energy.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
 import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_reward_batch.js';
@@ -5541,6 +5542,7 @@ async function handleRequest(context){
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureTournamentGiftCatalog(env);
       await ensureForgeProtectionCatalog(env);
       await ensureForgeRepairCatalog(env);
       await ensureSkillChipFoundation(env);
@@ -5566,6 +5568,7 @@ async function handleRequest(context){
     if(path==='inventory/use'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
+      if(itemCode===TOURNAMENT_GIFT.code){try{return json(await openTournamentGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 보유 수량을 확인하고 같은 요청으로 다시 시도하세요.'},error.status||409);}}
       if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)return json({error:'전직 패스권은 카드 상세 > 고유효과 전직에서 자동 사용됩니다.'},400);
       if(itemCode===FORGE_REPAIR_ITEM.code)return json({error:'핑두 리페어 쿠폰은 장비 강화 센터 → 파괴 기록에서 사용하세요.'},400);
       if(itemCode==='BLACK_MIRACLE_PACK'){try{return json({...await openBlackMiraclePack(env,{userId:user.id,requestId}),user:await profile(env,await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first())})}catch(error){return json({error:String(error?.message||'블랙 미라클 팩 개봉에 실패했습니다.')},409)}}
@@ -8458,6 +8461,7 @@ async function handleRequest(context){
         if(['PINGDU_WISH_TICKET','PINGDU_OLD_AXE'].includes(itemCode))return json({error:'종료된 이벤트 아이템은 지급할 수 없습니다.'},410);
         if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode))await ensureGoldenAxe(env);
         if(itemCode==='CHUSEOK_COIN')await ensureChuseok(env);
+        if(itemCode===TOURNAMENT_GIFT.code){try{return json(await withJointUserMutationLock(env,userId,'admin/tournament-gift/grant',()=>grantTournamentGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode===NEW_USER_GIFT_CODE)return json({error:'신규유저 기프트 박스는 유저관리의 전용 지급 기능에서만 지급할 수 있습니다.'},400);
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
         if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)await ensureUniqueAdvancementPassCatalog(env);
