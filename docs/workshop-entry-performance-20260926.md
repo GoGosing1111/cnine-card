@@ -36,3 +36,7 @@
 제작소 프런트엔드·파생 이미지·관련 검사만 변경. 서버 거래·확률·보상·DB·의존성·출시 플래그 변경 없음. 캐시 키 `workshopLoading=20260926`와 helper/thumbnail 버전을 올렸으며, hover 보강 앱 캐시는 `workshopLoading=20260926-2`다. 제작소 단독 범위는 위 회귀만으로 검사한다.
 
 작업 중 확인한 마지막 운영 배포는 `058a3107-9d31-4302-a83a-8bc03d6463ae`, 원본 SHA `60acb717dd501240937faad54b4c2f36a9e288fe`다. 이후 main에는 별도 작업의 군단토벌 OWNER/CMS 공동 변경이 들어 있어, 그 배포가 완료되기 전 이 옛 SHA를 기준으로 제작소만의 범위 배포라고 취급하지 않는다. 최종 배포 시 실제 직전 운영 SHA와 전체 변경 범위를 다시 확인한다.
+
+- 공동 후보의 전체 게이트·배포 완료를 기다렸고, Wrangler 운영 목록에서 `44a0e952-a151-4218-bdcc-1e0a53a0d472` / **`1e0fdfe96da7cd677da7ad3f53a2319897c375ef`** 운영 반영을 확인했다. 이 배포에 최초 제작소 성능 수정이 포함됐다.
+- hover 보강은 이 실제 직전 운영 SHA를 기준으로 `npm run deploy:production -- --scoped`를 사용한다. `SCOPED_DEPLOY_TESTS`는 `tests/workshop-loading-20260925.test.mjs`, `tests/navigation-contract-v1.mjs`, `SCOPED_DEPLOY_CHECKS`는 빈 배열이다.
+- 선정 이유: 실제 진입 시점의 읽기 시작만 보강했으며 상태 조회·재시도·계정 변경·라우팅 계약이 영향 범위다. PC·모바일 hover/직접 진입 재현도 통과했다. 서버 거래 변경이 없으므로 이미 통과한 경제·전투 전체 검사는 반복하지 않는다.
