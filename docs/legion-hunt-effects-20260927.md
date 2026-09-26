@@ -27,3 +27,12 @@
 - 최종 선택 검사: `z-body-thunder-fx-v3`, `z-body-area-skill-v3`, `z-body-release-v3`, `battle-suit-skill-chip-runtime-v2046`, `legion-hunt-z-body-playback-20260926`, `legion-hunt-duration-entries-20260926`, `sustained-hunt-v2`, 실제 번들·메인 로더 `pve-battlefield-entry-v2117` 및 Worker 컴파일.
 - 지정 명령: `npm run deploy:production -- --scoped`. 캐시 `20260927-combat-fx2`, 공용 런타임 `20260926-z-lightning-area-v3-sniper-orikkung-hunt15m-fx20260927`.
 - 배포 후 변경 정적 파일 해시와 대표 연결만 확인한다. 동일 빌드의 전체 검수 반복은 하지 않는다.
+
+## 운영 반영 완료
+
+- 코드 커밋: `9a4969e76526ce491ceb0b5b6660f2bfa646132c`.
+- 선택 회귀 75개 모두 통과. Worker 문법/번들 컴파일, 출시 플래그, 로더·캐시 호환과 Hyperdrive SQL 캐시 OFF/바인딩 일치 검사 통과.
+- Pages 운영 배포: https://d1c24e0e.cnine-card.pages.dev . 기존 지정 배포 래퍼의 Worker 버전은 `07448589-b397-4b37-a355-ffcb9df29265`.
+- 운영 기본 주소 https://cnine-card.pages.dev 의 메인 HTML/앱/래퍼/입장 모듈/전투 HTML/드랍 CSS/군단토벌 번들/공용 V3 번들 8개가 HTTP 200이며 배포본과 SHA-256이 일치했다.
+- 최종 모바일 원정은 217마리 처치·마스터의 별 1개 직접 획득 후 정상 철수했다. 최종 공용 프리뷰도 25/25회 피해와 레이어 정리를 다시 확인했다.
+- 이 완료 기록만 커밋·원격 반영하고 운영 재배포는 하지 않는다.
