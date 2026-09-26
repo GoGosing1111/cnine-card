@@ -1,0 +1,436 @@
+{
+  "status": "USER_REVIEW_PENDING",
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "id": "overgrown-forge-field-v2",
+      "path": "preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "641767b02190f94ac7b7bf78289e81a38558006384699bb8d55764e80f326d66",
+      "alphaExtrema": null,
+      "bounds": null
+    },
+    {
+      "id": "ember-mantis-sd-v2",
+      "path": "preview/sustained-hunt-v2/assets/monsters/ember-mantis-sd-v2.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "e6b80a518be0da79dece85a2e0c880de3f93c08c56560073a23b34a98055c875",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "bounds": [
+        57,
+        31,
+        1522,
+        1008
+      ]
+    },
+    {
+      "id": "mossback-tortoise-sd-v2",
+      "path": "preview/sustained-hunt-v2/assets/monsters/mossback-tortoise-sd-v2.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "e145f33b925d263cb294260db05ca38e62dc97591b38debcc5c0cb0996146262",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "bounds": [
+        0,
+        9,
+        1522,
+        1007
+      ]
+    },
+    {
+      "id": "cobalt-bat-sd-v2",
+      "path": "preview/sustained-hunt-v2/assets/monsters/cobalt-bat-sd-v2.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "bf7a1f8d6d3060c00a51bf17940f1de9c26e7f61950a334a2f40ed6440412023",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "bounds": [
+        21,
+        7,
+        1522,
+        1024
+      ]
+    },
+    {
+      "id": "ancient-forge-warden-boss-sd-v2",
+      "path": "preview/sustained-hunt-v2/assets/monsters/ancient-forge-warden-boss-sd-v2.png",
+      "size": [
+        1240,
+        1268
+      ],
+      "mode": "RGBA",
+      "sha256": "722a972b422462898e476d3da9048f20ad5b9b0aa5fcca3a5d9565ccbda0d8b4",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        0,
+        55,
+        1182,
+        1268
+      ]
+    }
+  ],
+  "spawn": {
+    "id": "spawn",
+    "name": "고철 군단 출현",
+    "source": "source/spawn-v2.png",
+    "originalFilename": "exec-997ac26d-8e01-4421-8e14-e9188c93df96.png",
+    "prompt": "Edit this monster emergence spritesheet, keep the SAME 4 by 4 /16 chronological grid and the same quality and effect sequence. It failed slicing QA because dust crosses cell boundaries. REDUCE ALL painted content in EVERY cell to occupy at most the CENTRAL 50% of that cell. No material whatsoever in the outermost 20% gutters, including almost invisible dust. Ensure REAL alpha=0 gutters. Do not add a background, grid, text, or checkerboard.\nEach cell is an independent chronological frame of ONE ground eruption: tiny split fissure, tremor, rising dust, pressure, FRAME 5 bursting scrap metal and dust revealing a dark center, debris falling, dust and sparks dissolving across frames6-16. Keep genuine evolving forms, not repeated transformed frames. Fixed ground anchor x50%,y65% of EVERY cell and keep the camera fixed. All smoke, fragments, glows, faint dust must stay inside the central region. Final frame nearly empty. Natural textured iron fragments and ochre dust, premium 2D RPG animation asset, no creatures.\nOutput a square transparent RGBA PNG with exactly4 equal columns and4 equal rows, requested2048x2048. This is a clean regeneration of the sequence with much wider gutters; do not paint over edges or bake opaque transparency patterns.",
+    "ground": {
+      "x": 0.5,
+      "y": 0.87
+    },
+    "contactFrame": 4,
+    "visualReview": "SEQUENCE_REVIEW_PENDING",
+    "replaces": {
+      "source": "source/spawn-v1.png",
+      "reason": "Rejected: frame 05 edge alpha 6 exceeded maximum 5"
+    },
+    "sourceSha256": "a70419c939050872a0e1d3debb0536f5613f826466246caf13e8508e2d4c2437",
+    "runtime": "spawn/atlas-v1.webp",
+    "runtimeSha256": "72837c95c0244a1885f1133ef0e5d0a74377af526e57c0a70f12873d9fb540a2",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "cellSize": 314,
+    "size": [
+      1256,
+      1256
+    ],
+    "frameCount": 16,
+    "columns": 4,
+    "rows": 4,
+    "frames": [
+      {
+        "index": 0,
+        "file": "spawn/frames/01.webp",
+        "rawSha256": "9d281a1035b9e539ff728abfb3af4c72615ea025e8f75b72a18b1ac97cb4911b",
+        "sha256": "a52af487b79e1bb2dde0c115a236e5180c6990bc98ffdec1bc4eead1bf0340d4",
+        "edgeMax": 0,
+        "nonempty": 6026,
+        "alphaTotal": 540377,
+        "bounds": [
+          97,
+          226,
+          228,
+          273
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 1,
+        "file": "spawn/frames/02.webp",
+        "rawSha256": "334727bf94421221c4ceaa3cbbf4f5c9b055405bd4b12f6d62e7fb5cfd278ae2",
+        "sha256": "b36fbb417db4c9ca5ede94c145fb82621e4eee7ff4d6f783a5b3e265b96abf4f",
+        "edgeMax": 1,
+        "nonempty": 9566,
+        "alphaTotal": 937878,
+        "bounds": [
+          96,
+          193,
+          232,
+          277
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 2,
+        "file": "spawn/frames/03.webp",
+        "rawSha256": "f6c1a97af7cbf035c217100299084610027719bc7f6dde230a56184dedb138e8",
+        "sha256": "c062226556bcb5f2c227991137dfb82e5a9a3ac09ce8917fd4c4b4379e0a12fb",
+        "edgeMax": 1,
+        "nonempty": 12193,
+        "alphaTotal": 1385514,
+        "bounds": [
+          75,
+          195,
+          225,
+          279
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 3,
+        "file": "spawn/frames/04.webp",
+        "rawSha256": "cf710eb27db54a0091546cd70ee942f8340d93121d40f327dbfd92fe8724ed14",
+        "sha256": "b94b2bedf012d42d14b80d70e1e1caca465689cd74ea6af5cdfe529723037f8e",
+        "edgeMax": 0,
+        "nonempty": 14651,
+        "alphaTotal": 2148705,
+        "bounds": [
+          80,
+          176,
+          231,
+          284
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 4,
+        "file": "spawn/frames/05.webp",
+        "rawSha256": "925830d92eea1baf7fb637e3ba5cddf4d50862e06094ac2dd69bcfd75f7f4326",
+        "sha256": "b6283e2518f81ce7784792c9af72b937e7521f6a1403f079fbec28eff1bbf625",
+        "edgeMax": 1,
+        "nonempty": 35338,
+        "alphaTotal": 6310268,
+        "bounds": [
+          62,
+          77,
+          269,
+          282
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 5,
+        "file": "spawn/frames/06.webp",
+        "rawSha256": "b6275ae1c2a5b9238718c98a37d73ecbc20f6d12bd556ceb1464634fa90f65a7",
+        "sha256": "9277ce9e5264b99a955390df86e479bf1ef7688e553223f66f0f92ecd836a658",
+        "edgeMax": 1,
+        "nonempty": 34041,
+        "alphaTotal": 5688117,
+        "bounds": [
+          71,
+          84,
+          266,
+          286
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 6,
+        "file": "spawn/frames/07.webp",
+        "rawSha256": "d386a9001f6bdfa9ec6bb7366fd088b19ffc83358ee5e26cc3b7b88f7e3cd6d4",
+        "sha256": "df6ef2dce00085df2d2ec4313aae41b1262e9047f7b27509c8bacf3977a36d1a",
+        "edgeMax": 1,
+        "nonempty": 32911,
+        "alphaTotal": 5409560,
+        "bounds": [
+          52,
+          79,
+          242,
+          283
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 7,
+        "file": "spawn/frames/08.webp",
+        "rawSha256": "d6934ccf5a16bd175c58b9ba22e1e4034b65f4dccddf4bdc609ef9cfa1f8cff1",
+        "sha256": "591813b6f7de312ad0c0b1e99b1d16bc8d8b582d452780c95f93352cfc815e9a",
+        "edgeMax": 1,
+        "nonempty": 26094,
+        "alphaTotal": 3867359,
+        "bounds": [
+          59,
+          107,
+          247,
+          280
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 8,
+        "file": "spawn/frames/09.webp",
+        "rawSha256": "ee6ae3225961b6eed3551338f706323bf10b9c01f2e40478f7ec48e6deac9749",
+        "sha256": "a18451b4bff669336ccc768bd9f193e81c6d3c3e51ea0f16ee88f5dc94dde634",
+        "edgeMax": 1,
+        "nonempty": 25814,
+        "alphaTotal": 4326441,
+        "bounds": [
+          77,
+          107,
+          256,
+          263
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 9,
+        "file": "spawn/frames/10.webp",
+        "rawSha256": "4cd30e09f7cb13d94c980df8515f7f9022059630f236ff7f317cd0aa1fde0977",
+        "sha256": "2ede38a5b7fa1fdcae0b4f4ddcdf2d4236c92594045faf2f9669e28e16f17c33",
+        "edgeMax": 1,
+        "nonempty": 21811,
+        "alphaTotal": 3445380,
+        "bounds": [
+          75,
+          114,
+          249,
+          263
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 10,
+        "file": "spawn/frames/11.webp",
+        "rawSha256": "aec5340f039a2dbb5314a45ed35f728f3a39970f1465300775964ae8b2ae7e4f",
+        "sha256": "55aa0e9cd8f8868978bba0551c0f0d72a13561e91e2a3da2a309d49a903e3d19",
+        "edgeMax": 1,
+        "nonempty": 18898,
+        "alphaTotal": 3027775,
+        "bounds": [
+          73,
+          131,
+          241,
+          261
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 11,
+        "file": "spawn/frames/12.webp",
+        "rawSha256": "394713b3fa65014a0f0e74db706569a7fb90e32cf86104044c806418d995ffeb",
+        "sha256": "0fcd36d26f570d87a2535578697b3f61e7ff60641d034b186a8fee6e63dba523",
+        "edgeMax": 1,
+        "nonempty": 12591,
+        "alphaTotal": 1744468,
+        "bounds": [
+          79,
+          161,
+          231,
+          260
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 12,
+        "file": "spawn/frames/13.webp",
+        "rawSha256": "8a1cf5e7bbabf9b3ba9b79b86b6031610d263e4e9d60a6d64f470dc7cc9e179a",
+        "sha256": "fea95ade56b2e8753e090f1f4fd1a2d6837cba8fb65c223a497d09df249ac7c2",
+        "edgeMax": 1,
+        "nonempty": 9752,
+        "alphaTotal": 1186252,
+        "bounds": [
+          96,
+          148,
+          236,
+          237
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 13,
+        "file": "spawn/frames/14.webp",
+        "rawSha256": "b24f8300be14137a6a0eab1ec858b4bcf6fbae9e8c661e075323627bb845b03d",
+        "sha256": "aa99c4c9dd6a5dc409d3289336095928f9b2c582299d950a3b61ea13a4e394ed",
+        "edgeMax": 1,
+        "nonempty": 8764,
+        "alphaTotal": 906984,
+        "bounds": [
+          92,
+          162,
+          237,
+          233
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 14,
+        "file": "spawn/frames/15.webp",
+        "rawSha256": "8151788b98323d8cbd59ee0db87ab5821f61d5f8107d15f3b163ecfc7ba42b0b",
+        "sha256": "17c5fecd484a3bb26f38054a039fe22e6711d8dda2676a29dc1693c79405fcf2",
+        "edgeMax": 1,
+        "nonempty": 8528,
+        "alphaTotal": 642767,
+        "bounds": [
+          92,
+          177,
+          222,
+          237
+        ],
+        "size": [
+          314,
+          314
+        ]
+      },
+      {
+        "index": 15,
+        "file": "spawn/frames/16.webp",
+        "rawSha256": "76ba1a55982642cbccb54547c8eff1ea91164a869f9ece93e2d0b1fad047c439",
+        "sha256": "43e59c5349fb0db8368a84c3b4777629571c96b16b367740053d4624fdadda32",
+        "edgeMax": 1,
+        "nonempty": 4063,
+        "alphaTotal": 243878,
+        "bounds": [
+          103,
+          191,
+          209,
+          232
+        ],
+        "size": [
+          314,
+          314
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-09-26",
+  "status": "USER_REVIEW_PENDING",
+  "assets": [
+    {
+      "id": "overgrown-forge-field-v2",
+      "prompt": "Use case: stylized-concept. Asset type: high quality 2D painted Korean fantasy RPG battle asset for SOOPKETMON V3. Crisp, rich painterly game illustration, sophisticated clean silhouette, readable at small sprite size, no text, no watermark, no UI. Create a wide 16:9 landscape battlefield background ONLY, no characters. An abandoned ancient stone foundry reclaimed by green forest, with teal crystal mineral seams and warm late afternoon sunlight. Ground-level side-view tactical battle camera, slight view down onto broad continuous slate ground covering bottom 70% of image. The middle left and middle right battle spaces must be wide, open and low-detail for characters and collectible drops. Enormous weathered stone arches, distant vertical furnace structures and tangled trees in background top 30%, hazy turquoise distance, warm sun from upper left. Beautiful grounded fantasy, not a gray scrapyard, no moon, no large foreground obstructions, no dramatic circular arena, no perspective vanishing point in middle of battlefield. Full bleed 1536x1024 or wider landscape.",
+      "source": "C:/Users/User/.codex/generated_images/01a0d992-ca1e-7b91-9388-0bb1e33ecfcf/exec-941fc934-4154-4ad2-ba27-e08085ff7205.png"
+    },
+    {
+      "id": "ember-mantis-sd-v2",
+      "prompt": "Use case: stylized-concept. Asset type: high quality 2D painted Korean fantasy RPG battle asset for SOOPKETMON V3. Crisp, rich painterly game illustration, sophisticated clean silhouette, readable at small sprite size, no text, no watermark, no UI. Create ONE full-body enemy sprite on a genuinely transparent background, not a sheet. A low, agile furnace mantis beast: charcoal ceramic exoskeleton, bright amber molten abdomen, two broad hooked forelimbs like obsidian blades, four articulated insect legs, small fierce bright eyes. Distinct predatory insect silhouette. Three-quarter side view facing LEFT, planted feet all at same ground plane, entire monster fully visible centered with generous transparent margin. Compact game battle proportions (large head and body, short sturdy limbs), detailed painted materials, clear anatomy, no smoke or ground shadow spreading outside the silhouette. No human, no gun, no backdrop.",
+      "source": "C:/Users/User/.codex/generated_images/01a0d992-ca1e-7b91-9388-0bb1e33ecfcf/exec-04b778d2-d8d4-4743-aafb-dee3fabaa169.png"
+    },
+    {
+      "id": "mossback-tortoise-sd-v2",
+      "prompt": "Use case: stylized-concept. Asset type: high quality 2D painted Korean fantasy RPG battle asset for SOOPKETMON V3. Crisp, rich painterly game illustration, sophisticated clean silhouette, readable at small sprite size, no text, no watermark, no UI. Create ONE full-body enemy sprite on a genuinely transparent background, not a sheet. A hulking forest tortoise beast with a shell made of layered ancient stone temple fragments overgrown with moss and pale jade crystals; powerful short reptile legs, plated boar-like head, dark green body, glowing warm amber eyes. Low wide armored silhouette clearly different from humanoid robots. Three-quarter side view facing LEFT, all feet visible on consistent ground plane, centered entire creature with generous transparent margin. Compact game battle proportions, finely painted stone and soft moss, no environment, no ground disc, no text, no smoke, no giant glow.",
+      "source": "C:/Users/User/.codex/generated_images/01a0d992-ca1e-7b91-9388-0bb1e33ecfcf/exec-72294d82-6c72-4351-bf03-ed040afb508f.png"
+    },
+    {
+      "id": "cobalt-bat-sd-v2",
+      "prompt": "Use case: stylized-concept. Asset type: high quality 2D painted Korean fantasy RPG battle asset for SOOPKETMON V3. Crisp, rich painterly game illustration, sophisticated clean silhouette, readable at small sprite size, no text, no watermark, no UI. Create ONE full-body enemy sprite on a genuinely transparent background, not a sheet. A sinister cobalt cave bat wyvern, navy fur, bright turquoise membranes, two curling ivory horns, sharp compact face and tiny magenta eyes, two strong rear talons lowered, wings lifted in a restrained broad V. Powerful small dragon-bat monster, richly painted flexible wing skin and layered fur, distinctive aerial silhouette. Three-quarter side view facing LEFT, centered and fully visible including wing tips with generous transparent margin. Compact game battle proportions and readable clean contours, no backdrop, no cast shadow, no smoke, no particle aura.",
+      "source": "C:/Users/User/.codex/generated_images/01a0d992-ca1e-7b91-9388-0bb1e33ecfcf/exec-9bf8cffb-8130-41c3-99c3-0f9afcc120b0.png"
+    },
+    {
+      "id": "ancient-forge-warden-boss-sd-v2",
+      "prompt": "Use case: stylized-concept. Asset type: high quality 2D painted Korean fantasy RPG battle asset for SOOPKETMON V3. Crisp, rich painterly game illustration, sophisticated clean silhouette, readable at small sprite size, no text, no watermark, no UI. Create ONE full-body BOSS enemy sprite on a genuinely transparent background, not a sheet. Ancient foundry guardian: enormous broad-shouldered stone-and-bronze golem with two massive asymmetric arms, right forearm a heavy furnace hammer, left forearm a broken fortress shield. A bright turquoise vertical crystal core in its chest, dark rust bronze plates, pale weathered sandstone, small glowing gold face inset in a deep square helmet. A crown of three solid angular stone pillars, moss at shoulders, two heavy planted legs. Regal imposing silhouette, not a humanoid mech and not a scrap robot. Three-quarter side view facing LEFT, full body centered all hands feet and crown visible, generous transparent margins. Beautiful painted game boss detail with broad organized material shapes, no environment, no dust, no floor, no smoke, no huge effects.",
+      "source": "C:/Users/User/.codex/generated_images/01a0d992-ca1e-7b91-9388-0bb1e33ecfcf/exec-b70f0bc4-6909-489a-bf56-017437f196d6.png",
+      "rejectedFramingSource": "C:/Users/User/.codex/generated_images/01a0d992-ca1e-7b91-9388-0bb1e33ecfcf/exec-7901d73e-2712-40db-b475-0e1737f983d9.png",
+      "revisionPrompt": "Preserve the guardian design, show the complete crown, hammer, shield and feet inside transparent margins; no backdrop."
+    }
+  ]
+}

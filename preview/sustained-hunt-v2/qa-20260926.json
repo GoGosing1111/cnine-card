@@ -1,0 +1,131 @@
+{
+  "date": "2026-09-26",
+  "scope": "독립 몰이사냥 V2 프리뷰, 명시적으로 선택하는 12슬롯/구간 장벽/전투 제한 옵션",
+  "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "liveDeployment": false,
+  "automated": [
+    {
+      "command": "node --check scripts/serve-sustained-hunt-v2.mjs; node --check preview/sustained-hunt-v2/app.js; node --check preview/sustained-hunt-v2/session.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/build-sustained-hunt-v2.mjs",
+      "result": "PASS; actual canonical V3 engine, playback, renderer and adapter input recorded in engine-build.json"
+    },
+    {
+      "command": "node --test tests/sustained-hunt-v2.test.mjs",
+      "pass": 13,
+      "fail": 0,
+      "coverage": [
+        "four difficulty/party outcomes",
+        "37 monsters and three bosses, wave barriers",
+        "real canonical combat time limit",
+        "manual-only/idempotent claims",
+        "expiry, cross-session and invalid coordinates",
+        "future/stale reveal rejection and original deadline preservation",
+        "continuous random coordinates and spacing",
+        "clear/defeat/timeout/retreat",
+        "bounded server options",
+        "24 PVE/PVP outputs equal engine base",
+        "canonical bundle inputs",
+        "60-second pause does not consume drain timeout; active stalls and cancellation remain bounded"
+      ]
+    },
+    {
+      "command": "node --test tests/battle-suit-skill-chip-runtime-v2046.test.mjs",
+      "pass": 25,
+      "fail": 0
+    },
+    {
+      "command": "node --test tests/pve-battlefield-entry-v2117.test.mjs",
+      "pass": 7,
+      "fail": 0
+    },
+    {
+      "command": "node --test tests/scrapyard-v3-server-v1.test.mjs tests/scrapyard-v3-preview-v1.test.mjs tests/scrapyard-result-recovery-20260923.test.mjs tests/z-body-area-skill-v3.test.mjs tests/z-body-release-v3.test.mjs",
+      "pass": 66,
+      "fail": 0
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "uniqueAutomatedCasesPassed": 111,
+  "browser": {
+    "browser": "Codex in-app browser",
+    "desktop": {
+      "viewport": "1440x960",
+      "difficulty": "normal",
+      "party": "standard",
+      "speed": 2,
+      "result": "CLEAR",
+      "kills": 37,
+      "bosses": 3,
+      "picked": 1,
+      "missed": 14,
+      "item": "REVIEW_ENGINE x1",
+      "consoleErrors": 0,
+      "visual": "Background, transparent monster sprites, middle/final bosses, random field drops, common five-card portrait dock visible."
+    },
+    "mobile": [
+      {
+        "viewport": "390x844",
+        "difficulty": "normal",
+        "party": "standard",
+        "speed": 2,
+        "result": "RETREAT",
+        "kills": 27,
+        "bosses": 1,
+        "picked": 1,
+        "missed": 10,
+        "item": "REVIEW_SCRAP x1",
+        "visual": "No horizontal overflow, one renderer, clickable loot and pause/retreat usable."
+      },
+      {
+        "viewport": "390x844",
+        "difficulty": "inferno",
+        "party": "standard",
+        "speed": 2,
+        "result": "DEFEAT",
+        "kills": 12,
+        "bosses": 0,
+        "picked": 0,
+        "missed": 4,
+        "combatSeconds": 49,
+        "consoleErrors": 0
+      },
+      {
+        "viewport": "390x844",
+        "difficulty": "normal",
+        "party": "standard",
+        "speed": 2,
+        "result": "CLEAR",
+        "kills": 37,
+        "bosses": 3,
+        "picked": 0,
+        "missed": 11,
+        "combatSeconds": 34,
+        "consoleErrors": 0,
+        "visual": "Unattended complete run yields no loot."
+      }
+    ],
+    "finalPauseRecheck": {
+      "result": "PASS",
+      "description": "Held combat paused longer than the old six-second drain budget; kill count/time stayed at 1 and 02:28 while loot expired. Resumed, reached 37/37 kills and 3/3 bosses, clicked one new scrap drop. No queue-drain error or console errors. Browser resized from 390x844 to 847x844 during verification; canvas and field drop alignment remained valid.",
+      "foundAndFixed": "Local subclass excludes paused duration from bullet-drain timeout, gates new shots, and pauses newly created shared timelines."
+    }
+  },
+  "resources": {
+    "tool": "built-in image_gen",
+    "backgrounds": 1,
+    "newTransparentMonsters": 4,
+    "totalSpecies": 10,
+    "assetManifest": "assets/manifest.json",
+    "generationPrompts": "assets/generation-inputs.json",
+    "status": "USER_REVIEW_PENDING"
+  },
+  "productionGate": "No operating navigation/API/economy/flags changed. New art and hunting configuration await user preview review; production identity, durable atomic claim and reconnect integration remain outside this local preview.",
+  "securityLimits": "Random locations impede fixed-coordinate clickers but do not prove a human is monitoring; real live anti-automation is not claimed."
+}

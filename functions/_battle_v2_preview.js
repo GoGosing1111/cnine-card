@@ -684,7 +684,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
   let mercenaryRuntime=null;
   const applyDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);return result;};
   const cardRandom = seededRandom(seed);
@@ -698,13 +698,17 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // single simulation owns HP, RNG, magic budgets and suit clocks throughout.
   // Restrict it to bounded, uniquely identified PVE monsters, never player cards.
   if (!Array.isArray(reinforcements) || reinforcements.length > 40) throw new Error('INVALID_REINFORCEMENTS');
+  // Explicit bounded preview extension; existing encounters retain five slots.
+  if (!Number.isInteger(encounterCapacity) || encounterCapacity < 1 || encounterCapacity > 12 ||
+      !Number.isSafeInteger(maxCombatDurationMs) || maxCombatDurationMs < 0 || maxCombatDurationMs > 180000) throw new Error('INVALID_ENCOUNTER_LIMITS');
   const pendingMonsters = reinforcements.map(card => ({ ...card }));
   const encounterMode = pendingMonsters.length > 0;
   if (encounterMode) {
     const ids = new Set(a.map(card => card.id));
     for (const card of [...b, ...pendingMonsters]) {
       if (!card.isMonster || card.side !== 'B' || !card.id || ids.has(card.id) ||
-          !Number.isInteger(card.slot) || card.slot < 0 || card.slot > 4 ||
+          !Number.isInteger(card.slot) || card.slot < 0 || card.slot >= encounterCapacity ||
+          (card.encounterWave !== undefined && (!Number.isInteger(card.encounterWave) || card.encounterWave < 0 || card.encounterWave > 8)) ||
           !Number.isFinite(card.hp) || card.hp <= 0 || !Number.isFinite(card.speed) || card.speed <= 0) {
         throw new Error('INVALID_REINFORCEMENT_MONSTER');
       }
@@ -1057,6 +1061,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
   const zAreaEnabled=Z_BODY_AREA_RELEASE_ENABLED||zAreaReview===true;
   const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))):null;
+  if (maxCombatDurationMs && !chipActor) throw new Error('ENCOUNTER_COMBAT_CLOCK_REQUIRED');
   const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor));
   const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const zAreaRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
@@ -1125,9 +1130,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Refill only empty slots. The final boss waits until every earlier enemy
     // is dead. Existing fighters are never rebuilt or healed at this boundary.
     if (pendingMonsters.length) {
+      const spawnFrom = timeline.length;
       let index;
       while ((index = pendingMonsters.findIndex((card, i) =>
         !targetableAlive(b).some(live => live.slot === card.slot) &&
+        (!Number.isInteger(card.encounterWave) || ![...targetableAlive(b), ...pendingMonsters].some(earlier => Number(earlier.encounterWave) < card.encounterWave)) &&
         (!card.encounterAfterClear || (i === 0 && !targetableAlive(b).length)))) >= 0) {
         const [card] = pendingMonsters.splice(index, 1);
         card.gauge = clamp(Number(card.gauge || 0) + random() * 8, 0, 99);
@@ -1140,6 +1147,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           label: card.isBoss ? '고철군주 출현' : '회수 방어대 증원'
         });
       }
+      if (encounterCapacity > 5 && timeline.length > spawnFrom) stampCombatGroup(spawnFrom, combatMs, false);
     }
     const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card)&&mercenaryActionAvailable(card));
     if(!actors.length)break;
@@ -1164,6 +1172,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(chipActor&&independentAction){
       const fraction=clamp((nextActionAt-lastCardGaugeClock)/Math.max(.000001,gaugeReadyAt-lastCardGaugeClock),0,1);
       nextStepMs=Math.max(combatMs,lastCardCombatMs+(nextCombatMs-lastCardCombatMs)*fraction);
+    }
+    if (maxCombatDurationMs && Math.min(nextStepMs, nextChipMs()) > maxCombatDurationMs) {
+      combatMs = maxCombatDurationMs; nextCombatMs = maxCombatDurationMs; durationStopped = true; break;
     }
     if(chipActor&&nextChipMs()<=nextStepMs){resolveChipStep();continue;}
     const groupFrom=timeline.length;

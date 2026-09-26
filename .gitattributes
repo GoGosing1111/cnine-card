@@ -3,3 +3,4 @@
 # Generated Pixi WGSL templates intentionally retain end-of-line spaces.
 preview/v3-wide-grid-v1/battle.bundle.js whitespace=-blank-at-eol
 preview/cow-room-v3-v1/battle.bundle.js whitespace=-blank-at-eol
+preview/sustained-hunt-v2/battle.bundle.js whitespace=-blank-at-eol
