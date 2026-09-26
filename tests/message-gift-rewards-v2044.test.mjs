@@ -61,6 +61,35 @@ test('1500억 COIN: failed wallet write rolls back the claim and can retry',asyn
   assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=1').get().coin,160_000_000_000);
 });
 
+test('대회 성황리 기념: 150만 MASTER_STAR claim and concurrent retries credit the full amount once',async t=>{
+  const f=fixture(t),r=f.reward('MASTER_STAR',1_500_000);
+  f.sqlite.exec("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'MASTER_STAR',777,5)");
+  const results=await Promise.all([f.claim(r),f.claim(r)]);
+  assert.equal(results.filter(result=>result.credited).length,1);
+  assert.deepEqual({...f.sqlite.prepare('SELECT quantity,unseen_quantity FROM cnine_user_inventory').get()},{quantity:1_500_777,unseen_quantity:1_500_005});
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM inventory_logs').get().n,1);
+  assert.equal((await f.claim(r)).duplicate,true);
+  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=1').get().coin,10_000_000_000);
+});
+
+test('대회 성황리 기념: two-message bulk claim recovers failed stars without paying 1500억 COIN twice',async t=>{
+  const f=fixture(t);f.reward('COIN',150_000_000_000,1);f.reward('MASTER_STAR',1_500_000,2);
+  const deps={specFor:f.context.spec,canRecover:async()=>false,claim:f.context.claim};
+  f.DB.fail=sql=>sql.includes('INSERT INTO inventory_logs');
+  const first=await claimMessageRewardBatch({DB:f.DB},{id:1},[1,2],deps);
+  assert.equal(first[0].ok,true);assert.equal(first[1].needsVerification,true);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM cnine_user_inventory').get().n,0);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_message_reward_claim_receipts_v1222').get().n,1);
+  assert.equal(f.sqlite.prepare('SELECT claimed_at FROM user_message_rewards WHERE id=2').get().claimed_at,null);
+  f.DB.fail=null;
+  const second=await claimMessageRewardBatch({DB:f.DB},{id:1},[1,2],deps);
+  assert.equal(second[0].alreadyClaimed,true);assert.equal(second[1].ok,true);
+  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=1').get().coin,160_000_000_000);
+  assert.equal(f.sqlite.prepare("SELECT quantity FROM cnine_user_inventory WHERE item_code='MASTER_STAR'").get().quantity,1_500_000);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM coin_logs').get().n,1);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM inventory_logs').get().n,1);
+});
+
 for(const [code,amount,label] of gifts){
   test(`${code}: supported inventory reward credits exactly once and never spends it`,async t=>{
     const f=fixture(t),r=f.reward(code,amount);
