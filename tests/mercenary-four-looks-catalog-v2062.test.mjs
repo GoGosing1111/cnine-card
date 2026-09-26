@@ -63,10 +63,10 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
     assert.equal(media.entries.filter(entry => entry.code === code && entry.kind === 'art').length, 2);
     assert.equal(media.entries.some(entry => entry.code === code && entry.kind === 'sd'), true);
   }
-  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-050');
+  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-054');
 });
 
-test('catalog release uses current CMS data and preserves all 50 separate art and SD resources', () => {
+test('catalog release uses current CMS data and preserves all 54 separate art and SD resources', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   const html = read('mercenary-codex/index.html').toString();
   assert.match(html, /mercenary-codex\/app\.mjs\?v=2133/);
