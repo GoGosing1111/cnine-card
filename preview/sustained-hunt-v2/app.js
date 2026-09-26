@@ -51,6 +51,7 @@
     if(!liveMode){$('hunt-difficulty').disabled=playing||!engine||starting;$('hunt-party').disabled=playing||!engine||starting;$('hunt-setup').hidden=playing;}
   }
   function inventory(rows=[]){
+    if($('hunt-loot-bag'))$('hunt-loot-bag').dataset.empty=String(!rows.length);
     $('bag-items').replaceChildren();
     if(!rows.length){$('bag-items').textContent='아직 획득한 아이템이 없습니다';return;}
     for(const row of rows){const span=document.createElement('span'),img=document.createElement('img');img.src=row.image;img.alt='';span.append(img,document.createTextNode(row.name+' ×'+row.quantity));$('bag-items').append(span);}
@@ -68,10 +69,12 @@
     engine?.setHuntPaused(false);renderer?.destroy();api.destroy();engine=null;session=null;buttons();
     if(oldSession&&!reuse)await request('cancel',{id:oldSession}).catch(()=>{});
     $('hunt-kills').textContent=$('hunt-bosses').textContent=$('hunt-picked').textContent='0';$('hunt-boss-hud').hidden=true;
+    $('hunt-time').textContent='15:00';if($('hunt-time-label'))$('hunt-time-label').textContent='최종 보스 출현까지';if($('hunt-progress-fill'))$('hunt-progress-fill').style.width='0%';
     $('hunt-stage').textContent='15분 연속 토벌';$('hunt-objective').textContent='계속 밀려오는 군단을 처치하세요';inventory();updatePolicy();message('원정대와 몬스터를 배치하고 있습니다.');
     const data=reuse&&oldSession&&oldPayload?{id:oldSession,payload:oldPayload,entries}:await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{version:2}:{party:$('hunt-party').value})});
     if(token!==epoch){void request('cancel',{id:data.id});return;}
     session=data.id;payload=data.payload;entries=data.entries||null;notifyParent('legion-hunt-session',{id:session});window.cnineCardCatalog=()=>payload.cards;
+    if($('hunt-difficulty-label'))$('hunt-difficulty-label').textContent=payload.huntPolicy.name;
     if($('hunt-suit-skill')){$('hunt-suit-skill').hidden=!payload.battleV2.teams.A.supports.some(s=>s.cardId==='BATTLE_SUIT:BATTLE_SUIT_Z_BODY');$('hunt-suit-skill').textContent='Z-BODY · 뇌검 집행 대기';}
     const playerName=payload.accountNickname||'원정대';
     const modal=$('hunt-modal'),prepared=ProjectVBattleV3Live.prepareLoading({modal,mode:'HUNT',playerName,opponentName:'몬스터 군단',autoText:'잊혀진 섬에 진입하고 있습니다.'});
@@ -94,6 +97,8 @@
   function updateClock(){
     const at=Math.max(renderedAt,(engine?.skillChipPlayback?.clock.time||0)*1000);
     $('hunt-time').textContent=time((at<payload.huntPolicy.huntDurationMs?payload.huntPolicy.huntDurationMs:payload.huntPolicy.limitMs)-at);
+    if($('hunt-time-label'))$('hunt-time-label').textContent=at<payload.huntPolicy.huntDurationMs?'최종 보스 출현까지':'보스 제한 시간';
+    if($('hunt-progress-fill'))$('hunt-progress-fill').style.width=Math.min(100,at/payload.huntPolicy.huntDurationMs*100)+'%';
   }
   function bossHud(){
     const a=engine.enemies.filter(a=>engine.isAlive(a)&&a.isBoss).at(-1);

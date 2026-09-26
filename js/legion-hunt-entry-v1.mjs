@@ -32,7 +32,7 @@ let active=null;
 export function openLegionHunt(button){
   if(active)return;
   const dialog=document.createElement('dialog');dialog.className='legion-hunt-portal';dialog.setAttribute('aria-label','군단토벌 입장');
-  dialog.innerHTML=`<header class="legion-portal-bar"><span><i aria-hidden="true">Ⅰ</i> 군단토벌 <small>OWNER</small></span><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
+  dialog.innerHTML=`<header class="legion-portal-bar"><div class="legion-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>숲켓몬<small>SOOPKETMON</small></span></div><nav class="legion-breadcrumb" aria-label="현재 위치"><span>모험</span><i aria-hidden="true">/</i><b>군단토벌</b></nav><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
     <div class="legion-lobby"><div class="legion-lobby-layout">
       <section class="legion-intro" aria-labelledby="legion-island-title">
         <div class="legion-hero-halo" aria-hidden="true"></div><img class="legion-guardian" src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt="섬의 최종 보스 태고의 수호자">
@@ -49,10 +49,10 @@ export function openLegionHunt(button){
       <section class="legion-squad"><div class="legion-section-heading"><div><span>YOUR EXPEDITION</span><h2>출전 원정대</h2></div><button type="button" data-hunt-refresh>편성 새로고침 <span aria-hidden="true">↻</span></button></div>
         <p class="legion-account"></p><div class="legion-loadout"><div class="legion-cards" aria-label="저장된 일반 카드 5장"></div><div class="legion-mercenary" aria-label="용병 전용 슬롯"></div></div><p class="legion-equipment"></p>
       </section>
-      <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>어디까지 돌파할 것인가</h2></div></div>
+      <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>난이도 선택</h2></div></div>
         <div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
         <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span>오늘 입장 <b class="legion-entries"></b></span></div>
-        <div class="legion-drop-guide"><div class="legion-pickup-symbol" aria-hidden="true"><i></i><svg viewBox="0 0 32 40"><path d="M6 2v28l7-7 7 12 5-3-7-12h11z"/></svg></div><div><b>눈앞의 전리품을 놓치지 마세요</b><p>필드 곳곳에 나타나는 아이템을<br>사라지기 전에 직접 눌러 획득하세요.</p></div></div>
+        <div class="legion-drop-guide"><div class="legion-pickup-symbol" aria-hidden="true"><i></i><svg viewBox="0 0 32 40"><path d="M6 2v28l7-7 7 12 5-3-7-12h11z"/></svg></div><div><b>전리품은 직접 눌러 획득</b><p>필드에 나타난 아이템을<br>사라지기 전에 챙기세요.</p></div></div>
         <button class="legion-poster-link" data-hunt-poster type="button"><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 공식 포스터"><span><small>군단토벌 · 잊혀진 섬</small><b>콘텐츠 소개 보기</b></span><span aria-hidden="true">↗</span></button>
         <footer class="legion-entry-footer"><p class="legion-entry-status" role="status" aria-live="polite">저장된 편성을 불러오는 중입니다.</p><button type="button" class="legion-enter" data-hunt-enter disabled>편성 불러오는 중</button><small>OWNER 공개 · 실계정 보상 지급 OFF</small></footer>
       </aside>
@@ -62,9 +62,10 @@ export function openLegionHunt(button){
   const clearFrame=()=>{
     if(session){void jointAccountRequest('legion-hunt/cancel',{method:'POST',body:{id:session}}).catch(()=>{});session=null;}
     if(frame){frame.src='about:blank';frame.remove();frame=null;}
-    find('.legion-play').hidden=true;find('.legion-lobby').hidden=false;
+    find('.legion-play').hidden=true;find('.legion-lobby').hidden=false;dialog.dataset.phase='lobby';
   };
   const render=state=>{
+    dialog.dataset.phase=state.phase;
     if(state.phase==='battle')return;
     const data=state.data,loadout=data?.loadout,loading=state.phase==='loading';
     const exhausted=data?.entries?.remaining===0;
@@ -88,7 +89,7 @@ export function openLegionHunt(button){
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260926-15min';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260927-lobby-ui';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;
