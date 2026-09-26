@@ -18,7 +18,7 @@ export function validateDuoPolicy(raw){
  return {revision:integer(raw.revision??0,0,2147483646,'운영 버전'),enabled:raw.enabled!==false,anchor:iso(Date.parse(raw.anchor)),
   energy:{mode:'RANKED',maximum,dailyGrant:maximum,cost:integer(raw.energy.cost,1,maximum,'공격 비용'),rechargeMinutes:integer(raw.energy.rechargeMinutes,1,1440,'충전 간격')},
   score:{initial:integer(raw.score?.initial,0,1000000,'시작 점수'),win:integer(raw.score?.win,0,100000,'승리 점수'),loss:integer(raw.score?.loss,0,100000,'패배 점수')},
-  rewards:{winCoin:integer(raw.rewards?.winCoin,0,10000000,'승리 코인'),tierEnabled:raw.rewards?.tierEnabled!==false},
+  rewards:{winCoin:integer(raw.rewards?.winCoin,0,Number.MAX_SAFE_INTEGER,'승리 코인'),tierEnabled:raw.rewards?.tierEnabled!==false},
   tiers,challenger:{...duoTiers().challenger,...duoRewardAmounts(raw.challenger)},mercenaryWeights:raw.mercenaryWeights||{},
   source:{name:String(raw.source?.name||'').slice(0,80),copiedAt:raw.source?.copiedAt||raw.anchor}};
 }
