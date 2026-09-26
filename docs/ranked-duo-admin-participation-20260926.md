@@ -24,3 +24,13 @@
 - 배포 과정의 `SCOPED_DEPLOY_TESTS`: `["tests/ranked-duo-server.test.mjs","tests/ranked-duo-seasons.test.mjs","tests/ranked-duo-weekly.test.mjs"]`.
 - `SCOPED_DEPLOY_CHECKS`: `["check:worker"]`.
 - 새 ADMIN 회귀 4개는 같은 게임 코드에서 이미 통과했으므로 중복 실행하지 않는다. 배포 중 기존 듀오 참가·매칭·편성·정산/보상 회귀와 Worker 컴파일, 출시 게이트, 깨끗한 커밋·origin/main, Hyperdrive 캐시 OFF를 확인한다.
+
+## 운영 반영 결과
+
+- 게임 코드 커밋: `3ce82347` (`origin/main` 반영 후 배포).
+- 새 ADMIN 회귀 4개와 기존 듀오 회귀 49개, 총 53개 통과. Worker 구문·컴파일, 운영 출시 가드와 Hyperdrive 캐시 OFF/바인딩 일치 검사도 통과했다.
+- Pages production: `094931c5-0227-400e-94d8-7c782383519d`, https://094931c5.cnine-card.pages.dev. 배포 목록에서 `main` / `3ce8234`를 확인했다.
+- `cnine-card-clan-draft` Worker 버전: `cd2849bd-29ec-4cf4-a6a4-ab109232f34d`. 분 단위 스케줄 배포까지 정상 완료했다.
+- 2026-09-26 19:08 KST 운영 확인: `/api/live-operations` 200, 기존 랭크 듀오 시즌 1 모집 상태와 마감 유지. 비로그인 `/api/ranked-duo/status` 401로 인증 요구 유지.
+- ADMIN 참가부터 정산까지의 검증은 격리된 실제 라우트/DB 회귀에서 수행했다. 운영 계정 참가·취소나 재화 변경은 실행하지 않았다.
+- 이 결과 기록은 문서만 추가 커밋하며 게임을 다시 배포하지 않는다.
