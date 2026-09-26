@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {forgeFixture} from './helpers/forge-db.mjs';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,FORGE_PROTECTION_CATALOG_MARKER} from '../functions/_forge_protection_catalog.js';
 import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM} from '../functions/_forge_repair_catalog.js';
+import {ensureEmperorEnergyCatalog} from '../functions/_emperor_energy.js';
 import {forgeAdminState} from './helpers/forge-held-runtime.mjs';
 import {saveForgeRuntime,readForgeRuntime} from './helpers/forge-held-runtime.mjs';
 
@@ -12,7 +13,7 @@ const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url
 const body=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("    if(path==='inventory/seen'"));
 assert(body.includes('ensureForgeProtectionCatalog'));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
-const inventoryRoute=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM}=deps;
+const inventoryRoute=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureEmperorEnergyCatalog}=deps;
 const path='inventory',ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${body}`);
 
 for(const postgres of [false,true]){
@@ -46,7 +47,7 @@ for(const postgres of [false,true]){
     const f=await forgeFixture(t,{postgres});
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,3,1)',FORGE_PROTECTION_ITEM.code).run();
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(8,?,99)',FORGE_PROTECTION_ITEM.code).run();
-    const deps={env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM};
+    const deps={env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureEmperorEnergyCatalog};
     const response=await inventoryRoute(deps),item=response.body.items.find(item=>item.code===FORGE_PROTECTION_ITEM.code);
     assert.equal(response.status,200);assert.equal(item.quantity,3);assert.equal(item.unseenQuantity,1);assert.equal(item.image,FORGE_PROTECTION_ITEM.image);assert.equal(item.usable,false);assert.match(item.useDisabledMessage,/장비 강화/);
     assert.equal(await f.qty(FORGE_PROTECTION_ITEM.code),3);assert.equal(await f.coin(),10000000);
