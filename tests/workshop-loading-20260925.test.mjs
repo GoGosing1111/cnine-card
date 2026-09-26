@@ -105,3 +105,11 @@ test('logout clears a pending authenticated read without a resolved-promise retr
   assert.equal(h.reads.length,2);h.reads[1].reject(new Error('Authentication required'));
   await assert.rejects(loading,/Authentication required/);
 });
+
+test('hover warming prepares assets without fetching a balance before actual entry',()=>{
+  const h=harness();h.context.runtimeCommandContext='buy';
+  const section=app.slice(app.indexOf('workshop:{'),app.indexOf('workshopAssemblyFx:{'));
+  const prepare=vm.runInContext('('+section.match(/prepare:(.+),\r?\n/)[1]+')',h.context);
+  prepare();assert.equal(h.reads.length,0);
+  h.context.runtimeCommandContext='workshop';prepare();prepare();assert.equal(h.reads.length,1);
+});

@@ -104,6 +104,14 @@ try{
    await ws.locator('[data-ws-section="SYNTHESIS"][aria-pressed="true"]').waitFor();
    assert.equal(await page.evaluate(()=>window.__workshopQaRemounted),true,'summary remount ran during resource loading');
    assert.equal(reads,coldReads+1,'cold deep link with summary remount makes one read');
+   await page.goto(base+'/?screen=home',{waitUntil:'networkidle'});
+   const beforeHover=reads;
+   await page.evaluate(()=>window.warmFeatureForTab('workshop'));
+   await page.waitForFunction(()=>typeof window.bindWorkshopView==='function');
+   await page.waitForTimeout(1100);
+   assert.equal(reads,beforeHover,'hover and idle time never prefetch stale balances');
+   await page.evaluate(()=>window.SoopketmonV21RuntimeRouter.navigate('fusion'));
+   await ws.locator('.ws81-nav').waitFor();assert.equal(reads,beforeHover+1,'warm assets still fetch fresh state on entry');
   }
   await page.close();
  }
