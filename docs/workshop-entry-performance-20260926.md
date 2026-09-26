@@ -40,3 +40,11 @@
 - 공동 후보의 전체 게이트·배포 완료를 기다렸고, Wrangler 운영 목록에서 `44a0e952-a151-4218-bdcc-1e0a53a0d472` / **`1e0fdfe96da7cd677da7ad3f53a2319897c375ef`** 운영 반영을 확인했다. 이 배포에 최초 제작소 성능 수정이 포함됐다.
 - hover 보강은 이 실제 직전 운영 SHA를 기준으로 `npm run deploy:production -- --scoped`를 사용한다. `SCOPED_DEPLOY_TESTS`는 `tests/workshop-loading-20260925.test.mjs`, `tests/navigation-contract-v1.mjs`, `SCOPED_DEPLOY_CHECKS`는 빈 배열이다.
 - 선정 이유: 실제 진입 시점의 읽기 시작만 보강했으며 상태 조회·재시도·계정 변경·라우팅 계약이 영향 범위다. PC·모바일 hover/직접 진입 재현도 통과했다. 서버 거래 변경이 없으므로 이미 통과한 경제·전투 전체 검사는 반복하지 않는다.
+
+## 최종 운영 확인
+
+- 배포 커밋 `5a4bb4b5`, Pages **`eafd77b8-0221-498f-a2a7-338fe245a9c3`**. 지정 범위 배포 명령 성공, 선택 회귀 12개 통과, 출시·캐시 계약 및 Hyperdrive query cache OFF 확인.
+- 운영 `https://cnine-card.pages.dev/?screen=fusion`: PC 1440px / 모바일 에뮬레이션 390px 모두 최초 장비 합성 화면, 상태 조회 1회, 표시 이미지 12개 모두 thumbnail 경로. 불필요한 차량 이미지 요청 0개, 모바일 화면 넘침 0px, 보이는 이미지 오류 0개. 조회 시간 표본 PC 263ms / 모바일 290ms.
+- 운영 index/변경 JS 5개/부품 WebP 3개가 로컬 배포 파일과 바이트 단위로 동일하며 HTTP 200. 앱 캐시 `workshopLoading=20260926-2` 확인.
+- 검수용 CPU·네트워크 제한 해제, PC 뷰포트 복원, 로컬 검수 서버 종료. 운영 계정 재화 사용 없음.
+- 이 운영 확인 기록만 추가한 커밋은 문서 변경이므로 운영을 다시 배포하지 않는다.
