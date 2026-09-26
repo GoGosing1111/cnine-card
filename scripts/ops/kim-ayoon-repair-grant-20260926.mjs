@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 
 export const OPERATION_KEY='ops:kim-ayoon-repair-coupon:20260926:v1';
+export const FOLLOWUP_OPERATION_KEY='ops:kim-ayoon-repair-coupon:20260926:v2';
 export const TARGET=Object.freeze({id:5209,nickname:'김아윤'});
 export const ITEM_CODE='PINGDU_REPAIR_COUPON';
 export const ITEM_NAME='핑두 리페어 쿠폰';
@@ -9,7 +10,9 @@ const walletSql='SELECT id,nickname,status,coin,card_shards,magic_crystals FROM 
 const balances=row=>({quantity:String(row?.quantity??0),unseenQuantity:String(row?.unseen_quantity??0)});
 
 // Explicit one-time operation; never imported by game routes or initialization.
-export async function grantKimAyoonRepairCoupon(client,{dryRun=false}={}){
+export async function grantKimAyoonRepairCoupon(client,{dryRun=false,operationKey=OPERATION_KEY}={}){
+ assert.ok([OPERATION_KEY,FOLLOWUP_OPERATION_KEY].includes(operationKey),'Unapproved grant operation');
+ const reason=operationKey===FOLLOWUP_OPERATION_KEY?'사용자 후속 지시: 김아윤 리페어권 2장 추가 지급':REASON;
  const q=async(sql,args=[])=>(await client.query(sql,args)).rows;
  await client.query('BEGIN');
  try{
@@ -21,10 +24,10 @@ export async function grantKimAyoonRepairCoupon(client,{dryRun=false}={}){
   assert.equal(Number(users[0].id),TARGET.id,'Reviewed account changed');
   assert.equal(users[0].nickname,TARGET.nickname,'Reviewed nickname changed');
   assert.equal(users[0].status,'ACTIVE','Target account must be active');
-  const [saved]=await q('SELECT value FROM app_meta WHERE key=$1',[OPERATION_KEY]);
+  const [saved]=await q('SELECT value FROM app_meta WHERE key=$1',[operationKey]);
   if(saved){
    const receipt=JSON.parse(saved.value);
-   assert.equal(receipt.status,'COMPLETED');assert.equal(receipt.operationKey,OPERATION_KEY);
+   assert.equal(receipt.status,'COMPLETED');assert.equal(receipt.operationKey,operationKey);
    assert.equal(receipt.user.id,TARGET.id);assert.equal(receipt.itemCode,ITEM_CODE);assert.equal(receipt.amount,2);
    await client.query('COMMIT');return {...receipt,replayed:true};
   }
@@ -32,7 +35,7 @@ export async function grantKimAyoonRepairCoupon(client,{dryRun=false}={}){
   assert.equal(item?.name,ITEM_NAME,'Reviewed catalog changed');assert.equal(Number(item.is_active),1,'Item must be active');
   const [owner]=await q("SELECT id FROM users WHERE UPPER(role)='OWNER' AND UPPER(status)='ACTIVE' ORDER BY id LIMIT 1");
   assert.ok(owner,'Active owner required for audit attribution');
-  assert.equal((await q('SELECT id FROM inventory_logs WHERE user_id=$1 AND item_code=$2 AND reference_id=$3',[TARGET.id,ITEM_CODE,OPERATION_KEY])).length,0,'Grant ledger exists without receipt');
+  assert.equal((await q('SELECT id FROM inventory_logs WHERE user_id=$1 AND item_code=$2 AND reference_id=$3',[TARGET.id,ITEM_CODE,operationKey])).length,0,'Grant ledger exists without receipt');
   const [owned]=await q('SELECT quantity,unseen_quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code=$2 FOR UPDATE',[TARGET.id,ITEM_CODE]);
   const before=balances(owned),walletBefore=(await q(walletSql,[TARGET.id]))[0];
   for(const value of Object.values(before))assert.ok(BigInt(value)>=0n&&BigInt(value)<=BigInt(Number.MAX_SAFE_INTEGER)-2n,'Invalid inventory balance');
@@ -46,16 +49,16 @@ export async function grantKimAyoonRepairCoupon(client,{dryRun=false}={}){
   const after=balances(inventory[0]);
   for(const key of Object.keys(before))assert.equal(BigInt(after[key]),BigInt(before[key])+2n,'Incorrect inventory delta');
   const ledger=await q(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id,created_at)
-   VALUES($1,$2,2,$3,$4,'SYSTEM_GRANT',$5,$6,$7) RETURNING id`,[TARGET.id,ITEM_CODE,after.quantity,REASON,OPERATION_KEY,owner.id,now]);
+   VALUES($1,$2,2,$3,$4,'SYSTEM_GRANT',$5,$6,$7) RETURNING id`,[TARGET.id,ITEM_CODE,after.quantity,reason,operationKey,owner.id,now]);
   assert.equal(ledger.length,1,'Grant ledger missing');
   assert.deepEqual((await q(walletSql,[TARGET.id]))[0],walletBefore,'Account balances changed');
-  const receipt={status:'COMPLETED',operationKey:OPERATION_KEY,actor:'SYSTEM_OPS',user:TARGET,itemCode:ITEM_CODE,itemName:ITEM_NAME,amount:2,
+  const receipt={status:'COMPLETED',operationKey:operationKey,actor:'SYSTEM_OPS',user:TARGET,itemCode:ITEM_CODE,itemName:ITEM_NAME,amount:2,
    before,after,inventoryLogId:String(ledger[0].id),completedAt:now};
   const audit=await q(`INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at)
    VALUES($1,'OPS_REPAIR_COUPON_GRANT','USER_INVENTORY',$2,$3,$4,$5) RETURNING id`,
-   [owner.id,`${TARGET.id}:${ITEM_CODE}`,JSON.stringify({operationKey:OPERATION_KEY,...before}),JSON.stringify({...receipt,reason:REASON}),now]);
+   [owner.id,`${TARGET.id}:${ITEM_CODE}`,JSON.stringify({operationKey:operationKey,...before}),JSON.stringify({...receipt,reason:reason}),now]);
   assert.equal(audit.length,1,'Grant audit missing');receipt.adminLogId=String(audit[0].id);
-  assert.equal((await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key',[OPERATION_KEY,JSON.stringify(receipt),now])).length,1,'Completion receipt missing');
+  assert.equal((await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key',[operationKey,JSON.stringify(receipt),now])).length,1,'Completion receipt missing');
   await client.query(dryRun?'ROLLBACK':'COMMIT');return {...receipt,dryRun,replayed:false};
  }catch(error){await client.query('ROLLBACK').catch(()=>{});throw error;}
 }

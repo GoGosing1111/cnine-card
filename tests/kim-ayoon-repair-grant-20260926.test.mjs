@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
-import {grantKimAyoonRepairCoupon,OPERATION_KEY,TARGET,ITEM_CODE,ITEM_NAME} from '../scripts/ops/kim-ayoon-repair-grant-20260926.mjs';
+import {grantKimAyoonRepairCoupon,OPERATION_KEY,FOLLOWUP_OPERATION_KEY,TARGET,ITEM_CODE,ITEM_NAME} from '../scripts/ops/kim-ayoon-repair-grant-20260926.mjs';
 
 async function fixture(){
  const db=new PGlite();
@@ -17,6 +17,22 @@ async function fixture(){
  return {db,client:{async query(sql,args=[]){const r=await db.query(sql,args);return {...r,rowCount:r.affectedRows??r.rows.length};}}};
 }
 async function snapshot(db){const result={};for(const table of ['users','inventory_items','cnine_user_inventory','inventory_logs','admin_logs','app_meta'])result[table]=(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows;return result;}
+
+test('explicit follow-up adds two once, preserves the first receipt, and rolls back failures independently',async()=>{
+ const {db,client}=await fixture();try{
+  const first=await grantKimAyoonRepairCoupon(client),before=await snapshot(db),options={operationKey:FOLLOWUP_OPERATION_KEY};
+  await assert.rejects(()=>grantKimAyoonRepairCoupon(client,{operationKey:'unapproved'}),/Unapproved/);
+  const broken={query:(sql,args)=>sql.startsWith('INSERT INTO admin_logs')?Promise.reject(Error('audit failed')):client.query(sql,args)};
+  await assert.rejects(()=>grantKimAyoonRepairCoupon(broken,options),/audit failed/);assert.deepEqual(await snapshot(db),before);
+  assert.equal((await grantKimAyoonRepairCoupon(client,{...options,dryRun:true})).dryRun,true);assert.deepEqual(await snapshot(db),before);
+  const second=await grantKimAyoonRepairCoupon(client,options),after=await snapshot(db);
+  assert.equal(second.operationKey,FOLLOWUP_OPERATION_KEY);assert.equal(second.before.quantity,first.after.quantity);assert.equal(second.after.quantity,'6');
+  assert.equal(after.inventory_logs.length,2);assert.equal(after.admin_logs.length,2);assert.equal(after.app_meta.length,2);
+  assert.deepEqual(after.app_meta.find(row=>row.key===OPERATION_KEY),before.app_meta.find(row=>row.key===OPERATION_KEY));
+  assert.equal((await grantKimAyoonRepairCoupon(client)).replayed,true);assert.equal((await grantKimAyoonRepairCoupon(client,options)).replayed,true);
+  assert.deepEqual(await snapshot(db),after);
+ }finally{await db.close();}
+});
 
 test('increments only the target coupon by two and retries never grant twice, with existing or missing inventory',async()=>{
  for(const existing of [true,false]){
