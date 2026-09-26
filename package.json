@@ -99,7 +99,7 @@
     "build:chuseok": "node scripts/build-ui-fx.mjs chuseok",
     "test:chuseok": "node --test tests/chuseok-v1.test.mjs tests/chuseok-coupon-v1.test.mjs tests/chuseok-retirement-v1.test.mjs",
     "test:daily-quest": "node --test tests/daily-quest-100eok-20260919.test.mjs tests/playdk-daily-quest-admin-access-v1909.test.mjs tests/quest-hub-20260924.test.mjs",
-    "test:legion-hunt": "node --test tests/sustained-hunt-v2.test.mjs tests/legion-hunt-owner-cms-20260926.test.mjs"
+    "test:legion-hunt": "node --test tests/sustained-hunt-v2.test.mjs tests/legion-hunt-owner-cms-20260926.test.mjs tests/legion-hunt-entry-account-20260926.test.mjs tests/legion-hunt-z-body-playback-20260926.test.mjs tests/legion-hunt-duration-entries-20260926.test.mjs"
   },
   "dependencies": {
     "pg": "^8.16.3"
