@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>백의의 맹세 · SS 간호사 용병</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./preview.css"><script type="module" src="./ui.js"></script></head>
+<body><main>
+<header><a href="/mercenary-codex/">숲켓몬 <span>/ 용병 제작실</span></a><span class="review-badge">신규 원화 · 검수본</span></header>
+<div class="heading"><div><p class="eyebrow">PROJECT V · HEALER COLLECTION</p><h1>백의의 맹세</h1><p>네 명의 간호사, 하나의 회복 스킬.</p></div><div class="count"><strong>SS</strong><span>힐러 4명<br>공통 스킬 1종</span></div></div>
+<nav id="nurses" class="nurses" aria-label="간호사 용병 선택"></nav>
+<section class="character" aria-label="선택한 간호사">
+ <div class="portrait"><a id="artLink" target="_blank" rel="noopener"><img id="art" alt=""></a><div class="portrait-caption"><span>CHARACTER ART</span><span>원화 확대 ↗</span></div></div>
+ <div class="details"><div class="identity"><span id="specialty" class="eyebrow"></span><h2 id="name"></h2><p id="description"></p><div class="tags"><span>SS</span><span>힐러</span><span>공통 회복</span></div></div>
+ <div class="sd-stage" id="sdStage"><span class="stage-label">전투 SD</span><img id="sd" alt=""><button id="background" type="button" aria-pressed="false">밝은 배경</button></div>
+ <div class="asset-links"><a id="sourceDownload" download>원화 PNG ↓</a><a id="sdDownload" download>투명 SD PNG ↓</a></div></div>
+</section>
+<section id="rehearsal" class="rehearsal">
+ <div class="section-heading"><div><span class="eyebrow">공통 스킬 · 01</span><h2>백의의 맹세</h2><p>치유의 빛을 모아 아군에게 펼칩니다.<br>네 간호사 모두 동일한 스킬 리소스를 사용합니다.</p></div><img class="skill-icon" src="./assets/skill/frames/08.webp" alt="백의의 맹세 회복 정점"></div>
+ <div class="controls"><button id="play" class="primary" disabled>스킬 준비 중</button><button id="restart" disabled>처음부터</button><button id="impact" disabled>회복 정점</button><button id="cancel" disabled>정지</button><label>재생 속도<select id="speed" disabled><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+ <div class="scrubber"><span id="cue">전장 준비</span><input id="scrub" type="range" min="0" max="2.6" step=".01" value="0" aria-label="스킬 재생 위치" disabled><output id="time">0.00 / 2.60초</output></div>
+ <div class="battle-viewport"><iframe src="./battle.html" title="간호사 용병 공통 회복 스킬 V3 시연"></iframe></div><p id="health" role="status">전투 SD와 회복 연출을 준비하고 있습니다.</p>
+ <div class="phases"><span><b>01</b>치유 에너지 집중</span><span><b>02</b>빛 전개</span><span><b>03</b>회복</span><span><b>04</b>잔향 · 소멸</span></div>
+ <details><summary>16프레임 연속 스프라이트 보기</summary><div id="frames" class="frames"></div></details>
+</section>
+<section class="lineup"><div class="section-heading"><div><span class="eyebrow">4명의 SS 힐러</span><h2>원화 전체 보기</h2></div></div><div id="allArt" class="all-art"></div></section>
+<footer><p>사용자가 지정한 원화와 이름을 사용합니다. 회복량과 재사용 대기시간은 미정이며, 현재 화면은 리소스 검수용입니다.</p><div><a href="./manifest.json" target="_blank">리소스 명세 ↗</a><a href="./README.md" target="_blank">제작 기록 ↗</a></div></footer>
+</main></body></html>

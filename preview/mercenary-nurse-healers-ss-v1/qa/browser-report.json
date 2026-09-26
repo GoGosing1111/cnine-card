@@ -1,0 +1,1216 @@
+[
+  {
+    "name": "desktop",
+    "overflow": {
+      "client": 1440,
+      "scroll": 1440
+    },
+    "errors": [],
+    "failed": [],
+    "selected": [
+      {
+        "name": "디임간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "name": "희야 간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-052",
+        "canvasCount": 1
+      },
+      {
+        "name": "조은 간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-053",
+        "canvasCount": 1
+      },
+      {
+        "name": "봉순 간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-054",
+        "canvasCount": 1
+      }
+    ],
+    "frames": [
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0.25,
+        "speed": 1,
+        "playing": false,
+        "phase": "치유 에너지 집중",
+        "activeFrame": 0,
+        "blend": 0.9705882352941176,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0.72,
+        "speed": 1,
+        "playing": false,
+        "phase": "백의의 빛 전개",
+        "activeFrame": 5,
+        "blend": 0,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0.88,
+        "speed": 1,
+        "playing": false,
+        "phase": "아군 회복",
+        "activeFrame": 7,
+        "blend": 0,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 1.52,
+        "speed": 1,
+        "playing": false,
+        "phase": "치유 잔향",
+        "activeFrame": 11,
+        "blend": 0,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 2.6,
+        "speed": 1,
+        "playing": false,
+        "phase": "회복 완료",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 380.00000000000006,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 214
+          },
+          {
+            "x": 590,
+            "y": 214
+          },
+          {
+            "x": 170,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 590,
+            "y": 390.0000000000001
+          },
+          {
+            "x": 380.00000000000006,
+            "y": 566
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      }
+    ],
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.101,
+        "wall": 0.40279999999981375,
+        "pauseStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.2,
+        "wall": 0.4011000000005588,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.4,
+        "wall": 0.40120000000018624,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 0.808,
+        "wall": 0.40370000000018624,
+        "pauseStable": true
+      }
+    ],
+    "restarted": {
+      "ready": true,
+      "skillId": "NURSE_WHITE_OATH",
+      "time": 0.224,
+      "speed": 2,
+      "playing": true,
+      "phase": "치유 에너지 집중",
+      "activeFrame": 0,
+      "blend": 0.7411764705882353,
+      "visibleSprites": 12,
+      "ownedTimelines": 1,
+      "registeredTimelines": 1,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "frameCount": 16,
+      "targetCount": 5,
+      "contacts": [
+        {
+          "x": 380.00000000000006,
+          "y": 214
+        },
+        {
+          "x": 170,
+          "y": 214
+        },
+        {
+          "x": 590,
+          "y": 214
+        },
+        {
+          "x": 170,
+          "y": 390.0000000000001
+        },
+        {
+          "x": 590,
+          "y": 390.0000000000001
+        },
+        {
+          "x": 380.00000000000006,
+          "y": 566
+        }
+      ],
+      "regularCards": 5,
+      "mercenaryInRegularArray": false,
+      "destroyed": false,
+      "selectedCode": "V-051",
+      "canvasCount": 1
+    },
+    "stopped": {
+      "ready": true,
+      "skillId": "NURSE_WHITE_OATH",
+      "time": 0,
+      "speed": 2,
+      "playing": false,
+      "phase": "시전 대기",
+      "activeFrame": null,
+      "blend": 0,
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "frameCount": 16,
+      "targetCount": 5,
+      "contacts": [
+        {
+          "x": 380.00000000000006,
+          "y": 214
+        },
+        {
+          "x": 170,
+          "y": 214
+        },
+        {
+          "x": 590,
+          "y": 214
+        },
+        {
+          "x": 170,
+          "y": 390.0000000000001
+        },
+        {
+          "x": 590,
+          "y": 390.0000000000001
+        },
+        {
+          "x": 380.00000000000006,
+          "y": 566
+        }
+      ],
+      "regularCards": 5,
+      "mercenaryInRegularArray": false,
+      "destroyed": false,
+      "selectedCode": "V-051",
+      "canvasCount": 1
+    },
+    "disposed": {
+      "ready": false,
+      "skillId": "NURSE_WHITE_OATH",
+      "time": 0,
+      "speed": 2,
+      "playing": false,
+      "phase": "시전 대기",
+      "activeFrame": null,
+      "blend": 0,
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "frameCount": 16,
+      "targetCount": 5,
+      "contacts": [
+        {
+          "x": 380.00000000000006,
+          "y": 214
+        },
+        {
+          "x": 170,
+          "y": 214
+        },
+        {
+          "x": 590,
+          "y": 214
+        },
+        {
+          "x": 170,
+          "y": 390.0000000000001
+        },
+        {
+          "x": 590,
+          "y": 390.0000000000001
+        },
+        {
+          "x": 380.00000000000006,
+          "y": 566
+        }
+      ],
+      "regularCards": 0,
+      "mercenaryInRegularArray": false,
+      "destroyed": true,
+      "selectedCode": "V-051",
+      "canvasCount": 0
+    }
+  },
+  {
+    "name": "mobile",
+    "overflow": {
+      "client": 390,
+      "scroll": 390
+    },
+    "errors": [],
+    "failed": [],
+    "selected": [
+      {
+        "name": "디임간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "name": "희야 간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-052",
+        "canvasCount": 1
+      },
+      {
+        "name": "조은 간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-053",
+        "canvasCount": 1
+      },
+      {
+        "name": "봉순 간호사",
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "phase": "시전 대기",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-054",
+        "canvasCount": 1
+      }
+    ],
+    "frames": [
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0.25,
+        "speed": 1,
+        "playing": false,
+        "phase": "치유 에너지 집중",
+        "activeFrame": 0,
+        "blend": 0.9705882352941176,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0.72,
+        "speed": 1,
+        "playing": false,
+        "phase": "백의의 빛 전개",
+        "activeFrame": 5,
+        "blend": 0,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 0.88,
+        "speed": 1,
+        "playing": false,
+        "phase": "아군 회복",
+        "activeFrame": 7,
+        "blend": 0,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 1.52,
+        "speed": 1,
+        "playing": false,
+        "phase": "치유 잔향",
+        "activeFrame": 11,
+        "blend": 0,
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      },
+      {
+        "ready": true,
+        "skillId": "NURSE_WHITE_OATH",
+        "time": 2.6,
+        "speed": 1,
+        "playing": false,
+        "phase": "회복 완료",
+        "activeFrame": null,
+        "blend": 0,
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "frameCount": 16,
+        "targetCount": 5,
+        "contacts": [
+          {
+            "x": 364.11695906432743,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 297.7659519168291
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 597.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 364.11695906432743,
+            "y": 897.7659519168292
+          },
+          {
+            "x": 148.11695906432746,
+            "y": 1197.7659519168292
+          }
+        ],
+        "regularCards": 5,
+        "mercenaryInRegularArray": false,
+        "destroyed": false,
+        "selectedCode": "V-051",
+        "canvasCount": 1
+      }
+    ],
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.1,
+        "wall": 0.40029999999981375,
+        "pauseStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.2,
+        "wall": 0.40080000000074506,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.4,
+        "wall": 0.4004000000003725,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 0.802,
+        "wall": 0.4001000000005588,
+        "pauseStable": true
+      }
+    ],
+    "restarted": {
+      "ready": true,
+      "skillId": "NURSE_WHITE_OATH",
+      "time": 0.226,
+      "speed": 2,
+      "playing": true,
+      "phase": "치유 에너지 집중",
+      "activeFrame": 0,
+      "blend": 0.7588235294117648,
+      "visibleSprites": 12,
+      "ownedTimelines": 1,
+      "registeredTimelines": 1,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "frameCount": 16,
+      "targetCount": 5,
+      "contacts": [
+        {
+          "x": 364.11695906432743,
+          "y": 297.7659519168291
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 297.7659519168291
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 597.7659519168292
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 897.7659519168292
+        },
+        {
+          "x": 364.11695906432743,
+          "y": 897.7659519168292
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 1197.7659519168292
+        }
+      ],
+      "regularCards": 5,
+      "mercenaryInRegularArray": false,
+      "destroyed": false,
+      "selectedCode": "V-051",
+      "canvasCount": 1
+    },
+    "stopped": {
+      "ready": true,
+      "skillId": "NURSE_WHITE_OATH",
+      "time": 0,
+      "speed": 2,
+      "playing": false,
+      "phase": "시전 대기",
+      "activeFrame": null,
+      "blend": 0,
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "frameCount": 16,
+      "targetCount": 5,
+      "contacts": [
+        {
+          "x": 364.11695906432743,
+          "y": 297.7659519168291
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 297.7659519168291
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 597.7659519168292
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 897.7659519168292
+        },
+        {
+          "x": 364.11695906432743,
+          "y": 897.7659519168292
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 1197.7659519168292
+        }
+      ],
+      "regularCards": 5,
+      "mercenaryInRegularArray": false,
+      "destroyed": false,
+      "selectedCode": "V-051",
+      "canvasCount": 1
+    },
+    "disposed": {
+      "ready": false,
+      "skillId": "NURSE_WHITE_OATH",
+      "time": 0,
+      "speed": 2,
+      "playing": false,
+      "phase": "시전 대기",
+      "activeFrame": null,
+      "blend": 0,
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "frameCount": 16,
+      "targetCount": 5,
+      "contacts": [
+        {
+          "x": 364.11695906432743,
+          "y": 297.7659519168291
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 297.7659519168291
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 597.7659519168292
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 897.7659519168292
+        },
+        {
+          "x": 364.11695906432743,
+          "y": 897.7659519168292
+        },
+        {
+          "x": 148.11695906432746,
+          "y": 1197.7659519168292
+        }
+      ],
+      "regularCards": 0,
+      "mercenaryInRegularArray": false,
+      "destroyed": true,
+      "selectedCode": "V-051",
+      "canvasCount": 0
+    }
+  }
+]

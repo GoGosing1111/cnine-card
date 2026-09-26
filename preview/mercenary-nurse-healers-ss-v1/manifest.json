@@ -1,0 +1,621 @@
+{
+  "format": "PROJECT_V_NURSE_HEALERS_RESOURCE_PACK_V1",
+  "version": 1,
+  "date": "2026-09-27",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "authorization": "간호사 4명 · SS 용병 힐러 · 원화/SD · 네 명에 동일 스킬 1종 제작",
+  "cards": [
+    {
+      "id": "diim-nurse",
+      "code": "V-051",
+      "name": "디임간호사",
+      "accent": "#bacda4",
+      "description": "검은 긴 머리와 올리브색 장식의 백색 간호복. 붕대를 준비하며 동료의 회복을 돕습니다.",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "HEALER",
+      "roleLabel": "힐러",
+      "roleStatus": "USER_ASSIGNED_ROLE",
+      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
+      "runtimeEnabled": false,
+      "skillIds": [
+        "NURSE_WHITE_OATH"
+      ],
+      "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/diim-nurse-source-art-v1.png",
+      "sourceArtSha256": "E71F2341E03911F9633A958EA0AFB2110EB1AF961840256440CEC6162F0361F3",
+      "sourceArtSize": [
+        1024,
+        1536
+      ],
+      "sourceArtStatus": "USER_SUPPLIED_SOURCE_ART",
+      "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/diim-nurse-preview.webp",
+      "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/diim-nurse-sd-v1.png",
+      "battleSpriteSha256": "6F7E1361B343AF9F8D6A64A71888B5ED73F02A13A6E750BA060155B59B3E5F49",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteFootAnchor": {
+        "x": 0.57763671875,
+        "y": 0.982421875
+      },
+      "battleSpriteInfo": {
+        "width": 1024,
+        "height": 1536,
+        "clear": 0.6732406616210938,
+        "solid": 0.2926158905029297,
+        "edgeMax": 1,
+        "bounds": [
+          158,
+          48,
+          857,
+          1509
+        ],
+        "footAnchor": {
+          "x": 0.57763671875,
+          "y": 0.982421875
+        }
+      }
+    },
+    {
+      "id": "heeya-nurse",
+      "code": "V-052",
+      "name": "희야 간호사",
+      "accent": "#c4b3e4",
+      "description": "라벤더색 간호복과 치료 가방. 손끝에 치유의 빛을 모아 동료에게 전합니다.",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "HEALER",
+      "roleLabel": "힐러",
+      "roleStatus": "USER_ASSIGNED_ROLE",
+      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
+      "runtimeEnabled": false,
+      "skillIds": [
+        "NURSE_WHITE_OATH"
+      ],
+      "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/heeya-nurse-source-art-v1.png",
+      "sourceArtSha256": "67BC6A9961423BE7A379AC46BFD4AC004B53503C238A6D345E60AE58D327171B",
+      "sourceArtSize": [
+        1024,
+        1536
+      ],
+      "sourceArtStatus": "USER_SUPPLIED_SOURCE_ART",
+      "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/heeya-nurse-preview.webp",
+      "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/heeya-nurse-sd-v1.png",
+      "battleSpriteSha256": "E5F147859B397239168285C720896FC43CFA1644FCC7D2F3BDAEC0C0325EC94B",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteFootAnchor": {
+        "x": 0.5317679558011049,
+        "y": 0.9848171152518979
+      },
+      "battleSpriteInfo": {
+        "width": 1086,
+        "height": 1449,
+        "clear": 0.6084637020260368,
+        "solid": 0.3344765615964271,
+        "edgeMax": 1,
+        "bounds": [
+          179,
+          29,
+          934,
+          1427
+        ],
+        "footAnchor": {
+          "x": 0.5317679558011049,
+          "y": 0.9848171152518979
+        }
+      }
+    },
+    {
+      "id": "joeun-nurse",
+      "code": "V-053",
+      "name": "조은 간호사",
+      "accent": "#91b6eb",
+      "description": "푸른 청진기와 휴대 치료 코어. 차분하게 상태를 살피고 회복을 지원합니다.",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "HEALER",
+      "roleLabel": "힐러",
+      "roleStatus": "USER_ASSIGNED_ROLE",
+      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
+      "runtimeEnabled": false,
+      "skillIds": [
+        "NURSE_WHITE_OATH"
+      ],
+      "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/joeun-nurse-source-art-v1.png",
+      "sourceArtSha256": "1A62F03FBB7C0C28E2E41725066DD6BF8C9D10F302F9F841A99EE68CEBCB1307",
+      "sourceArtSize": [
+        1024,
+        1536
+      ],
+      "sourceArtStatus": "USER_SUPPLIED_SOURCE_ART",
+      "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/joeun-nurse-preview.webp",
+      "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/joeun-nurse-sd-v1.png",
+      "battleSpriteSha256": "23921CF5969DF96C470C6B0EFCE24F6B10C3DA1DFD3957A14D3A4A016D47A826",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteFootAnchor": {
+        "x": 0.509765625,
+        "y": 0.95703125
+      },
+      "battleSpriteInfo": {
+        "width": 1024,
+        "height": 1536,
+        "clear": 0.741980234781901,
+        "solid": 0.2326221466064453,
+        "edgeMax": 0,
+        "bounds": [
+          263,
+          95,
+          730,
+          1470
+        ],
+        "footAnchor": {
+          "x": 0.509765625,
+          "y": 0.95703125
+        }
+      }
+    },
+    {
+      "id": "bongsun-nurse",
+      "code": "V-054",
+      "name": "봉순 간호사",
+      "accent": "#e4a798",
+      "description": "붉은 장식의 간호복과 약병, 치료 가방. 따뜻한 치유의 빛으로 동료를 돌봅니다.",
+      "rank": "SS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "HEALER",
+      "roleLabel": "힐러",
+      "roleStatus": "USER_ASSIGNED_ROLE",
+      "codeStatus": "PREVIEW_ONLY_PROVISIONAL",
+      "runtimeEnabled": false,
+      "skillIds": [
+        "NURSE_WHITE_OATH"
+      ],
+      "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/bongsun-nurse-source-art-v1.png",
+      "sourceArtSha256": "3969303830FCA578714DB6F47839FEE789BC0E64926F97BB20B56F8959D56CF5",
+      "sourceArtSize": [
+        1024,
+        1536
+      ],
+      "sourceArtStatus": "USER_SUPPLIED_SOURCE_ART",
+      "previewArt": "preview/mercenary-nurse-healers-ss-v1/assets/bongsun-nurse-preview.webp",
+      "battleSprite": "preview/mercenary-nurse-healers-ss-v1/assets/bongsun-nurse-sd-v1.png",
+      "battleSpriteSha256": "107189244DDD6EE368AA75B15459CAD9CD3FB6D68382863C59E9A984BABD0A5D",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+      "battleSpriteFootAnchor": {
+        "x": 0.5422405876951332,
+        "y": 0.9695501730103806
+      },
+      "battleSpriteInfo": {
+        "width": 1089,
+        "height": 1445,
+        "clear": 0.651966662536024,
+        "solid": 0.3072041586039699,
+        "edgeMax": 0,
+        "bounds": [
+          143,
+          55,
+          830,
+          1401
+        ],
+        "footAnchor": {
+          "x": 0.5422405876951332,
+          "y": 0.9695501730103806
+        }
+      }
+    }
+  ],
+  "skill": {
+    "id": "NURSE_WHITE_OATH",
+    "name": "백의의 맹세",
+    "role": "HEALER",
+    "runtimeEnabled": false,
+    "description": "치유의 빛을 모아 아군에게 펼치는 공통 회복 스킬.",
+    "targetConcept": "ALL_ALLIES",
+    "healCoefficient": null,
+    "cooldown": null,
+    "duration": 2.6,
+    "contactAt": 0.88,
+    "contactFrame": 7,
+    "frameKeys": [
+      [
+        0.14,
+        0
+      ],
+      [
+        0.48,
+        3
+      ],
+      [
+        0.72,
+        5
+      ],
+      [
+        0.88,
+        7
+      ],
+      [
+        1.16,
+        9
+      ],
+      [
+        1.52,
+        11
+      ],
+      [
+        1.94,
+        13
+      ],
+      [
+        2.4,
+        15
+      ]
+    ],
+    "source": "preview/mercenary-nurse-healers-ss-v1/assets/white-oath-sequence-v1.png",
+    "sourceSha256": "5615934BA16D0C63CF7736012633BDE692E81C87A8C723AD0DC16E40F1C1A416",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "atlas": "preview/mercenary-nurse-healers-ss-v1/assets/skill/atlas-v1.webp",
+    "atlasSha256": "54512623718DDA48220D86B37FE54C01014F3AF729A503C39B7D9B8EA5E37FBC",
+    "cellSize": 314,
+    "frameCount": 16,
+    "columns": 4,
+    "rows": 4,
+    "frames": [
+      {
+        "index": 0,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/01.webp",
+        "sha256": "8D4347C250006DE4ECEE6BE580DB9510F127F22AE8C5BE3BF54FA01BFB247A2D",
+        "sourceRawSha256": "7FA5C89D93EA2C79BCC6F29B37EC0DFF73E3EF9C92DE4227404FB68BA917EBA1",
+        "rawSha256": "3B088FAF2A0CBEAF022CBEE78D04F997B5DC2E3DE457F83C00316E503BDA6E3F",
+        "edgeMax": 1,
+        "bounds": [
+          123,
+          164,
+          222,
+          271
+        ],
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 1,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/02.webp",
+        "sha256": "24A7A8BC18C3C6702372191DA9D560A5A45AA3685882CF237BC1828744FE220B",
+        "sourceRawSha256": "7203B8859E6440F24298FB61B62ADE233FF7E5B37765EC76B8DC07E96DCDE8BB",
+        "rawSha256": "14B721E7201A65C673947C1AE7F60EA8AB1FC44D02EC147E036AB9C8F69790E5",
+        "edgeMax": 1,
+        "bounds": [
+          126,
+          63,
+          204,
+          271
+        ],
+        "rect": {
+          "x": 314,
+          "y": 0,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 2,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/03.webp",
+        "sha256": "E558D2E2826F7CDFA063B9DF2E569EC7E8EB591AF7B3D9F12D26D4E0B7C542F0",
+        "sourceRawSha256": "81B9CE6F929A5248BC1E084E4A8FC9D187712338E419F2DF57CDC9047423FA89",
+        "rawSha256": "A7E7A5E23484AF2E6303A55D3C844A90BA4BD2142BF5DA1C1468E1AB056EEB8E",
+        "edgeMax": 1,
+        "bounds": [
+          65,
+          53,
+          252,
+          275
+        ],
+        "rect": {
+          "x": 628,
+          "y": 0,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 3,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/04.webp",
+        "sha256": "F5217B1F0AF4FA970CFEDB04EE95315C219288CC8898B9830A3E67E770860541",
+        "sourceRawSha256": "30E4742CCB0ECBE643E4C4A2E14B3C578AFFAF3FEE8B7F7AC5D1A96EDAD8FAA4",
+        "rawSha256": "0393D50D79C5BDD7CE49F6C2A877F48916802A65A42A75BB105D690CFB545CAB",
+        "edgeMax": 1,
+        "bounds": [
+          59,
+          47,
+          251,
+          276
+        ],
+        "rect": {
+          "x": 942,
+          "y": 0,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 4,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/05.webp",
+        "sha256": "3E2CB826B52D4681A8E06A288B707CD6D3B2BC0A69ECBB8A183DD4ED73914DE1",
+        "sourceRawSha256": "42D51AF08E5870F5004F609AB2FD84AAA8689CE17F541D006DE405E6C2FA13BF",
+        "rawSha256": "B1AE2531C9EAEDFBA2CFCDE43F593D20FB1C4022F1E412508D6E366D88A19B1F",
+        "edgeMax": 2,
+        "bounds": [
+          63,
+          49,
+          258,
+          283
+        ],
+        "rect": {
+          "x": 0,
+          "y": 314,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 5,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/06.webp",
+        "sha256": "D5BD64858AC9E7EA8EA940AD951326D1BD51B33EC7AA50DDA670766037BD0801",
+        "sourceRawSha256": "183C1EA9AC7C09A1470D37DA29CC7794346E3E5F0456FACD1FDE68292C77E365",
+        "rawSha256": "81115E59F8FC6ECD24962127F35101A7A53CAED1261BA7D59131357402E8C067",
+        "edgeMax": 2,
+        "bounds": [
+          49,
+          48,
+          274,
+          274
+        ],
+        "rect": {
+          "x": 314,
+          "y": 314,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 6,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/07.webp",
+        "sha256": "3E3579DE1A29F996F43745CAD68BF5A3B3C291F050036A6B6A0D5439C9D8338B",
+        "sourceRawSha256": "36B77319F6571AC206220C786DEBF4168E1BFFAE1A766FF6085C3BE003DD5876",
+        "rawSha256": "29D2CC88C25F12349E3029507F8E11BD261079AFEF1782D8A9DDFAB059BF3AD8",
+        "edgeMax": 2,
+        "bounds": [
+          57,
+          71,
+          267,
+          276
+        ],
+        "rect": {
+          "x": 628,
+          "y": 314,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 7,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/08.webp",
+        "sha256": "DC16BAB522529E8D7681BEF169B272F98F61848358973CE39018993A97C5ADFB",
+        "sourceRawSha256": "18CD6487CEE898F318868541C971F47794EF4A1ED1391AD6FA6E5E7729E59290",
+        "rawSha256": "EB195094549D879B176B24FD8B86FE866DDEFDDF8FDEB758DB5AE922C1DD4314",
+        "edgeMax": 2,
+        "bounds": [
+          28,
+          27,
+          284,
+          280
+        ],
+        "rect": {
+          "x": 942,
+          "y": 314,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 8,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/09.webp",
+        "sha256": "FF1CF3DCC305A8872B3500759A7024580C6D024BDB3C3456911F37DBCB92B5AA",
+        "sourceRawSha256": "C3580FB68A3D18000527DE06404A88AE5FD60EBC114E1369AEC345744F989BF2",
+        "rawSha256": "B086A8BDB3CAD8AA80420EA84CA08C618BA04096485318F5551A4441E7E1D2F8",
+        "edgeMax": 1,
+        "bounds": [
+          39,
+          15,
+          284,
+          291
+        ],
+        "rect": {
+          "x": 0,
+          "y": 628,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 9,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/10.webp",
+        "sha256": "1487AF2B3425154BBEE133F14F03C4C8F6CF3D4E4FE47E8106429B72B70412A4",
+        "sourceRawSha256": "F2C2BB700ACD3FDA699316A9883C90AACDFC5F79F5FAB4B14225428871C81A4E",
+        "rawSha256": "C3663296C24770A1BDF44EA959A1BC8418C755CBFD5FAE16A54FB26B59506AE9",
+        "edgeMax": 2,
+        "bounds": [
+          45,
+          36,
+          273,
+          278
+        ],
+        "rect": {
+          "x": 314,
+          "y": 628,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 10,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/11.webp",
+        "sha256": "D24AB7A08FE068345847A7E7413E55767E23F125C20685B403FAE34FAC7810E5",
+        "sourceRawSha256": "00953DB780ED82596D7F62FE9B8E18BC498C3275AF8B85C5FF898EED4C666C45",
+        "rawSha256": "175E5D3C2F7E75C7C4CA109E4D7A4158941CDCB843D3B3A1AC686B965F3D8EB0",
+        "edgeMax": 2,
+        "bounds": [
+          69,
+          22,
+          253,
+          274
+        ],
+        "rect": {
+          "x": 628,
+          "y": 628,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 11,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/12.webp",
+        "sha256": "DF550AEF4F8DD58E50C5B3FF15748F7FE6E29CEEA610F9E32E0453C2899C5EA1",
+        "sourceRawSha256": "FF31202E11A8F68C8C8C5C2D4DBF81EC2CD2CD626685E4B0C7DEC1EE3D3A2B06",
+        "rawSha256": "FDD64ED4105C6106F5D6EBB5644080508201D71398C1992D89B4AACD94A89C26",
+        "edgeMax": 1,
+        "bounds": [
+          70,
+          44,
+          241,
+          274
+        ],
+        "rect": {
+          "x": 942,
+          "y": 628,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 12,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/13.webp",
+        "sha256": "4AD52A32829A401747C995B44F39A903E28F468DECC6235B7E504D374E99F544",
+        "sourceRawSha256": "FB26DAB30394015C3C51084030A38B14983EC589648E60408684A293C8261EA2",
+        "rawSha256": "ECBFE63A83E627219E0B524FF9DF9173D6D614B8D1379A834EF55E4B7F8333B6",
+        "edgeMax": 1,
+        "bounds": [
+          83,
+          46,
+          236,
+          256
+        ],
+        "rect": {
+          "x": 0,
+          "y": 942,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 13,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/14.webp",
+        "sha256": "9023524B24AAEE486D16DB24C313D1BA614F7A9B172E7F03CF0F13976330AC79",
+        "sourceRawSha256": "46F0EDA32BEE27E372F257A20A2FA315325C31D2BE41446113F192CC294C8C85",
+        "rawSha256": "8E7B3673A2E572E9CE38247F79C0280F602BA4E0E66E5D5E42C0ED5BC5A261C7",
+        "edgeMax": 1,
+        "bounds": [
+          126,
+          69,
+          200,
+          257
+        ],
+        "rect": {
+          "x": 314,
+          "y": 942,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 14,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/15.webp",
+        "sha256": "74364297A405D387DAC075407D6380CC91F13786C011D685D3B0F514BAD2324B",
+        "sourceRawSha256": "719ED23FA31F6913C8BEE7C3A2962F7AD4EEE4F13E163CA3F3D51D9752C07607",
+        "rawSha256": "2F0FE46129287B46D2ED453B3521E871E1461E1F7479B25318DB987942532726",
+        "edgeMax": 1,
+        "bounds": [
+          129,
+          127,
+          224,
+          226
+        ],
+        "rect": {
+          "x": 628,
+          "y": 942,
+          "width": 314,
+          "height": 314
+        }
+      },
+      {
+        "index": 15,
+        "file": "preview/mercenary-nurse-healers-ss-v1/assets/skill/frames/16.webp",
+        "sha256": "0D3ACC525ACA6027D5A534E8A7D532C813326729A73420E886D29E6FDDE36C1F",
+        "sourceRawSha256": "E58C5563603B6D17D141B7AA627DFABC2293D8768D496C0FD2780DA78E89DD2D",
+        "rawSha256": "E58C5563603B6D17D141B7AA627DFABC2293D8768D496C0FD2780DA78E89DD2D",
+        "edgeMax": 1,
+        "bounds": [
+          153,
+          201,
+          164,
+          213
+        ],
+        "rect": {
+          "x": 942,
+          "y": 942,
+          "width": 314,
+          "height": 314
+        }
+      }
+    ],
+    "approval": "USER_REVIEW_PENDING",
+    "assignment": {
+      "authority": "USER_REQUEST",
+      "cards": [
+        "V-051",
+        "V-052",
+        "V-053",
+        "V-054"
+      ]
+    },
+    "audio": "SILENT_VISUAL_RESOURCE_PREVIEW"
+  },
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "sharedEngine": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+    "implementation": "preview/mercenary-nurse-healers-ss-v1/source/NurseHealFX.js",
+    "clock": "V3_REGISTERED_GSAP",
+    "layers": [
+      "EXISTING_V3_EFFECT_LAYER",
+      "EXISTING_V3_COMBAT_GROUND_LAYER"
+    ],
+    "automaticSpritePlayback": false
+  },
+  "processing": "User-supplied source art and native generated SD/sequence PNG bytes preserved. SD alpha preserved. Exact grid extraction with <=1px transparent padding and lossless WebP atlas encoding. No synthetic intermediate frames.",
+  "balance": {
+    "healCoefficient": null,
+    "cooldown": null,
+    "acquisition": null
+  },
+  "liveCatalogChanged": false
+}

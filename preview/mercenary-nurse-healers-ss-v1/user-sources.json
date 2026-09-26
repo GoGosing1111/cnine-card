@@ -1,0 +1,42 @@
+[
+  {
+    "id": "diim-nurse",
+    "name": "디임간호사",
+    "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/diim-nurse-source-art-v1.png",
+    "originalFilename": "codex-clipboard-7fad1f3d-e3a2-40bb-948e-b75d4a8bfb1c.png",
+    "sha256": "E71F2341E03911F9633A958EA0AFB2110EB1AF961840256440CEC6162F0361F3",
+    "width": 1024,
+    "height": 1536,
+    "channels": 3
+  },
+  {
+    "id": "heeya-nurse",
+    "name": "희야 간호사",
+    "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/heeya-nurse-source-art-v1.png",
+    "originalFilename": "codex-clipboard-f74c4d0c-3500-4c18-9a2d-0cd5e68c651b.png",
+    "sha256": "67BC6A9961423BE7A379AC46BFD4AC004B53503C238A6D345E60AE58D327171B",
+    "width": 1024,
+    "height": 1536,
+    "channels": 3
+  },
+  {
+    "id": "joeun-nurse",
+    "name": "조은 간호사",
+    "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/joeun-nurse-source-art-v1.png",
+    "originalFilename": "codex-clipboard-1d8fea58-b780-4e65-af13-3db655c4279f.png",
+    "sha256": "1A62F03FBB7C0C28E2E41725066DD6BF8C9D10F302F9F841A99EE68CEBCB1307",
+    "width": 1024,
+    "height": 1536,
+    "channels": 3
+  },
+  {
+    "id": "bongsun-nurse",
+    "name": "봉순 간호사",
+    "sourceArt": "preview/mercenary-nurse-healers-ss-v1/assets/bongsun-nurse-source-art-v1.png",
+    "originalFilename": "codex-clipboard-8e3e7522-ec6b-4d04-9409-c5c47a92d882.png",
+    "sha256": "3969303830FCA578714DB6F47839FEE789BC0E64926F97BB20B56F8959D56CF5",
+    "width": 1024,
+    "height": 1536,
+    "channels": 3
+  }
+]

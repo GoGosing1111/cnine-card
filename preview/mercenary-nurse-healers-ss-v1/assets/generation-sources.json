@@ -1,0 +1,12 @@
+{
+  "generatedDirectory": "Codex generated_images",
+  "selectedOutputs": {
+    "diim-nurse": "exec-28e403ff-9025-4aeb-8499-af83c62c16b7.png",
+    "heeya-nurse": "exec-2dba8e8f-7ce7-43a5-a799-d4dd1e7bf10f.png",
+    "joeun-nurse": "exec-8667619a-d78c-4a73-bf2f-72f61f30a712.png",
+    "bongsun-nurse": "exec-7c4bf390-da0a-4154-9450-d85f3ee1f6b8.png",
+    "white-oath-sequence-v1": "exec-048dd326-4ced-4a1a-b73c-0b13cbe4dc94.png"
+  },
+  "sourcePortraits": "../user-sources.json",
+  "preservation": "All selected native PNG files copied without re-encoding; source-generation originals retained."
+}

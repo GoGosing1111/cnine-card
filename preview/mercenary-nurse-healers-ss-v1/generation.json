@@ -1,0 +1,69 @@
+{
+  "date": "2026-09-27",
+  "sourceArt": "Four user-supplied PNGs preserved byte-for-byte; see user-sources.json. No generated source-art substitutes.",
+  "sd": [
+    {
+      "id": "diim-nurse",
+      "name": "디임간호사",
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "prompt": "Use case: style-transfer. Produce one separate full-body transparent SD battle sprite for an SS healer mercenary in a Korean 2D fantasy RPG. Image 1 is the user-selected source portrait of 디임간호사; preserve that adult woman's recognizable face, hairstyle, nurse uniform details, colors and medical props. Image 2 is ONLY the approved SD proportions and refined painterly shading reference, not its black costume, purple palette, gun or identity. Long straight black hair, airy straight bangs, softly rounded adult face and calm brown eyes; white short-sleeved collared nurse mini dress with muted olive-green piping and a front zipper, white belt with rectangular brass buckle, small olive medical floral emblem on cap and uniform, matching slim medical pouch on hip. Hold a small white gauze bandage roll in the right hand with a short loose end; left hand open calmly. White ankle boots with olive-gold emblem, bare lower legs. No stethoscope, no staff, no syringe. Clearly adult woman translated to tasteful NONSEXUAL game SD, about 3.4 heads tall, big readable face, compact full body and beautifully painted crisp 2D hair, fabric and enamel. Do not exaggerate cleavage or body features. Stand facing slightly viewer RIGHT in a steady three-quarter healer battle pose. Cap, hair, hands, medical device and both complete boots must fit inside the canvas, with at least 5% genuinely empty margin on all sides; both boots share the same ground line. Natural correct five-finger hands and grip. Center character, no floor contact shadow. Portrait exact 1024x1536 RGBA PNG with REAL transparent alpha. Remove the entire source background. NO background scene, NO gradients, NO fog, NO painted checkerboard, NO aura around body, NO text, name, rank, logo, border or watermark. Character surfaces opaque; only clean edge antialiasing may be partly transparent. One character, no portrait inset, no duplicate figures.",
+      "references": [
+        "assets/diim-nurse-source-art-v1.png",
+        "../../assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ]
+    },
+    {
+      "id": "heeya-nurse",
+      "name": "희야 간호사",
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "prompt": "Use case: style-transfer. Produce one separate full-body transparent SD battle sprite for an SS healer mercenary in a Korean 2D fantasy RPG. Image 1 is the user-selected source portrait of 희야 간호사; preserve that adult woman's recognizable face, hairstyle, nurse uniform details, colors and medical props. Image 2 is ONLY the approved SD proportions and refined painterly shading reference, not its black costume, purple palette, gun or identity. Black shoulder-length loose wavy hair tucked behind one ear with a lavender ribbon; distinct warm brown eyes and gentle smile. White short-sleeved fitted nurse dress with lavender lapels/piping and elegant double row brass buttons, white nurse cap with lavender four-point medical star, purple enamel medical tubes at collar, narrow white belt with matching medicine pouches, opaque short white gloves. One hand carries the white-lavender medical case by the real handle; other open palm presents a SMALL lavender four-point healing light. White thigh-high nurse boots, no gun, no staff. Clearly adult woman translated to tasteful NONSEXUAL game SD, about 3.4 heads tall, big readable face, compact full body and beautifully painted crisp 2D hair, fabric and enamel. Do not exaggerate cleavage or body features. Stand facing slightly viewer RIGHT in a steady three-quarter healer battle pose. Cap, hair, hands, medical device and both complete boots must fit inside the canvas, with at least 5% genuinely empty margin on all sides; both boots share the same ground line. Natural correct five-finger hands and grip. Center character, no floor contact shadow. Portrait exact 1024x1536 RGBA PNG with REAL transparent alpha. Remove the entire source background. NO background scene, NO gradients, NO fog, NO painted checkerboard, NO aura around body, NO text, name, rank, logo, border or watermark. Character surfaces opaque; only clean edge antialiasing may be partly transparent. One character, no portrait inset, no duplicate figures.",
+      "references": [
+        "assets/heeya-nurse-source-art-v1.png",
+        "../../assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ]
+    },
+    {
+      "id": "joeun-nurse",
+      "name": "조은 간호사",
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "prompt": "Create a polished full-body SD battle sprite for an adult healer named 조은 간호사 in a Korean 2D fantasy game. Reference 1 gives her identity: black low ponytail, side-swept fringe, kind brown eyes, blue nurse cap emblem, blue stethoscope and a small blue glowing cylindrical healing canister. Reference 2 gives ONLY the compact SD proportions and clean painterly 2D shading; do not copy its clothing or weapon. Translate the clearly adult woman into a tasteful friendly 3.4-head-tall game figure. Redesign her working uniform modestly: fully buttoned high-neck white short-sleeved tunic with cobalt blue piping, ordinary blue belt, knee-length straight white skirt, opaque white leggings and flat white ankle boots. Covered chest, loose practical tailoring, natural body proportions. Stand upright facing slightly viewer right, both feet grounded, hold the compact blue healing canister in both hands at the waist, stethoscope visible above it. No kneeling, no seductive expression or pose. Clean elegant brush shading, readable face and hands, opaque character surfaces. Center the complete figure including nurse cap and both boots in a portrait 1024x1536 RGBA PNG, with at least 6% clear margin. Real transparent background and clean alpha edge, absolutely no floor or shadow, scenery, gradient, fog, frame, text, rank, logo, duplicate figure or watermark.",
+      "references": [
+        "assets/joeun-nurse-source-art-v1.png",
+        "../../assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ]
+    },
+    {
+      "id": "bongsun-nurse",
+      "name": "봉순 간호사",
+      "tool": "image_gen.imagegen",
+      "transparent_background": true,
+      "prompt": "Use case: style-transfer. Produce one separate full-body transparent SD battle sprite for an SS healer mercenary in a Korean 2D fantasy RPG. Image 1 is the user-selected source portrait of 봉순 간호사; preserve that adult woman's recognizable face, hairstyle, nurse uniform details, colors and medical props. Image 2 is ONLY the approved SD proportions and refined painterly shading reference, not its black costume, purple palette, gun or identity. Very long dark chestnut hair with airy straight bangs, small gold floral hairpin on one side, distinct refined adult face and warm brown eyes. White short-sleeved nurse dress with muted brick-red piping, high open collar and gold buttons, red narrow belt with twin brass buckles, white nurse cap with red ornamental four-petal medical emblem, matching medicine pouch at hip. Right hand carries white brick-red medical case by handle; left hand holds the small CLOSED red-glowing medicine ampoule seen in reference. White ankle boots with red trim. No staff, no gun, no hypodermic needle. Clearly adult woman translated to tasteful NONSEXUAL game SD, about 3.4 heads tall, big readable face, compact full body and beautifully painted crisp 2D hair, fabric and enamel. Do not exaggerate cleavage or body features. Stand facing slightly viewer RIGHT in a steady three-quarter healer battle pose. Cap, hair, hands, medical device and both complete boots must fit inside the canvas, with at least 5% genuinely empty margin on all sides; both boots share the same ground line. Natural correct five-finger hands and grip. Center character, no floor contact shadow. Portrait exact 1024x1536 RGBA PNG with REAL transparent alpha. Remove the entire source background. NO background scene, NO gradients, NO fog, NO painted checkerboard, NO aura around body, NO text, name, rank, logo, border or watermark. Character surfaces opaque; only clean edge antialiasing may be partly transparent. One character, no portrait inset, no duplicate figures.",
+      "references": [
+        "assets/bongsun-nurse-source-art-v1.png",
+        "../../assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png"
+      ]
+    }
+  ],
+  "skill": {
+    "id": "NURSE_WHITE_OATH",
+    "tool": "image_gen.imagegen",
+    "transparent_background": true,
+    "prompt": "Use case: stylized-concept. Asset type: a single production game VFX SPRITE SHEET, 16 consecutive frames of ONE magical nursing HEAL skill called White Oath. Exactly 4 columns x 4 rows in a square 2048 x 2048 transparent RGBA PNG. Each of the 16 equal 512x512 cells contains one frame centered on the SAME fixed pivot at 50% x, 62% y. Read left to right, top to bottom, continuous animation progression. Truly transparent background throughout, including between cells, no checkerboard pattern, no black or white filled background, no grid lines, no letters, no labels, no UI, no numbers, no characters. Generous transparent gutters at least 40 pixels inside EACH cell, absolutely no effect touching any cell boundary. Premium hand-painted Korean fantasy RPG healing VFX: luminous mint-teal medicinal ribbons and ivory-gold translucent petal light, subtle fine glitter, fluid ethereal volume, painterly, detailed organic shapes, no hard geometric HUD and no giant medical cross. The sequence must change material FORM in EVERY frame, never repeat one still by rotating or enlarging. Frame1 tiny budding mint spark with a small curved mist trail; 2 two fine ascending wisps; 3 loose asymmetric spiral opens; 4 spiral begins gathering three curved petal lobes; 5 leaf-shaped light sheets unfurl; 6 five translucent healing petals form an open canopy; 7 canopy bends inward and gathers a bright core; 8 a clear soft luminous recovery BLOOM peaks at the fixed center, enclosed by an elegant white-gold ring of petal light; 9 the bloom breaks into flowing upward ribbons; 10 petals detach and sweep gently outward; 11 ribbon fragments curl upward; 12 the core is gone and scattered light fragments remain; 13 smaller broken petal fragments; 14 fine fading drifting sparkles; 15 three soft fading mint embers; 16 very few faint tiny embers only. Each cell is a complete bounded local effect, not a piece of a large poster. Show all 16 cells including final near-empty cells. No single icon grid. Consistent origin and camera, usable as real battle animation frames."
+  },
+  "adaptations": [
+    {
+      "id": "joeun-nurse",
+      "reason": "Initial SD generation was blocked during output safety moderation; selected output uses a fully buttoned tunic, knee-length skirt, opaque leggings and standing pose. User source portrait is unchanged."
+    }
+  ],
+  "outputs": {
+    "diim-nurse": "exec-28e403ff-9025-4aeb-8499-af83c62c16b7.png",
+    "heeya-nurse": "exec-2dba8e8f-7ce7-43a5-a799-d4dd1e7bf10f.png",
+    "joeun-nurse": "exec-8667619a-d78c-4a73-bf2f-72f61f30a712.png",
+    "bongsun-nurse": "exec-7c4bf390-da0a-4154-9450-d85f3ee1f6b8.png",
+    "white-oath-sequence-v1": "exec-048dd326-4ced-4a1a-b73c-0b13cbe4dc94.png"
+  }
+}
