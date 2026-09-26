@@ -108,7 +108,12 @@ export class BattleSuitSkillChipPlayback{
     fx.shake=false;fx.target=target;
     fx.select?.(chip.effectKey);fx.bindTarget?.(event.targetId,event,hits);fx.timeline?.pause();
     const at=Math.max(Number(event.combatAtMs)/1000||0,this.clock.time);
-    this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started:!this.sequential,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()});
+    // Intrinsic casts reserve the suit body immediately. Their GSAP clock must
+    // start now too: a normal shot queued during anticipation waits for that
+    // body, while a lethal area impact waits for the queued shot to drain.
+    // Deferring the cast clock until the first impact deadlocks both lanes.
+    const started=!this.sequential||Boolean(chip.intrinsic);
+    this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()});
     if(!this.sequential&&!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
   }
   hit(event){

@@ -32,24 +32,31 @@ let active=null;
 export function openLegionHunt(button){
   if(active)return;
   const dialog=document.createElement('dialog');dialog.className='legion-hunt-portal';dialog.setAttribute('aria-label','군단토벌 입장');
-  dialog.innerHTML=`<header class="legion-portal-bar"><span>군단토벌 <small>OWNER</small></span><button type="button" data-hunt-close>PVE로 돌아가기 <span aria-hidden="true">↗</span></button></header>
-    <div class="legion-lobby">
-      <section class="legion-intro">
-        <div class="legion-intro-copy"><p class="legion-kicker">군단토벌 / 제 1 전장</p><h1>잊혀진 섬</h1><p class="legion-intro-text">밀려오는 군단을 돌파하고,<br>섬의 수호자를 쓰러뜨리세요.</p>
-        <div class="legion-facts"><span><b>37</b> 마리의 적</span><span><b>3</b> 보스</span><span><b>4</b> 난이도</span></div></div>
-        <img class="legion-poster" src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 · 잊혀진 섬 공식 포스터">
+  dialog.innerHTML=`<header class="legion-portal-bar"><span><i aria-hidden="true">Ⅰ</i> 군단토벌 <small>OWNER</small></span><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
+    <div class="legion-lobby"><div class="legion-lobby-layout">
+      <section class="legion-intro" aria-labelledby="legion-island-title">
+        <div class="legion-hero-halo" aria-hidden="true"></div><img class="legion-guardian" src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt="섬의 최종 보스 태고의 수호자">
+        <div class="legion-intro-copy"><p class="legion-kicker"><span></span> LEGION HUNT · CHAPTER 01</p><h1 id="legion-island-title">잊혀진 섬</h1><p class="legion-intro-text">길은 끊겼다.<br>돌아갈 방법은, 끝까지 돌파하는 것.</p>
+        <div class="legion-facts"><span><b>37</b> 적 개체</span><span><b>3</b> 보스</span><span><b>4</b> 구간</span></div></div>
+        <div class="legion-guardian-caption"><span>FINAL TARGET</span><strong>태고의 수호자</strong></div>
       </section>
-      <div class="legion-preparation">
-        <section class="legion-squad"><div class="legion-section-heading"><div><span>01 / 출전 편성</span><h2>나의 PVE 덱</h2></div><button type="button" data-hunt-refresh>편성 새로고침</button></div>
-          <p class="legion-account"></p><div class="legion-cards" aria-label="저장된 일반 카드 5장"></div><div class="legion-mercenary" aria-label="용병 전용 슬롯"></div><p class="legion-equipment"></p>
-        </section>
-        <section class="legion-select"><div class="legion-section-heading"><div><span>02 / 전장 선택</span><h2>난이도</h2></div><span class="legion-limit"></span></div><div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
-          <p class="legion-risk">전멸하거나 제한 시간을 넘기면 토벌에 실패합니다.</p>
-          <div class="legion-drop-guide"><b>전리품은 직접 획득</b><p>드랍 아이템은 필드의 무작위 위치에 나타납니다.<br>사라지기 전에 아이템을 직접 눌러 획득하세요.</p></div>
-        </section>
-      </div>
-      <footer class="legion-entry-footer"><div><p class="legion-entry-status" role="status" aria-live="polite">저장된 편성을 불러오는 중입니다.</p><small>OWNER 공개 · 실계정 보상 지급 OFF</small></div><button type="button" class="legion-enter" data-hunt-enter disabled>편성 불러오는 중</button></footer>
-    </div><div class="legion-play" hidden></div>`;
+      <nav class="legion-route" aria-label="토벌 진행 경로">
+        <div><img src="${art}monsters/ember-mantis-sd-v2.png" alt=""><span><small>01 · 상륙</small><b>군단 조우</b></span></div>
+        <div><img src="/preview/scrapyard-v3-v1/assets/atlas-sd-v1.png" alt=""><span><small>02 · 중간 보스</small><b>아틀라스</b></span></div>
+        <div><img src="/preview/scrapyard-v3-v1/assets/moloch-sd-v1.png" alt=""><span><small>03 · 중간 보스</small><b>몰록</b></span></div>
+        <div><img src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt=""><span><small>04 · 최종 보스</small><b>태고의 수호자</b></span></div>
+      </nav>
+      <section class="legion-squad"><div class="legion-section-heading"><div><span>YOUR EXPEDITION</span><h2>출전 원정대</h2></div><button type="button" data-hunt-refresh>편성 새로고침 <span aria-hidden="true">↻</span></button></div>
+        <p class="legion-account"></p><div class="legion-loadout"><div class="legion-cards" aria-label="저장된 일반 카드 5장"></div><div class="legion-mercenary" aria-label="용병 전용 슬롯"></div></div><p class="legion-equipment"></p>
+      </section>
+      <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>어디까지 돌파할 것인가</h2></div></div>
+        <div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
+        <div class="legion-conditions"><span>제한 시간 <strong class="legion-limit"></strong></span><span>실패 조건 <b>전멸 / 시간 초과</b></span></div>
+        <div class="legion-drop-guide"><div class="legion-pickup-symbol" aria-hidden="true"><i></i><svg viewBox="0 0 32 40"><path d="M6 2v28l7-7 7 12 5-3-7-12h11z"/></svg></div><div><b>눈앞의 전리품을 놓치지 마세요</b><p>필드 곳곳에 나타나는 아이템을<br>사라지기 전에 직접 눌러 획득하세요.</p></div></div>
+        <button class="legion-poster-link" data-hunt-poster type="button"><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 공식 포스터"><span><small>군단토벌 · 잊혀진 섬</small><b>콘텐츠 소개 보기</b></span><span aria-hidden="true">↗</span></button>
+        <footer class="legion-entry-footer"><p class="legion-entry-status" role="status" aria-live="polite">저장된 편성을 불러오는 중입니다.</p><button type="button" class="legion-enter" data-hunt-enter disabled>편성 불러오는 중</button><small>OWNER 공개 · 실계정 보상 지급 OFF</small></footer>
+      </aside>
+    </div></div><div class="legion-play" hidden></div><dialog class="legion-poster-view" aria-label="군단토벌 콘텐츠 소개"><button type="button" data-hunt-poster-close aria-label="소개 닫기">닫기 ×</button><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 · 잊혀진 섬 콘텐츠 소개 포스터"></dialog>`;
   const find=s=>dialog.querySelector(s);
   let frame=null,session=null;
   const clearFrame=()=>{
@@ -66,19 +73,20 @@ export function openLegionHunt(button){
     find('.legion-entry-status').textContent=state.error||(loading?'저장된 편성을 불러오는 중입니다.':'선택한 난이도와 현재 편성으로 출전합니다.');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
-    find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}"><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)} · ${i+1}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
+    find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
     const merc=loadout?.mercenary;
-    find('.legion-mercenary').innerHTML=merc?`<img src="${escape(imagePath(merc.sourceArt))}" alt="${escape(merc.name)}"><div><small>용병 전용 슬롯 · ${escape(merc.rank)}</small><strong>${escape(merc.name)}</strong><span>${escape((merc.skills||[]).map(s=>s.name).join(' · ')||merc.role||'편성된 용병')}</span></div><b>출전</b>`:'<div><small>용병 전용 슬롯</small><strong>편성된 용병 없음</strong><span>용병을 편성하면 일반 카드 5장과 함께 출전합니다.</span></div>';
+    find('.legion-mercenary').innerHTML=merc?`<img src="${escape(imagePath(merc.sourceArt))}" alt="${escape(merc.name)}"><b class="legion-merc-rank">${escape(merc.rank)}</b><div><small>용병 전용 슬롯</small><strong>${escape(merc.name)}</strong><span>${escape((merc.skills||[]).map(s=>s.name).join(' · ')||merc.role||'편성된 용병')}</span></div>`:'<div><small>용병 전용 슬롯</small><strong>용병 미편성</strong><span>편성한 용병 1명이<br>원정대에 합류합니다.</span></div>';
     const eq=loadout?.characterBonus;
     if(loading)find('.legion-mercenary').innerHTML='<div><small>용병 전용 슬롯</small><strong>편성 불러오는 중</strong></div>';
     find('.legion-equipment').textContent=loadout?'장착 슈트 · '+(eq?.equippedBattleSuit?.name||eq?.equippedBattleSuit?.code||'없음')+' / 무기 · '+(eq?.equippedWeapon?.name||eq?.equippedWeapon?.code||'없음'):'';
-    find('.legion-difficulties').innerHTML=(data?.difficulties||[]).map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span>0${i+1}</span><strong>${escape(d.name)}</strong><small>${escape(d.description)}</small></button>`).join('');
+    find('.legion-difficulties').innerHTML=(data?.difficulties||[]).map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span class="legion-difficulty-number">0${i+1}</span><span class="legion-difficulty-copy"><strong>${escape(d.name)}</strong><small>${escape(d.description)}</small></span><span class="legion-threat-bars" aria-hidden="true">${[0,1,2,3].map(n=>`<i class="${n<=i?'lit':''}"></i>`).join('')}</span><span class="legion-selection-dot" aria-hidden="true"></span></button>`).join('');
     const selected=data?.difficulties.find(d=>d.id===state.difficulty);
-    find('.legion-limit').textContent=selected?'제한 '+Math.round(selected.limitMs/1000)+'초':'';
+    find('.legion-limit').textContent=selected?Math.round(selected.limitMs/1000)+'초':'';
+    dialog.dataset.difficulty=state.difficulty;
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260926-entry';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260926-cast-fix';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;
@@ -91,9 +99,11 @@ export function openLegionHunt(button){
     if(target.hasAttribute('data-hunt-close'))controller.close();
     else if(target.hasAttribute('data-hunt-refresh'))void controller.refresh();
     else if(target.hasAttribute('data-hunt-enter'))controller.enter();
+    else if(target.hasAttribute('data-hunt-poster'))find('.legion-poster-view').showModal();
+    else if(target.hasAttribute('data-hunt-poster-close'))find('.legion-poster-view').close();
     else if(target.dataset.huntDifficulty){const id=target.dataset.huntDifficulty;controller.select(id);dialog.querySelector('[data-hunt-difficulty="'+id+'"]')?.focus();}
   });
-  dialog.addEventListener('cancel',event=>{event.preventDefault();controller.close();});
+  dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
 document.addEventListener('click',event=>{

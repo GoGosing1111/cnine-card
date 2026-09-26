@@ -5,17 +5,23 @@ import vm from 'node:vm';
 import {legionFixture} from '../tests/helpers/legion-hunt-fixture.mjs';
 import {handleLegionHunt} from '../functions/_legion_hunt.js';
 const root=fs.realpathSync(process.cwd()),port=Number(process.env.LEGION_REVIEW_PORT||8959),fixture=await legionFixture({withMercenary:true});
+// Explicit local QA loadout; never injected by the production handler.
+if(process.env.LEGION_REVIEW_Z_BODY==='1'){
+  const deck=fixture.getDeck();Object.assign(deck.characterBonus,{battleSuitPve:3000000,pve:4117360});
+  Object.assign(deck.characterBonus.equippedBattleSuit,{code:'BATTLE_SUIT_Z_BODY',name:'Z-BODY',skillChips:[]});fixture.setDeck(deck);
+}
 fixture.deps.now=Date.now;
 fixture.deps.authenticate=async request=>request.headers.get('cookie')?.includes('hunt_review_role=USER')?fixture.player:fixture.owner;
 fixture.deps.json=(body,status=200)=>Response.json(body,{status});
 const shell={window:{},battleState:{},battleView(){},renderBattleBuilder(){},switchPveMode(){},renderPveMonsterBrowser:null,renderBattleSnapshot:null,summaryBar:()=>''};
 vm.createContext(shell);vm.runInContext(fs.readFileSync('js/pve-command-v2-live.js','utf8'),shell);
-const mime={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.avif':'image/avif','.jpg':'image/jpeg','.woff2':'font/woff2','.mp3':'audio/mpeg','.wav':'audio/wav','.svg':'image/svg+xml'};
+const mime={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.avif':'image/avif','.jpg':'image/jpeg','.woff2':'font/woff2','.ttf':'font/ttf','.mp3':'audio/mpeg','.wav':'audio/wav','.svg':'image/svg+xml'};
 const send=(res,body,status=200,headers={})=>{res.writeHead(status,{'content-type':'text/html; charset=utf-8','cache-control':'no-store',...headers});res.end(body);};
 const server=http.createServer(async(req,res)=>{
   try{
     if(req.headers.host!=='127.0.0.1:'+port)return send(res,'Local review only',403);
     const url=new URL(req.url,'http://'+req.headers.host);
+    if(process.env.LEGION_REVIEW_FAIL_START==='1'&&url.pathname==='/api/legion-hunt/start')return send(res,JSON.stringify({ok:false,code:'QA_START_UNAVAILABLE',error:'검수용 전투 시작 오류'}),503,{'content-type':'application/json'});
     if(url.pathname.startsWith('/api/')){
       let body='';for await(const chunk of req){body+=chunk;if(body.length>131072)return send(res,'Too large',413);}
       const request=new Request(url,{method:req.method,headers:req.headers,...(body?{body}:{} )});

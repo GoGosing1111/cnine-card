@@ -6,8 +6,21 @@
   let ownerRequests=Promise.resolve();
   let engine,renderer,session,csrf,payload,policies=[],epoch=0,playing=false,paused=false,ending=false,finishing=false,ack=0,kills=0,bosses=0,renderedAt=0,picked=0;
   let reveals=Promise.resolve(),finishTimer=null,toastTimer=null,starting=false,liveDifficulty='normal',entryReceived=false,failed=false;
+  const areaCasts=new Set();
   const notifyParent=(type,extra={})=>{if(liveMode&&window.parent!==window)window.parent.postMessage({type,...extra},location.origin);};
   const message=t=>{$('hunt-message').textContent=t;};
+  const interruption=(kind,detail='')=>{
+    if(!$('hunt-interruption'))return;
+    $('hunt-interruption').hidden=!kind;
+    if(!kind)return;
+    $('hunt-interruption-title').textContent=kind==='pause'?'전투 일시정지':'전투를 이어갈 수 없습니다';
+    $('hunt-interruption-detail').textContent=detail;
+    $('hunt-resume').hidden=kind!=='pause';$('hunt-retry').hidden=kind!=='error';
+  };
+  function playbackFailed(error){
+    playing=paused=starting=false;failed=true;engine?.setHuntPaused(false);engine?.cancelTimelines();
+    message(errorText(error));interruption('error',errorText(error)+' · 다시 출전하거나 입장 화면으로 돌아가세요.');buttons();
+  }
   const time=ms=>String(Math.floor(Math.max(0,ms)/60000)).padStart(2,'0')+':'+String(Math.floor(Math.max(0,ms)/1000)%60).padStart(2,'0');
   api.mountForBattle=async(...args)=>{engine=await originalMount(...args);return engine;};
   window.cnineBattleSpriteUrl=path=>{const key=String(path||'').replace(/^\/+/, '').split('?')[0];return window.CNineResponsiveBattleSprites?.[key]||(window.CNineResponsiveCardImages?.[key]?window.CNineResponsiveCardImages[key]+'-384.webp':path);};
@@ -51,7 +64,7 @@
   }
   async function prepare(){
     const token=++epoch,oldSession=session;clearInterval(finishTimer);finishTimer=null;playing=paused=ending=finishing=starting=failed=false;ack=kills=bosses=renderedAt=picked=0;reveals=Promise.resolve();
-    clearTimeout(toastTimer);$('hunt-pickup-toast').classList.remove('show');$('hunt-pickup-toast').textContent='';
+    interruption(null);areaCasts.clear();clearTimeout(toastTimer);$('hunt-pickup-toast').classList.remove('show');$('hunt-pickup-toast').textContent='';
     engine?.setHuntPaused(false);renderer?.destroy();api.destroy();engine=null;session=null;buttons();
     if(oldSession)await request('cancel',{id:oldSession}).catch(()=>{});
     $('hunt-kills').textContent=$('hunt-bosses').textContent=$('hunt-picked').textContent='0';$('hunt-boss-hud').hidden=true;
@@ -59,6 +72,7 @@
     const data=await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{}:{party:$('hunt-party').value})});
     if(token!==epoch){void request('cancel',{id:data.id});return;}
     session=data.id;payload=data.payload;notifyParent('legion-hunt-session',{id:session});window.cnineCardCatalog=()=>payload.cards;
+    if($('hunt-suit-skill')){$('hunt-suit-skill').hidden=!payload.battleV2.teams.A.supports.some(s=>s.cardId==='BATTLE_SUIT:BATTLE_SUIT_Z_BODY');$('hunt-suit-skill').textContent='Z-BODY · 뇌검 집행 대기';}
     const playerName=payload.accountNickname||'원정대';
     const modal=$('hunt-modal'),prepared=ProjectVBattleV3Live.prepareLoading({modal,mode:'HUNT',playerName,opponentName:'몬스터 군단',autoText:'잊혀진 섬에 진입하고 있습니다.'});
     prepared.stage.querySelector('.battle-v3-canvas-host').style.backgroundImage='none';
@@ -94,6 +108,10 @@
       }).catch(e=>{if(token===epoch)message(errorText(e));});
     }
     if(event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
+    if(event.type==='SKILL_CHIP_CAST'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT')toast('Z-BODY · 뇌검 집행 / 적 전체');
+    if(event.type==='SKILL_CHIP_HIT'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT'&&!areaCasts.has(event.castId)){
+      areaCasts.add(event.castId);if($('hunt-suit-skill'))$('hunt-suit-skill').textContent='Z-BODY · 뇌검 집행 '+areaCasts.size+'회';
+    }
     bossHud();
   }
   async function start(){
@@ -107,15 +125,16 @@
       ending=true;await reveals;buttons();
       message('전투가 끝났습니다. 남은 드랍을 클릭하세요. 사라지면 자동 정산합니다.');
       finishTimer=setInterval(()=>{if(!engine.groundDrops.rows.size){clearInterval(finishTimer);finishTimer=null;void finish();}},200);
-    }catch(e){if(token===epoch){starting=false;failed=true;message(errorText(e)+' · 다시 시도하거나 철수할 수 있습니다.');buttons();}}
+    }catch(e){if(token===epoch)playbackFailed(e);}
   }
   function pause(){
     if(!playing||ending)return;paused=!paused;engine.setHuntPaused(paused);buttons();
     message(paused?'전투 일시정지 · 드랍 소멸 시간은 계속 흐릅니다.':'사냥을 이어갑니다.');
+    interruption(paused?'pause':null,'화면을 벗어나거나 일시정지를 누르면 전투가 멈춥니다. 계속 사냥을 눌러 재개하세요. 드랍 소멸 시간은 계속 흐릅니다.');
   }
   async function finish(){
     if(!playing||finishing)return;finishing=true;buttons();clearInterval(finishTimer);finishTimer=null;
-    paused=false;engine.setHuntPaused(false);engine.cancelTimelines();
+    interruption(null);paused=false;engine.setHuntPaused(false);engine.cancelTimelines();
     try{
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;
       const labels={CLEAR:['사냥 클리어','태고의 수호자를 포함한 모든 적을 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','제한 시간 안에 모든 적을 처치하지 못했습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 직접 획득한 전리품만 집계합니다.']};
@@ -128,7 +147,7 @@
     }catch(e){message(errorText(e)+' · 정산을 다시 눌러 주세요.');}
     finally{finishing=false;buttons();}
   }
-  async function enterBattle(){try{await prepare();await start();}catch(e){failed=true;message(errorText(e));buttons();}}
+  async function enterBattle(){try{await prepare();await start();}catch(e){playbackFailed(e);}}
   async function again(play){$('hunt-result').close();if(liveMode&&!play){notifyParent('legion-hunt-return');return;}try{await prepare();if(play)await start();}catch(e){failed=true;message(errorText(e));buttons();}}
   $('hunt-start').onclick=()=>void(liveMode?enterBattle():start());$('hunt-pause').onclick=pause;$('hunt-stop').onclick=()=>void finish();
   $('hunt-speed').onchange=()=>{if(engine){engine.previewSpeed=Number($('hunt-speed').value);engine.paceScale=engine.previewSpeed;}};
@@ -139,6 +158,7 @@
   window.HuntPreviewV2={diagnostics:()=>({playing,paused,ending,ack,kills,bosses,picked,renderedAt,session,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
   if(liveMode){
     $('hunt-return').onclick=()=>notifyParent('legion-hunt-return');
+    $('hunt-resume').onclick=pause;$('hunt-retry').onclick=()=>void enterBattle();$('hunt-interruption-return').onclick=()=>notifyParent('legion-hunt-return');
     $('hunt-result').addEventListener('cancel',event=>{event.preventDefault();void again(false);});
     window.addEventListener('message',event=>{
       if(entryReceived||event.origin!==location.origin||event.source!==window.parent||event.data?.type!=='legion-hunt-enter')return;
