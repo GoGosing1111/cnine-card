@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const MIN_BET = 100000;
-  const USER_MAX_BET_PER_EVENT = 2000000000;
+  const USER_MAX_BET_PER_EVENT = 5000000000;
   const model = window.CoinPredictionModel;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
   const fmt = value => Number(value || 0).toLocaleString('ko-KR');
@@ -102,7 +102,7 @@
     return `<aside class="cp3-ticket" aria-label="내 배팅 티켓"><header><span>${icon('ticket')} MY TICKET</span><b>내 배팅</b></header><div class="cp3-ticket-body"><div class="cp3-ticket-pick"><small>${mine?'확정한 선택':'예측할 항목'}</small><strong data-cp-selected-label>${esc(selected?.label||'왼쪽에서 항목을 선택하세요')}</strong>${mine?'<span class="cp3-lock-note">최초 선택 유지 · 취소 및 변경 불가</span>':''}</div>
       ${result?.final?`<div class="cp3-settled-label ${result.refunded?'is-refund':result.won?'is-win':'is-loss'}">${icon(result.won?'check':'ticket')}${result.refunded?'무효 · 전액 환불':result.won?'적중 · 정산 완료':'미적중 · 정산 완료'}</div>`:''}
       <dl class="cp3-ticket-line"><dt>기존 배팅 금액</dt><dd>${fmt(current)} <small>코인</small></dd></dl>
-      ${canBet?`<div class="cp3-amount-control"><label for="cpBetAmount">${mine?'추가 배팅 금액':'배팅 금액'} <span>최소 10만</span></label><div class="cp3-amount-field"><input id="cpBetAmount" type="text" inputmode="numeric" autocomplete="off" maxlength="16" pattern="[0-9]*" aria-describedby="cpAmountHint" value="${esc(draft.raw)}" placeholder="금액 입력" ${retryPayload?'disabled':''}><span>코인</span></div><div class="cp3-quick">${[[100000,'10만'],[1000000,'100만'],[10000000,'1,000만'],[max,'최대']].map(([n,label])=>`<button type="button" data-cp-quick="${n}" ${retryPayload?'disabled':''}>${label}</button>`).join('')}</div><p id="cpAmountHint" class="cp3-amount-hint">추가 가능 <b>${fmt(max)} 코인</b> · ${unlimited?'OWNER 보유액 내 제한 없음':'경기당 최대 20억'}</p></div>`:`<p class="cp3-muted">${result?.final?'수령액은 실제 정산된 금액입니다.':!open(event)?'신규 참여가 마감되었습니다. 결과를 기다려 주세요.':'보유 코인 또는 경기별 참여 한도에 도달했습니다.'}</p>`}
+      ${canBet?`<div class="cp3-amount-control"><label for="cpBetAmount">${mine?'추가 배팅 금액':'배팅 금액'} <span>최소 10만</span></label><div class="cp3-amount-field"><input id="cpBetAmount" type="text" inputmode="numeric" autocomplete="off" maxlength="16" pattern="[0-9]*" aria-describedby="cpAmountHint" value="${esc(draft.raw)}" placeholder="금액 입력" ${retryPayload?'disabled':''}><span>코인</span></div><div class="cp3-quick">${[[100000,'10만'],[1000000,'100만'],[10000000,'1,000만'],[max,'최대']].map(([n,label])=>`<button type="button" data-cp-quick="${n}" ${retryPayload?'disabled':''}>${label}</button>`).join('')}</div><p id="cpAmountHint" class="cp3-amount-hint">추가 가능 <b>${fmt(max)} 코인</b> · ${unlimited?'OWNER 보유액 내 제한 없음':'경기당 최대 50억'}</p></div>`:`<p class="cp3-muted">${result?.final?'수령액은 실제 정산된 금액입니다.':!open(event)?'신규 참여가 마감되었습니다. 결과를 기다려 주세요.':'보유 코인 또는 경기별 참여 한도에 도달했습니다.'}</p>`}
       <div id="cpEstimate" class="cp3-estimate" aria-live="polite">${estimateMarkup(event,selectedId)}</div>
       ${canBet||hasRetry?`<button type="button" class="cp3-submit" data-cp-submit="${event.id}" ${(hasRetry||selectedId&&draft.valid)&&!busy?'':'disabled'}>${hasRetry?'이전 요청 다시 확인':mine?'추가 배팅 확인':'배팅 확인'}${icon('arrow')}</button>`:''}
       <p class="cp3-ticket-disclaimer">${result?.final?'정산 코인은 자동 지급됩니다.':'예상 수령액은 적중을 가정한 값입니다. 마감 전 참여 금액과 지원금에 따라 달라집니다.'}</p></div><footer>SOOPKETMON · GAME COIN ONLY</footer></aside>`;
@@ -197,7 +197,7 @@
   async function submit(event) {
     if(busy||(!retryPayload&&!open(event)))return;
     const selectedId=Number(event.myBet?.option_id||selectedOptions.get(Number(event.id))||0),draft=readDraft(event);
-    if(!retryPayload&&(!selectedId||!draft.valid))return notice('선택 항목과 금액을 확인하세요. 최소 10만, 이벤트 누적 최대는 20억 코인입니다. OWNER는 보유 코인 내에서 참여할 수 있습니다.',true);
+    if(!retryPayload&&(!selectedId||!draft.valid))return notice('선택 항목과 금액을 확인하세요. 최소 10만, 이벤트 누적 최대는 50억 코인입니다. OWNER는 보유 코인 내에서 참여할 수 있습니다.',true);
     busy=true;
     try {
       if(!retryPayload){

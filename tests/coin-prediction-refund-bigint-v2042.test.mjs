@@ -15,7 +15,7 @@ function fixture(amount){
   return {db,env,sources,setFailure:value=>{fail=value}};
 }
 
-for(const amount of [2147483647,2147483648,10000000000,125000000000]){
+for(const amount of [2147483647,2147483648,5000000000,10000000000,125000000000]){
   test(`환불 ${amount}: 지갑·로그·수령 상태 일치 및 중복 재시도 차단`,()=>{
     const {db,env,sources}=fixture(amount);
     try{
