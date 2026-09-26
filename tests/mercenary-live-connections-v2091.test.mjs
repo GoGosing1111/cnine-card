@@ -62,7 +62,7 @@ for(const postgres of [false,true]){
  test(`${label}: S6 and SS8 CMS assignments reach owned cards, separate loadout and real PVE snapshots`,async t=>{
   const f=await mercenaryFixture(t,{postgres}),d=structuredClone(f.document);for(const c of d.mercenaries)c.rank=plan.targets.find(r=>r.code===c.code)?.rank||seed.catalog.cards.find(r=>r.code===c.code).rank||'C';
   for(const s of d.skills){s.review='REVIEWED';s.balance={damageRatio:1,cooldownTurns:3,cost:0};}
-  const next=prepareSSkillAssignments(d,seed.document,seed.catalog,{...plan,targets:[...plan.targets,{code:'V-044',rank:'SS',skillId:'MS-044'},{code:'V-045',rank:'SS',skillId:'MS-045'},{code:'V-047',rank:'SS',skillId:'MS-047'},{code:'V-048',rank:'SS',skillId:'MS-048'},{code:'V-050',rank:'SS',skillId:'MS-050'}]});await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(next)).run();
+  const next=prepareSSkillAssignments(d,seed.document,seed.catalog,{...plan,targets:[...plan.targets,{code:'V-044',rank:'SS',skillId:'MS-044'},{code:'V-045',rank:'SS',skillId:'MS-045'},{code:'V-047',rank:'SS',skillId:'MS-047'},{code:'V-048',rank:'SS',skillId:'MS-048'},{code:'V-050',rank:'SS',skillId:'MS-050'},...['V-051','V-052','V-053','V-054'].map(code=>({code,rank:'SS',skillId:'MS-051'}))]});await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(next)).run();
   let revision=0;for(const row of plan.targets){
    await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:row.code,acquisitionId:crypto.randomUUID()}));
    await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:row.code,revision:revision++});
