@@ -82,7 +82,7 @@
     renderer=await ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'HUNT',playerName,playUltimateCinematics:false,continuousPlayback:true});
     if(token!==epoch)return;
     document.removeEventListener('visibilitychange',engine.onVisibility);
-    engine.previewSpeed=3;engine.paceScale=3;
+    engine.previewSpeed=1;engine.paceScale=1;
     prepared.stage.querySelector('.battle-v3-header strong').textContent='잊혀진 섬 · '+payload.huntPolicy.name;
     prepared.stage.querySelector('#battlePhase').textContent='15분 연속 토벌 → 최종 보스';
     await api.restoreDeployedFormation();
@@ -162,7 +162,6 @@
   async function enterBattle(reuse=false){try{await prepare(reuse);await start();}catch(e){playbackFailed(e);}}
   async function again(play){$('hunt-result').close();if(liveMode&&!play){notifyParent('legion-hunt-return');return;}try{await prepare();if(play)await start();}catch(e){failed=true;message(errorText(e));buttons();}}
   $('hunt-start').onclick=()=>void(liveMode?enterBattle(true):start());$('hunt-pause').onclick=pause;$('hunt-stop').onclick=()=>void finish();
-  $('hunt-speed').value='1';$('hunt-speed').disabled=true;
   if(!liveMode)$('hunt-difficulty').onchange=$('hunt-party').onchange=()=>void prepare().catch(e=>message(errorText(e)));
   $('hunt-again').onclick=()=>void again(true);$('hunt-review').onclick=()=>void again(false);
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&!ending)pause();});

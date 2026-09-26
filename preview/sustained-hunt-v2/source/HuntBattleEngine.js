@@ -6,7 +6,7 @@ import {sampleSequence} from '../../project-v-mercenary-system-v1/source/Mercena
 import {CAPACITY,crowdPosition} from '../hunt-rules.mjs';
 import {GroundDrops} from './GroundDrops.js';
 export class BattleEngine extends ScrapyardEngine{
-  constructor(...args){super(...args);this.combatClockRate=1;}
+  constructor(...args){super(...args);this.combatClockRate=this.previewSpeed=this.paceScale=1;}
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
     const run=this.accountBattleUnitFireRun,epoch=this.playbackEpoch;
     if(!run?.active)return Promise.resolve(true);
@@ -96,12 +96,8 @@ export class BattleEngine extends ScrapyardEngine{
     return this.arrival([a]);
   }
   async playEvents(events,options={}){
-    if(options.timedInternal&&events.length){
-      // Keep the 15-minute clock at 1x while crowded authored animations catch
-      // up. HP/KO ordering and all server receipts remain intact.
-      const lag=Math.max(0,(this.skillChipPlayback?.clock.time||0)*1000-(events[0].combatAtMs||0));
-      this.previewSpeed=this.paceScale=Math.min(8,3+lag/500);
-    }
+    // Hunt playback stays at normal speed even when presentation is delayed.
+    this.combatClockRate=this.previewSpeed=this.paceScale=1;
     if(options.timedInternal&&events.length===1&&events[0].type==='ENEMY_DESPAWN'){
       const epoch=this.playbackEpoch;await this.drainGeneration();
       if(epoch!==this.playbackEpoch||!this.visible)return false;

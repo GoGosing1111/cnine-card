@@ -96,6 +96,25 @@ test('final-boss despawn drains old hits and retires the exact generation withou
   assert.equal(drains,1);assert.equal(settled,1);assert.ok(engine.retiredIds.has(actor.id));
 });
 
+test('hunt keeps animations and the combat clock at 1x even after delayed event delivery',async()=>{
+  const source=fs.readFileSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8').replace(/^import .*;$/gm,'').replace('export class BattleEngine','class BattleEngine');
+  const forwarded=[];
+  class Parent {
+    async playEvents(events,options){forwarded.push({events,options,speed:this.previewSpeed,pace:this.paceScale,clock:this.combatClockRate});return true;}
+  }
+  const Engine=vm.runInNewContext(source+';BattleEngine',{ScrapyardEngine:Parent}),engine=new Engine();
+  assert.equal(engine.previewSpeed,1);assert.equal(engine.paceScale,1);assert.equal(engine.combatClockRate,1);
+  for(const time of [0,60,899]){
+    engine.skillChipPlayback={clock:{time}};
+    const events=[{type:'TURN',combatAtMs:0,seq:time+1}],options={timedInternal:true};
+    assert.equal(await engine.playEvents(events,options),true);
+    const actual=forwarded.at(-1);
+    assert.equal(actual.events,events);assert.equal(actual.options,options);
+    assert.deepEqual([actual.speed,actual.pace,actual.clock],[1,1,1]);
+  }
+  assert.equal(forwarded.length,3,'every delayed event is forwarded once without acceleration');
+});
+
 test('adjacent bullet compaction preserves exact damage and last HP, never crossing a KO, skill or instance',()=>{
   const hit=(seq,at,target='B:0:ENCOUNTER:1')=>({seq,type:'TURN',actorKind:'BATTLE_SUIT',actorId:'A:SUIT',targetId:target,damage:10,absorbed:2,targetHpAfter:100-seq*10,combatAtMs:at,combatGroup:seq});
   const source=[hit(1,0),hit(2,30),hit(3,105),{type:'SKILL_CHIP_CAST',combatAtMs:110},hit(5,120),hit(6,130,'B:0:ENCOUNTER:2'),{type:'KO',targetId:'B:0:ENCOUNTER:2',combatAtMs:135}];
