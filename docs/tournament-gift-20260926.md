@@ -30,4 +30,8 @@
 - UI: 운영 인벤토리/관리자 함수·마크업을 사용한 API fixture에서 1440×980, 390×844, 320×650 검수. 인벤토리 선택→개봉→결과→복귀, 관리자 선택→수량→지급, 응답 유실·잔여 0개 복구, 결과 후 프로필 갱신 실패를 확인했다. 가로 넘침·페이지 JS 오류 없음. 실제 운영 계정 재화는 사용하지 않았다.
 - 최종 배포는 `SCOPED_DEPLOY_TESTS=["tests/tournament-gift-20260926.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=[]`와 `npm run deploy:production -- --scoped`로 진행한다. Worker 컴파일·출시 플래그·캐시·Hyperdrive 검사는 지정 도구에 맡긴다. 직전 운영 기준과 결과는 아래에 기록한다.
 
-직전 운영 배포: `094931c5-0227-400e-94d8-7c782383519d`, 소스 `3ce82347a81b9ab5fb99fac37e9ec9028f8f8d9a` (Cloudflare 운영 목록에서 직접 확인). 새 배포 완료 후 ID와 간단한 반영 결과를 추가한다.
+직전 운영 배포: `094931c5-0227-400e-94d8-7c782383519d`, 소스 `3ce82347a81b9ab5fb99fac37e9ec9028f8f8d9a` (Cloudflare 운영 목록에서 직접 확인).
+
+운영 반영 완료: 커밋 `9d9d58e258e0d537eee10cd7ded743dd1c584dd1`, Pages `https://e4770786.cnine-card.pages.dev`, clan-draft 버전 `b0b8c888-4492-406c-8c9a-0d836333fcd3`. 지정 scoped 명령이 관련 8개 회귀·Worker 문법·출시 게이트·Hyperdrive 캐시 OFF 검사를 통과하고 정상 종료했다.
+
+배포 후 운영 도메인의 메인/CMS HTML, 메인/CMS JS, 개봉 JS/CSS, 선물박스 PNG 7개가 모두 HTTP 200이며 로컬 SHA-256과 일치함을 확인했다. inventory 조회·개봉·관리자 지급 API는 비로그인 요청을 401로 차단했다. 운영 계정에 실제 지급/개봉하지 않았으며 보상 거래 검증은 PostgreSQL fixture에서 수행했다. 이 배포 결과 기록은 문서만 커밋·원격 반영하며 게임 재배포는 하지 않는다.
