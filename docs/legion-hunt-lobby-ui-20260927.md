@@ -26,4 +26,13 @@
 - 선택 검사: `tests/legion-hunt-entry-account-20260926.test.mjs`, `tests/legion-hunt-duration-entries-20260926.test.mjs`. 변경한 입장/표시의 기존 편성·진입 계약과 15분·일일 입장 제한을 확인한다. 공통 렌더러를 변경하지 않아 무관한 PVP·상점 등의 검사로 확장하지 않는다.
 - 최종 후보의 위 검사는 배포 명령 안에서 한 번 실행한다. 출시 플래그·캐시·깨끗한 소스·원격 일치·Hyperdrive 캐시 OFF 검사를 유지한다.
 - 직전 운영 이후 다른 작업의 수동 지급 스크립트·테스트·기록이 원격 main에 추가되어 있다. 게임 경로 변경은 없으며 해당 스크립트를 실행하지 않는다.
-- 운영 배포 결과는 완료 후 아래에 기록한다.
+- 운영 배포 결과는 아래와 같다.
+
+## 운영 반영 완료
+
+- 배포 커밋: `f9e2a419414b86a921eab20ccaef4bc5921541e2`.
+- 선택 회귀 18개 모두 통과. 출시 게이트, 기존 레이드/보상 잠금, Hyperdrive SQL 쿼리 캐시 OFF와 Pages·clan-draft 바인딩 일치 확인.
+- Pages: https://aca1733e.cnine-card.pages.dev (production main). 변경 파일 15개 업로드, 기존 10,046개 재사용.
+- clan-draft: `8ed31565-e156-4a75-a9a0-bf5bab0898c1`.
+- `https://cnine-card.pages.dev`에서 메인 HTML·입장 모듈·입장 CSS·전투 HTML·전투 CSS·화면 표시 스크립트 6개가 모두 HTTP 200이며 배포 소스와 동일함을 확인했다(CRLF 정규화 비교).
+- 검수 브라우저는 기본 크기로 복원하고 개편한 입장 화면을 열어 두었다. 이 완료 기록은 문서만 커밋하며 재배포하지 않는다.
