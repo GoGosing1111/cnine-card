@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {Container,Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 import {BattleSuitSkillChipPlayback} from '../preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js';
+import {BattleEngine} from '../preview/project-v-v3/source/battle/BattleEngine.js';
 import {ZBodyThunderFX} from '../preview/project-v-v3/source/battle/ZBodyThunderFX.js';
 import {SKILL_CHIP_CLOCK} from '../shared/battle-suit-skill-chips.mjs';
 import {Z_BODY_AREA_SKILL as SKILL} from '../shared/z-body-area-skill.mjs';
@@ -24,38 +25,56 @@ test('hunt visual catch-up cannot accelerate the 15-minute boss clock; ordinary 
   }
 });
 
-test('continuous Z cast starts its body clock before queued normal hits can block the first area impact',async()=>{
-  const target={id:'B:0:ENCOUNTER:first',root:new Container(),battleActive:true,hp:100};
-  const sword={unit:{stopIdle(){}},cancel(){},pose(){}};
-  const ticks=new Set(),receipts=[];let drain;
+test('Z area contact applies all twelve deaths together without waiting behind its own body lock',async()=>{
+  const targets=Array.from({length:12},(_,i)=>({id:`B:${i}:ENCOUNTER:first`,root:new Container(),battleActive:true,hp:100}));
+  const sword={intrinsicArea:true,unit:{stopIdle(){}},cancel(){},pose(){}};
+  const ticks=new Set(),receipts=[],fades=[],completed=[];
   const engine={visible:true,playbackEpoch:1,paceScale:1,audio:{enabled:()=>false},
     backgroundLayer:new Container(),effectLayer:new Container(),accountBattleUnit:{swordAnimation:sword},accountBattleUnitDamageQueue:[],
-    app:{ticker:{add:fn=>ticks.add(fn),remove:fn=>ticks.delete(fn)}},combatantById:id=>id===target.id?target:null,
-    eventHpPercent:(_t,hp)=>hp,syncTargetHp:(t,hp)=>{t.hp=hp;},syncTargetShield(){},
+    accountBattleUnitFireRun:{active:true},accountBattleUnitDamageEventCount:0,accountBattleUnitDamageTotal:0,
+    app:{ticker:{add:fn=>ticks.add(fn),remove:fn=>ticks.delete(fn)}},combatantById:id=>targets.find(t=>t.id===id),
+    eventHpPercent:(_t,hp)=>hp,syncTargetHp:(t,hp)=>{t.hp=engine.skillChipPlayback?.currentHp(t,hp)??hp;},syncTargetShield(){},
     showAccountBattleUnitDamage:(_t,r)=>receipts.push(r.damage),updateStatus(){},
+    triggerAccountBattleUnitBallisticHit(){},
+    applyAccountBattleUnitSwordReceipts:BattleEngine.prototype.applyAccountBattleUnitSwordReceipts,
+    queueAccountBattleUnitDamageShot:BattleEngine.prototype.queueAccountBattleUnitDamageShot,
     isAccountBattleUnitDamageEvent:e=>e.type==='TURN',
-    playEvents:async events=>{if(events[0].type==='TURN')engine.accountBattleUnitDamageQueue.push(events[0]);},
-    waitForAccountBattleUnitDamageQueueDrain:()=>new Promise(resolve=>{drain=()=>{engine.accountBattleUnitDamageQueue=[];resolve(true);};})};
+    playEvents:async([event])=>{
+      const target=engine.combatantById(event.targetId);
+      if(event.type==='TURN')await engine.queueAccountBattleUnitDamageShot(target,{authoritative:true,authoritativeEvent:event,damage:event.damage,targetHp:event.targetHpAfter,monotonicHp:true});
+      if(event.type==='KO')await new Promise(resolve=>fades.push(()=>{target.root.visible=false;resolve();}));
+    },
+    waitForAccountBattleUnitDamageQueueDrain:async()=>{assert.fail('area hit must not wait for the cast body to release');}};
   engine.battleSuitSkillEffectFactories=new Map([[SKILL.code,{create:(e,event,hits)=>new ZBodyThunderFX(e,{blade:Array(12).fill(Texture.EMPTY),ground:Array(12).fill(Texture.EMPTY)},event,hits)}]]);
   const events=[
-    {type:'SKILL_CHIP_CAST',combatAtMs:0,chipCode:SKILL.code,castId:'area',targetId:target.id,targetIds:[target.id]},
-    {type:'TURN',combatAtMs:100,targetId:target.id,damage:10,targetHpAfter:90},
-    {type:'SKILL_CHIP_HIT',combatAtMs:1080,chipCode:SKILL.code,castId:'area',targetId:target.id,hitIndex:0,damage:90,targetHpAfter:0},
-    {type:'KO',combatAtMs:1080,targetId:target.id},{type:'RESULT',combatAtMs:1100}
+    {type:'SKILL_CHIP_CAST',combatAtMs:0,chipCode:SKILL.code,castId:'area',targetId:targets[0].id,targetIds:targets.map(t=>t.id)},
+    ...targets.map(target=>({type:'TURN',combatAtMs:100,targetId:target.id,damage:10,targetHpAfter:90})),
+    ...targets.flatMap(target=>[
+      {type:'SKILL_CHIP_HIT',combatAtMs:1080,chipCode:SKILL.code,castId:'area',targetId:target.id,hitIndex:0,damage:90,targetHpAfter:0},
+      {type:'KO',combatAtMs:1080,targetId:target.id}
+    ]),{type:'RESULT',combatAtMs:1100}
   ].map((e,i)=>({...e,seq:i+1,combatGroup:i,combatClock:SKILL_CHIP_CLOCK}));
-  const playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true});
+  // Match the server: each contact target's HIT + KO shares its own group.
+  for(let i=13;i<events.length-1;i+=2)events[i+1].combatGroup=events[i].combatGroup;
+  const playback=engine.skillChipPlayback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true,afterEvent:e=>completed.push(e.seq)});
   const done=playback.play();await playback.ready;playback.timeline.pause();
   try{
     playback.timeline.time(.1,true);playback.pump();await flush();
+    assert.equal(engine.accountBattleUnitDamageQueue.length,0);
+    assert.ok(targets.every(t=>t.hp===90),'normal receipts land during the cast without queuing a second body motion');
+    assert.equal(engine.accountBattleUnitDamageTotal,120);
     playback.timeline.time(1.08,true);playback.pump();await flush();
-    assert.equal(playback.waiting,true,'confirmed killing area hit waits for earlier normal hit');
-    playback.timeline.time(3,true);for(const tick of ticks)tick();
-    assert.equal(Boolean(sword.externalCast),false,'cast must release the body even while event dispatch is waiting');
-    assert.equal(target.hp,100,'no area receipt is applied early');
-    drain();await flush();playback.timeline?.pause();
-    playback.timeline.time(6,true);playback.pump();await flush();
-    assert.equal(await done,true);assert.deepEqual(receipts,[90]);assert.equal(target.hp,0);
-    assert.equal(engine.effectLayer.children.length,0);assert.equal(ticks.size,0);
+    assert.equal(playback.hits,12);assert.ok(targets.every(t=>t.hp===0));
+    assert.equal(fades.length,12,'all twelve KO fades start before any previous fade completes');
+    const fx=playback.fx.get('area').fx;
+    assert.ok(fx.blades.slice(1).every(pair=>pair.every(sprite=>!sprite.visible)),'server-cancelled later blades never freeze in anticipation');
+    assert.equal(receipts.reduce((sum,n)=>sum+n,0),1200,'normal and area damage are preserved exactly once');
+    playback.timeline.time(3.3,true);for(const tick of ticks)tick();
+    assert.equal(Boolean(sword.externalCast),false);assert.equal(playback.fx.size,0);
+    assert.equal(engine.effectLayer.children.length,0,'FX expire even while generation retirement is pending');
+    fades.forEach(release=>release());await flush();playback.pump();await flush();
+    assert.equal(await done,true);assert.equal(ticks.size,0);
+    assert.deepEqual(completed,events.map(e=>e.seq),'receipts still publish in original server order');
   }finally{playback.cancel();}
 });
 

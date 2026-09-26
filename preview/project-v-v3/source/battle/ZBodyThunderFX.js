@@ -33,6 +33,7 @@ export class ZBodyThunderFX{
     this.targets=(event.targetIds||[event.targetId]).map(id=>({id,actor:engine.combatantById(id)})).filter(t=>t.actor?.root&&t.actor.id===t.id&&t.actor.root.visible!==false&&t.actor.battleActive!==false);
     this.points=this.targets.map(({actor})=>({x:actor.root.x,y:actor.root.y}));
     this.confirmed=new Map();this.scheduled=new Map();
+    this.impactIndices=new Set(hits.map(hit=>Number(hit.hitIndex)||0));
     this.ground=new Container({label:'ZThunderAuthoredGroundV3'});
     this.front=new Container({label:'ZThunderAuthoredBladesV3'});
     engine.backgroundLayer.addChild(this.ground);engine.effectLayer.addChild(this.front);
@@ -82,7 +83,11 @@ export class ZBodyThunderFX{
       }
     });
     this.paint(this.field,'ground',this.age(0,'ground',time),center,this.points.length>1?1.6:1.15);
+    if(!this.impactIndices.has(0))this.field.forEach(sprite=>{sprite.visible=false;});
     this.blades.forEach((pair,index)=>{
+      // Killed targets have no later server receipts. Do not hold a cancelled
+      // blade forever on its last anticipation frame waiting for a hit.
+      if(!this.impactIndices.has(index)){pair.forEach(sprite=>{sprite.visible=false;});return;}
       const point=this.points.length===1?{x:center.x+offsets[index][0],y:center.y+offsets[index][1]}:this.points[index%this.points.length];
       const valid=this.targets.some(t=>t.actor.id===t.id&&t.actor.root.visible!==false);
       const confirmed=this.confirmed.has(index);

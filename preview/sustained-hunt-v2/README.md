@@ -73,6 +73,7 @@ node scripts/serve-sustained-hunt-v2.mjs
 - `source/GroundDrops.js`: 같은 Pixi effectLayer에서 아이콘/지면광을 렌더링한다. GSAP 0.22초 출현 트윈, Pixi ticker 좌표 동기화와 만료 UI를 사용한다. 아이템 출현은 비전투 UI이며 새 공격 스킬로 세지 않는다.
 - 기존 `BattleSuitSkillChipPlayback.js`가 공용 전투 시각과 헬기폭격 충돌을 관리한다. 프리뷰 연출이 피해를 다시 계산하지 않는다. 새 전투 스킬/사운드 원음을 제작하지 않았다.
 - 군단토벌은 `combatClockRate=1`로 고정한다. `HuntBattleEngine`은 3~8배 범위의 연출 따라잡기로 15분 시계보다 재생이 계속 밀리는 것을 방지한다. 공용 타임라인/스킬칩/사격 정지와 재개, 철수·세션 교체 정리는 유지하며 전역 GSAP 타임라인을 멈추지 않는다. 아틀라스·충돌 기준점·사운드 원본은 변경하지 않는다.
+- 2026-09-26 광역기 지연 수정: 공용 `BattleEngine.js`가 Z 시전 중 일반 타격을 현재 효과에서 반영하고, `BattleSuitSkillChipPlayback.js`가 같은 충돌의 여러 HIT/KO를 함께 처리한다. `ZBodyThunderFX.js`는 서버에서 취소된 후속 번개를 표시하지 않는다. PixiJS 8.20.0 / GSAP 3.13.0과 승인된 z-thunder-v3 아틀라스 원본을 유지했다. 12마리 동시 처치·피해 보존·FX 만료·취소/정지·세대 교체 검사는 `tests/legion-hunt-z-body-playback-20260926.test.mjs` 및 기존 스킬칩/번개 회귀에 있다.
 - 장시간 정지 시 탄착 대기 6초 제한이 만료되는 문제를 발견해 프리뷰 확장 클래스에서 정지 시간을 제외했다. 60초 정지 회귀검사와 실제 정지→재개→37마리/보스 3종 클리어를 통과했다. 전투 중 실제로 멈춘 대기열의 시간 초과와 취소 처리는 유지한다.
 
 ## 검증 기록

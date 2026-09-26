@@ -1469,8 +1469,14 @@ class BaseBattleEngine{
     const epoch=this.playbackEpoch;
     if(sword.externalCast)await sword.externalCast.done;
     if(!this.visible||this.playbackEpoch!==epoch||this.accountBattleUnit?.swordAnimation!==sword)return false;
-    const played=await sword.play(batch,entries=>{
-      const victim=entries[0].target;
+    const played=await sword.play(batch,entries=>this.applyAccountBattleUnitSwordReceipts(entries,batch.mode));
+    if(played)this.accountBattleUnitShotCount++;
+    return played;
+  }
+
+  applyAccountBattleUnitSwordReceipts(entries,mode='dash'){
+      const victim=entries[0]?.target;
+      if(!this.visible||!victim?.root||victim.root.visible===false||entries.some(entry=>entry.options.targetId&&entry.options.targetId!==victim.id))return false;
       let total=0,critical=false;
       for(const {options} of entries){
         if(!options.authoritative)continue;
@@ -1481,15 +1487,20 @@ class BaseBattleEngine{
         this.accountBattleUnitDamageEventCount++;
         this.accountBattleUnitDamageTotal+=Math.max(0,Number(options.damage)||0);
       }
-      this.triggerAccountBattleUnitBallisticHit(victim,{cameraShake:batch.mode==='area'?4:3.2},this.paceScale||1);
+      this.triggerAccountBattleUnitBallisticHit(victim,{cameraShake:mode==='area'?4:3.2},this.paceScale||1);
       if(total)this.showAccountBattleUnitDamage(victim,{damage:total,critical,playbackRate:this.paceScale||1});
-      this.updateStatus(`Z-BODY ${batch.mode==='area'?'뇌검 집행':'돌진 검격'} · ${Math.round(total).toLocaleString()}`);
-    });
-    if(played)this.accountBattleUnitShotCount++;
-    return played;
+      this.updateStatus(`Z-BODY ${mode==='area'?'뇌검 집행':'돌진 검격'} · ${Math.round(total).toLocaleString()}`);
+      return true;
   }
 
   queueAccountBattleUnitDamageShot(target=null,options={}){
+    // The server keeps normal damage ticking during the intrinsic cast. Apply
+    // those receipts through the active lightning instead of scheduling a dash
+    // behind the body lock that the next lethal lightning hit must wait on.
+    const sword=this.accountBattleUnit?.swordAnimation;
+    if(sword?.intrinsicArea&&sword.externalCast&&!sword.externalCast.destroyed){
+      return Promise.resolve(this.applyAccountBattleUnitSwordReceipts([{target,options:{...options,targetId:target?.id}}],'area'));
+    }
     const run=this.accountBattleUnitFireRun;
     if(!run?.active)return this.playAccountBattleUnitShot(target,options);
     this.accountBattleUnitDamageQueue??=[];

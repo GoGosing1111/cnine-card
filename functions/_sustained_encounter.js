@@ -1,4 +1,4 @@
-// Opt-in timed PVE reinforcements. At most 12 slots, 181 refills and one boss.
+// Opt-in timed PVE reinforcements. At most 12 slots, 179 refills and one boss.
 // The canonical simulator continues to own all damage, HP and skill budgets.
 export function sustainedEncounterPlan(config, initial, capacity) {
   if (!config) return null;
