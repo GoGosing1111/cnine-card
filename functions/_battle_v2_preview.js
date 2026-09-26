@@ -1097,25 +1097,26 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }else if(nextCast){
       const cast=chipSchedule.take(),chip=cast.chip;combatMs=cast.atMs;
       const enemies=chipActor.side==='A'?b:a;
-      const pool=chip.intrinsic?targetableAlive(enemies):targetPool(enemies);if(!pool.length)return;
+      const area=chip.targeting==='ALL_LIVING_ENEMIES';
+      const pool=area?targetableAlive(enemies):targetPool(enemies);if(!pool.length)return;
       const rng=chip.intrinsic?zAreaRandom:chipRandom;
       const primary=lowestRatioTarget(pool,rng);
-      const targets=chip.intrinsic?[primary,...pool.filter(target=>target!==primary)]:[primary];
+      const targets=area?[primary,...pool.filter(target=>target!==primary)]:[primary];
       const count=chip.impactOffsetsMs.length,castId=`${chip.code}:${cast.activation}`,calculations=[];
       for(const target of targets){
         const hit=hitResult(chipActor,target,rng,Math.max(.1,Number(chipActor.independentAttackMultiplier||1)),false,hitOptions);
         const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER;
         const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target,BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER);
-        // Each enemy gets one helicopter-equivalent total, divided over five
-        // confirmed contacts. Never divide that total by the enemy count.
+        // Each enemy gets the full per-target skill total, divided over its
+        // authored contacts. Never divide that total by the enemy count.
         const reference=chip.damageReference||chip.code;
         const total=skillChipDamage(basePrimary+basePierce,reference),pierceTotal=skillChipDamage(basePierce,reference);
         const parts=splitSkillChipDamage(total-pierceTotal,count),pierceParts=splitSkillChipDamage(pierceTotal,count);
         calculations.push({targetId:target.id,baseDamage:basePrimary+basePierce,calculatedDamage:total,dodge:hit.dodge,critical:hit.critical});
-        for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier,...(chip.intrinsic?{intrinsic:true,targeting:chip.targeting}:{})});
+        for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier,...(chip.intrinsic?{intrinsic:true}:{}),...(area?{targeting:chip.targeting}:{})});
       }
       const first=calculations[0];
-      pushEvent(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:chip.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targetId:primary.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:first.baseDamage,damageMultiplier:chip.damageMultiplier,calculatedDamage:calculations.reduce((sum,row)=>sum+row.calculatedDamage,0),dodge:first.dodge,critical:first.critical,label:chip.name,...(chip.intrinsic?{targeting:chip.targeting,targetIds:targets.map(target=>target.id),targets:calculations}:{})});
+      pushEvent(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:chip.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targetId:primary.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:first.baseDamage,damageMultiplier:chip.damageMultiplier,calculatedDamage:calculations.reduce((sum,row)=>sum+row.calculatedDamage,0),dodge:first.dodge,critical:first.critical,label:chip.name,...(area?{targeting:chip.targeting,targetIds:targets.map(target=>target.id),targets:calculations}:{})});
       pendingChipHits.sort((a,b)=>a.atMs-b.atMs||a.castId.localeCompare(b.castId)||a.hitIndex-b.hitIndex);
     }
     stampCombatGroup(from,combatMs,false);

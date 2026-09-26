@@ -40,7 +40,7 @@ export class BattleSuitSkillChipPlayback{
     const groups=[];
     for(const group of this.groups){
       const hit=group.events.find(event=>event.type==='SKILL_CHIP_HIT');
-      const areaImpact=!group.external&&!group.blocking&&skillChipByCode(hit?.chipCode)?.intrinsic&&
+      const areaImpact=!group.external&&!group.blocking&&skillChipByCode(hit?.chipCode)?.targeting==='ALL_LIVING_ENEMIES'&&
         group.events.every(event=>event.type==='SKILL_CHIP_HIT'||event.type==='KO');
       const previous=groups.at(-1);
       group.areaImpact=Boolean(areaImpact);
@@ -116,7 +116,7 @@ export class BattleSuitSkillChipPlayback{
     const target=targetIds.map(id=>this.engine.combatantById(id)).find(t=>t?.root?.visible&&t.battleActive!==false&&targetIds.includes(t.id));
     // The server omits impacts when this target died during anticipation. Do
     // not launch a cosmetic missile into that empty slot or a replacement mob.
-    if(!hits.length||!target?.root?.visible||!targetIds.includes(target.id)||target.battleActive===false){this.suppressedCasts++;return;}
+    if((!hits.length&&!chip.intrinsic)||!target?.root?.visible||!targetIds.includes(target.id)||target.battleActive===false){this.suppressedCasts++;return;}
     const factory=this.engine.battleSuitSkillEffectFactories?.get(chip.code);
     if(chip.intrinsic&&!factory)throw Error('Missing approved intrinsic battle-suit effect: '+chip.code);
     const fx=factory?factory.create(this.engine,event,hits):chip.effectKey==='octaseeker'?new OctaSeekerFX(this.engine,this.octaTextures,()=>{},{serverDriven:true}):new SkillChipFX(this.engine,this.textures);
@@ -126,9 +126,9 @@ export class BattleSuitSkillChipPlayback{
     // Intrinsic casts reserve the suit body immediately and share this clock.
     // Normal receipts during that pose use its active lightning, not a second
     // sword animation waiting behind the body lock.
-    const started=!this.sequential||Boolean(chip.intrinsic);
+    const started=Boolean(fx.cosmeticOnly)||(!this.sequential&&!fx.deferUntilImpact);
     this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()});
-    if(!this.sequential&&!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
+    if(started&&!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
   }
   hit(event){
     const target=this.engine.combatantById(event.targetId);if(!target)return;
@@ -159,7 +159,7 @@ export class BattleSuitSkillChipPlayback{
       fx.clock.time=time;fx.render(time);
       const lastImpact=Math.max(0,...impacts.values());
       const pendingHit=(this.castHits.get(key)||[]).some(event=>!this.finishedEvents.has(event));
-      if(!pendingHit&&time>=Math.max(chip.effectDurationMs/1000,lastImpact+fx.sequence.life)){
+      if(started&&!pendingHit&&time>=Math.max(chip.effectDurationMs/1000,lastImpact+fx.sequence.life,fx.endTime?.()||0)){
         fx.destroy();this.fx.delete(key);
       }
     }
@@ -238,7 +238,7 @@ export class BattleSuitSkillChipPlayback{
         }
         const index=Number(event.hitIndex)||0,from=this.clock.time-entry.at;
         if(!entry.scheduledImpacts.has(index)){
-          entry.scheduledImpacts.set(index,Math.max(entry.chip.impactOffsetsMs[index]/1000,from+(entry.chip.silent?0:this.audio.presentationLead(this.rate))));
+          entry.scheduledImpacts.set(index,Math.max(entry.chip.impactOffsetsMs[index]/1000,from+Math.max(entry.fx.impactLeadSeconds?.(index)||0,entry.chip.silent?0:this.audio.presentationLead(this.rate))));
           entry.fx.scheduleImpact?.(index,entry.scheduledImpacts.get(index));
           if(!entry.chip.silent)this.audio.schedule(entry.chip.effectKey,from,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[index]});
         }

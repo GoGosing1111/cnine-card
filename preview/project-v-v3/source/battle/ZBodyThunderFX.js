@@ -14,7 +14,9 @@ export function thunderFrame(key,age){
   while(index<times.length&&age>=at+times[index])at+=times[index++];
   if(index===times.length)return null;
   const blend=Math.max(0,Math.min(1,((age-at)/times[index]-.72)/.28));
-  return {index,next:Math.min(index+1,times.length-1),blend};
+  const tail=index===times.length-1?(age-at)/times[index]:0;
+  const alpha=1-tail*tail*(3-2*tail);
+  return {index,next:Math.min(index+1,times.length-1),blend,alpha};
 }
 // Samples the existing GSAP battle clock. No ticker, autonomous tween, damage
 // calculation or timer exists in this renderer.
@@ -30,6 +32,8 @@ export class ZBodyThunderFX{
   constructor(engine,textures,event,hits){
     Object.assign(this,{engine,textures,event,hits,clock:{time:0},key:SKILL.effectKey,destroyed:false});
     this.sequence={duration:SKILL.effectDurationMs/1000,life:1.6,impacts:SKILL.impactOffsetsMs.map(ms=>ms/1000)};
+    // Reserve the body, but do not launch until prior server actions can land.
+    this.cosmeticOnly=!hits.length;this.deferUntilImpact=!this.cosmeticOnly;
     this.targets=(event.targetIds||[event.targetId]).map(id=>({id,actor:engine.combatantById(id)})).filter(t=>t.actor?.root&&t.actor.id===t.id&&t.actor.root.visible!==false&&t.actor.battleActive!==false);
     this.points=this.targets.map(({actor})=>({x:actor.root.x,y:actor.root.y}));
     this.confirmed=new Map();this.scheduled=new Map();
@@ -50,6 +54,7 @@ export class ZBodyThunderFX{
     this.render(0);
   }
   scheduleImpact(index,time){if(!this.confirmed.has(index))this.scheduled.set(index,time);}
+  impactLeadSeconds(index){return index===0?this.sequence.impacts[0]:THUNDER_CONTACT.blade/1000;}
   confirmImpact(index,time,event){
     const target=this.targets.find(row=>row.id===event?.targetId);
     if(!target||target.actor.id!==target.id||target.actor.root.visible===false)return false;
@@ -62,49 +67,64 @@ export class ZBodyThunderFX{
       sprite.visible=Boolean(frame);if(!frame)return;
       sprite.texture=this.textures[key][i?frame.next:frame.index];
       sprite.position.set(point.x,point.y);sprite.scale.set(scale);
-      sprite.alpha=i?frame.blend:1-frame.blend;
+      sprite.alpha=(i?frame.blend:1-frame.blend)*frame.alpha;
     });
   }
   age(index,key,time){
     const contact=THUNDER_CONTACT[key],confirmed=this.confirmed.get(index);
+    if(this.cosmeticOnly)return (time-this.sequence.impacts[index])*1000+contact;
     if(confirmed!==undefined)return contact+(time-confirmed)*1000;
-    const planned=this.scheduled.get(index)??this.sequence.impacts[index];
-    // No explosion before the server confirms contact, including delayed waves.
+    let planned=this.scheduled.get(index);
+    if(planned===undefined&&!this.impactIndices.has(index)&&this.confirmed.size){
+      // A lethal opening hit removes later receipts, not the launched spell's
+      // visual follow-through. These frames never synthesize damage or targets.
+      const [first,at]=this.confirmed.entries().next().value;
+      planned=at+this.sequence.impacts[index]-this.sequence.impacts[first];
+      return (time-planned)*1000+contact;
+    }
+    if(planned===undefined)return -1;
+    // Only arm anticipation once the corresponding server group is ready.
+    // Otherwise a queued card/KO can hold this frame for several seconds.
     return Math.min(contact-.01,(time-planned)*1000+contact);
+  }
+  endTime(){
+    const contacts=[...this.confirmed.values()];
+    if(!contacts.length)return this.sequence.duration;
+    const [first,at]=this.confirmed.entries().next().value;
+    return Math.max(...this.sequence.impacts.map((offset,index)=>
+      (this.confirmed.get(index)??(at+offset-this.sequence.impacts[first]))+
+      (THUNDER_FRAMES.blade.reduce((a,b)=>a+b,0)-THUNDER_CONTACT.blade)/1000),
+      (this.confirmed.get(0)??at)+(THUNDER_FRAMES.ground.reduce((a,b)=>a+b,0)-THUNDER_CONTACT.ground)/1000,
+      (this.scheduled.get(0)??this.sequence.impacts[0])-this.sequence.impacts[0]+this.sequence.duration);
   }
   render(time){
     if(this.destroyed||!this.points.length)return;
     this.clock.time=time;
-    const center={x:this.points.reduce((s,p)=>s+p.x,0)/this.points.length,y:this.points.reduce((s,p)=>s+p.y,0)/this.points.length};
     const offsets=[[-120,-45],[115,-25],[0,0],[-95,85],[110,70]];
     this.points.forEach((p,i)=>{
       if(!this.confirmed.size){
         const t=this.targets[i];if(t.actor.id===t.id&&t.actor.root.visible!==false){p.x=t.actor.root.x;p.y=t.actor.root.y;}
       }
     });
+    const center={x:this.points.reduce((s,p)=>s+p.x,0)/this.points.length,y:this.points.reduce((s,p)=>s+p.y,0)/this.points.length};
     this.paint(this.field,'ground',this.age(0,'ground',time),center,this.points.length>1?1.6:1.15);
-    if(!this.impactIndices.has(0))this.field.forEach(sprite=>{sprite.visible=false;});
     this.blades.forEach((pair,index)=>{
-      // Killed targets have no later server receipts. Do not hold a cancelled
-      // blade forever on its last anticipation frame waiting for a hit.
-      if(!this.impactIndices.has(index)){pair.forEach(sprite=>{sprite.visible=false;});return;}
       const point=this.points.length===1?{x:center.x+offsets[index][0],y:center.y+offsets[index][1]}:this.points[index%this.points.length];
-      const valid=this.targets.some(t=>t.actor.id===t.id&&t.actor.root.visible!==false);
-      const confirmed=this.confirmed.has(index);
-      if(!valid&&!confirmed){pair.forEach(s=>{s.visible=false;});return;}
       this.paint(pair,'blade',this.age(index,'blade',time),point,[.78,.72,.92,.78,.84][index]);
     });
     if(this.sword?.externalCast===this){
-      this.sword.pose(swordPose(Z_SWORD.cast.sequence,time*1000).frame);
-      this.sword.timeMs=time*1000;
-      if(time>=2.9)this.releaseBody();
+      const armed=this.cosmeticOnly||this.scheduled.has(0);
+      const bodyTime=armed?Math.max(0,time-(this.cosmeticOnly?0:this.scheduled.get(0)-this.sequence.impacts[0])):0;
+      this.sword.pose(armed?swordPose(Z_SWORD.cast.sequence,bodyTime*1000).frame:'01');
+      this.sword.timeMs=bodyTime*1000;
+      if(bodyTime>=2.9)this.releaseBody();
     }
   }
   releaseBody(){
     if(this.sword?.externalCast===this){this.sword.externalCast=null;this.sword.mode='ready';this.sword.pose('01');this.sword.timeMs=0;}
     this.release?.();this.release=null;
   }
-  diagnostics(){return {version:assets.version,authoredFrames:24,confirmedImpacts:[...this.confirmed.keys()],timeMs:Math.round(this.clock.time*1000),targets:this.targets.map(t=>t.id),destroyed:this.destroyed};}
+  diagnostics(){return {version:assets.version,authoredFrames:24,confirmedImpacts:[...this.confirmed.keys()],scheduledImpacts:[...this.scheduled],bladeFrames:this.blades.map((_,i)=>thunderFrame('blade',this.age(i,'blade',this.clock.time))?.index??null),timeMs:Math.round(this.clock.time*1000),targets:this.targets.map(t=>t.id),destroyed:this.destroyed};}
   destroy(){
     if(this.destroyed)return;this.destroyed=true;this.releaseBody();
     this.ground.destroy({children:true});this.front.destroy({children:true});

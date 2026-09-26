@@ -64,12 +64,15 @@ test('Z area contact applies all twelve deaths together without waiting behind i
     assert.ok(targets.every(t=>t.hp===90),'normal receipts land during the cast without queuing a second body motion');
     assert.equal(engine.accountBattleUnitDamageTotal,120);
     playback.timeline.time(1.08,true);playback.pump();await flush();
+    assert.equal(playback.hits,0,'launch waits until the collision lane is ready');
+    playback.timeline.time(2.16,true);playback.pump();await flush();
     assert.equal(playback.hits,12);assert.ok(targets.every(t=>t.hp===0));
     assert.equal(fades.length,12,'all twelve KO fades start before any previous fade completes');
     const fx=playback.fx.get('area').fx;
-    assert.ok(fx.blades.slice(1).every(pair=>pair.every(sprite=>!sprite.visible)),'server-cancelled later blades never freeze in anticipation');
+    playback.timeline.time(2.5,true);playback.render();
+    assert.ok(fx.blades.every(pair=>pair.some(sprite=>sprite.visible)),'all five launched blades finish even when the opening contact kills every target');
     assert.equal(receipts.reduce((sum,n)=>sum+n,0),1200,'normal and area damage are preserved exactly once');
-    playback.timeline.time(3.3,true);for(const tick of ticks)tick();
+    playback.timeline.time(4.4,true);for(const tick of ticks)tick();
     assert.equal(Boolean(sword.externalCast),false);assert.equal(playback.fx.size,0);
     assert.equal(engine.effectLayer.children.length,0,'FX expire even while generation retirement is pending');
     fades.forEach(release=>release());await flush();playback.pump();await flush();
@@ -88,5 +91,27 @@ test('saved Z-BODY without chips generates approved whole-field casts in a 12-en
     assert.ok(casts.some(c=>c.targetIds.length>5));
     for(const cast of casts){assert.equal(cast.chipCode,SKILL.code);assert.equal(cast.targeting,'ALL_LIVING_ENEMIES');assert.equal(cast.damageMultiplier,SKILL.damageMultiplier);}
     assert.ok(timeline.some(e=>e.type==='SKILL_CHIP_HIT'&&e.chipCode===SKILL.code&&e.damage>0));
+  }finally{await f.close();}
+});
+
+test('the saved helicopter chip and Z intrinsic skill cast independently and both target the whole field',async()=>{
+  const f=await legionFixture(),helicopter='SKILL_CHIP_HELICOPTER_AIRSTRIKE';
+  try{
+    const deck=f.getDeck();Object.assign(deck.characterBonus.equippedBattleSuit,{code:'BATTLE_SUIT_Z_BODY',name:'Z-BODY',skillChips:[helicopter]});f.setDeck(deck);
+    const response=await f.call('legion-hunt/start',{difficulty:'hard'});assert.equal(response.status,200);
+    assert.deepEqual(response.body.payload.equippedBattleSuit.skillChips,[helicopter],'latest saved chip loadout survives the account adapter');
+    const events=response.body.payload.battleV2.result.timeline;
+    for(const code of [helicopter,SKILL.code]){
+      const casts=events.filter(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===code);
+      assert.ok(casts.length>0);assert.equal(casts[0].combatAtMs,15000);
+      assert.equal(casts[0].targeting,'ALL_LIVING_ENEMIES');assert.ok(casts[0].targetIds.length>5);
+      for(const cast of casts){
+        assert.equal(cast.calculatedDamage,cast.targets.reduce((n,t)=>n+t.calculatedDamage,0));
+        for(const target of cast.targets)assert.equal(target.calculatedDamage,Math.round(target.baseDamage*5));
+      }
+      const hits=events.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===casts[0].castId);
+      assert.ok(new Set(hits.map(h=>h.targetId)).size>5,'front and rear enemies receive independent server receipts');
+      assert.ok(hits.every(h=>h.damageSource===(code===helicopter?'BATTLE_SUIT_SKILL_CHIP':'BATTLE_SUIT_INTRINSIC_SKILL')));
+    }
   }finally{await f.close();}
 });

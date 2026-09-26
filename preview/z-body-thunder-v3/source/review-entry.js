@@ -54,10 +54,12 @@ async function play({holdAt=null}={}){
     if(token!==generation)return;
     if(holdAt!==null){
       paused=true;playback.timeline?.pause();
-      // Pump chronologically so earlier contacts retain their true age.
-      for(const ms of [0,...SKILL.impactOffsetsMs,holdAt*1000].filter(ms=>ms<=holdAt*1000).sort((a,b)=>a-b)){
+      // Seek the effect's local clock, including the collision-readiness gate.
+      for(let ms=0;ms<=10000&&playback.active;ms+=10){
         playback.timeline?.time(ms/1000,true);
-        const saved=paused;paused=false;playback.pump();paused=saved;
+        paused=false;playback.pump();paused=true;
+        const entry=[...playback.fx.values()].find(entry=>entry.started);
+        if(entry&&playback.clock.time-entry.at>=holdAt-.0001)break;
       }
       playback.render();playback.timeline?.pause();
     }
@@ -105,13 +107,13 @@ async function main(){
   $('speed').onchange=()=>{engine.paceScale=Number($('speed').value);if(legacyTimeline)legacyTimeline.timeScale(engine.paceScale);playback?.pump();};
   $('targets').onchange=()=>{kind=$('targets').value;void play();};
   $('action').onchange=()=>{
-    action=$('action').value;$('seek').max=action==='normal'?'640':'3100';
+    action=$('action').value;$('seek').max=action==='normal'?'640':'4200';
     $('peak').textContent=action==='normal'?'검 궤적':'광역 충돌';void play();
   };
   for(const [id,old] of [['new',false],['old',true]])$(id).onclick=()=>{
     legacy=old;$('new').setAttribute('aria-pressed',String(!legacy));$('old').setAttribute('aria-pressed',String(legacy));void play();
   };
-  for(const [id,ms,normalMs] of [['charge',740,130],['contact',1080,245],['peak',1340,275],['tail',2200,510]])$(id).onclick=()=>void play({holdAt:(action==='normal'?normalMs:ms)/1000});
+  for(const [id,ms,normalMs] of [['charge',740,130],['contact',1080,245],['peak',1340,275],['tail',3350,510]])$(id).onclick=()=>void play({holdAt:(action==='normal'?normalMs:ms)/1000});
   $('seek').onchange=()=>void play({holdAt:Number($('seek').value)/1000});
   for(const button of doc.querySelectorAll('button'))button.disabled=false;
   engine.app.ticker.add(update);

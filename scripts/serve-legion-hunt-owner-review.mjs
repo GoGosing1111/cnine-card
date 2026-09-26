@@ -8,7 +8,15 @@ const root=fs.realpathSync(process.cwd()),port=Number(process.env.LEGION_REVIEW_
 // Explicit local QA loadout; never injected by the production handler.
 if(process.env.LEGION_REVIEW_Z_BODY==='1'){
   const deck=fixture.getDeck();Object.assign(deck.characterBonus,{battleSuitPve:3000000,pve:4117360});
-  Object.assign(deck.characterBonus.equippedBattleSuit,{code:'BATTLE_SUIT_Z_BODY',name:'Z-BODY',skillChips:[]});fixture.setDeck(deck);
+  Object.assign(deck.characterBonus.equippedBattleSuit,{code:'BATTLE_SUIT_Z_BODY',name:'Z-BODY',skillChips:process.env.LEGION_REVIEW_HELICOPTER==='1'?['SKILL_CHIP_HELICOPTER_AIRSTRIKE']:[]});fixture.setDeck(deck);
+}
+if(process.env.LEGION_REVIEW_DROPS==='1'){
+  await fixture.DB.prepare("INSERT INTO inventory_items VALUES('MASTER_STAR','마스터의 별','RARE','assets/ui/core-raid-rewards-v2/master-star.svg',1)").run();
+  const {body}=await fixture.call('admin/legion-hunt');
+  body.policy.items=[{...body.catalog.find(row=>row.ref==='MASTER_STAR'),enabled:true,weight:1,minQuantity:1,maxQuantity:1}];
+  body.policy.difficulties.forEach(d=>{d.dropPercent=100;d.bossDropPercent=100;d.lifetimeSeconds=15;});
+  const saved=await fixture.call('admin/legion-hunt',{policy:body.policy},{method:'PATCH'});
+  if(saved.status!==200)throw Error(JSON.stringify(saved));
 }
 fixture.deps.now=Date.now;
 fixture.deps.authenticate=async request=>request.headers.get('cookie')?.includes('hunt_review_role=USER')?fixture.player:fixture.owner;
@@ -41,7 +49,7 @@ const server=http.createServer(async(req,res)=>{
     let file=path.resolve(root,relative);if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
     if(!fs.existsSync(file)||!fs.realpathSync(file).startsWith(root+path.sep)||!mime[path.extname(file)])return send(res,'Not found',404);
     if(process.env.LEGION_REVIEW_DIAGNOSTICS==='1'&&relative==='pve/legion-hunt/'){
-      const diagnostic=`<output id="review-clock" style="position:fixed;bottom:2px;right:6px;z-index:9999;background:#07101e;color:#a3bca7;font:11px monospace;padding:3px;pointer-events:none"></output><script>setInterval(()=>{const d=window.HuntPreviewV2?.diagnostics();if(!d)return;const unit=d.engine?.accountBattleUnit,chip=unit?.skillChips;document.getElementById('review-clock').textContent='QA clock='+Math.round(chip?.timeMs||0)+' processed='+Math.round(d.renderedAt)+' kills='+d.kills+' queue='+(unit?.sustainedFire?.queuedDamageEvents||0)+' FX='+(chip?.activeEffects||0)+' age='+Math.max(0,...(chip?.effects||[]).map(f=>f.timeMs||0))+' hits='+(chip?.hits||0);},250)</script>`;
+      const diagnostic=`<output id="review-clock" style="position:fixed;bottom:2px;right:6px;z-index:9999;background:#07101e;color:#a3bca7;font:11px monospace;padding:3px;pointer-events:none"></output><script>setInterval(()=>{const d=window.HuntPreviewV2?.diagnostics();if(!d)return;const unit=d.engine?.accountBattleUnit,chip=unit?.skillChips;document.getElementById('review-clock').textContent='QA clock='+Math.round(chip?.timeMs||0)+' processed='+Math.round(d.renderedAt)+' kills='+d.kills+' queue='+(unit?.sustainedFire?.queuedDamageEvents||0)+' FX='+(chip?.activeEffects||0)+' age='+Math.max(0,...(chip?.effects||[]).map(f=>f.timeMs||0))+' hits='+(chip?.hits||0)+' '+(chip?.effects||[]).map(f=>f.castId+':'+(f.bladeFrames||[]).join(',')).join(' ');},250)</script>`;
       return send(res,fs.readFileSync(file,'utf8').replace('</body>',diagnostic+'</body>'));
     }
     res.writeHead(200,{'content-type':mime[path.extname(file)],'cache-control':'no-store'});if(req.method==='HEAD')res.end();else fs.createReadStream(file).pipe(res);

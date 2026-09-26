@@ -331,3 +331,22 @@ test('simultaneous audio schedules append voices instead of cutting off the othe
   audio.schedule('missile');audio.schedule('airstrike',0,1,{append:true});
   assert.equal(stops,1);
 });
+
+test('helicopter area receipts remain visible after the primary dies without multiplying effects or moving smoke',()=>{
+  const engine=mockEngine(),primary=engine.target;
+  const second={id:'B:1:AREA',root:new Container(),hp:100,battleActive:true};second.root.position.set(1350,850);
+  const targets=[primary,second];engine.combatantById=id=>targets.find(t=>t.id===id);
+  const fx=new SkillChipFX(engine,mockTextures());fx.target=primary;
+  fx.bindTarget(primary.id,{targeting:'ALL_LIVING_ENEMIES',targetIds:targets.map(t=>t.id)});
+  try{
+    primary.root.visible=false;primary.id='replacement';
+    assert.equal(fx.confirmImpact(0,.61,{targetId:second.id}),true);
+    fx.render(.72);assert.equal(fx.heli.visible,true);assert.equal(fx.blasts[0].first.visible,true);
+    const point={x:fx.blasts[0].first.x,y:fx.blasts[0].first.y};
+    second.root.x+=600;fx.confirmImpact(0,.9,{targetId:second.id});fx.render(.95);
+    assert.equal(fx.confirmedImpacts.get(0).time,.61,'same area contact never restarts for each victim');
+    assert.deepEqual({x:fx.blasts[0].first.x,y:fx.blasts[0].first.y},point);
+    assert.equal(fx.blasts.length,4,'one helicopter and four area blasts regardless of enemy count');
+    fx.render(4);assert.ok(fx.sprites.every(s=>!s.visible));
+  }finally{fx.destroy();}
+});

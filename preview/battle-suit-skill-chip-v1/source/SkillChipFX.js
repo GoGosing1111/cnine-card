@@ -46,8 +46,20 @@ export class SkillChipFX{
   pause(){this.timeline.pause();this.render(this.time);this.onUpdate(this.time)}
   seek(time){this.timeline.pause().time(clamp(time,0,this.sequence.duration),true);this.render(this.clock.time);this.onUpdate(this.clock.time)}
   setSpeed(speed){this.speed=clamp(speed,.25,2);this.timeline.timeScale(this.speed)}
-  bindTarget(id){this.targetId=id;this.confirmedImpacts=new Map();this.castPoints=this.getPoints();}
-  confirmImpact(index,time){
+  bindTarget(id,event){
+    this.targetId=id;this.confirmedImpacts=new Map();
+    if(this.key==='airstrike'&&event?.targeting==='ALL_LIVING_ENEMIES'){
+      this.areaTargets=(event.targetIds||[id]).map(id=>({id,actor:this.engine.combatantById(id)})).filter(t=>t.actor?.root&&t.actor.id===t.id);
+    }
+    this.castPoints=this.getPoints();
+  }
+  confirmImpact(index,time,event){
+    if(this.areaTargets){
+      const target=this.areaTargets.find(t=>t.id===event?.targetId);
+      if(!target||target.actor.id!==target.id||!target.actor.root.visible)return false;
+      if(!this.confirmedImpacts.has(index))this.confirmedImpacts.set(index,{time,points:structuredClone(this.castPoints)});
+      return true;
+    }
     const points=this.getPoints();
     if(!points||this.target?.id!==this.targetId||!this.target.root.visible)return false;
     // Freeze the collision in world space. A pooled enemy actor may now move,
@@ -56,6 +68,14 @@ export class SkillChipFX{
     this.confirmedImpacts.set(index,{time,points:this.castPoints});return true;
   }
   getPoints(){
+    if(this.areaTargets?.length){
+      if(this.castPoints)return this.castPoints;
+      const roots=this.areaTargets.map(t=>t.actor.root),xs=roots.map(r=>r.x),ys=roots.map(r=>r.y);
+      const x=(Math.min(...xs)+Math.max(...xs))/2,y=(Math.min(...ys)+Math.max(...ys))/2;
+      const width=Math.max(220,Math.max(...xs)-Math.min(...xs)),height=Math.max(170,Math.max(...ys)-Math.min(...ys));
+      return {source:this.engine.accountBattleUnit.muzzlePoint(),foot:{x,y:y-14},hit:{x,y:y-92},blast:{x,y},
+        areaBlasts:[{x:x-width*.3,y:y-height*.3},{x:x+width*.3,y:y-height*.3},{x:x-width*.3,y:y+height*.3},{x:x+width*.3,y:y+height*.3}]};
+    }
     const unit=this.engine.accountBattleUnit;const target=this.targetId?this.target:this.target||this.engine.enemies.find(x=>x.battleActive!==false&&x.root.visible);
     if(this.targetId&&(target?.id!==this.targetId||!target.root.visible||target.battleActive===false))return this.castPoints||null;
     const root=target?.root;if(!unit||!root)return null;
@@ -103,7 +123,7 @@ export class SkillChipFX{
       const age=time-(confirmed?.time??at);const f=explosionFrame(age,seq.life);if(!f)return;
       const collision=confirmed?.points||points;
       const b=this.blasts[i],point=this.key==='missile'?collision.blast:collision.foot;
-      const x=point.x+offsets[i][0]*unitScale,y=point.y+offsets[i][1]*unitScale;
+      const x=collision.areaBlasts?.[i].x??point.x+offsets[i][0]*unitScale,y=collision.areaBlasts?.[i].y??point.y+offsets[i][1]*unitScale;
       const size=(this.key==='airstrike'?365:390)*unitScale;
       b.first.texture=this.textures.frames[f.index];b.second.texture=this.textures.frames[f.next];
       b.first.anchor.set(.5,frameOrigins[f.index].y);b.second.anchor.set(.5,frameOrigins[f.next].y);

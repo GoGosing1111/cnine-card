@@ -1,8 +1,8 @@
 /* The hunt's command surface follows the live adventure lobby.
    The V3 formation, canvas renderer and native roster/card frames stay shared. */
 body[data-legion-live]{--lime:#c8ff6b;--hunt-line:#29344c;--hunt-muted:#a7b3c9;--hunt-command-height:72px;--hunt-hud-height:116px;background:#080c17;color:#f3f5ff;font-family:'Noto Sans KR','Malgun Gothic',sans-serif}
-body[data-legion-live] button{border-color:#35425a;background:#141e31;border-radius:4px;font-weight:500;touch-action:manipulation}
-body[data-legion-live] button:hover:not(:disabled){background:#1e2c43;border-color:#a2bc78}
+body[data-legion-live] button:not(.ground-drop){border-color:#35425a;background:#141e31;border-radius:4px;font-weight:500;touch-action:manipulation}
+body[data-legion-live] button:not(.ground-drop):hover:not(:disabled){background:#1e2c43;border-color:#a2bc78}
 body[data-legion-live] button.primary{background:var(--lime);border-color:var(--lime);color:#142118;font-weight:750}
 body[data-legion-live] button.primary:hover:not(:disabled){background:#ddffa6}
 body[data-legion-live] .hunt-command{min-height:0;height:var(--hunt-command-height);display:grid;grid-template-columns:1fr auto 1fr;gap:24px;padding:0 26px;background:#0b1120;border-bottom:1px solid var(--hunt-line);box-shadow:none}

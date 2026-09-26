@@ -73,3 +73,8 @@ node preview/z-body-thunder-v3/serve.mjs
 서버 Z-BODY 스킬 계산, 해당 공용 스킬 재생·몸체 충돌 방지, 검수 자산과 페이지만 변경했다. DB·권한·의존성·다른 콘텐츠 정책 변경은 없다. 운영 배포 시 `docs/scoped-release-policy-20260923.md`에 따라 실제 직전 배포 SHA·캐시·출시 플래그·원격 main 일치를 확인하고 `npm run deploy:production -- --scoped`를 사용한다. 이미 통과한 동일 빌드 검사를 불필요하게 반복하지 않는다.
 
 운영 배포 완료: `972976dc` / `https://5e280386.cnine-card.pages.dev`. 최종 범위 게이트 228개와 개발 중 Z바디 검사 13개가 통과했으며, 운영 승인 이미지 6장의 해시와 신규 런타임을 확인했다.
+# 2026-09-27 재생 수정
+
+승인 아틀라스·음원은 변경하지 않았다. 실제 `preview/project-v-v3/source/battle/ZBodyThunderFX.js`와 `BattleSuitSkillChipPlayback.js`가 PixiJS 8.20.0 / GSAP 3.13.0의 기존 공용 시계로 접근·충돌·잔향을 재생한다. 타격 대기 중 중간 프레임을 고정하지 않고, 서버 접촉 준비 후 검 300ms/지면 340ms 접근을 보장한다. 첫 타격 사망으로 후속 피해가 생략돼도 다섯 검의 마지막 프레임·페이드가 완료된다. 피해는 서버 기록만 적용한다.
+
+실제 PC·모바일 전장, 25회 피해 일치, 지연·일시정지·취소·슬롯 교체·효과 정리를 검수했다. 프리뷰 시간 탐색은 준비 대기를 포함한 전역 시계 대신 효과의 재생 시간을 기준으로 이동한다. 상세 원인·검사·배포 범위: `docs/legion-hunt-effects-20260927.md`.

@@ -6,7 +6,7 @@ export const SKILL_CHIP_BALANCE_STATUS=null;
 export const SKILL_CHIP_CLOCK='V3_COMBAT_MS_V1';
 export const SKILL_CHIP_CATALOG=Object.freeze([
   Object.freeze({code:'SKILL_CHIP_ROCKET_LAUNCHER',name:'로켓런처',effectKey:'missile',damageMultiplier:2.5,intervalMs:3000,impactOffsetsMs:Object.freeze([360]),effectDurationMs:2250,image:'/assets/ui/project-v/skill-chips/rocket-launcher-v1.webp',description:'3초마다 배틀슈트 1발 피해의 2.5배로 대상 발끝에서 폭발합니다.',sortOrder:10}),
-  Object.freeze({code:'SKILL_CHIP_HELICOPTER_AIRSTRIKE',name:'헬기폭격',effectKey:'airstrike',damageMultiplier:5,intervalMs:15000,impactOffsetsMs:Object.freeze([610,830,1050,1270]),effectDurationMs:3600,image:'/assets/ui/project-v/skill-chips/helicopter-airstrike-v1.webp',description:'15초마다 배틀슈트 1발 피해의 총 5배를 4회 폭격으로 나눠 가합니다.',sortOrder:20}),
+  Object.freeze({code:'SKILL_CHIP_HELICOPTER_AIRSTRIKE',name:'헬기폭격',effectKey:'airstrike',targeting:'ALL_LIVING_ENEMIES',damageMultiplier:5,intervalMs:15000,impactOffsetsMs:Object.freeze([610,830,1050,1270]),effectDurationMs:3600,image:'/assets/ui/project-v/skill-chips/helicopter-airstrike-v1.webp',description:'15초마다 적 전체에 배틀슈트 1발 피해의 총 5배를 각각 4회 폭격으로 나눠 가합니다.',sortOrder:20}),
   Object.freeze({code:'SKILL_CHIP_OCTA_SEEKER',name:'8방향 유도탄',effectKey:'octaseeker',damageMultiplier:10,intervalMs:17000,impactOffsetsMs:Object.freeze([1020,1080,1140,1200,1260,1320,1380,1440]),effectDurationMs:3200,image:'/assets/ui/project-v/skill-chips/octa-seeker-v1.webp',description:'17초마다 8방향으로 발사한 유도탄이 적 1명에게 집중 명중합니다. 총 피해는 헬기폭격의 2배(스킬 기준 피해의 10배)를 8발에 나눠 적용합니다.',sortOrder:30})
 ]);
 export function skillChipByCode(code){return SKILL_CHIP_CATALOG.find(chip=>chip.code===code)||null;}

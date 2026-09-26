@@ -21,7 +21,7 @@ export class GroundDrops{
     const button=document.createElement('button');button.className='ground-drop '+rarity;button.type='button';button.dataset.dropId=drop.id;
     button.setAttribute('aria-label',drop.item.name+' 획득');button.innerHTML='<span class="drop-countdown"></span><span class="drop-label"></span>';
     button.querySelector('.drop-label').textContent=drop.item.name;this.host.append(button);
-    const row={drop,root,icon,button,deadline:performance.now()+remaining,pending:false,expired:false};
+    const row={drop,root,icon,halo,iconScale:scale,button,deadline:performance.now()+remaining,pending:false,expired:false};
     this.rows.set(drop.id,row);
     button.onclick=async event=>{
       if(!event.isTrusted||row.pending||row.expired||this.engine.huntPaused)return;
@@ -50,12 +50,17 @@ export class GroundDrops{
       if(left<=0&&!r.pending){this.remove(id);this.onExpired?.(r.drop);continue;}
       r.root.position.set(field.x+r.drop.position.x*field.width,field.y+r.drop.position.y*field.height);
       const p=r.root.getGlobalPosition(),x=box.left+p.x*box.width/e.app.screen.width,y=box.top+p.y*box.height/e.app.screen.height;
+      // Keep the item readable when the V3 world shrinks on a phone. The DOM
+      // hit target and Pixi icon still share the same field position.
+      const matrix=r.root.parent.worldTransform,viewScale=Math.hypot(matrix.a,matrix.b)*box.width/e.app.screen.width;
+      const boost=Math.max(1,32/(45*Math.max(.001,viewScale)));
+      r.icon.scale.set(r.iconScale*boost);r.halo.scale.set(boost);
       // CSS target keeps a 48px touch area even on the smallest V3 viewport.
       r.button.style.left=x+'px';r.button.style.top=(y-22)+'px';
       r.button.disabled=r.pending||!!e.huntPaused;
       r.button.querySelector('.drop-countdown').textContent=Math.max(0,Math.ceil(left/1000))+'s';
       r.button.classList.toggle('expiring',left<2500);
-      r.icon.y=-8+Math.sin(time/240)*2;
+      r.icon.y=(-8+Math.sin(time/240)*2)*boost;
     }
   }
   remove(id){const r=this.rows.get(id);if(!r)return;r.expired=true;r.tween?.kill();r.button.remove();r.root.destroy({children:true});this.rows.delete(id);}
