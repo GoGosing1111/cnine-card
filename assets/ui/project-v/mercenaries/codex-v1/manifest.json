@@ -1784,6 +1784,39 @@
       "source": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/bongsun-nurse-sd-v1.png",
       "sourceSha256": "107189244DDD6EE368AA75B15459CAD9CD3FB6D68382863C59E9A984BABD0A5D",
       "sha256": "0A05DB4E0F663C1C9D21B9372396789DCD955D66918E67B1CB4CA24D98EEC7A4"
+    },
+    {
+      "code": "V-055",
+      "kind": "art",
+      "file": "v-055-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 72482,
+      "source": "preview/mercenary-berkan-sss-v1/assets/source-art.png",
+      "sourceSha256": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D",
+      "sha256": "A984FAE215CD4DB05065CCD88C304489A62BCB4A491CBD91735A8208C5C3B016"
+    },
+    {
+      "code": "V-055",
+      "kind": "art",
+      "file": "v-055-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 241026,
+      "source": "preview/mercenary-berkan-sss-v1/assets/source-art.png",
+      "sourceSha256": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D",
+      "sha256": "E1FC8C792DA0C99F56D48FCAA8768BBC69B748D17695CE2D8480FC1ED80682F9"
+    },
+    {
+      "code": "V-055",
+      "kind": "sd",
+      "file": "v-055-sd-640.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 150160,
+      "source": "preview/mercenary-berkan-sss-v1/assets/berkan-sd-v1.png",
+      "sourceSha256": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101",
+      "sha256": "F0D1ECFFED96F38E2D1958CE85483412918E38B2982B51C54DF3F9FBB0103E1A"
     }
   ]
 }

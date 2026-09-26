@@ -35,7 +35,7 @@ test('28 profiles use preserved recordings and align their measured principal pe
  assert.ok(audio.profiles['MS-050'],'released Sniper Orikkung retains its recorded audio profile');
  for(const row of Object.values(audio.assets)){assert.equal(createHash('sha256').update(read(row.url.slice(1))).digest('hex'),row.sha256);assert.ok(row.licenseUrl&&row.sources&&row.peakAmplitude>0);}
  for(const skill of MERCENARY_SKILLS){const events=mercenaryAudioEvents(skill,compileRehearsal(skill.id));
-   if(['MS-045','MS-046','MS-047','MS-048','MS-049'].includes(skill.id)){assert.deepEqual(events,[],'Dedicated approved motion playback has no generic audio profile');continue;}
+   if(['MS-045','MS-046','MS-047','MS-048','MS-049','MS-055'].includes(skill.id)){assert.deepEqual(events,[],'Dedicated approved motion playback has no generic audio profile');continue;}
   for(const layer of ['NOTICE','IMPACT','TAIL'])assert.ok(events.some(e=>e.layer===layer),skill.id+layer);
   for(const e of events){assert.ok(e.offset>=0&&e.duration>0&&e.offset+e.duration<=audio.assets[e.asset].duration+.001);if(e.impact!==undefined)for(const rate of [.5,1,2,8])assert.ok(Math.abs((e.at+audio.assets[e.asset].peak-e.offset-e.impact)/rate*1000)<.01);}
  }

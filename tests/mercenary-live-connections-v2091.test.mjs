@@ -60,7 +60,7 @@ for(const postgres of [false,true]){
   const total=(await f.p('SELECT SUM(total_copies) AS n FROM user_mercenary_cards_v1 WHERE user_id=7').first()).n;assert.equal(Number(total),10);
  });
  test(`${label}: S6 and SS8 CMS assignments reach owned cards, separate loadout and real PVE snapshots`,async t=>{
-  const f=await mercenaryFixture(t,{postgres}),d=structuredClone(f.document);for(const c of d.mercenaries)c.rank=plan.targets.find(r=>r.code===c.code)?.rank||(['V-021','V-046','V-049'].includes(c.code)?'SSS':['V-044','V-045','V-047','V-048','V-050'].includes(c.code)?'SS':'C');
+  const f=await mercenaryFixture(t,{postgres}),d=structuredClone(f.document);for(const c of d.mercenaries)c.rank=plan.targets.find(r=>r.code===c.code)?.rank||(['V-021','V-046','V-049','V-055'].includes(c.code)?'SSS':['V-044','V-045','V-047','V-048','V-050'].includes(c.code)?'SS':'C');
   for(const s of d.skills){s.review='REVIEWED';s.balance={damageRatio:1,cooldownTurns:3,cost:0};}
   const next=prepareSSkillAssignments(d,seed.document,seed.catalog,{...plan,targets:[...plan.targets,{code:'V-044',rank:'SS',skillId:'MS-044'},{code:'V-045',rank:'SS',skillId:'MS-045'},{code:'V-047',rank:'SS',skillId:'MS-047'},{code:'V-048',rank:'SS',skillId:'MS-048'},{code:'V-050',rank:'SS',skillId:'MS-050'}]});await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(next)).run();
   let revision=0;for(const row of plan.targets){

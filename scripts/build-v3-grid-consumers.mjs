@@ -45,8 +45,10 @@ for (const [entryPoint, outfile, constructor] of jobs) {
     pixiCopies: inputs.filter(p => p.endsWith('/pixi.js/lib/index.mjs')).length, inputs: inputs.filter(p => !p.includes('node_modules')), outputBytes: Buffer.byteLength(bundle)}, null, 2) + '\n');
   outputs.push({file: outfile, sha256: hash(bundle), commonGrid: true});
 }
-const sources = [];
-for(const file of ['preview/project-v-v3/source/battle/NurseHealCombatPlayback.js','preview/mercenary-nurse-healers-ss-v1/source/NurseHealFX.js','preview/mercenary-nurse-healers-ss-v1/skill.mjs','shared/mercenary-nurse-healers-v1.mjs','preview/project-v-v3/source/battle/CryvernCombatPlayback.js','preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js','preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs','shared/mercenary-cryvern-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
+const sources = [{file:'preview/project-v-v3/source/battle/SkillEffectFX.js',sha256:hash(await readFile('preview/project-v-v3/source/battle/SkillEffectFX.js','utf8'))}];
+for(const file of ['preview/project-v-v3/source/battle/BerkanCombatPlayback.js','preview/mercenary-berkan-sss-v1/source/BerkanFX.js','preview/mercenary-berkan-sss-v1/skill.mjs','shared/mercenary-berkan-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
+for(const file of ['preview/project-v-v3/source/battle/CryvernCombatPlayback.js','preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js','preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs','shared/mercenary-cryvern-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
+for(const file of ['preview/project-v-v3/source/battle/NurseHealCombatPlayback.js','preview/mercenary-nurse-healers-ss-v1/source/NurseHealFX.js','preview/mercenary-nurse-healers-ss-v1/skill.mjs','shared/mercenary-nurse-healers-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 const layoutClient = 'preview/v3-wide-grid-v1/app.bundle.js';
 await build({entryPoints: ['preview/v3-wide-grid-v1/source/app.mjs'], outfile: layoutClient,
   bundle: true, minify: true, format: 'iife', target: ['es2022'], legalComments: 'none'});

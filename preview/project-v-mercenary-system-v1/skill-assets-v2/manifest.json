@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 544,
+  "frameCount": 560,
   "images": [
     {
       "id": "closing-punch",
@@ -12063,6 +12063,339 @@
             314
           ],
           "nonempty": 9120
+        }
+      ]
+    },
+    {
+      "id": "berkan-gilded-starfall",
+      "skillId": "MS-055",
+      "name": "흑금 낙성",
+      "source": "berkan-gilded-starfall/sequence-source-v1.png",
+      "runtime": "berkan-gilded-starfall/atlas-v1.webp",
+      "sourceSha256": "DEEA4AAD64880C7853F3033B6785CCD871456BFC2735CF6638AF20759BCE80E3",
+      "runtimeSha256": "4C3266A57EFEEB2238BCD51BBA5C3ADBC648E35817FC1125570CE94B75C8785F",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Edit the supplied 16-frame sprite sheet. CHANGE ONLY FRAMING AND SPACING. Keep the SAME 16 individually different effects, their exact temporal order, palette, details, hollow aura center (if present), painted quality and real RGBA transparency. Re-layout them into a STRICT 4 columns × 4 rows grid of equal square cells. Shrink EACH original effect to 65% of its current size around the center of its OWN cell and restore any faint fringe necessary. Leave a large truly EMPTY transparent gutter between every neighboring frame, plus a generous transparent outside margin. Every effect INCLUDING FAINT GLOW fits inside the central 65% width and central 65% height of its cell; at least 17.5% fully transparent padding on EVERY side. Individual effects must NOT touch any cell boundaries at any opacity. No effect overlaps another cell. Keep anchors centered and no numbers, text or grid lines. No new background. Preserve all frame variation. This correction is ONLY spacing and uncut glow margins, not a new design.\r\n",
+      "sourceFilename": "sequence-source-v1.png",
+      "visualReview": "2026-09-27 사용자 현재 모션·오라로 확정",
+      "runtimeBytes": 1049280,
+      "creationReferenceCode": "V-055",
+      "frames": [
+        {
+          "index": 0,
+          "file": "berkan-gilded-starfall/frames/01.png",
+          "bounds": [
+            164,
+            242,
+            339,
+            308
+          ],
+          "alphaPixels": 7638,
+          "sha256": "9824A415913A9E1036915AE87056701F2B60FAA54FA331319597CBFC499778A1",
+          "rawSha256": "9F845FD131A0CF8127C81FA05B88E0B402951BC1F06747B4B67BDEFCDE439463",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 18540
+        },
+        {
+          "index": 1,
+          "file": "berkan-gilded-starfall/frames/02.png",
+          "bounds": [
+            149,
+            190,
+            344,
+            369
+          ],
+          "alphaPixels": 14181,
+          "sha256": "E413878219AE735E89DE7499825F17CEF9783EC77B01FDE98DAA287300ACAD4D",
+          "rawSha256": "4858A7F5ED07DD08A997D5D687D75BDE90A4FF4D43DC1135E6A27E76B0F2B1D4",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 32662
+        },
+        {
+          "index": 2,
+          "file": "berkan-gilded-starfall/frames/03.png",
+          "bounds": [
+            150,
+            168,
+            332,
+            379
+          ],
+          "alphaPixels": 18221,
+          "sha256": "F62DDF6029AE06E3C7E05866DA411795B4A312D9CE3E7E75DBE409DC71E73829",
+          "rawSha256": "905F8FAB9ABC470F8FD8DC2D383694261ABC9EBECE7C9F8ED30AB3C049292EF0",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 32761
+        },
+        {
+          "index": 3,
+          "file": "berkan-gilded-starfall/frames/04.png",
+          "bounds": [
+            141,
+            167,
+            357,
+            368
+          ],
+          "alphaPixels": 23764,
+          "sha256": "CF367F66E0A3313E680CC700FD0174E4E19B0BF4D05CC64A5B9723D79AB1B60F",
+          "rawSha256": "BCBCEA16EC7ECA948D171B456B2C74E7206756A42A0258483D2D02AD0813B84D",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 36751
+        },
+        {
+          "index": 4,
+          "file": "berkan-gilded-starfall/frames/05.png",
+          "bounds": [
+            137,
+            155,
+            369,
+            389
+          ],
+          "alphaPixels": 32005,
+          "sha256": "952300261D5088567388F8216F28AC9C23CAC2FB58F5052DA249272913D8437C",
+          "rawSha256": "E72A11E5C636280C1E483D310EAC210EB154FC486D9B06FB22537C679A2D8FA2",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 53452
+        },
+        {
+          "index": 5,
+          "file": "berkan-gilded-starfall/frames/06.png",
+          "bounds": [
+            157,
+            170,
+            362,
+            362
+          ],
+          "alphaPixels": 26949,
+          "sha256": "80E7909CE7B76713C1426D70115CDB383D6EC94681E786913BF7A7C6F3FBFA5B",
+          "rawSha256": "ADDEA12234B7324037ACED30FA9EB2CDFBD6924E3B7BAE08E16C83BBB7F56962",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 43032
+        },
+        {
+          "index": 6,
+          "file": "berkan-gilded-starfall/frames/07.png",
+          "bounds": [
+            145,
+            172,
+            362,
+            362
+          ],
+          "alphaPixels": 29943,
+          "sha256": "162A9D02FB6326C058C33D6C7E2AD313667583AE3DDB433559B11788BB22AC59",
+          "rawSha256": "034F4579D0819CF56C812CACD8603660E477D5790F6CBA8B5DA42AA973B72185",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 41878
+        },
+        {
+          "index": 7,
+          "file": "berkan-gilded-starfall/frames/08.png",
+          "bounds": [
+            147,
+            171,
+            358,
+            363
+          ],
+          "alphaPixels": 29577,
+          "sha256": "D4FBDC430F83146D437BF71F3E19FE657AF7762B6DA7F30DB205EC0529E90F03",
+          "rawSha256": "C93A5E513C4468B27FB230C1D1ED6D2040B3E5F6164593C3A185FD065FA9772C",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 40563
+        },
+        {
+          "index": 8,
+          "file": "berkan-gilded-starfall/frames/09.png",
+          "bounds": [
+            142,
+            153,
+            372,
+            372
+          ],
+          "alphaPixels": 33698,
+          "sha256": "1645F56477A670C9B318E5405DD8129A5F5C0EA91E1DAC9BA15768F22AE24C2E",
+          "rawSha256": "B2F0523C3E4EAB46A1BC061D611B35D4353BF2A7C2B45A00EBB907E4F73DD257",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 48309
+        },
+        {
+          "index": 9,
+          "file": "berkan-gilded-starfall/frames/10.png",
+          "bounds": [
+            152,
+            160,
+            350,
+            364
+          ],
+          "alphaPixels": 28689,
+          "sha256": "C4E88B2D9D1A79CA13AF4A853762E479583BA9AAE05537ACB7E45696405A6783",
+          "rawSha256": "792D020EBB32063669D376BFBB939CBF989F8FABF9B464CEA04BD1D38518485B",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 46057
+        },
+        {
+          "index": 10,
+          "file": "berkan-gilded-starfall/frames/11.png",
+          "bounds": [
+            149,
+            151,
+            364,
+            367
+          ],
+          "alphaPixels": 32127,
+          "sha256": "0DA9D5325D8E1E0FB79330289DB7AF9D971E83DD49D8A6753D239D77F57FB8CE",
+          "rawSha256": "A436E09281F05EB6716B34189D6FA04FF90EF81D7CB30653800A4AB53944BF27",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 44934
+        },
+        {
+          "index": 11,
+          "file": "berkan-gilded-starfall/frames/12.png",
+          "bounds": [
+            160,
+            161,
+            359,
+            355
+          ],
+          "alphaPixels": 28165,
+          "sha256": "60882DE576733466FC064110739090CA35C7C30FC2F01DAA0614C1410299D70B",
+          "rawSha256": "3B3C63A028340B8E1034E4D2BFAECC11DA4691330FCC4FCA26C5C31076AC1631",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 39431
+        },
+        {
+          "index": 12,
+          "file": "berkan-gilded-starfall/frames/13.png",
+          "bounds": [
+            157,
+            157,
+            356,
+            325
+          ],
+          "alphaPixels": 20661,
+          "sha256": "AFE1FFFE405FC1DF2A1EEDB3E6B90CF985F4F65DD73C082F629F3C6699C7F41D",
+          "rawSha256": "FF86F09A1DF86DEA92BE728534CF5B7660DE69CCDC6DF53E26276363C401489E",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 30335
+        },
+        {
+          "index": 13,
+          "file": "berkan-gilded-starfall/frames/14.png",
+          "bounds": [
+            183,
+            164,
+            341,
+            316
+          ],
+          "alphaPixels": 15984,
+          "sha256": "CE2EDE14A80BD8370B093CC2B0D16E690ABDC2221DACF9D4F252EC18F13E571F",
+          "rawSha256": "1C7C1CF7CDC8E46580A25049D7B793E752A75D21A26E2DCC19279E8C47933862",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 27606
+        },
+        {
+          "index": 14,
+          "file": "berkan-gilded-starfall/frames/15.png",
+          "bounds": [
+            189,
+            167,
+            325,
+            317
+          ],
+          "alphaPixels": 13231,
+          "sha256": "D4284B74767A6E8EDB8CE496A241E3F1FC3803674AEAE15BA07255C7E2331406",
+          "rawSha256": "46065ED7250D047A3016A2B5458E4C620734A723EC7480932B2199B68EF79569",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 30059
+        },
+        {
+          "index": 15,
+          "file": "berkan-gilded-starfall/frames/16.png",
+          "bounds": [
+            192,
+            161,
+            333,
+            318
+          ],
+          "alphaPixels": 6504,
+          "sha256": "66A2DA18EEAC7A04D095401DDA422009ADB4BBDB52E9D707C3F649487BD44F8E",
+          "rawSha256": "AC05168D64FB124C4B463F88B6559E6F91DBEF3FEC4579391631982E33492EE5",
+          "edgeMax": 0,
+          "size": [
+            512,
+            512
+          ],
+          "nonempty": 26676
         }
       ]
     }

@@ -80,6 +80,14 @@ export function validateMercenaryCms(d, catalog) {
 // without rewriting stored ranks, names, costs, reviews or explicit assignments.
 // Only the exact previous complete catalog is eligible, never a partial draft.
 export function expandMercenarySkillCatalog(document, defaults, catalog) {
+  if(catalog.cards.some(c=>c.code==='V-055')&&!document?.mercenaries?.some(c=>c.code==='V-055')){
+    const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!=='V-055'),skills:catalog.skills.filter(s=>s.id!=='MS-055')};
+    const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);
+    return validateMercenaryCms({...previous,
+      mercenaries:[...previous.mercenaries,structuredClone(defaults.mercenaries.find(c=>c.code==='V-055'))],
+      skills:[...previous.skills,structuredClone(defaults.skills.find(s=>s.id==='MS-055'))],
+      assignments:[...previous.assignments,structuredClone(defaults.assignments.find(c=>c.code==='V-055'))]},catalog);
+  }
   if(catalog.cards.some(c=>NURSE_CODES.includes(c.code))&&!document?.mercenaries?.some(c=>NURSE_CODES.includes(c.code))){
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>!NURSE_CODES.includes(c.code)),skills:catalog.skills.filter(s=>s.id!==NURSE_SKILL_ID)};
     const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);

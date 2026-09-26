@@ -64,13 +64,13 @@ test('mercenary slot remains optional and does not change the existing five-card
   assert.equal(validateMercenaryLoadout({ cardIds: cardIds.slice(0, 4), mercenaryCode: 'V-001' }).ok, false);
 });
 
-test('review roster has fifty-four unique cards and no inherited rank', () => {
+test('review roster has fifty-five unique cards and no inherited rank', () => {
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length,54);
-  assert.equal(new Set(roster.cards.map((card) => card.code)).size,54);
-  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length:54 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
-  assert.ok(roster.cards.every((card) => ['V-021','V-046','V-049'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(card.code) ? card.rank === 'SS' : card.rank === null));
-  assert.ok(roster.cards.every((card) => card.rankStatus === (['V-021','V-044','V-045','V-046','V-047','V-048','V-049','V-050','V-051','V-052','V-053','V-054'].includes(card.code) ? 'USER_ASSIGNED_RANK' : 'PENDING_USER_ASSIGNMENT')));
+  assert.equal(roster.cards.length,55);
+  assert.equal(new Set(roster.cards.map((card) => card.code)).size,55);
+  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length:55 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
+  assert.ok(roster.cards.every((card) => ['V-021','V-046','V-049','V-055'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(card.code) ? card.rank === 'SS' : card.rank === null));
+  assert.ok(roster.cards.every((card) => card.rankStatus === (['V-021','V-044','V-045','V-046','V-047','V-048','V-049','V-050','V-051','V-052','V-053','V-054','V-055'].includes(card.code) ? 'USER_ASSIGNED_RANK' : 'PENDING_USER_ASSIGNMENT')));
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
   assert.equal(roster.formationRule.regularCardSlots, 5);
   assert.equal(roster.formationRule.mercenarySlots, 1);
@@ -80,9 +80,9 @@ test('review roster has fifty-four unique cards and no inherited rank', () => {
 test('all source art and all declared battle sprites exist with recorded hashes', () => {
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
-  assert.equal(sprites.length,54);
+  assert.equal(sprites.length,55);
   assert.equal(pending.length, 0);
-  assert.equal(roster.summary.battleSpriteReady,54);
+  assert.equal(roster.summary.battleSpriteReady,55);
   assert.equal(roster.summary.battleSpritePending, 0);
 
   for (const card of roster.cards) {

@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-27",
+  "code": "V-055",
+  "skillId": "MS-055",
+  "name": "베르칸",
+  "rank": "SSS",
+  "status": "USER_APPROVED_LIVE",
+  "runtimeConnected": true,
+  "scope": "CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT",
+  "request": "SSS 등록, 크라이베른과 동일 희귀도. 현재 모션·오라로 확정.",
+  "sourceArt": "preview/mercenary-berkan-sss-v1/assets/source-art.png",
+  "sourceArtSha256": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D",
+  "battleSprite": "preview/mercenary-berkan-sss-v1/assets/berkan-sd-v1.png",
+  "battleSpriteSha256": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101",
+  "motionFrames": 56,
+  "effectFrames": 60,
+  "sourceArtUnchanged": true,
+  "manifest": "preview/mercenary-berkan-sss-v1/manifest.json"
+}

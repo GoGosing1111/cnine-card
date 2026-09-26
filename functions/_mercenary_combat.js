@@ -1,3 +1,4 @@
+import {BERKAN_SKILL_ID,BERKAN_CAP_SCALE} from '../shared/mercenary-berkan-v1.mjs';
 import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
 import {resolveCryvernCrown} from './_mercenary_cryvern.js';
 import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE} from '../shared/mercenary-cryvern-v1.mjs';
@@ -77,6 +78,7 @@ function duoMercenaryTurnCadence(teams){
 // PVE 는 상한 자체가 거의 걸리지 않아 이 값의 영향을 받지 않는다.
 const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
 export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
+ [BERKAN_SKILL_ID]:BERKAN_CAP_SCALE,
  [SNIPER_ORIKKUNG_SKILL_ID]:SNIPER_ORIKKUNG_CAP_SCALE,
  [CRYVERN_SKILL_ID]:CRYVERN_CAP_SCALE,
  'MS-021':.82,'MS-046':1.04,'MS-043':1.6,'MS-010':.7,'MS-045':1.6,'MS-036':1.8,'MS-032':1.8,'MS-009':1.6,

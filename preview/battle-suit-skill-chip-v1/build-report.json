@@ -61,6 +61,10 @@
     "preview/mercenary-nurse-healers-ss-v1/source/NurseHealFX.js",
     "preview/project-v-v3/source/battle/NurseHealCombatPlayback.js",
     "shared/mercenary-cryvern-v1.mjs",
+    "shared/mercenary-berkan-v1.mjs",
+    "preview/mercenary-berkan-sss-v1/skill.mjs",
+    "preview/mercenary-berkan-sss-v1/source/BerkanFX.js",
+    "preview/project-v-v3/source/battle/BerkanCombatPlayback.js",
     "preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs",
     "preview/mercenary-ice-crystal-dual-sword-v1/source/CueAudio.js",
     "preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js",
@@ -101,5 +105,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1303801
+  "outputBytes": 1324717
 }

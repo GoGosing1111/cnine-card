@@ -4,13 +4,13 @@ import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_com
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
 const card=(i)=>({id:`TEST-${i}`,title:`카드 ${i}`,rarity:'FUR',power:10000,power_type:'ATTACK'}),cards=Array.from({length:5},(_,i)=>card(i));
-const skill=mechanic=>({...structuredClone(seed.document.skills.find(s=>s.mechanic===mechanic)),balance:{damageRatio:1,cooldownTurns:8,cost:10},review:'REVIEWED'});
+const skill=mechanic=>({...structuredClone(seed.document.skills.find(s=>s.id===mechanic||s.mechanic===mechanic)),balance:{damageRatio:1,cooldownTurns:8,cost:10},review:'REVIEWED'});
 const snapshot=(skills=[])=>({code:'V-001',rank:'C',name:'아우렌',role:'VANGUARD',position:'FRONT',level:1,basePower:10000,stats:{hp:10000,attack:1000,defense:100,speed:100},skills,combat,sourceArt:'/art.png',battleSprite:'/sprite.png'});
 function harness(mechanic,{missAt=0}={}){let hitIndex=0;const a=buildMercenaryFighter(snapshot([skill(mechanic)]),'A','PVP'),b=buildMercenaryFighter({...snapshot(),code:'V-002'},'B','PVP'),c=buildMercenaryFighter({...snapshot(),code:'V-003'},'A','PVP');c.hp=100;c.isMercenary=false;c.slot=0;b.isMercenary=false;b.slot=0;
  const events=[],teams={A:[a,c],B:[b]},runtime=mercenaryCombat({teams,hit:(_a,_t,m)=>({damage:1000*m,dodge:++hitIndex===missAt}),damage:(t,d)=>{const absorbed=Math.min(t.shield,d),hpDamage=Math.min(t.hp,d-absorbed);t.shield-=absorbed;t.hp-=hpDamage;const result={absorbed,hpDamage};runtime.onDamage(t,result);return result;},knockout:t=>{if(t.hp<=0)t.alive=false;},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
  const turn=actor=>{actor.actions++;return runtime.beforeAction(actor);};return {a,b,c,teams,events,runtime,turn};}
 test('every catalog mechanic executes a distinct server event path',()=>{
- for(const s of seed.document.skills){const h=harness(s.mechanic);h.b.shield=1000;for(let i=0;i<5;i++)h.turn(h.a);assert.ok(h.events.some(e=>e.type==='MERCENARY_WINDUP'&&e.skillId===s.id),s.id);assert.ok(h.events.some(e=>!['MERCENARY_WINDUP','MERCENARY_END'].includes(e.type)),s.id);}
+ for(const s of seed.document.skills){const h=harness(s.id);h.b.shield=1000;for(let i=0;i<5;i++)h.turn(h.a);assert.ok(h.events.some(e=>e.type==='MERCENARY_WINDUP'&&e.skillId===s.id),s.id);assert.ok(h.events.some(e=>!['MERCENARY_WINDUP','MERCENARY_END'].includes(e.type)),s.id);}
 });
 // v2119: 저격은 시전한 그 행동에서 발사되므로 대상이 죽어 사격이 없어지는 일이 없다.
 test('locked sniper fires in the casting action and never loses the shot to a dying target',()=>{const h=harness('LOCKED_THREAT_SHOT');const extra={...h.b,id:'B:OTHER',slot:1,row:'FRONT'};h.teams.B.push(extra);h.turn(h.a);assert.ok(h.b.hp<10000);assert.equal(extra.hp,10000);assert.ok(!h.events.some(e=>e.type==='MERCENARY_CANCEL'));h.b.hp=0;h.b.alive=false;h.turn(h.a);assert.equal(extra.hp,10000);assert.ok(!h.events.some(e=>e.type==='MERCENARY_CANCEL'));});

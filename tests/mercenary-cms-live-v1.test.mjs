@@ -20,10 +20,10 @@ async function fixture(){
 const payload=(document=clone(seed.document),expectedRevision=1,requestId=crypto.randomUUID())=>({document,expectedRevision,requestId});
 test('canonical registration contains every mercenary, independent skill and original/SD reference',()=>{
   validateMercenaryCms(seed.document,seed.catalog);
-  assert.equal(seed.catalog.cards.length,54);assert.equal(seed.document.skills.length,34);assert.equal(seed.catalog.effects.frameCount,544);
+  assert.equal(seed.catalog.cards.length,55);assert.equal(seed.document.skills.length,35);assert.equal(seed.catalog.effects.frameCount,560);
   assert.equal(seed.document.mercenaries.filter(r=>r.rank===null).length,42);
   assert.equal(seed.document.mercenaries.find(r=>r.code==='V-021').rank,'SSS');
-  assert.ok(seed.document.assignments.every(r=>['V-051','V-052','V-053','V-054'].includes(r.code)?r.skillIds.join()==='MS-051':['V-044','V-045','V-046','V-047','V-048','V-049','V-050'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
+  assert.ok(seed.document.assignments.every(r=>['V-051','V-052','V-053','V-054'].includes(r.code)?r.skillIds.join()==='MS-051':['V-044','V-045','V-046','V-047','V-048','V-049','V-050','V-055'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
   for(const c of seed.catalog.cards){assert.notEqual(c.sourceArt,c.battleSprite);assert.ok(existsSync(new URL('../'+c.sourceArt,import.meta.url)));assert.ok(existsSync(new URL('../'+c.battleSprite,import.meta.url)));}
   assert.equal(seed.catalog.formation.regularCardSlots,5);assert.equal(seed.catalog.formation.mercenarySlots,1);
   assert.deepEqual(seed.catalog.release,{group:'V3_MERCENARY_EQUIPMENT',acquisitionEnabled:false,formationEnabled:false,battleEnabled:false});
@@ -42,7 +42,7 @@ test('PostgreSQL registers once, persists complete configuration and never chang
     const saved=await f.call(payload(d));assert.equal(saved.status,200,JSON.stringify(saved));assert.equal(saved.body.revision,2);
     const queriesBefore=f.queryCount();
     const read=await f.call();assert.equal(f.queryCount()-queriesBefore,2,'warm CMS read is config + audit only; no DDL, seed writes or catalog JSON read');
-    assert.deepEqual(read.body.document,d);assert.equal(read.body.audit.length,2);assert.equal(read.body.catalog.cards.length,54);
+    assert.deepEqual(read.body.document,d);assert.equal(read.body.audit.length,2);assert.equal(read.body.catalog.cards.length,55);
     assert.deepEqual(read.body.powerStandard,MERCENARY_POWER_STANDARD);assert.equal(read.body.powerStandard.basePowerByRank.SS,120000);assert.equal(read.body.document.runtimeEnabled,false);
     assert.equal((await f.rows('SELECT * FROM mercenary_cms_documents_v1')).length,2);
     assert.deepEqual(await f.rows('SELECT * FROM users'),[{id:1,coin:12345}]);assert.deepEqual(await f.rows('SELECT * FROM decks'),[{user_id:1,card_ids:'[1,2,3,4,5]',mercenary_code:null}]);

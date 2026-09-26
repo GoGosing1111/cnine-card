@@ -26,7 +26,7 @@ function setup(){
  const cast=(options)=>{actor.actions++;return runtime.beforeAction(actor,options);};return {actor,allies,enemy,events,teams,runtime,cast};
 }
 test('four immutable user portraits and transparent SD register as SS with one reviewed shared skill',()=>{
- assert.equal(seed.catalog.cards.length,54);assert.equal(seed.catalog.skills.length,34);
+ assert.equal(seed.catalog.cards.length,55);assert.equal(seed.catalog.skills.length,35);
  for(const [i,code]of NURSE_CODES.entries()){
   const art=seed.catalog.cards.find(c=>c.code===code),row=seed.document.mercenaries.find(c=>c.code===code);
   assert.equal(row.name,NURSE_NAMES[i]);assert.equal(row.rank,'SS');assert.equal(row.role,'SUPPORT');assert.equal(row.position,'REAR');

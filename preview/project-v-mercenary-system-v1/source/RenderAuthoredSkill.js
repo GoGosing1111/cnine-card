@@ -96,6 +96,9 @@ export function renderAuthored(fx,time){
         draw(sequence.frames[frame.index],p,size,{alpha:frame.alpha,anchorY:.62});
         draw(sequence.frames[frame.next],p,size,{alpha:frame.alpha*frame.blend,anchorY:.62});
       }break;}
+    case 'GILDED_STARFALL':
+      aim(point(target),1.7,48);
+      hits.forEach(e=>{trace(muzzle(),point(e.targets[0]),e.at,{travel:.38,width:4.5});impact(e.targets[0],e.at,{size:440,lead:.05,life:1.7,particles:22,grounded:true});});break;
     case 'EMERALD_ANTIMATERIEL':
       aim(point(target),.52,42);
       hits.forEach(e=>{trace(muzzle(),point(e.targets[0]),e.at,{travel:.08,width:3.4});impact(e.targets[0],e.at,{size:330,lead:.08,life:1.5,particles:14});});break;

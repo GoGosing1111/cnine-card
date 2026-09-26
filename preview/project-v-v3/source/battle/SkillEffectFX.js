@@ -150,7 +150,10 @@ export class SkillEffectFX{
     const revealAt=Math.max(0,impactAt-preCollisionDuration);
     const releaseAt=Math.max(impactAt+postCollisionDuration+.08,Number(duration)||0);
     const frameState={value:0};
-    const renderFrame=()=>display.gotoAndStop(Math.max(0,Math.min(this.spec.frameCount-1,Math.floor(frameState.value))));
+    const renderFrame=()=>{
+      if(this.released||display.destroyed||this.display!==display)return;
+      display.gotoAndStop(Math.max(0,Math.min(this.spec.frameCount-1,Math.floor(frameState.value))));
+    };
     timeline.call(()=>{
       if(this.released||!this.display)return;
       display.visible=true;

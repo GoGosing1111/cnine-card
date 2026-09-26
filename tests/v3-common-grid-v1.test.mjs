@@ -139,7 +139,9 @@ test('all nine served V3 bundles including the account entry share the current c
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 50);
+  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 59);
+  assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/SkillEffectFX.js'));
+  for(const file of ['preview/project-v-v3/source/battle/BerkanCombatPlayback.js','preview/mercenary-berkan-sss-v1/source/BerkanFX.js','preview/mercenary-berkan-sss-v1/skill.mjs','shared/mercenary-berkan-v1.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);
   // The already released Sniper Orikkung contributes three inputs to these same bundles.
   for(const file of ['preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js','preview/mercenary-sniper-orikkung-v1/source/SniperOrikkungSkillFX.js','shared/mercenary-sniper-orikkung-v1.mjs'])
     assert.ok(report.sources.some(row=>row.file===file),`${file} must participate in bundle freshness checks`);
