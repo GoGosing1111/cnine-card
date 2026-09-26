@@ -114,10 +114,12 @@
     scrapyard: { shell: 'scrapyard' },
     vehicle: {
       shell: 'workshop',
+      workshopSection: 'VEHICLE',
       actions: [{ selector: '[data-ws-section="VEHICLE"], [data-workshop-category="VEHICLE"]' }]
     },
     fusion: {
       shell: 'workshop',
+      workshopSection: 'SYNTHESIS',
       actions: [{ selector: '[data-ws-section="SYNTHESIS"], [data-workshop-category="EQUIPMENT_SYNTHESIS"]' }]
     }
   });
@@ -256,7 +258,8 @@
     if (contract.shell) {
       if (!SHELL_ROUTE_SET.has(contract.shell)) throw new Error(`허용되지 않은 운영 화면: ${contract.shell}`);
       const render = await waitFor(runtime, () => typeof runtime.renderShell === 'function' && runtime.renderShell, timeoutMs);
-      if(render(contract.shell)===false)return {ok:false,cancelled:true,shell:''};
+      const rendered=contract.workshopSection?render(contract.shell,{workshopSection:contract.workshopSection}):render(contract.shell);
+      if(rendered===false)return {ok:false,cancelled:true,shell:''};
     }
 
     if (contract.global) {

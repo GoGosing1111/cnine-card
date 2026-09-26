@@ -9,6 +9,10 @@
     const raw = String(value || '').trim().replace(/\\/g, '/');
     if (!raw) return '';
     if (/^(?:https?:|data:|blob:)/i.test(raw)) return raw;
+    let key = raw.replace(/^\/+/, '');
+    try { key = decodeURIComponent(key); } catch (_) {}
+    const thumbnail = window.SoopketmonWorkshopThumbnails?.[key];
+    if (thumbnail) return '/' + thumbnail;
     return `/${raw.replace(/^\/+/, '').replace(/#/g, '%23').replace(/ /g, '%20')}`;
   };
   const normalizeImages = root => root?.querySelectorAll?.('img[src]')?.forEach(image => {
@@ -186,7 +190,11 @@
     window.WorkshopAssemblyLive?.cancel();
   });
 
-  function workshopView() {
+  function workshopView(_user, {workshopSection: section} = {}) {
+    if (['VEHICLE', 'SYNTHESIS'].includes(section) && workshopSection !== section) {
+      workshopSection = section;
+      recipeQuery = ''; readyOnly = false;
+    }
     return `<section class="ws76 ws81-workshop"><div id="workshopRootV1881" class="ws76-root ws81-root"><div class="ws76-loading"><i></i><b>MASTER WORKS</b><span>차량·장비·재료·배틀슈트 제작 설비를 가동하고 있습니다.</span></div></div></section>`;
   }
 
@@ -249,7 +257,7 @@
       <header><div><small>VEHICLE COMPONENT STORAGE</small><h2>차량 제작 부품</h2></div><p>차량 제작 설비에서만 조회되는 전용 재료입니다.</p></header>
       <div>${PARTS.map(([code, fallbackName, fallbackImage]) => {
         const item = workshopState?.inventory?.[code] || {};
-        return `<article data-part-code="${code}"><img src="${esc(asset(item.image_url || fallbackImage))}" alt=""><span><small>보유 부품</small><b>${esc(item.name || fallbackName)}</b></span><strong>${fmt(item.quantity)}</strong></article>`;
+        return `<article data-part-code="${code}"><img decoding="async" src="${esc(asset(item.image_url || fallbackImage))}" alt=""><span><small>보유 부품</small><b>${esc(item.name || fallbackName)}</b></span><strong>${fmt(item.quantity)}</strong></article>`;
       }).join('')}</div>
     </section>`;
   }
@@ -269,12 +277,12 @@
     return `${vehiclePartsBank()}<div class="ws76-craft-layout ws81-craft-layout">
       <aside class="ws76-blueprints">
         <small>VEHICLE BLUEPRINTS</small><h2>차량 설계도</h2>
-        ${recipes.map(row => `<button type="button" data-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img src="${esc(asset(row.output_image))}" alt=""><span><b>${esc(row.name)}</b><small>${esc(row.output_rarity)}</small></span></button>`).join('')}
+        ${recipes.map(row => `<button type="button" data-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img loading="lazy" decoding="async" src="${esc(asset(row.output_image))}" alt=""><span><b>${esc(row.name)}</b><small>${esc(row.output_rarity)}</small></span></button>`).join('')}
       </aside>
       <section class="ws76-vehicle-stage">
         <header><div><small>선택한 제작 설계도</small><h2>${esc(recipe.name)}</h2><p>${esc(recipe.description)}</p></div><em>성공 확률 ${Number(recipe.success_rate)}%</em></header>
-        <div class="ws76-vehicle-preview"><i></i><img src="${esc(asset(recipe.output_image))}" alt=""><span>${esc(recipe.output_name)} · PVE +${fmt(recipe.output_pve)}</span></div>
-        <div class="ws76-material-grid">${(recipe.materials || []).map(material => `<article class="${owned(material.item_code) >= Number(material.quantity) ? 'ok' : 'short'}"><img src="${esc(asset(material.image_url || workshopState?.inventory?.[material.item_code]?.image_url))}" alt=""><span><b>${esc(material.item_name)}</b><small>${fmt(owned(material.item_code))} / ${fmt(material.quantity)}</small></span></article>`).join('')}</div>
+        <div class="ws76-vehicle-preview"><i></i><img decoding="async" src="${esc(asset(recipe.output_image))}" alt=""><span>${esc(recipe.output_name)} · PVE +${fmt(recipe.output_pve)}</span></div>
+        <div class="ws76-material-grid">${(recipe.materials || []).map(material => `<article class="${owned(material.item_code) >= Number(material.quantity) ? 'ok' : 'short'}"><img decoding="async" src="${esc(asset(material.image_url || workshopState?.inventory?.[material.item_code]?.image_url))}" alt=""><span><b>${esc(material.item_name)}</b><small>${fmt(owned(material.item_code))} / ${fmt(material.quantity)}</small></span></article>`).join('')}</div>
         ${recipe.payment_mode === 'COIN_OR_MASTER_STAR' ? `<div class="ws76-pay"><button type="button" data-pay="COIN" class="${payment === 'COIN' ? 'active' : ''}">코인 ${fmt(recipe.coin_cost)}</button><button type="button" data-pay="MASTER_STAR" class="${payment === 'MASTER_STAR' ? 'active' : ''}">마스터의 별 ${fmt(recipe.master_star_cost)}</button></div>` : `<div class="ws22-vehicle-costs">${window.WorkshopRecipes.costRows(info.rows.filter(row => ['COIN','MASTER_STAR','CARD_SHARD'].includes(row.code)))}</div>`}
         <p class="ws22-risk">실패 시에도 선택한 재화와 투입 재료는 소모됩니다.</p>
         ${!ready && !recipe.owned ? `<p class="ws22-status">${esc(info.shortage)}</p>` : ''}
@@ -318,9 +326,9 @@
     const available = canSynthesize(recipe);
     const maxAttempts = synthMaxAttempts(recipe);
     return `<button type="button" data-synth="${recipe.recipe_id}" class="ws81-lineage-item ${Number(recipe.recipe_id) === Number(selectedSynthesisRecipe) ? 'active' : ''} ${available ? 'ready' : 'locked'}">
-      <span class="ws81-lineage-gear"><img src="${esc(asset(recipe.image_url))}" alt=""><i>${esc(recipe.rarity)}</i><b>${esc(recipe.name)}</b><small>보유 ${fmt(recipe.quantity)} / 필요 ${fmt(required)}</small>${materialRequired ? `<em>+ ${esc(recipe.material_name || recipe.material_code)} ${fmt(recipe.material_owned)} / ${fmt(materialRequired)}</em>` : ''}</span>
+      <span class="ws81-lineage-gear"><img loading="lazy" decoding="async" src="${esc(asset(recipe.image_url))}" alt=""><i>${esc(recipe.rarity)}</i><b>${esc(recipe.name)}</b><small>보유 ${fmt(recipe.quantity)} / 필요 ${fmt(required)}</small>${materialRequired ? `<em>+ ${esc(recipe.material_name || recipe.material_code)} ${fmt(recipe.material_owned)} / ${fmt(materialRequired)}</em>` : ''}</span>
       <span class="ws81-lineage-link" aria-hidden="true"><i></i><b>${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회` : '합성 가능' : esc(synthShortage(recipe))}</b></span>
-      <span class="ws81-lineage-gear output"><img src="${esc(asset(recipe.output_image))}" alt=""><i>${esc(recipe.output_rarity)}</i><b>${esc(recipe.output_name)}</b><small>PVE +${fmt(recipe.output_pve_power)}</small></span>
+      <span class="ws81-lineage-gear output"><img loading="lazy" decoding="async" src="${esc(asset(recipe.output_image))}" alt=""><i>${esc(recipe.output_rarity)}</i><b>${esc(recipe.output_name)}</b><small>PVE +${fmt(recipe.output_pve_power)}</small></span>
     </button>`;
   }
 
@@ -337,9 +345,9 @@
     return `<section class="ws78-synth-stage ws81-synth-detail">
       <header><div><small>선택한 합성 레시피</small><h3>${esc(recipe.name)} 합성 계보</h3></div><span class="${available ? 'ready' : 'locked'}">${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회 가능` : '즉시 합성 가능' : esc(synthShortage(recipe))}</span></header>
       <div class="ws78-fusion-board ws81-fusion-board">
-        <div class="ws78-input-zone"><small>투입 장비 · 보유 ${fmt(recipe.quantity)}개</small><div style="--required:${required}"><figure class="filled"><img src="${esc(asset(recipe.image_url))}" alt=""><strong class="ws22-quantity">× ${fmt(required)}</strong><figcaption>${esc(recipe.name)}</figcaption></figure></div>${materialRequired ? `<aside class="ws81-synth-material ${Number(recipe.material_active) === 1 && materialOwned >= materialRequired ? 'filled' : 'empty'}"><img src="${esc(asset(recipe.material_image))}" alt=""><span><small>추가 재료 · 1회 소모</small><b>${esc(recipe.material_name || recipe.material_code)} × ${fmt(materialRequired)}</b><em>보유 ${fmt(materialOwned)}개</em></span></aside>` : ''}</div>
+        <div class="ws78-input-zone"><small>투입 장비 · 보유 ${fmt(recipe.quantity)}개</small><div style="--required:${required}"><figure class="filled"><img decoding="async" src="${esc(asset(recipe.image_url))}" alt=""><strong class="ws22-quantity">× ${fmt(required)}</strong><figcaption>${esc(recipe.name)}</figcaption></figure></div>${materialRequired ? `<aside class="ws81-synth-material ${Number(recipe.material_active) === 1 && materialOwned >= materialRequired ? 'filled' : 'empty'}"><img decoding="async" src="${esc(asset(recipe.material_image))}" alt=""><span><small>추가 재료 · 1회 소모</small><b>${esc(recipe.material_name || recipe.material_code)} × ${fmt(materialRequired)}</b><em>보유 ${fmt(materialOwned)}개</em></span></aside>` : ''}</div>
         <div class="ws78-fusion-core"><i></i><b>LINEAGE</b><strong>→</strong><em>${Number(recipe.success_rate ?? 100)}%</em></div>
-        <div class="ws78-output-zone"><small>성공 시 결과</small><figure><span>${esc(recipe.output_rarity)}</span><img src="${esc(asset(recipe.output_image))}" alt=""><figcaption><b>${esc(recipe.output_name)}</b><em>PVE +${fmt(recipe.output_pve_power)} · PVP +${fmt(recipe.output_pvp_power)}</em></figcaption></figure></div>
+        <div class="ws78-output-zone"><small>성공 시 결과</small><figure><span>${esc(recipe.output_rarity)}</span><img decoding="async" src="${esc(asset(recipe.output_image))}" alt=""><figcaption><b>${esc(recipe.output_name)}</b><em>PVE +${fmt(recipe.output_pve_power)} · PVP +${fmt(recipe.output_pvp_power)}</em></figcaption></figure></div>
       </div>
       <div class="ws78-synth-summary"><div><small>1회 투입</small><b>${esc(recipe.name)} × ${fmt(required)}${materialRequired ? ` + ${esc(recipe.material_name || recipe.material_code)} × ${fmt(materialRequired)}` : ''}</b></div><div><small>일괄 합성 가능</small><b>${fmt(maxAttempts)}회 · 장비 ${fmt(bulkRequired)}개${materialRequired ? ` · 재료 ${fmt(bulkMaterialRequired)}개` : ''}</b></div><div><small>회차별 성공 확률</small><b>${Number(recipe.success_rate ?? 100)}%</b></div></div>
       <div class="ws81-synth-bulk-info"><span><small>장착·강화 장비</small><b>자동 제외</b></span><span><small>일괄 판정</small><b>회차별 독립</b></span><span><small>남는 장비</small><b>${fmt(Math.max(0, Number(recipe.quantity || 0) - bulkRequired))}개 유지</b></span>${materialRequired ? `<span><small>남는 추가 재료</small><b>${fmt(Math.max(0, materialOwned - bulkMaterialRequired))}개 유지</b></span>` : ''}</div>
@@ -379,7 +387,7 @@
     if (!recipe) {
       if (all.length) return noRecipeMatch();
       const core = category === 'SUIT_CORE_SYNTHESIS';
-      return `<section class="ws22-empty"><h2>${core ? '슈트코어 합성 준비 중' : category === 'ITEM_SYNTHESIS' ? '기타 합성 준비 중' : '재료 제작 준비 중'}</h2><p>공개된 레시피가 아직 없습니다. 운영 설정이 완료되면 이곳에서 재료와 확률을 확인하고 합성할 수 있습니다.</p>${core ? '<div class="ws22-formula"><span><img src="/assets/items/suit-core-1-v2004.png" alt="">슈트 코어 1 × 10</span><b>+</b><span>코인 + 마스터의 별<small>수량 설정 예정</small></span><b>→</b><span><img src="/assets/items/suit-core-2-v2004.png" alt="">슈트 코어 2<small>확률 설정 예정</small></span></div><small>확장 예시입니다. 아직 제작할 수 없으며 재료는 소모되지 않습니다.</small>' : ''}</section>`;
+      return `<section class="ws22-empty"><h2>${core ? '슈트코어 합성 준비 중' : category === 'ITEM_SYNTHESIS' ? '기타 합성 준비 중' : '재료 제작 준비 중'}</h2><p>공개된 레시피가 아직 없습니다. 운영 설정이 완료되면 이곳에서 재료와 확률을 확인하고 합성할 수 있습니다.</p>${core ? `<div class="ws22-formula"><span><img decoding="async" src="${esc(asset('assets/items/suit-core-1-v2004.png'))}" alt="">슈트 코어 1 × 10</span><b>+</b><span>코인 + 마스터의 별<small>수량 설정 예정</small></span><b>→</b><span><img decoding="async" src="${esc(asset('assets/items/suit-core-2-v2004.png'))}" alt="">슈트 코어 2<small>확률 설정 예정</small></span></div><small>확장 예시입니다. 아직 제작할 수 없으며 재료는 소모되지 않습니다.</small>` : ''}</section>`;
     }
     selectedMaterialRecipe = Number(recipe.id);
     const info = window.WorkshopRecipes.describe(recipe, workshopState, payment);
@@ -388,8 +396,8 @@
     const name = recipe.output_name || recipe.name;
     return `<div class="ws22-item-layout"><aside class="ws22-recipe-list" aria-label="아이템 제작 레시피 목록">${recipes.map(row => {
       const status = window.WorkshopRecipes.describe(row, workshopState, payment);
-      return `<button type="button" data-material-recipe="${row.id}" class="${Number(row.id) === selectedMaterialRecipe ? 'active' : ''}" aria-pressed="${Number(row.id) === selectedMaterialRecipe}"><img src="${esc(asset(row.output_image))}" alt="" loading="lazy"><span><b>${esc(row.output_name || row.name)}</b><small>${Number(row.success_rate)}% · ${status.ready ? '제작 가능' : '재료 부족'}</small></span></button>`;
-    }).join('')}</aside><section class="ws22-item-stage" aria-label="선택한 제작 레시피"><header class="ws22-item-head"><div><h2>${esc(name)}</h2><p>${esc(recipe.description)}</p></div><div class="ws22-rate"><small>성공 확률</small><b>${Number(recipe.success_rate)}%</b></div></header><div class="ws22-item-body"><figure class="ws22-item-output"><img src="${esc(asset(recipe.output_image || output.image_url))}" alt="${esc(name)}"><figcaption><small>성공 시 획득</small><b>${esc(name)} × ${fmt(recipe.output_quantity || 1)}</b><span>현재 보유 ${fmt(output.quantity)}개</span></figcaption></figure><section class="ws22-requirements"><h3>1회 제작에 필요한 재료</h3>${recipe.payment_mode === 'COIN_OR_MASTER_STAR' ? `<div class="ws76-pay"><button type="button" data-pay="COIN" class="${payment === 'COIN' ? 'active' : ''}">코인 사용</button><button type="button" data-pay="MASTER_STAR" class="${payment === 'MASTER_STAR' ? 'active' : ''}">마스터의 별 사용</button></div>` : ''}${window.WorkshopRecipes.costRows(info.rows)}<p class="ws22-status">${recovering ? '응답이 끊긴 이전 요청을 재확인합니다. 재료를 중복 소모하지 않습니다.' : info.ready ? '필요한 재료와 재화를 모두 보유하고 있습니다.' : esc(info.shortage)}</p></section></div><footer class="ws22-item-footer"><p class="ws22-risk">실패 시에도 투입한 재료와 재화는 모두 소모됩니다. 결과와 확률은 서버에서 판정합니다.</p><button type="button" id="wsMaterialCraft" class="ws76-primary" ${workshopBusy || (!info.ready && !recovering) ? 'disabled' : ''}>${workshopBusy ? '제작 결과 확인 중' : recovering ? '이전 제작 결과 확인' : info.ready ? esc(name) + ' 제작' : '재료 또는 재화 부족'}</button></footer></section></div>`;
+      return `<button type="button" data-material-recipe="${row.id}" class="${Number(row.id) === selectedMaterialRecipe ? 'active' : ''}" aria-pressed="${Number(row.id) === selectedMaterialRecipe}"><img decoding="async" src="${esc(asset(row.output_image))}" alt="" loading="lazy"><span><b>${esc(row.output_name || row.name)}</b><small>${Number(row.success_rate)}% · ${status.ready ? '제작 가능' : '재료 부족'}</small></span></button>`;
+    }).join('')}</aside><section class="ws22-item-stage" aria-label="선택한 제작 레시피"><header class="ws22-item-head"><div><h2>${esc(name)}</h2><p>${esc(recipe.description)}</p></div><div class="ws22-rate"><small>성공 확률</small><b>${Number(recipe.success_rate)}%</b></div></header><div class="ws22-item-body"><figure class="ws22-item-output"><img decoding="async" src="${esc(asset(recipe.output_image || output.image_url))}" alt="${esc(name)}"><figcaption><small>성공 시 획득</small><b>${esc(name)} × ${fmt(recipe.output_quantity || 1)}</b><span>현재 보유 ${fmt(output.quantity)}개</span></figcaption></figure><section class="ws22-requirements"><h3>1회 제작에 필요한 재료</h3>${recipe.payment_mode === 'COIN_OR_MASTER_STAR' ? `<div class="ws76-pay"><button type="button" data-pay="COIN" class="${payment === 'COIN' ? 'active' : ''}">코인 사용</button><button type="button" data-pay="MASTER_STAR" class="${payment === 'MASTER_STAR' ? 'active' : ''}">마스터의 별 사용</button></div>` : ''}${window.WorkshopRecipes.costRows(info.rows)}<p class="ws22-status">${recovering ? '응답이 끊긴 이전 요청을 재확인합니다. 재료를 중복 소모하지 않습니다.' : info.ready ? '필요한 재료와 재화를 모두 보유하고 있습니다.' : esc(info.shortage)}</p></section></div><footer class="ws22-item-footer"><p class="ws22-risk">실패 시에도 투입한 재료와 재화는 모두 소모됩니다. 결과와 확률은 서버에서 판정합니다.</p><button type="button" id="wsMaterialCraft" class="ws76-primary" ${workshopBusy || (!info.ready && !recovering) ? 'disabled' : ''}>${workshopBusy ? '제작 결과 확인 중' : recovering ? '이전 제작 결과 확인' : info.ready ? esc(name) + ' 제작' : '재료 또는 재화 부족'}</button></footer></section></div>`;
   }
 
   function battleSuitCraftPanel() {
@@ -418,14 +426,14 @@
       <div class="ws81-suit-layout">
         <aside class="ws81-suit-blueprints"><small>SUIT BLUEPRINTS</small><h3>제작 설계도</h3>${recipes.map(row => {
           const material = (row.materials || [])[0] || {};
-          return `<button type="button" data-suit-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img src="${esc(asset(material.image_url || row.output_image))}" alt=""><span><b>${esc(row.output_name || row.name)}</b><small>${esc(material.item_name || '전용 슈트 코어')}</small></span><em>${Number(row.success_rate ?? 100)}%</em></button>`;
+          return `<button type="button" data-suit-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img loading="lazy" decoding="async" src="${esc(asset(material.image_url || row.output_image))}" alt=""><span><b>${esc(row.output_name || row.name)}</b><small>${esc(material.item_name || '전용 슈트 코어')}</small></span><em>${Number(row.success_rate ?? 100)}%</em></button>`;
         }).join('')}</aside>
         <section class="ws81-suit-stage">
-          <div class="ws81-suit-visual"><span>CRAFT OUTPUT · ${esc(recipe.output_rarity || 'MYTHIC')}</span><div aria-hidden="true"><i></i><i></i><i></i></div><img src="${esc(asset(recipe.output_image))}" alt="${esc(recipe.output_name || recipe.name)}"><b>${esc(recipe.output_name || recipe.name)}</b><small>PVE +${fmt(recipe.output_pve)} · PVP +${fmt(recipe.output_pvp)}</small></div>
+          <div class="ws81-suit-visual"><span>CRAFT OUTPUT · ${esc(recipe.output_rarity || 'MYTHIC')}</span><div aria-hidden="true"><i></i><i></i><i></i></div><img decoding="async" src="${esc(asset(recipe.output_image))}" alt="${esc(recipe.output_name || recipe.name)}"><b>${esc(recipe.output_name || recipe.name)}</b><small>PVE +${fmt(recipe.output_pve)} · PVP +${fmt(recipe.output_pvp)}</small></div>
           <div class="ws81-suit-requirements">
             <header><div><small>FORGE REQUIREMENTS</small><h3>${esc(recipe.name)}</h3><p>${esc(recipe.description)}</p></div><em class="${ready ? 'ready' : 'short'}">${recovering ? '결과 재확인' : ready ? '제작 준비 완료' : '재료 부족'}</em></header>
             <div class="ws81-suit-costs">
-              ${(recipe.materials || []).map(material => `<article class="${owned(material.item_code) >= Number(material.quantity || 0) ? 'ready' : 'short'}"><img src="${esc(asset(material.image_url || workshopState?.inventory?.[material.item_code]?.image_url))}" alt=""><span><small>SUIT CORE</small><b>${esc(material.item_name || material.item_code)}</b><em>보유 ${fmt(owned(material.item_code))} / 필요 ${fmt(material.quantity)}</em></span></article>`).join('')}
+              ${(recipe.materials || []).map(material => `<article class="${owned(material.item_code) >= Number(material.quantity || 0) ? 'ready' : 'short'}"><img decoding="async" src="${esc(asset(material.image_url || workshopState?.inventory?.[material.item_code]?.image_url))}" alt=""><span><small>SUIT CORE</small><b>${esc(material.item_name || material.item_code)}</b><em>보유 ${fmt(owned(material.item_code))} / 필요 ${fmt(material.quantity)}</em></span></article>`).join('')}
               <article class="${coinReady ? 'ready' : 'short'}"><span><small>COIN</small><b>${fmt(coinCost)}</b><em>보유 ${fmt(coinOwned)}</em></span></article>
               <article class="${starReady ? 'ready' : 'short'}"><span><small>MASTER STAR</small><b>${fmt(starCost)}</b><em>보유 ${fmt(starOwned)}</em></span></article>
             </div>
@@ -445,7 +453,7 @@
     const ticketQuantity = Number(access.ticketQuantity ?? ticket.quantity ?? 0);
     const difficulties = scrap.settings?.difficulties || [];
     return `<section class="ws76-scrap ws81-scrap-panel">
-      <div class="ws76-scrap-hero"><div><small>WAVE SALVAGE OPERATION</small><h2>망각의 기계 폐차장</h2><p>저장된 PVE 덱으로 전 웨이브를 완주하면 코인은 확정 지급됩니다. 차량 부품은 완주 후 1회 랜덤 판정되어 아무 부품도 나오지 않을 수 있습니다.</p><div class="ws80-ticket-pass ${ticketQuantity > 0 ? 'ready' : 'empty'}"><img src="${esc(asset(ticket.image_url || 'assets/ui/scrapyard/scrapyard-entry-ticket-v1680.png'))}" alt="폐차장 출입 허가증"><span><small>SALVAGE ACCESS PASS · 입장 시 1장 차감</small><b>${esc(ticket.name || '폐차장 출입 허가증')}</b><em>보유 ${fmt(ticketQuantity)}장</em></span></div><div class="ws76-runmeta"><span><small>PVE 전투력</small><b>${fmt(scrap.deckPower)}</b></span><span><small>오늘 입장</small><b>${fmt(access.usedRuns)} / ${fmt(access.dailyRuns)}</b></span><span><small>남은 입장</small><b>${fmt(access.remainingRuns)}</b></span></div></div><div class="ws76-deck">${(scrap.deckCards || []).map((card, index) => `<figure style="--i:${index}"><img src="${esc(asset(card.image))}" alt=""><figcaption><em>${esc(card.rarity)}</em><b>${esc(card.title)}</b></figcaption></figure>`).join('')}</div></div>
+      <div class="ws76-scrap-hero"><div><small>WAVE SALVAGE OPERATION</small><h2>망각의 기계 폐차장</h2><p>저장된 PVE 덱으로 전 웨이브를 완주하면 코인은 확정 지급됩니다. 차량 부품은 완주 후 1회 랜덤 판정되어 아무 부품도 나오지 않을 수 있습니다.</p><div class="ws80-ticket-pass ${ticketQuantity > 0 ? 'ready' : 'empty'}"><img decoding="async" src="${esc(asset(ticket.image_url || 'assets/ui/scrapyard/scrapyard-entry-ticket-v1680.png'))}" alt="폐차장 출입 허가증"><span><small>SALVAGE ACCESS PASS · 입장 시 1장 차감</small><b>${esc(ticket.name || '폐차장 출입 허가증')}</b><em>보유 ${fmt(ticketQuantity)}장</em></span></div><div class="ws76-runmeta"><span><small>PVE 전투력</small><b>${fmt(scrap.deckPower)}</b></span><span><small>오늘 입장</small><b>${fmt(access.usedRuns)} / ${fmt(access.dailyRuns)}</b></span><span><small>남은 입장</small><b>${fmt(access.remainingRuns)}</b></span></div></div><div class="ws76-deck">${(scrap.deckCards || []).map((card, index) => `<figure style="--i:${index}"><img decoding="async" src="${esc(asset(card.image))}" alt=""><figcaption><em>${esc(card.rarity)}</em><b>${esc(card.title)}</b></figcaption></figure>`).join('')}</div></div>
       <div class="ws76-difficulties">${difficulties.map((difficulty, index) => {
         const recommended = Number(scrap.deckPower) >= Number(difficulty.requiredPowerStart);
         const ticketReady = ticketQuantity > 0;
@@ -480,7 +488,6 @@
     root.querySelectorAll('[data-ws-section]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.wsSection === workshopSection)));
     root.setAttribute('aria-busy', String(workshopBusy));
     if (workshopBusy) root.querySelectorAll('button,input').forEach(control => { control.disabled = true; });
-    root.querySelectorAll('.ws76-blueprints img,.ws81-lineage-list img,.ws81-suit-blueprints img').forEach(img => { img.loading = 'lazy'; img.decoding = 'async'; });
     for (const [selector, top, left] of scrolls) { const node = root.querySelector(selector); if (node) { node.scrollTop = top; node.scrollLeft = left; } }
     const nextFocus = focusId ? document.getElementById(focusId) : focusAttribute ? [...root.querySelectorAll('[' + focusAttribute + ']')].find(node => node.getAttribute(focusAttribute) === focusValue) : null;
     nextFocus?.focus({preventScroll:true});
@@ -499,10 +506,10 @@
     root.querySelector('#wsRecipeSearch')?.addEventListener('input', event => { recipeQuery = event.target.value; renderWorkshop(); });
     root.querySelector('[data-ws-ready]')?.addEventListener('click', () => { readyOnly = !readyOnly; if (workshopSection === 'SYNTHESIS') synthesisMode = readyOnly ? 'READY' : 'ALL'; renderWorkshop(); });
     root.querySelector('[data-ws-reset]')?.addEventListener('click', () => { recipeQuery = ''; readyOnly = false; synthesisMode = 'ALL'; renderWorkshop(); });
-    root.querySelector('[data-ws-refresh]')?.addEventListener('click', () => { if (!workshopBusy) void bindWorkshopView(); });
+    root.querySelector('[data-ws-refresh]')?.addEventListener('click', () => { if (!workshopBusy) void bindWorkshopView({fresh:true}); });
     root.querySelectorAll('[data-material-recipe]').forEach(button => button.onclick = () => { if (workshopBusy) return; selectedMaterialRecipe = Number(button.dataset.materialRecipe); renderWorkshop(); });
     root.querySelectorAll('[data-ws-section]').forEach(button => button.onclick = () => {
-      if (workshopBusy) return;
+      if (workshopBusy || workshopSection === button.dataset.wsSection) return;
       workshopSection = button.dataset.wsSection;
       recipeQuery = ''; readyOnly = false;
       renderWorkshop();
@@ -559,21 +566,21 @@
     });
   }
 
-  async function bindWorkshopView() {
+  async function bindWorkshopView({fresh=false} = {}) {
     const root = document.getElementById('workshopRootV1881');
     if (!root) return;
     const loadVersion = ++workshopLoadVersion;
     const epoch = routeEpoch;
     const session = sessionIdentity();
     try {
-      const nextState = await (window.consumeWorkshopEntryRead ? window.consumeWorkshopEntryRead() : api('workshop'));
+      const nextState = await (window.consumeWorkshopEntryRead ? window.consumeWorkshopEntryRead({fresh}) : api('workshop'));
       if (loadVersion !== workshopLoadVersion || epoch !== routeEpoch || session !== sessionIdentity() || !workshopMounted()) return;
       workshopState = nextState;
       renderWorkshop();
     } catch (error) {
       if (loadVersion !== workshopLoadVersion || epoch !== routeEpoch || session !== sessionIdentity() || !workshopMounted()) return;
       root.innerHTML = `<div class="ws76-error"><b>제작소 연결 실패</b><span>${esc(error.message)}</span><button type="button">다시 시도</button></div>`;
-      root.querySelector('button')?.addEventListener('click', bindWorkshopView);
+      root.querySelector('button')?.addEventListener('click', () => bindWorkshopView({fresh:true}));
     }
   }
 
@@ -652,9 +659,9 @@
       if (ownsAction()) {
         workshopBusy = false;
         if (workshopMounted()) {
-          if (reconcile) void bindWorkshopView();
+          if (reconcile) void bindWorkshopView({fresh:true});
           else if (canPresent()) renderWorkshop();
-          else void bindWorkshopView();
+          else void bindWorkshopView({fresh:true});
         }
       }
     }
@@ -667,7 +674,7 @@
     const recipeName = data?.output?.name || data?.recipeName || '차량 제작';
     modal.className = `modal show ws76-simple-result ${success ? 'is-success' : 'is-failed'}`;
     modal.innerHTML = success
-      ? `<section><small>ASSEMBLY COMPLETE</small><h2>차량 제작 완료</h2><img src="${esc(asset(data.output.image))}" alt="${esc(recipeName)}"><b>${esc(recipeName)}</b><p>제작 차량이 차고에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
+      ? `<section><small>ASSEMBLY COMPLETE</small><h2>차량 제작 완료</h2><img decoding="async" src="${esc(asset(data.output.image))}" alt="${esc(recipeName)}"><b>${esc(recipeName)}</b><p>제작 차량이 차고에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
       : `<section><small>ASSEMBLY FAILED</small><h2>차량 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(recipeName)}</b><p>제작 판정에 실패했습니다. 투입한 재료와 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
     normalizeImages(modal);
     modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
@@ -732,9 +739,9 @@
       if (ownsAction()) {
         workshopBusy = false;
         if (workshopMounted()) {
-          if (reconcile) void bindWorkshopView();
+          if (reconcile) void bindWorkshopView({fresh:true});
           else if (canPresent()) renderWorkshop();
-          else void bindWorkshopView();
+          else void bindWorkshopView({fresh:true});
         }
       }
     }
@@ -766,7 +773,7 @@
     const outputName = output.name || data?.recipeName || '미스틱 에너지';
     modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
     modal.innerHTML = success
-      ? `<section><small>MATERIAL FABRICATION COMPLETE</small><h2>재료 제작 완료</h2><img src="${esc(asset(output.image || MYSTIC_ENERGY_IMAGE))}" alt="${esc(outputName)}"><b>${esc(outputName)} × ${fmt(output.quantity || 1)}</b><p>제작된 아이템이 인벤토리에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
+      ? `<section><small>MATERIAL FABRICATION COMPLETE</small><h2>재료 제작 완료</h2><img decoding="async" src="${esc(asset(output.image || MYSTIC_ENERGY_IMAGE))}" alt="${esc(outputName)}"><b>${esc(outputName)} × ${fmt(output.quantity || 1)}</b><p>제작된 아이템이 인벤토리에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
       : `<section><small>MATERIAL FABRICATION FAILED</small><h2>재료 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(outputName)}</b><p>제작 판정에 실패했습니다. 투입된 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
     normalizeImages(modal);
     modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
@@ -819,9 +826,9 @@
       if (ownsAction()) {
         workshopBusy = false;
         if (workshopMounted()) {
-          if (reconcile) void bindWorkshopView();
+          if (reconcile) void bindWorkshopView({fresh:true});
           else if (canPresent()) renderWorkshop();
-          else void bindWorkshopView();
+          else void bindWorkshopView({fresh:true});
         }
       }
     }
@@ -835,7 +842,7 @@
     const outputName = output.name || fallbackName || data?.recipeName || '배틀슈트';
     modal.className = `modal show ws76-simple-result ws81-suit-result ${success ? 'is-success' : 'is-failed'}`;
     modal.innerHTML = success
-      ? `<section><small>BATTLE SUIT FORGE COMPLETE</small><h2>배틀슈트 제작 성공</h2><img src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)}</b><p>완성된 배틀슈트가 장비창에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
+      ? `<section><small>BATTLE SUIT FORGE COMPLETE</small><h2>배틀슈트 제작 성공</h2><img decoding="async" src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)}</b><p>완성된 배틀슈트가 장비창에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
       : `<section><small>BATTLE SUIT FORGE FAILED</small><h2>배틀슈트 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(outputName)}</b><p>제작 판정에 실패했습니다. 투입된 슈트 코어와 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
     normalizeImages(modal);
     modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
@@ -900,9 +907,9 @@
         workshopBusy = false;
         requestedSynthesisAttempts = 1;
         if (workshopMounted()) {
-          if (reconcile) void bindWorkshopView();
+          if (reconcile) void bindWorkshopView({fresh:true});
           else if (canPresent()) renderWorkshop();
-          else void bindWorkshopView();
+          else void bindWorkshopView({fresh:true});
         }
       }
     }
@@ -931,11 +938,11 @@
         <article class="failure"><small>공개된 실패</small><b id="ws81BulkFailure">0</b><em>회</em></article>
       </div>
       <div class="ws81-bulk-equipment">
-        <figure><span>CONSUMED</span><img src="${esc(asset(input.image))}" alt=""><figcaption><b>${esc(input.name || '투입 장비')}</b><small>${fmt(input.quantity || attempts * Number(input.perAttempt || 1))}개 소모</small></figcaption></figure>
+        <figure><span>CONSUMED</span><img decoding="async" src="${esc(asset(input.image))}" alt=""><figcaption><b>${esc(input.name || '투입 장비')}</b><small>${fmt(input.quantity || attempts * Number(input.perAttempt || 1))}개 소모</small></figcaption></figure>
         <i aria-hidden="true">→</i>
-        <figure class="output"><span>RESULT SEALED</span><img src="${esc(asset(output.image))}" alt=""><figcaption><b>${esc(output.name || '결과 장비')}</b><small id="ws81BulkOutputCount">획득 수량 잠금</small></figcaption></figure>
+        <figure class="output"><span>RESULT SEALED</span><img decoding="async" src="${esc(asset(output.image))}" alt=""><figcaption><b>${esc(output.name || '결과 장비')}</b><small id="ws81BulkOutputCount">획득 수량 잠금</small></figcaption></figure>
       </div>
-      ${material ? `<div class="ws81-bulk-material"><img src="${esc(asset(material.image))}" alt=""><span><small>ADDITIONAL MATERIAL CONSUMED</small><b>${esc(material.name || material.code)} × ${fmt(material.quantity)}</b></span></div>` : ''}
+      ${material ? `<div class="ws81-bulk-material"><img decoding="async" src="${esc(asset(material.image))}" alt=""><span><small>ADDITIONAL MATERIAL CONSUMED</small><b>${esc(material.name || material.code)} × ${fmt(material.quantity)}</b></span></div>` : ''}
       <section class="ws81-bulk-outcomes"><header><b>회차별 판정</b><span id="ws81BulkOutcomeMeta">공개 0 / ${fmt(attempts)}</span></header><div>${outcomes.map((outcome, index) => `<span class="pending" data-bulk-roll="${index}" title="${fmt(outcome?.attempt || index + 1)}회차 판정 대기"><i>${fmt(outcome?.attempt || index + 1)}</i><b>대기</b></span>`).join('')}</div></section>
       <div class="ws81-bulk-slider"><span id="ws81BulkInstruction">밀어서 회차별 합성 판정을 시작하세요</span><div id="ws81BulkTrack" tabindex="0" role="slider" aria-label="일괄 합성 결과 잠금 해제" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ws81BulkHandle">➜</i><b>밀어서 결과 잠금 해제</b></div></div>
       <p class="ws81-bulk-note">장착 중인 장비는 소모 대상에서 제외됩니다. 잠금 해제 후 1회차부터 성공·실패가 순서대로 공개되며, 실패한 회차의 장비${material ? '와 추가 재료' : ''}는 반환되지 않습니다.</p>
@@ -1069,7 +1076,7 @@
     const output = data.output || {};
     const success = data.success !== false;
     modal.className = 'modal show ws76-reveal-modal ws77-modal';
-    modal.innerHTML = `<section class="ws77-reveal ws81-reveal" style="--slide:0;--open:0"><header><div><small>LINEAGE FUSION · ${Number(data.successRate ?? 100)}% PROTOCOL</small><h2>${esc(data.recipeName || '장비 계보 합성')}</h2></div><span id="ws81Phase">투입 장비 동기화 중</span></header><div class="ws77-chamber"><div class="ws77-scanlines"></div><div class="ws77-inputs">${Array.from({ length: Math.min(required, 5) }, (_, index) => `<figure style="--i:${index}"><span>${esc(input.rarity || 'EQUIPMENT')}</span><img src="${esc(asset(input.image))}" alt=""><figcaption>${esc(input.name || '투입 장비')}</figcaption></figure>`).join('')}${material ? `<figure class="ws81-reveal-material" style="--i:${Math.min(required, 5)}"><span>${esc(material.rarity || 'MATERIAL')}</span><img src="${esc(asset(material.image))}" alt=""><figcaption>${esc(material.name || material.code)} × ${fmt(material.quantity)}</figcaption></figure>` : ''}</div><div class="ws77-reactor"><i></i><b id="ws81Charge">0%</b><small>CORE CHARGE</small></div><div class="ws77-output"><figure><span>${esc(output.rarity || 'EQUIPMENT')}</span><img src="${esc(asset(output.image))}" alt=""><figcaption><small>LINEAGE RESULT</small><b>${esc(output.name)}</b><em>PVE +${fmt(output.pvePower)} · PVP +${fmt(output.pvpPower)}</em></figcaption></figure></div><div class="ws77-failure"><strong>FUSION FAILED</strong><span>투입 장비 ${fmt(required)}개${material ? `와 ${esc(material.name || material.code)} ${fmt(material.quantity)}개가` : '가'} 소멸했습니다.</span></div><div class="ws77-shutter left"></div><div class="ws77-shutter right"></div><div class="ws77-flash"></div></div><div class="ws77-progress"><i></i><span id="ws81ProgressText">계보 데이터 결속 0%</span></div><div class="ws77-slider locked"><span id="ws81Instruction">합성로 충전이 완료될 때까지 기다려 주세요</span><div id="ws81Track" tabindex="0" role="slider" aria-label="합성 결과 공개" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ws81Handle">➜</i><b>밀어서 결과 개방</b></div></div><button id="ws81Close" disabled>합성 결과 확인 완료</button></section>`;
+    modal.innerHTML = `<section class="ws77-reveal ws81-reveal" style="--slide:0;--open:0"><header><div><small>LINEAGE FUSION · ${Number(data.successRate ?? 100)}% PROTOCOL</small><h2>${esc(data.recipeName || '장비 계보 합성')}</h2></div><span id="ws81Phase">투입 장비 동기화 중</span></header><div class="ws77-chamber"><div class="ws77-scanlines"></div><div class="ws77-inputs">${Array.from({ length: Math.min(required, 5) }, (_, index) => `<figure style="--i:${index}"><span>${esc(input.rarity || 'EQUIPMENT')}</span><img decoding="async" src="${esc(asset(input.image))}" alt=""><figcaption>${esc(input.name || '투입 장비')}</figcaption></figure>`).join('')}${material ? `<figure class="ws81-reveal-material" style="--i:${Math.min(required, 5)}"><span>${esc(material.rarity || 'MATERIAL')}</span><img decoding="async" src="${esc(asset(material.image))}" alt=""><figcaption>${esc(material.name || material.code)} × ${fmt(material.quantity)}</figcaption></figure>` : ''}</div><div class="ws77-reactor"><i></i><b id="ws81Charge">0%</b><small>CORE CHARGE</small></div><div class="ws77-output"><figure><span>${esc(output.rarity || 'EQUIPMENT')}</span><img decoding="async" src="${esc(asset(output.image))}" alt=""><figcaption><small>LINEAGE RESULT</small><b>${esc(output.name)}</b><em>PVE +${fmt(output.pvePower)} · PVP +${fmt(output.pvpPower)}</em></figcaption></figure></div><div class="ws77-failure"><strong>FUSION FAILED</strong><span>투입 장비 ${fmt(required)}개${material ? `와 ${esc(material.name || material.code)} ${fmt(material.quantity)}개가` : '가'} 소멸했습니다.</span></div><div class="ws77-shutter left"></div><div class="ws77-shutter right"></div><div class="ws77-flash"></div></div><div class="ws77-progress"><i></i><span id="ws81ProgressText">계보 데이터 결속 0%</span></div><div class="ws77-slider locked"><span id="ws81Instruction">합성로 충전이 완료될 때까지 기다려 주세요</span><div id="ws81Track" tabindex="0" role="slider" aria-label="합성 결과 공개" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ws81Handle">➜</i><b>밀어서 결과 개방</b></div></div><button id="ws81Close" disabled>합성 결과 확인 완료</button></section>`;
     normalizeImages(modal);
     const panel = modal.querySelector('.ws81-reveal');
     const phase = modal.querySelector('#ws81Phase');

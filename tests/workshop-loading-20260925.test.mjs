@@ -30,7 +30,8 @@ test('only workshop overlaps CSS, ordered scripts and exactly one uncached entry
   await loading;assert.equal(h.context.featureResourcesReady('workshop'),true);
   assert.deepEqual(await h.context.consumeWorkshopEntryRead(),{wallet:{coin:42}});
   assert.equal(h.reads.length,1);assert.equal(h.reads[0].config.microcache,false);
-  const refreshed=h.context.consumeWorkshopEntryRead();assert.equal(h.reads.length,2);
+  assert.deepEqual(await h.context.consumeWorkshopEntryRead(),{wallet:{coin:42}},'immediate shell remount reuses the entry read');
+  const refreshed=h.context.consumeWorkshopEntryRead({fresh:true});assert.equal(h.reads.length,2);
   h.reads[1].resolve({wallet:{coin:40}});assert.equal((await refreshed).wallet.coin,40);
 });
 test('other features keep CSS-first loading and do not request workshop data',async()=>{
@@ -57,8 +58,10 @@ test('account switches and resource mutations discard the prefetched state',asyn
     h.reads[1].resolve({fresh:true});assert.deepEqual(await result,{fresh:true});
   }
 });
-test('completed entry data expires after one second and failures stay retryable',async()=>{
-  const h=harness();h.context.prepareWorkshopEntryRead();h.reads[0].resolve({old:true});await flush();h.advance(1001);
+test('slow assets preserve the first response; remount reuse expires and failures stay retryable',async()=>{
+  const h=harness();h.context.prepareWorkshopEntryRead();h.reads[0].resolve({old:true});await flush();h.advance(5000);
+  assert.deepEqual(await h.context.consumeWorkshopEntryRead(),{old:true},'first use does not refetch after slow asset downloads');
+  h.advance(1001);
   const result=h.context.consumeWorkshopEntryRead();await flush();assert.equal(h.reads.length,2);
   h.reads[1].resolve({fresh:true});assert.deepEqual(await result,{fresh:true});
   h.context.prepareWorkshopEntryRead();h.reads[2].reject(new Error('temporary outage'));await flush();
@@ -82,8 +85,23 @@ test('late workshop responses cannot render after navigation or account change',
   for(const change of ['routeEpoch','session']){
     const request=deferred();let renders=0;
     const context=vm.createContext({window:{consumeWorkshopEntryRead:()=>request.promise},document:{getElementById:()=>({})},workshopLoadVersion:0,routeEpoch:0,session:'a',sessionIdentity:()=>context.session,workshopMounted:()=>true,workshopState:null,renderWorkshop:()=>{renders++}});
-    vm.runInContext(client.slice(client.indexOf('  async function bindWorkshopView()'),client.indexOf('  async function bindScrapyardView()')),context);
+    vm.runInContext(client.slice(client.indexOf('  async function bindWorkshopView('),client.indexOf('  async function bindScrapyardView()')),context);
     const loading=context.bindWorkshopView();context[change]=change==='session'?'b':1;request.resolve({wallet:{coin:1}});await loading;
     assert.equal(renders,0);assert.equal(context.workshopState,null);
   }
+});
+
+test('warm entry and repeated binds share a pending read without sharing manual refreshes',async()=>{
+  const h=harness(),first=h.context.consumeWorkshopEntryRead(),remount=h.context.consumeWorkshopEntryRead();
+  assert.equal(h.reads.length,1);
+  h.reads[0].resolve({entry:true});assert.deepEqual(await first,{entry:true});assert.deepEqual(await remount,{entry:true});
+  const refresh=h.context.consumeWorkshopEntryRead({fresh:true});assert.equal(h.reads.length,2);
+  h.reads[1].resolve({refreshed:true});assert.deepEqual(await refresh,{refreshed:true});
+});
+
+test('logout clears a pending authenticated read without a resolved-promise retry loop',async()=>{
+  const h=harness();h.context.prepareWorkshopEntryRead();const loading=h.context.consumeWorkshopEntryRead();
+  h.context.API_TOKEN='';h.reads[0].resolve({private:true});await flush();
+  assert.equal(h.reads.length,2);h.reads[1].reject(new Error('Authentication required'));
+  await assert.rejects(loading,/Authentication required/);
 });

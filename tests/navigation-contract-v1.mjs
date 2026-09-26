@@ -109,6 +109,14 @@ await router.navigate('scrapyard', {
 });
 assert.deepEqual(renderedShells, ['scrapyard'], 'scrapyard route must render the independent native shell without an intermediate workshop click');
 
+for(const [route,section] of [['fusion','SYNTHESIS'],['vehicle','VEHICLE']]){
+  const calls=[];
+  await router.navigate(route,{runtime:{document:{querySelector:()=>({click(){calls.push('ready')}})},global:context,now:()=>Date.now(),setTimeout,
+    renderShell(shell,options){calls.push({shell,section:options.workshopSection})}
+  }});
+  assert.deepEqual(calls,[{shell:'workshop',section},'ready'],'select the workshop section before the first render, keeping legacy activation');
+}
+
 assert.match(appSource, /scrapyard:\{[\s\S]*?css\/workshop-v1881\.css\?v=2009-material-label[\s\S]*?js\/workshop-v1881\.js\?v=2098-hyper-codex/);
 assert.match(appSource, /js\/scrapyard-battle-v1698\.js\?v=2098-hyper-codex/);
 assert.match(appSource, /typeof window\.scrapyardView==='function'&&typeof window\.bindScrapyardView==='function'/);

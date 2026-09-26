@@ -16,9 +16,9 @@ function between(source, start, end) {
 
 // The workshop and scrapyard are separate screens and must not share their
 // initial status request. Mutations remain on their dedicated endpoints.
-const bindWorkshop = between(client, 'async function bindWorkshopView()', 'async function bindScrapyardView()');
+const bindWorkshop = between(client, 'async function bindWorkshopView(', 'async function bindScrapyardView()');
 const bindScrapyard = between(client, 'async function bindScrapyardView()', 'async function craftVehicle()');
-assert.match(bindWorkshop, /nextState\s*=\s*await\s*\(window\.consumeWorkshopEntryRead\s*\?\s*window\.consumeWorkshopEntryRead\(\)\s*:\s*api\('workshop'\)\)[\s\S]*?workshopState\s*=\s*nextState/);
+assert.match(bindWorkshop, /nextState\s*=\s*await\s*\(window\.consumeWorkshopEntryRead\s*\?\s*window\.consumeWorkshopEntryRead\(\{fresh\}\)\s*:\s*api\('workshop'\)\)[\s\S]*?workshopState\s*=\s*nextState/);
 assert.doesNotMatch(bindWorkshop, /scrapyard\/status|Promise\.all/);
 assert.match(bindScrapyard, /nextState\s*=\s*await api\('scrapyard\/status'\)[\s\S]*?scrapyardState\s*=\s*nextState/);
 assert.doesNotMatch(bindScrapyard, /api\('workshop'\)|Promise\.all/);
@@ -68,7 +68,7 @@ assert.match(synthesize, /const required\s*=\s*synthRequired\(recipe\)/);
 assert.match(synthesize, /if\s*\(!canSynthesize\(recipe\)\s*&&\s*!recovering\)/);
 assert.match(synthesize, /const ownsAction\s*=\s*\(\)\s*=>\s*actionVersion\s*===\s*workshopActionVersion/);
 assert.match(synthesize, /const canPresent\s*=\s*\(\)\s*=>\s*ownsAction\(\)[\s\S]*?routeEpoch[\s\S]*?workshopMounted\(\)/);
-const routeInvalidation = between(client, "window.addEventListener('cnine:route-will-change'", 'function workshopView()');
+const routeInvalidation = between(client, "window.addEventListener('cnine:route-will-change'", 'function workshopView(');
 assert.match(routeInvalidation, /workshopLoadVersion\s*\+=\s*1[\s\S]*?scrapyardLoadVersion\s*\+=\s*1/);
 assert.doesNotMatch(routeInvalidation, /workshopActionVersion\s*\+=|scrapyardActionVersion\s*\+=|workshopBusy\s*=\s*false|scrapyardBusy\s*=\s*false/, 'route changes must hide presentation without unlocking in-flight mutations');
 assert.match(synthesize, /finally\s*\{[\s\S]*?if\s*\(ownsAction\(\)\)[\s\S]*?workshopBusy\s*=\s*false/);

@@ -924,8 +924,8 @@ const FEATURE_RESOURCE_MANIFEST={
     parallelStyles:true,
     prepare:()=>prepareWorkshopEntryRead(),
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-workbench-v1.css?v=20260922','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260925'],
-    ready:()=>Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
+    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?v=20260926','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260926'],
+    ready:()=>Boolean(window.SoopketmonWorkshopThumbnails)&&Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
     scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=2120-solaris'],
@@ -938,7 +938,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-recipes-v1.js?v=20260922','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260925&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
+    scripts:['js/workshop-recipes-v1.js?v=20260926','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260926&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -1004,29 +1004,32 @@ function featureResourcesReady(key){
   const manifest=FEATURE_RESOURCE_MANIFEST[key];
   return Boolean(manifest?.ready()&&(!manifest.parallelStyles||featureStylesReady.has(key)));
 }
-// One entry-only read overlaps the workshop assets; never persist player balances.
+// Share one read across asset loading and immediate shell remounts. No persisted balances.
 const WORKSHOP_ENTRY_MAX_AGE_MS=1000;
 let workshopEntryRead=null;
+let workshopEntrySection=null;
 function prepareWorkshopEntryRead(){
-  if(!API_TOKEN)return;
-  const read={token:API_TOKEN,epoch:PLAYER_STATE_MUTATION_EPOCH,completedAt:null};
+  if(!API_TOKEN){workshopEntryRead=null;return;}
+  const read={token:API_TOKEN,epoch:PLAYER_STATE_MUTATION_EPOCH,consumedAt:null};
   read.result=apiRequest('workshop',{}, {ttl:0,microcache:false,replaceInflight:true,timeoutMs:45000}).then(data=>{
-    read.completedAt=Date.now();return {data};
+    return {data};
   },error=>({error})); // Asset failure/navigation must not leave an unhandled rejection.
   workshopEntryRead=read;
 }
-async function consumeWorkshopEntryRead(){
-  const read=workshopEntryRead;workshopEntryRead=null;
-  const current=()=>read.token===API_TOKEN&&read.epoch===PLAYER_STATE_MUTATION_EPOCH;
-  if(read&&current()){
-    const result=await read.result;
-    if(current()&&(read.completedAt===null||Date.now()-read.completedAt<=WORKSHOP_ENTRY_MAX_AGE_MS)){
-      if(result.error)throw result.error;
-      return result.data;
-    }
+async function consumeWorkshopEntryRead({fresh=false}={}){
+  const current=read=>read&&read.token===API_TOKEN&&read.epoch===PLAYER_STATE_MUTATION_EPOCH;
+  if(fresh||!current(workshopEntryRead)||(workshopEntryRead.consumedAt!==null&&Date.now()-workshopEntryRead.consumedAt>WORKSHOP_ENTRY_MAX_AGE_MS))prepareWorkshopEntryRead();
+  const read=workshopEntryRead;
+  if(!read)return apiRequest('workshop',{}, {ttl:0,microcache:false,replaceInflight:true,timeoutMs:45000});
+  const result=await read.result;
+  if(!current(read))return consumeWorkshopEntryRead();
+  if(result.error){
+    if(workshopEntryRead===read)workshopEntryRead=null;
+    throw result.error;
   }
-  // A changed account, mutation, expired read or manual refresh needs current state.
-  return apiRequest('workshop',{}, {ttl:0,microcache:false,replaceInflight:true,timeoutMs:45000});
+  // Slow asset downloads must not expire a response before its first use.
+  read.consumedAt??=Date.now();
+  return result.data;
 }
 window.consumeWorkshopEntryRead=consumeWorkshopEntryRead;
 function loadFeatureStyle(href){
@@ -1250,7 +1253,7 @@ function markBlockedTabButtons(){
     if(blocked)button.setAttribute('aria-disabled','true');else button.removeAttribute('aria-disabled');
   });
 }
-function renderShell(tab) {
+function renderShell(tab,routeOptions={}) {
   if(document.getElementById('magicSystemRoot')&&tab!=='magic'&&window.MagicWorkbench&&!window.MagicWorkbench.canLeave())return false;
   if(document.getElementById('pvpDeckSlots')&&tab!=='pvp'){
     if(pvpState.saving)return false;
@@ -1299,6 +1302,8 @@ function renderShell(tab) {
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?featureResourcesReady(routeFeatureKey):true;
   if(tab!=='workshop')workshopEntryRead=null;
+  if(tab!=='workshop')workshopEntrySection=null;
+  else if(['VEHICLE','SYNTHESIS'].includes(routeOptions.workshopSection))workshopEntrySection=routeOptions.workshopSection;
   const views = { buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, duo:()=>'<div id="rankedDuoRoot" aria-live="polite">듀오 시즌을 불러오는 중...</div>', clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), treasury:(...args)=>(routeFeatureReady&&typeof window.administrationTreasuryView==='function'?window.administrationTreasuryView(...args):featureRouteLoadingHtml('treasury')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, coup:()=>window.CoupPalace.view(), prisoncamp:(user)=>window.ClanPrisonCamp.view(user) };
   const battleActive=['battle','scrapyard','pvp','duo','rank','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab),administrationActive=['treasury','prison','prisoncamp','soopketland','coup'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
@@ -1353,7 +1358,8 @@ function renderShell(tab) {
       <div class="main-nav-dropdown" role="menu"><button type="button" data-tab="coup"><span>황궁 영토전·족장 국민 재판</span><b>쿠데타</b></button><button type="button" data-tab="treasury"><span>실제 코인 매출 1% 공개 원장</span><b>세금징수</b></button><button type="button" data-tab="soopketland"><span>스트리머 전용 방송 이벤트</span><b>숲켓랜드</b></button><button type="button" data-tab="prison"><span>행정부 제재 현황</span><b>감옥</b></button><button type="button" data-tab="prisoncamp"><span>시즌 최하위 클랜 수감 구역</span><b>포로수용소</b></button></div>
     </div>
   </nav>`;
-  const routeHtml=`${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}`;
+  const routeHtml=`${mobileNavigationHtml(tab)}${tab==='workshop'&&routeFeatureReady?window.workshopView(user,{workshopSection:workshopEntrySection}):(views[tab]||buyView)(user)}`;
+  if(tab==='workshop'&&routeFeatureReady)workshopEntrySection=null;
   const existingShell=locateShellRouteMarkers();
   if(existingShell){
     cleanupShellRoute(previousTab,tab);
@@ -1370,10 +1376,10 @@ function renderShell(tab) {
   markBlockedTabButtons();
   const routeWaitsForFeature=['auction','prediction','soopketland','treasury','character','avatar','workshop','alchemy','scrapyard'].includes(tab)&&!routeFeatureReady;
   if(routeWaitsForFeature){
-    ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab)}).catch(error=>{
+    ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab,routeOptions)}).catch(error=>{
       if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
       replaceShellRoute(`${mobileNavigationHtml(tab)}${featureRouteErrorHtml(tab,error.message)}`);bindMobileNavigation();
-      const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab)};
+      const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab,routeOptions)};
     });
   }else bindView(tab);
   if(['battle','pvp','clan','dex','inventory'].includes(tab))warmFeatureForTab(tab==='clan'?'pvp':tab);

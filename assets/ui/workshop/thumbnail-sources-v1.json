@@ -1,0 +1,16 @@
+[
+  {"source":"assets/ui/workshop/vehicle-part-tire-v1668.png","size":128},
+  {"source":"assets/ui/workshop/vehicle-part-frame-v1668.png","size":128},
+  {"source":"assets/ui/workshop/vehicle-part-engine-v1668.png","size":128},
+  {"source":"assets/items/starlight-armor-core-v1749.png","size":384},
+  {"source":"assets/items/suit-core-1-v2004.png","size":384},
+  {"source":"assets/items/suit-core-2-v2004.png","size":384},
+  {"source":"assets/items/suit-core-3-v2004.png","size":384},
+  {"source":"assets/items/suit-core-4-v2066.png","size":384},
+  {"source":"assets/items/suit-core-5-v2124.png","size":384},
+  {"source":"assets/tire/1321312.jpg","size":768},
+  {"source":"assets/tire/458.jpeg","size":768},
+  {"source":"assets/tire/461.jpeg","size":768},
+  {"source":"assets/tire/lamborghini-veneno-showroom-v1.png","size":768},
+  {"source":"assets/tire/solaris-omega-v1.png","size":768}
+]

@@ -6,6 +6,9 @@
   function image(value) {
     const raw = String(value || '').trim().replace(/\\/g, '/');
     if (!raw || /^(?!https?:)[a-z][a-z\d+.-]*:/i.test(raw) || raw.startsWith('//')) return '';
+    let key = raw.replace(/^\/+/, '');
+    try { key = decodeURIComponent(key); } catch (_) {}
+    if (window.SoopketmonWorkshopThumbnails?.[key]) return '/' + window.SoopketmonWorkshopThumbnails[key];
     return /^https?:/i.test(raw) ? raw : '/' + raw.replace(/^\/+/, '').replace(/#/g, '%23');
   }
   function paymentFor(recipe, choice = 'COIN') {
