@@ -65,21 +65,43 @@ async function rebuild(env,versions,config,deps,hash,now){
  await env.DB.batch(profiles.map(p=>env.DB.prepare(`INSERT INTO ranked_duo_profiles_v1(user_id,source_version,policy_revision,config_hash,power,payload_json,expires_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET source_version=excluded.source_version,policy_revision=excluded.policy_revision,config_hash=excluded.config_hash,power=excluded.power,payload_json=excluded.payload_json,expires_at=excluded.expires_at WHERE ranked_duo_profiles_v1.source_version<=excluded.source_version AND ranked_duo_profiles_v1.policy_revision<=excluded.policy_revision`).bind(p.userId,p.sourceVersion,p.policyRevision,hash,p.power,JSON.stringify(p),p.expiresAt)));
  return profiles;
 }
-export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now()}={}){
+const profileRetryDelays=[200,400,800,1600];
+const profileWait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const currentProfile=(v,hash,now)=>v.payload_json&&Number(v.source_version)===Number(v.cached_version)&&Number(v.policy_revision)===Number(v.cached_policy)&&v.config_hash===hash&&Date.parse(v.expires_at)>now;
+const validateAccounts=(versions,count,now)=>{
+ if(versions.length!==count||versions.some(v=>v.status!=='ACTIVE'||v.role==='OWNER'||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
+};
+export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
- const hash=await jointHash({weights:config.mercenaryWeights}),versions=await duoVersions(env,ids);
- if(versions.length!==ids.length||versions.some(v=>v.status!=='ACTIVE'||v.role==='OWNER'||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
- const hit=[],miss=[];
- for(const v of versions){if(v.payload_json&&Number(v.source_version)===Number(v.cached_version)&&Number(v.policy_revision)===Number(v.cached_policy)&&v.config_hash===hash&&Date.parse(v.expires_at)>now){const cached=parsed(v.payload_json,{});hit.push({...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});}else miss.push(v);}
- let rebuilt=[];
- if(miss.length){
-  const token=crypto.randomUUID(),expires=new Date(now+30000).toISOString(),at=new Date(now).toISOString();
-  await env.DB.batch(miss.map(v=>env.DB.prepare('INSERT INTO ranked_duo_profile_leases_v1(user_id,token,expires_at) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET token=excluded.token,expires_at=excluded.expires_at WHERE ranked_duo_profile_leases_v1.expires_at<=?').bind(Number(v.user_id),token,expires,at)));
-  try{
-   const leases=(await env.DB.prepare(`SELECT user_id,token FROM ranked_duo_profile_leases_v1 WHERE user_id IN (${marks(miss)})`).bind(...miss.map(v=>Number(v.user_id))).all()).results;
-   if(leases.length!==miss.length||leases.some(l=>l.token!==token))throw duoError('PROFILE_BUILDING','최신 전력을 반영 중입니다. 잠시 후 다시 시도하세요.');
-   rebuilt=await rebuild(env,miss,config,deps,hash,now);
-  }finally{await env.DB.prepare(`DELETE FROM ranked_duo_profile_leases_v1 WHERE token=? AND user_id IN (${marks(miss)})`).bind(token,...miss.map(v=>Number(v.user_id))).run();}
+ const hash=await jointHash({weights:config.mercenaryWeights}),started=Date.now();
+ for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
+  const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
+  validateAccounts(versions,ids.length,at);
+  const collect=rows=>rows.filter(v=>{
+   if(!currentProfile(v,hash,at))return true;
+   const cached=parsed(v.payload_json,{});profiles.set(Number(v.user_id),{...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});return false;
+  });
+  const miss=collect(versions);
+  if(miss.length){
+   const token=crypto.randomUUID(),expires=new Date(at+30000).toISOString(),stamp=new Date(at).toISOString(),missingIds=miss.map(v=>Number(v.user_id));
+   await env.DB.batch(miss.map(v=>env.DB.prepare('INSERT INTO ranked_duo_profile_leases_v1(user_id,token,expires_at) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET token=excluded.token,expires_at=excluded.expires_at WHERE ranked_duo_profile_leases_v1.expires_at<=?').bind(Number(v.user_id),token,expires,stamp)));
+   try{
+    const leases=(await env.DB.prepare(`SELECT user_id,token FROM ranked_duo_profile_leases_v1 WHERE user_id IN (${marks(miss)})`).bind(...missingIds).all()).results;
+    const owned=leases.filter(l=>l.token===token).map(l=>Number(l.user_id));
+    if(owned.length){
+     // Another builder may have finished between our first read and lease claim.
+     // Build only the still-missing accounts we own, never abandon a partial claim.
+     const fresh=await duoVersions(env,owned);validateAccounts(fresh,owned.length,at);
+     const needed=collect(fresh);
+     if(needed.length)for(const profile of await rebuild(env,needed,config,deps,hash,at))profiles.set(profile.userId,profile);
+    }
+   }catch(error){if(error.code!=='DUO_PROFILE_CHANGED')throw error;profiles.clear();}
+   finally{await env.DB.prepare(`DELETE FROM ranked_duo_profile_leases_v1 WHERE token=? AND user_id IN (${marks(miss)})`).bind(token,...missingIds).run();}
+  }
+  if(profiles.size===ids.length)return ids.map(id=>profiles.get(id));
+  // Bounded, user-indexed cache checks outside transactions. Other builders keep
+  // their lease and inventory scan; callers consume their completed snapshot.
+  if(attempt<profileRetryDelays.length)await wait(profileRetryDelays[attempt]);
  }
- const all=new Map([...hit,...rebuilt].map(p=>[p.userId,p]));return ids.map(id=>all.get(id));
+ throw duoError('PROFILE_BUILDING','전투 준비가 지연되고 있습니다. 잠시 후 다시 시도하세요.');
 }

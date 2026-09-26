@@ -458,6 +458,7 @@
 }
 @media(max-width:760px){
  .duo-hub{border-radius:5px}
+ .battle-v3-live-shell.is-duo-battle>.battle-v3-result:has(.duo-result){top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;max-height:calc(100dvh - 120px)!important}
  .duo-result{padding:24px 20px}
  .duo-result>strong{font-size:25px}
  .duo-result-score>b{font-size:36px}

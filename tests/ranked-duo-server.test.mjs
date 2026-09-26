@@ -87,7 +87,7 @@ test('an unrecoverable saved engine version refunds energy exactly once',async t
 test('profile rebuild leases stop simultaneous inventory scans and always release owned leases',async t=>{
  const f=await duoFixture(t);await f.ready();await f.p('UPDATE user_cards SET breakthrough_level=13 WHERE user_id=2').run();
  await f.p('INSERT INTO ranked_duo_profile_leases_v1 VALUES(?,?,?)',2,'another-worker',new Date(f.clock()+30000).toISOString()).run();f.resetQueries();
- await assert.rejects(loadDuoProfiles(f.env,[2,3],f.config,f.deps,{now:f.clock()}),{code:'DUO_PROFILE_BUILDING'});assert.ok(!f.queries().some(q=>q.includes('FROM user_cards uc JOIN')));
+ const waits=[];await assert.rejects(loadDuoProfiles(f.env,[2,3],f.config,f.deps,{now:f.clock(),wait:async ms=>waits.push(ms)}),{code:'DUO_PROFILE_BUILDING'});assert.ok(!f.queries().some(q=>q.includes('FROM user_cards uc JOIN')));assert.equal(waits.length,4);assert.equal(waits.reduce((a,b)=>a+b,0),3000);
  f.advance(31000);await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert.equal(Number((await f.p('SELECT COUNT(*) n FROM ranked_duo_profile_leases_v1').first()).n),0);
 });
 test('KST daily grants are personal, capped and never multiply by missed days',()=>{

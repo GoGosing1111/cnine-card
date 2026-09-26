@@ -46,15 +46,30 @@ let engine,renderer;const mount=ProjectVPixiBattle.mountForBattle;ProjectVPixiBa
 for(const id of ['qa-formation','qa-legacy','qa-pve'])document.getElementById(id).onclick=async()=>{renderer?.destroy();const data=await api(id==='qa-pve'?'qa/pve':id==='qa-legacy'?'qa/legacy':'qa/formation'),modal=document.getElementById('modal'),live=ProjectVBattleV3Live.prepareLoading({modal,mode:id==='qa-pve'?'PVE':'PVP',playerName:'참가자 2 + 참가자 5',opponentName:'참가자 3 + 참가자 4'});renderer=await ProjectVBattleV3Live.createRenderer({...live,modal,data,mode:id==='qa-pve'?'PVE':'PVP'});await ProjectVPixiBattle.restoreDeployedFormation();const close=document.createElement('button');close.textContent='진형 검수 닫기';close.className='duo-battle-exit';close.onclick=()=>{renderer.destroy();modal.className='modal';};live.stage.append(close);document.getElementById('qa-diagnostics').textContent=JSON.stringify((g=>({actors:g.actors?.length,viewport:g.viewport,formation:g.formation}))(engine.viewportGeometry()));};
 window.addEventListener('error',e=>document.getElementById('qa-diagnostics').textContent+='ERROR '+e.message);
 player();`;
+// Exercise the shipped index/app route with the same isolated battle fixture.
+const entryFaults={profile:0,response:0};
+const qaProfile=async()=>{const user=await f.p('SELECT * FROM users WHERE id=2').first();return {...user,owned:cards.map(c=>c.id),quantities:Object.fromEntries(cards.map(c=>[c.id,1])),breakthroughs:Object.fromEntries(cards.map(c=>[c.id,12])),masterStars:0};};
 http.createServer(async(req,res)=>{
  try{
   const url=new URL(req.url,'http://127.0.0.1:'+port);res.setHeader('Cache-Control','no-store');
+  if(url.pathname==='/__duo-login'){
+   if(url.searchParams.get('retry')==='1'){entryFaults.profile=1;entryFaults.response=1;}
+   if(url.searchParams.get('fast')==='1')await f.p('UPDATE user_cards SET breakthrough_level=200 WHERE user_id IN(2,7)').run();
+   res.setHeader('Content-Type','text/html; charset=utf-8');res.end('<!doctype html><html lang="ko"><meta name="viewport" content="width=device-width,initial-scale=1"><title>듀오 실제 앱 로컬 검수</title><body><h1>운영 계정과 분리된 듀오 검수</h1><button id="login">실제 게임 화면으로 접속</button><script>document.getElementById("login").onclick=()=>{localStorage.setItem("cnine_card_api_token","local-duo-2");location.href="/index.html?screen=duo"}</script></body></html>');return;
+  }
   if(url.pathname==='/__duo'||url.pathname==='/'){res.setHeader('Content-Type','text/html; charset=utf-8');res.end(html);return;}
   if(url.pathname==='/__duo-app.mjs'){res.setHeader('Content-Type','application/javascript; charset=utf-8');res.end(client);return;}
-  if(url.pathname.startsWith('/api/')){const pathname=url.pathname.slice(5);let result;if(pathname.startsWith('qa/')){
+  if(url.pathname.startsWith('/api/')){const pathname=url.pathname.slice(5);let result;if(['me','me/summary'].includes(pathname))result={status:200,data:{user:await qaProfile(),prison:{incarcerated:false}}};
+  else if(pathname==='me/collection')result={status:200,data:{collection:await qaProfile()}};
+  else if(pathname==='cards')result={status:200,data:{cards:cards.map(c=>({...c,basePower:c.power,powerType:c.power_type}))}};
+  else if(pathname==='packs')result={status:200,data:{packs:[]}};
+  else if(pathname==='loot-shop/balance')result={status:200,data:{pigCoins:0}};
+  else if(pathname==='ranked-duo/match'&&entryFaults.profile-->0)result={status:409,data:{code:'DUO_PROFILE_BUILDING',error:'ISOLATED QA: another profile builder'}};
+  else if(pathname.startsWith('qa/')){
    const merc=operatingMercenaries.find(m=>m.code==='V-004'),squad=id=>({ownerId:id,ownerName:'참가자 '+id,cards:cards.map(c=>({...c,power:20000000})),mercenary:merc});
    result={status:200,data:{battleV2:pathname==='qa/pve'?createPveBattleV2({cards,mercenary:merc,monster:{id:1,name:'초원 슬라임',battle_power:20000000},seed:17}):pathname==='qa/legacy'?createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:merc,defenderMercenary:merc}):createDuoBattleV2({attackerSquads:[squad(2),squad(5)],defenderSquads:[squad(3),squad(4)],seed:42})}};
-  }else if(!pathname.startsWith('ranked-duo/')&&!pathname.startsWith('admin/ranked-duo/')&&pathname!=='admin/ranked-duo'){result={status:404,data:{error:'Local QA route only'}};}else{let body='';for await(const chunk of req)body+=chunk;result=await (scenarios[req.headers['x-duo-qa-scenario']||new URL(req.headers.referer||'http://local').searchParams.get('scenario')]||f).call(pathname+url.search,{user:pathname.startsWith('admin/')?1:2,method:req.method,body:body?JSON.parse(body):{}});}
+  }else if(!pathname.startsWith('ranked-duo/')&&!pathname.startsWith('admin/ranked-duo/')&&pathname!=='admin/ranked-duo'){result={status:200,data:{ok:true,enabled:false,items:[],commands:[],maintenance:{active:false}}};}else{let body='';for await(const chunk of req)body+=chunk;result=await (scenarios[req.headers['x-duo-qa-scenario']||new URL(req.headers.referer||'http://local').searchParams.get('scenario')]||f).call(pathname+url.search,{user:pathname.startsWith('admin/')?1:2,method:req.method,body:body?JSON.parse(body):{}});}
+   if(pathname==='ranked-duo/fight'&&result?.data.status==='COMPLETED'&&entryFaults.response-->0)result={status:500,data:{code:'DUO_INTERNAL',error:'ISOLATED QA: response lost after commit'}};
    result??={status:404,data:{error:'Local QA route only'}};res.writeHead(result.status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(result.data));return;
   }
   const file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||fs.statSync(file).isDirectory()){res.writeHead(404);res.end('not found');return;}
