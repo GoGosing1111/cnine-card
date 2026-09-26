@@ -48,7 +48,7 @@ async function finish(env,s,deps,now){
   p(env)(`INSERT INTO ranked_duo_final_v2(season_id,id,user_a,user_b,name_a,name_b,final_rank,score,wins,losses,completed_at)
     SELECT t.season_id,t.id,t.user_a,t.user_b,a.nickname,b.nickname,ROW_NUMBER() OVER (ORDER BY t.score DESC,t.id DESC),t.score,t.wins,t.losses,?
     FROM ranked_duo_teams_v1 t JOIN users a ON a.id=t.user_a JOIN users b ON b.id=t.user_b WHERE t.season_id=?
-      AND a.status='ACTIVE' AND b.status='ACTIVE' AND a.role NOT IN('OWNER','ADMIN') AND b.role NOT IN('OWNER','ADMIN')
+      AND a.status='ACTIVE' AND b.status='ACTIVE' AND a.role<>'OWNER' AND b.role<>'OWNER'
       AND (a.banned_until IS NULL OR SUBSTR(REPLACE(a.banned_until,'T',' '),1,19)<=?) AND (b.banned_until IS NULL OR SUBSTR(REPLACE(b.banned_until,'T',' '),1,19)<=?)
     ORDER BY t.score DESC,t.id DESC LIMIT 5000`,iso(now),s.id,iso(now).replace('T',' ').slice(0,19),iso(now).replace('T',' ').slice(0,19)),
   ...['user_a','user_b'].map(column=>p(env)(`INSERT INTO ranked_duo_trophies_v2(season_id,user_id,team_id,final_rank,acquired_at)

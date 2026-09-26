@@ -29,7 +29,7 @@ async function standings(env,s,limit=DUO_CHALLENGER.rankLimit,now=Date.now()){
  const p=statement(env);
  if(s.status==='CLOSED'&&s.config.automatic)return (await p('SELECT r.*,t.seed_power FROM ranked_duo_final_v2 r JOIN ranked_duo_teams_v1 t ON t.id=r.id WHERE r.season_id=? ORDER BY r.final_rank LIMIT ?',s.id,limit).all()).results;
  if(!['ACTIVE','SETTLING','CLOSED'].includes(s.status))return [];
- return (await p("SELECT t.*,a.nickname AS name_a,b.nickname AS name_b FROM ranked_duo_teams_v1 t JOIN users a ON a.id=t.user_a JOIN users b ON b.id=t.user_b WHERE t.season_id=? AND a.status='ACTIVE' AND b.status='ACTIVE' AND a.role NOT IN('OWNER','ADMIN') AND b.role NOT IN('OWNER','ADMIN') AND (a.banned_until IS NULL OR SUBSTR(REPLACE(a.banned_until,'T',' '),1,19)<=?) AND (b.banned_until IS NULL OR SUBSTR(REPLACE(b.banned_until,'T',' '),1,19)<=?) ORDER BY t.score DESC,t.id DESC LIMIT ?",s.id,iso(now).replace('T',' ').slice(0,19),iso(now).replace('T',' ').slice(0,19),limit).all()).results;
+ return (await p("SELECT t.*,a.nickname AS name_a,b.nickname AS name_b FROM ranked_duo_teams_v1 t JOIN users a ON a.id=t.user_a JOIN users b ON b.id=t.user_b WHERE t.season_id=? AND a.status='ACTIVE' AND b.status='ACTIVE' AND a.role<>'OWNER' AND b.role<>'OWNER' AND (a.banned_until IS NULL OR SUBSTR(REPLACE(a.banned_until,'T',' '),1,19)<=?) AND (b.banned_until IS NULL OR SUBSTR(REPLACE(b.banned_until,'T',' '),1,19)<=?) ORDER BY t.score DESC,t.id DESC LIMIT ?",s.id,iso(now).replace('T',' ').slice(0,19),iso(now).replace('T',' ').slice(0,19),limit).all()).results;
 }
 async function rankedTeam(env,s,t,now){const leaders=await standings(env,s,DUO_CHALLENGER.rankLimit,now);return publicTeam(t,s.config,leaders.findIndex(row=>row.id===t.id)+1);}
 
@@ -40,7 +40,7 @@ export async function duoStatus(env,user,s,now){
  return {season:publicSeason(s),participants:Number(s.participant_count),pendingMatchId:pending?.id||null,joined:Boolean(mine),waiting:Boolean(mine&&!ownTeam),team:publicTeam(ownTeam,s.config,leaders.findIndex(t=>t.id===ownTeam?.id)+1),energy:mine?duoEnergy(mine,s.config,now):null,seed:mine?.seed_json?JSON.parse(mine.seed_json):null,wallet:{userId:Number(user.id),coin:Number(user.coin),cardShards:Number(user.card_shards)},serverNow:iso(now)};
 }
 async function join(env,user,s,deps,now){
- recruiting(s,now);if(['OWNER','ADMIN'].includes(user.role))throw duoError('ROLE','운영 계정은 시즌 참가 대상이 아닙니다.',403);
+ recruiting(s,now);if(user.role==='OWNER')throw duoError('ROLE','운영 계정은 시즌 참가 대상이 아닙니다.',403);
  if(await entry(env,s,user.id))return duoStatus(env,user,s,now);
  const p=statement(env);await p('INSERT INTO ranked_duo_accounts_v1(user_id) VALUES(?) ON CONFLICT(user_id) DO NOTHING',user.id).run();
  const [profile]=await loadDuoProfiles(env,[user.id],s.config,deps,{now});
@@ -126,7 +126,7 @@ async function pairStep(env,user,s,deps,now){
   if(policy!==Number(s.pair_policy_revision)){await env.DB.batch(seasonWrite(env,s,[p('UPDATE ranked_duo_seasons_v1 SET pair_cursor=0,pair_policy_revision=?,revision=revision+1 WHERE id=?',policy,s.id)]));return {ok:true,phase:'EVALUATING',processed:0,restarted:true,done:false};}
   const entries=(await p('SELECT e.user_id,u.status,u.role,u.banned_until FROM ranked_duo_entries_v1 e LEFT JOIN users u ON u.id=e.user_id WHERE e.season_id=? AND e.team_id IS NULL AND e.user_id>? ORDER BY e.user_id LIMIT ?',s.id,Number(s.pair_cursor),DUO_LIMITS.refreshBatch).all()).results;
   if(entries.length){
-   const eligible=entries.filter(e=>!s.config.automatic||e.status==='ACTIVE'&&!['OWNER','ADMIN'].includes(e.role)&&(!e.banned_until||duoUtcMs(e.banned_until)<=now));
+   const eligible=entries.filter(e=>!s.config.automatic||e.status==='ACTIVE'&&e.role!=='OWNER'&&(!e.banned_until||duoUtcMs(e.banned_until)<=now));
    const profiles=await loadDuoProfiles(env,eligible.map(e=>e.user_id),s.config,deps,{now});
    if(!s.config.automatic&&profiles.some(p=>!p.attackReady||!p.defenseReady))throw duoError('PAIR_DECK',`편성 확인 필요: ${profiles.filter(p=>!p.attackReady||!p.defenseReady).map(p=>p.nickname).join(', ')}`);
    if(profiles.some(profile=>profile.policyRevision!==policy))throw duoError('PROFILE_CHANGED','전력 기준이 변경됐습니다. 편성 작업을 다시 진행하세요.');

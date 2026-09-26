@@ -68,7 +68,7 @@ async function rebuild(env,versions,config,deps,hash,now){
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now()}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const hash=await jointHash({weights:config.mercenaryWeights}),versions=await duoVersions(env,ids);
- if(versions.length!==ids.length||versions.some(v=>v.status!=='ACTIVE'||['OWNER','ADMIN'].includes(v.role)||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
+ if(versions.length!==ids.length||versions.some(v=>v.status!=='ACTIVE'||v.role==='OWNER'||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
  const hit=[],miss=[];
  for(const v of versions){if(v.payload_json&&Number(v.source_version)===Number(v.cached_version)&&Number(v.policy_revision)===Number(v.cached_policy)&&v.config_hash===hash&&Date.parse(v.expires_at)>now){const cached=parsed(v.payload_json,{});hit.push({...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});}else miss.push(v);}
  let rebuilt=[];
