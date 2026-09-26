@@ -59,8 +59,8 @@
   function updatePolicy(){
     if(liveMode)return;
     const p=policies.find(d=>d.id===$('hunt-difficulty').value);if(!p)return;
-    $('difficulty-description').textContent=p.description+' · '+Math.round(p.limitMs/1000)+'초';
-    $('hunt-threat').textContent=p.name+' · 전멸 / 시간 초과 시 실패';
+    $('difficulty-description').textContent=p.description+' · 15분 토벌 + 보스 '+Math.round(p.bossLimitMs/1000)+'초';
+    $('hunt-threat').textContent=p.name+' · 전멸 / 보스 제한 시간 초과 시 실패';
   }
   async function prepare(reuse=false){
     const token=++epoch,oldSession=session,oldPayload=payload;clearInterval(finishTimer);clearInterval(clockTimer);finishTimer=null;playing=paused=ending=finishing=starting=failed=false;ack=kills=bosses=renderedAt=picked=0;reveals=Promise.resolve();
@@ -143,7 +143,7 @@
     interruption(null);paused=false;engine.setHuntPaused(false);engine.cancelTimelines();
     try{
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;
-      const labels={CLEAR:['사냥 클리어','태고의 수호자를 포함한 모든 적을 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','제한 시간 안에 모든 적을 처치하지 못했습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 직접 획득한 전리품만 집계합니다.']};
+      const labels={CLEAR:['사냥 클리어','15분 토벌을 마치고 태고의 수호자를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','보스 제한 시간 안에 태고의 수호자를 처치하지 못했습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 직접 획득한 전리품만 집계합니다.']};
       const [title,reason]=labels[receipt.reason];$('result-title').textContent=title;$('result-reason').textContent=reason;$('result-eyebrow').textContent=payload.huntPolicy.name+' · 원정 결과';
       $('result-kills').textContent=receipt.kills+'마리 · 보스 '+receipt.bosses+' / 1';
       $('hunt-again').disabled=entries?.remaining===0;$('hunt-again').textContent=entries?.remaining===0?'오늘 입장 횟수 소진':'같은 난이도 재도전';
