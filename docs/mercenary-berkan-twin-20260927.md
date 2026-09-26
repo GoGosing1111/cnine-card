@@ -22,4 +22,6 @@
 
 실제 직전 운영 배포는 Pages `2933fd2b-931f-4c4b-a837-54e9b9997000`, 소스 `9aaf6b2adfd7726c603bf9309540c627bf7ef8ee`로 Pages 목록에서 확인했다. 기존 용병 한 종의 스킬 대상·피해 예산·연출 연결에 한정되므로 `npm run deploy:production -- --scoped`를 사용한다. 인증·공통 트랜잭션·DB 구조·의존성·인프라 변경은 없다. Worker 컴파일, 출시 플래그, Hyperdrive 캐시 OFF, 깨끗한 범위 커밋과 origin/main 일치를 유지한다.
 
-실제 Codex 브라우저에서 PC와 390px 모바일의 두 화살·두 파열을 확인했다. `preview/mercenary-berkan-sss-v1/qa/twin-desktop.png`, `twin-mobile.png`에 보존했다. 격리 계정으로 실제 메인 PVE 토벌 시작 → 성공 → 복귀, PVP 매칭 → 승리 → 복귀를 확인했고 브라우저 오류 로그는 없었다. 배포 결과는 완료 후 기록한다.
+실제 Codex 브라우저에서 PC와 390px 모바일의 두 화살·두 파열을 확인했다. `preview/mercenary-berkan-sss-v1/qa/twin-desktop.png`, `twin-mobile.png`에 보존했다. 격리 계정으로 실제 메인 PVE 토벌 시작 → 성공 → 복귀, PVP 매칭 → 승리 → 복귀를 확인했고 브라우저 오류 로그는 없었다.
+
+1차 지정 배포 검사 200건 중 199건 통과 후 실제 Pixi 정지 탐색 검사 1건 실패로 업로드 전에 중단했다. GSAP이 첫 탐색 때 시작값을 늦게 캡처하기 전에 대상 시계를 변경하던 문제였다. `seek()`가 기존 시작값으로 타임라인을 탐색하고 요청한 시각을 렌더링하도록 수정했다. 서버·CMS·밸런스 코드는 그대로이며, 베르칸 Pixi·공용 번들·비차단 재생·메인 로더 검사만 재실행한다. 배포 결과는 완료 후 기록한다.

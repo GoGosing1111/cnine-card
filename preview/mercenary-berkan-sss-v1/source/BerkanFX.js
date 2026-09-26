@@ -54,7 +54,7 @@ export class BerkanFX{
  removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null;}
  play(){if(this.destroyed)return;this.resting=false;if(!this.timeline)this.makeTimeline();if(this.time>=this.plan.duration)this.seek(0);this.engine.simpleTimelines.add(this.registration);this.timeline.play();this.onUpdate(this);}
  pause(){this.timeline?.pause();this.onUpdate(this);}
- seek(t){if(this.destroyed)return;this.resting=false;if(!this.timeline)this.makeTimeline();this.clock.time=clamp(Number(t)||0,0,this.plan.duration);this.timeline.pause().time(this.clock.time,true);this.render(this.clock.time);}
+ seek(t){if(this.destroyed)return;this.resting=false;if(!this.timeline)this.makeTimeline();const time=clamp(Number(t)||0,0,this.plan.duration);this.timeline.pause().time(time,true);this.render(time);}
  setSpeed(speed){this.speed=clamp(Number(speed)||1,.25,2);this.timeline?.timeScale(this.speed);this.onUpdate(this);}
  setAura(enabled){this.auraEnabled=!!enabled;this.render(this.time);}
  setPlan(plan){this.cancel();this.plan=plan;this.resting=false;this.makeTimeline();this.render(0);}

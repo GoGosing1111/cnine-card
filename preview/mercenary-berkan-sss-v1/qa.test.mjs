@@ -76,7 +76,7 @@ test('actual Pixi transforms keep the archer planted, aura on each pose, and sha
    for(let i=0;i<=80;i++){fx.seek(fx.plan.duration*i/80);assert.equal(merc.root.x,420);assert.equal(merc.root.y,270);assert.ok(fx.used<=40);if(mode!=='defeat'){assert.equal(fx.outer.texture,merc.fullBodySprite.texture);assert.equal(fx.outer.scale.x,merc.fullBodySprite.scale.x);}else assert.equal(fx.aura.visible,false);}
    fx.cancel();assert.equal(engine.simpleTimelines.size,0);assert.equal(fx.used,0);assert.deepEqual(fx.sample.pose,{key:'idle',frame:0});
   }
-  fx.setPlan(makePlan({mode:'ultimate'}));fx.seek(1.9);assert.equal(fx.activeFrames.filter(f=>f.key==='projectile').length,2);
+  fx.setPlan(makePlan({mode:'ultimate'}));fx.seek(1.9);assert.equal(fx.time,1.9);assert.equal(fx.activeFrames.filter(f=>f.key==='projectile').length,2);
   fx.seek(2.08);assert.equal(fx.activeFrames.filter(f=>f.key==='impact').length,2);
   fx.plan.targetDodges={T2:true};fx.seek(2.08);assert.equal(fx.activeFrames.filter(f=>f.key==='impact').length,1);
   fx.setPlan(makePlan({mode:'attack'}));fx.seek(1.12);assert.equal(fx.activeFrames.filter(f=>f.key==='impact').length,1);
