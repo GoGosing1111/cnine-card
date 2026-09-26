@@ -52,7 +52,7 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
   if (!Object.hasOwn(SCENARIOS, scenario)) throw new Error('알 수 없는 검수 상황입니다.');
   validateSnapshot(snapshot);
   const skill = skillById(id), initial = clone(snapshot), work = clone(initial), events = [];
-  const selected = selectSkillTargets(skill.target, work);
+  const selected = skill.mechanic==='GILDED_STARFALL'?work.filter(a=>a.team==='ENEMY'&&a.hp>0).sort((a,b)=>Number(b.row==='BACK')-Number(a.row==='BACK')||b.attack-a.attack||a.id.localeCompare(b.id)).slice(0,2):selectSkillTargets(skill.target, work);
   const targets = (skill.mechanic==='DISTRIBUTED_CORAL_VOLLEY'?work.filter(a=>a.team==='ENEMY'&&a.hp>0).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id)).slice(0,3):skill.mechanic==='GOLDEN_ORCHID_VOLLEY'?[...selected,...work.filter(a=>a.team==='ENEMY'&&a.hp>0&&!selected.includes(a)).slice(0,2)]:selected).map(a=>a.id),t=targets[0];
   const source = work.find(a => a.id === 'M');
   const get = id => work.find(a => a.id === id);
@@ -86,6 +86,10 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
     case 'BLACK_MOON_TRIPLE_SEVER':
       if(counter){mark(.4,'제압 상태: 삼연참 취소',['M'],'CANCEL');break;}
       [.72,1.24,1.92].forEach((at,index)=>{if(get(t).hp>0)hit(at,t,[12,12,16][index],['내려베기','올려베기','횡베기'][index],{phaseIndex:index,procEligible:false});});break;
+    case 'GILDED_STARFALL':
+      if(counter){mark(.64,'제압 상태: 흑금 낙성 취소',['M'],'CANCEL');break;}
+      for(const id of targets)hit(skill.visual.impacts[0],id,56/targets.length,'흑금 화살 동시 명중',{phaseIndex:0});
+      break;
     case 'CRYSTAL_CROWN':
       if(counter){mark(.64,'제압 상태: 극빙 왕관 취소',['M'],'CANCEL');break;}
       for(const [phase,at] of skill.visual.impacts.entries())for(const id of targets)hit(at,id,(phase===0?23.52:35.28)/targets.length,phase===0?'빙정 십자참':'극빙 왕관',{phaseIndex:phase});

@@ -64,8 +64,8 @@ test('Pages extensionless documents and local .html resolve shared V3 assets ide
 test('35 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
   assert.equal(skills.length,35);assert.equal(new Set(skills.map(s=>s.role)).size,7);
   assert.equal(new Set(skills.map(s=>s.id)).size,35);
-  assert.equal(new Set(skills.map(s=>s.mechanic)).size,34);
-  assert.deepEqual(skills.filter(s=>s.mechanic==='LOCKED_THREAT_SHOT').map(s=>s.id),['MS-004','MS-055']);
+  assert.equal(new Set(skills.map(s=>s.mechanic)).size,35);
+  assert.deepEqual(skills.filter(s=>s.mechanic==='LOCKED_THREAT_SHOT').map(s=>s.id),['MS-004']);
   assert.equal(new Set(skills.map(s=>s.visual.asset)).size,35);
   assert.equal(new Set(skills.map(s=>s.visual.motion)).size,35);
   for(const s of skills){assert.equal(s.code,undefined);assert.equal(s.exclusivity,undefined);assert.equal(s.rank,undefined);

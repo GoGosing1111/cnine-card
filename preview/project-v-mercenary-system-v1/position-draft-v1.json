@@ -607,8 +607,8 @@
       "role": "SNIPER",
       "basicTarget": "FRONT_ENEMY",
       "skillTarget": "BACK_THREAT",
-      "specialty": "후열 핵심을 겨누는 흑금 화살 · 제자리 원거리 사격",
-      "weakness": "회피·호위·보호막·방어에 대응되며 제압 상태에서는 발동하지 않음",
+      "specialty": "후열 우선 2명 동시 사격 · 제자리 흑금 화살",
+      "weakness": "회피·보호막·방어에 대응되며 제압 상태에서는 발동하지 않음",
       "rationale": "사용자 지정 SSS 궁수. 달리기 대신 조준·발사·반동을 분리한 동작."
     }
   ]

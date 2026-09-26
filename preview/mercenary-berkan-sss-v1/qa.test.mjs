@@ -54,10 +54,11 @@ test('actual Pixi transforms keep the archer planted, aura on each pose, and sha
  const world=new Container(),combatLayer=new Container(),effectLayer=new Container();world.addChild(combatLayer,effectLayer);
  const sources=[new TextureSource({width:1254,height:1254}),new TextureSource({width:512,height:512})],sd=new Texture({source:sources[0]});
  const actor=(x,y,h)=>{const root=new Container(),view=new Container(),sprite=new Sprite(sd);root.position.set(x,y);root.scale.set(.6);root.addChild(view);view.addChild(sprite);sprite.anchor.set(manifest.battleSpriteFootAnchor.x,manifest.battleSpriteFootAnchor.y);sprite.height=sprite.width=h;combatLayer.addChild(root);return {root,view,fullBodySprite:sprite,baseX:x,baseY:y,fullBodyHeight:h,neutralAvatarPose:{mainSprite:{}},animationController:{kill(){}}};};
- const merc=actor(420,270,380),target=actor(1200,510,260),engine={app:{renderer:{}},effectLayer,combatLayer,simpleTimelines:new Set(),sortCombatDepth(){}},assets={motion:{},effects:{}};
+ const merc=actor(420,270,380),target=actor(1200,510,260),second=actor(1350,270,260),engine={app:{renderer:{}},effectLayer,combatLayer,simpleTimelines:new Set(),sortCombatDepth(){}},assets={motion:{},effects:{}};
+ target.id='T1';second.id='T2';
  for(const group of ['motion','effects'])for(const [key,spec]of Object.entries(manifest[group]))assets[group][key]=Array.from({length:spec.frameCount},()=>new Texture({source:sources[1]}));
  const adapter=DOMAdapter.get();DOMAdapter.set({...adapter,createCanvas:()=>({getContext:()=>null})});
- const fx=new BerkanFX(engine,merc,[target],assets,manifest,makePlan());
+ const fx=new BerkanFX(engine,merc,[target,second],assets,manifest,makePlan());
  DOMAdapter.set(adapter);
  try{
   // Real Pixi blur passes must clear reused WebGL scratch textures. Otherwise
@@ -75,6 +76,10 @@ test('actual Pixi transforms keep the archer planted, aura on each pose, and sha
    for(let i=0;i<=80;i++){fx.seek(fx.plan.duration*i/80);assert.equal(merc.root.x,420);assert.equal(merc.root.y,270);assert.ok(fx.used<=40);if(mode!=='defeat'){assert.equal(fx.outer.texture,merc.fullBodySprite.texture);assert.equal(fx.outer.scale.x,merc.fullBodySprite.scale.x);}else assert.equal(fx.aura.visible,false);}
    fx.cancel();assert.equal(engine.simpleTimelines.size,0);assert.equal(fx.used,0);assert.deepEqual(fx.sample.pose,{key:'idle',frame:0});
   }
+  fx.setPlan(makePlan({mode:'ultimate'}));fx.seek(1.9);assert.equal(fx.activeFrames.filter(f=>f.key==='projectile').length,2);
+  fx.seek(2.08);assert.equal(fx.activeFrames.filter(f=>f.key==='impact').length,2);
+  fx.plan.targetDodges={T2:true};fx.seek(2.08);assert.equal(fx.activeFrames.filter(f=>f.key==='impact').length,1);
+  fx.setPlan(makePlan({mode:'attack'}));fx.seek(1.12);assert.equal(fx.activeFrames.filter(f=>f.key==='impact').length,1);
   fx.setAura(false);assert.equal(fx.aura.visible,false);fx.setAura(true);assert.equal(fx.aura.visible,true);
   fx.setPlan(makePlan({mode:'ultimate',targetLostAt:1.4}));fx.seek(2.08);assert.equal(fx.used,0);assert.equal(target.view.x,0);
   const scale=merc.fullBodySprite.scale.x;assert.equal(merc.neutralAvatarPose.mainSprite.scaleX,scale);

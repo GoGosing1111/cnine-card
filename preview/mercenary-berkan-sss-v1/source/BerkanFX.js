@@ -100,8 +100,10 @@ export class BerkanFX{
  render(time){
   if(this.destroyed)return;this.clock.time=time;this.used=0;this.activeFrames=[];this.pool.forEach(s=>s.visible=false);this.ground.clear();
   const state=sample(this.plan,time);if(this.resting)Object.assign(state,{pose:{key:'idle',frame:0},effects:[],projectile:null,charge:0,auraBoost:0,recoil:0,label:'대기 자세 복귀'});this.sample=state;this.applyPose(state.pose);this.updateAura(state);
-  if(!this.options.authoritative)this.targets.forEach((target,i)=>{target.view.x=this.targetDefaults[i].x+(i===0?state.recoil:0);target.fullBodySprite.tint=state.recoil>.1?0xffda8b:this.targetDefaults[i].tint;});
-  const foot=this.point(this.merc),bow=this.bowPoint(state.pose),target=this.targets[0]?this.point(this.targets[0],.46):null,own=this.bodyHeight*Math.abs(this.merc.root.scale.y);
+  const dodged=target=>this.plan.dodge||this.plan.targetDodges?.[target.id];
+  if(!this.options.authoritative)this.targets.forEach((target,i)=>{const recoil=(this.plan.mode==='ultimate'||i===0)&&!dodged(target)?state.recoil:0;target.view.x=this.targetDefaults[i].x+recoil;target.fullBodySprite.tint=recoil>.1?0xffda8b:this.targetDefaults[i].tint;});
+  const foot=this.point(this.merc),bow=this.bowPoint(state.pose),own=this.bodyHeight*Math.abs(this.merc.root.scale.y);
+  const targets=this.targets.slice(0,this.plan.mode==='ultimate'?2:1).filter(target=>!target.root.destroyed).map(actor=>({actor,point:this.point(actor,.46)}));
   if(this.auraEnabled&&state.pose.key!=='defeat'){
    for(let i=0;i<20;i++){const q=(time*.3+i/20)%1,a=i*2.399963+time*.16,x=foot.x+Math.cos(a)*own*(.26+.15*q),y=foot.y-own*q*1.05,alpha=Math.sin(q*Math.PI)*(.65+state.charge*.3);
     this.ground.circle(x,y,1.2+i%3*.6).fill({color:i%3?0xffc451:0xfff0bd,alpha});
@@ -109,11 +111,11 @@ export class BerkanFX{
    this.ground.ellipse(foot.x,foot.y+2,own*.4,own*.09).stroke({color:0xffcf73,width:1.3,alpha:.32+state.charge*.35});
   }
   if(!state.cancelled&&!state.done){
-   for(const e of state.effects){const p=e.anchor==='bow'?bow:e.anchor==='feet'?foot:target;if(!p)continue;
+   for(const e of state.effects){const points=e.anchor==='bow'?[bow]:e.anchor==='feet'?[foot]:targets.filter(t=>!dodged(t.actor)).map(t=>t.point);
     const size=e.key==='charge'?own*1.1:e.key==='afterglow'?own*1.75:e.key==='impact'?own*(this.plan.mode==='ultimate'?2.1:.9):own;
-    this.sequence(e.key,e,p,size);
+    for(const p of points)this.sequence(e.key,e,p,size);
    }
-   if(state.projectile&&target){
+   if(state.projectile)for(const {point:target}of targets){
     // Arrow tip and damage contact share the same destination. The flight is
     // a sequence of different authored wakes; translation only places it.
     const q=state.projectile.progress,p={x:mix(bow.x,target.x,q),y:mix(bow.y,target.y,q)},angle=Math.atan2(target.y-bow.y,target.x-bow.x);

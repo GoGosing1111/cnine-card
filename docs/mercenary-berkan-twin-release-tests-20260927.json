@@ -1,0 +1,9 @@
+[
+  "tests/mercenary-berkan-live.test.mjs",
+  "tests/mercenary-combat-v3.test.mjs",
+  "tests/mercenary-cms-live-v1.test.mjs",
+  "tests/mercenary-skills-v1.test.mjs",
+  "preview/mercenary-berkan-sss-v1/qa.test.mjs",
+  "tests/v3-common-grid-v1.test.mjs",
+  "tests/project-v-v3-nonblocking-fx-v2060.test.mjs"
+]

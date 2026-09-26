@@ -36,7 +36,7 @@ async function boot(){
   const [sd,cutin,assets]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(ROOT+'assets/source-art-preview.webp'),loadBerkanAssets(manifest)]);
   merc=new BattleCharacter({id:'BERKAN_PREVIEW',name:'베르칸',team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:380,accent:0xffcd70});
   merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);engine.combatLayer.addChild(merc.root);engine.setFormationMercenaries([merc]);merc.root.alpha=1;merc.root.visible=true;
-  const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY).slice(0,1);fx=new BerkanFX(engine,merc,targets,assets,manifest,plan(),update);
+  const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY).slice(0,2);fx=new BerkanFX(engine,merc,targets,assets,manifest,plan(),update);
   $('play').onclick=()=>fx.playing?fx.pause():fx.play();$('restart').onclick=()=>{fx.seek(0);fx.play();};$('cancel').onclick=()=>fx.cancel();
   $('impact').onclick=()=>fx.seek(fx.plan.contacts[0]??0);$('scrub').oninput=()=>fx.seek(Number($('scrub').value));$('speed').onchange=()=>fx.setSpeed(Number($('speed').value));
   const change=()=>{fx.setPlan(plan());fx.play();};$('mode').onchange=change;$('scenario').onchange=change;

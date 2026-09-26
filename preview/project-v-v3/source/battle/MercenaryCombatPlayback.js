@@ -72,7 +72,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  async playMercenaryEvent(event){
   if(event.type==='MERCENARY_GROUP_HEAL'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return playNurseHeal(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return true;
-  if(event.skillId===BERKAN_SKILL_ID&&event.type==='MERCENARY_HIT')return playBerkanSkill(this,event);
+  if(event.skillId===BERKAN_SKILL_ID&&['MERCENARY_HIT','MERCENARY_STARFALL'].includes(event.type))return playBerkanSkill(this,event);
   if(event.skillId===BERKAN_SKILL_ID&&event.type==='MERCENARY_WINDUP')return true;
   if(event.type==='MERCENARY_HIT'&&event.mechanic==='EMERALD_ANTIMATERIEL')return playSniperOrikkungSkill(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='EMERALD_ANTIMATERIEL')return true;

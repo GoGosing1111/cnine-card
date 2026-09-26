@@ -43,10 +43,10 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} rare 
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:BERKAN_CODE,revision:0});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
  assert.equal(deployed.rank,'SSS');assert.equal(deployed.basePower,180000);assert.equal(deployed.sourceArt,art.sourceArt);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),[BERKAN_SKILL_ID]);
 });
-test('PVE and both PVP sides use five cards plus Berkan and the existing single ranged hit authority',()=>{
+test('PVE and both PVP sides use five cards plus Berkan and the one simultaneous server cast',()=>{
  const cards=Array.from({length:5},(_,i)=>({id:'TEST-'+i,title:'검수 '+i,rarity:'FUR',power:100000,power_type:'ATTACK'})),merc={...snapshot,statMode:'RANK_FIXED'};
  for(const data of [createPveBattleV2({cards,mercenary:merc,monster:{id:1,name:'검수',battle_power:1000000},seed:17}),createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:merc,defenderMercenary:merc,seed:12})]){
-  assert.equal(data.teams.A.cards.length,5);assert.equal(data.teams.A.mercenaries.length,1);assert.equal(data.teams.A.mercenaries[0].cardId,BERKAN_CODE);assert.ok(data.result.timeline.some(e=>e.skillId===BERKAN_SKILL_ID&&e.type==='MERCENARY_HIT'));
+  assert.equal(data.teams.A.cards.length,5);assert.equal(data.teams.A.mercenaries.length,1);assert.equal(data.teams.A.mercenaries[0].cardId,BERKAN_CODE);assert.ok(data.result.timeline.some(e=>e.skillId===BERKAN_SKILL_ID&&e.type==='MERCENARY_STARFALL'));
  }
 });
 test('golden particles add no rolls: one hit, dodge preserves HP, absent target spends no energy',()=>{
@@ -54,8 +54,8 @@ test('golden particles add no rolls: one hit, dodge preserves HP, absent target 
   const actor=buildMercenaryFighter(snapshot,'A','PVE'),enemy=buildMercenaryFighter({...snapshot,code:'V-001',skills:[]},'B','PVE'),events=[];let rolls=0;
   enemy.isMercenary=false;enemy.row='BACK';enemy.slot=0;const runtime=mercenaryCombat({teams:{A:[actor],B:[enemy]},hit:(_a,_t,m)=>{rolls++;return {damage:1000*m,dodge:outcome==='dodge'};},damage:(t,d)=>{const hpDamage=Math.min(t.hp,d);t.hp-=hpDamage;return {hpDamage,absorbed:0};},knockout:t=>{if(t.hp<=0)t.alive=false;},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
   runtime.state(actor).energy=100;if(outcome==='lost'){enemy.hp=0;enemy.alive=false;}actor.actions++;runtime.beforeAction(actor);
-  assert.equal(rolls,outcome==='lost'?0:1);assert.equal(events.filter(e=>e.type==='MERCENARY_HIT').length,outcome==='lost'?0:1);
-  if(outcome!=='lost')assert.equal(enemy.hp,outcome==='hit'?94120:100000);
+  assert.equal(rolls,outcome==='lost'?0:1);assert.equal(events.filter(e=>e.type==='MERCENARY_STARFALL').length,outcome==='lost'?0:1);
+  if(outcome!=='lost')assert.equal(enemy.hp,outcome==='hit'?100000-1000*BERKAN_BALANCE.damageRatio:100000);
   assert.equal(runtime.state(actor).energy,outcome==='lost'?100:65);
  }
 });

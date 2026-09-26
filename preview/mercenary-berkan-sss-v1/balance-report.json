@@ -1,0 +1,472 @@
+{
+  "date": "2026-09-27",
+  "scope": "LOCAL_CANONICAL_ENGINE_NOT_PRODUCTION_WIN_RATE",
+  "fixtureRevision": 57,
+  "policy": {
+    "balance": {
+      "damageRatio": 5.6,
+      "cooldownTurns": 5,
+      "cost": 35
+    },
+    "capScale": 1.7
+  },
+  "groups": [
+    {
+      "start": 1,
+      "total": 4096,
+      "wins": 2059,
+      "rate": 0.502685546875
+    },
+    {
+      "start": 1001,
+      "total": 4096,
+      "wins": 2035,
+      "rate": 0.496826171875
+    }
+  ],
+  "results": [
+    {
+      "start": 1,
+      "power": 1000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 74,
+      "draws": 0,
+      "sides": {
+        "A": 59,
+        "B": 15
+      },
+      "rate": 0.2890625
+    },
+    {
+      "start": 1,
+      "power": 1000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 154,
+      "draws": 0,
+      "sides": {
+        "A": 89,
+        "B": 65
+      },
+      "rate": 0.6015625
+    },
+    {
+      "start": 1,
+      "power": 1000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 79,
+      "draws": 0,
+      "sides": {
+        "A": 76,
+        "B": 3
+      },
+      "rate": 0.30859375
+    },
+    {
+      "start": 1,
+      "power": 1000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 132,
+      "draws": 0,
+      "sides": {
+        "A": 116,
+        "B": 16
+      },
+      "rate": 0.515625
+    },
+    {
+      "start": 1,
+      "power": 20000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 35,
+      "draws": 0,
+      "sides": {
+        "A": 19,
+        "B": 16
+      },
+      "rate": 0.13671875
+    },
+    {
+      "start": 1,
+      "power": 20000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 182,
+      "draws": 0,
+      "sides": {
+        "A": 97,
+        "B": 85
+      },
+      "rate": 0.7109375
+    },
+    {
+      "start": 1,
+      "power": 20000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 86,
+      "draws": 0,
+      "sides": {
+        "A": 54,
+        "B": 32
+      },
+      "rate": 0.3359375
+    },
+    {
+      "start": 1,
+      "power": 20000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 237,
+      "draws": 0,
+      "sides": {
+        "A": 123,
+        "B": 114
+      },
+      "rate": 0.92578125
+    },
+    {
+      "start": 1,
+      "power": 100000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 36,
+      "draws": 0,
+      "sides": {
+        "A": 20,
+        "B": 16
+      },
+      "rate": 0.140625
+    },
+    {
+      "start": 1,
+      "power": 100000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 181,
+      "draws": 0,
+      "sides": {
+        "A": 97,
+        "B": 84
+      },
+      "rate": 0.70703125
+    },
+    {
+      "start": 1,
+      "power": 100000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 86,
+      "draws": 0,
+      "sides": {
+        "A": 54,
+        "B": 32
+      },
+      "rate": 0.3359375
+    },
+    {
+      "start": 1,
+      "power": 100000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 237,
+      "draws": 0,
+      "sides": {
+        "A": 123,
+        "B": 114
+      },
+      "rate": 0.92578125
+    },
+    {
+      "start": 1,
+      "power": 2000000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 36,
+      "draws": 0,
+      "sides": {
+        "A": 20,
+        "B": 16
+      },
+      "rate": 0.140625
+    },
+    {
+      "start": 1,
+      "power": 2000000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 181,
+      "draws": 0,
+      "sides": {
+        "A": 97,
+        "B": 84
+      },
+      "rate": 0.70703125
+    },
+    {
+      "start": 1,
+      "power": 2000000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 86,
+      "draws": 0,
+      "sides": {
+        "A": 54,
+        "B": 32
+      },
+      "rate": 0.3359375
+    },
+    {
+      "start": 1,
+      "power": 2000000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 237,
+      "draws": 0,
+      "sides": {
+        "A": 123,
+        "B": 114
+      },
+      "rate": 0.92578125
+    },
+    {
+      "start": 1001,
+      "power": 1000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 79,
+      "draws": 0,
+      "sides": {
+        "A": 64,
+        "B": 15
+      },
+      "rate": 0.30859375
+    },
+    {
+      "start": 1001,
+      "power": 1000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 156,
+      "draws": 0,
+      "sides": {
+        "A": 87,
+        "B": 69
+      },
+      "rate": 0.609375
+    },
+    {
+      "start": 1001,
+      "power": 1000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 81,
+      "draws": 0,
+      "sides": {
+        "A": 69,
+        "B": 12
+      },
+      "rate": 0.31640625
+    },
+    {
+      "start": 1001,
+      "power": 1000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 125,
+      "draws": 0,
+      "sides": {
+        "A": 115,
+        "B": 10
+      },
+      "rate": 0.48828125
+    },
+    {
+      "start": 1001,
+      "power": 20000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 34,
+      "draws": 0,
+      "sides": {
+        "A": 17,
+        "B": 17
+      },
+      "rate": 0.1328125
+    },
+    {
+      "start": 1001,
+      "power": 20000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 190,
+      "draws": 0,
+      "sides": {
+        "A": 93,
+        "B": 97
+      },
+      "rate": 0.7421875
+    },
+    {
+      "start": 1001,
+      "power": 20000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 81,
+      "draws": 0,
+      "sides": {
+        "A": 42,
+        "B": 39
+      },
+      "rate": 0.31640625
+    },
+    {
+      "start": 1001,
+      "power": 20000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 227,
+      "draws": 0,
+      "sides": {
+        "A": 117,
+        "B": 110
+      },
+      "rate": 0.88671875
+    },
+    {
+      "start": 1001,
+      "power": 100000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 34,
+      "draws": 0,
+      "sides": {
+        "A": 17,
+        "B": 17
+      },
+      "rate": 0.1328125
+    },
+    {
+      "start": 1001,
+      "power": 100000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 190,
+      "draws": 0,
+      "sides": {
+        "A": 93,
+        "B": 97
+      },
+      "rate": 0.7421875
+    },
+    {
+      "start": 1001,
+      "power": 100000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 81,
+      "draws": 0,
+      "sides": {
+        "A": 42,
+        "B": 39
+      },
+      "rate": 0.31640625
+    },
+    {
+      "start": 1001,
+      "power": 100000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 226,
+      "draws": 0,
+      "sides": {
+        "A": 116,
+        "B": 110
+      },
+      "rate": 0.8828125
+    },
+    {
+      "start": 1001,
+      "power": 2000000000,
+      "deck": "balanced",
+      "total": 256,
+      "wins": 34,
+      "draws": 0,
+      "sides": {
+        "A": 17,
+        "B": 17
+      },
+      "rate": 0.1328125
+    },
+    {
+      "start": 1001,
+      "power": 2000000000,
+      "deck": "attack",
+      "total": 256,
+      "wins": 190,
+      "draws": 0,
+      "sides": {
+        "A": 93,
+        "B": 97
+      },
+      "rate": 0.7421875
+    },
+    {
+      "start": 1001,
+      "power": 2000000000,
+      "deck": "defense",
+      "total": 256,
+      "wins": 81,
+      "draws": 0,
+      "sides": {
+        "A": 42,
+        "B": 39
+      },
+      "rate": 0.31640625
+    },
+    {
+      "start": 1001,
+      "power": 2000000000,
+      "deck": "speed",
+      "total": 256,
+      "wins": 226,
+      "draws": 0,
+      "sides": {
+        "A": 116,
+        "B": 110
+      },
+      "rate": 0.8828125
+    }
+  ],
+  "pve": [
+    {
+      "power": 1000000,
+      "berkan": 15306967.4375,
+      "cryvern": 15934172.1875,
+      "ratio": 0.9606377574799884
+    },
+    {
+      "power": 20000000,
+      "berkan": 306139349.4375,
+      "cryvern": 318683445.375,
+      "ratio": 0.9606377547389098
+    },
+    {
+      "power": 100000000,
+      "berkan": 1530696789.53125,
+      "cryvern": 1593417270.96875,
+      "ratio": 0.9606377547298908
+    },
+    {
+      "power": 2000000000,
+      "berkan": 30613935791.8125,
+      "cryvern": 31868345420.75,
+      "ratio": 0.9606377547257056
+    }
+  ],
+  "total": 8192
+}

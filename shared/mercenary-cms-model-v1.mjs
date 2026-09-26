@@ -1,3 +1,4 @@
+import {upgradeBerkanTwinSkill} from './mercenary-berkan-v1.mjs';
 import {CRYVERN_CODE,CRYVERN_SKILL_ID} from './mercenary-cryvern-v1.mjs';
 import {NURSE_CODES,NURSE_SKILL_ID} from './mercenary-nurse-healers-v1.mjs';
 import {S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
@@ -80,6 +81,7 @@ export function validateMercenaryCms(d, catalog) {
 // without rewriting stored ranks, names, costs, reviews or explicit assignments.
 // Only the exact previous complete catalog is eligible, never a partial draft.
 export function expandMercenarySkillCatalog(document, defaults, catalog) {
+  document=upgradeBerkanTwinSkill(document,defaults);
   if(catalog.cards.some(c=>c.code==='V-055')&&!document?.mercenaries?.some(c=>c.code==='V-055')){
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!=='V-055'),skills:catalog.skills.filter(s=>s.id!=='MS-055')};
     const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);
