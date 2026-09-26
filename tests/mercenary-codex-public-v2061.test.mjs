@@ -89,8 +89,8 @@ test('native desktop, mobile and old subtab fallbacks redirect without mounting 
 test('codex keeps public catalog browsing while account writes are limited to the existing loadout route', () => {
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length,49);
-  assert.ok(roster.cards.filter(c=>!['V-044','V-045','V-047','V-048'].includes(c.code)).every(card => ['V-021','V-046','V-049'].includes(card.code)? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
+  assert.equal(roster.cards.length,50);
+  assert.ok(roster.cards.filter(c=>!['V-044','V-045','V-047','V-048','V-050'].includes(c.code)).every(card => ['V-021','V-046','V-049'].includes(card.code)? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.doesNotMatch(html, /src="[^"]*(?:runtime-router|battle-engine|loadout|gsap|pixi)/i);
   assert.match(client, /api\('mercenaries\/v3\/state'/);
   assert.match(client, /api\(`mercenaries\/v3\/\$\{pending\.action\}`/);

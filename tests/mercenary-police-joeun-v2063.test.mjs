@@ -54,7 +54,7 @@ test('renaming preserves the approved face and full 1024x1536 RGB original byte-
 
 test('Joeun art approval stays unranked and the CMS codex publishes separate approved art and SD', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
-  assert.deepEqual(roster.summary, { total:49, sourceArtReady:49, battleSpriteReady:49, battleSpritePending: 0, rankPending: 42 });
+  assert.deepEqual(roster.summary, { total:50, sourceArtReady:50, battleSpriteReady:50, battleSpritePending: 0, rankPending: 42 });
   assert.equal(approval.runtimeConnected, false);
   assert.equal(approval.rankAssigned, false);
   assert.equal(card.rank, null);

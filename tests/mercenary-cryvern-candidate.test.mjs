@@ -28,6 +28,7 @@ test('future canonical roster, front position and 16-frame skill registration pa
  validateRankPolicy(roster);const art=createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD',CRYVERN_CODE);
  assert.equal(art.sourceArt,candidate.registration.card.sourceArt);assert.equal(art.battleSprite,candidate.registration.card.battleSprite);
  const positions=JSON.parse(fs.readFileSync('preview/project-v-mercenary-system-v1/position-draft-v1.json'));
+ positions.assignments=positions.assignments.filter(c=>roster.cards.some(card=>card.code===c.code));
  if(!positions.assignments.some(c=>c.code===CRYVERN_CODE))positions.assignments.push(candidate.registration.position);
  assert.deepEqual(validatePositionDraft(positions,roster),{ok:true,errors:[]});
  assert.equal(candidate.catalog.effects.frameCount,512);assert.equal(candidate.registration.effect.frames.length,16);
@@ -40,11 +41,11 @@ test('offline public codex accepts exactly the untitled Cryvern and valid immuta
  const invalid=structuredClone(result);invalid.cards.find(c=>c.code===CRYVERN_CODE).title='극빙의쌍검';assert.throws(()=>validateCatalog(invalid));
  invalid.cards.find(c=>c.code===CRYVERN_CODE).title='';invalid.cards[0].title='';assert.throws(()=>validateCatalog(invalid));
 });
-test('future release appends its independent skill without losing existing review edits',()=>{
- assert.equal(MERCENARY_SKILLS.length,32);
- const old=createSkillDraft();old.skills=old.skills.filter(s=>s.id!=='MS-049');old.skills[0].note='기존 운영자 의견';
+test('historical pre-Cryvern draft appends released skills without losing existing review edits',()=>{
+ assert.equal(MERCENARY_SKILLS.length,33);
+ const old=createSkillDraft();old.skills=old.skills.filter(s=>!['MS-049','MS-050'].includes(s.id));old.skills[0].note='기존 운영자 의견';
  const before=structuredClone(old),next=parseSkillDraft(JSON.stringify(old));
- assert.deepEqual(old,before);assert.deepEqual(next.skills.slice(0,-1),before.skills);assert.equal(next.skills.at(-1).id,'MS-049');
+ assert.deepEqual(old,before);assert.deepEqual(next.skills.slice(0,-2),before.skills);assert.deepEqual(next.skills.slice(-2).map(s=>s.id),['MS-049','MS-050']);
  assert.deepEqual(parseSkillDraft(JSON.stringify(next)),next);
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} activation: rare weighted SSS, idempotent receipt, ownership and separate mercenary slot`,async t=>{

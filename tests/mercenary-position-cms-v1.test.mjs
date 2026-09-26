@@ -39,15 +39,15 @@ test('known v1 draft migration preserves prior notes, assignments and revision',
   assert.throws(() => parsePositionDraft(JSON.stringify({...legacy, rosterVersion: 9}), roster));
 });
 
-test('43 approved roster codes each have a distinct, complete proposed assignment', () => {
+test('50 approved roster codes each have a distinct, complete proposed assignment', () => {
   assert.deepEqual(validatePositionDraft(seed, roster), { ok: true, errors: [] });
   assert.deepEqual(seed.assignments.map(entry => entry.code).sort(), roster.cards.map(card => card.code).sort());
-  assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size,49);
-  assert.equal(roster.cards.every(card => ['V-021','V-046','V-049'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047','V-048'].includes(card.code) ? card.rank === 'SS' : card.rank === null), true);
+  assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size,50);
+  assert.equal(roster.cards.every(card => ['V-021','V-046','V-049'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047','V-048','V-050'].includes(card.code) ? card.rank === 'SS' : card.rank === null), true);
   assert.deepEqual(summarizePositions(seed), {
-    total:49,
-    positions: { FRONT: 23, MIDDLE: 18, REAR: 8 },
-    roles: { GUARDIAN: 4, VANGUARD: 13, ASSASSIN: 5, MARKSMAN: 14, SNIPER: 4, CONTROLLER: 6, SUPPORT: 3 }
+    total:50,
+    positions: { FRONT: 23, MIDDLE: 18, REAR: 9 },
+    roles: { GUARDIAN: 4, VANGUARD: 13, ASSASSIN: 5, MARKSMAN: 14, SNIPER: 5, CONTROLLER: 6, SUPPORT: 3 }
   });
 });
 

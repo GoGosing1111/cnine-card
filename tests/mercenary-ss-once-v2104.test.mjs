@@ -6,6 +6,7 @@ import {mercenarySsOnceKey,mercenarySsOnceState,pickMercenarySsOnce} from '../fu
 import {handleMercenaryAccount} from '../functions/_mercenary_account_routes.js';
 import {HYPER_OPENING_KEY} from '../functions/_hyper_pack_opening.js';
 import {mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs';
+import {mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs';
 
 async function fixture(t,postgres){
  const f=await mercenaryFixture(t,{postgres});
@@ -57,9 +58,14 @@ for(const postgres of [false,true]){
   assert.equal((await Promise.all(results.map(r=>r.json()))).flatMap(grants).length,1);assert.equal(await f.coin(),50000000000);
   assert.equal((await call('mercenary-cards/open-batch',{count:10,requestId:crypto.randomUUID(),ssOnce:{rank:'SS'}})).status,400);
  });
- test(`${dialect}: each SS remains equally selectable; duplicate grants use the existing copy accounting`,async t=>{
+ test(`${dialect}: each SS follows configured weights; duplicate grants use the existing copy accounting`,async t=>{
   const f=await fixture(t,postgres),pool=f.document.mercenaries.filter(c=>c.rank==='SS').map(c=>c.code).sort();
-  for(let i=0;i<pool.length;i++)assert.equal(pickMercenarySsOnce({policy:f.draw,mercenaries:f.document.mercenaries,randomInt:max=>max===1000000?0:i}).mercenaryCode,pool[i]);
+  const choices=mercenaryCardChances(1000000,pool,f.draw.cardRules);let start=0;
+  for(const choice of choices){
+   for(const ticket of [start,start+choice.weight-1])assert.equal(pickMercenarySsOnce({policy:f.draw,mercenaries:f.document.mercenaries,randomInt:max=>max===1000000?0:ticket}).mercenaryCode,choice.code);
+   start+=choice.weight;
+  }
+  assert.equal(start,choices[0].totalWeight);
   const draw=structuredClone(f.draw);for(const o of draw.outcomes)o.chancePpm=o.id==='CARD_SS'?1000000:0;await f.setDraw(draw);await open(f,1);await f.setDraw(f.draw);
   const r=await open(f);assert.equal(r.draws[9].duplicate,true);assert.equal(r.draws[9].duplicateCount,1);assert.equal(r.draws[9].totalCopies,2);
  });

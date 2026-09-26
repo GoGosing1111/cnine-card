@@ -17,8 +17,10 @@ export function mediaPath(code, kind = 'art', size = 320) {
   if (!/^V-\d{3}$/.test(code) || !['art', 'sd'].includes(kind) || ![320, 640].includes(size)) throw new Error('잘못된 미리보기 리소스입니다.');
   return `${MEDIA_PREFIX}${code.toLowerCase()}-${kind}-${size}.webp`;
 }
-export const positionOf = card => String(card.role).split(' ')[0];
-export const roleOf = card => String(card.role).split(' ').slice(1).join(' ');
+// The released sniper's display role omits the old preview's position prefix.
+const roleAliases = { '최상위 원거리 저격': { position: '후열', role: '저격' } };
+export const positionOf = card => roleAliases[card.role]?.position || String(card.role).split(' ')[0];
+export const roleOf = card => roleAliases[card.role]?.role || String(card.role).split(' ').slice(1).join(' ');
 export function normalizeQuery(value) {
   return String(value || '').normalize('NFC').toLocaleLowerCase('ko').replace(/[\s\-_]/g, '');
 }
