@@ -139,7 +139,10 @@ test('all nine served V3 bundles including the account entry share the current c
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 47);
+  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 50);
+  // The already released Sniper Orikkung contributes three inputs to these same bundles.
+  for(const file of ['preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js','preview/mercenary-sniper-orikkung-v1/source/SniperOrikkungSkillFX.js','shared/mercenary-sniper-orikkung-v1.mjs'])
+    assert.ok(report.sources.some(row=>row.file===file),`${file} must participate in bundle freshness checks`);
   for(const file of ['preview/project-v-v3/source/battle/CryvernCombatPlayback.js','preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js','preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs','shared/mercenary-cryvern-v1.mjs'])
     assert.ok(report.sources.some(row=>row.file===file),`${file} must participate in bundle freshness checks`);
   // The already released OctaSeeker adds five inputs to the same nine bundles.
