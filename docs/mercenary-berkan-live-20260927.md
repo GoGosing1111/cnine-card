@@ -28,4 +28,16 @@ PC 격리 계정으로 실제 메인 토벌 버튼 → 전투 → 성공 결과 
 
 1차 지정 배포 검사는 312건 중 305건 통과, 7건 실패로 업로드 전에 중단됐다. 도감 및 개봉 결과의 운영 자산 경로 제한에 맞춰 원화/SD를 `assets/`에 동일 바이트로 복사해 연결했다. 다른 실패는 동시 출시된 간호사의 등급·공통 치유 특성·전용 무음 연출과 두 신규 어댑터의 배너를 기존 테스트 목록에 반영했다. 검사 제외나 경로 허용 범위 확대 없이 원인을 수정한다.
 
-배포 완료 후 실제 커밋·배포 ID·공개 도감 API와 리소스 확인 결과를 추가한다.
+최종 운영 소스는 `9aaf6b2adfd7726c603bf9309540c627bf7ef8ee`다. 깨끗한 범위 커밋과 `origin/main` 일치 상태에서 지정 명령 `npm run deploy:production -- --scoped`로 배포를 완료했다.
+
+- Pages 배포 ID: `2933fd2b-931f-4c4b-a837-54e9b9997000`
+- 고정 배포 URL: `https://2933fd2b.cnine-card.pages.dev`
+- 운영 URL: `https://cnine-card.pages.dev`
+- 공용 클랜/듀오 Worker 버전: `2320bda9-a07b-4d88-971f-336eec3409fd`
+- 출시 플래그, Worker 구문, Hyperdrive 캐시 OFF 검사가 통과했다.
+
+최종 게임 실행 파일 기준 관련 검사 312건 중 310건이 통과했고, 남은 2건은 기존 등급·스킬 통합 테스트의 간호사 4종 배정 fixture 누락이었다. 실행 코드를 추가로 변경하지 않고 해당 fixture만 수정한 뒤, 영향받는 통합 검사와 필수 메인 로더 검사 14건을 모두 통과했다. 이미 통과한 무관한 검사를 반복하지 않았으며, 전체 312건을 최종 커밋에서 한 번에 재실행한 것으로 기록하지 않는다. 선정 목록은 `docs/mercenary-berkan-release-tests-20260927.json`이다.
+
+배포 후 공개 `/api/mercenary-codex`에서 55종과 베르칸 SSS·기본 전투력 180,000·MS-055 흑금 낙성·준비 완료 상태를 확인했다. 운영 원화·SD 파일의 SHA-256이 보존 원본과 일치하며, 승인 매니페스트의 `USER_APPROVED_LIVE`와 런타임 활성화, 공개 V3 번들의 베르칸 광원 버전도 확인했다. 운영 검수 화면에서 흑금 낙성을 4.60초 끝까지 재생한 뒤 사각 잔상이 사라지고 금빛 오라가 유지됨을 확인했다. PC·모바일 검수 기록은 `preview/mercenary-berkan-sss-v1/qa/desktop-after-skill-clean.png`와 `mobile-after-skill-clean.png`다.
+
+배포 로그, 공개 API·해시 검증 결과와 운영 종료 화면은 작업 트리 상위 `qa/berkan-production-deploy-verified.log`, `qa/berkan-public-verification.json`, `qa/berkan-production-after-skill.png`에 보존했다. 운영 계정 재화나 소유 데이터는 시험 변경하지 않았다. 이 배포 결과 기록은 문서만 추가한 후속 커밋으로 반영하며 게임을 재배포하지 않는다.
