@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260926-z-lightning-area-v3-sniper-orikkung-huntfix';
+  const BATTLE_RUNTIME = '20260926-z-lightning-area-v3-sniper-orikkung-hunt15m';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;

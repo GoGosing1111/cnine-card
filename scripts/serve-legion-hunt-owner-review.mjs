@@ -40,6 +40,10 @@ const server=http.createServer(async(req,res)=>{
     if(!['pve','preview','assets','css','js','admin'].includes(parts[0])||parts.some(s=>s==='..'||s.startsWith('.')))return send(res,'Not found',404);
     let file=path.resolve(root,relative);if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
     if(!fs.existsSync(file)||!fs.realpathSync(file).startsWith(root+path.sep)||!mime[path.extname(file)])return send(res,'Not found',404);
+    if(process.env.LEGION_REVIEW_DIAGNOSTICS==='1'&&relative==='pve/legion-hunt/'){
+      const diagnostic=`<output id="review-clock" style="position:fixed;bottom:2px;right:6px;z-index:9999;background:#07101e;color:#a3bca7;font:11px monospace;padding:3px;pointer-events:none"></output><script>setInterval(()=>{const d=window.HuntPreviewV2?.diagnostics();if(d)document.getElementById('review-clock').textContent='QA clock='+Math.round(d.engine?.accountBattleUnit?.skillChips?.timeMs||0)+' processed='+Math.round(d.renderedAt)+' kills='+d.kills;},1000)</script>`;
+      return send(res,fs.readFileSync(file,'utf8').replace('</body>',diagnostic+'</body>'));
+    }
     res.writeHead(200,{'content-type':mime[path.extname(file)],'cache-control':'no-store'});if(req.method==='HEAD')res.end();else fs.createReadStream(file).pipe(res);
   }catch(e){send(res,JSON.stringify({error:e.message}),500,{'content-type':'application/json'});}
 });

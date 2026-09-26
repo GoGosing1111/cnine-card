@@ -26,19 +26,27 @@ test('four fixed difficulties produce real clears and party elimination with the
     assert.equal(lose.payload.battleV2.result.timeline.filter(e=>e.type==='KO'&&e.targetId.startsWith('A:')).length,5);
   }
   const a=make({difficulty:'nightmare',party:'rookie'}),b=make({difficulty:'nightmare',party:'veteran'});
-  assert.equal(a.diagnostics.outcome.winner,'B');assert.equal(b.diagnostics.outcome.winner,'A');
-  assert.deepEqual(a.payload.continuousEncounter.instances.map(m=>m.maxHp),b.payload.continuousEncounter.instances.map(m=>m.maxHp));
+  assert.equal(a.diagnostics.outcome.winner,'B');assert.ok(b.diagnostics.outcome.combatMs>a.diagnostics.outcome.combatMs);
+  assert.deepEqual(a.payload.continuousEncounter.instances.slice(0,12).map(m=>m.maxHp),b.payload.continuousEncounter.instances.slice(0,12).map(m=>m.maxHp));
 });
-test('wave barriers retain one battle and introduce two mid-bosses and one final guardian',()=>{
-  const s=make(),rows=s.payload.continuousEncounter.instances,t=s.payload.battleV2.result.timeline,map=new Map(rows.map(r=>[r.id,r])),dead=new Set();
-  assert.equal(rows.length,37);assert.equal(new Set(rows.map(r=>r.id)).size,37);assert.equal(rows.filter(r=>r.boss).length,3);
+test('continuous reinforcements last 15 minutes, then retreat before the single final guardian',()=>{
+  const s=make(),rows=s.payload.continuousEncounter.instances,t=s.payload.battleV2.result.timeline,map=new Map(rows.map(r=>[r.id,r])),occupied=new Map(rows.slice(0,12).map(r=>[r.slot,r.id]));
+  assert.ok(rows.length>37&&rows.length<=2161);assert.equal(new Set(rows.map(r=>r.id)).size,rows.length);assert.equal(rows.filter(r=>r.boss).length,1);
   assert.equal(MONSTERS.length+BOSSES.length,10);
   for(const e of t){
-    if(e.type==='KO')dead.add(e.targetId);
-    if(e.type==='ENEMY_SPAWN'){const r=map.get(e.targetId);assert.ok(rows.filter(p=>p.stage<r.stage).every(p=>dead.has(p.id)));}
+    if((e.type==='KO'||e.type==='ENEMY_DESPAWN')&&map.has(e.targetId))occupied.delete(map.get(e.targetId).slot);
+    if(e.type==='ENEMY_SPAWN'){
+      const r=map.get(e.targetId);assert.ok(!occupied.has(r.slot),'never replace a living instance');
+      if(r.finalBoss){assert.equal(e.combatAtMs,900000);assert.equal(occupied.size,0);}
+      else assert.ok(e.combatAtMs<900000);
+      occupied.set(r.slot,r.id);
+    }
   }
+  for(let minute=1;minute<15;minute++)assert.ok(t.some(e=>e.type==='ENEMY_SPAWN'&&!e.boss&&e.combatAtMs>=minute*60000&&e.combatAtMs<(minute+1)*60000));
+  assert.ok(t.at(-1).combatAtMs>=900000);assert.ok(t.every((e,i)=>!i||e.combatAtMs>=t[i-1].combatAtMs));
   assert.equal(t.filter(e=>e.type==='RESULT').length,1);
-  assert.equal(t.filter(e=>e.huntKill&&e.boss).length,3);
+  assert.equal(t.filter(e=>e.huntKill&&e.boss).length,1);
+  assert.ok(t.filter(e=>e.type==='ENEMY_DESPAWN').every(e=>!e.huntKill));
   assert.ok(!t.some(e=>/HUNT_THUNDER|GREATBLADE|SWORDRAIN|TWINBLADES/.test(e.chipCode||'')));
   assert.ok(t.some(e=>e.chipCode==='SKILL_CHIP_HELICOPTER_AIRSTRIKE'));
 });
@@ -93,7 +101,7 @@ test('continuous random field positions avoid the last two drop points and overl
 });
 test('outcomes distinguish clear, defeat, time limit and early retreat; only picked items survive',()=>{
   for(const [difficulty,limitMs,reason] of [['normal',undefined,'CLEAR'],['inferno',undefined,'DEFEAT'],['hard',1500,'TIME_LIMIT']]){
-    let clock=0;const s=make({difficulty,limitMs,now:()=>clock});s.begin();clock=300000;
+    let clock=0;const s=make({difficulty,limitMs,now:()=>clock});s.begin();clock=1100000;
     const r=s.finish(s.payload.battleV2.result.timeline.length);assert.equal(r.reason,reason);assert.equal(r.picked,0);assert.deepEqual(r.inventory,[]);
   }
   const {s,reveal}=dropSession(),d=reveal();s.claim({dropId:d.id,token:d.token,...d.position});

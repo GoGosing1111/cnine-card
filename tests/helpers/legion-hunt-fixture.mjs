@@ -45,6 +45,7 @@ export async function legionFixture({postgres=false,withMercenary=false}={}){
   Object.assign(deps,{raidDeckPower:async(_env,id,ids,mode)=>{snapshotReads.push({id,ids,mode});return structuredClone(deck);},cardBattlePower:card=>card.power,
     magicBattleLoadout:async()=>({cards:[]}),selectActivatedUltimate:()=>null,loadMercenaryBattleSnapshot:async()=>structuredClone(mercenary)});
   async function call(path,body,options={}){
+    if(path==='legion-hunt/start'&&body)body={version:2,...body};
     const method=options.method||(body===undefined?'GET':'POST'),headers={'content-type':'application/json',origin:options.origin||'https://game.test'};
     const request=new Request('https://game.test/api/'+path,{method,headers,...(body===undefined?{}:{body:JSON.stringify(body)})});
     return handleLegionHunt({path,request,env,deps});

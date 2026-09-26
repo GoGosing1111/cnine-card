@@ -6,6 +6,7 @@ import {sampleSequence} from '../../project-v-mercenary-system-v1/source/Mercena
 import {CAPACITY,crowdPosition} from '../hunt-rules.mjs';
 import {GroundDrops} from './GroundDrops.js';
 export class BattleEngine extends ScrapyardEngine{
+  constructor(...args){super(...args);this.combatClockRate=1;}
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
     const run=this.accountBattleUnitFireRun,epoch=this.playbackEpoch;
     if(!run?.active)return Promise.resolve(true);
@@ -93,6 +94,25 @@ export class BattleEngine extends ScrapyardEngine{
     const a=this.bindMonster(row);
     if(row.boss)this.queueBanner(row.name,0xffc477,row.finalBoss?'최종 수호자 출현':'중간 보스 출현');
     return this.arrival([a]);
+  }
+  async playEvents(events,options={}){
+    if(options.timedInternal&&events.length){
+      // Keep the 15-minute clock at 1x while crowded authored animations catch
+      // up. HP/KO ordering and all server receipts remain intact.
+      const lag=Math.max(0,(this.skillChipPlayback?.clock.time||0)*1000-(events[0].combatAtMs||0));
+      this.previewSpeed=this.paceScale=Math.min(8,3+lag/500);
+    }
+    if(options.timedInternal&&events.length===1&&events[0].type==='ENEMY_DESPAWN'){
+      const epoch=this.playbackEpoch;await this.drainGeneration();
+      if(epoch!==this.playbackEpoch||!this.visible)return false;
+      const actor=this.combatantById(events[0].targetId);
+      if(actor){
+        this.settlePendingTails([actor]);actor.setHp(0);actor.battleActive=false;actor.root.visible=false;
+        this.retiredIds.add(actor.id);
+      }
+      return true;
+    }
+    return super.playEvents(events,options);
   }
   setHuntPaused(paused){
     this.huntPaused=!!paused;this.accountBattleUnitIsPaused=()=>this.huntPaused;

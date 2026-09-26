@@ -1,13 +1,15 @@
 // Local review policy. Fixed enemy stats never scale up with the selected party.
 // No live economy, ownership, account or CMS setting is changed here.
 export const CAPACITY = 12;
+export const HUNT_DURATION_MS = 15 * 60 * 1000;
+export const DAILY_ENTRIES = 2;
 export const ENGINE_BASE = '0d67ae862a1f9763605ad7323e889acf5d51ad41';
 export const DIFFICULTIES = Object.freeze([
   {id:'normal',name:'보통',power:32000,bossPower:350000,attack:100,shield:0,repeat:1,forced:7,limitMs:150000,dropChance:.28,dropLifeMs:9000,description:'완만한 압박 · 방벽 없는 보스'},
   {id:'hard',name:'어려움',power:150000,bossPower:1400000,attack:140,shield:12,repeat:2,forced:5,limitMs:150000,dropChance:.30,dropLifeMs:8000,description:'보스 방벽 · 2연속 공격'},
-  {id:'nightmare',name:'악몽',power:420000,bossPower:4000000,attack:190,shield:25,repeat:3,forced:4,limitMs:135000,dropChance:.32,dropLifeMs:7500,description:'강한 방벽 · 3연속 공격 · 짧은 제한'},
+  {id:'nightmare',name:'악몽',power:420000,bossPower:4000000,attack:190,shield:25,repeat:3,forced:4,limitMs:135000,dropChance:.32,dropLifeMs:7500,description:'강한 방벽 · 보스 3연속 공격'},
   {id:'inferno',name:'지옥',power:900000,bossPower:9000000,attack:270,shield:40,repeat:4,forced:3,limitMs:120000,dropChance:.35,dropLifeMs:7000,description:'최상위 압박 · 4연속 공격 · 전멸 위험'}
-].map(Object.freeze));
+].map(d=>Object.freeze({...d,huntDurationMs:HUNT_DURATION_MS,bossLimitMs:d.limitMs,limitMs:HUNT_DURATION_MS+d.limitMs})));
 export const PARTIES=Object.freeze([
   {id:'rookie',name:'초급 원정대',cardPower:100000,suitPower:150000},
   {id:'standard',name:'표준 원정대',cardPower:200000,suitPower:300000},

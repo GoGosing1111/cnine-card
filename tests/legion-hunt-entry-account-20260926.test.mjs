@@ -102,6 +102,7 @@ for(const postgres of [false,true]){
     await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:'V-050',acquisitionId:crypto.randomUUID()}));
     await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-050',revision:0});
     const deps={...f.deps,loadMercenaryBattleSnapshot},call=async(action,body)=>{
+      if(action==='start')body={version:2,...body};
       const path='legion-hunt/'+action,request=new Request('https://game.test/api/'+path,{method:body?'POST':'GET',headers:{authorization:'Bearer local-account-7',origin:'https://game.test','content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
       const r=await handleLegionHunt({path,request,env:f.env,deps});assert.equal(r.status,200,await r.clone().text());return r.json();
     };

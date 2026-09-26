@@ -4,6 +4,7 @@ import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skil
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
+import {sustainedEncounterPlan} from './_sustained_encounter.js';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -684,7 +685,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
   let mercenaryRuntime=null;
   const applyDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);return result;};
   const cardRandom = seededRandom(seed);
@@ -693,6 +694,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const random = () => actionRandom();
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
+  const sustained = sustainedEncounterPlan(sustainedEncounter, teamB, encounterCapacity);
   const mercenaryTurns=mercenaryTurnCadence({A:a,B:b});
   // Opt-in encounter lane; no live route currently supplies this field. A
   // single simulation owns HP, RNG, magic budgets and suit clocks throughout.
@@ -700,9 +702,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   if (!Array.isArray(reinforcements) || reinforcements.length > 40) throw new Error('INVALID_REINFORCEMENTS');
   // Explicit bounded preview extension; existing encounters retain five slots.
   if (!Number.isInteger(encounterCapacity) || encounterCapacity < 1 || encounterCapacity > 12 ||
-      !Number.isSafeInteger(maxCombatDurationMs) || maxCombatDurationMs < 0 || maxCombatDurationMs > 180000) throw new Error('INVALID_ENCOUNTER_LIMITS');
+      !Number.isSafeInteger(maxCombatDurationMs) || maxCombatDurationMs < 0 || maxCombatDurationMs > (sustained ? 1080000 : 180000)) throw new Error('INVALID_ENCOUNTER_LIMITS');
   const pendingMonsters = reinforcements.map(card => ({ ...card }));
-  const encounterMode = pendingMonsters.length > 0;
+  const encounterMode = pendingMonsters.length > 0 || Boolean(sustained);
   if (encounterMode) {
     const ids = new Set(a.map(card => card.id));
     for (const card of [...b, ...pendingMonsters]) {
@@ -1127,7 +1129,19 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     support.id,
     Math.max(.0002,Number(support.independentOpeningDelay||support.independentFireInterval*.35||.0005))
   ]));
-  while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+  const advanceSustained=()=>{
+    const from=timeline.length;combatMs=sustained.nextAt;
+    sustained.advance(combatMs,b,(type,data)=>pushEvent(timeline,clock,type,data));
+    stampCombatGroup(from,combatMs,false);
+    nextCombatMs=Math.max(nextCombatMs,combatMs);
+    lastCardCombatMs=Math.max(lastCardCombatMs,combatMs);
+  };
+  while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length || sustained&&!sustained.bossSpawned) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+    if(sustained&&!targetableAlive(b).length&&!sustained.bossSpawned){
+      if(maxCombatDurationMs<sustained.nextAt){combatMs=nextCombatMs=maxCombatDurationMs;durationStopped=true;break;}
+      if(chipActor&&nextChipMs()<sustained.nextAt){resolveChipStep();continue;}
+      advanceSustained();continue;
+    }
     // Refill only empty slots. The final boss waits until every earlier enemy
     // is dead. Existing fighters are never rebuilt or healed at this boundary.
     if (pendingMonsters.length) {
@@ -1176,6 +1190,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if (maxCombatDurationMs && Math.min(nextStepMs, nextChipMs()) > maxCombatDurationMs) {
       combatMs = maxCombatDurationMs; nextCombatMs = maxCombatDurationMs; durationStopped = true; break;
+    }
+    if(sustained&&sustained.nextAt<=Math.min(nextStepMs,nextChipMs(),maxCombatDurationMs)){
+      advanceSustained();continue;
     }
     if(chipActor&&nextChipMs()<=nextStepMs){resolveChipStep();continue;}
     const groupFrom=timeline.length;
@@ -1518,12 +1535,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const aRatio = teamHpRatio(a);
   const bRatio = teamHpRatio(b);
   const winner = encounterMode
-    ? (targetableAlive(a).length && !targetableAlive(b).length && !pendingMonsters.length ? 'A' : 'B')
+    ? (targetableAlive(a).length && !targetableAlive(b).length && !pendingMonsters.length && (!sustained||sustained.bossSpawned) ? 'A' : 'B')
     : targetableAlive(a).length && !targetableAlive(b).length ? 'A'
     : targetableAlive(b).length && !targetableAlive(a).length ? 'B'
       : aRatio === bRatio ? 'DRAW' : (aRatio > bRatio ? 'A' : 'B');
   const timedOut = durationStopped || (durationLimit > 0 && clock >= durationLimit);
-  const enemiesRemain = targetableAlive(b).length > 0 || pendingMonsters.length > 0;
+  const enemiesRemain = targetableAlive(b).length > 0 || pendingMonsters.length > 0 || Boolean(sustained&&!sustained.bossSpawned);
   const reason = timedOut && targetableAlive(a).length && enemiesRemain ? 'TIME_LIMIT' : (actionCount >= maxActions||mercenaryActionCount>=maxActions*2) && targetableAlive(a).length && enemiesRemain ? 'ACTION_LIMIT' : 'ELIMINATION';
   pushEvent(timeline, clock + 0.01, 'RESULT', {
     winner,
@@ -1540,8 +1557,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   }
 
   return {
-    ...(encounterMode ? {encounter: {spawned: b.length, remaining: pendingMonsters.length,
-      defeated: b.filter(card => !card.alive || card.hp <= 0).length,
+    ...(encounterMode ? {encounter: {spawned: sustained?sustained.instances.length:b.length, remaining: pendingMonsters.length,
+      ...(sustained?{instances:sustained.instances}:{}),
+      defeated: b.filter(card => !card.alive || card.hp <= 0).length+(sustained?.defeated||0),
       pendingIds: pendingMonsters.map(card => card.id)}} : {}),
     ...(openingMercenaries.A.length||openingMercenaries.B.length?{openingMercenaries}:{}),
     winner,

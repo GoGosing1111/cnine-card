@@ -175,7 +175,7 @@ export class BattleSuitSkillChipPlayback{
   pump(){
     this.syncPause();
     if(!this.valid()||this.waiting||this.holds||this.userPaused)return;
-    const nextRate=this.engine.paceScale||1;
+    const nextRate=this.engine.combatClockRate??(this.engine.paceScale||1);
     if(nextRate!==this.rate){this.rate=nextRate;this.timeline?.timeScale(this.rate);this.resyncAudio();}
     while(this.index<this.groups.length&&this.groups[this.index].at<=this.clock.time*1000+.001){
       const group=this.groups[this.index];

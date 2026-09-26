@@ -21,7 +21,7 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
     },
     select(id){if(state.phase==='lobby'&&state.data?.difficulties.some(d=>d.id===id))update({difficulty:id});},
     enter(){
-      if(state.phase!=='lobby'||!state.data?.loadout||state.error)return;
+      if(state.phase!=='lobby'||!state.data?.loadout||state.error||state.data.entries?.remaining===0)return;
       update({phase:'battle'});enter(state.difficulty);
     },
     close(){++revision;state={...state,phase:'closed'};dispose();}
@@ -37,21 +37,21 @@ export function openLegionHunt(button){
       <section class="legion-intro" aria-labelledby="legion-island-title">
         <div class="legion-hero-halo" aria-hidden="true"></div><img class="legion-guardian" src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt="섬의 최종 보스 태고의 수호자">
         <div class="legion-intro-copy"><p class="legion-kicker"><span></span> LEGION HUNT · CHAPTER 01</p><h1 id="legion-island-title">잊혀진 섬</h1><p class="legion-intro-text">길은 끊겼다.<br>돌아갈 방법은, 끝까지 돌파하는 것.</p>
-        <div class="legion-facts"><span><b>37</b> 적 개체</span><span><b>3</b> 보스</span><span><b>4</b> 구간</span></div></div>
+        <div class="legion-facts"><span><b>15분</b> 연속 토벌</span><span><b>1</b> 최종 보스</span><span><b>2회</b> 하루 입장</span></div></div>
         <div class="legion-guardian-caption"><span>FINAL TARGET</span><strong>태고의 수호자</strong></div>
       </section>
       <nav class="legion-route" aria-label="토벌 진행 경로">
-        <div><img src="${art}monsters/ember-mantis-sd-v2.png" alt=""><span><small>01 · 상륙</small><b>군단 조우</b></span></div>
-        <div><img src="/preview/scrapyard-v3-v1/assets/atlas-sd-v1.png" alt=""><span><small>02 · 중간 보스</small><b>아틀라스</b></span></div>
-        <div><img src="/preview/scrapyard-v3-v1/assets/moloch-sd-v1.png" alt=""><span><small>03 · 중간 보스</small><b>몰록</b></span></div>
-        <div><img src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt=""><span><small>04 · 최종 보스</small><b>태고의 수호자</b></span></div>
+        <div><img src="${art}monsters/ember-mantis-sd-v2.png" alt=""><span><small>00:00 · 상륙</small><b>군단 조우</b></span></div>
+        <div><img src="${art}monsters/mossback-tortoise-sd-v2.png" alt=""><span><small>05:00 · 교전</small><b>끊임없는 증원</b></span></div>
+        <div><img src="${art}monsters/cobalt-bat-sd-v2.png" alt=""><span><small>10:00 · 돌파</small><b>끝까지 생존</b></span></div>
+        <div><img src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt=""><span><small>15:00 · 최종 보스</small><b>태고의 수호자</b></span></div>
       </nav>
       <section class="legion-squad"><div class="legion-section-heading"><div><span>YOUR EXPEDITION</span><h2>출전 원정대</h2></div><button type="button" data-hunt-refresh>편성 새로고침 <span aria-hidden="true">↻</span></button></div>
         <p class="legion-account"></p><div class="legion-loadout"><div class="legion-cards" aria-label="저장된 일반 카드 5장"></div><div class="legion-mercenary" aria-label="용병 전용 슬롯"></div></div><p class="legion-equipment"></p>
       </section>
       <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>어디까지 돌파할 것인가</h2></div></div>
         <div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
-        <div class="legion-conditions"><span>제한 시간 <strong class="legion-limit"></strong></span><span>실패 조건 <b>전멸 / 시간 초과</b></span></div>
+        <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span>오늘 입장 <b class="legion-entries"></b></span></div>
         <div class="legion-drop-guide"><div class="legion-pickup-symbol" aria-hidden="true"><i></i><svg viewBox="0 0 32 40"><path d="M6 2v28l7-7 7 12 5-3-7-12h11z"/></svg></div><div><b>눈앞의 전리품을 놓치지 마세요</b><p>필드 곳곳에 나타나는 아이템을<br>사라지기 전에 직접 눌러 획득하세요.</p></div></div>
         <button class="legion-poster-link" data-hunt-poster type="button"><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 공식 포스터"><span><small>군단토벌 · 잊혀진 섬</small><b>콘텐츠 소개 보기</b></span><span aria-hidden="true">↗</span></button>
         <footer class="legion-entry-footer"><p class="legion-entry-status" role="status" aria-live="polite">저장된 편성을 불러오는 중입니다.</p><button type="button" class="legion-enter" data-hunt-enter disabled>편성 불러오는 중</button><small>OWNER 공개 · 실계정 보상 지급 OFF</small></footer>
@@ -67,10 +67,11 @@ export function openLegionHunt(button){
   const render=state=>{
     if(state.phase==='battle')return;
     const data=state.data,loadout=data?.loadout,loading=state.phase==='loading';
-    find('[data-hunt-enter]').disabled=loading||!loadout||!!state.error;
-    find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':'토벌 입장';
+    const exhausted=data?.entries?.remaining===0;
+    find('[data-hunt-enter]').disabled=loading||!loadout||!!state.error||exhausted;
+    find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':exhausted?'오늘 입장 횟수 소진':'토벌 입장';
     find('[data-hunt-refresh]').disabled=loading;
-    find('.legion-entry-status').textContent=state.error||(loading?'저장된 편성을 불러오는 중입니다.':'선택한 난이도와 현재 편성으로 출전합니다.');
+    find('.legion-entry-status').textContent=state.error||(loading?'저장된 편성을 불러오는 중입니다.':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'전투 시작 시 1회 사용 · 매일 한국시간 자정 초기화');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
     find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
@@ -81,12 +82,13 @@ export function openLegionHunt(button){
     find('.legion-equipment').textContent=loadout?'장착 슈트 · '+(eq?.equippedBattleSuit?.name||eq?.equippedBattleSuit?.code||'없음')+' / 무기 · '+(eq?.equippedWeapon?.name||eq?.equippedWeapon?.code||'없음'):'';
     find('.legion-difficulties').innerHTML=(data?.difficulties||[]).map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span class="legion-difficulty-number">0${i+1}</span><span class="legion-difficulty-copy"><strong>${escape(d.name)}</strong><small>${escape(d.description)}</small></span><span class="legion-threat-bars" aria-hidden="true">${[0,1,2,3].map(n=>`<i class="${n<=i?'lit':''}"></i>`).join('')}</span><span class="legion-selection-dot" aria-hidden="true"></span></button>`).join('');
     const selected=data?.difficulties.find(d=>d.id===state.difficulty);
-    find('.legion-limit').textContent=selected?Math.round(selected.limitMs/1000)+'초':'';
+    find('.legion-limit').textContent=selected?'15분 + 최종 보스':'';
+    find('.legion-entries').textContent=data?.entries?data.entries.remaining+' / '+data.entries.limit+'회 남음':'';
     dialog.dataset.difficulty=state.difficulty;
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260926-cast-fix';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260926-15min';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;

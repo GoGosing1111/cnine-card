@@ -10,6 +10,20 @@ import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 after(()=>gsap.ticker.sleep());
 const flush=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
 
+test('hunt visual catch-up cannot accelerate the 15-minute boss clock; ordinary battles retain their speed',async()=>{
+  for(const combatClockRate of [undefined,1]){
+    const seen=[],engine={visible:true,playbackEpoch:1,paceScale:3,combatClockRate,audio:{enabled:()=>false},combatantById:()=>null,playEvents:async events=>seen.push(...events)};
+    const events=[{seq:1,type:'ENEMY_SPAWN',combatGroup:1,combatClock:SKILL_CHIP_CLOCK,combatAtMs:900000,finalBoss:true}];
+    const playback=new BattleSuitSkillChipPlayback(engine,events,{sequential:true});
+    playback.play();await playback.ready;playback.timeline.pause();
+    try{
+      assert.equal(playback.rate,combatClockRate??3);assert.equal(playback.timeline.timeScale(),combatClockRate??3);
+      playback.timeline.time(899,true);playback.pump();await flush();assert.equal(seen.length,0);
+      playback.timeline.time(900,true);playback.pump();await flush();assert.equal(seen.length,1);
+    }finally{playback.cancel();}
+  }
+});
+
 test('continuous Z cast starts its body clock before queued normal hits can block the first area impact',async()=>{
   const target={id:'B:0:ENCOUNTER:first',root:new Container(),battleActive:true,hp:100};
   const sword={unit:{stopIdle(){}},cancel(){},pose(){}};

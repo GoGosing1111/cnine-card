@@ -2,6 +2,7 @@ import {randomUUID,randomInt} from 'node:crypto';
 import {buildFighter,buildMonsterFighter,buildBattleSuitFighter,buildPvePlayerTeam,publicFighter,teamSummary,simulateBattleV2Preview} from '../../functions/_battle_v2_preview.js';
 import {buildPreviewDeck,BATTLE_SUIT} from '../idle-v3-v1/source/idle-model.mjs';
 import {CAPACITY,DIFFICULTIES,PARTIES,MONSTERS,BOSSES,LOOT_ITEMS,selectDifficulty,selectParty,chooseDropPosition,ENGINE_BASE} from './hunt-rules.mjs';
+import {compactHuntTimeline} from './timeline.mjs';
 export {DIFFICULTIES,PARTIES};
 const secureRandom=()=>randomInt(0,0x100000000)/0x100000000;
 export function createHuntSession({snapshot,catalog,equipment,difficulty='normal',party='standard',seed=randomInt(1,0x7fffffff),now=Date.now,random=secureRandom,limitMs,dropPolicy}={}){
@@ -22,57 +23,54 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
     support=buildBattleSuitFighter({...equippedBattleSuit,weapon:equippedWeapon,accountNickname:'원정대 지원',skillChips:['SKILL_CHIP_HELICOPTER_AIRSTRIKE']});
     simulationTeamA=[...teamA,support];
   }
-  const instances=[],fighters=[];
-  for(let stage=0;stage<3;stage++){
-    // Twelve enemies including a mid-boss in stages two and three; final guardian is separate.
-    for(let slot=0;slot<CAPACITY;slot++){
-      const boss=stage>0&&slot===4,art=boss?BOSSES[stage-1]:MONSTERS[(slot+stage*3)%MONSTERS.length];
-      const power=Math.round((boss?policy.bossPower:policy.power)*art.power*(1+stage*.08));
-      const f=buildMonsterFighter({id:stage*CAPACITY+slot+1,name:art.name,battle_power:power,is_boss:boss?1:0,pve_difficulty:'APOCALYPSE',
-        pve_attack_percent:policy.attack,pve_shield_percent:boss?policy.shield:0,pve_attack_count:boss?policy.repeat:1});
-      Object.assign(f,{id:'B:'+slot+':ENCOUNTER:'+id+':'+fighters.length,slot,encounterWave:stage});
-      fighters.push(f);instances.push({...publicFighter(f),name:art.name,displayName:art.name,boss,stage:stage+1,battleHeight:art.height,battleSprite:art.sprite,sourceArt:art.sprite});
-    }
-  }
-  const art=BOSSES[2],f=buildMonsterFighter({id:100,name:art.name,battle_power:Math.round(policy.bossPower*art.power),is_boss:1,pve_difficulty:'APOCALYPSE',
-    pve_attack_percent:policy.attack,pve_shield_percent:policy.shield,pve_attack_count:policy.repeat});
-  Object.assign(f,{id:'B:4:ENCOUNTER:'+id+':FINAL',slot:4,encounterWave:3});fighters.push(f);
-  instances.push({...publicFighter(f),name:art.name,displayName:art.name,boss:true,finalBoss:true,stage:4,battleHeight:art.height,battleSprite:art.sprite,sourceArt:art.sprite});
+  const monster=(art,slot,boss=false)=>({...buildMonsterFighter({id:slot+1,name:art.name,battle_power:Math.round((boss?policy.bossPower:policy.power)*art.power),is_boss:boss?1:0,pve_difficulty:'APOCALYPSE',
+    pve_attack_percent:policy.attack,pve_shield_percent:boss?policy.shield:0,pve_attack_count:boss?policy.repeat:1}),
+    id:'B:'+slot+':ENCOUNTER:'+(boss?'FINAL':'INITIAL'),slot,huntArtId:art.id});
+  const fighters=Array.from({length:CAPACITY},(_,slot)=>monster(MONSTERS[slot%MONSTERS.length],slot));
+  const templates=MONSTERS.map((art,slot)=>monster(art,slot));
+  const finalBoss=monster(BOSSES[2],4,true);
   const timeLimit=limitMs??policy.limitMs;
-  const result=simulateBattleV2Preview({teamA:simulationTeamA,teamB:fighters.slice(0,CAPACITY),reinforcements:fighters.slice(CAPACITY),
-    encounterCapacity:CAPACITY,maxCombatDurationMs:timeLimit,maxDuration:4,maxActions:600,forcedMonsterEvery:policy.forced,healerPenalty:true,seed,
+  const result=simulateBattleV2Preview({teamA:simulationTeamA,teamB:fighters,
+    sustainedEncounter:{durationMs:policy.huntDurationMs,templates,finalBoss},
+    encounterCapacity:CAPACITY,maxCombatDurationMs:timeLimit,maxActions:6000,forcedMonsterEvery:policy.forced,healerPenalty:true,seed,
     magicA:snapshot?.magicCards||[],singleHealerBonus:snapshot?.singleHealerBonus||{},openingPlayerUltimateDamage:snapshot?.ultimateDamage||0});
+  const artMap=new Map([...MONSTERS,...BOSSES].map(art=>[art.id,art]));
+  const instances=result.encounter.instances.map(f=>{
+    const art=artMap.get(f.huntArtId),boss=!!f.isBoss;
+    return {id:f.id,cardId:f.cardId,slot:f.slot,maxHp:f.maxHp,shield:f.shield,maxShield:f.maxShield,name:art.name,displayName:art.name,boss,finalBoss:boss,stage:boss?2:1,battleHeight:art.height,battleSprite:art.sprite,sourceArt:art.sprite};
+  });
   const instanceMap=new Map(instances.map(r=>[r.id,r]));
   for(const e of result.timeline){
     const monster=instanceMap.get(e.targetId);
     if(e.type==='ENEMY_SPAWN'&&monster){e.name=monster.name;e.label=monster.boss?monster.name+' 출현':'새 무리 진입';e.huntStage=monster.stage;e.finalBoss=!!monster.finalBoss;}
     if(e.type==='KO'&&monster){e.huntKill=true;e.boss=monster.boss;e.huntStage=monster.stage;}
   }
-  const timeline=result.timeline;
+  const timeline=compactHuntTimeline(result.timeline);
   const accountNickname=snapshot?.accountNickname||'검수 원정대',mercenaries=result.openingMercenaries?.A||[];
   const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · 잊혀진 섬',mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
     cards,equippedBattleSuit,equippedWeapon,characterBonus:snapshot?.characterBonus||{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
     ...(snapshot?{loadoutSource:snapshot.source,mercenary:snapshot.mercenary||null}:{}),
-    huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:fighters.length,totalBosses:3,party:snapshot?'account':partyPolicy.id,partyPower:teamSummary(simulationTeamA).power},
+    huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:instances.length,totalBosses:1,party:snapshot?'account':partyPolicy.id,partyPower:teamSummary(simulationTeamA).power},
     continuousEncounter:{schemaVersion:2,capacity:CAPACITY,initialIds:fighters.slice(0,CAPACITY).map(r=>r.id),instances},
     battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},
       teams:{A:{cards:teamA.map(publicFighter),summary:teamSummary([...teamA,...mercenaries]),...(mercenary?{mercenaries}:{}),supports:support?[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
       result:{winner:null,reason:'RUNNING',timeline,final:{A:result.final.A.filter(c=>!c.isMercenary&&!c.isBattleSuit),B:result.final.B,...(mercenary?{mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:[]}}:{})}}}};
-  return Object.assign(restoreHuntSession({id,policy,timeLimit,timeline:timeline.map(({seq,combatAtMs,huntKill,boss,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
+  return Object.assign(restoreHuntSession({id,policy,timeLimit,eventTimes:timeline.map(e=>Math.floor(e.combatAtMs)),timeline:timeline.filter(e=>e.huntKill||e.type==='RESULT').map(({seq,combatAtMs,huntKill,boss,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
 }
 // Compact, JSON-safe state is persisted by the OWNER API; no isolate-local session map.
 export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
   const {id,policy,timeLimit,timeline,outcome}=state;
+  const eventTimes=state.eventTimes||timeline.map(e=>e.combatAtMs),eventsBySeq=new Map(timeline.map(e=>[e.seq,e]));
   let {startedAt=null,lastAck=0,ended=false,receipt=null}=state;
   const drops=new Map(state.drops||[]),claims=new Map(state.claims||[]),inventory=new Map(state.inventory||[]),positions=state.positions||[],claimTimes=state.claimTimes||[];
   const observed=new Map((state.observed||[]).map(([seq,dropId])=>[seq,dropId?drops.get(dropId):null]));
   function begin(){if(ended)throw Error('HUNT_ENDED');if(startedAt===null)startedAt=now();return {started:true,serverNow:now()};}
   function acknowledge(seq){
     if(startedAt===null||ended)throw Error('HUNT_NOT_ACTIVE');
-    if(!Number.isSafeInteger(seq)||seq<0||seq>timeline.length)throw Error('INVALID_HUNT_ACK');
-    const event=timeline[seq-1];
-    // Max UI playback is 2x. Rendering may be slower, but cannot claim future kills early.
-    if(event&&(Number(event.combatAtMs)||0)>Math.max(0,now()-startedAt)*2+250)throw Error('HUNT_EVENT_NOT_REACHED');
+    if(!Number.isSafeInteger(seq)||seq<0||seq>eventTimes.length)throw Error('INVALID_HUNT_ACK');
+    const event=eventsBySeq.get(seq);
+    // Timed hunts use 1x; older sessions retain their original playback contract.
+    if(seq&&(Number(eventTimes[seq-1])||0)>Math.max(0,now()-startedAt)*(policy.huntDurationMs?1:2)+250)throw Error('HUNT_EVENT_NOT_REACHED');
     lastAck=Math.max(lastAck,seq);return event;
   }
   function expire(){for(const d of drops.values())if(d.state==='GROUND'&&now()>=d.expiresAt)d.state='EXPIRED';}
@@ -112,13 +110,13 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
     if(receipt)return receipt;
     acknowledge(seq);expire();ended=true;
     for(const d of drops.values())if(d.state==='GROUND')d.state='MISSED';
-    const seen=timeline.slice(0,lastAck),terminal=seen.find(e=>e.type==='RESULT');
+    const seen=timeline.filter(e=>e.seq<=lastAck),terminal=seen.find(e=>e.type==='RESULT');
     const reason=terminal?(terminal.winner==='A'?'CLEAR':terminal.reason==='TIME_LIMIT'?'TIME_LIMIT':'DEFEAT'):'RETREAT';
     receipt={id,previewOnly:true,liveRewards:false,reason,winner:terminal?.winner||null,difficulty:policy.id,
       kills:seen.filter(e=>e.huntKill).length,bosses:seen.filter(e=>e.huntKill&&e.boss).length,
-      combatMs:Math.min(timeLimit,seen.at(-1)?.combatAtMs||0),inventory:[...inventory.values()],
+      combatMs:Math.min(timeLimit,eventTimes[lastAck-1]||0),inventory:[...inventory.values()],
       picked:claims.size,dropped:drops.size,missed:[...drops.values()].filter(d=>d.state!=='CLAIMED').length};
     return receipt;
   }
-  return {id,begin,reveal,claim,finish,cancel(){ended=true;},exportState(){return {id,policy,timeLimit,timeline,outcome,startedAt,lastAck,ended,receipt,drops:[...drops],claims:[...claims],inventory:[...inventory],positions,claimTimes,observed:[...observed].map(([seq,d])=>[seq,d?.id||null])};},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome};}};
+  return {id,begin,reveal,claim,finish,cancel(){ended=true;},exportState(){return {id,policy,timeLimit,eventTimes,timeline,outcome,startedAt,lastAck,ended,receipt,drops:[...drops],claims:[...claims],inventory:[...inventory],positions,claimTimes,observed:[...observed].map(([seq,d])=>[seq,d?.id||null])};},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome};}};
 }
