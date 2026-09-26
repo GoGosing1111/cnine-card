@@ -1,10 +1,10 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "018d8205a2ba1330519bbfac8ec37a5c364ff41c",
+  "sourceRevision": "b027fed116103b129c4e39b38389944207e88a4e",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
-  "serverHash": "8ca247603cad4a9d7d0d537e449be98dd7d92c51bd3061be45ac9a4ff02d2826",
+  "serverHash": "9818f68811477ea6b1f56f9e319fb20c4bb403997c363bbaf625d0b13034ffc0",
   "engineHash": "0b1262a3f74db672338dd59c63faa3d5f70c20982fe6ce05d2a356ec52068f19",
   "playbackHash": "a545e64a599ab81dd6f641bfd72ff1b8c516309c3aba09f98f56c5b94be32df0",
   "bundleHash": "43f0df2fd63ee903f3533775432e1f0ed446bea0079e003b14c917bb5148226a",

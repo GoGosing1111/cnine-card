@@ -1,0 +1,15 @@
+body[data-legion-live]{--lime:#ead2a1;background:#071110}
+body[data-legion-live] .hunt-command{background:linear-gradient(90deg,#0b1814fa,#101b1afa);border-bottom-color:#a9b38a4d}
+body[data-legion-live] .hunt-heading>div{border:0;padding:0;gap:4px}
+body[data-legion-live] .hunt-heading small{letter-spacing:2px;color:#a6bb9b}
+body[data-legion-live] .hunt-heading strong{font-size:20px;color:#eee2c5}
+body[data-legion-live] .hunt-metrics b,body[data-legion-live] .hunt-metrics>strong{color:#f0dfb8}
+body[data-legion-live] .hunt-buttons button,body[data-legion-live] .hunt-buttons select{background:#14221e;border-color:#66735765;border-radius:3px}
+body[data-legion-live] #hunt-stop{color:#e4c49c}
+body[data-legion-live] .stage-banner{border-right:2px solid #d4be895e;padding:4px 12px 4px 0}
+body[data-legion-live] .stage-banner small{color:#cfba8e}
+body[data-legion-live] #hunt-result{background:radial-gradient(ellipse at top,#23372b,#0a1714 60%);border-color:#8b986657;border-top-color:#ddc18a;border-radius:3px}
+body[data-legion-live] #hunt-result h1{color:#f6e6be}
+body[data-legion-live] #hunt-result dd{color:#edddb8}
+body[data-legion-live] .primary{background:linear-gradient(120deg,#edd6a2,#c0a471);color:#152019}
+@media(max-width:760px){body[data-legion-live] .hunt-heading strong{font-size:15px}body[data-legion-live] .hunt-heading small{font-size:8px}body[data-legion-live] .hunt-buttons{grid-template-columns:48px 1fr .8fr 1fr}body[data-legion-live] .stage-banner{padding-right:7px}body[data-legion-live] .hunt-metrics{gap:7px}}

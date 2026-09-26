@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {validateLegionHuntPolicy,LEGION_HUNT_ACCESS,LEGION_HUNT_SETTINGS_KEY} from '../functions/_legion_hunt_settings.js';
 const started=async f=>{
-  const r=await f.call('legion-hunt/start',{difficulty:'normal',party:'standard'});assert.equal(r.status,200,JSON.stringify(r.body));
+  const r=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(r.status,200,JSON.stringify(r.body));
   assert.equal((await f.call('legion-hunt/begin',{id:r.body.id})).status,200);return r.body;
 };
 for(const postgres of [false,true]){
@@ -78,9 +78,9 @@ test('active runs retain their CMS snapshot; new runs use new settings and expir
 });
 test('request boundaries, policy CAS and failed session persistence never acknowledge an uncommitted click',async()=>{
   const f=await legionFixture();try{
-    assert.equal((await f.call('legion-hunt/start',{difficulty:'bad',party:'standard'})).status,400);
-    assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',party:'standard'},{origin:'https://evil.test'})).status,403);
-    assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',party:'standard',owner:true})).status,400);
+    assert.equal((await f.call('legion-hunt/start',{difficulty:'bad'})).status,400);
+    assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'},{origin:'https://evil.test'})).status,403);
+    assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',owner:true})).status,400);
     await f.configure();const run=await started(f);f.clock.now+=300000;const event=run.payload.battleV2.result.timeline.find(e=>e.huntKill);
     const drop=(await f.call('legion-hunt/reveal',{id:run.id,seq:event.seq})).body.drop;
     const claim={id:run.id,dropId:drop.id,token:drop.token,...drop.position};

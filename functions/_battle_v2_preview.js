@@ -1061,7 +1061,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
   const zAreaEnabled=Z_BODY_AREA_RELEASE_ENABLED||zAreaReview===true;
   const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))):null;
-  if (maxCombatDurationMs && !chipActor) throw new Error('ENCOUNTER_COMBAT_CLOCK_REQUIRED');
+  // Timed encounters need the same playback clock even without a suit/chip.
+  const combatClockEnabled=Boolean(chipActor)||maxCombatDurationMs>0;
   const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor));
   const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const zAreaRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
@@ -1069,7 +1070,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const chipClockOptions={apocalypseBoss:b.some(actor=>actor.isMonster&&actor.isApocalypse)};
   let combatMs=0,nextCombatMs=0,lastCardCombatMs=0,lastCardGaugeClock=0,combatGroup=0;
   const stampCombatGroup=(from,atMs,blocking)=>{
-    if(!chipActor)return;
+    if(!combatClockEnabled)return;
     const events=timeline.slice(from),durationMs=blocking?events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0):0;
     for(const event of events)Object.assign(event,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:atMs,combatGroup,combatGroupDurationMs:durationMs});
     combatGroup++;
@@ -1169,7 +1170,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const nextActionAt=independentAction?Math.max(clock,independentReadyAt):nextCardAt;
     if (durationLimit && nextActionAt > durationLimit) { durationStopped = true; break; }
     let nextStepMs=nextCombatMs;
-    if(chipActor&&independentAction){
+    if(combatClockEnabled&&independentAction){
       const fraction=clamp((nextActionAt-lastCardGaugeClock)/Math.max(.000001,gaugeReadyAt-lastCardGaugeClock),0,1);
       nextStepMs=Math.max(combatMs,lastCardCombatMs+(nextCombatMs-lastCardCombatMs)*fraction);
     }
@@ -1178,7 +1179,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if(chipActor&&nextChipMs()<=nextStepMs){resolveChipStep();continue;}
     const groupFrom=timeline.length;
-    if(chipActor)combatMs=nextStepMs;
+    if(combatClockEnabled)combatMs=nextStepMs;
     let actionActor=null;
     try {
     const dt=Math.max(0,nextActionAt-clock);
@@ -1533,7 +1534,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     teamAHpPercent: Math.round(aRatio * 1000) / 10,
     teamBHpPercent: Math.round(bRatio * 1000) / 10
   });
-  if(chipActor){
+  if(combatClockEnabled){
     const last=timeline.at(-1);
     Object.assign(last,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:Math.max(combatMs,nextCombatMs),combatGroup:combatGroup++,combatGroupDurationMs:0,combatEndedAtMs:combatMs});
   }
@@ -1735,15 +1736,20 @@ function preparePveEncounter(encounter) {
   return {initial, pending:fighters.slice(initialCount), maxActions, maxDuration, forcedMonsterEvery};
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
-  const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
-  if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
+export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,mercenary=null}={}) {
   const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
   if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');
   const mercenaryFighter=buildMercenaryFighter(mercenary,'A','PVE',buildFighter);
   const simulationTeamA = [...teamA,...(battleSuitFighter?[battleSuitFighter]:[]),...(mercenaryFighter?[mercenaryFighter]:[])];
+  return {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA};
+}
+
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
+  const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
+  if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
+  const {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA}=buildPvePlayerTeam({cards,characterBonus,battleSuit,mercenary});
   const legion=encounterPlan?null:buildApocalypseLegion(monster,buildMonsterFighter);
   const teamB = encounterPlan ? encounterPlan.initial : legion || [buildMonsterFighter(monster)];
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));

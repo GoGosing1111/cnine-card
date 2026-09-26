@@ -1,9 +1,16 @@
-import {createHuntSession,restoreHuntSession,DIFFICULTIES,PARTIES} from '../preview/sustained-hunt-v2/session.mjs';
-import {LEGION_HUNT_REVIEW_FIXTURE} from '../shared/legion-hunt-review-fixture-v1.mjs';
+import {createHuntSession,restoreHuntSession,DIFFICULTIES} from '../preview/sustained-hunt-v2/session.mjs';
+import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {LEGION_HUNT_ACCESS,legionHuntCatalog,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 const TTL=30*60*1000;
-const ACTIONS={start:['difficulty','party'],begin:['id'],reveal:['id','seq'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id']};
+const ACTIONS={start:['difficulty'],begin:['id'],reveal:['id','seq'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id']};
+async function accountSnapshot(env,user,deps){
+  try{return await loadScrapyardV3Snapshot(env,user,deps);}
+  catch(error){
+    if(error.code==='SCRAPYARD_V3_DECK'||/덱|보유하지 않은/.test(error.message||''))throw jointError('HUNT_DECK','저장된 PVE 덱 5장을 확인해 주세요. 편성을 저장한 뒤 다시 불러오세요.',409);
+    throw error;
+  }
+}
 const idValid=id=>typeof id==='string'&&/^[0-9a-f-]{36}$/.test(id);
 async function loadRun(env,key){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
@@ -36,19 +43,22 @@ export async function handleLegionHunt({path,request,env,deps}){
     const action=path.slice('legion-hunt/'.length);
     if(action==='bootstrap'&&request.method==='GET'){
       const {policy}=await readLegionHuntPolicy(env);
-      return json({ok:true,access:LEGION_HUNT_ACCESS,difficulties:DIFFICULTIES,parties:PARTIES,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
+      let loadout=null,loadoutError=null;
+      try{loadout=await accountSnapshot(env,user,deps);}catch(error){if(error.code!=='HUNT_DECK')throw error;loadoutError=error.message;}
+      return json({ok:true,access:LEGION_HUNT_ACCESS,difficulties:DIFFICULTIES,loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
     }
     if(!Object.hasOwn(ACTIONS,action))return json({error:'군단토벌 경로를 확인하세요.'},404);
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
     const body=await readJointBody(request,{maxBytes:4096,fields:ACTIONS[action]}),now=deps.now||Date.now;
-    if(action==='start'&&(!DIFFICULTIES.some(d=>d.id===body.difficulty)||!PARTIES.some(p=>p.id===body.party)))throw jointError('HUNT_SELECTION','난이도와 검수 원정대를 선택하세요.');
+    if(action==='start'&&!DIFFICULTIES.some(d=>d.id===body.difficulty))throw jointError('HUNT_SELECTION','난이도를 선택하세요.');
     if(action!=='start'&&!idValid(body.id))throw jointError('HUNT_SESSION','원정 번호를 확인하세요.');
     return json(await deps.withUserMutationLock(env,user.id,path,async()=>{
       const key='legion_hunt_owner_session_v1:'+Number(user.id),before=await loadRun(env,key);
       if(action==='start'){
         const {policy}=await readLegionHuntPolicy(env),d=policy.difficulties.find(r=>r.id===body.difficulty);
         if(!d)throw jointError('HUNT_POLICY_UNAVAILABLE','난이도별 드랍 설정을 확인하세요.',503);
-        const session=(deps.createSession||createHuntSession)({...LEGION_HUNT_REVIEW_FIXTURE,...body,now,dropPolicy:{dropChance:d.dropPercent/100,bossDropChance:d.bossDropPercent/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items}});
+        const snapshot=await accountSnapshot(env,user,deps);
+        const session=(deps.createSession||createHuntSession)({snapshot,...body,now,dropPolicy:{dropChance:d.dropPercent/100,bossDropChance:d.bossDropPercent/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items}});
         await saveRun(env,key,before.raw,{expiresAt:now()+TTL,configRevision:policy.revision,state:session.exportState()});
         return {ok:true,id:session.id,payload:session.payload,configRevision:policy.revision};
       }

@@ -4,7 +4,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import {legionFixture} from '../tests/helpers/legion-hunt-fixture.mjs';
 import {handleLegionHunt} from '../functions/_legion_hunt.js';
-const root=fs.realpathSync(process.cwd()),port=8959,fixture=await legionFixture();
+const root=fs.realpathSync(process.cwd()),port=Number(process.env.LEGION_REVIEW_PORT||8959),fixture=await legionFixture({withMercenary:true});
 fixture.deps.now=Date.now;
 fixture.deps.authenticate=async request=>request.headers.get('cookie')?.includes('hunt_review_role=USER')?fixture.player:fixture.owner;
 fixture.deps.json=(body,status=200)=>Response.json(body,{status});
@@ -31,7 +31,7 @@ const server=http.createServer(async(req,res)=>{
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,'Method not allowed',405);
     const relative=decodeURIComponent(url.pathname).replace(/^\/+/,''),parts=relative.split(/[\\/]/);
-    if(!['preview','assets','css','js','admin'].includes(parts[0])||parts.some(s=>s==='..'||s.startsWith('.')))return send(res,'Not found',404);
+    if(!['pve','preview','assets','css','js','admin'].includes(parts[0])||parts.some(s=>s==='..'||s.startsWith('.')))return send(res,'Not found',404);
     let file=path.resolve(root,relative);if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
     if(!fs.existsSync(file)||!fs.realpathSync(file).startsWith(root+path.sep)||!mime[path.extname(file)])return send(res,'Not found',404);
     res.writeHead(200,{'content-type':mime[path.extname(file)],'cache-control':'no-store'});if(req.method==='HEAD')res.end();else fs.createReadStream(file).pipe(res);

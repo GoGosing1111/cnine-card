@@ -1,18 +1,27 @@
 import {randomUUID,randomInt} from 'node:crypto';
-import {buildFighter,buildMonsterFighter,buildBattleSuitFighter,publicFighter,teamSummary,simulateBattleV2Preview} from '../../functions/_battle_v2_preview.js';
+import {buildFighter,buildMonsterFighter,buildBattleSuitFighter,buildPvePlayerTeam,publicFighter,teamSummary,simulateBattleV2Preview} from '../../functions/_battle_v2_preview.js';
 import {buildPreviewDeck,BATTLE_SUIT} from '../idle-v3-v1/source/idle-model.mjs';
 import {CAPACITY,DIFFICULTIES,PARTIES,MONSTERS,BOSSES,LOOT_ITEMS,selectDifficulty,selectParty,chooseDropPosition,ENGINE_BASE} from './hunt-rules.mjs';
 export {DIFFICULTIES,PARTIES};
 const secureRandom=()=>randomInt(0,0x100000000)/0x100000000;
-export function createHuntSession({catalog,equipment,difficulty='normal',party='standard',seed=randomInt(1,0x7fffffff),now=Date.now,random=secureRandom,limitMs,dropPolicy}={}){
+export function createHuntSession({snapshot,catalog,equipment,difficulty='normal',party='standard',seed=randomInt(1,0x7fffffff),now=Date.now,random=secureRandom,limitMs,dropPolicy}={}){
   const policy={...selectDifficulty(difficulty),...(dropPolicy||{})},partyPolicy=selectParty(party),id=randomUUID();
-  const cards=buildPreviewDeck(catalog).map(c=>({...c,power:partyPolicy.cardPower}));
-  const suit=equipment.suits.find(s=>s.code===BATTLE_SUIT.code),weapon=equipment.weapons.find(w=>w.equipmentCode===BATTLE_SUIT.weaponCode);
-  if(!suit||!weapon)throw Error('HUNT_APPROVED_EQUIPMENT_MISSING');
-  const equippedBattleSuit={code:suit.code,pvePower:partyPolicy.suitPower,appearance:{battleSprite:suit.image,battleHeight:278}};
-  const equippedWeapon={code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}};
-  const teamA=cards.map((c,i)=>buildFighter(c,i,'A',c.uniqueAbility||null,'PVE'));
-  const support=buildBattleSuitFighter({...equippedBattleSuit,weapon:equippedWeapon,accountNickname:'원정대 지원',skillChips:['SKILL_CHIP_HELICOPTER_AIRSTRIKE']});
+  let cards,equippedBattleSuit,equippedWeapon,teamA,support,mercenary=null,simulationTeamA;
+  if(snapshot){
+    if(snapshot.cards?.length!==5||new Set(snapshot.cards.map(c=>String(c.id))).size!==5)throw Error('HUNT_DECK');
+    cards=snapshot.cards;equippedBattleSuit=snapshot.characterBonus?.equippedBattleSuit||null;equippedWeapon=snapshot.characterBonus?.equippedWeapon||null;
+    const team=buildPvePlayerTeam({cards,characterBonus:snapshot.cardSupportBonus,battleSuit:snapshot.battleSuit,mercenary:snapshot.mercenary});
+    ({teamA,simulationTeamA}=team);support=team.battleSuitFighter;mercenary=team.mercenaryFighter;
+  }else{
+    cards=buildPreviewDeck(catalog).map(c=>({...c,power:partyPolicy.cardPower}));
+    const suit=equipment.suits.find(s=>s.code===BATTLE_SUIT.code),weapon=equipment.weapons.find(w=>w.equipmentCode===BATTLE_SUIT.weaponCode);
+    if(!suit||!weapon)throw Error('HUNT_APPROVED_EQUIPMENT_MISSING');
+    equippedBattleSuit={code:suit.code,pvePower:partyPolicy.suitPower,appearance:{battleSprite:suit.image,battleHeight:278}};
+    equippedWeapon={code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}};
+    teamA=cards.map((c,i)=>buildFighter(c,i,'A',c.uniqueAbility||null,'PVE'));
+    support=buildBattleSuitFighter({...equippedBattleSuit,weapon:equippedWeapon,accountNickname:'원정대 지원',skillChips:['SKILL_CHIP_HELICOPTER_AIRSTRIKE']});
+    simulationTeamA=[...teamA,support];
+  }
   const instances=[],fighters=[];
   for(let stage=0;stage<3;stage++){
     // Twelve enemies including a mid-boss in stages two and three; final guardian is separate.
@@ -30,8 +39,9 @@ export function createHuntSession({catalog,equipment,difficulty='normal',party='
   Object.assign(f,{id:'B:4:ENCOUNTER:'+id+':FINAL',slot:4,encounterWave:3});fighters.push(f);
   instances.push({...publicFighter(f),name:art.name,displayName:art.name,boss:true,finalBoss:true,stage:4,battleHeight:art.height,battleSprite:art.sprite,sourceArt:art.sprite});
   const timeLimit=limitMs??policy.limitMs;
-  const result=simulateBattleV2Preview({teamA:[...teamA,support],teamB:fighters.slice(0,CAPACITY),reinforcements:fighters.slice(CAPACITY),
-    encounterCapacity:CAPACITY,maxCombatDurationMs:timeLimit,maxDuration:4,maxActions:600,forcedMonsterEvery:policy.forced,healerPenalty:true,seed});
+  const result=simulateBattleV2Preview({teamA:simulationTeamA,teamB:fighters.slice(0,CAPACITY),reinforcements:fighters.slice(CAPACITY),
+    encounterCapacity:CAPACITY,maxCombatDurationMs:timeLimit,maxDuration:4,maxActions:600,forcedMonsterEvery:policy.forced,healerPenalty:true,seed,
+    magicA:snapshot?.magicCards||[],singleHealerBonus:snapshot?.singleHealerBonus||{},openingPlayerUltimateDamage:snapshot?.ultimateDamage||0});
   const instanceMap=new Map(instances.map(r=>[r.id,r]));
   for(const e of result.timeline){
     const monster=instanceMap.get(e.targetId);
@@ -39,13 +49,15 @@ export function createHuntSession({catalog,equipment,difficulty='normal',party='
     if(e.type==='KO'&&monster){e.huntKill=true;e.boss=monster.boss;e.huntStage=monster.stage;}
   }
   const timeline=result.timeline;
-  const payload={previewOnly:true,engineBase:ENGINE_BASE,title:'군단토벌 · 잊혀진 섬',mode:'HUNT',battlefieldMode:'HUNT',accountNickname:'검수 원정대',playerName:'원정대',opponentName:'몬스터 군단',
-    cards,equippedBattleSuit,equippedWeapon,characterBonus:{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
-    huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:fighters.length,totalBosses:3,party:partyPolicy.id,partyPower:partyPolicy.cardPower*5+partyPolicy.suitPower},
+  const accountNickname=snapshot?.accountNickname||'검수 원정대',mercenaries=result.openingMercenaries?.A||[];
+  const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · 잊혀진 섬',mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
+    cards,equippedBattleSuit,equippedWeapon,characterBonus:snapshot?.characterBonus||{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
+    ...(snapshot?{loadoutSource:snapshot.source,mercenary:snapshot.mercenary||null}:{}),
+    huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:fighters.length,totalBosses:3,party:snapshot?'account':partyPolicy.id,partyPower:teamSummary(simulationTeamA).power},
     continuousEncounter:{schemaVersion:2,capacity:CAPACITY,initialIds:fighters.slice(0,CAPACITY).map(r=>r.id),instances},
     battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},
-      teams:{A:{cards:teamA.map(publicFighter),summary:teamSummary(teamA),supports:[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
-      result:{winner:null,reason:'RUNNING',timeline,final:{A:teamA.map(publicFighter),B:fighters.slice(0,CAPACITY).map(publicFighter)}}}};
+      teams:{A:{cards:teamA.map(publicFighter),summary:teamSummary([...teamA,...mercenaries]),...(mercenary?{mercenaries}:{}),supports:support?[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
+      result:{winner:null,reason:'RUNNING',timeline,final:{A:result.final.A.filter(c=>!c.isMercenary&&!c.isBattleSuit),B:result.final.B,...(mercenary?{mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:[]}}:{})}}}};
   return Object.assign(restoreHuntSession({id,policy,timeLimit,timeline:timeline.map(({seq,combatAtMs,huntKill,boss,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
 }
 // Compact, JSON-safe state is persisted by the OWNER API; no isolate-local session map.
