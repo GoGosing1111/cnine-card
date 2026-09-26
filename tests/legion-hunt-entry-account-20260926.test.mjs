@@ -11,6 +11,15 @@ import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 
 const entrySource=fs.readFileSync('js/legion-hunt-entry-v1.mjs','utf8');
+test('lobby portraits preserve the operating HTTPS card source as well as local Korean asset paths',()=>{
+  const source=entrySource.slice(entrySource.indexOf('const imagePath='),entrySource.indexOf('const power='));
+  const imagePath=vm.runInNewContext(source+';imagePath',{URL});
+  const remote='https://raw.githubusercontent.com/GoGosing1111/cnine-card/0cb5a008449fd8ff666228e91c67d08e45f2b2d4/assets/NEWCARD/chulgu-aizen-v1.png';
+  assert.equal(imagePath(remote),remote);
+  assert.equal(imagePath('assets/cards/한글 카드.png'),'/assets/cards/한글 카드.png');
+  assert.equal(imagePath('/assets/cards/card.webp?v=2'),'/assets/cards/card.webp?v=2');
+  for(const value of ['javascript:alert(1)','data:text/html,bad','file:///private','assets/../private'])assert.equal(imagePath(value),'');
+});
 function entry(options){
   const source=entrySource.slice(entrySource.indexOf('export function createHuntEntry'),entrySource.indexOf('let active=null;')).replace('export function','function');
   return vm.runInNewContext(source+';createHuntEntry(options)',{options});

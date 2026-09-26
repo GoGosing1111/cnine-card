@@ -3,7 +3,8 @@ import {jointAccountRequest} from './joint-account-transport.mjs';
 const art='/preview/sustained-hunt-v2/assets/';
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const imagePath=value=>{
-  const path=String(value||'').replace(/^\//,'');
+  const path=String(value||'').trim().replace(/^\//,'');
+  if(/^https:\/\//i.test(path)){try{return new URL(path).href;}catch{return '';}}
   if(!/^(assets|preview)\//.test(path)||path.includes('..'))return '';
   return '/'+path;
 };
@@ -69,6 +70,7 @@ export function openLegionHunt(button){
     const merc=loadout?.mercenary;
     find('.legion-mercenary').innerHTML=merc?`<img src="${escape(imagePath(merc.sourceArt))}" alt="${escape(merc.name)}"><div><small>용병 전용 슬롯 · ${escape(merc.rank)}</small><strong>${escape(merc.name)}</strong><span>${escape((merc.skills||[]).map(s=>s.name).join(' · ')||merc.role||'편성된 용병')}</span></div><b>출전</b>`:'<div><small>용병 전용 슬롯</small><strong>편성된 용병 없음</strong><span>용병을 편성하면 일반 카드 5장과 함께 출전합니다.</span></div>';
     const eq=loadout?.characterBonus;
+    if(loading)find('.legion-mercenary').innerHTML='<div><small>용병 전용 슬롯</small><strong>편성 불러오는 중</strong></div>';
     find('.legion-equipment').textContent=loadout?'장착 슈트 · '+(eq?.equippedBattleSuit?.name||eq?.equippedBattleSuit?.code||'없음')+' / 무기 · '+(eq?.equippedWeapon?.name||eq?.equippedWeapon?.code||'없음'):'';
     find('.legion-difficulties').innerHTML=(data?.difficulties||[]).map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span>0${i+1}</span><strong>${escape(d.name)}</strong><small>${escape(d.description)}</small></button>`).join('');
     const selected=data?.difficulties.find(d=>d.id===state.difficulty);
