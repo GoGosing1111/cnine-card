@@ -11,6 +11,7 @@
   const legacyEvolutionBinder = window.bindEvolutionView;
 
   const NAV_META = Object.freeze({
+    legion: ['군단토벌', '잊혀진 섬 · OWNER', '<path d="M4 19V9l4-4 4 4 4-4 4 4v10zM8 19v-5h8v5"/>'],
     deck: ['덱 편성', 'DEPLOY DECK', '<rect x="4" y="5" width="11" height="14"/><path d="M9 2h11v14"/>'],
     hunt: ['몬스터 토벌', 'HUNT ZONE', '<path d="m5 19 5-5m4-4 5-5M8 4l12 12M4 8l12 12"/><path d="m4 4 4 1-3 3zM20 20l-4-1 3-3z"/>'],
     raid: ['월드 레이드', 'RAID LIVE', '<path d="M4 20V9h4v11M10 20V4h4v16M16 20V7h4v13M2 20h20"/>'],
@@ -80,14 +81,14 @@
 
   function modeButton(key, active = false) {
     const meta = NAV_META[key];
-    const route = key === 'scrapyard' ? 'data-v21-route="scrapyard"' : `data-pve-mode="${key}"`;
+    const route = key === 'legion' ? 'data-legion-hunt-entry' : key === 'scrapyard' ? 'data-v21-route="scrapyard"' : `data-pve-mode="${key}"`;
     return `<button type="button" class="pve-mode-btn${key === 'escort' ? ' pve-escort-tab' : ''}${active ? ' active' : ''}" ${key === 'escort' ? 'id="pveEscortTab"' : ''} ${route} aria-selected="${active ? 'true' : 'false'}"><svg viewBox="0 0 24 24" aria-hidden="true">${meta[2]}</svg><span><b>${meta[0]}</b><small>${meta[1]}</small></span>${key === 'raid' ? '<em>LIVE</em>' : ''}</button>`;
   }
 
   function liveBattleView(user) {
     return `${summaryBar(user)}<div id="pveCommandV2" class="pvev2-root pvev2-live-root" data-screen="deck">
       ${battleToolbar()}
-      <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">${modeButton('deck', true)}${modeButton('hunt')}${modeButton('raid')}${modeButton('escort')}${modeButton('scrapyard')}</nav>
+      <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">${modeButton('deck', true)}${modeButton('hunt')}${modeButton('raid')}${modeButton('escort')}${modeButton('scrapyard')}${user?.role==='OWNER'?modeButton('legion'):''}</nav>
       <main class="pvev2-viewport" id="pveV2LiveViewport">
         <div id="pveHuntView" class="pve-hunt-redesign pve-hunt-v1179"><div class="pvev2-loading"><i></i><b>라이브 PVE 데이터 연결 중</b><span>SOOPKETMON DATABASE</span></div></div>
         <div id="pveRiftView" class="pve-rift-view" hidden><div class="rift-loading"><i></i><b>차원의 균열을 확인하는 중...</b></div></div>

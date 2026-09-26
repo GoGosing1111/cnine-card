@@ -4,8 +4,8 @@ import {buildPreviewDeck,BATTLE_SUIT} from '../idle-v3-v1/source/idle-model.mjs'
 import {CAPACITY,DIFFICULTIES,PARTIES,MONSTERS,BOSSES,LOOT_ITEMS,selectDifficulty,selectParty,chooseDropPosition,ENGINE_BASE} from './hunt-rules.mjs';
 export {DIFFICULTIES,PARTIES};
 const secureRandom=()=>randomInt(0,0x100000000)/0x100000000;
-export function createHuntSession({catalog,equipment,difficulty='normal',party='standard',seed=randomInt(1,0x7fffffff),now=Date.now,random=secureRandom,limitMs}={}){
-  const policy=selectDifficulty(difficulty),partyPolicy=selectParty(party),id=randomUUID();
+export function createHuntSession({catalog,equipment,difficulty='normal',party='standard',seed=randomInt(1,0x7fffffff),now=Date.now,random=secureRandom,limitMs,dropPolicy}={}){
+  const policy={...selectDifficulty(difficulty),...(dropPolicy||{})},partyPolicy=selectParty(party),id=randomUUID();
   const cards=buildPreviewDeck(catalog).map(c=>({...c,power:partyPolicy.cardPower}));
   const suit=equipment.suits.find(s=>s.code===BATTLE_SUIT.code),weapon=equipment.weapons.find(w=>w.equipmentCode===BATTLE_SUIT.weaponCode);
   if(!suit||!weapon)throw Error('HUNT_APPROVED_EQUIPMENT_MISSING');
@@ -46,8 +46,14 @@ export function createHuntSession({catalog,equipment,difficulty='normal',party='
     battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},
       teams:{A:{cards:teamA.map(publicFighter),summary:teamSummary(teamA),supports:[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
       result:{winner:null,reason:'RUNNING',timeline,final:{A:teamA.map(publicFighter),B:fighters.slice(0,CAPACITY).map(publicFighter)}}}};
-  let startedAt=null,lastAck=0,ended=false,receipt=null;
-  const observed=new Map(),drops=new Map(),claims=new Map(),inventory=new Map(),positions=[],claimTimes=[];
+  return Object.assign(restoreHuntSession({id,policy,timeLimit,timeline:timeline.map(({seq,combatAtMs,huntKill,boss,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
+}
+// Compact, JSON-safe state is persisted by the OWNER API; no isolate-local session map.
+export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
+  const {id,policy,timeLimit,timeline,outcome}=state;
+  let {startedAt=null,lastAck=0,ended=false,receipt=null}=state;
+  const drops=new Map(state.drops||[]),claims=new Map(state.claims||[]),inventory=new Map(state.inventory||[]),positions=state.positions||[],claimTimes=state.claimTimes||[];
+  const observed=new Map((state.observed||[]).map(([seq,dropId])=>[seq,dropId?drops.get(dropId):null]));
   function begin(){if(ended)throw Error('HUNT_ENDED');if(startedAt===null)startedAt=now();return {started:true,serverNow:now()};}
   function acknowledge(seq){
     if(startedAt===null||ended)throw Error('HUNT_NOT_ACTIVE');
@@ -64,13 +70,15 @@ export function createHuntSession({catalog,equipment,difficulty='normal',party='
     const event=acknowledge(seq);if(!event?.huntKill)throw Error('HUNT_DROP_REQUIRES_KILL');
     expire();
     if(observed.has(seq))return {drop:observed.get(seq),serverNow:now()};
-    if(random()>=(event.boss?.72:policy.dropChance)){observed.set(seq,null);return {drop:null,serverNow:now()};}
+    const items=(policy.items||LOOT_ITEMS).filter(row=>row.enabled!==false&&row.weight>0),total=items.reduce((sum,row)=>sum+row.weight,0);
+    if(!total||random()>=(event.boss?(policy.bossDropChance??.72):policy.dropChance)){observed.set(seq,null);return {drop:null,serverNow:now()};}
     const active=[...drops.values()].filter(d=>d.state==='GROUND');
     const position=chooseDropPosition(random,positions,active.map(d=>d.position));
     if(!position){observed.set(seq,null);return {drop:null,serverNow:now()};}
-    let roll=random()*100,item=LOOT_ITEMS.at(-1);
-    for(const row of LOOT_ITEMS){roll-=row.weight;if(roll<0){item=row;break;}}
-    const drop={id:randomUUID(),token:randomUUID(),seq,item:{...item,quantity:1},position,createdAt:now(),expiresAt:now()+policy.dropLifeMs,state:'GROUND'};
+    let roll=random()*total,item=items.at(-1);
+    for(const row of items){roll-=row.weight;if(roll<0){item=row;break;}}
+    const min=item.minQuantity??1,max=item.maxQuantity??min,quantity=min+Math.floor(random()*(max-min+1));
+    const drop={id:randomUUID(),token:randomUUID(),seq,item:{...item,quantity},position,createdAt:now(),expiresAt:now()+policy.dropLifeMs,state:'GROUND'};
     drops.set(drop.id,drop);positions.push(position);observed.set(seq,drop);
     return {drop,serverNow:now()};
   }
@@ -84,7 +92,7 @@ export function createHuntSession({catalog,equipment,difficulty='normal',party='
     while(claimTimes.length&&now()-claimTimes[0]>1000)claimTimes.shift();
     if(claimTimes.length>=6)throw Error('DROP_CLICK_RATE_LIMIT');
     claimTimes.push(now());d.state='CLAIMED';
-    inventory.set(d.item.code,{...d.item,quantity:(inventory.get(d.item.code)?.quantity||0)+1});
+    inventory.set(d.item.code,{...d.item,quantity:(inventory.get(d.item.code)?.quantity||0)+d.item.quantity});
     const r={dropId,item:d.item,inventory:[...inventory.values()],serverNow:now()};
     claims.set(dropId,r);return r;
   }
@@ -100,5 +108,5 @@ export function createHuntSession({catalog,equipment,difficulty='normal',party='
       picked:claims.size,dropped:drops.size,missed:[...drops.values()].filter(d=>d.state!=='CLAIMED').length};
     return receipt;
   }
-  return {id,payload,begin,reveal,claim,finish,cancel(){ended=true;},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}};}};
+  return {id,begin,reveal,claim,finish,cancel(){ended=true;},exportState(){return {id,policy,timeLimit,timeline,outcome,startedAt,lastAck,ended,receipt,drops:[...drops],claims:[...claims],inventory:[...inventory],positions,claimTimes,observed:[...observed].map(([seq,d])=>[seq,d?.id||null])};},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome};}};
 }

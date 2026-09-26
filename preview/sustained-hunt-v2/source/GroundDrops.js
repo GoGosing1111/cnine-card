@@ -13,11 +13,12 @@ export class GroundDrops{
     const rev=this.revision,receivedAt=performance.now(),texture=await Assets.load(drop.item.image);if(rev!==this.revision)return;
     const remaining=Math.max(0,drop.expiresAt-serverNow-(performance.now()-receivedAt));
     if(!remaining){this.onExpired?.(drop);return;}
-    const root=new Container({label:'HUNT_GROUND_DROP_'+drop.id}),color=drop.item.rarity==='epic'?0xd4a1ff:drop.item.rarity==='rare'?0x69dcff:0xd5ff87;
+    const rarity=drop.item.tier||drop.item.rarity;
+    const root=new Container({label:'HUNT_GROUND_DROP_'+drop.id}),color=rarity==='epic'?0xd4a1ff:rarity==='rare'?0x69dcff:0xd5ff87;
     const halo=new Graphics().ellipse(0,0,32,12).fill({color,alpha:.25}).ellipse(0,0,25,8).stroke({color,width:2,alpha:.95});
     const icon=new Sprite(texture);icon.anchor.set(.5,1);const scale=45/Math.max(texture.width,texture.height);icon.scale.set(scale);icon.y=-8;
     root.addChild(halo,icon);this.engine.effectLayer.addChild(root);
-    const button=document.createElement('button');button.className='ground-drop '+drop.item.rarity;button.type='button';button.dataset.dropId=drop.id;
+    const button=document.createElement('button');button.className='ground-drop '+rarity;button.type='button';button.dataset.dropId=drop.id;
     button.setAttribute('aria-label',drop.item.name+' 획득');button.innerHTML='<span class="drop-countdown"></span><span class="drop-label"></span>';
     button.querySelector('.drop-label').textContent=drop.item.name;this.host.append(button);
     const row={drop,root,icon,button,deadline:performance.now()+remaining,pending:false,expired:false};

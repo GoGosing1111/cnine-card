@@ -1,5 +1,8 @@
 (() => {
   const $=id=>document.getElementById(id),api=window.ProjectVPixiBattle,originalMount=api.mountForBattle;
+  const ownerMode=new URLSearchParams(location.search).get('owner')==='1'||!['localhost','127.0.0.1'].includes(location.hostname);
+  const ownerTransport=ownerMode?import('/js/joint-account-transport.mjs'):null;
+  let ownerRequests=Promise.resolve();
   let engine,renderer,session,csrf,payload,policies=[],epoch=0,playing=false,paused=false,ending=false,finishing=false,ack=0,kills=0,bosses=0,renderedAt=0,picked=0;
   let reveals=Promise.resolve(),finishTimer=null,toastTimer=null,starting=false;
   const message=t=>{$('hunt-message').textContent=t;};
@@ -7,6 +10,18 @@
   api.mountForBattle=async(...args)=>{engine=await originalMount(...args);return engine;};
   window.cnineBattleSpriteUrl=path=>{const key=String(path||'').replace(/^\/+/, '').split('?')[0];return window.CNineResponsiveBattleSprites?.[key]||(window.CNineResponsiveCardImages?.[key]?window.CNineResponsiveCardImages[key]+'-384.webp':path);};
   async function request(action,body={}){
+    if(ownerMode){
+      // Reveals and manual pickup can happen together. Queue this window's writes
+      // so they do not compete for the same account mutation lock.
+      const next=ownerRequests.then(async()=>{
+        const transport=await ownerTransport;
+        for(let attempt=0;;attempt++){
+          try{return await transport.jointAccountRequest('legion-hunt/'+action,{method:'POST',body});}
+          catch(error){if(error.code!=='JOINT_LOCK_BUSY'||attempt>=2)throw error;await new Promise(resolve=>setTimeout(resolve,150*(attempt+1)));}
+        }
+      });
+      ownerRequests=next.catch(()=>{});return next;
+    }
     const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
     try{const response=await fetch('/__hunt/'+action,{method:'POST',headers:{'content-type':'application/json','x-preview-token':csrf},body:JSON.stringify(body),signal:controller.signal});
       const data=await response.json();if(!response.ok)throw Error(data.error||'원정 요청 실패');return data;
@@ -34,7 +49,7 @@
     const token=++epoch,oldSession=session;clearInterval(finishTimer);finishTimer=null;playing=paused=ending=finishing=starting=false;ack=kills=bosses=renderedAt=picked=0;reveals=Promise.resolve();
     clearTimeout(toastTimer);$('hunt-pickup-toast').classList.remove('show');$('hunt-pickup-toast').textContent='';
     engine?.setHuntPaused(false);renderer?.destroy();api.destroy();engine=null;session=null;buttons();
-    if(oldSession)void request('cancel',{id:oldSession}).catch(()=>{});
+    if(oldSession)await request('cancel',{id:oldSession}).catch(()=>{});
     $('hunt-kills').textContent=$('hunt-bosses').textContent=$('hunt-picked').textContent='0';$('hunt-boss-hud').hidden=true;
     $('hunt-stage').textContent='1 / 4 구간';$('hunt-objective').textContent='첫 번째 무리를 처치하세요';inventory();updatePolicy();message('원정대와 몬스터를 배치하고 있습니다.');
     const data=await request('start',{difficulty:$('hunt-difficulty').value,party:$('hunt-party').value});
@@ -116,5 +131,9 @@
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&!ending)pause();});
   window.addEventListener('pagehide',()=>{++epoch;clearInterval(finishTimer);clearTimeout(toastTimer);engine?.setHuntPaused(false);api.destroy();});
   window.HuntPreviewV2={diagnostics:()=>({playing,paused,ending,ack,kills,bosses,picked,renderedAt,session,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
-  fetch('/__hunt/bootstrap').then(r=>r.json()).then(async data=>{csrf=data.csrf;policies=data.difficulties;await prepare();}).catch(e=>{message(errorText(e));$('hunt-start').textContent='다시 불러오기 필요';});
+  const bootstrap=ownerMode?ownerTransport.then(t=>t.jointAccountRequest('legion-hunt/bootstrap')):fetch('/__hunt/bootstrap').then(r=>r.json());
+  bootstrap.then(async data=>{csrf=data.csrf;policies=data.difficulties;
+    if(ownerMode){document.querySelector('.preview-badge').textContent='OWNER';document.querySelector('.review-note').textContent='OWNER 검수 · 일반 유저 OFF · 실계정 지급 없음';}
+    await prepare();if(ownerMode&&!data.activeItems)message('CMS → 군단토벌에서 드랍 후보를 추가하고 사용을 켜면 다음 원정부터 반영됩니다.');
+  }).catch(e=>{message(errorText(e));$('hunt-start').textContent='다시 불러오기';$('hunt-start').disabled=false;$('hunt-start').onclick=()=>location.reload();});
 })();
