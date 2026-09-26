@@ -1,4 +1,6 @@
-# 몰이사냥 V2 — 2026-09-26 검수판
+# 군단토벌 · 잊혀진 섬 — 2026-09-26 검수판
+
+사용자 확정 이름은 **콘텐츠: 군단토벌 / 맵: 잊혀진 섬**이다. 화면 제목·출전 설정·로딩·전장·서버 표시명을 통일하고, 이전 주조장 부제를 제거했다. 내부 프리뷰 URL과 자산 파일명은 기존 연결을 유지한다.
 
 9월 17일 V1의 전용 전투 복제본을 사용하지 않고, 9월 26일 확인한 최신 `origin/main` **0d67ae862a1f9763605ad7323e889acf5d51ad41**의 V3 엔진·스킬칩·캐릭터·원화 카드 도크·아트 어댑터로 다시 구성했다.
 
@@ -11,7 +13,7 @@ node scripts/build-sustained-hunt-v2.mjs
 node scripts/serve-sustained-hunt-v2.mjs
 ```
 
-[몰이사냥 V2](http://127.0.0.1:8958/preview/sustained-hunt-v2/) — 서버는 127.0.0.1에만 바인딩한다. `HUNT_PREVIEW_PORT`로 포트를 바꿀 수 있다. 정적 파일 서버만으로는 전투/드랍 서버가 동작하지 않는다.
+[군단토벌 · 잊혀진 섬](http://127.0.0.1:8958/preview/sustained-hunt-v2/) — 서버는 127.0.0.1에만 바인딩한다. `HUNT_PREVIEW_PORT`로 포트를 바꿀 수 있다. 정적 파일 서버만으로는 전투/드랍 서버가 동작하지 않는다.
 
 ## 사냥 구성
 
@@ -52,11 +54,11 @@ node scripts/serve-sustained-hunt-v2.mjs
 
 | 리소스 | 파일 |
 | --- | --- |
-| 잊힌 주조장 배경 | assets/backgrounds/overgrown-forge-field-v2.png |
+| 잊혀진 섬 배경 | assets/backgrounds/overgrown-forge-field-v2.png |
 | 잿불 사마귀 | assets/monsters/ember-mantis-sd-v2.png |
 | 이끼등 석수 | assets/monsters/mossback-tortoise-sd-v2.png |
 | 청람 날개수 | assets/monsters/cobalt-bat-sd-v2.png |
-| 태고의 주조장 수호자 | assets/monsters/ancient-forge-warden-boss-sd-v2.png |
+| 태고의 수호자 | assets/monsters/ancient-forge-warden-boss-sd-v2.png |
 
 추가로 기존 폐차장의 기어죠·브레이커·래비저·극성 회수자·아틀라스·몰록 투명 SD를 사용해 총 10종이다. 신규 SD 4종은 실제 알파를 확인했다. 수호자의 첫 생성본은 상단 잘림으로 제외하고 전체 형태가 보이는 수정본을 사용했다. 기존 카드 도크의 원화/등급 프레임은 공용 V3를 그대로 사용한다.
 

@@ -27,7 +27,7 @@ export const MONSTERS=Object.freeze([
 export const BOSSES=Object.freeze([
   {id:'atlas',name:'철갑 거신 아틀라스',sprite:scrap+'atlas-sd-v1.png',power:.8,height:375},
   {id:'moloch',name:'용광 군주 몰록',sprite:scrap+'moloch-sd-v1.png',power:1,height:385},
-  {id:'warden',name:'태고의 주조장 수호자',sprite:generated+'ancient-forge-warden-boss-sd-v2.png',power:1.35,height:420}
+  {id:'warden',name:'태고의 수호자',sprite:generated+'ancient-forge-warden-boss-sd-v2.png',power:1.35,height:420}
 ].map(Object.freeze));
 export const LOOT_ITEMS=Object.freeze([
   {code:'REVIEW_SCRAP',name:'고철 부품',image:'/assets/ui/scrapyard/vehicle-part-frame-v1667.svg',rarity:'normal',weight:70},

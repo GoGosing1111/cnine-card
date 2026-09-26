@@ -39,7 +39,7 @@ export function createHuntSession({catalog,equipment,difficulty='normal',party='
     if(e.type==='KO'&&monster){e.huntKill=true;e.boss=monster.boss;e.huntStage=monster.stage;}
   }
   const timeline=result.timeline;
-  const payload={previewOnly:true,engineBase:ENGINE_BASE,title:'잊힌 주조장 · 몰이사냥',mode:'HUNT',battlefieldMode:'HUNT',accountNickname:'검수 원정대',playerName:'원정대',opponentName:'주조장 군단',
+  const payload={previewOnly:true,engineBase:ENGINE_BASE,title:'군단토벌 · 잊혀진 섬',mode:'HUNT',battlefieldMode:'HUNT',accountNickname:'검수 원정대',playerName:'원정대',opponentName:'몬스터 군단',
     cards,equippedBattleSuit,equippedWeapon,characterBonus:{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
     huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:fighters.length,totalBosses:3,party:partyPolicy.id,partyPower:partyPolicy.cardPower*5+partyPolicy.suitPower},
     continuousEncounter:{schemaVersion:2,capacity:CAPACITY,initialIds:fighters.slice(0,CAPACITY).map(r=>r.id),instances},

@@ -40,13 +40,13 @@
     const data=await request('start',{difficulty:$('hunt-difficulty').value,party:$('hunt-party').value});
     if(token!==epoch){void request('cancel',{id:data.id});return;}
     session=data.id;payload=data.payload;window.cnineCardCatalog=()=>payload.cards;
-    const modal=$('hunt-modal'),prepared=ProjectVBattleV3Live.prepareLoading({modal,mode:'HUNT',playerName:'원정대',opponentName:'주조장 군단',autoText:'잊힌 주조장에 진입하고 있습니다.'});
+    const modal=$('hunt-modal'),prepared=ProjectVBattleV3Live.prepareLoading({modal,mode:'HUNT',playerName:'원정대',opponentName:'몬스터 군단',autoText:'잊혀진 섬에 진입하고 있습니다.'});
     prepared.stage.querySelector('.battle-v3-canvas-host').style.backgroundImage='none';
     renderer=await ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'HUNT',playerName:'원정대',playUltimateCinematics:false,continuousPlayback:true});
     if(token!==epoch)return;
     document.removeEventListener('visibilitychange',engine.onVisibility);
     engine.previewSpeed=Number($('hunt-speed').value);engine.paceScale=engine.previewSpeed;
-    prepared.stage.querySelector('.battle-v3-header strong').textContent='잊힌 주조장 · '+payload.huntPolicy.name;
+    prepared.stage.querySelector('.battle-v3-header strong').textContent='잊혀진 섬 · '+payload.huntPolicy.name;
     prepared.stage.querySelector('#battlePhase').textContent='37개체 · 보스 3';
     await api.restoreDeployedFormation();
     engine.attachGroundDrops({
@@ -65,7 +65,7 @@
   function onEvent(event){
     ack=event.seq;renderedAt=Math.min(payload.huntPolicy.limitMs,Math.max(renderedAt,event.combatAtMs||0));
     $('hunt-time').textContent=time(payload.huntPolicy.limitMs-renderedAt);
-    if(event.huntStage){$('hunt-stage').textContent=event.huntStage+' / 4 구간';$('hunt-objective').textContent=event.huntStage===4?'태고의 주조장 수호자를 처치하세요':event.huntStage===1?'첫 번째 무리를 처치하세요':event.huntStage+'차 습격 · 중간 보스 처치';}
+    if(event.huntStage){$('hunt-stage').textContent=event.huntStage+' / 4 구간';$('hunt-objective').textContent=event.huntStage===4?'태고의 수호자를 처치하세요':event.huntStage===1?'첫 번째 무리를 처치하세요':event.huntStage+'차 습격 · 중간 보스 처치';}
     if(event.huntKill){
       $('hunt-kills').textContent=++kills;if(event.boss)$('hunt-bosses').textContent=++bosses;
       const token=epoch,id=session;reveals=reveals.then(async()=>{
