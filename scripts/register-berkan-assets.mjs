@@ -1,11 +1,16 @@
 import fs from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import sharp from 'sharp';
-import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_POSITION} from '../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_POSITION,BERKAN_SOURCE_ART,BERKAN_BATTLE_SPRITE} from '../shared/mercenary-berkan-v1.mjs';
 const read=async p=>JSON.parse(await fs.readFile(p,'utf8')),write=(p,d)=>fs.writeFile(p,JSON.stringify(d,null,2)+'\n'),sha=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 const root='preview/mercenary-berkan-sss-v1/',base='assets/ui/project-v/mercenaries/',m=await read(root+'manifest.json');
 for(const [file,hash] of [[m.sourceArt,m.sourceArtInfo.sha256],[m.battleSprite,m.battleSpriteInfo.sha256]])if(sha(await fs.readFile(file))!==hash)throw Error('BERKAN_APPROVED_SOURCE_CHANGED');
 if(!m.runtimeEnabled||m.effectStatus!=='USER_APPROVED_LIVE')throw Error('BERKAN_APPROVAL_REQUIRED');
+for(const [source,target] of [[m.sourceArt,BERKAN_SOURCE_ART],[m.battleSprite,BERKAN_BATTLE_SPRITE]]){
+ await fs.mkdir(target.slice(0,target.lastIndexOf('/')),{recursive:true});
+ try{if(sha(await fs.readFile(target))!==sha(await fs.readFile(source)))throw Error('BERKAN_LIVE_ASSET_COLLISION');}catch(error){if(error.code!=='ENOENT')throw error;}
+ await fs.copyFile(source,target);
+}
 const roster=await read(base+'mercenary-system-roster-v1.json'),old=roster.cards.find(c=>c.code===BERKAN_CODE);
 if(old&&old.sourceArtSha256!==m.sourceArtInfo.sha256)throw Error('BERKAN_CODE_COLLISION');
 if(!old){
@@ -13,6 +18,8 @@ if(!old){
  roster.updatedAt='2026-09-27';for(const key of ['total','sourceArtReady','battleSpriteReady'])roster.summary[key]++;await write(base+'mercenary-system-roster-v1.json',roster);
 }
 const posPath='preview/project-v-mercenary-system-v1/position-draft-v1.json',pos=await read(posPath);
+Object.assign(roster.cards.find(c=>c.code===BERKAN_CODE),{sourceArt:BERKAN_SOURCE_ART,battleSprite:BERKAN_BATTLE_SPRITE});
+await write(base+'mercenary-system-roster-v1.json',roster);
 if(!pos.assignments.some(c=>c.code===BERKAN_CODE)){pos.assignments.push({...BERKAN_POSITION});await write(posPath,pos);}
 const ap=base+'mercenary-attachment-points-v1.json',attachments=await read(ap);
 attachments.cards[BERKAN_CODE]??={battleSpriteSha256:m.battleSpriteInfo.sha256,weaponKind:'BOW',authoredFacing:1,weapon:{x:.82,y:.47},cast:{x:.57,y:.53},contact:{x:.57,y:.53}};await write(ap,attachments);
@@ -31,5 +38,5 @@ if(!fx.images.some(s=>s.skillId===BERKAN_SKILL_ID)){
  fx.images.push({id:'berkan-gilded-starfall',skillId:BERKAN_SKILL_ID,name:'흑금 낙성',source:folder+'sequence-source-v1.png',runtime:folder+'atlas-v1.webp',sourceSha256:s.sourceInfo.sha256,runtimeSha256:sha(atlas),sourceSize:[s.sourceInfo.width,s.sourceInfo.height],size:[2048,2048],cellSize:512,columns:4,rows:4,frameCount:16,generation:'BUILT_IN_IMAGE_GEN',prompt:await fs.readFile(root+'prompts/fx-impact-v2.txt','utf8'),sourceFilename:'sequence-source-v1.png',visualReview:'2026-09-27 사용자 현재 모션·오라로 확정',runtimeBytes:atlas.length,creationReferenceCode:BERKAN_CODE,frames});
  fx.frameCount=fx.images.reduce((n,r)=>n+r.frameCount,0);await write(fxbase+'manifest.json',fx);
 }
-await write(base+'mercenary-berkan-approval-20260927.json',{date:'2026-09-27',code:BERKAN_CODE,skillId:BERKAN_SKILL_ID,name:'베르칸',rank:'SSS',status:'USER_APPROVED_LIVE',runtimeConnected:true,scope:'CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT',request:'SSS 등록, 크라이베른과 동일 희귀도. 현재 모션·오라로 확정.',sourceArt:m.sourceArt,sourceArtSha256:m.sourceArtInfo.sha256,battleSprite:m.battleSprite,battleSpriteSha256:m.battleSpriteInfo.sha256,motionFrames:56,effectFrames:60,sourceArtUnchanged:true,manifest:root+'manifest.json'});
+await write(base+'mercenary-berkan-approval-20260927.json',{date:'2026-09-27',code:BERKAN_CODE,skillId:BERKAN_SKILL_ID,name:'베르칸',rank:'SSS',status:'USER_APPROVED_LIVE',runtimeConnected:true,scope:'CATALOG_CMS_ACQUISITION_LOADOUT_COMBAT',request:'SSS 등록, 크라이베른과 동일 희귀도. 현재 모션·오라로 확정.',sourceArt:BERKAN_SOURCE_ART,sourceArtSha256:m.sourceArtInfo.sha256,battleSprite:BERKAN_BATTLE_SPRITE,battleSpriteSha256:m.battleSpriteInfo.sha256,motionFrames:56,effectFrames:60,sourceArtUnchanged:true,manifest:root+'manifest.json'});
 console.log('Registered Berkan V-055 / MS-055 without altering existing roster entries.');

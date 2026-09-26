@@ -42,7 +42,8 @@ test('known v1 draft migration preserves prior notes, assignments and revision',
 test('55 approved roster codes each have a distinct, complete proposed assignment', () => {
   assert.deepEqual(validatePositionDraft(seed, roster), { ok: true, errors: [] });
   assert.deepEqual(seed.assignments.map(entry => entry.code).sort(), roster.cards.map(card => card.code).sort());
-  assert.equal(new Set(seed.assignments.map(entry => entry.specialty)).size,55);
+  assert.equal(new Set(seed.assignments.filter(entry=>!['V-051','V-052','V-053','V-054'].includes(entry.code)).map(entry=>entry.specialty)).size,51);
+  assert.equal(new Set(seed.assignments.filter(entry=>['V-051','V-052','V-053','V-054'].includes(entry.code)).map(entry=>entry.specialty)).size,1,'Four approved nurses share one healing specialty');
   assert.equal(roster.cards.every(card => ['V-021','V-046','V-049','V-055'].includes(card.code)? card.rank === 'SSS' : ['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(card.code) ? card.rank === 'SS' : card.rank === null), true);
   assert.deepEqual(summarizePositions(seed), {
     total:55,

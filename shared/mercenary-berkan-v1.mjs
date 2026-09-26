@@ -28,3 +28,5 @@ export function prepareBerkanDefaults(document){
  document.assignments.find(a=>a.code===BERKAN_CODE).skillIds=[BERKAN_SKILL_ID];
  return document;
 }
+export const BERKAN_SOURCE_ART='assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png';
+export const BERKAN_BATTLE_SPRITE='assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png';

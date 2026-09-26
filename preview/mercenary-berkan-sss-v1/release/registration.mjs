@@ -1,13 +1,13 @@
 import {CRYVERN_CODE,CRYVERN_BALANCE} from '../../../shared/mercenary-cryvern-v1.mjs';
 import {validateMercenaryCms} from '../../../shared/mercenary-cms-model-v1.mjs';
 import {validateMercenaryDraw,mercenaryGradePools,mercenaryCardChances} from '../../../shared/mercenary-draw-policy-v1.mjs';
-import {BERKAN_CODE,BERKAN_SKILL_ID,berkanSelectionWeights} from '../../../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,berkanSelectionWeights,BERKAN_SOURCE_ART,BERKAN_BATTLE_SPRITE} from '../../../shared/mercenary-berkan-v1.mjs';
 export {BERKAN_CODE,BERKAN_SKILL_ID,berkanSelectionWeights};
 export const HASHES=Object.freeze({sourceArt:'E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D',battleSprite:'79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101'});
 export function berkanRegistration(manifest){
  if(manifest.sourceArtInfo.sha256!==HASHES.sourceArt||manifest.battleSpriteInfo.sha256!==HASHES.battleSprite)throw Error('BERKAN_ASSET_HASH');
  const position={code:BERKAN_CODE,rank:'SSS',position:'REAR',role:'SNIPER',basicTarget:'FRONT_ENEMY',skillTarget:'BACK_THREAT',specialty:'후열 핵심을 겨누는 흑금 화살 · 제자리 원거리 사격',weakness:'회피·호위·보호막·방어에 대응되며 제압 상태에서는 발동하지 않음',rationale:'사용자 지정 SSS 궁수. 달리기 대신 조준·발사·반동을 분리한 동작.'};
- const card={code:BERKAN_CODE,name:'베르칸',title:'흑금의 궁수',rank:'SSS',rankStatus:'USER_ASSIGNED_RANK',nameStatus:'USER_ASSIGNED_NAME',role:'후열 궁수',weapon:'흑금 장궁',outfit:'흑금 판금 갑옷',sourceArt:manifest.sourceArt,sourceArtSha256:HASHES.sourceArt,sourceArtStatus:'USER_SUPPLIED_SOURCE_ART',catalogRelease:'USER_APPROVED_LIVE',battleSprite:manifest.battleSprite,battleSpriteSha256:HASHES.battleSprite,battleSpriteStatus:'USER_APPROVED_LIVE',battleSpriteFootAnchor:manifest.battleSpriteFootAnchor,accent:'#edc878'};
+ const card={code:BERKAN_CODE,name:'베르칸',title:'흑금의 궁수',rank:'SSS',rankStatus:'USER_ASSIGNED_RANK',nameStatus:'USER_ASSIGNED_NAME',role:'후열 궁수',weapon:'흑금 장궁',outfit:'흑금 판금 갑옷',sourceArt:BERKAN_SOURCE_ART,sourceArtSha256:HASHES.sourceArt,sourceArtStatus:'USER_SUPPLIED_SOURCE_ART',catalogRelease:'USER_APPROVED_LIVE',battleSprite:BERKAN_BATTLE_SPRITE,battleSpriteSha256:HASHES.battleSprite,battleSpriteStatus:'USER_APPROVED_LIVE',battleSpriteFootAnchor:manifest.battleSpriteFootAnchor,accent:'#edc878'};
  const skill={id:BERKAN_SKILL_ID,name:'흑금 낙성',role:'SNIPER',target:'BACK_THREAT',mechanic:'LOCKED_THREAT_SHOT',
   trigger:'살아 있는 후열 중 전투 시작 공격력이 가장 높은 적을 고정하고 현재 행동에서 조준과 사격을 완료합니다.',
   effect:'흑금 활에 힘을 응축해 고정 표적을 한 발로 타격합니다. 후열이 없으면 전열 단일을 겨눕니다.',
