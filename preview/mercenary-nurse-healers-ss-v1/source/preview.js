@@ -4,6 +4,7 @@ import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleChara
 import {createMercenaryBattleArtAdapter} from '../../../js/project-v-mercenary-battle-art-adapter-v1.js';
 import {NURSE_SKILL} from '../skill.mjs';
 import {NurseHealFX,loadHealSequence} from './NurseHealFX.js';
+import {skillAssetBaseUrl} from '../../project-v-mercenary-system-v1/skill-asset-base.mjs';
 const parentDoc=window.parent.document,$=id=>parentDoc.getElementById(id)||document.getElementById(id);
 const ROOT='/preview/mercenary-nurse-healers-ss-v1/';
 const FIXTURE_IDS=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
@@ -39,6 +40,8 @@ function dispose(){
 }
 async function boot(){
  try{
+  // Pages removes .html; keep Pixi's relative V3 assets anchored to the shared directory.
+  await Assets.init({basePath:skillAssetBaseUrl(location.href)});
   const catalogs=await Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)));
   manifest=await get(ROOT+'manifest.json');
   adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:4,battleSpritePending:0},cards:manifest.cards});

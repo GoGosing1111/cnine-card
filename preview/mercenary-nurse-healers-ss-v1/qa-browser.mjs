@@ -14,6 +14,8 @@ try{
   await page.goto('http://127.0.0.1:8831/preview/mercenary-nurse-healers-ss-v1/',{waitUntil:'networkidle',timeout:60000});
   await page.addStyleTag({content:'html{scroll-behavior:auto!important}'});
   await page.waitForFunction(()=>window.NurseHealerPreview?.diagnostics().ready,null,{timeout:60000});
+  const frameUrl=page.frames().find(f=>f!==page.mainFrame())?.url();
+  assert.equal(new URL(frameUrl).pathname,'/preview/mercenary-nurse-healers-ss-v1/battle');
   const selected=[];
   for(const code of ['V-051','V-052','V-053','V-054']){
    await page.click('[data-code="'+code+'"]');
@@ -45,7 +47,7 @@ try{
   await page.locator('details').scrollIntoViewIfNeeded();await page.locator('.frames img').evaluateAll(images=>Promise.all(images.map(i=>i.decode())));
   await page.locator('.all-art').screenshot({path:path.join(out,name+'-four-portraits.png')});
   const disposed=await page.evaluate(()=>{const p=window.NurseHealerPreview;p.dispose();return p.diagnostics()});
-  results.push({name,overflow,errors,failed,selected,frames,speeds,restarted,stopped,disposed});
+  results.push({name,frameUrl,overflow,errors,failed,selected,frames,speeds,restarted,stopped,disposed});
   assert.equal(errors.length,0);assert.equal(failed.length,0);assert.equal(overflow.scroll,overflow.client);
   assert.ok(selected.every(s=>s.skillId==='NURSE_WHITE_OATH'&&s.regularCards===5&&!s.mercenaryInRegularArray&&s.canvasCount===1));
   assert.equal(frames.find(s=>s.time===.88).activeFrame,7);assert.equal(frames.at(-1).visibleSprites,0);

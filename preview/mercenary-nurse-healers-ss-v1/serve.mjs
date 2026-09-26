@@ -8,7 +8,10 @@ http.createServer((req,res)=>{
  try{
   const u=new URL(req.url,'http://127.0.0.1:'+port),relative=decodeURIComponent(u.pathname).replace(/^\/+/,''),parts=relative.split(/[\\/]/);
   if(!['GET','HEAD'].includes(req.method)||parts.some(p=>p.startsWith('.')||p==='..')||!['preview','assets','css','js','shared','mercenary-codex'].includes(parts[0])){res.writeHead(404);res.end();return;}
+  // Reproduce Pages' canonical battle document URL during local browser QA.
+  if(relative==='preview/mercenary-nurse-healers-ss-v1/battle.html'){res.writeHead(302,{location:u.pathname.slice(0,-5)+u.search});res.end();return;}
   let file=path.resolve(root,relative);if(!file.startsWith(root+path.sep)){res.writeHead(404);res.end();return;}
+  if(relative==='preview/mercenary-nurse-healers-ss-v1/battle')file+='.html';
   if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
   if(!fs.existsSync(file)||!fs.realpathSync(file).startsWith(root+path.sep)){res.writeHead(404);res.end();return;}
   res.writeHead(200,{'content-type':types[path.extname(file)]||'application/octet-stream','cache-control':'no-store','x-content-type-options':'nosniff'});

@@ -34,6 +34,7 @@
 - 시점·프레임 정의: [skill.mjs](./skill.mjs)
 - 빌드: [build.mjs](./build.mjs) → [preview.bundle.js](./preview.bundle.js)
 - 기존 엔진: `preview/project-v-v3/source/project-v-pixi-battle.src.js`. 별도 렌더러·라이브러리·전장 진형을 만들지 않는다.
+- Pages의 확장자 없는 전투 문서에서도 상대 경로가 유지되도록 기존 `preview/project-v-mercenary-system-v1/skill-asset-base.mjs`의 자산 기준 경로를 재사용한다. 로컬 서버도 `/battle.html` → `/battle` 전환을 재현한다.
 - 기존 V3 effectLayer에 Pixi Sprite를 배치하며, 하단의 약한 빛만 기존 combatLayer에 놓는다. 한 GSAP 타임라인을 engine.simpleTimelines에 등록한다. 프레임 재생·정지·배속·이동은 동일 시계를 사용한다.
 - 연출 길이 2.60초, 회복 접점 0.88초의 8번 프레임(0부터 센 index 7). 접점은 각 캐릭터 발 기준 높이의 20% 위다. 얼굴 가독성을 위해 효과의 크기를 제한한다.
 - 실제 일반 카드 5장과 별도 용병 1장으로 시연한다. 기존 카드 원화·ZENITH/SUPERSTAR 전용 프레임과 V3 아트 어댑터를 그대로 사용한다. 서버 HP·피해·승패를 변경하거나 재계산하지 않는다.

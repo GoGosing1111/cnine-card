@@ -1,6 +1,7 @@
 [
   {
     "name": "desktop",
+    "frameUrl": "http://127.0.0.1:8831/preview/mercenary-nurse-healers-ss-v1/battle",
     "overflow": {
       "client": 1440,
       "scroll": 1440
@@ -441,38 +442,38 @@
     "speeds": [
       {
         "speed": 0.25,
-        "elapsed": 0.101,
-        "wall": 0.40279999999981375,
+        "elapsed": 0.1,
+        "wall": 0.40069999999925493,
         "pauseStable": true
       },
       {
         "speed": 0.5,
         "elapsed": 0.2,
-        "wall": 0.4011000000005588,
+        "wall": 0.4010999999996275,
         "pauseStable": true
       },
       {
         "speed": 1,
-        "elapsed": 0.4,
-        "wall": 0.40120000000018624,
+        "elapsed": 0.404,
+        "wall": 0.4029000000003725,
         "pauseStable": true
       },
       {
         "speed": 2,
-        "elapsed": 0.808,
-        "wall": 0.40370000000018624,
+        "elapsed": 0.81,
+        "wall": 0.4034000000003725,
         "pauseStable": true
       }
     ],
     "restarted": {
       "ready": true,
       "skillId": "NURSE_WHITE_OATH",
-      "time": 0.224,
+      "time": 0.242,
       "speed": 2,
       "playing": true,
       "phase": "치유 에너지 집중",
       "activeFrame": 0,
-      "blend": 0.7411764705882353,
+      "blend": 0.8999999999999999,
       "visibleSprites": 12,
       "ownedTimelines": 1,
       "registeredTimelines": 1,
@@ -608,6 +609,7 @@
   },
   {
     "name": "mobile",
+    "frameUrl": "http://127.0.0.1:8831/preview/mercenary-nurse-healers-ss-v1/battle",
     "overflow": {
       "client": 390,
       "scroll": 390
@@ -1048,38 +1050,38 @@
     "speeds": [
       {
         "speed": 0.25,
-        "elapsed": 0.1,
-        "wall": 0.40029999999981375,
+        "elapsed": 0.101,
+        "wall": 0.4035999999996275,
         "pauseStable": true
       },
       {
         "speed": 0.5,
-        "elapsed": 0.2,
-        "wall": 0.40080000000074506,
+        "elapsed": 0.202,
+        "wall": 0.402,
         "pauseStable": true
       },
       {
         "speed": 1,
-        "elapsed": 0.4,
-        "wall": 0.4004000000003725,
+        "elapsed": 0.405,
+        "wall": 0.4045,
         "pauseStable": true
       },
       {
         "speed": 2,
         "elapsed": 0.802,
-        "wall": 0.4001000000005588,
+        "wall": 0.4003999999985099,
         "pauseStable": true
       }
     ],
     "restarted": {
       "ready": true,
       "skillId": "NURSE_WHITE_OATH",
-      "time": 0.226,
+      "time": 0.238,
       "speed": 2,
       "playing": true,
       "phase": "치유 에너지 집중",
       "activeFrame": 0,
-      "blend": 0.7588235294117648,
+      "blend": 0.864705882352941,
       "visibleSprites": 12,
       "ownedTimelines": 1,
       "registeredTimelines": 1,
