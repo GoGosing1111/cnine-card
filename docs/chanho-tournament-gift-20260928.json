@@ -1,0 +1,25 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:chanho-tournament-gift:20260928:v1",
+  "actor": "SYSTEM_OPS",
+  "user": {
+    "id": 4597,
+    "nickname": "찬호"
+  },
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "itemName": "대회 사은품",
+  "amount": 1,
+  "before": {
+    "quantity": "0",
+    "unseenQuantity": "0"
+  },
+  "after": {
+    "quantity": "1",
+    "unseenQuantity": "1"
+  },
+  "inventoryLogId": "38866325",
+  "completedAt": "2026-09-27T17:33:41.582Z",
+  "adminLogId": "36670",
+  "replayed": false,
+  "dryRun": false
+}
