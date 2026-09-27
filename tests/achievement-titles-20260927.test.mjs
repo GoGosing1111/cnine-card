@@ -106,7 +106,9 @@ for (const postgres of [false, true]) {
     await f.p('INSERT INTO clan_organizations VALUES(8)').run();
     await f.p("INSERT INTO clan_members VALUES(1,8,7,'2026-07-01')").run();
     await f.p("INSERT INTO clan_season_settlements VALUES(1,8,'COMPLETED','PAID','2026-08-02')").run();
+    const firstStart = performance.now(), firstReads = f.reads();
     const first = await syncAchievementTitles(f.env,7);
+    t.diagnostic(`initial achievement sync: ${f.reads()-firstReads} read queries, ${(performance.now()-firstStart).toFixed(2)} ms in isolated fixture`);
     assert.equal(first.granted.length,1); assert.equal(first.progress.TROPHY_HUNTER.owned,3);
     assert.equal(first.progress.TROPHY_HUNTER.complete,false, 'three ranked winner copies still count as one kind');
     // An undelivered / test champions receipt is not a fourth kind.
@@ -126,7 +128,8 @@ for (const postgres of [false, true]) {
     const batch = f.DB.batch.bind(f.DB); let lost = true;
     f.DB.batch = async rows => { const result = await batch(rows); if (lost) { lost=false; throw Error('LOST_RESPONSE'); } return result; };
     await assert.rejects(() => syncAchievementTitles(f.env,7), /LOST_RESPONSE/);
-    const before = f.reads(); const again = await syncAchievementTitles(f.env,7);
+    const before = f.reads(), retryStart = performance.now(); const again = await syncAchievementTitles(f.env,7);
+    const retryMs = performance.now()-retryStart;
     assert.deepEqual(again, { granted:[],progress:{} }); assert.equal(f.reads()-before,1,'earned achievements skip collection and history scans');
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_character_titles WHERE user_id=7').first()).n),2);
     assert.equal((await syncAchievementTitles(f.env,8)).granted.length,0,'another player cannot inherit honors');
@@ -138,7 +141,7 @@ for (const postgres of [false, true]) {
     const concurrent = await Promise.all([syncAchievementTitles(f.env,7),syncAchievementTitles(f.env,7)]);
     assert.equal(concurrent.flatMap(r=>r.granted).length,1,'concurrent reads grant exactly once');
     assert.equal(concurrent[0].progress.TROPHY_HUNTER.owned,4);
-    t.diagnostic(`bounded achievement reads: ${before} accumulated in fixture; already-owned sync: 1 query`);
+    t.diagnostic(`already-owned sync: 1 query; ${retryMs.toFixed(2)} ms in isolated fixture`);
   });
 }
 
