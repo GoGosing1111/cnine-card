@@ -5,14 +5,15 @@ import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {DAILY_ENTRIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 const TTL=30*60*1000;
 const ACTIONS={start:['difficulty','version'],begin:['id'],reveal:['id','seq'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id']};
-export function legionHuntEntries(run,at){
+export function legionHuntEntries(run,at,user){
   const day=new Date(at+9*3600000).toISOString().slice(0,10);
   const used=run?.daily?.day===day?Number(run.daily.used):0;
   if(!Number.isInteger(used)||used<0||used>DAILY_ENTRIES)throw jointError('HUNT_ENTRIES_UNAVAILABLE','입장 기록을 확인할 수 없습니다.',503);
-  return {day,used,limit:DAILY_ENTRIES,remaining:DAILY_ENTRIES-used,resetsAt:Date.parse(day+'T00:00:00+09:00')+86400000};
+  const unlimited=user?.role==='OWNER';
+  return {day,used,unlimited,limit:unlimited?null:DAILY_ENTRIES,remaining:unlimited?null:DAILY_ENTRIES-used,resetsAt:Date.parse(day+'T00:00:00+09:00')+86400000};
 }
 function requireEntry(entries){
-  if(entries.remaining<=0)throw jointError('HUNT_DAILY_LIMIT','오늘 입장 2회를 모두 사용했습니다. 한국시간 자정에 초기화됩니다.',409);
+  if(!entries.unlimited&&entries.remaining<=0)throw jointError('HUNT_DAILY_LIMIT','오늘 입장 2회를 모두 사용했습니다. 한국시간 자정에 초기화됩니다.',409);
 }
 async function accountSnapshot(env,user,deps){
   try{return await loadScrapyardV3Snapshot(env,user,deps);}
@@ -56,7 +57,7 @@ export async function handleLegionHunt({path,request,env,deps}){
       const [{policy},saved]=await Promise.all([readLegionHuntPolicy(env),loadRun(env,key)]);
       let loadout=null,loadoutError=null;
       try{loadout=await accountSnapshot(env,user,deps);}catch(error){if(error.code!=='HUNT_DECK')throw error;loadoutError=error.message;}
-      return json({ok:true,access:LEGION_HUNT_ACCESS,difficulties:DIFFICULTIES,entries:legionHuntEntries(saved.run,now()),loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
+      return json({ok:true,access:LEGION_HUNT_ACCESS,difficulties:DIFFICULTIES,entries:legionHuntEntries(saved.run,now(),user),loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
     }
     if(!Object.hasOwn(ACTIONS,action))return json({error:'군단토벌 경로를 확인하세요.'},404);
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
@@ -65,7 +66,7 @@ export async function handleLegionHunt({path,request,env,deps}){
     if(action==='start'&&body.version!==2)throw jointError('HUNT_CLIENT_UPDATE','군단토벌이 15분 토벌로 변경됐습니다. 게임을 새로고침한 뒤 입장하세요.',409);
     if(action!=='start'&&!idValid(body.id))throw jointError('HUNT_SESSION','원정 번호를 확인하세요.');
     return json(await deps.withUserMutationLock(env,user.id,path,async()=>{
-      const before=await loadRun(env,key),entries=legionHuntEntries(before.run,now());
+      const before=await loadRun(env,key),entries=legionHuntEntries(before.run,now(),user);
       if(action==='start'){
         requireEntry(entries);
         const {policy}=await readLegionHuntPolicy(env),d=policy.difficulties.find(r=>r.id===body.difficulty);
@@ -80,9 +81,10 @@ export async function handleLegionHunt({path,request,env,deps}){
       let result,daily=before.run.daily||null;
       if(action==='begin'){
         if(before.run.state.startedAt===null&&!before.run.state.ended){
-          requireEntry(entries);daily={day:entries.day,used:entries.used+1};
+          requireEntry(entries);
+          if(!entries.unlimited)daily={day:entries.day,used:entries.used+1};
         }
-        result={...session.begin(),entries:legionHuntEntries({daily},now())};
+        result={...session.begin(),entries:legionHuntEntries({daily},now(),user)};
       }
       if(action==='reveal')result=session.reveal(body.seq);
       if(action==='claim')result=session.claim(body);

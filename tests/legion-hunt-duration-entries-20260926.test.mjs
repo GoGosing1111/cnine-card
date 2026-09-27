@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
+import {legionHuntEntries} from '../functions/_legion_hunt.js';
 import {createHuntSession,restoreHuntSession,DIFFICULTIES} from '../preview/sustained-hunt-v2/session.mjs';
 import {compactHuntTimeline} from '../preview/sustained-hunt-v2/timeline.mjs';
 import {sustainedEncounterPlan} from '../functions/_sustained_encounter.js';
@@ -14,56 +15,76 @@ const shortFixture=async postgres=>{
 };
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
-  test(dialect+': exactly two shared daily entries; preparation is free and failed/lost begin replies do not double-charge',async()=>{
+  test(dialect+': OWNER may enter every difficulty after exhausting two entries; retries preserve the existing counter',async()=>{
     const f=await shortFixture(postgres);
     try{
       const entries=async()=>(await f.call('legion-hunt/bootstrap')).body.entries;
       const start=async difficulty=>{const r=await f.call('legion-hunt/start',{difficulty});assert.equal(r.status,200);return r.body.id;};
       const begin=id=>f.call('legion-hunt/begin',{id});
-      assert.equal((await entries()).remaining,2);
+      const day=(await entries()).day,daily={day,used:2};
+      await f.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind('legion_hunt_owner_session_v1:1',JSON.stringify({daily})).run();
+      const unlimited=await entries();
+      assert.equal(unlimited.unlimited,true);assert.equal(unlimited.limit,null);assert.equal(unlimited.remaining,null);assert.equal(unlimited.used,2);
       f.resetQueries();assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',version:1})).body.code,'HUNT_CLIENT_UPDATE');
       assert.equal(f.queries.length,0,'stale 2x clients cannot consume entries');
-      const unbegun=await start('normal');assert.equal((await entries()).used,0);
-      await f.call('legion-hunt/cancel',{id:unbegun});assert.equal((await entries()).used,0);
+      const unbegun=await start('normal');assert.equal((await entries()).used,2);
+      await f.call('legion-hunt/cancel',{id:unbegun});assert.equal((await entries()).used,2);
       const id=await start('hard');f.fail('UPDATE app_meta');assert.equal((await begin(id)).status,503);f.fail('');
-      assert.equal((await entries()).used,0);
+      assert.equal((await entries()).used,2);
       f.loseReply();assert.equal((await begin(id)).status,503);
-      const retry=await begin(id);assert.equal(retry.status,200);assert.equal(retry.body.entries.used,1);
-      assert.equal((await begin(id)).body.entries.remaining,1);
-      await f.call('legion-hunt/cancel',{id});assert.equal((await entries()).used,1,'retreat does not refund an entry');
+      const retry=await begin(id);assert.equal(retry.status,200);assert.equal(retry.body.entries.used,2);
+      assert.equal(retry.body.entries.unlimited,true);assert.equal(retry.body.entries.remaining,null);
+      assert.deepEqual((await begin(id)).body,retry.body);
+      await f.call('legion-hunt/cancel',{id});assert.equal((await entries()).used,2,'retreat preserves the pre-existing daily record');
       const second=await start('inferno');assert.equal((await begin(second)).body.entries.used,2);
       assert.equal((await begin(second)).body.entries.used,2);
       assert.equal((await begin(id)).body.code,'HUNT_SESSION_EXPIRED');
-      const reads=f.snapshotReads.length;f.resetQueries();
-      const denied=await f.call('legion-hunt/start',{difficulty:'normal'});
-      assert.equal(denied.body.code,'HUNT_DAILY_LIMIT');assert.equal(f.snapshotReads.length,reads);
-      assert.equal(f.queries.length,1,'exhausted entries need one indexed read and no simulation');
-      assert.equal((await entries()).remaining,0);
+      for(const difficulty of DIFFICULTIES.map(d=>d.id)){
+        const next=await start(difficulty);f.resetQueries();
+        const result=await begin(next);assert.equal(result.status,200);assert.equal(result.body.entries.unlimited,true);
+        assert.equal(f.queries.length,2,'unlimited entry reuses the existing indexed session read and CAS write');
+        assert.equal(result.body.entries.used,2);assert.equal(result.body.entries.remaining,null);
+      }
+      const saved=await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first();
+      assert.deepEqual(JSON.parse(saved.value).daily,daily,'no counter reset, increment, or separate quota row');
     }finally{await f.close();}
   });
-  test(dialect+': concurrent begin CAS consumes one entry, resets at KST midnight, and never rewrites a prior-day receipt',async()=>{
+  test(dialect+': concurrent OWNER begin, KST midnight and session expiry preserve unlimited access without quota writes',async()=>{
     const f=await shortFixture(postgres);
     try{
       f.clock.now=Date.parse('2026-09-26T23:59:00+09:00');
       const id=(await f.call('legion-hunt/start',{difficulty:'normal'})).body.id;
       const results=await Promise.all([f.call('legion-hunt/begin',{id}),f.call('legion-hunt/begin',{id})]);
       assert.ok(results.some(r=>r.status===200));assert.ok(results.every(r=>[200,409].includes(r.status)));
-      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,1);
+      const begun=(await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first()).value;
+      assert.equal(JSON.parse(begun).state.startedAt,f.clock.now);assert.equal(JSON.parse(begun).daily,null);
+      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,0);
       f.clock.now=Date.parse('2026-09-26T23:59:59.999+09:00');
       assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.day,'2026-09-26');
       f.clock.now++;
       const fresh=(await f.call('legion-hunt/bootstrap')).body.entries;
-      assert.equal(fresh.day,'2026-09-27');assert.equal(fresh.remaining,2);
+      assert.equal(fresh.day,'2026-09-27');assert.equal(fresh.remaining,null);assert.equal(fresh.unlimited,true);
       assert.equal(fresh.resetsAt,Date.parse('2026-09-28T00:00:00+09:00'));
       assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,0,'old begin retry belongs to yesterday');
       const next=(await f.call('legion-hunt/start',{difficulty:'hard'})).body.id;
-      assert.equal((await f.call('legion-hunt/begin',{id:next})).body.entries.used,1);
+      assert.equal((await f.call('legion-hunt/begin',{id:next})).body.entries.used,0);
       f.clock.now+=31*60000;
       assert.equal((await f.call('legion-hunt/begin',{id:next})).body.code,'HUNT_SESSION_EXPIRED');
-      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,1,'expiry never resets the daily counter');
+      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.unlimited,true,'expiry never removes the OWNER exemption');
     }finally{await f.close();}
   });
 }
+
+test('unlimited entry depends only on the authenticated OWNER role; ordinary daily policy remains two entries',()=>{
+  const at=Date.parse('2026-09-27T12:00:00+09:00'),daily={day:'2026-09-27',used:2};
+  for(const user of [undefined,null,{role:'USER'},{role:'ADMIN'},{role:'OWNER '},{role:'owner'},{unlimited:true}]){
+    const entries=legionHuntEntries({daily},at,user);
+    assert.equal(entries.unlimited,false);assert.equal(entries.limit,2);assert.equal(entries.remaining,0);
+    assert.equal(legionHuntEntries({daily},at+86400000,user).remaining,2);
+  }
+  assert.equal(legionHuntEntries({daily},at,{role:'OWNER'}).unlimited,true);
+  assert.throws(()=>legionHuntEntries({daily:{...daily,used:-1}},at,{role:'OWNER'}),/입장 기록/);
+});
 
 test('every difficulty uses 15 minutes before the boss; strong accounts cannot acknowledge it at 2x speed',async()=>{
   const f=await legionFixture({withMercenary:true});
@@ -141,4 +162,11 @@ test('entry controller blocks an exhausted account; refresh alone cannot spend a
   const options={request:async path=>{calls.push(path);return {difficulties:[{id:'normal'}],loadout:{},entries:{remaining:0,limit:2}};},render(){},enter:x=>entered.push(x),dispose(){}};
   const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options});
   await controller.refresh();controller.enter();assert.equal(entered.length,0);assert.deepEqual(calls,['legion-hunt/bootstrap']);
+});
+
+test('entry controller accepts the server unlimited allowance even with a previously exhausted counter',async()=>{
+  const source=fs.readFileSync('js/legion-hunt-entry-v1.mjs','utf8'),entered=[];
+  const options={request:async()=>({difficulties:[{id:'normal'}],loadout:{},entries:{unlimited:true,used:2,remaining:null,limit:null}}),render(){},enter:x=>entered.push(x),dispose(){}};
+  const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options});
+  await controller.refresh();controller.enter();controller.enter();assert.deepEqual(entered,['normal']);
 });

@@ -11,6 +11,18 @@ import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 
 const entrySource=fs.readFileSync('js/legion-hunt-entry-v1.mjs','utf8');
+test('the shipped hunt extension satisfies the live loader without being replaced by the smaller generic formation',async()=>{
+  const bundle=fs.readFileSync('preview/sustained-hunt-v2/battle.bundle.js','utf8');
+  const version=bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1];
+  assert.ok(version,'read the runtime version from the actual deployed hunt bundle');
+  assert.ok(bundle.includes('HUNT_MONSTER_ARRIVAL'),'the bundle must retain the twelve-slot hunt extension');
+  const wrapper=fs.readFileSync('js/battle-v3-live.js','utf8');
+  const chunk=wrapper.slice(wrapper.indexOf('  const BATTLE_RUNTIME'),wrapper.indexOf('  const PLAYBACK_SPEED'));
+  const root={ProjectVPixiBattle:{runtimeVersion:version,destroy(){assert.fail('current hunt extension must not be destroyed');}}};
+  const document={createElement(){assert.fail('current hunt extension must not be replaced');}};
+  const ensure=vm.runInNewContext(chunk+'\nensureCurrentBattleRuntime',{root,document,setTimeout,clearTimeout});
+  await ensure();
+});
 test('lobby portraits preserve the operating HTTPS card source as well as local Korean asset paths',()=>{
   const source=entrySource.slice(entrySource.indexOf('const imagePath='),entrySource.indexOf('const power='));
   const imagePath=vm.runInNewContext(source+';imagePath',{URL});

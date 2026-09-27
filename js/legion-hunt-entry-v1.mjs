@@ -21,7 +21,7 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
     },
     select(id){if(state.phase==='lobby'&&state.data?.difficulties.some(d=>d.id===id))update({difficulty:id});},
     enter(){
-      if(state.phase!=='lobby'||!state.data?.loadout||state.error||state.data.entries?.remaining===0)return;
+      if(state.phase!=='lobby'||!state.data?.loadout||state.error||(!state.data.entries?.unlimited&&state.data.entries?.remaining===0))return;
       update({phase:'battle'});enter(state.difficulty);
     },
     close(){++revision;state={...state,phase:'closed'};dispose();}
@@ -37,7 +37,7 @@ export function openLegionHunt(button){
       <section class="legion-intro" aria-labelledby="legion-island-title">
         <div class="legion-hero-halo" aria-hidden="true"></div><img class="legion-guardian" src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt="섬의 최종 보스 태고의 수호자">
         <div class="legion-intro-copy"><p class="legion-kicker"><span></span> LEGION HUNT · CHAPTER 01</p><h1 id="legion-island-title">잊혀진 섬</h1><p class="legion-intro-text">길은 끊겼다.<br>돌아갈 방법은, 끝까지 돌파하는 것.</p>
-        <div class="legion-facts"><span><b>15분</b> 연속 토벌</span><span><b>1</b> 최종 보스</span><span><b>2회</b> 하루 입장</span></div></div>
+        <div class="legion-facts"><span><b>15분</b> 연속 토벌</span><span><b>1</b> 최종 보스</span><span><b data-hunt-entry-limit>—</b> 하루 입장</span></div></div>
         <div class="legion-guardian-caption"><span>FINAL TARGET</span><strong>태고의 수호자</strong></div>
       </section>
       <nav class="legion-route" aria-label="토벌 진행 경로">
@@ -68,11 +68,11 @@ export function openLegionHunt(button){
     dialog.dataset.phase=state.phase;
     if(state.phase==='battle')return;
     const data=state.data,loadout=data?.loadout,loading=state.phase==='loading';
-    const exhausted=data?.entries?.remaining===0;
+    const unlimited=data?.entries?.unlimited===true,exhausted=!unlimited&&data?.entries?.remaining===0;
     find('[data-hunt-enter]').disabled=loading||!loadout||!!state.error||exhausted;
     find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':exhausted?'오늘 입장 횟수 소진':'토벌 입장';
     find('[data-hunt-refresh]').disabled=loading;
-    find('.legion-entry-status').textContent=state.error||(loading?'저장된 편성을 불러오는 중입니다.':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'전투 시작 시 1회 사용 · 매일 한국시간 자정 초기화');
+    find('.legion-entry-status').textContent=state.error||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'전투 시작 시 1회 사용 · 매일 한국시간 자정 초기화');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
     find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
@@ -84,12 +84,13 @@ export function openLegionHunt(button){
     find('.legion-difficulties').innerHTML=(data?.difficulties||[]).map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span class="legion-difficulty-number">0${i+1}</span><span class="legion-difficulty-copy"><strong>${escape(d.name)}</strong><small>${escape(d.description)}</small></span><span class="legion-threat-bars" aria-hidden="true">${[0,1,2,3].map(n=>`<i class="${n<=i?'lit':''}"></i>`).join('')}</span><span class="legion-selection-dot" aria-hidden="true"></span></button>`).join('');
     const selected=data?.difficulties.find(d=>d.id===state.difficulty);
     find('.legion-limit').textContent=selected?'15분 + 최종 보스':'';
-    find('.legion-entries').textContent=data?.entries?data.entries.remaining+' / '+data.entries.limit+'회 남음':'';
+    find('.legion-entries').textContent=unlimited?'무제한':data?.entries?data.entries.remaining+' / '+data.entries.limit+'회 남음':'';
+    find('[data-hunt-entry-limit]').textContent=unlimited?'무제한':data?.entries?data.entries.limit+'회':'—';
     dialog.dataset.difficulty=state.difficulty;
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260927-combat-fx2';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260927-owner-unlimited';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;

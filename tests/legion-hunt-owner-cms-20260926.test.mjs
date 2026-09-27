@@ -98,7 +98,7 @@ test('actual PVE renderer exposes the new entry only to OWNER and main/CMS load 
   vm.createContext(context);vm.runInContext(source,context);
   for(const role of ['USER','ADMIN',undefined])assert.ok(!context.battleView({role}).includes('data-legion-hunt-entry'));
   assert.ok(context.battleView({role:'OWNER'}).includes('data-legion-hunt-entry'));
-  assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1.mjs\?v=20260926/);
+  assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1.mjs\?v=20260927-owner-unlimited/);
   assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20260926/);
   assert.match(fs.readFileSync('functions/api/[[path]].js','utf8'),/await handleLegionHunt/);
 });
