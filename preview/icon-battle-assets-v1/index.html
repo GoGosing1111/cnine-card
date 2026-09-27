@@ -2,27 +2,41 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="robots" content="noindex,nofollow"><title>ICON · 전투 리소스 검수실</title>
-  <script>window.addEventListener('error',event=>console.error('[ICON page error]',event.error?.stack||event.message,event.filename,event.lineno));window.addEventListener('unhandledrejection',event=>console.error('[ICON page promise]',event.reason?.stack||event.reason));</script>
-  <link rel="icon" href="data:,"><link rel="stylesheet" href="./preview.css">
+  <meta name="robots" content="noindex,nofollow"><title>ICON · 원화 / SD / 스킬 통합 프리뷰</title>
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="/css/icon-grade-v1.css"><link rel="stylesheet" href="./preview.css">
+  <script type="module" src="./showcase.mjs"></script>
 </head>
 <body>
   <main class="lab">
-    <header class="top"><div><a href="../icon-grade-v1/">← 아이콘 카드</a><h1>아이콘 <span>전투 리소스</span></h1></div><p><b>아이콘 7종</b><span>SD · 효과 시각 검수 대기</span></p></header>
-    <section class="characters" aria-label="아이콘 캐릭터 선택" id="characters"><p>SD 불러오는 중…</p></section>
-    <section class="rehearsal" aria-labelledby="effectHeading">
-      <div class="rehearsal-heading"><div><p class="eyebrow" id="characterName">디임 · 청록 쌍검</p><h2 id="effectHeading">월광 해일</h2></div><a class="tag" id="sdOriginal" href="./assets/source/diim-sd-v1.png" target="_blank" rel="noopener">선택 SD 원본 ↗</a></div>
-      <div class="effect-picker" id="effectPicker" aria-label="이펙트 선택"></div>
-      <div class="player-controls" aria-label="재생 조작">
-        <button class="primary" id="play" disabled>재생</button><button id="restart" disabled>다시 재생</button><button id="impact" disabled>충돌 프레임</button><button id="cancel" disabled>중단</button>
-        <label>배속 <select id="speed" disabled><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
-      </div>
-      <div class="scrubber"><label for="scrub">프레임 탐색</label><input id="scrub" type="range" min="0" max="1.28" step="0.001" value="0" disabled><output id="time">0.00초</output><span id="cue">대기</span></div>
-      <div class="battle-viewport" data-v3-fit-container><iframe id="battleFrame" src="./battle.html" title="아이콘 SD·스킬 V3 전투 시연"></iframe></div>
-      <p id="health" class="health" role="status">전투 프리뷰 준비 중…</p>
-    </section>
-    <section class="frames-section" aria-labelledby="framesHeading"><div class="frames-heading"><h2 id="framesHeading">연속 프레임</h2><span id="sequenceRecord">개별 원본 · 16프레임</span></div><div class="frame-strip" id="frameStrip"></div></section>
-    <footer><p>카드 사진·승인 프레임 보존 · 기본 전투력 180,000 · 획득 미정 · CMS 등록 · 실전 연결 OFF<br>신규 고유효과는 치명 확률·치명 피해·관통·흡혈 시안입니다. 수치·배정·실전 밸런스는 변경하지 않습니다.</p><a href="./README.md">제작 기록 ↗</a><a href="./generation-inputs.json">생성 프롬프트 ↗</a></footer>
+    <header class="top">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">ICON</span><div><p class="eyebrow">CHARACTER COLLECTION / 07</p><h1>아이콘 통합 프리뷰</h1></div></div>
+      <div class="top-note"><span class="review-badge">시각 검수 중</span><a href="../icon-grade-v1/">카드 설정 시안 ↗</a></div>
+    </header>
+    <nav class="characters" aria-label="아이콘 캐릭터 선택" id="characters"><p>캐릭터 불러오는 중…</p></nav>
+    <div class="workbench">
+      <section class="visual-panel" aria-labelledby="showcaseName">
+        <header class="identity"><div><p class="eyebrow" id="showcaseCode">ICON / 01</p><h2 id="showcaseName">디임</h2></div><span class="weapon" id="showcaseWeapon">청록 쌍검</span></header>
+        <div class="art-pair">
+          <section class="portrait-view" aria-label="선택 캐릭터 카드 원화"><div class="asset-heading"><span>01</span><h3>카드 원화</h3></div><div id="portrait" class="portrait-mount"></div><a id="portraitOriginal" target="_blank" rel="noopener">원본 보기 ↗</a></section>
+          <section class="sd-view" aria-label="선택 캐릭터 전투 SD"><div class="asset-heading"><span>02</span><h3>전투 SD</h3></div><div class="sd-display"><span class="sd-orbit" aria-hidden="true"></span><img id="selectedSd" alt="" width="768" height="768" decoding="async"></div><a id="sdOriginal" href="./assets/source/diim-sd-v1.png" target="_blank" rel="noopener">SD 원본 보기 ↗</a></section>
+        </div>
+        <div class="signature"><p class="eyebrow">SIGNATURE EFFECT</p><h3 id="signatureName">월광 해일</h3><p id="signatureDescription">청록 검광이 교차하며 파도처럼 퍼지는 쌍검 이펙트.</p><div class="move-list"><span>평타 <b id="hitName">청류 교차검</b></span><span>스킬 <b id="skillName">월광 해일</b></span></div></div>
+        <p class="visual-note">원화·SD·스킬을 함께 비교해 보세요.<br>캐릭터를 고르면 전투 시연도 함께 바뀝니다.</p>
+      </section>
+      <section class="rehearsal" aria-labelledby="effectHeading">
+        <header class="rehearsal-heading"><div><p class="eyebrow" id="characterName">디임 · 청록 쌍검</p><h2 id="effectHeading">월광 해일</h2></div><span class="stage-tag">03 / SKILL PLAY</span></header>
+        <div class="effect-picker" id="effectPicker" aria-label="이펙트 선택"></div>
+        <div class="player-controls" aria-label="재생 조작">
+          <button class="primary" id="play" disabled>재생</button><button id="restart" disabled>다시 재생</button><button id="impact" disabled>타격 순간</button><button id="cancel" disabled>중단</button>
+          <label>배속 <select id="speed" disabled><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+        </div>
+        <div class="scrubber"><label for="scrub">시간 탐색</label><input id="scrub" type="range" min="0" max="1.28" step="0.001" value="0" disabled><output id="time">0.00초</output><span id="cue">대기</span></div>
+        <div class="battle-viewport" data-v3-fit-container><iframe id="battleFrame" src="./battle.html" title="아이콘 SD·스킬 V3 전투 시연"></iframe></div>
+        <p id="health" class="health" role="status">전투 프리뷰 준비 중…</p>
+      </section>
+    </div>
+    <details class="frames-section"><summary><span>스킬 연속 프레임 살펴보기</span><span id="sequenceRecord">개별 원본 · 16프레임</span></summary><div class="frame-strip" id="frameStrip"></div><p>프레임을 선택하면 해당 순간에서 멈춥니다. 점선 버튼은 등급 공통 고유효과 시안입니다.</p></details>
+    <footer><p><b>CMS 등록 · 유저 도감 비공개</b><span>진화·획득 미정 / 실전 적용 OFF</span></p><a href="./README.md">제작·검수 기록 ↗</a></footer>
   </main>
 </body>
 </html>

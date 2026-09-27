@@ -6,7 +6,7 @@ const doc=window.parent.document,$=id=>doc.getElementById(id)||document.getEleme
 const ROOT='/preview/icon-battle-assets-v1/';
 const FIXTURE_IDS=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
 const get=async path=>{const response=await fetch(path);if(!response.ok)throw Error(`자산 오류 ${response.status}: ${path}`);return response.json()};
-let manifest,engine,renderer,fx,sequence,displayCharacters,disposed=false,epoch=0,assetQueue=Promise.resolve(),selected=0,selectedEffect='diim-skill',changing=true;
+let manifest,engine,renderer,fx,sequence,displayCharacters,disposed=false,stageReady=false,epoch=0,assetQueue=Promise.resolve(),selected=0,selectedEffect='diim-skill',changing=true;
 const buttons=()=>doc.querySelectorAll('.player-controls button,.player-controls select,.scrubber input');
 const enabled=value=>buttons().forEach(button=>button.disabled=!value);
 function publish(){
@@ -45,11 +45,13 @@ function showCharacters(){
 }
 function showSelection(){
   const card=manifest.characters[selected],effect=manifest.effects.find(e=>e.id===selectedEffect);
+  doc.dispatchEvent(new doc.defaultView.CustomEvent('icon-preview-selection',{detail:{characterId:card.id}}));
   $('sdOriginal').href=ROOT+card.source;$('sdOriginal').setAttribute('aria-label',`${card.name} SD 원본 보기`);
   $('characterName').textContent=`${card.name} · ${card.weapon}`;$('effectHeading').textContent=effect.name.split(' · ').at(-1);
   for(const button of doc.querySelectorAll('[data-character]'))button.setAttribute('aria-pressed',String(button.dataset.character===card.id));
   const picker=$('effectPicker');picker.replaceChildren();
-  const choices=manifest.effects.filter(e=>[card.hitEffect,card.skillEffect].includes(e.id)||e.kind==='UNIQUE');
+  const choices=[card.hitEffect,card.skillEffect].map(id=>manifest.effects.find(e=>e.id===id))
+    .concat(manifest.effects.filter(e=>e.kind==='UNIQUE'));
   choices.forEach(e=>{
     const button=doc.createElement('button');button.type='button';button.dataset.effect=e.id;
     button.className=e.kind==='UNIQUE'?'new':'';button.setAttribute('aria-pressed',String(e.id===selectedEffect));
@@ -67,6 +69,9 @@ function showSelection(){
 }
 async function configure(){
   const token=++epoch,index=selected,id=selectedEffect;changing=true;enabled(false);fx?.destroy();fx=null;showSelection();publish();
+  // Selection is visible while the shared battlefield is still mounting.
+  // Keep the latest choice; boot() configures it after actors are deployed.
+  if(!stageReady){$('health').textContent='전투 프리뷰 준비 중…';return}
   $('health').textContent='선택한 개별 효과를 준비하고 있습니다…';
   assetQueue=assetQueue.catch(()=>{}).then(async()=>{
     if(disposed||token!==epoch)return;
@@ -78,7 +83,7 @@ async function configure(){
       const actorIndex=displayCharacters.findIndex(c=>c.id===manifest.characters[index].id);
       fx=new IconEffectPlayback(engine,{actor:engine.allies[actorIndex],target:engine.enemies[actorIndex%engine.enemies.length],effect,sequence},update);
       fx.setSpeed(Number($('speed').value));changing=false;enabled(true);
-      $('health').classList.remove('error');$('health').textContent='PixiJS 8.20.0 · GSAP 3.13.0 · 16프레임 · 무음 / 피해 계산 없음';
+      $('health').classList.remove('error');$('health').textContent='준비 완료 · 재생을 누르거나 타격 순간을 확인하세요. · 무음 시연';
       publish();
     }catch(error){
       if(token!==epoch||disposed)return;changing=false;$('health').classList.add('error');$('health').textContent='효과 준비 실패: '+error.message;publish();console.error('[ICON FX]',error);
@@ -98,7 +103,7 @@ function decorateIconDock(){
 }
 function resize(){if(disposed)return;fx?.pause();fx?.render(fx.time)}
 function dispose(){
-  if(disposed)return;disposed=true;epoch++;enabled(false);engine?.app.renderer.off('resize',resize);fx?.destroy();fx=null;
+  if(disposed)return;disposed=true;stageReady=false;epoch++;enabled(false);engine?.app.renderer.off('resize',resize);fx?.destroy();fx=null;
   const previous=sequence;sequence=null;void releaseIconSequence(previous).catch(()=>{});
   renderer?.destroy();window.ProjectVPixiBattle?.destroy();
 }
@@ -141,7 +146,7 @@ async function boot(){
     engine.app.renderer.on('resize',resize);window.addEventListener('pagehide',dispose,{once:true});
     document.addEventListener('visibilitychange',()=>{if(document.hidden)fx?.cancel()});
     engine.app.canvas.addEventListener('webglcontextlost',()=>{fx?.cancel();enabled(false);$('health').textContent='WebGL 연결이 중단되었습니다. 새로고침해 주세요.'});
-    await configure();
+    stageReady=true;await configure();
   }catch(error){enabled(false);$('health').classList.add('error');$('health').textContent='전투 준비 실패: '+error.message;console.error('[ICON Preview]',error)}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else void boot();
