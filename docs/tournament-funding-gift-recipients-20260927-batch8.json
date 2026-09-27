@@ -1,0 +1,86 @@
+{
+  "operationKey": "ops:tournament-funding-gift:20260927:v1:6184e67025f85655e9b0183f",
+  "campaignKey": "tournament-funding-gift-20260927-v1",
+  "title": "대회 펀딩 사은품",
+  "body": "대회 펀딩 사은품",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "count": 2,
+  "recipientHash": "6184e67025f85655e9b0183f32aadaf48e95e1f60feca3324ace53c2b53f818c",
+  "recipients": [
+    {
+      "id": "162",
+      "nickname": "차단하다",
+      "soop": "숲에사는족구",
+      "total": 327
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "soop": "네이아네이",
+      "total": 109
+    }
+  ],
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "actor": "SYSTEM_OPS",
+  "authorization": "확인 된사람 대회 사은품 메세지로 지급해. 메세지 내용은 대회 펀딩 사은품",
+  "completedAt": "2026-09-27T15:44:03.942Z",
+  "auditId": "36595",
+  "verification": {
+    "messages": 2,
+    "rewards": 2,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0,
+    "rows": [
+      {
+        "message_id": "165178",
+        "user_id": "162",
+        "title": "대회 펀딩 사은품",
+        "body": "대회 펀딩 사은품",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163081",
+        "reward_user_id": "162",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165179",
+        "user_id": "4772",
+        "title": "대회 펀딩 사은품",
+        "body": "대회 펀딩 사은품",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163082",
+        "reward_user_id": "4772",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      }
+    ]
+  },
+  "authorizationFollowup": "낮에꺼 지급해",
+  "existingAyoonEventMessages": [
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "title": "아윤방 핀볼 이벤트",
+      "messageId": "165122",
+      "quantity": 1
+    },
+    {
+      "userId": "4772",
+      "nickname": "펜타",
+      "title": "아윤방 핀볼 이벤트",
+      "messageId": "165175",
+      "quantity": 1
+    }
+  ]
+}
