@@ -12,7 +12,7 @@ const roster=codes.map(code=>({code,rank:['V-021','V-046'].includes(code)?'SSS':
 function policy(sss=1){
  const p=suggestedMercenaryDraw();
  for(const row of p.outcomes)row.chancePpm=row.id==='CARD_SSS'?sss:row.id==='NONE'?1000000-sss:0;
- p.cardRules.cardWeights={'V-021':9,'V-046':1};return p;
+ p.cardRules.cardWeights={'V-021':9,'V-046':1,'V-055':0};return p;
 }
 const cms=(f,body)=>handleMercenaryDrawCms({env:f.env,path:'admin/mercenaries/draw',request:new Request('https://qa.test/api/admin/mercenaries/draw',{method:body?'PATCH':'GET',...(body?{body:JSON.stringify(body)}:{})}),deps:{requirePermission:async()=>f.user,json:(body,status=200)=>({body,status})}});
 

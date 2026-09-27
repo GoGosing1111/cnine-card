@@ -76,7 +76,8 @@ test('server cancellation suppresses the unearned falling sword and releases its
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} weighted SSS acquisition is repeat-safe and deploys through the separate mercenary slot`,async t=>{
  const f=await mercenaryFixture(t,{postgres});for(const o of f.draw.outcomes)o.chancePpm=o.id==='CARD_SSS'?1000000:0;
- f.draw.cardRules.cardWeights={'V-021':8991,'V-046':999,'V-049':10};await f.setDraw(f.draw);
+ // Keep this historical 10,000-ticket scenario explicit as the SSS roster grows.
+ f.draw.cardRules.cardWeights={'V-021':8991,'V-046':999,'V-049':10,'V-055':0};await f.setDraw(f.draw);
  const before=await f.coin(),request={requestId:crypto.randomUUID(),count:2};
  const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===10000?8991:0});assert.ok(result.draws.every(d=>d.mercenaryCode==='V-046'));assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Repeated draw')}});assert.equal(await f.coin(),before-2000);
