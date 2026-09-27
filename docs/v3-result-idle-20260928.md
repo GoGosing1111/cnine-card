@@ -22,3 +22,11 @@
 - 그 이후 기존 커밋은 수용소 배포 결과 문서와 운영 지급 기록이며 다른 게임 실행 변경은 없다. 이번 변경은 전투 종료 수명 관리에 한정된 버그 수정이다.
 - 선택 검사: `tests/v3-completion-idle-20260928.test.mjs`, `tests/v3-common-grid-v1.test.mjs`, `tests/v3-fluid-combat-v2126.test.mjs`, `tests/battle-suit-skill-chip-runtime-v2046.test.mjs`. 완료·재입장, 생성 번들 일치, 결과 데이터 표시, 서버 피해와 연속 전투 시계·취소/정리 회귀를 확인한다.
 - 배포 도구가 공용 V3 수정에 필수인 `tests/pve-battlefield-entry-v2117.test.mjs`를 추가한다. 출시 플래그·캐시·Hyperdrive 검사와 지정 `npm run deploy:production -- --scoped`를 사용한다. 무관한 전체 게이트를 실행하지 않는다.
+
+## 운영 반영 결과
+
+- 운영 소스: `d819fb672a208b2376ce1d716bdcaf33c23efb34`. 깨끗한 작업 트리·`origin/main` 일치 상태에서 지정 scoped 배포 종료 코드 0.
+- 선택 회귀 및 필수 로더 회귀 **49/49 통과**. 최종 브라우저 측정도 PVE/PVP 완료·숨김/복귀·즉시 결과·닫기에서 반복 렌더 0회와 활성 대기 타임라인 0개, 다음 전투 정상 재개를 확인했다. 최종 증빙: `C:/Users/User/.codex/tmp/v3-completion-20260928/release/`.
+- 출시 플래그·캐시 호환·Hyperdrive query cache OFF 검사 통과. Pages: https://6783f1d1.cnine-card.pages.dev . clan-draft Worker: `74f13b5a-2f07-43cf-8f26-aa39c22b1e8b`.
+- 2026-09-28 04:54 KST 운영 별칭의 `index.html`과 실제 로더 쿼리로 연결된 `js/app.js`, `js/battle-v3-live.js`, 공용 전투 번들 모두 HTTP 200·소스 SHA-256 일치 확인. 런타임 식별자와 완료 정리 함수도 반영됐다. 증빙: `C:/Users/User/.codex/tmp/v3-completion-20260928/production-check.json`.
+- 이 결과 기록은 문서만 커밋·원격 반영하고 재배포하지 않는다. 사용 중인 PWA는 완전히 닫았다가 다시 열어 변경된 앱/전투 스크립트를 로드한다.
