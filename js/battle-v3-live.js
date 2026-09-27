@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260928-octa-opening10';
+  const BATTLE_RUNTIME = '20260928-result-idle';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
@@ -1122,11 +1122,14 @@
           throw new Error(`V3 전투 연출을 완료하지 못했습니다: ${error?.message || error}`);
         } finally {
           await stopAccountBattleUnitContinuousFire({ drain: !destroyed && !stage.classList?.contains?.("is-v3-error") });
+          if (!destroyed) root.ProjectVPixiBattle.completePlayback?.();
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
       },
       showResult(verifiedResult) {
+        if (destroyed) return;
+        root.ProjectVPixiBattle.completePlayback?.();
         if(options.preserveServerTimeline && ['SUCCESS','FAILED'].includes(verifiedResult?.personalResult)) {
           payload.battleV2.result.winner = verifiedResult.personalResult === 'SUCCESS' ? 'A' : 'B';
           payload.coreRaid = {...payload.coreRaid, verifiedOutcome: verifiedResult.outcome};

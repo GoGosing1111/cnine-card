@@ -3404,6 +3404,28 @@ class BaseBattleEngine{
     banner.baseY=banner.y;
   }
 
+  stopPresentation(){
+    this.cancelTimelines();
+    this.accountBattleUnit?.stopIdle();
+    // Actor idle loops live outside the combat-event timelines. Pausing them
+    // keeps the final pose without leaving GSAP running behind the result UI.
+    for(const character of this.characters){
+      for(const animation of new Set([character.animationAdapter,character.animationController]))animation?.timeline?.pause();
+    }
+    this.app?.stop();
+  }
+
+  completePlayback(){
+    if(!this.app||this.disposed)return false;
+    this.requestedVisible=false;
+    this.visible=false;
+    this.stopPresentation();
+    // Commit the authoritative final state once, retaining the canvas for
+    // the report. resetSession + setVisible(true) owns the next battle.
+    this.app.render();
+    return true;
+  }
+
   async setVisible(next){
     this.requestedVisible=Boolean(next);
     if(!this.mounted&&this.requestedVisible)await this.mount();
@@ -3411,15 +3433,16 @@ class BaseBattleEngine{
     this.visible=this.requestedVisible&&!document.hidden;
     if(this.visible){
       this.app.start();
+      for(const character of this.characters){
+        for(const animation of new Set([character.animationAdapter,character.animationController]))animation?.timeline?.resume();
+      }
       this.accountBattleUnit?.startIdle();
       // Audio must not compete with Pixi/character assets during renderer
       // construction. Start it only after the battlefield has become visible.
       this.audio?.schedulePreload?.();
       if(!this.livePayload&&this.cards.every(card=>card.alpha===0))await this.deployCards();
     }else{
-      this.cancelTimelines();
-      this.accountBattleUnit?.stopIdle();
-      this.app.stop();
+      this.stopPresentation();
       // Explicit battle/modal close releases optional advancement GPU/audio
       // assets. A visibilitychange calls setVisible(requestedVisible), so a
       // brief hidden tab keeps requestedVisible=true and avoids re-downloading.
