@@ -5,7 +5,7 @@ import { PGlite } from '@electric-sql/pglite';
 import { JointSQLiteDB } from './helpers/joint-db.mjs';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { ensureRuntimeFoundation } from '../functions/_runtime_foundation.js';
-import { ACHIEVEMENT_TITLES_KEY, ensureAchievementTitles, readCollectionMastery, collectionMasteryMet, syncAchievementTitles } from '../functions/_achievement_titles.js';
+import { ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY, ensureAchievementTitles, readCollectionMastery, collectionMasteryMet, syncAchievementTitles } from '../functions/_achievement_titles.js';
 
 const schema = `
 CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
@@ -66,7 +66,7 @@ for (const postgres of [false, true]) {
   test(`${label}: new marker seeds on an already initialized installation; failed seed rolls back and preserves CMS edits on retry`, async t => {
     const f = await fixture(t, postgres);
     await f.p("INSERT INTO app_meta(key,value) VALUES('old-foundation','1')").run();
-    const initialize = () => ensureRuntimeFoundation(f.env, Symbol('new'), ['old-foundation', ACHIEVEMENT_TITLES_KEY], () => ensureAchievementTitles(f.env));
+    const initialize = () => ensureRuntimeFoundation(f.env, Symbol('new'), ['old-foundation', ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY], () => ensureAchievementTitles(f.env));
     f.fail((sql, args) => /INSERT.*character_titles/i.test(sql) && args[0] === 'TROPHY_HUNTER');
     await assert.rejects(initialize, /INJECTED_FAILURE/);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM character_titles').first()).n), 0);
@@ -74,11 +74,34 @@ for (const postgres of [false, true]) {
     f.fail(() => false); await initialize(); await initialize();
     const titles = (await f.p('SELECT * FROM character_titles ORDER BY id').all()).results;
     assert.deepEqual(titles.map(x => x.name), ['폐인', '우승청부사']);
-    assert.ok(titles.every(x => Number(x.pve_power) === 0));
+    assert.deepEqual(titles.map(x => Number(x.pve_power)), [50000, 75000]);
     await f.p("UPDATE character_titles SET description='CMS 보존',is_active=0 WHERE code='TROPHY_HUNTER'").run();
     await f.p('DELETE FROM app_meta WHERE key=?', ACHIEVEMENT_TITLES_KEY).run(); await ensureAchievementTitles(f.env);
     const edited = await f.p("SELECT * FROM character_titles WHERE code='TROPHY_HUNTER'").first();
     assert.equal(edited.description, 'CMS 보존'); assert.equal(Number(edited.is_active), 0);
+  });
+
+  test(`${label}: existing zero-power titles upgrade atomically once, retain ownership and preserve later CMS power edits`, async t => {
+    const f = await fixture(t, postgres); await ensureAchievementTitles(f.env);
+    await f.p('UPDATE character_titles SET pve_power=0').run();
+    await f.p("INSERT INTO user_character_titles SELECT 7,id,'ACHIEVEMENT',code FROM character_titles").run();
+    await f.p('DELETE FROM app_meta WHERE key=?', ACHIEVEMENT_TITLE_POWER_KEY).run();
+    const initialize = () => ensureRuntimeFoundation(f.env, Symbol('upgrade'), [ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY], () => ensureAchievementTitles(f.env));
+    const powers = async () => (await f.p('SELECT pve_power FROM character_titles ORDER BY id').all()).results.map(r => Number(r.pve_power));
+    f.fail((sql,args) => /UPDATE character_titles/i.test(sql) && args[1] === 'TROPHY_HUNTER');
+    await assert.rejects(initialize, /INJECTED_FAILURE/);
+    assert.deepEqual(await powers(), [0, 0], 'second update failure rolls back both values');
+    assert.equal(await f.p('SELECT value FROM app_meta WHERE key=?', ACHIEVEMENT_TITLE_POWER_KEY).first(), null);
+    f.fail(() => false);
+    const batch = f.DB.batch.bind(f.DB); let lost = true;
+    f.DB.batch = async rows => { const result = await batch(rows); if (lost) { lost=false; throw Error('LOST_RESPONSE'); } return result; };
+    await assert.rejects(initialize, /LOST_RESPONSE/);
+    await initialize();
+    assert.deepEqual(await powers(), [50000, 75000]);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_character_titles WHERE user_id=7').first()).n), 2);
+    await f.p("UPDATE character_titles SET pve_power=80000 WHERE code='TROPHY_HUNTER'").run();
+    await initialize(); await ensureAchievementTitles(f.env);
+    assert.deepEqual(await powers(), [50000, 80000], 'redeployment cannot overwrite an operator edit after the approved update');
   });
 
   test(`${label}: visible distinct card/vehicle ownership, official trophy kinds, atomic grants and lost-response retries`, async t => {
@@ -155,7 +178,7 @@ for (const postgres of [false, true]) {
 test('runtime foundation includes the new marker and every live surface loads the new styles', () => {
   const read = path => readFileSync(new URL('../'+path,import.meta.url),'utf8');
   const server = read('functions/_equipment.js');
-  assert.match(server,/Z_SWORD_APPEARANCE_KEY,ACHIEVEMENT_TITLES_KEY/);
+  assert.match(server,/Z_SWORD_APPEARANCE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY/);
   assert.match(server,/await ensureAchievementTitles\(env\)/);
   assert.match(server,/syncAchievementTitles\(env,user.id\)/);
   for (const path of ['index.html','admin/index.html','js/app.js']) assert.match(read(path),/achievement-titles-20260927.css/);

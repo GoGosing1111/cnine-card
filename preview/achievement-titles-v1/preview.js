@@ -2,8 +2,8 @@
 (() => {
   const locked = new URLSearchParams(location.search).get('locked') === '1';
   const titles = [
-    { id:1,code:'COLLECTION_COMPLETIONIST',name:'폐인',badgeText:'폐인',description:'카드 도감 100%와 차량 도감 90% 이상을 완성한 수집가.',image:'/assets/ui/titles/completionist-v1.webp',stylePreset:'COMPLETIONIST',unlockType:'COLLECTION_MASTERY',unlockConfig:{cardPercent:100,vehiclePercent:90},pvePower:0,owned:!locked,equipped:!locked },
-    { id:2,code:'TROPHY_HUNTER',name:'우승청부사',badgeText:'우승청부사',description:'서로 다른 트로피 4종을 수집한 승리의 증명.',image:'/assets/ui/titles/trophy-hunter-v1.webp',stylePreset:'TROPHY_HUNTER',unlockType:'TROPHY_KINDS',unlockConfig:{count:4},pvePower:0,owned:!locked,equipped:false }
+    { id:1,code:'COLLECTION_COMPLETIONIST',name:'폐인',badgeText:'폐인',description:'카드 도감 100%와 차량 도감 90% 이상을 완성한 수집가.',image:'/assets/ui/titles/completionist-v1.webp',stylePreset:'COMPLETIONIST',unlockType:'COLLECTION_MASTERY',unlockConfig:{cardPercent:100,vehiclePercent:90},pvePower:50000,owned:!locked,equipped:!locked },
+    { id:2,code:'TROPHY_HUNTER',name:'우승청부사',badgeText:'우승청부사',description:'서로 다른 트로피 4종을 수집한 승리의 증명.',image:'/assets/ui/titles/trophy-hunter-v1.webp',stylePreset:'TROPHY_HUNTER',unlockType:'TROPHY_KINDS',unlockConfig:{count:4},pvePower:75000,owned:!locked,equipped:false }
   ];
   const data = {slots:[],instances:[],loadout:{},titles,vehicles:[],equippedTitleId:locked?null:1,bonuses:{}};
   const link = document.getElementById('viewMode');

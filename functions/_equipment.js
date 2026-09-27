@@ -1,4 +1,4 @@
-import { ACHIEVEMENT_TITLES_KEY, ensureAchievementTitles, syncAchievementTitles } from './_achievement_titles.js';
+import { ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY, ensureAchievementTitles, syncAchievementTitles } from './_achievement_titles.js';
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
 import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { burningEventIsLive } from './_burning_event_access.js';
@@ -31,7 +31,7 @@ const SUPPLY_BOX_MAX_OPEN=500;
 const LEGACY_SUPPLY_BOX_SHOP_ENABLED=false;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
-const FOUNDATION_CACHE=Symbol('equipment-foundation-20260927-titles');
+const FOUNDATION_CACHE=Symbol('equipment-foundation-20260927-title-power');
 const BATTLE_SUIT_CATALOG=[
   {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png',description:'백금 날개 여성형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:100000,sortOrder:10},
   {code:'BATTLE_SUIT_02',name:'배틀슈트 02',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',description:'주황색 전술형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:200000,sortOrder:20},
@@ -107,7 +107,7 @@ export async function ensureEquipmentFoundation(env){
     'safe_runtime_upgrade_v1490_new_equipment_drop_quarantine','safe_runtime_upgrade_v1338_garage_system',
     'safe_runtime_upgrade_v1533_territory_commander_title','safe_runtime_upgrade_v1953_project_v_battle_suits',
     'safe_runtime_upgrade_v1959_battle_suit_01_female','safe_runtime_upgrade_v1969_battle_suit_power_tiers',
-    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY,ACHIEVEMENT_TITLES_KEY
+    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY
   ],async()=>{
     const markerV1231=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
     if(markerV1231?.value!=='1'){
