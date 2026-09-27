@@ -18,4 +18,9 @@
 
 ## 운영 반영 기록
 
-동시에 진행 중인 OWNER 버닝 권한 변경의 전체 검수가 끝난 운영 커밋을 확인한 후, 그 실제 배포 SHA를 범위 기준으로 삼는다. 운영 배포 ID·SHA와 반영 확인 결과는 배포 후 추가 기록한다.
+- 사용자 후속 지시에 따라 무관한 전체 검사 반복을 중단하고, 완료한 관련 검사를 바탕으로 공동 변경을 `npm run deploy:production -- --scoped`로 운영 반영했다.
+- 직전 운영 기준: `06b82dd4c0e07fafeb0773d730513caa2367a75b` / 배포 `e24ab388-c4af-4c99-b50f-f15169acee5f`.
+- 운영 배포 SHA: `2bcb7bf82198ec636af58a4cb028306aa6d07fc3`. 칭호 전투력 변경과 fixture 보정 커밋 `01a62e61d8fb79fa7cec2e929adc993bccbeeeb3`을 포함한다.
+- 배포 ID: `2f9d4113-6c98-4a33-bff9-d0874bd92b6d`, URL: `https://2f9d4113.cnine-card.pages.dev`.
+- 2026-09-27 23:53 KST 운영 확인: 프리뷰 JS·공용 칭호 CSS·두 로고가 HTTP 200이며 로컬 SHA-256과 일치했다. 실제 운영 CMS에서도 폐인 50,000, 우승청부사 75,000을 확인했다.
+- 검증 기록: `C:/Users/User/.codex/worktrees/qa-achievement-titles-20260927/production-power-verification.json`. 배포 후 기록만 추가한 문서 커밋은 재배포하지 않는다.
