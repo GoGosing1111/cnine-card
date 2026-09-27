@@ -1,0 +1,28 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:ragniel-heeya:20260928:v1",
+  "mercenaryCode": "V-046",
+  "mercenaryName": "라그니엘",
+  "rank": "SSS",
+  "count": 1,
+  "quantityEach": 1,
+  "permanent": true,
+  "recipients": [
+    {
+      "userId": 4977,
+      "nickname": "하이희야♡",
+      "mercenaryCode": "V-046",
+      "mercenaryName": "라그니엘",
+      "rank": "SSS",
+      "quantity": 1,
+      "permanent": true,
+      "beforeCopies": 0,
+      "totalCopies": 1,
+      "duplicateCount": 0,
+      "acquisitionId": "ops:ragniel-heeya:20260928:v1:4977",
+      "adminLogId": "36648"
+    }
+  ],
+  "completedAt": "2026-09-27T16:48:40.393Z",
+  "replayed": false
+}
