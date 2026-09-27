@@ -184,5 +184,10 @@ test('repair coupon has matching CMS selection, client claim presentation and fr
   assert.match(read('admin/admin-v1276.js'),/PINGDU_REPAIR_COUPON:\{label:'핑두 리페어 쿠폰',defaultAmount:1,max:100000\}/);
   assert.match(read('js/app.js'),/PINGDU_REPAIR_COUPON:\{label:'핑두 리페어 쿠폰',icon:/);
   assert.match(read('admin/index.html'),/repairMessage=20260923/);
-  assert.match(read('index.html'),/rewardMeta=20260923-repair/);
+  // Later reward releases advance this cache key while retaining coupon support.
+  const appSource=read('index.html').match(/src="(js\/app\.js\?[^\"]+)"/)?.[1];
+  assert.ok(appSource,'Versioned main app script is required');
+  const revision=new URL(appSource.replaceAll('&amp;','&'),'https://qa.test/').searchParams.get('rewardMeta');
+  assert.match(revision,/^\d{8}-[a-z0-9-]+$/);
+  assert.ok(revision.slice(0,8)>='20260923','Reward metadata cache predates repair coupon support');
 });
