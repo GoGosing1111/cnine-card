@@ -12,6 +12,7 @@
 
 - 신규 칭호 구현: 업적·명함·장비 로딩·챌린저 관련 39개 검사 통과, CMS 조건 변경 중 지급 방지 회귀 추가 확인.
 - 후속 전투력 지정: `tests/achievement-titles-20260927.test.mjs`, `tests/equipment-loading.test.mjs` 17개 통과. SQLite/PostgreSQL 기존 설치 갱신, 두 번째 쓰기 실패 시 롤백, 응답 유실 후 재시도, CMS 값 보존 및 장착·교체·해제 시 PVE/PVP 보너스를 확인했다.
+- 공통 출시 검사에서 발견된 두 슈트 테스트의 고정 카탈로그 fixture도 새 power marker를 포함하도록 맞췄다. 기존 슈트와 무기 보너스·PVP 제외 검증은 유지한다.
 - PC 1280×900, 모바일 391×844에서 실제 게임 칭호 렌더러의 +50,000/+75,000 표시와 장착 전환을 확인했다. 스크린샷은 `C:/Users/User/.codex/worktrees/qa-achievement-titles-20260927/desktop-power.png`, `mobile-power.png`에 보존한다.
 - 전투력 지정은 두 칭호의 카탈로그 값과 기존 등록값 보정에 한정된다. DB 스키마·인증·공통 전투 계산은 변경하지 않는다. 해당 변경의 배포는 관련 검사와 Worker 컴파일을 포함한 `npm run deploy:production -- --scoped`를 사용한다.
 
