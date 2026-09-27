@@ -20,7 +20,7 @@ export async function replaceClanAvatarsWithHanbok(q){
  for(const old of before){
   const entry=manifest.entries.find(e=>e.code===old.code),expected=previous.find(a=>a.code===old.code);
   assert.equal(old.name,expected.name);for(const k of artFields)assert.equal(old[k],expected[k],old.code+' art changed; inspect again');
-  const role=old.name.split(' ')[0]+' 클랜 한복',description=`${entry.name}의 ${entry.caption} 한복 아바타입니다. 한복 로비 일러스트와 투명 장비창 전신을 함께 적용합니다.`;
+  const role=old.name.split(' ')[0]+' 클랜 한복',description=`${entry.name}의 ${entry.caption} 한복 아바타입니다.`;
   const updated=await q('UPDATE avatar_catalog_v1 SET lobby_image=$1,lobby_mobile_image=$2,equipment_image=$3,role_label=$4,description=$5,accent=$6,version=version+1,updated_at=$7 WHERE code=$8 AND version=$9 RETURNING *',[entry.lobbyImage,entry.lobbyMobileImage,entry.equipmentImage,role,description,entry.accent,now,old.code,old.version]);
   assert.equal(updated.length,1,'Catalog version changed');const after=updated[0];assert.deepEqual(protectedFields(after),protectedFields(old));assert.equal(Number(after.version),Number(old.version)+1);
   changes.push({code:old.code,name:old.name,before:Object.fromEntries([...artFields,'version'].map(k=>[k,old[k]])),after:Object.fromEntries([...artFields,'version'].map(k=>[k,after[k]]))});
