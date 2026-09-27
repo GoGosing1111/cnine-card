@@ -69,7 +69,10 @@ test('server applies eight fixed-target impacts and conserves x10 total for norm
       for(const hit of hits){assert.equal(hit.targetId,cast.targetId);assert.equal(hit.hitCount,8);assert.equal(hit.combatAtMs,cast.combatAtMs+chip.impactOffsetsMs[hit.hitIndex]);if(hit.apocalypsePierce)pierce++;}
       const total=hits.reduce((n,e)=>n+e.damage+e.absorbed,0);assert.ok(total<=cast.calculatedDamage);
       if(hits.length===8&&hits.at(-1).targetHpAfter>0){complete++;assert.equal(total,cast.calculatedDamage);}
-      assert.equal(cast.critical,false,'existing non-critical skill-hit policy is unchanged');
+      // The existing shared hitResult can crit; every split impact inherits the
+      // server cast result instead of rolling a second critical multiplier.
+      assert.equal(typeof cast.critical,'boolean');
+      assert.ok(hits.every(hit=>hit.critical===cast.critical));
     }
     assert.equal(result.damageBreakdown.skillChips,result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT').reduce((n,e)=>n+e.damage+e.absorbed,0));
   }

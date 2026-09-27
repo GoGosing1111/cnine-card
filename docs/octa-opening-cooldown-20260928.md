@@ -19,6 +19,7 @@
 - 실제 생성 번들을 사용하는 PC 1440×1000 / 모바일 390×844 전장에서 위 발동 순서와 유도탄 8회 명중을 확인했다. 각 페이지 오류 0건이며 스크린샷의 기존 카드 도크·전장 배치를 확인했다. 모바일 외부 검수 도구가 독립 프리뷰 FX를 너무 일찍 파괴한 오류는 도구에서 파괴 호출을 제거한 뒤 해당 모바일 경로만 재검사했다.
 - 브라우저 증빙: `C:/Users/User/.codex/tmp/octa-opening-20260928/browser-results.json`, `desktop-opening.png`, `mobile-opening.png`. 실제 승인 카드/슈트 자산과 서버 시뮬레이터를 사용하며 운영 API·계정·보상은 사용하지 않는다.
 - 관련 최종 검사는 아래 scoped 배포 과정에서 한 번 수행한다. PC/모바일 UI 및 무관한 콘텐츠 전수 검사는 반복하지 않는다.
+- 첫 scoped 검사 74개 중 73개 통과. 기존 유도탄 검사의 `critical === false` 단정은 실제 공용 `hitResult`의 치명타 처리와 달랐으며, 10초 주기로 발동 횟수가 늘면서 해당 fixture에서 드러났다. 피해 계산 코드는 수정하지 않고 각 분할 HIT가 서버 CAST의 치명타 결과를 그대로 이어받는지 검사하도록 바로잡았다. 재개 시 이 실패 파일과 필수 번들/로더 연결만 재검사하고 이미 통과한 다른 칩 검사는 반복하지 않는다.
 
 ## 배포 범위
 
@@ -28,6 +29,7 @@
 - `SCOPED_DEPLOY_BASE`: `4b58ced618e2e98bfab2943ce9fc0bb0973d80a5`.
 - `SCOPED_DEPLOY_TESTS`: `tests/battle-suit-octaseeker-live-20260924.test.mjs`, `tests/battle-suit-octaseeker-preview-v1.test.mjs`, `tests/battle-suit-skill-chip-runtime-v2046.test.mjs`, `tests/battle-suit-skill-chip-v2046.test.mjs`, `tests/pve-battlefield-entry-v2117.test.mjs`.
 - `SCOPED_DEPLOY_CHECKS`: `check:worker`.
+- 재개 검사: `tests/battle-suit-octaseeker-live-20260924.test.mjs` 및 도구가 필수 추가하는 `tests/pve-battlefield-entry-v2117.test.mjs`, `check:worker`. 게임 실행 파일은 첫 검사 이후 바뀌지 않았다.
 - 칩 서버/피해·PVP 제외·공용 재생·실제 번들/메인 로더 연결만 선택했다. 출시 플래그·캐시·origin/main·깨끗한 후보·Hyperdrive 검사는 기존대로 유지한다.
 
 배포 결과는 완료 후 기록한다.
