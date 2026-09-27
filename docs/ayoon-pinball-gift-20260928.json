@@ -1,0 +1,1444 @@
+{
+  "operationKey": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
+  "campaignKey": "ayoon-pinball-gift-20260928-v1",
+  "title": "아윤방 핀볼 이벤트",
+  "body": "아윤방 핀볼 이벤트",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "count": 51,
+  "recipientHash": "89ec95aff3f0f84ddefb5822df27bf375cf28daa662319c4cbb12a46d0b632c6",
+  "recipients": [
+    {
+      "id": "3",
+      "nickname": "ε연두з",
+      "soop": "비숑."
+    },
+    {
+      "id": "19",
+      "nickname": "토닭토닭",
+      "soop": "토닭토닭"
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "soop": "[C9]오승환"
+    },
+    {
+      "id": "32",
+      "nickname": "쑤댕",
+      "soop": "망쑤니"
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "soop": "빡세라-ㅁ-"
+    },
+    {
+      "id": "52",
+      "nickname": "폭군#",
+      "soop": "폭군#"
+    },
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "soop": "소중도중"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "soop": "숭한놈"
+    },
+    {
+      "id": "71",
+      "nickname": "진땅콩_",
+      "soop": "패드구"
+    },
+    {
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "soop": "비쥬얼깡패"
+    },
+    {
+      "id": "87",
+      "nickname": "설윤이",
+      "soop": "STARRR0"
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "soop": "0수표"
+    },
+    {
+      "id": "148",
+      "nickname": "혜루",
+      "soop": "혜루1"
+    },
+    {
+      "id": "162",
+      "nickname": "차단하다",
+      "soop": "숲에사는족구"
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "soop": "#초월"
+    },
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "soop": "늘그니생키"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "soop": "Sooya.."
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "soop": "tmxkzmfovmxm"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "soop": "족치기족치기"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "soop": "적별"
+    },
+    {
+      "id": "521",
+      "nickname": "대저동토마토",
+      "soop": "대져동토마토"
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "soop": "족구쪼아"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "soop": "гain"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "soop": "코파먹는성태"
+    },
+    {
+      "id": "1768",
+      "nickname": "hhhhhaa",
+      "soop": "핫시:D"
+    },
+    {
+      "id": "1843",
+      "nickname": "흐린눈깔",
+      "soop": "흐린눈깔"
+    },
+    {
+      "id": "2246",
+      "nickname": "옹가망함1",
+      "soop": "날종"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "soop": "블랙캐슬"
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "soop": "츠츠_"
+    },
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "soop": "딸기찾는철구"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "soop": "z7005z"
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "soop": "스프°"
+    },
+    {
+      "id": "4235",
+      "nickname": "도댕",
+      "soop": "도댕.."
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "soop": "탱탱노"
+    },
+    {
+      "id": "4408",
+      "nickname": "레가파",
+      "soop": "하랑짱의여니"
+    },
+    {
+      "id": "4501",
+      "nickname": "장씨아저씨",
+      "soop": "장씨아저씨"
+    },
+    {
+      "id": "4504",
+      "nickname": "깜찍소녀",
+      "soop": "깜찍소녀"
+    },
+    {
+      "id": "4552",
+      "nickname": "치옹스",
+      "soop": "특수기동타격"
+    },
+    {
+      "id": "4562",
+      "nickname": "찡찡ෆ",
+      "soop": "♥찡찡"
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "soop": "혜정♪"
+    },
+    {
+      "id": "4580",
+      "nickname": "CHO22",
+      "soop": "CHO22"
+    },
+    {
+      "id": "4595",
+      "nickname": "비니",
+      "soop": "[C9]비니"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "soop": "암살자.."
+    },
+    {
+      "id": "4621",
+      "nickname": "리이렐",
+      "soop": "리이렐"
+    },
+    {
+      "id": "4625",
+      "nickname": "제롬",
+      "soop": "제롬3"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "soop": "학벌"
+    },
+    {
+      "id": "4647",
+      "nickname": "피카츄",
+      "soop": "[C9]피카츄v"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "soop": "세라네꼬라지"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "soop": "˚쟁이。"
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "soop": "음주플레이어"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "soop": "딤키우기"
+    }
+  ],
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "actor": "SYSTEM_OPS",
+  "authorization": "명단 대조 후 아윤방 핀볼 이벤트 메시지로 계정당 1개 추가 지급. 횟수 무관. 오늘 지급내역 있어도 지급하라고 총2회야",
+  "completedAt": "2026-09-27T15:24:51.227Z",
+  "auditId": "36584",
+  "verification": {
+    "messages": 51,
+    "rewards": 51,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0,
+    "rows": [
+      {
+        "message_id": "165109",
+        "user_id": "3",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163012",
+        "reward_user_id": "3",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165110",
+        "user_id": "19",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163013",
+        "reward_user_id": "19",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165111",
+        "user_id": "22",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163014",
+        "reward_user_id": "22",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165112",
+        "user_id": "32",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163015",
+        "reward_user_id": "32",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165113",
+        "user_id": "45",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163016",
+        "reward_user_id": "45",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165114",
+        "user_id": "52",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163017",
+        "reward_user_id": "52",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165115",
+        "user_id": "62",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163018",
+        "reward_user_id": "62",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165116",
+        "user_id": "65",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163019",
+        "reward_user_id": "65",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165117",
+        "user_id": "71",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163020",
+        "reward_user_id": "71",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165118",
+        "user_id": "81",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163021",
+        "reward_user_id": "81",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165119",
+        "user_id": "87",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163022",
+        "reward_user_id": "87",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165120",
+        "user_id": "88",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163023",
+        "reward_user_id": "88",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165121",
+        "user_id": "148",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163024",
+        "reward_user_id": "148",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165122",
+        "user_id": "162",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163025",
+        "reward_user_id": "162",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165123",
+        "user_id": "164",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163026",
+        "reward_user_id": "164",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165124",
+        "user_id": "183",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163027",
+        "reward_user_id": "183",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165125",
+        "user_id": "277",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163028",
+        "reward_user_id": "277",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165126",
+        "user_id": "295",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163029",
+        "reward_user_id": "295",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165127",
+        "user_id": "303",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163030",
+        "reward_user_id": "303",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165128",
+        "user_id": "360",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163031",
+        "reward_user_id": "360",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165129",
+        "user_id": "521",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163032",
+        "reward_user_id": "521",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165130",
+        "user_id": "525",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163033",
+        "reward_user_id": "525",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165131",
+        "user_id": "1195",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163034",
+        "reward_user_id": "1195",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165132",
+        "user_id": "1255",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163035",
+        "reward_user_id": "1255",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165133",
+        "user_id": "1768",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163036",
+        "reward_user_id": "1768",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165134",
+        "user_id": "1843",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163037",
+        "reward_user_id": "1843",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165135",
+        "user_id": "2246",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163038",
+        "reward_user_id": "2246",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165136",
+        "user_id": "2420",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163039",
+        "reward_user_id": "2420",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165137",
+        "user_id": "2505",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163040",
+        "reward_user_id": "2505",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165138",
+        "user_id": "3011",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163041",
+        "reward_user_id": "3011",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165139",
+        "user_id": "3884",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163042",
+        "reward_user_id": "3884",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165140",
+        "user_id": "3974",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163043",
+        "reward_user_id": "3974",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165141",
+        "user_id": "4235",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163044",
+        "reward_user_id": "4235",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165142",
+        "user_id": "4391",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163045",
+        "reward_user_id": "4391",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165143",
+        "user_id": "4408",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163046",
+        "reward_user_id": "4408",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165144",
+        "user_id": "4501",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163047",
+        "reward_user_id": "4501",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165145",
+        "user_id": "4504",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163048",
+        "reward_user_id": "4504",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165146",
+        "user_id": "4552",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163049",
+        "reward_user_id": "4552",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165147",
+        "user_id": "4562",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163050",
+        "reward_user_id": "4562",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165148",
+        "user_id": "4570",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163051",
+        "reward_user_id": "4570",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165149",
+        "user_id": "4580",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163052",
+        "reward_user_id": "4580",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165150",
+        "user_id": "4595",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163053",
+        "reward_user_id": "4595",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165151",
+        "user_id": "4598",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163054",
+        "reward_user_id": "4598",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165152",
+        "user_id": "4621",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163055",
+        "reward_user_id": "4621",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165153",
+        "user_id": "4625",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163056",
+        "reward_user_id": "4625",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165154",
+        "user_id": "4627",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163057",
+        "reward_user_id": "4627",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165155",
+        "user_id": "4647",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163058",
+        "reward_user_id": "4647",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165156",
+        "user_id": "4651",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163059",
+        "reward_user_id": "4651",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165157",
+        "user_id": "4705",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163060",
+        "reward_user_id": "4705",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165158",
+        "user_id": "4757",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163061",
+        "reward_user_id": "4757",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165159",
+        "user_id": "4836",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163062",
+        "reward_user_id": "4836",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      }
+    ]
+  },
+  "previousFundingRecipientsIncluded": 43,
+  "firstGiftRecipients": 8,
+  "pending": [
+    {
+      "soop": "족쌤",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "#으악",
+      "reason": "유사 게임 닉네임은 있으나 동일인 확인 답변 없음"
+    },
+    {
+      "soop": "[C9]플랜비",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "#LafeStar",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "탁래",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "네이아네이",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "Lillie7",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "눈을감자12",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "허거덩덩쓰",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "김포카",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "응맨♡",
+      "reason": "유사 게임 닉네임은 있으나 동일인 확인 답변 없음"
+    },
+    {
+      "soop": "형관펜",
+      "reason": "정확한 게임 계정 미확인"
+    }
+  ],
+  "previousFundingMessages": [
+    {
+      "userId": "3",
+      "messageId": "163823",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:36:30"
+    },
+    {
+      "userId": "22",
+      "messageId": "163824",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:35:25"
+    },
+    {
+      "userId": "32",
+      "messageId": "163937",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:52:13"
+    },
+    {
+      "userId": "45",
+      "messageId": "163826",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:32:55"
+    },
+    {
+      "userId": "52",
+      "messageId": "163827",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:44:55"
+    },
+    {
+      "userId": "62",
+      "messageId": "163828",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:27:23"
+    },
+    {
+      "userId": "65",
+      "messageId": "163829",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 09:35:28"
+    },
+    {
+      "userId": "71",
+      "messageId": "164974",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:50:21"
+    },
+    {
+      "userId": "81",
+      "messageId": "163830",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:23:10"
+    },
+    {
+      "userId": "87",
+      "messageId": "163831",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:40:08"
+    },
+    {
+      "userId": "88",
+      "messageId": "163832",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:37:06"
+    },
+    {
+      "userId": "148",
+      "messageId": "163833",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:46:56"
+    },
+    {
+      "userId": "164",
+      "messageId": "163875",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:45:09"
+    },
+    {
+      "userId": "183",
+      "messageId": "164975",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:45:47"
+    },
+    {
+      "userId": "277",
+      "messageId": "163835",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:33:37"
+    },
+    {
+      "userId": "295",
+      "messageId": "163837",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:33:40"
+    },
+    {
+      "userId": "303",
+      "messageId": "163838",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:17:52"
+    },
+    {
+      "userId": "360",
+      "messageId": "163877",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:42:56"
+    },
+    {
+      "userId": "521",
+      "messageId": "163839",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:42:34"
+    },
+    {
+      "userId": "525",
+      "messageId": "163938",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:08:19"
+    },
+    {
+      "userId": "1195",
+      "messageId": "163841",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:32:45"
+    },
+    {
+      "userId": "1255",
+      "messageId": "163962",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:26:15"
+    },
+    {
+      "userId": "1768",
+      "messageId": "163842",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:37:07"
+    },
+    {
+      "userId": "2246",
+      "messageId": "163843",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:34:05"
+    },
+    {
+      "userId": "2420",
+      "messageId": "163878",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:46:47"
+    },
+    {
+      "userId": "2505",
+      "messageId": "163845",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:44:35"
+    },
+    {
+      "userId": "3011",
+      "messageId": "163847",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:35:10"
+    },
+    {
+      "userId": "3974",
+      "messageId": "164979",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:43:48"
+    },
+    {
+      "userId": "4235",
+      "messageId": "163849",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:51:36"
+    },
+    {
+      "userId": "4391",
+      "messageId": "163944",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:56:30"
+    },
+    {
+      "userId": "4408",
+      "messageId": "164980",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:49:19"
+    },
+    {
+      "userId": "4504",
+      "messageId": "163851",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:46:30"
+    },
+    {
+      "userId": "4552",
+      "messageId": "163852",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:07:46"
+    },
+    {
+      "userId": "4562",
+      "messageId": "163853",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 08:01:42"
+    },
+    {
+      "userId": "4570",
+      "messageId": "163854",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:59:38"
+    },
+    {
+      "userId": "4595",
+      "messageId": "163856",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:37:09"
+    },
+    {
+      "userId": "4598",
+      "messageId": "163857",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 09:29:36"
+    },
+    {
+      "userId": "4621",
+      "messageId": "163958",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:09:55"
+    },
+    {
+      "userId": "4625",
+      "messageId": "163860",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:31:39"
+    },
+    {
+      "userId": "4627",
+      "messageId": "163861",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 07:08:28"
+    },
+    {
+      "userId": "4647",
+      "messageId": "163864",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:34:25"
+    },
+    {
+      "userId": "4651",
+      "messageId": "163865",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:43:03"
+    },
+    {
+      "userId": "4757",
+      "messageId": "163867",
+      "campaignKey": "tournament-funding-gift-20260927-v1",
+      "amount": "1",
+      "claimedAt": "2026-09-27 06:34:15"
+    }
+  ],
+  "newRecipients": [
+    {
+      "id": "19",
+      "nickname": "토닭토닭",
+      "soop": "토닭토닭"
+    },
+    {
+      "id": "162",
+      "nickname": "차단하다",
+      "soop": "숲에사는족구"
+    },
+    {
+      "id": "1843",
+      "nickname": "흐린눈깔",
+      "soop": "흐린눈깔"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "soop": "z7005z"
+    },
+    {
+      "id": "4501",
+      "nickname": "장씨아저씨",
+      "soop": "장씨아저씨"
+    },
+    {
+      "id": "4580",
+      "nickname": "CHO22",
+      "soop": "CHO22"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "soop": "˚쟁이。"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "soop": "딤키우기"
+    }
+  ]
+}
