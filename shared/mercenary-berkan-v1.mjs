@@ -1,6 +1,9 @@
 import {CRYVERN_CODE,CRYVERN_BALANCE,cryvernSelectionWeights} from './mercenary-cryvern-v1.mjs';
 // 2026-09-27: SSS registration, Cryvern rarity, motions and golden aura approved.
 export const BERKAN_CODE='V-055',BERKAN_SKILL_ID='MS-055';
+export const BERKAN_TEMPO=Object.freeze({speedScale:1.25,actionCredit:1.25,playbackScale:1.25});
+export const berkanActionCredit=actors=>actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED'&&a.code===BERKAN_CODE)?BERKAN_TEMPO.actionCredit:1;
+export const berkanPlaybackRate=engine=>engine.reducedMotion?8:1.3*(engine.paceScale||1)*BERKAN_TEMPO.playbackScale;
 export const BERKAN_MECHANIC='GILDED_STARFALL';
 export const BERKAN_BALANCE=Object.freeze({damageRatio:5.6,cooldownTurns:5,cost:35});
 export const BERKAN_CAP_SCALE=1.7;

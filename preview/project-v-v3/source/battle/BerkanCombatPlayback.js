@@ -1,6 +1,6 @@
 import {BerkanFX,loadBerkanAssets} from '../../../mercenary-berkan-sss-v1/source/BerkanFX.js';
 import {makePlan,MODES} from '../../../mercenary-berkan-sss-v1/skill.mjs';
-import {BERKAN_CODE,BERKAN_SKILL_ID} from '../../../../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,berkanPlaybackRate} from '../../../../shared/mercenary-berkan-v1.mjs';
 let manifestPromise;
 const loadManifest=()=>manifestPromise||=(fetch('/preview/mercenary-berkan-sss-v1/manifest.json?v=20260927-live1')
  .then(r=>{if(!r.ok)throw Error('BERKAN_MANIFEST');return r.json();}).catch(e=>{manifestPromise=null;throw e;}));
@@ -49,7 +49,7 @@ async function playback(engine,actor,targets,{basic=false,dodge=false,targetDodg
  const result=await engine.timeline(t=>{
   t.to(clock,{time:plan.duration,duration:plan.duration,ease:'none',onUpdate:()=>{if(valid()&&!fx.destroyed)fx.render(clock.time);}});
   t.call(()=>{if(!applied&&valid()){applied=true;apply();}},[],contact);
- },()=>{state.busy=false;if(!fx.destroyed){fx.cancel();if(valid())ambient(state);}},null,{releaseAt:contact+.12,owners:[actor,...targets]});
+ },()=>{state.busy=false;if(!fx.destroyed){fx.cancel();if(valid())ambient(state);}},berkanPlaybackRate(engine),{releaseAt:contact+.12,owners:[actor,...targets]});
  engine.lastMercenaryPlayback={skillId:basic?null:BERKAN_SKILL_ID,eventType:basic?'ATTACK':'MERCENARY_STARFALL',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0};
  return result&&valid();
 }

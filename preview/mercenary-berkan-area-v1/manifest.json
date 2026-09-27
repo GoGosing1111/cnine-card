@@ -1,0 +1,168 @@
+{
+  "format": "BERKAN_AREA_SKILL_REVIEW_V1",
+  "name": "흑금 천우",
+  "code": "V-055",
+  "status": "USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "renderer": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "clock": "V3_REGISTERED_GSAP",
+    "maxSprites": 40
+  },
+  "source": {
+    "file": "assets/source/arrow-rain-v1.png",
+    "sha256": "e12fab349208d9c0610b604f96b9239f978933f89d353fe1965490565453e2e5",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "tool": "image_gen",
+    "prompt": "generation-prompt.txt"
+  },
+  "arrowRainArea": {
+    "atlas": "../mercenary-berkan-area-v1/assets/arrow-rain-atlas-v1.png",
+    "sha256": "1d4514419500a0746233157687cbde7cea1e8e128e613c36836f74fba05b9404",
+    "frameCount": 16,
+    "columns": 4,
+    "rows": 4,
+    "cellSize": 384,
+    "frames": [
+      {
+        "file": "assets/frames/arrow-rain-00.png",
+        "sha256": "08c315894aa77dc28ccaa6320effb54adff218584ceb28481e5767e389fac5b1",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-01.png",
+        "sha256": "1c591ce00714419861c4bdc933f41ce4bc09637e2704900cdbb5a6199b679127",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-02.png",
+        "sha256": "1eec65e32c96e69f843650e34961ca81cacd6ff5fe5e4a757bd45d53210c2a92",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-03.png",
+        "sha256": "2173f6876580bdddd9fbb7f6850065ce36ad4bc85ce146efbc4800492c9849f8",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-04.png",
+        "sha256": "d04363584f57146ebf4d57595b718ffb626d7e29043e20ae43863c0f95284ff2",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-05.png",
+        "sha256": "34e573116a4cb3ef0c965a141845de3859eb927b8d2085094d3de2f37b20cc48",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-06.png",
+        "sha256": "93578fd9956c36e27a7e1b6d9d3c02c7e302a769437ce78b485329542564ee5c",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-07.png",
+        "sha256": "41c84bfb4c229a9f6fdd2fc37d1023e59752038c885d6da0614bdd65c9e1b0ea",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-08.png",
+        "sha256": "bbbaa9b88a6baa490cac1162e9d5663e31beb17b2dbba45380c05587c5744820",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-09.png",
+        "sha256": "91b6a38800c18e6b81451b19871bdb1daddb8808519a658af199a5f28136bf7a",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-10.png",
+        "sha256": "383da24eb470b864966fd88c62e6379a5df8603e92bce2df4f29d8578ea7e3fa",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-11.png",
+        "sha256": "22265b7f3f788820251ae53258f255b6f3eda3cbdbf96cefdc9c25225cdce851",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-12.png",
+        "sha256": "cfabf66271ecb7c72ba8016671ee591d660a309d614557097d385f39b540239c",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-13.png",
+        "sha256": "7189a87bfacfba13fb4b5653e227e7775032affbd55ae45e1ce93b2baeccb428",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-14.png",
+        "sha256": "2ba54b6a54b9d7a2b1c99a447a0e0cce1967dc8e6dd46c8ee91a3cdd56fcd27a",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      },
+      {
+        "file": "assets/frames/arrow-rain-15.png",
+        "sha256": "24b02c0805a70e8b83d3b60101a769bd0a89974f38734b5e71b6d1354f750788",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8083333333333332
+        }
+      }
+    ]
+  },
+  "timing": {
+    "duration": 3.4,
+    "release": 1.05,
+    "contact": 1.62,
+    "settled": 3.22
+  },
+  "target": "ALL_ENEMIES",
+  "damageAuthority": "NONE_VISUAL_PREVIEW"
+}

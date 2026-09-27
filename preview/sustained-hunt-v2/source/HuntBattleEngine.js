@@ -6,7 +6,7 @@ import {sampleSequence} from '../../project-v-mercenary-system-v1/source/Mercena
 import {CAPACITY,crowdPosition} from '../hunt-rules.mjs';
 import {GroundDrops} from './GroundDrops.js';
 export class BattleEngine extends ScrapyardEngine{
-  constructor(...args){super(...args);this.combatClockRate=this.previewSpeed=this.paceScale=1;}
+  constructor(...args){super(...args);this.combatClockRate=this.previewSpeed=this.paceScale=1;this.continuousAreaPlayback=true;}
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
     const run=this.accountBattleUnitFireRun,epoch=this.playbackEpoch;
     if(!run?.active)return Promise.resolve(true);

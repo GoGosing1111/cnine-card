@@ -1,4 +1,4 @@
-import {BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC} from '../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_TEMPO,berkanActionCredit} from '../shared/mercenary-berkan-v1.mjs';
 import {resolveBerkanStarfall} from './_mercenary_berkan.js';
 import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
 import {resolveCryvernCrown} from './_mercenary_cryvern.js';
@@ -27,6 +27,8 @@ export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>teams[side]?.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
+ const credit=side=>berkanActionCredit(teams[side]||[]);
+ const accrue=side=>debt[side]=Math.min(interval(side)+Math.ceil(credit(side))-1,debt[side]+credit(side));
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
   pending(eligible=()=>true){
@@ -37,15 +39,17 @@ export function mercenaryTurnCadence(teams){
    return teams[actor.side]?.find(a=>a.isMercenary&&living(a))||actor;
   },
   acted(actor){
-   if(actor.isMercenary)debt[actor.side]=0;
+   // Berkan retains fractional progress: four ordinary actions fund five
+   // mercenary actions. Mercenary/suit actions never create new credit.
+   if(actor.isMercenary)debt[actor.side]=credit(actor.side)>1?Math.max(0,debt[actor.side]-interval(actor.side)):0;
    else if(regular(actor)){
-    debt[actor.side]=Math.min(interval(actor.side),debt[actor.side]+1);
+    accrue(actor.side);
     // Once its five allies fall, a PVP mercenary must still get its reserved
     // response. Fixed base speed cannot compete with equipment-scaled cards.
     // Use the surviving regular-card clock; never recurse from mercenary/suit
     // actions or change the normal/PVE cadence while allied cards are alive.
     const other=actor.side==='A'?'B':'A',team=teams[other]||[];
-    if(!team.some(regular)&&team.some(m=>m.isMercenary&&m.statMode==='RANK_FIXED'&&m.battleMode==='PVP'&&living(m)))debt[other]=Math.min(interval(other),debt[other]+1);
+    if(!team.some(regular)&&team.some(m=>m.isMercenary&&m.statMode==='RANK_FIXED'&&m.battleMode==='PVP'&&living(m)))accrue(other);
    }
   }
  };
@@ -56,16 +60,18 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>g.actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
+ const credit=g=>berkanActionCredit(g.actors);
+ const accrue=g=>g.debt=Math.min(interval(g)+Math.ceil(credit(g))-1,g.debt+credit(g));
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
   pending(eligible=()=>true){return groups.map(g=>pending(g,eligible)).find(Boolean)||null;},
   select(actor){const g=groups.find(g=>g.side===actor.side&&g.ownerId===actor.ownerId);return g&&regular(actor)?pending(g,()=>true)||actor:actor;},
   acted(actor){
    const own=groups.find(g=>g.side===actor.side&&g.ownerId===actor.ownerId);if(!own)return;
-   if(actor.isMercenary)own.debt=0;
+   if(actor.isMercenary)own.debt=credit(own)>1?Math.max(0,own.debt-interval(own)):0;
    else if(regular(actor)){
-    own.debt=Math.min(interval(own),own.debt+1);
-    for(const g of groups)if(g.side!==actor.side&&!g.actors.some(regular)&&g.actors.some(m=>m.isMercenary&&m.statMode==='RANK_FIXED'&&living(m)))g.debt=Math.min(interval(g),g.debt+1);
+    accrue(own);
+    for(const g of groups)if(g.side!==actor.side&&!g.actors.some(regular)&&g.actors.some(m=>m.isMercenary&&m.statMode==='RANK_FIXED'&&living(m)))accrue(g);
    }
   }
  };
@@ -99,7 +105,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   const power=MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const base=buildCardFighter({id:snapshot.code,power,type:'NONE'},5,side,null,mode);
-  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:base.speed}};
+  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(base.speed*(snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:1))}};
  }
  if(!/^V-\d{3}$/.test(snapshot.code)||!['A','B'].includes(side)||Object.values(snapshot.stats||{}).length!==4||Object.values(snapshot.stats).some(n=>!Number.isSafeInteger(n)||n<=0))throw Error('INVALID_MERCENARY_SNAPSHOT');
  for(const s of snapshot.skills||[]){const b=s.balance;if(!b||!Number.isFinite(b.damageRatio)||b.damageRatio<0||b.damageRatio>10000||!Number.isSafeInteger(Math.floor(snapshot.stats.attack*b.damageRatio))||!Number.isInteger(b.cost)||b.cost<0||!Number.isInteger(b.cooldownTurns)||b.cooldownTurns<0)throw Error('INVALID_MERCENARY_SKILL_BALANCE');}

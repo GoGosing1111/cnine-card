@@ -126,9 +126,20 @@ export class BattleSuitSkillChipPlayback{
     // Intrinsic casts reserve the suit body immediately and share this clock.
     // Normal receipts during that pose use its active lightning, not a second
     // sword animation waiting behind the body lock.
-    const started=Boolean(fx.cosmeticOnly)||(!this.sequential&&!fx.deferUntilImpact);
-    this.fx.set(castId,{fx,chip,at,castId,castAtMs:event.combatAtMs,started,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()});
+    const continuousArea=Boolean(this.engine.continuousAreaPlayback&&chip.targeting==='ALL_LIVING_ENEMIES');
+    const started=continuousArea||Boolean(fx.cosmeticOnly)||(!this.sequential&&!fx.deferUntilImpact);
+    const entry={fx,chip,at,castId,castAtMs:event.combatAtMs,started,continuousArea,targetId:target.id,targetIds,impacts:new Map(),scheduledImpacts:new Map()};
+    this.fx.set(castId,entry);
     if(started&&!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'launch'});
+    if(continuousArea){
+      // Reserve the entire authored volley at CAST. Rearming at each HIT
+      // repeated the 1.08s windup, then added 0.30s before every later blade.
+      for(const index of new Set(hits.map(hit=>Number(hit.hitIndex)||0))){
+        const contact=chip.impactOffsetsMs[index]/1000;
+        entry.scheduledImpacts.set(index,contact);fx.scheduleImpact?.(index,contact);
+      }
+      if(!chip.silent)this.audio.schedule(chip.effectKey,0,this.rate,{append:true,phase:'impact',impactTimes:entry.scheduledImpacts,indices:[...entry.scheduledImpacts.keys()]});
+    }
   }
   hit(event){
     const target=this.engine.combatantById(event.targetId);if(!target)return;
@@ -193,9 +204,11 @@ export class BattleSuitSkillChipPlayback{
     if(nextRate!==this.rate){this.rate=nextRate;this.timeline?.timeScale(this.rate);this.resyncAudio();}
     while(this.index<this.groups.length&&this.groups[this.index].at<=this.clock.time*1000+.001){
       const group=this.groups[this.index];
+      const continuousArea=group.areaImpact&&group.events.filter(e=>e.type==='SKILL_CHIP_HIT').every(e=>
+        this.fx.get(e.castId||e.chipCode)?.continuousArea&&this.engine.combatantById(e.targetId)?.id===e.targetId);
       const fence=group.external||group.events.some(event=>event.type==='KO');
       const predecessors=[...this.pending];
-      const previousRun=this.fence||((group.external||group.blocking)&&predecessors.length?Promise.all(predecessors):null);
+      const previousRun=(!continuousArea&&this.fence)||((group.external||group.blocking)&&predecessors.length?Promise.all(predecessors):null);
       if(previousRun){
         // Keep already launched effects moving while a card returns, a final
         // bullet lands, or the old monster is retired. Only user/QTE pauses
@@ -254,7 +267,7 @@ export class BattleSuitSkillChipPlayback{
       }
       if(regular.length){
         const run=(async()=>{
-          if(fence&&predecessors.length)await Promise.all(predecessors);
+          if(fence&&predecessors.length&&!continuousArea)await Promise.all(predecessors);
           const playRegular=async event=>{
             if(!this.valid())return;
             const prepared=await this.prepare(event);
@@ -276,6 +289,9 @@ export class BattleSuitSkillChipPlayback{
           };
           if(group.areaImpact)await Promise.all(regular.map(playRegular));
           else for(const event of regular)await playRegular(event);
+          // Retire hit monsters now, but keep all prior actions in the fence
+          // before any slot can be rebound to a new server instance.
+          if(continuousArea&&predecessors.length)await Promise.all(predecessors);
         })();
         this.pending.add(run);if(fence)this.fence=run;
         run.then(()=>{

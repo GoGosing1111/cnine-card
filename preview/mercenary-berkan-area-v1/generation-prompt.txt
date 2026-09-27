@@ -1,0 +1,22 @@
+Use case: stylized-concept.
+Asset type: production game VFX sprite sheet, sixteen separately painted chronological animation frames for one new area attack called BLACK-GOLD CELESTIAL ARROW RAIN. A premium semi-real 2D Korean fantasy archer VFX. Only the effect; no archer, no people, no background, no card UI.
+Create a square 2048x2048 RGBA PNG with genuine transparent background. EXACTLY FOUR columns and FOUR rows, exactly sixteen equal 512x512 cells, read left-to-right then top-to-bottom. No visible grid lines or labels.
+In EVERY cell, effects are centered in the same coordinate system, ground impact center at cell x50% y68%. Camera is a three-quarter front view of a broad shallow horizontal ground ellipse. Keep every effect and faint glow inside central 72% of each cell; transparent gutters must be completely empty. Full silhouette must fit in each cell.
+The attack evolves as follows:
+Frame01 three tiny suspended gold arrowhead sparks high in the cell.
+Frame02 five slender black-core gold arrows start forming in a descending fan.
+Frame03 seven distinct fully shaped gilded arrows descend, short white-gold tips and dark ribbon wakes, spreading over a wide elliptical footprint.
+Frame04 the arrow fan visibly falls nearer the ground with varied depth; the central arrow leads.
+Frame05 first central arrow strikes, a tight white-hot gold eruption and curling black vapor.
+Frame06 the remaining arrows impact around it, five staggered contact columns and sharp amber shard spray.
+Frame07 a broad linked crown of ground eruptions unites the volley into one powerful area attack; white-gold crests with black-gold turbulent undersides.
+Frame08 the shock front is widest and brightest, multiple asymmetric gold flame-like pressure fins with clearly visible dark negative spaces.
+Frame09 the crown shears outward into an elliptical gold shockwave, distinct curling fragments and dust.
+Frame10 the gold pressure fins break and twist into long black-gold ember ribbons, the center becomes hollow.
+Frame11 disconnected bright shards fly out and thin black smoke curls upward.
+Frame12 the remaining gold fragments tumble down; smoke stretches into wisps.
+Frame13 only fine amber particles and a few dim curved wake pieces.
+Frame14 faint gold dust trails.
+Frame15 three or four tiny fading amber sparks.
+Frame16 almost completely transparent, only two very dim pin sparks.
+Each frame MUST have genuinely different internal drawing and particle positions, not a scaled/rotated copy of a single icon. A cohesive readable progression from arrow formation to descent, successive impact, expanding fragmentation, and dissipation. Refined gleaming pale gold metal light, molten amber midtones, rich black ink vapor, tiny warm white cores. High detail on arrowheads and jagged pressure fronts. Dramatic but crisp silhouettes; avoid a huge blurry yellow blob. No blue, no purple, no electric zigzags, no magic circle/runes, no typography, no floor tile, no checkerboard, no solid fill background, no watermark. Do not draw any bow or character.

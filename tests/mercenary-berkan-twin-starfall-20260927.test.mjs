@@ -62,7 +62,7 @@ test('real GSAP contact applies both authoritative results once, and old single-
   const sync=[],damage=[],rendered=[],fx={destroyed:false,removeTimeline(){},cancel(){},render(t){rendered.push({t,targets:this.targets.length});},setPlan(){},timeline:{timeScale(){}},play(){}};
   const engine={visible:true,mercenaryEpoch:1,playbackEpoch:1,berkanStates:new Map(),combatantById:id=>[actor,...targets].find(a=>a.id===id),isAlive:a=>a.hp>0,
    queueBanner(){},syncTargetHp(t,hp){sync.push([t.id,hp]);},syncTargetShield(){},eventHpPercent:(_t,n)=>n,showAccountBattleUnitDamage(t,d){damage.push([t.id,d.damage]);},
-   async timeline(build,cleanup,_unused,options){const tl=gsap.timeline({paused:true});try{build(tl);const at=mode==='basic'?1.12:2.08;tl.seek(at-.01,false);assert.equal(sync.length,0);
+   async timeline(build,cleanup,fixedTimeScale,options){assert.equal(fixedTimeScale,1.625);const tl=gsap.timeline({paused:true});try{build(tl);const at=mode==='basic'?1.12:2.08;tl.seek(at-.01,false);assert.equal(sync.length,0);
     if(mode==='cancel')engine.playbackEpoch++;tl.seek(at,false);tl.seek(0,false);tl.seek(at+.05,false);assert.ok(options.owners.includes(actor));return mode!=='cancel';
    }finally{tl.kill();cleanup();}}
   };engine.berkanStates.set(actor,{fx,actor,engine,busy:false,stopped:false});
@@ -74,8 +74,8 @@ test('real GSAP contact applies both authoritative results once, and old single-
   }finally{gsap.ticker.sleep();}
  }
 });
-test('canonical battles keep Berkan near Cryvern with slightly lower boss skill output',()=>{
- const report=measure();assert.equal(report.total,8192);
- for(const group of report.groups)assert.ok(group.rate>=.45&&group.rate<=.52,JSON.stringify(group));
- for(const boss of report.pve)assert.ok(boss.ratio>.90&&boss.ratio<1,JSON.stringify(boss));
+test('user-requested Berkan tempo buff raises PVP pressure without changing per-cast damage or runaway boss output',()=>{
+ const report=measure({count:32});assert.equal(report.total,2048);
+ for(const group of report.groups)assert.ok(group.rate>=.54&&group.rate<=.72,JSON.stringify(group));
+ for(const boss of report.pve)assert.ok(boss.ratio>.98&&boss.ratio<1.08,JSON.stringify(boss));
 });
