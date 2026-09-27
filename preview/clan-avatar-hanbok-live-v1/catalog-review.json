@@ -1,0 +1,146 @@
+[
+  {
+    "code": "T1_JOEUN",
+    "serial": "A-18",
+    "callSign": "T1 JOEUN",
+    "acquisitionType": "DROP",
+    "sourceLabel": "스트리머 영입전",
+    "sourceDetail": "스트리머 영입전",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  },
+  {
+    "code": "KANGGUYEOL_DK",
+    "serial": "A-19",
+    "callSign": "DK KANGGUYEOL",
+    "acquisitionType": "EVENT",
+    "sourceLabel": "DK 클랜 기념 지급",
+    "sourceDetail": "지급 대상 DK 클랜원에게 지급 시점부터 11일간 사용 권한이 부여됩니다.",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  },
+  {
+    "code": "FM_ORIKKUNG",
+    "serial": "A-20",
+    "callSign": "FM ORIKKUNG",
+    "acquisitionType": "EVENT",
+    "sourceLabel": "FM 클랜 11일 지급",
+    "sourceDetail": "지급 대상 FM 클랜원에게 지급 시점부터 11일간 사용 권한이 부여됩니다.",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  },
+  {
+    "code": "FM_DIMWOOS",
+    "serial": "A-21",
+    "callSign": "FM DIMWOOS",
+    "acquisitionType": "EVENT",
+    "sourceLabel": "FM 클랜 11일 지급",
+    "sourceDetail": "지급 대상 FM 클랜원에게 지급 시점부터 11일간 사용 권한이 부여됩니다.",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  },
+  {
+    "code": "DC_HI_HEEYA",
+    "serial": "A-22",
+    "callSign": "DC HI HEEYA",
+    "acquisitionType": "EVENT",
+    "sourceLabel": "DC 클랜 11일 지급",
+    "sourceDetail": "지급 대상 DC 클랜원에게 지급 시점부터 11일간 사용 권한이 부여됩니다.",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  },
+  {
+    "code": "DK_NAMU_BONGSOON",
+    "serial": "A-24",
+    "callSign": "DK NAMU BONGSOON",
+    "acquisitionType": "EVENT",
+    "sourceLabel": "클랜 시즌 한정 지급",
+    "sourceDetail": "현재 클랜 시즌 종료 시각(2026년 9월 28일 22:00 KST)까지 사용할 수 있는 기간제 아바타입니다.",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  },
+  {
+    "code": "LG_JUSEONG",
+    "serial": "A-25",
+    "callSign": "LG JUSEONG",
+    "acquisitionType": "EVENT",
+    "sourceLabel": "클랜 시즌 한정 지급",
+    "sourceDetail": "현재 클랜 시즌 종료 시각(2026년 9월 28일 22:00 KST)까지 사용할 수 있는 기간제 아바타입니다.",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  },
+  {
+    "code": "LOTTE_AYOON",
+    "serial": "A-26",
+    "callSign": "LOTTE AYOON",
+    "acquisitionType": "EVENT",
+    "sourceLabel": "롯데 클랜 시즌 기간제 지급",
+    "sourceDetail": "김아윤 편입 후 현재 롯데 클랜 전원에게 시즌 종료까지 지급합니다. 만료: 2026-09-27 22:00 KST.",
+    "effects": [
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 75
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      }
+    ]
+  }
+]
