@@ -15,3 +15,12 @@
 - 선택 검사: `tests/prediction-title-20260928.test.mjs`(SQLite/PostgreSQL 누적 집계·999/1000 경계·원자적 등록·재시도·CMS 보존/재확인), `tests/equipment-loading.test.mjs`(장착·해제/60,000 보너스·진행도 표시), `tests/achievement-titles-20260927.test.mjs`(기존 업적과 공용 연결 보존).
 - Worker 구문 검사와 지정 운영 검증은 배포 명령에서 함께 실행한다. 이미 끝난 PC/모바일 시각 검수와 무관한 전체 게임 검사를 반복하지 않는다.
 - 고정 슈트 fixture 두 곳은 신규 카탈로그 marker를 포함하도록 갱신해 기존 고정 칭호 데이터를 유지한다.
+
+## 운영 반영 결과
+
+- 실행 커밋 `5d2a9c1a`, 관련 **25개 검사 통과**, Worker 구문/컴파일·출시 플래그·캐시·Hyperdrive 검사 통과 후 지정 scoped 명령으로 배포했다.
+- Pages: `https://a6ec4db0.cnine-card.pages.dev`, 기존 clan-draft Worker 배포 버전 `7fb5417b-7e56-45d2-b1b8-7641ba99d4e9`. 선행된 토벌 수정의 배포 기록만 rebase로 보존했다.
+- **2026-09-28 01:30:25 KST** 운영 DB에서 `도박왕 / PREDICTION_HITS / count:1000 / 전투력 60000 / GAMBLING_KING / 활성·공개`와 완료 marker를 확인했다. 당시 최고 적중 822회, 조건 충족 0명, 지급 0명으로 미달 계정에 지급된 기록이 없다.
+- 원격 자산 4개(전용 문장, 공용 칭호 CSS, 장비창 렌더러, CMS 스크립트)가 HTTP 200이며 로컬 SHA-256과 일치했다. 공개 운영 프리뷰에서도 문장과 +60,000 표시를 확인했다.
+- 운영 데이터 검증기의 bigint 문자열을 숫자로 정규화해 저장된 조회 결과를 재확인했다. 게임 구현·운영 데이터 문제나 추가 변경은 없었다. 읽기 전용 임시 실행기를 닫고 토큰 파일을 비웠다.
+- 증빙: `C:/Users/User/.codex/worktrees/ops-gambling-king-verify-20260928/production.json`, `C:/Users/User/.codex/worktrees/qa-gambling-king-20260928/production-assets.json`, `production-title.png`.
