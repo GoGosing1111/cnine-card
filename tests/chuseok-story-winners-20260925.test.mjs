@@ -8,6 +8,7 @@ async function fixture({existing=false,failure=''}={}){
  const db=new PGlite();
  await db.exec(`CREATE TABLE users(id BIGINT PRIMARY KEY,nickname TEXT,role TEXT,status TEXT,coin BIGINT,card_shards BIGINT,magic_crystals BIGINT);
  INSERT INTO users VALUES(1,'핑크빛유두','OWNER','ACTIVE',10,20,30),(295,'모래','USER','ACTIVE',11,21,31),(4391,'더듬이구','USER','ACTIVE',12,22,32),(4540,'지아영','USER','ACTIVE',13,23,33),(2,'다른유저','USER','ACTIVE',14,24,34);
+ CREATE TABLE mercenary_draw_config_v1(id INTEGER PRIMARY KEY,payload_json TEXT);
  CREATE TABLE mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,revision INTEGER,payload_json TEXT);
  INSERT INTO mercenary_cms_documents_v1 VALUES('config',57,'{"mercenaries":[{"code":"V-021","name":"오메가-X","rank":"SSS"}]}');
  CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,is_active INTEGER);

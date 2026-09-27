@@ -1,5 +1,5 @@
 import {mountHyperOpening} from './hyper-pack-opening.mjs?v=2097';
-import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs?v=20260924-cryvern';
+import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs?v=20260927-berkan-off';
 
 import {cryvernSelectionWeights} from '../shared/mercenary-cryvern-v1.mjs?v=20260924-cryvern';
 import {fusionManagementHtml,fusionCardRate,readMercenaryFusionFeature} from './mercenary-fusion-admin-v1.mjs?v=20260925-cms1';
@@ -24,6 +24,7 @@ export function mercenaryDrawSaveReason(policy,before,reason=''){
 
 export function createMercenaryDrawEditor({request,onRender}){
   let state=null,root=null,busy=false,dirty=false,pending=null,notice='',failure=false,reason='',generation=0,savedPolicy=null,rankCards={};
+  const previousWeights=new Map();
   let view='draw',feature=null,featureBusy=false,featureError=false;
   const $=selector=>root?.querySelector(selector);
   const fusion=()=>view==='fusion';
@@ -37,8 +38,8 @@ export function createMercenaryDrawEditor({request,onRender}){
   };
   const rate=value=>Number.isFinite(value)?value.toLocaleString('ko-KR',{maximumFractionDigits:10}):'미설정';
   const chances=rank=>mercenaryCardChances(outcome(`CARD_${rank}`).chancePpm,(rankCards[rank]||[]).map(c=>c.code),state.policy.cardRules).map(row=>({...row,rank}));
-  const cardRate=row=>fusion()?fusionCardRate(row,row.rank,feature?.policy):`등급 내 ${rate(row.withinRankPercent)}% · 전체 개봉 ${rate(row.percent)}%`;
-  const weightEditor=rank=>`<details class="md-card-weights" ${rank==='SSS'?'open':''}><summary>용병별 가중치와 최종 확률 · ${rankCards[rank].length}종</summary><div>${chances(rank).map(row=>{const c=rankCards[rank].find(c=>c.code===row.code);return `<label class="md-weight-row"><span><b>${esc(c.name)}</b><small>${c.code}</small></span><span class="md-weight-input"><small>가중치</small><input type="number" min="1" max="1000000" step="1" inputmode="numeric" data-draw-weight="${c.code}" aria-label="${esc(c.name)} 추첨 가중치" value="${row.weight}"></span><span class="md-weight-rate" data-draw-weight-rate="${c.code}">${cardRate(row)}</span></label>`;}).join('')}</div></details>`;
+  const cardRate=row=>row.weight===0?'획득 OFF · 0%':fusion()?fusionCardRate(row,row.rank,feature?.policy):`등급 내 ${rate(row.withinRankPercent)}% · 전체 개봉 ${rate(row.percent)}%`;
+  const weightEditor=rank=>`<details class="md-card-weights" ${rank==='SSS'?'open':''}><summary>용병별 획득 설정과 최종 확률 · ${rankCards[rank].length}종</summary><div>${chances(rank).map(row=>{const c=rankCards[rank].find(c=>c.code===row.code);return `<div class="md-weight-row"><span><b>${esc(c.name)}</b><small>${c.code}</small><label class="md-acquisition-toggle"><input type="checkbox" data-draw-enabled="${c.code}" aria-label="${esc(c.name)} 획득 허용" ${row.weight>0?'checked':''}><span>획득 허용</span></label></span><span class="md-weight-input"><small>가중치 · 0은 OFF</small><input type="number" min="0" max="1000000" step="1" inputmode="numeric" data-draw-weight="${c.code}" aria-label="${esc(c.name)} 추첨 가중치" value="${row.weight}"></span><span class="md-weight-rate" data-draw-weight-rate="${c.code}">${cardRate(row)}</span></div>`;}).join('')}</div></details>`;
   function summary(){
     const s=summarizeMercenaryDraw(state.policy),valid=!s.missing&&s.total===DRAW_TOTAL;
     const expected=id=>number((outcome(id).chancePpm||0)/10000*(outcome(id).quantity||0));
@@ -74,7 +75,7 @@ export function createMercenaryDrawEditor({request,onRender}){
       <section class="md-card-rules" aria-label="확정 카드 추첨 규칙"><div><span>동일 등급 추첨</span><strong>용병별 가중치 적용</strong><p>전체 확률 = 등급 확률 × 용병 가중치 ÷ 등급 내 가중치 합.<br>가중치 9:1이면 같은 등급에서 90%:10%입니다. 보유 여부와 중복 횟수는 반영하지 않습니다.</p></div><div><span>중복 당첨 처리</span><strong>같은 카드 중복 수량 +1</strong><p>첫 획득: 보유 1장 · 중복 0장.<br>다음 획득부터 중복으로 집계하며 재추첨·재화 전환은 하지 않습니다.</p></div></section>
       <div class="md-layout"><div class="md-ledger"><div class="md-section-heading"><span>01</span><div><h4>용병카드 · 등급별 확률</h4><p>모든 확률은 전체 개봉 기준입니다. 등급 내부 비율이 아닙니다.</p></div></div>
         <div class="md-grade-list">${DRAW_OUTCOMES.filter(meta=>meta.rank).map(meta=>`<div class="md-grade-row"><b class="md-grade" data-rank="${meta.rank}">${meta.rank}</b><div class="md-grade-copy"><strong>${meta.rank} 용병카드</strong><span>1장 · CMS 등급 설정 ${counts[meta.rank]}종</span></div>${probability(meta)}<small class="md-card-chance" data-draw-card-chance="${meta.rank}" data-card-count="${counts[meta.rank]}">${cardChance(meta.rank,counts[meta.rank])}</small>${weightEditor(meta.rank)}</div>`).join('')}</div>
-        <p class="md-rank-note">${unset?`현재 ${unset}종의 등급이 미정입니다. `:''}전체 개봉 확률과 등급 내부 비율을 구분해서 확인하세요. 미설정 가중치는 1이며, 등급 내 구성원이 바뀌면 저장된 가중치 비율로 다시 계산합니다. 개봉 시작 여부는 ON/OFF 설정을 따릅니다.</p>
+        <p class="md-rank-note">${unset?`현재 ${unset}종의 등급이 미정입니다. `:''}전체 개봉 확률과 등급 내부 비율을 구분해서 확인하세요. 획득 허용을 끄거나 가중치를 0으로 저장하면 해당 용병의 신규 획득이 중지됩니다. 기존 보유·편성은 유지됩니다. 미설정 가중치는 1이며, 등급 내 구성원이 바뀌면 저장된 가중치 비율로 다시 계산합니다. 개봉 시작 여부는 ON/OFF 설정을 따릅니다.</p>
       </div><div class="md-resource-ledger"><div class="md-section-heading"><span>02</span><div><h4>재화 · 꽝</h4><p>선택된 결과 한 종류만 지급하는 구조입니다.</p></div></div>
         ${DRAW_OUTCOMES.filter(meta=>!meta.rank).map(meta=>`<section class="md-reward" data-reward="${meta.id}"><div class="md-reward-name"><span>${meta.id==='MASTER_STAR'?'02':meta.id==='MYSTIC_ENERGY'?'03':'04'}</span><h5>${meta.label}</h5></div><div class="md-reward-inputs">${probability(meta)}${meta.id==='NONE'?'<div class="md-none-quantity"><span>지급 수량</span><b>없음</b></div>':`<label class="md-quantity"><span class="md-label">당첨 시 지급</span><span class="md-unit-input"><input data-draw-quantity="${meta.id}" aria-label="${meta.label} 지급 수량" type="number" min="1" max="1000000000" step="1" inputmode="numeric" value="${esc(outcome(meta.id).quantity)}"><span>개</span></span></label>`}</div></section>`).join('')}
         <button type="button" class="md-remainder" data-draw-remainder>남은 확률을 꽝으로 채우기</button>
@@ -86,7 +87,7 @@ export function createMercenaryDrawEditor({request,onRender}){
       <details class="md-history"><summary>최근 확률 변경 이력 · ${state.audit.length}건</summary>${state.audit.map(row=>`<p><b>r${row.revision}</b><span>${esc(row.reason)}</span><small>${date(row.created_at)} · 관리자 #${row.actor_id}</small></p>`).join('')}</details>
     </section>`;
   }
-  function markDirty(){dirty=true;pending=null;failure=false;notice=fusion()?'저장하면 합성과 하이퍼팩의 용병별 가중치에 함께 적용됩니다.':'변경한 확률·수량을 저장하면 다음 개봉부터 적용됩니다.';root?.querySelectorAll('[data-draw-message],[data-draw-save-feedback]').forEach(el=>{el.textContent=notice;el.classList.remove('is-error');});if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent=fusion()?'● 저장하지 않은 가중치 변경':'● 저장하지 않은 확률·수량 변경';if($('[data-fusion-draft]'))$('[data-fusion-draft]').textContent='미저장 변경 포함';const button=$('[data-draw-save]');if(button){button.disabled=saveBlocked();button.textContent=saveLabel();}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();for(const rank of Object.keys(rankCards))for(const row of chances(rank)){const el=root?.querySelector(`[data-draw-weight-rate="${row.code}"]`);if(el)el.textContent=cardRate(row);}root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
+  function markDirty(){dirty=true;pending=null;failure=false;notice=fusion()?'저장하면 합성과 하이퍼팩의 용병별 가중치에 함께 적용됩니다.':'변경한 확률·수량을 저장하면 다음 개봉부터 적용됩니다.';root?.querySelectorAll('[data-draw-message],[data-draw-save-feedback]').forEach(el=>{el.textContent=notice;el.classList.remove('is-error');});if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent=fusion()?'● 저장하지 않은 가중치 변경':'● 저장하지 않은 확률·수량 변경';if($('[data-fusion-draft]'))$('[data-fusion-draft]').textContent='미저장 변경 포함';const button=$('[data-draw-save]');if(button){button.disabled=saveBlocked();button.textContent=saveLabel();}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();for(const rank of Object.keys(rankCards))for(const row of chances(rank)){const el=root?.querySelector(`[data-draw-weight-rate="${row.code}"]`);if(el)el.textContent=cardRate(row);const toggle=root?.querySelector(`[data-draw-enabled="${row.code}"]`);if(toggle)toggle.checked=row.weight>0;}root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
   async function loadFeature(){
     if(featureBusy)return;const token=generation;featureBusy=true;featureError=false;feature=null;onRender();
     try{const received=await readMercenaryFusionFeature();if(token===generation)feature=received;}
@@ -114,6 +115,7 @@ export function createMercenaryDrawEditor({request,onRender}){
     root=element;if(!root)return;
     root.querySelectorAll('input,textarea').forEach(input=>input.disabled=busy);
     if($('[data-fusion-reload]'))$('[data-fusion-reload]').onclick=()=>void loadFeature();
+    root.querySelectorAll('[data-draw-enabled]').forEach(input=>input.onchange=()=>{const code=input.dataset.drawEnabled,weight=root.querySelector(`[data-draw-weight="${code}"]`);if(!input.checked&&Number(weight.value)>0)previousWeights.set(code,Number(weight.value));const next=input.checked?(previousWeights.get(code)||1):0;state.policy.cardRules.cardWeights[code]=next;weight.value=String(next);markDirty();});
     root.querySelectorAll('[data-draw-weight]').forEach(input=>input.oninput=()=>{state.policy.cardRules.cardWeights[input.dataset.drawWeight]=input.value===''?null:Number(input.value);markDirty();});
     root.querySelectorAll('[data-draw-chance]').forEach(input=>input.oninput=()=>{outcome(input.dataset.drawChance).chancePpm=parseDrawPercent(input.value);markDirty();});
     root.querySelectorAll('[data-draw-quantity]').forEach(input=>input.oninput=()=>{outcome(input.dataset.drawQuantity).quantity=input.value===''?null:Number(input.value);markDirty();});

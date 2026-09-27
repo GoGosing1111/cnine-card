@@ -104,7 +104,7 @@ test('legacy CMS edits keep equal default weights; per-card weights are allowed 
   const exact=equalMercenaryCardChance(1,3);assert.equal(exact.numerator,1);assert.equal(exact.denominator,3000000);assert.ok(exact.percent>0);assert.equal(equalMercenaryCardChance(100000,2).percent,5);assert.equal(equalMercenaryCardChance(1,0),null);
 });
 
-const rankedRoster=()=>seed.document.mercenaries.map((card,i)=>({...structuredClone(card),rank:card.code==='V-021'?'SSS':i<3?'C':['B','A','S','SS'][i%4]}));
+const rankedRoster=()=>seed.document.mercenaries.map((card,i)=>({...structuredClone(card),rank:['V-021','V-046','V-049','V-055'].includes(card.code)?'SSS':i<3?'C':['B','A','S','SS'][i%4]}));
 test('every same-rank card gets exactly one slot, including owned copies and cards with other acquisition rates',()=>{
   const mercenaries=rankedRoster(),policy=suggestedMercenaryDraw(),codes=seed.catalog.cards.map(card=>card.code);
   for(const [i,card] of mercenaries.entries()){card.owned=i%2===0;card.duplicateCount=i*10;card.acquisition.dropRate=i?100:0;}

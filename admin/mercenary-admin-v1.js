@@ -1,5 +1,5 @@
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20260924-cryvern';
-import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=20260925-fusion1';
+import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=20260927-berkan-off';
 import {mercenaryCmsRequest as api} from './mercenary-request-v1.mjs?v=20260925';
 import {isRangedMercenarySkill,rangedMercenarySkillScope,rangedMercenarySkillText,rangedMercenaryPvpRule,MERCENARY_RANGED_RULES} from '../shared/mercenary-ranged-balance-v1.mjs?v=20260918-cheonga-upper-s-v3';
 import {isMercenaryGuardSkill,mercenaryGuardSkillText} from '../shared/mercenary-guard-balance-v1.mjs?v=20260917-guard-v1';

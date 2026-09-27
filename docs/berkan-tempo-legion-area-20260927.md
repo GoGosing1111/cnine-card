@@ -36,3 +36,7 @@ Wrangler 운영 배포 목록에서 확인한 직전 운영: `28a1853a-5032-4f35
 이미 시전한 토벌 광역기만 독립적으로 예정된 접촉을 처리한다. 외부/QTE 경계, 남은 슈트 탄착, 실제 몬스터 인스턴스 ID를 확인하고 원래 큐가 따라잡을 때 재처리하지 않는다. 완료 통지는 기존 서버 순서를 지키고, 슬롯 교체는 앞선 공격과 퇴장의 완료를 계속 기다린다. 대기 중에도 동일한 GSAP 시계로 FX 소멸을 샘플링한다. 일시정지·취소와 새 몬스터를 오래된 슬롯으로 조회하는 경우는 이 조기 처리에서 제외한다.
 
 후속 배포 기준은 실제 직전 운영 `1929039c8b84e4e2bd6926db72bf59bf9067a2b2`이다. 새 실패로 확인된 토벌 클라이언트 처리와 로더·생성 번들만 변경하므로 범위 배포를 유지한다. 선택 회귀는 `legion-hunt-area-cadence-20260927`, `legion-hunt-z-body-playback-20260926`, `z-body-thunder-fx-v3`, `battle-suit-skill-chip-runtime-v2046`, `sustained-hunt-v2`, `pve-battlefield-entry-v2117`, `v3-common-grid-v1`이다. 변경 없는 베르칸·서버 재화 검사는 첫 배포 결과를 재사용한다.
+
+후속 소스 `23b9a9f7f2bea440ae612ca75ab7fbb92f0dfa59`의 선택 검사 **71개 통과**. Pages `https://c41767cb.cnine-card.pages.dev`, Worker 버전 `c5770d76-afdf-4171-b550-32a803f3d012`로 배포 완료했다. 로컬 실제 핸들러 전장에서 추가 54마리·스킬 타격 41회, 일시정지·철수를 확인했다. 일반 PVE/PVP의 엔진/입장 연결과 기존 결과 동등성은 선택 회귀에서 통과했다.
+
+운영 `https://cnine-card.pages.dev`의 메인·토벌 로더, 실제 전투 번들 및 신규 프리뷰/매니페스트 10개 파일이 HTTP 200이며 로컬 SHA-256과 일치했다. 공개 프리뷰의 리소스 준비 완료와 1.92초 광역 파열 장면을 실제 브라우저에서 확인했다. 검수 이미지 `../qa/berkan-area-production-review.png`, `../qa/berkan-area-impact.png`를 작업 트리 밖에 보존했다. 신규 광역기는 계속 `USER_REVIEW_PENDING`, `runtimeEnabled:false`이며 사용자의 시각 검수·연결 지시를 기다린다.

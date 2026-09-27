@@ -2,6 +2,7 @@ import {sniperOrikkungSelectionWeights} from './mercenary-sniper-orikkung-v1.mjs
 import {nurseSelectionWeights} from './mercenary-nurse-healers-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {berkanSelectionWeights} from './mercenary-berkan-v1.mjs';
+import {mercenaryAcquisitionEnabled} from './mercenary-acquisition-release-v1.mjs';
 
 export const DRAW_TOTAL = 1_000_000;
 export const DRAW_MAX_BYTES = 24 * 1024;
@@ -53,23 +54,23 @@ export function validateMercenaryCardRules(rules,catalogCodes){
   const cardWeights={};
   for(const code of Object.keys(weights).sort()){
     const weight=weights[code];
-    if(!/^V-\d{3}$/.test(code)||(catalogCodes&&!catalogCodes.includes(code))||!Number.isSafeInteger(weight)||weight<1||weight>MAX_MERCENARY_CARD_WEIGHT)throw Error('카드 추첨 규칙: 등록된 용병의 가중치를 1~1,000,000 정수로 입력하세요.');
+    if(!/^V-\d{3}$/.test(code)||(catalogCodes&&!catalogCodes.includes(code))||!Number.isSafeInteger(weight)||weight<0||weight>MAX_MERCENARY_CARD_WEIGHT)throw Error('카드 추첨 규칙: 등록된 용병의 가중치를 0~1,000,000 정수로 입력하세요. 0은 획득 OFF입니다.');
     cardWeights[code]=weight;
   }
   return {...MERCENARY_CARD_RULES,cardWeights};
 }
 export function mercenaryCardChances(chancePpm,codes,rules){
   const effective=sniperOrikkungSelectionWeights(codes,nurseSelectionWeights(codes,berkanSelectionWeights(codes,rules?.cardWeights||{})));
-  const weights=codes.map(code=>effective[code]??1),totalWeight=weights.reduce((a,b)=>a+b,0);
-  return codes.map((code,i)=>({code,weight:weights[i],totalWeight,withinRankPercent:weights[i]/totalWeight*100,
-    percent:Number.isSafeInteger(chancePpm)?chancePpm*weights[i]/(10000*totalWeight):null}));
+  const weights=codes.map(code=>mercenaryAcquisitionEnabled(code,rules)?effective[code]??1:0),totalWeight=weights.reduce((a,b)=>a+b,0);
+  return codes.map((code,i)=>({code,weight:weights[i],totalWeight,withinRankPercent:totalWeight?weights[i]/totalWeight*100:0,
+    percent:Number.isSafeInteger(chancePpm)?totalWeight?chancePpm*weights[i]/(10000*totalWeight):0:null}));
 }
 // The catalog is the pool authority. Ownership and per-card dropRate are not inputs.
-export function mercenaryGradePools(mercenaries,catalogCodes){
+export function mercenaryGradePools(mercenaries,catalogCodes,rules){
   if(!Array.isArray(catalogCodes)||!catalogCodes.length||new Set(catalogCodes).size!==catalogCodes.length||
      !Array.isArray(mercenaries)||mercenaries.length!==catalogCodes.length||new Set(mercenaries.map(row=>row?.code)).size!==catalogCodes.length||
      mercenaries.some(row=>!catalogCodes.includes(row?.code)||(row.rank!==null&&!MERCENARY_RANKS.includes(row.rank))))throw Error('등록된 용병의 코드와 등급을 확인하세요.');
-  return Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,mercenaries.filter(row=>row.rank===rank).map(row=>row.code).sort()]));
+  return Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,mercenaries.filter(row=>row.rank===rank&&mercenaryAcquisitionEnabled(row.code,rules)).map(row=>row.code).sort()]));
 }
 export function equalMercenaryCardChance(chancePpm,count){
   if(!Number.isSafeInteger(chancePpm)||chancePpm<0||chancePpm>DRAW_TOTAL||!Number.isSafeInteger(count)||count<1)return null;

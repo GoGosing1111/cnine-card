@@ -2,6 +2,7 @@ import {pickMercenaryDraw} from './_mercenary_draw_accounting.js';
 import {DRAW_TOTAL} from '../shared/mercenary-draw-policy-v1.mjs';
 import {jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {assertMercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
 
 // A separately authorized, account-scoped one-time grant. No public request
 // field can arm it, and the ordinary CMS probabilities are never modified.
@@ -35,6 +36,7 @@ export async function prepareMercenarySsOnce(env,user,count){
   return {key,before:row.value,operationId:state.operationId,rank:state.rank,index:state.batchesRemaining>1?-1:state.slotIndex??9,...(state.mercenaryCode?{mercenaryCode:state.mercenaryCode}:{})};
 }
 export function pickMercenarySsOnce({policy,mercenaries,randomInt,mercenaryCode,rank='SS'}){
+  if(mercenaryCode)assertMercenaryAcquisitionEnabled(mercenaryCode,policy.cardRules);
   if(!MERCENARY_ONCE_RANKS.includes(rank))throw jointError('MERCENARY_SS_ONCE_CONFIG','1회 보장 등급을 확인하세요.',409);
   if(mercenaryCode&&!mercenaries.some(card=>card.code===mercenaryCode&&card.rank===rank))throw jointError('MERCENARY_SS_ONCE_TARGET',`지정한 ${rank} 용병을 확인하세요.`,409);
   // Keep the complete catalog validation and accounting result shape intact.
