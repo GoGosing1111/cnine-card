@@ -1,0 +1,82 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:ragniel-rafie-dodaeng:20260928:v1",
+  "mercenaryCode": "V-046",
+  "mercenaryName": "라그니엘",
+  "rank": "SSS",
+  "count": 2,
+  "quantityEach": 1,
+  "permanent": true,
+  "recipients": [
+    {
+      "userId": 360,
+      "nickname": "라피e",
+      "mercenaryCode": "V-046",
+      "mercenaryName": "라그니엘",
+      "rank": "SSS",
+      "quantity": 1,
+      "permanent": true,
+      "beforeCopies": 0,
+      "totalCopies": 1,
+      "duplicateCount": 0,
+      "acquisitionId": "ops:ragniel-rafie-dodaeng:20260928:v1:360",
+      "adminLogId": "36611"
+    },
+    {
+      "userId": 4235,
+      "nickname": "도댕",
+      "mercenaryCode": "V-046",
+      "mercenaryName": "라그니엘",
+      "rank": "SSS",
+      "quantity": 1,
+      "permanent": true,
+      "beforeCopies": 0,
+      "totalCopies": 1,
+      "duplicateCount": 0,
+      "acquisitionId": "ops:ragniel-rafie-dodaeng:20260928:v1:4235",
+      "adminLogId": "36612"
+    }
+  ],
+  "completedAt": "2026-09-27T16:01:41.722Z",
+  "replayed": false,
+  "cmsRevision": 59,
+  "acquisitionWeight": 2000,
+  "verifiedHoldings": [
+    {
+      "user_id": "360",
+      "mercenary_code": "V-046",
+      "total_copies": 1,
+      "duplicate_count": 0,
+      "first_obtained_at": "2026-09-27T16:01:41.722Z",
+      "last_obtained_at": "2026-09-27T16:01:41.722Z"
+    },
+    {
+      "user_id": "4235",
+      "mercenary_code": "V-046",
+      "total_copies": 1,
+      "duplicate_count": 0,
+      "first_obtained_at": "2026-09-27T16:01:41.722Z",
+      "last_obtained_at": "2026-09-27T16:01:41.722Z"
+    }
+  ],
+  "acquisitions": [
+    {
+      "acquisition_id": "ops:ragniel-rafie-dodaeng:20260928:v1:360",
+      "user_id": "360",
+      "mercenary_code": "V-046",
+      "is_duplicate": 0,
+      "total_copies_after": 1,
+      "duplicate_count_after": 0,
+      "created_at": "2026-09-27T16:01:41.722Z"
+    },
+    {
+      "acquisition_id": "ops:ragniel-rafie-dodaeng:20260928:v1:4235",
+      "user_id": "4235",
+      "mercenary_code": "V-046",
+      "is_duplicate": 0,
+      "total_copies_after": 1,
+      "duplicate_count_after": 0,
+      "created_at": "2026-09-27T16:01:41.722Z"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "operationKey": "ops:tournament-funding-gift:20260927:v1:2a91de4d684c3de6406ed52b",
+  "campaignKey": "tournament-funding-gift-20260927-v1",
+  "title": "대회 펀딩 사은품",
+  "body": "대회 펀딩 사은품",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "count": 1,
+  "recipientHash": "2a91de4d684c3de6406ed52b5ae7c24176eead0360f6f33158446f7756881772",
+  "recipients": [
+    {
+      "id": "5148",
+      "nickname": "타몽",
+      "soop": "하이타몽♡",
+      "total": 500
+    }
+  ],
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "actor": "SYSTEM_OPS",
+  "authorization": "확인 된사람 대회 사은품 메세지로 지급해. 메세지 내용은 대회 펀딩 사은품",
+  "completedAt": "2026-09-27T16:03:40.687Z",
+  "auditId": "36616",
+  "verification": {
+    "messages": 1,
+    "rewards": 1,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0,
+    "rows": [
+      {
+        "message_id": "165183",
+        "user_id": "5148",
+        "title": "대회 펀딩 사은품",
+        "body": "대회 펀딩 사은품",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163086",
+        "reward_user_id": "5148",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      }
+    ]
+  },
+  "authorizationFollowup": "숲닉 하이타몽♡ / 숲켓몬닉 : 타몽 대회 사은품하고 아윤방 핀볼 이벤트 명단에 있나확인해 있으면 지급해",
+  "eligibility": {
+    "funding": true,
+    "donationTotal": 500,
+    "ayoon": false,
+    "ayoonOriginalListCount": 63
+  }
+}

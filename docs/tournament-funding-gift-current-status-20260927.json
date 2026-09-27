@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-09-27T15:44:03.942Z",
+  "updatedAt": "2026-09-27T16:03:40.687Z",
   "counts": {
-    "paid": 71,
-    "pending": 10,
+    "paid": 72,
+    "pending": 9,
     "excludedDuplicate": 1
   },
   "currentRecipients": [
@@ -431,6 +431,12 @@
       "nickname": "으악",
       "soop": "기므악",
       "total": 2000
+    },
+    {
+      "id": "5148",
+      "nickname": "타몽",
+      "soop": "하이타몽♡",
+      "total": 500
     }
   ],
   "pendingDonors": [
@@ -470,13 +476,6 @@
         "디임",
         "하이희야",
         "나무늘봉순"
-      ]
-    },
-    {
-      "soop": "하이타몽♡",
-      "total": 500,
-      "teams": [
-        "하이희야"
       ]
     },
     {
