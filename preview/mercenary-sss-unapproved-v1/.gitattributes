@@ -1,0 +1,2 @@
+# Preserve the exact generation inputs used for the archived resources.
+prompts/*.txt -text

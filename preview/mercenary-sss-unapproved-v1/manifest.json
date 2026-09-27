@@ -1,0 +1,266 @@
+{
+  "schema": "SSS_UNAPPROVED_RESOURCE_ARCHIVE_V1",
+  "alias": "SSS 미승인본",
+  "created": "2026-09-27",
+  "status": "UNAPPROVED_PRESERVED_BY_USER",
+  "project": "PROJECT V / 숲켓몬",
+  "subject": "보랏빛 대검 기사",
+  "proposedName": "모르가스",
+  "nameStatus": "PROPOSED_NOT_CONFIRMED",
+  "requestedRank": "SSS",
+  "runtimeEnabled": false,
+  "registrationEnabled": false,
+  "archiveReason": "사용자가 최초 SD 및 모든 관련 스프라이트를 폐기하지 말고 보존하도록 지시함. 이전 폐기 지시보다 이 보존 지시가 우선함.",
+  "retrievalInstruction": "사용자가 SSS 미승인본이라고 하면 initial/의 SD 1장과 모션 시트 6장을 기본 묶음으로 모두 제공하고, 함께 보존한 references/, revisions/, prompts/와 이 manifest를 안내한다. 첫 시안을 최신 비율 수정본으로 대체하지 않는다.",
+  "summary": {
+    "initialSd": 1,
+    "initialMotionSheets": 6,
+    "initialAuthoredMotionFrames": 56,
+    "laterUnapprovedSdRevisions": 5,
+    "sourceArts": 2,
+    "generationPrompts": 12,
+    "skillEffectAtlasesCreated": 0,
+    "motionAtlasesPacked": false,
+    "liveConnected": false
+  },
+  "generationMode": "BUILT_IN_IMAGEGEN",
+  "entries": [
+    {
+      "file": "initial/sd-v1.png",
+      "group": "INITIAL_SPRITES",
+      "description": "최초 기본 전투 SD",
+      "frameCount": null,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bytes": 1638688,
+      "sha256": "E8FF1FB5A35DC64801658B98F92CCEE74A03F9EEA303ABD0CC7F80A83B0353EE",
+      "originalFile": "morgas-sd-v1.png",
+      "generatedOriginal": "exec-77d3e1e0-7b06-4bd7-b797-eca14f1d6b36.png"
+    },
+    {
+      "file": "initial/idle-v1.png",
+      "group": "INITIAL_SPRITES",
+      "description": "대기 연속 스프라이트 시트",
+      "frameCount": 8,
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true,
+      "bytes": 1903793,
+      "sha256": "EC37A94C0865EC1F61D4E8B4812FCAF0400B52FE470ADE8A53AE36D84B7B022E",
+      "originalFile": "idle-v1.png",
+      "generatedOriginal": "exec-e5407d9b-5437-43c1-9d5f-6205bf589833.png"
+    },
+    {
+      "file": "initial/dash-v1.png",
+      "group": "INITIAL_SPRITES",
+      "description": "대시 연속 스프라이트 시트",
+      "frameCount": 8,
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true,
+      "bytes": 1713052,
+      "sha256": "99F7F60608D64F168E9429D4665835EF26D49D0EC8F65682C72401D583518471",
+      "originalFile": "dash-v1.png",
+      "generatedOriginal": "exec-675a59d7-8a6d-4da5-ac95-3c47c4c7fa65.png"
+    },
+    {
+      "file": "initial/attack-v1.png",
+      "group": "INITIAL_SPRITES",
+      "description": "대검 공격 연속 스프라이트 시트",
+      "frameCount": 12,
+      "width": 1448,
+      "height": 1086,
+      "hasAlpha": true,
+      "bytes": 1337009,
+      "sha256": "38ED589D3B55F536A482D4CE7F87235125C3C5766C338A5250CB8B49C5A67C87",
+      "originalFile": "attack-v1.png",
+      "generatedOriginal": "exec-64e044a2-4325-4da4-a375-3a0428ab6c8c.png"
+    },
+    {
+      "file": "initial/ultimate-v1.png",
+      "group": "INITIAL_SPRITES",
+      "description": "광역기 동작 연속 스프라이트 시트",
+      "frameCount": 12,
+      "width": 1448,
+      "height": 1086,
+      "hasAlpha": true,
+      "bytes": 1483150,
+      "sha256": "314A3AD5641DC7501CD21438DA83A92148F1CC1F9BE52CFEE41FDBA6E4DA5467",
+      "originalFile": "ultimate-v1.png",
+      "generatedOriginal": "exec-106caebc-ba95-404e-b268-5262c739a936.png"
+    },
+    {
+      "file": "initial/hit-v1.png",
+      "group": "INITIAL_SPRITES",
+      "description": "피격 연속 스프라이트 시트",
+      "frameCount": 8,
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true,
+      "bytes": 1568431,
+      "sha256": "7B862C1745E6668258000F570E24F98C05B0233583A3C7E9F5DA41E592B45E0B",
+      "originalFile": "hit-v1.png",
+      "generatedOriginal": "exec-c0d3fe67-097c-4f0e-bcf2-7e8e0870a268.png"
+    },
+    {
+      "file": "initial/defeat-v1.png",
+      "group": "INITIAL_SPRITES",
+      "description": "쓰러짐 연속 스프라이트 시트",
+      "frameCount": 8,
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true,
+      "bytes": 1357636,
+      "sha256": "2CC7AB4D5EBDFE5E743B99CB6A30C1C15144FEC3B3D3F836B3478588BCDAD0EE",
+      "originalFile": "defeat-v1.png",
+      "generatedOriginal": "exec-cce37c90-00b9-4708-a9d5-17c92e84230c.png"
+    },
+    {
+      "file": "references/source-art-aura-v2.png",
+      "group": "SOURCE_ART",
+      "description": "보라색 오라를 추가한 카드 원화",
+      "frameCount": null,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "bytes": 2886206,
+      "sha256": "942F75D7F36CCF6FECC25801A5E4CE786472C2A5D3756AEEE4E71BD5EBDBAC3C",
+      "originalFile": "source-art.png"
+    },
+    {
+      "file": "references/source-art-v1.png",
+      "group": "SOURCE_ART",
+      "description": "어깨 뿔 제거 후 최초 카드 원화",
+      "frameCount": null,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "bytes": 2857663,
+      "sha256": "2DE4A3E4CB0DF68562DF278217C8E058274D20583CB7E877EB8386E006D04BC2",
+      "originalFile": "exec-88bce0da-dd12-4ac4-8e43-ce808f0fd0d8.png"
+    },
+    {
+      "file": "revisions/sd-v2-overlong.png",
+      "group": "LATER_UNAPPROVED_REVISIONS",
+      "description": "장신 비율 시안 · 사용자 과도함 지적",
+      "frameCount": null,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "bytes": 2468043,
+      "sha256": "54BA4FF92E5288071491ED21F45DA89425DA7E4F44E55217CA66117826B45C65",
+      "originalFile": "exec-96ad0fdb-27e5-4c41-a402-69d3f9cd8bfc.png"
+    },
+    {
+      "file": "revisions/sd-v3-overlong-alpha.png",
+      "group": "LATER_UNAPPROVED_REVISIONS",
+      "description": "장신 시안 후속 배경 분리 요청 결과 · 미검수",
+      "frameCount": null,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "bytes": 2428927,
+      "sha256": "C5E63685830BB187FA7785F74E19F938E45832CBB7D1326891CC61E1A0653F7E",
+      "originalFile": "exec-4ac31c06-672a-4f35-a632-2bfff53b9003.png"
+    },
+    {
+      "file": "revisions/sd-v4-balanced.png",
+      "group": "LATER_UNAPPROVED_REVISIONS",
+      "description": "중간 비율 시안 · 손잡이 정렬 수정 전",
+      "frameCount": null,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bytes": 1429406,
+      "sha256": "B9B3DEE94BDD39AEBF5ECA4FB203834C19F4034B54361EF29CE55CD1BABCE98E",
+      "originalFile": "exec-ed39ae09-efc8-483e-98c2-161c418e92bf.png"
+    },
+    {
+      "file": "revisions/sd-v5-horizontal-grip.png",
+      "group": "LATER_UNAPPROVED_REVISIONS",
+      "description": "손잡이와 검신 수평 정렬 시안",
+      "frameCount": null,
+      "width": 1448,
+      "height": 1086,
+      "hasAlpha": true,
+      "bytes": 1240074,
+      "sha256": "A8F7871BCC790B9549B1C33AFC77F9A884356025FA8C7C0276BF14F34EA6EF9A",
+      "originalFile": "exec-598e3513-fb24-406f-825b-6014fa9fa55f.png"
+    },
+    {
+      "file": "revisions/sd-v6-low-guard.png",
+      "group": "LATER_UNAPPROVED_REVISIONS",
+      "description": "칼을 아래로 내리고 검신 폭 10% 확대를 요청한 시안 · 최종 승인 아님",
+      "frameCount": null,
+      "width": 1448,
+      "height": 1086,
+      "hasAlpha": true,
+      "bytes": 1259504,
+      "sha256": "306B248B9B3272E96171EFC6DCA4B15BA45C443F224806C4EE108ECA9A9B4BED",
+      "originalFile": "exec-1da6ccf4-e2a5-49f8-b0f8-0773f057663b.png"
+    }
+  ],
+  "prompts": [
+    {
+      "file": "prompts/attack-v1.txt",
+      "sha256": "6C1508CA1BD57607E1789875F797FA89B0CD19863BABBE72C579E7955032F2B7",
+      "bytes": 2505
+    },
+    {
+      "file": "prompts/dash-v1.txt",
+      "sha256": "E4746E91BD25B3132F244262EAA64A60300EAC295496082B9489653BB44BE9D2",
+      "bytes": 2183
+    },
+    {
+      "file": "prompts/defeat-v1.txt",
+      "sha256": "5E05578274B2B02CE8330AA2BA44665454AAF965F844A83CE2AFF4248DA6D3D3",
+      "bytes": 2358
+    },
+    {
+      "file": "prompts/hit-v1.txt",
+      "sha256": "6090DB903A0F08484EAC003C5E7A24A78CA4037E302A73D562CB17A6410D056C",
+      "bytes": 2136
+    },
+    {
+      "file": "prompts/idle-v1.txt",
+      "sha256": "95DC10183783C265197AB9DDCFC76A67F953DFC3F532A5F792B2E381AFAB2536",
+      "bytes": 1867
+    },
+    {
+      "file": "prompts/sd-v1.txt",
+      "sha256": "90F3C4CC0D596BAB9FDCCB489312B0D410BA5C726E67FBEC23D0AEACDFA10961",
+      "bytes": 1675
+    },
+    {
+      "file": "prompts/sd-v2.txt",
+      "sha256": "CCCBCD32A2E1C48252094F215B6169C04A8E385B831905BDA424971B179AD8FE",
+      "bytes": 2974
+    },
+    {
+      "file": "prompts/sd-v3-alpha.txt",
+      "sha256": "BE9940C9466725AADD0D78F4351AD1C0D63F0CE00C15E72EDAEC5F709932C042",
+      "bytes": 1054
+    },
+    {
+      "file": "prompts/sd-v4-balanced.txt",
+      "sha256": "A4EFA25A9511C2E45F8EABB1BC5A346264868509239C98D0CCDDDD6EAF60D516",
+      "bytes": 2460
+    },
+    {
+      "file": "prompts/sd-v5-horizontal-grip.txt",
+      "sha256": "61A6A423D111B71477A7F21E894B0AC4491BF195BBB6EA9320A29D4047FF33E7",
+      "bytes": 2483
+    },
+    {
+      "file": "prompts/sd-v6-low-guard.txt",
+      "sha256": "C7F46A9F380A9CD52609523FA76D680DFBF7D1EB193406AAEFAD3E710E0CDD1A",
+      "bytes": 2098
+    },
+    {
+      "file": "prompts/ultimate-v1.txt",
+      "sha256": "4E215FDE7479B01E304F80A22D2CA266A296C7CB7D7B1F2C69442FC0ADBAAEB1",
+      "bytes": 2698
+    }
+  ]
+}
