@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "output": "assets/posters/clan-season3-announcement-v2.png",
+  "dimensions": [
+    2048,
+    3072
+  ],
+  "art": "assets/posters/clan-season3-art-v2.png",
+  "mode": "Built-in image_gen art and cleanup; real-font Korean typography",
+  "fonts": {
+    "heading": "BlackHanSans-Regular.ttf (OFL)",
+    "body": "Windows Malgun Gothic (raster output only)"
+  },
+  "copy": [
+    "숲켓몬",
+    "새로운 시즌, 새로운 클랜.",
+    "01  참가 모집",
+    "9월 28일 (월)",
+    "챔피언스리그 종료 즉시",
+    "시즌 3 참가 신청 시작",
+    "02  클랜 드래프트",
+    "9월 29일 (화) 21:00",
+    "신청 마감과 동시에 자동 시작",
+    "모집 종료 → 클랜 편성",
+    "정규 클랜전",
+    "매주 화 · 목 · 토 · 일",
+    "21:00 — 22:00",
+    "첫 정규전  10월 1일 (목) 21:00",
+    "모든 시간은 한국 시간(KST) 기준",
+    "챔스 종료일 변경 시, 실제 종료 다음 날 21시에 드래프트가 진행됩니다."
+  ],
+  "sources": [
+    "assets/ui/player-card/champions-league-v2109.png",
+    "assets/ui/clan/clan-command-room-v1.webp"
+  ],
+  "sha256": "2714fc984502b297022c789f3c67ec1257b4ca0a1c4b7fc9ddbd9de17b952dc8",
+  "typographyPolicy": "Brand and all schedule text use real Korean font glyphs. No generated 숲 lettering."
+}

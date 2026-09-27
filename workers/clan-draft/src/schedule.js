@@ -13,7 +13,7 @@ export async function runDraftSchedule(env,{openDatabase=createPostgresD1Compat,
     // Disabled release policy returns without a DB read or write. Enabled sessions
     // close and enqueue rewards even when no player has the game open.
     await reconcileSessions({...env,DB:connection.db},{now});
-    await connection.db.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('clan_draft_scheduler_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify({version:'20260915-alarm-1h-30s',source:'DURABLE_ALARM',checkedAt:new Date(now()).toISOString(),...result})).run();
+    await connection.db.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('clan_draft_scheduler_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify({version:'20260928-champions-followup',source:'DURABLE_ALARM',checkedAt:new Date(now()).toISOString(),...result})).run();
     return result;
   }finally{await connection?.close()}
 }

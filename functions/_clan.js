@@ -1,4 +1,5 @@
 import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete,clanRedraftPublicState} from './_clan_redraft.js';
+import {readClanChampionsFollowup,clanChampionsFollowupCheckAt,openClanChampionsFollowup} from './_clan_champions_followup.js';
 import {clanPigCoinStatements} from './_pig_coin_content_rewards.js';
 import {settleClanWarPigCoins,settlePendingClanWarPigCoins} from './_clan_war_pig_rewards.js';
 import {ensureClanRematch20260920} from './_clan_rematch_20260920.js';
@@ -388,7 +389,9 @@ function clanLateRegistrationSchedule(season,nowMs=Date.now()){
 }
 async function createSeason(env,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   const current=await latestSeason(env);if(current)return current;
-  const last=await env.DB.prepare('SELECT COALESCE(MAX(season_no),0) last_no FROM clan_seasons').first(),now=Date.now(),seasonNo=Number(last?.last_no||0)+1;
+  const last=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
+  const planned=await openClanChampionsFollowup(env,last,settings);if(planned)return planned;
+  const now=Date.now(),seasonNo=Number(last?.season_no||0)+1;
   const registrationEnd=now+Number(settings.registrationDays||7)*86400000,draftEnd=registrationEnd+CLAN_DRAFT_DURATION_MINUTES*60000,seasonEnd=draftEnd+Number(settings.seasonDays||28)*86400000;
   await env.DB.prepare("INSERT INTO clan_seasons(season_no,phase,max_members,registration_ends_at,draft_ends_at,starts_at,ends_at) VALUES(?,'REGISTRATION',?, ?,?,?,?)").bind(seasonNo,CLAN_MAX_MEMBERS,iso(registrationEnd),iso(draftEnd),iso(draftEnd),iso(seasonEnd)).run();
   return latestSeason(env);
@@ -648,16 +651,32 @@ async function startScheduledRedraft(env,season,settings){
   }finally{await releaseDraftLock(env,lock)}
 }
 
-// Scheduled entry: only registration/draft; never creates seasons, battles or rewards on its own.
+// Registration/draft plus explicitly armed post-championship season transitions.
 export async function reconcileClanDraft(env){
   const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
   if(!ready)return{phase:'NOT_READY',nextCheckAt:null};
   const settings=await clanSettings(env);if(settings.mode!=='ON')return{phase:settings.mode,nextCheckAt:null};
   let season=await latestSeason(env);
+  let followupCheckAt=null;
+  if(!season)season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
+  if(['CHAMPIONS','COMPLETE'].includes(season?.phase)){
+    const plan=await readClanChampionsFollowup(env,season.id);
+    if(plan){
+      if(season.phase==='CHAMPIONS'){
+        followupCheckAt=await clanChampionsFollowupCheckAt(env,season.id);
+        if(followupCheckAt&&Date.now()>=sqlMs(followupCheckAt)){
+          await advanceChampions(env,season,settings);
+          season=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
+          followupCheckAt=season.phase==='CHAMPIONS'?await clanChampionsFollowupCheckAt(env,season.id):iso(Date.now()+5000);
+        }
+      }
+      if(season.phase==='COMPLETE')season=await openClanChampionsFollowup(env,season,settings,plan);
+    }else if(season.phase==='COMPLETE')season=null;
+  }
   if(season?.phase==='REDRAFT_WAIT')season=await startScheduledRedraft(env,season,settings);
   if(season?.phase==='REGISTRATION'&&Date.now()>=sqlMs(season.registration_ends_at))season=await beginDraft(env,season,settings);
   if(season?.phase==='DRAFT')season=await autoDraftDue(env,season,settings);
-  return{phase:season?.phase||'NONE',seasonId:Number(season?.id||0),nextCheckAt:['REGISTRATION','REDRAFT_WAIT'].includes(season?.phase)?season.registration_ends_at:season?.phase==='DRAFT'?nextDraftCheckAt(season):null};
+  return{phase:season?.phase||'NONE',seasonId:Number(season?.id||0),nextCheckAt:['REGISTRATION','REDRAFT_WAIT'].includes(season?.phase)?season.registration_ends_at:season?.phase==='DRAFT'?nextDraftCheckAt(season):followupCheckAt};
 }
 async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   let fresh=season;
@@ -667,6 +686,7 @@ async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
   if(fresh.phase==='ACTIVE')fresh=await reconcileWarWindows(env,fresh,settings);
   if(fresh.phase==='SETTLEMENT')fresh=await settleSeason(env,fresh,settings);
   if(fresh.phase==='CHAMPIONS'){await advanceChampions(env,fresh,settings);fresh=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(fresh.id).first()}
+  if(fresh.phase==='COMPLETE')fresh=await openClanChampionsFollowup(env,fresh,settings)||fresh;
   return fresh;
 }
 
