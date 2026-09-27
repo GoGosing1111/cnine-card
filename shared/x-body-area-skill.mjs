@@ -6,7 +6,7 @@ export const X_BODY_AREA_REVIEW=Symbol('X_BODY_AREA_REVIEW_20260927');
 const reference=skillChipByCode('SKILL_CHIP_HELICOPTER_AIRSTRIKE');
 export const X_BODY_AREA_SKILL=Object.freeze({
  code:'BATTLE_SUIT_X_CELESTIAL_DRAGON',name:'천룡 강림',effectKey:'x-dragon',
- damageMultiplier:reference.damageMultiplier,intervalMs:20000,
+ damageMultiplier:reference.damageMultiplier,intervalMs:20000,openingDelayMs:0,
  damageReference:reference.code,targeting:'ALL_LIVING_ENEMIES',intrinsic:true,silent:true,
  impactOffsetsMs:Object.freeze([2180,2240,2300,2360,2420]),effectDurationMs:4600,sortOrder:110
 });

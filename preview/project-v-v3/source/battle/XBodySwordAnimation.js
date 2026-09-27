@@ -1,9 +1,9 @@
-import {Assets,Texture,Rectangle} from 'pixi.js';
+import {Assets,Texture,Rectangle,Sprite} from 'pixi.js';
 import {XBodyFX} from '../../../battle-suit-x-v1/source/XBodyFX.js';
 import {DragonFX} from '../../../battle-suit-x-dragon-v1/source/DragonFX.js';
 import {MODES} from '../../../battle-suit-x-v1/motion.mjs';
 import {DURATION} from '../../../battle-suit-x-dragon-v1/motion.mjs';
-import {X_SWORD,takeXBodyBatch} from './XBodySwordModel.mjs';
+import {X_SWORD,X_BODY_FLURRY_COOLDOWN_MS,takeXBodyBatch} from './XBodySwordModel.mjs';
 import {X_BODY_AREA_RELEASE_ENABLED,X_BODY_AREA_SKILL} from '../../../../shared/x-body-area-skill.mjs';
 
 const HEIGHT=333.70859375;
@@ -11,7 +11,15 @@ const HEIGHT=333.70859375;
 // their clock and atlas lifetime. Preview playback never runs autonomously.
 // Set the live camera policy before the inherited constructor's first render.
 class LiveSwordFX extends XBodyFX{makeTimeline(){this.zoom=false;}}
-class LiveDragonFX extends DragonFX{makeTimeline(){this.zoom=false;}}
+class LiveDragonFX extends DragonFX{
+ makeTimeline(){this.zoom=false;}
+ put(slot,...args){
+  // The opening cast can hit all twelve hunt slots. Keep the approved render
+  // intact and grow its reusable pool only when a new high-water mark is used.
+  if(!this.pool[slot]){const sprite=new Sprite();sprite.visible=false;this.front.addChild(sprite);this.pool[slot]=sprite;}
+  return super.put(slot,...args);
+ }
+}
 const frames=assets=>[...Object.values(assets.motion),...Object.values(assets.effects)].flat();
 const disposeLayer=fx=>{
  if(!fx||fx.disposed)return;fx.removeTimeline();fx.restoreBackdrop?.();fx.disposed=true;
@@ -38,7 +46,7 @@ export class XBodySwordAnimation{
  }
  static release(textures){for(const t of new Set([...frames(textures.base),...frames(textures.dragon)]))if(!t.destroyed)t.destroy(false);}
  constructor(engine,unit,textures){
-  Object.assign(this,{engine,unit,textures,actionIndex:0,completed:0,flurries:0,previousTarget:null,mode:'ready',timeMs:0,intrinsicArea:Boolean(textures.dragon),disposed:false});
+  Object.assign(this,{engine,unit,textures,actionIndex:0,completed:0,flurries:0,nextFlurryAtMs:0,cooldownEpoch:engine.playbackEpoch,mode:'ready',timeMs:0,intrinsicArea:Boolean(textures.dragon),disposed:false});
   unit.swordAnimation=this;unit.bodySource=X_SWORD.image;unit.weaponSource='';unit.weaponSprite.visible=false;
   {
    this.skillFactory={create:(e,event,hits)=>new XBodyDragonCast(this,e,event,hits)};
@@ -47,7 +55,16 @@ export class XBodySwordAnimation{
   }
   this.ready();
  }
- takeBatch(queue){return takeXBodyBatch(queue,this.actionIndex,this.previousTarget);}
+ combatAtMs(queue){
+  const time=this.engine.skillChipPlayback?.clock?.time;
+  if(Number.isFinite(time))return time*1000;
+  const receipt=queue?.[0]?.options?.authoritativeEvent?.combatAtMs;
+  return Number.isFinite(receipt)?receipt:null;
+ }
+ takeBatch(queue){
+  if(this.cooldownEpoch!==this.engine.playbackEpoch){this.cooldownEpoch=this.engine.playbackEpoch;this.nextFlurryAtMs=0;}
+  return takeXBodyBatch(queue,{combatAtMs:this.combatAtMs(queue),nextFlurryAtMs:this.nextFlurryAtMs});
+ }
  usesAsset(url){return X_SWORD.assets.some(a=>a.url===url);}
  ready(){
   if(this.disposed||this.timeline||this.externalCast)return;
@@ -74,7 +91,8 @@ export class XBodySwordAnimation{
   const valid=()=>!this.disposed&&engine.visible&&engine.playbackEpoch===epoch&&target.id===id&&!target.root.destroyed&&target.root.visible!==false;
   const mode=batch.mode==='skill'?'skill':'attack',fx=this.swordFX(target),clock={time:0};
   fx.mode=mode;fx.clock.time=0;fx.front.visible=fx.back.visible=true;fx.zoom=false;
-  this.mode=mode;this.actionIndex++;this.previousTarget={target,id};unit.stopIdle();unit.nameHud.visible=false;
+  if(mode==='skill')this.nextFlurryAtMs=Math.max(batch.combatAtMs??0,this.combatAtMs(batch.entries)??0)+X_BODY_FLURRY_COOLDOWN_MS;
+  this.mode=mode;this.actionIndex++;unit.stopIdle();unit.nameHud.visible=false;
   // Keep the burst's catch-up rate through its final recovery. Recomputing
   // from the shrinking queue slowed the last actions again and exceeded the
   // generation/cast drain deadline even after all earlier hits had landed.
@@ -93,7 +111,7 @@ export class XBodySwordAnimation{
   if(result){this.completed++;if(mode==='skill')this.flurries++;}return result;
  }
  cancel(){this.timeline?.kill();this.timeline=null;hide(this.fx);hide(this.dragon);}
- diagnostics(){return{version:X_SWORD.version,mode:this.mode,timeMs:Math.round(this.timeMs),completed:this.completed,flurries:this.flurries,intrinsicArea:this.intrinsicArea,
+ diagnostics(){return{version:X_SWORD.version,mode:this.mode,timeMs:Math.round(this.timeMs),completed:this.completed,flurries:this.flurries,nextFlurryAtMs:this.nextFlurryAtMs,intrinsicArea:this.intrinsicArea,
   weaponSha256:X_SWORD.base.weapon.sha256,bodyFrames:40,effectFrames:108,damageAuthority:'SERVER_TIMELINE',areaReleaseEnabled:X_BODY_AREA_RELEASE_ENABLED,
   effectsVisible:Boolean(this.fx?.front.visible||this.dragon?.front.visible),externalCast:this.externalCast?.diagnostics()||null};}
  destroy(){

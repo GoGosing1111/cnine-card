@@ -26,18 +26,18 @@ test('all promoted X/dragon pixels equal both approved sources, and all live pat
  assert.equal(X_SWORD.base.weapon.sha256,X_SWORD.dragon.weapon.sha256);
 });
 test('mixed-target normal receipts keep their order, identity and exact total through the two approved actions',()=>{
- const targets=[{id:'one'},{id:'two'},{id:'three'}];
+ const targets=[{id:'one',isBoss:true},{id:'two',isBoss:false},{id:'three',isBoss:true}];
  const original=Array.from({length:181},(_,i)=>({target:targets[Math.floor(i/13)%3],options:{damage:i+1},id:i}));
  const queue=[...original],seen=[],modes=new Set();let action=0;
- while(queue.length){const b=takeXBodyBatch(queue,action++);seen.push(...b.entries);modes.add(b.mode);assert.equal(new Set(b.entries.map(e=>e.target)).size,1);for(const hit of b.impacts)assert.ok(MODES[b.mode].contacts.some(t=>Math.abs(t*1000-hit.atMs)<1e-8));}
+ while(queue.length){const b=takeXBodyBatch(queue,{combatAtMs:action++*10000});seen.push(...b.entries);modes.add(b.mode);assert.equal(new Set(b.entries.map(e=>e.target)).size,1);for(const hit of b.impacts)assert.ok(MODES[b.mode].contacts.some(t=>Math.abs(t*1000-hit.atMs)<1e-8));}
  assert.deepEqual(seen,original);assert.equal(new Set(seen).size,181);assert.deepEqual([...modes].sort(),['attack','skill']);
 });
-test('a changing target with fewer than six receipts never reserves a six-contact flurry',()=>{
+test('normal monsters never reserve a flurry, even with six or more receipts',()=>{
  const targets=Array.from({length:5},(_,i)=>({id:i}));
  const queue=Array.from({length:30},(_,i)=>({target:targets[i%5],options:{damage:i+1}}));
  let index=0;
- while(queue.length){const batch=takeXBodyBatch(queue,index++);assert.equal(batch.mode,'attack');assert.equal(batch.entries.length,1);}
- assert.equal(takeXBodyBatch(Array.from({length:6},()=>({target:targets[0]})),1).mode,'skill');
+ while(queue.length){const batch=takeXBodyBatch(queue,{combatAtMs:index++*10000});assert.equal(batch.mode,'attack');assert.equal(batch.entries.length,1);}
+ assert.equal(takeXBodyBatch(Array.from({length:6},()=>({target:targets[0]})),{combatAtMs:10000}).mode,'attack');
 });
 function rig(){
  const engine=Object.create(BattleEngine.prototype),ticks=new Set(),world=new Container(),stage=new Container(),units=new Container();
@@ -54,28 +54,34 @@ function rig(){
  const target={id:'enemy-1',root:new Container(),view:new Container(),fullBodyHeight:300};target.root.position.set(900,500);target.root.baseX=900;target.root.baseY=500;units.addChild(target.root);
  return{engine,unit,sword,target,ticks,close(){sword.destroy();world.destroy({children:true});gsap.ticker.sleep();}};
 }
-test('a stable target keeps the approved flurry when receipts arrive one at a time',async()=>{
+test('single boss receipts use the shared clock for a ten-second flurry cooldown',async()=>{
  const r=rig(),seen=[],modes=[];
  try{
-  for(let i=0;i<3;i++){
+  r.target.isBoss=true;r.engine.skillChipPlayback={clock:{time:5}};
+  for(let i=0;i<4;i++){
+   r.engine.skillChipPlayback.clock.time=[5,5,14.999,15][i];
    const receipt={target:r.target,options:{damage:100+i,authoritative:true}},batch=r.sword.takeBatch([receipt]);modes.push(batch.mode);
    const done=r.sword.play(batch,entries=>seen.push(...entries)),tl=r.sword.timeline;tl.pause();
    for(const time of MODES[batch.mode].contacts)tl.totalTime(time);
    tl.totalTime(MODES[batch.mode].duration);assert.equal(await done,true);
    assert.equal(seen.length,i+1,'six visual contacts must not create extra server receipts');
   }
-  assert.deepEqual(modes,['attack','skill','attack']);
-  assert.equal(seen.reduce((sum,row)=>sum+row.options.damage,0),303);
-  assert.equal(r.sword.diagnostics().flurries,1);
+  assert.deepEqual(modes,['skill','attack','attack','skill']);
+  assert.equal(seen.reduce((sum,row)=>sum+row.options.damage,0),406);
+  assert.equal(r.sword.diagnostics().flurries,2);
+  assert.equal(r.sword.diagnostics().nextFlurryAtMs,25000);
  }finally{r.close();}
 });
-test('a replaced monster identity does not inherit the previous target flurry',async()=>{
+test('a replacement boss cannot reset cooldown and a replacement normal mob remains ineligible',async()=>{
  const r=rig();
  try{
+  r.target.isBoss=true;r.engine.skillChipPlayback={clock:{time:5}};
   const row={target:r.target,options:{damage:100,authoritative:true}},done=r.sword.play(r.sword.takeBatch([row]),()=>{});
-  r.sword.timeline.pause().totalTime(MODES.attack.duration);await done;
+  r.sword.timeline.pause().totalTime(MODES.skill.duration);await done;
   r.target.id='replacement';const batch=r.sword.takeBatch([{target:r.target,options:{damage:200,authoritative:true}}]);
   assert.equal(batch.mode,'attack');assert.equal(batch.entries.length,1);
+  r.target.isBoss=false;r.engine.skillChipPlayback.clock.time=50;
+  assert.equal(r.sword.takeBatch([{target:r.target,options:{damage:200,authoritative:true}}]).mode,'attack');
  }finally{r.close();}
 });
 test('the direct single-shot path uses the X controller rather than the Z selector',async()=>{
@@ -91,8 +97,9 @@ for(const mobile of [false,true])test(`X-BODY ${mobile?'mobile':'desktop'} camer
  const normalView=()=>{assert.equal(focusCalls,0,'X-BODY must never request a cinematic zoom');assert.deepEqual([r.engine.stage.scale.x,r.engine.stage.scale.y,r.engine.stage.pivot.x,r.engine.stage.pivot.y],[1,1,0,0]);};
  const receipt={target:r.target,options:{damage:100,authoritative:true}};
  try{
-  for(const [count,action] of [[1,0],[6,1]]){
-   const batch=takeXBodyBatch(Array(count).fill(receipt),action),done=r.sword.play(batch,()=>{}),tl=r.sword.timeline;
+  for(const [count,boss] of [[1,false],[6,true]]){
+   r.target.isBoss=boss;
+   const batch=takeXBodyBatch(Array(count).fill(receipt),{combatAtMs:10000}),done=r.sword.play(batch,()=>{}),tl=r.sword.timeline;
    tl.pause();normalView();
    for(const time of MODES[batch.mode].contacts){tl.totalTime(time);normalView();}
    tl.totalTime(MODES[batch.mode].duration);assert.equal(await done,true);normalView();
@@ -105,17 +112,32 @@ for(const mobile of [false,true])test(`X-BODY ${mobile?'mobile':'desktop'} camer
  }finally{r.close();}
 });
 
+test('an opening dragon cast renders all twelve hunt contacts without exhausting its sprite pool',()=>{
+ const r=rig(),targets=Array.from({length:12},(_,i)=>({id:'enemy-'+i,root:new Container(),view:new Container()}));
+ try{
+  for(let i=0;i<targets.length;i++){targets[i].root.position.set(700+i%3*110,300+Math.floor(i/3)*100);r.target.root.parent.addChild(targets[i].root);}
+  r.engine.combatantById=id=>targets.find(t=>t.id===id);
+  const cast=r.sword.skillFactory.create(r.engine,{targetIds:targets.map(t=>t.id)},[]);
+  try{
+   for(const time of [0,.4,.8,1.6,2.18,2.42,2.6,3.2,4.6])cast.render(time);
+   assert.ok(r.sword.dragon.pool.length>12);
+   assert.equal(r.sword.dragon.targetContacts.length,12);
+  }finally{cast.destroy();}
+ }finally{r.close();}
+});
+
 test('real Pixi/GSAP contacts, pause, speed, return, cancellation and target replacement remain coherent',async()=>{
  const r=rig(),hits=[],receipt={target:r.target,options:{damage:100,authoritative:true}};
  try{
-  let done=r.sword.play(takeXBodyBatch([receipt],0),e=>hits.push(...e)),tl=r.sword.timeline;
+  let done=r.sword.play(takeXBodyBatch([receipt]),e=>hits.push(...e)),tl=r.sword.timeline;
   tl.pause();tl.totalTime(.369);assert.equal(hits.length,0);tl.totalTime(.37);assert.deepEqual(hits,[receipt]);tl.totalTime(1.1);assert.equal(await done,true);
   assert.equal(r.unit.root.x,100);assert.equal(r.engine.simpleTimelines.size,0);assert.equal(r.sword.diagnostics().effectsVisible,false);
-  done=r.sword.play(takeXBodyBatch([receipt],1),e=>hits.push(...e));tl=r.sword.timeline;
+  r.target.isBoss=true;
+  done=r.sword.play(takeXBodyBatch([receipt],{combatAtMs:10000}),e=>hits.push(...e));tl=r.sword.timeline;
   r.engine.accountBattleUnitIsPaused=()=>true;r.engine.paceScale=2;for(const tick of r.ticks)tick();
   assert.equal(tl.paused(),true);assert.equal(tl.timeScale(),2);
   r.target.id='replacement';tl.totalTime(3.4);assert.equal(await done,true);assert.equal(hits.length,1);
-  done=r.sword.play(takeXBodyBatch([receipt],0),e=>hits.push(...e));r.sword.cancel();assert.equal(await done,false);
+  done=r.sword.play(takeXBodyBatch([receipt]),e=>hits.push(...e));r.sword.cancel();assert.equal(await done,false);
   assert.equal(r.engine.simpleTimelines.size,0);assert.equal(r.ticks.size,0);assert.equal(r.sword.diagnostics().effectsVisible,false);
  }finally{r.close();}
 });
@@ -159,6 +181,6 @@ test('actual shipped bundle and main loader resolve the approved X production as
  for(const file of['preview/project-v-v3/project-v-pixi-battle.bundle.js','pve-v3/battle.bundle.js']){
   const src=(await read(file)).toString();for(const token of['X_BODY_LIVE_20260927','BATTLE_SUIT_X_BODY','x-sword-v1/dragon/dragon-atlas.png','x-sword-v1/base/combo-atlas.png'])assert.ok(src.includes(token),file+': '+token);
  }
- for(const file of['index.html','js/app.js'])assert.ok((await read(file)).toString().includes('xBody=20260928-flurry'));
- for(const file of['js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok((await read(file)).toString().includes('20260928-x-body-flurry'));
+ for(const file of['index.html','js/app.js'])assert.ok((await read(file)).toString().includes('xBody=20260928-skill-order'));
+ for(const file of['js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok((await read(file)).toString().includes('20260928-x-body-skill-order'));
 });

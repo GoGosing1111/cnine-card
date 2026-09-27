@@ -33,11 +33,14 @@ function multi({pvp=false,dead=false,skillChips=[],durationMs=0}={}){
  const b=Array.from({length:5},(_,i)=>({...buildMonsterFighter({...monster,id:i+1}),id:'B:'+i+':MONSTER:'+(i+1),slot:i,row:i<2?'FRONT':'BACK',hp:1e10,maxHp:1e10,shield:1e14,maxShield:1e14,attack:1,isMonster:!pvp,alive:!(dead&&i===4)}));
  return simulateBattleV2Preview({teamA:[...a,buildBattleSuitFighter({...suit,skillChips})],teamB:b,maxActions:durationMs?1000:100,maxCombatDurationMs:durationMs,seed:2011,[REVIEW]:true});
 }
-test('X-BODY casts every 20 seconds with an independently equipped 15-second helicopter',()=>{
+test('X-BODY opens with its area skill then casts every 20 seconds, independently of helicopter',()=>{
  const result=multi({skillChips:[SKILL.damageReference],durationMs:65000});
  const times=code=>result.timeline.filter(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===code).map(e=>e.combatAtMs);
- assert.deepEqual(times(SKILL.code),[20000,40000,60000]);
+ assert.deepEqual(times(SKILL.code),[0,20000,40000,60000]);
  assert.deepEqual(times(SKILL.damageReference),[15000,30000,45000,60000]);
+ const opening=result.timeline.findIndex(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===SKILL.code);
+ const firstShot=result.timeline.findIndex(e=>e.damageSource==='BATTLE_SUIT_INDEPENDENT');
+ assert.ok(opening>=0&&firstShot>opening,'the area cast must precede the first suit normal attack');
 });
 test('living front/back targets each retain the full confirmed area damage; PVP and dead targets are excluded',()=>{
  const result=multi(),event=cast(result);assert.equal(event.targetIds.length,5);assert.equal(event.targeting,'ALL_LIVING_ENEMIES');

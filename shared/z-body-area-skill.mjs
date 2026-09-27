@@ -19,7 +19,7 @@ export function createBattleSuitCombatSchedule(codes,includeZ=false,includeX=fal
   const intrinsic=includeX?X_BODY_AREA_SKILL:includeZ?Z_BODY_AREA_SKILL:null;
   return {
     peek(){
-      const next=chips.peek(),z=intrinsic?{chip:intrinsic,activation,atMs:(activation+1)*intrinsic.intervalMs}:null;
+      const next=chips.peek(),z=intrinsic?{chip:intrinsic,activation,atMs:(intrinsic.openingDelayMs??intrinsic.intervalMs)+activation*intrinsic.intervalMs}:null;
       return !z?next:!next||z.atMs<next.atMs?z:next;
     },
     take(){const next=this.peek();if(next?.chip.intrinsic){activation++;return {...next,activation};}return chips.take();}
