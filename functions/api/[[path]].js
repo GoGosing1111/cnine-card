@@ -8,6 +8,7 @@ import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,
 import {handleLootShop} from '../_loot_shop.js';
 import {handleLegionHunt} from '../_legion_hunt.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
+import {claimOmegaMercenaryMessageReward} from '../_mercenary_message_reward.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
 import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
@@ -504,6 +505,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   PIG_COIN:{label:'피그코인',icon:'🐷',inventory:false,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   COIN:{label:'코인',icon:'🪙',inventory:false,max:5000000000,messageType:'COIN_REWARD'},
   SHARDS:{label:'카드 조각',icon:'🧩',inventory:false,max:100000000,messageType:'SHARD_REWARD'},
@@ -556,6 +558,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   await ensureVerifiedRewardMessageV1276(env);
   const rewardType=String(reward?.reward_type||'').toUpperCase();
   if(rewardType==='PIG_COIN')return claimPigCoinMessageReward(env,user,reward,messageId);
+  if(rewardType==='MERCENARY_OMEGA_X')return claimOmegaMercenaryMessageReward(env,user,reward,messageId);
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
   if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
