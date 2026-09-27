@@ -24,7 +24,8 @@ http.createServer(async(req,res)=>{try{
   if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed');
   const rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),parts=rel.split(/[\\/]/);
   if(!['preview','admin','js','shared','css','assets','pve-v3'].includes(parts[0])||parts.some(p=>p.startsWith('.')))return send(res,404,'Not found');
-  let file=path.resolve(root,rel);if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
+  if(rel==='preview/icon-battle-assets-v1/battle.html'){res.writeHead(302,{location:'/preview/icon-battle-assets-v1/battle'});res.end();return;}
+  let file=path.resolve(root,rel);if(rel==='preview/icon-battle-assets-v1/battle')file+='.html';if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
   if(!fs.existsSync(file)||!fs.realpathSync(file).startsWith(root+path.sep)||!mime[path.extname(file)])return send(res,404,'Not found');
   res.writeHead(200,{'content-type':mime[path.extname(file)],'cache-control':'no-store'});if(req.method==='HEAD')res.end();else fs.createReadStream(file).pipe(res);
 }catch(error){send(res,500,JSON.stringify({error:error.message}),'application/json');}}).listen(port,'127.0.0.1',()=>console.log(`ICON CMS QA: http://${host}/review/icons`));
