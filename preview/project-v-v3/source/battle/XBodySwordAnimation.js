@@ -9,8 +9,9 @@ import {X_BODY_AREA_RELEASE_ENABLED,X_BODY_AREA_SKILL} from '../../../../shared/
 const HEIGHT=333.70859375;
 // Preserve the approved render functions exactly, but let the live engine own
 // their clock and atlas lifetime. Preview playback never runs autonomously.
-class LiveSwordFX extends XBodyFX{makeTimeline(){}}
-class LiveDragonFX extends DragonFX{makeTimeline(){}}
+// Set the live camera policy before the inherited constructor's first render.
+class LiveSwordFX extends XBodyFX{makeTimeline(){this.zoom=false;}}
+class LiveDragonFX extends DragonFX{makeTimeline(){this.zoom=false;}}
 const frames=assets=>[...Object.values(assets.motion),...Object.values(assets.effects)].flat();
 const disposeLayer=fx=>{
  if(!fx||fx.disposed)return;fx.removeTimeline();fx.restoreBackdrop?.();fx.disposed=true;
@@ -72,7 +73,7 @@ export class XBodySwordAnimation{
   if(!target?.root||target.root.destroyed||target.root.visible===false)return false;
   const valid=()=>!this.disposed&&engine.visible&&engine.playbackEpoch===epoch&&target.id===id&&!target.root.destroyed&&target.root.visible!==false;
   const mode=batch.mode==='skill'?'skill':'attack',fx=this.swordFX(target),clock={time:0};
-  fx.mode=mode;fx.clock.time=0;fx.front.visible=fx.back.visible=true;fx.zoom=true;
+  fx.mode=mode;fx.clock.time=0;fx.front.visible=fx.back.visible=true;fx.zoom=false;
   this.mode=mode;this.actionIndex++;unit.stopIdle();unit.nameHud.visible=false;
   // Keep the burst's catch-up rate through its final recovery. Recomputing
   // from the shrinking queue slowed the last actions again and exceeded the

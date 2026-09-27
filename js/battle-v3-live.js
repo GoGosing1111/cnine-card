@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260927-berkan-tempo-hunt-area-v2-x-dragon-v1';
+  const BATTLE_RUNTIME = '20260928-x-body-no-zoom';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime() {
     if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;

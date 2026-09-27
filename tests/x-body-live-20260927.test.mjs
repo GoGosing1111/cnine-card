@@ -54,6 +54,26 @@ function rig(){
  const target={id:'enemy-1',root:new Container(),view:new Container(),fullBodyHeight:300};target.root.position.set(900,500);target.root.baseX=900;target.root.baseY=500;units.addChild(target.root);
  return{engine,unit,sword,target,ticks,close(){sword.destroy();world.destroy({children:true});gsap.ticker.sleep();}};
 }
+for(const mobile of [false,true])test(`X-BODY ${mobile?'mobile':'desktop'} camera stays at normal scale for attacks, flurries and dragon casts`,async()=>{
+ const r=rig();r.engine.mobile=mobile;let focusCalls=0;
+ r.engine.camera.focusAt=(_point,zoom)=>{focusCalls++;r.engine.stage.scale.set(zoom);};
+ const normalView=()=>{assert.equal(focusCalls,0,'X-BODY must never request a cinematic zoom');assert.deepEqual([r.engine.stage.scale.x,r.engine.stage.scale.y,r.engine.stage.pivot.x,r.engine.stage.pivot.y],[1,1,0,0]);};
+ const receipt={target:r.target,options:{damage:100,authoritative:true}};
+ try{
+  for(const [count,action] of [[1,0],[6,1]]){
+   const batch=takeXBodyBatch(Array(count).fill(receipt),action),done=r.sword.play(batch,()=>{}),tl=r.sword.timeline;
+   tl.pause();normalView();
+   for(const time of MODES[batch.mode].contacts){tl.totalTime(time);normalView();}
+   tl.totalTime(MODES[batch.mode].duration);assert.equal(await done,true);normalView();
+  }
+  r.engine.combatantById=id=>id===r.target.id?r.target:null;
+  const cast=r.sword.skillFactory.create(r.engine,{targetIds:[r.target.id]},[]);
+  try{normalView();for(const time of [0,.4,.8,1.6,2.18,2.42,3.2,4.6]){cast.render(time);normalView();}}
+  finally{cast.destroy();}
+  normalView();
+ }finally{r.close();}
+});
+
 test('real Pixi/GSAP contacts, pause, speed, return, cancellation and target replacement remain coherent',async()=>{
  const r=rig(),hits=[],receipt={target:r.target,options:{damage:100,authoritative:true}};
  try{
@@ -108,6 +128,6 @@ test('actual shipped bundle and main loader resolve the approved X production as
  for(const file of['preview/project-v-v3/project-v-pixi-battle.bundle.js','pve-v3/battle.bundle.js']){
   const src=(await read(file)).toString();for(const token of['X_BODY_LIVE_20260927','BATTLE_SUIT_X_BODY','x-sword-v1/dragon/dragon-atlas.png','x-sword-v1/base/combo-atlas.png'])assert.ok(src.includes(token),file+': '+token);
  }
- for(const file of['index.html','js/app.js'])assert.ok((await read(file)).toString().includes('xBody=20260927-dragon-v1'));
- for(const file of['js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok((await read(file)).toString().includes('20260927-berkan-tempo-hunt-area-v2-x-dragon-v1'));
+ for(const file of['index.html','js/app.js'])assert.ok((await read(file)).toString().includes('xBody=20260928-no-zoom'));
+ for(const file of['js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok((await read(file)).toString().includes('20260928-x-body-no-zoom'));
 });
