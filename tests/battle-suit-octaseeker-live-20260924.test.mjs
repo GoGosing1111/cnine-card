@@ -5,6 +5,7 @@ import {Container,Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {SKILL_CHIP_CLOCK,skillChipByCode,skillChipDamage,splitSkillChipDamage,createSkillChipSchedule} from '../shared/battle-suit-skill-chips.mjs';
+import {createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
 import {BattleSuitSkillChipPlayback} from '../preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js';
 import {OctaSeekerFX} from '../preview/battle-suit-octaseeker-v1/source/OctaSeekerFX.js';
 import {OctaSeekerAudio} from '../preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js';
@@ -27,17 +28,31 @@ function events(count=8){
   return [{type:'SKILL_CHIP_CAST',combatAtMs:17000},...chip.impactOffsetsMs.slice(0,count).map((at,i)=>({type:'SKILL_CHIP_HIT',combatAtMs:17000+at,hitIndex:i,damage:10,targetHpAfter:count===1?0:90-i*10})),
     {type:'RESULT',combatAtMs:21000}].map((e,i)=>({...e,chipCode:CODE,castId:CODE+':1',targetId:'enemy-1',seq:i+1,combatClock:SKILL_CHIP_CLOCK,combatGroup:i,combatGroupDurationMs:0}));
 }
-test('approved total is exactly helicopter x2, not per-hit x2, with independent 17s cadence',()=>{
+test('approved total is exactly helicopter x2, not per-hit x2, with an immediate first cast and independent 10s cadence',()=>{
   assert.equal(chip.damageMultiplier,skillChipByCode(HELI).damageMultiplier*2);
-  assert.equal(chip.intervalMs,17000);assert.equal(chip.impactOffsetsMs.length,8);
+  assert.equal(chip.intervalMs,10000);assert.equal(chip.impactOffsetsMs.length,8);
   assert.deepEqual(chip.impactOffsetsMs,SEQUENCE.impacts.map(t=>Math.round(t*1000)));
   for(const base of [0,1,3,101,9999,10000000000]){
     const total=skillChipDamage(base,CODE);assert.equal(total,skillChipDamage(base,HELI)*2);
     assert.equal(splitSkillChipDamage(total,8).reduce((a,b)=>a+b,0),total);
   }
   const schedule=createSkillChipSchedule([CODE,CODE]);
-  assert.deepEqual([schedule.take().atMs,schedule.take().atMs,schedule.take().atMs],[17000,34000,51000]);
+  assert.deepEqual([schedule.take().atMs,schedule.take().atMs,schedule.take().atMs],[0,10000,20000]);
   assert.equal(createSkillChipSchedule([CODE]).take().activation,1);
+});
+
+test('opening octa cast precedes the 3s rocket in any equipped order and keeps every other cadence',()=>{
+  const rocket='SKILL_CHIP_ROCKET_LAUNCHER';
+  for(const codes of [[rocket,HELI,CODE],[CODE,rocket,HELI],[HELI,CODE,rocket]])for(const [z,x] of [[false,false],[true,false],[false,true]]){
+    const schedule=createBattleSuitCombatSchedule(codes,z,x),casts=[];
+    while(schedule.peek().atMs<=51000)casts.push(schedule.take());
+    assert.equal(casts[0].chip.code,CODE);assert.equal(casts[0].atMs,0);assert.equal(casts[0].activation,1);
+    assert.deepEqual(casts.filter(c=>c.chip.code===CODE).map(c=>c.atMs),[0,10000,20000,30000,40000,50000]);
+    assert.deepEqual(casts.filter(c=>c.chip.code===rocket).map(c=>c.atMs),Array.from({length:17},(_,i)=>(i+1)*3000));
+    assert.deepEqual(casts.filter(c=>c.chip.code===HELI).map(c=>c.atMs),[15000,30000,45000]);
+    if(z||x)assert.deepEqual(casts.filter(c=>c.chip.intrinsic).map(c=>c.atMs),x?[0,20000,40000]:[15000,30000,45000]);
+    assert.equal(createBattleSuitCombatSchedule(codes,z,x).take().atMs,0,'a new battle gets one fresh opening cast');
+  }
 });
 test('server applies eight fixed-target impacts and conserves x10 total for normal and apocalypse shields',()=>{
   let complete=0,pierce=0;
@@ -49,7 +64,7 @@ test('server applies eight fixed-target impacts and conserves x10 total for norm
     assert.ok(casts.length>0);assert.equal(battle.teams.A.cards.length,5);
     assert.deepEqual(createPveBattleV2(input).result,result);
     for(const cast of casts){
-      assert.equal(cast.combatAtMs,cast.activation*17000);assert.equal(cast.calculatedDamage,cast.baseDamage*10);
+      assert.equal(cast.combatAtMs,(cast.activation-1)*10000);assert.equal(cast.calculatedDamage,cast.baseDamage*10);
       const hits=result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===cast.castId);
       for(const hit of hits){assert.equal(hit.targetId,cast.targetId);assert.equal(hit.hitCount,8);assert.equal(hit.combatAtMs,cast.combatAtMs+chip.impactOffsetsMs[hit.hitIndex]);if(hit.apocalypsePierce)pierce++;}
       const total=hits.reduce((n,e)=>n+e.damage+e.absorbed,0);assert.ok(total<=cast.calculatedDamage);
@@ -59,6 +74,33 @@ test('server applies eight fixed-target impacts and conserves x10 total for norm
     assert.equal(result.damageBreakdown.skillChips,result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT').reduce((n,e)=>n+e.damage+e.absorbed,0));
   }
   assert.ok(complete>0&&pierce>0,JSON.stringify({complete,pierce}));
+});
+
+test('server opening octa launches and finishes its eight impacts before the first rocket',()=>{
+  const rocket='SKILL_CHIP_ROCKET_LAUNCHER';
+  const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:`OPEN-${i}`,rarity:'FUR',power_type,power:400000}));
+  const input={cards,battleSuit:{code:'BATTLE_SUIT_03',pvePower:300000,weapon:{code:'EQ_1785427638137'},skillChips:[rocket,HELI,CODE]},
+    monster:{id:68,battle_power:10000000,is_boss:1,pve_hp_percent:1200,pve_attack_percent:1,pve_shield_percent:10000,pve_speed_percent:1},seed:2011};
+  const {timeline}=createPveBattleV2(input).result,casts=timeline.filter(e=>e.type==='SKILL_CHIP_CAST');
+  assert.equal(casts[0].chipCode,CODE);assert.equal(casts[0].combatAtMs,0);
+  const firstRocket=casts.find(e=>e.chipCode===rocket);assert.equal(firstRocket.combatAtMs,3000);
+  const hits=timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===casts[0].castId);
+  assert.deepEqual(hits.map(e=>e.combatAtMs),[1020,1080,1140,1200,1260,1320,1380,1440]);
+  assert.ok(hits.at(-1).combatAtMs<firstRocket.combatAtMs);
+  assert.ok(timeline.slice(1).every((e,i)=>e.combatAtMs>=timeline[i].combatAtMs));
+});
+
+test('PC and mobile playback launch a zero-time octa once without waiting for a later tick',async t=>{
+  t.mock.method(OctaSeekerFX,'preload',async()=>textures());
+  for(const mobile of [false,true]){
+    const e=engine(mobile),opening=events().map(event=>({...event,combatAtMs:event.combatAtMs-17000}));
+    const p=new BattleSuitSkillChipPlayback(e,opening),run=p.play();await p.ready;p.timeline.pause();
+    assert.equal(p.casts,1);assert.equal(p.hits,0);assert.equal(p.fx.size,1);
+    p.pump();p.pump();assert.equal(p.casts,1,'the opening cast must not duplicate at time zero');
+    p.timeline.time(.34,true);p.pump();assert.equal(p.fx.values().next().value.fx.diagnostics().activeRockets,8);
+    p.timeline.time(1.441,true);p.pump();assert.equal(p.hits,8);
+    p.cancel();assert.equal(await run,false);assert.equal(e.combatLayer.children.length,0);assert.equal(e.effectLayer.children.length,0);
+  }
 });
 test('live Pixi effects wait for server hits, map arrival indices and preserve fatal collision without retargeting',()=>{
   for(const mobile of [false,true]){
@@ -124,6 +166,6 @@ test('shipped consumers and lobby loader contain the new approved runtime',async
     assert.ok(source.includes('/preview/battle-suit-octaseeker-v1/assets/textures/'),path+' must include the approved octa effect');
     assert.ok(source.includes(runtime),path+' must match the authored runtime');
   }
-  assert.match(await read('js/app.js'),/octaseeker=20260924/);
+  assert.match(await read('js/app.js'),/octaseeker=20260928-opening10/);
   assert.equal((await read('js/battle-v3-live.js')).match(/const BATTLE_RUNTIME\s*=\s*'([^']+)'/)?.[1],runtime);
 });

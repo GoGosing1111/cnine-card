@@ -25,9 +25,9 @@ const textures=()=>({flight:Array(24).fill(Texture.EMPTY),impact:Array(24).fill(
   smoke:Texture.EMPTY,dust:Texture.EMPTY,flash:Texture.EMPTY,cinder:Texture.EMPTY});
 const snapshot=fx=>fx.sprites.map(s=>s.visible?[s.x,s.y,s.width,s.height,s.rotation,s.alpha,s.anchor.x,s.anchor.y]:null);
 
-test('approved chip reads x10 / 17s from the shared catalog without inventing acquisition',()=>{
+test('approved chip reads x10 / opening cast / 10s from the shared catalog without inventing acquisition',()=>{
   assert.equal(CHIP_DRAFT.liveEnabled,true);assert.equal(CHIP_DRAFT.status,'USER_APPROVED_20260924');
-  assert.equal(CHIP_DRAFT.damageMultiplier,10);assert.equal(CHIP_DRAFT.intervalMs,17000);assert.equal(CHIP_DRAFT.acquisition,null);
+  assert.equal(CHIP_DRAFT.damageMultiplier,10);assert.equal(CHIP_DRAFT.openingDelayMs,0);assert.equal(CHIP_DRAFT.intervalMs,10000);assert.equal(CHIP_DRAFT.acquisition,null);
   assert.equal(SKILL_CHIP_CATALOG.find(c=>c.code===CHIP_DRAFT.code).damageMultiplier,10);
   assert.deepEqual([...ARRIVAL_ORDER].sort((a,b)=>a-b),[0,1,2,3,4,5,6,7]);
 });

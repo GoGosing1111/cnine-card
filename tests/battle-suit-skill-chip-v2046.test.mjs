@@ -51,14 +51,14 @@ async function call(env,path,body,{userId=7,method='POST'}={}){
   return {status:response.status,...await response.json()};
 }
 
-test('catalog fixes the approved multipliers and independent 3s / 15s / 17s intervals',()=>{
+test('catalog fixes the approved multipliers and independent 3s / 15s / 10s intervals',()=>{
   assert.equal(SKILL_CHIP_MAX_SLOTS,3);
   assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5],[OCTA,10]]);
   assert.ok(Object.isFrozen(SKILL_CHIP_CATALOG)&&SKILL_CHIP_CATALOG.every(Object.isFrozen));
   assert.equal(skillChipByCode('unknown'),null);
   assert.equal(SKILL_CHIP_RUNTIME_ENABLED,true);
   assert.equal(SKILL_CHIP_BALANCE_STATUS,null);
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>chip.intervalMs),[3000,15000,17000]);
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>chip.intervalMs),[3000,15000,10000]);
 });
 test('independent formula rounds once and rejects unsafe or invalid amounts',()=>{
   assert.equal(skillChipDamage(100,ROCKET),250);
