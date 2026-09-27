@@ -114,12 +114,13 @@ test('achievement title switching applies only the equipped power to PVE and PVP
   const data=fixture();data.equipmentQuantitiesPending=false;
   data.titles=[
     {id:1,name:'폐인',unlockType:'COLLECTION_MASTERY',pvePower:50000,owned:true},
-    {id:2,name:'우승청부사',unlockType:'TROPHY_KINDS',pvePower:75000,owned:true}
+    {id:2,name:'우승청부사',unlockType:'TROPHY_KINDS',pvePower:75000,owned:true},
+    {id:3,name:'도박왕',unlockType:'PREDICTION_HITS',pvePower:60000,owned:true}
   ];
   const m=mount(async path=>path==='character/loadout'?data:{ok:true});
   await tick();m.click({tab:'title'});
   assert.match(m.root.innerHTML,/50,000/);assert.match(m.root.innerHTML,/75,000/);
-  for(const [id,power] of [[1,50000],[2,75000]]){
+  for(const [id,power] of [[1,50000],[2,75000],[3,60000]]){
     m.click({titleEquip:String(id)});await tick();
     const state=m.controller.getState();
     assert.equal(state.equippedTitleId,id);
@@ -129,4 +130,15 @@ test('achievement title switching applies only the equipped power to PVE and PVP
   m.click({},['data-title-unequip']);await tick();
   assert.equal(m.controller.getState().bonuses.titlePve,0);
   assert.equal(m.controller.getState().bonuses.titlePvp,0);
+});
+
+test('gambling king shows saved lifetime progress and the CMS target without an equip action while locked',async()=>{
+  const data=fixture();data.equipmentQuantitiesPending=false;
+  data.titles=[{id:3,code:'GAMBLING_KING',name:'도박왕',stylePreset:'GAMBLING_KING',unlockType:'PREDICTION_HITS',unlockConfig:{count:1000},pvePower:60000,owned:false}];
+  const m=mount(async()=>data);await tick();m.click({tab:'title'});
+  m.controller.setTitleProgress({GAMBLING_KING:{owned:999,goal:1000,complete:false}});
+  assert.match(m.root.innerHTML,/승부예측 누적 적중 1,000회/);
+  assert.match(m.root.innerHTML,/999 \/ 1,000회/);assert.match(m.root.innerHTML,/전체 전투 \+60,000/);
+  assert.match(m.root.innerHTML,/title-style-gambling_king/);
+  assert.match(m.root.innerHTML,/aria-valuenow="999"/);assert.doesNotMatch(m.root.innerHTML,/data-title-equip="3"/);
 });

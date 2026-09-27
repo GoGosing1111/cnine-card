@@ -9,7 +9,7 @@
   --achievement-light:#8f6330;--achievement-glow:239,179,71;
   --achievement-logo:url('../assets/ui/titles/trophy-hunter-v1.webp');
 }
-.title-style-completionist,.title-style-trophy_hunter {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king) {
   position:relative;display:inline-flex;align-items:center;vertical-align:middle;
   width:fit-content;max-width:100%;white-space:nowrap;box-sizing:border-box;
   padding:.4em .7em .4em 2.2em!important;line-height:1.15!important;
@@ -20,44 +20,52 @@
   font-weight:900;letter-spacing:.025em;text-shadow:0 1px 2px #000!important;
   animation:none!important;overflow:visible!important;
 }
-.title-style-completionist::before,.title-style-trophy_hunter::before {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king)::before {
   content:"";position:absolute;left:.22em;top:50%;width:1.8em;height:1.8em;
   transform:translateY(-50%);background:var(--achievement-logo) center/contain no-repeat;
   pointer-events:none;filter:drop-shadow(0 1px 2px #0009);
 }
-.title-style-completionist::after,.title-style-trophy_hunter::after { content:none!important; }
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king)::after { content:none!important; }
 .clv2-title-sigil.has-emblem {
   width:clamp(150px,18vw,240px);border:0;transform:none;background:none;box-shadow:none;
 }
 .clv2-title-sigil.has-emblem img { display:block;width:100%;height:auto;object-fit:contain; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) {
   border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 35%,rgba(var(--achievement-glow),.19),transparent 58%),linear-gradient(165deg,#17121e,#0a0b11 75%);
 }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter)::before,
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter)::after { content:none; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter) > p { margin-top:26px;color:var(--achievement-ink); }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king)::before,
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king)::after { content:none; }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) > p { margin-top:26px;color:var(--achievement-ink); }
 .clv2-title-showcase h2 .public-title-badge { font-size:clamp(22px,2.3vw,36px); }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) {
   align-items:center;text-align:center;min-height:300px;border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 0,rgba(var(--achievement-glow),.13),transparent 75%),#0e1019;
 }
 .clv2-title-emblem { display:block;object-fit:contain;width:88px;height:88px;margin:8px 0; }
 .clv2-title-card .public-title-badge { font-size:15px; }
 .clv2-title-card > strong { max-width:100%; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter) > span { color:var(--achievement-ink); }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter) button { width:100%;margin-top:auto; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter) em { margin-bottom:14px; }
-.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter) { opacity:1;filter:none;border-color:#454051; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) > span { color:var(--achievement-ink); }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) button { width:100%;margin-top:auto; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) em { margin-bottom:14px; }
+.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) { opacity:1;filter:none;border-color:#454051; }
 .clv2-title-card.is-locked .clv2-title-emblem { opacity:.55;filter:grayscale(.7); }
 .clv2-title-progress { display:grid;gap:5px;width:100%;margin:12px 0;font-size:11px;color:#a4a1b0; }
 .clv2-title-progress span { display:flex;justify-content:space-between;gap:8px; }
 .clv2-title-progress b { color:var(--achievement-ink);font-variant-numeric:tabular-nums; }
-.pc-equipped-title.title-style-completionist,.pc-equipped-title.title-style-trophy_hunter { font-size:13px; }
+.pc-equipped-title:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king) { font-size:13px; }
 @media(max-width:640px) {
   .clv2-title-sigil.has-emblem { width:170px; }
-  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter) { padding:18px 12px; }
+  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) { padding:18px 12px; }
   .clv2-title-card .public-title-badge { font-size:13px; }
   .clv2-title-showcase h2 .public-title-badge { font-size:25px; }
 }
+
+.title-style-gambling_king,.is-title-gambling_king {
+  --achievement-ink:#f3dfaa;--achievement-line:#a99560;--achievement-dark:#07281f;
+  --achievement-light:#398467;--achievement-glow:56,198,143;
+  --achievement-logo:url('../assets/ui/titles/gambling-king-v1.webp');
+}
+.clv2-title-progress-track { height:5px;overflow:hidden;border-radius:3px;background:#050d0a;border:1px solid #7fa98a33; }
+.clv2-title-progress-track i { display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,#247153,#9de4aa); }

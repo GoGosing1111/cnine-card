@@ -1,0 +1,13 @@
+{
+  "file": "assets/ui/titles/gambling-king-v1.webp",
+  "source": "preview/gambling-king-title-v1/gambling-king-source.png",
+  "width": 512,
+  "height": 512,
+  "alpha": {
+    "min": 0,
+    "max": 255
+  },
+  "sha256": "11109e8c5662386cfcb92a16fdd49f7be15e25aaf470503e869de7409ff3d40f",
+  "generator": "built-in image_gen",
+  "sourceSha256": "ded513a55221b5f54df38358208a345a12a15c8b07cf197f11cd1020e34a8069"
+}
