@@ -141,6 +141,13 @@ for (const postgres of [false, true]) {
     const concurrent = await Promise.all([syncAchievementTitles(f.env,7),syncAchievementTitles(f.env,7)]);
     assert.equal(concurrent.flatMap(r=>r.granted).length,1,'concurrent reads grant exactly once');
     assert.equal(concurrent[0].progress.TROPHY_HUNTER.owned,4);
+    await f.p('DELETE FROM user_character_titles WHERE title_id=?',hunter.id).run();
+    f.DB.batch = async rows => {
+      await f.p("UPDATE character_titles SET unlock_type='MANUAL' WHERE id=?",hunter.id).run();
+      return batch(rows);
+    };
+    assert.deepEqual((await syncAchievementTitles(f.env,7)).granted,[],'CMS manual switch during the scan is checked again at grant time');
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_character_titles WHERE title_id=?',hunter.id).first()).n),0);
     t.diagnostic(`already-owned sync: 1 query; ${retryMs.toFixed(2)} ms in isolated fixture`);
   });
 }

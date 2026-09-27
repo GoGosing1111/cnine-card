@@ -45,7 +45,7 @@ export async function readCollectionMastery(env, userId) {
 }
 
 export async function syncAchievementTitles(env, userId) {
-  const rows = (await env.DB.prepare(`SELECT t.id,t.code FROM character_titles t
+  const rows = (await env.DB.prepare(`SELECT t.id,t.code,t.unlock_type FROM character_titles t
     WHERE ((t.code='COLLECTION_COMPLETIONIST' AND t.unlock_type='COLLECTION_MASTERY')
       OR (t.code='TROPHY_HUNTER' AND t.unlock_type='TROPHY_KINDS')) AND t.is_active=1 AND t.is_public=1
       AND NOT EXISTS(SELECT 1 FROM user_character_titles u WHERE u.user_id=? AND u.title_id=t.id)`)
@@ -65,6 +65,6 @@ export async function syncAchievementTitles(env, userId) {
   const matched = rows.filter(t => progress[t.code]?.complete);
   if (!matched.length) return { granted: [], progress };
   const result = await env.DB.batch(matched.map(t => env.DB.prepare(`INSERT OR IGNORE INTO user_character_titles(user_id,title_id,source_type,source_id)
-    SELECT ?,id,'ACHIEVEMENT',code FROM character_titles WHERE id=? AND is_active=1 AND is_public=1`).bind(userId, t.id)));
+    SELECT ?,id,'ACHIEVEMENT',code FROM character_titles WHERE id=? AND code=? AND unlock_type=? AND is_active=1 AND is_public=1`).bind(userId, t.id, t.code, t.unlock_type)));
   return { granted: matched.filter((_, i) => Number(result[i]?.meta?.changes || 0) > 0).map(t => Number(t.id)), progress };
 }
