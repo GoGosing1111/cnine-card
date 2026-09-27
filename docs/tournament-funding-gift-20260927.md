@@ -23,3 +23,17 @@
 - 국소 메시지 수령 지원 추가이므로 `npm run deploy:production -- --scoped`를 사용한다.
 - 선택 회귀: `tests/message-gift-rewards-v2044.test.mjs`, `tests/message-reward-client-parity-v1929.test.mjs`, `tests/tournament-gift-20260926.test.mjs`. 도구 7개 검사는 동일한 소스에서 이미 통과해 중복 실행하지 않는다. Worker 문법/컴파일, 출시 조건 및 Hyperdrive 캐시 검사는 지정 배포 도구에서 수행한다.
 - 수령 연결의 운영 배포 및 검증 후, 대상 46명의 운영 dry-run 롤백과 별도 조회를 확인한 다음 실제 메시지를 발송한다. 발송 후 개별 수신자·제목·본문·상자 종류·수량·감사·완료 영수증을 별도 READ ONLY 연결에서 검증한다.
+
+## 운영 완료
+
+- 수령 연결 배포 커밋: 060369be. Pages: https://993ff1c1.cnine-card.pages.dev. 예약 Worker 버전: c96e1356-3252-43fb-8158-025f3b2a4f3c.
+- 지정 scoped 배포의 관련 회귀 28개와 도구 회귀 7개, 총 35개 통과. Worker 문법·컴파일, 출시 조건, Hyperdrive 캐시 OFF 및 바인딩 일치 검사 통과.
+- 운영 index.html/app.js SHA-256이 배포 파일과 일치하고 메시지 API의 비로그인 요청은 401로 차단됨을 확인했다.
+- 실제 발송 완료: **2026-09-27 15:32:27 KST** (2026-09-27T06:32:27.678Z). **46명에게 메시지 46통과 상자 46개 첨부**. 제목과 본문 모두 대회 펀딩 사은품.
+- 수신자 해시: b9e98d85b608b787d9c34c5bff1e113ed015dcdebf5109248f0ae9081d44158c.
+- 작업 영수증: ops:tournament-funding-gift:20260927:v1:b9e98d85b608b787d9c34c5b. 감사 기록 **36375**, TOURNAMENT_FUNDING_MESSAGE_SEND, SYSTEM_OPS (관리자 1).
+- 운영 dry-run 전체 롤백 후 별도 READ ONLY 조회에서 메시지/첨부/완료 영수증이 남지 않은 것을 확인하고 실제 COMMIT 1회 수행했다.
+- 실제 COMMIT 이후 별도 READ ONLY 연결에서 46개 수신자·제목·본문·상자 종류·수량·영수증·감사 기록 일치 확인. 누락 0, 중복 0, 검증 시 미수령 46건.
+- 실제 발송 실행기 측 SQL 16회, 717ms. 지갑·인벤토리 직접 변경 및 대신 수령 없음. 미확인 36명에게는 발송하지 않았다.
+- 로컬 실행기/조회 증거: C:/Users/User/.codex/worktrees/ops-tournament-funding-mail-20260927/. 원격 실행기와 UI fixture 서버를 종료하고 임시 인증키/만료값을 폐기했다. 브라우저 QA 탭도 닫고 화면 크기 설정을 복구했다.
+- 이 완료 기록은 문서만 반영하며 게임 재배포를 반복하지 않는다.
