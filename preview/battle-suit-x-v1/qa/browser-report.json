@@ -10,150 +10,534 @@
     "snapshots": [
       {
         "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
         "mode": "dash",
         "time": 0.38,
         "playing": false,
         "speed": 1,
         "frame": 4,
-        "phase": "가속",
-        "contactError": 278.5518731591292,
+        "pose": {
+          "at": 0.37,
+          "bank": "dash",
+          "index": 4,
+          "facing": 1
+        },
+        "phase": "청광 돌진",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 0,
+          "distance": 346.7595743911744,
+          "intersects": false,
+          "tipDistance": 452.55666492052467
+        },
+        "groundError": 0,
+        "airborne": false,
         "visibleEffects": 1,
+        "visibleGhosts": 4,
         "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
+        "bodyFrames": 32,
+        "effectFrames": 60,
         "weaponSources": 1,
+        "weaponRedraws": 0,
         "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
         "regularAllies": 5,
         "clock": "V3_REGISTERED_GSAP",
         "liveEnabled": false,
         "actor": {
-          "x": 885.3266311841526,
-          "y": 401.6479641366562
+          "x": 711.1882494076979,
+          "y": 416
+        },
+        "contact": {
+          "x": 1010,
+          "y": 350.99999999999994
+        },
+        "ground": {
+          "x": 1010,
+          "y": 415.99999999999994
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "attack",
+        "time": 0.37,
+        "playing": false,
+        "speed": 1,
+        "frame": 4,
+        "pose": {
+          "at": 0.345,
+          "bank": "combo",
+          "index": 1,
+          "facing": 1
+        },
+        "phase": "횡베기",
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.5801943009714788,
+          "distance": 26.106234562740205,
+          "intersects": true,
+          "tipDistance": 53.4093306921289
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 891.092977481015,
+          "y": 416.00000000000006
         },
         "contact": {
           "x": 1009.9999999999999,
           "y": 351
-        }
-      },
-      {
-        "ready": true,
-        "mode": "attack",
-        "time": 0.34,
-        "playing": false,
-        "speed": 1,
-        "frame": 3,
-        "phase": "타격 정지",
-        "contactError": 5.684341886080802e-14,
-        "visibleEffects": 1,
-        "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
-        "weaponSources": 1,
-        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
-        "regularAllies": 5,
-        "clock": "V3_REGISTERED_GSAP",
-        "liveEnabled": false,
-        "actor": {
-          "x": 893.6379353029517,
-          "y": 309.275710035038
         },
-        "contact": {
-          "x": 1010,
-          "y": 351
+        "ground": {
+          "x": 1009.9999999999999,
+          "y": 416
         }
       },
       {
         "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
         "mode": "skill",
-        "time": 1,
+        "time": 0.37,
         "playing": false,
         "speed": 1,
         "frame": 5,
-        "phase": "충돌",
-        "contactError": 1.1368683772161603e-13,
+        "pose": {
+          "at": 0.345,
+          "bank": "combo",
+          "index": 1,
+          "facing": 1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.5801943009714796,
+          "distance": 26.106234562740262,
+          "intersects": true,
+          "tipDistance": 53.40933069212881
+        },
+        "groundError": 0,
+        "airborne": false,
         "visibleEffects": 2,
+        "visibleGhosts": 4,
         "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
+        "bodyFrames": 32,
+        "effectFrames": 60,
         "weaponSources": 1,
+        "weaponRedraws": 0,
         "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
         "regularAllies": 5,
         "clock": "V3_REGISTERED_GSAP",
         "liveEnabled": false,
         "actor": {
-          "x": 849.6290924669097,
-          "y": 343.25867975840725
+          "x": 891.0929774810147,
+          "y": 416
         },
         "contact": {
           "x": 1009.9999999999999,
           "y": 351
+        },
+        "ground": {
+          "x": 1009.9999999999999,
+          "y": 416
         }
       },
       {
         "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
         "mode": "skill",
-        "time": 0.42,
+        "time": 0.64,
         "playing": false,
         "speed": 1,
-        "frame": 2,
-        "phase": "빛 응축",
-        "contactError": 327.92032836559036,
-        "visibleEffects": 1,
+        "frame": 10,
+        "pose": {
+          "at": 0.615,
+          "bank": "combo",
+          "index": 2,
+          "facing": -1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 2,
+        "bladeContact": {
+          "u": 0.6126627458249859,
+          "distance": 17.028559511671812,
+          "intersects": true,
+          "tipDistance": 46.176722475503226
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
         "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
+        "bodyFrames": 32,
+        "effectFrames": 60,
         "weaponSources": 1,
+        "weaponRedraws": 0,
         "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
         "regularAllies": 5,
         "clock": "V3_REGISTERED_GSAP",
         "liveEnabled": false,
         "actor": {
-          "x": 849.6290924669097,
-          "y": 343.25867975840725
+          "x": 1139.8804540788576,
+          "y": 416
         },
         "contact": {
           "x": 1010,
           "y": 351
+        },
+        "ground": {
+          "x": 1010,
+          "y": 416
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 0.91,
+        "playing": false,
+        "speed": 1,
+        "frame": 15,
+        "pose": {
+          "at": 0.885,
+          "bank": "combo",
+          "index": 1,
+          "facing": 1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 3,
+        "bladeContact": {
+          "u": 0.5801943009714788,
+          "distance": 26.106234562740205,
+          "intersects": true,
+          "tipDistance": 53.4093306921289
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 1,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 891.092977481015,
+          "y": 416.00000000000006
+        },
+        "contact": {
+          "x": 1010,
+          "y": 351
+        },
+        "ground": {
+          "x": 1010,
+          "y": 416
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 1.18,
+        "playing": false,
+        "speed": 1,
+        "frame": 19,
+        "pose": {
+          "at": 1.155,
+          "bank": "combo",
+          "index": 2,
+          "facing": -1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 4,
+        "bladeContact": {
+          "u": 0.6126627458249848,
+          "distance": 17.028559511671812,
+          "intersects": true,
+          "tipDistance": 46.176722475503325
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 1139.8804540788578,
+          "y": 416.00000000000006
+        },
+        "contact": {
+          "x": 1010,
+          "y": 351
+        },
+        "ground": {
+          "x": 1010,
+          "y": 416
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 1.43,
+        "playing": false,
+        "speed": 1,
+        "frame": 22,
+        "pose": {
+          "at": 1.36,
+          "bank": "combo",
+          "index": 3,
+          "facing": 1
+        },
+        "phase": "올려베기",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0.5535265342968303,
+          "distance": 6.597499685427916,
+          "intersects": true,
+          "tipDistance": 49.89682515848418
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 1,
+        "visibleGhosts": 2,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 909.7785855316444,
+          "y": 416.00000000000006
+        },
+        "contact": {
+          "x": 1009.9999999999999,
+          "y": 351
+        },
+        "ground": {
+          "x": 1009.9999999999999,
+          "y": 416
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 1.8,
+        "playing": false,
+        "speed": 1,
+        "frame": 25,
+        "pose": {
+          "at": 1.76,
+          "bank": "skill",
+          "index": 3,
+          "facing": 1
+        },
+        "phase": "도약 · 검압 응축",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0,
+          "distance": 232.1035055431444,
+          "intersects": false,
+          "tipDistance": 337.6644464732689
+        },
+        "groundError": 0,
+        "airborne": true,
+        "visibleEffects": 1,
+        "visibleGhosts": 3,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 886.5278203124999,
+          "y": 319.2245078125
+        },
+        "contact": {
+          "x": 1009.9999999999999,
+          "y": 351.00000000000006
+        },
+        "ground": {
+          "x": 1009.9999999999999,
+          "y": 416
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 2.18,
+        "playing": false,
+        "speed": 1,
+        "frame": 28,
+        "pose": {
+          "at": 2.155,
+          "bank": "combo",
+          "index": 7,
+          "facing": 1
+        },
+        "phase": "최종 검격 · 지면 파열",
+        "contactCount": 6,
+        "bladeContact": {
+          "u": 0.5109490318913863,
+          "distance": 15.739867156748579,
+          "intersects": true,
+          "tipDistance": 56.537610931330505
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 902.9959291323532,
+          "y": 416
+        },
+        "contact": {
+          "x": 1010,
+          "y": 351
+        },
+        "ground": {
+          "x": 1010,
+          "y": 416
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 2.4,
+        "playing": false,
+        "speed": 1,
+        "frame": 29,
+        "pose": {
+          "at": 2.34,
+          "bank": "skill",
+          "index": 6,
+          "facing": 1
+        },
+        "phase": "파편 · 검기 잔향",
+        "contactCount": 6,
+        "bladeContact": {
+          "u": 0.44825375222714187,
+          "distance": 59.77282476802996,
+          "intersects": false,
+          "tipDistance": 85.58297691676752
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 902.9959291323537,
+          "y": 416.00000000000006
+        },
+        "contact": {
+          "x": 1010,
+          "y": 351
+        },
+        "ground": {
+          "x": 1010,
+          "y": 415.99999999999994
         }
       }
     ],
     "speeds": [
       {
         "speed": 0.25,
-        "advance": 0.07075,
+        "advance": 0.07175,
         "pauseStable": true
       },
       {
         "speed": 1,
-        "advance": 0.284,
+        "advance": 0.279,
         "pauseStable": true
       },
       {
         "speed": 2,
-        "advance": 0.566,
+        "advance": 0.56,
         "pauseStable": true
       }
     ],
     "stopped": {
       "ready": true,
+      "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
       "mode": "skill",
       "time": 0,
       "playing": false,
       "speed": 2,
       "frame": 0,
+      "pose": {
+        "at": 0,
+        "bank": "skill",
+        "index": 0,
+        "facing": 1
+      },
       "phase": "대기",
-      "contactError": 566.8516463727049,
+      "contactCount": 0,
+      "bladeContact": {
+        "u": 1,
+        "distance": 544.1626288928917,
+        "intersects": false,
+        "tipDistance": 544.1626288928917
+      },
+      "groundError": 0,
+      "airborne": false,
       "visibleEffects": 0,
+      "visibleGhosts": 0,
       "registeredTimelines": 0,
-      "bodyFrames": 24,
-      "effectFrames": 40,
+      "bodyFrames": 32,
+      "effectFrames": 60,
       "weaponSources": 1,
+      "weaponRedraws": 0,
       "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-      "weaponRedrawnPixels": 0,
       "regularAllies": 5,
       "clock": "V3_REGISTERED_GSAP",
       "liveEnabled": false,
@@ -162,8 +546,12 @@
         "y": 416
       },
       "contact": {
-        "x": 1009.9999999999999,
+        "x": 1010.0000000000001,
         "y": 351
+      },
+      "ground": {
+        "x": 1010.0000000000001,
+        "y": 416
       }
     }
   },
@@ -178,150 +566,534 @@
     "snapshots": [
       {
         "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
         "mode": "dash",
         "time": 0.38,
         "playing": false,
         "speed": 1,
         "frame": 4,
-        "phase": "가속",
-        "contactError": 226.01898206224786,
-        "visibleEffects": 1,
-        "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
-        "weaponSources": 1,
-        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
-        "regularAllies": 5,
-        "clock": "V3_REGISTERED_GSAP",
-        "liveEnabled": false,
-        "actor": {
-          "x": 765.5584566049723,
-          "y": 695.184566492407
+        "pose": {
+          "at": 0.37,
+          "bank": "dash",
+          "index": 4,
+          "facing": 1
         },
-        "contact": {
-          "x": 791.4098360655738,
-          "y": 629.3422131147538
-        }
-      },
-      {
-        "ready": true,
-        "mode": "attack",
-        "time": 0.34,
-        "playing": false,
-        "speed": 1,
-        "frame": 3,
-        "phase": "타격 정지",
-        "contactError": 0,
-        "visibleEffects": 1,
-        "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
-        "weaponSources": 1,
-        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
-        "regularAllies": 5,
-        "clock": "V3_REGISTERED_GSAP",
-        "liveEnabled": false,
-        "actor": {
-          "x": 640.1391519594113,
-          "y": 575.1006361603033
+        "phase": "청광 돌진",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 0,
+          "distance": 315.09811656886694,
+          "intersects": false,
+          "tipDistance": 452.11008343490505
         },
-        "contact": {
-          "x": 791.4098360655738,
-          "y": 629.342213114754
-        }
-      },
-      {
-        "ready": true,
-        "mode": "skill",
-        "time": 1,
-        "playing": false,
-        "speed": 1,
-        "frame": 5,
-        "phase": "충돌",
-        "contactError": 0,
-        "visibleEffects": 2,
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 1,
+        "visibleGhosts": 4,
         "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
+        "bodyFrames": 32,
+        "effectFrames": 60,
         "weaponSources": 1,
+        "weaponRedraws": 0,
         "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
         "regularAllies": 5,
         "clock": "V3_REGISTERED_GSAP",
         "liveEnabled": false,
         "actor": {
-          "x": 582.9276562725565,
-          "y": 619.2784968006833
+          "x": 539.1785602955808,
+          "y": 713.8422131147541
         },
         "contact": {
           "x": 791.4098360655738,
           "y": 629.3422131147539
+        },
+        "ground": {
+          "x": 791.4098360655738,
+          "y": 713.842213114754
         }
       },
       {
         "ready": true,
-        "mode": "skill",
-        "time": 0.42,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "attack",
+        "time": 0.37,
         "playing": false,
         "speed": 1,
-        "frame": 2,
-        "phase": "빛 응축",
-        "contactError": 426.2964268752676,
-        "visibleEffects": 1,
+        "frame": 4,
+        "pose": {
+          "at": 0.345,
+          "bank": "combo",
+          "index": 1,
+          "facing": 1
+        },
+        "phase": "횡베기",
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.5801943009714791,
+          "distance": 33.938104931562236,
+          "intersects": true,
+          "tipDistance": 69.43212989976757
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
         "registeredTimelines": 0,
-        "bodyFrames": 24,
-        "effectFrames": 40,
+        "bodyFrames": 32,
+        "effectFrames": 60,
         "weaponSources": 1,
+        "weaponRedraws": 0,
         "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-        "weaponRedrawnPixels": 0,
         "regularAllies": 5,
         "clock": "V3_REGISTERED_GSAP",
         "liveEnabled": false,
         "actor": {
-          "x": 582.9276562725565,
-          "y": 619.2784968006833
+          "x": 636.8307067908933,
+          "y": 713.8422131147541
+        },
+        "contact": {
+          "x": 791.4098360655737,
+          "y": 629.342213114754
+        },
+        "ground": {
+          "x": 791.4098360655737,
+          "y": 713.842213114754
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 0.37,
+        "playing": false,
+        "speed": 1,
+        "frame": 5,
+        "pose": {
+          "at": 0.345,
+          "bank": "combo",
+          "index": 1,
+          "facing": 1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.5801943009714791,
+          "distance": 33.938104931562236,
+          "intersects": true,
+          "tipDistance": 69.43212989976757
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 636.8307067908933,
+          "y": 713.8422131147541
+        },
+        "contact": {
+          "x": 791.4098360655737,
+          "y": 629.342213114754
+        },
+        "ground": {
+          "x": 791.4098360655737,
+          "y": 713.842213114754
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 0.64,
+        "playing": false,
+        "speed": 1,
+        "frame": 10,
+        "pose": {
+          "at": 0.615,
+          "bank": "combo",
+          "index": 2,
+          "facing": -1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 2,
+        "bladeContact": {
+          "u": 0.6126627458249847,
+          "distance": 22.13712736517334,
+          "intersects": true,
+          "tipDistance": 60.02973921815428
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 960.2544263680888,
+          "y": 713.8422131147541
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 629.3422131147539
+        },
+        "ground": {
+          "x": 791.4098360655738,
+          "y": 713.8422131147539
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 0.91,
+        "playing": false,
+        "speed": 1,
+        "frame": 15,
+        "pose": {
+          "at": 0.885,
+          "bank": "combo",
+          "index": 1,
+          "facing": 1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 3,
+        "bladeContact": {
+          "u": 0.5801943009714791,
+          "distance": 33.938104931562236,
+          "intersects": true,
+          "tipDistance": 69.43212989976757
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 1,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 636.8307067908933,
+          "y": 713.8422131147541
         },
         "contact": {
           "x": 791.4098360655738,
           "y": 629.342213114754
+        },
+        "ground": {
+          "x": 791.4098360655738,
+          "y": 713.8422131147539
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 1.18,
+        "playing": false,
+        "speed": 1,
+        "frame": 19,
+        "pose": {
+          "at": 1.155,
+          "bank": "combo",
+          "index": 2,
+          "facing": -1
+        },
+        "phase": "교차 돌진 · 연속 베기",
+        "contactCount": 4,
+        "bladeContact": {
+          "u": 0.6126627458249847,
+          "distance": 22.13712736517334,
+          "intersects": true,
+          "tipDistance": 60.02973921815428
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 960.2544263680888,
+          "y": 713.8422131147541
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 629.342213114754
+        },
+        "ground": {
+          "x": 791.4098360655738,
+          "y": 713.842213114754
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 1.43,
+        "playing": false,
+        "speed": 1,
+        "frame": 22,
+        "pose": {
+          "at": 1.36,
+          "bank": "combo",
+          "index": 3,
+          "facing": 1
+        },
+        "phase": "올려베기",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0.5535265342968305,
+          "distance": 8.576749591056267,
+          "intersects": true,
+          "tipDistance": 64.86587270602936
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 1,
+        "visibleGhosts": 2,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 661.1219972567112,
+          "y": 713.8422131147541
+        },
+        "contact": {
+          "x": 791.4098360655737,
+          "y": 629.342213114754
+        },
+        "ground": {
+          "x": 791.4098360655737,
+          "y": 713.842213114754
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 1.8,
+        "playing": false,
+        "speed": 1,
+        "frame": 25,
+        "pose": {
+          "at": 1.76,
+          "bank": "skill",
+          "index": 3,
+          "facing": 1
+        },
+        "phase": "도약 · 검압 응축",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0,
+          "distance": 301.73455720608774,
+          "intersects": false,
+          "tipDistance": 438.9637804152496
+        },
+        "groundError": 0,
+        "airborne": true,
+        "visibleEffects": 1,
+        "visibleGhosts": 3,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 630.896002471824,
+          "y": 588.0340732710041
+        },
+        "contact": {
+          "x": 791.4098360655739,
+          "y": 629.3422131147541
+        },
+        "ground": {
+          "x": 791.4098360655739,
+          "y": 713.8422131147541
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 2.18,
+        "playing": false,
+        "speed": 1,
+        "frame": 28,
+        "pose": {
+          "at": 2.155,
+          "bank": "combo",
+          "index": 7,
+          "facing": 1
+        },
+        "phase": "최종 검격 · 지면 파열",
+        "contactCount": 6,
+        "bladeContact": {
+          "u": 0.5109490318913863,
+          "distance": 20.461827303773102,
+          "intersects": true,
+          "tipDistance": 73.49889421072962
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 652.3045439376333,
+          "y": 713.8422131147541
+        },
+        "contact": {
+          "x": 791.4098360655739,
+          "y": 629.3422131147541
+        },
+        "ground": {
+          "x": 791.4098360655739,
+          "y": 713.8422131147541
+        }
+      },
+      {
+        "ready": true,
+        "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+        "mode": "skill",
+        "time": 2.4,
+        "playing": false,
+        "speed": 1,
+        "frame": 29,
+        "pose": {
+          "at": 2.34,
+          "bank": "skill",
+          "index": 6,
+          "facing": 1
+        },
+        "phase": "파편 · 검기 잔향",
+        "contactCount": 6,
+        "bladeContact": {
+          "u": 0.4482537522271424,
+          "distance": 77.70467219843906,
+          "intersects": false,
+          "tipDistance": 111.25786999179785
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 32,
+        "effectFrames": 60,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 652.3045439376333,
+          "y": 713.8422131147541
+        },
+        "contact": {
+          "x": 791.4098360655739,
+          "y": 629.3422131147541
+        },
+        "ground": {
+          "x": 791.4098360655739,
+          "y": 713.8422131147541
         }
       }
     ],
     "speeds": [
       {
         "speed": 0.25,
-        "advance": 0.07075,
+        "advance": 0.08325,
         "pauseStable": true
       },
       {
         "speed": 1,
-        "advance": 0.283,
+        "advance": 0.279,
         "pauseStable": true
       },
       {
         "speed": 2,
-        "advance": 0.568,
+        "advance": 0.558,
         "pauseStable": true
       }
     ],
     "stopped": {
       "ready": true,
+      "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
       "mode": "skill",
       "time": 0,
       "playing": false,
       "speed": 2,
       "frame": 0,
+      "pose": {
+        "at": 0,
+        "bank": "skill",
+        "index": 0,
+        "facing": 1
+      },
       "phase": "대기",
-      "contactError": 352.18815312156505,
+      "contactCount": 0,
+      "bladeContact": {
+        "u": 1,
+        "distance": 325.6795272442886,
+        "intersects": false,
+        "tipDistance": 325.6795272442886
+      },
+      "groundError": 0,
+      "airborne": false,
       "visibleEffects": 0,
+      "visibleGhosts": 0,
       "registeredTimelines": 0,
-      "bodyFrames": 24,
-      "effectFrames": 40,
+      "bodyFrames": 32,
+      "effectFrames": 60,
       "weaponSources": 1,
+      "weaponRedraws": 0,
       "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
-      "weaponRedrawnPixels": 0,
       "regularAllies": 5,
       "clock": "V3_REGISTERED_GSAP",
       "liveEnabled": false,
@@ -330,8 +1102,12 @@
         "y": 713.842213114754
       },
       "contact": {
-        "x": 791.4098360655738,
-        "y": 629.3422131147539
+        "x": 791.4098360655739,
+        "y": 629.342213114754
+      },
+      "ground": {
+        "x": 791.4098360655739,
+        "y": 713.842213114754
       }
     }
   }

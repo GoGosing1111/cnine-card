@@ -1,5 +1,5 @@
 {
-  "version": "BATTLE_SUIT_X_REVIEW_20260927_V1",
+  "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/x-body-sword-approved-v1.png",
@@ -1232,6 +1232,345 @@
           "file": "assets/frames/skill-08.png"
         }
       ]
+    },
+    "combo": {
+      "url": "assets/atlases/combo.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "895cb51584b5c54faeba76324926b585f18b75e06fb6f07ef0176b6bd45270eb",
+      "frames": [
+        {
+          "id": "combo-01",
+          "index": 0,
+          "pivot": {
+            "x": 475.2,
+            "y": 558
+          },
+          "grip": {
+            "x": 369.8341463414634,
+            "y": 357.219512195122
+          },
+          "tip": {
+            "x": 132.87316054702,
+            "y": 323.6289710677689
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-a.png",
+          "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+          "componentBox": {
+            "left": 35,
+            "top": 39,
+            "width": 625,
+            "height": 609
+          },
+          "sourceFoot": [
+            385,
+            640
+          ],
+          "sourceGrip": [
+            205,
+            297
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": 151.07775355235597,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "94dc166e3a8f52ac2ade94becb2227ab8d56a24a3cb6ef74205c11f3810448a3",
+          "file": "assets/frames/combo-01.png"
+        },
+        {
+          "id": "combo-02",
+          "index": 1,
+          "pivot": {
+            "x": 296.4,
+            "y": 534.4
+          },
+          "grip": {
+            "x": 414.0585365853658,
+            "y": 337.71707317073174
+          },
+          "tip": {
+            "x": 653.5271787974003,
+            "y": 337.91488992980925
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-a.png",
+          "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+          "componentBox": {
+            "left": 656,
+            "top": 118,
+            "width": 579,
+            "height": 525
+          },
+          "sourceFoot": [
+            970,
+            637
+          ],
+          "sourceGrip": [
+            1171,
+            301
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -36.92224644764402,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "9315d9980cfbd78a544bdcd1a4e94fe926e228e9252e58acb2aa372e17f2f760",
+          "file": "assets/frames/combo-02.png"
+        },
+        {
+          "id": "combo-03",
+          "index": 2,
+          "pivot": {
+            "x": 307.2,
+            "y": 538.8
+          },
+          "grip": {
+            "x": 451.78536585365856,
+            "y": 332.1658536585366
+          },
+          "tip": {
+            "x": 685.6490579815423,
+            "y": 381.8743462372356
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-a.png",
+          "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+          "componentBox": {
+            "left": 22,
+            "top": 678,
+            "width": 692,
+            "height": 546
+          },
+          "sourceFoot": [
+            408,
+            1215
+          ],
+          "sourceGrip": [
+            655,
+            862
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -24.92224644764402,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "399abbd5c04a568e3bf4bbb13ab39dba8d2ddd6205ac5652f5bf04b4ad9c1d5d",
+          "file": "assets/frames/combo-03.png"
+        },
+        {
+          "id": "combo-04",
+          "index": 3,
+          "pivot": {
+            "x": 308.2,
+            "y": 530.2
+          },
+          "grip": {
+            "x": 397.7609756097561,
+            "y": 430.68780487804884
+          },
+          "tip": {
+            "x": 616.1641592882504,
+            "y": 333.6060295827577
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-a.png",
+          "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+          "componentBox": {
+            "left": 723,
+            "top": 705,
+            "width": 524,
+            "height": 526
+          },
+          "sourceFoot": [
+            993,
+            1218
+          ],
+          "sourceGrip": [
+            1146,
+            1048
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -60.92224644764402,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "2b49f3f53e0b470e3b757e4c6358d2b131c25cc2499616d4a82fb156af2002d6",
+          "file": "assets/frames/combo-04.png"
+        },
+        {
+          "id": "combo-05",
+          "index": 4,
+          "pivot": {
+            "x": 438.8,
+            "y": 530.8
+          },
+          "grip": {
+            "x": 383.19024390243897,
+            "y": 338.21463414634144
+          },
+          "tip": {
+            "x": 167.87349479859537,
+            "y": 233.40390037474032
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-b.png",
+          "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+          "componentBox": {
+            "left": 26,
+            "top": 176,
+            "width": 675,
+            "height": 476
+          },
+          "sourceFoot": [
+            421,
+            640
+          ],
+          "sourceGrip": [
+            326,
+            311
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -190.92224644764403,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "4ce26ed1e24c4325f8d7915bcb740a3b48b2cdc1cc5e0deb0b317444f5f01948",
+          "file": "assets/frames/combo-05.png"
+        },
+        {
+          "id": "combo-06",
+          "index": 5,
+          "pivot": {
+            "x": 377.2,
+            "y": 630.8
+          },
+          "grip": {
+            "x": 426.95609756097565,
+            "y": 303.58048780487803
+          },
+          "tip": {
+            "x": 267.05677113420757,
+            "y": 125.81897976010286
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-b.png",
+          "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+          "componentBox": {
+            "left": 681,
+            "top": 7,
+            "width": 565,
+            "height": 638
+          },
+          "sourceFoot": [
+            951,
+            621
+          ],
+          "sourceGrip": [
+            1036,
+            62
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -168.92224644764403,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "64f6c4ee7511a82d10a0a253108258fd9361b751cadd7c5acde2cc82d3c35753",
+          "file": "assets/frames/combo-06.png"
+        },
+        {
+          "id": "combo-07",
+          "index": 6,
+          "pivot": {
+            "x": 324.4,
+            "y": 523.5999999999999
+          },
+          "grip": {
+            "x": 441.4731707317072,
+            "y": 418.819512195122
+          },
+          "tip": {
+            "x": 634.9836416886376,
+            "y": 559.2534235887495
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-b.png",
+          "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+          "componentBox": {
+            "left": 38,
+            "top": 665,
+            "width": 607,
+            "height": 560
+          },
+          "sourceFoot": [
+            366,
+            1205
+          ],
+          "sourceGrip": [
+            566,
+            1026
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -0.9222464476440209,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "ed2f74f7315c0582a48f1e8862d2d18df88d944434c12ab19f12e848eed72482",
+          "file": "assets/frames/combo-07.png"
+        },
+        {
+          "id": "combo-08",
+          "index": 7,
+          "pivot": {
+            "x": 321.4,
+            "y": 515.2
+          },
+          "grip": {
+            "x": 427.3512195121951,
+            "y": 351.8829268292683
+          },
+          "tip": {
+            "x": 642.7265052014046,
+            "y": 456.79609962525967
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-combo-b.png",
+          "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+          "componentBox": {
+            "left": 652,
+            "top": 762,
+            "width": 602,
+            "height": 465
+          },
+          "sourceFoot": [
+            989,
+            1218
+          ],
+          "sourceGrip": [
+            1170,
+            939
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -10.92224644764402,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "a6b787599193050d7e767e6f2d140bc4293b4c8c9c6d94388b9ba98e3c24d4bc",
+          "file": "assets/frames/combo-08.png"
+        }
+      ]
     }
   },
   "effects": {
@@ -1353,13 +1692,13 @@
         }
       ]
     },
-    "attack": {
-      "url": "assets/sources/fx-attack.png",
+    "cut-v2": {
+      "url": "assets/sources/fx-cut-v2.png",
       "columns": 4,
       "rows": 3,
       "width": 1448,
       "height": 1086,
-      "sha256": "183f5c2106040a1f9dfe998448db32cfb08d40bdd18517bfdac60fee335681ec",
+      "sha256": "6b5eafa9bd57de48a36edb21bebf3d8cdc26f7323c3a95d46fa7cd382d8cd400",
       "frames": [
         {
           "index": 0,
@@ -1471,156 +1810,356 @@
         }
       ]
     },
-    "skill": {
-      "url": "assets/sources/fx-skill.png",
+    "cross-v2": {
+      "url": "assets/sources/fx-cross-v2.png",
       "columns": 4,
-      "rows": 4,
-      "width": 1254,
-      "height": 1254,
-      "sha256": "05ea491371992777e4f5acde14316d64e1ad23a9aae02182f4ba0680278ec3ca",
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "acf37299f3770348b6d2450fd10be30d2fbacf84ac3956ffc266eaf362259abd",
       "frames": [
         {
           "index": 0,
           "rect": {
             "x": 0,
             "y": 0,
-            "width": 314,
-            "height": 314
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 1,
           "rect": {
-            "x": 314,
+            "x": 362,
             "y": 0,
-            "width": 313,
-            "height": 314
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 2,
           "rect": {
-            "x": 627,
+            "x": 724,
             "y": 0,
-            "width": 314,
-            "height": 314
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 3,
           "rect": {
-            "x": 941,
+            "x": 1086,
             "y": 0,
-            "width": 313,
-            "height": 314
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 4,
           "rect": {
             "x": 0,
-            "y": 314,
-            "width": 314,
-            "height": 313
+            "y": 362,
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 5,
           "rect": {
-            "x": 314,
-            "y": 314,
-            "width": 313,
-            "height": 313
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 6,
           "rect": {
-            "x": 627,
-            "y": 314,
-            "width": 314,
-            "height": 313
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 7,
           "rect": {
-            "x": 941,
-            "y": 314,
-            "width": 313,
-            "height": 313
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 8,
           "rect": {
             "x": 0,
-            "y": 627,
-            "width": 314,
-            "height": 314
+            "y": 724,
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 9,
           "rect": {
-            "x": 314,
-            "y": 627,
-            "width": 313,
-            "height": 314
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 10,
           "rect": {
-            "x": 627,
-            "y": 627,
-            "width": 314,
-            "height": 314
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
           }
         },
         {
           "index": 11,
           "rect": {
-            "x": 941,
-            "y": 627,
-            "width": 313,
-            "height": 314
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
           }
-        },
+        }
+      ]
+    },
+    "cleave-v2": {
+      "url": "assets/sources/fx-cleave-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "69e672c83af2c7cdcf15598441ad0fe22da9510ba8df2e98af4b311720144380",
+      "frames": [
         {
-          "index": 12,
+          "index": 0,
           "rect": {
             "x": 0,
-            "y": 941,
-            "width": 314,
-            "height": 313
+            "y": 0,
+            "width": 362,
+            "height": 362
           }
         },
         {
-          "index": 13,
+          "index": 1,
           "rect": {
-            "x": 314,
-            "y": 941,
-            "width": 313,
-            "height": 313
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
           }
         },
         {
-          "index": 14,
+          "index": 2,
           "rect": {
-            "x": 627,
-            "y": 941,
-            "width": 314,
-            "height": 313
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
           }
         },
         {
-          "index": 15,
+          "index": 3,
           "rect": {
-            "x": 941,
-            "y": 941,
-            "width": 313,
-            "height": 313
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        }
+      ]
+    },
+    "ground-v2": {
+      "url": "assets/sources/fx-ground-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "3cb4b4c1fb7499c43b02cc2c65c25bd8db21d460867e3beb41eff1c2055fcd3d",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
           }
         }
       ]
@@ -1636,8 +2175,8 @@
     "enabled": false
   },
   "summary": {
-    "bodyFrames": 24,
-    "effectFrames": 40,
+    "bodyFrames": 32,
+    "effectFrames": 60,
     "weaponSources": 1,
     "weaponRedraws": 0
   }

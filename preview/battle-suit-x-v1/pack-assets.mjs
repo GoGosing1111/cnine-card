@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 const root=new URL('./',import.meta.url),file=p=>fileURLToPath(new URL(p,root)),hash=b=>createHash('sha256').update(b).digest('hex');
 const definitions=JSON.parse(await fs.readFile(file('pose-registration.json'))),blade=await fs.readFile(file('assets/locked/approved-blade.png')),locked=JSON.parse(await fs.readFile(file('assets/locked/blade-provenance.json')));
 if(hash(blade)!==locked.sha256)throw Error('Locked blade changed');
-const manifest={version:'BATTLE_SUIT_X_REVIEW_20260927_V1',status:'USER_REVIEW_PENDING',runtimeEnabled:false,sourceArt:'assets/sources/x-body-sword-approved-v1.png',weapon:{...locked,url:'assets/locked/approved-blade.png',drawingPolicy:'ONE_IMMUTABLE_ORIGINAL_RASTER'},motion:{},effects:{},runtime:{pixi:'8.20.0',gsap:'3.13.0',engine:'preview/project-v-v3/source/battle/BattleEngine.js',clock:'V3_REGISTERED_GSAP'},audio:{enabled:false}};
+const manifest={version:'BATTLE_SUIT_X_REVIEW_20260927_V2',status:'USER_REVIEW_PENDING',runtimeEnabled:false,sourceArt:'assets/sources/x-body-sword-approved-v1.png',weapon:{...locked,url:'assets/locked/approved-blade.png',drawingPolicy:'ONE_IMMUTABLE_ORIGINAL_RASTER'},motion:{},effects:{},runtime:{pixi:'8.20.0',gsap:'3.13.0',engine:'preview/project-v-v3/source/battle/BattleEngine.js',clock:'V3_REGISTERED_GSAP'},audio:{enabled:false}};
 await fs.mkdir(file('assets/atlases'),{recursive:true});await fs.mkdir(file('assets/frames'),{recursive:true});await fs.mkdir(file('assets/thumbs'),{recursive:true});
 function components(data,w,h){
  const seen=new Uint8Array(w*h),q=new Int32Array(w*h),out=[];
@@ -19,7 +19,7 @@ function components(data,w,h){
  }
  return out.sort((a,b)=>Math.floor((a.box.top+a.box.height/2)/(h/2))-Math.floor((b.box.top+b.box.height/2)/(h/2))||a.box.left-b.box.left);
 }
-const rows={dash:[],attack:[],skill:[]};
+const rows={dash:[],attack:[],skill:[],combo:[]};
 for(const [key,def]of Object.entries(definitions)){
  const source=await fs.readFile(file('assets/sources/body-'+key+'.png'));
  const {data,info}=await sharp(source).ensureAlpha().raw().toBuffer({resolveWithObject:true});
@@ -58,10 +58,10 @@ for(const [key,frames]of Object.entries(rows)){
  const out=await sharp({create:{width:3072,height:1536,channels:4,background:'#00000000'}}).composite(frames.map((f,i)=>({input:f.frame,left:i%4*768,top:Math.floor(i/4)*768}))).png().toBuffer();
  const url='assets/atlases/'+key+'.png';await fs.writeFile(file(url),out);manifest.motion[key]={url,columns:4,rows:2,frameWidth:768,frameHeight:768,bodyPixels:360,sha256:hash(out),frames:frames.map(f=>f.entry)};
 }
-for(const [key,grid]of Object.entries({dash:[4,3],attack:[4,3],skill:[4,4]})){
+for(const [key,grid]of Object.entries({dash:[4,3],'cut-v2':[4,3],'cross-v2':[4,3],'cleave-v2':[4,3],'ground-v2':[4,3]})){
  const url='assets/sources/fx-'+key+'.png',bytes=await fs.readFile(file(url)),m=await sharp(bytes).metadata();
  manifest.effects[key]={url,columns:grid[0],rows:grid[1],width:m.width,height:m.height,sha256:hash(bytes),frames:Array.from({length:grid[0]*grid[1]},(_,i)=>{const x=Math.round(i%grid[0]*m.width/grid[0]),y=Math.round(Math.floor(i/grid[0])*m.height/grid[1]);return{index:i,rect:{x,y,width:Math.round((i%grid[0]+1)*m.width/grid[0])-x,height:Math.round((Math.floor(i/grid[0])+1)*m.height/grid[1])-y}};})};
 }
-manifest.summary={bodyFrames:24,effectFrames:40,weaponSources:1,weaponRedraws:0};
+manifest.summary={bodyFrames:Object.values(rows).reduce((n,s)=>n+s.length,0),effectFrames:Object.values(manifest.effects).reduce((n,s)=>n+s.frames.length,0),weaponSources:1,weaponRedraws:0};
 await fs.writeFile(file('manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify({summary:manifest.summary,frames:Object.fromEntries(Object.entries(rows).map(([k,v])=>[k,v.map(f=>({id:f.entry.id,pivot:f.entry.pivot,tip:f.entry.tip}))]))},null,2));

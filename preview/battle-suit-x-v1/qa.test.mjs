@@ -7,21 +7,23 @@ test('approved standing original unchanged and selected blade pixels copied exac
  for(let y=0;y<b.info.height;y++)for(let x=0;x<b.info.width;x++){const p=(y*b.info.width+x)*4;if(!b.data[p+3])continue;const q=((y+m.weapon.rect.top)*a.info.width+x+m.weapon.rect.left)*4;assert.deepEqual(b.data.subarray(p,p+4),a.data.subarray(q,q+4));compared++;}
  assert.ok(compared>25000);assert.equal(compared,m.weapon.copiedPixels);
 });
-test('all 24 posed composites lock to the same blade with uniform scaling and have clear borders',async()=>{
+test('all 32 posed composites lock to the same blade with uniform scaling and have clear borders',async()=>{
  const hashes=new Set();for(const spec of Object.values(m.motion)){assert.equal(spec.frames.length,8);for(const f of spec.frames){
   assert.equal(f.weapon.sourceSha256,m.weapon.sha256);assert.equal(f.weapon.redrawnPixels,0);assert.equal(f.weapon.uniformScale,600/1317*.6);
   const bytes=await fs.readFile(file(f.file));assert.equal(hash(bytes),f.sha256);hashes.add(f.sha256);const {data,info}=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});
   for(let x=0;x<info.width;x++){assert.equal(data[x*4+3],0);assert.equal(data[((info.height-1)*info.width+x)*4+3],0);}
   for(let y=0;y<info.height;y++){assert.equal(data[y*info.width*4+3],0);assert.equal(data[(y*info.width+info.width-1)*4+3],0);}
- }}assert.equal(hashes.size,24);
+ }}assert.equal(hashes.size,32);
 });
-test('40 independently drawn effect cells, RGBA assets, no repeated whole-image clones',async()=>{
+test('60 independently drawn effect cells, RGBA assets, no repeated whole-image clones',async()=>{
  for(const spec of Object.values(m.effects)){const bytes=await fs.readFile(file(spec.url)),meta=await sharp(bytes).metadata();assert.ok(meta.hasAlpha);const hashes=new Set();for(const f of spec.frames){const r=f.rect;hashes.add(hash(await sharp(bytes).extract({left:r.x,top:r.y,width:r.width,height:r.height}).raw().toBuffer()));}assert.equal(hashes.size,spec.frames.length);}
- assert.equal(Object.values(m.effects).reduce((n,s)=>n+s.frames.length,0),40);
+ assert.equal(Object.values(m.effects).reduce((n,s)=>n+s.frames.length,0),60);
 });
 test('authored contact frames and effect cleanup are sampled by one clock',()=>{
- assert.equal(sample('attack',MODES.attack.contact).frame,3);assert.equal(sample('skill',MODES.skill.contact).frame,5);
- for(const [key,s]of Object.entries(MODES)){assert.equal(sample(key,0).effects.length,0);assert.equal(sample(key,s.duration).effects.length,0);for(const at of s.steps){assert.ok(sample(key,at).frame>=0);}}
+ assert.equal(sample('attack',MODES.attack.contact).pose.index,1);assert.equal(sample('skill',MODES.skill.contact).pose.index,7);
+ assert.equal(MODES.skill.contacts.length,6);
+ for(const at of MODES.skill.contacts){const s=sample('skill',at);assert.equal(s.lift,0);assert.equal(s.pose.bank,'combo');}
+ for(const [key,s]of Object.entries(MODES)){assert.equal(sample(key,0).effects.length,0);assert.equal(sample(key,s.duration).effects.length,0);assert.equal(Boolean(sample(key,s.duration).ghosts),false);for(const p of s.poses){assert.ok(m.motion[p.bank].frames[p.index]);}}
 });
 test('review remains isolated and imports one shared runtime',async()=>{
  assert.equal(m.runtimeEnabled,false);const report=await read('build-report.json');assert.equal(report.pixiCopies,1);assert.equal(report.gsapCopies,1);
