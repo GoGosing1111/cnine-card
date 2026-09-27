@@ -29,3 +29,4 @@
 - 테스트 파일: `mercenary-acquisition-stop-20260927`, `jjok-berkan-cryvern-20260927`, `mercenary-draw-weighted-v1`, `mercenary-draw-cms-v1`, `mercenary-account-v3`, `mercenary-fusion-eight`, `mercenary-fusion-transactions`, `mercenary-ss-once-v2104`, `mercenary-cryvern-release`, `mercenary-berkan-live`, `mercenary-message-reward`, `pink-cryvern-grant-20260924`, `heeya-cryvern-grant-20260925`, `chuseok-story-winners-20260925` (`tests/*.test.mjs`). Worker 컴파일 및 배포 도구의 필수 출시/캐시/Hyperdrive 검사를 포함한다.
 - 실제 CMS 편집기와 저장 핸들러를 격리 PostgreSQL에 연결하여 ON 변경·가중치 저장·OFF 저장·재조회 유지 검증. PC/모바일에서 기존 CMS 스타일을 포함한 화면의 체크박스·숫자 입력·저장 버튼 및 가로 넘침 없음 확인.
 - 배포 후 변경 파일과 운영 V-055=0, 보존된 타 정책, 감사 이력만 확인한다. 최종 배포 결과는 아래에 추가한다.
+- 첫 범위 검사 141건 중 140건 통과. 기존 CMS 확률 테스트의 임의 등급 fixture가 베르칸과 크라이베른을 다른 등급에 놓아 등록 기본값 검사에서 실패했다. 실제 SSS 네 종을 같은 등급으로 수정했다. 런타임 변경 없이 해당 `mercenary-draw-cms-v1.test.mjs`만 재실행하고, 이미 통과한 나머지 파일은 반복하지 않는다.
