@@ -16,8 +16,10 @@ function harness(id,count=1){
 }
 test('explicit balance operation preserves ranks, assignments, rules and notes; rejects catalog drift',()=>{
  const original=structuredClone(seed.document),result=applyMercenaryBalanceV2097(original,seed.catalog);
- assert.equal(result.skills.length,34);assert.equal(new Set(proposals.map(s=>s.id)).size,26);
+ assert.equal(result.skills.length,35);assert.equal(new Set(proposals.map(s=>s.id)).size,26);
  assert.deepEqual(result.skills.find(s=>s.id==='MS-050'),original.skills.find(s=>s.id==='MS-050'),'released Sniper Orikkung keeps its separately approved balance');
+ assert.ok(original.skills.some(s=>s.id==='MS-055'),'registered Berkan is included in the 35-skill catalog');
+ assert.deepEqual(result.skills.find(s=>s.id==='MS-055'),original.skills.find(s=>s.id==='MS-055'),'Berkan keeps its separately approved balance');
  assert.deepEqual(result.mercenaries,original.mercenaries);assert.deepEqual(result.assignments,original.assignments);
  for(const row of result.skills){const before=original.skills.find(s=>s.id===row.id);assert.deepEqual({...row,balance:before.balance,review:before.review},before);assert.equal(row.review,'REVIEWED');}
  assert.deepEqual(original,seed.document);
