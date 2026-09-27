@@ -14,59 +14,59 @@
       "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-1024.webp",
       "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-640.webp",
       "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/joeun-equipment-v1-640.webp",
-      "equipmentSource": "preview/avatar-clan-hanbok-v1/assets/joeun-equipment-source-art-v2.png",
-      "equipmentSha256": "5ce4cf5a242ed505f8070a23ce8cc5cc13208ec8d82a87c4d94b056a113d420e",
-      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-source-art-v2.png",
-      "lobbySha256": "edb2dbc125393006256e9d9314699a9e0cc62fa617f262d05c687e6b41969092",
+      "equipmentSource": "preview/avatar-clan-hanbok-v1/assets/joeun-equipment-source-art-v3.png",
+      "equipmentSha256": "9d156b03e308116562aacc7117e7ae990903e56becf706aa233823eb626cb7a6",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-source-art-v3.png",
+      "lobbySha256": "cb232c4022e144829e2e3efa2c2f1954677390b103d7d64d83e5af8eaf31cf35",
       "runtime": {
         "width": 640,
         "height": 1664,
         "crop": {
-          "left": 262,
-          "top": 0,
-          "width": 522,
-          "height": 1523
+          "left": 270,
+          "top": 6,
+          "width": 479,
+          "height": 1506
         },
         "scale": 1,
-        "bodyWidth": 522,
-        "bodyHeight": 1523,
+        "bodyWidth": 479,
+        "bodyHeight": 1506,
         "top": 24,
-        "bottom": 117
+        "bottom": 134
       },
       "alpha": {
-        "clear": 1180469,
-        "solid": 353215,
+        "clear": 1197399,
+        "solid": 333330,
         "border": 0
       },
       "files": {
         "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-1024.webp": {
-          "sha256": "6de83e19ed7b3cc9bf2a2a7735404ea8b345c48b8c9522a6564b289cb6728688",
-          "bytes": 364318,
+          "sha256": "743a5e8bd02c3e05da30ffe8502a47642e5214430b8605ed04c95228d6ba2ca0",
+          "bytes": 370272,
           "width": 1024,
           "height": 1536,
           "hasAlpha": false
         },
         "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-640.webp": {
-          "sha256": "fa27ec6a03d9bfbf3edebf01b64efbf9999003c05a051cf243988df5e05c2a36",
-          "bytes": 189784,
+          "sha256": "f56000ea9a4d5f8edada6447676d9302f12f139bbd0e43546dd20fa70d1e3cfa",
+          "bytes": 190302,
           "width": 640,
           "height": 960,
           "hasAlpha": false
         },
         "preview/avatar-clan-hanbok-v1/assets/joeun-equipment-v1-640.webp": {
-          "sha256": "ab00d5be8f59f5c8ce109c1d5b8dbccaba729154f5d16d671867f88b3ab47f44",
-          "bytes": 158984,
+          "sha256": "a236dd64c337b0b42f86a4bbd4dfc69cea3d22ef0d25d4dff8e92053aef7be75",
+          "bytes": 149988,
           "width": 640,
           "height": 1664,
           "hasAlpha": true
         }
       },
       "artRevision": {
-        "id": "joeun-balance-v2",
+        "id": "joeun-balance-v3",
         "date": "2026-09-28",
-        "authorization": "한복 조은 좌우 가슴 균형 보정",
+        "authorization": "한복 조은 좌우 균형을 위해 상체 정면 재작화",
         "generator": "built-in image_gen",
-        "prompts": "joeun-balance-v2.prompts.json"
+        "prompts": "joeun-balance-v3.prompts.json"
       }
     },
     {

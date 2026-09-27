@@ -1,0 +1,28 @@
+{
+  "request": "그림 다시 그려. 가슴 좌우 균형을 맞출 것.",
+  "date": "2026-09-28",
+  "generator": "built-in image_gen",
+  "supersedes": {
+    "id": "joeun-balance-v2",
+    "status": "USER_REJECTED",
+    "reason": "사용자가 여전히 좌우 불균형으로 판단하여 재작화를 지시함. 원본은 보존."
+  },
+  "entries": [
+    {
+      "role": "frontal lobby redraw",
+      "input": "assets/joeun-lobby-source-art-v1.png",
+      "output": "assets/joeun-lobby-source-art-v3.png",
+      "generatedFile": "exec-6385c9ef-3706-416e-a62b-8aa884dc79e2.png",
+      "transparent_background": false,
+      "prompt": "REDRAW THIS CHARACTER, especially the entire upper body. The user has rejected the lopsided chest repeatedly. Use the supplied image only to preserve the adult woman's recognizable face, long black hair, black/red hanbok design, red embroidered short skirt, jade tassel, red-black high heels, refined 2D semi-real Korean game illustration and autumn hanok courtyard. Do not preserve the old torso pose or its asymmetric black bodice. NEW POSE: her torso and chest are perfectly frontal facing the camera, vertical centerline, shoulders level, no torso twist, both upper arms relaxed symmetrically downward and hands gently resting alongside the skirt (neither hand on hip). Hair falls mainly behind the shoulders, exposing both black-clothed chest outlines equally. DRAW A NEW BODICE with exactly matching left and right breast size, width, forward projection and vertical height under the opaque fabric, moderate natural volume. The black blouse silhouette on either side of its centerline must be mirror-balanced. Match the highlight and shadow strength on both sides so neither appears flat, low or smaller. Avoid one pronounced half-sphere beside one flat panel. Two clearly equal gently rounded fabric forms, level underbust seam, equally curved tailoring darts. Keep the red bow centered on the sternum and its ribbons narrow/centered so the two sides remain equally visible. Keep the neckline closed with the same white and red trim, no cleavage or extra exposed chest. The decorative embroidery can remain asymmetric but the anatomy and volume must be unmistakably equal. Attractive adult face, elegant full-length figure, both hands and feet fully in frame, natural proportions, same black/red hanbok materials. Retain the warm autumn Korean courtyard background. Recompose as needed to obtain an unambiguous front-facing balanced chest, not another tiny shading edit. One finished illustration, 1024x1536 portrait, no text, logos, UI or comparison panels."
+    },
+    {
+      "role": "equipment cutout of new frontal artwork",
+      "input": "assets/joeun-lobby-source-art-v3.png",
+      "output": "assets/joeun-equipment-source-art-v3.png",
+      "generatedFile": "exec-989ac088-4354-47d3-8605-c8aa783f31d1.png",
+      "transparent_background": true,
+      "prompt": "Create a precise transparent-background cutout of the SAME adult female game character in this supplied finished illustration. Remove ONLY the autumn courtyard background, all scenery and floor, preserving the newly drawn character exactly. Keep the perfectly front-facing torso, level shoulders, both arms relaxed down, identical face and long black hair behind the shoulders, opaque black/red hanbok, white closed collar, centered red ribbon, red embroidered short skirt, jade tassel, legs and both red-black heels. CRITICAL: do not alter the newly balanced bodice anatomy: both clothed chest sides must retain the same rounded volume, width and vertical height, with matching fabric highlights, no torso turn, no hand on hip, no flattened chest on one side. No new skin exposure or costume changes. Keep the original pose, proportions, colors, painting quality and full-body framing from hair to soles, with small transparent padding around every edge. True RGBA alpha background, no checkerboard, no colored backdrop, no ground shadow, no halo, no text. Output 1024x1536 PNG. This is an exact character isolation for the equipment screen, not a redesign."
+    }
+  ]
+}

@@ -27,4 +27,4 @@ for(const entry of source.entries){
 await writeFile(new URL('manifest.json',dir),JSON.stringify({id:'clan-avatar-hanbok-live-v1',date:'2026-09-27',authorization:'현재 클랜 아바타 전체를 준비한 한복으로 교체. 장비창 리소스도 준비.',generator:'built-in image_gen (8 lobby scenes); prepared equipment masters retained',equipmentDerivatives:'Uniform resize and transparent padding using the previous per-character runtime canvas; no redrawing or background removal',entries},null,2)+'\n');
 console.log('Built and checked '+entries.length+' matching lobby/equipment sets');
 // Preserve the user's later, local chest-balance correction on a full rebuild.
-await import('./apply-joeun-balance-v2.mjs');
+await import('./apply-joeun-balance-v3.mjs');

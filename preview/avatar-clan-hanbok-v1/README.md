@@ -1,10 +1,18 @@
 # 클랜 한복 — 로비·장비창 운영 리소스
 
-## 조은 좌우 균형 보정 — 2026-09-28
+## 조은 정면 재작화 V3 — 2026-09-28
 
-- 사용자 요청으로 조은의 검은 저고리 아래 좌우 가슴 볼륨·높이와 옷의 음영을 맞췄다. 얼굴·포즈·한복 구성과 한옥 배경은 유지하는 국소 편집이며, built-in `image_gen`을 사용했다.
+- V2의 국소 보정은 사용자에게 좌우 불균형으로 다시 반려됐다. V3는 상체를 정면으로 재작화하고 어깨 높이·좌우 옷 볼륨을 맞췄다. 양팔을 내리고 머리카락을 어깨 뒤로 보내 가슴 양쪽 실루엣을 동일하게 확인할 수 있게 했다. 얼굴, 검정·빨강 한복 구성, 자수·노리개와 가을 한옥 분위기를 계승했다.
+- built-in `image_gen`으로 `assets/joeun-lobby-source-art-v3.png`를 다시 그리고, 그 결과에서 배경만 제거해 `assets/joeun-equipment-source-art-v3.png`를 만들었다. 실제 프롬프트·입출력은 `joeun-balance-v3.prompts.json`에 기록했다. V1·V2 파일은 보존한다.
+- `node preview/avatar-clan-hanbok-v1/apply-joeun-balance-v3.mjs`로 조은 PC/모바일 로비·장비창 3개만 파생한다. 전체 빌더도 마지막에 V3를 적용한다. 런타임 경로와 캔버스 규격, 다른 7종 자산·매니페스트 항목은 유지한다.
+- 직전 운영 커밋은 `6d5c5e10c17fc85e63bf089a5893df38d0dac87e`, Pages는 `https://b3937059.cnine-card.pages.dev`다. 한복 자산 해시·규격·투명도·잘림·CMS 썸네일 연결을 검증하는 `tests/clan-avatar-hanbok-assets-20260927.test.mjs`만 지정해 scoped 배포한다. 배포 과정에서 한 번 실행하며 전체 게임 검사는 실행하지 않는다.
+- 배포 후 확인은 변경된 3개 WebP의 HTTP 응답과 매니페스트 해시 일치로 한정한다. DB·장착·소유권·기한·효과 변경이나 지급 재실행은 없다.
+
+## V2 기록 — 사용자 반려·V3로 대체
+
+- 사용자 요청으로 조은의 검은 저고리 음영을 국소 편집했으나, 사용자가 여전히 좌우 불균형을 지적했다. built-in `image_gen`을 사용한 V2는 보존 기록이며 현재 적용 대상이 아니다.
 - 원본 V1 두 장은 그대로 보존하고 `assets/joeun-equipment-source-art-v2.png`, `assets/joeun-lobby-source-art-v2.png`를 별도 저장했다. 최종 입력·출력·프롬프트는 `joeun-balance-v2.prompts.json`에 있다.
-- `node preview/avatar-clan-hanbok-v1/apply-joeun-balance-v2.mjs`는 조은의 PC/모바일 로비·장비창 WebP 3개와 해당 매니페스트 항목만 갱신한다. 기존 전체 빌더도 마지막에 이 보정을 적용해 V1로 되돌리지 않는다. 다른 7종 원화·파생물은 변경하지 않는다.
+- `apply-joeun-balance-v2.mjs`는 당시 재현용 보존 스크립트다. 현재는 V3 스크립트를 사용한다.
 - 기존 운영 이미지 경로와 장비창 640×1664 캔버스를 유지한다. DB·장착·소유권·기한·효과 및 게임 로직 변경은 없다. `/preview/*`의 ETag 재검증과 서비스워커 이미지 갱신 정책을 사용한다.
 - 관련 검사는 조은 원화/장비창 투명도·여백·크기·해시와 기존 한복 자산 연결 검사로 제한한다. 전체 게임 검사는 실행하지 않는다.
 - 직전 운영 소스는 `74d6f8640818bc149236e9c92b3b92a6866de5d2`(Pages `09c37fbc-6b2e-4e30-88e6-7431c795c535`). 그 이후 main에 이미 있던 운영 스크립트·테스트 파일이 자산 전용 명령의 허용 범위 밖이므로, 한복 자산 검사만 지정한 `deploy:production -- --scoped`를 사용한다.
