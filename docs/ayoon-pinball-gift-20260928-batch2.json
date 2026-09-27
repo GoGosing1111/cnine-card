@@ -1,0 +1,68 @@
+{
+  "operationKey": "ops:ayoon-pinball-gift:20260928:v1:af547965cb5d7bebca50d877",
+  "campaignKey": "ayoon-pinball-gift-20260928-v1",
+  "title": "아윤방 핀볼 이벤트",
+  "body": "아윤방 핀볼 이벤트",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "count": 2,
+  "recipientHash": "af547965cb5d7bebca50d87732fe9288686ac3794dd19b2cb1e85f11ec1ccbfa",
+  "recipients": [
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "soop": "응맨♡"
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "soop": "#으악"
+    }
+  ],
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "actor": "SYSTEM_OPS",
+  "authorization": "명단 대조 후 아윤방 핀볼 이벤트 메시지로 계정당 1개 추가 지급. 횟수 무관. 오늘 지급내역 있어도 지급하라고 총2회야",
+  "completedAt": "2026-09-27T15:28:07.290Z",
+  "auditId": "36586",
+  "verification": {
+    "messages": 2,
+    "rewards": 2,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0,
+    "rows": [
+      {
+        "message_id": "165162",
+        "user_id": "4572",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163065",
+        "reward_user_id": "4572",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165163",
+        "user_id": "5010",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163066",
+        "reward_user_id": "5010",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      }
+    ]
+  },
+  "identityAuthorization": "동일인 맞아 지급하고 명단 다시 줘"
+}

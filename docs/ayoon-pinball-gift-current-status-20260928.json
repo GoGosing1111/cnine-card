@@ -1,0 +1,324 @@
+{
+  "updatedAt": "2026-09-27T15:28:07.290Z",
+  "campaignKey": "ayoon-pinball-gift-20260928-v1",
+  "title": "아윤방 핀볼 이벤트",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantityEach": 1,
+  "counts": {
+    "paid": 53,
+    "pending": 10
+  },
+  "recipients": [
+    {
+      "id": "3",
+      "nickname": "ε연두з",
+      "soop": "비숑."
+    },
+    {
+      "id": "19",
+      "nickname": "토닭토닭",
+      "soop": "토닭토닭"
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "soop": "[C9]오승환"
+    },
+    {
+      "id": "32",
+      "nickname": "쑤댕",
+      "soop": "망쑤니"
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "soop": "빡세라-ㅁ-"
+    },
+    {
+      "id": "52",
+      "nickname": "폭군#",
+      "soop": "폭군#"
+    },
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "soop": "소중도중"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "soop": "숭한놈"
+    },
+    {
+      "id": "71",
+      "nickname": "진땅콩_",
+      "soop": "패드구"
+    },
+    {
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "soop": "비쥬얼깡패"
+    },
+    {
+      "id": "87",
+      "nickname": "설윤이",
+      "soop": "STARRR0"
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "soop": "0수표"
+    },
+    {
+      "id": "148",
+      "nickname": "혜루",
+      "soop": "혜루1"
+    },
+    {
+      "id": "162",
+      "nickname": "차단하다",
+      "soop": "숲에사는족구"
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "soop": "#초월"
+    },
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "soop": "늘그니생키"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "soop": "Sooya.."
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "soop": "tmxkzmfovmxm"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "soop": "족치기족치기"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "soop": "적별"
+    },
+    {
+      "id": "521",
+      "nickname": "대저동토마토",
+      "soop": "대져동토마토"
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "soop": "족구쪼아"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "soop": "гain"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "soop": "코파먹는성태"
+    },
+    {
+      "id": "1768",
+      "nickname": "hhhhhaa",
+      "soop": "핫시:D"
+    },
+    {
+      "id": "1843",
+      "nickname": "흐린눈깔",
+      "soop": "흐린눈깔"
+    },
+    {
+      "id": "2246",
+      "nickname": "옹가망함1",
+      "soop": "날종"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "soop": "블랙캐슬"
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "soop": "츠츠_"
+    },
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "soop": "딸기찾는철구"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "soop": "z7005z"
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "soop": "스프°"
+    },
+    {
+      "id": "4235",
+      "nickname": "도댕",
+      "soop": "도댕.."
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "soop": "탱탱노"
+    },
+    {
+      "id": "4408",
+      "nickname": "레가파",
+      "soop": "하랑짱의여니"
+    },
+    {
+      "id": "4501",
+      "nickname": "장씨아저씨",
+      "soop": "장씨아저씨"
+    },
+    {
+      "id": "4504",
+      "nickname": "깜찍소녀",
+      "soop": "깜찍소녀"
+    },
+    {
+      "id": "4552",
+      "nickname": "치옹스",
+      "soop": "특수기동타격"
+    },
+    {
+      "id": "4562",
+      "nickname": "찡찡ෆ",
+      "soop": "♥찡찡"
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "soop": "혜정♪"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "soop": "응맨♡"
+    },
+    {
+      "id": "4580",
+      "nickname": "CHO22",
+      "soop": "CHO22"
+    },
+    {
+      "id": "4595",
+      "nickname": "비니",
+      "soop": "[C9]비니"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "soop": "암살자.."
+    },
+    {
+      "id": "4621",
+      "nickname": "리이렐",
+      "soop": "리이렐"
+    },
+    {
+      "id": "4625",
+      "nickname": "제롬",
+      "soop": "제롬3"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "soop": "학벌"
+    },
+    {
+      "id": "4647",
+      "nickname": "피카츄",
+      "soop": "[C9]피카츄v"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "soop": "세라네꼬라지"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "soop": "˚쟁이。"
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "soop": "음주플레이어"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "soop": "딤키우기"
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "soop": "#으악"
+    }
+  ],
+  "pending": [
+    {
+      "soop": "족쌤",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "[C9]플랜비",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "#LafeStar",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "탁래",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "네이아네이",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "Lillie7",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "눈을감자12",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "허거덩덩쓰",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "김포카",
+      "reason": "정확한 게임 계정 미확인"
+    },
+    {
+      "soop": "형관펜",
+      "reason": "정확한 게임 계정 미확인"
+    }
+  ],
+  "operationKeys": [
+    "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
+    "ops:ayoon-pinball-gift:20260928:v1:af547965cb5d7bebca50d877"
+  ]
+}
