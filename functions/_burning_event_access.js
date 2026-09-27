@@ -1,15 +1,9 @@
-export const BURNING_EVENT_OPERATOR_NICKNAME = '핑크빛유두';
 export const BURNING_EVENT_DURATION_MINUTES = Object.freeze([30, 60, 120]);
 export const BURNING_EVENT_DEFAULT_DURATION_MINUTES = 60;
 
-export function normalizeBurningOperatorNickname(value = '') {
-  return String(value ?? '');
-}
-
 export function canManageBurningEvent(user) {
   const role = String(user?.role || '').trim().toUpperCase();
-  const nickname = normalizeBurningOperatorNickname(user?.nickname);
-  return role === 'OWNER' && nickname === BURNING_EVENT_OPERATOR_NICKNAME;
+  return role === 'OWNER';
 }
 
 export function isBurningEventDurationMinutes(value) {

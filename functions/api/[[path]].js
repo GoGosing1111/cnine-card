@@ -8649,7 +8649,7 @@ async function handleRequest(context){
     }
     if(path==='admin/burning-event'||path==='admin/hyper-burning-event'){
       const admin=await authenticate(request,env);if(!admin)return json({error:'관리자 로그인이 필요합니다.'},401);
-      if(!canManageBurningEvent(admin))return json({error:'버닝·하이퍼 버닝 관리는 OWNER 핑크빛유두 계정 전용입니다.',code:'BURNING_OPERATOR_ONLY'},403);
+      if(!canManageBurningEvent(admin))return json({error:'버닝·하이퍼 버닝 관리는 OWNER 계정 전용입니다.',code:'BURNING_OPERATOR_ONLY'},403);
       const isHyper=path==='admin/hyper-burning-event',mode=isHyper?'HYPER':'BURNING',metaKey=isHyper?HYPER_BURNING_EVENT_META_KEY:BURNING_EVENT_META_KEY,otherKey=isHyper?BURNING_EVENT_META_KEY:HYPER_BURNING_EVENT_META_KEY;
       if(request.method==='GET'){
         const pair=await burningEventPair(env,{fresh:true}),settings=isHyper?pair.hyper:pair.normal;

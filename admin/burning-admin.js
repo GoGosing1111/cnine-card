@@ -1,7 +1,6 @@
 (()=>{
   const $=selector=>document.querySelector(selector);
   const SYNC_KEY='cnine:burning-event-sync-v1310';
-  const OPERATOR_NICKNAME='핑크빛유두';
   const ALLOWED_DURATIONS=Object.freeze([30,60,120]);
   const stateByPrefix={burning:null,hyperBurning:null};
   let activeMode='NONE',serverOffsetMs=0,loadSequence=0,saveSequence=0,saveLocked=false,accessAllowed=false,identityKey='',countdownTimer=null,expiryRefreshPending=false;
@@ -14,7 +13,7 @@
     if(!$('#burningCmsAccessState')){
       const notice=document.createElement('div');
       notice.id='burningCmsAccessState';notice.className='inlineNotice burningAccessNotice';
-      notice.textContent='버닝 전용 운영 계정을 확인하는 중입니다.';
+      notice.textContent='OWNER 권한을 확인하는 중입니다.';
       grid.before(notice);
     }
     for(const [prefix,enabledId] of [['burning','burningEnabled'],['hyperBurning','hyperBurningEnabled']]){
@@ -35,7 +34,7 @@
     const notice=$('#burningCmsAccessState');
     if(notice){
       notice.classList.toggle('allowed',accessAllowed);notice.classList.toggle('denied',!accessAllowed);
-      notice.textContent=message||(accessAllowed?'OWNER 핑크빛유두 전용 권한이 확인되었습니다.':'버닝·하이퍼 버닝은 OWNER 핑크빛유두 계정만 관리할 수 있습니다.');
+      notice.textContent=message||(accessAllowed?'OWNER 버닝·하이퍼 버닝 관리 권한이 확인되었습니다.':'버닝·하이퍼 버닝은 OWNER 계정만 관리할 수 있습니다.');
     }
   }
 
@@ -136,7 +135,7 @@
 
   async function save(hyper){
     if(saveLocked)return;
-    if(!accessAllowed)return alert('버닝·하이퍼 버닝은 OWNER 핑크빛유두 계정만 관리할 수 있습니다.');
+    if(!accessAllowed)return alert('버닝·하이퍼 버닝은 OWNER 계정만 관리할 수 있습니다.');
     const prefix=hyper?'hyperBurning':'burning',settings=draft(prefix),error=validate(settings,hyper);if(error)return alert(error);
     if(settings.enabled&&!confirm(`${hyper?'하이퍼 버닝':'기존 버닝'}을 ${durationLabel(settings.durationMinutes)} 동안 시작할까요?\n이미 진행 중이면 선택한 시간으로 타이머가 재시작되고, 다른 버닝은 자동으로 OFF 됩니다.`))return;
     saveLocked=true;const seq=++saveSequence;setSaveUi(hyper,'서버 시각으로 종료 타이머를 계산하고 있습니다.',false,true);
@@ -166,15 +165,15 @@
   function applyIdentity(identity={}){
     const role=String(identity.role||'').trim().toUpperCase(),nickname=String(identity.nickname||''),key=`${role}:${nickname}`;
     if(key===identityKey)return;identityKey=key;
-    const allowed=role==='OWNER'&&nickname===OPERATOR_NICKNAME;
-    setAccessUi(allowed,allowed?'OWNER 핑크빛유두 전용 권한이 확인되었습니다.':'버닝·하이퍼 버닝은 OWNER 핑크빛유두 계정만 관리할 수 있습니다.');
+    const allowed=role==='OWNER';
+    setAccessUi(allowed,allowed?'OWNER 버닝·하이퍼 버닝 관리 권한이 확인되었습니다.':'버닝·하이퍼 버닝은 OWNER 계정만 관리할 수 있습니다.');
     if(allowed)void load();
     else{clearInterval(countdownTimer);countdownTimer=null;setSaveUi(false,'접근 권한이 없습니다.',true);setSaveUi(true,'접근 권한이 없습니다.',true)}
   }
 
   function boot(){
     if(!ensureControlUi())return;
-    setAccessUi(false,'버닝 전용 운영 계정을 확인하는 중입니다.');
+    setAccessUi(false,'OWNER 권한을 확인하는 중입니다.');
     $('#saveBurningEventBtn')?.addEventListener('click',()=>save(false));
     $('#saveHyperBurningEventBtn')?.addEventListener('click',()=>save(true));
     window.addEventListener('soop:cms-identity',event=>applyIdentity(event.detail||{}));

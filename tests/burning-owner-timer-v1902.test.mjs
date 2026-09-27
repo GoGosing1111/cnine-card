@@ -5,7 +5,6 @@ import path from 'node:path';
 import {
   BURNING_EVENT_DEFAULT_DURATION_MINUTES,
   BURNING_EVENT_DURATION_MINUTES,
-  BURNING_EVENT_OPERATOR_NICKNAME,
   burningEventEndsAt,
   burningEventIsLive,
   canManageBurningEvent,
@@ -16,20 +15,17 @@ import {
 const root=path.resolve(import.meta.dirname,'..');
 const text=file=>readFile(path.join(root,file),'utf8');
 
-test('버닝 운영자는 정확한 OWNER 핑크빛유두 계정 한 명뿐이다',()=>{
-  assert.equal(BURNING_EVENT_OPERATOR_NICKNAME,'핑크빛유두');
-  assert.equal(canManageBurningEvent({role:'OWNER',nickname:'핑크빛유두'}),true);
-  assert.equal(canManageBurningEvent({role:'owner',nickname:'핑크빛유두'}),true);
+test('모든 OWNER는 닉네임과 관계없이 버닝을 관리할 수 있다',()=>{
+  for(const role of ['OWNER','owner',' OWNER '])for(const nickname of ['핑크빛유두','다른계정',' 핑크빛유두','핑크빛유두 ', '핑크빛유두님','핑크빛\u200b유두','핑크빛유두'.normalize('NFD'),'',undefined]){
+    assert.equal(canManageBurningEvent({role,nickname}),true,JSON.stringify({role,nickname}));
+  }
   for(const user of [
+    null,undefined,{},
     {role:'USER',nickname:'핑크빛유두'},
     {role:'ADMIN',nickname:'핑크빛유두'},
     {role:'EVENT_MANAGER',nickname:'핑크빛유두'},
-    {role:'OWNER',nickname:'다른계정'},
-    {role:'OWNER',nickname:' 핑크빛유두'},
-    {role:'OWNER',nickname:'핑크빛유두 '},
-    {role:'OWNER',nickname:'핑크빛유두님'},
-    {role:'OWNER',nickname:'핑크빛\u200b유두'},
-    {role:'OWNER',nickname:'핑크빛유두'.normalize('NFD')}
+    {role:'SUPER_OWNER',nickname:'핑크빛유두'},
+    {role:'OWNER_ADMIN',nickname:'핑크빛유두'}
   ])assert.equal(canManageBurningEvent(user),false,JSON.stringify(user));
 });
 
@@ -64,9 +60,9 @@ test('정확한 종료 경계부터 버닝은 비활성이다',()=>{
   assert.equal(burningEventIsLive({enabled:true,endsAt:null},Date.parse('2026-08-29T00:00:00.000Z')),false);
 });
 
-test('서버는 전용 계정·허용 시간·서버 계산 종료 시각·상호 배제를 강제한다',async()=>{
+test('서버는 OWNER 권한·허용 시간·서버 계산 종료 시각·상호 배제를 강제한다',async()=>{
   const api=await text('functions/api/[[path]].js');
-  assert.match(api,/if\(!canManageBurningEvent\(admin\)\)return json\(\{error:'버닝·하이퍼 버닝 관리는 OWNER 핑크빛유두 계정 전용입니다\.'/);
+  assert.match(api,/if\(!canManageBurningEvent\(admin\)\)return json\(\{error:'버닝·하이퍼 버닝 관리는 OWNER 계정 전용입니다\.'/);
   assert.match(api,/code:'INVALID_BURNING_DURATION'/);
   assert.match(api,/endsAt:activated\?burningEventEndsAt\(changedAt,durationMinutes\):null/);
   assert.match(api,/shouldDisableOther=activated/);
@@ -94,7 +90,8 @@ test('CMS와 게임 HUD는 선택 시간 및 초 단위 카운트다운 계약�
   ]);
   assert.match(admin,/const ALLOWED_DURATIONS=Object\.freeze\(\[30,60,120\]\)/);
   assert.match(admin,/id="\$\{prefix\}DurationMinutes"/);
-  assert.match(admin,/role==='OWNER'&&nickname===OPERATOR_NICKNAME/);
+  assert.match(admin,/const allowed=role==='OWNER';/);
+  assert.doesNotMatch(admin,/OPERATOR_NICKNAME/);
   assert.match(admin,/setInterval\(updateCountdownUi,1000\)/);
   assert.match(adminShell,/soop:cms-identity/);
   assert.match(app,/function burningEventIsActive\(state=burningEventState\)/);
@@ -102,7 +99,8 @@ test('CMS와 게임 HUD는 선택 시간 및 초 단위 카운트다운 계약�
   assert.match(app,/setInterval\(syncBurningCountdownUi,1000\)/);
   assert.match(app,/syncBurningServerClock\(d\.serverNow\)/);
   assert.match(equipment,/burningEventIsLive\(hyper,now\)/);
-  assert.match(index,/js\/app\.js\?v=1941-superstar-pack-early-access/);
-  assert.match(index,/js\/chief-system-v1\.js\?v=1919-chief-powers-restored/);
-  assert.match(worker,/soop-card-shell-v1941-superstar-pack-early-access/);
+  const appTag=index.match(/js\/app\.js\?v=([^"'&]+)/)?.[1];
+  assert.ok(appTag,'main app is versioned');
+  assert.equal(worker.match(/soop-card-shell-v([^']+)/)?.[1],appTag);
+  assert.match(index,/js\/chief-system-v1\.js\?v=[^"']+/);
 });
