@@ -31,3 +31,14 @@ Pages 목록으로 확인한 직전 운영 배포: `e6ee7d83-e1ff-4f66-98a9-1f31
 Worker 검사·출시 플래그·캐시·Hyperdrive 캐시 OFF·깨끗한 커밋과 origin/main 일치 검사를 유지한다. 운영 전 PC·390px 모바일 화면과 실제 군단토벌 입장/철수/재입장, 배포 후 변경 파일 반영만 확인한다.
 
 로컬 실제 API 핸들러·격리 DB에서 PC와 390×844 모바일의 무제한 표시, 토벌 시작 → 30마리 처치 → 철수 → 같은 난이도 재도전 → 전투 재개 → 로비 복귀를 확인했다. 복귀 후에도 무제한과 활성화된 입장 버튼이 유지되며 브라우저 오류 로그는 0건이다. 화면은 작업 트리 상위 `qa/legion-owner-unlimited-desktop.png`, `qa/legion-owner-unlimited-mobile.png`에 보존했다.
+
+## 운영 반영 완료
+
+- 선택 검사 **39/39 통과**, Worker 구문·컴파일·출시 플래그·캐시·Hyperdrive 캐시 OFF 검사 통과. 지정 배포 명령 정상 종료.
+- 배포 소스: `332a06777d8cd851acb4994618adc2f4556ac0c2`.
+- Pages: `https://d940e092.cnine-card.pages.dev`, 공용 클랜/듀오 Worker `bccdaf2f-b279-45cb-b25d-c92ffe003a89`.
+- 운영 도메인의 메인 HTML·입장 모듈·군단토벌 HTML·전용 번들 4개가 HTTP 200이며 배포 후보와 SHA-256이 일치했다. 미로그인 bootstrap은 HTTP 401을 유지한다.
+- 반복 OWNER begin은 기존 세션 조회 1회 + CAS 저장 1회로 총 2개 SQL이다. 두 DB 방언의 회귀에서 확인했으며 별도 쿼리·할당량 기록은 추가하지 않는다. 운영 계정 재화/보상/기존 일일 기록에 대한 수동 DB 변경은 없다.
+- 실행 로그·배포 확인 JSON: 작업 트리 상위 `qa/legion-owner-unlimited-production-deploy.log`, `qa/legion-owner-unlimited-production-verification.json`.
+
+이후 영수증 기록은 문서만 커밋하며 재배포하지 않는다.
