@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><title>ICON · 전투 리소스 검수실</title>
+  <script>window.addEventListener('error',event=>console.error('[ICON page error]',event.error?.stack||event.message,event.filename,event.lineno));window.addEventListener('unhandledrejection',event=>console.error('[ICON page promise]',event.reason?.stack||event.reason));</script>
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="./preview.css">
+</head>
+<body>
+  <main class="lab">
+    <header class="top"><div><a href="../icon-grade-v1/">← 아이콘 카드</a><h1>아이콘 <span>전투 리소스</span></h1></div><p><b>아이콘 7종</b><span>SD · 효과 시각 검수 대기</span></p></header>
+    <section class="characters" aria-label="아이콘 캐릭터 선택" id="characters"><p>SD 불러오는 중…</p></section>
+    <section class="rehearsal" aria-labelledby="effectHeading">
+      <div class="rehearsal-heading"><div><p class="eyebrow" id="characterName">디임 · 청록 쌍검</p><h2 id="effectHeading">월광 해일</h2></div><a class="tag" id="sdOriginal" href="./assets/source/diim-sd-v1.png" target="_blank" rel="noopener">선택 SD 원본 ↗</a></div>
+      <div class="effect-picker" id="effectPicker" aria-label="이펙트 선택"></div>
+      <div class="player-controls" aria-label="재생 조작">
+        <button class="primary" id="play" disabled>재생</button><button id="restart" disabled>다시 재생</button><button id="impact" disabled>충돌 프레임</button><button id="cancel" disabled>중단</button>
+        <label>배속 <select id="speed" disabled><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+      </div>
+      <div class="scrubber"><label for="scrub">프레임 탐색</label><input id="scrub" type="range" min="0" max="1.28" step="0.001" value="0" disabled><output id="time">0.00초</output><span id="cue">대기</span></div>
+      <div class="battle-viewport" data-v3-fit-container><iframe id="battleFrame" src="./battle.html" title="아이콘 SD·스킬 V3 전투 시연"></iframe></div>
+      <p id="health" class="health" role="status">전투 프리뷰 준비 중…</p>
+    </section>
+    <section class="frames-section" aria-labelledby="framesHeading"><div class="frames-heading"><h2 id="framesHeading">연속 프레임</h2><span id="sequenceRecord">개별 원본 · 16프레임</span></div><div class="frame-strip" id="frameStrip"></div></section>
+    <footer><p>카드 사진·승인 프레임 보존 · 기본 전투력 180,000 · 획득 미정 · CMS 등록 · 실전 연결 OFF<br>신규 고유효과는 치명 확률·치명 피해·관통·흡혈 시안입니다. 수치·배정·실전 밸런스는 변경하지 않습니다.</p><a href="./README.md">제작 기록 ↗</a><a href="./generation-inputs.json">생성 프롬프트 ↗</a></footer>
+  </main>
+</body>
+</html>

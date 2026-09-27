@@ -1,0 +1,209 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "date": "2026-09-22",
+  "status": "USER_REVIEW_PENDING",
+  "assets": [
+    {
+      "id": "diim",
+      "kind": "SD",
+      "name": "디임",
+      "source": "assets/source/diim-sd-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-0f99696c-9b7b-4d7f-8f10-1d082eb74199.png",
+      "prompt": "Use case: stylized-concept\nAsset type: one production 2D SD battle character sprite for ICON grade in a Korean RPG.\nInput images: Image 1 is the approved real adult streamer portrait, used only as character identity/hair/outfit reference. Create an illustrated SD derivative, do not alter the photograph.\nScene/backdrop: genuinely transparent RGBA alpha, no background, no ground shadow, no aura or particles baked in.\nSubject: Preserve the adult woman's recognizable gentle face, long straight black hair and wispy bangs from reference Image 1. Adapt the turquoise sleeveless dress into an elegant fully opaque high-neck teal tunic dress with fitted dark leggings and silver ankle boots. Weapon: two beautiful silver-and-aqua crescent short swords, one in each hand, held low away from her face. Clear separated blade silhouettes and five anatomically correct fingers on each hand. Restrained opal inlays, no dragons.\nStyle: premium hand-painted 2D anime game SD, approximately 3.25 heads tall, large readable expressive adult face, refined game sprite not a child or baby, clean crisp silhouette, polished fabric and metal, not 3D or photorealistic. Attractive and dignified, nonsexual.\nComposition: exactly one full-body character, confident agile dual-sword guard, three-quarter toward screen right. Entire head, both feet and entire weapons visible. Feet at the same ground line, centered composition with at least 8% transparent padding all sides. Square 1024x1024 output.\nConstraints: no UI, no card frame, no words, no watermark, no extra limbs, no cropped weapon, preserve actual transparent alpha."
+    },
+    {
+      "id": "hi-heeya",
+      "kind": "SD",
+      "name": "하이희야",
+      "source": "assets/source/hi-heeya-sd-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-f99e0d4b-5f69-4044-a3a9-6a98ad8da3e5.png",
+      "prompt": "Use case: stylized-concept\nAsset type: one production 2D SD battle character sprite for ICON grade in a Korean RPG.\nInput images: Image 1 is the approved real adult streamer portrait, used only as character identity/hair/outfit reference. Create an illustrated SD derivative, do not alter the photograph.\nScene/backdrop: genuinely transparent RGBA alpha, no background, no ground shadow, no aura or particles baked in.\nSubject: Preserve the adult woman's recognizable face and black center-parted low tied-back hair from Image 1. Orange full-coverage prison-style jumpsuit with dark belt, charcoal boots and reinforced gloves, playful determined expression. No prison bars, no label text or prisoner number. Weapon: one substantial fantasy heavy machine gun with black/ivory receiver and orange luminous core, long coherent barrel assembly, grasped naturally in both hands: main hand on pistol grip, support hand under fore-end. Muzzle pointing diagonally screen right; completely in frame. Both hands correctly formed, visible trigger discipline.\nStyle: premium hand-painted 2D anime game SD, approximately 3.25 heads tall, large readable expressive adult face, refined game sprite not a child or baby, clean crisp silhouette, polished fabric and metal, not 3D or photorealistic. Attractive and dignified, nonsexual.\nComposition: exactly one full-body character, solid feet-apart ready stance, three-quarter toward screen right. Entire head, both feet and entire weapons visible. Feet at the same ground line, centered composition with at least 8% transparent padding all sides. Square 1024x1024 output.\nConstraints: no UI, no card frame, no words, no watermark, no extra limbs, no cropped weapon, preserve actual transparent alpha."
+    },
+    {
+      "id": "namuneul-bongsoon",
+      "kind": "SD",
+      "name": "나무늘봉순",
+      "source": "assets/source/namuneul-bongsoon-sd-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-a9221a56-ba7e-4dd7-b461-0a8ffb077823.png",
+      "prompt": "Use case: stylized-concept\nAsset type: one production 2D SD battle character sprite for ICON grade in a Korean RPG.\nInput images: Image 1 is the approved real adult streamer portrait, used only as character identity/hair/outfit reference. Create an illustrated SD derivative, do not alter the photograph.\nScene/backdrop: genuinely transparent RGBA alpha, no background, no ground shadow, no aura or particles baked in.\nSubject: Preserve the adult woman's recognizable soft cheeks, straight long black hair with bangs from Image 1. Adapt the white pale-floral dress into a tasteful opaque ivory-and-sage ranger dress with high neckline, small shoulder cape, long fitted sleeves, dark leggings and ivory boots: no lingerie, no cleavage. Weapon: an elegant large ivory-and-sage longbow with botanical carving and one glowing pale jade arrow. Natural hands with five fingers, one gripping bow and one resting near bowstring. One small leaf accessory, no antlers.\nStyle: premium hand-painted 2D anime game SD, approximately 3.25 heads tall, large readable expressive adult face, refined game sprite not a child or baby, clean crisp silhouette, polished fabric and metal, not 3D or photorealistic. Attractive and dignified, nonsexual.\nComposition: exactly one full-body character, poised archer ready stance, three-quarter toward screen right. Entire head, both feet and entire weapons visible. Feet at the same ground line, centered composition with at least 8% transparent padding all sides. Square 1024x1024 output.\nConstraints: no UI, no card frame, no words, no watermark, no extra limbs, no cropped weapon, preserve actual transparent alpha."
+    },
+    {
+      "id": "oh-joeun",
+      "kind": "SD",
+      "name": "오조은",
+      "source": "assets/source/oh-joeun-sd-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-13d0bc68-ba28-48e3-8ad9-dbbbbb00ba37.png",
+      "prompt": "Use case: stylized-concept\nAsset type: one production 2D SD battle character sprite for ICON grade in a Korean RPG.\nInput images: Image 1 is the approved real adult streamer portrait, used only as character identity/hair/outfit reference. Create an illustrated SD derivative, do not alter the photograph.\nScene/backdrop: genuinely transparent RGBA alpha, no background, no ground shadow, no aura or particles baked in.\nSubject: Preserve the adult woman's recognizable smiling face, long side-parted black hair from Image 1. Black tailored jacket over a crisp opaque white shirt, slim black trousers and silver-trim ankle boots. Weapon: a tall black-and-platinum microphone scepter with circular acoustic resonator and small sapphire core; hold it in one hand like a battle staff, other open hand directing sound. Exactly five natural fingers per hand. Tasteful luminous blue accents, no text or logos.\nStyle: premium hand-painted 2D anime game SD, approximately 3.25 heads tall, large readable expressive adult face, refined game sprite not a child or baby, clean crisp silhouette, polished fabric and metal, not 3D or photorealistic. Attractive and dignified, nonsexual.\nComposition: exactly one full-body character, assured vocalist mage ready stance, three-quarter toward screen right. Entire head, both feet and entire weapons visible. Feet at the same ground line, centered composition with at least 8% transparent padding all sides. Square 1024x1024 output.\nConstraints: no UI, no card frame, no words, no watermark, no extra limbs, no cropped weapon, preserve actual transparent alpha."
+    },
+    {
+      "id": "diim-hit",
+      "kind": "FX",
+      "name": "디임 · 청류 교차검",
+      "duration": 0.64,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/diim-hit-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-69e7eb16-2fc0-4153-8c60-3d6e3408243c.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: Two narrow silver-aqua curved sword trails cross in an X at the impact center; liquid turquoise streaks and a few sharp platinum sparks peel away. This is a crisp two-blade cut, not a fireball."
+    },
+    {
+      "id": "diim-skill",
+      "kind": "FX",
+      "name": "디임 · 월광 해일",
+      "duration": 1.28,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/diim-skill-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-3f64e2c3-1477-4ec9-9011-d71b5c1e9661.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: Two opposing huge opalescent aqua crescent blades sweep inward; at contact they shear together into a radiant curved tidal crest, then tear into slender watery blade ribbons and pearl droplets. Distinct asymmetric twin-blade geometry, no circular explosion."
+    },
+    {
+      "id": "hi-heeya-hit",
+      "kind": "FX",
+      "name": "하이희야 · 탄착 섬광",
+      "duration": 0.6,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/hi-heeya-hit-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-0ec031d8-af12-42e1-9c72-51b22a52a60f.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: A hot tungsten machine-gun bullet from the left pierces the center with a compact ivory-white flash, jagged orange metal sparks and tiny dark metal fragments, followed by a short curling charcoal smoke wisp. A concentrated ballistic hit, not a magical orb."
+    },
+    {
+      "id": "hi-heeya-skill",
+      "kind": "FX",
+      "name": "하이희야 · 오렌지 오버드라이브",
+      "duration": 1.36,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/hi-heeya-skill-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-841f4be8-a2a3-486f-9b4b-820cdd2ad889.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: Several staggered orange-white heavy ballistic tracer streams enter from the left, converge in rapid multi-point impacts around the center and ignite a compressed industrial plasma detonation; pressure tears it into sharp steel splinters, hot orange streaks and layered gray smoke. Strong forward force, visibly different sequential blasts merging into one finale."
+    },
+    {
+      "id": "namuneul-bongsoon-hit",
+      "kind": "FX",
+      "name": "나무늘봉순 · 비취 화살",
+      "duration": 0.68,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/namuneul-bongsoon-hit-sequence-v2.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-56f14b43-65f5-4cad-970f-2621186d293a.png",
+      "prompt": "Use case: precise-object-edit\nImage 1 is the existing 4 by 4 continuous 16-frame combat VFX sheet. Correct ONLY the transparency and padding of this sheet. Preserve the same effect identity, colors, 16 successive shapes, row-major ordering and sharp luminous cores.\nCrucial: the background of EVERY cell must be genuinely transparent RGBA with alpha ZERO, not black/gray or a checkerboard picture. There must be a clear generous transparent gutter between every two cells. Center each corresponding frame within its exact equal cell, with its visible content shrunk enough that the brightest and faintest parts of that effect occupy at most 65% of cell width and height. The remaining 17.5% margins on ALL sides of EVERY cell must be fully transparent, no glow there. Keep uniform scale across all 16 frames to preserve the sequence. Do not crop any trails.\nLayout: square exact 4 columns x 4 rows, 16 consecutive frames, no gridlines, no labels, no extra cells. Transparent background, no solid canvas fill.\nRemove the accidental dark background veil completely while preserving the pale jade arrow / leaf-star sequence.",
+      "previousAttempts": [
+        {
+          "source": "assets/source/namuneul-bongsoon-hit-sequence-v1.png",
+          "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: A fine jade-white luminous arrow from the left strikes the center, snaps into a precise green needle star and sheds elegant ivory leaf slivers. Thin penetrating silhouette, botanical sparkle rather than generic fire.",
+          "reason": "REJECTED_BACKGROUND_VEIL"
+        }
+      ]
+    },
+    {
+      "id": "namuneul-bongsoon-skill",
+      "kind": "FX",
+      "name": "나무늘봉순 · 백화 유성우",
+      "duration": 1.4,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/namuneul-bongsoon-skill-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-9659d73e-102a-4331-8c96-071c91f1dbbe.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: Five luminous ivory-jade arrows descend diagonally toward the center; on contact sharp living branches spring into an elegant rising white flower-shaped burst, jade thorns split outwards and pale petals fragment into a soft trailing rain. Bow-arrow identity through the entire sequence, no solid flower icon."
+    },
+    {
+      "id": "oh-joeun-hit",
+      "kind": "FX",
+      "name": "오조은 · 공명 펄스",
+      "duration": 0.72,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/oh-joeun-hit-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-02606d0e-5a59-4933-b985-f9900f9df32e.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: A small focused sapphire-white acoustic pulse compresses into the center, rebounds as two asymmetric transverse curved wave ridges with crisp blue-violet glasslike sound shards, then thins into broken ripple segments. No musical notation or icons."
+    },
+    {
+      "id": "oh-joeun-skill",
+      "kind": "FX",
+      "name": "오조은 · 프리즘 앙코르",
+      "duration": 1.48,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/oh-joeun-skill-sequence-v2.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-6a3910f0-6477-4433-8afc-2fba1624dd47.png",
+      "prompt": "Use case: precise-object-edit\nImage 1 is the existing 4 by 4 continuous 16-frame combat VFX sheet. Correct ONLY the transparency and padding of this sheet. Preserve the same effect identity, colors, 16 successive shapes, row-major ordering and sharp luminous cores.\nCrucial: the background of EVERY cell must be genuinely transparent RGBA with alpha ZERO, not black/gray or a checkerboard picture. There must be a clear generous transparent gutter between every two cells. Center each corresponding frame within its exact equal cell, with its visible content shrunk enough that the brightest and faintest parts of that effect occupy at most 65% of cell width and height. The remaining 17.5% margins on ALL sides of EVERY cell must be fully transparent, no glow there. Keep uniform scale across all 16 frames to preserve the sequence. Do not crop any trails.\nLayout: square exact 4 columns x 4 rows, 16 consecutive frames, no gridlines, no labels, no extra cells. Transparent background, no solid canvas fill.\nAdd the missing transparent clearance around the vertical sonic crest and all ribbons, especially frames 5 through 8. No contact between neighboring cells.",
+      "previousAttempts": [
+        {
+          "source": "assets/source/oh-joeun-skill-sequence-v1.png",
+          "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: A black-sapphire microphone-magic resonance builds as three fine luminous acoustic wavefronts, collides into an elegant white-blue vertical standing-wave surge at center; sweeping cyan and violet sound ribbons buckle and fracture into prismatic shards before falling silent. Layered wave interference shapes, not a copied elemental blast; no staff or person.",
+          "reason": "REJECTED_BOUNDARY_ALPHA_30"
+        }
+      ]
+    },
+    {
+      "id": "critical-chance",
+      "kind": "FX",
+      "name": "신규 고유효과 · 치명 확률",
+      "duration": 0.9,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/critical-chance-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-28115f7d-a0ff-4440-a86c-f26530841ebd.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: Precision-focus magic: six thin champagne-gold shards converge toward a tiny platinum center, form a very brief sharp six-point targeting glint at contact, then peel outward into separate gold filaments. A quick focus confirmation, never a static reticle icon. Warm ivory and pale gold only."
+    },
+    {
+      "id": "critical-damage",
+      "kind": "FX",
+      "name": "신규 고유효과 · 치명 피해",
+      "duration": 1.04,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/critical-damage-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-e6c96e10-b2b8-424e-a027-b126cef2c116.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: A violent angular scarlet-and-white critical fracture: two opposed crimson energy wedges collide at center, punch a brilliant razor-edged star rupture, then cleave into thick ruby shards with a brief smoky scarlet wake. Jagged crushing impact, not a circular shockwave."
+    },
+    {
+      "id": "penetration",
+      "kind": "FX",
+      "name": "신규 고유효과 · 관통",
+      "duration": 1.08,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/penetration-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-bf3bc5e0-da81-496f-90c2-c1a7098feac4.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: A narrow violet-white energy lance threads from the left through a translucent segmented spectral shield at center; on contact the shield breaks into distinct offset purple glass facets while the lance continues right as a thin white incision. Facets tumble into dust and vanish. No person and no solid shield UI icon."
+    },
+    {
+      "id": "lifesteal",
+      "kind": "FX",
+      "name": "신규 고유효과 · 흡혈",
+      "duration": 1.28,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "collisionFrame": 4,
+      "source": "assets/source/lifesteal-sequence-v1.png",
+      "generatedPath": "C:/Users/User/.codex/generated_images/01a0bd74-96fb-7791-9d82-4ac125aaa07f/exec-b672704e-e051-4ccc-9093-89606e1a0cac.png",
+      "prompt": "Use case: stylized-concept\nAsset type: ONE continuous VFX animation spritesheet for a premium Korean 2D RPG, with genuine transparent RGBA alpha.\nLayout: square 1536x1536 canvas, exact 4 columns by 4 rows of equally sized cells, 16 consecutive frames in row-major order. No gutters drawn, no grid lines, no numbers, no words. Every cell has exactly the same camera and fixed impact center (50%,50%). Each cell must have at least 12% completely transparent padding on ALL edges, all effects wholly inside their own cell with no cross-cell overlap.\nAnimation discipline: draw a coherent actual shape-changing sequence of ONE effect, not 16 variants or icons. Frames 1-3 anticipation and convergence, frame 4 initial contact, frame 5 maximum luminous contact peak, frames 6-9 material expansion/deformation, frames 10-13 splitting and dissipation, frames 14-16 progressively sparse faint remnants. The geometry, particles and material truly evolve at every frame; do not simply resize or rotate the same picture.\nStyle: hand-painted high-end 2D game combat VFX, crisp luminous cores, layered translucent edges, controlled bloom, finely authored directional fragments, readable silhouettes on dark battleground. Preserve genuine alpha including semitransparent light, not a black or checkerboard background. No characters, no card frames, no logos, no UI symbols, no watermark.\nSpecific effect: Elegant non-gory life-energy siphon: dark crimson-pink vapor threads gather from a faint empty central point, curl into two intertwined flowing ribbons toward a luminous rose-gold pearl, which pulses at contact and releases soft pale-magenta embers. Wispy flowing transfer, no blood, no heart icon, no skull or vampire."
+    }
+  ]
+}

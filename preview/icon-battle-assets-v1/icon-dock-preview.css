@@ -1,0 +1,7 @@
+/* Prepared ICON only. Keep the shared roster dimensions, slots and every existing grade intact. */
+.battle-v3-roster-frame.grade-ICON{background:transparent!important;border-color:transparent!important;box-shadow:none!important;padding:0;overflow:visible}
+.battle-v3-roster-frame.grade-ICON::before,.battle-v3-roster-frame.grade-ICON::after,.battle-v3-roster-frame.grade-ICON .card-header,.battle-v3-roster-frame.grade-ICON .card-footer,.battle-v3-roster-frame.grade-ICON .breakthrough-effect{display:none!important}
+.battle-v3-roster-frame.grade-ICON .card-inner{position:absolute;inset:0;padding:0;background:transparent;border:0;overflow:visible}
+.battle-v3-roster-frame.grade-ICON .card-art{position:absolute;left:12%;top:9.2%;width:76%;height:82.8%;border-radius:7%;margin:0;aspect-ratio:auto;overflow:hidden;background:#0a111b}
+.battle-v3-roster-frame.grade-ICON .card-art img{width:100%;height:100%;object-fit:cover}
+.battle-v3-roster-frame.grade-ICON .icon-prepared-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:5;pointer-events:none}

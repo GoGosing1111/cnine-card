@@ -1,0 +1,28 @@
+// User-supplied photographs for ICON previews. IDs are preparation identifiers,
+// not cards-table IDs; importing this roster never creates or grants a card.
+export const ICON_CARD_ROSTER=Object.freeze([
+  {code:'ICON-DIIM',name:'디임',sourceArt:'assets/cards/ICON/diim-source-v1.png',
+    sourceSha256:'0CE2F08B452464F1F22EB91D9AC9737DD6C6447FAA1285F21E152378012BE7CD',sourceWidth:421,sourceHeight:573,focusX:50,focusY:50},
+  {code:'ICON-HI-HEEYA',name:'하이희야',sourceArt:'assets/cards/ICON/hi-heeya-source-v1.png',
+    sourceSha256:'3E62A900879231CEF996154F986DB2E9D09F2AEC0E9E5ABDFE3C2EF888DB66FF',sourceWidth:1122,sourceHeight:1280,focusX:50,focusY:50},
+  {code:'ICON-NAMUNEUL-BONGSOON',name:'나무늘봉순',sourceArt:'assets/cards/ICON/namuneul-bongsoon-source-v2.jpg',
+    sourceSha256:'B056757989C7F4E5FED48668AE4FA46C2276598B7FB6E8C1A655C265E8B2856E',sourceWidth:720,sourceHeight:1280,focusX:50,focusY:100,
+    portraitApproval:{date:'2026-09-22',scope:'SOURCE_PHOTO_ONLY',userRequest:'나무늘봉순 아이콘 이미지 이거로 바꿔',supersedes:'assets/cards/ICON/namuneul-bongsoon-source-v1.png'}},
+  {code:'ICON-OH-JOEUN',name:'오조은',sourceArt:'assets/cards/ICON/oh-joeun-source-v1.png',
+    sourceSha256:'4EE4C379716C5BE1CD2F9EA4FF30F4B9A90AA6401F506DD6D02E1A765F250EDC',sourceWidth:828,sourceHeight:896,focusX:50,focusY:50},
+  {code:'ICON-ORIKKUNG',name:'오리꿍',sourceArt:'assets/cards/ICON/orikkung-source-v1.png',
+    sourceSha256:'6562ACF5B146CB621487955A62729BDAC84D2760AB237B0205A9665E40935BC6',sourceWidth:720,sourceHeight:960,focusX:50,focusY:50,
+    status:'USER_REGISTERED_PORTRAIT_20260927',
+    portraitApproval:{date:'2026-09-27',scope:'SOURCE_PHOTO_ONLY',userRequest:'아이콘 오리꿍 등록'}},
+  {code:'ICON-KANGGUYEOL',name:'강구열',sourceArt:'assets/cards/ICON/kangguyeol-source-v1.png',
+    sourceSha256:'34BCBF7B62535D2590727205AAEC3A1F848323044F17EC7B07778332C295812E',sourceWidth:1080,sourceHeight:2520,focusX:20,focusY:50,
+    sourceCrop:Object.freeze({left:0,top:855,width:1080,height:810}),
+    status:'USER_REGISTERED_PORTRAIT_20260927',
+    portraitApproval:{date:'2026-09-27',scope:'SOURCE_PHOTO_ONLY',userRequest:'아이콘 강구열 등록'}},
+  {code:'ICON-AYOON',name:'아윤',sourceArt:'assets/cards/ICON/ayoon-source-v1.png',
+    sourceSha256:'E98F29F7E04FCE948D5C27CD46CDFD5F5B6A704045EAD46B129087CB97A557AB',sourceWidth:1072,sourceHeight:1430,focusX:50,focusY:50,
+    status:'USER_REGISTERED_PORTRAIT_20260927',
+    portraitApproval:{date:'2026-09-27',scope:'SOURCE_PHOTO_ONLY',userRequest:'아윤 아이콘'}}
+].map(card=>Object.freeze({...card,sourceGrade:'ICON',status:card.status||'USER_APPROVED_PORTRAIT_20260922',
+  portraitApproval:Object.freeze(card.portraitApproval||{date:'2026-09-22',scope:'SOURCE_PHOTO_ONLY',userRequest:'사진 4종 승인'}),
+  releaseEnabled:false})));

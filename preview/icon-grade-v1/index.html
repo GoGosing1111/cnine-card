@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>ICON · 아이콘 등급 준비실</title>
+  <link rel="stylesheet" href="../../css/icon-grade-v1.css">
+  <link rel="stylesheet" href="./preview.css">
+  <script type="module" src="./preview.mjs"></script>
+</head>
+<body>
+  <div class="workspace">
+    <header class="topbar"><a href="../icon-card-frame-v1/" class="brand">SOOPKETMON <span>/ CARD ARCHIVE</span></a><span class="state"><i></i>구현 준비 · 미출시</span></header>
+    <main>
+      <section class="hero" aria-labelledby="heading">
+        <div><p class="eyebrow">BEYOND ZENITH</p><h1 id="heading">ICON<span>아이콘</span></h1><p class="lead">최상위 스트리머 카드의 새로운 기준.</p></div>
+        <div class="hero-note"><span>APPROVED FRAME / 20 SEP 2026</span><p>승인 프레임 고정 · 용 디자인 없음<br>하단 중앙 이름판 없음</p></div>
+      </section>
+      <section class="roster-section" aria-labelledby="rosterHeading">
+        <div class="roster-heading"><div><p class="eyebrow">ICON PORTRAIT COLLECTION</p><h2 id="rosterHeading">아이콘 카드 <em id="rosterCount">7종</em></h2></div><p>오리꿍 · 강구열 · 아윤 추가<br><a href="../icon-battle-assets-v1/">기존 4종 SD · 스킬 검수실 ↗</a></p></div>
+        <div class="roster-gallery" id="rosterGallery"></div>
+      </section>
+      <div class="workbench">
+        <section class="portrait-panel" aria-label="승인 프레임 검수">
+          <div class="panel-kicker"><span>PORTRAIT DETAIL</span><b>승인 프레임</b></div>
+          <div class="portrait-stage" id="cardPreview" aria-live="polite"></div>
+          <div class="frame-rule"><span>1024 × 1536</span><span>원본 보존 · 투명 PNG</span></div>
+        </section>
+        <section class="settings-panel" aria-labelledby="effectsHeading">
+          <div class="power-line"><div><span>BASE COMBAT POWER</span><strong>180,000<small>전투력</small></strong></div><div class="acquisition"><span>획득 방법</span><b>미정</b><small>발급·뽑기·보상 잠금</small></div></div>
+          <div class="section-head"><div><p class="eyebrow">ICON UNIQUE EFFECTS</p><h2 id="effectsHeading">고유효과 <em>8종</em></h2></div><span class="counter" id="configuredCount">0 / 8 입력</span></div>
+          <p class="design-note">기존 4종 + 신규 4종 = 총 8종 구성 확정. 아래는 등급 공통 초안이며 카드별 배정이나 실제 전투에는 적용되지 않습니다.</p>
+          <form id="effectForm" novalidate>
+            <div id="effectFields" class="effect-list"></div>
+            <div class="draft-actions"><button class="secondary" id="resetDraft" type="button">초기화</button><button class="primary" type="submit">초안 검증·저장 <span>↗</span></button></div>
+          </form>
+          <p id="draftStatus" class="draft-status" role="status">브라우저에만 저장됩니다. 운영 CMS·계정 데이터는 변경하지 않습니다.</p>
+        </section>
+      </div>
+      <section class="release-lock" aria-labelledby="releaseHeading"><div class="lock-symbol" aria-hidden="true">Ⅱ</div><div><h2 id="releaseHeading">획득 경로 확정 전까지 잠금</h2><p>일반 카드팩 · 선택팩 · 진화 · 상점 · 보상 · 수동 지급에 연결하지 않습니다.<br>강화, 편성 제한, 전직 정책도 기존 등급에서 자동 승계하지 않습니다.</p></div><button id="exportDraft" type="button" class="secondary">초안 JSON 내보내기</button></section>
+      <footer><span>FRAME SHA-256 · 1368693F…CD0CA6F</span><span>PREPARATION ONLY / LIVE CONNECTION OFF</span></footer>
+    </main>
+  </div>
+</body>
+</html>

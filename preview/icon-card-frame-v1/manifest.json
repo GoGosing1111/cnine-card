@@ -1,0 +1,31 @@
+{
+  "id": "icon-streamer-frame-v1",
+  "grade": "ICON",
+  "status": "USER_APPROVED_20260920",
+  "approvalScope": "FRAME_DESIGN_ONLY",
+  "approvalQuote": "승인 이거로 채택함",
+  "asset": "../../assets/ui/card-frames/icon-streamer-frame-v1.png",
+  "width": 1024,
+  "height": 1536,
+  "format": "PNG_RGBA",
+  "sha256": "1368693F6861B7ABDCC8601CBF7EB5DAA13B5063B579DB3A8A38285CDCD0CA6F",
+  "constraints": {
+    "dragonDesign": false,
+    "bottomCenterNameplate": false,
+    "transparentPortraitWindow": true,
+    "transparentExterior": true
+  },
+  "previews": [
+    {
+      "member": "디임",
+      "sourceGrade": "ZENITH",
+      "sourceArt": "../../assets/cards/ZENITH/20.jpg",
+      "sourceArtSha256": "4D896EF05FAB45839FDD121F6CA0F0F67171C009405EE99F14F1920BB9CBCD5C",
+      "output": "assets/diim-zenith-icon-card-preview-v1.png",
+      "outputSha256": "DEFD2163388DBA29E4231776FB29AA89A0CE894D1C187D3550AE0E4F4D3DDD4B",
+      "scope": "PREVIEW_ONLY"
+    }
+  ],
+  "liveIntegration": "NOT_APPROVED",
+  "productionDeployment": "NOT_APPROVED"
+}

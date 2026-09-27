@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ICON streamer card frame</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Pretendard, "Noto Sans KR", system-ui, sans-serif;
+      background: #070705;
+      color: #f8f4e9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 70% 22%, rgba(211, 176, 89, .13), transparent 31%),
+        radial-gradient(circle at 18% 76%, rgba(170, 229, 255, .07), transparent 28%),
+        linear-gradient(145deg, #10100d, #050504 65%);
+    }
+    body::before {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      opacity: .32;
+      background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(circle at 50% 45%, #000, transparent 78%);
+    }
+    main {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(280px, .85fr) minmax(330px, 1.15fr);
+      width: min(1160px, calc(100% - 40px));
+      min-height: 100vh;
+      margin: auto;
+      align-items: center;
+      gap: clamp(30px, 6vw, 86px);
+      padding: 46px 0;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #d8bd7b;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .3em;
+    }
+    .eyebrow::before { width: 46px; height: 1px; content: ""; background: linear-gradient(90deg, transparent, #d8bd7b); }
+    h1 {
+      margin: 18px 0 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(64px, 10vw, 132px);
+      font-weight: 500;
+      line-height: .8;
+      letter-spacing: -.07em;
+      background: linear-gradient(135deg, #fff 15%, #e4c980 46%, #aeeeff 70%, #fff 88%);
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 8px 30px rgba(221, 184, 99, .15));
+    }
+    h2 { margin: 0; font-size: clamp(20px, 2.3vw, 31px); font-weight: 800; letter-spacing: -.04em; }
+    .intro p { max-width: 520px; margin: 18px 0 0; color: #aaa79e; font-size: 14px; line-height: 1.8; }
+    .tokens { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+    .tokens span { padding: 8px 11px; border: 1px solid rgba(231, 211, 155, .18); border-radius: 999px; background: rgba(255,255,255,.025); color: #c9c4b8; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+    .stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 760px;
+      border: 1px solid rgba(231, 211, 155, .1);
+      border-radius: 34px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(239, 207, 128, .14), transparent 31%),
+        linear-gradient(160deg, rgba(255,255,255,.035), rgba(255,255,255,.008));
+      box-shadow: 0 40px 100px rgba(0,0,0,.45), inset 0 1px rgba(255,255,255,.035);
+    }
+    .stage::before {
+      position: absolute;
+      inset: 5%;
+      border: 1px solid rgba(255,255,255,.035);
+      border-radius: 25px;
+      content: "";
+    }
+    .card {
+      position: relative;
+      width: min(390px, 72vw);
+      aspect-ratio: 2 / 3;
+      isolation: isolate;
+      filter: drop-shadow(0 32px 32px rgba(0,0,0,.62)) drop-shadow(0 0 28px rgba(225, 194, 110, .2));
+      transition: transform .35s ease, filter .35s ease;
+    }
+    .card:hover { transform: translateY(-8px) scale(1.012); filter: drop-shadow(0 42px 42px rgba(0,0,0,.65)) drop-shadow(0 0 36px rgba(225, 194, 110, .29)); }
+    .art {
+      position: absolute;
+      z-index: -1;
+      top: 8.8%;
+      left: 9.8%;
+      width: 80.4%;
+      height: 83.4%;
+      border-radius: 8%;
+      object-fit: cover;
+      object-position: 51% 44%;
+      filter: saturate(.86) contrast(1.05) brightness(.85);
+    }
+    .portrait-light {
+      position: absolute;
+      z-index: 0;
+      top: 8.8%;
+      left: 9.8%;
+      width: 80.4%;
+      height: 83.4%;
+      border-radius: 8%;
+      background: linear-gradient(135deg, rgba(255,246,209,.15), transparent 24%, transparent 69%, rgba(162,223,255,.08));
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .frame { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .grade {
+      position: absolute;
+      z-index: 3;
+      top: 12.3%;
+      left: 12.5%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border: 1px solid rgba(247, 224, 159, .55);
+      border-radius: 999px;
+      background: rgba(5, 5, 4, .7);
+      color: #fff6d9;
+      font-size: 8px;
+      font-weight: 1000;
+      letter-spacing: .22em;
+      box-shadow: inset 0 0 12px rgba(255,255,255,.06);
+      backdrop-filter: blur(6px);
+    }
+    .grade::before { width: 5px; height: 5px; border-radius: 50%; content: ""; background: #f6d985; box-shadow: 0 0 10px #fff; }
+    .note {
+      position: absolute;
+      right: 22px;
+      bottom: 18px;
+      color: rgba(239, 224, 183, .58);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .16em;
+    }
+    @media (max-width: 760px) {
+      main { grid-template-columns: 1fr; width: min(100% - 24px, 520px); padding: 34px 0 18px; gap: 26px; }
+      .intro { padding: 0 7px; }
+      h1 { font-size: clamp(70px, 27vw, 116px); }
+      .stage { min-height: 640px; border-radius: 26px; }
+      .card { width: min(360px, 90vw); }
+      .note { right: 15px; bottom: 12px; font-size: 7px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="intro">
+      <div class="eyebrow">SOOP STREAMER CARD</div>
+      <h1>ICON</h1>
+      <h2>정점을 넘어, 하나의 상징으로.</h2>
+      <p>FUR의 용·적색 왕관과 ZENITH의 성좌 문법을 사용하지 않은 별도 최상위 등급입니다. 흑요석, 백금, 샴페인 골드와 오팔광으로 방송 무대의 영구 명예를 표현했습니다.</p>
+      <div class="tokens"><span>USER APPROVED</span><span>OBSIDIAN</span><span>OPAL LIGHT</span><span>NO NAMEPLATE</span></div>
+    </section>
+    <section class="stage" aria-label="ICON 카드 프레임 실제 비율 프리뷰">
+      <article class="card">
+        <img class="art" src="../../assets/cards/ZENITH/20.jpg" alt="디임 ZENITH 카드 원화">
+        <div class="portrait-light"></div>
+        <img class="frame" src="../../assets/ui/card-frames/icon-streamer-frame-v1.png" alt="ICON 등급 카드 프레임">
+        <span class="grade">ICON</span>
+      </article>
+      <div class="note">1024 × 1536 · TRANSPARENT PNG</div>
+    </section>
+  </main>
+</body>
+</html>
