@@ -15,3 +15,11 @@
 - 관련 UI/리소스 프리뷰 범위로 한정되므로 `npm run deploy:production -- --scoped`를 사용한다. Cloudflare 배포 목록으로 확인한 직전 실제 운영 소스는 `d18ef29da1d218b85a34d7309cf97aeed8a00de6`, Pages `5f2364b5`다. 최신 main의 별도 메시지/공방 수정과 문서·운영 도구 커밋을 보존해 그 위에 프리뷰 변경만 얹는다. 배포 결과는 하단에 추가한다.
 
 검수 증빙은 `C:/Users/User/.codex/worktrees/icon-card-registration-20260927/qa/icon-showcase-selection.json`, `icon-showcase-desktop.png`, `icon-showcase-mobile.png`에 보관한다.
+
+## 운영 결과
+
+- 소스 `1e16827b8e1bd675652f9d4c2b9535ec8033be60`, Pages `https://28a1853a.cnine-card.pages.dev`, 클랜 Worker `846555c0-12ff-48bf-9766-a3bdaae31f0d`.
+- 관련 24개 검사와 출시 플래그·Hyperdrive 캐시 OFF 확인 통과. 지정 scoped 배포 정상 종료.
+- 운영 통합 프리뷰에서 아윤 원화·SD·전용 스킬 충돌 프레임을 실제 확인했다. ready=true, frame=4, regularCards=5, canvas=1, private atlas=1. 운영 HTML/CSS/새 모듈/실행 번들/기존 진입 페이지 5개 SHA-256이 후보 파일과 일치한다.
+- 사용 링크: `https://cnine-card.pages.dev/preview/icon-battle-assets-v1/?character=ayoon`. 증빙: `icon-showcase-production.png`, `icon-showcase-live-hashes.json`, `icon-showcase-deploy.log`.
+- 이 완료 기록만 추가하는 후속 커밋은 문서 반영으로 끝내고 게임을 다시 배포하지 않는다.
