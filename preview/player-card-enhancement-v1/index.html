@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090d14">
+  <title>숲켓몬 · 명함 강화 연출</title>
+  <link rel="stylesheet" href="/css/player-card-v2052.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="/js/ui-fx-vendor-v2045.bundle.js" defer></script>
+  <script src="/js/player-card-v2052.js" defer></script>
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header class="masthead"><a class="brand" href="./"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>SOOPKETMON<small>IDENTITY COLLECTION</small></span></a><span class="preview-label">명함 연출 미리보기</span></header>
+  <main>
+    <section class="intro" aria-labelledby="page-title"><div><p class="eyebrow">FRAME COLLECTION</p><h1 id="page-title">명함 강화</h1><p class="intro-copy">빛을 받아 드러나는, 프레임의 깊이.</p></div><div class="selected-tier"><span id="tier-tag">OPTICAL CRYSTAL</span><strong id="tier-number">+20</strong></div></section>
+    <div class="material-picker" role="group" aria-label="프레임 광원 컨셉">
+      <button type="button" data-material="gold" aria-pressed="false"><span class="material-swatch gold"></span>샴페인 골드</button>
+      <button type="button" data-material="crystal" aria-pressed="true"><span class="material-swatch crystal"></span>크리스털</button>
+      <button type="button" data-material="chrome" aria-pressed="false"><span class="material-swatch chrome"></span>블랙 크롬</button>
+    </div>
+    <p id="material-description">유리 단면의 깊이와 은은하게 갈라지는 굴절광</p>
+    <nav class="tier-rail" aria-label="강화 효과 단계">
+      <button type="button" data-tier="0" aria-pressed="false"><span class="tier-index">+0</span><b>기본</b><small>본래의 윤곽</small></button>
+      <button type="button" data-tier="1" aria-pressed="false"><span class="tier-index">+5</span><b>연마</b><small>매끄러운 광택</small></button>
+      <button type="button" data-tier="2" aria-pressed="false"><span class="tier-index">+10</span><b>면 가공</b><small>입체 단면</small></button>
+      <button type="button" data-tier="3" aria-pressed="false"><span class="tier-index">+15</span><b>프레스티지</b><small>보석 프레임</small></button>
+      <button type="button" data-tier="4" aria-pressed="true"><span class="tier-index">+20</span><b>천상의 성물</b><small>최종 강화 전용</small></button>
+    </nav>
+    <section class="showcase" aria-label="강화 단계가 적용된 명함">
+      <div class="showcase-caption"><span id="stage-description">정밀한 입체 세공 · 가장 깊고 선명한 반사광</span><span class="playback-state" id="playback-state" role="status">상시 효과</span></div>
+      <div id="card-stage"><div id="card-host" class="pc-dialog preview-card"></div><div id="fx-host" aria-hidden="true"></div><div class="stage-loading" id="loading" role="status">명함의 빛을 불러오는 중</div></div>
+      <div class="stage-foot"><span>예시 명함 · 실제 계정에 적용되지 않습니다</span><span>단계별 형태와 움직임을 비교해 보세요</span></div>
+    </section>
+    <section class="playback" aria-label="연출 재생 제어">
+      <button type="button" id="replay" class="primary-action"><span aria-hidden="true">✦</span> 강화 순간 재생</button>
+      <button type="button" id="sequence" aria-pressed="false"><span aria-hidden="true">▷</span> 전체 단계 비교</button>
+      <span class="toolbar-rule"></span>
+      <button type="button" id="pause" aria-pressed="false">Ⅱ 일시정지</button>
+      <label class="speed-label" for="speed">속도 <select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+      <button type="button" id="motion-toggle" aria-pressed="true">효과 켜짐</button>
+    </section>
+    <div class="timeline-row"><span id="timeline-label">강화 순간</span><input id="timeline" type="range" min="0" max="3.6" step="0.01" value="3.6" aria-label="강화 순간 재생 위치"><span id="time-readout">3.60s</span></div>
+    <p class="preview-note">+0 · +5 · +10 · +15 · +20은 연출 비교용 단계입니다. 강화 비용·확률·최대 단계는 이 프리뷰에서 정하지 않습니다.</p>
+    <p id="error" class="error" hidden role="alert"></p>
+  </main>
+</body>
+</html>
