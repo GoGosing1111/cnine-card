@@ -49,7 +49,13 @@
 - 기존 지급 도구를 변경 없이 사용했다. 운영 dry-run 롤백·잔여 기록 0건 확인 후 COMMIT 1회, 별도 READ ONLY 조회에서 메시지 1건·첨부 1건·문구·수량·감사·영수증 일치와 누락/중복 0건을 확인했다. 인벤토리 직접 변경과 대신 수령 없음.
 - 현재 **61명 지급 / 2명 미지급**. 기록: ayoon-pinball-gift-20260928-batch5.json 및 ayoon-pinball-gift-current-status-20260928.json. 실행 증거: C:/Users/User/.codex/worktrees/ops-ayoon-pinball-mail-20260928-batch5/. 문서만 커밋하고 게임 재배포는 하지 않는다.
 
-## 미지급 2명
+## Lillie7 계정 확인 및 지급 (batch6)
+
+- 사용자 확인 **Lillie7 → 찬호(4597)**. 정확한 활성 USER 계정과 아윤방 이벤트의 기존 메시지 0건을 대조했다.
+- **2026-09-28 02:17:21 KST** (2026-09-27T17:17:21.162Z)에 제목·본문 모두 **아윤방 핀볼 이벤트**, **대회 사은품 1개**를 메시지 첨부로 지급했다. 감사 **36660**, 작업 영수증 ops:ayoon-pinball-gift:20260928:v1:27dbaa213c1a90449b0283e0, 수신자 해시 27dbaa213c1a90449b0283e0e37b8fd55de8ceb7429ef35c068b7ae5695e8653.
+- 기존 지급 도구를 변경 없이 사용했다. 운영 dry-run 롤백·잔여 기록 0건 확인 후 COMMIT 1회. 별도 READ ONLY 조회에서 메시지 1건·첨부 1건·내용·수량·감사·영수증 일치와 누락/중복 0건을 확인했다. 인벤토리 직접 변경 및 대신 수령 없음.
+- 현재 **62명 지급 / 1명 미지급**. 기록: ayoon-pinball-gift-20260928-batch6.json 및 ayoon-pinball-gift-current-status-20260928.json. 실행 증거: C:/Users/User/.codex/worktrees/ops-ayoon-pinball-mail-20260928-batch6/. 문서만 커밋하며 게임 재배포는 하지 않는다.
+
+## 미지급 1명
 
 - 족쌤
-- Lillie7

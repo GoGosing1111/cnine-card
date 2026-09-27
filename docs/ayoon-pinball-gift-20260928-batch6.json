@@ -1,0 +1,48 @@
+{
+  "operationKey": "ops:ayoon-pinball-gift:20260928:v1:27dbaa213c1a90449b0283e0",
+  "campaignKey": "ayoon-pinball-gift-20260928-v1",
+  "title": "아윤방 핀볼 이벤트",
+  "body": "아윤방 핀볼 이벤트",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "count": 1,
+  "recipientHash": "27dbaa213c1a90449b0283e0e37b8fd55de8ceb7429ef35c068b7ae5695e8653",
+  "recipients": [
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "soop": "Lillie7"
+    }
+  ],
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "actor": "SYSTEM_OPS",
+  "authorization": "명단 대조 후 아윤방 핀볼 이벤트 메시지로 계정당 1개 추가 지급. 횟수 무관. 오늘 지급내역 있어도 지급하라고 총2회야",
+  "completedAt": "2026-09-27T17:17:21.162Z",
+  "auditId": "36660",
+  "verification": {
+    "messages": 1,
+    "rewards": 1,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0,
+    "rows": [
+      {
+        "message_id": "167172",
+        "user_id": "4597",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "165070",
+        "reward_user_id": "4597",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      }
+    ]
+  },
+  "identityAuthorization": "Lillie7 - (인게임) 찬호 아윤 사은품 지급"
+}
