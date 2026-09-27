@@ -30,7 +30,7 @@ function fixture(t){
     const result=sqlite.prepare(statement.sql).run(...statement.values);return {meta:{changes:Number(result.changes)}};
   }
   const DB={prepare,async batch(statements){sqlite.exec('BEGIN');try{const results=statements.map(execute);sqlite.exec('COMMIT');return results}catch(error){sqlite.exec('ROLLBACK');throw error}}};
-  const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID()});
+  const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},ensureTournamentGiftCatalog:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID()});
   vm.runInContext(`${specs}\n${claim}\nthis.claim=claimMessageRewardDirectV1222;this.spec=verifiedMessageRewardSpec;`,context);
   function reward(code,amount,id=1){
     sqlite.prepare('INSERT INTO user_messages(id,user_id) VALUES(?,1)').run(id);
@@ -90,7 +90,7 @@ test('대회 성황리 기념: two-message bulk claim recovers failed stars with
   assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM inventory_logs').get().n,1);
 });
 
-for(const [code,amount,label] of gifts){
+for(const [code,amount,label] of [...gifts,['TOURNAMENT_GIFT_BOX',1,'대회 사은품']]){
   test(`${code}: supported inventory reward credits exactly once and never spends it`,async t=>{
     const f=fixture(t),r=f.reward(code,amount);
     assert.equal(f.context.spec(code).label,label);assert.equal(f.context.spec(code).inventory,true);

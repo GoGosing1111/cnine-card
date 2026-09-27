@@ -511,6 +511,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
+  TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮',inventory:true,max:100000,messageType:'ITEM_REWARD'}
@@ -559,6 +560,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
   if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
   if(rewardType==='PINGDU_REPAIR_COUPON')await ensureForgeRepairCatalog(env);
+  if(rewardType==='TOURNAMENT_GIFT_BOX')await ensureTournamentGiftCatalog(env);
   const current=await env.DB.prepare('SELECT id,coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(!current)throw new Error('보상을 받을 계정을 찾을 수 없습니다.');
   let balanceBefore=0;
