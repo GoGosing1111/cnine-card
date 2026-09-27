@@ -4,12 +4,14 @@ export const X_SWORD=manifest;
 export const isXBody=code=>String(code||'').trim().toUpperCase()===manifest.suitCode;
 // Group only consecutive, existing receipts for the same actor. Visual flurry
 // contacts distribute these receipts without manufacturing hits or damage.
-export function takeXBodyBatch(queue,actionIndex=0){
+export function takeXBodyBatch(queue,actionIndex=0,previousTarget=null){
  if(!queue.length)return null;
  const entries=[queue.shift()];
  while(queue.length&&entries.length<48&&queue[0].target===entries[0].target)entries.push(queue.shift());
- // A six-contact flurry needs six confirmed receipts. Playing that long
- // sequence for a lone shot stalls mixed-target queues before the next cast.
- const mode=actionIndex%3===1&&entries.length>=MODES.skill.contacts.length?'skill':'attack';
+ // A stable target can receive a flurry even when live receipts arrive one
+ // at a time. Retain the short action when sparse receipts switch targets,
+ // so retiring monster generations do not wait behind repeated long casts.
+ const sameTarget=Boolean(previousTarget&&previousTarget.target===entries[0].target&&previousTarget.id===entries[0].target?.id);
+ const mode=actionIndex%3===1&&(sameTarget||entries.length>=MODES.skill.contacts.length)?'skill':'attack';
  return{mode,entries,impacts:entries.map((entry,i)=>({entry,atMs:1000*MODES[mode].contacts[Math.floor(i*MODES[mode].contacts.length/entries.length)]}))};
 }

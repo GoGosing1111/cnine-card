@@ -54,6 +54,37 @@ function rig(){
  const target={id:'enemy-1',root:new Container(),view:new Container(),fullBodyHeight:300};target.root.position.set(900,500);target.root.baseX=900;target.root.baseY=500;units.addChild(target.root);
  return{engine,unit,sword,target,ticks,close(){sword.destroy();world.destroy({children:true});gsap.ticker.sleep();}};
 }
+test('a stable target keeps the approved flurry when receipts arrive one at a time',async()=>{
+ const r=rig(),seen=[],modes=[];
+ try{
+  for(let i=0;i<3;i++){
+   const receipt={target:r.target,options:{damage:100+i,authoritative:true}},batch=r.sword.takeBatch([receipt]);modes.push(batch.mode);
+   const done=r.sword.play(batch,entries=>seen.push(...entries)),tl=r.sword.timeline;tl.pause();
+   for(const time of MODES[batch.mode].contacts)tl.totalTime(time);
+   tl.totalTime(MODES[batch.mode].duration);assert.equal(await done,true);
+   assert.equal(seen.length,i+1,'six visual contacts must not create extra server receipts');
+  }
+  assert.deepEqual(modes,['attack','skill','attack']);
+  assert.equal(seen.reduce((sum,row)=>sum+row.options.damage,0),303);
+  assert.equal(r.sword.diagnostics().flurries,1);
+ }finally{r.close();}
+});
+test('a replaced monster identity does not inherit the previous target flurry',async()=>{
+ const r=rig();
+ try{
+  const row={target:r.target,options:{damage:100,authoritative:true}},done=r.sword.play(r.sword.takeBatch([row]),()=>{});
+  r.sword.timeline.pause().totalTime(MODES.attack.duration);await done;
+  r.target.id='replacement';const batch=r.sword.takeBatch([{target:r.target,options:{damage:200,authoritative:true}}]);
+  assert.equal(batch.mode,'attack');assert.equal(batch.entries.length,1);
+ }finally{r.close();}
+});
+test('the direct single-shot path uses the X controller rather than the Z selector',async()=>{
+ const r=rig();let selected=0,played;
+ Object.assign(r.engine,{accountBattleUnitEnabled:true,playAccountBattleUnitSwordBatch:async batch=>{played=batch;return true;}});r.unit.active=true;
+ r.sword.takeBatch=queue=>{selected++;return{mode:'skill',entries:queue,impacts:[]};};
+ try{assert.equal(await r.engine.playAccountBattleUnitShot(r.target,{damage:123,authoritative:true}),true);assert.equal(selected,1);assert.equal(played.mode,'skill');assert.equal(played.entries[0].options.damage,123);}
+ finally{r.close();}
+});
 for(const mobile of [false,true])test(`X-BODY ${mobile?'mobile':'desktop'} camera stays at normal scale for attacks, flurries and dragon casts`,async()=>{
  const r=rig();r.engine.mobile=mobile;let focusCalls=0;
  r.engine.camera.focusAt=(_point,zoom)=>{focusCalls++;r.engine.stage.scale.set(zoom);};
@@ -128,6 +159,6 @@ test('actual shipped bundle and main loader resolve the approved X production as
  for(const file of['preview/project-v-v3/project-v-pixi-battle.bundle.js','pve-v3/battle.bundle.js']){
   const src=(await read(file)).toString();for(const token of['X_BODY_LIVE_20260927','BATTLE_SUIT_X_BODY','x-sword-v1/dragon/dragon-atlas.png','x-sword-v1/base/combo-atlas.png'])assert.ok(src.includes(token),file+': '+token);
  }
- for(const file of['index.html','js/app.js'])assert.ok((await read(file)).toString().includes('xBody=20260928-no-zoom'));
- for(const file of['js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok((await read(file)).toString().includes('20260928-x-body-no-zoom'));
+ for(const file of['index.html','js/app.js'])assert.ok((await read(file)).toString().includes('xBody=20260928-flurry'));
+ for(const file of['js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok((await read(file)).toString().includes('20260928-x-body-flurry'));
 });

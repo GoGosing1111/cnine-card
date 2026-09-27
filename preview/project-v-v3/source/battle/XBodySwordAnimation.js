@@ -38,7 +38,7 @@ export class XBodySwordAnimation{
  }
  static release(textures){for(const t of new Set([...frames(textures.base),...frames(textures.dragon)]))if(!t.destroyed)t.destroy(false);}
  constructor(engine,unit,textures){
-  Object.assign(this,{engine,unit,textures,actionIndex:0,completed:0,mode:'ready',timeMs:0,intrinsicArea:Boolean(textures.dragon),disposed:false});
+  Object.assign(this,{engine,unit,textures,actionIndex:0,completed:0,flurries:0,previousTarget:null,mode:'ready',timeMs:0,intrinsicArea:Boolean(textures.dragon),disposed:false});
   unit.swordAnimation=this;unit.bodySource=X_SWORD.image;unit.weaponSource='';unit.weaponSprite.visible=false;
   {
    this.skillFactory={create:(e,event,hits)=>new XBodyDragonCast(this,e,event,hits)};
@@ -47,7 +47,7 @@ export class XBodySwordAnimation{
   }
   this.ready();
  }
- takeBatch(queue){return takeXBodyBatch(queue,this.actionIndex);}
+ takeBatch(queue){return takeXBodyBatch(queue,this.actionIndex,this.previousTarget);}
  usesAsset(url){return X_SWORD.assets.some(a=>a.url===url);}
  ready(){
   if(this.disposed||this.timeline||this.externalCast)return;
@@ -74,7 +74,7 @@ export class XBodySwordAnimation{
   const valid=()=>!this.disposed&&engine.visible&&engine.playbackEpoch===epoch&&target.id===id&&!target.root.destroyed&&target.root.visible!==false;
   const mode=batch.mode==='skill'?'skill':'attack',fx=this.swordFX(target),clock={time:0};
   fx.mode=mode;fx.clock.time=0;fx.front.visible=fx.back.visible=true;fx.zoom=false;
-  this.mode=mode;this.actionIndex++;unit.stopIdle();unit.nameHud.visible=false;
+  this.mode=mode;this.actionIndex++;this.previousTarget={target,id};unit.stopIdle();unit.nameHud.visible=false;
   // Keep the burst's catch-up rate through its final recovery. Recomputing
   // from the shrinking queue slowed the last actions again and exceeded the
   // generation/cast drain deadline even after all earlier hits had landed.
@@ -90,10 +90,10 @@ export class XBodySwordAnimation{
    for(const [atMs,entries]of groups)timeline.call(()=>{if(valid())onImpact(entries);},[],atMs/1000);
    engine.app?.ticker?.add(sync,null,10);draw();
   },finish,engine.paceScale||1);
-  if(result)this.completed++;return result;
+  if(result){this.completed++;if(mode==='skill')this.flurries++;}return result;
  }
  cancel(){this.timeline?.kill();this.timeline=null;hide(this.fx);hide(this.dragon);}
- diagnostics(){return{version:X_SWORD.version,mode:this.mode,timeMs:Math.round(this.timeMs),completed:this.completed,intrinsicArea:this.intrinsicArea,
+ diagnostics(){return{version:X_SWORD.version,mode:this.mode,timeMs:Math.round(this.timeMs),completed:this.completed,flurries:this.flurries,intrinsicArea:this.intrinsicArea,
   weaponSha256:X_SWORD.base.weapon.sha256,bodyFrames:40,effectFrames:108,damageAuthority:'SERVER_TIMELINE',areaReleaseEnabled:X_BODY_AREA_RELEASE_ENABLED,
   effectsVisible:Boolean(this.fx?.front.visible||this.dragon?.front.visible),externalCast:this.externalCast?.diagnostics()||null};}
  destroy(){

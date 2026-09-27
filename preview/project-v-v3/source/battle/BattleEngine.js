@@ -1394,7 +1394,7 @@ class BaseBattleEngine{
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
     if(unit.swordAnimation){
       const queue=[{target,options:{playbackRate,damage,critical,targetHp,targetShield,authoritative,monotonicHp,targetId,authoritativeEvent}}];
-      return this.playAccountBattleUnitSwordBatch(takeSwordBatch(queue,unit.swordAnimation.actionIndex,unit.swordAnimation.intrinsicArea));
+      return this.playAccountBattleUnitSwordBatch(unit.swordAnimation.takeBatch?.(queue)||takeSwordBatch(queue,unit.swordAnimation.actionIndex,unit.swordAnimation.intrinsicArea));
     }
     // Preserve the just-resolved authoritative target even when that hit set
     // its HP to zero. Retargeting here would make the cosmetic tracer fly at
