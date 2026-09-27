@@ -1,0 +1,160 @@
+{
+  "operationKey": "ops:ayoon-pinball-gift:20260928:v1:1b8e8728a064437b212068ea",
+  "campaignKey": "ayoon-pinball-gift-20260928-v1",
+  "title": "아윤방 핀볼 이벤트",
+  "body": "아윤방 핀볼 이벤트",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "count": 6,
+  "recipientHash": "1b8e8728a064437b212068ea521e434013f03a7fbe4f8f356bdc291a19fc281e",
+  "recipients": [
+    {
+      "id": "83",
+      "nickname": "애장이",
+      "soop": "탁래"
+    },
+    {
+      "id": "289",
+      "nickname": "베베킹",
+      "soop": "김포카"
+    },
+    {
+      "id": "2734",
+      "nickname": "그냥지은닉",
+      "soop": "허거덩덩쓰"
+    },
+    {
+      "id": "4371",
+      "nickname": "건빵3개",
+      "soop": "눈을감자12"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "soop": "[C9]플랜비"
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "soop": "네이아네이"
+    }
+  ],
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "actor": "SYSTEM_OPS",
+  "authorization": "명단 대조 후 아윤방 핀볼 이벤트 메시지로 계정당 1개 추가 지급. 횟수 무관. 오늘 지급내역 있어도 지급하라고 총2회야",
+  "completedAt": "2026-09-27T15:31:58.993Z",
+  "auditId": "36588",
+  "verification": {
+    "messages": 6,
+    "rewards": 6,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0,
+    "rows": [
+      {
+        "message_id": "165170",
+        "user_id": "83",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163073",
+        "reward_user_id": "83",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165171",
+        "user_id": "289",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163074",
+        "reward_user_id": "289",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165172",
+        "user_id": "2734",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163075",
+        "reward_user_id": "2734",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165173",
+        "user_id": "4371",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163076",
+        "reward_user_id": "4371",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165174",
+        "user_id": "4615",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163077",
+        "reward_user_id": "4615",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      },
+      {
+        "message_id": "165175",
+        "user_id": "4772",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "163078",
+        "reward_user_id": "4772",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      }
+    ]
+  },
+  "identitySource": "사용자가 붙여넣은 후속 댓글의 게임 닉네임 대응",
+  "previousGiftMessages": [
+    {
+      "message_id": "163846",
+      "user_id": "2734",
+      "title": "대회 펀딩 사은품",
+      "body": "대회 펀딩 사은품",
+      "campaign_key": "tournament-funding-gift-20260927-v1",
+      "reward_type": "TOURNAMENT_GIFT_BOX",
+      "reward_amount": "1",
+      "claimed_at": "2026-09-27 06:40:25"
+    }
+  ]
+}

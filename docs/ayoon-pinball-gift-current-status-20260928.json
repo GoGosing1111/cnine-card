@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-09-27T15:28:07.290Z",
+  "updatedAt": "2026-09-27T15:31:58.993Z",
   "campaignKey": "ayoon-pinball-gift-20260928-v1",
   "title": "아윤방 핀볼 이벤트",
   "itemCode": "TOURNAMENT_GIFT_BOX",
   "quantityEach": 1,
   "counts": {
-    "paid": 53,
-    "pending": 10
+    "paid": 59,
+    "pending": 4
   },
   "recipients": [
     {
@@ -60,6 +60,11 @@
       "soop": "비쥬얼깡패"
     },
     {
+      "id": "83",
+      "nickname": "애장이",
+      "soop": "탁래"
+    },
+    {
       "id": "87",
       "nickname": "설윤이",
       "soop": "STARRR0"
@@ -93,6 +98,11 @@
       "id": "277",
       "nickname": "스갤가축",
       "soop": "Sooya.."
+    },
+    {
+      "id": "289",
+      "nickname": "베베킹",
+      "soop": "김포카"
     },
     {
       "id": "295",
@@ -155,6 +165,11 @@
       "soop": "츠츠_"
     },
     {
+      "id": "2734",
+      "nickname": "그냥지은닉",
+      "soop": "허거덩덩쓰"
+    },
+    {
       "id": "3011",
       "nickname": "오일바른가지",
       "soop": "딸기찾는철구"
@@ -173,6 +188,11 @@
       "id": "4235",
       "nickname": "도댕",
       "soop": "도댕.."
+    },
+    {
+      "id": "4371",
+      "nickname": "건빵3개",
+      "soop": "눈을감자12"
     },
     {
       "id": "4391",
@@ -230,6 +250,11 @@
       "soop": "암살자.."
     },
     {
+      "id": "4615",
+      "nickname": "랭비!",
+      "soop": "[C9]플랜비"
+    },
+    {
       "id": "4621",
       "nickname": "리이렐",
       "soop": "리이렐"
@@ -265,6 +290,11 @@
       "soop": "음주플레이어"
     },
     {
+      "id": "4772",
+      "nickname": "펜타",
+      "soop": "네이아네이"
+    },
+    {
       "id": "4836",
       "nickname": "딤키우기",
       "soop": "딤키우기"
@@ -281,35 +311,11 @@
       "reason": "정확한 게임 계정 미확인"
     },
     {
-      "soop": "[C9]플랜비",
-      "reason": "정확한 게임 계정 미확인"
-    },
-    {
       "soop": "#LafeStar",
       "reason": "정확한 게임 계정 미확인"
     },
     {
-      "soop": "탁래",
-      "reason": "정확한 게임 계정 미확인"
-    },
-    {
-      "soop": "네이아네이",
-      "reason": "정확한 게임 계정 미확인"
-    },
-    {
       "soop": "Lillie7",
-      "reason": "정확한 게임 계정 미확인"
-    },
-    {
-      "soop": "눈을감자12",
-      "reason": "정확한 게임 계정 미확인"
-    },
-    {
-      "soop": "허거덩덩쓰",
-      "reason": "정확한 게임 계정 미확인"
-    },
-    {
-      "soop": "김포카",
       "reason": "정확한 게임 계정 미확인"
     },
     {
@@ -319,6 +325,7 @@
   ],
   "operationKeys": [
     "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
-    "ops:ayoon-pinball-gift:20260928:v1:af547965cb5d7bebca50d877"
+    "ops:ayoon-pinball-gift:20260928:v1:af547965cb5d7bebca50d877",
+    "ops:ayoon-pinball-gift:20260928:v1:1b8e8728a064437b212068ea"
   ]
 }
