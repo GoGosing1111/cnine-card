@@ -1,0 +1,30 @@
+{
+  "status": "ARMED",
+  "operationKey": "ops:euak-cryvern-third-once-20260928:v1",
+  "userId": 5010,
+  "nickname": "으악",
+  "armedAt": "2026-09-27T16:56:01.396Z",
+  "operationId": "euak-cryvern-third-5010-once-20260928",
+  "auditId": "36652",
+  "priorOperationId": "euak-omega-first-5010-once-20260925",
+  "user": {
+    "id": "5010",
+    "nickname": "으악",
+    "status": "ACTIVE"
+  },
+  "rank": "SSS",
+  "mercenaryCode": "V-049",
+  "slotIndex": 2,
+  "batchCount": 10,
+  "acquisitionId": null,
+  "audit": {
+    "id": "36652",
+    "action_type": "MERCENARY_SS_ONCE_ARMED",
+    "target_id": "5010"
+  },
+  "identity": {
+    "name": "cnine",
+    "replica": false,
+    "actor": "cnine_migrator"
+  }
+}
