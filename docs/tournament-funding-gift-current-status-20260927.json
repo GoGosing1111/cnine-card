@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-09-27T07:09:39.024Z",
+  "updatedAt": "2026-09-27T07:16:47.829Z",
   "counts": {
-    "paid": 60,
-    "pending": 21,
+    "paid": 61,
+    "pending": 20,
     "excludedDuplicate": 1
   },
   "currentRecipients": [
@@ -155,6 +155,12 @@
       "nickname": "씨나인택갓",
       "soop": "гain",
       "total": 1100
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "soop": "코파먹는성태",
+      "total": 1232
     },
     {
       "id": "1768",
@@ -373,16 +379,6 @@
       "total": 1000,
       "teams": [
         "강구열"
-      ]
-    },
-    {
-      "soop": "코파먹는성태",
-      "total": 1232,
-      "teams": [
-        "강구열",
-        "디임",
-        "하이희야",
-        "나무늘봉순"
       ]
     },
     {
