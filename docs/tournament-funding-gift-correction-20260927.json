@@ -1,0 +1,37 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:tournament-funding-gift:20260927:correct4694to4774-add4693-4621-v1",
+  "campaignKey": "tournament-funding-gift-20260927-v1",
+  "title": "대회 펀딩 사은품",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "revokedUser": {
+    "id": "4694",
+    "nickname": "북부대공",
+    "messageId": "163866"
+  },
+  "revokedRewardId": "161841",
+  "recipients": [
+    {
+      "id": "4621",
+      "nickname": "리이렐",
+      "soop": "리이렐",
+      "total": 100
+    },
+    {
+      "id": "4693",
+      "nickname": "시소둥이",
+      "soop": "시소둥이",
+      "total": 100
+    },
+    {
+      "id": "4774",
+      "nickname": "딤럼프",
+      "soop": "생스머신디임",
+      "total": 2180
+    }
+  ],
+  "authorization": "그냥 지급하고 북부대공 회수해; 시소둥이 / 시소둥이; 게임 넥네임 리이렐 숲닉네임 리이렐",
+  "completedAt": "2026-09-27T07:09:39.024Z",
+  "auditId": "36396"
+}
