@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-09-27T15:31:58.993Z",
+  "updatedAt": "2026-09-27T15:46:45.500Z",
   "campaignKey": "ayoon-pinball-gift-20260928-v1",
   "title": "아윤방 핀볼 이벤트",
   "itemCode": "TOURNAMENT_GIFT_BOX",
   "quantityEach": 1,
   "counts": {
-    "paid": 59,
-    "pending": 4
+    "paid": 60,
+    "pending": 3
   },
   "recipients": [
     {
@@ -215,6 +215,11 @@
       "soop": "깜찍소녀"
     },
     {
+      "id": "4540",
+      "nickname": "지아영",
+      "soop": "형관펜"
+    },
+    {
       "id": "4552",
       "nickname": "치옹스",
       "soop": "특수기동타격"
@@ -317,15 +322,12 @@
     {
       "soop": "Lillie7",
       "reason": "정확한 게임 계정 미확인"
-    },
-    {
-      "soop": "형관펜",
-      "reason": "정확한 게임 계정 미확인"
     }
   ],
   "operationKeys": [
     "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
     "ops:ayoon-pinball-gift:20260928:v1:af547965cb5d7bebca50d877",
-    "ops:ayoon-pinball-gift:20260928:v1:1b8e8728a064437b212068ea"
+    "ops:ayoon-pinball-gift:20260928:v1:1b8e8728a064437b212068ea",
+    "ops:ayoon-pinball-gift:20260928:v1:728275ddf1d253bf9ac20ae7"
   ]
 }
