@@ -14,8 +14,8 @@
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
   const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단', skillChips: '스킬칩' };
-  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍' };
-  const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어' };
+  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명' };
+  const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어', COLLECTION_MASTERY: '카드 도감 100% · 차량 도감 90% 이상', TROPHY_KINDS: '서로 다른 트로피 4종' };
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
   const formatNumber = (value) => Number(value || 0).toLocaleString('ko-KR');
@@ -55,6 +55,7 @@
       search: '',
       busy: false,
       chipSlot: 1,
+      titleProgress: {},
       notice: null,
       noticeTimer: 0
     };
@@ -199,7 +200,7 @@
       const title = equippedTitle();
       return `<aside class="clv2-profile-panel">
         <header class="clv2-panel-heading"><span>OPERATOR STATUS</span><i>01</i></header>
-        <div class="clv2-profile-name"><small>현재 계정</small><strong>${escapeHtml(profile.nickname || '플레이어')}</strong><span class="${titleStyleClass(title?.stylePreset)} ${titleFontClass(title?.fontPreset)}">[${escapeHtml(title?.badgeText || title?.name || '칭호 없음')}]</span></div>
+        <div class="clv2-profile-name"><small>현재 계정</small><strong>${escapeHtml(profile.nickname || '플레이어')}</strong>${titleBadge(title)}</div>
         <div class="clv2-power-core"><span>통합 전투 보너스</span><strong>${formatNumber(Number(bonuses.pve || 0) + Number(bonuses.pvp || 0))}</strong><small>배틀슈트는 PVE에만 반영</small></div>
         <dl class="clv2-stat-list">
           <div><dt>PVE 전투력</dt><dd>+${formatNumber(bonuses.pve)}</dd></div>
@@ -250,6 +251,19 @@
       </section>`;
     }
 
+    function titleBadge(row) {
+      const style = String(row?.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      return '<span class="public-title-badge title-style-' + style + ' ' + titleFontClass(row?.fontPreset) + '">[' + escapeHtml(row?.badgeText || row?.name || '칭호 없음') + ']</span>';
+    }
+
+    function titleProgress(row) {
+      const progress = state.titleProgress[row.code];
+      if (row.owned || !progress) return '';
+      if (row.unlockType === 'COLLECTION_MASTERY') return '<div class="clv2-title-progress"><span>카드 <b>' + formatNumber(progress.cards.owned) + ' / ' + formatNumber(progress.cards.total) + '</b></span><span>차량 <b>' + formatNumber(progress.vehicles.owned) + ' / ' + formatNumber(Math.ceil(progress.vehicles.total * .9)) + '</b></span></div>';
+      if (row.unlockType === 'TROPHY_KINDS') return '<div class="clv2-title-progress"><span>트로피 종류 <b>' + formatNumber(progress.owned) + ' / 4</b></span></div>';
+      return '';
+    }
+
     function titleRequirement(row) {
       const cfg = row.unlockConfig || {};
       if (row.unlockType === 'COLLECTION_COUNT') return `도감 ${formatNumber(cfg.count || 1)}장`;
@@ -263,20 +277,22 @@
       const owned = rows.filter((row) => row.owned).length;
       return `<section class="clv2-view clv2-title-view">
         <article class="clv2-title-showcase ${titleStyleClass(active?.stylePreset)}">
-          <div class="clv2-title-sigil" aria-hidden="true">${icon('title')}</div>
+          <div class="clv2-title-sigil${active?.image ? ' has-emblem' : ''}" aria-hidden="true">${active?.image ? '<img src="' + escapeHtml(resolveAsset(active.image)) + '" alt="" width="256" height="256">' : icon('title')}</div>
           <p>ACTIVE TITLE SIGNATURE</p>
-          <h2 class="${titleFontClass(active?.fontPreset)}">[${escapeHtml(active?.badgeText || active?.name || '칭호 없음')}]</h2>
+          <h2 class="${titleFontClass(active?.fontPreset)}">${titleBadge(active)}</h2>
           <span>${active ? escapeHtml(active.description || '장착 중인 칭호가 계정과 전투 화면에 적용됩니다.') : '보유 칭호에서 하나를 선택해 장착하세요.'}</span>
-          <strong>전체 전투 +${formatNumber(active?.pvePower || 0)}</strong>
+          <strong>${active?.pvePower ? '전체 전투 +' + formatNumber(active.pvePower) : active ? '업적 칭호' : '칭호 미장착'}</strong>
           ${active ? '<button type="button" data-title-unequip>칭호 해제</button>' : ''}
         </article>
         <aside class="clv2-title-collection">
           <header class="clv2-panel-heading"><span>TITLE ARCHIVE</span><i>${owned} / ${rows.length}</i></header>
           <div class="clv2-title-grid">${rows.map((row) => `<article class="clv2-title-card ${row.owned ? 'is-owned' : 'is-locked'} ${row.equipped ? 'is-equipped' : ''} ${titleStyleClass(row.stylePreset)}">
             <span>${TITLE_STYLE_LABELS[String(row.stylePreset || 'DEFAULT').toUpperCase()] || '기본'}</span>
-            <strong class="${titleFontClass(row.fontPreset)}">[${escapeHtml(row.badgeText || row.name)}]</strong>
+            ${row.image ? '<img class="clv2-title-emblem" src="' + escapeHtml(resolveAsset(row.image)) + '" alt="" width="88" height="88" loading="lazy">' : ''}
+            <strong class="${titleFontClass(row.fontPreset)}">${titleBadge(row)}</strong>
             <small>${row.owned ? escapeHtml(row.description || '보유 칭호') : titleRequirement(row)}</small>
-            <em>전체 전투 +${formatNumber(row.pvePower)}</em>
+            ${titleProgress(row)}
+            <em>${row.pvePower ? '전체 전투 +' + formatNumber(row.pvePower) : '업적 칭호'}</em>
             ${row.owned ? (row.equipped ? '<button type="button" disabled>장착 중</button>' : `<button type="button" data-title-equip="${row.id}">장착</button>`) : '<button type="button" disabled>미획득</button>'}
           </article>`).join('') || '<div class="clv2-empty-state"><b>등록된 칭호가 없습니다.</b></div>'}</div>
         </aside>
@@ -357,7 +373,7 @@
         <header class="clv2-command-header">
           <div class="clv2-brand-block"><span class="clv2-brand-mark">S</span><div><small>SOOPKETMON / GROWTH SYSTEM</small><strong>장비 시스템</strong></div></div>
           <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
-          <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small class="${titleStyleClass(activeTitle?.stylePreset)}">[${escapeHtml(activeTitle?.badgeText || activeTitle?.name || '칭호 없음')}]</small></div>
+          <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small>${titleBadge(activeTitle)}</small></div>
         </header>
         ${options.forgePublicEntry === true ? `<a class="clv2-forge-entry" href="/equipment-forge/" aria-label="무기와 방어구 장비 강화 센터 열기">${icon('equipment')}<div><small>UPGRADE LAB</small><b>장비 강화 센터</b><p>무기·방어구·장신구의 다음 강화를 준비하세요.</p></div><span>강화 · 보호 · 복구</span><i>↗</i></a>` : ''}
         <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : state.tab === 'skillChips' ? skillChipView() : garageView()}</main>
@@ -587,6 +603,7 @@
 
     return {
       reload: load,
+      setTitleProgress(progress) { state.titleProgress = progress || {}; if (state.data && state.tab === 'title' && !destroyed) render(); },
       setTab(tab) { if (TAB_LABELS[tab] && (tab !== 'skillChips' || state.data?.skillChips?.visible === true)) { state.tab = tab; render(); } },
       getState() { return structuredClone(state.data); },
       destroy() {

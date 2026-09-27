@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "generator": "built-in imagegen",
+  "date": "2026-09-27",
+  "assets": [
+    {
+      "key": "completionist",
+      "original": {
+        "path": "preview/achievement-titles-v1/source/completionist-original.png",
+        "sha256": "f77d846c6071f8108bb0b6a7decbb6c3219ad6440dd99751620e1d1acf984ce4",
+        "bytes": 1818974
+      },
+      "runtime": {
+        "path": "assets/ui/titles/completionist-v1.webp",
+        "sha256": "1c0ce85687af844c1374d42f645f4dc9c0671725405ae728462d4c75bdc2ebc8",
+        "bytes": 55582,
+        "width": 384,
+        "height": 384,
+        "alpha": true,
+        "format": "webp",
+        "conversion": "sharp 0.35.2; resize contain 384; quality 92, alphaQuality 100, effort 6"
+      }
+    },
+    {
+      "key": "trophy-hunter",
+      "original": {
+        "path": "preview/achievement-titles-v1/source/trophy-hunter-original.png",
+        "sha256": "8594f9947b6ead1a26e56e3cabac5debd230a3f03715d1885164c6bee68bc7f7",
+        "bytes": 1924932
+      },
+      "runtime": {
+        "path": "assets/ui/titles/trophy-hunter-v1.webp",
+        "sha256": "963ae4f8de634d067d248370a3e3a2002685bcfeab92f2e40ac687615d69b11d",
+        "bytes": 61300,
+        "width": 384,
+        "height": 384,
+        "alpha": true,
+        "format": "webp",
+        "conversion": "sharp 0.35.2; resize contain 384; quality 92, alphaQuality 100, effort 6"
+      }
+    }
+  ]
+}

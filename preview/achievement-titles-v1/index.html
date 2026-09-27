@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>숲켓몬 · 폐인 / 우승청부사</title>
+  <link rel="stylesheet" href="../../css/character-loadout-v2.css">
+  <link rel="stylesheet" href="../../css/title-fonts-v1814.css">
+  <link rel="stylesheet" href="../../css/ranked-challenger-v2032.css">
+  <link rel="stylesheet" href="../../css/player-card-v2052.css">
+  <link rel="stylesheet" href="../../css/achievement-titles-20260927.css">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#05070e;color:#c9c5d5;font-family:Pretendard,'Noto Sans KR',sans-serif}
+    .preview-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 24px;background:#101019;border-bottom:1px solid #363043;font-size:12px}
+    .preview-bar a,.preview-bar button{color:#dfc4ff;text-decoration:none;padding:7px 12px;border:1px solid #625476;border-radius:4px;white-space:nowrap;background:none;font:inherit;cursor:pointer}
+    .preview-actions{display:flex;gap:8px}
+    .preview-names{padding:22px 24px;display:flex;gap:24px;flex-wrap:wrap;border-top:1px solid #302b3e;font-size:14px}
+    .preview-names>div{display:flex;align-items:center;gap:10px}.preview-names .public-title-badge{font-size:12px}
+    @media(max-width:620px){.preview-bar{padding:10px 12px;font-size:11px}.preview-names{padding:18px 12px;gap:16px}}
+  </style>
+</head>
+<body>
+  <div class="preview-bar"><span>신규 업적 칭호 미리보기</span><div class="preview-actions"><button id="callingCard" type="button">명함에서 보기</button><a id="viewMode" href="?locked=1">획득 전 보기</a></div></div>
+  <div id="achievementTitles" class="character-loadout-v2-root"></div>
+  <div class="preview-names" aria-label="닉네임 옆 칭호 표시">
+    <div><span class="public-title-badge title-style-completionist">[폐인]</span><b>도감수집가</b></div>
+    <div><span class="public-title-badge title-style-trophy_hunter">[우승청부사]</span><b>트로피헌터</b></div>
+  </div>
+  <script src="../../js/character-loadout-v2.js"></script>
+  <script src="../../js/player-card-v2052.js"></script>
+  <script src="preview.js"></script>
+</body>
+</html>
