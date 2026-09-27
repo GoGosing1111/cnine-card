@@ -29,7 +29,8 @@ test('the candidate uses the existing helicopter damage formula and approved dra
 });
 function multi({pvp=false,dead=false,skillChips=[],durationMs=0}={}){
  const a=cards.map((card,i)=>({...buildFighter(card,i,'A',null,pvp?'PVP':'PVE'),hp:1e10,maxHp:1e10}));
- const b=Array.from({length:5},(_,i)=>({...buildMonsterFighter({...monster,id:i+1}),id:'B:'+i+':MONSTER:'+(i+1),slot:i,row:i<2?'FRONT':'BACK',hp:1e10,maxHp:1e10,attack:1,isMonster:!pvp,alive:!(dead&&i===4)}));
+ // Keep targets alive through every scheduled impact, including repeated 20s casts.
+ const b=Array.from({length:5},(_,i)=>({...buildMonsterFighter({...monster,id:i+1}),id:'B:'+i+':MONSTER:'+(i+1),slot:i,row:i<2?'FRONT':'BACK',hp:1e10,maxHp:1e10,shield:1e14,maxShield:1e14,attack:1,isMonster:!pvp,alive:!(dead&&i===4)}));
  return simulateBattleV2Preview({teamA:[...a,buildBattleSuitFighter({...suit,skillChips})],teamB:b,maxActions:durationMs?1000:100,maxCombatDurationMs:durationMs,seed:2011,[REVIEW]:true});
 }
 test('X-BODY casts every 20 seconds with an independently equipped 15-second helicopter',()=>{
