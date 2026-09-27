@@ -50,3 +50,9 @@ OWNER CMS의 `아이콘 카드`에서 디임·하이희야·나무늘봉순·오
 - 실제 OWNER CMS에서 7종 목록·원본 사진·SD·기본 전투력·잠금 상태와 저장 버전 1을 확인했다. 익명 API는 401/no-store. 운영 파일 14개의 SHA-256이 후보와 일치한다.
 - 운영 스킬 검수에서 Pages가 battle.html을 확장자 없는 battle로 이동시키며 Pixi 상대 배경 경로가 preview/assets로 해석되는 문제를 발견했다. 검수 HTML에 고정 base를 지정하고 로컬 서버도 같은 리다이렉트로 재현한다. 공용 엔진과 운영 전투는 변경하지 않는다.
 - 같은 리다이렉트에서 배경·SD·스킬 충돌 프레임 준비 완료를 확인했다. 이 경로 보정만 직전 운영 소스 758c347d 기준으로 재배포하며 `tests/icon-preview-pages-url.test.mjs`를 선택한다. 이미 통과한 288프레임 검사와 전체 CMS 저장 검사를 반복하지 않는다.
+
+최종 배포 소스 **ef374fd7**, Pages **https://30d68f0a.cnine-card.pages.dev**, 클랜 Worker **da36c514-156e-4778-a4f5-c4735ea423d6**. 경로 회귀 1개 통과(초기 46개와 합계 47개), 지정 배포 정상 종료. 운영 확장자 없는 battle 응답의 SHA-256이 최종 후보와 일치한다.
+
+실제 운영 OWNER CMS에서 등록 7종·버전 1·도감 비공개를 확인했다. 오리꿍 스킬 검수는 ready=true, collision frame=4, regularCards=5, canvas=1, private atlas=1이며 중단 후 activeSprites=0 / registered=false다. 운영 사진·SD와 검수판이 모두 열리는 것을 확인한 뒤 완료 처리한다. 실제 운영 효과 수치와 메모는 미정/빈칸 상태로 보존했다.
+
+증빙은 `C:/Users/User/.codex/worktrees/icon-card-registration-20260927/qa/`의 `icon-cms-production.png`, `icon-cms-production-verification.json`, `icon-cms-live-playback.json`, 두 배포 로그다. 이 최종 기록만 추가하는 커밋은 게임 재배포 없이 원격에 반영한다.
