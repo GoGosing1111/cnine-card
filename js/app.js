@@ -632,6 +632,10 @@ function bindPrisonView(){
 function renderLockedPrison(prison=null){
   if(prison)applyPrisonStatus(prison);
   const user=loadUser();if(!user)return renderLogin();
+  // Background reads may return the same 423 while a camp game is in progress.
+  // Keep its DOM, focus and input handlers until the account/facility/sentence changes.
+  const lockKey=JSON.stringify([Number(user.serverUserId||user.id||0),prisonUiState.facility,prisonTimestampMs(prisonUiState.jailedAt),prisonTimestampMs(prisonUiState.jailedUntil)]);
+  if(app.querySelector('[data-cnine-prison-lock="1"]')?.dataset.prisonLockKey===lockKey)return;
   stopPrisonWatch();
   try{invalidateRaidUiState({clearSelection:true,stopClaimRetry:true})}catch(_){}
   try{stopBattleEnergyTimer()}catch(_){}try{stopPvpEnergyTimer()}catch(_){}try{window.stopAuctionHouseView?.()}catch(_){}try{window.stopCoinPredictionView?.()}catch(_){}try{window.lobbyBgm?.stop()}catch(_){}
@@ -639,10 +643,12 @@ function renderLockedPrison(prison=null){
   if(prisonUiState.facility==='DEATH_GAME'&&window.PrisonDeathGame){
     window.ClanPrisonCamp?.stop();
     app.innerHTML=`<main data-cnine-prison-lock="1">${window.PrisonDeathGame.lockView()}</main><div id="modal" class="modal"></div>`;
+    app.querySelector('[data-cnine-prison-lock="1"]').dataset.prisonLockKey=lockKey;
     window.PrisonDeathGame.bindLock(prisonUiState);return;
   }
   const camp=prisonUiState.facility==='CLAN_CAMP'&&window.ClanPrisonCamp;
   app.innerHTML=`<main class="prison-lock-shell" data-cnine-prison-lock="1">${camp?camp.view(user,true):prisonView(user,true)}</main><div id="modal" class="modal"></div>`;
+  app.querySelector('[data-cnine-prison-lock="1"]').dataset.prisonLockKey=lockKey;
   if(camp)camp.bind(user,true);else bindPrisonView();
 }
 window.PrisonV1=Object.freeze({isLocked:isPrisonLocked,apply:applyPrisonStatus,renderLocked:renderLockedPrison,view:prisonView,bind:bindPrisonView});
