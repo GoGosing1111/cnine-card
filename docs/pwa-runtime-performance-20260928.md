@@ -44,4 +44,12 @@
 - `SCOPED_DEPLOY_CHECKS`: `[]`.
 - 명령: `npm run deploy:production -- --scoped`. 배포 명령에 포함된 출시 플래그·캐시·깨끗한 커밋·origin/main·Hyperdrive 검사도 유지한다. Playwright는 기존 검수 런타임의 `PLAYWRIGHT_MODULE`을 사용한다.
 
-배포 결과는 완료 후 이 문서에 기록한다.
+## 배포 완료
+
+- 배포 소스: `bb79511edd4ce2e8b40bdf45e9437950a147b993` (`origin/main` 일치, 깨끗한 작업 트리).
+- 지정 scoped 명령 정상 종료. 선택 회귀 6개, 출시 플래그/캐시 및 Hyperdrive SQL 캐시 OFF 검사 통과.
+- Pages 배포: <https://d4009d2b.cnine-card.pages.dev>.
+- 함께 실행되는 기존 clan-draft 배포 버전: `8267029e-b965-4fb3-b747-1ec9f2bbd1d9` (서버 소스 변경 없음).
+- 2026-09-28 02:40:41 KST 운영 도메인 `https://cnine-card.pages.dev`에서 진입 HTML·app.js·런타임 관찰자·BGM·명함/챌린저 번들 총 6개 응답 200 및 배포 소스 SHA-256 일치를 확인했다(줄바꿈 정규화). 증빙: `C:/Users/User/.codex/tmp/pwa-runtime-20260928/production-files.json`.
+- 로컬 검수 서버 종료. 실행 중인 PWA는 완전히 닫고 다시 열면 새 진입 문서와 코드가 로드된다.
+- 이 배포 기록만 추가한 후속 문서 커밋은 운영 재배포하지 않는다.
