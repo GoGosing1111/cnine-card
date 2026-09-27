@@ -1,6 +1,6 @@
 {
   "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
-  "status": "USER_REVIEW_PENDING",
+  "status": "USER_VISUAL_APPROVED_PROCESS_STANDARD",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/x-body-sword-approved-v1.png",
   "weapon": {
@@ -2179,5 +2179,6 @@
     "effectFrames": 60,
     "weaponSources": 1,
     "weaponRedraws": 0
-  }
+  },
+  "approvalRecord": "approval-20260927.json"
 }

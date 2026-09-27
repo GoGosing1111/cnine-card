@@ -1,0 +1,571 @@
+{
+  "schemaVersion": 1,
+  "id": "X_BODY_V2_MOTION_FX_APPROVAL_20260927",
+  "status": "USER_VISUAL_APPROVED_PROCESS_STANDARD",
+  "approvedOn": "2026-09-27",
+  "approvedRenderingCommit": "da74b060c693a3e374a573b027d898beca0d5dce",
+  "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+  "userInstruction": "좋아 아주 훌륭해 이렇게 만들어야한다고 이펙트랑 모션은 앞으로 이걸 슈트 제작 규정 및 용병 리소스 제작 규정으로 추가해라 현 제작과정을 100% 이행해야함",
+  "scope": {
+    "visualMotionAndEffects": true,
+    "mandatoryFutureSuitAndMercenaryProductionProcess": true,
+    "requiredProcessCompletion": "100%",
+    "runtimeActivation": false,
+    "economyOrCmsChanges": false
+  },
+  "standard": "docs/project-v-motion-effects-production-standard-20260927.md",
+  "summary": {
+    "bodyFrames": 32,
+    "effectFrames": 60,
+    "weaponSources": 1,
+    "weaponRedraws": 0
+  },
+  "contactSeconds": [
+    0.37,
+    0.64,
+    0.91,
+    1.18,
+    1.43,
+    2.18
+  ],
+  "sourceArtSha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+  "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+  "artifactHashPolicy": "Approved files are immutable. Binary hashes compare exact bytes; text hashes normalize BOM/CRLF only. Changed outputs remain candidates until separately reviewed.",
+  "artifacts": [
+    {
+      "path": "preview/battle-suit-x-v1/assets/atlases/attack.png",
+      "sha256": "bb5c4c250d8cf5316099b23d1b7c28babbb78e7a7c5769c8f1d32535a50dfd09",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/atlases/combo.png",
+      "sha256": "895cb51584b5c54faeba76324926b585f18b75e06fb6f07ef0176b6bd45270eb",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/atlases/dash.png",
+      "sha256": "b59b33655b52799c78e4c2ea2f75d73ca2db3effe48f52dd6d6c119ab4e5bb67",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/atlases/skill.png",
+      "sha256": "c499e2174b11b96c6a63f0ab140e2791f56a26240bc9b7e61a16d73c976b0dd0",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-01.png",
+      "sha256": "c7eb537c49b5b9cacbc272af234b33948838f24f5266acf1fcfb68c7cc0f0b2c",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-02.png",
+      "sha256": "f970f86adcb94913336adeccbcd000554925d0baf231706d528706f3bab5a4f3",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-03.png",
+      "sha256": "510afde3658b9fb21871823076b88507dfedbf2ec0ac98cc943ba967b95b92cb",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-04.png",
+      "sha256": "dc8b7bc4d3158c1d6e6c730d951eaef6dafc3bbec049d282b84604e4bcc90b8c",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-05.png",
+      "sha256": "8c58c178846727cc155a678491f92d945837bd6380d2c3c45e6e430f0212664d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-06.png",
+      "sha256": "ad34d94817e96943a26d42ab276976629e1fbebe790975599f8e6a216b6f5e70",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-07.png",
+      "sha256": "224ba0d2271329fa6c1ae5cea3d970ca5bd41f4fc99b8378ccf5e6ead20f6ddf",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/attack-08.png",
+      "sha256": "6e39155b3482d69068f580c1885a1d8481f7b07122dca599d5f388b775239fa2",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-01.png",
+      "sha256": "94dc166e3a8f52ac2ade94becb2227ab8d56a24a3cb6ef74205c11f3810448a3",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-02.png",
+      "sha256": "9315d9980cfbd78a544bdcd1a4e94fe926e228e9252e58acb2aa372e17f2f760",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-03.png",
+      "sha256": "399abbd5c04a568e3bf4bbb13ab39dba8d2ddd6205ac5652f5bf04b4ad9c1d5d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-04.png",
+      "sha256": "2b49f3f53e0b470e3b757e4c6358d2b131c25cc2499616d4a82fb156af2002d6",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-05.png",
+      "sha256": "4ce26ed1e24c4325f8d7915bcb740a3b48b2cdc1cc5e0deb0b317444f5f01948",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-06.png",
+      "sha256": "64f6c4ee7511a82d10a0a253108258fd9361b751cadd7c5acde2cc82d3c35753",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-07.png",
+      "sha256": "ed2f74f7315c0582a48f1e8862d2d18df88d944434c12ab19f12e848eed72482",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/combo-08.png",
+      "sha256": "a6b787599193050d7e767e6f2d140bc4293b4c8c9c6d94388b9ba98e3c24d4bc",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-01.png",
+      "sha256": "3d1e5466b16d6dfe3e1e5b8f76b6c119f3a7ff8c1378475a5b996d4994d60dea",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-02.png",
+      "sha256": "26f44ad4b82b3d57f740db0f9e6fa08b34a4250919539462533563faea63631d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-03.png",
+      "sha256": "83489d9875bd03e0911f4a318e55a6b17eabe61dec68af11a21c3001f6123ac1",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-04.png",
+      "sha256": "294537fcc0b6d2d78903d0d22f42e6c7f6555009062d061f121baa69eb4f5e05",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-05.png",
+      "sha256": "bb48c88a031f1cd89095ae41cb1962b3325a0c9ab181d6dc80bc45ead481848d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-06.png",
+      "sha256": "7ca9e7999d4cd980474bba9c4569fe8fa0a7003acce5ad8581f071479d2fc3a0",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-07.png",
+      "sha256": "4e766c584f0306c07f58d0c58eaaa0c51278da3ff14a8d9b35a286b9198d6ed6",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/dash-08.png",
+      "sha256": "de30d2e24ea15987158ac749a48b8d131d7df6cf2077af1527a5b934f3691403",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-01.png",
+      "sha256": "96b724034058207929da806cef7bf104a4af4c05e019fb48cf2bcc33cb235661",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-02.png",
+      "sha256": "ed5919766119dd59575531fe42c16dd36f7d01a4f993b72ad2a1b01b8dac838e",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-03.png",
+      "sha256": "d62e2483ebe483e485611cf2f81fc8a964e4c6dc96519a216a0db99a0e4373cb",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-04.png",
+      "sha256": "f78d8776fd748116e75b0651aa544403532baa083dbaa590669ee48c56c4f627",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-05.png",
+      "sha256": "d0e485916dd40313850d5df711011025a6bfaedfde0284d21cca1868517fdd91",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-06.png",
+      "sha256": "e3d9b9e9b4cdc5fb5870d7b52e3f26366625b0b5d065fd154bf28c6d27cfb68c",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-07.png",
+      "sha256": "21101f449843f5cf8a19c7e3d9afee48c1ff9576933440e6a828536fc2f69d8d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/frames/skill-08.png",
+      "sha256": "618a643f02352c0f7c3db0d87abe1b6bb3c262ca569de735c08de51ceddf56a5",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/locked/approved-blade.png",
+      "sha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/locked/blade-provenance.json",
+      "sha256": "8baa8abb6f5f7761478312269e92d73a3aac96cdf53435523cce333b29aeb6c4",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-attack-a.png",
+      "sha256": "79955c620be5fec30955abf0e796a28325df2bcbcb3f03a7361f242ce2e57b8d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-attack-b.png",
+      "sha256": "d4cf01c438ddeb42227e830f2117b7b9663c8691c868e0265e51d2d492f4fdbf",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-combo-a.png",
+      "sha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-combo-b.png",
+      "sha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-dash-a.png",
+      "sha256": "75c6595a473958b6b67a7cf0200765174c021a658414449727cbc745de4b41f3",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-dash-b.png",
+      "sha256": "a6fa6ef2911de86f2527fcfdaa753311ffc2a3a652486029fc77ae9b4eafd593",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-skill-a.png",
+      "sha256": "1ce303c55bad6ef6ef1a2ab0d3fc4d115543f1f1d74058f7da4a61deff3f1f9c",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/body-skill-b.png",
+      "sha256": "c79cfd91a1372938847093df10c7c192144be0ce3ad681862ea45f13273e8aa2",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/fx-cleave-v2.png",
+      "sha256": "69e672c83af2c7cdcf15598441ad0fe22da9510ba8df2e98af4b311720144380",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/fx-cross-v2.png",
+      "sha256": "acf37299f3770348b6d2450fd10be30d2fbacf84ac3956ffc266eaf362259abd",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/fx-cut-v2.png",
+      "sha256": "6b5eafa9bd57de48a36edb21bebf3d8cdc26f7323c3a95d46fa7cd382d8cd400",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/fx-dash.png",
+      "sha256": "3d9dc83971700079db8c10cf116f44e7f7d1b88908cb65c779f672419c14e1db",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/fx-ground-v2.png",
+      "sha256": "3cb4b4c1fb7499c43b02cc2c65c25bd8db21d460867e3beb41eff1c2055fcd3d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/sources/x-body-sword-approved-v1.png",
+      "sha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-01.png",
+      "sha256": "794da5e160e06270645fa98e3a7716a3ea795ff009ae6ee580d56fb76475ac50",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-02.png",
+      "sha256": "0715aed7c3a2bc334a356ffc94063d2ccf59628d95029af707b8b8615dbe842e",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-03.png",
+      "sha256": "62359fc7176fcc4437172a77f5f24550d12ff0b065ba2ead17b9158dc186f8ad",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-04.png",
+      "sha256": "45dcab245bf3a097dda70f52303da4d0363fde6bb0696fb79239e4fd1dcbf0ed",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-05.png",
+      "sha256": "2a146e5d3a22d7222810ced2a54adeb3f7de761c22f98f9c4662b24a53d2fb61",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-06.png",
+      "sha256": "5ed27b79b1a1f19bd704b2f9fc30dcbde15ed7b71c1c8eb0cb78d01fead668a7",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-07.png",
+      "sha256": "2caf2a4102497c569c4da473f077ed98da2ab360cee5cea0245a76a6ee87143b",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/attack-08.png",
+      "sha256": "621c8e67de1752d155ee68c18c1d08e97a8425dcd917d03ebab33e575688df6d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-01.png",
+      "sha256": "af301685837af030f15401905c3ab626935b70d05e6179cdf30006719e2d65d2",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-02.png",
+      "sha256": "a7d6b898ec5f6c9fd5b0c18283660acfc56dfff500add8c6c4f9e86392c4fa06",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-03.png",
+      "sha256": "bf74abc7ae6e257452c267def072522363dc7791ec138edf8ed296c5a4ad215d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-04.png",
+      "sha256": "740c54d47e8bb8f1be637ee865d7b904d08171bcc949ceefae95731a553ccb71",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-05.png",
+      "sha256": "0724c76acf4c49526481f46a32f08db448820b7371334e736b690290d360fbb3",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-06.png",
+      "sha256": "904b5916c0405878084ab7cf4cbfe44c2f879b5e4e2f826e1fedd7daac283953",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-07.png",
+      "sha256": "424acc8b589f5cb08a44b1f71219614270b91da63898d9461d99a24f422433bf",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/combo-08.png",
+      "sha256": "177d232da2a9686c3cf4d1617d035c3627814335ed5f3a6c989ea02636a462b6",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-01.png",
+      "sha256": "53ae1d61034d1901bc9b5f7d43d89428f2c27483a589a7a490df8e321c1b44b8",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-02.png",
+      "sha256": "4c08670892629fa349a04e7bc6e468f9c293532edefd57b9ca04ec0e68ee4b54",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-03.png",
+      "sha256": "e65ee6801e503ae03f7f48b39d72e8460d200189fc9c311e5fee96cf816285b3",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-04.png",
+      "sha256": "04e503cd7b6bdb4a19ff82b4e3d49c7d8b0750821857d0c56ca4b8cb3f3c7e20",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-05.png",
+      "sha256": "4b9848258e65f9b4f45d008c03e1963ce34077cd6132883ded4a37413747797d",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-06.png",
+      "sha256": "b65e4b8ed9705d4e7ccee82211871134c255d4058f99524053ba0a6b529df1d6",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-07.png",
+      "sha256": "0e3e8f877641754a3fbe9cf4766e43ba4175e9cbc7707abcc79ae8069fbfe228",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/dash-08.png",
+      "sha256": "3661a72de3dbf029688dfb4a7e7e37efc0078b3457162a50d9e34893428b7b3b",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-01.png",
+      "sha256": "a6ec7cc697bc4b7b96a7ad6152756b8e5268996cf00c879a2816c77adfa09201",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-02.png",
+      "sha256": "e0a4d4bb6a7544a8e3446e9edee6867f41bd734e031d91a9c807be2471fe05e4",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-03.png",
+      "sha256": "16ae88d8d7d1ba7d52cccea2d797e01b9b7d70a6b585b55e00fa002d37b2b1c9",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-04.png",
+      "sha256": "884aeba310245e3a02e58977576ddafe1badc178075b2b776a1384516ec729e5",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-05.png",
+      "sha256": "b40bb44b4ffcd3a7fcd31318188656d37d36d7e914d372b4fde195265346a249",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-06.png",
+      "sha256": "887ffb2266b0dec0797c149d4aff2b201216c2a42ba02bce884a73901ee22bd1",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-07.png",
+      "sha256": "49e9ecf60625e317bfc6194595fad6b538e60c396716f3e24047c112330adce5",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/assets/thumbs/skill-08.png",
+      "sha256": "a96bde41b55c1279949e58cd519dc47f50d2fad6e04cbbfe82b065531759ff08",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/battle.html",
+      "sha256": "2bcb499d9f64ab0d516748be84055ed2b86954b53662c021bc2112669b9b8b8d",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/build-report.json",
+      "sha256": "0fdb0cfdb90278e0715b58193b753c8bd207a26b292f57831bf427348086f930",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/build.mjs",
+      "sha256": "60a05997873c72425625b1d14b68dae6a8156051c12581dd5cf6acc8e359f5d1",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/extract-approved-blade.mjs",
+      "sha256": "3dc3ad092891dd748718228f99a33f85998171618732291d8eae7c3119861c09",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/index.html",
+      "sha256": "e5491ec99d3e4f7554c9c51f5646b28b67be05cd37b9692fc1dc9b46aa4d9084",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/manifest.json",
+      "sha256": "ed92b06bebf02127fbbcdce9c7178523fb2149a033ff55cb6df8dc4535de7fef",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/motion.mjs",
+      "sha256": "41d326be6f676f0189044e7078fa985a6248828b263884b4a5837792a384aa92",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/pack-assets.mjs",
+      "sha256": "c49fee98e903f7c363c091a6963f520befacc0669a43e671a9d2575473039ff8",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/pose-registration.json",
+      "sha256": "c4b96c2df879286b2e2b6d0c2c44f5b2841a5454da1e3b9604d65d462346a874",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/preview.bundle.js",
+      "sha256": "17520c0d612746f809853bc1023a7891e53d008bbb1b50cdab750c592cc0ff6c",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/preview.css",
+      "sha256": "99b28df7efd80e2e72b182ec63d0bd636ea45940339273982c7cd7df5fa7aafa",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/prompts.json",
+      "sha256": "99ac25d862ade4d24596338ed1e3876251de65c90c6191cf227cdf62a80d763d",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/qa-browser.mjs",
+      "sha256": "c8f582db8ecc5ba737f51beaad44857f0cbefc7f9cb1b0a3e4c74509feae1648",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/qa.test.mjs",
+      "sha256": "26f3e84a3f62a9edbf307635822b957cc5897117492b4836211ba93303b76042",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/qa/browser-report.json",
+      "sha256": "f35f0774d23cc134dd4500cb7e4773b191a196151effb3fcc0b79a70c8bf9833",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/qa/desktop-page.png",
+      "sha256": "f1b2c17ec786777419e2c6fc6d7b96f38485e8db5385fea1417284006cdb3eb8",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/qa/mobile-page.png",
+      "sha256": "8874fcb42af7a77cb6d5f0b635621a0641c660d61c9700be5cbc930857ec3377",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/record-review.mjs",
+      "sha256": "4f346600d353d78c4f5b72b281570b195b35e62d918266412062de48b89de71c",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/review-v2.webm",
+      "sha256": "3e11f6d5ec76e18d1cd458e145c73418e27c68a9a72b4e9d1e1c9a7256d0f81b",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/serve.mjs",
+      "sha256": "d0c9b6fc83aabad8d389baf4a4f665a7a59bc7a37d5ffb80aff3dc9a492bbb9b",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/source/preview.js",
+      "sha256": "5f7ecbcead69d1fc054f4af7f9939586e232108abdf1ef5b4326bd82e88b7026",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/source/XBodyFX.js",
+      "sha256": "dc7cddc19e0b2f52376b468970c3af5aa056f8a7fc685d733eca63436f9682e5",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-v1/sword-lock.json",
+      "sha256": "359f407daa02854869ed11085b0f48c04b395475d814ac09dd9b1adae6217924",
+      "hashMode": "UTF8_LF"
+    }
+  ]
+}
