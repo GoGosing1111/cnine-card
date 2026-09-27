@@ -1,0 +1,53 @@
+{
+  "operationKey": "ops:ayoon-pinball-gift:20260928:v1:17c00d053ff28529acb8183a",
+  "campaignKey": "ayoon-pinball-gift-20260928-v1",
+  "title": "아윤방 핀볼 이벤트",
+  "body": "아윤방 핀볼 이벤트",
+  "itemCode": "TOURNAMENT_GIFT_BOX",
+  "quantity": 1,
+  "count": 1,
+  "recipientHash": "17c00d053ff28529acb8183a81dd00ac416a4d2e7a665cff622c39fdf27e86ff",
+  "recipients": [
+    {
+      "id": "750",
+      "nickname": "라페스타다",
+      "soop": "#LafeStar"
+    }
+  ],
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "actor": "SYSTEM_OPS",
+  "authorization": "명단 대조 후 아윤방 핀볼 이벤트 메시지로 계정당 1개 추가 지급. 횟수 무관. 오늘 지급내역 있어도 지급하라고 총2회야",
+  "completedAt": "2026-09-27T16:09:14.696Z",
+  "auditId": "36626",
+  "verification": {
+    "messages": 1,
+    "rewards": 1,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0,
+    "rows": [
+      {
+        "message_id": "167165",
+        "user_id": "750",
+        "title": "아윤방 핀볼 이벤트",
+        "body": "아윤방 핀볼 이벤트",
+        "sender_type": "ADMIN",
+        "message_type": "ITEM_REWARD",
+        "is_read": "0",
+        "hidden_at": null,
+        "reward_id": "165068",
+        "reward_user_id": "750",
+        "reward_type": "TOURNAMENT_GIFT_BOX",
+        "reward_amount": "1",
+        "claimed_at": null
+      }
+    ]
+  },
+  "identityAuthorization": "#LafeStar ㅡ 라페스타다 사은품 명단 2개 확인후 지급",
+  "eligibility": {
+    "funding": false,
+    "ayoon": true,
+    "requestedGameNickname": "라페스타다"
+  }
+}

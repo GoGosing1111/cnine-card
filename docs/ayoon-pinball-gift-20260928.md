@@ -41,8 +41,15 @@
 - 기존 지급 도구를 변경 없이 사용했다. 운영 dry-run 롤백·잔여 기록 0건 확인 후 COMMIT 1회, 별도 READ ONLY 조회에서 메시지 1건·첨부 1건·문구·수량·감사·영수증 일치와 누락/중복 0건을 확인했다. 인벤토리 직접 변경과 대신 수령 없음.
 - 현재 **60명 지급 / 3명 미지급**. 기록: ayoon-pinball-gift-20260928-batch4.json 및 ayoon-pinball-gift-current-status-20260928.json. 실행 증거: C:/Users/User/.codex/worktrees/ops-ayoon-pinball-mail-20260928-batch4/. 문서만 커밋하고 게임 재배포는 하지 않는다.
 
-## 미지급 3명
+## #LafeStar 계정 확인 및 지급 (batch5)
+
+- 사용자 확인 **#LafeStar → 라페스타다(750)**. 정확한 활성 USER 계정과 이번 이벤트의 기존 메시지 0건을 확인했다.
+- 두 행사 원본 명단을 대조했다. 아윤방 핀볼 63명 명단에 포함되어 해당 사은품 1개를 지급했다. 낮 대회 펀딩 원본 명단에는 없어 그 행사분은 지급하지 않았다. 원본의 #스타를 #LafeStar와 동일인으로 간주하지 않았다.
+- **2026-09-28 01:09:14 KST** (2026-09-27T16:09:14.696Z)에 **아윤방 핀볼 이벤트** 메시지 및 **대회 사은품 1개**를 첨부해 지급했다. 감사 **36626**, 작업 영수증 ops:ayoon-pinball-gift:20260928:v1:17c00d053ff28529acb8183a, 수신자 해시 17c00d053ff28529acb8183a81dd00ac416a4d2e7a665cff622c39fdf27e86ff.
+- 기존 지급 도구를 변경 없이 사용했다. 운영 dry-run 롤백·잔여 기록 0건 확인 후 COMMIT 1회, 별도 READ ONLY 조회에서 메시지 1건·첨부 1건·문구·수량·감사·영수증 일치와 누락/중복 0건을 확인했다. 인벤토리 직접 변경과 대신 수령 없음.
+- 현재 **61명 지급 / 2명 미지급**. 기록: ayoon-pinball-gift-20260928-batch5.json 및 ayoon-pinball-gift-current-status-20260928.json. 실행 증거: C:/Users/User/.codex/worktrees/ops-ayoon-pinball-mail-20260928-batch5/. 문서만 커밋하고 게임 재배포는 하지 않는다.
+
+## 미지급 2명
 
 - 족쌤
-- #LafeStar
 - Lillie7
