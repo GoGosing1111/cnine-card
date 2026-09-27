@@ -30,7 +30,7 @@ test('Dongtan Diim uses the approved name and preserves all previous 42 mercenar
   assert.equal(card.catalogRelease,'READ_ONLY_USER_APPROVED');
   assert.equal(card.sourceArtStatus,'APPROVED_SOURCE_ART');
   for(const q of ['동탄 디임','동탄디임','디임','ㄷㅌㄷㅇ','V043','회색 니트 원피스']){
-    assert.deepEqual(filterCards(roster.cards,{q}).map(entry=>entry.code),['V-043'],q);
+    assert.deepEqual(filterCards(roster.cards,{q}).map(entry=>entry.code),q==='디임'?['V-043','V-051']:['V-043'],q);
   }
   assert.equal(filterCards(roster.cards.slice(0,43),{sort:'newest'})[0].code,card.code);
 });
@@ -56,7 +56,7 @@ test('the final game-illustration V4 is connected byte-for-byte with only separa
 
 test('Diim art approval stays unranked and the CMS codex publishes separate approved art and SD',()=>{
   assert.equal(ROSTER_URL.searchParams.get('v'),'20260911-omega-ranks');
-  assert.deepEqual(roster.summary,{total:50,sourceArtReady:50,battleSpriteReady:50,battleSpritePending:0,rankPending:42});
+  assert.deepEqual(roster.summary,{total:55,sourceArtReady:55,battleSpriteReady:55,battleSpritePending:0,rankPending:42});
   assert.equal(approval.runtimeConnected,false);
   assert.equal(approval.rankAssigned,false);
   assert.equal(card.rank,null);
