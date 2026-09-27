@@ -1,0 +1,338 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "width": 1440,
+      "scroll": 1440
+    },
+    "snapshots": [
+      {
+        "ready": true,
+        "mode": "dash",
+        "time": 0.38,
+        "playing": false,
+        "speed": 1,
+        "frame": 4,
+        "phase": "가속",
+        "contactError": 278.5518731591292,
+        "visibleEffects": 1,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 885.3266311841526,
+          "y": 401.6479641366562
+        },
+        "contact": {
+          "x": 1009.9999999999999,
+          "y": 351
+        }
+      },
+      {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.34,
+        "playing": false,
+        "speed": 1,
+        "frame": 3,
+        "phase": "타격 정지",
+        "contactError": 5.684341886080802e-14,
+        "visibleEffects": 1,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 893.6379353029517,
+          "y": 309.275710035038
+        },
+        "contact": {
+          "x": 1010,
+          "y": 351
+        }
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 1,
+        "playing": false,
+        "speed": 1,
+        "frame": 5,
+        "phase": "충돌",
+        "contactError": 1.1368683772161603e-13,
+        "visibleEffects": 2,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 849.6290924669097,
+          "y": 343.25867975840725
+        },
+        "contact": {
+          "x": 1009.9999999999999,
+          "y": 351
+        }
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.42,
+        "playing": false,
+        "speed": 1,
+        "frame": 2,
+        "phase": "빛 응축",
+        "contactError": 327.92032836559036,
+        "visibleEffects": 1,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 849.6290924669097,
+          "y": 343.25867975840725
+        },
+        "contact": {
+          "x": 1010,
+          "y": 351
+        }
+      }
+    ],
+    "speeds": [
+      {
+        "speed": 0.25,
+        "advance": 0.07075,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "advance": 0.284,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "advance": 0.566,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "skill",
+      "time": 0,
+      "playing": false,
+      "speed": 2,
+      "frame": 0,
+      "phase": "대기",
+      "contactError": 566.8516463727049,
+      "visibleEffects": 0,
+      "registeredTimelines": 0,
+      "bodyFrames": 24,
+      "effectFrames": 40,
+      "weaponSources": 1,
+      "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "weaponRedrawnPixels": 0,
+      "regularAllies": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 380,
+        "y": 416
+      },
+      "contact": {
+        "x": 1009.9999999999999,
+        "y": 351
+      }
+    }
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "width": 390,
+      "scroll": 390
+    },
+    "snapshots": [
+      {
+        "ready": true,
+        "mode": "dash",
+        "time": 0.38,
+        "playing": false,
+        "speed": 1,
+        "frame": 4,
+        "phase": "가속",
+        "contactError": 226.01898206224786,
+        "visibleEffects": 1,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 765.5584566049723,
+          "y": 695.184566492407
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 629.3422131147538
+        }
+      },
+      {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.34,
+        "playing": false,
+        "speed": 1,
+        "frame": 3,
+        "phase": "타격 정지",
+        "contactError": 0,
+        "visibleEffects": 1,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 640.1391519594113,
+          "y": 575.1006361603033
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 629.342213114754
+        }
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 1,
+        "playing": false,
+        "speed": 1,
+        "frame": 5,
+        "phase": "충돌",
+        "contactError": 0,
+        "visibleEffects": 2,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 582.9276562725565,
+          "y": 619.2784968006833
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 629.3422131147539
+        }
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.42,
+        "playing": false,
+        "speed": 1,
+        "frame": 2,
+        "phase": "빛 응축",
+        "contactError": 426.2964268752676,
+        "visibleEffects": 1,
+        "registeredTimelines": 0,
+        "bodyFrames": 24,
+        "effectFrames": 40,
+        "weaponSources": 1,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "weaponRedrawnPixels": 0,
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 582.9276562725565,
+          "y": 619.2784968006833
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 629.342213114754
+        }
+      }
+    ],
+    "speeds": [
+      {
+        "speed": 0.25,
+        "advance": 0.07075,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "advance": 0.283,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "advance": 0.568,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "skill",
+      "time": 0,
+      "playing": false,
+      "speed": 2,
+      "frame": 0,
+      "phase": "대기",
+      "contactError": 352.18815312156505,
+      "visibleEffects": 0,
+      "registeredTimelines": 0,
+      "bodyFrames": 24,
+      "effectFrames": 40,
+      "weaponSources": 1,
+      "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "weaponRedrawnPixels": 0,
+      "regularAllies": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 359.40983606557376,
+        "y": 713.842213114754
+      },
+      "contact": {
+        "x": 791.4098360655738,
+        "y": 629.3422131147539
+      }
+    }
+  }
+]

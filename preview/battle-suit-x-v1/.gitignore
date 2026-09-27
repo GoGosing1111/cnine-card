@@ -1,0 +1,4 @@
+qa/*.png
+qa/packing-log.json
+!qa/desktop-page.png
+!qa/mobile-page.png
