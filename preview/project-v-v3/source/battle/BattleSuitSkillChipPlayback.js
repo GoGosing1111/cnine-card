@@ -197,13 +197,51 @@ export class BattleSuitSkillChipPlayback{
       if(hold){this.holds--;if(this.valid()&&!this.holds&&!this.userPaused){this.resyncAudio();this.timeline?.play();}}
     }
   }
+  pumpScheduledAreaContacts(){
+    if(!this.engine.continuousAreaPlayback||this.engine.accountBattleUnitDamageQueue?.length||this.engine.accountBattleUnit?.fireTimeline)return;
+    if(![...this.fx.values()].some(entry=>entry.continuousArea&&entry.started))return;
+    // An unrelated KO can hold the main generation cursor behind a returning
+    // card. Already launched area contacts still own their authored clock.
+    // Exact instance IDs and the unchanged spawn fence prevent retargeting.
+    for(let i=this.index;i<this.groups.length;i++){
+      const group=this.groups[i];if(group.external)break;
+      if(group.areaDispatched||!group.areaImpact||group.at>this.clock.time*1000+.001)continue;
+      const hits=group.events.filter(e=>e.type==='SKILL_CHIP_HIT');
+      if(!hits.every(event=>{
+        const entry=this.fx.get(event.castId||event.chipCode),index=Number(event.hitIndex)||0;
+        return entry?.continuousArea&&entry.started&&this.engine.combatantById(event.targetId)?.id===event.targetId&&
+          entry.scheduledImpacts.has(index)&&this.clock.time-entry.at+.001>=entry.scheduledImpacts.get(index);
+      }))continue;
+      group.areaDispatched=true;
+      const predecessors=[...this.pending],knockouts=[];
+      for(const event of group.events){
+        if(event.type==='SKILL_CHIP_HIT'){this.remember(event);this.hit(event);this.notify(event);}
+        else knockouts.push(event);
+      }
+      if(!knockouts.length)continue;
+      const run=(async()=>{
+        await Promise.all(knockouts.map(async event=>{
+          if(!this.valid())return;
+          const prepared=await this.prepare(event);if(!this.valid())return;
+          if(prepared){this.remember(prepared);await this.engine.playEvents([prepared],{timedInternal:true});}
+          if(this.valid())this.notify(event);
+        }));
+        await Promise.all(predecessors);
+      })();
+      this.pending.add(run);this.fence=run;
+      run.then(()=>{this.pending.delete(run);if(this.fence===run)this.fence=null;if(this.valid())this.pump();},error=>this.fail(error));
+    }
+  }
   pump(){
     this.syncPause();
-    if(!this.valid()||this.waiting||this.holds||this.userPaused)return;
+    if(!this.valid()||this.holds||this.userPaused)return;
+    this.pumpScheduledAreaContacts();
+    if(this.waiting){this.render();return;}
     const nextRate=this.engine.combatClockRate??(this.engine.paceScale||1);
     if(nextRate!==this.rate){this.rate=nextRate;this.timeline?.timeScale(this.rate);this.resyncAudio();}
     while(this.index<this.groups.length&&this.groups[this.index].at<=this.clock.time*1000+.001){
       const group=this.groups[this.index];
+      if(group.areaDispatched){this.index++;continue;}
       const continuousArea=group.areaImpact&&group.events.filter(e=>e.type==='SKILL_CHIP_HIT').every(e=>
         this.fx.get(e.castId||e.chipCode)?.continuousArea&&this.engine.combatantById(e.targetId)?.id===e.targetId);
       const fence=group.external||group.events.some(event=>event.type==='KO');
