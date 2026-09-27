@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import manifest from '../../preview/clan-avatar-hanbok-live-v1/manifest.json' with {type:'json'};
-import previous from '../../preview/clan-avatar-hanbok-live-v1/before-images.json' with {type:'json'};
+import manifest from '../../preview/avatar-clan-hanbok-v1/manifest.json' with {type:'json'};
+import previous from '../../preview/avatar-clan-hanbok-v1/before-images.json' with {type:'json'};
 export const CLAN_HANBOK_KEY='ops:clan-avatar-hanbok:20260927:v1';
 export const CLAN_HANBOK_CODES=Object.freeze(manifest.entries.map(e=>e.code).sort());
 const parse=x=>typeof x==='string'?JSON.parse(x):x;

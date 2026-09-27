@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
-import before from '../preview/clan-avatar-hanbok-live-v1/before-images.json' with {type:'json'};
+import before from '../preview/avatar-clan-hanbok-v1/before-images.json' with {type:'json'};
 import {replaceClanAvatarsWithHanbok,CLAN_HANBOK_CODES} from '../scripts/ops/clan-avatar-hanbok-20260927.mjs';
 async function fixture(){const db=new PGlite();await db.exec(`CREATE TABLE users(id BIGINT PRIMARY KEY,role TEXT,status TEXT,coin BIGINT);INSERT INTO users VALUES(1,'OWNER','ACTIVE',777),(2,'USER','ACTIVE',888);
  CREATE TABLE avatar_catalog_v1(code TEXT PRIMARY KEY,name TEXT,version INTEGER,lobby_image TEXT,lobby_mobile_image TEXT,equipment_image TEXT,role_label TEXT,description TEXT,accent TEXT,updated_at TEXT,acquisition_type TEXT,coin_price BIGINT,effect_type TEXT,effect_value INTEGER,is_active INTEGER,is_public INTEGER,sale_enabled INTEGER);

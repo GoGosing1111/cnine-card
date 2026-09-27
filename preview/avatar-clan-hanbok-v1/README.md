@@ -23,6 +23,7 @@
 - 로비 배경 원화는 기존 한복 장비창 이미지를 참조해 built-in `image_gen`으로 각 캐릭터별 새로 생성했다. 인물·의상·전신을 유지하고 개별 한옥 장면을 구성했다. 로고·클랜 이름·문자는 이미지에 넣지 않았다. 실제 생성 프롬프트는 `prompts.json`이다.
 - `build-assets.mjs`는 로비 1024/640 WebP와 장비창 640 WebP만 파생한다. 장비창은 균일 배율·투명 여백만 적용하며 각 캐릭터의 기존 런타임 캔버스 규격을 따른다. 기존 인물 원화는 재생성하지 않는다.
 - `manifest.json`에 원본/파생물 해시·픽셀 크기·바이트·알파·여백을 기록했다.
+- 배포 경로는 기존 CMS 지급 화면의 허용 규칙에 맞춘 `preview/avatar-clan-hanbok-v1/`다. 실제 `admin/avatar-grant.js` 선택 핸들러로 8종 썸네일 표시를 검증한다.
 - 운영 카탈로그의 `lobby_image`, `lobby_mobile_image`, `equipment_image`를 함께 바꾸면 기존 로비/아바타/장비창 어댑터가 해당 자산을 읽는다. 런타임 렌더러·CSS·계정 장착 정보 변경은 없다.
 - 프리뷰는 실제 `avatar-shop-v1.js`와 `character-loadout-v2.js` 및 각 공용 CSS를 그대로 사용한다. 카탈로그의 공개 메타데이터만 `catalog-review.json`에 담았다. 실제 계정 보유 상태를 흉내 내거나 저장 API를 호출하지 않는다.
 
