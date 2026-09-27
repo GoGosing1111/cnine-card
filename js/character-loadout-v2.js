@@ -253,8 +253,11 @@
 
     function titleBadge(row) {
       const style = String(row?.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
-      return '<span class="public-title-badge title-style-' + style + ' ' + titleFontClass(row?.fontPreset) + '">[' + escapeHtml(row?.badgeText || row?.name || '칭호 없음') + ']</span>';
+      const appearance = ['completionist','trophy_hunter','challenger'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
+      return '<span class="' + appearance + ' ' + titleFontClass(row?.fontPreset) + '">[' + escapeHtml(row?.badgeText || row?.name || '칭호 없음') + ']</span>';
     }
+
+    const titleBonusLabel = row => ['COLLECTION_MASTERY','TROPHY_KINDS'].includes(row?.unlockType) && !row.pvePower ? '업적 칭호' : '전체 전투 +' + formatNumber(row?.pvePower);
 
     function titleProgress(row) {
       const progress = state.titleProgress[row.code];
@@ -281,7 +284,7 @@
           <p>ACTIVE TITLE SIGNATURE</p>
           <h2 class="${titleFontClass(active?.fontPreset)}">${titleBadge(active)}</h2>
           <span>${active ? escapeHtml(active.description || '장착 중인 칭호가 계정과 전투 화면에 적용됩니다.') : '보유 칭호에서 하나를 선택해 장착하세요.'}</span>
-          <strong>${active?.pvePower ? '전체 전투 +' + formatNumber(active.pvePower) : active ? '업적 칭호' : '칭호 미장착'}</strong>
+          <strong>${active ? titleBonusLabel(active) : '칭호 미장착'}</strong>
           ${active ? '<button type="button" data-title-unequip>칭호 해제</button>' : ''}
         </article>
         <aside class="clv2-title-collection">
@@ -292,7 +295,7 @@
             <strong class="${titleFontClass(row.fontPreset)}">${titleBadge(row)}</strong>
             <small>${row.owned ? escapeHtml(row.description || '보유 칭호') : titleRequirement(row)}</small>
             ${titleProgress(row)}
-            <em>${row.pvePower ? '전체 전투 +' + formatNumber(row.pvePower) : '업적 칭호'}</em>
+            <em>${titleBonusLabel(row)}</em>
             ${row.owned ? (row.equipped ? '<button type="button" disabled>장착 중</button>' : `<button type="button" data-title-equip="${row.id}">장착</button>`) : '<button type="button" disabled>미획득</button>'}
           </article>`).join('') || '<div class="clv2-empty-state"><b>등록된 칭호가 없습니다.</b></div>'}</div>
         </aside>
