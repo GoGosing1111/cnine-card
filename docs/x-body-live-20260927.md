@@ -19,9 +19,9 @@ X-BODY는 기존 H/S/Z와 같은 장비 CMS 테이블에 `BATTLE_SUIT_X_BODY`, �
 
 ## 변경 규모와 배포 계획
 
-직전 운영 배포는 Cloudflare Pages `e24ab388-c4af-4c99-b50f-f15169acee5f`, 전체 커밋 **06b82dd4c0e07fafeb0773d730513caa2367a75b**다. 운영 목록에서 확인한 값이다.
+최초 조사 당시 운영은 `e24ab388-c4af-4c99-b50f-f15169acee5f` / `06b82dd4c0e07fafeb0773d730513caa2367a75b`였다. 작업 중 버닝 배포가 완료되어 실제 배포 직전에 목록을 다시 조회했다. **최종 범위 기준은 `2f9d4113-6c98-4a33-bff9-d0874bd92b6d` / `2bcb7bf82198ec636af58a4cb028306aa6d07fc3`**다.
 
-이번 변경은 X 장비 한 종의 카탈로그·서버 스케줄 등록·기존 전투 어댑터 연결 및 재현된 이미지 캐시 복구로 범위를 한정한다. DB 스키마·공통 트랜잭션·인증 기반·런타임 의존성·인프라는 변경하지 않는다. 기준 SHA 이후 이미 main에 병합된 모든 OWNER 버닝 CMS 접근 수정도 관련 두 테스트로 함께 검증한다. 계정 역할 검증을 제거하지 않는다. 같은 범위의 문서·기존 승인 자산 보존도 배포에 포함된다.
+이번 변경은 X 장비 한 종의 카탈로그·서버 스케줄 등록·기존 전투 어댑터 연결 및 재현된 이미지 캐시 복구로 범위를 한정한다. DB 스키마·공통 트랜잭션·인증 기반·런타임 의존성·인프라는 변경하지 않는다. 이미 운영에 반영된 OWNER 버닝 검사는 반복하지 않는다. 같은 범위의 문서·기존 승인 자산 보존도 배포에 포함된다.
 
 배포 후보를 정리하는 동안 main의 칭호·한복 아바타 작업이 추가되어 함께 보존했다. 칭호 초기화와 X 초기화가 모두 실행되도록 marker 목록을 합치고 메인 캐시 토큰 두 개를 보존했다. 칭호·장비 로딩·기본 슈트 카탈로그·한복 자산 관련 검사도 선택 범위에 포함한다. 별도 한복 DB 운영 스크립트는 이 작업에서 실행하지 않는다. 해당 작업의 기존 PC/모바일 검수 기록은 각 출시 문서를 따른다.
 
@@ -39,8 +39,6 @@ X-BODY는 기존 H/S/Z와 같은 장비 CMS 테이블에 `BATTLE_SUIT_X_BODY`, �
  "tests/battle-suit-damage-v2063.test.mjs",
  "tests/battle-suit-skill-chip-runtime-v2046.test.mjs",
  "tests/project-v-v3-account-battle-unit-v1953.test.mjs",
- "tests/burning-owner-access-20260927.test.mjs",
- "tests/burning-owner-timer-v1902.test.mjs",
  "tests/pve-battlefield-entry-v2117.test.mjs",
  "tests/achievement-titles-20260927.test.mjs",
  "tests/equipment-loading.test.mjs",
