@@ -12,7 +12,8 @@
 
 ## 검증과 배포 범위
 
-- 권한 변경이므로 전체 출시 검사 경로 `npm run deploy:production`을 사용한다. 별도 사전 전체 검사와 배포 중 전체 검사를 중복 실행하지 않는다.
+- 처음에는 권한 변경으로 판단해 전체 출시 검사 경로를 사용했으나, 사용자 후속 지시로 버닝과 무관한 전체 검사 반복을 중단한다. 기존 인증 기반을 변경하지 않는 OWNER 역할 조건 수정에 한정해 `npm run deploy:production -- --scoped`로 마무리한다.
+- 최종 선택 검사는 이미 통과한 `test:burning`(11개)과 서버 컴파일 `check:worker`다. 기존 배포 도구의 깨끗한 커밋·origin/main·캐시·출시 플래그·Hyperdrive 검사는 유지한다. 실제 CMS PC/모바일 검수는 완료한 자료를 사용한다.
 - 확인한 직전 운영 배포: `e24ab388-c4af-4c99-b50f-f15169acee5f`, 커밋 `06b82dd4c0e07fafeb0773d730513caa2367a75b` (Cloudflare Pages production 목록).
 - 해당 배포 이후 원격 main에 있던 변경은 문서, `SSS 미승인본` 보존 자료와 승인된 X-BODY 독립 프리뷰이며, 이번 실행 코드 범위는 버닝 권한 함수·API 오류 문구·CMS JS/CSS/로더뿐이다.
 - `test:burning`을 전체 게이트에 포함했다. 여러 OWNER의 두 API GET/PATCH 성공·감사 로그, 비OWNER·미인증 차단, 기존 타이머/기간/상호 배제, CMS 로더 버전을 검증한다.
