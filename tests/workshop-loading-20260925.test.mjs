@@ -8,16 +8,16 @@ const client=fs.readFileSync(new URL('../js/workshop-v1881.js',import.meta.url),
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject};};
 function harness(){
-  const reads=[],nodes=[],events=[];let now=1000,ready=false;
+  const reads=[],nodes=[],events=[],timers=new Map();let now=1000,ready=false,timerId=0;
   const manifest={workshop:{parallelStyles:true,prepare:()=>context.prepareWorkshopEntryRead(),styles:['a.css','b.css'],scripts:['a.js','b.js'],ready:()=>ready},other:{styles:['other.css'],scripts:['other.js'],ready:()=>ready}};
   const document={querySelectorAll:()=>nodes.filter(n=>n.tag==='link'),get scripts(){return nodes.filter(n=>n.tag==='script')},createElement:tag=>{
     const listeners={};return {tag,dataset:{},getAttribute(name){return this[name]},addEventListener(name,fn){(listeners[name]??=[]).push(fn)},remove(){nodes.splice(nodes.indexOf(this),1)},finish(error=false){this[error?'onerror':'onload']?.();for(const fn of listeners[error?'error':'load']||[])fn()}};
   }};
   const append=node=>{nodes.push(node);events.push(node.href||node.src)};
   document.head={appendChild:append};document.body={appendChild:append};
-  const context=vm.createContext({window:{},document,Date:{now:()=>now},FEATURE_RESOURCE_MANIFEST:manifest,API_TOKEN:'account-a',PLAYER_STATE_MUTATION_EPOCH:0,apiRequest:(path,options,config)=>{const d=deferred();reads.push({...d,path,options,config});events.push('api');return d.promise}});
+  const context=vm.createContext({window:{},document,AbortController,setTimeout:(fn,ms)=>{timers.set(++timerId,{fn,at:now+ms});return timerId},clearTimeout:id=>timers.delete(id),Date:{now:()=>now},FEATURE_RESOURCE_MANIFEST:manifest,API_TOKEN:'account-a',PLAYER_STATE_MUTATION_EPOCH:0,apiRequest:(path,options,config)=>{const d=deferred();reads.push({...d,path,options,config});events.push('api');return d.promise}});
   vm.runInContext(app.slice(app.indexOf('const featureResourcePromises='),app.indexOf('function featureKeyForTab')),context);
-  return {context,reads,nodes,events,setReady:()=>{ready=true},advance:ms=>{now+=ms}};
+  return {context,reads,nodes,events,timers,setReady:()=>{ready=true},advance:ms=>{now+=ms;for(const [id,t] of timers)if(t.at<=now){timers.delete(id);t.fn()}}};
 }
 test('only workshop overlaps CSS, ordered scripts and exactly one uncached entry read',async()=>{
   const h=harness(),loading=h.context.ensureFeatureResources('workshop');
@@ -112,4 +112,14 @@ test('hover warming prepares assets without fetching a balance before actual ent
   const prepare=vm.runInContext('('+section.match(/prepare:(.+),\r?\n/)[1]+')',h.context);
   prepare();assert.equal(h.reads.length,0);
   h.context.runtimeCommandContext='workshop';prepare();prepare();assert.equal(h.reads.length,1);
+});
+
+test('workshop deadline includes a stuck queue or response body and allows one fresh retry',async()=>{
+  const h=harness(),first=h.context.consumeWorkshopEntryRead();
+  const failed=assert.rejects(first,/제시간에 받지 못했습니다/);
+  h.advance(12000);await failed;
+  assert.equal(h.reads[0].options.signal.aborted,true);
+  const retry=h.context.consumeWorkshopEntryRead();assert.equal(h.reads.length,2);
+  h.reads[0].resolve({stale:true});h.reads[1].resolve({fresh:true});
+  assert.deepEqual(await retry,{fresh:true});assert.equal(h.timers.size,0);
 });

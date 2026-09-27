@@ -50,6 +50,10 @@ try{
    const observer=new MutationObserver(()=>{const active=document.querySelector('#workshopRootV1881 [data-ws-section].active');if(active){firstSection ||= active.dataset.wsSection;renders++;}});
    observer.observe(document,{childList:true,subtree:true});
    await window.SoopketmonV21RuntimeRouter.navigate('fusion');
+   if(!document.querySelector('#workshopRootV1881 .ws81-nav'))await new Promise(resolve=>{
+    const ready=new MutationObserver(()=>{if(document.querySelector('#workshopRootV1881 .ws81-nav')){ready.disconnect();resolve()}});
+    ready.observe(document,{childList:true,subtree:true});
+   });
    observer.disconnect();return {entryToReady:Math.round(performance.now()-start),firstSection,renders};
   }).catch(async error=>{console.log(JSON.stringify({version,width,errors,diagnostic:await page.evaluate(()=>({body:document.body.innerText.slice(-2000),binder:typeof window.bindWorkshopView,render:typeof window.renderShell}))}));throw error});
   const ws=page.locator('#workshopRootV1881');

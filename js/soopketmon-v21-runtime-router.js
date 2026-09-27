@@ -114,13 +114,11 @@
     scrapyard: { shell: 'scrapyard' },
     vehicle: {
       shell: 'workshop',
-      workshopSection: 'VEHICLE',
-      actions: [{ selector: '[data-ws-section="VEHICLE"], [data-workshop-category="VEHICLE"]' }]
+      workshopSection: 'VEHICLE'
     },
     fusion: {
       shell: 'workshop',
-      workshopSection: 'SYNTHESIS',
-      actions: [{ selector: '[data-ws-section="SYNTHESIS"], [data-workshop-category="EQUIPMENT_SYNTHESIS"]' }]
+      workshopSection: 'SYNTHESIS'
     }
   });
 

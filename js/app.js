@@ -923,8 +923,8 @@ const FEATURE_RESOURCE_MANIFEST={
   workshop:{
     parallelStyles:true,
     prepare:()=>{if(runtimeCommandContext==='workshop'&&!workshopEntryRead)prepareWorkshopEntryRead()},
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-workbench-v1.css?v=20260922','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?v=20260926','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260926'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-workbench-v1.css?v=20260922&loading=20260927','css/workshop-assembly-live-v2073.css?v=2073.1'],
+    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?v=20260926','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927'],
     ready:()=>Boolean(window.SoopketmonWorkshopThumbnails)&&Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
@@ -938,7 +938,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-recipes-v1.js?v=20260926','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260926&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
+    scripts:['js/workshop-recipes-v1.js?v=20260926','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&pveEntry=2119&heeya=2118','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -1006,12 +1006,23 @@ function featureResourcesReady(key){
 }
 // Share one read across asset loading and immediate shell remounts. No persisted balances.
 const WORKSHOP_ENTRY_MAX_AGE_MS=1000;
+const WORKSHOP_ENTRY_TIMEOUT_MS=12000;
 let workshopEntryRead=null;
 let workshopEntrySection=null;
+function requestWorkshopEntryState(){
+  const controller=new AbortController();let timer;
+  // Include the read queue and response body in this view's deadline. The
+  // generic fetch timeout only covers waiting for response headers.
+  const deadline=new Promise((_,reject)=>{timer=setTimeout(()=>{
+    reject(new Error('제작소 정보를 제시간에 받지 못했습니다. 다시 시도해 주세요.'));
+    controller.abort();
+  },WORKSHOP_ENTRY_TIMEOUT_MS)});
+  return Promise.race([apiRequest('workshop',{signal:controller.signal},{ttl:0,microcache:false,replaceInflight:true,timeoutMs:WORKSHOP_ENTRY_TIMEOUT_MS}),deadline]).finally(()=>clearTimeout(timer));
+}
 function prepareWorkshopEntryRead(){
   if(!API_TOKEN){workshopEntryRead=null;return;}
   const read={token:API_TOKEN,epoch:PLAYER_STATE_MUTATION_EPOCH,consumedAt:null};
-  read.result=apiRequest('workshop',{}, {ttl:0,microcache:false,replaceInflight:true,timeoutMs:45000}).then(data=>{
+  read.result=requestWorkshopEntryState().then(data=>{
     return {data};
   },error=>({error})); // Asset failure/navigation must not leave an unhandled rejection.
   workshopEntryRead=read;
@@ -1020,7 +1031,7 @@ async function consumeWorkshopEntryRead({fresh=false}={}){
   const current=read=>read&&read.token===API_TOKEN&&read.epoch===PLAYER_STATE_MUTATION_EPOCH;
   if(fresh||!current(workshopEntryRead)||(workshopEntryRead.consumedAt!==null&&Date.now()-workshopEntryRead.consumedAt>WORKSHOP_ENTRY_MAX_AGE_MS))prepareWorkshopEntryRead();
   const read=workshopEntryRead;
-  if(!read)return apiRequest('workshop',{}, {ttl:0,microcache:false,replaceInflight:true,timeoutMs:45000});
+  if(!read)return requestWorkshopEntryState();
   const result=await read.result;
   if(!current(read))return consumeWorkshopEntryRead();
   if(result.error){

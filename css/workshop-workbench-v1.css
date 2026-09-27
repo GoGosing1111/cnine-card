@@ -200,3 +200,9 @@
   .ws81-workshop .ws78-synth-summary{grid-template-columns:minmax(0,1fr) 75px}
   .ws81-workshop .ws78-synth-summary b{font-size:11px}
 }
+
+/* Bounded workshop read: usable recovery controls on desktop and mobile. */
+.ws81-workshop .ws76-error{padding:32px 20px;text-align:center;font-size:14px;gap:16px}
+.ws81-workshop .ws76-error b{font-size:18px;line-height:1.5}
+.ws81-workshop .ws76-error span{max-width:460px;color:var(--ws-muted);line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
+.ws81-workshop .ws76-error .ws76-primary{max-width:220px;margin:4px 0 0}

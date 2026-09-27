@@ -111,10 +111,10 @@ assert.deepEqual(renderedShells, ['scrapyard'], 'scrapyard route must render the
 
 for(const [route,section] of [['fusion','SYNTHESIS'],['vehicle','VEHICLE']]){
   const calls=[];
-  await router.navigate(route,{runtime:{document:{querySelector:()=>({click(){calls.push('ready')}})},global:context,now:()=>Date.now(),setTimeout,
+  await router.navigate(route,{runtime:{document:{querySelector:()=>{throw new Error('Workshop API is still pending')}},global:context,now:()=>Date.now(),setTimeout,
     renderShell(shell,options){calls.push({shell,section:options.workshopSection})}
   }});
-  assert.deepEqual(calls,[{shell:'workshop',section},'ready'],'select the workshop section before the first render, keeping legacy activation');
+  assert.deepEqual(calls,[{shell:'workshop',section}],'workshop owns its loading/error UI; router must not poll an API-dependent selector');
 }
 
 assert.match(appSource, /scrapyard:\{[\s\S]*?css\/workshop-v1881\.css\?v=2009-material-label[\s\S]*?js\/workshop-v1881\.js\?v=2098-hyper-codex/);

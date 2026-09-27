@@ -1,9 +1,9 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 import { ensureEmperorEnergyCatalog } from './_emperor_energy.js';
-import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {WORKSHOP_EXTENSION_CATEGORIES, validateWorkshopExtension} from '../shared/workshop-extension-contract-v1.mjs';
-const forgeSynthesisFilter=V3_JOINT_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
+const forgeSynthesisFilter=FORGE_RUNTIME_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
 
 const RECIPE_TABLE='workshop_recipes_v1668';
 const MATERIAL_TABLE='workshop_recipe_materials_v1668';
@@ -14,6 +14,9 @@ const SYNTH_RECEIPT_TABLE='equipment_synthesis_receipts_v1676';
 const SYNTH_LOG_TABLE='equipment_synthesis_logs_v1676';
 const SYNTH_RECIPE_TABLE='equipment_synthesis_recipes_v1677';
 const SYNTH_MATERIAL_META_PREFIX='SYNTHMAT2008:';
+// At most 100 attempts consume at most 20 instances each. One extra row
+// distinguishes a lower bound without counting millions of unrelated items.
+const SYNTH_STOCK_READ_LIMIT=2001;
 const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS','MATERIAL_CRAFT','BATTLE_SUIT_CRAFT',...WORKSHOP_EXTENSION_CATEGORIES]);
 const OUTPUT_TYPES=new Set(['VEHICLE','EQUIPMENT','INVENTORY_ITEM']);
 const PAYMENT_MODES=new Set(['COIN_OR_MASTER_STAR','COIN_ONLY','MASTER_STAR_ONLY','BOTH','COIN_AND_CARD_SHARD']);
@@ -210,14 +213,16 @@ async function synthesisRecipeRows(env,user,{admin=false}={}){
   const statement=env.DB.prepare(`SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public,r.owner_test_only,r.sort_order,
     input.name,input.slot,input.rarity,replace(input.image_url,char(92),'/') image_url,input.pve_power,input.pvp_power,
     output.name output_name,output.slot output_slot,output.rarity output_rarity,replace(output.image_url,char(92),'/') output_image,output.pve_power output_pve_power,output.pvp_power output_pvp_power,
-    COALESCE(owned.quantity,0) quantity
+    (SELECT COUNT(*) FROM (SELECT x.id FROM user_equipment_instances x
+      LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id
+      WHERE x.user_id=? AND x.equipment_id=r.input_equipment_id AND l.instance_id IS NULL${forgeSynthesisFilter}
+      LIMIT ${SYNTH_STOCK_READ_LIMIT}) stock) quantity
     FROM ${SYNTH_RECIPE_TABLE} r
     JOIN character_equipment_items input ON input.id=r.input_equipment_id AND input.is_active=1
     JOIN character_equipment_items output ON output.id=r.output_equipment_id AND output.is_active=1
-    LEFT JOIN (SELECT x.equipment_id,COUNT(*) quantity FROM user_equipment_instances x LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id WHERE x.user_id=? AND l.instance_id IS NULL${forgeSynthesisFilter} GROUP BY x.equipment_id) owned ON owned.equipment_id=r.input_equipment_id
     WHERE ${visibility} ORDER BY r.sort_order,r.id`);
   const rows=admin?await statement.bind(user.id).all():await statement.bind(user.id,String(user.role||'').toUpperCase()).all();
-  const normalized=(rows.results||[]).map(row=>({...row,recipe_id:Number(row.recipe_id),input_equipment_id:Number(row.input_equipment_id),output_equipment_id:Number(row.output_equipment_id),input_quantity:Number(row.input_quantity||3),success_rate:Number(row.success_rate??100),quantity:Number(row.quantity||0),pve_power:Number(row.pve_power||0),pvp_power:Number(row.pvp_power||0),output_pve_power:Number(row.output_pve_power||0),output_pvp_power:Number(row.output_pvp_power||0)}));
+  const normalized=(rows.results||[]).map(row=>({...row,recipe_id:Number(row.recipe_id),input_equipment_id:Number(row.input_equipment_id),output_equipment_id:Number(row.output_equipment_id),input_quantity:Number(row.input_quantity||3),success_rate:Number(row.success_rate??100),quantity:Number(row.quantity||0),quantity_capped:Number(row.quantity||0)>=SYNTH_STOCK_READ_LIMIT,pve_power:Number(row.pve_power||0),pvp_power:Number(row.pvp_power||0),output_pve_power:Number(row.output_pve_power||0),output_pvp_power:Number(row.output_pvp_power||0)}));
   return attachSynthesisMaterials(env,normalized,user.id);
 }
 
@@ -445,4 +450,5 @@ export async function handleWorkshop({path,request,env,deps}){
 }
 
 export const __workshopBattleSuitTest=Object.freeze({BATTLE_SUIT_CRAFT_UPGRADE_KEY,BATTLE_SUIT_RECIPES,CATEGORIES,saveRecipe,paymentFor});
-export const __workshopCraftTest=Object.freeze({craft,FOUNDATION_SQL});
+export const __workshopCraftTest=Object.freeze({craft,synthesizeEquipment,FOUNDATION_SQL});
+export const __workshopReadTest=Object.freeze({synthesisRecipeRows,userWorkshopState,SYNTH_STOCK_READ_LIMIT});
