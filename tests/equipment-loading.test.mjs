@@ -109,3 +109,24 @@ test('enhanced duplicate is sorted first, selectable, keeps enhanced power and d
   assert.equal(m.controller.getState().equipmentTotalQuantity,5);assert.match(m.total.innerHTML,/1종 · 5개/);
   assert.equal(calls.filter(c=>c.path==='character/equipment/equip').length,1);
 });
+
+test('achievement title switching applies only the equipped power to PVE and PVP and removes it on unequip',async()=>{
+  const data=fixture();data.equipmentQuantitiesPending=false;
+  data.titles=[
+    {id:1,name:'폐인',unlockType:'COLLECTION_MASTERY',pvePower:50000,owned:true},
+    {id:2,name:'우승청부사',unlockType:'TROPHY_KINDS',pvePower:75000,owned:true}
+  ];
+  const m=mount(async path=>path==='character/loadout'?data:{ok:true});
+  await tick();m.click({tab:'title'});
+  assert.match(m.root.innerHTML,/50,000/);assert.match(m.root.innerHTML,/75,000/);
+  for(const [id,power] of [[1,50000],[2,75000]]){
+    m.click({titleEquip:String(id)});await tick();
+    const state=m.controller.getState();
+    assert.equal(state.equippedTitleId,id);
+    assert.equal(state.bonuses.titlePve,power);assert.equal(state.bonuses.titlePvp,power);
+    assert.equal(state.bonuses.pve,power);assert.equal(state.bonuses.pvp,power);
+  }
+  m.click({},['data-title-unequip']);await tick();
+  assert.equal(m.controller.getState().bonuses.titlePve,0);
+  assert.equal(m.controller.getState().bonuses.titlePvp,0);
+});

@@ -1,3 +1,4 @@
+import { ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY, ensureAchievementTitles, syncAchievementTitles } from './_achievement_titles.js';
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
 import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { burningEventIsLive } from './_burning_event_access.js';
@@ -21,8 +22,8 @@ const EQUIPMENT_RARITIES=['NORMAL','MAGIC','RARE','EPIC','LEGENDARY','MYTHIC'];
 const EQUIPMENT_RARITY_ALIASES={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC',MAGIC:'MAGIC',NORMAL:'NORMAL',RARE:'RARE',EPIC:'EPIC',LEGEND:'LEGENDARY',LEGENDARY:'LEGENDARY',MYTH:'MYTHIC',MYTHIC:'MYTHIC'};
 const GARAGE_RARITIES=[...EQUIPMENT_RARITIES];
 const SOURCE_TYPES=['PVE','PVE_AUTO','TOWER','RAID','RIFT','PVP','CAPTAIN'];
-const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET','CONTENT_CLEAR'];
-const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID','CRIMSON','CHALLENGER'];
+const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET','CONTENT_CLEAR','COLLECTION_MASTERY','TROPHY_KINDS'];
+const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID','CRIMSON','CHALLENGER','COMPLETIONIST','TROPHY_HUNTER'];
 const TITLE_FONT_PRESETS=['DEFAULT','SERIF','DISPLAY','ARCADE','ROUNDED','SCIFI','BRUSH','HANDWRITING','MONO','CLASSIC'];
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
@@ -31,7 +32,7 @@ const SUPPLY_BOX_MAX_OPEN=500;
 const LEGACY_SUPPLY_BOX_SHOP_ENABLED=false;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
-const FOUNDATION_CACHE=Symbol('equipment-foundation-20260918');
+const FOUNDATION_CACHE=Symbol('equipment-foundation-20260927-title-power');
 const BATTLE_SUIT_CATALOG=[
   {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png',description:'백금 날개 여성형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:100000,sortOrder:10},
   {code:'BATTLE_SUIT_02',name:'배틀슈트 02',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',description:'주황색 전술형 PROJECT V V3 PVE 전용 배틀슈트 외형.',pvePower:200000,sortOrder:20},
@@ -107,7 +108,7 @@ export async function ensureEquipmentFoundation(env){
     'safe_runtime_upgrade_v1490_new_equipment_drop_quarantine','safe_runtime_upgrade_v1338_garage_system',
     'safe_runtime_upgrade_v1533_territory_commander_title','safe_runtime_upgrade_v1953_project_v_battle_suits',
     'safe_runtime_upgrade_v1959_battle_suit_01_female','safe_runtime_upgrade_v1969_battle_suit_power_tiers',
-    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY,X_BODY_UPGRADE_KEY
+    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY,X_BODY_UPGRADE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY
   ],async()=>{
     const markerV1231=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
     if(markerV1231?.value!=='1'){
@@ -516,6 +517,7 @@ export async function ensureEquipmentFoundation(env){
     await ensureSzBodyEquipment(env);
     await ensureZBodySwordAppearance(env);
     await ensureXBodyEquipment(env);
+    await ensureAchievementTitles(env);
     return true;
   },async()=>((await env.DB.prepare('PRAGMA table_info(user_character_titles)').all()).results||[]).some(row=>row.name==='expires_at'));
 }
@@ -786,8 +788,8 @@ export async function handleEquipment({path,request,env,deps}){
   }
   if(path==='character/title/sync'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    const granted=await syncCollectionTitles(env,user.id);
-    return json({ok:true,granted});
+    const [collectionGranted,achievement]=await Promise.all([syncCollectionTitles(env,user.id),syncAchievementTitles(env,user.id)]);
+    return json({ok:true,granted:[...collectionGranted,...achievement.granted],progress:achievement.progress});
   }
   if(path==='character/equipment/equip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);

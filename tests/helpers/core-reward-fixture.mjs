@@ -8,6 +8,7 @@ export async function coreRewardFixture(dialect='sqlite'){
   const f=await coreLifecycleFixture(dialect),DB=f.env.DB;
   await ensureJointAtomicSchema(f.env);
   const schema=[...MERCENARY_ACCOUNTING_SCHEMA,
+    'CREATE TABLE mercenary_draw_config_v1(id INTEGER PRIMARY KEY,payload_json TEXT)',
     'ALTER TABLE users ADD COLUMN magic_crystals BIGINT DEFAULT 0',
     'ALTER TABLE cnine_user_inventory ADD COLUMN created_at TEXT',
     'CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT)',

@@ -50,7 +50,9 @@
           try {
             const result = await request('character/title/sync', { method: 'POST', body: '{}' });
             const granted = Array.isArray(result?.granted) ? result.granted.length : Number(result?.granted || 0);
-            if (granted > 0 && controller === current && root.isConnected) await current.reload();
+            if (controller !== current || !root.isConnected) return;
+            if (granted > 0) await current.reload();
+            if (controller === current && root.isConnected) current.setTitleProgress(result.progress);
           } catch (_) {}
         }, 1000);
       },

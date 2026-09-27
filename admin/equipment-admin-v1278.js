@@ -6,9 +6,9 @@
   const n=v=>Number(v||0).toLocaleString();
   const subtypeLabels={MODERN_SWORD:'현대식 칼',AXE:'도끼',PISTOL:'권총',RIFLE:'라이플',TOP:'상의',BOTTOM:'하의',SHOES:'신발',DUAL_DISK:'듀얼디스크',BATTLE_SUIT:'배틀슈트'};
   const sourceLabels={PVE:'일반 PVE',PVE_AUTO:'자동전투',TOWER:'무한의탑',RAID:'레이드',RIFT:'차원의 균열',PVP:'PVP',CAPTAIN:'대장전'};
-  const unlockLabels={MANUAL:'CMS 수동 지급',COLLECTION_COUNT:'전체 카드 도감 수',GRADE_COUNT:'특정 등급 도감 수',MEMBER_COMPLETE:'특정 멤버 도감 완성',CARD_SET:'지정 카드 세트',CONTENT_CLEAR:'콘텐츠 클리어'};
+  const unlockLabels={MANUAL:'CMS 수동 지급',COLLECTION_COUNT:'전체 카드 도감 수',GRADE_COUNT:'특정 등급 도감 수',MEMBER_COMPLETE:'특정 멤버 도감 완성',CARD_SET:'지정 카드 세트',CONTENT_CLEAR:'콘텐츠 클리어',COLLECTION_MASTERY:'카드 100% · 차량 90%',TROPHY_KINDS:'서로 다른 트로피 4종'};
   const rarityLabels={NORMAL:'일반',MAGIC:'고급',RARE:'희귀',EPIC:'영웅',LEGENDARY:'전설',MYTHIC:'신화'};
-  const titleStyleLabels={DEFAULT:'기본',FOREST:'숲',FLAME:'화염',FROST:'서리',STORM:'폭풍',SHADOW:'그림자',GOLD:'황금',RAINBOW:'무지개',VOID:'심연',CRIMSON:'진홍',CHALLENGER:'챌린저 · 스카이블루'};
+  const titleStyleLabels={DEFAULT:'기본',FOREST:'숲',FLAME:'화염',FROST:'서리',STORM:'폭풍',SHADOW:'그림자',GOLD:'황금',RAINBOW:'무지개',VOID:'심연',CRIMSON:'진홍',CHALLENGER:'챌린저 · 스카이블루',COMPLETIONIST:'폐인 · 자수정',TROPHY_HUNTER:'우승청부사 · 금빛'};
   const titleFontLabels={DEFAULT:'기본 고딕',SERIF:'정통 명조',DISPLAY:'강조 타이틀',ARCADE:'아케이드',ROUNDED:'둥근 고딕',SCIFI:'미래형',BRUSH:'붓글씨',HANDWRITING:'손글씨',MONO:'코딩체',CLASSIC:'고전 명조'};
   const SUPPLY_POOL_SCALE=1000,SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
   const root=()=>q('#equipmentAdminRoot');

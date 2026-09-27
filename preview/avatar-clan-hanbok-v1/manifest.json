@@ -1,0 +1,465 @@
+{
+  "id": "clan-avatar-hanbok-live-v1",
+  "date": "2026-09-27",
+  "authorization": "현재 클랜 아바타 전체를 준비한 한복으로 교체. 장비창 리소스도 준비.",
+  "generator": "built-in image_gen (8 lobby scenes); prepared equipment masters retained",
+  "equipmentDerivatives": "Uniform resize and transparent padding using the previous per-character runtime canvas; no redrawing or background removal",
+  "entries": [
+    {
+      "id": "joeun",
+      "code": "T1_JOEUN",
+      "name": "T1 조은",
+      "caption": "먹빛 저고리 · 붉은 비단",
+      "accent": "#8e2835",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/joeun-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/joeun-hanbok-v1.png",
+      "equipmentSha256": "41ad9b80ab58a9d1af1131cf9076bf23458cc8b13d5ade2242a7878caf1f7d99",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-source-art-v1.png",
+      "lobbySha256": "fbc44d21f41466935726a73e94dcc8af59150cac15f7e0df3c080027b49b331d",
+      "runtime": {
+        "width": 640,
+        "height": 1664,
+        "crop": {
+          "left": 263,
+          "top": 0,
+          "width": 520,
+          "height": 1521
+        },
+        "scale": 1,
+        "bodyWidth": 520,
+        "bodyHeight": 1521,
+        "top": 24,
+        "bottom": 119
+      },
+      "alpha": {
+        "clear": 1185159,
+        "solid": 348668,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-1024.webp": {
+          "sha256": "54357656f6c38258bfedb33ff7c1aed069cefe6416a01a27f799b60c48ecfc76",
+          "bytes": 392110,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-v1-640.webp": {
+          "sha256": "e6ab7abc601e27b3d97cef919294ac9d221e5bbdc1eee1e38957fc493cd804ad",
+          "bytes": 196576,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/joeun-equipment-v1-640.webp": {
+          "sha256": "a968ffdf9af060acbc764a4a6d584d8e7c5335f57111e1f5f4ffc2e3fa8aea16",
+          "bytes": 153564,
+          "width": 640,
+          "height": 1664,
+          "hasAlpha": true
+        }
+      }
+    },
+    {
+      "id": "kangguyeol",
+      "code": "KANGGUYEOL_DK",
+      "name": "DK 강구열",
+      "caption": "옥빛 배자 · 먹색 바지",
+      "accent": "#9bb4a9",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/kangguyeol-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/kangguyeol-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/kangguyeol-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/kangguyeol-hanbok-v1.png",
+      "equipmentSha256": "bb0a0d87f782b8e6e7ded1415d15f3828d0686dc1e5990c4bb475ce2ce42a269",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/kangguyeol-lobby-source-art-v1.png",
+      "lobbySha256": "3505ee0e0eb258fb668aaec36080183e8ca80df9a2418ffbb142105d65ba1378",
+      "runtime": {
+        "width": 640,
+        "height": 1664,
+        "crop": {
+          "left": 179,
+          "top": 22,
+          "width": 663,
+          "height": 1489
+        },
+        "scale": 0.9170437405731523,
+        "bodyWidth": 608,
+        "bodyHeight": 1365,
+        "top": 24,
+        "bottom": 275
+      },
+      "alpha": {
+        "clear": 1045928,
+        "solid": 500163,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/kangguyeol-lobby-v1-1024.webp": {
+          "sha256": "44449c88a08f616d64fa5cff37a54ccf653bb33f03954da00db81e13e76b14dd",
+          "bytes": 344896,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/kangguyeol-lobby-v1-640.webp": {
+          "sha256": "6c9e0ae9c5b120db5fde54f0bb877d8e95fd12ae24227d42b9222ee2428af97e",
+          "bytes": 178998,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/kangguyeol-equipment-v1-640.webp": {
+          "sha256": "c0b9c08da67fd9751ee9b153f165aabdc6c0771f2bb2dad10c3277e6cf058a7c",
+          "bytes": 158376,
+          "width": 640,
+          "height": 1664,
+          "hasAlpha": true
+        }
+      }
+    },
+    {
+      "id": "orikkung",
+      "code": "FM_ORIKKUNG",
+      "name": "FM 오리꿍",
+      "caption": "초록 배자 · 전통 복건",
+      "accent": "#296551",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/orikkung-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/orikkung-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/orikkung-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/orikkung-hanbok-v1.png",
+      "equipmentSha256": "6ad54a0ef0368047ece273a8fb947d62e52701cd178db03c1c12b676233b73d4",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/orikkung-lobby-source-art-v1.png",
+      "lobbySha256": "24d2b775603a25ec76da5546d658d5cafb95503bff3dc66f713179782c686869",
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "crop": {
+          "left": 84,
+          "top": 9,
+          "width": 893,
+          "height": 1473
+        },
+        "scale": 0.6808510638297872,
+        "bodyWidth": 608,
+        "bodyHeight": 1003,
+        "top": 24,
+        "bottom": 61
+      },
+      "alpha": {
+        "clear": 805587,
+        "solid": 740889,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/orikkung-lobby-v1-1024.webp": {
+          "sha256": "c7dc1be1adf4898652110b82eab2851e1b12716d5c9cf739a3a9618bcbf2cc9f",
+          "bytes": 355536,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/orikkung-lobby-v1-640.webp": {
+          "sha256": "8372c0345f58634730940892af60801e6cfc1b0627af501bdcf426d5d626851b",
+          "bytes": 171274,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/orikkung-equipment-v1-640.webp": {
+          "sha256": "160c38c0474bf27a87a4a61e1caa647777adbc881a3ff6539e422e51811214fb",
+          "bytes": 139032,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    },
+    {
+      "id": "dimwoos",
+      "code": "FM_DIMWOOS",
+      "name": "FM 딤우스",
+      "caption": "아이보리 저고리 · 비취 치마",
+      "accent": "#146653",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/dimwoos-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/dimwoos-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/dimwoos-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/dimwoos-hanbok-v1.png",
+      "equipmentSha256": "1c068796b2646d6fe503c6f77e4fe52bfaa68d93dfc954b36fe57d62867946fd",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/dimwoos-lobby-source-art-v1.png",
+      "lobbySha256": "2dd89d755e22bb06aa980b9481b5b63516017e38e0bd204577148a1b9b302cb6",
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "crop": {
+          "left": 245,
+          "top": 2,
+          "width": 544,
+          "height": 1517
+        },
+        "scale": 0.6710613052076466,
+        "bodyWidth": 365,
+        "bodyHeight": 1018,
+        "top": 24,
+        "bottom": 46
+      },
+      "alpha": {
+        "clear": 1174327,
+        "solid": 331804,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/dimwoos-lobby-v1-1024.webp": {
+          "sha256": "5a009e90b18b8f3b58543fa6a7354a7a92ab0dc335f1fc5a97519d62a7d7c367",
+          "bytes": 316648,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/dimwoos-lobby-v1-640.webp": {
+          "sha256": "249552a884906115807897d7c044dd82f84ac043dee43886c8d7a5084d20a14f",
+          "bytes": 168770,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/dimwoos-equipment-v1-640.webp": {
+          "sha256": "13baa3485a47879a16e0e748132c3faa0a1efdfe3bf5473c969e139b4e918e1a",
+          "bytes": 118378,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    },
+    {
+      "id": "hi-heeya",
+      "code": "DC_HI_HEEYA",
+      "name": "DC 하이희야",
+      "caption": "연보라 고름 · 남색 치마",
+      "accent": "#6b6792",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/hi-heeya-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/hi-heeya-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/hi-heeya-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/hi-heeya-hanbok-v1.png",
+      "equipmentSha256": "591cca6c41366119e2bf55d7e3fad3325387aed60e1fc4210a665f4f35b6ec9b",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/hi-heeya-lobby-source-art-v1.png",
+      "lobbySha256": "6f4a5eef5e5dae56377fa42009a3e813cbb6faede85412d2c7de54193db423ba",
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "crop": {
+          "left": 211,
+          "top": 2,
+          "width": 597,
+          "height": 1497
+        },
+        "scale": 0.6800267201068805,
+        "bodyWidth": 406,
+        "bodyHeight": 1018,
+        "top": 24,
+        "bottom": 46
+      },
+      "alpha": {
+        "clear": 1186823,
+        "solid": 342766,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/hi-heeya-lobby-v1-1024.webp": {
+          "sha256": "fbc6365e4fc646811d8a67d001c4ac65795bca9d74300b05cc4161415cb019c4",
+          "bytes": 358172,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/hi-heeya-lobby-v1-640.webp": {
+          "sha256": "c4a6ba598b2820a10c97a3a1ce8cf8526478ffb96e18d1f3ecceb2299890ce52",
+          "bytes": 187152,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/hi-heeya-equipment-v1-640.webp": {
+          "sha256": "d37aeff503eff8f0ccc63fdbb1fab072181e023e5005470d6ccd0ecb6cdabe3a",
+          "bytes": 97702,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    },
+    {
+      "id": "bongsoon",
+      "code": "DK_NAMU_BONGSOON",
+      "name": "DK 나무늘봉순",
+      "caption": "백색 저고리 · 민트 치마",
+      "accent": "#8abbba",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/bongsoon-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/bongsoon-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/bongsoon-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/bongsoon-hanbok-v1.png",
+      "equipmentSha256": "66e7e6362bd40522ce3226cd51e9bcb6fc86a69e77c7d01d128f092985167bf7",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/bongsoon-lobby-source-art-v1.png",
+      "lobbySha256": "3af47df9414eb6aad5aaf7e0de0b89520e3563ade15b8da35c0a17c42066b264",
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "crop": {
+          "left": 256,
+          "top": 3,
+          "width": 617,
+          "height": 1460
+        },
+        "scale": 0.6972602739726027,
+        "bodyWidth": 430,
+        "bodyHeight": 1018,
+        "top": 24,
+        "bottom": 46
+      },
+      "alpha": {
+        "clear": 1183349,
+        "solid": 341999,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/bongsoon-lobby-v1-1024.webp": {
+          "sha256": "b587540162023792e5d1bc0d2a7ff9fc9ad392c35f9847ae8a50e4d7f4515383",
+          "bytes": 291000,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/bongsoon-lobby-v1-640.webp": {
+          "sha256": "7f28ddafff9c4b6cfd8cb6d0824cefec8f328f4c05b6bd2a3c0bf5848a23fec8",
+          "bytes": 160634,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/bongsoon-equipment-v1-640.webp": {
+          "sha256": "a20d9a214ae02a9c2522756f7798d60c258f8e81aa771446319c484803015571",
+          "bytes": 107604,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    },
+    {
+      "id": "juseong",
+      "code": "LG_JUSEONG",
+      "name": "LG 주성",
+      "caption": "자주빛 겉옷 · 먹색 바지",
+      "accent": "#703851",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/juseong-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/juseong-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/juseong-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/juseong-hanbok-v1.png",
+      "equipmentSha256": "fa70f549645ba4d75b413af69aeb19f8e649ec0a52967fd7cf25d02cce98b204",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/juseong-lobby-source-art-v1.png",
+      "lobbySha256": "3e2f3b6f8be3cd6a259d12f99cade3a74d17abf4de0c2ae15e12c5d5d88d36df",
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "crop": {
+          "left": 211,
+          "top": 4,
+          "width": 641,
+          "height": 1502
+        },
+        "scale": 0.677762982689747,
+        "bodyWidth": 434,
+        "bodyHeight": 1018,
+        "top": 24,
+        "bottom": 46
+      },
+      "alpha": {
+        "clear": 1045596,
+        "solid": 496841,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/juseong-lobby-v1-1024.webp": {
+          "sha256": "9e67154b50e7fa049a6b630bef5627e0f466f88be366ee607d2fd6e24f43c173",
+          "bytes": 337740,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/juseong-lobby-v1-640.webp": {
+          "sha256": "bb773fe952ef799d9a60044193be657c356b0e8131c0d7877951e408340d198f",
+          "bytes": 180762,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/juseong-equipment-v1-640.webp": {
+          "sha256": "8fcba7e170627a85c1dd0297428c752963f77e79f84bca8e9cb9e0ea4095d65b",
+          "bytes": 110106,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    },
+    {
+      "id": "ayoon",
+      "code": "LOTTE_AYOON",
+      "name": "롯데 아윤",
+      "caption": "크림 저고리 · 포도빛 치마",
+      "accent": "#8f3f53",
+      "lobbyImage": "preview/avatar-clan-hanbok-v1/assets/ayoon-lobby-v1-1024.webp",
+      "lobbyMobileImage": "preview/avatar-clan-hanbok-v1/assets/ayoon-lobby-v1-640.webp",
+      "equipmentImage": "preview/avatar-clan-hanbok-v1/assets/ayoon-equipment-v1-640.webp",
+      "equipmentSource": "preview/clan-avatar-hanbok-v1/assets/ayoon-hanbok-v1.png",
+      "equipmentSha256": "0313a01f6659bc080241a63e4c665566b82c718d53192962e5d5e68c458e1519",
+      "lobbySource": "preview/avatar-clan-hanbok-v1/assets/ayoon-lobby-source-art-v1.png",
+      "lobbySha256": "31e393879674f3bb3187523870f1f01f291498e09338dfc38f4e972b89931fbb",
+      "runtime": {
+        "width": 640,
+        "height": 1664,
+        "crop": {
+          "left": 240,
+          "top": 4,
+          "width": 548,
+          "height": 1504
+        },
+        "scale": 1,
+        "bodyWidth": 548,
+        "bodyHeight": 1504,
+        "top": 24,
+        "bottom": 136
+      },
+      "alpha": {
+        "clear": 1182635,
+        "solid": 356519,
+        "border": 0
+      },
+      "files": {
+        "preview/avatar-clan-hanbok-v1/assets/ayoon-lobby-v1-1024.webp": {
+          "sha256": "21ab76fd2cfb50a855298f6b40424f8c9b53f831ea4900b137a59e0915e39ab3",
+          "bytes": 363318,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/ayoon-lobby-v1-640.webp": {
+          "sha256": "c0a715641545abdfe671f05bbcae90f4cfadc00e187c32d9e0eef5070da3a66f",
+          "bytes": 189060,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "preview/avatar-clan-hanbok-v1/assets/ayoon-equipment-v1-640.webp": {
+          "sha256": "5263dde955bf7171fe7774a9ca42085dd939f1da886ae002724291bb91b13496",
+          "bytes": 139842,
+          "width": 640,
+          "height": 1664,
+          "hasAlpha": true
+        }
+      }
+    }
+  ]
+}

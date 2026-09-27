@@ -2,7 +2,10 @@ import {fixture as base} from './golden-axe-v1.mjs';
 import {CHUSEOK_COIN,cleanChuseokSettings} from '../../js/chuseok-model-v1.js';
 import {ensureChuseok,chuseokAdmin,chuseokState,drawChuseok} from '../../functions/_chuseok.js';
 export async function fixture(){
- const f=await base();await ensureChuseok(f.env);await f.pg.query('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,$1,20,20),(2,$1,20,20)',[CHUSEOK_COIN]);
+ const f=await base();
+ // Mercenary awards lock the existing CMS acquisition policy in their transaction.
+ await f.pg.exec('CREATE TABLE mercenary_draw_config_v1(id INTEGER PRIMARY KEY,payload_json TEXT)');
+ await ensureChuseok(f.env);await f.pg.query('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,$1,20,20),(2,$1,20,20)',[CHUSEOK_COIN]);
  const configure=async(rewards=[{id:'coin',kind:'COIN',ref:'',amount:50000000000,rate:100}],event='songpyeon',extra={})=>{
   const c=await chuseokAdmin(f.env,{id:99});return chuseokAdmin(f.env,{id:99},{...c.settings,visible:true,revision:c.revision,events:{...c.settings.events,[event]:{enabled:true,startsAt:new Date(Date.now()-3600000).toISOString(),endsAt:new Date(Date.now()+86400000).toISOString(),coinCost:2,dailyLimit:0,rewards,...extra}}});
  };

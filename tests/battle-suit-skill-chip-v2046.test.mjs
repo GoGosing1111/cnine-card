@@ -183,9 +183,12 @@ test('live asset loader includes styles and puts skill chips immediately to the 
 });
 test('inventory seeds the chip catalog but chips are equipped, never consumed through item-use',async()=>{
   const api=await readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
-  assert.match(api,/if\(path==='inventory'\)\{[\s\S]{0,220}await ensureSkillChipFoundation\(env\)/);
-  assert.match(api,/WHEN i\.category='SKILL_CHIP' THEN 0/);
-  assert.match(api,/장비 → 스킬칩 탭에서 장착/);
+  const start=api.indexOf("if(path==='inventory'){"),end=api.indexOf("if(path==='inventory/seen'",start);
+  assert.ok(start>=0&&end>start,'the inventory route must be present');
+  const inventory=api.slice(start,end);
+  assert.match(inventory,/await ensureSkillChipFoundation\(env\);[\s\S]*const rows=await env\.DB\.prepare/);
+  assert.match(inventory,/WHEN i\.category='SKILL_CHIP' THEN 0/);
+  assert.match(inventory,/장비 → 스킬칩 탭에서 장착/);
 });
 test('each registry icon has 512px transparent PNG and lossless WebP with recorded provenance',async()=>{
   const manifest=JSON.parse(await readFile(new URL('../assets/ui/project-v/skill-chips/manifest-v1.json',import.meta.url),'utf8'));

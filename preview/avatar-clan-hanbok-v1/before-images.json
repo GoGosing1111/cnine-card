@@ -1,0 +1,90 @@
+[
+  {
+    "code": "KANGGUYEOL_DK",
+    "name": "DK 강구열",
+    "version": 2,
+    "lobby_image": "preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-equipment-v1-640.webp",
+    "role_label": "DK 클랜 유니폼",
+    "description": "현재 DK 클랜 마크가 새겨진 유니폼을 입은 강구열 아바타입니다.",
+    "accent": "#2f7cff"
+  },
+  {
+    "code": "T1_JOEUN",
+    "name": "T1 조은",
+    "version": 3,
+    "lobby_image": "preview/avatar-t1-joeun-v1/assets/avatar-t1-joeun-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-t1-joeun-v1/assets/avatar-t1-joeun-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-t1-joeun-v1/assets/avatar-t1-joeun-equipment-v1-640.webp",
+    "role_label": "T1 클랜 유니폼",
+    "description": "T1 클랜 문장의 검정·크림슨 유니폼과 밀착 미니스커트를 입은 조은 아바타입니다. 키 큰 슬렌더 체형과 긴 다리의 로비 일러스트·투명 장비창 전신을 함께 적용합니다.",
+    "accent": "#d32f4a"
+  },
+  {
+    "code": "FM_ORIKKUNG",
+    "name": "FM 오리꿍",
+    "version": 1,
+    "lobby_image": "preview/avatar-fm-orikkung-v1/assets/avatar-fm-orikkung-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-fm-orikkung-v1/assets/avatar-fm-orikkung-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-fm-orikkung-v1/assets/avatar-fm-orikkung-equipment-v1-640.webp",
+    "role_label": "FM 클랜 유니폼",
+    "description": "검정·에메랄드·금색 FM 클랜 유니폼과 모자를 쓴 덕코프 스타일 오리 아바타입니다. 로비 일러스트와 별도 투명 장비창 전신이 함께 적용됩니다.",
+    "accent": "#1dad72"
+  },
+  {
+    "code": "FM_DIMWOOS",
+    "name": "FM 딤우스",
+    "version": 1,
+    "lobby_image": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-lobby-v3-1024.webp",
+    "lobby_mobile_image": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-lobby-v3-640.webp",
+    "equipment_image": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-equipment-v1-640.webp",
+    "role_label": "FM 클랜 유니폼",
+    "description": "검정·에메랄드·금색 FM 유니폼을 입은 딤우스 아바타입니다. FM 라운지 로비 일러스트와 승인된 투명 장비창 전신이 함께 적용됩니다.",
+    "accent": "#1dad72"
+  },
+  {
+    "code": "DC_HI_HEEYA",
+    "name": "DC 하이희야",
+    "version": 1,
+    "lobby_image": "preview/avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-dc-hi-heeya-v1/assets/avatar-dc-hi-heeya-equipment-v1-640.webp",
+    "role_label": "DC 클랜 테니스 유니폼",
+    "description": "DC 문장을 새긴 아이보리 테니스 유니폼과 네이비 밀착 미니스커트의 하이희야 아바타입니다. 테니스 코트 로비 일러스트와 투명 장비창 전신을 함께 적용합니다.",
+    "accent": "#9575dc"
+  },
+  {
+    "code": "DK_NAMU_BONGSOON",
+    "name": "DK 나무늘봉순",
+    "version": 1,
+    "lobby_image": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-dk-bongsoon-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-dk-bongsoon-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-dk-bongsoon-equipment-v1-640.webp",
+    "role_label": "DK 클랜 유니폼",
+    "description": "작은 DK 자수 문장과 민트 배색을 더한 화이트 원피스 유니폼의 나무늘봉순 아바타입니다. 새 로비 일러스트와 투명 장비창 전신을 함께 적용합니다.",
+    "accent": "#74d6e9"
+  },
+  {
+    "code": "LG_JUSEONG",
+    "name": "LG 주성",
+    "version": 1,
+    "lobby_image": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-lg-juseong-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-lg-juseong-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-lg-juseong-equipment-v1-640.webp",
+    "role_label": "LG 클랜 유니폼",
+    "description": "실버·마젠타 LG 문장과 화이트 팀 유니폼을 입은 주성 아바타입니다. 로비 일러스트와 투명 장비창 전신을 함께 적용합니다.",
+    "accent": "#e55b9d"
+  },
+  {
+    "code": "LOTTE_AYOON",
+    "name": "롯데 아윤",
+    "version": 1,
+    "lobby_image": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-equipment-v1-640.webp",
+    "role_label": "롯데 클랜 유니폼",
+    "description": "크림·버건디 유니폼과 갈매기 문장의 롯데 아윤 아바타입니다. 승인 로비 일러스트와 별도 투명 장비창 전신을 함께 적용합니다.",
+    "accent": "#7b2445"
+  }
+]
