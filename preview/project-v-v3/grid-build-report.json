@@ -22,7 +22,7 @@
     },
     {
       "file": "shared/mercenary-berkan-v1.mjs",
-      "sha256": "f48b067a5a3338e8f212bcc7821bf81271a5730948e1166dfcfc7f8e9250f244"
+      "sha256": "7ae8f6fd61577e56656e2813ce0a7e8e340d1467789f7f502aa7c450056f087a"
     },
     {
       "file": "preview/project-v-v3/source/battle/CryvernCombatPlayback.js",
@@ -38,7 +38,7 @@
     },
     {
       "file": "shared/mercenary-cryvern-v1.mjs",
-      "sha256": "10b188bec147c0cd49cf2355e3fbca6fa9eacf0f7b31cd828f6aeaa937bc6bc8"
+      "sha256": "4abea16585de70d6a0a53cbcd41c7bcf0bf32a49c697914e5ccfa5d88d743a2a"
     },
     {
       "file": "preview/project-v-v3/source/battle/NurseHealCombatPlayback.js",
@@ -150,7 +150,7 @@
     },
     {
       "file": "shared/mercenary-sniper-orikkung-v1.mjs",
-      "sha256": "03fc726cc288857cebc2c9de4234708417302e70b93c5de064733bbfa4f6edbd"
+      "sha256": "253860e0b95e83b2f07781e200ef02538f1f6fd6e86cf40063080913da47304d"
     },
     {
       "file": "preview/project-v-v3/source/battle/HeukwolCombatPlayback.js",
