@@ -7,6 +7,7 @@
 - `node preview/avatar-clan-hanbok-v1/apply-joeun-balance-v3.mjs`로 조은 PC/모바일 로비·장비창 3개만 파생한다. 전체 빌더도 마지막에 V3를 적용한다. 런타임 경로와 캔버스 규격, 다른 7종 자산·매니페스트 항목은 유지한다.
 - 직전 운영 커밋은 `6d5c5e10c17fc85e63bf089a5893df38d0dac87e`, Pages는 `https://b3937059.cnine-card.pages.dev`다. 한복 자산 해시·규격·투명도·잘림·CMS 썸네일 연결을 검증하는 `tests/clan-avatar-hanbok-assets-20260927.test.mjs`만 지정해 scoped 배포한다. 배포 과정에서 한 번 실행하며 전체 게임 검사는 실행하지 않는다.
 - 배포 후 확인은 변경된 3개 WebP의 HTTP 응답과 매니페스트 해시 일치로 한정한다. DB·장착·소유권·기한·효과 변경이나 지급 재실행은 없다.
+- 운영 반영 완료: 소스 `0eca9654b6f83b195027ad05b040b6eb0b502ad2`, Pages `https://d1f36ba1.cnine-card.pages.dev`. 선택 검사 2개 통과. 운영 도메인의 조은 WebP 3개 모두 HTTP 200·매니페스트 SHA-256 일치를 확인했다. 원격 main에 함께 있던 라그니엘 지급 기록·운영 스크립트는 실행하지 않았다.
 
 ## V2 기록 — 사용자 반려·V3로 대체
 
