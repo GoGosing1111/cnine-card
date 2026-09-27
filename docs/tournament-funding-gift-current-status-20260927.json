@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-09-27T07:16:47.829Z",
+  "updatedAt": "2026-09-27T08:45:44.370Z",
   "counts": {
-    "paid": 61,
-    "pending": 20,
+    "paid": 69,
+    "pending": 12,
     "excludedDuplicate": 1
   },
   "currentRecipients": [
@@ -61,6 +61,12 @@
       "total": 200
     },
     {
+      "id": "71",
+      "nickname": "진땅콩_",
+      "soop": "패드구",
+      "total": 100
+    },
+    {
       "id": "81",
       "nickname": "비쥬얼깡패",
       "soop": "비쥬얼깡패",
@@ -97,10 +103,28 @@
       "total": 200
     },
     {
+      "id": "183",
+      "nickname": "남수댕",
+      "soop": "늘그니생키",
+      "total": 100
+    },
+    {
+      "id": "216",
+      "nickname": "x수댕",
+      "soop": "녹차맛좋댕",
+      "total": 100
+    },
+    {
       "id": "218",
       "nickname": "현하루",
       "soop": "현하루",
       "total": 200
+    },
+    {
+      "id": "242",
+      "nickname": "벚꽃엔딩",
+      "soop": "내가고라니?",
+      "total": 233
     },
     {
       "id": "277",
@@ -143,6 +167,12 @@
       "nickname": "족구조아",
       "soop": "족구쪼아",
       "total": 300
+    },
+    {
+      "id": "681",
+      "nickname": "페이트런",
+      "soop": "와일드스컬",
+      "total": 200
     },
     {
       "id": "787",
@@ -211,6 +241,18 @@
       "total": 100
     },
     {
+      "id": "3892",
+      "nickname": "슈파두파",
+      "soop": "슈파두파",
+      "total": 100
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "soop": "스프°",
+      "total": 300
+    },
+    {
       "id": "4010",
       "nickname": "슈라",
       "soop": "슈라*",
@@ -227,6 +269,12 @@
       "nickname": "더듬이구",
       "soop": "탱탱노",
       "total": 327
+    },
+    {
+      "id": "4408",
+      "nickname": "레가파",
+      "soop": "하랑짱의여니",
+      "total": 109
     },
     {
       "id": "4479",
@@ -389,25 +437,11 @@
       ]
     },
     {
-      "soop": "하랑짱의여니",
-      "total": 109,
-      "teams": [
-        "강구열"
-      ]
-    },
-    {
       "soop": "[C9]녹턴",
       "total": 200,
       "teams": [
         "강구열",
         "나무늘봉순"
-      ]
-    },
-    {
-      "soop": "녹차맛좋댕",
-      "total": 100,
-      "teams": [
-        "강구열"
       ]
     },
     {
@@ -424,27 +458,6 @@
       "total": 2400,
       "teams": [
         "주성"
-      ]
-    },
-    {
-      "soop": "내가고라니?",
-      "total": 233,
-      "teams": [
-        "주성"
-      ]
-    },
-    {
-      "soop": "스프°",
-      "total": 300,
-      "teams": [
-        "디임"
-      ]
-    },
-    {
-      "soop": "와일드스컬",
-      "total": 200,
-      "teams": [
-        "디임"
       ]
     },
     {
@@ -466,13 +479,6 @@
     {
       "soop": "하이타몽♡",
       "total": 500,
-      "teams": [
-        "하이희야"
-      ]
-    },
-    {
-      "soop": "패드구",
-      "total": 100,
       "teams": [
         "하이희야"
       ]
@@ -504,20 +510,6 @@
       "teams": [
         "나무늘봉순"
       ]
-    },
-    {
-      "soop": "늘그니생키",
-      "total": 100,
-      "teams": [
-        "나무늘봉순"
-      ]
-    },
-    {
-      "soop": "슈파두파",
-      "total": 100,
-      "teams": [
-        "나무늘봉순"
-      ]
     }
   ],
   "excludedDuplicates": [
@@ -543,10 +535,5 @@
       "operationKey": "ops:tournament-funding-gift:20260927:correct4694to4774-add4693-4621-v1"
     }
   ],
-  "unmatchedComments": [
-    {
-      "author": "페이트런",
-      "note": "쪽지 내용 미제공"
-    }
-  ]
+  "unmatchedComments": []
 }
