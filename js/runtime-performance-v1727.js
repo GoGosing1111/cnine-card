@@ -37,10 +37,37 @@
 
   function observe(root=document){
     if(!observer)return;
+    if(root instanceof Element&&!root.isConnected)return;
     const candidates=[];
     if(root instanceof Element&&root.matches(targetSelector))candidates.push(root);
     root.querySelectorAll?.(targetSelector).forEach(node=>candidates.push(node));
     candidates.forEach(node=>{if(observed.has(node))return;observed.add(node);observer.observe(node)});
+  }
+
+  function outerRoots(nodes){
+    return [...nodes].filter(node=>{
+      for(let parent=node.parentElement;parent;parent=parent.parentElement)if(nodes.has(parent))return false;
+      return true;
+    });
+  }
+  function unobserve(root){
+    if(!observer||root.isConnected)return;
+    // A removed card may no longer match its original selector. Visit the
+    // detached subtree, including registered descendants whose classes changed.
+    const release=node=>{if(observed.delete(node))observer.unobserve(node)};
+    release(root);
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_ELEMENT);
+    while(walker.nextNode())release(walker.currentNode);
+  }
+  function observeChanges(records){
+    const added=new Set(),removed=new Set();
+    for(const record of records){
+      for(const node of record.removedNodes)if(node.nodeType===1&&!node.isConnected)removed.add(node);
+      for(const node of record.addedNodes)if(node.nodeType===1&&node.isConnected)added.add(node);
+    }
+    // Keep moves within the live page observed, and scan nested additions once.
+    outerRoots(removed).forEach(unobserve);
+    outerRoots(added).forEach(observe);
   }
 
   window.CNineRuntime={registerCleanup,runCleanups,pauseMedia,observe,metrics};
@@ -49,7 +76,7 @@
     if(document.hidden){pauseMedia();runCleanups('hidden')}
     else observe(document);
   });
-  new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===1)observe(node)}))).observe(document.body,{childList:true,subtree:true});
+  new MutationObserver(observeChanges).observe(document.body,{childList:true,subtree:true});
   observe(document);
 
   try{

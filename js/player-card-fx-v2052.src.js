@@ -36,11 +36,13 @@ async function mount(host, card, signal) {
     app.ticker.add(ticker => { clock += Math.min(ticker.deltaMS, 50) / 1000; paint(); });
     const sync = () => {
       if (destroyed) return;
-      if (document.hidden || reduced.matches) { app.stop(); entrance?.pause(); }
+      if (document.hidden || !document.hasFocus() || reduced.matches) { app.stop(); entrance?.pause(); }
       else { app.start(); entrance?.resume(); }
       if (reduced.matches) { gsap.killTweensOf(targets); targets.forEach(t => { t.style.transform = ''; }); }
     };
     document.addEventListener('visibilitychange', sync); reduced.addEventListener('change', sync);
+    window.addEventListener('focus', sync); window.addEventListener('blur', sync);
+    cleanups.push(() => window.removeEventListener('focus', sync), () => window.removeEventListener('blur', sync));
     cleanups.push(() => document.removeEventListener('visibilitychange', sync), () => reduced.removeEventListener('change', sync));
     observer = new ResizeObserver(() => { if (!destroyed) { app.renderer.resize(Math.max(1, host.clientWidth), Math.max(1, host.clientHeight)); paint(); } }); observer.observe(host);
     // Animate only decoration: text, awards, controls and results never depend on a tween completing.

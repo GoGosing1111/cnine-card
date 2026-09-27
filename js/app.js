@@ -966,11 +966,11 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.PrimeDrawLiveV1985?.play==='function'
   },
   playerCardFx:{
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/player-card-fx-v2052.bundle.js?v=2053'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/player-card-fx-v2052.bundle.js?v=20260928-window-idle'],
     ready:()=>Boolean(window.PlayerCardFX)
   },
   challengerFx:{
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/ranked-challenger-fx-v2032.bundle.js?v=2045-shared-fx'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/ranked-challenger-fx-v2032.bundle.js?v=20260928-window-idle'],
     ready:()=>Boolean(window.RankedChallengerFX)
   },
   weeklyRaidFx:{
@@ -5680,7 +5680,14 @@ function syncBattleScreenLock(){
   document.body.classList.toggle('captain-battle-scroll-open',captainScrollOpen);
   document.documentElement.classList.toggle('captain-battle-scroll-open',captainScrollOpen);
 }
-const battleScreenObserver=new MutationObserver(syncBattleScreenLock);
+const battleScreenObserver=new MutationObserver(records=>{
+  // Combat particles, clocks and card classes do not change the modal's scroll
+  // policy. Only the modal class or insertion/removal needs a fresh app search.
+  const affected=records.some(record=>record.type==='attributes'
+    ?record.target.id==='modal'
+    :[...record.addedNodes,...record.removedNodes].some(node=>node.nodeType===1&&(node.id==='modal'||node.querySelector?.('#modal'))));
+  if(affected)syncBattleScreenLock();
+});
 battleScreenObserver.observe(app,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
 syncBattleScreenLock();
 const legacyBrandObserver=new MutationObserver(records=>records.forEach(record=>{if(record.type==='characterData')replaceLegacyBrandInDom(record.target);record.addedNodes.forEach(replaceLegacyBrandInDom);}));

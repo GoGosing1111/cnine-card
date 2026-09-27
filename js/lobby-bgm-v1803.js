@@ -36,7 +36,7 @@
   let active = false;
   let trackIndex = 0;
   let consecutiveErrors = 0;
-  let guardTimer = null;
+  let routeTimer = null;
 
   // ── 저장소 ────────────────────────────────────────────────
   function isMuted() {
@@ -201,6 +201,8 @@
 
   function syncButton(button) {
     const off = isMuted();
+    if (button.dataset.bgmMuted === String(off)) return;
+    button.dataset.bgmMuted = String(off);
     button.classList.toggle('is-muted', off);
     button.setAttribute('aria-pressed', off ? 'true' : 'false');
     button.setAttribute('aria-label', off ? '로비 배경음 켜기' : '로비 배경음 끄기');
@@ -259,9 +261,6 @@
     active = true;
     consecutiveErrors = 0;
     mountButton();
-    // 로비 화면을 다시 그려 버튼이 사라져도 스스로 복구한다.
-    if (guardTimer) clearInterval(guardTimer);
-    guardTimer = setInterval(mountButton, 2000);
     if (!playable() || isMuted()) return;
     // 잠금 상태를 미리 판단하지 않고 일단 시도한다.
     // 막히면 play() 가 알아서 pendingPlay 로 미뤄 다음 조작에 이어 붙인다.
@@ -271,7 +270,6 @@
   function stop() {
     active = false;
     pendingPlay = null;
-    if (guardTimer) { clearInterval(guardTimer); guardTimer = null }
     document.getElementById(BUTTON_ID)?.remove();
     if (audio) {
       audio.pause();
@@ -313,14 +311,25 @@
   });
   // 탭을 숨기면 소리를 멈추고, 돌아오면 로비일 때만 다시 잇는다.
   document.addEventListener('visibilitychange', () => {
+    syncRouteWatch();
     if (document.hidden) { if (audio) audio.pause(); return }
     if (active && playable() && !isMuted()) play(trackIndex);
   });
 
-  // 화면 전환은 어댑터가 여러 경로로 일으킨다. 훅 하나에 의존하지 않고 스스로 확인한다.
-  setInterval(syncRoute, 1000);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncRoute, { once: true });
-  else syncRoute();
+  // Keep one repair watch while this window is in use. Background audio keeps
+  // its existing policy; only redundant DOM/geometry checks stop on blur.
+  function syncRouteWatch() {
+    if (routeTimer) { clearInterval(routeTimer); routeTimer = null; }
+    if (document.hidden || !document.hasFocus()) return;
+    syncRoute();
+    routeTimer = setInterval(syncRoute, 1000);
+  }
+  window.addEventListener('focus', syncRouteWatch);
+  window.addEventListener('blur', syncRouteWatch);
+  window.addEventListener('pagehide', () => { if (routeTimer) clearInterval(routeTimer); routeTimer = null; });
+  window.addEventListener('pageshow', syncRouteWatch);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncRouteWatch, { once: true });
+  else syncRouteWatch();
 
   window.lobbyBgm = {
     start, stop, syncRoute, applySettings,

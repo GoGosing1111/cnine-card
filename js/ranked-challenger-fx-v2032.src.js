@@ -46,7 +46,7 @@ function render(){
   }
 }
 function syncPlayback(){
-  const active=Boolean(target?.isConnected&&visible&&!document.hidden&&!reduced.matches);
+  const active=Boolean(target?.isConnected&&visible&&!document.hidden&&document.hasFocus()&&!reduced.matches);
   if(active){application?.start();timeline?.resume();}else{application?.stop();timeline?.pause();}
   if(application?.canvas)application.canvas.hidden=!active;
 }
@@ -101,6 +101,8 @@ let scheduled=false;
 function schedule(){if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;refresh();});}
 window.RankedChallengerFX={refresh:schedule,diagnostics:()=>({renderer:application?.renderer?.type??null,contexts:application?1:0,mounted:Boolean(target),visible,failed})};
 document.addEventListener('visibilitychange',syncPlayback);
+window.addEventListener('focus',syncPlayback);
+window.addEventListener('blur',syncPlayback);
 reduced.addEventListener('change',()=>{syncPlayback();if(!reduced.matches)schedule();});
 window.addEventListener('resize',schedule);
 observer=new MutationObserver(records=>{if(records.some(r=>[...r.addedNodes,...r.removedNodes].some(n=>n.nodeType===1&&n!==application?.canvas)))schedule();});

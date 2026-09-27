@@ -278,7 +278,8 @@ test('empty trophy shelves keep border FX without creating an empty GSAP tween',
     class Graphics { clear(){return this;} circle(){return this;} fill(){return this;} }
     const context={Application,Graphics,devicePixelRatio:1,ResizeObserver:class{observe(){}disconnect(){}},
       matchMedia:()=>({matches:false,addEventListener(){},removeEventListener(){}}),
-      document:{hidden:false,addEventListener(){},removeEventListener(){}},
+      document:{hidden:false,hasFocus:()=>true,addEventListener(){},removeEventListener(){}},
+      window:{addEventListener(){},removeEventListener(){}},
       gsap:{killTweensOf(){},to(){},fromTo(targets){assert.ok(targets.length);tweens++;return {kill(){},pause(){},resume(){}};}}
     };
     vm.runInNewContext(read('js/player-card-fx-v2052.src.js').replace(/^import .*;\r?\n/gm,''),context);
