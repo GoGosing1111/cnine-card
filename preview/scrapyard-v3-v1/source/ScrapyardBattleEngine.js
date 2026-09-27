@@ -34,7 +34,10 @@ export class BattleEngine extends LiveBattleEngine {
     this.battleData = payload;
     for (const row of config.instances) {
       if (!this.spriteTextures) this.spriteTextures = new Map();
-      if (!this.spriteTextures.has(row.battleSprite)) this.spriteTextures.set(row.battleSprite, await Assets.load(row.battleSprite));
+      // The shared battle lifecycle unloads sprites absent from the next
+      // encounter. A cached Texture object can survive after its source died.
+      const cached=this.spriteTextures.get(row.battleSprite);
+      if (!cached || cached.destroyed || !cached.source || cached.source.destroyed) this.spriteTextures.set(row.battleSprite, await Assets.load(row.battleSprite));
       this.rememberPendingLiveAsset(row.battleSprite, this.spriteTextures.get(row.battleSprite));
     }
     for (const id of config.initialIds) this.bindMonster(this.instances.get(id));

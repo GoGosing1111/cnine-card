@@ -1,4 +1,5 @@
 import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
+import {X_BODY_AREA_RELEASE_ENABLED,X_BODY_AREA_REVIEW,isXBodyAreaActor} from '../shared/x-body-area-skill.mjs';
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
@@ -685,7 +686,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false } = {}) {
   let mercenaryRuntime=null;
   const applyDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);return result;};
   const cardRandom = seededRandom(seed);
@@ -1062,10 +1063,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let durationStopped = false;
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
   const zAreaEnabled=Z_BODY_AREA_RELEASE_ENABLED||zAreaReview===true;
-  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))):null;
+  const xAreaEnabled=X_BODY_AREA_RELEASE_ENABLED||xAreaReview===true;
+  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))||(xAreaEnabled&&isXBodyAreaActor(actor))):null;
   // Timed encounters need the same playback clock even without a suit/chip.
   const combatClockEnabled=Boolean(chipActor)||maxCombatDurationMs>0;
-  const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor));
+  const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor),xAreaEnabled&&isXBodyAreaActor(chipActor));
   const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const zAreaRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const pendingChipHits=[];
@@ -1765,7 +1767,7 @@ export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,me
   return {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA};
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false } = {}) {
   const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
   if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
   const {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA}=buildPvePlayerTeam({cards,characterBonus,battleSuit,mercenary});
@@ -1774,6 +1776,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
     [Z_BODY_AREA_REVIEW]:zAreaReview,
+    [X_BODY_AREA_REVIEW]:xAreaReview,
     teamA:simulationTeamA, teamB, magicA:magicCards, seed, maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0,
     reinforcements: encounterPlan ? encounterPlan.pending : [],
     // V1813: 플레이어 15회마다 몬스터 1회를 보장한다. PVP 는 끈 채로 둔다.

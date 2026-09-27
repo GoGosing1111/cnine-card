@@ -1,0 +1,1048 @@
+{
+  "version": "BATTLE_SUIT_X_DRAGON_REVIEW_20260927_V1",
+  "status": "USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "sourceArt": "/preview/battle-suit-x-v1/assets/sources/x-body-sword-approved-v1.png",
+  "weapon": {
+    "source": "/preview/battle-suit-x-v1/assets/sources/x-body-sword-approved-v1.png",
+    "sha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+    "sourceGrip": {
+      "x": 411,
+      "y": 647
+    },
+    "sourceTip": {
+      "x": 1111,
+      "y": 1173
+    },
+    "standingHelmetToSole": 1317,
+    "polygons": [
+      [
+        [
+          451,
+          618
+        ],
+        [
+          461,
+          630
+        ],
+        [
+          458,
+          650
+        ],
+        [
+          477,
+          681
+        ],
+        [
+          502,
+          702
+        ],
+        [
+          552,
+          744
+        ],
+        [
+          602,
+          786
+        ],
+        [
+          652,
+          829
+        ],
+        [
+          702,
+          867
+        ],
+        [
+          752,
+          906
+        ],
+        [
+          802,
+          945
+        ],
+        [
+          852,
+          984
+        ],
+        [
+          902,
+          1024
+        ],
+        [
+          952,
+          1063
+        ],
+        [
+          1002,
+          1102
+        ],
+        [
+          1052,
+          1138
+        ],
+        [
+          1092,
+          1161
+        ],
+        [
+          1114,
+          1170
+        ],
+        [
+          1113,
+          1178
+        ],
+        [
+          1080,
+          1172
+        ],
+        [
+          1050,
+          1162
+        ],
+        [
+          1000,
+          1137
+        ],
+        [
+          950,
+          1104
+        ],
+        [
+          1050,
+          1159
+        ],
+        [
+          1000,
+          1128
+        ],
+        [
+          950,
+          1093
+        ],
+        [
+          900,
+          1056
+        ],
+        [
+          850,
+          1018
+        ],
+        [
+          800,
+          980
+        ],
+        [
+          750,
+          941
+        ],
+        [
+          700,
+          902
+        ],
+        [
+          650,
+          861
+        ],
+        [
+          600,
+          821
+        ],
+        [
+          550,
+          780
+        ],
+        [
+          500,
+          738
+        ],
+        [
+          450,
+          701
+        ],
+        [
+          432,
+          702
+        ],
+        [
+          419,
+          708
+        ],
+        [
+          411,
+          697
+        ],
+        [
+          411,
+          677
+        ],
+        [
+          418,
+          651
+        ],
+        [
+          432,
+          632
+        ]
+      ]
+    ],
+    "sourceSha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+    "rect": {
+      "left": 405,
+      "top": 610,
+      "width": 715,
+      "height": 575
+    },
+    "width": 715,
+    "height": 575,
+    "grip": {
+      "x": 6,
+      "y": 37
+    },
+    "tip": {
+      "x": 706,
+      "y": 563
+    },
+    "copiedPixels": 25248,
+    "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
+    "redrawnPixels": 0,
+    "transformsAllowed": [
+      "uniformScale",
+      "rotation",
+      "translation"
+    ],
+    "url": "/preview/battle-suit-x-v1/assets/locked/approved-blade.png",
+    "drawingPolicy": "ONE_IMMUTABLE_ORIGINAL_RASTER"
+  },
+  "motion": {
+    "dragon": {
+      "url": "assets/atlases/dragon.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "7be6733612b15c84c56393c8f161cfe8147f27ad30c698189a21e3b8098e5e0e",
+      "frames": [
+        {
+          "id": "dragon-01",
+          "index": 0,
+          "pivot": {
+            "x": 398.2,
+            "y": 554.4
+          },
+          "grip": {
+            "x": 346.6,
+            "y": 362.4
+          },
+          "tip": {
+            "x": 580.5027197074146,
+            "y": 312.5236684654034
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-a.png",
+          "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+          "componentBox": {
+            "left": 36,
+            "top": 23,
+            "width": 588,
+            "height": 605
+          },
+          "sourceFoot": [
+            389,
+            610
+          ],
+          "sourceGrip": [
+            303,
+            290
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -48.92224644764402,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "7a7e1b376856b2ec53b9d476e056b42f707fd559349a4c76e1101cb7b5bfad77",
+          "file": "assets/frames/dragon-01.png"
+        },
+        {
+          "id": "dragon-02",
+          "index": 1,
+          "pivot": {
+            "x": 438.2,
+            "y": 617.2
+          },
+          "grip": {
+            "x": 387.79999999999995,
+            "y": 349.6
+          },
+          "tip": {
+            "x": 507.1745606675289,
+            "y": 142.53502595685924
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-a.png",
+          "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+          "componentBox": {
+            "left": 654,
+            "top": 36,
+            "width": 588,
+            "height": 592
+          },
+          "sourceFoot": [
+            1037,
+            610
+          ],
+          "sourceGrip": [
+            953,
+            164
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -96.92224644764403,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "180e38c4e1d3c240d7f38ce02860ad7ea7cfef7c23efee1a7d0113136baf4125",
+          "file": "assets/frames/dragon-02.png"
+        },
+        {
+          "id": "dragon-03",
+          "index": 2,
+          "pivot": {
+            "x": 423.79999999999995,
+            "y": 674.1999999999999
+          },
+          "grip": {
+            "x": 385.4,
+            "y": 325
+          },
+          "tip": {
+            "x": 385.11488992980924,
+            "y": 85.47282120259969
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-a.png",
+          "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+          "componentBox": {
+            "left": 34,
+            "top": 603,
+            "width": 606,
+            "height": 645
+          },
+          "sourceFoot": [
+            403,
+            1232
+          ],
+          "sourceGrip": [
+            339,
+            650
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -126.92224644764403,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "9b0d5dffb772d8eb5fd4b8556aa98d8f6c60f07e9a38b723093b72d4025713ce",
+          "file": "assets/frames/dragon-03.png"
+        },
+        {
+          "id": "dragon-04",
+          "index": 3,
+          "pivot": {
+            "x": 447,
+            "y": 674.8
+          },
+          "grip": {
+            "x": 369.6,
+            "y": 325
+          },
+          "tip": {
+            "x": 377.7473108166872,
+            "y": 85.95194858293618
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-a.png",
+          "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+          "componentBox": {
+            "left": 633,
+            "top": 610,
+            "width": 602,
+            "height": 638
+          },
+          "sourceFoot": [
+            1039,
+            1232
+          ],
+          "sourceGrip": [
+            910,
+            649
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -124.92224644764403,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "60c46ab5b9e356b3e08933ea4ff973c80195c2c808fa7fddb3b98b5eec8cd3e6",
+          "file": "assets/frames/dragon-04.png"
+        },
+        {
+          "id": "dragon-05",
+          "index": 4,
+          "pivot": {
+            "x": 420.6,
+            "y": 624.8
+          },
+          "grip": {
+            "x": 391.2,
+            "y": 285.79999999999995
+          },
+          "tip": {
+            "x": 207.795922774399,
+            "y": 132.00285307346184
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-b.png",
+          "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+          "componentBox": {
+            "left": 25,
+            "top": 5,
+            "width": 624,
+            "height": 633
+          },
+          "sourceFoot": [
+            397,
+            614
+          ],
+          "sourceGrip": [
+            348,
+            49
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -176.92224644764403,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "d493bed276d05171565cee2a6b09fd353ec377928fd8a310b21f4e7b3b19c468",
+          "file": "assets/frames/dragon-05.png"
+        },
+        {
+          "id": "dragon-06",
+          "index": 5,
+          "pivot": {
+            "x": 362.4,
+            "y": 527.4
+          },
+          "grip": {
+            "x": 405,
+            "y": 359.4
+          },
+          "tip": {
+            "x": 644.0213237975024,
+            "y": 375.9709019716978
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-b.png",
+          "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+          "componentBox": {
+            "left": 634,
+            "top": 111,
+            "width": 620,
+            "height": 525
+          },
+          "sourceFoot": [
+            1034,
+            613
+          ],
+          "sourceGrip": [
+            1105,
+            333
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -32.92224644764402,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "332a641a934ed7b42140ac66ef62d8b9d18f12bfcb99b169a768ebbb6403a349",
+          "file": "assets/frames/dragon-06.png"
+        },
+        {
+          "id": "dragon-07",
+          "index": 6,
+          "pivot": {
+            "x": 350.79999999999995,
+            "y": 562.2
+          },
+          "grip": {
+            "x": 403,
+            "y": 311.4
+          },
+          "tip": {
+            "x": 621.5641592882503,
+            "y": 213.8060295827577
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-b.png",
+          "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+          "componentBox": {
+            "left": 58,
+            "top": 634,
+            "width": 583,
+            "height": 604
+          },
+          "sourceFoot": [
+            402,
+            1233
+          ],
+          "sourceGrip": [
+            489,
+            815
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": -60.92224644764402,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "0bbd28f64a5974930bf5b8db994e479b51bb8a9f7581af83002b22949ca3177c",
+          "file": "assets/frames/dragon-07.png"
+        },
+        {
+          "id": "dragon-08",
+          "index": 7,
+          "pivot": {
+            "x": 410.4,
+            "y": 559.4
+          },
+          "grip": {
+            "x": 366.6,
+            "y": 390.79999999999995
+          },
+          "tip": {
+            "x": 557.681787268552,
+            "y": 534.6243170737598
+          },
+          "bodyPixels": 360,
+          "source": "assets/sources/body-dragon-b.png",
+          "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+          "componentBox": {
+            "left": 667,
+            "top": 633,
+            "width": 553,
+            "height": 611
+          },
+          "sourceFoot": [
+            1002,
+            1230
+          ],
+          "sourceGrip": [
+            929,
+            949
+          ],
+          "weapon": {
+            "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "rotationDegrees": 0.07775355235597914,
+            "uniformScale": 0.2733485193621868,
+            "redrawnPixels": 0
+          },
+          "sha256": "04d43cd529ab195e43d59569f3a5fe8c5445a44c37fe7cdf2371309fe8ae38bf",
+          "file": "assets/frames/dragon-08.png"
+        }
+      ]
+    }
+  },
+  "effects": {
+    "dragon-coil": {
+      "url": "assets/sources/fx-dragon-coil.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "f6d7c2c64a528f8601218b857d13186de3e61aae253222f3cc729f6ecf80f1cc",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        }
+      ]
+    },
+    "dragon-rush": {
+      "url": "assets/sources/fx-dragon-rush.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "10af06be8a9438261648a3664e3c0bc4df0e417018b68cf54c37daacf19b255d",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        }
+      ]
+    },
+    "dragon-impact": {
+      "url": "assets/sources/fx-dragon-impact.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "d0f6450253c18e038f2d7b755c70d0618ea94a87f778a7eba4465db3bfd89d1d",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        }
+      ]
+    },
+    "dragon-ring": {
+      "url": "assets/sources/fx-dragon-ring.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "476699a665df9d429fa8b2f431c49aee8436a9f28530b559145c2dc8bb4e47e0",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          }
+        }
+      ]
+    }
+  },
+  "runtime": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clock": "V3_REGISTERED_GSAP"
+  },
+  "audio": {
+    "enabled": false
+  },
+  "summary": {
+    "bodyFrames": 8,
+    "effectFrames": 48,
+    "weaponSources": 1,
+    "weaponRedraws": 0
+  }
+}

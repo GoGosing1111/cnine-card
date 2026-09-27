@@ -18,6 +18,8 @@ import {apocalypseSignatureSkill} from '../../../../shared/apocalypse-boss-skill
 import {BattleSuitSkillChipPlayback,isSkillChipTimeline} from './BattleSuitSkillChipPlayback.js';
 import {ZBodySwordAnimation} from './ZBodySwordAnimation.js';
 import {Z_SWORD,isZBody,takeSwordBatch} from './ZBodySwordModel.mjs';
+import {XBodySwordAnimation} from './XBodySwordAnimation.js';
+import {isXBody} from './XBodySwordModel.mjs';
 import {withOccupiedGrid} from './OccupiedGridLayout.js';
 import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
 
@@ -1210,7 +1212,7 @@ class BaseBattleEngine{
       :null;
     const suitSource=appearanceUrl(battleSuit);
     const weaponSource=weaponAppearanceUrl(weapon);
-    const eligible=pveAllowed&&Boolean(battleSuit&&(isZBody(equipmentCode(battleSuit))||authoredProfile||suitSource));
+    const eligible=pveAllowed&&Boolean(battleSuit&&(isZBody(equipmentCode(battleSuit))||isXBody(equipmentCode(battleSuit))||authoredProfile||suitSource));
     this.accountBattleUnitEquipment={battleSuit,weapon};
     this.accountBattleUnitEnabled=false;
     this.syncAccountBattleUnitTile();
@@ -1223,6 +1225,17 @@ class BaseBattleEngine{
     const unit=this.ensureAccountBattleUnit();
     const suitAppearance=appearanceObject(battleSuit)||{};
     const weaponAppearance=appearanceObject(weapon)||{};
+    if(isXBody(equipmentCode(battleSuit))){
+      const epoch=this.playbackEpoch;
+      unit.clearAppearance();
+      const textures=await XBodySwordAnimation.load();
+      if(epoch!==this.playbackEpoch||unit.root.destroyed){XBodySwordAnimation.release(textures);return false;}
+      new XBodySwordAnimation(this,unit,textures);
+      unit.setName(accountNickname(payload));
+      this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
+      this.syncAccountBattleUnitTile();this.layoutAccountBattleUnit();this.sortCombatDepth();
+      return this.accountBattleUnitEnabled;
+    }
     if(isZBody(equipmentCode(battleSuit))){
       const epoch=this.playbackEpoch;
       unit.clearAppearance();
@@ -1489,7 +1502,8 @@ class BaseBattleEngine{
       }
       this.triggerAccountBattleUnitBallisticHit(victim,{cameraShake:mode==='area'?4:3.2},this.paceScale||1);
       if(total)this.showAccountBattleUnitDamage(victim,{damage:total,critical,playbackRate:this.paceScale||1});
-      this.updateStatus(`Z-BODY ${mode==='area'?'뇌검 집행':'돌진 검격'} · ${Math.round(total).toLocaleString()}`);
+      const x=isXBody(equipmentCode(this.accountBattleUnitEquipment?.battleSuit));
+      this.updateStatus(`${x?'X-BODY':'Z-BODY'} ${x?(mode==='area'?'천룡 강림':mode==='skill'?'천광 연섬':'일섬'):(mode==='area'?'뇌검 집행':'돌진 검격')} · ${Math.round(total).toLocaleString()}`);
       return true;
   }
 
@@ -1571,7 +1585,7 @@ class BaseBattleEngine{
             continue;
           }
           if(unit.swordAnimation){
-            const batch=takeSwordBatch(this.accountBattleUnitDamageQueue,unit.swordAnimation.actionIndex,unit.swordAnimation.intrinsicArea);
+            const batch=unit.swordAnimation.takeBatch?.(this.accountBattleUnitDamageQueue)||takeSwordBatch(this.accountBattleUnitDamageQueue,unit.swordAnimation.actionIndex,unit.swordAnimation.intrinsicArea);
             try{
               const played=await this.playAccountBattleUnitSwordBatch(batch);
               batch.entries.forEach(entry=>entry.resolve?.(played));

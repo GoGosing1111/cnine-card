@@ -1,0 +1,323 @@
+{
+  "version": "X_DRAGON_APPROVAL_20260927",
+  "status": "USER_APPROVED",
+  "approvedAt": "2026-09-27",
+  "userApproval": "이 연출로 승인",
+  "scope": "천룡 강림 신규 몸 모션·용 소환/돌진/지면 광역 이펙트, 기존 X-BODY 연출과 함께 라이브 연결 승인",
+  "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+  "balanceStatus": "USER_APPROVED_SAME_AS_Z_BODY",
+  "balanceApproval": "Z-BODY와 동일하게 적용",
+  "livePolicy": {"intervalMs":15000,"damageMultiplier":5,"targeting":"ALL_LIVING_ENEMIES","enabled":true},
+  "artifacts": [
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/atlases/dragon.png",
+      "sha256": "7be6733612b15c84c56393c8f161cfe8147f27ad30c698189a21e3b8098e5e0e",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-01.png",
+      "sha256": "7a7e1b376856b2ec53b9d476e056b42f707fd559349a4c76e1101cb7b5bfad77",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-02.png",
+      "sha256": "180e38c4e1d3c240d7f38ce02860ad7ea7cfef7c23efee1a7d0113136baf4125",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-03.png",
+      "sha256": "9b0d5dffb772d8eb5fd4b8556aa98d8f6c60f07e9a38b723093b72d4025713ce",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-04.png",
+      "sha256": "60c46ab5b9e356b3e08933ea4ff973c80195c2c808fa7fddb3b98b5eec8cd3e6",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-05.png",
+      "sha256": "d493bed276d05171565cee2a6b09fd353ec377928fd8a310b21f4e7b3b19c468",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-06.png",
+      "sha256": "332a641a934ed7b42140ac66ef62d8b9d18f12bfcb99b169a768ebbb6403a349",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-07.png",
+      "sha256": "0bbd28f64a5974930bf5b8db994e479b51bb8a9f7581af83002b22949ca3177c",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/frames/dragon-08.png",
+      "sha256": "04d43cd529ab195e43d59569f3a5fe8c5445a44c37fe7cdf2371309fe8ae38bf",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/sources/body-dragon-a.png",
+      "sha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/sources/body-dragon-b.png",
+      "sha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-coil.png",
+      "sha256": "f6d7c2c64a528f8601218b857d13186de3e61aae253222f3cc729f6ecf80f1cc",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-impact.png",
+      "sha256": "d0f6450253c18e038f2d7b755c70d0618ea94a87f778a7eba4465db3bfd89d1d",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-ring.png",
+      "sha256": "476699a665df9d429fa8b2f431c49aee8436a9f28530b559145c2dc8bb4e47e0",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-rush.png",
+      "sha256": "10af06be8a9438261648a3664e3c0bc4df0e417018b68cf54c37daacf19b255d",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-01.png",
+      "sha256": "9f23442fc3dc808e8b932a3a51d634da47d5e42eff4b15eb6b09a54d03ffbbc3",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-02.png",
+      "sha256": "dfac44d135b0531f0a6be4c75ca433a9aa1317ad76bc0611bd9301213e76eddc",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-03.png",
+      "sha256": "d7d6f6c1b93fbbf35f7e10c46ad4feabf5863f53e01742521de3d8e8084b2aec",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-04.png",
+      "sha256": "ae10e34e9031f9275308a937658854f7e595bffcdc90bfbcc199fc84b52b7136",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-05.png",
+      "sha256": "94f01a1b330f94179b63c9d5165a1691ec3f7e771dc33ab16db95b6631fc3b4f",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-06.png",
+      "sha256": "4c5f29a655d2ca69b8ba6e073e15d0f6dfff0f11c2305037ea922931d382743e",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-07.png",
+      "sha256": "3b7dd45bc9f69fbd70d61e0446ad3b05482580f723e1ed26b9047489c52fbdcb",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/assets/thumbs/dragon-08.png",
+      "sha256": "0e5eb6163e425f5eb8540f5ec804e91ef95f369426657b48313869b5acfefd00",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/battle.html",
+      "sha256": "2bcb499d9f64ab0d516748be84055ed2b86954b53662c021bc2112669b9b8b8d",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/build-report.json",
+      "sha256": "d8fc762a3cd5331cd836f9c9d08dd152757dd9b1b53707063bb1e61c494b4d37",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/build.mjs",
+      "sha256": "9374f1cfb101c4fe5a32c79f71a898a8f91a0e79bf322ea662455ee1e6e14f36",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/index.html",
+      "sha256": "28baf56988a16811ccbf19b524e96c4459e41c3f1d158ea2c2023ac0220e3c29",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/manifest.json",
+      "sha256": "b67486d6a403668cc1def24d62caf5c104954863bd898205b02f48cf5838c263",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/motion.mjs",
+      "sha256": "29dcf686350f723f855a1600ec5faf70235f0815a26ff6545619a855ad550372",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/pack-assets.mjs",
+      "sha256": "69d7a929a7500457c9f2cd708c71a8adba15b1f97bdf8ffbd4fdb46f06ade78e",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/pose-registration.json",
+      "sha256": "2b242756f77c44a44c645cf000251855ef17eb3b028b8e26dfc87837e0877680",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/preview.bundle.js",
+      "sha256": "f4c435bd89ca4ff94c81399f0ffbfc1ff62a6dbefa3b64c2e2ee22a9a78b9117",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/preview.css",
+      "sha256": "9e3d4b9158ed9034546915214d41f26f127ec138b22f1f09abe1e216131b811c",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/prompts.json",
+      "sha256": "c7b61b568b7c5cfd93aff260ce96a5480cdb165ca205ebd5b11518f03fe2da4a",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/browser-report.json",
+      "sha256": "fdfd1a728c2b1af09c0eb5e61ba1a58296393a471cf503aed9d449fac6a1799d",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-body-only.png",
+      "sha256": "2174c5d71a303dab59d5a1fc59c473ee80bd693f6d0c374167c26c98eb4c2b15",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-0.62.png",
+      "sha256": "5528d3b16b248a6aae2570c7ccc496215c0e195decfe553ba0264152cf487f45",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-1.08.png",
+      "sha256": "938649c9e4910436327ebf0ebccddb22f892571867297f4b56a0f921b9a64125",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-1.64.png",
+      "sha256": "355f8727041c077773fc37b6e96265391e84e194bf7f8cfbb144346651df0258",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-2.18.png",
+      "sha256": "6debf4519ae6c63db358febc2c132604285c333ce7c22989b5936978991376d0",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-2.3.png",
+      "sha256": "6815aed16019b2669b06cf1566c3f4ee55bed47b4b01f18bd1c218ea1af36d72",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-2.42.png",
+      "sha256": "be4c6c3f7fc6f263f9170670a33da4e2d2f7d9b74f5b3bfd8fa6b8f1ec67b231",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-3.15.png",
+      "sha256": "299486820d4d69932d39aef308c700dd36907b52f90f4472bb36acf691e7472f",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-dragon-4.3.png",
+      "sha256": "60ae31f2912758c4461792796076bc12ed01a5b5cec6ddcc357ffa57cf7cdab9",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/desktop-page.png",
+      "sha256": "45fd6ec58ee7ac6231a2ca6cfb90bc722f41302275c169a0d65fcf8aba434e0b",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-body-only.png",
+      "sha256": "18c59ee7874bbc1ef363085376cb60fe251b6ccb3732b5e62329f3305bbb590e",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-0.62.png",
+      "sha256": "23c557ac0ae62004353433145f47b3a7cc68dc33f647da5aa294d330e91a72f8",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-1.08.png",
+      "sha256": "1341c3f4a4196c6096281ea2115ad38917924b815cfaecfc2a504707e904e8cf",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-1.64.png",
+      "sha256": "724302a99a7a8b407241905b93ef271556d71f8bcb5e5fb6e717c214cd851d41",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-2.18.png",
+      "sha256": "70234a63cc5220b5b1f506124fef328088f0c64934f317dc54e6dd9ca449eadc",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-2.3.png",
+      "sha256": "bb8f32df9e2f9ced15feee6a5a27baa6d42cb548278639536f16de4119d1370d",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-2.42.png",
+      "sha256": "4d372f3398f07b2d01095f2777a5c9e2062a5505e8c6a48615f2a26940b856a0",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-3.15.png",
+      "sha256": "4f3dade8e06d0e8ef1b646fc82d7ef3dee5da465317c9e8f1ad6113dc279c554",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-dragon-4.3.png",
+      "sha256": "cb01bb36e1bc95f8df8381b32b58addbc72a9684b0e0992c46e263754719a32b",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa/mobile-page.png",
+      "sha256": "1d330919e3f8ac36d5f20303d5d566619c391618398e891dcc863fb74dab6ca9",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa-browser.mjs",
+      "sha256": "5ee46cc28395d148e8249626ed36d390810c84a54de5b8530c2428f1edbe3b48",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/qa.test.mjs",
+      "sha256": "b90dc5929e5b666a2bb23577b92e6018fb7978259e51d89230b282cda87282ef",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/record-review.mjs",
+      "sha256": "9469741067068a77513a272755e237304801884fb1aade5304d7c1e289e934e6",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/review-dragon-desktop-v1.webm",
+      "sha256": "1d72885bbdf09a6a8aad8d31c0b51e7e5e42660bbed94cdf1cb8272bff257eb6",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/review-dragon-mobile-v1.webm",
+      "sha256": "c91d50c2ee9cf540dc2fa33a68cc514d49c250e749e64e219cbb9d3c0ff38003",
+      "hashMode": "BYTES"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/source/DragonFX.js",
+      "sha256": "9d74d42380ec67d3a6d41fbce91e2ffa8788cee09682f844d1ca7bf4e1a86cd0",
+      "hashMode": "UTF8_LF"
+    },
+    {
+      "path": "preview/battle-suit-x-dragon-v1/source/preview.js",
+      "sha256": "e6dd75b5f796a432741760945b1a87cd39271029234761782203f067150a4c32",
+      "hashMode": "UTF8_LF"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import {skillChipByCode,createSkillChipSchedule} from './battle-suit-skill-chips.mjs';
+import {X_BODY_AREA_SKILL} from './x-body-area-skill.mjs';
 
 // 2026-09-26: user approved the complete Z-body lightning effect package.
 export const Z_BODY_AREA_RELEASE_ENABLED=true;
@@ -12,12 +13,13 @@ export const Z_BODY_AREA_SKILL=Object.freeze({
   impactOffsetsMs:Object.freeze([1080,1210,1340,1430,1540]),effectDurationMs:3200,sortOrder:100
 });
 export function isZBodyAreaActor(actor){return actor?.cardId==='BATTLE_SUIT:BATTLE_SUIT_Z_BODY'&&actor.isBattleSuit===true;}
-export function battleSuitCombatSkillByCode(code){return code===Z_BODY_AREA_SKILL.code?Z_BODY_AREA_SKILL:skillChipByCode(code);}
-export function createBattleSuitCombatSchedule(codes,includeZ=false){
+export function battleSuitCombatSkillByCode(code){return code===Z_BODY_AREA_SKILL.code?Z_BODY_AREA_SKILL:code===X_BODY_AREA_SKILL.code?X_BODY_AREA_SKILL:skillChipByCode(code);}
+export function createBattleSuitCombatSchedule(codes,includeZ=false,includeX=false){
   const chips=createSkillChipSchedule(codes);let activation=0;
+  const intrinsic=includeX?X_BODY_AREA_SKILL:includeZ?Z_BODY_AREA_SKILL:null;
   return {
     peek(){
-      const next=chips.peek(),z=includeZ?{chip:Z_BODY_AREA_SKILL,activation,atMs:(activation+1)*Z_BODY_AREA_SKILL.intervalMs}:null;
+      const next=chips.peek(),z=intrinsic?{chip:intrinsic,activation,atMs:(activation+1)*intrinsic.intervalMs}:null;
       return !z?next:!next||z.atMs<next.atMs?z:next;
     },
     take(){const next=this.peek();if(next?.chip.intrinsic){activation++;return {...next,activation};}return chips.take();}

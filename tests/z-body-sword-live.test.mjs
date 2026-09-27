@@ -101,7 +101,7 @@ test('an already initialized equipment catalog still applies the new Z appearanc
       'v1274_supply_drop_quantity','v1473_mythic_equipment_unique','v1676_mythic_equipment_duplicates',
       'v1488_prime_equipment_recall','v1489_infinity_weapon_recall','v1490_new_equipment_drop_quarantine',
       'v1338_garage_system','v1533_territory_commander_title','v1953_project_v_battle_suits',
-      'v1959_battle_suit_01_female','v1969_battle_suit_power_tiers','v2066_h_body','v2124_sz_body'
+      'v1959_battle_suit_01_female','v1969_battle_suit_power_tiers','v2066_h_body','v2124_sz_body','x_body_20260927'
     ];
     for(const marker of priorMarkers)DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run('safe_runtime_upgrade_'+marker);
     DB.sql.prepare("INSERT INTO character_equipment_items(code,slot,image_url,pve_power) VALUES('BATTLE_SUIT_Z_BODY','BATTLE_SUIT','prior.png',9999999999)").run();

@@ -4,6 +4,7 @@ import { burningEventIsLive } from './_burning_event_access.js';
 import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_skill_chips.js';
 import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
 import {SZ_BODY_BY_CODE,ensureSzBodyEquipment} from './_battle_suit_sz_body.js';
+import {X_BODY_ITEM,X_BODY_UPGRADE_KEY,ensureXBodyEquipment} from './_battle_suit_x_body.js';
 import {ensureZBodySwordAppearance,Z_SWORD_APPEARANCE_KEY} from './_battle_suit_z_sword.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
@@ -106,7 +107,7 @@ export async function ensureEquipmentFoundation(env){
     'safe_runtime_upgrade_v1490_new_equipment_drop_quarantine','safe_runtime_upgrade_v1338_garage_system',
     'safe_runtime_upgrade_v1533_territory_commander_title','safe_runtime_upgrade_v1953_project_v_battle_suits',
     'safe_runtime_upgrade_v1959_battle_suit_01_female','safe_runtime_upgrade_v1969_battle_suit_power_tiers',
-    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY
+    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY,X_BODY_UPGRADE_KEY
   ],async()=>{
     const markerV1231=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
     if(markerV1231?.value!=='1'){
@@ -514,6 +515,7 @@ export async function ensureEquipmentFoundation(env){
     await ensureHBodyEquipment(env);
     await ensureSzBodyEquipment(env);
     await ensureZBodySwordAppearance(env);
+    await ensureXBodyEquipment(env);
     return true;
   },async()=>((await env.DB.prepare('PRAGMA table_info(user_character_titles)').all()).results||[]).some(row=>row.name==='expires_at'));
 }
@@ -530,7 +532,7 @@ function publicItem(row){const pveOnly=row.slot===BATTLE_SUIT_SLOT,pvePower=Numb
 function publicEquippedItem(row,prefix,{pveOnly=false}={}){
   const id=Number(row?.[`${prefix}_id`]||0);if(!id)return null;
   const image=row?.[`${prefix}_image`]||'',name=row?.[`${prefix}_name`]||'',pvePower=Number(row?.[`${prefix}_pve`]||0),pvpPower=pveOnly?0:Number(row?.[`${prefix}_pvp`]||0);
-  return {instanceId:Number(row?.[`${prefix}_instance_id`]||0)||null,id,code:row?.[`${prefix}_code`]||'',name,displayName:name,slot:row?.[`${prefix}_slot`]||'',subtype:row?.[`${prefix}_subtype`]||'',rarity:normalizeEquipmentRarity(row?.[`${prefix}_rarity`]),image,imageUrl:image,battleSprite:pveOnly?(row?.[`${prefix}_code`]===H_BODY_ITEM.code?H_BODY_ITEM.battleSprite:SZ_BODY_BY_CODE[row?.[`${prefix}_code`]]?.battleSprite||image):'',totalPower:pveOnly?pvePower:Number(row?.[`${prefix}_total`]||0),pvePower,pvpPower,scaleMultiplier:1};
+  return {instanceId:Number(row?.[`${prefix}_instance_id`]||0)||null,id,code:row?.[`${prefix}_code`]||'',name,displayName:name,slot:row?.[`${prefix}_slot`]||'',subtype:row?.[`${prefix}_subtype`]||'',rarity:normalizeEquipmentRarity(row?.[`${prefix}_rarity`]),image,imageUrl:image,battleSprite:pveOnly?(row?.[`${prefix}_code`]===H_BODY_ITEM.code?H_BODY_ITEM.battleSprite:(row?.[`${prefix}_code`]===X_BODY_ITEM.code?X_BODY_ITEM.battleSprite:SZ_BODY_BY_CODE[row?.[`${prefix}_code`]]?.battleSprite)||image):'',totalPower:pveOnly?pvePower:Number(row?.[`${prefix}_total`]||0),pvePower,pvpPower,scaleMultiplier:1};
 }
 function publicGarageItem(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,rarity:normalizeGarageRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),acquiredAt:row.acquired_at||null}}
 function publicTitle(row,owned=false,equipped=false){const unlockConfig=parseJson(row.unlock_config_json,{});return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig,stylePreset:normalizeTitleStylePreset(row.style_preset),fontPreset:normalizeTitleFontPreset(unlockConfig.fontPreset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null,expiresAt:row.expires_at||null}}

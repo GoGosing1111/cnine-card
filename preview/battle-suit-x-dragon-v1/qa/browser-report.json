@@ -1,0 +1,1566 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "width": 1440,
+      "scroll": 1440
+    },
+    "snapshots": [
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 0.62,
+        "phase": "검압 응축",
+        "playing": false,
+        "speed": 1,
+        "frame": 5,
+        "pose": {
+          "at": 0.61,
+          "bank": "dragon",
+          "index": 2
+        },
+        "contactCount": 0,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": false,
+            "ground": {
+              "x": 1430,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1010,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1430,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1220,
+              "y": 591.9999999999999
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 1.08,
+        "phase": "천룡 소환",
+        "playing": false,
+        "speed": 1,
+        "frame": 6,
+        "pose": {
+          "at": 0.8,
+          "bank": "dragon",
+          "index": 3
+        },
+        "contactCount": 0,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": false,
+            "ground": {
+              "x": 1429.9999999999998,
+              "y": 239.99999999999994
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1009.9999999999998,
+              "y": 239.99999999999994
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1429.9999999999998,
+              "y": 415.99999999999994
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 1009.9999999999998,
+              "y": 415.99999999999994
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1219.9999999999998,
+              "y": 592
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 1.64,
+        "phase": "전장 돌파",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 0,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": false,
+            "ground": {
+              "x": 1430,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1010.0000000000002,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1430,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 1010.0000000000002,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1220,
+              "y": 592.0000000000001
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 1112.349188932659,
+          "y": 3.418405805170451
+        },
+        "groundError": 0,
+        "visibleEffects": 1,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 2.18,
+        "phase": "광역 강타",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 1,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1430,
+              "y": 240.00000000000006
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1010.0000000000002,
+              "y": 240.00000000000006
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1430,
+              "y": 416.00000000000006
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 1010.0000000000002,
+              "y": 416.00000000000006
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1220.0000000000002,
+              "y": 592
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 1303.7185538102829,
+          "y": 213.98439317847792
+        },
+        "groundError": 0,
+        "visibleEffects": 3,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 2.3,
+        "phase": "광역 강타",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 3,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1429.9999999999998,
+              "y": 239.99999999999994
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1009.9999999999998,
+              "y": 239.99999999999994
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1429.9999999999998,
+              "y": 415.99999999999983
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 1009.9999999999998,
+              "y": 415.99999999999983
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1219.9999999999995,
+              "y": 591.9999999999998
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 1296.0070511601464,
+          "y": 260.78640705870157
+        },
+        "groundError": 0,
+        "visibleEffects": 5,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 2.42,
+        "phase": "광역 강타",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 5,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1429.9999999999998,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1009.9999999999999,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1429.9999999999998,
+              "y": 415.9999999999999
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": true,
+            "ground": {
+              "x": 1009.9999999999999,
+              "y": 415.9999999999999
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": true,
+            "ground": {
+              "x": 1219.9999999999995,
+              "y": 591.9999999999999
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 1281.4894571110508,
+          "y": 283.25411213468294
+        },
+        "groundError": 0,
+        "visibleEffects": 8,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 3.15,
+        "phase": "지면 파열 · 파편",
+        "playing": false,
+        "speed": 1,
+        "frame": 9,
+        "pose": {
+          "at": 2.64,
+          "bank": "dragon",
+          "index": 6
+        },
+        "contactCount": 5,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1430,
+              "y": 240.00000000000006
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1010.0000000000001,
+              "y": 240.00000000000006
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1430,
+              "y": 415.99999999999994
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": true,
+            "ground": {
+              "x": 1010.0000000000001,
+              "y": 415.99999999999994
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": true,
+            "ground": {
+              "x": 1220,
+              "y": 592
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 4,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 4.3,
+        "phase": "자세 회복",
+        "playing": false,
+        "speed": 1,
+        "frame": 10,
+        "pose": {
+          "at": 3.52,
+          "bank": "dragon",
+          "index": 7
+        },
+        "contactCount": 5,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1430,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1010.0000000000002,
+              "y": 240
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1430,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": true,
+            "ground": {
+              "x": 1010.0000000000002,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": true,
+            "ground": {
+              "x": 1220.0000000000002,
+              "y": 592.0000000000001
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      }
+    ],
+    "speeds": [
+      {
+        "speed": 0.25,
+        "advance": 0.08875,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "advance": 0.354,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "advance": 0.698,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "dragon",
+      "time": 0,
+      "phase": "진입",
+      "playing": false,
+      "speed": 2,
+      "frame": 0,
+      "pose": {
+        "at": 0,
+        "bank": "dragon",
+        "index": 0
+      },
+      "contactCount": 0,
+      "targetCount": 5,
+      "targets": [
+        {
+          "id": "B:0:ENCOUNTER:ZREVIEW-1",
+          "at": 2.18,
+          "hit": false,
+          "ground": {
+            "x": 1430,
+            "y": 239.99999999999994
+          }
+        },
+        {
+          "id": "B:1:ENCOUNTER:ZREVIEW-2",
+          "at": 2.24,
+          "hit": false,
+          "ground": {
+            "x": 1010,
+            "y": 239.99999999999994
+          }
+        },
+        {
+          "id": "B:2:ENCOUNTER:ZREVIEW-3",
+          "at": 2.3,
+          "hit": false,
+          "ground": {
+            "x": 1430,
+            "y": 415.99999999999994
+          }
+        },
+        {
+          "id": "B:3:ENCOUNTER:ZREVIEW-4",
+          "at": 2.36,
+          "hit": false,
+          "ground": {
+            "x": 1010,
+            "y": 415.99999999999994
+          }
+        },
+        {
+          "id": "B:4:ENCOUNTER:ZREVIEW-5",
+          "at": 2.42,
+          "hit": false,
+          "ground": {
+            "x": 1220,
+            "y": 592
+          }
+        }
+      ],
+      "dragonHead": null,
+      "groundError": 0,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "registeredTimelines": 0,
+      "bodyFrames": 8,
+      "effectFrames": 48,
+      "weaponSources": 1,
+      "weaponRedraws": 0,
+      "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "regularAllies": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+    },
+    "comparison": {
+      "ready": true,
+      "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+      "mode": "skill",
+      "time": 2.18,
+      "playing": false,
+      "speed": 1,
+      "frame": 28,
+      "pose": {
+        "at": 2.155,
+        "bank": "combo",
+        "index": 7,
+        "facing": 1
+      },
+      "phase": "최종 검격 · 지면 파열",
+      "contactCount": 6,
+      "bladeContact": {
+        "u": 0.4801860360029731,
+        "distance": 22.752157960051417,
+        "intersects": true,
+        "tipDistance": 62.04079820122532
+      },
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 2,
+      "visibleGhosts": 4,
+      "registeredTimelines": 0,
+      "bodyFrames": 32,
+      "effectFrames": 60,
+      "weaponSources": 1,
+      "weaponRedraws": 0,
+      "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "regularAllies": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 1322.9959291323535,
+        "y": 240
+      },
+      "contact": {
+        "x": 1430,
+        "y": 167.20000000000007
+      },
+      "ground": {
+        "x": 1430,
+        "y": 240.00000000000009
+      }
+    },
+    "effectsOff": true
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "width": 390,
+      "scroll": 390
+    },
+    "snapshots": [
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 0.62,
+        "phase": "검압 응축",
+        "playing": false,
+        "speed": 1,
+        "frame": 5,
+        "pose": {
+          "at": 0.61,
+          "bank": "dragon",
+          "index": 2
+        },
+        "contactCount": 0,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 413.84221311475403
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 713.8422131147539
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 1013.8422131147539
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 791.4098360655737,
+              "y": 1013.8422131147539
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 1313.8422131147538
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 1.08,
+        "phase": "천룡 소환",
+        "playing": false,
+        "speed": 1,
+        "frame": 6,
+        "pose": {
+          "at": 0.8,
+          "bank": "dragon",
+          "index": 3
+        },
+        "contactCount": 0,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655739,
+              "y": 413.84221311475403
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655739,
+              "y": 713.842213114754
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655739,
+              "y": 1013.8422131147539
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 791.4098360655738,
+              "y": 1013.8422131147539
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655739,
+              "y": 1313.842213114754
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 1.64,
+        "phase": "전장 돌파",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 0,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 413.8422131147541
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 713.842213114754
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 791.4098360655738,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 1313.842213114754
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 889.2074142785289,
+          "y": 403.24614066147564
+        },
+        "groundError": 0,
+        "visibleEffects": 1,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 2.18,
+        "phase": "광역 강타",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 1,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 413.84221311475403
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 713.842213114754
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 791.4098360655739,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 1313.842213114754
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 1009.8361805558692,
+          "y": 676.9819242467754
+        },
+        "groundError": 0,
+        "visibleEffects": 3,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 2.3,
+        "phase": "광역 강타",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 3,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 413.8422131147541
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 713.842213114754
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": false,
+            "ground": {
+              "x": 791.4098360655738,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": false,
+            "ground": {
+              "x": 1007.4098360655738,
+              "y": 1313.842213114754
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 998.2190025737643,
+          "y": 737.8245422910663
+        },
+        "groundError": 0,
+        "visibleEffects": 5,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 2.42,
+        "phase": "광역 강타",
+        "playing": false,
+        "speed": 1,
+        "frame": 8,
+        "pose": {
+          "at": 1.42,
+          "bank": "dragon",
+          "index": 5
+        },
+        "contactCount": 5,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 413.84221311475403
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 713.8422131147539
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": true,
+            "ground": {
+              "x": 791.4098360655737,
+              "y": 1013.842213114754
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 1313.8422131147538
+            }
+          }
+        ],
+        "dragonHead": {
+          "x": 979.3461303099399,
+          "y": 767.0325588898419
+        },
+        "groundError": 0,
+        "visibleEffects": 8,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 3.15,
+        "phase": "지면 파열 · 파편",
+        "playing": false,
+        "speed": 1,
+        "frame": 9,
+        "pose": {
+          "at": 2.64,
+          "bank": "dragon",
+          "index": 6
+        },
+        "contactCount": 5,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 413.84221311475403
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 713.8422131147539
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 1013.8422131147539
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": true,
+            "ground": {
+              "x": 791.4098360655737,
+              "y": 1013.8422131147539
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655736,
+              "y": 1313.842213114754
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 4,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      },
+      {
+        "ready": true,
+        "mode": "dragon",
+        "time": 4.3,
+        "phase": "자세 회복",
+        "playing": false,
+        "speed": 1,
+        "frame": 10,
+        "pose": {
+          "at": 3.52,
+          "bank": "dragon",
+          "index": 7
+        },
+        "contactCount": 5,
+        "targetCount": 5,
+        "targets": [
+          {
+            "id": "B:0:ENCOUNTER:ZREVIEW-1",
+            "at": 2.18,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 413.84221311475403
+            }
+          },
+          {
+            "id": "B:1:ENCOUNTER:ZREVIEW-2",
+            "at": 2.24,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 713.8422131147539
+            }
+          },
+          {
+            "id": "B:2:ENCOUNTER:ZREVIEW-3",
+            "at": 2.3,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 1013.8422131147538
+            }
+          },
+          {
+            "id": "B:3:ENCOUNTER:ZREVIEW-4",
+            "at": 2.36,
+            "hit": true,
+            "ground": {
+              "x": 791.4098360655737,
+              "y": 1013.8422131147538
+            }
+          },
+          {
+            "id": "B:4:ENCOUNTER:ZREVIEW-5",
+            "at": 2.42,
+            "hit": true,
+            "ground": {
+              "x": 1007.4098360655737,
+              "y": 1313.842213114754
+            }
+          }
+        ],
+        "dragonHead": null,
+        "groundError": 0,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 8,
+        "effectFrames": 48,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "regularAllies": 5,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+      }
+    ],
+    "speeds": [
+      {
+        "speed": 0.25,
+        "advance": 0.0885,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "advance": 0.35,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "advance": 0.7,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "dragon",
+      "time": 0,
+      "phase": "진입",
+      "playing": false,
+      "speed": 2,
+      "frame": 0,
+      "pose": {
+        "at": 0,
+        "bank": "dragon",
+        "index": 0
+      },
+      "contactCount": 0,
+      "targetCount": 5,
+      "targets": [
+        {
+          "id": "B:0:ENCOUNTER:ZREVIEW-1",
+          "at": 2.18,
+          "hit": false,
+          "ground": {
+            "x": 1007.4098360655737,
+            "y": 413.84221311475403
+          }
+        },
+        {
+          "id": "B:1:ENCOUNTER:ZREVIEW-2",
+          "at": 2.24,
+          "hit": false,
+          "ground": {
+            "x": 1007.4098360655737,
+            "y": 713.8422131147539
+          }
+        },
+        {
+          "id": "B:2:ENCOUNTER:ZREVIEW-3",
+          "at": 2.3,
+          "hit": false,
+          "ground": {
+            "x": 1007.4098360655737,
+            "y": 1013.8422131147541
+          }
+        },
+        {
+          "id": "B:3:ENCOUNTER:ZREVIEW-4",
+          "at": 2.36,
+          "hit": false,
+          "ground": {
+            "x": 791.4098360655738,
+            "y": 1013.8422131147541
+          }
+        },
+        {
+          "id": "B:4:ENCOUNTER:ZREVIEW-5",
+          "at": 2.42,
+          "hit": false,
+          "ground": {
+            "x": 1007.4098360655737,
+            "y": 1313.8422131147543
+          }
+        }
+      ],
+      "dragonHead": null,
+      "groundError": 0,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "registeredTimelines": 0,
+      "bodyFrames": 8,
+      "effectFrames": 48,
+      "weaponSources": 1,
+      "weaponRedraws": 0,
+      "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "regularAllies": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+    },
+    "comparison": {
+      "ready": true,
+      "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+      "mode": "skill",
+      "time": 2.18,
+      "playing": false,
+      "speed": 1,
+      "frame": 28,
+      "pose": {
+        "at": 2.155,
+        "bank": "combo",
+        "index": 7,
+        "facing": 1
+      },
+      "phase": "최종 검격 · 지면 파열",
+      "contactCount": 6,
+      "bladeContact": {
+        "u": 0.48018603600297405,
+        "distance": 29.57780534806703,
+        "intersects": true,
+        "tipDistance": 80.65303766159292
+      },
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 2,
+      "visibleGhosts": 4,
+      "registeredTimelines": 0,
+      "bodyFrames": 32,
+      "effectFrames": 60,
+      "weaponSources": 1,
+      "weaponRedraws": 0,
+      "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "regularAllies": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 868.3045439376333,
+        "y": 413.8422131147541
+      },
+      "contact": {
+        "x": 1007.4098360655739,
+        "y": 319.2022131147542
+      },
+      "ground": {
+        "x": 1007.4098360655739,
+        "y": 413.8422131147542
+      }
+    },
+    "effectsOff": true
+  }
+]

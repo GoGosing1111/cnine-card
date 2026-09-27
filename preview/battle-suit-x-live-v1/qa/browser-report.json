@@ -1,0 +1,826 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "failures": [],
+    "normal": [
+      {
+        "mode": "attack",
+        "expected": 283856,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 5322300,
+        "error": null,
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": false,
+          "effectsVisible": false,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 0,
+        "normalHits": 4,
+        "normalDamage": 283856,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "skill",
+        "expected": 283856,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 5322300,
+        "error": null,
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": false,
+          "effectsVisible": false,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 0,
+        "normalHits": 4,
+        "normalDamage": 283856,
+        "allies": 5,
+        "enemies": 5
+      }
+    ],
+    "area": [
+      {
+        "kind": "single",
+        "contact": {
+          "kind": "single",
+          "skillHits": 3,
+          "skillDamage": 638676,
+          "expectedHits": 5,
+          "expectedDamage": 1064460,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "dragon",
+            "timeMs": 2300,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": true,
+            "externalCast": {
+              "version": "X_BODY_LIVE_20260927",
+              "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:XREVIEW-1"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4480,
+            "endMs": 4600,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 3,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_X_CELESTIAL_DRAGON:1",
+                "targetId": "B:0:ENCOUNTER:XREVIEW-1",
+                "version": "X_BODY_LIVE_20260927",
+                "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:XREVIEW-1"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        },
+        "complete": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 1064460,
+          "expectedHits": 5,
+          "expectedDamage": 1064460,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": false,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 6784,
+            "endMs": 4600,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        }
+      },
+      {
+        "kind": "multi",
+        "contact": {
+          "kind": "multi",
+          "skillHits": 15,
+          "skillDamage": 3193380,
+          "expectedHits": 25,
+          "expectedDamage": 5322300,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "dragon",
+            "timeMs": 2300,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": true,
+            "externalCast": {
+              "version": "X_BODY_LIVE_20260927",
+              "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:XREVIEW-1",
+                "B:1:ENCOUNTER:XREVIEW-2",
+                "B:2:ENCOUNTER:XREVIEW-3",
+                "B:3:ENCOUNTER:XREVIEW-4",
+                "B:4:ENCOUNTER:XREVIEW-5"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4480,
+            "endMs": 4600,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 15,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_X_CELESTIAL_DRAGON:1",
+                "targetId": "B:0:ENCOUNTER:XREVIEW-1",
+                "version": "X_BODY_LIVE_20260927",
+                "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:XREVIEW-1",
+                  "B:1:ENCOUNTER:XREVIEW-2",
+                  "B:2:ENCOUNTER:XREVIEW-3",
+                  "B:3:ENCOUNTER:XREVIEW-4",
+                  "B:4:ENCOUNTER:XREVIEW-5"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        },
+        "complete": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 5322300,
+          "expectedHits": 25,
+          "expectedDamage": 5322300,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": false,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 6780,
+            "endMs": 4600,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        }
+      }
+    ],
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 0,
+      "skillDamage": 0,
+      "expectedHits": 25,
+      "expectedDamage": 5322300,
+      "error": null,
+      "sword": {
+        "version": "X_BODY_LIVE_20260927",
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "bodyFrames": 40,
+        "effectFrames": 108,
+        "damageAuthority": "SERVER_TIMELINE",
+        "areaReleaseEnabled": false,
+        "effectsVisible": false,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 3820,
+        "endMs": 4600,
+        "active": false,
+        "completed": false,
+        "casts": 1,
+        "hits": 0,
+        "barrierPauses": 0,
+        "dispatchWaits": 0,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 0,
+      "normalHits": 0,
+      "normalDamage": 0,
+      "allies": 5,
+      "enemies": 5
+    },
+    "pvp": {
+      "active": false,
+      "sword": false
+    }
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "failures": [],
+    "normal": [
+      {
+        "mode": "attack",
+        "expected": 283856,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 5322300,
+        "error": null,
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": false,
+          "effectsVisible": false,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 0,
+        "normalHits": 4,
+        "normalDamage": 283856,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "skill",
+        "expected": 283856,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 5322300,
+        "error": null,
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": false,
+          "effectsVisible": false,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 0,
+        "normalHits": 4,
+        "normalDamage": 283856,
+        "allies": 5,
+        "enemies": 5
+      }
+    ],
+    "area": [
+      {
+        "kind": "single",
+        "contact": {
+          "kind": "single",
+          "skillHits": 3,
+          "skillDamage": 638676,
+          "expectedHits": 5,
+          "expectedDamage": 1064460,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "dragon",
+            "timeMs": 2300,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": true,
+            "externalCast": {
+              "version": "X_BODY_LIVE_20260927",
+              "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:XREVIEW-1"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4480,
+            "endMs": 4600,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 3,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_X_CELESTIAL_DRAGON:1",
+                "targetId": "B:0:ENCOUNTER:XREVIEW-1",
+                "version": "X_BODY_LIVE_20260927",
+                "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:XREVIEW-1"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 3,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        },
+        "complete": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 1064460,
+          "expectedHits": 5,
+          "expectedDamage": 1064460,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": false,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 6784,
+            "endMs": 4600,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        }
+      },
+      {
+        "kind": "multi",
+        "contact": {
+          "kind": "multi",
+          "skillHits": 15,
+          "skillDamage": 3193380,
+          "expectedHits": 25,
+          "expectedDamage": 5322300,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "dragon",
+            "timeMs": 2300,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": true,
+            "externalCast": {
+              "version": "X_BODY_LIVE_20260927",
+              "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:XREVIEW-1",
+                "B:1:ENCOUNTER:XREVIEW-2",
+                "B:2:ENCOUNTER:XREVIEW-3",
+                "B:3:ENCOUNTER:XREVIEW-4",
+                "B:4:ENCOUNTER:XREVIEW-5"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4480,
+            "endMs": 4600,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 15,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_X_CELESTIAL_DRAGON:1",
+                "targetId": "B:0:ENCOUNTER:XREVIEW-1",
+                "version": "X_BODY_LIVE_20260927",
+                "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:XREVIEW-1",
+                  "B:1:ENCOUNTER:XREVIEW-2",
+                  "B:2:ENCOUNTER:XREVIEW-3",
+                  "B:3:ENCOUNTER:XREVIEW-4",
+                  "B:4:ENCOUNTER:XREVIEW-5"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 15,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        },
+        "complete": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 5322300,
+          "expectedHits": 25,
+          "expectedDamage": 5322300,
+          "error": null,
+          "sword": {
+            "version": "X_BODY_LIVE_20260927",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+            "bodyFrames": 40,
+            "effectFrames": 108,
+            "damageAuthority": "SERVER_TIMELINE",
+            "areaReleaseEnabled": false,
+            "effectsVisible": false,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 6780,
+            "endMs": 4600,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        }
+      }
+    ],
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 0,
+      "skillDamage": 0,
+      "expectedHits": 25,
+      "expectedDamage": 5322300,
+      "error": null,
+      "sword": {
+        "version": "X_BODY_LIVE_20260927",
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+        "bodyFrames": 40,
+        "effectFrames": 108,
+        "damageAuthority": "SERVER_TIMELINE",
+        "areaReleaseEnabled": false,
+        "effectsVisible": false,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 3820,
+        "endMs": 4600,
+        "active": false,
+        "completed": false,
+        "casts": 1,
+        "hits": 0,
+        "barrierPauses": 0,
+        "dispatchWaits": 0,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 0,
+      "normalHits": 0,
+      "normalDamage": 0,
+      "allies": 5,
+      "enemies": 5
+    },
+    "pvp": {
+      "active": false,
+      "sword": false
+    }
+  }
+]

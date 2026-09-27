@@ -1,0 +1,3340 @@
+{
+  "version": "X_BODY_LIVE_20260927",
+  "suitCode": "BATTLE_SUIT_X_BODY",
+  "status": "USER_APPROVED_LIVE",
+  "approval": {
+    "base": "2026-09-27 X-BODY V2 승인 및 라이브 배포해",
+    "dragon": "2026-09-27 천룡 강림: 이 연출로 승인"
+  },
+  "image": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+  "base": {
+    "version": "BATTLE_SUIT_X_REVIEW_20260927_V2",
+    "status": "USER_VISUAL_APPROVED_PROCESS_STANDARD",
+    "runtimeEnabled": false,
+    "sourceArt": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+    "weapon": {
+      "source": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+      "sha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "sourceGrip": {
+        "x": 411,
+        "y": 647
+      },
+      "sourceTip": {
+        "x": 1111,
+        "y": 1173
+      },
+      "standingHelmetToSole": 1317,
+      "polygons": [
+        [
+          [
+            451,
+            618
+          ],
+          [
+            461,
+            630
+          ],
+          [
+            458,
+            650
+          ],
+          [
+            477,
+            681
+          ],
+          [
+            502,
+            702
+          ],
+          [
+            552,
+            744
+          ],
+          [
+            602,
+            786
+          ],
+          [
+            652,
+            829
+          ],
+          [
+            702,
+            867
+          ],
+          [
+            752,
+            906
+          ],
+          [
+            802,
+            945
+          ],
+          [
+            852,
+            984
+          ],
+          [
+            902,
+            1024
+          ],
+          [
+            952,
+            1063
+          ],
+          [
+            1002,
+            1102
+          ],
+          [
+            1052,
+            1138
+          ],
+          [
+            1092,
+            1161
+          ],
+          [
+            1114,
+            1170
+          ],
+          [
+            1113,
+            1178
+          ],
+          [
+            1080,
+            1172
+          ],
+          [
+            1050,
+            1162
+          ],
+          [
+            1000,
+            1137
+          ],
+          [
+            950,
+            1104
+          ],
+          [
+            1050,
+            1159
+          ],
+          [
+            1000,
+            1128
+          ],
+          [
+            950,
+            1093
+          ],
+          [
+            900,
+            1056
+          ],
+          [
+            850,
+            1018
+          ],
+          [
+            800,
+            980
+          ],
+          [
+            750,
+            941
+          ],
+          [
+            700,
+            902
+          ],
+          [
+            650,
+            861
+          ],
+          [
+            600,
+            821
+          ],
+          [
+            550,
+            780
+          ],
+          [
+            500,
+            738
+          ],
+          [
+            450,
+            701
+          ],
+          [
+            432,
+            702
+          ],
+          [
+            419,
+            708
+          ],
+          [
+            411,
+            697
+          ],
+          [
+            411,
+            677
+          ],
+          [
+            418,
+            651
+          ],
+          [
+            432,
+            632
+          ]
+        ]
+      ],
+      "sourceSha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+      "rect": {
+        "left": 405,
+        "top": 610,
+        "width": 715,
+        "height": 575
+      },
+      "width": 715,
+      "height": 575,
+      "grip": {
+        "x": 6,
+        "y": 37
+      },
+      "tip": {
+        "x": 706,
+        "y": 563
+      },
+      "copiedPixels": 25248,
+      "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
+      "redrawnPixels": 0,
+      "transformsAllowed": [
+        "uniformScale",
+        "rotation",
+        "translation"
+      ],
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/approved-blade.png",
+      "drawingPolicy": "ONE_IMMUTABLE_ORIGINAL_RASTER"
+    },
+    "motion": {
+      "dash": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/dash-atlas.png",
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bodyPixels": 360,
+        "sha256": "b59b33655b52799c78e4c2ea2f75d73ca2db3effe48f52dd6d6c119ab4e5bb67",
+        "frames": [
+          {
+            "id": "dash-01",
+            "index": 0,
+            "pivot": {
+              "x": 401.79999999999995,
+              "y": 559
+            },
+            "grip": {
+              "x": 354.9428571428572,
+              "y": 387
+            },
+            "tip": {
+              "x": 546.0817872685519,
+              "y": 531.22431707376
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-a.png",
+            "sourceSha256": "75c6595a473958b6b67a7cf0200765174c021a658414449727cbc745de4b41f3",
+            "componentBox": {
+              "left": 36,
+              "top": 22,
+              "width": 470,
+              "height": 641
+            },
+            "sourceFoot": [
+              355,
+              647
+            ],
+            "sourceGrip": [
+              273,
+              346
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 0.07775355235597914,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "3d1e5466b16d6dfe3e1e5b8f76b6c119f3a7ff8c1378475a5b996d4994d60dea",
+            "file": "assets/frames/dash-01.png"
+          },
+          {
+            "id": "dash-02",
+            "index": 1,
+            "pivot": {
+              "x": 474.2,
+              "y": 528.4
+            },
+            "grip": {
+              "x": 389.0571428571428,
+              "y": 364.97142857142865
+            },
+            "tip": {
+              "x": 161.67934377654427,
+              "y": 439.1248294143067
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-a.png",
+            "sourceSha256": "75c6595a473958b6b67a7cf0200765174c021a658414449727cbc745de4b41f3",
+            "componentBox": {
+              "left": 629,
+              "top": 117,
+              "width": 595,
+              "height": 546
+            },
+            "sourceFoot": [
+              990,
+              642
+            ],
+            "sourceGrip": [
+              841,
+              356
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 125.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "26f44ad4b82b3d57f740db0f9e6fa08b34a4250919539462533563faea63631d",
+            "file": "assets/frames/dash-02.png"
+          },
+          {
+            "id": "dash-03",
+            "index": 2,
+            "pivot": {
+              "x": 464.8,
+              "y": 499
+            },
+            "grip": {
+              "x": 392.79999999999995,
+              "y": 361.85714285714295
+            },
+            "tip": {
+              "x": 163.69277338013876,
+              "y": 431.9894805156145
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-a.png",
+            "sourceSha256": "75c6595a473958b6b67a7cf0200765174c021a658414449727cbc745de4b41f3",
+            "componentBox": {
+              "left": 32,
+              "top": 759,
+              "width": 598,
+              "height": 439
+            },
+            "sourceFoot": [
+              383,
+              1180
+            ],
+            "sourceGrip": [
+              257,
+              940
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 126.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "83489d9875bd03e0911f4a318e55a6b17eabe61dec68af11a21c3001f6123ac1",
+            "file": "assets/frames/dash-03.png"
+          },
+          {
+            "id": "dash-04",
+            "index": 3,
+            "pivot": {
+              "x": 441.4,
+              "y": 509.79999999999995
+            },
+            "grip": {
+              "x": 399.1142857142857,
+              "y": 341.2285714285714
+            },
+            "tip": {
+              "x": 172.70134657165895,
+              "y": 418.94963125454126
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-a.png",
+            "sourceSha256": "75c6595a473958b6b67a7cf0200765174c021a658414449727cbc745de4b41f3",
+            "componentBox": {
+              "left": 663,
+              "top": 770,
+              "width": 573,
+              "height": 428
+            },
+            "sourceFoot": [
+              965,
+              1205
+            ],
+            "sourceGrip": [
+              891,
+              910
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 124.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "294537fcc0b6d2d78903d0d22f42e6c7f6555009062d061f121baa69eb4f5e05",
+            "file": "assets/frames/dash-04.png"
+          },
+          {
+            "id": "dash-05",
+            "index": 4,
+            "pivot": {
+              "x": 482.4,
+              "y": 565.5999999999999
+            },
+            "grip": {
+              "x": 381,
+              "y": 370
+            },
+            "tip": {
+              "x": 150.7418140574674,
+              "y": 435.9442045454558
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-b.png",
+            "sourceSha256": "a6fa6ef2911de86f2527fcfdaa753311ffc2a3a652486029fc77ae9b4eafd593",
+            "componentBox": {
+              "left": 36,
+              "top": 70,
+              "width": 637,
+              "height": 421
+            },
+            "sourceFoot": [
+              445,
+              583
+            ],
+            "sourceGrip": [
+              276,
+              257
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 127.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "bb48c88a031f1cd89095ae41cb1962b3325a0c9ab181d6dc80bc45ead481848d",
+            "file": "assets/frames/dash-05.png"
+          },
+          {
+            "id": "dash-06",
+            "index": 5,
+            "pivot": {
+              "x": 482.59999999999997,
+              "y": 534.8
+            },
+            "grip": {
+              "x": 388.4,
+              "y": 387.2
+            },
+            "tip": {
+              "x": 165.15088075037025,
+              "y": 473.1651300632269
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-b.png",
+            "sourceSha256": "a6fa6ef2911de86f2527fcfdaa753311ffc2a3a652486029fc77ae9b4eafd593",
+            "componentBox": {
+              "left": 684,
+              "top": 88,
+              "width": 554,
+              "height": 526
+            },
+            "sourceFoot": [
+              1035,
+              602
+            ],
+            "sourceGrip": [
+              878,
+              356
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 122.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "7ca9e7999d4cd980474bba9c4569fe8fa0a7003acce5ad8581f071479d2fc3a0",
+            "file": "assets/frames/dash-06.png"
+          },
+          {
+            "id": "dash-07",
+            "index": 6,
+            "pivot": {
+              "x": 455,
+              "y": 510.4
+            },
+            "grip": {
+              "x": 362,
+              "y": 352
+            },
+            "tip": {
+              "x": 131.7418140574674,
+              "y": 417.9442045454558
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-b.png",
+            "sourceSha256": "a6fa6ef2911de86f2527fcfdaa753311ffc2a3a652486029fc77ae9b4eafd593",
+            "componentBox": {
+              "left": 16,
+              "top": 722,
+              "width": 719,
+              "height": 448
+            },
+            "sourceFoot": [
+              430,
+              1157
+            ],
+            "sourceGrip": [
+              275,
+              893
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 127.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "4e766c584f0306c07f58d0c58eaaa0c51278da3ff14a8d9b35a286b9198d6ed6",
+            "file": "assets/frames/dash-07.png"
+          },
+          {
+            "id": "dash-08",
+            "index": 7,
+            "pivot": {
+              "x": 429,
+              "y": 552.8
+            },
+            "grip": {
+              "x": 350.4,
+              "y": 386.6
+            },
+            "tip": {
+              "x": 541.4817872685519,
+              "y": 530.4243170737599
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dash-b.png",
+            "sourceSha256": "a6fa6ef2911de86f2527fcfdaa753311ffc2a3a652486029fc77ae9b4eafd593",
+            "componentBox": {
+              "left": 698,
+              "top": 625,
+              "width": 479,
+              "height": 610
+            },
+            "sourceFoot": [
+              1039,
+              1210
+            ],
+            "sourceGrip": [
+              908,
+              933
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 0.07775355235597914,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "de30d2e24ea15987158ac749a48b8d131d7df6cf2077af1527a5b934f3691403",
+            "file": "assets/frames/dash-08.png"
+          }
+        ]
+      },
+      "attack": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/attack-atlas.png",
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bodyPixels": 360,
+        "sha256": "bb5c4c250d8cf5316099b23d1b7c28babbb78e7a7c5769c8f1d32535a50dfd09",
+        "frames": [
+          {
+            "id": "attack-01",
+            "index": 0,
+            "pivot": {
+              "x": 475,
+              "y": 553
+            },
+            "grip": {
+              "x": 366.4,
+              "y": 315.4
+            },
+            "tip": {
+              "x": 154.78986461944572,
+              "y": 203.27834995532163
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-a.png",
+            "sourceSha256": "79955c620be5fec30955abf0e796a28325df2bcbcb3f03a7361f242ce2e57b8d",
+            "componentBox": {
+              "left": 52,
+              "top": 203,
+              "width": 608,
+              "height": 464
+            },
+            "sourceFoot": [
+              425,
+              643
+            ],
+            "sourceGrip": [
+              244,
+              247
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 171.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "c7eb537c49b5b9cacbc272af234b33948838f24f5266acf1fcfb68c7cc0f0b2c",
+            "file": "assets/frames/attack-01.png"
+          },
+          {
+            "id": "attack-02",
+            "index": 1,
+            "pivot": {
+              "x": 449,
+              "y": 582
+            },
+            "grip": {
+              "x": 415.4,
+              "y": 295.2
+            },
+            "tip": {
+              "x": 210.05509275394445,
+              "y": 171.92761833487046
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-a.png",
+            "sourceSha256": "79955c620be5fec30955abf0e796a28325df2bcbcb3f03a7361f242ce2e57b8d",
+            "componentBox": {
+              "left": 714,
+              "top": 128,
+              "width": 514,
+              "height": 544
+            },
+            "sourceFoot": [
+              1040,
+              645
+            ],
+            "sourceGrip": [
+              984,
+              167
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 174.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "f970f86adcb94913336adeccbcd000554925d0baf231706d528706f3bab5a4f3",
+            "file": "assets/frames/attack-02.png"
+          },
+          {
+            "id": "attack-03",
+            "index": 2,
+            "pivot": {
+              "x": 334,
+              "y": 509.8
+            },
+            "grip": {
+              "x": 428.8,
+              "y": 313.6
+            },
+            "tip": {
+              "x": 625.1561367177758,
+              "y": 450.7600640964487
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-a.png",
+            "sourceSha256": "79955c620be5fec30955abf0e796a28325df2bcbcb3f03a7361f242ce2e57b8d",
+            "componentBox": {
+              "left": 49,
+              "top": 734,
+              "width": 566,
+              "height": 474
+            },
+            "sourceFoot": [
+              370,
+              1180
+            ],
+            "sourceGrip": [
+              528,
+              853
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -1.9222464476440209,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "510afde3658b9fb21871823076b88507dfedbf2ec0ac98cc943ba967b95b92cb",
+            "file": "assets/frames/attack-03.png"
+          },
+          {
+            "id": "attack-04",
+            "index": 3,
+            "pivot": {
+              "x": 335.4,
+              "y": 456.4
+            },
+            "grip": {
+              "x": 417,
+              "y": 377.2
+            },
+            "tip": {
+              "x": 586.4594217559752,
+              "y": 546.4231199837736
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-a.png",
+            "sourceSha256": "79955c620be5fec30955abf0e796a28325df2bcbcb3f03a7361f242ce2e57b8d",
+            "componentBox": {
+              "left": 716,
+              "top": 790,
+              "width": 476,
+              "height": 425
+            },
+            "sourceFoot": [
+              976,
+              1185
+            ],
+            "sourceGrip": [
+              1112,
+              1053
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 8.07775355235598,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "dc8b7bc4d3158c1d6e6c730d951eaef6dafc3bbec049d282b84604e4bcc90b8c",
+            "file": "assets/frames/attack-04.png"
+          },
+          {
+            "id": "attack-05",
+            "index": 4,
+            "pivot": {
+              "x": 326.79999999999995,
+              "y": 523.5999999999999
+            },
+            "grip": {
+              "x": 458.8,
+              "y": 425.2
+            },
+            "tip": {
+              "x": 668.1534939458761,
+              "y": 541.2574656257943
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-b.png",
+            "sourceSha256": "d4cf01c438ddeb42227e830f2117b7b9663c8691c868e0265e51d2d492f4fdbf",
+            "componentBox": {
+              "left": 16,
+              "top": 78,
+              "width": 655,
+              "height": 527
+            },
+            "sourceFoot": [
+              395,
+              575
+            ],
+            "sourceGrip": [
+              615,
+              411
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -7.922246447644021,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "8c58c178846727cc155a678491f92d945837bd6380d2c3c45e6e430f0212664d",
+            "file": "assets/frames/attack-05.png"
+          },
+          {
+            "id": "attack-06",
+            "index": 5,
+            "pivot": {
+              "x": 398.6,
+              "y": 532.2
+            },
+            "grip": {
+              "x": 361.4,
+              "y": 373.79999999999995
+            },
+            "tip": {
+              "x": 573.0101353805542,
+              "y": 485.92165004467853
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-b.png",
+            "sourceSha256": "d4cf01c438ddeb42227e830f2117b7b9663c8691c868e0265e51d2d492f4fdbf",
+            "componentBox": {
+              "left": 688,
+              "top": 66,
+              "width": 565,
+              "height": 535
+            },
+            "sourceFoot": [
+              1030,
+              580
+            ],
+            "sourceGrip": [
+              968,
+              316
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -8.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "ad34d94817e96943a26d42ab276976629e1fbebe790975599f8e6a216b6f5e70",
+            "file": "assets/frames/attack-06.png"
+          },
+          {
+            "id": "attack-07",
+            "index": 6,
+            "pivot": {
+              "x": 401,
+              "y": 554.8
+            },
+            "grip": {
+              "x": 366.79999999999995,
+              "y": 365.2
+            },
+            "tip": {
+              "x": 567.4115072071838,
+              "y": 495.60801703103783
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-b.png",
+            "sourceSha256": "d4cf01c438ddeb42227e830f2117b7b9663c8691c868e0265e51d2d492f4fdbf",
+            "componentBox": {
+              "left": 101,
+              "top": 617,
+              "width": 580,
+              "height": 615
+            },
+            "sourceFoot": [
+              437,
+              1208
+            ],
+            "sourceGrip": [
+              380,
+              892
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -3.922246447644021,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "224ba0d2271329fa6c1ae5cea3d970ca5bd41f4fc99b8378ccf5e6ead20f6ddf",
+            "file": "assets/frames/attack-07.png"
+          },
+          {
+            "id": "attack-08",
+            "index": 7,
+            "pivot": {
+              "x": 407.6,
+              "y": 565
+            },
+            "grip": {
+              "x": 345.8,
+              "y": 375.4
+            },
+            "tip": {
+              "x": 536.881787268552,
+              "y": 519.22431707376
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-attack-b.png",
+            "sourceSha256": "d4cf01c438ddeb42227e830f2117b7b9663c8691c868e0265e51d2d492f4fdbf",
+            "componentBox": {
+              "left": 725,
+              "top": 587,
+              "width": 465,
+              "height": 653
+            },
+            "sourceFoot": [
+              1022,
+              1215
+            ],
+            "sourceGrip": [
+              919,
+              899
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 0.07775355235597914,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "6e39155b3482d69068f580c1885a1d8481f7b07122dca599d5f388b775239fa2",
+            "file": "assets/frames/attack-08.png"
+          }
+        ]
+      },
+      "skill": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/skill-atlas.png",
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bodyPixels": 360,
+        "sha256": "c499e2174b11b96c6a63f0ab140e2791f56a26240bc9b7e61a16d73c976b0dd0",
+        "frames": [
+          {
+            "id": "skill-01",
+            "index": 0,
+            "pivot": {
+              "x": 391.6,
+              "y": 554
+            },
+            "grip": {
+              "x": 358,
+              "y": 360.79999999999995
+            },
+            "tip": {
+              "x": 584.0986534283411,
+              "y": 283.0503687454589
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-a.png",
+            "sourceSha256": "1ce303c55bad6ef6ef1a2ab0d3fc4d115543f1f1d74058f7da4a61deff3f1f9c",
+            "componentBox": {
+              "left": 43,
+              "top": 22,
+              "width": 573,
+              "height": 609
+            },
+            "sourceFoot": [
+              390,
+              610
+            ],
+            "sourceGrip": [
+              334,
+              288
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -55.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "96b724034058207929da806cef7bf104a4af4c05e019fb48cf2bcc33cb235661",
+            "file": "assets/frames/skill-01.png"
+          },
+          {
+            "id": "skill-02",
+            "index": 1,
+            "pivot": {
+              "x": 450.2,
+              "y": 614.8
+            },
+            "grip": {
+              "x": 381.79999999999995,
+              "y": 303.4
+            },
+            "tip": {
+              "x": 203.65369001377985,
+              "y": 143.17577143276424
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-a.png",
+            "sourceSha256": "1ce303c55bad6ef6ef1a2ab0d3fc4d115543f1f1d74058f7da4a61deff3f1f9c",
+            "componentBox": {
+              "left": 670,
+              "top": 57,
+              "width": 576,
+              "height": 574
+            },
+            "sourceFoot": [
+              1050,
+              610
+            ],
+            "sourceGrip": [
+              936,
+              91
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -174.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "ed5919766119dd59575531fe42c16dd36f7d01a4f993b72ad2a1b01b8dac838e",
+            "file": "assets/frames/skill-02.png"
+          },
+          {
+            "id": "skill-03",
+            "index": 2,
+            "pivot": {
+              "x": 413.6,
+              "y": 670.4
+            },
+            "grip": {
+              "x": 381.2,
+              "y": 329
+            },
+            "tip": {
+              "x": 380.91488992980925,
+              "y": 89.47282120259969
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-a.png",
+            "sourceSha256": "1ce303c55bad6ef6ef1a2ab0d3fc4d115543f1f1d74058f7da4a61deff3f1f9c",
+            "componentBox": {
+              "left": 38,
+              "top": 608,
+              "width": 606,
+              "height": 635
+            },
+            "sourceFoot": [
+              390,
+              1225
+            ],
+            "sourceGrip": [
+              336,
+              656
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -126.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "d62e2483ebe483e485611cf2f81fc8a964e4c6dc96519a216a0db99a0e4373cb",
+            "file": "assets/frames/skill-03.png"
+          },
+          {
+            "id": "skill-04",
+            "index": 3,
+            "pivot": {
+              "x": 475,
+              "y": 575.8
+            },
+            "grip": {
+              "x": 391.6,
+              "y": 286
+            },
+            "tip": {
+              "x": 172.78837313033694,
+              "y": 188.8975515814183
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-a.png",
+            "sourceSha256": "1ce303c55bad6ef6ef1a2ab0d3fc4d115543f1f1d74058f7da4a61deff3f1f9c",
+            "componentBox": {
+              "left": 647,
+              "top": 713,
+              "width": 599,
+              "height": 528
+            },
+            "sourceFoot": [
+              1040,
+              1230
+            ],
+            "sourceGrip": [
+              901,
+              747
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -192.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "f78d8776fd748116e75b0651aa544403532baa083dbaa590669ee48c56c4f627",
+            "file": "assets/frames/skill-04.png"
+          },
+          {
+            "id": "skill-05",
+            "index": 4,
+            "pivot": {
+              "x": 354.6,
+              "y": 621.2
+            },
+            "grip": {
+              "x": 454.2,
+              "y": 298.4
+            },
+            "tip": {
+              "x": 626.3697870975284,
+              "y": 131.98779000436252
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-b.png",
+            "sourceSha256": "c79cfd91a1372938847093df10c7c192144be0ce3ad681862ea45f13273e8aa2",
+            "componentBox": {
+              "left": 23,
+              "top": 11,
+              "width": 619,
+              "height": 620
+            },
+            "sourceFoot": [
+              380,
+              602
+            ],
+            "sourceGrip": [
+              546,
+              64
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -80.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "d0e485916dd40313850d5df711011025a6bfaedfde0284d21cca1868517fdd91",
+            "file": "assets/frames/skill-05.png"
+          },
+          {
+            "id": "skill-06",
+            "index": 5,
+            "pivot": {
+              "x": 311.79999999999995,
+              "y": 522.2
+            },
+            "grip": {
+              "x": 439,
+              "y": 441.79999999999995
+            },
+            "tip": {
+              "x": 657.811626869663,
+              "y": 538.9024484185817
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-b.png",
+            "sourceSha256": "c79cfd91a1372938847093df10c7c192144be0ce3ad681862ea45f13273e8aa2",
+            "componentBox": {
+              "left": 619,
+              "top": 107,
+              "width": 635,
+              "height": 516
+            },
+            "sourceFoot": [
+              958,
+              600
+            ],
+            "sourceGrip": [
+              1170,
+              466
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -12.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "e3d9b9e9b4cdc5fb5870d7b52e3f26366625b0b5d065fd154bf28c6d27cfb68c",
+            "file": "assets/frames/skill-06.png"
+          },
+          {
+            "id": "skill-07",
+            "index": 6,
+            "pivot": {
+              "x": 361.6,
+              "y": 520.8
+            },
+            "grip": {
+              "x": 430.59999999999997,
+              "y": 424.79999999999995
+            },
+            "tip": {
+              "x": 626.9561367177757,
+              "y": 561.9600640964486
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-b.png",
+            "sourceSha256": "c79cfd91a1372938847093df10c7c192144be0ce3ad681862ea45f13273e8aa2",
+            "componentBox": {
+              "left": 17,
+              "top": 689,
+              "width": 652,
+              "height": 542
+            },
+            "sourceFoot": [
+              390,
+              1220
+            ],
+            "sourceGrip": [
+              505,
+              1060
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -1.9222464476440209,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "21101f449843f5cf8a19c7e3d9afee48c1ff9576933440e6a828536fc2f69d8d",
+            "file": "assets/frames/skill-07.png"
+          },
+          {
+            "id": "skill-08",
+            "index": 7,
+            "pivot": {
+              "x": 434,
+              "y": 557
+            },
+            "grip": {
+              "x": 369.2,
+              "y": 387.2
+            },
+            "tip": {
+              "x": 560.2817872685519,
+              "y": 531.0243170737599
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-skill-b.png",
+            "sourceSha256": "c79cfd91a1372938847093df10c7c192144be0ce3ad681862ea45f13273e8aa2",
+            "componentBox": {
+              "left": 644,
+              "top": 623,
+              "width": 597,
+              "height": 618
+            },
+            "sourceFoot": [
+              1025,
+              1220
+            ],
+            "sourceGrip": [
+              917,
+              937
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 0.07775355235597914,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "618a643f02352c0f7c3db0d87abe1b6bb3c262ca569de735c08de51ceddf56a5",
+            "file": "assets/frames/skill-08.png"
+          }
+        ]
+      },
+      "combo": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/combo-atlas.png",
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bodyPixels": 360,
+        "sha256": "895cb51584b5c54faeba76324926b585f18b75e06fb6f07ef0176b6bd45270eb",
+        "frames": [
+          {
+            "id": "combo-01",
+            "index": 0,
+            "pivot": {
+              "x": 475.2,
+              "y": 558
+            },
+            "grip": {
+              "x": 369.8341463414634,
+              "y": 357.219512195122
+            },
+            "tip": {
+              "x": 132.87316054702,
+              "y": 323.6289710677689
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-a.png",
+            "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+            "componentBox": {
+              "left": 35,
+              "top": 39,
+              "width": 625,
+              "height": 609
+            },
+            "sourceFoot": [
+              385,
+              640
+            ],
+            "sourceGrip": [
+              205,
+              297
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 151.07775355235597,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "94dc166e3a8f52ac2ade94becb2227ab8d56a24a3cb6ef74205c11f3810448a3",
+            "file": "assets/frames/combo-01.png"
+          },
+          {
+            "id": "combo-02",
+            "index": 1,
+            "pivot": {
+              "x": 296.4,
+              "y": 534.4
+            },
+            "grip": {
+              "x": 414.0585365853658,
+              "y": 337.71707317073174
+            },
+            "tip": {
+              "x": 653.5271787974003,
+              "y": 337.91488992980925
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-a.png",
+            "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+            "componentBox": {
+              "left": 656,
+              "top": 118,
+              "width": 579,
+              "height": 525
+            },
+            "sourceFoot": [
+              970,
+              637
+            ],
+            "sourceGrip": [
+              1171,
+              301
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -36.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "9315d9980cfbd78a544bdcd1a4e94fe926e228e9252e58acb2aa372e17f2f760",
+            "file": "assets/frames/combo-02.png"
+          },
+          {
+            "id": "combo-03",
+            "index": 2,
+            "pivot": {
+              "x": 307.2,
+              "y": 538.8
+            },
+            "grip": {
+              "x": 451.78536585365856,
+              "y": 332.1658536585366
+            },
+            "tip": {
+              "x": 685.6490579815423,
+              "y": 381.8743462372356
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-a.png",
+            "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+            "componentBox": {
+              "left": 22,
+              "top": 678,
+              "width": 692,
+              "height": 546
+            },
+            "sourceFoot": [
+              408,
+              1215
+            ],
+            "sourceGrip": [
+              655,
+              862
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -24.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "399abbd5c04a568e3bf4bbb13ab39dba8d2ddd6205ac5652f5bf04b4ad9c1d5d",
+            "file": "assets/frames/combo-03.png"
+          },
+          {
+            "id": "combo-04",
+            "index": 3,
+            "pivot": {
+              "x": 308.2,
+              "y": 530.2
+            },
+            "grip": {
+              "x": 397.7609756097561,
+              "y": 430.68780487804884
+            },
+            "tip": {
+              "x": 616.1641592882504,
+              "y": 333.6060295827577
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-a.png",
+            "sourceSha256": "6d5c19578e72d7a2a8a201a9f44cb0a3ccf7e4e22bb8f8466c0d3f4b7cf902da",
+            "componentBox": {
+              "left": 723,
+              "top": 705,
+              "width": 524,
+              "height": 526
+            },
+            "sourceFoot": [
+              993,
+              1218
+            ],
+            "sourceGrip": [
+              1146,
+              1048
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -60.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "2b49f3f53e0b470e3b757e4c6358d2b131c25cc2499616d4a82fb156af2002d6",
+            "file": "assets/frames/combo-04.png"
+          },
+          {
+            "id": "combo-05",
+            "index": 4,
+            "pivot": {
+              "x": 438.8,
+              "y": 530.8
+            },
+            "grip": {
+              "x": 383.19024390243897,
+              "y": 338.21463414634144
+            },
+            "tip": {
+              "x": 167.87349479859537,
+              "y": 233.40390037474032
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-b.png",
+            "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+            "componentBox": {
+              "left": 26,
+              "top": 176,
+              "width": 675,
+              "height": 476
+            },
+            "sourceFoot": [
+              421,
+              640
+            ],
+            "sourceGrip": [
+              326,
+              311
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -190.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "4ce26ed1e24c4325f8d7915bcb740a3b48b2cdc1cc5e0deb0b317444f5f01948",
+            "file": "assets/frames/combo-05.png"
+          },
+          {
+            "id": "combo-06",
+            "index": 5,
+            "pivot": {
+              "x": 377.2,
+              "y": 630.8
+            },
+            "grip": {
+              "x": 426.95609756097565,
+              "y": 303.58048780487803
+            },
+            "tip": {
+              "x": 267.05677113420757,
+              "y": 125.81897976010286
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-b.png",
+            "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+            "componentBox": {
+              "left": 681,
+              "top": 7,
+              "width": 565,
+              "height": 638
+            },
+            "sourceFoot": [
+              951,
+              621
+            ],
+            "sourceGrip": [
+              1036,
+              62
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -168.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "64f6c4ee7511a82d10a0a253108258fd9361b751cadd7c5acde2cc82d3c35753",
+            "file": "assets/frames/combo-06.png"
+          },
+          {
+            "id": "combo-07",
+            "index": 6,
+            "pivot": {
+              "x": 324.4,
+              "y": 523.5999999999999
+            },
+            "grip": {
+              "x": 441.4731707317072,
+              "y": 418.819512195122
+            },
+            "tip": {
+              "x": 634.9836416886376,
+              "y": 559.2534235887495
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-b.png",
+            "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+            "componentBox": {
+              "left": 38,
+              "top": 665,
+              "width": 607,
+              "height": 560
+            },
+            "sourceFoot": [
+              366,
+              1205
+            ],
+            "sourceGrip": [
+              566,
+              1026
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -0.9222464476440209,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "ed2f74f7315c0582a48f1e8862d2d18df88d944434c12ab19f12e848eed72482",
+            "file": "assets/frames/combo-07.png"
+          },
+          {
+            "id": "combo-08",
+            "index": 7,
+            "pivot": {
+              "x": 321.4,
+              "y": 515.2
+            },
+            "grip": {
+              "x": 427.3512195121951,
+              "y": 351.8829268292683
+            },
+            "tip": {
+              "x": 642.7265052014046,
+              "y": 456.79609962525967
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-combo-b.png",
+            "sourceSha256": "f23549c5803e0de2ed6ea1aa707cd9e58d841257873eff5b2ec98743b8bf7489",
+            "componentBox": {
+              "left": 652,
+              "top": 762,
+              "width": 602,
+              "height": 465
+            },
+            "sourceFoot": [
+              989,
+              1218
+            ],
+            "sourceGrip": [
+              1170,
+              939
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -10.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "a6b787599193050d7e767e6f2d140bc4293b4c8c9c6d94388b9ba98e3c24d4bc",
+            "file": "assets/frames/combo-08.png"
+          }
+        ]
+      }
+    },
+    "effects": {
+      "dash": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/dash-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1536,
+        "height": 1024,
+        "sha256": "3d9dc83971700079db8c10cf116f44e7f7d1b88908cb65c779f672419c14e1db",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 384,
+              "height": 341
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 384,
+              "y": 0,
+              "width": 384,
+              "height": 341
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 768,
+              "y": 0,
+              "width": 384,
+              "height": 341
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1152,
+              "y": 0,
+              "width": 384,
+              "height": 341
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 341,
+              "width": 384,
+              "height": 342
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 384,
+              "y": 341,
+              "width": 384,
+              "height": 342
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 768,
+              "y": 341,
+              "width": 384,
+              "height": 342
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1152,
+              "y": 341,
+              "width": 384,
+              "height": 342
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 683,
+              "width": 384,
+              "height": 341
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 384,
+              "y": 683,
+              "width": 384,
+              "height": 341
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 768,
+              "y": 683,
+              "width": 384,
+              "height": 341
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1152,
+              "y": 683,
+              "width": 384,
+              "height": 341
+            }
+          }
+        ]
+      },
+      "cut-v2": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/cut-v2-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "6b5eafa9bd57de48a36edb21bebf3d8cdc26f7323c3a95d46fa7cd382d8cd400",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      },
+      "cross-v2": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/cross-v2-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "acf37299f3770348b6d2450fd10be30d2fbacf84ac3956ffc266eaf362259abd",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      },
+      "cleave-v2": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/cleave-v2-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "69e672c83af2c7cdcf15598441ad0fe22da9510ba8df2e98af4b311720144380",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      },
+      "ground-v2": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/ground-v2-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "3cb4b4c1fb7499c43b02cc2c65c25bd8db21d460867e3beb41eff1c2055fcd3d",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      }
+    },
+    "runtime": {
+      "pixi": "8.20.0",
+      "gsap": "3.13.0",
+      "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+      "clock": "V3_REGISTERED_GSAP"
+    },
+    "audio": {
+      "enabled": false
+    },
+    "summary": {
+      "bodyFrames": 32,
+      "effectFrames": 60,
+      "weaponSources": 1,
+      "weaponRedraws": 0
+    },
+    "approvalRecord": "approval-20260927.json"
+  },
+  "dragon": {
+    "version": "BATTLE_SUIT_X_DRAGON_REVIEW_20260927_V1",
+    "status": "USER_REVIEW_PENDING",
+    "runtimeEnabled": false,
+    "sourceArt": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+    "weapon": {
+      "source": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+      "sha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "sourceGrip": {
+        "x": 411,
+        "y": 647
+      },
+      "sourceTip": {
+        "x": 1111,
+        "y": 1173
+      },
+      "standingHelmetToSole": 1317,
+      "polygons": [
+        [
+          [
+            451,
+            618
+          ],
+          [
+            461,
+            630
+          ],
+          [
+            458,
+            650
+          ],
+          [
+            477,
+            681
+          ],
+          [
+            502,
+            702
+          ],
+          [
+            552,
+            744
+          ],
+          [
+            602,
+            786
+          ],
+          [
+            652,
+            829
+          ],
+          [
+            702,
+            867
+          ],
+          [
+            752,
+            906
+          ],
+          [
+            802,
+            945
+          ],
+          [
+            852,
+            984
+          ],
+          [
+            902,
+            1024
+          ],
+          [
+            952,
+            1063
+          ],
+          [
+            1002,
+            1102
+          ],
+          [
+            1052,
+            1138
+          ],
+          [
+            1092,
+            1161
+          ],
+          [
+            1114,
+            1170
+          ],
+          [
+            1113,
+            1178
+          ],
+          [
+            1080,
+            1172
+          ],
+          [
+            1050,
+            1162
+          ],
+          [
+            1000,
+            1137
+          ],
+          [
+            950,
+            1104
+          ],
+          [
+            1050,
+            1159
+          ],
+          [
+            1000,
+            1128
+          ],
+          [
+            950,
+            1093
+          ],
+          [
+            900,
+            1056
+          ],
+          [
+            850,
+            1018
+          ],
+          [
+            800,
+            980
+          ],
+          [
+            750,
+            941
+          ],
+          [
+            700,
+            902
+          ],
+          [
+            650,
+            861
+          ],
+          [
+            600,
+            821
+          ],
+          [
+            550,
+            780
+          ],
+          [
+            500,
+            738
+          ],
+          [
+            450,
+            701
+          ],
+          [
+            432,
+            702
+          ],
+          [
+            419,
+            708
+          ],
+          [
+            411,
+            697
+          ],
+          [
+            411,
+            677
+          ],
+          [
+            418,
+            651
+          ],
+          [
+            432,
+            632
+          ]
+        ]
+      ],
+      "sourceSha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+      "rect": {
+        "left": 405,
+        "top": 610,
+        "width": 715,
+        "height": 575
+      },
+      "width": 715,
+      "height": 575,
+      "grip": {
+        "x": 6,
+        "y": 37
+      },
+      "tip": {
+        "x": 706,
+        "y": 563
+      },
+      "copiedPixels": 25248,
+      "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
+      "redrawnPixels": 0,
+      "transformsAllowed": [
+        "uniformScale",
+        "rotation",
+        "translation"
+      ],
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/approved-blade.png",
+      "drawingPolicy": "ONE_IMMUTABLE_ORIGINAL_RASTER"
+    },
+    "motion": {
+      "dragon": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-atlas.png",
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 768,
+        "frameHeight": 768,
+        "bodyPixels": 360,
+        "sha256": "7be6733612b15c84c56393c8f161cfe8147f27ad30c698189a21e3b8098e5e0e",
+        "frames": [
+          {
+            "id": "dragon-01",
+            "index": 0,
+            "pivot": {
+              "x": 398.2,
+              "y": 554.4
+            },
+            "grip": {
+              "x": 346.6,
+              "y": 362.4
+            },
+            "tip": {
+              "x": 580.5027197074146,
+              "y": 312.5236684654034
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-a.png",
+            "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+            "componentBox": {
+              "left": 36,
+              "top": 23,
+              "width": 588,
+              "height": 605
+            },
+            "sourceFoot": [
+              389,
+              610
+            ],
+            "sourceGrip": [
+              303,
+              290
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -48.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "7a7e1b376856b2ec53b9d476e056b42f707fd559349a4c76e1101cb7b5bfad77",
+            "file": "assets/frames/dragon-01.png"
+          },
+          {
+            "id": "dragon-02",
+            "index": 1,
+            "pivot": {
+              "x": 438.2,
+              "y": 617.2
+            },
+            "grip": {
+              "x": 387.79999999999995,
+              "y": 349.6
+            },
+            "tip": {
+              "x": 507.1745606675289,
+              "y": 142.53502595685924
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-a.png",
+            "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+            "componentBox": {
+              "left": 654,
+              "top": 36,
+              "width": 588,
+              "height": 592
+            },
+            "sourceFoot": [
+              1037,
+              610
+            ],
+            "sourceGrip": [
+              953,
+              164
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -96.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "180e38c4e1d3c240d7f38ce02860ad7ea7cfef7c23efee1a7d0113136baf4125",
+            "file": "assets/frames/dragon-02.png"
+          },
+          {
+            "id": "dragon-03",
+            "index": 2,
+            "pivot": {
+              "x": 423.79999999999995,
+              "y": 674.1999999999999
+            },
+            "grip": {
+              "x": 385.4,
+              "y": 325
+            },
+            "tip": {
+              "x": 385.11488992980924,
+              "y": 85.47282120259969
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-a.png",
+            "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+            "componentBox": {
+              "left": 34,
+              "top": 603,
+              "width": 606,
+              "height": 645
+            },
+            "sourceFoot": [
+              403,
+              1232
+            ],
+            "sourceGrip": [
+              339,
+              650
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -126.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "9b0d5dffb772d8eb5fd4b8556aa98d8f6c60f07e9a38b723093b72d4025713ce",
+            "file": "assets/frames/dragon-03.png"
+          },
+          {
+            "id": "dragon-04",
+            "index": 3,
+            "pivot": {
+              "x": 447,
+              "y": 674.8
+            },
+            "grip": {
+              "x": 369.6,
+              "y": 325
+            },
+            "tip": {
+              "x": 377.7473108166872,
+              "y": 85.95194858293618
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-a.png",
+            "sourceSha256": "6fac41593b3aafeeafd4704da795760882b504ac220c37334cc3b7fad1edd651",
+            "componentBox": {
+              "left": 633,
+              "top": 610,
+              "width": 602,
+              "height": 638
+            },
+            "sourceFoot": [
+              1039,
+              1232
+            ],
+            "sourceGrip": [
+              910,
+              649
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -124.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "60c46ab5b9e356b3e08933ea4ff973c80195c2c808fa7fddb3b98b5eec8cd3e6",
+            "file": "assets/frames/dragon-04.png"
+          },
+          {
+            "id": "dragon-05",
+            "index": 4,
+            "pivot": {
+              "x": 420.6,
+              "y": 624.8
+            },
+            "grip": {
+              "x": 391.2,
+              "y": 285.79999999999995
+            },
+            "tip": {
+              "x": 207.795922774399,
+              "y": 132.00285307346184
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-b.png",
+            "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+            "componentBox": {
+              "left": 25,
+              "top": 5,
+              "width": 624,
+              "height": 633
+            },
+            "sourceFoot": [
+              397,
+              614
+            ],
+            "sourceGrip": [
+              348,
+              49
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -176.92224644764403,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "d493bed276d05171565cee2a6b09fd353ec377928fd8a310b21f4e7b3b19c468",
+            "file": "assets/frames/dragon-05.png"
+          },
+          {
+            "id": "dragon-06",
+            "index": 5,
+            "pivot": {
+              "x": 362.4,
+              "y": 527.4
+            },
+            "grip": {
+              "x": 405,
+              "y": 359.4
+            },
+            "tip": {
+              "x": 644.0213237975024,
+              "y": 375.9709019716978
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-b.png",
+            "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+            "componentBox": {
+              "left": 634,
+              "top": 111,
+              "width": 620,
+              "height": 525
+            },
+            "sourceFoot": [
+              1034,
+              613
+            ],
+            "sourceGrip": [
+              1105,
+              333
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -32.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "332a641a934ed7b42140ac66ef62d8b9d18f12bfcb99b169a768ebbb6403a349",
+            "file": "assets/frames/dragon-06.png"
+          },
+          {
+            "id": "dragon-07",
+            "index": 6,
+            "pivot": {
+              "x": 350.79999999999995,
+              "y": 562.2
+            },
+            "grip": {
+              "x": 403,
+              "y": 311.4
+            },
+            "tip": {
+              "x": 621.5641592882503,
+              "y": 213.8060295827577
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-b.png",
+            "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+            "componentBox": {
+              "left": 58,
+              "top": 634,
+              "width": 583,
+              "height": 604
+            },
+            "sourceFoot": [
+              402,
+              1233
+            ],
+            "sourceGrip": [
+              489,
+              815
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": -60.92224644764402,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "0bbd28f64a5974930bf5b8db994e479b51bb8a9f7581af83002b22949ca3177c",
+            "file": "assets/frames/dragon-07.png"
+          },
+          {
+            "id": "dragon-08",
+            "index": 7,
+            "pivot": {
+              "x": 410.4,
+              "y": 559.4
+            },
+            "grip": {
+              "x": 366.6,
+              "y": 390.79999999999995
+            },
+            "tip": {
+              "x": 557.681787268552,
+              "y": 534.6243170737598
+            },
+            "bodyPixels": 360,
+            "source": "assets/sources/body-dragon-b.png",
+            "sourceSha256": "955171a51cda53342cd383fee589b633433f9050adbf52bc82359b1d0cb1ba9d",
+            "componentBox": {
+              "left": 667,
+              "top": 633,
+              "width": 553,
+              "height": 611
+            },
+            "sourceFoot": [
+              1002,
+              1230
+            ],
+            "sourceGrip": [
+              929,
+              949
+            ],
+            "weapon": {
+              "sourceSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+              "rotationDegrees": 0.07775355235597914,
+              "uniformScale": 0.2733485193621868,
+              "redrawnPixels": 0
+            },
+            "sha256": "04d43cd529ab195e43d59569f3a5fe8c5445a44c37fe7cdf2371309fe8ae38bf",
+            "file": "assets/frames/dragon-08.png"
+          }
+        ]
+      }
+    },
+    "effects": {
+      "dragon-coil": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-coil-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "f6d7c2c64a528f8601218b857d13186de3e61aae253222f3cc729f6ecf80f1cc",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      },
+      "dragon-rush": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-rush-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "10af06be8a9438261648a3664e3c0bc4df0e417018b68cf54c37daacf19b255d",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      },
+      "dragon-impact": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-impact-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "d0f6450253c18e038f2d7b755c70d0618ea94a87f778a7eba4465db3bfd89d1d",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      },
+      "dragon-ring": {
+        "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-ring-fx.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 1448,
+        "height": 1086,
+        "sha256": "476699a665df9d429fa8b2f431c49aee8436a9f28530b559145c2dc8bb4e47e0",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            }
+          }
+        ]
+      }
+    },
+    "runtime": {
+      "pixi": "8.20.0",
+      "gsap": "3.13.0",
+      "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+      "clock": "V3_REGISTERED_GSAP"
+    },
+    "audio": {
+      "enabled": false
+    },
+    "summary": {
+      "bodyFrames": 8,
+      "effectFrames": 48,
+      "weaponSources": 1,
+      "weaponRedraws": 0
+    }
+  },
+  "assets": [
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+      "sha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+      "bytes": 1646487,
+      "approvedSource": "preview/battle-suit-x-v1/assets/sources/x-body-sword-approved-v1.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/approved-blade.png",
+      "sha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+      "bytes": 85220,
+      "approvedSource": "preview/battle-suit-x-v1/assets/locked/approved-blade.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/dash-atlas.png",
+      "sha256": "b59b33655b52799c78e4c2ea2f75d73ca2db3effe48f52dd6d6c119ab4e5bb67",
+      "bytes": 1344611,
+      "approvedSource": "preview/battle-suit-x-v1/assets/atlases/dash.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/attack-atlas.png",
+      "sha256": "bb5c4c250d8cf5316099b23d1b7c28babbb78e7a7c5769c8f1d32535a50dfd09",
+      "bytes": 1405412,
+      "approvedSource": "preview/battle-suit-x-v1/assets/atlases/attack.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/skill-atlas.png",
+      "sha256": "c499e2174b11b96c6a63f0ab140e2791f56a26240bc9b7e61a16d73c976b0dd0",
+      "bytes": 1576831,
+      "approvedSource": "preview/battle-suit-x-v1/assets/atlases/skill.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/combo-atlas.png",
+      "sha256": "895cb51584b5c54faeba76324926b585f18b75e06fb6f07ef0176b6bd45270eb",
+      "bytes": 1466620,
+      "approvedSource": "preview/battle-suit-x-v1/assets/atlases/combo.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/dash-fx.png",
+      "sha256": "3d9dc83971700079db8c10cf116f44e7f7d1b88908cb65c779f672419c14e1db",
+      "bytes": 1800559,
+      "approvedSource": "preview/battle-suit-x-v1/assets/sources/fx-dash.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/cut-v2-fx.png",
+      "sha256": "6b5eafa9bd57de48a36edb21bebf3d8cdc26f7323c3a95d46fa7cd382d8cd400",
+      "bytes": 1143986,
+      "approvedSource": "preview/battle-suit-x-v1/assets/sources/fx-cut-v2.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/cross-v2-fx.png",
+      "sha256": "acf37299f3770348b6d2450fd10be30d2fbacf84ac3956ffc266eaf362259abd",
+      "bytes": 1706643,
+      "approvedSource": "preview/battle-suit-x-v1/assets/sources/fx-cross-v2.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/cleave-v2-fx.png",
+      "sha256": "69e672c83af2c7cdcf15598441ad0fe22da9510ba8df2e98af4b311720144380",
+      "bytes": 1261249,
+      "approvedSource": "preview/battle-suit-x-v1/assets/sources/fx-cleave-v2.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/base/ground-v2-fx.png",
+      "sha256": "3cb4b4c1fb7499c43b02cc2c65c25bd8db21d460867e3beb41eff1c2055fcd3d",
+      "bytes": 1315369,
+      "approvedSource": "preview/battle-suit-x-v1/assets/sources/fx-ground-v2.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-atlas.png",
+      "sha256": "7be6733612b15c84c56393c8f161cfe8147f27ad30c698189a21e3b8098e5e0e",
+      "bytes": 1623831,
+      "approvedSource": "preview/battle-suit-x-dragon-v1/assets/atlases/dragon.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-coil-fx.png",
+      "sha256": "f6d7c2c64a528f8601218b857d13186de3e61aae253222f3cc729f6ecf80f1cc",
+      "bytes": 2606097,
+      "approvedSource": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-coil.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-rush-fx.png",
+      "sha256": "10af06be8a9438261648a3664e3c0bc4df0e417018b68cf54c37daacf19b255d",
+      "bytes": 2591545,
+      "approvedSource": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-rush.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-impact-fx.png",
+      "sha256": "d0f6450253c18e038f2d7b755c70d0618ea94a87f778a7eba4465db3bfd89d1d",
+      "bytes": 1691512,
+      "approvedSource": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-impact.png"
+    },
+    {
+      "url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/dragon/dragon-ring-fx.png",
+      "sha256": "476699a665df9d429fa8b2f431c49aee8436a9f28530b559145c2dc8bb4e47e0",
+      "bytes": 1856697,
+      "approvedSource": "preview/battle-suit-x-dragon-v1/assets/sources/fx-dragon-ring.png"
+    }
+  ]
+}
