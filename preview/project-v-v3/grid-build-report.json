@@ -314,6 +314,11 @@
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
       "sha256": "3b996087615eee5fcd489e07e70203e0af710c483b8beef951ead415c375e23a",
       "commonGrid": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "19754df1087560a14a9f6f699c68e61fd382ef3925687c72ed5c8e68b9ef4e25",
+      "commonGrid": true
     }
   ],
   "layoutClients": [

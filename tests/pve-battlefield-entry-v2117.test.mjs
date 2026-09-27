@@ -72,9 +72,9 @@ test('already loaded obsolete runtime is replaced once before mounting; current 
   await ensure();assert.equal(loads,1);
 });
 
-test('service worker replaces old battle scripts even when their historical URL has a v query',async()=>{
+for(const scriptPath of ['/js/app.js','/preview/sustained-hunt-v2/battle.bundle.js'])test('service worker refreshes the historical versioned battle script '+scriptPath,async()=>{
   const source=readFileSync(new URL('../service-worker.js',import.meta.url),'utf8');
-  const events={},deleted=[],url='https://test.invalid/js/app.js?v=old';let fetched=0;
+  const events={},deleted=[],url='https://test.invalid'+scriptPath+'?v=old';let fetched=0;
   const cache={keys:async()=>[new Request(url),new Request('https://test.invalid/css/app.css?v=old')],delete:async r=>deleted.push(r.url),match:async()=>new Response('OLD',{headers:{'Content-Type':'text/javascript'}}),put:async()=>{}};
   const context={self:{location:{origin:'https://test.invalid'},addEventListener:(n,f)=>events[n]=f,clients:{claim:async()=>{}}},caches:{keys:async()=>[source.match(/const SHELL_CACHE='([^']+)'/)[1]],open:async()=>cache},URL,Response,fetch:async()=>{fetched++;return new Response('CURRENT',{headers:{'Content-Type':'text/javascript'}})}};
   vm.runInNewContext(source,context);let wait;events.activate({waitUntil:p=>wait=p});await wait;assert.deepEqual(deleted,[url]);

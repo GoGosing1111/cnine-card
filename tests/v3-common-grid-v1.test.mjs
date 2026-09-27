@@ -135,11 +135,13 @@ test('repeated layouts give both factions, mercenaries and support the same scal
   mercenary.root.destroy(); value.accountBattleUnit.root.destroy();
 });
 
-test('all nine served V3 bundles including the account entry share the current common grid', () => {
+test('all ten served V3 bundles including the account entry and hunt share the current common grid', () => {
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 9); assert.equal(report.sources.length, 59);
+  assert.equal(report.outputs.length, 10); assert.equal(report.sources.length, 66);
+  assert.ok(report.outputs.some(row => row.file === 'preview/sustained-hunt-v2/battle.bundle.js'),
+    'the live twelve-slot hunt must be rebuilt with the common runtime');
   assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/SkillEffectFX.js'));
   for(const file of ['preview/project-v-v3/source/battle/BerkanCombatPlayback.js','preview/mercenary-berkan-sss-v1/source/BerkanFX.js','preview/mercenary-berkan-sss-v1/skill.mjs','shared/mercenary-berkan-v1.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);
   // The already released Sniper Orikkung contributes three inputs to these same bundles.

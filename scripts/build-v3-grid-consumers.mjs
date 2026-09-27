@@ -45,6 +45,11 @@ for (const [entryPoint, outfile, constructor] of jobs) {
     pixiCopies: inputs.filter(p => p.endsWith('/pixi.js/lib/index.mjs')).length, inputs: inputs.filter(p => !p.includes('node_modules')), outputBytes: Buffer.byteLength(bundle)}, null, 2) + '\n');
   outputs.push({file: outfile, sha256: hash(bundle), commonGrid: true});
 }
+// The live hunt uses twelve enemy slots. Keep its extension at the same runtime
+// version as the common loader, which otherwise replaces it with the generic engine.
+await import('./build-sustained-hunt-v2.mjs');
+const huntBundle = 'preview/sustained-hunt-v2/battle.bundle.js';
+outputs.push({file: huntBundle, sha256: hash(await readFile(huntBundle, 'utf8')), commonGrid: true});
 const sources = [{file:'preview/project-v-v3/source/battle/SkillEffectFX.js',sha256:hash(await readFile('preview/project-v-v3/source/battle/SkillEffectFX.js','utf8'))}];
 for(const file of ['preview/project-v-v3/source/battle/BerkanCombatPlayback.js','preview/mercenary-berkan-sss-v1/source/BerkanFX.js','preview/mercenary-berkan-sss-v1/skill.mjs','shared/mercenary-berkan-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 for(const file of ['preview/project-v-v3/source/battle/CryvernCombatPlayback.js','preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js','preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs','shared/mercenary-cryvern-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
