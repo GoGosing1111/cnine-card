@@ -1,0 +1,28 @@
+{
+  "request": "한복조은 리소스 가슴이 짝짝이임 똑같이 맞춰라",
+  "date": "2026-09-28",
+  "generator": "built-in image_gen",
+  "entries": [
+    {
+      "role": "equipment edit",
+      "input": "preview/clan-avatar-hanbok-v1/assets/joeun-hanbok-v1.png",
+      "output": "assets/joeun-equipment-source-art-v2.png",
+      "generatedFile": "exec-7a84a528-52ee-4ffe-84a3-2f54748b0e77.png",
+      "transparent_background": true,
+      "prompt": "Edit this exact adult woman's fully clothed game-avatar image. REQUIRED CLEAR CORRECTION: the breasts under the black jacket look mismatched. On the LEFT side of the image, the jacket bulges roundly; on the RIGHT side of the red bow, the chest looks flat. REPAINT BOTH BLACK-CLOTH CHEST AREAS, especially the area immediately to the viewer-RIGHT of the hanging red ribbon, so BOTH SIDES HAVE THE SAME FULL ROUNDED VOLUME AND THE SAME HEIGHT. Make this an obvious, successful symmetry correction rather than a nearly identical copy. Match the flattened viewer-right chest to the rounded viewer-left chest; do not leave one side flat and do not enlarge the already rounded side. There should be two equally proportioned, equally high smooth convex forms defined naturally through the opaque black fabric, with coherent shallow highlights and curved fabric seams. The red bow stays centered over the sternum; the garment fully covers the chest. No exposed cleavage, no neckline change. Only adjust the jacket shape, local shading, fabric pattern and minor seam placement around the chest as necessary. Maintain the adult face, long hair, expression, white/red collar, shoulders, hands, original standing pose, waist, skirt, legs, red/black embroidered heels, jade tassel, all decorative details and full-body framing. Keep the refined semi-real 2D game painting. 1024x1536 portrait, true transparent background; clean cutout, no added scene, no text."
+    },
+    {
+      "role": "lobby edit",
+      "input": "preview/avatar-clan-hanbok-v1/assets/joeun-lobby-source-art-v1.png",
+      "supportingReference": "assets/joeun-equipment-source-art-v2.png",
+      "output": "assets/joeun-lobby-source-art-v2.png",
+      "generatedFile": "exec-11487af6-0652-4475-9c42-5bc5458a2748.png",
+      "transparent_background": false,
+      "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the adult woman wearing a red-black embroidered hanbok in an autumn hanok courtyard. Image 2 is the CORRECTED CHARACTER REFERENCE: the same woman's chest under the opaque black jacket has been balanced. Apply ONLY that corrected chest anatomy and jacket shaping from Image 2 to Image 1. The original left chest is round but the right of the red bow is flat; give BOTH clothed breasts matching full rounded underlying volume and height as in Image 2, with the same coherent convex fabric highlights and curved seams. Do not leave the viewer-right side flat; don't enlarge the already rounded left side. Match the reference chest shape carefully. Keep all other Image 1 pixels/composition as close as possible: exact adult face, identity, hair, pose, hand on hip, shoulders, full-body proportions, closed white-red neckline, centered red bow, opaque black jacket fabric, waist, embroidered red skirt, jade tassel, bare legs and heels, trees, lantern, courtyard, stone stairs, roof, wood architecture, sun direction and shadows. Preserve the attractive semi-real 2D game illustration quality and original autumn warm palette. No new skin exposure, no cleavage, no accessories, no cropping, no text. Same 1024x1536 portrait image, opaque original background."
+    }
+  ],
+  "rejectedDraft": {
+    "generatedFile": "exec-a05333a8-ac44-4e14-9c65-f28154ae6fa6.png",
+    "reason": "The viewer-right chest still looked flat in a close-up comparison. Not connected to runtime assets."
+  }
+}
