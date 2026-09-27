@@ -24,7 +24,8 @@ export function pickFusionResult({ rank, pools, rules, randomInt = mercenaryRand
   if (!pools[rank]?.length || !pools[next]?.length) throw fail('MERCENARY_FUSION_POOL_EMPTY', '결과 등급의 용병이 준비되지 않았습니다.', 409);
   const sample = max => { const n = randomInt(max); if (!Number.isSafeInteger(n) || n < 0 || n >= max) throw Error('Invalid fusion random result'); return n; };
   const promoted = sample(POLICY.chanceTotal) < POLICY.successChancePpm, resultRank = promoted ? next : rank;
-  const choices = mercenaryCardChances(POLICY.chanceTotal, pools[resultRank], rules);
+  const choices = mercenaryCardChances(POLICY.chanceTotal, pools[resultRank], rules).filter(c=>c.weight>0);
+  if(!choices.length)throw fail('MERCENARY_FUSION_POOL_EMPTY','결과 등급에 획득 ON인 용병이 없습니다.',409);
   let ticket = sample(choices[0].totalWeight);
   const selected = choices.find(c => { ticket -= c.weight; return ticket < 0; });
   return { promoted, inputRank:rank, resultRank, mercenaryCode:selected.code, quantity:1,

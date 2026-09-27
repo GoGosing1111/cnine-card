@@ -30,7 +30,7 @@ export async function hyperOpeningReadiness(env,{probeTables=true}={}){
    env.DB.prepare("SELECT code,is_active FROM inventory_items WHERE code IN ('MASTER_STAR','STARLIGHT_ARMOR_CORE')").all()
   ]);
   cmsRevision=revision;if(!row)throw Error('개봉 확률을 먼저 저장하세요.');drawRevision=Number(row.revision);
-  const draw=validateMercenaryDraw(JSON.parse(row.payload_json)),pools=mercenaryGradePools(document.mercenaries,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code));
+  const draw=validateMercenaryDraw(JSON.parse(row.payload_json)),pools=mercenaryGradePools(document.mercenaries,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code),draw.cardRules);
   outcomes=draw.outcomes;rankCounts=Object.fromEntries(Object.entries(pools).map(([rank,codes])=>[rank,codes.length]));
   for(const r of draw.outcomes){
    if(r.id.startsWith('CARD_')&&r.chancePpm>0&&!pools[r.id.slice(5)].length)blockers.push(`${r.id.slice(5)} 등급의 용병이 없습니다.`);

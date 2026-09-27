@@ -12,7 +12,7 @@ export const BERKAN_POSITION=Object.freeze({code:BERKAN_CODE,rank:'SSS',position
 export function berkanSelectionWeights(codes,weights={}){
  if(!codes.includes(BERKAN_CODE)||Object.hasOwn(weights,BERKAN_CODE))return cryvernSelectionWeights(codes,weights);
  if(!codes.includes(CRYVERN_CODE))throw Error('BERKAN_REQUIRES_CRYVERN_IN_SSS_POOL');
- const effective=cryvernSelectionWeights(codes.filter(c=>c!==BERKAN_CODE),weights),weight=effective[CRYVERN_CODE]??1;
+ const effective=cryvernSelectionWeights(codes.filter(c=>c!==BERKAN_CODE),weights),weight=effective[CRYVERN_CODE]===0?1:effective[CRYVERN_CODE]??1;
  if(!Number.isSafeInteger(weight)||weight<1)throw Error('INVALID_CRYVERN_WEIGHT');
  return {...effective,[BERKAN_CODE]:weight};
 }

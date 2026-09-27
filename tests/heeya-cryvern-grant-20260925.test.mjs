@@ -9,6 +9,7 @@ async function fixture({existing=false,failAudit=false}={}){
  const db=new PGlite();
  await db.exec(`CREATE TABLE users(id BIGINT PRIMARY KEY,nickname TEXT,role TEXT,status TEXT,coin BIGINT,card_shards BIGINT,magic_crystals BIGINT);
  INSERT INTO users VALUES(1,'핑크빛유두','OWNER','ACTIVE',123,456,789),(4977,'하이희야♡','USER','ACTIVE',10,20,30),(2,'다른유저','USER','ACTIVE',1,2,3);
+ CREATE TABLE mercenary_draw_config_v1(id INTEGER PRIMARY KEY,payload_json TEXT);
  CREATE TABLE mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,revision INTEGER,payload_json TEXT);
  CREATE TABLE user_mercenary_loadout_v1(user_id BIGINT PRIMARY KEY,mercenary_code TEXT,revision INTEGER);
  INSERT INTO user_mercenary_loadout_v1 VALUES(4977,'V-046',3);

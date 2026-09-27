@@ -20,7 +20,9 @@ export function sniperOrikkungSelectionWeights(codes,weights){
  if(!codes.includes(SNIPER_ORIKKUNG_CODE)||Object.hasOwn(weights,SNIPER_ORIKKUNG_CODE))return weights;
  const others=codes.filter(code=>code!==SNIPER_ORIKKUNG_CODE);if(!others.length)return weights;
  const gcd=(a,b)=>{while(b){const r=a%b;a=b;b=r;}return a;};
- const divisor=others.map(code=>weights[code]??1).reduce(gcd);
+ const positive=others.filter(code=>(weights[code]??1)>0);
+ if(!positive.length)return {...weights,[SNIPER_ORIKKUNG_CODE]:1};
+ const divisor=positive.map(code=>weights[code]??1).reduce(gcd);
  const total=others.reduce((n,code)=>n+(weights[code]??1)/divisor,0);
  if(!Number.isSafeInteger(total)||total<1||total*100>0xffffffff)throw Error('SNIPER_ORIKKUNG_WEIGHTS_REQUIRE_CMS');
  return {...weights,...Object.fromEntries(others.map(code=>[code,(weights[code]??1)/divisor*99])),[SNIPER_ORIKKUNG_CODE]:total};

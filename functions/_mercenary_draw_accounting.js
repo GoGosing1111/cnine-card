@@ -24,9 +24,10 @@ export function pickMercenaryDraw({policy,mercenaries,randomInt=mercenaryRandomI
   const selected=checked.outcomes.find(row=>{n-=row.chancePpm;return n<0;});
   if(!selected.id.startsWith('CARD_'))return {outcomeId:selected.id,quantity:selected.quantity};
   const rank=selected.id.slice(5),pool=pools[rank];
-  const choices=mercenaryCardChances(selected.chancePpm,pool,checked.cardRules);
+  const choices=mercenaryCardChances(selected.chancePpm,pool,checked.cardRules).filter(c=>c.weight>0);
+  if(!choices.length)throw Object.assign(Error('선택된 등급에 획득 ON인 용병이 없습니다.'),{code:'MERCENARY_RANK_POOL_EMPTY',status:409});
   let code;
-  if(choices.every(c=>c.weight===choices[0].weight))code=pool[sample(pool.length)];
+  if(choices.every(c=>c.weight===choices[0].weight))code=choices[sample(choices.length)].code;
   else{let ticket=sample(choices[0].totalWeight);code=choices.find(c=>{ticket-=c.weight;return ticket<0;}).code;}
   return {outcomeId:selected.id,rank,mercenaryCode:code,quantity:1};
 }
@@ -39,8 +40,15 @@ export function mercenaryCardAcquisitionStatements(DB,{userId,mercenaryCode,acqu
   const stmt=(sql,...args)=>DB.prepare(sql).bind(...args),list=[],guardId=crypto.randomUUID();
   if(DB.dialect==='postgres')list.push(stmt('SELECT id FROM users WHERE id=? FOR UPDATE',userId));
   const matches='acquisition_id=? AND user_id=? AND mercenary_code=?';
+  // Recheck the current CMS inside the same grant transaction, including old
+  // prepared plans and direct rewards. PostgreSQL locks the one policy row
+  // until commit so an OFF save and an acquisition have a defined order.
+  const prefix=DB.dialect==='postgres'?'WITH draw_policy AS MATERIALIZED (SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE) ':'';
+  const policyTable=DB.dialect==='postgres'?'draw_policy':'mercenary_draw_config_v1';
+  const weight=DB.dialect==='postgres'?"CAST(payload_json::jsonb -> 'cardRules' -> 'cardWeights' ->> ? AS BIGINT)":'json_extract(payload_json,?)';
+  const weightKey=DB.dialect==='postgres'?mercenaryCode:`$.cardRules.cardWeights."${mercenaryCode}"`;
   list.push(
-    stmt(`INSERT INTO mercenary_card_atomic_guard_v1(id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=?) AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=? AND (user_id<>? OR mercenary_code<>?)) THEN 1 ELSE 0 END`,guardId,userId,acquisitionId,userId,mercenaryCode),
+    stmt(`${prefix}INSERT INTO mercenary_card_atomic_guard_v1(id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=?) AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=? AND (user_id<>? OR mercenary_code<>?)) AND (EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE ${matches}) OR NOT EXISTS(SELECT 1 FROM ${policyTable} WHERE ${DB.dialect==='postgres'?'':'id=1 AND '}COALESCE(${weight},1)=0)) THEN 1 ELSE 0 END`,guardId,userId,acquisitionId,userId,mercenaryCode,acquisitionId,userId,mercenaryCode,weightKey),
     stmt(`INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at)
       SELECT ?,?,1,0,?,? WHERE NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?)
       ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+1,duplicate_count=user_mercenary_cards_v1.duplicate_count+1,last_obtained_at=excluded.last_obtained_at`,userId,mercenaryCode,createdAt,createdAt,acquisitionId),

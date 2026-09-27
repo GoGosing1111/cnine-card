@@ -15,7 +15,9 @@ export function cryvernSelectionWeights(codes,weights){
  const others=codes.filter(code=>code!==CRYVERN_CODE);
  if(!others.length)return weights;
  const gcd=(a,b)=>{while(b){const r=a%b;a=b;b=r;}return a;};
- const divisor=others.map(code=>weights[code]??1).reduce(gcd);
+ const positive=others.filter(code=>(weights[code]??1)>0);
+ if(!positive.length)return {...weights,[CRYVERN_CODE]:1};
+ const divisor=positive.map(code=>weights[code]??1).reduce(gcd);
  const total=others.reduce((sum,code)=>sum+(weights[code]??1)/divisor,0);
  if(!Number.isSafeInteger(total)||total<1||total*1000>0xffffffff)throw Error('CRYVERN_WEIGHTS_REQUIRE_CMS');
  return {...weights,...Object.fromEntries(others.map(code=>[code,(weights[code]??1)/divisor*999])),[CRYVERN_CODE]:total};

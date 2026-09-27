@@ -46,7 +46,7 @@ test('legacy uniform policies preserve outcomes; equal or missing weights retain
 test('weights do not use ownership or legacy per-card acquisition rates; malformed weights fail closed',()=>{
  const p=policy();const changed=roster.map(c=>({...c,owned:true,duplicateCount:999,acquisition:{dropRate:c.code==='V-046'?100:0}}));
  assert.equal(pickMercenaryDraw({policy:p,mercenaries:changed,randomInt:max=>max===1000000?0:8}).mercenaryCode,'V-021');
- for(const weights of [null,[],{'V-046':0},{'V-046':-1},{'V-046':1.5},{'V-046':1000001},{'V-046':'1'},{'V-999':1},{constructor:1},JSON.parse('{"__proto__":1}')]){
+ for(const weights of [null,[],{'V-046':-1},{'V-046':1.5},{'V-046':1000001},{'V-046':'1'},{'V-999':1},{constructor:1},JSON.parse('{"__proto__":1}')]){
   const bad=policy();bad.cardRules.cardWeights=weights;assert.throws(()=>validateMercenaryDraw(bad,{catalogCodes:codes}),/가중치/);
  }
 });
@@ -55,7 +55,7 @@ for(const postgres of [false,true]){
  const name=postgres?'PostgreSQL':'SQLite';
  test(`${name}: CMS saves and audits weights, rejects unknown codes, protects revisions and replays exactly once`,async t=>{
   const f=await mercenaryFixture(t,{postgres}),before=await cms(f),next=structuredClone(before.body.policy);
-  next.cardRules.cardWeights={'V-021':9,'V-046':1};
+  next.cardRules.cardWeights={'V-021':9,'V-046':1,'V-055':0};
   const body={policy:next,expectedRevision:before.body.revision,requestId:crypto.randomUUID(),reason:'라그니엘 가중치를 오메가보다 낮춤'};
   const bad=structuredClone(body);bad.policy.cardRules.cardWeights['V-999']=1;
   assert.equal((await cms(f,bad)).status,400);
@@ -65,7 +65,7 @@ for(const postgres of [false,true]){
   assert.equal((await cms(f,{...body,requestId:crypto.randomUUID()})).body.code,'REVISION_CONFLICT');
   const audit=await f.p('SELECT before_json,after_json FROM mercenary_draw_audit_v1 WHERE request_id=?',body.requestId).first();
   assert.deepEqual(JSON.parse(audit.before_json).cardRules.cardWeights,{});
-  assert.deepEqual(JSON.parse(audit.after_json).cardRules.cardWeights,{'V-021':9,'V-046':1});
+  assert.deepEqual(JSON.parse(audit.after_json).cardRules.cardWeights,{'V-021':9,'V-046':1,'V-055':0});
   assert.equal(await f.coin(),10000000);
  });
  test(`${name}: weighted ten-pack grants 9:1, duplicate counts and payment once; later weights cannot reroll receipts`,async t=>{
