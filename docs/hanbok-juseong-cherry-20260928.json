@@ -1,0 +1,22 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:hanbok-awards:20260928:v1:2b8f0a0f73866adddddfc28a",
+  "recipientHash": "2b8f0a0f73866adddddfc28a7ef6dcd860a0527a1dcd576023249b2b8ca4f143",
+  "count": 1,
+  "accountCount": 1,
+  "new": 1,
+  "upgraded": 0,
+  "alreadyPermanent": 0,
+  "recipients": [
+    {
+      "userId": "242",
+      "nickname": "벚꽃엔딩",
+      "avatarCode": "LG_JUSEONG",
+      "name": "한복 주성",
+      "outcome": "NEW"
+    }
+  ],
+  "completedAt": "2026-09-27T17:16:50.975Z",
+  "adminLogId": "36658",
+  "replayed": false
+}
