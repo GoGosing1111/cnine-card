@@ -26,6 +26,18 @@
 - 클랜 후속 일정에 한정된 작은 변경이므로 `npm run deploy:production -- --scoped` 사용. 게임 전체 검사는 실행하지 않는다.
 - 운영 계획은 배포 후 단일 트랜잭션으로 등록한다. 실행 전 dry-run 롤백, 등록 후 독립 조회 및 Durable Alarm의 다음 경계 확인으로 마무리한다.
 
+## 운영 반영 결과
+
+- 구현 커밋 `7e689ad2f9da73a100bc9682b493767caff604bf`, Pages 배포 `c4b37494.cnine-card.pages.dev`.
+- 일정 Worker 버전 `227f5c73-bbcd-425f-8b49-7c6fb7f64c00`. 기존 분 단위 예약과 Durable Alarm을 그대로 사용한다.
+- 새 전환 회귀 8개, 기존 챔스·드래프트 회귀 47개 통과. 변경 없는 새 회귀를 배포 전에 중복 실행하지 않았다. Worker 문법/번들 컴파일, 출시 플래그·캐시 및 Hyperdrive 캐시 OFF 검사 통과.
+- 2026-09-28 **05:01:10 KST** 시즌 2 후속 예약 운영 등록 완료. 신규 시즌을 미리 생성하거나 현재 챔스를 종료시키지 않았다.
+- 운영 영수증 `ops:clan-champions-followup:season5:20260928:v1`, 관리자 감사 기록 `36697`.
+- 실행 전 dry-run 롤백 후 기존 시즌·챔스·대진·CMS 불변을 독립 조회했다. 등록 트랜잭션에서도 같은 값의 불변을 검증했다.
+- 05:05:52 KST 새 Durable Alarm heartbeat 확인: `version=20260928-champions-followup`, `phase=CHAMPIONS`, `seasonId=5`, `nextCheckAt=2026-09-28T12:00:00.000Z`(오늘 21시). Worker 실제 alarm도 새 버전 ID로 성공했다. 확인 도중 구버전 heartbeat가 교차 관측돼 새 버전의 경계 값을 직접 확인했으며, 다른 스케줄러 설정은 변경하지 않았다.
+- 한시적 운영 실행기는 호출 후 종료했으며 로컬 진입점을 410 응답으로 폐쇄했다. 실행 증거는 외부 `ops-clan-champions-followup-20260928/`에 보존한다.
+- 배포 포스터 HTTP 200 및 로컬 파일 SHA-256 일치: `2714fc984502b297022c789f3c67ec1257b4ca0a1c4b7fc9ddbd9de17b952dc8`.
+
 ## 포스터
 
 시즌 3 포스터는 기존 챔스 트로피·클랜 지휘실을 참조해 내장 이미지 생성 도구로 제작했다. 생성 한글의 `숲` 돌출 획과 일정 문구 오류는 반려하고, 브랜드·일정·본문은 Black Han Sans / 맑은 고딕의 실제 한글 폰트로 조판했다.
