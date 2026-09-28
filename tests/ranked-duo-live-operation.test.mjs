@@ -39,5 +39,7 @@ test('duo recruitment has a real countdown and opens the existing duo screen',()
  vm.runInContext(app.slice(app.indexOf('const LIVE_OPERATION_META='),app.indexOf('function liveBurningOperationHtml()')),ctx);
  const html=ctx.liveOperationCardHtml({kind:'RANKED_DUO',phase:'RECRUITING',title:'랭크 듀오 시즌 1',deadlineAt:new Date(Date.now()+60000).toISOString()});
  assert.match(html,/랭크 듀오 모집중/);assert.match(html,/모집 마감/);assert.match(html,/data-live-operation-deadline/);
+ const extra=ctx.liveOperationCardHtml({kind:'RANKED_DUO',phase:'ACTIVE',additionalRecruiting:true,title:'랭크 듀오 시즌 1',deadlineAt:new Date(Date.now()+60000).toISOString()});
+ assert.match(extra,/추가모집중/);assert.match(extra,/모집 마감/);
  ctx.openLiveOperation('RANKED_DUO');assert.deepEqual(routes,['duo']);
 });

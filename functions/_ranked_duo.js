@@ -1,4 +1,4 @@
-import {DUO_DEFAULTS,DUO_LIMITS,DUO_VERSION,duoError,duoEnergy,validateDuoConfig,pairDuoParticipants} from '../shared/ranked-duo-v1.mjs';
+import {DUO_DEFAULTS,DUO_LIMITS,DUO_VERSION,DUO_ADDITIONAL_RECRUIT_HOURS,duoError,duoEnergy,validateDuoConfig,pairDuoParticipants} from '../shared/ranked-duo-v1.mjs';
 import {DUO_CURRENT_KEY,prepareDuoSchema} from './_ranked_duo_schema.js';
 import {loadDuoProfiles} from './_ranked_duo_profiles.js';
 import {createDuoBattleV2} from './_battle_v2_preview.js';
@@ -13,13 +13,23 @@ const statement=env=>(sql,...args)=>env.DB.prepare(sql).bind(...args);
 const guard=(env,predicate,args,body)=>{const token=crypto.randomUUID();return [jointGuard(env.DB,token,predicate,args),...body,jointGuardEnd(env.DB,token)];};
 const lock=(env,sql,...args)=>env.DB.dialect==='postgres'?[statement(env)(sql,...args)]:[];
 const seasonGuard=(env,s,body)=>guard(env,'EXISTS(SELECT 1 FROM ranked_duo_seasons_v1 WHERE id=? AND revision=? AND status=?)',[s.id,s.revision,s.status],body);
+// Recruitment progress changes the season row revision, but not its battle rules.
+// Keep in-flight battle admission valid while still rejecting closure or a changed schedule.
+const battleSeasonGuard=(env,s,body)=>{
+ const field=key=>env.DB.dialect==='postgres'?`config_json::jsonb->>'${key}'`:`json_extract(config_json,'$.${key}')`;
+ return guard(env,`EXISTS(SELECT 1 FROM ranked_duo_seasons_v1 WHERE id=? AND status='ACTIVE' AND ${field('startsAt')}=? AND ${field('endsAt')}=? AND CAST(${field('revision')} AS BIGINT)=?)`,[s.id,s.config.startsAt,s.config.endsAt,s.config.revision],body);
+};
 const seasonWrite=(env,s,body)=>[...lock(env,'SELECT id FROM ranked_duo_seasons_v1 WHERE id=? FOR UPDATE',s.id),...seasonGuard(env,s,body)];
 const fields='id,status,revision,participant_count,config_json,recruit_until,pair_cursor,pair_policy_revision,created_at';
 async function currentSeason(env){const row=await statement(env)('SELECT value FROM app_meta WHERE key=?',DUO_CURRENT_KEY).first();if(!row)return null;const s=await statement(env)(`SELECT ${fields} FROM ranked_duo_seasons_v1 WHERE id=?`,row.value).first();return s?{...s,revision:Number(s.revision),config:validateDuoConfig(JSON.parse(s.config_json))}:null;}
-const publicSeason=s=>s?{id:s.id,status:s.status,name:s.config.name,visible:s.config.visible,revision:s.revision,recruitUntil:s.recruit_until,startsAt:s.config.startsAt,endsAt:s.config.endsAt,energy:s.config.energy,score:s.config.score,automatic:s.config.automatic===true,rankedSeason:s.config.rankedSeason||null,weekly:s.config.weekly||null,rewards:s.config.rewards||null,...duoTiers(s.config),version:DUO_VERSION}:null;
+const publicSeason=s=>s?{id:s.id,status:s.status,name:s.config.name,visible:s.config.visible,revision:s.revision,recruitUntil:s.recruit_until,additionalRecruitment:s.config.additionalRecruitment||null,startsAt:s.config.startsAt,endsAt:s.config.endsAt,energy:s.config.energy,score:s.config.score,automatic:s.config.automatic===true,rankedSeason:s.config.rankedSeason||null,weekly:s.config.weekly||null,rewards:s.config.rewards||null,...duoTiers(s.config),version:DUO_VERSION}:null;
 const requireSeason=s=>{if(!s)throw duoError('NOT_CONFIGURED','듀오 시즌을 준비 중입니다.',404);return s;};
 function active(s,now){requireSeason(s);if(s.status!=='ACTIVE'||!s.config.visible||!s.config.startsAt||now<Date.parse(s.config.startsAt)||!s.config.endsAt||now>=Date.parse(s.config.endsAt))throw duoError('NOT_ACTIVE','현재 듀오 대전 기간이 아닙니다.');}
-function recruiting(s,now){requireSeason(s);if(s.status!=='RECRUITING'||!s.config.visible||now>=Date.parse(s.recruit_until))throw duoError('RECRUIT_CLOSED','현재 참가 모집 기간이 아닙니다.');}
+function recruiting(s,now){
+ requireSeason(s);const extra=s.config.additionalRecruitment;
+ const initial=s.status==='RECRUITING'&&now<Date.parse(s.recruit_until),additional=s.status==='ACTIVE'&&extra?.phase==='RECRUITING'&&now<Date.parse(extra.until)&&now<Date.parse(s.config.endsAt);
+ if(!s.config.visible||!initial&&!additional)throw duoError('RECRUIT_CLOSED','현재 참가 모집 기간이 아닙니다.');
+}
 const entry=(env,s,userId)=>statement(env)('SELECT * FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=?',s.id,userId).first();
 const team=(env,id)=>statement(env)('SELECT t.*,a.nickname AS name_a,b.nickname AS name_b FROM ranked_duo_teams_v1 t JOIN users a ON a.id=t.user_a JOIN users b ON b.id=t.user_b WHERE t.id=?',id).first();
 const publicTeam=(t,config={},rank=0)=>t?{id:t.id,members:[{userId:Number(t.user_a),nickname:t.name_a},{userId:Number(t.user_b),nickname:t.name_b}],score:Number(t.score),wins:Number(t.wins),losses:Number(t.losses),seedPower:Number(t.seed_power),rank:rank||null,tier:resolveDuoTier(Number(t.score),config,rank)}:null;
@@ -57,6 +67,7 @@ async function join(env,user,s,deps,now){
 }
 async function cancel(env,user,s,now){
  recruiting(s,now);const p=statement(env);
+ if((await entry(env,s,user.id))?.team_id)throw duoError('TEAM_ASSIGNED','편성된 팀은 추가모집 중에도 참가를 취소할 수 없습니다.');
  await env.DB.batch(seasonWrite(env,s,guard(env,'NOT EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NOT NULL)',[s.id,user.id],[
   p('UPDATE ranked_duo_seasons_v1 SET participant_count=participant_count-1 WHERE id=? AND EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NULL)',s.id,s.id,user.id),
   p('DELETE FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id IS NULL',s.id,user.id)
@@ -80,16 +91,30 @@ async function adminChange(env,user,s,body,action,now){
   const published=await p('SELECT id FROM ranked_duo_teams_v1 WHERE season_id=? LIMIT 1',s.id).first();
   if(published&&(JSON.stringify(config.mercenaryWeights)!==JSON.stringify(s.config.mercenaryWeights)||config.score.initial!==s.config.score.initial))throw duoError('SEED_LOCKED','팀 공개 후 평가 가중치와 초기 점수는 바꿀 수 없습니다.');
  }else if(action==='recruit'){
-  if(!['DRAFT','RECRUITING','READY','PAIRING'].includes(status))throw duoError('RECRUIT_STATE','경기 시작 전 추가모집만 가능합니다.');
-  const hours=body.hours??DUO_RECRUIT_HOURS;if(!Number.isSafeInteger(hours)||hours<1||hours>720)throw duoError('HOURS','모집 시간을 확인하세요.',400);
+  if(!['DRAFT','RECRUITING','READY','PAIRING','ACTIVE'].includes(status))throw duoError('RECRUIT_STATE','현재 시즌에서 모집을 열 수 없습니다.');
+  const hours=body.hours??(status==='DRAFT'?DUO_RECRUIT_HOURS:DUO_ADDITIONAL_RECRUIT_HOURS);if(!Number.isSafeInteger(hours)||hours<1||hours>720)throw duoError('HOURS','모집 시간은 1~720 사이의 정수로 설정하세요.',400);
+  if(status==='ACTIVE'){
+   active(s,now);
+   if(body.seasonId!==s.id||body.revision!==s.revision)throw duoError('CONFIG_CONFLICT','시즌 상태가 변경됐습니다. 새로 불러온 뒤 다시 설정하세요.');
+   if(['PAIRING','PUBLISHING'].includes(config.additionalRecruitment?.phase))throw duoError('PAIR_STATE','추가 팀 편성이 완료된 후 다시 모집할 수 있습니다.');
+   const deadline=now+hours*3600000;if(deadline>=Date.parse(config.endsAt))throw duoError('HOURS','추가모집은 현재 시즌 종료 전에 마쳐야 합니다.',400);
+   config={...config,additionalRecruitment:{phase:'RECRUITING',hours,openedAt:iso(now),until:iso(deadline),completedAt:null}};cursor=0;
+  }else{
   if(status==='DRAFT'&&hours!==DUO_RECRUIT_HOURS)throw duoError('HOURS','첫 참가 모집은 24시간입니다.',400);
   if(config.automatic&&!config.weekly&&now+hours*3600000>=Date.parse(config.endsAt))throw duoError('HOURS','추가모집은 랭크전 시즌 종료 전에 마쳐야 합니다.',400);
   status='RECRUITING';until=iso(now+hours*3600000);config={...config,visible:true};cursor=0;
   if(config.automatic)config={...config,startsAt:until};
   if(config.weekly)config={...config,startsAt:until,endsAt:iso(Date.parse(until)+DUO_BATTLE_DAYS*86400000)};
+  }
  }else if(action==='pair'){
-  if(status!=='RECRUITING'||now<Date.parse(until))throw duoError('RECRUIT_OPEN','모집 종료 후 팀을 편성할 수 있습니다.');
-  status='PAIRING';cursor=0;
+  if(status==='ACTIVE'){
+   active(s,now);const extra=config.additionalRecruitment;
+   if(extra?.phase!=='RECRUITING'||now<Date.parse(extra.until))throw duoError('RECRUIT_OPEN','추가모집 마감 후 자동으로 팀을 편성합니다.');
+   config={...config,additionalRecruitment:{...extra,phase:'PAIRING'}};cursor=0;
+  }else{
+   if(status!=='RECRUITING'||now<Date.parse(until))throw duoError('RECRUIT_OPEN','모집 종료 후 팀을 편성할 수 있습니다.');
+   status='PAIRING';cursor=0;
+  }
  }else if(action==='start'){
   if(status!=='READY'||!config.startsAt||!config.endsAt||Date.parse(config.endsAt)<=now||Object.values(config.energy).some(v=>v===null))throw duoError('START_CONFIG','팀 편성, 경기 기간과 행동력 설정을 완료하세요.');
   const n=Number((await p('SELECT COUNT(*) AS n FROM ranked_duo_teams_v1 WHERE season_id=?',s.id).first()).n);if(n<2)throw duoError('TEAM_COUNT','최소 두 팀이 필요합니다. 추가모집을 진행하세요.');status='ACTIVE';
@@ -120,8 +145,10 @@ async function saveDuoPolicy(env,user,s,body){
  return {ok:true,policy:next,appliedToCurrent:current};
 }
 async function pairStep(env,user,s,deps,now){
- const p=statement(env);if(!['PAIRING','PUBLISHING'].includes(s.status))throw duoError('PAIR_STATE','팀 편성 작업이 진행 중이 아닙니다.');
- if(s.status==='PAIRING'){
+ const p=statement(env),additional=s.status==='ACTIVE',phase=additional?s.config.additionalRecruitment?.phase:s.status;
+ if(!['PAIRING','PUBLISHING'].includes(phase))throw duoError('PAIR_STATE','팀 편성 작업이 진행 중이 아닙니다.');
+ if(additional)active(s,now);
+ if(phase==='PAIRING'){
   const policy=Number((await p('SELECT revision FROM ranked_duo_policy_version_v1 WHERE id=1').first()).revision);
   if(policy!==Number(s.pair_policy_revision)){await env.DB.batch(seasonWrite(env,s,[p('UPDATE ranked_duo_seasons_v1 SET pair_cursor=0,pair_policy_revision=?,revision=revision+1 WHERE id=?',policy,s.id)]));return {ok:true,phase:'EVALUATING',processed:0,restarted:true,done:false};}
   const entries=(await p('SELECT e.user_id,u.status,u.role,u.banned_until FROM ranked_duo_entries_v1 e LEFT JOIN users u ON u.id=e.user_id WHERE e.season_id=? AND e.team_id IS NULL AND e.user_id>? ORDER BY e.user_id LIMIT ?',s.id,Number(s.pair_cursor),DUO_LIMITS.refreshBatch).all()).results;
@@ -138,7 +165,8 @@ async function pairStep(env,user,s,deps,now){
   const chunks=[];
   if(s.config.automatic)for(let offset=0;offset<plan.teams.length;offset+=40)chunks.push(p('INSERT INTO ranked_duo_pair_chunks_v2(season_id,offset_no,payload_json) VALUES(?,?,?) ON CONFLICT(season_id,offset_no) DO UPDATE SET payload_json=excluded.payload_json',s.id,offset,JSON.stringify(plan.teams.slice(offset,offset+40))));
   const stored=s.config.automatic?{chunked:true,teamCount:plan.teams.length,waiting:plan.waiting.length,spreadPercent:plan.spreadPercent}:plan;
-  await env.DB.batch(seasonWrite(env,s,guard(env,'EXISTS(SELECT 1 FROM ranked_duo_policy_version_v1 WHERE id=1 AND revision=?)',[policy],[...chunks,p("UPDATE ranked_duo_seasons_v1 SET status='PUBLISHING',pair_cursor=0,pairing_json=?,revision=revision+1 WHERE id=?",JSON.stringify(stored),s.id)])));
+  const config=additional?{...s.config,additionalRecruitment:{...s.config.additionalRecruitment,phase:'PUBLISHING'}}:s.config;
+  await env.DB.batch(seasonWrite(env,s,guard(env,'EXISTS(SELECT 1 FROM ranked_duo_policy_version_v1 WHERE id=1 AND revision=?)',[policy],[...chunks,p('UPDATE ranked_duo_seasons_v1 SET status=?,config_json=?,pair_cursor=0,pairing_json=?,revision=revision+1 WHERE id=?',additional?'ACTIVE':'PUBLISHING',JSON.stringify(config),JSON.stringify(stored),s.id)])));
   return {ok:true,phase:'PUBLISHING',teams:plan.teams.length,spreadPercent:plan.spreadPercent,done:false};
  }
  const row=await p('SELECT pairing_json FROM ranked_duo_seasons_v1 WHERE id=?',s.id).first(),plan=JSON.parse(row.pairing_json),offset=Number(s.pair_cursor);
@@ -146,8 +174,9 @@ async function pairStep(env,user,s,deps,now){
  const chunk=plan.chunked?JSON.parse(part?.payload_json||'[]'):plan.teams.slice(offset,offset+40),done=offset+chunk.length>=total;
  if(plan.chunked&&!part&&offset<total)throw duoError('PAIR_CHUNK','팀 편성 자료를 확인하세요.');
  const writes=chunk.flatMap(t=>[p('INSERT INTO ranked_duo_teams_v1(id,season_id,user_a,user_b,seed_power,score,created_at) VALUES(?,?,?,?,?,?,?)',t.id,s.id,t.members[0].userId,t.members[1].userId,t.power,s.config.score.initial,iso(now)),p('UPDATE ranked_duo_entries_v1 SET team_id=? WHERE season_id=? AND user_id IN(?,?) AND team_id IS NULL',t.id,s.id,...t.members.map(m=>m.userId))]);
- await env.DB.batch(seasonWrite(env,s,[...writes,p('UPDATE ranked_duo_seasons_v1 SET pair_cursor=?,status=?,revision=revision+1 WHERE id=?',offset+chunk.length,done?'READY':'PUBLISHING',s.id),...(plan.chunked?[p('DELETE FROM ranked_duo_pair_chunks_v2 WHERE season_id=? AND offset_no=?',s.id,offset)]:[]),...(done?[audit(env,user,'DUO_PAIR_COMPLETE',s,{teams:total,waiting:plan.chunked?plan.waiting:plan.waiting.length,spreadPercent:plan.spreadPercent})]:[])]));
- return {ok:true,phase:done?'READY':'PUBLISHING',published:offset+chunk.length,teams:total,spreadPercent:plan.spreadPercent,done};
+ const config=additional&&done?{...s.config,additionalRecruitment:{...s.config.additionalRecruitment,phase:'CLOSED',completedAt:iso(now)}}:s.config;
+ await env.DB.batch(seasonWrite(env,s,[...writes,p('UPDATE ranked_duo_seasons_v1 SET pair_cursor=?,status=?,config_json=?,revision=revision+1 WHERE id=?',offset+chunk.length,additional?'ACTIVE':done?'READY':'PUBLISHING',JSON.stringify(config),s.id),...(plan.chunked?[p('DELETE FROM ranked_duo_pair_chunks_v2 WHERE season_id=? AND offset_no=?',s.id,offset)]:[]),...(done?[audit(env,user,additional?'DUO_ADDITIONAL_PAIR_COMPLETE':'DUO_PAIR_COMPLETE',s,{teams:total,waiting:plan.chunked?plan.waiting:plan.waiting.length,spreadPercent:plan.spreadPercent})]:[])]));
+ return {ok:true,phase:done?(additional?'ACTIVE':'READY'):'PUBLISHING',published:offset+chunk.length,teams:total,spreadPercent:plan.spreadPercent,done};
 }
 
 async function match(env,user,s,deps,now){
@@ -232,7 +261,7 @@ async function fight(env,user,s,body,deps,now){
   ...lock(env,'SELECT id FROM ranked_duo_policy_version_v1 WHERE id=1 FOR SHARE'),
   ...lock(env,`SELECT user_id FROM ranked_duo_accounts_v1 WHERE user_id IN(${ids.map(()=>'?').join(',')}) ORDER BY user_id FOR SHARE`,...ids),
   ...lock(env,'SELECT user_id FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? FOR UPDATE',s.id,user.id),
-  ...seasonGuard(env,s,guard(env,`(SELECT COUNT(*) FROM ranked_duo_accounts_v1 WHERE ${conds})=4 AND EXISTS(SELECT 1 FROM ranked_duo_policy_version_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM ranked_duo_tickets_v1 WHERE token=? AND used_at IS NULL AND expires_at>?) AND EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id=? AND energy=? AND COALESCE(energy_day,'')=?)`,[...args,profiles[0].policyRevision,ticket.token,iso(now),s.id,user.id,a.id,Number(mine.energy),mine.energy_day||''],[
+  ...battleSeasonGuard(env,s,guard(env,`(SELECT COUNT(*) FROM ranked_duo_accounts_v1 WHERE ${conds})=4 AND EXISTS(SELECT 1 FROM ranked_duo_policy_version_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM ranked_duo_tickets_v1 WHERE token=? AND used_at IS NULL AND expires_at>?) AND EXISTS(SELECT 1 FROM ranked_duo_entries_v1 WHERE season_id=? AND user_id=? AND team_id=? AND energy=? AND COALESCE(energy_day,'')=?)`,[...args,profiles[0].policyRevision,ticket.token,iso(now),s.id,user.id,a.id,Number(mine.energy),mine.energy_day||''],[
    p('UPDATE ranked_duo_entries_v1 SET energy=?,energy_day=? WHERE season_id=? AND user_id=?',newEnergy,energy.day,s.id,user.id),
    p('UPDATE ranked_duo_tickets_v1 SET used_at=? WHERE token=?',iso(now),ticket.token),
    p("INSERT INTO ranked_duo_matches_v1(id,request_id,user_id,season_id,attacker_id,defender_id,status,input_json,energy_cost,lease_until,lease_token,created_at) VALUES(?,?,?,?,?,?,'PENDING',?,?,?,?,?)",id,requestId,user.id,s.id,a.id,b.id,inputJson,energy.cost,iso(now+30000),lease,iso(now))

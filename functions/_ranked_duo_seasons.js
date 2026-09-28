@@ -66,6 +66,18 @@ async function finish(env,s,deps,now){
  return {phase:'CLOSED',seasonId:s.id,changed:true,nextCheckAt:iso(now+1000)};
 }
 
+async function advanceAdditionalRecruitment(env,s,deps,now){
+ const extra=s.config.additionalRecruitment;
+ if(s.status!=='ACTIVE'||!extra||extra.phase==='CLOSED'||now>=Date.parse(s.config.endsAt))return null;
+ if(extra.phase==='RECRUITING'&&now<Date.parse(extra.until))return {phase:'ACTIVE',additionalPhase:'RECRUITING',nextCheckAt:iso(Math.min(now+60000,Date.parse(extra.until),Date.parse(s.config.endsAt)))};
+ if(extra.phase==='RECRUITING'){
+  await core.adminChange(env,actor,s,{},'pair',now);
+  return {phase:'ACTIVE',additionalPhase:'PAIRING',nextCheckAt:iso(now+1000)};
+ }
+ const result=await core.pairStep(env,actor,s,deps,now);
+ return {phase:'ACTIVE',additionalPhase:result.done?'CLOSED':result.phase,nextCheckAt:iso(now+1000)};
+}
+
 // One lease is for lifecycle maintenance only. Player requests never touch it.
 // Each tick does at most one 12-player evaluation or one 40-team publication.
 export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
@@ -94,6 +106,7 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
     await change(env,s,'SETTLING');s=await core.currentSeason(env);
    }
    if(s.status==='SETTLING')return await finish(env,s,deps,now);
+   const additional=await advanceAdditionalRecruitment(env,s,deps,now);if(additional)return additional;
    if(s.status==='RECRUITING'&&now>=Date.parse(s.recruit_until)){
     await core.adminChange(env,actor,s,{},'pair',now);return {phase:'PAIRING',nextCheckAt:iso(now+1000)};
    }
@@ -110,7 +123,7 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
    return {phase:s.status,nextCheckAt:iso(Math.min(now+60000,s.status==='RECRUITING'?Date.parse(s.recruit_until):Date.parse(s.config.endsAt)))};
   }
   // Never replace a manually started competition while its participants play.
-  if(s&&s.status!=='CLOSED')return {phase:'MANUAL',nextCheckAt:iso(now+60000)};
+  if(s&&s.status!=='CLOSED')return await advanceAdditionalRecruitment(env,s,deps,now)||{phase:'MANUAL',nextCheckAt:iso(now+60000)};
   const config=policy?(policy.enabled?duoWeeklyConfig(policy,s?now:Date.parse(policy.anchor),Number(s?.config.weekly?.sequence||0)+1):null):duoAutomaticConfig(settings,now,s?.config);
   if(!config)return {phase:policy?'WAITING_DUO_POLICY':'WAITING_RANKED_SEASON',nextCheckAt:iso(now+60000)};
   if(await p(env)('SELECT season_id FROM ranked_duo_auto_v2 WHERE source_key=?',config.rankedSeason.key).first())return {phase:'CLOSED',nextCheckAt:iso(now+60000)};
