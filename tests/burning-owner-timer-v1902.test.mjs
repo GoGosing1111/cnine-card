@@ -79,7 +79,8 @@ test('족장은 예전 기준의 일반·하이퍼 버닝 권한을 사용한다
   assert.match(chiefApi,/type!=='BURNING'&&type!=='HYPER'&&type!=='TOWER_RESET'/);
   assert.match(chiefUi,/powerButton\('HYPER'/);
   assert.match(chiefUi,/powerButton\('BURNING'/);
-  assert.match(chiefUi,/매일 3시간 버닝 2회/);
+  assert.match(chiefApi,/burningPerDay:2,burningDurationMinutes:180/);
+  assert.match(chiefUi,/매일 \$\{burningMinutes\}분 버닝 \$\{burningLimit\}회/);
   assert.match(chiefAdmin,/오늘 족장 버닝/);
   assert.match(chiefAdmin,/오늘 족장 하이퍼/);
 });
