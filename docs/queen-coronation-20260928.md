@@ -37,3 +37,14 @@
 - 배포 검사: `tests/queen-coronation-v1.test.mjs`, `npm run test:lobby` (생성 번들 일치와 기존 로비 메뉴 계약).
 - `index.html`의 변경 JS에 `queen=20260928`, 새 CSS/JS에 `v=20260928-queen`을 연결한다. 기존 앱/서비스워커 주 버전의 일치를 유지한다.
 - 범위 커밋과 origin/main 반영 뒤 `npm run deploy:production -- --scoped`만 사용한다. 출시 플래그·깨끗한 소스·캐시 및 Hyperdrive 조건은 기존 배포 도구가 검사한다.
+
+## 운영 반영 완료
+
+- 구현 커밋: `cc2e7ca04864649887a19df7d5ea12e7f218345d` (`origin/main` 반영).
+- 배포 명령: `npm run deploy:production -- --scoped`, 1회 성공.
+- 즉위식 상태·숨김·재조회 회귀 4개, 로비 메뉴 계약 3개 통과. 로비 원본/생성 번들 일치, 출시·캐시 조건, 운영 Hyperdrive query cache OFF 확인.
+- Pages: https://91954f6a.cnine-card.pages.dev
+- 클랜 Worker 배포 버전: `bcb2846b-1300-4045-90e9-d3d2fa90535b` (지정 운영 배포 명령의 기존 절차).
+- 2026-09-28 22:45:32 KST 운영 도메인 `https://cnine-card.pages.dev` 확인: index의 새 로더 연결, 관련 JS/CSS 5개와 원화·왕관·폰트 3개의 HTTP 200 및 로컬 배포 파일 내용/해시 일치.
+- 운영 확인 기록: `C:/Users/User/.codex/tmp/queen-coronation-20260928/production-smoke.json`.
+- 이 완료 기록만 추가하는 후속 커밋은 문서 변경이므로 테스트·게임 재배포를 반복하지 않는다.
