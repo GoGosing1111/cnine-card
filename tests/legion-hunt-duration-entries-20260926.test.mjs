@@ -26,6 +26,7 @@ for(const postgres of [false,true]){
       const unlimited=await entries();
       assert.equal(unlimited.unlimited,true);assert.equal(unlimited.limit,null);assert.equal(unlimited.remaining,null);assert.equal(unlimited.used,2);
       f.resetQueries();assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',version:1})).body.code,'HUNT_CLIENT_UPDATE');
+      assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',version:2})).body.code,'HUNT_CLIENT_UPDATE');
       assert.equal(f.queries.length,0,'stale 2x clients cannot consume entries');
       const unbegun=await start('normal');assert.equal((await entries()).used,2);
       await f.call('legion-hunt/cancel',{id:unbegun});assert.equal((await entries()).used,2);
@@ -86,16 +87,22 @@ test('unlimited entry depends only on the authenticated OWNER role; ordinary dai
   assert.throws(()=>legionHuntEntries({daily:{...daily,used:-1}},at,{role:'OWNER'}),/입장 기록/);
 });
 
-test('every difficulty uses 15 minutes before the boss; strong accounts cannot acknowledge it at 2x speed',async()=>{
+test('every difficulty includes its boss within 15 minutes; strong accounts cannot acknowledge it at 2x speed',async()=>{
   const f=await legionFixture({withMercenary:true});
   try{
     const snapshot=(await f.call('legion-hunt/bootstrap')).body.loadout;
     for(const d of DIFFICULTIES){
       let now=1000;const start=performance.now(),s=createHuntSession({snapshot,difficulty:d.id,seed:1731,now:()=>now});
       const p=s.payload,t=p.battleV2.result.timeline,boss=t.find(e=>e.finalBoss),saved=s.exportState();
-      assert.equal(d.huntDurationMs,900000);assert.equal(d.limitMs,900000+d.bossLimitMs);
-      assert.equal(boss.combatAtMs,900000);assert.equal(t.filter(e=>e.finalBoss).length,1);assert.equal(t.at(-1).winner,'A');
-      assert.ok(!t.some(e=>e.type==='RESULT'&&e.combatAtMs<900000));
+      assert.equal(d.huntDurationMs+d.bossLimitMs,900000);assert.equal(d.limitMs,900000);
+      assert.equal(boss.combatAtMs,d.huntDurationMs);assert.equal(t.filter(e=>e.finalBoss).length,1);assert.equal(t.at(-1).winner,'A');
+      assert.ok(!t.some(e=>e.type==='RESULT'&&e.combatAtMs<d.huntDurationMs));
+      assert.ok(t.every(e=>e.combatAtMs<=900000));
+      assert.equal(p.huntPlayback.boss.seq,boss.seq);assert.equal(p.huntPlayback.boss.combatAtMs,boss.combatAtMs);
+      assert.equal(p.huntPlayback.boss.final.A.length,5,'five cards, no targetable suit');
+      assert.equal(p.huntPlayback.boss.final.mercenaries.A.length,1,'mercenary state uses its separate renderer slot');
+      assert.deepEqual(p.huntPlayback.boss.final.B.map(c=>c.id),[boss.targetId]);
+      assert.equal(p.huntPlayback.boss.final.B[0].hp,p.huntPlayback.boss.final.B[0].maxHp,'checkpoint is copied before boss damage');
       assert.ok(p.continuousEncounter.instances.length<=2161);assert.ok(t.length<40000);
       assert.ok(JSON.stringify(saved).length<400000,'bounded persisted state; no catalog or full timeline');
       s.begin();now+=450000;assert.throws(()=>s.finish(t.length),/HUNT_EVENT_NOT_REACHED/);

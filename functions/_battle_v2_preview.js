@@ -1132,10 +1132,15 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     support.id,
     Math.max(.0002,Number(support.independentOpeningDelay||support.independentFireInterval*.35||.0005))
   ]));
+  let sustainedBossCheckpoint=null;
   const advanceSustained=()=>{
     const from=timeline.length;combatMs=sustained.nextAt;
     sustained.advance(combatMs,b,(type,data)=>pushEvent(timeline,clock,type,data));
     stampCombatGroup(from,combatMs,false);
+    // A late visual queue must be able to enter the boss phase using exactly
+    // this server state, without healing the party or replaying old attacks.
+    if(sustained.bossSpawned)sustainedBossCheckpoint={combatAtMs:combatMs,
+      final:structuredClone({A:a.filter(card=>!isBattleSuitSupport(card)).map(publicFighter),B:b.map(publicFighter)})};
     nextCombatMs=Math.max(nextCombatMs,combatMs);
     lastCardCombatMs=Math.max(lastCardCombatMs,combatMs);
   };
@@ -1556,12 +1561,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   });
   if(combatClockEnabled){
     const last=timeline.at(-1);
-    Object.assign(last,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:Math.max(combatMs,nextCombatMs),combatGroup:combatGroup++,combatGroupDurationMs:0,combatEndedAtMs:combatMs});
+    Object.assign(last,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:sustained?Math.min(maxCombatDurationMs,Math.max(combatMs,nextCombatMs)):Math.max(combatMs,nextCombatMs),combatGroup:combatGroup++,combatGroupDurationMs:0,combatEndedAtMs:combatMs});
   }
 
   return {
     ...(encounterMode ? {encounter: {spawned: sustained?sustained.instances.length:b.length, remaining: pendingMonsters.length,
-      ...(sustained?{instances:sustained.instances}:{}),
+      ...(sustained?{instances:sustained.instances,bossCheckpoint:sustainedBossCheckpoint}:{}),
       defeated: b.filter(card => !card.alive || card.hp <= 0).length+(sustained?.defeated||0),
       pendingIds: pendingMonsters.map(card => card.id)}} : {}),
     ...(openingMercenaries.A.length||openingMercenaries.B.length?{openingMercenaries}:{}),

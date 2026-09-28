@@ -9,7 +9,7 @@ export const DIFFICULTIES = Object.freeze([
   {id:'hard',name:'어려움',power:150000,bossPower:1400000,attack:140,shield:12,repeat:2,forced:5,limitMs:150000,dropChance:.30,dropLifeMs:8000,description:'보스 방벽 · 2연속 공격'},
   {id:'nightmare',name:'악몽',power:420000,bossPower:4000000,attack:190,shield:25,repeat:3,forced:4,limitMs:135000,dropChance:.32,dropLifeMs:7500,description:'강한 방벽 · 보스 3연속 공격'},
   {id:'inferno',name:'지옥',power:900000,bossPower:9000000,attack:270,shield:40,repeat:4,forced:3,limitMs:120000,dropChance:.35,dropLifeMs:7000,description:'최상위 압박 · 4연속 공격 · 전멸 위험'}
-].map(d=>Object.freeze({...d,huntDurationMs:HUNT_DURATION_MS,bossLimitMs:d.limitMs,limitMs:HUNT_DURATION_MS+d.limitMs})));
+].map(d=>Object.freeze({...d,huntDurationMs:HUNT_DURATION_MS-d.limitMs,bossLimitMs:d.limitMs,limitMs:HUNT_DURATION_MS})));
 export const PARTIES=Object.freeze([
   {id:'rookie',name:'초급 원정대',cardPower:100000,suitPower:150000},
   {id:'standard',name:'표준 원정대',cardPower:200000,suitPower:300000},

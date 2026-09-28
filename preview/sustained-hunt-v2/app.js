@@ -22,6 +22,7 @@
     message(errorText(error));interruption('error',errorText(error)+' · 같은 원정을 다시 불러오거나 입장 화면으로 돌아가세요.');buttons();
   }
   const time=ms=>String(Math.floor(Math.max(0,ms)/60000)).padStart(2,'0')+':'+String(Math.floor(Math.max(0,ms)/1000)%60).padStart(2,'0');
+  const remainingTime=ms=>time(Math.ceil(Math.max(0,ms)/1000)*1000);
   api.mountForBattle=async(...args)=>{engine=await originalMount(...args);return engine;};
   window.cnineBattleSpriteUrl=path=>{const key=String(path||'').replace(/^\/+/, '').split('?')[0];return window.CNineResponsiveBattleSprites?.[key]||(window.CNineResponsiveCardImages?.[key]?window.CNineResponsiveCardImages[key]+'-384.webp':path);};
   async function request(action,body={}){
@@ -74,7 +75,7 @@
   function updatePolicy(){
     if(liveMode)return;
     const p=policies.find(d=>d.id===$('hunt-difficulty').value);if(!p)return;
-    $('difficulty-description').textContent=p.description+' · 15분 토벌 + 보스 '+Math.round(p.bossLimitMs/1000)+'초';
+    $('difficulty-description').textContent=p.description+' · 총 15분 / '+time(p.huntDurationMs)+'에 최종 보스 출현';
     $('hunt-threat').textContent=p.name+' · 전멸 / 보스 제한 시간 초과 시 실패';
   }
   async function prepare(reuse=false){
@@ -83,9 +84,9 @@
     engine?.setHuntPaused(false);renderer?.destroy();api.destroy();engine=null;session=null;buttons();
     if(oldSession&&!reuse)await request('cancel',{id:oldSession}).catch(()=>{});
     $('hunt-kills').textContent=$('hunt-bosses').textContent=$('hunt-picked').textContent='0';$('hunt-boss-hud').hidden=true;
-    $('hunt-time').textContent='15:00';if($('hunt-time-label'))$('hunt-time-label').textContent='최종 보스 출현까지';if($('hunt-progress-fill'))$('hunt-progress-fill').style.width='0%';
+    $('hunt-time').textContent='15:00';if($('hunt-time-label'))$('hunt-time-label').textContent='남은 전투 시간';if($('hunt-progress-fill'))$('hunt-progress-fill').style.width='0%';
     $('hunt-stage').textContent='15분 연속 토벌';$('hunt-objective').textContent='계속 밀려오는 군단을 처치하세요';inventory();updatePolicy();message('원정대와 몬스터를 배치하고 있습니다.');
-    const data=reuse&&oldSession&&oldPayload?{id:oldSession,payload:oldPayload,entries}:await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{version:2}:{party:$('hunt-party').value})});
+    const data=reuse&&oldSession&&oldPayload?{id:oldSession,payload:oldPayload,entries}:await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{version:3}:{party:$('hunt-party').value})});
     if(token!==epoch){void request('cancel',{id:data.id});return;}
     session=data.id;payload=data.payload;entries=data.entries||null;notifyParent('legion-hunt-session',{id:session});window.cnineCardCatalog=()=>payload.cards;
     if($('hunt-difficulty-label'))$('hunt-difficulty-label').textContent=payload.huntPolicy.name;
@@ -98,7 +99,7 @@
     document.removeEventListener('visibilitychange',engine.onVisibility);
     engine.previewSpeed=1;engine.paceScale=1;
     prepared.stage.querySelector('.battle-v3-header strong').textContent='잊혀진 섬 · '+payload.huntPolicy.name;
-    prepared.stage.querySelector('#battlePhase').textContent='15분 연속 토벌 → 최종 보스';
+    prepared.stage.querySelector('#battlePhase').textContent='군단 토벌 → 최종 보스 · 총 15분';
     await api.restoreDeployedFormation();
     engine.attachGroundDrops({
       claim:drop=>request('claim',{id:session,dropId:drop.id,token:drop.token,x:drop.position.x,y:drop.position.y}),
@@ -106,20 +107,20 @@
       onExpired:()=>{if(playing)message('드랍이 사라졌습니다. 다음 아이템은 다른 위치에 나타납니다.');},
       onError:e=>message(errorText(e))
     });
-    $('hunt-time').textContent=time(payload.huntPolicy.huntDurationMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · 15분 후 최종 보스 출현';message('아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
+    $('hunt-time').textContent=time(payload.huntPolicy.limitMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · '+time(payload.huntPolicy.huntDurationMs)+'에 최종 보스 출현';message('아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
   }
   function updateClock(){
     const at=Math.max(renderedAt,(engine?.skillChipPlayback?.clock.time||0)*1000);
-    $('hunt-time').textContent=time((at<payload.huntPolicy.huntDurationMs?payload.huntPolicy.huntDurationMs:payload.huntPolicy.limitMs)-at);
-    if($('hunt-time-label'))$('hunt-time-label').textContent=at<payload.huntPolicy.huntDurationMs?'최종 보스 출현까지':'보스 제한 시간';
-    if($('hunt-progress-fill'))$('hunt-progress-fill').style.width=Math.min(100,at/payload.huntPolicy.huntDurationMs*100)+'%';
+    $('hunt-time').textContent=remainingTime(payload.huntPolicy.limitMs-at);
+    if($('hunt-time-label'))$('hunt-time-label').textContent='남은 전투 시간';
+    if($('hunt-progress-fill'))$('hunt-progress-fill').style.width=Math.min(100,at/payload.huntPolicy.limitMs*100)+'%';
   }
   function bossHud(){
     const a=engine.enemies.filter(a=>engine.isAlive(a)&&a.isBoss).at(-1);
     $('hunt-boss-hud').hidden=!a;if(!a)return;
     $('boss-name').textContent=a.name;$('boss-percent').textContent=Math.max(0,Math.ceil(a.hp))+'%';$('boss-fill').style.width=Math.max(0,a.hp)+'%';
   }
-  function onEvent(event){
+  function onEvent(event,{caughtUp=false}={}){
     ack=event.seq;renderedAt=Math.min(payload.huntPolicy.limitMs,Math.max(renderedAt,event.combatAtMs||0));
     updateClock();
     if(event.finalBoss){$('hunt-stage').textContent='최종 보스';$('hunt-objective').textContent='태고의 수호자를 처치하세요';$('hunt-threat').textContent='보스 제한 시간 '+Math.round(payload.huntPolicy.bossLimitMs/1000)+'초';}
@@ -129,7 +130,7 @@
       queueDropReveal(event.seq);
     }
     if(event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
-    if(event.type==='SKILL_CHIP_CAST'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT')toast('Z-BODY · 뇌검 집행 / 적 전체');
+    if(!caughtUp&&event.type==='SKILL_CHIP_CAST'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT')toast('Z-BODY · 뇌검 집행 / 적 전체');
     if(event.type==='SKILL_CHIP_HIT'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT'&&!areaCasts.has(event.castId)){
       areaCasts.add(event.castId);if($('hunt-suit-skill'))$('hunt-suit-skill').textContent='Z-BODY · 뇌검 집행 '+areaCasts.size+'회';
     }
@@ -144,6 +145,9 @@
       clockTimer=setInterval(updateClock,250);
       await engine.playEvents(payload.battleV2.result.timeline,{sequential:true,afterEvent:onEvent,isPaused:()=>paused});
       if(token!==epoch||!playing||finishing)return;
+      engine.stopAccountBattleUnitSustainedFire();
+      updateClock();
+      if(engine.huntRun?.deadlineReached){await finish();return;}
       clearInterval(clockTimer);ending=true;await reveals;buttons();
       message('전투가 끝났습니다. 남은 드랍을 클릭하세요. 사라지면 자동 정산합니다.');
       finishTimer=setInterval(()=>{if(!engine.groundDrops.rows.size){clearInterval(finishTimer);finishTimer=null;void finish();}},200);
@@ -156,10 +160,11 @@
   }
   async function finish(){
     if(!playing||finishing)return;finishing=true;buttons();clearInterval(finishTimer);clearInterval(clockTimer);finishTimer=null;
-    interruption(null);paused=false;engine.setHuntPaused(false);engine.cancelTimelines();
+    interruption(null);paused=false;engine.setHuntPaused(false);engine.completePlayback();
+    message('전투가 종료되었습니다. 전리품을 정산하고 있습니다.');
     try{
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;
-      const labels={CLEAR:['사냥 클리어','15분 토벌을 마치고 태고의 수호자를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','보스 제한 시간 안에 태고의 수호자를 처치하지 못했습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 직접 획득한 전리품만 집계합니다.']};
+      const labels={CLEAR:['사냥 클리어','제한 시간 안에 태고의 수호자를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','총 15분이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 직접 획득한 전리품만 집계합니다.']};
       const [title,reason]=labels[receipt.reason];$('result-title').textContent=title;$('result-reason').textContent=reason;$('result-eyebrow').textContent=payload.huntPolicy.name+' · 원정 결과';
       const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'직접 주운 전리품은 계정에 지급됐습니다. 철수해도 이미 지급된 보상은 유지됩니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
       $('result-kills').textContent=receipt.kills+'마리 · 보스 '+receipt.bosses+' / 1';

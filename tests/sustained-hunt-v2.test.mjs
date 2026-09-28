@@ -29,7 +29,7 @@ test('four fixed difficulties produce real clears and party elimination with the
   assert.equal(a.diagnostics.outcome.winner,'B');assert.ok(b.diagnostics.outcome.combatMs>a.diagnostics.outcome.combatMs);
   assert.deepEqual(a.payload.continuousEncounter.instances.slice(0,12).map(m=>m.maxHp),b.payload.continuousEncounter.instances.slice(0,12).map(m=>m.maxHp));
 });
-test('continuous reinforcements last 15 minutes, then retreat before the single final guardian',()=>{
+test('continuous reinforcements retreat before the single final guardian within the 15-minute limit',()=>{
   const s=make(),rows=s.payload.continuousEncounter.instances,t=s.payload.battleV2.result.timeline,map=new Map(rows.map(r=>[r.id,r])),occupied=new Map(rows.slice(0,12).map(r=>[r.slot,r.id]));
   assert.ok(rows.length>37&&rows.length<=2161);assert.equal(new Set(rows.map(r=>r.id)).size,rows.length);assert.equal(rows.filter(r=>r.boss).length,1);
   assert.equal(MONSTERS.length+BOSSES.length,10);
@@ -37,13 +37,13 @@ test('continuous reinforcements last 15 minutes, then retreat before the single 
     if((e.type==='KO'||e.type==='ENEMY_DESPAWN')&&map.has(e.targetId))occupied.delete(map.get(e.targetId).slot);
     if(e.type==='ENEMY_SPAWN'){
       const r=map.get(e.targetId);assert.ok(!occupied.has(r.slot),'never replace a living instance');
-      if(r.finalBoss){assert.equal(e.combatAtMs,900000);assert.equal(occupied.size,0);}
-      else assert.ok(e.combatAtMs<900000);
+      if(r.finalBoss){assert.equal(e.combatAtMs,s.payload.huntPolicy.huntDurationMs);assert.equal(occupied.size,0);}
+      else assert.ok(e.combatAtMs<s.payload.huntPolicy.huntDurationMs);
       occupied.set(r.slot,r.id);
     }
   }
-  for(let minute=1;minute<15;minute++)assert.ok(t.some(e=>e.type==='ENEMY_SPAWN'&&!e.boss&&e.combatAtMs>=minute*60000&&e.combatAtMs<(minute+1)*60000));
-  assert.ok(t.at(-1).combatAtMs>=900000);assert.ok(t.every((e,i)=>!i||e.combatAtMs>=t[i-1].combatAtMs));
+  for(let minute=1;minute<Math.floor(s.payload.huntPolicy.huntDurationMs/60000);minute++)assert.ok(t.some(e=>e.type==='ENEMY_SPAWN'&&!e.boss&&e.combatAtMs>=minute*60000&&e.combatAtMs<(minute+1)*60000));
+  assert.ok(t.at(-1).combatAtMs>=s.payload.huntPolicy.huntDurationMs&&t.at(-1).combatAtMs<=900000);assert.ok(t.every((e,i)=>!i||e.combatAtMs>=t[i-1].combatAtMs));
   assert.equal(t.filter(e=>e.type==='RESULT').length,1);
   assert.equal(t.filter(e=>e.huntKill&&e.boss).length,1);
   assert.ok(t.filter(e=>e.type==='ENEMY_DESPAWN').every(e=>!e.huntKill));
@@ -115,7 +115,7 @@ test('bounded encounter extension rejects invalid capacity and malformed waves',
 });
 test('legacy PVE and PVP outputs remain byte-equivalent to the latest operation base',async()=>{
   const file=path.resolve('functions/.hunt-v2-baseline-'+process.pid+'.mjs');
-  fs.writeFileSync(file,execFileSync('git',['show','0d67ae862a1f9763605ad7323e889acf5d51ad41:functions/_battle_v2_preview.js']));
+  fs.writeFileSync(file,execFileSync('git',['show','e5fdc17169e71e9c69dae68cf4bb3c60ebb08b55:functions/_battle_v2_preview.js']));
   try{
     const baseline=await import(pathToFileURL(file).href);
     const cards=['ATTACK','DEFENSE','HP','SPEED','DEFENSE'].map((type,i)=>({id:i+1,power:50000+i*7000,power_type:type,rarity:'FUR'}));

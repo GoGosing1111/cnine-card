@@ -79,7 +79,7 @@ export async function handleLegionHunt({path,request,env,deps}){
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
     const body=await readJointBody(request,{maxBytes:4096,fields:ACTIONS[action]});
     if(action==='start'&&!DIFFICULTIES.some(d=>d.id===body.difficulty))throw jointError('HUNT_SELECTION','난이도를 선택하세요.');
-    if(action==='start'&&body.version!==2)throw jointError('HUNT_CLIENT_UPDATE','군단토벌이 15분 토벌로 변경됐습니다. 게임을 새로고침한 뒤 입장하세요.',409);
+    if(action==='start'&&body.version!==3)throw jointError('HUNT_CLIENT_UPDATE','군단토벌 보스 출현과 15분 종료가 수정됐습니다. 게임을 새로고침한 뒤 입장하세요.',409);
     if(action!=='start'&&!idValid(body.id))throw jointError('HUNT_SESSION','원정 번호를 확인하세요.');
     return json(await deps.withUserMutationLock(env,user.id,path,async()=>{
       const {policy,raw:policyRaw}=await readLegionHuntPolicy(env),access=requireAccess(policy,user);

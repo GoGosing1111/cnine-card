@@ -3,7 +3,7 @@
 export function sustainedEncounterPlan(config, initial, capacity) {
   if (!config) return null;
   const {durationMs, templates, finalBoss} = config;
-  if (durationMs !== 900000 || capacity !== 12 || initial.length !== capacity ||
+  if (![750000,765000,780000,900000].includes(durationMs) || capacity !== 12 || initial.length !== capacity ||
       !Array.isArray(templates) || templates.length < 1 || templates.length > 12 || !finalBoss) {
     throw Error('INVALID_SUSTAINED_ENCOUNTER');
   }

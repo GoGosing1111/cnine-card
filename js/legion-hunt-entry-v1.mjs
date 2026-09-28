@@ -44,7 +44,7 @@ export function openLegionHunt(button){
         <div><img src="${art}monsters/ember-mantis-sd-v2.png" alt=""><span><small>00:00 · 상륙</small><b>군단 조우</b></span></div>
         <div><img src="${art}monsters/mossback-tortoise-sd-v2.png" alt=""><span><small>05:00 · 교전</small><b>끊임없는 증원</b></span></div>
         <div><img src="${art}monsters/cobalt-bat-sd-v2.png" alt=""><span><small>10:00 · 돌파</small><b>끝까지 생존</b></span></div>
-        <div><img src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt=""><span><small>15:00 · 최종 보스</small><b>태고의 수호자</b></span></div>
+        <div><img src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt=""><span><small data-hunt-boss-at>마지막 구간 · 최종 보스</small><b>태고의 수호자</b></span></div>
       </nav>
       <section class="legion-squad"><div class="legion-section-heading"><div><span>YOUR EXPEDITION</span><h2>출전 원정대</h2></div><button type="button" data-hunt-refresh>편성 새로고침 <span aria-hidden="true">↻</span></button></div>
         <p class="legion-account"></p><div class="legion-loadout"><div class="legion-cards" aria-label="저장된 일반 카드 5장"></div><div class="legion-mercenary" aria-label="용병 전용 슬롯"></div></div><p class="legion-equipment"></p>
@@ -85,14 +85,15 @@ export function openLegionHunt(button){
     find('.legion-equipment').textContent=loadout?'장착 슈트 · '+(eq?.equippedBattleSuit?.name||eq?.equippedBattleSuit?.code||'없음')+' / 무기 · '+(eq?.equippedWeapon?.name||eq?.equippedWeapon?.code||'없음'):'';
     find('.legion-difficulties').innerHTML=(data?.difficulties||[]).map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span class="legion-difficulty-number">0${i+1}</span><span class="legion-difficulty-copy"><strong>${escape(d.name)}</strong><small>${escape(d.description)}</small></span><span class="legion-threat-bars" aria-hidden="true">${[0,1,2,3].map(n=>`<i class="${n<=i?'lit':''}"></i>`).join('')}</span><span class="legion-selection-dot" aria-hidden="true"></span></button>`).join('');
     const selected=data?.difficulties.find(d=>d.id===state.difficulty);
-    find('.legion-limit').textContent=selected?'15분 + 최종 보스':'';
+    find('.legion-limit').textContent=selected?'보스전 포함 총 15분':'';
+    if(selected)find('[data-hunt-boss-at]').textContent=Math.floor(selected.huntDurationMs/60000)+':'+String(selected.huntDurationMs/1000%60).padStart(2,'0')+' · 최종 보스';
     find('.legion-entries').textContent=unlimited?'무제한':data?.entries?data.entries.remaining+' / '+data.entries.limit+'회 남음':'';
     find('[data-hunt-entry-limit]').textContent=unlimited?'무제한':data?.entries?data.entries.limit+'회':'—';
     dialog.dataset.difficulty=state.difficulty;
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260928-modes-rewards';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260928-hunt-deadline';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;

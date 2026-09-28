@@ -46,11 +46,16 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
     if(e.type==='KO'&&monster){e.huntKill=true;e.boss=monster.boss;e.huntStage=monster.stage;}
   }
   const timeline=compactHuntTimeline(result.timeline);
+  const bossEvent=timeline.find(event=>event.finalBoss);
+  const playbackFinal=state=>({A:state.A.filter(card=>!card.isMercenary&&!card.isBattleSuit),B:state.B.filter(card=>!card.isMercenary),
+    mercenaries:{A:state.A.filter(card=>card.isMercenary),B:state.B.filter(card=>card.isMercenary)}});
   const accountNickname=snapshot?.accountNickname||'검수 원정대',mercenaries=result.openingMercenaries?.A||[];
   const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · 잊혀진 섬',mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
     cards,equippedBattleSuit,equippedWeapon,characterBonus:snapshot?.characterBonus||{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
     ...(snapshot?{loadoutSource:snapshot.source,mercenary:snapshot.mercenary||null}:{}),
     huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:instances.length,totalBosses:1,party:snapshot?'account':partyPolicy.id,partyPower:teamSummary(simulationTeamA).power},
+    huntPlayback:{limitMs:timeLimit,boss:bossEvent?{combatAtMs:bossEvent.combatAtMs,final:playbackFinal(result.encounter.bossCheckpoint.final),seq:bossEvent.seq,targetId:bossEvent.targetId}:null,
+      final:playbackFinal(result.final)},
     continuousEncounter:{schemaVersion:2,capacity:CAPACITY,initialIds:fighters.slice(0,CAPACITY).map(r=>r.id),instances},
     battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},
       teams:{A:{cards:teamA.map(publicFighter),summary:teamSummary([...teamA,...mercenaries]),...(mercenary?{mercenaries}:{}),supports:support?[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},

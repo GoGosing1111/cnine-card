@@ -5,6 +5,7 @@ import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleChara
 import {sampleSequence} from '../../project-v-mercenary-system-v1/source/MercenarySpriteSequence.js';
 import {CAPACITY,crowdPosition} from '../hunt-rules.mjs';
 import {GroundDrops} from './GroundDrops.js';
+import {playHuntTimeline} from './HuntTimedPlayback.js';
 export class BattleEngine extends ScrapyardEngine{
   constructor(...args){super(...args);this.combatClockRate=this.previewSpeed=this.paceScale=1;this.continuousAreaPlayback=true;this.parallelEncounterTransitions=true;}
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
@@ -58,6 +59,7 @@ export class BattleEngine extends ScrapyardEngine{
     }
   }
   async applyBattlePayload(payload){
+    this.huntPlaybackPlan=payload.huntPlayback||null;
     while(this.enemies.length<CAPACITY){
       const a=new BattleCharacter({id:'HUNT_SLOT_'+this.enemies.length,name:'몬스터',team:TEAM.ENEMY,texture:Texture.EMPTY,fullBodyTexture:Texture.EMPTY,fullBodyHeight:245,scale:.4,accent:0xe9aa65});
       a.root.alpha=0;a.battleActive=false;this.characters.push(a);this.enemies.push(a);this.combatLayer.addChild(a.root);
@@ -98,6 +100,7 @@ export class BattleEngine extends ScrapyardEngine{
   async playEvents(events,options={}){
     // Hunt playback stays at normal speed even when presentation is delayed.
     this.combatClockRate=this.previewSpeed=this.paceScale=1;
+    if(!options.timedInternal&&this.huntPlaybackPlan&&events.some(event=>event.combatClock==='V3_COMBAT_MS_V1'))return playHuntTimeline(this,events,options,this.huntPlaybackPlan);
     if(options.timedInternal&&events.length===1&&events[0].type==='ENEMY_DESPAWN'){
       const epoch=this.playbackEpoch;await this.drainGeneration();
       if(epoch!==this.playbackEpoch||!this.visible)return false;
@@ -110,6 +113,15 @@ export class BattleEngine extends ScrapyardEngine{
     }
     return super.playEvents(events,options);
   }
+  reconcileHuntState(final,bossId){
+    this.cancelTimelines();
+    if(bossId){
+      for(const actor of this.enemies)this.retiredIds.add(actor.id);
+      this.bindMonster(this.instances.get(bossId));
+    }
+    this.syncFinalState(final);
+    if(bossId)this.queueBanner(this.instances.get(bossId).name,0xffc477,'최종 수호자 출현');
+  }
   setHuntPaused(paused){
     this.huntPaused=!!paused;this.accountBattleUnitIsPaused=()=>this.huntPaused;
     for(const e of this.simpleTimelines||[])e.instance.paused(this.huntPaused);
@@ -121,9 +133,10 @@ export class BattleEngine extends ScrapyardEngine{
   }
   attachGroundDrops(options){this.groundDrops?.destroy();this.groundDrops=new GroundDrops(this,options);return this.groundDrops;}
   cancelTimelines(){
-    super.cancelTimelines();this.groundDrops?.clear();
+    if(this.huntRun&&!this.huntRun.transitioning)this.huntRun.cancelled=true;
+    super.cancelTimelines();if(!this.huntRun?.transitioning)this.groundDrops?.clear();
     for(const resolve of this.huntResumeWaiters||[])resolve(false);this.huntResumeWaiters?.clear();
   }
-  diagnostics(){return {...super.diagnostics(),hunt:{capacity:CAPACITY,alive:this.enemies.filter(a=>this.isAlive(a)).length,drops:this.groundDrops?.diagnostics()}};}
+  diagnostics(){return {...super.diagnostics(),hunt:{capacity:CAPACITY,alive:this.enemies.filter(a=>this.isAlive(a)).length,run:this.huntRun,drops:this.groundDrops?.diagnostics()}};}
   destroy(){this.groundDrops?.destroy();this.groundDrops=null;super.destroy();this.spawnFrames?.forEach(f=>f.destroy(false));this.spawnFrames=null;}
 }
