@@ -4,6 +4,7 @@ import {dirname,join} from 'node:path';
 import {readFileSync} from 'node:fs';
 import {verifyProductionHyperdriveCache} from './verify-hyperdrive-cache.mjs';
 import {runScopedReleaseChecks} from './scoped-release-checks.mjs';
+import {resumeFullReleaseGate} from './resume-release-gate.mjs';
 
 const args=process.argv.slice(2),assetsOnly=args.length===1&&args[0]==='--assets-only';
 const scoped=args.length===1&&args[0]==='--scoped';
@@ -54,6 +55,8 @@ if(assetsOnly){
   console.log('Asset-only release: full game tests skipped by explicit user instruction.');
 }else if(scoped){
   runScopedReleaseChecks({env:process.env,git,run,scripts:JSON.parse(readFileSync('package.json','utf8')).scripts});
+}else if(process.env.RELEASE_GATE_RESUME_LOG){
+  resumeFullReleaseGate({env:process.env,git,run,scripts:JSON.parse(readFileSync('package.json','utf8')).scripts});
 }else if(process.platform==='win32')run(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run release:gate']);
 else run('npm',['run','release:gate']);
 const wrangler=join(dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');

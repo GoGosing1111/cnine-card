@@ -54,3 +54,7 @@ OWNER CMS → 레이드 관리 → 리치왕 정벌.
 ## 배포 범위
 
 기준 브랜치: 최신 `origin/main`에서 분리한 `codex/lich-raid-live-test-20260928`. 기존 작업 폴더의 무관한 변경을 포함하지 않는다. 새 운영 저장 테이블과 실계정 API가 추가되는 변경이므로 최종 커밋에서 `npm run deploy:production`의 전체 출시 검사를 한 번 실행한다. `test:lich-raid`를 출시 게이트에 추가했다. 완료된 관련 UI 검수를 배포 후 전체 반복하지 않고 운영 자산·접근 모드·CMS/입장 핵심 경로만 확인한다.
+
+첫 후보 `df692df6afaae0f19cb7469ef6a2a9843ab6e74e`의 전체 게이트는 앞 30개 단계를 통과한 뒤 장비 인벤토리 테스트의 추출 실행 환경에서 `LICH_TICKET` 의존성이 누락되어 중단됐다. 운영 코드는 수정하지 않고 두 테스트의 의존성을 실제 모듈에서 주입했다. `tmp/lich-live-20260928/deploy.log`의 SHA-256은 `a28518a8ba458180929286f8c4a12823c563c6006bea52bf9aee7aa0168bd8fe`다.
+
+불필요한 전체 반복을 금지한 고정 규칙에 따라 기본 `npm run deploy:production`에 선택적인 전체 게이트 이어서 검사를 추가했다. `RELEASE_GATE_RESUME_LOG`, `RELEASE_GATE_RESUME_BASE`, `RELEASE_GATE_RESUME_SHA256`를 함께 지정하며 로그 해시·원래 전체 명령·연속 성공 구간·마지막 실패·깨끗한 main 일치를 검사한다. 게임 실행 코드·공유 테스트 helper·명령이 바뀌면 재사용을 거부한다. 바뀐 개별 테스트가 포함된 성공 단계는 다시 검사하며, 실패 단계와 이후 모든 검사·최종 출시 보호·Hyperdrive 검사는 그대로 실행한다. 이어서 검사 도구 자체와 배포 정책 검사는 먼저 실행한다. 환경변수 없는 기존 전체 검사와 scoped 경로는 유지한다.

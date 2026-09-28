@@ -1,0 +1,47 @@
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+
+// Reuse only a completed prefix of the exact full gate, after test/document fixes.
+// Game, dependency, schema and gate-command changes always require a fresh gate.
+export function fullGateResumePlan({env,git,scripts,logText}){
+  const base=env.RELEASE_GATE_RESUME_BASE;
+  if(!/^[a-f0-9]{40}$/.test(base||''))throw Error('Resume requires the original candidate SHA.');
+  if(!/^[a-f0-9]{64}$/.test(env.RELEASE_GATE_RESUME_SHA256||'')||createHash('sha256').update(logText).digest('hex')!==env.RELEASE_GATE_RESUME_SHA256)throw Error('Resume log hash mismatch.');
+  if(git('status','--porcelain','--untracked-files=all')||git('ls-files','--others','--ignored','--exclude-standard'))throw Error('Commit the clean release before resuming.');
+  if(git('rev-parse','HEAD')!==git('rev-parse','origin/main'))throw Error('Push the release before resuming.');
+  git('merge-base','--is-ancestor',base,'HEAD');
+  const previous=JSON.parse(git('show',`${base}:package.json`)).scripts;
+  if(JSON.stringify(previous)!==JSON.stringify(scripts))throw Error('Gate commands changed: run a fresh full gate.');
+  const gate=scripts['release:gate'];
+  if(!logText.replace(/\r\n/g,'\n').includes(`> release:gate\n> ${gate}\n`))throw Error('Log does not contain the full gate command.');
+  const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
+  if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
+  const seen=[...logText.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)].map(match=>match[1]);
+  if(!seen.length||seen.some((name,i)=>name!==names[i]))throw Error('Log is not a contiguous gate prefix.');
+  const failedIndex=seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
+  if(/^ℹ fail [1-9]/m.test(prefix)||!/^ℹ fail [1-9]/m.test(logText.slice(last)))throw Error('Resume requires a failed final stage and successful preceding stages.');
+  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),rerun=new Set();
+  const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
+  for(const path of changed){
+    if(path==='AGENTS.md'||path.startsWith('docs/')||tooling.has(path))continue;
+    if(!/^tests\/[^/]+\.test\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
+    let matched=false;
+    for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex)rerun.add(i);}
+    if(!matched)throw Error(`Cannot map changed test to the full gate: ${path}`);
+  }
+  // The resume implementation is itself verified, including on its first use.
+  return {base,reused:failedIndex-rerun.size,commands:[
+    'node --test tests/resume-release-gate.test.mjs tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs',
+    ...[...rerun].sort((a,b)=>a-b).map(i=>commands[i]),...commands.slice(failedIndex)
+  ]};
+}
+
+export function resumeFullReleaseGate({env,git,run,scripts,platform=process.platform,execPath=process.execPath}){
+  const plan=fullGateResumePlan({env,git,scripts,logText:readFileSync(env.RELEASE_GATE_RESUME_LOG,'utf8')});
+  console.log(`[FULL RELEASE RESUME] Reuse ${plan.reused} completed stages from ${plan.base}; execute every remaining stage and production guard.`);
+  for(const command of plan.commands){
+    if(command.startsWith('node '))run(execPath,command.slice(5).split(' '));
+    else if(platform==='win32')run(env.ComSpec||'cmd.exe',['/d','/s','/c',command]);
+    else run('npm',['run',command.slice('npm run '.length)]);
+  }
+}
