@@ -15,7 +15,7 @@ const body=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("   
 assert(body.includes('ensureForgeProtectionCatalog'));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const inventoryRoute=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureEmperorEnergyCatalog,LICH_TICKET}=deps;
-const path='inventory',ensureTournamentGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${body}`);
+const path='inventory',ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${body}`);
 
 for(const postgres of [false,true]){
   const label=postgres?'PostgreSQL':'SQLite';
