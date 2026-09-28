@@ -46,6 +46,7 @@ const S1 = {
   speedShieldBonus: 1.00,        // 속도형: 방벽에 추가 피해 (실드 상대로만)
   speedChaseGauge: 70,           // 속도형: 처치 시 게이지 회복
   speedChaseUses: 3,
+  pvpSpeedBonusSuppression: 0.30, // 준비안: 살아 있는 방어형 2장이 고유 속도 증가분만 30% 억제
   attackSealRevive: 1,           // 공격형: 상대 팀 부활 1회 봉인
   attackChainGauge: 45,          // 공격형: 처치 시 게이지 회복
   attackChainUses: 2,
@@ -796,10 +797,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     pushEvent(timeline,eventClock+0.000001,'MAGIC_CARD',magicEvent(magic,target,target,{amount,hpAfter:target.hp,maxHp:target.maxHp,revived:true}));
     return true;
   };
-  // V2063: Keep action-speed/starting-gauge suppression, but preserve dodge, crit and gauge steal.
+  // Keep the historical PVE contract. The prepared PVP rule below preserves
+  // opening gauge and only reduces positive unique speed while two guards live.
   const suppressSpeedUnique=(guardTeam,targetTeam)=>{
     if(guardTeam.filter(card=>card.type==='DEFENSE').length<2)return;
-    for(const fighter of targetTeam.filter(card=>card.type==='SPEED')){
+    for(const fighter of targetTeam.filter(card=>card.type==='SPEED'&&card.battleMode!=='PVP')){
       const speedPercent=Math.max(-90,Number(fighter.uniqueAbility?.speedPercent||0));
       fighter.speed=Math.max(35,Math.round(fighter.speed/Math.max(0.1,1+speedPercent/100)));
       fighter.gauge=0;
@@ -807,6 +809,32 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   };
   suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);
+  const speedSuppressionState=new Map();
+  const hasPvpSpeed=[...a,...b].some(card=>card.type==='SPEED'&&card.battleMode==='PVP');
+  const refreshPvpSpeedSuppression=(eventClock=clock)=>{
+    if(!hasPvpSpeed)return;
+    for(const [guardTeam,targetTeam] of [[a,b],[b,a]]){
+      const active=alive(canonicalTeam(guardTeam)).filter(card=>card.type==='DEFENSE'&&!card.isMercenary&&!card.isMonster).length>=2;
+      for(const fighter of alive(targetTeam).filter(card=>card.type==='SPEED'&&card.battleMode==='PVP'&&!isBattleSuitSupport(card))){
+        const bonus=Math.max(0,Number(fighter.uniqueAbility?.speedPercent||0))/100;
+        const scale=active?(1+bonus*(1-S1.pvpSpeedBonusSuppression))/(1+bonus):1;
+        const previous=speedSuppressionState.get(fighter)||{scale:1,sourceSpeed:fighter.speed,appliedSpeed:fighter.speed};
+        if(scale===previous.scale)continue;
+        // Preserve an independent speed change, and restore the exact original
+        // integer when no other effect changed it (no rounding drift on retries).
+        const sourceSpeed=fighter.speed===previous.appliedSpeed?previous.sourceSpeed:fighter.speed/previous.scale;
+        const speedBefore=fighter.speed;
+        fighter.speed=Math.max(35,Math.round(sourceSpeed*scale));
+        speedSuppressionState.set(fighter,{scale,sourceSpeed,appliedSpeed:fighter.speed});
+        pushEvent(timeline,eventClock,active?'SPEED_UNIQUE_SUPPRESSED':'SPEED_UNIQUE_RESTORED',{
+          targetId:fighter.id,guardSide:guardTeam[0]?.side||'',speedBefore,speedAfter:fighter.speed,
+          bonusSuppressionPercent:active?S1.pvpSpeedBonusSuppression*100:0,
+          label:active?'방어형 연계 · 속도 보너스 30% 억제':'방어형 연계 해제 · 속도 회복'
+        });
+      }
+    }
+  };
+  refreshPvpSpeedSuppression();
   // V1936: 전투 시작 셋업 — 유한 자원들을 여기서 한 번에 배분한다.
   const isPveBattle = [...a, ...b].some(card => card.isMonster);
   // 전직 기능이 OFF인 기존 전투는 V1936 결과를 그대로 보존한다. 실제 전직 카드가
@@ -1145,6 +1173,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     lastCardCombatMs=Math.max(lastCardCombatMs,combatMs);
   };
   while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length || sustained&&!sustained.bossSpawned) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+    refreshPvpSpeedSuppression();
     if(sustained&&!targetableAlive(b).length&&!sustained.bossSpawned){
       if(maxCombatDurationMs<sustained.nextAt){combatMs=nextCombatMs=maxCombatDurationMs;durationStopped=true;break;}
       if(chipActor&&nextChipMs()<sustained.nextAt){resolveChipStep();continue;}
@@ -1319,14 +1348,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const enemyTeam = actor.side === 'A' ? b : a;
     if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,knockout:t=>resolveKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
-    // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
-    // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
-    const healerTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'
-      ? targetableAlive(enemyTeam).filter(card => card.type === 'HP') : [];
-    const pool = healerTargets.length ? healerTargets : targetPool(enemyTeam);
+    // Prepared PVP priority: living, targetable mercenaries and HP-unique cards
+    // share one pool. Lowest current HP ratio wins, regardless of shield or row.
+    const priorityTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'
+      ? targetableAlive(enemyTeam).filter(card => card.isMercenary || card.type === 'HP') : [];
+    const pool = priorityTargets.length ? priorityTargets : targetPool(enemyTeam);
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
-    const target = tauntGuard||lowestRatioTarget(pool, random);
+    const target = tauntGuard||(priorityTargets.length
+      ? [...pool].sort((left,right)=>left.hp/Math.max(1,left.maxHp)-right.hp/Math.max(1,right.maxHp)||left.slot-right.slot||String(left.id).localeCompare(String(right.id)))[0]
+      : lowestRatioTarget(pool, random));
     const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1), false, {...hitOptions,damageCapScale:mercenaryRuntime?.basicDamageCapScale(actor)??1});
     if(isBattleSuitSupport(actor)){
       // V1990: 기준 사이클(0.018) 동안의 배틀슈트 총 타격이
@@ -1537,7 +1568,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
-    } finally {const statuses=finishApocalypseAction(actionActor);if(statuses)pushEvent(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
+    } finally {const statuses=finishApocalypseAction(actionActor);if(statuses)pushEvent(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});refreshPvpSpeedSuppression(Math.max(clock,timeline.at(-1)?.at||0));actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);

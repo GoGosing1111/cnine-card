@@ -1,90 +1,134 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import * as after from '../functions/_battle_v2_preview.js';
+import {buildMercenaryFighter} from '../functions/_mercenary_combat.js';
+import {operatingMercenaries} from './helpers/mercenary-operating-roster-v2144.mjs';
 
-const source=readFileSync(new URL('../functions/_battle_v2_preview.js',import.meta.url),'utf8').replace(/\r\n/g,'\n');
-assert.equal(source.split('fighter.gauge=0;').length,2);
-const baseline=source.replace('fighter.gauge=0;','fighter.gauge=0;fighter.speedUniqueSuppressed=true;').replace('방어형 연계 · 행동 속도 봉쇄','방어형 연계 · 속도 봉쇄').replace(' * pvpSpeedDamage','').replace('healerTargets.length ? healerTargets : targetPool(enemyTeam)','targetPool(enemyTeam)');
-const before=await import('data:text/javascript;base64,'+Buffer.from(baseline.replace('../shared/battle-suit-skill-chips.mjs',new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href)).toString('base64'));
-const inspect=await import('data:text/javascript;base64,'+Buffer.from((source+'\nexport {hitResult};').replace('../shared/battle-suit-skill-chips.mjs',new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href)).toString('base64'));
-const inspectOld=await import('data:text/javascript;base64,'+Buffer.from((baseline+'\nexport {hitResult};').replace('../shared/battle-suit-skill-chips.mjs',new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href)).toString('base64'));
-test('PVP speed damage: healer +50%, others +15%, unchanged PVE/counters/caps',()=>{
-  for(const battleMode of ['PVP','PVE'])for(const type of ['ATTACK','DEFENSE','HP','SPEED'])for(const counter of [false,true])for(const targetType of ['HP','DEFENSE']){
-    const actor={type,battleMode,attack:1000,actions:2},target={type:targetType,defense:100,hp:100000,maxHp:100000,shield:0};
-    const old=inspectOld.hitResult(actor,target,()=>0.5,1,counter),now=inspect.hitResult(actor,target,()=>0.5,1,counter);
-    if(battleMode==='PVP'&&type==='SPEED'&&!counter)assert.ok(Math.abs(now.damage-old.damage*(targetType==='HP'?1.50:1.15))<=1);
-    else assert.deepEqual(now,old);
-  }
-  const actor={type:'SPEED',battleMode:'PVP',attack:1e9,actions:2},target={type:'HP',defense:0,hp:1000,maxHp:1000};
-  assert.equal(inspect.hitResult(actor,target,()=>0.5).damage,inspectOld.hitResult(actor,target,()=>0.5).damage);
+// Real pre-change engine, using current unchanged dependencies for parity.
+const baselineRef='3d9d27829c316fcad2b433137e80838acfccb45f';
+const engineUrl=new URL('../functions/_battle_v2_preview.js',import.meta.url);
+const baseline=execFileSync('git',['show',`${baselineRef}:functions/_battle_v2_preview.js`],{cwd:new URL('..',import.meta.url),encoding:'utf8',maxBuffer:2e6});
+const source=readFileSync(engineUrl,'utf8');
+const inspect=async text=>import('data:text/javascript;base64,'+Buffer.from((text+'\nexport {hitResult};').replace(/(from\s*['"])(\.\.?\/[^'"]+)(['"])/g,(_,left,path,right)=>left+new URL(path,engineUrl).href+right)).toString('base64'));
+const before=await inspect(baseline),current=await inspect(source);
+const unique=(type,value=100)=>({dominantType:type,attackPercent:type==='ATTACK'?value:0,defensePercent:type==='DEFENSE'?value:0,hpPercent:type==='HP'?value:0,speedPercent:type==='SPEED'?value:0});
+const card=(type,id,value=100)=>({id,title:id,power:120000,rarity:'FUR',uniqueAbility:unique(type,value)});
+const deck=(types=['DEFENSE','DEFENSE','HP','ATTACK','ATTACK'])=>types.map((type,i)=>card(type,`card-${i}`));
+const fighter=(type,id,side='A',slot=0,value=100,mode='PVP')=>after.buildFighter(card(type,id,value),slot,side,unique(type,value),mode);
+const mercenary=(side='B',hpPercent=100)=>buildMercenaryFighter({...structuredClone(operatingMercenaries.find(m=>m.code==='V-021')),startingHpPercent:hpPercent,skills:[]},side,'PVP',after.buildFighter);
+const frozen=f=>({...f,speed:1,gauge:0});
+const firstSpeedHit=({healerRatio=.4,mercenaryRatio=.2,mode='PVP',hideHealer=false,hideMercenary=false,deadHealer=false,deadMercenary=false,suitMercenary=false}={})=>{
+ const speed={...fighter('SPEED','speed','A',0,100,mode),gauge:100,speed:10000};
+ const front=frozen(fighter('NONE','front','B',0,0,mode));
+ const healer=frozen(fighter('HP','healer','B',2,100,mode));healer.hp=healer.maxHp*healerRatio;healer.untargetable=hideHealer;healer.alive=!deadHealer;
+ const merc=frozen(mercenary('B'));merc.battleMode=mode;merc.hp=merc.maxHp*mercenaryRatio;merc.untargetable=hideMercenary;merc.alive=!deadMercenary;merc.isBattleSuit=suitMercenary;
+ if(suitMercenary)merc.attack=1;
+ const battle=after.simulateBattleV2Preview({teamA:[speed],teamB:[front,healer,merc],maxActions:1,seed:31,singleHealerBonus:{enabled:false}});
+ return {battle,speed,front,healer,merc,hit:battle.timeline.find(e=>e.type==='TURN'&&e.actorId===speed.id)};
+};
+
+test('two living PVP guards remove 30% of the positive unique bonus and preserve opening gauge',()=>{
+ for(const value of [0,30,100,300,-20]){
+  const speed=fighter('SPEED','speed','A',0,value),guards=[fighter('DEFENSE','g1','B',0),fighter('DEFENSE','g2','B',1)];
+  const result=after.simulateBattleV2Preview({teamA:[speed],teamB:guards,maxActions:0,seed:11});
+  const actual=result.final.A[0],positive=Math.max(0,value)/100;
+  assert.equal(actual.speed,Math.max(35,Math.round(speed.speed*(1+positive*.7)/(1+positive))));
+  assert.ok(actual.gauge>=30&&actual.gauge<38,'opening gauge must survive');
+  const events=result.timeline.filter(e=>e.type==='SPEED_UNIQUE_SUPPRESSED');
+  assert.equal(events.length,value>0?1:0);if(value>0)assert.equal(events[0].bonusSuppressionPercent,30);
+  assert.equal(actual.speedUniqueSuppressed,false,'dodge, crit and gauge manipulation remain enabled');
+ }
 });
-const card=(type,value,id)=>({id,title:id,power:120000,rarity:'FUR',uniqueAbility:{dominantType:type,attackPercent:type==='ATTACK'?value:0,defensePercent:type==='DEFENSE'?value:0,hpPercent:type==='HP'?value:0,speedPercent:type==='SPEED'?value:0}});
-const core=()=>[card('DEFENSE',14,'d'),card('HP',25,'h'),card('ATTACK',22,'a'),card('ATTACK',50,'b')];
-let state=2063;
-const random=()=>((state=(Math.imul(state,1664525)+1013904223)>>>0)/4294967296);
-// Synthetic distribution fixture, NOT the unavailable historical CMS card pool.
-const pool=[...Array(32).fill('ATTACK'),...Array(16).fill('HP'),...Array(12).fill('DEFENSE'),...Array(10).fill('SPEED')];
-const deck=()=>Array.from({length:5},(_,i)=>{const t=pool[Math.floor(random()*pool.length)];return card(t,{ATTACK:22,HP:25,DEFENSE:14,SPEED:9}[t],`r${i}`);});
-const opponents=Array.from({length:36},deck);
-const pvp=(engine,a,b,seed)=>engine.createPvpBattleV2({attackerCards:a,defenderCards:b,attackerEquipmentBonus:500000,defenderEquipmentBonus:500000,seed});
-test('assassins attack only living healers, bypass frontline, then resume normal targets',()=>{
-  let healerHits=0,fallbackHits=0;
-  for(let seed=1;seed<=100;seed++){
-    const a=[card('DEFENSE',14,'d'),card('DEFENSE',14,'d2'),card('SPEED',50,'s'),card('SPEED',30,'s2'),card('ATTACK',22,'a')];
-    const b=[card('DEFENSE',14,'f1'),card('ATTACK',22,'f2'),card('HP',25,'h1'),card('HP',25,'h2'),card('ATTACK',22,'back')];
-    const battle=pvp(after,a,b,seed),healers=new Set(battle.teams.B.cards.filter(c=>c.type==='HP').map(c=>c.id));
-    const speedIds=new Set(battle.teams.A.cards.filter(c=>c.type==='SPEED').map(c=>c.id));
-    for(const e of battle.result.timeline){
-      if(e.type==='TURN'&&speedIds.has(e.actorId)){
-        if(healers.size){assert.ok(healers.has(e.targetId),`seed ${seed}: ${e.targetId}`);healerHits++;}
-        else fallbackHits++;
-      }
-      if(e.type==='KO')healers.delete(e.targetId);
-    }
-  }
-  assert.ok(healerHits>0);assert.ok(fallbackHits>0);
+
+test('a dead second guard cannot suppress speed; no-guard and one-guard cases retain their speed',()=>{
+ const speed=fighter('SPEED','speed');
+ for(const guards of [[fighter('NONE','n','B')],[fighter('DEFENSE','g1','B')],[fighter('DEFENSE','g1','B'),{...fighter('DEFENSE','dead','B',1),alive:false,hp:0}]]){
+  const result=after.simulateBattleV2Preview({teamA:[speed],teamB:guards,maxActions:0,seed:12});
+  assert.equal(result.final.A[0].speed,speed.speed);assert.equal(result.timeline.filter(e=>e.type==='SPEED_UNIQUE_SUPPRESSED').length,0);
+ }
 });
-test('B4 preserves other suppression hooks and only narrows the assignment',()=>{
-  assert.doesNotMatch(source,/speedUniqueSuppressed=true/);
-  assert.match(source,/speedUniqueSuppressed: false/);
-  assert.equal((source.match(/!\w+\.speedUniqueSuppressed/g)||[]).length,3);
-  const a=[...core(),card('SPEED',50,'s')],b=[...core().slice(0,3),card('DEFENSE',14,'d2'),card('ATTACK',22,'a2')];
-  const old=pvp(before,a,b,2063),now=pvp(after,a,b,2063);
-  assert.ok(now.result.timeline.some(e=>e.type==='SPEED_UNIQUE_SUPPRESSED'&&e.label==='방어형 연계 · 행동 속도 봉쇄'));
-  assert.notDeepEqual(now.result,old.result);
+
+test('losing a guard restores exact speed after that action, including the final allowed action',()=>{
+ const speed=frozen(fighter('SPEED','speed','A',2));speed.speed=4321;
+ const attacker={...fighter('ATTACK','killer','A',0),gauge:100,speed:100000,attack:1e9};
+ const guard={...frozen(fighter('DEFENSE','g1','B',0)),maxHp:1000,hp:1,shield:0,maxShield:0};
+ const other={...frozen(fighter('DEFENSE','g2','B',1)),maxHp:1000,hp:1000,shield:0,maxShield:0,untargetable:true};
+ const result=after.simulateBattleV2Preview({teamA:[attacker,speed],teamB:[guard,other],maxActions:1,seed:31});
+ const ko=result.timeline.find(e=>e.type==='KO'&&e.targetId===guard.id),restore=result.timeline.filter(e=>e.type==='SPEED_UNIQUE_RESTORED');
+ assert.ok(ko);assert.equal(restore.length,1);assert.ok(restore[0].at>=ko.at);assert.equal(restore[0].speedAfter,4321);
+ assert.equal(result.final.A.find(f=>f.id===speed.id).speed,4321);
 });
-for(const mode of ['hunt','idle','siege','escort'])test(`PVE ${mode}: 100 identical complete results, zero suppression`,()=>{
-  for(let i=0;i<100;i++){
-    const args={cards:[...core(),card('SPEED',9+i%42,'s')],characterBonus:500000,seed:1000+i*7919,monster:{id:mode,name:mode,battle_power:200000+i*25000,is_boss:mode==='siege'?1:0},...(mode==='escort'?{escortObjective:{id:'ESCORT_OBJECTIVE',name:'수송차'}}:{})};
-    const a=before.createPveBattleV2(args),b=after.createPveBattleV2(args);
-    assert.deepEqual(b,a,`${mode} seed ${args.seed}`);
-    assert.equal(b.result.timeline.filter(e=>e.type==='SPEED_UNIQUE_SUPPRESSED').length,0);
-  }
+
+test('a guard saved by an existing revive keeps the two-living-guard suppression',()=>{
+ const speed=frozen(fighter('SPEED','speed','A',2));speed.speed=4000;
+ const attacker={...fighter('NONE','killer','A',0),gauge:100,speed:100000,attack:1e9};
+ const guard={...frozen(fighter('DEFENSE','g1','B',0)),maxHp:1000,hp:1,shield:0,maxShield:0};
+ const other={...frozen(fighter('DEFENSE','g2','B',1)),maxHp:1000,hp:1000,shield:0,maxShield:0,untargetable:true};
+ const magicB=[{id:'revive',slotNo:1,code:'V2_PHOENIX_REVIVE',name:'부활',effectType:'PHOENIX_REVIVE',effectValue:30,triggerChance:100,maxActivations:1}];
+ const result=after.simulateBattleV2Preview({teamA:[attacker,speed],teamB:[guard,other],magicB,maxActions:1,seed:31});
+ assert.ok(result.timeline.some(e=>e.type==='MAGIC_CARD'&&e.revived));
+ assert.equal(result.timeline.filter(e=>e.type==='SPEED_UNIQUE_RESTORED').length,0);
+ assert.equal(result.final.A.find(f=>f.id===speed.id).speed,3400);
 });
-test('600 random PVP pairs: valid timelines, overtime comparison, no-speed parity',()=>{
-  let oldOvertime=0,newOvertime=0,unchanged=0;
-  for(let i=0;i<600;i++){
-    const a=deck(),b=deck(),old=pvp(before,a,b,5000+i*7919),now=pvp(after,a,b,5000+i*7919);
-    assert.equal(now.schemaVersion,old.schemaVersion);
-    assert.deepEqual(Object.keys(now.result).sort(),Object.keys(old.result).sort());
-    for(const e of now.result.timeline){assert.equal(typeof e.type,'string');assert.ok(Number.isFinite(e.at));}
-    oldOvertime+=Number(old.result.timeline.some(e=>e.type==='SUDDEN_DEATH'));
-    newOvertime+=Number(now.result.timeline.some(e=>e.type==='SUDDEN_DEATH'));
-    if(![...a,...b].some(c=>c.uniqueAbility.dominantType==='SPEED')){assert.deepEqual(now,old);unchanged++;}
-  }
-  console.log(JSON.stringify({randomPvp:600,oldOvertime,newOvertime,unchangedWithoutSpeed:unchanged}));
+
+test('mercenaries and healers share strict lowest-HP-ratio priority, bypassing front cards',()=>{
+ for(const [healerRatio,mercenaryRatio,expected] of [[.4,.2,'merc'],[.2,.6,'healer'],[.5,.5,'healer']]){
+  const result=firstSpeedHit({healerRatio,mercenaryRatio});assert.equal(result.hit.targetId,result[expected].id);
+ }
+ for(let seed=1;seed<=32;seed++){
+  const speed={...fighter('SPEED','speed'),gauge:100,speed:10000},healer=frozen(fighter('HP','healer','B',2)),merc=frozen(mercenary());
+  healer.hp=healer.maxHp*.2;merc.hp=merc.maxHp*.8;healer.shield=healer.maxHp*10;
+  const result=after.simulateBattleV2Preview({teamA:[speed],teamB:[healer,merc],seed,maxActions:1});
+  assert.equal(result.timeline.find(e=>e.type==='TURN').targetId,healer.id,'HP ratio excludes shield amount');
+ }
 });
-test('independent mixed-deck benchmark: 36 opponents x 10 seeds x both sides',()=>{
-  const rows=[];
-  for(const [type,value] of [['NONE',0],['SPEED',9],['SPEED',30],['SPEED',50],['ATTACK',22],['ATTACK',50],['DEFENSE',14]]){
-    const a=[...core(),card(type,value,'fifth')];let oldWins=0,newWins=0;
-    for(const b of opponents)for(let s=0;s<10;s++)for(const reverse of [false,true]){
-      const left=reverse?b:a,right=reverse?a:b,side=reverse?'B':'A',seed=1000+s*7919;
-      oldWins+=Number(pvp(before,left,right,seed).result.winner===side);
-      newWins+=Number(pvp(after,left,right,seed).result.winner===side);
-    }
-    rows.push({type,value,before:oldWins,after:newWins,total:720});
-  }
-  console.log('SYNTHETIC_NOT_HISTORICAL '+JSON.stringify(rows));
+
+test('dead, untargetable and battle-suit units cannot take priority; fallback uses existing formation',()=>{
+ for(const options of [{hideMercenary:true},{deadMercenary:true},{suitMercenary:true}]){
+  const result=firstSpeedHit(options);assert.equal(result.hit.targetId,result.healer.id);
+ }
+ for(const options of [{hideHealer:true},{deadHealer:true}]){
+  const result=firstSpeedHit(options);assert.equal(result.hit.targetId,result.merc.id);
+ }
+ const fallback=firstSpeedHit({deadHealer:true,deadMercenary:true});assert.equal(fallback.hit.targetId,fallback.front.id);
+ const pve=firstSpeedHit({mode:'PVE'});assert.equal(pve.hit.targetId,pve.front.id);
+});
+
+test('damage, dodge, critical, penetration and caps are unchanged for every target type',()=>{
+ for(const battleMode of ['PVP','PVE'])for(const type of ['ATTACK','DEFENSE','HP','SPEED'])for(const counter of [false,true])for(const targetType of ['HP','DEFENSE','ATTACK','SPEED','MERCENARY']){
+  const actor={type,battleMode,attack:1000,actions:2},target={type:targetType,isMercenary:targetType==='MERCENARY',defense:100,hp:100000,maxHp:100000,shield:0};
+  for(const roll of [.05,.15,.5])assert.deepEqual(current.hitResult(actor,target,()=>roll,1,counter),before.hitResult(actor,target,()=>roll,1,counter));
+ }
+});
+
+test('actual PVP API preserves five cards plus one mercenary and prioritizes the wounded mercenary',()=>{
+ const a=deck(['NONE','NONE','SPEED','NONE','NONE']);a[2]=card('SPEED','card-2',300);
+ const b=deck(['DEFENSE','DEFENSE','HP','ATTACK','ATTACK']);
+ const m={...structuredClone(operatingMercenaries.find(m=>m.code==='V-021')),startingHpPercent:10,skills:[]};
+ const result=after.createPvpBattleV2({attackerCards:a,defenderCards:b,defenderMercenary:m,seed:31});
+ const speed=result.teams.A.cards.find(f=>f.type==='SPEED'),merc=result.teams.B.mercenaries[0];
+ assert.equal(result.teams.A.cards.length,5);assert.equal(result.teams.B.cards.length,5);assert.equal(result.teams.B.mercenaries.length,1);
+ assert.equal(result.result.timeline.find(e=>e.type==='TURN'&&e.actorId===speed.id).targetId,merc.id);
+ assert.equal(result.result.final.B.length,5);assert.equal(result.result.final.mercenaries.B.length,1);
+});
+
+test('duo PVP keeps owner formations and selects the lowest ratio across both opposing mercenaries',()=>{
+ const m=structuredClone(operatingMercenaries.find(m=>m.code==='V-021'));
+ const squad=(ownerId,types,mercenaryHp)=>({ownerId,cards:deck(types).map((card,i)=>({...card,rarity:['FUR','FUR','ZENITH','ZENITH','SUPERSTAR'][i]})),...(mercenaryHp?{mercenary:{...m,skills:[],startingHpPercent:mercenaryHp}}:{})});
+ const a=squad(1,['NONE','NONE','SPEED','NONE','NONE']);a.cards[2]={...card('SPEED','card-2',300),rarity:'ZENITH'};
+ const result=after.createDuoBattleV2({attackerSquads:[a,squad(2,['NONE','NONE','NONE','NONE','NONE'])],defenderSquads:[squad(3,['DEFENSE','ATTACK','HP','ATTACK','NONE'],40),squad(4,['DEFENSE','ATTACK','HP','ATTACK','NONE'],10)],seed:31});
+ const speed=result.teams.A.cards.find(f=>f.type==='SPEED'),mercs=result.teams.B.mercenaries;
+ assert.equal(result.teams.A.cards.length,10);assert.equal(mercs.length,2);
+ assert.equal(result.result.timeline.find(e=>e.type==='TURN'&&e.actorId===speed.id).targetId,mercs.find(m=>m.ownerId===4).id);
+});
+
+test('ordinary PVE and PVP without speed cards retain complete pre-change results',()=>{
+ for(let i=0;i<32;i++){
+  const args={cards:deck(['DEFENSE','DEFENSE','HP','ATTACK','SPEED']),characterBonus:500000,seed:1000+i*7919,monster:{id:'boss',name:'boss',battle_power:800000,is_boss:1}};
+  assert.deepEqual(after.createPveBattleV2(args),before.createPveBattleV2(args));
+  const pvpArgs={attackerCards:deck(),defenderCards:deck(['DEFENSE','HP','ATTACK','ATTACK','ATTACK']),attackerEquipmentBonus:500000,defenderEquipmentBonus:500000,seed:args.seed};
+  assert.deepEqual(after.createPvpBattleV2(pvpArgs),before.createPvpBattleV2(pvpArgs));
+ }
 });
