@@ -20,6 +20,9 @@ export function liveAssemblyReceipt(data,recipe){
   // Solaris is a CMS-defined vehicle: bind only its exact registered art,
   // including failure receipts without output. Names are editable, not identity.
   if(mode==='vehicle'&&!model&&image==='assets/tire/solaris-omega-v1.png')model='solaris';
+  // Match the approved S-BODY item on both success and failure. CMS names
+  // can change; an unprepared suit must not borrow this assembly film.
+  if(mode==='suit'&&!model&&image==='assets/items/s-body-v2124.png')model='s';
   const name=String(result.output?.name||recipe.output_name||data.recipeName||'제작 아이템');
   return Object.freeze({mode,model,name,result,image:result.output?.image||recipe.output_image||'',
     coinSpent:Number(data.coinSpent||0),masterStarSpent:Number(data.masterStarSpent||0),

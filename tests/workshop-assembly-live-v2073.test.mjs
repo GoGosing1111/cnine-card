@@ -133,3 +133,17 @@ test('Solaris binds exact CMS art on success and failure, never a name-only look
     assert.equal(liveAssemblyReceipt(data,recipe).model,null);
   }
 });
+
+test('S-BODY uses approved item art on success and failure, including renamed CMS entries',()=>{
+  for(const success of [true,false]){
+    const {data,recipe}=fixture('s',success);
+    recipe.output_ref='new-s-body-id';recipe.output_name='변경된 표시 이름';
+    if(data.output)data.output.ref=recipe.output_ref;
+    assert.equal(liveAssemblyReceipt(data,recipe).model,'s');
+    recipe.output_image='assets/items/s-body-v2124.png';
+    assert.equal(liveAssemblyReceipt(data,recipe).model,'s');
+    recipe.output_image='/assets/items/z-body-v2124.png';
+    recipe.output_name='S-BODY';
+    assert.equal(liveAssemblyReceipt(data,recipe).model,null);
+  }
+});

@@ -313,5 +313,113 @@
         "pixels": 114887
       }
     ]
+  },
+  "s": {
+    "source": "/assets/items/s-body-v2124.png",
+    "sourceSha256": "6d789c0a1cd2e4681dc56297ae85ee7c747e141d9e573eae64d9d00787c041da",
+    "width": 768,
+    "height": 1024,
+    "visibleRgbaExact": true,
+    "parts": [
+      {
+        "name": "helmet",
+        "path": "assets/parts/s/helmet.png",
+        "x": 317,
+        "y": 51,
+        "width": 122,
+        "height": 146,
+        "pixels": 9485
+      },
+      {
+        "name": "backpack",
+        "path": "assets/parts/s/backpack.png",
+        "x": 218,
+        "y": 77,
+        "width": 254,
+        "height": 116,
+        "pixels": 7719
+      },
+      {
+        "name": "torso",
+        "path": "assets/parts/s/torso.png",
+        "x": 195,
+        "y": 79,
+        "width": 317,
+        "height": 267,
+        "pixels": 23517
+      },
+      {
+        "name": "shoulderL",
+        "path": "assets/parts/s/shoulderL.png",
+        "x": 180,
+        "y": 118,
+        "width": 142,
+        "height": 142,
+        "pixels": 11229
+      },
+      {
+        "name": "shoulderR",
+        "path": "assets/parts/s/shoulderR.png",
+        "x": 449,
+        "y": 156,
+        "width": 112,
+        "height": 113,
+        "pixels": 6952
+      },
+      {
+        "name": "armL",
+        "path": "assets/parts/s/armL.png",
+        "x": 195,
+        "y": 228,
+        "width": 101,
+        "height": 296,
+        "pixels": 15610
+      },
+      {
+        "name": "armR",
+        "path": "assets/parts/s/armR.png",
+        "x": 463,
+        "y": 246,
+        "width": 97,
+        "height": 286,
+        "pixels": 11522
+      },
+      {
+        "name": "core",
+        "path": "assets/parts/s/core.png",
+        "x": 423,
+        "y": 253,
+        "width": 26,
+        "height": 49,
+        "pixels": 1000
+      },
+      {
+        "name": "hips",
+        "path": "assets/parts/s/hips.png",
+        "x": 258,
+        "y": 346,
+        "width": 278,
+        "height": 81,
+        "pixels": 14695
+      },
+      {
+        "name": "legL",
+        "path": "assets/parts/s/legL.png",
+        "x": 205,
+        "y": 427,
+        "width": 195,
+        "height": 546,
+        "pixels": 45164
+      },
+      {
+        "name": "legR",
+        "path": "assets/parts/s/legR.png",
+        "x": 400,
+        "y": 427,
+        "width": 187,
+        "height": 508,
+        "pixels": 44192
+      }
+    ]
   }
 }

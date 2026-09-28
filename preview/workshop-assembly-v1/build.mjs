@@ -9,12 +9,19 @@ import {partFor} from './source/part-regions.mjs';
 
 const dir=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(dir,'../..');
+const variantKeys=['e','f','g','s'];
+const target=process.argv.find(arg=>arg.startsWith('--model='))?.slice(8);
+if(target&&!variantKeys.includes(target))throw Error('Use --model=e|f|g|s for a scoped asset build');
+const previousManifest=JSON.parse(await readFile(path.join(dir,'asset-manifest.json'),'utf8'));
+const previousReport=JSON.parse(await readFile(path.join(dir,'build-report.json'),'utf8'));
 await mkdir(path.join(dir,'assets/parts'),{recursive:true});
 // Lossless anatomical partition. Each original pixel belongs to exactly ONE
 // part: reassembly is byte-identical to the approved H-BODY item, not new art.
 const source=path.join(root,'assets/items/h-body-v2066.png');
-const {data,info}=await sharp(source).ensureAlpha().raw().toBuffer({resolveWithObject:true});
 const names=['helmet','torso','hips','shoulderL','shoulderR','armL','armR','legL','legR','core'];
+let exact=previousReport.hBodyPartitionPixelExact;
+if(!target){
+const {data,info}=await sharp(source).ensureAlpha().raw().toBuffer({resolveWithObject:true});
 const buffers=Object.fromEntries(names.map(n=>[n,Buffer.alloc(data.length)]));
 for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){
   const u=x/info.width,v=y/info.height;
@@ -30,15 +37,16 @@ for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){
   else name=u<(.535+(v-.485)*.08)?'legL':'legR';
   const i=(y*info.width+x)*4;data.copy(buffers[name],i,i,i+4);
 }
-let exact=true;
+exact=true;
 for(let i=0;i<data.length;i++){let sum=0;for(const b of Object.values(buffers))sum+=b[i];if(sum!==data[i]){exact=false;break;}}
 if(!exact)throw new Error('H-BODY pixel-preserving reassembly failed');
 for(const [name,b]of Object.entries(buffers))await sharp(b,{raw:{width:info.width,height:info.height,channels:4}}).png().toFile(path.join(dir,`assets/parts/${name}.png`));
+}
 // Crop each additional suit's anatomical part at original resolution. Only
 // invisible RGB is discarded; every visible source RGBA byte is preserved.
-const variants={};
+const variants=target?JSON.parse(await readFile(path.join(dir,'parts-manifest.json'),'utf8')):{};
 const hashBuffer=b=>createHash('sha256').update(b).digest('hex');
-for(const key of ['e','f','g']){
+for(const key of target?[target]:variantKeys){
   const model=MODELS[key],file=await readFile(path.join(root,model.source));
   if(hashBuffer(file)!==model.sha256)throw Error(`${key} CMS source changed; review masks before rebuilding`);
   const {data:raw,info:m}=await sharp(file).ensureAlpha().raw().toBuffer({resolveWithObject:true});
@@ -60,7 +68,7 @@ for(const key of ['e','f','g']){
 }
 await writeFile(path.join(dir,'parts-manifest.json'),JSON.stringify(variants,null,2)+'\n');
 // Mechanical atlas separation only; generated actuator art is not repainted.
-for(const [name,top,height]of[['upper',0,412],['lower',412,240],['grip',652,372]]){
+for(const [name,top,height]of target?[]:[['upper',0,412],['lower',412,240],['grip',652,372]]){
   const row=await sharp(path.join(dir,'assets/robot-kit.png')).extract({left:0,top,width:1536,height}).png().toBuffer();
   await sharp(row).trim({threshold:8}).png().toFile(path.join(dir,`assets/parts/robot-${name}.png`));
 }
@@ -71,13 +79,13 @@ const globals={name:'existing-shared-ui-runtime',setup(b){
 await build({entryPoints:[path.join(dir,'source/preview.js')],outfile:path.join(dir,'assembly.bundle.js'),bundle:true,minify:true,format:'iife',target:['es2020'],plugins:[globals],legalComments:'none'});
 const lock=JSON.parse(await readFile(path.join(root,'package-lock.json'),'utf8'));
 const hash=async p=>createHash('sha256').update(await readFile(p)).digest('hex');
-const visualAssets=[];
-for(const p of ['assets/vehicle-bay.png','assets/suit-bay.png','assets/car-cutout.png','assets/ignis-x-cutout.png','assets/robot-kit.png',...Object.values(variants).flatMap(v=>v.parts.map(p=>p.path)),...names.map(n=>`assets/parts/${n}.png`),...['upper','lower','grip'].map(n=>`assets/parts/robot-${n}.png`)]){
+const visualAssets=target?previousManifest.visualAssets.filter(p=>!p.path.startsWith(`assets/parts/${target}/`)):[];
+for(const p of target?variants[target].parts.map(p=>p.path):['assets/vehicle-bay.png','assets/suit-bay.png','assets/car-cutout.png','assets/ignis-x-cutout.png','assets/solaris-omega-cutout-v1.png','assets/robot-kit.png',...Object.values(variants).flatMap(v=>v.parts.map(p=>p.path)),...names.map(n=>`assets/parts/${n}.png`),...['upper','lower','grip'].map(n=>`assets/parts/robot-${n}.png`)]){
   const absolute=path.join(dir,p),m=await sharp(absolute).metadata();
   visualAssets.push({path:p,sha256:await hash(absolute),width:m.width,height:m.height,channels:m.channels});
 }
-await writeFile(path.join(dir,'asset-manifest.json'),JSON.stringify({previewOnly:true,runtimeConnected:false,generatedImageTool:'built-in ImageGen',sourceArtPreserved:true,visualAssets},null,2)+'\n');
-await writeFile(path.join(dir,'build-report.json'),JSON.stringify({previewOnly:true,runtimeConnected:false,renderer:'PixiJS',timeline:'GSAP',sharedVendor:'/js/ui-fx-vendor-v2045.bundle.js',versions:{pixi:lock.packages['node_modules/pixi.js'].version,gsap:lock.packages['node_modules/gsap'].version},hBodySource:'/assets/items/h-body-v2066.png',hBodySha256:await hash(source),hBodyPartitionPixelExact:exact,parts:names,additionalModels:['e','f','g','ignis'],suitSources:Object.entries(variants).map(([key,v])=>({key,source:v.source,sha256:v.sourceSha256,visibleRgbaExact:v.visibleRgbaExact,parts:v.parts.length})),bundleSha256:await hash(path.join(dir,'assembly.bundle.js'))},null,2)+'\n');
+await writeFile(path.join(dir,'asset-manifest.json'),JSON.stringify({...previousManifest,sourceArtPreserved:true,visualAssets},null,2)+'\n');
+await writeFile(path.join(dir,'build-report.json'),JSON.stringify({...previousReport,renderer:'PixiJS',timeline:'GSAP',sharedVendor:'/js/ui-fx-vendor-v2045.bundle.js',versions:{pixi:lock.packages['node_modules/pixi.js'].version,gsap:lock.packages['node_modules/gsap'].version},hBodySource:'/assets/items/h-body-v2066.png',hBodySha256:await hash(source),hBodyPartitionPixelExact:exact,parts:names,additionalModels:[...variantKeys,'ignis','solaris'],suitSources:Object.entries(variants).map(([key,v])=>({key,source:v.source,sha256:v.sourceSha256,visibleRgbaExact:v.visibleRgbaExact,parts:v.parts.length})),bundleSha256:await hash(path.join(dir,'assembly.bundle.js'))},null,2)+'\n');
 // The live and preview consumers share AssemblyFilm; rebuild both from source.
 await import('../../scripts/build-workshop-assembly.mjs');
 console.log('Workshop assets built; approved source pixels and crafting rules preserved.');

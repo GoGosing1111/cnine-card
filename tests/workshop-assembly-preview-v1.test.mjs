@@ -69,6 +69,12 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
     const head=film.renderedParts?.find(p=>p.name==='head');
     film.seek(5.3);assert.equal(film.diagnostics().time,5.3);assert.equal(film.diagnostics().playing,false);
     if(head){assert.equal(head.sprite.x,head.target.x);assert.equal(head.sprite.y,head.target.y);}
+    if(key==='s'){
+      const helmet=film.renderedParts.find(p=>p.name==='helmet'),backpack=film.renderedParts.find(p=>p.name==='backpack');
+      film.seek(2.8);assert.ok(backpack.sprite.y<backpack.target.y);
+      film.seek(6.3);assert.ok(helmet.sprite.y<helmet.target.y);assert.ok(helmet.sprite.alpha>0);
+      assert.equal(film.corePoint.x,film.suitGroup.x+MODELS.s.core[0]*film.suitGroup.scale.x);
+    }
     film.seek(9);for(const p of film.renderedParts){assert.equal(p.sprite.alpha,1);assert.equal(p.sprite.rotation,0);assert.equal(p.sprite.x,p.target.x);assert.equal(p.sprite.y,p.target.y);}
     film.skip();assert.equal(film.diagnostics().finished,true);assert.equal(film.result.success,success);
     if(mode==='vehicle'){assert.equal(film.carGroup.x,success?-44:0);assert.equal(film.carGroup.y,success?20:0);}
@@ -80,14 +86,14 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
   delete globalThis.location;delete globalThis.document;
 });
 test('E/F/G and Ignis-X map to verified CMS identities with model-specific geometry',()=>{
-  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','ignis','veneno']);
+  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h','s']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','ignis','veneno']);
   assert.equal(MODELS.e.code,'BATTLE_SUIT_01');assert.equal(MODELS.f.code,'BATTLE_SUIT_02');assert.equal(MODELS.g.code,'BATTLE_SUIT_03');assert.equal(MODELS.ignis.code,'GARAGE_1787232065012');
   for(const key of ['e','f','g']){const m=modelFor('suit',key),p=suitPlacement(m);assert.equal(p.scale*(m.box[3]-m.box[1]),650);assert.equal(modelPhases('suit',key,MODES.suit.phases)[4][2].includes('INTERFACE'),true);}
   assert.throws(()=>modelFor('suit','ignis'));assert.throws(()=>modelFor('vehicle','e'));assert.equal(resolveModel('suit','unknown'),'h');
   assert.notDeepEqual(MODELS.e.joints,MODELS.f.joints);assert.notDeepEqual(MODELS.f.joints,MODELS.g.joints);
   assert.equal(phaseAt('vehicle',7.5,true,'ignis')[1],'TURBINE LOCK');assert.equal(phaseAt('vehicle',11,true,'ignis')[1],'TURBINE IGNITION');
 });
-test('all E/F/G visible RGBA pixels reconstruct once from cropped anatomical parts',async()=>{
+test('all E/F/G/S visible RGBA pixels reconstruct once from cropped anatomical parts',async()=>{
   const variants=JSON.parse(await read('parts-manifest.json'));
   for(const [key,v]of Object.entries(variants)){
     const source=await readFile(new URL('..'+v.source,import.meta.url));

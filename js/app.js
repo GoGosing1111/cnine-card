@@ -930,11 +930,11 @@ const FEATURE_RESOURCE_MANIFEST={
     parallelStyles:true,
     prepare:()=>{if(runtimeCommandContext==='workshop'&&!workshopEntryRead)prepareWorkshopEntryRead()},
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-workbench-v1.css?v=20260922&loading=20260927','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?v=20260926','js/workshop-assembly-live-v2073.bundle.js?v=2120-solaris','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927'],
+    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?v=20260926','js/workshop-assembly-live-v2073.bundle.js?v=20260928-s-body','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927'],
     ready:()=>Boolean(window.SoopketmonWorkshopThumbnails)&&Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=2120-solaris'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=20260928-s-body'],
     ready:()=>typeof window.WorkshopAssemblyFilm==='function'
   },
   alchemy:{

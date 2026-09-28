@@ -119,3 +119,14 @@ E/F/G는 CMS에 연결된 실제 RGBA 아이템 원본을 사용한다. 이미�
 - 검수: /preview/workshop-assembly-v1/?mode=vehicle&item=solaris 및 /preview/workshop-assembly-v1/live.html?item=solaris&play=1. 실제 서버 요청 없이 라이브 제작 클라이언트에서 성공/실패 연결을 검증한다.
 
 검증 기록: 관련 회귀 17개 통과. CUA로 1265×712 PC의 7.45/8.3초 터빈 분리·결합, 11.2초 황금 코어 점화와 390×844 모바일 라이브 팝업의 차체 결합·일시정지·건너뛰기를 확인했다. 실제 workshop-v1881.js 제작 버튼을 검수용 응답에 연결해 솔라리스 실패 영수증에서도 조립 팝업 진입을 확인했다.
+
+## 2026-09-28 S-BODY 제작 연출
+
+- 기존 E/F/G/H 라인에 S-BODY를 추가했다. 승인된 `/assets/items/s-body-v2124.png`(SHA-256 `6d789c0a1cd2e4681dc56297ae85ee7c747e141d9e573eae64d9d00787c041da`)에서 11개 부품을 분리한다. 보이는 모든 RGBA 픽셀은 정확히 한 부품에 속하고 완성 시 원래 좌표로 복원된다. 원본 외형·무장·전투 리소스는 보존한다.
+- `source/AssemblyFilm.js`, `source/models.mjs`, `source/part-regions.mjs`가 실제 구현이다. 기존 PixiJS 8.20.0 / GSAP 3.13.0과 13.4초 단일 시계를 재사용한다. 트윈 추진기는 2.4~3.6초, 기계식 헬멧은 6~7.1초, 청색 코어는 7.5~8.2초에 결합한다. 코어 좌표 (435,277), 원본 가시 영역 (180,51)~(587,973), 표시 높이 650·발 기준 y=764를 사용한다.
+- 기존 lock/driver/failure 녹음 원음을 재사용하며 체결 피크가 각 부품 결합 시점에 맞춰진다. 새 음원은 없고 검수 사운드는 OFF다. 성공/실패 판정은 확정된 서버 응답 그대로 표시하며 재추첨·제작 요청·재화 변경을 연출에서 수행하지 않는다.
+- 성공 및 output 없는 실패 응답 모두 정확한 S-BODY 아이템 이미지 경로로 연결한다. 이름만 S-BODY인 다른 슈트는 연결하지 않는다.
+- 해당 모델만 재생성: `node preview/workshop-assembly-v1/build.mjs --model=s`. 코드만 변경하면 `node scripts/build-workshop-assembly.mjs`. 대상 외 부품·기존 차량 매니페스트를 유지한다.
+- 검수 링크: `/preview/workshop-assembly-v1/?mode=suit&item=s&play=1`, 실제 클라이언트 검수는 `live.html?item=s`. 검수 페이지도 현재 제작소의 레시피·썸네일 도우미를 로드한다.
+- CUA에서 PC 헬멧 결합/성공/건너뛰기/닫기와 모바일 실제 제작 버튼→S-BODY 실패/일시정지/건너뛰기/닫기를 확인했다. 모바일 DOM 너비 391px, 팝업 경계 x=7~384px로 가로 넘침이 없었다. 모의 제작 1회, 실제 제작 API 호출 0회.
+- 이번 국소 변경은 최상단 AGENTS 규칙에 따라 두 제작 연출 회귀만 선택해 `npm run deploy:production -- --scoped`로 배포한다. 과거 위의 전체 검사 지시는 이번 작은 수정에 적용하지 않는다.

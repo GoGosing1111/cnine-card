@@ -27,7 +27,9 @@
     "e",
     "f",
     "g",
-    "ignis"
+    "s",
+    "ignis",
+    "solaris"
   ],
   "suitSources": [
     {
@@ -50,7 +52,14 @@
       "sha256": "33411d6fb94a44b409470e94cf90edf1d96ce06803fc40c6d54e6431bfd99841",
       "visibleRgbaExact": true,
       "parts": 10
+    },
+    {
+      "key": "s",
+      "source": "/assets/items/s-body-v2124.png",
+      "sha256": "6d789c0a1cd2e4681dc56297ae85ee7c747e141d9e573eae64d9d00787c041da",
+      "visibleRgbaExact": true,
+      "parts": 11
     }
   ],
-  "bundleSha256": "870844d5567f6ae56552b9b8d5062f3ef88ca1409b0c4c2406246792754ed50b"
+  "bundleSha256": "73890b47ec5890c0248a70447d1a10501de8b4960d929d514393dcec5001243a"
 }

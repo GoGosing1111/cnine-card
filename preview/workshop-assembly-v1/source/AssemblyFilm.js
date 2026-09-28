@@ -81,7 +81,7 @@ export class AssemblyFilm {
       if(this.disposed)return;
       // Preserve source artwork while filtering detailed new parts cleanly
       // at mobile scale. Configure before the first GPU texture upload.
-      if(key==='ignis'||key==='solaris'||/^[efg](?::|$)/.test(key)){
+      if(key==='ignis'||key==='solaris'||/^[efgs](?::|$)/.test(key)){
         texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';
       }
       this.buffers[key]=texture;
@@ -145,6 +145,10 @@ export class AssemblyFilm {
     this.corePoint=point(model.core);const lo=point(model.box.slice(0,2)),hi=point(model.box.slice(2));this.suitBounds={left:lo.x-32,right:hi.x+32,top:lo.y,bottom:hi.y};
     const ghost=this.sprite(this.modelKey,this.suitGroup,{alpha:.09,tint:0x628e9c});
     const specs={legL:[-175,160,.8,1.25,-.06],legR:[160,160,1.1,1.25,.06],hips:[0,150,1.8,1,0],torso:[0,-185,2.3,1.25,0],wing:[-265,-45,3.45,1.45,-.09],coat:[0,180,4.9,1.5,0],shoulderL:[-220,-40,3.7,1.2,-.12],shoulderR:[210,-50,4.1,1.2,.12],armL:[-220,20,4.6,1.25,-.07],armR:[220,20,5,1.25,.07],head:[0,0,6,.9,0],core:[0,-95,7.5,.7,0]};
+    // Mechanical helmet and twin thrusters assemble as physical modules.
+    // Human heads keep the existing stationary interface reveal.
+    specs.helmet=[0,-190,6,1.1,0];
+    specs.backpack=[0,-145,2.4,1.2,0];
     this.impacts=[];
     for(const p of v.parts){
       const [dx,dy,at,duration,rotation]=specs[p.name],cx=p.x+p.width/2,cy=p.y+p.height/2;
