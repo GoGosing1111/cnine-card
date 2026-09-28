@@ -1,0 +1,73 @@
+{
+  "status": "TECHNICAL_REVIEW_ONLY_USER_VISUAL_APPROVAL_PENDING",
+  "generatedAt": "2026-09-28",
+  "method": "OpenAI built-in imagegen",
+  "productionConnected": false,
+  "transparentBackground": true,
+  "pixi": "8.20.0",
+  "gsap": "3.13.0",
+  "frameClock": "Existing BattleEngine.timeline / GSAP; no independent ticker",
+  "newAudio": false,
+  "assets": [
+    {
+      "file": "absolute-zero-16.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "alpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "bytes": 2018070,
+      "sha256": "12ff869c61bcd8b2b38d3e7996540d494db6900aaf0e7dc7802b4e533a6f41dd",
+      "frames": 16,
+      "columns": 4,
+      "rows": 4,
+      "frameWidth": 313.5,
+      "frameHeight": 313.5
+    },
+    {
+      "file": "frost-prison-16.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "alpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "bytes": 2328723,
+      "sha256": "6fa70ef171f382682f27963ac85360562855235f1f66feb733af2fab4f4c6f19",
+      "frames": 16,
+      "columns": 4,
+      "rows": 4,
+      "frameWidth": 313.5,
+      "frameHeight": 313.5
+    },
+    {
+      "file": "lich-king-battle-sd-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "channels": 4,
+      "alpha": true,
+      "alphaMin": 0,
+      "alphaMax": 254,
+      "bytes": 2402532,
+      "sha256": "bbde814c9f42e66167ef9990acdee8eb2e02a9e4e4c4029f96af4a4a2a8f6ce1",
+      "kind": "BATTLE_SPRITE"
+    },
+    {
+      "file": "soul-annihilation-16.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "alpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "bytes": 2065233,
+      "sha256": "35101e66e9c3050452ccce21f5eaaabccaff4fa5e54724b110dbf11e42ab3e66",
+      "frames": 16,
+      "columns": 4,
+      "rows": 4,
+      "frameWidth": 313.5,
+      "frameHeight": 313.5
+    }
+  ]
+}
