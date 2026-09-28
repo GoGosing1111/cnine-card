@@ -37,3 +37,13 @@
 - 직전 운영 소스: `f2177ebf38fd896b0d024a4a41559652d66bb932`, 실제 Pages 목록 `7ddc57e5-95d1-465e-862c-5da13915b20d`.
 - 지정 명령 `npm run deploy:production -- --scoped`. Worker 컴파일, 출시 플래그·캐시·깨끗한 커밋·origin/main·Hyperdrive 검사는 배포 도구를 사용한다. 같은 소스의 회귀를 별도 사전 전체 검사로 반복하지 않는다.
 - 배포 후 변경 자산/로더 반영, 인증 차단, 운영 카탈로그 등록만 짧게 확인한다.
+
+## 운영 반영 완료
+
+- 배포 소스 `f22e3457`, Pages `https://2c8c3acf.cnine-card.pages.dev`, clan-draft 버전 `c8cdda08-4bdf-4541-8833-3d34ba420e9d`.
+- 지정 scoped 배포 1회에서 관련 검사 **59/59 통과**, Worker 컴파일·출시 보호·Hyperdrive 캐시 OFF 확인 후 정상 종료했다. 전체 release:gate는 실행하지 않았다.
+- 운영 메인/CMS HTML·JS와 전용 개봉 JS/CSS·PNG 7개가 HTTP 200이며 로컬 SHA-256과 일치한다. inventory·개봉·관리자 지급 API의 비인증 요청은 모두 401이다.
+- 2026-09-29 **01:57:53 KST** 운영 `cnine` DB에서 동일 런타임 등록 함수로 카탈로그 준비를 마쳤다. 별도 연결로 01:58:05 KST `FUNDING_GIFT_BOX`, `GIFT_BOX`, 활성 1, 완료 마커 1, 세 보상 설정과 별·리페어권 활성 상태를 확인했다.
+- 해당 시점 상자 보유 계정 0명·수량 0개. 검수용 운영 계정 지급·개봉·메시지 발송은 수행하지 않았다.
+- 증거: `C:/Users/User/.codex/tmp/funding-gift-20260929/`의 `deploy.log`, `ui-report.json`, `production-smoke.json`, `apply.json`, `verify.json`. 짧은 원격 등록 도구는 종료했다.
+- 이 완료 기록은 문서만 커밋·원격 반영하며 게임을 재배포하지 않는다.
