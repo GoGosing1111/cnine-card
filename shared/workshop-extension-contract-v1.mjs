@@ -1,9 +1,11 @@
 // No seed or launch policy: new recipes exist only after an explicit CMS save.
+import {equipmentCraftPolicy,isEquipmentCraft} from './workshop-equipment-craft.mjs';
 export const WORKSHOP_EXTENSION_CATEGORIES = Object.freeze(['SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS']);
 
 export function validateWorkshopExtension(raw) {
   const category = String(raw.category || '').trim().toUpperCase();
   if (!WORKSHOP_EXTENSION_CATEGORIES.includes(category)) return;
+  if (isEquipmentCraft(raw)) { equipmentCraftPolicy(raw); return; }
   const output = String(raw.outputType ?? raw.output_type ?? '').toUpperCase();
   const ref = String(raw.outputRef ?? raw.output_ref ?? '').trim().toUpperCase();
   const mode = String(raw.paymentMode ?? raw.payment_mode ?? '').toUpperCase();

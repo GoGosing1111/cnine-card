@@ -51,6 +51,7 @@
   let selectedSynthesisRecipe = 0;
   let selectedBattleSuitRecipe = 0;
   let selectedMaterialRecipe = 0;
+  let selectedCraftInstance = '';
   let recipeQuery = '';
   let readyOnly = false;
   let requestedSynthesisAttempts = 1;
@@ -237,7 +238,7 @@
       <button type="button" data-ws-section="MATERIAL_CRAFT" class="${workshopSection === 'MATERIAL_CRAFT' ? 'active' : ''}"><i>03</i><span><b>재료 제작</b><small>고급 제작 에너지 변환</small></span></button>
       <button type="button" data-ws-section="BATTLE_SUIT_CRAFT" class="${workshopSection === 'BATTLE_SUIT_CRAFT' ? 'active' : ''}"><i>04</i><span><b>배틀슈트 제작</b><small>슈트 코어 · 코인 · 마스터의 별</small></span></button>
       <button type="button" data-ws-section="SUIT_CORE_SYNTHESIS" class="${workshopSection === 'SUIT_CORE_SYNTHESIS' ? 'active' : ''}"><i>05</i><span><b>슈트코어 합성</b><small>코어 승급 레시피</small></span></button>
-      <button type="button" data-ws-section="ITEM_SYNTHESIS" class="${workshopSection === 'ITEM_SYNTHESIS' ? 'active' : ''}"><i>06</i><span><b>기타 합성</b><small>아이템 복합 레시피</small></span></button>
+      <button type="button" data-ws-section="ITEM_SYNTHESIS" class="${workshopSection === 'ITEM_SYNTHESIS' ? 'active' : ''}"><i>06</i><span><b>장비제작</b><small>+10 장비 · 누적 천장</small></span></button>
     </nav>`;
   }
 
@@ -383,16 +384,34 @@
   function materialCraftInfo(recipe) {
     const bulk = recipe.category === 'MATERIAL_CRAFT' && recipe.output_type === 'INVENTORY_ITEM';
     const pending = currentMutationRequest('material');
-    const [pendingId, pendingPayment, pendingAttempts] = String(pending?.target || '').split(':');
+    const [pendingId, pendingPayment, pendingAttempts, pendingInstance] = String(pending?.target || '').split(':');
     const recovering = pendingId === String(recipe.id);
     const attempts = recovering ? Number(pendingAttempts || 1) : bulk ? requestedMaterialAttempts : 1;
     const choice = recovering ? pendingPayment : payment;
     const valid = Number.isInteger(attempts) && attempts >= 1 && attempts <= MAX_MATERIAL_CRAFT_ATTEMPTS;
     const info = window.WorkshopRecipes.describe(recipe, workshopState, choice, valid ? attempts : 1);
+    const equipment = recipe.category === 'ITEM_SYNTHESIS' && recipe.output_type === 'EQUIPMENT';
+    const candidates = equipment ? (workshopState.equipmentCraft?.instances || []).filter(row => Number(row.equipmentId) === Number(recipe.equipmentCraft?.inputEquipmentId)) : [];
+    if (equipment) selectedCraftInstance = recovering ? pendingInstance || '' : candidates.some(row => row.id === selectedCraftInstance) ? selectedCraftInstance : candidates[0]?.id || '';
+    const pity = workshopState.equipmentCraft?.pity?.[recipe.id] || {failures:0,pityAfter:recipe.equipmentCraft?.pityAfter,guaranteed:false};
     const unit = window.WorkshopRecipes.describe(recipe, workshopState, choice);
     const maxAttempts = Math.max(0, Math.min(MAX_MATERIAL_CRAFT_ATTEMPTS, ...unit.rows.filter(row => row.required > 0).map(row => Math.floor(Math.min(row.owned, Number.MAX_SAFE_INTEGER) / row.required))));
-    return {...info, bulk, attempts, maxAttempts, recovering, valid, ready:valid && info.ready,
+    return {...info, equipment, candidates, instanceId:equipment ? selectedCraftInstance : null, pity, bulk, attempts, maxAttempts, recovering, valid, ready:valid && info.ready && (!equipment || Boolean(recipe.equipmentCraft && selectedCraftInstance)),
       shortage:valid ? info.shortage : '제작 횟수를 1~100회 사이의 정수로 입력하세요.'};
+  }
+
+  function equipmentCraftPanel(recipe, recipes, info) {
+    const policy = recipe.equipmentCraft, name = recipe.output_name || recipe.name;
+    if (!policy) return '<section class="ws22-empty"><h2>장비 조합식 설정 중</h2><p>투입 장비와 천장 기준을 설정한 뒤 제작할 수 있습니다.</p></section>';
+    const {pity, recovering} = info;
+    const progress = Math.min(100, Math.max(0, pity.failures / policy.pityAfter * 100));
+    return `<div class="ws22-item-layout"><aside class="ws22-recipe-list" aria-label="장비제작 조합식 목록">${recipes.map(row=>`<button type="button" data-material-recipe="${row.id}" class="${row.id===recipe.id?'active':''}" aria-pressed="${row.id===recipe.id}"><img src="${esc(asset(row.output_image))}" alt="" loading="lazy"><span><b>${esc(row.output_name||row.name)}</b><small>${workshopState.equipmentCraft?.pity?.[row.id]?.guaranteed?'이번 제작 100%':'기본 성공률 '+Number(row.success_rate)+'%'}</small></span></button>`).join('')}</aside><section class="ws22-item-stage ws28-equipment-stage ${pity.guaranteed ? 'is-guaranteed' : ''}">
+      <header class="ws22-item-head"><div><small>+10 EQUIPMENT FORGE</small><h2>${esc(name)}</h2><p>${esc(recipe.description)}</p></div><div class="ws22-rate"><small>${pity.guaranteed ? '천장 도달 · 이번 제작' : '기본 성공 확률'}</small><b>${pity.guaranteed ? 100 : 10}%</b></div></header>
+      <div class="ws28-forge-chain"><figure><span class="ws28-forge-tag">투입 장비 · +10 보존</span><img src="${esc(asset(policy.inputImage))}" alt="${esc(policy.inputName)}"><figcaption><b>+10 ${esc(policy.inputName)}</b><small>실패 시 장비·강화 단계 보존</small></figcaption></figure><span class="ws28-forge-arrow" aria-hidden="true">→</span><figure><span class="ws28-forge-tag">제작 결과</span><img src="${esc(asset(recipe.output_image))}" alt="${esc(name)}"><figcaption><b>${esc(name)}</b><small>성공 시 투입 장비 소모 · 결과 +0</small></figcaption></figure></div>
+      <section class="ws28-forge-pity" aria-live="polite"><div><span>${pity.guaranteed ? '확정 제작 준비 완료' : '실패 누적 천장'}</span><strong>${fmt(pity.failures)}<small> / ${fmt(policy.pityAfter)}회</small></strong></div><div class="ws28-pity-track" role="progressbar" aria-label="실패 누적" aria-valuemin="0" aria-valuemax="${policy.pityAfter}" aria-valuenow="${Math.min(policy.pityAfter,pity.failures)}"><i style="width:${progress}%"></i></div><p>${pity.guaranteed ? '<b>이번 제작은 100% 성공합니다.</b>' : `실패 ${fmt(Math.max(0,policy.pityAfter-pity.failures))}회 추가 누적 후, 다음 제작이 100% 성공합니다.`} 재접속·장비 교체 후에도 유지되며 성공 시 초기화됩니다.</p></section>
+      <div class="ws28-forge-config"><label for="wsCraftEquipment">투입할 +10 장비 선택</label><select id="wsCraftEquipment" ${workshopBusy || recovering ? 'disabled' : ''}>${info.candidates.length ? info.candidates.map(row=>`<option value="${esc(row.id)}" ${row.id===info.instanceId?'selected':''}>+10 ${esc(policy.inputName)} · #${esc(row.id)}</option>`).join('') : '<option value="">사용 가능한 +10 장비 없음</option>'}</select><small>장착한 장비는 표시하지 않습니다.${workshopState.equipmentCraft?.capped ? ' 사용 가능한 장비 중 앞 1,000개를 표시합니다.' : ''}</small><h3>1회 제작 비용</h3><div class="ws28-forge-costs">${window.WorkshopRecipes.costRows(info.rows.filter(row=>row.code!=='EQUIPMENT'))}</div><p class="ws22-status">${recovering ? '이전 제작 결과를 확인합니다. 같은 요청으로 중복 차감되지 않습니다.' : info.ready ? '장비와 제작 재료가 준비되었습니다.' : esc(info.shortage || '대상 +10 장비를 선택하세요.')}</p></div>
+      <footer class="ws22-item-footer"><p class="ws22-risk"><b>실패 시 +10 장비 보존</b><br>재료·마스터의 별·코인은 결과와 관계없이 소모됩니다. 천장 제작에도 동일한 비용이 필요합니다.</p><button type="button" id="wsMaterialCraft" class="ws76-primary" ${workshopBusy || (!info.ready && !recovering) ? 'disabled' : ''}>${workshopBusy ? '제작 결과 확인 중' : recovering ? '이전 제작 결과 확인' : pity.guaranteed ? '100% 확정 제작' : '장비 제작 · 성공률 10%'}</button></footer>
+    </section></div>`;
   }
 
   function materialCraftPanel() {
@@ -405,10 +424,11 @@
     if (!recipe) {
       if (all.length) return noRecipeMatch();
       const core = category === 'SUIT_CORE_SYNTHESIS';
-      return `<section class="ws22-empty"><h2>${core ? '슈트코어 합성 준비 중' : category === 'ITEM_SYNTHESIS' ? '기타 합성 준비 중' : '재료 제작 준비 중'}</h2><p>공개된 레시피가 아직 없습니다. 운영 설정이 완료되면 이곳에서 재료와 확률을 확인하고 합성할 수 있습니다.</p>${core ? `<div class="ws22-formula"><span><img decoding="async" src="${esc(asset('assets/items/suit-core-1-v2004.png'))}" alt="">슈트 코어 1 × 10</span><b>+</b><span>코인 + 마스터의 별<small>수량 설정 예정</small></span><b>→</b><span><img decoding="async" src="${esc(asset('assets/items/suit-core-2-v2004.png'))}" alt="">슈트 코어 2<small>확률 설정 예정</small></span></div><small>확장 예시입니다. 아직 제작할 수 없으며 재료는 소모되지 않습니다.</small>` : ''}</section>`;
+      return `<section class="ws22-empty"><h2>${core ? '슈트코어 합성 준비 중' : category === 'ITEM_SYNTHESIS' ? '장비제작 준비 중' : '재료 제작 준비 중'}</h2><p>공개된 레시피가 아직 없습니다. 운영 설정이 완료되면 이곳에서 재료와 확률을 확인하고 합성할 수 있습니다.</p>${core ? `<div class="ws22-formula"><span><img decoding="async" src="${esc(asset('assets/items/suit-core-1-v2004.png'))}" alt="">슈트 코어 1 × 10</span><b>+</b><span>코인 + 마스터의 별<small>수량 설정 예정</small></span><b>→</b><span><img decoding="async" src="${esc(asset('assets/items/suit-core-2-v2004.png'))}" alt="">슈트 코어 2<small>확률 설정 예정</small></span></div><small>확장 예시입니다. 아직 제작할 수 없으며 재료는 소모되지 않습니다.</small>` : ''}</section>`;
     }
     selectedMaterialRecipe = Number(recipe.id);
     const info = materialCraftInfo(recipe);
+    if (info.equipment) return equipmentCraftPanel(recipe, recipes, info);
     const recovering = String(recipe.id) === pendingId;
     const output = workshopState?.inventory?.[recipe.output_ref] || {};
     const name = recipe.output_name || recipe.name;
@@ -523,6 +543,7 @@
   }
 
   function bindWorkshopControls(root) {
+    root.querySelector('#wsCraftEquipment')?.addEventListener('change', event => { if (!workshopBusy) { selectedCraftInstance = event.target.value; renderWorkshop(); } });
     root.querySelector('#wsRecipeSearch')?.addEventListener('input', event => { recipeQuery = event.target.value; renderWorkshop(); });
     root.querySelector('[data-ws-ready]')?.addEventListener('click', () => { readyOnly = !readyOnly; if (workshopSection === 'SYNTHESIS') synthesisMode = readyOnly ? 'READY' : 'ALL'; renderWorkshop(); });
     root.querySelector('[data-ws-reset]')?.addEventListener('click', () => { recipeQuery = ''; readyOnly = false; synthesisMode = 'ALL'; renderWorkshop(); });
@@ -740,9 +761,10 @@
     const outputName = recipe.output_name || '미스틱 에너지';
     const prompt = recovering
       ? `${outputName} 제작 결과를 동일 요청번호로 안전하게 재확인합니다.`
+      : info.equipment ? `${outputName} 장비 제작\n이번 성공 확률 ${info.pity.guaranteed ? 100 : 10}% · 실패 누적 ${fmt(info.pity.failures)} / ${fmt(info.pity.pityAfter)}회\n투입 장비 #${info.instanceId} · +10 ${recipe.equipmentCraft.inputName}\n${info.rows.filter(row=>row.code!=='EQUIPMENT').map(row=>`${row.name} ${fmt(row.required)}`).join(' + ')}\n실패 시 +10 장비는 보존되고 나머지 재료·마스터의 별·코인은 소모됩니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?`
       : `${outputName} ${fmt(attempts)}회 제작\n1회 성공 시 ${fmt(recipe.output_quantity || 1)}개 획득 · 매회 성공 확률 ${Number(recipe.success_rate ?? 100)}%\n총 ${info.rows.map(row => `${row.name} ${fmt(row.required)}`).join(' + ')}를 사용합니다.\n실패 시 투입 재료·재화는 반환되지 않으며, 동일한 제작 요청은 중복 차감되지 않습니다. 제작하시겠습니까?`;
     if (!confirm(prompt)) return;
-    const ticket = prepareMutationRequest('material', recovering ? pending.target : `${recipe.id}:${paymentType}:${attempts}`, 'WORKSHOP-MATERIAL');
+    const ticket = prepareMutationRequest('material', recovering ? pending.target : `${recipe.id}:${paymentType}:${attempts}${info.equipment ? ':' + info.instanceId : ''}`, 'WORKSHOP-MATERIAL');
     if (ticket.blocked) return alert('이전 재료 제작 결과를 먼저 확인해야 합니다. 이전에 선택한 재료 제작으로 다시 시도해 주세요.');
     const actionVersion = ++workshopActionVersion;
     const epoch = routeEpoch;
@@ -754,7 +776,7 @@
     renderWorkshop();
     let reconcile = false;
     try {
-      const data = await api('workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, paymentType, attempts, requestId: ticket.requestId }) });
+      const data = await api(info.equipment ? 'workshop/equipment-craft' : 'workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, ...(info.equipment ? {instanceId:info.instanceId} : {paymentType}), attempts, requestId: ticket.requestId }) });
       clearMutationRequest('material', ticket.requestId);
       if (!ownsAction()) return;
       if (canPresent()) {
@@ -764,7 +786,7 @@
         showMaterialResult(data);
       }
     } catch (error) {
-      const uncertain = mutationTransportUncertain(error);
+      const uncertain = mutationTransportUncertain(error) || (info.equipment && (Number(error?.status) >= 500 || [408,425,429].includes(Number(error?.status))));
       if (uncertain) reconcile = true;
       else clearMutationRequest('material', ticket.requestId);
       if (canPresent()) alert(uncertain ? mutationRetryMessage('재료 제작') : error.message);
@@ -792,6 +814,7 @@
         window.saveUser?.(user);
       }
       window.clearApiCache?.('inventory');
+      if (data?.equipmentCraft) window.clearApiCache?.('equipment');
       window.clearApiCache?.('shell/summary');
       window.clearApiCache?.('me/summary');
       window.dispatchEvent(new CustomEvent('cnine:workshop-crafted', { detail: data }));
@@ -806,6 +829,13 @@
     const outputName = output.name || data?.recipeName || '미스틱 에너지';
     const attempts = Number(data?.attempts || 1), successCount = Number(data?.successCount ?? (success ? 1 : 0));
     const summary = `<div class="ws28-material-summary"><span>제작 <b>${fmt(attempts)}회</b></span><span>성공 <b>${fmt(successCount)}회</b></span><span>실패 <b>${fmt(data?.failureCount ?? attempts - successCount)}회</b></span></div>`;
+    if (data?.equipmentCraft) {
+      modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
+      modal.innerHTML = `<section><small>EQUIPMENT FORGE · ${data.guaranteed ? 'GUARANTEED' : '10% CHANCE'}</small><h2>${success ? '장비 제작 성공' : '+10 장비 보존'}</h2>${success ? `<img src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)} +0 획득</b><p>투입 장비가 소모되었으며, 실패 누적이 초기화되었습니다.</p>` : `<div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>+10 ${esc(data.input?.name)} 보존</b><p>재료·마스터의 별·코인은 소모되었습니다.<br>실패 누적 ${fmt(data.pity.failures)} / ${fmt(data.pity.pityAfter)}회<br>${data.pity.guaranteed ? '<strong>다음 제작 100% 성공</strong>' : '누적 횟수는 다음 제작으로 이어집니다.'}</p>`}<button type="button">확인</button></section>`;
+      normalizeImages(modal);
+      modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
+      return;
+    }
     modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
     modal.innerHTML = success
       ? `<section><small>MATERIAL FABRICATION COMPLETE</small><h2>재료 제작 완료</h2><img decoding="async" src="${esc(asset(output.image || MYSTIC_ENERGY_IMAGE))}" alt="${esc(outputName)}"><b>${esc(outputName)} × ${fmt(output.quantity || 1)}</b>${summary}<p>제작된 아이템이 인벤토리에 정상 지급되었습니다.</p><button type="button">확인</button></section>`

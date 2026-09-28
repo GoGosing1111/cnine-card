@@ -20,6 +20,11 @@
   }
   function requirements(recipe, state, choice, attempts = 1) {
     const cost = paymentFor(recipe, choice), rows = [];
+    if (recipe.category === 'ITEM_SYNTHESIS' && recipe.output_type === 'EQUIPMENT') {
+      const policy = recipe.equipmentCraft;
+      rows.push({code:'EQUIPMENT', name:'+10 ' + (policy?.inputName || '대상 장비'), image:policy?.inputImage,
+        owned:(state.equipmentCraft?.instances || []).filter(row => Number(row.equipmentId) === Number(policy?.inputEquipmentId)).length, required:1});
+    }
     for (const material of recipe.materials || []) {
       const code = material.item_code, item = state.inventory?.[code] || {};
       rows.push({code, name:material.item_name || item.name || code, image:material.image_url || item.image_url,

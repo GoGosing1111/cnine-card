@@ -5428,7 +5428,7 @@ async function handleRequest(context){
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
     const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,requirePermission,writeAdminLog}});if(coinPredictionResponse)return coinPredictionResponse;
     const dropPoolResponse=await handleDropPool({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(dropPoolResponse)return dropPoolResponse;
-    const workshopResponse=await handleWorkshop({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(workshopResponse)return workshopResponse;
+    const workshopResponse=await handleWorkshop({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,withUserMutationLock:withJointUserMutationLock}});if(workshopResponse)return workshopResponse;
     const alchemyResponse=await handleAlchemy({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(alchemyResponse)return alchemyResponse;
     const pveV3Response=await handlePveV3({path,request,env,deps:{authenticate,json,raidDeckPower,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot,withUserMutationLock:withJointUserMutationLock}});if(pveV3Response)return pveV3Response;
     if(V3_JOINT_RELEASE_ENABLED&&request.method==='POST'&&path==='scrapyard/run')return json({error:'개편 전투 화면에서 다시 입장하세요.',code:'PVE_V3_CLIENT_REQUIRED'},409);
