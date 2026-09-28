@@ -22,7 +22,9 @@ test('production preloader, skill factory and cache refresh are connected throug
   assert.match(sword,/battleSuitSkillEffectFactories\.set\(Z_BODY_AREA_SKILL\.code,this\.skillFactory\)/);
   assert.match(sword,/this\.intrinsicArea=Boolean\(textures\.thunderblade\)/);
   const wrapper=await read('js/battle-v3-live.js'),entry=await read('preview/project-v-v3/source/project-v-pixi-battle.src.js');
-  assert.match(wrapper,/20260926-z-lightning-area-v3/);assert.match(entry,/20260926-z-lightning-area-v3/);
+  const runtime=wrapper.match(/const BATTLE_RUNTIME = '([^']+)'/)?.[1];
+  assert.ok(runtime,'live wrapper declares the required runtime');
+  assert.equal(entry.match(/runtimeVersion:'([^']+)'/)?.[1],runtime,'wrapper and common renderer must use the same runtime');
   assert.match(await read('index.html'),/zFx=20260926/);assert.equal((await read('js/app.js')).match(/zFx=20260926/g).length,2);
   const preview=await read('preview/z-body-thunder-v3/source/review-entry.js');
   assert.doesNotMatch(preview,/battleSuitSkillEffectFactories\s*=|new ZBodyThunderFX|new ZBodyNormalFX/,'review must exercise production registration');
