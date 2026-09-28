@@ -5,7 +5,7 @@ import {claimLegionHuntReward} from './_legion_hunt_rewards.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {DAILY_ENTRIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 const TTL=30*60*1000;
-const ACTIONS={start:['difficulty','version'],begin:['id'],reveal:['id','seq'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id']};
+const ACTIONS={start:['difficulty','version'],begin:['id'],reveal:['id','seq','seqs'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id']};
 export function legionHuntEntries(run,at,user){
   const day=new Date(at+9*3600000).toISOString().slice(0,10);
   const used=run?.daily?.day===day?Number(run.daily.used):0;
@@ -103,7 +103,10 @@ export async function handleLegionHunt({path,request,env,deps}){
         }
         result={...session.begin(),entries:legionHuntEntries({daily},now(),user)};
       }
-      if(action==='reveal')result=session.reveal(body.seq);
+      if(action==='reveal'){
+        if(body.seqs!==undefined&&body.seq!==undefined)throw jointError('HUNT_DROP_BATCH','드랍 확인 요청을 다시 확인하세요.');
+        result=body.seqs!==undefined?session.revealMany(body.seqs):session.reveal(body.seq);
+      }
       if(action==='claim'){
         result=session.claim(body);
         if(before.run.state.claims?.some(([id])=>id===body.dropId))return result;

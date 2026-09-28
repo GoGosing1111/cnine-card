@@ -8,6 +8,8 @@
 
 ## 실행
 
+2026-09-28 보스 출현 지연·줍기 반응 수정: 같은 시각의 12슬롯 등장/후퇴를 공용 V3 전환 경계 안에서 병렬 재생한다. 기존 PixiJS 8.20.0 효과 계층과 GSAP 3.13.0의 1배속 시계를 유지하며, 승인된 등장 아틀라스는 바꾸지 않았다. `GroundDrops.js`는 클릭 즉시 0.12초 축소와 대기 표시, 서버 영수증 이후 획득을 적용한다. PC/모바일 전환·클릭과 세대 경계 검사 결과는 [수정 기록](../../docs/battle-hunt-presentation-fixes-20260928.md)에 있다.
+
 ```powershell
 node scripts/build-sustained-hunt-v2.mjs
 node scripts/serve-sustained-hunt-v2.mjs

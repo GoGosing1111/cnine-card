@@ -26,7 +26,7 @@ const server=http.createServer(async(req,res)=>{
       }
       const s=sessions.get(body.id);if(!s)throw Error('원정이 만료됐습니다. 다시 출전해 주세요.');
       if(action==='begin')return respond(res,s.begin());
-      if(action==='reveal')return respond(res,s.reveal(body.seq));
+      if(action==='reveal')return respond(res,body.seqs!==undefined?s.revealMany(body.seqs):s.reveal(body.seq));
       if(action==='claim')return respond(res,s.claim(body));
       if(action==='finish')return respond(res,s.finish(body.seq));
       if(action==='cancel'){s.cancel();sessions.delete(s.id);return respond(res,{cancelled:true});}

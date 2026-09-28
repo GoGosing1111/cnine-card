@@ -65,13 +65,13 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
   const drops=new Map(state.drops||[]),claims=new Map(state.claims||[]),inventory=new Map(state.inventory||[]),positions=state.positions||[],claimTimes=state.claimTimes||[];
   const observed=new Map((state.observed||[]).map(([seq,dropId])=>[seq,dropId?drops.get(dropId):null]));
   function begin(){if(ended)throw Error('HUNT_ENDED');if(startedAt===null)startedAt=now();return {started:true,serverNow:now()};}
-  function acknowledge(seq){
+  function acknowledge(seq,commit=true){
     if(startedAt===null||ended)throw Error('HUNT_NOT_ACTIVE');
     if(!Number.isSafeInteger(seq)||seq<0||seq>eventTimes.length)throw Error('INVALID_HUNT_ACK');
     const event=eventsBySeq.get(seq);
     // Timed hunts use 1x; older sessions retain their original playback contract.
     if(seq&&(Number(eventTimes[seq-1])||0)>Math.max(0,now()-startedAt)*(policy.huntDurationMs?1:2)+250)throw Error('HUNT_EVENT_NOT_REACHED');
-    lastAck=Math.max(lastAck,seq);return event;
+    if(commit)lastAck=Math.max(lastAck,seq);return event;
   }
   function expire(){for(const d of drops.values())if(d.state==='GROUND'&&now()>=d.expiresAt)d.state='EXPIRED';}
   function reveal(seq){
@@ -91,6 +91,15 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
     const drop={id:randomUUID(),token:randomUUID(),seq,item:{...item,quantity},position,createdAt:now(),expiresAt:now()+policy.dropLifeMs,state:'GROUND'};
     drops.set(drop.id,drop);positions.push(position);observed.set(seq,drop);
     return {drop,serverNow:now()};
+  }
+  function revealMany(seqs){
+    if(!Array.isArray(seqs)||seqs.length<1||seqs.length>24||!seqs.every((seq,i)=>Number.isSafeInteger(seq)&&seq>0&&(!i||seq>seqs[i-1])))throw Error('HUNT_DROP_BATCH');
+    // Validate the complete batch before rolling or advancing any receipt.
+    for(const seq of seqs){
+      if(seq<lastAck&&!observed.has(seq))throw Error('HUNT_STALE_DROP_EVENT');
+      if(!acknowledge(seq,false)?.huntKill)throw Error('HUNT_DROP_REQUIRES_KILL');
+    }
+    return {drops:seqs.map(seq=>reveal(seq).drop),serverNow:now()};
   }
   function claim({dropId,token,x,y}={}){
     const d=drops.get(dropId);if(!d||d.token!==token)throw Error('INVALID_DROP_CLAIM');
@@ -118,5 +127,5 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
       picked:claims.size,dropped:drops.size,missed:[...drops.values()].filter(d=>d.state!=='CLAIMED').length};
     return receipt;
   }
-  return {id,begin,reveal,claim,finish,cancel(){ended=true;},exportState(){return {id,policy,timeLimit,eventTimes,timeline,outcome,startedAt,lastAck,ended,receipt,drops:[...drops],claims:[...claims],inventory:[...inventory],positions,claimTimes,observed:[...observed].map(([seq,d])=>[seq,d?.id||null])};},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome};}};
+  return {id,begin,reveal,revealMany,claim,finish,cancel(){ended=true;},exportState(){return {id,policy,timeLimit,eventTimes,timeline,outcome,startedAt,lastAck,ended,receipt,drops:[...drops],claims:[...claims],inventory:[...inventory],positions,claimTimes,observed:[...observed].map(([seq,d])=>[seq,d?.id||null])};},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome};}};
 }

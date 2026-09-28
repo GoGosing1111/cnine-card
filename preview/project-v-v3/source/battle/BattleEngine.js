@@ -3410,7 +3410,13 @@ class BaseBattleEngine{
     // Actor idle loops live outside the combat-event timelines. Pausing them
     // keeps the final pose without leaving GSAP running behind the result UI.
     for(const character of this.characters){
-      for(const animation of new Set([character.animationAdapter,character.animationController]))animation?.timeline?.pause();
+      for(const animation of new Set([character.animationAdapter,character.animationController])){
+        const timeline=animation?.timeline;
+        // syncFinalState can restart DEAD at its upright first frame. Freeze
+        // the authored terminal pose before stopping the result-screen ticker.
+        if(character.hp<=0&&character.state===CHARACTER_STATE.DEAD&&timeline?.repeat()===0)timeline.progress(1);
+        timeline?.pause();
+      }
     }
     this.app?.stop();
   }

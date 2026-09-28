@@ -5,7 +5,7 @@
   const ownerTransport=ownerMode?import('/js/joint-account-transport.mjs'):null;
   let ownerRequests=Promise.resolve();
   let engine,renderer,session,csrf,payload,policies=[],epoch=0,playing=false,paused=false,ending=false,finishing=false,ack=0,kills=0,bosses=0,renderedAt=0,picked=0;
-  let reveals=Promise.resolve(),finishTimer=null,clockTimer=null,toastTimer=null,starting=false,liveDifficulty='normal',entryReceived=false,failed=false,entries=null;
+  let reveals=Promise.resolve(),pendingReveals=[],finishTimer=null,clockTimer=null,toastTimer=null,starting=false,liveDifficulty='normal',entryReceived=false,failed=false,entries=null;
   const areaCasts=new Set();
   const notifyParent=(type,extra={})=>{if(liveMode&&window.parent!==window)window.parent.postMessage({type,...extra},location.origin);};
   const message=t=>{$('hunt-message').textContent=t;};
@@ -43,6 +43,20 @@
     }finally{clearTimeout(timer);}
   }
   const errorText=e=>({DROP_EXPIRED:'아이템이 사라졌습니다.',DROP_CLICK_RATE_LIMIT:'잠시 후 다시 클릭하세요.',DROP_POSITION_MISMATCH:'아이템 위치를 다시 확인해 주세요.'}[e.message]||e.message);
+  function queueDropReveal(seq){
+    const token=epoch,id=session;pendingReveals.push(seq);
+    reveals=reveals.then(async()=>{
+      if(token!==epoch||!pendingReveals.length)return;
+      // Collect one frame of simultaneous deaths into one session read/write.
+      // Manual claims enter the same write queue before the next reveal batch.
+      await new Promise(resolve=>setTimeout(resolve,16));
+      if(token!==epoch)return;
+      const seqs=pendingReveals.splice(0,24),r=await request('reveal',{id,seqs});
+      if(token!==epoch||!playing||finishing)return;
+      await Promise.all((r.drops||[]).filter(Boolean).map(drop=>engine.groundDrops.add(drop,r.serverNow)));
+      if(r.drops?.some(Boolean))message('아이템 드랍 · 필드의 빛나는 아이템을 직접 클릭하세요.');
+    }).catch(e=>{if(token===epoch)message(errorText(e));});
+  }
   function buttons(){
     $('hunt-start').disabled=(!engine&&!liveMode)||playing||finishing||starting;$('hunt-start').textContent=liveMode?'다시 준비':engine?'사냥 시작':'전장 준비 중';
     if(liveMode)$('hunt-start').hidden=!failed;
@@ -64,7 +78,7 @@
     $('hunt-threat').textContent=p.name+' · 전멸 / 보스 제한 시간 초과 시 실패';
   }
   async function prepare(reuse=false){
-    const token=++epoch,oldSession=session,oldPayload=payload;clearInterval(finishTimer);clearInterval(clockTimer);finishTimer=null;playing=paused=ending=finishing=starting=failed=false;ack=kills=bosses=renderedAt=picked=0;reveals=Promise.resolve();
+    const token=++epoch,oldSession=session,oldPayload=payload;clearInterval(finishTimer);clearInterval(clockTimer);finishTimer=null;playing=paused=ending=finishing=starting=failed=false;ack=kills=bosses=renderedAt=picked=0;reveals=Promise.resolve();pendingReveals=[];
     interruption(null);areaCasts.clear();clearTimeout(toastTimer);$('hunt-pickup-toast').classList.remove('show');$('hunt-pickup-toast').textContent='';
     engine?.setHuntPaused(false);renderer?.destroy();api.destroy();engine=null;session=null;buttons();
     if(oldSession&&!reuse)await request('cancel',{id:oldSession}).catch(()=>{});
@@ -112,10 +126,7 @@
     if(event.huntKill){
       $('hunt-kills').textContent=++kills;if(event.boss)$('hunt-bosses').textContent=++bosses;
       if(ownerMode&&!payload.huntPolicy.items?.some(item=>item.enabled!==false&&item.weight>0)){bossHud();return;}
-      const token=epoch,id=session;reveals=reveals.then(async()=>{
-        const r=await request('reveal',{id,seq:event.seq});if(token!==epoch||!playing||finishing)return;
-        if(r.drop){await engine.groundDrops.add(r.drop,r.serverNow);message('아이템 드랍 · 필드의 빛나는 아이템을 직접 클릭하세요.');}
-      }).catch(e=>{if(token===epoch)message(errorText(e));});
+      queueDropReveal(event.seq);
     }
     if(event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
     if(event.type==='SKILL_CHIP_CAST'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT')toast('Z-BODY · 뇌검 집행 / 적 전체');

@@ -244,7 +244,8 @@ export class BattleSuitSkillChipPlayback{
       if(group.areaDispatched){this.index++;continue;}
       const continuousArea=group.areaImpact&&group.events.filter(e=>e.type==='SKILL_CHIP_HIT').every(e=>
         this.fx.get(e.castId||e.chipCode)?.continuousArea&&this.engine.combatantById(e.targetId)?.id===e.targetId);
-      const fence=group.external||group.events.some(event=>event.type==='KO');
+      const encounterTransition=this.engine.parallelEncounterTransitions&&group.events.every(event=>event.type==='ENEMY_SPAWN'||event.type==='ENEMY_DESPAWN');
+      const fence=group.external||encounterTransition||group.events.some(event=>event.type==='KO');
       const predecessors=[...this.pending];
       const previousRun=(!continuousArea&&this.fence)||((group.external||group.blocking)&&predecessors.length?Promise.all(predecessors):null);
       if(previousRun){
@@ -325,7 +326,14 @@ export class BattleSuitSkillChipPlayback{
             }
             if(this.valid())this.notify(event);
           };
-          if(group.areaImpact)await Promise.all(regular.map(playRegular));
+          if(encounterTransition){
+            // A timed wave occupies independent slots. Retire the old generation
+            // together, then enter its replacements together; the next action
+            // still waits for the whole transition (including the final boss).
+            await Promise.all(regular.filter(event=>event.type==='ENEMY_DESPAWN').map(playRegular));
+            await Promise.all(regular.filter(event=>event.type==='ENEMY_SPAWN').map(playRegular));
+          }
+          else if(group.areaImpact)await Promise.all(regular.map(playRegular));
           else for(const event of regular)await playRegular(event);
           // Retire hit monsters now, but keep all prior actions in the fence
           // before any slot can be rebound to a new server instance.

@@ -25,11 +25,14 @@ export class GroundDrops{
     this.rows.set(drop.id,row);
     button.onclick=async event=>{
       if(!event.isTrusted||row.pending||row.expired||this.engine.huntPaused)return;
-      row.pending=true;button.disabled=true;button.classList.add('claiming');
+      row.pending=true;button.disabled=true;button.classList.add('claiming');button.setAttribute('aria-busy','true');
+      button.querySelector('.drop-label').textContent='획득 중';
+      row.tween?.kill();root.alpha=.4;
+      row.tween=gsap.to(root.scale,{x:.72,y:.72,duration:.12,ease:'power2.out'});
       try{const receipt=await this.claim(drop);if(rev!==this.revision)return;this.remove(drop.id);this.onPicked?.(receipt);}
       catch(error){if(rev!==this.revision)return;
         if(error.message==='DROP_EXPIRED'){this.remove(drop.id);this.onExpired?.(drop);}
-        else{row.pending=false;button.disabled=false;button.classList.remove('claiming');this.onError?.(error);}
+        else{row.pending=false;button.disabled=false;button.classList.remove('claiming');button.removeAttribute('aria-busy');button.querySelector('.drop-label').textContent=drop.item.name;row.tween?.kill();root.scale.set(1);root.alpha=1;this.onError?.(error);}
       }
     };
     row.tween=gsap.fromTo(root.scale,{x:.5,y:.5},{x:1,y:1,duration:.22,ease:'back.out(1.7)'});
@@ -58,7 +61,7 @@ export class GroundDrops{
       // CSS target keeps a 48px touch area even on the smallest V3 viewport.
       r.button.style.left=x+'px';r.button.style.top=(y-22)+'px';
       r.button.disabled=r.pending||!!e.huntPaused;
-      r.button.querySelector('.drop-countdown').textContent=Math.max(0,Math.ceil(left/1000))+'s';
+      r.button.querySelector('.drop-countdown').textContent=r.pending?'…':Math.max(0,Math.ceil(left/1000))+'s';
       r.button.classList.toggle('expiring',left<2500);
       r.icon.y=(-8+Math.sin(time/240)*2)*boost;
     }
