@@ -42,7 +42,7 @@ for(const postgres of [false,true]){
       for(const difficulty of DIFFICULTIES.map(d=>d.id)){
         const next=await start(difficulty);f.resetQueries();
         const result=await begin(next);assert.equal(result.status,200);assert.equal(result.body.entries.unlimited,true);
-        assert.equal(f.queries.length,2,'unlimited entry reuses the existing indexed session read and CAS write');
+        assert.equal(f.queries.length,3,'entry reads current ON/TEST/OFF policy, the indexed session, and performs one CAS write');
         assert.equal(result.body.entries.used,2);assert.equal(result.body.entries.remaining,null);
       }
       const saved=await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first();
