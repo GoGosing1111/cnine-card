@@ -64,3 +64,12 @@ OWNER CMS → 레이드 관리 → 리치왕 정벌.
 재뽑기부터 금고까지 통과 후 기존 Z-BODY 검사의 옛 런타임 날짜 고정이 현재 공용 엔진(`20260928-hunt-corpse-fix`)과 충돌했다. 실제 엔진/래퍼는 기준 main과 같고 6개 승인 아틀라스 검사는 통과했다. 날짜 고정을 래퍼와 렌더러의 버전 일치 검증으로 바꾸며 게임 파일은 수정하지 않는다. `deploy-final.log` 해시 `098a517bff9fc528e34a57ff25e3a5895fd94e4a560c9ff7401cc4fcf2bb39d7`, 기존 증빙의 재뽑기 시작 전까지와 이 로그의 해당 부분 이후를 연결한 `deploy-proof-final.log` 해시 `9e9683df5dbd89d088a69f79eedc3468ec27657d7ab9d71f1d58b68766d813cc`. `df6d63ee419894398ba06fbe4147e5beaa906481` 기준 성공 구간을 유지하고 Z-BODY·군단토벌·최종 출시 보호부터 완료한다.
 
 Z-BODY 통과 뒤 마지막 군단토벌 검사에서 오래된 쿼리 수 단언(2회)을 확인했다. 현재 main은 모드/테스터 정책 SELECT + 세션 SELECT + 세션 CAS로 3회가 맞으므로 해당 단언만 현재 계약에 맞췄다. 실제 군단토벌 코드와 나머지 권한·지급 테스트는 그대로다. `deploy-upload.log` 해시 `d5468fa36ae1c98bc3a1ba74120694d67f0c38b3008453b86eefdebc42772ab9`. Z-BODY 시작 경계에서 실제 성공 로그를 연결한 `deploy-proof-complete.log` 해시 `11961be5e650c60c36359f69cd79dffac4a4478c1de0b47a66a31887a43140ed`; 후보 `594e9c21107bfb29b7488777b2f58595357b8746`의 게임 실행 파일을 유지한다.
+
+## 운영 반영 완료
+
+- 배포 커밋: `d05fec2e8fa6868ab442310eca80377105dd15ac`. 전체 게이트의 65개 npm 단계와 최종 출시 보호 검사를 모두 완료했다. 마지막 실행은 64개 성공 단계를 재사용하고 군단토벌 49개 검사 및 최종 보호를 통과했다. 이어서 검사 도구·배포 정책 검사도 통과했다.
+- 지정 `npm run deploy:production`으로 Worker 컴파일, Hyperdrive query cache 비활성 확인, Pages와 기존 예약 Worker 업로드까지 성공했다. 배포 로그: `tmp/lich-live-20260928/deploy-complete.log`.
+- Pages 배포: `https://b72f31e9.cnine-card.pages.dev`; 운영 진입: `https://cnine-card.pages.dev/raid/lich-king/`.
+- 예약 Worker 버전: `23b6cbd8-82e8-44b9-87aa-4e9daaf58fa8`.
+- 실제 로그인 OWNER로 운영 CMS를 새로고침하고 레이드 관리의 리치왕 패널을 확인했다. TEST, 참여자 0명, OWNER 기본 포함, 입장권 지급 안내, ON/TEST/OFF와 검색·저장 제어가 표시된다. 실계정 페이지에서 소개 → 왕좌에 도전 → 입장권 0장·생성 버튼 비활성·빈 공대 목록까지 정상 확인했다.
+- 운영 계정에 검수용 입장권/보상을 임의 지급하거나 일반 계정을 테스트 명단에 자동 추가하지 않았다. 기존 운영 공대/재화에 테스트 데이터를 만들지 않았다. 이번 기록 보완은 문서만 커밋·원격 반영하며 재배포하지 않는다.
