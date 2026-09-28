@@ -25,4 +25,14 @@
 - 배포 선택: `legion-hunt-area-cadence-20260927`, `legion-hunt-modes-rewards-20260928`, `v3-common-grid-v1` 테스트 파일과 공용 전투의 필수 `pve-battlefield-entry-v2117` 로더 검사, `check:worker`. 무관한 전체 게이트는 실행하지 않는다.
 - 공통 V3 소비 번들 10개와 메인/군단토벌 로더 캐시를 같은 런타임 `20260928-hunt-corpse-fix`로 빌드했다. 승인된 이미지·아틀라스·사운드와 라이브러리는 변경하지 않는다.
 
-배포 완료 후 결과를 기록한다.
+## 운영 반영 결과
+
+- 소스 커밋 `2d429859`를 `origin/main`에 반영한 뒤 깨끗한 작업 트리에서 `npm run deploy:production -- --scoped` 성공.
+- 배포 게이트 관련 테스트 31개와 사전 재현/묶음 거래 테스트 6개, 총 37개 통과. Worker 구문·출시 플래그·Hyperdrive 캐시 OFF 검사 통과.
+- Pages: https://0b245f28.cnine-card.pages.dev
+- 연동 Worker 버전: `a5e96877-f8bf-40bc-864c-219bbdc1c8ed`.
+- 운영 별칭 `https://cnine-card.pages.dev`에서 메인 HTML/앱 로더, 전투 래퍼/공용 번들, 군단토벌 진입 HTML/앱/번들 7개 모두 HTTP 200 및 로컬 SHA-256 일치(개행 LF 정규화).
+- 공용 전투 번들 SHA-256: `bddf9134241b4303ef426805b40b77c88f901cc1536e2bb67d8c9912731f8d49`.
+- 군단토벌 번들 SHA-256: `7c995c323539f42870abce43be724bb4685b326f33c639f4c064a4b55c528e1f`.
+- 모바일의 서버 응답 이후 `획득 완료 1개 · 보스 출현 6.48초`도 확인. 검수 탭/서버를 종료하고 화면 크기 임시 설정을 복원했다.
+- 열려 있는 게임은 새로고침 후 새 전투부터 수정된 런타임을 사용한다. 이 결과 기록은 문서 전용 후속 커밋이며 재배포하지 않는다.
