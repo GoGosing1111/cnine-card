@@ -27,3 +27,12 @@
 - 배포 명령: `npm run deploy:production -- --scoped`.
 - 배포 시 선택 검사: `tests/raid-entry-fallback-v1927.test.mjs` — 실제 메인 PVE의 월드레이드 선행 진입과 선택적 레이드 로더 오류 격리를 확인한다. 이미 통과한 리치왕 브라우저·회귀검사는 중복 실행하지 않는다.
 - 출시 플래그·깨끗한 커밋·origin/main 일치·캐시·Hyperdrive 검사는 지정 배포 도구가 유지한다.
+
+## 운영 반영 완료
+
+- 운영 소스 커밋: `b1464223416b8dc84dd587779e175c9cf34165a4`.
+- Pages: `https://798c4a2d.cnine-card.pages.dev`.
+- clan-draft Worker 버전: `f33ea377-210f-4d65-b57a-3933c3295ab1`.
+- scoped 배포의 월드레이드 진입 회귀 6개와 출시/캐시/Hyperdrive 필수 검사 통과.
+- 운영 `cnine-card.pages.dev`에서 메인·탭 컨트롤러·리치왕 입구·HTML·모듈·CSS·전투 어댑터 총 8개 파일의 HTTP 200 및 로컬 소스 일치를 확인했다.
+- 이 완료 기록은 문서 전용 후속 커밋이며 게임 검사·재배포를 반복하지 않는다.
