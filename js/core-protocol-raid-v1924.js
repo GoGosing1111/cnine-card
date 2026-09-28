@@ -26,7 +26,8 @@
   let viewedRoomId = '';
   let browseMode = false;
   let loadRevision = 0;
-  let activeTab = sessionStorage.getItem(TAB_KEY) === 'core' ? 'core' : 'world';
+  let activeTab = ['core', 'lich'].includes(sessionStorage.getItem(TAB_KEY)) ? sessionStorage.getItem(TAB_KEY) : 'world';
+  let activationRevision = 0;
   let pollTimer = null;
   let lastError = null;
   let clanOnly = false;
@@ -770,8 +771,10 @@
   }
 
   async function activate(tab = 'world') {
+    activationRevision++;
     const previousTab = activeTab;
-    activeTab = tab === 'core' && feature?.visible === true ? 'core' : 'world';
+    activeTab = tab === 'lich' && globalThis.LichKingRaidEntry?.isVisible() ? 'lich' :
+      tab === 'core' && feature?.visible === true ? 'core' : 'world';
     sessionStorage.setItem(TAB_KEY, activeTab);
     const legacy = document.getElementById('pveRaidView');
     const core = document.getElementById('pveCoreRaidView');
@@ -782,12 +785,17 @@
     });
     if (legacy) legacy.hidden = activeTab !== 'world';
     if (core) core.hidden = activeTab !== 'core';
+    if (activeTab !== 'lich') globalThis.LichKingRaidEntry?.deactivate();
     stopPoll();
     if (activeTab === 'world') {
-      if (previousTab === 'core') bridge()?.activateLegacyRaid?.();
+      if (previousTab !== 'world') bridge()?.activateLegacyRaid?.();
       return;
     }
     bridge()?.stopLegacyRaid?.();
+    if (activeTab === 'lich') {
+      await globalThis.LichKingRaidEntry.open();
+      return;
+    }
     if (!data) render();
     try { await load(); } catch {}
   }
@@ -805,17 +813,20 @@
 
   async function openActive() {
     if (!wire()) return false;
+    const revision = activationRevision;
     try {
-      await loadFeature();
+      await Promise.all([loadFeature(), globalThis.LichKingRaidEntry?.refresh()]);
     } catch (error) {
       console.warn('[CORE RAID] feature gate unavailable', error);
       feature = { visible: false, accessible: false };
     }
-    await activate(activeTab);
+    if (revision === activationRevision && !document.getElementById('pveRaidHubView')?.hidden) await activate(activeTab);
     return true;
   }
 
   function deactivate() {
+    activationRevision++;
+    globalThis.LichKingRaidEntry?.deactivate();
     stopPoll();
     void abandonActive().catch(() => {});
     globalThis.ProjectVRaidQteV1924?.cancel?.();

@@ -1,20 +1,24 @@
 import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
-const $=id=>document.getElementById(id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
+export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
+const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#'+id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
+const lifecycle=new AbortController();
+const on=(target,type,listener)=>target.addEventListener(type,listener,{signal:lifecycle.signal});
+let disposed=false;
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api=(route,options)=>request('raid/lich/'+route,options);
 let state=null,eventSeq=0,roomId=sessionStorage.getItem('lichLiveRoom')||'',mounted=false,mounting=false,polling=false,busy=false,ended=false,view='landing',timer,toastTimer,memberKey='',failures=0,generation=0;
 let savedRequests=[];try{savedRequests=JSON.parse(sessionStorage.getItem('lichLiveRequests')||'[]');if(!Array.isArray(savedRequests))savedRequests=[];}catch{}
 const pending=new Map(savedRequests);
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4500);}
-function screen(name){view=name;document.body.classList.toggle('in-combat',name==='combat');['landing','lobby','combat','gate'].forEach(id=>$(id).hidden=id!==name);}
-function schedule(){clearTimeout(timer);if(document.hidden||view==='gate')return;timer=setTimeout(()=>void sync(),Math.min(10000,(state?.status==='ACTIVE'?650:view==='lobby'?3000:15000)*2**Math.min(failures,3)));}
+function screen(name){view=name;root.classList.toggle('in-combat',name==='combat');['landing','lobby','combat','gate'].forEach(id=>$(id).hidden=id!==name);}
+function schedule(){clearTimeout(timer);if(disposed||document.hidden||view==='gate')return;timer=setTimeout(()=>void sync(),Math.min(10000,(state?.status==='ACTIVE'?650:view==='lobby'?3000:15000)*2**Math.min(failures,3)));}
 function setRoom(value){roomId=value||'';if(roomId)sessionStorage.setItem('lichLiveRoom',roomId);else sessionStorage.removeItem('lichLiveRoom');}
 function reset(){
   setRoom('');state=null;eventSeq=0;ended=false;mounted=false;memberKey='';window.LichBattle?.teardown();$('journal').innerHTML='';
   for(const id of ['resultDialog','partyDialog'])if($(id).open)$(id).close();
 }
 function showGate(error){
-  reset();clearTimeout(timer);screen('gate');$('gate').innerHTML='<p class="eyebrow">LICH KING / ACCESS</p><h1>입장 안내</h1><p>'+esc(error.message)+'</p><a href="/">게임으로 돌아가기</a>';
+  reset();clearTimeout(timer);screen('gate');$('gate').innerHTML='<p class="eyebrow">LICH KING / ACCESS</p><h1>입장 안내</h1><p>'+esc(error.message)+'</p>'+(root===document.body?'<a href="/">게임으로 돌아가기</a>':'');
 }
 function renderMembers(){
   if(!state)return;const key=JSON.stringify([state.members,state.me.isHost,state.status]);
@@ -56,15 +60,15 @@ function showResult(){
   $('resultStats').innerHTML='<span><b>'+state.round+'/7</b>도달 작전</span><span><b>'+state.statistics.mistakes+'</b>누적 실수</span><span><b>'+state.statistics.rescues+'</b>영혼 구출</span>';$('resultDialog').showModal();
 }
 async function mount(payload){
-  if(mounted||mounting||!payload)return;mounting=true;
-  try{screen('combat');window.scrollTo(0,0);await window.LichBattle.mount(payload);mounted=true;window.LichBattle.restore(state);}
-  catch(error){toast('전장 준비 실패: '+error.message);}finally{mounting=false;}
+  if(disposed||mounted||mounting||!payload)return;mounting=true;
+  try{screen('combat');await loadBattle();if(disposed)return;await window.LichBattle.mount(payload,$('battleMount'));if(disposed)return;mounted=true;window.LichBattle.restore(state);}
+  catch(error){if(!disposed)toast('전장 준비 실패: '+error.message);}finally{mounting=false;}
 }
 async function sync(){
-  if(polling||mounting||busy)return;polling=true;const revision=generation;
+  if(disposed||polling||mounting||busy)return;polling=true;const revision=generation;
   try{
     const query=new URLSearchParams({since:String(eventSeq)});if(roomId)query.set('roomId',roomId);if(!mounted)query.set('payload','1');
-    const result=await api('status?'+query);if(revision!==generation)return;failures=0;render(result);
+    const result=await api('status?'+query,{signal:lifecycle.signal});if(disposed||revision!==generation)return;failures=0;render(result);
     if(result.state?.status==='ACTIVE'&&!mounted)await mount(result.payload);
   }catch(error){
     if(revision!==generation)return;failures++;
@@ -74,16 +78,18 @@ async function sync(){
   }finally{polling=false;schedule();}
 }
 async function command(kind,body={}){
-  if(busy)return;busy=true;generation++;clearTimeout(timer);$('lobbyNotice').hidden=true;
+  if(disposed||busy)return;busy=true;generation++;clearTimeout(timer);$('lobbyNotice').hidden=true;
   const input={...(kind!=='open'?{roomId}:{}),...body},key=kind+':'+JSON.stringify(input);
   if(!pending.has(key))pending.set(key,crypto.randomUUID());sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));
   try{
     const result=await api(kind,{method:'POST',body:{...input,requestId:pending.get(key)},timeoutMs:15000});
     pending.delete(key);
+    if(disposed)return;
     if(kind==='leave'){reset();screen('lobby');}
     else if(result.roomId)setRoom(result.roomId);
   }catch(error){
     if(error.status>=400&&error.status<500&&error.status!==429&&!error.retryable)pending.delete(key);
+    if(disposed)return;
     toast(error.message);$('lobbyNotice').textContent=error.message;$('lobbyNotice').hidden=false;
     if(['LICH_OFF','LICH_TEST_ONLY'].includes(error.code))showGate(error);
     if(['LICH_KICKED','LICH_NOT_MEMBER'].includes(error.code)){reset();screen('lobby');}
@@ -92,12 +98,12 @@ async function command(kind,body={}){
   }
 }
 async function boot(){
-  try{const feature=await api('feature');$('modeLabel').textContent=feature.mode==='TEST'?'TEST · 지정 공대 검수':feature.mode+' · 리치왕 정벌';
+  try{const feature=await api('feature',{signal:lifecycle.signal});if(disposed)return;$('modeLabel').textContent=feature.mode==='TEST'?'TEST · 지정 공대 검수':feature.mode+' · 리치왕 정벌';
     if(!feature.accessible)return showGate(new Error(feature.mode==='OFF'?'리치왕 정벌은 현재 운영 중지 상태입니다.':'CMS에서 지정된 테스트 참여자만 입장할 수 있습니다.'));
     screen(roomId?'lobby':'landing');await sync();
-  }catch(error){showGate(error);}
+  }catch(error){if(!disposed)showGate(error);}
 }
-$('enterButton').onclick=()=>{screen('lobby');window.scrollTo(0,0);void sync();};
+$('enterButton').onclick=()=>{screen('lobby');if(root===document.body)window.scrollTo(0,0);else root.scrollIntoView({block:'start'});void sync();};
 $('backLanding').onclick=()=>screen('landing');
 $('createButton').onclick=()=>{if(confirm('리치왕 정벌 입장권 1장을 사용해 공대를 창설합니다. 해산해도 입장권은 반환되지 않습니다.'))void command('open');};
 $('refreshRooms').onclick=()=>void sync();$('readyButton').onclick=()=>void command('ready',{ready:!state.me.ready});$('startButton').onclick=()=>void command('start');
@@ -106,15 +112,27 @@ $('leaveButton').onclick=()=>{if(confirm(state.me.isHost?'전투를 종료하고
 $('retryButton').onclick=()=>{reset();screen('lobby');void sync();};
 $('partyButton').onclick=()=>$('partyDialog').showModal();$('closeParty').onclick=()=>$('partyDialog').close();
 $('guideButton').onclick=$('resultGuide').onclick=$('combatGuide').onclick=()=>$('guideDialog').showModal();$('closeGuide').onclick=()=>$('guideDialog').close();
-document.addEventListener('click',event=>{
+on(root,'click',event=>{
   const join=event.target.closest('[data-join]');if(join){void command('join',{roomId:join.dataset.join});return;}
   const kick=event.target.closest('[data-kick]');if(kick&&confirm(kick.dataset.name+'님을 강제퇴장시킬까요? 이 공대에는 다시 들어올 수 없습니다.'))void command('kick',{targetId:kick.dataset.kick});
 });
-document.addEventListener('change',event=>{if(event.target.matches('[data-assign]'))void command('assign',{targetId:event.target.dataset.assign,role:event.target.value});});
-window.addEventListener('lich-raid-action',e=>{
+on(root,'change',event=>{if(event.target.matches('[data-assign]'))void command('assign',{targetId:event.target.dataset.assign,role:event.target.value});});
+on(window,'lich-raid-action',e=>{
   if(state?.status==='ACTIVE'&&e.detail.challengeId===state.challenge?.id)void command('action',e.detail);
 });
-document.addEventListener('visibilitychange',()=>{clearTimeout(timer);if(!document.hidden)void sync();});
-addEventListener('pagehide',()=>{clearTimeout(timer);window.LichBattle?.teardown();});
-window.LichRaidLive={sync,diagnostics:()=>({state,mounted,eventSeq,view,battle:window.LichBattle?.diagnostics()})};
+function destroy(){
+  if(disposed)return;
+  disposed=true;generation++;lifecycle.abort();clearTimeout(timer);clearTimeout(toastTimer);
+  if(mounted||mounting)window.LichBattle?.teardown();
+  mounted=false;root.classList.remove('in-combat');
+  root.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+  if(window.LichRaidLive===controller)delete window.LichRaidLive;
+}
+on(document,'visibilitychange',()=>{clearTimeout(timer);if(!document.hidden)void sync();});
+on(window,'pagehide',destroy);
+const controller={sync,destroy,diagnostics:()=>({state,mounted,eventSeq,view,disposed,battle:window.LichBattle?.diagnostics()})};
+window.LichRaidLive=controller;
 void boot();
+return controller;
+}
+if(document.body.hasAttribute('data-lich-standalone'))mountLichRaid();

@@ -1,9 +1,8 @@
 import { Assets, Sprite, Texture, Rectangle } from 'pixi.js';
-import { mountForBattle, resetSession } from '../project-v-v3/source/project-v-pixi-battle.src.js';
 import { MechanicOverlay } from './MechanicOverlay.js';
 
-// The bundle contains the existing V3 engine once. It does not create another
-// Application, formation, card dock, asset adapter, GSAP clock or renderer.
+// The encounter extends the already loaded live V3 runtime. It does not bundle
+// or create another Application, formation, card dock, GSAP clock or renderer.
 const sheets={prison:'frost-prison-16.png',zero:'absolute-zero-16.png',soul:'soul-annihilation-16.png'};
 let engine=null,renderer=null,prison=null,mechanics=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,syncedHp='',bossId='';
 const textures={};
@@ -33,22 +32,24 @@ async function animate(key,{targetId,hold=false,safe=false}={}){
     if(!hold&&!safe)owner.camera.addShake(tl,{intensity:.5,duration:.2,at:key==='zero'?.75:.65});
   },()=>{if(hold&&version===epoch){releasePrison();prison=effect;}else if(!effect.destroyed)effect.destroy();},1);
 }
-async function mount(payload){
+async function mount(payload,modal=document.getElementById('battleMount')){
   teardown();const version=epoch;
+  await window.ProjectVBattleV3Live.ensureRuntime();
+  if(version!==epoch)return;
   bossId=payload.battleV2.teams.B.cards[0].id;
-  window.cnineCardCatalog=()=>payload.cards;
   const api=window.ProjectVPixiBattle,original=api.mountForBattle,originalReset=api.resetSession;
-  api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine;};
-  api.resetSession=async(data,host)=>{engine=await resetSession(data,host);return engine;};
+  api.mountForBattle=async(data,host)=>{engine=await original(data,host);return engine;};
+  api.resetSession=async(data,host)=>{engine=await originalReset(data,host);return engine;};
   try{
-    const modal=document.getElementById('battleMount');
     const prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:'정벌 공대',opponentName:'리치왕',autoText:'얼어붙은 왕좌에 진입 중'});
-    renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});
-    if(version!==epoch)return;
+    const candidate=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});
+    if(version!==epoch){candidate.destroy();return;}
+    renderer=candidate;
     modal.querySelector('.battle-v3-header strong').textContent='리치왕 정벌';
     modal.querySelector('.battle-v3-header small').textContent='THE FROZEN THRONE';
     await engine.deployCards({instant:true,force:true});
     await Promise.all(Object.keys(sheets).map(loadFrames));
+    if(version!==epoch)return;
     mechanics=new MechanicOverlay(engine,modal.querySelector('.battle-v3-canvas-host'));
   }finally{api.mountForBattle=original;api.resetSession=originalReset;}
 }

@@ -1,0 +1,29 @@
+/* Inside #pveLichRaidView; shared V3 formation and card dock stay unchanged. */
+& { min-width: 0; isolation: isolate; }
+&[hidden] { display: none !important; }
+.site-header { height: 56px; padding: 0 28px; gap: 16px; }
+.site-header .quiet-button { margin-left: auto; }
+.raid-hero { min-height: 630px; }
+.hero-copy { padding: 54px 0 52px 6%; }
+.hero-copy h1 { font-size: 88px; }
+.hero-art { background-size: auto 130%; background-position: 90% 20%; }
+.encounter-strip { padding: 0 6% 40px; }
+.live-lobby { min-height: 560px; padding: 36px 5%; }
+&.in-combat > .site-header { display: none; }
+.battle-pane #lich-battleMount { height: calc(100dvh - 160px) !important; }
+@media (max-width: 760px) {
+  .site-header { padding: 0 16px; height: 52px; gap: 10px; }
+  .live-mode { font-size: 10px; letter-spacing: 0; }
+  .raid-hero { min-height: 650px; }
+  .hero-art { background-size: auto 96%; background-position: 60% 0; }
+  .hero-copy { padding: 250px 20px 32px; }
+  .hero-copy h1 { font-size: clamp(46px, 14vw, 64px); }
+  .hero-copy h1 span { margin-left: 10px; }
+  .raid-facts { gap: 22px; }
+  .encounter-strip { padding: 0 20px 24px; }
+  .live-lobby { padding: 26px 16px; }
+  .live-lobby h1 { font-size: 30px; }
+  dialog { padding: 28px 20px; }
+  .raid-party-dialog { padding: 18px 12px; }
+  .raid-room footer { gap: 10px; flex-wrap: wrap; }
+}
