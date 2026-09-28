@@ -118,6 +118,7 @@ import { handleNewUserGift,NEW_USER_GIFT_CODE } from '../_new_user_gift.js';
 import { handleHyperPack,arrangeHyperPackCatalog } from '../_hyper_pack.js';
 import { handleWishLamp } from '../_wish_lamp.js';
 import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
+import { rankedHistoryRows, syncRankedDefensePreset, createPvpTimings } from '../_pvp_performance.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
 async function safePveUnifiedDrop(env,payload){
@@ -7171,18 +7172,19 @@ async function handleRequest(context){
       // 테이블 준비는 인증과 무관하므로 먼저 띄운다.
       const pvpPresetTablesReady=ensurePvpPresetTables(env);pvpPresetTablesReady.catch(()=>{});
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      await ensureRankedPvpFoundation(env);
-      await cleanupRankedPvpMaintenance(env);
-      const lifecycle=await advancePvpSeasonLifecycle(env);
+      context.pvpTiming?.mark('auth');
+      await Promise.all([ensureRankedPvpFoundation(env),pvpPresetTablesReady]);
+      const [lifecycle,burning]=await Promise.all([advancePvpSeasonLifecycle(env),burningEventSettings(env),cleanupRankedPvpMaintenance(env)]);
+      context.pvpTiming?.mark('settings');
       if(lifecycle.settling&&typeof context.waitUntil==='function')context.waitUntil((async()=>{for(let i=0;i<8;i++){const next=await advancePvpSeasonLifecycle(env);if(!next.settling)break}})());
-      await pvpPresetTablesReady;
-      // 두 문장은 서로 순서를 지켜야 하지만 배치로 묶으면 왕복 1회로 끝난다.
-      await env.DB.batch([
-        env.DB.prepare("INSERT OR IGNORE INTO pvp_deck_presets(user_id,preset_no,card_ids) SELECT user_id,1,card_ids FROM pvp_decks WHERE user_id=?").bind(user.id),
-        env.DB.prepare('UPDATE pvp_decks SET card_ids=(SELECT card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no=1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM pvp_deck_presets WHERE user_id=? AND preset_no=1)').bind(user.id,user.id,user.id)
+      await syncRankedDefensePreset(env,user.id);
+      const settings=applyBurningPvpSettings(lifecycle.settings,burning);
+      const [profile,deck,titleMap,characterBonus,energy,battle,presetRows,activeRow,challengerRank,pvpMagic]=await Promise.all([
+        ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env),
+        env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),
+        env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first(),pvpChallengerRank(env,user.id),readPvpMagicPresets(env,user.id)
       ]);
-      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning),[profile,deck,titleMap,characterBonus,energy,battle]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env)]);
-      const [presetRows,activeRow,challengerRank,pvpMagic]=await Promise.all([env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first(),pvpChallengerRank(env,user.id),readPvpMagicPresets(env,user.id)]);
+      context.pvpTiming?.mark('state');
       const presets={1:[],2:[],3:[]};for(const row of presetRows.results||[]){try{presets[Number(row.preset_no)]=JSON.parse(row.card_ids||'[]')}catch{presets[Number(row.preset_no)]=[]}}
       return json({settings,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,rank:challengerRank,tier:resolvePvpTier(Number(profile.season_score),settings,challengerRank),highestTier:resolvePvpTier(Number(profile.highest_score),settings,challengerRank)},title:titleMap[String(user.id)]||null,deck,presets,magicPresets:pvpMagic.magicPresets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),deckRules:deckRulesContract('PVP'),characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
     }
@@ -7202,21 +7204,33 @@ async function handleRequest(context){
     }
     if(path==='pvp/match'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      context.pvpTiming?.mark('auth');
       const [lifecycle,burning]=await Promise.all([advancePvpSeasonLifecycle(env),burningEventSettings(env)]),settings=applyBurningPvpSettings(lifecycle.settings,burning);
+      context.pvpTiming?.mark('settings');
       if(lifecycle.settling)return json({error:'현재 시즌 정산 중입니다. 새 시즌이 자동 시작되면 매칭할 수 있습니다.',code:'PVP_SEASON_SETTLING',retryable:true,retryAfterMs:1500},409);
       if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);
       const energy=await pvpEnergyState(env,user,settings);if(!energy.unlimited&&energy.energy<energy.costPerBattle)return json({error:'랭크전 전투 횟수가 부족합니다.',energy},409);
+      context.pvpTiming?.mark('energy');
       try{return json({ok:true,matchingMode:'AUTO',...(await createRankedMatchTicket(env,user,settings))})}catch(error){return json({error:error.message||'랭크전 매칭에 실패했습니다.'},Number(error.status||500))}
     }
     if(path==='pvp/fight'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),requestId=String(body.requestId||crypto.randomUUID());
-      const lifecycle=await advancePvpSeasonLifecycle(env),burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning);if(lifecycle.settling)return json({error:'현재 시즌 정산 중입니다.',code:'PVP_SEASON_SETTLING'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);
+      context.pvpTiming?.mark('auth');
+      const [lifecycle,burning]=await Promise.all([advancePvpSeasonLifecycle(env),burningEventSettings(env)]),settings=applyBurningPvpSettings(lifecycle.settings,burning);if(lifecycle.settling)return json({error:'현재 시즌 정산 중입니다.',code:'PVP_SEASON_SETTLING'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);
+      context.pvpTiming?.mark('settings');
       let rankedTicket;try{rankedTicket=await claimRankedMatchTicket(env,user.id,body.matchToken,settings)}catch(error){return json({error:error.message||'랭크전 매칭 확인에 실패했습니다.'},Number(error.status||500))}const defenderId=Number(rankedTicket.defender_id);if(!defenderId||defenderId===user.id)return json({error:'자동 배정된 상대가 올바르지 않습니다.'},400);
-      const recent=await env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 2').bind(user.id).all();
+      context.pvpTiming?.mark('ticket');
+      const [recent,attacker,defUser]=await Promise.all([
+        env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 2').bind(user.id).all(),
+        ensurePvpProfile(env,user,settings),
+        env.DB.prepare("SELECT * FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=datetime('now'))").bind(defenderId).first()
+      ]);
       if(recent.results.length===2&&Number(recent.results[0].defender_id)===defenderId&&Number(recent.results[1].defender_id)===defenderId)return json({error:'같은 상대와는 연속 3회 이상 대전할 수 없습니다. 다른 상대와 1회 대전한 뒤 다시 도전하세요.',code:'PVP_REPEAT_OPPONENT_LIMIT'},409);
-      const attacker=await ensurePvpProfile(env,user,settings),defUser=await env.DB.prepare("SELECT * FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=datetime('now'))").bind(defenderId).first();if(!defUser)return json({error:'상대를 찾을 수 없습니다.'},404);const defender=await ensurePvpProfile(env,defUser,settings);
+      if(!defUser)return json({error:'상대를 찾을 수 없습니다.'},404);const defender=await ensurePvpProfile(env,defUser,settings);
       if(Number(attacker.season_score)!==Number(rankedTicket.attacker_score)||Number(defender.season_score)!==Number(rankedTicket.defender_score))return json({error:'매칭 후 시즌 점수가 변경되었습니다. 현재 점수 기준으로 다시 매칭해주세요.',code:'PVP_MATCH_SCORE_CHANGED'},409);
+      context.pvpTiming?.mark('profiles');
       const [aDeck,dDeck,battle,titleMap]=await Promise.all([pvpDeckSnapshot(env,user.id),pvpDeckSnapshot(env,defenderId,true),battleSettings(env),publicEquippedTitleMap(env,[user.id,defenderId])]);
+      context.pvpTiming?.mark('decks');
       if(aDeck.length!==5)return json({error:'랭크전 덱을 다시 저장해주세요. 보유 카드 5장, SUPERSTAR 최대 1장이 필요합니다.'},400);
       if(dDeck.length!==5)return json({error:'상대의 랭크전 덱이 완성되지 않았습니다.'},409);
       const aPrestigeCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length,dPrestigeCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length,aFurCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='FUR').length,dFurCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='FUR').length,aZenithCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='ZENITH').length,dZenithCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='ZENITH').length;
@@ -7226,9 +7240,9 @@ async function handleRequest(context){
       if(dPrestigeCount>PRESTIGE_DECK_LIMIT)return json({error:'상대의 랭크전 덱이 PRESTIGE 편성 제한을 초과해 대전할 수 없습니다.',code:'OPPONENT_PRESTIGE_DECK_LIMIT'},409);
       if(aZenithCount>ZENITH_DECK_LIMIT)return json({error:`랭크전 덱에는 ZENITH 카드를 최대 ${ZENITH_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`,code:'ZENITH_DECK_LIMIT',zenithCount:aZenithCount,limit:ZENITH_DECK_LIMIT},409);
       if(dZenithCount>ZENITH_DECK_LIMIT)return json({error:`상대의 랭크전 덱이 ZENITH ${ZENITH_DECK_LIMIT}장 편성 제한을 초과해 대전할 수 없습니다.`,code:'OPPONENT_ZENITH_DECK_LIMIT'},409);
-      const defUserRole=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(defenderId).first(),aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id));
+      const defUserRole=defUser,aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id));
       const aCards=aDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)})),dCards=dDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)}));
-      const [aSyn,dSyn,uniqueStates,aCharacterBonus,dCharacterBonus,aMagic,dMagic,aAvatarEffect]=await Promise.all([
+      const [aSyn,dSyn,uniqueStates,aCharacterBonus,dCharacterBonus,aMagic,dMagic,aAvatarEffect,aMercenary,dMercenary]=await Promise.all([
         evaluateDeckSynergies(env,user,aIds,'PVP',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),
         evaluateDeckSynergies(env,defUserRole,dIds,'PVP',{forceOwnerTest:String(defUserRole?.role||'').toUpperCase()==='OWNER'}),
         cardUniqueDeckStates(env,[{user,cards:aCards},{user:defUserRole,cards:dCards}],'PVP'),
@@ -7236,14 +7250,15 @@ async function handleRequest(context){
         userEquipmentBonuses(env,defenderId),
         magicBattleLoadout(env,user,'PVP'),
         magicBattleLoadout(env,defUserRole,'PVP',{presetNo:1}),
-        equippedAvatarEffect(env,user.id)
+        equippedAvatarEffect(env,user.id),
+        releasedMercenarySnapshot(env,user),releasedMercenarySnapshot(env,defUser)
       ]);
+      context.pvpTiming?.mark('loadouts');
       const [aUnique,dUnique]=uniqueStates;
       const aBase=Number(aUnique.power||aCards.reduce((s,c)=>s+Number(c.power||0),0)),dBase=Number(dUnique.power||dCards.reduce((s,c)=>s+Number(c.power||0),0));
       const aUniqueRuntime=aUnique.enabled?resolveUniqueBattleRuntime(aUnique,{mode:'PVP',opponentPower:dBase}):null,dUniqueRuntime=dUnique.enabled?resolveUniqueBattleRuntime(dUnique,{mode:'PVP',opponentPower:aBase}):null;
       const aSynergyMultiplier=1+Number(aSyn.totals.attackPercent||0)/100,dSynergyMultiplier=1+Number(dSyn.totals.attackPercent||0)/100;
       const aCardPower=Math.max(0,Math.floor(Number(aUniqueRuntime?.effectivePower||aBase)*aSynergyMultiplier)),dCardPower=Math.max(0,Math.floor(Number(dUniqueRuntime?.effectivePower||dBase)*dSynergyMultiplier)),legacyAPower=aCardPower+Number(aCharacterBonus.pvp||0),legacyDPower=dCardPower+Number(dCharacterBonus.pvp||0);
-      const [aMercenary,dMercenary]=await Promise.all([releasedMercenarySnapshot(env,user),releasedMercenarySnapshot(env,defUser)]);
       const currentMatchAPower=Math.max(1,aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)+mercenarySnapshotPower(aMercenary)),currentMatchDPower=Math.max(1,dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0)+mercenarySnapshotPower(dMercenary));
       if(currentMatchAPower!==Number(rankedTicket.attacker_power)||currentMatchDPower!==Number(rankedTicket.defender_power))return json({error:'매칭 후 덱·장비·칭호 정보가 변경되었습니다. 새로 매칭해주세요.',code:'PVP_MATCH_FORMATION_CHANGED'},409);
       const engineState=battleEngineState(battle,user),aUniqueById=new Map((aUnique.cards||[]).map(card=>[String(card.id),card])),dUniqueById=new Map((dUnique.cards||[]).map(card=>[String(card.id),card]));
@@ -7258,6 +7273,7 @@ async function handleRequest(context){
       const aPower=engineState.active?Number(battleV2.teams.A.summary.power||legacyAPower):legacyAPower,dPower=engineState.active?Number(battleV2.teams.B.summary.power||legacyDPower):legacyDPower;
       const winnerId=attackerWin?user.id:defenderId,aBefore=Number(attacker.season_score),dBefore=Number(defender.season_score),aAdj=pvpSeasonScoreAdjustment(attackerWin,aBefore,dBefore),dAdj=pvpSeasonScoreAdjustment(!attackerWin,dBefore,aBefore),change=aAdj.change,defenderChange=dAdj.change,aAfter=Math.max(0,aBefore+(attackerWin?change:-change)),dAfter=Math.max(0,dBefore+(attackerWin?-defenderChange:defenderChange)),aCard=0,dCard=0;
       const pvpEnergy=await consumePvpEnergy(env,user,settings);
+      context.pvpTiming?.mark('simulation_energy');
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
       // The asynchronous defender never receives win/lose coins from being challenged.
       const attackerEventCoinReward=burningRewardAmount(attackerWin?settings.winCoin:settings.loseCoin,burning),attackerAvatarCoin=applyAvatarCoinGain(attackerEventCoinReward,aAvatarEffect),attackerCoinReward=attackerAvatarCoin.total;
@@ -7279,15 +7295,30 @@ async function handleRequest(context){
       await env.DB.batch(matchWrites);
       const coinUser=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
       if(attackerCoinReward>0)await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PVP_ATTACK_BATTLE')").bind(user.id,attackerCoinReward,coinUser.coin).run();
+      context.pvpTiming?.mark('score_save');
       const cubeReward=await grantBattleCube(env,user.id,'PVP',requestId,attackerWin);
+      context.pvpTiming?.mark('cube');
       if(attackerWin)await grantHighGradeRerollDrop(env,{userId:user.id,content:'PVP',referenceId:requestId});
+      context.pvpTiming?.mark('reroll');
       const pvpMagic=(await magicSettings(env)).acquisition?.pvp||{};
       const magicReward=attackerWin?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVP_DROP',referenceId:requestId,enabled:pvpMagic.enabled===true,chance:pvpMagic.chance,amount:pvpMagic.amount,dailyLimit:pvpMagic.dailyLimit,reason:'일반 PVP 승리 확률 드랍'}):null;
-      const equipmentReward=attackerWin?await safeEquipmentDrop(env,{userId:user.id,sourceType:'PVP',sourceId:'*',requestId}):null,blackMiracleReward=attackerWin?await rollBlackMiracleDrop(env,{userId:user.id,source:'PVP',referenceId:requestId}):null,unifiedDrop=attackerWin?await safeUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:'PVP',sourceId:'*',triggerType:'WIN',context:{defenderId},role:user.role}):null,freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),weeklyPremiumCube=await premiumCubeWeeklyStatus(env,user.id);
+      context.pvpTiming?.mark('magic');
+      const equipmentReward=attackerWin?await safeEquipmentDrop(env,{userId:user.id,sourceType:'PVP',sourceId:'*',requestId}):null;
+      context.pvpTiming?.mark('equipment');
+      const blackMiracleReward=attackerWin?await rollBlackMiracleDrop(env,{userId:user.id,source:'PVP',referenceId:requestId}):null;
+      context.pvpTiming?.mark('black_miracle');
+      const unifiedDrop=attackerWin?await safeUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:'PVP',sourceId:'*',triggerType:'WIN',context:{defenderId},role:user.role}):null;
+      context.pvpTiming?.mark('unified');
+      const [freshCoinUser,weeklyPremiumCube]=await Promise.all([env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),premiumCubeWeeklyStatus(env,user.id)]);
+      context.pvpTiming?.mark('balances');
       return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cubeReward,weeklyPremiumCube,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,attackerCharacterBonus:aCharacterBonus,defenderCharacterBonus:dCharacterBonus,attackerCardPower:aCardPower,defenderCardPower:dCardPower,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinRewardBeforeAvatar:attackerAvatarCoin.base,avatarCoinBonus:attackerAvatarCoin.bonus,avatarCoinGainPercent:attackerAvatarCoin.percent,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,attackerTitle:titleMap[String(user.id)]||null,defenderTitle:titleMap[String(defenderId)]||null,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:uniqueBattleResponsePayload(aUnique,aUniqueRuntime),defender:uniqueBattleResponsePayload(dUnique,dUniqueRuntime)},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT id,attacker_id,defender_id,attacker_name,defender_name,attacker_power,defender_power,winner_id,attacker_score_before,attacker_score_after,defender_score_before,defender_score_after,score_change,created_at FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();const opponentIds=[...new Set((rows.results||[]).map(r=>Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id)).filter(Boolean))],titleMap=await publicEquippedTitleMap(env,opponentIds);return json({history:rows.results.map(r=>{const opponentId=Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id);return {...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,opponentTitle:titleMap[String(opponentId)]||null,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}})});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);
+      context.pvpTiming?.mark('auth');
+      const rows=await rankedHistoryRows(env,user.id,settings.historyLimit);
+      context.pvpTiming?.mark('history');
+      const opponentIds=[...new Set((rows.results||[]).map(r=>Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id)).filter(Boolean))],titleMap=await publicEquippedTitleMap(env,opponentIds);return json({history:rows.results.map(r=>{const opponentId=Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id);return {...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,opponentTitle:titleMap[String(opponentId)]||null,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}})});
     }
     if(path==='pvp/ranking'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);const lifecycle=await advancePvpSeasonLifecycle(env),settings=lifecycle.settings;if(lifecycle.settling)return json({error:'현재 랭크전 시즌 정산 중입니다. 새 시즌이 자동으로 시작되면 랭킹이 열립니다.',code:'PVP_SEASON_SETTLING',retryable:true,retryAfterMs:1500},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses,t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset,t.unlock_config_json AS titleUnlockConfig FROM pvp_profiles p JOIN users u ON u.id=p.user_id LEFT JOIN user_title_loadout tl ON tl.user_id=u.id LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP) LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1 WHERE u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id LIMIT 100`).all();const ranking=rows.results.map((x,i)=>{const {titleUnlockConfig,...publicRow}=x;return {...publicRow,title:x.titleId?{id:Number(x.titleId),name:x.titleName,badgeText:x.titleBadgeText||x.titleName,stylePreset:String(x.titleStylePreset||'DEFAULT').toUpperCase(),fontPreset:(()=>{try{const value=String(JSON.parse(titleUnlockConfig||'{}')?.fontPreset||'DEFAULT').toUpperCase();return ['DEFAULT','SERIF','DISPLAY','ARCADE','ROUNDED','SCIFI','BRUSH','HANDWRITING','MONO','CLASSIC'].includes(value)?value:'DEFAULT'}catch{return 'DEFAULT'}})()}:null,rank:i+1,tier:resolvePvpTier(Number(x.season_score),settings,i+1)}});return json({settings,ranking,me:ranking.find(x=>Number(x.id)===Number(user.id))||null});
@@ -9451,6 +9482,7 @@ function startD1Session(env,request){
 async function handleRequestWithDatabase(context){
   const startedAt=Date.now(),request=context.request,url=new URL(request.url);
   const actionPath=url.pathname.replace(/^\/api\/?/,'');let mutationLock=null,response;
+  const pvpTiming=createPvpTimings(actionPath);
   // 이 요청 동안에는 env.DB 가 곧 세션이다. context 도 같이 갈아끼워
   // handleRequest 내부의 모든 env.DB 사용처가 자동으로 세션을 쓰게 한다.
   const {db:sessionDb,session:d1Session}=startD1Session(context.env,request);
@@ -9458,7 +9490,7 @@ async function handleRequestWithDatabase(context){
   const d1Stats=newD1Stats();
   const instrumentedDb=instrumentD1(sessionDb||context.env?.DB,d1Stats);
   const env=instrumentedDb?{...context.env,RUNTIME_DB_CACHE_SCOPE:context.env.RUNTIME_DB_CACHE_SCOPE||context.env.DB,DB:instrumentedDb}:context.env;
-  context={...context,env,waitUntil:typeof context.waitUntil==='function'?context.waitUntil.bind(context):undefined};
+  context={...context,env,pvpTiming,waitUntil:typeof context.waitUntil==='function'?context.waitUntil.bind(context):undefined};
   if(serializedGameAction(actionPath,request.method)){
     // V1784: 세션 조회를 점검 게이트 조회와 같은 배치로 먼저 태워, 이후 authenticate()와
     // handleRequest()의 점검 게이트가 추가 D1 왕복 없이 캐시된 결과를 쓰게 한다.
@@ -9492,6 +9524,7 @@ async function handleRequestWithDatabase(context){
   }
   // V1784: 락 해제는 응답 지연 경로에서 뺀다. waitUntil 로 넘겨도 쓰기는 그대로 수행되며,
   // 실패하더라도 lease(8~60초)가 만료되면 자동 회수된다.
+  pvpTiming?.mark('preflight');
   try{if(!response)response=await handleRequest(context)}finally{
     if(mutationLock){
       const release=releaseUserMutationLock(context.env,mutationLock).catch(error=>console.warn('user mutation lock release failed',error));
@@ -9508,9 +9541,10 @@ async function handleRequestWithDatabase(context){
     }
   }
   const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
-  if(durationMs>=2000)console.warn('SLOW_API_REQUEST',JSON.stringify({path:actionPath,method:request.method,status:response.status,durationMs}));
+  pvpTiming?.mark('response');
+  if(durationMs>=2000)console.warn('SLOW_API_REQUEST',JSON.stringify({path:actionPath,method:request.method,status:response.status,durationMs,...(pvpTiming?{phases:pvpTiming.snapshot()}: {})}));
   // V1792: D1 사용량을 응답에 노출한다. DevTools Network > Timing 에서 바로 보인다.
-  headers.set('server-timing',`app;dur=${durationMs}, d1;dur=${d1Stats.ms};desc="${d1Stats.queries}q ${d1Stats.batches}b"`);
+  headers.set('server-timing',`app;dur=${durationMs}, d1;dur=${d1Stats.ms};desc="${d1Stats.queries}q ${d1Stats.batches}b"${pvpTiming?', '+pvpTiming.serverTiming():''}`);
   headers.set('x-cnine-response-ms',String(durationMs));
   headers.set('x-cnine-d1-queries',String(d1Stats.queries+d1Stats.statements));
   headers.set('x-cnine-db-backend',String(context.env?.DB_DIALECT||context.env?.DB?.dialect||'d1'));
