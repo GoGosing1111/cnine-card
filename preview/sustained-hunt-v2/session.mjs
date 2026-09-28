@@ -57,7 +57,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
       result:{winner:null,reason:'RUNNING',timeline,final:{A:result.final.A.filter(c=>!c.isMercenary&&!c.isBattleSuit),B:result.final.B,...(mercenary?{mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:[]}}:{})}}}};
   return Object.assign(restoreHuntSession({id,policy,timeLimit,eventTimes:timeline.map(e=>Math.floor(e.combatAtMs)),timeline:timeline.filter(e=>e.huntKill||e.type==='RESULT').map(({seq,combatAtMs,huntKill,boss,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
 }
-// Compact, JSON-safe state is persisted by the OWNER API; no isolate-local session map.
+// Compact, JSON-safe state is persisted by the account API; no isolate-local session map.
 export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
   const {id,policy,timeLimit,timeline,outcome}=state;
   const eventTimes=state.eventTimes||timeline.map(e=>e.combatAtMs),eventsBySeq=new Map(timeline.map(e=>[e.seq,e]));
@@ -80,13 +80,13 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
     const event=acknowledge(seq);if(!event?.huntKill)throw Error('HUNT_DROP_REQUIRES_KILL');
     expire();
     if(observed.has(seq))return {drop:observed.get(seq),serverNow:now()};
-    const items=(policy.items||LOOT_ITEMS).filter(row=>row.enabled!==false&&row.weight>0),total=items.reduce((sum,row)=>sum+row.weight,0);
+    const items=(policy.items||LOOT_ITEMS).filter(row=>row.enabled!==false&&row.weight>0),total=items.reduce((sum,row)=>sum+Math.round(row.weight*10),0);
     if(!total||random()>=(event.boss?(policy.bossDropChance??.72):policy.dropChance)){observed.set(seq,null);return {drop:null,serverNow:now()};}
     const active=[...drops.values()].filter(d=>d.state==='GROUND');
     const position=chooseDropPosition(random,positions,active.map(d=>d.position));
     if(!position){observed.set(seq,null);return {drop:null,serverNow:now()};}
     let roll=random()*total,item=items.at(-1);
-    for(const row of items){roll-=row.weight;if(roll<0){item=row;break;}}
+    for(const row of items){roll-=Math.round(row.weight*10);if(roll<0){item=row;break;}}
     const min=item.minQuantity??1,max=item.maxQuantity??min,quantity=min+Math.floor(random()*(max-min+1));
     const drop={id:randomUUID(),token:randomUUID(),seq,item:{...item,quantity},position,createdAt:now(),expiresAt:now()+policy.dropLifeMs,state:'GROUND'};
     drops.set(drop.id,drop);positions.push(position);observed.set(seq,drop);

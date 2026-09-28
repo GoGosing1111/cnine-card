@@ -88,7 +88,7 @@
     await api.restoreDeployedFormation();
     engine.attachGroundDrops({
       claim:drop=>request('claim',{id:session,dropId:drop.id,token:drop.token,x:drop.position.x,y:drop.position.y}),
-      onPicked:r=>{picked++;$('hunt-picked').textContent=picked;inventory(r.inventory);toast(r.item.name+' +'+r.item.quantity+' 획득');},
+      onPicked:r=>{picked++;if(r.liveRewards&&picked===1)notifyParent('legion-hunt-rewards-changed');$('hunt-picked').textContent=picked;inventory(r.inventory);toast(r.item.name+' +'+r.item.quantity+(r.liveRewards?' · 계정 지급':' · 검수 획득'));},
       onExpired:()=>{if(playing)message('드랍이 사라졌습니다. 다음 아이템은 다른 위치에 나타납니다.');},
       onError:e=>message(errorText(e))
     });
@@ -150,6 +150,7 @@
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;
       const labels={CLEAR:['사냥 클리어','15분 토벌을 마치고 태고의 수호자를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','보스 제한 시간 안에 태고의 수호자를 처치하지 못했습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 직접 획득한 전리품만 집계합니다.']};
       const [title,reason]=labels[receipt.reason];$('result-title').textContent=title;$('result-reason').textContent=reason;$('result-eyebrow').textContent=payload.huntPolicy.name+' · 원정 결과';
+      const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'직접 주운 전리품은 계정에 지급됐습니다. 철수해도 이미 지급된 보상은 유지됩니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
       $('result-kills').textContent=receipt.kills+'마리 · 보스 '+receipt.bosses+' / 1';
       $('hunt-again').disabled=entries?.remaining===0;$('hunt-again').textContent=entries?.remaining===0?'오늘 입장 횟수 소진':'같은 난이도 재도전';
       $('result-picked').textContent=receipt.picked+'개';$('result-missed').textContent=receipt.missed+'개';$('result-time').textContent=time(receipt.combatMs);

@@ -10,11 +10,11 @@ const started=async f=>{
 };
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
-  test(dialect+': OWNER-only on every endpoint; denied roles perform no content DB work',async()=>{
+  test(dialect+': default TEST blocks non-OWNER before loading account or session data',async()=>{
     const f=await legionFixture({postgres});try{
-      const routes=[['legion-hunt/bootstrap'],['admin/legion-hunt'],['admin/legion-hunt',{policy:{}},{method:'PATCH'}],...['start','begin','reveal','claim','finish','cancel'].map(a=>['legion-hunt/'+a,{}])];
-      for(const user of [null,{id:2,role:'USER'},{id:3,role:'ADMIN'},{id:4,role:'OWNER '}]){f.setUser(user);f.resetQueries();for(const args of routes)assert.equal((await f.call(...args)).status,user?403:401);assert.equal(f.queries.length,0);}
-      assert.deepEqual(LEGION_HUNT_ACCESS,{ownerEnabled:true,publicEnabled:false,liveRewards:false});
+      const routes=[['legion-hunt/bootstrap'],['admin/legion-hunt'],['admin/legion-hunt',{policy:{}},{method:'PATCH'}],...['start','begin','reveal','claim','finish','cancel'].map(a=>['legion-hunt/'+a,a==='start'?{difficulty:'normal'}:{id:'00000000-0000-4000-8000-000000000000'}])];
+      for(const user of [null,{id:2,role:'USER'},{id:3,role:'ADMIN'},{id:4,role:'OWNER '}]){f.setUser(user);f.resetQueries();for(const args of routes)assert.equal((await f.call(...args)).status,user?403:401);assert.equal(f.queries.length,user?7:0);assert.ok(f.queries.every(q=>/^SELECT value FROM app_meta WHERE key=/.test(q)));}
+      assert.deepEqual(LEGION_HUNT_ACCESS,{mode:'TEST',ownerEnabled:true,publicEnabled:false,liveRewards:false});
     }finally{await f.close();}
   });
   test(dialect+': CMS persistent catalog, explicit opt-in, revision conflicts and transactional audit',async()=>{
@@ -92,14 +92,13 @@ test('request boundaries, policy CAS and failed session persistence never acknow
     assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM admin_logs').first()).n,1);
   }finally{await f.close();}
 });
-test('actual PVE renderer exposes the new entry only to OWNER and main/CMS load the reviewed modules',()=>{
+test('actual PVE renderer hides the entry until the server mode check and main/CMS load current modules',()=>{
   const source=fs.readFileSync('js/pve-command-v2-live.js','utf8');
   const context={window:{},battleState:{},battleView(){},renderBattleBuilder(){},switchPveMode(){},renderPveMonsterBrowser:null,renderBattleSnapshot:null,summaryBar:()=>''};
   vm.createContext(context);vm.runInContext(source,context);
-  for(const role of ['USER','ADMIN',undefined])assert.ok(!context.battleView({role}).includes('data-legion-hunt-entry'));
-  assert.ok(context.battleView({role:'OWNER'}).includes('data-legion-hunt-entry'));
-  assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1.mjs\?v=20260927-owner-unlimited/);
-  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20260926/);
+  for(const role of ['OWNER','USER','ADMIN',undefined])assert.match(context.battleView({role}),/data-legion-hunt-entry hidden/);
+  assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1.mjs\?v=20260928-modes-rewards/);
+  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20260928-modes-rewards/);
   assert.match(fs.readFileSync('functions/api/[[path]].js','utf8'),/await handleLegionHunt/);
 });
 test('OWNER client serializes reveal/pickup/finish and retries account lock contention with the same body',async()=>{

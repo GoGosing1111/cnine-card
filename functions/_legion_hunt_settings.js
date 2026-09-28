@@ -1,6 +1,11 @@
 import {DIFFICULTIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 import {jointError} from './_joint_request.js';
-export const LEGION_HUNT_ACCESS=Object.freeze({ownerEnabled:true,publicEnabled:false,liveRewards:false});
+export const LEGION_HUNT_MODES=Object.freeze(['OFF','TEST','ON']);
+export function legionHuntAccess(policy){
+  const mode=policy?.mode??'TEST';
+  return {mode,ownerEnabled:mode==='TEST'||mode==='ON',publicEnabled:mode==='ON',liveRewards:mode==='ON'};
+}
+export const LEGION_HUNT_ACCESS=Object.freeze(legionHuntAccess({mode:'TEST'}));
 export const LEGION_HUNT_SETTINGS_KEY='legion_hunt_settings_v1';
 const fail=message=>{throw jointError('HUNT_POLICY',message);};
 const integer=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
@@ -19,10 +24,13 @@ export async function legionHuntCatalog(env){
   return results.flatMap((r,i)=>(r.results||[]).map(row=>({code:definitions[i][0]+':'+row.ref,type:definitions[i][0],ref:String(row.ref),name:String(row.name),image:imagePath(row.image_url),rarity:row.rarity,tier:tier(row.rarity)})));
 }
 export function defaultLegionHuntPolicy(){
-  return {revision:0,difficulties:DIFFICULTIES.map(d=>({id:d.id,dropPercent:Math.round(d.dropChance*10000)/100,bossDropPercent:72,lifetimeSeconds:d.dropLifeMs/1000})),items:[]};
+  return {revision:0,mode:'TEST',difficulties:DIFFICULTIES.map(d=>({id:d.id,dropPercent:Math.round(d.dropChance*10000)/100,bossDropPercent:72,lifetimeSeconds:d.dropLifeMs/1000})),items:[]};
 }
 export function validateLegionHuntPolicy(value,catalog){
-  if(!keys(value,['revision','difficulties','items','updatedBy','updatedAt'])||!integer(value.revision,0,1e9)||!Array.isArray(value.difficulties)||value.difficulties.length!==4||!Array.isArray(value.items)||value.items.length>100)fail('난이도 4개와 드랍 후보 최대 100개를 확인하세요.');
+  if(!keys(value,['revision','mode','difficulties','items','updatedBy','updatedAt'])||!integer(value.revision,0,1e9)||!Array.isArray(value.difficulties)||value.difficulties.length!==4||!Array.isArray(value.items)||value.items.length>100)fail('난이도 4개와 드랍 후보 최대 100개를 확인하세요.');
+  const mode=value.mode??'TEST';
+  if(!LEGION_HUNT_MODES.includes(mode))fail('운영 모드는 OFF, TEST, ON 중에서 선택하세요.');
+  const weight=v=>Number.isFinite(v)&&v>=0&&v<=1000000&&Math.abs(v*10-Math.round(v*10))<.000001;
   const percent=v=>Number.isFinite(v)&&v>=0&&v<=100&&Math.abs(v*100-Math.round(v*100))<.000001;
   const ids=new Set(),byCode=new Map(catalog.map(r=>[r.code,r]));
   const difficulties=value.difficulties.map(d=>{
@@ -31,20 +39,21 @@ export function validateLegionHuntPolicy(value,catalog){
   });
   const seen=new Set(),items=value.items.map(row=>{
     // Names, images and item identifiers are always resolved from the current catalog.
-    if(!keys(row,['code','type','ref','name','image','rarity','tier','enabled','weight','minQuantity','maxQuantity'])||seen.has(row.code)||typeof row.enabled!=='boolean'||!integer(row.weight,0,1000000)||!integer(row.minQuantity,1,1000000)||!integer(row.maxQuantity,row.minQuantity,1000000)||(row.enabled&&row.weight===0))fail('중복 아이템, 가중치 또는 수량 범위를 확인하세요.');
+    if(!keys(row,['code','type','ref','name','image','rarity','tier','enabled','weight','minQuantity','maxQuantity'])||seen.has(row.code)||typeof row.enabled!=='boolean'||!weight(row.weight)||!integer(row.minQuantity,1,1000000)||!integer(row.maxQuantity,row.minQuantity,1000000)||(row.enabled&&row.weight===0))fail('선택 가중치는 0.1 단위로, 사용 중인 후보는 0보다 크게 입력하세요. 중복 아이템과 수량 범위도 확인하세요.');
     const item=byCode.get(row.code);if(!item)fail('현재 사용 가능한 아이템을 다시 선택하세요: '+String(row.code));
     if(item.type==='VEHICLE'&&(row.minQuantity!==1||row.maxQuantity!==1))fail('이동수단은 1개씩 드랍하도록 설정하세요.');
     if(item.type==='EQUIPMENT'&&row.maxQuantity>100)fail('장비 수량은 최대 100개입니다.');
-    seen.add(row.code);return {...item,enabled:row.enabled,weight:row.weight,minQuantity:row.minQuantity,maxQuantity:row.maxQuantity};
+    seen.add(row.code);return {...item,enabled:row.enabled,weight:Math.round(row.weight*10)/10,minQuantity:row.minQuantity,maxQuantity:row.maxQuantity};
   });
-  return {revision:value.revision,difficulties,items};
+  return {revision:value.revision,mode,difficulties,items};
 }
 export async function readLegionHuntPolicy(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LEGION_HUNT_SETTINGS_KEY).first();
   if(!row)return {raw:null,policy:defaultLegionHuntPolicy()};
   try{
     const policy=JSON.parse(row.value);
-    if(!policy||!Array.isArray(policy.items)||!Array.isArray(policy.difficulties)||policy.items.length>100||policy.difficulties.length!==4)throw Error('Invalid policy');
+    if(!policy||!Array.isArray(policy.items)||!Array.isArray(policy.difficulties)||policy.items.length>100||policy.difficulties.length!==4||!LEGION_HUNT_MODES.includes(policy.mode??'TEST'))throw Error('Invalid policy');
+    policy.mode??='TEST';
     return {raw:row.value,policy};
   }catch{throw jointError('HUNT_POLICY_UNAVAILABLE','군단토벌 설정을 읽을 수 없습니다.',503);}
 }
