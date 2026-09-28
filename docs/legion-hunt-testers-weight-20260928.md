@@ -20,4 +20,10 @@
 - PC·모바일 로컬 검수: 실제 API 핸들러+격리된 테스트 DB로 참여자 검색·추가·제외·저장, 다시 불러온 명단과 0.001 값을 확인했다. 테스트 시작 전 소리는 OFF로 고정했다.
 - 화면 증빙: `C:/Users/User/.codex/worktrees/ops-legion-hunt-modes-20260928/testers-pc.png`, `testers-mobile.png`.
 
-배포 결과는 완료 후 추가 기록한다.
+## 배포 결과
+
+- 구현 커밋: `76e002f3` (최신 main에 통합 후 원격 반영).
+- `npm run deploy:production -- --scoped` 완료. 선택한 회귀 20개와 Worker 검사·출시 플래그·캐시·Hyperdrive 검사 통과. 선행 참여자 검사 4개를 포함해 관련 회귀 총 24개 통과.
+- Pages: `https://b4b7747c.cnine-card.pages.dev`. 함께 배포되는 기존 clan-draft Worker 버전: `b26b3255-ec07-4f8f-8be8-22fc4c4e02a7`.
+- 배포 후 production 별칭에서 CMS의 참여자·0.001 코드와 지정 참여자 입장 문구 HTTP 200 확인. 계정 검색 API의 미인증 요청은 HTTP 401이며 계정 정보가 노출되지 않는다.
+- 지정 일반 계정의 입장 화면에서 잔여 2/2회·TEST 무보상 안내까지 확인했다. 운영 참여자를 임의 지정하거나 실제 모드/보상 설정을 저장하지 않았다. 검수 탭·서버와 임시 화면 크기는 정리했다.
