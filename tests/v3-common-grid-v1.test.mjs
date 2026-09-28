@@ -164,9 +164,14 @@ test('all ten served V3 bundles including the account entry and hunt share the c
   assert.ok(report.sources.some(row=>row.file==='preview/mercenary-mangisa-v1/source/MangisaSkillFX.js'));
   const seen = new Set();
   assert.equal(report.layoutClients.length, 1);
+  // Hunt is also rebuilt independently; its dedicated build receipt supersedes
+  // the aggregate output hash while the shared source checks above still apply.
+  const huntBuild=JSON.parse(read('preview/sustained-hunt-v2/engine-build.json'));
+  assert.ok(huntBuild.commonInputs.includes('preview/project-v-v3/source/battle/OccupiedGridLayout.js'));
   for (const row of [...report.sources, ...report.outputs, ...report.layoutClients]) {
     assert.ok(!seen.has(row.file)); seen.add(row.file);
-    assert.equal(hash(read(row.file)), row.sha256, `stale consumer/source: ${row.file}; run npm run build:v3-grid`);
+    const expected=row.file==='preview/sustained-hunt-v2/battle.bundle.js'?huntBuild.bundleHash:row.sha256;
+    assert.equal(hash(read(row.file)), expected, `stale consumer/source: ${row.file}; run npm run build:v3-grid`);
   }
   for (const row of report.outputs) {
     assert.equal(row.commonGrid, true); assert.match(read(row.file), /OCCUPIED_GRID_V1/);
