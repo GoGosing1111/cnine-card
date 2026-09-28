@@ -1,0 +1,118 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {lichLiveFixture} from './helpers/lich-live-fixture.mjs';
+import {LICH_TICKET} from '../functions/_raid_lich_live.js';
+const setup=async(t,options)=>{const h=await lichLiveFixture(options);t.after(()=>h.close());return h;};
+test('OFF / TEST / ON enforce real account access; only OWNER edits/searches testers',async t=>{
+  const h=await setup(t);
+  assert.equal((await h.call('feature',{user:1})).body.accessible,true);
+  assert.equal((await h.call('feature',{user:2})).body.accessible,false);
+  assert.equal((await h.call('admin/raid/lich/settings',{user:5})).status,403);
+  assert.equal((await h.call('admin/raid/lich/test-users?q=2',{user:2})).status,403);
+  assert.deepEqual((await h.call('admin/raid/lich/test-users?q=검수 봉인대')).body.users,[{id:2,nickname:'검수 봉인대'}]);
+  await h.configure();assert.equal((await h.call('feature',{user:2})).body.accessible,true);
+  assert.equal((await h.call('status',{user:4})).status,403);
+  assert.equal('testUserIds' in (await h.call('feature',{user:2})).body,false);
+  await h.configure({mode:'OFF'});assert.equal((await h.call('status')).status,423);
+  await h.configure({mode:'ON'});assert.equal((await h.call('status',{user:4})).status,200);
+  const old=(await h.call('admin/raid/lich/settings')).body.settings;
+  assert.equal((await h.configure({testUserIds:[9999]})).status,400);
+  await h.configure({mode:'TEST',testUserIds:[]});assert.equal((await h.call('status',{user:2})).status,403);
+  assert.equal((await h.call('admin/raid/lich/settings',{body:{settings:old}})).status,409);
+});
+test('ticket deduction, membership, room and receipt roll back together; retry is exactly once',async t=>{
+  const h=await setup(t);await h.configure();
+  const requestId=h.uid();
+  h.inject('INSERT INTO inventory_logs');assert.equal((await h.call('open',{body:{requestId}})).status,503);h.inject('');
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code=?',LICH_TICKET)).quantity),5);
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_lich_rooms_v1')).n),0);
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_lich_active_v1')).n),0);
+  const [a,b]=await Promise.all([h.call('open',{body:{requestId}}),h.call('open',{body:{requestId}})]);
+  assert.equal(a.status,200);assert.equal(b.body.roomId,a.body.roomId);
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code=?',LICH_TICKET)).quantity),4);
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM inventory_logs')).n),1);
+  assert.equal((await h.command('open')).status,409);
+  assert.equal((await h.command('open',{},3)).body.code,'LICH_TICKET_REQUIRED');
+  assert.equal((await h.call('join',{user:1,body:{requestId,roomId:a.body.roomId}})).body.code,'LICH_REQUEST_CONFLICT');
+});
+test('leader assigns roles; everyone must ready; kick is immediate and bans same-room reentry',async t=>{
+  const h=await setup(t),roomId=await h.party();
+  assert.equal((await h.command('start',{roomId})).body.code,'LICH_NOT_READY');
+  assert.equal((await h.command('kick',{roomId,targetId:'3'},2)).status,403);
+  assert.equal((await h.command('assign',{roomId,targetId:'1',role:'RESCUE'},2)).status,403);
+  assert.equal((await h.command('kick',{roomId,targetId:'1'})).status,400);
+  await h.command('kick',{roomId,targetId:'3'});
+  assert.equal((await h.call('status?roomId='+roomId,{user:3})).body.code,'LICH_KICKED');
+  assert.equal((await h.command('join',{roomId},3)).status,403);
+  await h.command('join',{roomId},6);await h.command('assign',{roomId,targetId:'6',role:'RESCUE'});
+  for(const user of [1,2,6])await h.command('ready',{roomId,ready:true},user);
+  assert.equal((await h.command('start',{roomId})).status,200);
+  const state=(await h.call('status?roomId='+roomId+'&payload=1',{user:2})).body;
+  assert.equal(state.state.status,'ACTIVE');assert.equal(state.state.me.role,'WARDEN');
+  assert.equal(state.payload.cards.length,5);assert.equal(state.payload.reviewOnly,false);
+  assert.equal(state.state.release.mode,'TEST');assert.equal(state.state.release.rewardLocked,true);
+  await h.command('kick',{roomId,targetId:'2'});
+  assert.equal((await h.command('action',{roomId,challengeId:state.state.challenge.id,action:'INTERRUPT'},2)).status,403);
+  assert.equal((await h.command('assign',{roomId,targetId:'6',role:'WARDEN'})).status,200);
+});
+test('simultaneous joins cannot exceed six or occupy two rooms; no participant ticket charge',async t=>{
+  const h=await setup(t);await h.configure();
+  const roomId=(await h.command('open')).body.roomId;
+  const joins=await Promise.all([2,3,6,7,8].map(user=>h.command('join',{roomId},user)));
+  // Bounded CAS retries may ask a busy participant to retry, never overbook.
+  for(let i=0;i<joins.length;i++)if(joins[i].status!==200)assert.equal((await h.command('join',{roomId},[2,3,6,7,8][i])).status,200);
+  assert.equal((await h.call('status')).body.state.members.length,6);
+  await h.configure({mode:'ON'});
+  assert.equal((await h.command('join',{roomId},4)).body.code,'ROOM_FULL');
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',LICH_TICKET)).quantity),2);
+  assert.equal((await h.command('open',{},2)).body.code,'LICH_ALREADY_JOINED');
+  await h.command('leave',{roomId},2);
+  assert.equal((await h.command('open',{},2)).status,200);
+  assert.equal((await h.command('join',{roomId},2)).body.code,'LICH_ALREADY_JOINED');
+});
+test('ready resets on role reassignment; removed TEST access blocks start and actions',async t=>{
+  const h=await setup(t),roomId=await h.party();
+  for(const user of [1,2,3])await h.command('ready',{roomId,ready:true},user);
+  await h.command('assign',{roomId,targetId:'2',role:'WARDEN'});
+  assert.equal((await h.call('status?roomId='+roomId,{user:2})).body.state.me.ready,false);
+  await h.command('ready',{roomId,ready:true},2);await h.configure({testUserIds:[2]});
+  assert.equal((await h.command('start',{roomId})).body.code,'LICH_MEMBER_ACCESS');
+  assert.equal((await h.command('ready',{roomId,ready:true},3)).body.code,'LICH_TEST_ONLY');
+});
+test('expired lobbies release active reservations; cancellation never refunds or silently reopens',async t=>{
+  const h=await setup(t);await h.configure();const roomId=(await h.command('open')).body.roomId;
+  const raw=JSON.parse((await h.one('SELECT state_json FROM raid_lich_rooms_v1 WHERE room_id=?',roomId)).state_json);
+  raw.lobbyEndsAt=Date.now()-1;await h.run('UPDATE raid_lich_rooms_v1 SET state_json=? WHERE room_id=?',JSON.stringify(raw),roomId);
+  assert.equal((await h.call('status?roomId='+roomId)).body.state.status,'CANCELLED');
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_lich_active_v1')).n),0);
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1')).quantity),4);
+  const next=(await h.command('open')).body.roomId;assert.notEqual(next,roomId);
+  await h.command('leave',{roomId:next});assert.equal((await h.call('status?roomId='+next)).body.state.status,'CANCELLED');
+});
+test('mutation origin, input scope and unauthenticated requests are rejected',async t=>{
+  const h=await setup(t);
+  assert.equal((await h.call('feature',{user:999})).status,401);
+  assert.equal((await h.call('open',{body:{requestId:h.uid()},origin:'https://elsewhere.invalid'})).status,403);
+  assert.equal((await h.call('open',{body:{requestId:h.uid(),cards:[]}})).status,400);
+});
+test('Postgres compatibility: real schema, ticket atomicity, role changes and audit persist',async t=>{
+  const h=await setup(t,{postgres:true}),roomId=await h.party();
+  assert.ok(roomId);
+  assert.equal((await h.call('status?roomId='+roomId,{user:2})).body.state.me.role,'WARDEN');
+  const n=h.count();await h.call('status?roomId='+roomId,{user:2});const reads=h.count()-n;
+  assert.ok(reads<=6,'bounded steady-state query count: '+reads);
+  h.inject('INSERT INTO inventory_logs');await h.command('leave',{roomId});
+  assert.equal((await h.command('open')).status,503);h.inject('');
+  assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=1')).quantity),4);
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM admin_logs')).n),1);
+});
+test('live entry and CMS use real routes; local fixture transport cannot enter production',()=>{
+  const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
+  const html=read('raid/lich-king/index.html'),client=read('raid/lich-king/live.mjs'),api=read('functions/api/[[path]].js');
+  assert.match(html,/live.mjs/);assert.doesNotMatch(html,/playerName|playMode|joinCode|검수용 카드/);
+  assert.match(client,/jointAccountRequest/);assert.doesNotMatch(client,/__lich\/|REVIEW_DECK|local-qa-/);
+  assert.match(api,/handleLichRaid/);assert.match(api,/'LICH_KING_ENTRY_TICKET','CORE_RAID_ENTRY_TICKET'/);
+  assert.match(read('index.html'),/lich-king-raid-entry-v1.js/);assert.match(read('admin/index.html'),/lich-king-raid-admin-v1.mjs/);
+  assert.match(read('admin/lich-king-raid-admin-v1.mjs'),/LICH_KING_ENTRY_TICKET/);
+});

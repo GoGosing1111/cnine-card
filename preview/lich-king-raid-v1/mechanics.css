@@ -1,0 +1,127 @@
+/* Only the encounter's own overlay is styled here. The shared V3 formation,
+   canvas, card frames and roster retain their canonical layout. */
+body.in-combat>.site-header{display:none}
+.combat-view{padding:0;max-width:none;background:#03080e}
+.raid-combat-toolbar{height:40px;display:flex;align-items:center;gap:16px;padding:0 20px;border-bottom:1px solid #739ca738;background:#08111b;color:#8db4c4;font-size:10px;letter-spacing:.12em}
+.raid-combat-toolbar strong{color:#d3e8ed;font-weight:500;letter-spacing:0}
+.raid-combat-toolbar .quiet-button{padding:5px 10px;font-size:10px;margin-left:auto}
+.raid-combat-toolbar .quiet-button+.quiet-button{margin-left:0}
+.battle-pane{border:0;width:100%;display:block!important}
+.battle-pane #battleMount{height:calc(100dvh - 80px)!important;min-height:680px!important}
+.combat-journal{height:40px;margin:0;padding:11px 20px;background:#071018;font-size:10px}
+.combat-journal[open]{height:auto}
+.combat-journal summary span{font-size:10px}
+.lich-mechanic-screen{position:absolute;inset:0;z-index:11;pointer-events:none;isolation:isolate;font-family:'Malgun Gothic',system-ui,sans-serif;--lk-dock-space:200px;--lk-green:#beedbf;--lk-warm:#ffd0a3;color:#edf6fb;overflow:hidden}
+.lich-mechanic-screen button{pointer-events:auto;touch-action:manipulation}
+.lk-vignette{position:absolute;inset:0;z-index:-1;background:linear-gradient(#03091018,transparent 30%,transparent 70%,#04101c22);transition:box-shadow .25s}
+.lich-mechanic-screen[data-urgent=true] .lk-vignette{box-shadow:inset 0 0 110px #872f3a66}
+.lich-mechanic-screen[data-prison=true] .lk-vignette{box-shadow:inset 0 0 100px #77cfe944}
+.lk-boss-hud{position:absolute;left:50%;top:13px;transform:translateX(-50%);width:46%;max-width:610px;text-shadow:0 2px 6px #000}
+.lk-boss-hud>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:11px;letter-spacing:.06em;margin-bottom:6px}
+.lk-boss-hud b{font-variant-numeric:tabular-nums;color:#b3e4ef}
+.lk-hp-track{height:5px;background:#08131dda;border:1px solid #9cdefc44;position:relative}
+.lk-hp-track i{display:block;height:100%;background:linear-gradient(90deg,#315f79,#a3e0ed);transition:width .2s}
+.lk-hp-track em{position:absolute;top:-3px;height:10px;border-left:2px solid #f8d38d;filter:drop-shadow(0 0 4px #ffe4a9)}
+.lk-phase-pips{text-align:center;color:#92b8c7;font:9px Georgia;letter-spacing:.5em;margin-top:6px}
+.lk-enrage{position:absolute;top:10px;right:22px;text-align:right;text-shadow:0 2px 8px #000}
+.lk-enrage small{display:block;font-size:9px;letter-spacing:.12em;color:#bba49a}
+.lk-enrage b{font:23px Georgia;color:#efc8b2;line-height:1.3}
+.lk-order{position:absolute;top:64px;left:50%;width:90%;transform:translateX(-50%);text-align:center;text-shadow:0 2px 10px #000,0 0 20px #000}
+.lk-order small{font:9px Georgia;letter-spacing:.34em;color:#a8d6e8}
+.lk-order h2{font-family:BlackHan,'Malgun Gothic',sans-serif;font-size:36px;font-weight:400;letter-spacing:.025em;margin:8px 0 6px;line-height:1.15}
+.lk-order p{font-size:12px;color:#c4d7e0;letter-spacing:.025em;margin:0}
+.lich-mechanic-screen[data-step=EXPOSED] .lk-order h2{color:#f7d392;text-shadow:0 2px 12px #000,0 0 30px #b26d2a}
+.lk-cast{position:absolute;top:66px;right:5%;width:230px;padding:10px 14px 7px;background:linear-gradient(90deg,#08141e00,#08141ecc 20%,#08141ecc 80%,#08141e00);text-align:center}
+.lk-cast-label{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.04em;color:#bad2df}
+.lk-cast-label b{font-variant-numeric:tabular-nums;color:#d9e6ee}
+.lk-cast-track{height:3px;margin:7px 0;background:#93bdd82e;overflow:hidden}
+.lk-cast-track i{display:block;height:100%;background:#84b2cd}
+.lk-cast small{display:block;font-size:9px;margin-top:6px;color:#adc4d1}
+.lk-action{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;color:#dcecf2;background:linear-gradient(#152b37ed,#07111bed);border:1px solid #6b9dab88;box-shadow:inset 0 0 15px #8dccdf0d,0 4px 15px #0003;font-size:12px;letter-spacing:.02em;position:relative}
+.lk-action:hover:not(:disabled){border-color:#c4f1fa;color:#fff;box-shadow:0 0 22px #68e4ff38;transform:translateY(-1px)}
+.lk-action:disabled{opacity:.43}
+.lk-action b{font:15px Georgia;color:#a5d9e9}
+.lk-action svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round}
+.lk-interrupt{width:100%;min-height:38px;font-size:12px}
+.lk-cast[data-critical=true]{background:linear-gradient(90deg,transparent,#4c181cdd 20%,#4c181cdd 80%,transparent)}
+.lk-cast[data-critical=true] .lk-cast-label,.lk-cast[data-critical=true] small{color:#ffbdb0}
+.lk-cast[data-critical=true] .lk-cast-track i{background:#fa9b84;box-shadow:0 0 10px #fc604b}
+.lk-interrupt.critical{border-color:#ffae94;background:linear-gradient(#793932,#311b21);font-weight:800;color:#ffe8d4;box-shadow:0 0 22px #fa6c4536}
+.lk-cast[data-resolved=true]{opacity:.48}
+.lk-host-mark{position:absolute;transform:translate(-50%,-100%);width:132px;display:grid;justify-items:center;gap:3px;text-align:center;font-size:9px;text-shadow:0 1px 6px #000,0 0 10px #000;color:var(--lk-green)}
+.lk-host-mark strong{font-size:11px;color:#fff}
+.lk-host-rune{display:grid;place-items:center;width:39px;height:39px;border:1px solid #b5ffc4;border-radius:50%;background:#102d22de;box-shadow:0 0 17px #b8ffa83a;margin-bottom:2px}
+.lk-host-rune svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.5;fill:none}
+.lk-stack-pips{display:flex;gap:3px;margin-top:3px}
+.lk-stack-pips i{display:block;width:13px;height:4px;background:#10241d;border:1px solid #8cbca388}
+.lk-stack-pips i.filled{background:#c4f1a2;box-shadow:0 0 6px #baff7a66}
+.lich-mechanic-screen[data-urgent=true] .lk-stack-pips i.filled{background:#ff957b}
+.lich-mechanic-screen[data-prison=true] .lk-host-rune{color:#b0eaff;border-color:#b0eaff;background:#133c52de}
+.lk-objectives{position:absolute;left:20px;top:62px;display:flex;flex-direction:column;gap:8px;font-size:10px;color:#adc0cc;text-shadow:0 1px 8px #000}
+.lk-objectives span:before{content:'○';margin-right:7px;color:#738b9d}
+.lk-objectives .done{color:#99c8b3}
+.lk-objectives .done:before{content:'✓';color:#9eecc4}
+.lk-console{position:absolute;bottom:var(--lk-dock-space);left:50%;transform:translateX(-50%);width:min(720px,90%);display:flex;flex-direction:column;gap:10px;padding:16px 25px 0;background:radial-gradient(ellipse at bottom,#041019eb 0%,#04101980 55%,transparent 74%)}
+.lk-target-field{display:flex;justify-content:center;gap:60px}
+.lk-rune-set{min-width:240px;text-align:center}
+.lk-set-title{display:flex;justify-content:center;align-items:baseline;gap:12px;font-size:10px;text-shadow:0 1px 8px #000;margin-bottom:9px}
+.lk-set-title b{font-size:12px;color:#e3ecef;font-weight:500;letter-spacing:.1em}
+.lk-set-title span{color:#b9d8b3}
+.lk-soul-targets .lk-set-title span{color:#b1dff8}
+.lk-rune-targets{display:flex;gap:19px;justify-content:center}
+.lk-rune-target{width:66px;height:66px;padding:7px 0;border-radius:50%;display:flex;flex-direction:column;gap:3px;border:1px solid #9aceac99;background:radial-gradient(circle,#133628d9,#071710ef);box-shadow:inset 0 0 12px #aeea9b1a,0 0 20px #0005;color:#ddf1d1}
+.lk-rune-target:before{content:'';position:absolute;inset:-5px;border:1px solid #b6e59a2b;border-radius:50%}
+.lk-rune-target svg{width:28px;height:28px}
+.lk-rune-target span{font-size:9px}
+.lk-soul-targets .lk-rune-target{border-color:#9ad8ff99;color:#c9edff;background:radial-gradient(circle,#153c51e6,#071725ed);box-shadow:inset 0 0 14px #6ed8ff2a}
+.lk-seal-line{display:flex;align-items:center;justify-content:center;gap:18px;font-size:10px;border-top:1px solid #a5c1dd26;padding-top:10px}
+.lk-seal-line>span{color:#b2cbdd}
+.lk-sequence{display:flex;align-items:center;gap:7px}
+.lk-sequence>span{display:grid;justify-items:center;gap:2px;color:#677c89}
+.lk-sequence svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.4}
+.lk-sequence small{font-size:8px}
+.lk-sequence i{font-style:normal;color:#677c89}
+.lk-sequence .current{color:#eedba7;filter:drop-shadow(0 0 4px #dac68d55)}
+.lk-sequence .done{color:#91d5ba}
+.lk-seal-keys{display:flex;gap:6px}
+.lk-seal-key{width:50px;height:44px;padding:5px;gap:2px;flex-direction:column;background:#101f2ce8;font-size:9px}
+.lk-seal-key svg{width:20px;height:20px}
+.lk-seal-complete{color:#a6dec1}
+.lk-supplies{display:flex;justify-content:center;gap:6px}
+.lk-supplies .lk-action{min-height:36px;font-size:10px;padding:5px 12px;background:#091721d9;border-color:#66879366}
+.lk-supplies .lk-action b{font-size:12px}
+.lk-supplies .lk-risk{color:#d6bcb2;border-color:#b08e7966}
+.lk-party-status{display:flex;justify-content:center;gap:24px;color:#97b0c2;font-size:10px;padding-top:2px;text-shadow:0 1px 6px #000}
+.lk-party-status b{color:#edc8aa;margin-left:4px;font-variant-numeric:tabular-nums}
+.lk-party-status>span:nth-child(2) b{color:#a9deed}
+.lk-assault{display:flex;justify-content:center;align-items:center;gap:12px;position:relative;padding-bottom:22px}
+.lk-strike{min-width:210px;min-height:64px;font-weight:800;font-size:18px;color:#07141c;background:linear-gradient(#d4edf0,#8bbbc9);border-color:#d6f4f9;box-shadow:0 0 38px #96d8e633}
+.lk-strike em{font-style:normal;font-size:30px}
+.lk-burst{min-height:64px;min-width:110px;color:#eedfb8;border-color:#bca06e;background:linear-gradient(#443723,#211c17);font-size:16px}
+.lk-assault>span{position:absolute;bottom:0;font-size:10px;color:#dce5d9}
+.lk-feedback{position:absolute;top:43%;left:50%;transform:translateX(-50%);width:max-content;max-width:90%;padding:10px 28px;text-align:center;font-size:15px;letter-spacing:.04em;color:#cff2e5;background:linear-gradient(90deg,transparent,#08271fe6 20%,#08271fe6 80%,transparent);text-shadow:0 2px 5px #000}
+.lk-feedback.is-danger{color:#ffd0bb;background:linear-gradient(90deg,transparent,#452022ed 20%,#452022ed 80%,transparent)}
+.lich-mechanic-screen[data-active=false] .lk-console,.lich-mechanic-screen[data-active=false] .lk-objectives{display:none}
+@media(max-width:760px){
+  .raid-combat-toolbar{height:36px;padding:0 10px;gap:8px;font-size:8px;letter-spacing:.02em}.raid-combat-toolbar>span{display:none}.raid-combat-toolbar .quiet-button{padding:5px 8px;font-size:9px}
+  .battle-pane #battleMount{height:calc(100dvh - 70px)!important;min-height:660px!important}
+  .combat-journal{height:34px;padding:9px 12px;font-size:9px}.combat-journal summary span{font-size:9px;margin-left:8px}
+  .lk-boss-hud{top:52px;width:66%}.lk-boss-hud>div:first-child{font-size:9px;margin-bottom:5px}.lk-phase-pips{font-size:8px;margin-top:4px}
+  .lk-enrage{top:49px;right:12px}.lk-enrage small{font-size:8px}.lk-enrage b{font-size:17px}
+  .lk-order{top:100px}.lk-order small{font-size:8px;letter-spacing:.2em}.lk-order h2{font-size:26px;margin:5px 0}.lk-order p{font-size:10px;line-height:1.5}
+  .lich-mechanic-screen[data-step=MECHANIC]:not([data-kind=FINALE]) .lk-order{left:12px;transform:none;width:calc(100% - 190px);text-align:left;top:101px}
+  .lich-mechanic-screen[data-step=MECHANIC]:not([data-kind=FINALE]) .lk-order h2{font-size:23px}
+  .lk-objectives{display:none}
+  .lk-cast{top:97px;right:10px;width:155px;padding:7px 9px}.lk-cast-label{font-size:9px}.lk-cast small{font-size:8px;margin-top:3px}.lk-interrupt{font-size:10px;min-height:44px;padding:5px 8px}
+  .lk-host-mark{width:110px;font-size:8px}.lk-host-mark strong{font-size:9px}.lk-host-rune{width:32px;height:32px}.lk-host-rune svg{width:20px;height:20px}.lk-stack-pips i{width:11px;height:3px}
+  .lk-console{width:100%;padding:8px 10px 0;gap:8px}
+  .lk-target-field{gap:12px}.lk-target-field.is-dual{justify-content:space-between;gap:10px}
+  .lk-rune-set{min-width:0;flex:1;max-width:245px}.lk-rune-targets{gap:14px}.lk-rune-target{width:56px;height:56px;flex:none}.lk-rune-target svg{width:25px;height:25px}.lk-rune-target span{font-size:8px}
+  .lk-set-title{display:block;font-size:9px;margin-bottom:9px}.lk-set-title b{font-size:10px;display:block;margin-bottom:3px}.lk-set-title span{font-size:8px}
+  .is-dual .lk-rune-targets{gap:7px}.is-dual .lk-rune-target{width:46px;height:46px;gap:1px}.is-dual .lk-rune-target:before{inset:-3px}.is-dual .lk-rune-target svg{width:21px;height:21px}
+  .lk-seal-line{gap:9px;font-size:9px;padding-top:6px}.lk-sequence{gap:4px}.lk-sequence svg{width:18px;height:18px}.lk-sequence small{font-size:7px}.lk-seal-key{width:44px;min-height:44px}.lk-seal-keys{gap:4px}.lk-seal-key svg{width:18px;height:18px}
+  .lk-supplies{gap:5px}.lk-supplies .lk-action{min-height:44px;padding:5px 10px;font-size:9px}.lk-party-status{gap:15px;font-size:9px}
+  .lk-strike{min-width:168px;min-height:57px;font-size:16px}.lk-burst{min-width:84px;min-height:57px;font-size:14px}.lk-assault{gap:8px;padding-bottom:20px}
+  .lk-feedback{font-size:11px;padding:8px 15px;top:44%}
+}
+@media(max-width:359px){.lk-console{padding-inline:6px}.is-dual .lk-rune-targets{gap:4px}.is-dual .lk-rune-target{width:44px;height:44px}.lk-seal-line{gap:5px}.lk-seal-line>span{font-size:8px}.lk-sequence{gap:2px}.lk-party-status{gap:8px}.lk-order h2{font-size:24px}}

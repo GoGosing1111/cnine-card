@@ -1,0 +1,93 @@
+{
+  "id": "lich-king-raid-poster-v1",
+  "createdAt": "2026-09-28",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "generator": {
+    "tool": "image_gen",
+    "mode": "built-in",
+    "workflow": "reference-based illustration followed by poster typography edit"
+  },
+  "artStyle": "하이엔드 캐릭터 중심 세미리얼 판타지 스플래시 아트",
+  "runtimeConnected": true,
+  "assets": [
+    {
+      "path": "lich-king-source-art-v1.png",
+      "bytes": 2822312,
+      "sha256": "408335E37611F21A180B46F7960BB6D099254244694B2F185C56D950FF5D4850",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "role": "text-free-source-art",
+      "format": "PNG",
+      "colorMode": "RGB"
+    },
+    {
+      "path": "lich-king-raid-poster-en-v1.png",
+      "bytes": 2664609,
+      "sha256": "5E0D6182B3539631F7864C3FDF232CA894D0622CD8D2728FA43F6E0356158C71",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "role": "english-raid-poster",
+      "format": "PNG",
+      "colorMode": "RGB"
+    }
+  ],
+  "references": [
+    {
+      "path": "C:/Users/User/Downloads/e4d11f8a126804ce60a54d0539887c69.jpg",
+      "bytes": 90865,
+      "sha256": "806D5AE0E1CE6B672997401F58B35D7255532A79560340B548A6907AF8E9FD38",
+      "role": "user-provided-character-design"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "bytes": 2482424,
+      "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "role": "primary-project-rendering-style"
+    },
+    {
+      "path": "assets/ui/project-v/art-references/male-style-anchor-silver-paladin-v1.png",
+      "bytes": 2678338,
+      "sha256": "D85161ECEDE0E85AFEA04EC8FC82D8F1101337945361BB15E11849528FC47FD0",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "role": "supporting-male-heavy-armor-style"
+    }
+  ],
+  "englishCopy": [
+    "NEW RAID",
+    "CONQUEST OF THE",
+    "LICH KING",
+    "IN THE FACE OF DEATH,",
+    "WHO WILL CLAIM THE FIRST VICTORY?"
+  ],
+  "prompts": "prompts.md",
+  "checks": {
+    "visualInspection": "complete",
+    "englishSpellingAndClipping": "verified",
+    "nativeDimensions": "1024x1536",
+    "aspectRatio": "2:3",
+    "sourceArtContainsTypography": false,
+    "styleAnchorsMatchRecordedHashes": true
+  },
+  "notes": [
+    "Original generated PNGs are copied without resizing or recompression.",
+    "Artwork and poster approval do not imply raid implementation, roster registration, or release approval."
+  ],
+  "liveConnection": {
+    "date": "2026-09-28",
+    "scope": "LIVE_TEST",
+    "authorization": "사용자 입장권 공대 수정 및 라이브 테스트 연결 요청",
+    "publicDefault": "TEST",
+    "visualReviewStatusUnchanged": true
+  }
+}

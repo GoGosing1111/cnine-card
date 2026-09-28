@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+<defs><linearGradient id="ice" x1="70" y1="40" x2="420" y2="480" gradientUnits="userSpaceOnUse"><stop stop-color="#bceaff"/><stop offset=".45" stop-color="#33536d"/><stop offset="1" stop-color="#87c9ee"/></linearGradient><linearGradient id="body" x2=".9" y2="1"><stop stop-color="#223e56"/><stop offset="1" stop-color="#080f1d"/></linearGradient></defs>
+<rect x="76" y="38" width="360" height="436" rx="24" fill="#050b13"/>
+<path d="M105 45h302v61a25 25 0 0 0 0 50v201a25 25 0 0 0 0 50v60H105v-60a25 25 0 0 0 0-50V156a25 25 0 0 0 0-50z" fill="url(#body)" stroke="url(#ice)" stroke-width="9"/>
+<path d="M136 177h240M136 362h240" stroke="#85c5e4" stroke-opacity=".35" stroke-width="2"/>
+<path d="m167 239 22-46 31 34 36-63 36 63 31-34 22 46-23 70H190z" fill="#193e59" stroke="url(#ice)" stroke-width="7" stroke-linejoin="round"/>
+<path d="M207 291h98m-49-73v147m-24-58 24 20 24-20" stroke="#bceeff" stroke-width="5"/>
+<path d="m165 96 16 10-16 10m182-20-16 10 16 10" stroke="#719bb9" stroke-width="3"/>
+<text x="256" y="114" text-anchor="middle" fill="#c8e9f9" font-family="Georgia,serif" font-size="21" letter-spacing="3">LICH KING</text>
+<text x="256" y="408" text-anchor="middle" fill="#d8f1ff" font-family="Georgia,serif" font-size="24" letter-spacing="5">RAID PASS</text>
+<text x="256" y="436" text-anchor="middle" fill="#698fa8" font-family="sans-serif" font-size="10" letter-spacing="4">THE FROZEN THRONE</text>
+</svg>

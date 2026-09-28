@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow">
+<title>리치왕 정벌 · 죽음의 왕좌</title><link rel="icon" href="data:,">
+<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/card.css"><link rel="stylesheet" href="/css/card-unique-battle-fx-v1174.css"><link rel="stylesheet" href="/css/battle-v3-live.css"><link rel="stylesheet" href="/css/zenith-v1.css"><link rel="stylesheet" href="/css/superstar-v1.css"><link rel="stylesheet" href="/css/faker-card-v1.css"><link rel="stylesheet" href="/css/no-light-beams-v1789.css"><link rel="stylesheet" href="/css/breakthrough-tier-v1802.css"><link rel="stylesheet" href="/preview/lich-king-raid-v1/raid.css?v=20260928-live">
+<link rel="stylesheet" href="/preview/lich-king-raid-v1/mechanics.css?v=20260928-live">
+<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script><script defer src="/preview/lich-king-raid-v1/battle.bundle.js?v=20260928-live"></script><script defer src="/js/battle-v3-live.js"></script><link rel="stylesheet" href="live.css?v=20260928-live"><script type="module" src="live.mjs?v=20260928-live"></script>
+</head><body>
+<header class="site-header"><a href="/" class="brand">SOOPKETMON<span>RAID CHRONICLES</span></a><div class="live-mode"><i></i><span id="modeLabel">접근 확인 중</span></div><button id="guideButton" class="quiet-button">공략 지침</button></header>
+<section id="gate" hidden role="status"></section>
+<main id="landing" hidden>
+  <section class="raid-hero">
+    <div class="hero-art" aria-hidden="true"></div><div class="hero-fade" aria-hidden="true"></div>
+    <div class="hero-copy"><p class="eyebrow">NEW RAID · EXTREME ENCOUNTER</p><div class="title-rule"></div><h1>리치왕<br><span>정벌</span></h1><p class="english-title">CONQUEST OF THE LICH KING</p><p class="hero-description">죽음은 기다려주지 않는다.<br>저주를 역이용하고, 갇힌 영혼을 구하라.<br>얼어붙은 왕좌의 첫 정벌자는 누구인가.</p>
+    <div class="raid-facts"><div><b>4</b><span>전투 단계</span></div><div><b>210</b><span>광폭화까지, 초</span></div><div><b>3</b><span>공대 작전</span></div></div>
+    <button id="enterButton" class="primary-button">왕좌에 도전 <span>↗</span></button><p class="review-note">공대장 입장권 1장 · 3~6인 역할 분담</p></div>
+    <div class="hero-caption"><span>THE FROZEN THRONE</span><b>왕은 두 번의 실수를 기억한다.</b></div>
+  </section>
+  <section class="encounter-strip" aria-label="전투 기믹"><article><span>01 / CORRUPTION</span><h2>죽음의 역병</h2><p>같은 문양의 구울에게 저주를 넘겨라.</p></article><article><span>02 / ABSOLUTE ZERO</span><h2>서리 감옥</h2><p>감옥은 속박이자 마지막 엄폐다.</p></article><article><span>03 / SOUL HARVEST</span><h2>영혼의 갈림길</h2><p>정벌·봉인·구출. 공대의 선택이 겹친다.</p></article></section>
+</main>
+<section id="lobby" class="live-lobby" hidden>
+  <p class="eyebrow">THE FROZEN THRONE / EXPEDITION</p><h1>왕좌 앞에 집결하라</h1>
+  <p class="live-note">공대장이 입장권 1장으로 공대를 만들고 정벌·봉인·구출 역할을 배분합니다.<br>참가자는 입장권을 추가로 소모하지 않습니다.</p>
+  <div id="browse"><div class="ticket-counter"><img src="/assets/items/lich-king-entry-ticket-v1.svg" alt="리치왕 정벌 입장권"><div><b>정벌 입장권 <span id="ticketCount">—</span>장</b><p>공대 생성 시 1장 차감 · 해산 시 반환되지 않습니다.</p></div><button id="createButton" class="primary-button" disabled>공대 창설 <span>→</span></button></div>
+  <div class="live-heading"><h2>모집 중인 공대</h2><button id="refreshRooms" class="quiet-button">목록 새로고침</button></div><div id="roomList" class="room-list"></div></div>
+  <div id="assembly" hidden><div class="assembly-meta"><span id="hostLabel"></span><span id="memberCount"></span><span id="lobbyTime"></span></div>
+  <p class="live-note">공용 전장에는 공대장의 실제 PvE 카드 5장이 출전합니다. 각 참가자는 배정된 기믹을 담당합니다.<br>역할을 확인하고 준비 완료를 누르세요. 세 역할이 모두 모이고 전원이 준비하면 출정합니다.</p>
+  <ul id="memberList" class="member-list"></ul><div class="assembly-actions"><button id="readyButton" class="secondary-button">준비 완료</button><button id="startButton" class="primary-button" hidden>공대 출정 <span>→</span></button><button id="lobbyLeave" class="danger-button">공대 나가기</button></div></div>
+  <p id="lobbyNotice" class="raid-error" hidden role="status"></p><div class="live-bar"><button id="backLanding" class="quiet-button">정벌 소개</button><a href="/">게임으로 돌아가기</a><span class="live-note">현재 클리어 보상은 지급되지 않습니다.</span></div>
+</section>
+<main id="combat" class="combat-view" hidden>
+  <div class="raid-combat-toolbar"><span>LICH KING · 공대 전장</span><strong id="roleLabel">공대 지휘</strong><button id="partyButton" class="quiet-button">공대 관리</button><button id="combatGuide" class="quiet-button">공략 지침</button><button id="leaveButton" class="quiet-button">전장 나가기</button></div>
+  <section class="battle-pane" aria-label="리치왕 V3 전투와 기믹"><div id="battleMount"></div></section>
+  <details class="combat-journal"><summary>전투 기록 <span id="journalStatus"></span></summary><ol id="journal"></ol></details>
+</main>
+<dialog id="resultDialog" class="result-dialog"><p class="eyebrow" id="resultCaption"></p><h2 id="resultTitle"></h2><p id="resultReason"></p><div id="resultStats" class="result-stats"></div><button id="retryButton" class="primary-button">공대 목록으로 <span>↗</span></button><button id="resultGuide" class="quiet-button">공략 지침 확인</button></dialog>
+<dialog id="guideDialog" class="guide-dialog"><button id="closeGuide" class="dialog-close" aria-label="공략 지침 닫기">×</button><p class="eyebrow">FIELD MANUAL</p><h2>첫 정벌을 위한 기록</h2><p class="guide-lead">입력 순서와 자원 배분이 생존을 결정합니다. 화면을 벗어나도 전투 시간은 흐릅니다.</p><ol><li><b>역병은 2~4중첩에 전이</b><p>숙주의 문양과 같은 구울을 선택하세요. 5중첩은 전멸입니다. 정화는 안전하지만 방벽을 약화시키지 못합니다.</p></li><li><b>감옥은 6초 뒤 절대영도를 막습니다</b><p>흡수 후 감옥이 깨지면 역병을 전이하세요. 조기 파괴는 공대 피해와 죽음의 잔재 2중첩을 남깁니다.</p></li><li><b>차단은 영혼 말살에 사용</b><p>서리 폭발 뒤에 영혼 말살이 이어집니다. 말살 시전은 5초 안에 차단해야 합니다. 차단은 전체 전투에서 7회뿐입니다.</p></li><li><b>3단계는 세 작전 동시 수행</b><p>역병·절대영도·말살을 처리하면서 표시된 순서로 봉인을 해제하고, 같은 문양의 영혼을 구출하세요. 구출은 2.5초가 걸립니다.</p></li><li><b>최후의 왕관에는 영혼 3개가 필요</b><p>3단계에서 여분의 영혼을 확보하세요. 부족하면 마지막 단계에서 긴급 구출해야 합니다. 부활도 영혼 1개를 사용합니다.</p></li><li><b>공격 기회는 10초</b><p>기믹을 처리하면 정벌대가 집중 공격할 수 있습니다. 결전은 3회, 회복은 3회입니다. 210초 광폭화와 단계별 피해량 요구를 모두 넘겨야 합니다.</p></li></ol><p class="guide-note">공대장 입장권 1장으로 생성하는 실계정 공대입니다. 공대장 PvE 카드 5장이 공용 전장에 출전하며, 각 참가자는 배정된 역할만 수행합니다. 강제퇴장된 계정은 같은 공대에 다시 들어올 수 없습니다. 클리어 보상은 아직 지급되지 않습니다.</p></dialog>
+<dialog id="partyDialog" class="raid-party-dialog"><h2>공대 작전 배분</h2><p class="live-note">공대장은 역할을 재배분하거나 강제퇴장할 수 있습니다. 전투 시간은 계속 흐릅니다.</p><ul id="combatMembers" class="member-list"></ul><button id="closeParty" class="secondary-button">전장으로</button></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+</body></html>
