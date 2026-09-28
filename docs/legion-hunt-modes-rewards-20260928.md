@@ -35,3 +35,10 @@
 - 명령: `npm run deploy:production -- --scoped`. 깨끗한 범위 커밋, origin/main, 출시 플래그, 캐시, Hyperdrive 캐시 OFF 검증을 유지한다.
 - 현재 운영 모드는 TEST로 보존하며 일반 공개를 이 배포가 자동 활성화하지 않는다.
 - 운영 DB 읽기 전용 확인: 설정 r3, 후보 4개/활성 4개, 저장 mode 생략 → TEST. 기존 `joint_atomic_guards_v1` 존재 확인. 설정 원문 SHA-256 `96dd1908553f91d0af9a351b1d48b8af902652f5a55979e3f8010430bcaab394`. 실제 계정 지급이나 설정 쓰기를 검수 목적으로 실행하지 않았다.
+
+## 배포 완료
+
+- 구현 커밋 `2bb09a750d1b6d8b32c0866e2b34b81ae940bcba`를 origin/main에 반영했다. 신규 10개 + 기존 군단토벌 CMS/편성 회귀 20개 = 30개 통과. Worker 컴파일·출시 플래그·캐시·Hyperdrive 검사도 통과했다.
+- 운영 Pages: `https://b2677f4e.cnine-card.pages.dev`. 지정 배포 명령이 함께 배포한 클랜 스케줄러 버전은 `0b4f7126-9f16-440b-aee1-6b75a0d4508f`다.
+- 배포 후 CMS 새 모드/0.1 입력 모듈과 메뉴 상태 조회 모듈 HTTP 200 및 내용 반영, 비로그인 status API 401을 확인했다. 운영 DB 설정은 수정하지 않았다.
+- 화면 캡처·읽기 전용 설정 확인·배포 확인 JSON은 로컬 `C:/Users/User/.codex/worktrees/ops-legion-hunt-modes-20260928/`에 보존한다. 이 배포 결과 문서만 추가하는 커밋은 운영 재배포 대상이 아니다.
