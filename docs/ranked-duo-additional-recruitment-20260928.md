@@ -25,4 +25,14 @@
 - 사전 읽기 결과: 시즌 `duo-weekly-20260925-134825`, ACTIVE, revision 24, 참가 139명·69팀·미편성 1명. 원래 전투 종료는 2026-10-03 22:48:25 KST.
 - 배포 후 `scripts/ops/ranked-duo-additional-recruitment-20260928.mjs`가 실제 OWNER와 사전 확인한 시즌 ID/revision을 검증하고 기존 운영 핸들러로 12시간을 연다.
 - 단일 작업 영수증 `ops_ranked_duo_additional_12h_20260928`을 같은 트랜잭션에 기록한다. 재시도는 최초 시간을 반환하며 다시 12시간을 연장하지 않는다.
-- 운영 반영 결과와 실제 마감 시각은 완료 후 아래에 기록한다.
+
+## 운영 반영 결과
+
+- 소스 커밋: `28a70675b78a3db484f3737384802931214145a4`. origin/main 동기화 후 지정 scoped 배포 완료.
+- 직접·관련 회귀 **63/63 통과**, Worker 컴파일·출시 플래그·캐시·Hyperdrive query cache OFF 확인. PC·모바일 스크린샷을 직접 확인했다.
+- Pages: https://95c66e41.cnine-card.pages.dev . 자동 편성 Worker 버전: `5105aa06-5b3a-46ca-83e8-fd3dbb81146e`.
+- 실제 12시간 추가모집: **2026-09-28 11:02:31 ~ 23:02:31 KST**. 시즌 ACTIVE 유지, 추가모집 RECRUITING, revision 24 → 25. 사전/사후 참가 139명·69팀·미편성 1명이며 원래 전투 종료 시각은 그대로다.
+- 영수증 `ops_ranked_duo_additional_12h_20260928` 및 추가모집 시작/마감을 읽기로 확인했다. 임시 운영 실행기는 종료했다.
+- 운영 별칭에서 변경된 정적 파일 8개 HTTP 200·SHA-256 일치. 실제 `/api/live-operations`도 HTTP 200으로 `additionalRecruiting:true`, 정확한 마감과 기존 팀 대전 가능 안내를 반환했다.
+- 배포/설정/확인 증빙: 저장소 밖 `C:/Users/User/.codex/tmp/duo-additional-recruitment-20260928/`의 `deploy.log`, `inspect.json`, `apply.json`, `verify.json`, `production-check.json`.
+- 이 완료 기록은 문서만 커밋·원격 반영하며 운영 재배포와 게임 검사를 반복하지 않는다.
