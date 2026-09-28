@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
-import {grantJoeunRepairCoupon,OPERATION_KEY,TARGET,ITEM_CODE,ITEM_NAME} from '../scripts/ops/joeun-repair-grant-20260928.mjs';
+import {grantJoeunRepairCoupon,OPERATION_KEY,FOLLOWUP_OPERATION_KEY,TARGET,ITEM_CODE,ITEM_NAME} from '../scripts/ops/joeun-repair-grant-20260928.mjs';
 
 async function fixture(){
  const db=new PGlite();
@@ -17,6 +17,24 @@ async function fixture(){
  return {db,client:{async query(sql,args=[]){const r=await db.query(sql,args);return {...r,rowCount:r.affectedRows??r.rows.length};}}};
 }
 async function snapshot(db){const result={};for(const table of ['users','inventory_items','cnine_user_inventory','inventory_logs','admin_logs','app_meta'])result[table]=(await db.query(`SELECT * FROM ${table} ORDER BY 1,2`)).rows;return result;}
+
+test('authorized follow-up adds three once while preserving the first grant and rolling back failures',async()=>{
+ const {db,client}=await fixture();try{
+  const first=await grantJoeunRepairCoupon(client),before=await snapshot(db),options={operationKey:FOLLOWUP_OPERATION_KEY};
+  assert.equal((await grantJoeunRepairCoupon(client,{...options,dryRun:true})).after.quantity,'8');
+  assert.deepEqual(await snapshot(db),before);
+  await db.exec('ALTER TABLE admin_logs ADD CONSTRAINT forced_failure CHECK(false) NOT VALID');
+  await assert.rejects(grantJoeunRepairCoupon(client,options),/forced_failure/);
+  assert.deepEqual(await snapshot(db),before);
+  await db.exec('ALTER TABLE admin_logs DROP CONSTRAINT forced_failure');
+  const second=await grantJoeunRepairCoupon(client,options),after=await snapshot(db);
+  assert.equal(second.amount,3);assert.equal(second.after.quantity,'8');assert.equal(second.operationKey,FOLLOWUP_OPERATION_KEY);
+  assert.equal(after.inventory_logs.length,2);assert.equal(after.admin_logs.length,2);assert.equal(after.app_meta.length,2);
+  const {dryRun,...savedFirst}=first;assert.deepEqual((await grantJoeunRepairCoupon(client)),{...savedFirst,replayed:true});
+  assert.equal((await grantJoeunRepairCoupon(client,options)).replayed,true);assert.deepEqual(await snapshot(db),after);
+  await assert.rejects(grantJoeunRepairCoupon(client,{operationKey:'unapproved'}),/Unapproved/);assert.deepEqual(await snapshot(db),after);
+ }finally{await db.close();}
+});
 
 test('increments only the target coupon by three and retries never grant twice, with existing or missing inventory',async()=>{
  for(const existing of [true,false]){
