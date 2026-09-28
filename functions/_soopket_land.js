@@ -8,10 +8,10 @@ export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
-  {key:'COIN',label:'코인',range:'1억 ~ 300억',min:1,max:300,unit:100000000,symbol:'C',color:0xffd477},
+  {key:'COIN',label:'코인',range:'1억 ~ 500억',min:1,max:500,unit:100000000,symbol:'C',color:0xffd477},
   {key:SUPERSTAR_TICKET,label:'슈퍼스타팩 확정권',range:'1개 · 슈퍼스타 100%',min:1,max:1,unit:1,symbol:'SS',color:0xffdf91},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 50,000개',min:1,max:50,unit:1000,symbol:'S',color:0xffe7a6},
-  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 50개',min:1,max:50,unit:1,symbol:'M',color:0xc5a5ff}
+  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 100,000개',min:1,max:100,unit:1000,symbol:'S',color:0xffe7a6},
+  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 200개',min:1,max:200,unit:1,symbol:'M',color:0xc5a5ff}
 ]);
 // Existing issued coupons remain redeemable; retired prizes cannot be spun again.
 const REDEEM_PRIZES=[...LAND_PRIZES,
