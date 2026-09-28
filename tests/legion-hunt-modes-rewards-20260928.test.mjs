@@ -124,14 +124,17 @@ for(const postgres of [false,true]){
   });
 }
 
-test('tenths persist exactly and are used by the weighted draw, including a 0.1 boundary',async()=>{
+test('thousandths persist exactly and are used by the weighted draw; earlier tenths remain compatible',async()=>{
   const f=await fixture(false);try{
     const policy=await configure(f),catalog=(await f.call('admin/legion-hunt')).body.catalog;
     assert.equal((await f.call('admin/legion-hunt')).body.policy.items[0].weight,.1);
-    for(const weight of [.01,.15,-.1,1000000.1,NaN])assert.throws(()=>validateLegionHuntPolicy({...policy,items:[{...policy.items[0],weight}]},catalog));
-    assert.equal(validateLegionHuntPolicy({...policy,items:[{...policy.items[0],weight:.3}]},catalog).items[0].weight,.3);
-    for(const [point,expected] of [[.05,'a'],[.1,'b'],[.999,'b']]){
-      const s=restoreHuntSession({id:crypto.randomUUID(),policy:{dropChance:1,dropLifeMs:9000,items:[{code:'a',weight:.1},{code:'b',weight:.9}]},timeLimit:1000,eventTimes:[0],timeline:[{seq:1,combatAtMs:0,huntKill:true}],outcome:{}},{now:()=>1000,random:()=>point});
+    for(const weight of [.0001,.0015,1e-12,-.1,1000000.1,NaN])assert.throws(()=>validateLegionHuntPolicy({...policy,items:[{...policy.items[0],weight}]},catalog));
+    for(const weight of [.3,.01,.001,.123,999999.999])assert.equal(validateLegionHuntPolicy({...policy,items:[{...policy.items[0],weight}]},catalog).items[0].weight,weight);
+    policy.items[0].weight=.001;
+    assert.equal((await f.call('admin/legion-hunt',{policy},{method:'PATCH'})).status,200);
+    assert.equal((await f.call('admin/legion-hunt')).body.policy.items[0].weight,.001);
+    for(const [point,expected] of [[.0005,'a'],[.001,'b'],[.999,'b']]){
+      const s=restoreHuntSession({id:crypto.randomUUID(),policy:{dropChance:1,dropLifeMs:9000,items:[{code:'a',weight:.001},{code:'b',weight:.999}]},timeLimit:1000,eventTimes:[0],timeline:[{seq:1,combatAtMs:0,huntKill:true}],outcome:{}},{now:()=>1000,random:()=>point});
       s.begin();assert.equal(s.reveal(1).drop.item.code,expected);
     }
   }finally{await f.close();}

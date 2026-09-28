@@ -75,7 +75,7 @@ export function openLegionHunt(button){
     find('[data-hunt-refresh]').disabled=loading;
     find('.legion-entry-status').textContent=state.error||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'전투 시작 시 1회 사용 · 매일 한국시간 자정 초기화');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
-    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards?'ON · 직접 주운 전리품은 계정에 즉시 지급':data?.access?.mode==='TEST'?'TEST · OWNER 검수 · 계정 보상 미지급':'';
+    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards?'ON · 직접 주운 전리품은 계정에 즉시 지급':data?.access?.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
     find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
     const merc=loadout?.mercenary;

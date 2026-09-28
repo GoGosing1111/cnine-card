@@ -1,6 +1,6 @@
 import {createHuntSession,restoreHuntSession,DIFFICULTIES} from '../preview/sustained-hunt-v2/session.mjs';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
-import {legionHuntAccess,legionHuntCatalog,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
+import {legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUsers,searchLegionHuntTestUsers,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
 import {claimLegionHuntReward} from './_legion_hunt_rewards.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {DAILY_ENTRIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
@@ -19,7 +19,7 @@ function requireEntry(entries){
 function requireAccess(policy,user){
   const access=legionHuntAccess(policy);
   if(!access.ownerEnabled)throw jointError('HUNT_CLOSED','군단토벌은 현재 운영하지 않습니다.',423);
-  if(!access.publicEnabled&&user.role!=='OWNER')throw jointError('HUNT_TEST_ONLY','군단토벌은 OWNER 검수 중입니다.',403);
+  if(!canAccessLegionHunt(policy,user))throw jointError('HUNT_TEST_ONLY','군단토벌은 지정된 테스트 참여자만 이용할 수 있습니다.',403);
   return access;
 }
 async function accountSnapshot(env,user,deps){
@@ -42,16 +42,20 @@ async function saveRun(env,key,before,run){
   if(Number((await statement.run()).meta?.changes)!==1)throw jointError('HUNT_SESSION_CONFLICT','다른 요청을 처리 중입니다. 같은 요청으로 다시 시도하세요.',409);
 }
 export async function handleLegionHunt({path,request,env,deps}){
-  if(!path.startsWith('legion-hunt/')&&path!=='admin/legion-hunt')return null;
+  if(!path.startsWith('legion-hunt/')&&!['admin/legion-hunt','admin/legion-hunt/test-users'].includes(path))return null;
   const json=deps.json;
   try{
     const user=await deps.authenticate(request,env);
     if(!user)throw jointError('JOINT_AUTH','로그인이 필요합니다.',401);
-    if(path==='admin/legion-hunt'){
+    if(path==='admin/legion-hunt'||path==='admin/legion-hunt/test-users'){
       if(user.role!=='OWNER')throw jointError('JOINT_PERMISSION','운영 설정은 OWNER만 변경할 수 있습니다.',403);
+      if(path==='admin/legion-hunt/test-users'){
+        if(request.method!=='GET')return json({error:'지원하지 않는 요청입니다.'},405);
+        return json({ok:true,users:await searchLegionHuntTestUsers(env,new URL(request.url).searchParams.get('q'))});
+      }
       if(request.method==='GET'){
         const [{policy},catalog]=await Promise.all([readLegionHuntPolicy(env),legionHuntCatalog(env)]);
-        return json({ok:true,access:legionHuntAccess(policy),policy,catalog});
+        return json({ok:true,access:legionHuntAccess(policy),policy,catalog,testUsers:await legionHuntTestUsers(env,policy.testUserIds)});
       }
       if(request.method!=='PATCH')return json({error:'지원하지 않는 요청입니다.'},405);
       const body=await readJointBody(request,{maxBytes:131072,fields:['policy']});
@@ -62,7 +66,7 @@ export async function handleLegionHunt({path,request,env,deps}){
     const now=deps.now||Date.now,key='legion_hunt_owner_session_v1:'+Number(user.id);
     if(action==='status'&&request.method==='GET'){
       const {policy}=await readLegionHuntPolicy(env);
-      return json({ok:true,access:legionHuntAccess(policy),canEnter:policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER'});
+      return json({ok:true,access:legionHuntAccess(policy),canEnter:canAccessLegionHunt(policy,user)});
     }
     if(action==='bootstrap'&&request.method==='GET'){
       const {policy}=await readLegionHuntPolicy(env),access=requireAccess(policy,user);
