@@ -19,3 +19,10 @@
 - 브라우저: `tests/workshop-material-batch-20260928.browser.mjs`. 실제 앱과 로더, 격리 API로 PC 1440×1000 / 모바일 390×844에서 직접 입력·증감·최대·부족 차단·총액·부분 성공·단건 실패를 확인했다. PC 응답 중단 뒤 문서 재진입에서 같은 요청번호/횟수 복구도 통과했다. 테스트 소리 OFF, 운영 계정 차감 없음.
 - 화면·결과·보고서: `C:/Users/User/.codex/tmp/workshop-material-batch-20260928/`.
 - 기존 재료 제작 경로의 국소 확장이므로 `npm run deploy:production -- --scoped`를 사용한다. 출시 게이트·깨끗한 커밋·origin/main 일치·캐시·Hyperdrive 보호를 유지하며 전체 검사로 확장하지 않는다.
+
+## 반영 결과
+
+- 구현 커밋 `11302bc8`. 선행 S-BODY 제작 연출을 보존하고 해당 로더의 캐시 키만 함께 갱신했다.
+- 선택 회귀 20/20, Worker 컴파일, 출시 플래그·캐시·Hyperdrive 보호 확인 통과.
+- 운영 Pages `https://f2a955d2.cnine-card.pages.dev`, clan-draft Worker `bfd65ed5-2cad-4c97-b901-de6a714d2ddf` 반영 완료.
+- 2026-09-28 17:04:49 KST 운영 도메인의 진입 HTML·앱 로더·재료 제작 JS/CSS·CMS JS 6개가 배포 소스와 일치함을 확인했다. 증빙은 같은 외부 폴더 `production.json`이다. 운영 계정으로 실제 재화를 소모하는 검수는 하지 않았다.
