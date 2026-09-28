@@ -30,3 +30,12 @@ PC 1440×1000 / 모바일 390×844의 실제 운영 iframe 경로 검수 완료.
 서버·계정·드랍 검사 38개 중 36개가 최초 통과했다. OWNER 입장의 과거 쿼리 수 기대값 2개는 기존 CMS 접근 정책 조회 1개를 빠뜨려 3개로 보정했고, 해당 SQLite/PostgreSQL 두 사례만 다시 실행하여 통과했다. 실행 코드의 쿼리·접근 정책 변경은 없다. 이미 통과한 검사는 배포에서 중복 실행하지 않으며 배포 선택은 경계 재생 회귀와 실제 번들 연결, Worker 컴파일로 제한한다.
 
 직전 운영 배포는 Pages `b72f31e9-34b1-4671-bb53-5b795d92418e`, 소스 `d05fec2e8fa6868ab442310eca80377105dd15ac`로 확인했다. 이 커밋을 scoped 기준으로 사용한다. 선택 검사는 `tests/legion-hunt-deadline-20260928.test.mjs`, `tests/pve-battlefield-entry-v2117.test.mjs`와 자동 추가되는 Worker 컴파일이다. 총 15분·보스 경계·종료 대기 문제에 한정하며, 앞서 통과한 서버/거래 38개와 PC·모바일 검수는 중복하지 않는다.
+
+## 운영 반영 완료
+
+- 2026-09-28 18:07 KST, `npm run deploy:production -- --scoped` 성공. 선택 회귀 11개, Worker 검사, 출시 플래그·캐시·Hyperdrive 보호 검사 통과.
+- 운영 소스: `b0207edb0dba647fef40c25ce4525047bc60e165`.
+- Pages: `3b93da23-5aa4-40aa-9904-5867bd3a2f02` (`https://3b93da23.cnine-card.pages.dev`).
+- Worker: `34536cc7-0929-4158-b36c-93aaeefc1d98`.
+- 운영 대표 도메인의 군단토벌 HTML·전투 번들·앱·규칙·입장 모듈 5개가 로컬 SHA-256과 일치했다. 루트 입장 모듈 캐시 키와 API 인증 401 유지도 확인했다. 증거: 외부 검증 폴더의 `deploy.log`, `production-verification.json`.
+- 새로고침 후 신규 입장부터 적용한다. 진행 중인 구버전 원정의 저장 계약은 바꾸지 않는다. 이 완료 기록만 추가하는 후속 커밋은 문서 변경이므로 재배포하지 않는다.
