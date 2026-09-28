@@ -72,11 +72,12 @@ async function present(result){
   if(runId===result.requestId||!active)return;closeBattle();runId=result.requestId;const token=epoch;
   modal=document.createElement('div');modal.id='cowRoomBattle';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','카우방 전투');document.body.append(modal);document.body.classList.add('cow-live-battle-open');
   modal.className='modal show cow-live-loading';modal.innerHTML='<div><span>붉은 목초지</span><h2>포탈을 통과하는 중</h2><p>출전 편성을 불러오고 있습니다.</p></div>';
+  let resultShown=false;
   const showResult=issue=>{
-    if(token!==epoch||!modal)return;
+    if(token!==epoch||!modal||resultShown)return;resultShown=true;
     resumePlayback();
-    // A renderer that failed during construction cannot reveal its hidden
-    // result layer. Show the committed receipt in the standalone modal.
+    // A failed or explicitly stopped renderer cannot reveal its result layer.
+    // Show the committed receipt in the standalone modal instead.
     if(!renderer){modal.className='modal show cow-live-loading';modal.innerHTML='';}
     const message=modal.querySelector('#battleMessage')||modal;
     message.innerHTML=resultMarkup(result,issue);renderer?.showResult();
@@ -89,17 +90,18 @@ async function present(result){
     const view=globalThis.ProjectVBattleV3Live.prepareLoading({modal,mode:'PVE',playerName:result.playerName,opponentName:'카우 군단',autoText:'붉은 목초지로 이동하고 있습니다.'});
     modal.classList.add('cow-live-battle');view.stage.querySelector('.battle-v3-header small').textContent='붉은 목초지';view.stage.querySelector('.battle-v3-header strong').textContent='카우방';
     const field=view.stage.querySelector('.battle-v3-canvas-host');field.style.backgroundImage="url('/assets/ui/project-v/battlefields/v3-cow-pasture-v1.png')";
-    view.stage.insertAdjacentHTML('beforeend','<div class="cow-live-battle-controls" data-cow-controls><button type="button" data-cow-pause>일시정지</button><button type="button" data-cow-result>결과 보기</button></div>');
+    view.stage.insertAdjacentHTML('beforeend','<div class="cow-live-battle-controls" data-cow-controls><button type="button" data-cow-pause disabled>일시정지</button><button type="button" data-cow-result disabled>결과 보기</button></div>');
     modal.querySelector('[data-cow-pause]').onclick=()=>{if(paused)resumePlayback();else{paused=true;modal.querySelector('[data-cow-pause]').textContent='재개';}};
     let defeated=0;const total=result.continuousEncounter?.total||22;
     renderer=await globalThis.ProjectVBattleV3Live.createRenderer({...view,modal,data:result,mode:'PVE',continuousPlayback:true,
       isPlaybackPaused:()=>paused,
-      beforeCombatEvent:async()=>{if(paused){await globalThis.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire({drain:true});await new Promise(resolve=>{releasePause=resolve;if(!paused)resolve();});if(token===epoch)globalThis.ProjectVPixiBattle.startAccountBattleUnitSustainedFire();}},
+      beforeCombatEvent:async()=>{if(paused){await globalThis.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire({drain:true});await new Promise(resolve=>{releasePause=resolve;if(!paused)resolve();});if(token===epoch&&!resultShown)globalThis.ProjectVPixiBattle.startAccountBattleUnitSustainedFire();}},
       onCombatEvent:event=>{if(event.type==='KO'&&String(event.targetId).startsWith('B:'))defeated++;if(token===epoch)view.phase.textContent=`토벌 ${defeated} / ${total}`;}});
     if(token!==epoch){renderer.destroy();return;}
     field.style.backgroundImage='none';
     modal.__battleV2Renderer=renderer;globalThis.ensureBattleSoundButton?.(view.stage);
-    let skipped=false;modal.querySelector('[data-cow-result]').onclick=()=>{skipped=true;resumePlayback();renderer.destroy();globalThis.ProjectVPixiBattle.cancelActiveAnimations();showResult();};
+    let skipped=false;modal.querySelector('[data-cow-result]').onclick=()=>{if(skipped||resultShown||token!==epoch)return;skipped=true;resumePlayback();renderer.destroy();renderer=null;modal.__battleV2Renderer=null;globalThis.ProjectVPixiBattle.cancelActiveAnimations();showResult();};
+    modal.querySelector('[data-cow-pause]').disabled=false;modal.querySelector('[data-cow-result]').disabled=false;
     const complete=await renderer.play();if(token!==epoch||skipped)return;
     showResult(complete?'':'전투 기록의 확정 결과를 불러왔습니다.');
   }catch(error){showResult('전투 화면을 불러오지 못해 저장된 결과를 표시합니다.');console.warn('Cow Room presentation',error);}
