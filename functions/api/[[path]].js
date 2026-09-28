@@ -71,6 +71,7 @@ import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop,ensureWorkshopFoundation } from '../_workshop.js';
 import { BATTLE_SUIT_CORE_CODES, ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
 import {TOURNAMENT_GIFT,ensureTournamentGiftCatalog,openTournamentGift,grantTournamentGift} from '../_tournament_gift.js';
+import {isForgeTicketGrant,grantForgeTickets} from '../_admin_forge_ticket_grant.js';
 import { EMPEROR_ENERGY_ITEM, ensureEmperorEnergyCatalog } from '../_emperor_energy.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
 import { claimMessageRewardBatch, messageRewardBatchIds } from '../_message_reward_batch.js';
@@ -8470,6 +8471,10 @@ async function handleRequest(context){
         if(['PINGDU_WISH_TICKET','PINGDU_OLD_AXE'].includes(itemCode))return json({error:'종료된 이벤트 아이템은 지급할 수 없습니다.'},410);
         if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode))await ensureGoldenAxe(env);
         if(itemCode==='CHUSEOK_COIN')await ensureChuseok(env);
+        if(isForgeTicketGrant(itemCode)){
+          try{return json(await withJointUserMutationLock(env,userId,'admin/forge-tickets/grant',()=>grantForgeTickets(env,admin,{userId,itemCode,amount,reason:p.reason,requestId:p.requestId})));}
+          catch(error){return json({error:error.status?error.message:'지급 결과를 확인하지 못했습니다. 같은 내용으로 다시 시도하세요.'},error.status||409);}
+        }
         if(itemCode===TOURNAMENT_GIFT.code){try{return json(await withJointUserMutationLock(env,userId,'admin/tournament-gift/grant',()=>grantTournamentGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode===NEW_USER_GIFT_CODE)return json({error:'신규유저 기프트 박스는 유저관리의 전용 지급 기능에서만 지급할 수 있습니다.'},400);
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
@@ -8583,7 +8588,9 @@ async function handleRequest(context){
             CASE WHEN p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP THEN p.jailed_until ELSE NULL END AS prison_jailed_until,
             (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars,
             (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='SCRAPYARD_ENTRY_TICKET') AS scrapyard_tickets,
-            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='CORE_RAID_ENTRY_TICKET') AS core_raid_tickets
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='CORE_RAID_ENTRY_TICKET') AS core_raid_tickets,
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='PINGDU_REPAIR_COUPON') AS repair_coupons,
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='EQUIPMENT_PROTECTION_TICKET') AS equipment_protection_tickets
           FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN wago_verifications w ON w.user_id=u.id
           LEFT JOIN user_prison_status p ON p.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
           ORDER BY ${selectedOrder} LIMIT 100

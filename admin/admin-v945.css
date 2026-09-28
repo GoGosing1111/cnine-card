@@ -226,3 +226,7 @@ aside{height:100vh;position:sticky;top:0;overflow-y:auto}
 .prestigeCardNotice{display:block;margin:4px 0 8px;padding:8px 10px;border:1px solid rgba(255,224,154,.26);border-radius:10px;background:rgba(124,94,255,.08);color:#ffe7a9;font-size:11px}
 .prestigeCardNotice[hidden]{display:none}
 #cardGradeHint{display:block;margin:10px 0;color:#b9cde3}
+
+/* User inventory grants: keep ticket names readable on narrow dialogs. */
+#inventoryGrantBlock .two{grid-template-columns:minmax(0,2fr) minmax(80px,1fr)}
+@media(max-width:600px){#inventoryGrantBlock .two{grid-template-columns:minmax(0,1fr)}}
