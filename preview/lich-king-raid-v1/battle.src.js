@@ -1,10 +1,11 @@
 import { Assets, Sprite, Texture, Rectangle } from 'pixi.js';
 import { mountForBattle, resetSession } from '../project-v-v3/source/project-v-pixi-battle.src.js';
+import { MechanicOverlay } from './MechanicOverlay.js';
 
 // The bundle contains the existing V3 engine once. It does not create another
 // Application, formation, card dock, asset adapter, GSAP clock or renderer.
 const sheets={prison:'frost-prison-16.png',zero:'absolute-zero-16.png',soul:'soul-annihilation-16.png'};
-let engine=null,renderer=null,prison=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,syncedHp='',bossId='';
+let engine=null,renderer=null,prison=null,mechanics=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,syncedHp='',bossId='';
 const textures={};
 async function loadFrames(key){
   if(textures[key])return textures[key];
@@ -48,7 +49,7 @@ async function mount(payload){
     modal.querySelector('.battle-v3-header small').textContent='THE FROZEN THRONE';
     await engine.deployCards({instant:true,force:true});
     await Promise.all(Object.keys(sheets).map(loadFrames));
-    document.getElementById('battleNotice').textContent='리치왕 · 죽음의 왕좌';
+    mechanics=new MechanicOverlay(engine,modal.querySelector('.battle-v3-canvas-host'));
   }finally{api.mountForBattle=original;api.resetSession=originalReset;}
 }
 function enqueue(events,state){
@@ -58,6 +59,7 @@ function enqueue(events,state){
   // behind cosmetic assault hits from the previous server window.
   const boundary=events.findLastIndex(e=>['RAID_LICH_PHASE','RAID_LICH_BREATH','RAID_LICH_WIPE'].includes(e.type));
   if(boundary>=0){restore(state,false);events=events.slice(boundary);}
+  mechanics?.update(state,events);
   const version=epoch;
   const interesting=events.filter(e=>!e.type.startsWith('RAID_')||['RAID_LICH_PRISON','RAID_LICH_SHATTER','RAID_LICH_BREATH','RAID_LICH_WIPE','RAID_LICH_INTERRUPT'].includes(e.type));
   // Catch up through the canonical server snapshot if a hidden/slow tab falls behind.
@@ -88,13 +90,14 @@ function syncHp(){
 }
 function restore(state,restorePrison=true){
   epoch++;engine?.cancelTimelines();releasePrison();pending=0;queue=Promise.resolve();snapshot=state;syncedHp='';syncHp();
+  mechanics?.update(state);
   if(restorePrison&&engine&&state.status==='ACTIVE'&&state.challenge?.prison)queue=animate('prison',{targetId:state.challenge.targetId,hold:true});
 }
 function teardown(){
-  epoch++;engine?.cancelTimelines();releasePrison();renderer?.destroy();renderer=null;
+  epoch++;engine?.cancelTimelines();mechanics?.destroy();mechanics=null;releasePrison();renderer?.destroy();renderer=null;
   // Keep the live Application/canvas cache; the next mount uses canonical
   // resetSession just like production V3, without dangling character tweens.
   engine=null;pending=0;queue=Promise.resolve();snapshot=null;syncedHp='';
 }
-window.LichBattle={mount,enqueue,restore,teardown,resize:()=>requestAnimationFrame(()=>{engine?.app?.resize();engine?.resize();}),diagnostics:()=>({ready:Boolean(engine),pending,engine:engine?.diagnostics(),atlases:Object.keys(textures),prison:Boolean(prison),canvasCount:document.querySelectorAll('canvas').length})};
+window.LichBattle={mount,enqueue,restore,teardown,resize:()=>requestAnimationFrame(()=>{engine?.app?.resize();engine?.resize();mechanics?.layout();}),diagnostics:()=>({ready:Boolean(engine),pending,engine:engine?.diagnostics(),mechanics:mechanics?.diagnostics(),atlases:Object.keys(textures),prison:Boolean(prison),canvasCount:document.querySelectorAll('canvas').length})};
 window.addEventListener('pagehide',teardown,{once:true});

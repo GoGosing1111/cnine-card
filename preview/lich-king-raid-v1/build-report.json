@@ -35,6 +35,7 @@
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+    "preview/lich-king-raid-v1/MechanicOverlay.js",
     "preview/lich-king-raid-v1/battle.src.js"
   ]
 }
