@@ -496,8 +496,10 @@ body.soopketmon-v21-live .chief-election-body button:hover {
 
 .v21-chief-dialog-body img {
   width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
   max-height: 460px;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center top;
   background: #080c11;
 }

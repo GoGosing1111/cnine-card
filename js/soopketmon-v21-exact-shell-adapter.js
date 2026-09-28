@@ -188,6 +188,7 @@
       link.id = id;
       link.rel = 'stylesheet';
       link.href = `${cssHref(filename)}?v=${VERSION}`;
+      if (id === 'soopketmonV21ProductionIntegration') link.href += '&queen=20260928-detail';
       document.head.append(link);
     });
   }
@@ -579,8 +580,9 @@
   function openChiefOverlay() {
     const chief = chiefView();
     const modal = modalRoot(); if (!modal) return;
+    const queenPicture = '<picture><img src="/assets/ui/chief/queen-coronation-v1-1536.webp" width="1536" height="1024" alt="숲 왕좌의 여왕 일러스트" decoding="async"></picture>';
     modal.className = 'modal v21-command-overlay open';
-    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog" role="dialog" aria-modal="true" aria-label="여왕 재위 및 권한"><header><div><small>SOOPKETMON / THE QUEEN</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body">${chiefPictureMarkup(chief, false)}<div><small>현재 상태</small><b>${chief.state === 'active' ? '재위 중' : esc(chief.nickname)}</b><small>남은 재위 기간</small><b>${esc(chief.remaining)}</b><p>숲의 뜻을 이어가는 여왕의 재위와 특별 권한을 확인하세요.</p>${chief.state==='active'?'<button type="button" data-v21-queen-coronation>여왕 즉위식 다시 보기</button>':''}<button type="button" data-v21-chief-system>여왕 권한 열기</button><p class="queen-replay-status" role="status" aria-live="polite"></p></div></div></section>`;
+    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog" role="dialog" aria-modal="true" aria-label="여왕 재위 및 권한"><header><div><small>SOOPKETMON / THE QUEEN</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body">${queenPicture}<div><small>현재 상태</small><b>${chief.state === 'active' ? '재위 중' : esc(chief.nickname)}</b><small>남은 재위 기간</small><b>${esc(chief.remaining)}</b><p>숲의 뜻을 이어가는 여왕의 재위와 특별 권한을 확인하세요.</p>${chief.state==='active'?'<button type="button" data-v21-queen-coronation>여왕 즉위식 다시 보기</button>':''}<button type="button" data-v21-chief-system>여왕 권한 열기</button><p class="queen-replay-status" role="status" aria-live="polite"></p></div></div></section>`;
   }
 
   function navigate(route) {
