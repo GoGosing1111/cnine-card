@@ -130,6 +130,18 @@
 .ws81-workshop .ws81-bulk-button{background:#172420;border-color:#617548;color:#dcf2c8}
 .ws22-attempts{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;font-size:12px;color:var(--ws-muted)}
 .ws22-attempts input{width:90px;height:42px;color:var(--ws-text);background:#0a1220;border:1px solid #42536c;border-radius:4px;padding:8px;font-size:15px}
+.ws28-material-quantity{margin-bottom:18px;padding:14px;border:1px solid #4d6241;background:#19271c;border-radius:5px}
+.ws28-material-quantity label{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ws-text)}
+.ws28-material-quantity label small{font-size:10px;font-weight:400;color:var(--ws-muted)}
+.ws28-material-quantity>div{display:grid;grid-template-columns:44px minmax(50px,1fr) 44px 60px;gap:6px;margin-top:10px}
+.ws28-material-quantity :is(button,input){min-width:0;height:44px;border:1px solid #516449;border-radius:4px;background:#0d1814;color:var(--ws-text);text-align:center;font-size:16px}
+.ws28-material-quantity input{width:100%;padding:4px;appearance:textfield;-moz-appearance:textfield}
+.ws28-material-quantity input::-webkit-inner-spin-button,.ws28-material-quantity input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.ws28-material-quantity button:last-child{font-size:12px;font-weight:700;color:var(--ws-accent)}
+.ws28-material-quantity button:disabled{opacity:.4;cursor:default}
+.ws28-material-quantity p{font-size:10px;line-height:1.6;color:var(--ws-muted);margin:8px 0 0}
+.ws81-material-result .ws28-material-summary{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:16px 0;color:#b5c6d8;font-size:13px}
+.ws81-material-result .ws28-material-summary b{display:inline;color:#e6f5d6;font-size:15px}
 .ws81-workshop .ws81-no-ready{grid-column:1/-1;border:1px dashed #43516a;background:#101725;border-radius:5px;box-shadow:none;padding:45px 20px}
 .ws81-workshop .ws81-no-ready>span{display:none}
 .ws81-workshop .ws81-no-ready h3{font-size:18px}

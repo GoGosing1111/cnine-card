@@ -40,6 +40,7 @@
   const MATERIAL_PAYMENT_MODE = 'COIN_AND_CARD_SHARD';
   const BATTLE_SUIT_PAYMENT_MODE = 'BOTH';
   const MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS = 100;
+  const MAX_MATERIAL_CRAFT_ATTEMPTS = 100;
   const materialCardShardCost = recipe => Number(recipe?.card_shard_cost ?? recipe?.cardShardCost ?? 0);
 
   let workshopState = null;
@@ -53,6 +54,7 @@
   let recipeQuery = '';
   let readyOnly = false;
   let requestedSynthesisAttempts = 1;
+  let requestedMaterialAttempts = 1;
   let payment = 'COIN';
   let workshopBusy = false;
   let scrapyardBusy = false;
@@ -378,6 +380,21 @@
     </div>`;
   }
 
+  function materialCraftInfo(recipe) {
+    const bulk = recipe.category === 'MATERIAL_CRAFT' && recipe.output_type === 'INVENTORY_ITEM';
+    const pending = currentMutationRequest('material');
+    const [pendingId, pendingPayment, pendingAttempts] = String(pending?.target || '').split(':');
+    const recovering = pendingId === String(recipe.id);
+    const attempts = recovering ? Number(pendingAttempts || 1) : bulk ? requestedMaterialAttempts : 1;
+    const choice = recovering ? pendingPayment : payment;
+    const valid = Number.isInteger(attempts) && attempts >= 1 && attempts <= MAX_MATERIAL_CRAFT_ATTEMPTS;
+    const info = window.WorkshopRecipes.describe(recipe, workshopState, choice, valid ? attempts : 1);
+    const unit = window.WorkshopRecipes.describe(recipe, workshopState, choice);
+    const maxAttempts = Math.max(0, Math.min(MAX_MATERIAL_CRAFT_ATTEMPTS, ...unit.rows.filter(row => row.required > 0).map(row => Math.floor(Math.min(row.owned, Number.MAX_SAFE_INTEGER) / row.required))));
+    return {...info, bulk, attempts, maxAttempts, recovering, valid, ready:valid && info.ready,
+      shortage:valid ? info.shortage : '제작 횟수를 1~100회 사이의 정수로 입력하세요.'};
+  }
+
   function materialCraftPanel() {
     const category = ['SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS'].includes(workshopSection) ? workshopSection : 'MATERIAL_CRAFT';
     const all = (workshopState?.recipes || []).filter(row => row.category === category);
@@ -391,14 +408,16 @@
       return `<section class="ws22-empty"><h2>${core ? '슈트코어 합성 준비 중' : category === 'ITEM_SYNTHESIS' ? '기타 합성 준비 중' : '재료 제작 준비 중'}</h2><p>공개된 레시피가 아직 없습니다. 운영 설정이 완료되면 이곳에서 재료와 확률을 확인하고 합성할 수 있습니다.</p>${core ? `<div class="ws22-formula"><span><img decoding="async" src="${esc(asset('assets/items/suit-core-1-v2004.png'))}" alt="">슈트 코어 1 × 10</span><b>+</b><span>코인 + 마스터의 별<small>수량 설정 예정</small></span><b>→</b><span><img decoding="async" src="${esc(asset('assets/items/suit-core-2-v2004.png'))}" alt="">슈트 코어 2<small>확률 설정 예정</small></span></div><small>확장 예시입니다. 아직 제작할 수 없으며 재료는 소모되지 않습니다.</small>` : ''}</section>`;
     }
     selectedMaterialRecipe = Number(recipe.id);
-    const info = window.WorkshopRecipes.describe(recipe, workshopState, payment);
+    const info = materialCraftInfo(recipe);
     const recovering = String(recipe.id) === pendingId;
     const output = workshopState?.inventory?.[recipe.output_ref] || {};
     const name = recipe.output_name || recipe.name;
     return `<div class="ws22-item-layout"><aside class="ws22-recipe-list" aria-label="아이템 제작 레시피 목록">${recipes.map(row => {
       const status = window.WorkshopRecipes.describe(row, workshopState, payment);
       return `<button type="button" data-material-recipe="${row.id}" class="${Number(row.id) === selectedMaterialRecipe ? 'active' : ''}" aria-pressed="${Number(row.id) === selectedMaterialRecipe}"><img decoding="async" src="${esc(asset(row.output_image))}" alt="" loading="lazy"><span><b>${esc(row.output_name || row.name)}</b><small>${Number(row.success_rate)}% · ${status.ready ? '제작 가능' : '재료 부족'}</small></span></button>`;
-    }).join('')}</aside><section class="ws22-item-stage" aria-label="선택한 제작 레시피"><header class="ws22-item-head"><div><h2>${esc(name)}</h2><p>${esc(recipe.description)}</p></div><div class="ws22-rate"><small>성공 확률</small><b>${Number(recipe.success_rate)}%</b></div></header><div class="ws22-item-body"><figure class="ws22-item-output"><img decoding="async" src="${esc(asset(recipe.output_image || output.image_url))}" alt="${esc(name)}"><figcaption><small>성공 시 획득</small><b>${esc(name)} × ${fmt(recipe.output_quantity || 1)}</b><span>현재 보유 ${fmt(output.quantity)}개</span></figcaption></figure><section class="ws22-requirements"><h3>1회 제작에 필요한 재료</h3>${recipe.payment_mode === 'COIN_OR_MASTER_STAR' ? `<div class="ws76-pay"><button type="button" data-pay="COIN" class="${payment === 'COIN' ? 'active' : ''}">코인 사용</button><button type="button" data-pay="MASTER_STAR" class="${payment === 'MASTER_STAR' ? 'active' : ''}">마스터의 별 사용</button></div>` : ''}${window.WorkshopRecipes.costRows(info.rows)}<p class="ws22-status">${recovering ? '응답이 끊긴 이전 요청을 재확인합니다. 재료를 중복 소모하지 않습니다.' : info.ready ? '필요한 재료와 재화를 모두 보유하고 있습니다.' : esc(info.shortage)}</p></section></div><footer class="ws22-item-footer"><p class="ws22-risk">실패 시에도 투입한 재료와 재화는 모두 소모됩니다. 결과와 확률은 서버에서 판정합니다.</p><button type="button" id="wsMaterialCraft" class="ws76-primary" ${workshopBusy || (!info.ready && !recovering) ? 'disabled' : ''}>${workshopBusy ? '제작 결과 확인 중' : recovering ? '이전 제작 결과 확인' : info.ready ? esc(name) + ' 제작' : '재료 또는 재화 부족'}</button></footer></section></div>`;
+    }).join('')}</aside><section class="ws22-item-stage" aria-label="선택한 제작 레시피"><header class="ws22-item-head"><div><h2>${esc(name)}</h2><p>${esc(recipe.description)}</p></div><div class="ws22-rate"><small>1회 성공 확률</small><b>${Number(recipe.success_rate)}%</b></div></header><div class="ws22-item-body"><figure class="ws22-item-output"><img decoding="async" src="${esc(asset(recipe.output_image || output.image_url))}" alt="${esc(name)}"><figcaption><small>1회 성공 시 획득</small><b>${esc(name)} × ${fmt(recipe.output_quantity || 1)}</b><span>현재 보유 ${fmt(output.quantity)}개</span></figcaption></figure><section class="ws22-requirements">
+      ${info.bulk ? `<div class="ws28-material-quantity"><label for="wsMaterialAttempts">제작 횟수 <small>한 번에 최대 100회</small></label><div><button type="button" id="wsMaterialLess" aria-label="제작 횟수 줄이기" ${workshopBusy || recovering || info.attempts <= 1 ? 'disabled' : ''}>−</button><input id="wsMaterialAttempts" type="number" inputmode="numeric" min="1" max="100" step="1" value="${Number.isFinite(info.attempts) ? info.attempts : ''}" aria-describedby="wsMaterialQuantityHint" ${workshopBusy || recovering ? 'disabled' : ''}><button type="button" id="wsMaterialMore" aria-label="제작 횟수 늘리기" ${workshopBusy || recovering || info.attempts >= 100 ? 'disabled' : ''}>+</button><button type="button" id="wsMaterialMax" data-max="${info.maxAttempts}" ${workshopBusy || recovering || !info.maxAttempts ? 'disabled' : ''}>최대</button></div><p id="wsMaterialQuantityHint">보유 재료로 최대 ${fmt(info.maxAttempts)}회 제작 가능 · 매회 독립 판정</p></div>` : ''}
+      <h3>${info.valid ? fmt(info.attempts) : '선택한 횟수'}회 제작 총 소모량</h3>${recipe.payment_mode === 'COIN_OR_MASTER_STAR' ? `<div class="ws76-pay"><button type="button" data-pay="COIN" class="${payment === 'COIN' ? 'active' : ''}" ${recovering ? 'disabled' : ''}>코인 사용</button><button type="button" data-pay="MASTER_STAR" class="${payment === 'MASTER_STAR' ? 'active' : ''}" ${recovering ? 'disabled' : ''}>마스터의 별 사용</button></div>` : ''}${window.WorkshopRecipes.costRows(info.rows)}<p class="ws22-status" aria-live="polite">${recovering ? '응답이 끊긴 이전 요청을 재확인합니다. 재료를 중복 소모하지 않습니다.' : info.ready ? '필요한 재료와 재화를 모두 보유하고 있습니다.' : esc(info.shortage)}</p></section></div><footer class="ws22-item-footer"><p class="ws22-risk">제작 횟수는 시도 횟수입니다. 실패한 횟수도 재료와 재화가 소모되며, 실제 획득량은 성공 횟수에 따라 달라집니다.</p><button type="button" id="wsMaterialCraft" class="ws76-primary" ${workshopBusy || (!info.ready && !recovering) ? 'disabled' : ''}>${workshopBusy ? '제작 결과 확인 중' : recovering ? '이전 제작 결과 확인' : !info.valid ? '제작 횟수 확인' : info.ready ? esc(name) + ' ' + fmt(info.attempts) + '회 제작' : '재료 또는 재화 부족'}</button></footer></section></div>`;
   }
 
   function battleSuitCraftPanel() {
@@ -508,7 +527,7 @@
     root.querySelector('[data-ws-ready]')?.addEventListener('click', () => { readyOnly = !readyOnly; if (workshopSection === 'SYNTHESIS') synthesisMode = readyOnly ? 'READY' : 'ALL'; renderWorkshop(); });
     root.querySelector('[data-ws-reset]')?.addEventListener('click', () => { recipeQuery = ''; readyOnly = false; synthesisMode = 'ALL'; renderWorkshop(); });
     root.querySelector('[data-ws-refresh]')?.addEventListener('click', () => { if (!workshopBusy) void bindWorkshopView({fresh:true}); });
-    root.querySelectorAll('[data-material-recipe]').forEach(button => button.onclick = () => { if (workshopBusy) return; selectedMaterialRecipe = Number(button.dataset.materialRecipe); renderWorkshop(); });
+    root.querySelectorAll('[data-material-recipe]').forEach(button => button.onclick = () => { if (workshopBusy) return; selectedMaterialRecipe = Number(button.dataset.materialRecipe); requestedMaterialAttempts = 1; renderWorkshop(); });
     root.querySelectorAll('[data-ws-section]').forEach(button => button.onclick = () => {
       if (workshopBusy || workshopSection === button.dataset.wsSection) return;
       workshopSection = button.dataset.wsSection;
@@ -557,6 +576,18 @@
       void synthesizeEquipment();
     });
     root.querySelector('#wsMaterialCraft')?.addEventListener('click', craftMaterial);
+    root.querySelector('#wsMaterialAttempts')?.addEventListener('input', event => {
+      if (workshopBusy || currentMutationRequest('material')) return;
+      requestedMaterialAttempts = event.currentTarget.valueAsNumber;
+      renderWorkshop();
+    });
+    for (const [id, change] of [['wsMaterialLess', -1], ['wsMaterialMore', 1], ['wsMaterialMax', 0]]) {
+      root.querySelector('#' + id)?.addEventListener('click', event => {
+        if (workshopBusy || currentMutationRequest('material')) return;
+        requestedMaterialAttempts = change ? Math.max(1, Math.min(MAX_MATERIAL_CRAFT_ATTEMPTS, (Number(requestedMaterialAttempts) || 1) + change)) : Number(event.currentTarget.dataset.max);
+        renderWorkshop();
+      });
+    }
     root.querySelector('#wsBattleSuitCraft')?.addEventListener('click', craftBattleSuit);
   }
 
@@ -700,7 +731,8 @@
     if (!recipe || workshopBusy) return;
     const pending = currentMutationRequest('material');
     const recovering = String(pending?.target || '').split(':')[0] === String(recipe.id);
-    const info = window.WorkshopRecipes.describe(recipe, workshopState, payment);
+    const info = materialCraftInfo(recipe);
+    const attempts = info.attempts;
     const paymentType = recipe.payment_mode === MATERIAL_PAYMENT_MODE ? MATERIAL_PAYMENT_MODE : info.cost.type;
     if (!recovering && !info.ready) {
       return alert('재료 제작에 필요한 재료 또는 재화가 부족합니다: ' + info.shortage);
@@ -708,9 +740,9 @@
     const outputName = recipe.output_name || '미스틱 에너지';
     const prompt = recovering
       ? `${outputName} 제작 결과를 동일 요청번호로 안전하게 재확인합니다.`
-      : `${outputName} × ${fmt(recipe.output_quantity || 1)}\n성공 확률 ${Number(recipe.success_rate ?? 100)}%\n${info.rows.map(row => `${row.name} ${fmt(row.required)}`).join(' + ')}를 사용합니다.\n실패 시 투입 재료·재화는 반환되지 않으며, 동일한 제작 요청은 중복 차감되지 않습니다. 제작하시겠습니까?`;
+      : `${outputName} ${fmt(attempts)}회 제작\n1회 성공 시 ${fmt(recipe.output_quantity || 1)}개 획득 · 매회 성공 확률 ${Number(recipe.success_rate ?? 100)}%\n총 ${info.rows.map(row => `${row.name} ${fmt(row.required)}`).join(' + ')}를 사용합니다.\n실패 시 투입 재료·재화는 반환되지 않으며, 동일한 제작 요청은 중복 차감되지 않습니다. 제작하시겠습니까?`;
     if (!confirm(prompt)) return;
-    const ticket = prepareMutationRequest('material', recovering ? pending.target : `${recipe.id}:${paymentType}`, 'WORKSHOP-MATERIAL');
+    const ticket = prepareMutationRequest('material', recovering ? pending.target : `${recipe.id}:${paymentType}:${attempts}`, 'WORKSHOP-MATERIAL');
     if (ticket.blocked) return alert('이전 재료 제작 결과를 먼저 확인해야 합니다. 이전에 선택한 재료 제작으로 다시 시도해 주세요.');
     const actionVersion = ++workshopActionVersion;
     const epoch = routeEpoch;
@@ -722,7 +754,7 @@
     renderWorkshop();
     let reconcile = false;
     try {
-      const data = await api('workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, paymentType, requestId: ticket.requestId }) });
+      const data = await api('workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, paymentType, attempts, requestId: ticket.requestId }) });
       clearMutationRequest('material', ticket.requestId);
       if (!ownsAction()) return;
       if (canPresent()) {
@@ -772,10 +804,12 @@
     const success = data?.success === true && data?.output;
     const output = data?.output || {};
     const outputName = output.name || data?.recipeName || '미스틱 에너지';
+    const attempts = Number(data?.attempts || 1), successCount = Number(data?.successCount ?? (success ? 1 : 0));
+    const summary = `<div class="ws28-material-summary"><span>제작 <b>${fmt(attempts)}회</b></span><span>성공 <b>${fmt(successCount)}회</b></span><span>실패 <b>${fmt(data?.failureCount ?? attempts - successCount)}회</b></span></div>`;
     modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
     modal.innerHTML = success
-      ? `<section><small>MATERIAL FABRICATION COMPLETE</small><h2>재료 제작 완료</h2><img decoding="async" src="${esc(asset(output.image || MYSTIC_ENERGY_IMAGE))}" alt="${esc(outputName)}"><b>${esc(outputName)} × ${fmt(output.quantity || 1)}</b><p>제작된 아이템이 인벤토리에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
-      : `<section><small>MATERIAL FABRICATION FAILED</small><h2>재료 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(outputName)}</b><p>제작 판정에 실패했습니다. 투입된 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
+      ? `<section><small>MATERIAL FABRICATION COMPLETE</small><h2>재료 제작 완료</h2><img decoding="async" src="${esc(asset(output.image || MYSTIC_ENERGY_IMAGE))}" alt="${esc(outputName)}"><b>${esc(outputName)} × ${fmt(output.quantity || 1)}</b>${summary}<p>제작된 아이템이 인벤토리에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
+      : `<section><small>MATERIAL FABRICATION FAILED</small><h2>재료 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(outputName)}</b>${summary}<p>획득한 재료가 없습니다. 투입된 재료와 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
     normalizeImages(modal);
     modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
   }

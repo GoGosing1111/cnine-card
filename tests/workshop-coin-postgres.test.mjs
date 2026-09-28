@@ -46,10 +46,15 @@ async function fixture({ cost = 5000000000, output = 'VEHICLE' } = {}) {
     return { ...result, rows, rowCount: result.affectedRows ?? rows.length };
   } };
   const DB = new __postgresCompatTest.PostgresD1Database(client);
+  let beforeBatch = null, batchSize = 0;
+  const batch = DB.batch.bind(DB);
+  DB.batch = async statements => { batchSize = statements.length; if (beforeBatch) { const hook = beforeBatch; beforeBatch = null; await hook(); } return batch(statements); };
   return {
     pg, DB, cost,
-    craft: requestId => __workshopCraftTest.craft({ DB }, { id: 1, role: 'USER' }, { recipeId: 1, requestId }),
+    craft: (requestId, body = {}) => __workshopCraftTest.craft({ DB }, { id: 1, role: 'USER' }, { recipeId: 1, requestId, ...body }),
     failCoinLog() { failCoinLog = true; },
+    beforeBatch(fn) { beforeBatch = fn; },
+    batchSize: () => batchSize,
     row: async sql => (await pg.query(sql)).rows[0],
     close: () => pg.close(),
   };
@@ -69,6 +74,121 @@ test('unary parameters retain large integer, fractional and null values in Postg
     assert.equal(mixed.count, 2);
     assert.deepEqual((await pg.query(mixed.text, [5000000000, 5000000000])).rows.map(row => ({ balance: Number(row.balance), delta: Number(row.delta), literal: row.literal })), [{ balance: 5000000000, delta: -5000000000, literal: '-?' }]);
   } finally { await pg.close(); }
+});
+
+async function materialFixture({ mystic = true } = {}) {
+  const f = await fixture({ cost: 200000000, output: 'INVENTORY_ITEM' });
+  await f.pg.exec(`
+    INSERT INTO inventory_items(code,name,category,rarity,image_url) VALUES('STARLIGHT_ARMOR_CORE','미스틱 에너지','MATERIAL','SPECIAL','assets/items/starlight-armor-core-v1749.png'),('EMPEROR_ENERGY','엠퍼러 에너지','MATERIAL','EMPEROR','assets/items/emperor-energy-v1.webp');
+    UPDATE users SET coin=20000000000,card_shards=500000000 WHERE id=1;
+    DELETE FROM workshop_recipe_materials_v1668;
+    UPDATE workshop_recipes_v1668 SET category='MATERIAL_CRAFT',code='${mystic ? 'WORKSHOP_MYSTIC_ENERGY' : 'QA_MATERIAL'}',output_ref='${mystic ? 'STARLIGHT_ARMOR_CORE' : 'EMPEROR_ENERGY'}',output_quantity=${mystic ? 1 : 2},payment_mode='${mystic ? 'COIN_AND_CARD_SHARD' : 'BOTH'}',coin_cost=200000000,master_star_cost=${mystic ? 0 : 100},success_rate=10 WHERE id=1;
+  `);
+  if (!mystic) await f.pg.exec("INSERT INTO workshop_recipe_materials_v1668(recipe_id,item_code,quantity) VALUES(1,'TIRE',2),(1,'MASTER_STAR',5)");
+  return f;
+}
+
+test('material batch independently rolls each attempt, spends the total once and replays its receipt', async t => {
+  const f = await materialFixture(); let rolls = 0;
+  t.mock.method(Math, 'random', () => (++rolls % 3 === 0 ? 0 : 0.99));
+  try {
+    const result = await f.craft('material-ten', { attempts: 10 });
+    assert.deepEqual([result.attempts,result.successCount,result.failureCount,result.output.quantity,rolls], [10,3,7,3,10]);
+    assert.deepEqual(result.state.wallet, {coin:18000000000,cardShards:450000000,masterStars:500000});
+    assert.equal(result.state.inventory.STARLIGHT_ARMOR_CORE.quantity, 3);
+    assert.equal(Number((await f.row('SELECT change_amount FROM shard_logs')).change_amount), -50000000);
+    assert.equal(Number((await f.row('SELECT output_quantity FROM workshop_craft_logs_v1668')).output_quantity), 3);
+    const replay = await f.craft('material-ten', {attempts:100});
+    assert.equal(replay.replayed, true); assert.equal(replay.attempts, 10); assert.equal(rolls, 10);
+    assert.deepEqual(replay.state.wallet, result.state.wallet);
+    assert.deepEqual(replay.state.inventory, result.state.inventory);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n), 1);
+    await f.pg.exec(`
+      INSERT INTO app_meta(key,value) VALUES('safe_runtime_upgrade_emperor_energy_catalog_20260926','1');
+      ALTER TABLE users ADD COLUMN nickname TEXT;
+      ALTER TABLE inventory_items ADD COLUMN sort_order BIGINT;
+      ALTER TABLE character_garage_items ADD COLUMN code TEXT,ADD COLUMN sort_order BIGINT;
+      ALTER TABLE character_equipment_items ADD COLUMN code TEXT,ADD COLUMN sort_order BIGINT;
+    `);
+    const cms = await __workshopCraftTest.adminSnapshot({DB:f.DB},{id:1,role:'OWNER'});
+    assert.equal(cms.inventoryItems.some(item=>item.code==='EMPEROR_ENERGY'),true);
+    assert.deepEqual([cms.recentLogs[0].attempts,cms.recentLogs[0].success_count,cms.recentLogs[0].failure_count,cms.recentLogs[0].card_shard_spent],[10,3,7,50000000]);
+  } finally { await f.close(); }
+});
+
+test('all-failed material batches spend every attempt; 100 attempts use a fixed number of SQL statements', async t => {
+  const f = await materialFixture(); let rolls = 0;
+  t.mock.method(Math, 'random', () => { rolls++; return 0.99; });
+  try {
+    await f.craft('one-failure'); const singleSize = f.batchSize();
+    await f.pg.exec('UPDATE users SET coin=20000000000,card_shards=500000000 WHERE id=1');
+    const result = await f.craft('hundred-failures', {attempts:100});
+    assert.deepEqual([result.attempts,result.successCount,result.failureCount,result.output,rolls], [100,0,100,null,101]);
+    assert.equal(result.state.wallet.coin, 0); assert.equal(result.state.wallet.cardShards, 0);
+    assert.equal(f.batchSize(), singleSize);
+    assert.equal(result.state.inventory.STARLIGHT_ARMOR_CORE.quantity, 0);
+  } finally { await f.close(); }
+});
+
+test('CMS material recipe multiplies inventory inputs, combined stars and output quantity', async t => {
+  const f = await materialFixture({mystic:false});
+  t.mock.method(Math, 'random', () => 0);
+  try {
+    const result = await f.craft('custom-material', {attempts:10});
+    assert.equal(result.output.quantity, 20);
+    assert.equal(result.state.inventory.EMPEROR_ENERGY.quantity, 20);
+    assert.equal(result.state.inventory.TIRE.quantity, 247);
+    assert.equal(result.state.wallet.masterStars, 498950);
+    assert.equal(Number((await f.row("SELECT change_amount FROM inventory_logs WHERE reason='WORKSHOP_MATERIAL' AND item_code='TIRE'")).change_amount), -20);
+  } finally { await f.close(); }
+});
+
+test('invalid counts, unsafe totals, non-material batch and insufficient funds reserve nothing', async () => {
+  const f = await materialFixture({mystic:false});
+  try {
+    for (const attempts of [0,-1,1.5,101,'invalid']) await assert.rejects(f.craft('invalid-'+attempts,{attempts}), /1~100/);
+    await f.pg.exec('UPDATE workshop_recipes_v1668 SET coin_cost=9007199254740991');
+    await assert.rejects(f.craft('overflow',{attempts:100}), /총 제작 비용/);
+    await f.pg.exec("UPDATE workshop_recipes_v1668 SET coin_cost=200000000,category='BATTLE_SUIT_CRAFT'");
+    await assert.rejects(f.craft('wrong-category',{attempts:10}), /1회만/);
+    await f.pg.exec("UPDATE workshop_recipes_v1668 SET category='MATERIAL_CRAFT'; UPDATE users SET coin=1");
+    await assert.rejects(f.craft('poor-coin',{attempts:10}), /코인/);
+    await f.pg.exec("UPDATE users SET coin=20000000000; UPDATE cnine_user_inventory SET quantity=1001 WHERE item_code='MASTER_STAR'");
+    await assert.rejects(f.craft('combined-star-short',{attempts:10}), /재료가 부족/);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM workshop_craft_receipts_v1668')).n), 0);
+  } finally { await f.close(); }
+});
+
+test('material batch rechecks total inputs under the transaction lock and rolls back a late failure', async t => {
+  const f = await materialFixture({mystic:false});
+  t.mock.method(Math, 'random', () => 0);
+  try {
+    f.beforeBatch(() => f.pg.exec("UPDATE cnine_user_inventory SET quantity=19 WHERE item_code='TIRE'"));
+    await assert.rejects(f.craft('changed-input',{attempts:10}), /변경되어 제작이 취소/);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin), 20000000000);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='MASTER_STAR'")).quantity), 500000);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n), 0);
+    await f.pg.exec("UPDATE cnine_user_inventory SET quantity=267 WHERE item_code='TIRE'");
+    f.failCoinLog();
+    await assert.rejects(f.craft('rollback-material',{attempts:10}), /QA coin log failure/);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin), 20000000000);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='TIRE'")).quantity), 267);
+    assert.equal(Number((await f.row("SELECT COUNT(*) n FROM cnine_user_inventory WHERE item_code='EMPEROR_ENERGY'")).n), 0);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM inventory_logs')).n), 0);
+    await assert.rejects(f.craft('rollback-material',{attempts:10}), /QA coin log failure/);
+  } finally { await f.close(); }
+});
+
+test('overlapping duplicate material submissions cannot debit twice', async t => {
+  const f = await materialFixture();
+  t.mock.method(Math, 'random', () => 0);
+  try {
+    const results = await Promise.allSettled([f.craft('same-batch',{attempts:10}), f.craft('same-batch',{attempts:10})]);
+    assert.equal(results.filter(row=>row.status==='fulfilled').length, 1);
+    assert.match(results.find(row=>row.status==='rejected').reason.message, /처리 중/);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin), 18000000000);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n), 1);
+  } finally { await f.close(); }
 });
 
 for (const { cost, output, success } of [

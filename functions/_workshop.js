@@ -251,6 +251,20 @@ function paymentFor(recipe,requested){
   return choice==='COIN'?{type:'COIN',coin:Number(recipe.coin_cost||0),stars:0,shards:0}:{type:'MASTER_STAR',coin:0,stars:Number(recipe.master_star_cost||0),shards:0};
 }
 
+export const MAX_MATERIAL_CRAFT_ATTEMPTS=100;
+function craftBatchPlan(recipe,body){
+  const attempts=Number(body.attempts??1);
+  if(!Number.isInteger(attempts)||attempts<1||attempts>MAX_MATERIAL_CRAFT_ATTEMPTS)throw new Error('재료 제작 횟수는 1~100회 사이의 정수로 입력하세요.');
+  if(attempts>1&&(recipe.category!=='MATERIAL_CRAFT'||recipe.output_type!=='INVENTORY_ITEM'))throw new Error('이 레시피는 한 번에 1회만 제작할 수 있습니다.');
+  const total=value=>{
+    const amount=Number(value||0)*attempts;
+    if(!Number.isSafeInteger(amount)||amount<0)throw new Error('총 제작 비용이 처리 가능한 범위를 초과합니다. 제작 횟수를 줄여 주세요.');
+    return amount;
+  };
+  const unit=paymentFor(recipe,body.paymentType);
+  return {attempts,payment:{type:unit.type,coin:total(unit.coin),stars:total(unit.stars),shards:total(unit.shards)},materials:recipe.materials.map(material=>({...material,quantity:total(material.quantity)}))};
+}
+
 async function craft(env,user,body){
   const recipeId=int(body.recipeId,1,2147483647),requestId=clean(body.requestId,120);
   if(!requestId)throw new Error('제작 요청 번호가 없습니다.');
@@ -262,16 +276,18 @@ async function craft(env,user,body){
   if(!recipe||Number(recipe.is_active)===0||Number(recipe.is_public)===0||Number(recipe.owner_test_only)!==0&&!isOwner(user))throw new Error('현재 제작할 수 없는 레시피입니다.');
   validateWorkshopExtension(recipe);
   if(recipe.output_type==='VEHICLE'&&await env.DB.prepare('SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?').bind(user.id,int(recipe.output_ref,1)).first())throw new Error('이미 보유한 차량입니다.');
-  const payment=paymentFor(recipe,body.paymentType),state=await userWorkshopState(env,user),missing=recipe.materials.filter(material=>Number(state.inventory[material.item_code]?.quantity||0)<Number(material.quantity||0));
+  const {attempts,payment,materials}=craftBatchPlan(recipe,body),state=await userWorkshopState(env,user),missing=materials.filter(material=>Number(state.inventory[material.item_code]?.quantity||0)<material.quantity+(material.item_code==='MASTER_STAR'?payment.stars:0));
   if(missing.length)throw new Error(`제작 재료가 부족합니다: ${missing.map(material=>material.item_name||material.item_code).join(', ')}`);
   if(state.wallet.coin<payment.coin)throw new Error('제작에 필요한 코인이 부족합니다.');
   if(state.wallet.cardShards<payment.shards)throw new Error('제작에 필요한 카드 조각이 부족합니다.');
   if(state.wallet.masterStars<payment.stars)throw new Error('제작에 필요한 마스터의 별이 부족합니다.');
   const reserved=await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,recipe_id,payment_type,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,recipe.id,payment.type).run();
   if(!reserved.meta?.changes)throw new Error('같은 제작 요청을 처리 중입니다.');
-  const guardId=`WORKSHOP:${user.id}:${requestId}`,success=Math.random()*100<recipe.success_rate;
-  const result={ok:true,requestId,recipeId:recipe.id,recipeName:recipe.name,category:recipe.category,success,paymentType:payment.type,coinSpent:payment.coin,masterStarSpent:payment.stars,cardShardSpent:payment.shards,output:success?{type:recipe.output_type,ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:recipe.output_quantity}:null};
-  const guard=env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=? AND card_shards>=?) AND (?=0 OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?)) AND NOT EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=m.item_code WHERE m.recipe_id=? AND COALESCE(ui.quantity,0)<m.quantity) AND (?<>'VEHICLE' OR NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,recipe.id,user.id,payment.coin,payment.shards,payment.stars,user.id,payment.stars,user.id,recipe.id,recipe.output_type,user.id,int(recipe.output_ref,0));
+  let successCount=0;
+  for(let i=0;i<attempts;i++)if(Math.random()*100<recipe.success_rate)successCount++;
+  const guardId=`WORKSHOP:${user.id}:${requestId}`,success=successCount>0,outputQuantity=successCount*recipe.output_quantity;
+  const result={ok:true,requestId,recipeId:recipe.id,recipeName:recipe.name,category:recipe.category,attempts,successCount,failureCount:attempts-successCount,successRate:recipe.success_rate,success,paymentType:payment.type,coinSpent:payment.coin,masterStarSpent:payment.stars,cardShardSpent:payment.shards,output:success?{type:recipe.output_type,ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:outputQuantity}:null};
+  const guard=env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=? AND card_shards>=?) AND (?=0 OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?)) AND NOT EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=m.item_code WHERE m.recipe_id=? AND COALESCE(ui.quantity,0)<m.quantity*?+CASE WHEN m.item_code='MASTER_STAR' THEN ? ELSE 0 END) AND (?<>'VEHICLE' OR NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,recipe.id,user.id,payment.coin,payment.shards,payment.stars,user.id,payment.stars,user.id,recipe.id,attempts,payment.stars,recipe.output_type,user.id,int(recipe.output_ref,0));
   const verified=`EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`;
   const statements=[];
   if(env.DB?.dialect==='postgres'){
@@ -282,16 +298,16 @@ async function craft(env,user,body){
   statements.push(guard);
   if(payment.coin>0||payment.shards>0)statements.push(env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=? AND ${verified}`).bind(payment.coin,payment.shards,user.id,payment.coin,payment.shards,guardId));
   if(payment.stars>0)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND ${verified}`).bind(payment.stars,payment.stars,user.id,guardId));
-  for(const material of recipe.materials)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND ${verified}`).bind(material.quantity,material.quantity,user.id,material.item_code,guardId));
+  for(const material of materials)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND ${verified}`).bind(material.quantity,material.quantity,user.id,material.item_code,guardId));
   if(success&&recipe.output_type==='VEHICLE')statements.push(env.DB.prepare(`INSERT INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,CAST(? AS INTEGER),'WORKSHOP',? WHERE ${verified}`).bind(user.id,recipe.output_ref,requestId,guardId));
   if(success&&recipe.output_type==='EQUIPMENT')statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,CAST(? AS INTEGER),'WORKSHOP',?,? WHERE ${verified}`).bind(user.id,recipe.output_ref,requestId,requestId,guardId));
-  if(success&&recipe.output_type==='INVENTORY_ITEM')statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${verified} ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,recipe.output_ref,recipe.output_quantity,recipe.output_quantity,guardId));
-  statements.push(env.DB.prepare(`INSERT INTO ${LOG_TABLE}(request_id,user_id,recipe_id,recipe_name,category,output_type,output_ref,output_quantity,payment_type,coin_spent,master_star_spent,success) SELECT ?,?,?,?,?,?,?,?,?,?,?,? WHERE ${verified}`).bind(requestId,user.id,recipe.id,recipe.name,recipe.category,recipe.output_type,recipe.output_ref,recipe.output_quantity,payment.type,payment.coin,payment.stars,success?1:0,guardId));
-  for(const material of recipe.materials)statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-?,quantity,'WORKSHOP_MATERIAL','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${verified}`).bind(user.id,material.item_code,material.quantity,requestId,user.id,material.item_code,guardId));
+  if(success&&recipe.output_type==='INVENTORY_ITEM')statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${verified} ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,recipe.output_ref,outputQuantity,outputQuantity,guardId));
+  statements.push(env.DB.prepare(`INSERT INTO ${LOG_TABLE}(request_id,user_id,recipe_id,recipe_name,category,output_type,output_ref,output_quantity,payment_type,coin_spent,master_star_spent,success) SELECT ?,?,?,?,?,?,?,?,?,?,?,? WHERE ${verified}`).bind(requestId,user.id,recipe.id,recipe.name,recipe.category,recipe.output_type,recipe.output_ref,attempts>1?outputQuantity:recipe.output_quantity,payment.type,payment.coin,payment.stars,success?1:0,guardId));
+  for(const material of materials)statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-?,quantity,'WORKSHOP_MATERIAL','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${verified}`).bind(user.id,material.item_code,material.quantity,requestId,user.id,material.item_code,guardId));
   if(payment.stars>0)statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',-?,quantity,'WORKSHOP_PAYMENT','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND ${verified}`).bind(user.id,payment.stars,requestId,user.id,guardId));
   if(payment.coin>0)statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,-?,coin,'WORKSHOP_PAYMENT' FROM users WHERE id=? AND ${verified}`).bind(user.id,payment.coin,user.id,guardId));
   if(payment.shards>0)statements.push(env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,-?,card_shards,'WORKSHOP_PAYMENT',NULL FROM users WHERE id=? AND ${verified}`).bind(user.id,payment.shards,user.id,guardId));
-  if(success&&recipe.output_type==='INVENTORY_ITEM')statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'WORKSHOP_OUTPUT','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${verified}`).bind(user.id,recipe.output_ref,recipe.output_quantity,requestId,user.id,recipe.output_ref,guardId));
+  if(success&&recipe.output_type==='INVENTORY_ITEM')statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'WORKSHOP_OUTPUT','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${verified}`).bind(user.id,recipe.output_ref,outputQuantity,requestId,user.id,recipe.output_ref,guardId));
   statements.push(env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',result_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND ${verified}`).bind(JSON.stringify(result),requestId,user.id,guardId));
   try{await env.DB.batch(statements)}catch(error){
     const message=clean(error?.message||'제작 트랜잭션 처리 실패',300);
@@ -366,12 +382,13 @@ async function adminSnapshot(env,user){
     env.DB.prepare('SELECT id,code,name,rarity,image_url FROM character_garage_items WHERE is_active=1 ORDER BY sort_order,id').all(),
     env.DB.prepare('SELECT id,code,name,slot,rarity,image_url FROM character_equipment_items WHERE is_active=1 ORDER BY sort_order,id').all(),
     env.DB.prepare('SELECT code,name,category,rarity,image_url FROM inventory_items WHERE is_active=1 ORDER BY category,sort_order,name').all(),
-    env.DB.prepare(`SELECT l.*,r.code recipe_code,u.nickname,CASE WHEN UPPER(COALESCE(r.code,''))='${MYSTIC_ENERGY_RECIPE_CODE}' THEN ${FIXED_RECIPE_COSTS[MYSTIC_ENERGY_RECIPE_CODE].cardShards} ELSE 0 END card_shard_spent FROM ${LOG_TABLE} l LEFT JOIN ${RECIPE_TABLE} r ON r.id=l.recipe_id LEFT JOIN users u ON u.id=l.user_id ORDER BY l.id DESC LIMIT 60`).all(),
+    env.DB.prepare(`SELECT l.*,r.code recipe_code,u.nickname,c.result_json craft_result_json,CASE WHEN UPPER(COALESCE(r.code,''))='${MYSTIC_ENERGY_RECIPE_CODE}' THEN ${FIXED_RECIPE_COSTS[MYSTIC_ENERGY_RECIPE_CODE].cardShards} ELSE 0 END card_shard_spent FROM (SELECT * FROM ${LOG_TABLE} ORDER BY id DESC LIMIT 60) l LEFT JOIN ${RECIPE_TABLE} r ON r.id=l.recipe_id LEFT JOIN users u ON u.id=l.user_id LEFT JOIN ${RECEIPT_TABLE} c ON c.request_id=l.request_id AND c.user_id=l.user_id ORDER BY l.id DESC`).all(),
     env.DB.prepare(`SELECT r.*,input.name input_name,input.rarity input_rarity,replace(input.image_url,char(92),'/') input_image,output.name output_name,output.rarity output_rarity,replace(output.image_url,char(92),'/') output_image FROM ${SYNTH_RECIPE_TABLE} r JOIN character_equipment_items input ON input.id=r.input_equipment_id JOIN character_equipment_items output ON output.id=r.output_equipment_id ORDER BY r.sort_order,r.id`).all(),
     env.DB.prepare(`SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM ${SYNTH_LOG_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN character_equipment_items input ON input.id=l.input_equipment_id LEFT JOIN character_equipment_items output ON output.id=l.output_equipment_id ORDER BY l.id DESC LIMIT 60`).all()
   ]);
   const decoratedSynthesisRecipes=await attachSynthesisMaterials(env,(synthesisRecipes.results||[]).map(row=>({...row,recipe_id:Number(row.id)})),user?.id||0);
-  return {recipes,vehicles:vehicles.results||[],equipment:equipment.results||[],inventoryItems:items.results||[],recentLogs:logs.results||[],synthesisRecipes:decoratedSynthesisRecipes,recentSynthesisLogs:synthesisLogs.results||[],categories:[...CATEGORIES],outputTypes:[...OUTPUT_TYPES],paymentModes:[...PAYMENT_MODES]};
+  const recentLogs=(logs.results||[]).map(({craft_result_json,...row})=>{const result=parse(craft_result_json,{})||{};return {...row,attempts:Number(result.attempts||1),success_count:Number(result.successCount??(Number(row.success)?1:0)),failure_count:Number(result.failureCount??(Number(row.success)?0:1)),card_shard_spent:Number(result.cardShardSpent??row.card_shard_spent??0)}});
+  return {recipes,vehicles:vehicles.results||[],equipment:equipment.results||[],inventoryItems:items.results||[],recentLogs,synthesisRecipes:decoratedSynthesisRecipes,recentSynthesisLogs:synthesisLogs.results||[],categories:[...CATEGORIES],outputTypes:[...OUTPUT_TYPES],paymentModes:[...PAYMENT_MODES]};
 }
 
 function cleanMaterial(raw,index){const itemCode=code(raw.itemCode||raw.item_code,100),quantity=int(raw.quantity,1,100000000,1);if(!itemCode)throw new Error(`${index+1}번째 재료 코드를 입력하세요.`);return {itemCode,quantity,sortOrder:int(raw.sortOrder??raw.sort_order,-100000,100000,(index+1)*10)}}
@@ -450,5 +467,5 @@ export async function handleWorkshop({path,request,env,deps}){
 }
 
 export const __workshopBattleSuitTest=Object.freeze({BATTLE_SUIT_CRAFT_UPGRADE_KEY,BATTLE_SUIT_RECIPES,CATEGORIES,saveRecipe,paymentFor});
-export const __workshopCraftTest=Object.freeze({craft,synthesizeEquipment,FOUNDATION_SQL});
+export const __workshopCraftTest=Object.freeze({craft,synthesizeEquipment,adminSnapshot,FOUNDATION_SQL});
 export const __workshopReadTest=Object.freeze({synthesisRecipeRows,userWorkshopState,SYNTH_STOCK_READ_LIMIT});

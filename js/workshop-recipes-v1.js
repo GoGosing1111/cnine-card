@@ -18,7 +18,7 @@
       stars: ['MASTER_STAR','BOTH'].includes(type) ? Number(recipe.master_star_cost || 0) : 0,
       shards: type === 'COIN_AND_CARD_SHARD' ? Number(recipe.card_shard_cost || 0) : 0};
   }
-  function requirements(recipe, state, choice) {
+  function requirements(recipe, state, choice, attempts = 1) {
     const cost = paymentFor(recipe, choice), rows = [];
     for (const material of recipe.materials || []) {
       const code = material.item_code, item = state.inventory?.[code] || {};
@@ -33,11 +33,11 @@
     add('COIN', '코인', state.wallet?.coin, cost.coin);
     add('MASTER_STAR', '마스터의 별', state.wallet?.masterStars, cost.stars);
     add('CARD_SHARD', '카드 조각', state.wallet?.cardShards, cost.shards);
-    return rows.map(row => ({...row, missing:Math.max(0, row.required - row.owned)}));
+    return rows.map(row => ({...row, required:row.required * attempts, missing:Math.max(0, row.required * attempts - row.owned)}));
   }
-  function describe(recipe, state, choice) {
-    const rows = requirements(recipe, state, choice);
-    return {cost:paymentFor(recipe, choice), rows, ready:!recipe.owned && rows.every(row => row.missing === 0),
+  function describe(recipe, state, choice, attempts = 1) {
+    const rows = requirements(recipe, state, choice, attempts), unit = paymentFor(recipe, choice);
+    return {cost:{type:unit.type, coin:unit.coin * attempts, stars:unit.stars * attempts, shards:unit.shards * attempts}, rows, ready:!recipe.owned && rows.every(row => Number.isSafeInteger(row.required) && row.missing === 0),
       shortage:recipe.owned ? '이미 보유한 차량' : rows.filter(row => row.missing).map(row => `${row.name} ${fmt(row.missing)}개 부족`).join(' · ')};
   }
   function costRows(rows) {
