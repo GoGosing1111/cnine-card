@@ -39,3 +39,12 @@
 - 로컬 재현: `node tests/helpers/workshop-equipment-server.mjs` 실행 후 `node tests/workshop-equipment-craft.browser.mjs`. 필요한 경우 `PLAYWRIGHT_MODULE`에 설치된 Playwright 경로를 지정한다. 서버는 localhost 8803에만 바인딩하며 운영 DB를 연결하지 않는다.
 
 배포 명령: `npm run deploy:production -- --scoped`. 상기 3개 테스트와 `check:worker`를 지정하고, 출시 플래그·깨끗한 범위 커밋·origin/main 일치·캐시·Hyperdrive 보호는 유지한다.
+
+## 운영 반영 완료
+
+- 구현 커밋: `0834687b7dfd4730607895f23f8880b619fbe80b`. 실제 배포 소스: `f272642c876cd7c879fd1c08deebe2aa750b1ab5` (동시 작업의 문서 기록을 fast-forward한 동일 실행 코드).
+- Pages: <https://25cb686c.cnine-card.pages.dev>. Clan draft Worker: `06b3021b-d15e-479f-8092-e4cc4071d538`.
+- 3개 scoped 서버 테스트 파일 **29/29 통과**. 이후 원격 문서 커밋으로 깨끗한 후보 검사가 한 차례 중단되어, 문서만 반영하고 신규 장비제작 12개 검사와 필수 컴파일만 재실행했다. 기존 검사 결과는 유지했다. 실제 운영 업로드는 한 번 수행했다.
+- Functions 컴파일, 출시/캐시 조건, Hyperdrive query cache OFF 확인 통과.
+- 운영 JS 2개와 workbench CSS의 HTTP 200 및 로컬 소스 일치를 확인했다. OWNER CMS에서 실제 미스틱·소버린 SKS 카탈로그, `+ 장비제작`, 투입 +10 장비/천장 입력, 10% 잠금, 비용·천장 미정, OFF/비공개 초안을 확인했다. 운영 저장·활성화·유저 재화 변경은 하지 않았다.
+- 최초 CMS 조회는 일시 오류가 있었으나 재조회는 HTTP 200이었다. 확인된 해당 요청의 서버 처리 시간은 130ms·22쿼리·예외 0건이다. 원인이 확정되지 않아 성능 개선이나 전반적인 무오류로 확대 해석하지 않는다. 필요한 해당 조회 결과만 남기고 임시 전체 tail 원본은 제거했다.
