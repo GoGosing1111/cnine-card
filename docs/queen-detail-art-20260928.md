@@ -21,3 +21,12 @@
 - 기준 이후 기존 변경은 직전 여왕 배포의 완료 문서다. 이번 게임 실행 변경은 위 어댑터·CSS·로더뿐이다.
 - 배포 검사: `tests/queen-coronation-v1.test.mjs`만 선택해 인접한 즉위식 상태·재조회·닫기 회귀를 확인한다. 전체 게임 검사를 반복하지 않는다.
 - 깨끗한 범위 커밋·origin/main 일치·출시 플래그·캐시 호환·운영 Hyperdrive query cache OFF는 지정 배포 도구로 확인한다.
+
+## 운영 반영 완료
+
+- 구현 커밋 `69730cb1`, origin/main 반영 후 scoped 배포 1회 성공. 선택한 즉위식 회귀 4개와 출시·캐시·Hyperdrive 검사 통과.
+- Pages: https://01e0a6b6.cnine-card.pages.dev
+- 클랜 Worker 버전: `b0d34c63-437b-4521-abb2-9f6d38fd67e4` (지정 배포 명령의 기존 절차).
+- 2026-09-28 23:14:23 KST 운영 도메인에서 index·어댑터·CSS·여왕 이미지 모두 HTTP 200 및 배포 원본과 내용 일치 확인.
+- 운영 확인 증빙: `C:/Users/User/.codex/tmp/queen-detail-art-20260928/production-smoke.json`.
+- 완료 기록만 추가하는 후속 커밋은 문서 변경이므로 게임 검사·재배포를 반복하지 않는다.
