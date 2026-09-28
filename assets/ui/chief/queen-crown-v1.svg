@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 84" fill="none">
+  <defs><linearGradient id="gold" x1="60" y1="10" x2="60" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#fff3ca"/><stop offset=".4" stop-color="#e8bd60"/><stop offset=".7" stop-color="#9b6329"/><stop offset="1" stop-color="#ffdf93"/></linearGradient></defs>
+  <path d="M13 30 32 43 39 21 52 39 60 10 68 39 81 21 88 43 107 30 97 64H23L13 30Z" fill="url(#gold)" stroke="#ffe8ab" stroke-width="1.5"/>
+  <path d="m24 39 7 16h58l7-16-12 12-7-16-12 16-5-23-5 23-12-16-7 16-12-12Z" fill="#233c31"/>
+  <path d="M24 66h72v9H24z" fill="url(#gold)" stroke="#ffe6a5"/>
+  <path d="M21 78h78M31 71h16m26 0h16" stroke="#eed393" stroke-width="2"/>
+  <ellipse cx="60" cy="67" rx="6" ry="8" fill="#a72b47" stroke="#fff0bf" stroke-width="2"/>
+  <path d="m58 63 2-2 2 2" stroke="#ffb1bb"/>
+  <g fill="#fff0c3"><circle cx="12" cy="28" r="3"/><circle cx="39" cy="19" r="3"/><circle cx="60" cy="8" r="3.5"/><circle cx="81" cy="19" r="3"/><circle cx="108" cy="28" r="3"/></g>
+  <path d="M16 67C7 57 4 47 5 39M104 67c9-10 12-20 11-28M12 62l-7-2m5-7-6-3m106 12 5-2m-5-7 6-3" stroke="#d4ae62" stroke-width="1.4" stroke-linecap="round"/>
+</svg>

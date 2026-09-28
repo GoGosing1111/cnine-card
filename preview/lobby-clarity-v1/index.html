@@ -12,6 +12,7 @@
   <script defer src="/js/soopketmon-v21-exact-shell-adapter.js?v=2108-shared-navigation&amp;goldenAxe=20260918" data-enabled="false"></script>
   <script defer src="/ui/adventure-lobby/icons.js?v=6"></script>
   <script defer src="./app.js?v=2108-shared-navigation&amp;goldenAxe=20260918"></script>
+<link rel="stylesheet" href="/css/queen-coronation-v1.css?v=20260928-queen">
 </head>
 <body>
   <a href="#main" class="skip-link">본문으로 바로가기</a>
@@ -35,7 +36,7 @@
         <button class="side-link" data-category="shop"><span data-icon="bag"></span><b>상점·교환</b><small>획득과 거래</small></button>
         <button class="side-link" data-category="rewards"><span data-icon="gift"></span><b>보상</b><small>출석과 퀘스트</small></button>
         <button class="side-link" data-category="social"><span data-icon="clan"></span><b>클랜·생활</b><small>함께하는 활동</small></button>
-        <button class="side-link" data-category="administration"><span data-icon="administration"></span><b>행정부</b><small>족장과 운영 시설</small></button>
+        <button class="side-link" data-category="administration"><span data-icon="administration"></span><b>행정부</b><small>여왕과 운영 시설</small></button>
       </nav>
       <button class="all-menu" data-category="all"><span data-icon="search"></span>전체 메뉴 <span>↗</span></button>
       <button class="sidebar-help" data-start-guide><span class="help-symbol">?</span>이용 안내</button><button class="sidebar-help" id="fullscreen-button">⛶ 전체화면</button>
@@ -47,7 +48,14 @@
         <div class="avatar-scene">
           <img class="stage-character" src="/assets/ui/avatars-v1/lobby-v1/avatar-f01-azure-frost-strategist-lobby-v1-1024.webp" alt="" fetchpriority="high">
           <div class="avatar-shade" aria-hidden="true"></div>
-          <div class="scene-header"><button class="chief-compact" id="chief-shortcut"><span>족장</span><b id="chief-name">족장 이름</b><i>↗</i></button><div class="scene-audio"><slot name="bgm"></slot></div></div>
+          <div class="scene-header">
+            <button type="button" class="chief-compact queen-royal-plaque" id="chief-shortcut" data-chief-state="loading">
+              <span class="queen-plaque-crown" aria-hidden="true"><img src="/assets/ui/chief/queen-crown-v1.svg" width="72" height="52" alt=""></span>
+              <span class="queen-plaque-copy"><span class="queen-plaque-eyebrow"><span id="chief-ordinal">숲켓몬 왕실</span><em id="chief-new-reign" hidden>새로운 즉위</em></span><span class="queen-plaque-identity"><strong class="queen-plaque-title">여왕</strong><b id="chief-name">확인 중</b></span><span class="queen-plaque-term" id="chief-term">재위 정보를 불러옵니다</span></span>
+              <i class="queen-plaque-arrow" aria-hidden="true">↗</i>
+            </button>
+            <div class="scene-audio"><slot name="bgm"></slot></div>
+          </div>
         </div>
         <section class="operations-scene" aria-label="진행 중 콘텐츠와 경매">
 

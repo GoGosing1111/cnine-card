@@ -248,10 +248,11 @@
 
   function chiefView() {
     const chief = chiefState?.chief;
-    if (!chiefState) return { state: 'loading', ordinal: '—', title: '족장 정보 불러오는 중', nickname: '서버 연결 중', remaining: '잠시만 기다려 주세요' };
-    if (chiefState.unavailable) return { state: 'unavailable', ordinal: '—', title: '족장 정보 확인 불가', nickname: '연결 상태 확인 필요', remaining: '자동으로 다시 시도합니다' };
-    if (chief?.status==='SUSPENDED') return { state:'suspended',nickname:chief.nickname,title:'족장 직무정지',remaining:'국민 재판 진행 중',avatar:chief.avatar,viewerAvatar:chief.viewerAvatar };
-    if (!chief?.active) return { state: 'vacant', ordinal: '—', title: '족장 선출 대기', nickname: '공석', remaining: '차기 족장 선출을 기다립니다', viewerAvatar: chief?.viewerAvatar || null };
+    if (!chiefState) return { state: 'loading', ordinal: '—', title: '여왕 정보 불러오는 중', nickname: '서버 연결 중', remaining: '잠시만 기다려 주세요' };
+    if (chiefState.unavailable) return { state: 'unavailable', ordinal: '—', title: '여왕 정보 확인 불가', nickname: '연결 상태 확인 필요', remaining: '자동으로 다시 시도합니다' };
+    if (chief?.status==='SUSPENDED') return { state:'suspended',nickname:chief.nickname,title:'여왕 직무정지',remaining:'국민 재판 진행 중',avatar:chief.avatar,viewerAvatar:chief.viewerAvatar };
+    if (chief?.status==='REMOVED') return { state:'removed',nickname:chief.nickname,title:'여왕 파면',remaining:'해당 재위가 종료되었습니다',avatar:chief.avatar,viewerAvatar:chief.viewerAvatar };
+    if (!chief?.active) return { state: 'vacant', ordinal: '—', title: '여왕 선출 대기', nickname: '공석', remaining: '차기 여왕 선출을 기다립니다', viewerAvatar: chief?.viewerAvatar || null };
     const ordinal = Number.isInteger(Number(chief.ordinal)) && Number(chief.ordinal) > 0 ? Number(chief.ordinal) : '—';
     let remainingMs = Math.max(0, Number(chief.remainingMs || 0));
     if (chief.endsAt) remainingMs = Math.max(0, Date.parse(chief.endsAt) - Date.now());
@@ -260,9 +261,11 @@
     const minutes = Math.floor((remainingMs % 3600000) / 60000);
     return {
       state: 'active', ordinal,
-      title: ordinal === '—' ? '현임 족장' : `제${ordinal}대 족장`,
-      nickname: chief.nickname || '족장',
+      title: ordinal === '—' ? '현임 여왕' : `제${ordinal}대 여왕`,
+      nickname: chief.nickname || '여왕',
       remaining: days ? `${days}일 ${hours}시간 남음` : `${hours}시간 ${minutes}분 남음`,
+      startsAt: chief.startsAt || null,
+      endsAt: chief.endsAt || null,
       avatar: chief.avatar || null,
       viewerAvatar: chief.viewerAvatar || null
     };
@@ -272,8 +275,8 @@
     const path = value => { const clean = String(value || '').replace(/\\/g, '/'); return clean && !clean.startsWith('/') ? `/${clean}` : clean; };
     const avatar = preferViewer && chief?.viewerAvatar ? chief.viewerAvatar : chief?.avatar;
     const desktop = path(avatar?.lobbyImage), mobile = path(avatar?.lobbyMobileImage || desktop);
-    if (desktop) return `<picture><source media="(max-width:759px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" width="1024" height="1536" alt="${esc(avatar?.name || chief.nickname || '족장')} 아바타 일러스트" loading="${eager ? 'eager' : 'lazy'}" ${eager ? 'fetchpriority="high"' : ''} decoding="async"></picture>`;
-    return `<picture><source type="image/avif" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" sizes="(max-width:759px) 100vw, 55vw"><source type="image/webp" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.webp 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp 1024w" sizes="(max-width:759px) 100vw, 55vw"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" width="1024" height="1536" alt="족장 직위를 상징하는 미래형 최고지휘관 공용 초상" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
+    if (desktop) return `<picture><source media="(max-width:759px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" width="1024" height="1536" alt="${esc(avatar?.name || chief.nickname || '여왕')} 아바타 일러스트" loading="${eager ? 'eager' : 'lazy'}" ${eager ? 'fetchpriority="high"' : ''} decoding="async"></picture>`;
+    return `<picture><source type="image/avif" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" sizes="(max-width:759px) 100vw, 55vw"><source type="image/webp" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.webp 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp 1024w" sizes="(max-width:759px) 100vw, 55vw"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" width="1024" height="1536" alt="공용 로비 일러스트" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
   }
 
   function commandDescriptor(route, fallbackTitle, fallbackMeta, fallbackGroup = '') {
@@ -307,12 +310,12 @@
     return `<section class="pc-lobby-scene" aria-label="숲켓몬 PC 메인 로비">
         <div class="pc-lobby-grid" aria-hidden="true"></div>
         <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></div>
-        <div class="pc-main-character pc-chief-commander" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
-        <section class="pc-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}" data-chief-state="${chief.state}" aria-label="족장 임기 현황">
-          <div class="pc-readout-index"><span>SOOPKETMON / CHIEF SYSTEM</span><b>${esc(chief.ordinal)}</b></div>
-          <p>THE ELECTED CHIEF</p><h1><small>${esc(chief.title)}</small><strong>${esc(chief.nickname)}</strong></h1>
-          <div class="pc-guide-line"><i></i><span></span></div><div class="pc-term-timer"><span>임기 종료까지</span><strong>${esc(chief.remaining)}</strong><small>족장 권한은 서버 정책으로 검증 · KST</small></div>
-          <button class="pc-chief-action" type="button" data-v21-chief-info>족장 임기 현황 <i>LIVE</i></button>
+        <div class="pc-main-character pc-chief-commander" aria-label="로비 아바타 일러스트">${chiefPicture}</div>
+        <section class="pc-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}" data-chief-state="${chief.state}" aria-label="여왕 임기 현황">
+          <div class="pc-readout-index"><span>SOOPKETMON / QUEEN REIGN</span><b>${esc(chief.ordinal)}</b></div>
+          <p>THE REIGNING QUEEN</p><h1><small>${esc(chief.title)}</small><strong>${esc(chief.nickname)}</strong></h1>
+          <div class="pc-guide-line"><i></i><span></span></div><div class="pc-term-timer"><span>임기 종료까지</span><strong>${esc(chief.remaining)}</strong><small>여왕 권한은 서버 정책으로 검증 · KST</small></div>
+          <button class="pc-chief-action" type="button" data-v21-chief-info>여왕 임기 현황 <i>LIVE</i></button>
         </section>
         <nav class="pc-main-navigation${clanFeatureVisible()?' has-clan-test':''}" aria-label="PC 주요 메뉴"><div class="pc-navigation-heading"><span>MAIN COMMAND</span><b>01 / LOBBY</b></div>
           ${pcCommand('buy', '카드 상점', '대량 구매 · 20/100/1000회')}${pcCommand('dex', '도감', '카드 수집 · 진화')}${pcCommand('battle', '전투', 'PVE · 특수전 · 레이드', true)}${clanFeatureVisible()?pcCommand('clan', '클랜', '블라인드 드래프트 · V3', true):''}
@@ -324,8 +327,8 @@
         ${pcOperations}
       </section>
       <section class="mobile-command-lobby" aria-label="숲켓몬 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
-        <div class="mobile-chief-visual" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
-        <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>족장 임기 현황 <em>LIVE</em></button></section>
+        <div class="mobile-chief-visual" aria-label="로비 아바타 일러스트">${chiefPicture}</div>
+        <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE REIGNING QUEEN</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>여왕 임기 현황 <em>LIVE</em></button></section>
         <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${clanFeatureVisible()?mobileCommand('clan', '클랜', '블라인드 드래프트 · V3', true):''}${mobileCommand('character', '제작소', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>${mobileOperations}
         <aside data-streamer-lounge-host hidden aria-label="스트리머 라운지 입구"></aside>
       </section>`;
@@ -577,7 +580,7 @@
     const chief = chiefView();
     const modal = modalRoot(); if (!modal) return;
     modal.className = 'modal v21-command-overlay open';
-    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog" role="dialog" aria-modal="true" aria-label="족장 임기 및 권한"><header><div><small>SOOPKETMON / CHIEF SYSTEM</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body">${chiefPictureMarkup(chief, false)}<div><small>현재 상태</small><b>${chief.state === 'active' ? '재임 중' : chief.nickname}</b><small>남은 임기</small><b>${esc(chief.remaining)}</b><p>족장 권한과 사용 횟수는 운영 서버에서 검증됩니다. 아래 버튼은 기존 족장 권한 화면을 그대로 엽니다.</p><button type="button" data-v21-chief-system>운영 족장 시스템 열기</button></div></div></section>`;
+    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog" role="dialog" aria-modal="true" aria-label="여왕 재위 및 권한"><header><div><small>SOOPKETMON / THE QUEEN</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body">${chiefPictureMarkup(chief, false)}<div><small>현재 상태</small><b>${chief.state === 'active' ? '재위 중' : esc(chief.nickname)}</b><small>남은 재위 기간</small><b>${esc(chief.remaining)}</b><p>숲의 뜻을 이어가는 여왕의 재위와 특별 권한을 확인하세요.</p>${chief.state==='active'?'<button type="button" data-v21-queen-coronation>여왕 즉위식 다시 보기</button>':''}<button type="button" data-v21-chief-system>여왕 권한 열기</button><p class="queen-replay-status" role="status" aria-live="polite"></p></div></div></section>`;
   }
 
   function navigate(route) {
@@ -653,6 +656,15 @@
       if (event.target.closest('[data-v21-home]')) { event.preventDefault(); void navigate('home'); return; }
       if (event.target.closest('[data-v21-all]')) { event.preventDefault(); openAllOverlay(); return; }
       if (event.target.closest('[data-v21-chief-info]')) { event.preventDefault(); openChiefOverlay(); return; }
+      const coronationButton=event.target.closest('[data-v21-queen-coronation]');
+      if(coronationButton){
+        event.preventDefault();if(coronationButton.disabled)return;coronationButton.disabled=true;
+        const status=coronationButton.parentElement.querySelector('.queen-replay-status');
+        if(status)status.textContent='즉위식 정보를 불러오는 중입니다.';
+        Promise.resolve().then(()=>{if(!global.QueenCoronation)throw new Error('즉위식 화면을 불러오지 못했습니다. 새로고침해 주세요.');return global.QueenCoronation.open({returnFocus:coronationButton});})
+          .then(()=>{if(status)status.textContent='';}).catch(error=>{if(status)status.textContent=error.message||'즉위식 정보를 불러오지 못했습니다.';})
+          .finally(()=>{coronationButton.disabled=false;});return;
+      }
       const group = event.target.closest('[data-v21-group]'); if (group) { event.preventDefault(); const item = MENU_GROUPS[group.dataset.v21Group] || HUB_GROUPS[group.dataset.v21Group]; if (item) openRouteOverlay(item.title, item.routes); return; }
       if (event.target.closest('[data-v21-profile]')) { event.preventDefault(); if (typeof global.showAccountPanel === 'function') global.showAccountPanel(); else openRouteOverlay('내 정보', ['inventory', 'messages']); return; }
       if (event.target.closest('[data-v21-chief-system]')) { event.preventDefault(); closeOverlay(); showChiefConsole = true; explicitNavigation = true; try { global.renderShell('buy'); } finally { explicitNavigation = false; } return; }
