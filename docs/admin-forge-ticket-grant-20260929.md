@@ -26,3 +26,13 @@
 - 선정 검사: `check:worker` 및 배포 도구의 출시 플래그·캐시·깨끗한 커밋·origin/main·Hyperdrive 검사.
 - 지정 명령: `npm run deploy:production -- --scoped`.
 - 배포 후 관리자 HTML/JS/CSS 반영과 미인증 지급 차단만 짧게 확인한다.
+
+## 운영 반영 완료
+
+- 배포 소스: `f2177ebf38fd896b0d024a4a41559652d66bb932`.
+- Pages: `https://7ddc57e5.cnine-card.pages.dev`.
+- 지정 scoped 배포에서 관련 테스트 8개, Worker 컴파일, 출시 보호 및 Hyperdrive 캐시 OFF 검사 통과.
+- 부속 clan-draft Worker 버전: `ef35d9a7-1fff-477c-afe4-6f3a3c8640a8`.
+- 운영 `admin/index.html`, `admin/admin-v1276.js`, `admin/admin-v945.css`가 로컬 배포 소스와 일치함을 확인했다.
+- 운영 지급 API의 미인증 요청은 `401 / 관리자 로그인이 필요합니다.`로 차단됨을 확인했다. 운영 계정에 검수용 아이템을 지급하지 않았다.
+- 이 완료 기록은 문서만 추가하므로 별도 재배포하지 않는다.
