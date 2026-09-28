@@ -1,0 +1,171 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:hanbok-awards:20260928:v1:522fb65cc1cf7136746057b5",
+  "recipientHash": "522fb65cc1cf7136746057b5f6e680f45e5e3f310ee2dcfe691223f23bd8ecf3",
+  "count": 22,
+  "accountCount": 22,
+  "new": 10,
+  "upgraded": 8,
+  "alreadyPermanent": 4,
+  "recipients": [
+    {
+      "userId": "23",
+      "nickname": "하이희야",
+      "avatarCode": "DC_HI_HEEYA",
+      "name": "한복 하이희야",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "52",
+      "nickname": "폭군#",
+      "avatarCode": "LG_JUSEONG",
+      "name": "한복 주성",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "avatarCode": "FM_DIMWOOS",
+      "name": "한복 디임2",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "avatarCode": "DC_HI_HEEYA",
+      "name": "한복 하이희야",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "2333",
+      "nickname": "구와함",
+      "avatarCode": "FM_DIMWOOS",
+      "name": "한복 디임2",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "4084",
+      "nickname": "게임닉네임",
+      "avatarCode": "FM_DIMWOOS",
+      "name": "한복 디임2",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "avatarCode": "DK_NAMU_BONGSOON",
+      "name": "한복 나무늘봉순",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "4222",
+      "nickname": "#크레파스",
+      "avatarCode": "LG_JUSEONG",
+      "name": "한복 주성",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "4235",
+      "nickname": "도댕",
+      "avatarCode": "KANGGUYEOL_DK",
+      "name": "한복 강구열",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "avatarCode": "FM_ORIKKUNG",
+      "name": "한복 오리꿍",
+      "outcome": "ALREADY_PERMANENT"
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "avatarCode": "KANGGUYEOL_DK",
+      "name": "한복 강구열",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "4598",
+      "nickname": "암살자..",
+      "avatarCode": "KANGGUYEOL_DK",
+      "name": "한복 강구열",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "avatarCode": "DK_NAMU_BONGSOON",
+      "name": "한복 나무늘봉순",
+      "outcome": "ALREADY_PERMANENT"
+    },
+    {
+      "userId": "4718",
+      "nickname": "강구열",
+      "avatarCode": "KANGGUYEOL_DK",
+      "name": "한복 강구열",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "4757",
+      "nickname": "음주플레이어",
+      "avatarCode": "FM_ORIKKUNG",
+      "name": "한복 오리꿍",
+      "outcome": "ALREADY_PERMANENT"
+    },
+    {
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "avatarCode": "FM_DIMWOOS",
+      "name": "한복 디임2",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "4913",
+      "nickname": "오리꿍",
+      "avatarCode": "FM_ORIKKUNG",
+      "name": "한복 오리꿍",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "avatarCode": "FM_ORIKKUNG",
+      "name": "한복 오리꿍",
+      "outcome": "ALREADY_PERMANENT"
+    },
+    {
+      "userId": "4977",
+      "nickname": "하이희야♡",
+      "avatarCode": "DC_HI_HEEYA",
+      "name": "한복 하이희야",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "5010",
+      "nickname": "으악",
+      "avatarCode": "DC_HI_HEEYA",
+      "name": "한복 하이희야",
+      "outcome": "PERMANENT_UPGRADE"
+    },
+    {
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "avatarCode": "DK_NAMU_BONGSOON",
+      "name": "한복 나무늘봉순",
+      "outcome": "NEW"
+    },
+    {
+      "userId": "5504",
+      "nickname": "비_니",
+      "avatarCode": "DK_NAMU_BONGSOON",
+      "name": "한복 나무늘봉순",
+      "outcome": "NEW"
+    }
+  ],
+  "completedAt": "2026-09-28T01:32:42.089Z",
+  "adminLogId": "36745",
+  "replayed": false,
+  "verifiedAt": "2026-09-28T01:33:16.286Z",
+  "verifiedPermanentCount": 22
+}
