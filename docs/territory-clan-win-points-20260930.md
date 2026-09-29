@@ -10,3 +10,9 @@
 - `functions/_territory_clan_warfare.js`, `functions/_territory_war.js`의 국소 정산 변경이다. 스키마·공통 DB 기반·인증·클랜전 점수 정책은 변경하지 않는다.
 - 관련 회귀: `tests/territory-clan-win-points-20260930.test.mjs` — SQLite/PostgreSQL에서 자동 A승, 운영자 B판정승, 무승부, 재시도, 기록 실패 전체 롤백, 불완전/오래된 클랜 명단 차단 8개 통과. 기존 `tests/territory-clan-warfare-20260923.test.mjs` 27개 통과.
 - 직전 운영 배포 소스는 `592f7d67f5baeda59b39eeecf64e35f5d17bc991` (`docs/workshop-s-body-payment-20260930.md`의 Pages 배포 기록). 그 이후 문서·일회성 운영 지급 커밋만 있어, 국소 기능 회귀와 Worker 컴파일을 선택한 `npm run deploy:production -- --scoped`로 반영한다.
+
+## 운영 반영
+
+- 소스 커밋 `b570ac53`을 `origin/main`에 반영했다. scoped 회귀 8개와 Worker 컴파일, 출시 플래그 및 Hyperdrive SQL 캐시 OFF 검사가 통과했다.
+- 운영 Pages 배포: `https://67a7967d.cnine-card.pages.dev`. 배포 후 루트 `HEAD` 200, 영토전 API의 비로그인 요청은 정상적인 인증 거부 401을 반환했다. 실제 운영 회차를 강제 종료하지 않았다.
+- 다음 미종료 클랜 영토전의 A/B 승리 정산부터 자동/운영자 판정승 모두 동일한 4클랜 × 각 2점 규칙을 적용한다. 문서 기록만 후속 커밋하며 재배포하지 않는다.
