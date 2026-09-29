@@ -41,8 +41,9 @@ test('real Pixi/GSAP five-target playback supports seek, pause, speed, cancellat
  for(const group of ['motion','effects'])for(const [key,spec]of Object.entries(manifest[group]))assets[group][key]=Array.from({length:spec.frameCount},()=>new Texture({source}));
  const fx=new BerkanAreaFX(engine,merc,targets,assets,manifest,makePlan());
  try{
-  const motionHeights=[0,.5,1.05,1.62,1.92,2.25,3.3,3.4].map(t=>{fx.seek(t);return merc.fullBodySprite.height;});
-  assert.ok(motionHeights.every(h=>Math.abs(h-motionHeights[0])<.001),'the character frame cannot grow during the area cast');
+  const visibleBody=()=>{const pose=fx.sample.pose,frame=manifest.motion[pose.key].frames[pose.frame],bounds=frame.sourceBounds;return merc.fullBodySprite.height/manifest.motion[pose.key].cellSize*(bounds.y1-bounds.y0+1);};
+  const motionHeights=[0,.5,1.05,1.62,1.92,2.25,3.3,3.4].map(t=>{fx.seek(t);return visibleBody();});
+  assert.ok(motionHeights.every(h=>Math.abs(h-motionHeights[0])<2),'the visible archer must not shrink or grow during the area cast');
   fx.play();assert.equal(engine.simpleTimelines.size,1);fx.pause();assert.equal(fx.playing,false);fx.setSpeed(1.25);assert.equal(fx.timeline.timeScale(),1.25);
   for(let i=0;i<100;i++){fx.seek(3.4*i/100);assert.ok(fx.used<=40);assert.equal(merc.root.x,420);}
   fx.seek(1.62);assert.equal(fx.activeFrames.filter(f=>f.key==='impact').length,5);assert.equal(fx.activeFrames.filter(f=>f.key==='arrowRainArea').length,1);

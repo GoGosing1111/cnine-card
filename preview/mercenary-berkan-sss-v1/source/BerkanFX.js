@@ -20,9 +20,9 @@ export class BerkanFX{
   this.pool=Array.from({length:40},()=>{const s=new Sprite(Texture.EMPTY);s.visible=false;this.layer.addChild(s);return s;});
   const s=merc.fullBodySprite;this.idle={texture:s.texture,width:s.width,height:s.height,anchorX:s.anchor.x,anchorY:s.anchor.y};
   this.bodyHeight=this.idle.height*manifest.bodyPixels/manifest.battleSpriteInfo.height;
-  // A crouched firing pose occupies fewer source pixels than idle. Scaling each
-  // pose by its own bodyPixels enlarged its 512px sprite frame during casts.
-  // All motion frames share one authored pixel-to-screen scale instead.
+  // Idle, aim and reaction motions keep their authored pose height. Both firing
+  // sequences were drawn much smaller inside the same 512px cells, so their
+  // visible armor (rather than their transparent canvas) needs normalization.
   this.motionPixelScale=this.bodyHeight/manifest.motion.idle.bodyPixels;
   this.targetDefaults=targets.map(t=>({x:t.view.x,tint:t.fullBodySprite.tint}));
   this.makeAura();if(!options.authoritative)this.makeTimeline();this.render(0);
@@ -63,16 +63,22 @@ export class BerkanFX{
  setAura(enabled){this.auraEnabled=!!enabled;this.render(this.time);}
  setPlan(plan){this.cancel();this.plan=plan;this.resting=false;this.makeTimeline();this.render(0);}
  cancel(){this.removeTimeline();this.clock.time=0;this.resting=true;this.render(0);}
+ posePixelScale(pose){
+  if(!['attack','ultimate'].includes(pose.key))return this.motionPixelScale;
+  const bounds=this.manifest.motion[pose.key].frames[pose.frame].sourceBounds;
+  const visiblePixels=bounds.y1-bounds.y0+1;
+  return this.bodyHeight/visiblePixels;
+ }
  applyPose(pose){
   if(this.options.useAuthoredPose===false)return;
   const s=this.merc.fullBodySprite;if(this.merc.animationController.timeline)this.merc.animationController.kill();
   const spec=this.manifest.motion[pose.key],frame=spec.frames[pose.frame];s.texture=this.assets.motion[pose.key][pose.frame];s.anchor.set(frame.footAnchor.x,frame.footAnchor.y);
-  s.height=spec.cellSize*this.motionPixelScale;s.width=s.height;
+  s.height=spec.cellSize*this.posePixelScale(pose);s.width=s.height;
   const neutral=this.merc.neutralAvatarPose?.mainSprite;if(neutral){neutral.scaleX=s.scale.x;neutral.scaleY=s.scale.y;}
  }
  point(actor,fraction=0){return this.engine.effectLayer.toLocal(actor.root.toGlobal({x:0,y:-actor.fullBodyHeight*fraction}));}
  bowPoint(pose){
-  const spec=this.manifest.motion[pose.key],frame=spec.frames[pose.frame],scale=this.motionPixelScale;
+  const spec=this.manifest.motion[pose.key],frame=spec.frames[pose.frame],scale=this.posePixelScale(pose);
   const authored=pose.key==='ultimate'?[[301,217],[650,156],[1044,162],[1383,151],[353,499],[697,515],[1062,510],[1366,527],[350,903],[675,879],[1030,893],[1360,899]][pose.frame]
    :pose.key==='attack'?[[284,243],[671,168],[1045,242],[1402,180],[350,519],[709,520],[1032,550],[1388,535],[309,885],[670,920],[1012,950],[1380,948]][pose.frame]:null;
   const p=authored?{x:(authored[0]-frame.sourceFeet[0])*scale,y:(authored[1]-frame.sourceFeet[1])*scale}:{x:this.bodyHeight*.32,y:-this.bodyHeight*.5};
@@ -132,6 +138,7 @@ export class BerkanFX{
  destroy(){
   if(this.destroyed)return;this.removeTimeline();if(!this.options.authoritative)this.targets.forEach((t,i)=>{t.view.x=this.targetDefaults[i].x;t.fullBodySprite.tint=this.targetDefaults[i].tint;});
   const s=this.merc.fullBodySprite;s.texture=this.idle.texture;s.anchor.set(this.idle.anchorX,this.idle.anchorY);s.width=this.idle.width;s.height=this.idle.height;
+  const neutral=this.merc.neutralAvatarPose?.mainSprite;if(neutral){neutral.scaleX=s.scale.x;neutral.scaleY=s.scale.y;}
   this.layer.destroy({children:true});this.aura.destroy({children:true});this.filters.forEach(f=>f.destroy());this.destroyed=true;
   for(const group of Object.values(this.assets))for(const frames of Object.values(group))frames.forEach(t=>t.destroy(false));
  }

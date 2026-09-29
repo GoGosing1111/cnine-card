@@ -54,13 +54,19 @@ test('actual Pixi transforms keep the archer planted, aura on each pose, and sha
  const world=new Container(),combatLayer=new Container(),effectLayer=new Container();world.addChild(combatLayer,effectLayer);
  const sources=[new TextureSource({width:1254,height:1254}),new TextureSource({width:512,height:512})],sd=new Texture({source:sources[0]});
  const actor=(x,y,h)=>{const root=new Container(),view=new Container(),sprite=new Sprite(sd);root.position.set(x,y);root.scale.set(.6);root.addChild(view);view.addChild(sprite);sprite.anchor.set(manifest.battleSpriteFootAnchor.x,manifest.battleSpriteFootAnchor.y);sprite.height=sprite.width=h;combatLayer.addChild(root);return {root,view,fullBodySprite:sprite,baseX:x,baseY:y,fullBodyHeight:h,neutralAvatarPose:{mainSprite:{}},animationController:{kill(){}}};};
- const merc=actor(420,270,380),target=actor(1200,510,260),second=actor(1350,270,260),engine={app:{renderer:{}},effectLayer,combatLayer,simpleTimelines:new Set(),sortCombatDepth(){}},assets={motion:{},effects:{}};
+ const merc=actor(420,270,260),target=actor(1200,510,260),second=actor(1350,270,260),engine={app:{renderer:{}},effectLayer,combatLayer,simpleTimelines:new Set(),sortCombatDepth(){}},assets={motion:{},effects:{}};
  target.id='T1';second.id='T2';
  for(const group of ['motion','effects'])for(const [key,spec]of Object.entries(manifest[group]))assets[group][key]=Array.from({length:spec.frameCount},()=>new Texture({source:sources[1]}));
  const adapter=DOMAdapter.get();DOMAdapter.set({...adapter,createCanvas:()=>({getContext:()=>null})});
  const fx=new BerkanFX(engine,merc,[target,second],assets,manifest,makePlan());
  DOMAdapter.set(adapter);
  try{
+  const visibleBody=()=>{const pose=fx.sample.pose,spec=manifest.motion[pose.key],bounds=spec.frames[pose.frame].sourceBounds;return merc.fullBodySprite.height/spec.cellSize*(bounds.y1-bounds.y0+1);};
+  const standing=visibleBody();
+  for(const mode of ['attack','ultimate']){
+   fx.setPlan(makePlan({mode}));
+   for(let i=0;i<=80;i++){fx.seek(fx.plan.duration*i/80);assert.ok(Math.abs(visibleBody()-standing)<2,`${mode} frame ${i}: visible SD size changed`);}
+  }
   // Real Pixi blur passes must clear reused WebGL scratch textures. Otherwise
   // the larger skill pose leaves rectangular gold edges around the idle pose.
   const input=RenderTexture.create({width:512,height:512}),output=RenderTexture.create({width:512,height:512});
@@ -83,7 +89,7 @@ test('actual Pixi transforms keep the archer planted, aura on each pose, and sha
   fx.setAura(false);assert.equal(fx.aura.visible,false);fx.setAura(true);assert.equal(fx.aura.visible,true);
   fx.setPlan(makePlan({mode:'ultimate',targetLostAt:1.4}));fx.seek(2.08);assert.equal(fx.used,0);assert.equal(target.view.x,0);
   const scale=merc.fullBodySprite.scale.x;assert.equal(merc.neutralAvatarPose.mainSprite.scaleX,scale);
- }finally{fx.destroy();fx.destroy();assert.equal(effectLayer.children.length,0);assert.equal(merc.view.children.length,1);assert.equal(engine.simpleTimelines.size,0);assert.ok(sources.every(s=>!s.destroyed));gsap.ticker.sleep();world.destroy({children:true});sd.destroy(false);sources.forEach(s=>s.destroy());}
+ }finally{fx.destroy();fx.destroy();assert.equal(merc.fullBodySprite.height,260);assert.equal(merc.neutralAvatarPose.mainSprite.scaleY,merc.fullBodySprite.scale.y);assert.equal(effectLayer.children.length,0);assert.equal(merc.view.children.length,1);assert.equal(engine.simpleTimelines.size,0);assert.ok(sources.every(s=>!s.destroyed));gsap.ticker.sleep();world.destroy({children:true});sd.destroy(false);sources.forEach(s=>s.destroy());}
 });
 test('SSS candidate adds only Berkan; old CMS rows/settings and manual assignments remain intact',()=>{
  const before=structuredClone(seed),candidate=prepareBerkanCandidate(seed,manifest);assert.deepEqual(seed,before);
