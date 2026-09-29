@@ -1,4 +1,5 @@
-import { readMiracleDropPercent,applyMiracleDropChance } from './_miracle_burning.js';
+import { MIRACLE_BURNING_META_KEY,MIRACLE_BURNING_DROP_PERCENT,applyMiracleDropChance } from './_miracle_burning.js';
+import { burningEventIsLive } from './_burning_event_access.js';
 const DROP_SCOPE = Symbol('avatarDropRequestScope');
 
 function chanceValue(value) {
@@ -18,13 +19,15 @@ export function withAvatarDropScope(env) {
   return { ...env, [DROP_SCOPE]: { settings: null, miracle: null, users: new Map() } };
 }
 
-async function readMode(env, scope) {
+async function readDropSettings(env, scope) {
   const read = async () => {
-    const row = await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('avatar_settings_v1').first();
-    try {
-      const value = JSON.parse(row?.value || '{}');
-      return String(value.mode || 'OFF').toUpperCase();
-    } catch { return 'OFF'; }
+    // Both settings belong to the same request snapshot. Reading them together
+    // avoids an extra database round trip on every battle/drop request.
+    const rows = await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?)')
+      .bind('avatar_settings_v1',MIRACLE_BURNING_META_KEY).all();
+    const values=new Map((rows.results||[]).map(row=>[row.key,row.value]));
+    const parse=key=>{try{return JSON.parse(values.get(key)||'{}')||{}}catch{return {}}};
+    return {mode:String(parse('avatar_settings_v1').mode||'OFF').toUpperCase(),miracle:parse(MIRACLE_BURNING_META_KEY)};
   };
   if (!scope) return read();
   if (!scope.settings) scope.settings = read();
@@ -36,7 +39,7 @@ export async function avatarDropIncreasePercent(env, userId) {
   if (!Number.isSafeInteger(uid) || uid <= 0) return 0;
   const scope = env[DROP_SCOPE];
   const read = async () => {
-    const mode = await readMode(env, scope);
+    const {mode} = await readDropSettings(env, scope);
     if (mode !== 'ON' && mode !== 'TEST') return 0;
     const row = await env.DB.prepare(`SELECT a.effect_type,a.effect_value,e.effect_value option_value
       FROM avatar_user_loadout_v1 l
@@ -59,14 +62,16 @@ export async function avatarDropIncreasePercent(env, userId) {
 export async function resolveAvatarDropRate(env, userId, chance) {
   const base = chanceValue(chance);
   if (base === 0 || base === 100) return applyAvatarDropRate(base);
-  const [avatarPercent,miraclePercent]=await Promise.all([avatarDropIncreasePercent(env,userId),miracleDropIncreasePercent(env)]);
+  const scoped=env[DROP_SCOPE]?env:withAvatarDropScope(env);
+  const [avatarPercent,miraclePercent]=await Promise.all([avatarDropIncreasePercent(scoped,userId),miracleDropIncreasePercent(scoped)]);
   const result=applyAvatarDropRate(base,avatarPercent);
   return miraclePercent ? {...result,miraclePercent,total:applyMiracleDropChance(result.total,miraclePercent)} : result;
 }
 
 export async function miracleDropIncreasePercent(env) {
   const scope=env[DROP_SCOPE];
-  if(!scope)return readMiracleDropPercent(env);
-  if(!scope.miracle)scope.miracle=readMiracleDropPercent(env);
+  const read=async()=>burningEventIsLive((await readDropSettings(env,scope)).miracle)?MIRACLE_BURNING_DROP_PERCENT:0;
+  if(!scope)return read();
+  if(!scope.miracle)scope.miracle=read();
   return scope.miracle;
 }

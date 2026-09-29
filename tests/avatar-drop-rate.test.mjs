@@ -74,7 +74,8 @@ test('PostgreSQL ownership, expiry and mode gates govern real reward rolls witho
     await t.test('request-owned promises share queries but a later request sees CMS changes',async()=>{
       queries=[];const request=fresh();
       assert.deepEqual(await Promise.all(Array.from({length:10},()=>resolveAvatarDropRate(request,1,10))),Array.from({length:10},()=>({base:10,percent:50,total:15})));
-      assert.equal(queries.length,3,'avatar settings, equipped effect and one request-scoped Miracle read');
+      assert.equal(queries.length,2,'one shared avatar/Miracle settings read and one equipped effect read');
+      assert.equal(queries.filter(sql=>sql.includes('FROM app_meta')).length,1,'Miracle adds no settings round trip');
       await pg.exec("UPDATE avatar_effect_options_v1 SET effect_value=100 WHERE avatar_code='HANBOK_DIIM'");
       assert.equal(await percent(),100);
       assert.equal(await avatarDropIncreasePercent(request,1),50);
