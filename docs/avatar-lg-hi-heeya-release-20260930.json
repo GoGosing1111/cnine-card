@@ -1,0 +1,184 @@
+{
+  "status": "COMPLETED",
+  "verifiedAt": "2026-09-29T16:41:36.755Z",
+  "sourceCommit": "3584f8b246ea93a17074271cb25aa98141e47338",
+  "deployment": "https://dcb8320b.cnine-card.pages.dev",
+  "apiWorkerVersion": "8786889d-0de3-46c3-9b33-263943476904",
+  "clanWorkerVersion": "b572b975-f97b-4f8e-8b90-e1e66ac5417b",
+  "regressionTests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "result": {
+    "status": "COMPLETED",
+    "operationKey": "ops:avatar-lg-hi-heeya-clan-season:20260930:v1",
+    "avatar": {
+      "code": "LG_HI_HEEYA",
+      "serial": "A-27",
+      "name": "LG 하이희야"
+    },
+    "clan": {
+      "id": 5,
+      "name": "LG"
+    },
+    "seasonId": 6,
+    "seasonNo": 3,
+    "seasonEndsAt": "2026-10-11T13:00:00.000Z",
+    "expiresAt": "2026-10-11 13:00:00",
+    "acquiredAt": "2026-09-29 16:41:03",
+    "sourceAvatar": {
+      "code": "FM_DIMWOOS",
+      "name": "한복 디임2",
+      "version": 3
+    },
+    "effects": [
+      {
+        "option_order": 0,
+        "effect_type": "DROP_RATE_PERCENT",
+        "effect_value": 30
+      },
+      {
+        "option_order": 1,
+        "effect_type": "COIN_GAIN_PERCENT",
+        "effect_value": 100
+      },
+      {
+        "option_order": 2,
+        "effect_type": "RAID_EXTRA_ENTRY",
+        "effect_value": 10
+      },
+      {
+        "option_order": 3,
+        "effect_type": "BATTLE_POWER_PERCENT",
+        "effect_value": 3
+      }
+    ],
+    "granted": 17,
+    "recipients": [
+      {
+        "userId": 3,
+        "nickname": "ε연두з",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 16,
+        "nickname": "오승환이다",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 45,
+        "nickname": "박세라-ㅂ-",
+        "memberRole": "MASTER"
+      },
+      {
+        "userId": 81,
+        "nickname": "비쥬얼깡패",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 87,
+        "nickname": "설윤이",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 156,
+        "nickname": "좌지구녕",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 164,
+        "nickname": "박사",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 490,
+        "nickname": "경화수월팬",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 1255,
+        "nickname": "전게씹선미아웃",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 2420,
+        "nickname": "블랙캐슬",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 4222,
+        "nickname": "#크레파스",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 4415,
+        "nickname": "Moo날두",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 4552,
+        "nickname": "치옹스",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 4598,
+        "nickname": "암살자..",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 4772,
+        "nickname": "펜타",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 5008,
+        "nickname": "나무",
+        "memberRole": "MEMBER"
+      },
+      {
+        "userId": 5010,
+        "nickname": "으악",
+        "memberRole": "MEMBER"
+      }
+    ],
+    "loadoutChanged": false,
+    "walletChanged": false,
+    "adminLogId": "37937"
+  },
+  "verification": {
+    "catalog": {
+      "code": "LG_HI_HEEYA",
+      "name": "LG 하이희야",
+      "isActive": 1,
+      "isPublic": 1,
+      "saleEnabled": 0
+    },
+    "effects": [
+      {
+        "option_order": 0,
+        "effect_type": "DROP_RATE_PERCENT",
+        "effect_value": 30
+      },
+      {
+        "option_order": 1,
+        "effect_type": "COIN_GAIN_PERCENT",
+        "effect_value": 100
+      },
+      {
+        "option_order": 2,
+        "effect_type": "RAID_EXTRA_ENTRY",
+        "effect_value": 10
+      },
+      {
+        "option_order": 3,
+        "effect_type": "BATTLE_POWER_PERCENT",
+        "effect_value": 3
+      }
+    ],
+    "ownerCount": 17,
+    "auditCount": 1,
+    "sourceOptionsMatch": true,
+    "seasonEndMatch": true,
+    "productionLoaderHashesMatch": true
+  }
+}
