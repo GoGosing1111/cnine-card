@@ -24,4 +24,9 @@
 - 실제 Chrome 1440×1000, 390×844, 음소거: 공용 V3의 `playMercenaryEvent`로 MS-056 실행, 적 5명 결과 1회씩 반영, 천우 연속 프레임 표시, PVP 이벤트 차단, 가로 넘침 및 콘솔 오류 없음. 검수 증거는 `C:/Users/User/AppData/Local/Temp/cnine-berkan-area-20260930/`에 보존했다.
 - 전투 런타임 캐시 `20260930-berkan-area`, 로비 로더 `berkan=20260930-area-live`.
 
-배포는 `npm run deploy:production -- --scoped`만 사용한다. 운영 반영 결과와 CMS/확률 리비전은 배포 후 이 문서에 추가한다.
+## 운영 반영 결과
+
+- 2026-09-30 02:21 KST 적용. 소스 `6e1c5a6f2b3d24b981f4fb7b2aeac8c2b1635e26`, Pages `93fbdba6-6e7e-4a1e-87e5-662ca91def70`, API Worker `d086bdac-5627-46aa-b252-9ff84d1930f3`, Clan Worker `4bc65554-8334-4eff-8a4a-40bdf9c5c8ee`.
+- `npm run deploy:production -- --scoped`의 선택 검사 20개·Worker 컴파일·출시 플래그·Hyperdrive 검사 통과. PC/모바일 실제 V3 연출에서 0초부터 3.4초까지 스프라이트 높이가 각 화면에서 일정하다(소스 303.55px, PC 표시 151.78px, 모바일 표시 197.31px). 베르칸 기본 배치 높이는 260이다.
+- `berkan-area-sss-uniform-20260930-v1` 단일 트랜잭션 완료: CMS revision 60, 확률 revision 27, 관리자 감사 ID 37958, CMS·확률 감사 영수증 각 1건. MS-055/MS-056 동시 배정, MS-056 `REVIEWED`·5.6/5/35, SSS 1000ppm·4종 가중치 모두 1, 개봉 모드 ON 확인.
+- 운영 Pages에서 천우 manifest, 공용 V3 번들, 천우 프리뷰 번들, 로비 앱 파일의 SHA-256이 검수 파일과 일치하고 HTTP 200 응답을 확인했다. 결과 파일은 `C:/Users/User/AppData/Local/Temp/cnine-berkan-area-20260930/apply-result.json` 및 같은 폴더 `browser-qa.json`에 보존했다.
