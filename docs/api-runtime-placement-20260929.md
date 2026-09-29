@@ -30,8 +30,27 @@
 
 ## 운영 결과
 
-전체 게이트·배포·운영 측정 완료 후 아래에 실제 결과를 기록한다.
-
 게이트의 배포 도구 검사는 새 비동기 키 준비 단계와 3개 업로드 순서를 검증하도록 갱신했다. 이후 V3 연결 단계에서 이미 운영 중인 `-miracle-20260929` 캐시 접미사를 허용하지 않는 오래된 정규식이 발견됐다. 같은 원인의 V3/슈퍼스타 검사 두 곳만 접미사 갱신을 허용했고, 게임 실행 파일은 변경하지 않았다. 통과한 앞선 14개 단계를 재사용하고 실패한 단계부터 이어간다.
+
+- 전체 출시 게이트 67단계와 최종 운영 가드 통과. 유효한 완료 로그의 Node 테스트 집계는 2,870개 통과·실패 0·환경이 필요한 기존 검사 8개 skip이다. 앞선 14단계의 동일 실행 코드 결과를 재사용했고, 남은 단계는 재개 경로로 모두 실행했다.
+- 운영 소스: `49b6ab9b159fa67ce7d42c8f383201c11a9bfdcd`. Pages: `https://f06c6a6d.cnine-card.pages.dev`, 운영 주소: `https://cnine-card.pages.dev`.
+- 비공개 API 실제 활성 버전: `3a8465e7-bad1-406d-b848-10c8f5d71327` 100%. Cloudflare 설정은 targeted placement이며 공개 workers.dev/프리뷰 URL은 모두 false다. 기존 클랜 스케줄러 버전은 `a2a22ec4-41d3-489a-b049-52642c385280`이다.
+- 운영 공개 버닝/로비 조회 200, 비로그인 PVP·봉인전·내 정보 조회 401을 확인했다. 모두 `remote-SIN`, `x-cnine-api-runtime: regional-v1`, PostgreSQL이었다. 같은 34쿼리인 비로그인 봉인전 준비 조회는 209ms였으며, 앞서 local 실행의 2,541ms와 대조했다.
+- **20:50:08–20:50:53 KST 자연 트래픽 578건: HTTP 200 574건·401 4건, 서버 5xx/실행 오류 0건.** 401에는 직접 수행한 비로그인 검사가 포함된다. 실계정 전투/보상 행동은 테스트용으로 수행하지 않았다.
+
+아래 시간은 API가 기록한 서버 처리 시간이다. 네트워크 전체 왕복·백그라운드 작업을 포함하는 Worker wall time과 구분한다.
+
+| 운영 요청 | 배포 후 표본 | 서버 처리 중앙값 | 서버 처리 최대 |
+|---|---:|---:|---:|
+| PVP 전투 | 7 | 478ms | 931ms |
+| PVP 매칭 | 7 | 475ms | 858ms |
+| PVP 설정 | 7 | 166ms | 327ms |
+| PVE 전투 | 1 | 706ms | 706ms |
+| 자동 전투 | 2 | 1,730ms | 1,730ms |
+| 듀오 전투 | 1 | 404ms | 404ms |
+
+자동 전투 두 건은 각각 227/254쿼리, 1,466/1,730ms였다. 배포 전 느린 표본의 228/260쿼리·15,244/17,882ms 같은 장거리 왕복 누적은 이번 45초 표본에서 재발하지 않았다. 표본 시간대와 계정이 달라 전후 백분위의 엄밀한 개선율로 사용하지 않는다. 자동 전투는 여전히 약 1.5~1.7초의 서버 처리가 필요하다.
+
+배포 후 기록만 추가하므로 문서 커밋은 재검사·재배포하지 않는다. 측정 원본과 완료 로그는 `C:/Users/User/.codex/tmp/miracle-perf-20260929/`의 `runtime-regional-after.json`, `regional-release-state.json`, `runtime-release-final.log`, `runtime-release-resume.log`에 보관했다.
 
 참고: [Workers placement](https://developers.cloudflare.com/workers/configuration/placement/), [Pages Smart Placement](https://developers.cloudflare.com/pages/functions/smart-placement/).
