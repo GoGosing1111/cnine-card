@@ -931,8 +931,8 @@ const FEATURE_RESOURCE_MANIFEST={
   workshop:{
     parallelStyles:true,
     prepare:()=>{if(runtimeCommandContext==='workshop'&&!workshopEntryRead)prepareWorkshopEntryRead()},
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/workshop-workbench-v1.css?v=20260922&loading=20260927&batch=20260928&equipmentCraft=20260928','css/workshop-assembly-live-v2073.css?v=2073.1'],
-    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?v=20260926&batch=20260928&equipmentCraft=20260928','js/workshop-assembly-live-v2073.bundle.js?v=20260928-s-body','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&equipmentCraft=20260928'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label&sBodyPayment=20260930','css/workshop-workbench-v1.css?v=20260922&loading=20260927&batch=20260928&equipmentCraft=20260928','css/workshop-assembly-live-v2073.css?v=2073.1'],
+    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?v=20260926&batch=20260928&equipmentCraft=20260928','js/workshop-assembly-live-v2073.bundle.js?v=20260928-s-body','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&equipmentCraft=20260928&sBodyPayment=20260930'],
     ready:()=>Boolean(window.SoopketmonWorkshopThumbnails)&&Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
@@ -945,8 +945,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AlchemyV1Live?.bind)&&typeof window.alchemyView==='function'&&typeof window.bindAlchemyView==='function'
   },
   scrapyard:{
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-recipes-v1.js?v=20260926&batch=20260928&equipmentCraft=20260928','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&pveEntry=2119&heeya=2118&equipmentCraft=20260928','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=2009-material-label&sBodyPayment=20260930','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-recipes-v1.js?v=20260926&batch=20260928&equipmentCraft=20260928','js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&pveEntry=2119&heeya=2118&equipmentCraft=20260928&sBodyPayment=20260930','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{

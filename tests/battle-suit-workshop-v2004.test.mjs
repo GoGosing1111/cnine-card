@@ -60,7 +60,8 @@ test('배틀슈트 제작은 기존 원자 제작 영수증을 재사용하고 �
   assert.match(client,/data-ws-section="BATTLE_SUIT_CRAFT"/);
   assert.match(client,/id="wsBattleSuitCraft"/);
   assert.match(client,/prepareMutationRequest\('battleSuit'/);
-  assert.match(client,/paymentType: BATTLE_SUIT_PAYMENT_MODE/);
+  assert.match(client,/paymentType, requestId: ticket\.requestId/);
+  assert.match(client,/WorkshopRecipes\.describe\(recipe, workshopState, battleSuitPayment\)/);
   assert.match(client,/api\('workshop\/craft'/);
   assert.match(css,/\.ws81-suit-layout/);
   assert.match(admin,/option\('BATTLE_SUIT_CRAFT','배틀슈트 제작'/);

@@ -38,7 +38,6 @@
   const MYSTIC_ENERGY_CODE = 'STARLIGHT_ARMOR_CORE';
   const MYSTIC_ENERGY_IMAGE = 'assets/items/starlight-armor-core-v1749.png';
   const MATERIAL_PAYMENT_MODE = 'COIN_AND_CARD_SHARD';
-  const BATTLE_SUIT_PAYMENT_MODE = 'BOTH';
   const MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS = 100;
   const MAX_MATERIAL_CRAFT_ATTEMPTS = 100;
   const materialCardShardCost = recipe => Number(recipe?.card_shard_cost ?? recipe?.cardShardCost ?? 0);
@@ -57,6 +56,7 @@
   let requestedSynthesisAttempts = 1;
   let requestedMaterialAttempts = 1;
   let payment = 'COIN';
+  let battleSuitPayment = 'COIN';
   let workshopBusy = false;
   let scrapyardBusy = false;
   let activeScrapRun = '';
@@ -248,7 +248,8 @@
 
   function filterRecipes(rows, kind) {
     const pending = currentMutationRequest(kind), pendingId = Number(String(pending?.target || '').split(':')[0]);
-    return rows.filter(row => Number(row.id) === pendingId || (window.WorkshopRecipes.matches(row, recipeQuery) && (!readyOnly || window.WorkshopRecipes.describe(row, workshopState, payment).ready)));
+    const choice = kind === 'battleSuit' ? battleSuitPayment : payment;
+    return rows.filter(row => Number(row.id) === pendingId || (window.WorkshopRecipes.matches(row, recipeQuery) && (!readyOnly || window.WorkshopRecipes.describe(row, workshopState, choice).ready)));
   }
 
   function noRecipeMatch() {
@@ -443,7 +444,9 @@
   function battleSuitCraftPanel() {
     const recipes = filterRecipes((workshopState?.recipes || []).filter(row => row.category === 'BATTLE_SUIT_CRAFT'), 'battleSuit');
     const pending = currentMutationRequest('battleSuit');
-    const recipe = recipes.find(row => String(row.id) === String(pending?.target || ''))
+    const [pendingRecipeId, pendingPayment] = String(pending?.target || '').split(':');
+    if (['COIN', 'MASTER_STAR'].includes(pendingPayment)) battleSuitPayment = pendingPayment;
+    const recipe = recipes.find(row => String(row.id) === pendingRecipeId)
       || recipes.find(row => Number(row.id) === Number(selectedBattleSuitRecipe))
       || recipes[0];
     if (!recipe) {
@@ -451,18 +454,19 @@
     }
     selectedBattleSuitRecipe = Number(recipe.id);
     const owned = code => Number(workshopState?.inventory?.[code]?.quantity || 0);
-    const materialsReady = (recipe.materials || []).every(material => owned(material.item_code) >= Number(material.quantity || 0));
     const coinOwned = Number(workshopState?.wallet?.coin || 0);
     const starOwned = Number(workshopState?.wallet?.masterStars || 0);
-    const coinCost = Number(recipe.coin_cost || 0);
-    const starCost = Number(recipe.master_star_cost || 0);
+    const info = window.WorkshopRecipes.describe(recipe, workshopState, battleSuitPayment);
+    const {coin:coinCost, stars:starCost} = info.cost;
     const coinReady = coinOwned >= coinCost;
     const starReady = starOwned >= starCost;
-    const recovering = pending?.target === String(recipe.id);
-    const ready = recovering || (materialsReady && coinReady && starReady);
+    const recovering = pendingRecipeId === String(recipe.id);
+    const ready = recovering || info.ready;
+    const choiceRequired = recipe.payment_mode === 'COIN_OR_MASTER_STAR';
+    const paymentDescription = choiceRequired ? '전용 슈트 코어와 선택한 결제 재화로 고성능 전투 외장을 제작합니다.' : '전용 슈트 코어와 레시피에 표시된 재화로 고성능 전투 외장을 제작합니다.';
     const core = (recipe.materials || [])[0] || {};
     return `<section class="ws81-suit-craft" aria-label="배틀슈트 제작">
-      <header class="ws81-suit-command"><div><small>BATTLE SUIT FORGE · FACILITY 04</small><h2>배틀슈트 제작</h2><p>전용 슈트 코어와 코인, 마스터의 별을 동시에 투입해 고성능 전투 외장을 제작합니다.</p></div><span>${Number(recipe.success_rate ?? 100)}% 독립 판정</span></header>
+      <header class="ws81-suit-command"><div><small>BATTLE SUIT FORGE · FACILITY 04</small><h2>배틀슈트 제작</h2><p>${paymentDescription}</p></div><span>${Number(recipe.success_rate ?? 100)}% 독립 판정</span></header>
       <div class="ws81-suit-layout">
         <aside class="ws81-suit-blueprints"><small>SUIT BLUEPRINTS</small><h3>제작 설계도</h3>${recipes.map(row => {
           const material = (row.materials || [])[0] || {};
@@ -472,10 +476,11 @@
           <div class="ws81-suit-visual"><span>CRAFT OUTPUT · ${esc(recipe.output_rarity || 'MYTHIC')}</span><div aria-hidden="true"><i></i><i></i><i></i></div><img decoding="async" src="${esc(asset(recipe.output_image))}" alt="${esc(recipe.output_name || recipe.name)}"><b>${esc(recipe.output_name || recipe.name)}</b><small>PVE +${fmt(recipe.output_pve)} · PVP +${fmt(recipe.output_pvp)}</small></div>
           <div class="ws81-suit-requirements">
             <header><div><small>FORGE REQUIREMENTS</small><h3>${esc(recipe.name)}</h3><p>${esc(recipe.description)}</p></div><em class="${ready ? 'ready' : 'short'}">${recovering ? '결과 재확인' : ready ? '제작 준비 완료' : '재료 부족'}</em></header>
-            <div class="ws81-suit-costs">
+            ${choiceRequired ? `<div class="ws76-pay ws81-suit-pay" role="group" aria-label="배틀슈트 결제 방식"><button type="button" data-suit-pay="COIN" aria-pressed="${battleSuitPayment === 'COIN'}" class="${battleSuitPayment === 'COIN' ? 'active' : ''}" ${recovering ? 'disabled' : ''}>코인 ${fmt(recipe.coin_cost)}</button><button type="button" data-suit-pay="MASTER_STAR" aria-pressed="${battleSuitPayment === 'MASTER_STAR'}" class="${battleSuitPayment === 'MASTER_STAR' ? 'active' : ''}" ${recovering ? 'disabled' : ''}>마스터의 별 ${fmt(recipe.master_star_cost)}</button></div>` : ''}
+            <div class="ws81-suit-costs ${choiceRequired ? 'choice' : ''}">
               ${(recipe.materials || []).map(material => `<article class="${owned(material.item_code) >= Number(material.quantity || 0) ? 'ready' : 'short'}"><img decoding="async" src="${esc(asset(material.image_url || workshopState?.inventory?.[material.item_code]?.image_url))}" alt=""><span><small>SUIT CORE</small><b>${esc(material.item_name || material.item_code)}</b><em>보유 ${fmt(owned(material.item_code))} / 필요 ${fmt(material.quantity)}</em></span></article>`).join('')}
-              <article class="${coinReady ? 'ready' : 'short'}"><span><small>COIN</small><b>${fmt(coinCost)}</b><em>보유 ${fmt(coinOwned)}</em></span></article>
-              <article class="${starReady ? 'ready' : 'short'}"><span><small>MASTER STAR</small><b>${fmt(starCost)}</b><em>보유 ${fmt(starOwned)}</em></span></article>
+              ${coinCost > 0 ? `<article class="${coinReady ? 'ready' : 'short'}"><span><small>COIN</small><b>${fmt(coinCost)}</b><em>보유 ${fmt(coinOwned)}</em></span></article>` : ''}
+              ${starCost > 0 ? `<article class="${starReady ? 'ready' : 'short'}"><span><small>MASTER STAR</small><b>${fmt(starCost)}</b><em>보유 ${fmt(starOwned)}</em></span></article>` : ''}
             </div>
             <div class="ws81-suit-notice"><b>성공 확률 ${Number(recipe.success_rate ?? 100)}%</b><span>성공하면 배틀슈트가 장비창에 즉시 지급됩니다. 실패해도 투입한 슈트 코어와 재화는 반환되지 않습니다.</span></div>
             <button type="button" id="wsBattleSuitCraft" class="ws76-primary" ${ready && !workshopBusy ? '' : 'disabled'}>${workshopBusy ? '배틀슈트 제작 공정 진행 중' : recovering ? '이전 배틀슈트 제작 결과 확인' : ready ? `${esc(recipe.output_name || '배틀슈트')} 제작` : `${esc(core.item_name || '슈트 코어')} 또는 재화 부족`}</button>
@@ -512,7 +517,7 @@
     if (!root || !workshopState) return;
     const focus = root.contains(document.activeElement) ? document.activeElement : null;
     const focusId = focus?.id, searchCaret = focusId === 'wsRecipeSearch' ? focus.selectionStart : null;
-    const focusAttribute = ['data-ws-section','data-recipe','data-synth','data-suit-recipe','data-material-recipe','data-pay','data-synth-mode','data-ws-ready','data-ws-reset'].find(key => focus?.hasAttribute(key));
+    const focusAttribute = ['data-ws-section','data-recipe','data-synth','data-suit-recipe','data-suit-pay','data-material-recipe','data-pay','data-synth-mode','data-ws-ready','data-ws-reset'].find(key => focus?.hasAttribute(key));
     const focusValue = focusAttribute ? focus.getAttribute(focusAttribute) : null;
     const scrolls = ['.ws76-blueprints','.ws81-suit-blueprints','.ws81-lineage-list','.ws22-recipe-list','.ws81-nav'].map(selector => [selector, root.querySelector(selector)?.scrollTop || 0, root.querySelector(selector)?.scrollLeft || 0]);
     const panel = workshopSection === 'SYNTHESIS'
@@ -585,6 +590,11 @@
     root.querySelectorAll('[data-suit-recipe]').forEach(button => button.onclick = () => {
       if (workshopBusy) return;
       selectedBattleSuitRecipe = Number(button.dataset.suitRecipe);
+      renderWorkshop();
+    });
+    root.querySelectorAll('[data-suit-pay]').forEach(button => button.onclick = () => {
+      if (workshopBusy || currentMutationRequest('battleSuit')) return;
+      battleSuitPayment = button.dataset.suitPay;
       renderWorkshop();
     });
     root.querySelector('#wsVehicleCraft')?.addEventListener('click', craftVehicle);
@@ -848,20 +858,20 @@
     const recipe = (workshopState?.recipes || []).find(row => row.category === 'BATTLE_SUIT_CRAFT' && Number(row.id) === Number(selectedBattleSuitRecipe));
     if (!recipe || workshopBusy) return;
     const pending = currentMutationRequest('battleSuit');
-    const recovering = pending?.target === String(recipe.id);
-    const owned = code => Number(workshopState?.inventory?.[code]?.quantity || 0);
-    const missing = (recipe.materials || []).filter(material => owned(material.item_code) < Number(material.quantity || 0));
-    const coinCost = Number(recipe.coin_cost || 0);
-    const starCost = Number(recipe.master_star_cost || 0);
-    if (!recovering && (missing.length || Number(workshopState?.wallet?.coin || 0) < coinCost || Number(workshopState?.wallet?.masterStars || 0) < starCost)) {
+    const [pendingRecipeId, pendingPayment] = String(pending?.target || '').split(':');
+    const recovering = pendingRecipeId === String(recipe.id);
+    const info = window.WorkshopRecipes.describe(recipe, workshopState, battleSuitPayment);
+    const paymentType = recovering ? pendingPayment || 'BOTH' : info.cost.type;
+    if (!recovering && !info.ready) {
       return alert('배틀슈트 제작에 필요한 슈트 코어 또는 재화가 부족합니다.');
     }
     const outputName = recipe.output_name || recipe.name || '배틀슈트';
+    const paymentLabel = [info.cost.coin > 0 ? `코인 ${fmt(info.cost.coin)}` : '', info.cost.stars > 0 ? `마스터의 별 ${fmt(info.cost.stars)}개` : ''].filter(Boolean).join(' + ');
     const prompt = recovering
       ? `${outputName} 제작 결과를 동일 요청번호로 안전하게 재확인합니다.`
-      : `${outputName}\n성공 확률 ${Number(recipe.success_rate ?? 100)}% · 슈트 코어 ${fmt((recipe.materials || [])[0]?.quantity || 1)}개 + 코인 ${fmt(coinCost)} + 마스터의 별 ${fmt(starCost)}개를 사용합니다.\n실패 시 모든 투입 재료와 재화는 반환되지 않습니다. 제작하시겠습니까?`;
+      : `${outputName}\n성공 확률 ${Number(recipe.success_rate ?? 100)}% · 투입: 슈트 코어 ${fmt((recipe.materials || [])[0]?.quantity || 1)}개${paymentLabel ? ' + ' + paymentLabel : ''}\n실패 시 모든 투입 재료와 재화는 반환되지 않습니다. 제작하시겠습니까?`;
     if (!confirm(prompt)) return;
-    const ticket = prepareMutationRequest('battleSuit', recipe.id, 'WORKSHOP-BATTLE-SUIT');
+    const ticket = prepareMutationRequest('battleSuit', recovering ? pending.target : `${recipe.id}:${paymentType}`, 'WORKSHOP-BATTLE-SUIT');
     if (ticket.blocked) return alert('이전 배틀슈트 제작 결과를 먼저 확인해야 합니다. 이전에 선택한 설계도로 다시 시도해 주세요.');
     const actionVersion = ++workshopActionVersion;
     const epoch = routeEpoch;
@@ -873,7 +883,7 @@
     renderWorkshop();
     let reconcile = false;
     try {
-      const data = await api('workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, paymentType: BATTLE_SUIT_PAYMENT_MODE, requestId: ticket.requestId }) });
+      const data = await api('workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, paymentType, requestId: ticket.requestId }) });
       clearMutationRequest('battleSuit', ticket.requestId);
       if (!ownsAction()) return;
       if (canPresent()) {
