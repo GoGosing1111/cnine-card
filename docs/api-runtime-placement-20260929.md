@@ -32,4 +32,6 @@
 
 전체 게이트·배포·운영 측정 완료 후 아래에 실제 결과를 기록한다.
 
+게이트의 배포 도구 검사는 새 비동기 키 준비 단계와 3개 업로드 순서를 검증하도록 갱신했다. 이후 V3 연결 단계에서 이미 운영 중인 `-miracle-20260929` 캐시 접미사를 허용하지 않는 오래된 정규식이 발견됐다. 같은 원인의 V3/슈퍼스타 검사 두 곳만 접미사 갱신을 허용했고, 게임 실행 파일은 변경하지 않았다. 통과한 앞선 14개 단계를 재사용하고 실패한 단계부터 이어간다.
+
 참고: [Workers placement](https://developers.cloudflare.com/workers/configuration/placement/), [Pages Smart Placement](https://developers.cloudflare.com/pages/functions/smart-placement/).
