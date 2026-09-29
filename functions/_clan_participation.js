@@ -1,4 +1,5 @@
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
+import {CLAN_WAR_ITEM_REWARD_ZERO,clanWarItemRewardRule} from '../shared/clan-war-item-rewards-v1.mjs';
 // Clan participation: round-frozen rules and exactly-once attacker-only settlement.
 export const CLAN_PARTICIPATION_DEFAULTS = Object.freeze({
   participationEnabled: false,
@@ -77,6 +78,7 @@ export function participationRuleCandidate(war, settings) {
   const enabled = settings.participationEnabled === true && Number.isFinite(time(settings.participationEffectiveAt))
     && time(war.starts_at) >= time(settings.participationEffectiveAt);
   return {
+    ...clanWarItemRewardRule(settings),
     scorePolicy: enabled ? 'ATTACKER_PARTICIPATION_V1' : 'LEGACY_WINNER',
     warWinScore: enabled ? 3 : settings.warWinScore,
     warLossScore: enabled ? 1 : 0,
@@ -96,7 +98,7 @@ export function participationRuleCandidate(war, settings) {
 export async function clanWarParticipationSettings(env, war, settings, now = Date.now()) {
   const existing = await env.DB.prepare('SELECT rules_json FROM clan_participation_round_rules WHERE season_id=? AND round_no=?')
     .bind(war.season_id, war.round_no).first();
-  if (existing) return { ...settings, ...parse(existing.rules_json) };
+  if (existing) return { ...settings, ...CLAN_WAR_ITEM_REWARD_ZERO, ...parse(existing.rules_json) };
   const candidate = participationRuleCandidate(war, settings);
   // Future-round previews remain editable. The first open-round request freezes all four matches together.
   if (time(war.starts_at) <= now && ['ACTIVE', 'SCHEDULED'].includes(war.status)) {
@@ -105,7 +107,7 @@ export async function clanWarParticipationSettings(env, war, settings, now = Dat
     const saved = await env.DB.prepare('SELECT rules_json FROM clan_participation_round_rules WHERE season_id=? AND round_no=?')
       .bind(war.season_id, war.round_no).first();
     invariant(saved, '클랜전 라운드 규칙을 고정하지 못했습니다.');
-    return { ...settings, ...parse(saved.rules_json) };
+    return { ...settings, ...CLAN_WAR_ITEM_REWARD_ZERO, ...parse(saved.rules_json) };
   }
   return { ...settings, ...candidate };
 }

@@ -9,6 +9,7 @@ import {LOOT_SHOP_SCHEMA} from '../functions/_loot_shop.js';
 import {LOOT_SHOP_DEFAULTS} from '../shared/loot-shop-policy-v1.mjs';
 import {JOINT_ATOMIC_SCHEMA} from '../functions/_joint_atomic.js';
 import {CLAN_PIG_ROUND_RELEASE_KEY,clanWarPigReceiptKey,settleClanWarPigCoins,settlePendingClanWarPigCoins} from '../functions/_clan_war_pig_rewards.js';
+import {settleClanWarItems} from '../functions/_clan_war_item_rewards.js';
 import {clanPigCoinStatements} from '../functions/_pig_coin_content_rewards.js';
 
 async function fixture(t,postgres){
@@ -91,7 +92,7 @@ for(const postgres of [false,true]){
  test(`${label}: actual match finalization pays once; failed payout is recovered after match completion`,async t=>{
   const f=await fixture(t,postgres),source=readFileSync(new URL('../functions/_clan.js',import.meta.url),'utf8');
   const code=source.slice(source.indexOf('function warWinnerClanId('),source.indexOf('async function reconcileWarWindows('));
-  const ctx=vm.createContext({settleClanWarPigCoins});vm.runInContext(code+';this.finalize=finalizeWar;',ctx);
+  const ctx=vm.createContext({settleClanWarPigCoins,settleClanWarItems});vm.runInContext(code+';this.finalize=finalizeWar;',ctx);
   await f.p("UPDATE clan_wars SET status='ACTIVE',winner_clan_id=NULL").run();
   const war=await f.p('SELECT * FROM clan_wars WHERE id=64').first();f.fail('INSERT INTO pig_coin_ledger_v1');
   await assert.rejects(()=>ctx.finalize(f.env,war,{mode:'ON',seasonWinScore:3,seasonLossScore:0}),/INJECTED/);f.fail('');

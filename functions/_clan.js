@@ -2,6 +2,8 @@ import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedra
 import {readClanChampionsFollowup,clanChampionsFollowupCheckAt,openClanChampionsFollowup} from './_clan_champions_followup.js';
 import {clanPigCoinStatements} from './_pig_coin_content_rewards.js';
 import {settleClanWarPigCoins,settlePendingClanWarPigCoins} from './_clan_war_pig_rewards.js';
+import {settleClanWarItems,settlePendingClanWarItems} from './_clan_war_item_rewards.js';
+import {CLAN_WAR_ITEM_REWARD_DEFAULTS,cleanClanWarItemRewards,validateClanWarItemRewards} from '../shared/clan-war-item-rewards-v1.mjs';
 import {ensureClanRematch20260920} from './_clan_rematch_20260920.js';
 import {handleClanFaction,ensureFactionSchema} from './_clan_faction.js';
 import {kickClanMember} from './_clan_member_kick.js';
@@ -49,6 +51,7 @@ const SEOUL_OFFSET_MS=9*60*60*1000;
 const CLAN_ADMIN_SETTINGS_KEY='clan_settings_v1';
 const CLAN_ADMIN_SETTINGS_DEFAULTS=Object.freeze({
   ...CLAN_PARTICIPATION_DEFAULTS,
+  ...CLAN_WAR_ITEM_REWARD_DEFAULTS,
   ...CHAMPIONS_DEFAULTS,
   mode:'TEST',scheduleEnabled:true,timezone:'Asia/Seoul',warOpenTime:'21:00',warDurationMinutes:60,openDays:Object.freeze([0,1,2,3,4,5,6]),fixedOpponentPerWindow:true,
   initialEnergy:10,energyCap:10,energyRecoverySeconds:300,attackEnergyCost:1,totalUseLimit:CLAN_ATTACKS_PER_WAR,defensesPerTarget:CLAN_DEFENSES_PER_TARGET,repeatTargetLimit:1,
@@ -350,6 +353,7 @@ function cleanClanAdminSettings(raw={},current=CLAN_ADMIN_SETTINGS_DEFAULTS){
   return{
     participationEnabled:cleanBoolean(raw.participationEnabled,base.participationEnabled),
     ...cleanChampionsSettings(raw,base),
+    ...cleanClanWarItemRewards(raw,base),
     participationEffectiveAt:Number.isFinite(sqlMs(raw.participationEffectiveAt??base.participationEffectiveAt))?iso(sqlMs(raw.participationEffectiveAt??base.participationEffectiveAt)):'',
     battleParticipationRewardsEnabled:cleanBoolean(raw.battleParticipationRewardsEnabled,base.battleParticipationRewardsEnabled),
     battleParticipationCoin:clampInt(raw.battleParticipationCoin,0,100000000,base.battleParticipationCoin),
@@ -551,7 +555,10 @@ async function finalizeWar(env,war,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
     env.DB.prepare("UPDATE clan_season_teams SET score=score+?,losses=losses+1,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND clan_id=? AND EXISTS(SELECT 1 FROM clan_wars WHERE id=? AND status='CLOSING')").bind(settings.seasonLossScore,war.season_id,loserId,war.id),
     env.DB.prepare("UPDATE clan_wars SET status='COMPLETED',winner_clan_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='CLOSING'").bind(winnerId,war.id)
   ]);
-  if(settings.mode==='ON')await settleClanWarPigCoins(env,Number(war.id));
+  if(settings.mode==='ON'){
+    await settleClanWarPigCoins(env,Number(war.id));
+    await settleClanWarItems(env,Number(war.id),settings);
+  }
   return true;
 }
 async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
@@ -561,6 +568,7 @@ async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAU
   await env.DB.prepare("UPDATE clan_wars SET status='ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='SCHEDULED' AND starts_at<=?").bind(season.id,now).run();
   const expired=rows(await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status='ACTIVE' AND ends_at<=? ORDER BY round_no,id").bind(season.id,now).all());for(const war of expired)await finalizeWar(env,war,settings);
   await settlePendingClanWarPigCoins(env,Number(season.id),settings);
+  await settlePendingClanWarItems(env,Number(season.id),settings);
   const remaining=await env.DB.prepare("SELECT COUNT(*) count FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE','CLOSING')").bind(season.id).first(),total=await env.DB.prepare('SELECT COUNT(*) count FROM clan_wars WHERE season_id=?').bind(season.id).first();
   if(Number(total?.count||0)>0&&Number(remaining?.count||0)===0)await env.DB.prepare("UPDATE clan_seasons SET phase='SETTLEMENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='ACTIVE'").bind(season.id).run();
   return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
@@ -833,7 +841,7 @@ async function resetSeasonToDraft(env,deps,user,settings,body){
   if(String(body.confirmation||'')!=='RESET_TO_DRAFT'||Number(body.seasonNo)!==Number(season.season_no))return deps.json({error:'시즌 번호와 RESET_TO_DRAFT 확인값이 필요합니다.',code:'CLAN_RESET_CONFIRMATION_REQUIRED'},400);
   const [poolCount,paidRewards,stats,settlement]=await Promise.all([
     env.DB.prepare('SELECT COUNT(*) count FROM clan_draft_pool WHERE season_id=?').bind(season.id).first(),
-    env.DB.prepare("SELECT (SELECT COUNT(*) FROM clan_reward_receipts WHERE season_id=? AND status='COMPLETED')+(SELECT COUNT(*) FROM clan_participation_receipts WHERE season_id=? AND status='COMPLETED' AND base_coin+win_bonus_coin+milestone_coin>0) count").bind(season.id,season.id).first(),
+    env.DB.prepare("SELECT (SELECT COUNT(*) FROM clan_reward_receipts WHERE season_id=? AND status='COMPLETED')+(SELECT COUNT(*) FROM clan_participation_receipts WHERE season_id=? AND status='COMPLETED' AND base_coin+win_bonus_coin+milestone_coin>0)+(SELECT COUNT(*) FROM app_meta m JOIN clan_wars w ON m.key='clan_war_items_v1:'||CAST(w.id AS TEXT) WHERE w.season_id=?) count").bind(season.id,season.id,season.id).first(),
     env.DB.prepare(`SELECT (SELECT COUNT(*) FROM clan_members WHERE season_id=?) members,(SELECT COUNT(*) FROM clan_wars WHERE season_id=?) wars,(SELECT COUNT(*) FROM clan_war_battles WHERE season_id=?) battles`).bind(season.id,season.id,season.id).first(),
     env.DB.prepare('SELECT * FROM clan_season_settlements WHERE season_id=?').bind(season.id).first()
   ]);
@@ -859,7 +867,7 @@ async function resetOfficialSeasonOne(env,deps,user,settings,body){
   const lock=await acquireDraftLock(env,Number(season?.id||0));if(!lock.ok)return deps.json({error:'다른 클랜전 작업을 처리 중입니다. 잠시 후 다시 시도하세요.'},409);
   try{
     const [paidRewards,inFlight,currentPool,seasons,trophies]=await Promise.all([
-      env.DB.prepare("SELECT (SELECT COUNT(*) FROM clan_reward_receipts WHERE status='COMPLETED')+(SELECT COUNT(*) FROM clan_participation_receipts WHERE status='COMPLETED' AND base_coin+win_bonus_coin+milestone_coin>0) count").first(),
+      env.DB.prepare("SELECT (SELECT COUNT(*) FROM clan_reward_receipts WHERE status='COMPLETED')+(SELECT COUNT(*) FROM clan_participation_receipts WHERE status='COMPLETED' AND base_coin+win_bonus_coin+milestone_coin>0)+(SELECT COUNT(*) FROM app_meta WHERE key LIKE 'clan_war_items_v1:%') count").first(),
       env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE status IN ('PENDING','RESOLVING')").first(),
       season?env.DB.prepare('SELECT COUNT(*) count FROM clan_draft_pool WHERE season_id=?').bind(season.id).first():Promise.resolve({count:0}),
       env.DB.prepare('SELECT COUNT(*) count FROM clan_seasons').first(),
@@ -1038,6 +1046,7 @@ export async function handleClan({path,request,env,deps}){
       const next=cleanClanAdminSettings(candidate,settings);
       try{validateChampionsSettings(candidate,next)}catch(error){return deps.json({error:error.message},400)}
       try{validateClanParticipationSettings(candidate,next)}catch(error){return deps.json({error:error.message},400)}
+      try{validateClanWarItemRewards(candidate)}catch(error){return deps.json({error:error.message},400)}
       if(!Number.isSafeInteger(Number(next.participationCoin)+Number(next.winnerCoin))||!Number.isSafeInteger(Number(next.participationCoin)+Number(next.runnerUpCoin)))return deps.json({error:'참여 기본 코인과 순위 추가 코인의 합계가 안전한 정수 범위를 넘었습니다.'},400);
       if(next.rewardsEnabled&&next.mode!=='ON')return deps.json({error:'경제 보상은 클랜 공개 모드가 ON일 때만 활성화할 수 있습니다.'},400);
       if(next.rewardsEnabled&&Number(next.winnerCoin)+Number(next.runnerUpCoin)+Number(next.participationCoin)+Number(next.participationShards)<=0)return deps.json({error:'경제 보상을 활성화하려면 지급 수량을 하나 이상 설정하세요.'},400);
