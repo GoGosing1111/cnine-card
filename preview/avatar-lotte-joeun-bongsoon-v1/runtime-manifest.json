@@ -1,0 +1,122 @@
+{
+  "date": "2026-09-30",
+  "generator": "built-in image_gen",
+  "approval": "ㅇㅇ 장비창 ui 만들고 등록해",
+  "processing": "Native generated alpha retained; uniform resize, transparent padding and WebP encoding only. All source PNGs unchanged.",
+  "avatars": {
+    "avatar-lotte-joeun": {
+      "alpha": {
+        "clearPixels": 1241343,
+        "solidPixels": 298949,
+        "borderMax": 0,
+        "crop": {
+          "left": 219,
+          "top": 20,
+          "width": 528,
+          "height": 1487
+        }
+      },
+      "runtime": {
+        "width": 640,
+        "height": 1664,
+        "uniformScale": 1,
+        "bodyWidth": 528,
+        "bodyHeight": 1487
+      },
+      "files": {
+        "avatar-lotte-joeun-lobby-source-art-v1.png": {
+          "sha256": "84f0bda5e9b6343cbb6912794cb957bc32d0dd2e9cccafa5af9c65741e86442f",
+          "bytes": 2540713,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-lotte-joeun-equipment-source-art-v1.png": {
+          "sha256": "348dc482e7382193da2633433db068169ed215e4e5c0fb11c6353951bb6c1100",
+          "bytes": 1391451,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": true
+        },
+        "avatar-lotte-joeun-lobby-v1-1024.webp": {
+          "sha256": "8fd0bf790f9e1c48143144054836fa333a6051dbf1010bb975d3024f610ad624",
+          "bytes": 329256,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-lotte-joeun-lobby-v1-640.webp": {
+          "sha256": "4f4d4d4987ae51b8aa31c56fbe88efbb0a56e063783a23e0e15d4e04dfbf4cb4",
+          "bytes": 177876,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "avatar-lotte-joeun-equipment-v1-640.webp": {
+          "sha256": "8e11c397431890ac183b2ce1161f4ef275f26bd131c8961e68823da1d91c9794",
+          "bytes": 116172,
+          "width": 640,
+          "height": 1664,
+          "hasAlpha": true
+        }
+      }
+    },
+    "avatar-lotte-bongsoon": {
+      "alpha": {
+        "clearPixels": 1269121,
+        "solidPixels": 270102,
+        "borderMax": 0,
+        "crop": {
+          "left": 288,
+          "top": 19,
+          "width": 396,
+          "height": 1484
+        }
+      },
+      "runtime": {
+        "width": 640,
+        "height": 1664,
+        "uniformScale": 1,
+        "bodyWidth": 396,
+        "bodyHeight": 1484
+      },
+      "files": {
+        "avatar-lotte-bongsoon-lobby-source-art-v2.png": {
+          "sha256": "5f324918a693368bf05334eddb68a0f31546d03df192cff91860e9dfd800a536",
+          "bytes": 2388694,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-lotte-bongsoon-equipment-source-art-v1.png": {
+          "sha256": "a89f270404391116b0a3d39879dbe89012da37b284b2cfd83da469dd69308d42",
+          "bytes": 1265140,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": true
+        },
+        "avatar-lotte-bongsoon-lobby-v1-1024.webp": {
+          "sha256": "2edd1bd14aa9c26f2061b4ab5da31c52425eb637cf98dfd4f5a2e9bcbda4c2f8",
+          "bytes": 307892,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "avatar-lotte-bongsoon-lobby-v1-640.webp": {
+          "sha256": "adcfb79b8a4fb80f7606fd9c1c77711d7c8e0f6078da35b5b123630a759f102e",
+          "bytes": 170464,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "avatar-lotte-bongsoon-equipment-v1-640.webp": {
+          "sha256": "e28ad3b8b1d566e8a044cf17cb616eaa2ace699eacfd4e14d756b343c76f07db",
+          "bytes": 101334,
+          "width": 640,
+          "height": 1664,
+          "hasAlpha": true
+        }
+      }
+    }
+  }
+}

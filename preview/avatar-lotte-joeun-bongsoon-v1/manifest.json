@@ -1,7 +1,7 @@
 {
   "title": "롯데 조은 · 롯데 나무늘봉순",
   "createdDate": "2026-09-30",
-  "status": "SOURCE_ART_PREVIEW_USER_REVIEW_PENDING",
+  "status": "APPROVED_SOURCE_ART_RELEASE_READY",
   "generator": "built-in image_gen",
   "scope": "Two individual full-body lobby avatar source-art previews",
   "current": {
@@ -80,5 +80,8 @@
     "bongsoonPoseV2": "Torso turned, both hands behind back, legs uncrossed; same face and costume"
   },
   "runtimeRegistration": false,
-  "equipmentSpritesCreated": false
+  "equipmentSpritesCreated": true,
+  "approval": "ㅇㅇ 장비창 ui 만들고 등록해 / 옵션은 한복디임2 기준으로 다 맞추고 롯데 클랜 전체 클랜 시즌 종료까지 지급해",
+  "runtimeManifest": "runtime-manifest.json",
+  "registrationCatalog": "catalogs.json"
 }

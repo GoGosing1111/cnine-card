@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "avatar": "LOTTE_JOEUN",
+      "loaded": true,
+      "gallery": true,
+      "lightAlpha": true,
+      "commonEquipmentUi": true,
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "avatar": "LOTTE_NAMU_BONGSOON",
+      "loaded": true,
+      "gallery": true,
+      "lightAlpha": true,
+      "commonEquipmentUi": true,
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "avatar": "LOTTE_JOEUN",
+      "loaded": true,
+      "gallery": true,
+      "lightAlpha": true,
+      "commonEquipmentUi": true,
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "avatar": "LOTTE_NAMU_BONGSOON",
+      "loaded": true,
+      "gallery": true,
+      "lightAlpha": true,
+      "commonEquipmentUi": true,
+      "horizontalOverflow": false
+    }
+  ],
+  "errors": []
+}

@@ -15,4 +15,16 @@
 
 생성 프롬프트: [조은](prompt-joeun-v1.md), [나무늘봉순 최초](prompt-bongsoon-v1.md), [나무늘봉순 자세 수정](prompt-bongsoon-v2.md).
 
-현재 상태는 원화 시안 제작 완료·사용자 시각 검토 대기다. 이번 산출물은 로비용 전신 원화 2장이며 장비창 투명 리소스·CMS 등록·클랜 지급·운영 활성화는 포함하지 않는다. 게임 실행 코드 변경이 없으므로 게임 테스트나 운영 재배포를 수행하지 않았다.
+## 승인·장비창·등록
+
+후속 “ㅇㅇ 장비창 ui 만들고 등록해”로 조은 V1과 봉순 V2를 승인했다. 이어 “옵션은 한복디임2 기준으로 다 맞추고 롯데 클랜 전체 클랜 시즌 종료까지 지급해”로 운영 등록과 지급을 확정했다.
+
+- A-27 `LOTTE_JOEUN` / 롯데 조은
+- A-28 `LOTTE_NAMU_BONGSOON` / 롯데 나무늘봉순
+- 장비창 전신: `assets/avatar-lotte-joeun-equipment-source-art-v1.png`, `assets/avatar-lotte-bongsoon-equipment-source-art-v1.png`.
+- 내장 image_gen 원본 1024×1536 RGBA, 원래 생성 알파 보존. [조은 프롬프트](prompt-equipment-joeun-v1.md)·[봉순 프롬프트](prompt-equipment-bongsoon-v1.md).
+- `node preview/avatar-lotte-joeun-bongsoon-v1/build-assets.mjs`로 원본 해시·알파를 확인하고 기존 계약의 로비 1024/640 WebP, 장비창 640×1664 WebP를 만든다. 투명 여백 정리·균일 배율·패딩·압축만 적용한다.
+- `index.html`은 기존 공용 장비창을 재사용한다. PC·모바일 두 아바타의 로비/장비창 전환, 전신·알파·이미지 로딩·가로 넘침을 확인했다. 검수 소리는 OFF다.
+- 한복 디임2 운영 옵션: 드랍률 +30%, 코인 획득량 +100%, 레이드 입장 +10회, 전투력 +3%. 현 롯데 18명에게 각 2종, 현 시즌 종료인 2026-10-11 22:00 KST까지 지급한다.
+
+카탈로그는 `catalogs.json`, 파생 자산 기록은 `runtime-manifest.json`, 운영 결과와 최소 검사 범위는 [등록·시즌 지급 기록](../../docs/lotte-uniform-avatars-release-20260930.md)에 보존한다.
