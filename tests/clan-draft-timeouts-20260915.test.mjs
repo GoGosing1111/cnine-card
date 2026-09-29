@@ -307,10 +307,15 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 140 
 
 test('quota creation and master selection roll back together, then resume exactly once',async t=>{
   const f=await fixture(t,{registration:true,teamCount:8,candidateCount:140});f.at(60000);
+  // An explicit CMS reset returns to REGISTRATION but retains the previous quota record.
+  const prior=balancedClanDraftPlan({seasonId:1,participantCount:176,clanIds:[1,2,3,4,5,6,7,8],startsAt:iso(base)});
+  await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',clanRedraftKey(1),JSON.stringify(prior)).run();
   const batch=f.env.DB.batch.bind(f.env.DB);
   f.env.DB.batch=statements=>statements.some(s=>s.source.includes("SET phase='DRAFT'"))?batch([...statements,f.env.DB.prepare('INSERT INTO synthetic_missing_table VALUES(1)')]):batch(statements);
   await assert.rejects(reconcileClanDraft(f.env),/synthetic_missing_table/);
-  assert.equal((await f.fresh()).phase,'REGISTRATION');assert.equal(await readClanRedraft(f.env,1),null);
+  assert.equal((await f.fresh()).phase,'REGISTRATION');assert.deepEqual(await readClanRedraft(f.env,1),prior);
   assert.equal((await f.p('SELECT COUNT(*) count FROM clan_members').first()).count,0);
   f.env.DB.batch=batch;await reconcileClanDraft(f.env);assert.equal((await f.ctx()).teams.length,8);
+  const current=await readClanRedraft(f.env,1);assert.equal(current.participantCount,140);assert.equal(current.startsAt,iso(base+60000));
+  await clan.beginDraft(f.env,await f.fresh(),settings);assert.deepEqual(await readClanRedraft(f.env,1),current);
 });

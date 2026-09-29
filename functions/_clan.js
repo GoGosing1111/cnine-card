@@ -459,7 +459,7 @@ async function beginDraft(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,{forc
     writes.push(env.DB.prepare("INSERT OR IGNORE INTO clan_members(season_id,clan_id,user_id,member_role,preferred_role,draft_pick_no) VALUES(?,?,?,'MASTER',?,0)").bind(season.id,org.id,master.user_id,cleanRole(master.preferred_role)));
   });
   const draftEnd=clanDraftDeadlineMs(season);
-  writes.push(env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(clanRedraftKey(season.id),JSON.stringify(plan)));
+  writes.push(env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at').bind(clanRedraftKey(season.id),JSON.stringify(plan)));
   writes.push(env.DB.prepare("UPDATE clan_seasons SET phase='DRAFT',draft_pick_count=0,draft_ends_at=?,next_pick_deadline=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='REGISTRATION'").bind(iso(draftEnd),iso(Math.min(Date.now()+draftTurnMs(settings),draftEnd)),season.id));
   await env.DB.batch(writes);return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
   }finally{await releaseDraftLock(env,lock)}

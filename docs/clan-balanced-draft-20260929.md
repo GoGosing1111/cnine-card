@@ -25,3 +25,5 @@
 - 국소적인 드래프트 정원 수정이며 공통 인증·DB 기반·마이그레이션 변경이 없다. `npm run deploy:production -- --scoped` 사용.
 - 직전 운영 소스: `49b6ab9b159fa67ce7d42c8f383201c11a9bfdcd`. 이후 문서 커밋 `003d88ae`는 실행 코드 변경이 없다.
 - 배포 검사: `tests/clan-draft-timeouts-20260915.test.mjs`, `tests/clan-champions-followup-20260928.test.mjs`, `tests/clan-v3-v1820.mjs`, `check:worker`. 운영 초기화 검사는 이미 통과했으며 배포 훅에는 연결하지 않는다.
+- 첫 scoped 배포 `9467e25e07bbfde93428ee3063ded1c816323798`: 관련 48개 통과, Pages `af4cb1e3`, API Worker `e6a13000-7a6f-494b-a5b9-d769ddd01a86`, 드래프트 Worker `b9cffec1-b580-4b5e-98d7-2384367dcf1a`. 운영에서 새 지명 진행과 8개 마스터·확정 정원을 재확인했다.
+- 이후 기존 CMS 리셋이 REGISTRATION으로 돌아오면서 이전 정원 메타를 남기는 경로를 확인했다. 정원 저장을 같은 트랜잭션의 UPSERT로 바꿔 명시적 초기화에서만 새 정원을 저장하고, 진행 중 DRAFT에서는 기존 phase 검사로 정원을 보존한다. 후속 배포 기준은 위 `9467e25e`이며 바뀐 초기화/지명 회귀 파일과 컴파일만 재검사한다.
