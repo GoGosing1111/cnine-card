@@ -35,3 +35,12 @@
 - PC 1440×1000 / 모바일 390×844에서 실제 CMS·인벤토리 마크업과 개봉 모듈을 격리 PostgreSQL fixture에 연결해 지급·개봉·결과·인벤토리 복귀를 확인했다. 네 보상 수량 일치, 가로 넘침 0, JS 오류 0. 소리는 OFF. 캡처 및 결과는 `C:/Users/User/.codex/tmp/recruitment-gift-20260929/`에 보존한다.
 - 직전 운영 배포는 Pages `466152d4-f041-4611-b226-59c5681ac8a3`, 소스 `39ce2133523b05d36e598e69d98a24e779cc273a`이며 실제 production 목록으로 대조했다.
 - 한 사은품의 지급·개봉 경로에 한정된 수정으로 `npm run deploy:production -- --scoped`를 사용한다. 위 네 테스트 파일과 Worker 컴파일, 기존 출시·캐시·Hyperdrive·깨끗한 커밋 조건을 배포 과정에서 검사한다. 전체 게임 검사는 실행하지 않는다.
+
+## 운영 반영 완료
+
+- 배포 소스 `5ef8e001`, Pages `https://6850d5c4.cnine-card.pages.dev`. API 런타임 버전 `8323b529-e684-4535-b813-51f90eda866a`, 클랜 워커 버전 `170009ac-4438-47ae-9e45-f87049229160`.
+- 지정 scoped 배포 1회에서 관련 검사 **54/54 통과**, Worker 컴파일·출시·캐시·Hyperdrive 조건을 확인했다.
+- 2026-09-29 23:58 KST, 운영 메인/CMS·JS·CSS·전용 PNG 7개가 모두 HTTP 200이며 로컬 SHA-256과 일치했다. 인벤토리 조회·개봉·관리자 지급 API의 비인증 요청은 모두 401이었다.
+- 운영 카탈로그는 런타임에서 이미 정상 등록돼 있었으며 같은 등록 함수의 재호출과 별도 조회로 코드·이름·이미지·네 보상 설명·활성 상태·완료 마커를 확인했다. 기존 구성품 3종도 활성 상태였다. 상자 보유 계정 0명·수량 0개였으며 이 작업에서 실제 지급·메시지 발송은 수행하지 않았다.
+- 증거는 `C:/Users/User/.codex/tmp/recruitment-gift-20260929/`의 `deploy.log`, `ui-report.json`, `production-smoke.json`, `catalog-applied.json`, `catalog-verified.json`에 보존한다.
+- 이 완료 기록은 문서만 커밋·원격 반영하며 게임 검사나 재배포를 반복하지 않는다.
