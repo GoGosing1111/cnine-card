@@ -1,0 +1,157 @@
+{
+  "admission": {
+    "ok": true,
+    "status": "COMPLETED",
+    "seasonId": 6,
+    "seasonNo": 3,
+    "admissions": [
+      {
+        "ok": true,
+        "previewId": "4e7aa2bc-be1a-492a-a1cc-c14111d4b778",
+        "userId": 4754,
+        "nickname": "조은",
+        "clanId": 6,
+        "clanName": "롯데",
+        "seasonId": 6,
+        "memberRole": "MEMBER",
+        "beforeCount": 18,
+        "memberCount": 19,
+        "maxMembers": 20,
+        "sourceAfterCount": null,
+        "gift": null,
+        "removed": [],
+        "removedCount": 0,
+        "completedAt": "2026-09-29T16:58:58.093Z",
+        "recoveryKey": "clan_member_assignment_v2049:4e7aa2bc-be1a-492a-a1cc-c14111d4b778"
+      },
+      {
+        "ok": true,
+        "previewId": "6816ce88-f2d3-4a28-ab43-ca0d2e3f13f2",
+        "userId": 5426,
+        "nickname": "나무늘봉순",
+        "clanId": 6,
+        "clanName": "롯데",
+        "seasonId": 6,
+        "memberRole": "MEMBER",
+        "beforeCount": 19,
+        "memberCount": 20,
+        "maxMembers": 20,
+        "sourceAfterCount": null,
+        "gift": null,
+        "removed": [],
+        "removedCount": 0,
+        "completedAt": "2026-09-29T16:58:59.977Z",
+        "recoveryKey": "clan_member_assignment_v2049:6816ce88-f2d3-4a28-ab43-ca0d2e3f13f2"
+      },
+      {
+        "ok": true,
+        "previewId": "a89c985b-750c-47ea-ad4a-a7c4b426666d",
+        "userId": 4977,
+        "nickname": "하이희야♡",
+        "clanId": 5,
+        "clanName": "LG",
+        "seasonId": 6,
+        "memberRole": "MEMBER",
+        "beforeCount": 17,
+        "memberCount": 18,
+        "maxMembers": 18,
+        "sourceAfterCount": null,
+        "gift": null,
+        "removed": [],
+        "removedCount": 0,
+        "completedAt": "2026-09-29T16:59:01.874Z",
+        "recoveryKey": "clan_member_assignment_v2049:a89c985b-750c-47ea-ad4a-a7c4b426666d"
+      }
+    ],
+    "clans": [
+      {
+        "id": 6,
+        "name": "롯데",
+        "memberCount": 20,
+        "maxMembers": 20
+      },
+      {
+        "id": 5,
+        "name": "LG",
+        "memberCount": 18,
+        "maxMembers": 18
+      }
+    ],
+    "grants": [
+      {
+        "user_id": "4754",
+        "avatar_code": "LOTTE_JOEUN",
+        "source_type": "EVENT",
+        "source_ref": "ops:clan-three-admissions:20260930:v1",
+        "acquired_at": "2026-09-29 16:58:56",
+        "expires_at": "2026-10-11 13:00:00"
+      },
+      {
+        "user_id": "4754",
+        "avatar_code": "LOTTE_NAMU_BONGSOON",
+        "source_type": "EVENT",
+        "source_ref": "ops:clan-three-admissions:20260930:v1",
+        "acquired_at": "2026-09-29 16:58:56",
+        "expires_at": "2026-10-11 13:00:00"
+      },
+      {
+        "user_id": "5426",
+        "avatar_code": "LOTTE_JOEUN",
+        "source_type": "EVENT",
+        "source_ref": "ops:clan-three-admissions:20260930:v1",
+        "acquired_at": "2026-09-29 16:58:56",
+        "expires_at": "2026-10-11 13:00:00"
+      },
+      {
+        "user_id": "5426",
+        "avatar_code": "LOTTE_NAMU_BONGSOON",
+        "source_type": "EVENT",
+        "source_ref": "ops:clan-three-admissions:20260930:v1",
+        "acquired_at": "2026-09-29 16:58:56",
+        "expires_at": "2026-10-11 13:00:00"
+      },
+      {
+        "user_id": "4977",
+        "avatar_code": "LG_HI_HEEYA",
+        "source_type": "EVENT",
+        "source_ref": "ops:clan-three-admissions:20260930:v1",
+        "acquired_at": "2026-09-29 16:58:56",
+        "expires_at": "2026-10-11 13:00:00"
+      }
+    ],
+    "expiresAt": "2026-10-11 13:00:00",
+    "adminLogId": "37950"
+  },
+  "territory": {
+    "ok": true,
+    "roundId": 62,
+    "beforeVersion": 8,
+    "afterVersion": 8,
+    "participants": [
+      {
+        "round_id": 62,
+        "user_id": 4754,
+        "clan_id": 6,
+        "side": "B",
+        "status": "WAITING",
+        "mandatory_clan": 1
+      },
+      {
+        "round_id": 62,
+        "user_id": 4977,
+        "clan_id": 5,
+        "side": "A",
+        "status": "WAITING",
+        "mandatory_clan": 1
+      },
+      {
+        "round_id": 62,
+        "user_id": 5426,
+        "clan_id": 6,
+        "side": "B",
+        "status": "WAITING",
+        "mandatory_clan": 1
+      }
+    ]
+  }
+}
