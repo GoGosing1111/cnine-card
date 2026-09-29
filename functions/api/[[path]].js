@@ -1,4 +1,5 @@
 import {coupLiveOperation} from '../_coup_live_operation.js';
+import {createRequestSettingsCache} from '../_request_settings_cache.js';
 import {rankedDuoLiveOperation} from '../_ranked_duo_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
 import {handleRankedDuo} from '../_ranked_duo.js';
@@ -393,31 +394,25 @@ const META_SNAPSHOT_KEYS=[
   'wago_verification_settings_v1',
   'weekly_premium_cube_settings_v1129'
 ];
-let metaSnapshotCache=null;
+const metaSnapshotCache=createRequestSettingsCache();
 function metaSnapshot(env){
-  const now=Date.now();
-  if(metaSnapshotCache&&metaSnapshotCache.expiresAt>now)return metaSnapshotCache.promise;
-  const promise=env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${META_SNAPSHOT_KEYS.map(key=>"'"+key+"'").join(',')})`).all()
-    .then(rows=>{const map=new Map();for(const row of rows.results||[])map.set(String(row.key),row.value);return map})
-    .catch(error=>{if(metaSnapshotCache?.promise===promise)metaSnapshotCache=null;throw error});
-  metaSnapshotCache={promise,expiresAt:now+5000};
-  return promise;
+  return metaSnapshotCache.load(env,'meta',5000,async()=>{
+    const rows=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${META_SNAPSHOT_KEYS.map(key=>"'"+key+"'").join(',')})`).all();
+    return new Map((rows.results||[]).map(row=>[String(row.key),row.value]));
+  });
 }
 async function metaValue(env,key){
   // .first() 와 같은 모양으로 돌려준다. 없으면 null.
   const map=await metaSnapshot(env);
   return map.has(key)?{value:map.get(key)}:null;
 }
-function invalidateMetaSnapshot(){metaSnapshotCache=null}
-const runtimeSettingsCache=new Map();
-async function cachedRuntimeSetting(key,ttlMs,loader){
-  const now=Date.now(),cached=runtimeSettingsCache.get(key);
-  if(cached&&cached.expiresAt>now)return cached.promise;
-  const promise=Promise.resolve().then(loader).catch(error=>{if(runtimeSettingsCache.get(key)?.promise===promise)invalidateMetaSnapshot();runtimeSettingsCache.delete(key);throw error});
-  runtimeSettingsCache.set(key,{promise,expiresAt:now+Math.max(1000,Number(ttlMs)||5000)});return promise;
+function invalidateMetaSnapshot(){metaSnapshotCache.clear()}
+const runtimeSettingsCache=createRequestSettingsCache();
+async function cachedRuntimeSetting(env,key,ttlMs,loader){
+  return runtimeSettingsCache.load(env,key,Math.max(1000,Number(ttlMs)||5000),loader);
 }
 let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
-function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null;metaSnapshotCache=null}
+function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null;invalidateMetaSnapshot()}
 let drawReceiptV2ReadyPromise=null;
 let furFirstPityV1291ReadyPromise=null;
 let drawBrowserLeaseReadyPromise=null;
@@ -761,7 +756,7 @@ const SCORE_TIER_DEFAULT=[
 ];
 function defaultTierSettings(){return {cardScoreTiers:SCORE_TIER_DEFAULT,pvp:{enabled:true,status:'ACTIVE',seasonName:'시즌 준비 중',startsAt:null,endsAt:null,tiers:SCORE_TIER_DEFAULT.map((x,i)=>({...x,min:i*500}))}}}
 async function readTierSettings(env){const row=await metaValue(env,'tier_settings_v1');const base=defaultTierSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value),source=Array.isArray(x.cardScoreTiers)&&x.cardScoreTiers.length?x.cardScoreTiers:base.cardScoreTiers;const cleanTiers=source.map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.cardScoreTiers[i]?.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.cardScoreTiers[i]?.color||'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);return {cardScoreTiers:cleanTiers,pvp:{enabled:x.pvp?.enabled!==false,status:String(x.pvp?.status||'ACTIVE').slice(0,30),seasonName:String(x.pvp?.seasonName||'시즌 준비 중').slice(0,40),startsAt:x.pvp?.startsAt||null,endsAt:x.pvp?.endsAt||null,tiers:Array.isArray(x.pvp?.tiers)&&x.pvp.tiers.length?x.pvp.tiers:base.pvp.tiers}}}catch{return base}}
-async function tierSettings(env){return cachedRuntimeSetting('tier',30000,()=>readTierSettings(env))}
+async function tierSettings(env){return cachedRuntimeSetting(env,'tier',30000,()=>readTierSettings(env))}
 function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false};for(const t of tiers)if(score>=t.min)current=t;return current}
 
 
@@ -887,7 +882,7 @@ async function pvpChallengerRank(env,userId,{fresh=false}={}){
   return (rows.results||[]).findIndex(row=>Number(row.id)===Number(userId))+1;
 }
 async function readPvpSettings(env){const row=await metaValue(env,'pvp_settings_v1');if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
-async function pvpSettings(env){return cachedRuntimeSetting('pvp',10000,()=>readPvpSettings(env))}
+async function pvpSettings(env){return cachedRuntimeSetting(env,'pvp',10000,()=>readPvpSettings(env))}
 function pvpSeasonKey(settings){return [String(settings?.seasonName||'').trim(),String(settings?.startsAt||''),String(settings?.endsAt||'')].join('|').slice(0,220)}
 async function completedPvpSettlement(env,settings){const key=pvpSeasonKey(settings);if(!key)return null;return env.DB.prepare("SELECT id,status,completed_at FROM pvp_season_settlements WHERE season_key=? AND status='COMPLETED'").bind(key).first()}
 function pvpSettlementRewardFor(rankRow,settings,tierClaimed,rankClaimed){const tier=resolvePvpTier(Number(rankRow.highest_score||0),settings,rankRow.final_rank),rankReward=(settings.rankRewards||[]).find(x=>Number(rankRow.final_rank)>=Number(x.from)&&Number(rankRow.final_rank)<=Number(x.to));return {tier,tierCoin:settings.tierRewardsEnabled&&!tierClaimed?Number(tier.rewardCoin||0):0,tierShards:settings.tierRewardsEnabled&&!tierClaimed?Number(tier.rewardShards||0):0,rankCoin:settings.rankRewardsEnabled&&!rankClaimed?Number(rankReward?.rewardCoin||0):0,rankShards:settings.rankRewardsEnabled&&!rankClaimed?Number(rankReward?.rewardShards||0):0}}
@@ -1398,7 +1393,7 @@ async function ensureRaidFinalizedV1293(env,instanceId,fallbackCfg,nowMs=Date.no
 }
 
 async function readRaidSettings(env){await ensureRaidOverhaulV1293(env);const row=await metaValue(env,'raid_settings_v1');if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
-async function raidSettings(env){return cachedRuntimeSetting('raid',5000,()=>readRaidSettings(env))}
+async function raidSettings(env){return cachedRuntimeSetting(env,'raid',5000,()=>readRaidSettings(env))}
 async function raidRewardSnapshot(env,instanceId,cfg,create=true){
   const magicCfg=await magicSettings(env),raidMagic=magicCfg.acquisition?.raid||{};
   const participationMagic=raidMagic.enabled===true?Math.max(0,Math.floor(Number(raidMagic.participation||0))):0;
@@ -1573,7 +1568,7 @@ async function readBattleSettings(env){
   return settings;
 }
 // V1802-perf: 1초 캐시는 사실상 매 요청마다 app_meta 를 다시 읽는다. 관리자 저장 시 즉시 무효화되므로 10초로 늘린다.
-async function battleSettings(env){return cachedRuntimeSetting('battle',10000,()=>readBattleSettings(env))}
+async function battleSettings(env){return cachedRuntimeSetting(env,'battle',10000,()=>readBattleSettings(env))}
 function battleEngineState(settings,user){const engine=normalizeBattleEngineSettings(settings?.engine);const owner=String(user?.role||'').trim().toUpperCase()==='OWNER';const active=engine.mode==='V2_PUBLIC'||(engine.mode==='V2_OWNER'&&owner);return {...engine,active,version:active?'V2':'LEGACY',ownerTest:engine.mode==='V2_OWNER'};}
 function pveBattleEngineState(settings,user,characterBonus={}){
   const base=battleEngineState(settings,user),battleSuitLive=battleSuitLiveRuntime(characterBonus),battleSuitLiveOverride=battleSuitLive.enabled&&!base.active,active=base.active||battleSuitLive.enabled;
@@ -1771,7 +1766,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
 function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>[g,BREAKTHROUGH_COST.map((cost,i)=>({cost,rate:BREAKTHROUGH_RATE[i]}))]));}
 // V1792: 전 유저 공통 설정인데 유일하게 캐시가 없어서 profile() 호출마다 app_meta 를 쳤다.
 // 이웃 설정들(attendance 30초, masterStar 5초)과 같은 방식으로 맞춘다.
-async function breakthroughConfig(env){return cachedRuntimeSetting('breakthroughConfig',30000,()=>readBreakthroughConfig(env))}
+async function breakthroughConfig(env){return cachedRuntimeSetting(env,'breakthroughConfig',30000,()=>readBreakthroughConfig(env))}
 async function readBreakthroughConfig(env){const row=await metaValue(env,'breakthrough_config');if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<breakthroughMaxLevel(g);i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
 function cleanMaMasterStarBreakthrough(raw={}){const base=MA_MASTER_STAR_BREAKTHROUGH_DEFAULT;return {enabled:raw.enabled===true,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999,Math.floor(Number(x.cost)||fallback.cost))),duplicateCards:Math.max(0,Math.min(99,Math.floor(Number(x.duplicateCards??fallback.duplicateCards)||0))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||0)))}})}}
 async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMasterStarBreakthroughCache&&maMasterStarBreakthroughCache.expiresAt>now)return maMasterStarBreakthroughCache.value;const row=await metaValue(env,'ma_master_star_breakthrough_v1');let value=cleanMaMasterStarBreakthrough();if(row?.value){try{value=cleanMaMasterStarBreakthrough(JSON.parse(row.value))}catch{}}maMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
@@ -1784,7 +1779,7 @@ function cleanZenithMasterStarBreakthrough(raw={}){return cleanHighBreakthroughS
 // V1940: SUPERSTAR는 ZENITH 설정을 복제 저장하지 않고 같은 객체를 alias한다.
 // 각각 조회하면 프로필 응답마다 D1 왕복이 2회 늘어난다. 한 번에 읽어 30초 공유 캐시에 둔다.
 async function highBreakthroughConfigs(env){
-  return cachedRuntimeSetting('highBreakthroughConfigs',30000,async()=>{
+  return cachedRuntimeSetting(env,'highBreakthroughConfigs',30000,async()=>{
     let rows=[];
     try{rows=(await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802')").all()).results||[]}catch(error){console.error('high breakthrough config read failed',error)}
     const pick=key=>{const row=rows.find(item=>String(item?.key)===key);if(!row?.value)return {};try{return JSON.parse(row.value)||{}}catch{return {}}};
@@ -1934,7 +1929,7 @@ const kstDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'n
 function defaultAttendanceSettings(){return {enabled:true,rewards:[1000,1200,1400,1600,1800,2000,3000]};}
 function cleanAttendanceSettings(raw={}){const base=defaultAttendanceSettings();const rewards=Array.from({length:7},(_,i)=>Math.max(0,Math.min(10000000,Math.floor(Number(raw.rewards?.[i]??base.rewards[i])||0))));return {enabled:raw.enabled!==false,rewards};}
 async function readAttendanceSettings(env){const row=await metaValue(env,'attendance_settings_v1');if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
-async function attendanceSettings(env){return cachedRuntimeSetting('attendance',30000,()=>readAttendanceSettings(env))}
+async function attendanceSettings(env){return cachedRuntimeSetting(env,'attendance',30000,()=>readAttendanceSettings(env))}
 const CUBE_CODES=['PREMIUM_CUBE'];
 const RETIREMENT_REROLL_TICKETS={
   MA:{code:'MA_REROLL_TICKET',name:'MA 재뽑기권'},
@@ -1947,11 +1942,11 @@ const RETIREMENT_REROLL_CODES=Object.values(RETIREMENT_REROLL_TICKETS).map(item=
 function defaultCubeSettings(){return {PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
 function cleanCubeSettings(raw={}){const base=defaultCubeSettings(),out={};for(const code of CUBE_CODES){out[code]={};for(const grade of Object.keys(base[code]))out[code][grade]=Math.max(0,Math.min(100,Number(raw?.[code]?.[grade]??base[code][grade])||0));const total=Object.values(out[code]).reduce((a,b)=>a+b,0);if(Math.abs(total-100)>.001)out[code]=base[code];}return out;}
 async function readCubeSettings(env){const row=await metaValue(env,'inventory_cube_settings_v1');try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
-async function cubeSettings(env){return cachedRuntimeSetting('cube',30000,()=>readCubeSettings(env))}
+async function cubeSettings(env){return cachedRuntimeSetting(env,'cube',30000,()=>readCubeSettings(env))}
 function defaultCubeDropSettings(){return {PREMIUM_CUBE:{pveEnabled:true,pveRate:1,pvpEnabled:true,pvpRate:1}};}
 function cleanCubeDropSettings(raw={}){const base=defaultCubeDropSettings(),out={};for(const code of CUBE_CODES){out[code]={pveEnabled:raw?.[code]?.pveEnabled!==false,pveRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pveRate??base[code].pveRate)||0)),pvpEnabled:raw?.[code]?.pvpEnabled===true,pvpRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pvpRate??base[code].pvpRate)||0))};}return out;}
 async function readCubeDropSettings(env){const row=await metaValue(env,'cube_drop_settings_v1072');try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
-async function cubeDropSettings(env){return cachedRuntimeSetting('cube-drop',10000,()=>readCubeDropSettings(env))}
+async function cubeDropSettings(env){return cachedRuntimeSetting(env,'cube-drop',10000,()=>readCubeDropSettings(env))}
 function cubeDropTotal(settings,source){const key=String(source).toLowerCase();return CUBE_CODES.reduce((sum,code)=>sum+(settings[code]?.[`${key}Enabled`]?Number(settings[code]?.[`${key}Rate`]||0):0),0)}
 function defaultCubeBoostSettings(){return {enabled:false,targetHighGradeCount:2,zeroCountMultiplier:1,oneCountMultiplier:1,pveEnabled:false,pvpEnabled:false,excludeAdmins:true,pityEnabled:false,pityStartWins:30,pityIncrementRate:0,pityMaxBonusRate:0};}
 function cleanCubeBoostSettings(){return defaultCubeBoostSettings();}
@@ -2057,7 +2052,7 @@ async function grantBattleCube(env,userId,source,referenceId,allowStandard=true)
 }
 
 async function readTowerSettings(env){const row=await metaValue(env,'tower_settings_v1');if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
-async function towerSettings(env){return cachedRuntimeSetting('tower',10000,()=>readTowerSettings(env))}
+async function towerSettings(env){return cachedRuntimeSetting(env,'tower',10000,()=>readTowerSettings(env))}
 
 // ── V1803 · 메인 로비 BGM ──────────────────────────────────────────────
 // 경매장 BGM 과 같은 사상: 음원은 CMS 가 단일 출처이고 코드에는 기본값만 둔다.
@@ -2111,7 +2106,7 @@ async function readLobbyBgmSettings(env){
   if(!row?.value)return cleanLobbyBgmSettings(LOBBY_BGM_DEFAULT);
   try{return cleanLobbyBgmSettings(JSON.parse(row.value))}catch{return cleanLobbyBgmSettings(LOBBY_BGM_DEFAULT)}
 }
-async function lobbyBgmSettings(env){return cachedRuntimeSetting('lobbyBgm',60000,()=>readLobbyBgmSettings(env))}
+async function lobbyBgmSettings(env){return cachedRuntimeSetting(env,'lobbyBgm',60000,()=>readLobbyBgmSettings(env))}
 function previousKstDate(date){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()-1);return new Date(d.getTime()+9*3600000).toISOString().slice(0,10);}
 
 const safeName=value=>(value||'').trim().slice(0,20);
@@ -6728,7 +6723,7 @@ async function handleRequest(context){
       // V1802-perf: 몬스터 목록은 전 유저 공통이고 거의 바뀌지 않는데, 전투 화면에 들어올 때마다
       // 매번 전체 조회를 돌고 있었다. 20초 공유 캐시로 대부분의 요청에서 이 왕복을 없앤다.
       // (관리자가 몬스터를 수정하면 최대 20초 뒤 반영된다)
-      const monstersPromise=cachedRuntimeSetting('pveMonsterList',20000,()=>env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all());
+      const monstersPromise=cachedRuntimeSetting(env,'pveMonsterList',20000,()=>env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all());
       const burningPromise=burningEventSettings(env),settingsPromise=battleSettings(env),maintenancePromise=maintenanceSettings(env);
       // 인증 실패로 조기 반환될 때 미처리 거부(unhandled rejection)가 되지 않게 막아둔다. 뒤에서 await 하면 예외는 그대로 전달된다.
       for(const pending of [monstersPromise,burningPromise,settingsPromise,maintenancePromise])pending.catch(()=>{});
@@ -8155,7 +8150,7 @@ async function handleRequest(context){
       if(request.method==='PATCH'){
         const payload=await readBody(request),clean=cleanBattleSettingsPayload({...before,engine:{...before.engine,singleHealerBonus:payload.singleHealerBonus||{}}},defaultBattleSettings());
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();
-        invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set(env,'battle',saved,1000);
         await writeAdminLog(env,admin,'SINGLE_HEALER_BALANCE_UPDATE','SETTINGS','battle_single_healer',before.engine?.singleHealerBonus,saved.engine?.singleHealerBonus);
         return json({ok:true,singleHealerBonus:saved.engine?.singleHealerBonus});
       }
@@ -8185,7 +8180,7 @@ async function handleRequest(context){
         const before=await battleSettings(env),nightmarePayload=Object.prototype.hasOwnProperty.call(payload.nightmare,'bossProfiles')?payload.nightmare:{...payload.nightmare,bossProfiles:before.nightmare?.bossProfiles||{}},nightmare=normalizeNightmareSettings(nightmarePayload);
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_nightmare_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(nightmare)).run();
         invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');
-        const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
+        const saved=await readBattleSettings(env);runtimeSettingsCache.set(env,'battle',saved,1000);
         if(JSON.stringify(saved.nightmare)!==JSON.stringify(nightmare))return json({error:'나이트메어 설정 저장 검증에 실패했습니다.',code:'NIGHTMARE_SETTINGS_VERIFY_FAILED'},500);
         await writeAdminLog(env,admin,'NIGHTMARE_SETTINGS_UPDATE','SETTINGS','battle_nightmare',before.nightmare,saved.nightmare);
         return json({ok:true,settings:saved,nightmare:saved.nightmare});
@@ -8194,7 +8189,7 @@ async function handleRequest(context){
         const before=await battleSettings(env),apocalypsePayload=Object.prototype.hasOwnProperty.call(payload.apocalypse,'monsterProfiles')?payload.apocalypse:{...payload.apocalypse,monsterProfiles:before.apocalypse?.monsterProfiles||{}},apocalypse=normalizeApocalypseSettings(preserveApocalypseUltimateSettings(apocalypsePayload,before.apocalypse));
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_apocalypse_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(apocalypse)).run();
         invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');
-        const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
+        const saved=await readBattleSettings(env);runtimeSettingsCache.set(env,'battle',saved,1000);
         if(JSON.stringify(saved.apocalypse)!==JSON.stringify(apocalypse))return json({error:'아포칼립스 설정 저장 검증에 실패했습니다.',code:'APOCALYPSE_SETTINGS_VERIFY_FAILED'},500);
         await writeAdminLog(env,admin,'APOCALYPSE_SETTINGS_UPDATE','SETTINGS','battle_apocalypse',before.apocalypse,saved.apocalypse);
         return json({ok:true,settings:saved,apocalypse:saved.apocalypse});
@@ -8206,11 +8201,11 @@ async function handleRequest(context){
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();
         invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');
         const saved=await readBattleSettings(env);
-        runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
+        runtimeSettingsCache.set(env,'battle',saved,1000);
         await writeAdminLog(env,admin,'ULTIMATE_SETTINGS_UPDATE','SETTINGS','battle_ultimate',before.ultimateRules,saved.ultimateRules);
         return json({ok:true,settings:saved,ultimateRules:saved.ultimateRules});
       }
-      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings,clean=cleanBattleSettingsPayload(x,base);const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});if(JSON.stringify(saved)!==JSON.stringify(clean))return json({error:'전투 설정 저장 후 재조회 값이 일치하지 않습니다.',code:'BATTLE_SETTINGS_VERIFY_FAILED'},500);await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,saved);return json({ok:true,settings:saved});}
+      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings,clean=cleanBattleSettingsPayload(x,base);const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set(env,'battle',saved,1000);if(JSON.stringify(saved)!==JSON.stringify(clean))return json({error:'전투 설정 저장 후 재조회 값이 일치하지 않습니다.',code:'BATTLE_SETTINGS_VERIFY_FAILED'},500);await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,saved);return json({ok:true,settings:saved});}
       if(request.method==='POST'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),power=Math.max(1,Math.floor(Number(payload.battlePower)||1)),reward=Math.max(0,Math.floor(Number(payload.rewardCoin)||0));if(!name)return json({error:'몬스터 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,ultimate_enabled,ultimate_name,ultimate_description,ultimate_trigger,ultimate_chance,ultimate_damage_percent,ultimate_max_uses,ultimate_target,ultimate_theme,ultimate_warning_text,ultimate_shake,ultimate_zoom,ultimate_media_url,ultimate_sound_url,ultimate_duration_ms,ultimate_volume_percent,ultimate_force_cast,ultimate_pve_damage_percent,ultimate_tower_damage_percent,monster_category,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(name,image,power,reward,payload.isBoss?1:0,1,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category|| (payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),normalizeMonsterPveTab(payload.pveTab,payload.isBoss?'HELL':'NORMAL'),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0).run();runtimeSettingsCache.delete('pveMonsterList');return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);if(payload.isActive===false){const deleted=await deleteBattleMonster(env,id);runtimeSettingsCache.delete('pveMonsterList');return json({ok:true,deleted})}await env.DB.prepare('UPDATE battle_monsters SET name=?,image_url=?,battle_power=?,reward_coin=?,is_boss=?,is_active=1,sort_order=?,ultimate_enabled=?,ultimate_name=?,ultimate_description=?,ultimate_trigger=?,ultimate_chance=?,ultimate_damage_percent=?,ultimate_max_uses=?,ultimate_target=?,ultimate_theme=?,ultimate_warning_text=?,ultimate_shake=?,ultimate_zoom=?,ultimate_media_url=?,ultimate_sound_url=?,ultimate_duration_ms=?,ultimate_volume_percent=?,ultimate_force_cast=?,ultimate_pve_damage_percent=?,ultimate_tower_damage_percent=?,monster_category=?,pve_tab=?,pve_display_order=?,pve_enabled=?,tower_enabled=?,tower_only=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(payload.name||'').trim().slice(0,40),String(payload.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(payload.battlePower)||1)),Math.max(0,Math.floor(Number(payload.rewardCoin)||0)),payload.isBoss?1:0,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category||(payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),normalizeMonsterPveTab(payload.pveTab,payload.isBoss?'HELL':'NORMAL'),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0,id).run();runtimeSettingsCache.delete('pveMonsterList');return json({ok:true});}
       if(request.method==='DELETE'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);const deleted=await deleteBattleMonster(env,id);runtimeSettingsCache.delete('pveMonsterList');return json({ok:true,deleted});}
@@ -9431,15 +9426,30 @@ async function handleRequest(context){
 //     statement 의 first / all / run 뿐임을 확인했지만,
 //     혹시 모를 다른 메서드는 Proxy 가 원본으로 그대로 넘긴다.
 const D1_RAW=Symbol('cnineRawD1Statement');
-function newD1Stats(){return {queries:0,batches:0,statements:0,ms:0}}
-function wrapD1Statement(raw,stats){
+const D1_SOURCE=Symbol('cnineD1Source');
+function newD1Stats(){return {queries:0,batches:0,statements:0,ms:0,slow:[]}}
+function recordD1Duration(stats,startedAt,sources){
+  const ms=Math.max(0,Date.now()-startedAt);stats.ms+=ms;
+  if(ms<250)return;
+  // Only verbs and relation names are logged: no bind values, SQL literals,
+  // session hashes, request bodies or player identifiers.
+  const operations=[...new Set(sources.map(source=>{
+    const sql=String(source||'').replace(/'(?:''|[^'])*'/g,'?');
+    const verb=sql.trim().match(/^\w+/)?.[0]?.toUpperCase()||'QUERY';
+    const tables=[...new Set([...sql.matchAll(/\b(?:FROM|JOIN|UPDATE|INTO)\s+([a-z_][a-z0-9_]*)/gi)].map(m=>m[1]))].slice(0,4);
+    return `${verb} ${tables.join(',')}`.trim();
+  }))].slice(0,4);
+  stats.slow.push({ms,operations});stats.slow.sort((a,b)=>b.ms-a.ms);stats.slow.length=Math.min(5,stats.slow.length);
+}
+function wrapD1Statement(raw,stats,source=''){
   const timed=async run=>{
     const startedAt=Date.now();
-    try{return await run()}finally{stats.ms+=Math.max(0,Date.now()-startedAt)}
+    try{return await run()}finally{recordD1Duration(stats,startedAt,[source])}
   };
   return {
     [D1_RAW]:raw,
-    bind:(...args)=>wrapD1Statement(raw.bind(...args),stats),
+    [D1_SOURCE]:source,
+    bind:(...args)=>wrapD1Statement(raw.bind(...args),stats,source),
     first:(...args)=>{stats.queries+=1;return timed(()=>raw.first(...args))},
     all:(...args)=>{stats.queries+=1;return timed(()=>raw.all(...args))},
     run:(...args)=>{stats.queries+=1;return timed(()=>raw.run(...args))},
@@ -9451,13 +9461,13 @@ function instrumentD1(db,stats){
   return new Proxy(db,{
     get(target,prop){
       if(prop===D1_RAW)return target;
-      if(prop==='prepare')return sql=>wrapD1Statement(target.prepare(sql),stats);
+      if(prop==='prepare')return sql=>wrapD1Statement(target.prepare(sql),stats,sql);
       if(prop==='batch')return statements=>{
         const list=Array.isArray(statements)?statements:[];
         stats.batches+=1;stats.statements+=list.length;
         const startedAt=Date.now();
         return Promise.resolve(target.batch(list.map(statement=>statement&&statement[D1_RAW]?statement[D1_RAW]:statement)))
-          .finally(()=>{stats.ms+=Math.max(0,Date.now()-startedAt)});
+          .finally(()=>{recordD1Duration(stats,startedAt,list.map(statement=>statement?.[D1_SOURCE]||''))});
       };
       const value=Reflect.get(target,prop,target);
       return typeof value==='function'?value.bind(target):value;
@@ -9555,7 +9565,7 @@ async function handleRequestWithDatabase(context){
   }
   const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
   pvpTiming?.mark('response');
-  if(durationMs>=2000)console.warn('SLOW_API_REQUEST',JSON.stringify({path:actionPath,method:request.method,status:response.status,durationMs,...(pvpTiming?{phases:pvpTiming.snapshot()}: {})}));
+  if(durationMs>=2000)console.warn('SLOW_API_REQUEST',JSON.stringify({path:actionPath,method:request.method,status:response.status,durationMs,slowDb:d1Stats.slow,...(pvpTiming?{phases:pvpTiming.snapshot()}: {})}));
   // V1792: D1 사용량을 응답에 노출한다. DevTools Network > Timing 에서 바로 보인다.
   headers.set('server-timing',`app;dur=${durationMs}, d1;dur=${d1Stats.ms};desc="${d1Stats.queries}q ${d1Stats.batches}b"${pvpTiming?', '+pvpTiming.serverTiming():''}`);
   headers.set('x-cnine-response-ms',String(durationMs));

@@ -1,5 +1,6 @@
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin} from './_account_rank.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
+import {createRequestSettingsCache} from './_request_settings_cache.js';
 const SETTINGS_KEY='escort_operation_settings_v1840';
 // V1840: 보상 구조가 '전체 클리어 일괄' → '구간별 적립' 으로 바뀌었다.
 //   기존 v1830 행에는 baseCoin=2,500,000 이 들어 있어서 그대로 읽으면
@@ -79,7 +80,7 @@ export function cleanEscortSettings(raw={}){
   };
 }
 
-let ensurePromise=null;
+const schemaReadyCache=createRequestSettingsCache();
 function schemaStatements(env){
   const postgres=env.DB?.dialect==='postgres',userIdType=postgres?'BIGINT':'INTEGER';
   const nowDefault=postgres?"to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')":'CURRENT_TIMESTAMP';
@@ -101,15 +102,29 @@ function schemaStatements(env){
   ];
 }
 async function ensure(env){
-  if(!ensurePromise)ensurePromise=(async()=>{
+  return schemaReadyCache.load(env,'escort-schema-v1840',1800000,async()=>{
+    // A cold isolate used to run seven DDL statements on every first status
+    // read, including ALTER TABLE's exclusive lock and a global catalog reset.
+    // Existing production relations need only this read-only readiness probe.
+    if(env.DB?.dialect==='postgres'){
+      const ready=await env.DB.prepare(`SELECT CASE WHEN
+        to_regclass('${RUN_TABLE}') IS NOT NULL AND to_regclass('${WEEKLY_TABLE}') IS NOT NULL
+        AND to_regclass('${RECEIPT_TABLE}') IS NOT NULL
+        AND (SELECT COUNT(*) FROM pg_index WHERE indisvalid AND indexrelid IN (
+          to_regclass('idx_pve_escort_active_user_v1830'),to_regclass('idx_pve_escort_runs_user_v1830'),
+          to_regclass('idx_pve_escort_receipts_user_v1830')))=3
+        AND EXISTS(SELECT 1 FROM pg_attribute WHERE attrelid=to_regclass('${RUN_TABLE}')
+          AND attname='reward_tickets' AND NOT attisdropped)
+        THEN 1 ELSE 0 END AS ready`).first();
+      if(Number(ready?.ready)===1)return true;
+    }
     const statements=schemaStatements(env);
     // PostgreSQL 호환 계층은 일반 D1 batch() 안의 DDL을 안전상 실행하지 않는다.
     // 신규 배포에서 relation이 빠졌을 때는 고정 DDL만 허용하는 execSchema()로 복구한다.
     if(env.DB?.dialect==='postgres'&&typeof env.DB.execSchema==='function')await env.DB.execSchema(statements);
     else await env.DB.batch(statements.map(sql=>env.DB.prepare(sql)));
     return true;
-  })().catch(error=>{ensurePromise=null;throw error});
-  return ensurePromise;
+  });
 }
 
 async function settings(env){
