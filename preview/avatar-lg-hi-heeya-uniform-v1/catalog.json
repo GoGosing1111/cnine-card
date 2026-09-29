@@ -1,0 +1,23 @@
+{
+  "code": "LG_HI_HEEYA",
+  "serial": "A-27",
+  "name": "LG 하이희야",
+  "call_sign": "LG HEEYA",
+  "role_label": "LG 클랜 제복",
+  "description": "화이트·블랙·마젠타 제복과 긴 머리의 LG 하이희야 아바타입니다. 선택한 로비 일러스트와 장비창 전신을 함께 적용합니다.",
+  "lobby_image": "preview/avatar-lg-hi-heeya-uniform-v1/assets/avatar-lg-hi-heeya-lobby-v2-1024.webp",
+  "lobby_mobile_image": "preview/avatar-lg-hi-heeya-uniform-v1/assets/avatar-lg-hi-heeya-lobby-v2-640.webp",
+  "equipment_image": "preview/avatar-lg-hi-heeya-uniform-v1/assets/avatar-lg-hi-heeya-equipment-v2-640.webp",
+  "accent": "#e55b9d",
+  "acquisition_type": "EVENT",
+  "coin_price": null,
+  "source_label": "LG 클랜 시즌 기간제 지급",
+  "source_detail": "클랜 시즌 3의 현재 LG 클랜 전원에게 시즌 종료까지 지급합니다. 만료: 2026-10-11 22:00 KST.",
+  "effect_type": "DROP_RATE_PERCENT",
+  "effect_value": 30,
+  "is_active": 1,
+  "is_public": 1,
+  "sale_enabled": 0,
+  "sort_order": 270,
+  "version": 1
+}

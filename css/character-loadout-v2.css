@@ -960,3 +960,7 @@
   .clv2-inventory-item,
   .clv2-tabs button { transition: none !important; }
 }
+
+/* LG Heeya: keep the approved slender full-body art above the readout. */
+.clv2-armory-stage[data-avatar-code='LG_HI_HEEYA'] .clv2-quartermaster.is-equipped-avatar { width: min(64%, 440px); height: 76%; bottom: 15%; }
+.clv2-armory-stage[data-avatar-code='LG_HI_HEEYA']::after { height: 16%; }

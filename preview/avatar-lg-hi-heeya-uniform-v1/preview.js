@@ -4,7 +4,7 @@ function renderLoadout(){
   loadout?.destroy?.();byId('avatarLoadoutReview').replaceChildren();
   loadout=window.SoopketmonCharacterLoadoutV2.create(byId('avatarLoadoutReview'),{
     assetBase:'../../',profile:{nickname:'LG 하이희야'},
-    data:{loadout:{},instances:[],titles:[],vehicles:[],bonuses:{},equippedAvatar:{code:'LG_HI_HEEYA_PREVIEW',name:'LG 하이희야',equipmentImage:'preview/avatar-lg-hi-heeya-uniform-v1/assets/avatar-lg-hi-heeya-equipment-v2-640.webp'}},
+    data:{loadout:{},instances:[],titles:[],vehicles:[],bonuses:{},equippedAvatar:{code:'LG_HI_HEEYA',name:'LG 하이희야',equipmentImage:'preview/avatar-lg-hi-heeya-uniform-v1/assets/avatar-lg-hi-heeya-equipment-v2-640.webp'}},
     request:async()=>{throw Error('아바타 리소스 미리보기입니다.');}
   });
 }

@@ -27,7 +27,7 @@ for(const width of [1024,640])await sharp(lobby).resize({width}).webp({quality:9
 const files={};for(const name of ['lobby-source-art-v1.png','lobby-source-art-v2.png','equipment-source-art-v2.png','lobby-v2-1024.webp','lobby-v2-640.webp','equipment-v2-640.webp']){
   const b=await readFile(file(name)),m=await sharp(b).metadata();files['avatar-lg-hi-heeya-'+name]={sha256:sha(b),bytes:b.length,width:m.width,height:m.height,hasAlpha:m.hasAlpha};
 }
-const result={status:'LOBBY_APPROVED_EQUIPMENT_REVIEW',currentVersion:2,name:'LG 하이희야',generator:'built-in image_gen',
+const result={status:'USER_RELEASE_AUTHORIZED',currentVersion:2,name:'LG 하이희야',generator:'built-in image_gen',
   approval:{date:'2026-09-30',quote:'이정도가 적당해',image:'assets/user-approved-lobby-reference.png',sha256:sha(await readFile(new URL('./assets/user-approved-lobby-reference.png',import.meta.url))),note:'User selected V2 including its physique, long hair and crossed-leg pose. No additional pose or body changes.'},
   reference:{path:'assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png',sha256:sha(await readFile(reference)),role:'Face reference; full body preservation superseded by user revision'},
   revision:'V1 rejected. V2 selected by the user after full-body slimming, longer hair and changed arm pose. Equipment cutout preserves the selected V2.',
