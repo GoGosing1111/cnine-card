@@ -51,7 +51,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   for(const {side,card}of entries){const art=adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
-   const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:card.cardId==='V-048'?300:['V-046',CRYVERN_CODE,BERKAN_CODE].includes(card.cardId)?380:card.cardId==='V-047'?320:260,x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
+   const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:card.cardId==='V-048'?300:['V-046',CRYVERN_CODE].includes(card.cardId)?380:card.cardId==='V-047'?320:260,x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
    Object.assign(a,{cardId:card.cardId,ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex,art,actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:card.maxHp,serverMaxShield:card.maxShield||0,startingShield:card.shield||0,startingMaxShield:card.maxShield||0,mercenaryRow:card,role:card.role});
    a.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);attachMercenaryArt(a,art);a.setShield(card.shield||0,card.maxShield||0);a.root.alpha=1;a.root.visible=card.hp>0;this.combatLayer.addChild(a.root);this.characters.push(a);this.mercenaries.push(a);
   }

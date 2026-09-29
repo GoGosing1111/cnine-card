@@ -36,7 +36,7 @@ async function boot(){
   const adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:1,battleSpritePending:0},cards:[manifest]});
   const art=adapter.resolveForConsumer('BATTLE_FIELD',manifest.code);if(!art)throw Error('전투 SD 누락');
   const [sd,cutin,assets]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(ROOT+'assets/source-art-preview.webp'),loadBerkanAssets(manifest)]);
-  merc=new BattleCharacter({id:'BERKAN_PREVIEW',name:'베르칸',team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:380,accent:0xffcd70});
+  merc=new BattleCharacter({id:'BERKAN_PREVIEW',name:'베르칸',team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:260,accent:0xffcd70});
   merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);engine.combatLayer.addChild(merc.root);engine.setFormationMercenaries([merc]);merc.root.alpha=1;merc.root.visible=true;
   const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY);fx=new BerkanAreaFX(engine,merc,targets,assets,manifest,plan(),update);
   $('play').onclick=()=>fx.playing?fx.pause():fx.play();$('restart').onclick=()=>{fx.seek(0);fx.play();};$('cancel').onclick=()=>fx.cancel();
