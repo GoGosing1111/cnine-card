@@ -1,7 +1,7 @@
 [
   {
     "code": "LOTTE_JOEUN",
-    "serial": "A-27",
+    "serial": "A-28",
     "name": "롯데 조은",
     "call_sign": "LOTTE JOEUN",
     "role_label": "롯데 클랜 유니폼",
@@ -19,11 +19,11 @@
     "is_active": 1,
     "is_public": 1,
     "sale_enabled": 0,
-    "sort_order": 270
+    "sort_order": 280
   },
   {
     "code": "LOTTE_NAMU_BONGSOON",
-    "serial": "A-28",
+    "serial": "A-29",
     "name": "롯데 나무늘봉순",
     "call_sign": "LOTTE NAMU BONGSOON",
     "role_label": "롯데 클랜 유니폼",
@@ -41,6 +41,6 @@
     "is_active": 1,
     "is_public": 1,
     "sale_enabled": 0,
-    "sort_order": 280
+    "sort_order": 290
   }
 ]

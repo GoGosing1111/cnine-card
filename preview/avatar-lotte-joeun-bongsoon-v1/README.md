@@ -19,8 +19,8 @@
 
 후속 “ㅇㅇ 장비창 ui 만들고 등록해”로 조은 V1과 봉순 V2를 승인했다. 이어 “옵션은 한복디임2 기준으로 다 맞추고 롯데 클랜 전체 클랜 시즌 종료까지 지급해”로 운영 등록과 지급을 확정했다.
 
-- A-27 `LOTTE_JOEUN` / 롯데 조은
-- A-28 `LOTTE_NAMU_BONGSOON` / 롯데 나무늘봉순
+- A-28 `LOTTE_JOEUN` / 롯데 조은
+- A-29 `LOTTE_NAMU_BONGSOON` / 롯데 나무늘봉순
 - 장비창 전신: `assets/avatar-lotte-joeun-equipment-source-art-v1.png`, `assets/avatar-lotte-bongsoon-equipment-source-art-v1.png`.
 - 내장 image_gen 원본 1024×1536 RGBA, 원래 생성 알파 보존. [조은 프롬프트](prompt-equipment-joeun-v1.md)·[봉순 프롬프트](prompt-equipment-bongsoon-v1.md).
 - `node preview/avatar-lotte-joeun-bongsoon-v1/build-assets.mjs`로 원본 해시·알파를 확인하고 기존 계약의 로비 1024/640 WebP, 장비창 640×1664 WebP를 만든다. 투명 여백 정리·균일 배율·패딩·압축만 적용한다.

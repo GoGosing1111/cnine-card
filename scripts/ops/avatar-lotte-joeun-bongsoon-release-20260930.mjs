@@ -68,4 +68,3 @@ export async function releaseLotteUniforms(db,{expectedSeasonId,expectedClanId,e
   return result;
  });
 }
-

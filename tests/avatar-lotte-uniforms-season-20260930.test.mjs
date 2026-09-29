@@ -89,7 +89,7 @@ test('changed or expired season refuses stale expiration without writing',async(
  }
 });
 test('occupied serial blocks new avatars and preserves existing catalog',async()=>{
- const {pg,db,plan,q}=await fixture();try{await q("UPDATE avatar_catalog_v1 SET serial='A-28' WHERE code='FM_DIMWOOS'");await assert.rejects(releaseLotteUniforms(db,plan),/already exists/);await absent(q);}finally{await pg.close();}
+ const {pg,db,plan,q}=await fixture();try{await q("UPDATE avatar_catalog_v1 SET serial='A-29' WHERE code='FM_DIMWOOS'");await assert.rejects(releaseLotteUniforms(db,plan),/already exists/);await absent(q);}finally{await pg.close();}
 });
 test('a failure in the second avatar grant rolls back the first avatar and every ownership row',async()=>{
  const {pg,db,plan,q}=await fixture();try{await q("ALTER TABLE avatar_user_ownership_v1 ADD CONSTRAINT second_avatar_failure CHECK(avatar_code<>'LOTTE_NAMU_BONGSOON' OR user_id<>2)");await assert.rejects(releaseLotteUniforms(db,plan),/second_avatar_failure/);await absent(q);}finally{await pg.close();}
@@ -97,4 +97,3 @@ test('a failure in the second avatar grant rolls back the first avatar and every
 test('audit failure rolls back both avatars, options, grants and receipt',async()=>{
  const {pg,db,plan,q}=await fixture();try{await q('ALTER TABLE admin_logs ADD CONSTRAINT audit_failure CHECK(admin_id<0)');await assert.rejects(releaseLotteUniforms(db,plan),/audit_failure/);await absent(q);}finally{await pg.close();}
 });
-

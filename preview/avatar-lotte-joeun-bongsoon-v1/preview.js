@@ -1,6 +1,6 @@
 try { localStorage.setItem('cnine_battle_sound','OFF'); } catch {}
 'use strict';
-const profiles={LOTTE_NAMU_BONGSOON:{name:'롯데 나무늘봉순',serial:'A-28',call:'LOTTE NAMU BONGSOON',stem:'avatar-lotte-bongsoon'},LOTTE_JOEUN:{name:'롯데 조은',serial:'A-27',call:'LOTTE JOEUN',stem:'avatar-lotte-joeun'}};
+const profiles={LOTTE_NAMU_BONGSOON:{name:'롯데 나무늘봉순',serial:'A-29',call:'LOTTE NAMU BONGSOON',stem:'avatar-lotte-bongsoon'},LOTTE_JOEUN:{name:'롯데 조은',serial:'A-28',call:'LOTTE JOEUN',stem:'avatar-lotte-joeun'}};
 let selected='LOTTE_NAMU_BONGSOON',view='gallery',loadout;
 const byId=id=>document.getElementById(id);
 function showAvatar(code){
@@ -20,4 +20,3 @@ for(const button of document.querySelectorAll('[data-avatar]'))button.addEventLi
 for(const button of document.querySelectorAll('button[data-background]'))button.addEventListener('click',()=>{byId('equipment-stage').dataset.background=button.dataset.background;for(const b of document.querySelectorAll('button[data-background]'))b.setAttribute('aria-pressed',String(b===button));});
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>{view=button.dataset.view;for(const b of document.querySelectorAll('[data-view]')){const active=b===button;b.setAttribute('aria-selected',String(active));byId(b.dataset.view+'-view').hidden=!active;}if(view==='loadout')renderLoadout();});
 showAvatar(selected);
-
