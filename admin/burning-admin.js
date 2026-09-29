@@ -148,6 +148,7 @@
       else{setState('burning',data.settings||{},nextActiveMode);if(data.otherSettings)setState('hyperBurning',data.otherSettings,nextActiveMode)}
       setSaveUi(hyper,settings.enabled?`저장 완료 · ${durationLabel(settings.durationMinutes)} 타이머가 시작되었습니다.`:'저장 완료 · 이벤트가 종료되었습니다.');
       try{localStorage.setItem(SYNC_KEY,JSON.stringify({at:Date.now(),mode:nextActiveMode,generation:Number(data.activeEvent?.generation||0)}))}catch{}
+      window.dispatchEvent(new Event('soop:burning-updated'));
       alert(settings.enabled?`${hyper?'하이퍼 버닝':'기존 버닝'}이 ${durationLabel(settings.durationMinutes)} 동안 발동되었습니다.`:`${hyper?'하이퍼 버닝':'기존 버닝'}이 OFF 되었습니다.`);
     }catch(error){
       if(error.name!=='AbortError'){
@@ -176,6 +177,7 @@
     setAccessUi(false,'OWNER 권한을 확인하는 중입니다.');
     $('#saveBurningEventBtn')?.addEventListener('click',()=>save(false));
     $('#saveHyperBurningEventBtn')?.addEventListener('click',()=>save(true));
+    window.addEventListener('soop:burning-updated',()=>void load());
     window.addEventListener('soop:cms-identity',event=>applyIdentity(event.detail||{}));
     document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(countdownTimer);countdownTimer=null}else{updateCountdownUi();if(accessAllowed)void load()}});
     if(globalThis.__SOOP_CMS_IDENTITY__)applyIdentity(globalThis.__SOOP_CMS_IDENTITY__);

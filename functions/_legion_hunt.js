@@ -4,6 +4,7 @@ import {legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUse
 import {claimLegionHuntReward} from './_legion_hunt_rewards.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {DAILY_ENTRIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
+import {readMiracleDropPercent,applyMiracleDropChance} from './_miracle_burning.js';
 const TTL=30*60*1000;
 const ACTIONS={start:['difficulty','version'],begin:['id'],reveal:['id','seq','seqs'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id']};
 export function legionHuntEntries(run,at,user){
@@ -89,7 +90,8 @@ export async function handleLegionHunt({path,request,env,deps}){
         const d=policy.difficulties.find(r=>r.id===body.difficulty);
         if(!d)throw jointError('HUNT_POLICY_UNAVAILABLE','난이도별 드랍 설정을 확인하세요.',503);
         const snapshot=await accountSnapshot(env,user,deps);
-        const session=(deps.createSession||createHuntSession)({snapshot,...body,now,dropPolicy:{dropChance:d.dropPercent/100,bossDropChance:d.bossDropPercent/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items}});
+        const miracleDropPercent=await readMiracleDropPercent(env);
+        const session=(deps.createSession||createHuntSession)({snapshot,...body,now,dropPolicy:{dropChance:applyMiracleDropChance(d.dropPercent,miracleDropPercent)/100,bossDropChance:applyMiracleDropChance(d.bossDropPercent,miracleDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items}});
         await saveRun(env,key,before.raw,{daily:before.run?.daily||null,expiresAt:now()+TTL,configRevision:policy.revision,liveRewards:access.liveRewards,state:session.exportState()});
         return {ok:true,id:session.id,payload:session.payload,entries,access,configRevision:policy.revision};
       }

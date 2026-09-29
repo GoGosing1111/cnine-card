@@ -74,7 +74,7 @@ test('PostgreSQL ownership, expiry and mode gates govern real reward rolls witho
     await t.test('request-owned promises share queries but a later request sees CMS changes',async()=>{
       queries=[];const request=fresh();
       assert.deepEqual(await Promise.all(Array.from({length:10},()=>resolveAvatarDropRate(request,1,10))),Array.from({length:10},()=>({base:10,percent:50,total:15})));
-      assert.equal(queries.length,2);
+      assert.equal(queries.length,3,'avatar settings, equipped effect and one request-scoped Miracle read');
       await pg.exec("UPDATE avatar_effect_options_v1 SET effect_value=100 WHERE avatar_code='HANBOK_DIIM'");
       assert.equal(await percent(),100);
       assert.equal(await avatarDropIncreasePercent(request,1),50);
@@ -98,11 +98,13 @@ test('PostgreSQL ownership, expiry and mode gates govern real reward rolls witho
     await t.test('real crystal rewards use boosted chance and preserve daily cap and idempotent replay',async()=>{
       const oldRandom=Math.random;Math.random=()=>.15;
       try{
+        await pg.query("INSERT INTO app_meta(key,value) VALUES('miracle_burning_event_settings_v1',$1)",[JSON.stringify({enabled:true,endsAt:new Date(Date.now()+3600000).toISOString()})]);
         const grant=referenceId=>resolveMagicCrystalReward(fresh(),{userId:1,source:'AVATAR_QA',referenceId,chance:10,amount:3,dailyLimit:5});
-        const first=await grant('one');assert.equal(first.chance,20);assert.equal(first.amount,3);
+        const first=await grant('one');assert.equal(first.chance,26);assert.equal(first.amount,3);
         const second=await grant('two');assert.equal(second.amount,2);assert.equal(second.limited,true);
         assert.equal((await grant('three')).amount,0);
         await pg.exec("UPDATE avatar_user_ownership_v1 SET expires_at='2000-01-01 00:00:00' WHERE user_id=1");
+        await pg.exec("UPDATE app_meta SET value='{}' WHERE key='miracle_burning_event_settings_v1'");
         assert.deepEqual(await grant('one'),first);
         assert.equal((await grant('four')).chance,10);
         assert.equal(Number((await pg.query('SELECT magic_crystals FROM users WHERE id=1')).rows[0].magic_crystals),5);

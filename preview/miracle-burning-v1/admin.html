@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>미라클 버닝 관리자 검수</title><link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../admin/admin-v945.css"><link rel="stylesheet" href="../../admin/hyper-burning-admin.css"><link rel="stylesheet" href="../../admin/miracle-burning-admin.css"><link rel="stylesheet" href="../../css/miracle-burning-v1.css">
+<style>body{display:block;padding:24px;margin:0;background:#060f1c;color:#d9f0ff}.qa-wrap{max-width:1180px;margin:0 auto}.qa-note{font-size:14px;line-height:1.8}.qa-switches{display:flex;gap:12px;flex-wrap:wrap}.qa-switches button{padding:10px;font:inherit}.burningCmsGrid{display:none}@media(max-width:700px){body{padding:12px}}</style>
+<script>
+localStorage.setItem('cnine_battle_sound','OFF');
+window.__SOOP_CMS_IDENTITY__={role:'OWNER',nickname:'핑크빛유두'};
+window.__miraclePreviewRequests=[];
+let previewSettings={mode:'MIRACLE',enabled:false,durationMinutes:60,battleRewardMultiplier:100,title:'숲켓몬 미라클 버닝이 발동되었습니다',generation:0};
+const originalFetch=window.fetch.bind(window);
+window.fetch=async(url,options={})=>{
+  if(!String(url).includes('api/admin/miracle-burning-event'))return originalFetch(url,options);
+  window.__miraclePreviewRequests.push(options.method||'GET');
+  if(options.method==='PATCH'){
+    const draft=JSON.parse(options.body).settings,now=Date.now();
+    previewSettings={...previewSettings,...draft,generation:previewSettings.generation+1,activatedAt:new Date(now).toISOString(),endsAt:draft.enabled?new Date(now+draft.durationMinutes*60000).toISOString():null};
+  }
+  return new Response(JSON.stringify({settings:previewSettings,serverNow:new Date().toISOString(),activeMode:previewSettings.enabled?'MIRACLE':'NONE'}),{headers:{'content-type':'application/json'}});
+};
+function previewIdentity(nickname){window.__SOOP_CMS_IDENTITY__={role:'OWNER',nickname};window.dispatchEvent(new CustomEvent('soop:cms-identity',{detail:window.__SOOP_CMS_IDENTITY__}))}
+</script>
+<script defer src="../../js/miracle-burning-v1.js"></script><script defer src="../../admin/miracle-burning-admin.js"></script></head>
+<body><div class="qa-wrap"><p class="qa-note">관리자 화면 검수 · 운영 서버에 저장되지 않습니다.</p><div class="qa-switches"><button onclick="previewIdentity('핑크빛유두')">전용 OWNER</button><button onclick="previewIdentity('다른 OWNER')">다른 OWNER</button></div><div class="burningCmsGrid"></div></div></body></html>

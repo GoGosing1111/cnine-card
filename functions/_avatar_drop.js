@@ -1,3 +1,4 @@
+import { readMiracleDropPercent,applyMiracleDropChance } from './_miracle_burning.js';
 const DROP_SCOPE = Symbol('avatarDropRequestScope');
 
 function chanceValue(value) {
@@ -14,7 +15,7 @@ export function applyAvatarDropRate(chance, increasePercent = 0) {
 // Each API request owns its promises. Sweeps and parallel reward paths share
 // one lookup without keeping ownership, expiry or operator changes globally.
 export function withAvatarDropScope(env) {
-  return { ...env, [DROP_SCOPE]: { settings: null, users: new Map() } };
+  return { ...env, [DROP_SCOPE]: { settings: null, miracle: null, users: new Map() } };
 }
 
 async function readMode(env, scope) {
@@ -58,5 +59,14 @@ export async function avatarDropIncreasePercent(env, userId) {
 export async function resolveAvatarDropRate(env, userId, chance) {
   const base = chanceValue(chance);
   if (base === 0 || base === 100) return applyAvatarDropRate(base);
-  return applyAvatarDropRate(base, await avatarDropIncreasePercent(env, userId));
+  const [avatarPercent,miraclePercent]=await Promise.all([avatarDropIncreasePercent(env,userId),miracleDropIncreasePercent(env)]);
+  const result=applyAvatarDropRate(base,avatarPercent);
+  return miraclePercent ? {...result,miraclePercent,total:applyMiracleDropChance(result.total,miraclePercent)} : result;
+}
+
+export async function miracleDropIncreasePercent(env) {
+  const scope=env[DROP_SCOPE];
+  if(!scope)return readMiracleDropPercent(env);
+  if(!scope.miracle)scope.miracle=readMiracleDropPercent(env);
+  return scope.miracle;
 }

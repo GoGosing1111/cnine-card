@@ -119,8 +119,11 @@ test('previously issued Hyper tickets retain server-wide 15x/60min activation an
 });
 test('active burning and unauthorized accounts cannot consume or overwrite activation',async()=>{
   const f=await fixture();f.sqlite.prepare('INSERT INTO cnine_user_inventory VALUES(?,?,1,1,NULL,NULL)').run(2,HYPER_TICKET);f.current.id=2;
-  f.sqlite.prepare('INSERT INTO app_meta VALUES(?,?,NULL)').run('burning_event_settings_v1',JSON.stringify({enabled:true,endsAt:new Date(Date.now()+600000).toISOString()}));
-  assert.equal((await f.call('hyper/activate',{requestId:crypto.randomUUID()})).body.code,'LAND_BURNING_ACTIVE');assert.equal(f.qty(HYPER_TICKET),1);
+  for(const key of ['burning_event_settings_v1','hyper_burning_event_settings_v1310','miracle_burning_event_settings_v1']){
+    f.sqlite.prepare('INSERT INTO app_meta VALUES(?,?,NULL)').run(key,JSON.stringify({enabled:true,endsAt:new Date(Date.now()+600000).toISOString()}));
+    assert.equal((await f.call('hyper/activate',{requestId:crypto.randomUUID()})).body.code,'LAND_BURNING_ACTIVE');assert.equal(f.qty(HYPER_TICKET),1);
+    f.sqlite.prepare('DELETE FROM app_meta WHERE key=?').run(key);
+  }
   f.current.id=20;assert.equal((await f.call('hyper/activate',{requestId:crypto.randomUUID()})).status,403);
 });
 test('prize bounds, amounts and weight validation are deterministic and server-only',()=>{

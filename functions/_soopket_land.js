@@ -21,7 +21,7 @@ const REDEEM_PRIZES=[...LAND_PRIZES,
  {key:'HIGH_GRADE_REROLL_TICKET',min:1,max:1,unit:1},
  {key:LAND_IYEJUN_PRIZE,min:1,max:1,unit:1}];
 const SCHEMA='soopketland_schema_v2039',SETTINGS='soopketland_settings_v2039';
-const BURNING=['burning_event_settings_v1','hyper_burning_event_settings_v1310'];
+const BURNING=['burning_event_settings_v1','hyper_burning_event_settings_v1310','miracle_burning_event_settings_v1'];
 const PREVIOUS_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK',HYPER_TICKET,'ZENITH_RANDOM_CARD','FUR_RANDOM_CARD','STARLIGHT_ARMOR_CORE'];
 const PREVIOUS_PRIZE_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK','STARLIGHT_ARMOR_CORE'];
 const defaults=()=>({weights:{COIN:12750,[SUPERSTAR_TICKET]:1500,MASTER_STAR:12750,STARLIGHT_ARMOR_CORE:3000}});
@@ -323,7 +323,7 @@ async function openGuaranteedSuperstar(db,user,body,deps){
 
 async function activateHyper(db,user,body,deps){
   const plan={multiplier:15,durationMinutes:60},prior=await replayAction(db,user,body.requestId,'HYPER',plan);if(prior)return prior;
-  const current=await rows(db,'SELECT key,value FROM app_meta WHERE key IN (?,?)',...BURNING),map=new Map(current.map(r=>[r.key,r.value]));
+  const current=await rows(db,'SELECT key,value FROM app_meta WHERE key IN (?,?,?)',...BURNING),map=new Map(current.map(r=>[r.key,r.value]));
   if(current.some(r=>{const c=parse(r.value);return c?.enabled&&Date.parse(c.endsAt)>Date.now()}))throw fail('현재 버닝이 진행 중입니다. 종료 후 사용하세요. 발동권은 보존됩니다.',409,'LAND_BURNING_ACTIVE');
   const timestamp=Date.now(),base=deps.cleanBurningEventSettings(parse(map.get(BURNING[1]),{}),'HYPER');
   const settings={...base,enabled:true,durationMinutes:60,battleRewardMultiplier:15,generation:Number(base.generation||0)+1,activatedAt:new Date(timestamp).toISOString(),endsAt:new Date(timestamp+3600000).toISOString(),updatedAt:new Date(timestamp).toISOString()};
@@ -331,7 +331,7 @@ async function activateHyper(db,user,body,deps){
   lockUser(db,list,user.id);guardUser(db,list,user.id);
   // Ensure both metadata rows exist before locks, then compare exact snapshots.
   for(const key of BURNING)list.push(stmt(db,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',key,map.get(key)||'{}'));
-  if(db.dialect==='postgres')list.push(stmt(db,'SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',...BURNING));
+  if(db.dialect==='postgres')list.push(stmt(db,'SELECT key FROM app_meta WHERE key IN (?,?,?) ORDER BY key FOR UPDATE',...BURNING));
   for(const key of BURNING)guard(db,list,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,map.get(key)||'{}']);
   inventoryDebit(db,list,user.id,HYPER_TICKET,body.requestId);
   list.push(stmt(db,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?',JSON.stringify(settings),BURNING[1]));

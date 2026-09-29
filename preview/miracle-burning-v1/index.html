@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>미라클 버닝 · 발동 화면 검수</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/burning-event-v1871.css"><link rel="stylesheet" href="../../css/miracle-burning-v1.css?v=20260929">
+<style>*{box-sizing:border-box}body{margin:0;background:#06152a;color:#dcf6ff;font-family:Pretendard,"Malgun Gothic",sans-serif}main{padding:36px;max-width:800px;margin:auto}#replay{padding:14px 24px;background:#92ddff;border:0;border-radius:6px;color:#052641;font-weight:800;cursor:pointer}.burning-notice-open{overflow:hidden!important}</style>
+<script>localStorage.setItem('cnine_battle_sound','OFF');</script><script defer src="../../js/miracle-burning-v1.js?v=20260929"></script>
+</head><body><main><p>SOOPKETMON / MIRACLE BURNING</p><h1>미라클 버닝 발동 화면</h1><p>운영과 동일한 이미지·CSS·팝업 코드를 재생합니다.</p><button id="replay">발동 연출 다시 보기</button></main>
+<script>
+const state={enabled:true,mode:'MIRACLE',title:'숲켓몬 미라클 버닝이 발동되었습니다',battleRewardMultiplier:100,endsAt:new Date(Date.now()+3600000).toISOString()};
+const remainingText=()=>{const s=Math.max(0,Math.ceil((Date.parse(state.endsAt)-Date.now())/1000));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':')+' 남음'};
+const show=()=>CNineMiracleBurning.show({state,remainingText,manual:true});
+document.getElementById('replay').onclick=show;window.addEventListener('DOMContentLoaded',show);
+setInterval(()=>document.querySelectorAll('[data-burning-countdown]').forEach(n=>n.textContent=remainingText()),1000);
+</script></body></html>
