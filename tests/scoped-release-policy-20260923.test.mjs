@@ -55,7 +55,7 @@ test('selected tests run once, guard follows them, and a failed test stops execu
   let invoked=0;assert.throws(()=>runScopedReleaseChecks({...f,run:()=>{invoked++;throw Error('failed test');},log:()=>{}}),/failed test/);assert.equal(invoked,1);
  }
 });
-test('actual deploy entry supports scoped checks and preserves cache guard before both uploads',()=>{
+test('actual deploy entry supports scoped checks and guards the regional service before Pages cutover',async()=>{
  const url=new URL('../scripts/deploy-production.mjs',import.meta.url);
  const source=readFileSync(url,'utf8').replace(/^import .*;\r?$/gm,'').replaceAll('import.meta.url',JSON.stringify(url.href));
  for(const platform of ['win32','linux'])for(const fail of [false,true]){
@@ -65,13 +65,15 @@ test('actual deploy entry supports scoped checks and preserves cache guard befor
    spawnSync:(command,args)=>{calls.push([command,...args]);return {status:fail&&args[0]==='--test'?1:0};},
    runScopedReleaseChecks:options=>runScopedReleaseChecks({...options,platform,execPath:'node',log:()=>{}}),
    verifyProductionHyperdriveCache:()=>calls.push(['cache guard']),
+   prepareApiRuntime:async()=>calls.push(['runtime credentials']),
    createRequire:()=>({resolve:()=>'/tools/wrangler/package.json'}),dirname:()=>'/tools/wrangler',join:(...p)=>p.join('/'),
    readFileSync:p=>{assert.equal(p,'package.json');return JSON.stringify({scripts:f.scripts});}};
-  if(fail){assert.throws(()=>runInNewContext(source,context),/exit 1/);assert.equal(calls.length,1);}
-  else{runInNewContext(source,context);assert.equal(calls.length,5);assert.deepEqual(calls[2],['cache guard']);assert.equal(calls[3][2],'pages');assert.equal(calls[4][2],'deploy');}
+  const execute=()=>runInNewContext('(async()=>{'+source+'\n})()',context);
+  if(fail){await assert.rejects(execute(),/exit 1/);assert.equal(calls.length,1);}
+  else{await execute();assert.equal(calls.length,7);assert.deepEqual(calls[2],['cache guard']);assert.equal(calls[3][2],'deploy');assert.deepEqual(calls[4],['runtime credentials']);assert.equal(calls[5][2],'pages');assert.equal(calls[6][2],'deploy');}
  }
 });
-test('policy-only commits do not block the next asset release, while dependencies still do',()=>{
+test('policy-only commits do not block the next asset release, while dependencies still do',async()=>{
  const url=new URL('../scripts/deploy-production.mjs',import.meta.url);
  const source=readFileSync(url,'utf8').replace(/^import .*;\r?$/gm,'').replaceAll('import.meta.url',JSON.stringify(url.href));
  for(const dependencies of [false,true]){
@@ -83,7 +85,8 @@ test('policy-only commits do not block the next asset release, while dependencie
    spawnSync:(command,args)=>{calls.push([command,...args]);return {status:0};},
    verifyProductionHyperdriveCache:()=>calls.push(['cache guard']),
    createRequire:()=>({resolve:()=>'/tools/wrangler/package.json'}),dirname:()=>'/tools/wrangler',join:(...p)=>p.join('/'),readFileSync:()=>JSON.stringify(current)};
-  if(dependencies){assert.throws(()=>runInNewContext(source,context),/Only deployment\/test/);assert.equal(calls.length,0);}
-  else{runInNewContext(source,context);assert.equal(calls.length,2);assert.deepEqual(calls[0],['cache guard']);assert.equal(calls[1][2],'pages');}
+  const execute=()=>runInNewContext('(async()=>{'+source+'\n})()',context);
+  if(dependencies){await assert.rejects(execute(),/Only deployment\/test/);assert.equal(calls.length,0);}
+  else{await execute();assert.equal(calls.length,2);assert.deepEqual(calls[0],['cache guard']);assert.equal(calls[1][2],'pages');}
  }
 });
