@@ -28,3 +28,11 @@
 - 최종 scoped 검사: `tests/avatar-drop-rate.test.mjs`의 PostgreSQL 쿼리 수·드랍·실지급/한도·재시도와 `tests/miracle-burning-20260929.test.mjs`의 상대 확률·요청 캐시·만료·권한/행동력 회귀. 관련 검사와 자동 Worker 컴파일·출시/캐시/Hyperdrive 조건 확인 후 지정 scoped 배포를 한 번 수행한다.
 - 운영 상태 변경/코인 지급/전투 실행은 하지 않는다. 이미지·UI는 바뀌지 않으므로 같은 화면 검수를 반복하지 않는다.
 - 원본 집계: `C:/Users/User/.codex/tmp/miracle-perf-20260929/tail-result.json`, `tail-detail-result.json`, `database-result.json`. 토큰·연결 문자열·요청 헤더를 저장하지 않았다.
+
+## 반영 완료 — 19:32 KST
+
+- 코드 커밋 `7c8845e0b9fc19be1a6614814d3c1a3ae0cf3dc8`, Pages `https://f3c5eb4f.cnine-card.pages.dev`로 지정 scoped 배포 완료. 관련 검사 18/18, Worker 구문/번들 컴파일 및 출시·Hyperdrive 검사를 통과했다.
+- public 상태 API HTTP 200, 미인증 전용 관리 API HTTP 401. 이 시점의 운영 상태는 HYPER ON/코인 15배/드랍 추가 0%였다. 점검 작업에서 운영 이벤트 설정은 한 번도 변경하지 않았다.
+- 19:31:51–19:32:11 KST 자연 트래픽 320건, outcome 오류 및 HTTP 5xx 0건. 변경 경로인 PVP 전투 6건/일반 전투 1건/소탕 1건 모두 성공했다. PVP 전투 서버 최대 964ms, 일반 전투 1,112ms, 소탕 1,156ms.
+- 운영 모드·시각·표본이 달라졌으므로 위 짧은 배포 후 결과를 미라클 ON의 개선폭이나 전체 렉 해소 증거로 사용하지 않는다. 확정한 개선은 요청당 불필요한 설정 조회 1회 제거다.
+- 배포 후 원본: `C:/Users/User/.codex/tmp/miracle-perf-20260929/tail-after-result.json`. 완료 기록은 문서 diff·커밋·원격 반영만 수행하며 재검사/재배포하지 않는다.
