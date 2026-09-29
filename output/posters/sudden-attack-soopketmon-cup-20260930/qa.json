@@ -1,0 +1,13 @@
+{
+  "width": 1024,
+  "height": 1536,
+  "titleText": "서든어택 숲켓몬배 대회",
+  "brandExact": true,
+  "officialLogo": true,
+  "lowerPanelPixelsUnchanged": true,
+  "fadeRows": [
+    530,
+    590
+  ],
+  "output": "sudden-attack-soopketmon-cup-poster-v1.png"
+}

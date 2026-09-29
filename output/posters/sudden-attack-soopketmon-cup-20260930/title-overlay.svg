@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536">
+<defs>
+ <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbd4"/><stop offset="0.42" stop-color="#ffe475"/><stop offset="1" stop-color="#efaa2a"/></linearGradient>
+ <filter id="glow" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<g text-anchor="middle" font-family="Noto Sans KR,Malgun Gothic,sans-serif">
+ <text x="514" y="292" font-size="23" font-weight="800" letter-spacing="2" fill="#050815" stroke="#050815" stroke-width="5" paint-order="stroke fill">서든어택</text>
+ <text x="512" y="290" font-size="23" font-weight="800" letter-spacing="2" fill="#f8f4dc">서든어택</text>
+ <path d="M350 284h57 M617 284h57" stroke="#e7c964" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+ <text x="518" y="363" font-size="54" font-weight="900" letter-spacing="-2" fill="#030413" stroke="#030413" stroke-width="16" paint-order="stroke fill" opacity=".95">숲켓몬배 대회</text>
+ <text x="512" y="357" font-size="54" font-weight="900" letter-spacing="-2" fill="#6a3c95" filter="url(#glow)" opacity=".68">숲켓몬배 대회</text>
+ <text x="512" y="357" font-size="54" font-weight="900" letter-spacing="-2" fill="url(#gold)" stroke="#170b2d" stroke-width="8" paint-order="stroke fill">숲켓몬배 대회</text>
+</g></svg>
