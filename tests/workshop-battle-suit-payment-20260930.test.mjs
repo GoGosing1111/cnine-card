@@ -9,7 +9,7 @@ const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
 const core={item_code:'SUIT_CORE_5',item_name:'슈트 코어 5',image_url:'assets/items/suit-core-5-v2124.png',quantity:10};
 const recipes=[
- {id:521,name:'배틀슈트 05 제작',category:'BATTLE_SUIT_CRAFT',payment_mode:'COIN_OR_MASTER_STAR',output_name:'S-BODY',output_image:'assets/items/s-body-v2124.png',output_rarity:'NORMAL',output_pve:1500000,output_pvp:0,success_rate:10,coin_cost:100000000000,master_star_cost:1000000,materials:[core]},
+ {id:521,name:'배틀슈트 05 제작',category:'BATTLE_SUIT_CRAFT',payment_mode:'BOTH',output_ref:'47',output_name:'S-BODY',output_image:'assets/items/s-body-v2124.png',output_rarity:'NORMAL',output_pve:1500000,output_pvp:0,success_rate:10,coin_cost:100000000000,master_star_cost:1000000,materials:[core]},
  {id:81,name:'배틀슈트 01 제작',category:'BATTLE_SUIT_CRAFT',payment_mode:'BOTH',output_name:'E-BODY',output_image:'assets/items/e-body-v2004.png',output_rarity:'NORMAL',output_pve:200000,output_pvp:0,success_rate:50,coin_cost:500000000,master_star_cost:10000,materials:[{...core,item_code:'SUIT_CORE_1',item_name:'슈트 코어 1',image_url:'assets/items/suit-core-1-v2004.png',quantity:1}]}
 ];
 const state={wallet:{coin:150000000000,cardShards:0,masterStars:1500000},inventory:{SUIT_CORE_5:{quantity:10},SUIT_CORE_1:{quantity:1}},recipes,synthesis:[]};
@@ -18,7 +18,7 @@ window.apiRequest=async(path,options={})=>{const response=await fetch('/api/'+pa
 window.loadUser=()=>null;window.saveUser=()=>{};
 </script><script src="/js/workshop-recipes-v1.js"></script><script src="/js/workshop-v1881.js"></script><script>document.getElementById('app').innerHTML=window.workshopView(null);window.bindWorkshopView();</script></body></html>`;
 
-test('S-BODY uses the CMS-selected coin or star payment; combined suits keep both',async()=>{
+test('S-BODY shows and submits both coin and star costs on desktop and mobile; retry preserves the request',async()=>{
  const posts=[];
  let busyNextPost=false;
  const server=createServer(async(req,res)=>{
@@ -45,8 +45,8 @@ test('S-BODY uses the CMS-selected coin or star payment; combined suits keep bot
  const browser=await chromium.launch({channel:'chrome',headless:true});
  try{
   for(const scenario of [
-   {width:1440,height:1000,recipe:521,payment:'COIN',shown:['SUIT CORE','COIN'],omitted:'MASTER STAR'},
-   {width:390,height:844,recipe:521,payment:'MASTER_STAR',shown:['SUIT CORE','MASTER STAR'],omitted:'COIN'},
+   {width:1440,height:1000,recipe:521,payment:'BOTH',shown:['SUIT CORE','COIN','MASTER STAR']},
+   {width:390,height:844,recipe:521,payment:'BOTH',shown:['SUIT CORE','COIN','MASTER STAR']},
    {width:1440,height:1000,recipe:81,payment:'BOTH',shown:['SUIT CORE','COIN','MASTER STAR']}
   ]){
    const page=await browser.newPage({viewport:{width:scenario.width,height:scenario.height},serviceWorkers:'block'}),dialogs=[],errors=[];
@@ -56,12 +56,10 @@ test('S-BODY uses the CMS-selected coin or star payment; combined suits keep bot
     await page.goto(origin,{waitUntil:'domcontentloaded'});
     await page.locator('[data-ws-section="BATTLE_SUIT_CRAFT"]').click();
     await page.locator(`[data-suit-recipe="${scenario.recipe}"]`).click();
-    if(scenario.payment==='MASTER_STAR')await page.locator('[data-suit-pay="MASTER_STAR"]').click();
     const labels=await page.locator('.ws81-suit-costs article small').allTextContents();
     assert.deepEqual(labels,scenario.shown);
-    if(scenario.omitted)assert.ok(!labels.includes(scenario.omitted));
     assert.equal(await page.locator('#wsBattleSuitCraft').isEnabled(),true);
-    assert.equal(await page.locator('[data-suit-pay]').count(),scenario.payment==='BOTH'?0:2);
+    assert.equal(await page.locator('[data-suit-pay]').count(),0);
     const overflow=await page.locator('.ws81-suit-craft').evaluate(el=>el.scrollWidth-el.clientWidth);
     assert.ok(overflow<=1,`${scenario.width}px suit panel must not overflow`);
     if(process.env.WORKSHOP_PAYMENT_QA_DIR){mkdirSync(process.env.WORKSHOP_PAYMENT_QA_DIR,{recursive:true});await page.screenshot({path:join(process.env.WORKSHOP_PAYMENT_QA_DIR,`${scenario.width}-${scenario.recipe}-${scenario.payment}.png`),fullPage:true})}
@@ -73,7 +71,7 @@ test('S-BODY uses the CMS-selected coin or star payment; combined suits keep bot
     assert.equal(posts.at(-1).paymentType,scenario.payment);
     assert.equal(posts.at(-1).recipeId,scenario.recipe);
     assert.equal(dialogs.filter(row=>row.type==='alert').length,0);
-    assert.ok(dialogs.some(row=>row.type==='confirm'&&row.message.includes(scenario.payment==='MASTER_STAR'?'마스터의 별': '코인')));
+    assert.ok(dialogs.some(row=>row.type==='confirm'&&row.message.includes('코인')&&row.message.includes('마스터의 별')));
    }finally{await page.close()}
   }
   const retryPage=await browser.newPage({viewport:{width:1440,height:1000},serviceWorkers:'block'});
@@ -82,7 +80,6 @@ test('S-BODY uses the CMS-selected coin or star payment; combined suits keep bot
    await retryPage.goto(origin,{waitUntil:'domcontentloaded'});
    await retryPage.locator('[data-ws-section="BATTLE_SUIT_CRAFT"]').click();
    await retryPage.locator('[data-suit-recipe="521"]').click();
-   await retryPage.locator('[data-suit-pay="MASTER_STAR"]').click();
    busyNextPost=true;
    const before=posts.length;
    await retryPage.locator('#wsBattleSuitCraft').click();
@@ -92,7 +89,7 @@ test('S-BODY uses the CMS-selected coin or star payment; combined suits keep bot
    await retryPage.locator('.ws81-suit-result').waitFor({state:'attached'});
    assert.equal(posts.length,before+2);
    assert.equal(posts.at(-1).requestId,posts.at(-2).requestId);
-   assert.equal(posts.at(-1).paymentType,'MASTER_STAR');
+   assert.equal(posts.at(-1).paymentType,'BOTH');
   }finally{await retryPage.close()}
  }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
 });

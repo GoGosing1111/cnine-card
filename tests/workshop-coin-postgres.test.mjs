@@ -226,6 +226,40 @@ for (const { cost, output, success } of [
   });
 }
 
+test('S-BODY spends 100 billion coin and 1 million stars together, rejects stale choice, and replays once', async t => {
+  const f = await fixture({ cost: 100000000000, output: 'EQUIPMENT' });
+  t.mock.method(Math, 'random', () => 0);
+  try {
+    await f.pg.exec(`
+      INSERT INTO character_equipment_items(id,name,slot) VALUES(47,'S-BODY','BATTLE_SUIT');
+      INSERT INTO inventory_items(code,name) VALUES('SUIT_CORE_5','슈트 코어 5');
+      INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'SUIT_CORE_5',20,20);
+      UPDATE cnine_user_inventory SET quantity=2000000,unseen_quantity=2000000 WHERE user_id=1 AND item_code='MASTER_STAR';
+      UPDATE workshop_recipes_v1668 SET code='WORKSHOP_NEW_1790584013750',output_ref='47',master_star_cost=1000000,payment_mode='COIN_OR_MASTER_STAR' WHERE id=1;
+      DELETE FROM workshop_recipe_materials_v1668 WHERE recipe_id=1;
+      INSERT INTO workshop_recipe_materials_v1668(recipe_id,item_code,quantity) VALUES(1,'SUIT_CORE_5',10);
+    `);
+    await assert.rejects(f.craft('sbody-wrong-mode', { paymentType: 'COIN' }), /S-BODY 제작 결제 설정/);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM workshop_craft_receipts_v1668')).n), 0);
+    await f.pg.exec("UPDATE workshop_recipes_v1668 SET payment_mode='BOTH' WHERE id=1");
+    await assert.rejects(f.craft('sbody-stale-choice', { paymentType: 'COIN' }), /코인과 마스터의 별을 모두 사용/);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM workshop_craft_receipts_v1668')).n), 0);
+    const first = await f.craft('sbody-both', { paymentType: 'BOTH' });
+    const replay = await f.craft('sbody-both', { paymentType: 'BOTH' });
+    assert.equal(first.success, true);
+    assert.equal(first.coinSpent, 100000000000);
+    assert.equal(first.masterStarSpent, 1000000);
+    assert.equal(first.state.wallet.coin, 100000000000);
+    assert.equal(first.state.wallet.masterStars, 1000000);
+    assert.equal(first.state.inventory.SUIT_CORE_5.quantity, 10);
+    assert.equal(replay.replayed, true);
+    assert.deepEqual(replay.state.wallet, first.state.wallet);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_equipment_instances WHERE equipment_id=47')).n), 1);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n), 1);
+    assert.equal(Number((await f.row("SELECT COUNT(*) n FROM inventory_logs WHERE item_code='MASTER_STAR' AND reason='WORKSHOP_PAYMENT'")).n), 1);
+  } finally { await f.close(); }
+});
+
 test('post-debit SQL failure rolls back large coin, stars, materials, output and logs', async t => {
   const f = await fixture();
   t.mock.method(Math, 'random', () => 0);

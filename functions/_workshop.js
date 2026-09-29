@@ -246,9 +246,13 @@ function paymentFor(recipe,requested){
   const mode=String(recipe.payment_mode||'COIN_OR_MASTER_STAR').toUpperCase(),choice=String(requested||'').toUpperCase();
   const fixed=FIXED_RECIPE_COSTS[String(recipe.code||'').toUpperCase()];
   if(fixed)return {type:'COIN_AND_CARD_SHARD',coin:Number(fixed.coin||0),stars:0,shards:Number(fixed.cardShards||0)};
+  if(recipe.category==='BATTLE_SUIT_CRAFT'&&String(recipe.output_ref)==='47'&&mode!=='BOTH')throw new Error('S-BODY 제작 결제 설정을 확인 중입니다. 잠시 후 다시 시도하세요.');
   if(mode==='COIN_ONLY')return {type:'COIN',coin:Number(recipe.coin_cost||0),stars:0,shards:0};
   if(mode==='MASTER_STAR_ONLY')return {type:'MASTER_STAR',coin:0,stars:Number(recipe.master_star_cost||0),shards:0};
-  if(mode==='BOTH')return {type:'BOTH',coin:Number(recipe.coin_cost||0),stars:Number(recipe.master_star_cost||0),shards:0};
+  if(mode==='BOTH'){
+    if(choice&&choice!=='BOTH')throw new Error('코인과 마스터의 별을 모두 사용하는 제작입니다. 제작소를 새로고침한 뒤 다시 시도하세요.');
+    return {type:'BOTH',coin:Number(recipe.coin_cost||0),stars:Number(recipe.master_star_cost||0),shards:0};
+  }
   if(mode==='COIN_AND_CARD_SHARD')return {type:'COIN_AND_CARD_SHARD',coin:Number(recipe.coin_cost||0),stars:0,shards:Number(recipe.card_shard_cost||0)};
   if(!['COIN','MASTER_STAR'].includes(choice))throw new Error('코인 또는 마스터의 별 결제 방식을 선택하세요.');
   return choice==='COIN'?{type:'COIN',coin:Number(recipe.coin_cost||0),stars:0,shards:0}:{type:'MASTER_STAR',coin:0,stars:Number(recipe.master_star_cost||0),shards:0};

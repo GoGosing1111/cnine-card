@@ -67,6 +67,15 @@ test('배틀슈트 제작은 기존 원자 제작 영수증을 재사용하고 �
   assert.match(admin,/option\('BATTLE_SUIT_CRAFT','배틀슈트 제작'/);
 });
 
+test('S-BODY는 코인과 마스터의 별을 함께 차감하며 낡은 선택 요청을 거부한다',()=>{
+  const {paymentFor}=__workshopBattleSuitTest;
+  const recipe={category:'BATTLE_SUIT_CRAFT',output_ref:'47',payment_mode:'BOTH',coin_cost:100_000_000_000,master_star_cost:1_000_000};
+  assert.deepEqual(paymentFor(recipe,'BOTH'),{type:'BOTH',coin:100_000_000_000,stars:1_000_000,shards:0});
+  assert.throws(()=>paymentFor(recipe,'COIN'),/코인과 마스터의 별을 모두 사용/);
+  assert.throws(()=>paymentFor(recipe,'MASTER_STAR'),/코인과 마스터의 별을 모두 사용/);
+  assert.throws(()=>paymentFor({...recipe,payment_mode:'COIN_OR_MASTER_STAR'},'COIN'),/S-BODY 제작 결제 설정/);
+});
+
 test('인벤토리와 프라임 CMS가 같은 코어 카탈로그를 사용하되 풀은 자동 활성화하지 않는다',()=>{
   const api=read('functions/api/[[path]].js'),prime=read('functions/_prime_draw.js'),cms=read('admin/prime-draw-admin-v1986.js');
   assert.match(api,/await ensureBattleSuitCoreCatalog\(env\)/);
