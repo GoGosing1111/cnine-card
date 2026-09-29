@@ -1,0 +1,84 @@
+{
+  "title": "롯데 조은 · 롯데 나무늘봉순",
+  "createdDate": "2026-09-30",
+  "status": "SOURCE_ART_PREVIEW_USER_REVIEW_PENDING",
+  "generator": "built-in image_gen",
+  "scope": "Two individual full-body lobby avatar source-art previews",
+  "current": {
+    "joeun": "assets/avatar-lotte-joeun-lobby-source-art-v1.png",
+    "bongsoon": "assets/avatar-lotte-bongsoon-lobby-source-art-v2.png"
+  },
+  "originalGeneratedFiles": [
+    "exec-d04ef308-64e4-470f-aa91-50a62178ae9e.png",
+    "exec-e21faf3c-5a52-4b73-b894-ee5aee4a5ac9.png",
+    "exec-b52276d3-3bd4-4dd3-8ecd-2a050586b808.png"
+  ],
+  "prompts": [
+    "prompt-joeun-v1.md",
+    "prompt-bongsoon-v1.md",
+    "prompt-bongsoon-v2.md"
+  ],
+  "files": [
+    {
+      "path": "assets/avatar-lotte-joeun-lobby-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "bytes": 2540713,
+      "sha256": "84f0bda5e9b6343cbb6912794cb957bc32d0dd2e9cccafa5af9c65741e86442f"
+    },
+    {
+      "path": "assets/avatar-lotte-bongsoon-lobby-source-art-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "bytes": 2477205,
+      "sha256": "44557fbe0b10eb5806c56821a7edef7decaf5d0163aef7ebf52935c1a443cdfd"
+    },
+    {
+      "path": "assets/avatar-lotte-bongsoon-lobby-source-art-v2.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "bytes": 2388694,
+      "sha256": "5f324918a693368bf05334eddb68a0f31546d03df192cff91860e9dfd800a536"
+    }
+  ],
+  "references": [
+    {
+      "path": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png",
+      "sha256": "1a62f03fbb7c0c28e2e41725066dd6bf8c9d10f302f9f841a99ee68cebcb1307"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png",
+      "sha256": "3969303830fca578714db6f47839fee789bc0e64926f97bb20b56f8959d56cf5"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png",
+      "sha256": "4203d153549d0c5d13f6712bd6aba3424a4866c12963be823154a78f09df6313"
+    },
+    {
+      "path": "preview/avatar-namu-bongsoon-v1/assets/avatar-namu-bongsoon-lobby-source-art-v1.png",
+      "sha256": "c05f7e73ed588dd38b7ac7cc3cf311c5b139e52817073583822526a20d9e6728"
+    },
+    {
+      "path": "preview/avatar-lotte-ayoon-v1/assets/avatar-lotte-ayoon-lobby-source-art-v1.png",
+      "sha256": "0e6f04d91511f570a87d1f121326aa460c916056af725930c88d16e7eb2a2df9"
+    },
+    {
+      "path": "assets/ui/clan/marks/source/lotte-clan-mark-source-v1.png",
+      "sha256": "124bdfb16923a27fb437c0ae557f0041cb08435160fcde7ddec11ba8bb6809a7"
+    }
+  ],
+  "visualReview": {
+    "fullBody": true,
+    "bothShoesInsideCanvas": true,
+    "distinctReferenceFaces": true,
+    "matchingCreamBurgundyLotteUniform": true,
+    "shortFittedPencilSkirts": true,
+    "bodyAndClothingInspected": true,
+    "bongsoonPoseV2": "Torso turned, both hands behind back, legs uncrossed; same face and costume"
+  },
+  "runtimeRegistration": false,
+  "equipmentSpritesCreated": false
+}

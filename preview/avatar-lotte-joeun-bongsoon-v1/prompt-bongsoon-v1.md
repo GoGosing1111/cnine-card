@@ -1,0 +1,21 @@
+Use case: identity-preserve / character costume redesign.
+Create ONE polished full-body LOTTE NAMU-NEUL BONGSOON clan avatar portrait for the Korean fantasy game Soopketmon. An adult illustrated character. Portrait exact 1024 x 1536 PNG, 2:3.
+
+REFERENCE ROLES, important:
+1. NURSE BONGSUN is the primary face anchor: preserve this SAME ADULT woman's distinct face, eyes, nose, lips, softly rounded youthful-adult cheeks, warm brown eyes, wispy straight bangs, dark chestnut long flowing hair and a small gold floral hairpin. Preserve the recognizable face and the beautiful sophisticated 2D painted finish. Change only costume, pose and scene.
+2. NAMU BONGSOON'S APPROVED WHITE-DRESS AVATAR is additional identity and full-body proportions reference: retain the soft fuller cheek contour, gentle facial structure, long legs, elegant slim waist and full-length lobby portrait treatment. Do not turn her face into the character in image 4.
+3. MANGISA is the SAME character's approved mercenary face reference. Reinforce her distinctive eyes, soft cheek/jaw contour, bangs and gold floral hairpin. Do not copy the red qipao, weapon, eastern architecture or its cropped framing.
+4. The LOTTE JOEUN uniform avatar is ONLY the EXACT MATCHING UNIFORM design and clan art-direction reference. Copy its tailored cream short-sleeved blouse, burgundy notched collar and cuffs, burgundy shoulder tabs, fine gold buttons and seam piping, small white seagull/navy/gold chest crest, high-waisted fitted burgundy pencil MINISKIRT with two waistband gold buttons and narrow vertical gold lines, cream closed-toe high heels with burgundy heel backs and narrow gold ankle straps. Do NOT copy Joeun's face, low ponytail or body pose. Bongsoon must be visibly her own recognizable character.
+5. The last image is the real LOTTE CLAN CREST: a white spread-wing seagull, ocean waves and lighthouse over navy shield with burgundy and gold details. Reproduce its motifs as the small embroidered left-chest patch and one background clan banner. No words are needed.
+
+KEY USER REQUIREMENTS:
+A beautiful LOTTE clan uniform and a SHORT, TIGHT MINISKIRT. Skirt must be a smooth short pencil/tube cut closely fitted around hips and upper thighs, with the same short upper-thigh hem as reference 4. No pleats, no flared hem, no long skirt. Opaque tailored fabric and fully covering clothing, natural adult anatomy. Keep the rich cream/burgundy/gold clan palette. Blouse modestly open at the collar, not a plunging cut.
+
+ONE ADULT CHARACTER, FULL BODY:
+Tall elegant adult build with long slender legs, natural proportions, same fine body silhouette as the approved avatar in reference 2. Long black-chestnut hair with airy straight bangs falling behind the shoulders and over ONE shoulder; small delicate gold floral hairpin near her right temple. A composed, softly confident expression with her distinct face readable.
+Natural graceful standing three-quarter pose looking toward the viewer: one hand lightly tucks a loose hair strand near the shoulder, the other relaxed at her side with correct natural five fingers. Gentle weight shift and one knee slightly relaxed, both complete legs and shoes clearly readable without extreme crossing. Camera around torso height, no low angle. Entire head, hair, both hands, heels and toes inside canvas, roughly 4% top/bottom margin, no cropping. Face about the same scale as reference 4.
+
+SCENE:
+The same luxurious LOTTE maritime clan residence, but a distinct sunlit harbor-side gallery angle: ivory marble pillars, subtle brass details, a blue harbor and distant sailboat glimpsed at left, a single burgundy banner with the seagull crest at right, warm early-afternoon window light. Background restrained, slightly soft, lower contrast than the character. Finished high-end semi-realistic 2D Korean game illustration with smooth painterly face/skin, beautiful expressive eyes and crisp tailored fabric exactly consistent with references 1-4. No photoreal fashion shoot, no plastic 3D skin, no chibi, no generic different face.
+
+Remove all nurse and mercenary props: no nurse cap, medical cross, stethoscope, syringe, ampoule, case, gun or qipao. No stockings or gloves. No text, names, ranks, frame, UI, watermark, extra people, split screen, inset or montage. ONE finished individual full-body lobby avatar image.

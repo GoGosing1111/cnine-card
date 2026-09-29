@@ -1,0 +1,12 @@
+Use case: pose edit / strict identity preserve.
+Edit this existing LOTTE BONGSOON adult avatar illustration. Change ONLY her body pose as described below; preserve her exact recognizable illustrated face, eyes, nose, lips, soft cheeks, expression, bangs, long dark chestnut hair, small gold floral hairpin, adult body build, costume, palette, shoes, clan crest, background architecture and overall polished semi-realistic 2D game painting.
+
+NEW POSE:
+A poised adult clan representative standing with BOTH HANDS gently joined BEHIND HER LOWER BACK. Her shoulders are relaxed and naturally open, elbows lightly bent and visible beside the waist, the hands themselves mostly hidden behind the back. Neither hand touches her hair or head. Her torso turns about 20 degrees toward the viewer's right while her head turns naturally back to look at the viewer, keeping the same clear face identity and gently confident expression. Upright balanced posture, no exaggerated back arch or chest thrust.
+Her legs are NOT crossed: support her weight on the farther leg, put the nearer foot a small natural step forward and to the side, toes angled gently outward, with a small visible gap between the legs and both complete shoes clearly separated on the same floor. Knees and ankles natural, keep the original long slender adult proportions. Elegant relaxed contrapposto, no dramatic or sexual pose.
+
+LOCKED DESIGN:
+Exactly the same tailored cream short-sleeved uniform blouse with burgundy notched collar, cuffs and shoulder tabs, gold piping/buttons, seagull crest on her left chest. Exactly the same short tight high-waisted burgundy pencil miniskirt with two waistband buttons and vertical fine gold trim, same hem length and fit, opaque fabric. Exactly the same cream closed-toe heels with burgundy heel backs and thin gold ankle straps. Keep the long hair arranged mostly behind the shoulders and down one side so the face, crest and new arm outline are visible. Do not change face, slim adult silhouette, skin color or clothing fit.
+Retain the same LOTTE harbor hall setting, burgundy crest banner, pale marble, harbor view and warm daylight. Adjust only local occlusion and floor contact shadows required by the new stance.
+
+Finished single full-body portrait, exact 1024 x 1536, whole head, hair and both shoes inside frame. Same composition scale and refined illustrated rendering as the source. No cropping, no extra props or people, no text, frame, watermark, montage or inset. A single updated avatar illustration, not before/after.
