@@ -3,10 +3,51 @@ import {CLAN_RANKED_TEAMS_SQL} from './_clan_ranking.js';
 
 const SCHEMA='territory_clan_warfare_20260923_v1';
 export const TERRITORY_SKILL_COOLDOWN_MS=45*60*1000;
+export const TERRITORY_CLAN_WIN_POINTS=2;
 const rows=result=>result?.results||[];
 const ms=value=>Date.parse(String(value||'').includes('T')?value:String(value||'').replace(' ','T')+'Z');
 const fail=(message,status=409)=>{throw Object.assign(new Error(message),{status})};
 export const isClanWarfare=round=>Number(round?.warfare_version||0)===4;
+
+// The round close, four league-score increments and the round receipt commit
+// together. Automatic victories and admin judgments both use this boundary.
+export async function finishTerritoryClanRound(env,round,winner){
+  if(!isClanWarfare(round)||!['A','B'].includes(winner))return env.DB.prepare("UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND settled_at IS NULL").bind(winner,round.id).run();
+  const roundId=Number(round.id),seasonId=Number(round.clan_season_id),version=Number(round.version);
+  if(!Number.isSafeInteger(roundId)||roundId<=0||!Number.isSafeInteger(seasonId)||seasonId<=0||!Number.isSafeInteger(version))fail('승리 클랜의 시즌 정보를 확인하지 못했습니다.');
+  const teams=rows(await env.DB.prepare(`SELECT c.clan_id,t.score FROM territory_war_clans c
+    LEFT JOIN clan_season_teams t ON t.season_id=? AND t.clan_id=c.clan_id
+    WHERE c.round_id=? AND c.side=? ORDER BY c.position`).bind(seasonId,roundId,winner).all());
+  if(teams.length!==4||teams.some(team=>team.score==null||!Number.isSafeInteger(Number(team.score))))fail('승리 진영의 클랜 4개와 시즌 승점을 확인하지 못했습니다.');
+  const token=`TERRITORY_CLAN_SCORE:${roundId}:${crypto.randomUUID()}`,verified=`${token}:VERIFIED`,receiptKey=`territory_clan_win_points_v1:${roundId}`;
+  const receipt={status:'COMPLETED',roundId,seasonId,winnerSide:winner,pointsPerClan:TERRITORY_CLAN_WIN_POINTS,clanIds:teams.map(team=>Number(team.clan_id)),completedAt:new Date().toISOString()};
+  const statements=[
+    env.DB.prepare(`UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,
+      skill_action_token=?,version=version+1,updated_at=CURRENT_TIMESTAMP
+      WHERE id=? AND version=? AND status IN ('PREPARING','ACTIVE') AND settled_at IS NULL
+      AND warfare_version=4 AND clan_season_id=?`).bind(winner,token,roundId,version,seasonId),
+    env.DB.prepare(`INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN
+      EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE id=? AND status='FINISHED' AND winner_side=?
+        AND skill_action_token=? AND settled_at IS NOT NULL AND clan_season_id=?)
+      AND (SELECT COUNT(*) FROM territory_war_clans WHERE round_id=? AND side=?)=4
+      AND (SELECT COUNT(*) FROM territory_war_clans c JOIN clan_season_teams t
+        ON t.season_id=? AND t.clan_id=c.clan_id WHERE c.round_id=? AND c.side=?)=4
+      AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?) THEN 1 ELSE 0 END`).bind(token,roundId,winner,token,seasonId,roundId,winner,seasonId,roundId,winner,receiptKey)
+  ];
+  for(const team of teams)statements.push(env.DB.prepare(`UPDATE clan_season_teams SET score=score+?,updated_at=CURRENT_TIMESTAMP
+    WHERE season_id=? AND clan_id=? AND EXISTS(SELECT 1 FROM territory_war_mutation_guards WHERE token=? AND ok=1)`)
+    .bind(TERRITORY_CLAN_WIN_POINTS,seasonId,team.clan_id,token));
+  const scoreChecks=teams.map(()=>`EXISTS(SELECT 1 FROM clan_season_teams WHERE season_id=? AND clan_id=? AND score>=?)`).join(' AND ');
+  statements.push(
+    env.DB.prepare(`INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN ${scoreChecks} THEN 1 ELSE 0 END`)
+      .bind(verified,...teams.flatMap(team=>[seasonId,team.clan_id,Number(team.score)+TERRITORY_CLAN_WIN_POINTS])),
+    env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,CURRENT_TIMESTAMP
+      WHERE EXISTS(SELECT 1 FROM territory_war_mutation_guards WHERE token=? AND ok=1)`).bind(receiptKey,JSON.stringify(receipt),verified),
+    env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token IN (?,?)').bind(token,verified)
+  );
+  const result=await env.DB.batch(statements);
+  return result[0];
+}
 
 // Independent of the old territory foundation fast gate: already initialized
 // production databases must also run this additive upgrade.

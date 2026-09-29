@@ -1,6 +1,6 @@
 import {territoryPigCoinStatements,territoryPigCoinPreview} from './_pig_coin_content_rewards.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
-import {ensureTerritoryClanSchema,openClanWarfare,syncRecruitingClanRoster,isClanWarfare,territoryClanView,territorySkillCatalog,territorySkillState,territorySkillReceipt,applyTerritorySkill} from './_territory_clan_warfare.js';
+import {ensureTerritoryClanSchema,openClanWarfare,syncRecruitingClanRoster,isClanWarfare,finishTerritoryClanRound,territoryClanView,territorySkillCatalog,territorySkillState,territorySkillReceipt,applyTerritorySkill} from './_territory_clan_warfare.js';
 import {pigCoinRewardAmount} from './_loot_shop.js';
 import {releasedMercenarySnapshot,mercenarySnapshotPower} from './_mercenary_account.js';
 import {
@@ -984,7 +984,7 @@ async function settleRound(env,round,cfg,forcedWinner=''){
     // 보상 생성이 완전히 끝난 뒤에만 회차를 종료한다. 중간 실패 시 settled_at이
     // 비어 있으므로 다음 lifecycle 호출이 같은 UPSERT를 안전하게 재시도한다.
     await generateRewards(env,{...fresh,winner_side:winner},cfg);
-    const changed=await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND settled_at IS NULL").bind(winner,fresh.id).run();
+    const changed=await finishTerritoryClanRound(env,fresh,winner);
     if(Number(changed?.meta?.changes||0))fresh=await roundById(env,fresh.id);
     return roundById(env,fresh.id);
   }finally{await releaseLock(env,lock)}
@@ -1562,4 +1562,4 @@ export {balancedSideAssignments,buildFormationSnapshot,grantLatestWinnerMasterSt
 // Coup shares the live territory combat engine and formation rules.
 export { simulateTerritoryBattle as simulateTerritoryDuel, singleFormationSnapshot as territoryFormationSnapshot, buildFormationSnapshot as territoryFormationFromParts, pickPowerMatchedOpponent as territoryMatchedOpponent, damageFor as territorySiegeDamage };
 
-export const __territoryClanTest={balancedSideAssignments,formRound,lifecycle,activateCommanderOperation,counterState,DEFAULTS,OPERATIONS,NODES};
+export const __territoryClanTest={balancedSideAssignments,formRound,lifecycle,settleRound,activateCommanderOperation,counterState,DEFAULTS,OPERATIONS,NODES};
