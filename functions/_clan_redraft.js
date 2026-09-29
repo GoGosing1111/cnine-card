@@ -1,5 +1,16 @@
-// A season-scoped operation record. Ordinary seasons retain their existing rules.
+// The same persisted quota contract is used by ordinary drafts and audited restarts.
 export const clanRedraftKey=seasonId=>`clan_redraft_v20260916:${Number(seasonId)}`;
+export const BALANCED_CLAN_ALLOCATION='BALANCED_EIGHT_CLANS_V1';
+export function balancedClanDraftPlan({seasonId,participantCount,clanIds,startsAt}){
+  const ids=clanIds.map(Number),count=Number(participantCount),id=Number(seasonId);
+  if(!Number.isSafeInteger(id)||id<1||!Number.isSafeInteger(count)||ids.length<2||ids.length>8
+    ||new Set(ids).size!==ids.length||ids.some(value=>!Number.isSafeInteger(value)||value<1)
+    ||count<ids.length||count>ids.length*22)throw new Error('클랜 균등 정원을 계산할 수 없습니다.');
+  const base=Math.floor(count/ids.length),extra=count%ids.length,offset=(id-1)%ids.length;
+  // Rotate the extra-seat priority between seasons; persist it before any pick.
+  const quotas=Object.fromEntries(ids.map((clanId,index)=>[clanId,base+((index-offset+ids.length)%ids.length<extra?1:0)]));
+  return parseClanRedraft(JSON.stringify({version:1,allocation:BALANCED_CLAN_ALLOCATION,seasonId:id,startsAt,participantCount:count,quotas}),id);
+}
 export async function readClanRedraft(env,seasonId){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(clanRedraftKey(seasonId)).first();
   if(!row)return null;
@@ -29,6 +40,7 @@ export function clanRedraftPublicState(plan,phase){
 }
 export function clanMemberCapacity(season,clanId,plan){
   return afterDraft(season.phase)&&plan?.activeRosterOverrides?.[String(clanId)]?.maxMembers
+    ||(plan?.allocation===BALANCED_CLAN_ALLOCATION&&plan.quotas[String(clanId)])
     ||Math.min(22,Number(season.max_members)||22);
 }
 export function applyClanRedraftQuotas(teams,plan){

@@ -7,7 +7,7 @@ import {runInNewContext} from 'node:vm';
 import {__clanTest as clan,reconcileClanDraft} from '../functions/_clan.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {runDraftSchedule,nextAlarmAt,ensureDraftAlarm,handleDraftAlarm} from '../workers/clan-draft/src/schedule.js';
-import {clanRedraftKey,readClanRedraft,parseClanRedraft,clanRedraftPublicState,applyClanRedraftQuotas,clanMemberCapacity} from '../functions/_clan_redraft.js';
+import {clanRedraftKey,readClanRedraft,parseClanRedraft,clanRedraftPublicState,applyClanRedraftQuotas,clanMemberCapacity,balancedClanDraftPlan} from '../functions/_clan_redraft.js';
 
 const iso=ms=>new Date(ms).toISOString(),base=Date.parse('2026-09-15T14:00:00Z');
 const settings={...clan.CLAN_ADMIN_SETTINGS_DEFAULTS,mode:'ON',draftPickSeconds:30};
@@ -157,7 +157,7 @@ test('viewer-independent lifecycle starts after registration closes; ON gate and
   await f.p("UPDATE app_meta SET value=? WHERE key='clan_settings_v1'",JSON.stringify(settings)).run();
   await Promise.all([reconcileClanDraft(f.env),reconcileClanDraft(f.env)]);
   assert.equal((await f.fresh()).phase,'DRAFT');assert.equal((await f.fresh()).next_pick_deadline,iso(base+90000));
-  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_season_teams').first()).count,2);
+  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_season_teams').first()).count,3);
   await f.pick();await clan.beginDraft(f.env,await f.fresh(),settings);assert.equal((await f.fresh()).draft_pick_count,1);
 });
 
@@ -276,4 +276,41 @@ test('redraft rejects missing entrants or malformed quotas and never activates u
   await assert.rejects(clan.activateSeason(f.env,await f.fresh(),settings),/균등 정원/);
   await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify({...f.plan,quotas:{...f.plan.quotas,1:22}}),clanRedraftKey(1)).run();
   await assert.rejects(readClanRedraft(f.env,1),/정원 설정/);
+});
+
+test('all registration totals fit evenly across up to eight clans, including each master',()=>{
+  for(let count=2;count<=176;count++){
+    const clanIds=Array.from({length:Math.min(8,count)},(_,i)=>i+1);
+    const plan=balancedClanDraftPlan({seasonId:6,participantCount:count,clanIds,startsAt:iso(base)}),quotas=Object.values(plan.quotas);
+    assert.equal(quotas.reduce((a,b)=>a+b,0),count);assert.ok(Math.max(...quotas)-Math.min(...quotas)<=1);assert.ok(Math.max(...quotas)<=22);
+    assert.equal(clanMemberCapacity({phase:'ACTIVE',max_members:22},1,plan),plan.quotas[1]);
+  }
+  assert.throws(()=>balancedClanDraftPlan({seasonId:6,participantCount:177,clanIds:[1,2,3,4,5,6,7,8],startsAt:iso(base)}),/균등 정원/);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 140 entrants open all eight clans and finish at four 17 / four 18 quotas`,async t=>{
+  const f=await fixture(t,{postgres,registration:true,teamCount:8,candidateCount:140});f.at(60000);
+  await reconcileClanDraft(f.env);
+  const plan=await readClanRedraft(f.env,1),masters=(await f.p("SELECT user_id,clan_id FROM clan_members WHERE member_role='MASTER' ORDER BY clan_id").all()).results;
+  assert.equal(masters.length,8);assert.equal(Number(masters[7].clan_id),8);
+  assert.deepEqual(Object.values(plan.quotas).sort((a,b)=>a-b),[17,17,17,17,18,18,18,18]);
+  assert.equal((await f.p("SELECT COUNT(*) count FROM clan_draft_pool WHERE status='AVAILABLE'").first()).count,132);
+  f.at(61000);await f.pick();await clan.beginDraft(f.env,await f.fresh(),settings);
+  assert.deepEqual(await readClanRedraft(f.env,1),plan);assert.equal((await f.fresh()).draft_pick_count,1);
+  f.at(3660000);await f.skip();assert.equal((await f.fresh()).phase,'ACTIVE');
+  assert.deepEqual((await f.ctx()).teams.map(t=>Number(t.member_count)).sort((a,b)=>a-b),[17,17,17,17,18,18,18,18]);
+  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_members').first()).count,140);
+  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_wars').first()).count,28);
+  assert.deepEqual((await f.p("SELECT user_id,clan_id FROM clan_members WHERE member_role='MASTER' ORDER BY clan_id").all()).results,masters);
+  await f.skip();assert.equal((await f.p('SELECT COUNT(*) count FROM clan_members').first()).count,140);
+});
+
+test('quota creation and master selection roll back together, then resume exactly once',async t=>{
+  const f=await fixture(t,{registration:true,teamCount:8,candidateCount:140});f.at(60000);
+  const batch=f.env.DB.batch.bind(f.env.DB);
+  f.env.DB.batch=statements=>statements.some(s=>s.source.includes("SET phase='DRAFT'"))?batch([...statements,f.env.DB.prepare('INSERT INTO synthetic_missing_table VALUES(1)')]):batch(statements);
+  await assert.rejects(reconcileClanDraft(f.env),/synthetic_missing_table/);
+  assert.equal((await f.fresh()).phase,'REGISTRATION');assert.equal(await readClanRedraft(f.env,1),null);
+  assert.equal((await f.p('SELECT COUNT(*) count FROM clan_members').first()).count,0);
+  f.env.DB.batch=batch;await reconcileClanDraft(f.env);assert.equal((await f.ctx()).teams.length,8);
 });

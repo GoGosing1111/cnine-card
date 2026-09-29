@@ -1,4 +1,4 @@
-import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete,clanRedraftPublicState} from './_clan_redraft.js';
+import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete,clanRedraftPublicState,clanRedraftKey,balancedClanDraftPlan} from './_clan_redraft.js';
 import {readClanChampionsFollowup,clanChampionsFollowupCheckAt,openClanChampionsFollowup} from './_clan_champions_followup.js';
 import {clanPigCoinStatements} from './_pig_coin_content_rewards.js';
 import {settleClanWarPigCoins,settlePendingClanWarPigCoins} from './_clan_war_pig_rewards.js';
@@ -450,14 +450,16 @@ async function beginDraft(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,{forc
   try{
   season=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();if(season?.phase!=='REGISTRATION')return season;
   const scored=await calculateSeasonScores(env,season);if(scored.length<2)return season;
-  const teamCount=Math.min(OFFICIAL_CLAN_CATALOG.length,Math.max(2,Math.ceil(scored.length/CLAN_MAX_MEMBERS))),ranked=[...scored].sort((a,b)=>b.master_score-a.master_score||Number(a.user_id)-Number(b.user_id)),forced=ranked.find(row=>Number(row.user_id)===Number(forceMasterUserId)),masters=(forced?[forced,...ranked.filter(row=>Number(row.user_id)!==Number(forceMasterUserId))]:ranked).slice(0,teamCount);
-  const orgs=rows(await env.DB.prepare(`SELECT * FROM clan_organizations WHERE is_active=1 ORDER BY ${OFFICIAL_CLAN_ORDER_SQL},id LIMIT ?`).bind(teamCount).all()),writes=[];
+  const orgs=rows(await env.DB.prepare(`SELECT * FROM clan_organizations WHERE is_active=1 ORDER BY ${OFFICIAL_CLAN_ORDER_SQL},id LIMIT ?`).bind(Math.min(OFFICIAL_CLAN_CATALOG.length,scored.length)).all());
+  const plan=balancedClanDraftPlan({seasonId:season.id,participantCount:scored.length,clanIds:orgs.map(org=>org.id),startsAt:season.registration_ends_at});
+  const ranked=[...scored].sort((a,b)=>b.master_score-a.master_score||Number(a.user_id)-Number(b.user_id)),forced=ranked.find(row=>Number(row.user_id)===Number(forceMasterUserId)),masters=(forced?[forced,...ranked.filter(row=>Number(row.user_id)!==Number(forceMasterUserId))]:ranked).slice(0,orgs.length),writes=[];
   masters.forEach((master,index)=>{
     const org=orgs[index];writes.push(env.DB.prepare('INSERT OR IGNORE INTO clan_season_teams(season_id,clan_id,master_user_id,draft_position) VALUES(?,?,?,?)').bind(season.id,org.id,master.user_id,index));
     writes.push(env.DB.prepare("UPDATE clan_draft_pool SET status='MASTER',drafted_clan_id=?,pick_no=0,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?").bind(org.id,season.id,master.user_id));
     writes.push(env.DB.prepare("INSERT OR IGNORE INTO clan_members(season_id,clan_id,user_id,member_role,preferred_role,draft_pick_no) VALUES(?,?,?,'MASTER',?,0)").bind(season.id,org.id,master.user_id,cleanRole(master.preferred_role)));
   });
   const draftEnd=clanDraftDeadlineMs(season);
+  writes.push(env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(clanRedraftKey(season.id),JSON.stringify(plan)));
   writes.push(env.DB.prepare("UPDATE clan_seasons SET phase='DRAFT',draft_pick_count=0,draft_ends_at=?,next_pick_deadline=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='REGISTRATION'").bind(iso(draftEnd),iso(Math.min(Date.now()+draftTurnMs(settings),draftEnd)),season.id));
   await env.DB.batch(writes);return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
   }finally{await releaseDraftLock(env,lock)}

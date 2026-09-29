@@ -74,7 +74,7 @@ for(const postgres of [false,true]){
  test(`${label}: draft begins at 21:00; regular wars keep Tue Thu Sat Sun 21:00–22:00`,async t=>{
   const f=await fixture(t,postgres);await f.finish();const next=await clan.createSeason(f.env,settings);
   for(let i=1;i<=8;i++)await f.p('INSERT INTO clan_organizations(id,name,mark_key) VALUES(?,?,?)',i,clan.OFFICIAL_CLAN_CATALOG[i-1].name,clan.OFFICIAL_CLAN_CATALOG[i-1].markKey).run();
-  for(let i=1;i<=4;i++){await f.p('INSERT INTO users(id,nickname,last_login_at) VALUES(?,?,?)',i,`QA ${i}`,iso(end)).run();await f.p('INSERT INTO clan_draft_pool(season_id,user_id,candidate_key) VALUES(?,?,?)',next.id,i,`qa-${i}`).run()}
+  for(let i=1;i<=16;i++){await f.p('INSERT INTO users(id,nickname,last_login_at) VALUES(?,?,?)',i,`QA ${i}`,iso(end)).run();await f.p('INSERT INTO clan_draft_pool(season_id,user_id,candidate_key) VALUES(?,?,?)',next.id,i,`qa-${i}`).run()}
   f.at(draft-1);assert.equal((await reconcileClanDraft(f.env)).phase,'REGISTRATION');
   f.at(draft);assert.equal((await reconcileClanDraft(f.env)).phase,'DRAFT');assert.equal((await f.next()).next_pick_deadline,iso(draft+30000));
   f.at(draft+3600000);await reconcileClanDraft(f.env);assert.equal((await f.next()).phase,'ACTIVE');
