@@ -1,9 +1,9 @@
 {
   "title": "롯데 조은 · 롯데 나무늘봉순",
   "createdDate": "2026-09-30",
-  "status": "APPROVED_SOURCE_ART_RELEASE_READY",
+  "status": "APPROVED_REGISTERED_AND_SEASON_GRANTED",
   "generator": "built-in image_gen",
-  "scope": "Two individual full-body lobby avatar source-art previews",
+  "scope": "Approved lobby portraits, equipment cutouts, CMS registration and current Lotte clan season grant",
   "current": {
     "joeun": "assets/avatar-lotte-joeun-lobby-source-art-v1.png",
     "bongsoon": "assets/avatar-lotte-bongsoon-lobby-source-art-v2.png"
@@ -79,9 +79,10 @@
     "bodyAndClothingInspected": true,
     "bongsoonPoseV2": "Torso turned, both hands behind back, legs uncrossed; same face and costume"
   },
-  "runtimeRegistration": false,
+  "runtimeRegistration": true,
   "equipmentSpritesCreated": true,
   "approval": "ㅇㅇ 장비창 ui 만들고 등록해 / 옵션은 한복디임2 기준으로 다 맞추고 롯데 클랜 전체 클랜 시즌 종료까지 지급해",
   "runtimeManifest": "runtime-manifest.json",
-  "registrationCatalog": "catalogs.json"
+  "registrationCatalog": "catalogs.json",
+  "releaseRecord": "../../docs/lotte-uniform-avatars-release-20260930.md"
 }
