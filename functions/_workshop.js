@@ -6,6 +6,7 @@ import {WORKSHOP_EXTENSION_CATEGORIES, validateWorkshopExtension} from '../share
 import {isEquipmentCraft} from '../shared/workshop-equipment-craft.mjs';
 import {decorateEquipmentCraftRecipes,equipmentCraftAccountState,saveEquipmentCraftRecipe,executeEquipmentCraft} from './_workshop_equipment_craft.js';
 import {readJointBody} from './_joint_request.js';
+import {S_BODY_REFUND_KEY,refundSBodyChoiceAttempt} from './_workshop_s_body_refund_20260930.js';
 const forgeSynthesisFilter=FORGE_RUNTIME_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
 
 const RECIPE_TABLE='workshop_recipes_v1668';
@@ -385,18 +386,19 @@ async function synthesizeEquipment(env,user,body){
 
 async function adminSnapshot(env,user){
   await ensureEmperorEnergyCatalog(env);
-  const [recipes,vehicles,equipment,items,logs,synthesisRecipes,synthesisLogs]=await Promise.all([
+  const [recipes,vehicles,equipment,items,logs,synthesisRecipes,synthesisLogs,refund]=await Promise.all([
     recipeRows(env,{admin:true}),
     env.DB.prepare('SELECT id,code,name,rarity,image_url FROM character_garage_items WHERE is_active=1 ORDER BY sort_order,id').all(),
     env.DB.prepare('SELECT id,code,name,slot,rarity,image_url FROM character_equipment_items WHERE is_active=1 ORDER BY sort_order,id').all(),
     env.DB.prepare('SELECT code,name,category,rarity,image_url FROM inventory_items WHERE is_active=1 ORDER BY category,sort_order,name').all(),
     env.DB.prepare(`SELECT l.*,r.code recipe_code,u.nickname,c.result_json craft_result_json,CASE WHEN UPPER(COALESCE(r.code,''))='${MYSTIC_ENERGY_RECIPE_CODE}' THEN ${FIXED_RECIPE_COSTS[MYSTIC_ENERGY_RECIPE_CODE].cardShards} ELSE 0 END card_shard_spent FROM (SELECT * FROM ${LOG_TABLE} ORDER BY id DESC LIMIT 60) l LEFT JOIN ${RECIPE_TABLE} r ON r.id=l.recipe_id LEFT JOIN users u ON u.id=l.user_id LEFT JOIN ${RECEIPT_TABLE} c ON c.request_id=l.request_id AND c.user_id=l.user_id ORDER BY l.id DESC`).all(),
     env.DB.prepare(`SELECT r.*,input.name input_name,input.rarity input_rarity,replace(input.image_url,char(92),'/') input_image,output.name output_name,output.rarity output_rarity,replace(output.image_url,char(92),'/') output_image FROM ${SYNTH_RECIPE_TABLE} r JOIN character_equipment_items input ON input.id=r.input_equipment_id JOIN character_equipment_items output ON output.id=r.output_equipment_id ORDER BY r.sort_order,r.id`).all(),
-    env.DB.prepare(`SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM ${SYNTH_LOG_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN character_equipment_items input ON input.id=l.input_equipment_id LEFT JOIN character_equipment_items output ON output.id=l.output_equipment_id ORDER BY l.id DESC LIMIT 60`).all()
+    env.DB.prepare(`SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM ${SYNTH_LOG_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN character_equipment_items input ON input.id=l.input_equipment_id LEFT JOIN character_equipment_items output ON output.id=l.output_equipment_id ORDER BY l.id DESC LIMIT 60`).all(),
+    env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(S_BODY_REFUND_KEY).first()
   ]);
   const decoratedSynthesisRecipes=await attachSynthesisMaterials(env,(synthesisRecipes.results||[]).map(row=>({...row,recipe_id:Number(row.id)})),user?.id||0);
   const recentLogs=(logs.results||[]).map(({craft_result_json,...row})=>{const result=parse(craft_result_json,{})||{};return {...row,attempts:Number(result.attempts||1),success_count:Number(result.successCount??(Number(row.success)?1:0)),failure_count:Number(result.failureCount??(Number(row.success)?0:1)),card_shard_spent:Number(result.cardShardSpent??row.card_shard_spent??0)}});
-  return {recipes,vehicles:vehicles.results||[],equipment:equipment.results||[],inventoryItems:items.results||[],recentLogs,synthesisRecipes:decoratedSynthesisRecipes,recentSynthesisLogs:synthesisLogs.results||[],categories:[...CATEGORIES],outputTypes:[...OUTPUT_TYPES],paymentModes:[...PAYMENT_MODES]};
+  return {recipes,vehicles:vehicles.results||[],equipment:equipment.results||[],inventoryItems:items.results||[],recentLogs,synthesisRecipes:decoratedSynthesisRecipes,recentSynthesisLogs:synthesisLogs.results||[],sBodyRefund:parse(refund?.value),categories:[...CATEGORIES],outputTypes:[...OUTPUT_TYPES],paymentModes:[...PAYMENT_MODES]};
 }
 
 function cleanMaterial(raw,index){const itemCode=code(raw.itemCode||raw.item_code,100),quantity=int(raw.quantity,1,100000000,1);if(!itemCode)throw new Error(`${index+1}번째 재료 코드를 입력하세요.`);return {itemCode,quantity,sortOrder:int(raw.sortOrder??raw.sort_order,-100000,100000,(index+1)*10)}}
@@ -479,7 +481,7 @@ export async function handleWorkshop({path,request,env,deps}){
   if(path==='admin/workshop'){
     if(!isAdmin(user))return deps.json({error:'제작소 관리 권한이 필요합니다.'},403);
     if(request.method==='GET')return deps.json(await adminSnapshot(env,user));
-    if(request.method==='POST'){try{const body=await deps.readBody(request),action=code(body.action);if(action==='SAVE_RECIPE'){const recipeId=await saveRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='SAVE_SYNTHESIS_RECIPE'){const recipeId=await saveSynthesisRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}return deps.json({error:'지원하지 않는 제작소 작업입니다.'},400)}catch(error){return deps.json({error:error.message||'레시피 저장에 실패했습니다.'},400)}}
+    if(request.method==='POST'){try{const body=await deps.readBody(request),action=code(body.action);if(action==='SAVE_RECIPE'){const recipeId=await saveRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='SAVE_SYNTHESIS_RECIPE'){const recipeId=await saveSynthesisRecipe(env,user,body.recipe||{},deps);return deps.json({ok:true,recipeId,snapshot:await adminSnapshot(env,user)})}if(action==='REFUND_S_BODY_POLICY_20260930'){if(!deps.withUserMutationLock)return deps.json({error:'계정 잠금을 사용할 수 없습니다.'},503);const result=await deps.withUserMutationLock(env,4614,path,()=>refundSBodyChoiceAttempt(env,user,body.craftLogId));return deps.json({ok:true,refund:result,snapshot:await adminSnapshot(env,user)})}return deps.json({error:'지원하지 않는 제작소 작업입니다.'},400)}catch(error){return deps.json({error:error.message||'제작소 작업에 실패했습니다.'},error.status||409)}}
   }
   return deps.json({error:'지원하지 않는 요청입니다.'},405);
 }
