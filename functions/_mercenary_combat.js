@@ -1,5 +1,5 @@
-import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_TEMPO,berkanActionCredit} from '../shared/mercenary-berkan-v1.mjs';
-import {resolveBerkanStarfall} from './_mercenary_berkan.js';
+import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit} from '../shared/mercenary-berkan-v1.mjs';
+import {resolveBerkanStarfall,resolveBerkanArrowRain} from './_mercenary_berkan.js';
 import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
 import {resolveCryvernCrown} from './_mercenary_cryvern.js';
 import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE} from '../shared/mercenary-cryvern-v1.mjs';
@@ -131,6 +131,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
  const friendly=a=>ordered(teams[a.side]),enemies=a=>ordered(teams[a.side==='A'?'B':'A']);
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
+  if(isBerkanAreaSkill(s))return a.battleMode==='PVE'?en:[];
   if(s.mechanic===BERKAN_MECHANIC)return [...en].sort((a,b)=>Number(b.row==='BACK')-Number(a.row==='BACK')||(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot||String(a.id).localeCompare(String(b.id))).slice(0,2);
   if(s.mechanic==='PLATINUM_SANCTUARY'||s.mechanic==='CRYSTAL_CROWN')return fr.slice(0,2);
   if(s.mechanic==='GOLDEN_ORCHID_VOLLEY'){const primary=fr[0];return primary?[primary,...en.filter(t=>t!==primary).slice(0,2)]:[];}
@@ -250,6 +251,9 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock}){
    case BERKAN_MECHANIC:{
     const damageScale=offensiveSkillScale(a,s);
     resolveBerkanStarfall({actor:a,skill:s,targets:ts,hit,damage,knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
+    finish(a,s);break;}
+   case BERKAN_AREA_MECHANIC:{
+    resolveBerkanArrowRain({actor:a,skill:s,targets:ts,hit,damage,knockout,emit,damageScale:offensiveSkillScale(a,s)});
     finish(a,s);break;}
    case 'CRYSTAL_CROWN':{
     const damageScale=offensiveSkillScale(a,s);

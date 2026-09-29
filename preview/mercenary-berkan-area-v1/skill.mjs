@@ -1,5 +1,5 @@
 import {makePlan as basePlan,sample as baseSample,track} from '../mercenary-berkan-sss-v1/skill.mjs';
-export const AREA=Object.freeze({name:'흑금 천우',duration:3.4,release:1.05,contact:1.62,settled:3.22,runtimeEnabled:false});
+export const AREA=Object.freeze({name:'흑금 천우',duration:3.4,release:1.05,contact:1.62,settled:3.22,runtimeEnabled:true});
 export function makePlan(options={}){
  if(options.mode&&options.mode!=='area')return basePlan(options);
  const {cancelAt=null,targetLostAt=null,dodge=false}=options;

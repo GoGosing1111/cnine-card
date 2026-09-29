@@ -1,6 +1,6 @@
 import {preloadSniperOrikkung,playSniperOrikkungSkill,playSniperOrikkungBasic} from './SniperOrikkungCombatPlayback.js';
 import {playNurseHeal} from './NurseHealCombatPlayback.js';
-import {BERKAN_CODE,BERKAN_SKILL_ID} from '../../../../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID} from '../../../../shared/mercenary-berkan-v1.mjs';
 import {preloadBerkan,setupBerkanActor,clearBerkanActors,cancelBerkanPlayback,playBerkanSkill,playBerkanBasic} from './BerkanCombatPlayback.js';
 import {CRYVERN_CODE} from '../../../../shared/mercenary-cryvern-v1.mjs';
 import {preloadCryvern,setupCryvernActor,clearCryvernActors,cancelCryvernPlayback,playCryvernCrown,playCryvernBasic,showCryvernShieldImpact} from './CryvernCombatPlayback.js';
@@ -39,7 +39,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   const limit=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS'?2:1;
   if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
-  if(entries.some(({card})=>card.cardId===BERKAN_CODE||card.code===BERKAN_CODE||card.skills?.some(s=>s.id===BERKAN_SKILL_ID)))await preloadBerkan();
+  if(entries.some(({card})=>card.cardId===BERKAN_CODE||card.code===BERKAN_CODE||card.skills?.some(s=>[BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID].includes(s.id))))await preloadBerkan();
   if(entries.some(({card})=>card.cardId==='V-050'||card.code==='V-050'||card.skills?.some(s=>s.mechanic==='EMERALD_ANTIMATERIEL')))await preloadSniperOrikkung();
   if(entries.some(({card})=>card.cardId===CRYVERN_CODE||card.code===CRYVERN_CODE||card.skills?.some(s=>s.mechanic==='CRYSTAL_CROWN')))await preloadCryvern();
   if(entries.some(({card})=>card.cardId==='V-048'||card.code==='V-048'||card.skills?.some(s=>s.mechanic==='BLACK_MOON_TRIPLE_SEVER')))await preloadHeukwol();
@@ -72,8 +72,8 @@ export const withMercenaryBattle=Base=>class extends Base{
  async playMercenaryEvent(event){
   if(event.type==='MERCENARY_GROUP_HEAL'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return playNurseHeal(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return true;
-  if(event.skillId===BERKAN_SKILL_ID&&['MERCENARY_HIT','MERCENARY_STARFALL'].includes(event.type))return playBerkanSkill(this,event);
-  if(event.skillId===BERKAN_SKILL_ID&&event.type==='MERCENARY_WINDUP')return true;
+  if([BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID].includes(event.skillId)&&['MERCENARY_HIT','MERCENARY_STARFALL'].includes(event.type))return playBerkanSkill(this,event);
+  if([BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID].includes(event.skillId)&&event.type==='MERCENARY_WINDUP')return true;
   if(event.type==='MERCENARY_HIT'&&event.mechanic==='EMERALD_ANTIMATERIEL')return playSniperOrikkungSkill(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='EMERALD_ANTIMATERIEL')return true;
   if(event.type==='MERCENARY_CRYSTAL_CROWN'&&event.mechanic==='CRYSTAL_CROWN')return playCryvernCrown(this,event);

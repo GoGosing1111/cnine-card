@@ -5,7 +5,7 @@
   "assignmentPolicy": "INDEPENDENT_SKILL_CATALOG_USER_ASSIGNED",
   "replaces": "USER_REJECTED_V1_SINGLE_SPRITE_TWEENS",
   "runtimeEnabled": false,
-  "frameCount": 560,
+  "frameCount": 576,
   "images": [
     {
       "id": "closing-punch",
@@ -12396,6 +12396,339 @@
             512
           ],
           "nonempty": 26676
+        }
+      ]
+    },
+    {
+      "id": "berkan-gilded-arrow-rain",
+      "skillId": "MS-056",
+      "name": "흑금 천우",
+      "source": "../../mercenary-berkan-area-v1/assets/source/arrow-rain-v1.png",
+      "runtime": "../../mercenary-berkan-area-v1/assets/arrow-rain-atlas-v1.png",
+      "sourceSha256": "e12fab349208d9c0610b604f96b9239f978933f89d353fe1965490565453e2e5",
+      "runtimeSha256": "1d4514419500a0746233157687cbde7cea1e8e128e613c36836f74fba05b9404",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "size": [
+        1536,
+        1536
+      ],
+      "cellSize": 384,
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "generation": "BUILT_IN_IMAGE_GEN",
+      "prompt": "Use case: stylized-concept.\r\nAsset type: production game VFX sprite sheet, sixteen separately painted chronological animation frames for one new area attack called BLACK-GOLD CELESTIAL ARROW RAIN. A premium semi-real 2D Korean fantasy archer VFX. Only the effect; no archer, no people, no background, no card UI.\r\nCreate a square 2048x2048 RGBA PNG with genuine transparent background. EXACTLY FOUR columns and FOUR rows, exactly sixteen equal 512x512 cells, read left-to-right then top-to-bottom. No visible grid lines or labels.\r\nIn EVERY cell, effects are centered in the same coordinate system, ground impact center at cell x50% y68%. Camera is a three-quarter front view of a broad shallow horizontal ground ellipse. Keep every effect and faint glow inside central 72% of each cell; transparent gutters must be completely empty. Full silhouette must fit in each cell.\r\nThe attack evolves as follows:\r\nFrame01 three tiny suspended gold arrowhead sparks high in the cell.\r\nFrame02 five slender black-core gold arrows start forming in a descending fan.\r\nFrame03 seven distinct fully shaped gilded arrows descend, short white-gold tips and dark ribbon wakes, spreading over a wide elliptical footprint.\r\nFrame04 the arrow fan visibly falls nearer the ground with varied depth; the central arrow leads.\r\nFrame05 first central arrow strikes, a tight white-hot gold eruption and curling black vapor.\r\nFrame06 the remaining arrows impact around it, five staggered contact columns and sharp amber shard spray.\r\nFrame07 a broad linked crown of ground eruptions unites the volley into one powerful area attack; white-gold crests with black-gold turbulent undersides.\r\nFrame08 the shock front is widest and brightest, multiple asymmetric gold flame-like pressure fins with clearly visible dark negative spaces.\r\nFrame09 the crown shears outward into an elliptical gold shockwave, distinct curling fragments and dust.\r\nFrame10 the gold pressure fins break and twist into long black-gold ember ribbons, the center becomes hollow.\r\nFrame11 disconnected bright shards fly out and thin black smoke curls upward.\r\nFrame12 the remaining gold fragments tumble down; smoke stretches into wisps.\r\nFrame13 only fine amber particles and a few dim curved wake pieces.\r\nFrame14 faint gold dust trails.\r\nFrame15 three or four tiny fading amber sparks.\r\nFrame16 almost completely transparent, only two very dim pin sparks.\r\nEach frame MUST have genuinely different internal drawing and particle positions, not a scaled/rotated copy of a single icon. A cohesive readable progression from arrow formation to descent, successive impact, expanding fragmentation, and dissipation. Refined gleaming pale gold metal light, molten amber midtones, rich black ink vapor, tiny warm white cores. High detail on arrowheads and jagged pressure fronts. Dramatic but crisp silhouettes; avoid a huge blurry yellow blob. No blue, no purple, no electric zigzags, no magic circle/runes, no typography, no floor tile, no checkerboard, no solid fill background, no watermark. Do not draw any bow or character.\r\n",
+      "sourceFilename": "arrow-rain-v1.png",
+      "visualReview": "2026-09-30 사용자 PVE 연결·ON 지시. PVP 제외.",
+      "runtimeBytes": 1728348,
+      "creationReferenceCode": "V-055",
+      "frames": [
+        {
+          "index": 0,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-00.png",
+          "bounds": [
+            140,
+            135,
+            257,
+            238
+          ],
+          "alphaPixels": 1547,
+          "sha256": "08c315894aa77dc28ccaa6320effb54adff218584ceb28481e5767e389fac5b1",
+          "rawSha256": "9f24eeddaafcc86c766a5ab64aec3cac5af2388518f47b68d5c3272baa494423",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 25416
+        },
+        {
+          "index": 1,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-01.png",
+          "bounds": [
+            80,
+            95,
+            303,
+            318
+          ],
+          "alphaPixels": 10500,
+          "sha256": "1c591ce00714419861c4bdc933f41ce4bc09637e2704900cdbb5a6199b679127",
+          "rawSha256": "550bbc26bc2774a93319c2743de51b231cd14015d9884d9f7e197deb384d1661",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 54434
+        },
+        {
+          "index": 2,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-02.png",
+          "bounds": [
+            65,
+            91,
+            315,
+            329
+          ],
+          "alphaPixels": 15705,
+          "sha256": "1eec65e32c96e69f843650e34961ca81cacd6ff5fe5e4a757bd45d53210c2a92",
+          "rawSha256": "a5904199df959776636b6e9afb9a541539a1ba497a7b078add17acdcefc9dcbf",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 61635
+        },
+        {
+          "index": 3,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-03.png",
+          "bounds": [
+            56,
+            104,
+            319,
+            351
+          ],
+          "alphaPixels": 21178,
+          "sha256": "2173f6876580bdddd9fbb7f6850065ce36ad4bc85ce146efbc4800492c9849f8",
+          "rawSha256": "f3a172b336bd7ef31b744de07fa44d6cf2bbd7fc2f93ca458b2166f7c077a3ec",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 66700
+        },
+        {
+          "index": 4,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-04.png",
+          "bounds": [
+            85,
+            77,
+            309,
+            322
+          ],
+          "alphaPixels": 22484,
+          "sha256": "d04363584f57146ebf4d57595b718ffb626d7e29043e20ae43863c0f95284ff2",
+          "rawSha256": "2efa7ac0225ad25c26591e12d1d07bcf5e804a4417ad2df34cdd5561bf679577",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 46436
+        },
+        {
+          "index": 5,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-05.png",
+          "bounds": [
+            47,
+            70,
+            340,
+            319
+          ],
+          "alphaPixels": 34590,
+          "sha256": "34e573116a4cb3ef0c965a141845de3859eb927b8d2085094d3de2f37b20cc48",
+          "rawSha256": "08bf24dcfe68da64878f82d2256691783850abf26dc2a3cc92170b039db0b6f3",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 65137
+        },
+        {
+          "index": 6,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-06.png",
+          "bounds": [
+            35,
+            93,
+            351,
+            321
+          ],
+          "alphaPixels": 37544,
+          "sha256": "93578fd9956c36e27a7e1b6d9d3c02c7e302a769437ce78b485329542564ee5c",
+          "rawSha256": "8da48043945e52d51fc8ef6412c73a8da0cfb4977064fe9724c66aaeefb92667",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 61616
+        },
+        {
+          "index": 7,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-07.png",
+          "bounds": [
+            32,
+            74,
+            348,
+            333
+          ],
+          "alphaPixels": 47750,
+          "sha256": "41c84bfb4c229a9f6fdd2fc37d1023e59752038c885d6da0614bdd65c9e1b0ea",
+          "rawSha256": "1976431fa611ec8e61b5626d60d26dcb0df01b7e8b27228a34a5c83714f76b6f",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 72837
+        },
+        {
+          "index": 8,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-08.png",
+          "bounds": [
+            48,
+            81,
+            346,
+            300
+          ],
+          "alphaPixels": 37354,
+          "sha256": "bbbaa9b88a6baa490cac1162e9d5663e31beb17b2dbba45380c05587c5744820",
+          "rawSha256": "0c6e36c53be8a50ba86c16c0884ff92dd6091142ce6f7dd5095ea0b7df7962e7",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 63067
+        },
+        {
+          "index": 9,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-09.png",
+          "bounds": [
+            42,
+            80,
+            345,
+            314
+          ],
+          "alphaPixels": 44195,
+          "sha256": "91b6a38800c18e6b81451b19871bdb1daddb8808519a658af199a5f28136bf7a",
+          "rawSha256": "ee6f27396ecd007c392ad4d127a0803ed8172b176782f183e8c61c5514a11aee",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 72135
+        },
+        {
+          "index": 10,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-10.png",
+          "bounds": [
+            50,
+            48,
+            338,
+            319
+          ],
+          "alphaPixels": 30522,
+          "sha256": "383da24eb470b864966fd88c62e6379a5df8603e92bce2df4f29d8578ea7e3fa",
+          "rawSha256": "0731a76d09dd122ed796004bb721d39ff47e96997d2c6c73f7d582e32696014d",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 64088
+        },
+        {
+          "index": 11,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-11.png",
+          "bounds": [
+            59,
+            76,
+            321,
+            314
+          ],
+          "alphaPixels": 18205,
+          "sha256": "22265b7f3f788820251ae53258f255b6f3eda3cbdbf96cefdc9c25225cdce851",
+          "rawSha256": "7eee849ccb9da5e78a19cea3c0dbf18a44be34875439e72378ef6ed4c1c5aedb",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 53893
+        },
+        {
+          "index": 12,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-12.png",
+          "bounds": [
+            77,
+            83,
+            321,
+            304
+          ],
+          "alphaPixels": 11635,
+          "sha256": "cfabf66271ecb7c72ba8016671ee591d660a309d614557097d385f39b540239c",
+          "rawSha256": "490ad1810c2db4259c6c6a1414d234e1dd7a92289c5200d4b87656540be9631a",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 49019
+        },
+        {
+          "index": 13,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-13.png",
+          "bounds": [
+            77,
+            196,
+            304,
+            292
+          ],
+          "alphaPixels": 4734,
+          "sha256": "7189a87bfacfba13fb4b5653e227e7775032affbd55ae45e1ce93b2baeccb428",
+          "rawSha256": "8b98770cd99cd605ab356b379df7b3cf4a892001398ece44bffd304eb4193560",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 38298
+        },
+        {
+          "index": 14,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-14.png",
+          "bounds": [
+            147,
+            241,
+            242,
+            283
+          ],
+          "alphaPixels": 208,
+          "sha256": "2ba54b6a54b9d7a2b1c99a447a0e0cce1967dc8e6dd46c8ee91a3cdd56fcd27a",
+          "rawSha256": "b3b4f4864665d295efa88bc8bd42c10bc1c3b739f5b7c56b219df63517aacdf9",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 22071
+        },
+        {
+          "index": 15,
+          "file": "../../mercenary-berkan-area-v1/assets/frames/arrow-rain-15.png",
+          "bounds": [
+            159,
+            241,
+            207,
+            278
+          ],
+          "alphaPixels": 36,
+          "sha256": "24b02c0805a70e8b83d3b60101a769bd0a89974f38734b5e71b6d1354f750788",
+          "rawSha256": "e7a3560631f4bd838c18a066c6850295fb32bbc61cdae8fca4f4ffec8672336e",
+          "edgeMax": 0,
+          "size": [
+            384,
+            384
+          ],
+          "nonempty": 12877
         }
       ]
     }

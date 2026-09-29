@@ -1,6 +1,8 @@
 import {CRYVERN_CODE,CRYVERN_BALANCE,cryvernSelectionWeights} from './mercenary-cryvern-v1.mjs';
 // 2026-09-27: SSS registration, Cryvern rarity, motions and golden aura approved.
 export const BERKAN_CODE='V-055',BERKAN_SKILL_ID='MS-055';
+export const BERKAN_AREA_SKILL_ID='MS-056',BERKAN_AREA_MECHANIC='GILDED_ARROW_RAIN',BERKAN_AREA_IMPACT=1.62;
+export const isBerkanAreaSkill=skill=>skill?.id===BERKAN_AREA_SKILL_ID||skill?.mechanic===BERKAN_AREA_MECHANIC;
 export const BERKAN_TEMPO=Object.freeze({speedScale:1.25,actionCredit:1.25,playbackScale:1.25});
 export const berkanActionCredit=actors=>actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED'&&a.code===BERKAN_CODE)?BERKAN_TEMPO.actionCredit:1;
 export const berkanPlaybackRate=engine=>engine.reducedMotion?8:1.3*(engine.paceScale||1)*BERKAN_TEMPO.playbackScale;
@@ -25,6 +27,15 @@ export function createBerkanSkill(definition,art){
   art('berkan-gilded-starfall','GILDED_STARFALL',1.7,[2.08],4.6,'#edc878'),
   ['흑금 광휘 집중','활시위 당김 · 코어 압축','흑금 화살 · 낙성 파열','금빛 파편 · 잔광 소멸']);
 }
+export function createBerkanAreaSkill(definition,art){
+ return definition(BERKAN_AREA_SKILL_ID,'흑금 천우','SNIPER','ALL_ENEMIES',BERKAN_AREA_MECHANIC,
+  'PVE에서 자원과 재사용 조건을 충족하면 살아 있는 적 전원을 지정합니다. PVP에서는 사용하지 않습니다.',
+  '적 진영에 흑금 화살비를 내립니다. 전체 피해 배율을 지정 대상 수로 나누어 각각 한 번 타격합니다.',
+  '대상별 회피·방어·보호막·피해 경감을 적용합니다. 사망·기절·침묵 중에는 발동하지 않습니다.',
+  '적이 하나면 전체 피해 예산으로 한 번 타격합니다. 회피한 몫은 다른 적에게 옮기지 않습니다.',
+  art('berkan-gilded-arrow-rain',BERKAN_AREA_MECHANIC,1.05,[BERKAN_AREA_IMPACT],3.4,'#edc878'),
+  ['흑금 광휘 집중','적 진영 위 화살비 전개','진영 전체 동시 충돌','금빛 파편 · 잔광 소멸']);
+}
 // Upgrade the released single-target definition on existing CMS reads without
 // database writes. Once upgraded, later operator balance/assignment edits win.
 export function upgradeBerkanTwinSkill(document,defaults){
@@ -42,7 +53,9 @@ export function prepareBerkanDefaults(document){
  Object.assign(card,{name:'베르칸',rank:'SSS',review:'REVIEWED',acquisition:{type:'DROP',source:'하이퍼팩 · 크라이베른과 동일한 SSS 내 선택 가중치. SSS 등급 전체 확률은 CMS 운영값 유지.',coinPrice:null,dropRate:null}});
  const skill=document.skills.find(s=>s.id===BERKAN_SKILL_ID);if(!skill)throw Error('BERKAN_SKILL_MISSING');
  skill.balance={...BERKAN_BALANCE};skill.review='REVIEWED';
- document.assignments.find(a=>a.code===BERKAN_CODE).skillIds=[BERKAN_SKILL_ID];
+ const area=document.skills.find(s=>s.id===BERKAN_AREA_SKILL_ID);if(!area)throw Error('BERKAN_AREA_SKILL_MISSING');
+ area.balance={...BERKAN_BALANCE};area.review='REVIEWED';
+ document.assignments.find(a=>a.code===BERKAN_CODE).skillIds=[BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID];
  return document;
 }
 export const BERKAN_SOURCE_ART='assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png';

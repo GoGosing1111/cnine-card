@@ -1,7 +1,7 @@
 import {BerkanFX} from '../../mercenary-berkan-sss-v1/source/BerkanFX.js';
 import {sample} from '../skill.mjs';
 // Reuses the live V3 layer, sprite pool, silhouette and registered GSAP controls.
-// Only this independent preview imports the new area sequence.
+// The preview and live PVE adapter share this authored area sequence.
 export class BerkanAreaFX extends BerkanFX{
  render(time){
   if(this.plan.mode!=='area'||this.destroyed)return super.render(time);

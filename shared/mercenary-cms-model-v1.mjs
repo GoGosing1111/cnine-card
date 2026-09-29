@@ -1,4 +1,4 @@
-import {upgradeBerkanTwinSkill} from './mercenary-berkan-v1.mjs';
+import {upgradeBerkanTwinSkill,BERKAN_AREA_SKILL_ID} from './mercenary-berkan-v1.mjs';
 import {CRYVERN_CODE,CRYVERN_SKILL_ID} from './mercenary-cryvern-v1.mjs';
 import {NURSE_CODES,NURSE_SKILL_ID} from './mercenary-nurse-healers-v1.mjs';
 import {S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
@@ -82,13 +82,18 @@ export function validateMercenaryCms(d, catalog) {
 // Only the exact previous complete catalog is eligible, never a partial draft.
 export function expandMercenarySkillCatalog(document, defaults, catalog) {
   document=upgradeBerkanTwinSkill(document,defaults);
+  if(catalog.skills.some(s=>s.id===BERKAN_AREA_SKILL_ID)&&!document?.skills?.some(s=>s.id===BERKAN_AREA_SKILL_ID)){
+    const previousCatalog={...catalog,skills:catalog.skills.filter(s=>s.id!==BERKAN_AREA_SKILL_ID)};
+    const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);
+    return validateMercenaryCms({...previous,skills:[...previous.skills,structuredClone(defaults.skills.find(s=>s.id===BERKAN_AREA_SKILL_ID))]},catalog);
+  }
   if(catalog.cards.some(c=>c.code==='V-055')&&!document?.mercenaries?.some(c=>c.code==='V-055')){
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!=='V-055'),skills:catalog.skills.filter(s=>s.id!=='MS-055')};
     const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);
     return validateMercenaryCms({...previous,
       mercenaries:[...previous.mercenaries,structuredClone(defaults.mercenaries.find(c=>c.code==='V-055'))],
       skills:[...previous.skills,structuredClone(defaults.skills.find(s=>s.id==='MS-055'))],
-      assignments:[...previous.assignments,structuredClone(defaults.assignments.find(c=>c.code==='V-055'))]},catalog);
+      assignments:[...previous.assignments,{...structuredClone(defaults.assignments.find(c=>c.code==='V-055')),skillIds:defaults.assignments.find(c=>c.code==='V-055').skillIds.filter(id=>catalog.skills.some(s=>s.id===id))}]},catalog);
   }
   if(catalog.cards.some(c=>NURSE_CODES.includes(c.code))&&!document?.mercenaries?.some(c=>NURSE_CODES.includes(c.code))){
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>!NURSE_CODES.includes(c.code)),skills:catalog.skills.filter(s=>s.id!==NURSE_SKILL_ID)};

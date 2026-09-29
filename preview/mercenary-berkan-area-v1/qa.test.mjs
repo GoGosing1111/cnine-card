@@ -21,8 +21,8 @@ test('new area sequence has sixteen unique RGBA frames with clear gutters and pr
   assert.equal(border,0);assert.ok(occupied>0&&occupied<info.width*info.height*.8);
  }
  assert.equal(sha(await fs.readFile(new URL('assets/arrow-rain-atlas-v1.png',root))),area.arrowRainArea.sha256);
- assert.equal(area.runtimeEnabled,false);assert.equal(AREA.runtimeEnabled,false);
- assert.deepEqual(seed.document.assignments.find(a=>a.code==='V-055').skillIds,['MS-055'],'new skill is not silently assigned');
+ assert.equal(area.runtimeEnabled,true);assert.equal(AREA.runtimeEnabled,true);
+ assert.deepEqual(seed.document.assignments.find(a=>a.code==='V-055').skillIds,['MS-055','MS-056'],'PVE connection approved on 2026-09-30');
 });
 test('new sequence changes authored shape from descent through impact and clears on stop or expiry',()=>{
  const p=makePlan();assert.deepEqual(p.contacts,[1.62]);

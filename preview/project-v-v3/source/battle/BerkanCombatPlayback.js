@@ -1,9 +1,12 @@
-import {BerkanFX,loadBerkanAssets} from '../../../mercenary-berkan-sss-v1/source/BerkanFX.js';
-import {makePlan,MODES} from '../../../mercenary-berkan-sss-v1/skill.mjs';
-import {BERKAN_CODE,BERKAN_SKILL_ID,berkanPlaybackRate} from '../../../../shared/mercenary-berkan-v1.mjs';
+import {loadBerkanAssets} from '../../../mercenary-berkan-sss-v1/source/BerkanFX.js';
+import {BerkanAreaFX} from '../../../mercenary-berkan-area-v1/source/BerkanAreaFX.js';
+import {makePlan,AREA} from '../../../mercenary-berkan-area-v1/skill.mjs';
+import {MODES} from '../../../mercenary-berkan-sss-v1/skill.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID,berkanPlaybackRate} from '../../../../shared/mercenary-berkan-v1.mjs';
 let manifestPromise;
-const loadManifest=()=>manifestPromise||=(fetch('/preview/mercenary-berkan-sss-v1/manifest.json?v=20260927-live1')
- .then(r=>{if(!r.ok)throw Error('BERKAN_MANIFEST');return r.json();}).catch(e=>{manifestPromise=null;throw e;}));
+const loadManifest=()=>manifestPromise||=Promise.all(['/preview/mercenary-berkan-sss-v1/manifest.json?v=20260927-live1','/preview/mercenary-berkan-area-v1/manifest.json?v=20260930-live1']
+ .map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('BERKAN_MANIFEST');return r.json();})))
+ .then(([base,area])=>({...base,effects:{...base.effects,arrowRainArea:area.arrowRainArea}})).catch(e=>{manifestPromise=null;throw e;});
 const release=assets=>{for(const group of Object.values(assets))for(const frames of Object.values(group))for(const t of frames)t.destroy(false);};
 export async function preloadBerkan(){release(await loadBerkanAssets(await loadManifest()));}
 export const berkanPlaybackPlan=(mode,dodge=false,targetDodges={})=>({...makePlan({mode,dodge}),targetDodges,authoritative:true,damageAuthority:'SERVER_ONLY'});
@@ -22,7 +25,7 @@ export async function setupBerkanActor(engine,actor){
  const pending=(async()=>{
   const manifest=await loadManifest(),assets=await loadBerkanAssets(manifest);
   if(actor.root.destroyed||epoch!==engine.mercenaryEpoch||playbackEpoch!==engine.playbackEpoch||engine.mercenaryDisposed){release(assets);return null;}
-  const fx=new BerkanFX(engine,actor,[],assets,manifest,berkanPlaybackPlan('aura'),()=>{},{authoritative:true,useAuthoredPose:actor.cardId===BERKAN_CODE});
+  const fx=new BerkanAreaFX(engine,actor,[],assets,manifest,berkanPlaybackPlan('aura'),()=>{},{authoritative:true,useAuthoredPose:actor.cardId===BERKAN_CODE});
   const state={fx,actor,engine,busy:false,stopped:false};engine.berkanStates.set(actor,state);
   if(actor.cardId===BERKAN_CODE){
    actor.setAnimationAdapter({setState(next){
@@ -37,30 +40,32 @@ export async function setupBerkanActor(engine,actor){
 }
 export function clearBerkanActors(engine){for(const s of engine.berkanStates?.values()||[]){s.stopped=true;s.fx.destroy();}engine.berkanStates?.clear();}
 export function cancelBerkanPlayback(engine){for(const s of engine.berkanStates?.values()||[]){s.stopped=true;s.busy=false;s.fx.cancel();}}
-async function playback(engine,actor,targets,{basic=false,dodge=false,targetDodges={},apply}){
+async function playback(engine,actor,targets,{basic=false,area=false,dodge=false,targetDodges={},apply}){
  const epoch=engine.mercenaryEpoch,playbackEpoch=engine.playbackEpoch;
  const valid=()=>actor&&targets.length&&!actor.root.destroyed&&engine.visible&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&!engine.mercenaryDisposed;
  if(!valid())return false;
  const state=await setupBerkanActor(engine,actor);if(!state||!valid())return false;
  engine.settlePendingTails?.([actor,...targets]);state.stopped=false;state.busy=true;
- const {fx}=state,mode=basic?'attack':'ultimate',plan=berkanPlaybackPlan(mode,dodge,targetDodges),clock={time:0},contact=MODES[mode].contacts[0];
+ const {fx}=state,mode=basic?'attack':area?'area':'ultimate',plan=berkanPlaybackPlan(mode,dodge,targetDodges),clock={time:0},contact=area?AREA.contact:MODES[mode].contacts[0];
  actor.animationController.kill();fx.removeTimeline();fx.resting=false;fx.plan=plan;fx.targets=targets;fx.targetDefaults=targets.map(target=>({x:target.view.x,tint:target.fullBodySprite.tint}));fx.render(0);
  let applied=false;
  const result=await engine.timeline(t=>{
   t.to(clock,{time:plan.duration,duration:plan.duration,ease:'none',onUpdate:()=>{if(valid()&&!fx.destroyed)fx.render(clock.time);}});
   t.call(()=>{if(!applied&&valid()){applied=true;apply();}},[],contact);
  },()=>{state.busy=false;if(!fx.destroyed){fx.cancel();if(valid())ambient(state);}},berkanPlaybackRate(engine),{releaseAt:contact+.12,owners:[actor,...targets]});
- engine.lastMercenaryPlayback={skillId:basic?null:BERKAN_SKILL_ID,eventType:basic?'ATTACK':'MERCENARY_STARFALL',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0};
+ engine.lastMercenaryPlayback={skillId:basic?null:area?BERKAN_AREA_SKILL_ID:BERKAN_SKILL_ID,eventType:basic?'ATTACK':'MERCENARY_STARFALL',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0};
  return result&&valid();
 }
 export function playBerkanSkill(engine,event){
  const actor=engine.combatantById(event.actorId);
  // Previously saved single-hit battles still play through the same adapter.
- const impacts=(Array.isArray(event.impacts)?event.impacts:[event]).slice(0,2);
+ const area=event.skillId===BERKAN_AREA_SKILL_ID;
+ if(area&&event.battleMode!=='PVE')return true;
+ const impacts=(Array.isArray(event.impacts)?event.impacts:[event]).slice(0,area?Infinity:2);
  const rows=impacts.map(impact=>({impact,target:engine.combatantById(impact.targetId)})).filter(row=>row.target&&!row.target.root.destroyed);
  if(!actor||!rows.length)return true;
  engine.queueBanner(event.skillName,0xedc878,actor.name);
- return playback(engine,actor,rows.map(r=>r.target),{dodge:rows.every(r=>r.impact.dodge),targetDodges:Object.fromEntries(rows.map(r=>[r.target.id,!!r.impact.dodge])),apply(){
+ return playback(engine,actor,rows.map(r=>r.target),{area,dodge:rows.every(r=>r.impact.dodge),targetDodges:Object.fromEntries(rows.map(r=>[r.target.id,!!r.impact.dodge])),apply(){
   for(const {impact,target}of rows){
    if(target.root.destroyed)continue;
    if(Number.isFinite(impact.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,impact.targetHpAfter));

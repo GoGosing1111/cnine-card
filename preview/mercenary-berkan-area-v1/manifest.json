@@ -2,8 +2,8 @@
   "format": "BERKAN_AREA_SKILL_REVIEW_V1",
   "name": "흑금 천우",
   "code": "V-055",
-  "status": "USER_REVIEW_PENDING",
-  "runtimeEnabled": false,
+  "status": "USER_APPROVED_LIVE_PVE",
+  "runtimeEnabled": true,
   "renderer": {
     "pixi": "8.20.0",
     "gsap": "3.13.0",
@@ -164,5 +164,10 @@
     "settled": 3.22
   },
   "target": "ALL_ENEMIES",
-  "damageAuthority": "NONE_VISUAL_PREVIEW"
+  "damageAuthority": "NONE_VISUAL_PREVIEW",
+  "skillId": "MS-056",
+  "approvedAt": "2026-09-30",
+  "battleModes": [
+    "PVE"
+  ]
 }

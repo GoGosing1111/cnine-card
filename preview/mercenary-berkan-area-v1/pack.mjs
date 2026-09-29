@@ -15,7 +15,7 @@ for(let i=0;i<16;i++){
 }
 const atlas=await sharp({create:{width:cellSize*4,height:cellSize*4,channels:4,background:{r:0,g:0,b:0,alpha:0}}}).composite(inputs).png().toBuffer();
 await fs.writeFile(new URL('assets/arrow-rain-atlas-v1.png',root),atlas);
-const manifest={format:'BERKAN_AREA_SKILL_REVIEW_V1',name:'흑금 천우',code:'V-055',status:'USER_REVIEW_PENDING',runtimeEnabled:false,
+const manifest={format:'BERKAN_AREA_SKILL_REVIEW_V1',name:'흑금 천우',code:'V-055',status:'USER_APPROVED_LIVE_PVE',runtimeEnabled:true,skillId:'MS-056',approvedAt:'2026-09-30',battleModes:['PVE'],
  renderer:{pixi:'8.20.0',gsap:'3.13.0',clock:'V3_REGISTERED_GSAP',maxSprites:40},
  source:{file:'assets/source/arrow-rain-v1.png',sha256:hash(source),width:meta.width,height:meta.height,hasAlpha:meta.hasAlpha,tool:'image_gen',prompt:'generation-prompt.txt'},
  arrowRainArea:{atlas:'../mercenary-berkan-area-v1/assets/arrow-rain-atlas-v1.png',sha256:hash(atlas),frameCount:16,columns:4,rows:4,cellSize,frames},
