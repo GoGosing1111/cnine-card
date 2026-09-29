@@ -19,7 +19,12 @@ export function fullGateResumePlan({env,git,scripts,logText}){
   const seen=[...logText.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)].map(match=>match[1]);
   if(!seen.length||seen.some((name,i)=>name!==names[i]))throw Error('Log is not a contiguous gate prefix.');
   const failedIndex=seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
-  if(/^ℹ fail [1-9]/m.test(prefix)||!/^ℹ fail [1-9]/m.test(logText.slice(last)))throw Error('Resume requires a failed final stage and successful preceding stages.');
+  const tail=logText.slice(last),failed=/^ℹ fail [1-9]/m.test(tail);
+  // An interrupted process has no final Node test summary. Always rerun that
+  // whole stage; never treat individual passing test lines as stage completion.
+  const interrupted=env.RELEASE_GATE_RESUME_INTERRUPTED==='1'&&!/^ℹ fail \d+/m.test(tail)
+    &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
+  if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted))throw Error('Resume requires a failed or explicitly interrupted final stage and successful preceding stages.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),rerun=new Set();
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
   for(const path of changed){

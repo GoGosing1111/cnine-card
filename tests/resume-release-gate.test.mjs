@@ -36,3 +36,17 @@ test('tampered, incomplete or noncontiguous logs fail closed',()=>{
   const f=fixture();assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_SHA256:'0'.repeat(64)}}));
   for(const log of [f.logText.replace('> test:a','> test:c'),f.logText.replace('ℹ fail 4','ℹ fail 0'),f.logText.replace('ℹ fail 0','ℹ fail 1'),f.logText.replace('> release:gate','> something')])assert.throws(()=>fullGateResumePlan(fixture({log})));
 });
+
+test('explicit interruption resumes the entire incomplete stage while preserving runtime/hash checks',()=>{
+  const f=fixture(),log=f.logText.replace('ℹ fail 4','✔ first test finished');
+  const interrupted=fixture({changed:['scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs'],log});
+  assert.throws(()=>fullGateResumePlan(interrupted));
+  const env={...interrupted.env,RELEASE_GATE_RESUME_INTERRUPTED:'1',RELEASE_GATE_RESUME_REASON:'Previous process interrupted before the stage completed'};
+  const plan=fullGateResumePlan({...interrupted,env});
+  assert.equal(plan.reused,1);assert.equal(plan.commands[1],'npm run test:b');
+  assert.throws(()=>fullGateResumePlan({...interrupted,env:{...env,RELEASE_GATE_RESUME_REASON:''}}));
+  const passed=fixture({log:f.logText.replace('ℹ fail 4','ℹ fail 0')});
+  assert.throws(()=>fullGateResumePlan({...passed,env:{...passed.env,RELEASE_GATE_RESUME_INTERRUPTED:'1',RELEASE_GATE_RESUME_REASON:env.RELEASE_GATE_RESUME_REASON}}));
+  const runtime=fixture({changed:['functions/live.js'],log});
+  assert.throws(()=>fullGateResumePlan({...runtime,env:{...runtime.env,RELEASE_GATE_RESUME_INTERRUPTED:'1',RELEASE_GATE_RESUME_REASON:env.RELEASE_GATE_RESUME_REASON}}));
+});
