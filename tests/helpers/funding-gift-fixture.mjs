@@ -12,7 +12,7 @@ export async function fundingGiftFixture(t){
     "INSERT INTO users(id,coin,nickname,role,status) VALUES(1,123,'펀딩 검수 계정','USER','ACTIVE'),(2,400,'다른 계정','USER','ACTIVE'),(9,1000,'검수 운영자','OWNER','ACTIVE')",
     "INSERT INTO app_meta VALUES('safe_runtime_upgrade_v2121_foundation','1',NULL)",
     'CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order BIGINT,is_active BIGINT,updated_at TEXT)',
-    "INSERT INTO inventory_items(code,is_active) VALUES('MASTER_STAR',1)",
+    "INSERT INTO inventory_items(code,is_active) VALUES('MASTER_STAR',1),('STARLIGHT_ARMOR_CORE',1)",
     'CREATE TABLE cnine_user_inventory(user_id BIGINT,item_code TEXT,quantity BIGINT NOT NULL,unseen_quantity BIGINT NOT NULL,created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code))',
     "INSERT INTO cnine_user_inventory VALUES(1,'MASTER_STAR',17,3,NULL,NULL)",
     'CREATE TABLE inventory_logs(user_id BIGINT,item_code TEXT,change_amount BIGINT,balance_after BIGINT,reason TEXT,reference_type TEXT,reference_id TEXT)',

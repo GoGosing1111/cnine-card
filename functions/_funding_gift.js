@@ -6,10 +6,10 @@ import {FORGE_REPAIR_ITEM,ensureForgeRepairCatalog} from './_forge_repair_catalo
 export const FUNDING_GIFT=Object.freeze({
   code:'FUNDING_GIFT_BOX',name:'펀딩 사은품',
   image:'assets/ui/packs/funding-gift-box-v1.png',
-  coin:250_000_000_000,masterStar:3_000_000,repairCoupon:2,
-  description:'개봉 시 2,500억 코인, 마스터의 별 3,000,000개, 핑두 리페어 쿠폰 2개를 모두 받습니다. 상자 1개당 확정 지급됩니다.'
+  coin:300_000_000_000,masterStar:5_000_000,repairCoupon:2,mysticEnergy:1000,
+  description:'개봉 시 3,000억 코인, 마스터의 별 5,000,000개, 핑두 리페어 쿠폰 2개, 미스틱 에너지 1,000개를 모두 받습니다. 상자 1개당 확정 지급됩니다.'
 });
-export const FUNDING_GIFT_CATALOG_KEY='funding_gift_catalog_20260929';
+export const FUNDING_GIFT_CATALOG_KEY='funding_gift_catalog_20260929_contents_v2';
 const MAX=Number.MAX_SAFE_INTEGER;
 const fail=(message,status=409)=>{throw Object.assign(new Error(message),{status});};
 
@@ -19,7 +19,7 @@ export async function ensureFundingGiftCatalog(env){
   const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FUNDING_GIFT_CATALOG_KEY).first();
   if(marker?.value!=='1')await env.DB.batch([
     env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
-      VALUES(?,?,'FUNDING GIFT',?,'GIFT_BOX','SPECIAL',?,39,1) ON CONFLICT(code) DO NOTHING`)
+      VALUES(?,?,'FUNDING GIFT',?,'GIFT_BOX','SPECIAL',?,39,1) ON CONFLICT(code) DO UPDATE SET description=excluded.description,updated_at=CURRENT_TIMESTAMP`)
       .bind(FUNDING_GIFT.code,FUNDING_GIFT.name,FUNDING_GIFT.description,FUNDING_GIFT.image),
     env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)
       ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(FUNDING_GIFT_CATALOG_KEY)
@@ -35,10 +35,10 @@ export async function openFundingGift(env,user,{requestId,count=1}){
     prepare:async()=>{
       const owned=await p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,gift.code).first();
       if(Number(owned?.quantity||0)<1)fail('보유한 펀딩 사은품이 없습니다.');
-      return {itemCode:gift.code,count:1,coin:gift.coin,masterStar:gift.masterStar,repairCoupon:gift.repairCoupon};
+      return {itemCode:gift.code,count:1,coin:gift.coin,masterStar:gift.masterStar,repairCoupon:gift.repairCoupon,mysticEnergy:gift.mysticEnergy};
     },
     statements:async plan=>{
-      const token=crypto.randomUUID();
+      const token=crypto.randomUUID(),mysticEnergy=Number(plan.mysticEnergy||0);
       return [
         jointGuard(DB,token,`EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=?)
           AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND
@@ -48,6 +48,12 @@ export async function openFundingGift(env,user,{requestId,count=1}){
         ...jointInventoryChange(DB,user.id,gift.code,-1,'FUNDING_GIFT_OPEN',requestId),
         ...jointInventoryChange(DB,user.id,'MASTER_STAR',plan.masterStar,'FUNDING_GIFT_REWARD',requestId),
         ...jointInventoryChange(DB,user.id,FORGE_REPAIR_ITEM.code,plan.repairCoupon,'FUNDING_GIFT_REWARD',requestId),
+        ...(mysticEnergy?[
+          jointGuard(DB,token+'-energy',`NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='STARLIGHT_ARMOR_CORE'
+            AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))`,[user.id,MAX-mysticEnergy,MAX-mysticEnergy]),
+          ...jointInventoryChange(DB,user.id,'STARLIGHT_ARMOR_CORE',mysticEnergy,'FUNDING_GIFT_REWARD',requestId),
+          jointGuardEnd(DB,token+'-energy')
+        ]:[]),
         p('UPDATE users SET coin=coin+? WHERE id=?',plan.coin,user.id),
         p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
           SELECT id,?,coin,? FROM users WHERE id=?`,plan.coin,`FUNDING_GIFT:${requestId}`,user.id),
@@ -56,7 +62,7 @@ export async function openFundingGift(env,user,{requestId,count=1}){
     }
   });
   return {ok:true,requestId,replayed:result.replayed,itemCode:gift.code,count:1,
-    rewards:{coin:result.plan.coin,masterStar:result.plan.masterStar,repairCoupon:result.plan.repairCoupon}};
+    rewards:{coin:result.plan.coin,masterStar:result.plan.masterStar,repairCoupon:result.plan.repairCoupon,mysticEnergy:Number(result.plan.mysticEnergy||0)}};
 }
 
 export async function grantFundingGift(env,admin,{userId,amount,reason='',requestId}){

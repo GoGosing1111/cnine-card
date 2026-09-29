@@ -1,5 +1,11 @@
 (() => {
   const CODE='FUNDING_GIFT_BOX',IMAGE='assets/ui/packs/funding-gift-box-v1.png';
+  const rewardsHtml=rewards=>[
+    ['코인',Number(rewards.coin)/100000000,'억 코인'],
+    ['★ 마스터의 별',Number(rewards.masterStar)/10000,'만 개'],
+    ['핑두 리페어권',Number(rewards.repairCoupon),'개'],
+    ['미스틱 에너지',Number(rewards.mysticEnergy||0),'개']
+  ].filter(([,amount])=>Number.isSafeInteger(amount)&&amount>0).map(([label,amount,unit])=>`<div><span>${label}</span><strong>${amount.toLocaleString('ko-KR')}<small>${unit}</small></strong></div>`).join('');
   let active=false;
   async function open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity){
     if(active||document.querySelector('#modal.tournament-gift-modal'))return;
@@ -24,8 +30,8 @@
       <p class="funding-gift-kicker">FUNDING GIFT</p><h2 id="fundingGiftTitle">펀딩 사은품</h2>
       <p class="funding-gift-caption">함께해 주신 마음에 감사의 선물을 전합니다</p>
       <div class="funding-gift-art"><img src="${IMAGE}" alt="코인과 별 결정, 리페어권 두 장을 담은 에메랄드 사은품 상자"></div>
-      <p class="funding-gift-label">상자 1개 · 세 보상 모두 확정 지급</p>
-      <div class="funding-gift-rewards"><div><span>코인</span><strong>2,500억<small>코인</small></strong></div><div><span>★ 마스터의 별</span><strong>300만<small>개</small></strong></div><div><span>핑두 리페어권</span><strong>2<small>개</small></strong></div></div>
+      <p class="funding-gift-label">상자 1개 · 네 보상 모두 확정 지급</p>
+      <div class="funding-gift-rewards">${rewardsHtml({coin:300000000000,masterStar:5000000,repairCoupon:2,mysticEnergy:1000})}</div>
       <p class="funding-gift-status" role="status" aria-live="polite"></p>
       <button type="button" class="funding-gift-confirm">1개 개봉 · 보상 받기</button>
       <p class="funding-gift-balance">보유 ${Number(ownedQuantity||0).toLocaleString('ko-KR')}개 · 개봉 시 상자 1개 사용</p>
@@ -46,7 +52,8 @@
         try{localStorage.removeItem(key);}catch{}
         for(const name of ['inventory','me','shell/summary'])clearApiCache(name);
         modal.querySelector('h2').textContent='보상 수령 완료';
-        modal.querySelector('.funding-gift-label').textContent='코인 · 마스터의 별 · 리페어권을 모두 받았습니다';
+        modal.querySelector('.funding-gift-rewards').innerHTML=rewardsHtml(result.rewards);
+        modal.querySelector('.funding-gift-label').textContent=result.replayed?'이전 개봉에서 지급된 보상':'아래 보상을 모두 받았습니다';
         modal.querySelector('.funding-gift-balance').textContent=result.replayed?'이전에 완료한 개봉 결과입니다.':'펀딩 사은품 1개를 사용했습니다.';
         button.textContent='인벤토리로 돌아가기';button.onclick=close;
         // A failed display refresh must never resend a completed reward operation.
