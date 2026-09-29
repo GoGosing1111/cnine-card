@@ -24,4 +24,6 @@
 - 최종 관련 회귀는 `tests/equipment-forge-recovery-20260923.test.mjs`만 scoped 배포 게이트에서 실행한다. 동일 파일에 기존 조회/복구/타임아웃/보호권 부족 검사와 요청 식별자 불일치·조회 실패·만료 요청 회귀를 포함한다.
 - 변경은 강화 화면 및 그 회귀검사에 한정된다. 서버 거래·공통 인증·DB·의존성 변경이 없어 전체 게이트와 Worker 검사 대상이 아니다.
 - 직전 운영 배포: `f3c5eb4f-ac55-4853-8309-2cf9552b42c8`, 코드 `7c8845e0b9fc19be1a6614814d3c1a3ae0cf3dc8`. 지정 명령 `npm run deploy:production -- --scoped` 사용.
-- 최종 배포와 운영 자산 확인 결과는 완료 후 기록한다.
+- 최종 scoped 회귀 24/24 통과. 출시 플래그·캐시 호환·Hyperdrive 캐시 OFF 확인 및 Pages Worker 컴파일 성공.
+- 운영 코드 `8054a5ec9b2ae6c21e756d2a735eead68cc8ad5c`, Pages `https://5bf3c8c7.cnine-card.pages.dev`, 정규 배포 절차의 clan-draft Worker 버전 `4d962a02-71a6-4d84-908f-1704aa196a81` 반영 완료.
+- 운영 `/equipment-forge/` HTML 및 버전 지정 app.mjs 응답 200, 재검증 캐시 정책, 로컬 배포본과 SHA-256 일치 확인. 사용자 휴대폰에서의 최종 해제 여부는 아직 확인되지 않았으며 새로고침 후 자동 복구 또는 활성화된 재확인 버튼으로 확인할 수 있다.
