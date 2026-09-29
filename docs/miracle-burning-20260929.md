@@ -35,3 +35,13 @@
 실제 직전 운영 배포: `a52f8aab-a659-4e8e-8db9-3069b4441455`, 원본 커밋 `13f7135fd6db99500be68c863f6e38bf4baafa3b`. Cloudflare Pages 운영 배포 목록에서 확인했다. 최신 main의 후원 선물 변경은 보존한다.
 
 기존 버닝 모드·확률 보정의 국소 확장으로 분류한다. 공통 인증/DB 기반/전투 구조를 개편하지 않으므로 전체 게임 검사는 실행하지 않는다. 최종 실행은 `npm run deploy:production -- --scoped`, 위 신규 미라클 검사와 자동 Worker 컴파일·깨끗한 main·출시 상태·캐시/Hyperdrive 검사만 수행한다. 이미 통과한 무관한 검사를 반복하지 않는다. 운영에서 버닝 발동·테스트 보상 지급은 수행하지 않는다.
+
+## 운영 반영 완료
+
+- 배포 커밋: `600175e2eb21665c297041160d089326ac55391a`.
+- 지정 scoped 명령 성공: 신규 미라클 관련 검사 10/10, Worker 구문·Functions 번들 컴파일, 깨끗한 main/출시 조건/캐시 버전, Hyperdrive query cache OFF 확인.
+- Pages 배포: `https://54cb5230.cnine-card.pages.dev`.
+- 지정 명령이 함께 배포한 clan-draft Worker 버전: `c00e2730-841e-45df-9bcc-24b5e24675d3`.
+- 2026-09-29 19:13 KST 운영 확인: 홈페이지·CMS·프리뷰 HTTP 200 및 신규 JS 연결, WebP SHA-256 원본 일치, 공개 버닝 상태 `enabled:false / mode:NONE`, 미인증 전용 관리자 API HTTP 401.
+- 후원 선물 최신 스크립트 `contents-v2`도 유지됐다. 이벤트는 발동하지 않았다.
+- 이 완료 기록은 문서만 수정하므로 문서 diff 확인·원격 반영으로 종료하고 게임 검사·운영 배포를 반복하지 않는다.
