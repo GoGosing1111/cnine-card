@@ -16,7 +16,7 @@ const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const inventoryBody=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("    if(path==='inventory/seen'"));
 const inventory=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureEmperorEnergyCatalog,LICH_TICKET}=deps;
-const path='inventory',ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${inventoryBody}`);
+const path='inventory',ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureRecruitmentGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${inventoryBody}`);
 const useStart=api.indexOf("    if(path==='inventory/use'&&request.method==='POST'){");
 const useBody=api.slice(useStart,api.indexOf('      const usableCodes=',useStart))+'}';
 const directUse=new AsyncFunction('deps',`const {env,request,authenticate,json,readBody,FORGE_REPAIR_ITEM,TOURNAMENT_GIFT}=deps;const path='inventory/use',UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${useBody}`);

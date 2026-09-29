@@ -75,6 +75,7 @@ import { handleWorkshop,ensureWorkshopFoundation } from '../_workshop.js';
 import { BATTLE_SUIT_CORE_CODES, ensureBattleSuitCoreCatalog, ensureMysticEnergyCatalog } from '../_battle_suit_materials.js';
 import {TOURNAMENT_GIFT,ensureTournamentGiftCatalog,openTournamentGift,grantTournamentGift} from '../_tournament_gift.js';
 import {ensureFundingGiftCatalog,openFundingGift,grantFundingGift} from '../_funding_gift.js';
+import {ensureRecruitmentGiftCatalog,openRecruitmentGift,grantRecruitmentGift} from '../_recruitment_gift.js';
 import {isForgeTicketGrant,grantForgeTickets} from '../_admin_forge_ticket_grant.js';
 import { EMPEROR_ENERGY_ITEM, ensureEmperorEnergyCatalog } from '../_emperor_energy.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
@@ -515,6 +516,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
+  RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️',inventory:true,max:100000,messageType:'ITEM_REWARD'},
@@ -567,6 +569,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(rewardType==='PINGDU_REPAIR_COUPON')await ensureForgeRepairCatalog(env);
   if(rewardType==='TOURNAMENT_GIFT_BOX')await ensureTournamentGiftCatalog(env);
   if(rewardType==='FUNDING_GIFT_BOX')await ensureFundingGiftCatalog(env);
+  if(rewardType==='RECRUITMENT_GIFT_BOX')await ensureRecruitmentGiftCatalog(env);
   const current=await env.DB.prepare('SELECT id,coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(!current)throw new Error('보상을 받을 계정을 찾을 수 없습니다.');
   let balanceBefore=0;
@@ -5564,6 +5567,7 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       await ensureTournamentGiftCatalog(env);
       await ensureFundingGiftCatalog(env);
+      await ensureRecruitmentGiftCatalog(env);
       await ensureForgeProtectionCatalog(env);
       await ensureForgeRepairCatalog(env);
       await ensureSkillChipFoundation(env);
@@ -5590,6 +5594,7 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
       if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,user.id,'inventory/funding-gift/open',()=>openFundingGift(env,user,{requestId:body.requestId,count:openCount})));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+      if(itemCode==='RECRUITMENT_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,user.id,'inventory/recruitment-gift/open',()=>openRecruitmentGift(env,user,{requestId:body.requestId,count:openCount})));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode===TOURNAMENT_GIFT.code){try{return json(await openTournamentGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 보유 수량을 확인하고 같은 요청으로 다시 시도하세요.'},error.status||409);}}
       if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)return json({error:'전직 패스권은 카드 상세 > 고유효과 전직에서 자동 사용됩니다.'},400);
       if(itemCode===FORGE_REPAIR_ITEM.code)return json({error:'핑두 리페어 쿠폰은 장비 강화 센터 → 파괴 기록에서 사용하세요.'},400);
@@ -7773,7 +7778,7 @@ async function handleRequest(context){
       const body=await readBody(request);
       const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
       const spec=verifiedMessageRewardSpec(requestedType);
-      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','PINGDU_REPAIR_COUPON','FUNDING_GIFT_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
+      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','PINGDU_REPAIR_COUPON','FUNDING_GIFT_BOX','RECRUITMENT_GIFT_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
       if(!Number.isSafeInteger(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위의 정수로 입력하세요.`},400);
       const rewardAmount=rawAmount;
@@ -8518,6 +8523,7 @@ async function handleRequest(context){
           catch(error){return json({error:error.status?error.message:'지급 결과를 확인하지 못했습니다. 같은 내용으로 다시 시도하세요.'},error.status||409);}
         }
         if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/funding-gift/grant',()=>grantFundingGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+        if(itemCode==='RECRUITMENT_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/recruitment-gift/grant',()=>grantRecruitmentGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode===TOURNAMENT_GIFT.code){try{return json(await withJointUserMutationLock(env,userId,'admin/tournament-gift/grant',()=>grantTournamentGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode===NEW_USER_GIFT_CODE)return json({error:'신규유저 기프트 박스는 유저관리의 전용 지급 기능에서만 지급할 수 있습니다.'},400);
         if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);
