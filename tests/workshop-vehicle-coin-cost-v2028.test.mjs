@@ -60,7 +60,7 @@ test('모든 제작 분류는 10억 제한 없이 안전한 정수 범위로 저
 
 test('CMS는 모든 제작 분류에서 코인 입력 max를 제거하고 캐시를 갱신한다',()=>{
   assert.match(admin,/function syncCoinCostLimit\(category\)/);
-  assert.match(admin,/q\('workshopRecipeCategoryV1668'\)\.onchange=event=>syncCoinCostLimit\(event\.target\.value\)/);
+  assert.match(admin,/q\('workshopRecipeCategoryV1668'\)\.onchange=event=>\{[^\n]*syncCoinCostLimit\(event\.target\.value\)\}/);
   assert.match(admin,/제작 코인 비용 상한 없음/);
   const coinInput=admin.match(/<input id="workshopRecipeCoinV1668"[^>]+>/)?.[0];
   assert.ok(coinInput);

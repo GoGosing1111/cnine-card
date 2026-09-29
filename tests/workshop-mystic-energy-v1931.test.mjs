@@ -220,7 +220,7 @@ test('CMS locks the canonical recipe and reports shard spend without schema DDL'
   assert.match(editor, /CANONICAL RECIPE · 변경 불가/);
   assert.match(editor, /MYSTIC_FIXED_LABEL/);
   assert.ok((editor.match(/readonly aria-readonly="true"/g) || []).length >= 6, 'canonical scalar fields must be read-only');
-  assert.match(editor, /locked=canonical\?'disabled aria-disabled="true"'/);
+  assert.match(editor, /locked=canonical(?:\|\|equipmentCraft)?\?'disabled aria-disabled="true"'/);
   assert.match(editor, /추가 아이템 재료 없음/);
 
   assert.match(snapshot, /LEFT JOIN \$\{RECIPE_TABLE\} r ON r\.id=l\.recipe_id/);
