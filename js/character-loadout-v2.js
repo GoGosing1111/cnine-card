@@ -238,7 +238,7 @@
       const operatorAlt = avatar?.name ? `${avatar.name} 장착 아바타` : '장비 관리 오퍼레이터';
       return `<section class="clv2-view clv2-equipment-view">
         ${profilePanel()}
-        <article class="clv2-armory-stage${avatar?.equipmentImage ? ' has-equipped-avatar' : ''}">
+        <article class="clv2-armory-stage${avatar?.equipmentImage ? ' has-equipped-avatar' : ''}" data-avatar-code="${escapeHtml(avatar?.code || '')}">
           <header class="clv2-stage-status"><span><i></i> EQUIPMENT LINK ONLINE</span><b>LOADOUT 06</b></header>
           <div class="clv2-armory-backdrop" aria-hidden="true"></div>
           <div class="clv2-reactor" aria-hidden="true"><i></i><i></i><i></i></div>

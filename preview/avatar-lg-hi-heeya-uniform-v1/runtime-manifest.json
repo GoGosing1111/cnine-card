@@ -1,0 +1,88 @@
+{
+  "status": "USER_RELEASE_AUTHORIZED",
+  "currentVersion": 2,
+  "name": "LG 하이희야",
+  "generator": "built-in image_gen",
+  "approval": {
+    "date": "2026-09-30",
+    "quote": "이정도가 적당해",
+    "image": "assets/user-approved-lobby-reference.png",
+    "sha256": "80934e778475f91b91d284b079e81b3da6824e33d473e3b4df777a8a6f2bde4c",
+    "note": "User selected V2 including its physique, long hair and crossed-leg pose. No additional pose or body changes."
+  },
+  "reference": {
+    "path": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png",
+    "sha256": "67bc6a9961423be7a379ac46bfd4ac004b53503c238a6d345e60ae58d327171b",
+    "role": "Face reference; full body preservation superseded by user revision"
+  },
+  "revision": "V1 rejected. V2 selected by the user after full-body slimming, longer hair and changed arm pose. Equipment cutout preserves the selected V2.",
+  "processing": "Source PNGs unchanged. Native alpha retained; uniform resizing, transparent padding and WebP export only. No coded background removal or anatomical edits.",
+  "alpha": {
+    "clearPixels": 1248939,
+    "solidPixels": 283420,
+    "borderMax": 0,
+    "bounds": {
+      "left": 271,
+      "top": 17,
+      "right": 740,
+      "bottom": 1477
+    },
+    "crop": {
+      "left": 263,
+      "top": 9,
+      "width": 486,
+      "height": 1477
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1088,
+    "uniformScale": 0.7041299932295193,
+    "bodyWidth": 342,
+    "bodyHeight": 1040
+  },
+  "files": {
+    "avatar-lg-hi-heeya-lobby-source-art-v1.png": {
+      "sha256": "7af728c6d946e42b43832f77ea962a9ab914729de6f1cbfe3d946d2af01d25ab",
+      "bytes": 2538913,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lg-hi-heeya-lobby-source-art-v2.png": {
+      "sha256": "dc4cd9cfa2a482bf9499463ab5cae58bbc403ac503af1cfeccc7eddbb39c7b42",
+      "bytes": 2467052,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lg-hi-heeya-equipment-source-art-v2.png": {
+      "sha256": "f48afe9d71a6dcb7383c1d02f2130096ecb535d7d1230d3c1e41a623a0b0ddeb",
+      "bytes": 1363325,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-lg-hi-heeya-lobby-v2-1024.webp": {
+      "sha256": "2c733be33b888b6dbcaf8f0eb69d3dfb604eea5b2fee0563dfc227f369aa2d75",
+      "bytes": 288598,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lg-hi-heeya-lobby-v2-640.webp": {
+      "sha256": "6613d31f5b3d99490aa61885d17335c32a29b45ed5dea5bf8f27187138364ac2",
+      "bytes": 164358,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    },
+    "avatar-lg-hi-heeya-equipment-v2-640.webp": {
+      "sha256": "5287b2810b4c8763d64dcfb01d9931855b43bd9d6cb29ab22a3f2f3d09a62ec2",
+      "bytes": 87786,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    }
+  }
+}
