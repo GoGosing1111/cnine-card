@@ -1,5 +1,6 @@
 import {coupLiveOperation} from '../_coup_live_operation.js';
 import {createRequestSettingsCache} from '../_request_settings_cache.js';
+import {forwardApiRuntimeRequest} from '../_api_runtime_transport.js';
 import {rankedDuoLiveOperation} from '../_ranked_duo_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
 import {handleRankedDuo} from '../_ranked_duo.js';
@@ -9599,6 +9600,8 @@ async function handleRequestWithDatabase(context){
 // explicit rollback path; DB_BACKEND=postgres is required before Hyperdrive is
 // allowed to become authoritative.
 export async function onRequest(context){
+  // Preview/deployment URLs keep their own original environment and DB bindings.
+  if(context.env?.API_RUNTIME&&new URL(context.request.url).hostname==='cnine-card.pages.dev'&&context.env?.API_RUNTIME_DISABLED!=='1')return forwardApiRuntimeRequest(context);
   const requestUrl=new URL(context.request.url);
   const requestPath=requestUrl.pathname.replace(/^\/api\/?/,'');
   const migrationFrozen=String(context.env?.DB_MIGRATION_FREEZE||'').trim()==='1';

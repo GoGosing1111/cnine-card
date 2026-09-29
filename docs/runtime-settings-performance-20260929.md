@@ -19,10 +19,16 @@
 ## 검증·배포 범위
 
 - 신규 회귀 7/7 통과: 독립 요청 대기 격리, 같은 요청 중복 제거, TTL·DB 구분·실패 재시도, CMS 무효화/저장과 늦은 조회 경쟁, 실제 API 연결, 진단 로그 비밀값 제외, 실제 PostgreSQL(PGlite) 호송 준비/누락 컬럼·인덱스 복구.
-- 관련 전투 검사는 지정 scoped 배포 안에서 한 번 실행한다: 버닝 OWNER/타이머·미라클, 랭크전 전투 결과·재시도, 아포칼립스 CMS 저장 회귀. 신규 회귀는 같은 실행 코드에서 이미 통과했으므로 반복하지 않는다.
+- 관련 전투 검사 28개가 지정 scoped 배포 안에서 통과했다: 버닝 OWNER/타이머·미라클, 랭크전 전투 결과·재시도, 아포칼립스 CMS 저장 회귀. 신규 회귀와 합계 35개 통과했다.
 - 직전 운영 배포를 다시 조회했으며 다른 작업의 장비 강화 UI 복구가 먼저 배포됐다. 기준은 `8054a5ec9b2ae6c21e756d2a735eead68cc8ad5c` / `5bf3c8c7-23fa-4ee4-b3a0-3c26679c7ef9`다. 최신 main을 포함해 해당 복구를 보존한다.
 - 국소적인 설정 캐시와 호송 준비 확인 수정이며 DB/트랜잭션 기반·인증·마이그레이션·의존성·UI 변경은 없다. `npm run deploy:production -- --scoped`를 사용하고 Worker 컴파일, 출시 플래그·깨끗한 커밋·원격 일치·캐시·Hyperdrive 가드는 유지한다.
 - 운영 이벤트 변경, 실계정 전투나 보상 지급은 수행하지 않는다. 배포 후 자연 트래픽의 변경 경로와 오류만 확인한다.
 
 지표 원본: `C:/Users/User/.codex/tmp/miracle-perf-20260929/hyperdrive-metrics.json`, `runtime-cache-before.json`.
 지표 해석 기준: [Cloudflare Hyperdrive metrics](https://developers.cloudflare.com/hyperdrive/observability/metrics/).
+
+## 운영 결과
+
+- `d35df00224a27747e87c32f5a7490c84f209c126`을 19:53 KST에 `fe6e21dc.cnine-card.pages.dev`로 배포했다. Worker 컴파일·출시 가드·Hyperdrive cache OFF 검사가 통과했다.
+- 공개 조회 HTTP 200, 비로그인 게임 조회 HTTP 401이 정상이다. 후속 46초 자연 트래픽 550건에서 5xx/실행 오류는 없었다.
+- 다만 PVP 최대 5,002ms, 봉인전 조회 10,050ms 등 긴 대기는 남았다. 이 변경만으로 전체 렉이 해결됐다고 결론 내리지 않았다. 후속 원인과 대응은 `docs/api-runtime-placement-20260929.md`에 기록한다.
