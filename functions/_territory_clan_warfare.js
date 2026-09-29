@@ -85,9 +85,59 @@ export async function openClanWarfare(env,round,cfg){
   return {...round,warfare_version:4,clan_season_id:season.id,clan_opened_at:opened,recruitment_ends_at:recruitmentEndsAt,version:Number(round.version||0)+1};
 }
 
+// Recruitment follows the current roster. Once formation starts, battle history
+// and sides stay frozen. Callers share the existing form_<round> lease.
+export async function syncRecruitingClanRoster(env,round,cfg){
+  if(!isClanWarfare(round)||round.status!=='RECRUITING'||round.formed_at||round.current_front_id||!round.clan_opened_at)return round;
+  const season=await env.DB.prepare("SELECT id,phase FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC LIMIT 1").first();
+  if(!season||season.phase!=='ACTIVE')return {...round,clanRosterSyncPending:true};
+  const [ranked,stored,members,participants]=await Promise.all([
+    env.DB.prepare(CLAN_RANKED_TEAMS_SQL).bind(season.id).all(),
+    env.DB.prepare('SELECT * FROM territory_war_clans WHERE round_id=? ORDER BY side,position').bind(round.id).all(),
+    env.DB.prepare('SELECT user_id,clan_id FROM clan_members WHERE season_id=?').bind(season.id).all(),
+    env.DB.prepare('SELECT user_id,clan_id,side,mandatory_clan FROM territory_war_v3_users WHERE round_id=?').bind(round.id).all()
+  ]);
+  const clans=rows(ranked),oldClans=rows(stored);
+  if(clans.length!==8)return {...round,clanRosterSyncPending:true};
+  const newSeason=Number(round.clan_season_id)!==Number(season.id),sameClans=oldClans.length===8&&clans.every(c=>oldClans.some(old=>Number(old.clan_id)===Number(c.clan_id)));
+  const assignments=newSeason||!sameClans?rankedClanSides(clans):clans.map(c=>({...c,...Object.fromEntries(['side','position'].map(key=>[key,oldClans.find(old=>Number(old.clan_id)===Number(c.clan_id))[key]]))}));
+  const sides=new Map(assignments.map(c=>[Number(c.clan_id),c.side])),current=new Map(rows(members).map(m=>[Number(m.user_id),m])),previous=new Map(rows(participants).map(m=>[Number(m.user_id),m]));
+  if([...current.values()].some(m=>!sides.has(Number(m.clan_id))))return {...round,clanRosterSyncPending:true};
+  const teamsChanged=newSeason||!sameClans||assignments.some(c=>{const old=oldClans.find(o=>Number(o.clan_id)===Number(c.clan_id));return ['side','position','name','mark_key','primary_color'].some(key=>String(old?.[key]??'')!==String(c[key]??''))});
+  const membersChanged=[...current].some(([id,m])=>{const old=previous.get(id);return !old||Number(old.mandatory_clan)!==1||Number(old.clan_id)!==Number(m.clan_id)||old.side!==sides.get(Number(m.clan_id))})||[...previous].some(([id,m])=>Number(m.mandatory_clan)===1&&!current.has(id));
+  if(!teamsChanged&&!membersChanged)return round;
+  const guard=`ROSTER:${round.id}:${crypto.randomUUID()}`;
+  const statements=[env.DB.prepare(`UPDATE territory_war_v3_rounds SET clan_season_id=?,skill_action_token=?,version=version+1
+    WHERE id=? AND version=? AND status='RECRUITING' AND formed_at IS NULL AND current_front_id IS NULL
+    AND ?=(SELECT id FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC LIMIT 1)
+    AND EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='ACTIVE')`).bind(season.id,guard,round.id,round.version,season.id,season.id),
+    env.DB.prepare('INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE id=? AND skill_action_token=?) THEN 1 ELSE 0 END').bind(guard,round.id,guard)];
+  if(teamsChanged){
+    statements.push(env.DB.prepare('DELETE FROM territory_war_clans WHERE round_id=?').bind(round.id));
+    for(const clan of assignments)statements.push(env.DB.prepare('INSERT INTO territory_war_clans(round_id,clan_id,side,position,name,mark_key,primary_color) VALUES(?,?,?,?,?,?,?)').bind(round.id,clan.clan_id,clan.side,clan.position,clan.name,clan.mark_key,clan.primary_color));
+  }
+  // Only obsolete automatic entries are removed; explicit clanless applicants
+  // and all surviving participants' deck/loadout snapshots remain intact.
+  statements.push(env.DB.prepare(`DELETE FROM territory_war_v3_users WHERE round_id=? AND mandatory_clan=1
+    AND NOT EXISTS(SELECT 1 FROM clan_members m WHERE m.season_id=? AND m.user_id=territory_war_v3_users.user_id)`).bind(round.id,season.id),
+    env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,clan_id,mandatory_clan,side,status,deck_snapshot,energy)
+    SELECT ?,m.user_id,m.clan_id,1,c.side,'WAITING',COALESCE(p.card_ids,d.card_ids,'[]'),?
+    FROM clan_members m JOIN territory_war_clans c ON c.round_id=? AND c.clan_id=m.clan_id
+    JOIN users u ON u.id=m.user_id LEFT JOIN pvp_active_presets a ON a.user_id=m.user_id
+    LEFT JOIN pvp_deck_presets p ON p.user_id=a.user_id AND p.preset_no=a.preset_no
+    LEFT JOIN pvp_decks d ON d.user_id=m.user_id WHERE m.season_id=?
+    ON CONFLICT(round_id,user_id) DO UPDATE SET clan_id=excluded.clan_id,mandatory_clan=1,side=excluded.side
+    WHERE territory_war_v3_users.clan_id IS NULL OR territory_war_v3_users.clan_id<>excluded.clan_id
+      OR territory_war_v3_users.mandatory_clan<>1 OR territory_war_v3_users.side IS NULL OR territory_war_v3_users.side<>excluded.side`).bind(round.id,Number(cfg.energyMax||10),round.id,season.id),
+    env.DB.prepare('UPDATE territory_war_v3_rounds SET skill_action_token=? WHERE id=? AND skill_action_token=?').bind(round.skill_action_token||null,round.id,guard),
+    env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token=?').bind(guard));
+  await env.DB.batch(statements);
+  return {...round,clan_season_id:season.id,version:Number(round.version||0)+1};
+}
+
 export async function territoryClanView(env,round){
   if(!round?.clan_opened_at)return {enabled:isClanWarfare(round),pending:round?.status==='RECRUITING',teams:[]};
-  const key=`territory:clans:${round.id}`,cached=readRuntimeData(env,key);if(cached)return cached;
+  const key=`territory:clans:${round.id}:${round.status==='RECRUITING'?round.version:'formed'}`,cached=readRuntimeData(env,key);if(cached)return cached;
   const teams=rows(await env.DB.prepare(`SELECT c.*,COUNT(w.user_id) member_count FROM territory_war_clans c LEFT JOIN territory_war_v3_users w ON w.round_id=c.round_id AND w.clan_id=c.clan_id WHERE c.round_id=? GROUP BY c.round_id,c.clan_id,c.side,c.position,c.name,c.mark_key,c.primary_color ORDER BY c.side,c.position`).bind(round.id).all()).map(c=>({clanId:Number(c.clan_id),side:c.side,name:c.name,markKey:c.mark_key,primaryColor:c.primary_color,memberCount:Number(c.member_count)}));
   return cacheRuntimeData(env,key,{enabled:true,pending:false,seasonId:Number(round.clan_season_id),openedAt:round.clan_opened_at,teams},60000);
 }

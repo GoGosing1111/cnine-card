@@ -4,7 +4,7 @@ import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {readFileSync} from 'node:fs';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {ensureTerritoryClanSchema,openClanWarfare,randomClanSides,rankedClanSides,territoryClanView,territorySkillState,territorySkillEffect,territorySkillReceipt,applyTerritorySkill,TERRITORY_SKILL_COOLDOWN_MS} from '../functions/_territory_clan_warfare.js';
+import {ensureTerritoryClanSchema,openClanWarfare,syncRecruitingClanRoster,randomClanSides,rankedClanSides,territoryClanView,territorySkillState,territorySkillEffect,territorySkillReceipt,applyTerritorySkill,TERRITORY_SKILL_COOLDOWN_MS} from '../functions/_territory_clan_warfare.js';
 import {__territoryClanTest,territorySiegeDamage} from '../functions/_territory_war.js';
 
 const NOW=Date.parse('2026-09-24T10:00:00Z');
@@ -104,6 +104,84 @@ for(const pg of [false,true]){
   test(`${dialect}: incomplete clan catalog waits without partial enrollment`,async t=>{
     const f=await fixture(t,pg);await f.p('DELETE FROM clan_season_teams WHERE clan_id=8').run();assert.equal((await openClanWarfare(f.env,await f.round(),cfg)).clanOpeningPending,true);assert.equal((await f.p('SELECT COUNT(*) n FROM territory_war_v3_users').first()).n,0);assert.equal((await f.round()).clan_opened_at,null);
   });
+  test(`${dialect}: recruiting roster rolls over to the current season without losing voluntary entries or saved loadouts`,async t=>{
+    const f=await fixture(t,pg),opened=await openClanWarfare(f.env,await f.round(),cfg);
+    const oldView=await territoryClanView(f.env,opened);
+    await f.p("INSERT INTO users(id) VALUES(999)").run();
+    await f.p("INSERT INTO territory_war_v3_users(round_id,user_id,mandatory_clan,deck_snapshot,deck_power) VALUES(1,999,0,'[\"manual\"]',456)").run();
+    await f.p("UPDATE territory_war_v3_users SET deck_power=123,loadout_bonus_json='saved-loadout' WHERE user_id=201").run();
+    await f.p("UPDATE clan_seasons SET phase='COMPLETE'").run();
+    await f.p("INSERT INTO clan_seasons VALUES(3,3,'ACTIVE')").run();
+    await f.p('INSERT INTO clan_season_teams(season_id,clan_id,score) SELECT 3,clan_id,CASE clan_id WHEN 7 THEN 12 WHEN 4 THEN 9 ELSE 0 END FROM clan_season_teams WHERE season_id=2').run();
+    await f.p('INSERT INTO clan_members SELECT 3,CASE WHEN clan_id=8 THEN 1 ELSE clan_id+1 END,user_id FROM clan_members WHERE season_id=2 AND user_id<>100').run();
+    await f.p('INSERT INTO users(id) VALUES(900)').run();await f.p('INSERT INTO clan_members VALUES(3,1,900)').run();
+    await f.p('INSERT INTO pvp_active_presets VALUES(900,2)').run();await f.p('INSERT INTO pvp_deck_presets VALUES(900,2,?)','["v","w","x","y","z"]').run();
+    const synced=await syncRecruitingClanRoster(f.env,opened,cfg),members=(await f.p('SELECT * FROM territory_war_v3_users ORDER BY user_id').all()).results;
+    assert.equal(Number(synced.clan_season_id),3);assert.equal(Number(synced.version),Number(opened.version)+1);
+    assert.equal(synced.recruitment_ends_at,opened.recruitment_ends_at);assert.equal(synced.clan_opened_at,opened.clan_opened_at);
+    assert.equal(members.length,37);assert.equal(members.some(m=>Number(m.user_id)===100),false);
+    const free=members.find(m=>Number(m.user_id)===999);assert.equal(free.mandatory_clan,0);assert.equal(free.deck_power,456);assert.equal(free.deck_snapshot,'["manual"]');
+    const moved=members.find(m=>Number(m.user_id)===201);assert.equal(Number(moved.clan_id),3);assert.equal(moved.deck_power,123);assert.equal(moved.loadout_bonus_json,'saved-loadout');
+    assert.equal(members.find(m=>Number(m.user_id)===900).deck_snapshot,'["v","w","x","y","z"]');
+    const view=await territoryClanView(f.env,synced);assert.equal(view.seasonId,3);assert.equal(view.teams.reduce((n,c)=>n+c.memberCount,0),36);
+    assert.equal(view.teams.find(c=>c.clanId===7).side,'A');assert.equal(view.teams.find(c=>c.clanId===4).side,'B');assert.equal(oldView.seasonId,2);
+    for(const m of members.filter(m=>m.mandatory_clan===1))assert.equal(m.side,view.teams.find(c=>c.clanId===Number(m.clan_id)).side);
+    const committed=await f.round();assert.deepEqual(await syncRecruitingClanRoster(f.env,committed,cfg),committed);
+    assert.deepEqual((await f.p('SELECT * FROM territory_war_v3_users ORDER BY user_id').all()).results,members);
+  });
+  test(`${dialect}: late joins, transfers and departures follow current membership while clan sides stay stable`,async t=>{
+    const f=await fixture(t,pg),opened=await openClanWarfare(f.env,await f.round(),cfg);
+    const teams=(await f.p('SELECT * FROM territory_war_clans ORDER BY clan_id').all()).results;
+    await territoryClanView(f.env,opened);
+    await f.p('DELETE FROM clan_members WHERE user_id=100').run();
+    await f.p('UPDATE clan_members SET clan_id=2 WHERE user_id=300').run();
+    await f.p('INSERT INTO users(id) VALUES(900)').run();await f.p('INSERT INTO clan_members VALUES(2,2,900)').run();
+    await f.p("INSERT INTO territory_war_v3_users(round_id,user_id,mandatory_clan,deck_snapshot) VALUES(1,900,0,'[\"manual-deck\"]')").run();
+    await f.p('INSERT INTO users(id) VALUES(901)').run();await f.p('INSERT INTO clan_members VALUES(2,8,901)').run();
+    const synced=await syncRecruitingClanRoster(f.env,opened,cfg);
+    assert.deepEqual((await f.p('SELECT * FROM territory_war_clans ORDER BY clan_id').all()).results,teams);
+    assert.equal(await f.p('SELECT * FROM territory_war_v3_users WHERE user_id=100').first(),null);
+    const converted=await f.p('SELECT * FROM territory_war_v3_users WHERE user_id=900').first();assert.equal(converted.mandatory_clan,1);assert.equal(Number(converted.clan_id),2);assert.equal(converted.deck_snapshot,'["manual-deck"]');
+    const moved=await f.p('SELECT * FROM territory_war_v3_users WHERE user_id=300').first();assert.equal(Number(moved.clan_id),2);assert.equal(moved.side,teams.find(c=>Number(c.clan_id)===2).side);
+    const added=await f.p('SELECT * FROM territory_war_v3_users WHERE user_id=901').first();assert.equal(added.deck_snapshot,'[]');assert.equal(added.status,'WAITING');assert.equal(added.energy,cfg.energyMax);
+    assert.equal((await territoryClanView(f.env,synced)).teams.reduce((n,c)=>n+c.memberCount,0),37);
+  });
+  test(`${dialect}: roster sync waits for a complete active season and never changes a formed battle`,async t=>{
+    const f=await fixture(t,pg),opened=await openClanWarfare(f.env,await f.round(),cfg);
+    await f.p('DELETE FROM clan_members WHERE user_id=100').run();
+    await f.p("UPDATE clan_seasons SET phase='DRAFT'").run();assert.equal((await syncRecruitingClanRoster(f.env,opened,cfg)).clanRosterSyncPending,true);
+    await f.p("UPDATE clan_seasons SET phase='ACTIVE'").run();await f.p('DELETE FROM clan_season_teams WHERE clan_id=8').run();assert.equal((await syncRecruitingClanRoster(f.env,opened,cfg)).clanRosterSyncPending,true);
+    const noDB={DB:{prepare(){throw Error('Formed battles must not inspect or change membership')}}};
+    for(const status of ['PREPARING','ACTIVE','FINISHED','DISABLED']){const round={...opened,status};assert.equal(await syncRecruitingClanRoster(noDB,round,cfg),round)}
+    for(const extra of [{formed_at:'2026-09-29'},{current_front_id:10}]){const round={...opened,...extra};assert.equal(await syncRecruitingClanRoster(noDB,round,cfg),round)}
+    assert.deepEqual({...await f.round()},opened);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM territory_war_v3_users').first()).n),36);
+  });
+  test(`${dialect}: roster stale-round guards and late transaction failures roll back all changes`,async t=>{
+    const f=await fixture(t,pg),opened=await openClanWarfare(f.env,await f.round(),cfg);
+    await f.p('DELETE FROM clan_members WHERE user_id=100').run();
+    await f.p("UPDATE territory_war_v3_rounds SET status='ACTIVE',version=version+1").run();
+    await assert.rejects(syncRecruitingClanRoster(f.env,opened,cfg));
+    assert.ok(await f.p('SELECT user_id FROM territory_war_v3_users WHERE user_id=100').first());assert.equal((await f.round()).status,'ACTIVE');
+    await f.p("UPDATE territory_war_v3_rounds SET status='RECRUITING'").run();const before=await f.round();
+    const batch=f.env.DB.batch.bind(f.env.DB);f.env.DB.batch=s=>batch([...s,f.p("INSERT INTO territory_war_mutation_guards(token,ok) VALUES('force-rollback',0)")]);
+    await assert.rejects(syncRecruitingClanRoster(f.env,before,cfg));
+    assert.deepEqual(await f.round(),before);assert.ok(await f.p('SELECT user_id FROM territory_war_v3_users WHERE user_id=100').first());
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM territory_war_mutation_guards').first()).n),0);
+  });
+  test(`${dialect}: live recruitment refresh is throttled but explicit registration forces a current roster`,async t=>{
+    const f=await fixture(t,pg);await openClanWarfare(f.env,await f.round(),cfg);
+    await __territoryClanTest.lifecycle(f.env,{...cfg,mode:'ON'});
+    await f.p('INSERT INTO users(id) VALUES(900)').run();await f.p('INSERT INTO clan_members VALUES(2,1,900)').run();
+    await __territoryClanTest.lifecycle(f.env,{...cfg,mode:'ON'});
+    assert.equal(await f.p('SELECT user_id FROM territory_war_v3_users WHERE user_id=900').first(),null);
+    await f.p("INSERT INTO app_meta(key,value) VALUES('territory_war_v3_lock_form_1',?)",`RUNNING|formation-in-progress|${Date.now()}`).run();
+    assert.equal((await __territoryClanTest.lifecycle(f.env,{...cfg,mode:'ON'},{forceClanRoster:true})).clanRosterSyncPending,true);
+    assert.equal(await f.p('SELECT user_id FROM territory_war_v3_users WHERE user_id=900').first(),null);
+    await f.p("DELETE FROM app_meta WHERE key='territory_war_v3_lock_form_1'").run();
+    await __territoryClanTest.lifecycle(f.env,{...cfg,mode:'ON'},{forceClanRoster:true});
+    assert.ok(await f.p('SELECT user_id FROM territory_war_v3_users WHERE user_id=900').first());
+    assert.equal(await f.p("SELECT value FROM app_meta WHERE key='territory_war_v3_lock_form_1'").first(),null);
+  });
   test(`${dialect}: damage, individual 45 minute cooldowns and idempotent receipts`,async t=>{
     const f=await fixture(t,pg),b=await battle(f),first=await applyTerritorySkill(f.env,await b.args());assert.equal(first.damage,120000);
     assert.equal((await f.p('SELECT b_hp FROM territory_war_v3_fronts').first()).b_hp,380000);
@@ -146,4 +224,5 @@ test('skill effects reuse siege power formula, interception, healing bounds and 
 test('live wiring preserves commander authority, mandatory roster and standalone skill cooldown UI',()=>{
   const source=readFileSync(new URL('../functions/_territory_war.js',import.meta.url),'utf8'),client=readFileSync(new URL('../js/territory-war-v1811.js',import.meta.url),'utf8');
   assert.match(source,/await ensureFoundation\(env\);await ensureTerritoryClanSchema\(env\)/);assert.match(source,/mandatory_clan=0/);assert.match(source,/개막 클랜의 진영은 고정/);assert.match(source,/현재 지정된 진영 지휘관만/);assert.match(client,/스킬마다 각각 45분/);assert.match(client,/data-skill-ready-at/);assert.match(client,/localStorage\.setItem\(key,requestId\)/);assert.match(client,/clan-marks|clan\/marks/);
+  assert.match(client,/현재 클랜원 자동 참가/);assert.match(client,/모집 중 현재 클랜 소속과 명단이 자동 반영/);assert.doesNotMatch(client,/다음 영토전부터 참가합니다/);
 });

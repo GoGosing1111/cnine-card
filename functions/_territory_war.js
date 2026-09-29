@@ -1,6 +1,6 @@
 import {territoryPigCoinStatements,territoryPigCoinPreview} from './_pig_coin_content_rewards.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
-import {ensureTerritoryClanSchema,openClanWarfare,isClanWarfare,territoryClanView,territorySkillCatalog,territorySkillState,territorySkillReceipt,applyTerritorySkill} from './_territory_clan_warfare.js';
+import {ensureTerritoryClanSchema,openClanWarfare,syncRecruitingClanRoster,isClanWarfare,territoryClanView,territorySkillCatalog,territorySkillState,territorySkillReceipt,applyTerritorySkill} from './_territory_clan_warfare.js';
 import {pigCoinRewardAmount} from './_loot_shop.js';
 import {releasedMercenarySnapshot,mercenarySnapshotPower} from './_mercenary_account.js';
 import {
@@ -804,6 +804,20 @@ async function releaseLock(env,lock){if(lock?.ok)await env.DB.prepare('DELETE FR
 
 async function currentClanMember(env,userId){return env.DB.prepare("SELECT m.clan_id FROM clan_members m WHERE m.user_id=? AND m.season_id=(SELECT id FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC LIMIT 1)").bind(userId).first()}
 
+async function refreshRecruitingClans(env,round,cfg,force=false){
+  if(round?.status!=='RECRUITING'||!isClanWarfare(round))return round;
+  const key=`territory:roster-sync:${round.id}`;
+  if(!force&&readRuntimeData(env,key)===Number(round.version))return round;
+  const lock=await acquireLock(env,`form_${round.id}`,120000);
+  if(!lock.ok)return {...round,clanRosterSyncPending:true};
+  try{
+    const fresh=await syncRecruitingClanRoster(env,await roundById(env,round.id),cfg);
+    if(!fresh.clanRosterSyncPending)cacheRuntimeData(env,key,Number(fresh.version),10000);
+    if(Number(fresh.version)!==Number(round.version)){publicStateSharedCache=null;counterSharedCache=null;realtimePulseCache=null}
+    return fresh;
+  }finally{await releaseLock(env,lock)}
+}
+
 async function createRound(env,cfg){
   const lock=await acquireLock(env,'round_create',60000);if(!lock.ok){const live=await env.DB.prepare("SELECT id FROM territory_war_v3_rounds WHERE status IN ('RECRUITING','PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();if(live)return Number(live.id);throw new Error('신규 영토전 회차 생성이 진행 중입니다.')}
   try{
@@ -884,6 +898,8 @@ async function formRound(env,round,cfg,deps=territoryRuntimeDeps){
     let fresh=await roundById(env,round.id);if(!fresh||fresh.status!=='RECRUITING')return{status:fresh?.status||'MISSING'};
     if(!fresh.clan_opened_at)fresh=await openClanWarfare(env,fresh,cfg);
     if(!fresh.clan_opened_at)return{status:'WAITING_CLANS'};
+    fresh=await syncRecruitingClanRoster(env,fresh,cfg);
+    if(fresh.clanRosterSyncPending)return{status:'WAITING_CLANS'};
     let users=(await env.DB.prepare('SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY w.deck_power DESC,w.registered_at,w.user_id').bind(round.id).all()).results||[];
     if(users.length<Number(cfg.minParticipants||6))return{status:'WAITING_MINIMUM',count:users.length};
     if(deps?.battleSettings&&deps?.cardBattlePower){const battle=await deps.battleSettings(env);users=await refreshFormationSnapshots(env,deps,round.id,users,battle)}
@@ -1004,7 +1020,7 @@ async function resolveFront(env,round,front,cfg){
   return{resolved:false};
 }
 
-async function lifecycle(env,cfg){
+async function lifecycle(env,cfg,{forceClanRoster=false}={}){
   let round=await latestRound(env);if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return round;
   if(!round||['FINISHED','DISABLED'].includes(String(round.status||''))){round=await roundById(env,await createRound(env,cfg));return round}
   if(round.status==='RECRUITING'&&!round.clan_opened_at){
@@ -1013,6 +1029,7 @@ async function lifecycle(env,cfg){
     try{round=await openClanWarfare(env,await roundById(env,round.id),cfg)}finally{await releaseLock(env,openingLock)}
     if(!round.clan_opened_at)return round;
   }
+  if(round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)>Date.now())round=await refreshRecruitingClans(env,round,cfg,forceClanRoster);
   if(round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)<=Date.now()){
     const formed=await formRound(env,round,cfg);if(formed.status==='WAITING_MINIMUM'){await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(iso(Date.now()+15*60000),round.id).run();return roundById(env,round.id)}round=await roundById(env,round.id);
   }
@@ -1397,10 +1414,10 @@ export async function handleTerritoryWar({path,request,env,deps}){
   if(path==='territory-war/state-lite'&&request.method==='GET')return deps.json(await realtimeState(env,user.id));
   if(path==='territory-war/action-status'&&request.method==='GET')return handleActionStatus(env,deps,user,cfg,request);
   if(path==='territory-war/register'&&request.method==='POST'){
-    const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg),canJoin=round&&round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)>Date.now();if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
+    const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg,{forceClanRoster:true}),canJoin=round&&round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)>Date.now();if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
     const existing=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(existing)return deps.json({ok:true,alreadyRegistered:true,state:await publicState(env,user.id)});
     if(!round.clan_opened_at)return deps.json({error:'8개 클랜 개막 편성이 준비 중입니다.'},409);
-    if(await currentClanMember(env,user.id))return deps.json({error:'개막 이후 클랜에 합류한 경우 다음 영토전부터 클랜 로스터로 참가합니다.'},409);
+    if(await currentClanMember(env,user.id))return deps.json({error:'현재 클랜 명단을 동기화하고 있습니다. 잠시 후 다시 확인해 주세요.'},409);
     const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),snapshot=await singleFormationSnapshot(env,deps,user,deck,bs),power=snapshot.formationPower;
     // A double tap or a retried response can race after the read above. Keep the
     // write idempotent, then verify it with a separate primary read. Do not infer
