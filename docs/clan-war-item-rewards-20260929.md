@@ -27,3 +27,12 @@
 - CUA의 실제 CMS 스크립트와 로컬 격리 API로 PC/390px 모바일 수량 입력→저장→재조회 확인. 750/2,000,000 저장 후 500/1,500,000으로 복원했다. 운영 데이터에 검수 보상을 지급하지 않았다.
 - 운영 기준 조회 시 Pages는 `8e24a55a91d80b2a30a280a47918e113315d64c6`. origin/main에는 별도 랭크전 인덱스/조회 개선 배포가 중단된 상태로 남아 있어 그 선행 배포를 먼저 완료한 뒤 본 변경을 scoped 배포한다.
 - 선행 배포 완료: `9fd2bcf34525a64db4e8f285618bdebd538951a8`, Pages `7d998c78-68b0-4b67-9707-0652ff05055e`. 완료 단계 재사용 후 남은 전체 게이트와 출시·Hyperdrive 검사 통과. 이 SHA를 본 변경의 실제 `SCOPED_DEPLOY_BASE`로 사용한다.
+
+## 운영 반영 완료
+
+- 코드 `b65d08226b66516e92d8918d891a8c5ea716d534`을 `npm run deploy:production -- --scoped`로 배포했다. 선택한 관련 검사 **56개 통과**, Worker 컴파일·출시 플래그·Hyperdrive 캐시 OFF 확인.
+- Pages: `e1d1a96a-1c54-41cd-8b28-8f4eddaf81c2` — https://e1d1a96a.cnine-card.pages.dev
+- 클랜 스케줄러: `04c83955-082b-4fcb-8e0c-a32c989395f9`.
+- 2026-09-29 09:58 KST 운영 확인: admin HTML/JS 200, 새 캐시 키 연결, JS 소스 SHA-256 일치(`641b9c4da251071e2a7f141dd87085868ca53fc78e1aeb82f68e46880a066479`), no-store, 미인증 설정 요청 401.
+- 기존 운영 설정에는 두 수량 필드가 없어 승인한 기본값 500/1,500,000을 사용한다. CMS 저장 시 두 필드가 명시적으로 보존된다. 진행할 신규 정규 회차의 종료부터 지급하며 이전 시즌 대상의 일괄 지급은 수행하지 않았다.
+- 검수 원본: `C:/Users/User/.codex/tmp/clan-war-item-rewards-20260929/`의 `deploy-scoped.log`, `production-verify.json`, `production-inspect.json`, `cms-save-evidence.json`, `desktop.png`, `mobile.png`, `cms-rewards.png`.
