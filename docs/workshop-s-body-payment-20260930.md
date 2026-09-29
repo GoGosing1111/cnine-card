@@ -13,3 +13,9 @@
 - 작은 제작소 클라이언트 수정으로 `npm run deploy:production -- --scoped` 사용. 전체 게이트는 대상이 아니다.
 - 관련 검사: `tests/battle-suit-workshop-v2004.test.mjs`, `tests/workshop-battle-suit-payment-20260930.test.mjs`, `tests/workshop-assembly-live-v2073.test.mjs`. S-BODY 코인/별, 기존 `BOTH`, PC·모바일 표시와 요청, 처리 중 재시도 동일 요청번호 및 제작 영수증 뒤 조립 연출 연결을 확인한다.
 - 실제 운영 제작 버튼은 재화 소모를 피하기 위해 누르지 않고, 배포 후 레시피 설정과 화면 표시·캐시 로딩을 읽기 전용으로 확인한다.
+
+## 운영 반영
+
+- 소스 커밋 `d00b5bd75bdc05a149fbf1dd70ece86ec05bdad7`을 `origin/main`에 반영하고 소규모 배포 검사를 13/13 통과했다. Pages 배포: `https://8b5a261f.cnine-card.pages.dev`.
+- 운영 기본 도메인의 첫 화면, 앱 로더, 제작소 JS/CSS가 새 `sBodyPayment=20260930` 키와 선택 버튼 코드를 제공한다.
+- 운영 계정의 제작소 S-BODY 화면에서 코인 선택 시 코인 100,000,000,000만 비용으로, 마스터의 별 선택 시 별 1,000,000만 비용으로 표시되는 것을 확인했다. 슈트 코어가 부족한 상태라 제작 버튼은 비활성화됐다. 실제 제작 거래는 실행하지 않았다.
