@@ -9,7 +9,7 @@ function imageUrl(raw){try{const u=new URL(raw,location.origin+'/');return ((u.o
 const number=v=>{try{return BigInt(v).toLocaleString('ko-KR');}catch{return '—';}};
 const coin=v=>{try{const n=BigInt(v);if(n<100000000n)return number(n);const fraction=(n%100000000n).toString().padStart(8,'0').replace(/0+$/,'');return `${number(n/100000000n)}${fraction?'.'+fraction:''}억`;}catch{return '—';}};
 let data=null,items=[],cursor=null,group='all',mode='enhance',selected=null,loading=false,generation=0,controller=null,fx=null,activeToken=token(),lastLoad=0,quote=null,quoteGeneration=0,executing=false;
-let lifetime=new AbortController(),recovering=false,quoteRetry=null,checkedPending='',fxGeneration=0;
+let lifetime=new AbortController(),recovering=false,quoteRetry=null,checkedPending='',fxGeneration=0,pendingSubmit=false;
 const request=createForgeTransport();
 const quoteQueue=createForgeQuoteQueue((body,options)=>request('quote',{...options,body,retries:2}));
 const outcomeNames={SUCCESS:'강화 성공',MAINTAIN:'강화 유지',DESTROY:'장비 파괴',PROTECTED:'장비 보호 성공',RESTORED:'장비 복구 완료'};
@@ -30,7 +30,24 @@ function connectionNotice(text='',retry=null,label='다시 시도'){
 function getPending(){return data?.accountId?readForgePending(localStorage,pendingKey()):null;}
 function safePending(){try{return getPending();}catch(error){connectionNotice(error.message);return {invalid:true};}}
 function removePending(key,requestId){try{if(readForgePending(localStorage,key)?.requestId===requestId)localStorage.removeItem(key);}catch{}}
-function pendingNotice(){connectionNotice('이전 강화·복구 결과를 확인해야 합니다. 새 강화와 중복 차감은 막아 두었습니다.',()=>void recoverPending(false),'이전 결과 확인');$('rate-level').textContent='결과 확인';$('stage-status').textContent='이전 결과 확인 필요';recover.hidden=false;}
+function pendingButtons(pending){
+ for(const id of ['enhance-button','restore-button']){const button=$(id);button.disabled=executing||recovering||!pending||pending.invalid===true;button.querySelector('span').textContent=executing?'요청 처리 중':recovering?'이전 결과 확인 중':pending?.invalid?'이전 결과 확인 필요':pendingSubmit?'같은 요청 이어서 확인':'이전 결과 확인';}
+}
+function pendingNotice(){
+ const label=pendingSubmit?'같은 요청 이어서 확인':'이전 결과 확인';
+ connectionNotice(pendingSubmit?'완료된 결과가 아직 없습니다. 같은 요청을 이어서 확인하면 중복 차감 없이 재개합니다.':'이전 강화·복구 결과를 확인해야 합니다. 아래 버튼으로 결과를 확인하세요.',()=>void recoverPending(pendingSubmit),label);
+ $('rate-level').textContent='결과 확인';$('stage-status').textContent='이전 결과 확인 필요';$('power-after').textContent='결과 확인';
+ document.querySelector('.material-heading span').textContent='결과 확인 대기';document.querySelector('.material-list').textContent='이전 요청의 결과를 확인하면 다음 강화의 확률과 비용을 표시합니다.';
+ document.querySelector('.risk-note p').textContent='이전 결과 조회만으로는 재료가 소모되지 않습니다. 미완료 요청은 기존 요청 그대로 이어서 처리합니다.';recover.hidden=false;
+}
+function reconcileCompletedPending(){
+ let pending;try{pending=getPending();}catch{return;}
+ // The authenticated state already contains an authoritative terminal result.
+ // Match both identifiers; unrelated history must never discard an unknown request.
+ if(pending&&(data.history||[]).some(row=>row.requestId===pending.requestId&&row.kind===`FORGE_${pending.kind}`&&row.status==='COMPLETED')){
+  removePending(pendingKey(),pending.requestId);pendingSubmit=false;toast('이전 요청은 정상 완료됐습니다. 최신 장비를 확인하세요.');
+ }
+}
 function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,3500);}
 function renderList(){
   const list=$('inventory-list'),viewport=$('inventory-scroll'),scrollTop=viewport.scrollTop;
@@ -59,7 +76,7 @@ async function select(id){
 }
 async function load(more=false){
   if(executing||recovering||loading&&activeToken===token())return;controller?.abort();const loadController=new AbortController();controller=loadController;const current=++generation,nextToken=token();
-  if(activeToken!==nextToken){lifetime.abort();lifetime=new AbortController();data=null;items=[];selected=null;checkedPending='';}
+  if(activeToken!==nextToken){lifetime.abort();lifetime=new AbortController();data=null;items=[];selected=null;checkedPending='';pendingSubmit=false;}
   activeToken=nextToken;loading=true;quoteGeneration++;quoteQueue.invalidate();quote=null;quoteRetry=null;for(const id of ['enhance-button','restore-button'])$(id).disabled=true;
   if(!more){cursor=null;$('inventory-scroll').scrollTop=0;}renderList();
   try{
@@ -74,7 +91,7 @@ async function load(more=false){
     document.querySelector('.history-list').innerHTML=(result.history||[]).map(r=>`<p>${esc(outcomeNames[r.outcome]||'결과 확인 중')} · ${esc(new Date(r.createdAt).toLocaleString('ko-KR'))}</p>`).join('')||'<p class="empty-history">아직 강화 기록이 없습니다.</p>';
     $('protection-toggle').disabled=!result.canEnhance||!result.policy.protection?.itemCode||executing;$('protection-toggle').setAttribute('aria-label','장비보호권 사용');
     document.querySelector('.protection-card small').textContent=result.wallet.protection===null?'출시 예정':`보유 ${number(result.wallet.protection)}장`;
-    const rows=visibleItems();void select(rows.some(r=>r.selectionId===selected)?selected:mode==='enhance'?items.find(r=>r.equipped)?.instanceId||items[0]?.instanceId||null:rows[0]?.selectionId||null);lastLoad=Date.now();
+    reconcileCompletedPending();const rows=visibleItems();void select(rows.some(r=>r.selectionId===selected)?selected:mode==='enhance'?items.find(r=>r.equipped)?.instanceId||items[0]?.instanceId||null:rows[0]?.selectionId||null);lastLoad=Date.now();
     const pending=safePending();recover.hidden=!pending;if(pending&&!pending.invalid&&checkedPending!==pending.requestId){checkedPending=pending.requestId;void recoverPending(false);}
   }catch(e){if(current!==generation)return;if(e.status===401){data=null;items=[];activeToken='';$('wallet-coins').textContent='—';void select(null);}if(e.name!=='AbortError'){$('inventory-note').textContent=e.message;connectionNotice(e.message,()=>void load(),'목록 다시 불러오기');toast(e.message);}}
   finally{if(current===generation){loading=false;renderList();}}
@@ -87,7 +104,7 @@ $('inventory-more').onclick=()=>void load(true);$('archive-button').onclick=()=>
 $('rules-button').onclick=()=>$('rules-dialog').showModal();document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$('rules-dialog').close());
 async function updateQuote(){
  const stamp=++quoteGeneration;quote=null;for(const id of ['enhance-button','restore-button'])$(id).disabled=true;
- const pending=safePending();if(pending){$('protection-toggle').disabled=true;if(!pending.invalid)pendingNotice();for(const id of ['enhance-button','restore-button'])$(id).querySelector('span').textContent='이전 결과 확인 필요';return;}
+ const pending=safePending();if(pending){$('protection-toggle').disabled=true;if(!pending.invalid)pendingNotice();pendingButtons(pending);return;}
  if(mode==='enhance'){
   $('success-rate').textContent='—';$('rate-level').textContent='견적 확인';$('power-after').textContent='—';
   document.querySelectorAll('.rate-legend b').forEach(b=>b.textContent='—');document.querySelector('.probability-bar').style.background='';
@@ -126,28 +143,28 @@ async function showReceipt(receipt,{animate=true}={}){
 }
 async function recoverPending(submit=false){
  if(executing||recovering)return;const pending=safePending();if(!pending||pending.invalid)return;
- const key=pendingKey(),auth=activeToken;recovering=true;quoteGeneration++;quoteQueue.invalidate();quote=null;recover.disabled=true;renderList();
+ const key=pendingKey(),auth=activeToken;recovering=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;recover.disabled=true;pendingButtons(pending);renderList();
  connectionNotice('이전 요청의 서버 영수증을 확인하고 있습니다.');let refreshNeeded=false;
  try{
   let receipt;try{receipt=await api('receipt?requestId='+encodeURIComponent(pending.requestId)+'&kind='+pending.kind,undefined,undefined,{token:auth});}catch(error){if(error.code!=='JOINT_NOT_FOUND')throw error;}
   if(receipt?.status!=='COMPLETED'&&submit){recovering=false;return await submitPending(pending,key,auth);}
   if(receipt?.status==='COMPLETED'){removePending(key,pending.requestId);if(auth===token()){connectionNotice();await showReceipt(receipt,{animate:false});refreshNeeded=true;}}
-  else if(auth===token())connectionNotice('완료된 결과가 아직 없습니다. 같은 요청을 이어서 확인하면 중복 차감 없이 재개합니다.',()=>void recoverPending(true),'같은 요청 이어서 확인');
+  else if(auth===token()){pendingSubmit=true;pendingNotice();}
  }catch(error){if(auth===token()){if(terminalForgeErrors.has(error.code)){removePending(key,pending.requestId);toast(error.message);refreshNeeded=true;}else connectionNotice(error.message,()=>void recoverPending(false),'결과 다시 확인');}}
- finally{recovering=false;recover.disabled=false;$('forge-retry').disabled=false;recover.hidden=!safePending();renderList();if(refreshNeeded||auth!==token())await load();}
+ finally{recovering=false;recover.disabled=false;$('forge-retry').disabled=false;const remaining=safePending();recover.hidden=!remaining;if(remaining)pendingButtons(remaining);renderList();if(refreshNeeded||auth!==token())await load();}
 }
 async function submitPending(pending,key,auth){
- executing=true;quoteGeneration++;quoteQueue.invalidate();quote=null;renderList();for(const id of ['enhance-button','restore-button'])$(id).disabled=true;$('protection-toggle').disabled=true;recover.disabled=true;
+ executing=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;renderList();for(const id of ['enhance-button','restore-button'])$(id).disabled=true;$('protection-toggle').disabled=true;recover.disabled=true;
  connectionNotice('강화 요청을 처리하고 있습니다. 결과가 확정될 때까지 중복 요청을 막습니다.');let refreshNeeded=false;
  try{
   const receipt=await api(pending.kind==='ENHANCE'?'enhance':'restore',undefined,{requestId:pending.requestId,quoteId:pending.quoteId},{token:auth,retries:2,lockOnly:true,onRetry:()=>connectionNotice('같은 계정의 작업이 끝나기를 잠시 기다린 뒤 재확인합니다. 새 요청은 만들지 않습니다.')});
   if(receipt.status!=='COMPLETED')throw Error('아직 처리 중입니다. 결과 다시 확인을 눌러 주세요.');
   removePending(key,pending.requestId);if(auth===token()){connectionNotice();await showReceipt(receipt);refreshNeeded=true;}
  }catch(error){if(auth===token()){toast(error.message);if(terminalForgeErrors.has(error.code)){removePending(key,pending.requestId);refreshNeeded=true;}else connectionNotice(error.message,()=>void recoverPending(false),'결과 다시 확인');}}
- finally{executing=false;recover.disabled=false;recover.hidden=!safePending();$('forge-retry').disabled=false;renderList();if(refreshNeeded||auth!==token())await load();else if(!safePending())void updateQuote();}
+ finally{executing=false;recover.disabled=false;const remaining=safePending();recover.hidden=!remaining;if(remaining)pendingButtons(remaining);$('forge-retry').disabled=false;renderList();if(refreshNeeded||auth!==token())await load();else if(!remaining)void updateQuote();}
 }
 async function execute(){
- if(executing||recovering)return;if(safePending())return recoverPending(true);if(quoteRetry)return quoteRetry();if(!quote)return;
+ if(executing||recovering)return;if(safePending())return recoverPending(pendingSubmit);if(quoteRetry)return quoteRetry();if(!quote)return;
  if(forgeQuoteShortages(quote,data?.wallet).length)return;
  if(Date.parse(quote.expiresAt)<=Date.now()+1000){quoteQueue.invalidate();return updateQuote();}
  const pending={requestId:crypto.randomUUID(),quoteId:quote.quoteId,kind:quote.kind},key=pendingKey();

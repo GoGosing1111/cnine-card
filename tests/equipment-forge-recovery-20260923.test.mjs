@@ -143,6 +143,46 @@ test('real app: completed pending request auto-recovers using receipt GET only',
  await until(()=>!f.storage.getItem(f.pendingKey)&&!!f.api.state().quote);
  assert.equal(f.calls.filter(c=>c.path.startsWith('receipt?')).length,1);assert.equal(f.calls.filter(c=>c.path==='enhance').length,0);assert.equal(f.api.state().recovering,false);
 });
+
+test('real app: completed history clears the exact pending request without depending on another receipt response',async t=>{
+ const pending={requestId:rid(),quoteId:rid(),kind:'ENHANCE'},f=await appFixture(t,({path,state})=>{
+  if(path.startsWith('state?'))state.history=[{requestId:pending.requestId,kind:'FORGE_ENHANCE',status:'COMPLETED',outcome:'SUCCESS',createdAt:new Date().toISOString()}];
+  if(path.startsWith('receipt?'))return Response.json({error:'temporarily unavailable'},{status:503});
+ },{pending});
+ await until(()=>!!f.api.state().quote);
+ assert.equal(f.storage.getItem(f.pendingKey),null);assert.equal(f.calls.filter(c=>c.path.startsWith('receipt?')).length,0);assert.equal(f.calls.filter(c=>c.path==='enhance').length,0);
+});
+
+test('real app: main recovery button resumes a missing request with its original IDs only after an explicit click',async t=>{
+ const pending={requestId:rid(),quoteId:rid(),kind:'ENHANCE'},f=await appFixture(t,({path})=>path.startsWith('receipt?')?Response.json({code:'JOINT_NOT_FOUND',error:'not found'},{status:404}):undefined,{pending});
+ await until(()=>f.get('forge-retry').textContent==='같은 요청 이어서 확인'&&!f.api.state().recovering);
+ assert.equal(f.get('enhance-button').disabled,false);assert.equal(f.get('enhance-button').querySelector('span').textContent,'같은 요청 이어서 확인');
+ assert.equal(f.calls.filter(c=>c.path==='enhance').length,0);
+ await f.get('enhance-button').onclick();await until(()=>!!f.api.state().quote);
+ assert.deepEqual(f.calls.find(c=>c.path==='enhance').body,{requestId:pending.requestId,quoteId:pending.quoteId});assert.equal(f.storage.getItem(f.pendingKey),null);
+});
+
+for(const mismatch of ['request','kind','status'])test(`real app: ${mismatch} mismatch in history preserves pending state and a failed receipt retry never submits`,async t=>{
+ const pending={requestId:rid(),quoteId:rid(),kind:'ENHANCE'},f=await appFixture(t,({path,state})=>{
+  if(path.startsWith('state?'))state.history=[{requestId:mismatch==='request'?rid():pending.requestId,kind:mismatch==='kind'?'FORGE_RESTORE':'FORGE_ENHANCE',status:mismatch==='status'?'PENDING':'COMPLETED',outcome:'SUCCESS',createdAt:new Date().toISOString()}];
+  if(path.startsWith('receipt?'))return Response.json({error:'temporary failure'},{status:503});
+ },{pending});
+ await until(()=>f.get('forge-retry').textContent==='결과 다시 확인'&&!f.api.state().recovering);
+ assert.equal(f.get('enhance-button').disabled,false);assert.equal(f.get('enhance-button').querySelector('span').textContent,'이전 결과 확인');
+ await f.get('enhance-button').onclick();
+ assert.ok(f.storage.getItem(f.pendingKey));assert.equal(f.calls.filter(c=>c.path.startsWith('receipt?')).length,2);assert.equal(f.calls.filter(c=>c.path==='enhance').length,0);
+});
+
+test('real app: expired unstarted request releases the lock after explicit continuation and obtains a new quote only',async t=>{
+ const pending={requestId:rid(),quoteId:rid(),kind:'ENHANCE'},f=await appFixture(t,({path})=>{
+  if(path.startsWith('receipt?'))return Response.json({code:'JOINT_NOT_FOUND',error:'not found'},{status:404});
+  if(path==='enhance')return Response.json({code:'FORGE_QUOTE_EXPIRED',error:'견적이 만료됐습니다.'},{status:409});
+ },{pending});
+ await until(()=>!f.api.state().recovering&&f.get('forge-retry').textContent==='같은 요청 이어서 확인');
+ await f.get('enhance-button').onclick();await until(()=>!!f.api.state().quote);
+ assert.equal(f.storage.getItem(f.pendingKey),null);assert.equal(f.calls.filter(c=>c.path==='enhance').length,1);assert.deepEqual(f.calls.find(c=>c.path==='enhance').body,{requestId:pending.requestId,quoteId:pending.quoteId});
+ assert.equal(f.get('enhance-button').disabled,false);assert.match(f.get('enhance-button').querySelector('span').textContent,/강화 시도/);
+});
 test('real app: missing receipt waits for explicit same-request continuation',async t=>{
  const pending={requestId:rid(),quoteId:rid(),kind:'ENHANCE'},f=await appFixture(t,({path})=>path.startsWith('receipt?')?Response.json({code:'JOINT_NOT_FOUND',error:'not found'},{status:404}):undefined,{pending});
  await until(()=>f.get('forge-retry').textContent==='같은 요청 이어서 확인'&&!f.api.state().recovering);
