@@ -14,6 +14,7 @@ CREATE TABLE clan_season_teams(season_id INTEGER,clan_id INTEGER,score INTEGER,w
 CREATE TABLE territory_war_mutation_guards(token TEXT PRIMARY KEY,ok INTEGER CHECK(ok=1));
 CREATE TABLE territory_war_v3_users(round_id INTEGER,user_id INTEGER,side TEXT,damage INTEGER,counter_contribution INTEGER,ace_defeats INTEGER,last_defense_successes INTEGER,comeback_participations INTEGER,attacks INTEGER);
 CREATE TABLE territory_war_v3_actions(round_id INTEGER,user_id INTEGER,status TEXT);
+CREATE TABLE territory_war_v3_rewards(round_id INTEGER,user_id INTEGER,side TEXT,result TEXT,coin INTEGER,shards INTEGER,damage INTEGER,attacks INTEGER,required_attacks INTEGER,base_result_coin INTEGER,attack_reward_percent INTEGER,attack_adjusted_coin INTEGER,counter_bonus_coin INTEGER,ace_bonus_coin INTEGER,last_defense_bonus_coin INTEGER,comeback_bonus_coin INTEGER,siege_snapshot_bonus_coin INTEGER,premium_cube_quantity INTEGER,claimed_at TEXT,PRIMARY KEY(round_id,user_id));
 `;
 
 async function fixture(t,postgres){
@@ -56,22 +57,60 @@ for(const postgres of [false,true]){
   test(`${dialect}: administrator judgment for B awards B clans; draw awards nobody`,async t=>{
     const f=await fixture(t,postgres),before=await f.teams();
     await f.p("UPDATE territory_war_v3_rounds SET status='PREPARING'").run();
-    const settled=await __territoryClanTest.settleRound(f.env,await f.round(),{},'B');
+    const settled=await __territoryClanTest.settleRound(f.env,await f.round(),{},'B',{adminJudgment:true});
     assert.equal(settled.winner_side,'B');
     const after=await f.teams();for(let i=0;i<8;i++)assert.equal(Number(after[i].score)-Number(before[i].score),i>=4?2:0);
     assert.deepEqual(JSON.parse((await f.receipt()).value).clanIds,[5,6,7,8]);
     const draw=await fixture(t,postgres),drawBefore=await draw.teams();
-    assert.equal((await __territoryClanTest.settleRound(draw.env,await draw.round(),{},'DRAW')).winner_side,'DRAW');
+    assert.equal((await __territoryClanTest.settleRound(draw.env,await draw.round(),{},'DRAW',{adminJudgment:true})).winner_side,'DRAW');
     assert.deepEqual(await draw.teams(),drawBefore);assert.equal(await draw.receipt(),null);
+  });
+  test(`${dialect}: CMS judgment finishes during combat updates and replaces unclaimed reward previews only once`,async t=>{
+    const f=await fixture(t,postgres),before=await f.teams(),stale=await f.round(),batch=f.env.DB.batch.bind(f.env.DB);
+    await f.p("INSERT INTO territory_war_v3_users VALUES(77,101,'A',5000,0,0,0,0,60),(77,102,'B',6000,0,0,0,0,60)").run();
+    await f.p("INSERT INTO territory_war_v3_rewards(round_id,user_id,side,result,coin) VALUES(77,101,'A','WIN',999),(77,102,'B','LOSE',999)").run();
+    let combatUpdates=0;
+    f.env.DB.batch=async statements=>{
+      if(statements.some(statement=>String(statement.source||statement.sql).includes('skill_action_token=?'))){
+        await f.p('UPDATE territory_war_v3_rounds SET version=version+3,a_total_damage=a_total_damage+1000 WHERE id=77').run();
+        combatUpdates++;
+      }
+      return batch(statements);
+    };
+    const cfg={settlementMinAttacks:1,winnerCoin:200,loserCoin:100};
+    const settled=await __territoryClanTest.settleRound(f.env,stale,cfg,'B',{adminJudgment:true});
+    assert.equal(combatUpdates,1);assert.equal(settled.status,'FINISHED');assert.equal(settled.winner_side,'B');
+    assert.equal(Number(settled.version),Number(stale.version)+4);
+    const after=await f.teams();for(let i=0;i<8;i++)assert.equal(Number(after[i].score)-Number(before[i].score),i>=4?2:0);
+    const rewards=(await f.p('SELECT user_id,result,coin,claimed_at FROM territory_war_v3_rewards ORDER BY user_id').all()).results;
+    assert.deepEqual(rewards.map(row=>[Number(row.user_id),row.result,Number(row.coin),row.claimed_at]),[[101,'LOSE',100,null],[102,'WIN',200,null]]);
+    assert.equal((await __territoryClanTest.settleRound(f.env,stale,cfg,'A',{adminJudgment:true})).winner_side,'B');
+    assert.deepEqual(await f.teams(),after);assert.equal(combatUpdates,1);
+    assert.equal((await f.p('SELECT COUNT(*) count FROM territory_war_mutation_guards').first()).count,0);
+    assert.deepEqual(JSON.parse((await f.receipt()).value).clanIds,[5,6,7,8]);
+  });
+  test(`${dialect}: CMS judgment preserves changed-season, inactive-round and existing-receipt guards`,async t=>{
+    const f=await fixture(t,postgres),before=await f.teams(),stale=await f.round();
+    await f.p('UPDATE territory_war_v3_rounds SET clan_season_id=3,version=version+1').run();
+    await assert.rejects(finishTerritoryClanRound(f.env,stale,'B',{adminJudgment:true}));
+    assert.equal((await f.round()).settled_at,null);assert.deepEqual(await f.teams(),before);
+    await f.p("UPDATE territory_war_v3_rounds SET clan_season_id=2,status='DISABLED'").run();
+    await assert.rejects(finishTerritoryClanRound(f.env,stale,'B',{adminJudgment:true}));
+    assert.equal((await f.round()).status,'DISABLED');assert.deepEqual(await f.teams(),before);
+    await f.p("UPDATE territory_war_v3_rounds SET status='ACTIVE'").run();
+    await f.p("INSERT INTO app_meta(key,value) VALUES('territory_clan_win_points_v1:77','already recorded')").run();
+    await assert.rejects(finishTerritoryClanRound(f.env,stale,'B',{adminJudgment:true}));
+    assert.equal((await f.round()).settled_at,null);assert.deepEqual(await f.teams(),before);
+    assert.equal((await f.receipt()).value,'already recorded');
   });
   test(`${dialect}: failed score settlement rolls back round and points, then retries safely`,async t=>{
     const f=await fixture(t,postgres),before=await f.teams(),batch=f.env.DB.batch.bind(f.env.DB);
     f.env.DB.batch=statements=>batch([...statements,f.p("INSERT INTO territory_war_mutation_guards(token,ok) VALUES('forced-failure',0)")]);
-    await assert.rejects(__territoryClanTest.settleRound(f.env,await f.round(),{},'A'));
+    await assert.rejects(__territoryClanTest.settleRound(f.env,await f.round(),{},'A',{adminJudgment:true}));
     assert.equal((await f.round()).status,'ACTIVE');assert.equal((await f.round()).settled_at,null);
     assert.deepEqual(await f.teams(),before);assert.equal(await f.receipt(),null);
     f.env.DB.batch=batch;
-    assert.equal((await __territoryClanTest.settleRound(f.env,await f.round(),{},'A')).winner_side,'A');
+    assert.equal((await __territoryClanTest.settleRound(f.env,await f.round(),{},'A',{adminJudgment:true})).winner_side,'A');
     assert.equal((await f.teams())[0].score,12);
   });
   test(`${dialect}: incomplete or stale clan mapping cannot close the round`,async t=>{

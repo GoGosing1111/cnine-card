@@ -975,7 +975,7 @@ async function generateRewards(env,round,cfg){
   return payloads.length;
 }
 
-async function settleRound(env,round,cfg,forcedWinner=''){
+async function settleRound(env,round,cfg,forcedWinner='',{adminJudgment=false}={}){
   if(!round||round.settled_at)return round;
   const lock=await acquireLock(env,`settle_${round.id}`,180000);if(!lock.ok)return roundById(env,round.id);
   try{
@@ -984,7 +984,7 @@ async function settleRound(env,round,cfg,forcedWinner=''){
     // 보상 생성이 완전히 끝난 뒤에만 회차를 종료한다. 중간 실패 시 settled_at이
     // 비어 있으므로 다음 lifecycle 호출이 같은 UPSERT를 안전하게 재시도한다.
     await generateRewards(env,{...fresh,winner_side:winner},cfg);
-    const changed=await finishTerritoryClanRound(env,fresh,winner);
+    const changed=await finishTerritoryClanRound(env,fresh,winner,{adminJudgment:adminJudgment===true&&['A','B'].includes(forcedWinner)});
     if(Number(changed?.meta?.changes||0))fresh=await roundById(env,fresh.id);
     return roundById(env,fresh.id);
   }finally{await releaseLock(env,lock)}
@@ -1552,7 +1552,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
     }
   }
   if(path==='admin/territory-war/finish'&&request.method==='POST'){
-    if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const body=await deps.readBody(request),key=validRequestId(body.operationKey),forcedWinner=String(body.winnerSide||'').toUpperCase();if(!key)return deps.json({error:'관리자 작업 키가 올바르지 않습니다.'},400);if(!['A','B','DRAW'].includes(forcedWinner))return deps.json({error:'강제 종료할 승리 진영을 선택하세요.'},400);const round=await latestRound(env);if(!round||!['PREPARING','ACTIVE'].includes(round.status))return deps.json({error:'종료 가능한 회차가 없습니다.'},409);const reserve=await reserveAdminOperation(env,key,'FINISH',round.id,user.id);if(reserve.response)return deps.json(reserve.response);if(reserve.pending)return deps.json({error:'동일한 종료 작업을 처리 중입니다.'},409);if(reserve.conflict)return deps.json({error:'다른 작업에 사용된 관리자 작업 키입니다.'},409);try{const finished=await settleRound(env,round,cfg,forcedWinner);if(!finished?.settled_at)throw new Error('회차 정산을 완료하지 못했습니다.');if(String(cfg.mode||'OFF').toUpperCase()!=='OFF')await createRound(env,cfg);const response={ok:true,winner:finished.winner_side,state:await publicState(env,user.id,true)};await completeAdmin(env,key,response);return deps.json(response)}catch(error){await failAdmin(env,key,error);return deps.json({error:error.message||'회차 종료에 실패했습니다.'},409)}
+    if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const body=await deps.readBody(request),key=validRequestId(body.operationKey),forcedWinner=String(body.winnerSide||'').toUpperCase();if(!key)return deps.json({error:'관리자 작업 키가 올바르지 않습니다.'},400);if(!['A','B','DRAW'].includes(forcedWinner))return deps.json({error:'강제 종료할 승리 진영을 선택하세요.'},400);const round=await latestRound(env);if(!round||!['PREPARING','ACTIVE'].includes(round.status))return deps.json({error:'종료 가능한 회차가 없습니다.'},409);const reserve=await reserveAdminOperation(env,key,'FINISH',round.id,user.id);if(reserve.response)return deps.json(reserve.response);if(reserve.pending)return deps.json({error:'동일한 종료 작업을 처리 중입니다.'},409);if(reserve.conflict)return deps.json({error:'다른 작업에 사용된 관리자 작업 키입니다.'},409);try{const finished=await settleRound(env,round,cfg,forcedWinner,{adminJudgment:true});if(!finished?.settled_at)throw new Error('회차 정산을 완료하지 못했습니다.');if(String(cfg.mode||'OFF').toUpperCase()!=='OFF')await createRound(env,cfg);const response={ok:true,winner:finished.winner_side,state:await publicState(env,user.id,true)};await completeAdmin(env,key,response);return deps.json(response)}catch(error){await failAdmin(env,key,error);return deps.json({error:error.message||'회차 종료에 실패했습니다.'},409)}
   }
   return deps.json({error:'요청한 영토전 기능을 찾을 수 없습니다.'},404);
 }

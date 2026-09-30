@@ -11,7 +11,7 @@ export const isClanWarfare=round=>Number(round?.warfare_version||0)===4;
 
 // The round close, four league-score increments and the round receipt commit
 // together. Automatic victories and admin judgments both use this boundary.
-export async function finishTerritoryClanRound(env,round,winner){
+export async function finishTerritoryClanRound(env,round,winner,{adminJudgment=false}={}){
   if(!isClanWarfare(round)||!['A','B'].includes(winner))return env.DB.prepare("UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND settled_at IS NULL").bind(winner,round.id).run();
   const roundId=Number(round.id),seasonId=Number(round.clan_season_id),version=Number(round.version);
   if(!Number.isSafeInteger(roundId)||roundId<=0||!Number.isSafeInteger(seasonId)||seasonId<=0||!Number.isSafeInteger(version))fail('승리 클랜의 시즌 정보를 확인하지 못했습니다.');
@@ -21,11 +21,14 @@ export async function finishTerritoryClanRound(env,round,winner){
   if(teams.length!==4||teams.some(team=>team.score==null||!Number.isSafeInteger(Number(team.score))))fail('승리 진영의 클랜 4개와 시즌 승점을 확인하지 못했습니다.');
   const token=`TERRITORY_CLAN_SCORE:${roundId}:${crypto.randomUUID()}`,verified=`${token}:VERIFIED`,receiptKey=`territory_clan_win_points_v1:${roundId}`;
   const receipt={status:'COMPLETED',roundId,seasonId,winnerSide:winner,pointsPerClan:TERRITORY_CLAN_WIN_POINTS,clanIds:teams.map(team=>Number(team.clan_id)),completedAt:new Date().toISOString()};
+  // A CMS judgment fixes the winner independently of live combat updates. Keep
+  // the active-round/season/receipt guards; automatic outcomes still require the
+  // combat version used to calculate their winner.
   const statements=[
     env.DB.prepare(`UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,
       skill_action_token=?,version=version+1,updated_at=CURRENT_TIMESTAMP
-      WHERE id=? AND version=? AND status IN ('PREPARING','ACTIVE') AND settled_at IS NULL
-      AND warfare_version=4 AND clan_season_id=?`).bind(winner,token,roundId,version,seasonId),
+      WHERE id=? AND (?=1 OR version=?) AND status IN ('PREPARING','ACTIVE') AND settled_at IS NULL
+      AND warfare_version=4 AND clan_season_id=?`).bind(winner,token,roundId,adminJudgment===true?1:0,version,seasonId),
     env.DB.prepare(`INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN
       EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE id=? AND status='FINISHED' AND winner_side=?
         AND skill_action_token=? AND settled_at IS NOT NULL AND clan_season_id=?)
