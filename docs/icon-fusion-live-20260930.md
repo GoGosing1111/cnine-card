@@ -71,3 +71,5 @@
 후속 코드에서는 설정 부재 시 OFF로 닫고, 미결제 PENDING 재시도에도 현재 ON 상태를 재확인한다. 실제 결제 트랜잭션에 설정 값 비교 조건을 포함해 결제 직전 OFF 전환도 전체 롤백한다. 기존 COMPLETED 영수증 조회는 계속 허용한다. 화면은 7종 선택·재료 미리 보기를 제공하면서 `최종 검토 중 · 합성 잠금` 안내 및 비활성 버튼으로 표시한다.
 
 변경 범위는 ICON 설정 기본값·잠금 거래·안내 UI다. 직전 실제 배포 커밋 `ebe6e43d55cc1a881bbce2cc8ded04f753c98dfa`를 기준으로 `tests/icon-fusion-live-20260930.test.mjs`와 자동 Worker 컴파일/출시·캐시·Hyperdrive 검사만 선택해 scoped 배포한다. 기존 전장/CMS/다른 콘텐츠 검사를 반복하지 않는다. PC 1440px·모바일 390px에서 7종 공개·선택, 재료 미리 보기, 버튼/확인란 잠금, 합성 POST 0건 및 재화 불변을 확인했다. 검수 자료는 `C:/Users/User/.codex/worktrees/qa-icon-review-hold-20260930/`에 있다.
+
+잠금 안내 및 서버 재시도 차단을 커밋 `ca4384ac`로 운영 배포했다. 관련 검사 20개와 필수 배포 검사가 모두 통과했다. Pages는 https://2099941c.cnine-card.pages.dev, API Runtime은 `a04d29dc-27c9-4331-a7c7-386f9c86e415`다. 배포 후 메인 버전 `2108-shared-navigation-icon-review-20260930`, 합성 JS/CSS·서비스워커의 소스 일치, 공개 아이콘 7종을 확인했다. 운영 설정은 계속 revision 2 / enabled false이며 합성 시도는 여전히 0건이다. 로컬 검수 서버와 임시 조회 세션을 종료했다. 이 결과 기록은 문서만 커밋하고 재배포하지 않는다.
