@@ -1,7 +1,16 @@
 {
   "format": "PROJECT_V_CRIMSON_KNIGHT_FLAT_SABATONS_V8",
   "date": "2026-09-30",
-  "status": "USER_REVIEW_PENDING",
+  "status": "APPROVED_SOURCE_ART",
+  "approval": {
+    "date": "2026-09-30",
+    "scope": "SOURCE_ART_ONLY",
+    "userRequest": "일단 일러스트까지만 승인본으로 등록해",
+    "record": "../../assets/ui/project-v/mercenaries/mercenary-crimson-silver-knight-art-approval-20260930.json",
+    "approvedSourceArt": "../../assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+    "sha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+    "copiedWithoutReencoding": true
+  },
   "userRequest": [
     "오케이 마지막으로 신발 뒷굽만 어떻게 해봐",
     "기사가 뒷굽이 뭐노"
