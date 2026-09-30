@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-30",
+  "conceptId": "crimson-silver-knight",
+  "status": "USER_IDENTIFIED_APPROVED_DESIGN_AND_IDLE",
+  "userStatement": "내가 승인한 이미지는 이거다잉",
+  "approvedBase": {
+    "file": "assets/user-approved/knight-base-approved.png",
+    "sha256": "967113CDD1619DB498C7BE466E5F4608D2DE4B3120DE7534B3BA5C22B32CBADE",
+    "originalAttachment": "codex-clipboard-09bced4f-1032-471b-8e83-2fb4e0c71642.png"
+  },
+  "approvedIdle": {
+    "file": "assets/user-approved/idle-sheet-approved.png",
+    "frameCount": 8,
+    "sha256": "DD1AA28B7BA3AC3DAB291C6037A1C3280CA83DE221D8C5930ECC60B5335507D5",
+    "originalAttachment": "codex-clipboard-7d899214-d676-44c9-ad06-05c61ebb6119.png"
+  },
+  "copyPolicy": "BYTE_FOR_BYTE_NO_REENCODING",
+  "lockedFeatures": [
+    "승인 갑옷의 판금 구조와 장식",
+    "투구가 눈을 가리고 하관은 노출",
+    "평평한 판금 부츠와 자연 성인 비율",
+    "곧은 평행 검날과 중앙 축",
+    "승인 대검의 가드·보석·칼끝 갈고리 모양",
+    "붉은 망토"
+  ],
+  "requestedPoseEdit": "한 손 파지, 똑바로 선 몸, 검끝은 이전 방향 참고 사진처럼 오른쪽 아래. 갑옷과 대검 디자인은 재설계하지 않는다.",
+  "poseCandidate": "assets/knight-sd-v6-original-sword.png",
+  "poseCandidateStatus": "USER_REVIEW_PENDING",
+  "walkingRequested": false,
+  "dashEffectRequested": true,
+  "remainingMotionAndEffects": "DRAWN_AND_PACKED_USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "updated": "2026-10-01",
+  "motionFrames": 108,
+  "effectFrames": 96,
+  "weaponPolicy": "UNIFORM_SCALE_ROTATION_TRANSLATION_ONLY",
+  "weaponFile": "assets/weapon/sword-original.png",
+  "weaponSha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+  "motionApprovals": []
+}

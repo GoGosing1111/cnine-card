@@ -1,0 +1,15 @@
+PRECISION CHARACTER POSE EDIT. Produce ONE transparent full-body game character sprite, not an animation sheet.
+
+REFERENCE ROLES:
+Image 1 (two-handed pose) is the PRIMARY design/material/sword reference and the exact DIRECTION of the sword to preserve. The user likes its resource quality and greatsword shape. COPY its sword's diagonal direction: handle near the waist, blade descending toward the LOWER RIGHT corner of the image, pommel on the upper-left end of the handle.
+Image 2 is ONLY the UPRIGHT standing BODY posture reference. Do NOT copy image 2's vertical sword orientation.
+
+MANDATORY CHANGE: Make the sword held by ONE HAND ONLY while the man stands properly upright.
+The character's RIGHT hand (arm originating at screen-left shoulder) firmly and naturally grips the black handle immediately above the gold crossguard, at around waist level in front of him. Thumb and four armored fingers wrap around one cylindrical handle, with a natural wrist, elbow and shoulder connection. Entire huge sword extends DIAGONALLY DOWN-RIGHT in the SAME direction and same broad shape as image 1, approximately 50-55 degrees below horizontal. The pommel is upper-left of his gripping fist; guard and blade are below-right of his gripping fist. NO vertical point-down pose beside the left leg, NO overhead/shoulder pose, NO reversed blade, no separate floating weapon.
+His LEFT arm (screen-right side) hangs freely and naturally at his side with its hand visibly separated from the sword handle and blade. Exactly ONE hand on the handle. Remove the second-hand grip completely.
+Torso upright, spine straight, shoulders comfortably level, head turned slightly to screen RIGHT, long legs naturally extended and feet shoulder-width apart with a stable relaxed ready stance. No crouching, no lunge, no squat, no spread-eagle stance, no forward hunch. Right upper arm relaxed near ribcage, elbow naturally bent to support the single-handed sword.
+
+Retain the IDENTICAL enormous wide greatsword: long parallel SILVER cutting rails, rich gold/dark center spine, red diamond gems, the two LARGE CURLED SILVER HOOKS at the blade's bottom and the long central RUBY SPEAR TIP. Do not narrow, shorten, simplify or redesign it. Match image 1's sword direction, silhouette, metal detailing and red gems exactly. Full pommel-to-tip blade visible with empty margins. Keep the high-end 2D semireal metallic illustration quality.
+
+Retain silver-white/gold armor, ruby cores, flame-crown helmet physically lowered to HIDE ALL EYES, bare mouth and chin, NO mask and NO glowing eyes. Crimson cloth cape trails mainly behind to screen-left with clear broad folds, contained inside canvas. Long elegant adult legs, natural small adult head. 대두 금지 / 자연스러운 성인 비율 / 원화 체형 유지. Flat practical armored sabatons, NO raised heel.
+Full complete character and entire sword inside a portrait transparent PNG with 6 percent empty edge margins. Genuine alpha transparency; no background, no fog, no aura, no text, no environment, no floor, no cast shadow. Focus specifically on correct one-handed anatomical grip + down-right blade + upright standing body.

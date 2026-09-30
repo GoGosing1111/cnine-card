@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-30",
+  "status": "CANONICAL_SWORD_COMPOSITE_ALL_MOTION_USER_REVIEW_PENDING",
+  "latestDirection": "사용자 첨부 9e36c11a의 검 방향만 참고. 검은 허리 앞에서 오른쪽 아래로 비스듬히 향하게 한 손 파지. 몸은 똑바로 선다. 작화 품질과 대검 디자인은 유지. 걷기는 제외하고 대시 이펙트를 제작한다.",
+  "rejected": [
+    {
+      "file": "assets/rejected/sd-v1-two-handed-crouch.png",
+      "reason": "사용자 반려: 양손 파지와 웅크린 자세"
+    },
+    {
+      "file": "assets/source/ready-v1.png",
+      "reason": "사용자 반려: 파지/자세 오류 및 대검 디자인 변경",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/knight-sd-v4-one-hand-low-guard.png",
+      "reason": "사용자 반려: 승인 갑옷 디자인 변경 및 대검 굽어짐",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/knight-sd-v5-approved-design-low-guard.png",
+      "reason": "사용자 반려: 또 칼 모양이 바뀐다. 대검은 승인 원본 분리·합성 방식으로 교체.",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/rejected/attack-body-v2-clipped.png",
+      "reason": "기술 검수 제외: 일부 공격 포즈의 발끝이 원본 셀에 잘림. 이후 두 8프레임 시트로 대체.",
+      "usableAsReference": false
+    }
+  ],
+  "supersededPrompts": [
+    "walk-v1.txt",
+    "dash-v1.txt",
+    "ready-v1.txt",
+    "ready-v2.txt",
+    "attack-v1.txt",
+    "recover-v1.txt",
+    "skill-v1.txt",
+    "ultimate-v1.txt",
+    "lift-keyframe-v1.txt",
+    "sd-v2-standing.txt"
+  ],
+  "currentPosePrompt": [
+    "prompts/body-low-guard-proxy-v1.txt",
+    "prompts/body-low-guard-clean-v1.txt"
+  ],
+  "currentPose": "assets/knight-sd-v6-original-sword.png",
+  "approvedDesignSource": "assets/user-approved/knight-base-approved.png",
+  "approvedIdleSource": "assets/user-approved/idle-sheet-approved.png",
+  "generationMode": "BUILT_IN_IMAGEGEN",
+  "discardedGenerationRequest": "sd-v3-one-hand-diagonal: response stalled, cancelled before result; retried native generator with a single direction reference",
+  "swordDirectionReference": "sources/user-sword-direction-only.png",
+  "motionApprovals": [],
+  "runtimeEnabled": false,
+  "updated": "2026-10-01",
+  "weaponPolicy": "UNIFORM_SCALE_ROTATION_TRANSLATION_ONLY"
+}

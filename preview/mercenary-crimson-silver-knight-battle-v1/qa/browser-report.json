@@ -1,0 +1,1586 @@
+[
+  {
+    "name": "desktop",
+    "overflow": {
+      "client": 1440,
+      "scroll": 1440
+    },
+    "errors": [],
+    "failed": [],
+    "modes": [
+      {
+        "ready": true,
+        "mode": "aura",
+        "time": 0.5,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "idle",
+          "frame": 3
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [],
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 494.9999999999999,
+          "y": 249.99999999999997
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "dash",
+        "time": 0.3,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "dash",
+          "frame": 2
+        },
+        "cancelled": false,
+        "travel": 0.5679939894815927,
+        "activeFrames": [
+          {
+            "key": "dash",
+            "index": 5,
+            "next": 6,
+            "anchor": {
+              "x": 751.3534524964548,
+              "y": 372.2282977294447
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 17,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 839.3842524964548,
+          "y": 436.2506977294447
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "attack",
+        "time": 1,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "attack",
+          "frame": 6
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 501.37423999999993
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1101.3167196729912,
+          "y": 603.7314973693442
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 2.25,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ultimate",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6328125
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1180.7825797667174,
+          "y": 521.3346214409607
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "execution",
+        "time": 2.1,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ultimate",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6328125
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1180.7825797667174,
+          "y": 521.3346214409607
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "guard",
+        "time": 0.82,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "guard",
+          "frame": 3
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [
+          {
+            "key": "guard",
+            "index": 6,
+            "next": 7,
+            "anchor": {
+              "x": 563.8240799999999,
+              "y": 249.99999999999997
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 494.9999999999999,
+          "y": 249.99999999999997
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "hit",
+        "time": 0.2,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "hit",
+          "frame": 1
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [],
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 494.9999999999999,
+          "y": 249.99999999999997
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "defeat",
+        "time": 2.6,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "defeat",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [],
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 494.9999999999999,
+          "y": 249.99999999999997
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "ultimate",
+        "time": 1.42,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "attack",
+          "frame": 6
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 501.37423999999993
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1101.3167196729912,
+          "y": 603.7314973693442
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "ultimate",
+        "time": 3.25,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ultimate",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6328125
+            }
+          },
+          {
+            "key": "ultimate",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 1257.1355932203392,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.640625
+            }
+          },
+          {
+            "key": "ultimate",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 944.9999999999999,
+              "y": 519.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.640625
+            }
+          },
+          {
+            "key": "ultimate",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 1474.9999999999998,
+              "y": 424.99999999999994
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.640625
+            }
+          }
+        ],
+        "visibleSprites": 23,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1180.7825797667174,
+          "y": 521.3346214409607
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      }
+    ],
+    "interruption": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 3.25,
+      "playing": false,
+      "speed": 1,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": true,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 108,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1
+    },
+    "targetLost": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 3.25,
+      "playing": false,
+      "speed": 1,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": true,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 108,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1
+    },
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.1255,
+        "wall": 0.501,
+        "pauseStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.252,
+        "wall": 0.5040999999940395,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.504,
+        "wall": 0.5024000000059604,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 1.008,
+        "wall": 0.5029000000059605,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 0,
+      "playing": false,
+      "speed": 2,
+      "pose": {
+        "key": "cast",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 108,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1
+    },
+    "sound": {
+      "enabled": true,
+      "scheduled": [
+        {
+          "key": "ultimate",
+          "contact": 3.25,
+          "sourceSync": 0.333,
+          "when": 0,
+          "offset": 0.04600000000000026,
+          "speed": 1
+        }
+      ],
+      "error": null
+    },
+    "auraOff": false,
+    "disposed": {
+      "timelines": 0,
+      "effectLayers": 0,
+      "destroyed": true
+    }
+  },
+  {
+    "name": "mobile",
+    "overflow": {
+      "client": 390,
+      "scroll": 390
+    },
+    "errors": [],
+    "failed": [],
+    "modes": [
+      {
+        "ready": true,
+        "mode": "aura",
+        "time": 0.5,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "idle",
+          "frame": 3
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [],
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 424.33673005186057,
+          "y": 344.3785824765718
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "dash",
+        "time": 0.3,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "dash",
+          "frame": 2
+        },
+        "cancelled": false,
+        "travel": 0.5679939894815927,
+        "activeFrames": [
+          {
+            "key": "dash",
+            "index": 5,
+            "next": 6,
+            "anchor": {
+              "x": 326.8617588180208,
+              "y": 662.9516353621799
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 17,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 419.6290456751637,
+          "y": 730.4187530764656
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "attack",
+        "time": 1,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "attack",
+          "frame": 6
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 916.7913971051435
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 416.04846562675,
+          "y": 1049.8558316852912
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "skill",
+        "time": 2.25,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ultimate",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6328125
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 519.3540837485936,
+          "y": 924.6135903498213
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "execution",
+        "time": 2.1,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ultimate",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6328125
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 519.3540837485936,
+          "y": 924.6135903498213
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "guard",
+        "time": 0.82,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "guard",
+          "frame": 3
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [
+          {
+            "key": "guard",
+            "index": 6,
+            "next": 7,
+            "anchor": {
+              "x": 496.8638815947178,
+              "y": 344.3785824765718
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 424.3367300518606,
+          "y": 344.3785824765718
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "hit",
+        "time": 0.2,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "hit",
+          "frame": 1
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [],
+        "visibleSprites": 12,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 424.33673005186057,
+          "y": 344.3785824765718
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "defeat",
+        "time": 2.6,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "defeat",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 0,
+        "activeFrames": [],
+        "visibleSprites": 0,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 424.33673005186057,
+          "y": 344.3785824765718
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "ultimate",
+        "time": 1.42,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "attack",
+          "frame": 6
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 916.7913971051435
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ],
+        "visibleSprites": 14,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 416.04846562675,
+          "y": 1049.8558316852912
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      },
+      {
+        "ready": true,
+        "mode": "ultimate",
+        "time": 3.25,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ultimate",
+          "frame": 7
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 9,
+            "next": 10,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6328125
+            }
+          },
+          {
+            "key": "ultimate",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.640625
+            }
+          },
+          {
+            "key": "ultimate",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 914.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.640625
+            }
+          },
+          {
+            "key": "ultimate",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 674.3785824765719
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.640625
+            }
+          }
+        ],
+        "visibleSprites": 23,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 108,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 519.3540837485936,
+          "y": 924.6135903498213
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1
+      }
+    ],
+    "interruption": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 3.25,
+      "playing": false,
+      "speed": 1,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": true,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 108,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.3367300518606,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1
+    },
+    "targetLost": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 3.25,
+      "playing": false,
+      "speed": 1,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": true,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 108,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.3367300518606,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1
+    },
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.126,
+        "wall": 0.5012999999821186,
+        "pauseStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.252,
+        "wall": 0.5023000000119209,
+        "pauseStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.5,
+        "wall": 0.5004000000059604,
+        "pauseStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 1.008,
+        "wall": 0.5042999999821186,
+        "pauseStable": true
+      }
+    ],
+    "stopped": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 0,
+      "playing": false,
+      "speed": 2,
+      "pose": {
+        "key": "cast",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 108,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.33673005186057,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1
+    },
+    "sound": {
+      "enabled": true,
+      "scheduled": [
+        {
+          "key": "ultimate",
+          "contact": 3.25,
+          "sourceSync": 0.333,
+          "when": 0,
+          "offset": 0.017000000000000348,
+          "speed": 1
+        }
+      ],
+      "error": null
+    },
+    "auraOff": false,
+    "disposed": {
+      "timelines": 0,
+      "effectLayers": 0,
+      "destroyed": true
+    }
+  }
+]

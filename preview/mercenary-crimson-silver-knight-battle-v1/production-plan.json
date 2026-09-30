@@ -1,0 +1,83 @@
+{
+  "motions": {
+    "idle": {
+      "count": 8,
+      "rows": 2,
+      "action": "A restrained 8-frame breathing idle loop. Upright proper stance; right closed fist at waist as in input, left arm relaxed down. Only gentle natural chest/shoulder breathing and flowing cape, not walking, no steps. Last frame blends into first."
+    },
+    "ready": {
+      "count": 16,
+      "rows": 4,
+      "action": "A continuous 16-frame one-handed sword wind-up. Start exact upright waist-level closed-fist pose from input. Right elbow rises gradually, the right fist travels from waist across upper chest and toward a high position above the right shoulder; wrist rolls gradually as if lifting a huge rigid sword. Final closed fist beside/above helmet; left arm counterbalances without gripping. Subtle torso turn and knee loading, feet remain planted, adult powerful proper stance, no leap and no walking. Sixteen evenly spaced distinct transitional anatomical poses, especially gradual wrist/elbow changes."
+    },
+    "attack": {
+      "count": 16,
+      "rows": 4,
+      "action": "A continuous 16-frame powerful single-handed greatsword slash BODY ONLY. Right fist starts high beside helmet, shoulder loaded. Right arm sweeps forward across the body toward screen-right; torso and hips turn and lead foot braces, cape whips behind. Mid-sequence right fist extends far toward screen-right at chest height on the attack peak; the final wrist and fist sweep down to waist-level diagonal follow-through. Left hand counterbalances, never grips anything. Draw all 16 true transitional poses including accelerating extension, impact follow-through and deceleration. No weapon and no drawn weapon trail."
+    },
+    "recover": {
+      "count": 12,
+      "rows": 3,
+      "action": "A continuous 12-frame recovery from a low rightward slash follow-through. Start right fist extended down and right at thigh height, torso slightly turned. Gradually bring elbow and fist back to the exact upright closed-fist-at-waist input pose. Feet settle, torso rises, cape inertia settles. The last frame matches the input idle posture. No weapon."
+    },
+    "dash": {
+      "count": 8,
+      "rows": 2,
+      "action": "8 sequential poses for an explosive dash, not a walk cycle. Right closed fist stays at waist bracing an invisible heavy handle. Start upright, compress knees slightly, lean forward to launch, then a compact airborne straight acceleration pose with trailing cape, then brake with both feet landing, then stand upright again. No walking steps or marching. No aura or speed lines; effects will be separate. Fixed screen-right facing camera."
+    },
+    "guard": {
+      "count": 8,
+      "rows": 2,
+      "action": "8 sequential poses lifting a one-handed guard and recovering. From waist right fist rises to upper chest, right elbow bends firmly and body braces a hit; subtle shoulder recoil, left hand stays free, then fist lowers back to waist. The imagined sword points upward during the guard; do not draw it. Feet stay grounded and proper. Closed right fist in every frame."
+    },
+    "hit": {
+      "count": 8,
+      "rows": 2,
+      "action": "8 sequential stagger and recovery poses. From the input ready stance, a strong hit pushes the shoulder back, hips and knees absorb it, cape snaps forward, right closed fist remains in front around waist/upper hip maintaining the invisible handle grip, then posture returns upright. No collapse, no weapon, no visible injury."
+    },
+    "defeat": {
+      "count": 8,
+      "rows": 2,
+      "action": "8 continuous defeat poses. Start upright but weakened, shoulders sink, knees buckle, one knee reaches ground, torso bows, then falls on the right side and cape settles. Right hand stays visibly closed, maintaining its invisible weapon grip; do not draw or drop any weapon. Adult proportions and exact armor remain, no dismemberment. Each body fully inside its own cell including the final horizontal body."
+    },
+    "cast": {
+      "count": 12,
+      "rows": 3,
+      "action": "12 continuous regal skill channeling poses. Stand tall. Right fist remains at waist bracing invisible handle. Free LEFT arm slowly lifts outward, opens palm toward screen-right, fingers spread to project immense magical force, shoulders expand, cape billows, then palm lowers and body settles. No magic light or particles or weapon; body poses only, no mask and no glowing eyes."
+    },
+    "ultimate": {
+      "count": 12,
+      "rows": 3,
+      "action": "12 continuous ultimate execution body poses. Right closed fist lifts from waist to high overhead in frames 1-5, torso turns, knees load; then right fist drives forcefully down/forward through chest height to a grounded low follow-through in frames 6-9; left arm counterbalances; frames 10-12 rise back into upright regal stance with fist at waist. One-handed attack throughout. No weapon or effects, full armor and cape keep exact identity."
+    }
+  },
+  "effects": {
+    "slash": {
+      "count": 16,
+      "rows": 4,
+      "action": "A huge ruby-gold sword slash tearing through the air left-to-right. Frame 1 a small concentrated blade glint; frames 2-5 a thin curved cutting edge builds; frames 6-9 expand to an immense broad crimson crescent with white-hot gold cutting edge and shattered ruby fragments; frames 10-12 target impact starburst with gold sparks and angular ruby shockwaves; frames 13-16 disperse into thin glowing arcs and dying sparks. Dramatic crescent changes shape every frame. No actual sword or character."
+    },
+    "guard": {
+      "count": 12,
+      "rows": 3,
+      "action": "A ruby-gold magic guard impact in front of a knight. Starts subtle gathering shield slivers, forms a tall elegant ruby crystalline shield outline in frames 3-5, receives a white-gold impact flash with spreading radial fracture ripples in frames 6-8, then fractures into beautiful gold sparks and ruby diamond shards and fades in frames 9-12. No static flat icon; shield shape genuinely builds and breaks."
+    },
+    "charge": {
+      "count": 12,
+      "rows": 3,
+      "action": "A majestic crimson and gold casting energy surrounding an EMPTY human-sized center. Elliptical rune circle on the ground, rising elegant ruby crystal particles and two gold flame columns build from small embers through powerful upward spiral, reach a bright regal peak, then release upward and fade. Empty central silhouette must remain clear for a separately composited knight."
+    },
+    "execution": {
+      "count": 16,
+      "rows": 4,
+      "action": "Endgame-tier regal crimson-gold execution: gathering jewel sparks at a ground point, a vertical white-gold judgment ray erupts downward into a ruby crystal impact crown, ground-level golden ring expands, enormous ruby crystal shards lift upward while branching gold lightning fractures outward, followed by a broad radial crimson shockwave, then long dying gold trails and settling red embers. Frames 1-4 gather, 5-8 beam builds, 9-11 distinct highest impact, 12-16 disintegrate and fade. All phases visibly different, no character."
+    },
+    "ultimate": {
+      "count": 16,
+      "rows": 4,
+      "action": "The most spectacular final-tier mercenary skill effect: a narrow ruby-gold vertical cutting line gathers into an enormous golden celestial greatsword-shaped light pillar, smashing a crimson crystal field; peak frames show concentric expanding ruby/gold ground crowns, radiant crossed slash rays, branching ruby lightning, airborne crystal shards and blazing white-gold core. Fade through fractured golden ribbons into fine falling ruby embers. Frames 1-4 preparation, 5-8 descent, 9-11 overwhelmingly bright impact, 12-16 decay. Preserve empty central compositing space where feasible, no physical weapon or character. Not a repeated icon."
+    }
+  },
+  "weaponPolicy": "IMMUTABLE_ORIGINAL_RIGID_COMPOSITE",
+  "walking": false
+}

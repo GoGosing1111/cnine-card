@@ -1,0 +1,774 @@
+{
+  "motion": {
+    "idle": {
+      "parts": [
+        {
+          "source": "idle-body-only-v2.png",
+          "bodyPixels": 506,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              190,
+              200,
+              -40
+            ],
+            [
+              577,
+              199,
+              -40
+            ],
+            [
+              966,
+              199,
+              -40
+            ],
+            [
+              1349,
+              199,
+              -40
+            ],
+            [
+              187,
+              710,
+              -40
+            ],
+            [
+              572,
+              710,
+              -40
+            ],
+            [
+              960,
+              710,
+              -40
+            ],
+            [
+              1345,
+              710,
+              -40
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "ready": {
+      "parts": [
+        {
+          "source": "ready-a-body-v3.png",
+          "bodyPixels": 500,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              191,
+              234,
+              -45
+            ],
+            [
+              602,
+              196,
+              -55
+            ],
+            [
+              994,
+              177,
+              -67
+            ],
+            [
+              1383,
+              151,
+              -80
+            ],
+            [
+              231,
+              659,
+              -92
+            ],
+            [
+              619,
+              643,
+              -104
+            ],
+            [
+              1005,
+              632,
+              -114
+            ],
+            [
+              1399,
+              626,
+              -125
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        },
+        {
+          "source": "ready-b-body-v3.png",
+          "bodyPixels": 485,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              192,
+              114,
+              -125
+            ],
+            [
+              552,
+              110,
+              -133
+            ],
+            [
+              958,
+              100,
+              -141
+            ],
+            [
+              1323,
+              45,
+              -147
+            ],
+            [
+              179,
+              525,
+              -155
+            ],
+            [
+              565,
+              515,
+              -162
+            ],
+            [
+              953,
+              513,
+              -169
+            ],
+            [
+              1352,
+              512,
+              -175
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "attack": {
+      "parts": [
+        {
+          "source": "attack-a-body-v3.png",
+          "bodyPixels": 450,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              165,
+              26,
+              160
+            ],
+            [
+              541,
+              33,
+              174
+            ],
+            [
+              902,
+              107,
+              195
+            ],
+            [
+              1468,
+              201,
+              222
+            ],
+            [
+              351,
+              624,
+              246
+            ],
+            [
+              736,
+              650,
+              264
+            ],
+            [
+              1129,
+              650,
+              278
+            ],
+            [
+              1502,
+              646,
+              296
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        },
+        {
+          "source": "attack-b-body-v3.png",
+          "bodyPixels": 480,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              334,
+              118,
+              -58
+            ],
+            [
+              673,
+              255,
+              -42
+            ],
+            [
+              1018,
+              294,
+              -28
+            ],
+            [
+              1485,
+              298,
+              -18
+            ],
+            [
+              278,
+              769,
+              -24
+            ],
+            [
+              596,
+              738,
+              -30
+            ],
+            [
+              968,
+              696,
+              -38
+            ],
+            [
+              1327,
+              695,
+              -40
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ],
+      "contacts": [
+        {
+          "frame": 6,
+          "targetHeightFraction": 0.46
+        }
+      ]
+    },
+    "recover": {
+      "parts": [
+        {
+          "source": "recover-body-only-v2.png",
+          "bodyPixels": 352,
+          "count": 12,
+          "rows": 3,
+          "hands": [
+            [
+              288,
+              230,
+              -25
+            ],
+            [
+              578,
+              161,
+              -28
+            ],
+            [
+              893,
+              158,
+              -32
+            ],
+            [
+              1240,
+              159,
+              -36
+            ],
+            [
+              194,
+              527,
+              -40
+            ],
+            [
+              555,
+              527,
+              -43
+            ],
+            [
+              903,
+              528,
+              -45
+            ],
+            [
+              1264,
+              527,
+              -45
+            ],
+            [
+              189,
+              888,
+              -45
+            ],
+            [
+              549,
+              888,
+              -45
+            ],
+            [
+              910,
+              888,
+              -45
+            ],
+            [
+              1271,
+              888,
+              -45
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "dash": {
+      "parts": [
+        {
+          "source": "dash-body-only-v2.png",
+          "bodyPixels": 506,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              176,
+              214,
+              -40
+            ],
+            [
+              557,
+              251,
+              -50
+            ],
+            [
+              1006,
+              231,
+              -62
+            ],
+            [
+              1394,
+              218,
+              -70
+            ],
+            [
+              214,
+              710,
+              -64
+            ],
+            [
+              551,
+              736,
+              -52
+            ],
+            [
+              970,
+              713,
+              -46
+            ],
+            [
+              1330,
+              713,
+              -40
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "guard": {
+      "parts": [
+        {
+          "source": "guard-body-only-v2.png",
+          "bodyPixels": 500,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              184,
+              229,
+              -40
+            ],
+            [
+              594,
+              181,
+              -75
+            ],
+            [
+              1009,
+              159,
+              -112
+            ],
+            [
+              1403,
+              138,
+              -139
+            ],
+            [
+              229,
+              662,
+              -139
+            ],
+            [
+              599,
+              690,
+              -112
+            ],
+            [
+              979,
+              718,
+              -75
+            ],
+            [
+              1361,
+              728,
+              -40
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "hit": {
+      "parts": [
+        {
+          "source": "hit-body-only-v2.png",
+          "bodyPixels": 500,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              163,
+              210,
+              -40
+            ],
+            [
+              512,
+              210,
+              -42
+            ],
+            [
+              905,
+              230,
+              -45
+            ],
+            [
+              1323,
+              270,
+              -50
+            ],
+            [
+              176,
+              709,
+              -50
+            ],
+            [
+              562,
+              691,
+              -45
+            ],
+            [
+              959,
+              705,
+              -42
+            ],
+            [
+              1345,
+              710,
+              -40
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "defeat": {
+      "parts": [
+        {
+          "source": "defeat-body-only-v2.png",
+          "bodyPixels": 539,
+          "count": 8,
+          "rows": 2,
+          "hands": [
+            [
+              149,
+              229,
+              -40
+            ],
+            [
+              556,
+              251,
+              -45
+            ],
+            [
+              944,
+              287,
+              -51
+            ],
+            [
+              1365,
+              347,
+              -61
+            ],
+            [
+              175,
+              775,
+              -67
+            ],
+            [
+              616,
+              796,
+              -73
+            ],
+            [
+              1027,
+              836,
+              -81
+            ],
+            [
+              1449,
+              862,
+              -87
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "cast": {
+      "parts": [
+        {
+          "source": "cast-body-only-v2.png",
+          "bodyPixels": 478,
+          "count": 12,
+          "rows": 3,
+          "hands": [
+            [
+              101,
+              188,
+              -45
+            ],
+            [
+              359,
+              189,
+              -45
+            ],
+            [
+              610,
+              191,
+              -45
+            ],
+            [
+              869,
+              191,
+              -45
+            ],
+            [
+              99,
+              700,
+              -45
+            ],
+            [
+              358,
+              700,
+              -45
+            ],
+            [
+              611,
+              701,
+              -45
+            ],
+            [
+              869,
+              701,
+              -45
+            ],
+            [
+              101,
+              1220,
+              -45
+            ],
+            [
+              355,
+              1220,
+              -45
+            ],
+            [
+              611,
+              1220,
+              -45
+            ],
+            [
+              870,
+              1218,
+              -45
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ]
+    },
+    "ultimate": {
+      "parts": [
+        {
+          "source": "ultimate-body-only-v2.png",
+          "bodyPixels": 365,
+          "count": 12,
+          "rows": 3,
+          "hands": [
+            [
+              176,
+              159,
+              -45
+            ],
+            [
+              542,
+              66,
+              -130
+            ],
+            [
+              867,
+              15,
+              -166
+            ],
+            [
+              1283,
+              15,
+              -175
+            ],
+            [
+              162,
+              389,
+              -178
+            ],
+            [
+              645,
+              546,
+              -135
+            ],
+            [
+              1023,
+              565,
+              -95
+            ],
+            [
+              1376,
+              642,
+              -45
+            ],
+            [
+              274,
+              1000,
+              -24
+            ],
+            [
+              570,
+              886,
+              -25
+            ],
+            [
+              894,
+              877,
+              -35
+            ],
+            [
+              1246,
+              884,
+              -45
+            ]
+          ],
+          "gripReview": "MANUALLY_REGISTERED_CLOSED_RIGHT_GLOVE",
+          "weaponPolicy": "ORIGINAL_RIGID_ONLY"
+        }
+      ],
+      "contacts": [
+        {
+          "frame": 7,
+          "targetHeightFraction": 0
+        }
+      ]
+    }
+  },
+  "effects": {
+    "aura": {
+      "source": "aura-fx-v1.png",
+      "count": 12,
+      "columns": 4,
+      "rows": 3,
+      "peak": 6,
+      "anchor": "ground"
+    },
+    "dash": {
+      "source": "dash-fx-v1.png",
+      "count": 12,
+      "columns": 4,
+      "rows": 3,
+      "peak": 5,
+      "anchor": "center"
+    },
+    "slash": {
+      "source": "slash-fx-v2.png",
+      "count": 16,
+      "columns": 4,
+      "rows": 4,
+      "peak": 9,
+      "anchor": "center"
+    },
+    "guard": {
+      "source": "guard-fx-v2.png",
+      "count": 12,
+      "columns": 4,
+      "rows": 3,
+      "peak": 6,
+      "anchor": "center"
+    },
+    "charge": {
+      "source": "charge-fx-v2.png",
+      "count": 12,
+      "columns": 4,
+      "rows": 3,
+      "peak": 7,
+      "anchor": "ground"
+    },
+    "execution": {
+      "source": "execution-fx-v2.png",
+      "count": 16,
+      "columns": 4,
+      "rows": 4,
+      "peak": 9,
+      "anchor": "ground"
+    },
+    "ultimate": {
+      "source": "ultimate-fx-v2.png",
+      "count": 16,
+      "columns": 4,
+      "rows": 4,
+      "peak": 10,
+      "anchor": "ground"
+    }
+  }
+}

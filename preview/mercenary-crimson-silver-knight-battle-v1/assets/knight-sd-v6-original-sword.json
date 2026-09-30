@@ -1,0 +1,25 @@
+{
+  "body": "assets/source/body-low-guard-clean-v1.png",
+  "bodySha256": "8259267ED933B01E73332E157DCE4802F45DCB56FA06F8D0307433A61C3ADE9B",
+  "weapon": {
+    "original": "assets/weapon/sword-original.png",
+    "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+    "scale": 1,
+    "angle": -32,
+    "grip": [
+      521,
+      557
+    ],
+    "pivot": [
+      219.2189971018803,
+      226.998221589143
+    ],
+    "rigid": true
+  },
+  "handForeground": "EXACT_BODY_GLOVE_PIXELS",
+  "feet": [
+    644,
+    1510
+  ],
+  "status": "USER_REVIEW_PENDING"
+}

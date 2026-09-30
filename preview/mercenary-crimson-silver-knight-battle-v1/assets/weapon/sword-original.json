@@ -1,0 +1,32 @@
+{
+  "source": "assets/user-approved/knight-base-approved.png",
+  "sourceSha256": "967113CDD1619DB498C7BE466E5F4608D2DE4B3120DE7534B3BA5C22B32CBADE",
+  "file": "assets/weapon/sword-original.png",
+  "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+  "crop": {
+    "left": 120,
+    "top": 165,
+    "width": 322,
+    "height": 1300
+  },
+  "grip": [
+    156,
+    164
+  ],
+  "pommel": [
+    156,
+    8
+  ],
+  "tip": [
+    167,
+    1283
+  ],
+  "sourceBodyHeight": 1452,
+  "occludedGrip": [
+    116,
+    202
+  ],
+  "rgbPolicy": "ORIGINAL_RGB_COPY_NO_REPAINT",
+  "transformPolicy": "UNIFORM_SCALE_ROTATION_TRANSLATION_ONLY",
+  "selectedPixels": 158452
+}

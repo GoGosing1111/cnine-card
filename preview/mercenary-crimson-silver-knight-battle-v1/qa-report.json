@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-01",
+  "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
+  "status": "TECHNICAL_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "unitTests": {
+    "command": "node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
+    "passed": 6,
+    "failed": 0,
+    "afterTimelineChanges": {
+      "command": "node --test --test-name-pattern='modes seek|collision poses|real Pixi transforms' preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
+      "passed": 3,
+      "failed": 0
+    },
+    "afterSizeChange": {
+      "command": "node --test --test-name-pattern='real Pixi transforms' preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "counts": {
+    "motion": 108,
+    "effects": 96
+  },
+  "weaponOriginalSha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+  "weaponRgbMatchesApprovedSource": true,
+  "sourceArtHashUnchanged": true,
+  "all204FrameHashesAndAlphaPaddingPassed": true,
+  "allWeaponsRigidUniform": true,
+  "bodyRelativeSwordLengthConstant": true,
+  "displaySizing": {
+    "baselineFullBodyHeight": 260,
+    "initialRequestedScale": 1.25,
+    "latestRequest": "MATCH_CRYVERN_BATTLE_CHARACTER_SIZE",
+    "fullBodyHeight": 358,
+    "bodyHeight": 312.3894230769231,
+    "reference": {
+      "name": "크라이베른",
+      "preview": "preview/mercenary-ice-crystal-dual-sword-v1/",
+      "fullBodyHeight": 380,
+      "bodyPixels": 1030,
+      "spriteHeight": 1254,
+      "bodyHeight": 312.1212121212121
+    },
+    "policy": "UNIFORM_CHARACTER_WEAPON_AND_AURA_SCALE_EXCLUDING_TRANSPARENT_PADDING"
+  },
+  "browser": [
+    {
+      "viewport": "desktop",
+      "pageErrors": 0,
+      "failedAssets": 0,
+      "horizontalOverflow": false,
+      "sequenceCount": 10,
+      "interruptCleared": true,
+      "targetLossCleared": true,
+      "speedPausePassed": true,
+      "auraFollowsPose": true,
+      "regularCardsStayFive": true,
+      "soundError": null,
+      "dispose": {
+        "timelines": 0,
+        "effectLayers": 0,
+        "destroyed": true
+      }
+    },
+    {
+      "viewport": "mobile",
+      "pageErrors": 0,
+      "failedAssets": 0,
+      "horizontalOverflow": false,
+      "sequenceCount": 10,
+      "interruptCleared": true,
+      "targetLossCleared": true,
+      "speedPausePassed": true,
+      "auraFollowsPose": true,
+      "regularCardsStayFive": true,
+      "soundError": null,
+      "dispose": {
+        "timelines": 0,
+        "effectLayers": 0,
+        "destroyed": true
+      }
+    }
+  ],
+  "visualEvidenceDirectory": "qa/",
+  "animationRecording": "qa/ultimate-preview.webp",
+  "runtimeDeployment": "NOT_REQUESTED_FOR_UNAPPROVED_RESOURCE_PREVIEW",
+  "noUnrelatedReleaseGate": true
+}
