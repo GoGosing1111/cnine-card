@@ -22,3 +22,11 @@
 - 실제 직전 운영 배포: Pages `e6eb3e4f-faa8-4179-84a7-c93824576ae8`, 소스 `c8eba4a149a94ca713f95bc9c041512dfe3bec74`, 완료 상태 `success`를 Cloudflare 메타데이터로 확인했다. `15285d89`는 이전 배포 완료 기록만 추가한 문서 커밋이다.
 - 지정 배포: `npm run deploy:production -- --scoped`. `SCOPED_DEPLOY_TESTS=["tests/lich-raid-inline-entry-20260929.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=[]`. 레이드 탭 진입/복귀, 해제 후 늦은 응답, 메인·번들 연결과 UI 캐시 경로만 검사한다. 깨끗한 커밋·origin/main 일치·출시/보상 잠금·캐시·Hyperdrive·private API runtime 필수 검사는 유지한다.
 - 이미 통과한 브라우저 시각/조작 검수는 배포에서 반복하지 않는다. 배포 후 새 UI 파일·서체의 운영 반영만 짧게 확인한다.
+
+## 운영 반영 완료
+
+- 운영 소스 `9d6c7b8171f21adadb9d7ff61862bb16c3bb7d40`을 깨끗한 작업 트리와 origin/main 일치 상태에서 지정 범위 배포했고 종료 코드 0으로 완료됐다. 선택한 진입/해제 회귀 4개, 출시 상태·보상 잠금·캐시·Hyperdrive 검사와 Functions 컴파일이 통과했다.
+- Pages `22bc29aa-fc2c-4b2e-96a1-3a41a70b3d33`: https://22bc29aa.cnine-card.pages.dev. 운영 메타데이터에서 위 소스 커밋과 완료 상태 `success`를 확인했다.
+- 필수 배포 절차의 API runtime 버전은 `c6f20a3b-5dff-4e9f-9430-5ff5c57a8f4c`, clan-draft 버전은 `69113a47-4b50-4197-8add-58cc3f1e8f54`다. private service credentials와 Hyperdrive query cache OFF를 확인했다.
+- `cnine-card.pages.dev`에서 메인 HTML·진입 JS·리치왕 HTML·inline/live 모듈·inline/lobby/live CSS·서체 2개, 총 10개 파일이 HTTP 200이며 로컬 배포본과 SHA-256이 일치했다. 텍스트만 줄바꿈을 정규화했다. 비인증 `/api/raid/lich/feature`는 401로 보호됐다.
+- 운영 실계정 입장·출정·입장권 소비는 확인 과정에서 실행하지 않았다. 실제 화면과 핵심 조작은 위 로컬 3계정 검수에서 확인했다. 이 완료 기록은 문서만 추가하므로 후속 커밋/원격 반영 뒤 재검사·재배포하지 않는다.
