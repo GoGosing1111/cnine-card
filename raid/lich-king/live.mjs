@@ -2,7 +2,7 @@ import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
 export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
 const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#'+id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
 const roleKeys=['ASSAULT','WARDEN','RESCUE'];
-const roleHints={ASSAULT:'감옥을 처리하고, 공격 기회에 집중 공격과 결전을 사용하세요.',WARDEN:'영혼 말살을 차단하고, 표시된 순서로 문양을 봉인하세요.',RESCUE:'역병을 전이하고, 갇힌 영혼과 쓰러진 공대원을 구하세요.',UNASSIGNED:'공대장의 작전 배분을 기다려주세요. 역할이 정해지면 준비할 수 있습니다.'};
+const roleHints={ASSAULT:'감옥은 6초 동안 유지하세요. 방벽이 무너지면 집중 공격과 결전으로 HP 목표선을 돌파하세요.',WARDEN:'서리 폭발은 기다리고 영혼 말살을 차단하세요. 봉인은 표시된 순서대로 누르세요.',RESCUE:'2중첩에 같은 문양의 구울로 역병을 전이하세요. 3단계에는 영혼을 두 번씩 구출하세요.',UNASSIGNED:'공대장의 작전 배분을 기다려주세요. 역할이 정해지면 준비할 수 있습니다.'};
 const symbols={ASSAULT:'<path d="m4 3 7 7-3 3-7-7 3-3Zm9 10 7 7M13 3l7 3-7 7m-3 3-6 6M15 18l3-3M3 15l3 3"/>',WARDEN:'<path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6l8-4Z"/><path d="M12 7v9M8 11l4-4 4 4"/>',RESCUE:'<path d="M7 5h10l4 7-4 7H7l-4-7 4-7Z"/><path d="M12 8v8M8 12h8"/>',UNASSIGNED:'<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',CHECK:'<path d="m5 12 4 4L19 6"/>',EXIT:'<path d="M9 4H4v16h5m5-13 5 5-5 5M9 12h10"/>',ARROW:'<path d="M4 12h16m-6-6 6 6-6 6"/>',PEOPLE:'<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m2-17a3 3 0 0 1 0 6m1 3a5 5 0 0 1 3 5v3"/>'};
 const icon=name=>'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+symbols[name]+'</svg>';
 const lifecycle=new AbortController();
@@ -20,6 +20,25 @@ function prewarm(){
 let savedRequests=[];try{savedRequests=JSON.parse(sessionStorage.getItem('lichLiveRequests')||'[]');if(!Array.isArray(savedRequests))savedRequests=[];}catch{}
 const pending=new Map(savedRequests);
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4500);}
+function renderGuideContext(){
+  const active=state?.status==='ACTIVE';
+  $('guideRole').textContent=roleKeys.includes(state?.me.role)?'내 역할 · '+roles[state.me.role]:'3인 기준 · 역할별 행동 안내';
+  $('guideNotice').textContent=active?'전투 중 · 공략을 열어도 기믹과 광폭화 시간은 계속 흐릅니다.':'출정 전에 읽고, 전투에서는 내 역할을 빠르게 확인하세요.';
+  $('guideDialog').querySelector('.guide-context').classList.toggle('is-active',active);
+}
+function scrollGuideTo(name,{focus=true}={}){
+  if(name==='roles'&&roleKeys.includes(state?.me.role))name=state.me.role;
+  const target=$('guideDialog').querySelector('[data-guide-section="'+name+'"]'),scroll=$('guideScroll');
+  if(!target)return;
+  scroll.scrollTo({top:scroll.scrollTop+target.getBoundingClientRect().top-scroll.getBoundingClientRect().top-24,behavior:'instant'});
+  if(focus)target.focus({preventScroll:true});
+}
+function openGuide(){
+  renderGuideContext();
+  if(!$('guideDialog').open)$('guideDialog').showModal();
+  $('guideScroll').scrollTop=0;
+  if(state?.status==='ACTIVE')scrollGuideTo('roles',{focus:false});
+}
 function releasePortal(){
   if(portal){portal.replaceWith(root);portal=null;document.body.style.overflow=bodyOverflow;}
 }
@@ -86,6 +105,7 @@ function renderAssembly(){
 function render(result){
   if(!result.state){
     state=null;setRoom('');$('browse').hidden=false;$('assembly').hidden=true;
+    if($('guideDialog').open)renderGuideContext();
     $('ticketCount').textContent=Number(result.entry.quantity).toLocaleString();$('createButton').disabled=result.entry.quantity<1||busy;
     renderRooms(result);
     return;
@@ -93,6 +113,7 @@ function render(result){
   const next=result.state;
   if(state?.id===next.id&&(next.serverNow<state.serverNow||next.serverNow===state.serverNow&&next.revision<state.revision))return;
   const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;setRoom(state.id);
+  if($('guideDialog').open)renderGuideContext();
   renderMembers();
   if(state.status==='LOBBY'){
     prewarm();
@@ -178,7 +199,8 @@ $('lobbyLeave').onclick=()=>{if(confirm(state.me.isHost?'공대를 해산할까�
 $('leaveButton').onclick=()=>{if(confirm(state.me.isHost?'전투를 종료하고 공대를 해산할까요?':'공대에서 나가면 이 전투에 다시 참가할 수 없습니다. 나갈까요?'))void command('leave');};
 $('retryButton').onclick=()=>{reset();screen('lobby');void sync();};
 $('partyButton').onclick=()=>$('partyDialog').showModal();$('closeParty').onclick=()=>$('partyDialog').close();
-$('guideButton').onclick=$('resultGuide').onclick=$('combatGuide').onclick=()=>$('guideDialog').showModal();$('closeGuide').onclick=()=>$('guideDialog').close();
+$('guideButton').onclick=$('resultGuide').onclick=$('combatGuide').onclick=openGuide;$('closeGuide').onclick=()=>$('guideDialog').close();
+on($('guideDialog'),'click',event=>{const button=event.target.closest('[data-guide-to]');if(button)scrollGuideTo(button.dataset.guideTo);});
 on(root,'click',event=>{
   const assignment=event.target.closest('[data-assign-role]');if(assignment){
     const member=state?.members.find(m=>m.id===assignment.dataset.target);if(member&&member.role!==assignment.dataset.assignRole)void command('assign',{targetId:member.id,role:assignment.dataset.assignRole});return;

@@ -4,14 +4,14 @@
 <title>리치왕 정벌 · 죽음의 왕좌</title><link rel="icon" href="data:,">
 <link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/card.css"><link rel="stylesheet" href="/css/card-unique-battle-fx-v1174.css"><link rel="stylesheet" href="/css/battle-v3-live.css"><link rel="stylesheet" href="/css/zenith-v1.css"><link rel="stylesheet" href="/css/superstar-v1.css"><link rel="stylesheet" href="/css/faker-card-v1.css"><link rel="stylesheet" href="/css/no-light-beams-v1789.css"><link rel="stylesheet" href="/css/breakthrough-tier-v1802.css"><link rel="stylesheet" href="/preview/lich-king-raid-v1/raid.css?v=20260928-live">
 <link rel="stylesheet" href="/preview/lich-king-raid-v1/mechanics.css?v=20261001-party-sync">
-<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script><script defer src="/preview/lich-king-raid-v1/battle.bundle.js?v=20261001-party-sync"></script><script defer src="/js/battle-v3-live.js?lichFx=20261001"></script><link rel="stylesheet" href="live.css?v=20261001-lobby-v2"><link rel="stylesheet" href="lobby.css?v=20261001-lobby-v2"><script type="module" src="live.mjs?v=20261001-lobby-v2"></script>
+<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script><script defer src="/preview/lich-king-raid-v1/battle.bundle.js?v=20261001-party-sync"></script><script defer src="/js/battle-v3-live.js?lichFx=20261001"></script><link rel="stylesheet" href="live.css?v=20261001-guide-v2"><link rel="stylesheet" href="lobby.css?v=20261001-guide-v2"><link rel="stylesheet" href="guide.css?v=20261001-guide-v2"><script type="module" src="live.mjs?v=20261001-guide-v2"></script>
 </head><body data-lich-standalone>
 <header class="site-header"><a href="/" class="brand">숲켓몬<span>협동 정벌</span></a><div class="live-mode"><i></i><span id="modeLabel">입장 확인 중</span></div><button id="guideButton" class="quiet-button">공략 지침 <span aria-hidden="true">↗</span></button></header>
 <section id="gate" hidden role="status"></section>
 <main id="landing" class="lobby-intro" hidden>
   <p class="lobby-kicker">죽음의 왕좌 · 협동 정벌</p><h1>세 작전이 맞물릴 때,<br>왕좌가 무너집니다.</h1>
   <p class="intro-lead">저주를 넘기고, 말살을 막고, 갇힌 영혼을 구하세요.<br>각자의 편성과 세 가지 역할로 같은 보스를 공략합니다.</p>
-  <ol class="intro-roles"><li><b>정벌대</b><span>감옥 처리와 집중 공격</span></li><li><b>봉인대</b><span>말살 차단과 문양 봉인</span></li><li><b>구출대</b><span>역병 전이와 영혼 구출</span></li></ol>
+  <ol class="intro-roles"><li><b>정벌대</b><span>감옥 엄폐 유지와 집중 공격</span></li><li><b>봉인대</b><span>말살 차단과 문양 봉인</span></li><li><b>구출대</b><span>역병 전이와 영혼 구출</span></li></ol>
   <button id="enterButton" class="primary-button">대기실로 돌아가기 <span aria-hidden="true">→</span></button>
 </main>
 <section id="lobby" class="live-lobby" hidden>
@@ -38,7 +38,85 @@
   <details class="combat-journal"><summary>전투 기록 <span id="journalStatus"></span></summary><ol id="journal"></ol></details>
 </main>
 <dialog id="resultDialog" class="result-dialog"><p class="eyebrow" id="resultCaption"></p><h2 id="resultTitle"></h2><p id="resultReason"></p><div id="resultStats" class="result-stats"></div><button id="retryButton" class="primary-button">공대 목록으로 <span>↗</span></button><button id="resultGuide" class="quiet-button">공략 지침 확인</button></dialog>
-<dialog id="guideDialog" class="guide-dialog"><button id="closeGuide" class="dialog-close" aria-label="공략 지침 닫기">×</button><p class="eyebrow">FIELD MANUAL</p><h2>첫 정벌을 위한 기록</h2><p class="guide-lead">입력 순서와 자원 배분이 생존을 결정합니다. 화면을 벗어나도 전투 시간은 흐릅니다.</p><ol><li><b>역병은 2~4중첩에 전이</b><p>숙주의 문양과 같은 구울을 선택하세요. 5중첩은 전멸입니다. 정화는 안전하지만 방벽을 약화시키지 못합니다.</p></li><li><b>감옥은 6초 뒤 절대영도를 막습니다</b><p>흡수 후 감옥이 깨지면 역병을 전이하세요. 조기 파괴는 공대 피해와 죽음의 잔재 2중첩을 남깁니다.</p></li><li><b>차단은 영혼 말살에 사용</b><p>서리 폭발 뒤에 영혼 말살이 이어집니다. 말살 시전은 5초 안에 차단해야 합니다. 차단은 전체 전투에서 7회뿐입니다.</p></li><li><b>3단계는 세 작전 동시 수행</b><p>역병·절대영도·말살을 처리하면서 표시된 순서로 봉인을 해제하고, 같은 문양의 영혼을 구출하세요. 구출은 2.5초가 걸립니다.</p></li><li><b>최후의 왕관에는 영혼 3개가 필요</b><p>3단계에서 여분의 영혼을 확보하세요. 부족하면 마지막 단계에서 긴급 구출해야 합니다. 부활도 영혼 1개를 사용합니다.</p></li><li><b>공격 기회는 10초</b><p>기믹을 처리하면 정벌대가 집중 공격할 수 있습니다. 결전은 3회, 회복은 3회입니다. 210초 광폭화와 단계별 피해량 요구를 모두 넘겨야 합니다.</p></li></ol><p class="guide-note">공대장 입장권 1장으로 생성하는 실계정 공대입니다. 각자의 PvE 카드 5장·용병·배틀슈트로 같은 보스를 공략하며, 각 참가자는 배정된 역할을 수행합니다. 강제퇴장된 계정은 같은 공대에 다시 들어올 수 없습니다. 클리어 보상은 아직 지급되지 않습니다.</p></dialog>
+<dialog id="guideDialog" class="guide-dialog" aria-label="리치왕 정벌 공략 지침">
+  <header class="guide-header"><div><p class="guide-kicker">리치왕 정벌 · 첫 참가자 공략</p><h2>내 역할부터, 하나씩.</h2></div><button id="closeGuide" class="guide-close" type="button" autofocus aria-label="공략 지침 닫기">닫기 <span aria-hidden="true">×</span></button></header>
+  <div class="guide-context"><span id="guideRole">3인 기준 · 역할별 행동 안내</span><p id="guideNotice">출정 전에 읽고, 전투에서는 내 역할을 빠르게 확인하세요.</p></div>
+  <div class="guide-layout">
+    <nav class="guide-nav" aria-label="공략 목차">
+      <button type="button" data-guide-to="start"><span>01</span> 처음 참가</button>
+      <button type="button" data-guide-to="roles"><span>02</span> 내 역할</button>
+      <button type="button" data-guide-to="phases"><span>03</span> 단계별 공략</button>
+      <button type="button" data-guide-to="supplies"><span>04</span> 자원 사용</button>
+      <button type="button" data-guide-to="failure"><span>05</span> 패배 조건</button>
+      <p>문양과 주문 이름을<br>확인한 뒤 누르세요.</p>
+    </nav>
+    <div id="guideScroll" class="guide-scroll" tabindex="0" aria-label="공략 본문">
+      <section class="guide-chapter">
+        <h3 data-guide-section="start" tabindex="-1"><span>01</span> 처음 참가한다면</h3>
+        <p class="guide-intro">이 전투는 버튼을 많이 누르는 것보다 <strong>각자 맡은 일을 제때 끝내는 것</strong>이 중요합니다. 기믹은 보스가 거는 특수한 공격입니다. 세 역할이 기믹을 해결하면 보스의 방벽이 무너지고, 그때 공격할 수 있습니다.</p>
+        <div class="guide-core-loop" aria-label="전투의 반복 순서"><span>기믹 처리</span><i aria-hidden="true">→</i><span>공격 기회</span><i aria-hidden="true">→</i><span>다음 작전</span></div>
+        <h4>입장부터 출정까지</h4>
+        <ol class="guide-steps">
+          <li><strong>출전할 PvE 덱을 먼저 저장하세요.</strong><p>현재 전투는 각자의 <b>일반 카드 5장</b>과 별도 편성한 용병·장착한 배틀슈트를 사용합니다. 대기실의 <b>내 출전 편성</b>에서 확인하세요. 용병·슈트가 없다면 해당 지원 없이 참가합니다.</p></li>
+          <li><strong>한 명이 공대를 만들고, 나머지가 참가하세요.</strong><p>공대장은 <span class="guide-key">공대 창설</span> 시 입장권 1장을 사용합니다. 다른 사람은 <span class="guide-key">공대 참가</span>를 누르며 입장권이 들지 않습니다. 해산해도 창설 입장권은 반환되지 않습니다.</p></li>
+          <li><strong>공대장이 세 역할을 나누세요.</strong><p>최소 3명, 최대 6명입니다. 3명이면 <b>정벌대 1명 / 봉인대 1명 / 구출대 1명</b>으로 나누세요. 모든 역할에 적어도 1명이 필요합니다. 같은 역할이 여러 명이면 입력할 담당자를 미리 정하세요.</p></li>
+          <li><strong>전원이 준비한 뒤 공대장이 출정하세요.</strong><p>역할을 받으면 각자 <span class="guide-key">준비 완료</span>를 누릅니다. 이때 현재 편성이 확정됩니다. 덱을 바꿨다면 준비를 취소한 뒤 다시 준비하세요. 전원 준비가 끝나면 공대장이 <span class="guide-key">공대 출정</span>을 누릅니다.</p></li>
+          <li><strong>12초 집결 후 전투가 시작됩니다.</strong><p>집결 중에는 공격·기믹 입력을 하지 않습니다. 이후 <b>210초 안에 4단계, 총 7번의 방벽</b>을 돌파해야 합니다. 작전 사이에는 3초 준비 시간이 있습니다.</p></li>
+        </ol>
+        <h4>전투 화면에서는 이것부터 보세요</h4>
+        <dl class="guide-reading"><div><dt>내 역할 · 행동 안내</dt><dd>내가 지금 할 일입니다. 다른 역할의 버튼은 내 화면에 나오지 않습니다.</dd></div><div><dt>숙주 문양 · 역병 중첩</dt><dd>역병에 걸린 카드와 달·가시·왕관 중 하나가 표시됩니다. 다른 공대원의 카드가 대상이어도 구출대가 처리합니다.</dd></div><div><dt>주문 이름 · 봉인 순서</dt><dd>봉인대는 <b>영혼 말살</b>과 현재 강조된 봉인 문양을 확인합니다. 역병 문양·영혼 문양·봉인 순서는 서로 다를 수 있습니다.</dd></div><div><dt>공격 기회 · HP 목표선</dt><dd>방벽이 무너지면 정벌대가 공격합니다. 제한 시간 안에 보스 체력을 현재 목표선까지 내려야 다음 작전으로 넘어갑니다.</dd></div></dl>
+        <p class="guide-footnote">보스 체력·기믹·자원·승패는 공대가 공유합니다. 아군 진형과 하단 카드는 각자의 편성을 보여줍니다. 현재 테스트에서는 클리어 보상을 지급하지 않습니다.</p>
+      </section>
+      <section class="guide-chapter">
+        <h3 data-guide-section="roles" tabindex="-1"><span>02</span> 내가 맡은 역할</h3>
+        <p>내 역할만 먼저 익히세요. 기믹 중에 할 일이 없는 역할은 기다려야 합니다. 버튼이 비활성화돼 있다면 입력할 타이밍이 아직 아닙니다.</p>
+        <article class="guide-role" data-guide-role="ASSAULT">
+          <h4 data-guide-section="ASSAULT" tabindex="-1"><span class="guide-role-tag">정벌대</span> 방벽이 무너지면 공격</h4>
+          <p class="guide-role-summary">감옥은 유지 → 공격 기회 확인 → <span class="guide-key">집중 공격</span> 반복</p>
+          <ol class="guide-steps"><li><strong>기믹 처리 중에는 공격을 기다리세요.</strong><p>방벽이 있는 동안은 피해를 줄 수 없습니다. 특히 <span class="guide-key guide-key-risk">감옥 파괴</span>는 일반 공략에서 누르지 마세요. 감옥이 절대영도를 막는 엄폐물입니다.</p></li><li><strong>‘왕의 방벽 붕괴’가 나오면 바로 공격하세요.</strong><p><span class="guide-key">집중 공격</span>을 누르면 각 참가자의 살아 있는 편성이 공격에 참여합니다. 다음 공격은 <b>1.2초 뒤</b>에 가능합니다. 한 번 누르고 끝내지 말고, 목표 체력에 도달할 때까지 반복하세요.</p></li><li><strong>시간이 부족할 때 결전을 섞으세요.</strong><p><span class="guide-key">결전</span>은 더 강한 공격이며 공대 전체에서 3회입니다. 일반 공격과 같은 1.2초 간격을 사용합니다. 현재 방벽의 남은 체력·시간을 보고 사용하고, 마지막 4단계용 1회를 남기는 것을 권장합니다.</p></li></ol>
+          <p class="guide-alert">보통 공격 기회는 10초, 마지막은 12초입니다. 기믹을 성공해도 이 안에 HP 목표선을 넘기지 못하면 패배합니다. 공격마다 반격도 들어옵니다.</p>
+        </article>
+        <article class="guide-role" data-guide-role="WARDEN">
+          <h4 data-guide-section="WARDEN" tabindex="-1"><span class="guide-role-tag">봉인대</span> 말살 차단과 순서 입력</h4>
+          <p class="guide-role-summary">서리 폭발은 대기 → 영혼 말살에 <span class="guide-key">지금 차단</span> → 봉인은 표시 순서대로</p>
+          <ol class="guide-steps"><li><strong>서리 폭발은 차단할 주문이 아닙니다.</strong><p>처음에는 <span class="guide-key guide-key-muted">차단 대기</span>가 표시됩니다. 기다리면 주문이 <b>영혼 말살</b>로 바뀌고 <span class="guide-key">지금 차단</span>이 활성화됩니다. 그때 바로 누르세요. 시전 시작부터 <b>5초 안</b>에 차단하지 못하면 전멸합니다.</p></li><li><strong>3·4단계에서는 봉인도 처리하세요.</strong><p>‘봉인 순서’에 나오는 세 문양을 <b>왼쪽부터 하나씩</b> 누릅니다. 고정 순서가 아니므로 매 작전 다시 확인하세요. 영혼 말살이 뜨면 순서 입력보다 차단을 먼저 합니다.</p></li><li><strong>마지막에는 영혼 수량부터 확인하세요.</strong><p>4단계 봉인 버튼은 해방된 영혼이 <b>3개 이상</b>일 때 열립니다. 부족하면 구출대의 구출을 기다린 후 세 문양을 누릅니다. 마지막 단계에는 영혼 말살이 없어서 차단하지 않습니다.</p></li></ol>
+          <div class="guide-example"><span>봉인 예시</span><p><b>달 → 왕관 → 가시</b>가 보이면 달, 왕관, 가시 버튼을 순서대로 누르세요. 역병 전이에 쓰는 문양과 혼동하지 마세요.</p></div>
+          <p class="guide-alert">차단은 전체 7회이며 1~3단계에 꼭 막아야 할 말살이 6번 있습니다. 잘못된 봉인은 진행을 처음으로 되돌리고 죽음의 잔재를 1 올립니다.</p>
+        </article>
+        <article class="guide-role" data-guide-role="RESCUE">
+          <h4 data-guide-section="RESCUE" tabindex="-1"><span class="guide-role-tag">구출대</span> 역병을 넘기고 영혼 확보</h4>
+          <p class="guide-role-summary">역병은 같은 구울 → 영혼은 같은 영혼 → 위급한 카드에는 회복</p>
+          <ol class="guide-steps"><li><strong>역병이 2중첩이 되면 같은 문양으로 전이하세요.</strong><p>대상 카드의 ‘숙주 문양’을 읽고, <b>역병 전이 영역</b>에서 같은 이름의 구울 버튼을 누릅니다. 1중첩에는 대기하고, <b>2중첩이 되면 바로</b> 처리하세요. 5중첩은 즉시 전멸입니다.</p></li><li><strong>감옥에 갇혀 있다면 흡수가 먼저입니다.</strong><p>2·3단계에서는 6초 뒤 감옥이 절대영도를 흡수하고 사라집니다. 그 직후 역병이 2중첩으로 나오므로 바로 같은 구울에게 전이하세요.</p></li><li><strong>3단계에서는 영혼 구출을 2번 준비하세요.</strong><p><b>영혼 구출 영역</b>에 표시된 문양과 같은 영혼을 누릅니다. 한 번에 2.5초가 걸리며 작전마다 최대 2회입니다. 첫 구출 완료 후 한 번 더 눌러야 두 번째 영혼을 얻습니다. 공격 기회가 열리면 더 구출할 수 없습니다.</p></li><li><strong>회복·부활은 필요한 순간에 사용하세요.</strong><p><span class="guide-key">회복</span>은 살아 있는 카드 모두를 회복합니다. <span class="guide-key">부활</span>은 쓰러진 카드가 있을 때 표시되며 영혼 1개를 사용합니다. 부활 후에도 마지막에 필요한 영혼 3개를 확보해야 합니다.</p></li></ol>
+          <div class="guide-example"><span>역병 전이 예시</span><p>숙주 문양이 <b>왕관</b>이면 ‘역병 전이’의 <b>왕관 구울</b>을 누르세요. 같은 화면의 ‘영혼 구출’에 달이 표시되어 있어도 역병은 왕관으로 전이합니다.</p></div>
+          <p class="guide-alert">영혼 구출 중에도 역병 시간은 흐릅니다. 늦었다면 역병 전이를 우선하세요. 급할 때 정화를 쓸 수 있지만 공대 전체 2회뿐이며 공격 강화 효과는 없습니다.</p>
+        </article>
+      </section>
+      <section class="guide-chapter">
+        <h3 data-guide-section="phases" tabindex="-1"><span>03</span> 실제 전투 순서</h3>
+        <p>아래 시간은 <b>각 작전이 시작된 순간부터</b>입니다. 같은 단계를 두 번 공략해도 문양·대상이 바뀌므로 화면을 다시 읽으세요. 서버에서 표시하는 현재 중첩과 주문을 우선 확인합니다.</p>
+        <article class="guide-phase"><header><span class="guide-phase-number">1</span><div><h4>저주받은 왕좌</h4><p>2번 반복 · HP 85% → 70%</p></div></header><ol class="guide-timeline"><li><b>시작</b><p><strong>구출대</strong>가 숙주 문양을 확인합니다. 1중첩에는 전이할 수 없습니다.</p></li><li><b>2초</b><p>2중첩이 되면 <strong>구출대</strong>가 같은 구울에게 <span class="guide-key">역병 전이</span>를 합니다. 이후 2초마다 중첩이 늘어 8초에 5중첩이 되므로 미루지 마세요.</p></li><li><b>7초</b><p>영혼 말살이 시작됩니다. <strong>봉인대</strong>가 <span class="guide-key">지금 차단</span>을 누릅니다.</p></li><li><b>완료 후</b><p>역병과 말살을 모두 처리하면 10초 공격 기회입니다. <strong>정벌대</strong>가 집중 공격으로 현재 HP 목표선을 돌파합니다.</p></li></ol></article>
+        <article class="guide-phase"><header><span class="guide-phase-number">2</span><div><h4>절대영도</h4><p>2번 반복 · HP 52.5% → 35%</p></div></header><ol class="guide-timeline"><li><b>0~6초</b><p>대상 카드가 서리 감옥에 갇힙니다. <strong>정벌대는 감옥을 깨지 않고 유지</strong>합니다. 구출대는 전이를 기다립니다.</p></li><li><b>6초</b><p>감옥이 절대영도를 흡수하고 사라집니다. <strong>구출대</strong>가 바로 2중첩 역병을 같은 구울에게 넘깁니다. 흡수 후 6초가 지나면 5중첩입니다.</p></li><li><b>10초</b><p>영혼 말살이 시작됩니다. <strong>봉인대</strong>가 5초 안에 차단합니다.</p></li><li><b>완료 후</b><p>엄폐·역병·말살 처리가 끝나면 <strong>정벌대</strong>가 10초 안에 HP 목표선을 돌파합니다.</p></li></ol><p class="guide-alert">감옥을 먼저 깨면 절대영도가 공대를 직격하고 죽음의 잔재가 2 쌓입니다. 봉인대의 방벽은 피해를 줄일 뿐, 잔재를 없애거나 정상 공략으로 바꾸지 않습니다.</p></article>
+        <article class="guide-phase"><header><span class="guide-phase-number">3</span><div><h4>서리한의 내부</h4><p>2번 반복 · HP 22.5% → 10%</p></div></header><p>앞 단계의 감옥·역병·말살에 <b>영혼 구출과 순서 봉인</b>이 추가됩니다. 세 사람이 동시에 맡은 일을 진행합니다.</p><ol class="guide-timeline"><li><b>0~6초</b><p><strong>구출대</strong>는 같은 문양의 영혼을 구출하고, 2.5초 뒤 완료되면 한 번 더 구출합니다. 두 번에 5초가 필요합니다. <strong>봉인대</strong>는 화면의 세 문양을 순서대로 해제합니다. <strong>정벌대</strong>는 감옥을 유지합니다.</p></li><li><b>6초</b><p>감옥 흡수 직후 <strong>구출대</strong>가 역병을 같은 구울에게 넘깁니다. 구출을 늦게 시작했다면 역병부터 처리하세요.</p></li><li><b>10초</b><p><strong>봉인대</strong>가 영혼 말살을 차단합니다. 영혼 최소 1회 구출·세 문양 봉인·역병 처리·말살 차단이 모두 끝나면 공격 기회가 열립니다.</p></li><li><b>완료 후</b><p><strong>정벌대</strong>가 10초 동안 공격합니다. 다음 작전에서도 같은 일을 반복하며, 4단계 진입 전 <b>해방된 영혼 3개 이상</b>을 확보합니다.</p></li></ol><p class="guide-alert">각 작전에서 영혼 1개만 구하면 합계 2개라 마지막에 부족합니다. 초반 두 번 구출을 권장합니다. 구출이 늦어졌다면 마지막 차단/봉인을 마무리하는 사람과 타이밍을 맞추되, 말살 5초 제한은 반드시 지키세요.</p></article>
+        <article class="guide-phase"><header><span class="guide-phase-number">4</span><div><h4>왕의 최후</h4><p>마지막 1번 · HP 0%까지</p></div></header><ol class="guide-timeline"><li><b>영혼 확인</b><p>3개 이상이면 <strong>봉인대</strong>가 표시된 세 문양을 순서대로 누릅니다. 부족하면 <strong>구출대</strong>가 같은 문양의 영혼을 추가 구출합니다. 이 작전에서도 최대 2회입니다.</p></li><li><b>왕관 해제</b><p>영혼 3개 이상과 세 문양 봉인이 모두 충족되면 방벽이 무너집니다. 이 단계에는 역병·감옥·영혼 말살이 없습니다.</p></li><li><b>최후 12초</b><p><strong>정벌대</strong>가 집중 공격과 남은 결전으로 보스 체력을 0까지 내립니다. <strong>구출대</strong>는 남은 회복으로 반격 피해를 버팁니다.</p></li></ol><p class="guide-footnote">마지막 기믹 제한은 22초입니다. 영혼 3개는 봉인을 시작하기 위한 보유 조건이며, 왕관 봉인 자체가 영혼을 차감하지는 않습니다.</p></article>
+      </section>
+      <section class="guide-chapter">
+        <h3 data-guide-section="supplies" tabindex="-1"><span>04</span> 공대 공용 자원</h3>
+        <p><b>횟수는 개인별이 아니라 전투 전체의 공용 수량</b>입니다. 다음 작전·단계가 시작돼도 다시 채워지지 않습니다. 같은 역할이 여럿이면 누를 사람을 정하세요.</p>
+        <dl class="guide-supplies"><div><dt><span class="guide-supply-count">7<small>회</small></span><strong>차단</strong><em>봉인대</em></dt><dd>1~3단계의 영혼 말살 6번에 사용합니다. 서리 폭발에 낭비하지 마세요.</dd></div><div><dt><span class="guide-supply-count">3<small>회</small></span><strong>결전</strong><em>정벌대</em></dt><dd>공격 기회에서 일반 공격의 1.8배 계수를 사용합니다. 방벽 돌파가 늦거나 마지막 공격 때 사용하세요.</dd></div><div><dt><span class="guide-supply-count">3<small>회</small></span><strong>회복</strong><em>구출대</em></dt><dd>살아 있는 카드 모두를 각자 최대 체력의 34%만큼 회복합니다. 쓰러진 카드는 회복으로 일어나지 않습니다.</dd></div><div><dt><span class="guide-supply-count">2<small>회</small></span><strong>정화</strong><em>구출대</em></dt><dd>감옥 밖의 역병을 즉시 제거합니다. 전이가 급할 때 쓰는 비상 수단입니다. 전이 성공의 공격 25% 강화는 받지 못합니다.</dd></div><div><dt><span class="guide-supply-count">1<small>회</small></span><strong>방벽</strong><em>봉인대</em></dt><dd>절대영도 흡수 전 사용합니다. 감옥이 깨졌을 때 직격 피해를 줄이지만 죽음의 잔재 2는 그대로 쌓입니다.</dd></div><div><dt><span class="guide-supply-count">1<small>회</small></span><strong>부활</strong><em>구출대</em></dt><dd>해방된 영혼 1개를 사용해 표시된 쓰러진 카드 1장을 체력 50%로 복귀시킵니다. 마지막 영혼 수량을 다시 확인하세요.</dd></div></dl>
+        <div class="guide-example"><span>영혼 계산 예시</span><p>3단계에서 <b>2개 + 2개 = 4개</b> 확보했다면 부활을 1번 써도 3개가 남습니다. <b>1개 + 1개 = 2개</b>만 확보했다면 마지막에 추가 구출이 필요합니다.</p></div>
+        <p class="guide-footnote">집중 공격·정상 역병 전이·봉인 입력에는 별도 횟수 자원이 들지 않습니다. 영혼 구출은 3단계의 두 작전과 마지막 작전에서 각각 최대 2회입니다.</p>
+      </section>
+      <section class="guide-chapter">
+        <h3 data-guide-section="failure" tabindex="-1"><span>05</span> 무엇 때문에 패배하나요?</h3>
+        <dl class="guide-failures"><div><dt>역병 5중첩</dt><dd>즉시 공대 전멸입니다. 2중첩에 같은 구울에게 전이하세요.</dd></div><div><dt>영혼 말살 5초 초과</dt><dd>즉시 전멸입니다. 서리 폭발 대기 후 ‘지금 차단’을 누르세요.</dd></div><div><dt>죽음의 잔재 3중첩</dt><dd>즉시 전멸입니다. 잘못된 구울·영혼 선택과 봉인 순서 오류는 각각 +1, 감옥 조기 파괴 후 절대영도 직격은 +2입니다. 잔재는 단계가 바뀌어도 사라지지 않습니다.</dd></div><div><dt>기믹 제한 시간 종료</dt><dd>상단의 현재 작전 제한 시간 안에 필요한 작업을 모두 끝내야 합니다. 기믹 종류마다 제한 시간이 다릅니다.</dd></div><div><dt>공격 기회 종료</dt><dd>10초, 마지막 12초 안에 현재 HP 목표선을 돌파해야 합니다. 남은 체력을 보며 집중 공격과 결전을 사용하세요.</dd></div><div><dt>전체 카드 전투 불능</dt><dd>공대에 살아 있는 카드가 한 장도 없으면 패배입니다. 한 카드가 쓰러졌다고 즉시 공대 패배하는 것은 아닙니다.</dd></div><div><dt>210초 광폭화</dt><dd>집결 종료 후 210초가 지나면 전멸합니다. 작전 전환·공격 중에도 전체 제한 시간은 흐릅니다.</dd></div></dl>
+        <div class="guide-alert guide-exit-note"><strong>전투 화면을 유지하세요.</strong><p>공략을 열거나 새로고침·화면 이동을 해도 서버의 전투 시간은 멈추지 않습니다. 화면을 비운 사이 기믹이 실패할 수 있습니다. 공대장이 ‘전장 나가기’를 선택하면 공대가 해산되고, 다른 공대원이 나가면 진행 중인 전투에 다시 참가할 수 없습니다.</p></div>
+        <h4>출정 전에 세 사람이 말로 맞출 것</h4>
+        <ul class="guide-checklist"><li><b>정벌대:</b> “감옥은 유지하고, 방벽 붕괴 때 바로 공격할게.”</li><li><b>봉인대:</b> “영혼 말살만 차단하고, 봉인은 화면 순서대로 할게.”</li><li><b>구출대:</b> “2중첩에 전이하고, 3단계에서는 영혼 두 번씩 구할게.”</li></ul>
+        <p class="guide-footnote">기억할 것 세 가지: <b>감옥 유지 / 말살 차단 / 같은 문양 선택.</b> 전투 도중 헷갈리면 목차의 ‘내 역할’을 눌러 현재 담당 행동부터 확인하세요.</p>
+      </section>
+    </div>
+  </div>
+</dialog>
 <dialog id="partyDialog" class="raid-party-dialog"><h2>공대 작전 배분</h2><p class="live-note">공대장은 역할을 재배분하거나 강제퇴장할 수 있습니다. 전투 시간은 계속 흐릅니다.</p><ul id="combatMembers" class="member-list"></ul><button id="closeParty" class="secondary-button">전장으로</button></dialog>
 <div id="toast" role="status" aria-live="polite" hidden></div>
 </body></html>

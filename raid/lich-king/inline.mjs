@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261001-lobby-v2';
+import { mountLichRaid } from './live.mjs?v=20261001-guide-v2';
 
-const VERSION = '20261001-lobby-v2';
+const VERSION = '20261001-guide-v2';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {

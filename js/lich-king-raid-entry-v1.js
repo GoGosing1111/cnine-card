@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261001-lobby-v2';
+  const VERSION = '20261001-guide-v2';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {
