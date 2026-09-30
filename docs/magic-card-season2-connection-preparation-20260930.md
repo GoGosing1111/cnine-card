@@ -68,3 +68,5 @@
 - 구현 커밋 `c62c0a5ab22738619d62fd5760dea2a80d33cdc5`, Pages `https://d0799ca8.cnine-card.pages.dev`. 지정한 관련 테스트 42개, Worker 검사, 기존 출시 잠금·캐시 검사, Hyperdrive 캐시 OFF 확인을 모두 통과했다.
 - 운영에서 `.html`을 생략하는 URL 변환 후 PixiJS 상대 이미지 기준이 달라지는 현상을 발견했다. S2 전투 HTML에 `/preview/magic-card-season2-v1/` 기준 경로를 명시했다. 공용 엔진 변경 없이 확장자 없는 주소의 PC 검수와 실제 운영 자산을 사용하는 HTML 교체 검수에서 정상 재생·이미지 오류 0개를 확인했다.
 - 후속 반영 범위는 전투 HTML·QA 도구·이 기록뿐이다. 직전 배포 커밋 `c62c0a5ab22738619d62fd5760dea2a80d33cdc5`를 기준으로 프리뷰 관련 검사만 선택해 scoped 배포한다. 이미 통과한 서버 22개·기존 전투 검사는 반복하지 않는다.
+- 후속 커밋 `52138766`, Pages `https://5c785707.cnine-card.pages.dev` 반영 완료. 프리뷰 검사 7개와 출시·Hyperdrive 검사 통과. 공개 주소 `https://cnine-card.pages.dev/preview/magic-card-season2-v1/`에서 10장 로드, 팩·신규 원화·번들 HTTP 200 및 로컬 SHA-256 일치, 실제 전투 이벤트 2회 재생, 페이지 오류 0개를 확인했다. 등록 초안의 전투·개봉·팩·카드 활성화는 모두 OFF다.
+- 최종 운영 확인 자료는 외부 작업 폴더의 `production-verification.json`, `production-collection.png`, `production-battle.png`다. 이 결과 기록만 추가하는 커밋은 원격 반영으로 종료하며 운영 재배포하지 않는다.
